@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { RouteEvents } from './router/route-events';
 
 @Component({
-  selector: 'spac-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'y-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'spac works!';
+    constructor(private events: RouteEvents)
+    {}
 }
