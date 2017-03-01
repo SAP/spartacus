@@ -11,7 +11,9 @@ export class StubService {
                 {
                     uid: 'uid1',
                     position: 'position1',
-                    typeCode: 'CMSLinkComponent'
+                    typeCode: 'CMSLinkComponent',
+                    url: '/',
+                    linkName: 'home'
                 },
                 {
                     uid: 'uid2',
