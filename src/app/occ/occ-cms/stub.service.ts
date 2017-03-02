@@ -19,7 +19,7 @@ export class StubService {
                     uid: 'uid2',
                     position: 'position1',
                     typeCode: 'CmsParagraphComponent',
-                    content: '<p>the content for UID2</p>'
+                    content: '<p>the content for <b>UID2</b></p>'
                 }
             ]
         },

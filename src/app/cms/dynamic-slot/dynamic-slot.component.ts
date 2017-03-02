@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
-import { CmsModelService } from '../../../data/cms-model.service';
+import { CmsModelService } from '../../data/cms-model.service';
 
 
 @Component({

@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { CmsLoaderService } from './cms-loader.service';
 import { CmsModelService } from './cms-model.service';
 import { OccCmsModule } from '../occ/occ-cms/occ-cms.module';
-import { CmsCacheService } from './cms-cache.service';
 
 
 @NgModule({
@@ -14,7 +13,6 @@ import { CmsCacheService } from './cms-cache.service';
     ],
     providers: [
         CmsLoaderService,
-        CmsCacheService,
         CmsModelService
     ],
     declarations: []

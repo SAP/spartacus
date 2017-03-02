@@ -1,0 +1,32 @@
+
+@import '~@angular/material/core/theming/prebuilt/indigo-pink.css';
+
+// @import '@angular/material/core/theming/all-theme';
+
+// Include non-theme styles for core.
+// @include md-core();
+
+
+// // @import '~@angular/material/core/theming/prebuilt/pink-bluegrey.css';
+
+// // Define a theme.
+// $primary: md-palette($md-sap);
+// $accent:  md-palette($md-blue, 700, 700, 700);
+
+// $theme-light: md-light-theme($primary, $accent);
+// $theme-dark: md-dark-theme($primary, $accent);
+
+// // Include all theme styles for the components.
+// @include angular-material-theme($theme-light);
+// .dark {
+//     @include angular-material-theme($theme-dark);
+// }
+
+
+// .md-input-prefix {
+//     md-icon {
+//         vertical-align: text-bottom;
+//         height: 20px;
+//         margin-top: -4px;
+//     }
+// }

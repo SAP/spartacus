@@ -13,4 +13,4 @@ import { LinkModule } from './link/link.module';
         LinkModule
     ],
 })
-export class CmsComponentsModule { }
+export class CmsLibModule { }

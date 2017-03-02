@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractComponent } from '../../abstract-component.component';
-import { CmsModelService } from '../../../../data/cms-model.service';
+import { AbstractComponent } from '../../cms/abstract-component.component';
+import { CmsModelService } from '../../data/cms-model.service';
 
 @Component({
   selector: 'y-link',

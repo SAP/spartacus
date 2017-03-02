@@ -1,5 +1,5 @@
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
-import { CmsModelService } from '../../data/cms-model.service';
+import { CmsModelService } from '../data/cms-model.service';
 // import { ComponentBuilderService } from './component-builder.service';
 
 

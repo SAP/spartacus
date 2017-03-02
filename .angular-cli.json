@@ -19,7 +19,8 @@
         "tsconfig": "tsconfig.json",
         "prefix": "y",
         "styles": [
-            "styles.scss"
+            "styles.scss",
+            "theme.scss"
         ],
         "scripts": [],
         "environmentSource": "environments/environment.ts",
