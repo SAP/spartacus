@@ -37,11 +37,12 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
     }
 
     private loadComponents(slot) {
+        
         if (!slot) {
-            return;
+            this.model = null;
+        }else {
+            this.model = slot;
         }
-
-        this.model = slot;
         
         // if (this.hasNoChanges(slot)) {
         //     return;

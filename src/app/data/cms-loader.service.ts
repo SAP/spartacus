@@ -36,6 +36,7 @@ export class CmsLoaderService {
     private loadComponentsForTemplate(pageData: any, code?: string) {
         let components;
         if (pageData.pageType === 'ContentPage') {
+            console.log('load templates for', pageData.pageLabel);
             components = this.occCmsService.loadComponentsForPage(pageData.pageLabel, TEMPLATE_PAGE);
         }
         if (pageData.pageType === 'ProductPage') {
@@ -52,58 +53,8 @@ export class CmsLoaderService {
 
     private storeComponents(components: Array<any>, componentType: number) {
 
-        const pageSlots = {};
-
-        // store all components
-        // component slots will be 
-        if (components) {
-            for (const component of components) {
-                const slotPosition = component.position;
-                // if the position doesn't exist yet we add a new slot
-                // with an empty component list
-                if (!pageSlots[slotPosition]) {
-                    pageSlots[slotPosition] = [];
-                }
-                // store the component
-                this.cmsModelService.storeComponent(component.uid, component);
-
-                // store component in slot... WHY?
-                pageSlots[slotPosition].push({
-                    uid: component.uid,
-                    typeCode: component.typeCode
-                });
-            }
-        }
-
-        // // create pageSlots with en empty component list for those slots
-        // // that have been filled before so that they will get pushed
-        // for (const activeSlotKey of Object.keys(this.activeSlots[componentType])) {
-        //     if (!pageSlots[activeSlotKey]) {
-        //         pageSlots[activeSlotKey] = {
-        //             components: []
-        //         };
-        //     }
-        // }
-        
-        // update all dynamic subject that have been filled before or in this page
-        for (const key of Object.keys(pageSlots)) {
-            this.cmsModelService.storeSlot(key, pageSlots[key]);
-            // this.getSubject(SLOT_PREFIX + key).next(pageSlots[key]);
-            // this.getSubject(SLOT_PREFIX + key).complete();
-        }
-
-        // update the activeSlots with the page slots
-        // this.activeSlots[componentType] = pageSlots;
+        this.cmsModelService.storeComponents(components);
+        this.cmsModelService.updateSlots(components, componentType === TEMPLATE_COMPONENTS);
     }
-
-    // private storeComponentData(componentData) {
-        
-    //     // this.cache.storeComponent(componentData);
-
-    //     // if (!this.cache.hasComponent(componentData.uid)) {
-
-    //     // }
-        
-    // }
-
+    
 }
