@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { RouterModule } from '@angular/router';
+import { MaterialModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { CmsModule } from '../../cms/cms.module';
 
@@ -14,6 +16,8 @@ import { ContentPageLayoutComponent } from './content-page-layout/content-page-l
     imports: [
         CommonModule,
         RouterModule,
+        MaterialModule.forRoot(),
+        FlexLayoutModule,
         CmsModule
     ],
     declarations: [

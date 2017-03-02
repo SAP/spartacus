@@ -58,7 +58,7 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
             }
             this.cdRef.detectChanges();
         }else {
-            console.error('No component implementation found for', this.componentType, '(', this.componentUid, ').\n',
+            console.warn('No component implementation found for', this.componentType, '(', this.componentUid, ').\n',
                 'Make sure you implement a component and register it in the mapper.');
         }
     }
