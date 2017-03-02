@@ -1,6 +1,7 @@
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { CmsModelService } from '../data/cms-model.service';
 // import { ComponentBuilderService } from './component-builder.service';
+import { ConfigService } from './config.service';
 
 
 // probably should move to the component lib... (we can't include it in the module anyway)
@@ -40,7 +41,8 @@ export abstract class AbstractComponent implements OnInit, OnDestroy {
     }
 
     protected getBaseUrl() {
-        return 'TODO_GET_THE_BASE_URL';
+        return 'https://localhost:9002/';
+        // return this.configService.settings.baseUrl;
     }
 
     protected mapUrl(url: string) {
