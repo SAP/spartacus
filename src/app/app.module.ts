@@ -1,3 +1,5 @@
+import { LOCALE_ID } from '@angular/core';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -7,6 +9,9 @@ import { RouterModule } from './router/router.module';
 import { OccModule } from './occ/occ.module';
 import { UiModule } from './ui/ui.module';
 
+import { CmsModule } from './cms/cms.module';
+
+import { CmsLibModule } from './cms-lib/cms-lib.module';
 
 @NgModule({
     declarations: [
@@ -17,9 +22,29 @@ import { UiModule } from './ui/ui.module';
         
         RouterModule,
         OccModule,
+        CmsModule.forRoot({
+            componentMapping: {
+                CMSLinkComponent: 'LinkComponent',
+                SimpleResponsiveBannerComponent: 'SimpleResponsiveBannerComponent',
+                SimpleBannerComponent: 'SimpleResponsiveBannerComponent',
+                BreadcrumbComponent: 'BreadcrumbComponent',
+                CmsParagraphComponent: 'CmsParagraphComponent',
+                NavigationComponent: 'NavigationComponent',
+                FooterNavigationComponent: 'FooterNavigationComponent',
+                CategoryNavigationComponent: 'CategoryNavigationComponent',
+                MiniCartComponent: 'CartTriggerComponent',
+                SideCartComponent: 'MiniCartComponent'
+            }
+        }),
+        CmsLibModule,
         UiModule
     ],
-    providers: [],
+    
+    providers: [
+      {
+          provide: LOCALE_ID, useValue: 'nl-NL'
+      },
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
