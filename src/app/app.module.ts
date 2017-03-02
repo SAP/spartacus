@@ -13,6 +13,12 @@ import { CmsModule } from './cms/cms.module';
 
 import { CmsLibModule } from './cms-lib/cms-lib.module';
 
+
+const hybrisServerSettings = {
+    baseUrl: 'https://localhost:9002',
+    baseSite: 'electronics'
+};
+
 @NgModule({
     declarations: [
         AppComponent
@@ -22,25 +28,29 @@ import { CmsLibModule } from './cms-lib/cms-lib.module';
         
         RouterModule,
         OccModule.forRoot({
-            settings: {
-                baseUrl: 'https://localhost:9002/rest/v2/',
-                baseSite: 'electronics'
-            }
+            settings: hybrisServerSettings
         }),
-        CmsModule.forRoot({
-            componentMapping: {
-                CMSLinkComponent: 'LinkComponent',
-                SimpleResponsiveBannerComponent: 'SimpleResponsiveBannerComponent',
-                SimpleBannerComponent: 'SimpleResponsiveBannerComponent',
-                BreadcrumbComponent: 'BreadcrumbComponent',
-                CmsParagraphComponent: 'CmsParagraphComponent',
-                NavigationComponent: 'NavigationComponent',
-                FooterNavigationComponent: 'FooterNavigationComponent',
-                CategoryNavigationComponent: 'CategoryNavigationComponent',
-                MiniCartComponent: 'CartTriggerComponent',
-                SideCartComponent: 'MiniCartComponent'
+        CmsModule.forRoot(
+            {
+                settings: {
+                    baseUrl: hybrisServerSettings.baseUrl
+                },
+            },
+            {
+                componentMapping: {
+                    CMSLinkComponent: 'LinkComponent',
+                    SimpleResponsiveBannerComponent: 'BannerComponent',
+                    SimpleBannerComponent: 'BannerComponent',
+                    BreadcrumbComponent: 'BreadcrumbComponent',
+                    CmsParagraphComponent: 'CmsParagraphComponent',
+                    NavigationComponent: 'NavigationComponent',
+                    FooterNavigationComponent: 'FooterNavigationComponent',
+                    CategoryNavigationComponent: 'CategoryNavigationComponent',
+                    MiniCartComponent: 'CartTriggerComponent',
+                    SideCartComponent: 'MiniCartComponent'
+                }
             }
-        }),
+        ),
         CmsLibModule,
         UiModule
     ],
