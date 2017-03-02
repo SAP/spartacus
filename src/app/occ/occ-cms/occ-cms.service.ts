@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { StubService } from './stub.service';
 
-import { OccConfigService } from '../occ-config.service';
+import { ConfigService } from '../config.service';
 
 @Injectable()
 export class OccCmsService {
@@ -12,10 +12,11 @@ export class OccCmsService {
 
     constructor(
         private http: Http,
-        private occConfig: OccConfigService,
+        private occConfig: ConfigService,
         private stub: StubService
         ) {
             this.baseUrl = this.occConfig.settings.baseUrl;
+            this.baseUrl += '/rest/v2/';
             this.baseUrl += this.occConfig.settings.baseSite + '/';
             this.baseUrl += this.cmsEndpoint;
         }
@@ -31,7 +32,7 @@ export class OccCmsService {
 
     loadComponentsForPage(page: string, isTemplate?: boolean) {
         let url = 'page/' + page;
-        url += isTemplate ? '/templates' : '';
+        url += isTemplate ? '/pagetemplate' : '';
         url += '/components';
         return this.createHttpPromise(url);
     }
