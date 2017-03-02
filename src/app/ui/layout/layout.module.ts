@@ -11,6 +11,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { MainComponent } from './main/main.component';
 import { ContentPageLayoutComponent } from './content-page-layout/content-page-layout.component';
+import { ProductListPageLayoutComponent } from './product-list-page-layout/product-list-page-layout.component';
 
 @NgModule({
     imports: [
@@ -24,11 +25,13 @@ import { ContentPageLayoutComponent } from './content-page-layout/content-page-l
         HeaderComponent,
         FooterComponent,
         MainComponent,
-        ContentPageLayoutComponent
+        ContentPageLayoutComponent,
+        ProductListPageLayoutComponent
     ],
     exports: [
         MainComponent,
-        ContentPageLayoutComponent
+        ContentPageLayoutComponent,
+        ProductListPageLayoutComponent
     ]
 })
 export class LayoutModule { }

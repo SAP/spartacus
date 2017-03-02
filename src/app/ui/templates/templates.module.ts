@@ -5,6 +5,7 @@ import { LayoutModule } from '../layout/layout.module';
 
 import { HomePageComponent } from './home-page/home-page.component';
 import { CardPageComponent } from './card-page/card-page.component';
+import { CategoryPageComponent } from './category-page/category-page.component';
 
 @NgModule({
     imports: [
@@ -13,7 +14,8 @@ import { CardPageComponent } from './card-page/card-page.component';
     ],
     declarations: [
         HomePageComponent,
-        CardPageComponent
+        CardPageComponent,
+        CategoryPageComponent
     ],
     exports: [
         HomePageComponent
