@@ -21,7 +21,12 @@ import { CmsLibModule } from './cms-lib/cms-lib.module';
         BrowserModule,
         
         RouterModule,
-        OccModule,
+        OccModule.forRoot({
+            settings: {
+                baseUrl: 'https://localhost:9002/rest/v2/',
+                baseSite: 'electronics'
+            }
+        }),
         CmsModule.forRoot({
             componentMapping: {
                 CMSLinkComponent: 'LinkComponent',

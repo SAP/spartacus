@@ -2,25 +2,27 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { StubService } from './stub.service';
 
-// import { ConfigService } from '../settings/settings.service';
-const BASE_URL = 'https://localhost:9002/ypscmsapi/';
+import { OccConfigService } from '../occ-config.service';
 
 @Injectable()
 export class OccCmsService {
 
+    private baseUrl: string;
     private cmsEndpoint = 'cms/';
 
     constructor(
         private http: Http,
+        private occConfig: OccConfigService,
         private stub: StubService
-        // private configService: ConfigService
-        ) { }
+        ) {
+            this.baseUrl = this.occConfig.settings.baseUrl;
+            this.baseUrl += this.occConfig.settings.baseSite + '/';
+            this.baseUrl += this.cmsEndpoint;
+        }
 
     // provides a standardized endpoint ULR creation for all occ-cms related calls 
     private createEndPoint(endpoint: string) {
-        console.warn('TODO: create endpoint', this.cmsEndpoint + endpoint);
-        return BASE_URL + this.cmsEndpoint + endpoint;
-        // return this.configService.getBaseOccUrl() + this.cmsEndpoint + endpoint;
+        return this.baseUrl + endpoint;
     }
 
     loadComponentsForIndex() {
@@ -48,21 +50,20 @@ export class OccCmsService {
         return this.createHttpPromise(url);
     }
 
-
     private createHttpPromise(urlPart: string): Promise<any> {
 
         return new Promise((resolve) => {
             // stub?
-            if (this.stub.hasData(urlPart)) {
-                resolve(this.stub.getData(urlPart));
-            }else {
+            // if (this.stub.hasData(urlPart)) {
+            //     resolve(this.stub.getData(urlPart));
+            // }else {
                 const url = this.createEndPoint(urlPart);
                  this.http.get(url).subscribe((data) => {
                     const occData = data.json();
                     resolve(occData);
                 },
                 err => this.logError(err));
-            }
+            // }
 
         });
     }
