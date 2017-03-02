@@ -27,7 +27,8 @@ import { ComponentMapperConfigService } from './component-mapper-config.service'
         ComponentMapperService
     ],
     exports: [
-        DynamicSlotComponent
+        DynamicSlotComponent,
+        ComponentWrapperComponent
     ]
 })
 export class CmsModule {

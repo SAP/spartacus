@@ -42,17 +42,6 @@ export class CmsModelService {
         subscription.next(model);
     }
 
-    /**
-     * @desc stores all components from the list if they haven't been stored before.
-     * @param components list of components
-     */
-    storeComponents(components: Array<any>) {
-        if (components) {
-            for (const component of components) {
-                this.storeComponent(component.uid, component);
-            }
-        }
-    }
 
     /**
      * @desc
@@ -99,14 +88,25 @@ export class CmsModelService {
 
     }
 
-    private storeComponent(key, model) {
-        if (this.isCached(key)) {
+    /**
+     * @desc stores all components from the list if they haven't been stored before.
+     * @param components list of components
+     */
+    storeComponents(components: Array<any>) {
+        if (components) {
+            for (const component of components) {
+                this.storeComponent(component);
+            }
+        }
+    }
+
+    storeComponent(componentData) {
+        if (this.isCached(componentData.uid)) {
             return;
         }
-        this.models[key] = model;
-        const subscription = this.getSubscription(key);
-        subscription.next(model);
-        // subscription.complete();
+        this.models[componentData.uid] = componentData;
+        const subscription = this.getSubscription(componentData.uid);
+        subscription.next(componentData);
     }
 
     // is this necessary? we have it stored in the subscription...

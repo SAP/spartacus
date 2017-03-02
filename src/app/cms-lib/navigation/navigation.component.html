@@ -1,0 +1,49 @@
+
+<button md-button *ngIf="!node.childs" [routerLink]="node.url">
+    <span *ngIf="node.title">{{node.title}}</span>
+    <md-icon *ngIf="!node.title">reorder</md-icon>
+</button>
+
+<button *ngIf="node.childs && node.title" md-button [md-menu-trigger-for]="menu">
+    <span>{{node.title}}</span>
+</button>
+
+<button *ngIf="node.childs && !node.title" md-icon-button [md-menu-trigger-for]="menu">
+    <md-icon>reorder</md-icon>
+</button>
+
+    <!--on-mouseover="openMenu()"-->
+
+<md-menu #menu="mdMenu" style="margin-top:30px">
+    <div *ngIf="node.childs && node.childs[0].childs">
+        <div ng-if="node.title">
+            <button md-button>{{node.title}}</button>
+            <md-divider></md-divider>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start">
+            <div *ngFor="let childNode of node.childs" fxFlex>
+                <button
+                    [routerLink]="childNode.url"
+                    md-menu-item> {{childNode.title}}</button>
+                    
+                <div *ngIf="childNode.childs">
+                    <button *ngFor="let grandChildNode of childNode.childs"
+                        [routerLink]="grandChildNode.url"
+                        md-menu-item> {{grandChildNode.title}} </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="node.childs && !node.childs[0].childs">
+        <div ng-if="node.title">
+            <button md-button>{{node.title}}</button>
+            <md-divider></md-divider>
+        </div>
+        <button
+            *ngFor="let childNode of node.childs"
+            [routerLink]="childNode.url"
+            md-menu-item> {{childNode.title}}</button>
+    </div>
+
+</md-menu>
+
