@@ -1,0 +1,15 @@
+<!--<p>
+  banner works!
+</p>
+{{data | json }}-->
+
+
+<a fxFlex *ngIf="hasImage()" 
+    [routerLink]="[getUrl()]" >
+    <img *ngIf="!hasMultipleFormats()" [src]="'https://localhost:9002' + getImage().url"/>
+    <picture *ngIf="hasMultipleFormats()" class="responsive-banner">
+        <img [src]="'https://localhost:9002' + getImage().url"
+            [srcset]="getResponsiveSrcset()"
+        />
+    </picture>
+</a>
