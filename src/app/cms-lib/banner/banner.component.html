@@ -2,6 +2,7 @@
 <a fxFlex *ngIf="hasImage()" 
     [routerLink]="[getUrl()]" >
     <div  *ngIf="hasImage() && isSVG()"  style="border:solid 1px red;min-width:200px;min-height:80px;">
+        SVG has CORS issues
         <!--<object
             [data]="'https://localhost:9002' + getImage().url"
             type="image/svg+xml">
