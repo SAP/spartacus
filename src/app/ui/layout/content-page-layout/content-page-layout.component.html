@@ -1,10 +1,10 @@
 
 <y-dynamic-slot flex position="position1"></y-dynamic-slot>
 <y-dynamic-slot flex [position]="'Section1'"></y-dynamic-slot>
-<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start">?
-    <y-dynamic-slot fxFlex [position]="'Section2A'"></y-dynamic-slot>
-    <y-dynamic-slot fxFlex [position]="'Section2B'"></y-dynamic-slot>
-</div>
+<!--<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start">-->
+    <y-dynamic-slot fxFlex [position]="'Section2A'" fxLayout.xs="column" fxLayout="row"></y-dynamic-slot>
+    <y-dynamic-slot fxFlex [position]="'Section2B'" fxLayout.xs="column" fxLayout="row"></y-dynamic-slot>
+<!--</div>-->
 
 <y-dynamic-slot fxFlex [position]="'Section2C'"></y-dynamic-slot>
 <y-dynamic-slot fxFlex [position]="'Section3'"></y-dynamic-slot>
