@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { UserModule } from './user/user.module';
+import { ProductModule } from './product/product.module';
 
 // we include all UI component modules here, but in real live
 // projects would only include those that are relevant.
@@ -10,7 +12,9 @@ import { UserModule } from './user/user.module';
 @NgModule({
     imports: [
         CommonModule,
-        UserModule
+        
+        UserModule,
+        ProductModule
     ],
     declarations: []
 })

@@ -3,19 +3,25 @@ import { CommonModule } from '@angular/common';
 
 import { LayoutModule } from '../layout/layout.module';
 
+
 import { HomePageComponent } from './home-page/home-page.component';
 import { CardPageComponent } from './card-page/card-page.component';
 import { CategoryPageComponent } from './category-page/category-page.component';
+import { ProductDetailPageComponent } from './product-detail-page/product-detail-page.component';
+
+import { ProductModule } from '../components/product/product.module';
 
 @NgModule({
     imports: [
         CommonModule,
-        LayoutModule
+        LayoutModule,
+        ProductModule
     ],
     declarations: [
         HomePageComponent,
         CardPageComponent,
-        CategoryPageComponent
+        CategoryPageComponent,
+        ProductDetailPageComponent
     ],
     exports: [
         HomePageComponent

@@ -3,7 +3,7 @@ import { BaseService } from './base.service';
 
 
 @Injectable()
-export class ProductSearchService extends BaseService {
+export class OccProductSearchService extends BaseService {
 
     private createTextSearchEndpoint(textquery: string, sort?: string): string {
         let url = this.getProductSearchEndpoint();

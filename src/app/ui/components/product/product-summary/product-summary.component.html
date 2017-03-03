@@ -1,0 +1,24 @@
+
+
+
+<md-card>
+    
+    <md-card-title [innerHTML]="(model | async)?.name"></md-card-title>
+    
+    <md-divider></md-divider>
+    <md-card-content>
+                
+
+        <div [innerHTML]="(model | async)?.summary"></div>
+        <div>
+            {{(model | async)?.price.formattedValue}}
+        </div>
+        <div>
+            {{(model | async)?.stock.stockLevelStatus}} -
+            {{(model | async)?.stock.stockLevel}}
+        </div>
+
+    </md-card-content>
+</md-card>
+
+

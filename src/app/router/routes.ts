@@ -2,6 +2,7 @@ import { Routes, RouterModule} from '@angular/router';
 
 import { HomePageComponent } from '../ui/templates/home-page/home-page.component';
 import { CardPageComponent } from '../ui/templates/card-page/card-page.component';
+import { ProductDetailPageComponent } from '../ui/templates/product-detail-page/product-detail-page.component';
 import { CategoryPageComponent } from '../ui/templates/category-page/category-page.component';
 
 export const appRoutes: Routes = [
@@ -18,6 +19,8 @@ export const appRoutes: Routes = [
         component: CardPageComponent
     },
 
+
+    {path: 'product/:productCode', component: ProductDetailPageComponent},
 
     {path: 'category/:categoryCode', component: CategoryPageComponent},
     {path: 'Brands/c/:brandCode', component: CategoryPageComponent},

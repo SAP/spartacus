@@ -1,0 +1,21 @@
+
+<h3>Product attributes (classifications)</h3>
+
+
+<div>
+    <md-card *ngFor="let class of (model | async)?.classifications">
+        <md-card-title [innerHTML]="class.name"></md-card-title>
+        <md-card-content *ngFor="let feature of class.features"
+            fxLayout="row" fxLayoutAlign="start start"  >
+            <div fxFlex>
+                {{ feature.name }}
+            </div>
+            <md-list fxFlex="50%" dense>
+                <md-list-item *ngFor="let featureValue of feature.featureValues">
+                    <h4 md-line>{{featureValue.value}} {{feature.featureUnit.symbol}}</h4>
+                </md-list-item>
+            </md-list>
+        </md-card-content>
+    </md-card>
+
+</div>

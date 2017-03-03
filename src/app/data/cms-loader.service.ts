@@ -44,6 +44,15 @@ export class CmsLoaderService {
         });
     }
 
+    loadComponentsForProduct(productCode: string) {
+        
+        const components = this.occCmsService.loadComponentsForProduct(productCode);
+        components.then((pageData) => {
+            this.loadComponentsForTemplate(pageData, productCode);
+            this.storeComponents(pageData.components, PAGE_COMPONENTS);
+        });
+    }
+
     private loadComponentsForTemplate(pageData: any, code?: string) {
         let components;
         if (pageData.pageType === 'ContentPage') {

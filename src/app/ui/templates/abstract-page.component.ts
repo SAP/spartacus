@@ -20,10 +20,13 @@ export abstract class AbstractPage {
                 this.loadCmsDataForUrl(val.url);
             }
         });
+
+        // load data in case we have parameters
         activeRoute.params.forEach((params: Params) => {
             this.loadCmsDataForParams(params);
             this.loadAdditionData(params);
         });
+
      }
 
      loadCmsDataForUrl(url) {
@@ -42,8 +45,13 @@ export abstract class AbstractPage {
 
      loadCmsDataForParams(params: Params) {
         // TODO make constants for routing params
+
         if (params['categoryCode']) {
             this.cmsLoader.loadComponentsForCategory(params['categoryCode']);
+        }
+
+        if (params['productCode']) {
+            this.cmsLoader.loadComponentsForProduct(params['productCode']);
         }
      }
 

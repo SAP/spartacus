@@ -15,9 +15,7 @@ export class ProductCarouselComponent extends AbstractProductComponent {
         // TODO: limit data
         this.productLoader.searchProducts(query).subscribe((products) => {
             this.products = products;
-            console.log('FOUND', products);
             this.cd.markForCheck();
         });
     }
-
 }
