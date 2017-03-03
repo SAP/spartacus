@@ -33,10 +33,20 @@ export class CmsLoaderService {
         });
     }
 
+    loadComponentsForCategory(categoryCode: string) {
+        if (!categoryCode) {
+            return;
+        }
+        const components = this.occCmsService.loadComponentsForCategory(categoryCode);
+        components.then((pageData) => {
+            this.loadComponentsForTemplate(pageData, categoryCode);
+            this.storeComponents(pageData.components, PAGE_COMPONENTS);
+        });
+    }
+
     private loadComponentsForTemplate(pageData: any, code?: string) {
         let components;
         if (pageData.pageType === 'ContentPage') {
-            console.log('load templates for', pageData.pageLabel);
             components = this.occCmsService.loadComponentsForPage(pageData.pageLabel, TEMPLATE_PAGE);
         }
         if (pageData.pageType === 'ProductPage') {
@@ -52,7 +62,6 @@ export class CmsLoaderService {
 
 
     private storeComponents(components: Array<any>, componentType: number) {
-
         this.cmsModelService.storeComponents(components);
         this.cmsModelService.updateSlots(components, componentType === TEMPLATE_COMPONENTS);
     }

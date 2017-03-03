@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { AbstractPage } from '../abstract-page.component';
 
 @Component({
-  selector: 'y-category-page',
-  templateUrl: './category-page.component.html',
-  styleUrls: ['./category-page.component.scss']
+    selector: 'y-category-page',
+    templateUrl: './category-page.component.html',
+    styleUrls: ['./category-page.component.scss']
 })
-export class CategoryPageComponent implements OnInit {
+export class CategoryPageComponent extends AbstractPage {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+    loadAdditionData(params: Params) {
+        if (params['categoryCode']) {
+            // TODO: init component
+        }
+    }
 }

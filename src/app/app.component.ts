@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RouteEvents } from './router/route-events';
 
 @Component({
     selector: 'y-root',
@@ -7,6 +6,4 @@ import { RouteEvents } from './router/route-events';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    constructor(private events: RouteEvents)
-    {}
 }
