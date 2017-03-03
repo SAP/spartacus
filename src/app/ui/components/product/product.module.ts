@@ -6,18 +6,22 @@ import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
+import { ProductImagesComponent } from './product-images/product-images.component';
 
+import { MediaModule } from '../media/media.module';
 
 @NgModule({
     imports: [
         CommonModule,
+        MediaModule,
         MaterialModule.forRoot(),
         FlexLayoutModule
     ],
     declarations: [
         ProductSummaryComponent,
         ProductAttributesComponent,
-        ProductDetailsComponent],
+        ProductDetailsComponent,
+        ProductImagesComponent],
     exports: [
         ProductDetailsComponent,
         ProductSummaryComponent,

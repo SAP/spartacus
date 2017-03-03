@@ -10,9 +10,9 @@ import { TemplatesModule } from './templates/templates.module';
 @NgModule({
     imports: [
         CommonModule,
-        MaterialModule.forRoot(),
+        // MaterialModule.forRoot(),
 
-        FlexLayoutModule,
+        // FlexLayoutModule,
 
         LayoutModule,
         TemplatesModule

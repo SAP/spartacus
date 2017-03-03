@@ -16,6 +16,11 @@ export abstract class AbstractProductComponent implements OnInit {
         if (this.productCode) {
             this.model = this.productLoader.getSubscription(this.productCode);
             this.productLoader.loadProduct(this.productCode);
+            this.ready();
         }
+    }
+
+    protected ready() {
+        console.log('ready');
     }
 }

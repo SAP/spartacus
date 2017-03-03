@@ -13,7 +13,7 @@
         <!--<y-add-to-cart [productCode]="product.code" [stockLevel]="product.stock.stockLevel"></y-add-to-cart>-->
 
         <!--<y-product-image-gallery [images]="product.images" imageType="GALLERY" imageFormat="thumbnail" ></y-product-image-gallery>-->
-
+        <y-product-images [productCode]="productCode"></y-product-images>
         
         <div [innerHTML]="(model | async)?.description"></div>
 

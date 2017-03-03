@@ -1,0 +1,11 @@
+
+<picture class="md-card-image">
+    <source [srcset]="xsImage" media="(max-width: 500px)" />
+    <source [srcset]="smImage" media="(max-width: 800px)" />
+    <source [srcset]="mdImage" media="(max-width: 1200px)" />
+    <source [srcset]="lgImage" media="(min-width: 1200px)" />
+    <img
+        *ngIf="mainImage"
+        [src]="mainImage" 
+        />
+</picture>
