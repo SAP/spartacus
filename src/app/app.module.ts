@@ -42,7 +42,7 @@ const hybrisServerSettings = {
                     SimpleResponsiveBannerComponent: 'BannerComponent',
                     SimpleBannerComponent: 'BannerComponent',
                     BreadcrumbComponent: 'BreadcrumbComponent',
-                    CmsParagraphComponent: 'CmsParagraphComponent',
+                    CmsParagraphComponent: 'ParagraphComponent',
                     NavigationComponent: 'NavigationComponent',
                     FooterNavigationComponent: 'FooterNavigationComponent',
                     CategoryNavigationComponent: 'CategoryNavigationComponent',

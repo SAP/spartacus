@@ -3,11 +3,11 @@ import { AbstractComponent } from '../../cms/abstract-component.component';
 import { CmsModelService } from '../../data/cms-model.service';
 
 @Component({
-    selector: 'y-cms-paragraph',
-    templateUrl: './cms-paragraph.component.html',
-    styleUrls: ['./cms-paragraph.component.scss']
+    selector: 'y-paragraph',
+    templateUrl: './paragraph.component.html',
+    styleUrls: ['./paragraph.component.scss']
 })
-export class CmsParagraphComponent extends AbstractComponent {
+export class ParagraphComponent extends AbstractComponent {
 
     @ViewChild('dataContainer') dataContainer: ElementRef;
 
