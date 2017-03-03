@@ -6,6 +6,7 @@ import { LinkModule } from './link/link.module';
 import { BannerModule } from './banner/banner.module';
 import { CategoryNavigationModule} from './category-navigation/category-navigation.module';
 import { NavigationModule } from './navigation/navigation.module';
+import { FooterNavigationModule } from './footer-navigation/footer-navigation.module';
 
 // import { MaterialModule } from '@angular/material';
 @NgModule({
@@ -16,8 +17,8 @@ import { NavigationModule } from './navigation/navigation.module';
         LinkModule,
         BannerModule,
         CategoryNavigationModule,
-        NavigationModule
-    ],
-    declarations: []
+        NavigationModule,
+        FooterNavigationModule
+    ]
 })
 export class CmsLibModule { }

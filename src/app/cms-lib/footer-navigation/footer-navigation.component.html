@@ -1,0 +1,11 @@
+<div class="row">
+    <md-nav-list *ngFor="let child of children" flex style="float:left">
+        <h3>{{child.title}}</h3>
+        <a md-list-item *ngFor="let link of child.links" 
+            [href]="link.url" [target]="link.target === 'NEWWINDOW' ? 'blank':'self'"> {{ link.linkName }} </a>
+    </md-nav-list>
+</div>
+
+<p>
+  {{data.notice}}
+</p>
