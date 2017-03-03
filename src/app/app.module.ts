@@ -16,6 +16,7 @@ import { CmsLibModule } from './cms-lib/cms-lib.module';
 
 const hybrisServerSettings = {
     baseUrl: 'https://localhost:9002',
+    occPrefix: '/rest/v2/',
     baseSite: 'electronics'
 };
 
@@ -47,7 +48,8 @@ const hybrisServerSettings = {
                     FooterNavigationComponent: 'FooterNavigationComponent',
                     CategoryNavigationComponent: 'CategoryNavigationComponent',
                     MiniCartComponent: 'CartTriggerComponent',
-                    SideCartComponent: 'MiniCartComponent'
+                    SideCartComponent: 'MiniCartComponent',
+                    ProductCarouselComponent: 'ProductCarouselComponent'
                 }
             }
         ),

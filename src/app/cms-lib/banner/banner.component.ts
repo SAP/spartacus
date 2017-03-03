@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { AbstractComponent } from '../../cms/abstract-component.component';
+import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
 
 @Component({
   selector: 'y-banner',
   templateUrl: './banner.component.html',
   styleUrls: ['./banner.component.scss']
 })
-export class BannerComponent extends AbstractComponent {
+export class BannerComponent extends AbstractCmsComponent {
 
     // TODO: move to a more generic location
     // TODO: Make configurable

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { AbstractComponent } from '../../cms/abstract-component.component';
+import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
 
 @Component({
   selector: 'y-category-navigation',
   templateUrl: './category-navigation.component.html',
   styleUrls: ['./category-navigation.component.scss']
 })
-export class CategoryNavigationComponent extends AbstractComponent {
+export class CategoryNavigationComponent extends AbstractCmsComponent {
 
     nodes = [];
 

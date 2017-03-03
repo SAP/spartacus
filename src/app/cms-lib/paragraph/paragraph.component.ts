@@ -1,12 +1,12 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { AbstractComponent } from '../../cms/abstract-component.component';
+import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
 
 @Component({
     selector: 'y-paragraph',
     templateUrl: './paragraph.component.html',
     styleUrls: ['./paragraph.component.scss']
 })
-export class ParagraphComponent extends AbstractComponent {
+export class ParagraphComponent extends AbstractCmsComponent {
 
     @ViewChild('dataContainer') dataContainer: ElementRef;
 

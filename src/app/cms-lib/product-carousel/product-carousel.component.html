@@ -1,0 +1,13 @@
+{{model | json }}
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start"
+     *ngIf="products" >
+
+    <a *ngFor="let product of products" fxFlex
+        [routerLink]="['/product/', product.code]"
+        >
+        
+        {{product.name}}
+    </a>
+
+</div>
+

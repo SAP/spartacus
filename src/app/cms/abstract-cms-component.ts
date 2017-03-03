@@ -1,22 +1,24 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
-import { CmsModelService } from '../data/cms-model.service';
-// import { ComponentBuilderService } from './component-builder.service';
+import { Injectable, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { AbstractComponent } from './abstract-component';
+
 import { ConfigService } from './config.service';
+import { CmsModelService } from '../data/cms-model.service';
 
-
-// probably should move to the component lib... (we can't include it in the module anyway)
 @Injectable()
-export abstract class AbstractComponent implements OnInit, OnDestroy {
+export abstract class AbstractCmsComponent extends AbstractComponent implements OnInit, OnDestroy {
     
     protected subscription;
 
     protected uid: string;
     protected model = null;
 
-
     constructor(
+        protected cd: ChangeDetectorRef,
+        protected configService: ConfigService,
         protected cmsModelService: CmsModelService
-    ) { }
+    ) {
+        super (cd, configService);
+    }
 
     ngOnInit() {
         this.subscription = this.cmsModelService.getSubscription(this.uid)
@@ -41,8 +43,7 @@ export abstract class AbstractComponent implements OnInit, OnDestroy {
     }
 
     protected getBaseUrl() {
-        return 'https://localhost:9002/';
-        // return this.configService.settings.baseUrl;
+        return this.configService.settings.baseUrl;
     }
 
     protected mapUrl(url: string) {

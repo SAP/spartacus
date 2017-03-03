@@ -5,6 +5,7 @@ export class ConfigService {
 
     settings: {
         baseUrl,
+        occPrefix,
         baseSite
     };
 

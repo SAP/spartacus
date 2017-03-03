@@ -3,7 +3,7 @@ import {
     ViewChild, ViewContainerRef, ComponentFactoryResolver, Type,
     OnChanges, ChangeDetectorRef
 } from '@angular/core';
-import { AbstractComponent } from '../abstract-component.component';
+import { AbstractCmsComponent } from '../abstract-cms-component';
 import { ComponentMapperService } from '../component-mapper.service';
 
 
@@ -52,7 +52,7 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
         if (componentTypeClass) {
             const factory = this.componentFactoryResolver.resolveComponentFactory(componentTypeClass);
             this.cmpRef = this.target.createComponent(factory);
-            const instance: AbstractComponent = this.cmpRef.instance;
+            const instance: AbstractCmsComponent = this.cmpRef.instance;
             if (instance.setUid) {
                 instance.setUid(this.componentUid);
             }

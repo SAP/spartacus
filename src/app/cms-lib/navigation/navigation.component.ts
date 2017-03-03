@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractComponent } from '../../cms/abstract-component.component';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
 import { CmsModelService } from '../../data/cms-model.service';
+import { ConfigService } from '../../cms/config.service';
 import { NavigationService } from './navigation.service';
 
 @Component({
@@ -8,15 +9,17 @@ import { NavigationService } from './navigation.service';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss']
 })
-export class NavigationComponent extends AbstractComponent  {
+export class NavigationComponent extends AbstractCmsComponent  {
 
     node;
     
     constructor(
+        protected cd: ChangeDetectorRef,
         protected cmsModelService: CmsModelService,
+        protected configService: ConfigService,
         private navigationService: NavigationService
     ) {
-        super(cmsModelService);
+        super(cd, configService, cmsModelService);
     }
 
     protected fetchData() {

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractComponent } from '../../cms/abstract-component.component';
+import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
 
 @Component({
   selector: 'y-link',
   templateUrl: './link.component.html',
   styleUrls: ['./link.component.scss']
 })
-export class LinkComponent extends AbstractComponent {
+export class LinkComponent extends AbstractCmsComponent {
 
 }

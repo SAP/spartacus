@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { AbstractComponent } from '../../cms/abstract-component.component';
+import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
 
 @Component({
     selector: 'y-footer-navigation',
     templateUrl: './footer-navigation.component.html',
     styleUrls: ['./footer-navigation.component.scss']
 })
-export class FooterNavigationComponent extends AbstractComponent {
+export class FooterNavigationComponent extends AbstractCmsComponent {
 
     children = [];
 
