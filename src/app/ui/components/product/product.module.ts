@@ -5,6 +5,7 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
+import { ProductDetailsComponent } from './product-details/product-details.component';
 
 
 @NgModule({
@@ -13,7 +14,14 @@ import { ProductAttributesComponent } from './product-attributes/product-attribu
         MaterialModule.forRoot(),
         FlexLayoutModule
     ],
-    declarations: [ProductSummaryComponent, ProductAttributesComponent],
-    exports: [ProductSummaryComponent, ProductAttributesComponent]
+    declarations: [
+        ProductSummaryComponent,
+        ProductAttributesComponent,
+        ProductDetailsComponent],
+    exports: [
+        ProductDetailsComponent,
+        ProductSummaryComponent,
+        ProductAttributesComponent
+    ]
 })
 export class ProductModule { }
