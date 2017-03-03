@@ -24,6 +24,10 @@ export class BannerComponent extends AbstractComponent {
         super(cmsModelService);
     }
 
+    isSVG() {
+        const image = this.getImage();
+        return image && (image.url.indexOf('.svg') > -1);
+    }
 
     hasImage() {
         return (null !== this.data && null !== this.data.media);

@@ -1,13 +1,16 @@
-<!--<p>
-  banner works!
-</p>
-{{data | json }}-->
-
 
 <a fxFlex *ngIf="hasImage()" 
     [routerLink]="[getUrl()]" >
-    <img *ngIf="!hasMultipleFormats()" [src]="'https://localhost:9002' + getImage().url"/>
-    <picture *ngIf="hasMultipleFormats()" class="responsive-banner">
+    <div  *ngIf="hasImage() && isSVG()"  style="border:solid 1px red;min-width:200px;min-height:80px;">
+        <!--<object
+            [data]="'https://localhost:9002' + getImage().url"
+            type="image/svg+xml">
+        </object>-->
+    </div>
+    
+
+    <img *ngIf="!isSVG() && !hasMultipleFormats()" [src]="'https://localhost:9002' + getImage().url"/>
+    <picture *ngIf="!isSVG() && hasMultipleFormats()" class="responsive-banner">
         <img [src]="'https://localhost:9002' + getImage().url"
             [srcset]="getResponsiveSrcset()"
         />
