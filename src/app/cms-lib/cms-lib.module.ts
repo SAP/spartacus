@@ -7,6 +7,7 @@ import { BannerModule } from './banner/banner.module';
 import { CategoryNavigationModule} from './category-navigation/category-navigation.module';
 import { NavigationModule } from './navigation/navigation.module';
 import { FooterNavigationModule } from './footer-navigation/footer-navigation.module';
+import { BreadcrumbModule } from './breadcrumb/breadcrumb.module';
 
 // import { MaterialModule } from '@angular/material';
 @NgModule({
@@ -18,7 +19,8 @@ import { FooterNavigationModule } from './footer-navigation/footer-navigation.mo
         BannerModule,
         CategoryNavigationModule,
         NavigationModule,
-        FooterNavigationModule
+        FooterNavigationModule,
+        BreadcrumbModule
     ]
 })
 export class CmsLibModule { }
