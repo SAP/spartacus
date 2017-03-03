@@ -11,7 +11,7 @@ export abstract class AbstractComponent implements OnInit, OnDestroy {
     protected subscription;
 
     protected uid: string;
-    protected data = null;
+    protected model = null;
 
 
     constructor(
@@ -21,7 +21,7 @@ export abstract class AbstractComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.subscription = this.cmsModelService.getSubscription(this.uid)
             .subscribe((componentData) => {
-                this.data = componentData;
+                this.model = componentData;
                 this.fetchData();
             });
     }

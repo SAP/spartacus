@@ -13,8 +13,8 @@ export class FooterNavigationComponent extends AbstractComponent {
     protected fetchData() {
         super.fetchData();
 
-        if (this.data && this.data.navigationNode && this.data.navigationNode.children) {
-            for (const child of this.data.navigationNode.children) {
+        if (this.model && this.model.navigationNode && this.model.navigationNode.children) {
+            for (const child of this.model.navigationNode.children) {
                 const links = [];
                 for (const subchild of child.children) {
                     // let links = [];

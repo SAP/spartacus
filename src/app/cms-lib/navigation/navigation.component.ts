@@ -21,7 +21,7 @@ export class NavigationComponent extends AbstractComponent  {
 
     protected fetchData() {
         super.fetchData();
-        const data = this.data.navigationNode ? this.data.navigationNode : this.data;
+        const data = this.model.navigationNode ? this.model.navigationNode : this.model;
         this.node = this.navigationService.createNode(data);
     }
 }

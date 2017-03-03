@@ -1,6 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { AbstractComponent } from '../../cms/abstract-component.component';
-import { CmsModelService } from '../../data/cms-model.service';
 
 @Component({
     selector: 'y-paragraph',
@@ -11,16 +10,10 @@ export class ParagraphComponent extends AbstractComponent {
 
     @ViewChild('dataContainer') dataContainer: ElementRef;
 
-    constructor(
-        protected cmsModelService: CmsModelService
-    ) {
-        super(cmsModelService);
-    }
-
     protected fetchData() {
         super.fetchData();
-        if (this.data && this.data.content) {
-            this.dataContainer.nativeElement.innerHTML = this.data.content;
+        if (this.model && this.model.content) {
+            this.dataContainer.nativeElement.innerHTML = this.model.content;
         }
     }
 }

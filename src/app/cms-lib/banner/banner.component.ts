@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AbstractComponent } from '../../cms/abstract-component.component';
-import { CmsModelService } from '../../data/cms-model.service';
 
 @Component({
   selector: 'y-banner',
@@ -18,27 +17,21 @@ export class BannerComponent extends AbstractComponent {
         {code: 'widescreen', width: 1200}
     ];
 
-    constructor(
-        protected cmsModelService: CmsModelService
-    ) {
-        super(cmsModelService);
-    }
-
     isSVG() {
         const image = this.getImage();
         return image && (image.url.indexOf('.svg') > -1);
     }
 
     hasImage() {
-        return (null !== this.data && null !== this.data.media);
+        return (null !== this.model && null !== this.model.media);
     }
 
     hasMultipleFormats() {
-        return (this.hasImage() && this.data.media.constructor === Array);
+        return (this.hasImage() && this.model.media.constructor === Array);
     }
 
     getUrl() {
-        return this.mapUrl(this.data.urlLink);
+        return this.mapUrl(this.model.urlLink);
     }
 
     getTarget() {
@@ -61,9 +54,9 @@ export class BannerComponent extends AbstractComponent {
     getImage() {
         let image;
         if (this.hasMultipleFormats()) {
-            image = this.getImageByFormat(this.data.media[0].format);
+            image = this.getImageByFormat(this.model.media[0].format);
         }else {
-            image = this.data.media;
+            image = this.model.media;
         }
         return image;
     }
@@ -79,8 +72,8 @@ export class BannerComponent extends AbstractComponent {
 
     private getImageByFormat(format: string) {
         let image;
-        if (!this.data || this.data.media) {
-            for (const media of this.data.media) {
+        if (!this.model || this.model.media) {
+            for (const media of this.model.media) {
                 if (media.format === format) {
                     image = media;
                 }

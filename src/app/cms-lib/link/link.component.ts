@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractComponent } from '../../cms/abstract-component.component';
-import { CmsModelService } from '../../data/cms-model.service';
 
 @Component({
   selector: 'y-link',
@@ -8,11 +7,5 @@ import { CmsModelService } from '../../data/cms-model.service';
   styleUrls: ['./link.component.scss']
 })
 export class LinkComponent extends AbstractComponent {
-
-    constructor(
-        protected cmsModelService: CmsModelService
-    ) {
-        super(cmsModelService);
-    }
 
 }
