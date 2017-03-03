@@ -39,14 +39,14 @@ export class OccCmsService {
 
     loadComponentsForCategory(categoryCode: string, isTemplate?: boolean) {
         let url = 'category/' + categoryCode;
-        url += isTemplate ? '/templates' : '';
+        url += isTemplate ? '/pagetemplate' : '';
         url += '/components';
         return this.createHttpPromise(url);
     }
 
-    loadComponentsForProduct(categoryCode: string, isTemplate?: boolean) {
-        let url = 'product/' + categoryCode;
-        url += isTemplate ? '/templates' : '';
+    loadComponentsForProduct(productCode: string, isTemplate?: boolean) {
+        let url = 'product/' + productCode;
+        url += isTemplate ? '/pagetemplate' : '';
         url += '/components';
         return this.createHttpPromise(url);
     }
