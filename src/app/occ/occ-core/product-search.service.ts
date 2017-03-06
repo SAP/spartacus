@@ -35,7 +35,7 @@ export class OccProductSearchService extends BaseService {
 
 
     /**
-     * @description 
+     * @description
      * Search products by...
      * 
      * @param {string} query
@@ -44,7 +44,6 @@ export class OccProductSearchService extends BaseService {
      * @memberOf OccProductSearchService
      */
     incrementalSearch(query: string, pageSize = 3) {
-        
         let url = this.createTextSearchEndpoint(query);
         url += '&fields=products(code,name,images(DEFAULT)),pagination';
         
@@ -58,7 +57,6 @@ export class OccProductSearchService extends BaseService {
     }
 
     freeTextSearch(textquery: string, sort: string) {
-
         let url = this.createTextSearchEndpoint(textquery, sort);
         url += '&pageSize=20&fields=products(code,name,summary,price,images(DEFAULT)),facets,pagination(DEFAULT)';
 
@@ -69,7 +67,6 @@ export class OccProductSearchService extends BaseService {
             },
             err => this.logError(err));
         });
-
     }
 
     searchByCategory(categoryCode: string, brandCode: string, sort: string) {

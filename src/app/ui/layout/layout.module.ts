@@ -13,13 +13,17 @@ import { MainComponent } from './main/main.component';
 import { ContentPageLayoutComponent } from './content-page-layout/content-page-layout.component';
 import { ProductListPageLayoutComponent } from './product-list-page-layout/product-list-page-layout.component';
 
+import { ComponentsModule } from '../components/components.module';
+
+
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
         MaterialModule.forRoot(),
         FlexLayoutModule,
-        CmsModule
+        CmsModule,
+        ComponentsModule
     ],
     declarations: [
         HeaderComponent,

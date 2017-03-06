@@ -6,6 +6,8 @@
     <y-product-list [products]="search.results.products"></y-product-list>
 </div>-->
 
+<y-product-list [categoryCode]="categoryCode"></y-product-list>
+
 <div layout-gt-xs="row" layout="column">
     <y-dynamic-slot flex position="Section2A"></y-dynamic-slot>
     <y-dynamic-slot flex position="Section2B"></y-dynamic-slot>

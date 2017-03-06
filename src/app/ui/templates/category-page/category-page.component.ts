@@ -8,10 +8,11 @@ import { AbstractPage } from '../abstract-page.component';
     styleUrls: ['./category-page.component.scss']
 })
 export class CategoryPageComponent extends AbstractPage {
+    categoryCode;
 
     loadAdditionData(params: Params) {
         if (params['categoryCode']) {
-            // TODO: init component
+            this.categoryCode = params['categoryCode'];
         }
     }
 }
