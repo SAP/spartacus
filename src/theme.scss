@@ -1,32 +1,18 @@
-
-@import '~@angular/material/core/theming/prebuilt/indigo-pink.css';
-
-// @import '@angular/material/core/theming/all-theme';
-
-// Include non-theme styles for core.
-// @include md-core();
-
-
-// // @import '~@angular/material/core/theming/prebuilt/pink-bluegrey.css';
-
-// // Define a theme.
-// $primary: md-palette($md-sap);
-// $accent:  md-palette($md-blue, 700, 700, 700);
-
-// $theme-light: md-light-theme($primary, $accent);
-// $theme-dark: md-dark-theme($primary, $accent);
-
-// // Include all theme styles for the components.
-// @include angular-material-theme($theme-light);
-// .dark {
-//     @include angular-material-theme($theme-dark);
-// }
+@import '~@angular/material/core/theming/all-theme';
+@include mat-core();
+$primary: mat-palette($mat-blue-grey, 800);
+$accent:  mat-palette($mat-light-blue, 600, A100, A400);
+$warn:    mat-palette($mat-red, 600);
+$theme: mat-light-theme($primary, $accent, $warn);
+@include angular-material-theme($theme);
 
 
-// .md-input-prefix {
-//     md-icon {
-//         vertical-align: text-bottom;
-//         height: 20px;
-//         margin-top: -4px;
-//     }
-// }
+$theme-dark: mat-dark-theme($primary, $accent, $warn);
+
+.light {
+    @include angular-material-theme($theme);
+}
+
+.dark {
+    @include angular-material-theme($theme-dark);
+}
