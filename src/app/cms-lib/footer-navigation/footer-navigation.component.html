@@ -1,11 +1,17 @@
-<div class="row">
-    <md-nav-list *ngFor="let child of children" flex style="float:left">
-        <h3>{{child.title}}</h3>
-        <a md-list-item *ngFor="let link of child.links" 
-            [href]="link.url" [target]="link.target === 'NEWWINDOW' ? 'blank':'self'"> {{ link.linkName }} </a>
-    </md-nav-list>
-</div>
+<md-card class="footer">
+    <div fxLayout="row" fxLayoutAlign="start stretch">
 
-<p>
-  {{model.notice}}
-</p>
+        <md-nav-list *ngFor="let child of children" >
+            <h3 md-subheader>{{child.title}}</h3>
+            <a md-list-item *ngFor="let link of child.links"
+                [href]="link.url"
+                [target]="link.target === 'NEWWINDOW' ? 'blank':'self'">{{ link.linkName }}</a>
+        </md-nav-list>
+
+    </div>
+
+</md-card>
+
+<div class="notice">
+    {{model.notice}}
+</div>
