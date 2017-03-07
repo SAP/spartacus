@@ -1,11 +1,35 @@
-Carousel:
 
-<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start stretch" 
-    fxLayoutWrap fxLayoutGap="10px"
-     *ngIf="products">
-     <md-card *ngFor="let product of products" fxFlex="25%"
-        [routerLink]="['/product/', product.code]">
-        {{product.name}}
-     </md-card>
+<H3>{{model.title}}</H3>
+<div class="product-caraousel"
+    (mouseenter)="stop()" (mouseleave)="continue()"
+    fxLayout="row" fxFlexAlign="start stretch">
+    <div fxFlex="50px">
+        <button md-icon-button>
+            <md-icon>navigate_before</md-icon>
+        </button>
+    </div>
+    <div fxFlex class="carousel-container">
+        <div class="product-panel" #productPanel 
+            [class.pause]="pause">
+            <div class="product" 
+                *ngFor="let product of products"
+                [routerLink]="['/product/', product.code]"
+                >
+                
+                <y-picture 
+                    *ngIf="product.images"
+                    [images]="product.images" 
+                    imageType="PRIMARY" 
+                    imageFormat="thumb"
+                    [position]="0"
+                ></y-picture>
+                {{product.name}}
+            </div>
+        </div>
+    </div>
+    <div fxFlex="50px">
+        <button md-icon-button>
+            <md-icon>navigate_next</md-icon>
+        </button>
+    </div>
 </div>
-

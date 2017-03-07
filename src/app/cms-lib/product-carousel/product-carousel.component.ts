@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+
 import { AbstractProductComponent } from '../../cms/abstract-product-component';
 
 @Component({
@@ -8,6 +9,9 @@ import { AbstractProductComponent } from '../../cms/abstract-product-component';
 })
 export class ProductCarouselComponent extends AbstractProductComponent {
     products = [];
+    pause: boolean;
+    
+    @ViewChild('productPanel') productPanel: Element;
 
     protected fetchData() {
         const query = this.model.productCodes.map(o => o).join(' ');
@@ -16,5 +20,19 @@ export class ProductCarouselComponent extends AbstractProductComponent {
             this.products = results.products;
             this.cd.markForCheck();
         });
+    }
+
+    loadNext() {
+        console.log('load next');
+        console.log(this.productPanel);
+    }
+
+    stop() {
+        console.log('pause');
+        this.pause = true;
+    }
+    continue() {
+        console.log('continue');
+        this.pause = false;
     }
 }

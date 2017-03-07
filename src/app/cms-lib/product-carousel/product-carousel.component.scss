@@ -1,5 +1,44 @@
-.product {
+.product-caraousel {
     height: 200px;
-    display: block;
-    border: solid 1px red;
+    overflow: hidden;
+    margin: 10px 0;
+    .carousel-container {
+        overflow: hidden;
+    }
+    .product-panel {
+        height: 100%;
+        width: 5000px;
+        position: relative;
+        animation: carousel 25s infinite;
+        // animation-delay: 2s, 4ms;
+        &.pause {
+            animation-play-state:paused; 
+        }
+    }
+    .product {
+        height: 100%;
+        margin:0 10px 10px 0;
+        padding: 10px;
+        width: 200px;
+        float: left;
+        display: block;
+        
+    }
 }
+
+/* Standard syntax */
+@keyframes carousel {
+    0%   {left: 0px;}
+    // 25%  {left: -200px;}
+    // 75%  {left: -400px}
+    50% {left: -800px;}
+    100% {left: 0px;}
+}
+
+// /* Safari 4.0 - 8.0 */
+// @-webkit-keyframes mymove {
+//     0%   {top: 0px;}
+//     25%  {top: 200px;}
+//     75%  {top: 50px}
+//     100% {top: 100px;}
+// }
