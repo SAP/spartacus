@@ -1,0 +1,41 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+import { MaterialModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+
+import { ProductListComponent } from './product-list.component';
+import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';
+
+
+import { MediaModule } from '../media/media.module';
+import { ProductPagingComponent } from './product-paging/product-paging.component';
+import { ProductSortingComponent } from './product-sorting/product-sorting.component';
+import { ProductListItemComponent } from './product-list-item/product-list-item.component';
+import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
+
+@NgModule({
+    imports: [
+        CommonModule,
+        RouterModule,
+        MediaModule,
+        MaterialModule.forRoot(),
+        FlexLayoutModule
+    ],
+    declarations: [
+        ProductListComponent,
+        ProductFacetNavigationComponent,
+        ProductPagingComponent,
+        ProductSortingComponent,
+        ProductListItemComponent,
+        ProductGridItemComponent
+    ],
+    exports: [
+        ProductListComponent,
+        ProductListItemComponent,
+        ProductGridItemComponent
+    ]
+})
+export class ProductListModule { }

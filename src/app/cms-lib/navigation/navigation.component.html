@@ -1,5 +1,5 @@
 
-<button md-button *ngIf="!node.childs" [routerLink]="node.url">
+<button md-button *ngIf="!node.childs" [routerLink]="getUrl(node.url)">
     <span *ngIf="node.title">{{node.title}}</span>
     <md-icon *ngIf="!node.title">reorder</md-icon>
 </button>
@@ -19,12 +19,12 @@
         <div fxLayout="row" fxLayoutAlign="start start">
             <div *ngFor="let childNode of node.childs" fxFlex>
                 <button
-                    [routerLink]="childNode.url"
+                    [routerLink]="getUrl(childNode.url)"
                     md-menu-item> {{childNode.title}}</button>
                     
                 <div *ngIf="childNode.childs">
                     <button *ngFor="let grandChildNode of childNode.childs"
-                        [routerLink]="grandChildNode.url"
+                        [routerLink]="getUrl(grandChildNode.url)"
                         md-menu-item> {{grandChildNode.title}} </button>
                 </div>
             </div>
@@ -33,7 +33,7 @@
     <div *ngIf="node.childs && !node.childs[0].childs">
         <button
             *ngFor="let childNode of node.childs"
-            [routerLink]="childNode.url"
+            [routerLink]="getUrl(childNode.url)"
             md-menu-item> {{childNode.title}}</button>
     </div>
 

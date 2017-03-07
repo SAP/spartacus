@@ -6,6 +6,9 @@ const PAGE_COMPONENTS = 0;
 const TEMPLATE_COMPONENTS = 1;
 const TEMPLATE_PAGE = true;
 
+const IS_PAGE = false;
+const IS_TEMPLATE = true;
+
 @Injectable()
 export class CmsLoaderService {
 
@@ -21,7 +24,7 @@ export class CmsLoaderService {
         const components = this.occCmsService.loadComponentsForIndex();
         components.then((pageData) => {
             this.loadComponentsForTemplate(pageData, pageData.pageLabel);
-            this.storeComponents(pageData.components, PAGE_COMPONENTS);
+            this.cmsModelService.storePageData(pageData, IS_PAGE);
         });
     }
 
@@ -29,7 +32,7 @@ export class CmsLoaderService {
         const components = this.occCmsService.loadComponentsForPage(pageLabel);
         components.then((pageData) => {
             this.loadComponentsForTemplate(pageData, pageLabel);
-            this.storeComponents(pageData.components, PAGE_COMPONENTS);
+            this.cmsModelService.storePageData(pageData, IS_PAGE);
         });
     }
 
@@ -40,16 +43,15 @@ export class CmsLoaderService {
         const components = this.occCmsService.loadComponentsForCategory(categoryCode);
         components.then((pageData) => {
             this.loadComponentsForTemplate(pageData, categoryCode);
-            this.storeComponents(pageData.components, PAGE_COMPONENTS);
+            this.cmsModelService.storePageData(pageData, IS_PAGE);
         });
     }
 
     loadComponentsForProduct(productCode: string) {
-        
         const components = this.occCmsService.loadComponentsForProduct(productCode);
         components.then((pageData) => {
             this.loadComponentsForTemplate(pageData, productCode);
-            this.storeComponents(pageData.components, PAGE_COMPONENTS);
+            this.cmsModelService.storePageData(pageData, IS_PAGE);
         });
     }
 
@@ -65,14 +67,8 @@ export class CmsLoaderService {
             components = this.occCmsService.loadComponentsForCategory(code, TEMPLATE_PAGE);
         }
         components.then((data) => {
-            this.storeComponents(data.components, TEMPLATE_COMPONENTS);
+            this.cmsModelService.storePageData(data, IS_TEMPLATE);
         });
     }
 
-
-    private storeComponents(components: Array<any>, componentType: number) {
-        this.cmsModelService.storeComponents(components);
-        this.cmsModelService.updateSlots(components, componentType === TEMPLATE_COMPONENTS);
-    }
-    
 }

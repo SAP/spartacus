@@ -1,0 +1,26 @@
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { MdSlideToggleChange } from '@angular/material';
+
+@Component({
+  selector: 'y-product-facet-navigation',
+  templateUrl: './product-facet-navigation.component.html',
+  styleUrls: ['./product-facet-navigation.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ProductFacetNavigationComponent {
+
+    @Input() searchResult;
+
+    @Output() filter: EventEmitter<any> = new EventEmitter<any>();
+
+    constructor(
+        private cd: ChangeDetectorRef
+    ) { }
+
+    toggleValue(query: string) {
+        console.log(query);
+        this.filter.emit(query);
+        // this.cd.markForCheck();
+    }
+
+ }

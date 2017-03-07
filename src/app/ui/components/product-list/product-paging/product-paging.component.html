@@ -1,0 +1,6 @@
+<div *ngIf="searchResult && searchResult.pagination">
+    Results: {{searchResult.pagination.totalResults}}. 
+    Page: {{searchResult.pagination.currentPage + 1}} from {{searchResult.pagination.totalPages}}.
+    Sorted by: {{searchResult.pagination.sort}}
+    <y-product-sorting></y-product-sorting>
+</div>

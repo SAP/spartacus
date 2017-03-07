@@ -1,0 +1,16 @@
+
+<md-input-container floatPlaceholder="never">
+    <md-icon mdPrefix>search</md-icon>
+    <input mdInput 
+        placeholder="Search product by code, name, price, description..." 
+        [formControl]="searchBoxCtrl"
+        [mdAutocomplete]="search"
+        (change)="onSubmit()">
+</md-input-container>
+
+<md-autocomplete #search="mdAutocomplete">
+    <md-option *ngFor="let product of results" [value]="product.name" 
+        [routerLink]="['/product/' + product.code]">
+        {{ product.code }} - {{ product.name }}
+    </md-option>
+</md-autocomplete>

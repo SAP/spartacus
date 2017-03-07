@@ -5,14 +5,27 @@
 <!--<div *ngIf="search.results">
     <y-product-list [products]="search.results.products"></y-product-list>
 </div>-->
-
-<y-product-list [categoryCode]="categoryCode"></y-product-list>
-
+<div fxLayout="row" fxLayoutAlign="start start">
+    <div fxFlex>
+        <y-product-list 
+            [useGrid]="useGrid"
+            [query]="query"
+            [categoryCode]="categoryCode"
+            ></y-product-list>
+    </div>
+    <div fxFlex="10%">
+        <y-dynamic-slot position="Section4"></y-dynamic-slot>
+    </div>
+</div>
 <div layout-gt-xs="row" layout="column">
+    
     <y-dynamic-slot flex position="Section2A"></y-dynamic-slot>
+    
     <y-dynamic-slot flex position="Section2B"></y-dynamic-slot>
 </div>
+
 <y-dynamic-slot flex position="Section2C"></y-dynamic-slot>
+
 <y-dynamic-slot flex position="Section3"></y-dynamic-slot>
-<y-dynamic-slot flex position="Section4" layout-gt-sm="row" layout="column"></y-dynamic-slot>
+
 <y-dynamic-slot flex position="Section5"></y-dynamic-slot>

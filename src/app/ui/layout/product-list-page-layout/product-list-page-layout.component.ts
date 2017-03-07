@@ -6,7 +6,10 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./product-list-page-layout.component.scss']
 })
 export class ProductListPageLayoutComponent {
+
+    @Input() useGrid: boolean;
     
     @Input() categoryCode;
+    @Input() query;
 
 }

@@ -88,6 +88,19 @@ export class CmsModelService {
 
     }
 
+    storePageData(pageData: any, isTemplate: boolean) {
+        this.storeComponents(pageData.components);
+        this.updateSlots(pageData.components, isTemplate);
+        if (!isTemplate) {
+            const subscription = this.getSubscription(pageData.pageType);
+            const data = {
+                pageId: pageData.pageId,
+                templateId: pageData.templateId
+            };
+            subscription.next(data);
+        }
+        
+    }
     /**
      * @desc stores all components from the list if they haven't been stored before.
      * @param components list of components

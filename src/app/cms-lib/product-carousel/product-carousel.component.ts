@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
 import { AbstractProductComponent } from '../../cms/abstract-product-component';
 
 @Component({
@@ -13,8 +12,8 @@ export class ProductCarouselComponent extends AbstractProductComponent {
     protected fetchData() {
         const query = this.model.productCodes.map(o => o).join(' ');
         // TODO: limit data
-        this.productLoader.searchProducts(query).subscribe((products) => {
-            this.products = products;
+        this.productLoader.searchProducts(query).subscribe((results) => {
+            this.products = results.products;
             this.cd.markForCheck();
         });
     }

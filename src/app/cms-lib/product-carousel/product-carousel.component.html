@@ -1,13 +1,11 @@
-<!--{{model | json }}-->
-<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start"
-     *ngIf="products" >
+Carousel:
 
-    <a *ngFor="let product of products" fxFlex
-        [routerLink]="['/product/', product.code]"
-        >
-        
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start stretch" 
+    fxLayoutWrap fxLayoutGap="10px"
+     *ngIf="products">
+     <md-card *ngFor="let product of products" fxFlex="25%"
+        [routerLink]="['/product/', product.code]">
         {{product.name}}
-    </a>
-
+     </md-card>
 </div>
 

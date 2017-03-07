@@ -50,15 +50,17 @@ export abstract class AbstractCmsComponent extends AbstractComponent implements 
         // TODO: map
 
         let newUrl = '';
+        if (url) {
+            const isCategory = url.indexOf('/c/');
+            const isProduct = url.indexOf('/p/');
+            if (isCategory > -1) {
+                newUrl = '/category/' + url.substr(isCategory + 3);
+            }
+            if (isProduct > -1) {
+                newUrl = '/product/' + url.substr(isProduct + 3);
+            }
+        }
         
-        const isCategory = url.indexOf('/c/');
-        const isProduct = url.indexOf('/p/');
-        if (isCategory > -1) {
-            newUrl = '/category/' + url.substr(isCategory + 3);
-        }
-        if (isProduct > -1) {
-            newUrl = '/product/' + url.substr(isProduct + 3);
-        }
 
         return newUrl;
     }

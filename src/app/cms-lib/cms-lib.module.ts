@@ -9,8 +9,8 @@ import { NavigationModule } from './navigation/navigation.module';
 import { FooterNavigationModule } from './footer-navigation/footer-navigation.module';
 import { BreadcrumbModule } from './breadcrumb/breadcrumb.module';
 import { ProductCarouselModule } from './product-carousel/product-carousel.module';
+import { SearchBoxModule } from './search-box/search-box.module';
 
-// import { MaterialModule } from '@angular/material';
 @NgModule({
     imports: [
         CommonModule,
@@ -22,7 +22,8 @@ import { ProductCarouselModule } from './product-carousel/product-carousel.modul
         NavigationModule,
         FooterNavigationModule,
         BreadcrumbModule,
-        ProductCarouselModule
+        ProductCarouselModule,
+        SearchBoxModule
     ]
 })
 export class CmsLibModule { }

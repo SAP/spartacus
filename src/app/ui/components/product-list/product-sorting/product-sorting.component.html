@@ -1,0 +1,10 @@
+
+<button md-icon-button md-color="primary" [md-menu-trigger-for]="productSort">
+    <md-icon>expand_more</md-icon>
+</button>
+<md-menu #productSort="mdMenu">
+    <button
+        *ngFor="let sort of sortOptions" 
+        md-menu-item>{{sort.label}}</button>
+</md-menu>
+

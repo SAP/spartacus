@@ -49,7 +49,8 @@ const hybrisServerSettings = {
                     CategoryNavigationComponent: 'CategoryNavigationComponent',
                     MiniCartComponent: 'CartTriggerComponent',
                     SideCartComponent: 'MiniCartComponent',
-                    ProductCarouselComponent: 'ProductCarouselComponent'
+                    ProductCarouselComponent: 'ProductCarouselComponent',
+                    SearchBoxComponent: 'SearchBoxComponent'
                 }
             }
         ),

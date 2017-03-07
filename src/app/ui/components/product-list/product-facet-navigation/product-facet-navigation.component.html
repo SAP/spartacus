@@ -1,0 +1,29 @@
+
+<div class="dark">
+    <md-card>
+        <md-card-content>
+            <div>
+                <md-chip-list>
+                    <md-chip *ngFor="let breadcrumb of searchResult.breadcrumbs"
+                        color="primary" selected="true"
+                        (click)="toggleValue(breadcrumb.removeQuery.query.value)">
+                        {{breadcrumb.facetValueName}}
+                    </md-chip>
+                </md-chip-list>
+            </div>
+
+            <div *ngFor="let facet of searchResult.facets" >
+                <div *ngIf="facet.visible" class="facet-group">
+                    <h3>{{facet.name}}</h3>
+                    <div *ngFor="let value of facet.values | slice:0:5">
+                        <md-slide-toggle  
+                            class="facet-value"  
+                            [checked]="value.selected"
+                            (change)="toggleValue(value.query.query.value)"
+                            >{{value.name}} ({{value.count}})</md-slide-toggle>
+                    </div>
+                </div>
+            </div>
+        </md-card-content>
+    </md-card>
+</div>

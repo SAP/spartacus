@@ -1,2 +1,5 @@
 
-<y-product-list-page-layout [categoryCode]="categoryCode"></y-product-list-page-layout>
+<y-product-list-page-layout 
+    *ngIf="model"
+    [useGrid]="model.templateId === 'CategoryPageTemplate'"
+    [categoryCode]="categoryCode"></y-product-list-page-layout>

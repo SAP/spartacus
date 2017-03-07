@@ -32,14 +32,34 @@ export class ProductLoaderService {
         });
     }
 
-    searchProducts(query: string): AsyncSubject<any> {
+    query(query: string) {
         const s = new AsyncSubject<any>();
-        this.occProductSearchService.incrementalSearch(query)
+        this.occProductSearchService.query(query)
             .then((pageData) => {
                 s.next(pageData);
                 s.complete();
         });
         return s;
+    };
+
+    searchProducts(query: string): AsyncSubject<any> {
+        const s = new AsyncSubject<any>();
+        this.occProductSearchService.freeTextSearch(query, DEFAULT_SORT)
+            .then((pageData) => {
+                s.next(pageData);
+                s.complete();
+        });
+        return s;
+    }
+
+    incrementalSearchProducts(subject, query: string) {
+        // const s = new AsyncSubject<any>();
+        this.occProductSearchService.incrementalSearch(query)
+            .then((pageData) => {
+                subject.next(pageData);
+                // subject.complete();
+        });
+        // return s;
     }
 
     categorySearch(categoryCode: string, brandCode: string, sort = DEFAULT_SORT): BehaviorSubject<any> {

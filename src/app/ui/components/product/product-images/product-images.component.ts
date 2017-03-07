@@ -13,7 +13,6 @@ export class ProductImagesComponent extends AbstractProductComponent {
     ready() {
         this.model.subscribe((modelData) => {
             if (modelData) {
-                console.log(modelData);
                 this.images = modelData.images;
             }
         });

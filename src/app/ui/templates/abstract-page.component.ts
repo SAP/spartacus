@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CmsModelService } from '../../data/cms-model.service';
 import { CmsLoaderService } from '../../data/cms-loader.service';
 import { Router, NavigationEnd, ActivatedRoute, Params } from '@angular/router';
 
@@ -9,9 +10,10 @@ import { Router, NavigationEnd, ActivatedRoute, Params } from '@angular/router';
 export abstract class AbstractPage {
     
     constructor(
-        private router: Router,
-        private activeRoute: ActivatedRoute,
-        private cmsLoader: CmsLoaderService
+        protected router: Router,
+        protected activeRoute: ActivatedRoute,
+        protected cmsLoader: CmsLoaderService,
+        protected cmsModelService: CmsModelService
     ) {
 
         // load data for each route change
@@ -53,6 +55,11 @@ export abstract class AbstractPage {
         if (params['productCode']) {
             this.cmsLoader.loadComponentsForProduct(params['productCode']);
         }
+
+        if (params['query']) {
+            this.cmsLoader.loadComponentsForPage('search');
+        }
+        
      }
 
      loadAdditionData(params: Params) {

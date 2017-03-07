@@ -1,0 +1,58 @@
+
+<div fxLayout="row">
+    <div fxFlex="25%" class="dark">
+        <md-card style="padding:0">
+            <button 
+                md-button 
+                (click)="toggleSidenav()"
+                style="width:100%">
+                <md-icon>tune</md-icon>
+            </button>
+        </md-card>
+    </div>
+    <div>
+        <y-product-paging [searchResult]="model"></y-product-paging>
+    </div>
+</div>
+
+<md-sidenav-container class="example-container" *ngIf="model && model.products">
+    <md-sidenav #sidenav class="example-sidenav" mode="side" opened="false">
+        <y-product-facet-navigation 
+            (filter)="onFilter($event)"
+            [searchResult]="model"></y-product-facet-navigation>
+    </md-sidenav>
+    
+    <div>
+        
+        <md-grid-list 
+            *ngIf="useGrid"
+            cols="3" 
+            cols.sm="2" 
+            rowHeight="400px" 
+            gutterSize="10px">
+            <md-grid-tile 
+                *ngFor="let product of model.products">
+                <y-product-grid-item 
+                    class="product-grid-item"
+                    [product]="product"></y-product-grid-item>    
+            </md-grid-tile>
+        </md-grid-list>
+
+        <div *ngFor="let product of model.products">
+            <y-product-list-item 
+                *ngIf="!useGrid"
+                class="product-grid-item"
+                [product]="product"></y-product-list-item>
+        </div>
+        
+
+        <!--<div
+            fxLayout="row" 
+            fxLayout.xs="column" 
+            fxLayoutAlign="start stretch"
+            fxLayoutWrap>
+            
+            
+        </div>-->
+  </div>
+</md-sidenav-container>

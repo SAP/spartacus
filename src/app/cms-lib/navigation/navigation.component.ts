@@ -27,4 +27,8 @@ export class NavigationComponent extends AbstractCmsComponent  {
         const data = this.model.navigationNode ? this.model.navigationNode : this.model;
         this.node = this.navigationService.createNode(data);
     }
+
+    protected getUrl(url: string) {
+        return this.mapUrl(url);
+    }
 }

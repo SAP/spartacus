@@ -19,7 +19,7 @@ export class BannerComponent extends AbstractCmsComponent {
 
     isSVG() {
         const image = this.getImage();
-        return image && (image.url.indexOf('.svg') > -1);
+        return image && image.url && (image.url.indexOf('.svg') > -1);
     }
 
     hasImage() {

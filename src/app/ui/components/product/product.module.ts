@@ -10,9 +10,6 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 import { ProductImagesComponent } from './product-images/product-images.component';
 
 
-import { ProductListComponent } from './product-list/product-list.component';
-import { ListItemComponent } from './list-item/list-item.component';
-
 import { MediaModule } from '../media/media.module';
 
 @NgModule({
@@ -27,17 +24,13 @@ import { MediaModule } from '../media/media.module';
         ProductSummaryComponent,
         ProductAttributesComponent,
         ProductDetailsComponent,
-        ProductImagesComponent,
-        ProductListComponent,
-        ListItemComponent
+        ProductImagesComponent
     ],
     exports: [
         ProductDetailsComponent,
         ProductSummaryComponent,
         ProductAttributesComponent,
-        ProductImagesComponent,
-        ProductListComponent,
-        ListItemComponent
+        ProductImagesComponent
     ]
 })
 export class ProductModule { }

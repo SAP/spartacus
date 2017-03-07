@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { UserModule } from './user/user.module';
 import { ProductModule } from './product/product.module';
+import { ProductListModule } from './product-list/product-list.module';
 import { MediaModule } from './media/media.module';
 
 
@@ -17,11 +18,13 @@ import { MediaModule } from './media/media.module';
 
         UserModule,
         ProductModule,
+        ProductListModule,
         MediaModule,
     ],
     declarations: [],
     exports: [
-        ProductModule
+        ProductModule,
+        ProductListModule
     ]
 })
 export class ComponentsModule { }

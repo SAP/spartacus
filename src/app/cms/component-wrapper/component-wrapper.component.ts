@@ -58,14 +58,14 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
             }
             this.cdRef.detectChanges();
         }else {
-            console.warn('No component implementation found for', this.componentType, '(', this.componentUid, ').\n',
+            console.warn('No component implementation found for the CMS component type', this.componentType, '(', this.componentUid, ').\n',
                 'Make sure you implement a component and register it in the mapper.');
         }
     }
 
     private getComponentTypeByCode(typeCode: string): Type<any> {
         const alias = this.componentMapper.getType(typeCode);
-
+        
         if (!alias) {
             return;
         }
