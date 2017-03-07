@@ -11,6 +11,8 @@ const DEFAULT_SORT = 'relevance';
 @Injectable()
 export class ProductLoaderService {
 
+    status = {};
+
     constructor(
         protected occProductService: OccProductService,
         protected occProductSearchService: OccProductSearchService,
@@ -26,10 +28,34 @@ export class ProductLoaderService {
     }
 
     loadProduct(productCode: string) {
+        if (this.isLoaded(productCode)) {
+            return;
+        }
+        this.startLoading(productCode);
         this.occProductService.loadProduct(productCode)
             .then((productData) => {
-                this.productModelService.storeProduct(productData);
+                this.productModelService.storeProduct(productData['code'], productData);
         });
+    }
+
+    loadReviews(productCode: string) {
+        if (this.isLoaded(productCode + 'reviews')) {
+            return;
+        }
+        this.startLoading(productCode + 'reviews');
+        
+        this.occProductService.loadProductReviews(productCode)
+            .then((reviewData) => {
+                console.log(reviewData);
+                this.productModelService.storeProduct(productCode + 'reviews', reviewData);
+        });
+    }
+    
+    startLoading(productCode) {
+        this.status[productCode] = true;
+    }
+    isLoaded(productCode: string) {
+        return (this.status.hasOwnProperty(productCode));
     }
 
     query(query: string) {

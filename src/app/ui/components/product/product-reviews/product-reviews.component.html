@@ -1,0 +1,22 @@
+
+<div *ngIf="reviews">
+
+    <md-card *ngFor="let review of reviews" class="review">
+        <md-card-header>
+            <md-icon md-card-avatar>rate_review</md-icon>
+            <md-card-title>"{{review.headline}}"</md-card-title>
+            <md-card-subtitle>By {{review.principal.name}} on {{review.date | date}}</md-card-subtitle>
+        </md-card-header>
+        <md-card-content>
+            {{review.comment}}
+        </md-card-content>
+        <md-card-actions align="end">
+            <y-star-rating [rating]="review.rating"></y-star-rating>
+        </md-card-actions>
+        <!--<md-card-footer>
+            Footer
+        </md-card-footer>-->
+    </md-card>
+
+   
+</div>

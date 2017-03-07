@@ -15,7 +15,7 @@ export class OccProductService extends BaseService {
     loadProduct(productCode: string) {
         let url = this.getProductEndpoint();
         url += '/' + productCode;
-        url += '?fields=FULL'; // BASIC, DEFAULT, FULL
+        url += '?fields=DEFAULT,averageRating,images(FULL),classifications'; // BASIC, DEFAULT, FULL
 
         return new Promise((resolve) => {
             this.http.get(url).subscribe((data) => {
@@ -26,21 +26,19 @@ export class OccProductService extends BaseService {
         });
     }
 
-//     loadProductReviews(productCode: string) {
+    loadProductReviews(productCode: string) {
+        let url = this.getProductEndpoint();
+        url += '/' + productCode;
+        url += '/reviews';
 
-//         let url = this.createEndPoint(PRODUCT_ENDPOINT);
-//         url += productCode;
-//         url += '/reviews';
-
-//         return new Promise((resolve) => {
-//             this.http.get(url).subscribe((data) => {
-//                 let occData = data.json();
-//                 // console.log(occData);
-//                 resolve(occData);
-//             },
-//             err => this.logError(err));
-//         });
-//     }
+        return new Promise((resolve) => {
+            this.http.get(url).subscribe((data) => {
+                const productData = data.json();
+                resolve(productData);
+            },
+            err => this.logError(err));
+        });
+    }
 
 
 //   public createReview = (productCode: string, review: Review): Observable<any> => {

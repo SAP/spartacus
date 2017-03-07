@@ -12,6 +12,7 @@ import { ProductImagesComponent } from './product-images/product-images.componen
 
 import { MediaModule } from '../media/media.module';
 import { StarRatingComponent } from './star-rating/star-rating.component';
+import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
         ProductAttributesComponent,
         ProductDetailsComponent,
         ProductImagesComponent,
-        StarRatingComponent
+        StarRatingComponent,
+        ProductReviewsComponent
     ],
     exports: [
         ProductDetailsComponent,
