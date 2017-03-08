@@ -10,6 +10,7 @@ export abstract class AbstractCmsComponent extends AbstractComponent implements 
     protected subscription;
 
     protected uid: string;
+    protected contextParameters: any;
     protected model = null;
 
     constructor(
@@ -38,8 +39,12 @@ export abstract class AbstractCmsComponent extends AbstractComponent implements 
         }
     }
 
-    setUid(uid) {
+    setUid(uid: string) {
         this.uid = uid;
+    }
+
+    setContextParameters(contextParameters: any) {
+        this.contextParameters = contextParameters;
     }
 
     protected getBaseUrl() {

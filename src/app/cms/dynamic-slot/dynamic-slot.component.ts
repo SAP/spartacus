@@ -15,7 +15,8 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
     model;
     dataSubscription;
 
-    @Input() position;
+    @Input() position: string;
+    @Input() contextParameters: any;
 
     constructor(
         private cmsModel: CmsModelService,

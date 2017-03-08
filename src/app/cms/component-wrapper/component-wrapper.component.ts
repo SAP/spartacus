@@ -18,6 +18,7 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
     @ViewChild('target', {read: ViewContainerRef}) target;
     @Input() componentType: string;
     @Input() componentUid: string;
+    @Input() contextParameters: any;
 
     private isViewInitialized = false;
     cmpRef;
@@ -55,6 +56,11 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
             const instance: AbstractCmsComponent = this.cmpRef.instance;
             if (instance.setUid) {
                 instance.setUid(this.componentUid);
+            }
+            // we can pass parameters to the component
+            // this is needed in case of a component that needs context
+            if (this.contextParameters && instance.setContextParameters) {
+                instance.setContextParameters(this.contextParameters);
             }
             this.cdRef.detectChanges();
         }else {
