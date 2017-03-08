@@ -1,15 +1,22 @@
-
-<y-dynamic-slot position="SiteLogo" ></y-dynamic-slot>
+<div fxLayout="row" fxLayoutAlign="start start">
+    <y-dynamic-slot position="SiteLogo" fxFlex></y-dynamic-slot>
+    <div fxFlex="200px">login...</div>
+</div>
 
 <y-dynamic-slot position="HomepageNavLink" ></y-dynamic-slot>
 
-<y-dynamic-slot position="SearchBox"></y-dynamic-slot>
+<y-dynamic-slot position="HeaderLinks"></y-dynamic-slot>
+
+<div fxLayout="row" fxLayoutAlign="start start">
+    <y-dynamic-slot position="SearchBox" fxFlex></y-dynamic-slot>
+    <y-dynamic-slot position="MiniCart" fxFlex="200px"></y-dynamic-slot>
+</div>
+
+
 
 <!--<y-cart-trigger style="float:left"></y-cart-trigger>
 <y-mini-profile-ui style="float:left"></y-mini-profile-ui>-->
 <!--<md-toolbar [color]="myColor">-->
-<y-dynamic-slot position="HeaderLinks"></y-dynamic-slot>
-<y-dynamic-slot position="MiniCart"></y-dynamic-slot>
+
 
 <y-dynamic-slot position="NavigationBar"></y-dynamic-slot>
-<!--</md-toolbar>-->

@@ -5,7 +5,7 @@ import { CmsModelService } from '../../data/cms-model.service';
 
 
 @Component({
-  selector: 'y-dynamic-slot',
+  selector: 'y-dynamic-slot,[y-dynamic-slot]',
   templateUrl: './dynamic-slot.component.html',
   styleUrls: ['./dynamic-slot.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -37,25 +37,8 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
         }
     }
 
-    private loadComponents(slot) {
-        
-        if (!slot) {
-            this.model = null;
-        }else {
-            this.model = slot;
-        }
-        
-        // if (this.hasNoChanges(slot)) {
-        //     return;
-        // }
-        
-        // this.getActiveSlot().components = [];
-        // for (let component of slot.components) {
-        //     let componentData = component;
-        //     this.getActiveSlot().components.push(componentData);
-        // }
-        
-        // // once we have recreated the slot, we mark the component tree
+    protected loadComponents(slot) {
+        this.model = slot;
         this.changeDetector.markForCheck();
     }
 

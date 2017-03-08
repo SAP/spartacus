@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractProductComponent } from '../abstract-product-component';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'y-product-details',

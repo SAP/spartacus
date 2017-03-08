@@ -9,6 +9,7 @@ import { ProductAttributesComponent } from './product-attributes/product-attribu
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { ProductImagesComponent } from './product-images/product-images.component';
 
+import { CmsModule } from '../../../cms/cms.module'; // some slots are loaded inside components (i.e. tabs)
 
 import { MediaModule } from '../media/media.module';
 import { StarRatingComponent } from './star-rating/star-rating.component';
@@ -20,7 +21,8 @@ import { ProductReviewsComponent } from './product-reviews/product-reviews.compo
         RouterModule,
         MediaModule,
         MaterialModule.forRoot(),
-        FlexLayoutModule
+        FlexLayoutModule,
+        CmsModule
     ],
     declarations: [
         ProductSummaryComponent,

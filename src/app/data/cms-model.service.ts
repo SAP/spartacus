@@ -8,38 +8,79 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Injectable()
 export class CmsModelService {
 
-    private models: any = {};
     private subscriptions: Array<BehaviorSubject<any>> = [];
-
-    // holds a reference to the existing slots, so that we can clear them
+    
     private activeSlots = {
         template: {},
         page: {}
     };
 
-    getSubscription(key: string): BehaviorSubject<any> {
-        // console.log('getSubscription', key);
+    /**
+     * @desc Used by clients to get latest updates
+     */
+    public getSubscription(key: string): BehaviorSubject<any> {
         if (!this.subscriptions[key]) {
             this.subscriptions[key] = new BehaviorSubject<any>(null);
         }
         return this.subscriptions[key];
     }
 
-    // clear existing slot in case it was loaded previously with components
-    // this happens during navigation from one page to another.
-    clearSlot(key) {
+    public storePageData(pageData: any, isTemplate: boolean) {
+        this.storeComponents(pageData.components);
+        this.updateSlots(pageData.components, isTemplate);
+        if (!isTemplate) {
+            this.store(pageData.pageType, {
+                pageId: pageData.pageId,
+                templateId: pageData.templateId
+            });
+        }
+    }
+
+    /**
+     * @desc stores all components from the list if they haven't been stored before.
+     * @param components list of components
+     */
+    private storeComponents(components: Array<any>) {
+        if (components) {
+            for (const component of components) {
+                this.store(component.uid, component);
+                // this.storeComponent(component);
+            }
+        }
+    }
+    
+    /**
+     * @desc
+     * Stores a model and updates the subject
+     * @param key the key for the model
+     * @param model the model
+     */
+    store(key, model) {
+        if (this.isAlreadyStored(key, model)) {
+            return;
+        }
+        const subscription = this.getSubscription(key);
+        subscription.next(model);
+    }
+
+    /**
+     * @desc
+     * Clears existing slot (or component) in case it was loaded previously
+     * this happens during navigation from one page to another.
+    */
+    clear(key) {
         const subscription = this.getSubscription(key);
         subscription.next(null);
     }
 
-    storeSlot(key, model) {
-        // if (this.isCached(key) && this.isEqual(key, model)) {
-        //     return;
-        // }
-        this.models[key] = model;
-
+    /**
+     * Detects whether the model is acurate
+     * @param key 
+     * @param model 
+     */
+    isAlreadyStored(key, model): boolean {
         const subscription = this.getSubscription(key);
-        subscription.next(model);
+        return (JSON.stringify(subscription.value) === JSON.stringify(model));
     }
 
 
@@ -74,61 +115,18 @@ export class CmsModelService {
         if (activeSlots) {
             for (const activeSlotKey of Object.keys(activeSlots)) {
                 if (!pageSlots[activeSlotKey]) {
-                    this.clearSlot(activeSlotKey);
+                    this.clear(activeSlotKey);
                 }
             }
         }
 
         // update all dynamic subject that have been filled before or in this page
         for (const key of Object.keys(pageSlots)) {
-            this.storeSlot(key, pageSlots[key]);
+            this.store(key, pageSlots[key]);
         }
 
         isTemplate ? this.activeSlots.template = pageSlots : this.activeSlots.page = pageSlots ;
 
-    }
-
-    storePageData(pageData: any, isTemplate: boolean) {
-        this.storeComponents(pageData.components);
-        this.updateSlots(pageData.components, isTemplate);
-        if (!isTemplate) {
-            const subscription = this.getSubscription(pageData.pageType);
-            const data = {
-                pageId: pageData.pageId,
-                templateId: pageData.templateId
-            };
-            subscription.next(data);
-        }
-        
-    }
-    /**
-     * @desc stores all components from the list if they haven't been stored before.
-     * @param components list of components
-     */
-    storeComponents(components: Array<any>) {
-        if (components) {
-            for (const component of components) {
-                this.storeComponent(component);
-            }
-        }
-    }
-
-    storeComponent(componentData) {
-        if (this.isCached(componentData.uid)) {
-            return;
-        }
-        this.models[componentData.uid] = componentData;
-        const subscription = this.getSubscription(componentData.uid);
-        subscription.next(componentData);
-    }
-
-    // is this necessary? we have it stored in the subscription...
-    private isCached(key) {
-        return this.models.hasOwnProperty(key);
-    }
-
-    private isEqual(key, model) {
-        return JSON.stringify(this.models[key]) === JSON.stringify(model);
     }
 
 }

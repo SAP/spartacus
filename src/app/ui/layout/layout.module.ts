@@ -15,6 +15,7 @@ import { ContentPageLayoutComponent } from './content-page-layout/content-page-l
 import { ComponentsModule } from '../components/components.module';
 
 import { ProductListPageLayoutComponent } from './product-list-page-layout/product-list-page-layout.component';
+import { ProductDetailsPageLayoutComponent } from './product-details-page-layout/product-details-page-layout.component';
 
 
 @NgModule({
@@ -31,12 +32,14 @@ import { ProductListPageLayoutComponent } from './product-list-page-layout/produ
         FooterComponent,
         MainComponent,
         ContentPageLayoutComponent,
-        ProductListPageLayoutComponent
+        ProductListPageLayoutComponent,
+        ProductDetailsPageLayoutComponent
     ],
     exports: [
         MainComponent,
         ContentPageLayoutComponent,
-        ProductListPageLayoutComponent
+        ProductListPageLayoutComponent,
+        ProductDetailsPageLayoutComponent
     ]
 })
 export class LayoutModule { }

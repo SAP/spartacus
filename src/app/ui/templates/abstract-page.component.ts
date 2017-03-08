@@ -8,7 +8,8 @@ import { Router, NavigationEnd, ActivatedRoute, Params } from '@angular/router';
 // probably should move to the component lib... (we can't include it in the module anyway)
 @Injectable()
 export abstract class AbstractPage {
-    
+    subscriptions = {};
+
     constructor(
         protected router: Router,
         protected activeRoute: ActivatedRoute,
@@ -28,7 +29,6 @@ export abstract class AbstractPage {
             this.loadCmsDataForParams(params);
             this.loadAdditionData(params);
         });
-
      }
 
      loadCmsDataForUrl(url) {
@@ -59,8 +59,19 @@ export abstract class AbstractPage {
         if (params['query']) {
             this.cmsLoader.loadComponentsForPage('search');
         }
-        
      }
+    //  'ProductPage'
+    //  subscribe(pageType) {
+         
+    //      if (!this.subscriptions[pageType]) {
+    //          this.subscriptions[pageType] = this.cmsModelService.getSubscription(pageType);
+    //          this.subscriptions[pageType].subscribe((data) => {
+    //             console.log('loaded again', data);
+    //             // this.cd.detectChanges();
+    //          });
+    //      }
+         
+    //  }
 
      loadAdditionData(params: Params) {
          // TODO

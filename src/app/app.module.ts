@@ -17,7 +17,7 @@ import { CmsLibModule } from './cms-lib/cms-lib.module';
 const hybrisServerSettings = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/',
-    baseSite: 'electronics'
+    baseSite: 'electronics' //'apparel-uk'
 };
 
 @NgModule({
@@ -47,10 +47,12 @@ const hybrisServerSettings = {
                     NavigationComponent: 'NavigationComponent',
                     FooterNavigationComponent: 'FooterNavigationComponent',
                     CategoryNavigationComponent: 'CategoryNavigationComponent',
-                    MiniCartComponent: 'CartTriggerComponent',
-                    SideCartComponent: 'MiniCartComponent',
+                    MiniCartComponent: 'MiniCartComponent',
+                    // SideCartComponent: 'MiniCartComponent',
                     ProductCarouselComponent: 'ProductCarouselComponent',
-                    SearchBoxComponent: 'SearchBoxComponent'
+                    SearchBoxComponent: 'SearchBoxComponent',
+                    ProductReferencesComponent: 'ProductReferencesComponent',
+                    CMSTabParagraphComponent: 'TabParagraphContainerComponent'
                 }
             }
         ),

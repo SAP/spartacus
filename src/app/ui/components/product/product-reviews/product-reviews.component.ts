@@ -18,13 +18,14 @@ export class ProductReviewsComponent extends AbstractProductComponent implements
     ngOnInit() {
 
         this.maxListItems = this.initialMaxListItems;
-
-        this.productLoader.loadReviews(this.productCode);
-        this.productLoader.getSubscription(this.productCode + 'reviews').subscribe((reviewData) => {
-            // console.log('reviewData', reviewData);
-            if (reviewData && reviewData.reviews) {
-                this.reviews = reviewData.reviews;
-            }
-        });
+        if (this.productCode) {
+            this.productLoader.loadReviews(this.productCode);
+            this.productLoader.getSubscription(this.productCode + 'reviews').subscribe((reviewData) => {
+                // console.log('reviewData', reviewData);
+                if (reviewData && reviewData.reviews) {
+                    this.reviews = reviewData.reviews;
+                }
+            });
+        }
     }
 }

@@ -7,6 +7,7 @@ import { ProductListModule } from './product-list/product-list.module';
 import { MediaModule } from './media/media.module';
 
 
+
 // we include all UI component modules here, but in real live
 // projects would only include those that are relevant.
 // for "accelerators", we could include only those that are relevant, so this 

@@ -1,8 +1,8 @@
-import { Injectable, Input, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Injectable, Input, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { ProductLoaderService } from '../../../data/product-loader.service';
 
 @Injectable()
-export abstract class AbstractProductComponent implements OnInit {
+export abstract class AbstractProductComponent implements OnInit, OnChanges {
 
     model;
 
@@ -13,17 +13,21 @@ export abstract class AbstractProductComponent implements OnInit {
         protected cd: ChangeDetectorRef
     ) {}
 
-    ngOnInit() {
+    ngOnChanges() {
         if (this.productCode) {
             this.productLoader.loadProduct(this.productCode);
             this.productLoader.getSubscription(this.productCode).subscribe((data) => {
                 this.model = data;
+                // this.cd.markForCheck();
                 this.ready();
             });
         }
     }
+    ngOnInit() {
+    }
 
     // HOOK
-    protected ready() {}
+    protected ready() {
+    }
     
 }

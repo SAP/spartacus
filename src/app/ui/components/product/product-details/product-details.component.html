@@ -1,4 +1,5 @@
 
+
 <md-card>
     
     <md-card-title>
@@ -16,11 +17,23 @@
             <y-product-images [productCode]="productCode" fxFlex="50%"></y-product-images>
             <y-product-summary [productCode]="productCode" fxFlex="50%"></y-product-summary>
         </div>
-    
 
+
+<y-dynamic-slot flex position="CrossSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
+<y-dynamic-slot flex position="UpSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
+
+
+<y-dynamic-slot flex position="VariantSelector"></y-dynamic-slot>
+<y-dynamic-slot flex position="AddToCart"></y-dynamic-slot>
+        
+
+        <!--<div y-dynamic-slot position="Tabs">
+            more stuff....
+        </div>-->
+        <!--!{{tab | json}}!-->
         <md-tab-group>
             <md-tab label="PRODUCT DETAILS">
-                <div [innerHTML]="model?.description"></div>
+                <p [innerHTML]="model?.description"></p>
             </md-tab>
             <md-tab label="SPECS">
                 <y-product-attributes [productCode]="productCode"></y-product-attributes>
@@ -28,11 +41,12 @@
             <md-tab label="REVIEWS">
                 <y-product-reviews [productCode]="productCode"></y-product-reviews>
             </md-tab>
-            <md-tab label="DELIVERY">
-                TODO...
+
+            <md-tab label="Delivery">
+                <y-dynamic-slot position="Tabs" [contextParameters]="{tabTitle:tabTitle}"></y-dynamic-slot>    
             </md-tab>
         </md-tab-group>
-       
+
     </md-card-content>
 
 </md-card>

@@ -9,6 +9,9 @@ export class ProductImageConverterService {
     ) {}
 
     convertList(list: Array<any>) {
+        if (!list) {
+            return;
+        }
         for (const product of list){
             this.convertProduct(product);
         }
