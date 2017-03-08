@@ -24,7 +24,7 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        this.dataSubscription = this.cmsModel.getSubscription(this.position).subscribe((slot) => {
+        this.dataSubscription = this.cmsModel.getSlotSubscription(this.position).subscribe((slot) => {
                 this.loadComponents(slot);
             },
             err => console.log(err)

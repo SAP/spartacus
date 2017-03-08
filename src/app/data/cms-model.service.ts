@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
+const PAGE_PREFIX = 'page';
+const SLOT_PREFIX = 'slot';
+const COMPONENT_PREFIX = 'comp';
+
 /**
  * This service currently contains logic and (cached) component and slot models
  */
@@ -15,25 +19,39 @@ export class CmsModelService {
         page: {}
     };
 
+    public getComponentSubscription(key: string): BehaviorSubject<any> {
+        return this.getSubscription(COMPONENT_PREFIX + key);
+    }
+    public getSlotSubscription(key: string): BehaviorSubject<any> {
+        return this.getSubscription(SLOT_PREFIX + key);
+    }
+    public getPageSubscription(key: string): BehaviorSubject<any> {
+        return this.getSubscription(PAGE_PREFIX + key);
+    }
     /**
      * @desc Used by clients to get latest updates
      */
-    public getSubscription(key: string): BehaviorSubject<any> {
+    private getSubscription(key: string): BehaviorSubject<any> {
         if (!this.subscriptions[key]) {
             this.subscriptions[key] = new BehaviorSubject<any>(null);
         }
         return this.subscriptions[key];
     }
 
+
     public storePageData(pageData: any, isTemplate: boolean) {
         this.storeComponents(pageData.components);
         this.updateSlots(pageData.components, isTemplate);
         if (!isTemplate) {
-            this.store(pageData.pageType, {
+            this.store(PAGE_PREFIX + pageData.pageType, {
                 pageId: pageData.pageId,
                 templateId: pageData.templateId
             });
         }
+    }
+
+    public storeComponent(key, model) {
+        this.store(COMPONENT_PREFIX + key, model);
     }
 
     /**
@@ -43,8 +61,7 @@ export class CmsModelService {
     private storeComponents(components: Array<any>) {
         if (components) {
             for (const component of components) {
-                this.store(component.uid, component);
-                // this.storeComponent(component);
+                this.storeComponent(component.uid, component);
             }
         }
     }
@@ -55,7 +72,7 @@ export class CmsModelService {
      * @param key the key for the model
      * @param model the model
      */
-    store(key, model) {
+    private store(key, model) {
         if (this.isAlreadyStored(key, model)) {
             return;
         }
@@ -122,7 +139,7 @@ export class CmsModelService {
 
         // update all dynamic subject that have been filled before or in this page
         for (const key of Object.keys(pageSlots)) {
-            this.store(key, pageSlots[key]);
+            this.store(SLOT_PREFIX + key, pageSlots[key]);
         }
 
         isTemplate ? this.activeSlots.template = pageSlots : this.activeSlots.page = pageSlots ;

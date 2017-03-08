@@ -3,6 +3,7 @@ import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
 import { CmsModelService } from '../../data/cms-model.service';
 import { ConfigService } from '../../cms/config.service';
 import { NavigationService } from './navigation.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'y-navigation',
@@ -17,9 +18,10 @@ export class NavigationComponent extends AbstractCmsComponent  {
         protected cd: ChangeDetectorRef,
         protected cmsModelService: CmsModelService,
         protected configService: ConfigService,
+        protected router: Router,
         private navigationService: NavigationService
     ) {
-        super(cd, configService, cmsModelService);
+        super(cd, configService, cmsModelService, router);
     }
 
     protected fetchData() {

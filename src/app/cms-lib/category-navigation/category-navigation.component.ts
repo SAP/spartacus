@@ -17,7 +17,7 @@ export class CategoryNavigationComponent extends AbstractCmsComponent {
         // we thread them simmilar and use the cms model service to store them
         if (this.model && this.model.navigationNode && this.model.navigationNode.children) {
             for (const node of this.model.navigationNode.children) {
-                this.cmsModelService.store(node.uid, node);
+                this.cmsModelService.storeComponent(node.uid, node);
                 this.nodes.push(node);
             }
         }

@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
+
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 import { SearchBoxComponent } from './search-box.component';
@@ -11,6 +12,7 @@ import { SearchBoxComponent } from './search-box.component';
     imports: [
         CommonModule,
         RouterModule,
+        // FormsModule,
         ReactiveFormsModule,
         MaterialModule.forRoot()
     ],

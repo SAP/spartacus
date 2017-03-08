@@ -40,7 +40,8 @@ export class OccProductSearchService extends BaseService {
      */
     incrementalSearch(query: string, pageSize = 3) {
         let url = this.createTextSearchEndpoint(query);
-        url += '&pageSize=20&&fields=products(code,name,images(DEFAULT)),pagination';
+        url += '&pageSize=' + pageSize;
+        url += '&fields=products(code,name,images(DEFAULT)),pagination';
         return this.doSearch(url);
     }
     

@@ -22,7 +22,7 @@ export abstract class AbstractCmsComponent extends AbstractComponent implements 
     }
 
     ngOnInit() {
-        this.subscription = this.cmsModelService.getSubscription(this.uid)
+        this.subscription = this.cmsModelService.getComponentSubscription(this.uid)
             .subscribe((componentData) => {
                 this.model = componentData;
                 this.fetchData();

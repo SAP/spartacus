@@ -5,6 +5,8 @@ import { CmsModelService } from '../data/cms-model.service';
 import { ConfigService } from '../cms/config.service';
 import { ProductLoaderService } from '../data/product-loader.service';
 
+import { Router } from '@angular/router';
+
 @Injectable()
 export abstract class AbstractProductComponent extends AbstractCmsComponent {
 
@@ -12,6 +14,7 @@ export abstract class AbstractProductComponent extends AbstractCmsComponent {
         protected configService: ConfigService,
         protected cmsModelService: CmsModelService,
         protected cd: ChangeDetectorRef,
+        protected router: Router,
         protected productLoader: ProductLoaderService
     ) {
         super(cd, configService, cmsModelService);

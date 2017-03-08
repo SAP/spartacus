@@ -91,14 +91,11 @@ export class ProductLoaderService {
         return s;
     }
 
-    incrementalSearchProducts(subject, query: string) {
-        // const s = new AsyncSubject<any>();
-        this.occProductSearchService.incrementalSearch(query)
+    incrementalSearchProducts(subject, query: string, pageSize?: number) {
+        this.occProductSearchService.incrementalSearch(query, pageSize)
             .then((pageData) => {
-                subject.next(pageData);
-                // subject.complete();
+                subject.next(pageData.products);
         });
-        // return s;
     }
 
     categorySearch(categoryCode: string, brandCode: string, sort = DEFAULT_SORT): BehaviorSubject<any> {
