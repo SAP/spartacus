@@ -7,16 +7,24 @@ import { AbstractProductComponent } from '../abstract-product-component';
   styleUrls: ['./product-reviews.component.scss']
 })
 export class ProductReviewsComponent extends AbstractProductComponent implements OnInit {
+
+    // TODO: configurable
+    initialMaxListItems = 5;
+    maxListItems;
+
     reviews;
 
+
     ngOnInit() {
+
+        this.maxListItems = this.initialMaxListItems;
+
         this.productLoader.loadReviews(this.productCode);
         this.productLoader.getSubscription(this.productCode + 'reviews').subscribe((reviewData) => {
             // console.log('reviewData', reviewData);
             if (reviewData && reviewData.reviews) {
                 this.reviews = reviewData.reviews;
             }
-            
         });
     }
 }
