@@ -59,7 +59,7 @@ export class ProductLoaderService {
         this.startLoading(key);
         this.occProductService.loadProductReferences(productCode)
             .then((reviewData) => {
-                this.productModelService.storeProduct(key, reviewData);
+                this.productModelService.storeProduct(key, reviewData.productReferences);
         });
     }
 

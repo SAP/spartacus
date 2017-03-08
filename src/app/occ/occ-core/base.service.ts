@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { ConfigService } from '../config.service';
-import { ProductImageConverterService } from './product-image-converter.service';
+import { ProductImageConverterService } from './converters/product-image-converter.service';
+import { ProductReferenceConverterService } from './converters/product-reference-converter.service';
 
 const ENDPOINT_PRODUCT = 'products';
 const ENDPOINT_PRODUCT_SEARCH = 'products/search';
@@ -12,7 +13,8 @@ export class BaseService {
     constructor(
         protected http: Http,
         protected configService: ConfigService,
-        protected productImageConverter: ProductImageConverterService
+        protected productImageConverter: ProductImageConverterService,
+        protected productReferenceConverter: ProductReferenceConverterService
     ) { }
 
      protected getBaseEndPoint() {

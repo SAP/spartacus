@@ -28,7 +28,7 @@ export class OccProductService extends BaseService {
 
     loadProductReferences(productCode: string) {
         let url = this.getProductEndpoint();
-        url += productCode;
+        url += '/' + productCode;
         url += '?fields=productReferences';
         return this.promise(url);
     }
@@ -38,6 +38,7 @@ export class OccProductService extends BaseService {
             this.http.get(url).subscribe((data) => {
                 const productData = data.json();
                 this.productImageConverter.convertProduct(productData);
+                this.productReferenceConverter.convertProduct(productData);
                 resolve(productData);
             },
             err => this.logError(err));

@@ -9,7 +9,7 @@
         height: 100%;
         width: 5000px;
         position: relative;
-        animation: carousel 25s infinite;
+        // animation: carousel 25s infinite;
         // animation-delay: 2s, 4ms;
         &.pause {
             animation-play-state:paused; 

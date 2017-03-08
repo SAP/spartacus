@@ -1,5 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-
+import { Component, Input } from '@angular/core';
 import { AbstractProductComponent } from '../../cms/abstract-product-component';
 
 @Component({
@@ -10,29 +9,43 @@ import { AbstractProductComponent } from '../../cms/abstract-product-component';
 export class ProductCarouselComponent extends AbstractProductComponent {
     products = [];
     pause: boolean;
-    
-    @ViewChild('productPanel') productPanel: Element;
+
+    @Input() productCodes: Array<String>;
+
+    // @ViewChild('productPanel') productPanel: Element;
 
     protected fetchData() {
-        const query = this.model.productCodes.map(o => o).join(' ');
-        // TODO: limit data
-        this.productLoader.searchProducts(query).subscribe((results) => {
-            this.products = results.products;
-            this.cd.markForCheck();
-        });
+        const codes = this.getProductCodes();
+        
+        if (codes && codes.length > 0) {
+            const query = codes.map(o => o).join(' ');
+            // TODO: limit data
+            this.productLoader.searchProducts(query).subscribe((results) => {
+                this.products = results.products;
+                this.cd.markForCheck();
+            });
+        }
     }
 
-    loadNext() {
-        console.log('load next');
-        console.log(this.productPanel);
+    getProductCodes(): Array<String> {
+        let codes;
+        if (this.model && this.model.productCodes) {
+            codes = this.model.productCodes;
+        }else {
+            codes = this.productCodes;
+        }
+        return codes;
     }
+
+    // loadNext() {
+    //     console.log('load next');
+    //     console.log(this.productPanel);
+    // }
 
     stop() {
-        console.log('pause');
         this.pause = true;
     }
     continue() {
-        console.log('continue');
         this.pause = false;
     }
 }

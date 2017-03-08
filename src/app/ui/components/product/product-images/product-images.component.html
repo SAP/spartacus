@@ -3,7 +3,7 @@
         [imageContainer]="mainImage" 
         imageFormat="zoom">
     </y-picture>
-    <div>
+    <div *ngIf="model.images">
         <span *ngFor="let image of model.images.GALLERY"
             (click)="showImage(image)">
             <y-picture 

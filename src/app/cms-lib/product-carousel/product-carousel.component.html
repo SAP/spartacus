@@ -1,5 +1,5 @@
 
-<H3>{{model.title}}</H3>
+<H3>{{model?.title}}</H3>
 <div class="product-caraousel"
     (mouseenter)="stop()" (mouseleave)="continue()"
     fxLayout="row" fxFlexAlign="start stretch">
@@ -15,11 +15,9 @@
                 *ngFor="let product of products"
                 [routerLink]="['/product/', product.code]"
                 >
-                
                 <y-picture 
-                    *ngIf="product.images"
-                    [imageContainer]="product.images.PRIMARY" 
-                    imageFormat="thumbnail"
+                    [imageContainer]="product.images?.PRIMARY" 
+                    imageFormat="product"
                 ></y-picture>
                 {{product.name}}
             </div>
