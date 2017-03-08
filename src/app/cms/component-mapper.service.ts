@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type, ComponentFactoryResolver } from '@angular/core';
 import { ComponentMapperConfigService } from './component-mapper-config.service';
 
 @Injectable()
 export class ComponentMapperService {
 
+    missingComponents = [];
+
     constructor(
+        private componentFactoryResolver: ComponentFactoryResolver,
         private mapperConfig: ComponentMapperConfigService
     ) { }
 
@@ -31,6 +34,25 @@ export class ComponentMapperService {
     getType(typeCode: string) {
         return (this.mapperConfig.componentMapping[typeCode]);
     }
+
+    getComponentTypeByCode(typeCode: string): Type<any> {
+        const alias = this.getType(typeCode);
+
+        if (!alias) {
+            if (this.missingComponents.indexOf(typeCode) === -1) {
+                this.missingComponents.push(typeCode);
+                console.warn('No component implementation found for the CMS component type', typeCode, ').\n',
+                    'Make sure you implement a component and register it in the mapper.');
+            }
+            return;
+        }
+
+        const factories = Array.from(this.componentFactoryResolver['_factories'].keys());
+        const factoryClass = <Type<any>>factories.find((x: any) => x.name === alias);
+
+        return factoryClass;
+    }
+
 
 
 }

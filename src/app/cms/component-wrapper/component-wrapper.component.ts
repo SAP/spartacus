@@ -1,6 +1,6 @@
 import {
     Component, OnInit, AfterViewInit, Input,
-    ViewChild, ViewContainerRef, ComponentFactoryResolver, Type,
+    ViewChild, ViewContainerRef, ComponentFactoryResolver,
     OnChanges, ChangeDetectorRef
 } from '@angular/core';
 import { AbstractCmsComponent } from '../abstract-cms-component';
@@ -20,6 +20,7 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
     @Input() componentUid: string;
     @Input() contextParameters: any;
 
+
     private isViewInitialized = false;
     cmpRef;
 
@@ -29,7 +30,8 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
         private componentMapper: ComponentMapperService
     ) { }
 
-    ngOnInit() {}
+    ngOnInit() {
+    }
 
     ngAfterViewInit() {
         this.isViewInitialized = true;
@@ -48,8 +50,7 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
             this.cmpRef.destroy();
         }
 
-        const componentTypeClass = this.getComponentTypeByCode(this.componentType);
-
+        const componentTypeClass = this.componentMapper.getComponentTypeByCode(this.componentType);
         if (componentTypeClass) {
             const factory = this.componentFactoryResolver.resolveComponentFactory(componentTypeClass);
             this.cmpRef = this.target.createComponent(factory);
@@ -63,22 +64,7 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
                 instance.setContextParameters(this.contextParameters);
             }
             this.cdRef.detectChanges();
-        }else {
-            console.warn('No component implementation found for the CMS component type', this.componentType, '(', this.componentUid, ').\n',
-                'Make sure you implement a component and register it in the mapper.');
         }
-    }
-
-    private getComponentTypeByCode(typeCode: string): Type<any> {
-        const alias = this.componentMapper.getType(typeCode);
-        
-        if (!alias) {
-            return;
-        }
-
-        const factories = Array.from(this.componentFactoryResolver['_factories'].keys());
-        const factoryClass = <Type<any>>factories.find((x: any) => x.name === alias);
-        return factoryClass;
     }
 
 }
