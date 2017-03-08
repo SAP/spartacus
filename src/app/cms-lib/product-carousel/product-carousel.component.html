@@ -18,10 +18,8 @@
                 
                 <y-picture 
                     *ngIf="product.images"
-                    [images]="product.images" 
-                    imageType="PRIMARY" 
-                    imageFormat="thumb"
-                    [position]="0"
+                    [imageContainer]="product.images.PRIMARY" 
+                    imageFormat="thumbnail"
                 ></y-picture>
                 {{product.name}}
             </div>

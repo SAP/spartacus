@@ -7,11 +7,12 @@ export class ProductModelService {
     // private models: any = {};
     private subscriptions: Array<BehaviorSubject<any>> = [];
 
-    storeProduct(productData) {
-        const subscription = this.getSubscription(productData.code);
+    storeProduct(key, data) {
+        
+        const subscription = this.getSubscription(key);
 
         if (!subscription.getValue()) {
-            subscription.next(productData);
+            subscription.next(data);
         }
     }
 

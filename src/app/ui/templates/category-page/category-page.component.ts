@@ -20,7 +20,7 @@ export class CategoryPageComponent extends AbstractPage implements OnInit {
     }
 
     loadAdditionData(params: Params) {
-        console.log(params);
+        // console.log(params);
         if (params['categoryCode']) {
             this.categoryCode = params['categoryCode'];
             

@@ -1,4 +1,4 @@
-<md-card *ngFor="let class of (model | async)?.classifications">
+<md-card *ngFor="let class of model?.classifications">
     <md-card-title [innerHTML]="class.name"></md-card-title>
     <md-card-content *ngFor="let feature of class.features"
         fxLayout="row" fxLayoutAlign="start start"  >

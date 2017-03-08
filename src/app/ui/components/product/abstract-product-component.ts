@@ -14,16 +14,16 @@ export abstract class AbstractProductComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        // console.log('ngOnInit AbstractProductComponent');
         if (this.productCode) {
-            this.model = this.productLoader.getSubscription(this.productCode);
             this.productLoader.loadProduct(this.productCode);
-            this.ready();
+            this.productLoader.getSubscription(this.productCode).subscribe((data) => {
+                this.model = data;
+                this.ready();
+            });
         }
     }
 
-    // HOOK: do we need this?
-    protected ready() {
-        // console.log('ready');
-    }
+    // HOOK
+    protected ready() {}
+    
 }

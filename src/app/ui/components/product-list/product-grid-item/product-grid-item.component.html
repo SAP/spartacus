@@ -5,9 +5,8 @@
     
     <y-picture 
         *ngIf="product.images"
-        [images]="product.images" 
-        imageType="PRIMARY" 
-        [position]="0"
+        [imageContainer]="product.images.PRIMARY"
+        imageFormat="product"
     ></y-picture>
 
     <h3>{{product.name}}</h3>

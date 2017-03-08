@@ -28,6 +28,7 @@ export class ProductLoaderService {
     }
 
     loadProduct(productCode: string) {
+        const key = productCode;
         if (this.isLoaded(productCode)) {
             return;
         }
@@ -39,18 +40,30 @@ export class ProductLoaderService {
     }
 
     loadReviews(productCode: string) {
-        if (this.isLoaded(productCode + 'reviews')) {
+        const key = productCode + 'reviews';
+        if (this.isLoaded(key)) {
             return;
         }
-        this.startLoading(productCode + 'reviews');
-        
+        this.startLoading(key);
         this.occProductService.loadProductReviews(productCode)
             .then((reviewData) => {
-                console.log(reviewData);
-                this.productModelService.storeProduct(productCode + 'reviews', reviewData);
+                this.productModelService.storeProduct(key, reviewData);
         });
     }
-    
+
+    loadReferences(productCode: string) {
+        const key = productCode + 'references';
+        if (this.isLoaded(key)) {
+            return;
+        }
+        this.startLoading(key);
+        this.occProductService.loadProductReferences(productCode)
+            .then((reviewData) => {
+                this.productModelService.storeProduct(key, reviewData);
+        });
+    }
+
+
     startLoading(productCode) {
         this.status[productCode] = true;
     }

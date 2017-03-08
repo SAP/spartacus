@@ -41,14 +41,7 @@ export class OccProductSearchService extends BaseService {
     incrementalSearch(query: string, pageSize = 3) {
         let url = this.createTextSearchEndpoint(query);
         url += '&pageSize=20&&fields=products(code,name,images(DEFAULT)),pagination';
-        
-        return new Promise((resolve) => {
-            this.http.get(url).subscribe((data) => {
-                const searchResult = data.json();
-                resolve(searchResult.products);
-            },
-            err => this.logError(err));
-        });
+        return this.doSearch(url);
     }
     
     query(fullQuery: string): Promise<any> {
@@ -61,6 +54,7 @@ export class OccProductSearchService extends BaseService {
         return new Promise((resolve) => {
             this.http.get(url).subscribe((data) => {
                 const searchResult = data.json();
+                this.productImageConverter.convertList(searchResult.products);
                 resolve(searchResult);
             },
             err => this.logError(err));
@@ -70,26 +64,13 @@ export class OccProductSearchService extends BaseService {
     freeTextSearch(textquery: string, sort: string) {
         let url = this.createTextSearchEndpoint(textquery);
         url += '&pageSize=20&fields=products(code,name,summary,price,images(DEFAULT)),facets,breadcrumbs,pagination(DEFAULT)';
-        
-        return new Promise((resolve) => {
-            this.http.get(url).subscribe((data) => {
-                const searchResult = data.json();
-                resolve(searchResult);
-            },
-            err => this.logError(err));
-        });
+        return this.doSearch(url);
     }
 
     searchByCategory(categoryCode: string, brandCode: string, sort: string) {
         let url = this.createCategorySearchEndpoint(categoryCode, brandCode, sort);
         url += '&pageSize=20&fields=products(code,name,summary,price,images(DEFAULT)),facets,pagination(DEFAULT)';
-        return new Promise((resolve) => {
-            this.http.get(url).subscribe((data) => {
-                const searchResult = data.json();
-                resolve(searchResult);
-            },
-            err => this.logError(err));
-        });
+        return this.doSearch(url);
     }
 
     private logError(error) {

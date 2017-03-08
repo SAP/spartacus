@@ -16,30 +16,33 @@ export class OccProductService extends BaseService {
         let url = this.getProductEndpoint();
         url += '/' + productCode;
         url += '?fields=DEFAULT,averageRating,images(FULL),classifications'; // BASIC, DEFAULT, FULL
-
-        return new Promise((resolve) => {
-            this.http.get(url).subscribe((data) => {
-                const productData = data.json();
-                resolve(productData);
-            },
-            err => this.logError(err));
-        });
+        return this.promise(url);
     }
 
     loadProductReviews(productCode: string) {
         let url = this.getProductEndpoint();
         url += '/' + productCode;
         url += '/reviews';
+        return this.promise(url);
+    }
 
+    loadProductReferences(productCode: string) {
+        let url = this.getProductEndpoint();
+        url += productCode;
+        url += '?fields=productReferences';
+        return this.promise(url);
+    }
+
+    promise(url: string): Promise<any> {
         return new Promise((resolve) => {
             this.http.get(url).subscribe((data) => {
                 const productData = data.json();
+                this.productImageConverter.convertProduct(productData);
                 resolve(productData);
             },
             err => this.logError(err));
         });
     }
-
 
 //   public createReview = (productCode: string, review: Review): Observable<any> => {
 
@@ -61,24 +64,7 @@ export class OccProductService extends BaseService {
 //           .map((response: Response) => response.json())
 //           .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
 //   }
-  
 
-
-//     loadProductReferences = (productCode: string): Observable<any> => {
-
-//         let url = this.createEndPoint(PRODUCT_ENDPOINT);
-//         url += productCode;
-        
-//         // let url = 'https://localhost:9002/rest/v2/electronics/products/' + productCode;
-//         url += '?fields=productReferences';
-
-//         let headers = new Headers({ 'Content-Type': 'application/json' });
-
-//         return this.http.get(url, {headers: headers })
-//             .map((response: Response) => response.json())
-//             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-//     }
-    
     logError(err) {
         console.error('There was an error: ' + err);
     }

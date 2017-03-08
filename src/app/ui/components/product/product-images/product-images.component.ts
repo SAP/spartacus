@@ -8,13 +8,17 @@ import { AbstractProductComponent } from '../abstract-product-component';
 })
 export class ProductImagesComponent extends AbstractProductComponent {
     images;
+    mainImage;
 
-    // TODO: improve method name...
     ready() {
-        this.model.subscribe((modelData) => {
-            if (modelData) {
-                this.images = modelData.images;
-            }
-        });
+        if (this.model && this.model.images) {
+            this.mainImage = this.model.images.PRIMARY;
+        }
+    }
+
+    showImage(imageContainer) {
+        console.log('showImage', imageContainer);
+        this.mainImage = imageContainer;
+        this.cd.markForCheck();
     }
 }

@@ -1,7 +1,16 @@
-
-<y-picture 
-    *ngIf="images"
-    [images]="images" 
-    imageType="PRIMARY" 
-    [position]="0"
-></y-picture>
+<div *ngIf="model">
+    <y-picture 
+        [imageContainer]="mainImage" 
+        imageFormat="zoom">
+    </y-picture>
+    <div>
+        <span *ngFor="let image of model.images.GALLERY"
+            (click)="showImage(image)">
+            <y-picture 
+                [imageContainer]="image"
+                imageFormat="thumbnail">
+            </y-picture>
+        </span>
+        
+    </div>
+</div>

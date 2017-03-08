@@ -1,10 +1,13 @@
 
-
-<div [innerHTML]="(model | async)?.summary"></div>
-<div>
-    {{(model | async)?.price.formattedValue}}
+<div class="price">
+    {{model?.price?.formattedValue}}
 </div>
+
+<div [innerHTML]="model?.summary"></div>
+
+<md-divider></md-divider>
+
 <div>
-    {{(model | async)?.stock.stockLevelStatus}} -
-    {{(model | async)?.stock.stockLevel}}
+    {{model?.stock?.stockLevelStatus}} -
+    {{model?.stock?.stockLevel}}
 </div>

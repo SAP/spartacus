@@ -17,7 +17,8 @@
                     <h3>{{facet.name}}</h3>
                     <div *ngFor="let value of facet.values | slice:0:5">
                         <md-slide-toggle  
-                            class="facet-value"  
+                            class="facet-value"
+                            color="primary"
                             [checked]="value.selected"
                             (change)="toggleValue(value.query.query.value)"
                             >{{value.name}} ({{value.count}})</md-slide-toggle>

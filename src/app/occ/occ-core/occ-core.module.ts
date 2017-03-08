@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { OccProductService } from './product.service';
 import { OccProductSearchService } from './product-search.service';
+import { ProductImageConverterService } from './product-image-converter.service';
 
 @NgModule({
     imports: [
@@ -10,7 +11,8 @@ import { OccProductSearchService } from './product-search.service';
     ],
     providers: [
         OccProductService,
-        OccProductSearchService
+        OccProductSearchService,
+        ProductImageConverterService
     ],
     declarations: []
 })
