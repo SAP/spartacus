@@ -6,7 +6,7 @@
                 <md-chip-list>
                     <md-chip *ngFor="let breadcrumb of searchResult.breadcrumbs"
                         color="primary" selected="true"
-                        [hidden]="breadcrumb.facetValueCode === categoryCode"
+                        [hidden]="breadcrumb.facetValueCode === activeFacetValueCode"
                         (click)="toggleValue(breadcrumb.removeQuery.query.value)">
                         {{breadcrumb.facetValueName}}
                     </md-chip>

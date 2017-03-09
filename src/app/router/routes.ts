@@ -25,13 +25,7 @@ export const appRoutes: Routes = [
     {path: 'product/:productCode', component: ProductDetailPageComponent},
 
     {path: 'category/:categoryCode', component: CategoryPageComponent},
-    // {path: 'category/:categoryCode/:title', component: CategoryPageComponent},
-
-    {path: 'Brands/c/:brandCode', component: CategoryPageComponent},
-    {path: 'Brands/:brandName/c/:brandCode', component: CategoryPageComponent},
-    {path: 'Open-Catalogue/:cat/c/:categoryCode', component: CategoryPageComponent},
-    {path: 'Open-Catalogue/:superCat/:cat/c/:categoryCode', component: CategoryPageComponent},
-    {path: 'Open-Catalogue/:superCat/:subcat/:cat/c/:categoryCode', component: CategoryPageComponent},
+    {path: 'brand/:brandCode', component: CategoryPageComponent},
 ];
 
 export const AppRouter = RouterModule.forRoot(appRoutes);

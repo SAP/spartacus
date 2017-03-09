@@ -51,28 +51,30 @@ export abstract class AbstractCmsComponent extends AbstractComponent implements 
         return this.configService.settings.baseUrl;
     }
 
+
+    // TODO: move to strategy
     protected mapUrl(url: string) {
-        // TODO: map
 
         let newUrl = '';
-        // console.log(url);
+
         if (url) {
-            const isBrand = url.indexOf('/brand/');
-            const isCategory = url.indexOf('/c/');
-            const isProduct = url.indexOf('/p/');
-            if (isBrand > -1) {
-                newUrl = '/Brands/' + url.substr(isBrand + 7);
-            }
-            if (isCategory > -1) {
-                newUrl = '/category/' + url.substr(isCategory + 3);
-            }
-            if (isProduct > -1) {
-                newUrl = '/product/' + url.substr(isProduct + 3);
+            const brandFragment = this.getUrlParam(url, '/Brands/');
+            const categoryFragment = this.getUrlParam(url, '/c/');
+            const productFragment = this.getUrlParam(url, '/p/');
+            if (brandFragment) {
+                newUrl = '/brand/' + categoryFragment;
+            }else if (categoryFragment) {
+                newUrl = '/category/' + categoryFragment;
+            }else {
+                newUrl = '/product/' + productFragment;
             }
         }
-        
-
         return newUrl;
+    }
+
+    private getUrlParam(url, param) {
+        const fragment = url.indexOf(param);
+        return fragment > -1 ? url.substr(fragment + param.length) : null;
     }
 
 

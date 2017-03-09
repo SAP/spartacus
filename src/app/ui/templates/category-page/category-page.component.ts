@@ -9,6 +9,7 @@ import { AbstractPage } from '../abstract-page.component';
 })
 export class CategoryPageComponent extends AbstractPage implements OnInit {
     categoryCode;
+    brandCode;
     model;
 
     dataSubscription;
@@ -20,9 +21,11 @@ export class CategoryPageComponent extends AbstractPage implements OnInit {
     }
 
     loadAdditionData(params: Params) {
-        // console.log(params);
         if (params['categoryCode']) {
             this.categoryCode = params['categoryCode'];
+        }
+        if (params['brandCode']) {
+            this.brandCode = params['brandCode'];
         }
     }
 }

@@ -9,7 +9,7 @@ import { MdSlideToggleChange } from '@angular/material';
 })
 export class ProductFacetNavigationComponent {
 
-    @Input() categoryCode;
+    @Input() activeFacetValueCode;
     @Input() searchResult;
     @Output() filter: EventEmitter<any> = new EventEmitter<any>();
 

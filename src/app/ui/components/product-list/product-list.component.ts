@@ -41,12 +41,11 @@ export class ProductListComponent implements OnChanges {
         
         if (this.categoryCode) {
             this.query = ':relevance:category:' + this.categoryCode;
-            // this.productLoader.categorySearch(this.categoryCode, this.brandCode).subscribe((result) => {
-            //     // console.log(result);
-            //     this.model = result;
-            // });
         }
-
+        if (this.brandCode) {
+            this.query = ':relevance:brand:' + this.brandCode;
+        }
+        
         if (this.query) {
             this.search(this.query);
         }

@@ -51,6 +51,10 @@ export abstract class AbstractPage {
         if (params['categoryCode']) {
             this.cmsLoader.loadComponentsForCategory(params['categoryCode']);
         }
+        
+        if (params['brandCode']) {
+            this.cmsLoader.loadComponentsForCategory(params['brandCode']);
+        }
 
         if (params['productCode']) {
             this.cmsLoader.loadComponentsForProduct(params['productCode']);

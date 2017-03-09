@@ -10,6 +10,7 @@ export class ProductListPageLayoutComponent {
     @Input() useGrid: boolean;
     
     @Input() categoryCode;
+    @Input() brandCode;
     @Input() query;
 
 }

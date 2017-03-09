@@ -2,15 +2,13 @@
 
 <y-dynamic-slot flex position="Section1"></y-dynamic-slot>
 
-<!--<div *ngIf="search.results">
-    <y-product-list [products]="search.results.products"></y-product-list>
-</div>-->
 <div fxLayout="row" fxLayoutAlign="start start">
     <div fxFlex>
         <y-product-list 
             [useGrid]="useGrid"
             [query]="query"
             [categoryCode]="categoryCode"
+            [brandCode]="brandCode"
             ></y-product-list>
     </div>
     <div fxFlex="10%">
