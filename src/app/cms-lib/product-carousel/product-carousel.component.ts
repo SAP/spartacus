@@ -11,12 +11,15 @@ export class ProductCarouselComponent extends AbstractProductComponent {
     pause: boolean;
 
     @Input() productCodes: Array<String>;
-
-    // @ViewChild('productPanel') productPanel: Element;
+    @Input() animate = true;
 
     protected fetchData() {
         const codes = this.getProductCodes();
         
+        if (this.contextParameters && this.contextParameters.hasOwnProperty('animate')) {
+            this.animate = this.contextParameters.animate;
+        }
+
         if (codes && codes.length > 0) {
             const query = codes.map(o => o).join(' ');
             // TODO: limit data

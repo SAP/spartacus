@@ -4,5 +4,5 @@ displayProductPrices: {{model?.displayProductPrices}}<br/>-->
 
 <div *ngIf="productCodes && productCodes.length>0">
     <h3>{{model?.title}}</h3>
-    <y-product-carousel [productCodes]="productCodes"></y-product-carousel>
+    <y-product-carousel [productCodes]="productCodes" [animate]="false"></y-product-carousel>
 </div>

@@ -58,8 +58,7 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
             if (instance.setUid) {
                 instance.setUid(this.componentUid);
             }
-            // we can pass parameters to the component
-            // this is needed in case of a component that needs context
+            // pass parameters to dynamic component
             if (this.contextParameters && instance.setContextParameters) {
                 instance.setContextParameters(this.contextParameters);
             }

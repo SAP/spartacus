@@ -3,13 +3,14 @@
 <div class="product-caraousel"
     (mouseenter)="stop()" (mouseleave)="continue()"
     fxLayout="row" fxFlexAlign="start stretch">
-    <div fxFlex="50px">
+    <!--<div fxFlex="50px">
         <button md-icon-button>
             <md-icon>navigate_before</md-icon>
         </button>
-    </div>
+    </div>-->
     <div fxFlex class="carousel-container">
-        <div class="product-panel" #productPanel 
+        <div class="product-panel" 
+            [class.animate]="animate"
             [class.pause]="pause">
             <div class="product" 
                 *ngFor="let product of products"
@@ -23,9 +24,9 @@
             </div>
         </div>
     </div>
-    <div fxFlex="50px">
+    <!--<div fxFlex="50px">
         <button md-icon-button>
             <md-icon>navigate_next</md-icon>
         </button>
-    </div>
+    </div>-->
 </div>

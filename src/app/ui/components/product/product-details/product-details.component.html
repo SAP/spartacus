@@ -18,14 +18,12 @@
             <y-product-summary [productCode]="productCode" fxFlex="50%"></y-product-summary>
         </div>
 
-
-<y-dynamic-slot flex position="CrossSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
-<y-dynamic-slot flex position="UpSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
-
-
-<y-dynamic-slot flex position="VariantSelector"></y-dynamic-slot>
-<y-dynamic-slot flex position="AddToCart"></y-dynamic-slot>
+        <y-dynamic-slot flex position="VariantSelector"></y-dynamic-slot>
+        <y-dynamic-slot flex position="AddToCart"></y-dynamic-slot>
         
+        <y-dynamic-slot flex position="CrossSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
+        <y-dynamic-slot flex position="UpSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
+ 
 
         <!--<div y-dynamic-slot position="Tabs">
             more stuff....
@@ -43,7 +41,7 @@
             </md-tab>
 
             <md-tab label="Delivery">
-                <y-dynamic-slot position="Tabs" [contextParameters]="{tabTitle:tabTitle}"></y-dynamic-slot>    
+                <y-dynamic-slot position="Tabs"></y-dynamic-slot>    
             </md-tab>
         </md-tab-group>
 
