@@ -11,7 +11,6 @@ export class OccProductSearchService extends BaseService {
         return url;
     }
 
-
     private createCategorySearchEndpoint(categoryCode: string, brandCode: string, sort?: string): string {
         let url = this.getProductSearchEndpoint();
         url += '?query=';
@@ -41,7 +40,14 @@ export class OccProductSearchService extends BaseService {
     incrementalSearch(query: string, pageSize = 3) {
         let url = this.createTextSearchEndpoint(query);
         url += '&pageSize=' + pageSize;
-        url += '&fields=products(code,name,images(DEFAULT)),pagination';
+        url += '&fields=products(code,name,images(DEFAULT),price(FULL)),pagination';
+        return this.doSearch(url);
+    }
+
+    queryProductSuggestions(term: string, pageSize = 3) {
+        let url = this.getProductSuggestionsEndpoint();
+        url += '?term=' + term;
+        url += '&max=' + pageSize;
         return this.doSearch(url);
     }
     

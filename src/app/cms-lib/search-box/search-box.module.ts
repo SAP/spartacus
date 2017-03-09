@@ -3,18 +3,21 @@ import { RouterModule } from '@angular/router';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { MediaModule } from '../../ui/components/media/media.module';
 
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout'; 
 import { SearchBoxComponent } from './search-box.component';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
-        // FormsModule,
         ReactiveFormsModule,
-        MaterialModule.forRoot()
+        MaterialModule.forRoot(),
+        FlexLayoutModule,
+        MediaModule
     ],
     declarations: [SearchBoxComponent],
     entryComponents: [SearchBoxComponent],

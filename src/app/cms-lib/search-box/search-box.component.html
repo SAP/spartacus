@@ -2,15 +2,38 @@
 <md-input-container>
     <input type="text" 
         mdInput 
-        [formControl]="myControl" 
-        [mdAutocomplete]="auto"
+        [formControl]="searchBoxControl" 
+        [mdAutocomplete]="searchresult"
         [placeholder]="model.name"
         (keyup)="onKey($event)">
 </md-input-container>
 
-<md-autocomplete #auto="mdAutocomplete">
-   <md-option *ngFor="let product of subject | async" [value]="product.name"
-    [routerLink]="['/product/', product.code]">
-      {{ product.name }}
-   </md-option>
+<md-autocomplete #searchresult="mdAutocomplete" class="autocomplete-response">
+    <md-option *ngIf="(suggestionResults | async)?.length>0" >
+        <md-chip-list>
+            <md-chip 
+                *ngFor="let suggestion of suggestionResults | async"
+                class="suggestion"
+                color="primary"  selected="true"
+                (click)="launchSearchPage(suggestion.value)">{{ suggestion.value }}</md-chip>
+        </md-chip-list>
+    </md-option>
+
+    <md-option 
+        *ngFor="let product of searchResults | async" [value]="product.name"
+        class="option"
+        fxLayout="row" 
+        fxFlexAlign="start center"   
+        [routerLink]="['/product/', product.code]">
+        <div class="picture">
+            <y-picture fxFlex
+                *ngIf="model.displayProductImages && product.images"
+                [imageContainer]="product.images.PRIMARY"
+                imageFormat="thumbnail"
+                >
+            </y-picture>
+        </div>
+        <div fxFlex>{{ product.name }}</div>
+        <div fxFlex>{{product.price.formattedValue}}</div>
+    </md-option>
 </md-autocomplete>

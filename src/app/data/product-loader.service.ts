@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import { AsyncSubject } from 'rxjs/AsyncSubject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -91,10 +92,25 @@ export class ProductLoaderService {
         return s;
     }
 
-    incrementalSearchProducts(subject, query: string, pageSize?: number) {
+    incrementalSearchProducts(subject: Subject<any>, query: string, pageSize?: number) {
+        if (query === '') {
+            subject.next([]);
+            return;
+        }
         this.occProductSearchService.incrementalSearch(query, pageSize)
             .then((pageData) => {
                 subject.next(pageData.products);
+        });
+    }
+
+    searchSuggestions(subject, term: string, pageSize?: number) {
+        if (term === '') {
+            subject.next([]);
+            return;
+        }
+        this.occProductSearchService.queryProductSuggestions(term, pageSize)
+            .then((suggestionData) => {
+                subject.next(suggestionData.suggestions);
         });
     }
 

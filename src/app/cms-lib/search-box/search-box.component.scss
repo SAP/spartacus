@@ -4,3 +4,23 @@ md-input-container {
         width: 100%;
     }
 }
+
+// .autocomplete-response * {
+//     border: solid 1px red !important;
+//     height: 400px !important;
+// }
+
+.option {
+    height: 100px !important;
+    .picture {
+        width: 96px;
+        height: 96px;
+        margin-right: 24px;
+    }
+}
+.suggestion {
+    margin: 0 10px 0 0;
+}
+// .mat-autocomplete-panel {
+//     border: solid 1px red !important;
+// }

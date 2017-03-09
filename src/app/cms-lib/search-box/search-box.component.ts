@@ -11,40 +11,71 @@ import { AbstractProductComponent } from '../../cms/abstract-product-component';
   styleUrls: ['./search-box.component.scss']
 })
 export class SearchBoxComponent extends AbstractProductComponent {
-    
-    myControl = new FormControl();
-    
-    filteredOptions: Observable<string[]>;
 
-    productList;
-    subject: BehaviorSubject<any[]>;
+    searchBoxControl = new FormControl();
 
+    searchResults: BehaviorSubject<any[]>;
+    suggestionResults: BehaviorSubject<any[]>;
 
+    pageSize;
+    maxNumberOfProducts;
+    minCharactersBeforeRequest;
+
+    // overriden hook that is called when the model is available
     protected fetchData() {
-        const pageSize = this.getMaxProductLength();
-
-        this.subject = new BehaviorSubject<any>([]);
-        this.productLoader.incrementalSearchProducts(this.subject, '', pageSize);
-        this.myControl.valueChanges.subscribe((value) => {
-            if (this.meetsLength(value)) {
-                this.productLoader.incrementalSearchProducts(this.subject, value, pageSize);
-            }
-        });
+        this.configure(this.model);
+        this.setupSearch();
     }
 
     onKey(event: any) {
         if (event.key === 'Enter') {
-            this.router.navigate(['/search', this.myControl.value]);
+            this.launchSearchPage(this.searchBoxControl.value);
         }
     }
-    
-    meetsLength(value: string): boolean {
-        return true;
-        // return this.model.minCharactersBeforeRequest && value.length >= this.model.minCharactersBeforeRequest;
+
+    launchSearchPage(query: string) {
+        // TODO: make the URL configurable
+        this.router.navigate(['/search', query]);
     }
 
-    getMaxProductLength() {
-        return this.model.maxProducts;
+    protected setupSearch() {
+
+        if (this.model.displayProducts) {
+            this.searchResults = new BehaviorSubject<any>([]);
+            this.searchResults.next([]);
+        }
+        if (this.model.displaySuggestions) {
+            this.suggestionResults = new BehaviorSubject<any>([]);
+            this.suggestionResults.next([]);
+        }
+        
+        // observe changes in input
+        this.searchBoxControl.valueChanges.subscribe((value) => {
+            if (this.shouldSearchProducts()) {
+                this.productLoader.incrementalSearchProducts(this.searchResults, value, this.pageSize);
+            }
+            if (this.shouldSearchSuggestions()) {
+                this.productLoader.searchSuggestions(this.suggestionResults, value, this.pageSize);
+            }
+        });
+    }
+
+    private shouldSearchSuggestions() {
+        return this.model.displaySuggestions && this.meetsLength(this.searchBoxControl.value);
+    }
+    private shouldSearchProducts() {
+        return this.model.displayProducts && this.meetsLength(this.searchBoxControl.value);
+    }
+    
+    private configure(model) {
+        this.maxNumberOfProducts = model.maxProducts;
+        this.pageSize = this.model.maxProducts || 5;
+        this.minCharactersBeforeRequest = this.model.minCharactersBeforeRequest || 0;
+    }
+
+    private meetsLength(value: string): boolean {
+        return true;
+        // return this.model.minCharactersBeforeRequest && value.length >= this.model.minCharactersBeforeRequest;
     }
 
 }

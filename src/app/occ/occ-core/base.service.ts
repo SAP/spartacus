@@ -6,6 +6,7 @@ import { ProductReferenceConverterService } from './converters/product-reference
 
 const ENDPOINT_PRODUCT = 'products';
 const ENDPOINT_PRODUCT_SEARCH = 'products/search';
+const ENDPOINT_PRODUCT_SUGGESTIONS = 'products/suggestions';
 
 @Injectable()
 export class BaseService {
@@ -29,6 +30,10 @@ export class BaseService {
 
      getProductSearchEndpoint() {
          return this.getBaseEndPoint() + ENDPOINT_PRODUCT_SEARCH;
+     }
+
+     getProductSuggestionsEndpoint() {
+         return this.getBaseEndPoint() + ENDPOINT_PRODUCT_SUGGESTIONS;
      }
 
 }

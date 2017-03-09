@@ -132,7 +132,7 @@ export class CmsModelService {
         if (activeSlots) {
             for (const activeSlotKey of Object.keys(activeSlots)) {
                 if (!pageSlots[activeSlotKey]) {
-                    this.clear(activeSlotKey);
+                    this.clear(SLOT_PREFIX + activeSlotKey);
                 }
             }
         }
