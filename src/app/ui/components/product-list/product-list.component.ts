@@ -1,5 +1,9 @@
-import { Component, Input, OnInit, OnChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { MdSidenav } from '@angular/material';
+
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+import { ProductSearchService } from '../../../data/product-search.service';
 import { ProductLoaderService } from '../../../data/product-loader.service';
 
 @Component({
@@ -7,7 +11,7 @@ import { ProductLoaderService } from '../../../data/product-loader.service';
     templateUrl: './product-list.component.html',
     styleUrls: ['./product-list.component.scss']
 })
-export class ProductListComponent implements OnInit, OnChanges {
+export class ProductListComponent implements OnChanges {
 
     model;
     
@@ -18,12 +22,20 @@ export class ProductListComponent implements OnInit, OnChanges {
     @Input() categoryCode;
     @Input() brandCode;
 
+    subject;
+    config;
+    
     constructor(
-        protected productLoader: ProductLoaderService
-    ) {}
-
-    ngOnInit() {
+        protected productLoader: ProductLoaderService,
+        protected searchService: ProductSearchService
+    ) {
+        this.config = this.searchService.createConfig();
+        this.subject = new BehaviorSubject<any>({});
+        this.subject.subscribe((result) => {
+            this.model = result;
+        });
     }
+    
 
     ngOnChanges() {
         
@@ -34,13 +46,9 @@ export class ProductListComponent implements OnInit, OnChanges {
             //     this.model = result;
             // });
         }
-        // console.log(this.query);
+
         if (this.query) {
-            // console.log(this.query);
-            this.productLoader.searchProducts(this.query).subscribe((result) => {
-                // console.log(result);
-                this.model = result;
-            });
+            this.search(this.query);
         }
 
         // this.cd.markForCheck();
@@ -51,9 +59,14 @@ export class ProductListComponent implements OnInit, OnChanges {
     }
     
     onFilter(query: string) {
-        this.productLoader.query(query).subscribe((result) => {
-            console.log(result);
-            this.model = result;
-        });
+        this.search(query);
+        // this.productLoader.query(query).subscribe((result) => {
+        //     console.log(result);
+        //     this.model = result;
+        // });
+    }
+
+    protected search(query) {
+        this.searchService.searchProducts(query, this.config, this.subject);
     }
 }

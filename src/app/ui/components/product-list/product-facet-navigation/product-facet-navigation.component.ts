@@ -18,7 +18,6 @@ export class ProductFacetNavigationComponent {
     ) { }
 
     toggleValue(query: string) {
-        console.log(query);
         this.filter.emit(query);
         // this.cd.markForCheck();
     }

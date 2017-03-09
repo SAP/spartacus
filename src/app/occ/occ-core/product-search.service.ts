@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 
+const DEFAULT_PRODUCT_PAGE_LIST = 20;
 
 @Injectable()
 export class OccProductSearchService extends BaseService {
@@ -11,36 +12,10 @@ export class OccProductSearchService extends BaseService {
         return url;
     }
 
-    private createCategorySearchEndpoint(categoryCode: string, brandCode: string, sort?: string): string {
-        let url = this.getProductSearchEndpoint();
-        url += '?query=';
-        if (sort) {
-            url += ':' + sort;
-        }
-        if (categoryCode) {
-            url += ':category:' + categoryCode;
-        }
-        if (brandCode) {
-            url += ':brand:' + brandCode;
-        }
-        // url += '&pageSize=10';
-        return url;
-     }
-
-
-    /**
-     * @description
-     * Search products by...
-     * 
-     * @param {string} query
-     * @returns
-     * 
-     * @memberOf OccProductSearchService
-     */
-    incrementalSearch(query: string, pageSize = 3) {
-        let url = this.createTextSearchEndpoint(query);
+    query(fullQuery: string, pageSize = DEFAULT_PRODUCT_PAGE_LIST): Promise<any> {
+        let url = this.createTextSearchEndpoint(fullQuery);
         url += '&pageSize=' + pageSize;
-        url += '&fields=products(code,name,images(DEFAULT),price(FULL)),pagination';
+        url += '&fields=products(code,name,summary,price,images(DEFAULT)),facets,breadcrumbs,pagination(DEFAULT)';
         return this.doSearch(url);
     }
 
@@ -48,12 +23,6 @@ export class OccProductSearchService extends BaseService {
         let url = this.getProductSuggestionsEndpoint();
         url += '?term=' + term;
         url += '&max=' + pageSize;
-        return this.doSearch(url);
-    }
-    
-    query(fullQuery: string): Promise<any> {
-        let url = this.createTextSearchEndpoint(fullQuery);
-        url += '&pageSize=20&fields=products(code,name,summary,price,images(DEFAULT)),facets,breadcrumbs,pagination(DEFAULT)';
         return this.doSearch(url);
     }
 
@@ -68,20 +37,8 @@ export class OccProductSearchService extends BaseService {
         });
     }
 
-    freeTextSearch(textquery: string, sort: string) {
-        let url = this.createTextSearchEndpoint(textquery);
-        url += '&pageSize=20&fields=products(code,name,summary,price,images(DEFAULT)),facets,breadcrumbs,pagination(DEFAULT)';
-        return this.doSearch(url);
-    }
-
-    searchByCategory(categoryCode: string, brandCode: string, sort: string) {
-        let url = this.createCategorySearchEndpoint(categoryCode, brandCode, sort);
-        url += '&pageSize=20&fields=products(code,name,summary,price,images(DEFAULT)),facets,pagination(DEFAULT)';
-        return this.doSearch(url);
-    }
-
     private logError(error) {
-        console.log('error', error)
+        console.log('error', error);
     }
 
 }

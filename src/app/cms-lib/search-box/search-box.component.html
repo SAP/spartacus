@@ -20,7 +20,7 @@
     </md-option>
 
     <md-option 
-        *ngFor="let product of searchResults | async" [value]="product.name"
+        *ngFor="let product of (searchResults | async)?.products" [value]="product.name"
         class="option"
         fxLayout="row" 
         fxFlexAlign="start center"   

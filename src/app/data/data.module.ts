@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 
 import { ProductLoaderService } from './product-loader.service';
+import { ProductSearchService } from './product-search.service';
 
 import { CmsLoaderService } from './cms-loader.service';
 import { CmsModelService } from './cms-model.service';
@@ -23,6 +24,7 @@ import { ProductModelService } from './product-model.service';
         CmsModelService,
         
         ProductModelService,
+        ProductSearchService,
         ProductLoaderService
     ],
     declarations: []

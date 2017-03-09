@@ -36,6 +36,7 @@ export class SearchBoxComponent extends AbstractProductComponent {
     launchSearchPage(query: string) {
         // TODO: make the URL configurable
         this.router.navigate(['/search', query]);
+        // this.searchBoxControl.reset();
     }
 
     protected setupSearch() {
@@ -48,14 +49,15 @@ export class SearchBoxComponent extends AbstractProductComponent {
             this.suggestionResults = new BehaviorSubject<any>([]);
             this.suggestionResults.next([]);
         }
-        
+        const searchConfig = this.productSearch.createConfig();
         // observe changes in input
         this.searchBoxControl.valueChanges.subscribe((value) => {
             if (this.shouldSearchProducts()) {
-                this.productLoader.incrementalSearchProducts(this.searchResults, value, this.pageSize);
+                this.productSearch.searchProducts(value, searchConfig, this.searchResults);
+                // this.productLoader.incrementalSearchProducts(this.searchResults, value, this.pageSize);
             }
             if (this.shouldSearchSuggestions()) {
-                this.productLoader.searchSuggestions(this.suggestionResults, value, this.pageSize);
+                this.productSearch.searchSuggestions(value, searchConfig, this.suggestionResults);
             }
         });
     }
