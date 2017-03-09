@@ -19,11 +19,11 @@
     <md-sidenav #sidenav class="example-sidenav" mode="side" opened="false">
         <y-product-facet-navigation 
             (filter)="onFilter($event)"
+            [categoryCode]="categoryCode"
             [searchResult]="model"></y-product-facet-navigation>
     </md-sidenav>
     
-    <div>
-        
+    <div>    
         <md-grid-list 
             *ngIf="useGrid"
             cols="3" 
