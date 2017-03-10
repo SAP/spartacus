@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./product-list-item.component.scss']
 })
 export class ProductListItemComponent {
-    
+
     @Input() product;
 
 }

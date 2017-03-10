@@ -16,7 +16,7 @@ export class ProductFacetNavigationComponent {
     constructor(
         private cd: ChangeDetectorRef
     ) { }
-
+    
     toggleValue(query: string) {
         this.filter.emit(query);
         // this.cd.markForCheck();

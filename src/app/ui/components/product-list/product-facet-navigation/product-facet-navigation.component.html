@@ -2,17 +2,15 @@
 <div class="dark">
     <md-card>
         <md-card-content>
-            <div>
-                <md-chip-list>
-                    <md-chip *ngFor="let breadcrumb of searchResult.breadcrumbs"
-                        color="primary" selected="true"
-                        [hidden]="breadcrumb.facetValueCode === activeFacetValueCode"
-                        (click)="toggleValue(breadcrumb.removeQuery.query.value)">
-                        {{breadcrumb.facetValueName}}
-                    </md-chip>
-                </md-chip-list>
-            </div>
-
+            <md-chip-list>
+                <md-chip *ngFor="let breadcrumb of searchResult.breadcrumbs"
+                    color="primary" selected="true"
+                    [hidden]="breadcrumb.facetValueCode === activeFacetValueCode"
+                    (click)="toggleValue(breadcrumb.removeQuery.query.value)">
+                    {{breadcrumb.facetValueName}}
+                </md-chip>
+            </md-chip-list>
+        
             <div *ngFor="let facet of searchResult.facets" >
                 <div *ngIf="facet.visible" class="facet-group">
                     <h3>{{facet.name}}</h3>
