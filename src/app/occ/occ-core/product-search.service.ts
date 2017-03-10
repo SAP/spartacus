@@ -15,7 +15,7 @@ export class OccProductSearchService extends BaseService {
     query(fullQuery: string, pageSize = DEFAULT_PRODUCT_PAGE_LIST): Promise<any> {
         let url = this.createTextSearchEndpoint(fullQuery);
         url += '&pageSize=' + pageSize;
-        url += '&fields=products(code,name,summary,price,images(DEFAULT)),facets,breadcrumbs,pagination(DEFAULT)';
+        url += '&fields=products(code,name,summary,price(FULL),images(DEFAULT)),facets,breadcrumbs,pagination(DEFAULT)';
         return this.doSearch(url);
     }
 

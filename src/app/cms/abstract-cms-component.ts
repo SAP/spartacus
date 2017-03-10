@@ -65,8 +65,12 @@ export abstract class AbstractCmsComponent extends AbstractComponent implements 
                 newUrl = '/brand/' + categoryFragment;
             }else if (categoryFragment) {
                 newUrl = '/category/' + categoryFragment;
-            }else {
+            }else if (productFragment) {
                 newUrl = '/product/' + productFragment;
+            }else {
+                if (url !== '/') {
+                    console.warn('couldn\'t map url', url);
+                }
             }
         }
         return newUrl;
@@ -76,6 +80,6 @@ export abstract class AbstractCmsComponent extends AbstractComponent implements 
         const fragment = url.indexOf(param);
         return fragment > -1 ? url.substr(fragment + param.length) : null;
     }
-
+    
 
 }

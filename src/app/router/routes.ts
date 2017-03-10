@@ -25,7 +25,10 @@ export const appRoutes: Routes = [
     {path: 'product/:productCode', component: ProductDetailPageComponent},
 
     {path: 'category/:categoryCode', component: CategoryPageComponent},
+    {path: 'category/:categoryCode/:title', component: CategoryPageComponent},
+
     {path: 'brand/:brandCode', component: CategoryPageComponent},
+    {path: 'brand/:brandCode/:title', component: CategoryPageComponent},
 ];
 
 export const AppRouter = RouterModule.forRoot(appRoutes);

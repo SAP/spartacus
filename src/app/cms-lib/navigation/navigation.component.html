@@ -1,40 +1,40 @@
 
-<button md-button *ngIf="!node.childs" [routerLink]="getUrl(node.url)">
+<a md-button *ngIf="!node.childs" [routerLink]="getUrl(node)">
     <span *ngIf="node.title">{{node.title}}</span>
     <md-icon *ngIf="!node.title">reorder</md-icon>
-</button>
+</a>
 
-<button *ngIf="node.childs && node.title" md-button [mdMenuTriggerFor]="menu">
+<a *ngIf="node.childs && node.title" md-button [mdMenuTriggerFor]="menu">
     <span>{{node.title}}</span>
-</button>
+</a>
 
-<button *ngIf="node.childs && !node.title" md-icon-button 
+<a *ngIf="node.childs && !node.title" md-icon-button 
 
     [mdMenuTriggerFor]="menu">
     <md-icon>reorder</md-icon>
-</button>
+</a>
 
 <md-menu #menu="mdMenu" style="margin-top:30px" [overlapTrigger]="false"  style="width:600px">
     <div *ngIf="node.childs && node.childs[0].childs">
         <div fxLayout="row" fxLayoutAlign="start start">
             <div *ngFor="let childNode of node.childs" fxFlex>
-                <button
-                    [routerLink]="getUrl(childNode.url)"
-                    md-menu-item> {{childNode.title}}</button>
+                <a mdButton
+                    [routerLink]="getUrl(childNode)"
+                    md-menu-item> {{childNode.title}}</a>
                     
                 <div *ngIf="childNode.childs">
-                    <button *ngFor="let grandChildNode of childNode.childs"
-                        [routerLink]="getUrl(grandChildNode.url)"
-                        md-menu-item> {{grandChildNode.title}} </button>
+                    <a *ngFor="let grandChildNode of childNode.childs"
+                        [routerLink]="getUrl(grandChildNode)"
+                        md-menu-item> {{grandChildNode.title}} </a>
                 </div>
             </div>
         </div>
     </div>
     <div *ngIf="node.childs && !node.childs[0].childs">
-        <button
+        <a
             *ngFor="let childNode of node.childs"
-            [routerLink]="getUrl(childNode.url)"
-            md-menu-item> {{childNode.title}}</button>
+            [routerLink]="getUrl(childNode)"
+            md-menu-item> {{childNode.title}}</a>
     </div>
 
 </md-menu>
