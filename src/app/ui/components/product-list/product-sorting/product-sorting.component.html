@@ -5,6 +5,26 @@
 <md-menu #productSort="mdMenu">
     <button
         *ngFor="let sort of sortOptions" 
-        md-menu-item>{{sort.label}}</button>
+        md-menu-item>
+        <md-icon color="primary">sort_by_alpha</md-icon>
+        {{sort.label}}</button>
+    <md-divider></md-divider>
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+        <button md-icon-button 
+            [disabled]="grid.mode === 'grid'" 
+            (click)="grid.mode='grid'">
+            <md-icon>view_module</md-icon>
+        </button>
+        <button md-icon-button 
+            [disabled]="grid.mode === 'list'" 
+            (click)="grid.mode='list'"
+            ><md-icon>view_list</md-icon>
+        </button>
+        <button md-icon-button 
+            [disabled]="grid.mode === 'line'" 
+            (click)="grid.mode='line'">
+            <md-icon>view_headline</md-icon>
+        </button>
+    </div>
 </md-menu>
 

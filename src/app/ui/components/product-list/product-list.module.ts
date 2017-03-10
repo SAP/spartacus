@@ -15,6 +15,7 @@ import { ProductPagingComponent } from './product-paging/product-paging.componen
 import { ProductSortingComponent } from './product-sorting/product-sorting.component';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
+import { ProductLineItemComponent } from './product-line-item/product-line-item.component';
 
 @NgModule({
     imports: [
@@ -30,7 +31,8 @@ import { ProductGridItemComponent } from './product-grid-item/product-grid-item.
         ProductPagingComponent,
         ProductSortingComponent,
         ProductListItemComponent,
-        ProductGridItemComponent
+        ProductGridItemComponent,
+        ProductLineItemComponent
     ],
     exports: [
         ProductListComponent,

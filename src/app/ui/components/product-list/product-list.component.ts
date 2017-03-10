@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, ViewChild } from '@angular/core';
 import { MdSidenav } from '@angular/material';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -11,19 +11,23 @@ import { ProductLoaderService } from '../../../data/product-loader.service';
     templateUrl: './product-list.component.html',
     styleUrls: ['./product-list.component.scss']
 })
-export class ProductListComponent implements OnChanges {
+export class ProductListComponent implements OnChanges, OnInit {
 
     model;
-    
+
     @ViewChild('sidenav') sidenav: MdSidenav;
 
-    @Input() useGrid;
+    grid: any;
+
+    @Input() gridMode: String;
     @Input() query;
     @Input() categoryCode;
     @Input() brandCode;
 
     subject;
     config;
+
+    isFacetPanelOpen = false;
     
     constructor(
         protected productLoader: ProductLoaderService,
@@ -35,7 +39,12 @@ export class ProductListComponent implements OnChanges {
             this.model = result;
         });
     }
-    
+
+    ngOnInit() {
+        this.grid = {
+            mode: this.gridMode
+        };
+    }
 
     ngOnChanges() {
         

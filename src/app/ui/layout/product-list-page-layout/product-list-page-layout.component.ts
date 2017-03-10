@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class ProductListPageLayoutComponent {
 
-    @Input() useGrid: boolean;
+    @Input() gridMode: String;
     
     @Input() categoryCode;
     @Input() brandCode;
