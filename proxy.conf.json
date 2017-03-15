@@ -1,0 +1,8 @@
+{
+  "/medias": {
+    "target": "https://localhost:9002",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

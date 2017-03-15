@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
+import { ConfigService } from '../../cms/config.service';
+import { CmsModelService } from '../../data/cms-model.service';
+import { SvgLoaderService } from './svg-loader.service';
 
 @Component({
   selector: 'y-banner',
@@ -7,6 +10,8 @@ import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
   styleUrls: ['./banner.component.scss']
 })
 export class BannerComponent extends AbstractCmsComponent {
+
+    @ViewChild('svgContainer') svgContainer: ElementRef;
 
     // TODO: move to a more generic location
     // TODO: Make configurable
@@ -17,21 +22,43 @@ export class BannerComponent extends AbstractCmsComponent {
         {code: 'widescreen', width: 1200}
     ];
 
-    isSVG() {
-        const image = this.getImage();
-        return image && image.url && (image.url.indexOf('.svg') > -1);
+    constructor(
+        protected cd: ChangeDetectorRef,
+        protected configService: ConfigService,
+        protected cmsModelService: CmsModelService,
+        protected svgService: SvgLoaderService
+    ) {
+        super(cd, configService, cmsModelService);
+    }
+
+    protected fetchData() {
+        super.fetchData();
+
+        if (this.isSVG()) {
+            // we should load the SVG resources from their original domain
+            // however we're blocked by CORS. Therefor we use a proxy
+            // and load the data and append it to an element.
+            this.svgService.loadSVG(this.getImageUrl()).subscribe((svgData) => {
+                this.svgContainer.nativeElement.innerHTML = svgData;
+                this.cd.detectChanges();
+            });
+        }
     }
 
     hasImage() {
         return (null !== this.model && null !== this.model.media);
     }
 
-    hasMultipleFormats() {
-        return (this.hasImage() && this.model.media.constructor === Array);
+    getImageUrl() {
+        return this.getImage().url;
     }
 
-    getUrl() {
+    getLinkUrl() {
         return this.mapUrl(this.model.urlLink);
+    }
+
+    isSVG() {
+        return this.svgService.isSVG(this.getImageUrl());
     }
 
     getTarget() {
@@ -43,15 +70,10 @@ export class BannerComponent extends AbstractCmsComponent {
         for (const format of this.formats) {
             srcset += this.getImageSrcSet(format.code, format.width + 'w');
         }
-        
-        // srcset += this.getImageSrcSet('tablet', '500w');
-        // srcset += this.getImageSrcSet('desktop', '800w');
-        // srcset += this.getImageSrcSet('widescreen', '500w');
         return srcset;
     }
 
-
-    getImage() {
+    private getImage() {
         let image;
         if (this.hasMultipleFormats()) {
             image = this.getImageByFormat(this.model.media[0].format);
@@ -61,7 +83,12 @@ export class BannerComponent extends AbstractCmsComponent {
         return image;
     }
 
-    getImageSrcSet(format: string, width: string) {
+    private hasMultipleFormats() {
+        return (this.hasImage() && this.model.media.constructor === Array);
+    }
+
+
+    private getImageSrcSet(format: string, width: string) {
         let src = '';
         const image = this.getImageByFormat(format);
         if (image) {

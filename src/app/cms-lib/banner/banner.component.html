@@ -1,18 +1,18 @@
 
 <a fxFlex *ngIf="hasImage()" 
-    [routerLink]="[getUrl()]" >
-    <div  *ngIf="hasImage() && isSVG()" style="min-width:200px;min-height:40px;">
-        SVG has CORS issues
-        <!--<object
-            [data]="'https://localhost:9002' + getImage().url"
-            type="image/svg+xml">
-        </object>-->
-    </div>
-    
+    [target]="getTarget()"
+    [routerLink]="[getLinkUrl()]" >
 
-    <img *ngIf="!isSVG() && !hasMultipleFormats()" [src]="'https://localhost:9002' + getImage().url"/>
+    <!-- 
+        SVG images need special treatment:
+        Since they're loaded from a different URL we're facing cors issues
+        We therefor load them using http and append the data to an HTML element. 
+    -->
+    <div *ngIf="hasImage() && isSVG()" #svgContainer></div>
+
+    <img *ngIf="!isSVG() && !hasMultipleFormats()" [src]="'https://localhost:9002' + getImageUrl()"/>
     <picture *ngIf="!isSVG() && hasMultipleFormats()" class="responsive-banner">
-        <img [src]="'https://localhost:9002' + getImage().url"
+        <img [src]="'https://localhost:9002' + getImageUrl()"
             [srcset]="getResponsiveSrcset()"
         />
     </picture>
