@@ -14,6 +14,9 @@ import { ContentPageLayoutComponent } from './content-page-layout/content-page-l
 
 import { ComponentsModule } from '../components/components.module';
 
+import { LanguageSelectorModule } from '../../cms-lib/language-selector/language-selector.module';
+import { CurrencySelectorModule } from '../../cms-lib/currency-selector/currency-selector.module';
+
 import { ProductListPageLayoutComponent } from './product-list-page-layout/product-list-page-layout.component';
 import { ProductDetailsPageLayoutComponent } from './product-details-page-layout/product-details-page-layout.component';
 
@@ -25,7 +28,11 @@ import { ProductDetailsPageLayoutComponent } from './product-details-page-layout
         MaterialModule.forRoot(),
         FlexLayoutModule,
         CmsModule,
-        ComponentsModule
+
+        ComponentsModule,
+
+        LanguageSelectorModule,
+        CurrencySelectorModule
     ],
     declarations: [
         HeaderComponent,

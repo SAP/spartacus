@@ -13,6 +13,8 @@ import { SearchBoxModule } from './search-box/search-box.module';
 import { MiniCartModule } from './mini-cart/mini-cart.module';
 import { ProductReferencesModule} from './product-references/product-references.module';
 import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
+import { LanguageSelectorModule } from './language-selector/language-selector.module';
+import { CurrencySelectorModule } from './currency-selector/currency-selector.module';
 
 @NgModule({
     imports: [
@@ -29,7 +31,9 @@ import { TabParagraphContainerModule } from './tab-paragraph-container/tab-parag
         SearchBoxModule,
         MiniCartModule,
         ProductReferencesModule,
-        TabParagraphContainerModule
+        TabParagraphContainerModule,
+        LanguageSelectorModule,
+        CurrencySelectorModule
     ]
 })
 export class CmsLibModule { }

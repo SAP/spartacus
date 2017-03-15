@@ -37,8 +37,4 @@ export class OccProductSearchService extends BaseService {
         });
     }
 
-    private logError(error) {
-        console.log('error', error);
-    }
-
 }

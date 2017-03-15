@@ -13,6 +13,7 @@ import { CmsModule } from './cms/cms.module';
 
 import { CmsLibModule } from './cms-lib/cms-lib.module';
 
+import { UiFrameworkModule } from './ui/ui-framework/ui-framework.module';
 
 const hybrisServerSettings = {
     baseUrl: 'https://localhost:9002',
@@ -26,7 +27,7 @@ const hybrisServerSettings = {
     ],
     imports: [
         BrowserModule,
-        
+
         RouterModule,
         OccModule.forRoot({
             settings: hybrisServerSettings
@@ -57,9 +58,10 @@ const hybrisServerSettings = {
             }
         ),
         CmsLibModule,
-        UiModule
+        UiModule,
+        UiFrameworkModule
     ],
-    
+
     providers: [
       {
           provide: LOCALE_ID, useValue: 'nl-NL'

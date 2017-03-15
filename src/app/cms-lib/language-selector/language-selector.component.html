@@ -1,0 +1,11 @@
+<div *ngIf="languages && languages.length>1">
+    <button md-icon-button [mdMenuTriggerFor]="languageRef">
+        <md-icon>language</md-icon>
+    </button>
+
+    <md-menu #languageRef="mdMenu" >
+        <button md-menu-item *ngFor="let item of languages">
+            {{item.nativeName}}
+        </button>
+    </md-menu>
+</div>

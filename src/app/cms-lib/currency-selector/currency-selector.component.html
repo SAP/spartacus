@@ -1,0 +1,11 @@
+<div *ngIf="currencies && currencies.length>1">
+    <button md-icon-button [mdMenuTriggerFor]="currencyRef">
+        <md-icon>monetization_on</md-icon>
+    </button>
+
+    <md-menu #currencyRef="mdMenu" >
+        <button md-menu-item *ngFor="let item of currencies">
+            {{item.symbol}} {{item.isocode}}
+        </button>
+    </md-menu>
+</div>

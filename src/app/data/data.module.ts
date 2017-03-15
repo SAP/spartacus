@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { ModelService } from './model.service';
+import { SiteLoaderService } from './site-loader.service';
 
 import { ProductLoaderService } from './product-loader.service';
 import { ProductSearchService } from './product-search.service';
@@ -20,9 +22,12 @@ import { ProductModelService } from './product-model.service';
         OccCmsModule
     ],
     providers: [
+        SiteLoaderService,
+
         CmsLoaderService,
         CmsModelService,
         
+        ModelService,
         ProductModelService,
         ProductSearchService,
         ProductLoaderService

@@ -25,7 +25,7 @@ export class ProductLoaderService {
      * @param productCode
      */
     getSubscription(productCode: string) {
-        return this.productModelService.getSubscription(productCode);
+        return this.productModelService.get(productCode);
     }
 
     loadProduct(productCode: string) {
@@ -36,7 +36,7 @@ export class ProductLoaderService {
         this.startLoading(productCode);
         this.occProductService.loadProduct(productCode)
             .then((productData) => {
-                this.productModelService.storeProduct(productData['code'], productData);
+                this.productModelService.store(productData['code'], productData);
         });
     }
 
@@ -48,7 +48,7 @@ export class ProductLoaderService {
         this.startLoading(key);
         this.occProductService.loadProductReviews(productCode)
             .then((reviewData) => {
-                this.productModelService.storeProduct(key, reviewData);
+                this.productModelService.store(key, reviewData);
         });
     }
 
@@ -60,7 +60,7 @@ export class ProductLoaderService {
         this.startLoading(key);
         this.occProductService.loadProductReferences(productCode)
             .then((reviewData) => {
-                this.productModelService.storeProduct(key, reviewData.productReferences);
+                this.productModelService.store(key, reviewData.productReferences);
         });
     }
 

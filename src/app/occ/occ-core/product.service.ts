@@ -1,9 +1,3 @@
-// import { Injectable } from '@angular/core';
-// import { Http, Response, Headers } from '@angular/http';
-// import { Observable } from 'rxjs/Rx';
-// import { OccBaseService } from './occ-base.service';
-// import { ProductOCCData } from './product.typing';
-// import { Review } from '../product/product-reviews/review';
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 
