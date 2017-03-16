@@ -11,6 +11,7 @@ import { ProductDetailPageComponent } from './product-detail-page/product-detail
 
 import { ProductModule } from '../components/product/product.module';
 import { ProductListPageComponent } from './product-list-page/product-list-page.component';
+import { PageNotFoundComponent } from './404/404.component';
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import { ProductListPageComponent } from './product-list-page/product-list-page.
         CardPageComponent,
         CategoryPageComponent,
         ProductDetailPageComponent,
-        ProductListPageComponent
+        ProductListPageComponent,
+        PageNotFoundComponent
     ],
     exports: [
         HomePageComponent
