@@ -13,11 +13,7 @@ import { ConfigService} from './config.service';
     ],
     providers: [
         ConfigService
-    ],
-    exports: [
-        // OccCmsModule
-    ],
-    declarations: []
+    ]
 })
 export class OccModule {
     static forRoot(settings: any): any {

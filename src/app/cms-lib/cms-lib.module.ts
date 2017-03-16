@@ -16,9 +16,17 @@ import { TabParagraphContainerModule } from './tab-paragraph-container/tab-parag
 import { LanguageSelectorModule } from './language-selector/language-selector.module';
 import { CurrencySelectorModule } from './currency-selector/currency-selector.module';
 
+import { AbstractCartComponent } from './abstract-cart-component';
+import { AddToCartModule } from './add-to-cart/add-to-cart.module';
+
 @NgModule({
     imports: [
         CommonModule,
+
+        LanguageSelectorModule,
+        CurrencySelectorModule,
+
+        AddToCartModule,
 
         CmsParagraphModule,
         LinkModule,
@@ -31,9 +39,7 @@ import { CurrencySelectorModule } from './currency-selector/currency-selector.mo
         SearchBoxModule,
         MiniCartModule,
         ProductReferencesModule,
-        TabParagraphContainerModule,
-        LanguageSelectorModule,
-        CurrencySelectorModule
+        TabParagraphContainerModule
     ]
 })
 export class CmsLibModule { }

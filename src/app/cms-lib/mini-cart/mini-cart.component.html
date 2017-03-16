@@ -1,4 +1,5 @@
-
-<button md-icon-button color="primary">
+<button md-button color="primary" *ngIf="cart" (click)="openCart()">
+    <span>{{cart.deliveryItemsQuantity}} ITEMS</span>
+    <span>{{cart.totalPrice.formattedValue}}</span>
     <md-icon>shopping_cart</md-icon>
 </button>

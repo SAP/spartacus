@@ -13,22 +13,18 @@
     </div>
     
     <md-card-content>
-        <div fxLayout="row" fxLayoutAlign="start start">
-            <y-product-images [productCode]="productCode" fxFlex="50%"></y-product-images>
-            <y-product-summary [productCode]="productCode" fxFlex="50%"></y-product-summary>
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start" fxLayoutGap="24px">
+            <y-product-images fxFlexOrder.xs="2" [productCode]="productCode" fxFlex="50%"></y-product-images>
+            <div fxFlex="50%" fxFlexOrder.xs="1">
+                <y-product-summary [productCode]="productCode"></y-product-summary>
+                <y-dynamic-slot flex position="AddToCart" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
+                <y-dynamic-slot flex position="VariantSelector"></y-dynamic-slot>
+            </div>
         </div>
 
-        <y-dynamic-slot flex position="VariantSelector"></y-dynamic-slot>
-        <y-dynamic-slot flex position="AddToCart"></y-dynamic-slot>
-        
         <y-dynamic-slot flex position="CrossSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
         <y-dynamic-slot flex position="UpSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
- 
 
-        <!--<div y-dynamic-slot position="Tabs">
-            more stuff....
-        </div>-->
-        <!--!{{tab | json}}!-->
         <md-tab-group>
             <md-tab label="PRODUCT DETAILS">
                 <p [innerHTML]="model?.description"></p>

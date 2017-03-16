@@ -1,11 +1,23 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
+import { Http } from '@angular/http';
+import { ConfigService } from '../config.service';
+import { ProductImageConverterService } from './converters/product-image-converter.service';
+import { ProductReferenceConverterService } from './converters/product-reference-converter.service';
 
 const PRODUCT_ENDPOINT = 'products/';
 
 @Injectable()
 export class OccProductService extends BaseService {
 
+    constructor(
+        protected http: Http,
+        protected configService: ConfigService,
+        protected productImageConverter: ProductImageConverterService,
+        protected productReferenceConverter: ProductReferenceConverterService
+    ) {
+        super(http, configService);
+    }
     loadProduct(productCode: string) {
         let url = this.getProductEndpoint();
         url += '/' + productCode;

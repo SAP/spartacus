@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ModelService } from './model.service';
 import { SiteLoaderService } from './site-loader.service';
 
+import { ProductModelService } from './product-model.service';
 import { ProductLoaderService } from './product-loader.service';
 import { ProductSearchService } from './product-search.service';
 
@@ -13,7 +14,8 @@ import { CmsModelService } from './cms-model.service';
 import { OccCoreModule } from '../occ/occ-core/occ-core.module';
 import { OccCmsModule } from '../occ/occ-cms/occ-cms.module';
 
-import { ProductModelService } from './product-model.service';
+import { CartModelService } from './cart-model.service';
+import { CartLoaderService } from './cart-loader.service';
 
 @NgModule({
     imports: [
@@ -23,14 +25,17 @@ import { ProductModelService } from './product-model.service';
     ],
     providers: [
         SiteLoaderService,
+        ModelService,
 
         CmsLoaderService,
         CmsModelService,
         
-        ModelService,
         ProductModelService,
         ProductSearchService,
-        ProductLoaderService
+        ProductLoaderService,
+        
+        CartModelService,
+        CartLoaderService
     ],
     declarations: []
 })

@@ -1,8 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { AsyncSubject } from 'rxjs/AsyncSubject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
 import { OccProductService } from '../occ/occ-core/product.service';
 import { OccProductSearchService } from '../occ/occ-core/product-search.service';
 import { ProductModelService } from './product-model.service';

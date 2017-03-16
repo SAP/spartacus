@@ -48,6 +48,7 @@ const hybrisServerSettings = {
                     NavigationComponent: 'NavigationComponent',
                     FooterNavigationComponent: 'FooterNavigationComponent',
                     CategoryNavigationComponent: 'CategoryNavigationComponent',
+                    ProductAddToCartComponent: 'AddToCartComponent',
                     MiniCartComponent: 'MiniCartComponent',
                     // SideCartComponent: 'MiniCartComponent',
                     ProductCarouselComponent: 'ProductCarouselComponent',

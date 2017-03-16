@@ -8,8 +8,7 @@ export class ModelService {
 
     store(key, data) {
         const subscription = this.get(key);
-
-        if (!subscription.getValue()) {
+        if (!this.isEqual(subscription, data)) {
             subscription.next(data);
         }
     }
@@ -20,4 +19,9 @@ export class ModelService {
         }
         return this.subscriptions[key];
     }
+
+    private isEqual(subscription, model) {
+        return JSON.stringify(subscription.getValue()) === JSON.stringify(model);
+    }
+    
 }

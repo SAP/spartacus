@@ -6,6 +6,8 @@ import { OccProductSearchService } from './product-search.service';
 import { ProductImageConverterService } from './converters/product-image-converter.service';
 import { ProductReferenceConverterService } from './converters/product-reference-converter.service';
 
+import { OccCartService } from './cart.service';
+
 import { OccSiteService } from './site.service';
 
 @NgModule({
@@ -17,7 +19,8 @@ import { OccSiteService } from './site.service';
         OccProductService,
         OccProductSearchService,
         ProductImageConverterService,
-        ProductReferenceConverterService
+        ProductReferenceConverterService,
+        OccCartService
     ],
     declarations: []
 })

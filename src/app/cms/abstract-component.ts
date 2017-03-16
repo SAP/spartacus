@@ -3,8 +3,15 @@ import { ConfigService } from './config.service';
 
 export abstract class AbstractComponent {
 
+    protected contextParameters: any;
+
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        protected changeDetector: ChangeDetectorRef,
         protected configService: ConfigService
     ) { }
+
+    setContextParameters(contextParameters: any) {
+        this.contextParameters = contextParameters;
+    }
+
 }

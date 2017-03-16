@@ -9,7 +9,6 @@ import { DynamicSlotComponent } from './dynamic-slot/dynamic-slot.component';
 import { ComponentWrapperComponent } from './component-wrapper/component-wrapper.component';
 import { ComponentMapperService } from './component-mapper.service';
 
-
 import { ConfigService } from './config.service';
 import { ComponentMapperConfigService } from './component-mapper-config.service';
 
