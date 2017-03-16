@@ -1,7 +1,7 @@
 
 <a fxFlex *ngIf="hasImage()" 
     [target]="getTarget()"
-    [routerLink]="[getLinkUrl()]" >
+    [routerLink]="'/' + model.urlLink" >
 
     <!-- 
         SVG images need special treatment:

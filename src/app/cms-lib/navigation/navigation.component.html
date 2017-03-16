@@ -1,30 +1,26 @@
 
-<a md-button *ngIf="!node.childs" [routerLink]="getUrl(node)">
+<!-- link WITHOUT childs -->
+<a md-button *ngIf="!node.childs" [routerLink]="node.url">
+    <span *ngIf="node.title">{{node.title}}</span>
+</a>
+
+<!-- link WITH childs -->
+<a *ngIf="node.childs" md-button [mdMenuTriggerFor]="menu">
     <span *ngIf="node.title">{{node.title}}</span>
     <md-icon *ngIf="!node.title">reorder</md-icon>
 </a>
 
-<a *ngIf="node.childs && node.title" md-button [mdMenuTriggerFor]="menu">
-    <span>{{node.title}}</span>
-</a>
-
-<a *ngIf="node.childs && !node.title" md-icon-button 
-
-    [mdMenuTriggerFor]="menu">
-    <md-icon>reorder</md-icon>
-</a>
-
-<md-menu #menu="mdMenu" style="margin-top:30px" [overlapTrigger]="false"  style="width:600px">
+<md-menu #menu="mdMenu" style="margin-top:30px" [overlapTrigger]="false" style="width:600px">
     <div *ngIf="node.childs && node.childs[0].childs">
         <div fxLayout="row" fxLayoutAlign="start start">
             <div *ngFor="let childNode of node.childs" fxFlex>
                 <a mdButton
-                    [routerLink]="getUrl(childNode)"
+                    [routerLink]="childNode.url"
                     md-menu-item> {{childNode.title}}</a>
                     
                 <div *ngIf="childNode.childs">
                     <a *ngFor="let grandChildNode of childNode.childs"
-                        [routerLink]="getUrl(grandChildNode)"
+                        [routerLink]="grandChildNode.url"
                         md-menu-item> {{grandChildNode.title}} </a>
                 </div>
             </div>
@@ -33,7 +29,7 @@
     <div *ngIf="node.childs && !node.childs[0].childs">
         <a
             *ngFor="let childNode of node.childs"
-            [routerLink]="getUrl(childNode)"
+            [routerLink]="childNode.url"
             md-menu-item> {{childNode.title}}</a>
     </div>
 

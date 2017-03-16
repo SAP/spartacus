@@ -40,7 +40,7 @@ export class BannerComponent extends AbstractCmsComponent {
             // and load the data and append it to an element.
             this.svgService.loadSVG(this.getImageUrl()).subscribe((svgData) => {
                 this.svgContainer.nativeElement.innerHTML = svgData;
-                this.cd.detectChanges();
+                this.cd.markForCheck();
             });
         }
     }
@@ -51,10 +51,6 @@ export class BannerComponent extends AbstractCmsComponent {
 
     getImageUrl() {
         return this.getImage().url;
-    }
-
-    getLinkUrl() {
-        return this.mapUrl(this.model.urlLink);
     }
 
     isSVG() {
