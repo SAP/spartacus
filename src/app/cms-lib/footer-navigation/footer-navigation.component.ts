@@ -11,7 +11,6 @@ export class FooterNavigationComponent extends AbstractCmsComponent {
     children = [];
 
     protected fetchData() {
-        super.fetchData();
 
         if (this.model && this.model.navigationNode && this.model.navigationNode.children) {
             for (const child of this.model.navigationNode.children) {
@@ -30,6 +29,9 @@ export class FooterNavigationComponent extends AbstractCmsComponent {
 
             }
         }
+
+        super.fetchData();
+        
     }
 
 }

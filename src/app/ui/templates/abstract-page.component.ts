@@ -41,7 +41,6 @@ export abstract class AbstractPage {
                 this.cmsLoader.loadComponentsForPage('cart');
                 break;
             default:
-                // this.cmsLoader.loadComponentsForIndex();
         };
      }
 
@@ -64,18 +63,6 @@ export abstract class AbstractPage {
             this.cmsLoader.loadComponentsForPage('search');
         }
      }
-    //  'ProductPage'
-    //  subscribe(pageType) {
-         
-    //      if (!this.subscriptions[pageType]) {
-    //          this.subscriptions[pageType] = this.cmsModelService.getSubscription(pageType);
-    //          this.subscriptions[pageType].subscribe((data) => {
-    //             console.log('loaded again', data);
-    //             // this.cd.detectChanges();
-    //          });
-    //      }
-         
-    //  }
 
      loadAdditionData(params: Params) {
          // TODO

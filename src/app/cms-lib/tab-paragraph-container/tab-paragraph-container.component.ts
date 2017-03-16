@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
   templateUrl: './tab-paragraph-container.component.html',
   styleUrls: ['./tab-paragraph-container.component.scss']
 })
-export class TabParagraphContainerComponent extends AbstractProductComponent implements OnInit {
+export class TabParagraphContainerComponent extends AbstractProductComponent {
     // @ViewChild('tabContent') tabContent: Element;
 
     // fetchData() {

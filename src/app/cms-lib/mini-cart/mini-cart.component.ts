@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import {MdDialog} from '@angular/material';
+import { MdDialog } from '@angular/material';
+import { AbstractCartComponent } from '../abstract-cart-component';
 import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 import { CartModelService } from '../../data/cart-model.service';
 
@@ -8,17 +9,11 @@ import { CartModelService } from '../../data/cart-model.service';
   templateUrl: './mini-cart.component.html',
   styleUrls: ['./mini-cart.component.scss']
 })
-export class MiniCartComponent implements OnInit {
+export class MiniCartComponent extends AbstractCartComponent  {
 
     cart;
 
-    constructor(
-        protected cd: ChangeDetectorRef,
-        protected cartModel: CartModelService,
-        protected dialog: MdDialog
-    ) {}
-
-    ngOnInit() {
+    bootstrap() {
         this.cartModel.get().subscribe((cartData) => {
             this.cart = cartData;
             this.cd.detectChanges();

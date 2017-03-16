@@ -26,12 +26,10 @@ export class CartLoaderService {
         if (cartId) {
             this.occCartService.loadCart(this.user, cartId)
                 .subscribe((cartData) => {
-                    console.log('cart refreshed', cartData);
                     this.cartModel.store(cartData);
-                });
+                },
+                error => console.log(error));
         }
-            // error => console.log(error),
-            // () => this.calcTotalQuantity());
     }
 
     addToCart(productCode: string, quantity: number) {
@@ -47,6 +45,16 @@ export class CartLoaderService {
                 error => console.log(error)
             );
         }
+    }
+
+    removeEntry(entry) {
+        this.occCartService.remove(this.user, this.getCartId(), entry.entryNumber)
+            .subscribe((data) => {
+                // TODO: notify
+                // console.log('removed...', data);
+            },
+            error => console.log(error),
+            () => this.refreshCart());
     }
 
     private storeCartInModel(cartData) {

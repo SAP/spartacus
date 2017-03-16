@@ -25,6 +25,7 @@ export class SearchBoxComponent extends AbstractProductComponent {
     protected fetchData() {
         this.configure(this.model);
         this.setupSearch();
+        super.fetchData();
     }
 
     onKey(event: any) {

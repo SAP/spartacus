@@ -14,8 +14,9 @@ export class ProductCarouselComponent extends AbstractProductComponent {
     @Input() animate = true;
 
     protected fetchData() {
+        // super.fetchData();
         const codes = this.getProductCodes();
-        
+
         if (this.contextParameters && this.contextParameters.hasOwnProperty('animate')) {
             this.animate = this.contextParameters.animate;
         }
@@ -25,9 +26,10 @@ export class ProductCarouselComponent extends AbstractProductComponent {
             // TODO: limit data
             this.productSearch.searchProducts(query).subscribe((results) => {
                 this.products = results.products;
-                this.cd.markForCheck();
+                this.cd.detectChanges();
             });
         }
+        super.fetchData();
     }
 
     getProductCodes(): Array<String> {

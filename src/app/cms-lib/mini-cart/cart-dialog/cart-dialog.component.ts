@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CartLoaderService } from '../../../data/cart-loader.service';
 import { CartModelService } from '../../../data/cart-model.service';
 
 @Component({
@@ -12,7 +13,8 @@ export class CartDialogComponent implements OnInit {
 
     constructor(
         protected cd: ChangeDetectorRef,
-        private cartModel: CartModelService
+        private cartModel: CartModelService,
+        protected cartLoader: CartLoaderService
     ) { }
 
     ngOnInit() {
@@ -20,6 +22,11 @@ export class CartDialogComponent implements OnInit {
             this.cart = cartData;
             this.cd.detectChanges();
         });
+    }
+
+
+    removeEntry(entry) {
+        this.cartLoader.removeEntry(entry);
     }
 
 }

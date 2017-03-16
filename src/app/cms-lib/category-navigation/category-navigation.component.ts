@@ -1,17 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
 
 @Component({
   selector: 'y-category-navigation',
   templateUrl: './category-navigation.component.html',
-  styleUrls: ['./category-navigation.component.scss']
+  styleUrls: ['./category-navigation.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryNavigationComponent extends AbstractCmsComponent {
 
     nodes = [];
 
     protected fetchData() {
-        super.fetchData();
 
         // navigationnodes contain children of ordinary type cms components
         // we thread them simmilar and use the cms model service to store them
@@ -21,6 +21,7 @@ export class CategoryNavigationComponent extends AbstractCmsComponent {
                 this.nodes.push(node);
             }
         }
+        super.fetchData();
     }
 
 

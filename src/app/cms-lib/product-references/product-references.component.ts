@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { AbstractProductComponent } from '../../cms/abstract-product-component';
 
 @Component({
@@ -6,8 +6,8 @@ import { AbstractProductComponent } from '../../cms/abstract-product-component';
   templateUrl: './product-references.component.html',
   styleUrls: ['./product-references.component.scss']
 })
-export class ProductReferencesComponent extends AbstractProductComponent implements OnInit {
-    
+export class ProductReferencesComponent extends AbstractProductComponent {
+
     @Input() productCode;
 
     productCodes: Array<String> = [];
@@ -19,10 +19,11 @@ export class ProductReferencesComponent extends AbstractProductComponent impleme
             this.productLoader.getSubscription(this.contextParameters.productCode + 'references').subscribe((refData) => {
                 if (refData) {
                     this.createCodeList(refData);
-                    this.cd.markForCheck();
+                    this.cd.detectChanges();
                 }
             });
         }
+        super.fetchData();
     }
 
     createCodeList(references) {

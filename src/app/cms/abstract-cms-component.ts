@@ -5,8 +5,8 @@ import { ConfigService } from './config.service';
 import { CmsModelService } from '../data/cms-model.service';
 
 @Injectable()
-export abstract class AbstractCmsComponent extends AbstractComponent implements OnInit, OnDestroy {
-    
+export abstract class AbstractCmsComponent extends AbstractComponent implements OnDestroy {
+
     protected subscription;
 
     protected uid: string;
@@ -20,7 +20,7 @@ export abstract class AbstractCmsComponent extends AbstractComponent implements 
         super (cd, configService);
     }
 
-    ngOnInit() {
+    bootstrap() {
         this.subscription = this.cmsModelService.getComponentSubscription(this.uid)
             .subscribe((componentData) => {
                 this.model = componentData;
@@ -29,6 +29,7 @@ export abstract class AbstractCmsComponent extends AbstractComponent implements 
     }
 
     protected fetchData() {
+        this.cd.detectChanges();
         // can be used by implementations
     }
 
@@ -50,6 +51,7 @@ export abstract class AbstractCmsComponent extends AbstractComponent implements 
     // TODO: move to strategy
     protected mapUrl(url: string) {
 
+        // console.warn('mapUrl', url);
         let newUrl = '';
 
         if (url) {
@@ -75,6 +77,5 @@ export abstract class AbstractCmsComponent extends AbstractComponent implements 
         const fragment = url.indexOf(param);
         return fragment > -1 ? url.substr(fragment + param.length) : null;
     }
-    
 
 }

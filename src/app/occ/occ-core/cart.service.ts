@@ -28,12 +28,14 @@ export class OccCartService extends BaseService {
         return this.http.get(url, {})
             .map((response) => {
                 const cartData = response.json();
-                for (const entry of cartData.entries) {
-                    this.productImageConverter.convertProduct(entry.product);
+                if (cartData.entries) {
+                    for (const entry of cartData.entries) {
+                        this.productImageConverter.convertProduct(entry.product);
+                    }
                 }
                 return cartData;
             })
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+            .catch((error: any) => Observable.throw(error || 'Server error'));
     }
 
     public createCart = (userId: string): Observable<any> => {
@@ -58,6 +60,21 @@ export class OccCartService extends BaseService {
         return this.http.post(url, toAdd, { headers: headers })
             .map((response: Response) => response.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    public remove = (userId: string, cartId: string, entryNumber: string): Observable<any> => {
+
+        let url = this.getCartEndpoint(userId);
+        url += cartId;
+        url += '/entries/';
+        url += entryNumber;
+
+        const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+
+        return this.http.delete(url, { headers: headers })
+            .map((response: Response) => response)
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+
     }
 
 

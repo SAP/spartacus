@@ -10,7 +10,7 @@ import { CmsModelService } from '../../data/cms-model.service';
   styleUrls: ['./dynamic-slot.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DynamicSlotComponent implements OnInit, OnDestroy {
+export class DynamicSlotComponent implements OnInit,  OnDestroy {
 
     model;
     dataSubscription;

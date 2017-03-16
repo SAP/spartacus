@@ -1,7 +1,7 @@
 import {
     Component, OnInit, AfterViewInit, Input,
     ViewChild, ViewContainerRef, ComponentFactoryResolver,
-    OnChanges, ChangeDetectorRef
+    OnChanges, ChangeDetectorRef, ChangeDetectionStrategy
 } from '@angular/core';
 import { AbstractCmsComponent } from '../abstract-cms-component';
 import { ComponentMapperService } from '../component-mapper.service';
@@ -11,7 +11,8 @@ import { ComponentMapperService } from '../component-mapper.service';
 @Component({
     selector: 'y-component-wrapper',
     templateUrl: './component-wrapper.component.html',
-    styleUrls: ['./component-wrapper.component.scss']
+    styleUrls: ['./component-wrapper.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ComponentWrapperComponent implements OnInit, AfterViewInit {
 
@@ -26,7 +27,7 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
 
     constructor(
         private componentFactoryResolver: ComponentFactoryResolver,
-        private cdRef: ChangeDetectorRef,
+        private cd: ChangeDetectorRef,
         private componentMapper: ComponentMapperService
     ) { }
 
@@ -62,7 +63,8 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
             if (this.contextParameters && instance.setContextParameters) {
                 instance.setContextParameters(this.contextParameters);
             }
-            this.cdRef.detectChanges();
+            instance.bootstrap();
+            // this.cd.markForCheck();
         }
     }
 

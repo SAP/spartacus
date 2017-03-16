@@ -22,7 +22,4 @@ export abstract class AbstractProductComponent extends AbstractCmsComponent {
         super(cd, configService, cmsModelService);
     }
 
-    // protected getProductLoader(): ProductLoaderService {
-    //     return this.productLoader;
-    // }
 }
