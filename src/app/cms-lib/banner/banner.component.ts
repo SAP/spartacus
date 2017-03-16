@@ -61,8 +61,9 @@ export class BannerComponent extends AbstractCmsComponent {
         return this.svgService.isSVG(this.getImageUrl());
     }
 
+    // TODO: implement target
     getTarget() {
-        return ''; //_blank
+        return '_self';
     }
 
     getResponsiveSrcset() {
