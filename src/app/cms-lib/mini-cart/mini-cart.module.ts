@@ -5,12 +5,14 @@ import { MaterialModule } from '@angular/material';
 
 import { MiniCartComponent } from './mini-cart.component';
 import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
-        MaterialModule.forRoot()
+        MaterialModule.forRoot(),
+        FlexLayoutModule
     ],
     declarations: [MiniCartComponent, CartDialogComponent],
     entryComponents: [MiniCartComponent],

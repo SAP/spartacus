@@ -1,13 +1,13 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CartLoaderService } from '../../../data/cart-loader.service';
 import { CartModelService } from '../../../data/cart-model.service';
 
 @Component({
-  selector: 'y-cart-dialog',
-  templateUrl: './cart-dialog.component.html',
-  styleUrls: ['./cart-dialog.component.scss']
+    selector: 'y-cart-dialog',
+    templateUrl: './cart-dialog.component.html',
+    styleUrls: ['./cart-dialog.component.scss']
 })
-export class CartDialogComponent implements OnInit {
+export class CartDialogComponent implements OnInit, OnDestroy {
 
     cart;
 
@@ -18,15 +18,18 @@ export class CartDialogComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.cartModel.get().subscribe((cartData) => {
+        this.cartModel.getCart().subscribe((cartData) => {
             this.cart = cartData;
-            this.cd.detectChanges();
+            this.cd.markForCheck();
         });
     }
 
+    ngOnDestroy() {
+         this.cd.detach();
+    }
 
     removeEntry(entry) {
-        this.cartLoader.removeEntry(entry);
+        this.cartLoader.removeCartEntry(entry);
     }
 
 }

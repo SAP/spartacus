@@ -3,12 +3,14 @@ import { HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
 
 import { OccCmsModule } from './occ-cms/occ-cms.module';
+import { OccCoreModule } from './occ-core/occ-core.module';
 import { ConfigService} from './config.service';
 
 @NgModule({
     imports: [
         CommonModule,
         HttpModule,
+        OccCoreModule,
         OccCmsModule
     ],
     providers: [
@@ -20,7 +22,10 @@ export class OccModule {
         return {
             ngModule: OccModule,
             providers: [
-                {provide: ConfigService, useValue: settings }
+                {
+                    provide: ConfigService,
+                    useValue: settings
+                }
             ]
         };
     }

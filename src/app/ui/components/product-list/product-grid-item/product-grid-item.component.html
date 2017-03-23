@@ -1,22 +1,17 @@
 <md-card 
-    class="product"
-    [routerLink]="['/product/', product.code]">
-    <!--{{product.name}}-->
-    
+    class="product">
+
     <y-picture 
         *ngIf="product.images"
         [imageContainer]="product.images.PRIMARY"
         imageFormat="product"
+        [routerLink]="['/product/', product.code]"
     ></y-picture>
 
-    <h3>{{product.name}}</h3>
+    <y-add-to-cart [productCode]="product.code"></y-add-to-cart>
+
+    <h3 [routerLink]="['/product/', product.code]">{{product.name}}</h3>
     <p>{{product.summary}}</p>
     <p>{{product.price.currencyIso}} {{product.price.value}}</p>
 
-    <button md-raised-button color="accent">
-        <md-icon>place</md-icon>
-    </button>
-    <button md-raised-button color="primary">
-        <md-icon>shopping_cart</md-icon>
-    </button>
 </md-card>

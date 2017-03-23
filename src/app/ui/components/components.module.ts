@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { UserModule } from './user/user.module';
 import { ProductModule } from './product/product.module';
 import { ProductListModule } from './product-list/product-list.module';
 import { MediaModule } from './media/media.module';
@@ -17,7 +16,6 @@ import { MediaModule } from './media/media.module';
     imports: [
         CommonModule,
 
-        UserModule,
         ProductModule,
         ProductListModule,
         MediaModule,

@@ -19,6 +19,9 @@ import { CurrencySelectorModule } from './currency-selector/currency-selector.mo
 import { AbstractCartComponent } from './abstract-cart-component';
 import { AddToCartModule } from './add-to-cart/add-to-cart.module';
 
+import { LoginStatusModule } from './login-status/login-status.module';
+import { CookieConfirmationModule } from './cookie-confirmation/cookie-confirmation.module';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -27,7 +30,7 @@ import { AddToCartModule } from './add-to-cart/add-to-cart.module';
         CurrencySelectorModule,
 
         AddToCartModule,
-
+        LoginStatusModule,
         CmsParagraphModule,
         LinkModule,
         BannerModule,
@@ -39,7 +42,8 @@ import { AddToCartModule } from './add-to-cart/add-to-cart.module';
         SearchBoxModule,
         MiniCartModule,
         ProductReferencesModule,
-        TabParagraphContainerModule
+        TabParagraphContainerModule,
+        CookieConfirmationModule
     ]
 })
 export class CmsLibModule { }

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { TokenService } from './token.service';
+
 import { ModelService } from './model.service';
 import { SiteLoaderService } from './site-loader.service';
 
@@ -11,32 +13,38 @@ import { ProductSearchService } from './product-search.service';
 import { CmsLoaderService } from './cms-loader.service';
 import { CmsModelService } from './cms-model.service';
 
-import { OccCoreModule } from '../occ/occ-core/occ-core.module';
-import { OccCmsModule } from '../occ/occ-cms/occ-cms.module';
-
 import { CartModelService } from './cart-model.service';
 import { CartLoaderService } from './cart-loader.service';
 
+import { UserModelService } from './user-model.service';
+import { UserLoaderService } from './user-loader.service';
+
+// import { OccModule } from '../occ/occ.module';
+
+
 @NgModule({
     imports: [
-        CommonModule,
-        OccCoreModule,
-        OccCmsModule
+        CommonModule
+        // OccModule
     ],
     providers: [
+        TokenService,
+        
         SiteLoaderService,
         ModelService,
 
         CmsLoaderService,
         CmsModelService,
-        
+
         ProductModelService,
         ProductSearchService,
         ProductLoaderService,
-        
+
         CartModelService,
-        CartLoaderService
-    ],
-    declarations: []
+        CartLoaderService,
+
+        UserModelService,
+        UserLoaderService
+    ]
 })
 export class DataModule { }

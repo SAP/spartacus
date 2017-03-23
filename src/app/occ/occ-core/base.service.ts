@@ -6,6 +6,9 @@ const ENDPOINT_PRODUCT = 'products';
 const ENDPOINT_PRODUCT_SEARCH = 'products/search';
 const ENDPOINT_PRODUCT_SUGGESTIONS = 'products/suggestions';
 
+const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
+const USER_ENDPOINT = '/users/';
+
 @Injectable()
 export class BaseService {
 
@@ -45,9 +48,18 @@ export class BaseService {
         return this.getBaseEndPoint() + ENDPOINT_PRODUCT_SUGGESTIONS;
     }
 
-    getCartEndpoint(userId = 'anonymous') {
+    getCartEndpoint(userId: string) {
         const cartEndpoint = 'users/' + userId + '/carts/';
         return this.getBaseEndPoint() + cartEndpoint;
     }
+
+    getOAuthEndpoint() {
+        return this.configService.settings.baseUrl + OAUTH_ENDPOINT;
+    }
+
+    getUserEndpoint() {
+        return this.getBaseEndPoint() + USER_ENDPOINT;
+    }
+
 
 }

@@ -9,12 +9,17 @@ import { ProductReferenceConverterService } from './converters/product-reference
 import { OccCartService } from './cart.service';
 
 import { OccSiteService } from './site.service';
+import { OccUserService } from './user.service';
+
+import { ConfigService} from '../config.service';
 
 @NgModule({
     imports: [
         CommonModule
     ],
     providers: [
+        ConfigService,
+        OccUserService,
         OccSiteService,
         OccProductService,
         OccProductSearchService,
@@ -22,6 +27,6 @@ import { OccSiteService } from './site.service';
         ProductReferenceConverterService,
         OccCartService
     ],
-    declarations: []
+
 })
 export class OccCoreModule { }

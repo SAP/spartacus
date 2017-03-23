@@ -1,0 +1,15 @@
+
+<md-menu #userMenu="mdMenu" x-position="before">
+  <button md-menu-item (click)="logout()"> Logout </button>
+</md-menu>
+
+<button *ngIf="user" 
+    md-button color="primary"
+    [mdMenuTriggerFor]="userMenu">
+    {{user.name}}
+    <md-icon>expand_more</md-icon>
+</button>
+
+<button *ngIf="!user" (click)="openLogin()" md-icon-button color="primary">
+    <md-icon>person</md-icon>
+</button>

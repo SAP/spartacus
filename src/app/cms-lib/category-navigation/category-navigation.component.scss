@@ -1,5 +1,8 @@
+@import '../../../theme';
+@include mat-core();
+
 .category-navigation {
     padding: 5px;
     height: 40px;
-    background-color: #128a9e;
+    background-color: mat-color($primary);
 }

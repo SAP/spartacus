@@ -18,11 +18,11 @@
             <div fxFlex="50%" fxFlexOrder.xs="1">
                 <y-product-summary [productCode]="productCode"></y-product-summary>
                 <y-dynamic-slot flex position="AddToCart" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
-                <y-dynamic-slot flex position="VariantSelector"></y-dynamic-slot>
+                <!--<y-dynamic-slot flex position="VariantSelector"></y-dynamic-slot>-->
             </div>
         </div>
 
-        <y-dynamic-slot flex position="CrossSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
+        <!--<y-dynamic-slot flex position="CrossSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
         <y-dynamic-slot flex position="UpSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
 
         <md-tab-group>
@@ -39,7 +39,7 @@
             <md-tab label="Delivery">
                 <y-dynamic-slot position="Tabs"></y-dynamic-slot>    
             </md-tab>
-        </md-tab-group>
+        </md-tab-group>-->
 
     </md-card-content>
 

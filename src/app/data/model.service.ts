@@ -14,7 +14,7 @@ export class ModelService {
     }
 
     get(key: string): BehaviorSubject<any> {
-        if (!this.subscriptions[key]) {
+        if (!this.subscriptions.hasOwnProperty(key)) {
             this.subscriptions[key] = new BehaviorSubject<any>(null);
         }
         return this.subscriptions[key];
@@ -23,5 +23,4 @@ export class ModelService {
     private isEqual(subscription, model) {
         return JSON.stringify(subscription.getValue()) === JSON.stringify(model);
     }
-    
 }

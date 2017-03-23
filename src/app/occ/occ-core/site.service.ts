@@ -12,7 +12,7 @@ export class OccSiteService extends BaseService {
 
     loadCurrencies() {
         let url = this.getBaseEndPoint();
-        url += '/currencies';
+        url += 'currencies';
         return this.promise(url);
     }
 

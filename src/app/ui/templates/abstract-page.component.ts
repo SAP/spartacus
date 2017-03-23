@@ -37,7 +37,7 @@ export abstract class AbstractPage {
             case '/':
                 this.cmsLoader.loadComponentsForIndex();
                 break;
-            case '/card':
+            case '/cart':
                 this.cmsLoader.loadComponentsForPage('cart');
                 break;
             default:

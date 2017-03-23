@@ -2,89 +2,143 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { OccCartService } from '../occ/occ-core/cart.service';
 import { CartModelService } from './cart-model.service';
+import { TokenService } from './token.service';
 
-const CLIENT_CART_ID_KEY = 'cart';
+const ANOYMOUS_USERNAME = 'anonymous';
 
 @Injectable()
 export class CartLoaderService {
 
-    cartId;
-    user = 'anonymous';
-
-    private cartAdditions: BehaviorSubject<any>;
+    // We keep a few tokens in order to mange the cart and update subscribers
+    username: string;
+    accessToken: string;
+    cartToken: string;
 
     constructor(
+        protected tokenService: TokenService,
         protected occCartService: OccCartService,
-        protected cartModel: CartModelService
+        protected cartModelService: CartModelService
     ) {
-        this.cartId = localStorage.getItem(CLIENT_CART_ID_KEY);
-        this.refreshCart();
+        this.initCart();
     }
 
-    refreshCart() {
-        const cartId = this.getCartId();
-        if (cartId) {
-            this.occCartService.loadCart(this.user, cartId)
-                .subscribe((cartData) => {
-                    this.cartModel.store(cartData);
-                },
-                error => console.log(error));
-        }
+    initCart() {
+
+        // subsribe to the userToken, any changes (login/out) will force a (re)loading of the cart
+        // whenever there's an existing cart, we'll merge the cart to the user
+        this.tokenService.getUserToken().subscribe(userToken => {
+            this.username = (userToken && userToken.username) ? userToken.username : ANOYMOUS_USERNAME;
+            this.accessToken = (userToken && userToken.access_token) ? userToken.access_token : null;
+            if (userToken) {
+                (this.cartToken) ? this.mergeCart() : this.loadLatestCart();
+            }
+        });
+
+        //  subscribe to the cartToken, any changes will force a refresh of the cart
+        this.tokenService.getCartToken().subscribe(cartToken => {
+            if (cartToken) {
+                this.cartToken = cartToken;
+                this.refreshCart(cartToken);
+            }else {
+                this.cartToken = null;
+                this.cartModelService.clearCart();
+            }
+        });
     }
 
-    addToCart(productCode: string, quantity: number) {
+    addCartEntry(productCode: string, quantity: number) {
         if (this.hasCart()) {
             this.addProductToCart(productCode, quantity);
         }else {
-            this.occCartService.createCart(this.user)
-                .subscribe((cartData) => {
-                    localStorage.setItem(CLIENT_CART_ID_KEY, cartData.guid);
-                    // this.cart = cartData;
-                    this.addProductToCart(productCode, quantity);
-                },
-                error => console.log(error)
-            );
+            // first time we need to create a cart
+            this.createCart(function(cartData) {
+                this.setCartToken(cartData);
+                this.addProductToCart(productCode, quantity);
+            }.bind(this));
         }
     }
 
-    removeEntry(entry) {
-        this.occCartService.remove(this.user, this.getCartId(), entry.entryNumber)
-            .subscribe((data) => {
-                // TODO: notify
-                // console.log('removed...', data);
+    removeCartEntry(entry) {
+        this.occCartService.remove(this.username, this.cartToken, entry.entryNumber, this.accessToken)
+            .subscribe((cartEntryData) => {
+                this.cartModelService.storeEntry(entry.product.code, cartEntryData);
             },
             error => console.log(error),
-            () => this.refreshCart());
+            () => this.refreshCart(this.cartToken));
+    }
+
+    private loadLatestCart() {
+        if (!this.username || this.username === ANOYMOUS_USERNAME) {
+            return;
+        }
+        this.occCartService.loadLatestCart(this.username, this.accessToken)
+            .subscribe((latestCart) => {
+                this.setCartToken(latestCart);
+            });
+    }
+
+    // merge the cart for users who have just logged in
+    private mergeCart() {
+        this.occCartService.loadLatestCart(this.username, this.accessToken)
+            .subscribe((latestCart) => {
+                this.occCartService.mergeCartWithLatestCart(this.username, this.cartToken, latestCart, this.accessToken)
+                    .subscribe((cartData) => {
+                        this.setCartToken(cartData);
+                    });
+            });
+    }
+
+    private refreshCart(cartToken: string) {
+        this.occCartService.loadCart(this.username, cartToken, this.accessToken)
+            .subscribe((cartData) => {
+                this.storeCartInModel(cartData);
+            },
+            error => console.log(error));
     }
 
     private storeCartInModel(cartData) {
-        // do we need it here?
-        // this.cart = cartData;
-        this.cartModel.store(cartData);
+        this.cartModelService.storeCart(cartData);
+
+        if (cartData.entries) {
+            for (const entry of cartData.entries) {
+                // update the model for each entry so that cart entry related components
+                // got notified (i.e. quantity per product)
+                this.cartModelService.storeEntry(entry.product.code, entry);
+            }
+        }
     }
 
-    protected hasCart(): boolean {
-        return !!this.getCartId();
-    }
-
-    protected getCartId(): string {
-        return this.cartId;
-    }
-
-    protected addProductToCart(productCode: string, quantity: number) {
-        // console.log('add', this.cart);
-
-        this.occCartService.add(this.user, this.getCartId(), productCode, quantity)
+    private createCart(callback?: Function) {
+        this.occCartService.createCart(this.username, this.accessToken)
             .subscribe((cartData) => {
-                // localStorage.setItem(this.CART_STORAGE, JSON.stringify(cartData));
-                // console.log('added', cartData);
-                // this.storeCartInModel(cartData);
-                this.refreshCart();
-                // this.cart = cartData;
-                // this.addProductToCart(productCode, quantity);
+                if (callback) {
+                    callback(cartData);
+                }
             },
             error => console.log(error)
         );
     }
 
+
+    private addProductToCart(productCode: string, quantity: number) {
+        this.occCartService.add(this.username, this.cartToken, productCode, quantity, this.accessToken)
+            .subscribe((cartEntryData) => {
+                this.refreshCart(this.cartToken);
+            },
+            error => console.log(error)
+        );
+    }
+
+    private hasCart(): boolean {
+        return !!this.cartToken;
+    }
+
+    private setCartToken(cart) {
+        if (!cart) {
+            this.cartToken = null;
+        }else {
+            this.cartToken = (this.username === ANOYMOUS_USERNAME) ? cart.guid : cart.code;
+        }
+        this.tokenService.storeCartToken(this.cartToken);
+    }
 }

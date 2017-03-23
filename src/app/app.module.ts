@@ -18,7 +18,11 @@ import { UiFrameworkModule } from './ui/ui-framework/ui-framework.module';
 const hybrisServerSettings = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/',
-    baseSite: 'electronics' //'apparel-uk'
+    baseSite: 'electronics',
+    oauth: {
+        client_id: 'trusted_client',
+        client_secret: 'secret'
+    }
 };
 
 @NgModule({

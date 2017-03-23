@@ -1,7 +1,7 @@
 import { Routes, RouterModule} from '@angular/router';
 
 import { HomePageComponent } from '../ui/templates/home-page/home-page.component';
-import { CardPageComponent } from '../ui/templates/card-page/card-page.component';
+import { CartPageComponent } from '../ui/templates/cart-page/cart-page.component';
 import { ProductDetailPageComponent } from '../ui/templates/product-detail-page/product-detail-page.component';
 import { ProductListPageComponent } from '../ui/templates/product-list-page/product-list-page.component';
 import { CategoryPageComponent } from '../ui/templates/category-page/category-page.component';
@@ -14,12 +14,8 @@ export const appRoutes: Routes = [
         component: HomePageComponent
     },
     {
-        path: 'card',
-        component: CardPageComponent
-    },
-    {
-        path: 'myaccount',
-        component: CardPageComponent
+        path: 'cart',
+        component: CartPageComponent
     },
 
     {path: 'search/:query', component: ProductListPageComponent},

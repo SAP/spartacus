@@ -1,16 +1,18 @@
 <h1 md-dialog-title>
     <span>Cart</span>
 </h1>
+
 <div md-dialog-content>
-    <p *ngIf="!cart.entries">
-        Cart is empty
+    <p *ngIf="!cart?.entries">
+        You don't have any products in your cart.
     </p>
-    <div *ngIf="cart.entries">
+    <div *ngIf="cart?.entries">
         <md-nav-list>
             <md-list-item *ngFor="let entry of cart.entries">
-                <img md-list-avatar [src]="entry.product.images.PRIMARY.cartIcon.url">
-                <a md-line [routerLink]="['/product', entry.product.code]" >{{entry.product.name}}</a>
-                <p md-line>{{entry.quantity}} pieces: {{entry.totalPrice.formattedValue}}</p>
+                <img md-list-avatar [src]="entry.product.images.PRIMARY?.cartIcon?.url"
+                    [routerLink]="['/product', entry.product.code]" >
+                <a md-line [routerLink]="['/product', entry.product.code]">{{entry.product.name}}</a>
+                <p md-line [routerLink]="['/product', entry.product.code]" >{{entry.quantity}} pieces: {{entry.totalPrice.formattedValue}}</p>
                 <button md-icon-button (click)="removeEntry(entry)">
                     <md-icon>delete</md-icon>
                 </button>
@@ -28,4 +30,6 @@
 
 <div md-dialog-actions>
     <button md-raised-button color="primary" md-dialog-close>Continue Shopping</button>
+    <button routerLink="/cart"
+        md-raised-button color="accent" md-dialog-close *ngIf="cart?.entries">Checkout</button>
 </div>

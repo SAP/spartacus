@@ -1,0 +1,25 @@
+@import '../../../theme';
+@include mat-core();
+
+
+@media screen and (max-width: 480px) {
+    fxHide.xs {
+        display: none;
+    }
+}
+
+
+.entry-quantity {
+    background-color: #4caf50;
+    font-size: 10px;
+    display: block;
+    width: 15px;
+    height: 15px;
+    padding: 2px;
+    position: absolute;
+    line-height: 15px;
+    border-radius: 20px;
+    margin-top: -5px;
+    margin-left: 18px;
+    color: #fff;
+}

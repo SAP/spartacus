@@ -14,6 +14,8 @@ import { ContentPageLayoutComponent } from './content-page-layout/content-page-l
 
 import { ComponentsModule } from '../components/components.module';
 
+import { CookieConfirmationModule } from '../../cms-lib/cookie-confirmation/cookie-confirmation.module';
+import { LoginStatusModule } from '../../cms-lib/login-status/login-status.module';
 import { LanguageSelectorModule } from '../../cms-lib/language-selector/language-selector.module';
 import { CurrencySelectorModule } from '../../cms-lib/currency-selector/currency-selector.module';
 
@@ -31,6 +33,8 @@ import { ProductDetailsPageLayoutComponent } from './product-details-page-layout
 
         ComponentsModule,
 
+        CookieConfirmationModule,
+        LoginStatusModule,
         LanguageSelectorModule,
         CurrencySelectorModule
     ],

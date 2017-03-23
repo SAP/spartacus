@@ -6,7 +6,12 @@ export class ConfigService {
     settings: {
         baseUrl,
         occPrefix,
-        baseSite
+        baseSite,
+        oauth: {
+            client_id,
+            grant_type,
+            client_secret
+        }
     };
 
 }

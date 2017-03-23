@@ -14,7 +14,7 @@ export class MiniCartComponent extends AbstractCartComponent  {
     cart;
 
     bootstrap() {
-        this.cartModel.get().subscribe((cartData) => {
+        this.cartModel.getCart().subscribe((cartData) => {
             this.cart = cartData;
             this.cd.detectChanges();
         });

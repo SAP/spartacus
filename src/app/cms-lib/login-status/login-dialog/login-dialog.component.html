@@ -1,0 +1,23 @@
+<h1 md-dialog-title>
+    <span>Login</span>
+</h1>
+
+<div md-dialog-content>
+    <form fxLayout="column" fxFlexAlign="start">
+         <md-input-container>
+            <input mdInput type="text" name="username" placeholder="Username" [(ngModel)]="username" >
+        </md-input-container>
+
+        <md-input-container>
+            <input mdInput type="password" name="password" placeholder="Password" [(ngModel)]="password" >
+        </md-input-container>
+        
+        <md-checkbox color="primary" [(ngModel)]="rememberMe" name="rememberMe">Remember me</md-checkbox>
+        
+    </form>
+</div>
+
+<div md-dialog-actions >
+    <button md-button color="primary" md-dialog-close>Cancel</button>
+    <button md-raised-button color="primary" (click)="login()">Login</button>
+</div>
