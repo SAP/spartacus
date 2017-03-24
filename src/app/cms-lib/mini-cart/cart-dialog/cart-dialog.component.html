@@ -8,12 +8,17 @@
     </p>
     <div *ngIf="cart?.entries">
         <md-nav-list>
-            <md-list-item *ngFor="let entry of cart.entries">
-                <img md-list-avatar [src]="entry.product.images.PRIMARY?.cartIcon?.url"
-                    [routerLink]="['/product', entry.product.code]" >
-                <a md-line [routerLink]="['/product', entry.product.code]">{{entry.product.name}}</a>
-                <p md-line [routerLink]="['/product', entry.product.code]" >{{entry.quantity}} pieces: {{entry.totalPrice.formattedValue}}</p>
-                <button md-icon-button (click)="removeEntry(entry)">
+            <md-list-item *ngFor="let entry of cart.entries" 
+                [routerLink]="['/product', entry.product.code]"
+                (click)="closeDialog()">
+                <img md-list-avatar [src]="entry.product.images.PRIMARY?.cartIcon?.url">
+                <a md-line>{{entry.product.name}}</a>
+                <p md-line>
+                    {{entry.quantity}} 
+                    <span *ngIf="entry.quantity===1">piece</span>
+                    <span *ngIf="entry.quantity > 1">pieces</span>
+                    for {{entry.totalPrice.formattedValue}}</p>
+                <button md-icon-button (click)="removeEntry(entry, $event)">
                     <md-icon>delete</md-icon>
                 </button>
             </md-list-item>
