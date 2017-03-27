@@ -68,8 +68,8 @@ export class TokenService extends ModelService {
         // store the cart token so that we can retrieve it later
         // when the user allows cookies
         this.userToken = userToken;
-        super.store(USER_TOKEN_KEY, userToken);
         this.storeTokens();
+        super.store(USER_TOKEN_KEY, userToken);
     }
 
     storeTokens() {

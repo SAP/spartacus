@@ -11,7 +11,6 @@ export class CartLoaderService {
 
     // We keep a few tokens in order to mange the cart and update subscribers
     username: string;
-    accessToken: string;
     cartToken: string;
 
     constructor(
@@ -28,7 +27,6 @@ export class CartLoaderService {
         // whenever there's an existing cart, we'll merge the cart to the user
         this.tokenService.getUserToken().subscribe(userToken => {
             this.username = (userToken && userToken.username) ? userToken.username : ANOYMOUS_USERNAME;
-            this.accessToken = (userToken && userToken.access_token) ? userToken.access_token : null;
             if (userToken) {
                 (this.cartToken) ? this.mergeCart() : this.loadLatestCart();
             }
@@ -59,7 +57,7 @@ export class CartLoaderService {
     }
 
     removeCartEntry(entry) {
-        this.occCartService.remove(this.username, this.cartToken, entry.entryNumber, this.accessToken)
+        this.occCartService.remove(this.username, this.cartToken, entry.entryNumber)
             .subscribe((cartEntryData) => {
                 this.cartModelService.storeEntry(entry.product.code, cartEntryData);
             },
@@ -71,7 +69,8 @@ export class CartLoaderService {
         if (!this.username || this.username === ANOYMOUS_USERNAME) {
             return;
         }
-        this.occCartService.loadLatestCart(this.username, this.accessToken)
+        // TODO: what if we have cart token...
+        this.occCartService.loadLatestCart(this.username)
             .subscribe((latestCart) => {
                 this.setCartToken(latestCart);
             });
@@ -79,9 +78,9 @@ export class CartLoaderService {
 
     // merge the cart for users who have just logged in
     private mergeCart() {
-        this.occCartService.loadLatestCart(this.username, this.accessToken)
+        this.occCartService.loadLatestCart(this.username)
             .subscribe((latestCart) => {
-                this.occCartService.mergeCartWithLatestCart(this.username, this.cartToken, latestCart, this.accessToken)
+                this.occCartService.mergeCartWithLatestCart(this.username, this.cartToken, latestCart)
                     .subscribe((cartData) => {
                         this.setCartToken(cartData);
                     });
@@ -89,7 +88,7 @@ export class CartLoaderService {
     }
 
     private refreshCart(cartToken: string) {
-        this.occCartService.loadCart(this.username, cartToken, this.accessToken)
+        this.occCartService.loadCart(this.username, cartToken)
             .subscribe((cartData) => {
                 this.storeCartInModel(cartData);
             },
@@ -109,7 +108,7 @@ export class CartLoaderService {
     }
 
     private createCart(callback?: Function) {
-        this.occCartService.createCart(this.username, this.accessToken)
+        this.occCartService.createCart(this.username)
             .subscribe((cartData) => {
                 if (callback) {
                     callback(cartData);
@@ -121,7 +120,7 @@ export class CartLoaderService {
 
 
     private addProductToCart(productCode: string, quantity: number) {
-        this.occCartService.add(this.username, this.cartToken, productCode, quantity, this.accessToken)
+        this.occCartService.add(this.username, this.cartToken, productCode, quantity)
             .subscribe((cartEntryData) => {
                 this.refreshCart(this.cartToken);
             },

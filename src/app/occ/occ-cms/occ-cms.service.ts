@@ -52,20 +52,18 @@ export class OccCmsService {
     }
 
     private createHttpPromise(urlPart: string): Promise<any> {
-
         return new Promise((resolve) => {
             // stub?
             // if (this.stub.hasData(urlPart)) {
             //     resolve(this.stub.getData(urlPart));
             // }else {
                 const url = this.createEndPoint(urlPart);
-                 this.http.get(url).subscribe((data) => {
+                this.http.get(url).subscribe((data) => {
                     const occData = data.json();
                     resolve(occData);
                 },
                 err => this.logError(err));
             // }
-
         });
     }
 

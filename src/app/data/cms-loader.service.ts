@@ -9,18 +9,44 @@ const TEMPLATE_PAGE = true;
 const IS_PAGE = false;
 const IS_TEMPLATE = true;
 
+const INDEX_TYPE        = 1;
+const PAGE_TYPE         = 2;
+const CATEGORY_TYPE     = 3;
+const PRODUCT_TYPE      = 4;
+
+
 @Injectable()
 export class CmsLoaderService {
 
-    
-    private activeSlots = {};
+    latest = {
+        type: null,
+        context: null
+    };
 
     constructor(
         private occCmsService: OccCmsService,
         private cmsModelService: CmsModelService
-    ) { }
+    ) {}
+
+    refresh() {
+        switch (this.latest.type) {
+            case PAGE_TYPE:
+                this.loadComponentsForPage(this.latest.context);
+                break;
+            case CATEGORY_TYPE:
+                this.loadComponentsForCategory(this.latest.context);
+                break;
+            case PRODUCT_TYPE:
+                this.loadComponentsForProduct(this.latest.context);
+                break;
+            default:
+                this.loadComponentsForIndex();
+        }
+    }
 
     loadComponentsForIndex() {
+        this.latest.type = INDEX_TYPE;
+        this.latest.context = null;
         const components = this.occCmsService.loadComponentsForIndex();
         components.then((pageData) => {
             this.loadComponentsForTemplate(pageData, pageData.pageLabel);
@@ -29,6 +55,8 @@ export class CmsLoaderService {
     }
 
     loadComponentsForPage(pageLabel: string) {
+        this.latest.type = PAGE_TYPE;
+        this.latest.context = pageLabel;
         const components = this.occCmsService.loadComponentsForPage(pageLabel);
         components.then((pageData) => {
             this.loadComponentsForTemplate(pageData, pageLabel);
@@ -40,6 +68,8 @@ export class CmsLoaderService {
         if (!categoryCode) {
             return;
         }
+        this.latest.type = CATEGORY_TYPE;
+        this.latest.context = categoryCode;
         const components = this.occCmsService.loadComponentsForCategory(categoryCode);
         components.then((pageData) => {
             this.loadComponentsForTemplate(pageData, categoryCode);
@@ -48,6 +78,8 @@ export class CmsLoaderService {
     }
 
     loadComponentsForProduct(productCode: string) {
+        this.latest.type = PRODUCT_TYPE;
+        this.latest.context = productCode;
         const components = this.occCmsService.loadComponentsForProduct(productCode);
         components.then((pageData) => {
             this.loadComponentsForTemplate(pageData, productCode);

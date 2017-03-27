@@ -20,14 +20,9 @@ export class OccCartService extends BaseService {
         super(http, configService);
     }
 
-    public loadLatestCart = (userId: string, accessToken?: string): Observable<any> => {
+    public loadLatestCart = (userId: string): Observable<any> => {
         const url = this.getCartEndpoint(userId);
-
-        const headers = new Headers();
-        if (accessToken) {
-            headers.append('authorization', 'Bearer ' + accessToken);
-        }
-        return this.http.get(url, {headers: headers})
+        return this.http.get(url)
             .map((response) => {
                 const cartsData = response.json();
                 // TODO: implement latest card strategy
@@ -36,7 +31,7 @@ export class OccCartService extends BaseService {
     }
 
 
-    public mergeCartWithLatestCart(userId: string, oldCartToken: string, toMergeCart: any,  accessToken: string) {
+    public mergeCartWithLatestCart(userId: string, oldCartToken: string, toMergeCart: any) {
         const toAdd = JSON.stringify({ });
         let url = this.getCartEndpoint(userId);
         url += '?oldCartId=' + oldCartToken;
@@ -45,11 +40,7 @@ export class OccCartService extends BaseService {
         }
         url += '&fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';
 
-        const headers = new Headers();
-        if (accessToken) {
-            headers.append('authorization', 'Bearer ' + accessToken);
-        }
-        return this.http.post(url, toAdd, { headers: headers })
+        return this.http.post(url, toAdd)
             .map((response: Response) => {
                 const cartData = response.json();
                 if (cartData.entries) {
@@ -62,17 +53,12 @@ export class OccCartService extends BaseService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public loadCart = (userId: string, cartId: string, accessToken?: string): Observable<any> => {
+    public loadCart = (userId: string, cartId: string): Observable<any> => {
         let url = this.getCartEndpoint(userId);
         url += cartId;
         url += '?fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';
 
-        const headers = new Headers();
-        if (accessToken) {
-            headers.append('authorization', 'Bearer ' + accessToken);
-        }
-
-        return this.http.get(url, {headers: headers})
+        return this.http.get(url)
             .map((response) => {
                 const cartData = response.json();
 
@@ -86,21 +72,15 @@ export class OccCartService extends BaseService {
             .catch((error: any) => Observable.throw(error || 'Server error'));
     }
 
-
-    // accessToken is only required if user is authenticated
-    public createCart = (userId: string, accessToken?: string): Observable<any> => {
+    public createCart = (userId: string): Observable<any> => {
         const url = this.getCartEndpoint(userId);
         const toAdd = JSON.stringify({ });
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        if (accessToken) {
-            headers.append('authorization', 'Bearer ' + accessToken);
-        }
-        return this.http.post(url, toAdd, { headers: headers })
+        return this.http.post(url, toAdd)
             .map((response: Response) => response.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public add = (userId: string, cartId: string, productCode: string, quantity: number, accessToken?: string): Observable<any> => {
+    public add = (userId: string, cartId: string, productCode: string, quantity: number): Observable<any> => {
         const toAdd = JSON.stringify({});
 
         let url = this.getCartEndpoint(userId);
@@ -108,16 +88,13 @@ export class OccCartService extends BaseService {
         url += '/entries?code=' + productCode + '&qty=' + quantity;
 
         const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
-        if (accessToken) {
-            headers.append('authorization', 'Bearer ' + accessToken);
-        }
 
         return this.http.post(url, toAdd, { headers: headers })
             .map((response: Response) => response.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public remove = (userId: string, cartId: string, entryNumber: string, accessToken?: string): Observable<any> => {
+    public remove = (userId: string, cartId: string, entryNumber: string): Observable<any> => {
 
         let url = this.getCartEndpoint(userId);
         url += cartId;
@@ -125,9 +102,6 @@ export class OccCartService extends BaseService {
         url += entryNumber;
 
         const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
-        if (accessToken) {
-            headers.append('authorization', 'Bearer ' + accessToken);
-        }
 
         return this.http.delete(url, { headers: headers })
             .map((response: Response) => response)

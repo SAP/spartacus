@@ -1,2 +1,5 @@
 INSERT_UPDATE OAuthClientDetails;clientId[unique=true]    ;resourceIds       ;scope        ;authorizedGrantTypes                                            ;authorities             ;clientSecret    ;registeredRedirectUri
                                 ;trusted_client           ;hybris            ;extended     ;authorization_code,refresh_token,password,client_credentials    ;ROLE_TRUSTED_CLIENT     ;secret;         ;
+
+INSERT_UPDATE customer;uid[unique=true];name;password
+    ;tobiasouwejan@gmail.com;Tobias Ouwejan;1234

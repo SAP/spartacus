@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Rx';
 import { OccUserService } from '../occ/occ-core/user.service';
 import { UserModelService } from './user-model.service';
 import { TokenService } from './token.service';
+import { CmsLoaderService } from './cms-loader.service';
 
 @Injectable()
 export class UserLoaderService {
@@ -10,7 +11,8 @@ export class UserLoaderService {
     constructor(
         protected tokenService: TokenService,
         protected occUserService: OccUserService,
-        protected userModelService: UserModelService
+        protected userModelService: UserModelService,
+        protected cmsLoader: CmsLoaderService,
     ) {
         this.initUser();
     }
@@ -38,11 +40,13 @@ export class UserLoaderService {
                 // extend token data with user name
                 tokenData.username = username;
                 this.setUser(tokenData);
+                this.refreshCmsDataAfterUserChange();
             }
         },
         error => console.log(error),
         () => {
                 // this.rememberUser(username);
+                // TODO: refresh CMS data as it can change based on user restrictions
         });
 
         return token;
@@ -50,21 +54,21 @@ export class UserLoaderService {
 
     logout() {
         this.tokenService.clearTokens();
+        this.refreshCmsDataAfterUserChange();
     }
 
     loadUser(tokenData) {
-        if (!tokenData.access_token) {
-            console.log('could not find the access_token', tokenData);
-            // TODO: validate token validity
-            return;
-        }
-        this.occUserService.loadUser(tokenData.access_token, tokenData.username)
+        this.occUserService.loadUser(tokenData.username)
             .subscribe(userData => {
                 this.userModelService.storeUser(userData);
             }
         );
     }
 
+    // refresh CMS data as it can change based on user restrictions
+    protected refreshCmsDataAfterUserChange() {
+        this.cmsLoader.refresh();
+    }
 
     // /**
     //  * @desc Checks if there's a Authentication token is available and if the token is still valid

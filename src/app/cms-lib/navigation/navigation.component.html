@@ -5,9 +5,12 @@
 </a>
 
 <!-- link WITH childs -->
-<a *ngIf="node.childs" md-button [mdMenuTriggerFor]="menu">
-    <span *ngIf="node.title">{{node.title}}</span>
-    <md-icon *ngIf="!node.title">reorder</md-icon>
+<a *ngIf="node.childs && !node.title" md-icon-button [mdMenuTriggerFor]="menu">
+    <md-icon>reorder</md-icon>
+</a>
+
+<a *ngIf="node.childs && node.title" md-button [mdMenuTriggerFor]="menu">
+    {{node.title}}
 </a>
 
 <md-menu #menu="mdMenu" style="margin-top:30px" [overlapTrigger]="false" style="width:600px">

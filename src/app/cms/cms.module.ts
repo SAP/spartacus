@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // import { MaterialModule } from '@angular/material';
-import { FlexLayoutModule } from '@angular/flex-layout';
+// import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { DataModule } from '../data/data.module';
 import { DynamicSlotComponent } from './dynamic-slot/dynamic-slot.component';
@@ -15,8 +15,8 @@ import { ComponentMapperConfigService } from './component-mapper-config.service'
 @NgModule({
     imports: [
         CommonModule,
-        DataModule,
-        FlexLayoutModule
+        DataModule
+        // FlexLayoutModule
     ],
     declarations: [
         DynamicSlotComponent,

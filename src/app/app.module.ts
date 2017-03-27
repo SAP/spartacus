@@ -16,13 +16,31 @@ import { CmsLibModule } from './cms-lib/cms-lib.module';
 import { UiFrameworkModule } from './ui/ui-framework/ui-framework.module';
 
 const hybrisServerSettings = {
+    // TODO: provide URL mappings for site specific routings
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/',
-    baseSite: 'electronics',
+    baseSite: 'electronics', // apparel-uk',
     oauth: {
         client_id: 'trusted_client',
         client_secret: 'secret'
     }
+};
+
+const cmsComponentMapping = {
+    CMSLinkComponent: 'LinkComponent',
+    SimpleResponsiveBannerComponent: 'BannerComponent',
+    SimpleBannerComponent: 'BannerComponent',
+    BreadcrumbComponent: 'BreadcrumbComponent',
+    CmsParagraphComponent: 'ParagraphComponent',
+    NavigationComponent: 'NavigationComponent',
+    FooterNavigationComponent: 'FooterNavigationComponent',
+    CategoryNavigationComponent: 'CategoryNavigationComponent',
+    ProductAddToCartComponent: 'AddToCartComponent',
+    MiniCartComponent: 'MiniCartComponent',
+    ProductCarouselComponent: 'ProductCarouselComponent',
+    SearchBoxComponent: 'SearchBoxComponent',
+    ProductReferencesComponent: 'ProductReferencesComponent',
+    CMSTabParagraphComponent: 'TabParagraphContainerComponent'
 };
 
 @NgModule({
@@ -31,7 +49,6 @@ const hybrisServerSettings = {
     ],
     imports: [
         BrowserModule,
-
         RouterModule,
         OccModule.forRoot({
             settings: hybrisServerSettings
@@ -40,26 +57,10 @@ const hybrisServerSettings = {
             {
                 settings: {
                     baseUrl: hybrisServerSettings.baseUrl
-                },
+                }
             },
             {
-                componentMapping: {
-                    CMSLinkComponent: 'LinkComponent',
-                    SimpleResponsiveBannerComponent: 'BannerComponent',
-                    SimpleBannerComponent: 'BannerComponent',
-                    BreadcrumbComponent: 'BreadcrumbComponent',
-                    CmsParagraphComponent: 'ParagraphComponent',
-                    NavigationComponent: 'NavigationComponent',
-                    FooterNavigationComponent: 'FooterNavigationComponent',
-                    CategoryNavigationComponent: 'CategoryNavigationComponent',
-                    ProductAddToCartComponent: 'AddToCartComponent',
-                    MiniCartComponent: 'MiniCartComponent',
-                    // SideCartComponent: 'MiniCartComponent',
-                    ProductCarouselComponent: 'ProductCarouselComponent',
-                    SearchBoxComponent: 'SearchBoxComponent',
-                    ProductReferencesComponent: 'ProductReferencesComponent',
-                    CMSTabParagraphComponent: 'TabParagraphContainerComponent'
-                }
+                componentMapping: cmsComponentMapping
             }
         ),
         CmsLibModule,
