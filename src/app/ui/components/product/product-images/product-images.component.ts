@@ -17,7 +17,6 @@ export class ProductImagesComponent extends AbstractProductComponent {
     }
 
     showImage(imageContainer) {
-        console.log('showImage', imageContainer);
         this.mainImage = imageContainer;
         this.cd.markForCheck();
     }

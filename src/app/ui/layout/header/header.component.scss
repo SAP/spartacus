@@ -1,3 +1,15 @@
 .top-header {
-    padding: 10px;
+    position: fixed;
+    z-index: 100;
+    background-color: #fff;
+    width: 100%;
+    height: 60px;
+    top:0;
+
+    md-card {
+        padding: 10px 20px;
+    }
+}
+.navigation-header {
+    margin-top: 60px;
 }

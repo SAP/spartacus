@@ -7,9 +7,9 @@ import { AbstractCartComponent } from '../abstract-cart-component';
     styleUrls: ['./add-to-cart.component.scss']
 })
 export class AddToCartComponent extends AbstractCartComponent implements OnInit {
-// OnInit,OnDestroy
-
+    
     isLoading = false;
+    @Input() iconOnly;
 
     @Input() productCode;
     @Input() quantity = 1;

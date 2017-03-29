@@ -1,14 +1,14 @@
 <md-card 
     class="product">
 
+    <y-add-to-cart style="position: absolute" [iconOnly]="true" [productCode]="product.code"></y-add-to-cart>
+
     <y-picture 
         *ngIf="product.images"
         [imageContainer]="product.images.PRIMARY"
         imageFormat="product"
         [routerLink]="['/product/', product.code]"
     ></y-picture>
-
-    <y-add-to-cart [productCode]="product.code"></y-add-to-cart>
 
     <h3 [routerLink]="['/product/', product.code]">{{product.name}}</h3>
     <p>{{product.summary}}</p>

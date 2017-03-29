@@ -1,9 +1,6 @@
-
-    <!--<md-input-container>
-        <input mdInput type="number" name="quantity" placeholder="Favorite food" [(ngModel)]="quantity" >
-    </md-input-container>-->
 <button [disabled]="isLoading" md-raised-button color="primary" class="call-to-action" (click)="addToCart()">
     <span *ngIf="cartEntryQuantity && cartEntryQuantity > 0" class="entry-quantity">{{cartEntryQuantity}}</span>
-    <md-icon>add_shopping_cart</md-icon> Add to Cart
+    <md-icon>add_shopping_cart</md-icon> 
+    <span *ngIf="!iconOnly">Add to Cart</span>
     <md-progress-bar *ngIf="isLoading" class="loader" color="primary" mode="indeterminate"></md-progress-bar>
 </button>
