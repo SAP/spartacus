@@ -1,9 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-// OCC services (we should leverage swagger generated sevices instead)
-// import { SettingsModule } from '../settings/settings.module';
+import { ConfigService } from '../config.service';
 import { OccCmsService } from './occ-cms.service';
 import { StubService } from './stub.service';
 
@@ -11,15 +9,27 @@ import { StubService } from './stub.service';
     schemas:   [],
     imports: [
         BrowserModule,
-        CommonModule,
-        // SettingsModule
+        CommonModule
     ],
     declarations: [
     ],
     providers: [
         OccCmsService,
-        StubService
+        StubService,
+        ConfigService
     ],
     exports: []
 })
-export class OccCmsModule { }
+export class OccCmsModule {
+    static forRoot(config: any): any {
+        return {
+            ngModule: OccCmsModule,
+            providers: [
+                {
+                    provide: ConfigService,
+                    useExisting: config
+                }
+            ]
+        };
+    }
+}

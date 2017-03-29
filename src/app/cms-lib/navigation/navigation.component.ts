@@ -25,9 +25,11 @@ export class NavigationComponent extends AbstractCmsComponent  {
     }
 
     protected fetchData() {
+        if (!this.model) {
+            return;
+        }
         const data = this.model.navigationNode ? this.model.navigationNode : this.model;
         this.node = this.navigationService.createNode(data);
-        // super.fetchData();
         this.cd.detectChanges();
     }
 

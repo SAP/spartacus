@@ -52,7 +52,7 @@ export class ProductImageConverterService {
                 }
 
                 // set full image URL path
-                image.url = this.configService.settings.baseUrl + image.url;
+                image.url = this.configService.server.baseUrl + image.url;
 
                 imageContainer[image.format] = image;
             }

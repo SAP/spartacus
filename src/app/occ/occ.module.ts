@@ -11,30 +11,34 @@ import { ConfigService} from './config.service';
 // provide the access token
 import { HttpClient } from './http-client';
 import { RequestOptions, Http, XHRBackend} from '@angular/http';
-function httpClientFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
-    return new HttpClient(xhrBackend, requestOptions);
+function httpClientFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configService: ConfigService): Http {
+    return new HttpClient(xhrBackend, requestOptions, configService);
 }
 
 @NgModule({
     imports: [
         CommonModule,
         HttpModule,
-        OccCoreModule,
-        OccCmsModule
+        OccCoreModule.forRoot(ConfigService),
+        OccCmsModule.forRoot(ConfigService)
     ],
     providers: [
-        ConfigService,
-        { provide: Http, useFactory: httpClientFactory, deps: [XHRBackend, RequestOptions]}
+        HttpClient,
+        {
+            provide: Http,
+            useFactory: httpClientFactory,
+            deps: [XHRBackend, RequestOptions, ConfigService]
+        }
     ]
 })
 export class OccModule {
-    static forRoot(settings: any): any {
+    static forRoot(config: any): any {
         return {
             ngModule: OccModule,
             providers: [
                 {
                     provide: ConfigService,
-                    useValue: settings
+                    useExisting: config
                 }
             ]
         };

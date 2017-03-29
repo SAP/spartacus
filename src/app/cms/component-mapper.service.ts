@@ -1,5 +1,5 @@
 import { Injectable, Type, ComponentFactoryResolver } from '@angular/core';
-import { ComponentMapperConfigService } from './component-mapper-config.service';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class ComponentMapperService {
@@ -8,18 +8,18 @@ export class ComponentMapperService {
 
     constructor(
         private componentFactoryResolver: ComponentFactoryResolver,
-        private mapperConfig: ComponentMapperConfigService
+        private config: ConfigService
     ) { }
 
     /**
      * @desc
-     * returns a web component for the CMS typecode. 
+     * returns a web component for the CMS typecode.
      *
      * The mapping of CMS components to web componetns requires a mapping.
      * This is configurable when the module is loaded.
-     * 
-     * For example: 
-     * 
+     *
+     * For example:
+     *
      *  {
      *      'CMSLinkComponent': 'LinkComponent',
      *      'SimpleResponsiveBannerComponent': 'SimpleResponsiveBannerComponent',
@@ -28,11 +28,11 @@ export class ComponentMapperService {
      *
      * The type codes are dynamic since they depend on the implementation.
      * Customer will add, extend or ingore standard components.
-     * 
+     *
      * @param typeCode the component type
      */
     getType(typeCode: string) {
-        return (this.mapperConfig.componentMapping[typeCode]);
+        return (this.config.cmsComponentMapping[typeCode]);
     }
 
     getComponentTypeByCode(typeCode: string): Type<any> {

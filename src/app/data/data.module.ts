@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { TokenService } from './token.service';
 
 import { ModelService } from './model.service';
-import { SiteLoaderService } from './site-loader.service';
+import { SiteContextService } from './site-context.service';
 
 import { ProductModelService } from './product-model.service';
 import { ProductLoaderService } from './product-loader.service';
@@ -19,18 +19,19 @@ import { CartLoaderService } from './cart-loader.service';
 import { UserModelService } from './user-model.service';
 import { UserLoaderService } from './user-loader.service';
 
+import { ConfigService} from './config.service';
+
 // import { OccModule } from '../occ/occ.module';
 
 
 @NgModule({
     imports: [
         CommonModule
-        // OccModule
     ],
     providers: [
         TokenService,
-        
-        SiteLoaderService,
+
+        SiteContextService,
         ModelService,
 
         CmsLoaderService,
@@ -47,4 +48,16 @@ import { UserLoaderService } from './user-loader.service';
         UserLoaderService
     ]
 })
-export class DataModule { }
+export class DataModule {
+    static forRoot(config: any): any {
+        return {
+            ngModule: DataModule,
+            providers: [
+                {
+                    provide: ConfigService,
+                    useExisting: config
+                }
+            ]
+        };
+    }
+}

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { OccCmsService } from '../occ/occ-cms/occ-cms.service';
 import { CmsModelService } from './cms-model.service';
+import { SiteContextService } from './site-context.service';
 
 const PAGE_COMPONENTS = 0;
 const TEMPLATE_COMPONENTS = 1;
@@ -25,8 +26,15 @@ export class CmsLoaderService {
 
     constructor(
         private occCmsService: OccCmsService,
-        private cmsModelService: CmsModelService
-    ) {}
+        private cmsModelService: CmsModelService,
+        private siteLoader: SiteContextService
+    ) {
+        this.siteLoader.getSiteContextChangeSubscription().subscribe((value: number) => {
+            if (value > 0) {
+                this.refresh();
+            }
+        });
+    }
 
     refresh() {
         switch (this.latest.type) {

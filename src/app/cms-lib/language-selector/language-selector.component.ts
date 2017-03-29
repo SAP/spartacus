@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SiteLoaderService } from '../../data/site-loader.service';
+import { SiteContextService } from '../../data/site-context.service';
 
 @Component({
   selector: 'y-language-selector',
@@ -9,18 +9,26 @@ import { SiteLoaderService } from '../../data/site-loader.service';
 export class LanguageSelectorComponent implements OnInit {
 
     languages;
+    activeLanguage;
 
     constructor(
-        protected siteLoader: SiteLoaderService
+        protected siteContext: SiteContextService
     ) { }
 
     ngOnInit() {
-        this.siteLoader.loadLanguages();
-        this.siteLoader.getLanguageSubscription().subscribe((data) => {
+        this.siteContext.loadLanguages();
+        this.siteContext.getLanguageSubscription().subscribe((data) => {
             if (data) {
                 this.languages = data.languages;
+                this.activeLanguage = this.languages[0];
             }
         });
+    }
+
+    setActiveLanguage(language) {
+        this.siteContext.setActiveLanguage(language);
+        this.activeLanguage = language;
+        this.siteContext.updateSiteContext(true);
     }
 
 }

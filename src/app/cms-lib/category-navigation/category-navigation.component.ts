@@ -12,7 +12,6 @@ export class CategoryNavigationComponent extends AbstractCmsComponent {
     nodes = [];
 
     protected fetchData() {
-
         // navigationnodes contain children of ordinary type cms components
         // we thread them simmilar and use the cms model service to store them
         if (this.model && this.model.navigationNode && this.model.navigationNode.children) {

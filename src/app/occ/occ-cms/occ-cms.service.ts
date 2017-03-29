@@ -12,14 +12,14 @@ export class OccCmsService {
 
     constructor(
         private http: Http,
-        private occConfig: ConfigService,
+        private config: ConfigService,
         private stub: StubService
-        ) {
-            this.baseUrl = this.occConfig.settings.baseUrl;
-            this.baseUrl += '/rest/v2/';
-            this.baseUrl += this.occConfig.settings.baseSite + '/';
-            this.baseUrl += this.cmsEndpoint;
-        }
+    ) {
+        this.baseUrl = this.config.server.baseUrl;
+        this.baseUrl += '/rest/v2/';
+        this.baseUrl += this.config.site.baseSite + '/';
+        this.baseUrl += this.cmsEndpoint;
+    }
 
     // provides a standardized endpoint ULR creation for all occ-cms related calls 
     private createEndPoint(endpoint: string) {

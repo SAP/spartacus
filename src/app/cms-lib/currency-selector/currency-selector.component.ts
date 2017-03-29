@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SiteLoaderService } from '../../data/site-loader.service';
+import { SiteContextService } from '../../data/site-context.service';
 
 @Component({
   selector: 'y-currency-selector',
@@ -11,7 +11,7 @@ export class CurrencySelectorComponent implements OnInit {
     currencies;
 
     constructor(
-        protected siteLoader: SiteLoaderService
+        protected siteLoader: SiteContextService
     ) { }
 
     ngOnInit() {

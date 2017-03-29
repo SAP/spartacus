@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ConfigService {
-
-    server = {
-        baseUrl: null,
-        occPrefix: null
+    site: {
+        language: null
     };
 
-    cmsComponentMapping = {};
-
+    authentication = {
+        userToken: null
+    };
 }

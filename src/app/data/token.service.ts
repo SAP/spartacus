@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ModelService } from './model.service';
+import { ConfigService } from './config.service';
+
 const ENABLE_TOKENS_KEY = 'y_tokens';
 const ENABLED_TOKENS_VALUE = 'enabled';
 const DISABLED_TOKENS_VALUE = 'disabled';
@@ -16,7 +18,9 @@ export class TokenService extends ModelService {
     userToken;
     cartToken;
 
-    constructor() {
+    constructor(
+        private config: ConfigService
+    ) {
         super();
         if (!!sessionStorage.getItem(ENABLE_TOKENS_KEY)) {
             this.allowTokens = true;
@@ -29,7 +33,6 @@ export class TokenService extends ModelService {
         if (!!sessionStorage.getItem(CART_TOKEN_KEY)) {
             this.storeCartToken(sessionStorage.getItem(CART_TOKEN_KEY));
         }
-
 
     }
 
@@ -65,8 +68,7 @@ export class TokenService extends ModelService {
     }
 
     storeUserToken(userToken) {
-        // store the cart token so that we can retrieve it later
-        // when the user allows cookies
+        this.config.authentication.userToken = userToken;
         this.userToken = userToken;
         this.storeTokens();
         super.store(USER_TOKEN_KEY, userToken);
@@ -89,6 +91,7 @@ export class TokenService extends ModelService {
 
     clearTokens() {
 
+        this.config.authentication.userToken = null;
         this.userToken = null;
         sessionStorage.removeItem(USER_TOKEN_KEY);
         super.store(USER_TOKEN_KEY, null);

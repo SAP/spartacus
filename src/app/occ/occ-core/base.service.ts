@@ -29,11 +29,11 @@ export class BaseService {
     protected logError(err) {
         console.error('There was an error: ' + err);
     }
-
+    
     protected getBaseEndPoint() {
-        return this.configService.settings.baseUrl +
-            this.configService.settings.occPrefix +
-            this.configService.settings.baseSite + '/';
+        return this.configService.server.baseUrl +
+            this.configService.server.occPrefix +
+            this.configService.site.baseSite + '/';
     }
 
     getProductEndpoint() {
@@ -54,7 +54,7 @@ export class BaseService {
     }
 
     getOAuthEndpoint() {
-        return this.configService.settings.baseUrl + OAUTH_ENDPOINT;
+        return this.configService.server.baseUrl + OAUTH_ENDPOINT;
     }
 
     getUserEndpoint() {

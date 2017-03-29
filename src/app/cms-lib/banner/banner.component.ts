@@ -49,8 +49,8 @@ export class BannerComponent extends AbstractCmsComponent {
         return (null !== this.model && null !== this.model.media);
     }
 
-    getImageUrl() {
-        return this.getImage().url;
+    getImageUrl(): string {
+        return (this.getImage()) ? this.getImage().url : '';
     }
 
     isSVG() {
@@ -72,6 +72,9 @@ export class BannerComponent extends AbstractCmsComponent {
 
     private getImage() {
         let image;
+        if (!this.hasImage()) {
+            return image;
+        }
         if (this.hasMultipleFormats()) {
             image = this.getImageByFormat(this.model.media[0].format);
         }else {

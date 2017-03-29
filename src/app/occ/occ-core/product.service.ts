@@ -18,6 +18,7 @@ export class OccProductService extends BaseService {
     ) {
         super(http, configService);
     }
+
     loadProduct(productCode: string) {
         let url = this.getProductEndpoint();
         url += '/' + productCode;

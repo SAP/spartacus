@@ -1,14 +1,14 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { SiteLoaderService } from './site-loader.service';
+import { SiteContextService } from './site-context.service';
 
 describe('SiteLoaderService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SiteLoaderService]
+      providers: [SiteContextService]
     });
   });
 
-  it('should ...', inject([SiteLoaderService], (service: SiteLoaderService) => {
+  it('should ...', inject([SiteContextService], (service: SiteContextService) => {
     expect(service).toBeTruthy();
   }));
 });

@@ -1,20 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptionsArgs, Request, Response, ConnectionBackend, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { ConfigService } from './config.service';
 
-const USER_TOKEN_KEY = 'y_user_token';
+// const USER_TOKEN_KEY = 'y_user_token';
 
 @Injectable()
 export class HttpClient extends Http {
 
-    constructor(protected _backend: ConnectionBackend, protected _defaultOptions: RequestOptions) {
-        super(_backend, _defaultOptions);
+    constructor (
+        protected backend: ConnectionBackend,
+        protected defaultOptions: RequestOptions,
+        protected configService: ConfigService
+    ) {
+        super(backend, defaultOptions);
     }
 
     get(url: string, options?): Observable<Response> {
         options = this.setCustomHeaders(url, options);
-        url = this.setLanguage(url);
-        url = this.setCurrency(url);
+        url = this.addLanguage(url);
+        url = this.addCurrency(url);
         return super.request(url, options);
     }
 
@@ -32,33 +37,31 @@ export class HttpClient extends Http {
         if (!options) {
             options = new RequestOptions({});
         }
-        if (sessionStorage.getItem(USER_TOKEN_KEY)) {
-            if (!options.headers) {
-                options.headers = new Headers();
-            }
+        if (!options.headers) {
+            options.headers = new Headers();
+        }
+        if (this.configService.authentication.userToken) {
             options.headers.set('authorization', 'Bearer ' + this.getToken());
         }
         return options;
     }
 
-    private setLanguage(url: string) {
-        const lang = 'de';
+    private addLanguage(url: string) {
         url += (url.indexOf('?') > -1) ? '&' : '?';
         url += 'lang=';
-        url += lang;
+        url += this.configService.site.language || 'en';
         return url;
     }
 
-    private setCurrency(url: string) {
-        const currency = 'JPY';
+    private addCurrency(url: string) {
         url += (url.indexOf('?') > -1) ? '&' : '?';
         url += 'curr=';
-        url += currency;
+        url += this.configService.site.currency || 'USD';
         return url;
     }
 
     private getToken(): string {
-        const token = JSON.parse(sessionStorage.getItem(USER_TOKEN_KEY));
-        return (token && token.access_token) ? token.access_token : '' ;
+        const token = this.configService.authentication.userToken;
+        return (token && token['access_token']) ? token['access_token'] : '' ;
     }
 }

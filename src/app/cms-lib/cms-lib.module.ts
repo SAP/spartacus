@@ -46,4 +46,4 @@ import { CookieConfirmationModule } from './cookie-confirmation/cookie-confirmat
         CookieConfirmationModule
     ]
 })
-export class CmsLibModule { }
+export class CmsLibModule {}

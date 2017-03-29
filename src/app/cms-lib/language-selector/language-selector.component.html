@@ -4,7 +4,8 @@
     </button>
 
     <md-menu #languageRef="mdMenu" >
-        <button md-menu-item *ngFor="let item of languages">
+        <button md-menu-item *ngFor="let item of languages" (click)="setActiveLanguage(item)"
+            [disabled]="item === activeLanguage">
             {{item.nativeName}}
         </button>
     </md-menu>

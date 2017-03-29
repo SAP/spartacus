@@ -44,7 +44,7 @@ export abstract class AbstractCmsComponent extends AbstractComponent implements 
     }
 
     protected getBaseUrl() {
-        return this.configService.settings.baseUrl;
+        return this.configService.server.baseUrl;
     }
 
 

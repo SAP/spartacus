@@ -27,8 +27,8 @@ export class OccUserService extends BaseService {
         const url = this.getOAuthEndpoint();
 
         let creds = '';
-        creds += 'client_id=' + this.configService.settings.oauth.client_id;
-        creds += '&client_secret=' + this.configService.settings.oauth.client_secret;
+        creds += 'client_id=' + this.configService.authentication.client_id;
+        creds += '&client_secret=' + this.configService.authentication.client_secret;
         creds += '&grant_type=password'; // authorization_code, client_credentials, password
         creds += '&username=' + username + '&password=' + password;
         const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });

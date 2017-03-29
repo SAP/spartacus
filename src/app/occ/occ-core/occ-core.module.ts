@@ -18,7 +18,6 @@ import { ConfigService} from '../config.service';
         CommonModule
     ],
     providers: [
-        ConfigService,
         OccUserService,
         OccSiteService,
         OccProductService,
@@ -29,4 +28,16 @@ import { ConfigService} from '../config.service';
     ],
 
 })
-export class OccCoreModule { }
+export class OccCoreModule {
+    static forRoot(config: any): any {
+        return {
+            ngModule: OccCoreModule,
+            providers: [
+                {
+                    provide: ConfigService,
+                    useExisting: config
+                }
+            ]
+        };
+    }
+}

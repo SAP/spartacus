@@ -4,6 +4,7 @@ import { OccUserService } from '../occ/occ-core/user.service';
 import { UserModelService } from './user-model.service';
 import { TokenService } from './token.service';
 import { CmsLoaderService } from './cms-loader.service';
+import { SiteContextService } from './site-context.service';
 
 @Injectable()
 export class UserLoaderService {
@@ -13,6 +14,7 @@ export class UserLoaderService {
         protected occUserService: OccUserService,
         protected userModelService: UserModelService,
         protected cmsLoader: CmsLoaderService,
+        protected siteLoader: SiteContextService
     ) {
         this.initUser();
     }
@@ -67,7 +69,7 @@ export class UserLoaderService {
 
     // refresh CMS data as it can change based on user restrictions
     protected refreshCmsDataAfterUserChange() {
-        this.cmsLoader.refresh();
+        this.siteLoader.updateSiteContext();
     }
 
     // /**

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+// import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ModelService } from './model.service';
 
 
 const PAGE_PREFIX = 'page';
@@ -12,38 +13,43 @@ const COMPONENT_PREFIX = 'comp';
 @Injectable()
 export class CmsModelService {
 
-    private subscriptions: Array<BehaviorSubject<any>> = [];
+    // private subscriptions: Array<BehaviorSubject<any>> = [];
     
     private activeSlots = {
         template: {},
         page: {}
     };
 
-    public getComponentSubscription(key: string): BehaviorSubject<any> {
-        return this.getSubscription(COMPONENT_PREFIX + key);
+    constructor(
+        protected modelService: ModelService
+    ) {}
+ 
+    public getComponentSubscription(key: string) {
+        return this.modelService.get(COMPONENT_PREFIX + key);
     }
-    public getSlotSubscription(key: string): BehaviorSubject<any> {
-        return this.getSubscription(SLOT_PREFIX + key);
+
+    public getSlotSubscription(key: string) {
+        return this.modelService.get(SLOT_PREFIX + key);
     }
-    public getPageSubscription(key: string): BehaviorSubject<any> {
-        return this.getSubscription(PAGE_PREFIX + key);
+    public getPageSubscription(key: string){
+        return this.modelService.get(PAGE_PREFIX + key);
     }
-    /**
-     * @desc Used by clients to get latest updates
-     */
-    private getSubscription(key: string): BehaviorSubject<any> {
-        if (!this.subscriptions[key]) {
-            this.subscriptions[key] = new BehaviorSubject<any>(null);
-        }
-        return this.subscriptions[key];
-    }
+    // /**
+    //  * @desc Used by clients to get latest updates
+    //  */
+    // private getSubscription(key: string): BehaviorSubject<any> {
+    //     if (!this.subscriptions[key]) {
+    //         this.subscriptions[key] = new BehaviorSubject<any>(null);
+    //     }
+    //     return this.subscriptions[key];
+    // }
 
 
     public storePageData(pageData: any, isTemplate: boolean) {
         this.storeComponents(pageData.components);
         this.updateSlots(pageData.components, isTemplate);
         if (!isTemplate) {
-            this.store(PAGE_PREFIX + pageData.pageType, {
+            this.modelService.store(PAGE_PREFIX + pageData.pageType, {
                 pageId: pageData.pageId,
                 templateId: pageData.templateId
             });
@@ -51,7 +57,7 @@ export class CmsModelService {
     }
 
     public storeComponent(key, model) {
-        this.store(COMPONENT_PREFIX + key, model);
+        this.modelService.store(COMPONENT_PREFIX + key, model);
     }
 
     /**
@@ -66,19 +72,19 @@ export class CmsModelService {
         }
     }
     
-    /**
-     * @desc
-     * Stores a model and updates the subject
-     * @param key the key for the model
-     * @param model the model
-     */
-    private store(key, model) {
-        if (this.isAlreadyStored(key, model)) {
-            return;
-        }
-        const subscription = this.getSubscription(key);
-        subscription.next(model);
-    }
+    // /**
+    //  * @desc
+    //  * Stores a model and updates the subject
+    //  * @param key the key for the model
+    //  * @param model the model
+    //  */
+    // private store(key, model) {
+    //     // if (this.isAlreadyStored(key, model)) {
+    //     //     return;
+    //     // }
+    //     const subscription = this.modelService.get(key);
+    //     subscription.next(model);
+    // }
 
     /**
      * @desc
@@ -86,19 +92,19 @@ export class CmsModelService {
      * this happens during navigation from one page to another.
     */
     clear(key) {
-        const subscription = this.getSubscription(key);
+        const subscription = this.modelService.get(key);
         subscription.next(null);
     }
 
-    /**
-     * Detects whether the model is acurate
-     * @param key 
-     * @param model 
-     */
-    isAlreadyStored(key, model): boolean {
-        const subscription = this.getSubscription(key);
-        return (JSON.stringify(subscription.value) === JSON.stringify(model));
-    }
+    // /**
+    //  * Detects whether the model is acurate
+    //  * @param key 
+    //  * @param model 
+    //  */
+    // isAlreadyStored(key, model): boolean {
+    //     const subscription = this.modelService.get(key);
+    //     return (JSON.stringify(subscription.value) === JSON.stringify(model));
+    // }
 
 
     /**
@@ -139,7 +145,7 @@ export class CmsModelService {
 
         // update all dynamic subject that have been filled before or in this page
         for (const key of Object.keys(pageSlots)) {
-            this.store(SLOT_PREFIX + key, pageSlots[key]);
+            this.modelService.store(SLOT_PREFIX + key, pageSlots[key]);
         }
 
         isTemplate ? this.activeSlots.template = pageSlots : this.activeSlots.page = pageSlots ;

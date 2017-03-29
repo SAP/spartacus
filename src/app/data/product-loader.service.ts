@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { OccProductService } from '../occ/occ-core/product.service';
 import { OccProductSearchService } from '../occ/occ-core/product-search.service';
 import { ProductModelService } from './product-model.service';
+import { SiteContextService } from './site-context.service';
 
 const DEFAULT_SORT = 'relevance';
 
@@ -9,22 +10,36 @@ const DEFAULT_SORT = 'relevance';
 export class ProductLoaderService {
 
     status = {};
+    productCode;
 
     constructor(
         protected occProductService: OccProductService,
         protected occProductSearchService: OccProductSearchService,
-        protected productModelService: ProductModelService
-    ) { }
+        protected productModelService: ProductModelService,
+        protected siteLoader: SiteContextService
+    ) {
+        this.siteLoader.getSiteContextChangeSubscription().subscribe((value: number) => {
+            if (value > 0) {
+                this.refresh();
+            }
+        });
+    }
 
+    refresh() {
+        if (this.productCode) {
+            this.loadProduct(this.productCode);
+        }
+    }
     /**
      * @desc delegates to the cached model
      * @param productCode
      */
     getSubscription(productCode: string) {
-        return this.productModelService.get(productCode);
+        return this.productModelService.getProduct(productCode);
     }
 
     loadProduct(productCode: string) {
+        this.productCode = productCode;
         const key = productCode;
         if (this.isLoaded(productCode)) {
             return;
@@ -32,7 +47,7 @@ export class ProductLoaderService {
         this.startLoading(productCode);
         this.occProductService.loadProduct(productCode)
             .then((productData) => {
-                this.productModelService.store(productData['code'], productData);
+                this.productModelService.storeProduct(productData['code'], productData);
         });
     }
 
@@ -44,7 +59,7 @@ export class ProductLoaderService {
         this.startLoading(key);
         this.occProductService.loadProductReviews(productCode)
             .then((reviewData) => {
-                this.productModelService.store(key, reviewData);
+                this.productModelService.storeProduct(key, reviewData);
         });
     }
 
@@ -56,7 +71,7 @@ export class ProductLoaderService {
         this.startLoading(key);
         this.occProductService.loadProductReferences(productCode)
             .then((reviewData) => {
-                this.productModelService.store(key, reviewData.productReferences);
+                this.productModelService.storeProduct(key, reviewData.productReferences);
         });
     }
 

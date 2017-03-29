@@ -23,9 +23,11 @@ export class SearchBoxComponent extends AbstractProductComponent {
 
     // overriden hook that is called when the model is available
     protected fetchData() {
-        this.configure(this.model);
-        this.setupSearch();
-        super.fetchData();
+        if (this.model) {
+            this.configure(this.model);
+            this.setupSearch();
+            super.fetchData();
+        }
     }
 
     onKey(event: any) {
@@ -69,7 +71,7 @@ export class SearchBoxComponent extends AbstractProductComponent {
     private shouldSearchProducts() {
         return this.model.displayProducts && this.meetsLength(this.searchBoxControl.value);
     }
-    
+
     private configure(model) {
         this.maxNumberOfProducts = model.maxProducts;
         this.pageSize = this.model.maxProducts || 5;

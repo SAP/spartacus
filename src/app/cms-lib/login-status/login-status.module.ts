@@ -14,7 +14,6 @@ import { LoginDialogComponent } from './login-dialog/login-dialog.component';
         FlexLayoutModule
     ],
     declarations: [LoginStatusComponent, LoginDialogComponent],
-    // bootstrap: [LoginDialogComponent],
     exports: [LoginStatusComponent],
     entryComponents: [LoginDialogComponent]
 })

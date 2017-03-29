@@ -20,6 +20,13 @@ export class ModelService {
         return this.subscriptions[key];
     }
 
+    clear() {
+        console.log('clearCache', this.subscriptions);
+        Object.keys(this.subscriptions).map((e) => {
+            this.subscriptions[e].next(null);
+        });
+
+    }
     private isEqual(subscription, model) {
         return JSON.stringify(subscription.getValue()) === JSON.stringify(model);
     }
