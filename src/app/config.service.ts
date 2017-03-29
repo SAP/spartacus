@@ -3,9 +3,6 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ConfigService {
 
-    // TODO: provide URL mappings for site specific routings
-    
-    
     server = {
         baseUrl: 'https://localhost:9002',
         occPrefix: '/rest/v2/'
@@ -14,8 +11,14 @@ export class ConfigService {
     site = {
         baseSite: 'electronics',
         language: 'en',
-        currencey: 'EUR'
+        currency: 'USD'
     };
+
+    // site = {
+    //     baseSite: 'apparel-uk',
+    //     language: 'en',
+    //     currency: 'GBP'
+    // };
 
     authentication = {
         client_id: 'trusted_client',

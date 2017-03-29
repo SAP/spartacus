@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { ConfigService } from './config.service';
 
 import { AppComponent } from './app.component';
-import { RouterModule } from './router/router.module';
+// import { RouterModule } from './router/router.module';
 
 import { DataModule } from './data/data.module';
 import { OccModule } from './occ/occ.module';
@@ -25,7 +25,7 @@ import { UiFrameworkModule } from './ui/ui-framework/ui-framework.module';
     ],
     imports: [
         BrowserModule,
-        RouterModule,
+        // RouterModule,
         OccModule.forRoot(ConfigService),
         DataModule.forRoot(ConfigService),
         CmsModule.forRoot(ConfigService),
@@ -37,6 +37,7 @@ import { UiFrameworkModule } from './ui/ui-framework/ui-framework.module';
     providers: [
         ConfigService,
         {
+            // TODO: configure locale
             provide: LOCALE_ID, useValue: 'nl-NL'
         },
     ],

@@ -8,6 +8,7 @@ import { CategoryPageComponent } from '../ui/templates/category-page/category-pa
 
 import { PageNotFoundComponent } from '../ui/templates/404/404.component';
 
+// TODO: provide URL mappings for site specific routings
 export const appRoutes: Routes = [
     {
         path: '',
@@ -17,10 +18,16 @@ export const appRoutes: Routes = [
         path: 'cart',
         component: CartPageComponent
     },
+    {
+        path: 'search/:query',
+        component: ProductListPageComponent
+    },
+    {
+        path: 'product/:productCode',
+        component: ProductDetailPageComponent
+    },
 
-    {path: 'search/:query', component: ProductListPageComponent},
-    {path: 'product/:productCode', component: ProductDetailPageComponent},
-
+    // redirect OLD links
     {
         path: 'Open-Catalogue/:categoryTitle/c/:categoryCode',
         redirectTo: '/category/:categoryCode/:categoryTitle'
@@ -38,14 +45,27 @@ export const appRoutes: Routes = [
         redirectTo: '/category/:categoryCode/:categoryTitle'
     },
 
+    {
+        path: 'category/:categoryCode',
+        component: CategoryPageComponent
+    },
+    {
+        path: 'category/:categoryCode/:title',
+        component: CategoryPageComponent
+    },
 
-    {path: 'category/:categoryCode', component: CategoryPageComponent},
-    {path: 'category/:categoryCode/:title', component: CategoryPageComponent},
+    {
+        path: 'brand/:brandCode', component:
+        CategoryPageComponent
+    },
+    {
+        path: 'brand/:brandCode/:title',
+        component: CategoryPageComponent
+    },
 
-    {path: 'brand/:brandCode', component: CategoryPageComponent},
-    {path: 'brand/:brandCode/:title', component: CategoryPageComponent},
-    
-    {path: '**', component: PageNotFoundComponent}
+    {
+        path: '**', component: PageNotFoundComponent
+    }
 ];
 
 export const AppRouter = RouterModule.forRoot(appRoutes);

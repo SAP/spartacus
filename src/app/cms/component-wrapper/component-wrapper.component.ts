@@ -6,8 +6,6 @@ import {
 import { AbstractCmsComponent } from '../abstract-cms-component';
 import { ComponentMapperService } from '../component-mapper.service';
 
-
-
 @Component({
     selector: 'y-component-wrapper',
     templateUrl: './component-wrapper.component.html',
