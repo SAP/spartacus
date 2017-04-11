@@ -22,25 +22,24 @@ export class ConfigService {
 
     authentication = {
         client_id: 'trusted_client',
-        client_secret: 'secret',
-        userToken: null
+        client_secret: 'secret'
     };
 
     cmsComponentMapping = {
-        CMSLinkComponent: 'LinkComponent',
-        SimpleResponsiveBannerComponent: 'BannerComponent',
-        SimpleBannerComponent: 'BannerComponent',
-        BreadcrumbComponent: 'BreadcrumbComponent',
-        CmsParagraphComponent: 'ParagraphComponent',
-        NavigationComponent: 'NavigationComponent',
-        FooterNavigationComponent: 'FooterNavigationComponent',
-        CategoryNavigationComponent: 'CategoryNavigationComponent',
-        ProductAddToCartComponent: 'AddToCartComponent',
-        MiniCartComponent: 'MiniCartComponent',
-        ProductCarouselComponent: 'ProductCarouselComponent',
-        SearchBoxComponent: 'SearchBoxComponent',
-        ProductReferencesComponent: 'ProductReferencesComponent',
-        CMSTabParagraphComponent: 'TabParagraphContainerComponent'
+        CMSLinkComponent:                   'LinkComponent',
+        SimpleResponsiveBannerComponent:    'BannerComponent',
+        SimpleBannerComponent:              'BannerComponent',
+        // BreadcrumbComponent:                'BreadcrumbComponent',
+        CmsParagraphComponent:              'ParagraphComponent',
+        NavigationComponent:                'NavigationComponent',
+        FooterNavigationComponent:          'FooterNavigationComponent',
+        CategoryNavigationComponent:        'CategoryNavigationComponent',
+        ProductAddToCartComponent:          'AddToCartComponent',
+        MiniCartComponent:                  'MiniCartComponent',
+        ProductCarouselComponent:           'ProductCarouselComponent',
+        SearchBoxComponent:                 'SearchBoxComponent',
+        ProductReferencesComponent:         'ProductReferencesComponent',
+        CMSTabParagraphComponent:           'TabParagraphContainerComponent'
     };
 
 }

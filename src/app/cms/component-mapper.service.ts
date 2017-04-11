@@ -41,7 +41,7 @@ export class ComponentMapperService {
         if (!alias) {
             if (this.missingComponents.indexOf(typeCode) === -1) {
                 this.missingComponents.push(typeCode);
-                console.warn('No component implementation found for the CMS component type', typeCode, ').\n',
+                console.warn('No component implementation found for the CMS component type', typeCode, '.\n',
                     'Make sure you implement a component and register it in the mapper.');
             }
             return;

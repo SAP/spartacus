@@ -21,7 +21,6 @@ export class ModelService {
     }
 
     clear() {
-        console.log('clearCache', this.subscriptions);
         Object.keys(this.subscriptions).map((e) => {
             this.subscriptions[e].next(null);
         });
