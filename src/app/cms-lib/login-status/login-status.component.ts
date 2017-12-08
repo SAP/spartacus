@@ -1,8 +1,8 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { ConfigService } from '../../cms/config.service';
 import { MdDialog } from '@angular/material';
-import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
-import { CmsModelService } from '../../data/cms-model.service';
+import { AbstractCmsComponent } from '../abstract-cms-component';
+import { CmsService } from '../../data/cms.service';
 
 import { UserLoaderService } from '../../data/user-loader.service';
 import { UserModelService } from '../../data/user-model.service';
@@ -20,12 +20,12 @@ export class LoginStatusComponent extends AbstractCmsComponent {
     constructor(
         protected cd: ChangeDetectorRef,
         protected configService: ConfigService,
-        protected cmsModelService: CmsModelService,
+        protected cmsService: CmsService,
         protected userModel: UserModelService,
         protected userLoader: UserLoaderService,
         protected dialog: MdDialog
     ) {
-        super(cd, configService, cmsModelService);
+        super(cd, cmsService);
 
         this.userModel.getUser().subscribe((userData) => {
             this.user = userData;

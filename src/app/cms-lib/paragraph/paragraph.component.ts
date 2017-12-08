@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
+import { AbstractCmsComponent } from '../abstract-cms-component';
 
 @Component({
     selector: 'y-paragraph',
@@ -12,8 +12,8 @@ export class ParagraphComponent extends AbstractCmsComponent {
 
     protected fetchData() {
         super.fetchData();
-        if (this.model && this.model.content) {
-            this.dataContainer.nativeElement.innerHTML = this.model.content;
+        if (this.component && this.component.content) {
+            this.dataContainer.nativeElement.innerHTML = this.component.content;
         }
     }
 }

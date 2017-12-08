@@ -1,74 +1,40 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { StubService } from './stub.service';
-
+import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import { ConfigService } from '../config.service';
 
 @Injectable()
 export class OccCmsService {
 
-    private baseUrl: string;
-    private cmsEndpoint = 'cms/';
+    protected headers = new Headers({'Content-Type': 'application/json'});
 
     constructor(
         private http: Http,
-        private config: ConfigService,
-        private stub: StubService
-    ) {
-        this.baseUrl = this.config.server.baseUrl;
-        this.baseUrl += '/rest/v2/';
-        this.baseUrl += this.config.site.baseSite + '/';
-        this.baseUrl += this.cmsEndpoint;
+        private config: ConfigService) {}
+
+
+    protected getBaseEndPoint() {
+        return this.config.server.baseUrl +
+            this.config.server.occPrefix +
+            this.config.site.baseSite + '/cms';
     }
 
-    // provides a standardized endpoint ULR creation for all occ-cms related calls 
-    private createEndPoint(endpoint: string) {
-        return this.baseUrl + endpoint;
+    loadPageData(pageId: string, productCode: string, categoryCode: string, catalogCode: string): Observable<any> {
+        const params = new URLSearchParams();
+        params.set('pageId', pageId);
+        params.set('productCode', productCode);
+        params.set('categoryCode', categoryCode);
+        params.set('catalogCode', catalogCode);
+            
+        const requestOptions = new RequestOptions({headers: this.headers, params: params});
+        return this.http.get(this.getBaseEndPoint()+`/page?fields=DEFAULT`, requestOptions);
     }
 
-    loadComponentsForIndex() {
-        return this.createHttpPromise('index/components');
+    loadComponent(id: string): Observable<any> {
+        return this.http.get(this.getBaseEndPoint()+`/components/${id}`);
     }
 
-    loadComponentsForPage(page: string, isTemplate?: boolean) {
-        let url = 'page/' + page;
-        url += isTemplate ? '/pagetemplate' : '';
-        url += '/components';
-        return this.createHttpPromise(url);
+    public getBaseUrl() {
+        return this.config.server.baseUrl;
     }
-
-    loadComponentsForCategory(categoryCode: string, isTemplate?: boolean) {
-        let url = 'category/' + categoryCode;
-        url += isTemplate ? '/pagetemplate' : '';
-        url += '/components';
-        return this.createHttpPromise(url);
-    }
-
-    loadComponentsForProduct(productCode: string, isTemplate?: boolean) {
-        let url = 'product/' + productCode;
-        url += isTemplate ? '/pagetemplate' : '';
-        url += '/components';
-        return this.createHttpPromise(url);
-    }
-
-    private createHttpPromise(urlPart: string): Promise<any> {
-        return new Promise((resolve) => {
-            // stub?
-            // if (this.stub.hasData(urlPart)) {
-            //     resolve(this.stub.getData(urlPart));
-            // }else {
-                const url = this.createEndPoint(urlPart);
-                this.http.get(url).subscribe((data) => {
-                    const occData = data.json();
-                    resolve(occData);
-                },
-                err => this.logError(err));
-            // }
-        });
-    }
-
-    private logError(err) {
-        console.error('There was an error: ' + err);
-    }
-
 }

@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
+import { AbstractCmsComponent } from '../abstract-cms-component';
 
 @Component({
   selector: 'y-category-navigation',
@@ -14,9 +14,9 @@ export class CategoryNavigationComponent extends AbstractCmsComponent {
     protected fetchData() {
         // navigationnodes contain children of ordinary type cms components
         // we thread them simmilar and use the cms model service to store them
-        if (this.model && this.model.navigationNode && this.model.navigationNode.children) {
-            for (const node of this.model.navigationNode.children) {
-                this.cmsModelService.storeComponent(node.uid, node);
+        if (this.component && this.component.navigationNode && this.component.navigationNode.children) {
+            for (const node of this.component.navigationNode.children) {
+                this.cmsService.storeComponent(node.uid, node);
                 this.nodes.push(node);
             }
         }

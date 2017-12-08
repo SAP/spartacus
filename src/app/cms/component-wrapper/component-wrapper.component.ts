@@ -1,9 +1,9 @@
 import {
     Component, OnInit, AfterViewInit, Input,
     ViewChild, ViewContainerRef, ComponentFactoryResolver,
-    OnChanges, ChangeDetectorRef, ChangeDetectionStrategy
+    OnChanges, ChangeDetectorRef, ChangeDetectionStrategy, ComponentRef
 } from '@angular/core';
-import { AbstractCmsComponent } from '../abstract-cms-component';
+import { AbstractCmsComponent } from '../../cms-lib/abstract-cms-component';
 import { ComponentMapperService } from '../component-mapper.service';
 
 @Component({
@@ -18,10 +18,11 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
     @Input() componentType: string;
     @Input() componentUid: string;
     @Input() contextParameters: any;
+    @Input() componentClass: string;
 
 
     private isViewInitialized = false;
-    cmpRef;
+    cmpRef: ComponentRef<any>;;
 
     constructor(
         private componentFactoryResolver: ComponentFactoryResolver,
@@ -36,10 +37,6 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
         this.isViewInitialized = true;
         this.launchComponent();
     }
-
-    // ngOnChanges() {
-    //     this.updateComponent();
-    // }
 
     launchComponent() {
         if (!this.isViewInitialized) {

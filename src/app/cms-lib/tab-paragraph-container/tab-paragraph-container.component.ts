@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { AbstractProductComponent } from '../../cms/abstract-product-component';
+import { AbstractProductComponent } from '../abstract-product-component';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
@@ -29,10 +29,10 @@ export class TabParagraphContainerComponent extends AbstractProductComponent {
     //     // if (!this.contextParameters.tab) {
     //     //     this.contextParameters.tab = {};
     //     // }
-    //     // this.contextParameters.tab.title = this.model.title;
+    //     // this.contextParameters.tab.title = this.component.title;
     //     // console.log(this.contextParameters.tab);
     //     // this.cd.detectChanges();
-    //     // console.log(this.model.title);
+    //     // console.log(this.component.title);
     //     // console.log(this.tabContent);
     //     // console.log(this.contextParameters);
     //     // this.contextParameters);

@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
-import { CmsModelService } from '../../data/cms-model.service';
+import { CmsService } from '../../data/cms.service';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -12,34 +13,22 @@ import { CmsModelService } from '../../data/cms-model.service';
 })
 export class DynamicSlotComponent implements OnInit,  OnDestroy {
 
-    model;
-    dataSubscription;
+    currentSlot$: Observable<any>;;
 
     @Input() position: string;
+    @Input() limit: number;
     @Input() contextParameters: any;
+    @Input() componentClass: string;
 
     constructor(
-        private cmsModel: CmsModelService,
+        private cmsService: CmsService,
         private changeDetector: ChangeDetectorRef
     ) { }
 
     ngOnInit() {
-        this.dataSubscription = this.cmsModel.getSlotSubscription(this.position).subscribe((slot) => {
-                this.loadComponents(slot);
-            },
-            err => console.log(err)
-        );
+        this.currentSlot$ = this.cmsService.getSlotSubscription(this.position);
     }
 
     ngOnDestroy() {
-        if (this.dataSubscription) {
-            this.dataSubscription.unsubscribe();
-        }
     }
-
-    protected loadComponents(slot) {
-        this.model = slot;
-        this.changeDetector.markForCheck();
-    }
-
 }

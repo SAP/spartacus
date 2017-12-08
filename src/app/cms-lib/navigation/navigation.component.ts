@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
-import { CmsModelService } from '../../data/cms-model.service';
-import { ConfigService } from '../../cms/config.service';
+import { AbstractCmsComponent } from '../abstract-cms-component';
+import { CmsService } from '../../data/cms.service';
 import { NavigationService } from './navigation.service';
 import { Router } from '@angular/router';
 
@@ -17,18 +16,17 @@ export class NavigationComponent extends AbstractCmsComponent  {
 
     constructor(
         protected cd: ChangeDetectorRef,
-        protected cmsModelService: CmsModelService,
-        protected configService: ConfigService,
+        protected cmsService: CmsService,
         private navigationService: NavigationService
     ) {
-        super(cd, configService, cmsModelService);
+        super(cd, cmsService);
     }
 
     protected fetchData() {
-        if (!this.model) {
+        if (!this.component) {
             return;
         }
-        const data = this.model.navigationNode ? this.model.navigationNode : this.model;
+        const data = this.component.navigationNode ? this.component.navigationNode : this.component;
         this.node = this.navigationService.createNode(data);
         this.cd.detectChanges();
     }

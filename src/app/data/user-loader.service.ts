@@ -3,7 +3,6 @@ import { Observable } from 'rxjs/Rx';
 import { OccUserService } from '../occ/occ-core/user.service';
 import { UserModelService } from './user-model.service';
 import { TokenService } from './token.service';
-import { CmsLoaderService } from './cms-loader.service';
 import { SiteContextService } from './site-context.service';
 
 @Injectable()
@@ -13,7 +12,6 @@ export class UserLoaderService {
         protected tokenService: TokenService,
         protected occUserService: OccUserService,
         protected userModelService: UserModelService,
-        protected cmsLoader: CmsLoaderService,
         protected siteLoader: SiteContextService
     ) {
         this.initUser();
