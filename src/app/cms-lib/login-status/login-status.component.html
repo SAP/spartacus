@@ -1,15 +1,15 @@
 
-<md-menu #userMenu="mdMenu" x-position="before">
-  <button md-menu-item (click)="logout()"> Logout </button>
-</md-menu>
+<mat-menu #userMenu="matMenu" x-position="before">
+  <button mat-menu-item (click)="logout()"> Logout </button>
+</mat-menu>
 
 <button *ngIf="user" 
     md-button color="primary"
-    [mdMenuTriggerFor]="userMenu">
+    [matMenuTriggerFor]="userMenu">
     {{user.name}}
-    <md-icon>expand_more</md-icon>
+    <mat-icon>expand_more</mat-icon>
 </button>
 
-<button *ngIf="!user" (click)="openLogin()" md-icon-button color="primary">
-    <md-icon>person</md-icon>
+<button *ngIf="!user" (click)="openLogin()" mat-icon-button color="primary">
+    <mat-icon>person</mat-icon>
 </button>

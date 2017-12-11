@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from '@angular/material';
+import { MaterialModule } from '../../material.module';
 import { CategoryNavigationComponent } from './category-navigation.component';
 
 import { CmsModule } from '../../cms/cms.module';
@@ -8,7 +8,7 @@ import { CmsModule } from '../../cms/cms.module';
 @NgModule({
     imports: [
         CommonModule,
-        MaterialModule.forRoot(),
+        MaterialModule,
         CmsModule
     ],
     declarations: [CategoryNavigationComponent],

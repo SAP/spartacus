@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { AbstractCartComponent } from '../abstract-cart-component';
 import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 import { CartModelService } from '../../data/cart-model.service';

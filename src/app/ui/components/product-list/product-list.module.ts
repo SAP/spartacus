@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { MaterialModule } from '@angular/material';
+import { MaterialModule } from '../../../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
@@ -25,7 +25,7 @@ import { ProductLineItemComponent } from './product-line-item/product-line-item.
         CommonModule,
         RouterModule,
         MediaModule,
-        MaterialModule.forRoot(),
+        MaterialModule,
         FlexLayoutModule,
         AddToCartModule
     ],

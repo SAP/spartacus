@@ -1,14 +1,14 @@
-<md-card *ngFor="let class of model?.classifications">
-    <md-card-title [innerHTML]="class.name"></md-card-title>
-    <md-card-content *ngFor="let feature of class.features"
+<mat-card *ngFor="let class of model?.classifications">
+    <mat-card-title [innerHTML]="class.name"></mat-card-title>
+    <mat-card-content *ngFor="let feature of class.features"
         fxLayout="row" fxLayoutAlign="start start"  >
         <div fxFlex>
             {{ feature.name }}
         </div>
-        <md-list fxFlex="50%" dense>
-            <md-list-item *ngFor="let featureValue of feature.featureValues">
+        <mat-list fxFlex="50%" dense>
+            <mat-list-item *ngFor="let featureValue of feature.featureValues">
                 <h4 md-line>{{featureValue.value}} {{feature.featureUnit.symbol}}</h4>
-            </md-list-item>
-        </md-list>
-    </md-card-content>
-</md-card>
+            </mat-list-item>
+        </mat-list>
+    </mat-card-content>
+</mat-card>

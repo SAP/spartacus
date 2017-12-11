@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MediaModule } from '../../ui/components/media/media.module';
 
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from '@angular/material';
+import { MaterialModule } from '../../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout'; 
 import { SearchBoxComponent } from './search-box.component';
 
@@ -15,7 +15,7 @@ import { SearchBoxComponent } from './search-box.component';
         CommonModule,
         RouterModule,
         ReactiveFormsModule,
-        MaterialModule.forRoot(),
+        MaterialModule,
         FlexLayoutModule,
         MediaModule
     ],

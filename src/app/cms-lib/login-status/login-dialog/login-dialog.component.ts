@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { UserLoaderService } from '../../../data/user-loader.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class LoginDialogComponent {
     public rememberMe: Boolean;
 
     constructor (
-        public dialogRef: MdDialogRef<LoginDialogComponent>,
+        public dialogRef: MatDialogRef<LoginDialogComponent>,
         protected userLoader: UserLoaderService
     ) {
         this.username = 'tobiasouwejan@gmail.com';

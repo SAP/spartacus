@@ -1,25 +1,25 @@
 
-<md-input-container floatPlaceholder="never">
+<mat-input-container floatPlaceholder="never">
     <input type="text" 
         mdInput 
         [formControl]="searchBoxControl" 
-        [mdAutocomplete]="searchresult"
-        [placeholder]="model.name"
+        [matAutocomplete]="searchresult"
+        [placeholder]="component.name"
         (keyup)="onKey($event)">
-</md-input-container>
+</mat-input-container>
 
-<md-autocomplete #searchresult="mdAutocomplete" class="autocomplete-response">
-    <md-option *ngIf="(suggestionResults | async)?.length>0" >
-        <md-chip-list>
-            <md-chip 
+<mat-autocomplete #searchresult="matAutocomplete" class="autocomplete-response">
+    <mat-option *ngIf="(suggestionResults | async)?.length>0" >
+        <mat-chip-list>
+            <mat-chip 
                 *ngFor="let suggestion of suggestionResults | async"
                 class="suggestion"
                 color="primary"  selected="true"
-                (click)="launchSearchPage(suggestion.value)">{{ suggestion.value }}</md-chip>
-        </md-chip-list>
-    </md-option>
+                (click)="launchSearchPage(suggestion.value)">{{ suggestion.value }}</mat-chip>
+        </mat-chip-list>
+    </mat-option>
 
-    <md-option 
+    <mat-option 
         *ngFor="let product of (searchResults | async)?.products" [value]="product.name"
         class="option"
         fxLayout="row" 
@@ -27,7 +27,7 @@
         [routerLink]="['/product/', product.code]">
         <div class="picture">
             <y-picture fxFlex
-                *ngIf="model.displayProductImages && product.images"
+                *ngIf="component.displayProductImages && product.images"
                 [imageContainer]="product.images.PRIMARY"
                 imageFormat="thumbnail"
                 >
@@ -35,5 +35,5 @@
         </div>
         <div fxFlex>{{ product.name }}</div>
         <div fxFlex>{{product.price.formattedValue}}</div>
-    </md-option>
-</md-autocomplete>
+    </mat-option>
+</mat-autocomplete>
