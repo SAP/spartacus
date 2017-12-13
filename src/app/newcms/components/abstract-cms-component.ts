@@ -28,7 +28,7 @@ export abstract class AbstractCmsComponent {
   bootstrap() {
     this.store
       .select(fromStore.componentSelectorFactory(this.uid))
-      .subscribe(componentData => { console.log(componentData);
+      .subscribe(componentData => {
         this.component = componentData;
         this.fetchData();
       });
@@ -42,10 +42,6 @@ export abstract class AbstractCmsComponent {
   setUid(uid: string) {
     this.uid = uid;
   }
-
-  //protected getBaseUrl() {
-  //  return this.cmsService.baseUrl;
-  //}
 
   // TODO: move to strategy
   protected mapUrl(url: string) {

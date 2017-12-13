@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, RequestOptions, URLSearchParams } from "@angular/http";
 import { Observable } from "rxjs/Observable";
+import { catchError } from "rxjs/operators";
 import { PageContext, PageType } from "../../routing/models/page-context.model";
 import { ConfigService } from "../config.service";
 
@@ -44,14 +45,15 @@ export class OccCmsService {
       headers: this.headers,
       params: params
     });
-    return this.http.get(
-      this.getBaseEndPoint() + `/page?fields=DEFAULT`,
-      requestOptions
-    );
+    return this.http
+      .get(this.getBaseEndPoint() + `/page?fields=DEFAULT`, requestOptions)
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
   loadComponent(id: string): Observable<any> {
-    return this.http.get(this.getBaseEndPoint() + `/components/${id}`);
+    return this.http
+      .get(this.getBaseEndPoint() + `/components/${id}`)
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
   public getBaseUrl() {
