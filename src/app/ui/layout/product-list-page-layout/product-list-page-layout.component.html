@@ -2,8 +2,8 @@
 
 <y-dynamic-slot flex position="Section1"></y-dynamic-slot>
 
-<div fxLayout="row" fxLayoutAlign="start start">
-    <div fxFlexFill>
+<div >
+    <div >
         <y-product-list 
             [gridMode]="gridMode"
             [query]="query"
@@ -11,7 +11,7 @@
             [brandCode]="brandCode"
             ></y-product-list>
     </div>
-    <y-dynamic-slot  position="Section4" fxFlex></y-dynamic-slot>
+    <y-dynamic-slot  position="Section4" ></y-dynamic-slot>
 </div>
 
 <div layout-gt-xs="row" layout="column">

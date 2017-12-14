@@ -22,18 +22,16 @@
     <md-option 
         *ngFor="let product of (searchResults | async)?.products" [value]="product.name"
         class="option"
-        fxLayout="row" 
-        fxFlexAlign="start center"   
         [routerLink]="['/product/', product.code]">
         <div class="picture">
-            <y-picture fxFlex
+            <y-picture 
                 *ngIf="model.displayProductImages && product.images"
                 [imageContainer]="product.images.PRIMARY"
                 imageFormat="thumbnail"
                 >
             </y-picture>
         </div>
-        <div fxFlex>{{ product.name }}</div>
-        <div fxFlex>{{product.price.formattedValue}}</div>
+        <div >{{ product.name }}</div>
+        <div >{{product.price.formattedValue}}</div>
     </md-option>
 </md-autocomplete>

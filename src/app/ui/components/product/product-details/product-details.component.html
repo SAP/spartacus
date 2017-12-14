@@ -13,9 +13,9 @@
     </div>
     
     <md-card-content>
-        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start" fxLayoutGap="24px">
-            <y-product-images fxFlexOrder.xs="2" [productCode]="productCode" fxFlex="50%"></y-product-images>
-            <div fxFlex="50%" fxFlexOrder.xs="1">
+        <div >
+            <y-product-images> </y-product-images>
+            <div>
                 <y-product-summary [productCode]="productCode"></y-product-summary>
                 <y-dynamic-slot flex position="AddToCart" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
                 <!--<y-dynamic-slot flex position="VariantSelector"></y-dynamic-slot>-->

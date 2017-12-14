@@ -2,13 +2,13 @@
 <H3>{{model?.title}}</H3>
 <div class="product-caraousel"
     (mouseenter)="stop()" (mouseleave)="continue()"
-    fxLayout="row" fxFlexAlign="start stretch">
-    <!--<div fxFlex="50px">
+    >
+    <!--<div >
         <button md-icon-button>
             <md-icon>navigate_before</md-icon>
         </button>
     </div>-->
-    <div fxFlex class="carousel-container">
+    <div  class="carousel-container">
         <div class="product-panel" 
             [class.animate]="animate"
             [class.pause]="pause">
@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <!--<div fxFlex="50px">
+    <!--<div>
         <button md-icon-button>
             <md-icon>navigate_next</md-icon>
         </button>

@@ -1,6 +1,6 @@
 
-<div fxLayout="row">
-    <div fxFlex="30%" class="dark">
+<div >
+    <div  class="dark">
         <md-card style="padding:0">
             <button 
                 md-button 
@@ -11,12 +11,11 @@
         </md-card>
     </div>
 
-    <div fxFlex
+    <div 
         *ngIf="model && model.pagination"
-        fxLayout="row" fxLayoutAlign="space-between center"
         >
         <y-product-paging [searchResult]="model"></y-product-paging>
-        <y-product-sorting fxFlex="50px" [grid]="grid" ></y-product-sorting>
+        <y-product-sorting [grid]="grid" ></y-product-sorting>
     </div>
 
 </div>

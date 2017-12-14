@@ -11,7 +11,6 @@ import { ConfigService } from './config.service';
     imports: [
         CommonModule,
         DataModule
-        // FlexLayoutModule
     ],
     declarations: [
         DynamicSlotComponent,

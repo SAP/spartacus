@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ProductSummaryComponent } from './product-summary/product-summary.component';
 
 import { MaterialModule } from '@angular/material';
-import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { ProductImagesComponent } from './product-images/product-images.component';
@@ -21,7 +21,6 @@ import { ProductReviewsComponent } from './product-reviews/product-reviews.compo
         RouterModule,
         MediaModule,
         MaterialModule.forRoot(),
-        FlexLayoutModule,
         CmsModule
     ],
     declarations: [

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { MaterialModule } from '@angular/material';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 import { ProductListComponent } from './product-list.component';
@@ -26,7 +25,6 @@ import { ProductLineItemComponent } from './product-line-item/product-line-item.
         RouterModule,
         MediaModule,
         MaterialModule.forRoot(),
-        FlexLayoutModule,
         AddToCartModule
     ],
     declarations: [

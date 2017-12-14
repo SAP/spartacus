@@ -19,6 +19,7 @@
         "tsconfig": "tsconfig.json",
         "prefix": "y",
         "styles": [
+            "../node_modules/bootstrap-css-only/css/bootstrap.min.css",
             "styles.scss",
             "theme.scss"
         ],

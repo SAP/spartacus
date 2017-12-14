@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@angular/material';
-import { FlexLayoutModule } from '@angular/flex-layout';
-
 import { CmsModule } from '../../cms/cms.module';
 
 import { HeaderComponent } from './header/header.component';
@@ -28,7 +26,6 @@ import { ProductDetailsPageLayoutComponent } from './product-details-page-layout
         CommonModule,
         RouterModule,
         MaterialModule.forRoot(),
-        FlexLayoutModule,
         CmsModule,
 
         ComponentsModule,
