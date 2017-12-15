@@ -1,15 +1,18 @@
-.top-header {
-    position: fixed;
-    z-index: 100;
-    background-color: #fff;
+.navigation--top {
+    background-color: red;
     width: 100%;
     height: 60px;
     top:0;
 
-    md-card {
-        padding: 10px 20px;
-    }
+    // md-card {
+    //     padding: 10px 20px;
+    // }
 }
 .navigation-header {
     margin-top: 60px;
+}
+
+.nav__links li {
+    float: left;
+    list-style-type: none;
 }

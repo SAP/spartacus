@@ -1,18 +1,46 @@
+<y-cookie-confirmation>
+</y-cookie-confirmation>
 
-<y-cookie-confirmation></y-cookie-confirmation>
+<nav class="navigation--top">
 
-<div id="top" class="top-header" >
-    <md-card >
-        <y-dynamic-slot position="SiteLogo" ></y-dynamic-slot>
-        <y-dynamic-slot position="SearchBox" ></y-dynamic-slot>
-        <y-dynamic-slot position="MiniCart" ></y-dynamic-slot>
-        <y-login-status></y-login-status>
-        <y-dynamic-slot position="HeaderLinks"></y-dynamic-slot>
-        <y-currency-selector></y-currency-selector>
-        <y-language-selector></y-language-selector>
-    </md-card>
-    <!--<md-progress-bar mode="indeterminate"></md-progress-bar>-->
-</div>
+    <div id="top" class="row">
+        <!-- these are the elements in the top header, used to be an md-card tag -->
+        <div class="col-md-4">
+            <y-dynamic-slot position="SiteLogo"></y-dynamic-slot>
+        </div>
+        <div class="col-md-8">
+            <ul class="nav__links nav__links--shop_info">
+                <li>
+                    <y-login-status></y-login-status>
+                </li>
+
+                <li>
+                    <y-dynamic-slot position="HeaderLinks"></y-dynamic-slot>
+                </li>
+
+                <li>
+                    <y-currency-selector></y-currency-selector>
+                </li>
+                <li>
+                    <y-language-selector></y-language-selector>
+                </li>
+            </ul>
+        </div>
+        <!--<md-progress-bar mode="indeterminate"></md-progress-bar>-->
+    </div>
+
+</nav>
+
+<nav class="navigation--middle">
+
+    <div class="nav__left col-md-6 searchBox">
+        <y-dynamic-slot position="SearchBox"></y-dynamic-slot>
+    </div>
+
+    <div class="nav__left col-md-6 MiniCart">
+        <y-dynamic-slot position="MiniCart"></y-dynamic-slot>
+    </div>
+</nav>
 
 <!--
     The HomepageNavLink is a mistake in the sample data...
@@ -20,7 +48,7 @@
 -->
 
 
-<div class="navigation-header">
+<div class="navigation--bottom">
     <y-dynamic-slot position="NavigationBar"></y-dynamic-slot>
     <y-dynamic-slot position="BottomHeader"></y-dynamic-slot>
 </div>
