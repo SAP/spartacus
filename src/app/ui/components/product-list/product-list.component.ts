@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnChanges, ViewChild } from '@angular/core';
-import { MdSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -15,7 +15,7 @@ export class ProductListComponent implements OnChanges, OnInit {
 
     model;
 
-    @ViewChild('sidenav') sidenav: MdSidenav;
+    @ViewChild('sidenav') sidenav: MatSidenav;
 
     grid: any;
 

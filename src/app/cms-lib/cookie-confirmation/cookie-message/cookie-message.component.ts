@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MdSnackBarRef } from '@angular/material';
+import { MatSnackBarRef } from '@angular/material';
 
 const message = 'cookie messages, bla, bla, bla...';
 
@@ -10,7 +10,7 @@ const message = 'cookie messages, bla, bla, bla...';
 })
 export class CookieMessageComponent {
 
-    snackBarRef: MdSnackBarRef<CookieMessageComponent>;
+    snackBarRef: MatSnackBarRef<CookieMessageComponent>;
 
     dismiss(): void {
         this.snackBarRef.dismiss();

@@ -1,17 +1,17 @@
-<md-card class="footer">
+<mat-card class="footer">
     <div fxLayout="row" fxLayoutAlign="start stretch">
 
-        <md-nav-list *ngFor="let child of children" >
-            <h3 md-subheader>{{child.title}}</h3>
-            <a md-list-item *ngFor="let link of child.links"
+        <mat-nav-list *ngFor="let child of children" >
+            <h3 mat-subheader>{{child.title}}</h3>
+            <a mat-list-item *ngFor="let link of child.links"
                 [href]="link.url"
                 [target]="link.target === 'NEWWINDOW' ? 'blank':'self'">{{ link.linkName }}</a>
-        </md-nav-list>
+        </mat-nav-list>
 
     </div>
 
-</md-card>
+</mat-card>
 
 <div class="notice">
-    {{model?.notice}}
+    {{component?.notice}}
 </div>

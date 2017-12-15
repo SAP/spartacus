@@ -1,7 +1,7 @@
 
 <y-product-list-page-layout 
     *ngIf="model"
-    [gridMode]="model.templateId === 'CategoryPageTemplate' ? 'grid' : 'list'"
+    [gridMode]="model.template === 'CategoryPageTemplate' ? 'grid' : 'list'"
     [categoryCode]="categoryCode"
     [brandCode]="brandCode"
 ></y-product-list-page-layout>

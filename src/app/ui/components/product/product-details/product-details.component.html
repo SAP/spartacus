@@ -1,18 +1,18 @@
 
 
-<md-card>
+<mat-card>
     
-    <md-card-title>
+    <mat-card-title>
         <span class="product-title">{{model?.name}}</span>
         <span class="product-code"><span class="prefix"> | ID {{model?.code}}</span></span>
-    </md-card-title>
+    </mat-card-title>
     <div>
         <y-star-rating [rating]="model?.averageRating"></y-star-rating>
-        <button md-button (click)="onClick">Reviews</button>
-        <button md-button (click)="onClick">Write a review</button>
+        <button mat-button (click)="onClick">Reviews</button>
+        <button mat-button (click)="onClick">Write a review</button>
     </div>
     
-    <md-card-content>
+    <mat-card-content>
         <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start" fxLayoutGap="24px">
             <y-product-images fxFlexOrder.xs="2" [productCode]="productCode" fxFlex="50%"></y-product-images>
             <div fxFlex="50%" fxFlexOrder.xs="1">
@@ -25,24 +25,24 @@
         <y-dynamic-slot flex position="CrossSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
         <y-dynamic-slot flex position="UpSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
 
-        <md-tab-group>
-            <md-tab label="PRODUCT DETAILS">
+        <mat-tab-group>
+            <mat-tab label="PRODUCT DETAILS">
                 <p [innerHTML]="model?.description"></p>
-            </md-tab>
-            <md-tab label="SPECS">
+            </mat-tab>
+            <mat-tab label="SPECS">
                 <y-product-attributes [productCode]="productCode"></y-product-attributes>
-            </md-tab>
-            <md-tab label="REVIEWS">
+            </mat-tab>
+            <mat-tab label="REVIEWS">
                 <y-product-reviews [productCode]="productCode"></y-product-reviews>
-            </md-tab>
+            </mat-tab>
 
-            <md-tab label="Delivery">
+            <mat-tab label="Delivery">
                 <y-dynamic-slot position="Tabs"></y-dynamic-slot>    
-            </md-tab>
-        </md-tab-group>
+            </mat-tab>
+        </mat-tab-group>
 
-    </md-card-content>
+    </mat-card-content>
 
-</md-card>
+</mat-card>
 
 

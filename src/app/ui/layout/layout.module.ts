@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { RouterModule } from '@angular/router';
-import { MaterialModule } from '@angular/material';
+import { MaterialModule } from '../../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { CmsModule } from '../../cms/cms.module';
@@ -27,7 +27,7 @@ import { ProductDetailsPageLayoutComponent } from './product-details-page-layout
     imports: [
         CommonModule,
         RouterModule,
-        MaterialModule.forRoot(),
+        MaterialModule,
         FlexLayoutModule,
         CmsModule,
 

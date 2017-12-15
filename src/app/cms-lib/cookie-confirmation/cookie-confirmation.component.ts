@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { TokenService } from '../../data/token.service';
 import { CookieMessageComponent } from './cookie-message/cookie-message.component';
 
@@ -13,7 +13,7 @@ export class CookieConfirmationComponent {
 
     constructor(
         protected clientStorage: TokenService,
-        protected snackBar: MdSnackBar
+        protected snackBar: MatSnackBar
     ) {
         if (!this.clientStorage.isEnabled()) {
             const ref = this.snackBar.open('Do you allow us to store cookies?', 'OK');

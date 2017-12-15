@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LinkComponent } from './link.component';
 
-import { MaterialModule } from '@angular/material';
+import { MaterialModule } from '../../material.module';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
-        MaterialModule.forRoot()
+        MaterialModule
     ],
     declarations: [LinkComponent],
     exports: [LinkComponent],

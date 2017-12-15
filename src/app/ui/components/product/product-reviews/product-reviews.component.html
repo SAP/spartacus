@@ -1,25 +1,26 @@
 
 <div *ngIf="reviews">
-    <md-card>
+    <mat-card>
         
-        <md-card-title>Reviews for {{model?.name}}</md-card-title>
-        <md-card-subtitle>as asdfasdf </md-card-subtitle>
+        <mat-card-title>Reviews for {{model?.name}}</mat-card-title>
+        <mat-card-subtitle>as asdfasdf </mat-card-subtitle>
     
-        <md-card-content>
+        <mat-card-content>
             
-            <md-list>
+            <mat-list>
                 <div *ngFor="let review of reviews | slice:0:maxListItems" class="review">
-                    <md-list-item>
-                        <md-icon md-list-icon color="primary">rate_review</md-icon>
-                        <h4 md-line>"{{review.headline}}"</h4>
-                        <p md-line>By {{review.principal.name}} on {{review.date | date}}</p>
+                    <mat-list-item>
+                        <mat-icon mat-list-icon color="primary">rate_review</mat-icon>
+                        <!--
+                        <h4 matLine>"{{review.headline}}"</h4>
+                        <p matLine>By {{review.principal.name}} on {{review.date | date}}</p>-->
                         <!--<button md-button (click)="onClick">
                             <y-star-rating [rating]="review.rating"></y-star-rating>
                         </button>-->
-                        <button md-icon-button (click)="activeReview = review">
-                            <md-icon>expand_more</md-icon>
+                        <button mat-icon-button (click)="activeReview = review">
+                            <mat-icon>expand_more</mat-icon>
                         </button>
-                    </md-list-item>
+                    </mat-list-item>
                     <div class="comment" [hidden]="activeReview !== review">
                         <y-star-rating [rating]="review.rating" class="rating"></y-star-rating>
                         <div>
@@ -27,29 +28,29 @@
                         </div>
                     </div>    
                 </div>
-            </md-list>
-        </md-card-content>
-        <md-card-actions align="end">
+            </mat-list>
+        </mat-card-content>
+        <mat-card-actions align="end">
             <a (click)="maxListItems = -1" 
-                *ngIf="maxListItems === initialMaxListItems" md-button>More</a>
+                *ngIf="maxListItems === initialMaxListItems" mat-button>More</a>
             <a (click)="maxListItems = initialMaxListItems" 
-                *ngIf="maxListItems !== initialMaxListItems" md-button>Less</a>
-        </md-card-actions>
-    </md-card>
+                *ngIf="maxListItems !== initialMaxListItems" mat-button>Less</a>
+        </mat-card-actions>
+    </mat-card>
 
-    <!--<md-card *ngFor="let review of reviews" class="review">
-        <md-card-header>
-            <md-icon md-card-avatar>rate_review</md-icon>
-            <md-card-title>"{{review.headline}}"</md-card-title>
-            <md-card-subtitle>By {{review.principal.name}} on {{review.date | date}}</md-card-subtitle>
-        </md-card-header>
-        <md-card-content>
+    <!--<mat-card *ngFor="let review of reviews" class="review">
+        <mat-card-header>
+            <mat-icon mat-card-avatar>rate_review</mat-icon>
+            <mat-card-title>"{{review.headline}}"</mat-card-title>
+            <mat-card-subtitle>By {{review.principal.name}} on {{review.date | date}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
             {{review.comment}}
-        </md-card-content>
-        <md-card-actions align="end">
+        </mat-card-content>
+        <mat-card-actions align="end">
             <y-star-rating [rating]="review.rating"></y-star-rating>
-        </md-card-actions>
-    </md-card>-->
+        </mat-card-actions>
+    </mat-card>-->
 
    
 </div>

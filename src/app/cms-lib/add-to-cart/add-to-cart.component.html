@@ -1,6 +1,6 @@
-<button [disabled]="isLoading" md-raised-button color="primary" class="call-to-action" (click)="addToCart()">
+<button [disabled]="isLoading" mat-raised-button color="primary" class="call-to-action" (click)="addToCart()">
     <span *ngIf="cartEntryQuantity && cartEntryQuantity > 0" class="entry-quantity">{{cartEntryQuantity}}</span>
-    <md-icon>add_shopping_cart</md-icon> 
+    <mat-icon>add_shopping_cart</mat-icon> 
     <span *ngIf="!iconOnly">Add to Cart</span>
-    <md-progress-bar *ngIf="isLoading" class="loader" color="primary" mode="indeterminate"></md-progress-bar>
+    <mat-progress-bar *ngIf="isLoading" class="loader" color="primary" mode="indeterminate"></mat-progress-bar>
 </button>

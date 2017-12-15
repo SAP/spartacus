@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from '@angular/material';
+import { MaterialModule } from '../../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import 'hammerjs';
 
@@ -10,7 +10,7 @@ import 'hammerjs';
     imports: [
         CommonModule,
         BrowserAnimationsModule,
-        MaterialModule.forRoot(),
+        MaterialModule,
         FlexLayoutModule
     ],
     declarations: [],

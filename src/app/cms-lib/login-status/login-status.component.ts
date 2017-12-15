@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { ConfigService } from '../../cms/config.service';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { AbstractCmsComponent } from '../abstract-cms-component';
 import { CmsService } from '../../data/cms.service';
 
@@ -23,7 +23,7 @@ export class LoginStatusComponent extends AbstractCmsComponent {
         protected cmsService: CmsService,
         protected userModel: UserModelService,
         protected userLoader: UserLoaderService,
-        protected dialog: MdDialog
+        protected dialog: MatDialog
     ) {
         super(cd, cmsService);
 

@@ -1,11 +1,11 @@
 <div *ngIf="currencies && currencies.length>1">
-    <button md-icon-button [mdMenuTriggerFor]="currencyRef" color="primary">
-        <md-icon>monetization_on</md-icon>
+    <button mat-icon-button [matMenuTriggerFor]="currencyRef" color="primary">
+        <mat-icon>monetization_on</mat-icon>
     </button>
 
-    <md-menu #currencyRef="mdMenu" >
-        <button md-menu-item *ngFor="let item of currencies">
+    <mat-menu #currencyRef="matMenu" >
+        <button mat-menu-item *ngFor="let item of currencies">
             {{item.symbol}} {{item.isocode}}
         </button>
-    </md-menu>
+    </mat-menu>
 </div>
