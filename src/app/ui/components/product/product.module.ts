@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductSummaryComponent } from './product-summary/product-summary.component';
@@ -37,6 +37,12 @@ import { ProductReviewsComponent } from './product-reviews/product-reviews.compo
         ProductSummaryComponent,
         ProductAttributesComponent,
         ProductImagesComponent
-    ]
+    ],
+    providers: [
+        {
+            // TODO: configure locale
+            provide: LOCALE_ID, useValue: 'en-EN'
+        },
+    ],
 })
 export class ProductModule { }

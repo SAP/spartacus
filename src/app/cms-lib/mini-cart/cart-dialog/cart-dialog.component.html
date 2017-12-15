@@ -1,8 +1,8 @@
-<h1 md-dialog-title>
+<h1 mat-dialog-title>
     <span>Cart</span>
 </h1>
 
-<div md-dialog-content>
+<div mat-dialog-content>
     <p *ngIf="!cart?.entries">
         You don't have any products in your cart.
     </p>
@@ -12,8 +12,8 @@
                 [routerLink]="['/product', entry.product.code]"
                 (click)="closeDialog()">
                 <img mat-list-avatar [src]="entry.product.images.PRIMARY?.cartIcon?.url">
-                <a md-line>{{entry.product.name}}</a>
-                <p md-line>
+                <a mat-line>{{entry.product.name}}</a>
+                <p mat-line>
                     {{entry.quantity}} 
                     <span *ngIf="entry.quantity===1">piece</span>
                     <span *ngIf="entry.quantity > 1">pieces</span>
@@ -27,14 +27,14 @@
             <mat-divider></mat-divider>
             <mat-list-item>
                 <mat-icon mat-list-avatar>monetization_on</mat-icon>
-                <h4 md-line>{{cart.totalPrice.formattedValue}}</h4>
+                <h4 mat-line>{{cart.totalPrice.formattedValue}}</h4>
             </mat-list-item>
         </mat-list>
     </div>
 </div>
 
-<div md-dialog-actions>
-    <button md-raised-button color="primary" md-dialog-close>Continue Shopping</button>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" mat-dialog-close>Continue Shopping</button>
     <button routerLink="/cart"
-        md-raised-button color="accent" md-dialog-close *ngIf="cart?.entries">Checkout</button>
+        mat-raised-button color="accent" mat-dialog-close *ngIf="cart?.entries">Checkout</button>
 </div>

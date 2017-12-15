@@ -16,7 +16,8 @@ import {
   MatTabsModule,
   MatSidenavModule,
   MatGridListModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatDialogModule
 } from "@angular/material";
 
 @NgModule({
@@ -36,7 +37,8 @@ import {
     MatTabsModule,
     MatSidenavModule,
     MatGridListModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatDialogModule
   ],
   exports: [
     MatButtonModule,
@@ -54,7 +56,8 @@ import {
     MatTabsModule,
     MatSidenavModule,
     MatGridListModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatDialogModule
   ]
 })
 export class MaterialModule {}

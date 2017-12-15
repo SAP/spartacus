@@ -11,8 +11,9 @@
                 <div *ngFor="let review of reviews | slice:0:maxListItems" class="review">
                     <mat-list-item>
                         <mat-icon mat-list-icon color="primary">rate_review</mat-icon>
-                        <h4 md-line>"{{review.headline}}"</h4>
-                        <p md-line>By {{review.principal.name}} on {{review.date | date}}</p>
+                        <!--
+                        <h4 matLine>"{{review.headline}}"</h4>
+                        <p matLine>By {{review.principal.name}} on {{review.date | date}}</p>-->
                         <!--<button md-button (click)="onClick">
                             <y-star-rating [rating]="review.rating"></y-star-rating>
                         </button>-->
@@ -31,9 +32,9 @@
         </mat-card-content>
         <mat-card-actions align="end">
             <a (click)="maxListItems = -1" 
-                *ngIf="maxListItems === initialMaxListItems" md-button>More</a>
+                *ngIf="maxListItems === initialMaxListItems" mat-button>More</a>
             <a (click)="maxListItems = initialMaxListItems" 
-                *ngIf="maxListItems !== initialMaxListItems" md-button>Less</a>
+                *ngIf="maxListItems !== initialMaxListItems" mat-button>Less</a>
         </mat-card-actions>
     </mat-card>
 

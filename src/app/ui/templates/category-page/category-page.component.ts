@@ -15,7 +15,7 @@ export class CategoryPageComponent extends AbstractPage implements OnInit {
     dataSubscription;
 
     ngOnInit() {
-        this.cmsService.getPageSubscription('CategoryPage').subscribe((pageData) => {
+        this.cmsService.getPageSubscription('productList').subscribe((pageData) => {
             this.model = pageData;
         });
     }
@@ -27,5 +27,9 @@ export class CategoryPageComponent extends AbstractPage implements OnInit {
         if (params['brandCode']) {
             this.brandCode = params['brandCode'];
         }
+
+        console.log(this.model);
+        console.log(this.categoryCode);
+        console.log(this.brandCode);
     }
 }
