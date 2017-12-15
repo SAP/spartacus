@@ -8,5 +8,7 @@
     -->
     <div *ngIf="hasImage() && isSVG()" #svgContainer></div>
 
-    <img *ngIf="!isSVG()" [src]="'https://localhost:9002' + getImageUrl()"/>
+    <picture *ngIf="!isSVG()" class="responsive-banner">
+        <img [src]="'https://localhost:9002' + getImageUrl()" [srcset]="getResponsiveSrcset()"/>
+    </picture>
 </a>

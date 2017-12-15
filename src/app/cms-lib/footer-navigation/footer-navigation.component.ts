@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
+import { AbstractCmsComponent } from '../abstract-cms-component';
 
 @Component({
     selector: 'y-footer-navigation',
@@ -12,8 +12,8 @@ export class FooterNavigationComponent extends AbstractCmsComponent {
 
     protected fetchData() {
 
-        if (this.model && this.model.navigationNode && this.model.navigationNode.children) {
-            for (const child of this.model.navigationNode.children) {
+        if (this.component && this.component.navigationNode && this.component.navigationNode.children) {
+            for (const child of this.component.navigationNode.children) {
                 const links = [];
                 for (const subchild of child.children) {
                     // let links = [];

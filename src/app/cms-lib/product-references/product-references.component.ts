@@ -1,5 +1,5 @@
 import { Component, Input} from '@angular/core';
-import { AbstractProductComponent } from '../../cms/abstract-product-component';
+import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
   selector: 'y-product-references',
@@ -27,11 +27,11 @@ export class ProductReferencesComponent extends AbstractProductComponent {
     }
 
     createCodeList(references) {
-        if (!this.model || !this.model.productReferenceTypes || !references[this.model.productReferenceTypes]) {
+        if (!this.component || !this.component.productReferenceTypes || !references[this.component.productReferenceTypes]) {
             return;
         }
-        references[this.model.productReferenceTypes].forEach((item, index) => {
-            if (!this.model.maximumNumberProducts || index < this.model.maximumNumberProducts) {
+        references[this.component.productReferenceTypes].forEach((item, index) => {
+            if (!this.component.maximumNumberProducts || index < this.component.maximumNumberProducts) {
                 this.productCodes.push(item.target.code);
             }
         });

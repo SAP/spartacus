@@ -7,7 +7,7 @@ export const GET_COMPONENET_FROM_PAGE = "[Cms] Get Component from Page";
 
 export class LoadComponent implements Action {
   readonly type = LOAD_COMPONENT;
-  constructor(public payload: any) {}
+  constructor(public payload: string) {}
 }
 
 export class LoadComponentFail implements Action {

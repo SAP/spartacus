@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { AsyncSubject } from 'rxjs/AsyncSubject';
 
 @Injectable()
@@ -24,7 +24,10 @@ export class SvgLoaderService {
             headers.append('Access-Control-Allow-Methods', 'GET');
             headers.append('Access-Control-Allow-Origin', 'http://localhost:4200');
 
-            this.http.get(url, headers).subscribe((data) => {
+            const params = new URLSearchParams();
+            const requestOptions = new RequestOptions({headers: headers, params: params});
+
+            this.http.get(url, requestOptions).subscribe((data) => {
                 subject.next(data.text());
                 subject.complete();
             });

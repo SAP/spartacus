@@ -13,6 +13,7 @@ export function reducer(
   action: fromComponent.ComponentAction
 ): ComponentState {
   switch (action.type) {
+    case fromComponent.LOAD_COMPONENT_SUCCESS:
     case fromComponent.GET_COMPONENET_FROM_PAGE: {
       const components = action.payload;
       const entities = components

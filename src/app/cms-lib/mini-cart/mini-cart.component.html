@@ -1,13 +1,13 @@
-<button fxHide [fxShow.xs]="true" routerLink="/cart" md-icon-button color="primary" >
+<button fxHide [fxShow.xs]="true" routerLink="/cart" mat-icon-button color="primary" >
     <span *ngIf="cart?.deliveryItemsQuantity > 0" class="entry-quantity">{{cart?.deliveryItemsQuantity}}</span>
-    <md-icon>shopping_cart</md-icon>
+    <mat-icon>shopping_cart</mat-icon>
 </button>
 
 <!--<md-spinner></md-spinner>-->
 
-<button [fxHide.xs]="true" (click)="openCart()" md-icon-button color="primary">
+<button [fxHide.xs]="true" (click)="openCart()" mat-icon-button color="primary">
     <span *ngIf="cart?.deliveryItemsQuantity > 0" class="entry-quantity">{{cart?.deliveryItemsQuantity}}</span>
     <!--<span *ngIf="cart.deliveryItemsQuantity">{{cart.deliveryItemsQuantity}} ITEMS</span>
     <span *ngIf="cart.totalPrice">{{cart.totalPrice.formattedValue}}</span>-->
-    <md-icon>shopping_cart</md-icon>
+    <mat-icon>shopping_cart</mat-icon>
 </button>

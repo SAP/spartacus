@@ -10,8 +10,7 @@ import { ProductModelService } from './product-model.service';
 import { ProductLoaderService } from './product-loader.service';
 import { ProductSearchService } from './product-search.service';
 
-import { CmsLoaderService } from './cms-loader.service';
-import { CmsModelService } from './cms-model.service';
+import { CmsService } from './cms.service';
 
 import { CartModelService } from './cart-model.service';
 import { CartLoaderService } from './cart-loader.service';
@@ -34,8 +33,7 @@ import { ConfigService} from './config.service';
         SiteContextService,
         ModelService,
 
-        CmsLoaderService,
-        CmsModelService,
+        CmsService,
 
         ProductModelService,
         ProductSearchService,

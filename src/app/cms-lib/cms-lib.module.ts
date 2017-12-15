@@ -22,6 +22,7 @@ import { AddToCartModule } from './add-to-cart/add-to-cart.module';
 import { LoginStatusModule } from './login-status/login-status.module';
 import { CookieConfirmationModule } from './cookie-confirmation/cookie-confirmation.module';
 
+
 @NgModule({
     imports: [
         CommonModule,

@@ -1,14 +1,14 @@
 
 <div fxLayout="row">
     <div fxFlex="30%" class="dark">
-        <md-card style="padding:0">
+        <mat-card style="padding:0">
             <button 
                 md-button 
                 (click)="toggleSidenav()"
                 style="width:100%">
-                <md-icon>tune</md-icon>
+                <mat-icon>tune</mat-icon>
             </button>
-        </md-card>
+        </mat-card>
     </div>
 
     <div fxFlex
@@ -21,28 +21,28 @@
 
 </div>
 
-<md-sidenav-container class="example-container" *ngIf="model && model.products">
-    <md-sidenav #sidenav class="example-sidenav" mode="side" [opened]="isFacetPanelOpen"
+<mat-sidenav-container class="example-container" *ngIf="model && model.products">
+    <mat-sidenav #sidenav class="example-sidenav" mode="side" [opened]="isFacetPanelOpen"
         style="width:30%">
         <y-product-facet-navigation 
             (filter)="onFilter($event)"
             [activeFacetValueCode]="categoryCode || brandCode"
             [searchResult]="model"></y-product-facet-navigation>
-    </md-sidenav>
+    </mat-sidenav>
     <div>
-        <md-grid-list 
+        <mat-grid-list 
             *ngIf="grid.mode==='grid'"
             cols="3" 
             cols.sm="2" 
             rowHeight="400px" 
             gutterSize="10px">
-            <md-grid-tile 
+            <mat-grid-tile 
                 *ngFor="let product of model.products">
                 <y-product-grid-item 
                     class="product-grid-item"
                     [product]="product"></y-product-grid-item>    
-            </md-grid-tile>
-        </md-grid-list>
+            </mat-grid-tile>
+        </mat-grid-list>
 
         <div *ngIf="grid.mode==='list'">
             <y-product-list-item 
@@ -57,4 +57,4 @@
                 [product]="product"></y-product-line-item>
         </div>
   </div>
-</md-sidenav-container>
+</mat-sidenav-container>

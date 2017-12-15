@@ -1,23 +1,21 @@
 import { Injectable, ChangeDetectorRef } from '@angular/core';
-import { ConfigService } from '../cms/config.service';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { CartLoaderService } from '../data/cart-loader.service';
 import { CartModelService } from '../data/cart-model.service';
-import { AbstractCmsComponent } from '../cms/abstract-cms-component';
-import { CmsModelService } from '../data/cms-model.service';
+import { AbstractCmsComponent } from './abstract-cms-component';
+import { CmsService } from '../data/cms.service';
 
 @Injectable()
 export abstract class AbstractCartComponent extends AbstractCmsComponent {
 
     constructor(
         protected cd: ChangeDetectorRef,
-        protected configService: ConfigService,
-        protected cmsModelService: CmsModelService,
+        protected cmsService: CmsService,
         protected cartLoader: CartLoaderService,
         protected cartModel: CartModelService,
-        protected dialog: MdDialog
+        protected dialog: MatDialog
     ) {
-        super(cd, configService, cmsModelService);
+        super(cd, cmsService);
     }
 
 }

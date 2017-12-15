@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbComponent } from './breadcrumb.component';
 
-import { MaterialModule } from '@angular/material';
+import { MaterialModule } from '../../material.module';
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
-        MaterialModule.forRoot()
+        MaterialModule
     ],
     declarations: [BreadcrumbComponent],
     entryComponents: [BreadcrumbComponent],

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CmsModelService } from '../../data/cms-model.service';
-import { CmsLoaderService } from '../../data/cms-loader.service';
+import { CmsService } from '../../data/cms.service';
 import { Router, NavigationEnd, ActivatedRoute, Params } from '@angular/router';
 
 
@@ -13,10 +12,8 @@ export abstract class AbstractPage {
     constructor(
         protected router: Router,
         protected activeRoute: ActivatedRoute,
-        protected cmsLoader: CmsLoaderService,
-        protected cmsModelService: CmsModelService
+        protected cmsService: CmsService,
     ) {
-
         // load data for each route change
         router.events.subscribe((val) => {
             if (val instanceof NavigationEnd) {
@@ -35,10 +32,10 @@ export abstract class AbstractPage {
         // TODO: make urls configurable
         switch (url) {
             case '/':
-                this.cmsLoader.loadComponentsForIndex();
+                this.cmsService.getPageData('homepage', null, null, null);
                 break;
             case '/cart':
-                this.cmsLoader.loadComponentsForPage('cart');
+                this.cmsService.getPageData('cartPage', null, null, null);
                 break;
             default:
         };
@@ -48,19 +45,19 @@ export abstract class AbstractPage {
         // TODO make constants for routing params
 
         if (params['categoryCode']) {
-            this.cmsLoader.loadComponentsForCategory(params['categoryCode']);
+            this.cmsService.getPageData(null, null, params['categoryCode'], null);
         }
         
         if (params['brandCode']) {
-            this.cmsLoader.loadComponentsForCategory(params['brandCode']);
+            this.cmsService.getPageData(null, null, params['brandCode'], null);
         }
 
         if (params['productCode']) {
-            this.cmsLoader.loadComponentsForProduct(params['productCode']);
+            this.cmsService.getPageData(null, params['productCode'], null, null);
         }
 
         if (params['query']) {
-            this.cmsLoader.loadComponentsForPage('search');
+            this.cmsService.getPageData('search', null, null, null);
         }
      }
 

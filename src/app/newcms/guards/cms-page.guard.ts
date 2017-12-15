@@ -30,6 +30,7 @@ export class CmsPageGuards implements CanActivate {
   }
 
   hasPage(pageContext: PageContext): Observable<boolean> {
+    let tryTimes: number = 0;
     return this.store.select(fromStore.getPageEntities).pipe(
       map((entities: { [key: string]: Page }) => {
         let key = pageContext.id + "_" + pageContext.type;
@@ -41,7 +42,8 @@ export class CmsPageGuards implements CanActivate {
           if (defaultPageIds) {
             for (var i = 0, len = defaultPageIds.length; i < len; i++) {
               key = defaultPageIds[i] + "_" + pageContext.type;
-              found = !!entities[key];
+              found =
+                entities[key] && entities[key].seen.includes(pageContext.id);
               if (found) break;
             }
           }
@@ -52,7 +54,8 @@ export class CmsPageGuards implements CanActivate {
         return found;
       }),
       tap(found => {
-        if (!found) {
+        if (!found && tryTimes < 5) {
+          tryTimes = tryTimes + 1;
           this.store.dispatch(new fromStore.LoadPageData(pageContext));
         }
       }),

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CartLoaderService } from '../../../data/cart-loader.service';
 import { CartModelService } from '../../../data/cart-model.service';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
     selector: 'y-cart-dialog',
@@ -16,7 +16,7 @@ export class CartDialogComponent implements OnInit, OnDestroy {
         protected cd: ChangeDetectorRef,
         private cartModel: CartModelService,
         protected cartLoader: CartLoaderService,
-        public dialogRef: MdDialogRef<CartDialogComponent>
+        public dialogRef: MatDialogRef<CartDialogComponent>
     ) { }
 
     ngOnInit() {

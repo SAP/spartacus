@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { MdSlideToggleChange } from '@angular/material';
+import { MatSlideToggleChange } from '@angular/material';
 
 @Component({
   selector: 'y-product-facet-navigation',

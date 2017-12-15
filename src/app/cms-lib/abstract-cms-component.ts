@@ -1,29 +1,29 @@
-import { Injectable, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { AbstractComponent } from './abstract-component';
-
-import { ConfigService } from './config.service';
-import { CmsModelService } from '../data/cms-model.service';
+import { Injectable, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { CmsService } from '../data/cms.service';
 
 @Injectable()
-export abstract class AbstractCmsComponent extends AbstractComponent implements OnDestroy {
+export abstract class AbstractCmsComponent implements OnDestroy {
 
-    protected subscription;
-
+    protected subscription: Subscription;
     protected uid: string;
-    protected model = null;
+    @Input()
+    public component: any = null;
+    protected contextParameters: any;
 
     constructor(
         protected cd: ChangeDetectorRef,
-        protected configService: ConfigService,
-        protected cmsModelService: CmsModelService
-    ) {
-        super (cd, configService);
+        protected cmsService: CmsService
+    ) {}
+
+    setContextParameters(contextParameters: any) {
+        this.contextParameters = contextParameters;
     }
 
     bootstrap() {
-        this.subscription = this.cmsModelService.getComponentSubscription(this.uid)
+        this.subscription = this.cmsService.getComponentSubscription(this.uid)
             .subscribe((componentData) => {
-                this.model = componentData;
+                this.component = componentData;
                 this.fetchData();
             });
     }
@@ -44,7 +44,7 @@ export abstract class AbstractCmsComponent extends AbstractComponent implements 
     }
 
     protected getBaseUrl() {
-        return this.configService.server.baseUrl;
+        return this.cmsService.baseUrl;
     }
 
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractCmsComponent } from '../../cms/abstract-cms-component';
+import { AbstractCmsComponent } from '../abstract-cms-component';
 
 @Component({
   selector: 'y-link',

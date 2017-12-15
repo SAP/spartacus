@@ -1,30 +1,30 @@
 
-<button md-icon-button md-color="primary" [md-menu-trigger-for]="productSort">
-    <md-icon>expand_more</md-icon>
+<button mat-icon-button md-color="primary" [mat-menu-trigger-for]="productSort">
+    <mat-icon>expand_more</mat-icon>
 </button>
-<md-menu #productSort="mdMenu">
+<mat-menu #productSort="matMenu">
     <button
         *ngFor="let sort of sortOptions" 
-        md-menu-item>
-        <md-icon color="primary">sort_by_alpha</md-icon>
+        mat-menu-item>
+        <mat-icon color="primary">sort_by_alpha</mat-icon>
         {{sort.label}}</button>
-    <md-divider></md-divider>
+    <mat-divider></mat-divider>
     <div fxLayout="row" fxLayoutAlign="space-around center">
-        <button md-icon-button 
+        <button mat-icon-button 
             [disabled]="grid.mode === 'grid'" 
             (click)="grid.mode='grid'">
-            <md-icon>view_module</md-icon>
+            <mat-icon>view_module</mat-icon>
         </button>
-        <button md-icon-button 
+        <button mat-icon-button 
             [disabled]="grid.mode === 'list'" 
             (click)="grid.mode='list'"
-            ><md-icon>view_list</md-icon>
+            ><mat-icon>view_list</mat-icon>
         </button>
-        <button md-icon-button 
+        <button mat-icon-button 
             [disabled]="grid.mode === 'line'" 
             (click)="grid.mode='line'">
-            <md-icon>view_headline</md-icon>
+            <mat-icon>view_headline</mat-icon>
         </button>
     </div>
-</md-menu>
+</mat-menu>
 

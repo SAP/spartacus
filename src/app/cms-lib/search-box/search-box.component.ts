@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Rx';
 
-import { AbstractProductComponent } from '../../cms/abstract-product-component';
+import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
   selector: 'y-searchbox',
@@ -23,8 +23,8 @@ export class SearchBoxComponent extends AbstractProductComponent {
 
     // overriden hook that is called when the model is available
     protected fetchData() {
-        if (this.model) {
-            this.configure(this.model);
+        if (this.component) {
+            this.configure(this.component);
             this.setupSearch();
             super.fetchData();
         }
@@ -44,11 +44,11 @@ export class SearchBoxComponent extends AbstractProductComponent {
 
     protected setupSearch() {
 
-        if (this.model.displayProducts) {
+        if (this.component.displayProducts) {
             this.searchResults = new BehaviorSubject<any>([]);
             this.searchResults.next([]);
         }
-        if (this.model.displaySuggestions) {
+        if (this.component.displaySuggestions) {
             this.suggestionResults = new BehaviorSubject<any>([]);
             this.suggestionResults.next([]);
         }
@@ -66,21 +66,21 @@ export class SearchBoxComponent extends AbstractProductComponent {
     }
 
     private shouldSearchSuggestions() {
-        return this.model.displaySuggestions && this.meetsLength(this.searchBoxControl.value);
+        return this.component.displaySuggestions && this.meetsLength(this.searchBoxControl.value);
     }
     private shouldSearchProducts() {
-        return this.model.displayProducts && this.meetsLength(this.searchBoxControl.value);
+        return this.component.displayProducts && this.meetsLength(this.searchBoxControl.value);
     }
 
     private configure(model) {
         this.maxNumberOfProducts = model.maxProducts;
-        this.pageSize = this.model.maxProducts || 5;
-        this.minCharactersBeforeRequest = this.model.minCharactersBeforeRequest || 0;
+        this.pageSize = this.component.maxProducts || 5;
+        this.minCharactersBeforeRequest = this.component.minCharactersBeforeRequest || 0;
     }
 
     private meetsLength(value: string): boolean {
         return true;
-        // return this.model.minCharactersBeforeRequest && value.length >= this.model.minCharactersBeforeRequest;
+        // return this.component.minCharactersBeforeRequest && value.length >= this.component.minCharactersBeforeRequest;
     }
 
 }
