@@ -42,3 +42,4 @@ Thumbs.db
 
 # generated files
 yarn.lock
+package-lock.json
