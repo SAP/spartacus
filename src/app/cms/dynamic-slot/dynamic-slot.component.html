@@ -1,7 +1,8 @@
-
-<div *ngFor="let component of model" >
+<div *ngFor="let component of ((currentSlot$ | async) | slice:0:limit)" >
     <y-component-wrapper 
         [componentType]="component.typeCode" 
         [componentUid]="component.uid" 
-        [contextParameters]="contextParameters"></y-component-wrapper>
+        [contextParameters]="contextParameters"
+        [componentClass]="componentClass">
+    </y-component-wrapper>
 </div>

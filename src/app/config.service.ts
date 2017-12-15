@@ -21,13 +21,13 @@ export class ConfigService {
     // };
 
     authentication = {
-        client_id: 'trusted_client',
+        client_id: 'mobile_android',
         client_secret: 'secret'
     };
 
     cmsComponentMapping = {
         CMSLinkComponent:                   'LinkComponent',
-        SimpleResponsiveBannerComponent:    'BannerComponent',
+        SimpleResponsiveBannerComponent:    'ResponsiveBannerComponent',
         SimpleBannerComponent:              'BannerComponent',
         // BreadcrumbComponent:                'BreadcrumbComponent',
         CmsParagraphComponent:              'ParagraphComponent',
@@ -36,8 +36,8 @@ export class ConfigService {
         CategoryNavigationComponent:        'CategoryNavigationComponent',
         ProductAddToCartComponent:          'AddToCartComponent',
         MiniCartComponent:                  'MiniCartComponent',
-        ProductCarouselComponent:           'ProductCarouselComponent',
-        SearchBoxComponent:                 'SearchBoxComponent',
+        //ProductCarouselComponent:           'ProductCarouselComponent',
+        //SearchBoxComponent:                 'SearchBoxComponent',
         ProductReferencesComponent:         'ProductReferencesComponent',
         CMSTabParagraphComponent:           'TabParagraphContainerComponent'
     };

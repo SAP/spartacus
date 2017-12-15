@@ -15,7 +15,7 @@ export class CategoryPageComponent extends AbstractPage implements OnInit {
     dataSubscription;
 
     ngOnInit() {
-        this.cmsModelService.getPageSubscription('CategoryPage').subscribe((pageData) => {
+        this.cmsService.getPageSubscription('CategoryPage').subscribe((pageData) => {
             this.model = pageData;
         });
     }

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AbstractProductComponent } from '../../cms/abstract-product-component';
+import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
     selector: 'y-product-carousel',
@@ -34,8 +34,8 @@ export class ProductCarouselComponent extends AbstractProductComponent {
 
     getProductCodes(): Array<String> {
         let codes;
-        if (this.model && this.model.productCodes) {
-            codes = this.model.productCodes;
+        if (this.component && this.component.productCodes) {
+            codes = this.component.productCodes;
         }else {
             codes = this.productCodes;
         }
