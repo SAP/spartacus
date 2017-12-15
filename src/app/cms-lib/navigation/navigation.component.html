@@ -1,6 +1,6 @@
 
 <!-- link WITHOUT childs -->
-<a md-button *ngIf="!node.childs" [routerLink]="node.url">
+<a mat-button *ngIf="!node.childs" [routerLink]="node.url">
     <span *ngIf="node.title">{{node.title}}</span>
 </a>
 
@@ -9,7 +9,7 @@
     <mat-icon>reorder</mat-icon>
 </a>
 
-<a *ngIf="node.childs && node.title" md-button [matMenuTriggerFor]="menu">
+<a *ngIf="node.childs && node.title" mat-button [matMenuTriggerFor]="menu">
     {{node.title}}
 </a>
 
@@ -17,7 +17,7 @@
     <div *ngIf="node.childs && node.childs[0].childs">
         <div fxLayout="row" fxLayoutAlign="start start">
             <div *ngFor="let childNode of node.childs" fxFlex>
-                <a mdButton
+                <a matButton
                     [routerLink]="childNode.url"
                     mat-menu-item> {{childNode.title}}</a>
                     

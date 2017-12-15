@@ -1,5 +1,5 @@
 import { Injectable, ChangeDetectorRef } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { CartLoaderService } from '../data/cart-loader.service';
 import { CartModelService } from '../data/cart-model.service';
 import { AbstractCmsComponent } from './abstract-cms-component';

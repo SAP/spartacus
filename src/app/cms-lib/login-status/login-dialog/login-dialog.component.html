@@ -1,15 +1,15 @@
-<h1 md-dialog-title>
+<h1 mat-dialog-title>
     <span>Login</span>
 </h1>
 
-<div md-dialog-content>
+<div mat-dialog-content>
     <form fxLayout="column" fxFlexAlign="start">
          <mat-input-container>
-            <input mdInput type="text" name="username" placeholder="Username" [(ngModel)]="username" >
+            <input matInput type="text" name="username" placeholder="Username" [(ngModel)]="username" >
         </mat-input-container>
 
         <mat-input-container>
-            <input mdInput type="password" name="password" placeholder="Password" [(ngModel)]="password" >
+            <input matInput type="password" name="password" placeholder="Password" [(ngModel)]="password" >
         </mat-input-container>
         
         <mat-checkbox color="primary" [(ngModel)]="rememberMe" name="rememberMe">Remember me</mat-checkbox>
@@ -17,7 +17,7 @@
     </form>
 </div>
 
-<div md-dialog-actions >
-    <button md-button color="primary" md-dialog-close>Cancel</button>
-    <button md-raised-button color="primary" (click)="login()">Login</button>
+<div mat-dialog-actions >
+    <button mat-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" (click)="login()">Login</button>
 </div>

@@ -2,7 +2,7 @@
     <div fxLayout="row" fxLayoutAlign="start stretch">
 
         <mat-nav-list *ngFor="let child of children" >
-            <h3 md-subheader>{{child.title}}</h3>
+            <h3 mat-subheader>{{child.title}}</h3>
             <a mat-list-item *ngFor="let link of child.links"
                 [href]="link.url"
                 [target]="link.target === 'NEWWINDOW' ? 'blank':'self'">{{ link.linkName }}</a>
