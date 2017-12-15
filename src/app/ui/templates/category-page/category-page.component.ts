@@ -27,9 +27,5 @@ export class CategoryPageComponent extends AbstractPage implements OnInit {
         if (params['brandCode']) {
             this.brandCode = params['brandCode'];
         }
-
-        console.log(this.model);
-        console.log(this.categoryCode);
-        console.log(this.brandCode);
     }
 }
