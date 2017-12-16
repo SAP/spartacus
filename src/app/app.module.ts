@@ -46,7 +46,7 @@ import { AppComponent } from "./app.component";
     CmsLibModule,
     UiModule,
     UiFrameworkModule,
-    NewCmsModule,
+    NewCmsModule.forRoot(ConfigService),
     RoutingModule
   ],
 
