@@ -52,10 +52,12 @@ export const appRoutes: Routes = [
 
   {
     path: "category/:categoryCode",
+    canActivate: [CmsPageGuards],
     component: CategoryPageComponent
   },
   {
     path: "category/:categoryCode/:title",
+    canActivate: [CmsPageGuards],
     component: CategoryPageComponent
   },
 

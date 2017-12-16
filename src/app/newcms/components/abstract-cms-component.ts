@@ -9,6 +9,7 @@ import {
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 import * as fromStore from "../store";
+import { ConfigService } from "../config.service";
 
 @Injectable()
 export abstract class AbstractCmsComponent {
@@ -18,7 +19,8 @@ export abstract class AbstractCmsComponent {
 
   constructor(
     protected cd: ChangeDetectorRef,
-    private store: Store<fromStore.CmsState>
+    private store: Store<fromStore.CmsState>,
+    private config: ConfigService
   ) {}
 
   setContextParameters(contextParameters: any) {
@@ -41,6 +43,10 @@ export abstract class AbstractCmsComponent {
 
   setUid(uid: string) {
     this.uid = uid;
+  }
+
+  protected getBaseUrl() {
+    return this.config.server.baseUrl;
   }
 
   // TODO: move to strategy

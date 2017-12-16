@@ -27,7 +27,7 @@ export class OccCmsService {
         params.set("productCode", pageContext.id);
         break;
       }
-      case PageType.CATALOG_PAGE: {
+      case PageType.CATEGORY_PAGE: {
         params.set("categoryCode", pageContext.id);
         break;
       }
@@ -56,7 +56,7 @@ export class OccCmsService {
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
-  public getBaseUrl() {
+  get baseUrl(): string {
     return this.config.server.baseUrl;
   }
 }
