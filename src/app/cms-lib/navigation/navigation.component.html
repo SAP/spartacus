@@ -1,40 +1,49 @@
 
+<div ngbDropdown class="d-inline-block"> 
+
 <!-- link WITHOUT childs -->
-<a md-button *ngIf="!node.childs" [routerLink]="node.url">
-    <span *ngIf="node.title">{{node.title}}</span>
-</a>
 
-<!-- link WITH childs -->
-<a *ngIf="node.childs && !node.title" md-icon-button [mdMenuTriggerFor]="menu">
-    <md-icon>reorder</md-icon>
-</a>
+    <button *ngIf="!node.childs" [routerLink]="node.url" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+        <span *ngIf="node.title">{{node.title}}</span>
+    </button>
 
-<a *ngIf="node.childs && node.title" md-button [mdMenuTriggerFor]="menu">
-    {{node.title}}
-</a>
+    <!-- link WITH childs -->
 
-<md-menu #menu="mdMenu" style="margin-top:30px" [overlapTrigger]="false" style="width:600px">
-    <div *ngIf="node.childs && node.childs[0].childs">
-        <div >
-            <div *ngFor="let childNode of node.childs" >
-                <a mdButton
-                    [routerLink]="childNode.url"
-                    md-menu-item> {{childNode.title}}</a>
-                    
-                <div *ngIf="childNode.childs">
-                    <a *ngFor="let grandChildNode of childNode.childs"
-                        [routerLink]="grandChildNode.url"
-                        md-menu-item> {{grandChildNode.title}} </a>
+    <button *ngIf="node.childs && !node.title" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+            {{node.title}}
+    </button>
+
+    <button *ngIf="node.childs && node.title" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+            {{node.title}}
+    </button>
+
+
+    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+
+            <div *ngIf="node.childs && node.childs[0].childs" class="dropdown-item">
+                    <div >
+                        <div *ngFor="let childNode of node.childs" >
+                            <a mdButton
+                                [routerLink]="childNode.url"
+                                md-menu-item> {{childNode.title}}</a>
+                                
+                            <div *ngIf="childNode.childs">
+                                <a *ngFor="let grandChildNode of childNode.childs"
+                                    [routerLink]="grandChildNode.url"
+                                    md-menu-item> {{grandChildNode.title}} </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div *ngIf="node.childs && !node.childs[0].childs">
-        <a
-            *ngFor="let childNode of node.childs"
-            [routerLink]="childNode.url"
-            md-menu-item> {{childNode.title}}</a>
-    </div>
+                <div *ngIf="node.childs && !node.childs[0].childs" class="dropdown-item">
+                    <a
+                        *ngFor="let childNode of node.childs"
+                        [routerLink]="childNode.url"
+                        md-menu-item> {{childNode.title}}</a>
+                </div>
 
-</md-menu>
+    </div>    
+    
+
+</div>
 

@@ -18,11 +18,14 @@ import { CmsLibModule } from './cms-lib/cms-lib.module';
 
 import { UiFrameworkModule } from './ui/ui-framework/ui-framework.module';
 
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
     declarations: [
         AppComponent
     ],
     imports: [
+        NgbModule.forRoot(),
         BrowserModule,
         // RouterModule,
         OccModule.forRoot(ConfigService),

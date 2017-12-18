@@ -5,8 +5,11 @@ import { CategoryNavigationComponent } from './category-navigation.component';
 
 import { CmsModule } from '../../cms/cms.module';
 
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
     imports: [
+        NgbModule,
         CommonModule,
         MaterialModule.forRoot(),
         CmsModule

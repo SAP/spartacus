@@ -1,9 +1,9 @@
 
 
-<y-dynamic-slot flex position="Section1"></y-dynamic-slot>
+<y-dynamic-slot position="Section1"></y-dynamic-slot>
 
-<div >
-    <div >
+<div class="row" >
+    <div class="col-md-4">
         <y-product-list 
             [gridMode]="gridMode"
             [query]="query"
@@ -14,13 +14,15 @@
     <y-dynamic-slot  position="Section4" ></y-dynamic-slot>
 </div>
 
-<div layout-gt-xs="row" layout="column">
-    <y-dynamic-slot flex position="Section2A"></y-dynamic-slot>
-    <y-dynamic-slot flex position="Section2B"></y-dynamic-slot>
+<div class="row" >
+    <div class="col-md-4">
+        <y-dynamic-slot position="Section2A"></y-dynamic-slot>
+        <y-dynamic-slot position="Section2B"></y-dynamic-slot>
+    </div>
 </div>
 
-<y-dynamic-slot flex position="Section2C"></y-dynamic-slot>
+<y-dynamic-slot position="Section2C"></y-dynamic-slot>
 
-<y-dynamic-slot flex position="Section3"></y-dynamic-slot>
+<y-dynamic-slot position="Section3"></y-dynamic-slot>
 
-<y-dynamic-slot flex position="Section5"></y-dynamic-slot>
+<y-dynamic-slot position="Section5"></y-dynamic-slot>
