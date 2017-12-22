@@ -1,12 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
 import { ParagraphComponent } from './paragraph.component';
 import { CmsService } from 'app/data/cms.service';
 import { subscribeOn } from 'rxjs/operator/subscribeOn';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-function getParagraphComponentCmsData() {
+
+function getParagraphComponentCmsTestData() {
   return {
     uid: '001',
     typeCode: 'CMSParagraphComponent',
@@ -20,7 +19,7 @@ function getParagraphComponentCmsData() {
 
 class MockCmsService {
   public getComponentSubscription(key: string) {
-    return new BehaviorSubject<any>(getParagraphComponentCmsData());
+    return new BehaviorSubject<any>(getParagraphComponentCmsTestData());
   }
 }
 
@@ -52,7 +51,7 @@ fdescribe('CmsParagraphComponent', () => {
     expect(paragraphComponent).toBeTruthy();
     expect(paragraphComponent.component).toBeNull();
     paragraphComponent.bootstrap();
-    expect(paragraphComponent.component).toEqual(getParagraphComponentCmsData());
+    expect(paragraphComponent.component).toEqual(getParagraphComponentCmsTestData());
   });
 
   it('should contain cms content in the html rendering after bootstrap', () => {
@@ -60,6 +59,6 @@ fdescribe('CmsParagraphComponent', () => {
     expect(paragraphComponent.component).toBeNull();
     paragraphComponent.bootstrap();
     fixture.detectChanges();
-    expect(el.textContent).toContain('Arbitrary paragraph content');
+    expect(el.textContent).toContain(getParagraphComponentCmsTestData().content);
   });
 });
