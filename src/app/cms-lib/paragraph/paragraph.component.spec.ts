@@ -23,7 +23,7 @@ class MockCmsService {
   }
 }
 
-fdescribe('CmsParagraphComponent', () => {
+describe('CmsParagraphComponent', () => {
   let paragraphComponent: ParagraphComponent;
   let fixture: ComponentFixture<ParagraphComponent>;
   let el: HTMLElement;
