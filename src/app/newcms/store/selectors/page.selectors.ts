@@ -1,11 +1,11 @@
 import { createSelector } from "@ngrx/store";
 
-import * as fromRouting from "../../../routing/store";
 import * as fromFeature from "../reducers";
 import * as fromPage from "../reducers/page.reducer";
 
 import { Page } from "../../models/page.model";
 import { PageType } from "../../../routing/models/page-context.model";
+import * as fromRouting from "../../../routing/store";
 
 export const getPageState = createSelector(
   fromFeature.getCmsState,
@@ -22,7 +22,7 @@ export const getLatestPageKey = createSelector(
   fromPage.getLatestPageKey
 );
 
-export const getSelectedPage = createSelector(
+export const getLatestPage = createSelector(
   getPageEntities,
   getLatestPageKey,
   (entities, key): Page => {
@@ -31,7 +31,7 @@ export const getSelectedPage = createSelector(
 );
 
 export const currentSlotSelectorFactory = position => {
-  return createSelector(getSelectedPage, entity => {
+  return createSelector(getLatestPage, entity => {
     if (entity) {
       return entity.slots[position];
     }

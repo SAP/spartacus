@@ -11,7 +11,6 @@ import { StoreModule, MetaReducer } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
 
 import { reducers, effects, CustomSerializer } from "./store";
-import { GetPageContextService } from "./services/get-page-context.service";
 
 @NgModule({
   imports: [
@@ -20,10 +19,7 @@ import { GetPageContextService } from "./services/get-page-context.service";
     EffectsModule.forRoot(effects),
     StoreRouterConnectingModule
   ],
-  providers: [
-    { provide: RouterStateSerializer, useClass: CustomSerializer },
-    GetPageContextService
-  ],
+  providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],
   exports: [RouterModule]
 })
 export class RoutingModule {}

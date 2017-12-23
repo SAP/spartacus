@@ -7,22 +7,26 @@ import { Observable } from "rxjs/Observable";
 import { of } from "rxjs/observable/of";
 import { tap, filter, map, take, switchMap, catchError } from "rxjs/operators";
 import * as fromStore from "../store";
+import * as fromRouting from "../../routing/store";
 
 import { Page } from "../models/page.model";
 import { DefaultPageService } from "./../services/default-page.service";
-import { GetPageContextService } from "../../routing/services/get-page-context.service";
 import { PageContext } from "../../routing/models/page-context.model";
 
 @Injectable()
 export class CmsPageGuards implements CanActivate {
   constructor(
     private store: Store<fromStore.CmsState>,
-    private getContextService: GetPageContextService,
+    private routingStore: Store<fromRouting.State>,
     private defaultPageService: DefaultPageService
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    let pageContext = this.getContextService.getPageContext(route);
+    let pageContext: PageContext;
+    this.routingStore
+      .select(fromRouting.getRouterState)
+      .subscribe(routerState => (pageContext = routerState.state.context));
+
     return this.hasPage(pageContext).pipe(
       switchMap(() => of(true)),
       catchError(() => of(false))

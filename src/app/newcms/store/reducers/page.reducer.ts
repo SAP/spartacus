@@ -57,6 +57,10 @@ export function reducer(
         count: state.count + 1
       };
     }
+
+    case fromPageData.CLEAN_PAGE_STATE: {
+      return initialState;
+    }
   }
   return state;
 }

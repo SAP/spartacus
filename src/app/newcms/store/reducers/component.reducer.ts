@@ -35,6 +35,10 @@ export function reducer(
         entities
       };
     }
+
+    case fromComponent.CLEAN_COMPONENT_STATE: {
+      return initialState;
+    }
   }
   return state;
 }

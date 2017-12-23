@@ -21,7 +21,7 @@ export class ComponentEffects {
       return this.occCmsService
         .loadComponent(uid)
         .pipe(
-          map(res => new componentActions.LoadComponentSuccess(res.json())),
+          map(data => new componentActions.LoadComponentSuccess(data)),
           catchError(error => of(new componentActions.LoadComponentFail(error)))
         );
     })

@@ -27,7 +27,6 @@ export class PageEffects {
     map((action: pageActions.LoadPageData) => action.payload),
     switchMap(pageContext => {
       return this.occCmsService.loadPageData(pageContext).pipe(
-        map(res => res.json()),
         mergeMap(data => {
           return [
             new pageActions.LoadPageDataSuccess(
