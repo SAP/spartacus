@@ -20,38 +20,53 @@ export class OccCmsService {
     );
   }
 
-  loadPageData(pageContext: PageContext): Observable<any> {
+  loadPageData(pageContext: PageContext, fields?: string): Observable<any> {
     let params: HttpParams;
+    let paramName: string;
     switch (pageContext.type) {
       case PageType.PRODUCT_PAGE: {
-        params = new HttpParams().set("productCode", pageContext.id);
+        paramName = "productCode";
         break;
       }
       case PageType.CATEGORY_PAGE: {
-        params = new HttpParams().set("categoryCode", pageContext.id);
+        paramName = "categoryCode";
         break;
       }
       case PageType.CATALOG_PAGE: {
-        params = new HttpParams().set("catalogCode", pageContext.id);
+        paramName = "catalogCode";
         break;
       }
       default: {
-        params = new HttpParams().set("pageId", pageContext.id);
+        paramName = "pageId";
         break;
       }
     }
+    if (fields == undefined) {
+      params = new HttpParams().set(paramName, pageContext.id);
+    } else {
+      params = new HttpParams()
+        .set(paramName, pageContext.id)
+        .set("fields", fields);
+    }
+
     return this.http
-      .get(this.getBaseEndPoint() + `/page?fields=DEFAULT`, {
+      .get(this.getBaseEndPoint() + `/page`, {
         headers: this.headers,
         params: params
       })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
-  loadComponent(id: string): Observable<any> {
+  loadComponent(id: string, fields?: string): Observable<any> {
+    let params: HttpParams;
+    if (fields !== undefined) {
+      params = new HttpParams().set("fields", fields);
+    }
+    
     return this.http
       .get(this.getBaseEndPoint() + `/components/${id}`, {
-        headers: this.headers
+        headers: this.headers,
+        params: params
       })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }

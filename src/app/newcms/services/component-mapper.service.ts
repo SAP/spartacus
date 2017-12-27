@@ -30,7 +30,7 @@ export class ComponentMapperService {
      *
      * @param typeCode the component type
      */
-  getType(typeCode: string) {
+  protected getType(typeCode: string) {
     return this.config.cmsComponentMapping[typeCode];
   }
 

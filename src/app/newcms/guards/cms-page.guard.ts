@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { CanActivate, ActivatedRouteSnapshot } from "@angular/router";
+import { CanActivate } from "@angular/router";
 
 import { Store } from "@ngrx/store";
 
@@ -21,7 +21,7 @@ export class CmsPageGuards implements CanActivate {
     private defaultPageService: DefaultPageService
   ) {}
 
-  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
+  canActivate(): Observable<boolean> {
     let pageContext: PageContext;
     this.routingStore
       .select(fromRouting.getRouterState)

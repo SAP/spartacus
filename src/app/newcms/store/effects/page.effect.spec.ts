@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 import { Actions } from "@ngrx/effects";
 
@@ -12,8 +12,7 @@ import { OccCmsService } from "../../services/occ-cms.service";
 import { DefaultPageService } from "./../../services/default-page.service";
 import { ConfigService } from "../../config.service";
 import * as fromEffects from "./page.effect";
-import * as fromActions from "../actions/page.action";
-import * as fromComponentActions from "../actions/component.action";
+import * as fromActions from "../actions";
 import { Page } from "../../models/page.model";
 import {
   PageContext,
@@ -71,7 +70,7 @@ fdescribe("Page Effects", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
+      imports: [HttpClientTestingModule],
       providers: [
         OccCmsService,
         ConfigService,
@@ -107,7 +106,7 @@ fdescribe("Page Effects", () => {
       const payload = { key: pageKey, value: page };
 
       const completion1 = new fromActions.LoadPageDataSuccess(payload);
-      const completion2 = new fromComponentActions.GetComponentFromPage(comps);
+      const completion2 = new fromActions.GetComponentFromPage(comps);
 
       actions$.stream = hot("-a", { a: action });
       const expected = cold("-(bc)", { b: completion1, c: completion2 });
@@ -129,7 +128,7 @@ fdescribe("Page Effects", () => {
       const payload = { key: pageKey, value: page };
 
       const completion1 = new fromActions.LoadPageDataSuccess(payload);
-      const completion2 = new fromComponentActions.GetComponentFromPage(comps);
+      const completion2 = new fromActions.GetComponentFromPage(comps);
 
       actions$.stream = hot("-a", { a: action });
       const expected = cold("-(bc)", { b: completion1, c: completion2 });
@@ -154,7 +153,7 @@ fdescribe("Page Effects", () => {
       const payload = { key: pageKey, value: page };
 
       const completion1 = new fromActions.LoadPageDataSuccess(payload);
-      const completion2 = new fromComponentActions.GetComponentFromPage(comps);
+      const completion2 = new fromActions.GetComponentFromPage(comps);
 
       actions$.stream = hot("-a", { a: action });
       const expected = cold("-(bc)", { b: completion1, c: completion2 });
