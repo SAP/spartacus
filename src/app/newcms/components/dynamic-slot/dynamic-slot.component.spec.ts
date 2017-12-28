@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { DebugElement } from "@angular/core";
 import { StoreModule, Store, combineReducers } from "@ngrx/store";
 import { DynamicSlotComponent } from "./dynamic-slot.component";
 import { ComponentWrapperComponent } from "../component-wrapper/component-wrapper.component";
@@ -6,6 +7,7 @@ import * as fromRoot from "../../../routing/store";
 import * as fromReducers from "../../store/reducers";
 import * as fromActions from "../../store/actions";
 import { Page } from "../../models/page.model";
+import { By } from "@angular/platform-browser";
 
 fdescribe("DynamicSlotComponent", () => {
   let dynamicSlotComponent: DynamicSlotComponent;
@@ -37,9 +39,13 @@ fdescribe("DynamicSlotComponent", () => {
     });
 
     store = TestBed.get(Store);
+
     fixture = TestBed.createComponent(DynamicSlotComponent);
     dynamicSlotComponent = fixture.componentInstance;
+    dynamicSlotComponent.position = "left";
+
     fixture.detectChanges();
+
     spyOn(store, "dispatch").and.callThrough();
   });
 
@@ -48,8 +54,6 @@ fdescribe("DynamicSlotComponent", () => {
   });
 
   it("should display the cms components inside the given position", () => {
-    dynamicSlotComponent.position = "left";
-
     const loadPageAction = new fromActions.LoadPageDataSuccess(payload);
     store.dispatch(loadPageAction);
     const getComponentAction = new fromActions.GetComponentFromPage(
@@ -61,10 +65,8 @@ fdescribe("DynamicSlotComponent", () => {
     );
     store.dispatch(UpdateLatestPageKeyAction);
 
-    dynamicSlotComponent.currentSlot$
-      .filter(data => data !== undefined)
-      .subscribe(data => {
-        expect(data).toBe(cmsComponents);
-      });
+    dynamicSlotComponent.currentSlot$.subscribe(data => {
+      expect(data).toBe(cmsComponents);
+    });
   });
 });

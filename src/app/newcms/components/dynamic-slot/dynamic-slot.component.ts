@@ -27,9 +27,9 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromStore.CmsState>) {}
 
   ngOnInit() {
-    this.currentSlot$ = this.store.select(
-      fromStore.currentSlotSelectorFactory(this.position)
-    );
+    this.currentSlot$ = this.store
+      .select(fromStore.currentSlotSelectorFactory(this.position))
+      .filter(data => data !== undefined);
   }
 
   ngOnDestroy() {}

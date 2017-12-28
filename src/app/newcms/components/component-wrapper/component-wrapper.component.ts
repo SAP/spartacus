@@ -33,7 +33,6 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    private cd: ChangeDetectorRef,
     private componentMapper: ComponentMapperService
   ) {}
 
@@ -69,7 +68,6 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
         instance.setContextParameters(this.contextParameters);
       }
       instance.bootstrap();
-      // this.cd.markForCheck();
     }
   }
 }
