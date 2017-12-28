@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { DebugElement } from "@angular/core";
 import { StoreModule, Store, combineReducers } from "@ngrx/store";
 import { DynamicSlotComponent } from "./dynamic-slot.component";
@@ -27,17 +27,21 @@ fdescribe("DynamicSlotComponent", () => {
   };
   const payload = { key: "test", value: page };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromReducers.reducers)
-        })
-      ],
-      declarations: [DynamicSlotComponent, ComponentWrapperComponent]
-    });
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          StoreModule.forRoot({
+            ...fromRoot.reducers,
+            cms: combineReducers(fromReducers.reducers)
+          })
+        ],
+        declarations: [DynamicSlotComponent, ComponentWrapperComponent]
+      }).compileComponents();
+    })
+  );
 
+  beforeEach(() => {
     store = TestBed.get(Store);
 
     fixture = TestBed.createComponent(DynamicSlotComponent);

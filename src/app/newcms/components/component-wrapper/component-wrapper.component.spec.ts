@@ -35,22 +35,26 @@ fdescribe("ComponentWrapperComponent", () => {
   let store: Store<fromReducers.CmsState>;
   let el: DebugElement;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        TestModule,
-        StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromReducers.reducers)
-        })
-      ],
-      declarations: [ComponentWrapperComponent],
-      providers: [
-        ComponentMapperService,
-        { provide: ConfigService, useClass: MockConfigService }
-      ]
-    });
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          TestModule,
+          StoreModule.forRoot({
+            ...fromRoot.reducers,
+            cms: combineReducers(fromReducers.reducers)
+          })
+        ],
+        declarations: [ComponentWrapperComponent],
+        providers: [
+          ComponentMapperService,
+          { provide: ConfigService, useClass: MockConfigService }
+        ]
+      }).compileComponents();
+    })
+  );
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(ComponentWrapperComponent);
     wrapperComponent = fixture.componentInstance;
     el = fixture.debugElement;
