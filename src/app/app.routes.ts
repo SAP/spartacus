@@ -1,14 +1,14 @@
 import { Routes } from "@angular/router";
 
-import { HomePageComponent } from "../ui/templates/home-page/home-page.component";
-import { CartPageComponent } from "../ui/templates/cart-page/cart-page.component";
-import { ProductDetailPageComponent } from "../ui/templates/product-detail-page/product-detail-page.component";
-import { ProductListPageComponent } from "../ui/templates/product-list-page/product-list-page.component";
-import { CategoryPageComponent } from "../ui/templates/category-page/category-page.component";
+import { HomePageComponent } from "./ui/templates/home-page/home-page.component";
+import { CartPageComponent } from "./ui/templates/cart-page/cart-page.component";
+import { ProductDetailPageComponent } from "./ui/templates/product-detail-page/product-detail-page.component";
+import { ProductListPageComponent } from "./ui/templates/product-list-page/product-list-page.component";
+import { CategoryPageComponent } from "./ui/templates/category-page/category-page.component";
 
-import { PageNotFoundComponent } from "../ui/templates/404/404.component";
+import { PageNotFoundComponent } from "./ui/templates/404/404.component";
 
-import { CmsPageGuards } from "./../newcms/guards/cms-page.guard";
+import { CmsPageGuards } from "./newcms/guards/cms-page.guard";
 
 // TODO: provide URL mappings for site specific routings
 export const appRoutes: Routes = [
