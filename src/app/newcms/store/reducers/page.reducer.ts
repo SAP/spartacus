@@ -27,7 +27,7 @@ export function reducer(
     }
 
     case fromPageData.LOAD_PAGEDATA_SUCCESS: {
-      const page = action.payload;
+      let page = action.payload;
 
       let existPage = state.entities[page.key];
       if (existPage != null) {
@@ -42,7 +42,13 @@ export function reducer(
           }
         }
         if (samePage) {
-          page.value.seen = [...page.value.seen, ...existPage.seen];
+          page = {
+            ...page,
+            value: {
+              ...page.value,
+              seen: [...page.value.seen, ...existPage.seen]
+            }
+          };
         }
       }
 
