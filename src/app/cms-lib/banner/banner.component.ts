@@ -4,8 +4,8 @@ import {
   ElementRef,
   ViewChild
 } from "@angular/core";
-import { AbstractCmsComponent } from "../abstract-cms-component";
-import { CmsService } from "../../data/cms.service";
+import { AbstractCmsComponent } from "../../newcms/components/abstract-cms-component";
+//import { CmsService } from "../../data/cms.service";
 import { SvgLoaderService } from "./svg-loader.service";
 
 @Component({
@@ -25,13 +25,13 @@ export class BannerComponent extends AbstractCmsComponent {
     { code: "widescreen", width: 1200 }
   ];
 
-  constructor(
+  /*constructor(
     protected cd: ChangeDetectorRef,
     protected cmsService: CmsService,
     protected svgService: SvgLoaderService
   ) {
     super(cd, cmsService);
-  }
+  }*/
 
   protected fetchData() {
     super.fetchData();
@@ -40,10 +40,10 @@ export class BannerComponent extends AbstractCmsComponent {
       // we should load the SVG resources from their original domain
       // however we're blocked by CORS. Therefor we use a proxy
       // and load the data and append it to an element.
-      this.svgService.loadSVG(this.getImageUrl()).subscribe(svgData => {
-        this.svgContainer.nativeElement.innerHTML = svgData;
-        this.cd.markForCheck();
-      });
+      //this.svgService.loadSVG(this.getImageUrl()).subscribe(svgData => {
+      //  this.svgContainer.nativeElement.innerHTML = svgData;
+      //  this.cd.markForCheck();
+      //});
     }
   }
 
@@ -56,7 +56,7 @@ export class BannerComponent extends AbstractCmsComponent {
   }
 
   isSVG() {
-    return this.svgService.isSVG(this.getImageUrl());
+    //return this.svgService.isSVG(this.getImageUrl());
   }
 
   // TODO: implement target
