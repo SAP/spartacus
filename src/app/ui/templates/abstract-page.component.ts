@@ -17,14 +17,14 @@ export abstract class AbstractPage {
         // load data for each route change
         router.events.subscribe((val) => {
             if (val instanceof NavigationEnd) {
-                this.loadCmsDataForUrl(val.url);
+                //this.loadCmsDataForUrl(val.url);
             }
         });
 
         // load data in case we have parameters
         activeRoute.params.forEach((params: Params) => {
-            this.loadCmsDataForParams(params);
-            this.loadAdditionData(params);
+            //this.loadCmsDataForParams(params);
+            //this.loadAdditionData(params);
         });
      }
 
