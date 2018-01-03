@@ -1,0 +1,44 @@
+import { Component, OnInit } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs/Observable";
+import { of } from "rxjs/observable/of";
+import { tap, filter, take, switchMap, catchError } from "rxjs/operators";
+
+import * as fromStore from "../shared/store";
+import { ConfigService } from "../config.service";
+
+@Component({
+  selector: "y-currency-selector",
+  templateUrl: "./currency-selector.component.html",
+  styleUrls: ["./currency-selector.component.scss"]
+})
+export class CurrencySelectorComponent implements OnInit {
+  currencies$: Observable<any>;
+  activeCurrency: string;
+
+  constructor(
+    private store: Store<fromStore.SiteContextState>,
+    private configService: ConfigService
+  ) {}
+
+  ngOnInit() {
+    this.store
+      .select(fromStore.getCurrenciesLoaded)
+      .pipe(
+        tap(loaded => {
+          if (!loaded) {
+            this.store.dispatch(new fromStore.LoadCurrencies());
+          }
+        })
+      )
+      .subscribe();
+
+    this.currencies$ = this.store.select(fromStore.getAllCurrencies);
+    this.setActiveCurrency(this.configService.site.currency);
+  }
+
+  setActiveCurrency(currency) {
+    this.activeCurrency = currency;
+    this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
+  }
+}
