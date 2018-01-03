@@ -44,7 +44,7 @@ export class ResponsiveBannerComponent extends AbstractCmsComponent {
     }
 
     hasImage() {
-        return (null !== this.component && null !== this.component.media);
+        return (undefined !== this.component && null !== this.component.media);
     }
 
     getImageUrl(): string {

@@ -10,10 +10,11 @@ import { OccModule } from "./occ/occ.module";
 import { UiModule } from "./ui/ui.module";
 //import { CmsModule } from "./cms/cms.module";
 import { CmsLibModule } from "./cms-lib/cms-lib.module";
-//import { UiFrameworkModule } from "./ui/ui-framework/ui-framework.module";
+import { UiFrameworkModule } from "./ui/ui-framework/ui-framework.module";
 
 import { NewCmsModule } from "./newcms/newcms.module";
 import { RoutingModule } from "./routing/routing.module";
+import { SiteContextModule } from "./site-context/site-context.module";
 
 import { appRoutes } from "./app.routes";
 
@@ -28,8 +29,10 @@ import { AppComponent } from "./app.component";
     //CmsModule.forRoot(ConfigService),
     CmsLibModule,
     UiModule,
-    //UiFrameworkModule,
+    UiFrameworkModule,
+
     NewCmsModule.forRoot(ConfigService),
+    SiteContextModule.forRoot(ConfigService),
     RoutingModule,
     RouterModule.forRoot(appRoutes)
   ],

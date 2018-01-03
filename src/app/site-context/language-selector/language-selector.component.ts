@@ -2,9 +2,13 @@ import { Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 import { of } from "rxjs/observable/of";
-import { tap, filter, take, switchMap, catchError } from "rxjs/operators";
+import { tap, filter, take } from "rxjs/operators";
 
 import * as fromStore from "../shared/store";
+import * as fromCms from "../../newcms/store";
+import * as fromRouting from "../../routing/store";
+import { PageContext } from "../../routing/models/page-context.model";
+
 import { ConfigService } from "../config.service";
 
 @Component({
@@ -40,5 +44,24 @@ export class LanguageSelectorComponent implements OnInit {
   setActiveLanguage(language) {
     this.activeLanguage = language;
     this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
+
+    let pageContext: PageContext;
+    this.store
+      .select(fromRouting.getRouterState)
+      .filter(routerState => routerState !== undefined)
+      .subscribe(routerState => (pageContext = routerState.state.context));
+
+    let latestPageKey: string;
+    this.store
+      .select(fromCms.getLatestPageKey)
+      .filter(key => key != "")
+      .take(1)
+      .subscribe(key => (latestPageKey = key));
+
+    if (pageContext !== undefined && latestPageKey !== undefined) {
+      this.store.dispatch(new fromCms.ClearCmsState());
+      this.store.dispatch(new fromCms.LoadPageData(pageContext));
+      this.store.dispatch(new fromCms.UpdateLatestPageKey(latestPageKey));
+    }
   }
 }

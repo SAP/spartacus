@@ -13,8 +13,8 @@ import { SearchBoxModule } from './search-box/search-box.module';
 import { MiniCartModule } from './mini-cart/mini-cart.module';
 import { ProductReferencesModule} from './product-references/product-references.module';
 import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
-import { LanguageSelectorModule } from './language-selector/language-selector.module';
-import { CurrencySelectorModule } from './currency-selector/currency-selector.module';
+//import { LanguageSelectorModule } from './language-selector/language-selector.module';
+//import { CurrencySelectorModule } from './currency-selector/currency-selector.module';
 
 import { AbstractCartComponent } from './abstract-cart-component';
 import { AddToCartModule } from './add-to-cart/add-to-cart.module';
@@ -27,8 +27,8 @@ import { CookieConfirmationModule } from './cookie-confirmation/cookie-confirmat
     imports: [
         CommonModule,
 
-        LanguageSelectorModule,
-        CurrencySelectorModule,
+        //LanguageSelectorModule,
+        //CurrencySelectorModule,
 
         AddToCartModule,
         LoginStatusModule,

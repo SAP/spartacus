@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  OnInit,
-  OnDestroy,
-  ChangeDetectorRef,
-  Input
-} from "@angular/core";
+import { Injectable, ChangeDetectorRef, Input } from "@angular/core";
 
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
@@ -37,7 +31,9 @@ export abstract class AbstractCmsComponent {
   }
 
   protected fetchData() {
-    this.cd.detectChanges();
+    if (!this.cd["destroyed"]) {
+      this.cd.detectChanges();
+    }
     // can be used by implementations
   }
 
