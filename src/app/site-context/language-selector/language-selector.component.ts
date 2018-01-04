@@ -5,7 +5,6 @@ import { of } from "rxjs/observable/of";
 import { tap, filter, take } from "rxjs/operators";
 
 import * as fromStore from "../shared/store";
-import * as fromCms from "../../newcms/store";
 import * as fromRouting from "../../routing/store";
 import { PageContext } from "../../routing/models/page-context.model";
 
@@ -51,17 +50,8 @@ export class LanguageSelectorComponent implements OnInit {
       .filter(routerState => routerState !== undefined)
       .subscribe(routerState => (pageContext = routerState.state.context));
 
-    let latestPageKey: string;
-    this.store
-      .select(fromCms.getLatestPageKey)
-      .filter(key => key != "")
-      .take(1)
-      .subscribe(key => (latestPageKey = key));
-
-    if (pageContext !== undefined && latestPageKey !== undefined) {
-      this.store.dispatch(new fromCms.ClearCmsState());
-      this.store.dispatch(new fromCms.LoadPageData(pageContext));
-      this.store.dispatch(new fromCms.UpdateLatestPageKey(latestPageKey));
+    if (pageContext !== undefined) {
+      this.store.dispatch(new fromStore.LanguageChange(pageContext));
     }
   }
 }

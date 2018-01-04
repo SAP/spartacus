@@ -52,7 +52,7 @@ export class CmsPageGuards implements CanActivate {
             }
           }
         }
-        if (found) {
+        if (found && tryTimes == 0) {
           this.store.dispatch(new fromStore.UpdateLatestPageKey(key));
         }
         return found;
