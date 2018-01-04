@@ -6,7 +6,6 @@ import { SvgLoaderService } from './svg-loader.service';
 @Component({
   selector: 'y-responsive-banner',
   templateUrl: './responsive-banner.component.html'
-  //styleUrls: ['./banner.component.scss']
 })
 export class ResponsiveBannerComponent extends AbstractCmsComponent {
 

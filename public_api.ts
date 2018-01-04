@@ -15,7 +15,6 @@ export * from './src/app/ui/components/product-list/product-list.module';
 export * from './src/app/cms-lib/cms-lib.module';
 export * from './src/app/cms-lib/add-to-cart/add-to-cart.module';
 export * from './src/app/cms-lib/banner/banner.module';
-export * from './src/app/cms-lib/banner/responsive-banner.module';
 export * from './src/app/cms-lib/breadcrumb/breadcrumb.module';
 export * from './src/app/cms-lib/category-navigation/category-navigation.module';
 export * from './src/app/cms-lib/cookie-confirmation/cookie-confirmation.module';
