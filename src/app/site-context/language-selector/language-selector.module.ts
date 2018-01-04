@@ -9,6 +9,7 @@ import { ConfigService } from "../config.service";
 @NgModule({
   imports: [CommonModule, SharedModule.forRoot(ConfigService), MaterialModule],
   declarations: [LanguageSelectorComponent],
-  exports: [LanguageSelectorComponent]
+  exports: [LanguageSelectorComponent],
+  providers: [ConfigService]
 })
 export class LanguageSelectorModule {}

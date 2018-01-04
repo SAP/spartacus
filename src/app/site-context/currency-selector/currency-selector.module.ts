@@ -9,6 +9,7 @@ import { ConfigService } from "../config.service";
 @NgModule({
   imports: [CommonModule, SharedModule.forRoot(ConfigService), MaterialModule],
   declarations: [CurrencySelectorComponent],
-  exports: [CurrencySelectorComponent]
+  exports: [CurrencySelectorComponent],
+  providers: [ConfigService]
 })
 export class CurrencySelectorModule {}

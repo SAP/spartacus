@@ -5,7 +5,9 @@ import { LanguageSelectorModule } from "./language-selector/language-selector.mo
 import { ConfigService } from "./config.service";
 
 @NgModule({
-  imports: [CurrencySelectorModule, LanguageSelectorModule]
+  imports: [CurrencySelectorModule, LanguageSelectorModule],
+  providers: [ConfigService],
+  exports: [CurrencySelectorModule, LanguageSelectorModule]
 })
 export class SiteContextModule {
   static forRoot(config: any): any {
