@@ -1,10 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
-import { of } from "rxjs/observable/of";
-import { tap, filter, take, switchMap, catchError } from "rxjs/operators";
+import { tap, filter } from "rxjs/operators";
 
 import * as fromStore from "../shared/store";
+import * as fromRouting from "../../routing/store";
+import { PageContext } from "../../routing/models/page-context.model";
+
 import { ConfigService } from "../config.service";
 
 @Component({
@@ -40,5 +42,15 @@ export class CurrencySelectorComponent implements OnInit {
   setActiveCurrency(currency) {
     this.activeCurrency = currency;
     this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
+
+    let pageContext: PageContext;
+    this.store
+      .select(fromRouting.getRouterState)
+      .filter(routerState => routerState !== undefined)
+      .subscribe(routerState => (pageContext = routerState.state.context));
+
+    if (pageContext !== undefined) {
+      this.store.dispatch(new fromStore.CurrencyChange(pageContext));
+    }
   }
 }

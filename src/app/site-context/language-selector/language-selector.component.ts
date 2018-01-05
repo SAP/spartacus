@@ -1,8 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
-import { of } from "rxjs/observable/of";
-import { tap, filter, take } from "rxjs/operators";
+import { tap, filter } from "rxjs/operators";
 
 import * as fromStore from "../shared/store";
 import * as fromRouting from "../../routing/store";
