@@ -1,0 +1,82 @@
+import { Component } from "@angular/core";
+import { TestBed } from "@angular/core/testing";
+import { RouterTestingModule } from "@angular/router/testing";
+import {
+  RouterStateSerializer,
+  StoreRouterConnectingModule
+} from "@ngrx/router-store";
+import { Store, StoreModule } from "@ngrx/store";
+import { Router } from "@angular/router";
+import { reducers, CustomSerializer, RouterStateUrl } from "../../store";
+import * as fromActions from "../actions/router.action";
+import { PageContext, PageType } from "../../models/page-context.model";
+
+@Component({
+  selector: "test-cmp",
+  template: "test-cmp"
+})
+class TestCmp {}
+
+fdescribe("Router Reducer", () => {
+  it("should return the router state", () => {
+    let router: Router;
+    let store: Store<any>;
+    let serializer: RouterStateSerializer<RouterStateUrl>;
+
+    TestBed.configureTestingModule({
+      declarations: [TestCmp],
+      imports: [
+        StoreModule.forRoot(reducers),
+        RouterTestingModule.withRoutes([
+          { path: "", component: TestCmp },
+          { path: "category/:categoryCode", component: TestCmp },
+          { path: "product/:productCode", component: TestCmp }
+        ]),
+        StoreRouterConnectingModule
+      ],
+      providers: [
+        {
+          provide: RouterStateSerializer,
+          useClass: CustomSerializer
+        }
+      ]
+    });
+
+    store = TestBed.get(Store);
+    router = TestBed.get(Router);
+
+    let routerReducer;
+    store.subscribe(store => {
+      routerReducer = store.routerReducer;
+    });
+
+    router
+      .navigateByUrl("/")
+      .then(() => {
+        expect(routerReducer.state).toEqual({
+          url: "/",
+          queryParams: {},
+          params: {},
+          context: { id: "homepage", type: PageType.CONTENT_PAGE }
+        });
+        return router.navigateByUrl("category/1234");
+      })
+      .then(() => {
+        expect(routerReducer.state).toEqual({
+          url: "/category/1234",
+          queryParams: {},
+          params: { categoryCode: "1234" },
+          context: { id: "1234", type: PageType.CATEGORY_PAGE }
+        });
+        return router.navigateByUrl("product/1234");
+      })
+      .then(() => {
+        expect(routerReducer.state).toEqual({
+          url: "/product/1234",
+          queryParams: {},
+          params: { productCode: "1234" },
+          context: { id: "1234", type: PageType.PRODUCT_PAGE }
+        });
+      });
+  });
+});

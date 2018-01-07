@@ -19,14 +19,14 @@ export class ConfigService {
   //     currency: 'GBP'
   // };
 
-  defaultPageIdForType = {
-    PRODUCT_PAGE: ["productDetails"],
-    CATEGORY_PAGE: ["productList", "productGrid", "category"]
-  };
-
   authentication = {
     client_id: "mobile_android",
     client_secret: "secret"
+  };
+
+  defaultPageIdForType = {
+    PRODUCT_PAGE: ["productDetails"],
+    CATEGORY_PAGE: ["productList", "productGrid", "category"]
   };
 
   cmsComponentMapping = {

@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AppRouter } from './routes';
+//import { AppRouter } from './routes';
 import { LayoutModule } from './layout/layout.module';
 import { TemplatesModule } from './templates/templates.module';
 
 @NgModule({
     imports: [
         CommonModule,
-        AppRouter,
+        //AppRouter,
         LayoutModule,
         TemplatesModule
     ],
