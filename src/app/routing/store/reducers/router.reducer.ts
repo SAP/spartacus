@@ -13,6 +13,7 @@ export interface RouterStateUrl {
   queryParams: Params;
   params: Params;
   context: PageContext;
+  cmsRequired: boolean;
 }
 
 export interface State {
@@ -39,6 +40,18 @@ export class CustomSerializer
     }
     const { params } = state;
 
+    let cmsRequired = false;
+    if (
+      state.routeConfig.canActivate &&
+      state.routeConfig.canActivate.find(x => x.name === "CmsPageGuards")
+    ) {
+      cmsRequired = true;
+    }
+
+    if (state.data.pageLabel !== undefined) {
+      console.log(state.data.pageLabel);
+    }
+
     let context: PageContext;
     if (params["productCode"]) {
       context = { id: params["productCode"], type: PageType.PRODUCT_PAGE };
@@ -54,6 +67,6 @@ export class CustomSerializer
       context = { id: "homepage", type: PageType.CONTENT_PAGE };
     }
 
-    return { url, queryParams, params, context };
+    return { url, queryParams, params, context, cmsRequired };
   }
 }

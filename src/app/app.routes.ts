@@ -15,6 +15,7 @@ export const appRoutes: Routes = [
   {
     path: "",
     canActivate: [CmsPageGuards],
+    data: { pageLabel: "homepage" },
     component: HomePageComponent
   },
   {
