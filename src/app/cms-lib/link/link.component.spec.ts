@@ -41,7 +41,7 @@ fdescribe('LinkComponent', () => {
           }),
           RouterTestingModule
         ],
-        declarations: [ LinkComponent ],
+        declarations: [LinkComponent],
         providers: [{ provide: ConfigService, useClass: UseConfigService }]
       }).compileComponents();
     })
@@ -56,7 +56,7 @@ fdescribe('LinkComponent', () => {
     spyOn(store, 'select').and.returnValue(of(componentData));
   });
 
-  it('should create component', () => {
+  it('should create link component', () => {
     expect(linkComponent).toBeTruthy();
   });
 
