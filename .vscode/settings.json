@@ -1,3 +1,5 @@
-// Place your settings in this file to overwrite default and user settings.
 {
+  // Place your settings in this file to overwrite default and user settings.
+  "prettier.singleQuote": true,
+  "editor.formatOnSave": true
 }
