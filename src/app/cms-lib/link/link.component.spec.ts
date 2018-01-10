@@ -60,7 +60,7 @@ fdescribe('LinkComponent', () => {
     expect(linkComponent).toBeTruthy();
   });
 
-  it('should contain cms content in the html rendering after bootstrap', () => {
+  it('should contain link name and url', () => {
     expect(linkComponent.component).toBeNull();
     linkComponent.bootstrap();
     expect(linkComponent.component).toBe(componentData);
