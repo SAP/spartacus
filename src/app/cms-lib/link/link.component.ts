@@ -6,6 +6,4 @@ import { AbstractCmsComponent } from '../../newcms/components/abstract-cms-compo
   templateUrl: './link.component.html',
   styleUrls: ['./link.component.scss']
 })
-export class LinkComponent extends AbstractCmsComponent {
-
-}
+export class LinkComponent extends AbstractCmsComponent {}
