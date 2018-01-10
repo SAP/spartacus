@@ -1,11 +1,11 @@
-import { Action } from "@ngrx/store";
-import { PageContext } from "../../../../routing/models/page-context.model";
+import { Action } from '@ngrx/store';
+import { PageContext } from '../../../../routing/models/page-context.model';
 
-export const LOAD_CURRENCIES = "[Site-context] Load Currencies";
-export const LOAD_CURRENCIES_FAIL = "[Site-context] Load Currencies Fail";
-export const LOAD_CURRENCIES_SUCCESS = "[Site-context] Load Currencies Success";
-export const SET_ACTIVE_CURRENCY = "[Site-context] Set Active Currency";
-export const CURRENCY_CHANGE = "[Site-context] Currency Change";
+export const LOAD_CURRENCIES = '[Site-context] Load Currencies';
+export const LOAD_CURRENCIES_FAIL = '[Site-context] Load Currencies Fail';
+export const LOAD_CURRENCIES_SUCCESS = '[Site-context] Load Currencies Success';
+export const SET_ACTIVE_CURRENCY = '[Site-context] Set Active Currency';
+export const CURRENCY_CHANGE = '[Site-context] Currency Change';
 
 export class LoadCurrencies implements Action {
   readonly type = LOAD_CURRENCIES;

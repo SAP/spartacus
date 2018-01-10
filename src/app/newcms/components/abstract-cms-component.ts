@@ -46,7 +46,7 @@ export abstract class AbstractCmsComponent {
   }
 
   // TODO: move to strategy
-  protected mapUrl(url: string) {
+  /*protected mapUrl(url: string) {
     // console.warn('mapUrl', url);
     let newUrl = "";
 
@@ -72,5 +72,5 @@ export abstract class AbstractCmsComponent {
   private getUrlParam(url, param) {
     const fragment = url.indexOf(param);
     return fragment > -1 ? url.substr(fragment + param.length) : null;
-  }
+  }*/
 }

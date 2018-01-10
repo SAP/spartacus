@@ -39,6 +39,7 @@ export class CustomSerializer
       state = state.firstChild;
     }
     const { params } = state;
+    console.log(state);
 
     let cmsRequired = false;
     if (
@@ -46,10 +47,6 @@ export class CustomSerializer
       state.routeConfig.canActivate.find(x => x.name === "CmsPageGuards")
     ) {
       cmsRequired = true;
-    }
-
-    if (state.data.pageLabel !== undefined) {
-      console.log(state.data.pageLabel);
     }
 
     let context: PageContext;
@@ -61,10 +58,18 @@ export class CustomSerializer
       context = { id: params["brandCode"], type: PageType.CATEGORY_PAGE };
     } else if (params["query"]) {
       context = { id: "search", type: PageType.CONTENT_PAGE };
-    } else if (url == "/cart") {
-      context = { id: "cart", type: PageType.CONTENT_PAGE };
-    } else if (url == "/") {
-      context = { id: "homepage", type: PageType.CONTENT_PAGE };
+    } else if (state.data.pageLabel !== undefined) {
+      context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
+    } else if (state.url.length > 0) {
+      context = {
+        id: state.url[state.url.length - 1].path,
+        type: PageType.CONTENT_PAGE
+      };
+    } else {
+      context = {
+        id: "homepage",
+        type: PageType.CONTENT_PAGE
+      };
     }
 
     return { url, queryParams, params, context, cmsRequired };
