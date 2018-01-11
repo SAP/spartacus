@@ -1,37 +1,41 @@
-import { NgModule } from "@angular/core";
-import { RouterModule } from "@angular/router";
-import { BrowserModule } from "@angular/platform-browser";
-import { LOCALE_ID } from "@angular/core";
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+import { LOCALE_ID } from '@angular/core';
 
-import { ConfigService } from "./config.service";
+import { ConfigService } from './config.service';
 
-import { DataModule } from "./data/data.module";
-import { OccModule } from "./occ/occ.module";
-import { UiModule } from "./ui/ui.module";
-//import { CmsModule } from "./cms/cms.module";
-import { CmsLibModule } from "./cms-lib/cms-lib.module";
-//import { UiFrameworkModule } from "./ui/ui-framework/ui-framework.module";
+import { DataModule } from './data/data.module';
+import { OccModule } from './occ/occ.module';
+import { NewOccModule } from './newocc/newocc.module';
+import { UiModule } from './ui/ui.module';
+// import { CmsModule } from "./cms/cms.module";
+import { CmsLibModule } from './cms-lib/cms-lib.module';
+// import { UiFrameworkModule } from "./ui/ui-framework/ui-framework.module";
 
-import { NewCmsModule } from "./newcms/newcms.module";
-import { RoutingModule } from "./routing/routing.module";
+import { NewCmsModule } from './newcms/newcms.module';
+import { RoutingModule } from './routing/routing.module';
+import { ProductModule } from './product/product.module';
 
-import { appRoutes } from "./app.routes";
+import { appRoutes } from './app.routes';
 
 // bootstrap
-import { AppComponent } from "./app.component";
+import { AppComponent } from './app.component';
 
 @NgModule({
   imports: [
     BrowserModule,
     OccModule.forRoot(ConfigService),
+    NewOccModule.forRoot(ConfigService),
     DataModule.forRoot(ConfigService),
-    //CmsModule.forRoot(ConfigService),
+    // CmsModule.forRoot(ConfigService),
     CmsLibModule,
     UiModule,
-    //UiFrameworkModule,
+    // UiFrameworkModule,
     NewCmsModule.forRoot(ConfigService),
     RoutingModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    ProductModule
   ],
 
   providers: [
@@ -39,7 +43,7 @@ import { AppComponent } from "./app.component";
     {
       // TODO: configure locale
       provide: LOCALE_ID,
-      useValue: "nl-NL"
+      useValue: 'nl-NL'
     }
   ],
   declarations: [AppComponent],
