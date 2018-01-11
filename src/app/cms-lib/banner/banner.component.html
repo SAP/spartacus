@@ -1,5 +1,4 @@
-
-<a fxFlex *ngIf="hasImage()" [target]="getTarget()" [routerLink]="'/' + component.urlLink" >
+<a fxFlex *ngIf="hasImage()" [target]="getTarget()" [routerLink]="component.urlLink">
 
     <!-- 
         SVG images need special treatment:
@@ -8,5 +7,5 @@
     -->
     <div *ngIf="hasImage() && isSVG()" #svgContainer></div>
 
-    <img *ngIf="!isSVG()" [src]="'https://localhost:9002' + getImageUrl()"/>
+    <img *ngIf="!isSVG()" [src]="'https://localhost:9002' + getImageUrl()" />
 </a>
