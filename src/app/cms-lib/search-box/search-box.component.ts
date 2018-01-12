@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 import { AbstractCmsComponent } from '../../newcms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
+import * as fromRouting from '../../routing/store';
 import { SearchConfig } from '../../product/search-config';
 
 @Component({
@@ -51,8 +51,14 @@ export class SearchBoxComponent extends AbstractCmsComponent {
 
   launchSearchPage(query: string) {
     // TODO: make the URL configurable
-    // this.router.navigate(['/search', query]);
-    // this.searchBoxControl.reset();
+    this.store.dispatch(
+      new fromRouting.Go({
+        path: ['/search', query]
+      })
+    );
+
+    this.searchBoxControl.reset();
+    this.store.dispatch(new fromProductStore.CleanProductSearchState());
   }
 
   protected setupSearch() {
@@ -75,8 +81,6 @@ export class SearchBoxComponent extends AbstractCmsComponent {
         );
       }
     });
-
-    this.searchResults$.subscribe(data => console.log(data));
   }
 
   private shouldSearchSuggestions() {
@@ -101,8 +105,9 @@ export class SearchBoxComponent extends AbstractCmsComponent {
 
   private meetsLength(value: string): boolean {
     return (
-      this.component.minCharactersBeforeRequest &&
-      value.length >= this.component.minCharactersBeforeRequest
+      this.minCharactersBeforeRequest &&
+      value !== null &&
+      value.length >= this.minCharactersBeforeRequest
     );
   }
 }

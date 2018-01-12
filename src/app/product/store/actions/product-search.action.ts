@@ -9,6 +9,7 @@ export const GET_PRODUCT_SUGGESTIONS_SUCCESS =
   '[Product] Get Product Suggestions Success';
 export const GET_PRODUCT_SUGGESTIONS_FAIL =
   '[Product] Get Product Suggestions Fail';
+export const CLEAN_PRODUCT_SEARCH = '[Product] Clean Product Search State';
 
 export class SearchProducts implements Action {
   readonly type = SEARCH_PRODUCTS;
@@ -42,6 +43,11 @@ export class GetProductSuggestionsFail implements Action {
   constructor(public payload: any) {}
 }
 
+export class CleanProductSearchState implements Action {
+  readonly type = CLEAN_PRODUCT_SEARCH;
+  constructor() {}
+}
+
 // action types
 export type ProductSearchAction =
   | SearchProducts
@@ -49,4 +55,5 @@ export type ProductSearchAction =
   | SearchProductsSuccess
   | GetProductSuggestions
   | GetProductSuggestionsSuccess
-  | GetProductSuggestionsFail;
+  | GetProductSuggestionsFail
+  | CleanProductSearchState;

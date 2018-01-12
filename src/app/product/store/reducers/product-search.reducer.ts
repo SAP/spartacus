@@ -4,11 +4,13 @@ import * as fromProductSearch from '../actions/product-search.action';
 export interface ProductSearchState {
   results: any;
   suggestions: any[];
+  loading: boolean;
 }
 
 export const initialState: ProductSearchState = {
   results: {},
-  suggestions: []
+  suggestions: [],
+  loading: false
 };
 
 export function reducer(
@@ -16,13 +18,25 @@ export function reducer(
   action: fromProductSearch.ProductSearchAction
 ): ProductSearchState {
   switch (action.type) {
+    case fromProductSearch.SEARCH_PRODUCTS: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+
     case fromProductSearch.SEARCH_PRODUCTS_SUCCESS: {
       const results = action.payload;
 
-      return {
-        ...state,
-        results
-      };
+      if (state.loading) {
+        return {
+          ...state,
+          results,
+          loading: false
+        };
+      } else {
+        return state;
+      }
     }
 
     case fromProductSearch.GET_PRODUCT_SUGGESTIONS_SUCCESS: {
@@ -33,10 +47,16 @@ export function reducer(
         suggestions
       };
     }
+
+    case fromProductSearch.CLEAN_PRODUCT_SEARCH: {
+      return initialState;
+    }
   }
   return state;
 }
 
 export const getSearchResults = (state: ProductSearchState) => state.results;
+export const getSearchResultsLoading = (state: ProductSearchState) =>
+  state.loading;
 export const getProductSuggestions = (state: ProductSearchState) =>
   state.suggestions;
