@@ -3,7 +3,8 @@ import { BannerComponent } from './banner.component';
 
 @Component({
   selector: 'y-responsive-banner',
-  templateUrl: './responsive-banner.component.html'
+  templateUrl: './responsive-banner.component.html',
+  styleUrls: ['./responsive-banner.component.scss']
 })
 export class ResponsiveBannerComponent extends BannerComponent {
   // TODO: move to a more generic location
