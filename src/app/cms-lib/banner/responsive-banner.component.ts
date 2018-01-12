@@ -21,11 +21,11 @@ export class ResponsiveBannerComponent extends BannerComponent {
     return this.hasImage() ? this.getImage().url : '';
   }
 
-  private getImage() {
+  private getImage(): any {
     return this.component.media['desktop'];
   }
 
-  getResponsiveSrcset() {
+  getResponsiveSrcset(): string {
     let srcset: string = '';
     for (const format of this.formats) {
       srcset += this.getImageSrcSet(format.code, format.width + 'w');

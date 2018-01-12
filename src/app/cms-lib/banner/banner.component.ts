@@ -43,20 +43,20 @@ export class BannerComponent extends AbstractCmsComponent {
     }
   }
 
-  protected hasImage(): Boolean {
+  protected hasImage(): boolean {
     return null !== this.component && null !== this.component.media;
   }
 
-  protected getImageUrl(): String {
+  protected getImageUrl(): string {
     return this.hasImage() ? this.component.media.url : '';
   }
 
-  protected isSVG(): Boolean {
+  protected isSVG(): boolean {
     return this.svgService.isSVG(this.getImageUrl());
   }
 
   // TODO: implement target
-  protected getTarget() {
+  protected getTarget(): string {
     return '_self';
   }
 }
