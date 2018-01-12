@@ -1,10 +1,10 @@
-import * as fromComponent from "./component.action";
+import * as fromComponent from './component.action';
 
-fdescribe("Cms Component Actions", () => {
-  describe("LoadComponent Actions", () => {
-    describe("LoadComponent", () => {
-      it("should create an action", () => {
-        const payload = "test_uid";
+fdescribe('Cms Component Actions', () => {
+  describe('LoadComponent Actions', () => {
+    describe('LoadComponent', () => {
+      it('should create an action', () => {
+        const payload = 'test_uid';
         const action = new fromComponent.LoadComponent(payload);
         expect({ ...action }).toEqual({
           type: fromComponent.LOAD_COMPONENT,
@@ -13,9 +13,9 @@ fdescribe("Cms Component Actions", () => {
       });
     });
 
-    describe("LoadComponentFail", () => {
-      it("should create an action", () => {
-        const payload = { message: "Load Error" };
+    describe('LoadComponentFail', () => {
+      it('should create an action', () => {
+        const payload = { message: 'Load Error' };
         const action = new fromComponent.LoadComponentFail(payload);
 
         expect({ ...action }).toEqual({
@@ -25,10 +25,10 @@ fdescribe("Cms Component Actions", () => {
       });
     });
 
-    describe("LoadComponentSuccess", () => {
-      it("should create an action", () => {
+    describe('LoadComponentSuccess', () => {
+      it('should create an action', () => {
         const payload = [
-          { uid: 1, name: "test component", typeCode: "SimpleBannerComponent" }
+          { uid: 1, name: 'test component', typeCode: 'SimpleBannerComponent' }
         ];
         const action = new fromComponent.LoadComponentSuccess(payload);
 
@@ -40,11 +40,11 @@ fdescribe("Cms Component Actions", () => {
     });
   });
 
-  describe("GetComponentFromPage Action", () => {
-    describe("Get Component from Page", () => {
-      it("should create an action", () => {
-        let component1 = { uid: "uid1" };
-        let component2 = { uid: "uid2" };
+  describe('GetComponentFromPage Action', () => {
+    describe('Get Component from Page', () => {
+      it('should create an action', () => {
+        const component1 = { uid: 'uid1' };
+        const component2 = { uid: 'uid2' };
         const action = new fromComponent.GetComponentFromPage([
           component1,
           component2
@@ -57,9 +57,9 @@ fdescribe("Cms Component Actions", () => {
     });
   });
 
-  describe("CleanComponentState Action", () => {
-    describe("Clean Component State", () => {
-      it("should create an action", () => {
+  describe('CleanComponentState Action', () => {
+    describe('Clean Component State', () => {
+      it('should create an action', () => {
         const action = new fromComponent.CleanComponentState();
         expect({ ...action }).toEqual({
           type: fromComponent.CLEAN_COMPONENT_STATE

@@ -4,16 +4,16 @@ import {
   OnDestroy,
   Input,
   ChangeDetectionStrategy
-} from "@angular/core";
+} from '@angular/core';
 
-import { Store } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
-import * as fromStore from "../../store";
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import * as fromStore from '../../store';
 
 @Component({
-  selector: "y-dynamic-slot,[y-dynamic-slot]",
-  templateUrl: "./dynamic-slot.component.html",
-  styleUrls: ["./dynamic-slot.component.scss"],
+  selector: 'y-dynamic-slot,[y-dynamic-slot]',
+  templateUrl: './dynamic-slot.component.html',
+  styleUrls: ['./dynamic-slot.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DynamicSlotComponent implements OnInit, OnDestroy {

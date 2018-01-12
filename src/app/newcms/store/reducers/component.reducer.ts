@@ -1,4 +1,4 @@
-import * as fromComponent from "../actions/component.action";
+import * as fromComponent from '../actions/component.action';
 
 export interface ComponentState {
   entities: { [id: string]: any };
@@ -19,9 +19,9 @@ export function reducer(
       const entities = components
         .filter(comp => state.entities[comp.uid] == null)
         .reduce(
-          (entities: { [uid: string]: any }, component: any) => {
+          (comp: { [uid: string]: any }, component: any) => {
             return {
-              ...entities,
+              ...comp,
               [component.uid]: component
             };
           },

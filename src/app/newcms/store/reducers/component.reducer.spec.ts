@@ -1,9 +1,9 @@
-import * as fromComponent from "./component.reducer";
-import * as fromActions from "../actions/component.action";
+import * as fromComponent from './component.reducer';
+import * as fromActions from '../actions/component.action';
 
-fdescribe("Cms Component Reducer", () => {
-  describe("undefined action", () => {
-    it("should return the default state", () => {
+fdescribe('Cms Component Reducer', () => {
+  describe('undefined action', () => {
+    it('should return the default state', () => {
       const { initialState } = fromComponent;
       const action = {} as any;
       const state = fromComponent.reducer(undefined, action);
@@ -12,12 +12,12 @@ fdescribe("Cms Component Reducer", () => {
     });
   });
 
-  describe("LOAD_COMPONENT_SUCCESS or GET_COMPONENET_FROM_PAGE action", () => {
-    it("should populate the component state entities", () => {
+  describe('LOAD_COMPONENT_SUCCESS or GET_COMPONENET_FROM_PAGE action', () => {
+    it('should populate the component state entities', () => {
       const components: any[] = [
-        { uid: "comp1", typeCode: "SimpleBannerComponent" },
-        { uid: "comp2", typeCode: "CMSLinkComponent" },
-        { uid: "comp3", typeCode: "NavigationComponent" }
+        { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
+        { uid: 'comp2', typeCode: 'CMSLinkComponent' },
+        { uid: 'comp3', typeCode: 'NavigationComponent' }
       ];
       const entities = {
         comp1: components[0],
@@ -27,17 +27,16 @@ fdescribe("Cms Component Reducer", () => {
       const { initialState } = fromComponent;
       const action = new fromActions.LoadComponentSuccess(components);
       const state = fromComponent.reducer(initialState, action);
-
       expect(state.entities).toEqual(entities);
     });
   });
 
-  describe("CLEAN_COMPONENT_STATE action", () => {
-    it("should clean the component state entities", () => {
+  describe('CLEAN_COMPONENT_STATE action', () => {
+    it('should clean the component state entities', () => {
       const components: any[] = [
-        { uid: "comp1", typeCode: "SimpleBannerComponent" },
-        { uid: "comp2", typeCode: "CMSLinkComponent" },
-        { uid: "comp3", typeCode: "NavigationComponent" }
+        { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
+        { uid: 'comp2', typeCode: 'CMSLinkComponent' },
+        { uid: 'comp3', typeCode: 'NavigationComponent' }
       ];
       const entities = {
         comp1: components[0],
