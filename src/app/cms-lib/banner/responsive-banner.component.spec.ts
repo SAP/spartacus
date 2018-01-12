@@ -116,10 +116,10 @@ fdescribe('ResponsiveBannerComponent', () => {
       '/medias/Elec-770x350-HomeSpeed-EN-01-770W.jpg 500w,'
     );
     expect(el.query(By.css('img')).nativeElement.srcset).toContain(
-      'https://localhost:9002/medias/Elec-960x330-HomeSpeed-EN-01-960W.jpg 800w,'
+      '/medias/Elec-960x330-HomeSpeed-EN-01-960W.jpg 800w,'
     );
     expect(el.query(By.css('img')).nativeElement.srcset).toContain(
-      'https://localhost:9002/medias/Elec-1400x440-HomeSpeed-EN-01-1400W.jpg 1200w'
+      '/medias/Elec-1400x440-HomeSpeed-EN-01-1400W.jpg 1200w'
     );
     expect(el.query(By.css('picture')).nativeElement.classList[0]).toBe(
       'responsive-banner'

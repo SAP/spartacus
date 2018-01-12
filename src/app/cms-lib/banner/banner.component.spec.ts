@@ -31,7 +31,6 @@ fdescribe('BannerComponent', () => {
   const componentData = {
     uid: 'SiteLogoComponent',
     typeCode: 'SimpleBannerComponent',
-    modifiedTime: '2018-01-04T15:24:34+0000',
     name: 'Site Logo Component',
     container: 'false',
     external: 'false',
@@ -73,7 +72,7 @@ fdescribe('BannerComponent', () => {
     spyOn(store, 'select').and.returnValue(of(componentData));
   });
 
-  it('should create banner component', () => {
+  it('should create banner component in CmsLib', () => {
     expect(bannerComponent).toBeTruthy();
   });
 

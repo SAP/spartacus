@@ -26,7 +26,7 @@ export class ResponsiveBannerComponent extends BannerComponent {
   }
 
   getResponsiveSrcset(): string {
-    let srcset: string = '';
+    let srcset = '';
     for (const format of this.formats) {
       srcset += this.getImageSrcSet(format.code, format.width + 'w');
     }
@@ -34,7 +34,7 @@ export class ResponsiveBannerComponent extends BannerComponent {
   }
 
   private getImageSrcSet(format: string, width: string): string {
-    let src: string = '';
+    let src = '';
     const image = this.component.media[format];
     if (image) {
       src += this.getBaseUrl() + image.url + ' ' + width + ', ';

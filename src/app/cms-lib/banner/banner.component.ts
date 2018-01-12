@@ -7,7 +7,6 @@ import {
 
 import { Store } from '@ngrx/store';
 import { AbstractCmsComponent } from '../../newcms/components/abstract-cms-component';
-import { CmsService } from '../../data/cms.service';
 import { SvgLoaderService } from './svg-loader.service';
 import * as fromStore from '../../newcms/store';
 import { ConfigService } from '../../newcms/config.service';
