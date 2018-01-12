@@ -1,5 +1,5 @@
-import { Injectable, Type, ComponentFactoryResolver } from "@angular/core";
-import { ConfigService } from "../config.service";
+import { Injectable, Type, ComponentFactoryResolver } from '@angular/core';
+import { ConfigService } from '../config.service';
 
 @Injectable()
 export class ComponentMapperService {
@@ -41,17 +41,17 @@ export class ComponentMapperService {
       if (this.missingComponents.indexOf(typeCode) === -1) {
         this.missingComponents.push(typeCode);
         console.warn(
-          "No component implementation found for the CMS component type",
+          'No component implementation found for the CMS component type',
           typeCode,
-          ".\n",
-          "Make sure you implement a component and register it in the mapper."
+          '.\n',
+          'Make sure you implement a component and register it in the mapper.'
         );
       }
       return;
     }
 
     const factories = Array.from(
-      this.componentFactoryResolver["_factories"].keys()
+      this.componentFactoryResolver['_factories'].keys()
     );
     const factoryClass = <Type<any>>factories.find(
       (x: any) => x.name === alias

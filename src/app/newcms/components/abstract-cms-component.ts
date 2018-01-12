@@ -72,7 +72,7 @@ export abstract class AbstractCmsComponent implements OnDestroy {
         newUrl = '/product/' + productFragment;
       } else {
         if (url !== '/') {
-          console.warn("couldn't map url", url);
+          console.warn('could not map url', url);
         }
       }
     }

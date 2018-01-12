@@ -1,12 +1,3 @@
-
-<a fxFlex *ngIf="hasImage()" [target]="getTarget()" [routerLink]="'/' + component.urlLink" >
-
-    <!-- 
-        SVG images need special treatment:
-        Since they're loaded from a different URL we're facing cors issues
-        We therefor load them using http and append the data to an HTML element. 
-    -->
-    <div *ngIf="hasImage() && isSVG()" #svgContainer></div>
-
-    <img *ngIf="!isSVG()" [src]="'https://localhost:9002' + getImageUrl()"/>
+<a fxFlex *ngIf="hasImage()" [target]="getTarget()" [routerLink]="component.urlLink">
+    <img [src]="'https://localhost:9002' + getImageUrl()" />
 </a>

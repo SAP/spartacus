@@ -38,7 +38,7 @@ export class MockConfigService {
     currency: ''
   };
 }
-const endpoint: string = '/cms';
+const endpoint = '/cms';
 
 fdescribe('OccCmsService', () => {
   let service: OccCmsService;
@@ -117,7 +117,7 @@ fdescribe('OccCmsService', () => {
       mockReq.flush(cmsPageData);
     });
 
-    it("should get cms content page data with parameter 'fields'", () => {
+    it('should get cms content page data with parameter fields', () => {
       const context: PageContext = {
         id: 'testPagId',
         type: PageType.CONTENT_PAGE

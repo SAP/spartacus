@@ -1,10 +1,10 @@
-import { Component, NgModule } from "@angular/core";
-import { TestBed, inject } from "@angular/core/testing";
-import { ComponentMapperService } from "./component-mapper.service";
-import { ConfigService } from "../config.service";
+import { Component, NgModule } from '@angular/core';
+import { TestBed, inject } from '@angular/core/testing';
+import { ComponentMapperService } from './component-mapper.service';
+import { ConfigService } from '../config.service';
 
 @Component({
-  template: "test"
+  template: 'test'
 })
 export class TestComponent {}
 
@@ -17,11 +17,11 @@ export class TestModule {}
 
 export class MockConfigService {
   cmsComponentMapping = {
-    CMSTestComponent: "TestComponent"
+    CMSTestComponent: 'TestComponent'
   };
 }
 
-fdescribe("ComponentMapperService", () => {
+fdescribe('ComponentMapperService', () => {
   let mapperService: ComponentMapperService;
 
   beforeEach(() => {
@@ -37,22 +37,22 @@ fdescribe("ComponentMapperService", () => {
   });
 
   it(
-    "should ComponentMapperService is injected",
+    'should ComponentMapperService is injected',
     inject([ComponentMapperService], (service: ComponentMapperService) => {
       expect(service).toBeTruthy();
     })
   );
 
-  describe("getComponentTypeByCode", () => {
-    it("should get existing angular component", () => {
-      const type = mapperService.getComponentTypeByCode("CMSTestComponent");
-      expect(type.name).toEqual("TestComponent");
+  describe('getComponentTypeByCode', () => {
+    it('should get existing angular component', () => {
+      const type = mapperService.getComponentTypeByCode('CMSTestComponent');
+      expect(type.name).toEqual('TestComponent');
     });
 
-    it("should get warning for non-existing angular component", () => {
-      const type = mapperService.getComponentTypeByCode("OtherCmsComponent");
+    it('should get warning for non-existing angular component', () => {
+      const type = mapperService.getComponentTypeByCode('OtherCmsComponent');
       expect(type).toEqual(undefined);
-      expect(mapperService.missingComponents).toContain("OtherCmsComponent");
+      expect(mapperService.missingComponents).toContain('OtherCmsComponent');
     });
   });
 });

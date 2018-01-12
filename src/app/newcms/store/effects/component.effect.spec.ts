@@ -1,17 +1,17 @@
-import { TestBed } from "@angular/core/testing";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { Actions } from "@ngrx/effects";
+import { Actions } from '@ngrx/effects';
 
-import { hot, cold } from "jasmine-marbles";
-import { Observable } from "rxjs/Observable";
-import { empty } from "rxjs/observable/empty";
-import { of } from "rxjs/observable/of";
+import { hot, cold } from 'jasmine-marbles';
+import { Observable } from 'rxjs/Observable';
+import { empty } from 'rxjs/observable/empty';
+import { of } from 'rxjs/observable/of';
 
-import { OccCmsService } from "../../services/occ-cms.service";
-import { ConfigService } from "../../config.service";
-import * as fromEffects from "./component.effect";
-import * as fromActions from "../actions/component.action";
+import { OccCmsService } from '../../services/occ-cms.service';
+import { ConfigService } from '../../config.service';
+import * as fromEffects from './component.effect';
+import * as fromActions from '../actions/component.action';
 
 export class TestActions extends Actions {
   constructor() {
@@ -27,12 +27,12 @@ export function getActions() {
   return new TestActions();
 }
 
-fdescribe("Component Effects", () => {
+fdescribe('Component Effects', () => {
   let actions$: TestActions;
   let service: OccCmsService;
   let effects: fromEffects.ComponentEffects;
 
-  const component: any = { uid: "comp1", typeCode: "SimpleBannerComponent" };
+  const component: any = { uid: 'comp1', typeCode: 'SimpleBannerComponent' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,16 +49,16 @@ fdescribe("Component Effects", () => {
     service = TestBed.get(OccCmsService);
     effects = TestBed.get(fromEffects.ComponentEffects);
 
-    spyOn(service, "loadComponent").and.returnValue(of(component));
+    spyOn(service, 'loadComponent').and.returnValue(of(component));
   });
 
-  describe("loadComponent$", () => {
-    it("should return a component from LoadComponentSuccess", () => {
-      const action = new fromActions.LoadComponent("comp1");
+  describe('loadComponent$', () => {
+    it('should return a component from LoadComponentSuccess', () => {
+      const action = new fromActions.LoadComponent('comp1');
       const completion = new fromActions.LoadComponentSuccess(component);
 
-      actions$.stream = hot("-a", { a: action });
-      const expected = cold("-b", { b: completion });
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
 
       expect(effects.loadComponent$).toBeObservable(expected);
     });

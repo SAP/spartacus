@@ -1,20 +1,20 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 
 import {
   StoreRouterConnectingModule,
   RouterStateSerializer
-} from "@ngrx/router-store";
-import { StoreModule, MetaReducer } from "@ngrx/store";
-import { EffectsModule } from "@ngrx/effects";
+} from '@ngrx/router-store';
+import { StoreModule, MetaReducer } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
-import { reducers, effects, CustomSerializer } from "./store";
+import { reducers, effects, CustomSerializer } from './store';
 
 // Angular CLI environment
-import { environment } from "../../environments/environment";
+import { environment } from '../../environments/environment';
 
 // not used in production
-import { StoreDevtoolsModule } from "@ngrx/store-devtools";
-import { storeFreeze } from "ngrx-store-freeze";
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { storeFreeze } from 'ngrx-store-freeze';
 
 export const metaReducers: MetaReducer<any>[] = !environment.production
   ? [storeFreeze]
