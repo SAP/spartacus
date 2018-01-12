@@ -8,18 +8,11 @@ import { BannerComponent } from './banner.component';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../newcms/store/reducers';
 import { ConfigService } from '../../newcms/config.service';
-import { SvgLoaderService } from './svg-loader.service';
 
 class UseConfigService {
   cmsComponentMapping = {
     SimpleBannerComponent: 'BannerComponent'
   };
-}
-
-class MockSvgLoaderService {
-  isSVG(any) {
-    return false;
-  }
 }
 
 fdescribe('BannerComponent', () => {
@@ -55,10 +48,7 @@ fdescribe('BannerComponent', () => {
           RouterTestingModule
         ],
         declarations: [BannerComponent],
-        providers: [
-          { provide: ConfigService, useClass: UseConfigService },
-          { provide: SvgLoaderService, useClass: MockSvgLoaderService }
-        ]
+        providers: [{ provide: ConfigService, useClass: UseConfigService }]
       }).compileComponents();
     })
   );

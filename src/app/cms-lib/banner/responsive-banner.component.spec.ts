@@ -8,7 +8,6 @@ import { ResponsiveBannerComponent } from './responsive-banner.component';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../newcms/store/reducers';
 import { ConfigService } from '../../newcms/config.service';
-import { SvgLoaderService } from './svg-loader.service';
 
 class UseConfigService {
   cmsComponentMapping = {
@@ -17,12 +16,6 @@ class UseConfigService {
   server = {
     baseUrl: 'https://localhost:9002'
   };
-}
-
-class MockSvgLoaderService {
-  isSVG(any) {
-    return false;
-  }
 }
 
 fdescribe('ResponsiveBannerComponent', () => {
@@ -78,10 +71,7 @@ fdescribe('ResponsiveBannerComponent', () => {
           RouterTestingModule
         ],
         declarations: [ResponsiveBannerComponent],
-        providers: [
-          { provide: ConfigService, useClass: UseConfigService },
-          { provide: SvgLoaderService, useClass: MockSvgLoaderService }
-        ]
+        providers: [{ provide: ConfigService, useClass: UseConfigService }]
       }).compileComponents();
     })
   );

@@ -6,8 +6,6 @@ import { BannerComponent } from './banner.component';
   templateUrl: './responsive-banner.component.html'
 })
 export class ResponsiveBannerComponent extends BannerComponent {
-  @ViewChild('svgContainer') svgContainer: ElementRef;
-
   // TODO: move to a more generic location
   // TODO: Make configurable
   private formats = [
