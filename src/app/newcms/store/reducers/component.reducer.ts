@@ -19,9 +19,9 @@ export function reducer(
       const entities = components
         .filter(comp => state.entities[comp.uid] == null)
         .reduce(
-          (comp: { [uid: string]: any }, component: any) => {
+          (compEntities: { [uid: string]: any }, component: any) => {
             return {
-              ...comp,
+              ...compEntities,
               [component.uid]: component
             };
           },
