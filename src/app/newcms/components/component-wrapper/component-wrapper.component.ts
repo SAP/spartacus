@@ -10,18 +10,18 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   ComponentRef
-} from "@angular/core";
-import { AbstractCmsComponent } from "../abstract-cms-component";
-import { ComponentMapperService } from "../../services/component-mapper.service";
+} from '@angular/core';
+import { AbstractCmsComponent } from '../abstract-cms-component';
+import { ComponentMapperService } from '../../services/component-mapper.service';
 
 @Component({
-  selector: "y-component-wrapper",
-  templateUrl: "./component-wrapper.component.html",
-  styleUrls: ["./component-wrapper.component.scss"],
+  selector: 'y-component-wrapper',
+  templateUrl: './component-wrapper.component.html',
+  styleUrls: ['./component-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ComponentWrapperComponent implements OnInit, AfterViewInit {
-  @ViewChild("target", { read: ViewContainerRef })
+  @ViewChild('target', { read: ViewContainerRef })
   target;
   @Input() componentType: string;
   @Input() componentUid: string;

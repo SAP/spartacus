@@ -1,7 +1,7 @@
-import { PageEffects } from "./page.effect";
-import { ComponentEffects } from "./component.effect";
+import { PageEffects } from './page.effect';
+import { ComponentEffects } from './component.effect';
 
 export const effects: any[] = [PageEffects, ComponentEffects];
 
-export * from "./page.effect";
-export * from "./component.effect";
+export * from './page.effect';
+export * from './component.effect';
