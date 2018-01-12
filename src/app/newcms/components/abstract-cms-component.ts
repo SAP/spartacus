@@ -19,8 +19,8 @@ export abstract class AbstractCmsComponent {
 
   constructor(
     protected cd: ChangeDetectorRef,
-    private store: Store<fromStore.CmsState>,
-    private config: ConfigService
+    protected store: Store<fromStore.CmsState>,
+    protected config: ConfigService
   ) {}
 
   setContextParameters(contextParameters: any) {
@@ -66,7 +66,7 @@ export abstract class AbstractCmsComponent {
         newUrl = '/product/' + productFragment;
       } else {
         if (url !== '/') {
-          console.warn('could not map url', url);
+          console.warn("couldn't map url", url);
         }
       }
     }
