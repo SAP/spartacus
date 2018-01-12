@@ -1,28 +1,28 @@
-import { TestBed } from "@angular/core/testing";
-import { StoreModule, Store, combineReducers } from "@ngrx/store";
+import { TestBed } from '@angular/core/testing';
+import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
-import * as fromRoot from "../../../routing/store";
-import * as fromReducers from "../reducers";
-import * as fromActions from "../actions";
-import * as fromSelectors from "../selectors/page.selectors";
+import * as fromRoot from '../../../routing/store';
+import * as fromReducers from '../reducers';
+import * as fromActions from '../actions';
+import * as fromSelectors from '../selectors/page.selectors';
 
-import { Page } from "../../models/page.model";
+import { Page } from '../../models/page.model';
 
-fdescribe("Cms PageData Selectors", () => {
+fdescribe('Cms PageData Selectors', () => {
   let store: Store<fromReducers.CmsState>;
 
   const components: any[] = [
-    { uid: "comp1", typeCode: "SimpleBannerComponent" },
-    { uid: "comp2", typeCode: "CMSLinkComponent" },
-    { uid: "comp3", typeCode: "NavigationComponent" }
+    { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
+    { uid: 'comp2', typeCode: 'CMSLinkComponent' },
+    { uid: 'comp3', typeCode: 'NavigationComponent' }
   ];
   const page: Page = {
-    pageId: "testPageId",
-    name: "testPage",
+    pageId: 'testPageId',
+    name: 'testPage',
     seen: [],
     slots: { left: components }
   };
-  const payload = { key: "test", value: page };
+  const payload = { key: 'test', value: page };
 
   const entities = {
     test: page
@@ -38,11 +38,11 @@ fdescribe("Cms PageData Selectors", () => {
       ]
     });
     store = TestBed.get(Store);
-    spyOn(store, "dispatch").and.callThrough();
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe("getPageEntities", () => {
-    it("should return pages as entities", () => {
+  describe('getPageEntities', () => {
+    it('should return pages as entities', () => {
       let result;
 
       store
@@ -57,24 +57,24 @@ fdescribe("Cms PageData Selectors", () => {
     });
   });
 
-  describe("getLatestPageKey", () => {
-    it("should return the latest page key", () => {
+  describe('getLatestPageKey', () => {
+    it('should return the latest page key', () => {
       let result;
 
       store
         .select(fromSelectors.getLatestPageKey)
         .subscribe(value => (result = value));
 
-      expect(result).toEqual("");
+      expect(result).toEqual('');
 
       store.dispatch(new fromActions.UpdateLatestPageKey(payload.key));
 
-      expect(result).toEqual("test");
+      expect(result).toEqual('test');
     });
   });
 
-  describe("getLatestPage", () => {
-    it("should return the latest page", () => {
+  describe('getLatestPage', () => {
+    it('should return the latest page', () => {
       let result;
 
       store
@@ -90,12 +90,12 @@ fdescribe("Cms PageData Selectors", () => {
     });
   });
 
-  describe("currentSlotSelectorFactory", () => {
-    it("should return current slot by position", () => {
+  describe('currentSlotSelectorFactory', () => {
+    it('should return current slot by position', () => {
       let result;
 
       store
-        .select(fromSelectors.currentSlotSelectorFactory("left"))
+        .select(fromSelectors.currentSlotSelectorFactory('left'))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(undefined);

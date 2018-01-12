@@ -1,10 +1,10 @@
-import { Action } from "@ngrx/store";
+import { Action } from '@ngrx/store';
 
-export const LOAD_PAGEDATA = "[Cms] Load PageData";
-export const LOAD_PAGEDATA_FAIL = "[Cms] Load PageData Fail";
-export const LOAD_PAGEDATA_SUCCESS = "[Cms] Load PageData Success";
-export const UPDATE_LATEST_PAGE_KEY = "[Cms] Update latest page key";
-export const CLEAN_PAGE_STATE = "[Cms] Clean Page State;";
+export const LOAD_PAGEDATA = '[Cms] Load PageData';
+export const LOAD_PAGEDATA_FAIL = '[Cms] Load PageData Fail';
+export const LOAD_PAGEDATA_SUCCESS = '[Cms] Load PageData Success';
+export const UPDATE_LATEST_PAGE_KEY = '[Cms] Update latest page key';
+export const CLEAN_PAGE_STATE = '[Cms] Clean Page State;';
 
 export class LoadPageData implements Action {
   readonly type = LOAD_PAGEDATA;

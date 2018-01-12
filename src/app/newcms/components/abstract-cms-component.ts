@@ -4,12 +4,12 @@ import {
   OnDestroy,
   ChangeDetectorRef,
   Input
-} from "@angular/core";
+} from '@angular/core';
 
-import { Store } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
-import * as fromStore from "../store";
-import { ConfigService } from "../config.service";
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import * as fromStore from '../store';
+import { ConfigService } from '../config.service';
 
 @Injectable()
 export abstract class AbstractCmsComponent {
@@ -52,21 +52,21 @@ export abstract class AbstractCmsComponent {
   // TODO: move to strategy
   protected mapUrl(url: string) {
     // console.warn('mapUrl', url);
-    let newUrl = "";
+    let newUrl = '';
 
     if (url) {
-      const brandFragment = this.getUrlParam(url, "/Brands/");
-      const categoryFragment = this.getUrlParam(url, "/c/");
-      const productFragment = this.getUrlParam(url, "/p/");
+      const brandFragment = this.getUrlParam(url, '/Brands/');
+      const categoryFragment = this.getUrlParam(url, '/c/');
+      const productFragment = this.getUrlParam(url, '/p/');
       if (brandFragment) {
-        newUrl = "/brand/" + categoryFragment;
+        newUrl = '/brand/' + categoryFragment;
       } else if (categoryFragment) {
-        newUrl = "/category/" + categoryFragment;
+        newUrl = '/category/' + categoryFragment;
       } else if (productFragment) {
-        newUrl = "/product/" + productFragment;
+        newUrl = '/product/' + productFragment;
       } else {
-        if (url !== "/") {
-          console.warn("couldn't map url", url);
+        if (url !== '/') {
+          console.warn('could not map url', url);
         }
       }
     }

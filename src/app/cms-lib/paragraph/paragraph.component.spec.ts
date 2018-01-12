@@ -1,33 +1,33 @@
-import { DebugElement } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { StoreModule, Store, combineReducers } from "@ngrx/store";
-import { By } from "@angular/platform-browser";
-import { of } from "rxjs/observable/of";
-import * as fromRoot from "../../routing/store";
-import * as fromCmsReducer from "../../newcms/store/reducers";
-import { ParagraphComponent } from "./paragraph.component";
-import { ConfigService } from "../../newcms/config.service";
+import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { By } from '@angular/platform-browser';
+import { of } from 'rxjs/observable/of';
+import * as fromRoot from '../../routing/store';
+import * as fromCmsReducer from '../../newcms/store/reducers';
+import { ParagraphComponent } from './paragraph.component';
+import { ConfigService } from '../../newcms/config.service';
 
 export class UseConfigService {
   cmsComponentMapping = {
-    CMSParagraphComponent: "ParagraphComponent"
+    CMSParagraphComponent: 'ParagraphComponent'
   };
 }
 
-fdescribe("CmsParagraphComponent in CmsLib", () => {
+fdescribe('CmsParagraphComponent in CmsLib', () => {
   let store: Store<fromCmsReducer.CmsState>;
   let paragraphComponent: ParagraphComponent;
   let fixture: ComponentFixture<ParagraphComponent>;
   let el: DebugElement;
 
   const componentData = {
-    uid: "001",
-    typeCode: "CMSParagraphComponent",
-    modifiedTime: "2017-12-21T18:15:15+0000",
-    name: "TestCMSParagraphComponent",
-    container: "false",
-    type: "Paragraph",
-    content: "Arbitrary paragraph content"
+    uid: '001',
+    typeCode: 'CMSParagraphComponent',
+    modifiedTime: '2017-12-21T18:15:15+0000',
+    name: 'TestCMSParagraphComponent',
+    container: 'false',
+    type: 'Paragraph',
+    content: 'Arbitrary paragraph content'
   };
 
   beforeEach(
@@ -52,18 +52,18 @@ fdescribe("CmsParagraphComponent in CmsLib", () => {
     el = fixture.debugElement;
 
     store = TestBed.get(Store);
-    spyOn(store, "select").and.returnValue(of(componentData));
+    spyOn(store, 'select').and.returnValue(of(componentData));
   });
 
-  it("should be created", () => {
+  it('should be created', () => {
     expect(paragraphComponent).toBeTruthy();
   });
 
-  it("should contain cms content in the html rendering after bootstrap", () => {
+  it('should contain cms content in the html rendering after bootstrap', () => {
     expect(paragraphComponent.component).toBeNull();
     paragraphComponent.bootstrap();
     expect(paragraphComponent.component).toBe(componentData);
-    expect(el.query(By.css("p")).nativeElement.textContent).toEqual(
+    expect(el.query(By.css('p')).nativeElement.textContent).toEqual(
       paragraphComponent.component.content
     );
   });
