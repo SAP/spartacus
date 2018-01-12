@@ -1,9 +1,4 @@
-import {
-  Component,
-  ChangeDetectorRef,
-  ElementRef,
-  ViewChild
-} from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { AbstractCmsComponent } from '../../newcms/components/abstract-cms-component';
