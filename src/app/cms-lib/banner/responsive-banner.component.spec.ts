@@ -115,7 +115,7 @@ fdescribe('ResponsiveBannerComponent', () => {
       'responsive-banner'
     );
     expect(el.query(By.css('picture')).nativeElement.innerHTML).toContain(
-      '<img sizes="100%" src='
+      'sizes="100%" src='
     );
   });
 });
