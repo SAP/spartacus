@@ -5,10 +5,9 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { AbstractCmsComponent } from '../../newcms/components/abstract-cms-component';
-import { CmsService } from '../../data/cms.service';
 import { NavigationService } from './navigation.service';
 import { Router } from '@angular/router';
-import { ConfigService } from '../../config.service';
+import { ConfigService } from '../../newcms/config.service';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../newcms/store';
 
@@ -17,7 +16,7 @@ import * as fromStore from '../../newcms/store';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [NavigationService, ConfigService]
+  providers: [ConfigService]
 })
 export class NavigationComponent extends AbstractCmsComponent {
   node;
