@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { ConfigService } from '../config.service';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class OccUserService extends BaseService {
@@ -15,7 +17,7 @@ export class OccUserService extends BaseService {
         super(http, configService);
     }
 
-    public loadUser(username: string): Observable<any>{
+    public loadUser(username: string): Observable<any> {
         const url = this.getUserEndpoint() + username;
         return this.http.get(url)
             .map((response: Response) => response.json())

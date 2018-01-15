@@ -4,6 +4,7 @@ import { ModelService } from "./model.service";
 import { SiteContextService } from "./site-context.service";
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import 'rxjs/add/operator/map';
 
 const PAGE_PREFIX = "page";
 const SLOT_PREFIX = "slot";
