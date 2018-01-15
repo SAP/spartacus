@@ -5,7 +5,8 @@
         [formControl]="searchBoxControl" 
         [matAutocomplete]="searchresult"
         [placeholder]="component.name"
-        (keyup)="onKey($event)">
+        (keyup)="onKey($event)"
+        (focus)="onFocus()">
 </mat-input-container>
 
 <mat-autocomplete #searchresult="matAutocomplete" class="autocomplete-response">

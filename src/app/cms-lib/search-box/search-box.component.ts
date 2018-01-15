@@ -49,6 +49,11 @@ export class SearchBoxComponent extends AbstractCmsComponent {
     }
   }
 
+  onFocus() {
+    this.searchBoxControl.reset();
+    this.store.dispatch(new fromProductStore.CleanProductSearchState());
+  }
+
   launchSearchPage(query: string) {
     // TODO: make the URL configurable
     this.store.dispatch(
@@ -58,7 +63,6 @@ export class SearchBoxComponent extends AbstractCmsComponent {
     );
 
     this.searchBoxControl.reset();
-    this.store.dispatch(new fromProductStore.CleanProductSearchState());
   }
 
   protected setupSearch() {

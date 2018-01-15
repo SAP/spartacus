@@ -42,6 +42,11 @@ export class ProductSearchEffects {
           .queryProductSuggestions(payload.term, payload.searchConfig.pageSize)
           .pipe(
             map(data => {
+              if (data.suggestions === undefined) {
+                return new productSearchActions.GetProductSuggestionsSuccess(
+                  []
+                );
+              }
               return new productSearchActions.GetProductSuggestionsSuccess(
                 data.suggestions
               );
