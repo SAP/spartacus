@@ -10,6 +10,7 @@ import { ConfigService } from '../../newcms/config.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from 'app/material.module';
 import { MatMenuModule, MatIconModule } from '@angular/material';
+import { NavigationModule } from 'app/cms-lib/navigation/navigation.module';
 
 export class UseConfigService {
   cmsComponentMapping = {
@@ -83,13 +84,13 @@ fdescribe('CmsNavigationComponent in CmsLib', () => {
         imports: [
           MatMenuModule,
           MatIconModule,
+          NavigationModule,
           StoreModule.forRoot({
             ...fromRoot.reducers,
             cms: combineReducers(fromCmsReducer.reducers)
           }),
           RouterTestingModule
         ],
-        declarations: [NavigationComponent],
         providers: [{ provide: ConfigService, useClass: UseConfigService }]
       }).compileComponents();
     })

@@ -15,8 +15,7 @@ import * as fromStore from '../../newcms/store';
   selector: 'y-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ConfigService]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavigationComponent extends AbstractCmsComponent {
   node;
@@ -24,10 +23,10 @@ export class NavigationComponent extends AbstractCmsComponent {
   constructor(
     protected cd: ChangeDetectorRef,
     private navigationService: NavigationService,
-    private store1: Store<fromStore.CmsState>,
-    private config1: ConfigService
+    protected store: Store<fromStore.CmsState>,
+    protected config: ConfigService
   ) {
-    super(cd, store1, config1);
+    super(cd, store, config);
   }
 
   protected fetchData() {
@@ -41,16 +40,16 @@ export class NavigationComponent extends AbstractCmsComponent {
     this.cd.detectChanges();
   }
 
-  protected getUrl(link) {
-    if (!link || !link.url) {
-      return '';
-    }
-    let url = this.mapUrl(link.url);
-    url += '/' + this.sanitizeName(link.title);
-    return url;
-  }
+  // protected getUrl(link) {
+  //   if (!link || !link.url) {
+  //     return '';
+  //   }
+  //   let url = this.mapUrl(link.url);
+  //   url += '/' + this.sanitizeName(link.title);
+  //   return url;
+  // }
 
-  private sanitizeName(name) {
-    return name.replace(/\s/g, '-');
-  }
+  // private sanitizeName(name) {
+  //   return name.replace(/\s/g, '-');
+  // }
 }
