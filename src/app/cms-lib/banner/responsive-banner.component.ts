@@ -1,90 +1,42 @@
-import { Component, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
-import { AbstractCmsComponent } from '../abstract-cms-component';
-import { CmsService } from '../../data/cms.service';
-import { SvgLoaderService } from './svg-loader.service';
+import { Component } from '@angular/core';
+import { BannerComponent } from './banner.component';
 
 @Component({
   selector: 'y-responsive-banner',
   templateUrl: './responsive-banner.component.html'
 })
-export class ResponsiveBannerComponent extends AbstractCmsComponent {
+export class ResponsiveBannerComponent extends BannerComponent {
+  // TODO: move to a more generic location
+  // TODO: Make configurable
+  private formats = [
+    { code: 'mobile', width: 200 },
+    { code: 'tablet', width: 500 },
+    { code: 'desktop', width: 800 },
+    { code: 'widescreen', width: 1200 }
+  ];
 
-    @ViewChild('svgContainer') svgContainer: ElementRef;
+  getImageUrl(): string {
+    return this.hasImage() ? this.getImage().url : '';
+  }
 
-    // TODO: move to a more generic location
-    // TODO: Make configurable
-    private formats = [
-        {code: 'mobile', width: 200},
-        {code: 'tablet', width: 500},
-        {code: 'desktop', width: 800},
-        {code: 'widescreen', width: 1200}
-    ];
+  private getImage(): any {
+    return this.component.media['desktop'];
+  }
 
-    constructor(
-        protected cd: ChangeDetectorRef,
-        protected cmsService: CmsService,
-        protected svgService: SvgLoaderService
-    ) {
-        super(cd, cmsService);
+  getResponsiveSrcset(): string {
+    let srcset = '';
+    for (const format of this.formats) {
+      srcset += this.getImageSrcSet(format.code, format.width + 'w');
     }
+    return srcset;
+  }
 
-    protected fetchData() {
-        super.fetchData();
-
-        if (this.isSVG()) {
-            // we should load the SVG resources from their original domain
-            // however we're blocked by CORS. Therefor we use a proxy
-            // and load the data and append it to an element.
-            this.svgService.loadSVG(this.getImageUrl()).subscribe((svgData) => {
-                this.svgContainer.nativeElement.innerHTML = svgData;
-                this.cd.markForCheck();
-            });
-        }
+  private getImageSrcSet(format: string, width: string): string {
+    let src = '';
+    const image = this.component.media[format];
+    if (image) {
+      src += this.getBaseUrl() + image.url + ' ' + width + ', ';
     }
-
-    hasImage() {
-        return (null !== this.component && null !== this.component.media);
-    }
-
-    getImageUrl(): string {
-        return (this.getImage()) ? this.getImage().url : '';
-    }
-
-    isSVG() {
-        return this.svgService.isSVG(this.getImageUrl());
-    }
-
-    // TODO: implement target
-    getTarget() {
-        return '_self';
-    }
-
-    getResponsiveSrcset() {
-        let srcset = '';
-        for (const format of this.formats) {
-            srcset += this.getImageSrcSet(format.code, format.width + 'w');
-        }
-        return srcset;
-    }
-
-    private getImage() {
-        let image;
-        if (!this.hasImage()) {
-            return image;
-        }
-  
-        image = this.component.media["desktop"];
-        return image;
-    }
-
-
-    private getImageSrcSet(format: string, width: string) {
-        let src = '';
-        //const image = this.getImageByFormat(format);
-        const image = this.component.media[format];
-        if (image) {
-            src += this.getBaseUrl() + image.url + ' ' + width + ', ';
-        }
-        return src;
-    }
+    return src;
+  }
 }

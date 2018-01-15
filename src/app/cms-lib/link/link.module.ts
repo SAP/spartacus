@@ -6,13 +6,9 @@ import { LinkComponent } from './link.component';
 import { MaterialModule } from '../../material.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        MaterialModule
-    ],
-    declarations: [LinkComponent],
-    exports: [LinkComponent],
-    entryComponents: [LinkComponent]
+  imports: [CommonModule, RouterModule, MaterialModule],
+  declarations: [LinkComponent],
+  exports: [LinkComponent],
+  entryComponents: [LinkComponent]
 })
-export class LinkModule { }
+export class LinkModule {}
