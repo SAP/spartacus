@@ -1,31 +1,31 @@
-import { ComponentFixture, TestBed, async } from "@angular/core/testing";
-import { DebugElement } from "@angular/core";
-import { StoreModule, Store, combineReducers } from "@ngrx/store";
-import { DynamicSlotComponent } from "./dynamic-slot.component";
-import { ComponentWrapperComponent } from "../component-wrapper/component-wrapper.component";
-import * as fromRoot from "../../../routing/store";
-import * as fromReducers from "../../store/reducers";
-import * as fromActions from "../../store/actions";
-import { Page } from "../../models/page.model";
-import { By } from "@angular/platform-browser";
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
+import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { DynamicSlotComponent } from './dynamic-slot.component';
+import { ComponentWrapperComponent } from '../component-wrapper/component-wrapper.component';
+import * as fromRoot from '../../../routing/store';
+import * as fromReducers from '../../store/reducers';
+import * as fromActions from '../../store/actions';
+import { Page } from '../../models/page.model';
+import { By } from '@angular/platform-browser';
 
-fdescribe("DynamicSlotComponent", () => {
+fdescribe('DynamicSlotComponent', () => {
   let dynamicSlotComponent: DynamicSlotComponent;
   let fixture: ComponentFixture<DynamicSlotComponent>;
   let store: Store<fromReducers.CmsState>;
 
   const cmsComponents: any[] = [
-    { uid: "comp1", typeCode: "SimpleBannerComponent" },
-    { uid: "comp2", typeCode: "CMSLinkComponent" },
-    { uid: "comp3", typeCode: "NavigationComponent" }
+    { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
+    { uid: 'comp2', typeCode: 'CMSLinkComponent' },
+    { uid: 'comp3', typeCode: 'NavigationComponent' }
   ];
   const page: Page = {
-    pageId: "testPageId",
-    name: "testPage",
+    pageId: 'testPageId',
+    name: 'testPage',
     seen: [],
     slots: { left: cmsComponents }
   };
-  const payload = { key: "test", value: page };
+  const payload = { key: 'test', value: page };
 
   beforeEach(
     async(() => {
@@ -46,18 +46,18 @@ fdescribe("DynamicSlotComponent", () => {
 
     fixture = TestBed.createComponent(DynamicSlotComponent);
     dynamicSlotComponent = fixture.componentInstance;
-    dynamicSlotComponent.position = "left";
+    dynamicSlotComponent.position = 'left';
 
     fixture.detectChanges();
 
-    spyOn(store, "dispatch").and.callThrough();
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
-  it("should be created", () => {
+  it('should be created', () => {
     expect(dynamicSlotComponent).toBeTruthy();
   });
 
-  it("should display the cms components inside the given position", () => {
+  it('should display the cms components inside the given position', () => {
     const loadPageAction = new fromActions.LoadPageDataSuccess(payload);
     store.dispatch(loadPageAction);
     const getComponentAction = new fromActions.GetComponentFromPage(
@@ -65,7 +65,7 @@ fdescribe("DynamicSlotComponent", () => {
     );
     store.dispatch(getComponentAction);
     const UpdateLatestPageKeyAction = new fromActions.UpdateLatestPageKey(
-      "test"
+      'test'
     );
     store.dispatch(UpdateLatestPageKeyAction);
 

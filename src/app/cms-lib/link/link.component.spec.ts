@@ -9,7 +9,7 @@ import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../newcms/store/reducers';
 import { ConfigService } from '../../newcms/config.service';
 
-export class UseConfigService {
+class UseConfigService {
   cmsComponentMapping = {
     CMSLinkComponent: 'LinkComponent'
   };

@@ -1,7 +1,7 @@
-import { createSelector } from "@ngrx/store";
+import { createSelector } from '@ngrx/store';
 
-import * as fromFeature from "../reducers";
-import * as fromComponent from "../reducers/component.reducer";
+import * as fromFeature from '../reducers';
+import * as fromComponent from '../reducers/component.reducer';
 
 export const getComponentState = createSelector(
   fromFeature.getCmsState,
