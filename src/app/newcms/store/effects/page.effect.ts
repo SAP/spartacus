@@ -1,27 +1,21 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from "@ngrx/effects";
-import { of } from "rxjs/observable/of";
-import { map, catchError, switchMap, mergeMap } from "rxjs/operators";
+import { Effect, Actions } from '@ngrx/effects';
+import { of } from 'rxjs/observable/of';
+import { map, catchError, switchMap, mergeMap } from 'rxjs/operators';
 
-import * as pageActions from "../actions/page.action";
-import * as componentActions from "../actions/component.action";
-import * as fromServices from "../../services";
+import * as pageActions from '../actions/page.action';
+import * as componentActions from '../actions/component.action';
+import * as fromServices from '../../services';
 
-import { Page } from "../../models/page.model";
+import { Page } from '../../models/page.model';
 import {
   PageContext,
   PageType
-} from "../../../routing/models/page-context.model";
+} from '../../../routing/models/page-context.model';
 
 @Injectable()
 export class PageEffects {
-  constructor(
-    private actions$: Actions,
-    private occCmsService: fromServices.OccCmsService,
-    private defaultPageService: fromServices.DefaultPageService
-  ) {}
-
   @Effect()
   loadPage$ = this.actions$.ofType(pageActions.LOAD_PAGEDATA).pipe(
     map((action: pageActions.LoadPageData) => action.payload),
@@ -40,8 +34,14 @@ export class PageEffects {
     })
   );
 
+  constructor(
+    private actions$: Actions,
+    private occCmsService: fromServices.OccCmsService,
+    private defaultPageService: fromServices.DefaultPageService
+  ) {}
+
   private getPageData(res: any, pageContext: PageContext): any {
-    let page: Page = {
+    const page: Page = {
       loadTime: Date.now(),
       name: res.name,
       pageId: res.pageId,
@@ -51,10 +51,10 @@ export class PageEffects {
     };
     page.seen.push(pageContext.id);
 
-    for (let slot of res.contentSlots.contentSlot) {
+    for (const slot of res.contentSlots.contentSlot) {
       page.slots[slot.position] = [];
       if (slot.components.component) {
-        for (let component of slot.components.component) {
+        for (const component of slot.components.component) {
           page.slots[slot.position].push({
             uid: component.uid,
             typeCode: component.typeCode
@@ -67,24 +67,24 @@ export class PageEffects {
       case PageType.CATEGORY_PAGE:
       case PageType.CATALOG_PAGE:
       case PageType.PRODUCT_PAGE: {
-        let defaultPageIds = this.defaultPageService.getDefaultPageIdsBytype(
+        const defaultPageIds = this.defaultPageService.getDefaultPageIdsBytype(
           pageContext.type
         );
         if (defaultPageIds.includes(page.pageId)) {
-          return { key: page.pageId + "_" + pageContext.type, value: page };
+          return { key: page.pageId + '_' + pageContext.type, value: page };
         } else {
-          return { key: pageContext.id + "_" + pageContext.type, value: page };
+          return { key: pageContext.id + '_' + pageContext.type, value: page };
         }
       }
 
       case PageType.CONTENT_PAGE: {
-        return { key: page.pageId + "_" + pageContext.type, value: page };
+        return { key: page.pageId + '_' + pageContext.type, value: page };
       }
     }
   }
 
   private getComponents(pageData: any) {
-    let components: any[] = [];
+    const components: any[] = [];
     if (pageData) {
       for (const slot of pageData.contentSlots.contentSlot) {
         if (slot.components.component) {

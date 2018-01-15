@@ -1,7 +1,7 @@
-import { ActionReducerMap, createFeatureSelector } from "@ngrx/store";
+import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 
-import * as fromPage from "./page.reducer";
-import * as fromComponent from "./component.reducer";
+import * as fromPage from './page.reducer';
+import * as fromComponent from './component.reducer';
 
 export interface CmsState {
   page: fromPage.PageState;
@@ -13,4 +13,4 @@ export const reducers: ActionReducerMap<CmsState> = {
   component: fromComponent.reducer
 };
 
-export const getCmsState = createFeatureSelector<CmsState>("cms");
+export const getCmsState = createFeatureSelector<CmsState>('cms');

@@ -1,17 +1,17 @@
-import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
+import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import { Actions } from "@ngrx/effects";
+import { Actions } from '@ngrx/effects';
 
-import { hot, cold } from "jasmine-marbles";
-import { Observable } from "rxjs/Observable";
-import { empty } from "rxjs/observable/empty";
+import { hot, cold } from 'jasmine-marbles';
+import { Observable } from 'rxjs/Observable';
+import { empty } from 'rxjs/observable/empty';
 
-import { Router } from "@angular/router";
-import { Location } from "@angular/common";
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
-import * as fromEffects from "./router.effect";
-import * as fromActions from "../actions/router.action";
+import * as fromEffects from './router.effect';
+import * as fromActions from '../actions/router.action';
 
 export class TestActions extends Actions {
   constructor() {
@@ -27,7 +27,7 @@ export function getActions() {
   return new TestActions();
 }
 
-fdescribe("Router Effects", () => {
+fdescribe('Router Effects', () => {
   let actions$: TestActions;
   let effects: fromEffects.RouterEffects;
   let router: Router;
@@ -48,43 +48,43 @@ fdescribe("Router Effects", () => {
     location = TestBed.get(Location);
   });
 
-  describe("navigate$", () => {
-    it("should navigate to path", () => {
+  describe('navigate$', () => {
+    it('should navigate to path', () => {
       const action = new fromActions.Go({
-        path: ["/test"]
+        path: ['/test']
       });
 
-      actions$.stream = hot("-a", { a: action });
+      actions$.stream = hot('-a', { a: action });
 
-      spyOn(router, "navigate");
+      spyOn(router, 'navigate');
       effects.navigate$.subscribe(value => {
-        expect(router.navigate).toHaveBeenCalledWith(["/test"], {
+        expect(router.navigate).toHaveBeenCalledWith(['/test'], {
           queryParams: undefined
         });
       });
     });
   });
 
-  describe("navigateBack$", () => {
-    it("should navigate back", () => {
+  describe('navigateBack$', () => {
+    it('should navigate back', () => {
       const action = new fromActions.Back();
 
-      actions$.stream = hot("-a", { a: action });
+      actions$.stream = hot('-a', { a: action });
 
-      spyOn(location, "back");
+      spyOn(location, 'back');
       effects.navigate$.subscribe(value => {
         expect(location.back).toHaveBeenCalled();
       });
     });
   });
 
-  describe("navigateForward$", () => {
-    it("should navigate forward", () => {
+  describe('navigateForward$', () => {
+    it('should navigate forward', () => {
       const action = new fromActions.Back();
 
-      actions$.stream = hot("-a", { a: action });
+      actions$.stream = hot('-a', { a: action });
 
-      spyOn(location, "forward");
+      spyOn(location, 'forward');
       effects.navigate$.subscribe(value => {
         expect(location.forward).toHaveBeenCalled();
       });

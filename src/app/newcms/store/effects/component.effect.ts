@@ -1,19 +1,14 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from "@ngrx/effects";
-import { of } from "rxjs/observable/of";
-import { map, catchError, switchMap } from "rxjs/operators";
+import { Effect, Actions } from '@ngrx/effects';
+import { of } from 'rxjs/observable/of';
+import { map, catchError, switchMap } from 'rxjs/operators';
 
-import * as componentActions from "../actions/component.action";
-import * as fromServices from "../../services";
+import * as componentActions from '../actions/component.action';
+import * as fromServices from '../../services';
 
 @Injectable()
 export class ComponentEffects {
-  constructor(
-    private actions$: Actions,
-    private occCmsService: fromServices.OccCmsService
-  ) {}
-
   @Effect()
   loadComponent$ = this.actions$.ofType(componentActions.LOAD_COMPONENT).pipe(
     map((action: componentActions.LoadComponent) => action.payload),
@@ -26,4 +21,9 @@ export class ComponentEffects {
         );
     })
   );
+
+  constructor(
+    private actions$: Actions,
+    private occCmsService: fromServices.OccCmsService
+  ) {}
 }

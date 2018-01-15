@@ -1,18 +1,18 @@
-import { TestBed } from "@angular/core/testing";
-import { StoreModule, Store, combineReducers } from "@ngrx/store";
+import { TestBed } from '@angular/core/testing';
+import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
-import * as fromRoot from "../../../routing/store";
-import * as fromReducers from "../reducers";
-import * as fromActions from "../actions";
-import * as fromSelectors from "../selectors/component.selectors";
+import * as fromRoot from '../../../routing/store';
+import * as fromReducers from '../reducers';
+import * as fromActions from '../actions';
+import * as fromSelectors from '../selectors/component.selectors';
 
-fdescribe("Cms Component Selectors", () => {
+fdescribe('Cms Component Selectors', () => {
   let store: Store<fromReducers.CmsState>;
 
   const components: any[] = [
-    { uid: "comp1", typeCode: "SimpleBannerComponent" },
-    { uid: "comp2", typeCode: "CMSLinkComponent" },
-    { uid: "comp3", typeCode: "NavigationComponent" }
+    { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
+    { uid: 'comp2', typeCode: 'CMSLinkComponent' },
+    { uid: 'comp3', typeCode: 'NavigationComponent' }
   ];
   const entities = {
     comp1: components[0],
@@ -30,11 +30,11 @@ fdescribe("Cms Component Selectors", () => {
       ]
     });
     store = TestBed.get(Store);
-    spyOn(store, "dispatch").and.callThrough();
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe("getComponentEntities", () => {
-    it("should return components as entities", () => {
+  describe('getComponentEntities', () => {
+    it('should return components as entities', () => {
       let result;
 
       store
@@ -49,17 +49,17 @@ fdescribe("Cms Component Selectors", () => {
     });
   });
 
-  describe("componentSelectorFactory", () => {
-    it("should return component by uid", () => {
+  describe('componentSelectorFactory', () => {
+    it('should return component by uid', () => {
       let result;
 
       store
-        .select(fromSelectors.componentSelectorFactory("comp1"))
+        .select(fromSelectors.componentSelectorFactory('comp1'))
         .subscribe(value => (result = value));
 
       store.dispatch(new fromActions.LoadComponentSuccess(components));
 
-      expect(result).toEqual(entities["comp1"]);
+      expect(result).toEqual(entities['comp1']);
     });
   });
 });

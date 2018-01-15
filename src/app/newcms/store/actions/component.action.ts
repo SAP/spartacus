@@ -1,10 +1,10 @@
-import { Action } from "@ngrx/store";
+import { Action } from '@ngrx/store';
 
-export const LOAD_COMPONENT = "[Cms] Load Component";
-export const LOAD_COMPONENT_FAIL = "[Cms] Load Component Fail";
-export const LOAD_COMPONENT_SUCCESS = "[Cms] Load Component Success";
-export const GET_COMPONENET_FROM_PAGE = "[Cms] Get Component from Page";
-export const CLEAN_COMPONENT_STATE = "[Cms] Clean Component State";
+export const LOAD_COMPONENT = '[Cms] Load Component';
+export const LOAD_COMPONENT_FAIL = '[Cms] Load Component Fail';
+export const LOAD_COMPONENT_SUCCESS = '[Cms] Load Component Success';
+export const GET_COMPONENET_FROM_PAGE = '[Cms] Get Component from Page';
+export const CLEAN_COMPONENT_STATE = '[Cms] Clean Component State';
 
 export class LoadComponent implements Action {
   readonly type = LOAD_COMPONENT;
