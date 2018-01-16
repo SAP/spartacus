@@ -8,15 +8,10 @@ import { NavigationComponent } from './navigation.component';
 import { NavigationService } from './navigation.service';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        MaterialModule,
-        FlexLayoutModule
-    ],
-    providers: [NavigationService],
-    declarations: [NavigationComponent],
-    entryComponents: [NavigationComponent],
-    exports: [NavigationComponent]
+  imports: [CommonModule, RouterModule, MaterialModule, FlexLayoutModule],
+  providers: [NavigationService],
+  declarations: [NavigationComponent],
+  entryComponents: [NavigationComponent],
+  exports: [NavigationComponent]
 })
-export class NavigationModule { }
+export class NavigationModule {}
