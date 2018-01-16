@@ -1,5 +1,5 @@
-import * as fromPageData from "../actions/page.action";
-import { Page } from "../../models/page.model";
+import * as fromPageData from '../actions/page.action';
+import { Page } from '../../models/page.model';
 
 export interface PageState {
   entities: { [context: string]: Page };
@@ -10,7 +10,7 @@ export interface PageState {
 export const initialState: PageState = {
   entities: {},
   count: 0,
-  latestPageKey: ""
+  latestPageKey: ''
 };
 
 export function reducer(
@@ -29,12 +29,12 @@ export function reducer(
     case fromPageData.LOAD_PAGEDATA_SUCCESS: {
       let page = action.payload;
 
-      let existPage = state.entities[page.key];
+      const existPage = state.entities[page.key];
       if (existPage != null) {
-        let samePage: boolean = true;
+        let samePage = true;
         for (const position of Object.keys(page.value.slots)) {
           if (
-            page.value.slots[position].length !=
+            page.value.slots[position].length !==
             existPage.slots[position].length
           ) {
             samePage = false;

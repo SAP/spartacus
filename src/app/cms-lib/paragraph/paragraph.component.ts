@@ -1,13 +1,19 @@
-import { Component, ViewChild, ElementRef } from "@angular/core";
-import { AbstractCmsComponent } from "../../newcms/components/abstract-cms-component";
+import {
+  Component,
+  ViewChild,
+  ElementRef,
+  ChangeDetectionStrategy
+} from '@angular/core';
+import { AbstractCmsComponent } from '../../newcms/components/abstract-cms-component';
 
 @Component({
-  selector: "y-paragraph",
-  templateUrl: "./paragraph.component.html",
-  styleUrls: ["./paragraph.component.scss"]
+  selector: 'y-paragraph',
+  templateUrl: './paragraph.component.html',
+  styleUrls: ['./paragraph.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ParagraphComponent extends AbstractCmsComponent {
-  @ViewChild("dataContainer") dataContainer: ElementRef;
+  @ViewChild('dataContainer') dataContainer: ElementRef;
 
   protected fetchData() {
     super.fetchData();

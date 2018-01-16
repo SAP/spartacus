@@ -3,11 +3,11 @@ import {
   createFeatureSelector,
   MetaReducer,
   ActionReducer
-} from "@ngrx/store";
+} from '@ngrx/store';
 
-import * as fromPage from "./page.reducer";
-import * as fromAction from "../actions";
-import * as fromComponent from "./component.reducer";
+import * as fromPage from './page.reducer';
+import * as fromAction from '../actions';
+import * as fromComponent from './component.reducer';
 
 export interface CmsState {
   page: fromPage.PageState;
@@ -19,11 +19,11 @@ export const reducers: ActionReducerMap<CmsState> = {
   component: fromComponent.reducer
 };
 
-export const getCmsState = createFeatureSelector<CmsState>("cms");
+export const getCmsState = createFeatureSelector<CmsState>('cms');
 
 export function clearCmsState(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
-    if (action.type === "[Site-context] Language Change") {
+    if (action.type === '[Site-context] Language Change') {
       state = undefined;
     }
     return reducer(state, action);

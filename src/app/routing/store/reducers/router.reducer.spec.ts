@@ -1,36 +1,35 @@
-import { Component } from "@angular/core";
-import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
+import { Component } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   RouterStateSerializer,
   StoreRouterConnectingModule
-} from "@ngrx/router-store";
-import { Store, StoreModule } from "@ngrx/store";
-import { Router } from "@angular/router";
-import { reducers, CustomSerializer, RouterStateUrl } from "../../store";
-import * as fromActions from "../actions/router.action";
-import { PageContext, PageType } from "../../models/page-context.model";
+} from '@ngrx/router-store';
+import { Store, StoreModule } from '@ngrx/store';
+import { Router } from '@angular/router';
+import { reducers, CustomSerializer, RouterStateUrl } from '../../store';
+import * as fromActions from '../actions/router.action';
+import { PageContext, PageType } from '../../models/page-context.model';
 
 @Component({
-  selector: "test-cmp",
-  template: "test-cmp"
+  selector: 'y-test-cmp',
+  template: 'test-cmp'
 })
-class TestCmp {}
+class TestComponent {}
 
-fdescribe("Router Reducer", () => {
-  it("should return the router state", () => {
+fdescribe('Router Reducer', () => {
+  it('should return the router state', () => {
     let router: Router;
     let store: Store<any>;
-    let serializer: RouterStateSerializer<RouterStateUrl>;
 
     TestBed.configureTestingModule({
-      declarations: [TestCmp],
+      declarations: [TestComponent],
       imports: [
         StoreModule.forRoot(reducers),
         RouterTestingModule.withRoutes([
-          { path: "", component: TestCmp },
-          { path: "category/:categoryCode", component: TestCmp },
-          { path: "product/:productCode", component: TestCmp }
+          { path: '', component: TestComponent },
+          { path: 'category/:categoryCode', component: TestComponent },
+          { path: 'product/:productCode', component: TestComponent }
         ]),
         StoreRouterConnectingModule
       ],
@@ -46,38 +45,38 @@ fdescribe("Router Reducer", () => {
     router = TestBed.get(Router);
 
     let routerReducer;
-    store.subscribe(store => {
-      routerReducer = store.routerReducer;
+    store.subscribe(routerStore => {
+      routerReducer = routerStore.routerReducer;
     });
 
     router
-      .navigateByUrl("/")
+      .navigateByUrl('/')
       .then(() => {
         expect(routerReducer.state).toEqual({
-          url: "/",
+          url: '/',
           queryParams: {},
           params: {},
-          context: { id: "homepage", type: PageType.CONTENT_PAGE },
+          context: { id: 'homepage', type: PageType.CONTENT_PAGE },
           cmsRequired: false
         });
-        return router.navigateByUrl("category/1234");
+        return router.navigateByUrl('category/1234');
       })
       .then(() => {
         expect(routerReducer.state).toEqual({
-          url: "/category/1234",
+          url: '/category/1234',
           queryParams: {},
-          params: { categoryCode: "1234" },
-          context: { id: "1234", type: PageType.CATEGORY_PAGE },
+          params: { categoryCode: '1234' },
+          context: { id: '1234', type: PageType.CATEGORY_PAGE },
           cmsRequired: false
         });
-        return router.navigateByUrl("product/1234");
+        return router.navigateByUrl('product/1234');
       })
       .then(() => {
         expect(routerReducer.state).toEqual({
-          url: "/product/1234",
+          url: '/product/1234',
           queryParams: {},
-          params: { productCode: "1234" },
-          context: { id: "1234", type: PageType.PRODUCT_PAGE },
+          params: { productCode: '1234' },
+          context: { id: '1234', type: PageType.PRODUCT_PAGE },
           cmsRequired: false
         });
       });
