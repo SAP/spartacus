@@ -32,7 +32,7 @@ export function getActions() {
 fdescribe('ProductSearch Effects', () => {
   let actions$: TestActions;
   let service: OccProductSearchService;
-  let effects: fromEffects.ProductSearchEffects;
+  let effects: fromEffects.ProductsSearchEffects;
 
   const searchResult: any = { products: [] };
   const suggestions: any = { suggestions: [] };

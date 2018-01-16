@@ -11,7 +11,7 @@ fdescribe('ProductSearch Selectors', () => {
   let store: Store<fromReducers.ProductsState>;
 
   const searchResults = { products: [{ code: '123' }] };
-  const suggestions = [{ code: '123' }];
+  const suggestions = [{ value: 'test' }];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
