@@ -44,7 +44,9 @@ export class NavigationService {
     let linkName = '';
     const link = this.getLink(node);
     if (link) {
-      linkName = link.linkItem.linkName ? link.linkItem.linkName : link.itemId;
+      linkName = link.linkItem.linkName
+        ? link.linkItem.linkName
+        : link.linkName;
     } else if (node.title) {
       linkName = node.title;
     }
