@@ -4,27 +4,27 @@ import { Effect, Actions } from '@ngrx/effects';
 import { of } from 'rxjs/observable/of';
 import { map, catchError, switchMap, tap } from 'rxjs/operators';
 
-import * as productSearchActions from '../actions/product-search.action';
+import * as productsSearchActions from '../actions/product-search.action';
 import { OccProductSearchService } from '../../../newocc/product/product-search.service';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 
 @Injectable()
-export class ProductSearchEffects {
+export class ProductsSearchEffects {
   @Effect()
   searchProducts$ = this.actions$
-    .ofType(productSearchActions.SEARCH_PRODUCTS)
+    .ofType(productsSearchActions.SEARCH_PRODUCTS)
     .pipe(
-      map((action: productSearchActions.SearchProducts) => action.payload),
+      map((action: productsSearchActions.SearchProducts) => action.payload),
       switchMap(payload => {
         return this.occProductSearchService
           .query(payload.queryText, payload.searchConfig.pageSize)
           .pipe(
             map(data => {
               this.productImageConverter.convertList(data.products);
-              return new productSearchActions.SearchProductsSuccess(data);
+              return new productsSearchActions.SearchProductsSuccess(data);
             }),
             catchError(error =>
-              of(new productSearchActions.SearchProductsFail(error))
+              of(new productsSearchActions.SearchProductsFail(error))
             )
           );
       })
@@ -32,10 +32,10 @@ export class ProductSearchEffects {
 
   @Effect()
   getProductSuggestions$ = this.actions$
-    .ofType(productSearchActions.GET_PRODUCT_SUGGESTIONS)
+    .ofType(productsSearchActions.GET_PRODUCT_SUGGESTIONS)
     .pipe(
       map(
-        (action: productSearchActions.GetProductSuggestions) => action.payload
+        (action: productsSearchActions.GetProductSuggestions) => action.payload
       ),
       switchMap(payload => {
         return this.occProductSearchService
@@ -43,16 +43,16 @@ export class ProductSearchEffects {
           .pipe(
             map(data => {
               if (data.suggestions === undefined) {
-                return new productSearchActions.GetProductSuggestionsSuccess(
+                return new productsSearchActions.GetProductSuggestionsSuccess(
                   []
                 );
               }
-              return new productSearchActions.GetProductSuggestionsSuccess(
+              return new productsSearchActions.GetProductSuggestionsSuccess(
                 data.suggestions
               );
             }),
             catchError(error =>
-              of(new productSearchActions.GetProductSuggestionsFail(error))
+              of(new productsSearchActions.GetProductSuggestionsFail(error))
             )
           );
       })

@@ -1,13 +1,12 @@
-import { GET_PRODUCT_SUGGESTIONS_SUCCESS } from './../actions/product-search.action';
-import * as fromProductSearch from '../actions/product-search.action';
+import * as fromProductsSearch from '../actions/product-search.action';
 
-export interface ProductSearchState {
+export interface ProductsSearchState {
   results: any;
   suggestions: any[];
   loading: boolean;
 }
 
-export const initialState: ProductSearchState = {
+export const initialState: ProductsSearchState = {
   results: {},
   suggestions: [],
   loading: false
@@ -15,17 +14,17 @@ export const initialState: ProductSearchState = {
 
 export function reducer(
   state = initialState,
-  action: fromProductSearch.ProductSearchAction
-): ProductSearchState {
+  action: fromProductsSearch.ProductSearchAction
+): ProductsSearchState {
   switch (action.type) {
-    case fromProductSearch.SEARCH_PRODUCTS: {
+    case fromProductsSearch.SEARCH_PRODUCTS: {
       return {
         ...state,
         loading: true
       };
     }
 
-    case fromProductSearch.SEARCH_PRODUCTS_SUCCESS: {
+    case fromProductsSearch.SEARCH_PRODUCTS_SUCCESS: {
       const results = action.payload;
 
       if (state.loading) {
@@ -39,7 +38,7 @@ export function reducer(
       }
     }
 
-    case fromProductSearch.GET_PRODUCT_SUGGESTIONS_SUCCESS: {
+    case fromProductsSearch.GET_PRODUCT_SUGGESTIONS_SUCCESS: {
       const suggestions = action.payload;
 
       return {
@@ -48,15 +47,15 @@ export function reducer(
       };
     }
 
-    case fromProductSearch.CLEAN_PRODUCT_SEARCH: {
+    case fromProductsSearch.CLEAN_PRODUCT_SEARCH: {
       return initialState;
     }
   }
   return state;
 }
 
-export const getSearchResults = (state: ProductSearchState) => state.results;
-export const getSearchResultsLoading = (state: ProductSearchState) =>
+export const getSearchResults = (state: ProductsSearchState) => state.results;
+export const getSearchResultsLoading = (state: ProductsSearchState) =>
   state.loading;
-export const getProductSuggestions = (state: ProductSearchState) =>
+export const getProductSuggestions = (state: ProductsSearchState) =>
   state.suggestions;

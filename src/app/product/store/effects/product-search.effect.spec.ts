@@ -44,14 +44,14 @@ fdescribe('ProductSearch Effects', () => {
         OccProductSearchService,
         ProductImageConverterService,
         ConfigService,
-        fromEffects.ProductSearchEffects,
+        fromEffects.ProductsSearchEffects,
         { provide: Actions, useFactory: getActions }
       ]
     });
 
     actions$ = TestBed.get(Actions);
     service = TestBed.get(OccProductSearchService);
-    effects = TestBed.get(fromEffects.ProductSearchEffects);
+    effects = TestBed.get(fromEffects.ProductsSearchEffects);
 
     spyOn(service, 'query').and.returnValue(of(searchResult));
     spyOn(service, 'queryProductSuggestions').and.returnValue(of(suggestions));

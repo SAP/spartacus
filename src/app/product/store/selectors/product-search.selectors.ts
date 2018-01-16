@@ -3,17 +3,17 @@ import { createSelector } from '@ngrx/store';
 import * as fromFeature from '../reducers';
 import * as fromProductSearch from '../reducers/product-search.reducer';
 
-export const getProductSearchState = createSelector(
+export const getProductsSearchState = createSelector(
   fromFeature.getProductsState,
-  (state: fromFeature.ProductsState) => state.search
+  (state: fromFeature.ProductsState) => state.textSearch
 );
 
 export const getSearchResults = createSelector(
-  getProductSearchState,
+  getProductsSearchState,
   fromProductSearch.getSearchResults
 );
 
 export const getProductSuggestions = createSelector(
-  getProductSearchState,
+  getProductsSearchState,
   fromProductSearch.getProductSuggestions
 );

@@ -1,13 +1,16 @@
 import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 
-import * as fromProductSearch from './product-search.reducer';
+import * as fromProductsSearch from './product-search.reducer';
+import * as fromProduct from './product.reducer';
 
 export interface ProductsState {
-  search: fromProductSearch.ProductSearchState;
+  textSearch: fromProductsSearch.ProductsSearchState;
+  details: fromProduct.ProductState;
 }
 
 export const reducers: ActionReducerMap<ProductsState> = {
-  search: fromProductSearch.reducer
+  textSearch: fromProductsSearch.reducer,
+  details: fromProduct.reducer
 };
 
 export const getProductsState = createFeatureSelector<ProductsState>(
