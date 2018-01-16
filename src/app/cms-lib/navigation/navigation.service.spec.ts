@@ -8,106 +8,46 @@ import { Observable } from 'rxjs/Observable';
 fdescribe('NavigationService', () => {
   let navigationService: NavigationService;
 
-  const mockedData = [
-    {
-      uid: 'MockNavigationNode001',
-      children: [
-        {
-          uid: 'MockChildNode001',
-          entries: [
-            {
-              item: [
-                {
-                  external: false,
-                  linkName: 'MockLinkName001',
-                  target: 'SAMEWINDOW',
-                  url: '/mockLinkName001'
-                }
-              ],
-              itemId: 'MockLink001'
-            }
-          ]
-        }
-      ]
-    },
-    {
-      uid: 'MockNavigationNode002',
-      children: [
-        {
-          uid: 'MockChildNode002',
-          entries: [
-            {
-              item: [
-                {
-                  external: false,
-                  linkName: 'MockLinkName002',
-                  target: 'SAMEWINDOW',
-                  url: '/mockLinkName002'
-                }
-              ],
-              itemId: 'MockLink002'
-            }
-          ]
-        }
-      ]
-    }
-  ];
-
-  const mockedNode = {
-    uid: 'MockNavigationComponent',
-    typeCode: 'NavigationComponent',
-    modifiedTime: '2017-12-21T18:15:15+0000',
-    name: 'TestNavigationComponent',
-    container: 'false',
-    type: 'Navigation Component',
-    styleClass: 'nav-order-tools',
-    navigationNode: [
+  const mockedData = {
+    uid: 'MockNavigationNode001',
+    children: [
       {
-        uid: 'MockNavigationNode001',
-        children: [
+        uid: 'MockChildNode001',
+        entries: [
           {
-            uid: 'MockChildNode001',
-            entries: [
-              {
-                item: [
-                  {
-                    external: false,
-                    linkName: 'MockLinkName001',
-                    target: 'SAMEWINDOW',
-                    url: '/mockLinkName001'
-                  }
-                ],
-                itemId: 'MockLink001'
-              }
-            ]
+            linkItem: {
+              external: false,
+              linkName: 'MockLinkName001',
+              target: 'SAMEWINDOW',
+              url: '/mockLinkName001'
+            },
+            itemId: 'MockLink001'
           }
         ]
       },
       {
-        uid: 'MockNavigationNode002',
-        children: [
+        uid: 'MockChildNode002',
+        entries: [
           {
-            uid: 'MockChildNode002',
-            entries: [
-              {
-                item: [
-                  {
-                    external: false,
-                    linkName: 'MockLinkName002',
-                    target: 'SAMEWINDOW',
-                    url: '/mockLinkName002'
-                  }
-                ],
-                itemId: 'MockLink002'
-              }
-            ]
+            linkItem: {
+              external: false,
+              linkName: 'MockLinkName002',
+              target: 'SAMEWINDOW',
+              url: '/mockLinkName002'
+            },
+            itemId: 'MockLink002'
           }
         ]
       }
     ]
   };
 
-  const mockNodeObservable = Observable.of(mockedNode);
+  const resultNode = {
+    childs: [
+      { title: 'MockLinkName001', url: '/mockLinkName001' },
+      { title: 'MockLinkName002', url: '/mockLinkName002' }
+    ]
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -115,10 +55,6 @@ fdescribe('NavigationService', () => {
     });
 
     navigationService = TestBed.get(NavigationService);
-  });
-
-  beforeEach(() => {
-    spyOn(navigationService, 'createNode').and.returnValue(of(mockedNode));
   });
 
   it(
@@ -130,6 +66,6 @@ fdescribe('NavigationService', () => {
 
   it('should create a new navigation node', () => {
     const node = navigationService.createNode(mockedData);
-    expect(node).toEqual(mockNodeObservable);
+    expect(node).toEqual(resultNode);
   });
 });

@@ -27,55 +27,42 @@ fdescribe('CmsNavigationComponent in CmsLib', () => {
   const componentData = {
     uid: 'MockNavigationComponent',
     typeCode: 'NavigationComponent',
-    modifiedTime: '2017-12-21T18:15:15+0000',
     name: 'TestNavigationComponent',
-    container: 'false',
     type: 'Navigation Component',
     styleClass: 'nav-order-tools',
-    navigationNode: [
-      {
-        uid: 'MockNavigationNode001',
-        children: [
-          {
-            uid: 'MockChildNode001',
-            entries: [
-              {
-                item: [
-                  {
-                    external: false,
-                    linkName: 'MockLinkName001',
-                    target: 'SAMEWINDOW',
-                    url: '/mockLinkName001'
-                  }
-                ],
-                itemId: 'MockLink001'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        uid: 'MockNavigationNode002',
-        children: [
-          {
-            uid: 'MockChildNode002',
-            entries: [
-              {
-                item: [
-                  {
-                    external: false,
-                    linkName: 'MockLinkName002',
-                    target: 'SAMEWINDOW',
-                    url: '/mockLinkName002'
-                  }
-                ],
-                itemId: 'MockLink002'
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    navigationNode: {
+      uid: 'MockNavigationNode001',
+      children: [
+        {
+          uid: 'MockChildNode001',
+          entries: [
+            {
+              linkItem: {
+                external: false,
+                linkName: 'MockLinkName001',
+                target: 'SAMEWINDOW',
+                url: '/mockLinkName001'
+              },
+              itemId: 'MockLink001'
+            }
+          ]
+        },
+        {
+          uid: 'MockChildNode002',
+          entries: [
+            {
+              linkItem: {
+                external: false,
+                linkName: 'MockLinkName002',
+                target: 'SAMEWINDOW',
+                url: '/mockLinkName002'
+              },
+              itemId: 'MockLink002'
+            }
+          ]
+        }
+      ]
+    }
   };
 
   beforeEach(
@@ -114,5 +101,7 @@ fdescribe('CmsNavigationComponent in CmsLib', () => {
     expect(navigationComponent.component).toBeNull();
     navigationComponent.bootstrap();
     expect(navigationComponent.component).toBe(componentData);
+
+    // TODO: after replacing material with boothstrap4, need some ui test here
   });
 });

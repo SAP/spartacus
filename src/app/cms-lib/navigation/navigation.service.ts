@@ -36,8 +36,12 @@ export class NavigationService {
   }
 
   private getUrl(child): string {
+    let linkUrl = '';
     const link = this.getLink(child);
-    return link ? link.url : '';
+    if (link) {
+      linkUrl = link.linkItem.url;
+    }
+    return linkUrl;
   }
 
   private getLinkName(node) {

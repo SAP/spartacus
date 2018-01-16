@@ -39,17 +39,4 @@ export class NavigationComponent extends AbstractCmsComponent {
     this.node = this.navigationService.createNode(data);
     this.cd.detectChanges();
   }
-
-  // protected getUrl(link) {
-  //   if (!link || !link.url) {
-  //     return '';
-  //   }
-  //   let url = this.mapUrl(link.url);
-  //   url += '/' + this.sanitizeName(link.title);
-  //   return url;
-  // }
-
-  // private sanitizeName(name) {
-  //   return name.replace(/\s/g, '-');
-  // }
 }
