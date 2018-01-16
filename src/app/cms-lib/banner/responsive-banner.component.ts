@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { BannerComponent } from './banner.component';
 
 @Component({
   selector: 'y-responsive-banner',
   templateUrl: './responsive-banner.component.html',
-  styleUrls: ['./responsive-banner.component.scss']
+  styleUrls: ['./responsive-banner.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResponsiveBannerComponent extends BannerComponent {
   // TODO: move to a more generic location

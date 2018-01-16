@@ -1,8 +1,15 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { AbstractCmsComponent } from '../abstract-cms-component';
-import { CmsService } from '../../data/cms.service';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
+import { AbstractCmsComponent } from '../../newcms/components/abstract-cms-component';
 import { NavigationService } from './navigation.service';
 import { Router } from '@angular/router';
+import { ConfigService } from '../../newcms/config.service';
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../newcms/store';
 
 @Component({
   selector: 'y-navigation',
@@ -10,37 +17,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavigationComponent extends AbstractCmsComponent  {
+export class NavigationComponent extends AbstractCmsComponent {
+  node;
 
-    node;
+  constructor(
+    protected cd: ChangeDetectorRef,
+    private navigationService: NavigationService,
+    protected store: Store<fromStore.CmsState>,
+    protected config: ConfigService
+  ) {
+    super(cd, store, config);
+  }
 
-    constructor(
-        protected cd: ChangeDetectorRef,
-        protected cmsService: CmsService,
-        private navigationService: NavigationService
-    ) {
-        super(cd, cmsService);
+  protected fetchData() {
+    if (!this.component) {
+      return;
     }
-
-    protected fetchData() {
-        if (!this.component) {
-            return;
-        }
-        const data = this.component.navigationNode ? this.component.navigationNode : this.component;
-        this.node = this.navigationService.createNode(data);
-        this.cd.detectChanges();
-    }
-
-    protected getUrl(link) {
-        if (!link || !link.url) {
-            return '';
-        }
-        let url = this.mapUrl(link.url);
-        url += '/' + this.sanitizeName(link.title);
-        return url;
-    }
-
-    private sanitizeName(name) {
-        return name.replace(/\s/g, '-');
-    }
+    const data = this.component.navigationNode
+      ? this.component.navigationNode
+      : this.component;
+    this.node = this.navigationService.createNode(data);
+    this.cd.detectChanges();
+  }
 }

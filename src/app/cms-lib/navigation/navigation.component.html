@@ -1,4 +1,3 @@
-
 <!-- link WITHOUT childs -->
 <a mat-button *ngIf="!node.childs" [routerLink]="node.url">
     <span *ngIf="node.title">{{node.title}}</span>
@@ -17,24 +16,16 @@
     <div *ngIf="node.childs && node.childs[0].childs">
         <div fxLayout="row" fxLayoutAlign="start start">
             <div *ngFor="let childNode of node.childs" fxFlex>
-                <a matButton
-                    [routerLink]="childNode.url"
-                    mat-menu-item> {{childNode.title}}</a>
-                    
+                <a matButton [routerLink]="childNode.url" mat-menu-item> {{childNode.title}}</a>
+
                 <div *ngIf="childNode.childs">
-                    <a *ngFor="let grandChildNode of childNode.childs"
-                        [routerLink]="grandChildNode.url"
-                        mat-menu-item> {{grandChildNode.title}} </a>
+                    <a *ngFor="let grandChildNode of childNode.childs" [routerLink]="grandChildNode.url" mat-menu-item> {{grandChildNode.title}} </a>
                 </div>
             </div>
         </div>
     </div>
     <div *ngIf="node.childs && !node.childs[0].childs">
-        <a
-            *ngFor="let childNode of node.childs"
-            [routerLink]="childNode.url"
-            mat-menu-item> {{childNode.title}}</a>
+        <a *ngFor="let childNode of node.childs" [routerLink]="childNode.url" mat-menu-item> {{childNode.title}}</a>
     </div>
 
 </mat-menu>
-
