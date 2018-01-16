@@ -1,7 +1,3 @@
-import {
-  SearchProductsSuccess,
-  GetProductSuggestionsSuccess
-} from './../actions/product-search.action';
 import * as fromProductSearch from './product-search.reducer';
 import * as fromActions from '../actions/product-search.action';
 import { SearchConfig } from '../../search-config';

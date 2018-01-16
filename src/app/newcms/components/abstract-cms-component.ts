@@ -52,7 +52,9 @@ export abstract class AbstractCmsComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   // TODO: move to strategy
