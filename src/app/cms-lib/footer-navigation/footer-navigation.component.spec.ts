@@ -17,7 +17,7 @@ class UseConfigService {
   };
 }
 
-//Test Data
+// Test Data
 
 export interface Link {
   itemId: string;
@@ -130,7 +130,9 @@ fdescribe('FooterNavigationComponent', () => {
             ...fromRoot.reducers,
             cms: combineReducers(fromCmsReducer.reducers)
           }),
-          RouterTestingModule, MatListModule, MatCardModule
+          RouterTestingModule,
+          MatListModule,
+          MatCardModule
         ],
         declarations: [FooterNavigationComponent],
         providers: [{ provide: ConfigService, useClass: UseConfigService }]
@@ -160,7 +162,11 @@ fdescribe('FooterNavigationComponent', () => {
     expect(footerNavigationComponent.component).toBeNull();
     footerNavigationComponent.bootstrap();
     const stubbedNavigationNode = stubService.getNavigationNodeData();
-    expect(footerNavigationComponent.component.navigationNode.title).toBe(stubbedNavigationNode.title);
-    expect(footerNavigationComponent.component.navigationNode.children).toEqual(stubbedNavigationNode.children);
+    expect(footerNavigationComponent.component.navigationNode.title).toBe(
+      stubbedNavigationNode.title
+    );
+    expect(footerNavigationComponent.component.navigationNode.children).toEqual(
+      stubbedNavigationNode.children
+    );
   });
 });
