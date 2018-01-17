@@ -38,6 +38,7 @@ fdescribe('SearchBoxComponent in CmsLib', () => {
     displayProductImages: 'true',
     displayProducts: 'true',
     displaySuggestions: 'true',
+    container: 'false',
     maxProducts: '5',
     maxSuggestions: '5',
     minCharactersBeforeRequest: '3',
