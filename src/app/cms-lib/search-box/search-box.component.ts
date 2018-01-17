@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
@@ -21,6 +21,21 @@ export class SearchBoxComponent extends AbstractCmsComponent {
   maxProduct: number;
   maxSuggestions: number;
   minCharactersBeforeRequest: number;
+
+  private clickedInside = false;
+
+  @HostListener('click')
+  clickInside() {
+    this.clickedInside = true;
+  }
+
+  @HostListener('document:click')
+  clickout() {
+    if (!this.clickedInside) {
+      this.searchBoxControl.reset();
+    }
+    this.clickedInside = false;
+  }
 
   protected fetchData() {
     if (this.component) {

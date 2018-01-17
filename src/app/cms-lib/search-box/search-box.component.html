@@ -1,6 +1,7 @@
 <mat-input-container floatPlaceholder="never">
     <input type="text" matInput [formControl]="searchBoxControl" [matAutocomplete]="searchresult" [placeholder]="component.name"
-        (keyup)="onKey($event)" (focus)="onFocus()">
+        (keyup)="onKey($event)" (focus)="onFocus()" onfocusout="resetSearchBox()">
+
 </mat-input-container>
 
 <mat-autocomplete #searchresult="matAutocomplete" class="autocomplete-response">
@@ -12,11 +13,12 @@
 
     <mat-option *ngFor="let product of (searchResults$ | async)?.products" [value]="product.name" class="option" fxLayout="row"
         fxFlexAlign="start center" [routerLink]="['/product/', product.code]">
-        <div class="picture">
-            <y-picture fxFlex *ngIf="component.displayProductImages && product.images" [imageContainer]="product.images.PRIMARY" imageFormat="thumbnail">
+        <div class=" picture ">
+            <y-picture fxFlex *ngIf="component.displayProductImages && product.images " [imageContainer]="product.images.PRIMARY
+        " imageFormat="thumbnail ">
             </y-picture>
         </div>
-        <div fxFlex>{{ product.name }}</div>
-        <div fxFlex>{{product.price.formattedValue}}</div>
+        <div fxFlex [innerHTML]="product.name">{{ product.name }}</div>
+        <div class="productPrice" fxFlex>{{product.price.formattedValue}}</div>
     </mat-option>
 </mat-autocomplete>
