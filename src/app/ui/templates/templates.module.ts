@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { LayoutModule } from '../layout/layout.module';
 
-
 import { HomePageComponent } from './home-page/home-page.component';
 import { CardPageComponent } from './card-page/card-page.component';
 import { CategoryPageComponent } from './category-page/category-page.component';
@@ -15,22 +14,24 @@ import { PageNotFoundComponent } from './404/404.component';
 import { CartPageComponent } from './cart-page/cart-page.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        LayoutModule,
-        ProductModule
-    ],
-    declarations: [
-        HomePageComponent,
-        CardPageComponent,
-        CategoryPageComponent,
-        ProductDetailPageComponent,
-        ProductListPageComponent,
-        PageNotFoundComponent,
-        CartPageComponent
-    ],
-    exports: [
-        HomePageComponent
-    ]
+  imports: [CommonModule, LayoutModule, ProductModule],
+  declarations: [
+    HomePageComponent,
+    CardPageComponent,
+    CategoryPageComponent,
+    ProductDetailPageComponent,
+    ProductListPageComponent,
+    PageNotFoundComponent,
+    CartPageComponent
+  ],
+  exports: [
+    HomePageComponent,
+    CardPageComponent,
+    CategoryPageComponent,
+    ProductDetailPageComponent,
+    ProductListPageComponent,
+    PageNotFoundComponent,
+    CartPageComponent
+  ]
 })
-export class TemplatesModule { }
+export class TemplatesModule {}

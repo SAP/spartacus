@@ -1,10 +1,11 @@
 {
-    "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
-    "lib": {
-        "entryFile": "public_api.ts",
-        "externals": {
-            "@angular/material": "ng.material",
-            "@angular/flex-layout": "ng.flex-layout"
-        }
+  "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+  "lib": {
+    "entryFile": "public_api.ts",
+    "externals": {
+      "@angular/material": "ng.material",
+      "@angular/flex-layout": "ng.flex-layout",
+      "ngrx-store-freeze": "ngrx.store-freeze"
     }
+  }
 }
