@@ -44,6 +44,16 @@ fdescribe('SearchBoxComponent in CmsLib', () => {
     waitTimeBeforeRequest: '500'
   };
 
+  const mockEvent1 = {
+    key: 'Enter'
+  };
+
+  const mockEvent2 = {
+    key: 'Enter123'
+  };
+
+  const query = '?query=mockQuery';
+
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
@@ -76,6 +86,10 @@ fdescribe('SearchBoxComponent in CmsLib', () => {
 
     store = TestBed.get(Store);
     spyOn(store, 'select').and.returnValue(of(mockSearchBoxComponentData));
+    spyOn(searchBoxComponent, 'onKey').and.callThrough();
+    spyOn(searchBoxComponent, 'launchSearchPage').and.callThrough();
+    spyOn(searchBoxComponent, 'onFocus').and.callThrough();
+    spyOn(searchBoxComponent.searchBoxControl, 'reset').and.callThrough();
   });
 
   it('should be created', () => {
@@ -88,5 +102,29 @@ fdescribe('SearchBoxComponent in CmsLib', () => {
     expect(searchBoxComponent.component).toBe(mockSearchBoxComponentData);
 
     // TODO: after replacing material with boothstrap4, need some ui test here
+  });
+
+  it('should call onKey(event: any) and launchSearchPage(query: string)', () => {
+    searchBoxComponent.onKey(mockEvent1);
+    expect(searchBoxComponent.onKey).toHaveBeenCalled();
+    expect(searchBoxComponent.launchSearchPage).toHaveBeenCalled();
+  });
+
+  it('should only call onKey(event: any)', () => {
+    searchBoxComponent.onKey(mockEvent2);
+    expect(searchBoxComponent.onKey).toHaveBeenCalled();
+    expect(searchBoxComponent.launchSearchPage).not.toHaveBeenCalled();
+  });
+
+  it('should call onFocus()', () => {
+    searchBoxComponent.onFocus();
+    expect(searchBoxComponent.onFocus).toHaveBeenCalled();
+    expect(searchBoxComponent.searchBoxControl.reset).toHaveBeenCalled();
+  });
+
+  it('should call launchSearchPage(query: string) and searchBoxControl.reset()', () => {
+    searchBoxComponent.launchSearchPage(query);
+    expect(searchBoxComponent.launchSearchPage).toHaveBeenCalled();
+    expect(searchBoxComponent.searchBoxControl.reset).toHaveBeenCalled();
   });
 });
