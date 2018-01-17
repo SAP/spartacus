@@ -1,20 +1,28 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { ProductReferenceConverterService } from './product-reference-converter.service';
 
-describe('ProductReferenceConverterService', () => {
+fdescribe('ProductReferenceConverterService', () => {
+  let service: ProductReferenceConverterService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ProductReferenceConverterService]
     });
+
+    service = TestBed.get(ProductReferenceConverterService);
   });
 
   it(
-    'should ...',
+    'should inject ProductReferenceConverterService',
     inject(
       [ProductReferenceConverterService],
-      (service: ProductReferenceConverterService) => {
-        expect(service).toBeTruthy();
+      (productReferenceConverterService: ProductReferenceConverterService) => {
+        expect(productReferenceConverterService).toBeTruthy();
       }
     )
   );
+
+  it('should convert product reference', () => {
+    // no idea what is the reference data
+  });
 });

@@ -7,14 +7,9 @@ import { MaterialModule } from '../../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        MaterialModule,
-        FlexLayoutModule
-    ],
-    declarations: [FooterNavigationComponent],
-    entryComponents: [FooterNavigationComponent],
-    exports: [FooterNavigationComponent]
+  imports: [CommonModule, RouterModule, MaterialModule, FlexLayoutModule],
+  declarations: [FooterNavigationComponent],
+  entryComponents: [FooterNavigationComponent],
+  exports: [FooterNavigationComponent]
 })
-export class FooterNavigationModule { }
+export class FooterNavigationModule {}
