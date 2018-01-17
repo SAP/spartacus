@@ -1,4 +1,8 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { AbstractCmsComponent } from '../../newcms/components/abstract-cms-component';
@@ -8,7 +12,8 @@ import { ConfigService } from '../../newcms/config.service';
 @Component({
   selector: 'y-banner',
   templateUrl: './banner.component.html',
-  styleUrls: ['./banner.component.scss']
+  styleUrls: ['./banner.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BannerComponent extends AbstractCmsComponent {
   constructor(
