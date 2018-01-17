@@ -1,19 +1,14 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from "@ngrx/effects";
-import { of } from "rxjs/observable/of";
-import { map, catchError, switchMap } from "rxjs/operators";
+import { Effect, Actions } from '@ngrx/effects';
+import { of } from 'rxjs/observable/of';
+import { map, catchError, switchMap } from 'rxjs/operators';
 
-import * as currenciesActions from "../actions/currencies.action";
-import { OccSiteService } from "../../services/occ-site.service";
+import * as currenciesActions from '../actions/currencies.action';
+import { OccSiteService } from '../../services/occ-site.service';
 
 @Injectable()
 export class CurrenciesEffects {
-  constructor(
-    private actions$: Actions,
-    private occSiteService: OccSiteService
-  ) {}
-
   @Effect()
   loadCurrencies$ = this.actions$
     .ofType(currenciesActions.LOAD_CURRENCIES)
@@ -32,4 +27,9 @@ export class CurrenciesEffects {
           );
       })
     );
+
+  constructor(
+    private actions$: Actions,
+    private occSiteService: OccSiteService
+  ) {}
 }

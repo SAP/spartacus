@@ -1,22 +1,22 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { StoreModule } from "@ngrx/store";
-import { EffectsModule } from "@ngrx/effects";
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
-import { reducers, effects } from "./store";
+import { reducers, effects } from './store';
 
 // services
-import { OccSiteService } from "./services/occ-site.service";
-import { ConfigService } from "../config.service";
-import { SiteContextInterceptor } from "./http-interceptors/site-context.interceptor";
+import { OccSiteService } from './services/occ-site.service';
+import { ConfigService } from '../config.service';
+import { SiteContextInterceptor } from './http-interceptors/site-context.interceptor';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
-    StoreModule.forFeature("siteContext", reducers),
+    StoreModule.forFeature('siteContext', reducers),
     EffectsModule.forFeature(effects)
   ],
   providers: [

@@ -1,8 +1,8 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 
-import { CurrencySelectorModule } from "./currency-selector/currency-selector.module";
-import { LanguageSelectorModule } from "./language-selector/language-selector.module";
-import { ConfigService } from "./config.service";
+import { CurrencySelectorModule } from './currency-selector/currency-selector.module';
+import { LanguageSelectorModule } from './language-selector/language-selector.module';
+import { ConfigService } from './config.service';
 
 @NgModule({
   imports: [CurrencySelectorModule, LanguageSelectorModule],

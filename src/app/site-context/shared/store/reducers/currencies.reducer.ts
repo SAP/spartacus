@@ -1,4 +1,4 @@
-import * as fromCurrencies from "../actions/currencies.action";
+import * as fromCurrencies from '../actions/currencies.action';
 
 export interface CurrenciesState {
   entities: { [isocode: string]: any };
@@ -20,9 +20,9 @@ export function reducer(
     case fromCurrencies.LOAD_CURRENCIES_SUCCESS: {
       const currencies = action.payload;
       const entities = currencies.reduce(
-        (entities: { [isocode: string]: any }, currency: any) => {
+        (currEntities: { [isocode: string]: any }, currency: any) => {
           return {
-            ...entities,
+            ...currEntities,
             [currency.isocode]: currency
           };
         },

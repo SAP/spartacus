@@ -1,11 +1,11 @@
-import { Action } from "@ngrx/store";
-import { PageContext } from "../../../../routing/models/page-context.model";
+import { Action } from '@ngrx/store';
+import { PageContext } from '../../../../routing/models/page-context.model';
 
-export const LOAD_LANGUAGES = "[Site-context] Load Languages";
-export const LOAD_LANGUAGES_FAIL = "[Site-context] Load Languages Fail";
-export const LOAD_LANGUAGES_SUCCESS = "[Site-context] Load Languages Success";
-export const SET_ACTIVE_LANGUAGE = "[Site-context] Set Active Language";
-export const LANGUAGE_CHANGE = "[Site-context] Language Change";
+export const LOAD_LANGUAGES = '[Site-context] Load Languages';
+export const LOAD_LANGUAGES_FAIL = '[Site-context] Load Languages Fail';
+export const LOAD_LANGUAGES_SUCCESS = '[Site-context] Load Languages Success';
+export const SET_ACTIVE_LANGUAGE = '[Site-context] Set Active Language';
+export const LANGUAGE_CHANGE = '[Site-context] Language Change';
 
 export class LoadLanguages implements Action {
   readonly type = LOAD_LANGUAGES;

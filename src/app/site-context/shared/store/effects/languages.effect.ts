@@ -1,19 +1,14 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from "@ngrx/effects";
-import { of } from "rxjs/observable/of";
-import { map, catchError, switchMap } from "rxjs/operators";
+import { Effect, Actions } from '@ngrx/effects';
+import { of } from 'rxjs/observable/of';
+import { map, catchError, switchMap } from 'rxjs/operators';
 
-import * as languagesActions from "../actions/languages.action";
-import { OccSiteService } from "../../services/occ-site.service";
+import * as languagesActions from '../actions/languages.action';
+import { OccSiteService } from '../../services/occ-site.service';
 
 @Injectable()
 export class LanguagesEffects {
-  constructor(
-    private actions$: Actions,
-    private occSiteService: OccSiteService
-  ) {}
-
   @Effect()
   loadLanguages$ = this.actions$.ofType(languagesActions.LOAD_LANGUAGES).pipe(
     switchMap(() => {
@@ -27,4 +22,9 @@ export class LanguagesEffects {
         );
     })
   );
+
+  constructor(
+    private actions$: Actions,
+    private occSiteService: OccSiteService
+  ) {}
 }

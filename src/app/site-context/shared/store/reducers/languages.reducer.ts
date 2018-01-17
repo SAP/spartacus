@@ -1,4 +1,4 @@
-import * as fromLanguages from "../actions/languages.action";
+import * as fromLanguages from '../actions/languages.action';
 
 export interface LanguagesState {
   entities: { [isocode: string]: any };
@@ -20,9 +20,9 @@ export function reducer(
     case fromLanguages.LOAD_LANGUAGES_SUCCESS: {
       const languages = action.payload;
       const entities = languages.reduce(
-        (entities: { [isocode: string]: any }, language: any) => {
+        (langEntities: { [isocode: string]: any }, language: any) => {
           return {
-            ...entities,
+            ...langEntities,
             [language.isocode]: language
           };
         },

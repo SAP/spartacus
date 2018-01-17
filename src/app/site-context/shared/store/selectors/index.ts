@@ -1,2 +1,2 @@
-export * from "./languages.selectors";
-export * from "./currencies.selectors";
+export * from './languages.selectors';
+export * from './currencies.selectors';

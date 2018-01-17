@@ -1,18 +1,18 @@
-import { Component, OnInit } from "@angular/core";
-import { Store } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
-import { tap, filter } from "rxjs/operators";
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { tap, filter } from 'rxjs/operators';
 
-import * as fromStore from "../shared/store";
-import * as fromRouting from "../../routing/store";
-import { PageContext } from "../../routing/models/page-context.model";
+import * as fromStore from '../shared/store';
+import * as fromRouting from '../../routing/store';
+import { PageContext } from '../../routing/models/page-context.model';
 
-import { ConfigService } from "../config.service";
+import { ConfigService } from '../config.service';
 
 @Component({
-  selector: "y-currency-selector",
-  templateUrl: "./currency-selector.component.html",
-  styleUrls: ["./currency-selector.component.scss"]
+  selector: 'y-currency-selector',
+  templateUrl: './currency-selector.component.html',
+  styleUrls: ['./currency-selector.component.scss']
 })
 export class CurrencySelectorComponent implements OnInit {
   currencies$: Observable<any>;

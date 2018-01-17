@@ -1,7 +1,7 @@
-import { createSelector } from "@ngrx/store";
+import { createSelector } from '@ngrx/store';
 
-import * as fromFeature from "../reducers";
-import * as fromLanguages from "../reducers/languages.reducer";
+import * as fromFeature from '../reducers';
+import * as fromLanguages from '../reducers/languages.reducer';
 
 export const getLanguagesState = createSelector(
   fromFeature.getSiteContextState,

@@ -1,7 +1,7 @@
-import { ActionReducerMap, createFeatureSelector } from "@ngrx/store";
+import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 
-import * as fromLanguages from "./languages.reducer";
-import * as fromCurrencies from "./currencies.reducer";
+import * as fromLanguages from './languages.reducer';
+import * as fromCurrencies from './currencies.reducer';
 
 export interface SiteContextState {
   languages: fromLanguages.LanguagesState;
@@ -14,5 +14,5 @@ export const reducers: ActionReducerMap<SiteContextState> = {
 };
 
 export const getSiteContextState = createFeatureSelector<SiteContextState>(
-  "siteContext"
+  'siteContext'
 );
