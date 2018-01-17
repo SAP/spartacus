@@ -17,4 +17,5 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     entryComponents: [FooterNavigationComponent],
     exports: [FooterNavigationComponent]
 })
+
 export class FooterNavigationModule { }
