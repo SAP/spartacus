@@ -19,11 +19,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export class UseConfigService {
   cmsComponentMapping = {
-    CMSParagraphComponent: 'ParagraphComponent'
+    SearchBoxComponent: 'SearchBoxComponent'
   };
 }
 
-fdescribe('CmsParagraphComponent in CmsLib', () => {
+fdescribe('SearchBoxComponent in CmsLib', () => {
   let store: Store<fromCmsReducer.CmsState>;
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
