@@ -45,15 +45,15 @@ fdescribe('SearchBoxComponent in CmsLib', () => {
     waitTimeBeforeRequest: '500'
   };
 
-  const mockEvent1 = {
+  const mockKeyEvent1 = {
     key: 'Enter'
   };
 
-  const mockEvent2 = {
+  const mockKeyEvent2 = {
     key: 'Enter123'
   };
 
-  const query = '?query=mockQuery';
+  const mockQueryString = '?query=mockQuery';
 
   beforeEach(
     async(() => {
@@ -106,13 +106,13 @@ fdescribe('SearchBoxComponent in CmsLib', () => {
   });
 
   it('should call onKey(event: any) and launchSearchPage(query: string)', () => {
-    searchBoxComponent.onKey(mockEvent1);
+    searchBoxComponent.onKey(mockKeyEvent1);
     expect(searchBoxComponent.onKey).toHaveBeenCalled();
     expect(searchBoxComponent.launchSearchPage).toHaveBeenCalled();
   });
 
   it('should only call onKey(event: any)', () => {
-    searchBoxComponent.onKey(mockEvent2);
+    searchBoxComponent.onKey(mockKeyEvent2);
     expect(searchBoxComponent.onKey).toHaveBeenCalled();
     expect(searchBoxComponent.launchSearchPage).not.toHaveBeenCalled();
   });
@@ -124,7 +124,7 @@ fdescribe('SearchBoxComponent in CmsLib', () => {
   });
 
   it('should call launchSearchPage(query: string) and searchBoxControl.reset()', () => {
-    searchBoxComponent.launchSearchPage(query);
+    searchBoxComponent.launchSearchPage(mockQueryString);
     expect(searchBoxComponent.launchSearchPage).toHaveBeenCalled();
     expect(searchBoxComponent.searchBoxControl.reset).toHaveBeenCalled();
   });
