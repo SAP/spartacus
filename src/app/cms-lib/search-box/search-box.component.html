@@ -17,6 +17,6 @@
             </y-picture>
         </div>
         <div fxFlex [innerHTML]="product.name">{{ product.name }}</div>
-        <div fxFlex>{{product.price.formattedValue}}</div>
+        <div class="productPrice" fxFlex>{{product.price.formattedValue}}</div>
     </mat-option>
 </mat-autocomplete>
