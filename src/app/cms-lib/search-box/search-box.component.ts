@@ -31,8 +31,10 @@ export class SearchBoxComponent extends AbstractCmsComponent {
 
   @HostListener('document:click')
   clickout() {
+    // Reset the search box if the user clicks outside the search box
     if (!this.clickedInside) {
       this.searchBoxControl.reset();
+      this.store.dispatch(new fromProductStore.CleanProductSearchState());
     }
     this.clickedInside = false;
   }
