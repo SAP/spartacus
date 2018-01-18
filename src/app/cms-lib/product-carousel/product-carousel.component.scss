@@ -1,40 +1,51 @@
 .product-caraousel {
-    height: 200px;
+  height: 250px;
+  overflow: hidden;
+  margin: 10px 0;
+  .carousel-container {
     overflow: hidden;
-    margin: 10px 0;
-    .carousel-container {
-        overflow: hidden;
+  }
+  .product-panel {
+    height: 100%;
+    width: 5000px;
+    position: relative;
+    &.animate {
+      animation: carousel 25s infinite;
     }
-    .product-panel {
-        height: 100%;
-        width: 5000px;
-        position: relative;
-        &.animate {
-            animation: carousel 25s infinite;
-        }
-        // animation-delay: 2s, 4ms;
-        &.pause {
-            animation-play-state:paused; 
-        }
+    // animation-delay: 2s, 4ms;
+    &.pause {
+      animation-play-state: paused;
     }
-    .product {
-        height: 100%;
-        margin:0 10px 10px 0;
-        padding: 10px;
-        width: 200px;
-        float: left;
-        display: block;
-        
+  }
+  .product {
+    height: 100%;
+    margin: 0 10px 10px 0;
+    padding: 10px;
+    width: 200px;
+    float: left;
+    display: block;
+
+    .productName {
+      margin-right: auto;
+      margin-left: auto;
+      margin-bottom: 10px;
     }
+  }
 }
 
 /* Standard syntax */
 @keyframes carousel {
-    0%   {left: 0px;}
-    // 25%  {left: -200px;}
-    // 75%  {left: -400px}
-    50% {left: calc(-800px);}
-    100% {left: 0px;}
+  0% {
+    left: 0px;
+  }
+  // 25%  {left: -200px;}
+  // 75%  {left: -400px}
+  50% {
+    left: calc(-800px);
+  }
+  100% {
+    left: 0px;
+  }
 }
 
 // /* Safari 4.0 - 8.0 */

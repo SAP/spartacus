@@ -1,32 +1,25 @@
-
-<H3>{{component?.title}}</H3>
-<div class="product-caraousel"
-    (mouseenter)="stop()" (mouseleave)="continue()"
-    fxLayout="row" fxFlexAlign="start stretch">
+<H3>
+    {{component?.title}}</H3>
+<div class="product-caraousel" (mouseenter)="stop()" (mouseleave)="continue()" fxLayout="row" fxFlexAlign="start stretch">
     <!--<div fxFlex="50px">
         <button mat-icon-button>
             <mat-icon>navigate_before</mat-icon>
         </button>
     </div>-->
     <div fxFlex class="carousel-container">
-        <div class="product-panel" 
-            [class.animate]="animate"
-            [class.pause]="pause">
-            <div class="product" 
-                *ngFor="let product of (products$ | async)"
-                [routerLink]="['/product/', product.code]"
-                >
-                <y-picture 
-                    [imageContainer]="product.images?.PRIMARY" 
-                    imageFormat="product"
-                ></y-picture>
-                {{product.name}}
+        <div class="product-panel" [class.animate]="animate" [class.pause]="pause">
+            <div class="product" *ngFor="let product of (products$ | async)" [routerLink]="['/product/', product.code]">
+                <div class="productName">{{product.name}} </div>
+                <y-picture [imageContainer]="product.images?.PRIMARY" imageFormat="product">
+
+                </y-picture>
             </div>
+
         </div>
     </div>
-    <!--<div fxFlex="50px">
+    <!-- <div fxFlex="50px">
         <button mat-icon-button>
             <mat-icon>navigate_next</mat-icon>
         </button>
-    </div>-->
+    </div> -->
 </div>
