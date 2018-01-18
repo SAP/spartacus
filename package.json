@@ -13,7 +13,7 @@
     "packagr": "ng-packagr -p ng-package.json"
   },
   "private": true,
-  "dependencies": {
+  "peerDependencies": {
     "@angular/animations": "5.1.0",
     "@angular/cdk": "^5.0.0",
     "@angular/common": "5.1.0",
@@ -57,6 +57,27 @@
     "ts-node": "~3.3.0",
     "tslint": "~5.8.0",
     "typescript": "2.4.2",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "@angular/animations": "5.1.0",
+    "@angular/cdk": "^5.0.0",
+    "@angular/common": "5.1.0",
+    "@angular/compiler": "5.1.0",
+    "@angular/core": "5.1.0",
+    "@angular/flex-layout": "2.0.0-beta.10-4905443",
+    "@angular/forms": "5.1.0",
+    "@angular/http": "5.1.0",
+    "@angular/material": "^5.0.0",
+    "@angular/platform-browser": "5.1.0",
+    "@angular/platform-browser-dynamic": "5.1.0",
+    "@angular/router": "5.1.0",
+    "@ngrx/effects": "4.1.1",
+    "@ngrx/router-store": "4.1.1",
+    "@ngrx/store": "4.1.1",
+    "@ngrx/store-devtools": "4.1.1",
+    "core-js": "2.5.2",
+    "hammerjs": "2.0.8",
+    "rxjs": "5.5.5",
+    "webpack-sources": "^1.1.0",
+    "zone.js": "0.8.18"
   }
 }
