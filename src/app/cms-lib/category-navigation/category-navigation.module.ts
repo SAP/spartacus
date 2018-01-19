@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../material.module';
 import { CategoryNavigationComponent } from './category-navigation.component';
 
-import { CmsModule } from '../../cms/cms.module';
+import { NewCmsModule } from '../../newcms/newcms.module';
 
 @NgModule({
     imports: [
         CommonModule,
         MaterialModule,
-        CmsModule
+        NewCmsModule
     ],
     declarations: [CategoryNavigationComponent],
     entryComponents: [CategoryNavigationComponent],
