@@ -25,7 +25,7 @@ export class ProductImageConverterService {
      * Creates the image structue we'd like to have. Instead of
      * having a singel list with all images despite type and format
      * we create a proper structure. With that we can do:
-     * - images.primary.thumnail.url 
+     * - images.primary.thumnail.url
      * - images.GALLERY[0].thumnail.url
      */
   populate(source: Array<any>): any {
