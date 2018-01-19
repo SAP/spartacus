@@ -1,18 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../material.module';
+import { NavigationModule } from '../navigation/navigation.module';
+
 import { CategoryNavigationComponent } from './category-navigation.component';
 
-import { NewCmsModule } from '../../newcms/newcms.module';
-
 @NgModule({
-    imports: [
-        CommonModule,
-        MaterialModule,
-        NewCmsModule
-    ],
-    declarations: [CategoryNavigationComponent],
-    entryComponents: [CategoryNavigationComponent],
-    exports: [CategoryNavigationComponent]
+  imports: [CommonModule, MaterialModule, NavigationModule],
+  declarations: [CategoryNavigationComponent],
+  entryComponents: [CategoryNavigationComponent],
+  exports: [CategoryNavigationComponent]
 })
-export class CategoryNavigationModule { }
+export class CategoryNavigationModule {}
