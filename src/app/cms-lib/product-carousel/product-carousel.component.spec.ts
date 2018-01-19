@@ -87,12 +87,6 @@ fdescribe('ProductCarouselComponent in CmsLib', () => {
     expect(el.query(By.css('H3')).nativeElement.textContent).toEqual(
       productCarouselComponent.component.title
     );
-
-    const content = el.query(By.css('div')).nativeElement.innerHTML;
-
-    expect(content.query(By.css('div')).nativeElement.innerHTML).toEqual(
-      productCarouselComponent.component
-    );
   });
 
   it('should call getProductCodes()', () => {
