@@ -9,8 +9,7 @@ import { ProductCarouselComponent } from './product-carousel.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { ConfigService } from '../../newcms/config.service';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/Rx';
+import * as fromReducers from '../../product/store/reducers';
 
 export class UseConfigService {
   cmsComponentMapping = {
@@ -62,7 +61,12 @@ fdescribe('ProductCarouselComponent in CmsLib', () => {
     el = fixture.debugElement;
 
     store = TestBed.get(Store);
-    spyOn(store, 'select').and.returnValue(of(mockComponentData));
+
+    spyOn(store, 'select').and.returnValues(
+      of(mockComponentData),
+      of(productCodeArray)
+    );
+
     spyOn(productCarouselComponent, 'getProductCodes').and.returnValue(
       productCodeArray
     );
@@ -75,10 +79,20 @@ fdescribe('ProductCarouselComponent in CmsLib', () => {
   });
 
   it('should contain cms content in the html rendering after bootstrap', () => {
-    // The following test gives the error "TypeError: cachedProducts_1.indexOf is not a function"
-    // expect(productCarouselComponent.component).toBeNull();
-    // productCarouselComponent.bootstrap();
-    // expect(productCarouselComponent.component).toBe(mockComponentData);
+    expect(productCarouselComponent.component).toBeNull();
+
+    productCarouselComponent.bootstrap();
+    expect(productCarouselComponent.component).toBe(mockComponentData);
+
+    expect(el.query(By.css('H3')).nativeElement.textContent).toEqual(
+      productCarouselComponent.component.title
+    );
+
+    const content = el.query(By.css('div')).nativeElement.innerHTML;
+
+    expect(content.query(By.css('div')).nativeElement.innerHTML).toEqual(
+      productCarouselComponent.component
+    );
   });
 
   it('should call getProductCodes()', () => {

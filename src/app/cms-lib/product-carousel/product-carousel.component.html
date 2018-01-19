@@ -1,5 +1,4 @@
-<H3>
-    {{component?.title}}</H3>
+<H3>{{component?.title}}</H3>
 <div class="product-caraousel" (mouseenter)="stop()" (mouseleave)="continue()" fxLayout="row" fxFlexAlign="start stretch">
     <!--<div fxFlex="50px">
         <button mat-icon-button>
@@ -9,7 +8,7 @@
     <div fxFlex class="carousel-container">
         <div class="product-panel" [class.animate]="animate" [class.pause]="pause">
             <div class="product" *ngFor="let product of (products$ | async)" [routerLink]="['/product/', product.code]">
-                <div class="productName">{{product.name}} </div>
+                <div class="productName">{{product.name}}</div>
                 <y-picture [imageContainer]="product.images?.PRIMARY" imageFormat="product">
 
                 </y-picture>
