@@ -10,7 +10,6 @@
             <div class="product" *ngFor="let product of (products$ | async)" [routerLink]="['/product/', product.code]">
                 <div class="productName">{{product.name}}</div>
                 <y-picture [imageContainer]="product.images?.PRIMARY" imageFormat="product">
-
                 </y-picture>
             </div>
 
