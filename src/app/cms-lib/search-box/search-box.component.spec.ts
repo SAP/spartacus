@@ -91,6 +91,8 @@ fdescribe('SearchBoxComponent in CmsLib', () => {
     spyOn(searchBoxComponent, 'launchSearchPage').and.callThrough();
     spyOn(searchBoxComponent, 'onFocus').and.callThrough();
     spyOn(searchBoxComponent.searchBoxControl, 'reset').and.callThrough();
+    spyOn(searchBoxComponent, 'clickInside').and.callThrough();
+    spyOn(searchBoxComponent, 'clickout').and.callThrough();
   });
 
   it('should be created', () => {
@@ -127,5 +129,17 @@ fdescribe('SearchBoxComponent in CmsLib', () => {
     searchBoxComponent.launchSearchPage(mockQueryString);
     expect(searchBoxComponent.launchSearchPage).toHaveBeenCalled();
     expect(searchBoxComponent.searchBoxControl.reset).toHaveBeenCalled();
+  });
+
+  it('should call clickInside()', () => {
+    searchBoxComponent.clickInside();
+    expect(searchBoxComponent.clickInside).toHaveBeenCalled();
+    expect(searchBoxComponent.clickedInside).toBe(true);
+  });
+
+  it('should call clickout()', () => {
+    searchBoxComponent.clickout();
+    expect(searchBoxComponent.clickout).toHaveBeenCalled();
+    expect(searchBoxComponent.clickedInside).toBe(false);
   });
 });

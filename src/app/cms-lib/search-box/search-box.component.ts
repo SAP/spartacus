@@ -22,7 +22,7 @@ export class SearchBoxComponent extends AbstractCmsComponent {
   maxSuggestions: number;
   minCharactersBeforeRequest: number;
 
-  private clickedInside = false;
+  clickedInside = false;
 
   @HostListener('click')
   clickInside() {
