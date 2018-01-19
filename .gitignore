@@ -54,3 +54,4 @@ yarn-error.log*
 
 # scripts
 *.sh
+!build-lib.sh

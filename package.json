@@ -10,7 +10,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "testcov": "ng test --code-coverage",
-    "packagr": "ng-packagr -p ng-package.json"
+    "packagr": "ng-packagr -p ng-package.json",
+    "build-lib": "./build-lib.sh"
   },
   "private": true,
   "dependencies": {},
