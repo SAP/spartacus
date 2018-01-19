@@ -7,11 +7,7 @@ import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../newcms/store/reducers';
 import { SearchBoxComponent } from './search-box.component';
 import { ConfigService } from '../../newcms/config.service';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
+import { MaterialModule } from '../../material.module';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -61,11 +57,7 @@ fdescribe('SearchBoxComponent in CmsLib', () => {
         imports: [
           BrowserAnimationsModule,
           FormsModule,
-          MatAutocompleteModule,
-          MatChipsModule,
-          MatFormFieldModule,
-          MatInputModule,
-          MatSelectModule,
+          MaterialModule,
           ReactiveFormsModule,
           RouterTestingModule,
           StoreModule.forRoot({
