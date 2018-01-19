@@ -40,8 +40,8 @@ export class ConfigService {
     CategoryNavigationComponent: 'CategoryNavigationComponent',
     ProductAddToCartComponent: 'AddToCartComponent',
     MiniCartComponent: 'MiniCartComponent',
-    // ProductCarouselComponent:           'ProductCarouselComponent',
-    // SearchBoxComponent:                 'SearchBoxComponent',
+    ProductCarouselComponent: 'ProductCarouselComponent',
+    SearchBoxComponent: 'SearchBoxComponent',
     ProductReferencesComponent: 'ProductReferencesComponent',
     CMSTabParagraphComponent: 'TabParagraphContainerComponent'
   };

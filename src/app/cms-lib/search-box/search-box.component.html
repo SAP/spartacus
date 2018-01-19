@@ -5,14 +5,15 @@
         [formControl]="searchBoxControl" 
         [matAutocomplete]="searchresult"
         [placeholder]="component.name"
-        (keyup)="onKey($event)">
+        (keyup)="onKey($event)"
+        (focus)="onFocus()">
 </mat-input-container>
 
 <mat-autocomplete #searchresult="matAutocomplete" class="autocomplete-response">
-    <mat-option *ngIf="(suggestionResults | async)?.length>0" >
+    <mat-option *ngIf="(suggestionResults$ | async)?.length>0" >
         <mat-chip-list>
             <mat-chip 
-                *ngFor="let suggestion of suggestionResults | async"
+                *ngFor="let suggestion of suggestionResults$ | async"
                 class="suggestion"
                 color="primary"  selected="true"
                 (click)="launchSearchPage(suggestion.value)">{{ suggestion.value }}</mat-chip>
@@ -20,7 +21,7 @@
     </mat-option>
 
     <mat-option 
-        *ngFor="let product of (searchResults | async)?.products" [value]="product.name"
+        *ngFor="let product of (searchResults$ | async)?.products" [value]="product.name"
         class="option"
         fxLayout="row" 
         fxFlexAlign="start center"   
