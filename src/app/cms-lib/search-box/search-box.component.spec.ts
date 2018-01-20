@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs/observable/of';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../newcms/store/reducers';
+import * as fromProductStore from '../../product/store';
 import { SearchBoxComponent } from './search-box.component';
 import { ConfigService } from '../../newcms/config.service';
 import { MaterialModule } from '../../material.module';
@@ -12,6 +13,7 @@ import { PictureComponent } from '../../ui/components/media/picture/picture.comp
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SearchConfig } from '../../product/search-config';
 
 export class UseConfigService {
   cmsComponentMapping = {
@@ -62,7 +64,8 @@ fdescribe('SearchBoxComponent in CmsLib', () => {
           RouterTestingModule,
           StoreModule.forRoot({
             ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
+            cms: combineReducers(fromCmsReducer.reducers),
+            products: combineReducers(fromProductStore.reducers)
           })
         ],
         declarations: [SearchBoxComponent, PictureComponent],
@@ -79,6 +82,8 @@ fdescribe('SearchBoxComponent in CmsLib', () => {
 
     store = TestBed.get(Store);
     spyOn(store, 'select').and.returnValue(of(mockSearchBoxComponentData));
+    spyOn(store, 'dispatch').and.callThrough();
+
     spyOn(searchBoxComponent, 'onKey').and.callThrough();
     spyOn(searchBoxComponent, 'launchSearchPage').and.callThrough();
     spyOn(searchBoxComponent, 'onFocus').and.callThrough();
@@ -97,6 +102,25 @@ fdescribe('SearchBoxComponent in CmsLib', () => {
     expect(searchBoxComponent.component).toBe(mockSearchBoxComponentData);
 
     // TODO: after replacing material with boothstrap4, need some ui test here
+  });
+
+  it('should dispatch new search query with new input', () => {
+    searchBoxComponent.bootstrap();
+    searchBoxComponent.searchBoxControl.setValue('testQuery');
+
+    expect(searchBoxComponent.searchBoxControl.value).toEqual('testQuery');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromProductStore.SearchProducts({
+        queryText: 'testQuery',
+        searchConfig: new SearchConfig(searchBoxComponent.maxProduct)
+      })
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromProductStore.GetProductSuggestions({
+        term: 'testQuery',
+        searchConfig: new SearchConfig(searchBoxComponent.maxSuggestions)
+      })
+    );
   });
 
   it('should call onKey(event: any) and launchSearchPage(query: string)', () => {
