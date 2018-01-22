@@ -28,7 +28,7 @@ export interface Link {
 }
 
 export interface Entry {
-  item?: Link;
+  linkItem?: Link;
   itemId: string;
 }
 
@@ -63,7 +63,7 @@ export class FooterNavigationStubService {
   createEntry(entry: Entry): { itemId: string } {
     const newEntry: Entry = { itemId: 'testEntry' };
     newEntry.itemId = entry.itemId;
-    newEntry.item = this.createLinks().find(
+    newEntry.linkItem = this.createLinks().find(
       link => link.itemId === entry.itemId
     );
     return newEntry;

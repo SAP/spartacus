@@ -23,7 +23,7 @@ export class FooterNavigationComponent extends AbstractCmsComponent {
             // if we want to reuse the existing link component we need to make sure
             // that it can collect the necessary data for this subcomponennt
             // this.cmsLoader.storeComponentData(entry.item);
-            links.push(entry.item);
+            links.push(entry.linkItem);
           }
           // this.children.push({links: links});
         }

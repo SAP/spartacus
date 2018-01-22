@@ -2,7 +2,8 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  Input
 } from '@angular/core';
 import { AbstractCmsComponent } from '../../newcms/components/abstract-cms-component';
 import { NavigationService } from './navigation.service';
@@ -18,7 +19,7 @@ import * as fromStore from '../../newcms/store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavigationComponent extends AbstractCmsComponent {
-  node;
+  @Input() protected node;
 
   constructor(
     protected cd: ChangeDetectorRef,
