@@ -32,23 +32,12 @@ export * from './src/app/cms-lib/search-box/search-box.module';
 export * from './src/app/cms-lib/tab-paragraph-container/tab-paragraph-container.module';
 export * from './src/app/newcms/newcms.module';
 export * from './src/app/routing/routing.module';
-// './src/app/ui/templates/templates.module'
-export {
-  HomePageComponent
-} from './src/app/ui/templates/home-page/home-page.component';
-export {
-  CartPageComponent
-} from './src/app/ui/templates/cart-page/cart-page.component';
-export {
-  ProductDetailPageComponent
-} from './src/app/ui/templates/product-detail-page/product-detail-page.component';
-export {
-  ProductListPageComponent
-} from './src/app/ui/templates/product-list-page/product-list-page.component';
-export {
-  PageNotFoundComponent
-} from './src/app/ui/templates/404/404.component';
-export {
-  CategoryPageComponent
-} from './src/app/ui/templates/category-page/category-page.component';
-export { CmsPageGuards } from './src/app/newcms/guards/cms-page.guard';
+
+// Export indivudual components from './src/app/ui/templates/templates.module'
+export * from './src/app/ui/templates/home-page/home-page.component';
+export * from './src/app/ui/templates/cart-page/cart-page.component';
+export * from './src/app/ui/templates/product-detail-page/product-detail-page.component';
+export * from './src/app/ui/templates/product-list-page/product-list-page.component';
+export * from './src/app/ui/templates/404/404.component';
+export * from './src/app/ui/templates/category-page/category-page.component';
+export * from './src/app/newcms/guards/cms-page.guard';
