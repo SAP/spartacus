@@ -13,7 +13,7 @@
             [class.animate]="animate"
             [class.pause]="pause">
             <div class="product" 
-                *ngFor="let product of products"
+                *ngFor="let product of (products$ | async)"
                 [routerLink]="['/product/', product.code]"
                 >
                 <y-picture 

@@ -1,56 +1,65 @@
-import { Component, Input } from '@angular/core';
-import { AbstractProductComponent } from '../abstract-product-component';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { AbstractCmsComponent } from '../../newcms/components/abstract-cms-component';
+import * as fromProductStore from '../../product/store';
+import { SearchConfig } from '../../product/search-config';
 
 @Component({
-    selector: 'y-product-carousel',
-    templateUrl: './product-carousel.component.html',
-    styleUrls: ['./product-carousel.component.scss']
+  selector: 'y-product-carousel',
+  templateUrl: './product-carousel.component.html',
+  styleUrls: ['./product-carousel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductCarouselComponent extends AbstractProductComponent {
-    products = [];
-    pause: boolean;
+export class ProductCarouselComponent extends AbstractCmsComponent {
+  products$: Observable<any[]>;
+  pause: boolean;
 
-    @Input() productCodes: Array<String>;
-    @Input() animate = true;
+  @Input() productCodes: Array<String>;
+  @Input() animate = true;
 
-    protected fetchData() {
-        // super.fetchData();
-        const codes = this.getProductCodes();
+  protected fetchData() {
+    const codes = this.getProductCodes();
 
-        if (this.contextParameters && this.contextParameters.hasOwnProperty('animate')) {
-            this.animate = this.contextParameters.animate;
-        }
-
-        if (codes && codes.length > 0) {
-            const query = codes.map(o => o).join(' ');
-            // TODO: limit data
-            this.productSearch.searchProducts(query).subscribe((results) => {
-                this.products = results.products;
-                this.cd.detectChanges();
-            });
-        }
-        super.fetchData();
+    if (
+      this.contextParameters &&
+      this.contextParameters.hasOwnProperty('animate')
+    ) {
+      this.animate = this.contextParameters.animate;
     }
 
-    getProductCodes(): Array<String> {
-        let codes;
-        if (this.component && this.component.productCodes) {
-            codes = this.component.productCodes;
-        }else {
-            codes = this.productCodes;
-        }
-        return codes;
-    }
+    if (codes && codes.length > 0) {
+      let cachedProducts;
+      this.store
+        .select(fromProductStore.getAllProductCodes)
+        .subscribe(data => (cachedProducts = data));
 
-    // loadNext() {
-    //     console.log('load next');
-    //     console.log(this.productPanel);
-    // }
+      codes
+        .filter(code => cachedProducts.indexOf(code) === -1)
+        .forEach(code =>
+          this.store.dispatch(new fromProductStore.LoadProduct(code))
+        );
 
-    stop() {
-        this.pause = true;
+      this.products$ = this.store.select(
+        fromProductStore.getSelectedProductsFactory(codes)
+      );
     }
-    continue() {
-        this.pause = false;
+    super.fetchData();
+  }
+
+  getProductCodes(): Array<string> {
+    let codes;
+    if (this.component && this.component.productCodes) {
+      codes = this.component.productCodes.split(' ');
+    } else {
+      codes = this.productCodes;
     }
+    return codes;
+  }
+
+  stop() {
+    this.pause = true;
+  }
+  continue() {
+    this.pause = false;
+  }
 }

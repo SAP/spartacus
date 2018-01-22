@@ -8,14 +8,16 @@ import {
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import * as fromStore from '../store';
 import { ConfigService } from '../config.service';
 
 @Injectable()
-export abstract class AbstractCmsComponent {
+export abstract class AbstractCmsComponent implements OnDestroy {
   @Input() public component: any = null;
   protected uid: string;
   protected contextParameters: any;
+  protected subscription: Subscription;
 
   constructor(
     protected cd: ChangeDetectorRef,
@@ -28,7 +30,7 @@ export abstract class AbstractCmsComponent {
   }
 
   bootstrap() {
-    this.store
+    this.subscription = this.store
       .select(fromStore.componentSelectorFactory(this.uid))
       .subscribe(componentData => {
         this.component = componentData;
@@ -51,6 +53,12 @@ export abstract class AbstractCmsComponent {
     return this.config.server.baseUrl;
   }
 
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   // TODO: move to strategy
   /*protected mapUrl(url: string) {
     // console.warn('mapUrl', url);
@@ -68,7 +76,7 @@ export abstract class AbstractCmsComponent {
         newUrl = '/product/' + productFragment;
       } else {
         if (url !== '/') {
-          console.warn("couldn't map url", url);
+          console.warn('could not map url', url);
         }
       }
     }

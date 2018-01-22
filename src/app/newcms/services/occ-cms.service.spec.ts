@@ -110,14 +110,14 @@ fdescribe('OccCmsService', () => {
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'GET' && req.url === endpoint + '/page';
       });
-      expect(mockReq.request.params.get('pageId')).toEqual('testPagId');
+      expect(mockReq.request.params.get('pageLabelOrId')).toEqual('testPagId');
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cmsPageData);
     });
 
-    it("should get cms content page data with parameter 'fields'", () => {
+    it('should get cms content page data with parameter fields', () => {
       const context: PageContext = {
         id: 'testPagId',
         type: PageType.CONTENT_PAGE
@@ -129,7 +129,7 @@ fdescribe('OccCmsService', () => {
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'GET' && req.url === endpoint + '/page';
       });
-      expect(mockReq.request.params.get('pageId')).toEqual('testPagId');
+      expect(mockReq.request.params.get('pageLabelOrId')).toEqual('testPagId');
       expect(mockReq.request.params.get('fields')).toEqual('BASIC');
 
       expect(mockReq.cancelled).toBeFalsy();
