@@ -39,7 +39,6 @@ export class CustomSerializer
       state = state.firstChild;
     }
     const { params } = state;
-    console.log(state);
 
     let cmsRequired = false;
     if (

@@ -1,4 +1,8 @@
-import { Component, HostListener } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
@@ -10,7 +14,8 @@ import { SearchConfig } from '../../product/search-config';
 @Component({
   selector: 'y-searchbox',
   templateUrl: './search-box.component.html',
-  styleUrls: ['./search-box.component.scss']
+  styleUrls: ['./search-box.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchBoxComponent extends AbstractCmsComponent {
   searchBoxControl: FormControl = new FormControl();
@@ -106,12 +111,14 @@ export class SearchBoxComponent extends AbstractCmsComponent {
 
   private shouldSearchSuggestions() {
     return (
+      this.component &&
       this.component.displaySuggestions &&
       this.meetsLength(this.searchBoxControl.value)
     );
   }
   private shouldSearchProducts() {
     return (
+      this.component &&
       this.component.displayProducts &&
       this.meetsLength(this.searchBoxControl.value)
     );
