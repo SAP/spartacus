@@ -47,7 +47,7 @@ export class CmsPageGuards implements CanActivate {
             for (let i = 0, len = defaultPageIds.length; i < len; i++) {
               key = defaultPageIds[i] + '_' + pageContext.type;
               found =
-                entities[key] && entities[key].seen.includes(pageContext.id);
+                entities[key] && entities[key].seen.indexOf(pageContext.id) > 0;
               if (found) {
                 break;
               }

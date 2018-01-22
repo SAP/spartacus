@@ -78,7 +78,7 @@ export class PageEffects {
         const defaultPageIds = this.defaultPageService.getDefaultPageIdsBytype(
           pageContext.type
         );
-        if (defaultPageIds.includes(page.pageId)) {
+        if (defaultPageIds.indexOf(page.pageId) > 0) {
           return { key: page.pageId + '_' + pageContext.type, value: page };
         } else {
           return { key: pageContext.id + '_' + pageContext.type, value: page };

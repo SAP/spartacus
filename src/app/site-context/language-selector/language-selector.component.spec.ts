@@ -1,3 +1,4 @@
+import { SiteContextState } from './../shared/store/reducers/index';
 import { MaterialModule } from './../../material.module';
 import { ConfigService } from './../config.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -10,6 +11,8 @@ import * as fromStore from './../shared/store';
 import * as fromRoot from '../../routing/store';
 import { of } from 'rxjs/observable/of';
 
+import * as fromActions from './../shared/store/actions/languages.action';
+
 class MockConfigService {
   site = {
     language: 'de',
@@ -18,7 +21,7 @@ class MockConfigService {
 }
 
 fdescribe('LanguageSelectorComponent', () => {
-  const langauges = ['en', 'de'];
+  const languages = ['en', 'de'];
   let component: LanguageSelectorComponent;
   let fixture: ComponentFixture<LanguageSelectorComponent>;
   let store: Store<fromStore.SiteContextState>;
@@ -52,7 +55,7 @@ fdescribe('LanguageSelectorComponent', () => {
     fixture.detectChanges();
 
     store = TestBed.get(Store);
-    spyOn(store, 'select').and.returnValue(of(langauges));
+    // spyOn(store, 'select').and.returnValue(of(langauges));
   });
 
   it('should create', () => {
@@ -66,4 +69,15 @@ fdescribe('LanguageSelectorComponent', () => {
     // ...
     // after the migrate from Material to Bootstrap is finished, we should test the UI part
   });
+
+  it('should get language data', () => {
+    const action = new fromActions.LoadLanguagesSuccess(languages);
+    store.dispatch(action);
+
+    store.select(fromStore.getAllLanguages).subscribe(data => {
+      console.log(`LANGUAGE: ${data}`);
+    });
+  });
+
+  it('should change language when button clicked', () => {});
 });
