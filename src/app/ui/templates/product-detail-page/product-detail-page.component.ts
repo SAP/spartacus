@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AbstractPage } from '../abstract-page.component';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { Injectable } from '@angular/core';
 import { CmsService } from '../../../data/cms.service';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'y-product-detail-page',
@@ -23,13 +22,9 @@ export class ProductDetailPageComponent extends AbstractPage implements OnInit {
   }
 
   ngOnInit() {
-    // this.productCode = this.activeRoute.params['productCode'];
-
     this.activeRoute.params.subscribe(
       (params: Params) => (this.productCode = params['productCode'])
     );
-
-    // this.loadAdditionData(this.activeRoute.params);
   }
 
   //   loadAdditionData(params: Params) {
