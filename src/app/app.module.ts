@@ -7,6 +7,7 @@ import { ConfigService } from './config.service';
 
 import { DataModule } from './data/data.module';
 import { OccModule } from './occ/occ.module';
+import { NewOccModule } from './newocc/newocc.module';
 import { UiModule } from './ui/ui.module';
 // import { CmsModule } from "./cms/cms.module";
 import { CmsLibModule } from './cms-lib/cms-lib.module';
@@ -14,6 +15,7 @@ import { CmsLibModule } from './cms-lib/cms-lib.module';
 
 import { NewCmsModule } from './newcms/newcms.module';
 import { RoutingModule } from './routing/routing.module';
+import { ProductModule } from './product/product.module';
 
 import { appRoutes } from './app.routes';
 
@@ -24,6 +26,7 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     OccModule.forRoot(ConfigService),
+    NewOccModule.forRoot(ConfigService),
     DataModule.forRoot(ConfigService),
     // CmsModule.forRoot(ConfigService),
     CmsLibModule,
@@ -31,7 +34,8 @@ import { AppComponent } from './app.component';
     // UiFrameworkModule,
     NewCmsModule.forRoot(ConfigService),
     RoutingModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    ProductModule
   ],
 
   providers: [

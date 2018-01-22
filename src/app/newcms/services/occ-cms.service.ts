@@ -37,7 +37,7 @@ export class OccCmsService {
         break;
       }
       default: {
-        paramName = 'pageId';
+        paramName = 'pageLabelOrId';
         break;
       }
     }

@@ -7,74 +7,72 @@ import { ProductSearchService } from '../../../data/product-search.service';
 import { ProductLoaderService } from '../../../data/product-loader.service';
 
 @Component({
-    selector: 'y-product-list',
-    templateUrl: './product-list.component.html',
-    styleUrls: ['./product-list.component.scss']
+  selector: 'y-product-list',
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnChanges, OnInit {
+  model;
 
-    model;
+  @ViewChild('sidenav') sidenav: MatSidenav;
 
-    @ViewChild('sidenav') sidenav: MatSidenav;
+  grid: any;
 
-    grid: any;
+  @Input() gridMode: String;
+  @Input() query;
+  @Input() categoryCode;
+  @Input() brandCode;
 
-    @Input() gridMode: String;
-    @Input() query;
-    @Input() categoryCode;
-    @Input() brandCode;
+  subject;
+  config;
 
-    subject;
-    config;
+  isFacetPanelOpen = false;
 
-    isFacetPanelOpen = false;
-    
-    constructor(
-        protected productLoader: ProductLoaderService,
-        protected searchService: ProductSearchService
-    ) {
-        this.config = this.searchService.createConfig();
-        this.subject = new BehaviorSubject<any>({});
-        this.subject.subscribe((result) => {
-            this.model = result;
-        });
+  constructor(
+    protected productLoader: ProductLoaderService,
+    protected searchService: ProductSearchService
+  ) {
+    this.config = this.searchService.createConfig();
+    this.subject = new BehaviorSubject<any>({});
+    this.subject.subscribe(result => {
+      this.model = result;
+    });
+  }
+
+  ngOnInit() {
+    this.grid = {
+      mode: this.gridMode
+    };
+  }
+
+  ngOnChanges() {
+    if (this.categoryCode) {
+      this.query = ':relevance:category:' + this.categoryCode;
+    }
+    if (this.brandCode) {
+      this.query = ':relevance:brand:' + this.brandCode;
     }
 
-    ngOnInit() {
-        this.grid = {
-            mode: this.gridMode
-        };
+    if (this.query) {
+      this.search(this.query);
     }
 
-    ngOnChanges() {
-        
-        if (this.categoryCode) {
-            this.query = ':relevance:category:' + this.categoryCode;
-        }
-        if (this.brandCode) {
-            this.query = ':relevance:brand:' + this.brandCode;
-        }
-        
-        if (this.query) {
-            this.search(this.query);
-        }
+    // this.cd.markForCheck();
+  }
 
-        // this.cd.markForCheck();
-    }
+  toggleSidenav() {
+    this.sidenav.toggle();
+  }
 
-    toggleSidenav() {
-        this.sidenav.toggle();
-    }
-    
-    onFilter(query: string) {
-        this.search(query);
-        // this.productLoader.query(query).subscribe((result) => {
-        //     console.log(result);
-        //     this.model = result;
-        // });
-    }
+  onFilter(query: string) {
+    this.search(query);
+    // this.productLoader.query(query).subscribe((result) => {
+    //     console.log(result);
+    //     this.model = result;
+    // });
+  }
 
-    protected search(query) {
-        this.searchService.searchProducts(query, this.config, this.subject);
-    }
+  protected search(query) {
+    this.searchService.searchProducts(query, this.config, this.subject);
+  }
 }
