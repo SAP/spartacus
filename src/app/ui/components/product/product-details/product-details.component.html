@@ -1,17 +1,17 @@
-
-
 <mat-card>
-    
+
     <mat-card-title>
         <span class="product-title">{{model?.name}}</span>
-        <span class="product-code"><span class="prefix"> | ID {{model?.code}}</span></span>
+        <span class="product-code">
+            <span class="prefix"> | ID {{model?.code}}</span>
+        </span>
     </mat-card-title>
     <div>
         <y-star-rating [rating]="model?.averageRating"></y-star-rating>
         <button mat-button (click)="onClick">Reviews</button>
         <button mat-button (click)="onClick">Write a review</button>
     </div>
-    
+
     <mat-card-content>
         <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start" fxLayoutGap="24px">
             <y-product-images fxFlexOrder.xs="2" [productCode]="productCode" fxFlex="50%"></y-product-images>
@@ -36,13 +36,11 @@
                 <y-product-reviews [productCode]="productCode"></y-product-reviews>
             </mat-tab>
 
-            <mat-tab label="Delivery">
-                <y-dynamic-slot position="Tabs"></y-dynamic-slot>    
+            <mat-tab label="DELIVERY">
+                <y-dynamic-slot position="Tabs"></y-dynamic-slot>
             </mat-tab>
         </mat-tab-group>
 
     </mat-card-content>
 
 </mat-card>
-
-

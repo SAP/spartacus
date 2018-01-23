@@ -26,11 +26,4 @@ export class ProductDetailPageComponent extends AbstractPage implements OnInit {
       (params: Params) => (this.productCode = params['productCode'])
     );
   }
-
-  //   loadAdditionData(params: Params) {
-  //     if (params['productCode']) {
-  //       this.productCode = params['productCode'];
-  //       // TODO: init component
-  //     }
-  //   }
 }
