@@ -67,9 +67,6 @@ fdescribe('ProductCarouselComponent in CmsLib', () => {
       of(productCodeArray)
     );
 
-    spyOn(productCarouselComponent, 'getProductCodes').and.returnValue(
-      productCodeArray
-    );
     spyOn(productCarouselComponent, 'stop').and.callThrough();
     spyOn(productCarouselComponent, 'continue').and.callThrough();
   });
@@ -90,9 +87,18 @@ fdescribe('ProductCarouselComponent in CmsLib', () => {
   });
 
   it('should call getProductCodes()', () => {
+    spyOn(productCarouselComponent, 'getProductCodes').and.returnValue(
+      productCodeArray
+    );
     const codes = productCarouselComponent.getProductCodes();
     expect(productCarouselComponent.getProductCodes).toHaveBeenCalled();
     expect(codes).toBe(productCodeArray);
+  });
+
+  it('should call getProductCodes()', () => {
+    spyOn(productCarouselComponent, 'getProductCodes').and.callThrough();
+    const codes = productCarouselComponent.getProductCodes();
+    expect(productCarouselComponent.getProductCodes).toHaveBeenCalled();
   });
 
   it('should call stop()', () => {
