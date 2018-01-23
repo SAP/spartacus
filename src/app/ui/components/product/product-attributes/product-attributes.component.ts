@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
-    selector: 'y-product-attributes',
-    templateUrl: './product-attributes.component.html',
-    styleUrls: ['./product-attributes.component.scss']
+  selector: 'y-product-attributes',
+  templateUrl: './product-attributes.component.html',
+  styleUrls: ['./product-attributes.component.scss']
 })
-export class ProductAttributesComponent extends AbstractProductComponent {
-
-}
+export class ProductAttributesComponent extends AbstractProductComponent {}
