@@ -56,4 +56,6 @@ fdescribe('ProductDetailsComponent in ui', () => {
   it('should be created', () => {
     expect(productDetailsComponent).toBeTruthy();
   });
+
+  // TODO: after replacing material with boothstrap4, need some ui test here
 });
