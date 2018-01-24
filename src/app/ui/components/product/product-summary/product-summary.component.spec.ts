@@ -25,14 +25,7 @@ fdescribe('ProductSummaryComponent in ui', () => {
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
-          }),
-          RouterTestingModule,
-          MaterialModule
-        ],
+        imports: [RouterTestingModule, MaterialModule],
         declarations: [
           ProductDetailsComponent,
           StarRatingComponent,
