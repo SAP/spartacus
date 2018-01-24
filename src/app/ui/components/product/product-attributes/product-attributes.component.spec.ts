@@ -1,3 +1,4 @@
+import { of } from 'rxjs/observable/of';
 import { OccProductSearchService } from './../../../../occ/occ-core/product-search.service';
 import { OccProductService } from './../../../../occ/occ-core/product.service';
 import { SiteContextService } from './../../../../data/site-context.service';
@@ -322,6 +323,7 @@ const componentData = {
 
 class ProductLoaderServiceMock {
   loadProduct(productCode: string): void {}
+  getSubscription(productCode: string) {}
 }
 class OccProductServiceMock {}
 class OccProductSearchServiceMock {}
@@ -392,9 +394,11 @@ fdescribe('ProductAttributesComponent in UI', () => {
   });
 
   it('should load specified data', () => {
-    spyOn(productLoader, 'loadProduct');
+    spyOn(productLoader, 'getSubscription').and.returnValue(of(componentData));
 
     productAttributesComponent.productCode = id;
     productAttributesComponent.ngOnChanges();
+
+    expect(productAttributesComponent.model).toEqual(componentData);
   });
 });
