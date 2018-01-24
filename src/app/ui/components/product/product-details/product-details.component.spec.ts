@@ -51,10 +51,20 @@ fdescribe('ProductDetailsComponent in ui', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductDetailsComponent);
     productDetailsComponent = fixture.componentInstance;
+
+    spyOn(productDetailsComponent, 'selectedIndexChange').and.callThrough();
   });
 
   it('should be created', () => {
     expect(productDetailsComponent).toBeTruthy();
+  });
+
+  it('should call selectedIndexChange(val)', () => {
+    productDetailsComponent.selectedIndexChange(1);
+    expect(productDetailsComponent.selectedIndex).toBe(1);
+
+    productDetailsComponent.selectedIndexChange(2);
+    expect(productDetailsComponent.selectedIndex).toBe(2);
   });
 
   // TODO: after replacing material with boothstrap4, need some ui test here
