@@ -11,6 +11,7 @@ import * as fromRoot from './../../routing/store';
 import { of } from 'rxjs/observable/of';
 
 import * as fromActions from './../shared/store/actions/currencies.action';
+import { PageType } from '../../routing/models/page-context.model';
 
 class MockConfigService {
   site = {
@@ -20,7 +21,10 @@ class MockConfigService {
 }
 
 fdescribe('CurrencySelectorComponent', () => {
-  const currencies = ['USD', 'JPY'];
+  const currencies: any[] = [
+    { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
+  ];
+
   let component: CurrencySelectorComponent;
   let fixture: ComponentFixture<CurrencySelectorComponent>;
   let store: Store<fromStore.SiteContextState>;
@@ -54,6 +58,7 @@ fdescribe('CurrencySelectorComponent', () => {
     fixture.detectChanges();
 
     store = TestBed.get(Store);
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should create', () => {
@@ -69,8 +74,6 @@ fdescribe('CurrencySelectorComponent', () => {
   });
 
   it('should get currency data', () => {
-    spyOn(store, 'select').and.returnValue(of(currencies));
-
     const action = new fromActions.LoadCurrenciesSuccess(currencies);
     store.dispatch(action);
 
@@ -80,13 +83,27 @@ fdescribe('CurrencySelectorComponent', () => {
   });
 
   it('should change currency', () => {
-    const usdCurrency = 'USD';
+    const pageContext = { id: 'testPageId', type: PageType.CONTENT_PAGE };
+    store.dispatch({
+      type: 'ROUTER_NAVIGATION',
+      payload: {
+        routerState: {
+          context: pageContext
+        },
+        event: {}
+      }
+    });
 
+    const usdCurrency = 'USD';
     component.setActiveCurrency(usdCurrency);
     expect(component.activeCurrency).toEqual(usdCurrency);
 
-    store.select(fromStore.getActiveCurrency).subscribe(data => {
-      expect(data).toEqual(usdCurrency);
-    });
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromActions.SetActiveCurrency(usdCurrency)
+    );
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromActions.CurrencyChange(pageContext)
+    );
   });
 });
