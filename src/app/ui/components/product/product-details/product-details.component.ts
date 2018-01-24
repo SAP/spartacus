@@ -20,6 +20,8 @@ import { MatTabChangeEvent } from '@angular/material';
 export class ProductDetailsComponent extends AbstractProductComponent {
   selectedIndex = 0;
 
+  // This is for opening the reviews tab when the review button on top
+  // of the product image is clicked
   selectedIndexChange(val) {
     this.selectedIndex = val;
   }
