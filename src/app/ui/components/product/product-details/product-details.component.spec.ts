@@ -1,4 +1,3 @@
-import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductDetailsComponent } from './product-details.component';
 import { MaterialModule } from 'app/material.module';
@@ -13,24 +12,33 @@ import { ComponentWrapperComponent } from 'app/cms/component-wrapper/component-w
 import { ProductLoaderService } from 'app/data/product-loader.service';
 import * as fromRoot from '../../../../routing/store';
 import * as fromCmsReducer from '../../../../newcms/store/reducers';
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ConfigService } from '../../../../newcms/config.service';
+import { of } from 'rxjs/observable/of';
+
+class MockProductLoaderService {
+  loadProduct(productCode) {}
+  getSubscription(productCode) {}
+}
 
 fdescribe('ProductDetailsComponent in ui', () => {
+  let store: Store<fromCmsReducer.CmsState>;
   let productDetailsComponent: ProductDetailsComponent;
   let fixture: ComponentFixture<ProductDetailsComponent>;
+  let productLoader: ProductLoaderService;
+
+  const componentData = 'Mock data for product details component.';
 
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
         imports: [
+          MaterialModule,
           StoreModule.forRoot({
             ...fromRoot.reducers,
             cms: combineReducers(fromCmsReducer.reducers)
           }),
-          RouterTestingModule,
-          MaterialModule
+          RouterTestingModule
         ],
         declarations: [
           ProductDetailsComponent,
@@ -43,7 +51,12 @@ fdescribe('ProductDetailsComponent in ui', () => {
           ComponentWrapperComponent,
           PictureComponent
         ],
-        providers: [{ provide: ProductLoaderService }]
+        providers: [
+          {
+            provide: ProductLoaderService,
+            useClass: MockProductLoaderService
+          }
+        ]
       }).compileComponents();
     })
   );
@@ -51,12 +64,20 @@ fdescribe('ProductDetailsComponent in ui', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductDetailsComponent);
     productDetailsComponent = fixture.componentInstance;
+    productLoader = TestBed.get(ProductLoaderService);
+    store = TestBed.get(Store);
 
-    spyOn(productDetailsComponent, 'selectedIndexChange').and.callThrough();
+    spyOn(productLoader, 'getSubscription').and.returnValue(of(componentData));
   });
 
   it('should be created', () => {
     expect(productDetailsComponent).toBeTruthy();
+  });
+
+  it('should call ngOnChanges()', () => {
+    productDetailsComponent.productCode = '123456';
+    productDetailsComponent.ngOnChanges();
+    expect(productDetailsComponent.model).toEqual(componentData);
   });
 
   it('should call selectedIndexChange(val)', () => {
@@ -66,6 +87,4 @@ fdescribe('ProductDetailsComponent in ui', () => {
     productDetailsComponent.selectedIndexChange(2);
     expect(productDetailsComponent.selectedIndex).toBe(2);
   });
-
-  // TODO: after replacing material with boothstrap4, need some ui test here
 });
