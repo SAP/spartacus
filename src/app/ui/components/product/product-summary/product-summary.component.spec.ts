@@ -18,23 +18,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ConfigService } from '../../../../newcms/config.service';
 import { By } from '@angular/platform-browser';
 
-export class MocksStock {
-  stockLevelStatus = 'Dummy Stock Level Status';
-  stockLevel = 'Dummy Stock Level';
-}
-
-export class MockPrice {
-  formattedValue = '$123';
-}
-export class MockModel {
-  price = '123';
-  stock = new MocksStock();
-}
-
 fdescribe('ProductSummaryComponent in ui', () => {
   let productSummaryComponent: ProductSummaryComponent;
   let fixture: ComponentFixture<ProductSummaryComponent>;
-  const mockModel = new MockModel();
 
   beforeEach(
     async(() => {
