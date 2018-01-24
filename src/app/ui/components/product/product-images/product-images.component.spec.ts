@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
 
 class MockImages {
-  PRIMARY = ['image1', 'image2'];
+  PRIMARY = 'mockPrimaryImage';
 }
 
 class MockModel {
@@ -23,7 +23,6 @@ fdescribe('ProductImagesComponent in ui', () => {
   let fixture: ComponentFixture<ProductImagesComponent>;
   let productLoader: ProductLoaderService;
 
-  const mockImages: any[] = ['image1', 'image2'];
   const componentData = 'Mock data for product images component.';
 
   beforeEach(
@@ -62,7 +61,7 @@ fdescribe('ProductImagesComponent in ui', () => {
 
   it('should call ready()', () => {
     productImagesComponent.ready();
-    expect(productImagesComponent.mainImage).toEqual(mockImages);
+    expect(productImagesComponent.mainImage).toEqual('mockPrimaryImage');
   });
 
   it('should call ngOnChanges()', () => {
