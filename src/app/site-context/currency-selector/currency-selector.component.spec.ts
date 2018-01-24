@@ -10,6 +10,8 @@ import * as fromStore from './../shared/store';
 import * as fromRoot from './../../routing/store';
 import { of } from 'rxjs/observable/of';
 
+import * as fromActions from './../shared/store/actions/currencies.action';
+
 class MockConfigService {
   site = {
     language: 'de',
@@ -52,7 +54,6 @@ fdescribe('CurrencySelectorComponent', () => {
     fixture.detectChanges();
 
     store = TestBed.get(Store);
-    spyOn(store, 'select').and.returnValue(of(currencies));
   });
 
   it('should create', () => {
@@ -65,5 +66,27 @@ fdescribe('CurrencySelectorComponent', () => {
 
     // ...
     // after the migrate from Material to Bootstrap is finished, we should test the UI part
+  });
+
+  it('should get currency data', () => {
+    spyOn(store, 'select').and.returnValue(of(currencies));
+
+    const action = new fromActions.LoadCurrenciesSuccess(currencies);
+    store.dispatch(action);
+
+    store.select(fromStore.getAllCurrencies).subscribe(data => {
+      expect(data).toEqual(currencies);
+    });
+  });
+
+  it('should change currency', () => {
+    const usdCurrency = 'USD';
+
+    component.setActiveCurrency(usdCurrency);
+    expect(component.activeCurrency).toEqual(usdCurrency);
+
+    store.select(fromStore.getActiveCurrency).subscribe(data => {
+      expect(data).toEqual(usdCurrency);
+    });
   });
 });

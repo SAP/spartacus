@@ -55,7 +55,6 @@ fdescribe('LanguageSelectorComponent', () => {
     fixture.detectChanges();
 
     store = TestBed.get(Store);
-    // spyOn(store, 'select').and.returnValue(of(langauges));
   });
 
   it('should create', () => {
@@ -71,13 +70,24 @@ fdescribe('LanguageSelectorComponent', () => {
   });
 
   it('should get language data', () => {
+    spyOn(store, 'select').and.returnValue(of(languages));
+
     const action = new fromActions.LoadLanguagesSuccess(languages);
     store.dispatch(action);
 
     store.select(fromStore.getAllLanguages).subscribe(data => {
-      console.log(`LANGUAGE: ${data}`);
+      expect(data).toEqual(languages);
     });
   });
 
-  it('should change language when button clicked', () => {});
+  it('should change language', () => {
+    const englishLanguage = 'en';
+
+    component.setActiveLanguage(englishLanguage);
+    expect(component.activeLanguage).toEqual(englishLanguage);
+
+    store.select(fromStore.getActiveLanguage).subscribe(data => {
+      expect(data).toEqual(englishLanguage);
+    });
+  });
 });
