@@ -23,10 +23,7 @@ export const getCmsState = createFeatureSelector<CmsState>('cms');
 
 export function clearCmsState(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
-    if (
-      action.type === '[Site-context] Language Change' ||
-      action.type === '[Site-context] Currency Change'
-    ) {
+    if (action.type === '[Site-context] Language Change') {
       state = undefined;
     }
     return reducer(state, action);

@@ -18,11 +18,7 @@ import {
 export class PageEffects {
   @Effect()
   loadPage$ = this.actions$
-    .ofType(
-      pageActions.LOAD_PAGEDATA,
-      '[Site-context] Language Change',
-      '[Site-context] Currency Change'
-    )
+    .ofType(pageActions.LOAD_PAGEDATA, '[Site-context] Language Change')
     .pipe(
       map((action: pageActions.LoadPageData) => action.payload),
       switchMap(pageContext => {
