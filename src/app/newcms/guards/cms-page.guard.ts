@@ -47,14 +47,15 @@ export class CmsPageGuards implements CanActivate {
             for (let i = 0, len = defaultPageIds.length; i < len; i++) {
               key = defaultPageIds[i] + '_' + pageContext.type;
               found =
-                entities[key] && entities[key].seen.indexOf(pageContext.id) > 0;
+                entities[key] &&
+                entities[key].seen.indexOf(pageContext.id) > -1;
               if (found) {
                 break;
               }
             }
           }
         }
-        if (found && tryTimes == 0) {
+        if (found && tryTimes === 0) {
           this.store.dispatch(new fromStore.UpdateLatestPageKey(key));
         }
         return found;
