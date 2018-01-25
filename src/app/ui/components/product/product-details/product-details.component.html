@@ -9,7 +9,6 @@
     <div>
         <y-star-rating [rating]="model?.averageRating"></y-star-rating>
         <button mat-button (click)="selectedIndexChange(2)">Reviews</button>
-        <!-- <y-product-reviews *ngIf="loadReviews" [productCode]="productCode"></y-product-reviews> -->
         <button mat-button (click)="onClick">Write a review</button>
 
     </div>
@@ -20,7 +19,6 @@
             <div fxFlex="50%" fxFlexOrder.xs="1">
                 <y-product-summary [productCode]="productCode"></y-product-summary>
                 <y-dynamic-slot flex position="AddToCart" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
-                <!--<y-dynamic-slot flex position="VariantSelector"></y-dynamic-slot>-->
             </div>
         </div>
 
