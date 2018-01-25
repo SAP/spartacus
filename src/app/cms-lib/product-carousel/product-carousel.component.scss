@@ -12,7 +12,6 @@
     &.animate {
       animation: carousel 25s infinite;
     }
-    // animation-delay: 2s, 4ms;
     &.pause {
       animation-play-state: paused;
     }
@@ -38,8 +37,6 @@
   0% {
     left: 0px;
   }
-  // 25%  {left: -200px;}
-  // 75%  {left: -400px}
   50% {
     left: calc(-800px);
   }
@@ -47,11 +44,3 @@
     left: 0px;
   }
 }
-
-// /* Safari 4.0 - 8.0 */
-// @-webkit-keyframes mymove {
-//     0%   {top: 0px;}
-//     25%  {top: 200px;}
-//     75%  {top: 50px}
-//     100% {top: 100px;}
-// }
