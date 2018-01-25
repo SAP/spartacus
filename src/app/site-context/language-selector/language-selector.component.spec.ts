@@ -1,3 +1,4 @@
+import { PageType } from './../../routing/models/page-context.model';
 import { SiteContextState } from './../shared/store/reducers/index';
 import { MaterialModule } from './../../material.module';
 import { ConfigService } from './../config.service';
@@ -21,7 +22,10 @@ class MockConfigService {
 }
 
 fdescribe('LanguageSelectorComponent', () => {
-  const languages = ['en', 'de'];
+  const languages = [
+    { active: false, isocode: 'en', name: 'English', nativeName: 'English' }
+  ];
+
   let component: LanguageSelectorComponent;
   let fixture: ComponentFixture<LanguageSelectorComponent>;
   let store: Store<fromStore.SiteContextState>;
@@ -55,6 +59,7 @@ fdescribe('LanguageSelectorComponent', () => {
     fixture.detectChanges();
 
     store = TestBed.get(Store);
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should create', () => {
@@ -70,8 +75,6 @@ fdescribe('LanguageSelectorComponent', () => {
   });
 
   it('should get language data', () => {
-    spyOn(store, 'select').and.returnValue(of(languages));
-
     const action = new fromActions.LoadLanguagesSuccess(languages);
     store.dispatch(action);
 
@@ -81,13 +84,27 @@ fdescribe('LanguageSelectorComponent', () => {
   });
 
   it('should change language', () => {
-    const englishLanguage = 'en';
+    const pageContext = { id: 'testPageId', type: PageType.CONTENT_PAGE };
+    store.dispatch({
+      type: 'ROUTER_NAVIGATION',
+      payload: {
+        routerState: {
+          context: pageContext
+        },
+        event: {}
+      }
+    });
 
+    const englishLanguage = 'en';
     component.setActiveLanguage(englishLanguage);
     expect(component.activeLanguage).toEqual(englishLanguage);
 
-    store.select(fromStore.getActiveLanguage).subscribe(data => {
-      expect(data).toEqual(englishLanguage);
-    });
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromActions.SetActiveLanguage(englishLanguage)
+    );
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromActions.LanguageChange(pageContext)
+    );
   });
 });
