@@ -1,8 +1,8 @@
-import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
 
+import * as fromActions from './../../../product/store/actions';
 import * as fromStore from './../../../product/store';
 import * as fromSelectors from './../../../product/store/selectors/product.selectors';
 
@@ -11,63 +11,36 @@ export class ProductGuard implements CanActivate {
   constructor(private store: Store<fromStore.ProductsState>) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    const productCode = route.params['productCode'];
-
-    {
-      const xxx = [
-        { productCode: '1', x: 1 },
-        { productCode: '2', x: 2 },
-        { productCode: '3', x: 3 },
-        { productCode: '4', x: 4 },
-        { productCode: '5', x: 5 }
-      ];
-      Observable.of(xxx)
-        .filter(products => {
-          console.log('FILTER');
-
-          if (products && Array.isArray(products)) {
-            let found;
-            for (const element of products) {
-              if (element.productCode === '4') {
-                found = element;
-                break;
-              }
-            }
-
-            if (found) {
-              console.log('FOUND');
-              return true;
-            }
-            return false;
-            // return found !== undefined;
-          } else {
-            return false;
-          }
-        })
-        .subscribe((x: any) => {
-          console.log('SUBSCRIBE');
-
-          if (Array.isArray(x)) {
-            console.log('ARRAY:');
-            x.forEach(element => console.log(element));
-          } else {
-            console.log(`ONE: ${x.productCode}`);
-          }
-        });
-    }
+    const requestedProductCode = route.params['productCode'];
 
     this.store
       .select(fromSelectors.getAllProductCodes)
-      .filter(products => {
-        if (products && Array.isArray(products)) {
+      .map(productCodes =>
+        this.findProductCode(productCodes, requestedProductCode)
+      )
+      .subscribe(productCode => {
+        if (!productCode) {
+          this.store.dispatch(
+            new fromActions.LoadProduct(requestedProductCode)
+          );
         }
-
-        return false;
-      })
-      .subscribe(product => {
-        console.log(`PRODUCT: ${product}`);
       });
 
     return true;
+  }
+
+  private findProductCode(
+    productCodes: Array<string>,
+    productCode: string
+  ): string {
+    const filteredProductCodes = productCodes.filter(currentProductCode => {
+      return currentProductCode === productCode;
+    });
+
+    if (filteredProductCodes.length > 0) {
+      return filteredProductCodes[0];
+    }
+
+    return undefined;
   }
 }
