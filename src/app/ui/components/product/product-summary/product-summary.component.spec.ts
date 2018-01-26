@@ -1,33 +1,31 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductSummaryComponent } from './product-summary.component';
-import { ProductLoaderService } from 'app/data/product-loader.service';
-import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from 'app/material.module';
+import { ProductSummaryComponent } from 'app/ui/components/product/product-summary/product-summary.component';
+import * as fromRoot from '../../../../routing/store';
+import * as fromCmsReducer from '../../../../newcms/store/reducers';
+import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
 
-class MockProductLoaderService {
-  loadProduct(productCode) {}
-  getSubscription(productCode) {}
-}
-
 fdescribe('ProductSummaryComponent in ui', () => {
+  let store: Store<fromCmsReducer.CmsState>;
   let productSummaryComponent: ProductSummaryComponent;
   let fixture: ComponentFixture<ProductSummaryComponent>;
-  let productLoader: ProductLoaderService;
 
-  const componentData = 'Mock data for product summary component.';
+  const mockProduct = ['mockProduct'];
 
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, MaterialModule],
-        declarations: [ProductSummaryComponent],
-        providers: [
-          {
-            provide: ProductLoaderService,
-            useClass: MockProductLoaderService
-          }
-        ]
+        imports: [
+          MaterialModule,
+          StoreModule.forRoot({
+            ...fromRoot.reducers,
+            cms: combineReducers(fromCmsReducer.reducers)
+          }),
+          RouterTestingModule
+        ],
+        declarations: [ProductSummaryComponent]
       }).compileComponents();
     })
   );
@@ -35,9 +33,9 @@ fdescribe('ProductSummaryComponent in ui', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductSummaryComponent);
     productSummaryComponent = fixture.componentInstance;
-    productLoader = TestBed.get(ProductLoaderService);
+    store = TestBed.get(Store);
 
-    spyOn(productLoader, 'getSubscription').and.returnValue(of(componentData));
+    spyOn(store, 'select').and.returnValue(of(mockProduct));
   });
 
   it('should be created', () => {
@@ -47,6 +45,6 @@ fdescribe('ProductSummaryComponent in ui', () => {
   it('should call ngOnChanges()', () => {
     productSummaryComponent.productCode = '123456';
     productSummaryComponent.ngOnChanges();
-    expect(productSummaryComponent.model).toEqual(componentData);
+    expect(productSummaryComponent.model).toEqual(mockProduct[0]);
   });
 });
