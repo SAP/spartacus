@@ -1,29 +1,31 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductLoaderService } from 'app/data/product-loader.service';
-import { of } from 'rxjs/observable/of';
 import { StarRatingComponent } from 'app/ui/components/product/star-rating/star-rating.component';
 import { MaterialModule } from 'app/material.module';
-
-class MockProductLoaderService {
-  loadProduct(productCode) {}
-  getSubscription(productCode) {}
-}
+import * as fromRoot from '../../../../routing/store';
+import * as fromCmsReducer from '../../../../newcms/store/reducers';
+import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs/observable/of';
 
 fdescribe('StarRatingComponent in ui', () => {
+  let store: Store<fromCmsReducer.CmsState>;
   let starRatingComponent: StarRatingComponent;
   let fixture: ComponentFixture<StarRatingComponent>;
-  let productLoader: ProductLoaderService;
 
-  const componentData = 'Mock data for product star rating component.';
+  const mockProduct = ['mockProduct'];
 
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        imports: [MaterialModule],
-        declarations: [StarRatingComponent],
-        providers: [
-          { provide: ProductLoaderService, useClass: MockProductLoaderService }
-        ]
+        imports: [
+          MaterialModule,
+          StoreModule.forRoot({
+            ...fromRoot.reducers,
+            cms: combineReducers(fromCmsReducer.reducers)
+          }),
+          RouterTestingModule
+        ],
+        declarations: [StarRatingComponent]
       }).compileComponents();
     })
   );
@@ -31,14 +33,20 @@ fdescribe('StarRatingComponent in ui', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StarRatingComponent);
     starRatingComponent = fixture.componentInstance;
-    productLoader = TestBed.get(ProductLoaderService);
+    store = TestBed.get(Store);
 
+    spyOn(store, 'select').and.returnValue(of(mockProduct));
     spyOn(starRatingComponent, 'getStar').and.callThrough();
-    spyOn(productLoader, 'getSubscription').and.returnValue(of(componentData));
   });
 
   it('should be created', () => {
     expect(starRatingComponent).toBeTruthy();
+  });
+
+  it('should call ngOnChanges()', () => {
+    starRatingComponent.productCode = '123456';
+    starRatingComponent.ngOnChanges();
+    expect(starRatingComponent.model).toEqual(mockProduct[0]);
   });
 
   it('should call getStar()', () => {
@@ -55,11 +63,5 @@ fdescribe('StarRatingComponent in ui', () => {
 
     icon = starRatingComponent.getStar(4);
     expect(icon).toEqual('star_outline');
-  });
-
-  it('should call ngOnChanges()', () => {
-    starRatingComponent.productCode = '123456';
-    starRatingComponent.ngOnChanges();
-    expect(starRatingComponent.model).toEqual(componentData);
   });
 });
