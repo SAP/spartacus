@@ -79,12 +79,4 @@ fdescribe('ProductDetailsComponent in ui', () => {
     productDetailsComponent.ngOnChanges();
     expect(productDetailsComponent.model).toEqual(componentData);
   });
-
-  it('should call selectedIndexChange(val)', () => {
-    productDetailsComponent.selectedIndexChange(1);
-    expect(productDetailsComponent.selectedIndex).toBe(1);
-
-    productDetailsComponent.selectedIndexChange(2);
-    expect(productDetailsComponent.selectedIndex).toBe(2);
-  });
 });
