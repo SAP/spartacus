@@ -1,3 +1,4 @@
+import { ProductGuard } from './product-guard';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -16,33 +17,35 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
 import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        MediaModule,
-        MaterialModule,
-        FlexLayoutModule,
-        CmsModule
-    ],
-    declarations: [
-        ProductSummaryComponent,
-        ProductAttributesComponent,
-        ProductDetailsComponent,
-        ProductImagesComponent,
-        StarRatingComponent,
-        ProductReviewsComponent
-    ],
-    exports: [
-        ProductDetailsComponent,
-        ProductSummaryComponent,
-        ProductAttributesComponent,
-        ProductImagesComponent
-    ],
-    providers: [
-        {
-            // TODO: configure locale
-            provide: LOCALE_ID, useValue: 'en-EN'
-        },
-    ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MediaModule,
+    MaterialModule,
+    FlexLayoutModule,
+    CmsModule
+  ],
+  declarations: [
+    ProductSummaryComponent,
+    ProductAttributesComponent,
+    ProductDetailsComponent,
+    ProductImagesComponent,
+    StarRatingComponent,
+    ProductReviewsComponent
+  ],
+  exports: [
+    ProductDetailsComponent,
+    ProductSummaryComponent,
+    ProductAttributesComponent,
+    ProductImagesComponent
+  ],
+  providers: [
+    {
+      // TODO: configure locale
+      provide: LOCALE_ID,
+      useValue: 'en-EN'
+    },
+    ProductGuard
+  ]
 })
-export class ProductModule { }
+export class ProductModule {}
