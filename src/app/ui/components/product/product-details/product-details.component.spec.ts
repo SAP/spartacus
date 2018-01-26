@@ -64,6 +64,6 @@ fdescribe('ProductDetailsComponent in ui', () => {
   it('should call ngOnChanges()', () => {
     productDetailsComponent.productCode = '123456';
     productDetailsComponent.ngOnChanges();
-    expect(productDetailsComponent.model).toEqual(mockProduct);
+    expect(productDetailsComponent.model).toEqual(mockProduct[0]);
   });
 });
