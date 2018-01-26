@@ -1,3 +1,4 @@
+import { ProductGuard } from './ui/components/product/product-guard';
 import { Routes } from '@angular/router';
 
 import { HomePageComponent } from './ui/templates/home-page/home-page.component';
@@ -30,7 +31,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'product/:productCode',
-    canActivate: [CmsPageGuards],
+    canActivate: [CmsPageGuards, ProductGuard],
     component: ProductDetailPageComponent
   },
 
