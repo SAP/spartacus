@@ -1,25 +1,7 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-// import { ProductImagesComponent } from './product-images.component';
-// import { PictureComponent } from 'app/ui/components/media/picture/picture.component';
-// import { RouterTestingModule } from '@angular/router/testing';
-// import { of } from 'rxjs/observable/of';
-// import { MaterialModule } from 'app/material.module';
-// import { StoreModule } from '@ngrx/store/src/store_module';
-// import { combineReducers } from '@ngrx/store/src/utils';
-// import { Store } from '@ngrx/store/src/store';
-// import * as fromRoot from '../../../../routing/store';
-// import * as fromCmsReducer from '../../../../newcms/store/reducers';
-
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MaterialModule } from 'app/material.module';
-import { DynamicSlotComponent } from 'app/newcms/components';
-import { ProductReviewsComponent } from 'app/ui/components/product/product-reviews/product-reviews.component';
-import { StarRatingComponent } from 'app/ui/components/product/star-rating/star-rating.component';
 import { ProductImagesComponent } from 'app/ui/components/product/product-images/product-images.component';
-import { ProductSummaryComponent } from 'app/ui/components/product/product-summary/product-summary.component';
-import { ProductAttributesComponent } from 'app/ui/components/product/product-attributes/product-attributes.component';
 import { PictureComponent } from 'app/ui/components/media/picture/picture.component';
-import { ComponentWrapperComponent } from 'app/cms/component-wrapper/component-wrapper.component';
 import * as fromRoot from '../../../../routing/store';
 import * as fromCmsReducer from '../../../../newcms/store/reducers';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
