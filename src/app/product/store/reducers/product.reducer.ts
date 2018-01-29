@@ -26,6 +26,10 @@ export function reducer(
         entities
       };
     }
+    case fromProduct.LOAD_PRODUCT_FAIL: {
+      // TODO[249] what to return in this case?
+      console.log(`FAIL REDUCER: ${action.payload}`);
+    }
   }
   return state;
 }

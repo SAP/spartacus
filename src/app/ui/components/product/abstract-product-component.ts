@@ -9,7 +9,6 @@ import {
 
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../../product/store';
-import * as fromSelectors from './../../../product/store/selectors';
 
 @Injectable()
 export abstract class AbstractProductComponent implements OnInit, OnChanges {
@@ -26,7 +25,7 @@ export abstract class AbstractProductComponent implements OnInit, OnChanges {
     if (this.productCode) {
       this.store
         .select(
-          fromSelectors.getSelectedProductsFactory(
+          fromStore.getSelectedProductsFactory(
             new Array<String>(this.productCode)
           )
         )
