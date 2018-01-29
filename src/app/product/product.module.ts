@@ -1,3 +1,4 @@
+import { ProductGuard } from './../ui/components/product/product-guard';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
@@ -22,7 +23,7 @@ import * as fromConverter from './converters';
     StoreModule.forFeature('products', reducers),
     EffectsModule.forFeature(effects)
   ],
-  providers: [...fromConverter.services]
+  providers: [...fromConverter.services, ProductGuard]
   // declarations: [...fromComponents.components],
   // exports: [...fromComponents.components]
 })

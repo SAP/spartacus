@@ -1,46 +1,43 @@
-import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
+import { CanActivate } from '@angular/router';
 
-import * as fromActions from './../../../product/store/actions';
+import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+
 import * as fromStore from './../../../product/store';
-import * as fromSelectors from './../../../product/store/selectors/product.selectors';
+import * as fromRouting from './../../../routing/store';
+import { tap, filter, map, take, switchMap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class ProductGuard implements CanActivate {
   constructor(private store: Store<fromStore.ProductsState>) {}
 
-  canActivate(route: ActivatedRouteSnapshot): boolean {
-    const requestedProductCode = route.params['productCode'];
-
+  canActivate(): Observable<boolean> {
+    let requestedProductCode;
     this.store
-      .select(fromSelectors.getAllProductCodes)
-      .map(productCodes =>
-        this.findProductCode(productCodes, requestedProductCode)
-      )
-      .subscribe(productCode => {
-        if (!productCode) {
-          this.store.dispatch(
-            new fromActions.LoadProduct(requestedProductCode)
-          );
-        }
-      });
+      .select(fromRouting.getRouterState)
+      .subscribe(
+        routerState =>
+          (requestedProductCode = routerState.state.params['productCode'])
+      );
 
-    return true;
+    return this.checkStore(requestedProductCode).pipe(
+      switchMap(() => of(true)),
+      catchError(err => of(false))
+    );
   }
 
-  private findProductCode(
-    productCodes: Array<string>,
-    productCode: string
-  ): string {
-    const filteredProductCodes = productCodes.filter(currentProductCode => {
-      return currentProductCode === productCode;
-    });
-
-    if (filteredProductCodes.length > 0) {
-      return filteredProductCodes[0];
-    }
-
-    return undefined;
+  private checkStore(requestedProductCode: string): Observable<boolean> {
+    return this.store.select(fromStore.getAllProductCodes).pipe(
+      tap((codes: Array<string>) => {
+        const found = codes.indexOf(requestedProductCode) > -1;
+        if (!found) {
+          this.store.dispatch(new fromStore.LoadProduct(requestedProductCode));
+        }
+      }),
+      filter(found => found),
+      take(1)
+    );
   }
 }
