@@ -26,7 +26,10 @@ export function clearProductsState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return function(state, action) {
-    if (action.type === '[Site-context] Currency Change') {
+    if (
+      action.type === '[Site-context] Currency Change' ||
+      action.type === '[Site-context] Language Change'
+    ) {
       state = undefined;
     }
     return reducer(state, action);
