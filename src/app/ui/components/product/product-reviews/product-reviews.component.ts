@@ -21,11 +21,21 @@ export class ProductReviewsComponent extends AbstractProductComponent
   ngOnInit() {
     this.maxListItems = this.initialMaxListItems;
     if (this.productCode) {
+<<<<<<< HEAD
       this.store
         .select(fromStore.getProductReviewsEntities)
         .subscribe(reviews => {
           if (reviews && reviews.list) {
             this.reviews = reviews.list;
+=======
+      this.productLoader.loadReviews(this.productCode);
+      this.productLoader
+        .getSubscription(this.productCode + 'reviews')
+        .subscribe(reviewData => {
+          // console.log('reviewData', reviewData);
+          if (reviewData && reviewData.reviews) {
+            this.reviews = reviewData.reviews;
+>>>>>>> origin/feature/SPA-223
           }
         });
     }
