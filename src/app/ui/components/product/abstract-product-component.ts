@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import {
   Injectable,
   Input,
@@ -5,7 +6,10 @@ import {
   OnChanges,
   ChangeDetectorRef
 } from '@angular/core';
-import { ProductLoaderService } from '../../../data/product-loader.service';
+
+import { Store } from '@ngrx/store';
+import * as fromStore from './../../../product/store';
+import * as fromSelectors from './../../../product/store/selectors';
 
 @Injectable()
 export abstract class AbstractProductComponent implements OnInit, OnChanges {
@@ -14,20 +18,31 @@ export abstract class AbstractProductComponent implements OnInit, OnChanges {
   @Input() productCode: string;
 
   constructor(
-    protected productLoader: ProductLoaderService,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
+    protected store: Store<fromStore.ProductsState>
   ) {}
 
   ngOnChanges() {
     if (this.productCode) {
-      this.productLoader.loadProduct(this.productCode);
-      this.productLoader.getSubscription(this.productCode).subscribe(data => {
-        this.model = data;
-        // this.cd.markForCheck();
-        this.ready();
-      });
+      this.store
+        .select(
+          fromSelectors.getSelectedProductsFactory(
+            new Array<String>(this.productCode)
+          )
+        )
+        .map(products => {
+          if (products && Array.isArray(products) && products.length > 0) {
+            return products[0];
+          }
+        })
+        .subscribe(product => {
+          this.model = product;
+          // this.cd.markForCheck();
+          this.ready();
+        });
     }
   }
+
   ngOnInit() {}
 
   // HOOK
