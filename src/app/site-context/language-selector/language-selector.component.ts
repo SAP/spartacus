@@ -52,6 +52,6 @@ export class LanguageSelectorComponent implements OnInit {
     if (pageContext !== undefined) {
       this.store.dispatch(new fromStore.LanguageChange(pageContext));
     }
-    localStorage.setItem('language', this.activeLanguage);
+    sessionStorage.setItem('language', this.activeLanguage);
   }
 }

@@ -7,12 +7,12 @@ export class ConfigService {
     occPrefix: '/rest/v2/'
   };
 
-  lang = localStorage.getItem('language') === null
+  lang = sessionStorage.getItem('language') === null
     ? 'en'
-    : localStorage.getItem('language');
-  curr = localStorage.getItem('currency') === null
+    : sessionStorage.getItem('language');
+  curr = sessionStorage.getItem('currency') === null
     ? 'USD'
-    : localStorage.getItem('currency');
+    : sessionStorage.getItem('currency');
 
   site = {
     baseSite: 'electronics',
