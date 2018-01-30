@@ -1,8 +1,8 @@
 import { of } from 'rxjs/observable/of';
-import { OccProductSearchService } from './../../../../occ/occ-core/product-search.service';
-import { OccProductService } from './../../../../occ/occ-core/product.service';
-import { SiteContextService } from './../../../../data/site-context.service';
-import { ProductModelService } from './../../../../data/product-model.service';
+import { OccProductSearchService } from './../../occ/occ-core/product-search.service';
+import { OccProductService } from './../../occ/occ-core/product.service';
+import { SiteContextService } from './../../data/site-context.service';
+import { ProductModelService } from './../../data/product-model.service';
 
 import { ProductModule } from './../product.module';
 import { MaterialModule } from 'app/material.module';
@@ -12,11 +12,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductAttributesComponent } from './product-attributes.component';
 import { DebugElement } from '@angular/core';
 
-import * as fromRoot from '../../../../routing/store';
-import * as fromCmsReducer from '../../../../newcms/store/reducers';
+import * as fromRoot from '../../routing/store';
+import * as fromCmsReducer from '../../newcms/store/reducers';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { ProductLoaderService } from '../../../../data/product-loader.service';
+import { ProductLoaderService } from '../../data/product-loader.service';
 
 const id = '1641905';
 const componentData = {
@@ -334,7 +334,7 @@ class SiteContextServiceMock {
   }
 }
 
-fdescribe('ProductAttributesComponent in UI', () => {
+fdescribe('ProductAttributesComponent in product', () => {
   let store: Store<fromCmsReducer.CmsState>;
   let productAttributesComponent: ProductAttributesComponent;
   let fixture: ComponentFixture<ProductAttributesComponent>;

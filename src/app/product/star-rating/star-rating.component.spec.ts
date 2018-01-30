@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StarRatingComponent } from 'app/ui/components/product/star-rating/star-rating.component';
+import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { MaterialModule } from 'app/material.module';
-import * as fromRoot from '../../../../routing/store';
-import * as fromCmsReducer from '../../../../newcms/store/reducers';
+import * as fromRoot from '../../routing/store';
+import * as fromCmsReducer from '../../newcms/store/reducers';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
 
-fdescribe('StarRatingComponent in ui', () => {
+fdescribe('StarRatingComponent in product', () => {
   let store: Store<fromCmsReducer.CmsState>;
   let starRatingComponent: StarRatingComponent;
   let fixture: ComponentFixture<StarRatingComponent>;
