@@ -1,4 +1,4 @@
-import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
+import { ActionReducerMap, createFeatureSelector, MemoizedSelector } from '@ngrx/store';
 
 import * as fromPage from './page.reducer';
 import * as fromComponent from './component.reducer';

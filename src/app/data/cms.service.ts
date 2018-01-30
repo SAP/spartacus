@@ -3,6 +3,9 @@ import { OccCmsService } from "../occ/occ-cms/occ-cms.service";
 import { ModelService } from "./model.service";
 import { SiteContextService } from "./site-context.service";
 
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import 'rxjs/add/operator/map';
+
 const PAGE_PREFIX = "page";
 const SLOT_PREFIX = "slot";
 const COMPONENT_PREFIX = "comp";
