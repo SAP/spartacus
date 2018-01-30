@@ -28,9 +28,9 @@ export class ProductGuard implements CanActivate {
     );
   }
 
-  private checkStore(requestedProductCode: string): Observable<boolean> {
+  private checkStore(requestedProductCode: string): Observable<string[]> {
     return this.store.select(fromStore.getAllProductCodes).pipe(
-      tap((codes: Array<string>) => {
+      tap(codes => {
         const found = codes.indexOf(requestedProductCode) > -1;
         if (!found) {
           this.store.dispatch(new fromStore.LoadProduct(requestedProductCode));
@@ -38,9 +38,7 @@ export class ProductGuard implements CanActivate {
             new fromStore.LoadProductReviews(requestedProductCode)
           );
         }
-      }),
-      filter(found => found),
-      take(1)
+      })
     );
   }
 }

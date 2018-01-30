@@ -11,7 +11,7 @@ import { of } from 'rxjs/observable/of';
 export class ProductReviewsEffects {
   @Effect()
   loadProductReviews$ = this.actions$
-    .ofType(productReviewsActions.LOAD_REVIEWS)
+    .ofType(productReviewsActions.LOAD_PRODUCT_REVIEWS)
     .pipe(
       map((action: productReviewsActions.LoadProductReviews) => action.payload),
       mergeMap(productCode => {
