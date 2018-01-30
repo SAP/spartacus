@@ -1,3 +1,4 @@
+import { PageType } from './../routing/models/page-context.model';
 import { ProductGuard } from './product-guard';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromStore from './store';
@@ -6,14 +7,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 fdescribe('ProductGuard', () => {
   const productCode = '123';
-  const pageActionPayload = {
-    routerState: {
-      url: '/product',
-      params: {
-        productCode: productCode
-      }
-    }
-  };
 
   let productGuard: ProductGuard;
   let store: Store<fromStore.ProductsState>;
@@ -24,7 +17,7 @@ fdescribe('ProductGuard', () => {
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromStore.reducers,
-          product: combineReducers(fromStore.reducers)
+          products: combineReducers(fromStore.reducers)
         })
       ],
       providers: [ProductGuard]
@@ -39,7 +32,15 @@ fdescribe('ProductGuard', () => {
   it('should return true when there is no error', () => {
     store.dispatch({
       type: 'ROUTER_NAVIGATION',
-      payload: pageActionPayload
+      payload: {
+        routerState: {
+          url: '/test',
+          queryParams: {},
+          params: { productCode: productCode },
+          context: { id: 'testPageId', type: PageType.CONTENT_PAGE }
+        },
+        event: {}
+      }
     });
 
     let result: boolean;
