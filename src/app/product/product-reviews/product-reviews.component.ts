@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractProductComponent } from '../abstract-product-component';
 
 import { Store } from '@ngrx/store';
-import * as fromStore from './../../../../product/store';
+import * as fromStore from './../../product/store';
 // import { ChangeDetectorRef } from '@angular/core';
 // import { ProductLoaderService } from './../../../../data/product-loader.service';
 @Component({

@@ -4,8 +4,8 @@ import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
-import * as fromStore from './../../../product/store';
-import * as fromRouting from './../../../routing/store';
+import * as fromStore from './store';
+import * as fromRouting from '../routing/store';
 import { tap, filter, map, take, switchMap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 

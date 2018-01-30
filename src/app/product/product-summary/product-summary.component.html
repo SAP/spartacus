@@ -1,0 +1,11 @@
+<div class="price">
+    {{model?.price?.formattedValue}}
+</div>
+
+<div [innerHTML]="model?.summary"></div>
+
+<mat-divider [inset]="true"></mat-divider>
+
+<div>
+    {{model?.stock?.stockLevelStatus}} - {{model?.stock?.stockLevel}}
+</div>
