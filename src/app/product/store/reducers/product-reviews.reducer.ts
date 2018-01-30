@@ -2,10 +2,12 @@ import * as fromProductReviews from './../actions/product-reviews.action';
 
 export interface ProductReviewsState {
   list: any[];
+  error: any; // TODO[249] ?
 }
 
 export const initialState: ProductReviewsState = {
-  list: []
+  list: [],
+  error: {}
 };
 
 export function reducer(
@@ -13,7 +15,7 @@ export function reducer(
   action: fromProductReviews.ProductReviewsAction
 ): ProductReviewsState {
   switch (action.type) {
-    case fromProductReviews.LOAD_REVIEWS_SUCCESS: {
+    case fromProductReviews.LOAD_PRODUCT_REVIEWS_SUCCESS: {
       const list = action.payload.reviews;
 
       return {
@@ -21,9 +23,12 @@ export function reducer(
         list
       };
     }
-    case fromProductReviews.LOAD_REVIEWS_FAIL: {
-      // TODO[249] what to return in this case?
-      console.log(`FAIL REDUCER: ${action.payload}`);
+    case fromProductReviews.LOAD_PRODUCT_REVIEWS_FAIL: {
+      const error = action.payload;
+      return {
+        ...state,
+        error
+      };
     }
   }
 
