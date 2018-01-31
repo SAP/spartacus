@@ -1,4 +1,4 @@
-import { ProductGuard } from './product-guard';
+import { ProductGuard } from './guards/product-guard';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';

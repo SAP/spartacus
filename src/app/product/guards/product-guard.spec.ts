@@ -1,9 +1,11 @@
-import { PageType } from './../routing/models/page-context.model';
-import { ProductGuard } from './product-guard';
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
-import * as fromStore from './store';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { PageType } from './../../routing/models/page-context.model';
+import { ProductGuard } from './product-guard';
+
+import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import * as fromStore from './../store';
+import * as fromRoot from './../../routing/store';
 
 fdescribe('ProductGuard', () => {
   const productCode = '123';
@@ -16,7 +18,7 @@ fdescribe('ProductGuard', () => {
       imports: [
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromStore.reducers,
+          ...fromRoot.reducers,
           products: combineReducers(fromStore.reducers)
         })
       ],
@@ -37,7 +39,7 @@ fdescribe('ProductGuard', () => {
           url: '/test',
           queryParams: {},
           params: { productCode: productCode },
-          context: { id: 'testPageId', type: PageType.CONTENT_PAGE }
+          context: { id: 'testPageId', type: PageType.PRODUCT_PAGE }
         },
         event: {}
       }
@@ -48,8 +50,7 @@ fdescribe('ProductGuard', () => {
 
     expect(result).toBe(true);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadProduct(productCode),
-      new fromStore.LoadProductReviews(productCode)
+      new fromStore.LoadProduct(productCode)
     );
   });
 });

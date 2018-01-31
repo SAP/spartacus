@@ -37,7 +37,7 @@ class MockActions extends Actions {
   }
 }
 
-fdescribe('Product reviews effects', () => {
+fdescribe('Product reviews effect', () => {
   let actions$: MockActions;
   let service: OccProductService;
   let effects: fromEffects.ProductReviewsEffects;
@@ -66,9 +66,13 @@ fdescribe('Product reviews effects', () => {
   });
 
   describe('loadProductReveiws$', () => {
-    it('should return product reviews', () => {
-      const action = new fromActions.LoadProductReviews('12345');
-      const completion = new fromActions.LoadProductReviewsSuccess(reviewData);
+    it('should return specified product reviews', () => {
+      const productCode = '12345';
+      const action = new fromActions.LoadProductReviews(productCode);
+      const completion = new fromActions.LoadProductReviewsSuccess({
+        productCode,
+        list: reviewData.reviews
+      });
 
       actions$.stream = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
