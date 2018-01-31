@@ -25,14 +25,21 @@ export class ProductReviewsComponent implements OnInit {
     this.maxListItems = this.initialMaxListItems;
 
     if (this.productCode) {
+      let previousReviewsProductCode;
       this.store
         .select(fromStore.getProductReviewsEntities)
         .subscribe(reviewData => {
-          if (this.productCode !== reviewData.productCode) {
-            this.store.dispatch(
-              new fromStore.LoadProductReviews(this.productCode)
-            );
-          } else {
+          previousReviewsProductCode = reviewData.productCode;
+        });
+
+      if (this.productCode !== previousReviewsProductCode) {
+        this.store.dispatch(new fromStore.LoadProductReviews(this.productCode));
+      }
+
+      this.store
+        .select(fromStore.getSelectedProductReviewsFactory(this.productCode))
+        .subscribe(reviewData => {
+          if (reviewData) {
             this.reviews = reviewData.list;
           }
         });
