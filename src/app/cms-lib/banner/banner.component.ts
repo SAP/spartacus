@@ -24,8 +24,8 @@ export class BannerComponent extends AbstractCmsComponent {
     super(cd, store, config);
   }
 
-  protected hasImage(): boolean {
-    return null !== this.component && null !== this.component.media;
+  hasImage() {
+    return undefined !== this.component && null !== this.component.media;
   }
 
   protected getImageUrl(): string {

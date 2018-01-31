@@ -1,5 +1,5 @@
 <mat-input-container floatPlaceholder="never">
-    <input type="text" matInput [formControl]="searchBoxControl" [matAutocomplete]="searchresult" [placeholder]="component.name"
+    <input type="text" matInput [formControl]="searchBoxControl" [matAutocomplete]="searchresult" [placeholder]="component?.name"
         (keyup)="onKey($event)" (focus)="onFocus()">
 </mat-input-container>
 

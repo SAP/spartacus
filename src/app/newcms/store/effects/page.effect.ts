@@ -20,22 +20,26 @@ import {
 @Injectable()
 export class PageEffects {
   @Effect()
-  loadPage$ = this.actions$.ofType(pageActions.LOAD_PAGEDATA).pipe(
-    map((action: pageActions.LoadPageData) => action.payload),
-    switchMap(pageContext => {
-      return this.occCmsService.loadPageData(pageContext).pipe(
-        mergeMap(data => {
-          return [
-            new pageActions.LoadPageDataSuccess(
-              this.getPageData(data, pageContext)
-            ),
-            new componentActions.GetComponentFromPage(this.getComponents(data))
-          ];
-        }),
-        catchError(error => of(new pageActions.LoadPageDataFail(error)))
-      );
-    })
-  );
+  loadPage$ = this.actions$
+    .ofType(pageActions.LOAD_PAGEDATA, '[Site-context] Language Change')
+    .pipe(
+      map((action: pageActions.LoadPageData) => action.payload),
+      switchMap(pageContext => {
+        return this.occCmsService.loadPageData(pageContext).pipe(
+          mergeMap(data => {
+            return [
+              new pageActions.LoadPageDataSuccess(
+                this.getPageData(data, pageContext)
+              ),
+              new componentActions.GetComponentFromPage(
+                this.getComponents(data)
+              )
+            ];
+          }),
+          catchError(error => of(new pageActions.LoadPageDataFail(error)))
+        );
+      })
+    );
 
   constructor(
     private actions$: Actions,
@@ -73,7 +77,7 @@ export class PageEffects {
         const defaultPageIds = this.defaultPageService.getDefaultPageIdsBytype(
           pageContext.type
         );
-        if (defaultPageIds.indexOf(page.pageId) > 0) {
+        if (defaultPageIds.indexOf(page.pageId) > -1) {
           return { key: page.pageId + '_' + pageContext.type, value: page };
         } else {
           return { key: pageContext.id + '_' + pageContext.type, value: page };

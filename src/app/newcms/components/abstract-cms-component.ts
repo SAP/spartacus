@@ -39,7 +39,9 @@ export abstract class AbstractCmsComponent implements OnDestroy {
   }
 
   protected fetchData() {
-    this.cd.detectChanges();
+    if (!this.cd['destroyed']) {
+      this.cd.detectChanges();
+    }
     // can be used by implementations
   }
 

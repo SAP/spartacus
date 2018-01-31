@@ -17,6 +17,7 @@ export interface RouterStateUrl {
   queryParams: Params;
   params: Params;
   context: PageContext;
+  cmsRequired: boolean;
 }
 
 export interface State {
@@ -43,6 +44,14 @@ export class CustomSerializer
     }
     const { params } = state;
 
+    let cmsRequired = false;
+    if (
+      state.routeConfig.canActivate &&
+      state.routeConfig.canActivate.find(x => x.name === 'CmsPageGuards')
+    ) {
+      cmsRequired = true;
+    }
+
     let context: PageContext;
     if (params['productCode']) {
       context = { id: params['productCode'], type: PageType.PRODUCT_PAGE };
@@ -52,12 +61,20 @@ export class CustomSerializer
       context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
     } else if (params['query']) {
       context = { id: 'search', type: PageType.CONTENT_PAGE };
-    } else if (url === '/cart') {
-      context = { id: 'cart', type: PageType.CONTENT_PAGE };
-    } else if (url === '/') {
-      context = { id: 'homepage', type: PageType.CONTENT_PAGE };
+    } else if (state.data.pageLabel !== undefined) {
+      context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
+    } else if (state.url.length > 0) {
+      context = {
+        id: state.url[state.url.length - 1].path,
+        type: PageType.CONTENT_PAGE
+      };
+    } else {
+      context = {
+        id: 'homepage',
+        type: PageType.CONTENT_PAGE
+      };
     }
 
-    return { url, queryParams, params, context };
+    return { url, queryParams, params, context, cmsRequired };
   }
 }

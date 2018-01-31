@@ -7,6 +7,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { reducers, effects } from './store';
+import { metaReducers } from './store/reducers';
 
 // components
 // import * as fromComponents from './components';
@@ -19,7 +20,7 @@ import * as fromConverter from './converters';
   imports: [
     CommonModule,
     HttpClientModule,
-    StoreModule.forFeature('products', reducers),
+    StoreModule.forFeature('products', reducers, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
   providers: [...fromConverter.services]

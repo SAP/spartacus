@@ -13,6 +13,7 @@ import { SearchConfig } from '../../product/search-config';
 export class ProductCarouselComponent extends AbstractCmsComponent {
   products$: Observable<any[]>;
   pause: boolean;
+  firstTime = true;
 
   @Input() productCodes: Array<String>;
   @Input() animate = true;
@@ -28,16 +29,18 @@ export class ProductCarouselComponent extends AbstractCmsComponent {
     }
 
     if (codes && codes.length > 0) {
-      let cachedProducts;
       this.store
         .select(fromProductStore.getAllProductCodes)
-        .subscribe(data => (cachedProducts = data));
-
-      codes
-        .filter(code => cachedProducts.indexOf(code) === -1)
-        .forEach(code =>
-          this.store.dispatch(new fromProductStore.LoadProduct(code))
-        );
+        .subscribe(productCodes => {
+          if (this.firstTime || productCodes.length === 0) {
+            codes
+              .filter(code => productCodes.indexOf(code) === -1)
+              .forEach(code => {
+                this.store.dispatch(new fromProductStore.LoadProduct(code));
+              });
+          }
+          this.firstTime = false;
+        });
 
       this.products$ = this.store.select(
         fromProductStore.getSelectedProductsFactory(codes)

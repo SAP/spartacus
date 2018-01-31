@@ -135,9 +135,6 @@ fdescribe('CmsPageGuards', () => {
       );
 
       expect(result).toBe(true);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromActions.UpdateLatestPageKey('newPageId_1')
-      );
     });
 
     it('should return false if loading cms page data error', () => {

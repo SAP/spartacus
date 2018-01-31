@@ -1,6 +1,8 @@
 import {
   ActionReducerMap,
   createFeatureSelector,
+  MetaReducer,
+  ActionReducer,
   MemoizedSelector
 } from '@ngrx/store';
 
@@ -20,3 +22,19 @@ export const reducers: ActionReducerMap<ProductsState> = {
 export const getProductsState = createFeatureSelector<ProductsState>(
   'products'
 );
+
+export function clearProductsState(
+  reducer: ActionReducer<any>
+): ActionReducer<any> {
+  return function(state, action) {
+    if (
+      action.type === '[Site-context] Currency Change' ||
+      action.type === '[Site-context] Language Change'
+    ) {
+      state = undefined;
+    }
+    return reducer(state, action);
+  };
+}
+
+export const metaReducers: MetaReducer<any>[] = [clearProductsState];

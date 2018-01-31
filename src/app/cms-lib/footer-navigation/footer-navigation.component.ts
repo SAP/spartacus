@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractCmsComponent } from '../../newcms/components/abstract-cms-component';
 
 @Component({
   selector: 'y-footer-navigation',
   templateUrl: './footer-navigation.component.html',
-  styleUrls: ['./footer-navigation.component.scss']
+  styleUrls: ['./footer-navigation.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterNavigationComponent extends AbstractCmsComponent {
   children = [];

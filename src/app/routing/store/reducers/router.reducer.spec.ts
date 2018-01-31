@@ -12,25 +12,24 @@ import * as fromActions from '../actions/router.action';
 import { PageContext, PageType } from '../../models/page-context.model';
 
 @Component({
-  selector: 'test-cmp',
+  selector: 'y-test-cmp',
   template: 'test-cmp'
 })
-class TestCmp {}
+class TestComponent {}
 
 fdescribe('Router Reducer', () => {
   it('should return the router state', () => {
     let router: Router;
     let store: Store<any>;
-    let serializer: RouterStateSerializer<RouterStateUrl>;
 
     TestBed.configureTestingModule({
-      declarations: [TestCmp],
+      declarations: [TestComponent],
       imports: [
         StoreModule.forRoot(reducers),
         RouterTestingModule.withRoutes([
-          { path: '', component: TestCmp },
-          { path: 'category/:categoryCode', component: TestCmp },
-          { path: 'product/:productCode', component: TestCmp }
+          { path: '', component: TestComponent },
+          { path: 'category/:categoryCode', component: TestComponent },
+          { path: 'product/:productCode', component: TestComponent }
         ]),
         StoreRouterConnectingModule
       ],
@@ -57,7 +56,8 @@ fdescribe('Router Reducer', () => {
           url: '/',
           queryParams: {},
           params: {},
-          context: { id: 'homepage', type: PageType.CONTENT_PAGE }
+          context: { id: 'homepage', type: PageType.CONTENT_PAGE },
+          cmsRequired: false
         });
         return router.navigateByUrl('category/1234');
       })
@@ -66,7 +66,8 @@ fdescribe('Router Reducer', () => {
           url: '/category/1234',
           queryParams: {},
           params: { categoryCode: '1234' },
-          context: { id: '1234', type: PageType.CATEGORY_PAGE }
+          context: { id: '1234', type: PageType.CATEGORY_PAGE },
+          cmsRequired: false
         });
         return router.navigateByUrl('product/1234');
       })
@@ -75,7 +76,8 @@ fdescribe('Router Reducer', () => {
           url: '/product/1234',
           queryParams: {},
           params: { productCode: '1234' },
-          context: { id: '1234', type: PageType.PRODUCT_PAGE }
+          context: { id: '1234', type: PageType.PRODUCT_PAGE },
+          cmsRequired: false
         });
       });
   });

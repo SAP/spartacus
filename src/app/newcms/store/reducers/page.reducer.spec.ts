@@ -34,6 +34,7 @@ fdescribe('Cms Page Reducer', () => {
 
       expect(state.count).toEqual(1);
       expect(state.entities['test']).toEqual(page);
+      expect(state.latestPageKey).toEqual('test');
     });
 
     it('should add id to array `seen` for the same cms page', () => {
@@ -54,7 +55,9 @@ fdescribe('Cms Page Reducer', () => {
       const newPayload = { key: 'test', value: newPage };
       const action = new fromActions.LoadPageDataSuccess(newPayload);
       const state = fromPage.reducer(currentState, action);
+
       expect(state.entities['test'].seen).toEqual(['123']);
+      expect(state.latestPageKey).toEqual('test');
     });
 
     it('should overwrite the existing cms page', () => {
@@ -73,7 +76,9 @@ fdescribe('Cms Page Reducer', () => {
       const newPayload = { key: 'test', value: newPage };
       const action = new fromActions.LoadPageDataSuccess(newPayload);
       const state = fromPage.reducer(currentState, action);
+
       expect(state.entities['test'].slots['left']).toEqual(['comp1', 'comp2']);
+      expect(state.latestPageKey).toEqual('test');
     });
   });
 

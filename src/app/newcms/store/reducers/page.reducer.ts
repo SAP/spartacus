@@ -60,7 +60,8 @@ export function reducer(
       return {
         ...state,
         entities,
-        count: state.count + 1
+        count: state.count + 1,
+        latestPageKey: page.key
       };
     }
 
