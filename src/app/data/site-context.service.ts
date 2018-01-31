@@ -3,6 +3,8 @@ import { OccSiteService } from '../occ/occ-core/site.service';
 import { ModelService } from './model.service';
 import { ConfigService } from './config.service';
 
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 const CONTEXT_CHANGE_KEY = 'siteContext';
 const LANGUAGE_KEY = 'siteLanguages';
 const CURRENCY_KEY = 'siteCurrencies';

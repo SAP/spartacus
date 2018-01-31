@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { ModelService } from './model.service';
 import { ConfigService } from './config.service';
 
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 const ENABLE_TOKENS_KEY = 'y_tokens';
 const ENABLED_TOKENS_VALUE = 'enabled';
 const DISABLED_TOKENS_VALUE = 'disabled';

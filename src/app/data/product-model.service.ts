@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ModelService } from './model.service';
 
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 @Injectable()
 export class ProductModelService {
 

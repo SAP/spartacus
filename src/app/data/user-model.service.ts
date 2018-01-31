@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ModelService } from './model.service';
 
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 const USER_KEY = 'userrrr';
 const ACCESS_TOKEN_KEY = 'userAccessToken';
 

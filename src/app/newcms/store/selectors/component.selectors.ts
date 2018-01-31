@@ -1,4 +1,4 @@
-import { createSelector } from '@ngrx/store';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import * as fromFeature from '../reducers';
 import * as fromComponent from '../reducers/component.reducer';

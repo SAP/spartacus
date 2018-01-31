@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { OccUserService } from '../occ/occ-core/user.service';
 import { UserModelService } from './user-model.service';
 import { TokenService } from './token.service';
@@ -22,7 +22,7 @@ export class UserLoaderService {
         this.tokenService.getUserToken().subscribe(tokenData => {
             if (tokenData) {
                 this.loadUser(tokenData);
-            }else {
+            } else {
                 this.userModelService.storeUser(null);
             }
         });
@@ -72,9 +72,9 @@ export class UserLoaderService {
 
     // /**
     //  * @desc Checks if there's a Authentication token is available and if the token is still valid
-    //  * 
+    //  *
     //  * @returns boolean true if there is a valid token available
-    //  * 
+    //  *
     //  * @memberOf AuthService
     //  */
     // private hasValidToken() {

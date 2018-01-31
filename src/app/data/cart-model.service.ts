@@ -4,6 +4,8 @@
 import { Injectable } from '@angular/core';
 import { ModelService } from './model.service';
 
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 const CART_KEY = 'cart';
 const CART_ENTRY_KEY = 'cartentry_';
 const ACCESS_TOKEN_KEY = 'cartAccessToken';

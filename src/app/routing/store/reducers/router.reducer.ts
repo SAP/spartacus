@@ -3,8 +3,12 @@ import {
   RouterStateSnapshot,
   Params
 } from '@angular/router';
-import { createFeatureSelector, ActionReducerMap } from '@ngrx/store';
-
+import {
+  createFeatureSelector,
+  ActionReducerMap,
+  MemoizedSelector
+} from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 import * as fromRouter from '@ngrx/router-store';
 import { PageContext, PageType } from '../../models/page-context.model';
 

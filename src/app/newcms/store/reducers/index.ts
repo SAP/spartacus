@@ -2,7 +2,8 @@ import {
   ActionReducerMap,
   createFeatureSelector,
   MetaReducer,
-  ActionReducer
+  ActionReducer,
+  MemoizedSelector
 } from '@ngrx/store';
 
 import * as fromPage from './page.reducer';

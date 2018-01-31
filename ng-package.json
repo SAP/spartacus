@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+  "lib": {
+    "entryFile": "public_api.ts",
+    "externals": {
+      "@angular/animations": "ng.animations",
+      "@angular/cdk": "ng.cdk",
+      "@angular/common": "ng.common",
+      "@angular/compiler": "ng.compiler",
+      "@angular/core": "ng.core",
+      "@angular/flex-layout": "ng.flex-layout",
+      "@angular/forms": "ng.forms",
+      "@angular/http": "ng.http",
+      "@angular/material": "ng.material",
+      "@angular/platform-browser": "ng.platformBrowser",
+      "@angular/platform-browser-dynamic": "ng.platformBrowserDynamic",
+      "@angular/router": "ng.router",
+      "@ngrx/effects": "ngrx.effects",
+      "@ngrx/router-store": "ngrx.routerStore",
+      "@ngrx/store": "ngrx.store",
+      "@ngrx/store-devtools": "ngrx.storeDevtools",
+      "core-js": "core",
+      "hammerjs": "Hammer",
+      "rxjs": "Rx",
+      "webpack-sources": "Source",
+      "zone.js": "zone",
+      "ngrx-store-freeze": "ngrxStoreFreeze"
+    }
+  }
+}
