@@ -52,5 +52,6 @@ export class CurrencySelectorComponent implements OnInit {
     if (pageContext !== undefined) {
       this.store.dispatch(new fromStore.CurrencyChange(pageContext));
     }
+    sessionStorage.setItem('currency', this.activeCurrency);
   }
 }
