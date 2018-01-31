@@ -3,6 +3,7 @@
 # compiled output
 /dist
 /tmp
+*.tgz
 
 # dependencies
 /node_modules
@@ -43,3 +44,14 @@ Thumbs.db
 # generated files
 yarn.lock
 package-lock.json
+.ng_pkg_build
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# scripts
+*.sh
+!build-lib.sh

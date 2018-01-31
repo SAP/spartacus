@@ -24,6 +24,14 @@ import { ProductModule } from 'app/product/product.module';
     PageNotFoundComponent,
     CartPageComponent
   ],
-  exports: [HomePageComponent]
+  exports: [
+    HomePageComponent,
+    CardPageComponent,
+    CategoryPageComponent,
+    ProductDetailPageComponent,
+    ProductListPageComponent,
+    PageNotFoundComponent,
+    CartPageComponent
+  ]
 })
 export class TemplatesModule {}

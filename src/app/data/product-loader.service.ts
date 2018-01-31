@@ -4,6 +4,8 @@ import { OccProductSearchService } from '../occ/occ-core/product-search.service'
 import { ProductModelService } from './product-model.service';
 import { SiteContextService } from './site-context.service';
 
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 const DEFAULT_SORT = 'relevance';
 
 @Injectable()

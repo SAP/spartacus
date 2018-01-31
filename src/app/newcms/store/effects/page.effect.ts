@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions } from '@ngrx/effects';
+import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { map, catchError, switchMap, mergeMap } from 'rxjs/operators';
 
 import * as pageActions from '../actions/page.action';
 import * as componentActions from '../actions/component.action';
 import * as fromServices from '../../services';
+import { OccCmsService } from '../../services/occ-cms.service';
+import { DefaultPageService } from './../../services/default-page.service';
 
 import { Page } from '../../models/page.model';
 import {
@@ -70,7 +73,7 @@ export class PageEffects {
         const defaultPageIds = this.defaultPageService.getDefaultPageIdsBytype(
           pageContext.type
         );
-        if (defaultPageIds.indexOf(page.pageId) > 0) {
+        if (defaultPageIds.indexOf(page.pageId) > -1) {
           return { key: page.pageId + '_' + pageContext.type, value: page };
         } else {
           return { key: pageContext.id + '_' + pageContext.type, value: page };

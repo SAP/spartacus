@@ -8,6 +8,7 @@ import {
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/filter';
 import * as fromStore from '../../store';
 
 @Component({
