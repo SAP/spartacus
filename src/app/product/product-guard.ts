@@ -34,9 +34,6 @@ export class ProductGuard implements CanActivate {
         const found = codes.indexOf(requestedProductCode) > -1;
         if (!found) {
           this.store.dispatch(new fromStore.LoadProduct(requestedProductCode));
-          this.store.dispatch(
-            new fromStore.LoadProductReviews(requestedProductCode)
-          );
         }
       })
     );
