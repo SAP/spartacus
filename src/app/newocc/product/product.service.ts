@@ -33,12 +33,12 @@ export class OccProductService {
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
-  /*loadProductReviews(productCode: string) {
+  loadProductReviews(productCode: string) {
     return this.http
       .get(this.getProductEndpoint() + `/${productCode}/reviews`)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
-
+  /*
   loadProductReferences(productCode: string) {
     return this.http
       .get(this.getProductEndpoint() + `/${productCode}/`, {

@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { ProductGuard } from './product-guard';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -9,21 +10,53 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
 import { metaReducers } from './store/reducers';
 
-// components
-// import * as fromComponents from './components';
-
-// services
-// import * as fromServices from './services';
+import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
+import { ProductDetailsComponent } from './product-details/product-details.component';
+import { ProductImagesComponent } from './product-images/product-images.component';
 import * as fromConverter from './converters';
+import { ProductSummaryComponent } from './product-summary/product-summary.component';
+import { StarRatingComponent } from './star-rating/star-rating.component';
+import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
+import { MediaModule } from 'app/ui/components/media/media.module';
+import { MaterialModule } from 'app/material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { CmsModule } from 'app/cms/cms.module';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
-    StoreModule.forFeature('products', reducers, { metaReducers }),
+    RouterModule,
+    MediaModule,
+    MaterialModule,
+    FlexLayoutModule,
+    CmsModule,
+    StoreModule.forFeature('products', reducers),
     EffectsModule.forFeature(effects)
   ],
-  providers: [...fromConverter.services]
+  declarations: [
+    ProductSummaryComponent,
+    ProductAttributesComponent,
+    ProductDetailsComponent,
+    ProductImagesComponent,
+    StarRatingComponent,
+    ProductReviewsComponent
+  ],
+  exports: [
+    ProductDetailsComponent,
+    ProductSummaryComponent,
+    ProductAttributesComponent,
+    ProductImagesComponent
+  ],
+  providers: [
+    ...fromConverter.services,
+    ProductGuard
+    // {
+    //   // TODO: configure locale
+    //   provide: LOCALE_ID,
+    //   useValue: 'en-EN'
+    // }
+  ]
   // declarations: [...fromComponents.components],
   // exports: [...fromComponents.components]
 })

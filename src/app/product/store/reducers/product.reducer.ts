@@ -2,10 +2,12 @@ import * as fromProduct from '../actions/product.action';
 
 export interface ProductState {
   entities: { [productCode: string]: any };
+  error: any; // TODO[249] ?
 }
 
 export const initialState: ProductState = {
-  entities: {}
+  entities: {},
+  error: {}
 };
 
 export function reducer(
@@ -24,6 +26,14 @@ export function reducer(
       return {
         ...state,
         entities
+      };
+    }
+    case fromProduct.LOAD_PRODUCT_FAIL: {
+      const error = action.payload;
+
+      return {
+        ...state,
+        error
       };
     }
   }

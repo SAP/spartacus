@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { map, catchError, mergeMap, tap } from 'rxjs/operators';
+import { map, catchError, mergeMap } from 'rxjs/operators';
 
 import * as productActions from '../actions/product.action';
 import { OccProductService } from '../../../newocc/product/product.service';
