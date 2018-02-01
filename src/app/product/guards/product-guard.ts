@@ -29,18 +29,21 @@ export class ProductGuard implements CanActivate {
   }
 
   private checkStore(requestedProductCode: string): Observable<boolean> {
-    return this.store
-      .select(fromStore.getSelectedProductFactory(requestedProductCode))
-      .pipe(
-        tap(product => {
-          if (!product) {
-            this.store.dispatch(
-              new fromStore.LoadProduct(requestedProductCode)
-            );
-          }
-        }),
-        filter(found => found),
-        take(1)
-      );
+    const codes = new Array<string>(requestedProductCode);
+    return this.store.select(fromStore.getSelectedProductsFactory(codes)).pipe(
+      tap(products => {
+        let found;
+        if (products && Array.isArray(products) && products.length > 0) {
+          found = products[0];
+        }
+
+        if (!found) {
+          this.store.dispatch(new fromStore.LoadProduct(requestedProductCode));
+        }
+      }),
+
+      filter(found => found),
+      take(1)
+    );
   }
 }
