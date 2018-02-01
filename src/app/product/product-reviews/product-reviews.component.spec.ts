@@ -92,10 +92,8 @@ fdescribe('ProductReviewsComponent', () => {
     // spyOn(productLoader, 'getSubscription').and.returnValue(of(componentData));
 
     productReviewsComponent.productCode = id;
-    // TODO[249]
     // productReviewsComponent.ngOnChanges();
 
-    // TODO[249]
     // expect(productReviewsComponent.model).toEqual(componentData);
   });
 });

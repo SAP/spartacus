@@ -15,26 +15,25 @@ fdescribe('Product Reviews reducer', () => {
   describe('LOAD_PRODUCT_REVIEWS_SUCCESS', () => {
     it('should populate product reviews', () => {
       const productCode = '123';
-      const reviewData = {
-        reviews: [
-          {
-            id: 1,
-            rating: 3
-          },
-          {
-            id: 2,
-            rating: 5
-          }
-        ]
-      };
+      const reviews = [
+        {
+          id: 1,
+          rating: 3
+        },
+        {
+          id: 2,
+          rating: 5
+        }
+      ];
 
       const { initialState } = fromReducer;
       const action = new fromActions.LoadProductReviewsSuccess({
         productCode,
-        reviewData
+        list: reviews
       });
       const state = fromReducer.reducer(initialState, action);
-      expect(state.list[productCode]).toBe(reviewData.reviews);
+      expect(state.productCode).toBe(productCode);
+      expect(state.list).toBe(reviews);
     });
   });
 });
