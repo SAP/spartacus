@@ -15,6 +15,12 @@ export const getSelectedProductsFactory = codes => {
   });
 };
 
+export const getSelectedProductFactory = code => {
+  return createSelector(getProductEntities, details => {
+    return details.entities[code];
+  });
+};
+
 export const getAllProductCodes = createSelector(
   getProductEntities,
   details => {

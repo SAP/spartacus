@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromStore from './../store';
 import * as fromRouting from './../../routing/store';
-import { tap, filter, map, take, switchMap, catchError } from 'rxjs/operators';
+import { tap, filter, take, switchMap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 @Injectable()
@@ -28,14 +28,19 @@ export class ProductGuard implements CanActivate {
     );
   }
 
-  private checkStore(requestedProductCode: string): Observable<string[]> {
-    return this.store.select(fromStore.getAllProductCodes).pipe(
-      tap(codes => {
-        const found = codes.indexOf(requestedProductCode) > -1;
-        if (!found) {
-          this.store.dispatch(new fromStore.LoadProduct(requestedProductCode));
-        }
-      })
-    );
+  private checkStore(requestedProductCode: string): Observable<boolean> {
+    return this.store
+      .select(fromStore.getSelectedProductFactory(requestedProductCode))
+      .pipe(
+        tap(product => {
+          if (!product) {
+            this.store.dispatch(
+              new fromStore.LoadProduct(requestedProductCode)
+            );
+          }
+        }),
+        filter(found => found),
+        take(1)
+      );
   }
 }
