@@ -7,6 +7,7 @@ import * as fromProduct from '../../store/reducers/product.reducer';
 import { ProductReviewsComponent } from './product-reviews.component';
 import * as fromRoot from '../../../routing/store';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import * as fromActions from './../../store/actions';
 
 const id = '1981415';
 const mockProduct = { list: ['mockProduct'] };
@@ -36,6 +37,7 @@ fdescribe('ProductReviewsComponent in product', () => {
     store = TestBed.get(Store);
 
     spyOn(store, 'select').and.returnValue(of(mockProduct));
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should create', () => {
@@ -46,5 +48,8 @@ fdescribe('ProductReviewsComponent in product', () => {
     productReviewsComponent.productCode = id;
     productReviewsComponent.ngOnInit();
     expect(productReviewsComponent.reviews).toEqual(mockProduct.list);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromActions.LoadProductReviews(id)
+    );
   });
 });
