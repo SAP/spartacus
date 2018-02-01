@@ -8,7 +8,7 @@ import {
 import { AbstractProductComponent } from '../abstract-product-component';
 
 import { Store } from '@ngrx/store';
-import * as fromStore from './../../product/store';
+import * as fromStore from './../../../product/store';
 
 @Component({
   selector: 'y-product-reviews',

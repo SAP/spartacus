@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import * as fromStore from './store';
+import * as fromStore from '../store';
 
 @Injectable()
 export abstract class AbstractProductComponent implements OnInit, OnChanges {

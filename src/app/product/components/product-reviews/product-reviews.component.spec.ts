@@ -1,11 +1,11 @@
 import { of } from 'rxjs/observable/of';
-import { ProductLoaderService } from './../../data/product-loader.service';
+import { ProductLoaderService } from './../../../data/product-loader.service';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { MaterialModule } from 'app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import * as fromProduct from '../store/reducers/product.reducer';
+import * as fromProduct from '../../store/reducers/product.reducer';
 import { ProductReviewsComponent } from './product-reviews.component';
-import * as fromRoot from '../../routing/store';
+import * as fromRoot from '../../../routing/store';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 const id = '1981415';

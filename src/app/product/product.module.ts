@@ -9,13 +9,13 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { reducers, effects } from './store';
 
-import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
-import { ProductDetailsComponent } from './product-details/product-details.component';
-import { ProductImagesComponent } from './product-images/product-images.component';
+import { ProductAttributesComponent } from './components/product-attributes/product-attributes.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { ProductImagesComponent } from './components/product-images/product-images.component';
 import * as fromConverter from './converters';
-import { ProductSummaryComponent } from './product-summary/product-summary.component';
-import { StarRatingComponent } from './star-rating/star-rating.component';
-import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
+import { ProductSummaryComponent } from './components/product-summary/product-summary.component';
+import { StarRatingComponent } from './components/star-rating/star-rating.component';
+import { ProductReviewsComponent } from './components/product-reviews/product-reviews.component';
 import { MediaModule } from 'app/ui/components/media/media.module';
 import { MaterialModule } from 'app/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';

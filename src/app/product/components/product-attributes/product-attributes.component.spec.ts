@@ -1,22 +1,12 @@
 import { of } from 'rxjs/observable/of';
-import { OccProductSearchService } from './../../occ/occ-core/product-search.service';
-import { OccProductService } from './../../occ/occ-core/product.service';
-import { SiteContextService } from './../../data/site-context.service';
-import { ProductModelService } from './../../data/product-model.service';
-
-import { ProductModule } from './../product.module';
+import { ProductModule } from './../../product.module';
 import { MaterialModule } from 'app/material.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ProductAttributesComponent } from './product-attributes.component';
-import { DebugElement } from '@angular/core';
-
-import * as fromRoot from '../../routing/store';
-import * as fromProduct from '../store/reducers/product.reducer';
+import * as fromRoot from '../../../routing/store';
+import * as fromProduct from '../../store/reducers/product.reducer';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { ProductLoaderService } from '../../data/product-loader.service';
 
 const id = '1641905';
 const componentData = {

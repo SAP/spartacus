@@ -9,8 +9,8 @@ import { ProductSummaryComponent } from '../product-summary/product-summary.comp
 import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
 import { PictureComponent } from 'app/ui/components/media/picture/picture.component';
 import { ComponentWrapperComponent } from 'app/cms/component-wrapper/component-wrapper.component';
-import * as fromRoot from '../../routing/store';
-import * as fromProduct from '../store/reducers/product.reducer';
+import * as fromRoot from '../../../routing/store';
+import * as fromProduct from '../../store/reducers/product.reducer';
 import { StoreModule, Store } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';

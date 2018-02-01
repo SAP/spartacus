@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MaterialModule } from 'app/material.module';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
-import * as fromRoot from '../../routing/store';
-import * as fromProduct from '../store/reducers/product.reducer';
+import * as fromRoot from '../../../routing/store';
+import * as fromProduct from '../../store/reducers/product.reducer';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
