@@ -1,5 +1,10 @@
-import { getProductReviewsEntities } from './../store/selectors/product-reviews.selectors';
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Input,
+  ChangeDetectorRef
+} from '@angular/core';
 import { AbstractProductComponent } from '../abstract-product-component';
 
 import { Store } from '@ngrx/store';
@@ -8,7 +13,8 @@ import * as fromStore from './../../product/store';
 @Component({
   selector: 'y-product-reviews',
   templateUrl: './product-reviews.component.html',
-  styleUrls: ['./product-reviews.component.scss']
+  styleUrls: ['./product-reviews.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductReviewsComponent implements OnInit {
   @Input() productCode: string;
@@ -19,7 +25,10 @@ export class ProductReviewsComponent implements OnInit {
 
   reviews;
 
-  constructor(protected store: Store<fromStore.ProductsState>) {}
+  constructor(
+    protected cd: ChangeDetectorRef,
+    protected store: Store<fromStore.ProductsState>
+  ) {}
 
   ngOnInit() {
     this.maxListItems = this.initialMaxListItems;
@@ -41,6 +50,7 @@ export class ProductReviewsComponent implements OnInit {
         .subscribe(reviewData => {
           if (reviewData) {
             this.reviews = reviewData.list;
+            this.cd.detectChanges();
           }
         });
     }

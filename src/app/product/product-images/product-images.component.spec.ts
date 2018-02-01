@@ -3,7 +3,7 @@ import { MaterialModule } from 'app/material.module';
 import { ProductImagesComponent } from '../product-images/product-images.component';
 import { PictureComponent } from 'app/ui/components/media/picture/picture.component';
 import * as fromRoot from '../../routing/store';
-import * as fromCmsReducer from '../../newcms/store/reducers';
+import * as fromProduct from '../store/reducers/product.reducer';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
@@ -17,7 +17,7 @@ class MockModel {
 }
 
 fdescribe('ProductImagesComponent product', () => {
-  let store: Store<fromCmsReducer.CmsState>;
+  let store: Store<fromProduct.ProductState>;
   let productImagesComponent: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
 
@@ -29,8 +29,7 @@ fdescribe('ProductImagesComponent product', () => {
         imports: [
           MaterialModule,
           StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
+            ...fromRoot.reducers
           }),
           RouterTestingModule
         ],
