@@ -9,7 +9,7 @@ import * as fromRoot from '../../../routing/store';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 const id = '1981415';
-const mockProduct = 'mockProduct';
+const mockProduct = { list: ['mockProduct'] };
 
 fdescribe('ProductReviewsComponent in product', () => {
   let store: Store<fromProduct.ProductState>;
@@ -45,6 +45,6 @@ fdescribe('ProductReviewsComponent in product', () => {
   it('should load specified reviews data', () => {
     productReviewsComponent.productCode = id;
     productReviewsComponent.ngOnInit();
-    expect(productReviewsComponent.reviews).toEqual(mockProduct);
+    expect(productReviewsComponent.reviews).toEqual(mockProduct.list);
   });
 });

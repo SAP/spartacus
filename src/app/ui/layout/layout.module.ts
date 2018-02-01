@@ -6,7 +6,7 @@ import { MaterialModule } from '../../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 //import { CmsModule } from '../../cms/cms.module';
-import { NewCmsModule} from '../../newcms/newcms.module';
+import { NewCmsModule } from '../../newcms/newcms.module';
 
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -23,36 +23,35 @@ import { CurrencySelectorModule } from '../../site-context/currency-selector/cur
 import { ProductListPageLayoutComponent } from './product-list-page-layout/product-list-page-layout.component';
 import { ProductDetailsPageLayoutComponent } from './product-details-page-layout/product-details-page-layout.component';
 
-
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        MaterialModule,
-        FlexLayoutModule,
-        //CmsModule,
-        NewCmsModule,
+  imports: [
+    CommonModule,
+    RouterModule,
+    MaterialModule,
+    FlexLayoutModule,
+    //CmsModule,
+    NewCmsModule,
 
-        ComponentsModule,
+    ComponentsModule,
 
-        CookieConfirmationModule,
-        LoginStatusModule,
-        LanguageSelectorModule,
-        CurrencySelectorModule
-    ],
-    declarations: [
-        HeaderComponent,
-        FooterComponent,
-        MainComponent,
-        ContentPageLayoutComponent,
-        ProductListPageLayoutComponent,
-        ProductDetailsPageLayoutComponent
-    ],
-    exports: [
-        MainComponent,
-        ContentPageLayoutComponent,
-        ProductListPageLayoutComponent,
-        ProductDetailsPageLayoutComponent
-    ]
+    CookieConfirmationModule,
+    LoginStatusModule,
+    LanguageSelectorModule,
+    CurrencySelectorModule
+  ],
+  declarations: [
+    HeaderComponent,
+    FooterComponent,
+    MainComponent,
+    ContentPageLayoutComponent,
+    ProductListPageLayoutComponent,
+    ProductDetailsPageLayoutComponent
+  ],
+  exports: [
+    MainComponent,
+    ContentPageLayoutComponent,
+    ProductListPageLayoutComponent,
+    ProductDetailsPageLayoutComponent
+  ]
 })
-export class LayoutModule { }
+export class LayoutModule {}
