@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractProductComponent } from '../abstract-product-component';
 
 import { Store } from '@ngrx/store';
@@ -8,7 +8,8 @@ import * as fromStore from './../../product/store';
 @Component({
   selector: 'y-product-reviews',
   templateUrl: './product-reviews.component.html',
-  styleUrls: ['./product-reviews.component.scss']
+  styleUrls: ['./product-reviews.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductReviewsComponent extends AbstractProductComponent
   implements OnInit {

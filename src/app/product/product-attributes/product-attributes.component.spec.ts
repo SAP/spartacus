@@ -13,7 +13,7 @@ import { ProductAttributesComponent } from './product-attributes.component';
 import { DebugElement } from '@angular/core';
 
 import * as fromRoot from '../../routing/store';
-import * as fromCmsReducer from '../../newcms/store/reducers';
+import * as fromProduct from '../store/reducers/product.reducer';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ProductLoaderService } from '../../data/product-loader.service';
@@ -321,25 +321,10 @@ const componentData = {
   url: '/electronics/products/1641905'
 };
 
-class ProductLoaderServiceMock {
-  loadProduct(productCode: string): void {}
-  getSubscription(productCode: string) {}
-}
-class OccProductServiceMock {}
-class OccProductSearchServiceMock {}
-class ProductModelServiceMock {}
-class SiteContextServiceMock {
-  getSiteContextChangeSubscription() {
-    return new BehaviorSubject<any>(null);
-  }
-}
-
 fdescribe('ProductAttributesComponent in product', () => {
-  let store: Store<fromCmsReducer.CmsState>;
+  let store: Store<fromProduct.ProductState>;
   let productAttributesComponent: ProductAttributesComponent;
   let fixture: ComponentFixture<ProductAttributesComponent>;
-  let el: DebugElement;
-  let productLoader: ProductLoaderService;
 
   beforeEach(
     async(() => {
@@ -347,34 +332,11 @@ fdescribe('ProductAttributesComponent in product', () => {
         imports: [
           MaterialModule,
           StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
+            ...fromRoot.reducers
           }),
           RouterTestingModule
         ],
-        declarations: [ProductAttributesComponent],
-        providers: [
-          {
-            provide: ProductLoaderService,
-            useClass: ProductLoaderServiceMock
-          },
-          {
-            provide: OccProductService,
-            useClass: OccProductServiceMock
-          },
-          {
-            provide: OccProductSearchService,
-            useClass: OccProductSearchServiceMock
-          },
-          {
-            provide: ProductModelService,
-            useClass: ProductModelServiceMock
-          },
-          {
-            provide: SiteContextService,
-            useClass: SiteContextServiceMock
-          }
-        ]
+        declarations: [ProductAttributesComponent]
       }).compileComponents();
     })
   );
@@ -382,11 +344,9 @@ fdescribe('ProductAttributesComponent in product', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductAttributesComponent);
     productAttributesComponent = fixture.componentInstance;
-
-    el = fixture.debugElement;
-
     store = TestBed.get(Store);
-    productLoader = TestBed.get(ProductLoaderService);
+
+    spyOn(store, 'select').and.returnValue(of(componentData));
   });
 
   it('should create', () => {
@@ -394,11 +354,8 @@ fdescribe('ProductAttributesComponent in product', () => {
   });
 
   it('should load specified data', () => {
-    spyOn(productLoader, 'getSubscription').and.returnValue(of(componentData));
-
     productAttributesComponent.productCode = id;
     productAttributesComponent.ngOnChanges();
-
-    expect(productAttributesComponent.model).toEqual(componentData);
+    expect(productAttributesComponent.model).toEqual(componentData[0]);
   });
 });

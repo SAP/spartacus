@@ -3,50 +3,45 @@ import { ProductLoaderService } from './../../data/product-loader.service';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { MaterialModule } from 'app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import * as fromProduct from '../store/reducers/product.reducer';
 import { ProductReviewsComponent } from './product-reviews.component';
 import * as fromRoot from '../../routing/store';
-import * as fromCmsReducer from '../../newcms/store/reducers';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 const id = '1981415';
 const componentData = {
-  reviews: [
-    {
-      comment: 'Lorem ipsum dolor sit amet',
-      date: '2018-01-23T13:49:15.21-05:00',
-      headline: 'Satisfactory product, but not overwhelmed.',
-      id: '8796172615729',
-      principal: {
-        name: 'Ronald Reviewer',
-        uid: 'keenreviewer8@hybris.com'
+  list: {
+    reviews: [
+      {
+        comment: 'Lorem ipsum dolor sit amet',
+        date: '2018-01-23T13:49:15.21-05:00',
+        headline: 'Satisfactory product, but not overwhelmed.',
+        id: '8796172615729',
+        principal: {
+          name: 'Ronald Reviewer',
+          uid: 'keenreviewer8@hybris.com'
+        },
+        rating: 3.0
       },
-      rating: 3.0
-    },
-    {
-      comment: 'Lorem ipsum dolor sit amet',
-      date: '2018-01-23T13:49:15.209-05:00',
-      headline: 'Satisfactory product, but not overwhelmed.',
-      id: '8796172582961',
-      principal: {
-        name: 'Roger Reviewer',
-        uid: 'keenreviewer7@hybris.com'
-      },
-      rating: 3.0
-    }
-  ]
+      {
+        comment: 'Lorem ipsum dolor sit amet',
+        date: '2018-01-23T13:49:15.209-05:00',
+        headline: 'Satisfactory product, but not overwhelmed.',
+        id: '8796172582961',
+        principal: {
+          name: 'Roger Reviewer',
+          uid: 'keenreviewer7@hybris.com'
+        },
+        rating: 3.0
+      }
+    ]
+  }
 };
 
-class ProductLoaderServiceMock {
-  loadProduct(productCode: string): void {}
-  getSubscription(productCode: string) {}
-  loadReviews(productCode: string) {}
-}
-
-fdescribe('ProductReviewsComponent', () => {
+fdescribe('ProductReviewsComponent in product', () => {
+  let store: Store<fromProduct.ProductState>;
   let productReviewsComponent: ProductReviewsComponent;
   let fixture: ComponentFixture<ProductReviewsComponent>;
-  let productLoader: ProductLoaderService;
 
   beforeEach(
     async(() => {
@@ -54,17 +49,10 @@ fdescribe('ProductReviewsComponent', () => {
         imports: [
           MaterialModule,
           StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
+            ...fromRoot.reducers
           })
         ],
-        declarations: [ProductReviewsComponent, StarRatingComponent],
-        providers: [
-          {
-            provide: ProductLoaderService,
-            useClass: ProductLoaderServiceMock
-          }
-        ]
+        declarations: [ProductReviewsComponent, StarRatingComponent]
       }).compileComponents();
     })
   );
@@ -72,10 +60,9 @@ fdescribe('ProductReviewsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductReviewsComponent);
     productReviewsComponent = fixture.componentInstance;
-    fixture.detectChanges();
-    productLoader = TestBed.get(ProductLoaderService);
+    store = TestBed.get(Store);
 
-    spyOn(productLoader, 'getSubscription').and.returnValue(of(componentData));
+    spyOn(store, 'select').and.returnValue(of(componentData));
   });
 
   it('should create', () => {
@@ -85,15 +72,12 @@ fdescribe('ProductReviewsComponent', () => {
   it('should load specified reviews data', () => {
     productReviewsComponent.productCode = id;
     productReviewsComponent.ngOnInit();
-    expect(productReviewsComponent.reviews).toEqual(componentData.reviews);
+    expect(productReviewsComponent.reviews).toEqual(componentData.list);
   });
 
   it('should load specified component data', () => {
-    // spyOn(productLoader, 'getSubscription').and.returnValue(of(componentData));
-
     productReviewsComponent.productCode = id;
     productReviewsComponent.ngOnChanges();
-
-    expect(productReviewsComponent.model).toEqual(componentData);
+    expect(productReviewsComponent.model).toEqual(componentData[0]);
   });
 });

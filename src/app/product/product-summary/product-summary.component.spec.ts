@@ -2,13 +2,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MaterialModule } from 'app/material.module';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 import * as fromRoot from '../../routing/store';
-import * as fromCmsReducer from '../../newcms/store/reducers';
+import * as fromProduct from '../store/reducers/product.reducer';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
 
 fdescribe('ProductSummaryComponent in product', () => {
-  let store: Store<fromCmsReducer.CmsState>;
+  let store: Store<fromProduct.ProductState>;
   let productSummaryComponent: ProductSummaryComponent;
   let fixture: ComponentFixture<ProductSummaryComponent>;
 
@@ -20,8 +20,7 @@ fdescribe('ProductSummaryComponent in product', () => {
         imports: [
           MaterialModule,
           StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
+            ...fromRoot.reducers
           }),
           RouterTestingModule
         ],
