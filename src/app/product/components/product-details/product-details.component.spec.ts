@@ -20,7 +20,7 @@ fdescribe('ProductDetailsComponent in product', () => {
   let productDetailsComponent: ProductDetailsComponent;
   let fixture: ComponentFixture<ProductDetailsComponent>;
 
-  const mockProduct = ['mockProduct'];
+  const mockProduct = 'mockProduct';
 
   beforeEach(
     async(() => {
@@ -62,6 +62,6 @@ fdescribe('ProductDetailsComponent in product', () => {
   it('should call ngOnChanges()', () => {
     productDetailsComponent.productCode = '123456';
     productDetailsComponent.ngOnChanges();
-    expect(productDetailsComponent.model).toEqual(mockProduct[0]);
+    expect(productDetailsComponent.model).toEqual(mockProduct);
   });
 });

@@ -12,7 +12,7 @@ fdescribe('StarRatingComponent in product', () => {
   let starRatingComponent: StarRatingComponent;
   let fixture: ComponentFixture<StarRatingComponent>;
 
-  const mockProduct = ['mockProduct'];
+  const mockProduct = 'mockProduct';
 
   beforeEach(
     async(() => {
@@ -45,7 +45,7 @@ fdescribe('StarRatingComponent in product', () => {
   it('should call ngOnChanges()', () => {
     starRatingComponent.productCode = '123456';
     starRatingComponent.ngOnChanges();
-    expect(starRatingComponent.model).toEqual(mockProduct[0]);
+    expect(starRatingComponent.model).toEqual(mockProduct);
   });
 
   it('should call getStar()', () => {

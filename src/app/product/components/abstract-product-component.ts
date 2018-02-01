@@ -24,19 +24,9 @@ export abstract class AbstractProductComponent implements OnInit, OnChanges {
   ngOnChanges() {
     if (this.productCode) {
       this.store
-        .select(
-          fromStore.getSelectedProductsFactory(
-            new Array<string>(this.productCode)
-          )
-        )
-        .map(products => {
-          if (products && Array.isArray(products) && products.length > 0) {
-            return products[0];
-          }
-        })
+        .select(fromStore.getSelectedProductFactory(this.productCode))
         .subscribe(product => {
           this.model = product;
-          // this.cd.markForCheck();
           this.ready();
         });
     }

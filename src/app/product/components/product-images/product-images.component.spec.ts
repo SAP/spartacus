@@ -21,7 +21,7 @@ fdescribe('ProductImagesComponent product', () => {
   let productImagesComponent: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
 
-  const mockProduct = ['mockProduct'];
+  const mockProduct = 'mockProduct';
 
   beforeEach(
     async(() => {
@@ -58,7 +58,7 @@ fdescribe('ProductImagesComponent product', () => {
   it('should call ngOnChanges()', () => {
     productImagesComponent.productCode = '123456';
     productImagesComponent.ngOnChanges();
-    expect(productImagesComponent.model).toEqual(mockProduct[0]);
+    expect(productImagesComponent.model).toEqual(mockProduct);
   });
 
   it('should call showImage(imageContainer)', () => {
