@@ -16,11 +16,19 @@ export class ProductReviewsEffects {
       map((action: productReviewsActions.LoadProductReviews) => action.payload),
       mergeMap(productCode => {
         return this.occProductService.loadProductReviews(productCode).pipe(
-          map(reviews => {
-            return new productReviewsActions.LoadProductReviewsSuccess(reviews);
+          map(data => {
+            return new productReviewsActions.LoadProductReviewsSuccess({
+              productCode,
+              list: data.reviews
+            });
           }),
           catchError(error =>
-            of(new productReviewsActions.LoadProductReviewsFail(error))
+            of(
+              new productReviewsActions.LoadProductReviewsFail({
+                productCode,
+                error
+              })
+            )
           )
         );
       })

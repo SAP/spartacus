@@ -1,4 +1,4 @@
-import { ProductGuard } from './product-guard';
+import { ProductGuard } from './guards/product-guard';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
@@ -8,7 +8,6 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { reducers, effects } from './store';
-import { metaReducers } from './store/reducers';
 
 import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';

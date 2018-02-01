@@ -1,11 +1,11 @@
 <div class="price">
-    {{model?.price?.formattedValue}}
+  {{model?.price?.formattedValue}}
 </div>
 
 <div [innerHTML]="model?.summary"></div>
 
-<mat-divider [inset]="true"></mat-divider>
+<mat-divider></mat-divider>
 
 <div>
-    {{model?.stock?.stockLevelStatus}} - {{model?.stock?.stockLevel}}
+  {{model?.stock?.stockLevelStatus}} - {{model?.stock?.stockLevel}}
 </div>

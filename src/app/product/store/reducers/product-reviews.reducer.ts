@@ -1,11 +1,13 @@
 import * as fromProductReviews from './../actions/product-reviews.action';
 
 export interface ProductReviewsState {
+  productCode: string;
   list: any[];
-  error: any; // TODO[249] ?
+  error: any;
 }
 
 export const initialState: ProductReviewsState = {
+  productCode: '',
   list: [],
   error: {}
 };
@@ -16,10 +18,12 @@ export function reducer(
 ): ProductReviewsState {
   switch (action.type) {
     case fromProductReviews.LOAD_PRODUCT_REVIEWS_SUCCESS: {
-      const list = action.payload.reviews;
+      const productCode = action.payload.productCode;
+      const list = action.payload.list;
 
       return {
         ...state,
+        productCode,
         list
       };
     }
