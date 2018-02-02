@@ -2,13 +2,13 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  Input,
-  ChangeDetectorRef
+  Input
 } from '@angular/core';
 import { AbstractProductComponent } from '../abstract-product-component';
 
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../../product/store';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'y-product-reviews',
@@ -23,12 +23,9 @@ export class ProductReviewsComponent implements OnInit {
   initialMaxListItems = 5;
   maxListItems;
 
-  reviews;
+  reviews$: Observable<any>;
 
-  constructor(
-    protected cd: ChangeDetectorRef,
-    protected store: Store<fromStore.ProductsState>
-  ) {}
+  constructor(protected store: Store<fromStore.ProductsState>) {}
 
   ngOnInit() {
     this.maxListItems = this.initialMaxListItems;
@@ -45,14 +42,9 @@ export class ProductReviewsComponent implements OnInit {
         this.store.dispatch(new fromStore.LoadProductReviews(this.productCode));
       }
 
-      this.store
-        .select(fromStore.getSelectedProductReviewsFactory(this.productCode))
-        .subscribe(reviewData => {
-          if (reviewData) {
-            this.reviews = reviewData.list;
-            this.cd.detectChanges();
-          }
-        });
+      this.reviews$ = this.store.select(
+        fromStore.getSelectedProductReviewsFactory(this.productCode)
+      );
     }
   }
 }

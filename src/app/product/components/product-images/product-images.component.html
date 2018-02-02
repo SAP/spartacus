@@ -1,16 +1,13 @@
-<div *ngIf="model">
-    <y-picture 
-        [imageContainer]="mainImage" 
-        imageFormat="zoom">
+<div *ngIf="model$">
+  <div *ngIf="(model$ | async)?.images">
+    <y-picture [imageContainer]="(model$ | async).images.PRIMARY" imageFormat="zoom">
     </y-picture>
-    <div *ngIf="model.images">
-        <span *ngFor="let image of model.images.GALLERY"
-            (click)="showImage(image)">
-            <y-picture 
-                [imageContainer]="image"
-                imageFormat="thumbnail">
-            </y-picture>
-        </span>
-        
-    </div>
+  </div>
+  <div *ngIf="(model$ | async)?.images">
+    <span *ngFor="let image of (model$ | async).images.GALLERY" (click)="showImage(image)">
+      <y-picture [imageContainer]="image" imageFormat="thumbnail">
+      </y-picture>
+    </span>
+
+  </div>
 </div>

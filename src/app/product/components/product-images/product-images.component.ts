@@ -11,8 +11,8 @@ export class ProductImagesComponent extends AbstractProductComponent {
   mainImage;
 
   ready() {
-    if (this.model && this.model.images) {
-      this.mainImage = this.model.images.PRIMARY;
+    if (this.model$ && this.model$.images) {
+      this.mainImage = this.model$.images.PRIMARY;
     }
   }
 

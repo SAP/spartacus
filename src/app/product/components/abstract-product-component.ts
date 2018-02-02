@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import {
   Injectable,
   Input,
@@ -12,7 +12,7 @@ import * as fromStore from '../store';
 
 @Injectable()
 export abstract class AbstractProductComponent implements OnInit, OnChanges {
-  model;
+  model$: Observable<any>;
 
   @Input() productCode: string;
 
@@ -23,12 +23,10 @@ export abstract class AbstractProductComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     if (this.productCode) {
-      this.store
-        .select(fromStore.getSelectedProductFactory(this.productCode))
-        .subscribe(product => {
-          this.model = product;
-          this.ready();
-        });
+      this.model$ = this.store.select(
+        fromStore.getSelectedProductFactory(this.productCode)
+      );
+      this.ready();
     }
   }
 
