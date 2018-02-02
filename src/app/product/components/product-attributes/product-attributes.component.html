@@ -1,4 +1,4 @@
-<mat-card *ngFor="let class of model?.classifications">
+<mat-card *ngFor="let class of product?.classifications">
     <mat-card-title [innerHTML]="class.name"></mat-card-title>
     <mat-card-content *ngFor="let feature of class.features"
         fxLayout="row" fxLayoutAlign="start start"  >

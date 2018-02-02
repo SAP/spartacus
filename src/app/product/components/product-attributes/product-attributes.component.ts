@@ -1,10 +1,10 @@
-import { Component, OnChanges, ChangeDetectionStrategy } from '@angular/core';
-import { AbstractProductComponent } from '../abstract-product-component';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'y-product-attributes',
   templateUrl: './product-attributes.component.html',
-  styleUrls: ['./product-attributes.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./product-attributes.component.scss']
 })
-export class ProductAttributesComponent extends AbstractProductComponent {}
+export class ProductAttributesComponent {
+  @Input() product: any;
+}

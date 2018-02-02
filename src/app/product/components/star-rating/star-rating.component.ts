@@ -1,5 +1,4 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
   selector: 'y-star-rating',
@@ -7,7 +6,7 @@ import { AbstractProductComponent } from '../abstract-product-component';
   styleUrls: ['./star-rating.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StarRatingComponent extends AbstractProductComponent {
+export class StarRatingComponent {
   @Input() rating;
 
   getStar(index) {

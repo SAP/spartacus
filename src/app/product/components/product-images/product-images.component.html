@@ -1,10 +1,10 @@
-<div *ngIf="model">
+<div *ngIf="product">
     <y-picture 
         [imageContainer]="mainImage" 
         imageFormat="zoom">
     </y-picture>
-    <div *ngIf="model.images">
-        <span *ngFor="let image of model.images.GALLERY"
+    <div *ngIf="product.images">
+        <span *ngFor="let image of product.images.GALLERY"
             (click)="showImage(image)">
             <y-picture 
                 [imageContainer]="image"

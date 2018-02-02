@@ -1,23 +1,21 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { AbstractProductComponent } from '../abstract-product-component';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'y-product-images',
   templateUrl: './product-images.component.html',
-  styleUrls: ['./product-images.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./product-images.component.scss']
 })
-export class ProductImagesComponent extends AbstractProductComponent {
+export class ProductImagesComponent implements OnInit {
+  @Input() product: any;
   mainImage;
 
-  ready() {
-    if (this.model && this.model.images) {
-      this.mainImage = this.model.images.PRIMARY;
+  ngOnInit() {
+    if (this.product && this.product.images) {
+      this.mainImage = this.product.images.PRIMARY;
     }
   }
 
   showImage(imageContainer) {
     this.mainImage = imageContainer;
-    this.cd.markForCheck();
   }
 }

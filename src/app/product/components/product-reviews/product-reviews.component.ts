@@ -1,23 +1,15 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  Input,
-  ChangeDetectorRef
-} from '@angular/core';
-import { AbstractProductComponent } from '../abstract-product-component';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import * as fromStore from './../../../product/store';
+import * as fromStore from './../../store';
 
 @Component({
   selector: 'y-product-reviews',
   templateUrl: './product-reviews.component.html',
-  styleUrls: ['./product-reviews.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./product-reviews.component.scss']
 })
 export class ProductReviewsComponent implements OnInit {
-  @Input() productCode: string;
+  @Input() product: any;
 
   // TODO: configurable
   initialMaxListItems = 5;
@@ -33,7 +25,7 @@ export class ProductReviewsComponent implements OnInit {
   ngOnInit() {
     this.maxListItems = this.initialMaxListItems;
 
-    if (this.productCode) {
+    if (this.product) {
       let previousReviewsProductCode;
       this.store
         .select(fromStore.getProductReviewsEntities)
@@ -41,12 +33,14 @@ export class ProductReviewsComponent implements OnInit {
           previousReviewsProductCode = reviewData.productCode;
         });
 
-      if (this.productCode !== previousReviewsProductCode) {
-        this.store.dispatch(new fromStore.LoadProductReviews(this.productCode));
+      if (this.product.code !== previousReviewsProductCode) {
+        this.store.dispatch(
+          new fromStore.LoadProductReviews(this.product.code)
+        );
       }
 
       this.store
-        .select(fromStore.getSelectedProductReviewsFactory(this.productCode))
+        .select(fromStore.getSelectedProductReviewsFactory(this.product.code))
         .subscribe(reviewData => {
           if (reviewData) {
             this.reviews = reviewData.list;

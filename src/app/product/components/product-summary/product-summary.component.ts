@@ -1,17 +1,11 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  ChangeDetectionStrategy
-} from '@angular/core';
-import { AbstractProductComponent } from '../abstract-product-component';
+import { Component, Input } from '@angular/core';
 import { ProductLoaderService } from 'app/data/product-loader.service';
-import { ChangeDetectorRef } from '@angular/core/src/change_detection/change_detector_ref';
 
 @Component({
   selector: 'y-product-summary',
   templateUrl: './product-summary.component.html',
-  styleUrls: ['./product-summary.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./product-summary.component.scss']
 })
-export class ProductSummaryComponent extends AbstractProductComponent {}
+export class ProductSummaryComponent {
+  @Input() product: any;
+}
