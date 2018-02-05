@@ -13,6 +13,12 @@ const product = {
   name: 'testProduct'
 };
 
+const maxCount = 2;
+const productReviews = [
+  { id: 1, text: 'Review 1' },
+  { id: 2, text: 'Review 2' }
+];
+
 export class MockConfigService {
   server = {
     baseUrl: '',
@@ -68,5 +74,40 @@ fdescribe('OccProductService', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(product);
     });
+  });
+
+  describe('load product reviews', () => {
+    it('should load reviews for given product code', () => {
+      service.loadProductReviews(productCode).subscribe(result => {
+        expect(result).toEqual(productReviews);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url === endpoint + `/${productCode}/reviews`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(productReviews);
+    });
+  });
+
+  it('shoud load reviews with maxCount parameter set', () => {
+    service.loadProductReviews(productCode, maxCount).subscribe(result => {
+      expect(result).toEqual(productReviews);
+    });
+
+    const mockReq = httpMock.expectOne(req => {
+      return (
+        req.method === 'GET' &&
+        req.url === endpoint + `/${productCode}/reviews?maxCount=${maxCount}`
+      );
+    });
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    mockReq.flush(productReviews);
   });
 });

@@ -1,5 +1,7 @@
+import { of } from 'rxjs/observable/of';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import * as fromRoot from './../../../routing/store';
 import * as fromStore from './../../store';
 
 fdescribe('Product Reviews selectors', () => {
@@ -28,6 +30,10 @@ fdescribe('Product Reviews selectors', () => {
       rating: 5
     }
   ];
+  const reviewData = {
+    productCode: productCode,
+    list: reviews
+  };
 
   let store: Store<fromStore.ProductsState>;
 
@@ -35,33 +41,23 @@ fdescribe('Product Reviews selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromStore.reducers,
+          ...fromRoot.reducers,
           products: combineReducers(fromStore.reducers)
         })
       ]
     });
 
     store = TestBed.get(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    spyOn(store, 'select').and.returnValue(of(reviewData));
   });
 
-  describe('getProductReviewsEntities', () => {
-    it('should return reviews', () => {
-      let result;
-      store
-        .select(fromStore.getProductReviewsEntities)
-        .subscribe(data => (result = data));
-      expect(result.productCode).toEqual('');
-      expect(result.list).toEqual([]);
+  it('getSelectedProductReviewsFactory should return reviews', () => {
+    let result;
+    store
+      .select(fromStore.getSelectedProductReviewsFactory(productCode))
+      .subscribe(data => (result = data));
 
-      store.dispatch(
-        new fromStore.LoadProductReviewsSuccess({
-          productCode,
-          list: reviews
-        })
-      );
-      expect(result.productCode).toEqual(productCode);
-      expect(result.list).toEqual(reviews);
-    });
+    expect(result.productCode).toEqual(productCode);
+    expect(result.list).toEqual(reviews);
   });
 });
