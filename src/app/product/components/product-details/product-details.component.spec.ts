@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductDetailsComponent } from './product-details.component';
 import { MaterialModule } from 'app/material.module';
-import { DynamicSlotComponent } from 'app/newcms/components';
+import { DynamicSlotComponent } from 'app/newcms/components/dynamic-slot/dynamic-slot.component';
 import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { ProductImagesComponent } from '../product-images/product-images.component';
