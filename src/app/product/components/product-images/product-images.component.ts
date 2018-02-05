@@ -1,9 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
 @Component({
   selector: 'y-product-images',
   templateUrl: './product-images.component.html',
-  styleUrls: ['./product-images.component.scss']
+  styleUrls: ['./product-images.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductImagesComponent implements OnInit {
   @Input() product: any;

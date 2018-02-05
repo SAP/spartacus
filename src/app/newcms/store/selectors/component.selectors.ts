@@ -15,8 +15,10 @@ export const getComponentEntities = createSelector(
 
 export const componentSelectorFactory = uid => {
   return createSelector(getComponentEntities, entities => {
-    if (entities) {
+    if (Object.keys(entities).length !== 0) {
       return entities[uid];
+    } else {
+      return null;
     }
   });
 };

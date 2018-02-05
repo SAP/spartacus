@@ -33,8 +33,12 @@ export abstract class AbstractCmsComponent implements OnDestroy {
     this.subscription = this.store
       .select(fromStore.componentSelectorFactory(this.uid))
       .subscribe(componentData => {
-        this.component = componentData;
-        this.fetchData();
+        if (componentData === undefined) {
+          this.store.dispatch(new fromStore.LoadComponent(this.uid));
+        } else {
+          this.component = componentData;
+          this.fetchData();
+        }
       });
   }
 
@@ -58,33 +62,4 @@ export abstract class AbstractCmsComponent implements OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-
-  // TODO: move to strategy
-  /*protected mapUrl(url: string) {
-    // console.warn('mapUrl', url);
-    let newUrl = '';
-
-    if (url) {
-      const brandFragment = this.getUrlParam(url, '/Brands/');
-      const categoryFragment = this.getUrlParam(url, '/c/');
-      const productFragment = this.getUrlParam(url, '/p/');
-      if (brandFragment) {
-        newUrl = '/brand/' + categoryFragment;
-      } else if (categoryFragment) {
-        newUrl = '/category/' + categoryFragment;
-      } else if (productFragment) {
-        newUrl = '/product/' + productFragment;
-      } else {
-        if (url !== '/') {
-          console.warn('could not map url', url);
-        }
-      }
-    }
-    return newUrl;
-  }
-
-  private getUrlParam(url, param) {
-    const fragment = url.indexOf(param);
-    return fragment > -1 ? url.substr(fragment + param.length) : null;
-  }*/
 }

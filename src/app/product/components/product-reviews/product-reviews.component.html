@@ -1,14 +1,14 @@
 
-<div *ngIf="reviews">
+<div *ngIf="reviews$ | async">
     <mat-card>
         
-        <mat-card-title>Reviews for {{model?.name}}</mat-card-title>
+        <mat-card-title>Reviews for {{product?.name}}</mat-card-title>
         <mat-card-subtitle>as asdfasdf </mat-card-subtitle>
     
         <mat-card-content>
             
             <mat-list>
-                <div *ngFor="let review of reviews | slice:0:maxListItems" class="review">
+                <div *ngFor="let review of ((reviews$ | async) | slice:0:maxListItems)" class="review">
                     <mat-list-item>
                         <mat-icon mat-list-icon color="primary">rate_review</mat-icon>
                         <!--

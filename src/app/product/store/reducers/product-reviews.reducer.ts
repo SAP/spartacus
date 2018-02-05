@@ -38,3 +38,7 @@ export function reducer(
 
   return state;
 }
+
+export const getReviewList = (state: ProductReviewsState) => state.list;
+export const getReviewProductCode = (state: ProductReviewsState) =>
+  state.productCode;
