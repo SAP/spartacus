@@ -1,12 +1,11 @@
-
 <div *ngIf="reviews$ | async">
     <mat-card>
-        
+
         <mat-card-title>Reviews for {{product?.name}}</mat-card-title>
         <mat-card-subtitle>as asdfasdf </mat-card-subtitle>
-    
+
         <mat-card-content>
-            
+
             <mat-list>
                 <div *ngFor="let review of ((reviews$ | async) | slice:0:maxListItems)" class="review">
                     <mat-list-item>
@@ -26,15 +25,13 @@
                         <div>
                             {{review.comment}}
                         </div>
-                    </div>    
+                    </div>
                 </div>
             </mat-list>
         </mat-card-content>
         <mat-card-actions align="end">
-            <a (click)="maxListItems = -1" 
-                *ngIf="maxListItems === initialMaxListItems" mat-button>More</a>
-            <a (click)="maxListItems = initialMaxListItems" 
-                *ngIf="maxListItems !== initialMaxListItems" mat-button>Less</a>
+            <a (click)="maxListItems = reviews$.length" *ngIf="maxListItems === initialMaxListItems" mat-button>More</a>
+            <a (click)="maxListItems = initialMaxListItems" *ngIf="maxListItems !== initialMaxListItems" mat-button>Less</a>
         </mat-card-actions>
     </mat-card>
 
@@ -52,5 +49,5 @@
         </mat-card-actions>
     </mat-card>-->
 
-   
+
 </div>
