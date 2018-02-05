@@ -1,6 +1,6 @@
 import {
   Component,
-  OnInit,
+  OnChanges,
   OnDestroy,
   Input,
   ChangeDetectionStrategy
@@ -16,7 +16,7 @@ import * as fromStore from '../../store';
   styleUrls: ['./product-reviews.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductReviewsComponent implements OnInit, OnDestroy {
+export class ProductReviewsComponent implements OnChanges, OnDestroy {
   @Input() product: any;
   subscription: Subscription;
 
@@ -28,7 +28,7 @@ export class ProductReviewsComponent implements OnInit, OnDestroy {
 
   constructor(protected store: Store<fromStore.ProductsState>) {}
 
-  ngOnInit() {
+  ngOnChanges() {
     this.maxListItems = this.initialMaxListItems;
 
     if (this.product) {

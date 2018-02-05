@@ -1,7 +1,7 @@
 import {
   Component,
   Input,
-  OnInit,
+  OnChanges,
   ChangeDetectionStrategy
 } from '@angular/core';
 
@@ -11,11 +11,11 @@ import {
   styleUrls: ['./product-images.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductImagesComponent implements OnInit {
+export class ProductImagesComponent implements OnChanges {
   @Input() product: any;
   mainImage;
 
-  ngOnInit() {
+  ngOnChanges() {
     if (this.product && this.product.images) {
       this.mainImage = this.product.images.PRIMARY;
     }

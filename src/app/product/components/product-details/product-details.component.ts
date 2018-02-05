@@ -1,6 +1,6 @@
 import {
   Component,
-  OnInit,
+  OnChanges,
   Input,
   ChangeDetectionStrategy,
   ViewChild
@@ -17,7 +17,7 @@ import { ComponentWrapperComponent } from '../../../newcms/components/component-
   styleUrls: ['./product-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductDetailsComponent implements OnInit {
+export class ProductDetailsComponent implements OnChanges {
   @Input() productCode: string;
   product$: Observable<any>;
 
@@ -25,7 +25,7 @@ export class ProductDetailsComponent implements OnInit {
 
   constructor(protected store: Store<fromStore.ProductsState>) {}
 
-  ngOnInit() {
+  ngOnChanges() {
     this.product$ = this.store.select(
       fromStore.getSelectedProductFactory(this.productCode)
     );
