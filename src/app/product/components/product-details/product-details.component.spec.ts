@@ -8,13 +8,13 @@ import { ProductImagesComponent } from '../product-images/product-images.compone
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
 import { PictureComponent } from 'app/ui/components/media/picture/picture.component';
-import { ComponentWrapperComponent } from 'app/cms/component-wrapper/component-wrapper.component';
+import { ComponentWrapperComponent } from '../../../newcms/components/component-wrapper/component-wrapper.component';
 import * as fromRoot from '../../../routing/store';
 import * as fromProduct from '../../store/reducers/product.reducer';
 import { StoreModule, Store } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
-import { ComponentMapperService } from '../../../cms/component-mapper.service';
+import { ComponentMapperService } from '../../../newcms/services/component-mapper.service';
 
 class MockComponentMapperService {}
 
