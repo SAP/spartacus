@@ -40,7 +40,7 @@ export class ProductGuard implements CanActivate {
             );
           }
         }),
-        filter(found => found),
+        filter(found => found !== null),
         take(1)
       );
   }

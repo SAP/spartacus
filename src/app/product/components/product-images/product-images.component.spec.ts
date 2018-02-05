@@ -44,12 +44,10 @@ fdescribe('ProductImagesComponent product', () => {
     productImagesComponent = fixture.componentInstance;
     store = TestBed.get(Store);
 
-    // productImagesComponent.model = new MockModel();
-    // productImagesComponent.model.images = new MockImages();
+    productImagesComponent.product = new MockModel();
+    productImagesComponent.product.images = new MockImages();
 
-    // spyOn(productImagesComponent, 'ready').and.callThrough();
     spyOn(productImagesComponent, 'showImage').and.callThrough();
-    spyOn(store, 'select').and.returnValue(of(mockProduct));
   });
 
   it('should be created', () => {
@@ -57,18 +55,14 @@ fdescribe('ProductImagesComponent product', () => {
   });
 
   it('should call ngOnChanges()', () => {
-    // productImagesComponent.productCode = '123456';
     productImagesComponent.ngOnChanges();
-    // expect(productImagesComponent.model).toEqual(mockProduct);
+    expect(productImagesComponent.mainImage).toEqual(
+      productImagesComponent.product.images.PRIMARY
+    );
   });
 
   it('should call showImage(imageContainer)', () => {
     productImagesComponent.showImage('mockImageContainer');
     expect(productImagesComponent.mainImage).toBe('mockImageContainer');
-  });
-
-  it('should call ready()', () => {
-    // productImagesComponent.ready();
-    expect(productImagesComponent.mainImage).toEqual('mockPrimaryImage');
   });
 });

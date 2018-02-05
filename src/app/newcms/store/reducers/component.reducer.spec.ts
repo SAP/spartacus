@@ -12,7 +12,20 @@ fdescribe('Cms Component Reducer', () => {
     });
   });
 
-  describe('LOAD_COMPONENT_SUCCESS or GET_COMPONENET_FROM_PAGE action', () => {
+  describe('LOAD_COMPONENT_SUCCESS action', () => {
+    it('should populate the component state entities', () => {
+      const component = { uid: 'comp1', typeCode: 'SimpleBannerComponent' };
+      const entities = {
+        comp1: component
+      };
+      const { initialState } = fromComponent;
+      const action = new fromActions.LoadComponentSuccess(component);
+      const state = fromComponent.reducer(initialState, action);
+      expect(state.entities).toEqual(entities);
+    });
+  });
+
+  describe('GET_COMPONENET_FROM_PAGE action', () => {
     it('should populate the component state entities', () => {
       const components: any[] = [
         { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -25,7 +38,7 @@ fdescribe('Cms Component Reducer', () => {
         comp3: components[2]
       };
       const { initialState } = fromComponent;
-      const action = new fromActions.LoadComponentSuccess(components);
+      const action = new fromActions.GetComponentFromPage(components);
       const state = fromComponent.reducer(initialState, action);
       expect(state.entities).toEqual(entities);
     });

@@ -14,6 +14,9 @@ import * as fromProduct from '../../store/reducers/product.reducer';
 import { StoreModule, Store } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
+import { ComponentMapperService } from '../../../cms/component-mapper.service';
+
+class MockComponentMapperService {}
 
 fdescribe('ProductDetailsComponent in product', () => {
   let store: Store<fromProduct.ProductState>;
@@ -42,6 +45,12 @@ fdescribe('ProductDetailsComponent in product', () => {
           DynamicSlotComponent,
           ComponentWrapperComponent,
           PictureComponent
+        ],
+        providers: [
+          {
+            provide: ComponentMapperService,
+            useClass: MockComponentMapperService
+          }
         ]
       }).compileComponents();
     })
@@ -62,7 +71,8 @@ fdescribe('ProductDetailsComponent in product', () => {
   it('should call ngOnChanges()', () => {
     productDetailsComponent.productCode = '123456';
     productDetailsComponent.ngOnChanges();
-    // TODO[249]
-    // expect(productDetailsComponent.model).toEqual(mockProduct);
+    productDetailsComponent.product$.subscribe(product =>
+      expect(product).toEqual(mockProduct)
+    );
   });
 });

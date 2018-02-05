@@ -9,15 +9,9 @@ import * as fromSelectors from '../selectors/component.selectors';
 fdescribe('Cms Component Selectors', () => {
   let store: Store<fromReducers.CmsState>;
 
-  const components: any[] = [
-    { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
-    { uid: 'comp2', typeCode: 'CMSLinkComponent' },
-    { uid: 'comp3', typeCode: 'NavigationComponent' }
-  ];
+  const component = { uid: 'comp1', typeCode: 'SimpleBannerComponent' };
   const entities = {
-    comp1: components[0],
-    comp2: components[1],
-    comp3: components[2]
+    comp1: component
   };
 
   beforeEach(() => {
@@ -43,7 +37,7 @@ fdescribe('Cms Component Selectors', () => {
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.LoadComponentSuccess(components));
+      store.dispatch(new fromActions.LoadComponentSuccess(component));
 
       expect(result).toEqual(entities);
     });
@@ -57,7 +51,7 @@ fdescribe('Cms Component Selectors', () => {
         .select(fromSelectors.componentSelectorFactory('comp1'))
         .subscribe(value => (result = value));
 
-      store.dispatch(new fromActions.LoadComponentSuccess(components));
+      store.dispatch(new fromActions.LoadComponentSuccess(component));
 
       expect(result).toEqual(entities['comp1']);
     });

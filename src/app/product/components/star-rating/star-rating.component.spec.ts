@@ -42,13 +42,6 @@ fdescribe('StarRatingComponent in product', () => {
     expect(starRatingComponent).toBeTruthy();
   });
 
-  // TODO[249]
-  it('should call ngOnChanges()', () => {
-    // starRatingComponent.productCode = '123456';
-    // starRatingComponent.ngOnChanges();
-    // expect(starRatingComponent.model).toEqual(mockProduct);
-  });
-
   it('should call getStar()', () => {
     starRatingComponent.rating = 3;
 
