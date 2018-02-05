@@ -6,8 +6,8 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs/observable/of';
 import { FooterNavigationComponent } from './footer-navigation.component';
 import * as fromRoot from '../../routing/store';
-import * as fromCmsReducer from '../../newcms/store/reducers';
-import { ConfigService } from '../../newcms/config.service';
+import * as fromCmsReducer from '../../cms/store/reducers';
+import { ConfigService } from '../../cms/config.service';
 import { MatListModule, MatCardModule } from '@angular/material';
 import { forEach } from '@angular/router/src/utils/collection';
 

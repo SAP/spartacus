@@ -4,7 +4,7 @@ import {
   HttpClientTestingModule
 } from '@angular/common/http/testing';
 import { OccSiteService } from './occ-site.service';
-import { ConfigService } from '../../config.service';
+import { ConfigService } from '../config.service';
 
 class MockConfigService {
   server = {

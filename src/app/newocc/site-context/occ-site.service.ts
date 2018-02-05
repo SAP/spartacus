@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import 'rxjs/add/observable/throw';
 
-import { ConfigService } from '../../config.service';
+import { ConfigService } from '../config.service';
 
 @Injectable()
 export class OccSiteService {
