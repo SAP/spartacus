@@ -38,7 +38,6 @@ fdescribe('ProductImagesComponent product', () => {
     })
   );
 
-  // TODO[249]
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductImagesComponent);
     productImagesComponent = fixture.componentInstance;
