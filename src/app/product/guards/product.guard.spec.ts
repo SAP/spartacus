@@ -1,3 +1,4 @@
+import { of } from 'rxjs/observable/of';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PageType } from './../../routing/models/page-context.model';
@@ -7,9 +8,13 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromStore from './../store';
 import * as fromRoot from './../../routing/store';
 
-fdescribe('ProductGuard', () => {
-  const productCode = '123';
+const productCode = '123';
+const product = {
+  code: productCode,
+  description: 'random'
+};
 
+fdescribe('ProductGuard', () => {
   let productGuard: ProductGuard;
   let store: Store<fromStore.ProductsState>;
 
@@ -27,11 +32,10 @@ fdescribe('ProductGuard', () => {
 
     productGuard = TestBed.get(ProductGuard);
     store = TestBed.get(Store);
-
-    spyOn(store, 'dispatch').and.callThrough();
   });
 
-  it('should return true when there is no error', () => {
+  it('should return true and not dispatch LoadProduct action when a product is found', () => {
+    store.dispatch(new fromStore.LoadProductSuccess(product));
     store.dispatch({
       type: 'ROUTER_NAVIGATION',
       payload: {
@@ -46,11 +50,10 @@ fdescribe('ProductGuard', () => {
     });
 
     let result: boolean;
-    productGuard.canActivate().subscribe(value => (result = value));
-
+    productGuard.canActivate().subscribe(value => {
+      console.log(`value: ${value}`);
+      result = value;
+    });
     expect(result).toBe(true);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadProduct(productCode)
-    );
   });
 });

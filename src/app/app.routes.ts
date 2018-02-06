@@ -31,7 +31,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'product/:productCode',
-    canActivate: [CmsPageGuards, ProductGuard],
+    canActivate: [ProductGuard, CmsPageGuards],
     component: ProductDetailPageComponent
   },
 

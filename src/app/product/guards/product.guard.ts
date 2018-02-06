@@ -23,24 +23,32 @@ export class ProductGuard implements CanActivate {
       );
 
     return this.checkStore(requestedProductCode).pipe(
-      switchMap(() => of(true)),
+      switchMap(found => of(found)),
       catchError(err => of(false))
     );
   }
 
   private checkStore(requestedProductCode: string): Observable<boolean> {
+    let tryTimes = 0;
     return this.store
       .select(fromStore.getSelectedProductFactory(requestedProductCode))
       .pipe(
-        map(product => !!product),
+        map(product => {
+          if (product) {
+            return Object.keys(product).length !== 0;
+          } else {
+            return false;
+          }
+        }),
         tap(found => {
           if (!found) {
+            tryTimes++;
             this.store.dispatch(
               new fromStore.LoadProduct(requestedProductCode)
             );
           }
         }),
-        filter(found => found),
+        filter(found => found || tryTimes === 3),
         take(1)
       );
   }
