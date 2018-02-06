@@ -5,15 +5,12 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class ProductModelService {
+  constructor(protected modelService: ModelService) {}
 
-    constructor(
-        protected modelService: ModelService
-    ) {}
-
-    getProduct(key) {
-        return this.modelService.get(key);
-    }
-    storeProduct(key, model) {
-        this.modelService.store(key, model);
-    }
+  getProduct(key): BehaviorSubject<any> {
+    return this.modelService.get(key);
+  }
+  storeProduct(key, model) {
+    this.modelService.store(key, model);
+  }
 }

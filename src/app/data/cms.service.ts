@@ -1,14 +1,14 @@
-import { Injectable } from "@angular/core";
-import { OccCmsService } from "../occ/occ-cms/occ-cms.service";
-import { ModelService } from "./model.service";
-import { SiteContextService } from "./site-context.service";
+import { Injectable } from '@angular/core';
+import { OccCmsService } from '../occ/occ-cms/occ-cms.service';
+import { ModelService } from './model.service';
+import { SiteContextService } from './site-context.service';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 
-const PAGE_PREFIX = "page";
-const SLOT_PREFIX = "slot";
-const COMPONENT_PREFIX = "comp";
+const PAGE_PREFIX = 'page';
+const SLOT_PREFIX = 'slot';
+const COMPONENT_PREFIX = 'comp';
 
 const CONTENT_PAGE = 1;
 const PRODUCT_PAGE = 2;
@@ -39,10 +39,10 @@ export class CmsService {
   }
 
   refresh() {
-    var pageId: string = null;
-    var productCode: string = null;
-    var categoryCode: string = null;
-    var catalogCode: string = null;
+    let pageId: string = null;
+    let productCode: string = null;
+    let categoryCode: string = null;
+    let catalogCode: string = null;
 
     switch (this.latest.type) {
       case PRODUCT_PAGE:
@@ -86,15 +86,15 @@ export class CmsService {
       .subscribe(value => this.storePageData(value));
   }
 
-  public getComponentSubscription(key: string) {
+  public getComponentSubscription(key: string): BehaviorSubject<any> {
     return this.modelService.get(COMPONENT_PREFIX + key);
   }
 
-  public getSlotSubscription(key: string) {
+  public getSlotSubscription(key: string): BehaviorSubject<any> {
     return this.modelService.get(SLOT_PREFIX + key);
   }
 
-  public getPageSubscription(key: string) {
+  public getPageSubscription(key: string): BehaviorSubject<any> {
     return this.modelService.get(PAGE_PREFIX + key);
   }
 
@@ -131,10 +131,10 @@ export class CmsService {
 
   storeSlots(pageId: string, slots: Array<any>) {
     const pageSlots = {};
-    for (let slot of slots) {
+    for (const slot of slots) {
       pageSlots[slot.position] = [];
       if (slot.components.component) {
-        for (let component of slot.components.component) {
+        for (const component of slot.components.component) {
           pageSlots[slot.position].push({
             uid: component.uid,
             typeCode: component.typeCode

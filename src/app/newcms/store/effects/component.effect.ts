@@ -12,17 +12,21 @@ import { OccCmsService } from '../../services/occ-cms.service';
 @Injectable()
 export class ComponentEffects {
   @Effect()
-  loadComponent$ = this.actions$.ofType(componentActions.LOAD_COMPONENT).pipe(
-    map((action: componentActions.LoadComponent) => action.payload),
-    switchMap(uid => {
-      return this.occCmsService
-        .loadComponent(uid)
-        .pipe(
-          map(data => new componentActions.LoadComponentSuccess(data)),
-          catchError(error => of(new componentActions.LoadComponentFail(error)))
-        );
-    })
-  );
+  loadComponent$: Observable<any> = this.actions$
+    .ofType(componentActions.LOAD_COMPONENT)
+    .pipe(
+      map((action: componentActions.LoadComponent) => action.payload),
+      switchMap(uid => {
+        return this.occCmsService
+          .loadComponent(uid)
+          .pipe(
+            map(data => new componentActions.LoadComponentSuccess(data)),
+            catchError(error =>
+              of(new componentActions.LoadComponentFail(error))
+            )
+          );
+      })
+    );
 
   constructor(
     private actions$: Actions,

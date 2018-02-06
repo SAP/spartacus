@@ -11,55 +11,52 @@ const CURRENCY_KEY = 'siteCurrencies';
 
 @Injectable()
 export class SiteContextService {
+  activeLanguage = 'en';
+  siteChanges = 0;
 
-    activeLanguage = 'en';
-    siteChanges = 0;
+  constructor(
+    protected occSiteService: OccSiteService,
+    protected modelService: ModelService,
+    protected configService: ConfigService
+  ) {}
 
-    constructor(
-        protected occSiteService: OccSiteService,
-        protected modelService: ModelService,
-        protected configService: ConfigService
-    ) {}
-
-    updateSiteContext(clearCache?: boolean) {
-        if (clearCache) {
-            this.modelService.clear();
-        }
-        this.modelService.store(CONTEXT_CHANGE_KEY, ++this.siteChanges);
+  updateSiteContext(clearCache?: boolean) {
+    if (clearCache) {
+      this.modelService.clear();
     }
+    this.modelService.store(CONTEXT_CHANGE_KEY, ++this.siteChanges);
+  }
 
-    getSiteContextChangeSubscription() {
-        return this.modelService.get(CONTEXT_CHANGE_KEY);
-    }
+  getSiteContextChangeSubscription(): BehaviorSubject<any> {
+    return this.modelService.get(CONTEXT_CHANGE_KEY);
+  }
 
-    loadLanguages() {
-        this.occSiteService.loadLanguages()
-            .then((data) => {
-                this.modelService.store(LANGUAGE_KEY, data);
-        });
-    }
+  loadLanguages() {
+    this.occSiteService.loadLanguages().then(data => {
+      this.modelService.store(LANGUAGE_KEY, data);
+    });
+  }
 
-    getLanguageSubscription() {
-        return this.modelService.get(LANGUAGE_KEY);
-    }
+  getLanguageSubscription(): BehaviorSubject<any> {
+    return this.modelService.get(LANGUAGE_KEY);
+  }
 
-    loadCurrencies() {
-        this.occSiteService.loadCurrencies()
-            .then((data) => {
-                this.modelService.store(CURRENCY_KEY, data);
-        });
-    }
+  loadCurrencies() {
+    this.occSiteService.loadCurrencies().then(data => {
+      this.modelService.store(CURRENCY_KEY, data);
+    });
+  }
 
-    getCurrencySubscription() {
-        return this.modelService.get(CURRENCY_KEY);
-    }
+  getCurrencySubscription(): BehaviorSubject<any> {
+    return this.modelService.get(CURRENCY_KEY);
+  }
 
-    getActiveLanguage() {
-        return this.activeLanguage;
-    }
+  getActiveLanguage() {
+    return this.activeLanguage;
+  }
 
-    setActiveLanguage(lang) {
-        this.configService.site.language = lang.isocode;
-        this.activeLanguage = lang.isocode;
-    }
+  setActiveLanguage(lang) {
+    this.configService.site.language = lang.isocode;
+    this.activeLanguage = lang.isocode;
+  }
 }

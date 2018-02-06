@@ -10,79 +10,80 @@ const DEFAULT_SORT = 'relevance';
 
 @Injectable()
 export class ProductLoaderService {
+  status = {};
+  productCode;
 
-    status = {};
-    productCode;
-
-    constructor(
-        protected occProductService: OccProductService,
-        protected occProductSearchService: OccProductSearchService,
-        protected productModelService: ProductModelService,
-        protected siteLoader: SiteContextService
-    ) {
-        this.siteLoader.getSiteContextChangeSubscription().subscribe((value: number) => {
-            if (value > 0) {
-                this.refresh();
-            }
-        });
-    }
-
-    refresh() {
-        if (this.productCode) {
-            this.loadProduct(this.productCode);
+  constructor(
+    protected occProductService: OccProductService,
+    protected occProductSearchService: OccProductSearchService,
+    protected productModelService: ProductModelService,
+    protected siteLoader: SiteContextService
+  ) {
+    this.siteLoader
+      .getSiteContextChangeSubscription()
+      .subscribe((value: number) => {
+        if (value > 0) {
+          this.refresh();
         }
-    }
-    /**
-     * @desc delegates to the cached model
-     * @param productCode
-     */
-    getSubscription(productCode: string) {
-        return this.productModelService.getProduct(productCode);
-    }
+      });
+  }
 
-    loadProduct(productCode: string) {
-        this.productCode = productCode;
-        const key = productCode;
-        if (this.isLoaded(productCode)) {
-            return;
-        }
-        this.startLoading(productCode);
-        this.occProductService.loadProduct(productCode)
-            .then((productData) => {
-                this.productModelService.storeProduct(productData['code'], productData);
-        });
+  refresh() {
+    if (this.productCode) {
+      this.loadProduct(this.productCode);
     }
+  }
+  /**
+   * @desc delegates to the cached model
+   * @param productCode
+   */
+  getSubscription(productCode: string): BehaviorSubject<any> {
+    return this.productModelService.getProduct(productCode);
+  }
 
-    loadReviews(productCode: string) {
-        const key = productCode + 'reviews';
-        if (this.isLoaded(key)) {
-            return;
-        }
-        this.startLoading(key);
-        this.occProductService.loadProductReviews(productCode)
-            .then((reviewData) => {
-                this.productModelService.storeProduct(key, reviewData);
-        });
+  loadProduct(productCode: string) {
+    this.productCode = productCode;
+    const key = productCode;
+    if (this.isLoaded(productCode)) {
+      return;
     }
+    this.startLoading(productCode);
+    this.occProductService.loadProduct(productCode).then(productData => {
+      this.productModelService.storeProduct(productData['code'], productData);
+    });
+  }
 
-    loadReferences(productCode: string) {
-        const key = productCode + 'references';
-        if (this.isLoaded(key)) {
-            return;
-        }
-        this.startLoading(key);
-        this.occProductService.loadProductReferences(productCode)
-            .then((reviewData) => {
-                this.productModelService.storeProduct(key, reviewData.productReferences);
-        });
+  loadReviews(productCode: string) {
+    const key = productCode + 'reviews';
+    if (this.isLoaded(key)) {
+      return;
     }
+    this.startLoading(key);
+    this.occProductService.loadProductReviews(productCode).then(reviewData => {
+      this.productModelService.storeProduct(key, reviewData);
+    });
+  }
 
-    isLoaded(productCode: string) {
-        return (this.status.hasOwnProperty(productCode));
+  loadReferences(productCode: string) {
+    const key = productCode + 'references';
+    if (this.isLoaded(key)) {
+      return;
     }
-    private startLoading(productCode) {
-        this.status[productCode] = true;
-    }
+    this.startLoading(key);
+    this.occProductService
+      .loadProductReferences(productCode)
+      .then(reviewData => {
+        this.productModelService.storeProduct(
+          key,
+          reviewData.productReferences
+        );
+      });
+  }
 
-
+  isLoaded(productCode: string) {
+    return this.status.hasOwnProperty(productCode);
+  }
+  private startLoading(productCode) {
+    this.status[productCode] = true;
+  }
 }
