@@ -28,14 +28,6 @@ export function reducer(
         entities
       };
     }
-    case fromProduct.LOAD_PRODUCT_FAIL: {
-      const error = action.payload;
-
-      return {
-        ...state,
-        error
-      };
-    }
   }
   return state;
 }

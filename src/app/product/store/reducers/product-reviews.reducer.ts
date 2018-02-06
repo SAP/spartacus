@@ -27,13 +27,6 @@ export function reducer(
         list
       };
     }
-    case fromProductReviews.LOAD_PRODUCT_REVIEWS_FAIL: {
-      const error = action.payload;
-      return {
-        ...state,
-        error
-      };
-    }
   }
 
   return state;
