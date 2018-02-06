@@ -50,10 +50,7 @@ fdescribe('ProductGuard', () => {
     });
 
     let result: boolean;
-    productGuard.canActivate().subscribe(value => {
-      console.log(`value: ${value}`);
-      result = value;
-    });
+    productGuard.canActivate().subscribe(value => (result = value));
     expect(result).toBe(true);
   });
 });
