@@ -11,10 +11,10 @@ export const getProductsSearchState: MemoizedSelector<
   (state: fromFeature.ProductsState) => state.textSearch
 );
 
-export const getSearchResults: MemoizedSelector<
-  any,
-  fromProductSearch.ProductsSearchState
-> = createSelector(getProductsSearchState, fromProductSearch.getSearchResults);
+export const getSearchResults: MemoizedSelector<any, any> = createSelector(
+  getProductsSearchState,
+  fromProductSearch.getSearchResults
+);
 
 export const getProductSuggestions: MemoizedSelector<
   any,

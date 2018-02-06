@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions } from '@ngrx/effects';
@@ -10,7 +11,7 @@ import { OccSiteService } from '../../services/occ-site.service';
 @Injectable()
 export class CurrenciesEffects {
   @Effect()
-  loadCurrencies$ = this.actions$
+  loadCurrencies$: Observable<any> = this.actions$
     .ofType(currenciesActions.LOAD_CURRENCIES)
     .pipe(
       switchMap(() => {

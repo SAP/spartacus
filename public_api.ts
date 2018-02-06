@@ -18,9 +18,7 @@ export * from './src/app/cms-lib/banner/banner.module';
 export * from './src/app/cms-lib/breadcrumb/breadcrumb.module';
 export * from './src/app/cms-lib/category-navigation/category-navigation.module';
 export * from './src/app/cms-lib/cookie-confirmation/cookie-confirmation.module';
-export * from './src/app/cms-lib/currency-selector/currency-selector.module';
 export * from './src/app/cms-lib/footer-navigation/footer-navigation.module';
-export * from './src/app/cms-lib/language-selector/language-selector.module';
 export * from './src/app/cms-lib/link/link.module';
 export * from './src/app/cms-lib/login-status/login-status.module';
 export * from './src/app/cms-lib/mini-cart/mini-cart.module';
@@ -32,6 +30,8 @@ export * from './src/app/cms-lib/search-box/search-box.module';
 export * from './src/app/cms-lib/tab-paragraph-container/tab-paragraph-container.module';
 export * from './src/app/newcms/newcms.module';
 export * from './src/app/routing/routing.module';
+export * from './src/app/site-context/currency-selector/currency-selector.module';
+export * from './src/app/site-context/language-selector/language-selector.module';
 
 // Export indivudual components from './src/app/ui/templates/templates.module'
 export * from './src/app/ui/templates/home-page/home-page.component';

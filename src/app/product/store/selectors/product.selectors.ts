@@ -10,7 +10,7 @@ export const getProductEntities = createSelector(
 
 export const getSelectedProductsFactory = (
   codes
-): MemoizedSelector<any, fromProduct.ProductState> => {
+): MemoizedSelector<any, any> => {
   return createSelector(getProductEntities, details => {
     return codes
       .map(code => details.entities[code])
