@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
@@ -24,7 +24,7 @@ export class LoginStatusComponent {
   }
 
   openLogin() {
-    const dialogRef = this.dialog.open(LoginDialogComponent);
+    this.dialog.open(LoginDialogComponent);
   }
 
   logout() {
