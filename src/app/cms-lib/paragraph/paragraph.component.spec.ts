@@ -4,9 +4,9 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs/observable/of';
 import * as fromRoot from '../../routing/store';
-import * as fromCmsReducer from '../../newcms/store/reducers';
+import * as fromCmsReducer from '../../cms/store/reducers';
 import { ParagraphComponent } from './paragraph.component';
-import { ConfigService } from '../../newcms/config.service';
+import { ConfigService } from '../../cms/config.service';
 
 export class UseConfigService {
   cmsComponentMapping = {

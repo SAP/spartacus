@@ -3,15 +3,14 @@ import { Observable } from 'rxjs/Observable';
 import { OccUserService } from '../occ/occ-core/user.service';
 import { UserModelService } from './user-model.service';
 import { TokenService } from './token.service';
-import { SiteContextService } from './site-context.service';
+// import { SiteContextService } from './site-context.service';
 
 @Injectable()
 export class UserLoaderService {
   constructor(
     protected tokenService: TokenService,
     protected occUserService: OccUserService,
-    protected userModelService: UserModelService,
-    protected siteLoader: SiteContextService
+    protected userModelService: UserModelService // protected siteLoader: SiteContextService
   ) {
     this.initUser();
   }
@@ -66,7 +65,7 @@ export class UserLoaderService {
 
   // refresh CMS data as it can change based on user restrictions
   protected refreshCmsDataAfterUserChange() {
-    this.siteLoader.updateSiteContext();
+    // this.siteLoader.updateSiteContext();
   }
 
   // /**

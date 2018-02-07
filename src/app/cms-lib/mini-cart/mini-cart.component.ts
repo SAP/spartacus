@@ -8,19 +8,17 @@ import { CartModelService } from '../../data/cart-model.service';
   templateUrl: './mini-cart.component.html',
   styleUrls: ['./mini-cart.component.scss']
 })
-export class MiniCartComponent extends AbstractCartComponent  {
+export class MiniCartComponent extends AbstractCartComponent {
+  cart;
 
-    cart;
-
-    bootstrap() {
-        this.cartModel.getCart().subscribe((cartData) => {
+  bootstrap() {
+    /*this.cartModel.getCart().subscribe((cartData) => {
             this.cart = cartData;
             this.cd.detectChanges();
-        });
-    }
+        });*/
+  }
 
-    openCart() {
-        this.dialog.open(CartDialogComponent);
-    }
-
+  openCart() {
+    // this.dialog.open(CartDialogComponent);
+  }
 }

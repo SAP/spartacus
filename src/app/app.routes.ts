@@ -8,14 +8,14 @@ import { CategoryPageComponent } from './ui/templates/category-page/category-pag
 
 import { PageNotFoundComponent } from './ui/templates/404/404.component';
 
-import { CmsPageGuards } from './newcms/guards/cms-page.guard';
+import { CmsPageGuards } from './cms/guards/cms-page.guard';
 
 // TODO: provide URL mappings for site specific routings
 export const appRoutes: Routes = [
   {
     path: '',
     canActivate: [CmsPageGuards],
-    data: { pageLabel: "homepage" },
+    data: { pageLabel: 'homepage' },
     component: HomePageComponent
   },
   {

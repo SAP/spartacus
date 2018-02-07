@@ -6,7 +6,7 @@ import { of } from 'rxjs/observable/of';
 import { map, catchError, switchMap } from 'rxjs/operators';
 
 import * as languagesActions from '../actions/languages.action';
-import { OccSiteService } from '../../services/occ-site.service';
+import { OccSiteService } from '../../../../newocc/site-context/occ-site.service';
 
 @Injectable()
 export class LanguagesEffects {

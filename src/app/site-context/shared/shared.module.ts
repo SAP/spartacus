@@ -8,7 +8,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
 
 // services
-import { OccSiteService } from './services/occ-site.service';
 import { ConfigService } from '../config.service';
 import { SiteContextInterceptor } from './http-interceptors/site-context.interceptor';
 
@@ -20,7 +19,6 @@ import { SiteContextInterceptor } from './http-interceptors/site-context.interce
     EffectsModule.forFeature(effects)
   ],
   providers: [
-    OccSiteService,
     ConfigService,
     {
       provide: HTTP_INTERCEPTORS,
