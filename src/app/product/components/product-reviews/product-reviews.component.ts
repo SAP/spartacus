@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../store';
+import { tap, filter, take, switchMap, catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'y-product-reviews',
@@ -18,7 +19,6 @@ import * as fromStore from '../../store';
 })
 export class ProductReviewsComponent implements OnChanges, OnDestroy {
   @Input() product: any;
-  subscription: Subscription;
 
   // TODO: configurable
   initialMaxListItems = 5;
@@ -32,25 +32,19 @@ export class ProductReviewsComponent implements OnChanges, OnDestroy {
     this.maxListItems = this.initialMaxListItems;
 
     if (this.product) {
-      this.reviews$ = this.store.select(
-        fromStore.getSelectedProductReviewsFactory(this.product.code)
-      );
-    }
-
-    this.subscription = this.store
-      .select(fromStore.getProductCode)
-      .subscribe(code => {
-        if (this.product && code !== this.product.code) {
-          this.store.dispatch(
-            new fromStore.LoadProductReviews(this.product.code)
-          );
-        }
-      });
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+      this.reviews$ = this.store
+        .select(fromStore.getSelectedProductReviewsFactory(this.product.code))
+        .pipe(
+          tap(reviews => {
+            if (reviews === undefined) {
+              this.store.dispatch(
+                new fromStore.LoadProductReviews(this.product.code)
+              );
+            }
+          })
+        );
     }
   }
+
+  ngOnDestroy() {}
 }
