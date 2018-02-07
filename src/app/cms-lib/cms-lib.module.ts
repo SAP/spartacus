@@ -17,8 +17,8 @@ import { TabParagraphContainerModule } from './tab-paragraph-container/tab-parag
 // import { AbstractCartComponent } from './abstract-cart-component';
 // import { AddToCartModule } from './add-to-cart/add-to-cart.module';
 
-import { LoginStatusModule } from './login-status/login-status.module';
 import { CookieConfirmationModule } from './cookie-confirmation/cookie-confirmation.module';
+import { LoginStatusModule } from '../auth/login-status/login-status.module';
 
 @NgModule({
   imports: [

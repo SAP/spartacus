@@ -6,12 +6,13 @@ describe('LoginStatusComponent', () => {
   let component: LoginStatusComponent;
   let fixture: ComponentFixture<LoginStatusComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LoginStatusComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        declarations: [LoginStatusComponent]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginStatusComponent);
