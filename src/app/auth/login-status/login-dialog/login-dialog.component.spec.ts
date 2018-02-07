@@ -6,12 +6,13 @@ describe('LoginDialogComponent', () => {
   let component: LoginDialogComponent;
   let fixture: ComponentFixture<LoginDialogComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LoginDialogComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        declarations: [LoginDialogComponent]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginDialogComponent);

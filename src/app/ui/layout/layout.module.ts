@@ -15,12 +15,12 @@ import { ContentPageLayoutComponent } from './content-page-layout/content-page-l
 import { ComponentsModule } from '../components/components.module';
 
 import { CookieConfirmationModule } from '../../cms-lib/cookie-confirmation/cookie-confirmation.module';
-import { LoginStatusModule } from '../../cms-lib/login-status/login-status.module';
 import { LanguageSelectorModule } from '../../site-context/language-selector/language-selector.module';
 import { CurrencySelectorModule } from '../../site-context/currency-selector/currency-selector.module';
 
 import { ProductListPageLayoutComponent } from './product-list-page-layout/product-list-page-layout.component';
 import { ProductDetailsPageLayoutComponent } from './product-details-page-layout/product-details-page-layout.component';
+import { LoginStatusModule } from '../../auth/login-status/login-status.module';
 
 @NgModule({
   imports: [
