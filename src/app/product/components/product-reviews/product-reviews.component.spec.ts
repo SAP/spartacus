@@ -5,7 +5,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductReviewsComponent } from './product-reviews.component';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import * as fromRoot from './../../../routing/store';
-import * as fromStore from './../../store';
+import * as fromStore from '../../store';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };
@@ -56,22 +56,14 @@ fdescribe('ProductReviewsComponent in product', () => {
   });
 
   it('a different product code and trigger LoadProductReviews action', () => {
+    spyOn(store, 'select').and.returnValue(of(undefined));
+
     productReviewsComponent.product = product;
     productReviewsComponent.ngOnChanges();
+    productReviewsComponent.reviews$.subscribe();
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadProductReviews(product.code)
     );
-  });
-
-  it('should unsubscribe', () => {
-    productReviewsComponent.subscription = of(reviews).subscribe(() => {});
-    spyOn(
-      productReviewsComponent.subscription,
-      'unsubscribe'
-    ).and.callThrough();
-
-    productReviewsComponent.ngOnDestroy();
-    expect(productReviewsComponent.subscription.unsubscribe).toHaveBeenCalled();
   });
 });
