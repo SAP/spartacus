@@ -5,11 +5,8 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-
 import { ProductListComponent } from './product-list.component';
 import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';
-
-// import { CmsModule } from '../../../cms/cms.module'; // some slots are loaded inside components (i.e. tabs)
 
 import { AddToCartModule } from '../../../cms-lib/add-to-cart/add-to-cart.module';
 
@@ -21,27 +18,27 @@ import { ProductGridItemComponent } from './product-grid-item/product-grid-item.
 import { ProductLineItemComponent } from './product-line-item/product-line-item.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        MediaModule,
-        MaterialModule,
-        FlexLayoutModule,
-        AddToCartModule
-    ],
-    declarations: [
-        ProductListComponent,
-        ProductFacetNavigationComponent,
-        ProductPagingComponent,
-        ProductSortingComponent,
-        ProductListItemComponent,
-        ProductGridItemComponent,
-        ProductLineItemComponent
-    ],
-    exports: [
-        ProductListComponent,
-        ProductListItemComponent,
-        ProductGridItemComponent
-    ]
+  imports: [
+    CommonModule,
+    RouterModule,
+    MediaModule,
+    MaterialModule,
+    FlexLayoutModule,
+    AddToCartModule
+  ],
+  declarations: [
+    ProductListComponent,
+    ProductFacetNavigationComponent,
+    ProductPagingComponent,
+    ProductSortingComponent,
+    ProductListItemComponent,
+    ProductGridItemComponent,
+    ProductLineItemComponent
+  ],
+  exports: [
+    ProductListComponent,
+    ProductListItemComponent,
+    ProductGridItemComponent
+  ]
 })
-export class ProductListModule { }
+export class ProductListModule {}

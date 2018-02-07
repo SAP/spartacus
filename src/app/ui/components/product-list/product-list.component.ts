@@ -3,8 +3,8 @@ import { MatSidenav } from '@angular/material';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { ProductSearchService } from '../../../data/product-search.service';
-import { ProductLoaderService } from '../../../data/product-loader.service';
+//import { ProductSearchService } from '../../../data/product-search.service';
+//import { ProductLoaderService } from '../../../data/product-loader.service';
 
 @Component({
   selector: 'y-product-list',
@@ -28,11 +28,10 @@ export class ProductListComponent implements OnChanges, OnInit {
 
   isFacetPanelOpen = false;
 
-  constructor(
-    protected productLoader: ProductLoaderService,
-    protected searchService: ProductSearchService
-  ) {
-    this.config = this.searchService.createConfig();
+  constructor() //protected productLoader: ProductLoaderService,
+  //protected searchService: ProductSearchService
+  {
+    // this.config = this.searchService.createConfig();
     this.subject = new BehaviorSubject<any>({});
     this.subject.subscribe(result => {
       this.model = result;
@@ -73,6 +72,6 @@ export class ProductListComponent implements OnChanges, OnInit {
   }
 
   protected search(query) {
-    this.searchService.searchProducts(query, this.config, this.subject);
+    //this.searchService.searchProducts(query, this.config, this.subject);
   }
 }

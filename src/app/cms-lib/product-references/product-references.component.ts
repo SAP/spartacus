@@ -1,12 +1,12 @@
-import { Component, Input} from '@angular/core';
-import { AbstractProductComponent } from '../abstract-product-component';
+import { Component, Input } from '@angular/core';
+//import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
   selector: 'y-product-references',
   templateUrl: './product-references.component.html',
   styleUrls: ['./product-references.component.scss']
 })
-export class ProductReferencesComponent extends AbstractProductComponent {
+export class ProductReferencesComponent {} /*extends AbstractProductComponent {
 
     @Input() productCode;
 
@@ -36,4 +36,4 @@ export class ProductReferencesComponent extends AbstractProductComponent {
             }
         });
     }
-}
+}*/

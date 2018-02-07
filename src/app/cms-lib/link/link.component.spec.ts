@@ -6,8 +6,8 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs/observable/of';
 import { LinkComponent } from './link.component';
 import * as fromRoot from '../../routing/store';
-import * as fromCmsReducer from '../../newcms/store/reducers';
-import { ConfigService } from '../../newcms/config.service';
+import * as fromCmsReducer from '../../cms/store/reducers';
+import { ConfigService } from '../../cms/config.service';
 
 class UseConfigService {
   cmsComponentMapping = {
