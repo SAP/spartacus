@@ -1,4 +1,3 @@
-import { LoadPageData } from './../../../newcms/store/actions/page.action';
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions } from '@ngrx/effects';

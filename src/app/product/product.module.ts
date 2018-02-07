@@ -9,7 +9,7 @@ import { reducers, effects } from './store';
 import { metaReducers } from './store/reducers';
 
 import { MediaModule } from 'app/ui/components/media/media.module';
-import { NewCmsModule } from 'app/newcms/newcms.module';
+import { CmsModule } from 'app/cms/cms.module';
 
 import { MaterialModule } from 'app/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -31,7 +31,7 @@ import * as fromConverter from './converters';
     MediaModule,
     MaterialModule,
     FlexLayoutModule,
-    NewCmsModule,
+    CmsModule,
     StoreModule.forFeature('products', reducers, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],

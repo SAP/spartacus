@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AbstractPage } from '../abstract-page.component';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { CmsService } from '../../../data/cms.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,12 +12,8 @@ import { Router } from '@angular/router';
 export class ProductDetailPageComponent extends AbstractPage implements OnInit {
   productCode;
 
-  constructor(
-    protected router: Router,
-    protected activeRoute: ActivatedRoute,
-    protected cmsService: CmsService
-  ) {
-    super(router, activeRoute, cmsService);
+  constructor(protected router: Router, protected activeRoute: ActivatedRoute) {
+    super(router, activeRoute);
   }
 
   ngOnInit() {
