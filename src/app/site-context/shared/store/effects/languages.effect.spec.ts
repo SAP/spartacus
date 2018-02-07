@@ -8,8 +8,8 @@ import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 
-import { OccSiteService } from '../../services/occ-site.service';
-import { ConfigService } from '../../../config.service';
+import { OccSiteService } from '../../../../newocc/site-context/occ-site.service';
+import { ConfigService } from '../../../../newocc/config.service';
 import * as fromEffects from './languages.effect';
 import * as fromActions from '../actions/languages.action';
 
@@ -27,7 +27,7 @@ export function getActions() {
   return new TestActions();
 }
 
-fdescribe('Currencies Effects', () => {
+fdescribe('Languages Effects', () => {
   let actions$: TestActions;
   let service: OccSiteService;
   let effects: fromEffects.LanguagesEffects;

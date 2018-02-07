@@ -5,9 +5,9 @@ import {
 } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { AbstractCmsComponent } from '../../newcms/components/abstract-cms-component';
-import * as fromStore from '../../newcms/store';
-import { ConfigService } from '../../newcms/config.service';
+import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
+import * as fromStore from '../../cms/store';
+import { ConfigService } from '../../cms/config.service';
 
 @Component({
   selector: 'y-banner',

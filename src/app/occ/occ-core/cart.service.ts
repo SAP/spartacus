@@ -3,7 +3,7 @@ import { Http, Response, Headers } from '@angular/http';
 import { ConfigService } from '../config.service';
 import { BaseService } from './base.service';
 
-import { ProductImageConverterService } from './converters/product-image-converter.service';
+//import { ProductImageConverterService } from './converters/product-image-converter.service';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -17,7 +17,7 @@ export class OccCartService extends BaseService {
     constructor(
         protected http: Http,
         protected configService: ConfigService,
-        protected productImageConverter: ProductImageConverterService,
+        //protected productImageConverter: ProductImageConverterService,
     ) {
         super(http, configService);
     }
@@ -47,7 +47,7 @@ export class OccCartService extends BaseService {
                 const cartData = response.json();
                 if (cartData.entries) {
                     for (const entry of cartData.entries) {
-                        this.productImageConverter.convertProduct(entry.product);
+                        //this.productImageConverter.convertProduct(entry.product);
                     }
                 }
                 return cartData;
@@ -66,7 +66,7 @@ export class OccCartService extends BaseService {
 
                 if (cartData.entries) {
                     for (const entry of cartData.entries) {
-                        this.productImageConverter.convertProduct(entry.product);
+                        //this.productImageConverter.convertProduct(entry.product);
                     }
                 }
                 return cartData;

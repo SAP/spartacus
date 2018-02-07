@@ -5,8 +5,7 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-//import { CmsModule } from '../../cms/cms.module';
-import { NewCmsModule } from '../../newcms/newcms.module';
+import { CmsModule } from '../../cms/cms.module';
 
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -29,8 +28,7 @@ import { ProductDetailsPageLayoutComponent } from './product-details-page-layout
     RouterModule,
     MaterialModule,
     FlexLayoutModule,
-    //CmsModule,
-    NewCmsModule,
+    CmsModule,
 
     ComponentsModule,
 

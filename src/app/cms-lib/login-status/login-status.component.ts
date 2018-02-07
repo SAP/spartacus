@@ -1,21 +1,19 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { ConfigService } from '../../cms/config.service';
 import { MatDialog } from '@angular/material';
-import { AbstractCmsComponent } from '../abstract-cms-component';
-import { CmsService } from '../../data/cms.service';
+//import { AbstractCmsComponent } from '../abstract-cms-component';
 
 import { UserLoaderService } from '../../data/user-loader.service';
 import { UserModelService } from '../../data/user-model.service';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 
 @Component({
-    selector: 'y-login-status',
-    templateUrl: './login-status.component.html',
-    styleUrls: ['./login-status.component.scss']
+  selector: 'y-login-status',
+  templateUrl: './login-status.component.html',
+  styleUrls: ['./login-status.component.scss']
 })
-export class LoginStatusComponent extends AbstractCmsComponent {
-
-    user;
+export class LoginStatusComponent {
+  //extends AbstractCmsComponent {
+  /*user;
 
     constructor(
         protected cd: ChangeDetectorRef,
@@ -38,6 +36,5 @@ export class LoginStatusComponent extends AbstractCmsComponent {
 
     logout() {
         this.userLoader.logout();
-    }
-
+    }*/
 }

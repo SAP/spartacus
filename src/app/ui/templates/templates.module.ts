@@ -14,7 +14,7 @@ import { CartPageComponent } from './cart-page/cart-page.component';
 import { ProductModule } from 'app/product/product.module';
 
 @NgModule({
-  imports: [CommonModule, LayoutModule, ProductModule],
+  imports: [CommonModule, LayoutModule],
   declarations: [
     HomePageComponent,
     CardPageComponent,
