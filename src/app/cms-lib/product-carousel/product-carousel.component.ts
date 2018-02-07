@@ -1,8 +1,15 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  OnDestroy
+} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AbstractCmsComponent } from '../../newcms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
 import { SearchConfig } from '../../product/search-config';
+import { Subscription } from 'rxjs/Subscription';
+import { tap, takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'y-product-carousel',
@@ -10,10 +17,14 @@ import { SearchConfig } from '../../product/search-config';
   styleUrls: ['./product-carousel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductCarouselComponent extends AbstractCmsComponent {
+export class ProductCarouselComponent extends AbstractCmsComponent
+  implements OnDestroy {
   products$: Observable<any[]>;
   pause: boolean;
   firstTime = true;
+  alive = true;
+
+  codesSubscription: Subscription;
 
   @Input() productCodes: Array<String>;
   @Input() animate = true;
@@ -29,18 +40,23 @@ export class ProductCarouselComponent extends AbstractCmsComponent {
     }
 
     if (codes && codes.length > 0) {
-      this.store
+      this.codesSubscription = this.store
         .select(fromProductStore.getAllProductCodes)
-        .subscribe(productCodes => {
-          if (this.firstTime || productCodes.length === 0) {
-            codes
-              .filter(code => productCodes.indexOf(code) === -1)
-              .forEach(code => {
-                this.store.dispatch(new fromProductStore.LoadProduct(code));
-              });
-          }
-          this.firstTime = false;
-        });
+        .pipe(
+          takeWhile(() => this.alive),
+          tap(productCodes => {
+            if (this.firstTime || productCodes.length === 0) {
+              codes
+                .filter(code => productCodes.indexOf(code) === -1)
+                .forEach(code => {
+                  this.store.dispatch(new fromProductStore.LoadProduct(code));
+                });
+            }
+          })
+        )
+        .subscribe();
+
+      this.firstTime = false;
 
       this.products$ = this.store.select(
         fromProductStore.getSelectedProductsFactory(codes)
@@ -64,5 +80,13 @@ export class ProductCarouselComponent extends AbstractCmsComponent {
   }
   continue() {
     this.pause = false;
+  }
+
+  ngOnDestroy() {
+    if (this.codesSubscription) {
+      this.codesSubscription.unsubscribe();
+      this.alive = false;
+    }
+    super.ngOnDestroy();
   }
 }

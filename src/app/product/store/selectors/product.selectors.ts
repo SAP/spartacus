@@ -2,13 +2,13 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import * as fromFeature from '../reducers';
 
-export const getProductEntities = createSelector(
+export const getProductState = createSelector(
   fromFeature.getProductsState,
   (state: fromFeature.ProductsState) => state.details
 );
 
 export const getSelectedProductsFactory = codes => {
-  return createSelector(getProductEntities, details => {
+  return createSelector(getProductState, details => {
     return codes
       .map(code => details.entities[code])
       .filter(product => product !== undefined);
@@ -16,14 +16,11 @@ export const getSelectedProductsFactory = codes => {
 };
 
 export const getSelectedProductFactory = code => {
-  return createSelector(getProductEntities, details => {
+  return createSelector(getProductState, details => {
     return details.entities[code];
   });
 };
 
-export const getAllProductCodes = createSelector(
-  getProductEntities,
-  details => {
-    return Object.keys(details.entities);
-  }
-);
+export const getAllProductCodes = createSelector(getProductState, details => {
+  return Object.keys(details.entities);
+});

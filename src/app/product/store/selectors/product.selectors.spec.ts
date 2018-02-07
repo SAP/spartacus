@@ -36,7 +36,7 @@ fdescribe('Cms Component Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getProductEntities)
+        .select(fromSelectors.getProductState)
         .subscribe(value => (result = value));
       expect(result.entities).toEqual({});
 
