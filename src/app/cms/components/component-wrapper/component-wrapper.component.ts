@@ -38,11 +38,7 @@ export class ComponentWrapperComponent
     private componentMapper: ComponentMapperService
   ) {}
 
-  ngOnInit() {
-    if (this.cmpRef) {
-      this.cmpRef.destroy();
-    }
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.isViewInitialized = true;
@@ -52,6 +48,10 @@ export class ComponentWrapperComponent
   launchComponent() {
     if (!this.isViewInitialized) {
       return;
+    }
+
+    if (this.cmpRef) {
+      this.cmpRef.destroy();
     }
 
     const componentTypeClass = this.componentMapper.getComponentTypeByCode(
