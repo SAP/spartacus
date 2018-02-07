@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../store';
-import { tap, filter, take, switchMap, catchError, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'y-product-reviews',
