@@ -6,4 +6,4 @@ import { LoginStatusModule } from './login-status/login-status.module';
   imports: [CommonModule, LoginStatusModule],
   declarations: []
 })
-export class AuthModuleModule {}
+export class AuthModule {}
