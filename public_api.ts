@@ -1,4 +1,5 @@
 export * from './src/app/occ/occ.module';
+export * from './src/app/newocc/newocc.module';
 export * from './src/app/occ/occ-core/occ-core.module';
 export * from './src/app/data/data.module';
 export * from './src/app/ui/ui-framework/ui-framework.module';
@@ -27,6 +28,8 @@ export * from './src/app/cms-lib/search-box/search-box.module';
 export * from './src/app/cms-lib/tab-paragraph-container/tab-paragraph-container.module';
 export * from './src/app/cms/cms.module';
 export * from './src/app/routing/routing.module';
+export * from './src/app/site-context/currency-selector/currency-selector.module';
+export * from './src/app/site-context/language-selector/language-selector.module';
 
 // Export indivudual components from './src/app/ui/templates/templates.module'
 export * from './src/app/ui/templates/home-page/home-page.component';

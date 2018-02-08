@@ -11,97 +11,89 @@ const DISABLED_TOKENS_VALUE = 'disabled';
 const CART_TOKEN_KEY = 'y_cart_token';
 const USER_TOKEN_KEY = 'y_user_token';
 
-
 @Injectable()
 export class TokenService extends ModelService {
+  allowTokens = false;
 
-    allowTokens = false;
+  userToken;
+  cartToken;
 
-    userToken;
-    cartToken;
-
-    constructor(
-        private config: ConfigService
-    ) {
-        super();
-        if (!!sessionStorage.getItem(ENABLE_TOKENS_KEY)) {
-            this.allowTokens = true;
-        }
-
-        if (!!sessionStorage.getItem(USER_TOKEN_KEY)) {
-            this.storeUserToken(JSON.parse(sessionStorage.getItem(USER_TOKEN_KEY)));
-        }
-
-        if (!!sessionStorage.getItem(CART_TOKEN_KEY)) {
-            this.storeCartToken(sessionStorage.getItem(CART_TOKEN_KEY));
-        }
-
+  constructor(private config: ConfigService) {
+    super();
+    if (!!sessionStorage.getItem(ENABLE_TOKENS_KEY)) {
+      this.allowTokens = true;
     }
 
-    isEnabled(): Boolean {
-        return sessionStorage.getItem(ENABLE_TOKENS_KEY) === ENABLED_TOKENS_VALUE;
+    if (!!sessionStorage.getItem(USER_TOKEN_KEY)) {
+      this.storeUserToken(JSON.parse(sessionStorage.getItem(USER_TOKEN_KEY)));
     }
 
-    enable() {
-        sessionStorage.setItem(ENABLE_TOKENS_KEY, ENABLED_TOKENS_VALUE);
-        this.allowTokens = true;
-        this.storeTokens();
+    if (!!sessionStorage.getItem(CART_TOKEN_KEY)) {
+      this.storeCartToken(sessionStorage.getItem(CART_TOKEN_KEY));
     }
+  }
 
-    hasCartToken(): Boolean {
-        return !!this.getCartToken();
-    }
+  isEnabled(): Boolean {
+    return sessionStorage.getItem(ENABLE_TOKENS_KEY) === ENABLED_TOKENS_VALUE;
+  }
 
-    getCartToken() {
-        return super.get(CART_TOKEN_KEY);
-    }
+  enable() {
+    sessionStorage.setItem(ENABLE_TOKENS_KEY, ENABLED_TOKENS_VALUE);
+    this.allowTokens = true;
+    this.storeTokens();
+  }
 
-    storeCartToken(cartToken) {
-        // store the cart token so that we can retrieve it later
-        // when the user allows cookies
-        this.cartToken = cartToken;
+  hasCartToken(): Boolean {
+    return !!this.getCartToken();
+  }
 
-        super.store(CART_TOKEN_KEY, cartToken);
-        this.storeTokens();
-    }
+  getCartToken(): BehaviorSubject<any> {
+    return super.get(CART_TOKEN_KEY);
+  }
 
-    getUserToken() {
-        return super.get(USER_TOKEN_KEY);
-    }
+  storeCartToken(cartToken) {
+    // store the cart token so that we can retrieve it later
+    // when the user allows cookies
+    this.cartToken = cartToken;
 
-    storeUserToken(userToken) {
-        this.config.authentication.userToken = userToken;
-        this.userToken = userToken;
-        this.storeTokens();
-        super.store(USER_TOKEN_KEY, userToken);
-    }
+    super.store(CART_TOKEN_KEY, cartToken);
+    this.storeTokens();
+  }
 
-    storeTokens() {
-        if (this.allowTokens) {
-            if (this.userToken) {
-                sessionStorage.setItem(USER_TOKEN_KEY, JSON.stringify(this.userToken));
-            }else {
-                sessionStorage.removeItem(CART_TOKEN_KEY);
-            }
-            if (this.cartToken) {
-                sessionStorage.setItem(CART_TOKEN_KEY, this.cartToken);
-            }else {
-                sessionStorage.removeItem(CART_TOKEN_KEY);
-            }
-        }
-    }
+  getUserToken(): BehaviorSubject<any> {
+    return super.get(USER_TOKEN_KEY);
+  }
 
-    clearTokens() {
+  storeUserToken(userToken) {
+    this.config.authentication.userToken = userToken;
+    this.userToken = userToken;
+    this.storeTokens();
+    super.store(USER_TOKEN_KEY, userToken);
+  }
 
-        this.config.authentication.userToken = null;
-        this.userToken = null;
-        sessionStorage.removeItem(USER_TOKEN_KEY);
-        super.store(USER_TOKEN_KEY, null);
-
-        this.cartToken = null;
+  storeTokens() {
+    if (this.allowTokens) {
+      if (this.userToken) {
+        sessionStorage.setItem(USER_TOKEN_KEY, JSON.stringify(this.userToken));
+      } else {
         sessionStorage.removeItem(CART_TOKEN_KEY);
-        super.store(CART_TOKEN_KEY, null);
-
+      }
+      if (this.cartToken) {
+        sessionStorage.setItem(CART_TOKEN_KEY, this.cartToken);
+      } else {
+        sessionStorage.removeItem(CART_TOKEN_KEY);
+      }
     }
+  }
 
+  clearTokens() {
+    this.config.authentication.userToken = null;
+    this.userToken = null;
+    sessionStorage.removeItem(USER_TOKEN_KEY);
+    super.store(USER_TOKEN_KEY, null);
+
+    this.cartToken = null;
+    sessionStorage.removeItem(CART_TOKEN_KEY);
+    super.store(CART_TOKEN_KEY, null);
+  }
 }

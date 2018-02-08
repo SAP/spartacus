@@ -12,7 +12,7 @@ import { ProductImageConverterService } from '../../converters/product-image-con
 @Injectable()
 export class ProductsSearchEffects {
   @Effect()
-  searchProducts$ = this.actions$
+  searchProducts$: Observable<any> = this.actions$
     .ofType(productsSearchActions.SEARCH_PRODUCTS)
     .pipe(
       map((action: productsSearchActions.SearchProducts) => action.payload),
@@ -32,7 +32,7 @@ export class ProductsSearchEffects {
     );
 
   @Effect()
-  getProductSuggestions$ = this.actions$
+  getProductSuggestions$: Observable<any> = this.actions$
     .ofType(productsSearchActions.GET_PRODUCT_SUGGESTIONS)
     .pipe(
       map(

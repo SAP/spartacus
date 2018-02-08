@@ -20,7 +20,7 @@ import {
 @Injectable()
 export class PageEffects {
   @Effect()
-  loadPage$ = this.actions$
+  loadPage$: Observable<any> = this.actions$
     .ofType(pageActions.LOAD_PAGEDATA, '[Site-context] Language Change')
     .pipe(
       map((action: pageActions.LoadPageData) => action.payload),

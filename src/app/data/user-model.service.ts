@@ -8,20 +8,19 @@ const ACCESS_TOKEN_KEY = 'userAccessToken';
 
 @Injectable()
 export class UserModelService extends ModelService {
+  getUser(): BehaviorSubject<any> {
+    return super.get(USER_KEY);
+  }
 
-    getUser() {
-        return super.get(USER_KEY);
-    }
+  storeUser(model) {
+    super.store(USER_KEY, model);
+  }
 
-    storeUser(model) {
-        super.store(USER_KEY, model);
-    }
+  getToken(): BehaviorSubject<any> {
+    return super.get(ACCESS_TOKEN_KEY);
+  }
 
-    getToken() {
-        return super.get(ACCESS_TOKEN_KEY);
-    }
-
-    storeToken(model) {
-        super.store(ACCESS_TOKEN_KEY, model);
-    }
+  storeToken(model) {
+    super.store(ACCESS_TOKEN_KEY, model);
+  }
 }
