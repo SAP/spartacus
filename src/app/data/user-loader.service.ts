@@ -10,9 +10,8 @@ export class UserLoaderService {
   constructor(
     protected tokenService: TokenService,
     protected occUserService: OccUserService,
-    protected userModelService: UserModelService
-  ) // protected siteLoader: SiteContextService
-  {
+    protected userModelService: UserModelService // protected siteLoader: SiteContextService
+  ) {
     this.initUser();
   }
 

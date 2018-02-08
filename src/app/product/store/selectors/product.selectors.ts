@@ -7,7 +7,9 @@ export const getProductState = createSelector(
   (state: fromFeature.ProductsState) => state.details
 );
 
-export const getSelectedProductsFactory = codes => {
+export const getSelectedProductsFactory = (
+  codes
+): MemoizedSelector<any, any> => {
   return createSelector(getProductState, details => {
     return codes
       .map(code => details.entities[code])
@@ -21,6 +23,9 @@ export const getSelectedProductFactory = code => {
   });
 };
 
-export const getAllProductCodes = createSelector(getProductState, details => {
+export const getAllProductCodes: MemoizedSelector<
+  any,
+  string[]
+> = createSelector(getProductState, details => {
   return Object.keys(details.entities);
 });

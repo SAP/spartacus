@@ -21,6 +21,7 @@ import { appRoutes } from './app.routes';
 
 // bootstrap
 import { AppComponent } from './app.component';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { AppComponent } from './app.component';
     SiteContextModule.forRoot(ConfigService),
     RoutingModule,
     RouterModule.forRoot(appRoutes),
-    ProductModule
+    ProductModule,
+    AuthModule
   ],
 
   providers: [
