@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { OccUserService } from '../occ/occ-core/user.service';
+import { OccUserService } from '../newocc/user.service';
 import { UserModelService } from './user-model.service';
 import { TokenService } from './token.service';
 // import { SiteContextService } from './site-context.service';
@@ -10,9 +10,8 @@ export class UserLoaderService {
   constructor(
     protected tokenService: TokenService,
     protected occUserService: OccUserService,
-    protected userModelService: UserModelService
-  ) // protected siteLoader: SiteContextService
-  {
+    protected userModelService: UserModelService // protected siteLoader: SiteContextService
+  ) {
     this.initUser();
   }
 
