@@ -18,7 +18,6 @@ export * from './src/app/cms-lib/category-navigation/category-navigation.module'
 export * from './src/app/cms-lib/cookie-confirmation/cookie-confirmation.module';
 export * from './src/app/cms-lib/footer-navigation/footer-navigation.module';
 export * from './src/app/cms-lib/link/link.module';
-export * from './src/app/cms-lib/login-status/login-status.module';
 export * from './src/app/cms-lib/mini-cart/mini-cart.module';
 export * from './src/app/cms-lib/navigation/navigation.module';
 export * from './src/app/cms-lib/paragraph/paragraph.module';
