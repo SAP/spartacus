@@ -13,7 +13,6 @@ import { CmsLibModule } from './cms-lib/cms-lib.module';
 import { UiFrameworkModule } from './ui/ui-framework/ui-framework.module';
 
 import { CmsModule } from './cms/cms.module';
-import { HttpClientModule } from '@angular/common/http';
 import { RoutingModule } from './routing/routing.module';
 import { SiteContextModule } from './site-context/site-context.module';
 import { ProductModule } from './product/product.module';
@@ -33,7 +32,6 @@ import { AuthModule } from './auth/auth.module';
     CmsLibModule,
     UiModule,
     UiFrameworkModule,
-    HttpClientModule,
 
     CmsModule.forRoot(ConfigService),
     SiteContextModule.forRoot(ConfigService),
