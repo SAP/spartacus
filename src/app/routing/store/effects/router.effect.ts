@@ -11,7 +11,7 @@ import { tap, map } from 'rxjs/operators';
 @Injectable()
 export class RouterEffects {
   @Effect({ dispatch: false })
-  navigate$ = this.actions$.ofType(RouterActions.GO).pipe(
+  navigate$: Observable<any> = this.actions$.ofType(RouterActions.GO).pipe(
     map((action: RouterActions.Go) => action.payload),
     tap(({ path, query: queryParams, extras }) => {
       this.router.navigate(path, { queryParams, ...extras });
@@ -19,12 +19,12 @@ export class RouterEffects {
   );
 
   @Effect({ dispatch: false })
-  navigateBack$ = this.actions$
+  navigateBack$: Observable<Action> = this.actions$
     .ofType(RouterActions.BACK)
     .pipe(tap(() => this.location.back()));
 
   @Effect({ dispatch: false })
-  navigateForward$ = this.actions$
+  navigateForward$: Observable<Action> = this.actions$
     .ofType(RouterActions.FORWARD)
     .pipe(tap(() => this.location.forward()));
 

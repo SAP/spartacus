@@ -19,9 +19,10 @@ export const reducers: ActionReducerMap<ProductsState> = {
   details: fromProduct.reducer
 };
 
-export const getProductsState = createFeatureSelector<ProductsState>(
-  'products'
-);
+export const getProductsState: MemoizedSelector<
+  any,
+  any
+> = createFeatureSelector<ProductsState>('products');
 
 export function clearProductsState(
   reducer: ActionReducer<any>

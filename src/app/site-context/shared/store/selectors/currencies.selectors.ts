@@ -1,31 +1,34 @@
-import { createSelector } from '@ngrx/store';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import * as fromFeature from '../reducers';
 import * as fromCurrencies from '../reducers/currencies.reducer';
 
-export const getCurrenciesState = createSelector(
+export const getCurrenciesState: MemoizedSelector<
+  any,
+  fromCurrencies.CurrenciesState
+> = createSelector(
   fromFeature.getSiteContextState,
   (state: fromFeature.SiteContextState) => state.currencies
 );
 
-export const getCurrenciesEntities = createSelector(
+export const getCurrenciesEntities: MemoizedSelector<any, any> = createSelector(
   getCurrenciesState,
   fromCurrencies.getCurrenciesEntities
 );
 
-export const getActiveCurrency = createSelector(
+export const getActiveCurrency: MemoizedSelector<any, string> = createSelector(
   getCurrenciesState,
   fromCurrencies.getActiveCurrency
 );
 
-export const getAllCurrencies = createSelector(
+export const getAllCurrencies: MemoizedSelector<any, any> = createSelector(
   getCurrenciesEntities,
   entities => {
     return Object.keys(entities).map(isocode => entities[isocode]);
   }
 );
 
-export const getCurrenciesLoaded = createSelector(
-  getCurrenciesState,
-  fromCurrencies.getCurrenciesLoaded
-);
+export const getCurrenciesLoaded: MemoizedSelector<
+  any,
+  boolean
+> = createSelector(getCurrenciesState, fromCurrencies.getCurrenciesLoaded);

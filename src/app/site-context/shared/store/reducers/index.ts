@@ -1,4 +1,8 @@
-import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
+import {
+  ActionReducerMap,
+  createFeatureSelector,
+  MemoizedSelector
+} from '@ngrx/store';
 
 import * as fromLanguages from './languages.reducer';
 import * as fromCurrencies from './currencies.reducer';
@@ -13,6 +17,7 @@ export const reducers: ActionReducerMap<SiteContextState> = {
   currencies: fromCurrencies.reducer
 };
 
-export const getSiteContextState = createFeatureSelector<SiteContextState>(
-  'siteContext'
-);
+export const getSiteContextState: MemoizedSelector<
+  any,
+  any
+> = createFeatureSelector<SiteContextState>('siteContext');
