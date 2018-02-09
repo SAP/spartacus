@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
-import { UserLoaderService } from 'app/data/user-loader.service';
-import { UserModelService } from 'app/data/user-model.service';
+import { UserLoaderService } from './../../data/user-loader.service';
+import { UserModelService } from './../../data/user-model.service';
 
 @Component({
   selector: 'y-login-status',

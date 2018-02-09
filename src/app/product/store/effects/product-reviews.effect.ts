@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { OccProductService } from './../../../newocc/product/product.service';
 
 import { Actions, Effect } from '@ngrx/effects';
@@ -10,7 +11,7 @@ import { of } from 'rxjs/observable/of';
 @Injectable()
 export class ProductReviewsEffects {
   @Effect()
-  loadProductReviews$ = this.actions$
+  loadProductReviews$: Observable<any> = this.actions$
     .ofType(productReviewsActions.LOAD_PRODUCT_REVIEWS)
     .pipe(
       map((action: productReviewsActions.LoadProductReviews) => action.payload),

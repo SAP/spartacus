@@ -8,10 +8,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
 import { metaReducers } from './store/reducers';
 
-import { MediaModule } from 'app/ui/components/media/media.module';
-import { CmsModule } from 'app/cms/cms.module';
+import { MediaModule } from './../ui/components/media/media.module';
+import { CmsModule } from './../cms/cms.module';
 
-import { MaterialModule } from 'app/material.module';
+import { MaterialModule } from './../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 // components

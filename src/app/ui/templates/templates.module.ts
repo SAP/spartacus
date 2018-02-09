@@ -11,7 +11,7 @@ import { ProductDetailPageComponent } from './product-detail-page/product-detail
 import { ProductListPageComponent } from './product-list-page/product-list-page.component';
 import { PageNotFoundComponent } from './404/404.component';
 import { CartPageComponent } from './cart-page/cart-page.component';
-import { ProductModule } from 'app/product/product.module';
+import { ProductModule } from './../../product/product.module';
 
 @NgModule({
   imports: [CommonModule, LayoutModule],
