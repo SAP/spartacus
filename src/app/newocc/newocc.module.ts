@@ -5,11 +5,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfigService } from './config.service';
 import { HttpClientModule } from '@angular/common/http';
-import { OccUserService } from '../newocc/user.service';
-import { RequestOptions, Http, XHRBackend, HttpModule } from '@angular/http';
+import { OccUserService } from './user/user.service';
 
 @NgModule({
-  imports: [CommonModule, HttpModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule],
   providers: [
     OccProductSearchService,
     OccProductService,

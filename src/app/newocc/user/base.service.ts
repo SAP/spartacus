@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptionsArgs } from '@angular/http';
-import { ConfigService } from './config.service';
+import { ConfigService } from '../config.service';
 import { HttpClient } from '@angular/common/http';
 
 const ENDPOINT_PRODUCT = 'products';
@@ -15,11 +14,11 @@ export class BaseService {
   constructor(
     protected http: HttpClient,
     protected configService: ConfigService
-  ) {}
+  ) { }
 
   protected promise(url: string): Promise<any> {
     return new Promise(resolve => {
-      this.http.get(url).subscribe(data => {}, err => this.logError(err));
+      this.http.get(url).subscribe(data => { }, err => this.logError(err));
     });
   }
 

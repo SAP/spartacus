@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { OccCartService } from './cart.service';
 
-import { OccUserService } from '../../newocc/user.service';
+import { OccUserService } from './user.service';
 
 import { ConfigService } from '../config.service';
 

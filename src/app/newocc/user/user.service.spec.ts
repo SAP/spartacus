@@ -1,23 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from '@angular/common/http/testing';
-
-import { OccUserService } from '../newocc/user.service';
+import { OccUserService } from './user.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { HttpModule } from '@angular/http';
-import { BrowserModule } from '@angular/platform-browser';
-import { ConnectionBackend } from '@angular/http';
-import { BaseService } from '../newocc/base.service';
 import { of } from 'rxjs/observable/of';
-import { Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { ConfigService } from './config.service';
-import { Http } from '@angular/http';
+import { ConfigService } from '../config.service';
 
 const username: any = 'mockUsername';
 const password: any = '1234';
+const accessToken: any = 'mockAccessToken'
+
 const user: any = {
   username: username,
   password: password
@@ -38,22 +28,19 @@ class MockConfigService {
 
 fdescribe('OccUserService', () => {
   let service: OccUserService;
-  let baseService: BaseService;
   let config: ConfigService;
   let httpClient: HttpClient;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpModule, HttpClientModule, BrowserModule],
+      imports: [HttpClientModule],
       providers: [
         OccUserService,
-        BaseService,
         { provide: ConfigService, useClass: MockConfigService }
       ]
     });
 
     service = TestBed.get(OccUserService);
-    baseService = TestBed.get(BaseService);
     httpClient = TestBed.get(HttpClient);
     config = TestBed.get(ConfigService);
 
@@ -61,14 +48,12 @@ fdescribe('OccUserService', () => {
       'mockBaseEndpoint' + endpoint + '/'
     );
     spyOn(service, 'getOAuthEndpoint').and.returnValue('mockOauthEndpoint');
-
-    spyOn(httpClient, 'get').and.returnValue(of(user));
-    spyOn(httpClient, 'post').and.returnValue(of(token));
   });
 
   describe('load user details', () => {
-    it('should load user details for given username', () => {
-      service.loadUser(username).subscribe(result => {
+    it('should load user details for given username abd access token', () => {
+      spyOn(httpClient, 'get').and.returnValue(of(user));
+      service.loadUser(username, accessToken).subscribe(result => {
         expect(result).toEqual(user);
       });
 
@@ -81,6 +66,7 @@ fdescribe('OccUserService', () => {
 
   describe('load user token', () => {
     it('should load user token for given username and password', () => {
+      spyOn(httpClient, 'post').and.returnValue(of(token));
       service.loadToken(username, password).subscribe(result => {
         expect(result).toEqual(token);
       });
