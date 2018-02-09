@@ -15,11 +15,11 @@ export class BaseService {
   constructor(
     protected http: HttpClient,
     protected configService: ConfigService
-  ) {}
+  ) { }
 
   protected promise(url: string): Promise<any> {
     return new Promise(resolve => {
-      this.http.get(url).subscribe(data => {}, err => this.logError(err));
+      this.http.get(url).subscribe(data => { }, err => this.logError(err));
     });
   }
 

@@ -58,7 +58,7 @@ export class UserLoaderService {
   }
 
   loadUser(tokenData) {
-    this.occUserService.loadUser(tokenData.username).subscribe(userData => {
+    this.occUserService.loadUser(tokenData.username, tokenData.access_token).subscribe(userData => {
       this.userModelService.storeUser(userData);
     });
   }
