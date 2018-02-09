@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
-import { Http, Headers, Response, RequestOptions } from '@angular/http';
-import { HttpClient } from './http-client';
 import { ConfigService } from './config.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-// import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class OccUserService extends BaseService {
@@ -20,10 +18,12 @@ export class OccUserService extends BaseService {
 
   public loadUser(username: string): Observable<any> {
     const url = this.getUserEndpoint() + username;
-    return this.http
-      .get(url)
-      .map((response: Response) => response.json())
-      .catch((error: any) => Observable.throw(error.json() || 'Server error'));
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept-Control-Request-Headers': 'authorization',
+      'Accept-Control-Request-Method': 'GET'
+    });
+    return this.http.get(url, { headers: headers });
   }
 
   loadToken(username: string, password: string): Observable<any> {
@@ -35,15 +35,10 @@ export class OccUserService extends BaseService {
       '&client_secret=' + this.configService.authentication.client_secret;
     creds += '&grant_type=password'; // authorization_code, client_credentials, password
     creds += '&username=' + username + '&password=' + password;
-    const headers = new Headers({
+    const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http
-      .post(url, creds, { headers: headers })
-      .map((response: Response) => response.json())
-      .catch((error: any) =>
-        Observable.throw(error.json().error || 'Server error')
-      );
+    return this.http.post(url, creds, { headers: headers });
   }
 }
