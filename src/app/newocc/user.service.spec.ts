@@ -64,24 +64,6 @@ fdescribe('OccUserService', () => {
     });
   });
 
-  // describe('load user details', () => {
-  //   it('should load user details for given username and access token', () => {
-  //     spyOn(httpClient, 'get').and.throwError('mockError');
-
-  //     try {
-  //       service.loadUser(username, accessToken).subscribe();
-  //     } catch (err) {
-  //       console.log(err);
-  //       // expect(err as string).toEqual('mockError');
-  //     }
-
-  //     expect(httpClient.get).toHaveBeenCalledWith(
-  //       'mockBaseEndpoint' + endpoint + '/' + username,
-  //       jasmine.any(Object)
-  //     );
-  //   });
-  // });
-
   describe('load user token', () => {
     it('should load user token for given username and password', () => {
       spyOn(httpClient, 'post').and.returnValue(of(token));

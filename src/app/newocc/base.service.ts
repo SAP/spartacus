@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptionsArgs } from '@angular/http';
 import { ConfigService } from './config.service';
 import { HttpClient } from '@angular/common/http';
 

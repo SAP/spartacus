@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BaseService } from '../newocc/base.service';
 import { of } from 'rxjs/observable/of';
 import { ConfigService } from './config.service';
@@ -17,7 +17,6 @@ class MockConfigService {
 fdescribe('BaseService', () => {
   let service: BaseService;
   let config: ConfigService;
-  let httpClient: HttpClient;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -29,7 +28,6 @@ fdescribe('BaseService', () => {
     });
 
     service = TestBed.get(BaseService);
-    httpClient = TestBed.get(HttpClient);
     config = TestBed.get(ConfigService);
   });
 
