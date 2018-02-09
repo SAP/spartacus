@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { UserLoaderService } from 'app/data/user-loader.service';
+import { UserLoaderService } from './../../../data/user-loader.service';
 
 @Component({
   selector: 'y-login-dialog',

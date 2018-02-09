@@ -50,6 +50,7 @@ export class ConfigService {
     ProductCarouselComponent: 'ProductCarouselComponent',
     SearchBoxComponent: 'SearchBoxComponent',
     ProductReferencesComponent: 'ProductReferencesComponent',
-    CMSTabParagraphComponent: 'TabParagraphContainerComponent'
+    // CMSTabParagraphComponent: 'TabParagraphContainerComponent'
+    CMSTabParagraphComponent: 'ParagraphComponent'
   };
 }

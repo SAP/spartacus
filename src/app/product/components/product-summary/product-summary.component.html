@@ -1,0 +1,11 @@
+<div class="price">
+  {{product?.price?.formattedValue}}
+</div>
+
+<div [innerHTML]="product?.summary"></div>
+
+<mat-divider></mat-divider>
+
+<div>
+  {{product?.stock?.stockLevelStatus}} - {{product?.stock?.stockLevel}}
+</div>

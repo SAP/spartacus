@@ -1,3 +1,4 @@
+import { PageType } from './../../../routing/models/page-context.model';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -15,6 +16,7 @@ import { ProductReferenceConverterService } from '../../converters/product-refer
 
 import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
+import * as fromSiteContextActions from './../../../site-context/shared/store/actions';
 
 export class TestActions extends Actions {
   constructor() {
@@ -70,6 +72,22 @@ fdescribe('Product Effects', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effects.loadProduct$).toBeObservable(expected);
+    });
+  });
+
+  describe('refreshProduct$', () => {
+    it('should refresh a product', () => {
+      const pageContext = {
+        id: '1',
+        type: PageType.PRODUCT_PAGE
+      };
+      const action = new fromSiteContextActions.LanguageChange(pageContext);
+      const completion = new fromActions.LoadProductSuccess(product);
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.refreshProduct$).toBeObservable(expected);
     });
   });
 });

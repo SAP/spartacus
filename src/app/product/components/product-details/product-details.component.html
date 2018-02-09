@@ -1,0 +1,51 @@
+
+
+<mat-card>
+    
+    <mat-card-title>
+        <span class="product-title">{{(product$ | async)?.name}}</span>
+        <span class="product-code"><span class="prefix"> | ID {{(product$ | async)?.code}}</span></span>
+    </mat-card-title>
+    <div>
+        <y-star-rating [rating]="(product$ | async)?.averageRating"></y-star-rating>
+        <button mat-button (click)="onClick">Reviews</button>
+        <button mat-button (click)="onClick">Write a review</button>
+    </div>
+    
+    <mat-card-content>
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start" fxLayoutGap="24px">
+            <y-product-images fxFlexOrder.xs="2" [product]="product$ | async" fxFlex="50%"></y-product-images>
+            <div fxFlex="50%" fxFlexOrder.xs="1">
+                <y-product-summary [product]="product$ | async"></y-product-summary>
+                <y-dynamic-slot flex position="AddToCart" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
+                <!--<y-dynamic-slot flex position="VariantSelector"></y-dynamic-slot>-->
+            </div>
+        </div>
+
+        <y-dynamic-slot flex position="CrossSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
+        <y-dynamic-slot flex position="UpSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
+
+        <mat-tab-group>
+            <mat-tab label="PRODUCT DETAILS">
+                <p [innerHTML]="(product$ | async)?.description"></p>
+            </mat-tab>
+            <mat-tab label="SPECS">
+                <y-product-attributes [product]="product$ | async"></y-product-attributes>
+            </mat-tab>
+            <mat-tab label="REVIEWS">
+                <y-product-reviews [product]="product$ | async"></y-product-reviews>
+            </mat-tab>
+
+            <mat-tab label="Delivery">
+                <y-component-wrapper 
+                    [componentType]="'CMSTabParagraphComponent'" 
+                    [componentUid]="'deliveryTab'"></y-component-wrapper>
+                <y-dynamic-slot position="Tabs"></y-dynamic-slot>    
+            </mat-tab>
+        </mat-tab-group>
+
+    </mat-card-content>
+
+</mat-card>
+
+

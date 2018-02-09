@@ -5,26 +5,38 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-
 import { reducers, effects } from './store';
 import { metaReducers } from './store/reducers';
 
-// components
-// import * as fromComponents from './components';
+import { MediaModule } from './../ui/components/media/media.module';
+import { CmsModule } from './../cms/cms.module';
 
-// services
-// import * as fromServices from './services';
+import { MaterialModule } from './../material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+// components
+import * as fromComponents from './components';
+
+// guards
+import * as fromGuards from './guards';
+
+// converter
 import * as fromConverter from './converters';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
+    RouterModule,
+    MediaModule,
+    MaterialModule,
+    FlexLayoutModule,
+    CmsModule,
     StoreModule.forFeature('products', reducers, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
-  providers: [...fromConverter.services]
-  // declarations: [...fromComponents.components],
-  // exports: [...fromComponents.components]
+  declarations: [...fromComponents.components],
+  exports: [...fromComponents.components],
+  providers: [...fromConverter.services, ...fromGuards.guards]
 })
 export class ProductModule {}

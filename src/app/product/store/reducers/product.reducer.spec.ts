@@ -26,4 +26,28 @@ fdescribe('Product Reducer', () => {
       expect(state.entities).toEqual({ testCode: product });
     });
   });
+
+  describe('LOAD_PRODUCT_FAIL action', () => {
+    it('should return an empty product', () => {
+      const code = 'testCode';
+      const product = {
+        code,
+        name: 'testProduct'
+      };
+
+      const { initialState } = fromProduct;
+
+      const successAction = new fromActions.LoadProductSuccess(product);
+      const stateAfterSuccess = fromProduct.reducer(
+        initialState,
+        successAction
+      );
+      expect(stateAfterSuccess.entities).toBeTruthy();
+      expect(stateAfterSuccess.entities[code]).toBe(product);
+
+      const failAction = new fromActions.LoadProductFail(product);
+      const stateAfterFail = fromProduct.reducer(stateAfterSuccess, failAction);
+      expect(stateAfterFail.entities[code]).toEqual({});
+    });
+  });
 });
