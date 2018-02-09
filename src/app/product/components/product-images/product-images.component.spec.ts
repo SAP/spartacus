@@ -1,10 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MaterialModule } from 'app/material.module';
+import { MaterialModule } from './../../../material.module';
 import { ProductImagesComponent } from '../product-images/product-images.component';
 import { PictureComponent } from 'app/ui/components/media/picture/picture.component';
-import * as fromRoot from '../../../routing/store';
-import * as fromProduct from '../../store/reducers/product.reducer';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
 
@@ -17,7 +14,6 @@ class MockModel {
 }
 
 fdescribe('ProductImagesComponent product', () => {
-  let store: Store<fromProduct.ProductState>;
   let productImagesComponent: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
 
@@ -26,13 +22,7 @@ fdescribe('ProductImagesComponent product', () => {
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers
-          }),
-          RouterTestingModule
-        ],
+        imports: [MaterialModule, RouterTestingModule],
         declarations: [ProductImagesComponent, PictureComponent]
       }).compileComponents();
     })
@@ -41,7 +31,6 @@ fdescribe('ProductImagesComponent product', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductImagesComponent);
     productImagesComponent = fixture.componentInstance;
-    store = TestBed.get(Store);
 
     productImagesComponent.product = new MockModel();
     productImagesComponent.product.images = new MockImages();

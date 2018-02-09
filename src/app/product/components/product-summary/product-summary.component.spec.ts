@@ -1,9 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MaterialModule } from 'app/material.module';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
-import * as fromRoot from './../../../routing/store';
-import * as fromStore from './../../store';
-import { StoreModule, combineReducers } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 
 fdescribe('ProductSummaryComponent in product', () => {
@@ -13,14 +10,7 @@ fdescribe('ProductSummaryComponent in product', () => {
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            products: combineReducers(fromStore.reducers)
-          }),
-          RouterTestingModule
-        ],
+        imports: [MaterialModule, RouterTestingModule],
         declarations: [ProductSummaryComponent]
       }).compileComponents();
     })

@@ -8,11 +8,9 @@ import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 import { ConfigService } from './../../../newocc/config.service';
-import { ProductImageConverterService } from '../../converters/product-image-converter.service';
-import { ProductReferenceConverterService } from '../../converters/product-reference-converter.service';
 
-import * as fromEffects from './../effects/product-reviews.effect';
-import * as fromActions from './../actions/product-reviews.action';
+import * as fromEffects from '../effects/product-reviews.effect';
+import * as fromActions from '../actions/product-reviews.action';
 
 const reviewData = {
   reviews: [
@@ -49,8 +47,6 @@ fdescribe('Product reviews effect', () => {
         OccProductService,
         ConfigService,
         fromEffects.ProductReviewsEffects,
-        ProductImageConverterService,
-        ProductReferenceConverterService,
         {
           provide: Actions,
           useClass: MockActions

@@ -24,12 +24,7 @@ export class ProductReviewsEffects {
             });
           }),
           catchError(error =>
-            of(
-              new productReviewsActions.LoadProductReviewsFail({
-                productCode,
-                error
-              })
-            )
+            of(new productReviewsActions.LoadProductReviewsFail(productCode))
           )
         );
       })

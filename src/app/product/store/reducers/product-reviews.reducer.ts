@@ -3,13 +3,11 @@ import * as fromProductReviews from './../actions/product-reviews.action';
 export interface ProductReviewsState {
   productCode: string;
   list: any[];
-  error: any;
 }
 
 export const initialState: ProductReviewsState = {
   productCode: '',
-  list: [],
-  error: {}
+  list: []
 };
 
 export function reducer(
