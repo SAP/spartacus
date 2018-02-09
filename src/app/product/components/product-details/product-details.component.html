@@ -8,8 +8,12 @@
     </mat-card-title>
     <div>
         <y-star-rating [rating]="(product$ | async)?.averageRating"></y-star-rating>
+        <button mat-button>Reviews</button>
+        <button mat-button>Write a review</button>
+<!--
         <button mat-button (click)="onClick">Reviews</button>
         <button mat-button (click)="onClick">Write a review</button>
+-->
     </div>
     
     <mat-card-content>
