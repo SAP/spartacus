@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfigService } from './config.service';
 import { HttpClientModule } from '@angular/common/http';
-import { OccUserService } from '../newocc/user.service';
+import { OccUserService } from './user/user.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],

@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { OccUserService } from '../newocc/user.service';
+import { OccUserService } from './user.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { of } from 'rxjs/observable/of';
-import { ConfigService } from './config.service';
+import { ConfigService } from '../config.service';
 
 const username: any = 'mockUsername';
 const password: any = '1234';

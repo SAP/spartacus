@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { BaseService } from '../newocc/base.service';
+import { BaseService } from './base.service';
 import { of } from 'rxjs/observable/of';
-import { ConfigService } from './config.service';
+import { ConfigService } from '../config.service';
 
 class MockConfigService {
   server = {

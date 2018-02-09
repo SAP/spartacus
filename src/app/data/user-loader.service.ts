@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { OccUserService } from '../newocc/user.service';
+import { OccUserService } from '../newocc/user/user.service';
 import { UserModelService } from './user-model.service';
 import { TokenService } from './token.service';
 // import { SiteContextService } from './site-context.service';
