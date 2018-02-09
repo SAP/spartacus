@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoginStatusComponent } from './login-status.component';
+import { LoginStatusComponent } from './login.component';
 
 describe('LoginStatusComponent', () => {
   let component: LoginStatusComponent;
