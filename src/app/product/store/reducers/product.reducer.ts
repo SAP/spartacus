@@ -26,6 +26,19 @@ export function reducer(
         entities
       };
     }
+    case fromProduct.LOAD_PRODUCT_FAIL: {
+      const detail = action.payload;
+
+      const entities = {
+        ...state.entities,
+        [detail.code]: {}
+      };
+
+      return {
+        ...state,
+        entities
+      };
+    }
   }
   return state;
 }

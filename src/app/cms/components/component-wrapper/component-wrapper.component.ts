@@ -9,7 +9,8 @@ import {
   OnChanges,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
-  ComponentRef
+  ComponentRef,
+  OnDestroy
 } from '@angular/core';
 import { AbstractCmsComponent } from '../abstract-cms-component';
 import { ComponentMapperService } from '../../services/component-mapper.service';
@@ -20,7 +21,8 @@ import { ComponentMapperService } from '../../services/component-mapper.service'
   styleUrls: ['./component-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ComponentWrapperComponent implements OnInit, AfterViewInit {
+export class ComponentWrapperComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('target', { read: ViewContainerRef })
   target;
   @Input() componentType: string;
@@ -47,6 +49,7 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
     if (!this.isViewInitialized) {
       return;
     }
+
     if (this.cmpRef) {
       this.cmpRef.destroy();
     }
@@ -68,6 +71,12 @@ export class ComponentWrapperComponent implements OnInit, AfterViewInit {
         instance.setContextParameters(this.contextParameters);
       }
       instance.bootstrap();
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.cmpRef) {
+      this.cmpRef.destroy();
     }
   }
 }
