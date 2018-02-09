@@ -13,19 +13,21 @@ import { ProductReferenceConverterService } from '../../converters/product-refer
 @Injectable()
 export class ProductEffects {
   @Effect()
-  loadProduct$ = this.actions$.ofType(productActions.LOAD_PRODUCT).pipe(
-    map((action: productActions.LoadProduct) => action.payload),
-    mergeMap(productCode => {
-      return this.occProductService.loadProduct(productCode).pipe(
-        map(product => {
-          this.productImageConverter.convertProduct(product);
-          this.productReferenceConverterService.convertProduct(product);
-          return new productActions.LoadProductSuccess(product);
-        }),
-        catchError(error => of(new productActions.LoadProductFail(error)))
-      );
-    })
-  );
+  loadProduct$: Observable<any> = this.actions$
+    .ofType(productActions.LOAD_PRODUCT)
+    .pipe(
+      map((action: productActions.LoadProduct) => action.payload),
+      mergeMap(productCode => {
+        return this.occProductService.loadProduct(productCode).pipe(
+          map(product => {
+            this.productImageConverter.convertProduct(product);
+            this.productReferenceConverterService.convertProduct(product);
+            return new productActions.LoadProductSuccess(product);
+          }),
+          catchError(error => of(new productActions.LoadProductFail(error)))
+        );
+      })
+    );
 
   constructor(
     private actions$: Actions,

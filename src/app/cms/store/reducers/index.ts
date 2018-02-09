@@ -20,7 +20,10 @@ export const reducers: ActionReducerMap<CmsState> = {
   component: fromComponent.reducer
 };
 
-export const getCmsState = createFeatureSelector<CmsState>('cms');
+export const getCmsState: MemoizedSelector<
+  Object,
+  CmsState
+> = createFeatureSelector<CmsState>('cms');
 
 export function clearCmsState(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
