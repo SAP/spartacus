@@ -5,12 +5,9 @@ import { MaterialModule } from '../../material.module';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        MaterialModule
-    ],
-    declarations: [TabParagraphContainerComponent],
-    entryComponents: [TabParagraphContainerComponent],
-    exports: [TabParagraphContainerComponent]
+  imports: [CommonModule, MaterialModule],
+  declarations: [TabParagraphContainerComponent],
+  entryComponents: [TabParagraphContainerComponent],
+  exports: [TabParagraphContainerComponent]
 })
-export class TabParagraphContainerModule { }
+export class TabParagraphContainerModule {}

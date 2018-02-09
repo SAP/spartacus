@@ -9,8 +9,9 @@ import * as fromSelectors from './product.selectors';
 fdescribe('Cms Component Selectors', () => {
   let store: Store<fromReducers.ProductsState>;
 
+  const code = 'testCode';
   const product = {
-    code: 'testCode',
+    code,
     name: 'testProduct'
   };
 
@@ -36,7 +37,7 @@ fdescribe('Cms Component Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getProductEntities)
+        .select(fromSelectors.getProductState)
         .subscribe(value => (result = value));
       expect(result.entities).toEqual({});
 
@@ -73,6 +74,19 @@ fdescribe('Cms Component Selectors', () => {
       store.dispatch(new fromActions.LoadProductSuccess(product));
 
       expect(result).toEqual(['testCode']);
+    });
+  });
+
+  describe('getSelectedProductFactory', () => {
+    it('should return a single product by productCode', () => {
+      let result;
+
+      store
+        .select(fromSelectors.getSelectedProductFactory(code))
+        .subscribe(value => (result = value));
+
+      store.dispatch(new fromActions.LoadProductSuccess(product));
+      expect(result).toEqual(product);
     });
   });
 });
