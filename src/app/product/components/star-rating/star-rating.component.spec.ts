@@ -1,8 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { MaterialModule } from 'app/material.module';
-import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs/observable/of';
 
 fdescribe('StarRatingComponent in product', () => {
   let starRatingComponent: StarRatingComponent;
@@ -13,7 +11,7 @@ fdescribe('StarRatingComponent in product', () => {
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        imports: [MaterialModule, RouterTestingModule],
+        imports: [MaterialModule],
         declarations: [StarRatingComponent]
       }).compileComponents();
     })

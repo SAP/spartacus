@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MaterialModule } from './../../../material.module';
 import { ProductImagesComponent } from '../product-images/product-images.component';
 import { PictureComponent } from 'app/ui/components/media/picture/picture.component';
-import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
 
 class MockImages {
@@ -22,7 +21,7 @@ fdescribe('ProductImagesComponent product', () => {
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        imports: [MaterialModule, RouterTestingModule],
+        imports: [MaterialModule],
         declarations: [ProductImagesComponent, PictureComponent]
       }).compileComponents();
     })

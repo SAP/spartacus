@@ -12,7 +12,6 @@ import { ComponentWrapperComponent } from '../../../cms/components/component-wra
 import * as fromRoot from '../../../routing/store';
 import * as fromProduct from '../../store/reducers/product.reducer';
 import { StoreModule, Store } from '@ngrx/store';
-import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
 import { ComponentMapperService } from '../../../cms/services/component-mapper.service';
 
@@ -32,8 +31,7 @@ fdescribe('ProductDetailsComponent in product', () => {
           MaterialModule,
           StoreModule.forRoot({
             ...fromRoot.reducers
-          }),
-          RouterTestingModule
+          })
         ],
         declarations: [
           ProductDetailsComponent,
