@@ -6,9 +6,9 @@ import { UserLoaderService } from '../../data/user-loader.service';
 import { UserModelService } from '../../data/user-model.service';
 
 @Component({
-  selector: 'y-login-status',
-  templateUrl: './login-status.component.html',
-  styleUrls: ['./login-status.component.scss']
+  selector: 'y-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginStatusComponent {
   user;
