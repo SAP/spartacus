@@ -54,7 +54,7 @@ export class ComponentMapperService {
       this.componentFactoryResolver['_factories'].keys()
     );
     const factoryClass = <Type<any>>factories.find(
-      (x: any) => x.name === alias
+      (x: any) => x.componentName === alias
     );
 
     return factoryClass;

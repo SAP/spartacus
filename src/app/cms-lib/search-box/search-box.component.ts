@@ -18,6 +18,8 @@ import { SearchConfig } from '../../product/search-config';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchBoxComponent extends AbstractCmsComponent {
+  static componentName = 'SearchBoxComponent';
+
   searchBoxControl: FormControl = new FormControl();
 
   searchResults$: Observable<any[]>;

@@ -16,6 +16,8 @@ import { ConfigService } from '../../cms/config.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BannerComponent extends AbstractCmsComponent {
+  static componentName = 'BannerComponent';
+
   constructor(
     protected cd: ChangeDetectorRef,
     protected store: Store<fromStore.CmsState>,
