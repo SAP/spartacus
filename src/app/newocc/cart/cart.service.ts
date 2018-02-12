@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Response, Headers } from '@angular/http';
 import { ConfigService } from '../config.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ProductImageConverterService } from '../../product/converters';
 import { catchError } from 'rxjs/operators';
 
@@ -35,15 +34,23 @@ export class OccCartService {
   ): Observable<any> {
     const toAdd = JSON.stringify({});
     let url = this.getCartEndpoint(userId);
-    url += '?oldCartId=' + oldCartToken;
+
+    let paramsString = `oldCartId=${oldCartToken}`;
+
     if (toMergeCart) {
-      url += '&toMergeCartGuid=' + toMergeCart.guid;
+      paramsString += '&toMergeCartGuid=' + toMergeCart.guid;
     }
-    url +=
+
+    paramsString +=
       '&fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';
 
+    const params = new HttpParams({
+      fromString:
+        paramsString
+    });
+
     return this.http
-      .post(url, toAdd)
+      .post(url, toAdd, { params: params })
       .map(response => {
         const cartData = response as any;
         if (cartData.carts) {
@@ -57,15 +64,17 @@ export class OccCartService {
   }
 
   public loadCart(userId: string, cartId: string): Observable<any> {
-    let url = this.getCartEndpoint(userId);
-    url += cartId;
-    url +=
-      '?fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';
+    let url = this.getCartEndpoint(userId) + cartId;
+
+    const params = new HttpParams({
+      fromString:
+        `fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))`
+    });
 
     return this.http
-      .get(url)
-      .map((response: any) => {
-        const cartData = response;
+      .get(url, { params: params })
+      .map(response => {
+        const cartData = response as any;
         if (cartData.carts) {
           for (const entry of cartData.carts) {
             this.productImageConverter.convertProduct(entry.product);
@@ -92,16 +101,21 @@ export class OccCartService {
   ): Observable<any> {
     const toAdd = JSON.stringify({});
 
-    let url = this.getCartEndpoint(userId);
-    url += cartId;
-    url += '/entries?code=' + productCode + '&qty=' + quantity;
+    let url = this.getCartEndpoint(userId) + cartId + '/entries';
+
+    const paramsString = 'code=' + productCode + '&qty=' + quantity;
+
+    const params = new HttpParams({
+      fromString:
+        paramsString
+    });
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
     return this.http
-      .post(url, toAdd, { headers: headers })
+      .post(url, toAdd, { headers: headers, params: params })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   };
 
@@ -110,10 +124,7 @@ export class OccCartService {
     cartId: string,
     entryNumber: string
   ): Observable<any> {
-    let url = this.getCartEndpoint(userId);
-    url += cartId;
-    url += '/entries/';
-    url += entryNumber;
+    let url = this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
