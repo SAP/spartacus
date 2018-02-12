@@ -18,7 +18,7 @@ export class OccUserService extends BaseService {
   public loadUser(username: string, accessToken: string): Observable<any> {
     const url = this.getUserEndpoint() + username;
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + accessToken
+      Authorization: 'Bearer ' + accessToken
     });
 
     return this.http
@@ -40,6 +40,6 @@ export class OccUserService extends BaseService {
 
     return this.http
       .post(url, creds, { headers: headers })
-      .pipe(catchError((error: any) => Observable.throw(error.json())));;
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 }
