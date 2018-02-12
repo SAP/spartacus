@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -15,6 +16,7 @@ import { ProductImageConverterService } from '../../converters/product-image-con
 import * as fromEffects from './product-search.effect';
 import * as fromActions from '../actions/product-search.action';
 
+@Injectable()
 export class TestActions extends Actions {
   constructor() {
     super(empty());
