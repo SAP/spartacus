@@ -1,13 +1,10 @@
 import * as fromUserToken from './../../store/actions';
-import { TokenRequest, Token } from '../../token-types';
+import { UserToken } from '../../token-types';
 
 fdescribe('User Token Actions', () => {
   describe('LoadUserToken Actions', () => {
     it('should create the action', () => {
-      const tokenRequest: TokenRequest = {
-        clientId: 'mobile_android',
-        clientSecret: 'secret',
-        grantType: 'password',
+      const tokenRequest = {
         username: 'tobiasouwejan@gmail.com',
         password: '1234'
       };
@@ -34,7 +31,7 @@ fdescribe('User Token Actions', () => {
 
   describe('LoadUserTokenSuccess Action', () => {
     it('should create the action', () => {
-      const token: Token = {
+      const token: UserToken = {
         accessToken: 'xxx',
         tokenType: 'bearer',
         refreshToken: 'xxx',

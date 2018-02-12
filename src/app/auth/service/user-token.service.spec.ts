@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { UserTokenService } from './user-token.service';
 import { OccUserService } from '../../newocc/user/user.service';
 import { of } from 'rxjs/observable/of';
-import { Token } from './../token-types';
+import { UserToken } from './../token-types';
 
-let testToken: Token;
+let testToken: UserToken;
 const testUsername = 'aName';
 
 class MockOccUserService {
@@ -47,7 +47,7 @@ fdescribe('UserTokenService', () => {
     let result;
     userTokenService
       .loadToken(testUsername, 'doesNotMatter')
-      .subscribe((token: Token) => (result = token));
+      .subscribe((token: UserToken) => (result = token));
 
     expect(result).toBeTruthy();
 
@@ -66,7 +66,7 @@ fdescribe('UserTokenService', () => {
     let result;
     userTokenService
       .loadToken(testUsername, 'doesNotMatter')
-      .subscribe((token: Token) => (result = token));
+      .subscribe((token: UserToken) => (result = token));
 
     testToken.username = testUsername;
     expect(userTokenService.getToken()).toEqual(testToken);
