@@ -13,7 +13,9 @@ import { By } from '@angular/platform-browser';
 @Component({
   template: 'test content'
 })
-export class TestComponent extends AbstractCmsComponent {}
+export class TestComponent extends AbstractCmsComponent {
+  static componentName = 'TestComponent';
+}
 @NgModule({
   declarations: [TestComponent],
   entryComponents: [TestComponent],
