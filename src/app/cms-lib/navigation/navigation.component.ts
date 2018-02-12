@@ -21,7 +21,7 @@ import * as fromStore from '../../cms/store';
 export class NavigationComponent extends AbstractCmsComponent {
   static componentName = 'NavigationComponent';
 
-  @Input() protected node;
+  @Input() node;
 
   constructor(
     protected cd: ChangeDetectorRef,
