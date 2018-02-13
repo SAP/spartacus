@@ -5,6 +5,19 @@ import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import * as fromActions from '../actions';
 
+const mockUser = {
+    name: 'mockName',
+    password: 'mockPassword'
+};
+
+const mockEntities = {
+    user: mockUser
+}
+
+const mockState = {
+    entities: mockEntities
+}
+
 fdescribe('User Selectors', () => {
     let store: Store<fromReducers.UserState>;
 
@@ -31,14 +44,25 @@ fdescribe('User Selectors', () => {
 
             expect(result.entities.user).toEqual({});
 
-            const mockUser = {
-                name: 'mockName',
-                password: 'mockPassword'
-            };
+            store.dispatch(new fromActions.LoadUserSuccess(mockUser));
+
+            expect(result).toEqual(mockState);
+        });
+    });
+
+
+    describe('getUserEntities', () => {
+        it('should return a user from the entities', () => {
+            let result;
+            store
+                .select(fromSelectors.getUsersEntities)
+                .subscribe(value => (result = value));
+
+            expect(result).toEqual({ user: {} });
 
             store.dispatch(new fromActions.LoadUserSuccess(mockUser));
 
-            expect(result.entities.user).toEqual(mockUser);
+            expect(result).toEqual(mockEntities);
         });
     });
 });

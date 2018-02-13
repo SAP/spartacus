@@ -38,7 +38,6 @@ export function reducer(
             };
         }
     }
-    console.log(state.entities.user);
     return state;
 }
 
