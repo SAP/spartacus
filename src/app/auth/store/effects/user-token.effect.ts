@@ -7,7 +7,7 @@ import { of } from 'rxjs/observable/of';
 import { map, mergeMap, tap, catchError } from 'rxjs/operators';
 
 import { UserTokenService } from '../../service/user-token.service';
-import { UserToken } from '../../token-types';
+import { UserToken } from '../../models/token-types.model';
 
 @Injectable()
 export class UserTokenEffects {

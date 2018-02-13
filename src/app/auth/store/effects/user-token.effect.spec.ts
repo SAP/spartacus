@@ -6,7 +6,7 @@ import { Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { empty } from 'rxjs/observable/empty';
-import { UserToken } from '../../token-types';
+import { UserToken } from '../../models/token-types.model';
 
 import { hot, cold } from 'jasmine-marbles';
 

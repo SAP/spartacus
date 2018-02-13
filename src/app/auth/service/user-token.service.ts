@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { OccUserService } from '../../newocc/user/user.service';
 import { Observable } from 'rxjs/Observable';
-import { UserToken, Y_USER_TOKEN } from './../token-types';
+import { UserToken, Y_USER_TOKEN } from './../models/token-types.model';
 import { tap } from 'rxjs/operators';
 
 @Injectable()

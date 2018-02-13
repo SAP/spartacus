@@ -1,6 +1,6 @@
 import * as fromUserToken from './user-token.reducer';
 import * as fromActions from './../actions/user-token.action';
-import { UserToken } from '../../token-types';
+import { UserToken } from '../../models/token-types.model';
 
 fdescribe('UserToken reducer', () => {
   describe('undefined action', () => {

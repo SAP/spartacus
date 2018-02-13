@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { UserToken } from '../../token-types';
+import { UserToken } from '../../models/token-types.model';
 
 export const LOAD_USER_TOKEN = '[Auth] Load User Token';
 export const LOAD_USER_TOKEN_FAIL = '[Auth] Load User Token Fail';

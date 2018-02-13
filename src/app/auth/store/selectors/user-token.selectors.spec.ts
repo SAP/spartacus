@@ -6,7 +6,7 @@ import * as fromRoot from './../../../routing/store';
 import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
 import * as fromActions from './../actions';
-import { UserToken } from '../../token-types';
+import { UserToken } from '../../models/token-types.model';
 
 fdescribe('Auth Selectors', () => {
   let store: Store<fromReducers.TokensState>;

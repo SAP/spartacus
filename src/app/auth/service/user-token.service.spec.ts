@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { UserTokenService } from './user-token.service';
 import { OccUserService } from '../../newocc/user/user.service';
 import { of } from 'rxjs/observable/of';
-import { UserToken } from './../token-types';
+import { UserToken } from './../models/token-types.model';
 
 let testToken: UserToken;
 const testUsername = 'aName';

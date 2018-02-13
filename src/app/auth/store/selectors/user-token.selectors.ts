@@ -1,6 +1,6 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 import * as fromFeature from './../reducers';
-import { UserToken } from '../../token-types';
+import { UserToken } from '../../models/token-types.model';
 
 export const getUserToken: MemoizedSelector<any, UserToken> = createSelector(
   fromFeature.getTokensState,
