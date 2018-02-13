@@ -13,6 +13,8 @@ import { AbstractCmsComponent } from '../../cms/components/abstract-cms-componen
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ParagraphComponent extends AbstractCmsComponent {
+  static componentName = 'ParagraphComponent';
+
   @ViewChild('dataContainer') dataContainer: ElementRef;
 
   protected fetchData() {
