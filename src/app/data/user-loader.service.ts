@@ -37,7 +37,7 @@ export class UserLoaderService {
       tokenData => {
         if (tokenData) {
           // extend token data with user name
-          tokenData.username = username;
+          tokenData.username = username; // TODO [SPA-276] - remove?
           this.setUser(tokenData);
           this.refreshCmsDataAfterUserChange();
         }
@@ -58,9 +58,11 @@ export class UserLoaderService {
   }
 
   loadUser(tokenData) {
-    this.occUserService.loadUser(tokenData.username, tokenData.access_token).subscribe(userData => {
-      this.userModelService.storeUser(userData);
-    });
+    this.occUserService
+      .loadUser(tokenData.username, tokenData.access_token)
+      .subscribe(userData => {
+        this.userModelService.storeUser(userData);
+      });
   }
 
   // refresh CMS data as it can change based on user restrictions

@@ -7,7 +7,7 @@ export const LOAD_USER_TOKEN_SUCCESS = '[Auth] Load User Token Success';
 
 export class LoadUserToken implements Action {
   readonly type = LOAD_USER_TOKEN;
-  constructor(public payload: any) {}
+  constructor(public payload: { username: string; password: string }) {}
 }
 
 export class LoadUserTokenFail implements Action {
