@@ -19,7 +19,7 @@ import * as fromStore from '../../cms/store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavigationComponent extends AbstractCmsComponent {
-  @Input() protected node;
+  @Input() node;
 
   constructor(
     protected cd: ChangeDetectorRef,

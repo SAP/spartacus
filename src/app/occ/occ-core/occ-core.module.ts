@@ -5,22 +5,8 @@ import { OccCartService } from './cart.service';
 
 import { OccUserService } from './user.service';
 
-import { ConfigService } from '../config.service';
-
 @NgModule({
   imports: [CommonModule],
   providers: [OccUserService, OccCartService]
 })
-export class OccCoreModule {
-  static forRoot(config: any): any {
-    return {
-      ngModule: OccCoreModule,
-      providers: [
-        {
-          provide: ConfigService,
-          useExisting: config
-        }
-      ]
-    };
-  }
-}
+export class OccCoreModule {}

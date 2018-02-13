@@ -9,7 +9,7 @@ import { ConfigService } from './config.service';
 // provide the access token
 import { HttpClient } from './http-client';
 import { RequestOptions, Http, XHRBackend } from '@angular/http';
-function httpClientFactory(
+export function httpClientFactory(
   xhrBackend: XHRBackend,
   requestOptions: RequestOptions,
   configService: ConfigService
@@ -18,7 +18,7 @@ function httpClientFactory(
 }
 
 @NgModule({
-  imports: [CommonModule, HttpModule, OccCoreModule.forRoot(ConfigService)],
+  imports: [CommonModule, HttpModule, OccCoreModule],
   providers: [
     HttpClient,
     {
