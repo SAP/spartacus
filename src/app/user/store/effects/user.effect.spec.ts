@@ -11,7 +11,9 @@ import { hot, cold } from 'jasmine-marbles';
 
 import * as fromUserAction from '../actions/user.action';
 import * as fromUserEffect from './user.effect';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class TestActions extends Actions {
     constructor() {
         super(empty());
