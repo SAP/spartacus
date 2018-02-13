@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -13,6 +14,7 @@ import { ConfigService } from '../../../../newocc/config.service';
 import * as fromEffects from './languages.effect';
 import * as fromActions from '../actions/languages.action';
 
+@Injectable()
 export class TestActions extends Actions {
   constructor() {
     super(empty());
