@@ -11,8 +11,8 @@ import { ProductListModule } from '../../product/product-list/product-list.modul
 // component module could be configurable or we could have separate component modules,
 // i.e. powertools-components.module.
 @NgModule({
-  imports: [CommonModule, ProductModule, MediaModule, ProductListModule],
-  declarations: [],
-  exports: [ProductModule, ProductListModule]
+  //imports: [CommonModule, ProductModule, MediaModule, ProductListModule],
+  //declarations: [],
+  //exports: [ProductModule, ProductListModule]
 })
 export class ComponentsModule {}

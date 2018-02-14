@@ -12,7 +12,7 @@ import { FooterComponent } from './footer/footer.component';
 import { MainComponent } from './main/main.component';
 import { ContentPageLayoutComponent } from './content-page-layout/content-page-layout.component';
 
-import { ComponentsModule } from '../components/components.module';
+//import { ComponentsModule } from '../components/components.module';
 
 import { CookieConfirmationModule } from '../../cms-lib/cookie-confirmation/cookie-confirmation.module';
 import { LanguageSelectorModule } from '../../site-context/language-selector/language-selector.module';
@@ -21,6 +21,7 @@ import { CurrencySelectorModule } from '../../site-context/currency-selector/cur
 import { ProductListPageLayoutComponent } from './product-list-page-layout/product-list-page-layout.component';
 import { ProductDetailsPageLayoutComponent } from './product-details-page-layout/product-details-page-layout.component';
 import { LoginStatusModule } from '../../auth/login-status/login-status.module';
+import { ProductModule } from '../../product/product.module';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { LoginStatusModule } from '../../auth/login-status/login-status.module';
     FlexLayoutModule,
     CmsModule,
 
-    ComponentsModule,
+    //ComponentsModule,
+    ProductModule,
 
     CookieConfirmationModule,
     LoginStatusModule,

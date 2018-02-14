@@ -11,7 +11,6 @@ import { ProductDetailPageComponent } from './product-detail-page/product-detail
 import { ProductListPageComponent } from './product-list-page/product-list-page.component';
 import { PageNotFoundComponent } from './404/404.component';
 import { CartPageComponent } from './cart-page/cart-page.component';
-import { ProductModule } from './../../product/product.module';
 
 @NgModule({
   imports: [CommonModule, LayoutModule],
@@ -34,4 +33,4 @@ import { ProductModule } from './../../product/product.module';
     CartPageComponent
   ]
 })
-export class TemplatesModule {}
+export class PagesModule {}

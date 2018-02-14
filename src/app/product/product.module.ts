@@ -15,9 +15,6 @@ import { ProductDetailsModule } from './product-details/product-details.module';
 import { MaterialModule } from './../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-// components
-//import * as fromComponents from './components';
-
 // guards
 import * as fromGuards from './guards';
 
@@ -37,7 +34,6 @@ import * as fromConverter from './converters';
     StoreModule.forFeature('products', reducers, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
-  //declarations: [...fromComponents.components],
   exports: [ProductListModule, ProductDetailsModule],
   providers: [...fromConverter.services, ...fromGuards.guards]
 })
