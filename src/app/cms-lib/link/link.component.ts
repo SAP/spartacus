@@ -7,4 +7,6 @@ import { AbstractCmsComponent } from '../../cms/components/abstract-cms-componen
   styleUrls: ['./link.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LinkComponent extends AbstractCmsComponent {}
+export class LinkComponent extends AbstractCmsComponent {
+  static componentName = 'LinkComponent';
+}

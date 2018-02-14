@@ -19,6 +19,8 @@ import { tap, takeWhile } from 'rxjs/operators';
 })
 export class ProductCarouselComponent extends AbstractCmsComponent
   implements OnDestroy {
+  static componentName = 'ProductCarouselComponent';
+
   products$: Observable<any[]>;
   pause: boolean;
   firstTime = true;

@@ -6,7 +6,9 @@ import { ConfigService } from '../config.service';
 @Component({
   template: 'test'
 })
-export class TestComponent {}
+export class TestComponent {
+  static componentName = 'TestComponent';
+}
 
 @NgModule({
   declarations: [TestComponent],

@@ -8,6 +8,8 @@ import { AbstractCmsComponent } from '../../cms/components/abstract-cms-componen
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterNavigationComponent extends AbstractCmsComponent {
+  static componentName = 'FooterNavigationComponent';
+
   children = [];
 
   protected fetchData() {

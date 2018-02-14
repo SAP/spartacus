@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -13,6 +14,7 @@ import { Location } from '@angular/common';
 import * as fromEffects from './router.effect';
 import * as fromActions from '../actions/router.action';
 
+@Injectable()
 export class TestActions extends Actions {
   constructor() {
     super(empty());

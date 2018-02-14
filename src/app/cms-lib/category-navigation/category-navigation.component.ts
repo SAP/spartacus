@@ -7,4 +7,6 @@ import { NavigationComponent } from '../navigation/navigation.component';
   styleUrls: ['./category-navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CategoryNavigationComponent extends NavigationComponent {}
+export class CategoryNavigationComponent extends NavigationComponent {
+  static componentName = 'CategoryNavigationComponent';
+}
