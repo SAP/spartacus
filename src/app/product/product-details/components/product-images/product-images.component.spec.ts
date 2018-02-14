@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MaterialModule } from './../../../material.module';
+import { MaterialModule } from './../../../../material.module';
 import { ProductImagesComponent } from '../product-images/product-images.component';
 import { PictureComponent } from 'app/ui/components/media/picture/picture.component';
 import { of } from 'rxjs/observable/of';

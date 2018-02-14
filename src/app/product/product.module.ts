@@ -9,12 +9,14 @@ import { metaReducers } from './store/reducers';
 
 import { MediaModule } from './../ui/components/media/media.module';
 import { CmsModule } from './../cms/cms.module';
+import { ProductListModule } from './product-list/product-list.module';
+import { ProductDetailsModule } from './product-details/product-details.module';
 
 import { MaterialModule } from './../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 // components
-import * as fromComponents from './components';
+//import * as fromComponents from './components';
 
 // guards
 import * as fromGuards from './guards';
@@ -30,11 +32,13 @@ import * as fromConverter from './converters';
     MaterialModule,
     FlexLayoutModule,
     CmsModule,
+    ProductListModule,
+    ProductDetailsModule,
     StoreModule.forFeature('products', reducers, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
-  declarations: [...fromComponents.components],
-  exports: [...fromComponents.components],
+  //declarations: [...fromComponents.components],
+  exports: [ProductListModule, ProductDetailsModule],
   providers: [...fromConverter.services, ...fromGuards.guards]
 })
 export class ProductModule {}

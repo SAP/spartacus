@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, OnChanges, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
-//import { ProductSearchService } from '../../../data/product-search.service';
-//import { ProductLoaderService } from '../../../data/product-loader.service';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import * as fromProductStore from '../../store';
+import { SearchConfig } from '../../search-config';
 
 @Component({
   selector: 'y-product-list',
@@ -12,7 +12,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnChanges, OnInit {
-  model;
+  model$;
 
   @ViewChild('sidenav') sidenav: MatSidenav;
 
@@ -28,20 +28,14 @@ export class ProductListComponent implements OnChanges, OnInit {
 
   isFacetPanelOpen = false;
 
-  constructor() //protected productLoader: ProductLoaderService,
-  //protected searchService: ProductSearchService
-  {
-    // this.config = this.searchService.createConfig();
-    this.subject = new BehaviorSubject<any>({});
-    this.subject.subscribe(result => {
-      this.model = result;
-    });
-  }
+  constructor(protected store: Store<fromProductStore.ProductsState>) {}
 
   ngOnInit() {
     this.grid = {
       mode: this.gridMode
     };
+
+    this.model$ = this.store.select(fromProductStore.getSearchResults);
   }
 
   ngOnChanges() {
@@ -55,8 +49,6 @@ export class ProductListComponent implements OnChanges, OnInit {
     if (this.query) {
       this.search(this.query);
     }
-
-    // this.cd.markForCheck();
   }
 
   toggleSidenav() {
@@ -65,13 +57,14 @@ export class ProductListComponent implements OnChanges, OnInit {
 
   onFilter(query: string) {
     this.search(query);
-    // this.productLoader.query(query).subscribe((result) => {
-    //     console.log(result);
-    //     this.model = result;
-    // });
   }
 
   protected search(query) {
-    //this.searchService.searchProducts(query, this.config, this.subject);
+    this.store.dispatch(
+      new fromProductStore.SearchProducts({
+        queryText: query,
+        searchConfig: new SearchConfig(10)
+      })
+    );
   }
 }

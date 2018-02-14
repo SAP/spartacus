@@ -4,8 +4,8 @@ import { MaterialModule } from 'app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductReviewsComponent } from './product-reviews.component';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import * as fromRoot from './../../../routing/store';
-import * as fromStore from '../../store';
+import * as fromRoot from './../../../../routing/store';
+import * as fromStore from '../../../store';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };

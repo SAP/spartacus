@@ -1,7 +1,17 @@
+<ng-container *ngIf="(cmsPage$ | async)?.template === 'ProductListPageTemplate'" >
+    <y-product-list-page-layout 
+        [gridMode]="'list'"
+        [categoryCode]="categoryCode"
+        [brandCode]="brandCode"></y-product-list-page-layout>
+</ng-container>
 
-<y-product-list-page-layout 
-    *ngIf="model"
-    [gridMode]="model.template === 'CategoryPageTemplate' ? 'grid' : 'list'"
-    [categoryCode]="categoryCode"
-    [brandCode]="brandCode"
-></y-product-list-page-layout>
+<ng-container *ngIf="(cmsPage$ | async)?.template === 'ProductGridPageTemplate'" >
+    <y-product-list-page-layout 
+        [gridMode]="'grid'"
+        [categoryCode]="categoryCode"
+        [brandCode]="brandCode"></y-product-list-page-layout>
+</ng-container>
+
+<ng-container *ngIf="(cmsPage$ | async)?.template === 'CategoryPageTemplate'" >
+    <div> </div>
+</ng-container>

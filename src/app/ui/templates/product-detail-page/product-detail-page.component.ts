@@ -9,16 +9,16 @@ import { Router } from '@angular/router';
   templateUrl: './product-detail-page.component.html',
   styleUrls: ['./product-detail-page.component.scss']
 })
-export class ProductDetailPageComponent extends AbstractPage implements OnInit {
+export class ProductDetailPageComponent implements OnInit {
   productCode;
 
-  constructor(protected router: Router, protected activeRoute: ActivatedRoute) {
-    super(router, activeRoute);
-  }
+  constructor(protected activeRoute: ActivatedRoute) {}
 
   ngOnInit() {
-    this.activeRoute.params.subscribe(
-      (params: Params) => (this.productCode = params['productCode'])
-    );
+    this.activeRoute.params.forEach((params: Params) => {
+      if (params['productCode']) {
+        this.productCode = params['productCode'];
+      }
+    });
   }
 }
