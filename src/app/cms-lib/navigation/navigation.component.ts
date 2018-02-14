@@ -19,7 +19,9 @@ import * as fromStore from '../../cms/store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavigationComponent extends AbstractCmsComponent {
-  @Input() protected node;
+  static componentName = 'NavigationComponent';
+
+  @Input() node;
 
   constructor(
     protected cd: ChangeDetectorRef,

@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { PageType } from './../../../routing/models/page-context.model';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -18,6 +19,7 @@ import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
 import * as fromSiteContextActions from './../../../site-context/shared/store/actions';
 
+@Injectable()
 export class TestActions extends Actions {
   constructor() {
     super(empty());
