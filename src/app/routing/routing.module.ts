@@ -4,15 +4,26 @@ import {
   StoreRouterConnectingModule,
   RouterStateSerializer
 } from '@ngrx/router-store';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, MetaReducer } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { reducers, effects, CustomSerializer, metaReducers } from './store';
+import {
+  reducers,
+  effects,
+  CustomSerializer,
+  storageSyncReducer
+} from './store';
 
 // Angular CLI environment
 import { environment } from '../../environments/environment';
 
 // not used in production
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { storeFreeze } from 'ngrx-store-freeze';
+
+export const metaReducers: MetaReducer<any>[] = [storageSyncReducer];
+if (!environment.production) {
+  metaReducers.push(storeFreeze);
+}
 
 @NgModule({
   imports: [
