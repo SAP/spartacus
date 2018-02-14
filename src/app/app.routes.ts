@@ -67,10 +67,12 @@ export const appRoutes: Routes = [
 
   {
     path: 'brand/:brandCode',
+    canActivate: [CmsPageGuards],
     component: CategoryPageComponent
   },
   {
     path: 'brand/:brandCode/:title',
+    canActivate: [CmsPageGuards],
     component: CategoryPageComponent
   },
 
