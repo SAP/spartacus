@@ -16,7 +16,7 @@ fdescribe('Auth Selectors', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRoot.reducers,
-          tokens: combineReducers(fromReducers.reducers)
+          user: combineReducers(fromReducers.reducers)
         })
       ]
     });
@@ -27,11 +27,11 @@ fdescribe('Auth Selectors', () => {
 
   describe('getUserTokenState', () => {
     it('should return a user token from the state', () => {
-      let result;
+      let result: UserToken;
       store
         .select(fromSelectors.getUserToken)
         .subscribe(value => (result = value));
-      expect(result).toEqual({});
+      expect(result).toEqual(<UserToken>{});
 
       const testToken: UserToken = {
         access_token: 'xxx',

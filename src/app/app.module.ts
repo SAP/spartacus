@@ -35,7 +35,7 @@ import { AuthModule } from './auth/auth.module';
 
     CmsModule.forRoot(ConfigService),
     SiteContextModule.forRoot(ConfigService),
-    RoutingModule,
+    RoutingModule.forRoot(ConfigService),
     RouterModule.forRoot(appRoutes),
     ProductModule,
     AuthModule
