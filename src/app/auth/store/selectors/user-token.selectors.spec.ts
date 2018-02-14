@@ -9,7 +9,7 @@ import * as fromActions from './../actions';
 import { UserToken } from '../../models/token-types.model';
 
 fdescribe('Auth Selectors', () => {
-  let store: Store<fromReducers.TokensState>;
+  let store: Store<fromReducers.UserState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

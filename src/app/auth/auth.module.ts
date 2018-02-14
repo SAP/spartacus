@@ -11,7 +11,7 @@ import { UserLoaderService } from '../data/user-loader.service';
   imports: [
     CommonModule,
     LoginStatusModule,
-    StoreModule.forFeature('tokens', reducers, { metaReducers }),
+    StoreModule.forFeature('user', reducers, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
   declarations: [],
