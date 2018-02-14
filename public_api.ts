@@ -1,4 +1,4 @@
-export * from './src/app/auth/login-status/login-status.module';
+export * from './src/app/auth/login/login.module';
 export * from './src/app/occ/occ.module';
 export * from './src/app/newocc/newocc.module';
 export * from './src/app/occ/occ-core/occ-core.module';

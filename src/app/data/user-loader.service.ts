@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { OccUserService } from '../occ/occ-core/user.service';
+import { OccUserService } from '../newocc/user/user.service';
 import { UserModelService } from './user-model.service';
 import { TokenService } from './token.service';
 // import { SiteContextService } from './site-context.service';
@@ -58,7 +58,7 @@ export class UserLoaderService {
   }
 
   loadUser(tokenData) {
-    this.occUserService.loadUser(tokenData.username).subscribe(userData => {
+    this.occUserService.loadUser(tokenData.username, tokenData.access_token).subscribe(userData => {
       this.userModelService.storeUser(userData);
     });
   }
