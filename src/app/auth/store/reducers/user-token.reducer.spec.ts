@@ -16,10 +16,10 @@ fdescribe('UserToken reducer', () => {
   describe('LOAD_USER_TOKEN_SUCCESS action', () => {
     it('should store a user token', () => {
       const testToken: UserToken = {
-        accessToken: 'xxx',
-        tokenType: 'bearer',
-        refreshToken: 'xxx',
-        expiresIn: 1000,
+        access_token: 'xxx',
+        token_type: 'bearer',
+        refresh_token: 'xxx',
+        expires_in: 1000,
         scope: ['xxx'],
         username: 'xxx'
       };

@@ -6,8 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { map, mergeMap, tap, catchError } from 'rxjs/operators';
 
-import { UserTokenService } from '../../service/user-token.service';
 import { UserToken } from '../../models/token-types.model';
+import { UserLoaderService } from '../../../data/user-loader.service';
 
 @Injectable()
 export class UserTokenEffects {
@@ -17,10 +17,8 @@ export class UserTokenEffects {
     .pipe(
       map((action: fromActions.LoadUserToken) => action.payload),
       mergeMap(({ username, password }) => {
-        return this.userTokenService.loadToken(username, password).pipe(
+        return this.userLoaderService.login(username, password).pipe(
           map((token: UserToken) => {
-            // TODO [SPA-276] - remove this after ngrx-store-localstorage is in place?
-            token = this.userTokenService.storeToken(username, token);
             return new fromActions.LoadUserTokenSuccess(token);
           }),
           catchError(error => of(new fromActions.LoadUserTokenFail(error)))
@@ -30,6 +28,6 @@ export class UserTokenEffects {
 
   constructor(
     private actions$: Actions,
-    private userTokenService: UserTokenService
+    private userLoaderService: UserLoaderService
   ) {}
 }

@@ -34,10 +34,10 @@ fdescribe('Auth Selectors', () => {
       expect(result).toEqual({});
 
       const testToken: UserToken = {
-        accessToken: 'xxx',
-        tokenType: 'bearer',
-        refreshToken: 'xxx',
-        expiresIn: 1000,
+        access_token: 'xxx',
+        token_type: 'bearer',
+        refresh_token: 'xxx',
+        expires_in: 1000,
         scope: ['xxx'],
         username: 'xxx'
       };
