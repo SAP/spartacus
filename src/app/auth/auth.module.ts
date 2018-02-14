@@ -7,8 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
 import { UserLoaderService } from '../data/user-loader.service';
 
-import * as fromGuards from './guard';
-
+import * as fromGuards from './guards';
 
 @NgModule({
   imports: [
@@ -19,6 +18,7 @@ import * as fromGuards from './guard';
   ],
   declarations: [],
   providers: [
+    ...fromGuards.guards,
     UserLoaderService,
     // providers: [
     //   ConfigService,
