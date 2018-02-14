@@ -6,10 +6,10 @@ import * as fromRoot from './../../../routing/store';
 import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
 import * as fromActions from './../actions';
-import { UserToken } from '../../token-types';
+import { UserToken } from '../../models/token-types.model';
 
 fdescribe('Auth Selectors', () => {
-  let store: Store<fromReducers.TokensState>;
+  let store: Store<fromReducers.UserState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,10 +34,10 @@ fdescribe('Auth Selectors', () => {
       expect(result).toEqual({});
 
       const testToken: UserToken = {
-        accessToken: 'xxx',
-        tokenType: 'bearer',
-        refreshToken: 'xxx',
-        expiresIn: 1000,
+        access_token: 'xxx',
+        token_type: 'bearer',
+        refresh_token: 'xxx',
+        expires_in: 1000,
         scope: ['xxx'],
         username: 'xxx'
       };

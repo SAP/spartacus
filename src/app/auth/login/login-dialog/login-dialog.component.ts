@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { UserLoaderService } from '../../../data/user-loader.service';
 
@@ -6,29 +6,32 @@ import { UserLoaderService } from '../../../data/user-loader.service';
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../store';
 import { tap } from 'rxjs/operators';
-import { UserToken } from './../../token-types';
+import { UserToken } from './../../models/token-types.model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'y-login-dialog',
   templateUrl: './login-dialog.component.html',
   styleUrls: ['./login-dialog.component.scss']
 })
-export class LoginDialogComponent {
+export class LoginDialogComponent implements OnDestroy {
   public username: string;
   public password: string;
   public rememberMe: Boolean;
 
+  private subscription: Subscription;
+
   constructor(
     public dialogRef: MatDialogRef<LoginDialogComponent>,
     protected userLoader: UserLoaderService,
-    // TODO: [SPA-276] - remove
-    private store: Store<fromStore.TokensState>
+    private store: Store<fromStore.UserState>
   ) {
     this.username = 'tobiasouwejan@gmail.com';
     this.password = '1234';
+  }
 
-    // TODO: [SPA-276] - remove
-    this.store
+  login() {
+    this.subscription = this.store
       .select(fromStore.getUserToken)
       .pipe(
         tap((token: UserToken) => {
@@ -42,18 +45,20 @@ export class LoginDialogComponent {
           }
         })
       )
-      .subscribe(console.log);
-  }
-
-  login() {
-    this.userLoader.login(this.username, this.password).subscribe(tokenData => {
-      if (tokenData.access_token) {
-        this.dialogRef.close();
-      }
-    });
+      .subscribe((token: UserToken) => {
+        if (token.access_token) {
+          this.dialogRef.close();
+        }
+      });
   }
 
   cancel() {
     this.dialogRef.close();
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

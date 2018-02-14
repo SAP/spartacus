@@ -21,7 +21,7 @@ export const reducers: ActionReducerMap<CmsState> = {
 };
 
 export const getCmsState: MemoizedSelector<
-  Object,
+  any,
   CmsState
 > = createFeatureSelector<CmsState>('cms');
 

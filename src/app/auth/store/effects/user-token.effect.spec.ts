@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-import { UserTokenService } from '../../service/user-token.service';
 import { UserTokenEffects } from '.';
 import { Actions } from '@ngrx/effects';
 
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { empty } from 'rxjs/observable/empty';
-import { UserToken } from '../../token-types';
+import { UserToken } from '../../models/token-types.model';
 
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
+import { UserLoaderService } from '../../../data/user-loader.service';
 
 export class TestActions extends Actions {
   constructor() {
@@ -27,16 +27,13 @@ export function getActions() {
 }
 
 class MockUserTokenService {
-  loadToken(username: string, password: string): Observable<any> {
-    return;
-  }
-  storeToken(username: string, token: UserToken): UserToken {
+  login(username: string, password: string): Observable<any> {
     return;
   }
 }
 
 fdescribe('UserToken effect', () => {
-  let userTokenService: UserTokenService;
+  let userLoaderService: UserLoaderService;
   let userTokenEffect: UserTokenEffects;
   let actions$: TestActions;
   let testToken: UserToken;
@@ -45,26 +42,25 @@ fdescribe('UserToken effect', () => {
     TestBed.configureTestingModule({
       providers: [
         UserTokenEffects,
-        { provide: UserTokenService, useClass: MockUserTokenService },
+        { provide: UserLoaderService, useClass: MockUserTokenService },
         { provide: Actions, useFactory: getActions }
       ]
     });
 
     userTokenEffect = TestBed.get(UserTokenEffects);
-    userTokenService = TestBed.get(UserTokenService);
+    userLoaderService = TestBed.get(UserLoaderService);
     actions$ = TestBed.get(Actions);
 
     testToken = {
-      accessToken: 'xxx',
-      tokenType: 'bearer',
-      refreshToken: 'xxx',
-      expiresIn: 1000,
+      access_token: 'xxx',
+      token_type: 'bearer',
+      refresh_token: 'xxx',
+      expires_in: 1000,
       scope: ['xxx'],
       username: 'xxx'
     };
 
-    spyOn(userTokenService, 'loadToken').and.returnValue(of(testToken));
-    spyOn(userTokenService, 'storeToken').and.returnValue(testToken);
+    spyOn(userLoaderService, 'login').and.returnValue(of(testToken));
   });
 
   describe('loadUserToken$', () => {

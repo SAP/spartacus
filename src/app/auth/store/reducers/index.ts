@@ -8,25 +8,26 @@ import {
 import * as fromUserToken from './user-token.reducer';
 import { localStorageSync } from 'ngrx-store-localstorage';
 
-export interface TokensState {
-  user: fromUserToken.UserTokenState;
-  // TODO: cart token here
+export interface UserState {
+  token: fromUserToken.UserTokenState;
+  // TODO user-details here
 }
 
-export const reducers: ActionReducerMap<TokensState> = {
-  user: fromUserToken.reducer
-  // TODO: cart token here
+export const reducers: ActionReducerMap<UserState> = {
+  token: fromUserToken.reducer
+  // TODO user-details here
 };
 
-export const getTokensState: MemoizedSelector<any, any> = createFeatureSelector<
-  TokensState
->('tokens');
+export const getUserState: MemoizedSelector<
+  any,
+  UserState
+> = createFeatureSelector<UserState>('user');
 
 function sessionStorageSyncReducer(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return localStorageSync({
-    keys: ['user'],
+    keys: ['token'], // TODO [SPA-276] - 'user' doesn't work?
     rehydrate: true,
     storage: sessionStorage
   })(reducer);

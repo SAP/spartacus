@@ -1,4 +1,4 @@
-import { UserToken } from '../../token-types';
+import { UserToken } from '../../models/token-types.model';
 import * as fromAction from './../actions/user-token.action';
 
 export interface UserTokenState {

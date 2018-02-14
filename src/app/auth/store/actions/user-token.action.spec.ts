@@ -1,5 +1,5 @@
 import * as fromUserToken from './../../store/actions';
-import { UserToken } from '../../token-types';
+import { UserToken } from '../../models/token-types.model';
 
 fdescribe('User Token Actions', () => {
   describe('LoadUserToken Actions', () => {
@@ -32,10 +32,10 @@ fdescribe('User Token Actions', () => {
   describe('LoadUserTokenSuccess Action', () => {
     it('should create the action', () => {
       const token: UserToken = {
-        accessToken: 'xxx',
-        tokenType: 'bearer',
-        refreshToken: 'xxx',
-        expiresIn: 1000,
+        access_token: 'xxx',
+        token_type: 'bearer',
+        refresh_token: 'xxx',
+        expires_in: 1000,
         scope: ['xxx'],
         username: 'xxx'
       };

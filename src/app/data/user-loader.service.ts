@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { OccUserService } from '../newocc/user/user.service';
 import { UserModelService } from './user-model.service';
 import { TokenService } from './token.service';
+import { UserToken } from '../auth/models/token-types.model';
 // import { SiteContextService } from './site-context.service';
 
 @Injectable()
@@ -34,10 +35,10 @@ export class UserLoaderService {
   login(username: string, password: string): Observable<any> {
     const token = this.occUserService.loadToken(username, password);
     token.subscribe(
-      tokenData => {
+      (tokenData: UserToken) => {
         if (tokenData) {
           // extend token data with user name
-          tokenData.username = username; // TODO [SPA-276] - remove?
+          tokenData.username = username;
           this.setUser(tokenData);
           this.refreshCmsDataAfterUserChange();
         }
