@@ -1,9 +1,7 @@
 import {
   ActionReducerMap,
   MemoizedSelector,
-  createFeatureSelector,
-  ActionReducer,
-  MetaReducer
+  createFeatureSelector
 } from '@ngrx/store';
 import * as fromUserToken from './user-token.reducer';
 

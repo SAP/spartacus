@@ -6,7 +6,7 @@ import {
 } from '@ngrx/router-store';
 import { StoreModule, MetaReducer, ActionReducer } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { localStorageSync } from 'ngrx-store-localstorage';
+import { localStorageSync, LocalStorageConfig } from 'ngrx-store-localstorage';
 
 import { reducers, effects, CustomSerializer } from './store';
 
@@ -33,6 +33,16 @@ function storageSyncReducer(
   //     break;
   //   }
   // }
+
+  // const storageSyncConfig: LocalStorageConfig = {
+  //   keys: ['user'],
+  //   rehydrate: true
+  // };
+  // if (storage) {
+  //   storageSyncConfig.storage = storage;
+  // }
+
+  // return localStorageSync(storageSyncConfig)(reducer);
 
   return localStorageSync({
     keys: ['user'],
