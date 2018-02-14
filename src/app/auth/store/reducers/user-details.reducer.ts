@@ -1,11 +1,12 @@
 import * as fromUserDetailsAction from '../actions/user-details.action';
+import { UserDetails } from '../../models/user-details.model';
 
 export interface UserDetailsState {
-    entities: { userDetails: any };
+    userDetails: UserDetails;
 }
 
 export const initialState: UserDetailsState = {
-    entities: { userDetails: {} }
+    userDetails: <UserDetails>{}
 };
 
 export function reducer(
@@ -16,28 +17,19 @@ export function reducer(
         case fromUserDetailsAction.LOAD_USER_DETAILS_SUCCESS: {
             const userDetails = action.payload;
 
-            const entities = {
-                ...state.entities,
-                userDetails
-            };
             return {
                 ...state,
-                entities
+                userDetails
             };
         }
         case fromUserDetailsAction.LOAD_USER_DETAILS_FAIL: {
-            const entities = {
-                ...state.entities,
-                userDetails: {}
-            };
-
             return {
                 ...state,
-                entities
+                userDetails: <UserDetails>{}
             };
         }
     }
     return state;
 }
 
-export const getUserDetailsEntities = (state: UserDetailsState) => state.entities;
+export const getUserDetailsEntities = (state: UserDetailsState) => state.userDetails;

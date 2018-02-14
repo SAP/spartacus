@@ -4,19 +4,16 @@ import * as fromRoot from './../../../routing/store';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import * as fromActions from '../actions';
+import { UserDetails } from '../../models/user-details.model';
 
-const mockUserDetails = {
-    name: 'mockName',
-    password: 'mockPassword'
+const mockUserDetails: UserDetails = {
+    displayUid: 'Display Uid',
+    firstName: 'First',
+    lastName: 'Last',
+    name: 'First Last',
+    type: 'Mock Type',
+    uid: 'UID'
 };
-
-const mockEntities = {
-    userDetails: mockUserDetails
-}
-
-const mockState = {
-    entities: mockEntities
-}
 
 fdescribe('User Details Selectors', () => {
     let store: Store<fromReducers.UserState>;
@@ -35,34 +32,18 @@ fdescribe('User Details Selectors', () => {
         spyOn(store, 'dispatch').and.callThrough();
     });
 
-    describe('getUserDetailsState', () => {
-        it('should return a user details from the state', () => {
-            let result;
-            store
-                .select(fromSelectors.getUserDetailsState)
-                .subscribe(value => (result = value));
-
-            expect(result.entities.userDetails).toEqual({});
-
-            store.dispatch(new fromActions.LoadUserDetailsSuccess(mockUserDetails));
-
-            expect(result).toEqual(mockState);
-        });
-    });
-
-
     describe('getUserDetails', () => {
-        it('should return a user details from the entities', () => {
+        it('should return a user details', () => {
             let result;
             store
                 .select(fromSelectors.getUserDetails)
                 .subscribe(value => (result = value));
 
-            expect(result).toEqual({ userDetails: {} });
+            expect(result).toEqual({});
 
             store.dispatch(new fromActions.LoadUserDetailsSuccess(mockUserDetails));
 
-            expect(result).toEqual(mockEntities);
+            expect(result).toEqual(mockUserDetails);
         });
     });
 });

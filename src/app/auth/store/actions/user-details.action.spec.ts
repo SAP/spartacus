@@ -1,8 +1,13 @@
 import * as fromUserDetailsAction from './user-details.action';
+import { UserDetails } from '../../models/user-details.model';
 
-const mockUserDetails = {
-  name: 'mockName',
-  password: 'mockPassword'
+const mockUserDetails: UserDetails = {
+  displayUid: 'Display Uid',
+  firstName: 'First',
+  lastName: 'Last',
+  name: 'First Last',
+  type: 'Mock Type',
+  uid: 'UID'
 };
 
 fdescribe('User Details Actions', () => {

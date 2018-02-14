@@ -12,6 +12,7 @@ import { hot, cold } from 'jasmine-marbles';
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import * as fromUserDetailsEffect from './user-details.effect';
 import { Injectable } from '@angular/core';
+import { UserDetails } from '../../models/user-details.model';
 
 @Injectable()
 export class TestActions extends Actions {
@@ -34,9 +35,13 @@ class MockOccUserService {
     }
 }
 
-const mockUserDetails = {
-    name: 'mockName',
-    password: 'mockPassword'
+const mockUserDetails: UserDetails = {
+    displayUid: 'Display Uid',
+    firstName: 'First',
+    lastName: 'Last',
+    name: 'First Last',
+    type: 'Mock Type',
+    uid: 'UID'
 };
 
 fdescribe('User effect', () => {
@@ -70,9 +75,7 @@ fdescribe('User effect', () => {
             actions$.stream = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
 
-            userDetailsEffect.loadUserDetails$
-                .subscribe(userDetails =>
-                    expect(userDetails).toBeObservable(expected));
+            expect(userDetailsEffect.loadUserDetails$).toBeObservable(expected);
         });
     });
 });

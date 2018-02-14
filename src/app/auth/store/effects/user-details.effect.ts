@@ -7,6 +7,8 @@ import { map, catchError, mergeMap } from 'rxjs/operators';
 
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import { OccUserService } from '../../../newocc/user/user.service';
+import { UserDetails } from '../../models/user-details.model';
+
 
 @Injectable()
 export class UserDetailsEffects {
@@ -17,10 +19,8 @@ export class UserDetailsEffects {
             map((action: fromUserDetailsAction.LoadUserDetails) => action.payload),
             mergeMap((username) => {
                 return this.occUserService.loadUser(username).pipe(
-                    map(user => {
-                        return new fromUserDetailsAction.LoadUserDetailsSuccess({
-                            user
-                        });
+                    map((user: UserDetails) => {
+                        return new fromUserDetailsAction.LoadUserDetailsSuccess(user);
                     }),
                     catchError(error =>
                         of(new fromUserDetailsAction.LoadUserDetailsFail(username))
