@@ -13,19 +13,14 @@ function storageConfig(): LocalStorageConfig {
 }
 
 function determineStorage(config: ConfigService): Storage {
-  let storage;
   switch (config.storageSyncType) {
     case StorageSyncType.LOCAL_STORAGE: {
-      storage = localStorage;
-      break;
+      return localStorage;
     }
     case StorageSyncType.SESSION_STORAGE: {
-      storage = sessionStorage;
-      break;
+      return sessionStorage;
     }
   }
-
-  return storage;
 }
 
 export function storageSyncReducer(

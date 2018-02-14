@@ -10,7 +10,7 @@ import { UserModelService } from '../../data/user-model.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginStatusComponent {
+export class LoginComponent {
   user;
 
   constructor(
