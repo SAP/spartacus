@@ -1,16 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginStatusModule } from './login/login.module';
+import { LoginModule } from './login/login.module';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
 import { UserLoaderService } from '../data/user-loader.service';
 
+import * as fromGuards from './guard';
+
+
 @NgModule({
   imports: [
     CommonModule,
-    LoginStatusModule,
+    LoginModule,
     StoreModule.forFeature('user', reducers),
     EffectsModule.forFeature(effects)
   ],
