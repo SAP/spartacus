@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { OccUserService } from '../../../newocc/user/user.service';
-import { UserEffects } from './';
+import { UserDetailsEffects } from './';
 import { Actions } from '@ngrx/effects';
 
 import { Observable } from 'rxjs/Observable';
@@ -9,8 +9,8 @@ import { empty } from 'rxjs/observable/empty';
 
 import { hot, cold } from 'jasmine-marbles';
 
-import * as fromUserAction from '../actions/user.action';
-import * as fromUserEffect from './user.effect';
+import * as fromUserDetailsAction from '../actions/user-details.action';
+import * as fromUserDetailsEffect from './user-details.effect';
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -34,45 +34,45 @@ class MockOccUserService {
     }
 }
 
-const mockUser = {
+const mockUserDetails = {
     name: 'mockName',
     password: 'mockPassword'
 };
 
 fdescribe('User effect', () => {
-    let userEffect: fromUserEffect.UserEffects;
+    let userDetailsEffect: fromUserDetailsEffect.UserDetailsEffects;
     let userService: OccUserService;
     let actions$: TestActions;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                fromUserEffect.UserEffects,
+                fromUserDetailsEffect.UserDetailsEffects,
                 { provide: OccUserService, useClass: MockOccUserService },
                 { provide: Actions, useFactory: getActions }
             ]
         });
 
-        userEffect = TestBed.get(fromUserEffect.UserEffects);
+        userDetailsEffect = TestBed.get(fromUserDetailsEffect.UserDetailsEffects);
         userService = TestBed.get(OccUserService);
         actions$ = TestBed.get(Actions);
 
-        spyOn(userService, 'loadUser').and.returnValue(of(mockUser));
+        spyOn(userService, 'loadUser').and.returnValue(of(mockUserDetails));
     });
 
-    describe('loadUser$', () => {
-        it('should load user', () => {
-            const action = new fromUserAction.LoadUser(
+    describe('loadUserDetails$', () => {
+        it('should load user details', () => {
+            const action = new fromUserDetailsAction.LoadUserDetails(
                 'mockName'
             );
-            const completion = new fromUserAction.LoadUserSuccess(mockUser);
+            const completion = new fromUserDetailsAction.LoadUserDetailsSuccess(mockUserDetails);
 
             actions$.stream = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
 
-            userEffect.loadUser$
-                .subscribe(user =>
-                    expect(user).toBeObservable(expected));
+            userDetailsEffect.loadUserDetails$
+                .subscribe(userDetails =>
+                    expect(userDetails).toBeObservable(expected));
         });
     });
 });

@@ -5,20 +5,20 @@ import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import * as fromActions from '../actions';
 
-const mockUser = {
+const mockUserDetails = {
     name: 'mockName',
     password: 'mockPassword'
 };
 
 const mockEntities = {
-    user: mockUser
+    userDetails: mockUserDetails
 }
 
 const mockState = {
     entities: mockEntities
 }
 
-fdescribe('User Selectors', () => {
+fdescribe('User Details Selectors', () => {
     let store: Store<fromReducers.UserState>;
 
     beforeEach(() => {
@@ -35,32 +35,32 @@ fdescribe('User Selectors', () => {
         spyOn(store, 'dispatch').and.callThrough();
     });
 
-    describe('getUserState', () => {
-        it('should return a user from the state', () => {
+    describe('getUserDetailsState', () => {
+        it('should return a user details from the state', () => {
             let result;
             store
-                .select(fromSelectors.getUserState)
+                .select(fromSelectors.getUserDetailsState)
                 .subscribe(value => (result = value));
 
-            expect(result.entities.user).toEqual({});
+            expect(result.entities.userDetails).toEqual({});
 
-            store.dispatch(new fromActions.LoadUserSuccess(mockUser));
+            store.dispatch(new fromActions.LoadUserDetailsSuccess(mockUserDetails));
 
             expect(result).toEqual(mockState);
         });
     });
 
 
-    describe('getUserEntities', () => {
-        it('should return a user from the entities', () => {
+    describe('getUserDetails', () => {
+        it('should return a user details from the entities', () => {
             let result;
             store
-                .select(fromSelectors.getUsersEntities)
+                .select(fromSelectors.getUserDetails)
                 .subscribe(value => (result = value));
 
-            expect(result).toEqual({ user: {} });
+            expect(result).toEqual({ userDetails: {} });
 
-            store.dispatch(new fromActions.LoadUserSuccess(mockUser));
+            store.dispatch(new fromActions.LoadUserDetailsSuccess(mockUserDetails));
 
             expect(result).toEqual(mockEntities);
         });

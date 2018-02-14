@@ -16,7 +16,7 @@ fdescribe('Auth Selectors', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRoot.reducers,
-          tokens: combineReducers(fromReducers.reducers)
+          user: combineReducers(fromReducers.reducers)
         })
       ]
     });

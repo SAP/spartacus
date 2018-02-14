@@ -15,6 +15,16 @@ import { UserLoaderService } from '../data/user-loader.service';
     EffectsModule.forFeature(effects)
   ],
   declarations: [],
-  providers: [UserLoaderService]
+  providers: [
+    UserLoaderService,
+    // providers: [
+    //   ConfigService,
+    //   // {
+    //   //   provide: HTTP_INTERCEPTORS,
+    //   //   useClass: [Name of the Interceptor],
+    //   //   multi: true
+    //   // }
+    // ]
+  ]
 })
-export class AuthModule {}
+export class AuthModule { }

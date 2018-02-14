@@ -5,25 +5,25 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { map, catchError, mergeMap } from 'rxjs/operators';
 
-import * as fromUserAction from '../actions/user.action';
+import * as fromUserDetailsAction from '../actions/user-details.action';
 import { OccUserService } from '../../../newocc/user/user.service';
 
 @Injectable()
-export class UserEffects {
+export class UserDetailsEffects {
     @Effect()
-    loadUser$: Observable<any> = this.actions$
-        .ofType(fromUserAction.LOAD_USER)
+    loadUserDetails$: Observable<any> = this.actions$
+        .ofType(fromUserDetailsAction.LOAD_USER_DETAILS)
         .pipe(
-            map((action: fromUserAction.LoadUser) => action.payload),
+            map((action: fromUserDetailsAction.LoadUserDetails) => action.payload),
             mergeMap((username) => {
                 return this.occUserService.loadUser(username).pipe(
                     map(user => {
-                        return new fromUserAction.LoadUserSuccess({
+                        return new fromUserDetailsAction.LoadUserDetailsSuccess({
                             user
                         });
                     }),
                     catchError(error =>
-                        of(new fromUserAction.LoadUserFail(username))
+                        of(new fromUserDetailsAction.LoadUserDetailsFail(username))
                     )
                 );
             })
