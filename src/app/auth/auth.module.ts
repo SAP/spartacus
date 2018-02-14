@@ -7,9 +7,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
 import { UserLoaderService } from '../data/user-loader.service';
 
-import * as fromGuards from './guard';
-
-
 @NgModule({
   imports: [
     CommonModule,
