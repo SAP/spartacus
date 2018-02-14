@@ -2,6 +2,12 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { UserLoaderService } from '../../../data/user-loader.service';
 
+// TODO: [SPA-276] - remove
+import { Store } from '@ngrx/store';
+import * as fromStore from './../../store';
+import { tap } from 'rxjs/operators';
+import { UserToken } from './../../token-types';
+
 @Component({
   selector: 'y-login-dialog',
   templateUrl: './login-dialog.component.html',
@@ -14,10 +20,29 @@ export class LoginDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<LoginDialogComponent>,
-    protected userLoader: UserLoaderService
+    protected userLoader: UserLoaderService,
+    // TODO: [SPA-276] - remove
+    private store: Store<fromStore.TokensState>
   ) {
     this.username = 'tobiasouwejan@gmail.com';
     this.password = '1234';
+
+    // TODO: [SPA-276] - remove
+    this.store
+      .select(fromStore.getUserToken)
+      .pipe(
+        tap((token: UserToken) => {
+          if (Object.keys(token).length === 0) {
+            this.store.dispatch(
+              new fromStore.LoadUserToken({
+                username: this.username,
+                password: this.password
+              })
+            );
+          }
+        })
+      )
+      .subscribe(console.log);
   }
 
   login() {
