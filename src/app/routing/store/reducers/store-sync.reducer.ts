@@ -1,9 +1,8 @@
 import { ConfigService, StorageSyncType } from './../../config.service';
-import { ActionReducer } from '@ngrx/store';
+import { ActionReducer, MetaReducer } from '@ngrx/store';
 import { localStorageSync, LocalStorageConfig } from 'ngrx-store-localstorage';
 
-function storageConfig(): LocalStorageConfig {
-  const config = new ConfigService();
+function storageConfig(config: ConfigService): LocalStorageConfig {
   const storageType = determineStorage(config);
   return {
     keys: ['user'],
@@ -23,8 +22,12 @@ function determineStorage(config: ConfigService): Storage {
   }
 }
 
-export function storageSyncReducer(
-  reducer: ActionReducer<any>
-): ActionReducer<any> {
-  return localStorageSync(storageConfig())(reducer);
+export function getStorageSyncReducerFunction(
+  config: ConfigService
+): MetaReducer<any> {
+  const storage = storageConfig(config);
+
+  return function(reducer: ActionReducer<any>): ActionReducer<any> {
+    return localStorageSync(storage)(reducer);
+  };
 }
