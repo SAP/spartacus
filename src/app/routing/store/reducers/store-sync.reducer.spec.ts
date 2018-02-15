@@ -1,11 +1,7 @@
-import * as fromStoreSync from './store-sync.reducer';
-import { ActionReducer } from '@ngrx/store';
-
-fdescribe('Store Sync reducer', () => {
+describe('Store Sync reducer', () => {
   describe('storageSyncReducer function', () => {
-    it('should return proper localStorageSync function', () => {
-      const result = fromStoreSync.storageSyncReducer(<ActionReducer<any>>{});
-      console.log(`log: ${result}`);
+    it('should return a proper localStorageSync function', () => {
+      // TODO [SPA-276] implement a test...
     });
   });
 });

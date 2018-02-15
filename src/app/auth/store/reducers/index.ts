@@ -9,12 +9,12 @@ import * as fromUserToken from './user-token.reducer';
 
 export interface UserState {
   userDetails: fromUserDetailsReducer.UserDetailsState;
-  token: fromUserToken.UserTokenState;
+  auth: fromUserToken.UserTokenState;
 }
 
 export const reducers: ActionReducerMap<UserState> = {
   userDetails: fromUserDetailsReducer.reducer,
-  token: fromUserToken.reducer
+  auth: fromUserToken.reducer
 };
 
 export const getUserState: MemoizedSelector<
