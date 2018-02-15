@@ -1,18 +1,16 @@
-import { TestBed } from '@angular/core/testing';
-import { OccUserService } from '../../../newocc/user/user.service';
-import { UserDetailsEffects } from './';
-import { Actions } from '@ngrx/effects';
-
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { empty } from 'rxjs/observable/empty';
-
-import { hot, cold } from 'jasmine-marbles';
-
-import * as fromUserDetailsAction from '../actions/user-details.action';
-import * as fromUserDetailsEffect from './user-details.effect';
 import { Injectable } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { Actions } from '@ngrx/effects';
+import { cold, hot } from 'jasmine-marbles';
+import { Observable } from 'rxjs/Observable';
+import { empty } from 'rxjs/observable/empty';
+import { of } from 'rxjs/observable/of';
+
+import { OccUserService } from '../../../newocc/user/user.service';
 import { UserDetails } from '../../models/user-details.model';
+import * as fromUserDetailsAction from '../actions/user-details.action';
+import { UserDetailsEffects } from './';
+import * as fromUserDetailsEffect from './user-details.effect';
 
 @Injectable()
 export class TestActions extends Actions {

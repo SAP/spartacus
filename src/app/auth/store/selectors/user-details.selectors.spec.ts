@@ -1,10 +1,11 @@
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
-import * as fromRoot from './../../../routing/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+
+import { UserDetails } from '../../models/user-details.model';
+import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
-import * as fromActions from '../actions';
-import { UserDetails } from '../../models/user-details.model';
+import * as fromRoot from './../../../routing/store';
 
 const mockUserDetails: UserDetails = {
     displayUid: 'Display Uid',

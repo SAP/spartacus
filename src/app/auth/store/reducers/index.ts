@@ -1,12 +1,7 @@
-import {
-  ActionReducerMap,
-  MemoizedSelector,
-  createFeatureSelector,
-  ActionReducer,
-  MetaReducer
-} from '@ngrx/store';
-import * as fromUserToken from './user-token.reducer';
+import { ActionReducerMap, createFeatureSelector, MemoizedSelector } from '@ngrx/store';
+
 import * as fromUserDetailsReducer from './user-details.reducer';
+import * as fromUserToken from './user-token.reducer';
 
 export interface UserState {
   userDetails: fromUserDetailsReducer.UserDetailsState;

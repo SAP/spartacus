@@ -1,5 +1,5 @@
-import * as fromUserDetailsAction from '../actions/user-details.action';
 import { UserDetails } from '../../models/user-details.model';
+import * as fromUserDetailsAction from '../actions/user-details.action';
 
 export interface UserDetailsState {
     userDetails: UserDetails;

@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginModule } from './login/login.module';
-
-import { StoreModule } from '@ngrx/store';
+import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
-import { reducers, effects } from './store';
+import { StoreModule } from '@ngrx/store';
+
 import { UserLoaderService } from '../data/user-loader.service';
+import { LoginModule } from './login/login.module';
+import { effects, reducers } from './store';
 
 @NgModule({
   imports: [

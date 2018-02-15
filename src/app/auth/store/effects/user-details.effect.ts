@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-
-import { Effect, Actions } from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { map, catchError, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import * as fromUserDetailsAction from '../actions/user-details.action';
 import { OccUserService } from '../../../newocc/user/user.service';
 import { UserDetails } from '../../models/user-details.model';
+import * as fromUserDetailsAction from '../actions/user-details.action';
 
 
 @Injectable()

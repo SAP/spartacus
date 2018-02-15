@@ -1,6 +1,6 @@
-import * as fromUserDetailsReducer from './user-details.reducer';
-import * as fromUserDetailsAction from '../actions/user-details.action';
 import { UserDetails } from '../../models/user-details.model';
+import * as fromUserDetailsAction from '../actions/user-details.action';
+import * as fromUserDetailsReducer from './user-details.reducer';
 
 fdescribe('User Details Reducer', () => {
   describe('undefined action', () => {

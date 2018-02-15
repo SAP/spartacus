@@ -1,5 +1,5 @@
-import * as fromUserDetailsAction from './user-details.action';
 import { UserDetails } from '../../models/user-details.model';
+import * as fromUserDetailsAction from './user-details.action';
 
 const mockUserDetails: UserDetails = {
   displayUid: 'Display Uid',
