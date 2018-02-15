@@ -8,5 +8,20 @@ export enum StorageSyncType {
 
 @Injectable()
 export class ConfigService {
-  storageSyncType: StorageSyncType = StorageSyncType.SESSION_STORAGE;
+  private _storageSyncType: StorageSyncType = StorageSyncType.SESSION_STORAGE;
+
+  set storageSyncType(type: StorageSyncType) {
+    this._storageSyncType = type;
+  }
+
+  public determineStorage(): Storage {
+    switch (this._storageSyncType) {
+      case StorageSyncType.LOCAL_STORAGE: {
+        return localStorage;
+      }
+      case StorageSyncType.SESSION_STORAGE: {
+        return sessionStorage;
+      }
+    }
+  }
 }

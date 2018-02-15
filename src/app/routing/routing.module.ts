@@ -22,8 +22,13 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { ConfigService } from './config.service';
 
 function getMetaReducers(config: ConfigService): Array<MetaReducer<any>> {
-  const storageSyncReducer = getStorageSyncReducerFunction(config);
-  const metaReducers: MetaReducer<any>[] = [storageSyncReducer];
+  const metaReducers: MetaReducer<any>[] = [];
+  // if there's a storage type set
+  if (config.determineStorage()) {
+    const storageSyncReducer = getStorageSyncReducerFunction(config);
+    metaReducers.push(storageSyncReducer);
+  }
+
   if (!environment.production) {
     metaReducers.push(storeFreeze);
   }
