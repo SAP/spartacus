@@ -5,7 +5,7 @@ import { LoginModule } from './login/login.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
-import { UserLoaderService } from '../data/user-loader.service';
+import { OccUserService } from '../newocc/user/user.service';
 
 @NgModule({
   imports: [
@@ -15,6 +15,6 @@ import { UserLoaderService } from '../data/user-loader.service';
     EffectsModule.forFeature(effects)
   ],
   declarations: [],
-  providers: [UserLoaderService]
+  providers: [OccUserService]
 })
 export class AuthModule {}
