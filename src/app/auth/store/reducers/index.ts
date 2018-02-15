@@ -20,4 +20,4 @@ export const reducers: ActionReducerMap<UserState> = {
 export const getUserState: MemoizedSelector<
   any,
   UserState
-  > = createFeatureSelector<UserState>('user');
+> = createFeatureSelector<UserState>('user');

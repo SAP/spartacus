@@ -16,7 +16,7 @@ import { effects, reducers } from './store';
   ],
   declarations: [],
   providers: [
-    UserLoaderService,
+    UserLoaderService
     // providers: [
     //   ConfigService,
     //   // {
@@ -27,4 +27,4 @@ import { effects, reducers } from './store';
     // ]
   ]
 })
-export class AuthModule { }
+export class AuthModule {}

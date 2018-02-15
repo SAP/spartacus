@@ -13,7 +13,9 @@ const mockUserDetails: UserDetails = {
 fdescribe('User Details Actions', () => {
   describe('LoadUserDetails Actions', () => {
     it('should create the action', () => {
-      const action = new fromUserDetailsAction.LoadUserDetails(mockUserDetails.name);
+      const action = new fromUserDetailsAction.LoadUserDetails(
+        mockUserDetails.name
+      );
 
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.LOAD_USER_DETAILS,
@@ -36,7 +38,9 @@ fdescribe('User Details Actions', () => {
 
   describe('LoadUserDetailsSuccess Action', () => {
     it('should create the action', () => {
-      const action = new fromUserDetailsAction.LoadUserDetailsSuccess(mockUserDetails);
+      const action = new fromUserDetailsAction.LoadUserDetailsSuccess(
+        mockUserDetails
+      );
 
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.LOAD_USER_DETAILS_SUCCESS,

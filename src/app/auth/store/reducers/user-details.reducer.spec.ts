@@ -25,7 +25,9 @@ fdescribe('User Details Reducer', () => {
       };
 
       const { initialState } = fromUserDetailsReducer;
-      const action = new fromUserDetailsAction.LoadUserDetailsSuccess(mockUserDetails);
+      const action = new fromUserDetailsAction.LoadUserDetailsSuccess(
+        mockUserDetails
+      );
       const state = fromUserDetailsReducer.reducer(initialState, action);
 
       expect(state.details).toEqual(mockUserDetails);
