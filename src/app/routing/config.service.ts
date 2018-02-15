@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-export enum STORAGE_SYNC_TYPE {
+export enum StorageSyncType {
   NO_STORAGE,
   LOCAL_STORAGE,
   SESSION_STORAGE
@@ -8,5 +8,5 @@ export enum STORAGE_SYNC_TYPE {
 
 @Injectable()
 export class ConfigService {
-  storageSyncType: STORAGE_SYNC_TYPE = STORAGE_SYNC_TYPE.SESSION_STORAGE;
+  storageSyncType: StorageSyncType = StorageSyncType.SESSION_STORAGE;
 }

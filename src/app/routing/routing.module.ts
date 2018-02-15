@@ -4,11 +4,14 @@ import {
   StoreRouterConnectingModule,
   RouterStateSerializer
 } from '@ngrx/router-store';
-import { StoreModule, MetaReducer, ActionReducer } from '@ngrx/store';
+import { StoreModule, MetaReducer } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { localStorageSync } from 'ngrx-store-localstorage';
-
-import { reducers, effects, CustomSerializer } from './store';
+import {
+  reducers,
+  effects,
+  CustomSerializer,
+  storageSyncReducer
+} from './store';
 
 // Angular CLI environment
 import { environment } from '../../environments/environment';
@@ -16,30 +19,6 @@ import { environment } from '../../environments/environment';
 // not used in production
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
-import { ConfigService, STORAGE_SYNC_TYPE } from './config.service';
-
-function storageSyncReducer(
-  reducer: ActionReducer<any>
-  // config: ConfigService
-): ActionReducer<any> {
-  // let storage;
-  // switch (config.storageSyncType) {
-  //   case STORAGE_SYNC_TYPE.LOCAL_STORAGE: {
-  //     storage = localStorage;
-  //     break;
-  //   }
-  //   case STORAGE_SYNC_TYPE.SESSION_STORAGE: {
-  //     storage = sessionStorage;
-  //     break;
-  //   }
-  // }
-
-  return localStorageSync({
-    keys: ['user'],
-    rehydrate: true,
-    storage: sessionStorage
-  })(reducer);
-}
 
 export const metaReducers: MetaReducer<any>[] = [storageSyncReducer];
 if (!environment.production) {
@@ -55,16 +34,4 @@ if (!environment.production) {
   ],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }]
 })
-export class RoutingModule {
-  static forRoot(config: any): any {
-    return {
-      ngModule: RoutingModule,
-      providers: [
-        {
-          provide: ConfigService,
-          useExisting: config
-        }
-      ]
-    };
-  }
-}
+export class RoutingModule {}

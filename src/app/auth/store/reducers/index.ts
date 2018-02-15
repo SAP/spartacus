@@ -1,4 +1,8 @@
-import { ActionReducerMap, createFeatureSelector, MemoizedSelector } from '@ngrx/store';
+import {
+  ActionReducerMap,
+  MemoizedSelector,
+  createFeatureSelector
+} from '@ngrx/store';
 
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserToken from './user-token.reducer';

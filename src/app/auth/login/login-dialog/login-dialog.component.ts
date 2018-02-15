@@ -2,7 +2,6 @@ import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { UserLoaderService } from '../../../data/user-loader.service';
 
-// TODO: [SPA-276] - remove
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../store';
 import { tap } from 'rxjs/operators';

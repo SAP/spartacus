@@ -8,7 +8,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CurrencySelectorComponent } from './currency-selector.component';
 import * as fromStore from './../shared/store';
 import * as fromRoot from './../../routing/store';
-import { of } from 'rxjs/observable/of';
 
 import * as fromActions from './../shared/store/actions/currencies.action';
 import { PageType } from '../../routing/models/page-context.model';
