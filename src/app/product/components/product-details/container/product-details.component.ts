@@ -7,9 +7,9 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import * as fromStore from '../../store';
+import * as fromStore from '../../../store';
 
-import { ComponentWrapperComponent } from '../../../cms/components/component-wrapper/component-wrapper.component';
+import { ComponentWrapperComponent } from '../../../../cms/components/component-wrapper/component-wrapper.component';
 
 @Component({
   selector: 'y-product-details',

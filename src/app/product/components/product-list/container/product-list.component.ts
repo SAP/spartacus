@@ -3,8 +3,8 @@ import { MatSidenav } from '@angular/material';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import * as fromProductStore from '../../store';
-import { SearchConfig } from '../../search-config';
+import * as fromProductStore from '../../../store';
+import { SearchConfig } from '../../../search-config';
 
 @Component({
   selector: 'y-product-list',

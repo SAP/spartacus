@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { MediaModule } from './media/media.module';
 import { ProductModule } from './../../product/product.module';
-import { ProductListModule } from '../../product/product-list/product-list.module';
 
 // we include all UI component modules here, but in real live
 // projects would only include those that are relevant.
