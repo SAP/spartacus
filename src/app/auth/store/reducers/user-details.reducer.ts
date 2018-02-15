@@ -2,11 +2,11 @@ import { UserDetails } from '../../models/user-details.model';
 import * as fromUserDetailsAction from '../actions/user-details.action';
 
 export interface UserDetailsState {
-    userDetails: UserDetails;
+    details: UserDetails;
 }
 
 export const initialState: UserDetailsState = {
-    userDetails: <UserDetails>{}
+    details: <UserDetails>{}
 };
 
 export function reducer(
@@ -15,21 +15,21 @@ export function reducer(
 ): UserDetailsState {
     switch (action.type) {
         case fromUserDetailsAction.LOAD_USER_DETAILS_SUCCESS: {
-            const userDetails = action.payload;
+            const details = action.payload;
 
             return {
                 ...state,
-                userDetails
+                details
             };
         }
         case fromUserDetailsAction.LOAD_USER_DETAILS_FAIL: {
             return {
                 ...state,
-                userDetails: <UserDetails>{}
+                details: <UserDetails>{}
             };
         }
     }
     return state;
 }
 
-export const getUserDetailsEntities = (state: UserDetailsState) => state.userDetails;
+export const getUserDetailsEntities = (state: UserDetailsState) => state.details;

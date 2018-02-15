@@ -28,7 +28,7 @@ fdescribe('User Details Reducer', () => {
       const action = new fromUserDetailsAction.LoadUserDetailsSuccess(mockUserDetails);
       const state = fromUserDetailsReducer.reducer(initialState, action);
 
-      expect(state.userDetails).toEqual(mockUserDetails);
+      expect(state.details).toEqual(mockUserDetails);
     });
   });
 
@@ -38,7 +38,7 @@ fdescribe('User Details Reducer', () => {
       const action = new fromUserDetailsAction.LoadUserDetailsFail({});
       const state = fromUserDetailsReducer.reducer(initialState, action);
 
-      expect(state.userDetails).toEqual(<UserDetails>{});
+      expect(state.details).toEqual(<UserDetails>{});
     });
   });
 });
