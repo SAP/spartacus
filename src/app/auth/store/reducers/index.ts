@@ -6,12 +6,12 @@ import {
 import * as fromUserToken from './user-token.reducer';
 
 export interface UserState {
-  token: fromUserToken.UserTokenState;
+  auth: fromUserToken.UserTokenState;
   // TODO user-details here
 }
 
 export const reducers: ActionReducerMap<UserState> = {
-  token: fromUserToken.reducer
+  auth: fromUserToken.reducer
   // TODO user-details here
 };
 
