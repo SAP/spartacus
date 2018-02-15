@@ -10,8 +10,9 @@ import {
   reducers,
   effects,
   CustomSerializer,
-  getStorageSyncReducerFunction
+  getStorageSyncReducer
 } from './store';
+import { ConfigService, StorageSyncType } from './config.service';
 
 // Angular CLI environment
 import { environment } from '../../environments/environment';
@@ -19,13 +20,11 @@ import { environment } from '../../environments/environment';
 // not used in production
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
-import { ConfigService } from './config.service';
 
-function getMetaReducers(config: ConfigService): Array<MetaReducer<any>> {
+function getMetaReducers(config: ConfigService): MetaReducer<any>[] {
   const metaReducers: MetaReducer<any>[] = [];
-  // if there's a storage type set
-  if (config.determineStorage()) {
-    const storageSyncReducer = getStorageSyncReducerFunction(config);
+  if (config.storageSyncType !== StorageSyncType.NO_STORAGE) {
+    const storageSyncReducer = getStorageSyncReducer(config);
     metaReducers.push(storageSyncReducer);
   }
 
@@ -43,7 +42,6 @@ function getMetaReducers(config: ConfigService): Array<MetaReducer<any>> {
     environment.production ? [] : StoreDevtoolsModule.instrument()
   ],
   providers: [
-    ConfigService,
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     {
       provide: META_REDUCERS,
@@ -52,4 +50,16 @@ function getMetaReducers(config: ConfigService): Array<MetaReducer<any>> {
     }
   ]
 })
-export class RoutingModule {}
+export class RoutingModule {
+  static forRoot(config: any): any {
+    return {
+      ngModule: RoutingModule,
+      providers: [
+        {
+          provide: ConfigService,
+          useExisting: config
+        }
+      ]
+    };
+  }
+}
