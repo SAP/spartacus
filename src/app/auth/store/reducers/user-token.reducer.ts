@@ -23,10 +23,7 @@ export function reducer(
       };
     }
     case fromAction.LOAD_USER_TOKEN_FAIL: {
-      return {
-        ...state,
-        token: <UserToken>{}
-      };
+      return initialState;
     }
   }
   return state;

@@ -1,30 +1,30 @@
 import { ConfigService, StorageSyncType } from './../../config.service';
-import { ActionReducer } from '@ngrx/store';
+import { ActionReducer, MetaReducer } from '@ngrx/store';
 import { localStorageSync, LocalStorageConfig } from 'ngrx-store-localstorage';
 
-function storageConfig(): LocalStorageConfig {
-  const config = new ConfigService();
-  const storageType = determineStorage(config);
+function storageConfig(config: ConfigService): LocalStorageConfig {
+  let storage;
+  switch (config.storageSyncType) {
+    case StorageSyncType.LOCAL_STORAGE: {
+      storage = localStorage;
+      break;
+    }
+    case StorageSyncType.SESSION_STORAGE: {
+      storage = sessionStorage;
+      break;
+    }
+  }
   return {
     keys: ['user'],
     rehydrate: true,
-    storage: storageType ? storageType : sessionStorage
+    storage: storage ? storage : sessionStorage
   };
 }
 
-function determineStorage(config: ConfigService): Storage {
-  switch (config.storageSyncType) {
-    case StorageSyncType.LOCAL_STORAGE: {
-      return localStorage;
-    }
-    case StorageSyncType.SESSION_STORAGE: {
-      return sessionStorage;
-    }
-  }
-}
+export function getStorageSyncReducer(config: ConfigService): MetaReducer<any> {
+  const storage = storageConfig(config);
 
-export function storageSyncReducer(
-  reducer: ActionReducer<any>
-): ActionReducer<any> {
-  return localStorageSync(storageConfig())(reducer);
+  return function(reducer: ActionReducer<any>): ActionReducer<any> {
+    return localStorageSync(storage)(reducer);
+  };
 }

@@ -8,5 +8,5 @@ export enum StorageSyncType {
 
 @Injectable()
 export class ConfigService {
-  storageSyncType: StorageSyncType = StorageSyncType.SESSION_STORAGE;
+  storageSyncType = StorageSyncType.SESSION_STORAGE;
 }
