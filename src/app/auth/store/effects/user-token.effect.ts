@@ -7,7 +7,7 @@ import { of } from 'rxjs/observable/of';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { UserToken } from '../../models/token-types.model';
-import { UserLoaderService } from '../../../data/user-loader.service';
+import { OccUserService } from '../../../newocc/user/user.service';
 
 @Injectable()
 export class UserTokenEffects {
@@ -17,7 +17,7 @@ export class UserTokenEffects {
     .pipe(
       map((action: fromActions.LoadUserToken) => action.payload),
       mergeMap(({ username, password }) => {
-        return this.userLoaderService.login(username, password).pipe(
+        return this.userService.loadToken(username, password).pipe(
           map((token: UserToken) => {
             return new fromActions.LoadUserTokenSuccess(token);
           }),
@@ -26,8 +26,5 @@ export class UserTokenEffects {
       })
     );
 
-  constructor(
-    private actions$: Actions,
-    private userLoaderService: UserLoaderService
-  ) {}
+  constructor(private actions$: Actions, private userService: OccUserService) {}
 }

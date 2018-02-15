@@ -5,7 +5,7 @@ import { LoginModule } from './login/login.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
-import { UserLoaderService } from '../data/user-loader.service';
+import { OccUserService } from '../newocc/user/user.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserTokenInterceptor } from './http-interceptors/user-token.interceptor';
 
@@ -18,7 +18,7 @@ import { UserTokenInterceptor } from './http-interceptors/user-token.interceptor
   ],
   declarations: [],
   providers: [
-    UserLoaderService,
+    OccUserService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: UserTokenInterceptor,
