@@ -15,7 +15,7 @@ export class OccUserService {
     protected configService: ConfigService
   ) {}
 
-  public loadUser(username: string, accessToken: string): Observable<any> {
+  public loadUser(username: string): Observable<any> {
     const url = this.getUserEndpoint() + username;
 
     return this.http

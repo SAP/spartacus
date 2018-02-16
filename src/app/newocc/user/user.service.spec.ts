@@ -10,7 +10,7 @@ import {
 
 const username: any = 'mockUsername';
 const password: any = '1234';
-const accessToken: any = 'mockAccessToken'
+const accessToken: any = 'mockAccessToken';
 
 const user: any = {
   username: username,
@@ -64,7 +64,7 @@ fdescribe('OccUserService', () => {
 
   describe('load user details', () => {
     it('should load user details for given username abd access token', () => {
-      service.loadUser(username, accessToken).subscribe(result => {
+      service.loadUser(username).subscribe(result => {
         expect(result).toEqual(user);
       });
 
