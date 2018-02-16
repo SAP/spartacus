@@ -1,5 +1,4 @@
 import { PageType } from './../../routing/models/page-context.model';
-import { SiteContextState } from './../shared/store/reducers/index';
 import { MaterialModule } from './../../material.module';
 import { ConfigService } from './../config.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -10,7 +9,6 @@ import { LanguageSelectorComponent } from './language-selector.component';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromStore from './../shared/store';
 import * as fromRoot from '../../routing/store';
-import { of } from 'rxjs/observable/of';
 
 import * as fromActions from './../shared/store/actions/languages.action';
 

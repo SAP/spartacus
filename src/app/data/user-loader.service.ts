@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { OccUserService } from '../newocc/user/user.service';
 import { UserModelService } from './user-model.service';
 import { TokenService } from './token.service';
+import { UserToken } from '../auth/models/token-types.model';
 // import { SiteContextService } from './site-context.service';
 
 @Injectable()
@@ -34,7 +35,7 @@ export class UserLoaderService {
   login(username: string, password: string): Observable<any> {
     const token = this.occUserService.loadToken(username, password);
     token.subscribe(
-      tokenData => {
+      (tokenData: UserToken) => {
         if (tokenData) {
           // extend token data with user name
           tokenData.username = username;
@@ -58,9 +59,11 @@ export class UserLoaderService {
   }
 
   loadUser(tokenData) {
-    this.occUserService.loadUser(tokenData.username, tokenData.access_token).subscribe(userData => {
-      this.userModelService.storeUser(userData);
-    });
+    this.occUserService
+      .loadUser(tokenData.username, tokenData.access_token)
+      .subscribe(userData => {
+        this.userModelService.storeUser(userData);
+      });
   }
 
   // refresh CMS data as it can change based on user restrictions
