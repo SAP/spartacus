@@ -15,15 +15,11 @@ export class OccUserService {
     protected configService: ConfigService
   ) {}
 
-  // TODO: Set the authorization in the http interceptor instead in SPA-272
-  public loadUser(username: string, accessToken?: string): Observable<any> {
+  public loadUser(username: string): Observable<any> {
     const url = this.getUserEndpoint() + username;
-    const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + accessToken
-    });
 
     return this.http
-      .get(url, { headers: headers })
+      .get(url)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
