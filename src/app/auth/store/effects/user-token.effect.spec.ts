@@ -10,8 +10,10 @@ import { UserToken } from '../../models/token-types.model';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
-import { UserLoaderService } from '../../../data/user-loader.service';
+import { Injectable } from '@angular/core';
+import { OccUserService } from '../../../newocc/user/user.service';
 
+@Injectable()
 export class TestActions extends Actions {
   constructor() {
     super(empty());
@@ -26,14 +28,14 @@ export function getActions() {
   return new TestActions();
 }
 
-class MockUserTokenService {
-  login(username: string, password: string): Observable<any> {
+class MockUserService {
+  loadToken(username: string, password: string): Observable<any> {
     return;
   }
 }
 
 fdescribe('UserToken effect', () => {
-  let userLoaderService: UserLoaderService;
+  let userService: OccUserService;
   let userTokenEffect: UserTokenEffects;
   let actions$: TestActions;
   let testToken: UserToken;
@@ -42,13 +44,13 @@ fdescribe('UserToken effect', () => {
     TestBed.configureTestingModule({
       providers: [
         UserTokenEffects,
-        { provide: UserLoaderService, useClass: MockUserTokenService },
+        { provide: OccUserService, useClass: MockUserService },
         { provide: Actions, useFactory: getActions }
       ]
     });
 
     userTokenEffect = TestBed.get(UserTokenEffects);
-    userLoaderService = TestBed.get(UserLoaderService);
+    userService = TestBed.get(OccUserService);
     actions$ = TestBed.get(Actions);
 
     testToken = {
@@ -60,7 +62,7 @@ fdescribe('UserToken effect', () => {
       username: 'xxx'
     };
 
-    spyOn(userLoaderService, 'login').and.returnValue(of(testToken));
+    spyOn(userService, 'loadToken').and.returnValue(of(testToken));
   });
 
   describe('loadUserToken$', () => {

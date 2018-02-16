@@ -13,7 +13,7 @@ export class OccUserService {
   constructor(
     protected http: HttpClient,
     protected configService: ConfigService
-  ) { }
+  ) {}
 
   // TODO: Set the authorization in the http interceptor instead in SPA-272
   public loadUser(username: string, accessToken?: string): Observable<any> {
@@ -45,10 +45,7 @@ export class OccUserService {
   }
 
   protected getOAuthEndpoint() {
-    return (
-      this.configService.server.baseUrl +
-      OAUTH_ENDPOINT
-    );
+    return this.configService.server.baseUrl + OAUTH_ENDPOINT;
   }
 
   protected getUserEndpoint() {

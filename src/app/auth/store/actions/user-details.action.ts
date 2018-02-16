@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { UserDetails } from '../../models/user-details.model';
 
 export const LOAD_USER_DETAILS = '[User] Load User Details';
@@ -7,17 +8,17 @@ export const LOAD_USER_DETAILS_SUCCESS = '[User] Load User Details Success';
 
 export class LoadUserDetails implements Action {
   readonly type = LOAD_USER_DETAILS;
-  constructor(public payload: string) { }
+  constructor(public payload: string) {}
 }
 
 export class LoadUserDetailsFail implements Action {
   readonly type = LOAD_USER_DETAILS_FAIL;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export class LoadUserDetailsSuccess implements Action {
   readonly type = LOAD_USER_DETAILS_SUCCESS;
-  constructor(public payload: UserDetails) { }
+  constructor(public payload: UserDetails) {}
 }
 
 // action types

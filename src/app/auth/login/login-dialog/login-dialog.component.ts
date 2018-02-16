@@ -1,13 +1,12 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { UserLoaderService } from '../../../data/user-loader.service';
 
-// TODO: [SPA-276] - remove
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../store';
 import { tap } from 'rxjs/operators';
 import { UserToken } from './../../models/token-types.model';
 import { Subscription } from 'rxjs/Subscription';
+import { OccUserService } from '../../../newocc/user/user.service';
 
 @Component({
   selector: 'y-login-dialog',
@@ -23,7 +22,7 @@ export class LoginDialogComponent implements OnDestroy {
 
   constructor(
     public dialogRef: MatDialogRef<LoginDialogComponent>,
-    protected userLoader: UserLoaderService,
+    private userService: OccUserService,
     private store: Store<fromStore.UserState>
   ) {
     this.username = 'tobiasouwejan@gmail.com';

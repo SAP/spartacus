@@ -1,6 +1,6 @@
-import * as fromUserDetailsReducer from './user-details.reducer';
-import * as fromUserDetailsAction from '../actions/user-details.action';
 import { UserDetails } from '../../models/user-details.model';
+import * as fromUserDetailsAction from '../actions/user-details.action';
+import * as fromUserDetailsReducer from './user-details.reducer';
 
 fdescribe('User Details Reducer', () => {
   describe('undefined action', () => {
@@ -25,10 +25,12 @@ fdescribe('User Details Reducer', () => {
       };
 
       const { initialState } = fromUserDetailsReducer;
-      const action = new fromUserDetailsAction.LoadUserDetailsSuccess(mockUserDetails);
+      const action = new fromUserDetailsAction.LoadUserDetailsSuccess(
+        mockUserDetails
+      );
       const state = fromUserDetailsReducer.reducer(initialState, action);
 
-      expect(state.userDetails).toEqual(mockUserDetails);
+      expect(state.details).toEqual(mockUserDetails);
     });
   });
 
@@ -38,7 +40,7 @@ fdescribe('User Details Reducer', () => {
       const action = new fromUserDetailsAction.LoadUserDetailsFail({});
       const state = fromUserDetailsReducer.reducer(initialState, action);
 
-      expect(state.userDetails).toEqual(<UserDetails>{});
+      expect(state.details).toEqual(<UserDetails>{});
     });
   });
 });
