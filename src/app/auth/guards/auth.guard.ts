@@ -3,19 +3,20 @@ import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
+import { Store } from '@ngrx/store';
+import * as fromStore from './../store';
+
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor() {}
+  constructor(private store: Store<fromStore.UserState>) {}
 
   canActivate(): Observable<boolean> {
-    let user;
+    let isTokenValid;
 
-    user = sessionStorage.getItem('user');
+    this.store
+      .select(fromStore.getUserToken)
+      .subscribe(token => (isTokenValid = token.access_token !== undefined));
 
-    return of(
-      Object.keys(user.token.auth).length !== 0 &&
-        Object.keys(user.userDetails.details).length !== 0 &&
-        user.token.auth.access_token !== undefined
-    );
+    return of(isTokenValid);
   }
 }
