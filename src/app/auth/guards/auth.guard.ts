@@ -5,13 +5,16 @@ import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor() { }
+  constructor() {}
 
-    canActivate(): Observable<boolean> {
-        let user;
+  canActivate(): Observable<boolean> {
+    let user;
 
-        user = sessionStorage.getItem('user');
+    user = sessionStorage.getItem('user');
 
-        return of(user.token.access_token !== undefined);
-    }
+    return of(
+      Object.keys(user.token).length !== 0 &&
+        user.token.access_token !== undefined
+    );
+  }
 }
