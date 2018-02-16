@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { UserLoaderService } from '../data/user-loader.service';
 import * as fromGuards from './guards';
 import { LoginModule } from './login/login.module';
 import { effects, reducers } from './store';
+import { OccUserService } from '../newocc/user/user.service';
 
 @NgModule({
   imports: [
@@ -18,7 +18,7 @@ import { effects, reducers } from './store';
   declarations: [],
   providers: [
     ...fromGuards.guards,
-    UserLoaderService,
+    OccUserService
     // providers: [
     //   ConfigService,
     //   // {
@@ -29,4 +29,4 @@ import { effects, reducers } from './store';
     // ]
   ]
 })
-export class AuthModule { }
+export class AuthModule {}
