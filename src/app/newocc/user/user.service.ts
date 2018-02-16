@@ -13,16 +13,13 @@ export class OccUserService {
   constructor(
     protected http: HttpClient,
     protected configService: ConfigService
-  ) { }
+  ) {}
 
   public loadUser(username: string, accessToken: string): Observable<any> {
     const url = this.getUserEndpoint() + username;
-    const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + accessToken
-    });
 
     return this.http
-      .get(url, { headers: headers })
+      .get(url)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
@@ -44,10 +41,7 @@ export class OccUserService {
   }
 
   protected getOAuthEndpoint() {
-    return (
-      this.configService.server.baseUrl +
-      OAUTH_ENDPOINT
-    );
+    return this.configService.server.baseUrl + OAUTH_ENDPOINT;
   }
 
   protected getUserEndpoint() {

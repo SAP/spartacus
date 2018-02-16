@@ -21,7 +21,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
     let userToken: UserToken;
     this.store
       .select(fromStore.getUserToken)
-      .filter((token: UserToken) => token !== undefined) // TODO [SPA-272] undefined, null?
+      .filter((token: UserToken) => Object.keys(token).length !== 0)
       .subscribe((token: UserToken) => {
         userToken = token;
       });
