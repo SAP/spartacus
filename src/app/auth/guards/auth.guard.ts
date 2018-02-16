@@ -13,8 +13,9 @@ export class AuthGuard implements CanActivate {
     user = sessionStorage.getItem('user');
 
     return of(
-      Object.keys(user.token).length !== 0 &&
-        user.token.access_token !== undefined
+      Object.keys(user.token.auth).length !== 0 &&
+        Object.keys(user.userDetails.details).length !== 0 &&
+        user.token.auth.access_token !== undefined
     );
   }
 }
