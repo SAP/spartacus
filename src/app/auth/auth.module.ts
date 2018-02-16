@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
-
-import { UserLoaderService } from '../data/user-loader.service';
+import { CommonModule } from '@angular/common';
 import { LoginModule } from './login/login.module';
-import { effects, reducers } from './store';
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { reducers, effects } from './store';
+import { OccUserService } from '../newocc/user/user.service';
 
 @NgModule({
   imports: [
@@ -16,7 +16,7 @@ import { effects, reducers } from './store';
   ],
   declarations: [],
   providers: [
-    UserLoaderService
+    OccUserService
     // providers: [
     //   ConfigService,
     //   // {

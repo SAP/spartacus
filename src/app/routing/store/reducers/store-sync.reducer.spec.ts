@@ -1,7 +1,17 @@
-describe('Store Sync reducer', () => {
-  describe('storageSyncReducer function', () => {
-    it('should return a proper localStorageSync function', () => {
-      // TODO [SPA-276] implement a test...
-    });
+import { getStorageSyncReducer } from './store-sync.reducer';
+import { localStorageSync, LocalStorageConfig } from 'ngrx-store-localstorage';
+
+class MockConfigService {
+  storageSyncType;
+}
+
+fdescribe('get store Sync reducer', () => {
+  it('should return a proper localStorageSync function', () => {
+    const config = new MockConfigService();
+    config.storageSyncType = sessionStorage;
+
+    const result = getStorageSyncReducer(config);
+
+    expect(result).toEqual(jasmine.any(Function));
   });
 });
