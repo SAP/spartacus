@@ -19,6 +19,7 @@ import { UserTokenInterceptor } from './http-interceptors/user-token.interceptor
   ],
   declarations: [],
   providers: [
+    ...fromGuards.guards,
     OccUserService,
     {
       provide: HTTP_INTERCEPTORS,
