@@ -1,4 +1,4 @@
-import * as fromUserToken from './../../store/actions';
+import * as fromUserToken from './../actions/user-token.action';
 import { UserToken } from '../../models/token-types.model';
 
 fdescribe('User Token Actions', () => {

@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { UserTokenEffects } from '.';
 import { Actions } from '@ngrx/effects';
+import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
@@ -10,7 +11,6 @@ import { UserToken } from '../../models/token-types.model';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
-import { Injectable } from '@angular/core';
 import { OccUserService } from '../../../newocc/user/user.service';
 
 @Injectable()

@@ -13,10 +13,10 @@ export class OccUserService {
   constructor(
     protected http: HttpClient,
     protected configService: ConfigService
-  ) { }
+  ) {}
 
-  public loadUser(username: string, accessToken: string): Observable<any> {
-    const url = this.getUserEndpoint() + username;
+  public loadUser(userId: string, accessToken: string): Observable<any> {
+    const url = this.getUserEndpoint() + userId;
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + accessToken
     });
@@ -26,14 +26,14 @@ export class OccUserService {
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
-  loadToken(username: string, password: string): Observable<any> {
+  loadToken(userId: string, password: string): Observable<any> {
     const url = this.getOAuthEndpoint();
     let creds = '';
     creds += 'client_id=' + this.configService.authentication.client_id;
     creds +=
       '&client_secret=' + this.configService.authentication.client_secret;
     creds += '&grant_type=password'; // authorization_code, client_credentials, password
-    creds += '&username=' + username + '&password=' + password;
+    creds += '&username=' + userId + '&password=' + password;
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
@@ -44,10 +44,7 @@ export class OccUserService {
   }
 
   protected getOAuthEndpoint() {
-    return (
-      this.configService.server.baseUrl +
-      OAUTH_ENDPOINT
-    );
+    return this.configService.server.baseUrl + OAUTH_ENDPOINT;
   }
 
   protected getUserEndpoint() {

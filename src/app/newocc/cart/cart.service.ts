@@ -15,17 +15,15 @@ export class OccCartService {
     protected http: HttpClient,
     protected configService: ConfigService,
     protected productImageConverter: ProductImageConverterService
-  ) { }
+  ) {}
 
   public loadLatestCart(userId: string): Observable<any> {
     const url = this.getCartEndpoint(userId) + 'current';
-    return this.http
-      .get(url)
-      .map(response => {
-        const latestCart = response;
-        return latestCart;
-      });
-  };
+    return this.http.get(url).map(response => {
+      const latestCart = response;
+      return latestCart;
+    });
+  }
 
   public mergeCartWithLatestCart(
     userId: string,
@@ -33,7 +31,7 @@ export class OccCartService {
     toMergeCart: any
   ): Observable<any> {
     const toAdd = JSON.stringify({});
-    let url = this.getCartEndpoint(userId);
+    const url = this.getCartEndpoint(userId);
 
     let paramsString = `oldCartId=${oldCartToken}`;
 
@@ -45,8 +43,7 @@ export class OccCartService {
       '&fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';
 
     const params = new HttpParams({
-      fromString:
-        paramsString
+      fromString: paramsString
     });
 
     return this.http
@@ -64,11 +61,10 @@ export class OccCartService {
   }
 
   public loadCart(userId: string, cartId: string): Observable<any> {
-    let url = this.getCartEndpoint(userId) + cartId;
+    const url = this.getCartEndpoint(userId) + cartId;
 
     const params = new HttpParams({
-      fromString:
-        `fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))`
+      fromString: `fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))`
     });
 
     return this.http
@@ -83,7 +79,7 @@ export class OccCartService {
         return cartData;
       })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
-  };
+  }
 
   public createCart(userId: string): Observable<any> {
     const url = this.getCartEndpoint(userId);
@@ -91,7 +87,7 @@ export class OccCartService {
     return this.http
       .post(url, toAdd)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
-  };
+  }
 
   public add(
     userId: string,
@@ -101,13 +97,12 @@ export class OccCartService {
   ): Observable<any> {
     const toAdd = JSON.stringify({});
 
-    let url = this.getCartEndpoint(userId) + cartId + '/entries';
+    const url = this.getCartEndpoint(userId) + cartId + '/entries';
 
     const paramsString = 'code=' + productCode + '&qty=' + quantity;
 
     const params = new HttpParams({
-      fromString:
-        paramsString
+      fromString: paramsString
     });
 
     const headers = new HttpHeaders({
@@ -117,14 +112,15 @@ export class OccCartService {
     return this.http
       .post(url, toAdd, { headers: headers, params: params })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
-  };
+  }
 
   public remove(
     userId: string,
     cartId: string,
     entryNumber: string
   ): Observable<any> {
-    let url = this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
+    const url =
+      this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -133,7 +129,7 @@ export class OccCartService {
     return this.http
       .delete(url, { headers: headers })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
-  };
+  }
 
   protected getCartEndpoint(userId: string) {
     const cartEndpoint = 'users/' + userId + '/carts/';
