@@ -4,6 +4,7 @@ import { AuthGuard } from './auth.guard';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from './../../routing/store';
 import * as fromStore from './../store';
+import * as fromReducers from './../store/reducers';
 import { of } from 'rxjs/observable/of';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -17,20 +18,20 @@ fdescribe('AuthGuard', () => {
   let authGuard: AuthGuard;
   let store: Store<fromStore.UserState>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        providers: [AuthGuard],
-        imports: [
-          RouterTestingModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            user: combineReducers(fromStore.reducers)
-          })
-        ]
-      });
-    })
-  );
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [AuthGuard],
+      imports: [
+        RouterTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          user: combineReducers(fromReducers.reducers)
+        })
+      ]
+    });
+    store = TestBed.get(Store);
+    authGuard = TestBed.get(AuthGuard);
+  });
 
   beforeEach(() => {
     authGuard = TestBed.get(AuthGuard);
@@ -39,7 +40,6 @@ fdescribe('AuthGuard', () => {
 
   it('should return false', () => {
     spyOn(store, 'select').and.returnValue(of(mockUserInvalidToken));
-    spyOn(sessionStorage, 'getItem').and.returnValue(mockUserInvalidToken);
 
     let result: boolean;
 
@@ -49,7 +49,6 @@ fdescribe('AuthGuard', () => {
 
   it('should return true', () => {
     spyOn(store, 'select').and.returnValue(of(mockUserValidToken));
-    spyOn(sessionStorage, 'getItem').and.returnValue(mockUserValidToken);
 
     let result: boolean;
 
