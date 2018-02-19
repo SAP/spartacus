@@ -1,4 +1,3 @@
-import { UserDetails } from '../../models/user-details.model';
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import * as fromUserDetailsReducer from './user-details.reducer';
 
@@ -15,7 +14,7 @@ fdescribe('User Details Reducer', () => {
 
   describe('LOAD_USER_DETAILS_SUCCESS action', () => {
     it('should populate the user details state entities', () => {
-      const mockUserDetails: UserDetails = {
+      const mockUserDetails: any = {
         displayUid: 'Display Uid',
         firstName: 'First',
         lastName: 'Last',
@@ -31,16 +30,6 @@ fdescribe('User Details Reducer', () => {
       const state = fromUserDetailsReducer.reducer(initialState, action);
 
       expect(state.details).toEqual(mockUserDetails);
-    });
-  });
-
-  describe('LOAD_USER_DETAILS_FAIL action', () => {
-    it('should populate empty user state entities', () => {
-      const { initialState } = fromUserDetailsReducer;
-      const action = new fromUserDetailsAction.LoadUserDetailsFail({});
-      const state = fromUserDetailsReducer.reducer(initialState, action);
-
-      expect(state.details).toEqual(<UserDetails>{});
     });
   });
 });

@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import { UserDetails } from '../../models/user-details.model';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import * as fromRoot from './../../../routing/store';
 
-const mockUserDetails: UserDetails = {
+const mockUserDetails: any = {
   displayUid: 'Display Uid',
   firstName: 'First',
   lastName: 'Last',
@@ -33,11 +32,11 @@ fdescribe('User Details Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getUserDetails', () => {
+  describe('getDetails', () => {
     it('should return a user details', () => {
       let result;
       store
-        .select(fromSelectors.getUserDetails)
+        .select(fromSelectors.getDetails)
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});

@@ -1,7 +1,5 @@
 import { Action } from '@ngrx/store';
 
-import { UserDetails } from '../../models/user-details.model';
-
 export const LOAD_USER_DETAILS = '[User] Load User Details';
 export const LOAD_USER_DETAILS_FAIL = '[User] Load User Details Fail';
 export const LOAD_USER_DETAILS_SUCCESS = '[User] Load User Details Success';
@@ -18,7 +16,7 @@ export class LoadUserDetailsFail implements Action {
 
 export class LoadUserDetailsSuccess implements Action {
   readonly type = LOAD_USER_DETAILS_SUCCESS;
-  constructor(public payload: UserDetails) {}
+  constructor(public payload: any) {}
 }
 
 // action types

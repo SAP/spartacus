@@ -8,12 +8,12 @@ import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserToken from './user-token.reducer';
 
 export interface UserState {
-  userDetails: fromUserDetailsReducer.UserDetailsState;
+  account: fromUserDetailsReducer.UserDetailsState;
   auth: fromUserToken.UserTokenState;
 }
 
 export const reducers: ActionReducerMap<UserState> = {
-  userDetails: fromUserDetailsReducer.reducer,
+  account: fromUserDetailsReducer.reducer,
   auth: fromUserToken.reducer
 };
 
