@@ -22,7 +22,7 @@ export function reducer(
       };
     }
     case fromUserDetailsAction.CLEAR_USER_DETAILS: {
-      state = initialState;
+      return initialState;
     }
   }
   return state;

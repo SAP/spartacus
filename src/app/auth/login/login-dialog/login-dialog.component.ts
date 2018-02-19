@@ -24,42 +24,47 @@ export class LoginDialogComponent implements OnDestroy {
     public dialogRef: MatDialogRef<LoginDialogComponent>,
     private store: Store<fromStore.UserState>
   ) {
+    if (this.tokenSubscription !== undefined) {
+      this.tokenSubscription.unsubscribe();
+    }
+
+    // if (this.userSubscription !== undefined) {
+    //   this.userSubscription.unsubscribe();
+    // }
+
     this.username = 'tobiasouwejan@gmail.com';
     this.password = '1234';
   }
 
-  login() {
+  saveToken() {
     this.tokenSubscription = this.store
       .select(fromStore.getUserToken)
-      .pipe(
-        tap((token: UserToken) => {
-          if (Object.keys(token).length === 0) {
-            this.store.dispatch(
-              new fromStore.LoadUserToken({
-                username: this.username,
-                password: this.password
-              })
-            );
-          }
-        })
-      )
       .subscribe((token: UserToken) => {
-        if (token.access_token) {
-          this.userSubscription = this.store
-            .select(fromStore.getDetails)
-            .pipe(
-              tap((details: any) => {
-                if (Object.keys(details).length === 0) {
-                  this.store.dispatch(
-                    new fromStore.LoadUserDetails(this.username)
-                  );
-                }
-              })
-            )
-            .subscribe();
-          this.dialogRef.close();
+        if (token.access_token === undefined) {
+          this.store.dispatch(
+            new fromStore.LoadUserToken({
+              username: this.username,
+              password: this.password
+            })
+          );
+        }
+        this.store.dispatch(new fromStore.LoadUserDetails(this.username));
+        this.dialogRef.close();
+      });
+  }
+
+  saveUserDetails() {
+    this.userSubscription = this.store
+      .select(fromStore.getDetails)
+      .subscribe((details: any) => {
+        if (details.name === undefined || Object.keys(details).length === 0) {
+          this.store.dispatch(new fromStore.LoadUserDetails(this.username));
         }
       });
+  }
+
+  login() {
+    this.saveToken();
   }
 
   cancel() {

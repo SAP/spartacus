@@ -23,7 +23,7 @@ export function reducer(
       };
     }
     case fromAction.CLEAR_USER_TOKEN: {
-      state = initialState;
+      return initialState;
     }
   }
   return state;
