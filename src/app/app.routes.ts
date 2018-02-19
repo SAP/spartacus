@@ -10,7 +10,6 @@ import { PageNotFoundComponent } from './ui/templates/404/404.component';
 
 import { CmsPageGuards } from './cms/guards/cms-page.guard';
 import { ProductGuard } from './product/guards/product.guard';
-import { AuthGuard } from './auth/guards/auth.guard';
 
 // TODO: provide URL mappings for site specific routings
 export const appRoutes: Routes = [
