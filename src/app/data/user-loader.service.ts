@@ -59,11 +59,9 @@ export class UserLoaderService {
   }
 
   loadUser(tokenData) {
-    this.occUserService
-      .loadUser(tokenData.username, tokenData.access_token)
-      .subscribe(userData => {
-        this.userModelService.storeUser(userData);
-      });
+    this.occUserService.loadUser(tokenData.username).subscribe(userData => {
+      this.userModelService.storeUser(userData);
+    });
   }
 
   // refresh CMS data as it can change based on user restrictions

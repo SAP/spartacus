@@ -1,7 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { OccUserService } from './user.service';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { of } from 'rxjs/observable/of';
 import { ConfigService } from '../config.service';
 import {
   HttpClientTestingModule,
@@ -10,7 +8,6 @@ import {
 
 const username: any = 'mockUsername';
 const password: any = '1234';
-const accessToken: any = 'mockAccessToken'
 
 const user: any = {
   username: username,
@@ -18,8 +15,6 @@ const user: any = {
 };
 const token: any = 'mockToken';
 const endpoint = '/users';
-const mockCredentials =
-  'client_id=mockClientId&client_secret=mockClientSecret&grant_type=password&username=mockUsername&password=1234';
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
 class MockConfigService {
@@ -64,7 +59,7 @@ fdescribe('OccUserService', () => {
 
   describe('load user details', () => {
     it('should load user details for given username abd access token', () => {
-      service.loadUser(username, accessToken).subscribe(result => {
+      service.loadUser(username).subscribe(result => {
         expect(result).toEqual(user);
       });
 

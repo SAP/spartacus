@@ -3,16 +3,18 @@ import {
   MemoizedSelector,
   createFeatureSelector
 } from '@ngrx/store';
+
+import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserToken from './user-token.reducer';
 
 export interface UserState {
+  account: fromUserDetailsReducer.UserDetailsState;
   auth: fromUserToken.UserTokenState;
-  // TODO user-details here
 }
 
 export const reducers: ActionReducerMap<UserState> = {
+  account: fromUserDetailsReducer.reducer,
   auth: fromUserToken.reducer
-  // TODO user-details here
 };
 
 export const getUserState: MemoizedSelector<
