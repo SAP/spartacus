@@ -13,7 +13,7 @@ export const reducers: ActionReducerMap<CartState> = {
   state: fromCart.reducer
 };
 
-export const getCartState: MemoizedSelector<
+export const getCartStateFeatureSelector: MemoizedSelector<
   any,
   CartState
 > = createFeatureSelector<CartState>('cart');

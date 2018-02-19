@@ -1,13 +1,13 @@
 export interface Cart {
   code: string;
   guid: string;
-  totalItems: number;
-  totalPrice: {
-    currencyIso: string;
+  total_items: number;
+  total_price: {
+    currency_iso: string;
     value: number;
   };
-  totalPriceWithTax: {
-    currencyIso: string;
+  total_price_with_tax: {
+    currency_iso: string;
     value: number;
   };
 }

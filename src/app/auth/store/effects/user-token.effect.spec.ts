@@ -29,7 +29,7 @@ export function getActions() {
 }
 
 class MockUserService {
-  loadToken(username: string, password: string): Observable<any> {
+  loadToken(userId: string, password: string): Observable<any> {
     return;
   }
 }

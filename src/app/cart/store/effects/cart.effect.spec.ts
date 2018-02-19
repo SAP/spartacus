@@ -28,7 +28,11 @@ function getActions() {
   return new TestActions();
 }
 
-class MockCartService {}
+class MockCartService {
+  public createCart(userId: string): Observable<any> {
+    return;
+  }
+}
 
 fdescribe('Cart effect', () => {
   let cartService: OccCartService;
@@ -37,13 +41,13 @@ fdescribe('Cart effect', () => {
   const testCart: Cart = {
     code: 'xxx',
     guid: 'xxx',
-    totalItems: 0,
-    totalPrice: {
-      currencyIso: 'USD',
+    total_items: 0,
+    total_price: {
+      currency_iso: 'USD',
       value: 0
     },
-    totalPriceWithTax: {
-      currencyIso: 'USD',
+    total_price_with_tax: {
+      currency_iso: 'USD',
       value: 0
     }
   };
