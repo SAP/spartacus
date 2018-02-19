@@ -31,14 +31,4 @@ fdescribe('UserToken reducer', () => {
       expect(state.token).toEqual(testToken);
     });
   });
-
-  describe('LOAD_USER_TOKEN_FAIL action', () => {
-    it('should return an empty token', () => {
-      const { initialState } = fromUserToken;
-
-      const failAction = new fromActions.LoadUserTokenFail({ error: 'any' });
-      const stateAfterFail = fromUserToken.reducer(initialState, failAction);
-      expect(stateAfterFail.token).toEqual(<UserToken>{});
-    });
-  });
 });
