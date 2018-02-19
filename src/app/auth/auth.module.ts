@@ -15,6 +15,16 @@ import { OccUserService } from '../newocc/user/user.service';
     EffectsModule.forFeature(effects)
   ],
   declarations: [],
-  providers: [OccUserService]
+  providers: [
+    OccUserService
+    // providers: [
+    //   ConfigService,
+    //   // {
+    //   //   provide: HTTP_INTERCEPTORS,
+    //   //   useClass: [Name of the Interceptor],
+    //   //   multi: true
+    //   // }
+    // ]
+  ]
 })
 export class AuthModule {}

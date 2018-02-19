@@ -3,10 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { OccCartService } from './cart.service';
 
-import { OccUserService } from './user.service';
-
 @NgModule({
   imports: [CommonModule],
-  providers: [OccUserService, OccCartService]
+  providers: [OccCartService]
 })
 export class OccCoreModule {}
