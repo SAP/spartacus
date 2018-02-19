@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivate, ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
@@ -8,15 +8,17 @@ import * as fromStore from './../store';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private store: Store<fromStore.UserState>) {}
+  constructor(
+    private store: Store<fromStore.UserState>,
+    private router: Router
+  ) {}
 
   canActivate(): Observable<boolean> {
-    let isTokenValid;
-
-    this.store
-      .select(fromStore.getUserToken)
-      .subscribe(token => (isTokenValid = token.access_token !== undefined));
-
-    return of(isTokenValid);
+    return this.store.select(fromStore.getUserToken).map(token => {
+      if (!token.access_token) {
+        this.router.navigate(['/']);
+      }
+      return !!token.access_token;
+    });
   }
 }

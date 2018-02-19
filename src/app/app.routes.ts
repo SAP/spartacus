@@ -36,12 +36,6 @@ export const appRoutes: Routes = [
     canActivate: [ProductGuard, CmsPageGuards],
     component: ProductDetailPageComponent
   },
-  {
-    // TODO: Redirect to a myAccount page?
-    path: '',
-    canActivate: [AuthGuard, CmsPageGuards],
-    component: HomePageComponent
-  },
 
   // redirect OLD links
   {

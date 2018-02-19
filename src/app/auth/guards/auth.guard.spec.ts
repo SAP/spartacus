@@ -5,6 +5,7 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from './../../routing/store';
 import * as fromStore from './../store';
 import { of } from 'rxjs/observable/of';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const mockUserValidToken = {
   access_token: 'Mock Access Token'
@@ -21,6 +22,7 @@ fdescribe('AuthGuard', () => {
       TestBed.configureTestingModule({
         providers: [AuthGuard],
         imports: [
+          RouterTestingModule,
           StoreModule.forRoot({
             ...fromRoot.reducers,
             user: combineReducers(fromStore.reducers)
