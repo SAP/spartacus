@@ -1,7 +1,6 @@
-import { UserDetails } from '../../models/user-details.model';
 import * as fromUserDetailsAction from './user-details.action';
 
-const mockUserDetails: UserDetails = {
+const mockUserDetails: any = {
   displayUid: 'Display Uid',
   firstName: 'First',
   lastName: 'Last',

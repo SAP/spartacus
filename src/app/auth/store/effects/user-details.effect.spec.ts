@@ -7,7 +7,6 @@ import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 
 import { OccUserService } from '../../../newocc/user/user.service';
-import { UserDetails } from '../../models/user-details.model';
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import { UserDetailsEffects } from './';
 import * as fromUserDetailsEffect from './user-details.effect';
@@ -33,7 +32,7 @@ class MockOccUserService {
   }
 }
 
-const mockUserDetails: UserDetails = {
+const mockUserDetails: any = {
   displayUid: 'Display Uid',
   firstName: 'First',
   lastName: 'Last',

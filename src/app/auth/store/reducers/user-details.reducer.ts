@@ -1,12 +1,11 @@
-import { UserDetails } from '../../models/user-details.model';
 import * as fromUserDetailsAction from '../actions/user-details.action';
 
 export interface UserDetailsState {
-  details: UserDetails;
+  details: any;
 }
 
 export const initialState: UserDetailsState = {
-  details: <UserDetails>{}
+  details: <any>{}
 };
 
 export function reducer(
@@ -22,15 +21,8 @@ export function reducer(
         details
       };
     }
-    case fromUserDetailsAction.LOAD_USER_DETAILS_FAIL: {
-      return {
-        ...state,
-        details: <UserDetails>{}
-      };
-    }
   }
   return state;
 }
 
-export const getUserDetailsEntities = (state: UserDetailsState) =>
-  state.details;
+export const getDetails = (state: UserDetailsState) => state.details;
