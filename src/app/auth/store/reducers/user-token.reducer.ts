@@ -25,6 +25,9 @@ export function reducer(
     case fromAction.LOAD_USER_TOKEN_FAIL: {
       return initialState;
     }
+    case fromAction.CLEAR_USER_TOKEN: {
+      state = initialState;
+    }
   }
   return state;
 }

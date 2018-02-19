@@ -6,7 +6,6 @@ import * as fromStore from './../../store';
 import { tap } from 'rxjs/operators';
 import { UserToken } from './../../models/token-types.model';
 import { Subscription } from 'rxjs/Subscription';
-import { OccUserService } from '../../../newocc/user/user.service';
 
 @Component({
   selector: 'y-login-dialog',
@@ -18,11 +17,11 @@ export class LoginDialogComponent implements OnDestroy {
   public password: string;
   public rememberMe: Boolean;
 
-  private subscription: Subscription;
+  private tokenSubscription: Subscription;
+  private userSubscription: Subscription;
 
   constructor(
     public dialogRef: MatDialogRef<LoginDialogComponent>,
-    private userService: OccUserService,
     private store: Store<fromStore.UserState>
   ) {
     this.username = 'tobiasouwejan@gmail.com';
@@ -30,7 +29,7 @@ export class LoginDialogComponent implements OnDestroy {
   }
 
   login() {
-    this.subscription = this.store
+    this.tokenSubscription = this.store
       .select(fromStore.getUserToken)
       .pipe(
         tap((token: UserToken) => {
@@ -46,6 +45,18 @@ export class LoginDialogComponent implements OnDestroy {
       )
       .subscribe((token: UserToken) => {
         if (token.access_token) {
+          this.userSubscription = this.store
+            .select(fromStore.getDetails)
+            .pipe(
+              tap((details: any) => {
+                if (Object.keys(details).length === 0) {
+                  this.store.dispatch(
+                    new fromStore.LoadUserDetails(this.username)
+                  );
+                }
+              })
+            )
+            .subscribe();
           this.dialogRef.close();
         }
       });
@@ -56,8 +67,12 @@ export class LoginDialogComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.tokenSubscription) {
+      this.tokenSubscription.unsubscribe();
+    }
+
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
     }
   }
 }

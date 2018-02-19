@@ -3,10 +3,19 @@
         <mat-icon>language</mat-icon>
     </button>
 
-    <mat-menu #languageRef="matMenu" >
-        <button mat-menu-item *ngFor="let item of (languages$ | async)" (click)="setActiveLanguage(item.isocode)"
-            [disabled]="item.isocode === activeLanguage">
+    <mat-menu #languageRef="matMenu">
+        <button mat-menu-item *ngFor="let item of (languages$ | async)" (click)="setActiveLanguage(item.isocode)" [disabled]="item.isocode === activeLanguage">
             {{item.nativeName}}
         </button>
     </mat-menu>
 </div>
+
+
+<!-- <div class="form-group">
+    <i class="fa fa-globe" aria-hidden="true"></i>
+    <label class="sr-only" for="exampleFormControlSelect1">Language</label>
+    <select class="form-control" id="exampleFormControlSelect1">
+        <option>EN</option>
+        <option>FR</option>
+    </select>
+</div> -->
