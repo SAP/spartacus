@@ -21,6 +21,9 @@ export function reducer(
         details
       };
     }
+    case fromUserDetailsAction.CLEAR_USER_DETAILS: {
+      state = initialState;
+    }
   }
   return state;
 }

@@ -24,7 +24,7 @@ export class LoginComponent {
     private store: Store<fromStore.UserState>
   ) {
     this.store
-      .select(getDetails)
+      .select(fromStore.getDetails)
       .subscribe(
         details =>
           (this.user = Object.keys(details).length === 0 ? null : details)
@@ -37,8 +37,7 @@ export class LoginComponent {
 
   logout() {
     // this.userLoader.logout();
-
-    this.store.select(getDetails).subscribe(details => {
+    this.store.select(fromStore.getDetails).subscribe(details => {
       if (
         Object.keys(details).length === 0 ||
         details === null ||
@@ -47,13 +46,13 @@ export class LoginComponent {
         this.store.dispatch(new fromStore.ClearUserDetails({ details }));
     });
 
-    // this.store
-    //   .select(fromStore.ClearUserDetails())
-    //   .subscribe(
-    //     details =>
-    //       (this.user = Object.keys(details).length === 0 ? null : details)
-    //   );
-
-    // const action = new fromUserDetailsAction.LoadUserDetailsFail(error);
+    this.store.select(fromStore.getUserToken).subscribe(token => {
+      if (
+        Object.keys(token).length === 0 ||
+        token === null ||
+        token === undefined
+      )
+        this.store.dispatch(new fromStore.ClearUserToken({ token }));
+    });
   }
 }
