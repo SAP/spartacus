@@ -1,15 +1,6 @@
 import * as fromUserToken from './../../store/actions';
 import { UserToken } from '../../models/token-types.model';
 
-const token: UserToken = {
-  access_token: 'xxx',
-  token_type: 'bearer',
-  refresh_token: 'xxx',
-  expires_in: 1000,
-  scope: ['xxx'],
-  username: 'xxx'
-};
-
 fdescribe('User Token Actions', () => {
   describe('LoadUserToken Actions', () => {
     it('should create the action', () => {
@@ -40,6 +31,14 @@ fdescribe('User Token Actions', () => {
 
   describe('LoadUserTokenSuccess Action', () => {
     it('should create the action', () => {
+      const token: UserToken = {
+        access_token: 'xxx',
+        token_type: 'bearer',
+        refresh_token: 'xxx',
+        expires_in: 1000,
+        scope: ['xxx'],
+        username: 'xxx'
+      };
       const action = new fromUserToken.LoadUserTokenSuccess(token);
 
       expect({ ...action }).toEqual({
