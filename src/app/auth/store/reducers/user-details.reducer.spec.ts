@@ -31,17 +31,5 @@ fdescribe('User Details Reducer', () => {
 
       expect(state.details).toEqual(mockUserDetails);
     });
-
-    describe('CLEAR_USER_DETAILS action', () => {
-      it('should return an empty token', () => {
-        const { initialState } = fromUserDetailsReducer;
-
-        const action = new fromUserDetailsAction.ClearUserDetails(
-          mockUserDetails
-        );
-        const state = fromUserDetailsReducer.reducer(initialState, action);
-        expect(state.details).toEqual({});
-      });
-    });
   });
 });

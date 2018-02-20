@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { Store } from '@ngrx/store';
 import * as fromStore from './../store';
+import { Observable } from 'rxjs/Observable';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'y-login',
@@ -11,7 +13,7 @@ import * as fromStore from './../store';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  user;
+  user$: Observable<any>;
 
   constructor(
     protected dialog: MatDialog,
@@ -19,9 +21,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.store.select(fromStore.getUserState).subscribe(state => {
-      this.user = state;
-    });
+    this.user$ = this.store.select(fromStore.getUserState);
   }
 
   openLogin() {
@@ -29,9 +29,8 @@ export class LoginComponent implements OnInit {
   }
 
   logout() {
-    this.store.dispatch(
-      new fromStore.ClearUserDetails(this.user.account.details)
-    );
-    this.store.dispatch(new fromStore.ClearUserToken(this.user.auth.token));
+    let userState;
+    this.user$.pipe(tap(state => (userState = state)));
+    this.store.dispatch(new fromStore.Logout(userState));
   }
 }

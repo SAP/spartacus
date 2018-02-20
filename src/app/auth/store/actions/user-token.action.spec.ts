@@ -48,15 +48,4 @@ fdescribe('User Token Actions', () => {
       });
     });
   });
-
-  describe('ClearUserToken Action', () => {
-    it('should create the action', () => {
-      const action = new fromUserToken.ClearUserToken(token);
-
-      expect({ ...action }).toEqual({
-        type: fromUserToken.CLEAR_USER_TOKEN,
-        payload: token
-      });
-    });
-  });
 });

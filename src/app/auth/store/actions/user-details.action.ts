@@ -1,9 +1,8 @@
 import { Action } from '@ngrx/store';
 
-export const LOAD_USER_DETAILS = '[User] Load User Details';
-export const LOAD_USER_DETAILS_FAIL = '[User] Load User Details Fail';
-export const LOAD_USER_DETAILS_SUCCESS = '[User] Load User Details Success';
-export const CLEAR_USER_DETAILS = '[User] Clear User Details';
+export const LOAD_USER_DETAILS = '[Auth] Load User Details';
+export const LOAD_USER_DETAILS_FAIL = '[Auth] Load User Details Fail';
+export const LOAD_USER_DETAILS_SUCCESS = '[Auth] Load User Details Success';
 
 export class LoadUserDetails implements Action {
   readonly type = LOAD_USER_DETAILS;
@@ -20,14 +19,8 @@ export class LoadUserDetailsSuccess implements Action {
   constructor(public payload: any) {}
 }
 
-export class ClearUserDetails implements Action {
-  readonly type = CLEAR_USER_DETAILS;
-  constructor(public payload: any) {}
-}
-
 // action types
 export type UserDetailsAction =
   | LoadUserDetails
   | LoadUserDetailsFail
-  | LoadUserDetailsSuccess
-  | ClearUserDetails;
+  | LoadUserDetailsSuccess;

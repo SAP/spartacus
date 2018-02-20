@@ -1,5 +1,5 @@
 import { UserToken } from '../../models/token-types.model';
-import * as fromAction from './../actions/user-token.action';
+import * as fromActions from './../actions';
 
 export interface UserTokenState {
   token: UserToken;
@@ -11,19 +11,16 @@ export const initialState: UserTokenState = {
 
 export function reducer(
   state = initialState,
-  action: fromAction.UserTokenAction
+  action: fromActions.UserTokenAction
 ): UserTokenState {
   switch (action.type) {
-    case fromAction.LOAD_USER_TOKEN_SUCCESS: {
+    case fromActions.LOAD_USER_TOKEN_SUCCESS || fromActions.LOGIN: {
       const token = action.payload;
 
       return {
         ...state,
         token
       };
-    }
-    case fromAction.CLEAR_USER_TOKEN: {
-      return initialState;
     }
   }
   return state;

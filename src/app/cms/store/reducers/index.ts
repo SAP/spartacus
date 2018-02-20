@@ -27,7 +27,10 @@ export const getCmsState: MemoizedSelector<
 
 export function clearCmsState(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
-    if (action.type === '[Site-context] Language Change') {
+    if (
+      action.type === '[Site-context] Language Change' ||
+      action.type === '[Auth] Logout'
+    ) {
       state = undefined;
     }
     return reducer(state, action);

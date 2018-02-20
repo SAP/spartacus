@@ -31,15 +31,5 @@ fdescribe('UserToken reducer', () => {
 
       expect(state.token).toEqual(testToken);
     });
-
-    describe('CLEAR_USER_TOKEN action', () => {
-      it('should return an empty token', () => {
-        const { initialState } = fromUserToken;
-
-        const action = new fromActions.ClearUserToken(testToken);
-        const state = fromUserToken.reducer(initialState, action);
-        expect(state.token).toEqual(<UserToken>{});
-      });
-    });
   });
 });

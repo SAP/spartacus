@@ -22,8 +22,8 @@ export class LoginDialogComponent implements OnDestroy {
     public dialogRef: MatDialogRef<LoginDialogComponent>,
     private store: Store<fromStore.UserState>
   ) {
-    this.username = 'tobiasouwejan@gmail.com';
-    this.password = '1234';
+    // this.username = 'tobiasouwejan@gmail.com';
+    // this.password = '1234';
   }
 
   login() {

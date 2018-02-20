@@ -1,4 +1,4 @@
-import * as fromUserDetailsAction from '../actions/user-details.action';
+import * as fromActions from '../actions';
 
 export interface UserDetailsState {
   details: any;
@@ -10,19 +10,16 @@ export const initialState: UserDetailsState = {
 
 export function reducer(
   state = initialState,
-  action: fromUserDetailsAction.UserDetailsAction
+  action: fromActions.UserDetailsAction
 ): UserDetailsState {
   switch (action.type) {
-    case fromUserDetailsAction.LOAD_USER_DETAILS_SUCCESS: {
+    case fromActions.LOAD_USER_DETAILS_SUCCESS || fromActions.LOGIN: {
       const details = action.payload;
 
       return {
         ...state,
         details
       };
-    }
-    case fromUserDetailsAction.CLEAR_USER_DETAILS: {
-      return initialState;
     }
   }
   return state;
