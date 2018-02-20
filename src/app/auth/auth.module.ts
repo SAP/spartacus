@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginModule } from './login/login.module';
-
-import { StoreModule } from '@ngrx/store';
+import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
-import { reducers, effects } from './store';
+import { StoreModule } from '@ngrx/store';
+
+import * as fromGuards from './guards';
+import { LoginModule } from './login/login.module';
+import { effects, reducers } from './store';
 import { OccUserService } from '../newocc/user/user.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserTokenInterceptor } from './http-interceptors/user-token.interceptor';
@@ -18,6 +19,7 @@ import { UserTokenInterceptor } from './http-interceptors/user-token.interceptor
   ],
   declarations: [],
   providers: [
+    ...fromGuards.guards,
     OccUserService,
     {
       provide: HTTP_INTERCEPTORS,
