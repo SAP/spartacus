@@ -33,11 +33,6 @@ fdescribe('AuthGuard', () => {
     authGuard = TestBed.get(AuthGuard);
   });
 
-  beforeEach(() => {
-    authGuard = TestBed.get(AuthGuard);
-    store = TestBed.get(Store);
-  });
-
   it('should return false', () => {
     spyOn(store, 'select').and.returnValue(of(mockUserInvalidToken));
 
