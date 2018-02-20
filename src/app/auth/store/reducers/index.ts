@@ -31,6 +31,7 @@ export function clearUserState(
   return function(state, action) {
     if (action.type === '[Auth] Logout') {
       state = undefined;
+    } else if (action.type === '[Auth] Login') {
     }
     return reducer(state, action);
   };

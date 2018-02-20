@@ -14,19 +14,20 @@ import { Subscription } from 'rxjs/Subscription';
 export class LoginDialogComponent implements OnDestroy {
   public username: string;
   public password: string;
-  public rememberMe: Boolean;
+  public rememberMe: Boolean; // Will we implement this rememberMe feature in the future?
 
   private subscription: Subscription;
 
   constructor(
     public dialogRef: MatDialogRef<LoginDialogComponent>,
     private store: Store<fromStore.UserState>
-  ) {
-    // this.username = 'tobiasouwejan@gmail.com';
-    // this.password = '1234';
-  }
+  ) {}
 
   login() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
     this.subscription = this.store
       .select(fromStore.getUserToken)
       .subscribe((token: UserToken) => {

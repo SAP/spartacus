@@ -8,6 +8,7 @@ import { MaterialModule } from '../../material.module';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs/observable/of';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { tap } from 'rxjs/operators';
 
 const mockUser: any = {
   account: {
@@ -81,20 +82,12 @@ fdescribe('LoginComponent', () => {
   it('should call ngOnInit', () => {
     component.ngOnInit();
 
-    // expect(component.user).toEqual(mockUser);
+    expect(component.user$).toEqual(of(mockUser));
   });
 
   it('should logout and clear user state', () => {
     component.logout();
 
-    expect(store.dispatch)
-      .toHaveBeenCalledWith
-      // new fromStore.ClearUserDetails(component.user.account.details)
-      ();
-    expect(store.dispatch)
-      .toHaveBeenCalledWith
-      // new fromStore.ClearUserToken(component.user.auth.token)
-      ();
-    // expect(component.user).toEqual(mockEmptyUser);
+    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
   });
 });

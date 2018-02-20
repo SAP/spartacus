@@ -29,8 +29,6 @@ export class LoginComponent implements OnInit {
   }
 
   logout() {
-    let userState;
-    this.user$.pipe(tap(state => (userState = state)));
-    this.store.dispatch(new fromStore.Logout(userState));
+    this.store.dispatch(new fromStore.Logout());
   }
 }
