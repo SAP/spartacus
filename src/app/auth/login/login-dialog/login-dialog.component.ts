@@ -37,7 +37,7 @@ export class LoginDialogComponent implements OnDestroy {
           if (Object.keys(token).length === 0) {
             this.store.dispatch(
               new fromStore.LoadUserToken({
-                username: this.username,
+                userId: this.username,
                 password: this.password
               })
             );

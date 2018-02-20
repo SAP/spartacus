@@ -68,7 +68,7 @@ fdescribe('UserToken effect', () => {
   describe('loadUserToken$', () => {
     it('should load a user token', () => {
       const action = new fromActions.LoadUserToken({
-        username: 'xxx',
+        userId: 'xxx',
         password: 'xxx'
       });
       const completion = new fromActions.LoadUserTokenSuccess(testToken);

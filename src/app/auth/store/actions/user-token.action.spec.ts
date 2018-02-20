@@ -5,7 +5,7 @@ fdescribe('User Token Actions', () => {
   describe('LoadUserToken Actions', () => {
     it('should create the action', () => {
       const tokenRequest = {
-        username: 'xxx@xxx.xxx',
+        userId: 'xxx@xxx.xxx',
         password: '1234'
       };
 
