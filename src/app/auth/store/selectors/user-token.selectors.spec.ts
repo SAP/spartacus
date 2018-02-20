@@ -25,7 +25,7 @@ fdescribe('Auth Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getUserTokenState', () => {
+  describe('getUserToken', () => {
     it('should return a user token from the state', () => {
       let result: UserToken;
       store
