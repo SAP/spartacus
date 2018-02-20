@@ -47,4 +47,17 @@ fdescribe('User Details Actions', () => {
       });
     });
   });
+
+  describe('ClearUserDetails Action', () => {
+    it('should create the action', () => {
+      const action = new fromUserDetailsAction.ClearUserDetails(
+        mockUserDetails
+      );
+
+      expect({ ...action }).toEqual({
+        type: fromUserDetailsAction.CLEAR_USER_DETAILS,
+        payload: mockUserDetails
+      });
+    });
+  });
 });
