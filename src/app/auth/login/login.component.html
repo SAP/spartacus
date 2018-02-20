@@ -2,11 +2,11 @@
     <button mat-menu-item (click)="logout()"> Logout </button>
 </mat-menu>
 
-<button *ngIf="user.name" mat-button color="primary" [matMenuTriggerFor]="userMenu">
-    {{user.name}}
+<button *ngIf="user.account.details.name" mat-button color="primary" [matMenuTriggerFor]="userMenu">
+    {{user.account.details.name}}
     <mat-icon>expand_more</mat-icon>
 </button>
 
-<button *ngIf="!user.name" (click)="openLogin()" mat-icon-button color="primary">
+<button *ngIf="!user.account.details.name" (click)="openLogin()" mat-icon-button color="primary">
     <mat-icon>person</mat-icon>
 </button>

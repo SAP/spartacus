@@ -3,7 +3,6 @@ import { MatDialogRef } from '@angular/material';
 
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../store';
-import { tap } from 'rxjs/operators';
 import { UserToken } from './../../models/token-types.model';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -17,27 +16,18 @@ export class LoginDialogComponent implements OnDestroy {
   public password: string;
   public rememberMe: Boolean;
 
-  private tokenSubscription: Subscription;
-  private userSubscription: Subscription;
+  private subscription: Subscription;
 
   constructor(
     public dialogRef: MatDialogRef<LoginDialogComponent>,
     private store: Store<fromStore.UserState>
   ) {
-    if (this.tokenSubscription !== undefined) {
-      this.tokenSubscription.unsubscribe();
-    }
-
-    // if (this.userSubscription !== undefined) {
-    //   this.userSubscription.unsubscribe();
-    // }
-
     this.username = 'tobiasouwejan@gmail.com';
     this.password = '1234';
   }
 
-  saveToken() {
-    this.tokenSubscription = this.store
+  login() {
+    this.subscription = this.store
       .select(fromStore.getUserToken)
       .subscribe((token: UserToken) => {
         if (token.access_token === undefined) {
@@ -47,37 +37,20 @@ export class LoginDialogComponent implements OnDestroy {
               password: this.password
             })
           );
-        }
-        this.store.dispatch(new fromStore.LoadUserDetails(this.username));
-        this.dialogRef.close();
-      });
-  }
-
-  saveUserDetails() {
-    this.userSubscription = this.store
-      .select(fromStore.getDetails)
-      .subscribe((details: any) => {
-        if (details.name === undefined || Object.keys(details).length === 0) {
+        } else {
+          this.dialogRef.close();
           this.store.dispatch(new fromStore.LoadUserDetails(this.username));
         }
       });
-  }
-
-  login() {
-    this.saveToken();
   }
 
   cancel() {
     this.dialogRef.close();
   }
 
-  ngOnDestroy(): void {
-    if (this.tokenSubscription) {
-      this.tokenSubscription.unsubscribe();
-    }
-
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 }

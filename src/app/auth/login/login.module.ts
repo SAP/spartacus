@@ -12,4 +12,4 @@ import { MaterialModule } from '../../material.module';
   exports: [LoginComponent],
   entryComponents: [LoginDialogComponent]
 })
-export class LoginModule { }
+export class LoginModule {}
