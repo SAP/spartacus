@@ -14,7 +14,10 @@
     "build-lib": "./build-lib.sh"
   },
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "@ng-bootstrap/ng-bootstrap": "^1.0.0",
+    "ngrx-store-localstorage": "0.3.0"
+  },
   "peerDependencies": {
     "@angular/animations": "5.1.0",
     "@angular/cdk": "^5.0.0",

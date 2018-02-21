@@ -40,6 +40,11 @@ export class CurrencySelectorComponent implements OnInit {
   }
 
   setActiveCurrency(currency) {
+    // This is to remove the currency symbol from the
+    // currency string
+    let len = currency.length;
+    currency = currency.substring(len - 3, len);
+
     this.activeCurrency = currency;
     this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
 

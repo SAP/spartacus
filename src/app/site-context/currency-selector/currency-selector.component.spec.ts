@@ -11,6 +11,7 @@ import * as fromRoot from './../../routing/store';
 
 import * as fromActions from './../shared/store/actions/currencies.action';
 import { PageType } from '../../routing/models/page-context.model';
+import { of } from 'rxjs/observable/of';
 
 class MockConfigService {
   site = {
@@ -65,11 +66,19 @@ fdescribe('CurrencySelectorComponent', () => {
   });
 
   it('should contain currencies button', () => {
-    const div = el.query(By.css('div'));
-    const button = el.query(By.css('button'));
+    component.currencies$ = of(currencies);
 
-    // ...
-    // after the migrate from Material to Bootstrap is finished, we should test the UI part
+    const label = el.query(By.css('label'));
+    const select = el.query(By.css('select'));
+
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(select.nativeElement.value).toEqual(
+        currencies[0].symbol + ' ' + currencies[0].isocode
+      );
+    });
+
+    expect(label.nativeElement.textContent).toEqual('Currency');
   });
 
   it('should get currency data', () => {
