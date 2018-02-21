@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs/observable/of';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { tap } from 'rxjs/operators';
-import { MatDialogRef } from '@angular/material';
 
 const mockUser = {
   name: 'mockUsername',
@@ -65,7 +64,6 @@ fdescribe('LoginComponent', () => {
       TestBed.configureTestingModule({
         imports: [
           MaterialModule,
-          MatDialogRef,
           BrowserAnimationsModule,
           FormsModule,
           StoreModule.forRoot({
