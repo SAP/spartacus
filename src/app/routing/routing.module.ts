@@ -21,7 +21,7 @@ import { environment } from '../../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
 
-function getMetaReducers(config: ConfigService): MetaReducer<any>[] {
+export function getMetaReducers(config: ConfigService): MetaReducer<any>[] {
   const metaReducers: MetaReducer<any>[] = [];
   if (config.storageSyncType !== StorageSyncType.NO_STORAGE) {
     const storageSyncReducer = getStorageSyncReducer(config);
