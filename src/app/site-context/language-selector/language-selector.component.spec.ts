@@ -1,5 +1,4 @@
 import { PageType } from './../../routing/models/page-context.model';
-import { MaterialModule } from './../../material.module';
 import { ConfigService } from './../config.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
@@ -34,7 +33,6 @@ fdescribe('LanguageSelectorComponent', () => {
     async(() => {
       TestBed.configureTestingModule({
         imports: [
-          MaterialModule,
           StoreModule.forRoot({
             ...fromRoot.reducers,
             siteContext: combineReducers(fromStore.reducers)

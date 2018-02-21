@@ -1,5 +1,4 @@
 import { By } from '@angular/platform-browser';
-import { MaterialModule } from './../../material.module';
 import { ConfigService } from './../config.service';
 import { DebugElement } from '@angular/core';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
@@ -34,7 +33,6 @@ fdescribe('CurrencySelectorComponent', () => {
     async(() => {
       TestBed.configureTestingModule({
         imports: [
-          MaterialModule,
           StoreModule.forRoot({
             ...fromRoot.reducers,
             siteContext: combineReducers(fromStore.reducers)
