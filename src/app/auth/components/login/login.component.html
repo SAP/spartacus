@@ -2,8 +2,6 @@
     <button mat-menu-item (click)="logout()"> Logout </button>
 </mat-menu>
 
-<y-login-dialog (submitted)=login($event)></y-login-dialog>
-
 <button *ngIf="(user$ | async)?.name" mat-button color="primary" [matMenuTriggerFor]="userMenu">
     {{(user$ | async)?.name}}
     <mat-icon>expand_more</mat-icon>

@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
+/*import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromStore from './../../store';
@@ -143,4 +143,4 @@ fdescribe('LoginComponent', () => {
   //     new fromStore.LoadUserDetails(component.username)
   //   );
   // });
-});
+}); */

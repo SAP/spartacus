@@ -1,4 +1,4 @@
-import * as fromUserDetailsAction from './user-details.action';
+/*import * as fromUserDetailsAction from './user-details.action';
 
 const mockUserDetails: any = {
   displayUid: 'Display Uid',
@@ -47,4 +47,4 @@ fdescribe('User Details Actions', () => {
       });
     });
   });
-});
+});*/
