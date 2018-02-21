@@ -10,7 +10,13 @@ import { of } from 'rxjs/observable/of';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { tap } from 'rxjs/operators';
 
-const mockUser: any = {
+const mockUser = {
+  name: 'mockUsername',
+  pass: '1234',
+  ref: null
+};
+
+const mockUserState: any = {
   account: {
     details: {
       displayUid: 'Display Uid',
@@ -37,6 +43,12 @@ const mockEmptyUser: any = {
   account: {
     details: {}
   },
+  auth: {
+    token: {}
+  }
+};
+
+const mockEmptyUserToken = {
   auth: {
     token: {}
   }
@@ -71,7 +83,7 @@ fdescribe('LoginComponent', () => {
 
     store = TestBed.get(Store);
 
-    spyOn(store, 'select').and.returnValue(of(mockUser));
+    spyOn(store, 'select').and.returnValue(of(mockUserState));
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -82,7 +94,7 @@ fdescribe('LoginComponent', () => {
   it('should call ngOnInit', () => {
     component.ngOnInit();
 
-    expect(component.user$).toEqual(of(mockUser));
+    expect(component.user$).toEqual(of(mockUserState));
   });
 
   it('should logout and clear user state', () => {
@@ -90,4 +102,45 @@ fdescribe('LoginComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
   });
+
+  it('should login and not dispatch user details', () => {
+    spyOn(store, 'select').and.returnValue(of(mockEmptyUserToken.auth.token));
+
+    component.login(mockUser);
+
+    store.select(fromStore.getUserState).subscribe(data => {
+      expect(data).toEqual({} as fromStore.UserState);
+    });
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.LoadUserToken({
+        username: mockUser.name,
+        password: mockUser.pass
+      })
+    );
+    expect(store.dispatch).not.toHaveBeenCalledWith(mockUser.name);
+  });
+
+  // Uncomment this test after replacing material (MatDialogRef) with ng-bootstrap from the LoginDialogComponent,
+  // otherwise it gives 'Cannot read property 'close' of undefined' error
+  // it('should login and also dispatch user details', () => {
+  //   let spy = spyOn(store, 'select');
+
+  //   spy.and.returnValue(of(mockUserToken.auth.token));
+  //   const action = new fromStore.LoadUserTokenSuccess(mockUserToken.auth.token);
+
+  //   store.dispatch(action);
+
+  //   component.login();
+
+  //   spy.and.callThrough();
+  //   store.select(fromStore.getUserState).subscribe(data => {
+  //     expect(data).toEqual(mockUserToken);
+  //   });
+  //   expect(store.dispatch).toHaveBeenCalledWith(
+  //     new fromStore.LoadUserTokenSuccess(mockUserToken.auth.token)
+  //   );
+  //   expect(store.dispatch).toHaveBeenCalledWith(
+  //     new fromStore.LoadUserDetails(component.username)
+  //   );
+  // });
 });
