@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { Store } from '@ngrx/store';
-import * as fromStore from './../store';
+import * as fromStore from './../../store';
 import { Observable } from 'rxjs/Observable';
 import { tap } from 'rxjs/operators';
 
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.user$ = this.store.select(fromStore.getUserState);
+    this.user$ = this.store.select(fromStore.getDetails);
   }
 
   openLogin() {

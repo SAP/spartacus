@@ -4,20 +4,20 @@
 
 <div mat-dialog-content>
     <form fxLayout="column" fxFlexAlign="start">
-         <mat-input-container>
-            <input matInput type="text" name="username" placeholder="Username" [(ngModel)]="username" >
+        <mat-input-container>
+            <input matInput type="text" name="username" placeholder="Username" [(ngModel)]="username">
         </mat-input-container>
 
         <mat-input-container>
-            <input matInput type="password" name="password" placeholder="Password" [(ngModel)]="password" >
+            <input matInput type="password" name="password" placeholder="Password" [(ngModel)]="password">
         </mat-input-container>
-        
+
         <mat-checkbox color="primary" [(ngModel)]="rememberMe" name="rememberMe">Remember me</mat-checkbox>
-        
+
     </form>
 </div>
 
-<div mat-dialog-actions >
+<div mat-dialog-actions>
     <button mat-button color="primary" mat-dialog-close>Cancel</button>
     <button mat-raised-button color="primary" (click)="login()">Login</button>
 </div>

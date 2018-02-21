@@ -1,15 +1,15 @@
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import * as fromStore from './../../store';
-import * as fromReducers from './../../store/reducers';
+import * as fromStore from './../../../store';
+import * as fromReducers from './../../../store/reducers';
 import { MatDialogRef } from '@angular/material';
 import { LoginDialogComponent } from './../login-dialog/login-dialog.component';
-import { MaterialModule } from '../../../material.module';
+import { MaterialModule } from '../../../../material.module';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs/observable/of';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ConfigService } from '../../../newocc/config.service';
+import { ConfigService } from '../../../../newocc/config.service';
 
 const mockUser: any = {
   account: {

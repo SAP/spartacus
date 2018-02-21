@@ -1,10 +1,10 @@
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import * as fromStore from './../store';
+import * as fromStore from './../../store';
 import { LoginComponent } from './login.component';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
-import { MaterialModule } from '../../material.module';
+import { MaterialModule } from '../../../material.module';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs/observable/of';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

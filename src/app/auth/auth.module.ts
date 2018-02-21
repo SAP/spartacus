@@ -5,7 +5,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { metaReducers } from './store/reducers';
 import * as fromGuards from './guards';
-import { LoginModule } from './login/login.module';
+import { LoginModule } from './components/login/login.module';
 import { effects, reducers } from './store';
 import { OccUserService } from '../newocc/user/user.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';

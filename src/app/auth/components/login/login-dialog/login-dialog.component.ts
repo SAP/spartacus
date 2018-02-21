@@ -2,8 +2,8 @@ import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 
 import { Store } from '@ngrx/store';
-import * as fromStore from './../../store';
-import { UserToken } from './../../models/token-types.model';
+import * as fromStore from './../../../store';
+import { UserToken } from './../../../models/token-types.model';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
