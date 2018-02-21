@@ -16,10 +16,9 @@ import {
   MatTabsModule,
   MatSidenavModule,
   MatGridListModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatDialogModule
 } from '@angular/material';
-
-import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
