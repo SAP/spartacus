@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   user$: Observable<any>;
 
   private subscription: Subscription;
+  private isLoggedIn: boolean = false;
 
   constructor(
     protected dialog: MatDialog,
@@ -44,6 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.store.dispatch(new fromStore.LoadUserDetails(user.name));
         }
       });
+    this.isLoggedIn = true;
   }
 
   openLogin() {
@@ -52,6 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   logout() {
     this.store.dispatch(new fromStore.Logout());
+    this.isLoggedIn = false;
   }
 
   ngOnDestroy() {
