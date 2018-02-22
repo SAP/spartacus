@@ -1,12 +1,6 @@
-<div *ngIf="(currencies$ | async)?.length>1">
-    <button mat-icon-button [matMenuTriggerFor]="currencyRef" color="primary">
-        <mat-icon>monetization_on</mat-icon>
-    </button>
-
-    <mat-menu #currencyRef="matMenu" >
-        <button mat-menu-item *ngFor="let item of (currencies$ | async)" (click)="setActiveCurrency(item.isocode)" 
-            [disabled]="item.isocode === activeCurrency">
-            {{item.symbol}} {{item.isocode}}
-        </button>
-    </mat-menu>
+<div class="form-group">
+    <label class="sr-only" for="exampleFormControlSelect1">Currency</label>
+    <select class="form-control currency-selector__select" id="currency-selector" (change)="setActiveCurrency($event.target.value)">
+        <option *ngFor="let item of (currencies$ | async)" [selected]="activeCurrency == item.isocode" [value]="item.isocode">{{item.symbol}} {{item.isocode}}</option>
+    </select>
 </div>

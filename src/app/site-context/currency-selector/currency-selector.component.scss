@@ -1,0 +1,10 @@
+@import '../../../styling/_variables.scss';
+
+.currency-selector__select {
+  background-color: $indigo;
+  padding: 5px;
+  border: 2px solid $red;
+  color: $yellow;
+  margin-top: 10px;
+  margin-right: 10px;
+}
