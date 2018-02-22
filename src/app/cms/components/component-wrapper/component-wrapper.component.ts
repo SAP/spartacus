@@ -29,6 +29,9 @@ export class ComponentWrapperComponent
   @Input() componentUid: string;
   @Input() contextParameters: any;
   @Input() componentClass: string;
+  // the component is loaded from server or extracted from cms page data
+  // by default, component data is extracted from page data
+  @Input() componentLoad = false;
 
   private isViewInitialized = false;
   cmpRef: ComponentRef<any>;
@@ -66,6 +69,7 @@ export class ComponentWrapperComponent
       if (instance.setUid) {
         instance.setUid(this.componentUid);
       }
+      instance.setLoad(this.componentLoad);
       // pass parameters to dynamic component
       if (this.contextParameters && instance.setContextParameters) {
         instance.setContextParameters(this.contextParameters);
