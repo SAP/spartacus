@@ -71,9 +71,7 @@ fdescribe('CurrencySelectorComponent', () => {
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(select.nativeElement.value).toEqual(
-        currencies[0].symbol + ' ' + currencies[0].isocode
-      );
+      expect(select.nativeElement.value).toEqual(currencies[0].isocode);
     });
 
     expect(label.nativeElement.textContent).toEqual('Currency');
