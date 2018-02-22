@@ -21,7 +21,12 @@ import {
 export class PageEffects {
   @Effect()
   loadPage$: Observable<any> = this.actions$
-    .ofType(pageActions.LOAD_PAGEDATA, '[Site-context] Language Change')
+    .ofType(
+      pageActions.LOAD_PAGEDATA,
+      '[Site-context] Language Change',
+      '[Auth] Logout',
+      '[Auth] Login'
+    )
     .pipe(
       map((action: pageActions.LoadPageData) => action.payload),
       switchMap(pageContext => {

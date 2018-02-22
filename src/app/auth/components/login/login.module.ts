@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { LoginComponent } from './login.component';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
-import { MaterialModule } from '../../material.module';
+import { MaterialModule } from '../../../material.module';
 
 @NgModule({
   imports: [CommonModule, FormsModule, MaterialModule, FlexLayoutModule],
@@ -12,4 +12,4 @@ import { MaterialModule } from '../../material.module';
   exports: [LoginComponent],
   entryComponents: [LoginDialogComponent]
 })
-export class LoginModule { }
+export class LoginModule {}

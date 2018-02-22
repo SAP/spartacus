@@ -22,9 +22,6 @@ export function reducer(
         token
       };
     }
-    case fromAction.LOAD_USER_TOKEN_FAIL: {
-      return initialState;
-    }
   }
   return state;
 }
