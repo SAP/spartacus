@@ -170,35 +170,5 @@ fdescribe('LoginComponent', () => {
     );
   });
 
-  // it('should open login dialog', () => {
-  //   component.username = mockUser.username;
-  //   component.password = mockUser.password;
-  // component.pageContext = cntx;
-
-  // let spy = spyOn(store, 'select');
-
-  // spy.and.returnValue(of(mockUserToken));
-  // const action = new fromStore.LoadUserTokenSuccess(mockUserToken);
-
-  // store.dispatch(action);
-
-  // component.login();
-
-  // spy.and.callThrough();
-  // store.select(fromStore.getUserState).subscribe(data => {
-  //   expect(data.auth.token).toEqual(mockUserToken);
-  // });
-  // expect(store.dispatch).toHaveBeenCalledWith(
-  //   new fromStore.LoadUserTokenSuccess(mockUserToken)
-  // );
-  // expect(store.dispatch).toHaveBeenCalledWith(
-  //   new fromStore.LoadUserDetails(component.username)
-  // );
-  // expect(store.dispatch).toHaveBeenCalledWith(
-  //   new fromStore.Login(component.pageContext)
-  // );
-
-  // component.openLogin();
-  // expect(dialog.open).toHaveBeenCalledWith(LoginDialogComponent);
-  // });
+  // Add some UI unit tests once we remove material
 });
