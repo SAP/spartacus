@@ -1,4 +1,4 @@
-/*import { TestBed, ComponentFixture, async } from '@angular/core/testing';
+import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromStore from './../../store';
@@ -9,34 +9,33 @@ import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs/observable/of';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { tap } from 'rxjs/operators';
+import { PageType } from '../../../routing/models/page-context.model';
+import { MatDialog } from '@angular/material';
 
 const mockUser = {
-  name: 'mockUsername',
-  pass: '1234',
-  ref: null
+  username: 'mockUsername',
+  password: '1234',
+  rememberMe: false
 };
 
-const mockUserState: any = {
-  account: {
-    details: {
-      displayUid: 'Display Uid',
-      firstName: 'First',
-      lastName: 'Last',
-      name: 'First Last',
-      type: 'Mock Type',
-      uid: 'UID'
-    }
-  },
-  auth: {
-    token: {
-      access_token: 'xxx',
-      token_type: 'bearer',
-      refresh_token: 'xxx',
-      expires_in: 1000,
-      scope: ['xxx'],
-      username: 'xxx'
+const mock = {
+  routerState: {
+    state: {
+      context: {
+        id: '1',
+        type: null
+      }
     }
   }
+};
+
+const mockUserDetails: any = {
+  displayUid: 'Display Uid',
+  firstName: 'First',
+  lastName: 'Last',
+  name: 'First Last',
+  type: 'Mock Type',
+  uid: 'UID'
 };
 
 const mockEmptyUser: any = {
@@ -54,10 +53,22 @@ const mockEmptyUserToken = {
   }
 };
 
+const mockUserToken: any = {
+  access_token: 'xxx',
+  token_type: 'bearer',
+  refresh_token: 'xxx',
+  expires_in: 1000,
+  scope: ['xxx'],
+  username: 'xxx'
+};
+
+const cntx = { id: 'testPageId', type: PageType.CONTENT_PAGE };
+
 fdescribe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let store: Store<fromStore.UserState>;
+  let dialog: MatDialog;
 
   beforeEach(
     async(() => {
@@ -82,65 +93,112 @@ fdescribe('LoginComponent', () => {
     fixture.detectChanges();
 
     store = TestBed.get(Store);
-
-    spyOn(store, 'select').and.returnValue(of(mockUserState));
+    dialog = TestBed.get(MatDialog);
     spyOn(store, 'dispatch').and.callThrough();
+    spyOn(dialog, 'open').and.callThrough();
   });
 
   it('should create', () => {
+    const routerState = {
+      state: {
+        context: cntx
+      }
+    };
+
+    let spy = spyOn(store, 'select');
+    spy.and.returnValue(of(routerState));
+
+    component = new LoginComponent(dialog, store);
+
     expect(component).toBeTruthy();
-  });
-
-  it('should call ngOnInit', () => {
-    component.ngOnInit();
-
-    expect(component.user$).toEqual(of(mockUserState));
+    expect(component.pageContext).toEqual(cntx);
   });
 
   it('should logout and clear user state', () => {
-    component.logout();
+    component.pageContext = cntx;
 
-    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
+    component.logout();
+    expect(component.isLogin).toEqual(false);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.Logout(component.pageContext)
+    );
   });
 
   it('should login and not dispatch user details', () => {
-    spyOn(store, 'select').and.returnValue(of(mockEmptyUserToken.auth.token));
+    component.username = mockUser.username;
+    component.password = mockUser.password;
 
-    component.login(mockUser);
+    component.login();
 
     store.select(fromStore.getUserState).subscribe(data => {
-      expect(data).toEqual({} as fromStore.UserState);
+      expect(data).toEqual(mockEmptyUser);
     });
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadUserToken({
-        username: mockUser.name,
-        password: mockUser.pass
+        username: mockUser.username,
+        password: mockUser.password
       })
     );
-    expect(store.dispatch).not.toHaveBeenCalledWith(mockUser.name);
+    expect(store.dispatch).not.toHaveBeenCalledWith(mockUser.username);
   });
 
-  // Uncomment this test after replacing material (MatDialogRef) with ng-bootstrap from the LoginDialogComponent,
-  // otherwise it gives 'Cannot read property 'close' of undefined' error
-  // it('should login and also dispatch user details', () => {
-  //   let spy = spyOn(store, 'select');
+  it('should login and also dispatch user details', () => {
+    component.username = mockUser.username;
+    component.pageContext = cntx;
 
-  //   spy.and.returnValue(of(mockUserToken.auth.token));
-  //   const action = new fromStore.LoadUserTokenSuccess(mockUserToken.auth.token);
+    let spy = spyOn(store, 'select');
 
-  //   store.dispatch(action);
+    spy.and.returnValue(of(mockUserToken));
+    const action = new fromStore.LoadUserTokenSuccess(mockUserToken);
 
-  //   component.login();
+    store.dispatch(action);
 
-  //   spy.and.callThrough();
-  //   store.select(fromStore.getUserState).subscribe(data => {
-  //     expect(data).toEqual(mockUserToken);
-  //   });
-  //   expect(store.dispatch).toHaveBeenCalledWith(
-  //     new fromStore.LoadUserTokenSuccess(mockUserToken.auth.token)
-  //   );
-  //   expect(store.dispatch).toHaveBeenCalledWith(
-  //     new fromStore.LoadUserDetails(component.username)
-  //   );
+    component.login();
+
+    spy.and.callThrough();
+    store.select(fromStore.getUserState).subscribe(data => {
+      expect(data.auth.token).toEqual(mockUserToken);
+    });
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.LoadUserTokenSuccess(mockUserToken)
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.LoadUserDetails(component.username)
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.Login(component.pageContext)
+    );
+  });
+
+  // it('should open login dialog', () => {
+  //   component.username = mockUser.username;
+  //   component.password = mockUser.password;
+  // component.pageContext = cntx;
+
+  // let spy = spyOn(store, 'select');
+
+  // spy.and.returnValue(of(mockUserToken));
+  // const action = new fromStore.LoadUserTokenSuccess(mockUserToken);
+
+  // store.dispatch(action);
+
+  // component.login();
+
+  // spy.and.callThrough();
+  // store.select(fromStore.getUserState).subscribe(data => {
+  //   expect(data.auth.token).toEqual(mockUserToken);
   // });
-}); */
+  // expect(store.dispatch).toHaveBeenCalledWith(
+  //   new fromStore.LoadUserTokenSuccess(mockUserToken)
+  // );
+  // expect(store.dispatch).toHaveBeenCalledWith(
+  //   new fromStore.LoadUserDetails(component.username)
+  // );
+  // expect(store.dispatch).toHaveBeenCalledWith(
+  //   new fromStore.Login(component.pageContext)
+  // );
+
+  // component.openLogin();
+  // expect(dialog.open).toHaveBeenCalledWith(LoginDialogComponent);
+  // });
+});

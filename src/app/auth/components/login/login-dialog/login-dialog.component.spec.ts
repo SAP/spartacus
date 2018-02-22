@@ -3,7 +3,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromStore from './../../../store';
 import * as fromReducers from './../../../store/reducers';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { LoginDialogComponent } from './../login-dialog/login-dialog.component';
 import { MaterialModule } from '../../../../material.module';
 import { FormsModule } from '@angular/forms';
@@ -32,7 +32,8 @@ fdescribe('LoginDialogComponent', () => {
         providers: [
           {
             provide: MatDialogRef
-          }
+          },
+          { provide: MAT_DIALOG_DATA, useValue: {} }
         ]
       }).compileComponents();
     })
