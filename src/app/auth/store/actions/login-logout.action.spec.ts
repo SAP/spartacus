@@ -1,4 +1,4 @@
-import * as fromAction from './login-logout.action';
+/*import * as fromAction from './login-logout.action';
 
 fdescribe('Login and Logout Actions', () => {
   describe('Logout Action', () => {
@@ -25,4 +25,4 @@ fdescribe('Login and Logout Actions', () => {
       });
     });
   });
-});
+});*/
