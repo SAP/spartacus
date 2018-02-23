@@ -8,8 +8,6 @@ import { map, catchError, switchMap, mergeMap } from 'rxjs/operators';
 import * as pageActions from '../actions/page.action';
 import * as componentActions from '../actions/component.action';
 import * as fromServices from '../../services';
-import { OccCmsService } from '../../services/occ-cms.service';
-import { DefaultPageService } from './../../services/default-page.service';
 
 import { Page } from '../../models/page.model';
 import {

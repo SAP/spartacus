@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { map, filter, catchError, mergeMap, tap } from 'rxjs/operators';
+import { map, filter, catchError, mergeMap } from 'rxjs/operators';
 
 import * as productActions from '../actions/product.action';
 import { OccProductService } from '../../../newocc/product/product.service';
@@ -11,7 +11,6 @@ import { ProductImageConverterService } from '../../converters/product-image-con
 import { ProductReferenceConverterService } from '../../converters/product-reference-converter.service';
 
 import {
-  PageContext,
   PageType
 } from '../../../routing/models/page-context.model';
 

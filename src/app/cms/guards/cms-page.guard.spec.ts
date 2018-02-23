@@ -10,8 +10,6 @@ import * as fromReducers from '../store/reducers';
 import { PageType } from '../../routing/models/page-context.model';
 import { Page } from '../models/page.model';
 import * as fromActions from '../store/actions/page.action';
-import * as fromSelector from '../store/selectors/page.selectors';
-import { of } from 'rxjs/observable/of';
 
 export class MockConfigService {
   defaultPageIdForType = {

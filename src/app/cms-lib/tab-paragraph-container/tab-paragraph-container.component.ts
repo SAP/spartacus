@@ -1,6 +1,5 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-//import { AbstractProductComponent } from '../abstract-product-component';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Component } from '@angular/core';
+// import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
   selector: 'y-tab-paragraph-container',

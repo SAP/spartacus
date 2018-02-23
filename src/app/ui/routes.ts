@@ -1,5 +1,4 @@
 import { Routes, RouterModule } from '@angular/router';
-import { ModuleWithProviders } from '@angular/core';
 
 import { HomePageComponent } from '../ui/templates/home-page/home-page.component';
 import { CartPageComponent } from '../ui/templates/cart-page/cart-page.component';
