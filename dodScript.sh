@@ -274,7 +274,7 @@ echo
 
 cat << EOF
 =================================================================================================================================
-			     ADDITIONAL THINGS TO MANUALLY CHECK BEFORE MERGING OR PUSHING CHAGES
+                          ADDITIONAL THINGS TO MANUALLY CHECK BEFORE MERGING OR PUSHING CHAGES
 =================================================================================================================================
 1) Open the index.html file located inside your spaccelerator/coverage folder and make sure that the unit test coverage for the 
    modules or components you've worked on is at least 80%.
