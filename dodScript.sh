@@ -12,6 +12,7 @@ SPA_DIR='../yenvs/b2cacc/sources/commercewebservices-module/ycommercewebservices
 
 
 echo
+test -f log.txt && rm log.txt
 
 
 #################################################################################################################################
