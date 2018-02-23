@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           if (token.access_token === undefined) {
             this.store.dispatch(
               new fromStore.LoadUserToken({
-                username: this.username,
+                userId: this.username,
                 password: this.password
               })
             );

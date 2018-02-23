@@ -133,7 +133,7 @@ fdescribe('LoginComponent', () => {
     });
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadUserToken({
-        username: mockUser.username,
+        userId: mockUser.username,
         password: mockUser.password
       })
     );
@@ -144,7 +144,7 @@ fdescribe('LoginComponent', () => {
     component.username = mockUser.username;
     component.pageContext = cntx;
 
-    let spy = spyOn(store, 'select');
+    const spy = spyOn(store, 'select');
 
     spy.and.returnValue(of(mockUserToken));
     const action = new fromStore.LoadUserTokenSuccess(mockUserToken);
