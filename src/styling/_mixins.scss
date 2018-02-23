@@ -1,0 +1,16 @@
+@import './_variables.scss';
+
+@mixin linx() {
+  color: $red !important;
+  font-style: italic;
+  text-decoration: underline;
+  background-color: transparent;
+  margin-right: 3em;
+}
+
+@mixin nav-border() {
+  border: 0 none;
+  border-color: $white !important;
+  border-bottom: 1px;
+  border-style: solid;
+}

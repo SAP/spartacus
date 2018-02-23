@@ -20,7 +20,7 @@ import { CurrencySelectorModule } from '../../site-context/currency-selector/cur
 
 import { ProductListPageLayoutComponent } from './product-list-page-layout/product-list-page-layout.component';
 import { ProductDetailsPageLayoutComponent } from './product-details-page-layout/product-details-page-layout.component';
-import { LoginModule } from '../../auth/login/login.module';
+import { LoginModule } from '../../auth/components/login/login.module';
 
 @NgModule({
   imports: [
@@ -52,4 +52,4 @@ import { LoginModule } from '../../auth/login/login.module';
     ProductDetailsPageLayoutComponent
   ]
 })
-export class LayoutModule { }
+export class LayoutModule {}
