@@ -1,3 +1,6 @@
+@import '../../../../styling/_variables.scss';
+@import '../../../../styling/_mixins.scss';
+
 .top-header {
   position: fixed;
   z-index: 100;
@@ -15,4 +18,12 @@
 }
 .login {
   margin-right: 5px;
+}
+
+.nav-link {
+  color: $yellow;
+}
+
+nav {
+  @include nav-border();
 }
