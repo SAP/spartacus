@@ -24,7 +24,7 @@ fdescribe('Cart selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getCartContent', () => {
+  describe('getCartContentState', () => {
     it('should return a cart from the state', () => {
       let result: Cart;
       store

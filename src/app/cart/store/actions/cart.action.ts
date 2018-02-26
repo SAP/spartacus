@@ -24,7 +24,6 @@ export class CreateCartSuccess implements Action {
   constructor(public payload: Cart) {}
 }
 
-// TODO [SPA-294] - change types for load cart actions
 export class LoadCart implements Action {
   readonly type = LOAD_CART;
   constructor(public payload: string) {}

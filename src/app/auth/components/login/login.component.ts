@@ -1,14 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../store';
-import { Observable } from 'rxjs/Observable';
 import { tap, filter, take } from 'rxjs/operators';
 import { PageContext } from '../../../routing/models/page-context.model';
 import * as fromRouting from '../../../routing/store';
+
+import * as fromCartStore from './../../../cart/store';
+import { Cart } from '../../../cart/models/cart-types.model';
+import { UserToken } from '../../models/token-types.model';
 
 @Component({
   selector: 'y-login',
@@ -26,10 +29,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   pageContext: PageContext;
   subscription: Subscription;
   routerSub: Subscription;
+  cartSubscription: Subscription;
+
+  cart: Cart; // temporarly, will be removed
 
   constructor(
     protected dialog: MatDialog,
-    private store: Store<fromStore.UserState>
+    private store: Store<fromStore.UserState>,
+    private cartStore: Store<fromCartStore.CartState>
   ) {
     this.routerSub = this.store
       .select(fromRouting.getRouterState)
@@ -70,7 +77,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscription = this.store
       .select(fromStore.getUserToken)
       .pipe(
-        tap((token: any) => {
+        tap((token: UserToken) => {
           if (token.access_token === undefined) {
             this.store.dispatch(
               new fromStore.LoadUserToken({
@@ -84,6 +91,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             if (this.pageContext !== undefined) {
               this.store.dispatch(new fromStore.Login(this.pageContext));
             }
+
+            this.checkCartStore();
           }
         }),
         filter(() => this.isLogin),
@@ -92,12 +101,30 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
+  checkCartStore() {
+    this.cartSubscription = this.cartStore
+      .select(fromCartStore.getCartContentState)
+      .pipe(
+        tap((cart: Cart) => {
+          if (cart.guid === undefined) {
+            this.cartStore.dispatch(
+              new fromCartStore.CreateCart(this.username)
+            );
+          }
+        })
+      )
+      .subscribe((cart: Cart) => (this.cart = cart));
+  }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
     if (this.routerSub) {
       this.routerSub.unsubscribe();
+    }
+    if (this.cartSubscription) {
+      this.cartSubscription.unsubscribe();
     }
   }
 }
