@@ -7,15 +7,13 @@ import {
 } from '../../../cms/components';
 import { LoginModule } from '../../../auth/components/login/login.module';
 import { SiteContextModule } from '../../../site-context/site-context.module';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
+import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromUserStore from '../../../auth/store';
 import * as fromCMSStore from '../../../cms/store';
 
 import { EffectsModule } from '@ngrx/effects';
 import { OccSiteService } from '../../../newocc/site-context/occ-site.service';
-import { CurrencySelectorModule } from '../../../site-context/currency-selector/currency-selector.module';
-import { LanguageSelectorModule } from '../../../site-context/language-selector/language-selector.module';
 
 class MockOccSiteService {
   loadLanguages() {
@@ -49,7 +47,7 @@ fdescribe('HeaderComponent', () => {
           DynamicSlotComponent,
           ComponentWrapperComponent
         ],
-        providers: [{ provide: OccSiteService, useClass: MockOccSiteService }]
+        providers: [{ provide: OccSiteService }]
       }).compileComponents();
     })
   );
@@ -62,6 +60,7 @@ fdescribe('HeaderComponent', () => {
   });
 
   it('should create', () => {
+    console.log(component);
     expect(component).toBeTruthy();
   });
 });
