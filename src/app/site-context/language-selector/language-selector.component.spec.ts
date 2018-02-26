@@ -1,7 +1,7 @@
 import { PageType } from './../../routing/models/page-context.model';
 import { ConfigService } from './../config.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { LanguageSelectorComponent } from './language-selector.component';
@@ -45,7 +45,11 @@ fdescribe('LanguageSelectorComponent', () => {
             useClass: MockConfigService
           }
         ]
-      }).compileComponents();
+      })
+        .overrideComponent(LanguageSelectorComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default }
+        })
+        .compileComponents();
     })
   );
 
@@ -68,6 +72,8 @@ fdescribe('LanguageSelectorComponent', () => {
 
     const label = el.query(By.css('label'));
     const select = el.query(By.css('select'));
+
+    fixture.changeDetectorRef.markForCheck();
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
