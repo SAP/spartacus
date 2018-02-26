@@ -1,6 +1,6 @@
 import { By } from '@angular/platform-browser';
 import { ConfigService } from './../config.service';
-import { DebugElement } from '@angular/core';
+import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -45,7 +45,11 @@ fdescribe('CurrencySelectorComponent', () => {
             useClass: MockConfigService
           }
         ]
-      }).compileComponents();
+      })
+        .overrideComponent(CurrencySelectorComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default }
+        })
+        .compileComponents();
     })
   );
 
