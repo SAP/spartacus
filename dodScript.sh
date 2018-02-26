@@ -187,14 +187,12 @@ ng build --prod || {
 
 
 echo
-echo "Please enter the path to your commercewebservices-module/ycommercewebservices/web/webroot directory or press 'c' to 
-	continue without providing a path: " 
+echo "Please enter the path to your commercewebservices-module/ycommercewebservices/web/webroot directory or press 'c' to continue without providing a path: " 
 read WEBROOT_DIR
 
 while [[ ! -d "$WEBROOT_DIR" && "$WEBROOT_DIR" != "c" ]];
 do
-  	echo "The path you entered was incorrect, please either enter the correct path to your 
-	commercewebservices-module/ycommercewebservices/web/webroot directory or enter 'c' to continue without providing a path: "
+  	echo "The path you entered was incorrect, please either enter the correct path to your commercewebservices-module/ycommercewebservices/web/webroot directory or enter 'c' to continue without providing a path: "
 
 	read WEBROOT_DIR
 done
