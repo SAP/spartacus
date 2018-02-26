@@ -8,7 +8,6 @@ import {
 
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserToken from './user-token.reducer';
-import * as fromUserTokenActions from '../actions/user-token.action';
 
 export interface UserState {
   account: fromUserDetailsReducer.UserDetailsState;

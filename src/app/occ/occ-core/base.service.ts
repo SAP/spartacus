@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptionsArgs } from '@angular/http';
+import { Http } from '@angular/http';
 import { ConfigService } from '../config.service';
 
 const ENDPOINT_PRODUCT = 'products';
@@ -29,7 +29,7 @@ export class BaseService {
     protected logError(err) {
         console.error('There was an error: ' + err);
     }
-    
+
     protected getBaseEndPoint() {
         return this.configService.server.baseUrl +
             this.configService.server.occPrefix +

@@ -33,7 +33,7 @@ export class OccCartService {
     toMergeCart: any
   ): Observable<any> {
     const toAdd = JSON.stringify({});
-    let url = this.getCartEndpoint(userId);
+    const url = this.getCartEndpoint(userId);
 
     let paramsString = `oldCartId=${oldCartToken}`;
 
@@ -64,7 +64,7 @@ export class OccCartService {
   }
 
   public loadCart(userId: string, cartId: string): Observable<any> {
-    let url = this.getCartEndpoint(userId) + cartId;
+    const url = this.getCartEndpoint(userId) + cartId;
 
     const params = new HttpParams({
       fromString:
@@ -101,7 +101,7 @@ export class OccCartService {
   ): Observable<any> {
     const toAdd = JSON.stringify({});
 
-    let url = this.getCartEndpoint(userId) + cartId + '/entries';
+    const url = this.getCartEndpoint(userId) + cartId + '/entries';
 
     const paramsString = 'code=' + productCode + '&qty=' + quantity;
 
@@ -124,7 +124,7 @@ export class OccCartService {
     cartId: string,
     entryNumber: string
   ): Observable<any> {
-    let url = this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
+    const url = this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'

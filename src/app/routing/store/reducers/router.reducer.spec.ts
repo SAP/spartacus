@@ -7,9 +7,8 @@ import {
 } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { reducers, CustomSerializer, RouterStateUrl } from '../../store';
-import * as fromActions from '../actions/router.action';
-import { PageContext, PageType } from '../../models/page-context.model';
+import { reducers, CustomSerializer } from '../../store';
+import { PageType } from '../../models/page-context.model';
 
 @Component({
   selector: 'y-test-cmp',

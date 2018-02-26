@@ -4,13 +4,12 @@ import {
   OnDestroy,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../store';
-import { Observable } from 'rxjs/Observable';
 import { tap, filter, take } from 'rxjs/operators';
 import { PageContext } from '../../../routing/models/page-context.model';
 import * as fromRouting from '../../../routing/store';

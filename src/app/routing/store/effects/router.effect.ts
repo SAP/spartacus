@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Effect, Actions } from '@ngrx/effects';

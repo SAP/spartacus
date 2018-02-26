@@ -1,7 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { AbstractCartComponent } from '../abstract-cart-component';
-import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
-import { CartModelService } from '../../data/cart-model.service';
 
 @Component({
   selector: 'y-mini-cart',

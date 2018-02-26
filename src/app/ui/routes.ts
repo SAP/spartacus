@@ -1,5 +1,5 @@
 import { Routes, RouterModule } from '@angular/router';
-import { ModuleWithProviders } from '@angular/core';
+/* tslint:disable */ import { ModuleWithProviders } from '@angular/core'; /* tslint:enable */
 
 import { HomePageComponent } from '../ui/templates/home-page/home-page.component';
 import { CartPageComponent } from '../ui/templates/cart-page/cart-page.component';

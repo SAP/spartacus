@@ -1,7 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { By } from '@angular/platform-browser';
 import { of } from 'rxjs/observable/of';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';

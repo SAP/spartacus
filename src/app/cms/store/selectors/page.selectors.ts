@@ -1,12 +1,9 @@
-import { PageState } from './../reducers/page.reducer';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import * as fromFeature from '../reducers';
 import * as fromPage from '../reducers/page.reducer';
 
 import { Page } from '../../models/page.model';
-import { PageType } from '../../../routing/models/page-context.model';
-import * as fromRouting from '../../../routing/store';
 
 export const getPageState: MemoizedSelector<
   any,

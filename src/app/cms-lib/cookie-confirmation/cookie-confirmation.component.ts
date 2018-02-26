@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { TokenService } from '../../data/token.service';
-import { CookieMessageComponent } from './cookie-message/cookie-message.component';
 
 @Component({
     selector: 'y-cookie-confirmation',

@@ -1,5 +1,4 @@
 import * as fromAction from './login-logout.action';
-import { PageType } from '../../../routing/models/page-context.model';
 
 const pageContext = {
   id: '1',

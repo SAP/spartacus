@@ -193,12 +193,10 @@ read WEBROOT_DIR
 while [[ ! -d "$WEBROOT_DIR" && "$WEBROOT_DIR" != "c" ]];
 do
   	echo "The path you entered was incorrect, please either enter the correct path to your commercewebservices-module/ycommercewebservices/web/webroot directory or enter 'c' to continue without providing a path: "
-
 	read WEBROOT_DIR
 done
 
 SPA_DIR="$WEBROOT_DIR/spa"
-echo "$SPA_DIR"
 
 
 #################################################################################################################################
@@ -208,6 +206,7 @@ echo "$SPA_DIR"
 if [ "$WEBROOT_DIR" != "c" ]; 
 then
 cat << EOF
+
 =================================================================================================================================
 Running ng build --prod --base-href=/rest/spa/ in spaccelerator
 =================================================================================================================================
@@ -239,11 +238,11 @@ echo
 
 cat << EOF
 =================================================================================================================================
-Running ng lint --fix in spaccelerator
+Running ng lint in spaccelerator
 =================================================================================================================================
 EOF
 
-ng lint --fix || {
+ng lint || {
 	exit 1
 }
 
@@ -260,11 +259,11 @@ echo
 
 cat << EOF
 =================================================================================================================================
-Running ng lint --fix in spaccwrapper
+Running ng lint in spaccwrapper
 =================================================================================================================================
 EOF
 
-ng lint --fix || {
+ng lint || {
 	exit 1
 }
 
