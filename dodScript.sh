@@ -6,7 +6,6 @@
 
 RED='\033[0;31m'
 NC='\033[0m'
-SPA_DIR='../yenvs/b2cacc/sources/commercewebservices-module/ycommercewebservices/web/webroot/spa/'
 
 #################################################################################################################################
 
@@ -188,29 +187,36 @@ ng build --prod || {
 
 
 echo
+echo "Please enter the path to your commercewebservices-module/ycommercewebservices/web/webroot directory or press 'c' to 
+	continue without providing a path: " 
+read WEBROOT_DIR
+
+while [[ ! -d "$WEBROOT_DIR" && "$WEBROOT_DIR" != "c" ]];
+do
+  	echo "The path you entered was incorrect, please either enter the correct path to your 
+	commercewebservices-module/ycommercewebservices/web/webroot directory or enter 'c' to continue without providing a path: "
+
+	read WEBROOT_DIR
+done
+
+
+SPA_DIR="$WEBROOT_DIR/spa"
+echo "$SPA_DIR"
 
 
 #################################################################################################################################
-# ng build --prod --base-href=/rest/spa/ in spaccelerator
+# Copying spaccelerator/dist/* to commercewebservices-module/ycommercewebservices/web/webroot/spa
 #################################################################################################################################
 
+if [ "$WEBROOT_DIR" != "c" ]; 
+then
 cat << EOF
 =================================================================================================================================
 Running ng build --prod --base-href=/rest/spa/ in spaccelerator
 =================================================================================================================================
 EOF
 
-ng build --prod --base-href=/rest/spa/
-
-#################################################################################################################################
-
-
-echo
-
-
-#################################################################################################################################
-# Copying spaccelerator/dist/* to commercewebservices-module/ycommercewebservices/web/webroot/spa
-#################################################################################################################################
+	ng build --prod --base-href=/rest/spa/
 
 cat << EOF
 =================================================================================================================================
@@ -218,11 +224,11 @@ Copying spaccelerator/dist/* to commercewebservices-module/ycommercewebservices/
 =================================================================================================================================
 EOF
 
-test -d "$SPA_DIR" || mkdir "$SPA_DIR"
-
-cp -R dist/. "$SPA_DIR" && {
-	echo "Files copied successfully."
-}
+  	test -d "$SPA_DIR" || mkdir "$SPA_DIR"
+	cp -R dist/. "$SPA_DIR" && {
+		echo "Files copied successfully."
+	}
+fi
 
 #################################################################################################################################
 
@@ -231,16 +237,16 @@ echo
 
 
 #################################################################################################################################
-# ng lint 
+# ng lint in spaccelerator
 #################################################################################################################################
 
 cat << EOF
 =================================================================================================================================
-Running ng lint in spaccelerator
+Running ng lint --fix in spaccelerator
 =================================================================================================================================
 EOF
 
-ng lint || {
+ng lint --fix || {
 	exit 1
 }
 
@@ -252,16 +258,16 @@ echo
 
 
 #################################################################################################################################
-# ng lint
+# ng lint in spaccwrapper
 #################################################################################################################################
 
 cat << EOF
 =================================================================================================================================
-Running ng lint in spaccwrapper
+Running ng lint --fix in spaccwrapper
 =================================================================================================================================
 EOF
 
-ng lint || {
+ng lint --fix || {
 	exit 1
 }
 
@@ -279,7 +285,8 @@ cat << EOF
 1) Open the index.html file located inside your spaccelerator/coverage folder and make sure that the unit test coverage for the 
    modules or components you've worked on is at least 80%.
 
-2) Open your web browser and make sure that SPA is running on https://localhost:9002/rest/spa/
+2) If you have provided the correct path to your ycommercewebservices/web/webroot/ directory then open your web browser and make 
+   sure that SPA is running on https://localhost:9002/rest/spa/.
 
 3) Make sure that the spaccwrapper app runs without any errors.
 
