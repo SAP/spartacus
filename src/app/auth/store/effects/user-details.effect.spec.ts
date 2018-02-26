@@ -8,7 +8,6 @@ import { of } from 'rxjs/observable/of';
 
 import { OccUserService } from '../../../newocc/user/user.service';
 import * as fromUserDetailsAction from '../actions/user-details.action';
-import { UserDetailsEffects } from './';
 import * as fromUserDetailsEffect from './user-details.effect';
 
 @Injectable()

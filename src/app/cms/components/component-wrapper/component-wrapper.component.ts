@@ -6,8 +6,6 @@ import {
   ViewChild,
   ViewContainerRef,
   ComponentFactoryResolver,
-  OnChanges,
-  ChangeDetectorRef,
   ChangeDetectionStrategy,
   ComponentRef,
   OnDestroy

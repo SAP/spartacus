@@ -1,7 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { OccCartService } from './cart.service';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { of } from 'rxjs/observable/of';
 import { ConfigService } from '../config.service';
 import {
   HttpClientTestingModule,

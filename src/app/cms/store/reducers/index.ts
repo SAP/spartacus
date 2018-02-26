@@ -7,7 +7,6 @@ import {
 } from '@ngrx/store';
 
 import * as fromPage from './page.reducer';
-import * as fromAction from '../actions';
 import * as fromComponent from './component.reducer';
 
 export interface CmsState {

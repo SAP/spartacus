@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./product-line-item.component.scss']
 })
 export class ProductLineItemComponent {
-    
+
     @Input() product;
 
 }

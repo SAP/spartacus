@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-//import { AbstractProductComponent } from '../abstract-product-component';
+import { Component } from '@angular/core';
+// import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
   selector: 'y-product-references',

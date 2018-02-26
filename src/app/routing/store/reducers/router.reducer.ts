@@ -8,7 +8,6 @@ import {
   ActionReducerMap,
   MemoizedSelector
 } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
 import * as fromRouter from '@ngrx/router-store';
 import { PageContext, PageType } from '../../models/page-context.model';
 

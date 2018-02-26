@@ -75,11 +75,8 @@ fdescribe('Product Search Reducer', () => {
       const querySuggestionAction = new fromActions.GetProductSuggestionsSuccess(
         suggestions
       );
-      const state1 = fromProductSearch.reducer(initialState, queryAction);
-      const state2 = fromProductSearch.reducer(
-        initialState,
-        querySuggestionAction
-      );
+      fromProductSearch.reducer(initialState, queryAction);
+      fromProductSearch.reducer(initialState, querySuggestionAction);
 
       const cleanAction = new fromActions.CleanProductSearchState();
       const newState = fromProductSearch.reducer(initialState, cleanAction);

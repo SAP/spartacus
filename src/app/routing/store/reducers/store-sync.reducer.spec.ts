@@ -1,5 +1,4 @@
 import { getStorageSyncReducer } from './store-sync.reducer';
-import { localStorageSync, LocalStorageConfig } from 'ngrx-store-localstorage';
 
 class MockConfigService {
   storageSyncType;

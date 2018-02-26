@@ -16,36 +16,10 @@ const mockUser = {
   rememberMe: false
 };
 
-const mock = {
-  routerState: {
-    state: {
-      context: {
-        id: '1',
-        type: null
-      }
-    }
-  }
-};
-
-const mockUserDetails: any = {
-  displayUid: 'Display Uid',
-  firstName: 'First',
-  lastName: 'Last',
-  name: 'First Last',
-  type: 'Mock Type',
-  uid: 'UID'
-};
-
 const mockEmptyUser: any = {
   account: {
     details: {}
   },
-  auth: {
-    token: {}
-  }
-};
-
-const mockEmptyUserToken = {
   auth: {
     token: {}
   }
@@ -103,7 +77,7 @@ fdescribe('LoginComponent', () => {
       }
     };
 
-    let spy = spyOn(store, 'select');
+    const spy = spyOn(store, 'select');
     spy.and.returnValue(of(routerState));
 
     component = new LoginComponent(dialog, store);
@@ -144,7 +118,7 @@ fdescribe('LoginComponent', () => {
     component.username = mockUser.username;
     component.pageContext = cntx;
 
-    let spy = spyOn(store, 'select');
+    const spy = spyOn(store, 'select');
 
     spy.and.returnValue(of(mockUserToken));
     const action = new fromStore.LoadUserTokenSuccess(mockUserToken);
