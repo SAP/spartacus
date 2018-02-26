@@ -199,7 +199,6 @@ do
 	read WEBROOT_DIR
 done
 
-
 SPA_DIR="$WEBROOT_DIR/spa"
 echo "$SPA_DIR"
 
