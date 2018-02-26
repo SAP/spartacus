@@ -94,11 +94,6 @@ fdescribe('ProductCarouselComponent in CmsLib', () => {
     expect(codes).toBe(productCodeArray);
   });
 
-  it('should call getProductCodes()', () => {
-    spyOn(productCarouselComponent, 'getProductCodes').and.callThrough();
-    expect(productCarouselComponent.getProductCodes).toHaveBeenCalled();
-  });
-
   it('should call stop()', () => {
     productCarouselComponent.stop();
     expect(productCarouselComponent.stop).toHaveBeenCalled();
