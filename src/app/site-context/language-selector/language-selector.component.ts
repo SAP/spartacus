@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { tap } from 'rxjs/operators';
@@ -12,7 +12,8 @@ import { ConfigService } from '../config.service';
 @Component({
   selector: 'y-language-selector',
   templateUrl: './language-selector.component.html',
-  styleUrls: ['./language-selector.component.scss']
+  styleUrls: ['./language-selector.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LanguageSelectorComponent implements OnInit {
   languages$: Observable<any>;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { tap } from 'rxjs/operators';
@@ -12,7 +12,8 @@ import { ConfigService } from '../config.service';
 @Component({
   selector: 'y-currency-selector',
   templateUrl: './currency-selector.component.html',
-  styleUrls: ['./currency-selector.component.scss']
+  styleUrls: ['./currency-selector.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CurrencySelectorComponent implements OnInit {
   currencies$: Observable<any>;
