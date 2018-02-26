@@ -67,7 +67,16 @@ fdescribe('Product Search Reducer', () => {
 
   describe('CLEAN_PRODUCT_SEARCH action', () => {
     it('should clean the Product Search State', () => {
+      const results = { products: [{ code: '123' }] };
+      const suggestions = [];
+
       const { initialState } = fromProductSearch;
+      const queryAction = new fromActions.SearchProductsSuccess(results);
+      const querySuggestionAction = new fromActions.GetProductSuggestionsSuccess(
+        suggestions
+      );
+      fromProductSearch.reducer(initialState, queryAction);
+      fromProductSearch.reducer(initialState, querySuggestionAction);
 
       const cleanAction = new fromActions.CleanProductSearchState();
       const newState = fromProductSearch.reducer(initialState, cleanAction);

@@ -46,7 +46,15 @@ fdescribe('Cms Component Reducer', () => {
 
   describe('CLEAN_COMPONENT_STATE action', () => {
     it('should clean the component state entities', () => {
+      const components: any[] = [
+        { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
+        { uid: 'comp2', typeCode: 'CMSLinkComponent' },
+        { uid: 'comp3', typeCode: 'NavigationComponent' }
+      ];
+
       const { initialState } = fromComponent;
+      const loadAction = new fromActions.LoadComponentSuccess(components);
+      fromComponent.reducer(initialState, loadAction);
       const cleanAction = new fromActions.CleanComponentState();
       const newState = fromComponent.reducer(initialState, cleanAction);
 
