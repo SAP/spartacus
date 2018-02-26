@@ -1,15 +1,18 @@
 .top-header {
-    position: fixed;
-    z-index: 100;
-    background-color: #fff;
-    width: 100%;
-    height: 60px;
-    top:0;
+  position: fixed;
+  z-index: 100;
+  background-color: #fff;
+  width: 100%;
+  height: 60px;
+  top: 0;
 
-    mat-card {
-        padding: 10px 20px;
-    }
+  .header {
+    padding: 10px 20px;
+  }
 }
 .navigation-header {
-    margin-top: 60px;
+  margin-top: 60px;
+}
+.login {
+  margin-right: 5px;
 }
