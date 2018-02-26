@@ -14,20 +14,39 @@ import * as fromCMSStore from '../../../cms/store';
 
 import { EffectsModule } from '@ngrx/effects';
 import { OccSiteService } from '../../../newocc/site-context/occ-site.service';
+import { ConfigService } from '../../../newocc/config.service';
 
-class MockOccSiteService {
-  loadLanguages() {
-    return;
-  }
+class MockConfigService {
+  x = {};
 
-  loadCurrencies() {
-    return;
-  }
+  server = {
+    baseUrl: '',
+    occPrefix: ''
+  };
+
+  site = {
+    baseSite: '',
+    language: '',
+    currency: ''
+  };
+
+  authentication = {
+    client_id: '',
+    client_secret: '',
+    userToken: {}
+  };
 }
 
 fdescribe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
+  let service: OccSiteService;
+
+  const data = {
+    currencies: [
+      { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
+    ]
+  };
 
   beforeEach(
     async(() => {
@@ -47,20 +66,21 @@ fdescribe('HeaderComponent', () => {
           DynamicSlotComponent,
           ComponentWrapperComponent
         ],
-        providers: [{ provide: OccSiteService }]
+        providers: [
+          OccSiteService,
+          { provide: ConfigService, useClass: MockConfigService }
+        ]
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
+    service = TestBed.get(OccSiteService);
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
-    console.log(component);
     expect(component).toBeTruthy();
   });
 });
