@@ -15,7 +15,7 @@
   },
   "private": true,
   "dependencies": {
-    "ngrx-store-localstorage": "^5.0.0"
+    "ngrx-store-localstorage": "5.0.0"
   },
   "peerDependencies": {
     "@angular/animations": "5.1.0",
