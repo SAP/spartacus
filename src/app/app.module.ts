@@ -22,6 +22,7 @@ import { appRoutes } from './app.routes';
 // bootstrap
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
+import { CartModule } from './cart/cart.module';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { AuthModule } from './auth/auth.module';
     RoutingModule.forRoot(ConfigService),
     RouterModule.forRoot(appRoutes),
     ProductModule,
-    AuthModule
+    AuthModule,
+    CartModule
   ],
 
   providers: [

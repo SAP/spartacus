@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { UserTokenEffects } from '.';
 import { Actions } from '@ngrx/effects';
+import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
@@ -10,7 +11,6 @@ import { UserToken } from '../../models/token-types.model';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
-import { Injectable } from '@angular/core';
 import { OccUserService } from '../../../newocc/user/user.service';
 
 @Injectable()
@@ -29,7 +29,7 @@ export function getActions() {
 }
 
 class MockUserService {
-  loadToken(username: string, password: string): Observable<any> {
+  loadToken(userId: string, password: string): Observable<any> {
     return;
   }
 }
@@ -68,7 +68,7 @@ fdescribe('UserToken effect', () => {
   describe('loadUserToken$', () => {
     it('should load a user token', () => {
       const action = new fromActions.LoadUserToken({
-        username: 'xxx',
+        userId: 'xxx',
         password: 'xxx'
       });
       const completion = new fromActions.LoadUserTokenSuccess(testToken);

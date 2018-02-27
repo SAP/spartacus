@@ -1,5 +1,3 @@
-export const Y_USER_TOKEN = 'y-user-token';
-
 export interface UserToken {
   access_token: string;
   token_type: string;

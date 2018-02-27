@@ -30,6 +30,8 @@ export * from './src/app/cms/cms.module';
 export * from './src/app/routing/routing.module';
 export * from './src/app/site-context/currency-selector/currency-selector.module';
 export * from './src/app/site-context/language-selector/language-selector.module';
+export * from './src/app/auth/auth.module';
+export * from './src/app/cart/cart.module';
 
 // Export indivudual components from './src/app/ui/templates/templates.module'
 export * from './src/app/ui/templates/home-page/home-page.component';

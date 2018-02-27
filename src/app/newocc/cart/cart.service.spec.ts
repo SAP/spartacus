@@ -65,7 +65,10 @@ fdescribe('OccCartService', () => {
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === usersEndpoint + `/${userId}` + cartsEndpoint + '/current';
+        return (
+          req.method === 'GET' &&
+          req.url === usersEndpoint + `/${userId}` + cartsEndpoint + '/current'
+        );
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -81,7 +84,11 @@ fdescribe('OccCartService', () => {
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === usersEndpoint + '/' + userId + cartsEndpoint + '/' + cartId;
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            usersEndpoint + '/' + userId + cartsEndpoint + '/' + cartId
+        );
       });
 
       expect(mockReq.request.params.get('fields')).toEqual(
@@ -96,17 +103,20 @@ fdescribe('OccCartService', () => {
 
   describe('merge carts', () => {
     it('should merge the provided cart with the latest cart for given user id, oldCartToken and toMergeCart', () => {
-      service.mergeCartWithLatestCart(userId, cartToken, toMergeCart).subscribe(result => {
-        expect(result).toEqual(mergedCart);
-      });
+      service
+        .mergeCartWithLatestCart(userId, cartToken, toMergeCart)
+        .subscribe(result => {
+          expect(result).toEqual(mergedCart);
+        });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === usersEndpoint + `/${userId}` + cartsEndpoint + '/';
+        return (
+          req.method === 'POST' &&
+          req.url === usersEndpoint + `/${userId}` + cartsEndpoint + '/'
+        );
       });
 
-      expect(mockReq.request.params.get('oldCartId')).toEqual(
-        cartToken
-      );
+      expect(mockReq.request.params.get('oldCartId')).toEqual(cartToken);
 
       expect(mockReq.request.params.get('toMergeCartGuid')).toEqual(
         toMergeCart.guid
@@ -129,7 +139,10 @@ fdescribe('OccCartService', () => {
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === usersEndpoint + `/${userId}` + cartsEndpoint + '/';
+        return (
+          req.method === 'POST' &&
+          req.url === usersEndpoint + `/${userId}` + cartsEndpoint + '/'
+        );
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -145,20 +158,25 @@ fdescribe('OccCartService', () => {
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === usersEndpoint + `/${userId}` + cartsEndpoint + '/' + cartId + '/entries';
+        return (
+          req.method === 'POST' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              '/' +
+              cartId +
+              '/entries'
+        );
       });
 
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
         'application/x-www-form-urlencoded'
       );
 
-      expect(mockReq.request.params.get('code')).toEqual(
-        '147852'
-      );
+      expect(mockReq.request.params.get('code')).toEqual('147852');
 
-      expect(mockReq.request.params.get('qty')).toEqual(
-        '5'
-      );
+      expect(mockReq.request.params.get('qty')).toEqual('5');
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -173,7 +191,17 @@ fdescribe('OccCartService', () => {
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'DELETE' && req.url === usersEndpoint + `/${userId}` + cartsEndpoint + '/' + cartId + '/entries/' + '147852';
+        return (
+          req.method === 'DELETE' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              '/' +
+              cartId +
+              '/entries/' +
+              '147852'
+        );
       });
 
       expect(mockReq.cancelled).toBeFalsy();
