@@ -6,16 +6,49 @@
   z-index: 100;
   background-color: #fff;
   width: 100%;
-  height: 60px;
   top: 0;
 
-  .header {
+  .header1,
+  .header2 {
     padding: 10px 20px;
+  }
+
+  .header2 {
+    .language-selector {
+      position: absolute;
+      top: 80px;
+      right: 20px;
+      @media screen and (max-width: 1000px) {
+        top: 110px;
+      }
+    }
+
+    .currency-selector {
+      position: absolute;
+      top: 80px;
+      right: 180px;
+      @media screen and (max-width: 1000px) {
+        top: 110px;
+      }
+    }
+
+    .mini-cart {
+      position: absolute;
+      top: 80px;
+      right: 325px;
+      @media screen and (max-width: 1000px) {
+        top: 110px;
+      }
+    }
   }
 }
 
+.login {
+  margin-top: 50px;
+}
+
 .navigation-header {
-  margin-top: 60px;
+  margin-top: 150px;
 }
 
 .nav-link {
