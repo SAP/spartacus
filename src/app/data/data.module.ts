@@ -8,26 +8,13 @@ import { ModelService } from './model.service';
 import { CartModelService } from './cart-model.service';
 import { CartLoaderService } from './cart-loader.service';
 
-import { UserModelService } from './user-model.service';
-import { UserLoaderService } from './user-loader.service';
-
 import { ConfigService } from './config.service';
 
 // import { OccModule } from '../occ/occ.module';
 
 @NgModule({
   imports: [CommonModule],
-  providers: [
-    TokenService,
-
-    ModelService,
-
-    CartModelService,
-    CartLoaderService,
-
-    UserModelService,
-    UserLoaderService
-  ]
+  providers: [TokenService, ModelService, CartModelService, CartLoaderService]
 })
 export class DataModule {
   static forRoot(config: any): any {

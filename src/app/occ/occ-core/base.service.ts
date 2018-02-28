@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptionsArgs } from '@angular/http';
+import { Http } from '@angular/http';
 import { ConfigService } from '../config.service';
 
 const ENDPOINT_PRODUCT = 'products';

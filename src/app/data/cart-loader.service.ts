@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
+<<<<<<< HEAD
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+=======
+>>>>>>> develop
 import { OccCartService } from '../occ/occ-core/cart.service';
 import { CartModelService } from './cart-model.service';
 import { TokenService } from './token.service';

@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 const ENABLE_TOKENS_KEY = 'y_tokens';
 const ENABLED_TOKENS_VALUE = 'enabled';
-const DISABLED_TOKENS_VALUE = 'disabled';
+// const DISABLED_TOKENS_VALUE = 'disabled';
 
 const CART_TOKEN_KEY = 'y_cart_token';
 const USER_TOKEN_KEY = 'y_user_token';

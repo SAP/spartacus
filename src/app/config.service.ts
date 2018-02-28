@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
 
+export enum StorageSyncType {
+  NO_STORAGE,
+  LOCAL_STORAGE,
+  SESSION_STORAGE
+}
+
 @Injectable()
 export class ConfigService {
   server = {
@@ -25,6 +31,7 @@ export class ConfigService {
   //     language: 'en',
   //     currency: 'GBP'
   // };
+  storageSyncType = StorageSyncType.SESSION_STORAGE;
 
   defaultPageIdForType = {
     PRODUCT_PAGE: ['productDetails'],

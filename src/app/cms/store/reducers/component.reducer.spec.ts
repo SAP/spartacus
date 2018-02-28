@@ -51,14 +51,10 @@ fdescribe('Cms Component Reducer', () => {
         { uid: 'comp2', typeCode: 'CMSLinkComponent' },
         { uid: 'comp3', typeCode: 'NavigationComponent' }
       ];
-      const entities = {
-        comp1: components[0],
-        comp2: components[1],
-        comp3: components[2]
-      };
+
       const { initialState } = fromComponent;
       const loadAction = new fromActions.LoadComponentSuccess(components);
-      const state = fromComponent.reducer(initialState, loadAction);
+      fromComponent.reducer(initialState, loadAction);
       const cleanAction = new fromActions.CleanComponentState();
       const newState = fromComponent.reducer(initialState, cleanAction);
 

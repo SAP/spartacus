@@ -1,13 +1,11 @@
 import {
   Injectable,
-  OnInit,
   OnDestroy,
   ChangeDetectorRef,
   Input
 } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import * as fromStore from '../store';
 import { ConfigService } from '../config.service';
@@ -16,6 +14,7 @@ import { ConfigService } from '../config.service';
 export abstract class AbstractCmsComponent implements OnDestroy {
   @Input() public component: any = null;
   protected uid: string;
+  protected load: boolean;
   protected contextParameters: any;
   protected subscription: Subscription;
 
@@ -33,7 +32,7 @@ export abstract class AbstractCmsComponent implements OnDestroy {
     this.subscription = this.store
       .select(fromStore.componentSelectorFactory(this.uid))
       .subscribe(componentData => {
-        if (componentData === undefined) {
+        if (componentData === undefined && this.load) {
           this.store.dispatch(new fromStore.LoadComponent(this.uid));
         } else if (componentData != null) {
           this.component = componentData;
@@ -51,6 +50,10 @@ export abstract class AbstractCmsComponent implements OnDestroy {
 
   setUid(uid: string) {
     this.uid = uid;
+  }
+
+  setLoad(componentLoad: boolean) {
+    this.load = componentLoad;
   }
 
   protected getBaseUrl() {

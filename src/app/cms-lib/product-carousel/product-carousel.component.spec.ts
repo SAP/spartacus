@@ -9,7 +9,6 @@ import { ProductCarouselComponent } from './product-carousel.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { ConfigService } from '../../cms/config.service';
-import * as fromReducers from '../../product/store/reducers';
 
 export class UseConfigService {
   cmsComponentMapping = {
@@ -93,12 +92,6 @@ fdescribe('ProductCarouselComponent in CmsLib', () => {
     const codes = productCarouselComponent.getProductCodes();
     expect(productCarouselComponent.getProductCodes).toHaveBeenCalled();
     expect(codes).toBe(productCodeArray);
-  });
-
-  it('should call getProductCodes()', () => {
-    spyOn(productCarouselComponent, 'getProductCodes').and.callThrough();
-    const codes = productCarouselComponent.getProductCodes();
-    expect(productCarouselComponent.getProductCodes).toHaveBeenCalled();
   });
 
   it('should call stop()', () => {

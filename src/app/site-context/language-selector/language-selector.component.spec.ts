@@ -1,18 +1,16 @@
 import { PageType } from './../../routing/models/page-context.model';
-import { SiteContextState } from './../shared/store/reducers/index';
-import { MaterialModule } from './../../material.module';
 import { ConfigService } from './../config.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { LanguageSelectorComponent } from './language-selector.component';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromStore from './../shared/store';
 import * as fromRoot from '../../routing/store';
-import { of } from 'rxjs/observable/of';
 
 import * as fromActions from './../shared/store/actions/languages.action';
+import { of } from 'rxjs/observable/of';
 
 class MockConfigService {
   site = {
@@ -35,7 +33,6 @@ fdescribe('LanguageSelectorComponent', () => {
     async(() => {
       TestBed.configureTestingModule({
         imports: [
-          MaterialModule,
           StoreModule.forRoot({
             ...fromRoot.reducers,
             siteContext: combineReducers(fromStore.reducers)
@@ -48,7 +45,11 @@ fdescribe('LanguageSelectorComponent', () => {
             useClass: MockConfigService
           }
         ]
-      }).compileComponents();
+      })
+        .overrideComponent(LanguageSelectorComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default }
+        })
+        .compileComponents();
     })
   );
 
@@ -67,11 +68,19 @@ fdescribe('LanguageSelectorComponent', () => {
   });
 
   it('should contain languages button', () => {
-    const div = el.query(By.css('div'));
-    const button = el.query(By.css('button'));
+    component.languages$ = of(languages);
 
-    // ...
-    // after the migrate from Material to Bootstrap is finished, we should test the UI part
+    const label = el.query(By.css('label'));
+    const select = el.query(By.css('select'));
+
+    fixture.changeDetectorRef.markForCheck();
+
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(select.nativeElement.value).toEqual(languages[0].isocode);
+    });
+
+    expect(label.nativeElement.textContent).toEqual('Language');
   });
 
   it('should get language data', () => {

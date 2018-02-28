@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractCartComponent } from '../abstract-cart-component';
 
 @Component({
@@ -59,17 +59,17 @@ export class AddToCartComponent extends AbstractCartComponent
     this.cartLoader.addCartEntry(this.productCode, this.quantity);
   }
 
-  private setCartEntryQuantity(entry) {
-    let newQuantity;
-    if (!entry) {
-      newQuantity = 0;
-    } else {
-      if (entry && entry.product && entry.product.code === this.productCode) {
-        newQuantity = entry.quantity;
-      }
-    }
+  // private setCartEntryQuantity(entry) {
+  //   let newQuantity;
+  //   if (!entry) {
+  //     newQuantity = 0;
+  //   } else {
+  //     if (entry && entry.product && entry.product.code === this.productCode) {
+  //       newQuantity = entry.quantity;
+  //     }
+  //   }
 
-    this.cartEntryQuantity = newQuantity;
-    this.cd.markForCheck();
-  }
+  //   this.cartEntryQuantity = newQuantity;
+  //   this.cd.markForCheck();
+  // }
 }

@@ -7,7 +7,6 @@ import {
 } from '@ngrx/store';
 
 import * as fromPage from './page.reducer';
-import * as fromAction from '../actions';
 import * as fromComponent from './component.reducer';
 
 export interface CmsState {
@@ -21,13 +20,17 @@ export const reducers: ActionReducerMap<CmsState> = {
 };
 
 export const getCmsState: MemoizedSelector<
-  Object,
+  any,
   CmsState
 > = createFeatureSelector<CmsState>('cms');
 
 export function clearCmsState(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
-    if (action.type === '[Site-context] Language Change') {
+    if (
+      action.type === '[Site-context] Language Change' ||
+      action.type === '[Auth] Logout' ||
+      action.type === '[Auth] Login'
+    ) {
       state = undefined;
     }
     return reducer(state, action);

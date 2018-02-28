@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { DynamicSlotComponent } from './dynamic-slot.component';
 import { ComponentWrapperComponent } from '../component-wrapper/component-wrapper.component';
@@ -7,7 +6,6 @@ import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../../store/reducers';
 import * as fromActions from '../../store/actions';
 import { Page } from '../../models/page.model';
-import { By } from '@angular/platform-browser';
 
 fdescribe('DynamicSlotComponent', () => {
   let dynamicSlotComponent: DynamicSlotComponent;

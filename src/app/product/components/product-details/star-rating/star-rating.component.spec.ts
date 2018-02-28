@@ -6,8 +6,6 @@ fdescribe('StarRatingComponent in product', () => {
   let starRatingComponent: StarRatingComponent;
   let fixture: ComponentFixture<StarRatingComponent>;
 
-  const mockProduct = 'mockProduct';
-
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({

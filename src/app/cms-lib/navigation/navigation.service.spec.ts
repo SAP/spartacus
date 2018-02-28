@@ -1,9 +1,5 @@
-import { Component, NgModule } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
-import { ConfigService } from '../../cms/config.service';
 import { NavigationService } from './navigation.service';
-import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs/Observable';
 
 fdescribe('NavigationService', () => {
   let navigationService: NavigationService;

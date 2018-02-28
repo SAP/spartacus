@@ -13,10 +13,14 @@ import 'rxjs/add/operator/catch';
 export class OccCartService extends BaseService {
   // Extending from baseservice is not working here for some reasons
   // we got errors when we didn't construct the configService.
+<<<<<<< HEAD
   constructor(
     protected http: Http,
     protected configService: ConfigService
   ) {
+=======
+  constructor(protected http: Http, protected configService: ConfigService) {
+>>>>>>> develop
     super(http, configService);
   }
 
@@ -47,11 +51,11 @@ export class OccCartService extends BaseService {
       .post(url, toAdd)
       .map((response: Response) => {
         const cartData = response.json();
-        if (cartData.entries) {
-          for (const entry of cartData.entries) {
-            // this.productImageConverter.convertProduct(entry.product);
-          }
-        }
+        // if (cartData.entries) {
+        //   for (const entry of cartData.entries) {
+        //   this.productImageConverter.convertProduct(entry.product);
+        //   }
+        // }
         return cartData;
       })
       .catch((error: any) =>
@@ -70,11 +74,11 @@ export class OccCartService extends BaseService {
       .map(response => {
         const cartData = response.json();
 
-        if (cartData.entries) {
-          for (const entry of cartData.entries) {
-            // this.productImageConverter.convertProduct(entry.product);
-          }
-        }
+        // if (cartData.entries) {
+        //   for (const entry of cartData.entries) {
+        //     this.productImageConverter.convertProduct(entry.product);
+        //   }
+        // }
         return cartData;
       })
       .catch((error: any) => Observable.throw(error || 'Server error'));
