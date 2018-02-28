@@ -11,6 +11,7 @@ import { ProductSortingComponent } from '../../../product/components/product-lis
 
 // This import statement is more than 14 chars long, hence its added to ng lint ignore list
 /* tslint:disable */ import { ProductFacetNavigationComponent } from '../../../product/components/product-list/product-facet-navigation/product-facet-navigation.component'; /* tslint:enable */
+
 import { ProductGridItemComponent } from '../../../product/components/product-list/product-grid-item/product-grid-item.component';
 import { ProductListItemComponent } from '../../../product/components/product-list/product-list-item/product-list-item.component';
 import { ProductLineItemComponent } from '../../../product/components/product-list/product-line-item/product-line-item.component';

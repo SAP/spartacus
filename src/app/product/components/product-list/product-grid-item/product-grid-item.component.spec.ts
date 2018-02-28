@@ -12,7 +12,7 @@ import { ConfigService as OccConfigService } from '../../../../occ/config.servic
 import { ConfigService as DataConfigService } from '../../../../data/config.service';
 import { CartModelService } from '../../../../data/cart-model.service';
 
-fdescribe('ProductListItemComponent in product-list', () => {
+fdescribe('ProductGridItemComponent in product-list', () => {
   let component: ProductGridItemComponent;
   let fixture: ComponentFixture<ProductGridItemComponent>;
 
