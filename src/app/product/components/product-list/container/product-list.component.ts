@@ -11,6 +11,7 @@ import { MatSidenav } from '@angular/material';
 import { Store } from '@ngrx/store';
 import * as fromProductStore from '../../../store';
 import { SearchConfig } from '../../../search-config';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'y-product-list',
@@ -37,22 +38,32 @@ export class ProductListComponent implements OnChanges, OnInit {
 
   constructor(protected store: Store<fromProductStore.ProductsState>) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ngOnChanges() {
     this.gridMode = 'grid';
     this.grid = {
       mode: this.gridMode
     };
 
-    this.model$ = this.store.select(fromProductStore.getSearchResults);
-  }
+    this.model$ = this.store.select(fromProductStore.getSearchResults).pipe(
+      tap(results => {
+        if (results.products === undefined) {
+          this.search(this.query);
+        }
+      })
+    );
 
-  ngOnChanges() {
+    this.model$.subscribe(data => console.log(data));
+
     if (this.categoryCode) {
       this.query = ':relevance:category:' + this.categoryCode;
     }
     if (this.brandCode) {
       this.query = ':relevance:brand:' + this.brandCode;
     }
+
+    console.log(this.query);
 
     if (this.query) {
       this.search(this.query);
