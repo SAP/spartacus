@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { AbstractPage } from '../abstract-page.component';
 
 @Component({
   selector: 'y-home-page',

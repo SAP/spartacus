@@ -9,7 +9,6 @@ import {
 import { MatSidenav } from '@angular/material';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
 import * as fromProductStore from '../../../store';
 import { SearchConfig } from '../../../search-config';
 
@@ -39,7 +38,7 @@ export class ProductListComponent implements OnChanges, OnInit {
   constructor(protected store: Store<fromProductStore.ProductsState>) {}
 
   ngOnInit() {
-    this.gridMode = this.gridMode === undefined ? 'grid' : this.gridMode;
+    this.gridMode = 'grid';
     this.grid = {
       mode: this.gridMode
     };

@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { AbstractPage } from '../abstract-page.component';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import * as fromRouting from '../../../routing/store';

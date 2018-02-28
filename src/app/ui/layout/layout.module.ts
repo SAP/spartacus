@@ -12,7 +12,7 @@ import { FooterComponent } from './footer/footer.component';
 import { MainComponent } from './main/main.component';
 import { ContentPageLayoutComponent } from './content-page-layout/content-page-layout.component';
 
-//import { ComponentsModule } from '../components/components.module';
+// import { ComponentsModule } from '../components/components.module';
 
 import { CookieConfirmationModule } from '../../cms-lib/cookie-confirmation/cookie-confirmation.module';
 import { LanguageSelectorModule } from '../../site-context/language-selector/language-selector.module';
@@ -31,7 +31,7 @@ import { ProductModule } from '../../product/product.module';
     FlexLayoutModule,
     CmsModule,
 
-    //ComponentsModule,
+    // ComponentsModule,
     ProductModule,
 
     CookieConfirmationModule,

@@ -14,11 +14,9 @@
 
 </div>
 
-
 <div id="sidebar">
     <y-product-facet-navigation (filter)="onFilter($event)" [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="(model$ | async)"></y-product-facet-navigation>
 </div>
-
 
 <div *ngIf="grid.mode==='grid'">
     <div id="products" *ngFor="let product of (model$ | async)?.products">

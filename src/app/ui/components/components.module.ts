@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+// import { CommonModule } from '@angular/common';
 
-import { MediaModule } from './media/media.module';
-import { ProductModule } from './../../product/product.module';
+// import { MediaModule } from './media/media.module';
 
 // we include all UI component modules here, but in real live
 // projects would only include those that are relevant.
@@ -10,8 +9,8 @@ import { ProductModule } from './../../product/product.module';
 // component module could be configurable or we could have separate component modules,
 // i.e. powertools-components.module.
 @NgModule({
-  //imports: [CommonModule, ProductModule, MediaModule, ProductListModule],
-  //declarations: [],
-  //exports: [ProductModule, ProductListModule]
+  // imports: [CommonModule, MediaModule],
+  // declarations: [],
+  // exports: [ProductModule, ProductListModule]
 })
 export class ComponentsModule {}

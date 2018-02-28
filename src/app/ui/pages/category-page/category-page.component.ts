@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AbstractPage } from '../abstract-page.component';
 import { Store } from '@ngrx/store';
 import * as fromCmsStore from '../../../cms/store';
 

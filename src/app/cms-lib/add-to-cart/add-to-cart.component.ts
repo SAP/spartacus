@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractCartComponent } from '../abstract-cart-component';
 
 @Component({
@@ -31,15 +31,14 @@ export class AddToCartComponent extends AbstractCartComponent
 
   fetchData() {
     this.setup();
-    //super.fetchData();
+    // super.fetchData();
   }
 
   private setup() {
-    //if (this.contextParameters && this.contextParameters.productCode) {
+    // if (this.contextParameters && this.contextParameters.productCode) {
     //  this.productCode = this.contextParameters.productCode;
-    //}
+    // }
     if (this.productCode) {
-      console.log(this.productCode);
       // subscribe to changes for cart entries related to this product so that
       // we can update the cartEntryQuantity as well as control a loading UI
       this.cartModel.getEntry(this.productCode).subscribe(cartEntryData => {

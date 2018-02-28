@@ -3,10 +3,8 @@ import {
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectionStrategy
 } from '@angular/core';
-import { MatSlideToggleChange } from '@angular/material';
 
 @Component({
   selector: 'y-product-facet-navigation',

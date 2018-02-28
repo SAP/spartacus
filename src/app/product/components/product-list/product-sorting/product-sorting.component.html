@@ -2,7 +2,7 @@
     <mat-icon>expand_more</mat-icon>
 </button>
 <mat-menu #productSort="matMenu">
-    <button *ngFor="let sort of sortOptions" mat-menu-item onclick="sort(sort.label)">
+    <button *ngFor="let sort of sortOptions" mat-menu-item>
         <mat-icon color="primary">sort_by_alpha</mat-icon>
         {{sort.label}}</button>
     <mat-divider></mat-divider>
