@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material';
 
 @Component({
@@ -8,18 +15,13 @@ import { MatSlideToggleChange } from '@angular/material';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductFacetNavigationComponent {
+  @Input() activeFacetValueCode;
+  @Input() searchResult;
+  @Output() filter: EventEmitter<any> = new EventEmitter<any>();
 
-    @Input() activeFacetValueCode;
-    @Input() searchResult;
-    @Output() filter: EventEmitter<any> = new EventEmitter<any>();
+  constructor() {}
 
-    constructor(
-        private cd: ChangeDetectorRef
-    ) { }
-    
-    toggleValue(query: string) {
-        this.filter.emit(query);
-        // this.cd.markForCheck();
-    }
-
- }
+  toggleValue(query: string) {
+    this.filter.emit(query);
+  }
+}

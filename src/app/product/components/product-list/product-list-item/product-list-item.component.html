@@ -1,18 +1,11 @@
-<mat-card 
-    class="product"
-    >
-    
-    <y-picture 
-        *ngIf="product.images"
-        [imageContainer]="product.images.PRIMARY"
-        imageFormat="thumbnail"
-        [routerLink]="['/product/', product.code]"
-    ></y-picture>
+<mat-card class="product">
 
-    <h3 [routerLink]="['/product/', product.code]">{{product.name}}</h3>
-    <p>{{product.summary}}</p>
+    <y-picture *ngIf="product.images" [imageContainer]="product.images.PRIMARY" imageFormat="thumbnail" [routerLink]="['/product/', product.code]"></y-picture>
+
+    <h3 [innerHtml]="product.name" [routerLink]="['/product/', product.code]">{{product.name}}</h3>
+    <p [innerHtml]="product.summary">{{product.summary}}</p>
     <p>{{product.price.formattedValue}}</p>
-    
+
     <y-add-to-cart [productCode]="product.code"></y-add-to-cart>
-    
+
 </mat-card>

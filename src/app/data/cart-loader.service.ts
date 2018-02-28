@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { OccCartService } from "../occ/occ-core/cart.service";
-import { CartModelService } from "./cart-model.service";
-import { TokenService } from "./token.service";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { OccCartService } from '../occ/occ-core/cart.service';
+import { CartModelService } from './cart-model.service';
+import { TokenService } from './token.service';
 
-const ANOYMOUS_USERNAME = "anonymous";
+const ANOYMOUS_USERNAME = 'anonymous';
 
 @Injectable()
 export class CartLoaderService {

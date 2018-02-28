@@ -29,7 +29,7 @@ export class BaseService {
     protected logError(err) {
         console.error('There was an error: ' + err);
     }
-    
+
     protected getBaseEndPoint() {
         return this.configService.server.baseUrl +
             this.configService.server.occPrefix +

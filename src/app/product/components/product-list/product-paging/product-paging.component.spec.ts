@@ -1,22 +1,22 @@
+import { MaterialModule } from 'app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ProductPagingComponent } from './product-paging.component';
 
-describe('ProductPagingComponent', () => {
+fdescribe('ProductPagingComponent in product-list', () => {
   let component: ProductPagingComponent;
   let fixture: ComponentFixture<ProductPagingComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ProductPagingComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        declarations: [ProductPagingComponent]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductPagingComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

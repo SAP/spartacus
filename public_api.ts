@@ -5,12 +5,11 @@ export * from './src/app/occ/occ-core/occ-core.module';
 export * from './src/app/data/data.module';
 export * from './src/app/ui/ui-framework/ui-framework.module';
 export * from './src/app/ui/ui.module';
-export * from './src/app/ui/routes';
 export * from './src/app/ui/layout/layout.module';
-export * from './src/app/ui/templates/templates.module';
+export * from './src/app/ui/pages/pages.module';
 export * from './src/app/ui/components/components.module';
 export * from './src/app/ui/components/media/media.module';
-export * from './src/app/ui/components/product-list/product-list.module';
+export * from './src/app/product/components/product-list/product-list.module';
 export * from './src/app/cms-lib/cms-lib.module';
 export * from './src/app/cms-lib/add-to-cart/add-to-cart.module';
 export * from './src/app/cms-lib/banner/banner.module';
@@ -32,10 +31,10 @@ export * from './src/app/site-context/currency-selector/currency-selector.module
 export * from './src/app/site-context/language-selector/language-selector.module';
 
 // Export indivudual components from './src/app/ui/templates/templates.module'
-export * from './src/app/ui/templates/home-page/home-page.component';
-export * from './src/app/ui/templates/cart-page/cart-page.component';
-export * from './src/app/ui/templates/product-detail-page/product-detail-page.component';
-export * from './src/app/ui/templates/product-list-page/product-list-page.component';
-export * from './src/app/ui/templates/404/404.component';
-export * from './src/app/ui/templates/category-page/category-page.component';
+export * from './src/app/ui/pages/home-page/home-page.component';
+export * from './src/app/ui/pages/cart-page/cart-page.component';
+export * from './src/app/ui/pages/product-detail-page/product-detail-page.component';
+export * from './src/app/ui/pages/product-list-page/product-list-page.component';
+export * from './src/app/ui/pages/404/404.component';
+export * from './src/app/ui/pages/category-page/category-page.component';
 export * from './src/app/cms/guards/cms-page.guard';

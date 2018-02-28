@@ -1,23 +1,29 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
 @Component({
   selector: 'y-product-sorting',
   templateUrl: './product-sorting.component.html',
-  styleUrls: ['./product-sorting.component.scss']
+  styleUrls: ['./product-sorting.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductSortingComponent {
+  @Input() grid;
 
-    @Input() grid;
-    
-    // TODO: configurable
-    sortOptions = [
-        {
-            code: 'relevance',
-            label: 'Relevance'
-        },
-        {
-            code: 'price',
-            label: 'Price'
-        }
-    ];
+  // TODO: configurable
+  sortOptions = [
+    {
+      code: 'relevance',
+      label: 'Relevance'
+    },
+    {
+      code: 'price',
+      label: 'Price'
+    }
+  ];
 }

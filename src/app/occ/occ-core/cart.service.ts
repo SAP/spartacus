@@ -16,8 +16,7 @@ export class OccCartService extends BaseService {
   constructor(
     protected http: Http,
     protected configService: ConfigService
-  ) // protected productImageConverter: ProductImageConverterService
-  {
+  ) {
     super(http, configService);
   }
 

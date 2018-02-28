@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, OnChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  ViewChild,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { MatSidenav } from '@angular/material';
 
 import { Store } from '@ngrx/store';
@@ -9,7 +16,8 @@ import { SearchConfig } from '../../../search-config';
 @Component({
   selector: 'y-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss']
+  styleUrls: ['./product-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductListComponent implements OnChanges, OnInit {
   model$;
@@ -31,6 +39,7 @@ export class ProductListComponent implements OnChanges, OnInit {
   constructor(protected store: Store<fromProductStore.ProductsState>) {}
 
   ngOnInit() {
+    this.gridMode = this.gridMode === undefined ? 'grid' : this.gridMode;
     this.grid = {
       mode: this.gridMode
     };
