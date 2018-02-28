@@ -13,6 +13,9 @@ import { CmsModule } from './../cms/cms.module';
 import { MaterialModule } from './../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+//removed later
+import { AddToCartModule } from '../cart/components/add-to-cart/add-to-cart.module';
+
 // components
 import * as fromComponents from './components';
 
@@ -24,6 +27,7 @@ import * as fromConverter from './converters';
 
 @NgModule({
   imports: [
+    AddToCartModule,
     CommonModule,
     RouterModule,
     MediaModule,

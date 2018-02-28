@@ -7,7 +7,6 @@ import { metaReducers } from './store/reducers';
 import * as fromGuards from './guards';
 import { LoginModule } from './components/login/login.module';
 import { effects, reducers } from './store';
-import { OccUserService } from '../newocc/user/user.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserTokenInterceptor } from './http-interceptors/user-token.interceptor';
 
@@ -21,7 +20,6 @@ import { UserTokenInterceptor } from './http-interceptors/user-token.interceptor
   declarations: [],
   providers: [
     ...fromGuards.guards,
-    OccUserService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: UserTokenInterceptor,

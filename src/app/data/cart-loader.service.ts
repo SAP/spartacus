@@ -23,6 +23,7 @@ export class CartLoaderService {
     // subsribe to the userToken, any changes (login/out) will force a (re)loading of the cart
     // whenever there's an existing cart, we'll merge the cart to the user
     this.tokenService.getUserToken().subscribe(userToken => {
+      console.log('subscribe user token');
       this.username =
         userToken && userToken.username
           ? userToken.username
@@ -34,10 +35,12 @@ export class CartLoaderService {
 
     //  subscribe to the cartToken, any changes will force a refresh of the cart
     this.tokenService.getCartToken().subscribe(cartToken => {
+      console.log('subscribe cart token');
       if (cartToken) {
         this.cartToken = cartToken;
         this.refreshCart(cartToken);
       } else {
+        console.log('no cart token');
         this.cartToken = null;
         this.cartModelService.clearCart();
       }
@@ -45,9 +48,12 @@ export class CartLoaderService {
   }
 
   addCartEntry(productCode: string, quantity: number) {
+    console.log('add entry');
     if (this.hasCart()) {
+      console.log('has cart');
       this.addProductToCart(productCode, quantity);
     } else {
+      console.log('no cart, create one');
       // first time we need to create a cart
       this.createCart(
         function(cartData) {
@@ -71,6 +77,7 @@ export class CartLoaderService {
   }
 
   private loadLatestCart() {
+    console.log('load latest cart');
     if (!this.username || this.username === ANOYMOUS_USERNAME) {
       return;
     }
@@ -82,6 +89,7 @@ export class CartLoaderService {
 
   // merge the cart for users who have just logged in
   private mergeCart() {
+    console.log('merge cart');
     this.occCartService.loadLatestCart(this.username).subscribe(latestCart => {
       this.occCartService
         .mergeCartWithLatestCart(this.username, this.cartToken, latestCart)

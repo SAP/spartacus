@@ -7,102 +7,81 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ProductImageConverterService } from '../../product/converters';
 import { catchError } from 'rxjs/operators';
 
+const MORE_PARAMS =
+  'fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
+  'entries(totalPrice(formattedValue),product(images(FULL)))';
+
 @Injectable()
 export class OccCartService {
-  // Extending from baseservice is not working here for some reasons
-  // we got errors when we didn't construct the configService.
   constructor(
     protected http: HttpClient,
-    protected configService: ConfigService,
-    protected productImageConverter: ProductImageConverterService
+    protected configService: ConfigService
   ) {}
 
-  public loadLatestCart(userId: string): Observable<any> {
-    const url = this.getCartEndpoint(userId) + 'current';
-    return this.http.get(url).map(response => {
-      const latestCart = response;
-      return latestCart;
-    });
+  protected getCartEndpoint(userId: string) {
+    const cartEndpoint = 'users/' + userId + '/carts/';
+    return (
+      this.configService.server.baseUrl +
+      this.configService.server.occPrefix +
+      this.configService.site.baseSite +
+      '/' +
+      cartEndpoint
+    );
   }
 
-  public mergeCartWithLatestCart(
-    userId: string,
-    oldCartToken: string,
-    toMergeCart: any
-  ): Observable<any> {
-    const toAdd = JSON.stringify({});
+  public loadAllCarts(userId: string): Observable<any> {
     const url = this.getCartEndpoint(userId);
-
-    let paramsString = `oldCartId=${oldCartToken}`;
-
-    if (toMergeCart) {
-      paramsString += '&toMergeCartGuid=' + toMergeCart.guid;
-    }
-
-    paramsString +=
-      '&fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';
-
-    const params = new HttpParams({
-      fromString: paramsString
-    });
-
     return this.http
-      .post(url, toAdd, { params: params })
-      .map(response => {
-        const cartData = response as any;
-        if (cartData.carts) {
-          for (const entry of cartData.carts) {
-            this.productImageConverter.convertProduct(entry.product);
-          }
-        }
-        return cartData;
-      })
+      .get(url)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
   public loadCart(userId: string, cartId: string): Observable<any> {
     const url = this.getCartEndpoint(userId) + cartId;
-
     const params = new HttpParams({
-      fromString: `fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))`
+      fromString: MORE_PARAMS
     });
 
     return this.http
       .get(url, { params: params })
-      .map(response => {
-        const cartData = response as any;
-        if (cartData.carts) {
-          for (const entry of cartData.carts) {
-            this.productImageConverter.convertProduct(entry.product);
-          }
-        }
-        return cartData;
-      })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
-  public createCart(userId: string): Observable<any> {
+  public createCart(
+    userId: string,
+    oldCartId?: string,
+    toMergeCartGuid?: string
+  ): Observable<any> {
     const url = this.getCartEndpoint(userId);
     const toAdd = JSON.stringify({});
+
+    const params = new HttpParams({
+      fromString: MORE_PARAMS
+    });
+    if (oldCartId) {
+      params.append('oldCartId', oldCartId);
+    }
+    if (toMergeCartGuid) {
+      params.append('toMergeCartGuid', toMergeCartGuid);
+    }
+
     return this.http
-      .post(url, toAdd)
+      .post(url, toAdd, { params: params })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
-  public add(
+  public addCartEntry(
     userId: string,
     cartId: string,
     productCode: string,
-    quantity: number
+    quantity: number = 1
   ): Observable<any> {
     const toAdd = JSON.stringify({});
 
     const url = this.getCartEndpoint(userId) + cartId + '/entries';
 
-    const paramsString = 'code=' + productCode + '&qty=' + quantity;
-
     const params = new HttpParams({
-      fromString: paramsString
+      fromString: 'code=' + productCode + '&qty=' + quantity
     });
 
     const headers = new HttpHeaders({
@@ -114,12 +93,13 @@ export class OccCartService {
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
-  public remove(
+  public removeCartEntry(
     userId: string,
     cartId: string,
     entryNumber: string
   ): Observable<any> {
-    const url = this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
+    const url =
+      this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -128,17 +108,5 @@ export class OccCartService {
     return this.http
       .delete(url, { headers: headers })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
-  }
-
-  protected getCartEndpoint(userId: string) {
-    const cartEndpoint = 'users/' + userId + '/carts/';
-
-    return (
-      this.configService.server.baseUrl +
-      this.configService.server.occPrefix +
-      this.configService.site.baseSite +
-      '/' +
-      cartEndpoint
-    );
   }
 }
