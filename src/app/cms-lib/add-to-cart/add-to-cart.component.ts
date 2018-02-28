@@ -31,21 +31,22 @@ export class AddToCartComponent extends AbstractCartComponent
 
   fetchData() {
     this.setup();
-    super.fetchData();
+    //super.fetchData();
   }
 
   private setup() {
-    if (this.contextParameters && this.contextParameters.productCode) {
-      this.productCode = this.contextParameters.productCode;
-    }
+    //if (this.contextParameters && this.contextParameters.productCode) {
+    //  this.productCode = this.contextParameters.productCode;
+    //}
     if (this.productCode) {
+      console.log(this.productCode);
       // subscribe to changes for cart entries related to this product so that
       // we can update the cartEntryQuantity as well as control a loading UI
-      /*this.cartModel.getEntry(this.productCode).subscribe((cartEntryData) => {
-                // TODO: since its going often too fast, we might want to simulate a delay here...
-                this.isLoading = false;
-                this.setCartEntryQuantity(cartEntryData);
-            });*/
+      this.cartModel.getEntry(this.productCode).subscribe(cartEntryData => {
+        // TODO: since its going often too fast, we might want to simulate a delay here...
+        this.isLoading = false;
+        this.setCartEntryQuantity(cartEntryData);
+      });
     }
   }
 
@@ -55,7 +56,7 @@ export class AddToCartComponent extends AbstractCartComponent
       return;
     }
     this.isLoading = true;
-    //this.cartLoader.addCartEntry(this.productCode, this.quantity);
+    this.cartLoader.addCartEntry(this.productCode, this.quantity);
   }
 
   private setCartEntryQuantity(entry) {
