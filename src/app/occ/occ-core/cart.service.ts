@@ -13,14 +13,7 @@ import 'rxjs/add/operator/catch';
 export class OccCartService extends BaseService {
   // Extending from baseservice is not working here for some reasons
   // we got errors when we didn't construct the configService.
-<<<<<<< HEAD
-  constructor(
-    protected http: Http,
-    protected configService: ConfigService
-  ) {
-=======
   constructor(protected http: Http, protected configService: ConfigService) {
->>>>>>> develop
     super(http, configService);
   }
 

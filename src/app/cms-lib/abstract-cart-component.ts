@@ -1,4 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ChangeDetectorRef } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CartLoaderService } from '../data/cart-loader.service';
+import { CartModelService } from '../data/cart-model.service';
 import { AbstractCmsComponent } from '../cms/components/abstract-cms-component';
 
 @Injectable()
