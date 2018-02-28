@@ -69,15 +69,6 @@ fdescribe('ProductListComponent in product-list', () => {
     component.model$.subscribe(result =>
       expect(result).toEqual(mockSearchResults)
     );
-
-    component.gridMode = 'line';
-    component.ngOnInit();
-
-    expect(component.query).toEqual(undefined);
-    expect(component.gridMode).toEqual('line');
-    component.model$.subscribe(result =>
-      expect(result).toEqual(mockSearchResults)
-    );
   });
 
   it('should call get search results with no category and brand code', () => {
