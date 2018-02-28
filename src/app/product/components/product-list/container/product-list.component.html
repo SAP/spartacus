@@ -26,13 +26,13 @@
 
 <div *ngIf="grid.mode==='list'">
     <div id="products" *ngFor="let product of (model$ | async)?.products">
-        <y-product-list-item class="product-grid-item" [product]="product"></y-product-list-item>
+        <y-product-list-item class="product-list-item" [product]="product"></y-product-list-item>
     </div>
 </div>
 
 <div *ngIf="grid.mode==='line'">
     <div id="products" *ngFor="let product of (model$ | async)?.products">
-        <y-product-line-item class="product-grid-item" [product]="product"></y-product-line-item>
+        <y-product-line-item class="product-line-item" [product]="product"></y-product-line-item>
     </div>
 </div>
 
