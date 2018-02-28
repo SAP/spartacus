@@ -13,9 +13,6 @@ import * as fromStore from './../../store';
 import { tap, filter, take } from 'rxjs/operators';
 import { PageContext } from '../../../routing/models/page-context.model';
 import * as fromRouting from '../../../routing/store';
-
-import * as fromCartStore from './../../../cart/store';
-import { Cart } from '../../../cart/models/cart-types.model';
 import { UserToken } from '../../models/token-types.model';
 
 @Component({
@@ -35,14 +32,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   pageContext: PageContext;
   subscription: Subscription;
   routerSub: Subscription;
-  cartSubscription: Subscription;
-
-  cart: Cart; // temporarly, will be removed
 
   constructor(
     protected dialog: MatDialog,
-    private store: Store<fromStore.UserState>,
-    private cartStore: Store<fromCartStore.CartState>
+    private store: Store<fromStore.UserState>
   ) {
     this.routerSub = this.store
       .select(fromRouting.getRouterState)
@@ -97,8 +90,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             if (this.pageContext !== undefined) {
               this.store.dispatch(new fromStore.Login(this.pageContext));
             }
-
-            this.checkCartStore();
           }
         }),
         filter(() => this.isLogin),
@@ -107,30 +98,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
-  checkCartStore() {
-    this.cartSubscription = this.cartStore
-      .select(fromCartStore.getCartContentState)
-      .pipe(
-        tap((cart: Cart) => {
-          if (cart.guid === undefined) {
-            this.cartStore.dispatch(
-              new fromCartStore.CreateCart(this.username)
-            );
-          }
-        })
-      )
-      .subscribe((cart: Cart) => (this.cart = cart));
-  }
-
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
     if (this.routerSub) {
       this.routerSub.unsubscribe();
-    }
-    if (this.cartSubscription) {
-      this.cartSubscription.unsubscribe();
     }
   }
 }

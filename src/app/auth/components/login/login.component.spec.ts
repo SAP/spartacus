@@ -9,9 +9,6 @@ import { of } from 'rxjs/observable/of';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageType } from '../../../routing/models/page-context.model';
 import { MatDialog } from '@angular/material';
-
-import * as fromCartStore from './../../../cart/store';
-import { Cart } from '../../../cart/models/cart-types.model';
 import { UserToken } from '../../models/token-types.model';
 
 const mockUser = {
@@ -38,27 +35,12 @@ const mockUserToken: UserToken = {
   username: 'xxx'
 };
 
-const mockUserCart: Cart = {
-  code: 'xxx',
-  guid: 'xxx',
-  total_items: 0,
-  total_price: {
-    currency_iso: 'USD',
-    value: 0
-  },
-  total_price_with_tax: {
-    currency_iso: 'USD',
-    value: 0
-  }
-};
-
 const cntx = { id: 'testPageId', type: PageType.CONTENT_PAGE };
 
 fdescribe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let store: Store<fromStore.UserState>;
-  let cartStore: Store<fromCartStore.CartState>;
   let dialog: MatDialog;
 
   beforeEach(
@@ -70,8 +52,7 @@ fdescribe('LoginComponent', () => {
           FormsModule,
           StoreModule.forRoot({
             ...fromStore.reducers,
-            user: combineReducers(fromStore.reducers),
-            cart: combineReducers(fromCartStore.reducers)
+            user: combineReducers(fromStore.reducers)
           })
         ],
         declarations: [LoginComponent]
@@ -85,7 +66,6 @@ fdescribe('LoginComponent', () => {
     fixture.detectChanges();
 
     store = TestBed.get(Store);
-    cartStore = TestBed.get(Store);
     dialog = TestBed.get(MatDialog);
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(dialog, 'open').and.callThrough();
@@ -101,7 +81,7 @@ fdescribe('LoginComponent', () => {
     const spy = spyOn(store, 'select');
     spy.and.returnValue(of(routerState));
 
-    component = new LoginComponent(dialog, store, undefined);
+    component = new LoginComponent(dialog, store);
 
     expect(component).toBeTruthy();
     expect(component.pageContext).toEqual(cntx);
@@ -162,15 +142,5 @@ fdescribe('LoginComponent', () => {
       new fromStore.Login(component.pageContext)
     );
   });
-
-  it('should create a cart for a user', () => {
-    component.username = mockUser.username;
-    spyOn(cartStore, 'select').and.returnValue(of(mockUserCart));
-
-    component.checkCartStore();
-
-    expect(component.cart).toEqual(mockUserCart);
-  });
-
   // Add some UI unit tests once we remove material
 });

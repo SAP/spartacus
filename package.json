@@ -14,9 +14,7 @@
     "build-lib": "./build-lib.sh"
   },
   "private": true,
-  "dependencies": {
-    "ngrx-store-localstorage": "5.0.0"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "@angular/animations": "5.1.0",
     "@angular/cdk": "^5.0.0",
