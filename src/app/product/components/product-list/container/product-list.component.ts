@@ -54,16 +54,12 @@ export class ProductListComponent implements OnChanges, OnInit {
       })
     );
 
-    this.model$.subscribe(data => console.log(data));
-
     if (this.categoryCode) {
       this.query = ':relevance:category:' + this.categoryCode;
     }
     if (this.brandCode) {
       this.query = ':relevance:brand:' + this.brandCode;
     }
-
-    console.log(this.query);
 
     if (this.query) {
       this.search(this.query);
