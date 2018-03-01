@@ -65,7 +65,7 @@ fdescribe('ProductListComponent in product-list', () => {
     component.ngOnInit();
 
     expect(component.query).toEqual(undefined);
-    expect(component.gridMode).toEqual('grid');
+    expect(component.gridMode).toEqual('list');
     component.model$.subscribe(result =>
       expect(result).toEqual(mockSearchResults)
     );
