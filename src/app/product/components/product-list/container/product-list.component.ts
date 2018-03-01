@@ -48,7 +48,7 @@ export class ProductListComponent implements OnChanges, OnInit {
 
     this.model$ = this.store.select(fromProductStore.getSearchResults).pipe(
       tap(results => {
-        if (results.products === undefined) {
+        if (results.pagination === undefined) {
           this.search(this.query);
         }
       })
