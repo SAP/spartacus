@@ -30,6 +30,7 @@ export class ProductListComponent implements OnChanges, OnInit {
   @Input() query;
   @Input() categoryCode;
   @Input() brandCode;
+  @Input() brandName;
 
   subject;
   config;
@@ -38,9 +39,7 @@ export class ProductListComponent implements OnChanges, OnInit {
 
   constructor(protected store: Store<fromProductStore.ProductsState>) {}
 
-  ngOnInit() {}
-
-  ngOnChanges() {
+  ngOnInit() {
     this.gridMode = 'grid';
     this.grid = {
       mode: this.gridMode
@@ -53,11 +52,14 @@ export class ProductListComponent implements OnChanges, OnInit {
         }
       })
     );
+  }
 
+  ngOnChanges() {
     if (this.categoryCode) {
       this.query = ':relevance:category:' + this.categoryCode;
     }
     if (this.brandCode) {
+      console.log(this.brandCode);
       this.query = ':relevance:brand:' + this.brandCode;
     }
 
