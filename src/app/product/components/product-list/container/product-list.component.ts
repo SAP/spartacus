@@ -22,7 +22,8 @@ import { tap } from 'rxjs/operators';
 export class ProductListComponent implements OnChanges, OnInit {
   model$;
 
-  @ViewChild('sidenav') sidenav: MatSidenav;
+  // @ViewChild('sidenav') sidenav: MatSidenav;
+  showSideBar: boolean = true;
 
   grid: any;
 
@@ -68,7 +69,8 @@ export class ProductListComponent implements OnChanges, OnInit {
   }
 
   toggleSidenav() {
-    this.sidenav.toggle();
+    // this.sidenav.toggle();
+    this.showSideBar = !this.showSideBar;
   }
 
   onFilter(query: string) {
