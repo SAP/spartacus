@@ -59,7 +59,6 @@ export class ProductListComponent implements OnChanges, OnInit {
       this.query = ':relevance:category:' + this.categoryCode;
     }
     if (this.brandCode) {
-      console.log(this.brandCode);
       this.query = ':relevance:brand:' + this.brandCode;
     }
 
