@@ -1,14 +1,12 @@
 <div class="dark">
     <mat-card>
         <mat-card-content>
-            <!-- <mat-chip-list>
-                <mat-chip *ngFor="let breadcrumb of searchResult.breadcrumbs"
-                    color="primary" selected="true"
-                    [hidden]="breadcrumb.facetValueCode === activeFacetValueCode"
+            <mat-chip-list>
+                <mat-chip *ngFor="let breadcrumb of searchResult.breadcrumbs" color="primary" selected="true" [hidden]="breadcrumb.facetValueCode === activeFacetValueCode"
                     (click)="toggleValue(breadcrumb.removeQuery.query.value)">
                     {{breadcrumb.facetValueName}}
                 </mat-chip>
-            </mat-chip-list> -->
+            </mat-chip-list>
 
             <div *ngFor="let facet of searchResult.facets">
                 <div *ngIf="facet.visible" class="facet-group">
