@@ -16,7 +16,11 @@ import { PictureComponent } from '../../../../ui/components/media/picture/pictur
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchConfig } from '../../../search-config';
 
-const mockSearchResults = 'mockSearchResults';
+const mockSearchResults = {
+  pagination: 'mockPagination'
+};
+
+const mockEmptySearchResults = {};
 
 fdescribe('ProductListComponent in product-list', () => {
   let store: Store<fromProductStore.ProductsState>;
@@ -53,7 +57,7 @@ fdescribe('ProductListComponent in product-list', () => {
     component = fixture.componentInstance;
     store = TestBed.get(Store);
 
-    spyOn(store, 'select').and.returnValue(of(mockSearchResults));
+    // spyOn(store, 'select').and.returnValue(of(mockSearchResults));
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -61,13 +65,35 @@ fdescribe('ProductListComponent in product-list', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit', () => {
-    component.ngOnInit();
+  it('should call ngOnInit and search results exist in store', () => {
+    spyOn(store, 'select').and.returnValue(of(mockSearchResults));
 
-    expect(component.query).toEqual(undefined);
+    component.ngOnInit();
     expect(component.gridMode).toEqual('list');
     component.model$.subscribe(result =>
       expect(result).toEqual(mockSearchResults)
+    );
+    expect(store.dispatch).not.toHaveBeenCalledWith(
+      new fromProductStore.SearchProducts({
+        queryText: 'mockQuery',
+        searchConfig: new SearchConfig(10)
+      })
+    );
+  });
+
+  it('should call ngOnInit and search results do not exist in store', () => {
+    spyOn(store, 'select').and.returnValue(of(mockEmptySearchResults));
+    component.query = 'mockQuery';
+
+    component.ngOnInit();
+    component.model$.subscribe();
+
+    expect(component.gridMode).toEqual('list');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromProductStore.SearchProducts({
+        queryText: 'mockQuery',
+        searchConfig: new SearchConfig(10)
+      })
     );
   });
 
