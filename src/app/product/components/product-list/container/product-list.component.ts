@@ -34,7 +34,7 @@ export class ProductListComponent implements OnChanges, OnInit {
   subject;
   config;
 
-  isFacetPanelOpen = false;
+  isFacetPanelOpen = true;
 
   constructor(protected store: Store<fromProductStore.ProductsState>) {}
 
