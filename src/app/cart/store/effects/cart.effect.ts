@@ -6,11 +6,29 @@ import { Actions, Effect } from '@ngrx/effects';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
-import { Cart } from '../../models/cart-types.model';
 import { OccCartService } from '../../../newocc/cart/cart.service';
+import { ProductImageConverterService } from '../../../product/converters';
 
 @Injectable()
 export class CartEffects {
+  @Effect()
+  loadCart$: Observable<any> = this.actions$.ofType(fromActions.LOAD_CART).pipe(
+    map((action: fromActions.LoadCart) => action.payload),
+    mergeMap(payload => {
+      return this.cartService.loadCart(payload.userId, payload.cartId).pipe(
+        map((cart: any) => {
+          if (cart.entries) {
+            for (const entry of cart.entries) {
+              this.productImageConverter.convertProduct(entry.product);
+            }
+          }
+          return new fromActions.LoadCartSuccess(cart);
+        }),
+        catchError(error => of(new fromActions.LoadCartFail(error)))
+      );
+    })
+  );
+
   @Effect()
   createCart$: Observable<any> = this.actions$
     .ofType(fromActions.CREATE_CART)
@@ -26,5 +44,9 @@ export class CartEffects {
       })
     );
 
-  constructor(private actions$: Actions, private cartService: OccCartService) {}
+  constructor(
+    private actions$: Actions,
+    private productImageConverter: ProductImageConverterService,
+    private cartService: OccCartService
+  ) {}
 }

@@ -59,7 +59,7 @@ fdescribe('UserToken effect', () => {
       refresh_token: 'xxx',
       expires_in: 1000,
       scope: ['xxx'],
-      username: 'xxx'
+      userId: 'xxx'
     };
 
     spyOn(userService, 'loadToken').and.returnValue(of(testToken));

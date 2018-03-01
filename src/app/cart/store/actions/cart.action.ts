@@ -1,17 +1,19 @@
 import { Action } from '@ngrx/store';
-import { Cart } from '../../models/cart-types.model';
 
 export const CREATE_CART = '[Cart] Create Cart';
 export const CREATE_CART_FAIL = '[Cart] Create Cart Fail';
-export const CREATE_CART_SUCCESSS = '[Cart] Create Cart Success';
+export const CREATE_CART_SUCCESS = '[Cart] Create Cart Success';
 
 export const LOAD_CART = '[Cart] Load Cart';
 export const LOAD_CART_FAIL = '[Cart] Load Cart Fail';
 export const LOAD_CART_SUCCESS = '[Cart] Load Cart Success';
 
+export const MERGE_CART = '[Cart] Merge Cart';
+export const MERGE_CART_SUCCESS = '[Cart] Merge Cart Success';
+
 export class CreateCart implements Action {
   readonly type = CREATE_CART;
-  constructor(public payload: string) {}
+  constructor(public payload: any) {}
 }
 
 export class CreateCartFail implements Action {
@@ -20,13 +22,13 @@ export class CreateCartFail implements Action {
 }
 
 export class CreateCartSuccess implements Action {
-  readonly type = CREATE_CART_SUCCESSS;
-  constructor(public payload: Cart) {}
+  readonly type = CREATE_CART_SUCCESS;
+  constructor(public payload: any) {}
 }
 
 export class LoadCart implements Action {
   readonly type = LOAD_CART;
-  constructor(public payload: string) {}
+  constructor(public payload: any) {}
 }
 
 export class LoadCartFail implements Action {
@@ -36,7 +38,17 @@ export class LoadCartFail implements Action {
 
 export class LoadCartSuccess implements Action {
   readonly type = LOAD_CART_SUCCESS;
-  constructor(public payload: Cart) {}
+  constructor(public payload: any) {}
+}
+
+export class MergeCart implements Action {
+  readonly type = MERGE_CART;
+  constructor(public payload: any) {}
+}
+
+export class MergeCartSuccess implements Action {
+  readonly type = MERGE_CART_SUCCESS;
+  constructor(public payload: any) {}
 }
 
 export type CartAction =
@@ -45,4 +57,6 @@ export type CartAction =
   | CreateCartSuccess
   | LoadCart
   | LoadCartFail
-  | LoadCartSuccess;
+  | LoadCartSuccess
+  | MergeCart
+  | MergeCartSuccess;

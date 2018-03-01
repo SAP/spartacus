@@ -4,7 +4,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { AddToCartModule } from './components/add-to-cart/add-to-cart.module';
-
+import * as fromServices from './services';
 import { effects, reducers } from './store';
 
 @NgModule({
@@ -14,6 +14,7 @@ import { effects, reducers } from './store';
     StoreModule.forFeature('cart', reducers),
     EffectsModule.forFeature(effects)
   ],
-  exports: [AddToCartModule]
+  exports: [AddToCartModule],
+  providers: [...fromServices.services]
 })
 export class CartModule {}

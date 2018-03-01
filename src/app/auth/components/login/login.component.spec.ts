@@ -32,7 +32,7 @@ const mockUserToken: UserToken = {
   refresh_token: 'xxx',
   expires_in: 1000,
   scope: ['xxx'],
-  username: 'xxx'
+  userId: 'xxx'
 };
 
 const cntx = { id: 'testPageId', type: PageType.CONTENT_PAGE };

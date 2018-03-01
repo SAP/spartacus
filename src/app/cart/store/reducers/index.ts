@@ -6,14 +6,14 @@ import {
 import * as fromCart from './cart.reducer';
 
 export interface CartState {
-  state: fromCart.CartContentState;
+  active: fromCart.CartState;
 }
 
 export const reducers: ActionReducerMap<CartState> = {
-  state: fromCart.reducer
+  active: fromCart.reducer
 };
 
-export const getCartStateFeatureSelector: MemoizedSelector<
+export const getCartState: MemoizedSelector<
   any,
   CartState
 > = createFeatureSelector<CartState>('cart');

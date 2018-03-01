@@ -1,84 +1,62 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { Injectable, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  Injectable,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CartLoaderService } from '../../../data/cart-loader.service';
-import { CartModelService } from '../../../data/cart-model.service';
+import { CartService } from '../../services/cart.service';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import { tap, filter } from 'rxjs/operators';
+
+import { Store } from '@ngrx/store';
+import * as fromStore from './../../store';
 
 @Component({
   selector: 'y-add-to-cart',
   templateUrl: './add-to-cart.component.html',
-  styleUrls: ['./add-to-cart.component.scss']
+  styleUrls: ['./add-to-cart.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddToCartComponent implements OnInit {
+export class AddToCartComponent implements OnInit, OnDestroy {
   isLoading = false;
   @Input() iconOnly;
 
   @Input() productCode;
   @Input() quantity = 1;
 
-  cartEntryQuantity;
-  sub;
+  cartEntry$: Observable<any>;
+  subscription: Subscription;
 
   constructor(
-    protected cd: ChangeDetectorRef,
-    protected cartLoader: CartLoaderService,
-    protected cartModel: CartModelService,
-    protected dialog: MatDialog
+    protected dialog: MatDialog,
+    protected cartService: CartService,
+    protected store: Store<fromStore.CartState>
   ) {}
 
   ngOnInit() {
-    // initiation of components in the list view...
-    this.setup();
-  }
-
-  // ngOnDestroy() {
-  //     if (this.sub) {
-  //         console.log('unsubscribe...');
-  //         this.sub.unsubscribe();
-  //     }
-  //  }
-
-  fetchData() {
-    this.setup();
-    //super.fetchData();
-  }
-
-  private setup() {
-    //if (this.contextParameters && this.contextParameters.productCode) {
-    //  this.productCode = this.contextParameters.productCode;
-    //}
     if (this.productCode) {
-      console.log(this.productCode);
-      // subscribe to changes for cart entries related to this product so that
-      // we can update the cartEntryQuantity as well as control a loading UI
-      this.cartModel.getEntry(this.productCode).subscribe(cartEntryData => {
-        // TODO: since its going often too fast, we might want to simulate a delay here...
-        this.isLoading = false;
-        this.setCartEntryQuantity(cartEntryData);
-      });
+      this.cartEntry$ = this.store
+        .select(fromStore.getEntrySelectorFactory(this.productCode))
+        .pipe(tap(() => (this.isLoading = false)));
     }
   }
 
-  public addToCart() {
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  addToCart() {
     if (!this.productCode) {
       console.warn('no product code found on this component');
       return;
     }
     this.isLoading = true;
-    this.cartLoader.addCartEntry(this.productCode, this.quantity);
-  }
-
-  private setCartEntryQuantity(entry) {
-    let newQuantity;
-    if (!entry) {
-      newQuantity = 0;
-    } else {
-      if (entry && entry.product && entry.product.code === this.productCode) {
-        newQuantity = entry.quantity;
-      }
-    }
-
-    this.cartEntryQuantity = newQuantity;
-    this.cd.markForCheck();
+    this.cartService.addCartEntry(this.productCode, this.quantity);
   }
 }

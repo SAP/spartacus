@@ -1,32 +1,66 @@
 import { Cart } from '../../models/cart-types.model';
 import * as fromAction from './../actions';
 
-export interface CartContentState {
-  content: Cart;
+export interface CartState {
+  content: any;
+  entries: { [code: string]: any };
+  refresh: boolean;
 }
 
-export const initialState: CartContentState = {
-  content: <Cart>{}
+export const initialState: CartState = {
+  content: {},
+  entries: {},
+  refresh: false
 };
 
 export function reducer(
   state = initialState,
-  action: fromAction.CartAction
-): CartContentState {
+  action: fromAction.CartAction | fromAction.CartEntryAction
+): CartState {
   switch (action.type) {
-    case fromAction.CREATE_CART_SUCCESSS: {
-      const content = action.payload;
-
+    case fromAction.LOAD_CART_SUCCESS:
+    case fromAction.CREATE_CART_SUCCESS: {
+      let content = action.payload;
+      let entries = {};
+      if (content.entries) {
+        entries = content.entries.reduce(
+          (entryMap: { [code: string]: any }, entry: any) => {
+            return {
+              ...entryMap,
+              [entry.product.code]: entry
+            };
+          },
+          {
+            ...entries
+          }
+        );
+      }
+      console.log(content.entries);
+      content = {
+        ...content,
+        entries: undefined
+      };
+      console.log(entries);
       return {
         ...state,
-        content
+        content,
+        entries,
+        refresh: false
       };
     }
-    case fromAction.CREATE_CART_FAIL: {
-      return initialState;
+
+    case fromAction.REMOVE_ENTRY_SUCCESS:
+    case fromAction.ADD_ENTRY_SUCCESS: {
+      return {
+        ...state,
+        refresh: true
+      };
     }
   }
+
   return state;
 }
 
-export const getCartContent = (state: CartContentState) => state.content;
+export const getCartContent = (state: CartState) => state.content;
+export const getRefresh = (state: CartState) => state.refresh;
+export const getEntries = (state: CartState) => state.entries;

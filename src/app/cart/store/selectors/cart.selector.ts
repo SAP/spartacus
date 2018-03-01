@@ -1,19 +1,44 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
-import { CartContentState } from '../reducers/cart.reducer';
 
 import * as fromFeature from './../reducers';
 import * as fromCart from './../reducers/cart.reducer';
-import { Cart } from '../../models/cart-types.model';
 
 export const getCartState: MemoizedSelector<
   any,
-  CartContentState
+  fromCart.CartState
 > = createSelector(
-  fromFeature.getCartStateFeatureSelector,
-  (cartState: fromFeature.CartState) => cartState.state
+  fromFeature.getCartState,
+  (cartState: fromFeature.CartState) => cartState.active
 );
 
-export const getCartContentState: MemoizedSelector<any, Cart> = createSelector(
+export const getActiveCart: MemoizedSelector<any, any> = createSelector(
   getCartState,
   fromCart.getCartContent
 );
+
+export const getRefresh: MemoizedSelector<any, boolean> = createSelector(
+  getCartState,
+  fromCart.getRefresh
+);
+
+export const getEntriesMap: MemoizedSelector<any, any> = createSelector(
+  getCartState,
+  fromCart.getEntries
+);
+
+export const getEntrySelectorFactory = (
+  productCode
+): MemoizedSelector<any, any> => {
+  return createSelector(getEntriesMap, entries => {
+    if (entries) {
+      return entries[productCode];
+    }
+  });
+};
+
+export const getEntries: MemoizedSelector<
+  any,
+  any
+> = createSelector(getEntriesMap, entities => {
+  return Object.keys(entities).map(code => entities[code]);
+});

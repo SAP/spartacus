@@ -10,12 +10,9 @@ import { FooterNavigationModule } from './footer-navigation/footer-navigation.mo
 // import { BreadcrumbModule } from './breadcrumb/breadcrumb.module';
 import { ProductCarouselModule } from './product-carousel/product-carousel.module';
 import { SearchBoxModule } from './search-box/search-box.module';
-// import { MiniCartModule } from './mini-cart/mini-cart.module';
+import { MiniCartModule } from './mini-cart/mini-cart.module';
 // import { ProductReferencesModule } from './product-references/product-references.module';
 import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
-
-// import { AbstractCartComponent } from './abstract-cart-component';
-// import { AddToCartModule } from './add-to-cart/add-to-cart.module';
 
 import { CookieConfirmationModule } from './cookie-confirmation/cookie-confirmation.module';
 
@@ -23,7 +20,6 @@ import { CookieConfirmationModule } from './cookie-confirmation/cookie-confirmat
   imports: [
     CommonModule,
 
-    // AddToCartModule,
     CmsParagraphModule,
     LinkModule,
     BannerModule,
@@ -33,7 +29,7 @@ import { CookieConfirmationModule } from './cookie-confirmation/cookie-confirmat
     // BreadcrumbModule,
     ProductCarouselModule,
     SearchBoxModule,
-    // MiniCartModule,
+    MiniCartModule,
     // ProductReferencesModule,
     TabParagraphContainerModule,
     CookieConfirmationModule

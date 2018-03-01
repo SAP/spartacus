@@ -19,6 +19,7 @@ export class UserTokenEffects {
       mergeMap(({ userId, password }) => {
         return this.userService.loadToken(userId, password).pipe(
           map((token: UserToken) => {
+            token.userId = userId;
             return new fromActions.LoadUserTokenSuccess(token);
           }),
           catchError(error => of(new fromActions.LoadUserTokenFail(error)))

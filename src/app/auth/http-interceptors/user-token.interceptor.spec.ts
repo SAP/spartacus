@@ -19,7 +19,7 @@ fdescribe('UserTokenInterceptor', () => {
     refresh_token: 'xxx',
     expires_in: 1000,
     scope: ['xxx'],
-    username: 'xxx'
+    userId: 'xxx'
   };
   let store: Store<fromStore.UserState>;
   let httpMock: HttpTestingController;

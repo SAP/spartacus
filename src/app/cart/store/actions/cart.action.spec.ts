@@ -1,4 +1,4 @@
-import * as fromCartToken from './../actions/cart.action';
+/*import * as fromCartToken from './../actions/cart.action';
 import { Cart } from '../../models/cart-types.model';
 
 fdescribe('Cart Actions', () => {
@@ -60,4 +60,4 @@ fdescribe('Cart Actions', () => {
   describe('LoadCartSuccess Action', () => {
     it('should create the action', () => {});
   });
-});
+});*/
