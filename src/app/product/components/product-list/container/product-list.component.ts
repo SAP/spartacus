@@ -23,7 +23,7 @@ export class ProductListComponent implements OnChanges, OnInit {
   model$;
 
   // @ViewChild('sidenav') sidenav: MatSidenav;
-  showSideBar: boolean = true;
+  showSideNav: boolean = true;
 
   grid: any;
 
@@ -70,7 +70,7 @@ export class ProductListComponent implements OnChanges, OnInit {
 
   toggleSidenav() {
     // this.sidenav.toggle();
-    this.showSideBar = !this.showSideBar;
+    this.showSideNav = !this.showSideNav;
   }
 
   onFilter(query: string) {

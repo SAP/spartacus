@@ -13,7 +13,7 @@
     </div>
 </div>
 
-<div *ngIf="showSideBar" id="sidebar">
+<div *ngIf="showSideNav" id="sideNav">
     <y-product-facet-navigation (filter)="onFilter($event)" [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="(model$ | async)"></y-product-facet-navigation>
 </div>
 
