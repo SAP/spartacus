@@ -57,7 +57,6 @@ fdescribe('ProductListComponent in product-list', () => {
     component = fixture.componentInstance;
     store = TestBed.get(Store);
 
-    // spyOn(store, 'select').and.returnValue(of(mockSearchResults));
     spyOn(store, 'dispatch').and.callThrough();
   });
 
