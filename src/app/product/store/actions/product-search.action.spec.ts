@@ -1,7 +1,7 @@
 import * as fromProductSearch from './product-search.action';
 import { SearchConfig } from '../../search-config';
 
-fdescribe('Product Search Actions', () => {
+describe('Product Search Actions', () => {
   describe('SearchProducts Actions', () => {
     describe('SearchProducts', () => {
       it('should create an action', () => {

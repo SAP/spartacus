@@ -1,7 +1,7 @@
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import * as fromUserDetailsReducer from './user-details.reducer';
 
-fdescribe('User Details Reducer', () => {
+describe('User Details Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromUserDetailsReducer;

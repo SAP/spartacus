@@ -11,7 +11,7 @@ const productCode = '123';
 const product = { code: productCode, text: 'bla' };
 const reviews = [{ id: 1, text: 'bla1' }, { id: 2, text: 'bla2' }];
 
-fdescribe('ProductReviewsComponent in product', () => {
+describe('ProductReviewsComponent in product', () => {
   let store: Store<fromStore.ProductsState>;
   let productReviewsComponent: ProductReviewsComponent;
   let fixture: ComponentFixture<ProductReviewsComponent>;

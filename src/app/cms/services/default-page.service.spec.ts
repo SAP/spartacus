@@ -9,7 +9,7 @@ export class MockConfigService {
   };
 }
 
-fdescribe('DefaultPageService', () => {
+describe('DefaultPageService', () => {
   let service: DefaultPageService;
 
   beforeEach(() => {

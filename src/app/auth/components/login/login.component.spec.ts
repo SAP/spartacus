@@ -37,7 +37,7 @@ const mockUserToken: UserToken = {
 
 const cntx = { id: 'testPageId', type: PageType.CONTENT_PAGE };
 
-fdescribe('LoginComponent', () => {
+describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let store: Store<fromStore.UserState>;

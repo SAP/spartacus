@@ -9,7 +9,7 @@ export class MockConfigService {
   };
 }
 
-fdescribe('ProductImageConverterService', () => {
+describe('ProductImageConverterService', () => {
   let service: ProductImageConverterService;
 
   const product = {

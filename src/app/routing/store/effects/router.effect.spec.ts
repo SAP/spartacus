@@ -29,7 +29,7 @@ export function getActions() {
   return new TestActions();
 }
 
-fdescribe('Router Effects', () => {
+describe('Router Effects', () => {
   let actions$: TestActions;
   let effects: fromEffects.RouterEffects;
   let router: Router;

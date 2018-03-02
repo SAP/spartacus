@@ -7,7 +7,7 @@ import * as fromActions from './../actions';
 import { TestBed } from '@angular/core/testing';
 import { Cart } from '../../models/cart-types.model';
 
-fdescribe('Cart selectors', () => {
+describe('Cart selectors', () => {
   let store: Store<fromReducers.CartState>;
 
   beforeEach(() => {

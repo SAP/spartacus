@@ -1,7 +1,7 @@
 import * as fromCurrencies from './currencies.reducer';
 import * as fromActions from '../actions/currencies.action';
 
-fdescribe('Currencies Reducer', () => {
+describe('Currencies Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromCurrencies;

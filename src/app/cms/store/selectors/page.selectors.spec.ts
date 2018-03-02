@@ -8,7 +8,7 @@ import * as fromSelectors from '../selectors/page.selectors';
 
 import { Page } from '../../models/page.model';
 
-fdescribe('Cms PageData Selectors', () => {
+describe('Cms PageData Selectors', () => {
   let store: Store<fromReducers.CmsState>;
 
   const components: any[] = [

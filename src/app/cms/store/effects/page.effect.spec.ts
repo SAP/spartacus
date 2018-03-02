@@ -39,7 +39,7 @@ export function mockDateNow() {
   return 1000000000000;
 }
 
-fdescribe('Page Effects', () => {
+describe('Page Effects', () => {
   let actions$: TestActions;
   let occService: OccCmsService;
   let defaultPageService: DefaultPageService;

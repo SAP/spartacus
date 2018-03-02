@@ -12,7 +12,7 @@ import { UserTokenInterceptor } from './user-token.interceptor';
 import { of } from 'rxjs/observable/of';
 import { UserToken } from '../models/token-types.model';
 
-fdescribe('UserTokenInterceptor', () => {
+describe('UserTokenInterceptor', () => {
   const testToken: UserToken = {
     access_token: 'xxx',
     token_type: 'bearer',

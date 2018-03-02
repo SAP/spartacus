@@ -17,7 +17,7 @@ import { ComponentMapperService } from '../../../cms/services/component-mapper.s
 
 class MockComponentMapperService {}
 
-fdescribe('ProductDetailsComponent in product', () => {
+describe('ProductDetailsComponent in product', () => {
   let store: Store<fromProduct.ProductState>;
   let productDetailsComponent: ProductDetailsComponent;
   let fixture: ComponentFixture<ProductDetailsComponent>;

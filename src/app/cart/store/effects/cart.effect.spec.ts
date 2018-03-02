@@ -34,7 +34,7 @@ class MockCartService {
   }
 }
 
-fdescribe('Cart effect', () => {
+describe('Cart effect', () => {
   let cartService: OccCartService;
   let cartEffects: CartEffects;
   let actions$: TestActions;

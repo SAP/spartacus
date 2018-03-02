@@ -5,7 +5,7 @@ const pageContext = {
   type: null
 };
 
-fdescribe('Login and Logout Actions', () => {
+describe('Login and Logout Actions', () => {
   describe('Logout Action', () => {
     it('should create the action', () => {
       const action = new fromAction.Logout(pageContext);

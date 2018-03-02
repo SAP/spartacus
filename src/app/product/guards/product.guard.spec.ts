@@ -13,7 +13,7 @@ const product = {
   description: 'random'
 };
 
-fdescribe('ProductGuard', () => {
+describe('ProductGuard', () => {
   let productGuard: ProductGuard;
   let store: Store<fromStore.ProductsState>;
 

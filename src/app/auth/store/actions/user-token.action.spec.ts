@@ -1,7 +1,7 @@
 import * as fromUserToken from './../actions/user-token.action';
 import { UserToken } from '../../models/token-types.model';
 
-fdescribe('User Token Actions', () => {
+describe('User Token Actions', () => {
   describe('LoadUserToken Actions', () => {
     it('should create the action', () => {
       const tokenRequest = {

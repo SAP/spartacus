@@ -16,7 +16,7 @@ import { PageType } from '../../models/page-context.model';
 })
 class TestComponent {}
 
-fdescribe('Router Reducer', () => {
+describe('Router Reducer', () => {
   it('should return the router state', () => {
     let router: Router;
     let store: Store<any>;

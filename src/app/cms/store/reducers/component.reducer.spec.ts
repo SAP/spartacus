@@ -1,7 +1,7 @@
 import * as fromComponent from './component.reducer';
 import * as fromActions from '../actions/component.action';
 
-fdescribe('Cms Component Reducer', () => {
+describe('Cms Component Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromComponent;

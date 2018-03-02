@@ -19,7 +19,7 @@ class MockConfigService {
   };
 }
 
-fdescribe('CurrencySelectorComponent', () => {
+describe('CurrencySelectorComponent', () => {
   const currencies: any[] = [
     { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
   ];

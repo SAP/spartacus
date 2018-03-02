@@ -34,7 +34,7 @@ class MockConfigService {
   };
 }
 
-fdescribe('OccCartService', () => {
+describe('OccCartService', () => {
   let service: OccCartService;
   let config: ConfigService;
   let httpMock: HttpTestingController;

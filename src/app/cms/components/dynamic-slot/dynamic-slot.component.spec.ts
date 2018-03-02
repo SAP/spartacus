@@ -7,7 +7,7 @@ import * as fromReducers from '../../store/reducers';
 import * as fromActions from '../../store/actions';
 import { Page } from '../../models/page.model';
 
-fdescribe('DynamicSlotComponent', () => {
+describe('DynamicSlotComponent', () => {
   let dynamicSlotComponent: DynamicSlotComponent;
   let fixture: ComponentFixture<DynamicSlotComponent>;
   let store: Store<fromReducers.CmsState>;

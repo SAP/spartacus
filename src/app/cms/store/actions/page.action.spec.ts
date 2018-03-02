@@ -4,7 +4,7 @@ import {
   PageType
 } from '../../../routing/models/page-context.model';
 
-fdescribe('Cms Page Actions', () => {
+describe('Cms Page Actions', () => {
   describe('LoadPageData Actions', () => {
     describe('LoadPageData', () => {
       it('should create an action', () => {

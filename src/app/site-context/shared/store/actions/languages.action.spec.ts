@@ -4,7 +4,7 @@ import {
   PageType
 } from '../../../../routing/models/page-context.model';
 
-fdescribe('Languages Actions', () => {
+describe('Languages Actions', () => {
   describe('LoadLanguages Actions', () => {
     describe('LoadLanguages', () => {
       it('should create an action', () => {

@@ -1,7 +1,7 @@
 import * as fromLanguages from './languages.reducer';
 import * as fromActions from '../actions/languages.action';
 
-fdescribe('Languages Reducer', () => {
+describe('Languages Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromLanguages;

@@ -29,7 +29,7 @@ export function getActions() {
   return new TestActions();
 }
 
-fdescribe('Component Effects', () => {
+describe('Component Effects', () => {
   let actions$: TestActions;
   let service: OccCmsService;
   let effects: fromEffects.ComponentEffects;

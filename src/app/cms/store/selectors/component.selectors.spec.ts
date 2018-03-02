@@ -6,7 +6,7 @@ import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from '../selectors/component.selectors';
 
-fdescribe('Cms Component Selectors', () => {
+describe('Cms Component Selectors', () => {
   let store: Store<fromReducers.CmsState>;
 
   const component = { uid: 'comp1', typeCode: 'SimpleBannerComponent' };

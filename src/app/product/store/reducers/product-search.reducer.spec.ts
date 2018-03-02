@@ -2,7 +2,7 @@ import * as fromProductSearch from './product-search.reducer';
 import * as fromActions from '../actions/product-search.action';
 import { SearchConfig } from '../../search-config';
 
-fdescribe('Product Search Reducer', () => {
+describe('Product Search Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromProductSearch;

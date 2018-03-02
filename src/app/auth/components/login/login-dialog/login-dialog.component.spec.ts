@@ -6,7 +6,7 @@ import { MaterialModule } from '../../../../material.module';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-fdescribe('LoginDialogComponent', () => {
+describe('LoginDialogComponent', () => {
   let component: LoginDialogComponent;
   let fixture: ComponentFixture<LoginDialogComponent>;
 

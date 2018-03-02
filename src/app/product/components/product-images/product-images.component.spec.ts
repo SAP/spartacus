@@ -11,7 +11,7 @@ class MockModel {
   images;
 }
 
-fdescribe('ProductImagesComponent product', () => {
+describe('ProductImagesComponent product', () => {
   let productImagesComponent: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
 

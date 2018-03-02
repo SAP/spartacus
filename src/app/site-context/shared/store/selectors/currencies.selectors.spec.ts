@@ -6,7 +6,7 @@ import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from '../selectors/currencies.selectors';
 
-fdescribe('Currencies Selectors', () => {
+describe('Currencies Selectors', () => {
   let store: Store<fromReducers.SiteContextState>;
 
   const currencies: any[] = [

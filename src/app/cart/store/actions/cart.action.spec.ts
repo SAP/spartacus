@@ -1,7 +1,7 @@
 /*import * as fromCartToken from './../actions/cart.action';
 import { Cart } from '../../models/cart-types.model';
 
-fdescribe('Cart Actions', () => {
+describe('Cart Actions', () => {
   describe('CreateCart Action', () => {
     it('should create the action', () => {
       const userId = 'xxx@xxx.xxx';

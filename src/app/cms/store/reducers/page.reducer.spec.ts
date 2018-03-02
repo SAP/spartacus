@@ -2,7 +2,7 @@ import * as fromPage from './page.reducer';
 import * as fromActions from '../actions/page.action';
 import { Page } from '../../models/page.model';
 
-fdescribe('Cms Page Reducer', () => {
+describe('Cms Page Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromPage;

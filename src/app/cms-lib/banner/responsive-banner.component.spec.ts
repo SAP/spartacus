@@ -18,7 +18,7 @@ class UseConfigService {
   };
 }
 
-fdescribe('ResponsiveBannerComponent', () => {
+describe('ResponsiveBannerComponent', () => {
   let responsiveBannerComponent: ResponsiveBannerComponent;
   let fixture: ComponentFixture<ResponsiveBannerComponent>;
   let store: Store<fromCmsReducer.CmsState>;

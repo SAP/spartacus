@@ -35,7 +35,7 @@ class MockActions extends Actions {
   }
 }
 
-fdescribe('Product reviews effect', () => {
+describe('Product reviews effect', () => {
   let actions$: MockActions;
   let service: OccProductService;
   let effects: fromEffects.ProductReviewsEffects;

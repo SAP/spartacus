@@ -19,7 +19,7 @@ class MockConfigService {
   };
 }
 
-fdescribe('LanguageSelectorComponent', () => {
+describe('LanguageSelectorComponent', () => {
   const languages = [
     { active: false, isocode: 'en', name: 'English', nativeName: 'English' }
   ];

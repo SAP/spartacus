@@ -24,7 +24,7 @@ class MockConfigService {
   };
 }
 
-fdescribe('SiteContextInterceptor', () => {
+describe('SiteContextInterceptor', () => {
   const languageDe = 'de';
   const currencyJpy = 'JPY';
   const url = '/not-relevant-url';

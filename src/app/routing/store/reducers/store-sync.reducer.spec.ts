@@ -4,7 +4,7 @@ class MockConfigService {
   storageSyncType;
 }
 
-fdescribe('get store Sync reducer', () => {
+describe('get store Sync reducer', () => {
   it('should return a proper localStorageSync function', () => {
     const config = new MockConfigService();
     config.storageSyncType = sessionStorage;

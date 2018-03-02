@@ -1,6 +1,6 @@
 import * as fromProduct from './product.action';
 
-fdescribe('Product Actions', () => {
+describe('Product Actions', () => {
   describe('LoadProduct Actions', () => {
     describe('LoadProduct', () => {
       it('should create an action', () => {

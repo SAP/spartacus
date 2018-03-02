@@ -34,7 +34,7 @@ class MockUserService {
   }
 }
 
-fdescribe('UserToken effect', () => {
+describe('UserToken effect', () => {
   let userService: OccUserService;
   let userTokenEffect: UserTokenEffects;
   let actions$: TestActions;

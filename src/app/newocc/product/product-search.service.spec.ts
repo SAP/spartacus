@@ -26,7 +26,7 @@ export class MockConfigService {
 }
 const endpoint = '/products';
 
-fdescribe('OccProductSearchService', () => {
+describe('OccProductSearchService', () => {
   let service: OccProductSearchService;
   let config: ConfigService;
   let httpMock: HttpTestingController;
