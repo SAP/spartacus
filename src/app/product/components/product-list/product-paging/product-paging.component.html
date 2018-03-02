@@ -1,4 +1,8 @@
-<div fxFlex>
+<div *ngIf="searchResult.pagination.totalPages !== 0" fxFlex>
     <!--Result by: {{searchResult.pagination.sort}}-->
-    {{searchResult.pagination.totalResults}} Products, Page: {{searchResult.pagination.currentPage + 1}} from {{searchResult.pagination.totalPages}}
+    {{searchResult.pagination.totalResults}} Products, Page: {{searchResult.pagination.currentPage + 1}} of {{searchResult.pagination.totalPages}}
+</div>
+
+<div *ngIf="searchResult.pagination.totalPages === 0" fxFlex>
+    No products found.
 </div>
