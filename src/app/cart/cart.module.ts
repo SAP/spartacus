@@ -6,12 +6,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { AddToCartModule } from './components/add-to-cart/add-to-cart.module';
 import * as fromServices from './services';
 import { effects, reducers } from './store';
+import { metaReducers } from './store/reducers';
 
 @NgModule({
   imports: [
     CommonModule,
     AddToCartModule,
-    StoreModule.forFeature('cart', reducers),
+    StoreModule.forFeature('cart', reducers, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
   exports: [AddToCartModule],

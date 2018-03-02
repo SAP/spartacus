@@ -65,7 +65,7 @@ export class CartService {
 
   addCartEntry(productCode: string, quantity: number) {
     if (Object.keys(this.cart).length === 0) {
-      this.store.dispatch(new fromStore.CreateCart(this.userId));
+      this.store.dispatch(new fromStore.CreateCart({ userId: this.userId }));
       this.callback = function() {
         this.store.dispatch(
           new fromStore.AddEntry({
@@ -100,14 +100,4 @@ export class CartService {
       })
     );
   }
-
-  /*private mergeCart() {
-    this.occCartService.loadLatestCart(this.username).subscribe(latestCart => {
-      this.occCartService
-        .mergeCartWithLatestCart(this.username, this.cartToken, latestCart)
-        .subscribe(cartData => {
-          this.setCartToken(cartData);
-        });
-    });
-  }*/
 }

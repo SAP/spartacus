@@ -54,16 +54,17 @@ export class OccCartService {
   ): Observable<any> {
     const url = this.getCartEndpoint(userId);
     const toAdd = JSON.stringify({});
+    let queryString = MORE_PARAMS;
 
-    const params = new HttpParams({
-      fromString: MORE_PARAMS
-    });
     if (oldCartId) {
-      params.append('oldCartId', oldCartId);
+      queryString = queryString + '&oldCartId=' + oldCartId;
     }
     if (toMergeCartGuid) {
-      params.append('toMergeCartGuid', toMergeCartGuid);
+      queryString = queryString + '&toMergeCartGuid=' + toMergeCartGuid;
     }
+    const params = new HttpParams({
+      fromString: queryString
+    });
 
     return this.http
       .post(url, toAdd, { params: params })

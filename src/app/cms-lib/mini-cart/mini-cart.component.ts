@@ -56,23 +56,4 @@ export class MiniCartComponent extends AbstractCmsComponent {
       this.cartService.removeCartEntry(entry);
     });
   }
-
-  /*openLogin() {
-  const dialogRef = this.dialog.open(LoginDialogComponent, {
-    data: {
-      username: this.username,
-      password: this.password,
-      rememberMe: this.rememberMe
-    }
-  });
-
-  dialogRef.afterClosed().subscribe(result => {
-    this.username = result.username;
-    this.password = result.password;
-    this.rememberMe = result.rememberMe;
-
-    if (this.username !== undefined && this.password !== undefined) {
-      this.login();
-    }
-  });*/
 }

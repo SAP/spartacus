@@ -3,7 +3,7 @@ import { MemoizedSelector, createSelector } from '@ngrx/store';
 import * as fromFeature from './../reducers';
 import * as fromCart from './../reducers/cart.reducer';
 
-export const getCartState: MemoizedSelector<
+export const getActiveCartState: MemoizedSelector<
   any,
   fromCart.CartState
 > = createSelector(
@@ -12,17 +12,17 @@ export const getCartState: MemoizedSelector<
 );
 
 export const getActiveCart: MemoizedSelector<any, any> = createSelector(
-  getCartState,
+  getActiveCartState,
   fromCart.getCartContent
 );
 
 export const getRefresh: MemoizedSelector<any, boolean> = createSelector(
-  getCartState,
+  getActiveCartState,
   fromCart.getRefresh
 );
 
 export const getEntriesMap: MemoizedSelector<any, any> = createSelector(
-  getCartState,
+  getActiveCartState,
   fromCart.getEntries
 );
 
@@ -36,9 +36,9 @@ export const getEntrySelectorFactory = (
   });
 };
 
-export const getEntries: MemoizedSelector<
-  any,
-  any
-> = createSelector(getEntriesMap, entities => {
-  return Object.keys(entities).map(code => entities[code]);
-});
+export const getEntries: MemoizedSelector<any, any> = createSelector(
+  getEntriesMap,
+  entities => {
+    return Object.keys(entities).map(code => entities[code]);
+  }
+);

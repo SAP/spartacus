@@ -1,14 +1,12 @@
 import {
   Component,
   Input,
-  OnInit,
+  OnChanges,
   OnDestroy,
-  Injectable,
   ChangeDetectionStrategy
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CartService } from '../../services/cart.service';
-import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { tap, filter } from 'rxjs/operators';
 
@@ -21,7 +19,7 @@ import * as fromStore from './../../store';
   styleUrls: ['./add-to-cart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddToCartComponent implements OnInit, OnDestroy {
+export class AddToCartComponent implements OnChanges, OnDestroy {
   isLoading = false;
   @Input() iconOnly;
 
@@ -29,7 +27,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() quantity = 1;
 
   cartEntry$: Observable<any>;
-  subscription: Subscription;
 
   constructor(
     protected dialog: MatDialog,
@@ -37,7 +34,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected store: Store<fromStore.CartState>
   ) {}
 
-  ngOnInit() {
+  ngOnChanges() {
     if (this.productCode) {
       this.cartEntry$ = this.store
         .select(fromStore.getEntrySelectorFactory(this.productCode))
@@ -45,11 +42,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+  ngOnDestroy() {}
 
   addToCart() {
     if (!this.productCode) {

@@ -35,12 +35,12 @@ export function reducer(
           }
         );
       }
-      console.log(content.entries);
+
       content = {
         ...content,
         entries: undefined
       };
-      console.log(entries);
+
       return {
         ...state,
         content,

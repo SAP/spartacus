@@ -26,9 +26,9 @@ fdescribe('Cart selectors', () => {
 
   describe('getCartContentState', () => {
     it('should return a cart from the state', () => {
-      let result: Cart;
+      let result: any;
       store
-        .select(fromSelectors.getCartContentState)
+        .select(fromSelectors.getActiveCartState)
         .subscribe(value => (result = value));
 
       expect(result).toEqual(<Cart>{});

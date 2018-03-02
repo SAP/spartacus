@@ -39,7 +39,7 @@ fdescribe('Auth Selectors', () => {
         refresh_token: 'xxx',
         expires_in: 1000,
         scope: ['xxx'],
-        username: 'xxx'
+        userId: 'xxx'
       };
       store.dispatch(new fromActions.LoadUserTokenSuccess(testToken));
 
