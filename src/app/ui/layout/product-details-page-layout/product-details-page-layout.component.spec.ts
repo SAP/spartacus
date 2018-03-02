@@ -2,16 +2,17 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductDetailsPageLayoutComponent } from './product-details-page-layout.component';
 
-describe('ProductDetailsPageLayoutComponent', () => {
+xdescribe('ProductDetailsPageLayoutComponent', () => {
   let component: ProductDetailsPageLayoutComponent;
   let fixture: ComponentFixture<ProductDetailsPageLayoutComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ProductDetailsPageLayoutComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        declarations: [ProductDetailsPageLayoutComponent]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductDetailsPageLayoutComponent);
