@@ -11,6 +11,7 @@ import * as fromCmsStore from '../../../cms/store';
 export class CategoryPageComponent implements OnInit {
   categoryCode;
   brandCode;
+  query;
   cmsPage$;
 
   constructor(
@@ -25,6 +26,9 @@ export class CategoryPageComponent implements OnInit {
       }
       if (params['brandCode']) {
         this.brandCode = params['brandCode'];
+      }
+      if (params['query']) {
+        this.query = params['query'];
       }
     });
 

@@ -27,7 +27,7 @@ export const appRoutes: Routes = [
   {
     path: 'search/:query',
     canActivate: [CmsPageGuards],
-    component: ProductListPageComponent,
+    component: CategoryPageComponent,
     data: { pageLabel: 'search' }
   },
   {

@@ -39,7 +39,6 @@ export class ProductListComponent implements OnChanges, OnInit {
   constructor(protected store: Store<fromProductStore.ProductsState>) {}
 
   ngOnInit() {
-    this.gridMode = 'list';
     this.grid = {
       mode: this.gridMode
     };
