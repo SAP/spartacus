@@ -8,7 +8,7 @@
     </p>
     <div *ngIf="(data.cart$ | async)?.totalItems">
         <mat-nav-list>
-            <mat-list-item *ngFor="let entry of (data.entries$ | async)"
+            <mat-list-item *ngFor="let entry of ((data.entries$ | async) | slice:0:data.showProductCount )"
                 [routerLink]="['/product', entry.product.code]"
                 (click)="closeDialog()">
                 
@@ -25,6 +25,9 @@
                 </button>
             </mat-list-item>
         </mat-nav-list>
+
+        <y-banner [component]="data.banner"></y-banner>
+
         <mat-list>
             <mat-divider></mat-divider>
             <mat-list-item>

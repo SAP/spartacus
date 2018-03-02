@@ -30,6 +30,9 @@ export class MiniCartComponent extends AbstractCmsComponent {
   cart$: Observable<any>;
   entries$: Observable<any>;
 
+  showProductCount: number;
+  banner: any;
+
   constructor(
     protected cd: ChangeDetectorRef,
     protected store: Store<fromStore.CmsState>,
@@ -41,6 +44,9 @@ export class MiniCartComponent extends AbstractCmsComponent {
   }
 
   protected fetchData() {
+    this.showProductCount = this.component.shownProductCount;
+    this.banner = this.component.lightboxBannerComponent;
+
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
     this.entries$ = this.store.select(fromCartStore.getEntries);
 
@@ -49,7 +55,12 @@ export class MiniCartComponent extends AbstractCmsComponent {
 
   openCart() {
     const dialogRef = this.dialog.open(CartDialogComponent, {
-      data: { cart$: this.cart$, entries$: this.entries$ }
+      data: {
+        cart$: this.cart$,
+        entries$: this.entries$,
+        showProductCount: this.showProductCount,
+        banner: this.banner
+      }
     });
 
     const sub = dialogRef.componentInstance.onDelete.subscribe(entry => {
