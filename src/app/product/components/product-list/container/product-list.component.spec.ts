@@ -68,7 +68,7 @@ fdescribe('ProductListComponent in product-list', () => {
     spyOn(store, 'select').and.returnValue(of(mockSearchResults));
 
     component.ngOnInit();
-    expect(component.gridMode).toEqual('list');
+
     component.model$.subscribe(result =>
       expect(result).toEqual(mockSearchResults)
     );
@@ -87,7 +87,6 @@ fdescribe('ProductListComponent in product-list', () => {
     component.ngOnInit();
     component.model$.subscribe();
 
-    expect(component.gridMode).toEqual('list');
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProductStore.SearchProducts({
         queryText: 'mockQuery',

@@ -11,5 +11,5 @@
 </ng-container>
 
 <ng-container *ngIf="(cmsPage$ | async)?.template === 'SearchResultsListPageTemplate'">
-    <y-product-list-page-layout [gridMode]="'list'" [query]="query" [categoryCode]="categoryCode" [brandCode]="brandCode"></y-product-list-page-layout>
+    <y-product-list-page-layout [gridMode]="'list'" [query]="query"></y-product-list-page-layout>
 </ng-container>
