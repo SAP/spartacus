@@ -34,8 +34,6 @@ export class CartDetailsComponent implements OnInit {
   ngOnInit() {
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
     this.entries$ = this.store.select(fromCartStore.getEntries);
-
-    this.cart$.subscribe(data => console.log(data));
   }
 
   removeEntry(entry) {
