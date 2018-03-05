@@ -34,12 +34,12 @@ export function reducer(
             ...entries
           }
         );
-      }
 
-      content = {
-        ...content,
-        entries: undefined
-      };
+        content = {
+          ...content,
+          entries: undefined
+        };
+      }
 
       return {
         ...state,

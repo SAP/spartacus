@@ -30,7 +30,7 @@ function getActions() {
   return new TestActions();
 }
 
-fdescribe('Cart effect', () => {
+describe('Cart effect', () => {
   let cartService: OccCartService;
   let cartEffects: fromEffects.CartEffects;
   let actions$: TestActions;
