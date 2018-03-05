@@ -21,6 +21,8 @@ import { CurrencySelectorModule } from '../../site-context/currency-selector/cur
 import { ProductListPageLayoutComponent } from './product-list-page-layout/product-list-page-layout.component';
 import { ProductDetailsPageLayoutComponent } from './product-details-page-layout/product-details-page-layout.component';
 import { LoginModule } from '../../auth/components/login/login.module';
+import { CartPageLayoutComponent } from './cart-page-layout/cart-page-layout.component';
+import { CartDetailsModule } from '../../cart/components/cart-details/cart-details.module';
 
 @NgModule({
   imports: [
@@ -35,7 +37,8 @@ import { LoginModule } from '../../auth/components/login/login.module';
     CookieConfirmationModule,
     LoginModule,
     LanguageSelectorModule,
-    CurrencySelectorModule
+    CurrencySelectorModule,
+    CartDetailsModule
   ],
   declarations: [
     HeaderComponent,
@@ -43,13 +46,15 @@ import { LoginModule } from '../../auth/components/login/login.module';
     MainComponent,
     ContentPageLayoutComponent,
     ProductListPageLayoutComponent,
-    ProductDetailsPageLayoutComponent
+    ProductDetailsPageLayoutComponent,
+    CartPageLayoutComponent
   ],
   exports: [
     MainComponent,
     ContentPageLayoutComponent,
     ProductListPageLayoutComponent,
-    ProductDetailsPageLayoutComponent
+    ProductDetailsPageLayoutComponent,
+    CartPageLayoutComponent
   ]
 })
 export class LayoutModule {}

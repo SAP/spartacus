@@ -1,0 +1,42 @@
+<h1 class="cart-header">
+    <span>Cart Details</span>
+</h1>
+
+<div class="cart-details">
+    <p class="cart-empty-label" *ngIf="!(cart$ | async)?.totalItems">
+        You don't have any products in your cart.
+    </p>
+    <div *ngIf="(cart$ | async)?.totalItems">
+        <mat-nav-list>
+            <mat-list-item *ngFor="let entry of ((entries$ | async) | slice:0:showProductCount)">
+
+
+                <img mat-list-avatar [src]="entry.product.images.PRIMARY?.cartIcon?.url">
+
+                <a class="product-name" [routerLink]="['/product', entry.product.code]" mat-line>{{entry?.product?.name}}</a>
+                <p mat-line>
+                    {{entry?.quantity}}
+                    <span *ngIf="entry?.quantity===1">piece</span>
+                    <span *ngIf="entry?.quantity > 1">pieces</span>
+                    for {{entry?.totalPrice?.formattedValue}}</p>
+
+                <button mat-icon-button (click)="removeEntry(entry)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-list-item>
+        </mat-nav-list>
+
+        <mat-list>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+                <mat-icon mat-list-avatar>monetization_on</mat-icon>
+                <h4 mat-line>{{(cart$ | async)?.totalPrice?.formattedValue}}</h4>
+            </mat-list-item>
+        </mat-list>
+    </div>
+</div>
+
+<div class="buttons">
+    <button mat-raised-button color="primary" (click)="goBack()">Continue Shopping</button>
+    <button mat-raised-button color="accent" *ngIf="(entries$ | async)">Checkout</button>
+</div>

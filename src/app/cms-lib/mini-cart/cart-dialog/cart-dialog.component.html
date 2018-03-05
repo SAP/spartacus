@@ -8,15 +8,14 @@
     </p>
     <div *ngIf="(data.cart$ | async)?.totalItems">
         <mat-nav-list>
-            <mat-list-item *ngFor="let entry of ((data.entries$ | async) | slice:0:data.showProductCount )"
-                [routerLink]="['/product', entry.product.code]"
+            <mat-list-item *ngFor="let entry of ((data.entries$ | async) | slice:0:data.showProductCount )" [routerLink]="['/product', entry.product.code]"
                 (click)="closeDialog()">
-                
+
                 <img mat-list-avatar [src]="entry.product.images.PRIMARY?.cartIcon?.url">
-                
+
                 <a mat-line>{{entry.product.name}}</a>
                 <p mat-line>
-                    {{entry.quantity}} 
+                    {{entry.quantity}}
                     <span *ngIf="entry.quantity===1">piece</span>
                     <span *ngIf="entry.quantity > 1">pieces</span>
                     for {{entry.totalPrice.formattedValue}}</p>
@@ -40,6 +39,5 @@
 
 <div mat-dialog-actions>
     <button mat-raised-button color="primary" mat-dialog-close>Continue Shopping</button>
-    <button routerLink="/cart"
-        mat-raised-button color="accent" mat-dialog-close *ngIf="(data.entries$ | async)">Checkout</button>
+    <button routerLink="/cart" mat-raised-button color="accent" mat-dialog-close *ngIf="(data.entries$ | async)">Checkout</button>
 </div>
