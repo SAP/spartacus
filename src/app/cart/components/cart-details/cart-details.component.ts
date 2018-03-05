@@ -2,7 +2,7 @@ import {
   Component,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
-  OnChanges
+  OnInit
 } from '@angular/core';
 
 import { Store } from '@ngrx/store';
@@ -22,13 +22,12 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./cart-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CartDetailsComponent implements OnChanges {
+export class CartDetailsComponent implements OnInit {
   static componentName = 'CartDetailsComponent';
 
   cart$ = this.store.select(fromCartStore.getActiveCart);
   entries$ = this.store.select(fromCartStore.getEntries);
 
-  showProductCount: number;
   banner: any;
 
   constructor(
@@ -38,18 +37,9 @@ export class CartDetailsComponent implements OnChanges {
     private location: Location
   ) {}
 
-  ngOnChanges() {
+  ngOnInit() {
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
     this.entries$ = this.store.select(fromCartStore.getEntries);
-
-    this.entries$.pipe(
-      tap(data => {
-        let entry: any;
-        for (entry in data) {
-          this.showProductCount += entry.quantity;
-        }
-      })
-    );
   }
 
   removeEntry(entry) {
