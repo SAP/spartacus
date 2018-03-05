@@ -10,6 +10,7 @@ export const REMOVE_ENTRY_FAIL = '[Cart-entry] Remove Entry Fail';
 
 export const UPDATE_ENTRY = '[Cart-entry] Update Entry';
 export const UPDATE_ENTRY_SUCCESS = '[Cart-entry] Update Entry Success';
+export const UPDATE_ENTRY_FAIL = '[Cart-entry] Update Entry Fail';
 
 export class AddEntry implements Action {
   readonly type = ADD_ENTRY;
@@ -48,6 +49,11 @@ export class UpdateEntry implements Action {
 
 export class UpdateEntrySuccess implements Action {
   readonly type = UPDATE_ENTRY_SUCCESS;
+  constructor() {}
+}
+
+export class UpdateEntryFail implements Action {
+  readonly type = UPDATE_ENTRY_FAIL;
   constructor(public payload: any) {}
 }
 
@@ -59,4 +65,5 @@ export type CartEntryAction =
   | RemoveEntrySuccess
   | RemoveEntryFail
   | UpdateEntry
-  | UpdateEntrySuccess;
+  | UpdateEntrySuccess
+  | UpdateEntryFail;
