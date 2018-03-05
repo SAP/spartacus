@@ -23,12 +23,8 @@ import { tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartDetailsComponent implements OnInit {
-  static componentName = 'CartDetailsComponent';
-
-  cart$ = this.store.select(fromCartStore.getActiveCart);
-  entries$ = this.store.select(fromCartStore.getEntries);
-
-  banner: any;
+  cart$;
+  entries$;
 
   constructor(
     protected cd: ChangeDetectorRef,
