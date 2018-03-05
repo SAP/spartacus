@@ -13,7 +13,6 @@ import * as fromCartStore from '../../../cart/store';
 import { CartService } from '../../../cart/services';
 
 import { MatDialog } from '@angular/material/dialog';
-import { Location } from '@angular/common';
 import { tap } from 'rxjs/operators';
 
 @Component({
@@ -29,20 +28,17 @@ export class CartDetailsComponent implements OnInit {
   constructor(
     protected cd: ChangeDetectorRef,
     protected store: Store<fromCartStore.CartState>,
-    protected cartService: CartService,
-    private location: Location
+    protected cartService: CartService
   ) {}
 
   ngOnInit() {
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
     this.entries$ = this.store.select(fromCartStore.getEntries);
+
+    this.cart$.subscribe(data => console.log(data));
   }
 
   removeEntry(entry) {
     this.cartService.removeCartEntry(entry);
-  }
-
-  goBack() {
-    this.location.back();
   }
 }

@@ -7,7 +7,6 @@ import * as fromReducer from '../../../cart/store/reducers';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartService } from '../../../cart/services';
 import { of } from 'rxjs/observable/of';
-import { Location } from '@angular/common';
 
 class MockCartService {
   removeCartEntry() {}
@@ -20,7 +19,6 @@ fdescribe('CartDetailsComponent', () => {
   let cartDetailsComponent: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
   let service: CartService;
-  let location: Location;
 
   beforeEach(
     async(() => {
@@ -48,7 +46,6 @@ fdescribe('CartDetailsComponent', () => {
     store = TestBed.get(Store);
     spyOn(store, 'select').and.returnValue(of(mockComponentData));
     spyOn(service, 'removeCartEntry').and.callThrough();
-    spyOn(location, 'back').and.callThrough();
   });
 
   it('should create cart details component', () => {
@@ -58,10 +55,5 @@ fdescribe('CartDetailsComponent', () => {
   it('should remove entry from cart', () => {
     cartDetailsComponent.removeEntry('mockEntry');
     expect(service.removeCartEntry).toHaveBeenCalledWith('mockEntry');
-  });
-
-  it('should go back to the previous page', () => {
-    cartDetailsComponent.goBack();
-    expect(location.back).toHaveBeenCalled();
   });
 });

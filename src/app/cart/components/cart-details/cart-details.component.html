@@ -9,8 +9,6 @@
     <div *ngIf="(cart$ | async)?.totalItems">
         <mat-nav-list>
             <mat-list-item *ngFor="let entry of ((entries$ | async))">
-
-
                 <img mat-list-avatar [src]="entry.product.images.PRIMARY?.cartIcon?.url">
 
                 <a class="product-name" [routerLink]="['/product', entry.product.code]" mat-line>{{entry?.product?.name}}</a>
@@ -37,6 +35,5 @@
 </div>
 
 <div class="buttons">
-    <button mat-raised-button color="primary" (click)="goBack()">Continue Shopping</button>
-    <button mat-raised-button color="accent" *ngIf="(entries$ | async)">Checkout</button>
+    <button mat-raised-button color="accent" *ngIf="(entries$ | async)">Proceed to Checkout</button>
 </div>
