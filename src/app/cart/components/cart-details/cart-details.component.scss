@@ -27,9 +27,15 @@
   text-align: center;
 }
 
-.buttons,
-.cart-empty-label {
+.buttons {
   text-align: center;
+}
+
+.empty-cart-message {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
 }
 
 .product-name {

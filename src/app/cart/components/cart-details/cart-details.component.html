@@ -1,12 +1,11 @@
-<h1 class="cart-header">
-    <span>Cart Details</span>
-</h1>
-
 <div class="cart-details">
-    <p class="cart-empty-label" *ngIf="!(cart$ | async)?.totalItems">
-        You don't have any products in your cart.
-    </p>
+    <y-dynamic-slot class="empty-cart-message" *ngIf="!(cart$ | async)?.totalItems" position="EmptyCartMiddleContent"></y-dynamic-slot>
+
     <div *ngIf="(cart$ | async)?.totalItems">
+        <h2 class="cart-header">
+            <span>Cart Details</span>
+        </h2>
+
         <mat-nav-list>
             <mat-list-item *ngFor="let entry of ((entries$ | async))">
                 <img mat-list-avatar [src]="entry.product.images.PRIMARY?.cartIcon?.url">
@@ -35,5 +34,5 @@
 </div>
 
 <div class="buttons">
-    <button mat-raised-button color="accent" *ngIf="(entries$ | async)">Proceed to Checkout</button>
+    <button mat-raised-button color="accent" *ngIf="(entries$ | async).length">Proceed to Checkout</button>
 </div>

@@ -5,9 +5,16 @@ import { MaterialModule } from '../../../material.module';
 
 import { CartDetailsComponent } from './cart-details.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { CmsModule } from '../../../cms/cms.module';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, MaterialModule, FlexLayoutModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MaterialModule,
+    FlexLayoutModule,
+    CmsModule
+  ],
   declarations: [CartDetailsComponent],
   entryComponents: [CartDetailsComponent],
   exports: [CartDetailsComponent]

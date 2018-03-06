@@ -34,7 +34,7 @@ export class ConfigService {
     SimpleResponsiveBannerComponent: 'ResponsiveBannerComponent',
     SimpleBannerComponent: 'BannerComponent',
     // BreadcrumbComponent:                'BreadcrumbComponent',
-    CmsParagraphComponent: 'ParagraphComponent',
+    CMSParagraphComponent: 'ParagraphComponent',
     NavigationComponent: 'NavigationComponent',
     FooterNavigationComponent: 'FooterNavigationComponent',
     CategoryNavigationComponent: 'CategoryNavigationComponent',
