@@ -67,7 +67,7 @@ export class MiniCartComponent extends AbstractCmsComponent {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      sub.unsubscrbie();
+      sub.unsubscribe();
     });
   }
 }
