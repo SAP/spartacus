@@ -9,9 +9,13 @@ import { ProductSummaryComponent } from '../product-summary/product-summary.comp
 import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
 import { PictureComponent } from 'app/ui/components/media/picture/picture.component';
 import { ComponentWrapperComponent } from '../../../cms/components/component-wrapper/component-wrapper.component';
+
 import * as fromRoot from '../../../routing/store';
-import * as fromProduct from '../../store/reducers/product.reducer';
-import { StoreModule, Store } from '@ngrx/store';
+import * as fromProduct from '../../store/reducers';
+import * as fromCart from '../../../cart/store';
+import * as fromUser from '../../../auth/store';
+
+import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
 import { ComponentMapperService } from '../../../cms/services/component-mapper.service';
 import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-cart.module';
@@ -20,7 +24,7 @@ import { CartService } from '../../../cart/services';
 class MockComponentMapperService {}
 
 describe('ProductDetailsComponent in product', () => {
-  let store: Store<fromProduct.ProductState>;
+  let store: Store<fromProduct.ProductsState>;
   let productDetailsComponent: ProductDetailsComponent;
   let fixture: ComponentFixture<ProductDetailsComponent>;
 
@@ -34,7 +38,10 @@ describe('ProductDetailsComponent in product', () => {
           MaterialModule,
           AddToCartModule,
           StoreModule.forRoot({
-            ...fromRoot.reducers
+            ...fromRoot.reducers,
+            products: combineReducers(fromProduct.reducers),
+            cart: combineReducers(fromCart.reducers),
+            user: combineReducers(fromUser.reducers)
           })
         ],
         declarations: [

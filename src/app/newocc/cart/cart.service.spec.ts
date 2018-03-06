@@ -1,4 +1,4 @@
-/*import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { OccCartService } from './cart.service';
 import { ConfigService } from '../config.service';
 import {
@@ -9,13 +9,15 @@ import { ProductImageConverterService } from '../../product/converters';
 
 const userId = '123';
 const cartId = '456';
-const latestCart = 'mockLatestCart';
 const toMergeCart = { guid: '123456' };
 const cartData = 'mockCartData';
-const cartToken = 'cartToken';
 const mergedCart = 'mergedCart';
+
 const usersEndpoint = '/users';
-const cartsEndpoint = '/carts';
+const cartsEndpoint = '/carts/';
+const MORE_PARAMS =
+  'DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
+  'entries(totalPrice(formattedValue),product(images(FULL)))';
 
 class MockConfigService {
   server = {
@@ -58,27 +60,29 @@ describe('OccCartService', () => {
     httpMock.verify();
   });
 
-  describe('load latest cart details', () => {
-    it('should load latest cart details for given user id', () => {
-      service.loadLatestCart(userId).subscribe(result => {
-        expect(result).toEqual(latestCart);
+  describe('load all carts', () => {
+    it('should load all carts for given user', () => {
+      service.loadAllCarts(userId).subscribe(result => {
+        expect(result).toEqual([cartData]);
       });
 
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint + '/current'
+          req.url ===
+            usersEndpoint + `/${userId}` + cartsEndpoint
         );
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(latestCart);
+      mockReq.flush([cartData]);
     });
   });
 
+
   describe('load cart details', () => {
-    it('should load cart details for given user id and cart id', () => {
+    it('should load cart details for given userId and cartId', () => {
       service.loadCart(userId, cartId).subscribe(result => {
         expect(result).toEqual(cartData);
       });
@@ -87,53 +91,19 @@ describe('OccCartService', () => {
         return (
           req.method === 'GET' &&
           req.url ===
-            usersEndpoint + '/' + userId + cartsEndpoint + '/' + cartId
+            usersEndpoint + `/${userId}` + cartsEndpoint + `${cartId}`
         );
       });
 
-      expect(mockReq.request.params.get('fields')).toEqual(
-        'DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))'
-      );
-
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.params.get('fields')).toEqual(MORE_PARAMS);
       mockReq.flush(cartData);
     });
   });
 
-  describe('merge carts', () => {
-    it('should merge the provided cart with the latest cart for given user id, oldCartToken and toMergeCart', () => {
-      service
-        .mergeCartWithLatestCart(userId, cartToken, toMergeCart)
-        .subscribe(result => {
-          expect(result).toEqual(mergedCart);
-        });
-
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'POST' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint + '/'
-        );
-      });
-
-      expect(mockReq.request.params.get('oldCartId')).toEqual(cartToken);
-
-      expect(mockReq.request.params.get('toMergeCartGuid')).toEqual(
-        toMergeCart.guid
-      );
-
-      expect(mockReq.request.params.get('fields')).toEqual(
-        'DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))'
-      );
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(mergedCart);
-    });
-  });
-
-  describe('create cart', () => {
-    it('should create cart details for given user id', () => {
+  describe('create a cart', () => {
+    it('should able to create a new cart for the given user ', () => {
       service.createCart(userId).subscribe(result => {
         expect(result).toEqual(cartData);
       });
@@ -141,9 +111,11 @@ describe('OccCartService', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'POST' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint + '/'
+          req.url === usersEndpoint + `/${userId}` + cartsEndpoint
         );
       });
+
+      expect(mockReq.request.params.get('fields')).toEqual(MORE_PARAMS);
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -151,9 +123,36 @@ describe('OccCartService', () => {
     });
   });
 
-  describe('add product to cart', () => {
-    it('should add product to cart for given user id, cart id, product code and product quantity', () => {
-      service.add(userId, cartId, '147852', 5).subscribe(result => {
+  describe('merge a cart', () => {
+    it('should able to merge a cart to current one for the given user ', () => {
+      service.createCart(userId, cartId, toMergeCart.guid).subscribe(result => {
+        expect(result).toEqual(mergedCart);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'POST' &&
+          req.url === usersEndpoint + `/${userId}` + cartsEndpoint
+        );
+      });
+
+      expect(mockReq.request.params.get('oldCartId')).toEqual(cartId);
+
+      expect(mockReq.request.params.get('toMergeCartGuid')).toEqual(
+        toMergeCart.guid
+      );
+
+      expect(mockReq.request.params.get('fields')).toEqual(MORE_PARAMS);
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(mergedCart);
+    });
+  });
+
+  describe('add entry to cart', () => {
+    it('should add entry to cart for given user id, cart id, product code and product quantity', () => {
+      service.addCartEntry(userId, cartId, '147852', 5).subscribe(result => {
         expect(result).toEqual(cartData);
       });
 
@@ -164,7 +163,6 @@ describe('OccCartService', () => {
             usersEndpoint +
               `/${userId}` +
               cartsEndpoint +
-              '/' +
               cartId +
               '/entries'
         );
@@ -184,9 +182,9 @@ describe('OccCartService', () => {
     });
   });
 
-  describe('add product to cart', () => {
-    it('should add product to cart for given user id, cart id and entry number', () => {
-      service.remove(userId, cartId, '147852').subscribe(result => {
+  describe('remove an entry from cart', () => {
+    it('should remove entry from cart for given user id, cart id and entry number', () => {
+      service.removeCartEntry(userId, cartId, '147852').subscribe(result => {
         expect(result).toEqual(cartData);
       });
 
@@ -197,7 +195,6 @@ describe('OccCartService', () => {
             usersEndpoint +
               `/${userId}` +
               cartsEndpoint +
-              '/' +
               cartId +
               '/entries/' +
               '147852'
@@ -209,4 +206,4 @@ describe('OccCartService', () => {
       mockReq.flush(cartData);
     });
   });
-});*/
+});

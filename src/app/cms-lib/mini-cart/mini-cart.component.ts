@@ -44,7 +44,7 @@ export class MiniCartComponent extends AbstractCmsComponent {
   }
 
   protected fetchData() {
-    this.showProductCount = this.component.shownProductCount;
+    this.showProductCount = +this.component.shownProductCount;
     this.banner = this.component.lightboxBannerComponent;
 
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
@@ -65,6 +65,10 @@ export class MiniCartComponent extends AbstractCmsComponent {
 
     const sub = dialogRef.componentInstance.onDelete.subscribe(entry => {
       this.cartService.removeCartEntry(entry);
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      sub.unsubscrbie();
     });
   }
 }

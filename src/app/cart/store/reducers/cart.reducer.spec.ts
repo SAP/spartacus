@@ -1,6 +1,5 @@
 import * as fromCart from './cart.reducer';
 import * as fromActions from './../actions';
-import { Cart } from './../../models/cart-types.model';
 
 describe('Cart reducer', () => {
   describe('undefined action', () => {
@@ -13,9 +12,9 @@ describe('Cart reducer', () => {
     });
   });
 
-  describe('CREATE_CART_SUCCESSS action', () => {
-    it('should store a cart', () => {
-      const testCart: Cart = {
+  describe('CREATE_CART_SUCCESSS or LOAD_CART_SUCCESS action', () => {
+    it('should create an empty cart', () => {
+      const testCart: any = {
         code: 'xxx',
         guid: 'xxx',
         total_items: 0,
@@ -34,16 +33,46 @@ describe('Cart reducer', () => {
       const state = fromCart.reducer(initialState, action);
 
       expect(state.content).toEqual(testCart);
+      expect(state.entries).toEqual({});
+      expect(state.refresh).toEqual(false);
+    });
+
+    it('should load an existing cart', () => {
+      const testCart: any = {
+        code: 'xxx',
+        guid: 'xxx',
+        total_items: 0,
+        entries: [{ entryNumber: 0, product: { code: '1234' } }],
+        total_price: {
+          currency_iso: 'USD',
+          value: 0
+        },
+        total_price_with_tax: {
+          currency_iso: 'USD',
+          value: 0
+        }
+      };
+      const { initialState } = fromCart;
+
+      const action = new fromActions.LoadCartSuccess(testCart);
+      const state = fromCart.reducer(initialState, action);
+
+      testCart.entries = undefined;
+      expect(state.content).toEqual(testCart);
+      expect(state.entries).toEqual({
+        '1234': { entryNumber: 0, product: { code: '1234' } }
+      });
+      expect(state.refresh).toEqual(false);
     });
   });
 
-  describe('CREATE_CART_FAIL action', () => {
-    it('should return an empty cart', () => {
+  describe('REMOVE_ENTRY_SUCCESS or ADD_ENTRY_SUCCESS action', () => {
+    it('should set refresh to true', () => {
       const { initialState } = fromCart;
 
-      const failAction = new fromActions.CreateCartFail({ error: 'any' });
-      const stateAfterFail = fromCart.reducer(initialState, failAction);
-      expect(stateAfterFail.content).toEqual(<Cart>{});
+      const action = new fromActions.AddEntrySuccess({});
+      const state = fromCart.reducer(initialState, action);
+      expect(state.refresh).toEqual(true);
     });
   });
 });
