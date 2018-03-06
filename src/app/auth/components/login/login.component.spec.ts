@@ -71,7 +71,7 @@ describe('LoginComponent', () => {
     spyOn(dialog, 'open').and.callThrough();
   });
 
-  it('should create', () => {
+  it('should be created', () => {
     const routerState = {
       state: {
         context: cntx
@@ -97,50 +97,34 @@ describe('LoginComponent', () => {
     );
   });
 
-  it('should login and not dispatch user details', () => {
+  it('should login', () => {
     component.username = mockUser.username;
     component.password = mockUser.password;
-
     component.login();
 
-    store.select(fromStore.getUserState).subscribe(data => {
-      expect(data).toEqual(mockEmptyUser);
-    });
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadUserToken({
-        userId: mockUser.username,
-        password: mockUser.password
+        userId: component.username,
+        password: component.password
       })
     );
-    expect(store.dispatch).not.toHaveBeenCalledWith(mockUser.username);
   });
 
-  it('should login and also dispatch user details', () => {
+  it('should load user details when token exists', () => {
     component.username = mockUser.username;
     component.pageContext = cntx;
 
-    const spy = spyOn(store, 'select');
+    spyOn(store, 'select').and.returnValue(of(mockUserToken));
 
-    spy.and.returnValue(of(mockUserToken));
-    const action = new fromStore.LoadUserTokenSuccess(mockUserToken);
+    component.ngOnInit();
 
-    store.dispatch(action);
-
-    component.login();
-
-    spy.and.callThrough();
-    store.select(fromStore.getUserState).subscribe(data => {
-      expect(data.auth.token).toEqual(mockUserToken);
-    });
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadUserTokenSuccess(mockUserToken)
-    );
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadUserDetails(component.username)
+      new fromStore.LoadUserDetails(mockUserToken.userId)
     );
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.Login(component.pageContext)
     );
+    component.isLogin = true;
   });
   // Add some UI unit tests once we remove material
 });

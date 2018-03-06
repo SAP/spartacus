@@ -43,7 +43,22 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe(routerState => (this.pageContext = routerState.state.context));
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.subscription = this.store
+      .select(fromStore.getUserToken)
+      .pipe(
+        tap((token: UserToken) => {
+          if (token.access_token !== undefined) {
+            this.isLogin = true;
+            this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
+            if (this.pageContext !== undefined) {
+              this.store.dispatch(new fromStore.Login(this.pageContext));
+            }
+          }
+        })
+      )
+      .subscribe();
+  }
 
   openLogin() {
     const dialogRef = this.dialog.open(LoginDialogComponent, {
@@ -73,29 +88,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.subscription = this.store
-      .select(fromStore.getUserToken)
-      .pipe(
-        tap((token: UserToken) => {
-          if (token.access_token === undefined) {
-            this.store.dispatch(
-              new fromStore.LoadUserToken({
-                userId: this.username,
-                password: this.password
-              })
-            );
-          } else {
-            this.isLogin = true;
-            this.store.dispatch(new fromStore.LoadUserDetails(this.username));
-            if (this.pageContext !== undefined) {
-              this.store.dispatch(new fromStore.Login(this.pageContext));
-            }
-          }
-        }),
-        filter(() => this.isLogin),
-        take(1)
-      )
-      .subscribe();
+    this.store.dispatch(
+      new fromStore.LoadUserToken({
+        userId: this.username,
+        password: this.password
+      })
+    );
   }
 
   ngOnDestroy() {
