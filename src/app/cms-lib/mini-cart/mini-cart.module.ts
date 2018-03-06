@@ -17,7 +17,7 @@ import { BannerModule } from '../banner/banner.module';
     BannerModule
   ],
   declarations: [MiniCartComponent, CartDialogComponent],
-  entryComponents: [MiniCartComponent],
+  entryComponents: [MiniCartComponent, CartDialogComponent],
   exports: [MiniCartComponent]
 })
 export class MiniCartModule {}
