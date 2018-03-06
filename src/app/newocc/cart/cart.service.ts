@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { ProductImageConverterService } from '../../product/converters';
 import { catchError } from 'rxjs/operators';
 
 const MORE_PARAMS =

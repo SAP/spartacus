@@ -5,7 +5,6 @@ import {
 } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromStore from '../../cms/store';

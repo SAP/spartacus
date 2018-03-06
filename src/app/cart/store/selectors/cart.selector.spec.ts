@@ -5,7 +5,6 @@ import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
 import * as fromActions from './../actions';
 import { TestBed } from '@angular/core/testing';
-import { Cart } from '../../models/cart-types.model';
 
 describe('Cart selectors', () => {
   let store: Store<fromReducers.CartState>;

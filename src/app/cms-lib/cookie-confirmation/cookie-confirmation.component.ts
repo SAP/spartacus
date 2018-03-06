@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-//import { TokenService } from '../../data/token.service';
 
 @Component({
   selector: 'y-cookie-confirmation',
@@ -16,7 +15,7 @@ export class CookieConfirmationComponent {
             const ref = this.snackBar.open('Do you allow us to store cookies?', 'OK');
             ref.afterDismissed().subscribe(() => {
                 this.clientStorage.enable();
-            }); 
+            });
             // const ref = this.snackBar.openFromComponent(CookieMessageComponent);
             // ref.instance.snackBarRef = ref;
             // ref.afterDismissed().subscribe((message) => {

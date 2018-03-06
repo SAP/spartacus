@@ -8,7 +8,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { CartService } from '../../services/cart.service';
 import { Observable } from 'rxjs/Observable';
-import { tap, filter } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../store';
