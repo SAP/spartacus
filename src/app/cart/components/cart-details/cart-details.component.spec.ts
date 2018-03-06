@@ -18,7 +18,7 @@ class MockCartService {
 
 const mockComponentData = 'mockComponentData';
 
-fdescribe('CartDetailsComponent', () => {
+describe('CartDetailsComponent', () => {
   let store: Store<fromReducer.CartState>;
   let cartDetailsComponent: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;

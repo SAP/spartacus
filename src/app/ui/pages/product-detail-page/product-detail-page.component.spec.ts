@@ -1,7 +1,9 @@
 import { MaterialModule } from 'app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
+import * as fromCart from '../../../cart/store';
+import * as fromUser from '../../../auth/store';
 import { of } from 'rxjs/observable/of';
 import { RouterTestingModule } from '@angular/router/testing';
 import * as fromRoot from '../../../routing/store';
@@ -20,6 +22,8 @@ import { ProductReviewsComponent } from '../../../product/components/product-det
 import { PictureComponent } from '../../components/media/picture/picture.component';
 import { ComponentMapperService } from '../../../cms/services';
 import { ConfigService } from '../../../cms/config.service';
+import { AddToCartComponent } from '../../../cart/components/add-to-cart/add-to-cart.component';
+import { CartService } from '../../../cart/services';
 
 const routerState = {
   state: {
@@ -29,7 +33,7 @@ const routerState = {
   }
 };
 
-fdescribe('ProductDetailPageComponent in pages', () => {
+describe('ProductDetailPageComponent in pages', () => {
   let store: Store<fromRouting.State>;
   let component: ProductDetailPageComponent;
   let fixture: ComponentFixture<ProductDetailPageComponent>;
@@ -41,7 +45,9 @@ fdescribe('ProductDetailPageComponent in pages', () => {
           RouterTestingModule,
           MaterialModule,
           StoreModule.forRoot({
-            ...fromRoot.reducers
+            ...fromRoot.reducers,
+            cart: combineReducers(fromCart.reducers),
+            user: combineReducers(fromUser.reducers)
           })
         ],
         declarations: [
@@ -55,9 +61,10 @@ fdescribe('ProductDetailPageComponent in pages', () => {
           ProductAttributesComponent,
           ProductReviewsComponent,
           ComponentWrapperComponent,
-          PictureComponent
+          PictureComponent,
+          AddToCartComponent
         ],
-        providers: [ComponentMapperService, ConfigService]
+        providers: [ComponentMapperService, ConfigService, CartService]
       }).compileComponents();
     })
   );

@@ -28,7 +28,7 @@ const routerState = {
   }
 };
 
-fdescribe('ProductListPageComponent in pages', () => {
+describe('ProductListPageComponent in pages', () => {
   let store: Store<fromRouting.State>;
   let component: ProductListPageComponent;
   let fixture: ComponentFixture<ProductListPageComponent>;

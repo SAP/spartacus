@@ -2,7 +2,7 @@ import { MaterialModule } from 'app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
 
-fdescribe('ProductFacetNavigationComponent in product-list', () => {
+describe('ProductFacetNavigationComponent in product-list', () => {
   let component: ProductFacetNavigationComponent;
   let fixture: ComponentFixture<ProductFacetNavigationComponent>;
 

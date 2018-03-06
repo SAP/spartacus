@@ -22,7 +22,7 @@ const mockSearchResults = {
 
 const mockEmptySearchResults = {};
 
-fdescribe('ProductListComponent in product-list', () => {
+describe('ProductListComponent in product-list', () => {
   let store: Store<fromProductStore.ProductsState>;
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
