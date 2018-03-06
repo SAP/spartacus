@@ -21,6 +21,7 @@ export const appRoutes: Routes = [
   {
     path: 'cart',
     canActivate: [CmsPageGuards],
+    data: { pageLabel: 'cartPage' },
     component: CartPageComponent
   },
   {
