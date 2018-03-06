@@ -1,36 +1,13 @@
-<div class="cart-details">
+<div>
     <y-dynamic-slot class="empty-cart-message" *ngIf="!(cart$ | async).totalItems" position="EmptyCartMiddleContent"></y-dynamic-slot>
-
-    <div *ngIf="(cart$ | async).totalItems">
-        <h2 class="cart-header">
+    <div class="cart-details" *ngIf="(cart$ | async).totalItems">
+        <h2>
             <span>Cart Details</span>
         </h2>
-
-        <mat-nav-list>
-            <mat-list-item *ngFor="let entry of ((entries$ | async))">
-                <img mat-list-avatar [src]="entry.product.images.PRIMARY?.cartIcon?.url">
-
-                <a class="product-name" [routerLink]="['/product', entry.product.code]" mat-line>{{entry?.product?.name}}</a>
-                <p mat-line>
-                    {{entry?.quantity}}
-                    <span *ngIf="entry?.quantity===1">piece</span>
-                    <span *ngIf="entry?.quantity > 1">pieces</span>
-                    for {{entry?.totalPrice?.formattedValue}}</p>
-
-                <button mat-icon-button (click)="removeEntry(entry)">
-                    <mat-icon>delete</mat-icon>
-                </button>
-            </mat-list-item>
-        </mat-nav-list>
-
-        <mat-list>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-                <mat-icon mat-list-avatar>monetization_on</mat-icon>
-                <h4 mat-line>{{(cart$ | async)?.totalPrice?.formattedValue}}</h4>
-            </mat-list-item>
-        </mat-list>
-
+        <div>
+            <h4 mat-line>Number of items in the cart: {{(cart$ | async)?.deliveryItemsQuantity}}</h4>
+            <h4 mat-line>Total cost: {{(cart$ | async)?.totalPrice?.formattedValue}}</h4>
+        </div>
     </div>
 </div>
 
