@@ -4,7 +4,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MaterialModule } from '../../../material.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { BannerModule } from '../../banner/banner.module';
 import { CartDialogComponent } from './cart-dialog.component';
@@ -16,13 +15,7 @@ describe('CartDialogComponent', () => {
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          FormsModule,
-          BrowserAnimationsModule,
-          RouterModule,
-          BannerModule
-        ],
+        imports: [MaterialModule, FormsModule, RouterModule, BannerModule],
         declarations: [CartDialogComponent],
         providers: [
           {

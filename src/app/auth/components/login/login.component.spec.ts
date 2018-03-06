@@ -17,15 +17,6 @@ const mockUser = {
   rememberMe: false
 };
 
-const mockEmptyUser: any = {
-  account: {
-    details: {}
-  },
-  auth: {
-    token: {}
-  }
-};
-
 const mockUserToken: UserToken = {
   access_token: 'xxx',
   token_type: 'bearer',

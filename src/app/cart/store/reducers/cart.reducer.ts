@@ -1,4 +1,3 @@
-import { Cart } from '../../models/cart-types.model';
 import * as fromAction from './../actions';
 
 export interface CartState {

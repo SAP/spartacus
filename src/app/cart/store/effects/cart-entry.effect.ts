@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import * as fromActions from './../actions';
 import { Observable } from 'rxjs/Observable';
 import { Actions, Effect } from '@ngrx/effects';
-import { map, tap, catchError, mergeMap, concatMap } from 'rxjs/operators';
+import { map, catchError, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import { OccCartService } from '../../../newocc/cart/cart.service';

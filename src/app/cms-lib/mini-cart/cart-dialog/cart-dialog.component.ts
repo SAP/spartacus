@@ -9,7 +9,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 @Component({
   selector: 'y-cart-dialog',
   templateUrl: './cart-dialog.component.html',
-  styleUrls: ['./cart-dialog.component.scss']
+  styleUrls: ['./cart-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartDialogComponent {
   onDelete = new EventEmitter();
