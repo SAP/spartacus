@@ -1,0 +1,36 @@
+<div fxLayout="row">
+    <div fxFlex="30%" class="dark">
+        <mat-card style="padding:0">
+            <button mat-button (click)="toggleSidenav()" style="width:100%">
+                <mat-icon>tune</mat-icon>
+            </button>
+        </mat-card>
+    </div>
+
+    <div fxFlex *ngIf="(model$ | async)?.pagination" fxLayout="row" fxLayoutAlign="space-between center">
+        <y-product-paging [searchResult]="(model$ | async)"></y-product-paging>
+        <y-product-sorting fxFlex="50px" [grid]="grid"></y-product-sorting>
+    </div>
+
+</div>
+
+<mat-sidenav-container class="example-container" *ngIf="(model$ | async)?.products">
+    <mat-sidenav #sidenav class="example-sidenav" mode="side" [opened]="isFacetPanelOpen" style="width:30%">
+        <y-product-facet-navigation (filter)="onFilter($event)" [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="(model$ | async)"></y-product-facet-navigation>
+    </mat-sidenav>
+    <div>
+        <mat-grid-list *ngIf="grid.mode==='grid'" cols="3" cols.sm="2" rowHeight="400px" gutterSize="10px">
+            <mat-grid-tile *ngFor="let product of (model$ | async)?.products">
+                <y-product-grid-item class="product-grid-item" [product]="product"></y-product-grid-item>
+            </mat-grid-tile>
+        </mat-grid-list>
+
+        <div *ngIf="grid.mode==='list'">
+            <y-product-list-item *ngFor="let product of (model$ | async)?.products" class="product-grid-item" [product]="product"></y-product-list-item>
+        </div>
+
+        <div *ngIf="grid.mode==='line'">
+            <y-product-line-item *ngFor="let product of (model$ | async)?.products" [product]="product"></y-product-line-item>
+        </div>
+    </div>
+</mat-sidenav-container>

@@ -1,18 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-// import { AppRouter } from './routes';
 import { LayoutModule } from './layout/layout.module';
-import { TemplatesModule } from './templates/templates.module';
+import { PagesModule } from './pages/pages.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    // AppRouter,
-    LayoutModule,
-    TemplatesModule
-  ],
-  exports: [LayoutModule],
+  imports: [CommonModule, LayoutModule, PagesModule],
+  exports: [LayoutModule, PagesModule],
   declarations: []
 })
 export class UiModule {}

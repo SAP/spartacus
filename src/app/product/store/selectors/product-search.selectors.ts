@@ -8,7 +8,7 @@ export const getProductsSearchState: MemoizedSelector<
   fromProductSearch.ProductsSearchState
 > = createSelector(
   fromFeature.getProductsState,
-  (state: fromFeature.ProductsState) => state.textSearch
+  (state: fromFeature.ProductsState) => state.search
 );
 
 export const getSearchResults: MemoizedSelector<any, any> = createSelector(

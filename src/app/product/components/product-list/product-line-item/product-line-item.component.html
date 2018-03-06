@@ -1,0 +1,5 @@
+<p>
+    <y-add-to-cart [productCode]="product.code"></y-add-to-cart>
+    <span [routerLink]="['/product/', product.code]">
+        <span [innerHTML]="product.name">{{product.name}}</span> - {{product.price.formattedValue}}</span>
+</p>
