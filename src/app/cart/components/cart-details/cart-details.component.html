@@ -1,7 +1,7 @@
 <div class="cart-details">
-    <y-dynamic-slot class="empty-cart-message" *ngIf="!(cart$ | async)?.totalItems" position="EmptyCartMiddleContent"></y-dynamic-slot>
+    <y-dynamic-slot class="empty-cart-message" *ngIf="!(cart$ | async).totalItems" position="EmptyCartMiddleContent"></y-dynamic-slot>
 
-    <div *ngIf="(cart$ | async)?.totalItems">
+    <div *ngIf="(cart$ | async).totalItems">
         <h2 class="cart-header">
             <span>Cart Details</span>
         </h2>
@@ -40,5 +40,5 @@
 
 <!-- Need to implement the product suggestion component for the cart page  -->
 <div>
-    <y-dynamic-slot *ngIf="(cart$ | async)?.totalItems" position="BottomContentSlot" fxFlex></y-dynamic-slot>
+    <y-dynamic-slot *ngIf="(cart$ | async).totalItems" position="BottomContentSlot" fxFlex></y-dynamic-slot>
 </div>

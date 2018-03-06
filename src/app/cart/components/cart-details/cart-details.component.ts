@@ -1,8 +1,7 @@
 import {
   Component,
   ChangeDetectorRef,
-  ChangeDetectionStrategy,
-  OnInit
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 import { Store } from '@ngrx/store';
@@ -21,7 +20,7 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./cart-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CartDetailsComponent implements OnInit {
+export class CartDetailsComponent {
   cart$;
   entries$;
 
@@ -29,9 +28,7 @@ export class CartDetailsComponent implements OnInit {
     protected cd: ChangeDetectorRef,
     protected store: Store<fromCartStore.CartState>,
     protected cartService: CartService
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
     this.entries$ = this.store.select(fromCartStore.getEntries);
   }

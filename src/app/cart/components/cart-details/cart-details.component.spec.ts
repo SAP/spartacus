@@ -7,6 +7,10 @@ import * as fromReducer from '../../../cart/store/reducers';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartService } from '../../../cart/services';
 import { of } from 'rxjs/observable/of';
+import {
+  DynamicSlotComponent,
+  ComponentWrapperComponent
+} from '../../../cms/components';
 
 class MockCartService {
   removeCartEntry() {}
@@ -31,7 +35,11 @@ fdescribe('CartDetailsComponent', () => {
             cart: combineReducers(fromReducer.reducers)
           })
         ],
-        declarations: [CartDetailsComponent],
+        declarations: [
+          CartDetailsComponent,
+          DynamicSlotComponent,
+          ComponentWrapperComponent
+        ],
         providers: [{ provide: CartService, useClass: MockCartService }]
       }).compileComponents();
     })
@@ -41,7 +49,6 @@ fdescribe('CartDetailsComponent', () => {
     fixture = TestBed.createComponent(CartDetailsComponent);
     cartDetailsComponent = fixture.componentInstance;
     service = TestBed.get(CartService);
-    location = TestBed.get(Location);
 
     store = TestBed.get(Store);
     spyOn(store, 'select').and.returnValue(of(mockComponentData));
