@@ -16,9 +16,9 @@ import { PictureComponent } from '../../../../ui/components/media/picture/pictur
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchConfig } from '../../../search-config';
 
-const mockSearchResults = {
-  pagination: 'mockPagination'
-};
+// const mockSearchResults = {
+//  pagination: 'mockPagination'
+// };
 
 const mockEmptySearchResults = {};
 

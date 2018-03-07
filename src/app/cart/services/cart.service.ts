@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import * as fromStore from '../store';
+import * as fromReducer from '../store/reducers';
+import * as fromAction from '../store/actions';
+import * as fromSelector from '../store/selectors';
+
 import * as fromAuth from '../../auth/store';
 
 const ANOYMOUS_USERID = 'anonymous';
@@ -12,12 +15,12 @@ export class CartService {
   cart: any;
   callback: Function;
 
-  constructor(private store: Store<fromStore.CartState>) {
+  constructor(private store: Store<fromReducer.CartState>) {
     this.initCart();
   }
 
   initCart() {
-    this.store.select(fromStore.getActiveCart).subscribe(cart => {
+    this.store.select(fromSelector.getActiveCart).subscribe(cart => {
       this.cart = cart;
       if (this.callback) {
         this.callback();
@@ -37,11 +40,11 @@ export class CartService {
       if (this.userId !== ANOYMOUS_USERID) {
         if (Object.keys(this.cart).length === 0) {
           this.store.dispatch(
-            new fromStore.LoadCart({ userId: this.userId, cartId: 'current' })
+            new fromAction.LoadCart({ userId: this.userId, cartId: 'current' })
           );
         } else {
           this.store.dispatch(
-            new fromStore.MergeCart({
+            new fromAction.MergeCart({
               userId: this.userId,
               cartId: this.cart.guid
             })
@@ -50,10 +53,10 @@ export class CartService {
       }
     });
 
-    this.store.select(fromStore.getRefresh).subscribe(refresh => {
+    this.store.select(fromSelector.getRefresh).subscribe(refresh => {
       if (refresh) {
         this.store.dispatch(
-          new fromStore.LoadCart({
+          new fromAction.LoadCart({
             userId: this.userId,
             cartId:
               this.userId === ANOYMOUS_USERID ? this.cart.guid : this.cart.code
@@ -65,10 +68,10 @@ export class CartService {
 
   addCartEntry(productCode: string, quantity: number) {
     if (Object.keys(this.cart).length === 0) {
-      this.store.dispatch(new fromStore.CreateCart({ userId: this.userId }));
+      this.store.dispatch(new fromAction.CreateCart({ userId: this.userId }));
       this.callback = function() {
         this.store.dispatch(
-          new fromStore.AddEntry({
+          new fromAction.AddEntry({
             userId: this.userId,
             cartId:
               this.userId === ANOYMOUS_USERID ? this.cart.guid : this.cart.code,
@@ -79,7 +82,7 @@ export class CartService {
       };
     } else {
       this.store.dispatch(
-        new fromStore.AddEntry({
+        new fromAction.AddEntry({
           userId: this.userId,
           cartId:
             this.userId === ANOYMOUS_USERID ? this.cart.guid : this.cart.code,
@@ -92,7 +95,7 @@ export class CartService {
 
   removeCartEntry(entry) {
     this.store.dispatch(
-      new fromStore.RemoveEntry({
+      new fromAction.RemoveEntry({
         userId: this.userId,
         cartId:
           this.userId === ANOYMOUS_USERID ? this.cart.guid : this.cart.code,

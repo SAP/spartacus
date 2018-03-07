@@ -11,7 +11,6 @@ import { MatSidenav } from '@angular/material';
 import { Store } from '@ngrx/store';
 import * as fromProductStore from '../../../store';
 import { SearchConfig } from '../../../search-config';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'y-product-list',
