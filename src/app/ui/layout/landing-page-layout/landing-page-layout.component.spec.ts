@@ -1,21 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ContentPageLayoutComponent } from './content-page-layout.component';
+import { LandingPageLayoutComponent } from './landing-page-layout.component';
 
-xdescribe('ContentPageLayoutComponent', () => {
-  let component: ContentPageLayoutComponent;
-  let fixture: ComponentFixture<ContentPageLayoutComponent>;
+xdescribe('LandingPageLayoutComponent', () => {
+  let component: LandingPageLayoutComponent;
+  let fixture: ComponentFixture<LandingPageLayoutComponent>;
 
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        declarations: [ContentPageLayoutComponent]
+        declarations: [LandingPageLayoutComponent]
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ContentPageLayoutComponent);
+    fixture = TestBed.createComponent(LandingPageLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

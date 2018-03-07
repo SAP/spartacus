@@ -10,7 +10,7 @@ import { CmsModule } from '../../cms/cms.module';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { MainComponent } from './main/main.component';
-import { ContentPageLayoutComponent } from './content-page-layout/content-page-layout.component';
+import { LandingPageLayoutComponent } from './landing-page-layout/landing-page-layout.component';
 
 // import { ComponentsModule } from '../components/components.module';
 
@@ -46,14 +46,14 @@ import { ProductModule } from '../../product/product.module';
     HeaderComponent,
     FooterComponent,
     MainComponent,
-    ContentPageLayoutComponent,
+    LandingPageLayoutComponent,
     ProductListPageLayoutComponent,
     ProductDetailsPageLayoutComponent,
     CartPageLayoutComponent
   ],
   exports: [
     MainComponent,
-    ContentPageLayoutComponent,
+    LandingPageLayoutComponent,
     ProductListPageLayoutComponent,
     ProductDetailsPageLayoutComponent,
     CartPageLayoutComponent
