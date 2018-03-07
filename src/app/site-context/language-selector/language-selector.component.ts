@@ -42,6 +42,7 @@ export class LanguageSelectorComponent implements OnInit {
 
   setActiveLanguage(language) {
     this.activeLanguage = language;
+    console.log(this.activeLanguage);
     this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
 
     let pageContext: PageContext;

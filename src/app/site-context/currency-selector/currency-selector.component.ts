@@ -42,6 +42,7 @@ export class CurrencySelectorComponent implements OnInit {
 
   setActiveCurrency(currency) {
     this.activeCurrency = currency;
+    console.log(this.activeCurrency);
     this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
 
     let pageContext: PageContext;

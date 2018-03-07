@@ -10,6 +10,7 @@ import { MatSidenav } from '@angular/material';
 
 import { Store } from '@ngrx/store';
 import * as fromProductStore from '../../../store';
+import { tap } from 'rxjs/operators';
 import { SearchConfig } from '../../../search-config';
 
 @Component({
@@ -41,10 +42,16 @@ export class ProductListComponent implements OnChanges, OnInit {
     this.grid = {
       mode: this.gridMode
     };
-    if (this.query) {
-      this.search(this.query);
-    }
-    this.model$ = this.store.select(fromProductStore.getSearchResults);
+
+    this.model$ = this.store.select(fromProductStore.getSearchResults).pipe(
+      tap(results => {
+        if (Object.keys(results).length === 0) {
+          if (this.query) {
+            this.search(this.query);
+          }
+        }
+      })
+    );
   }
 
   ngOnChanges() {
