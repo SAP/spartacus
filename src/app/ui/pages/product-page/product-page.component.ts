@@ -5,11 +5,11 @@ import { Store } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
 
 @Component({
-  selector: 'y-product-detail-page',
-  templateUrl: './product-detail-page.component.html',
-  styleUrls: ['./product-detail-page.component.scss']
+  selector: 'y-product-page',
+  templateUrl: './product-page.component.html',
+  styleUrls: ['./product-page.component.scss']
 })
-export class ProductDetailPageComponent implements OnInit {
+export class ProductPageComponent implements OnInit {
   productCode;
 
   constructor(private store: Store<fromRouting.State>) {}

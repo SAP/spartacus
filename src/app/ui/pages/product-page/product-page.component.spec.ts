@@ -7,7 +7,7 @@ import * as fromUser from '../../../auth/store';
 import { of } from 'rxjs/observable/of';
 import { RouterTestingModule } from '@angular/router/testing';
 import * as fromRoot from '../../../routing/store';
-import { ProductDetailPageComponent } from './product-detail-page.component';
+import { ProductPageComponent } from './product-page.component';
 import { ProductDetailsPageLayoutComponent } from '../../layout/product-details-page-layout/product-details-page-layout.component';
 import { ProductDetailsComponent } from '../../../product/components/product-details/container/product-details.component';
 import {
@@ -33,10 +33,10 @@ const routerState = {
   }
 };
 
-describe('ProductDetailPageComponent in pages', () => {
+describe('ProductPageComponent in pages', () => {
   let store: Store<fromRouting.State>;
-  let component: ProductDetailPageComponent;
-  let fixture: ComponentFixture<ProductDetailPageComponent>;
+  let component: ProductPageComponent;
+  let fixture: ComponentFixture<ProductPageComponent>;
 
   beforeEach(
     async(() => {
@@ -51,7 +51,7 @@ describe('ProductDetailPageComponent in pages', () => {
           })
         ],
         declarations: [
-          ProductDetailPageComponent,
+          ProductPageComponent,
           ProductDetailsPageLayoutComponent,
           ProductDetailsComponent,
           DynamicSlotComponent,
@@ -70,7 +70,7 @@ describe('ProductDetailPageComponent in pages', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProductDetailPageComponent);
+    fixture = TestBed.createComponent(ProductPageComponent);
     component = fixture.componentInstance;
 
     store = TestBed.get(Store);

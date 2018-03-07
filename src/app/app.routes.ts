@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import { HomePageComponent } from './ui/pages/home-page/home-page.component';
 import { CartPageComponent } from './ui/pages/cart-page/cart-page.component';
-import { ProductDetailPageComponent } from './ui/pages/product-detail-page/product-detail-page.component';
+import { ProductPageComponent } from './ui/pages/product-page/product-page.component';
 import { CategoryPageComponent } from './ui/pages/category-page/category-page.component';
 
 import { PageNotFoundComponent } from './ui/pages/404/404.component';
@@ -33,7 +33,7 @@ export const appRoutes: Routes = [
   {
     path: 'product/:productCode',
     canActivate: [ProductGuard, CmsPageGuards],
-    component: ProductDetailPageComponent
+    component: ProductPageComponent
   },
 
   // redirect OLD links

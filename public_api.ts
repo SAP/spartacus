@@ -32,7 +32,7 @@ export * from './src/app/cart/components/add-to-cart/add-to-cart.module';
 // Export indivudual components from './src/app/ui/templates/templates.module'
 export * from './src/app/ui/pages/home-page/home-page.component';
 export * from './src/app/ui/pages/cart-page/cart-page.component';
-export * from './src/app/ui/pages/product-detail-page/product-detail-page.component';
+export * from './src/app/ui/pages/product-page/product-page.component';
 export * from './src/app/ui/pages/product-list-page/product-list-page.component';
 export * from './src/app/ui/pages/404/404.component';
 export * from './src/app/ui/pages/category-page/category-page.component';
