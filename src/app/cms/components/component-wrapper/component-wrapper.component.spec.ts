@@ -31,7 +31,7 @@ export class MockConfigService {
 
 const cmsComponents: any[] = [{ uid: 'TestUid', typeCode: 'CMSTestComponent' }];
 
-fdescribe('ComponentWrapperComponent', () => {
+describe('ComponentWrapperComponent', () => {
   let wrapperComponent: ComponentWrapperComponent;
   let fixture: ComponentFixture<ComponentWrapperComponent>;
   let store: Store<fromReducers.CmsState>;

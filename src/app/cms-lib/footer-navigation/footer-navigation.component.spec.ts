@@ -102,7 +102,7 @@ export class FooterNavigationStubService {
   }
 }
 
-fdescribe('FooterNavigationComponent', () => {
+describe('FooterNavigationComponent', () => {
   let footerNavigationComponent: FooterNavigationComponent;
   let fixture: ComponentFixture<FooterNavigationComponent>;
   let store: Store<fromCmsReducer.CmsState>;

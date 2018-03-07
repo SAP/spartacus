@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MaterialModule } from 'app/material.module';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 
-fdescribe('ProductSummaryComponent in product', () => {
+describe('ProductSummaryComponent in product', () => {
   let productSummaryComponent: ProductSummaryComponent;
   let fixture: ComponentFixture<ProductSummaryComponent>;
 

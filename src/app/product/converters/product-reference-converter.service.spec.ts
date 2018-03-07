@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { ProductReferenceConverterService } from './product-reference-converter.service';
 
-fdescribe('ProductReferenceConverterService', () => {
+describe('ProductReferenceConverterService', () => {
   let service: ProductReferenceConverterService;
 
   beforeEach(() => {

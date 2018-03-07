@@ -1,8 +1,4 @@
-export * from './src/app/auth/components/login/login.module';
-export * from './src/app/occ/occ.module';
 export * from './src/app/newocc/newocc.module';
-export * from './src/app/occ/occ-core/occ-core.module';
-export * from './src/app/data/data.module';
 export * from './src/app/ui/ui-framework/ui-framework.module';
 export * from './src/app/ui/ui.module';
 export * from './src/app/ui/routes';
@@ -12,7 +8,6 @@ export * from './src/app/ui/components/components.module';
 export * from './src/app/ui/components/media/media.module';
 export * from './src/app/ui/components/product-list/product-list.module';
 export * from './src/app/cms-lib/cms-lib.module';
-export * from './src/app/cms-lib/add-to-cart/add-to-cart.module';
 export * from './src/app/cms-lib/banner/banner.module';
 export * from './src/app/cms-lib/breadcrumb/breadcrumb.module';
 export * from './src/app/cms-lib/category-navigation/category-navigation.module';
@@ -30,6 +25,10 @@ export * from './src/app/cms/cms.module';
 export * from './src/app/routing/routing.module';
 export * from './src/app/site-context/currency-selector/currency-selector.module';
 export * from './src/app/site-context/language-selector/language-selector.module';
+export * from './src/app/auth/auth.module';
+export * from './src/app/auth/components/login/login.module';
+export * from './src/app/cart/cart.module';
+export * from './src/app/cart/components/add-to-cart/add-to-cart.module';
 
 // Export indivudual components from './src/app/ui/templates/templates.module'
 export * from './src/app/ui/templates/home-page/home-page.component';

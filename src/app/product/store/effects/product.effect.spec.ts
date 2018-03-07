@@ -34,7 +34,7 @@ export function getActions() {
   return new TestActions();
 }
 
-fdescribe('Product Effects', () => {
+describe('Product Effects', () => {
   let actions$: TestActions;
   let service: OccProductService;
   let effects: fromEffects.ProductEffects;

@@ -20,7 +20,7 @@ export class UseConfigService {
   };
 }
 
-fdescribe('SearchBoxComponent in CmsLib', () => {
+describe('SearchBoxComponent in CmsLib', () => {
   let store: Store<fromCmsReducer.CmsState>;
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;

@@ -1,6 +1,6 @@
 import * as fromRouter from './router.action';
 
-fdescribe('Router Actions', () => {
+describe('Router Actions', () => {
   describe('Go Action', () => {
     it('should create an action', () => {
       const payload = {

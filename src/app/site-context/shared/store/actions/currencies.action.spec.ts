@@ -4,7 +4,7 @@ import {
   PageType
 } from '../../../../routing/models/page-context.model';
 
-fdescribe('Currencies Actions', () => {
+describe('Currencies Actions', () => {
   describe('LoadCurrencies Actions', () => {
     describe('LoadCurrencies', () => {
       it('should create an action', () => {

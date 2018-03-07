@@ -15,7 +15,7 @@ class UseConfigService {
   };
 }
 
-fdescribe('BannerComponent', () => {
+describe('BannerComponent', () => {
   let bannerComponent: BannerComponent;
   let fixture: ComponentFixture<BannerComponent>;
   let store: Store<fromCmsReducer.CmsState>;

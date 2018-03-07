@@ -6,7 +6,7 @@ import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from '../selectors/languages.selectors';
 
-fdescribe('Languages Selectors', () => {
+describe('Languages Selectors', () => {
   let store: Store<fromReducers.SiteContextState>;
 
   const languages: any[] = [{ active: true, isocode: 'ja', name: 'Japanese' }];

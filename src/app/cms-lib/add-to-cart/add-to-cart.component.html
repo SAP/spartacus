@@ -1,6 +1,0 @@
-<button [disabled]="isLoading" mat-raised-button color="primary" class="call-to-action" (click)="addToCart()">
-    <span *ngIf="cartEntryQuantity && cartEntryQuantity > 0" class="entry-quantity">{{cartEntryQuantity}}</span>
-    <mat-icon>add_shopping_cart</mat-icon> 
-    <span *ngIf="!iconOnly">Add to Cart</span>
-    <mat-progress-bar *ngIf="isLoading" class="loader" color="primary" mode="indeterminate"></mat-progress-bar>
-</button>

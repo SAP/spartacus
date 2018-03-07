@@ -9,6 +9,7 @@ import { of } from 'rxjs/observable/of';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageType } from '../../../routing/models/page-context.model';
 import { MatDialog } from '@angular/material';
+import { UserToken } from '../../models/token-types.model';
 
 const mockUser = {
   username: 'mockUsername',
@@ -16,27 +17,18 @@ const mockUser = {
   rememberMe: false
 };
 
-const mockEmptyUser: any = {
-  account: {
-    details: {}
-  },
-  auth: {
-    token: {}
-  }
-};
-
-const mockUserToken: any = {
+const mockUserToken: UserToken = {
   access_token: 'xxx',
   token_type: 'bearer',
   refresh_token: 'xxx',
   expires_in: 1000,
   scope: ['xxx'],
-  username: 'xxx'
+  userId: 'xxx'
 };
 
 const cntx = { id: 'testPageId', type: PageType.CONTENT_PAGE };
 
-fdescribe('LoginComponent', () => {
+describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let store: Store<fromStore.UserState>;
@@ -70,7 +62,7 @@ fdescribe('LoginComponent', () => {
     spyOn(dialog, 'open').and.callThrough();
   });
 
-  it('should create', () => {
+  it('should be created', () => {
     const routerState = {
       state: {
         context: cntx
@@ -96,51 +88,34 @@ fdescribe('LoginComponent', () => {
     );
   });
 
-  it('should login and not dispatch user details', () => {
+  it('should login', () => {
     component.username = mockUser.username;
     component.password = mockUser.password;
-
     component.login();
 
-    store.select(fromStore.getUserState).subscribe(data => {
-      expect(data).toEqual(mockEmptyUser);
-    });
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadUserToken({
-        username: mockUser.username,
-        password: mockUser.password
+        userId: component.username,
+        password: component.password
       })
     );
-    expect(store.dispatch).not.toHaveBeenCalledWith(mockUser.username);
   });
 
-  it('should login and also dispatch user details', () => {
+  it('should load user details when token exists', () => {
     component.username = mockUser.username;
     component.pageContext = cntx;
 
-    const spy = spyOn(store, 'select');
+    spyOn(store, 'select').and.returnValue(of(mockUserToken));
 
-    spy.and.returnValue(of(mockUserToken));
-    const action = new fromStore.LoadUserTokenSuccess(mockUserToken);
+    component.ngOnInit();
 
-    store.dispatch(action);
-
-    component.login();
-
-    spy.and.callThrough();
-    store.select(fromStore.getUserState).subscribe(data => {
-      expect(data.auth.token).toEqual(mockUserToken);
-    });
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadUserTokenSuccess(mockUserToken)
-    );
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadUserDetails(component.username)
+      new fromStore.LoadUserDetails(mockUserToken.userId)
     );
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.Login(component.pageContext)
     );
+    component.isLogin = true;
   });
-
   // Add some UI unit tests once we remove material
 });

@@ -23,7 +23,7 @@ export class MockConfigService {
   };
 }
 
-fdescribe('ComponentMapperService', () => {
+describe('ComponentMapperService', () => {
   let mapperService: ComponentMapperService;
 
   beforeEach(() => {

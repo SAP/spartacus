@@ -14,7 +14,7 @@ export class UseConfigService {
   };
 }
 
-fdescribe('CmsParagraphComponent in CmsLib', () => {
+describe('CmsParagraphComponent in CmsLib', () => {
   let store: Store<fromCmsReducer.CmsState>;
   let paragraphComponent: ParagraphComponent;
   let fixture: ComponentFixture<ParagraphComponent>;

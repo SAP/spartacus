@@ -4,7 +4,7 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from './../../../routing/store';
 import * as fromStore from './../../store';
 
-fdescribe('Product Reviews selectors', () => {
+describe('Product Reviews selectors', () => {
   const productCode = '123';
   const reviews = [
     {

@@ -2,7 +2,7 @@ import * as fromUserToken from './user-token.reducer';
 import * as fromActions from './../actions/user-token.action';
 import { UserToken } from '../../models/token-types.model';
 
-fdescribe('UserToken reducer', () => {
+describe('UserToken reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromUserToken;
@@ -21,7 +21,7 @@ fdescribe('UserToken reducer', () => {
         refresh_token: 'xxx',
         expires_in: 1000,
         scope: ['xxx'],
-        username: 'xxx'
+        userId: 'xxx'
       };
       const { initialState } = fromUserToken;
 

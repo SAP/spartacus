@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { NavigationService } from './navigation.service';
 
-fdescribe('NavigationService', () => {
+describe('NavigationService', () => {
   let navigationService: NavigationService;
 
   const mockedData = {

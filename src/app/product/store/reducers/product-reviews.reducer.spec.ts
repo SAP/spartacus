@@ -1,7 +1,7 @@
 import * as fromReducer from './../reducers/product-reviews.reducer';
 import * as fromActions from './../actions/product-reviews.action';
 
-fdescribe('Product Reviews reducer', () => {
+describe('Product Reviews reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;

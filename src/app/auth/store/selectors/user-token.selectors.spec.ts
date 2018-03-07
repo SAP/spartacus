@@ -8,7 +8,7 @@ import * as fromSelectors from './../selectors';
 import * as fromActions from './../actions';
 import { UserToken } from '../../models/token-types.model';
 
-fdescribe('Auth Selectors', () => {
+describe('Auth Selectors', () => {
   let store: Store<fromReducers.UserState>;
 
   beforeEach(() => {
@@ -25,7 +25,7 @@ fdescribe('Auth Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getUserTokenState', () => {
+  describe('getUserToken', () => {
     it('should return a user token from the state', () => {
       let result: UserToken;
       store
@@ -39,7 +39,7 @@ fdescribe('Auth Selectors', () => {
         refresh_token: 'xxx',
         expires_in: 1000,
         scope: ['xxx'],
-        username: 'xxx'
+        userId: 'xxx'
       };
       store.dispatch(new fromActions.LoadUserTokenSuccess(testToken));
 

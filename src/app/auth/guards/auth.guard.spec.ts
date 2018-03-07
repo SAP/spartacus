@@ -14,7 +14,7 @@ const mockUserValidToken = {
 
 const mockUserInvalidToken = {};
 
-fdescribe('AuthGuard', () => {
+describe('AuthGuard', () => {
   let authGuard: AuthGuard;
   let store: Store<fromStore.UserState>;
 

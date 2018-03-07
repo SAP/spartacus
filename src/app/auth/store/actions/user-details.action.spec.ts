@@ -9,7 +9,7 @@ const mockUserDetails: any = {
   uid: 'UID'
 };
 
-fdescribe('User Details Actions', () => {
+describe('User Details Actions', () => {
   describe('LoadUserDetails Actions', () => {
     it('should create the action', () => {
       const action = new fromUserDetailsAction.LoadUserDetails(

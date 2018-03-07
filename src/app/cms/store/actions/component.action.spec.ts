@@ -1,6 +1,6 @@
 import * as fromComponent from './component.action';
 
-fdescribe('Cms Component Actions', () => {
+describe('Cms Component Actions', () => {
   describe('LoadComponent Actions', () => {
     describe('LoadComponent', () => {
       it('should create an action', () => {

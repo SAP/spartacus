@@ -17,7 +17,7 @@ export class MockConfigService {
   };
 }
 
-fdescribe('CmsPageGuards', () => {
+describe('CmsPageGuards', () => {
   let store: Store<fromReducers.CmsState>;
   let cmsPageGuards: CmsPageGuards;
 

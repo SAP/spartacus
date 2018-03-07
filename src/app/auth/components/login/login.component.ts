@@ -10,9 +10,10 @@ import { Subscription } from 'rxjs/Subscription';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../store';
-import { tap, filter, take } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { PageContext } from '../../../routing/models/page-context.model';
 import * as fromRouting from '../../../routing/store';
+import { UserToken } from '../../models/token-types.model';
 
 @Component({
   selector: 'y-login',
@@ -42,7 +43,22 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe(routerState => (this.pageContext = routerState.state.context));
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.subscription = this.store
+      .select(fromStore.getUserToken)
+      .pipe(
+        tap((token: UserToken) => {
+          if (token.access_token !== undefined) {
+            this.isLogin = true;
+            this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
+            if (this.pageContext !== undefined) {
+              this.store.dispatch(new fromStore.Login(this.pageContext));
+            }
+          }
+        })
+      )
+      .subscribe();
+  }
 
   openLogin() {
     const dialogRef = this.dialog.open(LoginDialogComponent, {
@@ -72,29 +88,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.subscription = this.store
-      .select(fromStore.getUserToken)
-      .pipe(
-        tap((token: any) => {
-          if (token.access_token === undefined) {
-            this.store.dispatch(
-              new fromStore.LoadUserToken({
-                username: this.username,
-                password: this.password
-              })
-            );
-          } else {
-            this.isLogin = true;
-            this.store.dispatch(new fromStore.LoadUserDetails(this.username));
-            if (this.pageContext !== undefined) {
-              this.store.dispatch(new fromStore.Login(this.pageContext));
-            }
-          }
-        }),
-        filter(() => this.isLogin),
-        take(1)
-      )
-      .subscribe();
+    this.store.dispatch(
+      new fromStore.LoadUserToken({
+        userId: this.username,
+        password: this.password
+      })
+    );
   }
 
   ngOnDestroy() {

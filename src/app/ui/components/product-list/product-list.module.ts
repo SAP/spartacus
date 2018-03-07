@@ -8,7 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ProductListComponent } from './product-list.component';
 import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';
 
-import { AddToCartModule } from '../../../cms-lib/add-to-cart/add-to-cart.module';
+import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-cart.module';
 
 import { MediaModule } from '../media/media.module';
 import { ProductPagingComponent } from './product-paging/product-paging.component';

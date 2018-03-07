@@ -15,7 +15,7 @@ const mockUserDetails: any = {
   uid: 'UID'
 };
 
-fdescribe('User Details Selectors', () => {
+describe('User Details Selectors', () => {
   let store: Store<fromReducers.UserState>;
 
   beforeEach(() => {

@@ -15,7 +15,7 @@ class UseConfigService {
   };
 }
 
-fdescribe('LinkComponent', () => {
+describe('LinkComponent', () => {
   let linkComponent: LinkComponent;
   let fixture: ComponentFixture<LinkComponent>;
   let store: Store<fromCmsReducer.CmsState>;

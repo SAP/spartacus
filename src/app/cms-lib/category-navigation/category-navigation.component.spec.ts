@@ -13,7 +13,7 @@ class UseConfigService {
   };
 }
 
-fdescribe('CategoryNavigationComponent', () => {
+describe('CategoryNavigationComponent', () => {
   let component: CategoryNavigationComponent;
   let fixture: ComponentFixture<CategoryNavigationComponent>;
 

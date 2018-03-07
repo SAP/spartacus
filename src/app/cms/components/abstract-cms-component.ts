@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  OnDestroy,
-  ChangeDetectorRef,
-  Input
-} from '@angular/core';
+import { Injectable, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';

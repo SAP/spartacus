@@ -29,7 +29,7 @@ export function getActions() {
   return new TestActions();
 }
 
-fdescribe('Languages Effects', () => {
+describe('Languages Effects', () => {
   let actions$: TestActions;
   let service: OccSiteService;
   let effects: fromEffects.LanguagesEffects;

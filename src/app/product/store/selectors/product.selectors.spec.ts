@@ -6,7 +6,7 @@ import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from './product.selectors';
 
-fdescribe('Cms Component Selectors', () => {
+describe('Cms Component Selectors', () => {
   let store: Store<fromReducers.ProductsState>;
 
   const code = 'testCode';

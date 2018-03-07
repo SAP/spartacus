@@ -29,7 +29,7 @@ export function getActions() {
   return new TestActions();
 }
 
-fdescribe('Currencies Effects', () => {
+describe('Currencies Effects', () => {
   let actions$: TestActions;
   let service: OccSiteService;
   let effects: fromEffects.CurrenciesEffects;

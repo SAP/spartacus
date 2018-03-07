@@ -16,7 +16,7 @@ export class UseConfigService {
   };
 }
 
-fdescribe('CmsNavigationComponent in CmsLib', () => {
+describe('CmsNavigationComponent in CmsLib', () => {
   let store: Store<fromCmsReducer.CmsState>;
   let navigationComponent: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;
