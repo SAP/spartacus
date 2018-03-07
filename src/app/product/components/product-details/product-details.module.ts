@@ -15,6 +15,7 @@ import { ProductReviewsComponent } from './product-reviews/product-reviews.compo
 import { CmsModule } from '../../../cms/cms.module'; // some slots are loaded inside components (i.e. tabs)
 
 import { MediaModule } from '../../../ui/components/media/media.module';
+import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-cart.module';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { MediaModule } from '../../../ui/components/media/media.module';
     MediaModule,
     MaterialModule,
     FlexLayoutModule,
-    CmsModule
+    CmsModule,
+    AddToCartModule
   ],
   declarations: [
     ProductSummaryComponent,
