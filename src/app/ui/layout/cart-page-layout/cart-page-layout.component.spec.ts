@@ -6,7 +6,6 @@ import * as fromRoot from '../../../routing/store';
 import * as fromReducer from '../../../cart/store/reducers';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartService } from '../../../cart/services';
-import { of } from 'rxjs/observable/of';
 import {
   DynamicSlotComponent,
   ComponentWrapperComponent
@@ -16,8 +15,6 @@ import { CartPageLayoutComponent } from './cart-page-layout.component';
 class MockCartService {
   removeCartEntry() {}
 }
-
-const mockComponentData = 'mockComponentData';
 
 describe('CartPageLayoutComponent', () => {
   let store: Store<fromReducer.CartState>;
@@ -55,7 +52,7 @@ describe('CartPageLayoutComponent', () => {
     store = TestBed.get(Store);
   });
 
-  it('should create cart details component', () => {
+  it('should create cart page', () => {
     expect(component).toBeTruthy();
   });
 });

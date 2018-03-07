@@ -5,14 +5,9 @@ import {
 } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
 
 import * as fromCartStore from '../../../cart/store';
 import { CartService } from '../../../cart/services';
-
-import { MatDialog } from '@angular/material/dialog';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'y-cart-details',
