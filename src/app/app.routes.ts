@@ -53,6 +53,11 @@ export const appRoutes: Routes = [
     path: 'OpenCatalogue/:category1/:category2/:categoryTitle/c/:categoryCode',
     redirectTo: '/category/:categoryCode/:categoryTitle'
   },
+  {
+    path:
+      'Open-Catalogue/:category1/:category2/:category3/:category4/p/:productCode',
+    redirectTo: 'product/:productCode'
+  },
 
   {
     path: 'category/:categoryCode',
