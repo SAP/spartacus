@@ -42,4 +42,12 @@ export class BannerComponent extends AbstractCmsComponent {
   protected getTarget(): string {
     return '_self';
   }
+
+  protected getUrlLink(): string {
+    if (this.component.urlLink.startsWith('/')) {
+      return this.component.urlLink;
+    } else {
+      return '/' + this.component.urlLink;
+    }
+  }
 }
