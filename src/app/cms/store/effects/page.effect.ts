@@ -22,6 +22,7 @@ export class PageEffects {
     .ofType(
       pageActions.LOAD_PAGEDATA,
       '[Site-context] Language Change',
+      '[Site-context] Currency Change',
       '[Auth] Logout',
       '[Auth] Login'
     )
