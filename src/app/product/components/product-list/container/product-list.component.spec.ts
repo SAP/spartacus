@@ -64,26 +64,10 @@ describe('ProductListComponent in product-list', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit and search results exist in store', () => {
-    spyOn(store, 'select').and.returnValue(of(mockSearchResults));
-
-    component.ngOnInit();
-
-    component.model$.subscribe(result =>
-      expect(result).toEqual(mockSearchResults)
-    );
-    expect(store.dispatch).not.toHaveBeenCalledWith(
-      new fromProductStore.SearchProducts({
-        queryText: 'mockQuery',
-        searchConfig: new SearchConfig(10)
-      })
-    );
-  });
-
-  it('should call ngOnInit and search results do not exist in store', () => {
+  it('should call ngOnInit', () => {
     spyOn(store, 'select').and.returnValue(of(mockEmptySearchResults));
-    component.query = 'mockQuery';
 
+    component.query = 'mockQuery';
     component.ngOnInit();
     component.model$.subscribe();
 
@@ -105,7 +89,6 @@ describe('ProductListComponent in product-list', () => {
     component.categoryCode = 'mockCategoryCode';
     component.ngOnChanges();
 
-    expect(component.query).toEqual(':relevance:category:mockCategoryCode');
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProductStore.SearchProducts({
         queryText: ':relevance:category:mockCategoryCode',
@@ -118,7 +101,6 @@ describe('ProductListComponent in product-list', () => {
     component.brandCode = 'mockBrandCode';
     component.ngOnChanges();
 
-    expect(component.query).toEqual(':relevance:brand:mockBrandCode');
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProductStore.SearchProducts({
         queryText: ':relevance:brand:mockBrandCode',

@@ -42,28 +42,24 @@ export class ProductListComponent implements OnChanges, OnInit {
     this.grid = {
       mode: this.gridMode
     };
-    if (
-      this.query.indexOf('category') === -1 &&
-      this.query.indexOf('brand') === -1
-    ) {
+    if (this.query) {
       this.search(this.query);
     }
     this.model$ = this.store.select(fromProductStore.getSearchResults);
   }
 
   ngOnChanges() {
+    let categorySearch;
+
     if (this.categoryCode) {
-      this.query = ':relevance:category:' + this.categoryCode;
+      categorySearch = ':relevance:category:' + this.categoryCode;
     }
     if (this.brandCode) {
-      this.query = ':relevance:brand:' + this.brandCode;
+      categorySearch = ':relevance:brand:' + this.brandCode;
     }
 
-    if (
-      this.query.indexOf('category') > -1 ||
-      this.query.indexOf('brand') > -1
-    ) {
-      this.search(this.query);
+    if (categorySearch) {
+      this.search(categorySearch);
     }
   }
 
