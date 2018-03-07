@@ -7,7 +7,7 @@
 </ng-container>
 
 <ng-container *ngIf="(cmsPage$ | async)?.template === 'CategoryPageTemplate'">
-    <y-product-list-page-layout [gridMode]="'list'" [categoryCode]="categoryCode" [brandCode]="brandCode"></y-product-list-page-layout>
+    <y-category-page-layout [categoryCode]="categoryCode"></y-category-page-layout>
 </ng-container>
 
 <ng-container *ngIf="(cmsPage$ | async)?.template === 'SearchResultsListPageTemplate'">
