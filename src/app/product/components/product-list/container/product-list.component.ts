@@ -46,6 +46,12 @@ export class ProductListComponent implements OnChanges, OnInit {
     this.model$ = this.store.select(fromProductStore.getSearchResults).pipe(
       tap(results => {
         if (Object.keys(results).length === 0) {
+          if (this.categoryCode) {
+            this.query = ':relevance:category:' + this.categoryCode;
+          }
+          if (this.brandCode) {
+            this.query = ':relevance:brand:' + this.brandCode;
+          }
           if (this.query) {
             this.search(this.query);
           }
@@ -54,20 +60,7 @@ export class ProductListComponent implements OnChanges, OnInit {
     );
   }
 
-  ngOnChanges() {
-    let categorySearch;
-
-    if (this.categoryCode) {
-      categorySearch = ':relevance:category:' + this.categoryCode;
-    }
-    if (this.brandCode) {
-      categorySearch = ':relevance:brand:' + this.brandCode;
-    }
-
-    if (categorySearch) {
-      this.search(categorySearch);
-    }
-  }
+  ngOnChanges() {}
 
   toggleSidenav() {
     this.sidenav.toggle();
