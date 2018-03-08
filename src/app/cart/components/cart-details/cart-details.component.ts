@@ -1,6 +1,5 @@
 import {
   Component,
-  ChangeDetectorRef,
   ChangeDetectionStrategy
 } from '@angular/core';
 
@@ -20,7 +19,6 @@ export class CartDetailsComponent {
   entries$;
 
   constructor(
-    protected cd: ChangeDetectorRef,
     protected store: Store<fromCartStore.CartState>,
     protected cartService: CartService
   ) {

@@ -11,9 +11,16 @@ import {
   ComponentWrapperComponent
 } from '../../../cms/components';
 import { CartPageLayoutComponent } from './cart-page-layout.component';
+import { of } from 'rxjs/observable/of';
+import { ComponentMapperService } from '../../../cms/services';
+import { Subscription } from 'rxjs/Subscription';
 
 class MockCartService {
   removeCartEntry() {}
+}
+
+class MockMapperService {
+  getComponentTypeByCode() {}
 }
 
 describe('CartPageLayoutComponent', () => {
@@ -39,7 +46,10 @@ describe('CartPageLayoutComponent', () => {
           DynamicSlotComponent,
           ComponentWrapperComponent
         ],
-        providers: [{ provide: CartService, useClass: MockCartService }]
+        providers: [
+          { provide: CartService, useClass: MockCartService },
+          { provide: ComponentMapperService, useClass: MockMapperService }
+        ]
       }).compileComponents();
     })
   );
@@ -50,9 +60,20 @@ describe('CartPageLayoutComponent', () => {
     service = TestBed.get(CartService);
 
     store = TestBed.get(Store);
+
+    spyOn(store, 'select').and.returnValue(of(['mockData']));
   });
 
   it('should create cart page', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call ngAfterViewInit', () => {
+    component.cartDetail = new CartDetailsComponent(store, service);
+
+    component.ngAfterViewInit();
+    fixture.detectChanges();
+
+    expect(component.cart[0]).toBe('mockData');
   });
 });
