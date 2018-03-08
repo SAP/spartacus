@@ -15,14 +15,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { CartModule } from '../cart/cart.module';
 
-// components
-import * as fromComponents from './components';
-
 // guards
 import * as fromGuards from './guards';
 
 // converter
 import * as fromConverter from './converters';
+import { ProductListModule } from './components/product-list/product-list.module';
+import { ProductDetailsModule } from './components/product-details/product-details.module';
 
 @NgModule({
   imports: [
@@ -36,8 +35,7 @@ import * as fromConverter from './converters';
     StoreModule.forFeature('products', reducers, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
-  declarations: [...fromComponents.components],
-  exports: [...fromComponents.components],
+  exports: [ProductListModule, ProductDetailsModule],
   providers: [...fromConverter.services, ...fromGuards.guards]
 })
 export class ProductModule {}

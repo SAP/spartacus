@@ -9,8 +9,14 @@ import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 
+import { StoreModule, combineReducers } from '@ngrx/store';
+import * as fromRoot from '../../../routing/store';
+import * as fromCart from '../../../cart/store';
+import * as fromUser from '../../../auth/store';
+
 import { OccCartService } from '../../../newocc/cart/cart.service';
 import { ConfigService } from '../../../newocc/config.service';
+import { CartService } from '../../services';
 import { ProductImageConverterService } from '../../../product/converters';
 import * as fromEffects from './cart.effect';
 import * as fromActions from '../actions/cart.action';
@@ -54,12 +60,21 @@ describe('Cart effect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers)
+        })
+      ],
+
       providers: [
         OccCartService,
         ProductImageConverterService,
         fromEffects.CartEffects,
         ConfigService,
+        CartService,
         { provide: Actions, useFactory: getActions }
       ]
     });

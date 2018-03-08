@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import * as fromActions from './../actions/cart.action';
+
 import { Observable } from 'rxjs/Observable';
 import { Actions, Effect } from '@ngrx/effects';
 import { map, mergeMap, catchError } from 'rxjs/operators';
@@ -8,26 +9,48 @@ import { of } from 'rxjs/observable/of';
 
 import { OccCartService } from '../../../newocc/cart/cart.service';
 import { ProductImageConverterService } from '../../../product/converters';
+import { CartService } from '../../services/cart.service';
+import { ANOYMOUS_USERID } from '../../services/cart.service';
 
 @Injectable()
 export class CartEffects {
   @Effect()
-  loadCart$: Observable<any> = this.actions$.ofType(fromActions.LOAD_CART).pipe(
-    map((action: fromActions.LoadCart) => action.payload),
-    mergeMap(payload => {
-      return this.cartService.loadCart(payload.userId, payload.cartId).pipe(
-        map((cart: any) => {
-          if (cart.entries) {
-            for (const entry of cart.entries) {
-              this.productImageConverter.convertProduct(entry.product);
-            }
-          }
-          return new fromActions.LoadCartSuccess(cart);
-        }),
-        catchError(error => of(new fromActions.LoadCartFail(error)))
-      );
-    })
-  );
+  loadCart$: Observable<any> = this.actions$
+    .ofType(
+      fromActions.LOAD_CART,
+      '[Site-context] Language Change',
+      '[Site-context] Currency Change'
+    )
+    .pipe(
+      map((action: any) => action.payload),
+      mergeMap(payload => {
+        if (payload === undefined || payload.userId === undefined) {
+          payload = {
+            userId: this.cartService.userId,
+            cartId:
+              this.cartService.userId === ANOYMOUS_USERID
+                ? this.cartService.cart.guid
+                : this.cartService.cart.code
+          };
+        }
+        if (payload.userId === undefined || payload.cartId === undefined) {
+          return of(new fromActions.LoadCartFail({}));
+        }
+        return this.occCartService
+          .loadCart(payload.userId, payload.cartId)
+          .pipe(
+            map((cart: any) => {
+              if (cart.entries) {
+                for (const entry of cart.entries) {
+                  this.productImageConverter.convertProduct(entry.product);
+                }
+              }
+              return new fromActions.LoadCartSuccess(cart);
+            }),
+            catchError(error => of(new fromActions.LoadCartFail(error)))
+          );
+      })
+    );
 
   @Effect()
   createCart$: Observable<any> = this.actions$
@@ -35,7 +58,7 @@ export class CartEffects {
     .pipe(
       map((action: fromActions.CreateCart) => action.payload),
       mergeMap(payload => {
-        return this.cartService
+        return this.occCartService
           .createCart(
             payload.userId,
             payload.oldCartId,
@@ -61,7 +84,7 @@ export class CartEffects {
     .pipe(
       map((action: fromActions.MergeCart) => action.payload),
       mergeMap(payload => {
-        return this.cartService.loadCart(payload.userId, 'current').pipe(
+        return this.occCartService.loadCart(payload.userId, 'current').pipe(
           map(currentCart => {
             return new fromActions.CreateCart({
               userId: payload.userId,
@@ -76,6 +99,7 @@ export class CartEffects {
   constructor(
     private actions$: Actions,
     private productImageConverter: ProductImageConverterService,
-    private cartService: OccCartService
+    private occCartService: OccCartService,
+    private cartService: CartService
   ) {}
 }

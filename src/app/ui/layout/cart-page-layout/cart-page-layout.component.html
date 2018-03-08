@@ -1,0 +1,10 @@
+
+    <div>
+        <y-dynamic-slot class="empty-cart-message" *ngIf="!cart?.totalItems" position="EmptyCartMiddleContent"></y-dynamic-slot>
+        <y-cart-details></y-cart-details>
+    </div>
+    
+    <!-- Need to implement the product suggestion component for the cart page  -->
+    <div>
+        <y-dynamic-slot *ngIf="cart?.totalItems" position="BottomContentSlot" fxFlex></y-dynamic-slot>
+    </div>

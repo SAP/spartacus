@@ -1,6 +1,6 @@
 <div class="form-group">
     <i class="fa fa-globe" aria-hidden="true"></i>
-    <label class="sr-only" for="exampleFormControlSelect1">Language</label>
+    <label class="sr-only" for="language-selector">Language</label>
     <select class="form-control language-selector__select" id="language-selector" (change)="setActiveLanguage($event.target.value)">
         <option *ngFor="let item of (languages$ | async)" [selected]="activeLanguage == item.isocode" [value]="item.isocode">{{item.nativeName}}</option>
     </select>

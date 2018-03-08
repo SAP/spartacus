@@ -1,12 +1,14 @@
-<button fxHide [fxShow.xs]="true" routerLink="/cart" mat-icon-button color="primary" >
-    <span *ngIf="(cart$ | async)?.deliveryItemsQuantity > 0" class="entry-quantity">{{(cart$ | async)?.deliveryItemsQuantity}}</span>
-    <mat-icon>shopping_cart</mat-icon>
-</button>
+<ng-container *ngIf="cart$ | async as cart">
+    <button fxHide [fxShow.xs]="true" routerLink="/cart" mat-icon-button color="primary" >
+        <span *ngIf="cart?.deliveryItemsQuantity > 0" class="entry-quantity">{{cart?.deliveryItemsQuantity}}</span>
+        <mat-icon>shopping_cart</mat-icon>
+    </button>
 
-<!--<mat-spinner></mat-spinner>-->
+    <!--<mat-spinner></mat-spinner>-->
 
-<button [fxHide.xs]="true" (click)="openCart()" mat-icon-button color="primary">
-    <span *ngIf="(cart$ | async)?.deliveryItemsQuantity > 0" class="entry-quantity">{{(cart$ | async)?.deliveryItemsQuantity}}</span>
-    <!--<span *ngIf="(cart$ | async)?.totalPrice">{{(cart$ | async)?.totalPrice.formattedValue}}</span>-->
-    <mat-icon>shopping_cart</mat-icon>
-</button>
+    <button [fxHide.xs]="true" (click)="openCart()" mat-icon-button color="primary">
+        <span *ngIf="cart?.deliveryItemsQuantity > 0" class="entry-quantity">{{cart?.deliveryItemsQuantity}}</span>
+        <!--<span *ngIf="cart?.totalPrice">{{cart?.totalPrice.formattedValue}}</span>-->
+        <mat-icon>shopping_cart</mat-icon>
+    </button>
+</ng-container>
