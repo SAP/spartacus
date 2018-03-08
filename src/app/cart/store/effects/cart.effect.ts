@@ -33,6 +33,9 @@ export class CartEffects {
                 : this.cartService.cart.code
           };
         }
+        if (payload.userId === undefined || payload.cartId === undefined) {
+          return of(new fromActions.LoadCartFail({}));
+        }
         return this.occCartService
           .loadCart(payload.userId, payload.cartId)
           .pipe(
