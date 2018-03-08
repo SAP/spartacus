@@ -35,11 +35,7 @@ describe('CartDetailsComponent', () => {
             cart: combineReducers(fromReducer.reducers)
           })
         ],
-        declarations: [
-          CartDetailsComponent,
-          DynamicSlotComponent,
-          ComponentWrapperComponent
-        ],
+        declarations: [CartDetailsComponent],
         providers: [{ provide: CartService, useClass: MockCartService }]
       }).compileComponents();
     })
