@@ -72,47 +72,19 @@ describe('ProductListComponent in product-list', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit', () => {
+  it('should call ngOnInit and get search result if the result is empty', () => {
     spyOn(store, 'select').and.returnValue(of(mockEmptySearchResults));
 
     component.query = 'mockQuery';
     component.ngOnInit();
-    component.model$.subscribe();
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromProduct.SearchProducts({
-        queryText: 'mockQuery',
-        searchConfig: new SearchConfig(10)
-      })
-    );
-  });
-
-  it('should call ngOnInit and get search results with category code', () => {
-    component.categoryCode = 'mockCategoryCode';
-    component.ngOnInit();
-
-    component.model$.subscribe(() =>
+    component.model$.subscribe(() => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromProduct.SearchProducts({
-          queryText: ':relevance:category:mockCategoryCode',
+          queryText: 'mockQuery',
           searchConfig: new SearchConfig(10)
         })
-      )
-    );
-  });
-
-  it('should call ngOnInit get search results with brand code', () => {
-    component.brandCode = 'mockBrandCode';
-    component.ngOnInit();
-
-    component.model$.subscribe(() =>
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromProduct.SearchProducts({
-          queryText: ':relevance:brand:mockBrandCode',
-          searchConfig: new SearchConfig(10)
-        })
-      )
-    );
+      );
+    });
   });
 
   it('should call ngOnChanges and get search results with category code', () => {
