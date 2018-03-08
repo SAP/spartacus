@@ -60,7 +60,17 @@ export class ProductListComponent implements OnChanges, OnInit {
     );
   }
 
-  ngOnChanges() {}
+  ngOnChanges() {
+    if (this.categoryCode) {
+      this.query = ':relevance:category:' + this.categoryCode;
+    }
+    if (this.brandCode) {
+      this.query = ':relevance:brand:' + this.brandCode;
+    }
+    if (this.query) {
+      this.search(this.query);
+    }
+  }
 
   toggleSidenav() {
     this.sidenav.toggle();
