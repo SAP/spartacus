@@ -7,7 +7,7 @@ import * as fromSelector from '../store/selectors';
 
 import * as fromAuth from '../../auth/store';
 
-const ANOYMOUS_USERID = 'anonymous';
+export const ANOYMOUS_USERID = 'anonymous';
 
 @Injectable()
 export class CartService {

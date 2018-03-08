@@ -1,10 +1,8 @@
 import { MaterialModule } from 'app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductListComponent } from './product-list.component';
-import * as fromProductStore from '../../../store';
-import { Store, StoreModule } from '@ngrx/store';
-import * as fromRoot from '../../../../routing/store';
 import { of } from 'rxjs/observable/of';
+
+import { ProductListComponent } from './product-list.component';
 import { ProductPagingComponent } from '../product-paging/product-paging.component';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
@@ -16,6 +14,13 @@ import { PictureComponent } from '../../../../ui/components/media/picture/pictur
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchConfig } from '../../../search-config';
 
+import * as fromRoot from '../../../../routing/store';
+import * as fromProduct from '../../../store';
+import * as fromCart from '../../../../cart/store';
+import * as fromUser from '../../../../auth/store';
+
+import { StoreModule, Store, combineReducers } from '@ngrx/store';
+
 // const mockSearchResults = {
 //  pagination: 'mockPagination'
 // };
@@ -23,7 +28,7 @@ import { SearchConfig } from '../../../search-config';
 const mockEmptySearchResults = {};
 
 describe('ProductListComponent in product-list', () => {
-  let store: Store<fromProductStore.ProductsState>;
+  let store: Store<fromProduct.ProductsState>;
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
 
@@ -34,7 +39,10 @@ describe('ProductListComponent in product-list', () => {
           MaterialModule,
           RouterTestingModule,
           StoreModule.forRoot({
-            ...fromRoot.reducers
+            ...fromRoot.reducers,
+            products: combineReducers(fromProduct.reducers),
+            cart: combineReducers(fromCart.reducers),
+            user: combineReducers(fromUser.reducers)
           })
         ],
         declarations: [
@@ -72,40 +80,38 @@ describe('ProductListComponent in product-list', () => {
     component.model$.subscribe();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromProductStore.SearchProducts({
+      new fromProduct.SearchProducts({
         queryText: 'mockQuery',
         searchConfig: new SearchConfig(10)
       })
     );
   });
 
-  it('should call get search results with no category and brand code', () => {
-    component.ngOnChanges();
-
-    expect(store.dispatch).not.toHaveBeenCalled();
-  });
-
   it('should call get search results with category code', () => {
     component.categoryCode = 'mockCategoryCode';
-    component.ngOnChanges();
+    component.ngOnInit();
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromProductStore.SearchProducts({
-        queryText: ':relevance:category:mockCategoryCode',
-        searchConfig: new SearchConfig(10)
-      })
+    component.model$.subscribe(() =>
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromProduct.SearchProducts({
+          queryText: ':relevance:category:mockCategoryCode',
+          searchConfig: new SearchConfig(10)
+        })
+      )
     );
   });
 
   it('should call get search results with brand code', () => {
     component.brandCode = 'mockBrandCode';
-    component.ngOnChanges();
+    component.ngOnInit();
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromProductStore.SearchProducts({
-        queryText: ':relevance:brand:mockBrandCode',
-        searchConfig: new SearchConfig(10)
-      })
+    component.model$.subscribe(() =>
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromProduct.SearchProducts({
+          queryText: ':relevance:brand:mockBrandCode',
+          searchConfig: new SearchConfig(10)
+        })
+      )
     );
   });
 
@@ -113,7 +119,7 @@ describe('ProductListComponent in product-list', () => {
     component.onFilter('mockQuery');
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromProductStore.SearchProducts({
+      new fromProduct.SearchProducts({
         queryText: 'mockQuery',
         searchConfig: new SearchConfig(10)
       })

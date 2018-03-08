@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import * as fromActions from './../actions/cart.action';
+
 import { Observable } from 'rxjs/Observable';
 import { Actions, Effect } from '@ngrx/effects';
 import { map, mergeMap, catchError } from 'rxjs/operators';
@@ -9,6 +10,7 @@ import { of } from 'rxjs/observable/of';
 import { OccCartService } from '../../../newocc/cart/cart.service';
 import { ProductImageConverterService } from '../../../product/converters';
 import { CartService } from '../../services/cart.service';
+import { ANOYMOUS_USERID } from '../../services/cart.service';
 
 @Injectable()
 export class CartEffects {
@@ -25,7 +27,10 @@ export class CartEffects {
         if (payload === undefined || payload.userId === undefined) {
           payload = {
             userId: this.cartService.userId,
-            cartId: this.cartService.cart.guid
+            cartId:
+              this.cartService.userId === ANOYMOUS_USERID
+                ? this.cartService.cart.guid
+                : this.cartService.cart.code
           };
         }
         return this.occCartService
