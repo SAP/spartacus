@@ -87,35 +87,7 @@ describe('ProductListComponent in product-list', () => {
     );
   });
 
-  it('should call ngOnInit and get search results with category code', () => {
-    component.categoryCode = 'mockCategoryCode';
-    component.ngOnInit();
-
-    component.model$.subscribe(() =>
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromProduct.SearchProducts({
-          queryText: ':relevance:category:mockCategoryCode',
-          searchConfig: new SearchConfig(10)
-        })
-      )
-    );
-  });
-
-  it('should call ngOnInit get search results with brand code', () => {
-    component.brandCode = 'mockBrandCode';
-    component.ngOnInit();
-
-    component.model$.subscribe(() =>
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromProduct.SearchProducts({
-          queryText: ':relevance:brand:mockBrandCode',
-          searchConfig: new SearchConfig(10)
-        })
-      )
-    );
-  });
-
-  it('should call ngOnChanges and get search results with category code', () => {
+  it('should call get search results with category code', () => {
     component.categoryCode = 'mockCategoryCode';
     component.ngOnChanges();
 
@@ -127,7 +99,7 @@ describe('ProductListComponent in product-list', () => {
     );
   });
 
-  it('should call ngOnChanges get search results with brand code', () => {
+  it('should call get search results with brand code', () => {
     component.brandCode = 'mockBrandCode';
     component.ngOnChanges();
 
