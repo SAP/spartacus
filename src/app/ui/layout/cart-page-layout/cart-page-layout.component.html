@@ -1,1 +1,10 @@
-<y-cart-details></y-cart-details>
+
+    <div>
+        <y-dynamic-slot class="empty-cart-message" position="EmptyCartMiddleContent"></y-dynamic-slot>
+        <y-cart-details></y-cart-details>
+    </div>
+    
+    <!-- Need to implement the product suggestion component for the cart page  -->
+    <div>
+        <y-dynamic-slot position="BottomContentSlot" fxFlex></y-dynamic-slot>
+    </div>
