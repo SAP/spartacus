@@ -13,7 +13,6 @@ import {
 import { CartPageLayoutComponent } from './cart-page-layout.component';
 import { of } from 'rxjs/observable/of';
 import { ComponentMapperService } from '../../../cms/services';
-import { Subscription } from 'rxjs/Subscription';
 
 class MockCartService {
   removeCartEntry() {}

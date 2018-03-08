@@ -35,7 +35,7 @@ export class ProductReviewsComponent implements OnChanges, OnDestroy {
         .select(fromStore.getSelectedProductReviewsFactory(this.product.code))
         .pipe(
           tap(reviews => {
-            if (reviews === undefined) {
+            if (reviews === undefined && this.product.code !== undefined) {
               this.store.dispatch(
                 new fromStore.LoadProductReviews(this.product.code)
               );

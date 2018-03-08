@@ -7,10 +7,6 @@ import * as fromReducer from '../../../cart/store/reducers';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartService } from '../../../cart/services';
 import { of } from 'rxjs/observable/of';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperComponent
-} from '../../../cms/components';
 
 class MockCartService {
   removeCartEntry() {}
