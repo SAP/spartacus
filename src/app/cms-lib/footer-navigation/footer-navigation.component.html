@@ -1,11 +1,10 @@
 <mat-card class="footer">
     <div fxLayout="row" fxLayoutAlign="start stretch">
 
-        <mat-nav-list *ngFor="let child of children" >
+        <mat-nav-list *ngFor="let child of children">
             <h3 mat-subheader>{{child.title}}</h3>
-            <a mat-list-item *ngFor="let link of child.links"
-                [href]="link.url"
-                [target]="link.target === 'NEWWINDOW' ? 'blank':'self'">{{ link.linkName }}</a>
+            <!-- TODO: Need to Refactor this as well -->
+            <a mat-list-item *ngFor="let link of child.links" [href]="link.url" [target]="link.target === 'NEWWINDOW' ? 'blank':'self'">{{ link }}</a>
         </mat-nav-list>
 
     </div>

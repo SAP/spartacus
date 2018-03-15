@@ -50,7 +50,7 @@ export class OccCmsService {
     }
 
     return this.http
-      .get(this.getBaseEndPoint() + `/page`, {
+      .get(this.getBaseEndPoint() + `/pages`, {
         headers: this.headers,
         params: params
       })
