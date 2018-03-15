@@ -6,13 +6,11 @@ import { of } from 'rxjs/observable/of';
 import { map, filter, catchError, mergeMap } from 'rxjs/operators';
 
 import * as productActions from '../actions/product.action';
-import { OccProductService } from '../../../newocc/product/product.service';
+import { OccProductService } from '../../../occ/product/product.service';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 import { ProductReferenceConverterService } from '../../converters/product-reference-converter.service';
 
-import {
-  PageType
-} from '../../../routing/models/page-context.model';
+import { PageType } from '../../../routing/models/page-context.model';
 
 @Injectable()
 export class ProductEffects {

@@ -14,8 +14,8 @@ import * as fromRoot from '../../../routing/store';
 import * as fromCart from '../../../cart/store';
 import * as fromUser from '../../../auth/store';
 
-import { OccCartService } from '../../../newocc/cart/cart.service';
-import { ConfigService } from '../../../newocc/config.service';
+import { OccCartService } from '../../../occ/cart/cart.service';
+import { ConfigService } from '../../../occ/config.service';
 import { CartService } from '../../services';
 import { ProductImageConverterService } from '../../../product/converters';
 import * as fromEffects from './cart.effect';

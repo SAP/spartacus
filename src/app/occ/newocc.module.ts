@@ -19,10 +19,10 @@ import { OccCartService } from './cart/cart.service';
     OccCartService
   ]
 })
-export class NewOccModule {
+export class OccModule {
   static forRoot(config: any): any {
     return {
-      ngModule: NewOccModule,
+      ngModule: OccModule,
       providers: [
         {
           provide: ConfigService,

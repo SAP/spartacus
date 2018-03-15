@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { ProductImageConverterService } from './product-image-converter.service';
-import { ConfigService } from '../../newocc/config.service';
+import { ConfigService } from '../../occ/config.service';
 
 export class MockConfigService {
   server = {

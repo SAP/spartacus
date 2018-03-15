@@ -9,8 +9,8 @@ import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 
-import { OccCartService } from '../../../newocc/cart/cart.service';
-import { ConfigService } from '../../../newocc/config.service';
+import { OccCartService } from '../../../occ/cart/cart.service';
+import { ConfigService } from '../../../occ/config.service';
 import * as fromEffects from './cart-entry.effect';
 import * as fromActions from '../actions/cart-entry.action';
 

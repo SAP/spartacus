@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ConfigService } from '../../newocc/config.service';
+import { ConfigService } from '../../occ/config.service';
 
 @Injectable()
 export class ProductImageConverterService {
@@ -21,13 +21,13 @@ export class ProductImageConverterService {
   }
 
   /**
-     * @desc
-     * Creates the image structue we'd like to have. Instead of
-     * having a singel list with all images despite type and format
-     * we create a proper structure. With that we can do:
-     * - images.primary.thumnail.url
-     * - images.GALLERY[0].thumnail.url
-     */
+   * @desc
+   * Creates the image structue we'd like to have. Instead of
+   * having a singel list with all images despite type and format
+   * we create a proper structure. With that we can do:
+   * - images.primary.thumnail.url
+   * - images.GALLERY[0].thumnail.url
+   */
   populate(source: Array<any>): any {
     const images = {};
     if (source) {

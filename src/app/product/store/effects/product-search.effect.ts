@@ -6,7 +6,7 @@ import { of } from 'rxjs/observable/of';
 import { map, catchError, switchMap } from 'rxjs/operators';
 
 import * as productsSearchActions from '../actions/product-search.action';
-import { OccProductSearchService } from '../../../newocc/product/product-search.service';
+import { OccProductSearchService } from '../../../occ/product/product-search.service';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 
 @Injectable()

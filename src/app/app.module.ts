@@ -5,7 +5,7 @@ import { LOCALE_ID } from '@angular/core';
 
 import { ConfigService } from './config.service';
 
-import { NewOccModule } from './newocc/newocc.module';
+import { OccModule } from './occ/newocc.module';
 import { UiModule } from './ui/ui.module';
 import { CmsLibModule } from './cms-lib/cms-lib.module';
 import { UiFrameworkModule } from './ui/ui-framework/ui-framework.module';
@@ -25,7 +25,7 @@ import { CartModule } from './cart/cart.module';
 @NgModule({
   imports: [
     BrowserModule,
-    NewOccModule.forRoot(ConfigService),
+    OccModule.forRoot(ConfigService),
     CmsLibModule,
     UiModule,
     UiFrameworkModule,

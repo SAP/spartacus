@@ -10,8 +10,8 @@ import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 
-import { OccProductService } from '../../../newocc/product/product.service';
-import { ConfigService } from '../../../newocc/config.service';
+import { OccProductService } from '../../../occ/product/product.service';
+import { ConfigService } from '../../../occ/config.service';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 import { ProductReferenceConverterService } from '../../converters/product-reference-converter.service';
 
