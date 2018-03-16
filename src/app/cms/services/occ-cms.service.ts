@@ -42,15 +42,18 @@ export class OccCmsService {
       }
     }
     if (fields === undefined) {
-      params = new HttpParams().set(paramName, pageContext.id);
+      params = new HttpParams()
+        .set(paramName, pageContext.id)
+        .set('pageType', pageContext.type);
     } else {
       params = new HttpParams()
         .set(paramName, pageContext.id)
-        .set('fields', fields);
+        .set('fields', fields)
+        .set('pageType', pageContext.type);
     }
 
     return this.http
-      .get(this.getBaseEndPoint() + `/pages`, {
+      .get(this.getBaseEndPoint() + `/pages/`, {
         headers: this.headers,
         params: params
       })

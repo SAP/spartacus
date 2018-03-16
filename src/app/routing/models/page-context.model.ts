@@ -1,8 +1,8 @@
 export enum PageType {
-  CONTENT_PAGE = 1,
-  PRODUCT_PAGE = 2,
-  CATEGORY_PAGE = 3,
-  CATALOG_PAGE = 4
+  CONTENT_PAGE = 'ContentPage',
+  PRODUCT_PAGE = 'ProductPage',
+  CATEGORY_PAGE = 'CategoryPage',
+  CATALOG_PAGE = 'CatalogPage'
 }
 
 export class PageContext {

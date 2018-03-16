@@ -29,7 +29,6 @@ export class FooterNavigationComponent extends AbstractCmsComponent {
             links.push(entry.itemId); // Need to changes this
           }
         }
-        console.log(links);
         this.children.push({ title: child.title, links: links });
       }
     }
