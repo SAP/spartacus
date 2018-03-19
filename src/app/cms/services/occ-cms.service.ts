@@ -21,38 +21,24 @@ export class OccCmsService {
   }
 
   loadPageData(pageContext: PageContext, fields?: string): Observable<any> {
-    let params: HttpParams;
-    let paramName: string;
-    switch (pageContext.type) {
-      case PageType.PRODUCT_PAGE: {
-        paramName = 'productCode';
-        break;
-      }
-      case PageType.CATEGORY_PAGE: {
-        paramName = 'categoryCode';
-        break;
-      }
-      case PageType.CATALOG_PAGE: {
-        paramName = 'catalogCode';
-        break;
-      }
-      default: {
-        paramName = 'pageLabelOrId';
-        break;
-      }
-    }
-    if (fields === undefined) {
-      params = new HttpParams().set(paramName, pageContext.id);
+    let strParams = 'pageType=' + pageContext.type;
+
+    if (pageContext.type === PageType.CONTENT_PAGE) {
+      strParams = strParams + '&pageLabelOrId=' + pageContext.id;
     } else {
-      params = new HttpParams()
-        .set(paramName, pageContext.id)
-        .set('fields', fields);
+      strParams = strParams + '&code=' + pageContext.id;
+    }
+
+    if (fields !== undefined) {
+      strParams = strParams + '&fields=' + fields;
     }
 
     return this.http
-      .get(this.getBaseEndPoint() + `/page`, {
+      .get(this.getBaseEndPoint() + `/pages`, {
         headers: this.headers,
-        params: params
+        params: new HttpParams({
+          fromString: strParams
+        })
       })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }

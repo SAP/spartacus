@@ -34,8 +34,8 @@ export class ConfigService {
   storageSyncType = StorageSyncType.SESSION_STORAGE;
 
   defaultPageIdForType = {
-    PRODUCT_PAGE: ['productDetails'],
-    CATEGORY_PAGE: ['productList', 'productGrid', 'category']
+    ProductPage: ['productDetails'],
+    CategoryPage: ['productList', 'productGrid', 'category']
   };
 
   authentication = {
@@ -49,9 +49,9 @@ export class ConfigService {
     SimpleBannerComponent: 'BannerComponent',
     // BreadcrumbComponent:                'BreadcrumbComponent',
     CMSParagraphComponent: 'ParagraphComponent',
-    NavigationComponent: 'NavigationComponent',
-    FooterNavigationComponent: 'FooterNavigationComponent',
-    CategoryNavigationComponent: 'CategoryNavigationComponent',
+    // NavigationComponent: 'NavigationComponent',
+    // FooterNavigationComponent: 'FooterNavigationComponent',
+    // CategoryNavigationComponent: 'CategoryNavigationComponent',
     ProductAddToCartComponent: 'AddToCartComponent',
     MiniCartComponent: 'MiniCartComponent',
     ProductCarouselComponent: 'ProductCarouselComponent',

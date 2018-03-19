@@ -7,6 +7,6 @@ export class DefaultPageService {
   constructor(private config: ConfigService) {}
 
   getDefaultPageIdsBytype(type: PageType): string[] {
-    return this.config.defaultPageIdForType[PageType[type]];
+    return this.config.defaultPageIdForType[type];
   }
 }

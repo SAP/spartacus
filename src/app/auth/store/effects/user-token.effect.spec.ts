@@ -11,7 +11,7 @@ import { UserToken } from '../../models/token-types.model';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
-import { OccUserService } from '../../../newocc/user/user.service';
+import { OccUserService } from '../../../occ/user/user.service';
 
 @Injectable()
 export class TestActions extends Actions {

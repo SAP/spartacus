@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { PageContext } from '../../../../routing/models/page-context.model';
 
 export const LOAD_LANGUAGES = '[Site-context] Load Languages';
 export const LOAD_LANGUAGES_FAIL = '[Site-context] Load Languages Fail';
@@ -28,7 +27,6 @@ export class SetActiveLanguage implements Action {
 
 export class LanguageChange implements Action {
   readonly type = LANGUAGE_CHANGE;
-  constructor(public payload: PageContext) {}
 }
 
 // action types

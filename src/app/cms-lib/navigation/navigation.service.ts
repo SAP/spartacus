@@ -8,7 +8,7 @@ export class NavigationService {
     const node = {};
     const title = this.getLinkName(data);
     if (title) {
-      node['title'] = title;
+      node['title'] = data.title ? data.title : title;
     }
 
     const url = this.getUrl(data);
@@ -39,7 +39,7 @@ export class NavigationService {
     let linkUrl = '';
     const link = this.getLink(child);
     if (link) {
-      linkUrl = link.linkItem.url;
+      linkUrl = link.itemId; // TODO: Need to replace this with the actual titles
     }
     return linkUrl;
   }
@@ -48,9 +48,7 @@ export class NavigationService {
     let linkName = '';
     const link = this.getLink(node);
     if (link) {
-      linkName = link.linkItem.linkName
-        ? link.linkItem.linkName
-        : link.linkName;
+      linkName = link.itemId; // TODO: Need to replace this with the actual titles
     } else if (node.title) {
       linkName = node.title;
     }

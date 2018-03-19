@@ -9,8 +9,8 @@ import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 
-import { OccProductSearchService } from '../../../newocc/product/product-search.service';
-import { ConfigService } from '../../../newocc/config.service';
+import { OccProductSearchService } from '../../../occ/product/product-search.service';
+import { ConfigService } from '../../../occ/config.service';
 import { SearchConfig } from '../../search-config';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 import * as fromEffects from './product-search.effect';

@@ -19,6 +19,9 @@ import {
   PageContext,
   PageType
 } from '../../../routing/models/page-context.model';
+import { StoreModule, combineReducers } from '@ngrx/store';
+import * as fromRoot from '../../../routing/store';
+import * as fromCmsReducer from '../../../cms/store/reducers';
 
 @Injectable()
 export class TestActions extends Actions {
@@ -51,7 +54,7 @@ describe('Page Effects', () => {
     { uid: 'comp3', typeCode: 'NavigationComponent' }
   ];
   const cmsPageData: any = {
-    pageId: 'testPageId',
+    uid: 'testPageId',
     name: 'testPage',
     template: 'testTemplate',
     contentSlots: {
@@ -72,7 +75,13 @@ describe('Page Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromCmsReducer.reducers)
+        })
+      ],
       providers: [
         OccCmsService,
         ConfigService,
@@ -146,7 +155,7 @@ describe('Page Effects', () => {
 
       const action = new fromActions.LoadPageData(context);
 
-      cmsPageData.pageId = 'productList';
+      cmsPageData.uid = 'productList';
       page.pageId = 'productList';
       page.seen = new Array<string>();
       page.seen.push(context.id);

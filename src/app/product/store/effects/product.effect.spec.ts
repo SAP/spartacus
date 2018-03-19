@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { PageType } from './../../../routing/models/page-context.model';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -10,14 +9,18 @@ import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 
-import { OccProductService } from '../../../newocc/product/product.service';
-import { ConfigService } from '../../../newocc/config.service';
+import { OccProductService } from '../../../occ/product/product.service';
+import { ConfigService } from '../../../occ/config.service';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 import { ProductReferenceConverterService } from '../../converters/product-reference-converter.service';
 
 import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
-import * as fromSiteContextActions from './../../../site-context/shared/store/actions';
+import { StoreModule, combineReducers, Store } from '@ngrx/store';
+import * as fromRoot from '../../../routing/store';
+import * as fromCmsReducer from '../../../cms/store/reducers';
+import * as fromSiteContext from './../../../site-context/shared/store';
+import { PageType } from '../../../routing/models/page-context.model';
 
 @Injectable()
 export class TestActions extends Actions {
@@ -35,6 +38,7 @@ export function getActions() {
 }
 
 describe('Product Effects', () => {
+  let store: Store<fromRoot.State>;
   let actions$: TestActions;
   let service: OccProductService;
   let effects: fromEffects.ProductEffects;
@@ -47,7 +51,13 @@ describe('Product Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromCmsReducer.reducers)
+        })
+      ],
       providers: [
         OccProductService,
         ProductImageConverterService,
@@ -58,6 +68,7 @@ describe('Product Effects', () => {
       ]
     });
 
+    store = TestBed.get(Store);
     actions$ = TestBed.get(Actions);
     service = TestBed.get(OccProductService);
     effects = TestBed.get(fromEffects.ProductEffects);
@@ -79,11 +90,19 @@ describe('Product Effects', () => {
 
   describe('refreshProduct$', () => {
     it('should refresh a product', () => {
-      const pageContext = {
-        id: '1',
-        type: PageType.PRODUCT_PAGE
+      const router = {
+        state: {
+          url: '/',
+          queryParams: {},
+          params: {},
+          context: { id: '1', type: PageType.PRODUCT_PAGE },
+          cmsRequired: false
+        }
       };
-      const action = new fromSiteContextActions.LanguageChange(pageContext);
+
+      spyOn(store, 'select').and.returnValue(of(router));
+
+      const action = new fromSiteContext.LanguageChange();
       const completion = new fromActions.LoadProductSuccess(product);
 
       actions$.stream = hot('-a', { a: action });

@@ -75,17 +75,12 @@ describe('LoginComponent', () => {
     component = new LoginComponent(dialog, store);
 
     expect(component).toBeTruthy();
-    expect(component.pageContext).toEqual(cntx);
   });
 
   it('should logout and clear user state', () => {
-    component.pageContext = cntx;
-
     component.logout();
     expect(component.isLogin).toEqual(false);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.Logout(component.pageContext)
-    );
+    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
   });
 
   it('should login', () => {
@@ -103,7 +98,6 @@ describe('LoginComponent', () => {
 
   it('should load user details when token exists', () => {
     component.username = mockUser.username;
-    component.pageContext = cntx;
 
     spyOn(store, 'select').and.returnValue(of(mockUserToken));
 
@@ -112,9 +106,7 @@ describe('LoginComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadUserDetails(mockUserToken.userId)
     );
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.Login(component.pageContext)
-    );
+    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Login());
     component.isLogin = true;
   });
   // Add some UI unit tests once we remove material

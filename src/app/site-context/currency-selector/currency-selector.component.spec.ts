@@ -111,7 +111,7 @@ describe('CurrencySelectorComponent', () => {
     );
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromActions.CurrencyChange(pageContext)
+      new fromActions.CurrencyChange()
     );
   });
 });

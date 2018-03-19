@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-import { OccProductService } from './../../../newocc/product/product.service';
+import { OccProductService } from './../../../occ/product/product.service';
 
 import { Actions, Effect } from '@ngrx/effects';
 import { Injectable } from '@angular/core';

@@ -13,7 +13,7 @@ import * as fromActions from '../store/actions/page.action';
 
 export class MockConfigService {
   defaultPageIdForType = {
-    PRODUCT_PAGE: ['testProductPage']
+    ProductPage: ['testProductPage']
   };
 }
 
@@ -27,7 +27,7 @@ describe('CmsPageGuards', () => {
     seen: [],
     slots: {}
   };
-  const payload = { key: 'testPageId_1', value: page };
+  const payload = { key: 'testPageId_ContentPage', value: page };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -69,7 +69,7 @@ describe('CmsPageGuards', () => {
       cmsPageGuards.canActivate().subscribe(value => (result = value));
       expect(result).toBe(true);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromActions.UpdateLatestPageKey('testPageId_1')
+        new fromActions.UpdateLatestPageKey('testPageId_ContentPage')
       );
     });
 
@@ -78,7 +78,7 @@ describe('CmsPageGuards', () => {
 
       store.dispatch(
         new fromActions.LoadPageDataSuccess({
-          key: 'testProductPage_2',
+          key: 'testProductPage_ProductPage',
           value: page
         })
       );
@@ -99,7 +99,7 @@ describe('CmsPageGuards', () => {
       cmsPageGuards.canActivate().subscribe(value => (result = value));
       expect(result).toBe(true);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromActions.UpdateLatestPageKey('testProductPage_2')
+        new fromActions.UpdateLatestPageKey('testProductPage_ProductPage')
       );
     });
 
@@ -129,7 +129,10 @@ describe('CmsPageGuards', () => {
       );
 
       store.dispatch(
-        new fromActions.LoadPageDataSuccess({ key: 'newPageId_1', value: page })
+        new fromActions.LoadPageDataSuccess({
+          key: 'newPageId_ContentPage',
+          value: page
+        })
       );
 
       expect(result).toBe(true);

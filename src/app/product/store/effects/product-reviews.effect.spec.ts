@@ -1,4 +1,4 @@
-import { OccProductService } from './../../../newocc/product/product.service';
+import { OccProductService } from './../../../occ/product/product.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
@@ -7,7 +7,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
-import { ConfigService } from './../../../newocc/config.service';
+import { ConfigService } from './../../../occ/config.service';
 
 import * as fromEffects from '../effects/product-reviews.effect';
 import * as fromActions from '../actions/product-reviews.action';

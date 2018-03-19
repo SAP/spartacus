@@ -7,7 +7,7 @@ import { Actions, Effect } from '@ngrx/effects';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
-import { OccCartService } from '../../../newocc/cart/cart.service';
+import { OccCartService } from '../../../occ/cart/cart.service';
 import { ProductImageConverterService } from '../../../product/converters';
 import { CartService } from '../../services/cart.service';
 import { ANOYMOUS_USERID } from '../../services/cart.service';

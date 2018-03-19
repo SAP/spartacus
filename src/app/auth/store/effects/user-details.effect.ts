@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import { OccUserService } from '../../../newocc/user/user.service';
+import { OccUserService } from '../../../occ/user/user.service';
 import * as fromUserDetailsAction from '../actions/user-details.action';
 
 @Injectable()
