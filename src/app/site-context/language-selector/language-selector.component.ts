@@ -44,15 +44,7 @@ export class LanguageSelectorComponent implements OnInit {
     this.activeLanguage = language;
     this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
 
-    let pageContext: PageContext;
-    this.store
-      .select(fromRouting.getRouterState)
-      .filter(routerState => routerState !== undefined)
-      .subscribe(routerState => (pageContext = routerState.state.context));
-
-    if (pageContext !== undefined) {
-      this.store.dispatch(new fromStore.LanguageChange());
-    }
+    this.store.dispatch(new fromStore.LanguageChange());
     sessionStorage.setItem('language', this.activeLanguage);
   }
 }

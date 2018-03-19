@@ -27,7 +27,6 @@ export class SetActiveCurrency implements Action {
 
 export class CurrencyChange implements Action {
   readonly type = CURRENCY_CHANGE;
-  constructor() {}
 }
 
 // action types
