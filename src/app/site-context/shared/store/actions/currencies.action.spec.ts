@@ -1,8 +1,4 @@
 import * as fromCurrency from './currencies.action';
-import {
-  PageContext,
-  PageType
-} from '../../../../routing/models/page-context.model';
 
 describe('Currencies Actions', () => {
   describe('LoadCurrencies Actions', () => {
@@ -54,10 +50,6 @@ describe('Currencies Actions', () => {
 
   describe('CurrencyChange Action', () => {
     it('should create an action', () => {
-      const context: PageContext = new PageContext(
-        '123',
-        PageType.PRODUCT_PAGE
-      );
       const action = new fromCurrency.CurrencyChange();
       expect({ ...action }).toEqual({
         type: fromCurrency.CURRENCY_CHANGE

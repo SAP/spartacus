@@ -19,7 +19,6 @@ import * as fromRouting from '../../routing/store';
 
 import { Page } from '../models/page.model';
 import { DefaultPageService } from './../services/default-page.service';
-import { PageContext } from '../../routing/models/page-context.model';
 
 @Injectable()
 export class CmsPageGuards implements CanActivate {

@@ -4,7 +4,7 @@ import { NavigationService } from './navigation.service';
 describe('NavigationService', () => {
   let navigationService: NavigationService;
 
-  const mockedData = {
+  /*const mockedData = {
     uid: 'MockNavigationNode001',
     children: [
       {
@@ -36,14 +36,14 @@ describe('NavigationService', () => {
         ]
       }
     ]
-  };
+  }; */
 
-  const resultNode = {
+  /*const resultNode = {
     childs: [
       { title: 'MockLinkName001', url: '/mockLinkName001' },
       { title: 'MockLinkName002', url: '/mockLinkName002' }
     ]
-  };
+  };*/
 
   beforeEach(() => {
     TestBed.configureTestingModule({

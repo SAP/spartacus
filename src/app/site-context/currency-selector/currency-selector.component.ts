@@ -10,9 +10,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { tap } from 'rxjs/operators';
 
 import * as fromStore from '../shared/store';
-import * as fromRouting from '../../routing/store';
-import { PageContext } from '../../routing/models/page-context.model';
-
 import { ConfigService } from '../config.service';
 
 @Component({

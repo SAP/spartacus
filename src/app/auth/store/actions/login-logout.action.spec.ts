@@ -1,10 +1,5 @@
 import * as fromAction from './login-logout.action';
 
-const pageContext = {
-  id: '1',
-  type: null
-};
-
 describe('Login and Logout Actions', () => {
   describe('Logout Action', () => {
     it('should create the action', () => {

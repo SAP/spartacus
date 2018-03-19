@@ -1,8 +1,4 @@
 import * as fromLanguage from './languages.action';
-import {
-  PageContext,
-  PageType
-} from '../../../../routing/models/page-context.model';
 
 describe('Languages Actions', () => {
   describe('LoadLanguages Actions', () => {
@@ -59,10 +55,6 @@ describe('Languages Actions', () => {
 
   describe('LanguageChange Action', () => {
     it('should create an action', () => {
-      const context: PageContext = new PageContext(
-        '123',
-        PageType.PRODUCT_PAGE
-      );
       const action = new fromLanguage.LanguageChange();
       expect({ ...action }).toEqual({
         type: fromLanguage.LANGUAGE_CHANGE

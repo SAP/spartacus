@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { PageType } from './../../../routing/models/page-context.model';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -17,7 +16,6 @@ import { ProductReferenceConverterService } from '../../converters/product-refer
 
 import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
-import * as fromSiteContextActions from './../../../site-context/shared/store/actions';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
