@@ -1,6 +1,12 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  OnDestroy
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { tap } from 'rxjs/operators';
 
 import * as fromStore from '../shared/store';
@@ -15,9 +21,10 @@ import { ConfigService } from '../config.service';
   styleUrls: ['./currency-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CurrencySelectorComponent implements OnInit {
+export class CurrencySelectorComponent implements OnInit, OnDestroy {
   currencies$: Observable<any>;
   activeCurrency: string;
+  subscription: Subscription;
 
   constructor(
     private store: Store<fromStore.SiteContextState>,
@@ -37,7 +44,14 @@ export class CurrencySelectorComponent implements OnInit {
       .subscribe();
 
     this.currencies$ = this.store.select(fromStore.getAllCurrencies);
-    //this.setActiveCurrency(this.configService.site.currency);
+    this.activeCurrency = this.configService.site.currency;
+    this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   setActiveCurrency(currency) {

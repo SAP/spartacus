@@ -1,6 +1,12 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  OnDestroy
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { tap } from 'rxjs/operators';
 
 import * as fromStore from '../shared/store';
@@ -15,9 +21,10 @@ import { ConfigService } from '../config.service';
   styleUrls: ['./language-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LanguageSelectorComponent implements OnInit {
+export class LanguageSelectorComponent implements OnInit, OnDestroy {
   languages$: Observable<any>;
   activeLanguage: string;
+  subscription: Subscription;
 
   constructor(
     private store: Store<fromStore.SiteContextState>,
@@ -25,7 +32,7 @@ export class LanguageSelectorComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.store
+    this.subscription = this.store
       .select(fromStore.getLanguagesLoaded)
       .pipe(
         tap(loaded => {
@@ -37,7 +44,14 @@ export class LanguageSelectorComponent implements OnInit {
       .subscribe();
 
     this.languages$ = this.store.select(fromStore.getAllLanguages);
-    //this.setActiveLanguage(this.configService.site.language);
+    this.activeLanguage = this.configService.site.language;
+    this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   setActiveLanguage(language) {
