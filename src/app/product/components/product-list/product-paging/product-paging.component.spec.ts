@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductPagingComponent } from './product-paging.component';
 
-xdescribe('ProductPagingComponent', () => {
+describe('ProductPagingComponent', () => {
   let component: ProductPagingComponent;
   let fixture: ComponentFixture<ProductPagingComponent>;
 
