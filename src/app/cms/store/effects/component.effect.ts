@@ -11,6 +11,8 @@ import * as fromRouting from '../../../routing/store';
 import * as componentActions from '../actions/component.action';
 import * as fromServices from '../../services';
 
+import { IdList } from '../../models/idList.model';
+
 @Injectable()
 export class ComponentEffects {
   @Effect()
@@ -37,6 +39,31 @@ export class ComponentEffects {
           );
       })
     );
+
+  /*@Effect()
+  loadListComponents$: Observable<any> = this.actions$
+    .ofType(componentActions.LOAD_COMPONENT)
+    .pipe(
+      map((action: componentActions.LoadComponent) => action.payload),
+      switchMap(uid => {
+        return this.routingStore.select(fromRouting.getRouterState).pipe(
+          filter(routerState => routerState !== undefined),
+          map(routerState => routerState.state.context),
+          mergeMap(pageContext => {
+            const ids: IdList = { idList: [] };
+            ids.idList.push(uid);
+            return this.occCmsService
+              .loadListComponents(ids, pageContext)
+              .pipe(
+                map(data => new componentActions.LoadComponentSuccess(data)),
+                catchError(error =>
+                  of(new componentActions.LoadComponentFail(error))
+                )
+              );
+          })
+        );
+      })
+    );*/
 
   constructor(
     private actions$: Actions,

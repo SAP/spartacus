@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { PageContext, PageType } from '../../routing/models/page-context.model';
+import { IdList } from './../models/idList.model';
 import { ConfigService } from '../config.service';
 
 @Injectable()
@@ -48,6 +49,38 @@ export class OccCmsService {
     pageContext: PageContext,
     fields?: string
   ): Observable<any> {
+    return this.http
+      .get(this.getBaseEndPoint() + `/components/${id}`, {
+        headers: this.headers,
+        params: new HttpParams({
+          fromString:
+            fields === undefined
+              ? this.getRequestParams(pageContext)
+              : this.getRequestParams(pageContext, fields)
+        })
+      })
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  loadListComponents(
+    idList: IdList,
+    pageContext: PageContext,
+    fields?: string
+  ) {
+    return this.http
+      .post(this.getBaseEndPoint() + `/components`, idList, {
+        headers: this.headers,
+        params: new HttpParams({
+          fromString:
+            fields === undefined
+              ? this.getRequestParams(pageContext)
+              : this.getRequestParams(pageContext, fields)
+        })
+      })
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  private getRequestParams(pageContext: PageContext, fields?: string) {
     let strParams = '';
     switch (pageContext.type) {
       case PageType.PRODUCT_PAGE: {
@@ -69,14 +102,8 @@ export class OccCmsService {
         ? (strParams = strParams + 'fields=' + fields)
         : (strParams = strParams + '&fields=' + fields);
     }
-    return this.http
-      .get(this.getBaseEndPoint() + `/components/${id}`, {
-        headers: this.headers,
-        params: new HttpParams({
-          fromString: strParams
-        })
-      })
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
+
+    return strParams;
   }
 
   get baseUrl(): string {
