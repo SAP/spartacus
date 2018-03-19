@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { PageContext } from '../../../../routing/models/page-context.model';
 
 export const LOAD_CURRENCIES = '[Site-context] Load Currencies';
 export const LOAD_CURRENCIES_FAIL = '[Site-context] Load Currencies Fail';
@@ -28,7 +27,7 @@ export class SetActiveCurrency implements Action {
 
 export class CurrencyChange implements Action {
   readonly type = CURRENCY_CHANGE;
-  constructor(public payload: PageContext) {}
+  constructor() {}
 }
 
 // action types

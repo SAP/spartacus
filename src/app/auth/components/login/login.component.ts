@@ -29,19 +29,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   password: string;
   rememberMe: boolean;
 
-  pageContext: PageContext;
   subscription: Subscription;
-  routerSub: Subscription;
 
   constructor(
     protected dialog: MatDialog,
     private store: Store<fromStore.UserState>
-  ) {
-    this.routerSub = this.store
-      .select(fromRouting.getRouterState)
-      .filter(routerState => routerState !== undefined)
-      .subscribe(routerState => (this.pageContext = routerState.state.context));
-  }
+  ) {}
 
   ngOnInit() {
     this.subscription = this.store
@@ -51,9 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           if (token.access_token !== undefined) {
             this.isLogin = true;
             this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
-            if (this.pageContext !== undefined) {
-              this.store.dispatch(new fromStore.Login(this.pageContext));
-            }
+            this.store.dispatch(new fromStore.Login());
           }
         })
       )
@@ -82,9 +73,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   logout() {
     this.isLogin = false;
-    if (this.pageContext !== undefined) {
-      this.store.dispatch(new fromStore.Logout(this.pageContext));
-    }
+    this.store.dispatch(new fromStore.Logout());
   }
 
   login() {
@@ -99,9 +88,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
-    }
-    if (this.routerSub) {
-      this.routerSub.unsubscribe();
     }
   }
 }

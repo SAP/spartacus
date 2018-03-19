@@ -1,4 +1,4 @@
-export * from './src/app/occ/newocc.module';
+export * from './src/app/occ/occ.module';
 export * from './src/app/ui/ui-framework/ui-framework.module';
 export * from './src/app/ui/ui.module';
 export * from './src/app/ui/layout/layout.module';

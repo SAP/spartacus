@@ -31,7 +31,7 @@ export class ProductEffects {
       })
     );
 
-  @Effect()
+  /*@Effect()
   refreshProduct$ = this.actions$
     .ofType('[Site-context] Language Change', '[Site-context] Currency Change')
     .pipe(
@@ -47,7 +47,7 @@ export class ProductEffects {
           catchError(error => of(new productActions.LoadProductFail(error)))
         );
       })
-    );
+    );*/
 
   constructor(
     private actions$: Actions,

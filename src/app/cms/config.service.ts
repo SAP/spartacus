@@ -25,8 +25,8 @@ export class ConfigService {
   };
 
   defaultPageIdForType = {
-    PRODUCT_PAGE: ['productDetails'],
-    CATEGORY_PAGE: ['productList', 'productGrid', 'category']
+    ProductPage: ['productDetails'],
+    CategoryPage: ['productList', 'productGrid', 'category']
   };
 
   cmsComponentMapping = {

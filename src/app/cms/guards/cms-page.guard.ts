@@ -5,7 +5,15 @@ import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { tap, filter, map, take, switchMap, catchError } from 'rxjs/operators';
+import {
+  tap,
+  filter,
+  map,
+  take,
+  mergeMap,
+  catchError,
+  switchMap
+} from 'rxjs/operators';
 import * as fromStore from '../store';
 import * as fromRouting from '../../routing/store';
 
@@ -22,52 +30,55 @@ export class CmsPageGuards implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    let pageContext: PageContext;
-    this.routingStore
-      .select(fromRouting.getRouterState)
-      .subscribe(routerState => (pageContext = routerState.state.context));
-
-    return this.hasPage(pageContext).pipe(
+    return this.hasPage().pipe(
       switchMap(() => of(true)),
       catchError(() => of(false))
     );
   }
 
-  hasPage(pageContext: PageContext): Observable<boolean> {
+  hasPage(): Observable<boolean> {
     let tryTimes = 0;
-    return this.store.select(fromStore.getPageEntities).pipe(
-      map((entities: { [key: string]: Page }) => {
-        let key = pageContext.id + '_' + pageContext.type;
-        let found = !!entities[key];
-        if (!found) {
-          const defaultPageIds = this.defaultPageService.getDefaultPageIdsBytype(
-            pageContext.type
-          );
-          if (defaultPageIds) {
-            for (let i = 0, len = defaultPageIds.length; i < len; i++) {
-              key = defaultPageIds[i] + '_' + pageContext.type;
-              found =
-                entities[key] &&
-                entities[key].seen.indexOf(pageContext.id) > -1;
-              if (found) {
-                break;
+
+    return this.routingStore.select(fromRouting.getRouterState).pipe(
+      map(routerState => routerState.state.context),
+      mergeMap(pageContext =>
+        this.store.select(fromStore.getPageEntities).pipe(
+          map((entities: { [key: string]: Page }) => {
+            let key = pageContext.id + '_' + pageContext.type;
+            let found = !!entities[key];
+            if (!found) {
+              const defaultPageIds = this.defaultPageService.getDefaultPageIdsBytype(
+                pageContext.type
+              );
+              if (defaultPageIds) {
+                for (let i = 0, len = defaultPageIds.length; i < len; i++) {
+                  key = defaultPageIds[i] + '_' + pageContext.type;
+                  found =
+                    entities[key] &&
+                    entities[key].seen.indexOf(pageContext.id) > -1;
+                  if (found) {
+                    break;
+                  }
+                }
               }
             }
-          }
-        }
-        if (found && tryTimes === 0) {
-          this.store.dispatch(new fromStore.UpdateLatestPageKey(key));
-        }
-        return found;
-      }),
-      tap(found => {
-        if (!found && tryTimes < 5) {
-          tryTimes = tryTimes + 1;
-          this.store.dispatch(new fromStore.LoadPageData(pageContext));
-        }
-      }),
-      filter(found => found),
-      take(1)
+            // found page directly from store
+            if (found && tryTimes === 0) {
+              this.store.dispatch(new fromStore.UpdateLatestPageKey(key));
+            }
+            return found;
+          }),
+          tap(found => {
+            // if not found, load this cms page
+            if (!found) {
+              tryTimes = tryTimes + 1;
+              this.store.dispatch(new fromStore.LoadPageData(pageContext));
+            }
+          }),
+          filter(found => found || tryTimes === 3),
+          take(1)
+        )
+      )
     );
   }
 }

@@ -5,7 +5,7 @@ import { LOCALE_ID } from '@angular/core';
 
 import { ConfigService } from './config.service';
 
-import { OccModule } from './occ/newocc.module';
+import { OccModule } from './occ/occ.module';
 import { UiModule } from './ui/ui.module';
 import { CmsLibModule } from './cms-lib/cms-lib.module';
 import { UiFrameworkModule } from './ui/ui-framework/ui-framework.module';

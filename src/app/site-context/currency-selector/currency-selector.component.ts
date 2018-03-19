@@ -37,22 +37,14 @@ export class CurrencySelectorComponent implements OnInit {
       .subscribe();
 
     this.currencies$ = this.store.select(fromStore.getAllCurrencies);
-    this.setActiveCurrency(this.configService.site.currency);
+    //this.setActiveCurrency(this.configService.site.currency);
   }
 
   setActiveCurrency(currency) {
     this.activeCurrency = currency;
     this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
 
-    let pageContext: PageContext;
-    this.store
-      .select(fromRouting.getRouterState)
-      .filter(routerState => routerState !== undefined)
-      .subscribe(routerState => (pageContext = routerState.state.context));
-
-    if (pageContext !== undefined) {
-      this.store.dispatch(new fromStore.CurrencyChange(pageContext));
-    }
+    this.store.dispatch(new fromStore.CurrencyChange());
     sessionStorage.setItem('currency', this.activeCurrency);
   }
 }
