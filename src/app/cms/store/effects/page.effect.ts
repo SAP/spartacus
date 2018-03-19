@@ -3,10 +3,7 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { map, catchError, switchMap, mergeMap, filter } from 'rxjs/operators';
-
-import { Store } from '@ngrx/store';
-import * as fromRouting from '../../../routing/store';
+import { map, catchError, switchMap, mergeMap } from 'rxjs/operators';
 
 import * as pageActions from '../actions/page.action';
 import * as componentActions from '../actions/component.action';
@@ -31,56 +28,33 @@ export class PageEffects {
     .pipe(
       map((action: pageActions.LoadPageData) => action.payload),
       switchMap(pageContext => {
-        if (pageContext === undefined) {
-          return this.routingStore.select(fromRouting.getRouterState).pipe(
-            filter(routerState => routerState !== undefined),
-            map(routerState => routerState.state.context),
-            mergeMap(context =>
-              this.occCmsService.loadPageData(context).pipe(
-                mergeMap(data => {
-                  return [
-                    new pageActions.LoadPageDataSuccess(
-                      this.getPageData(data, context)
-                    ),
-                    new componentActions.GetComponentFromPage(
-                      this.getComponents(data)
-                    )
-                  ];
-                }),
-                catchError(error => of(new pageActions.LoadPageDataFail(error)))
+        return this.occCmsService.loadPageData(pageContext).pipe(
+          mergeMap(data => {
+            return [
+              new pageActions.LoadPageDataSuccess(
+                this.getPageData(data, pageContext)
+              ),
+              new componentActions.GetComponentFromPage(
+                this.getComponents(data)
               )
-            )
-          );
-        } else {
-          return this.occCmsService.loadPageData(pageContext).pipe(
-            mergeMap(data => {
-              return [
-                new pageActions.LoadPageDataSuccess(
-                  this.getPageData(data, pageContext)
-                ),
-                new componentActions.GetComponentFromPage(
-                  this.getComponents(data)
-                )
-              ];
-            }),
-            catchError(error => of(new pageActions.LoadPageDataFail(error)))
-          );
-        }
+            ];
+          }),
+          catchError(error => of(new pageActions.LoadPageDataFail(error)))
+        );
       })
     );
 
   constructor(
     private actions$: Actions,
     private occCmsService: fromServices.OccCmsService,
-    private defaultPageService: fromServices.DefaultPageService,
-    private routingStore: Store<fromRouting.State>
+    private defaultPageService: fromServices.DefaultPageService
   ) {}
 
   private getPageData(res: any, pageContext: PageContext): any {
     const page: Page = {
       loadTime: Date.now(),
       name: res.name,
-      pageId: res.uid,
+      pageId: res.pageId,
       template: res.template,
       seen: new Array<string>(),
       slots: {}

@@ -5,7 +5,7 @@ import { PageType } from '../../routing/models/page-context.model';
 
 export class MockConfigService {
   defaultPageIdForType = {
-    PRODUCT_PAGE: ['testPage']
+    ProductPage: ['testPage']
   };
 }
 

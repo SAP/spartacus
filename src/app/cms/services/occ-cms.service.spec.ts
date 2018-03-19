@@ -108,7 +108,7 @@ describe('OccCmsService', () => {
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint + '/page';
+        return req.method === 'GET' && req.url === endpoint + '/pages';
       });
       expect(mockReq.request.params.get('pageLabelOrId')).toEqual('testPagId');
 
@@ -127,7 +127,7 @@ describe('OccCmsService', () => {
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint + '/page';
+        return req.method === 'GET' && req.url === endpoint + '/pages';
       });
       expect(mockReq.request.params.get('pageLabelOrId')).toEqual('testPagId');
       expect(mockReq.request.params.get('fields')).toEqual('BASIC');
@@ -147,9 +147,9 @@ describe('OccCmsService', () => {
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint + '/page';
+        return req.method === 'GET' && req.url === endpoint + '/pages';
       });
-      expect(mockReq.request.params.get('productCode')).toEqual('123');
+      expect(mockReq.request.params.get('code')).toEqual('123');
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

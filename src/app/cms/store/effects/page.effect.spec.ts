@@ -19,6 +19,9 @@ import {
   PageContext,
   PageType
 } from '../../../routing/models/page-context.model';
+import { StoreModule, combineReducers } from '@ngrx/store';
+import * as fromRoot from '../../../routing/store';
+import * as fromCmsReducer from '../../../cms/store/reducers';
 
 @Injectable()
 export class TestActions extends Actions {
@@ -72,7 +75,13 @@ describe('Page Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromCmsReducer.reducers)
+        })
+      ],
       providers: [
         OccCmsService,
         ConfigService,
@@ -146,8 +155,8 @@ describe('Page Effects', () => {
 
       const action = new fromActions.LoadPageData(context);
 
-      cmsPageData.pageId = 'productList';
-      page.pageId = 'productList';
+      cmsPageData.pageId = '1234';
+      page.pageId = '1234';
       page.seen = new Array<string>();
       page.seen.push(context.id);
 

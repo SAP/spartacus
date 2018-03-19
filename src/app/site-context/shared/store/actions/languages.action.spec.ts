@@ -63,10 +63,9 @@ describe('Languages Actions', () => {
         '123',
         PageType.PRODUCT_PAGE
       );
-      const action = new fromLanguage.LanguageChange(context);
+      const action = new fromLanguage.LanguageChange();
       expect({ ...action }).toEqual({
-        type: fromLanguage.LANGUAGE_CHANGE,
-        payload: context
+        type: fromLanguage.LANGUAGE_CHANGE
       });
     });
   });

@@ -58,10 +58,9 @@ describe('Currencies Actions', () => {
         '123',
         PageType.PRODUCT_PAGE
       );
-      const action = new fromCurrency.CurrencyChange(context);
+      const action = new fromCurrency.CurrencyChange();
       expect({ ...action }).toEqual({
-        type: fromCurrency.CURRENCY_CHANGE,
-        payload: context
+        type: fromCurrency.CURRENCY_CHANGE
       });
     });
   });

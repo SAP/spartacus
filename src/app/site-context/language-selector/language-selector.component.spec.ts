@@ -113,7 +113,7 @@ describe('LanguageSelectorComponent', () => {
     );
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromActions.LanguageChange(pageContext)
+      new fromActions.LanguageChange()
     );
   });
 });
