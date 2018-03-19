@@ -1,15 +1,33 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CategoryPageLayoutComponent } from './category-page-layout.component';
+import {
+  DynamicSlotComponent,
+  ComponentWrapperComponent
+} from '../../../cms/components';
+import * as fromRoot from '../../../routing/store';
+import * as fromCmsReducer from '../../../cms/store/reducers';
 
-xdescribe('CategoryPageComponent', () => {
+import { StoreModule, combineReducers } from '@ngrx/store';
+
+describe('CategoryPageComponent', () => {
   let component: CategoryPageLayoutComponent;
   let fixture: ComponentFixture<CategoryPageLayoutComponent>;
 
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        declarations: [CategoryPageLayoutComponent]
+        imports: [
+          StoreModule.forRoot({
+            ...fromRoot.reducers,
+            cms: combineReducers(fromCmsReducer.reducers)
+          })
+        ],
+        declarations: [
+          CategoryPageLayoutComponent,
+          DynamicSlotComponent,
+          ComponentWrapperComponent
+        ]
       }).compileComponents();
     })
   );
