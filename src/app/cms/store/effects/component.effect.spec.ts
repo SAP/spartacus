@@ -14,6 +14,12 @@ import { ConfigService } from '../../config.service';
 import * as fromEffects from './component.effect';
 import * as fromActions from '../actions/component.action';
 
+import { StoreModule, combineReducers, Store } from '@ngrx/store';
+import * as fromRoot from '../../../routing/store';
+import * as fromCmsReducer from '../../../cms/store/reducers';
+
+import { PageType } from '../../../routing/models/page-context.model';
+
 @Injectable()
 export class TestActions extends Actions {
   constructor() {
@@ -30,6 +36,7 @@ export function getActions() {
 }
 
 describe('Component Effects', () => {
+  let store: Store<fromRoot.State>;
   let actions$: TestActions;
   let service: OccCmsService;
   let effects: fromEffects.ComponentEffects;
@@ -38,7 +45,13 @@ describe('Component Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromCmsReducer.reducers)
+        })
+      ],
       providers: [
         OccCmsService,
         ConfigService,
@@ -47,6 +60,7 @@ describe('Component Effects', () => {
       ]
     });
 
+    store = TestBed.get(Store);
     actions$ = TestBed.get(Actions);
     service = TestBed.get(OccCmsService);
     effects = TestBed.get(fromEffects.ComponentEffects);
@@ -56,6 +70,18 @@ describe('Component Effects', () => {
 
   describe('loadComponent$', () => {
     it('should return a component from LoadComponentSuccess', () => {
+      const router = {
+        state: {
+          url: '/',
+          queryParams: {},
+          params: {},
+          context: { id: '1', type: PageType.PRODUCT_PAGE },
+          cmsRequired: false
+        }
+      };
+
+      spyOn(store, 'select').and.returnValue(of(router));
+
       const action = new fromActions.LoadComponent('comp1');
       const completion = new fromActions.LoadComponentSuccess(component);
 

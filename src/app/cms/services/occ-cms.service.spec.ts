@@ -65,22 +65,36 @@ describe('OccCmsService', () => {
 
   describe('load cms component', () => {
     it('should get cms component data without parameter fields', () => {
-      service.loadComponent('comp1').subscribe(result => {
+      const context: PageContext = {
+        id: 'testProductCode',
+        type: PageType.PRODUCT_PAGE
+      };
+
+      service.loadComponent('comp1', context).subscribe(result => {
         expect(result).toEqual(component);
       });
 
-      const mockReq = httpMock.expectOne({
-        method: 'GET',
-        url: endpoint + '/components/comp1'
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' && req.url === endpoint + '/components/comp1'
+        );
       });
 
+      expect(mockReq.request.params.get('productCode')).toEqual(
+        'testProductCode'
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(component);
     });
 
     it('should get cms component data with parameter fields', () => {
-      service.loadComponent('comp1', 'FULL').subscribe(result => {
+      const context: PageContext = {
+        id: 'testPagId',
+        type: PageType.CONTENT_PAGE
+      };
+
+      service.loadComponent('comp1', context, 'FULL').subscribe(result => {
         expect(result).toEqual(component);
       });
 
