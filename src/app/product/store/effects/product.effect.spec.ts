@@ -16,9 +16,11 @@ import { ProductReferenceConverterService } from '../../converters/product-refer
 
 import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
+import * as fromSiteContext from './../../../site-context/shared/store';
+import { PageType } from '../../../routing/models/page-context.model';
 
 @Injectable()
 export class TestActions extends Actions {
@@ -36,6 +38,7 @@ export function getActions() {
 }
 
 describe('Product Effects', () => {
+  let store: Store<fromRoot.State>;
   let actions$: TestActions;
   let service: OccProductService;
   let effects: fromEffects.ProductEffects;
@@ -65,6 +68,7 @@ describe('Product Effects', () => {
       ]
     });
 
+    store = TestBed.get(Store);
     actions$ = TestBed.get(Actions);
     service = TestBed.get(OccProductService);
     effects = TestBed.get(fromEffects.ProductEffects);
@@ -84,19 +88,27 @@ describe('Product Effects', () => {
     });
   });
 
-  // describe('refreshProduct$', () => {
-  //   it('should refresh a product', () => {
-  //     const pageContext = {
-  //       id: '1',
-  //       type: PageType.PRODUCT_PAGE
-  //     };
-  //     const action = new fromSiteContextActions.LanguageChange();
-  //     const completion = new fromActions.LoadProductSuccess(product);
+  describe('refreshProduct$', () => {
+    it('should refresh a product', () => {
+      const router = {
+        state: {
+          url: '/',
+          queryParams: {},
+          params: {},
+          context: { id: '1', type: PageType.PRODUCT_PAGE },
+          cmsRequired: false
+        }
+      };
 
-  //     actions$.stream = hot('-a', { a: action });
-  //     const expected = cold('-b', { b: completion });
+      spyOn(store, 'select').and.returnValue(of(router));
 
-  //     expect(effects.refreshProduct$).toBeObservable(expected);
-  //   });
-  // });
+      const action = new fromSiteContext.LanguageChange();
+      const completion = new fromActions.LoadProductSuccess(product);
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.refreshProduct$).toBeObservable(expected);
+    });
+  });
 });
