@@ -18,6 +18,9 @@ import { ProductReferenceConverterService } from '../../converters/product-refer
 import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
 import * as fromSiteContextActions from './../../../site-context/shared/store/actions';
+import { StoreModule, combineReducers } from '@ngrx/store';
+import * as fromRoot from '../../../routing/store';
+import * as fromCmsReducer from '../../../cms/store/reducers';
 
 @Injectable()
 export class TestActions extends Actions {
@@ -47,7 +50,13 @@ describe('Product Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromCmsReducer.reducers)
+        })
+      ],
       providers: [
         OccProductService,
         ProductImageConverterService,
