@@ -53,10 +53,7 @@ export class OccCmsService {
       .get(this.getBaseEndPoint() + `/components/${id}`, {
         headers: this.headers,
         params: new HttpParams({
-          fromString:
-            fields === undefined
-              ? this.getRequestParams(pageContext)
-              : this.getRequestParams(pageContext, fields)
+          fromString: this.getRequestParams(pageContext, fields)
         })
       })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
@@ -71,10 +68,7 @@ export class OccCmsService {
       .post(this.getBaseEndPoint() + `/components`, idList, {
         headers: this.headers,
         params: new HttpParams({
-          fromString:
-            fields === undefined
-              ? this.getRequestParams(pageContext)
-              : this.getRequestParams(pageContext, fields)
+          fromString: this.getRequestParams(pageContext, fields)
         })
       })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
