@@ -6,13 +6,15 @@ import { Store } from '@ngrx/store';
 export class NavigationService {
   constructor(private store: Store<fromStore.CmsState>) {}
 
-  public createNode(data) {
-    const uid = data.uid;
+  public createNode(data, rootUid) {
+    const uid = rootUid;
     const itemsList = [];
 
     if (data.children) {
       for (const child of data.children) {
-        if (child.entries && child.entries.length > 0) {
+        if (child.children) {
+          this.createNode(child, rootUid);
+        } else if (child.entries && child.entries.length > 0) {
           for (const entry of child.entries) {
             itemsList.push({
               superType: entry.itemSuperType,
@@ -22,11 +24,14 @@ export class NavigationService {
         }
       }
     }
-    this.store.dispatch(
-      new fromStore.LoadNavigationItems({
-        nodeId: uid,
-        items: itemsList
-      })
-    );
+
+    if (itemsList.length > 0) {
+      this.store.dispatch(
+        new fromStore.LoadNavigationItems({
+          nodeId: uid,
+          items: itemsList
+        })
+      );
+    }
   }
 }

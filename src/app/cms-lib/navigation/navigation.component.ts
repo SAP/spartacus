@@ -37,7 +37,7 @@ export class NavigationComponent extends AbstractCmsComponent {
     const data = this.component.navigationNode
       ? this.component.navigationNode
       : this.component;
-    this.navigationService.createNode(data);
+    this.navigationService.createNode(data, data.uid);
     this.cd.detectChanges();
   }
 }
