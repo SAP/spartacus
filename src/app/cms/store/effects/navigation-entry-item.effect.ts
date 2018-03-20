@@ -15,7 +15,7 @@ import { IdList } from '../../models/idList.model';
 @Injectable()
 export class NavigationEntryItemEffects {
   @Effect()
-  loadComponent$: Observable<any> = this.actions$
+  loadNavigationItems$: Observable<any> = this.actions$
     .ofType(navigationItemActions.LOAD_NAVIGATION_ITEMS)
     .pipe(
       map(
@@ -67,9 +67,9 @@ export class NavigationEntryItemEffects {
 
     itemList.forEach(item => {
       if (item.superType === 'AbstractCMSComponent') {
-        pageIds.idList.push(item.id);
-      } else if (item.superType === 'AbstractPage') {
         componentIds.idList.push(item.id);
+      } else if (item.superType === 'AbstractPage') {
+        pageIds.idList.push(item.id);
       } else if (item.superType === 'AbstractMedia') {
         mediaIds.idList.push(item.id);
       }
