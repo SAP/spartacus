@@ -19,6 +19,11 @@ export const getNavigationEntryItems: MemoizedSelector<
   fromNavigationEntryItem.getNavigationEntryItems
 );
 
+export const getItemsLoadingStatue: MemoizedSelector<any, any> = createSelector(
+  getNavigationEntryItemState,
+  fromNavigationEntryItem.getLoadingStatue
+);
+
 export const itemsSelectorFactory = (nodeId): MemoizedSelector<any, any> => {
   return createSelector(getNavigationEntryItems, nodes => {
     if (Object.keys(nodes).length !== 0) {
