@@ -55,11 +55,11 @@ export class OccCmsService {
         break;
       }
       case PageType.CATEGORY_PAGE: {
-        strParams = 'categoryCode' + pageContext.id;
+        strParams = 'categoryCode=' + pageContext.id;
         break;
       }
       case PageType.CATALOG_PAGE: {
-        strParams = 'catalogCode' + pageContext.id;
+        strParams = 'catalogCode=' + pageContext.id;
         break;
       }
     }
