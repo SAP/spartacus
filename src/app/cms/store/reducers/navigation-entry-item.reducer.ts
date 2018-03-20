@@ -2,11 +2,11 @@ import * as fromNavigationItem from '../actions/navigation-entry-item.action';
 import { NodeItem } from '../../models/node-item.model';
 
 export interface NavigationItemState {
-  items: { [nodeId: string]: NodeItem };
+  nodes: { [nodeId: string]: NodeItem };
 }
 
 export const initialState: NavigationItemState = {
-  items: {}
+  nodes: {}
 };
 
 export function reducer(
@@ -19,21 +19,26 @@ export function reducer(
         const components = action.payload.components;
         const nodeId = action.payload.nodeId;
 
-        const items = components.reduce(
+        const newItem = components.reduce(
           (compItems: { [uid_type: string]: any }, component: any) => {
             return {
               ...compItems,
-              [component.uid_`AbstractCMSComponent`]: component
+              [`${component.uid}_AbstractCMSComponent`]: component
             };
           },
           {
-            ...state[nodeId].items
+            ...state.nodes
           }
         );
 
+        const nodes = {
+          ...state.nodes,
+          [nodeId]: newItem
+        };
+
         return {
           ...state,
-          items
+          nodes
         };
       }
     }
