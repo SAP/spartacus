@@ -47,4 +47,4 @@ export function reducer(
 }
 
 export const getNavigationEntryItems = (state: NavigationItemState) =>
-  state.items;
+  state.nodes;
