@@ -1,10 +1,10 @@
-<!-- link WITHOUT childs -->
+<!-- link WITHOUT childs
 <a mat-button *ngIf="!node.childs" [routerLink]="node.url">
     <span *ngIf="node.title">{{node.title}}</span>
-</a>
+</a> -->
 
 <!-- link WITH childs -->
-<a *ngIf="node.childs && !node.title" mat-icon-button [matMenuTriggerFor]="menu">
+<!-- <a *ngIf="node.childs && !node.title" mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>reorder</mat-icon>
 </a>
 
@@ -28,4 +28,4 @@
         <a *ngFor="let childNode of node.childs" [routerLink]="childNode.url" mat-menu-item> {{childNode.title}}</a>
     </div>
 
-</mat-menu>
+</mat-menu> -->

@@ -9,6 +9,7 @@ import { NavigationService } from './navigation.service';
 import { ConfigService } from '../../cms/config.service';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'y-navigation',
@@ -19,7 +20,7 @@ import * as fromStore from '../../cms/store';
 export class NavigationComponent extends AbstractCmsComponent {
   static componentName = 'NavigationComponent';
 
-  @Input() node;
+  node$;
 
   constructor(
     protected cd: ChangeDetectorRef,
@@ -37,7 +38,14 @@ export class NavigationComponent extends AbstractCmsComponent {
     const data = this.component.navigationNode
       ? this.component.navigationNode
       : this.component;
-    this.navigationService.createNode(data, data.uid);
+
+    this.node$ = this.store
+      .select(fromStore.getNavigationEntryItems)
+      .subscribe(items => {
+        if (!items.loading && items[data.uid] === undefined) {
+          this.navigationService.createNode(data);
+        }
+      });
     this.cd.detectChanges();
   }
 }
