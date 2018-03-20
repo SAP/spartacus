@@ -8,7 +8,7 @@ export const LOAD_NAVIGATION_ITEMS_SUCCESS =
 
 export class LoadNavigationItems implements Action {
   readonly type = LOAD_NAVIGATION_ITEMS;
-  constructor(public payload: any[]) {}
+  constructor(public payload: { nodeId: string; items: any[] }) {}
 }
 
 export class LoadNavigationItemsFail implements Action {
