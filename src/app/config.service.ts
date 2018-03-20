@@ -49,7 +49,7 @@ export class ConfigService {
     SimpleBannerComponent: 'BannerComponent',
     // BreadcrumbComponent:                'BreadcrumbComponent',
     CMSParagraphComponent: 'ParagraphComponent',
-    // NavigationComponent: 'NavigationComponent',
+    NavigationComponent: 'NavigationComponent',
     // FooterNavigationComponent: 'FooterNavigationComponent',
     // CategoryNavigationComponent: 'CategoryNavigationComponent',
     ProductAddToCartComponent: 'AddToCartComponent',

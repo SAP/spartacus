@@ -21,36 +21,38 @@ export class NavigationEntryItemEffects {
       map(
         (action: navigationItemActions.LoadNavigationItems) => action.payload
       ),
-      map(itemList => this.getIdListByItemType(itemList)),
-      switchMap(ids => {
-        if (ids.componentIds.idList.length > 0) {
-          return this.routingStore
-            .select(fromRouting.getRouterState)
-            .pipe(
-              filter(routerState => routerState !== undefined),
-              map(routerState => routerState.state.context),
-              mergeMap(pageContext =>
-                this.occCmsService
-                  .loadListComponents(ids.componentIds, pageContext)
-                  .pipe(
-                    map(
-                      data =>
-                        new navigationItemActions.LoadNavigationItemsSuccess(
-                          data
-                        )
-                    ),
-                    catchError(error =>
-                      of(
-                        new navigationItemActions.LoadNavigationItemsFail(error)
-                      )
-                    )
+      map(payload => {
+        return {
+          ids: this.getIdListByItemType(payload.items),
+          nodeId: payload.nodeId
+        };
+      }),
+      switchMap(data => {
+        if (data.ids.componentIds.idList.length > 0) {
+          return this.routingStore.select(fromRouting.getRouterState).pipe(
+            filter(routerState => routerState !== undefined),
+            map(routerState => routerState.state.context),
+            mergeMap(pageContext =>
+              this.occCmsService
+                .loadListComponents(data.ids.componentIds, pageContext)
+                .pipe(
+                  map(
+                    res =>
+                      new navigationItemActions.LoadNavigationItemsSuccess({
+                        nodeId: data.nodeId,
+                        components: res.component
+                      })
+                  ),
+                  catchError(error =>
+                    of(new navigationItemActions.LoadNavigationItemsFail(error))
                   )
-              )
-            );
-        } else if (ids.pageIds.idList.length > 0) {
+                )
+            )
+          );
+        } else if (data.ids.pageIds.idList.length > 0) {
           // future work
           // dispatch action to load cms page one by one
-        } else if (ids.mediaIds.idList.length > 0) {
+        } else if (data.ids.mediaIds.idList.length > 0) {
           // future work
           // send request to get list of media
         }
