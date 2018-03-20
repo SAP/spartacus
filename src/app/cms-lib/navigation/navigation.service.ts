@@ -1,65 +1,71 @@
 import { Injectable } from '@angular/core';
+import * as fromStore from './../../cms/store';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class NavigationService {
-  constructor() {}
+  constructor(private store: Store<fromStore.CmsState>) {}
 
   public createNode(data) {
-    const node = {};
-    const title = this.getLinkName(data);
-    if (title) {
-      node['title'] = data.title ? data.title : title;
-    }
+    const uid = data.uid;
+    const childList = [];
+    // if (data.children !== undefined) {
+    //   this.createChilds(data);
+    // }
 
-    const url = this.getUrl(data);
-    if (url) {
-      node['url'] = url;
-    }
+    // const itemId = this.getItemId(data);
+    // const itemSuperType = this.getItemSuperType(data);
 
-    const childs = this.createChilds(data);
-    if (childs) {
-      node['childs'] = childs;
+    // links.push({ superType: itemSuperType, id: itemId });
+
+    // this.store.dispatch(
+    //   new fromStore.LoadNavigationItems({
+    //     nodeId: uid,
+    //     items: links
+    //   })
+    // );
+    // console.log(uid);
+    // console.log(links);
+
+    if (data.children) {
     }
-    return node;
   }
 
-  private createChilds(node) {
-    if (!node.children) {
-      return;
-    }
-    const childs = [];
-    for (const child of node.children) {
-      const childNode = this.createNode(child);
-      childs.push(childNode);
-    }
-    return childs;
-  }
+  // private createChilds(node) {
+  //   const childs = [];
 
-  private getUrl(child): string {
-    let linkUrl = '';
-    const link = this.getLink(child);
-    if (link) {
-      linkUrl = link.itemId; // TODO: Need to replace this with the actual titles
-    }
-    return linkUrl;
-  }
+  //   for (const child of node.children) {
+  //     this.createNode(child, node.uid);
+  //   }
+  // }
 
-  private getLinkName(node) {
-    let linkName = '';
-    const link = this.getLink(node);
-    if (link) {
-      linkName = link.itemId; // TODO: Need to replace this with the actual titles
-    } else if (node.title) {
-      linkName = node.title;
-    }
-    return linkName;
-  }
+  // private getItemSuperType(node) {
+  //   let superType = '';
+  //   const link = this.getLink(node);
+  //   if (link) {
+  //     superType = link.itemSuperType;
+  //   } else if (node.itemSuperType) {
+  //     superType = node.itemSuperType;
+  //   }
+  //   return superType;
+  // }
 
-  private getLink(child) {
-    if (child.entries && child.entries.length > 0) {
-      return child.entries[0];
-    } else {
-      return;
-    }
-  }
+  // private getItemId(node) {
+  //   let id = '';
+  //   const link = this.getLink(node);
+  //   if (link) {
+  //     id = link.itemId;
+  //   } else if (node.title) {
+  //     id = node.title;
+  //   }
+  //   return id;
+  // }
+
+  // private getLink(child) {
+  //   if (child && child.entries && child.entries.length > 0) {
+  //     return child.entries[0];
+  //   } else {
+  //     return;
+  //   }
+  // }
 }
