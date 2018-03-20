@@ -7,6 +7,7 @@ import {
 import { OccCmsService } from './occ-cms.service';
 import { ConfigService } from '../config.service';
 import { PageContext, PageType } from '../../routing/models/page-context.model';
+import { IdList } from './../models/idList.model';
 
 const comps: any[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -23,8 +24,11 @@ const cmsPageData: any = {
     ]
   }
 };
-
 const component: any = { uid: 'comp1', typeCode: 'SimpleBannerComponent' };
+const listComponents: any = {
+  component: [{ uid: 'comp_uid1' }, { uid: 'comp_uid2' }],
+  pagination: { count: 10 }
+};
 
 export class MockConfigService {
   server = {
@@ -168,6 +172,31 @@ describe('OccCmsService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cmsPageData);
+    });
+  });
+
+  describe('load list of cms component data', () => {
+    it('should get a list of cms component data with pagination', () => {
+      const ids: IdList = { idList: ['comp_uid1', 'comp_uid2'] };
+      const context: PageContext = {
+        id: '123',
+        type: PageType.PRODUCT_PAGE
+      };
+
+      service.loadListComponents(ids, context).subscribe(result => {
+        expect(result).toEqual(listComponents);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'POST' && req.url === endpoint + '/components';
+      });
+
+      expect(mockReq.request.body).toEqual(ids);
+      expect(mockReq.request.params.get('productCode')).toEqual('123');
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(listComponents);
     });
   });
 });
