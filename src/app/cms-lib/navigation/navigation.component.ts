@@ -10,7 +10,7 @@ import { NavigationService } from './navigation.service';
 import { ConfigService } from '../../cms/config.service';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
-import { tap, filter, takeWhile, take } from 'rxjs/operators';
+import { tap, filter, takeWhile } from 'rxjs/operators';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -25,7 +25,6 @@ export class NavigationComponent extends AbstractCmsComponent
 
   itemSubscription: Subscription;
 
-  time = Date.now();
   done = false;
 
   @Input() node;
@@ -60,8 +59,7 @@ export class NavigationComponent extends AbstractCmsComponent
             );
           }
         }),
-        filter(items => items !== undefined),
-        take(1)
+        filter(items => items !== undefined)
       )
       .subscribe(items => {
         this.done = true;
