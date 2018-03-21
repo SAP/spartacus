@@ -8,7 +8,7 @@ import { NavigationComponent } from './navigation.component';
 import { ConfigService } from '../../cms/config.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatMenuModule, MatIconModule } from '@angular/material';
-import { NavigationModule } from 'app/cms-lib/navigation/navigation.module';
+import { NavigationService } from './navigation.service';
 
 export class UseConfigService {
   cmsComponentMapping = {
@@ -22,12 +22,22 @@ describe('CmsNavigationComponent in CmsLib', () => {
   let fixture: ComponentFixture<NavigationComponent>;
   let el: DebugElement;
 
+  const itemsData = {
+    MockLink001_AbstractCMSComponent: {
+      uid: 'MockLink001',
+      link: 'testLink1',
+      linkName: 'test link 1'
+    },
+    MockLink002_AbstractCMSComponent: {
+      uid: 'MockLink002',
+      link: 'testLink2',
+      linkName: 'test link 2'
+    }
+  };
+
   const componentData = {
     uid: 'MockNavigationComponent',
     typeCode: 'NavigationComponent',
-    name: 'TestNavigationComponent',
-    type: 'Navigation Component',
-    styleClass: 'nav-order-tools',
     navigationNode: {
       uid: 'MockNavigationNode001',
       children: [
@@ -35,13 +45,9 @@ describe('CmsNavigationComponent in CmsLib', () => {
           uid: 'MockChildNode001',
           entries: [
             {
-              linkItem: {
-                external: false,
-                linkName: 'MockLinkName001',
-                target: 'SAMEWINDOW',
-                url: '/mockLinkName001'
-              },
-              itemId: 'MockLink001'
+              itemId: 'MockLink001',
+              itemSuperType: 'AbstractCMSComponent',
+              itemType: 'CMSLinkComponent'
             }
           ]
         },
@@ -49,13 +55,9 @@ describe('CmsNavigationComponent in CmsLib', () => {
           uid: 'MockChildNode002',
           entries: [
             {
-              linkItem: {
-                external: false,
-                linkName: 'MockLinkName002',
-                target: 'SAMEWINDOW',
-                url: '/mockLinkName002'
-              },
-              itemId: 'MockLink002'
+              itemId: 'MockLink002',
+              itemSuperType: 'AbstractCMSComponent',
+              itemType: 'CMSLinkComponent'
             }
           ]
         }
@@ -69,14 +71,17 @@ describe('CmsNavigationComponent in CmsLib', () => {
         imports: [
           MatMenuModule,
           MatIconModule,
-          NavigationModule,
           StoreModule.forRoot({
             ...fromRoot.reducers,
             cms: combineReducers(fromCmsReducer.reducers)
           }),
           RouterTestingModule
         ],
-        providers: [{ provide: ConfigService, useClass: UseConfigService }]
+        providers: [
+          NavigationService,
+          { provide: ConfigService, useClass: UseConfigService }
+        ],
+        declarations: [NavigationComponent]
       }).compileComponents();
     })
   );
@@ -88,7 +93,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
     el = fixture.debugElement;
 
     store = TestBed.get(Store);
-    spyOn(store, 'select').and.returnValue(of(componentData));
+    spyOn(store, 'select').and.returnValues(of(componentData), of(itemsData));
   });
 
   it('should be created', () => {

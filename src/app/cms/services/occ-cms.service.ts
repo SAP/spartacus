@@ -62,13 +62,29 @@ export class OccCmsService {
   loadListComponents(
     idList: IdList,
     pageContext: PageContext,
-    fields?: string
+    fields?: string,
+    currentPage?: number,
+    pageSize?: number,
+    sort?: string
   ) {
+    let strParams = this.getRequestParams(pageContext, fields);
+    if (currentPage !== undefined) {
+      strParams === ''
+        ? (strParams = strParams + 'currentPage=' + currentPage)
+        : (strParams = strParams + '&currentPage=' + currentPage);
+    }
+    if (pageSize !== undefined) {
+      strParams = strParams + '&pageSize=' + pageSize;
+    }
+    if (sort !== undefined) {
+      strParams = strParams + '&sort=' + sort;
+    }
+
     return this.http
       .post(this.getBaseEndPoint() + `/components`, idList, {
         headers: this.headers,
         params: new HttpParams({
-          fromString: this.getRequestParams(pageContext, fields)
+          fromString: strParams
         })
       })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
