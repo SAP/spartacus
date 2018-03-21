@@ -1,56 +1,82 @@
 import { TestBed, inject } from '@angular/core/testing';
+import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { of } from 'rxjs/observable/of';
+import * as fromRoot from '../../routing/store';
+import * as fromCmsStore from '../../cms/store';
+
 import { NavigationService } from './navigation.service';
 
 describe('NavigationService', () => {
   let navigationService: NavigationService;
+  let store: Store<fromCmsStore.CmsState>;
 
-  /*const mockedData = {
-    uid: 'MockNavigationNode001',
-    children: [
-      {
-        uid: 'MockChildNode001',
-        entries: [
-          {
-            linkItem: {
-              external: false,
-              linkName: 'MockLinkName001',
-              target: 'SAMEWINDOW',
-              url: '/mockLinkName001'
-            },
-            itemId: 'MockLink001'
-          }
-        ]
-      },
-      {
-        uid: 'MockChildNode002',
-        entries: [
-          {
-            linkItem: {
-              external: false,
-              linkName: 'MockLinkName002',
-              target: 'SAMEWINDOW',
-              url: '/mockLinkName002'
-            },
-            itemId: 'MockLink002'
-          }
-        ]
-      }
-    ]
-  }; */
+  const itemsData = {
+    MockLink001_AbstractCMSComponent: {
+      uid: 'MockLink001',
+      url: '/testLink1',
+      linkName: 'test link 1',
+      target: false
+    },
+    MockLink002_AbstractCMSComponent: {
+      uid: 'MockLink002',
+      url: '/testLink2',
+      linkName: 'test link 2',
+      target: true
+    }
+  };
 
-  /*const resultNode = {
+  const componentData = {
+    uid: 'MockNavigationComponent',
+    typeCode: 'NavigationComponent',
+    navigationNode: {
+      uid: 'MockNavigationNode001',
+      children: [
+        {
+          uid: 'MockChildNode001',
+          entries: [
+            {
+              itemId: 'MockLink001',
+              itemSuperType: 'AbstractCMSComponent',
+              itemType: 'CMSLinkComponent'
+            }
+          ]
+        },
+        {
+          uid: 'MockChildNode002',
+          entries: [
+            {
+              itemId: 'MockLink002',
+              itemSuperType: 'AbstractCMSComponent',
+              itemType: 'CMSLinkComponent'
+            }
+          ]
+        }
+      ]
+    }
+  };
+
+  const resultNode = {
     childs: [
-      { title: 'MockLinkName001', url: '/mockLinkName001' },
-      { title: 'MockLinkName002', url: '/mockLinkName002' }
+      { title: 'test link 1', url: '/testLink1', target: false },
+      { title: 'test link 2', url: '/testLink2', target: true }
     ]
-  };*/
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromCmsStore.reducers)
+        })
+      ],
       providers: [NavigationService]
     });
 
+    store = TestBed.get(Store);
     navigationService = TestBed.get(NavigationService);
+
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it(
@@ -60,9 +86,38 @@ describe('NavigationService', () => {
     })
   );
 
-  // We need to fix this after refactoring the navigation service
-  // it('should create a new navigation node', () => {
-  //   const node = navigationService.createNode(mockedData);
-  //   expect(node).toEqual(resultNode);
-  // });
+  describe('getNavigationEntryItems', () => {
+    it('should get all navigation entry items', () => {
+      navigationService.getNavigationEntryItems(
+        componentData.navigationNode,
+        true,
+        []
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromCmsStore.LoadNavigationItems({
+          nodeId: 'MockNavigationNode001',
+          items: [
+            {
+              superType: 'AbstractCMSComponent',
+              id: 'MockLink001'
+            },
+            {
+              superType: 'AbstractCMSComponent',
+              id: 'MockLink002'
+            }
+          ]
+        })
+      );
+    });
+  });
+
+  describe('createNode', () => {
+    it('should create a new node tree for display', () => {
+      const node = navigationService.createNode(
+        componentData.navigationNode,
+        itemsData
+      );
+      expect(node['childs']).toEqual(resultNode.childs);
+    });
+  });
 });
