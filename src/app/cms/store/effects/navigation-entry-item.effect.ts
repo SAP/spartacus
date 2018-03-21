@@ -33,8 +33,15 @@ export class NavigationEntryItemEffects {
             filter(routerState => routerState !== undefined),
             map(routerState => routerState.state.context),
             mergeMap(pageContext =>
+              // download all items in one request
               this.occCmsService
-                .loadListComponents(data.ids.componentIds, pageContext)
+                .loadListComponents(
+                  data.ids.componentIds,
+                  pageContext,
+                  'DEFAULT',
+                  0,
+                  data.ids.componentIds.idList.length
+                )
                 .pipe(
                   map(
                     res =>
