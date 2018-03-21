@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { NavigationComponent } from '../navigation/navigation.component';
 
 @Component({
