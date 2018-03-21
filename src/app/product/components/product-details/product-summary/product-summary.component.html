@@ -6,6 +6,10 @@
 
 <mat-divider></mat-divider>
 
-<div>
+<div *ngIf="product.stock.stockLevelStatus !== 'outOfStock'">
   {{product?.stock?.stockLevelStatus}} - {{product?.stock?.stockLevel}}
+</div>
+
+<div *ngIf="product.stock.stockLevelStatus === 'outOfStock'">
+  {{product?.stock?.stockLevelStatus}}
 </div>

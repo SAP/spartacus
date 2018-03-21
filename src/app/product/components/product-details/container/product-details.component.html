@@ -1,21 +1,22 @@
-
 <ng-container *ngIf="product$ | async as product">
     <mat-card>
-        
+
         <mat-card-title>
             <span class="product-title">{{product?.name}}</span>
-            <span class="product-code"><span class="prefix"> | ID {{product?.code}}</span></span>
+            <span class="product-code">
+                <span class="prefix"> | ID {{product?.code}}</span>
+            </span>
         </mat-card-title>
         <div>
             <y-star-rating [rating]="product?.averageRating"></y-star-rating>
             <button mat-button>Reviews</button>
             <button mat-button>Write a review</button>
-    <!--
+            <!--
             <button mat-button (click)="onClick">Reviews</button>
             <button mat-button (click)="onClick">Write a review</button>
     -->
         </div>
-        
+
         <mat-card-content>
             <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start" fxLayoutGap="24px">
                 <y-product-images fxFlexOrder.xs="2" [product]="product" fxFlex="50%"></y-product-images>
@@ -29,7 +30,7 @@
             <y-dynamic-slot flex position="CrossSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
             <y-dynamic-slot flex position="UpSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
 
-            <y-add-to-cart [productCode]="product?.code"></y-add-to-cart>
+            <y-add-to-cart *ngIf="(product$ | async).stock.stockLevelStatus !== 'outOfStock'" [productCode]="product?.code"></y-add-to-cart>
 
             <mat-tab-group>
                 <mat-tab label="PRODUCT DETAILS">
@@ -43,10 +44,8 @@
                 </mat-tab>
 
                 <mat-tab label="Delivery">
-                    <y-component-wrapper 
-                        [componentType]="'CMSTabParagraphComponent'" 
-                        [componentUid]="'deliveryTab'" [componentLoad]="true"></y-component-wrapper>
-                    <y-dynamic-slot position="Tabs"></y-dynamic-slot>    
+                    <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'" [componentLoad]="true"></y-component-wrapper>
+                    <y-dynamic-slot position="Tabs"></y-dynamic-slot>
                 </mat-tab>
             </mat-tab-group>
 
@@ -54,5 +53,3 @@
 
     </mat-card>
 </ng-container>
-
-
