@@ -81,24 +81,4 @@ export class NavigationService {
     }
     return childs;
   }
-
-  /* private getUrl(child): string {
-    let linkUrl = '';
-    const link = this.getLink(child);
-    if (link) {
-      linkUrl = link.itemId; // TODO: Need to replace this with the actual titles
-    }
-    return linkUrl;
-  }
-
-  private getLinkName(node) {
-    let linkName = '';
-    const link = this.getLink(node);
-    if (link) {
-      linkName = link.itemId; // TODO: Need to replace this with the actual titles
-    } else if (node.title) {
-      linkName = node.title;
-    }
-    return linkName;
-  }*/
 }
