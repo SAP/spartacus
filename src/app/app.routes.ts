@@ -9,6 +9,7 @@ import { PageNotFoundComponent } from './ui/pages/404/404.component';
 
 import { CmsPageGuards } from './cms/guards/cms-page.guard';
 import { ProductGuard } from './product/guards/product.guard';
+import { MultiStepCheckoutSummaryPageComponent } from './ui/pages/multi-step-checkout-summary-page/multi-step-checkout-summary-page.component';
 
 // TODO: provide URL mappings for site specific routings
 export const appRoutes: Routes = [
@@ -23,6 +24,12 @@ export const appRoutes: Routes = [
     canActivate: [CmsPageGuards],
     data: { pageLabel: 'cartPage' },
     component: CartPageComponent
+  },
+  {
+    path: 'checkout/multi/delivery-address/add',
+    canActivate: [CmsPageGuards],
+    data: { pageLabel: 'multiStepCheckoutSummaryPage' },
+    component: MultiStepCheckoutSummaryPageComponent
   },
   {
     path: 'search/:query',
