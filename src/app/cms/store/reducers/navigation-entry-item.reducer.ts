@@ -3,12 +3,10 @@ import { NodeItem } from '../../models/node-item.model';
 
 export interface NavigationItemState {
   nodes: { [nodeId: string]: NodeItem };
-  loading: boolean;
 }
 
 export const initialState: NavigationItemState = {
-  nodes: {},
-  loading: false
+  nodes: {}
 };
 
 export function reducer(
@@ -16,20 +14,6 @@ export function reducer(
   action: fromNavigationItem.NavigationEntryItemAction
 ): NavigationItemState {
   switch (action.type) {
-    case fromNavigationItem.LOAD_NAVIGATION_ITEMS: {
-      return {
-        ...state,
-        loading: true
-      };
-    }
-
-    case fromNavigationItem.LOAD_NAVIGATION_ITEMS_FAIL: {
-      return {
-        ...state,
-        loading: false
-      };
-    }
-
     case fromNavigationItem.LOAD_NAVIGATION_ITEMS_SUCCESS: {
       if (action.payload.components) {
         const components = action.payload.components;
@@ -51,11 +35,10 @@ export function reducer(
           ...state.nodes,
           [nodeId]: newItem
         };
-        console.log(newItem);
+
         return {
           ...state,
-          nodes,
-          loading: false
+          nodes
         };
       }
     }
@@ -66,4 +49,3 @@ export function reducer(
 
 export const getNavigationEntryItems = (state: NavigationItemState) =>
   state.nodes;
-export const getLoadingStatue = (state: NavigationItemState) => state.loading;

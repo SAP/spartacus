@@ -27,7 +27,7 @@ export class NavigationEntryItemEffects {
           nodeId: payload.nodeId
         };
       }),
-      switchMap(data => {
+      mergeMap(data => {
         if (data.ids.componentIds.idList.length > 0) {
           return this.routingStore.select(fromRouting.getRouterState).pipe(
             filter(routerState => routerState !== undefined),
