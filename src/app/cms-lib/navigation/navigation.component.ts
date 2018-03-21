@@ -60,7 +60,9 @@ export class NavigationComponent extends AbstractCmsComponent
       )
       .subscribe(items => {
         this.node = this.navigationService.createNode(navigation, items);
-        this.cd.detectChanges();
+        if (!this.cd['destroyed']) {
+          this.cd.detectChanges();
+        }
       });
   }
 
