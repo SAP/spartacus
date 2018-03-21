@@ -1,6 +1,7 @@
 <mat-card class="product">
 
-    <y-add-to-cart style="position: absolute" [iconOnly]="true" [productCode]="product.code"></y-add-to-cart>
+    <y-add-to-cart *ngIf="product.stock.stockLevelStatus !== 'outOfStock'" style="position: absolute" [iconOnly]="true" [productCode]="product.code"></y-add-to-cart>
+    <div *ngIf="product.stock.stockLevelStatus === 'outOfStock'">Out of Stock</div>
 
     <y-picture *ngIf="product.images" [imageContainer]="product.images.PRIMARY" imageFormat="product" [routerLink]="['/product/', product.code]"></y-picture>
 
