@@ -6,50 +6,99 @@ import { Store } from '@ngrx/store';
 export class NavigationService {
   constructor(private store: Store<fromStore.CmsState>) {}
 
-  public createNode(data) {
-    let itemsList = [];
+  /**
+   * Get all navigation entry items' type and id. Dispatch action to load all these items
+   * @param nodeData
+   * @param root
+   * @param itemsList
+   */
+  public getNavigationEntryItems(nodeData: any, root: boolean, itemsList = []) {
+    if (nodeData.children) {
+      this.processChilds(nodeData, itemsList);
+    } else if (nodeData.entries && nodeData.entries.length > 0) {
+      nodeData.entries.forEach(entry => {
+        itemsList.push({
+          superType: entry.itemSuperType,
+          id: entry.itemId
+        });
+      });
+    }
 
-    if (data.uid === 'FooterNavNode') {
-      for (const child of data.children) {
-        if (child.children) {
-          for (const subchild of child.children) {
-            for (const entry of subchild.entries) {
-              itemsList.push({
-                superType: entry.itemSuperType,
-                id: entry.itemId
-              });
-            }
-          }
-        }
-      }
-
-      if (itemsList.length > 0) {
-        this.store.dispatch(
-          new fromStore.LoadNavigationItems({
-            nodeId: 'FooterNavNode',
-            items: itemsList
-          })
-        );
-      }
-    } else {
-      for (const child of data.children) {
-        if (child.entries && child.entries.length > 0) {
-          for (const entry of child.entries) {
-            itemsList.push({
-              superType: entry.itemSuperType,
-              id: entry.itemId
-            });
-          }
-        }
-      }
-      if (itemsList.length > 0) {
-        this.store.dispatch(
-          new fromStore.LoadNavigationItems({
-            nodeId: data.uid,
-            items: itemsList
-          })
-        );
-      }
+    if (root) {
+      const rootUid = nodeData.uid;
+      this.store.dispatch(
+        new fromStore.LoadNavigationItems({
+          nodeId: rootUid,
+          items: itemsList
+        })
+      );
     }
   }
+
+  private processChilds(node, itemsList) {
+    for (const child of node.children) {
+      this.getNavigationEntryItems(child, false, itemsList);
+    }
+  }
+
+  /**
+   * Create a new node tree for display
+   * @param nodeData
+   * @param items
+   */
+  public createNode(nodeData, items) {
+    const node = {};
+
+    node['title'] = nodeData.title;
+    node['url'] = '';
+
+    if (nodeData.children) {
+      const childs = this.createChilds(nodeData, items);
+      node['childs'] = childs;
+    } else if (nodeData.entries && nodeData.entries.length > 0) {
+      const entry = nodeData.entries[0];
+      const item = items[`${entry.itemId}_${entry.itemSuperType}`];
+
+      // now we only consider CMSLinkComponent
+      if (entry.itemType === 'CMSLinkComponent' && item !== undefined) {
+        if (!node['title']) {
+          node['title'] = item.linkName;
+        }
+        node['url'] = item.url;
+        // if "NEWWINDOW", target is true
+        node['target'] = item.target;
+      }
+    }
+
+    return node;
+  }
+
+  private createChilds(node, items) {
+    const childs = [];
+    for (const child of node.children) {
+      const childNode = this.createNode(child, items);
+      childs.push(childNode);
+    }
+    return childs;
+  }
+
+  /* private getUrl(child): string {
+    let linkUrl = '';
+    const link = this.getLink(child);
+    if (link) {
+      linkUrl = link.itemId; // TODO: Need to replace this with the actual titles
+    }
+    return linkUrl;
+  }
+
+  private getLinkName(node) {
+    let linkName = '';
+    const link = this.getLink(node);
+    if (link) {
+      linkName = link.itemId; // TODO: Need to replace this with the actual titles
+    } else if (node.title) {
+      linkName = node.title;
+    }
+    return linkName;
+  }*/
 }

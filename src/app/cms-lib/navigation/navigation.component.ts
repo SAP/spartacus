@@ -2,14 +2,16 @@ import {
   Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Input
+  Input,
+  OnDestroy
 } from '@angular/core';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { NavigationService } from './navigation.service';
 import { ConfigService } from '../../cms/config.service';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
-import { tap } from 'rxjs/operators';
+import { tap, filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'y-navigation',
@@ -17,10 +19,13 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavigationComponent extends AbstractCmsComponent {
+export class NavigationComponent extends AbstractCmsComponent
+  implements OnDestroy {
   static componentName = 'NavigationComponent';
 
-  node$;
+  itemSubscription: Subscription;
+
+  @Input() node;
 
   constructor(
     protected cd: ChangeDetectorRef,
@@ -35,17 +40,34 @@ export class NavigationComponent extends AbstractCmsComponent {
     if (!this.component) {
       return;
     }
-    const data = this.component.navigationNode
+    const navigation = this.component.navigationNode
       ? this.component.navigationNode
       : this.component;
 
-    this.node$ = this.store
-      .select(fromStore.getNavigationEntryItems)
+    this.itemSubscription = this.store
+      .select(fromStore.itemsSelectorFactory(navigation.uid))
+      .pipe(
+        tap(items => {
+          if (items === undefined) {
+            this.navigationService.getNavigationEntryItems(
+              navigation,
+              true,
+              []
+            );
+          }
+        }),
+        filter(items => items !== undefined)
+      )
       .subscribe(items => {
-        if (!items.loading && items[data.uid] === undefined) {
-          this.navigationService.createNode(data);
-        }
+        this.node = this.navigationService.createNode(navigation, items);
+        this.cd.detectChanges();
       });
-    this.cd.detectChanges();
+  }
+
+  ngOnDestroy() {
+    if (this.itemSubscription) {
+      this.itemSubscription.unsubscribe();
+    }
+    super.ngOnDestroy();
   }
 }
