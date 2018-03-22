@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { map, catchError, filter, mergeMap } from 'rxjs/operators';
+import { map, catchError, filter, mergeMap, take } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
@@ -32,6 +32,7 @@ export class NavigationEntryItemEffects {
           return this.routingStore.select(fromRouting.getRouterState).pipe(
             filter(routerState => routerState !== undefined),
             map(routerState => routerState.state.context),
+            take(1),
             mergeMap(pageContext =>
               // download all items in one request
               this.occCmsService

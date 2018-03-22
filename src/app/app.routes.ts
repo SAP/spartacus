@@ -87,6 +87,8 @@ export const appRoutes: Routes = [
 
   {
     path: '**',
-    component: PageNotFoundComponent
+    component: PageNotFoundComponent,
+    canActivate: [CmsPageGuards],
+    data: { pageLabel: 'notFound' }
   }
 ];
