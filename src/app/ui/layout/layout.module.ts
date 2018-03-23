@@ -26,7 +26,7 @@ import { LoginModule } from '../../auth/components/login/login.module';
 
 import { CartDetailsModule } from '../../cart/components/cart-details/cart-details.module';
 import { ProductModule } from '../../product/product.module';
-import { MultiStepCheckoutSummaryPageLayoutComponent } from './multi-step-checkout-summary-page-layout/multi-step-checkout-summary-page-layout.component';
+import { MultiStepCheckoutPageLayoutComponent } from './multi-step-checkout-page-layout/multi-step-checkout-page-layout.component';
 import { CheckoutModule } from '../../checkout/checkout.module';
 
 @NgModule({
@@ -55,7 +55,7 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     ProductDetailsPageLayoutComponent,
     CartPageLayoutComponent,
     CategoryPageLayoutComponent,
-    MultiStepCheckoutSummaryPageLayoutComponent
+    MultiStepCheckoutPageLayoutComponent
   ],
   exports: [
     MainComponent,
@@ -64,7 +64,7 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     ProductDetailsPageLayoutComponent,
     CartPageLayoutComponent,
     CategoryPageLayoutComponent,
-    MultiStepCheckoutSummaryPageLayoutComponent
+    MultiStepCheckoutPageLayoutComponent
   ]
 })
 export class LayoutModule {}
