@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { AddressFormModule } from './multi-step-checkout-summary/address-form/address-form.module';
+import { AddressFormModule } from './multi-step-checkout/address-form/address-form.module';
 import { CommonModule } from '@angular/common';
 
 @NgModule({

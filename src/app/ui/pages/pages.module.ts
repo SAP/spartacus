@@ -13,7 +13,7 @@ import { CategoryPageComponent } from './category-page/category-page.component';
 
 // ProductPage
 import { ProductPageComponent } from './product-page/product-page.component';
-import { MultiStepCheckoutSummaryPageComponent } from './multi-step-checkout-summary-page/multi-step-checkout-summary-page.component';
+import { MultiStepCheckoutPageComponent } from './multi-step-checkout-page/multi-step-checkout-page.component';
 
 @NgModule({
   imports: [CommonModule, LayoutModule],
@@ -23,7 +23,7 @@ import { MultiStepCheckoutSummaryPageComponent } from './multi-step-checkout-sum
     ProductPageComponent,
     PageNotFoundComponent,
     CartPageComponent,
-    MultiStepCheckoutSummaryPageComponent
+    MultiStepCheckoutPageComponent
   ],
   exports: [
     HomePageComponent,
@@ -31,7 +31,7 @@ import { MultiStepCheckoutSummaryPageComponent } from './multi-step-checkout-sum
     ProductPageComponent,
     PageNotFoundComponent,
     CartPageComponent,
-    MultiStepCheckoutSummaryPageComponent
+    MultiStepCheckoutPageComponent
   ]
 })
 export class PagesModule {}
