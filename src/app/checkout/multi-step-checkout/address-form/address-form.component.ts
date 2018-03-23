@@ -1,4 +1,10 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -16,9 +22,13 @@ export class AddressFormComponent {
 
   @Input() countries$: Observable<any>;
 
+  @Output() added = new EventEmitter<any>();
+
   constructor(protected store: Store<fromRouting.State>) {}
 
-  addAddress() {}
+  onAdd() {
+    this.added.emit(this.parent.get('address').value);
+  }
 
   back() {
     this.store.dispatch(

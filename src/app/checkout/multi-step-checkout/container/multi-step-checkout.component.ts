@@ -19,18 +19,30 @@ export class MultiStepCheckoutComponent implements OnInit {
 
   form = this.fb.group({
     address: this.fb.group({
-      name: ['', Validators.required],
-      address1: ['', Validators.required],
-      address2: '',
-      city: '',
-      state: '',
-      country: '',
-      zip: '',
+      titleCode: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      line1: ['', Validators.required],
+      line2: '',
+      town: '',
+      region: this.fb.group({
+        isocode: ''
+      }),
+      country: this.fb.group({
+        isocode: ''
+      }),
+      postalCode: ['', Validators.required],
       phone: ''
-    })
+    }),
+    shippingMethod: this.fb.group({}),
+    paymentMethod: this.fb.group({})
   });
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {}
+
+  addAddress(address) {
+    console.log(address);
+  }
 }
