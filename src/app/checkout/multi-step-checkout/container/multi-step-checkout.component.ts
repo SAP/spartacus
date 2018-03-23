@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -14,7 +14,7 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./multi-step-checkout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MultiStepCheckoutComponent {
+export class MultiStepCheckoutComponent implements OnInit {
   countries$: Observable<any>;
 
   form = this.fb.group({
@@ -31,4 +31,6 @@ export class MultiStepCheckoutComponent {
   });
 
   constructor(private fb: FormBuilder) {}
+
+  ngOnInit() {}
 }
