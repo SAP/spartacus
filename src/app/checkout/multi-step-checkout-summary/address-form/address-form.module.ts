@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AddNewAddressComponent } from './add-new-address.component';
+import { AddressFormComponent } from './address-form.component';
 import { MaterialModule } from '../../../material.module';
 
 @NgModule({
   imports: [CommonModule, MaterialModule],
-  declarations: [AddNewAddressComponent],
-  exports: [AddNewAddressComponent]
+  declarations: [AddressFormComponent],
+  exports: [AddressFormComponent]
 })
-export class AddNewAddressModule {}
+export class AddressFormModule {}
