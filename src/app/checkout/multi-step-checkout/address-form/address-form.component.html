@@ -1,61 +1,47 @@
-<div>
+<div [formGroup]="parent">
     <h2 class="heading">Step 1: Shipping Address</h2>
-    <div class="content">
+    <div class="content" formGroupName="address">
         <div>
-            <div>
-                <font size="4">Name:</font>
-            </div>
-            <input class="inputs" type="text">
+            <div><font size="4">Name:</font></div>
+            <input class="inputs" type="text" placeholder="Name" formControlName="name">
         </div>
         <div>
-            <div>
-                <font size="4">Address 1:</font>
-            </div>
-            <input class="inputs" type="text">
+            <div><font size="4">Address 1:</font></div>
+            <input class="inputs" type="text" placeholder="Address 1" formControlName="address1">
         </div>
         <div>
-            <div>
-                <font size="4">Address 2:</font>
-            </div>
-            <input class="inputs" type="text">
+            <div><font size="4">Address 2:</font></div>
+            <input class="inputs" type="text" placeholder="Address 2" formControlName="address2">
         </div>
         <div>
-            <div>
-                <font size="4">City:</font>
-            </div>
-            <input class="inputs" type="text">
+            <div><font size="4">City:</font></div>
+            <input class="inputs" type="text" placeholder="City" formControlName="city">
         </div>
         <div>
-            <div>
-                <font size="4">State or Province:</font>
-            </div>
-            <input class="inputs" type="text">
+            <div><font size="4">State or Province:</font></div>
+            <input class="inputs" type="text" placeholder="State/Province" formControlName="state">
         </div>
         <div>
-            <div>
-                <font size="4">Country:</font>
-            </div>
-            <select class="countries-dropdown">
-                <option>Country1</option>
-                <option>Country2</option>
+            <div><font size="4">Country:</font></div>
+            <select class="countries-dropdown" formControlName="country">
+                <option value="">Select Country</option>
+                <option *ngFor="let country of (countries$ | async)" [value]="country.isocode">
+                    {{ country.name }}
+                </option>
             </select>
         </div>
         <div>
+            <div><font size="4">Zip:</font></div>
+            <input class="inputs" type="text" placeholder="Zip" formControlName="zip">
             <div>
-                <font size="4">Zip:</font>
-            </div>
-            <input class="inputs" type="text">
-            <div>
-                <div>
-                    <font size="4">Phone:</font>
-                </div>
-                <input class="inputs" type="text">
+                <div><font size="4">Phone:</font></div>
+                <input class="inputs" type="text" placeholder="Phone" formControlName="phone">
             </div>
         </div>
-    </div>
-</div>
 
-<div class="buttons">
-    <button mat-raised-button color="primary">Go Back</button>
-    <button mat-raised-button color="accent">Next</button>
+        <div class="buttons">
+            <button mat-raised-button color="primary" (click)="back()" >Go Back</button>
+            <button mat-raised-button color="accent" (click)="addAddress()">Next</button>
+        </div>
+    </div>
 </div>

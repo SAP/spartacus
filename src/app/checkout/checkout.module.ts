@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
-import { AddressFormModule } from './multi-step-checkout/address-form/address-form.module';
 import { CommonModule } from '@angular/common';
 
+import { MultiStepCheckoutModule } from './multi-step-checkout/multi-step-checkout.module';
+
 @NgModule({
-  imports: [CommonModule, AddressFormModule],
-  exports: [AddressFormModule]
+  imports: [CommonModule, MultiStepCheckoutModule],
+  exports: [MultiStepCheckoutModule]
 })
 export class CheckoutModule {}
