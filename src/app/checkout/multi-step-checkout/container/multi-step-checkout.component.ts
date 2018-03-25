@@ -8,6 +8,12 @@ import {
 } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
+import { Store } from '@ngrx/store';
+import * as fromCartStore from '../../../cart/store';
+import { CartService } from '../../../cart/services';
+
+import { Address } from './../../models/address-model';
+
 @Component({
   selector: 'y-multi-step-checkout',
   templateUrl: './multi-step-checkout.component.html',
@@ -15,6 +21,8 @@ import { Observable } from 'rxjs/Observable';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MultiStepCheckoutComponent implements OnInit {
+  step = 1;
+
   countries$: Observable<any>;
 
   form = this.fb.group({
@@ -26,10 +34,10 @@ export class MultiStepCheckoutComponent implements OnInit {
       line2: '',
       town: '',
       region: this.fb.group({
-        isocode: ''
+        isocode: 'qc'
       }),
       country: this.fb.group({
-        isocode: ''
+        isocode: 'ca'
       }),
       postalCode: ['', Validators.required],
       phone: ''
@@ -38,11 +46,21 @@ export class MultiStepCheckoutComponent implements OnInit {
     paymentMethod: this.fb.group({})
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    protected cartService: CartService,
+    protected store: Store<fromCartStore.CartState>
+  ) {}
 
   ngOnInit() {}
 
-  addAddress(address) {
+  setStep(step) {
+    this.step = step;
+  }
+
+  addAddress(address: Address) {
     console.log(address);
+    this.cartService.createAndSetAddress(address);
+    this.step = 2;
   }
 }

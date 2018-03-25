@@ -109,4 +109,20 @@ export class OccCartService {
       .delete(url, { headers: headers })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
+
+  public createAndSetAddress(
+    userId: string,
+    cartId: string,
+    address: any
+  ): Observable<any> {
+    return this.http
+      .post(
+        this.getCartEndpoint(userId) + cartId + '/addresses/delivery',
+        address,
+        {
+          headers: new HttpHeaders().set('Content-Type', 'application/json')
+        }
+      )
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
 }
