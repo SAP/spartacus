@@ -3,7 +3,14 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { map, catchError, switchMap, mergeMap, filter } from 'rxjs/operators';
+import {
+  map,
+  catchError,
+  switchMap,
+  mergeMap,
+  filter,
+  take
+} from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
@@ -34,7 +41,9 @@ export class PageEffects {
         if (pageContext === undefined) {
           return this.routingStore.select(fromRouting.getRouterState).pipe(
             filter(routerState => routerState !== undefined),
+            filter(routerState => routerState.state.cmsRequired),
             map(routerState => routerState.state.context),
+            take(1),
             mergeMap(context =>
               this.occCmsService.loadPageData(context).pipe(
                 mergeMap(data => {

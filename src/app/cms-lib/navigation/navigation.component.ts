@@ -10,7 +10,7 @@ import { NavigationService } from './navigation.service';
 import { ConfigService } from '../../cms/config.service';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
-import { tap, filter } from 'rxjs/operators';
+import { tap, filter, takeWhile } from 'rxjs/operators';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -24,6 +24,8 @@ export class NavigationComponent extends AbstractCmsComponent
   static componentName = 'NavigationComponent';
 
   itemSubscription: Subscription;
+
+  done = false;
 
   @Input() node;
 
@@ -47,6 +49,7 @@ export class NavigationComponent extends AbstractCmsComponent
     this.itemSubscription = this.store
       .select(fromStore.itemsSelectorFactory(navigation.uid))
       .pipe(
+        takeWhile(() => !this.done),
         tap(items => {
           if (items === undefined) {
             this.navigationService.getNavigationEntryItems(
@@ -59,6 +62,7 @@ export class NavigationComponent extends AbstractCmsComponent
         filter(items => items !== undefined)
       )
       .subscribe(items => {
+        this.done = true;
         this.node = this.navigationService.createNode(navigation, items);
         if (!this.cd['destroyed']) {
           this.cd.detectChanges();
@@ -68,6 +72,7 @@ export class NavigationComponent extends AbstractCmsComponent
 
   ngOnDestroy() {
     if (this.itemSubscription) {
+      this.done = true;
       this.itemSubscription.unsubscribe();
     }
     super.ngOnDestroy();

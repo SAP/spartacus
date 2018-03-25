@@ -3,7 +3,14 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { map, filter, catchError, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  map,
+  filter,
+  catchError,
+  mergeMap,
+  switchMap,
+  take
+} from 'rxjs/operators';
 
 import * as productActions from '../actions/product.action';
 import { OccProductService } from '../../../occ/product/product.service';
@@ -42,6 +49,7 @@ export class ProductEffects {
         this.routingStore.select(fromRouting.getRouterState).pipe(
           filter(routerState => routerState !== undefined),
           map(routerState => routerState.state.context),
+          take(1),
           filter(pageContext => pageContext.type === PageType.PRODUCT_PAGE),
           mergeMap(pageContext => {
             return this.occProductService.loadProduct(pageContext.id).pipe(
