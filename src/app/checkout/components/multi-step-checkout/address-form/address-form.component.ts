@@ -39,4 +39,18 @@ export class AddressFormComponent {
       })
     );
   }
+
+  required(name: string) {
+    return (
+      this.parent.get(`address.${name}`).hasError('required') &&
+      this.parent.get(`address.${name}`).touched
+    );
+  }
+
+  get notSelected() {
+    return (
+      this.parent.get('address.country.isocode').dirty &&
+      !this.parent.get('address.country.isocode').value
+    );
+  }
 }
