@@ -86,7 +86,10 @@
 
         <div class="buttons">
             <button mat-raised-button color="primary" (click)="back()">Go Back</button>
-            <button mat-raised-button color="accent" [disabled]="parent.invalid || notSelected" (click)="onAdd()">Next</button>
+            <button mat-raised-button color="accent" 
+                [disabled]="parent.invalid || notSelected('country.isocode') || notSelected('title.code')" 
+                (click)="onAdd()">Next
+            </button>
         </div>
     </div>
 </div>
