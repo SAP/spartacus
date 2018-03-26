@@ -26,7 +26,6 @@ export class MultiStepCheckoutComponent implements OnInit {
   step = 1;
 
   countries$: Observable<any>;
-  deliveryAddress$: Observable<any>;
   titles$: Observable<any>;
 
   form = this.fb.group({
@@ -68,13 +67,6 @@ export class MultiStepCheckoutComponent implements OnInit {
             this.store.dispatch(new fromCheckoutStore.LoadDeliveryCountries());
           }
         })
-      );
-
-    this.deliveryAddress$ = this.store
-      .select(fromCheckoutStore.getDeliveryAddress)
-      .pipe(
-        filter(deliveryAddress => Object.keys(deliveryAddress).length !== 0),
-        take(1)
       );
 
     this.titles$ = this.store.select(fromCheckoutStore.getAllTitles).pipe(
