@@ -7,7 +7,7 @@ import {
   AbstractControl
 } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { tap } from 'rxjs/operators';
+import { tap, take, filter } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromCartStore from '../../../../cart/store';
@@ -26,6 +26,7 @@ export class MultiStepCheckoutComponent implements OnInit {
   step = 1;
 
   countries$: Observable<any>;
+  deliveryAddress$: Observable<any>;
 
   form = this.fb.group({
     address: this.fb.group({
@@ -63,6 +64,13 @@ export class MultiStepCheckoutComponent implements OnInit {
             this.store.dispatch(new fromCheckoutStore.LoadDeliveryCountries());
           }
         })
+      );
+
+    this.deliveryAddress$ = this.store
+      .select(fromCheckoutStore.getDeliveryAddress)
+      .pipe(
+        filter(deliveryAddress => Object.keys(deliveryAddress).length !== 0),
+        take(1)
       );
   }
 

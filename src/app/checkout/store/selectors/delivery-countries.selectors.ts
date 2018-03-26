@@ -4,7 +4,7 @@ import * as fromReducer from './../reducers/delivery-countries.reducer';
 
 export const getDeliveryCountriesState = createSelector(
   fromFeature.getCheckoutState,
-  (state: fromFeature.CheckoutState) => state.deliveryCountries
+  (state: fromFeature.CheckoutState) => state.countries
 );
 
 export const getDeliveryCountriesEntites: MemoizedSelector<

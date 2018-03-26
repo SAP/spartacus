@@ -10,12 +10,12 @@ import * as fromCountries from './delivery-countries.reducer';
 
 export interface CheckoutState {
   steps: fromCheckout.CheckoutState;
-  deliveryCountries: fromCountries.DeliveryCountriesState;
+  countries: fromCountries.DeliveryCountriesState;
 }
 
 export const reducers: ActionReducerMap<CheckoutState> = {
   steps: fromCheckout.reducer,
-  deliveryCountries: fromCountries.reducer
+  countries: fromCountries.reducer
 };
 
 export const getCheckoutState: MemoizedSelector<
