@@ -14,11 +14,11 @@
             </select>
             <div class="error" *ngIf="notSelected('country.isocode')">country not select </div>
         </div>
-        <div formGroupName="title">
+        <div>
             <div>
                 <font size="4">Title:</font>
             </div>
-            <select class="titles-dropdown" formControlName="code">
+            <select class="titles-dropdown" formControlName="titleCode">
                 <option value="">Select Title</option>
                 <option *ngFor="let title of (titles$ | async)" [value]="title.code">
                     {{ title.name }}
