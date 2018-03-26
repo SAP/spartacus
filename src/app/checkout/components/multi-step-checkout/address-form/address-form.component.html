@@ -6,88 +6,88 @@
             <div>
                 <font size="3">Country:</font>
             </div>
-            <select class="countries-dropdown " formControlName="isocode ">
-                <option value=" ">Select Country</option>
-                <option *ngFor="let country of (countries$ | async) " [value]="country.isocode ">
+            <select class="countries-dropdown " formControlName="isocode">
+                <option value="">Select Country</option>
+                <option *ngFor="let country of (countries$ | async)" [value]="country.isocode">
                     {{ country.name }}
                 </option>
             </select>
-            <div class="error " *ngIf="notSelected( 'country.isocode') ">country not select </div>
+            <div class="error" *ngIf="notSelected( 'country.isocode')">country not select </div>
         </div>
         <div>
             <div>
                 <font size="3">Title:</font>
             </div>
-            <select class="titles-dropdown " formControlName="titleCode ">
-                <option value=" ">Select Title</option>
-                <option *ngFor="let title of (titles$ | async) " [value]="title.code ">
+            <select class="titles-dropdown" formControlName="titleCode">
+                <option value="">Select Title</option>
+                <option *ngFor="let title of (titles$ | async)" [value]="title.code">
                     {{ title.name }}
                 </option>
             </select>
-            <div class="error " *ngIf="notSelected( 'title.code') ">Title not select </div>
+            <div class="error" *ngIf="notSelected( 'title.code')">Title not select </div>
         </div>
         <div>
             <div>
                 <font size="3">First Name</font>
             </div>
-            <input class="inputs " type="text " placeholder="First Name " formControlName="firstName ">
-            <div class="error " *ngIf="required( 'firstName') ">First Name is required</div>
+            <input class="inputs" type="text" placeholder="First Name" formControlName="firstName">
+            <div class="error " *ngIf="required( 'firstName')">First Name is required</div>
         </div>
         <div>
             <div>
-                <font size="3 ">Last Name</font>
+                <font size="3">Last Name</font>
             </div>
-            <input class="inputs " type="text " placeholder="Last Name " formControlName="lastName ">
-            <div class="error " *ngIf="required( 'lastName') ">Last Name is required</div>
+            <input class="inputs" type="text" placeholder="Last Name" formControlName="lastName">
+            <div class="error" *ngIf="required( 'lastName')">Last Name is required</div>
         </div>
         <div>
             <div>
-                <font size="3 ">Address Line 1:</font>
+                <font size="3">Address Line 1:</font>
             </div>
-            <input class="inputs " type="text " placeholder="Address Line 1 " formControlName="line1 ">
-            <div class="error " *ngIf="required( 'line1') ">Address Line 1 is required</div>
+            <input class="inputs" type="text" placeholder="Address Line 1" formControlName="line1">
+            <div class="error" *ngIf="required( 'line1')">Address Line 1 is required</div>
         </div>
         <div>
             <div>
-                <font size="3 ">Address Line 2:</font>
+                <font size="3">Address Line 2:</font>
             </div>
-            <input class="inputs " type="text " placeholder="Address Line 2 " formControlName="line2 ">
-            <div class="error " *ngIf="required( 'line2') ">Address Line 2 is required</div>
+            <input class="inputs" type="text" placeholder="Address Line 2" formControlName="line2">
+            <div class="error" *ngIf="required( 'line2')">Address Line 2 is required</div>
         </div>
         <div>
             <div>
-                <font size="3 ">City:</font>
+                <font size="3">City:</font>
             </div>
-            <input class="inputs " type="text " placeholder="City " formControlName="town ">
-            <div class="error " *ngIf="required( 'town') ">City is required</div>
+            <input class="inputs" type="text" placeholder="City" formControlName="town">
+            <div class="error" *ngIf="required( 'town')">City is required</div>
         </div>
-        <div formGroupName="region ">
+        <div formGroupName="region">
             <div>
-                <font size="3 ">Province:</font>
+                <font size="3">Province:</font>
             </div>
             <div>You'll get an error if you don't enter right code.</div>
-            <input class="inputs " type="text " placeholder="State/Province " formControlName="isocode ">
-            <div class="error " *ngIf="required( 'region.isocode') ">Province is required</div>
+            <input class="inputs" type="text" placeholder="State/Province" formControlName="isocode">
+            <div class="error" *ngIf="required( 'region.isocode')">Province is required</div>
         </div>
 
         <div>
             <div>
-                <font size="3 ">Postal Code:</font>
+                <font size="3">Postal Code:</font>
             </div>
-            <input class="inputs " type="text " placeholder="Postal Code/Zip " formControlName="postalCode ">
-            <div class="error " *ngIf="required( 'postalCode') ">Postal Code is required</div>
+            <input class="inputs" type="text" placeholder="Postal Code/Zip" formControlName="postalCode">
+            <div class="error" *ngIf="required( 'postalCode')">Postal Code is required</div>
         </div>
         <div>
             <div>
-                <font size="3 ">Phone Number:</font>
+                <font size="3">Phone Number:</font>
             </div>
-            <input class="inputs " type="text " placeholder="Phone " formControlName="phone ">
+            <input class="inputs" type="text" placeholder="Phone" formControlName="phone">
         </div>
 
-        <div class="buttons ">
-            <button mat-raised-button color="primary " (click)="back() ">Go Back</button>
-            <button mat-raised-button color="accent " [disabled]="parent.invalid || notSelected( 'country.isocode') || notSelected( 'title.code') "
-                (click)="onAdd() ">Next
+        <div class="buttons">
+            <button mat-raised-button color="primary" (click)="back()">Go Back</button>
+            <button mat-raised-button color="accent" [disabled]="parent.invalid || notSelected( 'country.isocode') || notSelected( 'title.code')"
+                (click)="onAdd()">Next
             </button>
         </div>
     </div>
