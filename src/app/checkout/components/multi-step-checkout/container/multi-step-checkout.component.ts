@@ -35,7 +35,7 @@ export class MultiStepCheckoutComponent implements OnInit {
 
   form = this.fb.group({
     address: this.fb.group({
-      titleCode: ['mr', Validators.required],
+      titleCode: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       line1: ['', Validators.required],
