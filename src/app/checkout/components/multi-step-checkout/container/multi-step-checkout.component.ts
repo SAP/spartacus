@@ -26,6 +26,7 @@ export class MultiStepCheckoutComponent implements OnInit {
   step = 1;
 
   countries$: Observable<any>;
+  titles$: Observable<any>;
 
   form = this.fb.group({
     address: this.fb.group({
@@ -40,6 +41,9 @@ export class MultiStepCheckoutComponent implements OnInit {
       }),
       country: this.fb.group({
         isocode: 'JP'
+      }),
+      title: this.fb.group({
+        code: 'mr'
       }),
       postalCode: ['', Validators.required],
       phone: ''
@@ -64,6 +68,14 @@ export class MultiStepCheckoutComponent implements OnInit {
           }
         })
       );
+
+    this.titles$ = this.store.select(fromCheckoutStore.getAllTitles).pipe(
+      tap(titles => {
+        if (Object.keys(titles).length === 0) {
+          this.store.dispatch(new fromCheckoutStore.LoadTitles());
+        }
+      })
+    );
   }
 
   setStep(completeStep) {

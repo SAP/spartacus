@@ -22,6 +22,8 @@ export class AddressFormComponent {
 
   @Input() countries$: Observable<any>;
 
+  @Input() titles$: Observable<any>;
+
   @Output() added = new EventEmitter<any>();
 
   constructor(protected store: Store<fromRouting.State>) {}
