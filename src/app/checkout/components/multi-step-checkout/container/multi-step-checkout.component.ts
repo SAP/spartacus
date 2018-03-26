@@ -4,18 +4,11 @@ import {
   OnInit,
   ChangeDetectorRef
 } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormArray,
-  Validators,
-  AbstractControl
-} from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { tap, take, filter } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
-import * as fromCartStore from '../../../../cart/store';
 import * as fromCheckoutStore from '../../../store';
 import { CheckoutService } from '../../../services/checkout.service';
 

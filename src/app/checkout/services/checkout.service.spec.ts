@@ -1,14 +1,11 @@
-import { AddDeliveryAddress } from './../store/actions/checkout.action';
 import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
 
 import * as fromRoot from '../../routing/store';
 import * as fromCart from '../../cart/store';
 import * as fromCheckout from '../store';
 import * as fromUser from '../../auth/store';
 
-import { UserToken } from '../../auth/models/token-types.model';
 import { CheckoutService } from './checkout.service';
 import { CartService } from '../../cart/services/cart.service';
 
