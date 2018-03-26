@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  ChangeDetectorRef
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -55,7 +60,8 @@ export class MultiStepCheckoutComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     protected checkoutService: CheckoutService,
-    private store: Store<fromCheckoutStore.CheckoutState>
+    private store: Store<fromCheckoutStore.CheckoutState>,
+    protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -86,6 +92,18 @@ export class MultiStepCheckoutComponent implements OnInit {
 
   addAddress(address: Address) {
     this.checkoutService.createAndSetAddress(address);
-    this.step = 2;
+
+    this.store
+      .select(fromCheckoutStore.getDeliveryAddress)
+      .pipe(
+        filter(deliveryAddress => Object.keys(deliveryAddress).length !== 0),
+        take(1)
+      )
+      .subscribe(deliveryAddress => {
+        if (Object.keys(deliveryAddress).length !== 0) {
+          this.step = 2;
+          this.cd.detectChanges();
+        }
+      });
   }
 }

@@ -12,6 +12,7 @@ export class CheckoutService {
     private store: Store<fromReducer.CheckoutState>,
     private cartService: CartService
   ) {}
+
   createAndSetAddress(address) {
     this.store.dispatch(
       new fromAction.AddDeliveryAddress({
