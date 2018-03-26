@@ -7,12 +7,14 @@ import {
   AbstractControl
 } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
-import * as fromCartStore from '../../../cart/store';
-import { CheckoutService } from '../../services/checkout.service';
+import * as fromCartStore from '../../../../cart/store';
+import * as fromCheckoutStore from '../../../store';
+import { CheckoutService } from '../../../services/checkout.service';
 
-import { Address } from './../../models/address-model';
+import { Address } from '../../../models/address-model';
 
 @Component({
   selector: 'y-multi-step-checkout',
@@ -49,10 +51,20 @@ export class MultiStepCheckoutComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     protected checkoutService: CheckoutService,
-    protected store: Store<fromCartStore.CartState>
+    private store: Store<fromCheckoutStore.CheckoutState>
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.countries$ = this.store
+      .select(fromCheckoutStore.getAllDeliveryCountries)
+      .pipe(
+        tap(countries => {
+          if (Object.keys(countries).length === 0) {
+            this.store.dispatch(new fromCheckoutStore.LoadDeliveryCountries());
+          }
+        })
+      );
+  }
 
   setStep(completeStep) {
     if (this.step > completeStep) {

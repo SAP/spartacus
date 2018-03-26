@@ -8,7 +8,7 @@ import { metaReducers } from './store/reducers';
 
 import * as fromServices from './services';
 
-import { MultiStepCheckoutModule } from './multi-step-checkout/multi-step-checkout.module';
+import { MultiStepCheckoutModule } from './components/multi-step-checkout/multi-step-checkout.module';
 
 @NgModule({
   imports: [

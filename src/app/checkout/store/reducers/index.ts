@@ -6,16 +6,19 @@ import {
   MemoizedSelector
 } from '@ngrx/store';
 import * as fromCheckout from './checkout.reducer';
+import * as fromCountries from './delivery-countries.reducer';
 
 export interface CheckoutState {
   steps: fromCheckout.CheckoutState;
+  deliveryCountries: fromCountries.DeliveryCountriesState;
 }
 
 export const reducers: ActionReducerMap<CheckoutState> = {
-  steps: fromCheckout.reducer
+  steps: fromCheckout.reducer,
+  deliveryCountries: fromCountries.reducer
 };
 
-export const getCartState: MemoizedSelector<
+export const getCheckoutState: MemoizedSelector<
   any,
   CheckoutState
 > = createFeatureSelector<CheckoutState>('checkout');
