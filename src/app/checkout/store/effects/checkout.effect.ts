@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import * as fromActions from './../actions';
 import { Observable } from 'rxjs/Observable';
 import { Actions, Effect } from '@ngrx/effects';
-import { map, catchError, mergeMap } from 'rxjs/operators';
+import { map, catchError, mergeMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
@@ -17,11 +17,16 @@ export class CheckoutEffects {
       map((action: fromActions.AddDeliveryAddress) => action.payload),
       mergeMap(payload =>
         this.cartService
-          .createAndSetAddress(payload.userId, payload.cartId, payload.address)
+          .createAddressOnCart(payload.userId, payload.cartId, payload.address)
           .pipe(
-            map(() => {
-              return new fromActions.AddDeliveryAddressSuccess();
+            tap(address => {
+              return this.cartService.setDeliveryAddress(
+                payload.userId,
+                payload.cartId,
+                address.id
+              );
             }),
+            map(address => new fromActions.AddDeliveryAddressSuccess(address)),
             catchError(error =>
               of(new fromActions.AddDeliveryAddressFail(error))
             )

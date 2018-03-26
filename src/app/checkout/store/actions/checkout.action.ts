@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { Address } from '../../models/address-model';
 
 export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';
 export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
@@ -17,7 +18,7 @@ export class AddDeliveryAddressFail implements Action {
 
 export class AddDeliveryAddressSuccess implements Action {
   readonly type = ADD_DELIVERY_ADDRESS_SUCCESS;
-  constructor() {}
+  constructor(public payload: Address) {}
 }
 
 export type CheckoutAction =

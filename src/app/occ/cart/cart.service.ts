@@ -110,7 +110,7 @@ export class OccCartService {
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
-  public createAndSetAddress(
+  public createAddressOnCart(
     userId: string,
     cartId: string,
     address: any
@@ -124,5 +124,18 @@ export class OccCartService {
         }
       )
       .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  public setDeliveryAddress(userId: string, cartId: string, addressId: string) {
+    this.http
+      .put(
+        this.getCartEndpoint(userId) + cartId + '/addresses/delivery',
+        {},
+        {
+          params: { addressId: addressId }
+        }
+      )
+      .pipe(catchError((error: any) => Observable.throw(error.json())))
+      .subscribe();
   }
 }

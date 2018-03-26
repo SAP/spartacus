@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Store } from '@ngrx/store';
 import * as fromCartStore from '../../../cart/store';
-import { CartService } from '../../../cart/services';
+import { CheckoutService } from '../../services/checkout.service';
 
 import { Address } from './../../models/address-model';
 
@@ -27,17 +27,17 @@ export class MultiStepCheckoutComponent implements OnInit {
 
   form = this.fb.group({
     address: this.fb.group({
-      titleCode: ['', Validators.required],
+      titleCode: ['mr', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       line1: ['', Validators.required],
-      line2: '',
+      line2: ['', Validators.required],
       town: '',
       region: this.fb.group({
-        isocode: 'qc'
+        isocode: 'JP-27'
       }),
       country: this.fb.group({
-        isocode: 'ca'
+        isocode: 'JP'
       }),
       postalCode: ['', Validators.required],
       phone: ''
@@ -48,19 +48,20 @@ export class MultiStepCheckoutComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    protected cartService: CartService,
+    protected checkoutService: CheckoutService,
     protected store: Store<fromCartStore.CartState>
   ) {}
 
   ngOnInit() {}
 
-  setStep(step) {
-    this.step = step;
+  setStep(completeStep) {
+    if (this.step > completeStep) {
+      this.step = completeStep;
+    }
   }
 
   addAddress(address: Address) {
-    console.log(address);
-    this.cartService.createAndSetAddress(address);
+    this.checkoutService.createAndSetAddress(address);
     this.step = 2;
   }
 }

@@ -103,15 +103,4 @@ export class CartService {
       })
     );
   }
-
-  createAndSetAddress(address) {
-    this.store.dispatch(
-      new fromAction.AddDeliveryAddress({
-        userId: this.userId,
-        cartId:
-          this.userId === ANOYMOUS_USERID ? this.cart.guid : this.cart.code,
-        address: address
-      })
-    );
-  }
 }
