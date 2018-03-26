@@ -1,5 +1,8 @@
 <p>
-    <y-add-to-cart [productCode]="product.code"></y-add-to-cart>
+    <y-add-to-cart *ngIf="product.stock.stockLevelStatus !== 'outOfStock'" [productCode]="product.code"></y-add-to-cart>
+
     <span [routerLink]="['/product/', product.code]">
-        <span [innerHTML]="product.name">{{product.name}}</span> - {{product.price.formattedValue}}</span>
+        <span [innerHTML]="product.name">{{product.name}}</span> - {{product.price.formattedValue}}
+        <span *ngIf="product.stock.stockLevelStatus === 'outOfStock'">(Out of Stock)</span>
+    </span>
 </p>

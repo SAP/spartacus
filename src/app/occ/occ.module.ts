@@ -8,6 +8,7 @@ import { OccProductService } from './product/product.service';
 import { OccProductSearchService } from './product/product-search.service';
 import { OccSiteService } from './site-context/occ-site.service';
 import { OccCartService } from './cart/cart.service';
+import { OccMiscsService } from './miscs/miscs.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -16,7 +17,8 @@ import { OccCartService } from './cart/cart.service';
     OccProductService,
     OccSiteService,
     OccUserService,
-    OccCartService
+    OccCartService,
+    OccMiscsService
   ]
 })
 export class OccModule {

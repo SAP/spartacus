@@ -3,7 +3,14 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { map, catchError, switchMap, filter, mergeMap } from 'rxjs/operators';
+import {
+  map,
+  catchError,
+  switchMap,
+  filter,
+  mergeMap,
+  take
+} from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
@@ -24,6 +31,7 @@ export class ComponentEffects {
           .pipe(
             filter(routerState => routerState !== undefined),
             map(routerState => routerState.state.context),
+            take(1),
             mergeMap(pageContext =>
               this.occCmsService
                 .loadComponent(uid, pageContext)

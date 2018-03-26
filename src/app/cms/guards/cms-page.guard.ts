@@ -40,6 +40,7 @@ export class CmsPageGuards implements CanActivate {
 
     return this.routingStore.select(fromRouting.getRouterState).pipe(
       map(routerState => routerState.state.context),
+      take(1),
       mergeMap(pageContext =>
         this.store.select(fromStore.getPageEntities).pipe(
           map((entities: { [key: string]: Page }) => {

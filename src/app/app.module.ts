@@ -21,6 +21,7 @@ import { appRoutes } from './app.routes';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { CartModule } from './cart/cart.module';
+import { CheckoutModule } from './checkout/checkout.module';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { CartModule } from './cart/cart.module';
 
     CmsModule.forRoot(ConfigService),
     SiteContextModule.forRoot(ConfigService),
+    CheckoutModule.forRoot(ConfigService),
     RoutingModule.forRoot(ConfigService),
     RouterModule.forRoot(appRoutes),
     ProductModule,

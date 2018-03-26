@@ -31,7 +31,7 @@ export class OccProductSearchService {
     const params = new HttpParams({
       fromString:
         `query=${fullQuery}&pageSize=${pageSize}` +
-        `&fields=products(code,name,summary,price(FULL),images(DEFAULT)),facets,breadcrumbs,pagination(DEFAULT)`
+        `&fields=products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL)),facets,breadcrumbs,pagination(DEFAULT)`
     });
 
     return this.http
