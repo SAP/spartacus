@@ -9,6 +9,7 @@
                     {{ country.name }}
                 </option>
             </select>
+            <div class="error" *ngIf="notSelected">country not select </div>
         </div>
         <!--
         <div>
@@ -26,31 +27,39 @@
         <div>
             <div><font size="4">First Name</font></div>
             <input class="inputs" type="text" placeholder="First Name" formControlName="firstName">
+            <div class="error" *ngIf="required('firstName')">First Name is required</div>
         </div>
         <div>
             <div><font size="4">Last Name</font></div>
             <input class="inputs" type="text" placeholder="Last Name" formControlName="lastName">
+            <div class="error" *ngIf="required('lastName')">Last Name is required</div>
         </div>
         <div>
             <div><font size="4">Address Line 1:</font></div>
             <input class="inputs" type="text" placeholder="Address Line 1" formControlName="line1">
+            <div class="error" *ngIf="required('line1')">Address Line 1 is required</div>
         </div>
         <div>
             <div><font size="4">Address Line 2:</font></div>
             <input class="inputs" type="text" placeholder="Address Line 2" formControlName="line2">
+            <div class="error" *ngIf="required('line2')">Address Line 2 is required</div>
         </div>
         <div>
             <div><font size="4">City:</font></div>
             <input class="inputs" type="text" placeholder="City" formControlName="town">
+            <div class="error" *ngIf="required('town')">City is required</div>
         </div>
         <div formGroupName="region">
             <div><font size="4">Province:</font></div>
+            <div>You'll get an error if you don't enter right code.</div>
             <input class="inputs" type="text" placeholder="State/Province" formControlName="isocode">
+            <div class="error" *ngIf="required('region.isocode')">Province is required</div>
         </div>
         
         <div>
             <div><font size="4">Postal Code:</font></div>
             <input class="inputs" type="text" placeholder="Postal Code/Zip" formControlName="postalCode">
+            <div class="error" *ngIf="required('postalCode')">Postal Code is required</div>
         </div>
         <div>
             <div><font size="4">Phone Number:</font></div>
@@ -59,7 +68,7 @@
 
         <div class="buttons">
             <button mat-raised-button color="primary" (click)="back()" >Go Back</button>
-            <button mat-raised-button color="accent" (click)="onAdd()">Next</button>
+            <button mat-raised-button color="accent" [disabled]="parent.invalid || notSelected" (click)="onAdd()">Next</button>
         </div>
     </div>
 </div>

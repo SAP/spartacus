@@ -34,12 +34,12 @@ export class MultiStepCheckoutComponent implements OnInit {
       lastName: ['', Validators.required],
       line1: ['', Validators.required],
       line2: ['', Validators.required],
-      town: '',
+      town: ['', Validators.required],
       region: this.fb.group({
-        isocode: 'JP-27'
+        isocode: ['', Validators.required]
       }),
       country: this.fb.group({
-        isocode: 'JP'
+        isocode: ['', Validators.required]
       }),
       postalCode: ['', Validators.required],
       phone: ''
