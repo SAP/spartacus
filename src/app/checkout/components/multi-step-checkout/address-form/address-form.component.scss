@@ -1,15 +1,13 @@
-.side-content,
 .heading {
-  text-align: center;
+  margin-left: 40px;
 }
 
 .inputs,
 .countries-dropdown,
 .titles-dropdown {
-  width: 25%;
+  width: 40.5%;
   height: 20px;
-  text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .form-labels {
@@ -18,22 +16,9 @@
 }
 
 .content {
-  text-align: center;
+  margin-left: 40px;
 }
 
 .buttons {
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-.error {
-  background: #b52d30;
-  color: #fff;
-  font-weight: 500;
-  font-size: 12px;
-  text-transform: uppercase;
-  border-radius: 0 0 3px 3px;
-  line-height: 1;
-  padding: 6px 10px;
-  margin-top: -1px;
+  margin-bottom: 15px;
 }
