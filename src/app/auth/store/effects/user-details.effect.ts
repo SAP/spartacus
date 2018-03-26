@@ -20,7 +20,7 @@ export class UserDetailsEffects {
             return new fromUserDetailsAction.LoadUserDetailsSuccess(user);
           }),
           catchError(error =>
-            of(new fromUserDetailsAction.LoadUserDetailsFail(userId))
+            of(new fromUserDetailsAction.LoadUserDetailsFail(error))
           )
         );
       })

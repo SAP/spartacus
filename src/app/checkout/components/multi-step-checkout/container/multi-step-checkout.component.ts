@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,6 +7,9 @@ import {
   AbstractControl
 } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+import * as fromStore from './../../../store';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'y-multi-step-checkout',
@@ -14,7 +17,7 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./multi-step-checkout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MultiStepCheckoutComponent {
+export class MultiStepCheckoutComponent implements OnInit {
   countries$: Observable<any>;
 
   form = this.fb.group({
@@ -30,5 +33,18 @@ export class MultiStepCheckoutComponent {
     })
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store<fromStore.CheckoutState>
+  ) {}
+
+  ngOnInit() {
+    this.countries$ = this.store.select(fromStore.getAllDeliveryCountries).pipe(
+      tap(countries => {
+        if (Object.keys(countries).length === 0) {
+          this.store.dispatch(new fromStore.LoadDeliveryCountries());
+        }
+      })
+    );
+  }
 }
