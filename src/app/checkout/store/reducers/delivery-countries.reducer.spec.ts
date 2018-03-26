@@ -12,8 +12,8 @@ describe('Delivery Countries Reducer', () => {
     });
   });
 
-  describe('LOAD_CURRENCIES_SUCCESS action', () => {
-    it('should populate the currencies state entities', () => {
+  describe('LOAD_DELIVERTY_COUNTRIES_SUCCESS action', () => {
+    it('should populate the delivery countries state entities', () => {
       const mockCountries = [
         {
           isocode: 'AL',
