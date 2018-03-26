@@ -8,15 +8,15 @@
         <li [ngClass]="{'active': step===4}" (click)="setStep(4)">Review</li>
     </ul>
 </div>
-    
+
 <div id="step1" *ngIf="step === 1">
-    <y-address-form [parent]="form" [countries$]="countries$" (added)="addAddress($event)"></y-address-form>
+    <y-address-form [parent]="form" [titles$]="titles$" [countries$]="countries$" (added)="addAddress($event)"></y-address-form>
 </div>
-    
+
 <div id="step2" *ngIf="step === 2">
     shipping method form
 </div>
-    
+
 <div id="step3" *ngIf="step === 3">
     payment form
 </div>

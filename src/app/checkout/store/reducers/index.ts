@@ -7,15 +7,18 @@ import {
 } from '@ngrx/store';
 import * as fromCheckout from './checkout.reducer';
 import * as fromCountries from './delivery-countries.reducer';
+import * as fromTitles from './titles.reducer';
 
 export interface CheckoutState {
   steps: fromCheckout.CheckoutState;
   countries: fromCountries.DeliveryCountriesState;
+  titles: fromTitles.TitlesState;
 }
 
 export const reducers: ActionReducerMap<CheckoutState> = {
   steps: fromCheckout.reducer,
-  countries: fromCountries.reducer
+  countries: fromCountries.reducer,
+  titles: fromTitles.reducer
 };
 
 export const getCheckoutState: MemoizedSelector<

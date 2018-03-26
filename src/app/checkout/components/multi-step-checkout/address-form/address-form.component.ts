@@ -22,6 +22,8 @@ export class AddressFormComponent {
 
   @Input() countries$: Observable<any>;
 
+  @Input() titles$: Observable<any>;
+
   @Output() added = new EventEmitter<any>();
 
   constructor(protected store: Store<fromRouting.State>) {}
@@ -45,10 +47,10 @@ export class AddressFormComponent {
     );
   }
 
-  get notSelected() {
+  notSelected(name: string) {
     return (
-      this.parent.get('address.country.isocode').dirty &&
-      !this.parent.get('address.country.isocode').value
+      this.parent.get(`address.${name}`).dirty &&
+      !this.parent.get(`address.${name}`).value
     );
   }
 }
