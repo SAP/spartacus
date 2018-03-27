@@ -1,4 +1,14 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  Output,
+  EventEmitter
+} from '@angular/core';
+
+import { FormGroup } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'y-delivery-mode-form',
@@ -6,8 +16,12 @@ import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
   styleUrls: ['./delivery-mode-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DeliveryModeFormComponent implements OnInit {
-  constructor() {}
+export class DeliveryModeFormComponent {
+  @Input() parent: FormGroup;
 
-  ngOnInit() {}
+  @Input() modes$: Observable<any>;
+
+  @Output() setMode = new EventEmitter<any>();
+
+  constructor() {}
 }

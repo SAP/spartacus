@@ -2,10 +2,18 @@ import * as fromAction from './../actions';
 
 export interface CheckoutState {
   address: any;
+  deliveryMode: {
+    supported: { [code: string]: any };
+    selected: string;
+  };
 }
 
 export const initialState: CheckoutState = {
-  address: {}
+  address: {},
+  deliveryMode: {
+    supported: {},
+    selected: ''
+  }
 };
 
 export function reducer(

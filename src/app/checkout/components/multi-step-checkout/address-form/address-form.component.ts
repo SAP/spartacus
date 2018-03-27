@@ -29,7 +29,7 @@ export class AddressFormComponent {
   constructor(protected store: Store<fromRouting.State>) {}
 
   onAdd() {
-    this.added.emit(this.parent.get('address').value);
+    this.added.emit(this.parent.value);
   }
 
   back() {
@@ -42,15 +42,14 @@ export class AddressFormComponent {
 
   required(name: string) {
     return (
-      this.parent.get(`address.${name}`).hasError('required') &&
-      this.parent.get(`address.${name}`).touched
+      this.parent.get(`${name}`).hasError('required') &&
+      this.parent.get(`${name}`).touched
     );
   }
 
   notSelected(name: string) {
     return (
-      this.parent.get(`address.${name}`).dirty &&
-      !this.parent.get(`address.${name}`).value
+      this.parent.get(`${name}`).dirty && !this.parent.get(`${name}`).value
     );
   }
 }

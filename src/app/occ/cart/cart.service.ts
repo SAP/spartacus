@@ -173,4 +173,13 @@ export class OccCartService {
       .get(this.getCartEndpoint(userId) + cartId + '/deliverymode')
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
+
+  public getSupportedDeliveryModes(
+    userId: string,
+    cartId: string
+  ): Observable<any> {
+    return this.http
+      .get(this.getCartEndpoint(userId) + cartId + '/deliverymodes')
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
 }

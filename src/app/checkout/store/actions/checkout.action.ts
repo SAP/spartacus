@@ -6,6 +6,14 @@ export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
 export const ADD_DELIVERY_ADDRESS_SUCCESS =
   '[Checkout] Add Delivery Address Success';
 
+export const LOAD_SUPPORTED_DELIVERY_MODES =
+  '[Checkout] Load Supported Delivery Modes';
+export const LOAD_SUPPORTED_DELIVERY_MODES_FAIL =
+  '[Checkout] Load Supported Delivery Modes Fail';
+export const LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS =
+  '[Checkout] Load Supported Delivery Modes Success';
+export const SET_DELIVERY_MODE = '[Checkout] Set Delivery Mode';
+
 export const CLEAR_CHECKOUT_DATA = '[Checkout] Clear Checkout Data';
 
 export class AddDeliveryAddress implements Action {

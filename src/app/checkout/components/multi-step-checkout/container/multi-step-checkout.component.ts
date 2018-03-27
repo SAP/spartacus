@@ -26,29 +26,29 @@ export class MultiStepCheckoutComponent implements OnInit {
   countries$: Observable<any>;
   titles$: Observable<any>;
 
-  form: FormGroup = this.fb.group({
-    address: this.fb.group({
-      titleCode: ['', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      line1: ['', Validators.required],
-      line2: ['', Validators.required],
-      town: ['', Validators.required],
-      region: this.fb.group({
-        isocode: ['', Validators.required]
-      }),
-      country: this.fb.group({
-        isocode: ['', Validators.required]
-      }),
-      title: this.fb.group({
-        code: ''
-      }),
-      postalCode: ['', Validators.required],
-      phone: ''
+  address: FormGroup = this.fb.group({
+    titleCode: ['', Validators.required],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    line1: ['', Validators.required],
+    line2: ['', Validators.required],
+    town: ['', Validators.required],
+    region: this.fb.group({
+      isocode: ['', Validators.required]
     }),
-    shippingMethod: this.fb.group({}),
-    paymentMethod: this.fb.group({})
+    country: this.fb.group({
+      isocode: ['', Validators.required]
+    }),
+    title: this.fb.group({
+      code: ''
+    }),
+    postalCode: ['', Validators.required],
+    phone: ''
   });
+  shippingMethod: FormGroup = this.fb.group({
+    deliveryModeId: ['', Validators.required]
+  });
+  paymentMethod: FormGroup = this.fb.group({});
 
   constructor(
     private fb: FormBuilder,
