@@ -7,7 +7,7 @@ import {
 import { Store } from '@ngrx/store';
 import * as fromCartStore from '../../../../cart/store';
 import * as fromAuthStore from '../../../../auth/store';
-import { tap } from 'rxjs/operators';
+import { CheckoutService } from '../../../services';
 
 @Component({
   selector: 'y-order-summary',
@@ -24,7 +24,8 @@ export class OrderSummaryComponent implements OnInit {
 
   constructor(
     private cartStore: Store<fromCartStore.CartState>,
-    protected authStore: Store<fromAuthStore.UserState>
+    protected authStore: Store<fromAuthStore.UserState>,
+    protected checkoutService: CheckoutService
   ) {}
 
   ngOnInit() {
@@ -40,13 +41,8 @@ export class OrderSummaryComponent implements OnInit {
       this.userId = userToken.userId;
     });
 
-    this.cartStore.dispatch(
-      new fromCartStore.LoadCart({
-        userId: this.userId,
-        cartId: this.cart.code,
-        details: true
-      })
-    );
+    this.checkoutService.loadCartDetails(this.userId, this.cart.code);
+
     this.cart$ = this.cartStore.select(fromCartStore.getActiveCart);
   }
 }
