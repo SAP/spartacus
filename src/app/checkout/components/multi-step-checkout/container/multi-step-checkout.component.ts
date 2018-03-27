@@ -4,7 +4,7 @@ import {
   OnInit,
   ChangeDetectorRef
 } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { tap, take, filter } from 'rxjs/operators';
 
@@ -26,7 +26,7 @@ export class MultiStepCheckoutComponent implements OnInit {
   countries$: Observable<any>;
   titles$: Observable<any>;
 
-  form = this.fb.group({
+  form: FormGroup = this.fb.group({
     address: this.fb.group({
       titleCode: ['', Validators.required],
       firstName: ['', Validators.required],
