@@ -11,6 +11,7 @@
 
 <div id="step1" *ngIf="step === 1">
     <y-address-form [parent]="form" [titles$]="titles$" [countries$]="countries$" (added)="addAddress($event)"></y-address-form>
+    <y-order-summary></y-order-summary>
 </div>
 
 <div id="step2" *ngIf="step === 2">

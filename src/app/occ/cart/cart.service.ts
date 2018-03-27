@@ -10,6 +10,9 @@ const MORE_PARAMS =
   'fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
   'entries(totalPrice(formattedValue),product(images(FULL)))';
 
+const DETAILS_PARAMS =
+  'fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),totalTax(formattedValue),' +
+  'totalPriceWithTax(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';
 @Injectable()
 export class OccCartService {
   constructor(
@@ -35,11 +38,19 @@ export class OccCartService {
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
-  public loadCart(userId: string, cartId: string): Observable<any> {
+  public loadCart(
+    userId: string,
+    cartId: string,
+    details?: boolean
+  ): Observable<any> {
     const url = this.getCartEndpoint(userId) + cartId;
-    const params = new HttpParams({
-      fromString: MORE_PARAMS
-    });
+    const params = details
+      ? new HttpParams({
+          fromString: DETAILS_PARAMS
+        })
+      : new HttpParams({
+          fromString: MORE_PARAMS
+        });
 
     return this.http
       .get(url, { params: params })

@@ -1,0 +1,16 @@
+<div class="order-summary">
+    <h3>Order Summary</h3>
+    <div *ngIf="cart$ | async as cart">
+        <div>
+            Subtotal: {{cart?.totalPrice?.formattedValue}}
+        </div>
+
+        <div>
+            Sales Tax: {{cart?.totalTax?.formattedValue}}
+        </div>
+
+        <div>
+            Total: {{cart?.totalPriceWithTax?.formattedValue}}
+        </div>
+    </div>
+</div>
