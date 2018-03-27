@@ -1,12 +1,6 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  Input,
-  OnInit
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromCartStore from '../../../../cart/store';
-import * as fromAuthStore from '../../../../auth/store';
 import { CheckoutService } from '../../../services';
 
 @Component({
