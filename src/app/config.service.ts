@@ -9,7 +9,7 @@ export enum StorageSyncType {
 @Injectable()
 export class ConfigService {
   server = {
-    baseUrl: 'https://localhost:9002',
+    baseUrl: '',
     occPrefix: '/rest/v2/'
   };
 
