@@ -10,8 +10,9 @@ import { Subscription } from 'rxjs/Subscription';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../store';
-import { tap } from 'rxjs/operators';
+import { tap, map, take } from 'rxjs/operators';
 import { UserToken } from '../../models/token-types.model';
+import * as fromRouting from '../../../routing/store';
 
 @Component({
   selector: 'y-login',
@@ -72,6 +73,20 @@ export class LoginComponent implements OnInit, OnDestroy {
   logout() {
     this.isLogin = false;
     this.store.dispatch(new fromStore.Logout());
+
+    this.store
+      .select(fromRouting.getRouterState)
+      .pipe(map(routerState => routerState.state.context), take(1))
+      .subscribe(pageContext => {
+        console.log(pageContext);
+        if (pageContext.id === 'multiStepCheckoutSummaryPage') {
+          this.store.dispatch(
+            new fromRouting.Go({
+              path: ['']
+            })
+          );
+        }
+      });
   }
 
   login() {

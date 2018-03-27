@@ -1,4 +1,4 @@
-import * as fromAction from '../actions/delivery-countries.action';
+import * as fromAction from '../actions';
 
 export interface DeliveryCountriesState {
   entities: { [isocode: string]: any };
@@ -10,7 +10,7 @@ export const initialState: DeliveryCountriesState = {
 
 export function reducer(
   state = initialState,
-  action: fromAction.DeliveryCountriesAction
+  action: fromAction.DeliveryCountriesAction | fromAction.MiscsDataAction
 ): DeliveryCountriesState {
   switch (action.type) {
     case fromAction.LOAD_DELIVERY_COUNTRIES_SUCCESS: {
@@ -31,6 +31,10 @@ export function reducer(
         ...state,
         entities
       };
+    }
+
+    case fromAction.CLEAR_MISCS_DATA: {
+      return initialState;
     }
   }
 

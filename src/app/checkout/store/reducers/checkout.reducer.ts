@@ -21,6 +21,10 @@ export function reducer(
         address
       };
     }
+
+    case fromAction.CLEAR_CHECKOUT_DATA: {
+      return initialState;
+    }
   }
 
   return state;

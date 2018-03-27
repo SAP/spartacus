@@ -1,4 +1,4 @@
-import * as fromAction from '../actions/titles.action';
+import * as fromAction from '../actions';
 
 export interface TitlesState {
   entities: { [code: string]: any };
@@ -10,7 +10,7 @@ export const initialState: TitlesState = {
 
 export function reducer(
   state = initialState,
-  action: fromAction.TitlesAction
+  action: fromAction.TitlesAction | fromAction.MiscsDataAction
 ): TitlesState {
   switch (action.type) {
     case fromAction.LOAD_TITLES_SUCCESS: {
@@ -31,6 +31,10 @@ export function reducer(
         ...state,
         entities
       };
+    }
+
+    case fromAction.CLEAR_MISCS_DATA: {
+      return initialState;
     }
   }
 
