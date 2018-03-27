@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageType } from '../../../routing/models/page-context.model';
 import { MatDialog } from '@angular/material';
 import { UserToken } from '../../models/token-types.model';
+import * as fromRouting from '../../../routing/store';
 
 const mockUser = {
   username: 'mockUsername',
@@ -78,9 +79,25 @@ describe('LoginComponent', () => {
   });
 
   it('should logout and clear user state', () => {
+    const routerState = {
+      state: {
+        context: {
+          id: 'multiStepCheckoutSummaryPage'
+        }
+      }
+    };
+
+    const spy = spyOn(store, 'select');
+    spy.and.returnValue(of(routerState));
+
     component.logout();
     expect(component.isLogin).toEqual(false);
     expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromRouting.Go({
+        path: ['']
+      })
+    );
   });
 
   it('should login', () => {

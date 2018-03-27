@@ -6,7 +6,7 @@ import 'rxjs/add/operator/catch';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
-const MORE_PARAMS =
+const BASIC_PARAMS =
   'fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
   'entries(totalPrice(formattedValue),product(images(FULL)))';
 
@@ -50,7 +50,7 @@ export class OccCartService {
           fromString: DETAILS_PARAMS
         })
       : new HttpParams({
-          fromString: MORE_PARAMS
+          fromString: BASIC_PARAMS
         });
 
     return this.http
@@ -65,7 +65,7 @@ export class OccCartService {
   ): Observable<any> {
     const url = this.getCartEndpoint(userId);
     const toAdd = JSON.stringify({});
-    let queryString = MORE_PARAMS;
+    let queryString = BASIC_PARAMS;
 
     if (oldCartId) {
       queryString = queryString + '&oldCartId=' + oldCartId;

@@ -93,10 +93,8 @@ export class MultiStepCheckoutComponent implements OnInit {
         take(1)
       )
       .subscribe(deliveryAddress => {
-        if (Object.keys(deliveryAddress).length !== 0) {
-          this.step = 2;
-          this.cd.detectChanges();
-        }
+        this.step = 2;
+        this.cd.detectChanges();
       });
   }
 }

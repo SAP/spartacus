@@ -20,8 +20,6 @@ export class MockConfigService {
   };
 }
 
-const endpoint = 'deliverycountries';
-
 describe('OccMiscsService', () => {
   let service: OccMiscsService;
   let config: ConfigService;
@@ -46,6 +44,8 @@ describe('OccMiscsService', () => {
   });
 
   it('should return delivery countries list', () => {
+    const endpoint = 'deliverycountries';
+
     const countryList = {
       countries: [
         {
@@ -70,5 +70,34 @@ describe('OccMiscsService', () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(countryList);
+  });
+
+  it('should return titles list', () => {
+    const endpoint = 'titles';
+
+    const titlesList = {
+      titles: [
+        {
+          code: 'mr',
+          name: 'Mr.'
+        },
+        {
+          code: 'mrs',
+          name: 'Mrs.'
+        }
+      ]
+    };
+
+    service.loadTitles().subscribe(result => {
+      expect(result).toEqual(titlesList);
+    });
+
+    const mockReq = httpMock.expectOne(req => {
+      return req.method === 'GET' && req.url === '/' + endpoint;
+    });
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    mockReq.flush(titlesList);
   });
 });

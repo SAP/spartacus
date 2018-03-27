@@ -42,20 +42,16 @@ describe('OrderSummary', () => {
   });
 
   it('should call ngOnInit()', () => {
-    const mockResult = {
-      code: 'mockId',
-      userId: 'mockId'
+    const mockCart = {
+      code: 'mockId'
     };
 
-    spyOn(store, 'select').and.returnValue(of(mockResult));
+    spyOn(store, 'select').and.returnValue(of(mockCart));
     spyOn(service, 'loadCartDetails').and.callThrough();
 
     component.ngOnInit();
 
-    expect(service.loadCartDetails).toHaveBeenCalledWith(
-      mockResult.userId,
-      mockResult.code
-    );
+    expect(service.loadCartDetails).toHaveBeenCalled();
 
     expect(store.select).toHaveBeenCalledWith(fromCartStore.getActiveCart);
   });
