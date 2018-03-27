@@ -1,27 +1,38 @@
 import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import * as fromReducer from '../store/reducers';
-import * as fromAction from '../store/actions';
+import * as fromCheckoutStore from '../store/';
+import * as fromCartStore from '../../cart/store';
 
 import { ANOYMOUS_USERID, CartService } from '../../cart/services/cart.service';
 
 @Injectable()
 export class CheckoutService {
   constructor(
-    private store: Store<fromReducer.CheckoutState>,
+    private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
+    private cartStore: Store<fromCartStore.CartState>,
     private cartService: CartService
   ) {}
 
   createAndSetAddress(address) {
-    this.store.dispatch(
-      new fromAction.AddDeliveryAddress({
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.AddDeliveryAddress({
         userId: this.cartService.userId,
         cartId:
           this.cartService.userId === ANOYMOUS_USERID
             ? this.cartService.cart.guid
             : this.cartService.cart.code,
         address: address
+      })
+    );
+  }
+
+  loadCartDetails(userId: string, cartId: string) {
+    this.cartStore.dispatch(
+      new fromCartStore.LoadCart({
+        userId: userId,
+        cartId: cartId,
+        details: true
       })
     );
   }

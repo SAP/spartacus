@@ -36,8 +36,9 @@ export class CartEffects {
         if (payload.userId === undefined || payload.cartId === undefined) {
           return of(new fromActions.LoadCartFail({}));
         }
+
         return this.occCartService
-          .loadCart(payload.userId, payload.cartId)
+          .loadCart(payload.userId, payload.cartId, payload.details)
           .pipe(
             map((cart: any) => {
               if (cart.entries) {
