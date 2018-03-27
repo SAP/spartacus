@@ -27,7 +27,7 @@ export const appRoutes: Routes = [
     component: CartPageComponent
   },
   {
-    path: 'checkout/multi/delivery-address/add',
+    path: 'checkout',
     canActivate: [AuthGuard, CmsPageGuards],
     data: { pageLabel: 'multiStepCheckoutSummaryPage' },
     component: MultiStepCheckoutPageComponent
