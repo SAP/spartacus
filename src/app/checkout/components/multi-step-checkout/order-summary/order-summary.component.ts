@@ -3,15 +3,8 @@ import {
   ChangeDetectionStrategy,
   Input,
   OnInit
-  //   Output,
-  //   EventEmitter
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-// import { FormGroup } from '@angular/forms';
-// import { Store } from '@ngrx/store';
-// import { Observable } from 'rxjs/Observable';
-
-// import * as fromRouting from '../../../../routing/store';
 import * as fromCartStore from '../../../../cart/store';
 import * as fromAuthStore from '../../../../auth/store';
 import { tap } from 'rxjs/operators';
