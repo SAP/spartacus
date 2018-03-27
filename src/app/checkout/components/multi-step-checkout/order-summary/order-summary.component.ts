@@ -16,7 +16,7 @@ import { tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderSummaryComponent implements OnInit {
-  @Input() cart$;
+  cart$;
 
   cart;
   userId;
@@ -48,6 +48,5 @@ export class OrderSummaryComponent implements OnInit {
       })
     );
     this.cart$ = this.cartStore.select(fromCartStore.getActiveCart);
-    this.cart$.subscribe(data => console.log(data));
   }
 }
