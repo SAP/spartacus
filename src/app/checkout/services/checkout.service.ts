@@ -27,7 +27,7 @@ export class CheckoutService {
     );
   }
 
-  loadCartDetails(userId: string, cartId: string, details?: boolean) {
+  loadCartDetails(userId: string, cartId: string) {
     this.cartStore.dispatch(
       new fromCartStore.LoadCart({
         userId: userId,
