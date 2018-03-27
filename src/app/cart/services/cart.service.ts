@@ -14,6 +14,7 @@ export class CartService {
   userId = ANOYMOUS_USERID;
   cart: any;
   callback: Function;
+  getDetails = false;
 
   constructor(private store: Store<fromReducer.CartState>) {
     this.initCart();

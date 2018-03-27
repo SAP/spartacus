@@ -27,11 +27,16 @@ export class CheckoutService {
     );
   }
 
-  loadCartDetails(userId: string, cartId: string) {
+  loadCartDetails() {
+    this.cartService.getDetails = true;
+
     this.cartStore.dispatch(
       new fromCartStore.LoadCart({
-        userId: userId,
-        cartId: cartId,
+        userId: this.cartService.userId,
+        cartId:
+          this.cartService.userId === ANOYMOUS_USERID
+            ? this.cartService.cart.guid
+            : this.cartService.cart.code,
         details: true
       })
     );

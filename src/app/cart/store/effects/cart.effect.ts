@@ -30,7 +30,8 @@ export class CartEffects {
             cartId:
               this.cartService.userId === ANOYMOUS_USERID
                 ? this.cartService.cart.guid
-                : this.cartService.cart.code
+                : this.cartService.cart.code,
+            details: this.cartService.getDetails ? true : undefined
           };
         }
         if (payload.userId === undefined || payload.cartId === undefined) {

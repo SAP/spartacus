@@ -18,26 +18,13 @@ import { CheckoutService } from '../../../services';
 export class OrderSummaryComponent implements OnInit {
   cart$;
 
-  cartId;
-  userId;
-
   constructor(
     protected cartStore: Store<fromCartStore.CartState>,
-    protected authStore: Store<fromAuthStore.UserState>,
     protected checkoutService: CheckoutService
   ) {}
 
   ngOnInit() {
-    this.cartStore.select(fromCartStore.getActiveCart).subscribe(cart => {
-      this.cartId = cart.code;
-    });
-
-    this.authStore.select(fromAuthStore.getUserToken).subscribe(userToken => {
-      this.userId = userToken.userId;
-    });
-
-    this.checkoutService.loadCartDetails(this.userId, this.cartId);
-
+    this.checkoutService.loadCartDetails();
     this.cart$ = this.cartStore.select(fromCartStore.getActiveCart);
   }
 }
