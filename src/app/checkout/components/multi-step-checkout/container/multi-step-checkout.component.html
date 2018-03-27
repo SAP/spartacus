@@ -10,15 +10,18 @@
 </div>
 <div id="step1" *ngIf="step === 1">
     <y-address-form [parent]="form" [titles$]="titles$" [countries$]="countries$" (added)="addAddress($event)"></y-address-form>
+    <div class="order-summary-address-form">
+        <y-order-summary></y-order-summary>
+    </div>
 </div>
 
 <div id="step2" *ngIf="step === 2">
-    shipping method form
+    <y-delivery-mode-form></y-delivery-mode-form>
+    <div class="order-delivery-mode-form">
+        <y-order-summary></y-order-summary>
+    </div>
 </div>
 
 <div id="step3" *ngIf="step === 3">
     payment form
-</div>
-<div>
-    <y-order-summary></y-order-summary>
 </div>
