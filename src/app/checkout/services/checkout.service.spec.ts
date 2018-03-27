@@ -76,7 +76,7 @@ describe('CheckoutService', () => {
         cartService.userId = userId;
         cartService.cart = cart;
 
-        service.loadCartDetails(userId, cart.code);
+        service.loadCartDetails();
 
         expect(store.dispatch).toHaveBeenCalledWith(
           new fromCart.LoadCart({
