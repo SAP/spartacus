@@ -1,0 +1,24 @@
+{
+  "languages": {
+    "languages": [
+      {
+        "isocode": "en",
+        "nativeName": "English"
+      },
+      {
+        "isocode": "de",
+        "nativeName": "German"
+      }
+    ]
+  },
+  "currencies": {
+    "currencies": [
+      {
+        "isocode": "USD"
+      },
+      {
+        "isocode": "EUR"
+      }
+    ]
+  }
+}

@@ -6,6 +6,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
+    "start:mock": "ng serve --proxy-config proxy.mock.json",
+    "mockserver":
+      "json-server --watch ./json-server/db.json --routes ./json-server/routes.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -49,6 +52,7 @@
     "jasmine-core": "~2.8.0",
     "jasmine-marbles": "0.2.0",
     "jasmine-spec-reporter": "~4.2.1",
+    "json-server": "^0.12.1",
     "karma": "~1.7.1",
     "karma-chrome-launcher": "~2.2.0",
     "karma-cli": "~1.0.1",

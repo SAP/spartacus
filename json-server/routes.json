@@ -1,0 +1,4 @@
+{
+  "/rest/v2/electronics/languages(\\?.+)?": "/languages",
+  "/rest/v2/electronics/currencies(\\?.+)?": "/currencies"
+}
