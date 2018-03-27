@@ -13,6 +13,7 @@ const MORE_PARAMS =
 const DETAILS_PARAMS =
   'fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),totalTax(formattedValue),' +
   'totalPriceWithTax(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';
+
 @Injectable()
 export class OccCartService {
   constructor(
