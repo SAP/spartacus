@@ -18,6 +18,7 @@ import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { CheckoutService } from './../../../services/checkout.service';
 import { CartService } from './../../../../cart/services/cart.service';
+import { OrderSummaryComponent } from '../order-summary/order-summary.component';
 
 export class MockAbstractControl {
   hasError() {}
@@ -69,7 +70,11 @@ describe('MultiStepCheckoutComponent', () => {
             checkout: combineReducers(fromCheckout.reducers)
           })
         ],
-        declarations: [MultiStepCheckoutComponent, AddressFormComponent],
+        declarations: [
+          MultiStepCheckoutComponent,
+          AddressFormComponent,
+          OrderSummaryComponent
+        ],
         providers: [
           { provide: AbstractControl, useClass: MockAbstractControl },
           CheckoutService,
