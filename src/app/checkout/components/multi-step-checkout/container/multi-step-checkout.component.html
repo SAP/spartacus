@@ -1,0 +1,24 @@
+<h2>Checkout</h2>
+
+<div class="board-inner" id="status-buttons">
+    <ul class="progressbar">
+        <li [ngClass]="{'active': step===1 || step===2 || step===3 || step===4}" (click)="setStep(1)">Shipping Address</li>
+        <li [ngClass]="{'active': step===2 || step===3 || step===4}" (click)="setStep(2)">Shipping Method</li>
+        <li [ngClass]="{'active': step===3 || step===4}" (click)="setStep(3)">Payment</li>
+        <li [ngClass]="{'active': step===4}" (click)="setStep(4)">Review</li>
+    </ul>
+</div>
+<div id="step1" *ngIf="step === 1">
+    <y-address-form [parent]="form" [titles$]="titles$" [countries$]="countries$" (added)="addAddress($event)"></y-address-form>
+</div>
+
+<div id="step2" *ngIf="step === 2">
+    shipping method form
+</div>
+
+<div id="step3" *ngIf="step === 3">
+    payment form
+</div>
+<div>
+    <y-order-summary></y-order-summary>
+</div>

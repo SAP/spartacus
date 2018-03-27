@@ -28,7 +28,9 @@ export class CreateCartSuccess implements Action {
 
 export class LoadCart implements Action {
   readonly type = LOAD_CART;
-  constructor(public payload: any) {}
+  constructor(
+    public payload: { userId: string; cartId: string; details?: boolean }
+  ) {}
 }
 
 export class LoadCartFail implements Action {

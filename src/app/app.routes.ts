@@ -4,11 +4,13 @@ import { HomePageComponent } from './ui/pages/home-page/home-page.component';
 import { CartPageComponent } from './ui/pages/cart-page/cart-page.component';
 import { ProductPageComponent } from './ui/pages/product-page/product-page.component';
 import { CategoryPageComponent } from './ui/pages/category-page/category-page.component';
+import { MultiStepCheckoutPageComponent } from './ui/pages/multi-step-checkout-page/multi-step-checkout-page.component';
 
 import { PageNotFoundComponent } from './ui/pages/404/404.component';
 
 import { CmsPageGuards } from './cms/guards/cms-page.guard';
 import { ProductGuard } from './product/guards/product.guard';
+import { AuthGuard } from './auth/guards/auth.guard';
 
 // TODO: provide URL mappings for site specific routings
 export const appRoutes: Routes = [
@@ -23,6 +25,12 @@ export const appRoutes: Routes = [
     canActivate: [CmsPageGuards],
     data: { pageLabel: 'cartPage' },
     component: CartPageComponent
+  },
+  {
+    path: 'checkout',
+    canActivate: [AuthGuard, CmsPageGuards],
+    data: { pageLabel: 'multiStepCheckoutSummaryPage' },
+    component: MultiStepCheckoutPageComponent
   },
   {
     path: 'search/:query',

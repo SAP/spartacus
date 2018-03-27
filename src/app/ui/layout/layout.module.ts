@@ -17,6 +17,7 @@ import { LandingPageLayoutComponent } from './landing-page-layout/landing-page-l
 import { ProductListPageLayoutComponent } from './product-list-page-layout/product-list-page-layout.component';
 import { ProductDetailsPageLayoutComponent } from './product-details-page-layout/product-details-page-layout.component';
 import { CartPageLayoutComponent } from './cart-page-layout/cart-page-layout.component';
+import { MultiStepCheckoutPageLayoutComponent } from './multi-step-checkout-page-layout/multi-step-checkout-page-layout.component';
 
 // header components
 import { CookieConfirmationModule } from '../../cms-lib/cookie-confirmation/cookie-confirmation.module';
@@ -26,6 +27,7 @@ import { LoginModule } from '../../auth/components/login/login.module';
 
 import { CartDetailsModule } from '../../cart/components/cart-details/cart-details.module';
 import { ProductModule } from '../../product/product.module';
+import { CheckoutModule } from '../../checkout/checkout.module';
 
 @NgModule({
   imports: [
@@ -41,7 +43,8 @@ import { ProductModule } from '../../product/product.module';
     CurrencySelectorModule,
 
     ProductModule,
-    CartDetailsModule
+    CartDetailsModule,
+    CheckoutModule
   ],
   declarations: [
     HeaderComponent,
@@ -51,7 +54,8 @@ import { ProductModule } from '../../product/product.module';
     ProductListPageLayoutComponent,
     ProductDetailsPageLayoutComponent,
     CartPageLayoutComponent,
-    CategoryPageLayoutComponent
+    CategoryPageLayoutComponent,
+    MultiStepCheckoutPageLayoutComponent
   ],
   exports: [
     MainComponent,
@@ -59,7 +63,8 @@ import { ProductModule } from '../../product/product.module';
     ProductListPageLayoutComponent,
     ProductDetailsPageLayoutComponent,
     CartPageLayoutComponent,
-    CategoryPageLayoutComponent
+    CategoryPageLayoutComponent,
+    MultiStepCheckoutPageLayoutComponent
   ]
 })
 export class LayoutModule {}

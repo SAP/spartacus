@@ -13,6 +13,7 @@ import { CategoryPageComponent } from './category-page/category-page.component';
 
 // ProductPage
 import { ProductPageComponent } from './product-page/product-page.component';
+import { MultiStepCheckoutPageComponent } from './multi-step-checkout-page/multi-step-checkout-page.component';
 
 @NgModule({
   imports: [CommonModule, LayoutModule],
@@ -21,14 +22,16 @@ import { ProductPageComponent } from './product-page/product-page.component';
     CategoryPageComponent,
     ProductPageComponent,
     PageNotFoundComponent,
-    CartPageComponent
+    CartPageComponent,
+    MultiStepCheckoutPageComponent
   ],
   exports: [
     HomePageComponent,
     CategoryPageComponent,
     ProductPageComponent,
     PageNotFoundComponent,
-    CartPageComponent
+    CartPageComponent,
+    MultiStepCheckoutPageComponent
   ]
 })
 export class PagesModule {}

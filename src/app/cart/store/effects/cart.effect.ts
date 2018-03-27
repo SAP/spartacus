@@ -30,14 +30,16 @@ export class CartEffects {
             cartId:
               this.cartService.userId === ANOYMOUS_USERID
                 ? this.cartService.cart.guid
-                : this.cartService.cart.code
+                : this.cartService.cart.code,
+            details: this.cartService.getDetails ? true : undefined
           };
         }
         if (payload.userId === undefined || payload.cartId === undefined) {
           return of(new fromActions.LoadCartFail({}));
         }
+
         return this.occCartService
-          .loadCart(payload.userId, payload.cartId)
+          .loadCart(payload.userId, payload.cartId, payload.details)
           .pipe(
             map((cart: any) => {
               if (cart.entries) {

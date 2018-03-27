@@ -6,9 +6,13 @@ import 'rxjs/add/operator/catch';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
-const MORE_PARAMS =
+const BASIC_PARAMS =
   'fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
   'entries(totalPrice(formattedValue),product(images(FULL)))';
+
+const DETAILS_PARAMS =
+  'fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),totalTax(formattedValue),' +
+  'totalPriceWithTax(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';
 
 @Injectable()
 export class OccCartService {
@@ -35,11 +39,19 @@ export class OccCartService {
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
-  public loadCart(userId: string, cartId: string): Observable<any> {
+  public loadCart(
+    userId: string,
+    cartId: string,
+    details?: boolean
+  ): Observable<any> {
     const url = this.getCartEndpoint(userId) + cartId;
-    const params = new HttpParams({
-      fromString: MORE_PARAMS
-    });
+    const params = details
+      ? new HttpParams({
+          fromString: DETAILS_PARAMS
+        })
+      : new HttpParams({
+          fromString: BASIC_PARAMS
+        });
 
     return this.http
       .get(url, { params: params })
@@ -53,7 +65,7 @@ export class OccCartService {
   ): Observable<any> {
     const url = this.getCartEndpoint(userId);
     const toAdd = JSON.stringify({});
-    let queryString = MORE_PARAMS;
+    let queryString = BASIC_PARAMS;
 
     if (oldCartId) {
       queryString = queryString + '&oldCartId=' + oldCartId;
@@ -108,5 +120,34 @@ export class OccCartService {
     return this.http
       .delete(url, { headers: headers })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  public createAddressOnCart(
+    userId: string,
+    cartId: string,
+    address: any
+  ): Observable<any> {
+    return this.http
+      .post(
+        this.getCartEndpoint(userId) + cartId + '/addresses/delivery',
+        address,
+        {
+          headers: new HttpHeaders().set('Content-Type', 'application/json')
+        }
+      )
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  public setDeliveryAddress(userId: string, cartId: string, addressId: string) {
+    this.http
+      .put(
+        this.getCartEndpoint(userId) + cartId + '/addresses/delivery',
+        {},
+        {
+          params: { addressId: addressId }
+        }
+      )
+      .pipe(catchError((error: any) => Observable.throw(error.json())))
+      .subscribe();
   }
 }
