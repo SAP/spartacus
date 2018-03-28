@@ -120,5 +120,3 @@ export function reducer(
 
 export const getDeliveryAddress = (state: CheckoutState) => state.address;
 export const getDeliveryMode = (state: CheckoutState) => state.deliveryMode;
-export const getSelectedMode = (state: CheckoutState) =>
-  state.deliveryMode.selected;
