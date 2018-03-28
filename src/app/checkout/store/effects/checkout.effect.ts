@@ -53,6 +53,28 @@ export class CheckoutEffects {
       })
     );
 
+  @Effect()
+  setDeliveryMode$: Observable<any> = this.actions$
+    .ofType(fromActions.SET_DELIVERY_MODE)
+    .pipe(
+      map((action: any) => action.payload),
+      mergeMap(payload => {
+        return this.occCartService
+          .setDeliveryMode(
+            payload.userId,
+            payload.cartId,
+            payload.selectedModeId
+          )
+          .pipe(
+            map(
+              () =>
+                new fromActions.SetDeliveryModeSuccess(payload.selectedModeId)
+            ),
+            catchError(error => of(new fromActions.SetDeliveryModeFail(error)))
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private occCartService: OccCartService

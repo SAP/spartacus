@@ -17,6 +17,11 @@ export const getDeliveryMode: MemoizedSelector<any, any> = createSelector(
   fromReducer.getDeliveryMode
 );
 
+export const getSelectedDeliveryMode: MemoizedSelector<
+  any,
+  any
+> = createSelector(getCheckoutStepsState, fromReducer.getSelectedMode);
+
 export const getSupportedDeliveryModes: MemoizedSelector<
   any,
   any
