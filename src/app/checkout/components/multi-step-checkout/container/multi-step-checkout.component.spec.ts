@@ -16,6 +16,7 @@ import { DeliveryModeFormComponent } from '../delivery-mode-form/delivery-mode-f
 
 import { CheckoutService } from './../../../services/checkout.service';
 import { CartService } from './../../../../cart/services/cart.service';
+import { Address } from '../../../models/address-model';
 
 describe('MultiStepCheckoutComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
@@ -55,6 +56,7 @@ describe('MultiStepCheckoutComponent', () => {
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(service, 'createAndSetAddress').and.callThrough();
+    spyOn(service, 'setDeliveryMode').and.callThrough();
   });
 
   it('should be created', () => {
@@ -72,17 +74,34 @@ describe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call addAddress()', () => {
-    const address: any = {
-      id: 'testAddressId',
+    const address: Address = {
       firstName: 'John',
       lastName: 'Doe',
       titleCode: 'mr',
-      line1: 'Toyosaki 2 create on cart'
+      line1: 'Toyosaki 2 create on cart',
+      line2: 'line2',
+      town: 'town',
+      region: { isocode: 'JP-27' },
+      postalCode: 'zip',
+      country: { isocode: 'JP' }
     };
-    spyOn(store, 'select').and.returnValue(of(address));
+    spyOn(store, 'select').and.returnValues(of(address), of([]));
 
     component.addAddress(address);
     expect(service.createAndSetAddress).toHaveBeenCalledWith(address);
     expect(component.step).toBe(2);
+  });
+
+  it('should call setDeliveryMode()', () => {
+    const deliveryMode: any = {
+      deliveryModeId: 'testId'
+    };
+    spyOn(store, 'select').and.returnValue(of(deliveryMode));
+
+    component.setDeliveryMode(deliveryMode);
+    expect(service.setDeliveryMode).toHaveBeenCalledWith(
+      deliveryMode.deliveryModeId
+    );
+    expect(component.step).toBe(3);
   });
 });
