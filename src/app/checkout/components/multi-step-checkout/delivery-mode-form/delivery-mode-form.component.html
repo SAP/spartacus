@@ -1,13 +1,20 @@
-<div [formGroup]="parent">
+<div [formGroup]="mode">
     <h3 class="heading">Choose a shipping method:</h3>
     <div class="content">
         <div>
             <select class="countries-dropdown " formControlName="deliveryModeId">
                 <option value="">Select Shipping Methods</option>
-                <option *ngFor="let mode of (modes$ | async)" [value]="mode.code">
+                <option *ngFor="let mode of (deliveryModes$ | async)" [value]="mode.code">
                             {{ mode.name }}
                 </option>
             </select>
         </div>
+    </div>
+
+    <div class="buttons">
+        <button mat-raised-button color="primary" (click)="back()">Go Back</button>
+        <button mat-raised-button color="accent" [disabled]="mode.invalid"
+                (click)="next()">Next
+        </button>
     </div>
 </div>

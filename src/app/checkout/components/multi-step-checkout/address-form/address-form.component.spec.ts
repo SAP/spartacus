@@ -14,6 +14,7 @@ import {
   AbstractControl
 } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs/observable/of';
 import * as fromRouting from '../../../../routing/store';
 
 export class MockAbstractControl {
@@ -23,6 +24,31 @@ export class MockAbstractControl {
 export class MockFormGroup {
   get() {}
 }
+const mockTitlesList = {
+  titles: [
+    {
+      code: 'mr',
+      name: 'Mr.'
+    },
+    {
+      code: 'mrs',
+      name: 'Mrs.'
+    }
+  ]
+};
+
+const mockCountriesList = {
+  countries: [
+    {
+      isocode: 'AL',
+      name: 'Albania'
+    },
+    {
+      isocode: 'AD',
+      name: 'Andorra'
+    }
+  ]
+};
 
 describe('AddressFormComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
@@ -58,46 +84,65 @@ describe('AddressFormComponent', () => {
     store = TestBed.get(Store);
     ac = TestBed.get(AbstractControl);
 
-    component.parent = fb.group({
-      address: fb.group({
-        titleCode: ['', Validators.required],
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        line1: ['', Validators.required],
-        line2: ['', Validators.required],
-        town: ['', Validators.required],
-        region: fb.group({
-          isocode: ['', Validators.required]
-        }),
-        country: fb.group({
-          isocode: ['', Validators.required]
-        }),
-        title: fb.group({
-          code: ''
-        }),
-        postalCode: ['', Validators.required],
-        phone: ''
+    component.address = fb.group({
+      titleCode: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      line1: ['', Validators.required],
+      line2: ['', Validators.required],
+      town: ['', Validators.required],
+      region: fb.group({
+        isocode: ['', Validators.required]
       }),
-      shippingMethod: fb.group({}),
-      paymentMethod: fb.group({})
+      country: fb.group({
+        isocode: ['', Validators.required]
+      }),
+      postalCode: ['', Validators.required],
+      phone: ''
     });
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(ac, 'hasError').and.callThrough();
-    spyOn(component.added, 'emit').and.callThrough();
-    spyOn(component.parent, 'get').and.returnValue(ac);
+    spyOn(component.addAddress, 'emit').and.callThrough();
+    spyOn(component.address, 'get').and.returnValue(ac);
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call onAdd()', () => {
-    component.onAdd();
-    expect(component.parent.get).toHaveBeenCalledWith('address');
-    expect(component.added.emit).toHaveBeenCalledWith(
-      component.parent.get('address').value
+  it('should call ngOnInit to get countries and titles data even when they not exist', () => {
+    spyOn(store, 'select').and.returnValues(of({}), of({}));
+    component.ngOnInit();
+    component.countries$.subscribe(() => {
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromCheckout.LoadDeliveryCountries()
+      );
+    });
+    component.titles$.subscribe(() => {
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromCheckout.LoadTitles()
+      );
+    });
+  });
+
+  it('should call ngOnInit to get countries and titles data when data exist', () => {
+    spyOn(store, 'select').and.returnValues(
+      of({ mockCountriesList }),
+      of({ mockTitlesList })
     );
+    component.ngOnInit();
+    component.countries$.subscribe(data => {
+      expect(data.mockCountriesList).toBe(mockCountriesList);
+    });
+    component.titles$.subscribe(data => {
+      expect(data.mockTitlesList).toBe(mockTitlesList);
+    });
+  });
+
+  it('should call next()', () => {
+    component.next();
+    expect(component.addAddress.emit).toHaveBeenCalledWith(component.address.value);
   });
 
   it('should call back()', () => {
@@ -111,11 +156,11 @@ describe('AddressFormComponent', () => {
 
   it('should call required(name: string)', () => {
     component.required('someName');
-    expect(component.parent.get).toHaveBeenCalledWith('address.someName');
+    expect(component.address.get).toHaveBeenCalledWith('someName');
   });
 
   it('should call notSelected(name: string)', () => {
     component.notSelected('someName');
-    expect(component.parent.get).toHaveBeenCalledWith('address.someName');
+    expect(component.address.get).toHaveBeenCalledWith('someName');
   });
 });

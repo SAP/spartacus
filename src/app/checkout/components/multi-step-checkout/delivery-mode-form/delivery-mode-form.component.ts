@@ -3,12 +3,14 @@ import {
   ChangeDetectionStrategy,
   Input,
   Output,
-  EventEmitter
+  EventEmitter,
+  OnInit
 } from '@angular/core';
 
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import * as fromCheckoutStore from '../../../store';
 
 @Component({
   selector: 'y-delivery-mode-form',
@@ -16,12 +18,42 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./delivery-mode-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DeliveryModeFormComponent {
-  @Input() parent: FormGroup;
+export class DeliveryModeFormComponent implements OnInit {
+  deliveryModes$: Observable<any>;
 
-  @Input() modes$: Observable<any>;
+  @Output() selecteMode = new EventEmitter<any>();
 
-  @Output() setMode = new EventEmitter<any>();
+  mode: FormGroup = this.fb.group({
+    deliveryModeId: ['', Validators.required]
+  });
 
-  constructor() {}
+  constructor(
+    protected store: Store<fromCheckoutStore.CheckoutState>,
+    private fb: FormBuilder
+  ) {}
+
+  ngOnInit() {
+    /*
+    this.deliveryModes$ = this.store
+      .select(fromCheckoutStore.getAllDeliveryCountries)
+      .pipe(
+        tap(countries => {
+          if (Object.keys(countries).length === 0) {
+            this.store.dispatch(new fromCheckoutStore.LoadDeliveryCountries());
+          }
+        })
+      );
+      */
+  }
+
+  next() {
+    this.selecteMode.emit(this.mode.value);
+  }
+
+  back() {}
+
+  get deliveryModeInvalid() {
+    const control = this.mode.get('deliveryModeId');
+    return control.hasError('required') && control.touched;
+  }
 }

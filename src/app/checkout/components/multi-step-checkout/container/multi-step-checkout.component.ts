@@ -4,9 +4,7 @@ import {
   OnInit,
   ChangeDetectorRef
 } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { tap, take, filter } from 'rxjs/operators';
+import { take, filter } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
@@ -23,59 +21,13 @@ import { Address } from '../../../models/address-model';
 export class MultiStepCheckoutComponent implements OnInit {
   step = 1;
 
-  countries$: Observable<any>;
-  titles$: Observable<any>;
-
-  address: FormGroup = this.fb.group({
-    titleCode: ['', Validators.required],
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    line1: ['', Validators.required],
-    line2: ['', Validators.required],
-    town: ['', Validators.required],
-    region: this.fb.group({
-      isocode: ['', Validators.required]
-    }),
-    country: this.fb.group({
-      isocode: ['', Validators.required]
-    }),
-    title: this.fb.group({
-      code: ''
-    }),
-    postalCode: ['', Validators.required],
-    phone: ''
-  });
-  shippingMethod: FormGroup = this.fb.group({
-    deliveryModeId: ['', Validators.required]
-  });
-  paymentMethod: FormGroup = this.fb.group({});
-
   constructor(
-    private fb: FormBuilder,
     protected checkoutService: CheckoutService,
     private store: Store<fromCheckoutStore.CheckoutState>,
     protected cd: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
-    this.countries$ = this.store
-      .select(fromCheckoutStore.getAllDeliveryCountries)
-      .pipe(
-        tap(countries => {
-          if (Object.keys(countries).length === 0) {
-            this.store.dispatch(new fromCheckoutStore.LoadDeliveryCountries());
-          }
-        })
-      );
-
-    this.titles$ = this.store.select(fromCheckoutStore.getAllTitles).pipe(
-      tap(titles => {
-        if (Object.keys(titles).length === 0) {
-          this.store.dispatch(new fromCheckoutStore.LoadTitles());
-        }
-      })
-    );
-  }
+  ngOnInit() {}
 
   setStep(completeStep) {
     if (this.step > completeStep) {
@@ -97,4 +49,6 @@ export class MultiStepCheckoutComponent implements OnInit {
         this.cd.detectChanges();
       });
   }
+
+  setDeliveryModes(deliveryModeId: string) {}
 }
