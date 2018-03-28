@@ -58,5 +58,13 @@ export class MultiStepCheckoutComponent implements OnInit {
 
   setDeliveryMode(deliveryMode: any) {
     this.checkoutService.setDeliveryMode(deliveryMode.deliveryModeId);
+
+    this.store
+      .select(fromCheckoutStore.getSelectedDeliveryMode)
+      .pipe(filter(selected => selected !== undefined), take(1))
+      .subscribe(selected => {
+        this.step = 3;
+        this.cd.detectChanges();
+      });
   }
 }

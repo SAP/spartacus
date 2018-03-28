@@ -30,7 +30,7 @@ export const getSelectedDeliveryMode: MemoizedSelector<
   any,
   any
 > = createSelector(getDeliveryMode, deliveryMode => {
-  return Object.keys(deliveryMode.selected).map(
-    code => deliveryMode.supported[code]
-  );
+  if (deliveryMode.selected !== '') {
+    return deliveryMode.supported[deliveryMode.selected];
+  }
 });
