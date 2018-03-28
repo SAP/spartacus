@@ -4,14 +4,13 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnInit,
-  OnDestroy
+  OnInit
 } from '@angular/core';
 
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { take, filter, tap } from 'rxjs/operators';
+import { take, filter, tap, takeWhile } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../store';
 import { Address } from '../../../models/address-model';
@@ -23,13 +22,15 @@ import { CheckoutService } from '../../../services';
   styleUrls: ['./delivery-mode-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DeliveryModeFormComponent implements OnInit, OnDestroy {
+export class DeliveryModeFormComponent implements OnInit {
   supportedDeliveryModes$: Observable<any>;
 
   @Output() selectMode = new EventEmitter<any>();
   @Output() backStep = new EventEmitter<any>();
 
   @Input() deliveryAddress: Address;
+
+  leave = false;
 
   mode: FormGroup = this.fb.group({
     deliveryModeId: ['', Validators.required]
@@ -45,25 +46,21 @@ export class DeliveryModeFormComponent implements OnInit, OnDestroy {
     this.supportedDeliveryModes$ = this.store
       .select(fromCheckoutStore.getSupportedDeliveryModes)
       .pipe(
+        takeWhile(() => !this.leave),
         tap(supportedModes => {
           if (Object.keys(supportedModes).length === 0) {
-            console.log('load');
             this.service.loadSupportedDeliveryModes();
           }
         })
       );
   }
 
-  ngOnDestroy() {
-    console.log('destroy');
-  }
-
   next() {
-    console.log(this.mode.value);
     this.selectMode.emit(this.mode.value);
   }
 
   back() {
+    this.leave = true;
     this.backStep.emit();
   }
 
