@@ -16,7 +16,7 @@
 </div>
 
 <div id="step2" *ngIf="step === 2">
-    <y-delivery-mode-form [deliveryAddress]="deliveryAddress" (selecteMode)="setDeliveryModes($event)" (backStep)="setStep(1)"></y-delivery-mode-form>
+    <y-delivery-mode-form [deliveryAddress]="deliveryAddress" (selectMode)="setDeliveryModes($event)" (backStep)="setStep(1)"></y-delivery-mode-form>
     <div class="order-delivery-mode-form">
         <y-order-summary></y-order-summary>
     </div>

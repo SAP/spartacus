@@ -47,7 +47,6 @@ export class DeliveryModeFormComponent implements OnInit, OnDestroy {
       .pipe(
         tap(supportedModes => {
           if (Object.keys(supportedModes).length === 0) {
-            console.log('load');
             this.service.loadSupportedDeliveryModes();
           }
         })
@@ -59,7 +58,6 @@ export class DeliveryModeFormComponent implements OnInit, OnDestroy {
   }
 
   next() {
-    console.log(this.mode.value);
     this.selectMode.emit(this.mode.value);
   }
 
