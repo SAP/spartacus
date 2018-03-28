@@ -15,9 +15,13 @@ const mergedCart = 'mergedCart';
 
 const usersEndpoint = '/users';
 const cartsEndpoint = '/carts/';
-const MORE_PARAMS =
+const BASIC_PARAMS =
   'DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
   'entries(totalPrice(formattedValue),product(images(FULL)))';
+
+const DETAILS_PARAMS =
+  'DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),totalTax(formattedValue),' +
+  'totalPriceWithTax(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';
 
 class MockConfigService {
   server = {
@@ -69,8 +73,7 @@ describe('OccCartService', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url ===
-            usersEndpoint + `/${userId}` + cartsEndpoint
+          req.url === usersEndpoint + `/${userId}` + cartsEndpoint
         );
       });
 
@@ -79,7 +82,6 @@ describe('OccCartService', () => {
       mockReq.flush([cartData]);
     });
   });
-
 
   describe('load cart details', () => {
     it('should load cart details for given userId and cartId', () => {
@@ -90,14 +92,33 @@ describe('OccCartService', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url ===
-            usersEndpoint + `/${userId}` + cartsEndpoint + `${cartId}`
+          req.url === usersEndpoint + `/${userId}` + cartsEndpoint + `${cartId}`
         );
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(mockReq.request.params.get('fields')).toEqual(MORE_PARAMS);
+      expect(mockReq.request.params.get('fields')).toEqual(BASIC_PARAMS);
+      mockReq.flush(cartData);
+    });
+  });
+
+  describe('load cart details', () => {
+    it('should load cart details for given userId, cartId and details flag', () => {
+      service.loadCart(userId, cartId, true).subscribe(result => {
+        expect(result).toEqual(cartData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url === usersEndpoint + `/${userId}` + cartsEndpoint + `${cartId}`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.params.get('fields')).toEqual(DETAILS_PARAMS);
       mockReq.flush(cartData);
     });
   });
@@ -115,7 +136,7 @@ describe('OccCartService', () => {
         );
       });
 
-      expect(mockReq.request.params.get('fields')).toEqual(MORE_PARAMS);
+      expect(mockReq.request.params.get('fields')).toEqual(BASIC_PARAMS);
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -142,7 +163,7 @@ describe('OccCartService', () => {
         toMergeCart.guid
       );
 
-      expect(mockReq.request.params.get('fields')).toEqual(MORE_PARAMS);
+      expect(mockReq.request.params.get('fields')).toEqual(BASIC_PARAMS);
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -160,11 +181,7 @@ describe('OccCartService', () => {
         return (
           req.method === 'POST' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/entries'
+            usersEndpoint + `/${userId}` + cartsEndpoint + cartId + '/entries'
         );
       });
 
@@ -203,6 +220,139 @@ describe('OccCartService', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(cartData);
+    });
+  });
+
+  describe('create an address for cart', () => {
+    it('should create address for cart for given user id, cart id and address', () => {
+      const mockAddress = 'mockAddress';
+
+      service
+        .createAddressOnCart(userId, cartId, mockAddress)
+        .subscribe(result => {
+          expect(result).toEqual(cartData);
+        });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'POST' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/addresses/' +
+              'delivery'
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(cartData);
+    });
+  });
+
+  describe('set an address for cart', () => {
+    it('should set address for cart for given user id, cart id and address id', () => {
+      const mockAddressId = 'mockAddressId';
+
+      service.setDeliveryAddress(userId, cartId, mockAddressId);
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'PUT' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/addresses/' +
+              'delivery'
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.params.get('addressId')).toEqual(mockAddressId);
+    });
+  });
+
+  describe('get all supported delivery modes for cart', () => {
+    it('should get all supported delivery modes for cart for given user id and cart id', () => {
+      service.getSupportedDeliveryModes(userId, cartId).subscribe(result => {
+        expect(result).toEqual(cartData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/deliverymodes'
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(cartData);
+    });
+  });
+
+  describe('get delivery mode for cart', () => {
+    it('should delivery modes for cart for given user id and cart id', () => {
+      service.getDeliveryMode(userId, cartId).subscribe(result => {
+        expect(result).toEqual(cartData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/deliverymode'
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(cartData);
+    });
+  });
+
+  describe('set delivery mode for cart', () => {
+    it('should set modes for cart for given user id, cart id and delivery mode id', () => {
+      const mockDeliveryModeId = 'mockDeliveryModeId';
+
+      service
+        .setDeliveryMode(userId, cartId, mockDeliveryModeId)
+        .subscribe(result => {
+          expect(result).toEqual(cartData);
+        });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'PUT' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/deliverymode'
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.params.get('deliveryModeId')).toEqual(
+        mockDeliveryModeId
+      );
       mockReq.flush(cartData);
     });
   });
