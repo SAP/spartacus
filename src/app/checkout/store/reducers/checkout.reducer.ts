@@ -94,9 +94,11 @@ export function reducer(
           };
         }
 
-        case 3: {
-        }
+        // case 3: {
+        // }
       }
+
+      return state;
     }
 
     case fromAction.CLEAR_MISCS_DATA: {
