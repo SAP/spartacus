@@ -8,7 +8,7 @@
     "start": "ng serve --proxy-config proxy.conf.json",
     "start:mock": "ng serve --proxy-config proxy.mock.json",
     "mockserver":
-      "json-server --watch ./json-server/db.json --routes ./json-server/routes.json",
+      "json-server --config=json-server/config.json ./json-server/static.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
