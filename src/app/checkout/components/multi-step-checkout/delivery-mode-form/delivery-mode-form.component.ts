@@ -26,6 +26,8 @@ export class DeliveryModeFormComponent implements OnInit {
   supportedDeliveryModes$: Observable<any>;
 
   @Output() selectMode = new EventEmitter<any>();
+  @Output() backStep = new EventEmitter<any>();
+
   @Input() deliveryAddress: Address;
 
   mode: FormGroup = this.fb.group({
@@ -55,7 +57,9 @@ export class DeliveryModeFormComponent implements OnInit {
     this.selectMode.emit(this.mode.value);
   }
 
-  back() {}
+  back() {
+    this.backStep.emit();
+  }
 
   get deliveryModeInvalid() {
     const control = this.mode.get('deliveryModeId');
