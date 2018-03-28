@@ -10,6 +10,8 @@ import {
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { take, filter } from 'rxjs/operators';
+
 import * as fromCheckoutStore from '../../../store';
 import { Address } from '../../../models/address-model';
 import { CheckoutService } from '../../../services';
@@ -21,7 +23,7 @@ import { CheckoutService } from '../../../services';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeliveryModeFormComponent implements OnInit {
-  deliveryMode$: Observable<any>;
+  supportedDeliveryModes$: Observable<any>;
 
   @Output() selecteMode = new EventEmitter<any>();
   @Input() deliveryAddress: Address;
@@ -38,9 +40,9 @@ export class DeliveryModeFormComponent implements OnInit {
 
   ngOnInit() {
     this.service.loadSupportedDeliveryModes();
-    this.deliveryMode$ = this.store.select(fromCheckoutStore.getDeliveryMode);
-
-    this.deliveryMode$.subscribe(data => console.log(data.supported));
+    this.supportedDeliveryModes$ = this.store
+      .select(fromCheckoutStore.getSupportedDeliveryModes)
+      .filter(supportedModes => Object.keys(supportedModes).length !== 0);
   }
 
   next() {

@@ -16,3 +16,12 @@ export const getDeliveryMode: MemoizedSelector<any, any> = createSelector(
   getCheckoutStepsState,
   fromReducer.getDeliveryMode
 );
+
+export const getSupportedDeliveryModes: MemoizedSelector<
+  any,
+  any
+> = createSelector(getDeliveryMode, deliveryMode => {
+  return Object.keys(deliveryMode.supported).map(
+    code => deliveryMode.supported[code]
+  );
+});
