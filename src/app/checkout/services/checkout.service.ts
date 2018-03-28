@@ -42,7 +42,7 @@ export class CheckoutService {
     );
   }
 
-  getDeliveryModes() {
+  loadSupportedDeliveryModes() {
     this.checkoutStore.dispatch(
       new fromCheckoutStore.LoadSupportedDeliveryModes({
         userId: this.cartService.userId,

@@ -12,7 +12,7 @@ export const getDeliveryAddress: MemoizedSelector<any, any> = createSelector(
   fromReducer.getDeliveryAddress
 );
 
-export const getDeliveryModes: MemoizedSelector<any, any> = createSelector(
+export const getDeliveryMode: MemoizedSelector<any, any> = createSelector(
   getCheckoutStepsState,
   fromReducer.getDeliveryMode
 );

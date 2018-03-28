@@ -7,7 +7,6 @@ import { map, catchError, mergeMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { CartService } from '../../../cart/services';
 
 @Injectable()
 export class CheckoutEffects {
@@ -56,7 +55,6 @@ export class CheckoutEffects {
 
   constructor(
     private actions$: Actions,
-    private occCartService: OccCartService,
-    private cartService: CartService
+    private occCartService: OccCartService
   ) {}
 }

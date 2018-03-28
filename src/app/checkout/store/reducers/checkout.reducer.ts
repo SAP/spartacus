@@ -31,7 +31,23 @@ export function reducer(
     }
 
     case fromAction.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS: {
-      const deliveryMode = action.payload.deliveryModes;
+      const supportedModes = action.payload.deliveryModes;
+      const supported = supportedModes.reduce(
+        (modes: { [code: string]: any }, mode: any) => {
+          return {
+            ...modes,
+            [mode.code]: mode
+          };
+        },
+        {
+          ...state.deliveryMode.supported
+        }
+      );
+
+      const deliveryMode = {
+        ...state.deliveryMode,
+        supported
+      };
 
       return {
         ...state,

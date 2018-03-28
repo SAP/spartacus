@@ -31,10 +31,6 @@ export class AddDeliveryAddressSuccess implements Action {
   constructor(public payload: Address) {}
 }
 
-export class ClearCheckoutData implements Action {
-  readonly type = CLEAR_CHECKOUT_DATA;
-}
-
 export class LoadSupportedDeliveryModes implements Action {
   readonly type = LOAD_SUPPORTED_DELIVERY_MODES;
   constructor(public payload: { userId: string; cartId: string }) {}
@@ -50,11 +46,15 @@ export class LoadSupportedDeliveryModesSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class ClearCheckoutData implements Action {
+  readonly type = CLEAR_CHECKOUT_DATA;
+}
+
 export type CheckoutAction =
   | AddDeliveryAddress
   | AddDeliveryAddressFail
   | AddDeliveryAddressSuccess
-  | ClearCheckoutData
   | LoadSupportedDeliveryModes
   | LoadSupportedDeliveryModesFail
-  | LoadSupportedDeliveryModesSuccess;
+  | LoadSupportedDeliveryModesSuccess
+  | ClearCheckoutData;

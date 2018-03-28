@@ -21,7 +21,7 @@ import { CheckoutService } from '../../../services';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeliveryModeFormComponent implements OnInit {
-  deliveryModes$: Observable<any>;
+  deliveryMode$: Observable<any>;
 
   @Output() selecteMode = new EventEmitter<any>();
   @Input() deliveryAddress: Address;
@@ -37,8 +37,10 @@ export class DeliveryModeFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.service.getDeliveryModes();
-    // this.deliveryModes$ = this.store.select(fromCheckoutStore.getDeliveryModes);
+    this.service.loadSupportedDeliveryModes();
+    this.deliveryMode$ = this.store.select(fromCheckoutStore.getDeliveryMode);
+
+    this.deliveryMode$.subscribe(data => console.log(data.supported));
   }
 
   next() {
