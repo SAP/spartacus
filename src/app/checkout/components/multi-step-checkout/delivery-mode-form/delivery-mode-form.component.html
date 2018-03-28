@@ -11,6 +11,13 @@
         </div>
     </div>
 
+    <h3> Shipping to: </h3>
+    <div>{{deliveryAddress.firstName}} {{deliveryAddress.lastName}}</div>
+    <div>{{deliveryAddress.line1}}</div>
+    <div>{{deliveryAddress.town}}, {{deliveryAddress.region.isocode}}</div>
+    <div>{{deliveryAddress.country.name}}</div>
+    <div>{{deliveryAddress.postalCode}}</div>
+
     <div class="buttons">
         <button mat-raised-button color="primary" (click)="back()">Go Back</button>
         <button mat-raised-button color="accent" [disabled]="mode.invalid"

@@ -11,6 +11,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as fromCheckoutStore from '../../../store';
+import { Address } from '../../../models/address-model';
 
 @Component({
   selector: 'y-delivery-mode-form',
@@ -22,6 +23,7 @@ export class DeliveryModeFormComponent implements OnInit {
   deliveryModes$: Observable<any>;
 
   @Output() selecteMode = new EventEmitter<any>();
+  @Input() deliveryAddress: Address;
 
   mode: FormGroup = this.fb.group({
     deliveryModeId: ['', Validators.required]

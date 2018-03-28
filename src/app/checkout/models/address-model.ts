@@ -2,7 +2,7 @@ export interface Address {
   titleCode: string;
   firstName: string;
   lastName: string;
-  companyName: string;
+  companyName?: string;
   line1: string;
   line2: string;
   town: string;
@@ -10,9 +10,10 @@ export interface Address {
     isocode: string;
   };
   postalCode: string;
-  phone: string;
-  email: string;
+  phone?: string;
+  email?: string;
   country: {
     isocode: string;
+    name?: string;
   };
 }

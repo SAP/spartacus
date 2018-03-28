@@ -20,6 +20,7 @@ import { Address } from '../../../models/address-model';
 })
 export class MultiStepCheckoutComponent implements OnInit {
   step = 1;
+  deliveryAddress: Address;
 
   constructor(
     protected checkoutService: CheckoutService,
@@ -46,6 +47,7 @@ export class MultiStepCheckoutComponent implements OnInit {
       )
       .subscribe(deliveryAddress => {
         this.step = 2;
+        this.deliveryAddress = deliveryAddress;
         this.cd.detectChanges();
       });
   }
