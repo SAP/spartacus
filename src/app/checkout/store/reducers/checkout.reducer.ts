@@ -18,7 +18,7 @@ export const initialState: CheckoutState = {
 
 export function reducer(
   state = initialState,
-  action: fromAction.CheckoutAction
+  action: fromAction.CheckoutAction | fromAction.ClearMiscsData
 ): CheckoutState {
   switch (action.type) {
     case fromAction.ADD_DELIVERY_ADDRESS_SUCCESS: {
@@ -57,6 +57,19 @@ export function reducer(
 
     case fromAction.CLEAR_CHECKOUT_DATA: {
       return initialState;
+    }
+
+    case fromAction.CLEAR_MISCS_DATA: {
+      const supported = {};
+      const deliveryMode = {
+        ...state.deliveryMode,
+        supported
+      };
+
+      return {
+        ...state,
+        deliveryMode
+      };
     }
   }
 

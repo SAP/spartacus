@@ -10,7 +10,7 @@ import {
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { take, filter } from 'rxjs/operators';
+import { take, filter, tap } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../store';
 import { Address } from '../../../models/address-model';
@@ -25,7 +25,7 @@ import { CheckoutService } from '../../../services';
 export class DeliveryModeFormComponent implements OnInit {
   supportedDeliveryModes$: Observable<any>;
 
-  @Output() selecteMode = new EventEmitter<any>();
+  @Output() selectMode = new EventEmitter<any>();
   @Input() deliveryAddress: Address;
 
   mode: FormGroup = this.fb.group({
@@ -39,14 +39,20 @@ export class DeliveryModeFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.service.loadSupportedDeliveryModes();
     this.supportedDeliveryModes$ = this.store
       .select(fromCheckoutStore.getSupportedDeliveryModes)
-      .filter(supportedModes => Object.keys(supportedModes).length !== 0);
+      .pipe(
+        tap(supportedModes => {
+          if (Object.keys(supportedModes).length === 0) {
+            this.service.loadSupportedDeliveryModes();
+          }
+        })
+      );
   }
 
   next() {
-    this.selecteMode.emit(this.mode.value);
+    console.log(this.mode.value);
+    this.selectMode.emit(this.mode.value);
   }
 
   back() {}
