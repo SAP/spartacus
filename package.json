@@ -9,6 +9,8 @@
     "start:mock": "ng serve --proxy-config proxy.mock.json",
     "mockserver":
       "json-server --config=json-server/config.json ./json-server/static.json",
+    "mockserver:generate":
+      "json-server --config=json-server/config.json ./json-server/generate-data.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

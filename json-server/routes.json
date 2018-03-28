@@ -1,4 +1,8 @@
 {
-  "/rest/v2/electronics/languages(\\?.+)?": "/languages",
-  "/rest/v2/electronics/currencies(\\?.+)?": "/currencies"
+  "/rest/v2/:baseSiteId/currencies\\?lang=:lang": "/context/:baseSiteId",
+
+  "/rest/v2/:baseSiteId/languages(\\?.+)?": "/context/:baseSiteId/",
+  "/rest/v2/:baseSiteId/currencies(\\?.+)?": "/context/:baseSiteId/",
+
+  "/rest/v2/:baseSiteId/cms/pages(\\?.+)?": "/pages/:baseSiteId/"
 }
