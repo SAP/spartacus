@@ -8,6 +8,7 @@ import {
 import * as fromCheckout from './checkout.reducer';
 import * as fromCountries from './delivery-countries.reducer';
 import * as fromTitles from './titles.reducer';
+import * as fromModes from './delivery-modes.reducer';
 
 import * as fromAction from '../actions';
 
@@ -15,12 +16,14 @@ export interface CheckoutState {
   steps: fromCheckout.CheckoutState;
   countries: fromCountries.DeliveryCountriesState;
   titles: fromTitles.TitlesState;
+  modes: fromModes.DeliveryModesState;
 }
 
 export const reducers: ActionReducerMap<CheckoutState> = {
   steps: fromCheckout.reducer,
   countries: fromCountries.reducer,
-  titles: fromTitles.reducer
+  titles: fromTitles.reducer,
+  modes: fromModes.reducer
 };
 
 export const getCheckoutState: MemoizedSelector<

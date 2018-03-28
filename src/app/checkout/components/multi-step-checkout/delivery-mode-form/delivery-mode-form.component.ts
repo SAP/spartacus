@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as fromCheckoutStore from '../../../store';
 import { Address } from '../../../models/address-model';
+import { CheckoutService } from '../../../services';
 
 @Component({
   selector: 'y-delivery-mode-form',
@@ -31,21 +32,15 @@ export class DeliveryModeFormComponent implements OnInit {
 
   constructor(
     protected store: Store<fromCheckoutStore.CheckoutState>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private service: CheckoutService
   ) {}
 
   ngOnInit() {
-    /*
-    this.deliveryModes$ = this.store
-      .select(fromCheckoutStore.getAllDeliveryCountries)
-      .pipe(
-        tap(countries => {
-          if (Object.keys(countries).length === 0) {
-            this.store.dispatch(new fromCheckoutStore.LoadDeliveryCountries());
-          }
-        })
-      );
-      */
+    this.service.getDeliveryModes();
+    this.deliveryModes$ = this.store.select(
+      fromCheckoutStore.getAllDeliveryModes
+    );
   }
 
   next() {

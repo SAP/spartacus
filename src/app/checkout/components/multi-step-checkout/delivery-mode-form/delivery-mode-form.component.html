@@ -2,10 +2,10 @@
     <h3 class="heading">Choose a shipping method:</h3>
     <div class="content">
         <div>
-            <select class="countries-dropdown " formControlName="deliveryModeId">
+            <select class="delivery-mode-dropdown " formControlName="deliveryModeId">
                 <option value="">Select Shipping Methods</option>
                 <option *ngFor="let mode of (deliveryModes$ | async)" [value]="mode.code">
-                            {{ mode.name }}
+                    {{ mode.code }}
                 </option>
             </select>
         </div>
@@ -20,8 +20,7 @@
 
     <div class="buttons">
         <button mat-raised-button color="primary" (click)="back()">Go Back</button>
-        <button mat-raised-button color="accent" [disabled]="mode.invalid"
-                (click)="next()">Next
+        <button mat-raised-button color="accent" [disabled]="mode.invalid" (click)="next()">Next
         </button>
     </div>
 </div>
