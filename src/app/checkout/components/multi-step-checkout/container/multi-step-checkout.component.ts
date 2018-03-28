@@ -30,9 +30,13 @@ export class MultiStepCheckoutComponent implements OnInit {
 
   ngOnInit() {}
 
-  setStep(completeStep) {
-    if (this.step > completeStep) {
-      this.step = completeStep;
+  setStep(backStep) {
+    if (this.step > backStep) {
+      for (let i = backStep; i <= this.step; i++) {
+        this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(i));
+      }
+
+      this.step = backStep;
     }
   }
 

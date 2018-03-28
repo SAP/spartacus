@@ -14,6 +14,7 @@ export const LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS =
   '[Checkout] Load Supported Delivery Modes Success';
 export const SET_DELIVERY_MODE = '[Checkout] Set Delivery Mode';
 
+export const CLEAR_CHECKOUT_STEP = '[Checkout] Clear One Checkout Step';
 export const CLEAR_CHECKOUT_DATA = '[Checkout] Clear Checkout Data';
 
 export class AddDeliveryAddress implements Action {
@@ -46,6 +47,11 @@ export class LoadSupportedDeliveryModesSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class ClearCheckoutStep implements Action {
+  readonly type = CLEAR_CHECKOUT_STEP;
+  constructor(public payload: number) {}
+}
+
 export class ClearCheckoutData implements Action {
   readonly type = CLEAR_CHECKOUT_DATA;
 }
@@ -57,4 +63,5 @@ export type CheckoutAction =
   | LoadSupportedDeliveryModes
   | LoadSupportedDeliveryModesFail
   | LoadSupportedDeliveryModesSuccess
+  | ClearCheckoutStep
   | ClearCheckoutData;

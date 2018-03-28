@@ -4,7 +4,8 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnInit
+  OnInit,
+  OnDestroy
 } from '@angular/core';
 
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
@@ -22,7 +23,7 @@ import { CheckoutService } from '../../../services';
   styleUrls: ['./delivery-mode-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DeliveryModeFormComponent implements OnInit {
+export class DeliveryModeFormComponent implements OnInit, OnDestroy {
   supportedDeliveryModes$: Observable<any>;
 
   @Output() selectMode = new EventEmitter<any>();
@@ -46,10 +47,15 @@ export class DeliveryModeFormComponent implements OnInit {
       .pipe(
         tap(supportedModes => {
           if (Object.keys(supportedModes).length === 0) {
+            console.log('load');
             this.service.loadSupportedDeliveryModes();
           }
         })
       );
+  }
+
+  ngOnDestroy() {
+    console.log('destroy');
   }
 
   next() {

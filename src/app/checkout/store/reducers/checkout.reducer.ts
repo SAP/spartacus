@@ -59,6 +59,33 @@ export function reducer(
       return initialState;
     }
 
+    case fromAction.CLEAR_CHECKOUT_STEP: {
+      const stepNumber = action.payload;
+      switch (stepNumber) {
+        case 1: {
+          return {
+            ...state,
+            address: {}
+          };
+        }
+
+        case 2: {
+          const deliveryMode = {
+            ...state.deliveryMode,
+            supported: {},
+            selected: ''
+          };
+          return {
+            ...state,
+            deliveryMode
+          };
+        }
+
+        case 3: {
+        }
+      }
+    }
+
     case fromAction.CLEAR_MISCS_DATA: {
       const supported = {};
       const deliveryMode = {
