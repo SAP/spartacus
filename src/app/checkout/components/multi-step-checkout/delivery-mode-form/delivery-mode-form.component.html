@@ -5,7 +5,7 @@
             <select class="delivery-mode-dropdown " formControlName="deliveryModeId">
                 <option value="">Select Shipping Methods</option>
                 <option *ngFor="let mode of (deliveryModes$ | async)" [value]="mode.code">
-                    {{ mode.code }}
+                    {{ mode.name }}
                 </option>
             </select>
         </div>

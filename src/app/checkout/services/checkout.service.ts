@@ -44,7 +44,7 @@ export class CheckoutService {
 
   getDeliveryModes() {
     this.checkoutStore.dispatch(
-      new fromCheckoutStore.LoadDeliveryModes({
+      new fromCheckoutStore.LoadSupportedDeliveryModes({
         userId: this.cartService.userId,
         cartId:
           this.cartService.userId === ANOYMOUS_USERID

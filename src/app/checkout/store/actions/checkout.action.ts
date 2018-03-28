@@ -35,8 +35,26 @@ export class ClearCheckoutData implements Action {
   readonly type = CLEAR_CHECKOUT_DATA;
 }
 
+export class LoadSupportedDeliveryModes implements Action {
+  readonly type = LOAD_SUPPORTED_DELIVERY_MODES;
+  constructor(public payload: { userId: string; cartId: string }) {}
+}
+
+export class LoadSupportedDeliveryModesFail implements Action {
+  readonly type = LOAD_SUPPORTED_DELIVERY_MODES_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class LoadSupportedDeliveryModesSuccess implements Action {
+  readonly type = LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS;
+  constructor(public payload: any) {}
+}
+
 export type CheckoutAction =
   | AddDeliveryAddress
   | AddDeliveryAddressFail
   | AddDeliveryAddressSuccess
-  | ClearCheckoutData;
+  | ClearCheckoutData
+  | LoadSupportedDeliveryModes
+  | LoadSupportedDeliveryModesFail
+  | LoadSupportedDeliveryModesSuccess;

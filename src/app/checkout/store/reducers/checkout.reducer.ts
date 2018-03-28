@@ -30,6 +30,15 @@ export function reducer(
       };
     }
 
+    case fromAction.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS: {
+      const deliveryMode = action.payload.deliveryModes;
+
+      return {
+        ...state,
+        deliveryMode
+      };
+    }
+
     case fromAction.CLEAR_CHECKOUT_DATA: {
       return initialState;
     }
@@ -39,3 +48,4 @@ export function reducer(
 }
 
 export const getDeliveryAddress = (state: CheckoutState) => state.address;
+export const getDeliveryMode = (state: CheckoutState) => state.deliveryMode;

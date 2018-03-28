@@ -37,10 +37,8 @@ export class DeliveryModeFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.service.getDeliveryModes();
-    this.deliveryModes$ = this.store.select(
-      fromCheckoutStore.getAllDeliveryModes
-    );
+    // this.service.getDeliveryModes();
+    // this.deliveryModes$ = this.store.select(fromCheckoutStore.getDeliveryModes);
   }
 
   next() {

@@ -11,3 +11,8 @@ export const getDeliveryAddress: MemoizedSelector<any, any> = createSelector(
   getCheckoutStepsState,
   fromReducer.getDeliveryAddress
 );
+
+export const getDeliveryModes: MemoizedSelector<any, any> = createSelector(
+  getCheckoutStepsState,
+  fromReducer.getDeliveryMode
+);

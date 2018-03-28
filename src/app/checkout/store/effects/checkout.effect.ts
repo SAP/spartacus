@@ -7,6 +7,7 @@ import { map, catchError, mergeMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
+import { CartService } from '../../../cart/services';
 
 @Injectable()
 export class CheckoutEffects {
@@ -16,11 +17,11 @@ export class CheckoutEffects {
     .pipe(
       map((action: fromActions.AddDeliveryAddress) => action.payload),
       mergeMap(payload =>
-        this.cartService
+        this.occCartService
           .createAddressOnCart(payload.userId, payload.cartId, payload.address)
           .pipe(
             tap(address => {
-              return this.cartService.setDeliveryAddress(
+              return this.occCartService.setDeliveryAddress(
                 payload.userId,
                 payload.cartId,
                 address.id
@@ -34,5 +35,28 @@ export class CheckoutEffects {
       )
     );
 
-  constructor(private actions$: Actions, private cartService: OccCartService) {}
+  @Effect()
+  loadSupportedDeliveryModes$: Observable<any> = this.actions$
+    .ofType(fromActions.LOAD_SUPPORTED_DELIVERY_MODES)
+    .pipe(
+      map((action: any) => action.payload),
+      mergeMap(payload => {
+        return this.occCartService
+          .getSupportedDeliveryModes(payload.userId, payload.cartId)
+          .pipe(
+            map(
+              data => new fromActions.LoadSupportedDeliveryModesSuccess(data)
+            ),
+            catchError(error =>
+              of(new fromActions.LoadSupportedDeliveryModesFail(error))
+            )
+          );
+      })
+    );
+
+  constructor(
+    private actions$: Actions,
+    private occCartService: OccCartService,
+    private cartService: CartService
+  ) {}
 }
