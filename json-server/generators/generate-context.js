@@ -1,3 +1,5 @@
+var faker = require('faker');
+
 exports.create = function(data, sites) {
   data.context = [];
   for (const site of sites) {
@@ -35,6 +37,12 @@ function generateCurrencies() {
       isocode: 'EUR'
     }
   );
+  // use faker
+  for (const i of [1, 2, 3]) {
+    currencies.push({
+      isocode: faker.finance.currencyCode()
+    });
+  }
 
   return currencies;
 }
