@@ -52,5 +52,7 @@ export class MultiStepCheckoutComponent implements OnInit {
       });
   }
 
-  setDeliveryModes(deliveryModeId: string) {}
+  setDeliveryModes(deliveryMode: any) {
+    this.checkoutService.setDeliveryMode(deliveryMode.deliveryModeId);
+  }
 }
