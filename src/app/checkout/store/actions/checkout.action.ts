@@ -49,11 +49,6 @@ export class LoadSupportedDeliveryModesSuccess implements Action {
   constructor(public payload: any) {}
 }
 
-<<<<<<< HEAD
-export class ClearCheckoutStep implements Action {
-  readonly type = CLEAR_CHECKOUT_STEP;
-  constructor(public payload: number) {}
-=======
 export class SetDeliveryMode implements Action {
   readonly type = SET_DELIVERY_MODE;
   constructor(
@@ -69,7 +64,11 @@ export class SetDeliveryModeFail implements Action {
 export class SetDeliveryModeSuccess implements Action {
   readonly type = SET_DELIVERY_MODE_SUCCESS;
   constructor(public payload: any) {}
->>>>>>> de4159b63be5aeb8fb27074d96c6a2dba3fddebd
+}
+
+export class ClearCheckoutStep implements Action {
+  readonly type = CLEAR_CHECKOUT_STEP;
+  constructor(public payload: number) {}
 }
 
 export class ClearCheckoutData implements Action {
@@ -83,11 +82,8 @@ export type CheckoutAction =
   | LoadSupportedDeliveryModes
   | LoadSupportedDeliveryModesFail
   | LoadSupportedDeliveryModesSuccess
-<<<<<<< HEAD
-  | ClearCheckoutStep
-=======
   | SetDeliveryMode
   | SetDeliveryModeFail
   | SetDeliveryModeSuccess
->>>>>>> de4159b63be5aeb8fb27074d96c6a2dba3fddebd
+  | ClearCheckoutStep
   | ClearCheckoutData;
