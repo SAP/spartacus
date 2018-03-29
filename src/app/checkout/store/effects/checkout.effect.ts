@@ -16,11 +16,11 @@ export class CheckoutEffects {
     .pipe(
       map((action: fromActions.AddDeliveryAddress) => action.payload),
       mergeMap(payload =>
-        this.cartService
+        this.occCartService
           .createAddressOnCart(payload.userId, payload.cartId, payload.address)
           .pipe(
             tap(address => {
-              return this.cartService.setDeliveryAddress(
+              return this.occCartService.setDeliveryAddress(
                 payload.userId,
                 payload.cartId,
                 address.id
@@ -34,5 +34,49 @@ export class CheckoutEffects {
       )
     );
 
-  constructor(private actions$: Actions, private cartService: OccCartService) {}
+  @Effect()
+  loadSupportedDeliveryModes$: Observable<any> = this.actions$
+    .ofType(fromActions.LOAD_SUPPORTED_DELIVERY_MODES)
+    .pipe(
+      map((action: any) => action.payload),
+      mergeMap(payload => {
+        return this.occCartService
+          .getSupportedDeliveryModes(payload.userId, payload.cartId)
+          .pipe(
+            map(
+              data => new fromActions.LoadSupportedDeliveryModesSuccess(data)
+            ),
+            catchError(error =>
+              of(new fromActions.LoadSupportedDeliveryModesFail(error))
+            )
+          );
+      })
+    );
+
+  @Effect()
+  setDeliveryMode$: Observable<any> = this.actions$
+    .ofType(fromActions.SET_DELIVERY_MODE)
+    .pipe(
+      map((action: any) => action.payload),
+      mergeMap(payload => {
+        return this.occCartService
+          .setDeliveryMode(
+            payload.userId,
+            payload.cartId,
+            payload.selectedModeId
+          )
+          .pipe(
+            map(
+              () =>
+                new fromActions.SetDeliveryModeSuccess(payload.selectedModeId)
+            ),
+            catchError(error => of(new fromActions.SetDeliveryModeFail(error)))
+          );
+      })
+    );
+
+  constructor(
+    private actions$: Actions,
+    private occCartService: OccCartService
+  ) {}
 }

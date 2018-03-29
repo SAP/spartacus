@@ -1,0 +1,28 @@
+<div [formGroup]="mode">
+    <h3 class="heading">Choose a shipping method:</h3>
+    <div class="content">
+        <div>
+            <select class="delivery-mode-dropdown " formControlName="deliveryModeId">
+                <option value="">Select Shipping Methods</option>
+                <option *ngFor="let mode of (supportedDeliveryModes$ | async)" [value]="mode.code">
+                    {{ mode.name }} - {{mode.description}} - {{mode.deliveryCost.formattedValue}}
+                </option>
+            </select>
+        </div>
+        <div class="error" *ngIf="deliveryModeInvalid">Shipping Methods not select </div>
+    </div>
+
+    <div class="address">
+        <h3> Shipping to: </h3>
+        <div>{{deliveryAddress.firstName}} {{deliveryAddress.lastName}}</div>
+        <div>{{deliveryAddress.line1}}</div>
+        <div>{{deliveryAddress.town}}, {{deliveryAddress.region.isocode}}</div>
+        <div>{{deliveryAddress.country.name}}</div>
+        <div>{{deliveryAddress.postalCode}}</div>
+    </div>
+    <div class="buttons">
+        <button mat-raised-button color="primary" (click)="back()">Go Back</button>
+        <button mat-raised-button color="accent" [disabled]="mode.invalid" (click)="next()">Next
+        </button>
+    </div>
+</div>

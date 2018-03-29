@@ -43,6 +43,10 @@ describe('Checkout effect', () => {
     titleCode: 'mr',
     line1: 'Toyosaki 2 create on cart'
   };
+  const modes: any = {
+    mode1: 'mode1',
+    mode2: 'mode2'
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -61,6 +65,8 @@ describe('Checkout effect', () => {
 
     spyOn(cartService, 'createAddressOnCart').and.returnValue(of(address));
     spyOn(cartService, 'setDeliveryAddress');
+    spyOn(cartService, 'getSupportedDeliveryModes').and.returnValue(of(modes));
+    spyOn(cartService, 'setDeliveryMode').and.returnValue(of({}));
   });
 
   describe('addDeliveryAddress$', () => {
@@ -81,6 +87,41 @@ describe('Checkout effect', () => {
         'testCartId',
         'testAddressId'
       );
+    });
+  });
+
+  describe('loadSupportedDeliveryModes$', () => {
+    it('should load all supported delivery modes from cart', () => {
+      const action = new fromActions.LoadSupportedDeliveryModes({
+        userId: userId,
+        cartId: cartId
+      });
+      const completion = new fromActions.LoadSupportedDeliveryModesSuccess(
+        modes
+      );
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.loadSupportedDeliveryModes$).toBeObservable(expected);
+    });
+  });
+
+  describe('setDeliveryMode$', () => {
+    it('should set delivery mode for cart', () => {
+      const action = new fromActions.SetDeliveryMode({
+        userId: userId,
+        cartId: cartId,
+        selectedModeId: 'testSelectedModeId'
+      });
+      const completion = new fromActions.SetDeliveryModeSuccess(
+        'testSelectedModeId'
+      );
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.setDeliveryMode$).toBeObservable(expected);
     });
   });
 });

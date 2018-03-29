@@ -1,6 +1,6 @@
-<div [formGroup]="parent">
+<div [formGroup]="address">
     <h3 class="heading">Step 1: Shipping Address</h3>
-    <div class="content" formGroupName="address">
+    <div class="content">
 
         <div formGroupName="country">
             <div>
@@ -12,7 +12,7 @@
                     {{ country.name }}
                 </option>
             </select>
-            <div class="error" *ngIf="notSelected( 'country.isocode')">country not select </div>
+            <div class="error" *ngIf="notSelected('country.isocode')">country not select </div>
         </div>
         <div>
             <div>
@@ -24,7 +24,7 @@
                     {{ title.name }}
                 </option>
             </select>
-            <div class="error" *ngIf="notSelected( 'title.code')">Title not select </div>
+            <div class="error" *ngIf="notSelected('titleCode')">Title not select </div>
         </div>
         <div>
             <div>
@@ -86,8 +86,8 @@
 
         <div class="buttons">
             <button mat-raised-button color="primary" (click)="back()">Go Back</button>
-            <button mat-raised-button color="accent" [disabled]="parent.invalid || notSelected( 'country.isocode') || notSelected( 'title.code')"
-                (click)="onAdd()">Next
+            <button mat-raised-button color="accent" [disabled]="address.invalid || notSelected( 'country.isocode')"
+                (click)="next()">Next
             </button>
         </div>
     </div>

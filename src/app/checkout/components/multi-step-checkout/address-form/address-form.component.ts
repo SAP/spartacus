@@ -1,14 +1,17 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  Input,
+  OnInit,
   Output,
   EventEmitter
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
+import { Observable } from 'rxjs/Observable';
+import { tap } from 'rxjs/operators';
+
+import { Store } from '@ngrx/store';
+import * as fromCheckoutStore from '../../../store';
 import * as fromRouting from '../../../../routing/store';
 
 @Component({
@@ -17,19 +20,56 @@ import * as fromRouting from '../../../../routing/store';
   styleUrls: ['./address-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddressFormComponent {
-  @Input() parent: FormGroup;
+export class AddressFormComponent implements OnInit {
+  countries$: Observable<any>;
+  titles$: Observable<any>;
 
-  @Input() countries$: Observable<any>;
+  @Output() addAddress = new EventEmitter<any>();
 
-  @Input() titles$: Observable<any>;
+  address: FormGroup = this.fb.group({
+    titleCode: ['', Validators.required],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    line1: ['', Validators.required],
+    line2: ['', Validators.required],
+    town: ['', Validators.required],
+    region: this.fb.group({
+      isocode: ['', Validators.required]
+    }),
+    country: this.fb.group({
+      isocode: ['', Validators.required]
+    }),
+    postalCode: ['', Validators.required],
+    phone: ''
+  });
 
-  @Output() added = new EventEmitter<any>();
+  constructor(
+    protected store: Store<fromRouting.State>,
+    private fb: FormBuilder
+  ) {}
 
-  constructor(protected store: Store<fromRouting.State>) {}
+  ngOnInit() {
+    this.countries$ = this.store
+      .select(fromCheckoutStore.getAllDeliveryCountries)
+      .pipe(
+        tap(countries => {
+          if (Object.keys(countries).length === 0) {
+            this.store.dispatch(new fromCheckoutStore.LoadDeliveryCountries());
+          }
+        })
+      );
 
-  onAdd() {
-    this.added.emit(this.parent.get('address').value);
+    this.titles$ = this.store.select(fromCheckoutStore.getAllTitles).pipe(
+      tap(titles => {
+        if (Object.keys(titles).length === 0) {
+          this.store.dispatch(new fromCheckoutStore.LoadTitles());
+        }
+      })
+    );
+  }
+
+  next() {
+    this.addAddress.emit(this.address.value);
   }
 
   back() {
@@ -42,15 +82,14 @@ export class AddressFormComponent {
 
   required(name: string) {
     return (
-      this.parent.get(`address.${name}`).hasError('required') &&
-      this.parent.get(`address.${name}`).touched
+      this.address.get(`${name}`).hasError('required') &&
+      this.address.get(`${name}`).touched
     );
   }
 
   notSelected(name: string) {
     return (
-      this.parent.get(`address.${name}`).dirty &&
-      !this.parent.get(`address.${name}`).value
+      this.address.get(`${name}`).dirty && !this.address.get(`${name}`).value
     );
   }
 }

@@ -150,4 +150,35 @@ export class OccCartService {
       .pipe(catchError((error: any) => Observable.throw(error.json())))
       .subscribe();
   }
+
+  public setDeliveryMode(
+    userId: string,
+    cartId: string,
+    deliveryModeId: string
+  ): Observable<any> {
+    return this.http
+      .put(
+        this.getCartEndpoint(userId) + cartId + '/deliverymode',
+        {},
+        {
+          params: { deliveryModeId: deliveryModeId }
+        }
+      )
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  public getDeliveryMode(userId: string, cartId: string): Observable<any> {
+    return this.http
+      .get(this.getCartEndpoint(userId) + cartId + '/deliverymode')
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  public getSupportedDeliveryModes(
+    userId: string,
+    cartId: string
+  ): Observable<any> {
+    return this.http
+      .get(this.getCartEndpoint(userId) + cartId + '/deliverymodes')
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
 }
