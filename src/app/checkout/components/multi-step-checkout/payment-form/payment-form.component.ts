@@ -33,7 +33,7 @@ export class PaymentFormComponent implements OnInit {
     }),
     expiryMonth: ['', Validators.required],
     expiryYear: ['', Validators.required],
-    defaultPayment: ['', Validators.required]
+    cardVerificationNumber: ['', Validators.required]
   });
 
   constructor(
