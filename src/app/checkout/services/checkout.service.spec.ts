@@ -88,4 +88,44 @@ describe('CheckoutService', () => {
       })
     );
   });
+
+  describe('load Supported Delivery Modes', () => {
+    it(
+      'should be able to load the supported delivery modes',
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+
+        service.loadSupportedDeliveryModes();
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromCheckout.LoadSupportedDeliveryModes({
+            userId: userId,
+            cartId: cart.code
+          })
+        );
+      })
+    );
+  });
+
+  describe('set Delivery Mode', () => {
+    it(
+      'should be able to set the delivery mode',
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+
+        const modeId = 'testId';
+        service.setDeliveryMode(modeId);
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromCheckout.SetDeliveryMode({
+            userId: userId,
+            cartId: cart.code,
+            selectedModeId: modeId
+          })
+        );
+      })
+    );
+  });
 });
