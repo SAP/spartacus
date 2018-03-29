@@ -1,0 +1,19 @@
+<div>
+    <h3 class="heading">Choose a card type:</h3>
+    <div class="content">
+        <div>
+            <select class="card-types-dropdown">
+                <option value="">Select Card Type</option>
+                <option *ngFor="let cardType of (cardTypes$ | async)" [value]="cardType.code">
+                    {{ cardType.name }}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button (click)="back()">Go Back</button>
+        <button (click)="next()">Next
+        </button>
+    </div>
+</div>

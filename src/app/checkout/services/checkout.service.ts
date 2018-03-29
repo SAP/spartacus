@@ -66,4 +66,8 @@ export class CheckoutService {
       })
     );
   }
+
+  loadSupportedCardTypes() {
+    this.checkoutStore.dispatch(new fromCheckoutStore.LoadCardTypes());
+  }
 }

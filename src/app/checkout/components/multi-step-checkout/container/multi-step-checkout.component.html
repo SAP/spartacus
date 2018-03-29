@@ -23,5 +23,8 @@
 </div>
 
 <div id="step3" *ngIf="step === 3">
-    payment form
+    <y-payment-form (backStep)="setStep(2)"></y-payment-form>
+    <div class="payment-form">
+        <y-order-summary></y-order-summary>
+    </div>
 </div>

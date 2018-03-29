@@ -21,8 +21,8 @@
         <div>{{deliveryAddress.postalCode}}</div>
     </div>
     <div class="buttons">
-        <button mat-raised-button color="primary" (click)="back()">Go Back</button>
-        <button mat-raised-button color="accent" [disabled]="mode.invalid" (click)="next()">Next
+        <button (click)="back()">Go Back</button>
+        <button [disabled]="mode.invalid" (click)="next()">Next
         </button>
     </div>
 </div>
