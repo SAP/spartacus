@@ -24,6 +24,7 @@ export class PaymentFormComponent implements OnInit {
   cardTypes$: Observable<any>;
 
   @Output() backStep = new EventEmitter<any>();
+  @Output() addPaymentInfo = new EventEmitter<any>();
 
   payment: FormGroup = this.fb.group({
     accountHolderName: ['', Validators.required],
@@ -33,7 +34,7 @@ export class PaymentFormComponent implements OnInit {
     }),
     expiryMonth: ['', Validators.required],
     expiryYear: ['', Validators.required],
-    cardVerificationNumber: ['', Validators.required]
+    cvn: ['', Validators.required]
   });
 
   constructor(
@@ -56,7 +57,9 @@ export class PaymentFormComponent implements OnInit {
     this.backStep.emit();
   }
 
-  next() {}
+  next() {
+    this.addPaymentInfo.emit(this.payment.value);
+  }
 
   required(name: string) {
     return (

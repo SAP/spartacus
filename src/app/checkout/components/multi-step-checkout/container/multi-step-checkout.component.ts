@@ -67,4 +67,11 @@ export class MultiStepCheckoutComponent implements OnInit {
         this.cd.detectChanges();
       });
   }
+
+  addPaymentInfo(paymentDetails: any) {
+    console.log(paymentDetails);
+    this.store.dispatch(
+      new fromCheckoutStore.CreatePaymentDetails(paymentDetails)
+    );
+  }
 }

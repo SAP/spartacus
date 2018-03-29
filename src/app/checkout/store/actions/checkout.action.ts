@@ -19,6 +19,12 @@ export const SET_DELIVERY_MODE = '[Checkout] Set Delivery Mode';
 export const SET_DELIVERY_MODE_FAIL = '[Checkout] Set Delivery Mode Fail';
 export const SET_DELIVERY_MODE_SUCCESS = '[Checkout] Set Delivery Mode Success';
 
+export const CREATE_PAYMENT_DETAILS = '[Checkout] Create Payment Details';
+export const CREATE_PAYMENT_DETAILS_FAIL =
+  '[Checkout] Create Payment Details Fail';
+export const CREATE_PAYMENT_DETAILS_SUCCESS =
+  '[Checkout] Create Payment Details Success';
+
 export const CLEAR_CHECKOUT_STEP = '[Checkout] Clear One Checkout Step';
 export const CLEAR_CHECKOUT_DATA = '[Checkout] Clear Checkout Data';
 
@@ -69,6 +75,21 @@ export class SetDeliveryModeSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class CreatePaymentDetails implements Action {
+  readonly type = CREATE_PAYMENT_DETAILS;
+  constructor(public payload: any) {}
+}
+
+export class CreatePaymentDetailsFail implements Action {
+  readonly type = CREATE_PAYMENT_DETAILS_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class CreatePaymentDetailsSuccess implements Action {
+  readonly type = CREATE_PAYMENT_DETAILS_SUCCESS;
+  constructor(public payload: any) {}
+}
+
 export class ClearSupportedDeliveryModes implements Action {
   readonly type = CLEAR_SUPPORTED_DELIVERY_MODES;
 }
@@ -93,5 +114,8 @@ export type CheckoutAction =
   | SetDeliveryModeFail
   | SetDeliveryModeSuccess
   | ClearSupportedDeliveryModes
+  | CreatePaymentDetails
+  | CreatePaymentDetailsFail
+  | CreatePaymentDetailsSuccess
   | ClearCheckoutStep
   | ClearCheckoutData;

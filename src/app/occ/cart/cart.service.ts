@@ -181,4 +181,72 @@ export class OccCartService {
       .get(this.getCartEndpoint(userId) + cartId + '/deliverymodes')
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
+
+  public getPaymentProviderSubInfo(
+    userId: string,
+    cartId: string
+  ): Observable<any> {
+    return this.http
+      .get(
+        this.getCartEndpoint(userId) +
+          cartId +
+          '/payment/sop/request?responseUrl=sampleUrl'
+      )
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  public createSubWithPaymentProvider(
+    postUrl: string,
+    parameters: any[]
+  ): Observable<any> {
+    let queryString = '';
+    parameters.forEach(param => {
+      const strParam = param.key + '=' + param.value;
+      queryString === ''
+        ? (queryString = queryString + strParam)
+        : (queryString = queryString + '&' + strParam);
+    });
+
+    const params = new HttpParams({
+      fromString: queryString
+    });
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.http
+      .post(postUrl, {}, { headers: headers, params: params })
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  public createPaymentDetails(
+    userId: string,
+    cartId: string,
+    parameters: any[]
+  ): Observable<any> {
+    let queryString = '';
+    parameters.forEach(param => {
+      const strParam = param.key + '=' + param.value;
+      queryString === ''
+        ? (queryString = queryString + strParam)
+        : (queryString = queryString + '&' + strParam);
+    });
+
+    const params = new HttpParams({
+      fromString: queryString
+    });
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.http
+      .post(
+        this.getCartEndpoint(userId) + cartId + '/payment/sop/response',
+        {},
+        { headers: headers, params: params }
+      )
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
 }
