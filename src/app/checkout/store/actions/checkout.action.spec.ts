@@ -156,4 +156,15 @@ describe('Add Delivery Address to Cart Actions', () => {
       });
     });
   });
+
+  describe('Clear Supported Delivery Modes Data', () => {
+    describe('ClearSupportedDeliveryModes', () => {
+      it('should create the action', () => {
+        const action = new fromAction.ClearSupportedDeliveryModes();
+        expect({ ...action }).toEqual({
+          type: fromAction.CLEAR_SUPPORTED_DELIVERY_MODES
+        });
+      });
+    });
+  });
 });

@@ -101,6 +101,7 @@ export function reducer(
       return state;
     }
 
+    case fromAction.CLEAR_SUPPORTED_DELIVERY_MODES:
     case fromAction.CLEAR_MISCS_DATA: {
       const supported = {};
       const deliveryMode = {

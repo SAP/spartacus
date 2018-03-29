@@ -34,6 +34,8 @@ export function clearCheckoutState(
   return function(state, action) {
     if (action.type === '[Site-context] Language Change') {
       action = new fromAction.ClearMiscsData();
+    } else if (action.type === '[Site-context] Currency Change') {
+      action = new fromAction.ClearSupportedDeliveryModes();
     } else if (action.type === '[Auth] Logout') {
       action = new fromAction.ClearCheckoutData();
     }

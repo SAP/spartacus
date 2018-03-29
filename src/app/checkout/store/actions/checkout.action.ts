@@ -12,6 +12,9 @@ export const LOAD_SUPPORTED_DELIVERY_MODES_FAIL =
   '[Checkout] Load Supported Delivery Modes Fail';
 export const LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS =
   '[Checkout] Load Supported Delivery Modes Success';
+export const CLEAR_SUPPORTED_DELIVERY_MODES =
+  '[Checkout] Clear Supported Delivery Modes';
+
 export const SET_DELIVERY_MODE = '[Checkout] Set Delivery Mode';
 export const SET_DELIVERY_MODE_FAIL = '[Checkout] Set Delivery Mode Fail';
 export const SET_DELIVERY_MODE_SUCCESS = '[Checkout] Set Delivery Mode Success';
@@ -66,6 +69,10 @@ export class SetDeliveryModeSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class ClearSupportedDeliveryModes implements Action {
+  readonly type = CLEAR_SUPPORTED_DELIVERY_MODES;
+}
+
 export class ClearCheckoutStep implements Action {
   readonly type = CLEAR_CHECKOUT_STEP;
   constructor(public payload: number) {}
@@ -85,5 +92,6 @@ export type CheckoutAction =
   | SetDeliveryMode
   | SetDeliveryModeFail
   | SetDeliveryModeSuccess
+  | ClearSupportedDeliveryModes
   | ClearCheckoutStep
   | ClearCheckoutData;
