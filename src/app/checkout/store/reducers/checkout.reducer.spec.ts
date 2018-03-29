@@ -29,4 +29,35 @@ describe('Checkout reducer', () => {
       expect(state.address).toEqual(address);
     });
   });
+
+  describe('LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS action', () => {
+    it('should load all supported delivery modes from cart', () => {
+      const modes: any = {
+        deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
+      };
+
+      const entities = {
+        code1: modes.deliveryModes[0],
+        code2: modes.deliveryModes[1]
+      };
+
+      const { initialState } = fromCheckout;
+
+      const action = new fromActions.LoadSupportedDeliveryModesSuccess(modes);
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state.deliveryMode.supported).toEqual(entities);
+    });
+  });
+
+  describe('SET_DELIVERY_MODE_SUCCESS action', () => {
+    it('should set delivery mode for cart', () => {
+      const { initialState } = fromCheckout;
+
+      const action = new fromActions.SetDeliveryModeSuccess(
+        'testSelectedModeId'
+      );
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state.deliveryMode.selected).toEqual('testSelectedModeId');
+    });
+  });
 });
