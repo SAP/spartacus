@@ -36,7 +36,7 @@ export class OccMiscsService {
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
-  loadCartTypes(): Observable<any> {
+  loadCardTypes(): Observable<any> {
     return this.http
       .get(this.getEndpoint(ENDPOINT_CARD_TYPES))
       .pipe(catchError((error: any) => Observable.throw(error.json())));

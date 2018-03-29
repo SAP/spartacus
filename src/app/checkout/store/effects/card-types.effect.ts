@@ -10,12 +10,12 @@ import * as fromAction from '../actions/card-types.action';
 @Injectable()
 export class CardTypesEffects {
   @Effect()
-  loadCartTypes$: Observable<any> = this.actions$
+  loadCardTypes$: Observable<any> = this.actions$
     .ofType(fromAction.LOAD_CARD_TYPES)
     .pipe(
       switchMap(() => {
         return this.occMiscsService
-          .loadCartTypes()
+          .loadCardTypes()
           .pipe(
             map(data => new fromAction.LoadCardTypesSuccess(data.cardTypes)),
             catchError(error => of(new fromAction.LoadCardTypesFail(error)))
