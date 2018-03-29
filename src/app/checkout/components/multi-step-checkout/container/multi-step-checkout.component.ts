@@ -4,7 +4,7 @@ import {
   OnInit,
   ChangeDetectorRef
 } from '@angular/core';
-import { take, filter } from 'rxjs/operators';
+import { take, filter, tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
@@ -69,7 +69,16 @@ export class MultiStepCheckoutComponent implements OnInit {
   }
 
   addPaymentInfo(paymentDetails: any) {
-    console.log(paymentDetails);
+    this.store
+      .select(fromCheckoutStore.getDeliveryAddress)
+      .pipe(
+        filter(deliveryAddress => Object.keys(deliveryAddress).length !== 0),
+        take(1)
+      )
+      .subscribe(deliveryAddress => {
+        paymentDetails.billingAddress = deliveryAddress;
+      });
+
     this.store.dispatch(
       new fromCheckoutStore.CreatePaymentDetails(paymentDetails)
     );
