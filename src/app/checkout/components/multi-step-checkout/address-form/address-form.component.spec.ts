@@ -10,10 +10,9 @@ import {
   ReactiveFormsModule,
   FormGroup,
   FormBuilder,
-  Validators,
   AbstractControl
 } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+
 import { of } from 'rxjs/observable/of';
 import * as fromRouting from '../../../../routing/store';
 
@@ -62,7 +61,6 @@ describe('AddressFormComponent', () => {
       TestBed.configureTestingModule({
         imports: [
           ReactiveFormsModule,
-          RouterTestingModule,
           StoreModule.forRoot({
             ...fromRoot.reducers,
             checkout: combineReducers(fromCheckout.reducers)
@@ -83,23 +81,6 @@ describe('AddressFormComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.get(Store);
     ac = TestBed.get(AbstractControl);
-
-    component.address = fb.group({
-      titleCode: ['', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      line1: ['', Validators.required],
-      line2: ['', Validators.required],
-      town: ['', Validators.required],
-      region: fb.group({
-        isocode: ['', Validators.required]
-      }),
-      country: fb.group({
-        isocode: ['', Validators.required]
-      }),
-      postalCode: ['', Validators.required],
-      phone: ''
-    });
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(ac, 'hasError').and.callThrough();
@@ -142,7 +123,9 @@ describe('AddressFormComponent', () => {
 
   it('should call next()', () => {
     component.next();
-    expect(component.addAddress.emit).toHaveBeenCalledWith(component.address.value);
+    expect(component.addAddress.emit).toHaveBeenCalledWith(
+      component.address.value
+    );
   });
 
   it('should call back()', () => {

@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
 
 import * as fromRoot from '../../../../routing/store';
@@ -29,7 +28,6 @@ describe('MultiStepCheckoutComponent', () => {
       TestBed.configureTestingModule({
         imports: [
           ReactiveFormsModule,
-          RouterTestingModule,
           StoreModule.forRoot({
             ...fromRoot.reducers,
             cart: combineReducers(fromCart.reducers),
