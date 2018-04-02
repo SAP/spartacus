@@ -9,10 +9,14 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import * as fromStore from './../store';
 import { UserToken } from '../models/token-types.model';
+import { ConfigService } from '../../config.service';
 
 @Injectable()
 export class UserTokenInterceptor implements HttpInterceptor {
-  constructor(private store: Store<fromStore.UserState>) {}
+  constructor(
+    private store: Store<fromStore.UserState>,
+    private configService: ConfigService
+  ) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -26,7 +30,12 @@ export class UserTokenInterceptor implements HttpInterceptor {
         userToken = token;
       });
 
-    if (userToken) {
+    const baseReqString =
+      this.configService.server.baseUrl +
+      this.configService.server.occPrefix +
+      this.configService.site.baseSite;
+
+    if (userToken && request.url.indexOf(baseReqString) > -1) {
       request = request.clone({
         setHeaders: {
           Authorization: `${userToken.token_type} ${userToken.access_token}`
