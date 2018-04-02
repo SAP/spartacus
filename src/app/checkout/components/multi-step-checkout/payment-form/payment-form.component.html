@@ -29,17 +29,17 @@
         </div>
         <div>
             <div>
-                <font size="3">Expiry Month:</font>
+                <font size="3">Card Expiry Month:</font>
             </div>
-            <input class="inputs" type="text" placeholder="Expiry Month" formControlName="expiryMonth">
-            <div class="error" *ngIf="required( 'expiryMonth')">Expiry Month is required</div>
+            <input class="inputs" type="text" placeholder="MM" formControlName="expiryMonth">
+            <div class="error" *ngIf="required( 'expiryMonth')">Card Expiry Month is required</div>
         </div>
         <div>
             <div>
-                <font size="3">Expiry Year:</font>
+                <font size="3">Card Expiry Year:</font>
             </div>
-            <input class="inputs" type="text" placeholder="Expiry Year" formControlName="expiryYear">
-            <div class="error" *ngIf="required( 'expiryYear')">Expiry Year is required</div>
+            <input class="inputs" type="text" placeholder="YYYY" formControlName="expiryYear">
+            <div class="error" *ngIf="required( 'expiryYear')">Card Expiry Year is required</div>
         </div>
         <div>
             <div>
@@ -48,9 +48,6 @@
             <input class="inputs" type="text" placeholder="Card Verification Number" formControlName="cvn">
             <div class="error" *ngIf="required( 'cvn')">Card Verification Number is required</div>
         </div>
-
-
-
     </div>
 
     <div class="buttons">
