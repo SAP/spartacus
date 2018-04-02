@@ -2,6 +2,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   OnInit,
+  OnDestroy,
   ChangeDetectorRef
 } from '@angular/core';
 import { take, filter, tap } from 'rxjs/operators';
@@ -18,7 +19,7 @@ import { Address } from '../../../models/address-model';
   styleUrls: ['./multi-step-checkout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MultiStepCheckoutComponent implements OnInit {
+export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
 
   deliveryAddress: Address;
@@ -32,6 +33,10 @@ export class MultiStepCheckoutComponent implements OnInit {
   ) {}
 
   ngOnInit() {}
+
+  ngOnDestroy() {
+    this.store.dispatch(new fromCheckoutStore.ClearCheckoutData());
+  }
 
   setStep(backStep) {
     if (this.step > backStep) {
