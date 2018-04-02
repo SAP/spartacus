@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 const BASIC_PARAMS =
   'fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
@@ -197,37 +198,40 @@ export class OccCartService {
 
   public createSubWithPaymentProvider(
     postUrl: string,
-    parameters: any[]
+    parameters: any
   ): Observable<any> {
-    let queryString = '';
-    parameters.forEach(param => {
-      const strParam = param.key + '=' + param.value;
-      queryString === ''
-        ? (queryString = queryString + strParam)
-        : (queryString = queryString + '&' + strParam);
-    });
-
-    const params = new HttpParams({
-      fromString: queryString
-    });
-
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Accept: 'text/html'
     });
 
-    return this.http
-      .post(postUrl, {}, { headers: headers, params: params })
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
+    let strParams = '';
+    Object.keys(parameters).forEach(key => {
+      strParams === ''
+        ? (strParams = strParams + key + '=' + parameters[key])
+        : (strParams = strParams + '&' + key + '=' + parameters[key]);
+    });
+    return this.http.post(
+      postUrl,
+      {},
+      {
+        headers: headers,
+        responseType: 'text',
+        params: new HttpParams({
+          fromString: strParams
+        })
+      }
+    );
   }
 
   public createPaymentDetails(
     userId: string,
     cartId: string,
-    parameters: any[]
+    parameters: any
   ): Observable<any> {
     let queryString = '';
-    parameters.forEach(param => {
-      const strParam = param.key + '=' + param.value;
+    Object.keys(parameters).forEach(key => {
+      const strParam =  key + '=' + parameters[key];
       queryString === ''
         ? (queryString = queryString + strParam)
         : (queryString = queryString + '&' + strParam);
@@ -247,6 +251,6 @@ export class OccCartService {
         {},
         { headers: headers, params: params }
       )
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
+      .pipe(catchError((error: any) => Observable.throw(error)));
   }
 }

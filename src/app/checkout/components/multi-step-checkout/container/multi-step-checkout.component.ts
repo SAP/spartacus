@@ -20,7 +20,10 @@ import { Address } from '../../../models/address-model';
 })
 export class MultiStepCheckoutComponent implements OnInit {
   step = 1;
+
   deliveryAddress: Address;
+  deliveryMode: any;
+  paymentDetails: any;
 
   constructor(
     protected checkoutService: CheckoutService,
@@ -41,6 +44,8 @@ export class MultiStepCheckoutComponent implements OnInit {
   }
 
   addAddress(address: Address) {
+    address.region.isocode =
+      address.country.isocode + '-' + address.region.isocode;
     this.checkoutService.createAndSetAddress(address);
 
     this.store
@@ -64,23 +69,25 @@ export class MultiStepCheckoutComponent implements OnInit {
       .pipe(filter(selected => selected !== undefined), take(1))
       .subscribe(selected => {
         this.step = 3;
+        this.deliveryMode = selected;
         this.cd.detectChanges();
       });
   }
 
   addPaymentInfo(paymentDetails: any) {
+    paymentDetails.billingAddress = this.deliveryAddress;
+    this.checkoutService.getPaymentDetails(paymentDetails);
+
     this.store
-      .select(fromCheckoutStore.getDeliveryAddress)
+      .select(fromCheckoutStore.getPaymentDetails)
       .pipe(
-        filter(deliveryAddress => Object.keys(deliveryAddress).length !== 0),
+        filter(paymentInfo => Object.keys(paymentInfo).length !== 0),
         take(1)
       )
-      .subscribe(deliveryAddress => {
-        paymentDetails.billingAddress = deliveryAddress;
+      .subscribe(paymentInfo => {
+        this.step = 4;
+        this.paymentDetails = paymentInfo;
+        this.cd.detectChanges();
       });
-
-    this.store.dispatch(
-      new fromCheckoutStore.CreatePaymentDetails(paymentDetails)
-    );
   }
 }

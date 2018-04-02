@@ -77,7 +77,9 @@ export class SetDeliveryModeSuccess implements Action {
 
 export class CreatePaymentDetails implements Action {
   readonly type = CREATE_PAYMENT_DETAILS;
-  constructor(public payload: any) {}
+  constructor(
+    public payload: { userId: string; cartId: string; paymentDetails: any }
+  ) {}
 }
 
 export class CreatePaymentDetailsFail implements Action {

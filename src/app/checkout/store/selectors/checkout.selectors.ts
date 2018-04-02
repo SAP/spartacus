@@ -34,3 +34,8 @@ export const getSelectedDeliveryMode: MemoizedSelector<
     return deliveryMode.supported[deliveryMode.selected];
   }
 });
+
+export const getPaymentDetails: MemoizedSelector<any, any> = createSelector(
+  getCheckoutStepsState,
+  fromReducer.getPaymentDetails
+);

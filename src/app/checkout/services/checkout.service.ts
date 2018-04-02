@@ -70,4 +70,17 @@ export class CheckoutService {
   loadSupportedCardTypes() {
     this.checkoutStore.dispatch(new fromCheckoutStore.LoadCardTypes());
   }
+
+  getPaymentDetails(paymentInfo) {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.CreatePaymentDetails({
+        userId: this.cartService.userId,
+        cartId:
+          this.cartService.userId === ANOYMOUS_USERID
+            ? this.cartService.cart.guid
+            : this.cartService.cart.code,
+        paymentDetails: paymentInfo
+      })
+    );
+  }
 }

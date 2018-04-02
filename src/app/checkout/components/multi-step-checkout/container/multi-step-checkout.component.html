@@ -28,3 +28,9 @@
         <y-order-summary></y-order-summary>
     </div>
 </div>
+
+<div id="step3" *ngIf="step === 4">
+    <div>{{deliveryAddress | json}}</div>
+    <div>{{deliveryMode | json }}</div>
+    <div>{{paymentDetails | json}}</div>
+<div>
