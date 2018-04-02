@@ -92,16 +92,16 @@ describe('MultiStepCheckoutComponent', () => {
     expect(component.step).toBe(2);
   });
 
-  // it('should call setDeliveryMode()', () => {
-  //   const deliveryMode: any = {
-  //     deliveryModeId: 'testId'
-  //   };
-  //   spyOn(store, 'select').and.returnValue(of(deliveryMode));
+  it('should call setDeliveryMode()', () => {
+    const deliveryMode: any = {
+      deliveryModeId: 'testId'
+    };
+    spyOn(store, 'select').and.returnValues(of(deliveryMode), of([]));
 
-  //   component.setDeliveryMode(deliveryMode);
-  //   expect(service.setDeliveryMode).toHaveBeenCalledWith(
-  //     deliveryMode.deliveryModeId
-  //   );
-  //   expect(component.step).toBe(3);
-  // });
+    component.setDeliveryMode(deliveryMode);
+    expect(service.setDeliveryMode).toHaveBeenCalledWith(
+      deliveryMode.deliveryModeId
+    );
+    expect(component.step).toBe(3);
+  });
 });

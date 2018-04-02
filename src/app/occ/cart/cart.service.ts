@@ -231,7 +231,7 @@ export class OccCartService {
   ): Observable<any> {
     let queryString = '';
     Object.keys(parameters).forEach(key => {
-      const strParam =  key + '=' + parameters[key];
+      const strParam = key + '=' + parameters[key];
       queryString === ''
         ? (queryString = queryString + strParam)
         : (queryString = queryString + '&' + strParam);
