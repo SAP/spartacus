@@ -356,4 +356,152 @@ describe('OccCartService', () => {
       mockReq.flush(cartData);
     });
   });
+
+  describe('get payment provider subscription info', () => {
+    it('should get payment provider subscription info for given user id and cart id', () => {
+      service.getPaymentProviderSubInfo(userId, cartId).subscribe(result => {
+        expect(result).toEqual(cartData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/payment/sop/request?responseUrl=sampleUrl'
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(cartData);
+    });
+  });
+
+  describe('create subscription with payment provider with single param', () => {
+    it('should create subscription with payment provider for given url and parameters', () => {
+      const params = {
+        param: 'mockParam'
+      };
+      const mockUrl = 'mockUrl';
+
+      service
+        .createSubWithPaymentProvider(mockUrl, params)
+        .subscribe(result => {
+          expect(result).toEqual(cartData);
+        });
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'POST' && req.url === mockUrl;
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.headers.get('Content-Type')).toEqual(
+        'application/x-www-form-urlencoded'
+      );
+      expect(mockReq.request.headers.get('Accept')).toEqual('text/html');
+      expect(mockReq.request.params.get('param')).toEqual('mockParam');
+      expect(mockReq.request.responseType).toEqual('text');
+      mockReq.flush(cartData);
+    });
+  });
+
+  describe('create subscription with payment provider with multiple params', () => {
+    it('should create subscription with payment provider for given url and parameters', () => {
+      const params = {
+        param1: 'mockParam1',
+        param2: 'mockParam2'
+      };
+      const mockUrl = 'mockUrl';
+
+      service
+        .createSubWithPaymentProvider(mockUrl, params)
+        .subscribe(result => {
+          expect(result).toEqual(cartData);
+        });
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'POST' && req.url === mockUrl;
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.headers.get('Content-Type')).toEqual(
+        'application/x-www-form-urlencoded'
+      );
+      expect(mockReq.request.headers.get('Accept')).toEqual('text/html');
+      expect(mockReq.request.params.get('param1')).toEqual('mockParam1');
+      expect(mockReq.request.params.get('param2')).toEqual('mockParam2');
+      expect(mockReq.request.responseType).toEqual('text');
+      mockReq.flush(cartData);
+    });
+  });
+
+  describe('create payment details with single param', () => {
+    it('should create payment details for given user id, cart id and parameters', () => {
+      const params = {
+        param: 'mockParam'
+      };
+
+      service.createPaymentDetails(userId, cartId, params).subscribe(result => {
+        expect(result).toEqual(cartData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'POST' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/payment/sop/response'
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.headers.get('Content-Type')).toEqual(
+        'application/x-www-form-urlencoded'
+      );
+      expect(mockReq.request.params.get('param')).toEqual('mockParam');
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(cartData);
+    });
+  });
+
+  describe('create payment details with multiple params', () => {
+    it('should create payment details for given user id, cart id and parameters', () => {
+      const params = {
+        param1: 'mockParam1',
+        param2: 'mockParam2'
+      };
+
+      service.createPaymentDetails(userId, cartId, params).subscribe(result => {
+        expect(result).toEqual(cartData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'POST' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/payment/sop/response'
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.headers.get('Content-Type')).toEqual(
+        'application/x-www-form-urlencoded'
+      );
+      expect(mockReq.request.params.get('param1')).toEqual('mockParam1');
+      expect(mockReq.request.params.get('param2')).toEqual('mockParam2');
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(cartData);
+    });
+  });
 });
