@@ -18,6 +18,18 @@ import { CartService } from './../../../../cart/services/cart.service';
 import { Address } from '../../../models/address-model';
 import { PaymentFormComponent } from '../payment-form/payment-form.component';
 
+const address: Address = {
+  firstName: 'John',
+  lastName: 'Doe',
+  titleCode: 'mr',
+  line1: 'Toyosaki 2 create on cart',
+  line2: 'line2',
+  town: 'town',
+  region: { isocode: 'JP-27' },
+  postalCode: 'zip',
+  country: { isocode: 'JP' }
+};
+
 describe('MultiStepCheckoutComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: MultiStepCheckoutComponent;
@@ -57,6 +69,7 @@ describe('MultiStepCheckoutComponent', () => {
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(service, 'createAndSetAddress').and.callThrough();
     spyOn(service, 'setDeliveryMode').and.callThrough();
+    spyOn(service, 'getPaymentDetails').and.callThrough();
   });
 
   it('should be created', () => {
@@ -74,17 +87,6 @@ describe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call addAddress()', () => {
-    const address: Address = {
-      firstName: 'John',
-      lastName: 'Doe',
-      titleCode: 'mr',
-      line1: 'Toyosaki 2 create on cart',
-      line2: 'line2',
-      town: 'town',
-      region: { isocode: 'JP-27' },
-      postalCode: 'zip',
-      country: { isocode: 'JP' }
-    };
     spyOn(store, 'select').and.returnValues(of(address), of([]));
 
     component.addAddress(address);
@@ -103,5 +105,23 @@ describe('MultiStepCheckoutComponent', () => {
       deliveryMode.deliveryModeId
     );
     expect(component.step).toBe(3);
+  });
+
+  it('should call addPaymentInfo(paymentDetails: any)', () => {
+    const paymentDetails = {
+      accountHolderName: 'Name',
+      cardNumber: '123456789',
+      cardType: 'Visa',
+      expiryMonth: '01',
+      expiryYear: '2022',
+      cvn: '123',
+      billingAddress: address
+    };
+
+    spyOn(store, 'select').and.returnValues(of(paymentDetails));
+
+    component.addPaymentInfo(paymentDetails);
+    expect(service.getPaymentDetails).toHaveBeenCalledWith(paymentDetails);
+    expect(component.step).toBe(4);
   });
 });
