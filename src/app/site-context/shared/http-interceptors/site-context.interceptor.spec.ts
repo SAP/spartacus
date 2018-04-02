@@ -11,23 +11,22 @@ import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../shared/store';
 import { of } from 'rxjs/observable/of';
 
-class MockConfigService {
+export class MockConfigService {
   server = {
-    baseUrl: '',
-    occPrefix: ''
+    baseUrl: 'https://localhost:9002',
+    occPrefix: '/rest/v2/'
   };
 
   site = {
-    baseSite: '',
-    language: 'en',
-    currency: 'USD'
+    baseSite: 'electronics',
+    language: '',
+    currency: ''
   };
 }
 
 describe('SiteContextInterceptor', () => {
   const languageDe = 'de';
   const currencyJpy = 'JPY';
-  const url = '/not-relevant-url';
 
   let store: Store<fromStore.SiteContextState>;
   let httpMock: HttpTestingController;
@@ -64,11 +63,30 @@ describe('SiteContextInterceptor', () => {
   });
 
   it(
-    'should add parameters: lang and curr to a request',
+    'should not add parameters: lang and curr to a request',
     inject([HttpClient], (http: HttpClient) => {
-      http.get(url).subscribe(result => {
+      http.get('/xxx').subscribe(result => {
         expect(result).toBeTruthy();
       });
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'GET';
+      });
+      expect(mockReq.request.params.get('lang')).toEqual(null);
+      expect(mockReq.request.params.get('curr')).toEqual(null);
+
+      mockReq.flush('somedata');
+    })
+  );
+
+  it(
+    'should add parameters: lang and curr to a request',
+    inject([HttpClient], (http: HttpClient) => {
+      http
+        .get('https://localhost:9002/rest/v2/electronics')
+        .subscribe(result => {
+          expect(result).toBeTruthy();
+        });
 
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'GET';

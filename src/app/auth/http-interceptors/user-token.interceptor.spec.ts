@@ -11,6 +11,20 @@ import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { UserTokenInterceptor } from './user-token.interceptor';
 import { of } from 'rxjs/observable/of';
 import { UserToken } from '../models/token-types.model';
+import { ConfigService } from '../../config.service';
+
+export class MockConfigService {
+  server = {
+    baseUrl: 'https://localhost:9002',
+    occPrefix: '/rest/v2/'
+  };
+
+  site = {
+    baseSite: 'electronics',
+    language: '',
+    currency: ''
+  };
+}
 
 describe('UserTokenInterceptor', () => {
   const testToken: UserToken = {
@@ -38,6 +52,10 @@ describe('UserTokenInterceptor', () => {
           provide: HTTP_INTERCEPTORS,
           useClass: UserTokenInterceptor,
           multi: true
+        },
+        {
+          provide: ConfigService,
+          useClass: MockConfigService
         }
       ]
     });
@@ -52,11 +70,32 @@ describe('UserTokenInterceptor', () => {
   });
 
   it(
-    `Should add 'Authorization' header with a token info to an HTTP request`,
+    `Should not add 'Authorization' header with a token info to an HTTP request`,
     inject([HttpClient], (http: HttpClient) => {
       http.get('/xxx').subscribe(result => {
         expect(result).toBeTruthy();
       });
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'GET';
+      });
+
+      const authHeader = mockReq.request.headers.get('Authorization');
+      expect(authHeader).toBeFalsy();
+      expect(authHeader).toEqual(null);
+
+      mockReq.flush('someData');
+    })
+  );
+
+  it(
+    `Should add 'Authorization' header with a token info to an HTTP request`,
+    inject([HttpClient], (http: HttpClient) => {
+      http
+        .get('https://localhost:9002/rest/v2/electronics')
+        .subscribe(result => {
+          expect(result).toBeTruthy();
+        });
 
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'GET';
