@@ -100,4 +100,33 @@ describe('OccMiscsService', () => {
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(titlesList);
   });
+
+  it('should return cardTypes', () => {
+    const endpoint = 'cardtypes';
+
+    const cardTypesList = {
+      cardTypes: [
+        {
+          code: 'amex',
+          name: 'American Express'
+        },
+        {
+          isocode: 'maestro',
+          name: 'Maestro'
+        }
+      ]
+    };
+
+    service.loadCardTypes().subscribe(result => {
+      expect(result).toEqual(cardTypesList);
+    });
+
+    const mockReq = httpMock.expectOne(req => {
+      return req.method === 'GET' && req.url === '/' + endpoint;
+    });
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    mockReq.flush(cardTypesList);
+  });
 });
