@@ -33,10 +33,12 @@ export class SiteContextInterceptor implements HttpInterceptor {
       .filter(curr => curr != null)
       .subscribe(data => (activeCurr = data));
 
-    if (
-      request.url.includes(this.configService.server.baseUrl) &&
-      request.url.includes(this.configService.server.occPrefix)
-    ) {
+    const baseReqString =
+      this.configService.server.baseUrl +
+      this.configService.server.occPrefix +
+      this.configService.site.baseSite;
+
+    if (request.url.indexOf(baseReqString) > -1) {
       request = request.clone({
         setParams: {
           lang: activeLang,

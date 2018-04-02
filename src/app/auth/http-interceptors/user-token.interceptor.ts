@@ -30,11 +30,12 @@ export class UserTokenInterceptor implements HttpInterceptor {
         userToken = token;
       });
 
-    if (
-      userToken &&
-      request.url.includes(this.configService.server.baseUrl) &&
-      request.url.includes(this.configService.server.occPrefix)
-    ) {
+    const baseReqString =
+      this.configService.server.baseUrl +
+      this.configService.server.occPrefix +
+      this.configService.site.baseSite;
+
+    if (userToken && request.url.indexOf(baseReqString) > -1) {
       request = request.clone({
         setHeaders: {
           Authorization: `${userToken.token_type} ${userToken.access_token}`
