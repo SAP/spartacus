@@ -13,6 +13,7 @@ import { OccCartService } from '../../../occ/cart/cart.service';
 import { ConfigService } from '../../../occ/config.service';
 import * as fromEffects from './checkout.effect';
 import * as fromActions from '../actions/checkout.action';
+import { OccOrderService } from '../../../occ/order/order.service';
 
 @Injectable()
 class TestActions extends Actions {
@@ -31,6 +32,7 @@ function getActions() {
 
 describe('Checkout effect', () => {
   let cartService: OccCartService;
+  let orderService: OccOrderService;
   let entryEffects: fromEffects.CheckoutEffects;
   let actions$: TestActions;
 
@@ -47,12 +49,14 @@ describe('Checkout effect', () => {
     mode1: 'mode1',
     mode2: 'mode2'
   };
+  const orderDetails = 'orderDetails';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         OccCartService,
+        OccOrderService,
         fromEffects.CheckoutEffects,
         ConfigService,
         { provide: Actions, useFactory: getActions }
@@ -61,11 +65,13 @@ describe('Checkout effect', () => {
 
     entryEffects = TestBed.get(fromEffects.CheckoutEffects);
     cartService = TestBed.get(OccCartService);
+    orderService = TestBed.get(OccOrderService);
     actions$ = TestBed.get(Actions);
 
     spyOn(cartService, 'createAddressOnCart').and.returnValue(of(address));
     spyOn(cartService, 'setDeliveryAddress');
     spyOn(cartService, 'getSupportedDeliveryModes').and.returnValue(of(modes));
+    spyOn(orderService, 'placeOrder').and.returnValue(of(orderDetails));
     spyOn(cartService, 'setDeliveryMode').and.returnValue(of({}));
   });
 
@@ -191,6 +197,21 @@ describe('Checkout effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
+    });
+  });
+
+  describe('placeOrder$', () => {
+    it('should place order', () => {
+      const action = new fromActions.PlaceOrder({
+        userId: userId,
+        cartId: cartId
+      });
+      const completion = new fromActions.PlaceOrderSuccess(orderDetails);
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.placeOrder$).toBeObservable(expected);
     });
   });
 });
