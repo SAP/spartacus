@@ -26,6 +26,13 @@ export const getSupportedDeliveryModes: MemoizedSelector<
   );
 });
 
+export const getSelectedCode: MemoizedSelector<any, any> = createSelector(
+  getDeliveryMode,
+  deliveryMode => {
+    return deliveryMode.selected;
+  }
+);
+
 export const getSelectedDeliveryMode: MemoizedSelector<
   any,
   any

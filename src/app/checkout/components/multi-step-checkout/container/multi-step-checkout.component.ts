@@ -23,7 +23,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
 
   deliveryAddress: Address;
-  deliveryMode: any;
+  deliveryModeCode: string;
   paymentDetails: any;
 
   constructor(
@@ -70,11 +70,11 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.checkoutService.setDeliveryMode(deliveryMode.deliveryModeId);
 
     this.store
-      .select(fromCheckoutStore.getSelectedDeliveryMode)
-      .pipe(filter(selected => selected !== undefined), take(1))
+      .select(fromCheckoutStore.getSelectedCode)
+      .pipe(filter(selected => selected !== ''), take(1))
       .subscribe(selected => {
         this.step = 3;
-        this.deliveryMode = selected;
+        this.deliveryModeCode = selected;
         this.cd.detectChanges();
       });
   }

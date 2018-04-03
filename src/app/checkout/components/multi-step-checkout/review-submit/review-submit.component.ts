@@ -23,7 +23,7 @@ import { Address } from '../../../models/address-model';
 })
 export class ReviewSubmitComponent {
   @Input() deliveryAddress: Address;
-  @Input() deliveryMode: any;
+  @Input() deliveryModeCode: string;
   @Input() paymentDetails: any;
 
   @Output() backStep = new EventEmitter<any>();
