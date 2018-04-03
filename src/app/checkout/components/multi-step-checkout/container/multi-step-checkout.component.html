@@ -30,8 +30,8 @@
 </div>
 
 <div id="step3" *ngIf="step === 4">
-    <y-review-submit [deliveryAddress]="deliveryAddress" [deliveryModeCode]="deliveryModeCode" [paymentDetails]="paymentDetails" 
-        (backStep)="setStep(2)">
+    <y-review-submit [deliveryAddress]="deliveryAddress"  [paymentDetails]="paymentDetails" 
+        (backStep)="setStep(3)">
     </y-review-submit>
     <div class="payment-form">
         <y-order-summary></y-order-summary>

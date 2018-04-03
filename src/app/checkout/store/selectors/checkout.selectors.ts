@@ -38,6 +38,9 @@ export const getSelectedDeliveryMode: MemoizedSelector<
   any
 > = createSelector(getDeliveryMode, deliveryMode => {
   if (deliveryMode.selected !== '') {
+    if (Object.keys(deliveryMode.supported).length === 0) {
+      return null;
+    }
     return deliveryMode.supported[deliveryMode.selected];
   }
 });
