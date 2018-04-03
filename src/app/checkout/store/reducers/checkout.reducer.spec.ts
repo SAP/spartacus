@@ -85,6 +85,17 @@ describe('Checkout reducer', () => {
     });
   });
 
+  describe('PLACE_ORDER_SUCCESS action', () => {
+    it('should place order', () => {
+      const { initialState } = fromCheckout;
+      const orderDetails = 'mockOrderDetails';
+
+      const action = new fromActions.PlaceOrderSuccess(orderDetails);
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state.orderDetails).toEqual(orderDetails);
+    });
+  });
+
   describe('CLEAR_CHECKOUT_DATA action', () => {
     it('should clear checkout data', () => {
       const { initialState } = fromCheckout;

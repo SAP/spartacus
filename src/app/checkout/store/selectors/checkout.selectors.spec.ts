@@ -133,4 +133,19 @@ describe('Checkout Selectors', () => {
       expect(result).toEqual('paymentDetails');
     });
   });
+
+  describe('getOrderDetails', () => {
+    it('should return order details', () => {
+      let result;
+      store
+        .select(fromSelectors.getOrderDetails)
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual({});
+
+      store.dispatch(new fromActions.PlaceOrderSuccess('orderDetails'));
+
+      expect(result).toEqual('orderDetails');
+    });
+  });
 });
