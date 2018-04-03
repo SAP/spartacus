@@ -8,40 +8,37 @@ import { ConfigService } from '../config.service';
 
 const ENDPOINT_DELIVERY_COUNTRIES = 'deliverycountries';
 const ENDPOINT_TITLES = 'titles';
+const ENDPOINT_CARD_TYPES = 'cardtypes';
 
 @Injectable()
 export class OccMiscsService {
   constructor(private http: HttpClient, private config: ConfigService) {}
 
-  protected getDeliveryCountriesEndpoint() {
+  protected getEndpoint(endpoint: string) {
     return (
       this.config.server.baseUrl +
       this.config.server.occPrefix +
       this.config.site.baseSite +
       '/' +
-      ENDPOINT_DELIVERY_COUNTRIES
-    );
-  }
-
-  protected getTitlesEndpoint() {
-    return (
-      this.config.server.baseUrl +
-      this.config.server.occPrefix +
-      this.config.site.baseSite +
-      '/' +
-      ENDPOINT_TITLES
+      endpoint
     );
   }
 
   loadDeliveryCountries(): Observable<any> {
     return this.http
-      .get(this.getDeliveryCountriesEndpoint())
+      .get(this.getEndpoint(ENDPOINT_DELIVERY_COUNTRIES))
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
   loadTitles(): Observable<any> {
     return this.http
-      .get(this.getTitlesEndpoint())
+      .get(this.getEndpoint(ENDPOINT_TITLES))
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  loadCardTypes(): Observable<any> {
+    return this.http
+      .get(this.getEndpoint(ENDPOINT_CARD_TYPES))
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 }

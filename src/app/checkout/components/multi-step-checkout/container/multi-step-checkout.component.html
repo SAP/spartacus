@@ -23,5 +23,14 @@
 </div>
 
 <div id="step3" *ngIf="step === 3">
-    payment form
+    <y-payment-form (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-form>
+    <div class="payment-form">
+        <y-order-summary></y-order-summary>
+    </div>
 </div>
+
+<div id="step3" *ngIf="step === 4">
+    <div>{{deliveryAddress | json}}</div>
+    <div>{{deliveryMode | json }}</div>
+    <div>{{paymentDetails | json}}</div>
+<div>

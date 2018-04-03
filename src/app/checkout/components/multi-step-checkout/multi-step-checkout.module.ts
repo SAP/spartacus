@@ -6,6 +6,7 @@ import { MultiStepCheckoutComponent } from './container/multi-step-checkout.comp
 import { AddressFormComponent } from './address-form/address-form.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { DeliveryModeFormComponent } from './delivery-mode-form/delivery-mode-form.component';
+import { PaymentFormComponent } from './payment-form/payment-form.component';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule],
@@ -13,7 +14,8 @@ import { DeliveryModeFormComponent } from './delivery-mode-form/delivery-mode-fo
     MultiStepCheckoutComponent,
     AddressFormComponent,
     OrderSummaryComponent,
-    DeliveryModeFormComponent
+    DeliveryModeFormComponent,
+    PaymentFormComponent
   ],
   exports: [MultiStepCheckoutComponent]
 })

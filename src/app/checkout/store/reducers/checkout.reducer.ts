@@ -6,6 +6,7 @@ export interface CheckoutState {
     supported: { [code: string]: any };
     selected: string;
   };
+  paymentDetails: any;
 }
 
 export const initialState: CheckoutState = {
@@ -13,7 +14,8 @@ export const initialState: CheckoutState = {
   deliveryMode: {
     supported: {},
     selected: ''
-  }
+  },
+  paymentDetails: {}
 };
 
 export function reducer(
@@ -68,6 +70,27 @@ export function reducer(
       };
     }
 
+    case fromAction.CREATE_PAYMENT_DETAILS_SUCCESS: {
+      const details = action.payload;
+
+      return {
+        ...state,
+        paymentDetails: details
+      };
+    }
+
+    case fromAction.CREATE_PAYMENT_DETAILS_FAIL: {
+      const details = action.payload;
+      if (details['hasError']) {
+        return {
+          ...state,
+          paymentDetails: details
+        };
+      }
+
+      return state;
+    }
+
     case fromAction.CLEAR_CHECKOUT_DATA: {
       return initialState;
     }
@@ -94,8 +117,12 @@ export function reducer(
           };
         }
 
-        // case 3: {
-        // }
+        case 3: {
+          return {
+            ...state,
+            paymentDetails: {}
+          };
+        }
       }
 
       return state;
@@ -121,3 +148,4 @@ export function reducer(
 
 export const getDeliveryAddress = (state: CheckoutState) => state.address;
 export const getDeliveryMode = (state: CheckoutState) => state.deliveryMode;
+export const getPaymentDetails = (state: CheckoutState) => state.paymentDetails;

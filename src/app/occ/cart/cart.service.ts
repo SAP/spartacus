@@ -181,4 +181,75 @@ export class OccCartService {
       .get(this.getCartEndpoint(userId) + cartId + '/deliverymodes')
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
+
+  public getPaymentProviderSubInfo(
+    userId: string,
+    cartId: string
+  ): Observable<any> {
+    return this.http
+      .get(
+        this.getCartEndpoint(userId) +
+          cartId +
+          '/payment/sop/request?responseUrl=sampleUrl'
+      )
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  public createSubWithPaymentProvider(
+    postUrl: string,
+    parameters: any
+  ): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Accept: 'text/html'
+    });
+
+    let strParams = '';
+    Object.keys(parameters).forEach(key => {
+      strParams === ''
+        ? (strParams = strParams + key + '=' + parameters[key])
+        : (strParams = strParams + '&' + key + '=' + parameters[key]);
+    });
+    return this.http.post(
+      postUrl,
+      {},
+      {
+        headers: headers,
+        responseType: 'text',
+        params: new HttpParams({
+          fromString: strParams
+        })
+      }
+    );
+  }
+
+  public createPaymentDetails(
+    userId: string,
+    cartId: string,
+    parameters: any
+  ): Observable<any> {
+    let queryString = '';
+    Object.keys(parameters).forEach(key => {
+      const strParam = key + '=' + parameters[key];
+      queryString === ''
+        ? (queryString = queryString + strParam)
+        : (queryString = queryString + '&' + strParam);
+    });
+
+    const params = new HttpParams({
+      fromString: queryString
+    });
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.http
+      .post(
+        this.getCartEndpoint(userId) + cartId + '/payment/sop/response',
+        {},
+        { headers: headers, params: params }
+      )
+      .pipe(catchError((error: any) => Observable.throw(error)));
+  }
 }
