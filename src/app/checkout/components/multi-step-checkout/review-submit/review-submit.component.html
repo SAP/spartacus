@@ -15,13 +15,13 @@
     </div>
     <div class="shipping-method">
         <div>
-            <h3>Shipping Method:</h3>
+            <h4>Shipping Method:</h4>
         </div>
         <div>{{(deliveryMode$ | async)?.name}} - {{(deliveryMode$ | async)?.description}} - {{(deliveryMode$ | async)?.deliveryCost.formattedValue}}</div>
     </div>
     <div class="payment-method">
         <div>
-            <h3>Payment Method:</h3>
+            <h4>Payment Method:</h4>
         </div>
         <div>{{paymentDetails.cardType.name}}</div>
         <div>{{paymentDetails.accountHolderName}}</div>
@@ -31,7 +31,7 @@
     </div>
     <div class="billing-address">
         <div>
-            <h3>Billing Address:</h3>
+            <h4>Billing Address:</h4>
         </div>
         <div>{{paymentDetails.billingAddress.firstName}} {{paymentDetails.billingAddress.lastName}}</div>
         <div>{{paymentDetails.billingAddress.line1}}</div>
