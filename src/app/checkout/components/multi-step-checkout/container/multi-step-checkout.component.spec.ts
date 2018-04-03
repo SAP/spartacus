@@ -12,6 +12,7 @@ import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { OrderSummaryComponent } from '../order-summary/order-summary.component';
 import { DeliveryModeFormComponent } from '../delivery-mode-form/delivery-mode-form.component';
+import { ReviewSubmitComponent } from '../review-submit/review-submit.component';
 
 import { CheckoutService } from './../../../services/checkout.service';
 import { CartService } from './../../../../cart/services/cart.service';

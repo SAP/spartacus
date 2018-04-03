@@ -30,7 +30,10 @@
 </div>
 
 <div id="step3" *ngIf="step === 4">
-    <div>{{deliveryAddress | json}}</div>
-    <div>{{deliveryMode | json }}</div>
-    <div>{{paymentDetails | json}}</div>
+    <y-review-submit [deliveryAddress]="deliveryAddress" [deliveryMode]="deliveryMode" [paymentDetails]="paymentDetails" 
+        (backStep)="setStep(2)">
+    </y-review-submit>
+    <div class="payment-form">
+        <y-order-summary></y-order-summary>
+    </div>
 <div>
