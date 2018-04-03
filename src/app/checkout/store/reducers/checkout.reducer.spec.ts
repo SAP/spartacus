@@ -60,4 +60,100 @@ describe('Checkout reducer', () => {
       expect(state.deliveryMode.selected).toEqual('testSelectedModeId');
     });
   });
+
+  describe('CREATE_PAYMENT_DETAILS_SUCCESS action', () => {
+    it('should create payment details for cart', () => {
+      const { initialState } = fromCheckout;
+      const paymentDetails = 'mockPaymentDetails';
+
+      const action = new fromActions.CreatePaymentDetailsSuccess(
+        paymentDetails
+      );
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state.paymentDetails).toEqual(paymentDetails);
+    });
+  });
+
+  describe('CREATE_PAYMENT_DETAILS_FAIL action', () => {
+    it('should create payment details for cart', () => {
+      const { initialState } = fromCheckout;
+      const errorPayload = { hasError: 'true' };
+
+      const action = new fromActions.CreatePaymentDetailsFail(errorPayload);
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state.paymentDetails).toEqual(errorPayload);
+    });
+  });
+
+  describe('CLEAR_CHECKOUT_DATA action', () => {
+    it('should clear checkout data', () => {
+      const { initialState } = fromCheckout;
+
+      const action = new fromActions.ClearCheckoutData();
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state).toEqual(initialState);
+    });
+  });
+
+  describe('CLEAR_CHECKOUT_STEP action', () => {
+    it('should clear step number 1', () => {
+      const { initialState } = fromCheckout;
+
+      const action = new fromActions.ClearCheckoutStep(1);
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state.address).toEqual({});
+    });
+  });
+
+  describe('CLEAR_CHECKOUT_STEP action', () => {
+    it('should clear step number 2', () => {
+      const { initialState } = fromCheckout;
+      const delivMode = { supported: {}, selected: '' };
+
+      const action = new fromActions.ClearCheckoutStep(2);
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state.deliveryMode).toEqual(delivMode);
+    });
+  });
+
+  describe('CLEAR_CHECKOUT_STEP action', () => {
+    it('should clear step number 3', () => {
+      const { initialState } = fromCheckout;
+      const paymentDets = {};
+
+      const action = new fromActions.ClearCheckoutStep(3);
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state.paymentDetails).toEqual(paymentDets);
+    });
+  });
+
+  describe('CLEAR_CHECKOUT_STEP action', () => {
+    it('should clear invalid step number', () => {
+      const { initialState } = fromCheckout;
+
+      const action = new fromActions.ClearCheckoutStep(4);
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state).toEqual(initialState);
+    });
+  });
+
+  describe('CLEAR_SUPPORTED_DELIVERY_MODES action', () => {
+    it('should clear supported delivery modes', () => {
+      const { initialState } = fromCheckout;
+
+      const action = new fromActions.ClearSupportedDeliveryModes();
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state.deliveryMode).toEqual(initialState.deliveryMode);
+    });
+  });
+
+  describe('CLEAR_MISCS_DATA action', () => {
+    it('should clear mics data', () => {
+      const { initialState } = fromCheckout;
+
+      const action = new fromActions.ClearMiscsData();
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state.deliveryMode).toEqual(initialState.deliveryMode);
+    });
+  });
 });

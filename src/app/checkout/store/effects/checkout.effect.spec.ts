@@ -124,4 +124,73 @@ describe('Checkout effect', () => {
       expect(entryEffects.setDeliveryMode$).toBeObservable(expected);
     });
   });
+
+  describe('createPaymentDetails$', () => {
+    it('should create payment details for cart', () => {
+      const mockPaymentDetails = {
+        accountHolderName: 'test test',
+        cardNumber: '4111111111111111',
+        cardType: {
+          code: 'visa'
+        },
+        expiryMonth: '01',
+        expiryYear: '2019',
+        cvn: '123',
+        billingAddress: {
+          titleCode: 'mr',
+          firstName: 'test',
+          lastName: 'test',
+          line1: 'line1',
+          line2: 'line2',
+          postalCode: '12345',
+          town: 'MainCity',
+          country: {
+            isocode: 'US'
+          },
+          region: {
+            isocode: 'US-FL'
+          }
+        }
+      };
+
+      const html =
+        '<div id="postFormItems">' +
+        '<input type="hidden" id="billTo_city" name="billTo_city" value="MainCity" />' +
+        '<input type="hidden" id="decision" name="decision" value="ACCEPT" />' +
+        '<input type="hidden" id="billTo_country" name="billTo_country" value="US" />' +
+        '<input type="hidden" id="billTo_lastName" name="billTo_lastName" value="test" />' +
+        '<div>';
+
+      const paymentDetails = {
+        billTo_city: 'MainCity',
+        decision: 'ACCEPT',
+        billTo_country: 'US',
+        billTo_lastName: 'test'
+      };
+
+      spyOn(cartService, 'getPaymentProviderSubInfo').and.returnValue(
+        of({ url: 'testUrl', parameters: {} })
+      );
+      spyOn(cartService, 'createSubWithPaymentProvider').and.returnValue(
+        of(html)
+      );
+      spyOn(cartService, 'createPaymentDetails').and.returnValue(
+        of(paymentDetails)
+      );
+
+      const action = new fromActions.CreatePaymentDetails({
+        userId: userId,
+        cartId: cartId,
+        paymentDetails: mockPaymentDetails
+      });
+      const completion = new fromActions.CreatePaymentDetailsSuccess(
+        paymentDetails
+      );
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
+    });
+  });
 });

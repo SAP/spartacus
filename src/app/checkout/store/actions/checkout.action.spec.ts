@@ -3,6 +3,7 @@ import * as fromAction from '../actions/checkout.action';
 const userId = 'testUserId';
 const cartId = 'testCartId';
 const selectedModeId = 'selectedModeId';
+const paymentDetails = 'mockPaymentDetails';
 
 const address: any = {
   firstName: 'John',
@@ -16,7 +17,7 @@ const modes: any = {
   mode2: 'mode2'
 };
 
-describe('Add Delivery Address to Cart Actions', () => {
+describe('Checkout Actions', () => {
   describe('AddDeliveryAddress', () => {
     it('should create the action', () => {
       const payload = {
@@ -129,6 +130,48 @@ describe('Add Delivery Address to Cart Actions', () => {
         expect({ ...action }).toEqual({
           type: fromAction.SET_DELIVERY_MODE_SUCCESS,
           payload: selectedModeId
+        });
+      });
+    });
+  });
+
+  describe('Create Payment Details for Cart', () => {
+    describe('CreatePaymentDetails', () => {
+      it('should create the action', () => {
+        const payload = {
+          userId: userId,
+          cartId: cartId,
+          paymentDetails: paymentDetails
+        };
+
+        const action = new fromAction.CreatePaymentDetails(payload);
+        expect({ ...action }).toEqual({
+          type: fromAction.CREATE_PAYMENT_DETAILS,
+          payload: payload
+        });
+      });
+    });
+
+    describe('CreatePaymentDetailsFail', () => {
+      it('should create the action', () => {
+        const error = 'anError';
+        const action = new fromAction.CreatePaymentDetailsFail(error);
+
+        expect({ ...action }).toEqual({
+          type: fromAction.CREATE_PAYMENT_DETAILS_FAIL,
+          payload: error
+        });
+      });
+    });
+
+    describe('CreatePaymentDetailsSuccess', () => {
+      it('should create the action', () => {
+        const action = new fromAction.CreatePaymentDetailsSuccess(
+          paymentDetails
+        );
+        expect({ ...action }).toEqual({
+          type: fromAction.CREATE_PAYMENT_DETAILS_SUCCESS,
+          payload: paymentDetails
         });
       });
     });

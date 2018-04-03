@@ -116,4 +116,21 @@ describe('Checkout Selectors', () => {
       expect(result).toEqual(modes.deliveryModes[0]);
     });
   });
+
+  describe('getPaymentDetails', () => {
+    it('should return payment details', () => {
+      let result;
+      store
+        .select(fromSelectors.getPaymentDetails)
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual({});
+
+      store.dispatch(
+        new fromActions.CreatePaymentDetailsSuccess('paymentDetails')
+      );
+
+      expect(result).toEqual('paymentDetails');
+    });
+  });
 });
