@@ -98,4 +98,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         }
       });
   }
+
+  placeOrder() {
+    this.checkoutService.placeOrder();
+  }
 }

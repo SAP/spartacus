@@ -83,4 +83,16 @@ export class CheckoutService {
       })
     );
   }
+
+  placeOrder() {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.PlaceOrder({
+        userId: this.cartService.userId,
+        cartId:
+          this.cartService.userId === ANOYMOUS_USERID
+            ? this.cartService.cart.guid
+            : this.cartService.cart.code
+      })
+    );
+  }
 }

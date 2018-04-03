@@ -47,7 +47,7 @@
 
     <div class="buttons">
         <button (click)="back()">Go Back</button>
-        <button [disabled]="!tAndCToggler"> Place Order
+        <button [disabled]="!tAndCToggler" (click)="submitOrder()"> Place Order
         </button>
     </div>
 </div>

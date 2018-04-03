@@ -27,6 +27,7 @@ export class ReviewSubmitComponent implements OnInit {
   tAndCToggler: boolean;
 
   @Output() backStep = new EventEmitter<any>();
+  @Output() placeOrder = new EventEmitter<any>();
 
   deliveryMode$: Observable<any>;
   countryName$: Observable<any>;
@@ -81,5 +82,9 @@ export class ReviewSubmitComponent implements OnInit {
 
   back() {
     this.backStep.emit();
+  }
+
+  submitOrder() {
+    this.placeOrder.emit();
   }
 }
