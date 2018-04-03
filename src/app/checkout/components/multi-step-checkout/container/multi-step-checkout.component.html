@@ -29,11 +29,11 @@
     </div>
 </div>
 
-<div id="step3" *ngIf="step === 4">
-    <y-review-submit [deliveryAddress]="deliveryAddress" [deliveryModeCode]="deliveryModeCode" [paymentDetails]="paymentDetails" 
+<div id="step4" *ngIf="step === 4">
+    <y-review-submit [deliveryAddress]="deliveryAddress" [deliveryModeCode]="deliveryModeCode" [paymentDetails]="paymentDetails"
         (backStep)="setStep(2)">
     </y-review-submit>
-    <div class="payment-form">
+    <div class="order-review">
         <y-order-summary></y-order-summary>
     </div>
-<div>
+    <div>

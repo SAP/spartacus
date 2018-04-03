@@ -1,20 +1,53 @@
-<div class="shipping-address">
-    <div>
-        <h3>Shipping To:</h3>
+<div>
+    <h3 class="heading">Review and Submit:</h3>
+    <div class="shipping-address">
+        <div>
+            <h4>Shipping To:</h4>
+        </div>
+
+        <div>{{deliveryAddress.firstName}} {{deliveryAddress.lastName}}</div>
+        <div>{{deliveryAddress.line1}}</div>
+        <div *ngIf="deliveryAddress.line2">{{deliveryAddress.line2}}</div>
+        <div>{{deliveryAddress.town}} {{deliveryAddress.region.name}}</div>
+        <div>{{deliveryAddress.country.name}}</div>
+        <div>{{deliveryAddress.postalCode}}</div>
+        <div *ngIf="deliveryAddress.phone">{{deliveryAddress.phone}}</div>
+    </div>
+    <div class="shipping-method">
+        <div>
+            <h3>Shipping Method:</h3>
+        </div>
+        <!-- <div>{{deliveryMode.name}} - {{deliveryMode.description}} - {{deliveryMode.deliveryCost.formattedValue}}</div> -->
+    </div>
+    <div class="payment-method">
+        <div>
+            <h3>Payment Method:</h3>
+        </div>
+        <div>{{paymentDetails.cardType.name}}</div>
+        <div>{{paymentDetails.accountHolderName}}</div>
+        <div>{{paymentDetails.cardNumber}}</div>
+        <div>Expiry: {{paymentDetails.expiryMonth}}/{{paymentDetails.expiryYear}}</div>
+
+    </div>
+    <div class="billing-address">
+        <div>
+            <h3>Billing Address:</h3>
+        </div>
+        <div>{{paymentDetails.billingAddress.firstName}} {{paymentDetails.billingAddress.lastName}}</div>
+        <div>{{paymentDetails.billingAddress.line1}}</div>
+        <div *ngIf="paymentDetails.billingAddress.line2">{{paymentDetails.billingAddress.line2}}</div>
+        <div>{{paymentDetails.billingAddress.town}} {{paymentDetails.billingAddress.region.name}}</div>
+        <div>{{paymentDetails.billingAddress.country.name}}</div>
+        <div>{{paymentDetails.billingAddress.postalCode}}</div>
+        <div *ngIf="paymentDetails.billingAddress.phone">{{paymentDetails.billingAddress.phone}}</div>
     </div>
 
-    <div>{{deliveryAddress.firstName}} {{deliveryAddress.lastName}}</div>
-    <div>{{deliveryAddress.line1}}</div>
-    <div>{{deliveryAddress.line2}}</div>
-    <div>{{deliveryAddress.town}} {{deliveryAddress.region.name}}</div>
-    <div>{{deliveryAddress.country.name}}</div>
-    <div>{{deliveryAddress.postalCode}}</div>
-</div>
+    <input type="checkbox" class="tandc" (change)="toggleTAndC()">I agree to the terms and conditions
+    <br>
 
-<div class="shipping-method">
-    <div>
-        <h3>Shipping Method:</h3>
+    <div class="buttons">
+        <button (click)="back()">Go Back</button>
+        <button [disabled]="!tAndCToggler"> Place Order
+        </button>
     </div>
-
-    <div>{{deliveryMode.name}} - {{deliveryMode.description}} - {{deliveryMode.deliveryCost.formattedValue}}</div>
 </div>

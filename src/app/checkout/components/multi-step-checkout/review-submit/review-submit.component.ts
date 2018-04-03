@@ -25,10 +25,15 @@ export class ReviewSubmitComponent {
   @Input() deliveryAddress: Address;
   @Input() deliveryModeCode: string;
   @Input() paymentDetails: any;
+  tAndCToggler: boolean;
 
   @Output() backStep = new EventEmitter<any>();
 
   constructor() {}
+
+  toggleTAndC(toggle) {
+    this.tAndCToggler = !this.tAndCToggler;
+  }
 
   back() {
     this.backStep.emit();
