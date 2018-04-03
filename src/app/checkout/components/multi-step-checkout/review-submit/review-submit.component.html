@@ -1,1 +1,20 @@
-<div>{{deliveryAddress | json}}</div>
+<div class="shipping-address">
+    <div>
+        <h3>Shipping To:</h3>
+    </div>
+
+    <div>{{deliveryAddress.firstName}} {{deliveryAddress.lastName}}</div>
+    <div>{{deliveryAddress.line1}}</div>
+    <div>{{deliveryAddress.line2}}</div>
+    <div>{{deliveryAddress.town}} {{deliveryAddress.region.name}}</div>
+    <div>{{deliveryAddress.country.name}}</div>
+    <div>{{deliveryAddress.postalCode}}</div>
+</div>
+
+<div class="shipping-method">
+    <div>
+        <h3>Shipping Method:</h3>
+    </div>
+
+    <div>{{deliveryMode.name}} - {{deliveryMode.description}} - {{deliveryMode.deliveryCost.formattedValue}}</div>
+</div>
