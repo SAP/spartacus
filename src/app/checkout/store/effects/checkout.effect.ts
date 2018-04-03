@@ -27,7 +27,9 @@ export class CheckoutEffects {
                 address.id
               );
             }),
-            map(address => new fromActions.AddDeliveryAddressSuccess(address)),
+            map(address => {
+              address['titleCode'] = payload.address.titleCode;
+              return new fromActions.AddDeliveryAddressSuccess(address)}),
             catchError(error =>
               of(new fromActions.AddDeliveryAddressFail(error))
             )
