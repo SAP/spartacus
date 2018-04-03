@@ -252,4 +252,26 @@ export class OccCartService {
       )
       .pipe(catchError((error: any) => Observable.throw(error)));
   }
+
+  public placeOrder(userId: string, cartId: string): Observable<any> {
+    const url =
+      this.configService.server.baseUrl +
+      this.configService.server.occPrefix +
+      this.configService.site.baseSite +
+      '/users/' +
+      userId +
+      '/orders';
+
+    const params = new HttpParams({
+      fromString: 'cartId=' + cartId
+    });
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.http
+      .post(url, {}, { headers: headers, params: params })
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
 }
