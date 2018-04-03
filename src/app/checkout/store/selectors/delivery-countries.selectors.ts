@@ -21,3 +21,13 @@ export const getAllDeliveryCountries: MemoizedSelector<
 > = createSelector(getDeliveryCountriesEntites, entites => {
   return Object.keys(entites).map(isocode => entites[isocode]);
 });
+
+export const countrySelectorFactory = (isocode): MemoizedSelector<any, any> => {
+  return createSelector(getDeliveryCountriesEntites, entities => {
+    if (Object.keys(entities).length !== 0) {
+      return entities[isocode];
+    } else {
+      return null;
+    }
+  });
+};
