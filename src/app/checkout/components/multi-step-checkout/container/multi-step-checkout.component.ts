@@ -90,9 +90,14 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         take(1)
       )
       .subscribe(paymentInfo => {
-        this.step = 4;
-        this.paymentDetails = paymentInfo;
-        this.cd.detectChanges();
+        if (!paymentInfo['hasError']) {
+          this.step = 4;
+          this.paymentDetails = paymentInfo;
+          this.cd.detectChanges();
+        } else {
+          // show some message
+          console.log(paymentInfo);
+        }
       });
   }
 }

@@ -99,13 +99,6 @@ export class CheckoutEffects {
                 .createSubWithPaymentProvider(sub.url, sub.parameters)
                 .pipe(
                   map(response => this.extractPaymentDetailsFromHtml(response)),
-                  tap(fromPaymentProvider => {
-                    if (fromPaymentProvider['hasError']) {
-                      return new fromActions.CreatePaymentDetailsFail(
-                        fromPaymentProvider
-                      );
-                    }
-                  }),
                   mergeMap(fromPaymentProvider => {
                     if (!fromPaymentProvider['hasError']) {
                       // consume response from payment provider and creates payment details
@@ -126,6 +119,12 @@ export class CheckoutEffects {
                             of(new fromActions.CreatePaymentDetailsFail(error))
                           )
                         );
+                    } else {
+                      return of(
+                        new fromActions.CreatePaymentDetailsFail(
+                          fromPaymentProvider
+                        )
+                      );
                     }
                   })
                 )
