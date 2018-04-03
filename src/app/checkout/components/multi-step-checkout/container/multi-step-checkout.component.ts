@@ -5,7 +5,7 @@ import {
   OnDestroy,
   ChangeDetectorRef
 } from '@angular/core';
-import { take, filter, tap } from 'rxjs/operators';
+import { take, filter } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';

@@ -153,22 +153,6 @@ describe('Checkout effect', () => {
         }
       };
 
-      const ParamsForPaymentProvider = {
-        card_cardType: '001',
-        card_accountNumber: '4111111111111111',
-        card_expirationMonth: '01',
-        card_expirationYear: '2019',
-        card_cvNumber: '123',
-        billTo_firstName: 'test',
-        billTo_lastName: 'test',
-        billTo_street1: 'line1',
-        billTo_street2: 'line2',
-        billTo_city: 'MainCity',
-        billTo_state: 'FL',
-        billTo_country: 'US',
-        billTo_postalCode: '12345'
-      };
-
       const html =
         '<div id="postFormItems">' +
         '<input type="hidden" id="billTo_city" name="billTo_city" value="MainCity" />' +
@@ -190,7 +174,9 @@ describe('Checkout effect', () => {
       spyOn(cartService, 'createSubWithPaymentProvider').and.returnValue(
         of(html)
       );
-      spyOn(cartService, 'createPaymentDetails').and.returnValue(of(paymentDetails))
+      spyOn(cartService, 'createPaymentDetails').and.returnValue(
+        of(paymentDetails)
+      );
 
       const action = new fromActions.CreatePaymentDetails({
         userId: userId,
