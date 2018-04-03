@@ -25,6 +25,10 @@ export const CREATE_PAYMENT_DETAILS_FAIL =
 export const CREATE_PAYMENT_DETAILS_SUCCESS =
   '[Checkout] Create Payment Details Success';
 
+export const PLACE_ORDER = '[Checkout] Place Order';
+export const PLACE_ORDER_FAIL = '[Checkout] Place Order Fail';
+export const PLACE_ORDER_SUCCESS = '[Checkout] Place Order Success';
+
 export const CLEAR_CHECKOUT_STEP = '[Checkout] Clear One Checkout Step';
 export const CLEAR_CHECKOUT_DATA = '[Checkout] Clear Checkout Data';
 
@@ -92,6 +96,21 @@ export class CreatePaymentDetailsSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class PlaceOrder implements Action {
+  readonly type = PLACE_ORDER;
+  constructor(public payload: { userId: string; cartId: string }) {}
+}
+
+export class PlaceOrderFail implements Action {
+  readonly type = PLACE_ORDER_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class PlaceOrderSuccess implements Action {
+  readonly type = PLACE_ORDER_SUCCESS;
+  constructor(public payload: any) {}
+}
+
 export class ClearSupportedDeliveryModes implements Action {
   readonly type = CLEAR_SUPPORTED_DELIVERY_MODES;
 }
@@ -119,5 +138,8 @@ export type CheckoutAction =
   | CreatePaymentDetails
   | CreatePaymentDetailsFail
   | CreatePaymentDetailsSuccess
+  | PlaceOrder
+  | PlaceOrderFail
+  | PlaceOrderSuccess
   | ClearCheckoutStep
   | ClearCheckoutData;

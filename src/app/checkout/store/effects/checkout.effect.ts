@@ -7,6 +7,7 @@ import { map, catchError, mergeMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
+import { OccOrderService } from '../../../occ/order/order.service';
 
 @Injectable()
 export class CheckoutEffects {
@@ -133,6 +134,21 @@ export class CheckoutEffects {
       })
     );
 
+  @Effect()
+  placeOrder$: Observable<any> = this.actions$
+    .ofType(fromActions.PLACE_ORDER)
+    .pipe(
+      map((action: any) => action.payload),
+      mergeMap(payload => {
+        return this.occOrderService
+          .placeOrder(payload.userId, payload.cartId)
+          .pipe(
+            map(data => new fromActions.PlaceOrderSuccess(data)),
+            catchError(error => of(new fromActions.PlaceOrderFail(error)))
+          );
+      })
+    );
+
   private domparser: DOMParser;
   private cardTypes = {
     visa: '001',
@@ -147,7 +163,8 @@ export class CheckoutEffects {
 
   constructor(
     private actions$: Actions,
-    private occCartService: OccCartService
+    private occCartService: OccCartService,
+    private occOrderService: OccOrderService
   ) {
     this.domparser = new DOMParser();
   }
