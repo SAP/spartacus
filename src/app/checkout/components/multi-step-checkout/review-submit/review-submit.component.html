@@ -8,7 +8,7 @@
         <div>{{(titleName$ | async)?.name}} {{deliveryAddress.firstName}} {{deliveryAddress.lastName}}</div>
         <div>{{deliveryAddress.line1}}</div>
         <div *ngIf="deliveryAddress.line2">{{deliveryAddress.line2}}</div>
-        <div>{{deliveryAddress.town}} {{deliveryAddress.region.name}}</div>
+        <div>{{deliveryAddress.town}} {{deliveryAddress.region.isocode}}</div>
         <div>{{(countryName$ | async)?.name}}</div>
         <div>{{deliveryAddress.postalCode}}</div>
         <div *ngIf="deliveryAddress.phone">{{deliveryAddress.phone}}</div>
@@ -17,7 +17,9 @@
         <div>
             <h4>Shipping Method:</h4>
         </div>
-        <div>{{(deliveryMode$ | async)?.name}} - {{(deliveryMode$ | async)?.description}} - {{(deliveryMode$ | async)?.deliveryCost.formattedValue}}</div>
+        <div *ngIf="deliveryMode$ | async as deliveryMode">
+            {{deliveryMode.name}} - {{deliveryMode.description}} - {{deliveryMode.deliveryCost.formattedValue}}
+        </div>
     </div>
     <div class="payment-method">
         <div>
@@ -36,7 +38,7 @@
         <div>{{paymentDetails.billingAddress.firstName}} {{paymentDetails.billingAddress.lastName}}</div>
         <div>{{paymentDetails.billingAddress.line1}}</div>
         <div *ngIf="paymentDetails.billingAddress.line2">{{paymentDetails.billingAddress.line2}}</div>
-        <div>{{paymentDetails.billingAddress.town}} {{paymentDetails.billingAddress.region.name}}</div>
+        <div>{{paymentDetails.billingAddress.town}} {{paymentDetails.billingAddress.region.isocode}}</div>
         <div>{{paymentDetails.billingAddress.country.name}}</div>
         <div>{{paymentDetails.billingAddress.postalCode}}</div>
         <div *ngIf="paymentDetails.billingAddress.phone">{{paymentDetails.billingAddress.phone}}</div>
