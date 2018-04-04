@@ -24,7 +24,7 @@ import { Address } from '../../../models/address-model';
 export class ReviewSubmitComponent implements OnInit {
   @Input() deliveryAddress: Address;
   @Input() paymentDetails: any;
-  tAndCToggler: boolean;
+  tAndCToggler: boolean = false;
 
   @Output() backStep = new EventEmitter<any>();
   @Output() placeOrder = new EventEmitter<any>();
