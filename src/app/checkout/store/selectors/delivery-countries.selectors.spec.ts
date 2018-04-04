@@ -50,4 +50,31 @@ describe('Delivery Countries Selectors', () => {
       expect(result).toEqual(mockCountries);
     });
   });
+
+  describe('titleSelectorFactory', () => {
+    it('should return title', () => {
+      let isocode = 'AL';
+      const mockCountries = [
+        {
+          isocode: 'AL',
+          name: 'Albania'
+        },
+        {
+          isocode: 'AD',
+          name: 'Andorra'
+        }
+      ];
+
+      let result;
+
+      store
+        .select(fromSelectors.countrySelectorFactory(isocode))
+        .subscribe(value => (result = value));
+
+      store.dispatch(
+        new fromActions.LoadDeliveryCountriesSuccess(mockCountries)
+      );
+      expect(result).toEqual(mockCountries[0]);
+    });
+  });
 });
