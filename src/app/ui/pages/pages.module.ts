@@ -7,6 +7,7 @@ import { LayoutModule } from '../layout/layout.module';
 import { HomePageComponent } from './home-page/home-page.component';
 import { PageNotFoundComponent } from './404/404.component';
 import { CartPageComponent } from './cart-page/cart-page.component';
+import { OrderConfirmationPageComponent } from './order-confirmation-page/order-confirmation-page.component';
 
 // CategoryPage
 import { CategoryPageComponent } from './category-page/category-page.component';
@@ -23,7 +24,8 @@ import { MultiStepCheckoutPageComponent } from './multi-step-checkout-page/multi
     ProductPageComponent,
     PageNotFoundComponent,
     CartPageComponent,
-    MultiStepCheckoutPageComponent
+    MultiStepCheckoutPageComponent,
+    OrderConfirmationPageComponent
   ],
   exports: [
     HomePageComponent,

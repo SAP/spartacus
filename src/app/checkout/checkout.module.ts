@@ -9,6 +9,7 @@ import { metaReducers } from './store/reducers';
 import * as fromServices from './services';
 
 import { MultiStepCheckoutModule } from './components/multi-step-checkout/multi-step-checkout.module';
+import { OrderConfirmationModule } from './components/order-confirmation/order-confirmation.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { MultiStepCheckoutModule } from './components/multi-step-checkout/multi-
     StoreModule.forFeature('checkout', reducers, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
-  exports: [MultiStepCheckoutModule],
+  exports: [MultiStepCheckoutModule, OrderConfirmationModule],
   providers: [...fromServices.services]
 })
 export class CheckoutModule {}
