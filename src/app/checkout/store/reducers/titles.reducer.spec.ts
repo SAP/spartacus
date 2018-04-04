@@ -1,5 +1,5 @@
 import * as fromReducer from './titles.reducer';
-import * as fromActions from '../actions/titles.action';
+import * as fromActions from '../actions/';
 
 describe('Titles Reducer', () => {
   describe('undefined action', () => {
@@ -34,6 +34,15 @@ describe('Titles Reducer', () => {
       const action = new fromActions.LoadTitlesSuccess(mockTitles);
       const state = fromReducer.reducer(initialState, action);
       expect(state.entities).toEqual(mockTitlesList);
+    });
+  });
+
+  describe('CLEAR_MISCS_DATA action', () => {
+    it('should clear the mics data', () => {
+      const { initialState } = fromReducer;
+      const action = new fromActions.ClearMiscsData();
+      const state = fromReducer.reducer(initialState, action);
+      expect(state).toEqual(initialState);
     });
   });
 });
