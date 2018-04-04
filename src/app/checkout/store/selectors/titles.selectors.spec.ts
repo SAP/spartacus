@@ -48,4 +48,29 @@ describe('Titles Selectors', () => {
       expect(result).toEqual(mockTitles);
     });
   });
+
+  describe('titleSelectorFactory', () => {
+    it('should return title', () => {
+      const code = 'mr';
+      const mockTitles = [
+        {
+          code: 'mr',
+          name: 'Mr.'
+        },
+        {
+          code: 'mrs',
+          name: 'Mrs.'
+        }
+      ];
+
+      let result;
+
+      store
+        .select(fromSelectors.titleSelectorFactory(code))
+        .subscribe(value => (result = value));
+
+      store.dispatch(new fromActions.LoadTitlesSuccess(mockTitles));
+      expect(result).toEqual(mockTitles[0]);
+    });
+  });
 });

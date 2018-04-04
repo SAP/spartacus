@@ -8,6 +8,8 @@ import { ANOYMOUS_USERID, CartService } from '../../cart/services/cart.service';
 
 @Injectable()
 export class CheckoutService {
+  orderDetails: any;
+
   constructor(
     private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
     private cartStore: Store<fromCartStore.CartState>,
@@ -80,6 +82,18 @@ export class CheckoutService {
             ? this.cartService.cart.guid
             : this.cartService.cart.code,
         paymentDetails: paymentInfo
+      })
+    );
+  }
+
+  placeOrder() {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.PlaceOrder({
+        userId: this.cartService.userId,
+        cartId:
+          this.cartService.userId === ANOYMOUS_USERID
+            ? this.cartService.cart.guid
+            : this.cartService.cart.code
       })
     );
   }

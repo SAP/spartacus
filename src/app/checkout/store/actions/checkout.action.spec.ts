@@ -4,6 +4,7 @@ const userId = 'testUserId';
 const cartId = 'testCartId';
 const selectedModeId = 'selectedModeId';
 const paymentDetails = 'mockPaymentDetails';
+const orderDetails = 'orderDetails';
 
 const address: any = {
   firstName: 'John',
@@ -172,6 +173,45 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: fromAction.CREATE_PAYMENT_DETAILS_SUCCESS,
           payload: paymentDetails
+        });
+      });
+    });
+  });
+
+  describe('Place Order', () => {
+    describe('PlaceOrder', () => {
+      it('should create the action', () => {
+        const payload = {
+          userId: userId,
+          cartId: cartId
+        };
+
+        const action = new fromAction.PlaceOrder(payload);
+        expect({ ...action }).toEqual({
+          type: fromAction.PLACE_ORDER,
+          payload: payload
+        });
+      });
+    });
+
+    describe('PlaceOrderFail', () => {
+      it('should create the action', () => {
+        const error = 'anError';
+        const action = new fromAction.PlaceOrderFail(error);
+
+        expect({ ...action }).toEqual({
+          type: fromAction.PLACE_ORDER_FAIL,
+          payload: error
+        });
+      });
+    });
+
+    describe('PlaceOrderSuccess', () => {
+      it('should create the action', () => {
+        const action = new fromAction.PlaceOrderSuccess(orderDetails);
+        expect({ ...action }).toEqual({
+          type: fromAction.PLACE_ORDER_SUCCESS,
+          payload: orderDetails
         });
       });
     });

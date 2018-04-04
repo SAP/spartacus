@@ -117,6 +117,26 @@ describe('Checkout Selectors', () => {
     });
   });
 
+  describe('getSelectedCode', () => {
+    it('should return selected delivery mode code', () => {
+      const modes: any = {
+        deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
+      };
+
+      let result;
+      store
+        .select(fromSelectors.getSelectedCode)
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual('');
+
+      store.dispatch(new fromActions.LoadSupportedDeliveryModesSuccess(modes));
+      store.dispatch(new fromActions.SetDeliveryModeSuccess('code1'));
+
+      expect(result).toEqual('code1');
+    });
+  });
+
   describe('getPaymentDetails', () => {
     it('should return payment details', () => {
       let result;
@@ -131,6 +151,21 @@ describe('Checkout Selectors', () => {
       );
 
       expect(result).toEqual('paymentDetails');
+    });
+  });
+
+  describe('getOrderDetails', () => {
+    it('should return order details', () => {
+      let result;
+      store
+        .select(fromSelectors.getOrderDetails)
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual({});
+
+      store.dispatch(new fromActions.PlaceOrderSuccess('orderDetails'));
+
+      expect(result).toEqual('orderDetails');
     });
   });
 });

@@ -5,6 +5,7 @@ import { CartPageComponent } from './ui/pages/cart-page/cart-page.component';
 import { ProductPageComponent } from './ui/pages/product-page/product-page.component';
 import { CategoryPageComponent } from './ui/pages/category-page/category-page.component';
 import { MultiStepCheckoutPageComponent } from './ui/pages/multi-step-checkout-page/multi-step-checkout-page.component';
+import { OrderConfirmationPageComponent } from './ui/pages/order-confirmation-page/order-confirmation-page.component';
 
 import { PageNotFoundComponent } from './ui/pages/404/404.component';
 
@@ -31,6 +32,12 @@ export const appRoutes: Routes = [
     canActivate: [AuthGuard, CmsPageGuards],
     data: { pageLabel: 'multiStepCheckoutSummaryPage' },
     component: MultiStepCheckoutPageComponent
+  },
+  {
+    path: 'orderConfirmation',
+    canActivate: [AuthGuard, CmsPageGuards],
+    data: { pageLabel: 'orderConfirmationPage' },
+    component: OrderConfirmationPageComponent
   },
   {
     path: 'search/:query',

@@ -12,6 +12,7 @@ import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { OrderSummaryComponent } from '../order-summary/order-summary.component';
 import { DeliveryModeFormComponent } from '../delivery-mode-form/delivery-mode-form.component';
+import { ReviewSubmitComponent } from '../review-submit/review-submit.component';
 
 import { CheckoutService } from './../../../services/checkout.service';
 import { CartService } from './../../../../cart/services/cart.service';
@@ -53,7 +54,8 @@ describe('MultiStepCheckoutComponent', () => {
           AddressFormComponent,
           DeliveryModeFormComponent,
           OrderSummaryComponent,
-          PaymentFormComponent
+          PaymentFormComponent,
+          ReviewSubmitComponent
         ],
         providers: [CheckoutService, CartService]
       }).compileComponents();
@@ -114,11 +116,16 @@ describe('MultiStepCheckoutComponent', () => {
       cardType: 'Visa',
       expiryMonth: '01',
       expiryYear: '2022',
-      cvn: '123',
-      billingAddress: address
+      cvn: '123'
     };
 
-    spyOn(store, 'select').and.returnValues(of(paymentDetails));
+    component.deliveryAddress = address;
+    spyOn(store, 'select').and.returnValues(
+      of(paymentDetails),
+      of(),
+      of(),
+      of()
+    );
 
     component.addPaymentInfo(paymentDetails);
     expect(service.getPaymentDetails).toHaveBeenCalledWith(paymentDetails);

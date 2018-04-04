@@ -1,5 +1,5 @@
 import * as fromReducer from './delivery-countries.reducer';
-import * as fromActions from '../actions/delivery-countries.action';
+import * as fromActions from '../actions/';
 
 describe('Delivery Countries Reducer', () => {
   describe('undefined action', () => {
@@ -36,6 +36,15 @@ describe('Delivery Countries Reducer', () => {
       );
       const state = fromReducer.reducer(initialState, action);
       expect(state.entities).toEqual(mockCountriesList);
+    });
+  });
+
+  describe('CLEAR_MISCS_DATA action', () => {
+    it('should clear the mics data', () => {
+      const { initialState } = fromReducer;
+      const action = new fromActions.ClearMiscsData();
+      const state = fromReducer.reducer(initialState, action);
+      expect(state).toEqual(initialState);
     });
   });
 });

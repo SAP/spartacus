@@ -128,4 +128,45 @@ describe('CheckoutService', () => {
       })
     );
   });
+
+  describe('get payment details', () => {
+    it(
+      'should be able to place order',
+
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+        const paymentInfo = 'mockInfo';
+
+        service.getPaymentDetails(paymentInfo);
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromCheckout.CreatePaymentDetails({
+            userId: userId,
+            cartId: cart.code,
+            paymentDetails: paymentInfo
+          })
+        );
+      })
+    );
+  });
+
+  describe('place order', () => {
+    it(
+      'should be able to place order',
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+
+        service.placeOrder();
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromCheckout.PlaceOrder({
+            userId: userId,
+            cartId: cart.code
+          })
+        );
+      })
+    );
+  });
 });

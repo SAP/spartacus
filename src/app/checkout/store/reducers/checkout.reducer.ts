@@ -7,6 +7,7 @@ export interface CheckoutState {
     selected: string;
   };
   paymentDetails: any;
+  orderDetails: any;
 }
 
 export const initialState: CheckoutState = {
@@ -15,7 +16,8 @@ export const initialState: CheckoutState = {
     supported: {},
     selected: ''
   },
-  paymentDetails: {}
+  paymentDetails: {},
+  orderDetails: {}
 };
 
 export function reducer(
@@ -91,6 +93,15 @@ export function reducer(
       return state;
     }
 
+    case fromAction.PLACE_ORDER_SUCCESS: {
+      const orderDetails = action.payload;
+
+      return {
+        ...state,
+        orderDetails
+      };
+    }
+
     case fromAction.CLEAR_CHECKOUT_DATA: {
       return initialState;
     }
@@ -149,3 +160,4 @@ export function reducer(
 export const getDeliveryAddress = (state: CheckoutState) => state.address;
 export const getDeliveryMode = (state: CheckoutState) => state.deliveryMode;
 export const getPaymentDetails = (state: CheckoutState) => state.paymentDetails;
+export const getOrderDetails = (state: CheckoutState) => state.orderDetails;
