@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import 'rxjs/add/operator/pluck';
 
 @Component({
   selector: 'y-order-confirmation-page',
