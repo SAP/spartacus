@@ -1,12 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { ReviewSubmitComponent } from './review-submit.component';
-import {
-  ReactiveFormsModule,
-  FormGroup,
-  FormBuilder,
-  AbstractControl
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs/observable/of';
 
 import * as fromRoot from '../../../../routing/store';
@@ -17,28 +12,6 @@ import * as fromUser from '../../../../auth/store';
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
 
-export class MockAbstractControl {
-  hasError() {
-    return true;
-  }
-  get touched() {
-    return true;
-  }
-}
-
-const mockCardTypes = {
-  cardTypes: [
-    {
-      code: 'amex',
-      name: 'American Express'
-    },
-    {
-      isocode: 'maestro',
-      name: 'Maestro'
-    }
-  ]
-};
-
 describe('ReviewSubmitComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: ReviewSubmitComponent;
@@ -46,7 +19,7 @@ describe('ReviewSubmitComponent', () => {
   let service: CheckoutService;
   let cartService: CartService;
 
-  let ac: AbstractControl;
+  // let ac: AbstractControl;
 
   beforeEach(
     async(() => {
@@ -61,11 +34,7 @@ describe('ReviewSubmitComponent', () => {
           })
         ],
         declarations: [ReviewSubmitComponent],
-        providers: [
-          CheckoutService,
-          CartService,
-          { provide: AbstractControl, useClass: MockAbstractControl }
-        ]
+        providers: [CheckoutService, CartService]
       }).compileComponents();
     })
   );
@@ -99,7 +68,7 @@ describe('ReviewSubmitComponent', () => {
     spyOn(component, 'toggleTAndC').and.callThrough();
     spyOn(component, 'submitOrder').and.callThrough();
     spyOn(component.backStep, 'emit').and.callThrough();
-    spyOn(component.placeOrder, 'emit').and.returnValue(ac);
+    spyOn(component.placeOrder, 'emit').and.callThrough();
   });
 
   it('should be created', () => {

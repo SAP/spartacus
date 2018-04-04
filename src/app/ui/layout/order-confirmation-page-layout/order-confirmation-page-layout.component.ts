@@ -1,12 +1,4 @@
-import {
-  Component,
-  ViewChild,
-  AfterViewInit,
-  ChangeDetectorRef,
-  OnDestroy
-} from '@angular/core';
-import { CartDetailsComponent } from '../../../cart/components/cart-details/cart-details.component';
-import { Subscription } from 'rxjs/Subscription';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'y-order-confirmation-page-layout',

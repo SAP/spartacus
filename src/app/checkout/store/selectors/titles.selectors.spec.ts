@@ -51,7 +51,7 @@ describe('Titles Selectors', () => {
 
   describe('titleSelectorFactory', () => {
     it('should return title', () => {
-      let code = 'mr';
+      const code = 'mr';
       const mockTitles = [
         {
           code: 'mr',
