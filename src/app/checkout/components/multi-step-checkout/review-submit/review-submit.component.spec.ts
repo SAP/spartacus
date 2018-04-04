@@ -150,9 +150,9 @@ describe('ReviewSubmitComponent', () => {
 
   it('should call toggleTAndC(toggle)', () => {
     expect(component.tAndCToggler).toBeFalsy();
-    component.toggleTAndC(true);
+    component.toggleTAndC();
     expect(component.tAndCToggler).toBeTruthy();
-    component.toggleTAndC(false);
+    component.toggleTAndC();
     expect(component.tAndCToggler).toBeFalsy();
   });
 

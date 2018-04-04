@@ -76,7 +76,7 @@ export class ReviewSubmitComponent implements OnInit {
       );
   }
 
-  toggleTAndC(toggle) {
+  toggleTAndC() {
     this.tAndCToggler = !this.tAndCToggler;
   }
 
