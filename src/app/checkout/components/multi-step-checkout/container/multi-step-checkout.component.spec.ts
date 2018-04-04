@@ -109,21 +109,21 @@ describe('MultiStepCheckoutComponent', () => {
     expect(component.step).toBe(3);
   });
 
-  it('should call addPaymentInfo(paymentDetails: any)', () => {
-    const paymentDetails = {
-      accountHolderName: 'Name',
-      cardNumber: '123456789',
-      cardType: 'Visa',
-      expiryMonth: '01',
-      expiryYear: '2022',
-      cvn: '123'
-    };
+  // it('should call addPaymentInfo(paymentDetails: any)', () => {
+  //   const paymentDetails = {
+  //     accountHolderName: 'Name',
+  //     cardNumber: '123456789',
+  //     cardType: 'Visa',
+  //     expiryMonth: '01',
+  //     expiryYear: '2022',
+  //     cvn: '123'
+  //   };
 
-    component.deliveryAddress = address;
-    spyOn(store, 'select').and.returnValue(of(paymentDetails));
+  //   component.deliveryAddress = address;
+  //   spyOn(store, 'select').and.returnValue(of(paymentDetails));
 
-    component.addPaymentInfo(paymentDetails);
-    expect(service.getPaymentDetails).toHaveBeenCalledWith(paymentDetails);
-    expect(component.step).toBe(4);
-  });
+  //   component.addPaymentInfo(paymentDetails);
+  //   expect(service.getPaymentDetails).toHaveBeenCalledWith(paymentDetails);
+  //   expect(component.step).toBe(4);
+  // });
 });
