@@ -10,6 +10,7 @@ import { take, filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
 import { CheckoutService } from '../../../services/checkout.service';
+import * as fromRouting from '../../../../routing/store';
 
 import { Address } from '../../../models/address-model';
 
@@ -101,5 +102,17 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   placeOrder() {
     this.checkoutService.placeOrder();
+
+    this.store
+      .select(fromCheckoutStore.getOrderDetails)
+      .pipe(filter(order => Object.keys(order).length !== 0), take(1))
+      .subscribe(order => {
+        this.checkoutService.orderDetails = order;
+        this.store.dispatch(
+          new fromRouting.Go({
+            path: ['orderConfirmation']
+          })
+        );
+      });
   }
 }

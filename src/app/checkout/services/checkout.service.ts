@@ -8,6 +8,8 @@ import { ANOYMOUS_USERID, CartService } from '../../cart/services/cart.service';
 
 @Injectable()
 export class CheckoutService {
+  orderDetails: any;
+
   constructor(
     private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
     private cartStore: Store<fromCartStore.CartState>,
