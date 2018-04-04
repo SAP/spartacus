@@ -18,12 +18,16 @@ import * as fromRouting from '../../../routing/store';
   styleUrls: ['./order-confirmation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrderConfirmationComponent implements OnInit {
+export class OrderConfirmationComponent implements OnInit, OnDestroy {
   order: any;
 
   constructor(protected checkoutService: CheckoutService) {}
 
   ngOnInit() {
     this.order = this.checkoutService.orderDetails;
+  }
+
+  ngOnDestroy() {
+    this.checkoutService.orderDetails = undefined;
   }
 }

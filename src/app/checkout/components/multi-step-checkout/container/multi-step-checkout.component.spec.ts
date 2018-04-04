@@ -120,7 +120,12 @@ describe('MultiStepCheckoutComponent', () => {
     };
 
     component.deliveryAddress = address;
-    spyOn(store, 'select').and.returnValue(of(paymentDetails));
+    spyOn(store, 'select').and.returnValues(
+      of(paymentDetails),
+      of(),
+      of(),
+      of()
+    );
 
     component.addPaymentInfo(paymentDetails);
     expect(service.getPaymentDetails).toHaveBeenCalledWith(paymentDetails);

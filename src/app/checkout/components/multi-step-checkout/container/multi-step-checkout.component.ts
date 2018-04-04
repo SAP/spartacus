@@ -6,6 +6,7 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { take, filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs/Subscription';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
@@ -26,6 +27,11 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   deliveryAddress: Address;
   paymentDetails: any;
 
+  step1Sub: Subscription;
+  step2Sub: Subscription;
+  step3Sub: Subscription;
+  step4Sub: Subscription;
+
   constructor(
     protected checkoutService: CheckoutService,
     private store: Store<fromCheckoutStore.CheckoutState>,
@@ -35,6 +41,18 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   ngOnDestroy() {
+    if (this.step1Sub) {
+      this.step1Sub.unsubscribe();
+    }
+    if (this.step2Sub) {
+      this.step2Sub.unsubscribe();
+    }
+    if (this.step3Sub) {
+      this.step3Sub.unsubscribe();
+    }
+    if (this.step4Sub) {
+      this.step4Sub.unsubscribe();
+    }
     this.store.dispatch(new fromCheckoutStore.ClearCheckoutData());
   }
 
@@ -53,7 +71,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
       address.country.isocode + '-' + address.region.isocode;
     this.checkoutService.createAndSetAddress(address);
 
-    this.store
+    this.step1Sub = this.store
       .select(fromCheckoutStore.getDeliveryAddress)
       .pipe(
         filter(deliveryAddress => Object.keys(deliveryAddress).length !== 0),
@@ -69,7 +87,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   setDeliveryMode(deliveryMode: any) {
     this.checkoutService.setDeliveryMode(deliveryMode.deliveryModeId);
 
-    this.store
+    this.step2Sub = this.store
       .select(fromCheckoutStore.getSelectedCode)
       .pipe(filter(selected => selected !== ''), take(1))
       .subscribe(selected => {
@@ -82,7 +100,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     paymentDetails.billingAddress = this.deliveryAddress;
     this.checkoutService.getPaymentDetails(paymentDetails);
 
-    this.store
+    this.step3Sub = this.store
       .select(fromCheckoutStore.getPaymentDetails)
       .pipe(
         filter(paymentInfo => Object.keys(paymentInfo).length !== 0),
@@ -103,7 +121,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   placeOrder() {
     this.checkoutService.placeOrder();
 
-    this.store
+    this.step4Sub = this.store
       .select(fromCheckoutStore.getOrderDetails)
       .pipe(filter(order => Object.keys(order).length !== 0), take(1))
       .subscribe(order => {
