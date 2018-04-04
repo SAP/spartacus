@@ -51,7 +51,7 @@ describe('Delivery Countries Selectors', () => {
     });
   });
 
-  describe('titleSelectorFactory', () => {
+  describe('countrySelectorFactory', () => {
     it('should return title', () => {
       let isocode = 'AL';
       const mockCountries = [
