@@ -48,7 +48,7 @@ module.exports = function(config) {
     customLaunchers: {
       ChromeHeadless: {
         base: 'Chrome',
-        flags: ['--headless', '--remote-debugging-port=9001']
+        flags: ['--headless', '--no-sandbox', '--remote-debugging-port=9001']
       }
     },
     singleRun: false
