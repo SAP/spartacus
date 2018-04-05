@@ -7,8 +7,8 @@ describe('spaccelerator App', () => {
     page = new SpacceleratorPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display title', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('spac works!');
+    expect<any>(page.getTitle()).toEqual('Spaccelerator');
   });
 });
