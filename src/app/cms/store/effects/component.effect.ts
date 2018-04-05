@@ -17,7 +17,8 @@ import * as fromRouting from '../../../routing/store';
 
 import * as componentActions from '../actions/component.action';
 import * as fromServices from '../../services';
-
+import { OccCmsService } from '../../services/occ-cms.service';
+  
 @Injectable()
 export class ComponentEffects {
   @Effect()

@@ -10,6 +10,7 @@ import * as fromRouting from '../../../routing/store';
 
 import * as navigationItemActions from '../actions/navigation-entry-item.action';
 import * as fromServices from '../../services';
+import { OccCmsService } from '../../services/occ-cms.service';
 import { IdList } from '../../models/idList.model';
 
 @Injectable()
