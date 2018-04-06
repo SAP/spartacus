@@ -15,7 +15,6 @@ import * as fromCheckoutStore from '../../../store';
 import * as fromRouting from '../../../../routing/store';
 import { MatDialog } from '@angular/material';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
-// import { CartService } from '../../../../cart/services';
 
 @Component({
   selector: 'y-address-form',

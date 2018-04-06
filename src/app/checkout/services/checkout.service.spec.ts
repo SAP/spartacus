@@ -169,4 +169,23 @@ describe('CheckoutService', () => {
       })
     );
   });
+
+  describe('load suggested addresses', () => {
+    it(
+      'should load suggested addresses',
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+
+        service.loadSuggestedAddresses('mockAddress');
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromCheckout.LoadSuggestedAddresses({
+            userId: userId,
+            address: 'mockAddress'
+          })
+        );
+      })
+    );
+  });
 });
