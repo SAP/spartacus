@@ -1,0 +1,21 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MaterialModule } from '../../../../material.module';
+import { AddressFormComponent } from './address-form.component';
+import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    RouterModule,
+    MaterialModule,
+    CommonModule,
+    ReactiveFormsModule
+  ],
+  declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
+  entryComponents: [AddressFormComponent, SuggestedAddressDialogComponent],
+  exports: [AddressFormComponent]
+})
+export class AddressFormModule {}

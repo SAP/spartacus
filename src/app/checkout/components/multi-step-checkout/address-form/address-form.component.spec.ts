@@ -15,6 +15,9 @@ import {
 
 import { of } from 'rxjs/observable/of';
 import * as fromRouting from '../../../../routing/store';
+import { MaterialModule } from '../../../../material.module';
+import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+import { CheckoutService } from '../../../services';
 
 export class MockAbstractControl {
   hasError() {}
@@ -61,13 +64,15 @@ describe('AddressFormComponent', () => {
       TestBed.configureTestingModule({
         imports: [
           ReactiveFormsModule,
+          MaterialModule,
           StoreModule.forRoot({
             ...fromRoot.reducers,
             checkout: combineReducers(fromCheckout.reducers)
           })
         ],
-        declarations: [AddressFormComponent],
+        declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
         providers: [
+          CheckoutService,
           { provide: FormGroup, useClass: MockFormGroup },
           { provide: AbstractControl, useClass: MockAbstractControl }
         ]

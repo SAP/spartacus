@@ -97,4 +97,13 @@ export class CheckoutService {
       })
     );
   }
+
+  loadSuggestedAddresses(address) {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.LoadSuggestedAddresses({
+        userId: this.cartService.userId,
+        address: address
+      })
+    );
+  }
 }

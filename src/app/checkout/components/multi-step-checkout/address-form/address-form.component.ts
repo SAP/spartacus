@@ -13,6 +13,9 @@ import { tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
 import * as fromRouting from '../../../../routing/store';
+import { MatDialog } from '@angular/material';
+import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+// import { CartService } from '../../../../cart/services';
 
 @Component({
   selector: 'y-address-form',
@@ -27,6 +30,7 @@ export class AddressFormComponent implements OnInit {
   @Output() addAddress = new EventEmitter<any>();
 
   address: FormGroup = this.fb.group({
+    defaultAddress: [false],
     titleCode: ['', Validators.required],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
@@ -45,7 +49,8 @@ export class AddressFormComponent implements OnInit {
 
   constructor(
     protected store: Store<fromRouting.State>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    protected dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -69,7 +74,39 @@ export class AddressFormComponent implements OnInit {
   }
 
   next() {
-    this.addAddress.emit(this.address.value);
+    this.address.value.region.isocode =
+      this.address.value.region.isocode.indexOf('-') > -1
+        ? this.address.value.region.isocode
+        : this.address.value.country.isocode +
+          '-' +
+          this.address.value.region.isocode;
+
+    if (this.address.value.town.toLowerCase().indexOf('review') > -1) {
+      const dialogRef = this.dialog.open(SuggestedAddressDialogComponent, {
+        data: {
+          address: this.address.value
+        }
+      });
+
+      const sub = dialogRef.componentInstance.onSelectedAddress.subscribe(
+        address => {
+          if (address.selected) {
+            this.addAddress.emit(address);
+          } else {
+            this.address.setValue(address);
+            this.address.value.region.isocode = address.region.isocode.slice(
+              address.region.isocode.indexOf('-') + 1
+            );
+          }
+        }
+      );
+
+      dialogRef.afterClosed().subscribe(() => {
+        sub.unsubscribe();
+      });
+    } else {
+      this.addAddress.emit(this.address.value);
+    }
   }
 
   back() {
