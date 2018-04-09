@@ -1,4 +1,10 @@
-import { browser, element, by, protractor } from 'protractor';
+import {
+  browser,
+  element,
+  by,
+  protractor,
+  ExpectedConditions
+} from 'protractor';
 import { HomePage } from './home.po';
 
 describe('home page', () => {
@@ -16,7 +22,7 @@ describe('home page', () => {
     expect<any>(siteLogoComponent.isPresent()).toEqual(true);
   });
 
-  it('should have search box', () => {
+  it('should be able to search', () => {
     // go to homepage
     page.navigateTo();
     // check if search box is present
@@ -29,7 +35,15 @@ describe('home page', () => {
       .actions()
       .sendKeys(protractor.Key.ENTER)
       .perform();
+    // should go to search page
+    browser.wait(ExpectedConditions.urlContains('/search/camera'), 2000);
+  });
 
-    browser.pause(); // FIXME
+  it('should have splash banner', () => {
+    // go to homepage
+    page.navigateTo();
+    // check if site logo is present
+    var splashBannerComponent = page.getSplahBanner();
+    expect<any>(splashBannerComponent.isPresent()).toEqual(true);
   });
 });
