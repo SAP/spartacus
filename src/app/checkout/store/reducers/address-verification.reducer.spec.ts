@@ -1,7 +1,7 @@
-import * as fromReducer from './suggested-addresses.reducer';
+import * as fromReducer from './address-verification.reducer';
 import * as fromActions from '../actions/';
 
-describe('Suggested Addresses Reducer', () => {
+describe('Address Verification Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
@@ -12,21 +12,23 @@ describe('Suggested Addresses Reducer', () => {
     });
   });
 
-  describe('LOAD_SUGGESTED_ADDRESSES_SUCCESS action', () => {
-    it('should load the suggested addresses state entities', () => {
+  describe('LOAD_ADDRESS_VERIFICATION_RESULTS_SUCCESS action', () => {
+    it('should load the address verification results state entities', () => {
       const addresses = ['address1', 'address2'];
 
       const { initialState } = fromReducer;
-      const action = new fromActions.LoadSuggestedAddressesSuccess(addresses);
+      const action = new fromActions.LoadAddressVerificationResultsSuccess(
+        addresses
+      );
       const state = fromReducer.reducer(initialState, action);
-      expect(state.suggestedAddresses).toEqual(addresses);
+      expect(state.entities).toEqual(addresses);
     });
   });
 
-  describe('CLEAR_SUGGESTED_ADDRESSES action', () => {
-    it('should clear the suggested addresses data', () => {
+  describe('CLEAR_ADDRESS_VERIFICATION_RESULTS action', () => {
+    it('should clear the address verification results data', () => {
       const { initialState } = fromReducer;
-      const action = new fromActions.ClearSuggestedAddresses();
+      const action = new fromActions.ClearAddressVerificationResults();
       const state = fromReducer.reducer(initialState, action);
       expect(state).toEqual(initialState);
     });

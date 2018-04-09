@@ -98,9 +98,9 @@ export class CheckoutService {
     );
   }
 
-  loadSuggestedAddresses(address) {
+  loadAddressVerificationResults(address) {
     this.checkoutStore.dispatch(
-      new fromCheckoutStore.LoadSuggestedAddresses({
+      new fromCheckoutStore.LoadAddressVerificationResults({
         userId: this.cartService.userId,
         address: address
       })

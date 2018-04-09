@@ -40,7 +40,7 @@ export class OccUserService {
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
-  loadSuggestedAddresses(userId, address) {
+  loadAddressVerificationResults(userId, address) {
     const url =
       this.getUserEndpoint() + userId + ADDRESSES_VERIFICATION_ENDPOINT;
     const headers = new HttpHeaders({

@@ -2,12 +2,10 @@ import {
   Component,
   Inject,
   ChangeDetectionStrategy,
-  EventEmitter
+  EventEmitter,
+  OnInit
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Store } from '@ngrx/store';
-import * as fromStore from '../../../../store';
-import { CheckoutService } from '../../../../services';
 
 @Component({
   selector: 'y-suggested-addresses-dialog',
@@ -15,7 +13,7 @@ import { CheckoutService } from '../../../../services';
   styleUrls: ['./suggested-addresses-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SuggestedAddressDialogComponent {
+export class SuggestedAddressDialogComponent implements OnInit {
   suggestedAddresses$;
   enteredAddress;
   onSelectedAddress = new EventEmitter();
@@ -23,26 +21,17 @@ export class SuggestedAddressDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<SuggestedAddressDialogComponent>,
-    protected store: Store<fromStore.CheckoutState>,
-    private checkoutService: CheckoutService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.enteredAddress = this.data.address;
-
-    this.checkoutService.loadSuggestedAddresses(this.enteredAddress);
-
-    this.suggestedAddresses$ = this.store.select(
-      fromStore.getSuggestedAddressesEntites
-    );
   }
 
   closeDialog() {
     if (!this.selectedAddress) {
       this.selectedAddress = this.enteredAddress;
     }
-
-    this.store.dispatch(new fromStore.ClearSuggestedAddresses());
-
     this.onSelectedAddress.emit(this.selectedAddress);
     this.dialogRef.close();
   }
@@ -56,7 +45,6 @@ export class SuggestedAddressDialogComponent {
       },
       address
     );
-    this.selectedAddress.titleCode = this.data.address.titleCode;
     this.closeDialog();
   }
 }

@@ -10,7 +10,7 @@ import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
 import { OccUserService } from '../../../occ/user/user.service';
-import { SuggestedAddressesEffects } from '.';
+import { AddressVerificationEffect } from './address-verification.effect';
 
 @Injectable()
 export class TestActions extends Actions {
@@ -28,47 +28,50 @@ export function getActions() {
 }
 
 class MockUserService {
-  loadSuggestedAddresses(userId, address) {}
+  loadAddressVerificationResults(userId, address) {}
 }
 
 const addresses = { suggestedAddresses: ['address1', 'address2'] };
+const result = 'mockResult';
 
-describe('Suggested Addresses effect', () => {
+describe('Address Verification effect', () => {
   let service: OccUserService;
-  let effect: SuggestedAddressesEffects;
+  let effect: AddressVerificationEffect;
   let actions$: TestActions;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        SuggestedAddressesEffects,
+        AddressVerificationEffect,
         { provide: OccUserService, useClass: MockUserService },
         { provide: Actions, useFactory: getActions }
       ]
     });
 
-    effect = TestBed.get(SuggestedAddressesEffects);
+    effect = TestBed.get(AddressVerificationEffect);
     service = TestBed.get(OccUserService);
     actions$ = TestBed.get(Actions);
 
-    spyOn(service, 'loadSuggestedAddresses').and.returnValue(of(addresses));
+    spyOn(service, 'loadAddressVerificationResults').and.returnValue(
+      of(result)
+    );
   });
 
-  describe('loadSuggestedAddresses$', () => {
-    it('should load the suggested addresses', () => {
+  describe('loadAddressVerificationResults$', () => {
+    it('should load the address verification results', () => {
       const payload = {
         userId: 'userId',
         address: 'address'
       };
-      const action = new fromActions.LoadSuggestedAddresses(payload);
-      const completion = new fromActions.LoadSuggestedAddressesSuccess(
-        addresses.suggestedAddresses
+      const action = new fromActions.LoadAddressVerificationResults(payload);
+      const completion = new fromActions.LoadAddressVerificationResultsSuccess(
+        result
       );
 
       actions$.stream = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(effect.loadSuggestedAddresses$).toBeObservable(expected);
+      expect(effect.loadAddressVerificationResults$).toBeObservable(expected);
     });
   });
 });

@@ -170,17 +170,17 @@ describe('CheckoutService', () => {
     );
   });
 
-  describe('load suggested addresses', () => {
+  describe('load address verification results', () => {
     it(
-      'should load suggested addresses',
+      'should load address verification results',
       inject([CartService], (cartService: CartService) => {
         cartService.userId = userId;
         cartService.cart = cart;
 
-        service.loadSuggestedAddresses('mockAddress');
+        service.loadAddressVerificationResults('mockAddress');
 
         expect(store.dispatch).toHaveBeenCalledWith(
-          new fromCheckout.LoadSuggestedAddresses({
+          new fromCheckout.LoadAddressVerificationResults({
             userId: userId,
             address: 'mockAddress'
           })

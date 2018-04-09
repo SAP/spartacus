@@ -6,7 +6,7 @@ import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import * as fromRoot from './../../../routing/store';
 
-describe('Suggested Addresses Selectors', () => {
+describe('Address Verification Selectors', () => {
   let store: Store<fromReducers.CheckoutState>;
 
   beforeEach(() => {
@@ -23,18 +23,20 @@ describe('Suggested Addresses Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getSuggestedAddressesEntites', () => {
-    it('should return all suggested addresses entites', () => {
+  describe('getAddressVerificationResultsEntities', () => {
+    it('should return all address verification entites', () => {
       const addresses = ['address1', 'address2'];
 
       let result;
       store
-        .select(fromSelectors.getSuggestedAddressesEntites)
+        .select(fromSelectors.getAddressVerificationResultsEntities)
         .subscribe(value => (result = value));
 
-      expect(result).toEqual([]);
+      expect(result).toEqual({});
 
-      store.dispatch(new fromActions.LoadSuggestedAddressesSuccess(addresses));
+      store.dispatch(
+        new fromActions.LoadAddressVerificationResultsSuccess(addresses)
+      );
 
       expect(result).toEqual(addresses);
     });

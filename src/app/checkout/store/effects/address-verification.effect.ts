@@ -4,27 +4,25 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import * as fromAction from '../actions/suggested-addresses.action';
+import * as fromAction from '../actions/address-verification.action';
 import { OccUserService } from '../../../occ/user/user.service';
 
 @Injectable()
-export class SuggestedAddressesEffects {
+export class AddressVerificationEffect {
   @Effect()
-  loadSuggestedAddresses$: Observable<any> = this.actions$
-    .ofType(fromAction.LOAD_SUGGESTED_ADDRESSES)
+  loadAddressVerificationResults$: Observable<any> = this.actions$
+    .ofType(fromAction.LOAD_ADDRESS_VERIFICATION_RESULTS)
     .pipe(
       map((action: any) => action.payload),
       mergeMap(payload =>
         this.occUserService
-          .loadSuggestedAddresses(payload.userId, payload.address)
+          .loadAddressVerificationResults(payload.userId, payload.address)
           .pipe(
             map(data => {
-              return new fromAction.LoadSuggestedAddressesSuccess(
-                data.suggestedAddresses
-              );
+              return new fromAction.LoadAddressVerificationResultsSuccess(data);
             }),
             catchError(error =>
-              of(new fromAction.LoadSuggestedAddressesFail(error))
+              of(new fromAction.LoadAddressVerificationResultsFail(error))
             )
           )
       )

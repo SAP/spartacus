@@ -3,7 +3,8 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   Output,
-  EventEmitter
+  EventEmitter,
+  OnDestroy
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
@@ -15,6 +16,9 @@ import * as fromCheckoutStore from '../../../store';
 import * as fromRouting from '../../../../routing/store';
 import { MatDialog } from '@angular/material';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+import { CheckoutService } from '../../../services';
+import * as fromStore from '../../../store';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'y-address-form',
@@ -22,9 +26,11 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
   styleUrls: ['./address-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddressFormComponent implements OnInit {
+export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<any>;
   titles$: Observable<any>;
+  addressVerificationResults$: Observable<any>;
+  addressVerificationResultsSub: Subscription;
 
   @Output() addAddress = new EventEmitter<any>();
 
@@ -49,7 +55,8 @@ export class AddressFormComponent implements OnInit {
   constructor(
     protected store: Store<fromRouting.State>,
     private fb: FormBuilder,
-    protected dialog: MatDialog
+    protected dialog: MatDialog,
+    private checkoutService: CheckoutService
   ) {}
 
   ngOnInit() {
@@ -80,10 +87,17 @@ export class AddressFormComponent implements OnInit {
           '-' +
           this.address.value.region.isocode;
 
+    this.checkoutService.loadAddressVerificationResults(this.address.value);
+
+    this.addressVerificationResults$ = this.store.select(
+      fromStore.getAddressVerificationResultsEntities
+    );
+
     if (this.address.value.town.toLowerCase().indexOf('review') > -1) {
       const dialogRef = this.dialog.open(SuggestedAddressDialogComponent, {
         data: {
-          address: this.address.value
+          address: this.address.value,
+          addressVerificationResults$: this.addressVerificationResults$
         }
       });
 
@@ -104,7 +118,17 @@ export class AddressFormComponent implements OnInit {
         sub.unsubscribe();
       });
     } else {
-      this.addAddress.emit(this.address.value);
+      this.addressVerificationResultsSub = this.addressVerificationResults$.subscribe(
+        results => {
+          if (Object.keys(results).length !== 0) {
+            if (results.decision === 'ACCEPT') {
+              this.addAddress.emit(this.address.value);
+            } else {
+              this.store.dispatch(new fromStore.ClearCheckoutStep(1));
+            }
+          }
+        }
+      );
     }
   }
 
@@ -127,5 +151,13 @@ export class AddressFormComponent implements OnInit {
     return (
       this.address.get(`${name}`).dirty && !this.address.get(`${name}`).value
     );
+  }
+
+  ngOnDestroy() {
+    if (this.addressVerificationResultsSub) {
+      this.addressVerificationResultsSub.unsubscribe();
+    }
+
+    this.store.dispatch(new fromStore.ClearAddressVerificationResults());
   }
 }

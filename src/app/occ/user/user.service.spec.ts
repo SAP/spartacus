@@ -90,14 +90,16 @@ describe('OccUserService', () => {
     });
   });
 
-  describe('load suggested addresses', () => {
-    it('should load suggested addresses for given user id and address', () => {
+  describe('load address verification results', () => {
+    it('should load address verification results for given user id and address', () => {
       const address = 'someAddress';
       const suggestedAddresses = ['address1', 'address2'];
 
-      service.loadSuggestedAddresses(username, address).subscribe(result => {
-        expect(result).toEqual(suggestedAddresses);
-      });
+      service
+        .loadAddressVerificationResults(username, address)
+        .subscribe(result => {
+          expect(result).toEqual(suggestedAddresses);
+        });
 
       const mockReq = httpMock.expectOne(req => {
         return (
