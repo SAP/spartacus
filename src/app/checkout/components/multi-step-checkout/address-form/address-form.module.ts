@@ -15,7 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   ],
   declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
-  entryComponents: [AddressFormComponent, SuggestedAddressDialogComponent],
+  entryComponents: [SuggestedAddressDialogComponent],
   exports: [AddressFormComponent]
 })
 export class AddressFormModule {}

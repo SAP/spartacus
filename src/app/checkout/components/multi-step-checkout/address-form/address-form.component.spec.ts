@@ -21,6 +21,8 @@ import { MaterialModule } from '../../../../material.module';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import { CheckoutService } from '../../../services';
 import { CartService } from '../../../../cart/services';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialog } from '@angular/material';
 
 export class MockAbstractControl {
   hasError() {}
@@ -61,6 +63,7 @@ describe('AddressFormComponent', () => {
   let fixture: ComponentFixture<AddressFormComponent>;
   let fb: FormBuilder;
   let ac: AbstractControl;
+  let dialog: MatDialog;
 
   beforeEach(
     async(() => {
@@ -68,6 +71,7 @@ describe('AddressFormComponent', () => {
         imports: [
           ReactiveFormsModule,
           MaterialModule,
+          BrowserAnimationsModule,
           StoreModule.forRoot({
             ...fromRoot.reducers,
             checkout: combineReducers(fromCheckout.reducers),
@@ -92,11 +96,13 @@ describe('AddressFormComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.get(Store);
     ac = TestBed.get(AbstractControl);
+    dialog = TestBed.get(MatDialog);
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(ac, 'hasError').and.callThrough();
     spyOn(component.addAddress, 'emit').and.callThrough();
     spyOn(component.address, 'get').and.returnValue(ac);
+    spyOn(dialog, 'open').and.callThrough();
   });
 
   it('should be created', () => {
@@ -132,12 +138,14 @@ describe('AddressFormComponent', () => {
     });
   });
 
-  // it('should call next()', () => {
-  //   component.next();
-  //   expect(component.addAddress.emit).toHaveBeenCalledWith(
-  //     component.address.value
-  //   );
-  // });
+  it('should call next() with valid address', () => {
+    const mockAddressVerificationResult = { decision: 'ACCEPT' };
+    spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
+    component.next();
+    expect(component.addAddress.emit).toHaveBeenCalledWith(
+      component.address.value
+    );
+  });
 
   it('should call back()', () => {
     component.back();

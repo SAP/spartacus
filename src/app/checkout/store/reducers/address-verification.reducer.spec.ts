@@ -25,6 +25,17 @@ describe('Address Verification Reducer', () => {
     });
   });
 
+  describe('LOAD_ADDRESS_VERIFICATION_RESULTS_FAIL action', () => {
+    it('should not load the address verification results state entities', () => {
+      const error = 'error';
+
+      const { initialState } = fromReducer;
+      const action = new fromActions.LoadAddressVerificationResultsFail(error);
+      const state = fromReducer.reducer(initialState, action);
+      expect(state.entities).toEqual(undefined);
+    });
+  });
+
   describe('CLEAR_ADDRESS_VERIFICATION_RESULTS action', () => {
     it('should clear the address verification results data', () => {
       const { initialState } = fromReducer;
