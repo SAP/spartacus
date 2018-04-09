@@ -113,6 +113,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
           this.cd.detectChanges();
         } else {
           // show some message
+          console.log(paymentInfo);
           this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(3));
         }
       });
