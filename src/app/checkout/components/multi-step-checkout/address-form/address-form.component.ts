@@ -105,11 +105,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         address => {
           if (address.selected) {
             this.addAddress.emit(address);
-          } else {
-            this.address.setValue(address);
-            this.address.value.region.isocode = address.region.isocode.slice(
-              address.region.isocode.indexOf('-') + 1
-            );
           }
         }
       );
