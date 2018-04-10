@@ -4,7 +4,8 @@
   "license": "MIT",
   "angular-cli": {},
   "config": {
-    "host": "localhost"
+    "host": "localhost",
+    "port": "9002"
   },
   "scripts": {
     "ng": "ng",
