@@ -119,7 +119,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             if (results.decision === 'ACCEPT') {
               this.addAddress.emit(this.address.value);
             } else {
-              this.store.dispatch(new fromStore.ClearCheckoutStep(1));
+              // Show error message?
             }
           }
         }
