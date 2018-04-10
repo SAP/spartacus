@@ -115,7 +115,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     } else {
       this.addressVerificationResultsSub = this.addressVerificationResults$.subscribe(
         results => {
-          if (Object.keys(results).length !== 0) {
+          if (results && Object.keys(results).length !== 0) {
             if (results.decision === 'ACCEPT') {
               this.addAddress.emit(this.address.value);
             } else {
