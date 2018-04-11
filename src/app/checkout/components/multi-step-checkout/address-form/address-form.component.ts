@@ -9,7 +9,7 @@ import {
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
-import { tap, take, skip, takeLast, filter } from 'rxjs/operators';
+import { tap, take, filter } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
@@ -164,5 +164,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+
+    this.store.dispatch(
+      new fromCheckoutStore.ClearAddressVerificationResults()
+    );
   }
 }
