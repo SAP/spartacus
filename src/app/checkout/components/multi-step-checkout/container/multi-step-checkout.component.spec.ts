@@ -7,6 +7,7 @@ import * as fromRoot from '../../../../routing/store';
 import * as fromCheckout from '../../../store';
 import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../auth/store';
+import * as fromRouting from '../../../../routing/store';
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 import { AddressFormComponent } from '../address-form/address-form.component';
@@ -72,6 +73,7 @@ describe('MultiStepCheckoutComponent', () => {
     spyOn(service, 'createAndSetAddress').and.callThrough();
     spyOn(service, 'setDeliveryMode').and.callThrough();
     spyOn(service, 'getPaymentDetails').and.callThrough();
+    spyOn(service, 'placeOrder').and.callThrough();
   });
 
   it('should be created', () => {
@@ -130,5 +132,18 @@ describe('MultiStepCheckoutComponent', () => {
     component.addPaymentInfo(paymentDetails);
     expect(service.getPaymentDetails).toHaveBeenCalledWith(paymentDetails);
     expect(component.step).toBe(4);
+  });
+
+  it('should call placeOrder()', () => {
+    const orderDetails = 'mockOrderDetails';
+    spyOn(store, 'select').and.returnValues(of(orderDetails));
+
+    component.placeOrder();
+    expect(service.placeOrder).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromRouting.Go({
+        path: ['orderConfirmation']
+      })
+    );
   });
 });

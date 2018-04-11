@@ -97,4 +97,13 @@ export class CheckoutService {
       })
     );
   }
+
+  verifyAddress(address) {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.VerifyAddress({
+        userId: this.cartService.userId,
+        address: address
+      })
+    );
+  }
 }

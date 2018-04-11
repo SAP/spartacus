@@ -67,8 +67,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   }
 
   addAddress(address: Address) {
-    address.region.isocode =
-      address.country.isocode + '-' + address.region.isocode;
     this.checkoutService.createAndSetAddress(address);
 
     this.step1Sub = this.store

@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 const USER_ENDPOINT = 'users/';
+const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
 
 @Injectable()
 export class OccUserService {
@@ -36,6 +37,18 @@ export class OccUserService {
 
     return this.http
       .post(url, creds, { headers: headers })
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  verifyAddress(userId, address) {
+    const url =
+      this.getUserEndpoint() + userId + ADDRESSES_VERIFICATION_ENDPOINT;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .post(url, address, { headers: headers })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
