@@ -1,6 +1,6 @@
 <div class="content">
     <h1>Suggested Addresses</h1>
-    <div *ngIf="(data.addressVerificationResults$ | async)?.decision === 'REVIEW' && (data.addressVerificationResults$ | async)?.suggestedAddresses?.length !== 0">
+    <div *ngIf="(data.addressVerificationResults$ | async)?.suggestedAddresses?.length !== 0">
         <h2>We have some suggestions about the address you entered. Select the address you want to use.</h2>
         <div>
             <h3>Suggested Addresses:</h3>
@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div *ngIf="!(data.addressVerificationResults$ | async) || (data.addressVerificationResults$ | async)?.decision === 'REJECT' || (data.addressVerificationResults$ | async)?.suggestedAddresses?.length === 0">
+    <div *ngIf="(data.addressVerificationResults$ | async)?.suggestedAddresses?.length === 0">
         <h2>We could not find any suggestions.</h2>
         <h3>Address You Entered:</h3>
         <div>{{enteredAddress.firstName}} {{enteredAddress.lastName}}</div>
