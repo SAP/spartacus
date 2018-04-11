@@ -10,21 +10,17 @@ import { OccUserService } from '../../../occ/user/user.service';
 @Injectable()
 export class AddressVerificationEffect {
   @Effect()
-  loadAddressVerificationResults$: Observable<any> = this.actions$
-    .ofType(fromAction.LOAD_ADDRESS_VERIFICATION_RESULTS)
+  verifyAddress$: Observable<any> = this.actions$
+    .ofType(fromAction.VERIFY_ADDRESS)
     .pipe(
       map((action: any) => action.payload),
       mergeMap(payload =>
-        this.occUserService
-          .loadAddressVerificationResults(payload.userId, payload.address)
-          .pipe(
-            map(data => {
-              return new fromAction.LoadAddressVerificationResultsSuccess(data);
-            }),
-            catchError(error =>
-              of(new fromAction.LoadAddressVerificationResultsFail(error))
-            )
-          )
+        this.occUserService.verifyAddress(payload.userId, payload.address).pipe(
+          map(data => {
+            return new fromAction.VerifyAddressSuccess(data);
+          }),
+          catchError(error => of(new fromAction.VerifyAddressFail(error)))
+        )
       )
     );
 

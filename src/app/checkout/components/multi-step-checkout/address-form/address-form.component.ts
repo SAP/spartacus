@@ -17,7 +17,6 @@ import * as fromRouting from '../../../../routing/store';
 import { MatDialog } from '@angular/material';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import { CheckoutService } from '../../../services';
-import * as fromStore from '../../../store';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -30,7 +29,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<any>;
   titles$: Observable<any>;
   addressVerificationResults$: Observable<any>;
-  addressVerificationResultsSub: Subscription;
+  subscription: Subscription;
 
   @Output() addAddress = new EventEmitter<any>();
 
@@ -87,25 +86,26 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           '-' +
           this.address.value.region.isocode;
 
-    this.checkoutService.loadAddressVerificationResults(this.address.value);
+    this.checkoutService.verifyAddress(this.address.value);
 
     this.addressVerificationResults$ = this.store.select(
-      fromStore.getAddressVerificationResultsEntities
+      fromCheckoutStore.getAddressVerificationResults
     );
 
-    this.addressVerificationResultsSub = this.addressVerificationResults$
+    this.subscription = this.addressVerificationResults$
       .pipe(
-        take(2),
+        filter(results => Object.keys(results).length !== 0),
+        take(1),
         tap(results => {
-          if (results && Object.keys(results).length !== 0) {
+          if (Object.keys(results).length !== 0) {
             if (results && results.decision === 'ACCEPT') {
               this.addAddress.emit(this.address.value);
-            } else if (results && results.decision === 'REJECT') {
+            } else if (results.decision === 'REJECT') {
               console.log('Invalid Address');
               this.store.dispatch(
-                new fromStore.ClearAddressVerificationResults()
+                new fromCheckoutStore.ClearAddressVerificationResults()
               );
-            } else if (results && results.decision === 'REVIEW') {
+            } else if (results.decision === 'REVIEW') {
               const dialogRef = this.dialog.open(
                 SuggestedAddressDialogComponent,
                 {
@@ -126,9 +126,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
               );
 
               dialogRef.afterClosed().subscribe(() => {
-                this.addressVerificationResultsSub.unsubscribe();
+                this.subscription.unsubscribe();
                 this.store.dispatch(
-                  new fromStore.ClearAddressVerificationResults()
+                  new fromCheckoutStore.ClearAddressVerificationResults()
                 );
                 sub.unsubscribe();
               });
@@ -161,10 +161,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.addressVerificationResultsSub) {
-      this.addressVerificationResultsSub.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
-
-    this.store.dispatch(new fromStore.ClearAddressVerificationResults());
   }
 }

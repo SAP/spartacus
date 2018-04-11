@@ -142,10 +142,8 @@ describe('AddressFormComponent', () => {
     const mockAddressVerificationResult = { decision: 'ACCEPT' };
     spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
     component.next();
-    component.addressVerificationResults$.subscribe(() =>
-      expect(component.addAddress.emit).toHaveBeenCalledWith(
-        component.address.value
-      )
+    expect(component.addAddress.emit).toHaveBeenCalledWith(
+      component.address.value
     );
   });
 
@@ -153,9 +151,7 @@ describe('AddressFormComponent', () => {
     const mockAddressVerificationResult = { decision: 'REJECT' };
     spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
     component.next();
-    component.addressVerificationResults$.subscribe(() =>
-      expect(component.addAddress.emit).not.toHaveBeenCalled()
-    );
+    expect(component.addAddress.emit).not.toHaveBeenCalled();
   });
 
   it('should call back()', () => {

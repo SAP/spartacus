@@ -28,7 +28,7 @@ export function getActions() {
 }
 
 class MockUserService {
-  loadAddressVerificationResults(userId, address) {}
+  verifyAddress(userId, address) {}
 }
 
 const result = 'mockResult';
@@ -51,26 +51,22 @@ describe('Address Verification effect', () => {
     service = TestBed.get(OccUserService);
     actions$ = TestBed.get(Actions);
 
-    spyOn(service, 'loadAddressVerificationResults').and.returnValue(
-      of(result)
-    );
+    spyOn(service, 'verifyAddress').and.returnValue(of(result));
   });
 
-  describe('loadAddressVerificationResults$', () => {
+  describe('verifyAddress$', () => {
     it('should load the address verification results', () => {
       const payload = {
         userId: 'userId',
         address: 'address'
       };
-      const action = new fromActions.LoadAddressVerificationResults(payload);
-      const completion = new fromActions.LoadAddressVerificationResultsSuccess(
-        result
-      );
+      const action = new fromActions.VerifyAddress(payload);
+      const completion = new fromActions.VerifyAddressSuccess(result);
 
       actions$.stream = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(effect.loadAddressVerificationResults$).toBeObservable(expected);
+      expect(effect.verifyAddress$).toBeObservable(expected);
     });
   });
 });

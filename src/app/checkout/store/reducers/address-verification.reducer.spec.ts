@@ -12,27 +12,14 @@ describe('Address Verification Reducer', () => {
     });
   });
 
-  describe('LOAD_ADDRESS_VERIFICATION_RESULTS_SUCCESS action', () => {
+  describe('VERIFY_ADDRESS_SUCCESS action', () => {
     it('should load the address verification results state entities', () => {
       const addresses = ['address1', 'address2'];
 
       const { initialState } = fromReducer;
-      const action = new fromActions.LoadAddressVerificationResultsSuccess(
-        addresses
-      );
+      const action = new fromActions.VerifyAddressSuccess(addresses);
       const state = fromReducer.reducer(initialState, action);
-      expect(state.entities).toEqual(addresses);
-    });
-  });
-
-  describe('LOAD_ADDRESS_VERIFICATION_RESULTS_FAIL action', () => {
-    it('should not load the address verification results state entities', () => {
-      const error = 'error';
-
-      const { initialState } = fromReducer;
-      const action = new fromActions.LoadAddressVerificationResultsFail(error);
-      const state = fromReducer.reducer(initialState, action);
-      expect(state.entities).toEqual(undefined);
+      expect(state.results).toEqual(addresses);
     });
   });
 

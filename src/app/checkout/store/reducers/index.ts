@@ -18,7 +18,7 @@ export interface CheckoutState {
   countries: fromCountries.DeliveryCountriesState;
   titles: fromTitles.TitlesState;
   cardTypes: fromCardTypes.CardTypesState;
-  addressVerificationResults: fromAddressVerification.AddressVerificationResultsState;
+  addressVerification: fromAddressVerification.AddressVerificationState;
 }
 
 export const reducers: ActionReducerMap<CheckoutState> = {
@@ -26,7 +26,7 @@ export const reducers: ActionReducerMap<CheckoutState> = {
   countries: fromCountries.reducer,
   titles: fromTitles.reducer,
   cardTypes: fromCardTypes.reducer,
-  addressVerificationResults: fromAddressVerification.reducer
+  addressVerification: fromAddressVerification.reducer
 };
 
 export const getCheckoutState: MemoizedSelector<

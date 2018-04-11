@@ -1,40 +1,31 @@
 import * as fromAction from '../actions';
 
-export interface AddressVerificationResultsState {
-  entities: any;
+export interface AddressVerificationState {
+  results: any;
 }
 
-export const initialState: AddressVerificationResultsState = {
-  entities: {}
+export const initialState: AddressVerificationState = {
+  results: {}
 };
 
 export function reducer(
   state = initialState,
   action: fromAction.AddressVerificationActions
-): AddressVerificationResultsState {
+): AddressVerificationState {
   switch (action.type) {
-    case fromAction.LOAD_ADDRESS_VERIFICATION_RESULTS_SUCCESS: {
-      const entities = action.payload;
+    case fromAction.VERIFY_ADDRESS_SUCCESS: {
+      const results = action.payload;
 
       return {
         ...state,
-        entities
-      };
-    }
-
-    case fromAction.LOAD_ADDRESS_VERIFICATION_RESULTS_FAIL: {
-      const entities = undefined;
-
-      return {
-        ...state,
-        entities
+        results
       };
     }
 
     case fromAction.CLEAR_ADDRESS_VERIFICATION_RESULTS: {
       return {
         ...state,
-        entities: {}
+        results: {}
       };
     }
   }
@@ -43,5 +34,5 @@ export function reducer(
 }
 
 export const getAddressVerificationResultsEntities = (
-  state: AddressVerificationResultsState
-) => state.entities;
+  state: AddressVerificationState
+) => state.results;

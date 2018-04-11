@@ -29,14 +29,12 @@ describe('Address Verification Selectors', () => {
 
       let result;
       store
-        .select(fromSelectors.getAddressVerificationResultsEntities)
+        .select(fromSelectors.getAddressVerificationResults)
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
-      store.dispatch(
-        new fromActions.LoadAddressVerificationResultsSuccess(addresses)
-      );
+      store.dispatch(new fromActions.VerifyAddressSuccess(addresses));
 
       expect(result).toEqual(addresses);
     });

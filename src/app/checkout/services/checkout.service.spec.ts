@@ -177,10 +177,10 @@ describe('CheckoutService', () => {
         cartService.userId = userId;
         cartService.cart = cart;
 
-        service.loadAddressVerificationResults('mockAddress');
+        service.verifyAddress('mockAddress');
 
         expect(store.dispatch).toHaveBeenCalledWith(
-          new fromCheckout.LoadAddressVerificationResults({
+          new fromCheckout.VerifyAddress({
             userId: userId,
             address: 'mockAddress'
           })

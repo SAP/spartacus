@@ -4,10 +4,10 @@ import * as fromReducer from './../reducers/address-verification.reducer';
 
 export const getAddressVerificationResultsState = createSelector(
   fromFeature.getCheckoutState,
-  (state: fromFeature.CheckoutState) => state.addressVerificationResults
+  (state: fromFeature.CheckoutState) => state.addressVerification
 );
 
-export const getAddressVerificationResultsEntities: MemoizedSelector<
+export const getAddressVerificationResults: MemoizedSelector<
   any,
   any
 > = createSelector(

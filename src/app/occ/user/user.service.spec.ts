@@ -95,11 +95,9 @@ describe('OccUserService', () => {
       const address = 'someAddress';
       const suggestedAddresses = ['address1', 'address2'];
 
-      service
-        .loadAddressVerificationResults(username, address)
-        .subscribe(result => {
-          expect(result).toEqual(suggestedAddresses);
-        });
+      service.verifyAddress(username, address).subscribe(result => {
+        expect(result).toEqual(suggestedAddresses);
+      });
 
       const mockReq = httpMock.expectOne(req => {
         return (

@@ -1,27 +1,25 @@
 import { Action } from '@ngrx/store';
 
-export const LOAD_ADDRESS_VERIFICATION_RESULTS =
-  '[Checkout] Load Address Verification Results';
-export const LOAD_ADDRESS_VERIFICATION_RESULTS_FAIL =
-  '[Checkout] Load Address Verification Results Fail';
-export const LOAD_ADDRESS_VERIFICATION_RESULTS_SUCCESS =
-  '[Checkout] Load Address Verification Results Success';
+export const VERIFY_ADDRESS = '[Checkout] Verify Address';
+export const VERIFY_ADDRESS_FAIL = '[Checkout] Verify Address Fail';
+export const VERIFY_ADDRESS_SUCCESS =
+  '[Checkout] Verify Address Results Success';
 
 export const CLEAR_ADDRESS_VERIFICATION_RESULTS =
   '[Checkout] Clear Address Verification Results';
 
-export class LoadAddressVerificationResults implements Action {
-  readonly type = LOAD_ADDRESS_VERIFICATION_RESULTS;
+export class VerifyAddress implements Action {
+  readonly type = VERIFY_ADDRESS;
   constructor(public payload: { userId: string; address: string }) {}
 }
 
-export class LoadAddressVerificationResultsFail implements Action {
-  readonly type = LOAD_ADDRESS_VERIFICATION_RESULTS_FAIL;
+export class VerifyAddressFail implements Action {
+  readonly type = VERIFY_ADDRESS_FAIL;
   constructor(public payload: any) {}
 }
 
-export class LoadAddressVerificationResultsSuccess implements Action {
-  readonly type = LOAD_ADDRESS_VERIFICATION_RESULTS_SUCCESS;
+export class VerifyAddressSuccess implements Action {
+  readonly type = VERIFY_ADDRESS_SUCCESS;
   constructor(public payload: any) {}
 }
 
@@ -31,7 +29,7 @@ export class ClearAddressVerificationResults implements Action {
 }
 
 export type AddressVerificationActions =
-  | LoadAddressVerificationResults
-  | LoadAddressVerificationResultsFail
-  | LoadAddressVerificationResultsSuccess
+  | VerifyAddress
+  | VerifyAddressFail
+  | VerifyAddressSuccess
   | ClearAddressVerificationResults;

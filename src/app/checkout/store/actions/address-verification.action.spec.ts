@@ -1,44 +1,42 @@
 import * as fromAction from '../actions/address-verification.action';
 
 describe('Address Verification Actions', () => {
-  describe('LoadAddressVerificationResults', () => {
+  describe('VerifyAddress', () => {
     it('should create the action', () => {
       const payload = {
         userId: 'userId',
         address: 'address'
       };
 
-      const action = new fromAction.LoadAddressVerificationResults({
+      const action = new fromAction.VerifyAddress({
         userId: 'userId',
         address: 'address'
       });
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_ADDRESS_VERIFICATION_RESULTS,
+        type: fromAction.VERIFY_ADDRESS,
         payload: payload
       });
     });
   });
 
-  describe('LoadAddressVerificationResultsFail', () => {
+  describe('VerifyAddressFail', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new fromAction.LoadAddressVerificationResultsFail(error);
+      const action = new fromAction.VerifyAddressFail(error);
 
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_ADDRESS_VERIFICATION_RESULTS_FAIL,
+        type: fromAction.VERIFY_ADDRESS_FAIL,
         payload: error
       });
     });
   });
 
-  describe('LoadAddressVerificationResultSuccess', () => {
+  describe('VerifyAddressSuccess', () => {
     it('should create the action', () => {
       const addresses = ['address1', 'address2'];
-      const action = new fromAction.LoadAddressVerificationResultsSuccess(
-        addresses
-      );
+      const action = new fromAction.VerifyAddressSuccess(addresses);
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_ADDRESS_VERIFICATION_RESULTS_SUCCESS,
+        type: fromAction.VERIFY_ADDRESS_SUCCESS,
         payload: addresses
       });
     });
