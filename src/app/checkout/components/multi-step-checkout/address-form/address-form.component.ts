@@ -98,7 +98,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         take(2),
         skip(1),
         tap(results => {
-          console.log(results);
           if (results && Object.keys(results).length !== 0) {
             if (results && results.decision === 'ACCEPT') {
               this.addAddress.emit(this.address.value);
