@@ -9,7 +9,7 @@ import {
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
-import { tap, take, skip } from 'rxjs/operators';
+import { tap, take, skip, takeLast, filter } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
@@ -96,13 +96,15 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.addressVerificationResultsSub = this.addressVerificationResults$
       .pipe(
         take(2),
-        skip(1),
         tap(results => {
           if (results && Object.keys(results).length !== 0) {
             if (results && results.decision === 'ACCEPT') {
               this.addAddress.emit(this.address.value);
             } else if (results && results.decision === 'REJECT') {
               console.log('Invalid Address');
+              this.store.dispatch(
+                new fromStore.ClearAddressVerificationResults()
+              );
             } else if (results && results.decision === 'REVIEW') {
               const dialogRef = this.dialog.open(
                 SuggestedAddressDialogComponent,
@@ -125,6 +127,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
               dialogRef.afterClosed().subscribe(() => {
                 this.addressVerificationResultsSub.unsubscribe();
+                this.store.dispatch(
+                  new fromStore.ClearAddressVerificationResults()
+                );
                 sub.unsubscribe();
               });
             }

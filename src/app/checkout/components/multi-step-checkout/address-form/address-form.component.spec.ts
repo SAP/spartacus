@@ -57,7 +57,7 @@ const mockCountriesList = {
   ]
 };
 
-describe('AddressFormComponent', () => {
+fdescribe('AddressFormComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: AddressFormComponent;
   let fixture: ComponentFixture<AddressFormComponent>;
@@ -138,17 +138,25 @@ describe('AddressFormComponent', () => {
     });
   });
 
-  // TODO: Need to fix this test
-  // it('should call next() with valid address', () => {
-  //   const mockAddressVerificationResult = { decision: 'ACCEPT' };
-  //   spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
-  //   component.next();
-  //   component.addressVerificationResults$.subscribe(() =>
-  //     expect(component.addAddress.emit).toHaveBeenCalledWith(
-  //       component.address.value
-  //     )
-  //   );
-  // });
+  it('should call next() with valid address', () => {
+    const mockAddressVerificationResult = { decision: 'ACCEPT' };
+    spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
+    component.next();
+    component.addressVerificationResults$.subscribe(() =>
+      expect(component.addAddress.emit).toHaveBeenCalledWith(
+        component.address.value
+      )
+    );
+  });
+
+  it('should call next() with valid address', () => {
+    const mockAddressVerificationResult = { decision: 'REJECT' };
+    spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
+    component.next();
+    component.addressVerificationResults$.subscribe(() =>
+      expect(component.addAddress.emit).not.toHaveBeenCalled()
+    );
+  });
 
   it('should call back()', () => {
     component.back();
