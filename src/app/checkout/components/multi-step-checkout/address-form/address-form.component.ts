@@ -9,7 +9,7 @@ import {
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
-import { tap, take, filter, skip } from 'rxjs/operators';
+import { tap, take, skip } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
@@ -31,7 +31,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   titles$: Observable<any>;
   addressVerificationResults$: Observable<any>;
   addressVerificationResultsSub: Subscription;
-  modalOpened = false;
 
   @Output() addAddress = new EventEmitter<any>();
 
@@ -99,40 +98,36 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         take(2),
         skip(1),
         tap(results => {
+          console.log(results);
           if (results && Object.keys(results).length !== 0) {
             if (results && results.decision === 'ACCEPT') {
               this.addAddress.emit(this.address.value);
             } else if (results && results.decision === 'REJECT') {
               console.log('Invalid Address');
             } else if (results && results.decision === 'REVIEW') {
-              if (!this.modalOpened) {
-                const dialogRef = this.dialog.open(
-                  SuggestedAddressDialogComponent,
-                  {
-                    data: {
-                      address: this.address.value,
-                      addressVerificationResults$: this
-                        .addressVerificationResults$
-                    }
+              const dialogRef = this.dialog.open(
+                SuggestedAddressDialogComponent,
+                {
+                  data: {
+                    address: this.address.value,
+                    addressVerificationResults$: this
+                      .addressVerificationResults$
                   }
-                );
+                }
+              );
 
-                this.modalOpened = true;
-
-                const sub = dialogRef.componentInstance.onSelectedAddress.subscribe(
-                  address => {
-                    if (address.selected) {
-                      this.addAddress.emit(address);
-                    }
+              const sub = dialogRef.componentInstance.onSelectedAddress.subscribe(
+                address => {
+                  if (address.selected) {
+                    this.addAddress.emit(address);
                   }
-                );
+                }
+              );
 
-                dialogRef.afterClosed().subscribe(() => {
-                  this.addressVerificationResultsSub.unsubscribe();
-                  this.modalOpened = false;
-                  sub.unsubscribe();
-                });
-              }
+              dialogRef.afterClosed().subscribe(() => {
+                this.addressVerificationResultsSub.unsubscribe();
+                sub.unsubscribe();
+              });
             }
           }
         })

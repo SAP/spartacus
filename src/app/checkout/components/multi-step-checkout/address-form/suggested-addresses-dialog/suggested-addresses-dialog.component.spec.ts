@@ -1,21 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import * as fromRoot from '../../../../../routing/store';
-import * as fromCheckout from '../../../../store';
-import * as fromCart from '../../../../../cart/store';
-import * as fromAuth from '../../../../../auth/store';
 
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
-import {
-  ReactiveFormsModule,
-  FormGroup,
-  FormBuilder,
-  AbstractControl
-} from '@angular/forms';
 
-import { of } from 'rxjs/observable/of';
-import * as fromRouting from '../../../../../routing/store';
 import { MaterialModule } from '../../../../../material.module';
 import { CheckoutService } from '../../../../services';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog.component';

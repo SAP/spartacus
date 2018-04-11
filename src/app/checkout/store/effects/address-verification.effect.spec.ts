@@ -31,7 +31,6 @@ class MockUserService {
   loadAddressVerificationResults(userId, address) {}
 }
 
-const addresses = { suggestedAddresses: ['address1', 'address2'] };
 const result = 'mockResult';
 
 describe('Address Verification effect', () => {
