@@ -85,6 +85,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       .select(fromCheckoutStore.getAddressVerificationResults)
       .pipe(filter(results => Object.keys(results).length !== 0), take(1))
       .subscribe(results => {
+        console.log(results);
         if (results.decision === 'ACCEPT') {
           this.addAddress.emit(this.address.value);
         } else if (results.decision === 'REJECT') {
@@ -108,6 +109,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(address => {
+      this.store.dispatch(
+        new fromCheckoutStore.ClearAddressVerificationResults()
+      );
       if (address) {
         address = Object.assign(
           {

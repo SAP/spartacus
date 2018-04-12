@@ -18,11 +18,11 @@ import {
 import { of } from 'rxjs/observable/of';
 import * as fromRouting from '../../../../routing/store';
 import { MaterialModule } from '../../../../material.module';
-import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import { CheckoutService } from '../../../services';
 import { CartService } from '../../../../cart/services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialog } from '@angular/material';
+import { AddressFormModule } from './address-form.module';
 
 export class MockAbstractControl {
   hasError() {}
@@ -72,6 +72,7 @@ describe('AddressFormComponent', () => {
           ReactiveFormsModule,
           MaterialModule,
           BrowserAnimationsModule,
+          AddressFormModule,
           StoreModule.forRoot({
             ...fromRoot.reducers,
             checkout: combineReducers(fromCheckout.reducers),
@@ -79,7 +80,6 @@ describe('AddressFormComponent', () => {
             user: combineReducers(fromAuth.reducers)
           })
         ],
-        declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
         providers: [
           CheckoutService,
           CartService,
@@ -147,11 +147,20 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  it('should call next() with valid address', () => {
+  it('should call next() with invalid address', () => {
     const mockAddressVerificationResult = { decision: 'REJECT' };
     spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
     component.next();
     expect(component.addAddress.emit).not.toHaveBeenCalled();
+  });
+
+  it('should call next() with and return suggested addresses', () => {
+    const mockAddressVerificationResult = {
+      decision: 'REVIEW',
+      suggestedAddresses: ['address1', 'address2']
+    };
+    spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
+    component.next();
   });
 
   it('should call back()', () => {

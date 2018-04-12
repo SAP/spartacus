@@ -1,8 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-
-
-
 import { MaterialModule } from '../../../../../material.module';
 import { CheckoutService } from '../../../../services';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog.component';
@@ -25,6 +22,7 @@ describe('SuggestedAddressDialogComponent', () => {
       TestBed.configureTestingModule({
         imports: [MaterialModule],
         declarations: [SuggestedAddressDialogComponent],
+
         providers: [
           CheckoutService,
           CartService,
@@ -42,52 +40,9 @@ describe('SuggestedAddressDialogComponent', () => {
     fixture = TestBed.createComponent(SuggestedAddressDialogComponent);
     component = fixture.componentInstance;
     dialogRef = TestBed.get(MatDialogRef);
-
-    spyOn(component.onSelectedAddress, 'emit').and.callThrough();
-    spyOn(dialogRef, 'close').and.callThrough();
-    spyOn(component, 'closeDialog').and.callThrough();
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call ngOnInit', () => {
-    component.data.address = 'mockAddress';
-    component.ngOnInit();
-    expect(component.enteredAddress).toEqual('mockAddress');
-  });
-
-  it('should call closeDialog() with selected address not null', () => {
-    component.selectedAddress = 'mockAddress';
-    component.closeDialog();
-    expect(component.selectedAddress).toEqual('mockAddress');
-    expect(component.onSelectedAddress.emit).toHaveBeenCalledWith(
-      'mockAddress'
-    );
-    expect(component.dialogRef.close).toHaveBeenCalled();
-  });
-
-  it('should call closeDialog() with selected address null', () => {
-    component.enteredAddress = 'mockAddress';
-    component.closeDialog();
-    expect(component.selectedAddress).toEqual('mockAddress');
-    expect(component.onSelectedAddress.emit).toHaveBeenCalledWith(
-      'mockAddress'
-    );
-    expect(component.dialogRef.close).toHaveBeenCalled();
-  });
-
-  it('should call setAddress(address)', () => {
-    const resultSelectedAddress = {
-      mockAddress: 'mockAddress',
-      titleCode: 'mr',
-      phone: undefined,
-      selected: true
-    };
-    component.setAddress(address);
-    expect(component.selectedAddress).toEqual(resultSelectedAddress);
-
-    expect(component.closeDialog).toHaveBeenCalled();
   });
 });
