@@ -12,7 +12,7 @@ import { of } from 'rxjs/observable/of';
 import * as fromRoot from '../../routing/store';
 import * as fromCms from '../../cms/store';
 import * as fromCart from '../../cart/store';
-import * as fromAuth from '../../auth/store';
+import * as fromUser from '../../user/store';
 import { ConfigService } from '../../cms/config.service';
 
 import { MiniCartComponent } from './mini-cart.component';
@@ -72,7 +72,7 @@ describe('MiniCartComponent', () => {
             ...fromRoot.reducers,
             cms: combineReducers(fromCms.reducers),
             cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromAuth.reducers)
+            user: combineReducers(fromUser.reducers)
           })
         ],
         declarations: [MiniCartComponent],

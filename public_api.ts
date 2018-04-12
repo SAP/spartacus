@@ -24,8 +24,8 @@ export * from './src/app/cms/cms.module';
 export * from './src/app/routing/routing.module';
 export * from './src/app/site-context/currency-selector/currency-selector.module';
 export * from './src/app/site-context/language-selector/language-selector.module';
-export * from './src/app/auth/auth.module';
-export * from './src/app/auth/components/login/login.module';
+export * from './src/app/user/user.module';
+export * from './src/app/user/components/login/login.module';
 export * from './src/app/cart/cart.module';
 export * from './src/app/cart/components/add-to-cart/add-to-cart.module';
 

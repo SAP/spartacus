@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AuthGuard } from './auth.guard';
+import { UserGuard } from './user.guard';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from './../../routing/store';
 import * as fromStore from './../store';
@@ -14,13 +14,13 @@ const mockUserValidToken = {
 
 const mockUserInvalidToken = {};
 
-describe('AuthGuard', () => {
-  let authGuard: AuthGuard;
+describe('UserGuard', () => {
+  let userGuard: UserGuard;
   let store: Store<fromStore.UserState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AuthGuard],
+      providers: [UserGuard],
       imports: [
         RouterTestingModule,
         StoreModule.forRoot({
@@ -30,7 +30,7 @@ describe('AuthGuard', () => {
       ]
     });
     store = TestBed.get(Store);
-    authGuard = TestBed.get(AuthGuard);
+    userGuard = TestBed.get(UserGuard);
   });
 
   it('should return false', () => {
@@ -38,7 +38,7 @@ describe('AuthGuard', () => {
 
     let result: boolean;
 
-    authGuard.canActivate().subscribe(value => (result = value));
+    userGuard.canActivate().subscribe(value => (result = value));
     expect(result).toBe(false);
   });
 
@@ -47,7 +47,7 @@ describe('AuthGuard', () => {
 
     let result: boolean;
 
-    authGuard.canActivate().subscribe(value => (result = value));
+    userGuard.canActivate().subscribe(value => (result = value));
     expect(result).toBe(true);
   });
 });

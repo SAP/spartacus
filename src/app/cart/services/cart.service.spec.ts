@@ -4,9 +4,9 @@ import { of } from 'rxjs/observable/of';
 
 import * as fromRoot from '../../routing/store';
 import * as fromCart from '../../cart/store';
-import * as fromUser from '../../auth/store';
+import * as fromUser from '../../user/store';
 
-import { UserToken } from '../../auth/models/token-types.model';
+import { UserToken } from '../../user/models/token-types.model';
 import { CartService } from './cart.service';
 
 describe('CartService', () => {

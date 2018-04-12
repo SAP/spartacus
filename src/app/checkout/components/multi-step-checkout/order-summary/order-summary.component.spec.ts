@@ -1,6 +1,6 @@
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromCartStore from '../../../../cart/store';
-import * as fromAuthStore from '../../../../auth/store';
+import * as fromUserStore from '../../../../user/store';
 import * as fromRoot from '../../../../routing/store';
 import { OrderSummaryComponent } from './order-summary.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -21,7 +21,7 @@ describe('OrderSummary', () => {
           StoreModule.forRoot({
             ...fromRoot.reducers,
             cart: combineReducers(fromCartStore.reducers),
-            user: combineReducers(fromAuthStore.reducers)
+            user: combineReducers(fromUserStore.reducers)
           })
         ],
         declarations: [OrderSummaryComponent],

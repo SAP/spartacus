@@ -25,7 +25,7 @@ export function clearCartState(
 ): ActionReducer<any> {
   return function(state, action) {
     if (
-      action.type === '[Auth] Logout' ||
+      action.type === '[User] Logout' ||
       action.type === '[Checkout] Place Order Success'
     ) {
       state = undefined;

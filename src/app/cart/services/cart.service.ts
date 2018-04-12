@@ -5,7 +5,7 @@ import * as fromReducer from '../store/reducers';
 import * as fromAction from '../store/actions';
 import * as fromSelector from '../store/selectors';
 
-import * as fromAuth from '../../auth/store';
+import * as fromUser from '../../user/store';
 
 export const ANOYMOUS_USERID = 'anonymous';
 
@@ -29,7 +29,7 @@ export class CartService {
       }
     });
 
-    this.store.select(fromAuth.getUserToken).subscribe(userToken => {
+    this.store.select(fromUser.getUserToken).subscribe(userToken => {
       if (Object.keys(userToken).length !== 0) {
         this.userId = userToken.userId;
       } else {

@@ -19,7 +19,7 @@ import { appRoutes } from './app.routes';
 
 // bootstrap
 import { AppComponent } from './app.component';
-import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 import { CartModule } from './cart/cart.module';
 import { CheckoutModule } from './checkout/checkout.module';
 
@@ -37,7 +37,7 @@ import { CheckoutModule } from './checkout/checkout.module';
     RoutingModule.forRoot(ConfigService),
     RouterModule.forRoot(appRoutes),
     ProductModule,
-    AuthModule,
+    UserModule,
     CartModule
   ],
 
