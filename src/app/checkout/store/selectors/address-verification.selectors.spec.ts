@@ -23,8 +23,8 @@ describe('Address Verification Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getAddressVerificationResultsEntities', () => {
-    it('should return all address verification entites', () => {
+  describe('getAddressVerificationResults', () => {
+    it('should return all address verification results', () => {
       const addresses = ['address1', 'address2'];
 
       let result;
