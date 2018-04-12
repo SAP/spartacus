@@ -33,6 +33,6 @@ export function reducer(
   return state;
 }
 
-export const getAddressVerificationResultsEntities = (
+export const getAddressVerificationResults = (
   state: AddressVerificationState
 ) => state.results;

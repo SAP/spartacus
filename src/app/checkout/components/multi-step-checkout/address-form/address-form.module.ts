@@ -7,13 +7,7 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    MaterialModule,
-    CommonModule,
-    ReactiveFormsModule
-  ],
+  imports: [CommonModule, MaterialModule, ReactiveFormsModule],
   declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
   entryComponents: [SuggestedAddressDialogComponent],
   exports: [AddressFormComponent]

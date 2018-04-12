@@ -12,5 +12,5 @@ export const getAddressVerificationResults: MemoizedSelector<
   any
 > = createSelector(
   getAddressVerificationResultsState,
-  fromReducer.getAddressVerificationResultsEntities
+  fromReducer.getAddressVerificationResults
 );

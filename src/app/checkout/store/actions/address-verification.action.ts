@@ -2,8 +2,7 @@ import { Action } from '@ngrx/store';
 
 export const VERIFY_ADDRESS = '[Checkout] Verify Address';
 export const VERIFY_ADDRESS_FAIL = '[Checkout] Verify Address Fail';
-export const VERIFY_ADDRESS_SUCCESS =
-  '[Checkout] Verify Address Results Success';
+export const VERIFY_ADDRESS_SUCCESS = '[Checkout] Verify Address Success';
 
 export const CLEAR_ADDRESS_VERIFICATION_RESULTS =
   '[Checkout] Clear Address Verification Results';

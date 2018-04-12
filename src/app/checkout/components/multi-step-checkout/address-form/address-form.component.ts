@@ -28,7 +28,6 @@ import { Subscription } from 'rxjs/Subscription';
 export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<any>;
   titles$: Observable<any>;
-  // addressVerificationResults$: Observable<any>;
   subscription: Subscription;
 
   @Output() addAddress = new EventEmitter<any>();
