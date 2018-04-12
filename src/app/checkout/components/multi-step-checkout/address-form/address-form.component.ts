@@ -28,7 +28,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<any>;
   titles$: Observable<any>;
-  addressVerificationResults$: Observable<any>;
+  // addressVerificationResults$: Observable<any>;
   subscription: Subscription;
 
   @Output() addAddress = new EventEmitter<any>();
@@ -79,64 +79,47 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   next() {
-    this.address.value.region.isocode =
-      this.address.value.region.isocode.indexOf('-') > -1
-        ? this.address.value.region.isocode
-        : this.address.value.country.isocode +
-          '-' +
-          this.address.value.region.isocode;
-
     this.checkoutService.verifyAddress(this.address.value);
 
-    this.addressVerificationResults$ = this.store.select(
-      fromCheckoutStore.getAddressVerificationResults
-    );
+    this.subscription = this.store
+      .select(fromCheckoutStore.getAddressVerificationResults)
+      .pipe(filter(results => Object.keys(results).length !== 0), take(1))
+      .subscribe(results => {
+        if (results.decision === 'ACCEPT') {
+          this.addAddress.emit(this.address.value);
+        } else if (results.decision === 'REJECT') {
+          // will be shown in global message
+          console.log('Invalid Address');
+          this.store.dispatch(
+            new fromCheckoutStore.ClearAddressVerificationResults()
+          );
+        } else if (results.decision === 'REVIEW') {
+          this.openSuggestedAddress(results);
+        }
+      });
+  }
 
-    this.subscription = this.addressVerificationResults$
-      .pipe(
-        filter(results => Object.keys(results).length !== 0),
-        take(1),
-        tap(results => {
-          if (Object.keys(results).length !== 0) {
-            if (results && results.decision === 'ACCEPT') {
-              this.addAddress.emit(this.address.value);
-            } else if (results.decision === 'REJECT') {
-              console.log('Invalid Address');
-              this.store.dispatch(
-                new fromCheckoutStore.ClearAddressVerificationResults()
-              );
-            } else if (results.decision === 'REVIEW') {
-              const dialogRef = this.dialog.open(
-                SuggestedAddressDialogComponent,
-                {
-                  data: {
-                    address: this.address.value,
-                    addressVerificationResults$: this
-                      .addressVerificationResults$
-                  }
-                }
-              );
+  private openSuggestedAddress(results: any) {
+    const dialogRef = this.dialog.open(SuggestedAddressDialogComponent, {
+      data: {
+        entered: this.address.value,
+        suggested: results.suggestedAddresses
+      }
+    });
 
-              const sub = dialogRef.componentInstance.onSelectedAddress.subscribe(
-                address => {
-                  if (address.selected) {
-                    this.addAddress.emit(address);
-                  }
-                }
-              );
-
-              dialogRef.afterClosed().subscribe(() => {
-                this.subscription.unsubscribe();
-                this.store.dispatch(
-                  new fromCheckoutStore.ClearAddressVerificationResults()
-                );
-                sub.unsubscribe();
-              });
-            }
-          }
-        })
-      )
-      .subscribe();
+    dialogRef.afterClosed().subscribe(address => {
+      if (address) {
+        address = Object.assign(
+          {
+            titleCode: this.address.value.titleCode,
+            phone: this.address.value.phone,
+            selected: true
+          },
+          address
+        );
+        this.addAddress.emit(address);
+      }
+    });
   }
 
   back() {
@@ -164,7 +147,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-
     this.store.dispatch(
       new fromCheckoutStore.ClearAddressVerificationResults()
     );
