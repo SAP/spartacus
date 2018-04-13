@@ -60,7 +60,7 @@ export class CheckoutEffects {
           );
       })
     );
-    
+
   @Effect()
   loadSupportedDeliveryModes$: Observable<any> = this.actions$
     .ofType(fromActions.LOAD_SUPPORTED_DELIVERY_MODES)
