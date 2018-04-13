@@ -69,7 +69,7 @@ describe('Checkout effect', () => {
     actions$ = TestBed.get(Actions);
 
     spyOn(cartService, 'createAddressOnCart').and.returnValue(of(address));
-    spyOn(cartService, 'setDeliveryAddress');
+    spyOn(cartService, 'setDeliveryAddress').and.returnValue(of({}));
     spyOn(cartService, 'getSupportedDeliveryModes').and.returnValue(of(modes));
     spyOn(orderService, 'placeOrder').and.returnValue(of(orderDetails));
     spyOn(cartService, 'setDeliveryMode').and.returnValue(of({}));
@@ -88,6 +88,22 @@ describe('Checkout effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
+    });
+  });
+
+  describe('setDeliveryAddress$', () => {
+    it('should set delivery address to cart', () => {
+      const action = new fromActions.SetDeliveryAddress({
+        userId: userId,
+        cartId: cartId,
+        address: address
+      });
+      const completion = new fromActions.SetDeliveryAddressSuccess(address);
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.setDeliveryAddress$).toBeObservable(expected);
     });
   });
 

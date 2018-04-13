@@ -12,7 +12,7 @@ export const getAddressesState: MemoizedSelector<
   (state: fromFeature.UserState) => state.existingAddresses
 );
 
-export const getAddressesEntities: MemoizedSelector<any, any> = createSelector(
+export const getAddresses: MemoizedSelector<any, any> = createSelector(
   getAddressesState,
-  fromUserAddressesReducer.getAddressesEntites
+  fromUserAddressesReducer.getAddresses
 );

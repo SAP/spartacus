@@ -72,12 +72,25 @@ describe('MultiStepCheckoutComponent', () => {
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(service, 'createAndSetAddress').and.callThrough();
     spyOn(service, 'setDeliveryMode').and.callThrough();
+    spyOn(service, 'loadUserAddresses').and.callThrough();
     spyOn(service, 'getPaymentDetails').and.callThrough();
     spyOn(service, 'placeOrder').and.callThrough();
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call ngOnInit()', () => {
+    const mockUserAddresses = { addresses: ['address1', 'address2'] };
+    spyOn(store, 'select').and.returnValues(of(mockUserAddresses));
+
+    component.ngOnInit();
+
+    expect(service.loadUserAddresses).toHaveBeenCalled();
+    component.existingAddresses$.subscribe(data =>
+      expect(data).toEqual(mockUserAddresses)
+    );
   });
 
   it('should call setStep()', () => {
@@ -90,11 +103,19 @@ describe('MultiStepCheckoutComponent', () => {
     expect(component.step).toBe(2);
   });
 
-  it('should call addAddress()', () => {
+  it('should call addAddress() with new created address', () => {
     spyOn(store, 'select').and.returnValues(of(address), of([]));
 
     component.addAddress(address);
     expect(service.createAndSetAddress).toHaveBeenCalledWith(address);
+    expect(component.step).toBe(2);
+  });
+
+  it('should call addAddress() with address selected from existing addresses', () => {
+    spyOn(store, 'select').and.returnValues(of(address), of([]));
+
+    component.addAddress('Address Selected');
+    expect(service.createAndSetAddress).not.toHaveBeenCalledWith(address);
     expect(component.step).toBe(2);
   });
 

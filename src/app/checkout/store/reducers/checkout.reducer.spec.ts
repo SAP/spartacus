@@ -30,6 +30,24 @@ describe('Checkout reducer', () => {
     });
   });
 
+  describe('SET_DELIVERY_ADDRESS_SUCCESS action', () => {
+    it('should set delivery address', () => {
+      const address: any = {
+        id: 'testAddressId',
+        firstName: 'John',
+        lastName: 'Doe',
+        titleCode: 'mr',
+        line1: 'Toyosaki 2 create on cart'
+      };
+
+      const { initialState } = fromCheckout;
+
+      const action = new fromActions.SetDeliveryAddressSuccess(address);
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state.address).toEqual(address);
+    });
+  });
+
   describe('LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS action', () => {
     it('should load all supported delivery modes from cart', () => {
       const modes: any = {

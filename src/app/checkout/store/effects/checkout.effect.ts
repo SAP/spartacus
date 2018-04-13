@@ -39,25 +39,6 @@ export class CheckoutEffects {
     );
 
   @Effect()
-  loadSupportedDeliveryModes$: Observable<any> = this.actions$
-    .ofType(fromActions.LOAD_SUPPORTED_DELIVERY_MODES)
-    .pipe(
-      map((action: any) => action.payload),
-      mergeMap(payload => {
-        return this.occCartService
-          .getSupportedDeliveryModes(payload.userId, payload.cartId)
-          .pipe(
-            map(
-              data => new fromActions.LoadSupportedDeliveryModesSuccess(data)
-            ),
-            catchError(error =>
-              of(new fromActions.LoadSupportedDeliveryModesFail(error))
-            )
-          );
-      })
-    );
-
-  @Effect()
   setDeliveryAddress$: Observable<any> = this.actions$
     .ofType(fromActions.SET_DELIVERY_ADDRESS)
     .pipe(
@@ -75,6 +56,25 @@ export class CheckoutEffects {
             ),
             catchError(error =>
               of(new fromActions.SetDeliveryAddressFail(error))
+            )
+          );
+      })
+    );
+    
+  @Effect()
+  loadSupportedDeliveryModes$: Observable<any> = this.actions$
+    .ofType(fromActions.LOAD_SUPPORTED_DELIVERY_MODES)
+    .pipe(
+      map((action: any) => action.payload),
+      mergeMap(payload => {
+        return this.occCartService
+          .getSupportedDeliveryModes(payload.userId, payload.cartId)
+          .pipe(
+            map(
+              data => new fromActions.LoadSupportedDeliveryModesSuccess(data)
+            ),
+            catchError(error =>
+              of(new fromActions.LoadSupportedDeliveryModesFail(error))
             )
           );
       })

@@ -45,9 +45,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.checkoutService.loadUserAddresses();
 
-    this.existingAddresses$ = this.store.select(
-      fromUserStore.getAddressesEntities
-    );
+    this.existingAddresses$ = this.store.select(fromUserStore.getAddresses);
   }
 
   ngOnDestroy() {

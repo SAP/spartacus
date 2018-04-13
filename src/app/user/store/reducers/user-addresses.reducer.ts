@@ -1,11 +1,11 @@
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 
 export interface UserAddressesState {
-  entites: any;
+  entities: any;
 }
 
 export const initialState: UserAddressesState = {
-  entites: <any>{}
+  entities: <any>{}
 };
 
 export function reducer(
@@ -14,15 +14,15 @@ export function reducer(
 ): UserAddressesState {
   switch (action.type) {
     case fromUserAddressesAction.LOAD_USER_ADDRESSES_SUCCESS: {
-      const entites = action.payload;
+      const entities = action.payload;
 
       return {
         ...state,
-        entites
+        entities
       };
     }
   }
   return state;
 }
 
-export const getAddressesEntites = (state: UserAddressesState) => state.entites;
+export const getAddresses = (state: UserAddressesState) => state.entities;
