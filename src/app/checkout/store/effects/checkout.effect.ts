@@ -21,15 +21,16 @@ export class CheckoutEffects {
           .createAddressOnCart(payload.userId, payload.cartId, payload.address)
           .pipe(
             tap(address => {
-              return this.occCartService.setDeliveryAddress(
-                payload.userId,
-                payload.cartId,
-                address.id
-              );
+              return new fromActions.SetDeliveryAddress({
+                userId: payload.userId,
+                cartId: payload.cartId,
+                address: address
+              });
             }),
             map(address => {
               address['titleCode'] = payload.address.titleCode;
-              return new fromActions.AddDeliveryAddressSuccess(address)}),
+              return new fromActions.AddDeliveryAddressSuccess(address);
+            }),
             catchError(error =>
               of(new fromActions.AddDeliveryAddressFail(error))
             )
@@ -51,6 +52,29 @@ export class CheckoutEffects {
             ),
             catchError(error =>
               of(new fromActions.LoadSupportedDeliveryModesFail(error))
+            )
+          );
+      })
+    );
+
+  @Effect()
+  setDeliveryAddress$: Observable<any> = this.actions$
+    .ofType(fromActions.SET_DELIVERY_ADDRESS)
+    .pipe(
+      map((action: any) => action.payload),
+      mergeMap(payload => {
+        return this.occCartService
+          .setDeliveryAddress(
+            payload.userId,
+            payload.cartId,
+            payload.address.id
+          )
+          .pipe(
+            map(
+              () => new fromActions.SetDeliveryAddressSuccess(payload.address)
+            ),
+            catchError(error =>
+              of(new fromActions.SetDeliveryAddressFail(error))
             )
           );
       })

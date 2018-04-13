@@ -34,6 +34,15 @@ export function reducer(
       };
     }
 
+    case fromAction.SET_DELIVERY_ADDRESS_SUCCESS: {
+      const address = action.payload;
+
+      return {
+        ...state,
+        address
+      };
+    }
+
     case fromAction.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS: {
       const supportedModes = action.payload.deliveryModes;
       const supported = supportedModes.reduce(

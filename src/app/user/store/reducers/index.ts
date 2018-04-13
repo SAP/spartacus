@@ -8,15 +8,18 @@ import {
 
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserToken from './user-token.reducer';
+import * as fromUserAddresses from './user-addresses.reducer';
 
 export interface UserState {
   account: fromUserDetailsReducer.UserDetailsState;
   auth: fromUserToken.UserTokenState;
+  existingAddresses: fromUserAddresses.UserAddressesState;
 }
 
 export const reducers: ActionReducerMap<UserState> = {
   account: fromUserDetailsReducer.reducer,
-  auth: fromUserToken.reducer
+  auth: fromUserToken.reducer,
+  existingAddresses: fromUserAddresses.reducer
 };
 
 export const getUserState: MemoizedSelector<

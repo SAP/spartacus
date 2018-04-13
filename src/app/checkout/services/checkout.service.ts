@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../store/';
 import * as fromCartStore from '../../cart/store';
+import * as fromUserStore from '../../user/store';
 
 import { ANOYMOUS_USERID, CartService } from '../../cart/services/cart.service';
 
@@ -12,6 +13,7 @@ export class CheckoutService {
 
   constructor(
     private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
+    private userStore: Store<fromUserStore.UserState>,
     private cartStore: Store<fromCartStore.CartState>,
     private cartService: CartService
   ) {}
@@ -102,6 +104,24 @@ export class CheckoutService {
     this.checkoutStore.dispatch(
       new fromCheckoutStore.VerifyAddress({
         userId: this.cartService.userId,
+        address: address
+      })
+    );
+  }
+
+  loadUserAddresses() {
+    this.userStore.dispatch(
+      new fromUserStore.LoadUserAddresses({
+        userId: this.cartService.userId
+      })
+    );
+  }
+
+  setDeliveryAddress(address) {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.SetDeliveryAddress({
+        userId: this.cartService.userId,
+        cartId: this.cartService.cart.code,
         address: address
       })
     );

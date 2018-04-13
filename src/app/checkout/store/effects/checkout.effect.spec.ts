@@ -88,11 +88,6 @@ describe('Checkout effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
-      expect(cartService.setDeliveryAddress).toHaveBeenCalledWith(
-        'testUserId',
-        'testCartId',
-        'testAddressId'
-      );
     });
   });
 

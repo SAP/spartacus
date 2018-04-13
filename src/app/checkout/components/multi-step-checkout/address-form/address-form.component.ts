@@ -4,7 +4,8 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  OnDestroy
+  OnDestroy,
+  Input
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
@@ -14,6 +15,8 @@ import { tap, take, filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
 import * as fromRouting from '../../../../routing/store';
+import * as fromUser from '../../../../user/store';
+
 import { MatDialog } from '@angular/material';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import { CheckoutService } from '../../../services';
@@ -29,7 +32,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<any>;
   titles$: Observable<any>;
   subscription: Subscription;
+  addANewAddress = false;
+  defaultAddress;
 
+  @Input() existingAddresses;
   @Output() addAddress = new EventEmitter<any>();
 
   address: FormGroup = this.fb.group({
@@ -75,6 +81,15 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  addressSelected(address) {
+    this.checkoutService.setDeliveryAddress(address);
+    this.addAddress.emit('Address Selected');
+  }
+
+  addNewAddress() {
+    this.addANewAddress = true;
   }
 
   next() {
@@ -125,11 +140,15 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   back() {
-    this.store.dispatch(
-      new fromRouting.Go({
-        path: ['/cart']
-      })
-    );
+    if (this.addANewAddress) {
+      this.addANewAddress = false;
+    } else {
+      this.store.dispatch(
+        new fromRouting.Go({
+          path: ['/cart']
+        })
+      );
+    }
   }
 
   required(name: string) {
