@@ -34,8 +34,8 @@ export class PageEffects {
     .ofType(
       pageActions.LOAD_PAGEDATA,
       '[Site-context] Language Change',
-      '[Auth] Logout',
-      '[Auth] Login'
+      '[User] Logout',
+      '[User] Login'
     )
     .pipe(
       map((action: pageActions.LoadPageData) => action.payload),

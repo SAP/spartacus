@@ -9,7 +9,7 @@ import { MaterialModule } from 'app/material.module';
 
 import * as fromRoot from '../../../routing/store';
 import * as fromCart from '../../../cart/store';
-import * as fromUser from '../../../auth/store';
+import * as fromUser from '../../../user/store';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';

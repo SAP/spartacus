@@ -27,4 +27,4 @@ import { UserTokenInterceptor } from './http-interceptors/user-token.interceptor
     }
   ]
 })
-export class AuthModule {}
+export class UserModule {}

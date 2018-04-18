@@ -26,11 +26,21 @@ export const getSupportedDeliveryModes: MemoizedSelector<
   );
 });
 
+export const getSelectedCode: MemoizedSelector<any, any> = createSelector(
+  getDeliveryMode,
+  deliveryMode => {
+    return deliveryMode.selected;
+  }
+);
+
 export const getSelectedDeliveryMode: MemoizedSelector<
   any,
   any
 > = createSelector(getDeliveryMode, deliveryMode => {
   if (deliveryMode.selected !== '') {
+    if (Object.keys(deliveryMode.supported).length === 0) {
+      return null;
+    }
     return deliveryMode.supported[deliveryMode.selected];
   }
 });
@@ -38,4 +48,9 @@ export const getSelectedDeliveryMode: MemoizedSelector<
 export const getPaymentDetails: MemoizedSelector<any, any> = createSelector(
   getCheckoutStepsState,
   fromReducer.getPaymentDetails
+);
+
+export const getOrderDetails: MemoizedSelector<any, any> = createSelector(
+  getCheckoutStepsState,
+  fromReducer.getOrderDetails
 );

@@ -1,9 +1,9 @@
 import { Action } from '@ngrx/store';
 import { UserToken } from '../../models/token-types.model';
 
-export const LOAD_USER_TOKEN = '[Auth] Load User Token';
-export const LOAD_USER_TOKEN_FAIL = '[Auth] Load User Token Fail';
-export const LOAD_USER_TOKEN_SUCCESS = '[Auth] Load User Token Success';
+export const LOAD_USER_TOKEN = '[User] Load User Token';
+export const LOAD_USER_TOKEN_FAIL = '[User] Load User Token Fail';
+export const LOAD_USER_TOKEN_SUCCESS = '[User] Load User Token Success';
 
 export class LoadUserToken implements Action {
   readonly type = LOAD_USER_TOKEN;

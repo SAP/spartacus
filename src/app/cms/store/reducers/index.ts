@@ -31,8 +31,8 @@ export function clearCmsState(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
     if (
       action.type === '[Site-context] Language Change' ||
-      action.type === '[Auth] Logout' ||
-      action.type === '[Auth] Login'
+      action.type === '[User] Logout' ||
+      action.type === '[User] Login'
     ) {
       state = undefined;
     }

@@ -6,14 +6,16 @@ export * from './src/app/ui/components/media/media.module';
 export * from './src/app/ui/pages/pages.module';
 export * from './src/app/ui/ui-framework/ui-framework.module';
 export * from './src/app/material.module';
-export * from './src/app/auth/components/login/login.module';
-export * from './src/app/auth/auth.module';
+export * from './src/app/user/components/login/login.module';
+export * from './src/app/user/user.module';
 export * from './src/app/product/product.module';
 export * from './src/app/product/components/product-details/product-details.module';
 export * from './src/app/product/components/product-list/product-list.module';
 export * from './src/app/app.module';
+export * from './src/app/checkout/components/multi-step-checkout/address-form/address-form.module';
 export * from './src/app/checkout/checkout.module';
 export * from './src/app/checkout/components/multi-step-checkout/multi-step-checkout.module';
+export * from './src/app/checkout/components/order-confirmation/order-confirmation.module';
 export * from './src/app/cms-lib/cms-lib.module';
 export * from './src/app/cms-lib/mini-cart/mini-cart.module';
 export * from './src/app/cms-lib/cookie-confirmation/cookie-confirmation.module';
@@ -56,8 +58,8 @@ export * from './src/app/ui/pages/home-page/home-page.component';
 export * from './src/app/ui/pages/multi-step-checkout-page/multi-step-checkout-page.component';
 export * from './src/app/ui/pages/cart-page/cart-page.component';
 export * from './src/app/ui/pages/404/404.component';
-export * from './src/app/auth/components/login/login.component';
-export * from './src/app/auth/components/login/login-dialog/login-dialog.component';
+export * from './src/app/user/components/login/login.component';
+export * from './src/app/user/components/login/login-dialog/login-dialog.component';
 export * from './src/app/product/components/product-details/product-reviews/product-reviews.component';
 export * from './src/app/product/components/product-details/product-summary/product-summary.component';
 export * from './src/app/product/components/product-details/product-attributes/product-attributes.component';
@@ -76,6 +78,8 @@ export * from './src/app/checkout/components/multi-step-checkout/payment-form/pa
 export * from './src/app/checkout/components/multi-step-checkout/delivery-mode-form/delivery-mode-form.component';
 export * from './src/app/checkout/components/multi-step-checkout/container/multi-step-checkout.component';
 export * from './src/app/checkout/components/multi-step-checkout/order-summary/order-summary.component';
+export * from './src/app/checkout/components/multi-step-checkout/review-submit/review-submit.component';
+export * from './src/app/checkout/components/order-confirmation/order-confirmation.component';
 export * from './src/app/cms-lib/mini-cart/cart-dialog/cart-dialog.component';
 export * from './src/app/cms-lib/mini-cart/mini-cart.component';
 export * from './src/app/cms-lib/cookie-confirmation/cookie-message/cookie-message.component';
@@ -101,6 +105,6 @@ export * from './src/app/site-context/language-selector/language-selector.compon
 export * from './src/app/site-context/currency-selector/currency-selector.component';
 
 // Export guards
-export * from './src/app/auth/guards/auth.guard';
+export * from './src/app/user/guards/auth.guard';
 export * from './src/app/product/guards/product.guard';
 export * from './src/app/cms/guards/cms-page.guard';

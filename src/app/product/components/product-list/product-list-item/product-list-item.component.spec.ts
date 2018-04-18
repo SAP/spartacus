@@ -9,7 +9,7 @@ import { CartService } from '../../../../cart/services';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../../routing/store';
 import * as fromCart from '../../../../cart/store';
-import * as fromUser from '../../../../auth/store';
+import * as fromUser from '../../../../user/store';
 
 describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;

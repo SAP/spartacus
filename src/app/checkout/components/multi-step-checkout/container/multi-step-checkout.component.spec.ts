@@ -6,12 +6,14 @@ import { of } from 'rxjs/observable/of';
 import * as fromRoot from '../../../../routing/store';
 import * as fromCheckout from '../../../store';
 import * as fromCart from '../../../../cart/store';
-import * as fromUser from '../../../../auth/store';
+import * as fromUser from '../../../../user/store';
+import * as fromRouting from '../../../../routing/store';
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { OrderSummaryComponent } from '../order-summary/order-summary.component';
 import { DeliveryModeFormComponent } from '../delivery-mode-form/delivery-mode-form.component';
+import { ReviewSubmitComponent } from '../review-submit/review-submit.component';
 
 import { CheckoutService } from './../../../services/checkout.service';
 import { CartService } from './../../../../cart/services/cart.service';
@@ -53,7 +55,8 @@ describe('MultiStepCheckoutComponent', () => {
           AddressFormComponent,
           DeliveryModeFormComponent,
           OrderSummaryComponent,
-          PaymentFormComponent
+          PaymentFormComponent,
+          ReviewSubmitComponent
         ],
         providers: [CheckoutService, CartService]
       }).compileComponents();
@@ -70,6 +73,7 @@ describe('MultiStepCheckoutComponent', () => {
     spyOn(service, 'createAndSetAddress').and.callThrough();
     spyOn(service, 'setDeliveryMode').and.callThrough();
     spyOn(service, 'getPaymentDetails').and.callThrough();
+    spyOn(service, 'placeOrder').and.callThrough();
   });
 
   it('should be created', () => {
@@ -114,14 +118,32 @@ describe('MultiStepCheckoutComponent', () => {
       cardType: 'Visa',
       expiryMonth: '01',
       expiryYear: '2022',
-      cvn: '123',
-      billingAddress: address
+      cvn: '123'
     };
 
-    spyOn(store, 'select').and.returnValues(of(paymentDetails));
+    component.deliveryAddress = address;
+    spyOn(store, 'select').and.returnValues(
+      of(paymentDetails),
+      of(),
+      of(),
+      of()
+    );
 
     component.addPaymentInfo(paymentDetails);
     expect(service.getPaymentDetails).toHaveBeenCalledWith(paymentDetails);
     expect(component.step).toBe(4);
+  });
+
+  it('should call placeOrder()', () => {
+    const orderDetails = 'mockOrderDetails';
+    spyOn(store, 'select').and.returnValues(of(orderDetails));
+
+    component.placeOrder();
+    expect(service.placeOrder).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromRouting.Go({
+        path: ['orderConfirmation']
+      })
+    );
   });
 });

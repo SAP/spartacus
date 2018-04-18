@@ -18,12 +18,13 @@ import { ProductListPageLayoutComponent } from './product-list-page-layout/produ
 import { ProductDetailsPageLayoutComponent } from './product-details-page-layout/product-details-page-layout.component';
 import { CartPageLayoutComponent } from './cart-page-layout/cart-page-layout.component';
 import { MultiStepCheckoutPageLayoutComponent } from './multi-step-checkout-page-layout/multi-step-checkout-page-layout.component';
+import { OrderConfirmationPageLayoutComponent } from './order-confirmation-page-layout/order-confirmation-page-layout.component';
 
 // header components
 import { CookieConfirmationModule } from '../../cms-lib/cookie-confirmation/cookie-confirmation.module';
 import { LanguageSelectorModule } from '../../site-context/language-selector/language-selector.module';
 import { CurrencySelectorModule } from '../../site-context/currency-selector/currency-selector.module';
-import { LoginModule } from '../../auth/components/login/login.module';
+import { LoginModule } from '../../user/components/login/login.module';
 
 import { CartDetailsModule } from '../../cart/components/cart-details/cart-details.module';
 import { ProductModule } from '../../product/product.module';
@@ -55,7 +56,8 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     ProductDetailsPageLayoutComponent,
     CartPageLayoutComponent,
     CategoryPageLayoutComponent,
-    MultiStepCheckoutPageLayoutComponent
+    MultiStepCheckoutPageLayoutComponent,
+    OrderConfirmationPageLayoutComponent
   ],
   exports: [
     MainComponent,
@@ -64,7 +66,8 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     ProductDetailsPageLayoutComponent,
     CartPageLayoutComponent,
     CategoryPageLayoutComponent,
-    MultiStepCheckoutPageLayoutComponent
+    MultiStepCheckoutPageLayoutComponent,
+    OrderConfirmationPageLayoutComponent
   ]
 })
 export class LayoutModule {}

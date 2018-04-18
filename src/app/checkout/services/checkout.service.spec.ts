@@ -4,7 +4,7 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../routing/store';
 import * as fromCart from '../../cart/store';
 import * as fromCheckout from '../store';
-import * as fromUser from '../../auth/store';
+import * as fromUser from '../../user/store';
 
 import { CheckoutService } from './checkout.service';
 import { CartService } from '../../cart/services/cart.service';
@@ -123,6 +123,66 @@ describe('CheckoutService', () => {
             userId: userId,
             cartId: cart.code,
             selectedModeId: modeId
+          })
+        );
+      })
+    );
+  });
+
+  describe('get payment details', () => {
+    it(
+      'should be able to place order',
+
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+        const paymentInfo = 'mockInfo';
+
+        service.getPaymentDetails(paymentInfo);
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromCheckout.CreatePaymentDetails({
+            userId: userId,
+            cartId: cart.code,
+            paymentDetails: paymentInfo
+          })
+        );
+      })
+    );
+  });
+
+  describe('place order', () => {
+    it(
+      'should be able to place order',
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+
+        service.placeOrder();
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromCheckout.PlaceOrder({
+            userId: userId,
+            cartId: cart.code
+          })
+        );
+      })
+    );
+  });
+
+  describe('load address verification results', () => {
+    it(
+      'should load address verification results',
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+
+        service.verifyAddress('mockAddress');
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromCheckout.VerifyAddress({
+            userId: userId,
+            address: 'mockAddress'
           })
         );
       })
