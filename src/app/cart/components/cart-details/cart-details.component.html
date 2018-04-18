@@ -5,12 +5,11 @@
             <h4>ID {{cart?.code}}</h4>
         </div>
 
-
-        <mat-grid-list cols="4" rowHeight="3:2">
+        <mat-grid-list cols="4" rowHeight="4:2">
             <div class="content">
                 <mat-grid-tile colspan='3'>
                     <div class="cart-details">
-                        <div>
+                        <div class="sub-heading">
                             Cart total ({{cart?.deliveryItemsQuantity}} items): {{cart?.totalPrice?.formattedValue}}
                         </div>
                         <div *ngIf="cart?.totalItems">
@@ -31,6 +30,7 @@
                         </div>
                     </div>
                 </mat-grid-tile>
+
                 <mat-grid-tile colspan='1'>
                     <div class="order-summary">
                         <y-order-summary></y-order-summary>
@@ -41,17 +41,5 @@
                 </mat-grid-tile>
             </div>
         </mat-grid-list>
-
-
-
-
-
-
-        <!-- <div>
-            <h4 mat-line>Number of items in the cart: {{cart?.deliveryItemsQuantity}}</h4>
-            <h4 mat-line>Total cost: {{cart?.totalPrice?.formattedValue}}</h4>
-        </div> -->
     </div>
-
-
 </ng-container>

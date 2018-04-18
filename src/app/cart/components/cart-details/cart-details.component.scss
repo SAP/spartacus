@@ -21,12 +21,16 @@
 .order-summary {
   width: 100%;
   margin-left: 20%;
-  margin-top: -40%;
+  margin-top: -25%;
 }
 
 mat-grid-tile {
   flex-grow: 1;
   overflow: auto;
+}
+
+.sub-heading {
+  margin-bottom: 20px;
 }
 
 .content {
