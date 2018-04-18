@@ -15,7 +15,7 @@ const mockUserValidToken = {
 const mockUserInvalidToken = {};
 
 describe('AuthGuard', () => {
-  let userGuard: AuthGuard;
+  let authGuard: AuthGuard;
   let store: Store<fromStore.UserState>;
 
   beforeEach(() => {
@@ -30,7 +30,7 @@ describe('AuthGuard', () => {
       ]
     });
     store = TestBed.get(Store);
-    userGuard = TestBed.get(AuthGuard);
+    authGuard = TestBed.get(AuthGuard);
   });
 
   it('should return false', () => {
@@ -38,7 +38,7 @@ describe('AuthGuard', () => {
 
     let result: boolean;
 
-    userGuard.canActivate().subscribe(value => (result = value));
+    authGuard.canActivate().subscribe(value => (result = value));
     expect(result).toBe(false);
   });
 
@@ -47,7 +47,7 @@ describe('AuthGuard', () => {
 
     let result: boolean;
 
-    userGuard.canActivate().subscribe(value => (result = value));
+    authGuard.canActivate().subscribe(value => (result = value));
     expect(result).toBe(true);
   });
 });
