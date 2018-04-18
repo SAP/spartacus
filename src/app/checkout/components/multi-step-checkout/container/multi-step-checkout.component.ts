@@ -10,6 +10,8 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
+import * as fromUserStore from '../../../../user/store';
+
 import { CheckoutService } from '../../../services/checkout.service';
 import * as fromRouting from '../../../../routing/store';
 
@@ -32,13 +34,19 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step3Sub: Subscription;
   step4Sub: Subscription;
 
+  existingAddresses$;
+
   constructor(
     protected checkoutService: CheckoutService,
     private store: Store<fromCheckoutStore.CheckoutState>,
     protected cd: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.checkoutService.loadUserAddresses();
+
+    this.existingAddresses$ = this.store.select(fromUserStore.getAddresses);
+  }
 
   ngOnDestroy() {
     if (this.step1Sub) {
@@ -66,8 +74,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  addAddress(address: Address) {
-    this.checkoutService.createAndSetAddress(address);
+  addAddress(address: any) {
+    if (address !== 'Address Selected') {
+      this.checkoutService.createAndSetAddress(address);
+    }
 
     this.step1Sub = this.store
       .select(fromCheckoutStore.getDeliveryAddress)

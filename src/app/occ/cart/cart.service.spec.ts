@@ -257,9 +257,14 @@ describe('OccCartService', () => {
     it('should set address for cart for given user id, cart id and address id', () => {
       const mockAddressId = 'mockAddressId';
 
-      service.setDeliveryAddress(userId, cartId, mockAddressId);
+      service
+        .setDeliveryAddress(userId, cartId, mockAddressId)
+        .subscribe(result => {
+          expect(result).toEqual(cartData);
+        });
 
       const mockReq = httpMock.expectOne(req => {
+        console.log(req);
         return (
           req.method === 'PUT' &&
           req.url ===
@@ -275,6 +280,7 @@ describe('OccCartService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(mockReq.request.params.get('addressId')).toEqual(mockAddressId);
+      mockReq.flush(cartData);
     });
   });
 

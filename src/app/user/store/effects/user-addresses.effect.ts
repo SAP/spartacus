@@ -1,0 +1,37 @@
+import { Injectable } from '@angular/core';
+import { Actions, Effect } from '@ngrx/effects';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { catchError, map, mergeMap } from 'rxjs/operators';
+
+import { OccUserService } from '../../../occ/user/user.service';
+import * as fromUserAddressesAction from '../actions/user-addresses.action';
+
+@Injectable()
+export class UserAddressesEffects {
+  @Effect()
+  loadUserAddresses$: Observable<any> = this.actions$
+    .ofType(fromUserAddressesAction.LOAD_USER_ADDRESSES)
+    .pipe(
+      map(
+        (action: fromUserAddressesAction.LoadUserAddresses) => action.payload
+      ),
+      mergeMap(payload => {
+        return this.occUserService.loadUserAddresses(payload.userId).pipe(
+          map((addresses: any) => {
+            return new fromUserAddressesAction.LoadUserAddressesSuccess(
+              addresses
+            );
+          }),
+          catchError(error =>
+            of(new fromUserAddressesAction.LoadUserAddressesFail(error))
+          )
+        );
+      })
+    );
+
+  constructor(
+    private actions$: Actions,
+    private occUserService: OccUserService
+  ) {}
+}

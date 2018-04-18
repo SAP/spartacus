@@ -17,6 +17,7 @@ const token: any = 'mockToken';
 const endpoint = '/users';
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 const addressVerificationEndpoint = '/addresses/verification';
+const addressesEndpoint = '/addresses';
 
 class MockConfigService {
   server = {
@@ -109,6 +110,27 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(suggestedAddresses);
+    });
+  });
+
+  describe('load user address', () => {
+    it('should load user addresses for a given user id', () => {
+      const mockUserAddresses = { addresses: ['address1', 'address2'] };
+
+      service.loadUserAddresses(username).subscribe(result => {
+        expect(result).toEqual(mockUserAddresses);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url === endpoint + `/${username}` + addressesEndpoint
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(mockUserAddresses);
     });
   });
 });

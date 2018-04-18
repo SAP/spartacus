@@ -64,6 +64,7 @@ describe('AddressFormComponent', () => {
   let fb: FormBuilder;
   let ac: AbstractControl;
   let dialog: MatDialog;
+  let service: CheckoutService;
 
   beforeEach(
     async(() => {
@@ -97,16 +98,36 @@ describe('AddressFormComponent', () => {
     store = TestBed.get(Store);
     ac = TestBed.get(AbstractControl);
     dialog = TestBed.get(MatDialog);
+    service = TestBed.get(CheckoutService);
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(ac, 'hasError').and.callThrough();
     spyOn(component.addAddress, 'emit').and.callThrough();
+    spyOn(component, 'addNewAddress').and.callThrough();
     spyOn(component.address, 'get').and.returnValue(ac);
     spyOn(dialog, 'open').and.callThrough();
+    spyOn(service, 'setDeliveryAddress').and.callThrough();
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call addressSelected(address)', () => {
+    const mockAddress = 'mockAddress';
+
+    component.addressSelected(mockAddress);
+
+    expect(service.setDeliveryAddress).toHaveBeenCalledWith(mockAddress);
+    expect(component.addAddress.emit).toHaveBeenCalledWith('Address Selected');
+  });
+
+  it('should call addNewAddress()', () => {
+    expect(component.addANewAddress).toBeFalsy();
+
+    component.addNewAddress();
+
+    expect(component.addANewAddress).toBeTruthy();
   });
 
   it('should call ngOnInit to get countries and titles data even when they not exist', () => {
@@ -170,6 +191,19 @@ describe('AddressFormComponent', () => {
         path: ['/cart']
       })
     );
+  });
+
+  it('should call back() and redirect to saved addresses page of there are saved addresses', () => {
+    component.addANewAddress = true;
+
+    component.back();
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(
+      new fromRouting.Go({
+        path: ['/cart']
+      })
+    );
+    expect(component.addANewAddress).toBeFalsy();
   });
 
   it('should call required(name: string)', () => {

@@ -1,4 +1,31 @@
-<div [formGroup]="address">
+<div class="content" *ngIf="existingAddresses && !addANewAddress">
+    <h3>Shipping Addresses</h3>
+    <div *ngFor="let address of existingAddresses">
+        <div *ngIf="address.defaultAddress">
+            <div>{{address.firstName}} {{address.lastName}} (Default Shipping Address)
+                <br>{{address.line1}}
+                <br>{{address.line2}}
+                <br>{{address.town}}, {{address.region.isocode}}, {{address.country.isocode}}</div>
+            <button class="continue-button" mat-raised-button color="accent" (click)="addressSelected(address)">Continue</button>
+        </div>
+
+        <div *ngIf="!address.defaultAddress">
+            <div>{{address.firstName}} {{address.lastName}}
+                <br>{{address.line1}}
+                <br>{{address.line2}}
+                <br>{{address.town}}, {{address.region.isocode}}, {{address.country.isocode}}</div>
+            <button class="continue-button" mat-raised-button color="accent" (click)="addressSelected(address)">Continue</button>
+        </div>
+    </div>
+
+    <div></div>
+    <div class="buttons">
+        <button mat-raised-button color="primary" (click)="back()">Go Back</button>
+        <button mat-raised-button color="accent" (click)="addNewAddress()">Add a New Address</button>
+    </div>
+</div>
+
+<div *ngIf="!existingAddresses || addANewAddress" [formGroup]="address">
     <h3 class="heading">Step 1: Shipping Address</h3>
     <div class="content">
 
@@ -86,8 +113,7 @@
 
         <div class="buttons">
             <button mat-raised-button color="primary" (click)="back()">Go Back</button>
-            <button mat-raised-button color="accent" [disabled]="address.invalid || notSelected( 'country.isocode')"
-                (click)="next()">Next
+            <button mat-raised-button color="accent" [disabled]="address.invalid || notSelected( 'country.isocode')" (click)="next()">Next
             </button>
         </div>
     </div>
