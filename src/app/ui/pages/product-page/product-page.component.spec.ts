@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
 import * as fromCart from '../../../cart/store';
-import * as fromUser from '../../../auth/store';
+import * as fromUser from '../../../user/store';
 import { of } from 'rxjs/observable/of';
 import { RouterTestingModule } from '@angular/router/testing';
 import * as fromRoot from '../../../routing/store';

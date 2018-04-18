@@ -28,7 +28,7 @@ export function clearUserState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return function(state, action) {
-    if (action.type === '[Auth] Logout') {
+    if (action.type === '[User] Logout') {
       state = undefined;
     }
     return reducer(state, action);

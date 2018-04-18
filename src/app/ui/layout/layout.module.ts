@@ -24,7 +24,7 @@ import { OrderConfirmationPageLayoutComponent } from './order-confirmation-page-
 import { CookieConfirmationModule } from '../../cms-lib/cookie-confirmation/cookie-confirmation.module';
 import { LanguageSelectorModule } from '../../site-context/language-selector/language-selector.module';
 import { CurrencySelectorModule } from '../../site-context/currency-selector/currency-selector.module';
-import { LoginModule } from '../../auth/components/login/login.module';
+import { LoginModule } from '../../user/components/login/login.module';
 
 import { CartDetailsModule } from '../../cart/components/cart-details/cart-details.module';
 import { ProductModule } from '../../product/product.module';

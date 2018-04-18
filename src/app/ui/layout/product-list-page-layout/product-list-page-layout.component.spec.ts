@@ -7,7 +7,7 @@ import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromProduct from '../../../product/store';
 import * as fromCart from '../../../cart/store';
-import * as fromUser from '../../../auth/store';
+import * as fromUser from '../../../user/store';
 
 describe('ProductListPageComponent', () => {
   let component: ProductListPageLayoutComponent;

@@ -4,7 +4,7 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../routing/store';
 import * as fromCart from '../../cart/store';
 import * as fromCheckout from '../store';
-import * as fromUser from '../../auth/store';
+import * as fromUser from '../../user/store';
 
 import { CheckoutService } from './checkout.service';
 import { CartService } from '../../cart/services/cart.service';

@@ -6,7 +6,7 @@ import { of } from 'rxjs/observable/of';
 import * as fromRoot from '../../../../routing/store';
 import * as fromCheckout from '../../../store';
 import * as fromCart from '../../../../cart/store';
-import * as fromUser from '../../../../auth/store';
+import * as fromUser from '../../../../user/store';
 import * as fromRouting from '../../../../routing/store';
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';

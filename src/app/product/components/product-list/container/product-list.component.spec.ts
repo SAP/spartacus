@@ -17,7 +17,7 @@ import { SearchConfig } from '../../../search-config';
 import * as fromRoot from '../../../../routing/store';
 import * as fromProduct from '../../../store';
 import * as fromCart from '../../../../cart/store';
-import * as fromUser from '../../../../auth/store';
+import * as fromUser from '../../../../user/store';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 

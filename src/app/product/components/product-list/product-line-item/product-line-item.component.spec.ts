@@ -7,7 +7,7 @@ import { HttpModule } from '@angular/http';
 import { CartService } from '../../../../cart/services';
 import * as fromRoot from '../../../../routing/store';
 import * as fromCart from '../../../../cart/store';
-import * as fromUser from '../../../../auth/store';
+import * as fromUser from '../../../../user/store';
 import { StoreModule, combineReducers } from '@ngrx/store';
 
 describe('ProductLineItemComponent in product-list', () => {

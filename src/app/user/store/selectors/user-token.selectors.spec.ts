@@ -8,7 +8,7 @@ import * as fromSelectors from './../selectors';
 import * as fromActions from './../actions';
 import { UserToken } from '../../models/token-types.model';
 
-describe('Auth Selectors', () => {
+describe('User Selectors', () => {
   let store: Store<fromReducers.UserState>;
 
   beforeEach(() => {

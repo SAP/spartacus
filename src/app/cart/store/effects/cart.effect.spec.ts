@@ -12,7 +12,7 @@ import { of } from 'rxjs/observable/of';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCart from '../../../cart/store';
-import * as fromUser from '../../../auth/store';
+import * as fromUser from '../../../user/store';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
 import { ConfigService } from '../../../occ/config.service';
