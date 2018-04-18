@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserGuard } from './user.guard';
+import { AuthGuard } from './auth.guard';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from './../../routing/store';
 import * as fromStore from './../store';
@@ -14,13 +14,13 @@ const mockUserValidToken = {
 
 const mockUserInvalidToken = {};
 
-describe('UserGuard', () => {
-  let userGuard: UserGuard;
+describe('AuthGuard', () => {
+  let userGuard: AuthGuard;
   let store: Store<fromStore.UserState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [UserGuard],
+      providers: [AuthGuard],
       imports: [
         RouterTestingModule,
         StoreModule.forRoot({
@@ -30,7 +30,7 @@ describe('UserGuard', () => {
       ]
     });
     store = TestBed.get(Store);
-    userGuard = TestBed.get(UserGuard);
+    userGuard = TestBed.get(AuthGuard);
   });
 
   it('should return false', () => {
