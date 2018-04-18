@@ -18,6 +18,6 @@ import { AddressFormModule } from './address-form/address-form.module';
     PaymentFormComponent,
     ReviewSubmitComponent
   ],
-  exports: [MultiStepCheckoutComponent]
+  exports: [MultiStepCheckoutComponent, OrderSummaryComponent]
 })
 export class MultiStepCheckoutModule {}
