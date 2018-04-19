@@ -7,6 +7,7 @@ import * as fromReducer from '../../../cart/store/reducers';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartService } from '../../../cart/services';
 import { of } from 'rxjs/observable/of';
+import { OrderSummaryComponent } from '../../../checkout/components/multi-step-checkout/order-summary/order-summary.component';
 
 class MockCartService {
   removeCartEntry() {}
@@ -31,7 +32,7 @@ describe('CartDetailsComponent', () => {
             cart: combineReducers(fromReducer.reducers)
           })
         ],
-        declarations: [CartDetailsComponent],
+        declarations: [CartDetailsComponent, OrderSummaryComponent],
         providers: [{ provide: CartService, useClass: MockCartService }]
       }).compileComponents();
     })

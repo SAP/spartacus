@@ -13,6 +13,7 @@ import {
 import { CartPageLayoutComponent } from './cart-page-layout.component';
 import { of } from 'rxjs/observable/of';
 import { ComponentMapperService } from '../../../cms/services';
+import { OrderSummaryComponent } from '../../../checkout/components/multi-step-checkout/order-summary/order-summary.component';
 
 class MockCartService {
   removeCartEntry() {}
@@ -43,7 +44,8 @@ describe('CartPageLayoutComponent', () => {
           CartPageLayoutComponent,
           CartDetailsComponent,
           DynamicSlotComponent,
-          ComponentWrapperComponent
+          ComponentWrapperComponent,
+          OrderSummaryComponent
         ],
         providers: [
           { provide: CartService, useClass: MockCartService },

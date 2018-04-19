@@ -13,6 +13,9 @@ import * as fromCmsReducer from '../../../cms/store';
 import * as fromCart from '../../../cart/store';
 
 import { CartService } from '../../../cart/services';
+import { OrderSummaryComponent } from '../../../checkout/components/multi-step-checkout/order-summary/order-summary.component';
+import { MaterialModule } from '../../../material.module';
+import { RouterModule } from '@angular/router';
 
 describe('CartPageComponent', () => {
   let component: CartPageComponent;
@@ -22,6 +25,8 @@ describe('CartPageComponent', () => {
     async(() => {
       TestBed.configureTestingModule({
         imports: [
+          MaterialModule,
+          RouterModule,
           StoreModule.forRoot({
             ...fromRoot.reducers,
             cms: combineReducers(fromCmsReducer.reducers),
@@ -33,7 +38,8 @@ describe('CartPageComponent', () => {
           CartPageLayoutComponent,
           DynamicSlotComponent,
           ComponentWrapperComponent,
-          CartDetailsComponent
+          CartDetailsComponent,
+          OrderSummaryComponent
         ],
         providers: [{ provide: CartService }]
       }).compileComponents();
