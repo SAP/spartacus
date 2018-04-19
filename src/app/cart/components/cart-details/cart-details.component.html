@@ -5,13 +5,15 @@
             <h4>ID {{cart?.code}}</h4>
         </div>
 
-        <mat-grid-list cols="4" rowHeight="4:3">
+        <div class="sub-heading">
+            Cart total ({{cart?.deliveryItemsQuantity}} items): {{cart?.totalPrice?.formattedValue}}
+        </div>
+
+        <mat-grid-list cols="4" rowHeight="30em:18em">
             <div class="content">
                 <mat-grid-tile colspan='3'>
                     <div class="cart-details">
-                        <div class="sub-heading">
-                            Cart total ({{cart?.deliveryItemsQuantity}} items): {{cart?.totalPrice?.formattedValue}}
-                        </div>
+
                         <div *ngIf="cart?.totalItems">
                             <mat-nav-list>
                                 <mat-list-item *ngFor="let entry of ((entries$ | async) | slice:0:showProductCount )" [routerLink]="['/product', entry.product.code]">
