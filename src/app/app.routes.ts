@@ -11,7 +11,7 @@ import { PageNotFoundComponent } from './ui/pages/404/404.component';
 
 import { CmsPageGuards } from './cms/guards/cms-page.guard';
 import { ProductGuard } from './product/guards/product.guard';
-import { UserGuard } from './user/guards/user.guard';
+import { AuthGuard } from './user/guards/auth.guard';
 
 // TODO: provide URL mappings for site specific routings
 export const appRoutes: Routes = [
@@ -29,13 +29,13 @@ export const appRoutes: Routes = [
   },
   {
     path: 'checkout',
-    canActivate: [UserGuard, CmsPageGuards],
+    canActivate: [AuthGuard, CmsPageGuards],
     data: { pageLabel: 'multiStepCheckoutSummaryPage' },
     component: MultiStepCheckoutPageComponent
   },
   {
     path: 'orderConfirmation',
-    canActivate: [UserGuard, CmsPageGuards],
+    canActivate: [AuthGuard, CmsPageGuards],
     data: { pageLabel: 'orderConfirmationPage' },
     component: OrderConfirmationPageComponent
   },
