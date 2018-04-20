@@ -113,11 +113,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   addPaymentInfo(paymentDetails: any) {
     if (paymentDetails !== 'Payment Details Selected') {
-      const details = Object.assign(
-        { billingAddress: this.deliveryAddress },
-        paymentDetails
-      );
-      this.checkoutService.getPaymentDetails(details);
+      paymentDetails.billingAddress = this.deliveryAddress;
+      this.checkoutService.getPaymentDetails(paymentDetails);
     }
 
     this.step3Sub = this.store
