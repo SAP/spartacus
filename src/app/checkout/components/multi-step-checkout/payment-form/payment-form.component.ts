@@ -3,7 +3,8 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   Output,
-  EventEmitter
+  EventEmitter,
+  Input
 } from '@angular/core';
 
 import { Store } from '@ngrx/store';
@@ -22,11 +23,14 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 })
 export class PaymentFormComponent implements OnInit {
   cardTypes$: Observable<any>;
+  addANewPaymentMethod = false;
 
+  @Input() existingPaymentMethods;
   @Output() backStep = new EventEmitter<any>();
   @Output() addPaymentInfo = new EventEmitter<any>();
 
   payment: FormGroup = this.fb.group({
+    defaultPayment: [false],
     accountHolderName: ['', Validators.required],
     cardNumber: ['', Validators.required],
     cardType: this.fb.group({
@@ -53,8 +57,25 @@ export class PaymentFormComponent implements OnInit {
     );
   }
 
+  paymentMethodsSelected(paymentDetails) {
+    this.service.setPaymentDetails(paymentDetails);
+    this.addPaymentInfo.emit('Payment Details Selected');
+  }
+
+  toggleDefaultPaymentMethod() {
+    this.payment.value.defaultPayment = !this.payment.value.defaultPayment;
+  }
+
+  addNewPaymentMethod() {
+    this.addANewPaymentMethod = true;
+  }
+
   back() {
-    this.backStep.emit();
+    if (this.addANewPaymentMethod) {
+      this.addANewPaymentMethod = false;
+    } else {
+      this.backStep.emit();
+    }
   }
 
   next() {

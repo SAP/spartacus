@@ -102,6 +102,15 @@ export function reducer(
       return state;
     }
 
+    case fromAction.SET_PAYMENT_DETAILS_SUCCESS: {
+      const paymentDetails = action.payload;
+
+      return {
+        ...state,
+        paymentDetails
+      };
+    }
+
     case fromAction.PLACE_ORDER_SUCCESS: {
       const orderDetails = action.payload;
 

@@ -35,6 +35,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step4Sub: Subscription;
 
   existingAddresses$;
+  existingPaymentMethods$;
 
   constructor(
     protected checkoutService: CheckoutService,
@@ -44,8 +45,12 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.checkoutService.loadUserAddresses();
+    this.checkoutService.loadUserPaymentMethods();
 
     this.existingAddresses$ = this.store.select(fromUserStore.getAddresses);
+    this.existingPaymentMethods$ = this.store.select(
+      fromUserStore.getPaymentMethods
+    );
   }
 
   ngOnDestroy() {
@@ -74,10 +79,12 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  addAddress(address: any) {
+  addAddress(address) {
     if (address !== 'Address Selected') {
-      this.checkoutService.createAndSetAddress(address);
+      this.checkoutService.setDeliveryAddress(address);
     }
+
+    this.checkoutService.createAndSetAddress(address);
 
     this.step1Sub = this.store
       .select(fromCheckoutStore.getDeliveryAddress)
@@ -105,8 +112,13 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   }
 
   addPaymentInfo(paymentDetails: any) {
-    paymentDetails.billingAddress = this.deliveryAddress;
-    this.checkoutService.getPaymentDetails(paymentDetails);
+    if (paymentDetails !== 'Payment Details Selected') {
+      const details = Object.assign(
+        { billingAddress: this.deliveryAddress },
+        paymentDetails
+      );
+      this.checkoutService.getPaymentDetails(details);
+    }
 
     this.step3Sub = this.store
       .select(fromCheckoutStore.getPaymentDetails)

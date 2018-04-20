@@ -8,6 +8,7 @@ const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
 const ADDRESSES_ENDPOINT = '/addresses';
+const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 
 @Injectable()
 export class OccUserService {
@@ -55,6 +56,21 @@ export class OccUserService {
 
   loadUserAddresses(userId) {
     const url = this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    const params = new HttpParams({
+      fromString: 'fields=FULL'
+    });
+
+    return this.http
+      .get(url, { headers: headers, params: params })
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  loadUserPaymentMethods(userId) {
+    const url = this.getUserEndpoint() + userId + PAYMENT_DETAILS_ENDPOINT;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });

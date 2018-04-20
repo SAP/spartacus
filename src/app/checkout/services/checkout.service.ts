@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../store/';
-import * as fromCartStore from '../../cart/store';
 import * as fromUserStore from '../../user/store';
+import * as fromCartStore from '../../cart/store';
 
 import { ANOYMOUS_USERID, CartService } from '../../cart/services/cart.service';
 
@@ -123,6 +123,24 @@ export class CheckoutService {
         userId: this.cartService.userId,
         cartId: this.cartService.cart.code,
         address: address
+      })
+    );
+  }
+
+  loadUserPaymentMethods() {
+    this.userStore.dispatch(
+      new fromUserStore.LoadUserPaymentMethods({
+        userId: this.cartService.userId
+      })
+    );
+  }
+
+  setPaymentDetails(paymentDetails) {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.SetPaymentDetails({
+        userId: this.cartService.userId,
+        cartId: this.cartService.cart.code,
+        paymentDetails: paymentDetails
       })
     );
   }

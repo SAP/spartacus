@@ -161,6 +161,30 @@ export class CheckoutEffects {
     );
 
   @Effect()
+  setPaymentDetails$: Observable<any> = this.actions$
+    .ofType(fromActions.SET_PAYMENT_DETAILS)
+    .pipe(
+      map((action: any) => action.payload),
+      mergeMap(payload => {
+        return this.occCartService
+          .setPaymentDetails(
+            payload.userId,
+            payload.cartId,
+            payload.paymentDetails.id
+          )
+          .pipe(
+            map(
+              () =>
+                new fromActions.SetPaymentDetailsSuccess(payload.paymentDetails)
+            ),
+            catchError(error =>
+              of(new fromActions.SetPaymentDetailsFail(error))
+            )
+          );
+      })
+    );
+
+  @Effect()
   placeOrder$: Observable<any> = this.actions$
     .ofType(fromActions.PLACE_ORDER)
     .pipe(

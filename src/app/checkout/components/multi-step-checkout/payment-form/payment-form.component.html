@@ -1,4 +1,31 @@
-<div [formGroup]="payment">
+<div class="content" *ngIf="existingPaymentMethods && !addANewPaymentMethod">
+    <h3>Payment Methods</h3>
+    <div *ngFor="let method of existingPaymentMethods">
+        <div *ngIf="method.defaultPayment">
+            <div>{{method.cardType.name}} (Default Payment Method)</div>
+            <div>{{method.accountHolderName}}</div>
+            <div>{{method.cardNumber}}</div>
+            <div>Expiry: {{method.expiryMonth}}/{{method.expiryYear}}</div>
+            <button class="continue-button" mat-raised-button color="accent" (click)="paymentMethodsSelected(method)">Continue</button>
+        </div>
+
+        <div class="payment-methods" *ngIf="!method.defaultPayment">
+            <div>{{method.cardType.name}}</div>
+            <div>{{method.accountHolderName}}</div>
+            <div>{{method.cardNumber}}</div>
+            <div>Expiry: {{method.expiryMonth}}/{{method.expiryYear}}</div>
+            <button class="continue-button" mat-raised-button color="accent" (click)="paymentMethodsSelected(method)">Continue</button>
+        </div>
+    </div>
+
+    <div></div>
+    <div class="buttons">
+        <button mat-raised-button color="primary" (click)="back()">Go Back</button>
+        <button mat-raised-button color="accent" (click)="addNewPaymentMethod()">Add a New Payment Method</button>
+    </div>
+</div>
+
+<div *ngIf="!existingPaymentMethods || addANewPaymentMethod" [formGroup]="payment">
     <h3 class="heading">Choose a card type:</h3>
     <div class="content">
         <div>
@@ -48,6 +75,9 @@
             <input class="inputs" type="text" placeholder="Card Verification Number" formControlName="cvn">
             <div class="error" *ngIf="required( 'cvn')">Card Verification Number is required</div>
         </div>
+
+        <input type="checkbox" class="savePaymentMethodAsDefault" (change)="toggleDefaultPaymentMethod()">Save As Default
+        <br>
     </div>
 
     <div class="buttons">

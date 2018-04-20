@@ -23,7 +23,8 @@
 </div>
 
 <div id="step3" *ngIf="step === 3">
-    <y-payment-form (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-form>
+    <y-payment-form [existingPaymentMethods]="(existingPaymentMethods$ | async)?.payments" (addPaymentInfo)="addPaymentInfo($event)"
+        (backStep)="setStep(2)"></y-payment-form>
     <div class="payment-form">
         <y-order-summary></y-order-summary>
     </div>

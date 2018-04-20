@@ -255,4 +255,20 @@ export class OccCartService {
       )
       .pipe(catchError((error: any) => Observable.throw(error)));
   }
+
+  public setPaymentDetails(
+    userId: string,
+    cartId: string,
+    paymentDetailsId: any
+  ): Observable<any> {
+    return this.http
+      .put(
+        this.getCartEndpoint(userId) + cartId + '/paymentdetails',
+        {},
+        {
+          params: { paymentDetailsId: paymentDetailsId }
+        }
+      )
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
 }
