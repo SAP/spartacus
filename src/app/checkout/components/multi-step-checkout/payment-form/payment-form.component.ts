@@ -57,7 +57,7 @@ export class PaymentFormComponent implements OnInit {
     );
   }
 
-  paymentMethodsSelected(paymentDetails) {
+  paymentMethodSelected(paymentDetails) {
     this.service.setPaymentDetails(paymentDetails);
     this.addPaymentInfo.emit('Payment Details Selected');
   }

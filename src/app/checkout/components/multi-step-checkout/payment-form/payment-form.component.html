@@ -6,7 +6,7 @@
             <div>{{method.accountHolderName}}</div>
             <div>{{method.cardNumber}}</div>
             <div>Expiry: {{method.expiryMonth}}/{{method.expiryYear}}</div>
-            <button class="continue-button" mat-raised-button color="accent" (click)="paymentMethodsSelected(method)">Continue</button>
+            <button class="continue-button" mat-raised-button color="accent" (click)="paymentMethodSelected(method)">Continue</button>
         </div>
 
         <div class="payment-methods" *ngIf="!method.defaultPayment">
@@ -14,7 +14,7 @@
             <div>{{method.accountHolderName}}</div>
             <div>{{method.cardNumber}}</div>
             <div>Expiry: {{method.expiryMonth}}/{{method.expiryYear}}</div>
-            <button class="continue-button" mat-raised-button color="accent" (click)="paymentMethodsSelected(method)">Continue</button>
+            <button class="continue-button" mat-raised-button color="accent" (click)="paymentMethodSelected(method)">Continue</button>
         </div>
     </div>
 
