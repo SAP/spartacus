@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import * as fromStore from './../store';
 
 @Injectable()
-export class UserGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
   constructor(
     private store: Store<fromStore.UserState>,
     private router: Router

@@ -1,5 +1,5 @@
-import { UserGuard } from './user.guard';
+import { AuthGuard } from './auth.guard';
 
-export const guards: any[] = [UserGuard];
+export const guards: any[] = [AuthGuard];
 
-export * from './user.guard';
+export * from './auth.guard';
