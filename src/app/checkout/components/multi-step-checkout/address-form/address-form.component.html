@@ -111,6 +111,9 @@
             <input class="inputs" type="text" placeholder="Phone" formControlName="phone">
         </div>
 
+        <input type="checkbox" class="saveAddressAsDefault" (change)="toggleDefaultAddress()">Save As Default
+        <br>
+
         <div class="buttons">
             <button mat-raised-button color="primary" (click)="back()">Go Back</button>
             <button mat-raised-button color="accent" [disabled]="address.invalid || notSelected( 'country.isocode')" (click)="next()">Next
