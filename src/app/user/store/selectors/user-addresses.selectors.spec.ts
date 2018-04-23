@@ -32,7 +32,7 @@ describe('User Addresses Selectors', () => {
         .select(fromSelectors.getAddresses)
         .subscribe(value => (result = value));
 
-      expect(result).toEqual({});
+      expect(result).toEqual([]);
 
       store.dispatch(
         new fromActions.LoadUserAddressesSuccess(mockUserAddresses)

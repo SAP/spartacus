@@ -14,7 +14,7 @@ describe('User Addresses Reducer', () => {
 
   describe('LOAD_USER_ADDRESSES_SUCCESS action', () => {
     it('should populate the user addresses state entities', () => {
-      const mockUserAddresses = { addresses: ['address1', 'address2'] };
+      const mockUserAddresses = ['address1', 'address2'];
 
       const { initialState } = fromUserAddressesReducer;
       const action = new fromUserAddressesAction.LoadUserAddressesSuccess(
@@ -22,7 +22,7 @@ describe('User Addresses Reducer', () => {
       );
       const state = fromUserAddressesReducer.reducer(initialState, action);
 
-      expect(state.entities).toEqual(mockUserAddresses);
+      expect(state.list).toEqual(mockUserAddresses);
     });
   });
 });

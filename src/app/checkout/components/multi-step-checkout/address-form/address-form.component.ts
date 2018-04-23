@@ -83,7 +83,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   toggleDefaultAddress() {
-    this.address.value.defaultAddress = !this.address.value.defaultAddress
+    this.address.value.defaultAddress = !this.address.value.defaultAddress;
   }
 
   addressSelected(address) {

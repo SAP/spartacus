@@ -9,7 +9,7 @@ export const getAddressesState: MemoizedSelector<
   UserAddressesState
 > = createSelector(
   fromFeature.getUserState,
-  (state: fromFeature.UserState) => state.existingAddresses
+  (state: fromFeature.UserState) => state.addresses
 );
 
 export const getAddresses: MemoizedSelector<any, any> = createSelector(

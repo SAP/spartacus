@@ -9,7 +9,7 @@
     </ul>
 </div>
 <div id="step1" *ngIf="step === 1">
-    <y-address-form [existingAddresses]="(existingAddresses$ | async)?.addresses" (addAddress)="addAddress($event)"></y-address-form>
+    <y-address-form [existingAddresses]="(existingAddresses$ | async)" (addAddress)="addAddress($event)"></y-address-form>
     <div class="order-summary-address-form">
         <y-order-summary></y-order-summary>
     </div>

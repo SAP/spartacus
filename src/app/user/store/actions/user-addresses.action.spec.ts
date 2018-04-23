@@ -5,15 +5,11 @@ const userId = '123';
 describe('User Addresses Actions', () => {
   describe('LoadUserAddresses Actions', () => {
     it('should create the action', () => {
-      const action = new fromUserAddressesAction.LoadUserAddresses({
-        userId: userId
-      });
+      const action = new fromUserAddressesAction.LoadUserAddresses(userId);
 
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.LOAD_USER_ADDRESSES,
-        payload: {
-          userId: userId
-        }
+        payload: userId
       });
     });
   });

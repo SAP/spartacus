@@ -13,13 +13,13 @@ import * as fromUserAddresses from './user-addresses.reducer';
 export interface UserState {
   account: fromUserDetailsReducer.UserDetailsState;
   auth: fromUserToken.UserTokenState;
-  existingAddresses: fromUserAddresses.UserAddressesState;
+  addresses: fromUserAddresses.UserAddressesState;
 }
 
 export const reducers: ActionReducerMap<UserState> = {
   account: fromUserDetailsReducer.reducer,
   auth: fromUserToken.reducer,
-  existingAddresses: fromUserAddresses.reducer
+  addresses: fromUserAddresses.reducer
 };
 
 export const getUserState: MemoizedSelector<

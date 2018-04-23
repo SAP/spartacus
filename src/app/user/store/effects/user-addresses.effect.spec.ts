@@ -60,11 +60,9 @@ describe('User Addresses effect', () => {
 
   describe('loadUserAddresses$', () => {
     it('should load user addresses', () => {
-      const action = new fromUserAddressesAction.LoadUserAddresses({
-        userId: '123'
-      });
+      const action = new fromUserAddressesAction.LoadUserAddresses('123');
       const completion = new fromUserAddressesAction.LoadUserAddressesSuccess(
-        mockUserAddresses
+        mockUserAddresses.addresses
       );
 
       actions$.stream = hot('-a', { a: action });
