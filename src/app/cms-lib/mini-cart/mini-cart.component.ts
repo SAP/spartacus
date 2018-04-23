@@ -15,7 +15,7 @@ import { ConfigService } from '../../cms/config.service';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'y-mini-cart',
