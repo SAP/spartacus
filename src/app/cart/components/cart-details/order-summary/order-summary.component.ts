@@ -1,24 +1,10 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import * as fromCartStore from '../../../../cart/store';
-import { CartService } from '../../../services';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'y-order-summary',
   templateUrl: './order-summary.component.html',
-  styleUrls: ['./order-summary.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./order-summary.component.scss']
 })
-export class OrderSummaryComponent implements OnInit {
-  cart$;
-
-  constructor(
-    protected cartStore: Store<fromCartStore.CartState>,
-    protected cartService: CartService
-  ) {}
-
-  ngOnInit() {
-    this.cartService.loadCartDetails();
-    this.cart$ = this.cartStore.select(fromCartStore.getActiveCart);
-  }
+export class OrderSummaryComponent {
+  @Input() cart: any;
 }

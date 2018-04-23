@@ -7,11 +7,15 @@ import {
 } from '@angular/core';
 import { take, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
-import { CheckoutService } from '../../../services/checkout.service';
 import * as fromRouting from '../../../../routing/store';
+import * as fromCart from '../../../../cart/store';
+
+import { CheckoutService } from '../../../services/checkout.service';
+import { CartService } from '../../../../cart/services/cart.service';
 
 import { Address } from '../../../models/address-model';
 
@@ -32,13 +36,18 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step3Sub: Subscription;
   step4Sub: Subscription;
 
+  cart$: Observable<any>;
+
   constructor(
     protected checkoutService: CheckoutService,
+    protected cartService: CartService,
     private store: Store<fromCheckoutStore.CheckoutState>,
     protected cd: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.cart$ = this.store.select(fromCart.getActiveCart);
+  }
 
   ngOnDestroy() {
     if (this.step1Sub) {
@@ -77,6 +86,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
       )
       .subscribe(deliveryAddress => {
         this.step = 2;
+        this.refreshCart();
         this.deliveryAddress = deliveryAddress;
         this.cd.detectChanges();
       });
@@ -90,6 +100,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
       .pipe(filter(selected => selected !== ''), take(1))
       .subscribe(selected => {
         this.step = 3;
+        this.refreshCart();
         this.cd.detectChanges();
       });
   }
@@ -131,5 +142,9 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
           })
         );
       });
+  }
+
+  private refreshCart() {
+    this.cartService.loadCartDetails();
   }
 }

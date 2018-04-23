@@ -12,7 +12,6 @@ export class CheckoutService {
 
   constructor(
     private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
-    private cartStore: Store<fromCartStore.CartState>,
     private cartService: CartService
   ) {}
 
