@@ -10,9 +10,7 @@ const BASIC_PARAMS =
   'fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
   'entries(totalPrice(formattedValue),product(images(FULL)))';
 
-const DETAILS_PARAMS =
-  'fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),totalTax(formattedValue),' +
-  'totalPriceWithTax(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';
+const DETAILS_PARAMS = 'fields=FULL';
 
 @Injectable()
 export class OccCartService {

@@ -37,19 +37,4 @@ describe('OrderSummary', () => {
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should call ngOnInit()', () => {
-    const mockCart = {
-      code: 'mockId'
-    };
-
-    spyOn(store, 'select').and.returnValue(of(mockCart));
-    spyOn(service, 'loadCartDetails').and.callThrough();
-
-    component.ngOnInit();
-
-    expect(service.loadCartDetails).toHaveBeenCalled();
-
-    expect(store.select).toHaveBeenCalledWith(fromCartStore.getActiveCart);
-  });
 });

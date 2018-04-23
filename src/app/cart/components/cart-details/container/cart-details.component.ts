@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -11,7 +11,7 @@ import { CartService } from '../../../services/cart.service';
   styleUrls: ['./cart-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CartDetailsComponent {
+export class CartDetailsComponent implements OnInit {
   cart$;
   entries$;
 
@@ -21,6 +21,10 @@ export class CartDetailsComponent {
   ) {
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
     this.entries$ = this.store.select(fromCartStore.getEntries);
+  }
+
+  ngOnInit() {
+    this.cartService.loadCartDetails();
   }
 
   removeEntry(entry) {

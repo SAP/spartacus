@@ -9,7 +9,7 @@
             Cart total ({{cart.deliveryItemsQuantity}} items): {{cart.totalPrice?.formattedValue}}
         </div>
 
-
+<!--
         <mat-grid-list cols="4" rowHeight="30em:18em">
             <div class="content">
                 <mat-grid-tile colspan='3'>
@@ -41,8 +41,18 @@
                 </mat-grid-tile>
             </div>
         </mat-grid-list>
-    
+   --> 
+        <ul class="item__list item__list__cart">
+            <table>
+                <tr *ngFor="let entry of (entries$ | async)" [routerLink]="['/product', entry.product.code]">
+                    <td>
+                        <y-cart-item [entry]="entry"></y-cart-item>
+                    </td>
+                </tr>
 
+            </table>
+        </ul>
         
+        <y-order-summary [cart]="cart"></y-order-summary>
     </div>
 </ng-container>
