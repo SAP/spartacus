@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { MaterialModule } from '../../../material.module';
-import { CartDetailsComponent } from '../../../cart/components/cart-details/cart-details.component';
+import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
 import * as fromRoot from '../../../routing/store';
 import * as fromReducer from '../../../cart/store/reducers';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,7 +13,7 @@ import {
 import { CartPageLayoutComponent } from './cart-page-layout.component';
 import { of } from 'rxjs/observable/of';
 import { ComponentMapperService } from '../../../cms/services';
-import { OrderSummaryComponent } from '../../../checkout/components/multi-step-checkout/order-summary/order-summary.component';
+import { OrderSummaryComponent } from '../../../cart/components/cart-details/order-summary/order-summary.component';
 
 class MockCartService {
   removeCartEntry() {}
@@ -29,31 +29,29 @@ describe('CartPageLayoutComponent', () => {
   let fixture: ComponentFixture<CartPageLayoutComponent>;
   let service: CartService;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          RouterTestingModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cart: combineReducers(fromReducer.reducers)
-          })
-        ],
-        declarations: [
-          CartPageLayoutComponent,
-          CartDetailsComponent,
-          DynamicSlotComponent,
-          ComponentWrapperComponent,
-          OrderSummaryComponent
-        ],
-        providers: [
-          { provide: CartService, useClass: MockCartService },
-          { provide: ComponentMapperService, useClass: MockMapperService }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        RouterTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cart: combineReducers(fromReducer.reducers)
+        })
+      ],
+      declarations: [
+        CartPageLayoutComponent,
+        CartDetailsComponent,
+        DynamicSlotComponent,
+        ComponentWrapperComponent,
+        OrderSummaryComponent
+      ],
+      providers: [
+        { provide: CartService, useClass: MockCartService },
+        { provide: ComponentMapperService, useClass: MockMapperService }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartPageLayoutComponent);

@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
-import { MaterialModule } from '../../../material.module';
+import { MaterialModule } from '../../../../material.module';
 import { CartDetailsComponent } from './cart-details.component';
-import * as fromRoot from '../../../routing/store';
-import * as fromReducer from '../../../cart/store/reducers';
+import * as fromRoot from '../../../../routing/store';
+import * as fromReducer from '../../../store/reducers';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartService } from '../../../cart/services';
+import { CartService } from '../../../services/cart.service';
 import { of } from 'rxjs/observable/of';
-import { OrderSummaryComponent } from '../../../checkout/components/multi-step-checkout/order-summary/order-summary.component';
+import { OrderSummaryComponent } from '../order-summary/order-summary.component';
 
 class MockCartService {
   removeCartEntry() {}
@@ -21,22 +21,20 @@ describe('CartDetailsComponent', () => {
   let fixture: ComponentFixture<CartDetailsComponent>;
   let service: CartService;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          RouterTestingModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cart: combineReducers(fromReducer.reducers)
-          })
-        ],
-        declarations: [CartDetailsComponent, OrderSummaryComponent],
-        providers: [{ provide: CartService, useClass: MockCartService }]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        RouterTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cart: combineReducers(fromReducer.reducers)
+        })
+      ],
+      declarations: [CartDetailsComponent, OrderSummaryComponent],
+      providers: [{ provide: CartService, useClass: MockCartService }]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartDetailsComponent);

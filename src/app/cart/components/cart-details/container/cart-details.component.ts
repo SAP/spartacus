@@ -2,8 +2,8 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import * as fromCartStore from '../../../cart/store';
-import { CartService } from '../../../cart/services';
+import * as fromCartStore from '../../../store';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'y-cart-details',

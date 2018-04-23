@@ -96,6 +96,26 @@ describe('CartService', () => {
     });
   });
 
+  describe('Load cart details', () => {
+    it(
+      'should be able to load cart with more details',
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+
+        service.loadCartDetails();
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromCart.LoadCart({
+            userId: userId,
+            cartId: cart.code,
+            details: true
+          })
+        );
+      })
+    );
+  });
+
   describe('add CartEntry', () => {
     it('should be able to addCartEntry if cart exists', () => {
       service.userId = userId;

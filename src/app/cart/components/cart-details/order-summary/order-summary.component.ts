@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromCartStore from '../../../../cart/store';
-import { CheckoutService } from '../../../services';
+import { CartService } from '../../../services';
 
 @Component({
   selector: 'y-order-summary',
@@ -14,11 +14,11 @@ export class OrderSummaryComponent implements OnInit {
 
   constructor(
     protected cartStore: Store<fromCartStore.CartState>,
-    protected checkoutService: CheckoutService
+    protected cartService: CartService
   ) {}
 
   ngOnInit() {
-    this.checkoutService.loadCartDetails();
+    this.cartService.loadCartDetails();
     this.cart$ = this.cartStore.select(fromCartStore.getActiveCart);
   }
 }

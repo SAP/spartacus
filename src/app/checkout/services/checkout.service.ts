@@ -29,21 +29,6 @@ export class CheckoutService {
     );
   }
 
-  loadCartDetails() {
-    this.cartService.getDetails = true;
-
-    this.cartStore.dispatch(
-      new fromCartStore.LoadCart({
-        userId: this.cartService.userId,
-        cartId:
-          this.cartService.userId === ANOYMOUS_USERID
-            ? this.cartService.cart.guid
-            : this.cartService.cart.code,
-        details: true
-      })
-    );
-  }
-
   loadSupportedDeliveryModes() {
     this.checkoutStore.dispatch(
       new fromCheckoutStore.LoadSupportedDeliveryModes({

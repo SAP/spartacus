@@ -5,7 +5,7 @@ import {
   ChangeDetectorRef,
   OnDestroy
 } from '@angular/core';
-import { CartDetailsComponent } from '../../../cart/components/cart-details/cart-details.component';
+import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({

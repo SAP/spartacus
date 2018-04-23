@@ -67,6 +67,19 @@ export class CartService {
     });
   }
 
+  loadCartDetails() {
+    this.getDetails = true;
+
+    this.store.dispatch(
+      new fromAction.LoadCart({
+        userId: this.userId,
+        cartId:
+          this.userId === ANOYMOUS_USERID ? this.cart.guid : this.cart.code,
+        details: true
+      })
+    );
+  }
+
   addCartEntry(productCode: string, quantity: number) {
     if (Object.keys(this.cart).length === 0) {
       this.store.dispatch(new fromAction.CreateCart({ userId: this.userId }));

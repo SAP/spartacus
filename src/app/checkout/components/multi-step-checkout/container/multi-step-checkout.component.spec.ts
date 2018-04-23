@@ -11,7 +11,7 @@ import * as fromRouting from '../../../../routing/store';
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 import { AddressFormComponent } from '../address-form/address-form.component';
-import { OrderSummaryComponent } from '../order-summary/order-summary.component';
+import { OrderSummaryComponent } from '../../../../cart/components/cart-details/order-summary/order-summary.component';
 import { DeliveryModeFormComponent } from '../delivery-mode-form/delivery-mode-form.component';
 import { ReviewSubmitComponent } from '../review-submit/review-submit.component';
 
@@ -38,30 +38,28 @@ describe('MultiStepCheckoutComponent', () => {
   let fixture: ComponentFixture<MultiStepCheckoutComponent>;
   let service: CheckoutService;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers),
-            checkout: combineReducers(fromCheckout.reducers)
-          })
-        ],
-        declarations: [
-          MultiStepCheckoutComponent,
-          AddressFormComponent,
-          DeliveryModeFormComponent,
-          OrderSummaryComponent,
-          PaymentFormComponent,
-          ReviewSubmitComponent
-        ],
-        providers: [CheckoutService, CartService]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers),
+          checkout: combineReducers(fromCheckout.reducers)
+        })
+      ],
+      declarations: [
+        MultiStepCheckoutComponent,
+        AddressFormComponent,
+        DeliveryModeFormComponent,
+        OrderSummaryComponent,
+        PaymentFormComponent,
+        ReviewSubmitComponent
+      ],
+      providers: [CheckoutService, CartService]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MultiStepCheckoutComponent);

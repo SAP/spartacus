@@ -1,0 +1,48 @@
+<ng-container *ngIf="cart$ | async as cart">
+    <div *ngIf="cart.totalItems">
+        <div class="headings">
+            <h2>Shopping Cart</h2>
+            <h4>ID {{cart.code}}</h4>
+        </div>
+
+        <div class="sub-heading">
+            Cart total ({{cart.deliveryItemsQuantity}} items): {{cart.totalPrice?.formattedValue}}
+        </div>
+
+
+        <mat-grid-list cols="4" rowHeight="30em:18em">
+            <div class="content">
+                <mat-grid-tile colspan='3'>
+                    <div class="cart-details">
+                        <mat-nav-list>
+                            <mat-list-item *ngFor="let entry of (entries$ | async)" [routerLink]="['/product', entry.product.code]">
+
+                                <img mat-list-avatar [src]="entry.product.images.PRIMARY?.thumbnail?.url">
+
+                                <a mat-line>{{entry.product.name}}</a>
+                                <p mat-line>
+                                    ID: {{entry.product.code}}
+                                    <br>Qty: {{entry.quantity}} &emsp; Total:
+                                    <strong>{{entry.totalPrice.formattedValue}}</strong>
+                                </p>
+                                <a (click)="removeEntry(entry, $event)">Remove</a>
+                            </mat-list-item>
+                        </mat-nav-list>
+                    </div>
+                </mat-grid-tile>
+
+                <mat-grid-tile colspan='1'>
+                    <div class="order-summary">
+                        <y-order-summary></y-order-summary>
+                        <div>
+                            <button routerLink="/checkout" mat-raised-button color="accent" *ngIf="(entries$ | async).length">Proceed to Checkout</button>
+                        </div>
+                    </div>
+                </mat-grid-tile>
+            </div>
+        </mat-grid-list>
+    
+
+        
+    </div>
+</ng-container>
