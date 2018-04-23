@@ -81,16 +81,26 @@ describe('MultiStepCheckoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit()', () => {
+  it('should call ngOnInit() with user addresses already loaded', () => {
     const mockUserAddresses = { addresses: ['address1', 'address2'] };
     spyOn(store, 'select').and.returnValues(of(mockUserAddresses));
 
     component.ngOnInit();
 
-    expect(service.loadUserAddresses).toHaveBeenCalled();
+    expect(service.loadUserAddresses).not.toHaveBeenCalled();
     component.existingAddresses$.subscribe(data =>
       expect(data).toEqual(mockUserAddresses)
     );
+  });
+
+  it('should call ngOnInit() with user addresses not already loaded', () => {
+    const mockUserAddresses = { addresses: [] };
+    spyOn(store, 'select').and.returnValue(of(mockUserAddresses));
+
+    component.ngOnInit();
+    component.existingAddresses$.subscribe();
+
+    expect(service.loadUserAddresses).toHaveBeenCalled();
   });
 
   it('should call setStep()', () => {
@@ -104,9 +114,16 @@ describe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call addAddress() with new created address', () => {
-    spyOn(store, 'select').and.returnValues(of(address), of([]));
+    const mockUserAddresses = { addresses: ['address1', 'address2'] };
+    spyOn(store, 'select').and.returnValues(
+      of(mockUserAddresses),
+      of(address),
+      of([])
+    );
 
-    component.addAddress(address);
+    component.addAddress({ address: address, addressSelected: false });
+    component.existingAddresses$.subscribe();
+
     expect(service.createAndSetAddress).toHaveBeenCalledWith(address);
     expect(component.step).toBe(2);
   });
@@ -114,7 +131,7 @@ describe('MultiStepCheckoutComponent', () => {
   it('should call addAddress() with address selected from existing addresses', () => {
     spyOn(store, 'select').and.returnValues(of(address), of([]));
 
-    component.addAddress('Address Selected');
+    component.addAddress({ address: address, addressSelected: true });
     expect(service.createAndSetAddress).not.toHaveBeenCalledWith(address);
     expect(component.step).toBe(2);
   });
