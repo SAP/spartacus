@@ -121,7 +121,7 @@ describe('AddressFormComponent', () => {
     expect(service.setDeliveryAddress).toHaveBeenCalledWith(mockAddress);
     expect(component.addAddress.emit).toHaveBeenCalledWith({
       address: mockAddress,
-      addressSelected: true
+      newAddress: false
     });
   });
 
@@ -168,7 +168,7 @@ describe('AddressFormComponent', () => {
     component.next();
     expect(component.addAddress.emit).toHaveBeenCalledWith({
       address: component.address.value,
-      addressSelected: false
+      newAddress: true
     });
   });
 

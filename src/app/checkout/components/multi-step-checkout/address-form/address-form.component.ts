@@ -87,7 +87,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   addressSelected(address) {
     this.checkoutService.setDeliveryAddress(address);
-    this.addAddress.emit({ address: address, addressSelected: true });
+    this.addAddress.emit({ address: address, newAddress: false });
   }
 
   addNewAddress() {
@@ -104,7 +104,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         if (results.decision === 'ACCEPT') {
           this.addAddress.emit({
             address: this.address.value,
-            addressSelected: false
+            newAddress: true
           });
         } else if (results.decision === 'REJECT') {
           // will be shown in global message
@@ -139,7 +139,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           },
           address
         );
-        this.addAddress.emit({ address: address, addressSelected: false });
+        this.addAddress.emit({ address: address, newAddress: true });
       }
     });
   }

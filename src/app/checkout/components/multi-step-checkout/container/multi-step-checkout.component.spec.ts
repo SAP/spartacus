@@ -121,7 +121,7 @@ describe('MultiStepCheckoutComponent', () => {
       of([])
     );
 
-    component.addAddress({ address: address, addressSelected: false });
+    component.addAddress({ address: address, newAddress: true });
     component.existingAddresses$.subscribe();
 
     expect(service.createAndSetAddress).toHaveBeenCalledWith(address);
@@ -131,7 +131,7 @@ describe('MultiStepCheckoutComponent', () => {
   it('should call addAddress() with address selected from existing addresses', () => {
     spyOn(store, 'select').and.returnValues(of(address), of([]));
 
-    component.addAddress({ address: address, addressSelected: true });
+    component.addAddress({ address: address, newAddress: false });
     expect(service.createAndSetAddress).not.toHaveBeenCalledWith(address);
     expect(component.step).toBe(2);
   });

@@ -82,7 +82,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   }
 
   addAddress(addressObject) {
-    if (!addressObject.addressSelected) {
+    if (addressObject.newAddress) {
       this.checkoutService.createAndSetAddress(addressObject.address);
       this.checkoutService.loadUserAddresses();
       this.existingAddresses$ = this.store
