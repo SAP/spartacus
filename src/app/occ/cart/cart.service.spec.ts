@@ -264,7 +264,6 @@ describe('OccCartService', () => {
         });
 
       const mockReq = httpMock.expectOne(req => {
-        console.log(req);
         return (
           req.method === 'PUT' &&
           req.url ===

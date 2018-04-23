@@ -111,9 +111,7 @@ export class CheckoutService {
 
   loadUserAddresses() {
     this.userStore.dispatch(
-      new fromUserStore.LoadUserAddresses({
-        userId: this.cartService.userId
-      })
+      new fromUserStore.LoadUserAddresses(this.cartService.userId)
     );
   }
 
