@@ -5,9 +5,16 @@ import { MaterialModule } from '../../../material.module';
 
 import { CartDetailsComponent } from './cart-details.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MultiStepCheckoutModule } from '../../../checkout/components/multi-step-checkout/multi-step-checkout.module';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, MaterialModule, FlexLayoutModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MaterialModule,
+    FlexLayoutModule,
+    MultiStepCheckoutModule
+  ],
   declarations: [CartDetailsComponent],
   entryComponents: [CartDetailsComponent],
   exports: [CartDetailsComponent]
