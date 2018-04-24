@@ -6,7 +6,7 @@ import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import * as fromRoot from './../../../routing/store';
 
-const mockUserAddresses = { addresses: ['address1', 'address2'] };
+const mockUserAddresses = ['address1', 'address2'];
 
 describe('User Addresses Selectors', () => {
   let store: Store<fromReducers.UserState>;

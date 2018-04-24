@@ -5,7 +5,7 @@ import {
   OnDestroy,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material';
 import { CartService } from '../../services/cart.service';
 import { Observable } from 'rxjs/Observable';
 import { tap } from 'rxjs/operators';

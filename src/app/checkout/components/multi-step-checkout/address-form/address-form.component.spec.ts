@@ -20,7 +20,6 @@ import * as fromRouting from '../../../../routing/store';
 import { MaterialModule } from '../../../../material.module';
 import { CheckoutService } from '../../../services';
 import { CartService } from '../../../../cart/services';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialog } from '@angular/material';
 import { AddressFormModule } from './address-form.module';
 
@@ -64,32 +63,28 @@ describe('AddressFormComponent', () => {
   let fb: FormBuilder;
   let ac: AbstractControl;
   let dialog: MatDialog;
-  let service: CheckoutService;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          MaterialModule,
-          BrowserAnimationsModule,
-          AddressFormModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            checkout: combineReducers(fromCheckout.reducers),
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers)
-          })
-        ],
-        providers: [
-          CheckoutService,
-          CartService,
-          { provide: FormGroup, useClass: MockFormGroup },
-          { provide: AbstractControl, useClass: MockAbstractControl }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        MaterialModule,
+        AddressFormModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          checkout: combineReducers(fromCheckout.reducers),
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers)
+        })
+      ],
+      providers: [
+        CheckoutService,
+        CartService,
+        { provide: FormGroup, useClass: MockFormGroup },
+        { provide: AbstractControl, useClass: MockAbstractControl }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fb = TestBed.get(FormBuilder);
@@ -98,15 +93,14 @@ describe('AddressFormComponent', () => {
     store = TestBed.get(Store);
     ac = TestBed.get(AbstractControl);
     dialog = TestBed.get(MatDialog);
-    service = TestBed.get(CheckoutService);
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(ac, 'hasError').and.callThrough();
     spyOn(component.addAddress, 'emit').and.callThrough();
+    spyOn(component.verifyAddress, 'emit').and.callThrough();
     spyOn(component, 'addNewAddress').and.callThrough();
     spyOn(component.address, 'get').and.returnValue(ac);
     spyOn(dialog, 'open').and.callThrough();
-    spyOn(service, 'setDeliveryAddress').and.callThrough();
   });
 
   it('should be created', () => {
@@ -118,7 +112,6 @@ describe('AddressFormComponent', () => {
 
     component.addressSelected(mockAddress);
 
-    expect(service.setDeliveryAddress).toHaveBeenCalledWith(mockAddress);
     expect(component.addAddress.emit).toHaveBeenCalledWith({
       address: mockAddress,
       newAddress: false
@@ -162,30 +155,9 @@ describe('AddressFormComponent', () => {
     });
   });
 
-  it('should call next() with valid address', () => {
-    const mockAddressVerificationResult = { decision: 'ACCEPT' };
-    spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
+  it('should call next()', () => {
     component.next();
-    expect(component.addAddress.emit).toHaveBeenCalledWith({
-      address: component.address.value,
-      newAddress: true
-    });
-  });
-
-  it('should call next() with invalid address', () => {
-    const mockAddressVerificationResult = { decision: 'REJECT' };
-    spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
-    component.next();
-    expect(component.addAddress.emit).not.toHaveBeenCalled();
-  });
-
-  it('should call next() with and return suggested addresses', () => {
-    const mockAddressVerificationResult = {
-      decision: 'REVIEW',
-      suggestedAddresses: ['address1', 'address2']
-    };
-    spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
-    component.next();
+    expect(component.verifyAddress.emit).toHaveBeenCalled();
   });
 
   it('should call back()', () => {

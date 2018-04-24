@@ -13,6 +13,7 @@ import { OccCartService } from '../../../occ/cart/cart.service';
 import { ConfigService } from '../../../occ/config.service';
 import * as fromEffects from './checkout.effect';
 import * as fromActions from '../actions/checkout.action';
+import * as fromUserActions from '../../../user/store/actions';
 import { OccOrderService } from '../../../occ/order/order.service';
 
 @Injectable()
@@ -82,10 +83,16 @@ describe('Checkout effect', () => {
         cartId: cartId,
         address: address
       });
-      const completion = new fromActions.AddDeliveryAddressSuccess(address);
+
+      const completion1 = new fromUserActions.LoadUserAddresses(userId);
+      const completion2 = new fromActions.SetDeliveryAddress({
+        userId: userId,
+        cartId: cartId,
+        address: address
+      });
 
       actions$.stream = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
     });
