@@ -20,7 +20,6 @@ import * as fromRouting from '../../../../routing/store';
 import { MaterialModule } from '../../../../material.module';
 import { CheckoutService } from '../../../services';
 import { CartService } from '../../../../cart/services';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialog } from '@angular/material';
 import { AddressFormModule } from './address-form.module';
 
@@ -65,30 +64,27 @@ describe('AddressFormComponent', () => {
   let ac: AbstractControl;
   let dialog: MatDialog;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          MaterialModule,
-          BrowserAnimationsModule,
-          AddressFormModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            checkout: combineReducers(fromCheckout.reducers),
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers)
-          })
-        ],
-        providers: [
-          CheckoutService,
-          CartService,
-          { provide: FormGroup, useClass: MockFormGroup },
-          { provide: AbstractControl, useClass: MockAbstractControl }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        MaterialModule,
+        AddressFormModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          checkout: combineReducers(fromCheckout.reducers),
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers)
+        })
+      ],
+      providers: [
+        CheckoutService,
+        CartService,
+        { provide: FormGroup, useClass: MockFormGroup },
+        { provide: AbstractControl, useClass: MockAbstractControl }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fb = TestBed.get(FormBuilder);
