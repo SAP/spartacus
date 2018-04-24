@@ -130,8 +130,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     if (paymentDetailsObject.newPayment) {
       paymentDetailsObject.payment.billingAddress = this.deliveryAddress;
       this.checkoutService.getPaymentDetails(paymentDetailsObject.payment);
-      this.existingAddresses$ = this.store
-        .select(fromUserStore.getAddresses)
+      this.existingPaymentMethods$ = this.store
+        .select(fromUserStore.getPaymentMethods)
         .pipe(tap(() => this.checkoutService.loadUserPaymentMethods()));
     }
 

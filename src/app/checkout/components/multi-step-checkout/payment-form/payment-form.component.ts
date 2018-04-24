@@ -23,7 +23,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 })
 export class PaymentFormComponent implements OnInit {
   cardTypes$: Observable<any>;
-  addANewPaymentMethod = false;
+  newPayment = false;
 
   @Input() existingPaymentMethods;
   @Output() backStep = new EventEmitter<any>();
@@ -67,12 +67,12 @@ export class PaymentFormComponent implements OnInit {
   }
 
   addNewPaymentMethod() {
-    this.addANewPaymentMethod = true;
+    this.newPayment = true;
   }
 
   back() {
-    if (this.addANewPaymentMethod) {
-      this.addANewPaymentMethod = false;
+    if (this.newPayment) {
+      this.newPayment = false;
     } else {
       this.backStep.emit();
     }

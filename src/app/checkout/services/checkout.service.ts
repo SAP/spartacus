@@ -127,9 +127,7 @@ export class CheckoutService {
 
   loadUserPaymentMethods() {
     this.userStore.dispatch(
-      new fromUserStore.LoadUserPaymentMethods({
-        userId: this.cartService.userId
-      })
+      new fromUserStore.LoadUserPaymentMethods(this.cartService.userId)
     );
   }
 
