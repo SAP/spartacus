@@ -39,31 +39,29 @@ describe('MultiStepCheckoutComponent', () => {
   let fixture: ComponentFixture<MultiStepCheckoutComponent>;
   let service: CheckoutService;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers),
-            checkout: combineReducers(fromCheckout.reducers)
-          })
-        ],
-        declarations: [
-          MultiStepCheckoutComponent,
-          AddressFormComponent,
-          DeliveryModeFormComponent,
-          OrderSummaryComponent,
-          PaymentFormComponent,
-          ReviewSubmitComponent
-        ],
-        providers: [CheckoutService, CartService]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers),
+          checkout: combineReducers(fromCheckout.reducers)
+        })
+      ],
+      declarations: [
+        MultiStepCheckoutComponent,
+        AddressFormComponent,
+        DeliveryModeFormComponent,
+        OrderSummaryComponent,
+        PaymentFormComponent,
+        ReviewSubmitComponent
+      ],
+      providers: [CheckoutService, CartService]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MultiStepCheckoutComponent);
@@ -129,7 +127,7 @@ describe('MultiStepCheckoutComponent', () => {
   // });
 
   it('should call ngOnInit() with user addresses not already loaded', () => {
-    const mockUserAddresses = { addresses: [] };
+    const mockUserAddresses = [];
     spyOn(store, 'select').and.returnValue(of(mockUserAddresses));
 
     component.ngOnInit();
