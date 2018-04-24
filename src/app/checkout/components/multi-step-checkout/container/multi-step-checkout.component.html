@@ -9,8 +9,7 @@
     </ul>
 </div>
 <div id="step1" *ngIf="step === 1">
-    <y-address-form [existingAddresses]="(existingAddresses$ | async)" (addAddress)="addAddress($event)" (verifyAddress)="verifyAddress($event)"
-        ></y-address-form>
+    <y-address-form [existingAddresses]="(existingAddresses$ | async)" (addAddress)="addAddress($event)" (verifyAddress)="verifyAddress($event)"></y-address-form>
     <div class="order-summary-address-form">
         <y-order-summary></y-order-summary>
     </div>
@@ -24,7 +23,8 @@
 </div>
 
 <div id="step3" *ngIf="step === 3">
-    <y-payment-form [existingPaymentMethods]="(existingPaymentMethods$ | async)" (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-form>
+    <y-payment-form [cardTypes]="(cardTypes$ | async)" [existingPaymentMethods]="(existingPaymentMethods$ | async)" (addPaymentInfo)="addPaymentInfo($event)"
+        (backStep)="setStep(2)"></y-payment-form>
     <div class="payment-form">
         <y-order-summary></y-order-summary>
     </div>

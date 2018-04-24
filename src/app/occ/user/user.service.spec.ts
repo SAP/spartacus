@@ -113,7 +113,7 @@ describe('OccUserService', () => {
     });
   });
 
-  describe('load user address', () => {
+  describe('load user addresses', () => {
     it('should load user addresses for a given user id', () => {
       const mockUserAddresses = { addresses: ['address1', 'address2'] };
 

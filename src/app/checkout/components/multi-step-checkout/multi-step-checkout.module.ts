@@ -8,9 +8,10 @@ import { DeliveryModeFormComponent } from './delivery-mode-form/delivery-mode-fo
 import { PaymentFormComponent } from './payment-form/payment-form.component';
 import { ReviewSubmitComponent } from './review-submit/review-submit.component';
 import { AddressFormModule } from './address-form/address-form.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, AddressFormModule],
+  imports: [CommonModule, ReactiveFormsModule, AddressFormModule, RouterModule],
   declarations: [
     MultiStepCheckoutComponent,
     OrderSummaryComponent,

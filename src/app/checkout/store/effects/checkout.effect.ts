@@ -138,12 +138,16 @@ export class CheckoutEffects {
                           fromPaymentProvider
                         )
                         .pipe(
-                          map(
-                            details =>
+                          mergeMap(details => {
+                            return [
+                              new fromUserActions.LoadUserPaymentMethods(
+                                payload.userId
+                              ),
                               new fromActions.CreatePaymentDetailsSuccess(
                                 details
                               )
-                          ),
+                            ];
+                          }),
                           catchError(error =>
                             of(new fromActions.CreatePaymentDetailsFail(error))
                           )

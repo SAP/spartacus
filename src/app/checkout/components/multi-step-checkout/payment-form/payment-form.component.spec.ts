@@ -16,6 +16,7 @@ import * as fromUser from '../../../../user/store';
 
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
+import { RouterTestingModule } from '@angular/router/testing';
 
 export class MockAbstractControl {
   hasError() {
@@ -52,28 +53,27 @@ describe('PaymentFormComponent', () => {
   let fb: FormBuilder;
   let ac: AbstractControl;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers),
-            checkout: combineReducers(fromCheckout.reducers)
-          })
-        ],
-        declarations: [PaymentFormComponent],
-        providers: [
-          CheckoutService,
-          CartService,
-          { provide: FormGroup, useClass: MockFormGroup },
-          { provide: AbstractControl, useClass: MockAbstractControl }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers),
+          checkout: combineReducers(fromCheckout.reducers)
+        })
+      ],
+      declarations: [PaymentFormComponent],
+      providers: [
+        CheckoutService,
+        CartService,
+        { provide: FormGroup, useClass: MockFormGroup },
+        { provide: AbstractControl, useClass: MockAbstractControl }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentFormComponent);
@@ -95,22 +95,6 @@ describe('PaymentFormComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call ngOnInit to get suppored card types if they do not exist', () => {
-    spyOn(store, 'select').and.returnValue(of({}));
-    component.ngOnInit();
-    component.cardTypes$.subscribe(() => {
-      expect(service.loadSupportedCardTypes).toHaveBeenCalled();
-    });
-  });
-
-  it('should call ngOnInit to get suppored card types if they exist', () => {
-    spyOn(store, 'select').and.returnValue(of(mockCardTypes));
-    component.ngOnInit();
-    component.cardTypes$.subscribe(data => {
-      expect(data).toBe(mockCardTypes);
-    });
   });
 
   it('should call next()', () => {

@@ -7,12 +7,7 @@ import {
   Input
 } from '@angular/core';
 
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { tap } from 'rxjs/operators';
 
-import * as fromCheckoutStore from '../../../store';
-import { CheckoutService } from '../../../services';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -22,10 +17,10 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentFormComponent implements OnInit {
-  cardTypes$: Observable<any>;
   newPayment = false;
 
   @Input() existingPaymentMethods;
+  @Input() cardTypes;
   @Output() backStep = new EventEmitter<any>();
   @Output() addPaymentInfo = new EventEmitter<any>();
 
@@ -41,24 +36,11 @@ export class PaymentFormComponent implements OnInit {
     cvn: ['', Validators.required]
   });
 
-  constructor(
-    protected store: Store<fromCheckoutStore.CheckoutState>,
-    protected service: CheckoutService,
-    private fb: FormBuilder
-  ) {}
+  constructor(private fb: FormBuilder) {}
 
-  ngOnInit() {
-    this.cardTypes$ = this.store.select(fromCheckoutStore.getAllCardTypes).pipe(
-      tap(cardTypes => {
-        if (Object.keys(cardTypes).length === 0) {
-          this.service.loadSupportedCardTypes();
-        }
-      })
-    );
-  }
+  ngOnInit() {}
 
   paymentMethodSelected(paymentDetails) {
-    this.service.setPaymentDetails(paymentDetails);
     this.addPaymentInfo.emit({ payment: paymentDetails, newPayment: false });
   }
 

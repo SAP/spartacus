@@ -33,6 +33,15 @@ const address: Address = {
   country: { isocode: 'JP' }
 };
 
+const paymentDetails = {
+  accountHolderName: 'Name',
+  cardNumber: '123456789',
+  cardType: 'Visa',
+  expiryMonth: '01',
+  expiryYear: '2022',
+  cvn: '123'
+};
+
 describe('MultiStepCheckoutComponent', () => {
   let store: Store<fromRouting.State>;
   let component: MultiStepCheckoutComponent;
@@ -76,6 +85,7 @@ describe('MultiStepCheckoutComponent', () => {
     spyOn(service, 'setDeliveryMode').and.callThrough();
     spyOn(service, 'loadUserAddresses').and.callThrough();
     spyOn(service, 'getPaymentDetails').and.callThrough();
+    spyOn(service, 'setPaymentDetails').and.callThrough();
     spyOn(service, 'placeOrder').and.callThrough();
   });
 
@@ -85,7 +95,14 @@ describe('MultiStepCheckoutComponent', () => {
 
   it('should call ngOnInit() with user addresses already loaded', () => {
     const mockUserAddresses = { addresses: ['address1', 'address2'] };
-    spyOn(store, 'select').and.returnValues(of(mockUserAddresses));
+    const mockPaymentMethods = { payments: ['payment1', 'payment2'] };
+    const mockCardTypes = ['type1', 'type2'];
+
+    spyOn(store, 'select').and.returnValues(
+      of(mockCardTypes),
+      of(mockUserAddresses),
+      of(mockPaymentMethods)
+    );
 
     component.ngOnInit();
 
@@ -93,6 +110,12 @@ describe('MultiStepCheckoutComponent', () => {
     component.existingAddresses$.subscribe(data =>
       expect(data).toEqual(mockUserAddresses)
     );
+    component.existingPaymentMethods$.subscribe(data =>
+      expect(data).toEqual(mockPaymentMethods)
+    );
+    component.cardTypes$.subscribe(data => {
+      expect(data).toBe(mockCardTypes);
+    });
   });
 
   it('should call verifyAddress(address) with valid address', () => {
@@ -177,26 +200,34 @@ describe('MultiStepCheckoutComponent', () => {
     expect(component.step).toBe(3);
   });
 
-  it('should call addPaymentInfo(paymentDetailsObject)', () => {
-    const paymentDetails = {
-      accountHolderName: 'Name',
-      cardNumber: '123456789',
-      cardType: 'Visa',
-      expiryMonth: '01',
-      expiryYear: '2022',
-      cvn: '123'
-    };
-
-    component.deliveryAddress = address;
+  it('should call addPaymentInfo() with new created payment info', () => {
     spyOn(store, 'select').and.returnValues(
       of(paymentDetails),
-      of(),
-      of(),
-      of()
+      of([]),
+      of([]),
+      of([])
     );
 
+    component.deliveryAddress = address;
     component.addPaymentInfo({ payment: paymentDetails, newPayment: true });
+
     expect(service.getPaymentDetails).toHaveBeenCalledWith(paymentDetails);
+    expect(component.step).toBe(4);
+  });
+
+  it('should call addAddress() with address selected from existing addresses', () => {
+    spyOn(store, 'select').and.returnValues(
+      of(paymentDetails),
+      of([]),
+      of([]),
+      of([])
+    );
+
+    component.deliveryAddress = address;
+    component.addPaymentInfo({ payment: paymentDetails, newPayment: false });
+
+    expect(service.getPaymentDetails).not.toHaveBeenCalledWith(paymentDetails);
+    expect(service.setPaymentDetails).toHaveBeenCalledWith(paymentDetails);
     expect(component.step).toBe(4);
   });
 

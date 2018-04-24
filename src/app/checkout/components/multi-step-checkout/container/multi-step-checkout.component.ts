@@ -40,6 +40,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   @ViewChild(AddressFormComponent) addressForm: AddressFormComponent;
   addressVerifySub: Subscription;
 
+  cardTypes$: Observable<any>;
   existingAddresses$: Observable<any>;
   existingPaymentMethods$: Observable<any>;
 
@@ -50,6 +51,14 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.cardTypes$ = this.store.select(fromCheckoutStore.getAllCardTypes).pipe(
+      tap(cardTypes => {
+        if (Object.keys(cardTypes).length === 0) {
+          this.checkoutService.loadSupportedCardTypes();
+        }
+      })
+    );
+
     this.existingAddresses$ = this.store
       .select(fromUserStore.getAddresses)
       .pipe(
@@ -160,9 +169,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     if (paymentDetailsObject.newPayment) {
       paymentDetailsObject.payment.billingAddress = this.deliveryAddress;
       this.checkoutService.getPaymentDetails(paymentDetailsObject.payment);
-      this.existingPaymentMethods$ = this.store
-        .select(fromUserStore.getPaymentMethods)
-        .pipe(tap(() => this.checkoutService.loadUserPaymentMethods()));
+    } else {
+      this.checkoutService.setPaymentDetails(paymentDetailsObject.payment);
     }
 
     this.step3Sub = this.store

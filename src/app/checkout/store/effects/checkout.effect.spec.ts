@@ -207,12 +207,13 @@ describe('Checkout effect', () => {
         cartId: cartId,
         paymentDetails: mockPaymentDetails
       });
-      const completion = new fromActions.CreatePaymentDetailsSuccess(
+      const completion1 = new fromUserActions.LoadUserPaymentMethods(userId);
+      const completion2 = new fromActions.CreatePaymentDetailsSuccess(
         paymentDetails
       );
 
       actions$.stream = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
     });
