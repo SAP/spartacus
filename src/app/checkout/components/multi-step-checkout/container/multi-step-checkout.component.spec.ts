@@ -132,7 +132,7 @@ describe('MultiStepCheckoutComponent', () => {
     expect(component.step).toBe(3);
   });
 
-  it('should call addPaymentInfo(paymentDetails: any)', () => {
+  it('should call addPaymentInfo(paymentDetailsObject)', () => {
     const paymentDetails = {
       accountHolderName: 'Name',
       cardNumber: '123456789',
@@ -150,7 +150,7 @@ describe('MultiStepCheckoutComponent', () => {
       of()
     );
 
-    component.addPaymentInfo(paymentDetails);
+    component.addPaymentInfo({ payment: paymentDetails, newPayment: true });
     expect(service.getPaymentDetails).toHaveBeenCalledWith(paymentDetails);
     expect(component.step).toBe(4);
   });

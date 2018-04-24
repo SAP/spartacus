@@ -59,7 +59,7 @@ export class PaymentFormComponent implements OnInit {
 
   paymentMethodSelected(paymentDetails) {
     this.service.setPaymentDetails(paymentDetails);
-    this.addPaymentInfo.emit('Payment Details Selected');
+    this.addPaymentInfo.emit({ payment: paymentDetails, newPayment: false });
   }
 
   toggleDefaultPaymentMethod() {
@@ -79,7 +79,7 @@ export class PaymentFormComponent implements OnInit {
   }
 
   next() {
-    this.addPaymentInfo.emit(this.payment.value);
+    this.addPaymentInfo.emit({ payment: this.payment.value, newPayment: true });
   }
 
   required(name: string) {

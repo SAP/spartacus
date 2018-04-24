@@ -115,9 +115,10 @@ describe('PaymentFormComponent', () => {
 
   it('should call next()', () => {
     component.next();
-    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith(
-      component.payment.value
-    );
+    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
+      payment: component.payment.value,
+      newPayment: true
+    });
   });
 
   it('should call back()', () => {
