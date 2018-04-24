@@ -5,7 +5,7 @@ import * as fromUserActions from '../../../user/store/actions';
 
 import { Observable } from 'rxjs/Observable';
 import { Actions, Effect } from '@ngrx/effects';
-import { map, catchError, mergeMap, tap } from 'rxjs/operators';
+import { map, catchError, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
@@ -26,9 +26,11 @@ export class CheckoutEffects {
               address['titleCode'] = payload.address.titleCode;
               return [
                 new fromUserActions.LoadUserAddresses(payload.userId),
-                new fromActions.SetDeliveryAddress({userId: payload.userId,
+                new fromActions.SetDeliveryAddress({
+                  userId: payload.userId,
                   cartId: payload.cartId,
-                  address: address})
+                  address: address
+                })
               ];
             }),
             catchError(error =>

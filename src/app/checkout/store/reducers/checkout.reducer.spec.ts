@@ -12,7 +12,7 @@ describe('Checkout reducer', () => {
     });
   });
 
-  describe('ADD_DELIVERY_ADDRESS_SUCCESS action', () => {
+  describe('ADD_DELIVERY_ADDRESS_SUCCESS or SET_DELIVERY_ADDRESS_SUCCESS action', () => {
     it('should add delivery address', () => {
       const address: any = {
         id: 'testAddressId',
@@ -24,27 +24,23 @@ describe('Checkout reducer', () => {
 
       const { initialState } = fromCheckout;
 
-      const action = new fromActions.AddDeliveryAddressSuccess(address);
-      const state = fromCheckout.reducer(initialState, action);
-      expect(state.address).toEqual(address);
-    });
-  });
+      const addDeliveryAddressAction = new fromActions.AddDeliveryAddressSuccess(
+        address
+      );
+      const addDeliveryAddressState = fromCheckout.reducer(
+        initialState,
+        addDeliveryAddressAction
+      );
+      expect(addDeliveryAddressState.address).toEqual(address);
 
-  describe('SET_DELIVERY_ADDRESS_SUCCESS action', () => {
-    it('should set delivery address', () => {
-      const address: any = {
-        id: 'testAddressId',
-        firstName: 'John',
-        lastName: 'Doe',
-        titleCode: 'mr',
-        line1: 'Toyosaki 2 create on cart'
-      };
-
-      const { initialState } = fromCheckout;
-
-      const action = new fromActions.SetDeliveryAddressSuccess(address);
-      const state = fromCheckout.reducer(initialState, action);
-      expect(state.address).toEqual(address);
+      const setDeliveryAddressAction = new fromActions.SetDeliveryAddressSuccess(
+        address
+      );
+      const setDeliveryAddressState = fromCheckout.reducer(
+        initialState,
+        setDeliveryAddressAction
+      );
+      expect(setDeliveryAddressState.address).toEqual(address);
     });
   });
 
