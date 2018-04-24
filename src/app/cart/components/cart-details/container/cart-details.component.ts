@@ -1,9 +1,17 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
+import {
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  Validators,
+  AbstractControl
+} from '@angular/forms';
 
 import * as fromCartStore from '../../../store';
 import { CartService } from '../../../services/cart.service';
+import { take, filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'y-cart-details',
@@ -15,20 +23,48 @@ export class CartDetailsComponent implements OnInit {
   cart$;
   entries$;
 
+  form: FormGroup = this.fb.group({
+    entryArry: this.fb.array([])
+  });
+
   constructor(
     protected store: Store<fromCartStore.CartState>,
-    protected cartService: CartService
-  ) {
-    this.cart$ = this.store.select(fromCartStore.getActiveCart);
-    this.entries$ = this.store.select(fromCartStore.getEntries);
-  }
+    protected cartService: CartService,
+    protected fb: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.cartService.loadCartDetails();
+    this.cart$ = this.store.select(fromCartStore.getActiveCart);
+
+    const codes = [];
+    this.entries$ = this.store.select(fromCartStore.getEntries).pipe(
+      tap(entries => {
+        const control = this.form.get('entryArry') as FormArray;
+        for (const entry of entries) {
+          if (codes.indexOf(entry.product.code) === -1) {
+            control.push(this.createEntryFormGroup(entry));
+            codes.push(entry.product.code);
+          }
+        }
+      }),
+      take(1)
+    );
+  }
+
+  private createEntryFormGroup(entry) {
+    return this.fb.group({
+      entryNumber: entry.entryNumber,
+      quantity: entry.quantity
+    });
   }
 
   removeEntry(entry) {
     this.cartService.removeCartEntry(entry);
+  }
+
+  updateEntry(data) {
+    console.log(data);
   }
 
   getPotentialPromotionForEntry(cart: any, entry: any): any[] {

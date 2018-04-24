@@ -1,0 +1,15 @@
+<div class="item-counter" [class.focused]="focus">
+    <div>
+        <div tabindex="0" (keydown)="onKeyDown($event)" (blur)="onBlur($event)" (focus)="onFocus($event)">
+            <div>
+                <button type="button" (click)="increment()" [disabled]="value === max">
+                    +
+                </button>
+                <p>{{ value }}</p>
+                <button type="button" (click)="decrement()" [disabled]="value === min">
+                    -
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

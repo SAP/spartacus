@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'y-cart-item',
@@ -9,10 +10,17 @@ export class CartItemComponent {
   @Input() entry: any;
   @Input() potentialPromotions: any[];
   @Input() appliedPromotions: any[];
+  @Input() parent: FormGroup;
+  @Input() formGroupName: string;
 
   @Output() remove = new EventEmitter<any>();
+  @Output() update = new EventEmitter<any>();
 
   removeEntry() {
     this.remove.emit(this.entry);
+  }
+
+  updateEntry() {
+    this.update.emit(this.parent.get('entryArry').value[+this.formGroupName]);
   }
 }

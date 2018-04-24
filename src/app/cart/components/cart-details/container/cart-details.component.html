@@ -9,41 +9,14 @@
             Cart total ({{cart.deliveryItemsQuantity}} items): {{cart.totalPrice?.formattedValue}}
         </div>
 
-<!--
-        <mat-grid-list cols="4" rowHeight="30em:18em">
-            <div class="content">
-                <mat-grid-tile colspan='3'>
-                    <div class="cart-details">
-                        <mat-nav-list>
-                            <mat-list-item *ngFor="let entry of (entries$ | async)" [routerLink]="['/product', entry.product.code]">
-
-                                <img mat-list-avatar [src]="entry.product.images.PRIMARY?.thumbnail?.url">
-
-                                <a mat-line>{{entry.product.name}}</a>
-                                <p mat-line>
-                                    ID: {{entry.product.code}}
-                                    <br>Qty: {{entry.quantity}} &emsp; Total:
-                                    <strong>{{entry.totalPrice.formattedValue}}</strong>
-                                </p>
-                                <a (click)="removeEntry(entry, $event)">Remove</a>
-                            </mat-list-item>
-                        </mat-nav-list>
-                    </div>
-                </mat-grid-tile>
-
-                <mat-grid-tile colspan='1'>
-                </mat-grid-tile>
-            </div>
-        </mat-grid-list>
-   --> 
-        <ul class="item__list item__list__cart">
-            <table>
-                <tr *ngFor="let entry of (entries$ | async)">
+        <ul class="item__list item__list__cart" [formGroup]="form">
+            <table formArrayName="entryArry">
+                <tr *ngFor="let entry of (entries$ | async); let i = index;">
                     <td>
-                        <y-cart-item [entry]="entry" 
+                        <y-cart-item [parent]="form" [formGroupName]="i" [entry]="entry" 
                                     [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)" 
                                     [appliedPromotions]="getAppliedPromotionForEntry(cart, entry)"
-                                    (remove)="removeEntry(entry)">
+                                    (remove)="removeEntry(entry)" (update)="updateEntry($event)">
                         </y-cart-item>
                     </td>
                 </tr>
