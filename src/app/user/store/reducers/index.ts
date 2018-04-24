@@ -14,15 +14,15 @@ import * as fromPaymentMethods from './user-payment-methods.reducer';
 export interface UserState {
   account: fromUserDetailsReducer.UserDetailsState;
   auth: fromUserToken.UserTokenState;
-  existingAddresses: fromUserAddresses.UserAddressesState;
-  existingPaymentMethods: fromPaymentMethods.UserPaymentMethodsState;
+  addresses: fromUserAddresses.UserAddressesState;
+  payments: fromPaymentMethods.UserPaymentMethodsState;
 }
 
 export const reducers: ActionReducerMap<UserState> = {
   account: fromUserDetailsReducer.reducer,
   auth: fromUserToken.reducer,
-  existingAddresses: fromUserAddresses.reducer,
-  existingPaymentMethods: fromPaymentMethods.reducer
+  addresses: fromUserAddresses.reducer,
+  payments: fromPaymentMethods.reducer
 };
 
 export const getUserState: MemoizedSelector<

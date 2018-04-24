@@ -17,10 +17,10 @@ export class UserAddressesEffects {
         (action: fromUserAddressesAction.LoadUserAddresses) => action.payload
       ),
       mergeMap(payload => {
-        return this.occUserService.loadUserAddresses(payload.userId).pipe(
-          map((addresses: any) => {
+        return this.occUserService.loadUserAddresses(payload).pipe(
+          map((addressesList: any) => {
             return new fromUserAddressesAction.LoadUserAddressesSuccess(
-              addresses
+              addressesList.addresses
             );
           }),
           catchError(error =>

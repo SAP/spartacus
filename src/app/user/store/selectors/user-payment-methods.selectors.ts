@@ -9,7 +9,7 @@ export const getPaymentMethodsState: MemoizedSelector<
   UserPaymentMethodsState
 > = createSelector(
   fromFeature.getUserState,
-  (state: fromFeature.UserState) => state.existingPaymentMethods
+  (state: fromFeature.UserState) => state.payments
 );
 
 export const getPaymentMethods: MemoizedSelector<any, any> = createSelector(

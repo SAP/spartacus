@@ -60,12 +60,8 @@ export class OccUserService {
       'Content-Type': 'application/json'
     });
 
-    const params = new HttpParams({
-      fromString: 'fields=FULL'
-    });
-
     return this.http
-      .get(url, { headers: headers, params: params })
+      .get(url, { headers: headers })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 

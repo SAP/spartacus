@@ -8,7 +8,7 @@ export const LOAD_USER_PAYMENT_METHODS_SUCCESS =
 
 export class LoadUserPaymentMethods implements Action {
   readonly type = LOAD_USER_PAYMENT_METHODS;
-  constructor(public payload: { userId: any }) {}
+  constructor(public payload: string) {}
 }
 
 export class LoadUserPaymentMethodsFail implements Action {

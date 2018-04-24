@@ -1,11 +1,11 @@
 import * as fromPaymentMethodsAction from '../actions/user-payment-methods.action';
 
 export interface UserPaymentMethodsState {
-  entities: any;
+  list: any;
 }
 
 export const initialState: UserPaymentMethodsState = {
-  entities: <any>{}
+  list: []
 };
 
 export function reducer(
@@ -14,16 +14,15 @@ export function reducer(
 ): UserPaymentMethodsState {
   switch (action.type) {
     case fromPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS_SUCCESS: {
-      const entities = action.payload;
+      const list = action.payload;
 
       return {
         ...state,
-        entities
+        list
       };
     }
   }
   return state;
 }
 
-export const getPaymentMethods = (state: UserPaymentMethodsState) =>
-  state.entities;
+export const getPaymentMethods = (state: UserPaymentMethodsState) => state.list;

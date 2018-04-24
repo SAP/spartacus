@@ -31,10 +31,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<any>;
   titles$: Observable<any>;
   subscription: Subscription;
-  addANewAddress = false;
-  defaultAddress;
+  newAddress = false;
 
-  @Input() existingAddresses;
+  @Input() existingAddresses: Observable<any>;
   @Output() addAddress = new EventEmitter<any>();
 
   address: FormGroup = this.fb.group({
@@ -83,16 +82,16 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   toggleDefaultAddress() {
-    this.address.value.defaultAddress = !this.address.value.defaultAddress
+    this.address.value.defaultAddress = !this.address.value.defaultAddress;
   }
 
   addressSelected(address) {
     this.checkoutService.setDeliveryAddress(address);
-    this.addAddress.emit('Address Selected');
+    this.addAddress.emit({ address: address, newAddress: false });
   }
 
   addNewAddress() {
-    this.addANewAddress = true;
+    this.newAddress = true;
   }
 
   next() {
@@ -103,7 +102,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       .pipe(filter(results => Object.keys(results).length !== 0), take(1))
       .subscribe(results => {
         if (results.decision === 'ACCEPT') {
-          this.addAddress.emit(this.address.value);
+          this.addAddress.emit({
+            address: this.address.value,
+            newAddress: true
+          });
         } else if (results.decision === 'REJECT') {
           // will be shown in global message
           console.log('Invalid Address');
@@ -137,14 +139,14 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           },
           address
         );
-        this.addAddress.emit(address);
+        this.addAddress.emit({ address: address, newAddress: true });
       }
     });
   }
 
   back() {
-    if (this.addANewAddress) {
-      this.addANewAddress = false;
+    if (this.newAddress) {
+      this.newAddress = false;
     } else {
       this.store.dispatch(
         new fromRouting.Go({

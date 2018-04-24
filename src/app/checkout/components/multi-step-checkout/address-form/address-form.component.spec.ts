@@ -119,15 +119,18 @@ describe('AddressFormComponent', () => {
     component.addressSelected(mockAddress);
 
     expect(service.setDeliveryAddress).toHaveBeenCalledWith(mockAddress);
-    expect(component.addAddress.emit).toHaveBeenCalledWith('Address Selected');
+    expect(component.addAddress.emit).toHaveBeenCalledWith({
+      address: mockAddress,
+      newAddress: false
+    });
   });
 
   it('should call addNewAddress()', () => {
-    expect(component.addANewAddress).toBeFalsy();
+    expect(component.newAddress).toBeFalsy();
 
     component.addNewAddress();
 
-    expect(component.addANewAddress).toBeTruthy();
+    expect(component.newAddress).toBeTruthy();
   });
 
   it('should call ngOnInit to get countries and titles data even when they not exist', () => {
@@ -163,9 +166,10 @@ describe('AddressFormComponent', () => {
     const mockAddressVerificationResult = { decision: 'ACCEPT' };
     spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
     component.next();
-    expect(component.addAddress.emit).toHaveBeenCalledWith(
-      component.address.value
-    );
+    expect(component.addAddress.emit).toHaveBeenCalledWith({
+      address: component.address.value,
+      newAddress: true
+    });
   });
 
   it('should call next() with invalid address', () => {
@@ -194,7 +198,7 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call back() and redirect to saved addresses page of there are saved addresses', () => {
-    component.addANewAddress = true;
+    component.newAddress = true;
 
     component.back();
 
@@ -203,7 +207,7 @@ describe('AddressFormComponent', () => {
         path: ['/cart']
       })
     );
-    expect(component.addANewAddress).toBeFalsy();
+    expect(component.newAddress).toBeFalsy();
   });
 
   it('should call required(name: string)', () => {

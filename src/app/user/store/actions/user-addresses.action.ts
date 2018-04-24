@@ -6,7 +6,7 @@ export const LOAD_USER_ADDRESSES_SUCCESS = '[User] Load User Addresses Success';
 
 export class LoadUserAddresses implements Action {
   readonly type = LOAD_USER_ADDRESSES;
-  constructor(public payload: { userId: any }) {}
+  constructor(public payload: string) {}
 }
 
 export class LoadUserAddressesFail implements Action {

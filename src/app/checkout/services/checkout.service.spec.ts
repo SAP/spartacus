@@ -199,9 +199,7 @@ describe('CheckoutService', () => {
         service.loadUserAddresses();
 
         expect(store.dispatch).toHaveBeenCalledWith(
-          new fromUser.LoadUserAddresses({
-            userId: userId
-          })
+          new fromUser.LoadUserAddresses(userId)
         );
       })
     );

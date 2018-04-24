@@ -18,10 +18,10 @@ export class UserPaymentMethodsEffects {
           action.payload
       ),
       mergeMap(payload => {
-        return this.occUserService.loadUserPaymentMethods(payload.userId).pipe(
-          map((payments: any) => {
+        return this.occUserService.loadUserPaymentMethods(payload).pipe(
+          map((paymentsList: any) => {
             return new fromUserPaymentMethodsAction.LoadUserPaymentMethodsSuccess(
-              payments
+              paymentsList.payments
             );
           }),
           catchError(error =>
