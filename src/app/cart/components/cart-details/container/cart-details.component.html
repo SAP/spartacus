@@ -16,7 +16,7 @@
                         <y-cart-item [parent]="form" [formGroupName]="i" [entry]="entry" 
                                     [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)" 
                                     [appliedPromotions]="getAppliedPromotionForEntry(cart, entry)"
-                                    (remove)="removeEntry(entry)" (update)="updateEntry($event)">
+                                    (remove)="removeEntry($event)" (update)="updateEntry($event)">
                         </y-cart-item>
                     </td>
                 </tr>

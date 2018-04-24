@@ -47,8 +47,8 @@ export class CartDetailsComponent implements OnInit {
             codes.push(entry.product.code);
           }
         }
-      }),
-      take(1)
+        console.log(control);
+      })
     );
   }
 
@@ -59,12 +59,20 @@ export class CartDetailsComponent implements OnInit {
     });
   }
 
-  removeEntry(entry) {
-    this.cartService.removeCartEntry(entry);
+  removeEntry(entryInfo) {
+    this.cartService.removeCartEntry(entryInfo.entry);
+    const control = this.form.get('entryArry') as FormArray;
+    control.removeAt(entryInfo.index);
   }
 
-  updateEntry(data) {
-    console.log(data);
+  updateEntry(formGroupIndex: number) {
+    const entryFG = this.form.get('entryArry').value[formGroupIndex];
+    this.cartService.updateCartEntry(entryFG.entryNumber, entryFG.quantity);
+
+    if (entryFG.quantity === 0) {
+      const control = this.form.get('entryArry') as FormArray;
+      control.removeAt(formGroupIndex);
+    }
   }
 
   getPotentialPromotionForEntry(cart: any, entry: any): any[] {

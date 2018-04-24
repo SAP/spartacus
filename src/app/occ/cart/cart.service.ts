@@ -103,6 +103,33 @@ export class OccCartService {
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
+  public updateCartEntry(
+    userId: string,
+    cartId: string,
+    entryNumber: string,
+    qty: string,
+    pickupStore?: string
+  ) {
+    const url =
+      this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
+
+    let queryString = 'qty=' + qty;
+    if (pickupStore) {
+      queryString = queryString + '&pickupStore=' + pickupStore;
+    }
+    const params = new HttpParams({
+      fromString: queryString
+    });
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.http
+      .patch(url, {}, { headers: headers, params: params })
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
   public removeCartEntry(
     userId: string,
     cartId: string,

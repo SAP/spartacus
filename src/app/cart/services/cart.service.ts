@@ -117,4 +117,27 @@ export class CartService {
       })
     );
   }
+
+  updateCartEntry(entryNumber: string, quantity: string) {
+    if (+quantity > 0) {
+      this.store.dispatch(
+        new fromAction.UpdateEntry({
+          userId: this.userId,
+          cartId:
+            this.userId === ANOYMOUS_USERID ? this.cart.guid : this.cart.code,
+          entry: entryNumber,
+          qty: quantity
+        })
+      );
+    } else {
+      this.store.dispatch(
+        new fromAction.RemoveEntry({
+          userId: this.userId,
+          cartId:
+            this.userId === ANOYMOUS_USERID ? this.cart.guid : this.cart.code,
+          entry: entryNumber
+        })
+      );
+    }
+  }
 }

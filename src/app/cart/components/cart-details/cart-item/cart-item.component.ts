@@ -17,10 +17,10 @@ export class CartItemComponent {
   @Output() update = new EventEmitter<any>();
 
   removeEntry() {
-    this.remove.emit(this.entry);
+    this.remove.emit({ entry: this.entry, index: this.formGroupName });
   }
 
   updateEntry() {
-    this.update.emit(this.parent.get('entryArry').value[+this.formGroupName]);
+    this.update.emit(+this.formGroupName);
   }
 }
