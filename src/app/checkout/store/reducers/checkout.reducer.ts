@@ -25,7 +25,8 @@ export function reducer(
   action: fromAction.CheckoutAction | fromAction.ClearMiscsData
 ): CheckoutState {
   switch (action.type) {
-    case fromAction.ADD_DELIVERY_ADDRESS_SUCCESS: {
+    case fromAction.ADD_DELIVERY_ADDRESS_SUCCESS:
+    case fromAction.SET_DELIVERY_ADDRESS_SUCCESS: {
       const address = action.payload;
 
       return {

@@ -4,20 +4,20 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  OnDestroy
+  OnDestroy,
+  Input
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
-import { tap, take, filter } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
 import * as fromRouting from '../../../../routing/store';
+
 import { MatDialog } from '@angular/material';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
-import { CheckoutService } from '../../../services';
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'y-address-form',
@@ -28,9 +28,11 @@ import { Subscription } from 'rxjs/Subscription';
 export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<any>;
   titles$: Observable<any>;
-  subscription: Subscription;
+  newAddress = false;
 
+  @Input() existingAddresses;
   @Output() addAddress = new EventEmitter<any>();
+  @Output() verifyAddress = new EventEmitter<any>();
 
   address: FormGroup = this.fb.group({
     defaultAddress: [false],
@@ -53,8 +55,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   constructor(
     protected store: Store<fromRouting.State>,
     private fb: FormBuilder,
-    protected dialog: MatDialog,
-    private checkoutService: CheckoutService
+    protected dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -77,28 +78,23 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  next() {
-    this.checkoutService.verifyAddress(this.address.value);
-
-    this.subscription = this.store
-      .select(fromCheckoutStore.getAddressVerificationResults)
-      .pipe(filter(results => Object.keys(results).length !== 0), take(1))
-      .subscribe(results => {
-        if (results.decision === 'ACCEPT') {
-          this.addAddress.emit(this.address.value);
-        } else if (results.decision === 'REJECT') {
-          // will be shown in global message
-          console.log('Invalid Address');
-          this.store.dispatch(
-            new fromCheckoutStore.ClearAddressVerificationResults()
-          );
-        } else if (results.decision === 'REVIEW') {
-          this.openSuggestedAddress(results);
-        }
-      });
+  toggleDefaultAddress() {
+    this.address.value.defaultAddress = !this.address.value.defaultAddress;
   }
 
-  private openSuggestedAddress(results: any) {
+  addressSelected(address) {
+    this.addAddress.emit({ address: address, newAddress: false });
+  }
+
+  addNewAddress() {
+    this.newAddress = true;
+  }
+
+  next() {
+    this.verifyAddress.emit(this.address.value);
+  }
+
+  openSuggestedAddress(results: any) {
     const dialogRef = this.dialog.open(SuggestedAddressDialogComponent, {
       data: {
         entered: this.address.value,
@@ -119,17 +115,21 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           },
           address
         );
-        this.addAddress.emit(address);
+        this.addAddress.emit({ address: address, newAddress: true });
       }
     });
   }
 
   back() {
-    this.store.dispatch(
-      new fromRouting.Go({
-        path: ['/cart']
-      })
-    );
+    if (this.newAddress) {
+      this.newAddress = false;
+    } else {
+      this.store.dispatch(
+        new fromRouting.Go({
+          path: ['/cart']
+        })
+      );
+    }
   }
 
   required(name: string) {
@@ -146,9 +146,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
     this.store.dispatch(
       new fromCheckoutStore.ClearAddressVerificationResults()
     );

@@ -3,17 +3,22 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   OnDestroy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  ViewChild
 } from '@angular/core';
-import { take, filter } from 'rxjs/operators';
+import { take, filter, tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs/Subscription';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
+import * as fromUserStore from '../../../../user/store';
+
 import { CheckoutService } from '../../../services/checkout.service';
 import * as fromRouting from '../../../../routing/store';
 
 import { Address } from '../../../models/address-model';
+import { Observable } from 'rxjs/Observable';
+import { AddressFormComponent } from '../address-form/address-form.component';
 
 @Component({
   selector: 'y-multi-step-checkout',
@@ -32,13 +37,28 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step3Sub: Subscription;
   step4Sub: Subscription;
 
+  @ViewChild(AddressFormComponent) addressForm: AddressFormComponent;
+  addressVerifySub: Subscription;
+
+  existingAddresses$: Observable<any>;
+
   constructor(
     protected checkoutService: CheckoutService,
     private store: Store<fromCheckoutStore.CheckoutState>,
     protected cd: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.existingAddresses$ = this.store
+      .select(fromUserStore.getAddresses)
+      .pipe(
+        tap(addresses => {
+          if (addresses.length === 0) {
+            this.checkoutService.loadUserAddresses();
+          }
+        })
+      );
+  }
 
   ngOnDestroy() {
     if (this.step1Sub) {
@@ -53,6 +73,9 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     if (this.step4Sub) {
       this.step4Sub.unsubscribe();
     }
+    if (this.addressVerifySub) {
+      this.addressVerifySub.unsubscribe();
+    }
     this.store.dispatch(new fromCheckoutStore.ClearCheckoutData());
   }
 
@@ -66,8 +89,36 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  addAddress(address: Address) {
-    this.checkoutService.createAndSetAddress(address);
+  verifyAddress(address) {
+    this.checkoutService.verifyAddress(address);
+
+    this.addressVerifySub = this.store
+      .select(fromCheckoutStore.getAddressVerificationResults)
+      .pipe(filter(results => Object.keys(results).length !== 0), take(1))
+      .subscribe(results => {
+        if (results.decision === 'ACCEPT') {
+          this.addAddress({
+            address: address,
+            newAddress: true
+          });
+        } else if (results.decision === 'REJECT') {
+          // will be shown in global message
+          console.log('Invalid Address');
+          this.store.dispatch(
+            new fromCheckoutStore.ClearAddressVerificationResults()
+          );
+        } else if (results.decision === 'REVIEW') {
+          this.addressForm.openSuggestedAddress(results);
+        }
+      });
+  }
+
+  addAddress(addressObject) {
+    if (addressObject.newAddress) {
+      this.checkoutService.createAndSetAddress(addressObject.address);
+    } else {
+      this.checkoutService.setDeliveryAddress(addressObject.address);
+    }
 
     this.step1Sub = this.store
       .select(fromCheckoutStore.getDeliveryAddress)
