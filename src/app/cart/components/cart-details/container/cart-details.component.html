@@ -46,7 +46,11 @@
             <table>
                 <tr *ngFor="let entry of (entries$ | async)" [routerLink]="['/product', entry.product.code]">
                     <td>
-                        <y-cart-item [entry]="entry"></y-cart-item>
+                        <y-cart-item [entry]="entry" 
+                                    [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)" 
+                                    [appliedPromotions]="getAppliedPromotionForEntry(cart, entry)"
+                                    (remove)="removeEntry(entry)">
+                        </y-cart-item>
                     </td>
                 </tr>
 

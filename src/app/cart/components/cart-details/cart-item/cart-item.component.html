@@ -16,43 +16,50 @@
         <div class="item__stock">
              {{ entry.product.stock?.stockLevelStatus | uppercase }}
         </div>
+
+        <!-- promotion -->
+        <div class="promo" *ngFor="let promotion of potentialPromotions">
+            {{ promotion.description}}
+        </div>
+        <div class="promo" *ngFor="let promotion of appliedPromotions">
+            {{ promotion.description}}
+        </div>
+    </div>
+
+    <!-- price -->
+    <div class="item__price">
+        Price: <strong>{{entry.basePrice?.formattedValue}}</strong>    
+    </div>
+
+    <!-- quantity -->
+    <div class="item__quantity">
+        Qty: <strong>{{entry.quantity}}</strong>    
+    </div>
+
+    <!-- delivery -->
+    <div class="item__delivery" *ngIf="entry.product.purchasable">
+        <ng-container *ngIf="entry.product.stock.stockLevelStatus !== 'outOfStock'">
+            <ng-container *ngIf="!entry.deliveryPointOfService || !entry.product.availableForPickup">
+                Shipping
+            </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="entry.deliveryPointOfService?.name">
+            PickUp
+        </ng-container>
+
+        <ng-container *ngIf="entry.product.availableForPickup && entry.deliveryPointOfService?.name">
+            {{entry.deliveryPointOfService.name}}
+        </ng-container>
+    </div>
+
+    <!-- total -->
+    <div class="item__total">
+        Total: {{entry.totalPrice.formattedValue}}
+    </div>
+
+    <!-- actions -->
+    <div>
+        <a (click)="removeEntry()">Remove</a>
     </div>
 </li>
-    <!--
-                <c:if test="${ycommerce:doesPotentialPromotionExistForOrderEntryOrOrderEntryGroup(cartData, entry)}">
-                    <c:forEach items="${cartData.potentialProductPromotions}" var="promotion">
-                        <c:set var="displayed" value="false"/>
-                        <c:forEach items="${promotion.consumedEntries}" var="consumedEntry">
-                            <c:if test="${not displayed && ycommerce:isConsumedByEntry(consumedEntry,entry) && not empty promotion.description}">
-                                <c:set var="displayed" value="true"/>
-
-                                    <div class="promo">
-                                         <ycommerce:testId code="cart_potentialPromotion_label">
-                                             ${ycommerce:sanitizeHTML(promotion.description)}
-                                         </ycommerce:testId>
-                                    </div>
-                            </c:if>
-                        </c:forEach>
-                    </c:forEach>
-                </c:if>
-                <c:if test="${ycommerce:doesAppliedPromotionExistForOrderEntryOrOrderEntryGroup(cartData, entry)}">
-                    <c:forEach items="${cartData.appliedProductPromotions}" var="promotion">
-                        <c:set var="displayed" value="false"/>
-                        <c:forEach items="${promotion.consumedEntries}" var="consumedEntry">
-                            <c:if test="${not displayed && ycommerce:isConsumedByEntry(consumedEntry,entry) }">
-                                <c:set var="displayed" value="true"/>
-                                <div class="promo">
-                                    <ycommerce:testId code="cart_appliedPromotion_label">
-                                        ${ycommerce:sanitizeHTML(promotion.description)}
-                                    </ycommerce:testId>
-                                </div>
-                            </c:if>
-                        </c:forEach>
-                    </c:forEach>
-                </c:if>
-
-            </div>
-
-            <a (click)="removeEntry(entry, $event)">Remove</a>
-                                
-            -->

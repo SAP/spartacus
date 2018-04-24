@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'y-cart-item',
@@ -7,4 +7,12 @@ import { Component, Input } from '@angular/core';
 })
 export class CartItemComponent {
   @Input() entry: any;
+  @Input() potentialPromotions: any[];
+  @Input() appliedPromotions: any[];
+
+  @Output() remove = new EventEmitter<any>();
+
+  removeEntry() {
+    this.remove.emit(this.entry);
+  }
 }
