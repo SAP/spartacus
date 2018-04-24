@@ -168,4 +168,40 @@ describe('CheckoutService', () => {
       })
     );
   });
+
+  describe('load user addresses', () => {
+    it(
+      'should load saved user addresses',
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+
+        service.loadUserAddresses();
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromUser.LoadUserAddresses(userId)
+        );
+      })
+    );
+  });
+
+  describe('set delivery address', () => {
+    it(
+      'should set delivery address',
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+
+        service.setDeliveryAddress('mockAddress');
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromCheckout.SetDeliveryAddress({
+            userId: userId,
+            cartId: cartService.cart.code,
+            address: 'mockAddress'
+          })
+        );
+      })
+    );
+  });
 });

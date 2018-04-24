@@ -13,6 +13,7 @@ import { OccCartService } from '../../../occ/cart/cart.service';
 import { ConfigService } from '../../../occ/config.service';
 import * as fromEffects from './checkout.effect';
 import * as fromActions from '../actions/checkout.action';
+import * as fromUserActions from '../../../user/store/actions';
 import { OccOrderService } from '../../../occ/order/order.service';
 
 @Injectable()
@@ -69,7 +70,7 @@ describe('Checkout effect', () => {
     actions$ = TestBed.get(Actions);
 
     spyOn(cartService, 'createAddressOnCart').and.returnValue(of(address));
-    spyOn(cartService, 'setDeliveryAddress');
+    spyOn(cartService, 'setDeliveryAddress').and.returnValue(of({}));
     spyOn(cartService, 'getSupportedDeliveryModes').and.returnValue(of(modes));
     spyOn(orderService, 'placeOrder').and.returnValue(of(orderDetails));
     spyOn(cartService, 'setDeliveryMode').and.returnValue(of({}));
@@ -82,17 +83,34 @@ describe('Checkout effect', () => {
         cartId: cartId,
         address: address
       });
-      const completion = new fromActions.AddDeliveryAddressSuccess(address);
+
+      const completion1 = new fromUserActions.LoadUserAddresses(userId);
+      const completion2 = new fromActions.SetDeliveryAddress({
+        userId: userId,
+        cartId: cartId,
+        address: address
+      });
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-(bc)', { b: completion1, c: completion2 });
+
+      expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
+    });
+  });
+
+  describe('setDeliveryAddress$', () => {
+    it('should set delivery address to cart', () => {
+      const action = new fromActions.SetDeliveryAddress({
+        userId: userId,
+        cartId: cartId,
+        address: address
+      });
+      const completion = new fromActions.SetDeliveryAddressSuccess(address);
 
       actions$.stream = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
-      expect(cartService.setDeliveryAddress).toHaveBeenCalledWith(
-        'testUserId',
-        'testCartId',
-        'testAddressId'
-      );
+      expect(entryEffects.setDeliveryAddress$).toBeObservable(expected);
     });
   });
 
