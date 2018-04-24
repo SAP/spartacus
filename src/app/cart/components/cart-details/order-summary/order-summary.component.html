@@ -10,7 +10,18 @@
         </div>
 
         <div>
+            Discount: {{cart.totalDiscounts?.formattedValue}}
+        </div>
+
+        <div>
             Total: {{cart.totalPriceWithTax?.formattedValue}}
         </div>
+    </div>
+</div>
+
+<div class="cartproline" *ngIf="cart.appliedOrderPromotions?.length > 0">
+    <h3>Received Promotions</h3>
+    <div class="promotion" *ngFor="let promotion of cart.appliedOrderPromotions">
+        {{promotion.description}}
     </div>
 </div>
