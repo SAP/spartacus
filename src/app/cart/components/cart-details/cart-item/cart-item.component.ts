@@ -21,6 +21,6 @@ export class CartItemComponent {
   }
 
   updateEntry() {
-    this.update.emit(+this.formGroupName);
+    this.update.emit({ entry: this.entry, index: +this.formGroupName });
   }
 }

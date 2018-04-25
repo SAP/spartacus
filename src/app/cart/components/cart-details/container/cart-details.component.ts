@@ -64,13 +64,16 @@ export class CartDetailsComponent implements OnInit {
     control.removeAt(entryInfo.index);
   }
 
-  updateEntry(formGroupIndex: number) {
-    const entryFG = this.form.get('entryArry').value[formGroupIndex];
-    this.cartService.updateCartEntry(entryFG.entryNumber, entryFG.quantity);
+  updateEntry(entryInfo) {
+    const entryFG = this.form.get('entryArry').value[entryInfo.index];
+    this.cartService.updateCartEntry(
+      entryInfo.entry.entryNumber,
+      entryFG.quantity
+    );
 
     if (entryFG.quantity === 0) {
       const control = this.form.get('entryArry') as FormArray;
-      control.removeAt(formGroupIndex);
+      control.removeAt(entryInfo.index);
     }
   }
 
