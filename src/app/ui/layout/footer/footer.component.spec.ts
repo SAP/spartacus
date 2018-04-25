@@ -13,23 +13,21 @@ describe('FooterComponent', () => {
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
-          })
-        ],
-        declarations: [
-          FooterComponent,
-          DynamicSlotComponent,
-          ComponentWrapperComponent
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromCmsReducer.reducers)
+        })
+      ],
+      declarations: [
+        FooterComponent,
+        DynamicSlotComponent,
+        ComponentWrapperComponent
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FooterComponent);

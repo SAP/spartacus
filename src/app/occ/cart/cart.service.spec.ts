@@ -212,7 +212,11 @@ describe('OccCartService', () => {
         return (
           req.method === 'PATCH' &&
           req.url ===
-            usersEndpoint + `/${userId}` + cartsEndpoint + cartId + '/entries/12345'
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/entries/12345'
         );
       });
 
