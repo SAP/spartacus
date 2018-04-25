@@ -60,11 +60,25 @@ export class CartService {
           new fromAction.LoadCart({
             userId: this.userId,
             cartId:
-              this.userId === ANOYMOUS_USERID ? this.cart.guid : this.cart.code
+              this.userId === ANOYMOUS_USERID ? this.cart.guid : this.cart.code,
+            details: true
           })
         );
       }
     });
+  }
+
+  loadCartDetails() {
+    this.getDetails = true;
+
+    this.store.dispatch(
+      new fromAction.LoadCart({
+        userId: this.userId,
+        cartId:
+          this.userId === ANOYMOUS_USERID ? this.cart.guid : this.cart.code,
+        details: true
+      })
+    );
   }
 
   addCartEntry(productCode: string, quantity: number) {
@@ -103,5 +117,28 @@ export class CartService {
         entry: entry.entryNumber
       })
     );
+  }
+
+  updateCartEntry(entryNumber: string, quantity: number) {
+    if (+quantity > 0) {
+      this.store.dispatch(
+        new fromAction.UpdateEntry({
+          userId: this.userId,
+          cartId:
+            this.userId === ANOYMOUS_USERID ? this.cart.guid : this.cart.code,
+          entry: entryNumber,
+          qty: quantity
+        })
+      );
+    } else {
+      this.store.dispatch(
+        new fromAction.RemoveEntry({
+          userId: this.userId,
+          cartId:
+            this.userId === ANOYMOUS_USERID ? this.cart.guid : this.cart.code,
+          entry: entryNumber
+        })
+      );
+    }
   }
 }

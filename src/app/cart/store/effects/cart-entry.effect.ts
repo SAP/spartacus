@@ -47,5 +47,27 @@ export class CartEntryEffects {
       )
     );
 
+  @Effect()
+  updateEntry$: Observable<any> = this.actions$
+    .ofType(fromActions.UPDATE_ENTRY)
+    .pipe(
+      map((action: fromActions.AddEntry) => action.payload),
+      mergeMap(payload =>
+        this.cartService
+          .updateCartEntry(
+            payload.userId,
+            payload.cartId,
+            payload.entry,
+            payload.qty
+          )
+          .pipe(
+            map(() => {
+              return new fromActions.UpdateEntrySuccess();
+            }),
+            catchError(error => of(new fromActions.UpdateEntryFail(error)))
+          )
+      )
+    );
+
   constructor(private actions$: Actions, private cartService: OccCartService) {}
 }

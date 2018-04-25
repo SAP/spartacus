@@ -1,15 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MaterialModule } from '../../../material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { CartDetailsComponent } from './cart-details.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { CartDetailsComponent } from './container/cart-details.component';
+import { OrderSummaryComponent } from './order-summary/order-summary.component';
+import { CartItemComponent } from './cart-item/cart-item.component';
+import { ItemCounterComponent } from './item-counter/item-counter.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, MaterialModule, FlexLayoutModule],
-  declarations: [CartDetailsComponent],
-  entryComponents: [CartDetailsComponent],
-  exports: [CartDetailsComponent]
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  declarations: [
+    CartDetailsComponent,
+    OrderSummaryComponent,
+    CartItemComponent,
+    ItemCounterComponent
+  ],
+  exports: [
+    CartDetailsComponent,
+    OrderSummaryComponent,
+    CartItemComponent,
+    ItemCounterComponent
+  ]
 })
 export class CartDetailsModule {}

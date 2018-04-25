@@ -69,26 +69,6 @@ describe('CheckoutService', () => {
     );
   });
 
-  describe('Load cart details', () => {
-    it(
-      'should be able to load cart with more details',
-      inject([CartService], (cartService: CartService) => {
-        cartService.userId = userId;
-        cartService.cart = cart;
-
-        service.loadCartDetails();
-
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new fromCart.LoadCart({
-            userId: userId,
-            cartId: cart.code,
-            details: true
-          })
-        );
-      })
-    );
-  });
-
   describe('load Supported Delivery Modes', () => {
     it(
       'should be able to load the supported delivery modes',

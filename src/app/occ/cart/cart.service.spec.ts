@@ -19,9 +19,11 @@ const BASIC_PARAMS =
   'DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
   'entries(totalPrice(formattedValue),product(images(FULL)))';
 
-const DETAILS_PARAMS =
+/*const DETAILS_PARAMS =
   'DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),totalTax(formattedValue),' +
-  'totalPriceWithTax(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';
+  'totalPriceWithTax(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';*/
+
+const DETAILS_PARAMS = 'FULL';
 
 class MockConfigService {
   server = {
@@ -196,6 +198,35 @@ describe('OccCartService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
+    });
+  });
+
+  describe('update entry in a cart', () => {
+    it('should update an entry in a cart for given user id, cart id, entryNumber and quantitiy', () => {
+      const entryData = 'mock entry data';
+      service.updateCartEntry(userId, cartId, '12345', 5).subscribe(result => {
+        expect(result).toEqual(entryData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'PATCH' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/entries/12345'
+        );
+      });
+
+      expect(mockReq.request.headers.get('Content-Type')).toEqual(
+        'application/x-www-form-urlencoded'
+      );
+      expect(mockReq.request.params.get('qty')).toEqual('5');
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(entryData);
     });
   });
 
