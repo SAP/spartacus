@@ -74,6 +74,7 @@ describe('Checkout effect', () => {
     spyOn(cartService, 'getSupportedDeliveryModes').and.returnValue(of(modes));
     spyOn(orderService, 'placeOrder').and.returnValue(of(orderDetails));
     spyOn(cartService, 'setDeliveryMode').and.returnValue(of({}));
+    spyOn(cartService, 'setPaymentDetails').and.returnValue(of({}));
   });
 
   describe('addDeliveryAddress$', () => {
@@ -177,6 +178,13 @@ describe('Checkout effect', () => {
         }
       };
 
+      const paymentDetails = {
+        billTo_city: 'MainCity',
+        decision: 'ACCEPT',
+        billTo_country: 'US',
+        billTo_lastName: 'test'
+      };
+
       const html =
         '<div id="postFormItems">' +
         '<input type="hidden" id="billTo_city" name="billTo_city" value="MainCity" />' +
@@ -184,13 +192,6 @@ describe('Checkout effect', () => {
         '<input type="hidden" id="billTo_country" name="billTo_country" value="US" />' +
         '<input type="hidden" id="billTo_lastName" name="billTo_lastName" value="test" />' +
         '<div>';
-
-      const paymentDetails = {
-        billTo_city: 'MainCity',
-        decision: 'ACCEPT',
-        billTo_country: 'US',
-        billTo_lastName: 'test'
-      };
 
       spyOn(cartService, 'getPaymentProviderSubInfo').and.returnValue(
         of({ url: 'testUrl', parameters: {} })
@@ -216,6 +217,32 @@ describe('Checkout effect', () => {
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
+    });
+  });
+
+  describe('setPaymentDetails$', () => {
+    it('should set payment details', () => {
+      const paymentDetails = {
+        id: '123',
+        billTo_city: 'MainCity',
+        decision: 'ACCEPT',
+        billTo_country: 'US',
+        billTo_lastName: 'test'
+      };
+
+      const action = new fromActions.SetPaymentDetails({
+        userId: userId,
+        cartId: cartId,
+        paymentDetails: paymentDetails
+      });
+      const completion = new fromActions.SetPaymentDetailsSuccess(
+        paymentDetails
+      );
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.setPaymentDetails$).toBeObservable(expected);
     });
   });
 

@@ -540,4 +540,29 @@ describe('OccCartService', () => {
       mockReq.flush(cartData);
     });
   });
+
+  describe('set payment details', () => {
+    it('should set payment details for given user id, cart id and payment details id', () => {
+      service.setPaymentDetails(userId, cartId, '123').subscribe(result => {
+        expect(result).toEqual(cartData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'PUT' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/paymentdetails'
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.params.get('paymentDetailsId')).toEqual('123');
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(cartData);
+    });
+  });
 });
