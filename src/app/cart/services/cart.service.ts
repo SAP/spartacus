@@ -118,7 +118,7 @@ export class CartService {
     );
   }
 
-  updateCartEntry(entryNumber: string, quantity: string) {
+  updateCartEntry(entryNumber: string, quantity: number) {
     if (+quantity > 0) {
       this.store.dispatch(
         new fromAction.UpdateEntry({

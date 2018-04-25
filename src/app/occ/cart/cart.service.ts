@@ -107,7 +107,7 @@ export class OccCartService {
     userId: string,
     cartId: string,
     entryNumber: string,
-    qty: string,
+    qty: number,
     pickupStore?: string
   ) {
     const url =
