@@ -18,6 +18,7 @@ const endpoint = '/users';
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 const addressVerificationEndpoint = '/addresses/verification';
 const addressesEndpoint = '/addresses';
+const paymentDetailsEndpoint = '/paymentdetails';
 
 class MockConfigService {
   server = {
@@ -131,6 +132,27 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockUserAddresses);
+    });
+  });
+
+  describe('load user payment methods', () => {
+    it('should load user payment methods for a given user id', () => {
+      const mockUserPaymentMethods = { payments: ['payment1', 'payment2'] };
+
+      service.loadUserPaymentMethods(username).subscribe(result => {
+        expect(result).toEqual(mockUserPaymentMethods);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url === endpoint + `/${username}` + paymentDetailsEndpoint
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(mockUserPaymentMethods);
     });
   });
 });
