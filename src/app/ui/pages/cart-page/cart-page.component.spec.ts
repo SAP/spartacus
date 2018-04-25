@@ -14,7 +14,6 @@ import * as fromCart from '../../../cart/store';
 
 import { CartService } from '../../../cart/services';
 import { OrderSummaryComponent } from '../../../cart/components/cart-details/order-summary/order-summary.component';
-import { MaterialModule } from '../../../material.module';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CartItemComponent } from '../../../cart/components/cart-details/cart-item/cart-item.component';
@@ -32,7 +31,6 @@ describe('CartPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        MaterialModule,
         RouterModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
