@@ -11,7 +11,7 @@ import * as fromRouting from '../../../../routing/store';
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 import { AddressFormComponent } from '../address-form/address-form.component';
-import { OrderSummaryComponent } from '../order-summary/order-summary.component';
+import { OrderSummaryComponent } from '../../../../cart/components/cart-details/order-summary/order-summary.component';
 import { DeliveryModeFormComponent } from '../delivery-mode-form/delivery-mode-form.component';
 import { ReviewSubmitComponent } from '../review-submit/review-submit.component';
 
@@ -84,8 +84,12 @@ describe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call ngOnInit() with user addresses already loaded', () => {
-    const mockUserAddresses = { addresses: ['address1', 'address2'] };
-    spyOn(store, 'select').and.returnValues(of(mockUserAddresses));
+    const mockUserAddresses = ['address1', 'address2'];
+    const mockCartData = {};
+    spyOn(store, 'select').and.returnValues(
+      of(mockCartData),
+      of(mockUserAddresses)
+    );
 
     component.ngOnInit();
 
@@ -93,6 +97,7 @@ describe('MultiStepCheckoutComponent', () => {
     component.existingAddresses$.subscribe(data =>
       expect(data).toEqual(mockUserAddresses)
     );
+    component.cart$.subscribe(cart => expect(cart).toEqual(mockCartData));
   });
 
   it('should call verifyAddress(address) with valid address', () => {

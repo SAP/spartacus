@@ -10,9 +10,7 @@ const BASIC_PARAMS =
   'fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
   'entries(totalPrice(formattedValue),product(images(FULL)))';
 
-const DETAILS_PARAMS =
-  'fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),totalTax(formattedValue),' +
-  'totalPriceWithTax(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';
+const DETAILS_PARAMS = 'fields=FULL';
 
 @Injectable()
 export class OccCartService {
@@ -102,6 +100,33 @@ export class OccCartService {
 
     return this.http
       .post(url, toAdd, { headers: headers, params: params })
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  public updateCartEntry(
+    userId: string,
+    cartId: string,
+    entryNumber: string,
+    qty: number,
+    pickupStore?: string
+  ) {
+    const url =
+      this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
+
+    let queryString = 'qty=' + qty;
+    if (pickupStore) {
+      queryString = queryString + '&pickupStore=' + pickupStore;
+    }
+    const params = new HttpParams({
+      fromString: queryString
+    });
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.http
+      .patch(url, {}, { headers: headers, params: params })
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
