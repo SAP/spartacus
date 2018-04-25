@@ -11,7 +11,13 @@ import { AddressFormModule } from './address-form/address-form.module';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, AddressFormModule, CartModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    AddressFormModule,
+    RouterModule,
+    CartModule
+  ],
   declarations: [
     MultiStepCheckoutComponent,
     DeliveryModeFormComponent,
