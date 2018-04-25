@@ -156,6 +156,37 @@ describe('CartService', () => {
     });
   });
 
+  describe('update CartEntry', () => {
+    it('should be able to updateCartEntry with quantity <> 0', () => {
+      service.userId = userId;
+      service.cart = cart;
+      service.updateCartEntry('1', 1);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromCart.UpdateEntry({
+          userId: userId,
+          cartId: cart.code,
+          entry: '1',
+          qty: 1
+        })
+      );
+    });
+
+    it('should be able to updateCartEntry with quantity = 0', () => {
+      service.userId = userId;
+      service.cart = cart;
+      service.updateCartEntry('1', 0);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromCart.RemoveEntry({
+          userId: userId,
+          cartId: cart.code,
+          entry: '1'
+        })
+      );
+    });
+  });
+
   describe('remove CartEntry', () => {
     it('should be able to removeCartEntry', () => {
       service.userId = userId;
