@@ -9,26 +9,28 @@
             Cart total ({{cart.deliveryItemsQuantity}} items): {{cart.totalPrice?.formattedValue}}
         </div>
 
-        <ul class="item__list item__list__cart" [formGroup]="form">
-            <table formArrayName="entryArry">
-                <tr *ngFor="let entry of (entries$ | async); let i = index;">
-                    <td>
-                        <y-cart-item [parent]="form" [formGroupName]="i" [entry]="entry" 
-                                    [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)" 
-                                    [appliedPromotions]="getAppliedPromotionForEntry(cart, entry)"
-                                    (remove)="removeEntry($event)" (update)="updateEntry($event)">
-                        </y-cart-item>
-                    </td>
-                </tr>
+        <ng-container *ngIf="entries$ | async as entries">
+            <ul class="item__list item__list__cart" [formGroup]="form">
+                <table formArrayName="entryArry">
+                    <tr *ngFor="let entry of entries; let i = index;">
+                        <td>
+                            <y-cart-item [parent]="form" [formGroupName]="i" [entry]="entry" 
+                                        [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)" 
+                                        [appliedPromotions]="getAppliedPromotionForEntry(cart, entry)"
+                                        (remove)="removeEntry($event)" (update)="updateEntry($event)">
+                            </y-cart-item>
+                        </td>
+                    </tr>
 
-            </table>
-        </ul>
-        
-        <div class="order-summary">
-            <y-order-summary [cart]="cart"></y-order-summary>
-            <div>
-                <button routerLink="/checkout" mat-raised-button color="accent" *ngIf="(entries$ | async).length">Proceed to Checkout</button>
+                </table>
+            </ul>
+            
+            <div class="order-summary">
+                <y-order-summary [cart]="cart"></y-order-summary>
+                <div>
+                    <button routerLink="/checkout" mat-raised-button color="accent" *ngIf="entries.length">Proceed to Checkout</button>
+                </div>
             </div>
-        </div>
+        </ng-container>
     </div>
 </ng-container>
