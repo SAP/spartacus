@@ -9,6 +9,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 const COUNTER_CONTROL_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
+  /* tslint:disable-next-line */
   useExisting: forwardRef(() => ItemCounterComponent),
   multi: true
 };

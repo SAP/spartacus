@@ -4,14 +4,12 @@ import { Store } from '@ngrx/store';
 import {
   FormBuilder,
   FormGroup,
-  FormArray,
-  Validators,
-  AbstractControl
+  FormArray
 } from '@angular/forms';
 
 import * as fromCartStore from '../../../store';
 import { CartService } from '../../../services/cart.service';
-import { take, filter, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'y-cart-details',

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../store/';
-import * as fromCartStore from '../../cart/store';
 import * as fromUserStore from '../../user/store';
 
 import { ANOYMOUS_USERID, CartService } from '../../cart/services/cart.service';
