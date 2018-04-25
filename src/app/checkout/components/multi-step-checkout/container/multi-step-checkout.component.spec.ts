@@ -96,10 +96,8 @@ describe('MultiStepCheckoutComponent', () => {
   it('should call ngOnInit() with user addresses already loaded', () => {
     const mockUserAddresses = { addresses: ['address1', 'address2'] };
     const mockPaymentMethods = { payments: ['payment1', 'payment2'] };
-    const mockCardTypes = ['type1', 'type2'];
 
     spyOn(store, 'select').and.returnValues(
-      of(mockCardTypes),
       of(mockUserAddresses),
       of(mockPaymentMethods)
     );
@@ -113,9 +111,6 @@ describe('MultiStepCheckoutComponent', () => {
     component.existingPaymentMethods$.subscribe(data =>
       expect(data).toEqual(mockPaymentMethods)
     );
-    component.cardTypes$.subscribe(data => {
-      expect(data).toBe(mockCardTypes);
-    });
   });
 
   it('should call verifyAddress(address) with valid address', () => {

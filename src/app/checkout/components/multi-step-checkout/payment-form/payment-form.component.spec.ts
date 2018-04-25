@@ -97,6 +97,22 @@ describe('PaymentFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should call ngOnInit to get suppored card types if they do not exist', () => {
+    spyOn(store, 'select').and.returnValue(of({}));
+    component.ngOnInit();
+    component.cardTypes$.subscribe(() => {
+      expect(service.loadSupportedCardTypes).toHaveBeenCalled();
+    });
+  });
+
+  it('should call ngOnInit to get suppored card types if they exist', () => {
+    spyOn(store, 'select').and.returnValue(of(mockCardTypes));
+    component.ngOnInit();
+    component.cardTypes$.subscribe(data => {
+      expect(data).toBe(mockCardTypes);
+    });
+  });
+
   it('should call next()', () => {
     component.next();
     expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({

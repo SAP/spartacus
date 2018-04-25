@@ -7,8 +7,12 @@ import {
   Input
 } from '@angular/core';
 
-
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import * as fromCheckoutStore from '../../../store';
+import { CheckoutService } from '../../../services';
+import { Store } from '@ngrx/store';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'y-payment-form',
@@ -20,9 +24,10 @@ export class PaymentFormComponent implements OnInit {
   newPayment = false;
 
   @Input() existingPaymentMethods;
-  @Input() cardTypes;
   @Output() backStep = new EventEmitter<any>();
   @Output() addPaymentInfo = new EventEmitter<any>();
+
+  cardTypes$: Observable<any>;
 
   payment: FormGroup = this.fb.group({
     defaultPayment: [false],
@@ -36,9 +41,21 @@ export class PaymentFormComponent implements OnInit {
     cvn: ['', Validators.required]
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    protected store: Store<fromCheckoutStore.CheckoutState>,
+    protected checkoutService: CheckoutService,
+    private fb: FormBuilder
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.cardTypes$ = this.store.select(fromCheckoutStore.getAllCardTypes).pipe(
+      tap(cardTypes => {
+        if (Object.keys(cardTypes).length === 0) {
+          this.checkoutService.loadSupportedCardTypes();
+        }
+      })
+    );
+  }
 
   paymentMethodSelected(paymentDetails) {
     this.addPaymentInfo.emit({ payment: paymentDetails, newPayment: false });

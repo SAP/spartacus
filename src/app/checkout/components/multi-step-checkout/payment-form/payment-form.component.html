@@ -53,7 +53,7 @@
                 </div>
                 <select class="card-types-dropdown" formControlName="code">
                     <option value="">Select Card Type</option>
-                    <option *ngFor="let cardType of cardTypes" [value]="cardType.code">
+                    <option *ngFor="let cardType of (cardTypes$ | async)" [value]="cardType.code">
                         {{ cardType.name }}
                     </option>
                 </select>
