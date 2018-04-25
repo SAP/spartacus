@@ -1,4 +1,4 @@
-import * as fromPaymentMethodsAction from '../actions/user-payment-methods.action';
+import * as fromPaymentMethodsAction from '../actions/payment-methods.action';
 
 export interface UserPaymentMethodsState {
   list: any;

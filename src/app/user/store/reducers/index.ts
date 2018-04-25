@@ -9,7 +9,7 @@ import {
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserToken from './user-token.reducer';
 import * as fromUserAddresses from './user-addresses.reducer';
-import * as fromPaymentMethods from './user-payment-methods.reducer';
+import * as fromPaymentMethods from './payment-methods.reducer';
 
 export interface UserState {
   account: fromUserDetailsReducer.UserDetailsState;

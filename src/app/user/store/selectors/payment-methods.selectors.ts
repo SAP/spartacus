@@ -1,8 +1,8 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import * as fromFeature from '../reducers';
-import * as fromUserPaymentMethodsReducer from '../reducers/user-payment-methods.reducer';
-import { UserPaymentMethodsState } from '../reducers/user-payment-methods.reducer';
+import * as fromUserPaymentMethodsReducer from '../reducers/payment-methods.reducer';
+import { UserPaymentMethodsState } from '../reducers/payment-methods.reducer';
 
 export const getPaymentMethodsState: MemoizedSelector<
   any,
