@@ -70,7 +70,8 @@ describe('CartService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.LoadCart({
           userId: userToken.userId,
-          cartId: cart.code
+          cartId: cart.code,
+          details: true
         })
       );
     });

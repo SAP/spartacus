@@ -62,11 +62,7 @@ export class CartEntryEffects {
           )
           .pipe(
             map(() => {
-              return new fromActions.LoadCart({
-                userId: payload.userId,
-                cartId: payload.cartId,
-                details: true
-              });
+              return new fromActions.UpdateEntrySuccess();
             }),
             catchError(error => of(new fromActions.UpdateEntryFail(error)))
           )

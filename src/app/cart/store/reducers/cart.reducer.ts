@@ -49,6 +49,7 @@ export function reducer(
     }
 
     case fromAction.REMOVE_ENTRY_SUCCESS:
+    case fromAction.UPDATE_ENTRY_SUCCESS:
     case fromAction.ADD_ENTRY_SUCCESS: {
       return {
         ...state,

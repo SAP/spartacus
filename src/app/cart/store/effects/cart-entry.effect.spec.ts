@@ -102,11 +102,7 @@ describe('Cart effect', () => {
         entry: 'testEntryNumber',
         qty: 1
       });
-      const completion = new fromActions.LoadCart({
-        userId: userId,
-        cartId: cartId,
-        details: true
-      });
+      const completion = new fromActions.UpdateEntrySuccess();
 
       actions$.stream = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

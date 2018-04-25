@@ -60,7 +60,8 @@ export class CartService {
           new fromAction.LoadCart({
             userId: this.userId,
             cartId:
-              this.userId === ANOYMOUS_USERID ? this.cart.guid : this.cart.code
+              this.userId === ANOYMOUS_USERID ? this.cart.guid : this.cart.code,
+            details: true
           })
         );
       }
