@@ -27,7 +27,6 @@ export class MockCartService {
 describe('CartPageComponent', () => {
   let component: CartPageComponent;
   let fixture: ComponentFixture<CartPageComponent>;
-  let service: CartService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -58,8 +57,6 @@ describe('CartPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartPageComponent);
     component = fixture.componentInstance;
-
-    service = TestBed.get(CartService);
     fixture.detectChanges();
   });
 

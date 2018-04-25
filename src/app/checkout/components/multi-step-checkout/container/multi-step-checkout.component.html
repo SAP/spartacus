@@ -8,32 +8,35 @@
         <li [ngClass]="{'active': step===4}" (click)="setStep(4)">Review</li>
     </ul>
 </div>
-<div id="step1" *ngIf="step === 1">
-    <y-address-form [existingAddresses]="(existingAddresses$ | async)" (addAddress)="addAddress($event)" (verifyAddress)="verifyAddress($event)"
-        ></y-address-form>
-    <div class="order-summary-address-form">
-        <y-order-summary [cart]= "cart$ | async"></y-order-summary>
-    </div>
-</div>
 
-<div id="step2" *ngIf="step === 2">
-    <y-delivery-mode-form [deliveryAddress]="deliveryAddress" (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode-form>
-    <div class="order-delivery-mode-form">
-        <y-order-summary [cart]= "cart$ | async"></y-order-summary>
+<ng-container *ngIf="cart$ | async as cart">
+    <div id="step1" *ngIf="step === 1">
+        <y-address-form [existingAddresses]="(existingAddresses$ | async)" (addAddress)="addAddress($event)" (verifyAddress)="verifyAddress($event)"
+            ></y-address-form>
+        <div class="order-summary-address-form">
+            <y-order-summary [cart]= "cart"></y-order-summary>
+        </div>
     </div>
-</div>
 
-<div id="step3" *ngIf="step === 3">
-    <y-payment-form (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-form>
-    <div class="payment-form">
-        <y-order-summary [cart]= "cart$ | async"></y-order-summary>
+    <div id="step2" *ngIf="step === 2">
+        <y-delivery-mode-form [deliveryAddress]="deliveryAddress" (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode-form>
+        <div class="order-delivery-mode-form">
+            <y-order-summary [cart]= "cart"></y-order-summary>
+        </div>
     </div>
-</div>
 
-<div id="step4" *ngIf="step === 4">
-    <y-review-submit (placeOrder)="placeOrder()" [deliveryAddress]="deliveryAddress" [paymentDetails]="paymentDetails" (backStep)="setStep(3)">
-    </y-review-submit>
-    <div class="order-review">
-        <y-order-summary [cart]= "cart$ | async"></y-order-summary>
+    <div id="step3" *ngIf="step === 3">
+        <y-payment-form (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-form>
+        <div class="payment-form">
+            <y-order-summary [cart]= "cart"></y-order-summary>
+        </div>
     </div>
-<div>
+
+    <div id="step4" *ngIf="step === 4">
+        <y-review-submit (placeOrder)="placeOrder()" [deliveryAddress]="deliveryAddress" [paymentDetails]="paymentDetails" (backStep)="setStep(3)">
+        </y-review-submit>
+        <div class="order-review">
+            <y-order-summary [cart]= "cart"></y-order-summary>
+        </div>
+    </div>
+</ng-container>
