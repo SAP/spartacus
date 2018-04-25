@@ -16,6 +16,13 @@ import { CartService } from '../../../cart/services';
 import { OrderSummaryComponent } from '../../../cart/components/cart-details/order-summary/order-summary.component';
 import { MaterialModule } from '../../../material.module';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CartItemComponent } from '../../../cart/components/cart-details/cart-item/cart-item.component';
+import { ItemCounterComponent } from '../../../cart/components/cart-details/item-counter/item-counter.component';
+
+export class MockCartService {
+  loadCartDetails() {}
+}
 
 describe('CartPageComponent', () => {
   let component: CartPageComponent;
@@ -24,6 +31,7 @@ describe('CartPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        ReactiveFormsModule,
         MaterialModule,
         RouterModule,
         StoreModule.forRoot({
@@ -38,15 +46,18 @@ describe('CartPageComponent', () => {
         DynamicSlotComponent,
         ComponentWrapperComponent,
         CartDetailsComponent,
-        OrderSummaryComponent
+        OrderSummaryComponent,
+        CartItemComponent,
+        ItemCounterComponent
       ],
-      providers: [{ provide: CartService }]
+      providers: [{ provide: CartService, useClass: MockCartService }]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartPageComponent);
     component = fixture.componentInstance;
+
     fixture.detectChanges();
   });
 

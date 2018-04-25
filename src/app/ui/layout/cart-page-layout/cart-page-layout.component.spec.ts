@@ -4,6 +4,7 @@ import { MaterialModule } from '../../../material.module';
 import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
 import * as fromRoot from '../../../routing/store';
 import * as fromReducer from '../../../cart/store/reducers';
+import * as fromCmsReducer from '../../../cms/store/reducers';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartService } from '../../../cart/services';
 import {
@@ -14,9 +15,14 @@ import { CartPageLayoutComponent } from './cart-page-layout.component';
 import { of } from 'rxjs/observable/of';
 import { ComponentMapperService } from '../../../cms/services';
 import { OrderSummaryComponent } from '../../../cart/components/cart-details/order-summary/order-summary.component';
+import { CartItemComponent } from '../../../cart/components/cart-details/cart-item/cart-item.component';
+import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { ItemCounterComponent } from '../../../cart/components/cart-details/item-counter/item-counter.component';
 
 class MockCartService {
   removeCartEntry() {}
+
+  loadCartDetails() {}
 }
 
 class MockMapperService {
@@ -32,11 +38,13 @@ describe('CartPageLayoutComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        ReactiveFormsModule,
         MaterialModule,
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
-          cart: combineReducers(fromReducer.reducers)
+          cart: combineReducers(fromReducer.reducers),
+          cms: combineReducers(fromCmsReducer.reducers)
         })
       ],
       declarations: [
@@ -44,7 +52,9 @@ describe('CartPageLayoutComponent', () => {
         CartDetailsComponent,
         DynamicSlotComponent,
         ComponentWrapperComponent,
-        OrderSummaryComponent
+        OrderSummaryComponent,
+        CartItemComponent,
+        ItemCounterComponent
       ],
       providers: [
         { provide: CartService, useClass: MockCartService },
@@ -60,7 +70,7 @@ describe('CartPageLayoutComponent', () => {
 
     store = TestBed.get(Store);
 
-    spyOn(store, 'select').and.returnValue(of(['mockData']));
+    spyOn(service, 'loadCartDetails').and.callThrough();
   });
 
   it('should create cart page', () => {
@@ -68,7 +78,12 @@ describe('CartPageLayoutComponent', () => {
   });
 
   it('should call ngAfterViewInit', () => {
-    component.cartDetail = new CartDetailsComponent(store, service);
+    component.cartDetail = new CartDetailsComponent(
+      store,
+      service,
+      new FormBuilder()
+    );
+    component.cartDetail.cart$ = of(['mockData']);
 
     component.ngAfterViewInit();
     fixture.detectChanges();
