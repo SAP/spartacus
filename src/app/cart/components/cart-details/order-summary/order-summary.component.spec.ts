@@ -4,7 +4,6 @@ import * as fromUserStore from '../../../../user/store';
 import * as fromRoot from '../../../../routing/store';
 import { OrderSummaryComponent } from './order-summary.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs/observable/of';
 import { CartService } from '../../../../cart/services';
 
 describe('OrderSummary', () => {
