@@ -83,7 +83,7 @@ export class CartDetailsComponent implements OnInit {
     return this.getPromotionForEntry(cart.appliedProductPromotions, entry);
   }
 
-  private getPromotionForEntry(promotions: any[], entry: number): any {
+  private getPromotionForEntry(promotions: any[], entry: any): any {
     const entryPromotions = [];
     if (promotions && promotions.length > 0) {
       for (const promotion of promotions) {
