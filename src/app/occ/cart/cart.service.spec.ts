@@ -19,11 +19,11 @@ const BASIC_PARAMS =
   'DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
   'entries(totalPrice(formattedValue),product(images(FULL)))';
 
-/*const DETAILS_PARAMS =
-  'DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),totalTax(formattedValue),' +
-  'totalPriceWithTax(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';*/
-
-const DETAILS_PARAMS = 'FULL';
+const DETAILS_PARAMS =
+  'DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,' +
+  'entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue)),' +
+  'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(formattedValue),subTotal(formattedValue),' +
+  'deliveryItemsQuantity,totalTax(formattedValue),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue)';
 
 class MockConfigService {
   server = {
@@ -536,6 +536,31 @@ describe('OccCartService', () => {
       );
       expect(mockReq.request.params.get('param1')).toEqual('mockParam1');
       expect(mockReq.request.params.get('param2')).toEqual('mockParam2');
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(cartData);
+    });
+  });
+
+  describe('set payment details', () => {
+    it('should set payment details for given user id, cart id and payment details id', () => {
+      service.setPaymentDetails(userId, cartId, '123').subscribe(result => {
+        expect(result).toEqual(cartData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'PUT' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/paymentdetails'
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.params.get('paymentDetailsId')).toEqual('123');
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
     });

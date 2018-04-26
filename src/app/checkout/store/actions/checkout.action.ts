@@ -30,6 +30,11 @@ export const CREATE_PAYMENT_DETAILS_FAIL =
 export const CREATE_PAYMENT_DETAILS_SUCCESS =
   '[Checkout] Create Payment Details Success';
 
+export const SET_PAYMENT_DETAILS = '[Checkout] Set Payment Details';
+export const SET_PAYMENT_DETAILS_FAIL = '[Checkout] Set Payment Details Fail';
+export const SET_PAYMENT_DETAILS_SUCCESS =
+  '[Checkout] Set Payment Details Success';
+
 export const PLACE_ORDER = '[Checkout] Place Order';
 export const PLACE_ORDER_FAIL = '[Checkout] Place Order Fail';
 export const PLACE_ORDER_SUCCESS = '[Checkout] Place Order Success';
@@ -116,6 +121,23 @@ export class CreatePaymentDetailsSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class SetPaymentDetails implements Action {
+  readonly type = SET_PAYMENT_DETAILS;
+  constructor(
+    public payload: { userId: any; cartId: any; paymentDetails: any }
+  ) {}
+}
+
+export class SetPaymentDetailsFail implements Action {
+  readonly type = SET_PAYMENT_DETAILS_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class SetPaymentDetailsSuccess implements Action {
+  readonly type = SET_PAYMENT_DETAILS_SUCCESS;
+  constructor(public payload: any) {}
+}
+
 export class PlaceOrder implements Action {
   readonly type = PLACE_ORDER;
   constructor(public payload: { userId: string; cartId: string }) {}
@@ -161,6 +183,9 @@ export type CheckoutAction =
   | CreatePaymentDetails
   | CreatePaymentDetailsFail
   | CreatePaymentDetailsSuccess
+  | SetPaymentDetails
+  | SetPaymentDetailsFail
+  | SetPaymentDetailsSuccess
   | PlaceOrder
   | PlaceOrderFail
   | PlaceOrderSuccess

@@ -33,6 +33,15 @@ const address: Address = {
   country: { isocode: 'JP' }
 };
 
+const paymentDetails = {
+  accountHolderName: 'Name',
+  cardNumber: '123456789',
+  cardType: 'Visa',
+  expiryMonth: '01',
+  expiryYear: '2022',
+  cvn: '123'
+};
+
 describe('MultiStepCheckoutComponent', () => {
   let store: Store<fromRouting.State>;
   let component: MultiStepCheckoutComponent;
@@ -75,7 +84,9 @@ describe('MultiStepCheckoutComponent', () => {
     spyOn(service, 'setDeliveryAddress').and.callThrough();
     spyOn(service, 'setDeliveryMode').and.callThrough();
     spyOn(service, 'loadUserAddresses').and.callThrough();
-    spyOn(service, 'getPaymentDetails').and.callThrough();
+    spyOn(service, 'loadUserPaymentMethods').and.callThrough();
+    spyOn(service, 'createPaymentDetails').and.callThrough();
+    spyOn(service, 'setPaymentDetails').and.callThrough();
     spyOn(service, 'placeOrder').and.callThrough();
   });
 
@@ -83,21 +94,43 @@ describe('MultiStepCheckoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit() with user addresses already loaded', () => {
+  it('should call ngOnInit() with user addresses, cart and payment methods already loaded', () => {
     const mockUserAddresses = ['address1', 'address2'];
+    const mockPaymentMethods = ['payment1', 'payment2'];
     const mockCartData = {};
+
     spyOn(store, 'select').and.returnValues(
       of(mockCartData),
-      of(mockUserAddresses)
+      of(mockUserAddresses),
+      of(mockPaymentMethods)
     );
 
     component.ngOnInit();
 
     expect(service.loadUserAddresses).not.toHaveBeenCalled();
+    expect(service.loadUserPaymentMethods).not.toHaveBeenCalled();
     component.existingAddresses$.subscribe(data =>
       expect(data).toEqual(mockUserAddresses)
     );
+    component.existingPaymentMethods$.subscribe(data =>
+      expect(data).toEqual(mockPaymentMethods)
+    );
     component.cart$.subscribe(cart => expect(cart).toEqual(mockCartData));
+  });
+
+  it('should call ngOnInit() with user addresses, cart and payment methods not already loaded', () => {
+    spyOn(store, 'select').and.returnValues(of([]), of([]), of([]));
+
+    component.ngOnInit();
+
+    component.existingAddresses$.subscribe(data => expect(data).toEqual([]));
+    component.existingPaymentMethods$.subscribe(data =>
+      expect(data).toEqual([])
+    );
+    component.cart$.subscribe(cart => expect(cart).toEqual([]));
+
+    expect(service.loadUserAddresses).toHaveBeenCalled();
+    expect(service.loadUserPaymentMethods).toHaveBeenCalled();
   });
 
   it('should call verifyAddress(address) with valid address', () => {
@@ -182,26 +215,36 @@ describe('MultiStepCheckoutComponent', () => {
     expect(component.step).toBe(3);
   });
 
-  it('should call addPaymentInfo(paymentDetails: any)', () => {
-    const paymentDetails = {
-      accountHolderName: 'Name',
-      cardNumber: '123456789',
-      cardType: 'Visa',
-      expiryMonth: '01',
-      expiryYear: '2022',
-      cvn: '123'
-    };
-
-    component.deliveryAddress = address;
+  it('should call addPaymentInfo() with new created payment info', () => {
     spyOn(store, 'select').and.returnValues(
       of(paymentDetails),
-      of(),
-      of(),
-      of()
+      of([]),
+      of([]),
+      of([])
     );
 
-    component.addPaymentInfo(paymentDetails);
-    expect(service.getPaymentDetails).toHaveBeenCalledWith(paymentDetails);
+    component.deliveryAddress = address;
+    component.addPaymentInfo({ payment: paymentDetails, newPayment: true });
+
+    expect(service.createPaymentDetails).toHaveBeenCalledWith(paymentDetails);
+    expect(component.step).toBe(4);
+  });
+
+  it('should call addAddress() with address selected from existing addresses', () => {
+    spyOn(store, 'select').and.returnValues(
+      of(paymentDetails),
+      of([]),
+      of([]),
+      of([])
+    );
+
+    component.deliveryAddress = address;
+    component.addPaymentInfo({ payment: paymentDetails, newPayment: false });
+
+    expect(service.createPaymentDetails).not.toHaveBeenCalledWith(
+      paymentDetails
+    );
+    expect(service.setPaymentDetails).toHaveBeenCalledWith(paymentDetails);
     expect(component.step).toBe(4);
   });
 

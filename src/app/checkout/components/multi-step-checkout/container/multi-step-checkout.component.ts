@@ -45,6 +45,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   cart$: Observable<any>;
   existingAddresses$: Observable<any>;
+  existingPaymentMethods$: Observable<any>;
 
   constructor(
     protected checkoutService: CheckoutService,
@@ -62,6 +63,16 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         tap(addresses => {
           if (addresses.length === 0) {
             this.checkoutService.loadUserAddresses();
+          }
+        })
+      );
+
+    this.existingPaymentMethods$ = this.store
+      .select(fromUserStore.getPaymentMethods)
+      .pipe(
+        tap(payments => {
+          if (payments.length === 0) {
+            this.checkoutService.loadUserPaymentMethods();
           }
         })
       );
@@ -154,9 +165,13 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
       });
   }
 
-  addPaymentInfo(paymentDetails: any) {
-    paymentDetails.billingAddress = this.deliveryAddress;
-    this.checkoutService.getPaymentDetails(paymentDetails);
+  addPaymentInfo(paymentDetailsObject) {
+    if (paymentDetailsObject.newPayment) {
+      paymentDetailsObject.payment.billingAddress = this.deliveryAddress;
+      this.checkoutService.createPaymentDetails(paymentDetailsObject.payment);
+    } else {
+      this.checkoutService.setPaymentDetails(paymentDetailsObject.payment);
+    }
 
     this.step3Sub = this.store
       .select(fromCheckoutStore.getPaymentDetails)

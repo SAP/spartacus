@@ -17,8 +17,8 @@
         <div>
             <h4>Shipping Method:</h4>
         </div>
-        <div *ngIf="deliveryMode$ | async as deliveryMode">
-            {{deliveryMode.name}} - {{deliveryMode.description}} - {{deliveryMode.deliveryCost.formattedValue}}
+        <div *ngIf="(deliveryMode$ | async) as deliveryMode">
+            {{deliveryMode.name}} - {{deliveryMode.description}} - {{deliveryMode.deliveryCost?.formattedValue}}
         </div>
     </div>
     <div class="payment-method">

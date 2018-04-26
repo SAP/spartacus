@@ -58,7 +58,7 @@ export class CheckoutService {
     this.checkoutStore.dispatch(new fromCheckoutStore.LoadCardTypes());
   }
 
-  getPaymentDetails(paymentInfo) {
+  createPaymentDetails(paymentInfo) {
     this.checkoutStore.dispatch(
       new fromCheckoutStore.CreatePaymentDetails({
         userId: this.cartService.userId,
@@ -104,6 +104,22 @@ export class CheckoutService {
         userId: this.cartService.userId,
         cartId: this.cartService.cart.code,
         address: address
+      })
+    );
+  }
+
+  loadUserPaymentMethods() {
+    this.userStore.dispatch(
+      new fromUserStore.LoadUserPaymentMethods(this.cartService.userId)
+    );
+  }
+
+  setPaymentDetails(paymentDetails) {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.SetPaymentDetails({
+        userId: this.cartService.userId,
+        cartId: this.cartService.cart.code,
+        paymentDetails: paymentDetails
       })
     );
   }

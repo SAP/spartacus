@@ -138,12 +138,16 @@ export class CheckoutEffects {
                           fromPaymentProvider
                         )
                         .pipe(
-                          map(
-                            details =>
+                          mergeMap(details => {
+                            return [
+                              new fromUserActions.LoadUserPaymentMethods(
+                                payload.userId
+                              ),
                               new fromActions.CreatePaymentDetailsSuccess(
                                 details
                               )
-                          ),
+                            ];
+                          }),
                           catchError(error =>
                             of(new fromActions.CreatePaymentDetailsFail(error))
                           )
@@ -157,6 +161,30 @@ export class CheckoutEffects {
                     }
                   })
                 )
+            )
+          );
+      })
+    );
+
+  @Effect()
+  setPaymentDetails$: Observable<any> = this.actions$
+    .ofType(fromActions.SET_PAYMENT_DETAILS)
+    .pipe(
+      map((action: any) => action.payload),
+      mergeMap(payload => {
+        return this.occCartService
+          .setPaymentDetails(
+            payload.userId,
+            payload.cartId,
+            payload.paymentDetails.id
+          )
+          .pipe(
+            map(
+              () =>
+                new fromActions.SetPaymentDetailsSuccess(payload.paymentDetails)
+            ),
+            catchError(error =>
+              of(new fromActions.SetPaymentDetailsFail(error))
             )
           );
       })

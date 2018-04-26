@@ -109,16 +109,16 @@ describe('CheckoutService', () => {
     );
   });
 
-  describe('get payment details', () => {
+  describe('create payment details', () => {
     it(
-      'should be able to place order',
+      'should be able to create payment details',
 
       inject([CartService], (cartService: CartService) => {
         cartService.userId = userId;
         cartService.cart = cart;
         const paymentInfo = 'mockInfo';
 
-        service.getPaymentDetails(paymentInfo);
+        service.createPaymentDetails(paymentInfo);
 
         expect(store.dispatch).toHaveBeenCalledWith(
           new fromCheckout.CreatePaymentDetails({
@@ -199,6 +199,42 @@ describe('CheckoutService', () => {
             userId: userId,
             cartId: cartService.cart.code,
             address: 'mockAddress'
+          })
+        );
+      })
+    );
+  });
+
+  describe('load user payment methods', () => {
+    it(
+      'should load user payment methods',
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+
+        service.loadUserPaymentMethods();
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromUser.LoadUserPaymentMethods(userId)
+        );
+      })
+    );
+  });
+
+  describe('set payment details', () => {
+    it(
+      'should set payment details',
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+
+        service.setPaymentDetails('mockPaymentDetails');
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromCheckout.SetPaymentDetails({
+            userId: userId,
+            cartId: cartService.cart.code,
+            paymentDetails: 'mockPaymentDetails'
           })
         );
       })

@@ -216,6 +216,46 @@ describe('Checkout Actions', () => {
     });
   });
 
+  describe('Set Payment Details for Cart', () => {
+    describe('SetPaymentDetails', () => {
+      it('should create the action', () => {
+        const payload = {
+          userId: userId,
+          cartId: cartId,
+          paymentDetails: paymentDetails
+        };
+
+        const action = new fromAction.SetPaymentDetails(payload);
+        expect({ ...action }).toEqual({
+          type: fromAction.SET_PAYMENT_DETAILS,
+          payload: payload
+        });
+      });
+    });
+
+    describe('SetPaymentDetailsFail', () => {
+      it('should create the action', () => {
+        const error = 'anError';
+        const action = new fromAction.SetPaymentDetailsFail(error);
+
+        expect({ ...action }).toEqual({
+          type: fromAction.SET_PAYMENT_DETAILS_FAIL,
+          payload: error
+        });
+      });
+    });
+
+    describe('SetPaymentDetailsSuccess', () => {
+      it('should create the action', () => {
+        const action = new fromAction.SetPaymentDetailsSuccess(paymentDetails);
+        expect({ ...action }).toEqual({
+          type: fromAction.SET_PAYMENT_DETAILS_SUCCESS,
+          payload: paymentDetails
+        });
+      });
+    });
+  });
+
   describe('Place Order', () => {
     describe('PlaceOrder', () => {
       it('should create the action', () => {

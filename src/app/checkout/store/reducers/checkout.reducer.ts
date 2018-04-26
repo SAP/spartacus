@@ -73,7 +73,8 @@ export function reducer(
       };
     }
 
-    case fromAction.CREATE_PAYMENT_DETAILS_SUCCESS: {
+    case fromAction.CREATE_PAYMENT_DETAILS_SUCCESS:
+    case fromAction.SET_PAYMENT_DETAILS_SUCCESS: {
       const details = action.payload;
 
       return {

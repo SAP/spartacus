@@ -3,16 +3,16 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   Output,
-  EventEmitter
+  EventEmitter,
+  Input
 } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { tap } from 'rxjs/operators';
-
 import * as fromCheckoutStore from '../../../store';
 import { CheckoutService } from '../../../services';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'y-payment-form',
@@ -21,12 +21,16 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentFormComponent implements OnInit {
-  cardTypes$: Observable<any>;
+  newPayment = false;
 
+  @Input() existingPaymentMethods;
   @Output() backStep = new EventEmitter<any>();
   @Output() addPaymentInfo = new EventEmitter<any>();
 
+  cardTypes$: Observable<any>;
+
   payment: FormGroup = this.fb.group({
+    defaultPayment: [false],
     accountHolderName: ['', Validators.required],
     cardNumber: ['', Validators.required],
     cardType: this.fb.group({
@@ -39,7 +43,7 @@ export class PaymentFormComponent implements OnInit {
 
   constructor(
     protected store: Store<fromCheckoutStore.CheckoutState>,
-    protected service: CheckoutService,
+    protected checkoutService: CheckoutService,
     private fb: FormBuilder
   ) {}
 
@@ -47,18 +51,34 @@ export class PaymentFormComponent implements OnInit {
     this.cardTypes$ = this.store.select(fromCheckoutStore.getAllCardTypes).pipe(
       tap(cardTypes => {
         if (Object.keys(cardTypes).length === 0) {
-          this.service.loadSupportedCardTypes();
+          this.checkoutService.loadSupportedCardTypes();
         }
       })
     );
   }
 
+  paymentMethodSelected(paymentDetails) {
+    this.addPaymentInfo.emit({ payment: paymentDetails, newPayment: false });
+  }
+
+  toggleDefaultPaymentMethod() {
+    this.payment.value.defaultPayment = !this.payment.value.defaultPayment;
+  }
+
+  addNewPaymentMethod() {
+    this.newPayment = true;
+  }
+
   back() {
-    this.backStep.emit();
+    if (this.newPayment) {
+      this.newPayment = false;
+    } else {
+      this.backStep.emit();
+    }
   }
 
   next() {
-    this.addPaymentInfo.emit(this.payment.value);
+    this.addPaymentInfo.emit({ payment: this.payment.value, newPayment: true });
   }
 
   required(name: string) {
