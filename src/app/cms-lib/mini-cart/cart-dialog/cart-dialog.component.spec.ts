@@ -12,28 +12,36 @@ describe('CartDialogComponent', () => {
   let component: CartDialogComponent;
   let fixture: ComponentFixture<CartDialogComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [MaterialModule, FormsModule, RouterModule, BannerModule],
-        declarations: [CartDialogComponent],
-        providers: [
-          {
-            provide: MatDialogRef
-          },
-          { provide: MAT_DIALOG_DATA, useValue: {} }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [MaterialModule, FormsModule, RouterModule, BannerModule],
+      declarations: [CartDialogComponent],
+      providers: [
+        {
+          provide: MatDialogRef
+        },
+        { provide: MAT_DIALOG_DATA, useValue: {} }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    spyOn(component.onDelete, 'emit').and.callThrough();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call removeEntry()', () => {
+    const entry = 'mockEntry';
+
+    component.removeEntry(entry, null);
+
+    expect(component.onDelete.emit).toHaveBeenCalledWith(entry);
   });
 });
