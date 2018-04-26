@@ -84,6 +84,7 @@ describe('MultiStepCheckoutComponent', () => {
     spyOn(service, 'setDeliveryAddress').and.callThrough();
     spyOn(service, 'setDeliveryMode').and.callThrough();
     spyOn(service, 'loadUserAddresses').and.callThrough();
+    spyOn(service, 'loadUserPaymentMethods').and.callThrough();
     spyOn(service, 'getPaymentDetails').and.callThrough();
     spyOn(service, 'setPaymentDetails').and.callThrough();
     spyOn(service, 'placeOrder').and.callThrough();
@@ -93,7 +94,7 @@ describe('MultiStepCheckoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit() with user addresses already loaded', () => {
+  it('should call ngOnInit() with user addresses, cart and payment methods already loaded', () => {
     const mockUserAddresses = { addresses: ['address1', 'address2'] };
     const mockPaymentMethods = { payments: ['payment1', 'payment2'] };
     const mockCartData = {};
@@ -107,6 +108,7 @@ describe('MultiStepCheckoutComponent', () => {
     component.ngOnInit();
 
     expect(service.loadUserAddresses).not.toHaveBeenCalled();
+    expect(service.loadUserPaymentMethods).not.toHaveBeenCalled();
     component.existingAddresses$.subscribe(data =>
       expect(data).toEqual(mockUserAddresses)
     );
@@ -114,6 +116,21 @@ describe('MultiStepCheckoutComponent', () => {
       expect(data).toEqual(mockPaymentMethods)
     );
     component.cart$.subscribe(cart => expect(cart).toEqual(mockCartData));
+  });
+
+  it('should call ngOnInit() with user addresses, cart and payment methods not already loaded', () => {
+    spyOn(store, 'select').and.returnValues(of([]), of([]), of([]));
+
+    component.ngOnInit();
+
+    component.existingAddresses$.subscribe(data => expect(data).toEqual([]));
+    component.existingPaymentMethods$.subscribe(data =>
+      expect(data).toEqual([])
+    );
+    component.cart$.subscribe(cart => expect(cart).toEqual([]));
+
+    expect(service.loadUserAddresses).toHaveBeenCalled();
+    expect(service.loadUserPaymentMethods).toHaveBeenCalled();
   });
 
   it('should call verifyAddress(address) with valid address', () => {

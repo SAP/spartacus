@@ -44,6 +44,15 @@ const mockCardTypes = {
   ]
 };
 
+const paymentDetails = {
+  accountHolderName: 'Name',
+  cardNumber: '123456789',
+  cardType: 'Visa',
+  expiryMonth: '01',
+  expiryYear: '2022',
+  cvn: '123'
+};
+
 describe('PaymentFormComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: PaymentFormComponent;
@@ -111,6 +120,31 @@ describe('PaymentFormComponent', () => {
     component.cardTypes$.subscribe(data => {
       expect(data).toBe(mockCardTypes);
     });
+  });
+
+  it('should call paymentMethodSelected(paymentDetails)', () => {
+    component.paymentMethodSelected(paymentDetails);
+    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
+      payment: paymentDetails,
+      newPayment: false
+    });
+  });
+
+  it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
+    component.payment.value.defaultPayment = false;
+    component.toggleDefaultPaymentMethod();
+    expect(component.payment.value.defaultPayment).toBeTruthy();
+  });
+
+  it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
+    component.payment.value.defaultPayment = true;
+    component.toggleDefaultPaymentMethod();
+    expect(component.payment.value.defaultPayment).toBeFalsy();
+  });
+
+  it('should call addNewPaymentMethod()', () => {
+    component.addNewPaymentMethod();
+    expect(component.newPayment).toBeTruthy();
   });
 
   it('should call next()', () => {

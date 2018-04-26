@@ -75,16 +75,28 @@ describe('Checkout reducer', () => {
     });
   });
 
-  describe('CREATE_PAYMENT_DETAILS_SUCCESS action', () => {
+  describe('CREATE_PAYMENT_DETAILS_SUCCESS or SET_PAYMENT_DETAILS_SUCCESS action', () => {
     it('should create payment details for cart', () => {
       const { initialState } = fromCheckout;
       const paymentDetails = 'mockPaymentDetails';
 
-      const action = new fromActions.CreatePaymentDetailsSuccess(
+      const createPaymentDetailsAction = new fromActions.CreatePaymentDetailsSuccess(
         paymentDetails
       );
-      const state = fromCheckout.reducer(initialState, action);
-      expect(state.paymentDetails).toEqual(paymentDetails);
+      const createPaymentDetailsState = fromCheckout.reducer(
+        initialState,
+        createPaymentDetailsAction
+      );
+      expect(createPaymentDetailsState.paymentDetails).toEqual(paymentDetails);
+
+      const setPaymentDetailsAction = new fromActions.SetPaymentDetailsSuccess(
+        paymentDetails
+      );
+      const setPaymentDetailsState = fromCheckout.reducer(
+        initialState,
+        setPaymentDetailsAction
+      );
+      expect(setPaymentDetailsState.paymentDetails).toEqual(paymentDetails);
     });
   });
 

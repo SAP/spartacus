@@ -204,4 +204,40 @@ describe('CheckoutService', () => {
       })
     );
   });
+
+  describe('load user payment methods', () => {
+    it(
+      'should load user payment methods',
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+
+        service.loadUserPaymentMethods();
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromUser.LoadUserPaymentMethods(userId)
+        );
+      })
+    );
+  });
+
+  describe('set payment details', () => {
+    it(
+      'should set payment details',
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+
+        service.setPaymentDetails('mockPaymentDetails');
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromCheckout.SetPaymentDetails({
+            userId: userId,
+            cartId: cartService.cart.code,
+            paymentDetails: 'mockPaymentDetails'
+          })
+        );
+      })
+    );
+  });
 });
