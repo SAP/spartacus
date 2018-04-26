@@ -85,7 +85,7 @@ describe('MultiStepCheckoutComponent', () => {
     spyOn(service, 'setDeliveryMode').and.callThrough();
     spyOn(service, 'loadUserAddresses').and.callThrough();
     spyOn(service, 'loadUserPaymentMethods').and.callThrough();
-    spyOn(service, 'getPaymentDetails').and.callThrough();
+    spyOn(service, 'createPaymentDetails').and.callThrough();
     spyOn(service, 'setPaymentDetails').and.callThrough();
     spyOn(service, 'placeOrder').and.callThrough();
   });
@@ -95,8 +95,8 @@ describe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call ngOnInit() with user addresses, cart and payment methods already loaded', () => {
-    const mockUserAddresses = { addresses: ['address1', 'address2'] };
-    const mockPaymentMethods = { payments: ['payment1', 'payment2'] };
+    const mockUserAddresses = ['address1', 'address2'];
+    const mockPaymentMethods = ['payment1', 'payment2'];
     const mockCartData = {};
 
     spyOn(store, 'select').and.returnValues(
@@ -226,7 +226,7 @@ describe('MultiStepCheckoutComponent', () => {
     component.deliveryAddress = address;
     component.addPaymentInfo({ payment: paymentDetails, newPayment: true });
 
-    expect(service.getPaymentDetails).toHaveBeenCalledWith(paymentDetails);
+    expect(service.createPaymentDetails).toHaveBeenCalledWith(paymentDetails);
     expect(component.step).toBe(4);
   });
 
@@ -241,7 +241,9 @@ describe('MultiStepCheckoutComponent', () => {
     component.deliveryAddress = address;
     component.addPaymentInfo({ payment: paymentDetails, newPayment: false });
 
-    expect(service.getPaymentDetails).not.toHaveBeenCalledWith(paymentDetails);
+    expect(service.createPaymentDetails).not.toHaveBeenCalledWith(
+      paymentDetails
+    );
     expect(service.setPaymentDetails).toHaveBeenCalledWith(paymentDetails);
     expect(component.step).toBe(4);
   });

@@ -58,7 +58,7 @@ export class CheckoutService {
     this.checkoutStore.dispatch(new fromCheckoutStore.LoadCardTypes());
   }
 
-  getPaymentDetails(paymentInfo) {
+  createPaymentDetails(paymentInfo) {
     this.checkoutStore.dispatch(
       new fromCheckoutStore.CreatePaymentDetails({
         userId: this.cartService.userId,

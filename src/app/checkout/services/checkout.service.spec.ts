@@ -109,16 +109,16 @@ describe('CheckoutService', () => {
     );
   });
 
-  describe('get payment details', () => {
+  describe('create payment details', () => {
     it(
-      'should be able to place order',
+      'should be able to create payment details',
 
       inject([CartService], (cartService: CartService) => {
         cartService.userId = userId;
         cartService.cart = cart;
         const paymentInfo = 'mockInfo';
 
-        service.getPaymentDetails(paymentInfo);
+        service.createPaymentDetails(paymentInfo);
 
         expect(store.dispatch).toHaveBeenCalledWith(
           new fromCheckout.CreatePaymentDetails({
