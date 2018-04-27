@@ -1,5 +1,5 @@
 <a fxFlex *ngIf="hasImage()" [target]="getTarget()" [routerLink]="getUrlLink()">
     <picture class="responsive-banner">
-        <img [src]="'https://localhost:9002' + getImageUrl()" [srcset]="getResponsiveSrcset()" sizes="100%" />
+        <img [src]="getBaseUrl() + getImageUrl()" [srcset]="getResponsiveSrcset()" sizes="100%" />
     </picture>
 </a>

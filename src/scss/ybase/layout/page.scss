@@ -1,0 +1,19 @@
+@import "theme";
+@import "functions";
+@import "mixins";
+
+.y-page {
+  padding-bottom: 120px;
+  &__header {
+    background-color: theme-color("background");
+    text-align: center;
+    padding-bottom: 25px;
+  }
+  &__title {
+    @include type("4","semi");
+    margin: 0 auto;
+  }
+  &__section {
+    padding-top: 60px;
+  }
+}

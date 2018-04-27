@@ -1,0 +1,248 @@
+/*
+//colors
+
+$blue:    #007bff !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #e83e8c !default;
+$red:     #dc3545 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #ffc107 !default;
+$green:   #28a745 !default;
+$teal:    #20c997 !default;
+$cyan:    #17a2b8 !default;
+
+//theme-colors
+$primary:       $blue !default;
+$secondary:     $gray-600 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-100 !default;
+$dark:          $gray-800 !default;
+*/
+
+$success: #73cb11;
+$warning: #feb33a;
+$danger: #c40002;
+$info: #3fa3ff;
+
+$theme-colors: (
+  "brand": #900,
+  "danger": pink
+);
+$grid-gutter-width: 30px;
+
+@import "../../ybase/functions";
+@import "../../ybase/variables";
+@import "../../ybase/mixins";
+
+
+//************************************************************
+//************************************************************
+//************************************************************
+//************************************************************
+//************************************************************
+//                       COLORS PALLET
+//************************************************************
+//************************************************************
+//************************************************************
+//************************************************************
+//************************************************************
+
+
+$brand-primary: 	#47b6b1;
+$brand-secondary: 	#ec7205;
+$brand-tertiary: 	#5adfd9;
+
+
+
+//*********Typography Colors*********
+$text-color:			#19212b;
+$text-color-secondary:	#929292;
+$link-color: 			$brand-secondary;
+$link-hover-color:  #154259;
+$headline-color:		$link-hover-color;
+
+//== Borders
+$border-color: 			#f2f2f2;
+$border-color-2:		#e5e5e5;
+$border-color-3:		#cccccc;
+
+
+//*********form colors*********
+$label-color: 			#153a59;
+
+$input-color: 			$text-color;
+$input-border-color: 	$border-color-3;
+$placeholder-color: 	#b9bdc2;
+//** Border color for inputs on focus
+$input-border-focus:    $brand-tertiary;
+//** Border color for inputs on error
+$input-error:    #c53131;
+//** Background color for inputs on error
+$input-error-bg:        #f6e0e0;
+//** color for error text
+$input-error-text:        $input-error;
+
+$input-success: $border-color-3;
+$input-success-bg: transparent;
+$input-success-text: #00A651;
+
+//*********Header Background*********
+$header-background-color: 	#f8f8f8;
+$nav-border-color: 			#d3d3d3;
+
+
+//*********Secondary Navigation colors*********
+//Background color for My Account and My Company dropdowns
+$meta-nav-color: #154259;
+$meta-nav-color-open: #ffffff;
+$meta-nav-hover-color: $brand-primary;
+$meta-nav-border-color: #317f8c;
+$meta-nav-background: #0d6878;
+$meta-nav-hover-background: #0f7384;
+
+
+//*********Search*********
+$searchbar-icon-color: #b9bdc2;
+$check-box-bg: #ffffff;
+
+//********* icon navigation colors*********
+$nav-icon-color: #128a9e;
+$nav-icon-color-secondary: $brand-secondary;
+$nav-icon-hover-background: #f2f2f2;
+
+
+//*********Header Navigation-Categories Background*********
+$nav-cat-background: $nav-icon-color;
+$nav-cat-border: $nav-cat-background;
+$nav-cat-hover-background: $border-color;
+$nav-cat-link-color: #ffffff;
+$nav-cat-font-size: 13px;
+$nav-subcat-color: $text-color;
+$nav-subcat-title-color: rgba(0,0,0,0.7);
+$nav-subcat-background: $header-background-color;
+$nav-subcat-border-color: $nav-border-color;
+$nav-subcat-hover-background: $nav-border-color;
+
+
+
+//*********Offcanvas navigation colors*********
+$offcanvas-nav-header-color: $nav-icon-color;
+$offcanvas-nav-header-background: #ffffff;
+$offcanvas-nav-disabled: $text-color-secondary;
+$offcanvas-meta-nav-color: #ffffff;
+$offcanvas-meta-nav-border-color: $meta-nav-border-color;
+$offcanvas-meta-nav-background: $meta-nav-hover-background;
+$offcanvas-meta-nav-background-open: $meta-nav-background;
+$offcanvas-meta-nav-hover-background: #107d8f;
+$offcanvas-nav-cat-color: $text-color;
+$offcanvas-nav-cat-title-color: rgba(0,0,0,0.7);
+$offcanvas-nav-cat-background: #ffffff;
+$offcanvas-nav-cat-border-color: $border-color;
+$offcanvas-nav-cat-hover-background: $border-color;
+
+
+//*********Breadcrumbs Colors*********
+$breadcrumb-bg: #d9d9d9;
+
+
+//*********Footer colors*********
+$footer-background: $meta-nav-hover-background;
+$footer-text-color: #ffffff;
+$footer-border-color: $nav-border-color;
+$copyright-background: #005361;
+$copyright-color: #ffffff;
+
+//*********Well colors*********
+$well-secondary-bg: lighten($brand-secondary, 47%);//#fef0df;
+$well-quaternary-bg: #f2f2f2;
+
+//Item colors
+$item-promo-color: #00a651;
+$item-sale-color: #ED1C24;
+$item-sale-price-color: $text-color-secondary;
+
+
+//== Tables
+$table-2n-line-bg:				$border-color;
+$table-head-bg:					#128a9e;
+$table-head-color:				#ffffff;
+$table-head-border-color:		$nav-border-color;
+$table-border-color:			$border-color-2;
+$table-expand-bg:				#e4e4e4;
+$cart-product-table-head-color:				$table-expand-bg;
+
+//== List
+$list-active-bg:                #f6e7d9;
+
+
+//== Pagination
+$pagination-bar-framed:			true;
+$pagination-border:				transparent;
+$pagination-font-size:			24px;
+$pagination-active-color: 		$label-color;
+$pagination-active-font-weight: 700;
+$pagination-width-large:		45px;
+
+$pagination-disabled-color:     #a6a6a6;
+$pagination-hover-color:		$pagination-active-color;
+
+$pagination-prev-next-hover-bg:		$pagination-hover-bg;
+$pagination-prev-next-hover-color:	$pagination-hover-color;
+
+
+//*********Button Colors*********
+
+//Primary Button State
+$btn-primary-color: #ffffff;
+$btn-primary-bg: $brand-primary;
+$btn-primary-border: $brand-primary;
+$btn-primary-hover-color: #ffffff;
+$btn-primary-hover-border: $brand-tertiary;
+$btn-primary-hover-background: $brand-tertiary;
+$btn-primary-disabled-bg: #c7e9e7;
+
+//Secondary Button State
+$btn-default-color: #ffffff;
+$btn-default-bg: $brand-secondary;
+$btn-default-border: $brand-secondary;
+$btn-default-hover-color: #ffffff;
+$btn-default-hover-border: #ff973b;
+$btn-default-hover-background: $btn-default-hover-border;
+$btn-default-disabled-bg: #f9d4b4;
+
+//*********Accordion Colors*********
+$accordion-bg: #000000;
+
+//*********Carousel Style*********
+$carousel-font-style: normal;
+
+//*********Modal Colors*********
+$modal-close-btn-color: #797979;
+
+//*********Account Colors*********
+$account-subheadline-bg: #f4f4f4;
+
+//*********checkout*********
+$steps-color: $headline-color;
+$steps-background: #ffffff;
+$steps-color-active: #ffffff;
+$steps-background-active: #a6a6a6;
+$steps-border-active: $border-color-3;
+$steps-divider: $border-color-2;
+$checkout-icon: $headline-color;
+$checkout-list-head-bg: #ffffff;
+$checkout-list-head-color: $text-color;
+$checkout-list-head-border: $steps-divider;
+$checkout-list-head-padding: 60px 0 10px;
+$checkout-list-head-padding-first: 0;
+
+//*********Coupon Colors*********
+$coupon-list-item-border: $border-color-3;
+$coupon-list-item-bg: $table-2n-line-bg;
+$coupon-list-item-remove-icon: #cdcdcd;
+
+$grayblue: 				#F2F4F7;

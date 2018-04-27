@@ -1,3 +1,4 @@
+<!--
 <mat-menu #userMenu="matMenu" x-position="before">
     <button mat-menu-item (click)="logout()"> Logout </button>
 </mat-menu>
@@ -12,3 +13,15 @@
         <mat-icon>person</mat-icon>
     </button>
 </ng-container>
+-->
+
+
+<div class="y-login-status__greet">Hi, {{(user$ | async)?.name}}</div>
+<div ngbDropdown class="y-login-status__dropdown">
+    <a href="#" class="nav-link y-login-status__toggle" id="dropdownBasic1" ngbDropdownToggle>My Account</a>
+    <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="y-login-status__menu">
+          <a href="#" class="dropdown-item y-login-status__item">Orders</a>
+          <a href="#" class="dropdown-item y-login-status__item">Account Profile</a>
+          <a href="#" class="dropdown-item y-login-status__item">Manage Subscription</a>
+          <a href="#" class="dropdown-item y-login-status__item">Sign Out</a>
+</div>

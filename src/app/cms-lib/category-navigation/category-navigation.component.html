@@ -1,6 +1,64 @@
+<!--
 <div>
     <mat-card class="category-navigation">
-        <y-navigation *ngFor="let child of node.childs" style="float:left" [node]="child">
-        </y-navigation>  
+            <mat-menu #menu="matMenu" style="margin-top:30px" [overlapTrigger]="false" style="width:600px">
+                    <div *ngIf="node.childs && node.childs[0].childs">
+                        <div fxLayout="row" fxLayoutAlign="start start">
+                            <div *ngFor="let childNode of node.childs" fxFlex>
+                                <a matButton [routerLink]="childNode.url" mat-menu-item> {{childNode.title}}</a>
+                
+                                <div *ngIf="childNode.childs">
+                                    <a *ngFor="let grandChildNode of childNode.childs" [routerLink]="grandChildNode.url" mat-menu-item> {{grandChildNode.title}} </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="node.childs && !node.childs[0].childs">
+                        <a *ngFor="let childNode of node.childs" [routerLink]="childNode.url" mat-menu-item> {{childNode.title}}</a>
+                    </div>
+                
+                </mat-menu>
     </mat-card>
 </div>
+-->
+
+<nav class="y-navigation" *ngIf="node?.childs">
+    <div class="y-navigation__list nav">
+        <div *ngFor="let childNode of node.childs" class="y-navigation__item nav-item">
+            <ng-container *ngIf="!childNode?.childs">
+                <a [routerLink]="childNode.url" class="y-navigation__link nav-link" role="button">
+                    {{childNode.title}}
+                </a>
+            </ng-container>
+
+            <div *ngIf="childNode?.childs" ngbDropdown>
+                <a ngbDropdownToggle [routerLink]="childNode.url" class="y-navigation__link nav-link" role="button">
+                    {{childNode.title}}
+                </a>
+
+                <div ngbDropdownMenu class="y-navigation__child-list" [attr.aria-labelledby]="childNode.id" role="list">
+                    <div role="listitem" *ngFor="let grandChildNode of childNode.childs" class="dropdown-item y-navigation__child-item">
+                        <a [routerLink]="grandChildNode.url" class="y-navigation__child-link">{{grandChildNode.title}}</a>
+                    </div>
+                </div>
+            </div>
+
+<!-- 2-columns dropdown / use divs instead of ul-li -->
+<!-- <div ngbDropdownMenu class="y-navigation__child-list-columns" [attr.aria-labelledby]="category.id">
+<div class="y-navigation__child-column"> 
+    <div class="y-navigation__column-title">SubTitle</div>
+    <div *ngFor="let item of category.children" class="dropdown-item y-navigation__child-column-item">
+        <a href="{{ item.url }}" class="y-navigation__child-link">{{ item.label }}</a>
+    </div>
+</div>
+<div class="y-navigation__child-column"> 
+    <div class="y-navigation__column-title">SubTitle</div>
+    <div *ngFor="let item of category.children" class="dropdown-item y-navigation__child-column-item">
+        <a href="{{ item.url }}" class="y-navigation__child-link">{{ item.label }}</a>
+    </div>
+</div>
+</div> -->
+
+        </div>
+    </div>
+</nav>

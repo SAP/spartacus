@@ -1,8 +1,150 @@
-@import '../../../theme';
-@include mat-core();
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+@import '~bootstrap/scss/nav';
+@import '~bootstrap/scss/dropdown';
 
-.category-navigation {
-    padding: 5px;
-    height: 40px;
-    background-color: mat-color($primary);
+//this hack here for now, until we decide how we go about keyboard navigation
+// .dropdown:hover>.dropdown-menu,
+// .dropdown:focus>.dropdown-menu {
+//   display: block;
+// }
+
+.y-navigation {
+  //navigation variables
+  $nav-text-case: uppercase !default;
+  $nav-list-trbl-padding: 1rem 0 !default;
+  $nav-item-border: 1px solid theme-color('background') !default;
+  $nav-item-trbl-padding: 0.5rem 0 !default;
+  $nav-link-trbl-padding: 0.2rem 0.5rem !default;
+  $nav-link-md-trbl-padding: 0.5rem 1.5rem !default;
+  $nav-link-md-trbl-margin: 20px !default;
+  $nav-link-lg-trbl-padding: 0.5rem 0 !default;
+  $nav-child-list-border-radius: 0 !default;
+  $nav-child-list-text-case: uppercase !default;
+  $nav-child-list-trbl-padding: 0 !default;
+  $nav-child-list-md-border: 0 none !default;
+  $nav-child-item-trbl-padding: 0.45rem 1.5rem;
+  $nav-child-item-border: 1px solid theme-color('background') !default;
+  $nav-child-item-last-child-border: none !default;
+  $nav-child-item-md-border: none !default;
+  $nav-child-link-hover-text-decoration: none !default;
+  $nav-child-list-columns-border-radius: 0 !default;
+  $nav-child-list-columns-trbl-padding: 0.75rem !default;
+  $nav-child-list-columns-md-border: none !default;
+  $nav-child-list-columns-md-trbl-margin: 0 !default;
+  $nav-column-title-text-case: uppercase !default;
+  $nav-column-title-font-weight: bold !default;
+  $nav-column-title-trbl-padding: 0.25rem 1.5rem !default;
+  $nav-child-column-trbl-margin: 0 3rem 0 0 !default;
+  $nav-child-column-md-trbl-margin: 1rem unset 0 0 !default;
+  $nav-child-column-item-trbl-padding: 0.25rem 1.5rem !default;
+
+  //navigation styles
+  &__list {
+    display: flex;
+    justify-content: space-between;
+    padding: $nav-list-trbl-padding;
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+      background-color: theme-color('inverse');
+    }
+  }
+  &__item {
+    @include media-breakpoint-down(md) {
+      border-bottom: $nav-item-border;
+      padding: $nav-item-trbl-padding;
+    }
+  }
+  &__link {
+    color: theme-color('inverse');
+    text-transform: $nav-text-case;
+    padding: $nav-link-trbl-padding;
+    &:focus {
+      color: theme-color('primary');
+    }
+    &:hover {
+      color: theme-color('primary');
+    }
+    @include media-breakpoint-down(md) {
+      color: theme-color('text');
+      display: flex;
+      justify-content: space-between;
+      padding: $nav-link-md-trbl-padding;
+      &::after {
+        margin-right: $nav-link-md-trbl-margin;
+      }
+    }
+    @include media-breakpoint-only(lg) {
+      padding: $nav-link-lg-trbl-padding;
+    }
+  }
+  &__child-list {
+    border-radius: $nav-child-list-border-radius;
+    text-transform: $nav-child-list-text-case;
+    padding: $nav-child-list-trbl-padding;
+    @include media-breakpoint-down(md) {
+      position: relative;
+      border: $nav-child-list-md-border;
+      width: 100%;
+      top: 0 !important;
+    }
+  }
+  &__child-item {
+    padding: $nav-child-item-trbl-padding;
+    border-bottom: $nav-child-item-border;
+    &:hover {
+      background-color: theme-color('clear');
+    }
+    &:last-child {
+      border-bottom: $nav-child-item-last-child-border;
+    }
+    @include media-breakpoint-down(md) {
+      border-bottom: $nav-child-item-md-border;
+    }
+  }
+  &__child-link {
+    color: theme-color('text');
+    font-size: $small-font-size;
+    &:hover {
+      color: theme-color('primary');
+      text-decoration: $nav-child-link-hover-text-decoration;
+    }
+  }
+  &__child-list-columns {
+    border-radius: $nav-child-list-columns-border-radius;
+    padding: $nav-child-list-columns-trbl-padding;
+    &.show {
+      display: flex;
+    }
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+      position: static;
+      width: 100%;
+      border: $nav-child-list-columns-md-border;
+      margin: $nav-child-list-columns-md-trbl-margin;
+    }
+  }
+  //column option
+  &__column-title {
+    text-transform: $nav-column-title-text-case;
+    font-weight: $nav-column-title-font-weight;
+    font-size: $small-font-size;
+    display: block;
+    width: 100%;
+    padding: $nav-column-title-trbl-padding;
+  }
+  &__child-column {
+    margin-right: $nav-child-column-trbl-margin;
+    @include media-breakpoint-down(md) {
+      margin: $nav-child-column-md-trbl-margin;
+    }
+  }
+  &__child-column-item {
+    padding: $nav-child-column-item-trbl-padding;
+    font-size: $small-font-size;
+    &:hover {
+      background-color: theme-color('clear');
+    }
+  }
 }

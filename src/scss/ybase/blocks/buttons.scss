@@ -1,0 +1,36 @@
+@import "theme.scss";
+@import "~bootstrap/scss/buttons";
+
+//buttons - https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss#L348
+.btn {
+  text-transform: $btn-text-transform;
+}
+.btn-action {
+  @extend .btn-outline-text;
+}
+.btn[aria-pressed="true"] {
+  @extend .btn.active;
+  &.btn-primary {
+    @extend .btn-primary;
+  }
+  &.btn-secondary {
+    @extend .btn-secondary;
+  }
+  &.btn-action {
+    @extend .btn-action;
+  }
+}
+
+.btn[aria-disabled="true"] {
+  @extend .btn.disabled;
+  cursor: auto !important;
+  &.btn-primary {
+    @extend .btn-primary.disabled;
+  }
+  &.btn-secondary {
+    @extend .btn-secondary.disabled;
+  }
+  &.btn-action {
+    @extend .btn-action.disabled;
+  }
+}

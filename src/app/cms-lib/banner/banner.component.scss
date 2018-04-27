@@ -1,8 +1,19 @@
-picture {
-    &.responsive-banner {
-        img {
-            width: 100%;
-            display: block;
-        }
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+.y-logo {
+  //logo variables
+  $logo-mobile-size: 80% !default;
+  $logo-max-width: 100% !default;
+  $logo-color: theme-color('inverse') !default;
+
+  //logo styles
+  color: $logo-color;
+  &__image {
+    max-width: $logo-max-width;
+    @include media-breakpoint-down(md) {
+      width: $logo-mobile-size;
     }
+  }
 }

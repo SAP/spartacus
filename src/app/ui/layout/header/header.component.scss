@@ -1,15 +1,153 @@
-.top-header {
-    position: fixed;
-    z-index: 100;
-    background-color: #fff;
-    width: 100%;
-    height: 60px;
-    top:0;
+@import 'theme';
+@import 'functions';
+@import 'mixins';
 
-    mat-card {
-        padding: 10px 20px;
-    }
+//https://github.com/jonsuh/hamburgers
+$hamburger-types: (squeeze);
+$hamburger-layer-color: theme-color('inverse');
+@import '~hamburgers/_sass/hamburgers/hamburgers';
+
+:host {
+  @include reset;
+  background-color: theme-color('text');
+  color: theme-color('inverse');
 }
-.navigation-header {
-    margin-top: 60px;
+
+.y-header {
+  //header-variables
+  $header-skipper-position: absolute !default;
+  $header-skipper-top: 0 !default;
+  $header-skipper-left: 0 !default;
+  $header-trbl-margin: 0 auto !default;
+  $header-border-bottom: 1px solid $gray !default;
+  $header-bar-height: none !default;
+  $header-font-weight: 300 !default;
+  $header-separator-position: absolute !default;
+  $header-separator-position-top: 50px !default;
+  $header-separator-position-left: 0 !default;
+  $header-separator-width: 100vw !default;
+  $header-top-height: 50px !default;
+  $header-middle-height: 100px !default;
+  $header-middle-height-md: 60px !default;
+  $header-mobile-menu-position: absolute !default;
+  $header-mobile-menu-position-left: 0 !default;
+  $header-mobile-menu-transition: left 0.2s ease-in !default;
+  $header-mobile-menu-z-index: 100 !default;
+  $header-mobile-menu-width: 100% !default;
+  $header-mobile-menu-position-left-hidden: -1000vh !default;
+  $header-logo-trbl-margin-md: 0 0 0 80px;
+  $header-account-trbl-margin: 0 0 0 auto;
+  $header-search-trbl-margin: 0 0 0 5rem;
+  $header-search-trbl-margin-md: 0;
+  $header-control-position-md: absolute;
+  $header-control-position-md-top: 0;
+
+  //header styles
+  margin: $header-trbl-margin;
+  max-height: $header-bar-height;
+  overflow: visible;
+  @include media-breakpoint-up(lg) {
+    @include make-container-max-widths;
+    &:before {
+      content: '';
+      position: $header-separator-position;
+      border-bottom: $header-border-bottom;
+      width: $header-separator-width;
+      left: $header-separator-position-left;
+      top: $header-separator-position-top;
+    }
+  }
+  &__skipper {
+    position: $header-skipper-position;
+    top: $header-skipper-top;
+    left: $header-skipper-left;
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    height: $header-top-height;
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
+  &__middle {
+    display: flex;
+    height: $header-middle-height;
+    @include media-breakpoint-down(md) {
+      justify-content: space-between;
+      height: $header-middle-height-md;
+    }
+  }
+  &__logo {
+    align-self: center;
+    @include media-breakpoint-down(md) {
+      margin: $header-logo-trbl-margin-md;
+    }
+  }
+  &__search {
+    align-self: center;
+    margin: $header-search-trbl-margin;
+    @include media-breakpoint-down(md) {
+      margin: $header-search-trbl-margin-md;
+    }
+  }
+  &__account {
+    align-self: center;
+    margin: $header-account-trbl-margin;
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
+  &__cart {
+    align-self: center;
+    @include media-breakpoint-down(md) {
+      align-self: stretch;
+    }
+  }
+  &__addtl {
+    align-self: center;
+    @include media-breakpoint-down(md) {
+      @include sr-only();
+    }
+  }
+  &__locale {
+    align-self: center;
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
+  &__form {
+  }
+  &__categories {
+    align-self: center;
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
+  &__control {
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+    @include media-breakpoint-down(md) {
+      position: $header-control-position-md;
+      top: $header-control-position-md-top;
+    }
+  }
+  &__mobile {
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+    @include media-breakpoint-down(md) {
+      position: $header-mobile-menu-position;
+      left: $header-mobile-menu-position-left;
+      background-color: theme-color('inverse');
+      transition: $header-mobile-menu-transition;
+      z-index: $header-mobile-menu-z-index;
+      width: $header-mobile-menu-width;
+      &[aria-hidden='true'] {
+        left: $header-mobile-menu-position-left-hidden;
+      }
+    }
+  }
 }

@@ -1,0 +1,9 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+:host {
+  @include reset;
+  background: theme-color('dark');
+  color: color('white');
+}

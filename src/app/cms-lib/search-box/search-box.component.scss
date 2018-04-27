@@ -1,24 +1,79 @@
-mat-input-container {
-  width: 100%;
-  input {
-    width: 100%;
-  }
-}
+//style with variables
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+@import '~bootstrap/scss/forms';
+@import '~bootstrap/scss/nav';
 
-.option {
-  height: 100px !important;
-  .picture {
-    width: 96px;
-    height: 96px;
-    margin-right: 24px;
-  }
+.y-search-box {
+  //search-box variables
+  $search-box-group-trbl-margin: auto !default;
+  $search-box-input-border: 0 none !default;
+  $search-box-input-width-xl: 22rem !default;
+  $search-box-input-width-lg: 18rem !default;
+  $search-box-input-width-md: 19rem !default;
+  $search-box-input-width-sm: 7rem !default;
+  $search-box-input-width-xs: auto !default;
+  $search-box-input-radius: 0 !default;
+  $search-box-input-trbl-padding: 0 !default;
+  $search-box-button-border: 0 none !default;
+  $search-box-search-icon-width: 28px !default;
+  $search-box-search-icon-height: 28px !default;
 
-  .productPrice {
+  //search-box styles
+  &__group {
+    background-color: $gray;
+    padding: $search-box-input-trbl-padding;
     display: flex;
-    align-items: right;
-    margin-right: -200px;
+    margin: $search-box-group-trbl-margin;
+    @include media-breakpoint-down(xs) {
+      background-color: transparent;
+    }
   }
-}
-.suggestion {
-  margin: 0 10px 0 0;
+  &__form {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  &__input {
+    @include media-breakpoint-down(xs) {
+      display: none;
+    }
+    @include placeholder {
+      color: theme-color('inverse');
+    }
+    background-color: theme-color('clear');
+    border: $search-box-input-border;
+    border-radius: $search-box-input-radius;
+    color: theme-color('inverse');
+    &[aria-label='search'] {
+      @include media-breakpoint-down(xl) {
+        width: $search-box-input-width-xl;
+      }
+      @include media-breakpoint-down(lg) {
+        width: $search-box-input-width-lg;
+      }
+      @include media-breakpoint-down(md) {
+        width: $search-box-input-width-md;
+      }
+      @include media-breakpoint-down(sm) {
+        width: $search-box-input-width-sm;
+      }
+      @include media-breakpoint-down(xs) {
+        width: $search-box-input-width-xs;
+      }
+    }
+    &[aria-label='search']:focus {
+      background-color: theme-color('clear');
+    }
+  }
+  &__button {
+    border: $search-box-button-border;
+    background-color: theme-color('clear');
+  }
+  &__icon {
+    width: $search-box-search-icon-width;
+    height: $search-box-search-icon-height;
+    fill: theme-color('inverse');
+    pointer-events: none;
+  }
 }

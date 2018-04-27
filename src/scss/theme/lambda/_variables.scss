@@ -1,0 +1,16 @@
+
+
+$success: #73cb11;
+$warning: #feb33a;
+$danger: #c40002;
+$info: #3fa3ff;
+
+$theme-colors: (
+  "brand": #900,
+  "danger": pink
+);
+$grid-gutter-width: 30px;
+
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/mixins";

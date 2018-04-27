@@ -1,16 +1,19 @@
-<mat-card class="footer">
-    <div fxLayout="row" fxLayoutAlign="start stretch">
-
-        <mat-nav-list *ngFor="let child of node.childs">
-            <h3 mat-subheader>{{child.title}}</h3>
-            <!-- TODO: Need to Refactor this as well -->
-            <a mat-list-item *ngFor="let link of child.childs" [href]="link.url" [target]="link.target === true ? 'blank':'self'">{{ link.title }}</a>
-        </mat-nav-list>
-
+<nav class="y-footer-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-4 col-md-3" *ngFor="let child of node.childs">
+                <div class="y-footer-navigation__container">
+                    <h1 class="y-footer-navigation__title">{{child.title}}</h1>
+                    <ul class="y-footer-navigation__list">
+                        <li class="y-footer-navigation__item" *ngFor="let link of child.childs">
+                            <a class="y-footer-navigation__link" [href]="link.url" [target]="link.target === true ? 'blank':'self'">{{ link.title }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-
-</mat-card>
-
-<div class="notice">
+</nav>
+<div class="y-footer-navigation__notice">
     {{component?.notice}}
 </div>

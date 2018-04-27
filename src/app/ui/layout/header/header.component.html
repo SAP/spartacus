@@ -2,6 +2,7 @@
 <y-cookie-confirmation></y-cookie-confirmation>
 -->
 
+<!--
 <div id="top" class="top-header">
     <mat-card fxLayout="row" fxLayoutAlign="start start">
         <y-dynamic-slot position="SiteLogo" fxFlex></y-dynamic-slot>
@@ -17,12 +18,67 @@
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 
-<!--
-    The HomepageNavLink is a mistake in the sample data...
-    <y-dynamic-slot position="HomepageNavLink" ></y-dynamic-slot>
--->
-
 <div class="navigation-header">
     <y-dynamic-slot position="NavigationBar"></y-dynamic-slot>
     <y-dynamic-slot position="BottomHeader"></y-dynamic-slot>
 </div>
+-->
+
+<!-- next is from UI -->
+<header class="y-header">
+    <nav class="y-header__skipper">
+        <a class="sr-only sr-only-focusable" href="#header-categories-container">Skip to navigation</a>
+        <a class="sr-only sr-only-focusable" href="#mini-cart">Skip to shopping cart</a>
+        <a class="sr-only sr-only-focusable" href="#main-content">Skip to main content</a>
+        <a class="sr-only sr-only-focusable" href="#footer">Skip to Footer</a>
+    </nav>
+        
+    <nav class="y-header__top">
+    <div class="y-header__locale" id="header-locale-container">
+        <form class="y-header__form">
+            <y-language-selector></y-language-selector>
+            <y-currency-selector></y-currency-selector>
+        </form>
+    </div>
+    <div class="y-header__addtl">
+        <!--
+        <y-tertiary-bar></y-tertiary-bar>
+        -->
+    </div>
+    </nav>
+        
+    <nav class="y-header__middle">
+    <div class="y-header__logo">
+        <y-dynamic-slot position="SiteLogo" fxFlex></y-dynamic-slot>
+    </div>
+    <div class="y-header__search">
+        <y-dynamic-slot position="SearchBox" fxFlex="50%"></y-dynamic-slot>
+    </div>
+    <div class="y-header__account" id="header-account-container"  [attr.aria-hidden]="!showMenu">
+        <y-login></y-login>
+    </div>
+    <div class="y-header__cart">
+        <y-dynamic-slot position="MiniCart" fxLayout="row" fxLayoutAlign="start start"></y-dynamic-slot>
+    </div>
+    </nav>
+
+    <nav class="y-header__categories" id="header-categories-container" >
+        <y-dynamic-slot position="NavigationBar"></y-dynamic-slot>
+        <y-dynamic-slot position="BottomHeader"></y-dynamic-slot>
+    </nav>
+    
+    <div class="y-header__control">
+    <button class="hamburger hamburger--squeeze" type="button" (click)="showMenu = !showMenu" [ngClass]="{ 'is-active': showMenu }" [attr.aria-expanded]="showMenu" aria-label="Menu" aria-controls="header-account-container, header-categories-container, header-locale-container">
+        <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+        </span>
+    </button>
+    </div>
+
+    <div class="y-header__mobile" [attr.aria-hidden]="!showMenu">
+        <!--
+        <y-mobile-menu></y-mobile-menu>
+        -->
+    </div>
+        
+</header>

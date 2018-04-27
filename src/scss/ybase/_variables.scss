@@ -1,0 +1,15 @@
+@import "~bootstrap/scss/variables";
+
+$font-weight-semi: 600 !default;
+$btn-text-transform: uppercase !default;
+
+//set defaults for type size and weights
+$type: () !default;
+$type: map-merge((
+  "1": $h1-font-size $headings-font-weight,
+  "2": $h2-font-size $headings-font-weight,
+  "3": $h3-font-size $headings-font-weight,
+  "4": $h4-font-size $headings-font-weight,
+  "5": $h5-font-size $headings-font-weight,
+  "6": $h6-font-size $headings-font-weight,
+), $type);

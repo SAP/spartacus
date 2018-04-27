@@ -1,25 +1,38 @@
-@import '../../../theme';
-@include mat-core();
+@import 'theme';
+@import 'functions';
+@import 'mixins';
 
+.y-mini-cart {
+  //mini-cart variables
+  $minicart-button-height: 50px !default;
+  $minicart-button-border-radius: 0 !default;
+  $minicart-button-md-height: 60px !default;
+  $minicart-button-md-trbl-padding: 0.5rem 0.75rem 0 0.75rem !default;
+  $minicart-icon-width: 25px !default;
+  $minicart-count-trbl-margin: 0 0 0 0.35rem !default;
 
-@media screen and (max-width: 480px) {
-    fxHide.xs {
-        display: none;
+  //mini-cart styles
+  &__button {
+    background-color: theme-color('primary');
+    position: relative;
+    color: theme-color('inverse');
+    height: $minicart-button-height;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: $minicart-button-border-radius;
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+      height: $minicart-button-md-height;
+      padding: $minicart-button-md-trbl-padding;
     }
-}
-
-
-.entry-quantity {
-    background-color: mat-color($accent);
-    font-size: 10px;
-    display: block;
-    width: 15px;
-    height: 15px;
-    padding: 2px;
-    position: absolute;
-    line-height: 15px;
-    border-radius: 20px;
-    margin-top: -5px;
-    margin-left: 18px;
-    color: #fff;
+  }
+  &__icon {
+    width: $minicart-icon-width;
+    fill: currentColor;
+    pointer-events: none;
+  }
+  &__count {
+    margin: $minicart-count-trbl-margin;
+  }
 }

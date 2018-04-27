@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LOCALE_ID } from '@angular/core';
 
 import { ConfigService } from './config.service';
@@ -30,6 +31,7 @@ import { CheckoutModule } from './checkout/checkout.module';
     CmsLibModule,
     UiModule,
     UiFrameworkModule,
+    NgbModule.forRoot(),
 
     CmsModule.forRoot(ConfigService),
     SiteContextModule.forRoot(ConfigService),

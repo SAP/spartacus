@@ -1,0 +1,44 @@
+//had to add this line for BS4 to kick in,
+//then maybe get rid of bootstrap-css-only dependency
+//having the full bs4 dependency could be an issue due to bootstrap.js
+//need to be careful no to use it
+
+
+//i could delete these below and nothing happens
+@import "functions";
+@import "mixins";
+
+//CONFIGURE APP THEME AND FONTS
+//bring in theme (fallback to variables if no theme)
+//@import "variables";
+@import "theme";
+//fonts must be added separate from the theme
+@import "fonts";
+
+//bootsrap modules (these are things we are not changing at all)
+@import "~bootstrap/scss/root",
+  "~bootstrap/scss/reboot",
+  "~bootstrap/scss/type",
+  "~bootstrap/scss/grid",
+  "~bootstrap/scss/utilities",
+  "~bootstrap/scss/transitions";
+
+//cleanup this below later
+//@import '~bootstrap/scss/forms';
+//@import '~bootstrap/scss/nav';
+//@import '~bootstrap/scss/navbar';
+//@import '~bootstrap/scss/dropdown';
+  // @import '~bootstrap/scss/bootstrap';
+
+//bootsrap enhancements (these are things we are changing)
+@import "blocks/buttons";
+@import "blocks/forms";
+@import "blocks/modal";
+@import "blocks/alert";
+
+//layout
+@import "layout/app";
+@import "layout/page";
+@import "layout/section";
+
+//non-bootstrap blocks and components
