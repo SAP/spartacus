@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 
-const packageJson = require('../../package.json');
-
 export enum StorageSyncType {
   NO_STORAGE,
   LOCAL_STORAGE,
@@ -11,8 +9,7 @@ export enum StorageSyncType {
 @Injectable()
 export class ConfigService {
   server = {
-    baseUrl:
-      'https://' + packageJson.config.host + ':' + packageJson.config.port,
+    baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
   };
 

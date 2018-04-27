@@ -3,14 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "angular-cli": {},
-  "config": {
-    "host": "localhost",
-    "port": "9002"
-  },
   "scripts": {
     "ng": "ng",
-    "start":
-      "ng serve --host $npm_package_config_host --proxy-config proxy.conf.json",
+    "start": "ng serve",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

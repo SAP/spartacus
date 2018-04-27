@@ -1,8 +1,0 @@
-{
-  "/medias": {
-    "target": "https://$npm_package_config_host:$npm_package_config_port",
-    "secure": false,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  }
-}
