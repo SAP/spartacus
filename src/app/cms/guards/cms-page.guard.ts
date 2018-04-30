@@ -22,6 +22,8 @@ import { DefaultPageService } from './../services/default-page.service';
 
 @Injectable()
 export class CmsPageGuards implements CanActivate {
+  static guardName = 'CmsPageGuards';
+
   constructor(
     private store: Store<fromStore.CmsState>,
     private routingStore: Store<fromRouting.State>,

@@ -191,4 +191,10 @@ describe('AddressFormComponent', () => {
     component.notSelected('someName');
     expect(component.address.get).toHaveBeenCalledWith('someName');
   });
+
+  it('should call toggleDefaultAddress()', () => {
+    component.address.value.defaultAddress = false;
+    component.toggleDefaultAddress();
+    expect(component.address.value.defaultAddress).toBeTruthy();
+  });
 });
