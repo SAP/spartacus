@@ -1,4 +1,4 @@
-<div class="content" *ngIf="existingPaymentMethods && !newPayment;else paymentForm">
+<div class="content" *ngIf="existingPaymentMethods.length > 0 && !newPayment;else paymentForm">
     <h3>Payment Methods</h3>
     <div *ngFor="let method of existingPaymentMethods">
         <div *ngIf="method.defaultPayment">
