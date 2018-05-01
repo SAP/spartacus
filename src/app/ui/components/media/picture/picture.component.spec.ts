@@ -8,9 +8,8 @@ describe('PictureComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PictureComponent ]
-    })
-    .compileComponents();
+      declarations: [PictureComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,5 +20,20 @@ describe('PictureComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call ngOnInit() with valid image url', () => {
+    const mockImageContainer = { product: { url: 'mockProductImageUrl' } };
+    component.imageContainer = mockImageContainer;
+
+    component.ngOnInit();
+
+    expect(component.mainImage).toEqual('mockProductImageUrl');
+  });
+
+  it('should call ngOnInit() with invalid image url', () => {
+    component.ngOnInit();
+
+    expect(component.mainImage).toEqual(undefined);
   });
 });

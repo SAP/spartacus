@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import * as fromActions from './../actions';
+import * as fromUserActions from '../../../user/store/actions';
+
 import { Observable } from 'rxjs/Observable';
 import { Actions, Effect } from '@ngrx/effects';
-import { map, catchError, mergeMap, tap } from 'rxjs/operators';
+import { map, catchError, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
@@ -20,21 +22,45 @@ export class CheckoutEffects {
         this.occCartService
           .createAddressOnCart(payload.userId, payload.cartId, payload.address)
           .pipe(
-            tap(address => {
-              return this.occCartService.setDeliveryAddress(
-                payload.userId,
-                payload.cartId,
-                address.id
-              );
-            }),
-            map(address => {
+            mergeMap(address => {
               address['titleCode'] = payload.address.titleCode;
-              return new fromActions.AddDeliveryAddressSuccess(address)}),
+              return [
+                new fromUserActions.LoadUserAddresses(payload.userId),
+                new fromActions.SetDeliveryAddress({
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                  address: address
+                })
+              ];
+            }),
             catchError(error =>
               of(new fromActions.AddDeliveryAddressFail(error))
             )
           )
       )
+    );
+
+  @Effect()
+  setDeliveryAddress$: Observable<any> = this.actions$
+    .ofType(fromActions.SET_DELIVERY_ADDRESS)
+    .pipe(
+      map((action: any) => action.payload),
+      mergeMap(payload => {
+        return this.occCartService
+          .setDeliveryAddress(
+            payload.userId,
+            payload.cartId,
+            payload.address.id
+          )
+          .pipe(
+            map(
+              () => new fromActions.SetDeliveryAddressSuccess(payload.address)
+            ),
+            catchError(error =>
+              of(new fromActions.SetDeliveryAddressFail(error))
+            )
+          );
+      })
     );
 
   @Effect()
@@ -112,12 +138,16 @@ export class CheckoutEffects {
                           fromPaymentProvider
                         )
                         .pipe(
-                          map(
-                            details =>
+                          mergeMap(details => {
+                            return [
+                              new fromUserActions.LoadUserPaymentMethods(
+                                payload.userId
+                              ),
                               new fromActions.CreatePaymentDetailsSuccess(
                                 details
                               )
-                          ),
+                            ];
+                          }),
                           catchError(error =>
                             of(new fromActions.CreatePaymentDetailsFail(error))
                           )
@@ -131,6 +161,30 @@ export class CheckoutEffects {
                     }
                   })
                 )
+            )
+          );
+      })
+    );
+
+  @Effect()
+  setPaymentDetails$: Observable<any> = this.actions$
+    .ofType(fromActions.SET_PAYMENT_DETAILS)
+    .pipe(
+      map((action: any) => action.payload),
+      mergeMap(payload => {
+        return this.occCartService
+          .setPaymentDetails(
+            payload.userId,
+            payload.cartId,
+            payload.paymentDetails.id
+          )
+          .pipe(
+            map(
+              () =>
+                new fromActions.SetPaymentDetailsSuccess(payload.paymentDetails)
+            ),
+            catchError(error =>
+              of(new fromActions.SetPaymentDetailsFail(error))
             )
           );
       })

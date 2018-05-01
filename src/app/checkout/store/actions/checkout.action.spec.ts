@@ -57,6 +57,44 @@ describe('Checkout Actions', () => {
     });
   });
 
+  describe('SetDeliveryAddress', () => {
+    it('should create the action', () => {
+      const payload = {
+        userId: userId,
+        cartId: cartId,
+        address: address
+      };
+
+      const action = new fromAction.SetDeliveryAddress(payload);
+      expect({ ...action }).toEqual({
+        type: fromAction.SET_DELIVERY_ADDRESS,
+        payload: payload
+      });
+    });
+  });
+
+  describe('SetDeliveryAddressFail', () => {
+    it('should create the action', () => {
+      const error = 'anError';
+      const action = new fromAction.SetDeliveryAddressFail(error);
+
+      expect({ ...action }).toEqual({
+        type: fromAction.SET_DELIVERY_ADDRESS_FAIL,
+        payload: error
+      });
+    });
+  });
+
+  describe('SetDeliveryAddressSuccess', () => {
+    it('should create the action', () => {
+      const action = new fromAction.SetDeliveryAddressSuccess(address);
+      expect({ ...action }).toEqual({
+        type: fromAction.SET_DELIVERY_ADDRESS_SUCCESS,
+        payload: address
+      });
+    });
+  });
+
   describe('Load Supported Delivery Modes from Cart', () => {
     describe('LoadSupportedDeliveryModes', () => {
       it('should create the action', () => {
@@ -172,6 +210,46 @@ describe('Checkout Actions', () => {
         );
         expect({ ...action }).toEqual({
           type: fromAction.CREATE_PAYMENT_DETAILS_SUCCESS,
+          payload: paymentDetails
+        });
+      });
+    });
+  });
+
+  describe('Set Payment Details for Cart', () => {
+    describe('SetPaymentDetails', () => {
+      it('should create the action', () => {
+        const payload = {
+          userId: userId,
+          cartId: cartId,
+          paymentDetails: paymentDetails
+        };
+
+        const action = new fromAction.SetPaymentDetails(payload);
+        expect({ ...action }).toEqual({
+          type: fromAction.SET_PAYMENT_DETAILS,
+          payload: payload
+        });
+      });
+    });
+
+    describe('SetPaymentDetailsFail', () => {
+      it('should create the action', () => {
+        const error = 'anError';
+        const action = new fromAction.SetPaymentDetailsFail(error);
+
+        expect({ ...action }).toEqual({
+          type: fromAction.SET_PAYMENT_DETAILS_FAIL,
+          payload: error
+        });
+      });
+    });
+
+    describe('SetPaymentDetailsSuccess', () => {
+      it('should create the action', () => {
+        const action = new fromAction.SetPaymentDetailsSuccess(paymentDetails);
+        expect({ ...action }).toEqual({
+          type: fromAction.SET_PAYMENT_DETAILS_SUCCESS,
           payload: paymentDetails
         });
       });

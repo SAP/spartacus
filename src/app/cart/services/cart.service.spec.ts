@@ -70,7 +70,8 @@ describe('CartService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.LoadCart({
           userId: userToken.userId,
-          cartId: cart.code
+          cartId: cart.code,
+          details: true
         })
       );
     });
@@ -94,6 +95,26 @@ describe('CartService', () => {
       expect(service.cart).toEqual({});
       expect(service.userId).toBe('anonymous');
     });
+  });
+
+  describe('Load cart details', () => {
+    it(
+      'should be able to load cart with more details',
+      inject([CartService], (cartService: CartService) => {
+        cartService.userId = userId;
+        cartService.cart = cart;
+
+        service.loadCartDetails();
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromCart.LoadCart({
+            userId: userId,
+            cartId: cart.code,
+            details: true
+          })
+        );
+      })
+    );
   });
 
   describe('add CartEntry', () => {
@@ -131,6 +152,37 @@ describe('CartService', () => {
           cartId: cart.code,
           productCode: productCode,
           quantity: 2
+        })
+      );
+    });
+  });
+
+  describe('update CartEntry', () => {
+    it('should be able to updateCartEntry with quantity <> 0', () => {
+      service.userId = userId;
+      service.cart = cart;
+      service.updateCartEntry('1', 1);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromCart.UpdateEntry({
+          userId: userId,
+          cartId: cart.code,
+          entry: '1',
+          qty: 1
+        })
+      );
+    });
+
+    it('should be able to updateCartEntry with quantity = 0', () => {
+      service.userId = userId;
+      service.cart = cart;
+      service.updateCartEntry('1', 0);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromCart.RemoveEntry({
+          userId: userId,
+          cartId: cart.code,
+          entry: '1'
         })
       );
     });

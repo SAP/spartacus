@@ -6,6 +6,11 @@ export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
 export const ADD_DELIVERY_ADDRESS_SUCCESS =
   '[Checkout] Add Delivery Address Success';
 
+export const SET_DELIVERY_ADDRESS = '[Checkout] Set Delivery Address';
+export const SET_DELIVERY_ADDRESS_FAIL = '[Checkout] Set Delivery Address Fail';
+export const SET_DELIVERY_ADDRESS_SUCCESS =
+  '[Checkout] Set Delivery Address Success';
+
 export const LOAD_SUPPORTED_DELIVERY_MODES =
   '[Checkout] Load Supported Delivery Modes';
 export const LOAD_SUPPORTED_DELIVERY_MODES_FAIL =
@@ -24,6 +29,11 @@ export const CREATE_PAYMENT_DETAILS_FAIL =
   '[Checkout] Create Payment Details Fail';
 export const CREATE_PAYMENT_DETAILS_SUCCESS =
   '[Checkout] Create Payment Details Success';
+
+export const SET_PAYMENT_DETAILS = '[Checkout] Set Payment Details';
+export const SET_PAYMENT_DETAILS_FAIL = '[Checkout] Set Payment Details Fail';
+export const SET_PAYMENT_DETAILS_SUCCESS =
+  '[Checkout] Set Payment Details Success';
 
 export const PLACE_ORDER = '[Checkout] Place Order';
 export const PLACE_ORDER_FAIL = '[Checkout] Place Order Fail';
@@ -45,6 +55,21 @@ export class AddDeliveryAddressFail implements Action {
 export class AddDeliveryAddressSuccess implements Action {
   readonly type = ADD_DELIVERY_ADDRESS_SUCCESS;
   constructor(public payload: Address) {}
+}
+
+export class SetDeliveryAddress implements Action {
+  readonly type = SET_DELIVERY_ADDRESS;
+  constructor(public payload: { userId: any; cartId: any; address: any }) {}
+}
+
+export class SetDeliveryAddressFail implements Action {
+  readonly type = SET_DELIVERY_ADDRESS_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class SetDeliveryAddressSuccess implements Action {
+  readonly type = SET_DELIVERY_ADDRESS_SUCCESS;
+  constructor(public payload: any) {}
 }
 
 export class LoadSupportedDeliveryModes implements Action {
@@ -96,6 +121,23 @@ export class CreatePaymentDetailsSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class SetPaymentDetails implements Action {
+  readonly type = SET_PAYMENT_DETAILS;
+  constructor(
+    public payload: { userId: any; cartId: any; paymentDetails: any }
+  ) {}
+}
+
+export class SetPaymentDetailsFail implements Action {
+  readonly type = SET_PAYMENT_DETAILS_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class SetPaymentDetailsSuccess implements Action {
+  readonly type = SET_PAYMENT_DETAILS_SUCCESS;
+  constructor(public payload: any) {}
+}
+
 export class PlaceOrder implements Action {
   readonly type = PLACE_ORDER;
   constructor(public payload: { userId: string; cartId: string }) {}
@@ -128,6 +170,9 @@ export type CheckoutAction =
   | AddDeliveryAddress
   | AddDeliveryAddressFail
   | AddDeliveryAddressSuccess
+  | SetDeliveryAddress
+  | SetDeliveryAddressFail
+  | SetDeliveryAddressSuccess
   | LoadSupportedDeliveryModes
   | LoadSupportedDeliveryModesFail
   | LoadSupportedDeliveryModesSuccess
@@ -138,6 +183,9 @@ export type CheckoutAction =
   | CreatePaymentDetails
   | CreatePaymentDetailsFail
   | CreatePaymentDetailsSuccess
+  | SetPaymentDetails
+  | SetPaymentDetailsFail
+  | SetPaymentDetailsSuccess
   | PlaceOrder
   | PlaceOrderFail
   | PlaceOrderSuccess

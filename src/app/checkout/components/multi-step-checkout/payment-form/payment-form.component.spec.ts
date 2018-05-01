@@ -16,6 +16,7 @@ import * as fromUser from '../../../../user/store';
 
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
+import { RouterTestingModule } from '@angular/router/testing';
 
 export class MockAbstractControl {
   hasError() {
@@ -43,6 +44,15 @@ const mockCardTypes = {
   ]
 };
 
+const paymentDetails = {
+  accountHolderName: 'Name',
+  cardNumber: '123456789',
+  cardType: 'Visa',
+  expiryMonth: '01',
+  expiryYear: '2022',
+  cvn: '123'
+};
+
 describe('PaymentFormComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: PaymentFormComponent;
@@ -52,28 +62,27 @@ describe('PaymentFormComponent', () => {
   let fb: FormBuilder;
   let ac: AbstractControl;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers),
-            checkout: combineReducers(fromCheckout.reducers)
-          })
-        ],
-        declarations: [PaymentFormComponent],
-        providers: [
-          CheckoutService,
-          CartService,
-          { provide: FormGroup, useClass: MockFormGroup },
-          { provide: AbstractControl, useClass: MockAbstractControl }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers),
+          checkout: combineReducers(fromCheckout.reducers)
+        })
+      ],
+      declarations: [PaymentFormComponent],
+      providers: [
+        CheckoutService,
+        CartService,
+        { provide: FormGroup, useClass: MockFormGroup },
+        { provide: AbstractControl, useClass: MockAbstractControl }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentFormComponent);
@@ -113,11 +122,37 @@ describe('PaymentFormComponent', () => {
     });
   });
 
+  it('should call paymentMethodSelected(paymentDetails)', () => {
+    component.paymentMethodSelected(paymentDetails);
+    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
+      payment: paymentDetails,
+      newPayment: false
+    });
+  });
+
+  it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
+    component.payment.value.defaultPayment = false;
+    component.toggleDefaultPaymentMethod();
+    expect(component.payment.value.defaultPayment).toBeTruthy();
+  });
+
+  it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
+    component.payment.value.defaultPayment = true;
+    component.toggleDefaultPaymentMethod();
+    expect(component.payment.value.defaultPayment).toBeFalsy();
+  });
+
+  it('should call addNewPaymentMethod()', () => {
+    component.addNewPaymentMethod();
+    expect(component.newPayment).toBeTruthy();
+  });
+
   it('should call next()', () => {
     component.next();
-    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith(
-      component.payment.value
-    );
+    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
+      payment: component.payment.value,
+      newPayment: true
+    });
   });
 
   it('should call back()', () => {

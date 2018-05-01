@@ -20,8 +20,10 @@ const BASIC_PARAMS =
   'entries(totalPrice(formattedValue),product(images(FULL)))';
 
 const DETAILS_PARAMS =
-  'DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),totalTax(formattedValue),' +
-  'totalPriceWithTax(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';
+  'DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,' +
+  'entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue)),' +
+  'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(formattedValue),subTotal(formattedValue),' +
+  'deliveryItemsQuantity,totalTax(formattedValue),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue)';
 
 class MockConfigService {
   server = {
@@ -199,6 +201,35 @@ describe('OccCartService', () => {
     });
   });
 
+  describe('update entry in a cart', () => {
+    it('should update an entry in a cart for given user id, cart id, entryNumber and quantitiy', () => {
+      const entryData = 'mock entry data';
+      service.updateCartEntry(userId, cartId, '12345', 5).subscribe(result => {
+        expect(result).toEqual(entryData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'PATCH' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/entries/12345'
+        );
+      });
+
+      expect(mockReq.request.headers.get('Content-Type')).toEqual(
+        'application/x-www-form-urlencoded'
+      );
+      expect(mockReq.request.params.get('qty')).toEqual('5');
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(entryData);
+    });
+  });
+
   describe('remove an entry from cart', () => {
     it('should remove entry from cart for given user id, cart id and entry number', () => {
       service.removeCartEntry(userId, cartId, '147852').subscribe(result => {
@@ -257,7 +288,11 @@ describe('OccCartService', () => {
     it('should set address for cart for given user id, cart id and address id', () => {
       const mockAddressId = 'mockAddressId';
 
-      service.setDeliveryAddress(userId, cartId, mockAddressId);
+      service
+        .setDeliveryAddress(userId, cartId, mockAddressId)
+        .subscribe(result => {
+          expect(result).toEqual(cartData);
+        });
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -275,6 +310,7 @@ describe('OccCartService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(mockReq.request.params.get('addressId')).toEqual(mockAddressId);
+      mockReq.flush(cartData);
     });
   });
 
@@ -500,6 +536,31 @@ describe('OccCartService', () => {
       );
       expect(mockReq.request.params.get('param1')).toEqual('mockParam1');
       expect(mockReq.request.params.get('param2')).toEqual('mockParam2');
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(cartData);
+    });
+  });
+
+  describe('set payment details', () => {
+    it('should set payment details for given user id, cart id and payment details id', () => {
+      service.setPaymentDetails(userId, cartId, '123').subscribe(result => {
+        expect(result).toEqual(cartData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'PUT' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/paymentdetails'
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.params.get('paymentDetailsId')).toEqual('123');
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
     });

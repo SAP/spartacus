@@ -12,7 +12,7 @@ describe('Checkout reducer', () => {
     });
   });
 
-  describe('ADD_DELIVERY_ADDRESS_SUCCESS action', () => {
+  describe('ADD_DELIVERY_ADDRESS_SUCCESS or SET_DELIVERY_ADDRESS_SUCCESS action', () => {
     it('should add delivery address', () => {
       const address: any = {
         id: 'testAddressId',
@@ -24,9 +24,23 @@ describe('Checkout reducer', () => {
 
       const { initialState } = fromCheckout;
 
-      const action = new fromActions.AddDeliveryAddressSuccess(address);
-      const state = fromCheckout.reducer(initialState, action);
-      expect(state.address).toEqual(address);
+      const addDeliveryAddressAction = new fromActions.AddDeliveryAddressSuccess(
+        address
+      );
+      const addDeliveryAddressState = fromCheckout.reducer(
+        initialState,
+        addDeliveryAddressAction
+      );
+      expect(addDeliveryAddressState.address).toEqual(address);
+
+      const setDeliveryAddressAction = new fromActions.SetDeliveryAddressSuccess(
+        address
+      );
+      const setDeliveryAddressState = fromCheckout.reducer(
+        initialState,
+        setDeliveryAddressAction
+      );
+      expect(setDeliveryAddressState.address).toEqual(address);
     });
   });
 
@@ -61,16 +75,28 @@ describe('Checkout reducer', () => {
     });
   });
 
-  describe('CREATE_PAYMENT_DETAILS_SUCCESS action', () => {
+  describe('CREATE_PAYMENT_DETAILS_SUCCESS or SET_PAYMENT_DETAILS_SUCCESS action', () => {
     it('should create payment details for cart', () => {
       const { initialState } = fromCheckout;
       const paymentDetails = 'mockPaymentDetails';
 
-      const action = new fromActions.CreatePaymentDetailsSuccess(
+      const createPaymentDetailsAction = new fromActions.CreatePaymentDetailsSuccess(
         paymentDetails
       );
-      const state = fromCheckout.reducer(initialState, action);
-      expect(state.paymentDetails).toEqual(paymentDetails);
+      const createPaymentDetailsState = fromCheckout.reducer(
+        initialState,
+        createPaymentDetailsAction
+      );
+      expect(createPaymentDetailsState.paymentDetails).toEqual(paymentDetails);
+
+      const setPaymentDetailsAction = new fromActions.SetPaymentDetailsSuccess(
+        paymentDetails
+      );
+      const setPaymentDetailsState = fromCheckout.reducer(
+        initialState,
+        setPaymentDetailsAction
+      );
+      expect(setPaymentDetailsState.paymentDetails).toEqual(paymentDetails);
     });
   });
 

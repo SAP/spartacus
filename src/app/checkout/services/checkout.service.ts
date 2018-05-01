@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../store/';
-import * as fromCartStore from '../../cart/store';
+import * as fromUserStore from '../../user/store';
 
 import { ANOYMOUS_USERID, CartService } from '../../cart/services/cart.service';
 
@@ -12,7 +12,7 @@ export class CheckoutService {
 
   constructor(
     private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
-    private cartStore: Store<fromCartStore.CartState>,
+    private userStore: Store<fromUserStore.UserState>,
     private cartService: CartService
   ) {}
 
@@ -25,21 +25,6 @@ export class CheckoutService {
             ? this.cartService.cart.guid
             : this.cartService.cart.code,
         address: address
-      })
-    );
-  }
-
-  loadCartDetails() {
-    this.cartService.getDetails = true;
-
-    this.cartStore.dispatch(
-      new fromCartStore.LoadCart({
-        userId: this.cartService.userId,
-        cartId:
-          this.cartService.userId === ANOYMOUS_USERID
-            ? this.cartService.cart.guid
-            : this.cartService.cart.code,
-        details: true
       })
     );
   }
@@ -73,7 +58,7 @@ export class CheckoutService {
     this.checkoutStore.dispatch(new fromCheckoutStore.LoadCardTypes());
   }
 
-  getPaymentDetails(paymentInfo) {
+  createPaymentDetails(paymentInfo) {
     this.checkoutStore.dispatch(
       new fromCheckoutStore.CreatePaymentDetails({
         userId: this.cartService.userId,
@@ -103,6 +88,38 @@ export class CheckoutService {
       new fromCheckoutStore.VerifyAddress({
         userId: this.cartService.userId,
         address: address
+      })
+    );
+  }
+
+  loadUserAddresses() {
+    this.userStore.dispatch(
+      new fromUserStore.LoadUserAddresses(this.cartService.userId)
+    );
+  }
+
+  setDeliveryAddress(address) {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.SetDeliveryAddress({
+        userId: this.cartService.userId,
+        cartId: this.cartService.cart.code,
+        address: address
+      })
+    );
+  }
+
+  loadUserPaymentMethods() {
+    this.userStore.dispatch(
+      new fromUserStore.LoadUserPaymentMethods(this.cartService.userId)
+    );
+  }
+
+  setPaymentDetails(paymentDetails) {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.SetPaymentDetails({
+        userId: this.cartService.userId,
+        cartId: this.cartService.cart.code,
+        paymentDetails: paymentDetails
       })
     );
   }

@@ -40,7 +40,7 @@ const mockUserDetails: any = {
   uid: 'UID'
 };
 
-describe('User effect', () => {
+describe('User Details effect', () => {
   let userDetailsEffect: fromUserDetailsEffect.UserDetailsEffects;
   let userService: OccUserService;
   let actions$: TestActions;

@@ -1,0 +1,71 @@
+
+<li class="item__list--item">
+    <!-- product image -->
+    <div class="item__image" *ngIf="entry.product.images">
+        <a [routerLink]="['/product', entry.product.code]">
+            <img [src]="entry.product.images.PRIMARY?.thumbnail?.url"/>
+        </a>
+    </div>
+
+    <!-- product name, code, promotions -->
+    <div class="item__info">
+        <a [routerLink]="['/product', entry.product.code]"><span class="item__name">{{entry.product.name}}</span></a>
+        <div class="item__code">ID: {{entry.product.code}}</div>
+
+        <!-- availability-->
+        <div class="item__stock">
+             {{ entry.product.stock?.stockLevelStatus | uppercase }}
+        </div>
+
+        <!-- promotion -->
+        <div class="promo" *ngFor="let promotion of potentialPromotions">
+            {{ promotion.description}}
+        </div>
+        <div class="promo" *ngFor="let promotion of appliedPromotions">
+            {{ promotion.description}}
+        </div>
+    </div>
+
+    <!-- price -->
+    <div class="item__price">
+        Price: <strong>{{entry.basePrice?.formattedValue}}</strong>    
+    </div>
+
+    <!-- quantity -->
+    <div class="item__quantity" [formGroup]="parent">
+        <div formArrayName="entryArry">
+            <div [formGroupName]="formGroupName">
+                <y-item-counter [value]="entry.quantity" [step]="1" [min]="0" [max]="entry.product.stock?.stockLevel || 1000" 
+                    (change)="updateEntry()" formControlName="quantity">
+                </y-item-counter>
+            </div>
+        </div>
+    </div>
+
+    <!-- delivery -->
+    <div class="item__delivery" *ngIf="entry.product.purchasable">
+        <ng-container *ngIf="entry.product.stock.stockLevelStatus !== 'outOfStock'">
+            <ng-container *ngIf="!entry.deliveryPointOfService || !entry.product.availableForPickup">
+                Shipping
+            </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="entry.deliveryPointOfService?.name">
+            PickUp
+        </ng-container>
+
+        <ng-container *ngIf="entry.product.availableForPickup && entry.deliveryPointOfService?.name">
+            {{entry.deliveryPointOfService.name}}
+        </ng-container>
+    </div>
+
+    <!-- total -->
+    <div class="item__total">
+        Total: {{entry.totalPrice.formattedValue}}
+    </div>
+
+    <!-- actions -->
+    <div>
+        <a [routerLink]="" (click)="removeEntry()">Remove</a>
+    </div>
+</li>

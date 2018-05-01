@@ -12,7 +12,7 @@ import { of } from 'rxjs/observable/of';
 import { OccCartService } from '../../../occ/cart/cart.service';
 import { ConfigService } from '../../../occ/config.service';
 import * as fromEffects from './cart-entry.effect';
-import * as fromActions from '../actions/cart-entry.action';
+import * as fromActions from '../actions';
 
 @Injectable()
 class TestActions extends Actions {
@@ -56,6 +56,7 @@ describe('Cart effect', () => {
       of({ entry: 'testEntry' })
     );
     spyOn(cartService, 'removeCartEntry').and.returnValue(of({}));
+    spyOn(cartService, 'updateCartEntry').and.returnValue(of({}));
   });
 
   describe('addEntry$', () => {
@@ -90,6 +91,23 @@ describe('Cart effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.removeEntry$).toBeObservable(expected);
+    });
+  });
+
+  describe('updateEntry$', () => {
+    it('should update an entry', () => {
+      const action = new fromActions.UpdateEntry({
+        userId: userId,
+        cartId: cartId,
+        entry: 'testEntryNumber',
+        qty: 1
+      });
+      const completion = new fromActions.UpdateEntrySuccess();
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.updateEntry$).toBeObservable(expected);
     });
   });
 });

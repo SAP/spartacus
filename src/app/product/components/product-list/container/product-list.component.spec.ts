@@ -21,44 +21,36 @@ import * as fromUser from '../../../../user/store';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
-// const mockSearchResults = {
-//  pagination: 'mockPagination'
-// };
-
-const mockEmptySearchResults = {};
-
 describe('ProductListComponent in product-list', () => {
   let store: Store<fromProduct.ProductsState>;
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          RouterTestingModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            products: combineReducers(fromProduct.reducers),
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers)
-          })
-        ],
-        declarations: [
-          ProductListComponent,
-          ProductPagingComponent,
-          ProductFacetNavigationComponent,
-          ProductGridItemComponent,
-          ProductLineItemComponent,
-          ProductListItemComponent,
-          ProductSortingComponent,
-          AddToCartComponent,
-          PictureComponent
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        RouterTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          products: combineReducers(fromProduct.reducers),
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers)
+        })
+      ],
+      declarations: [
+        ProductListComponent,
+        ProductPagingComponent,
+        ProductFacetNavigationComponent,
+        ProductGridItemComponent,
+        ProductLineItemComponent,
+        ProductListItemComponent,
+        ProductSortingComponent,
+        AddToCartComponent,
+        PictureComponent
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListComponent);
@@ -72,19 +64,36 @@ describe('ProductListComponent in product-list', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit and get search result if the result is empty', () => {
-    spyOn(store, 'select').and.returnValue(of(mockEmptySearchResults));
+  it('should call ngOnInit and get search result if the result is empty with given categoryCode', () => {
+    spyOn(store, 'select').and.returnValues(of({}, {}));
 
-    component.query = 'mockQuery';
+    component.categoryCode = 'mockCategoryCode';
+
     component.ngOnInit();
-    component.model$.subscribe(() => {
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromProduct.SearchProducts({
-          queryText: 'mockQuery',
-          searchConfig: new SearchConfig(10)
-        })
-      );
-    });
+    component.model$.subscribe();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromProduct.SearchProducts({
+        queryText: ':relevance:category:mockCategoryCode',
+        searchConfig: new SearchConfig(10)
+      })
+    );
+  });
+
+  it('should call ngOnInit and get search result if the result is empty with given brandCode', () => {
+    spyOn(store, 'select').and.returnValues(of({}, {}));
+
+    component.brandCode = 'mockBrandCode';
+
+    component.ngOnInit();
+    component.model$.subscribe();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromProduct.SearchProducts({
+        queryText: ':relevance:brand:mockBrandCode',
+        searchConfig: new SearchConfig(10)
+      })
+    );
   });
 
   it('should call ngOnChanges and get search results with category code', () => {

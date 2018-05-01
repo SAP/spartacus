@@ -11,8 +11,10 @@ const BASIC_PARAMS =
   'entries(totalPrice(formattedValue),product(images(FULL)))';
 
 const DETAILS_PARAMS =
-  'fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),totalTax(formattedValue),' +
-  'totalPriceWithTax(formattedValue),entries(totalPrice(formattedValue),product(images(FULL)))';
+  'fields=DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,' +
+  'entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue)),' +
+  'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(formattedValue),subTotal(formattedValue),' +
+  'deliveryItemsQuantity,totalTax(formattedValue),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue)';
 
 @Injectable()
 export class OccCartService {
@@ -105,6 +107,33 @@ export class OccCartService {
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
+  public updateCartEntry(
+    userId: string,
+    cartId: string,
+    entryNumber: string,
+    qty: number,
+    pickupStore?: string
+  ) {
+    const url =
+      this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
+
+    let queryString = 'qty=' + qty;
+    if (pickupStore) {
+      queryString = queryString + '&pickupStore=' + pickupStore;
+    }
+    const params = new HttpParams({
+      fromString: queryString
+    });
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.http
+      .patch(url, {}, { headers: headers, params: params })
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
   public removeCartEntry(
     userId: string,
     cartId: string,
@@ -138,8 +167,12 @@ export class OccCartService {
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
-  public setDeliveryAddress(userId: string, cartId: string, addressId: string) {
-    this.http
+  public setDeliveryAddress(
+    userId: string,
+    cartId: string,
+    addressId: string
+  ): Observable<any> {
+    return this.http
       .put(
         this.getCartEndpoint(userId) + cartId + '/addresses/delivery',
         {},
@@ -147,8 +180,7 @@ export class OccCartService {
           params: { addressId: addressId }
         }
       )
-      .pipe(catchError((error: any) => Observable.throw(error.json())))
-      .subscribe();
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
   public setDeliveryMode(
@@ -251,5 +283,21 @@ export class OccCartService {
         { headers: headers, params: params }
       )
       .pipe(catchError((error: any) => Observable.throw(error)));
+  }
+
+  public setPaymentDetails(
+    userId: string,
+    cartId: string,
+    paymentDetailsId: any
+  ): Observable<any> {
+    return this.http
+      .put(
+        this.getCartEndpoint(userId) + cartId + '/paymentdetails',
+        {},
+        {
+          params: { paymentDetailsId: paymentDetailsId }
+        }
+      )
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 }

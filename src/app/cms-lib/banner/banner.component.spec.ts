@@ -13,6 +13,9 @@ class UseConfigService {
   cmsComponentMapping = {
     SimpleBannerComponent: 'BannerComponent'
   };
+  server = {
+    baseUrl: 'https://localhost:9002'
+  };
 }
 
 describe('BannerComponent', () => {

@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import * as fromStore from './../store';
 import { UserToken } from '../models/token-types.model';
-import { ConfigService } from '../../config.service';
+import { ConfigService } from '../../occ/config.service';
 
 @Injectable()
 export class UserTokenInterceptor implements HttpInterceptor {

@@ -20,7 +20,6 @@ import * as fromRouting from '../../../../routing/store';
 import { MaterialModule } from '../../../../material.module';
 import { CheckoutService } from '../../../services';
 import { CartService } from '../../../../cart/services';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialog } from '@angular/material';
 import { AddressFormModule } from './address-form.module';
 
@@ -65,30 +64,27 @@ describe('AddressFormComponent', () => {
   let ac: AbstractControl;
   let dialog: MatDialog;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          MaterialModule,
-          BrowserAnimationsModule,
-          AddressFormModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            checkout: combineReducers(fromCheckout.reducers),
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers)
-          })
-        ],
-        providers: [
-          CheckoutService,
-          CartService,
-          { provide: FormGroup, useClass: MockFormGroup },
-          { provide: AbstractControl, useClass: MockAbstractControl }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        MaterialModule,
+        AddressFormModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          checkout: combineReducers(fromCheckout.reducers),
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers)
+        })
+      ],
+      providers: [
+        CheckoutService,
+        CartService,
+        { provide: FormGroup, useClass: MockFormGroup },
+        { provide: AbstractControl, useClass: MockAbstractControl }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fb = TestBed.get(FormBuilder);
@@ -101,12 +97,33 @@ describe('AddressFormComponent', () => {
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(ac, 'hasError').and.callThrough();
     spyOn(component.addAddress, 'emit').and.callThrough();
+    spyOn(component.verifyAddress, 'emit').and.callThrough();
+    spyOn(component, 'addNewAddress').and.callThrough();
     spyOn(component.address, 'get').and.returnValue(ac);
     spyOn(dialog, 'open').and.callThrough();
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call addressSelected(address)', () => {
+    const mockAddress = 'mockAddress';
+
+    component.addressSelected(mockAddress);
+
+    expect(component.addAddress.emit).toHaveBeenCalledWith({
+      address: mockAddress,
+      newAddress: false
+    });
+  });
+
+  it('should call addNewAddress()', () => {
+    expect(component.newAddress).toBeFalsy();
+
+    component.addNewAddress();
+
+    expect(component.newAddress).toBeTruthy();
   });
 
   it('should call ngOnInit to get countries and titles data even when they not exist', () => {
@@ -138,29 +155,9 @@ describe('AddressFormComponent', () => {
     });
   });
 
-  it('should call next() with valid address', () => {
-    const mockAddressVerificationResult = { decision: 'ACCEPT' };
-    spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
+  it('should call next()', () => {
     component.next();
-    expect(component.addAddress.emit).toHaveBeenCalledWith(
-      component.address.value
-    );
-  });
-
-  it('should call next() with invalid address', () => {
-    const mockAddressVerificationResult = { decision: 'REJECT' };
-    spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
-    component.next();
-    expect(component.addAddress.emit).not.toHaveBeenCalled();
-  });
-
-  it('should call next() with and return suggested addresses', () => {
-    const mockAddressVerificationResult = {
-      decision: 'REVIEW',
-      suggestedAddresses: ['address1', 'address2']
-    };
-    spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
-    component.next();
+    expect(component.verifyAddress.emit).toHaveBeenCalled();
   });
 
   it('should call back()', () => {
@@ -172,6 +169,19 @@ describe('AddressFormComponent', () => {
     );
   });
 
+  it('should call back() and redirect to saved addresses page of there are saved addresses', () => {
+    component.newAddress = true;
+
+    component.back();
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(
+      new fromRouting.Go({
+        path: ['/cart']
+      })
+    );
+    expect(component.newAddress).toBeFalsy();
+  });
+
   it('should call required(name: string)', () => {
     component.required('someName');
     expect(component.address.get).toHaveBeenCalledWith('someName');
@@ -180,5 +190,11 @@ describe('AddressFormComponent', () => {
   it('should call notSelected(name: string)', () => {
     component.notSelected('someName');
     expect(component.address.get).toHaveBeenCalledWith('someName');
+  });
+
+  it('should call toggleDefaultAddress()', () => {
+    component.address.value.defaultAddress = false;
+    component.toggleDefaultAddress();
+    expect(component.address.value.defaultAddress).toBeTruthy();
   });
 });

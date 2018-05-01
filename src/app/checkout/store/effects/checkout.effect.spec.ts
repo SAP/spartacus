@@ -13,6 +13,7 @@ import { OccCartService } from '../../../occ/cart/cart.service';
 import { ConfigService } from '../../../occ/config.service';
 import * as fromEffects from './checkout.effect';
 import * as fromActions from '../actions/checkout.action';
+import * as fromUserActions from '../../../user/store/actions';
 import { OccOrderService } from '../../../occ/order/order.service';
 
 @Injectable()
@@ -69,10 +70,11 @@ describe('Checkout effect', () => {
     actions$ = TestBed.get(Actions);
 
     spyOn(cartService, 'createAddressOnCart').and.returnValue(of(address));
-    spyOn(cartService, 'setDeliveryAddress');
+    spyOn(cartService, 'setDeliveryAddress').and.returnValue(of({}));
     spyOn(cartService, 'getSupportedDeliveryModes').and.returnValue(of(modes));
     spyOn(orderService, 'placeOrder').and.returnValue(of(orderDetails));
     spyOn(cartService, 'setDeliveryMode').and.returnValue(of({}));
+    spyOn(cartService, 'setPaymentDetails').and.returnValue(of({}));
   });
 
   describe('addDeliveryAddress$', () => {
@@ -82,17 +84,34 @@ describe('Checkout effect', () => {
         cartId: cartId,
         address: address
       });
-      const completion = new fromActions.AddDeliveryAddressSuccess(address);
+
+      const completion1 = new fromUserActions.LoadUserAddresses(userId);
+      const completion2 = new fromActions.SetDeliveryAddress({
+        userId: userId,
+        cartId: cartId,
+        address: address
+      });
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-(bc)', { b: completion1, c: completion2 });
+
+      expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
+    });
+  });
+
+  describe('setDeliveryAddress$', () => {
+    it('should set delivery address to cart', () => {
+      const action = new fromActions.SetDeliveryAddress({
+        userId: userId,
+        cartId: cartId,
+        address: address
+      });
+      const completion = new fromActions.SetDeliveryAddressSuccess(address);
 
       actions$.stream = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
-      expect(cartService.setDeliveryAddress).toHaveBeenCalledWith(
-        'testUserId',
-        'testCartId',
-        'testAddressId'
-      );
+      expect(entryEffects.setDeliveryAddress$).toBeObservable(expected);
     });
   });
 
@@ -159,6 +178,13 @@ describe('Checkout effect', () => {
         }
       };
 
+      const paymentDetails = {
+        billTo_city: 'MainCity',
+        decision: 'ACCEPT',
+        billTo_country: 'US',
+        billTo_lastName: 'test'
+      };
+
       const html =
         '<div id="postFormItems">' +
         '<input type="hidden" id="billTo_city" name="billTo_city" value="MainCity" />' +
@@ -166,13 +192,6 @@ describe('Checkout effect', () => {
         '<input type="hidden" id="billTo_country" name="billTo_country" value="US" />' +
         '<input type="hidden" id="billTo_lastName" name="billTo_lastName" value="test" />' +
         '<div>';
-
-      const paymentDetails = {
-        billTo_city: 'MainCity',
-        decision: 'ACCEPT',
-        billTo_country: 'US',
-        billTo_lastName: 'test'
-      };
 
       spyOn(cartService, 'getPaymentProviderSubInfo').and.returnValue(
         of({ url: 'testUrl', parameters: {} })
@@ -189,14 +208,41 @@ describe('Checkout effect', () => {
         cartId: cartId,
         paymentDetails: mockPaymentDetails
       });
-      const completion = new fromActions.CreatePaymentDetailsSuccess(
+      const completion1 = new fromUserActions.LoadUserPaymentMethods(userId);
+      const completion2 = new fromActions.CreatePaymentDetailsSuccess(
+        paymentDetails
+      );
+
+      actions$.stream = hot('-a', { a: action });
+      const expected = cold('-(bc)', { b: completion1, c: completion2 });
+
+      expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
+    });
+  });
+
+  describe('setPaymentDetails$', () => {
+    it('should set payment details', () => {
+      const paymentDetails = {
+        id: '123',
+        billTo_city: 'MainCity',
+        decision: 'ACCEPT',
+        billTo_country: 'US',
+        billTo_lastName: 'test'
+      };
+
+      const action = new fromActions.SetPaymentDetails({
+        userId: userId,
+        cartId: cartId,
+        paymentDetails: paymentDetails
+      });
+      const completion = new fromActions.SetPaymentDetailsSuccess(
         paymentDetails
       );
 
       actions$.stream = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
+      expect(entryEffects.setPaymentDetails$).toBeObservable(expected);
     });
   });
 
