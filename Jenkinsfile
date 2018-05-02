@@ -1,1 +1,1 @@
-runSpartacusPipeline module: 'spartacus'
+runSpartacusPipeline
