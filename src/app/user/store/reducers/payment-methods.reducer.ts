@@ -16,10 +16,12 @@ export function reducer(
     case fromPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS_SUCCESS: {
       const list = action.payload;
 
-      return {
-        ...state,
-        list
-      };
+      if (list !== undefined) {
+        return {
+          ...state,
+          list
+        };
+      }
     }
   }
   return state;

@@ -16,10 +16,12 @@ export function reducer(
     case fromUserAddressesAction.LOAD_USER_ADDRESSES_SUCCESS: {
       const list = action.payload;
 
-      return {
-        ...state,
-        list
-      };
+      if (list !== undefined) {
+        return {
+          ...state,
+          list
+        };
+      }
     }
   }
   return state;

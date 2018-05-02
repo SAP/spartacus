@@ -1,4 +1,4 @@
-<div class="content" *ngIf="existingAddresses?.length && !newAddress;else addressForm">
+<div class="content" *ngIf="existingAddresses.length > 0 && !newAddress;else addressForm">
     <h3>Shipping Addresses</h3>
     <div *ngFor="let address of existingAddresses">
         <div *ngIf="address.defaultAddress">
