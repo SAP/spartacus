@@ -7,17 +7,18 @@
 .y-login-status {
   //login variables
   $login-greet-trbl-padding: 0 !default;
-  $login-greet-trbl-md-padding: 0.75rem 1.5rem !default;
+  $login-greet-trbl-md-padding: 0.75rem 1.5rem 0 1.5rem !default;
   $login-toggle-trbl-padding: 0 0.5rem 1rem 0 !default;
+  $login-toggle-trbl-md-padding: 0 1.5rem 0.75rem 1.5rem !default;
   $login-menu-border-radius: 0 !default;
   $login-menu-trbl-padding: 0 !default;
   $login-menu-md-position: relative !default;
   $login-menu-md-width: 100% !default;
   $login-menu-md-border: 0 none !default;
   $login-menu-md-border-radius: 0 !default;
-  $login-menu-md-trbl-padding: 0 !default;
+  $login-menu-md-trbl-padding: 0 0 0.75rem 0 !default;
   $login-item-trbl-padding: 0.75rem 1.5rem !default;
-  $login-item-trbl-md-padding: 0.75rem 1.5rem !default;
+  $login-item-trbl-md-padding: 0.45rem 1.5rem !default;
   $login-item-border-bottom: 1px solid theme-color('background') !default;
   $login-item-last-child: none !default;
   $login-item-text-decoration: none !default;
@@ -39,27 +40,37 @@
   &__toggle {
     color: theme-color('inverse');
     padding: $login-toggle-trbl-padding;
+    &:hover {
+      color: theme-color('primary');
+    }
     @include media-breakpoint-down(md) {
-      display: none;
+      display: flex;
+      justify-content: space-between;
+      color: theme-color('text');
+      padding: $login-toggle-trbl-md-padding;
+      &::after {
+        margin-right: 20px;
+      }
     }
   }
   &__menu {
     border-radius: $login-menu-border-radius;
     padding: $login-menu-trbl-padding;
     @include media-breakpoint-down(md) {
-      display: block;
       position: $login-menu-md-position;
       width: $login-menu-md-width;
       border: $login-menu-md-border;
       border-radius: $login-menu-md-border-radius;
       background-color: theme-color('clear');
       padding: $login-menu-md-trbl-padding;
+      top: 0 !important;
     }
   }
   &__item {
     padding: $login-item-trbl-padding;
     border-bottom: $login-item-border-bottom;
     color: theme-color('text');
+    font-size: $small-font-size;
     &:hover {
       background-color: theme-color('clear');
       color: theme-color('primary');

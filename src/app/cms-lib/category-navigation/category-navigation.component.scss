@@ -12,16 +12,16 @@
 
 .y-navigation {
   //navigation variables
-  $nav-text-case: uppercase !default;
+  $nav-text-case: capitalize !default;
   $nav-list-trbl-padding: 1rem 0 !default;
   $nav-item-border: 1px solid theme-color('background') !default;
   $nav-item-trbl-padding: 0.5rem 0 !default;
-  $nav-link-trbl-padding: 0.2rem 0.5rem !default;
+  $nav-link-trbl-padding: 0.2rem 0 !default;
   $nav-link-md-trbl-padding: 0.5rem 1.5rem !default;
   $nav-link-md-trbl-margin: 20px !default;
   $nav-link-lg-trbl-padding: 0.5rem 0 !default;
   $nav-child-list-border-radius: 0 !default;
-  $nav-child-list-text-case: uppercase !default;
+  $nav-child-list-text-case: capitalize !default;
   $nav-child-list-trbl-padding: 0 !default;
   $nav-child-list-md-border: 0 none !default;
   $nav-child-item-trbl-padding: 0.45rem 1.5rem;
@@ -33,7 +33,7 @@
   $nav-child-list-columns-trbl-padding: 0.75rem !default;
   $nav-child-list-columns-md-border: none !default;
   $nav-child-list-columns-md-trbl-margin: 0 !default;
-  $nav-column-title-text-case: uppercase !default;
+  $nav-column-title-text-case: capitalize !default;
   $nav-column-title-font-weight: bold !default;
   $nav-column-title-trbl-padding: 0.25rem 1.5rem !default;
   $nav-child-column-trbl-margin: 0 3rem 0 0 !default;

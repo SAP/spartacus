@@ -1,6 +1,6 @@
-@import "theme";
-@import "functions";
-@import "mixins";
+@import 'theme';
+@import 'functions';
+@import 'mixins';
 
 .y-section {
   margin-bottom: 50px;
@@ -8,9 +8,9 @@
     margin-bottom: 0;
   }
   &__title {
-    @include type("4","semi");
+    @include type('4', 'semi');
     margin-bottom: 25px;
-    text-transform: uppercase;
+    text-transform: none;
     &--alt {
       text-transform: none;
     }
