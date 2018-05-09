@@ -116,6 +116,46 @@
           }
         }
       }
+    },
+    "storefrontlib": {
+      "root": "projects/storefrontlib",
+      "sourceRoot": "projects/storefrontlib/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/storefrontlib/tsconfig.lib.json",
+            "project": "projects/storefrontlib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/storefrontlib/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/storefrontlib/src/test.ts",
+            "tsConfig": "projects/storefrontlib/tsconfig.spec.json",
+            "karmaConfig": "projects/storefrontlib/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/storefrontlib/tsconfig.lib.json",
+              "projects/storefrontlib/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "storefront"
