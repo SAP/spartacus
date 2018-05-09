@@ -42,7 +42,6 @@ testem.log
 Thumbs.db
 
 # generated files
-package-lock.json
 .ng_pkg_build
 
 # Logs
