@@ -42,8 +42,6 @@ testem.log
 Thumbs.db
 
 # generated files
-yarn.lock
-package-lock.json
 .ng_pkg_build
 
 # Logs
