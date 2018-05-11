@@ -1,13 +1,10 @@
-<mat-input-container floatPlaceholder="never">
-    <input type="text" matInput [formControl]="searchBoxControl" [matAutocomplete]="searchresult" [placeholder]="component?.name"
-        (keyup)="onKey($event)" (focus)="onFocus()">
-</mat-input-container>
+<input type="text" matInput [formControl]="searchBoxControl" [matAutocomplete]="searchresult" [placeholder]="component?.name"
+    (keyup)="onKey($event)" (focus)="onFocus()">
 
 <mat-autocomplete #searchresult="matAutocomplete" class="autocomplete-response">
     <mat-option *ngIf="(suggestionResults$ | async)?.length>0">
         <mat-chip-list>
-            <mat-chip *ngFor="let suggestion of suggestionResults$ | async" class="suggestion" color="primary" selected="true" 
-                (click)="launchSearchPage(suggestion.value)">{{ suggestion.value }}
+            <mat-chip *ngFor="let suggestion of suggestionResults$ | async" class="suggestion" color="primary" selected="true" (click)="launchSearchPage(suggestion.value)">{{ suggestion.value }}
             </mat-chip>
         </mat-chip-list>
     </mat-option>
@@ -15,8 +12,7 @@
     <mat-option *ngFor="let product of (searchResults$ | async)?.products" [value]="product.name" class="option" fxLayout="row"
         fxFlexAlign="start center" [routerLink]="['/product/', product.code]">
         <div class="picture">
-            <y-picture fxFlex *ngIf="component.displayProductImages && product.images" 
-                [imageContainer]="product.images.PRIMARY" imageFormat="thumbnail">
+            <y-picture fxFlex *ngIf="component.displayProductImages && product.images" [imageContainer]="product.images.PRIMARY" imageFormat="thumbnail">
             </y-picture>
         </div>
         <div fxFlex [innerHTML]="product.name">{{ product.name }}</div>
