@@ -5,7 +5,7 @@ import {
   inject
 } from '@angular/core/testing';
 
-import { MaterialModule } from 'app/material.module';
+import { MaterialModule } from 'src/app/material.module';
 
 import * as fromRoot from '../../../routing/store';
 import * as fromCart from '../../../cart/store';
@@ -27,22 +27,20 @@ describe('AddToCartComponent', () => {
     { '1234': { entryNumber: 0, product: { code: productCode } } }
   ];
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers)
-          })
-        ],
-        declarations: [AddToCartComponent],
-        providers: [CartService]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers)
+        })
+      ],
+      declarations: [AddToCartComponent],
+      providers: [CartService]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddToCartComponent);

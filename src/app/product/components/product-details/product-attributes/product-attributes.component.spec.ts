@@ -1,4 +1,4 @@
-import { MaterialModule } from 'app/material.module';
+import { MaterialModule } from 'src/app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductAttributesComponent } from './product-attributes.component';
 
@@ -6,14 +6,12 @@ describe('ProductAttributesComponent in product', () => {
   let productAttributesComponent: ProductAttributesComponent;
   let fixture: ComponentFixture<ProductAttributesComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [MaterialModule],
-        declarations: [ProductAttributesComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [MaterialModule],
+      declarations: [ProductAttributesComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductAttributesComponent);

@@ -1,4 +1,4 @@
-import { MaterialModule } from 'app/material.module';
+import { MaterialModule } from 'src/app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
@@ -38,36 +38,34 @@ describe('ProductPageComponent in pages', () => {
   let component: ProductPageComponent;
   let fixture: ComponentFixture<ProductPageComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          MaterialModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers)
-          })
-        ],
-        declarations: [
-          ProductPageComponent,
-          ProductDetailsPageLayoutComponent,
-          ProductDetailsComponent,
-          DynamicSlotComponent,
-          StarRatingComponent,
-          ProductImagesComponent,
-          ProductSummaryComponent,
-          ProductAttributesComponent,
-          ProductReviewsComponent,
-          ComponentWrapperComponent,
-          PictureComponent,
-          AddToCartComponent
-        ],
-        providers: [ComponentMapperService, ConfigService, CartService]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        MaterialModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers)
+        })
+      ],
+      declarations: [
+        ProductPageComponent,
+        ProductDetailsPageLayoutComponent,
+        ProductDetailsComponent,
+        DynamicSlotComponent,
+        StarRatingComponent,
+        ProductImagesComponent,
+        ProductSummaryComponent,
+        ProductAttributesComponent,
+        ProductReviewsComponent,
+        ComponentWrapperComponent,
+        PictureComponent,
+        AddToCartComponent
+      ],
+      providers: [ComponentMapperService, ConfigService, CartService]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductPageComponent);

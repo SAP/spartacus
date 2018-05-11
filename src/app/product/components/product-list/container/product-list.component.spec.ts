@@ -1,4 +1,4 @@
-import { MaterialModule } from 'app/material.module';
+import { MaterialModule } from 'src/app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/observable/of';
 

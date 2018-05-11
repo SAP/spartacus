@@ -1,4 +1,4 @@
-import { MaterialModule } from 'app/material.module';
+import { MaterialModule } from 'src/app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductGridItemComponent } from './product-grid-item.component';
 import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';

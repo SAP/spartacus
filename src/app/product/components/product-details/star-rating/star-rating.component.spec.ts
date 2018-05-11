@@ -1,19 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
-import { MaterialModule } from 'app/material.module';
+import { MaterialModule } from 'src/app/material.module';
 
 describe('StarRatingComponent in product', () => {
   let starRatingComponent: StarRatingComponent;
   let fixture: ComponentFixture<StarRatingComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [MaterialModule],
-        declarations: [StarRatingComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [MaterialModule],
+      declarations: [StarRatingComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StarRatingComponent);

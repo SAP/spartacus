@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductDetailsComponent } from './product-details.component';
-import { MaterialModule } from 'app/material.module';
-import { DynamicSlotComponent } from 'app/cms/components/dynamic-slot/dynamic-slot.component';
+import { MaterialModule } from 'src/app/material.module';
+import { DynamicSlotComponent } from 'src/app/cms/components/dynamic-slot/dynamic-slot.component';
 import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { ProductImagesComponent } from '../product-images/product-images.component';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
-import { PictureComponent } from 'app/ui/components/media/picture/picture.component';
+import { PictureComponent } from 'src/app/ui/components/media/picture/picture.component';
 import { ComponentWrapperComponent } from '../../../../cms/components/component-wrapper/component-wrapper.component';
 
 import * as fromRoot from '../../../../routing/store';
@@ -31,40 +31,38 @@ describe('ProductDetailsComponent in product', () => {
   const mockProduct = 'mockProduct';
   const mockCartEntry = {};
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          AddToCartModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            products: combineReducers(fromProduct.reducers),
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers)
-          })
-        ],
-        declarations: [
-          ProductDetailsComponent,
-          StarRatingComponent,
-          ProductImagesComponent,
-          ProductSummaryComponent,
-          ProductAttributesComponent,
-          ProductReviewsComponent,
-          DynamicSlotComponent,
-          ComponentWrapperComponent,
-          PictureComponent
-        ],
-        providers: [
-          CartService,
-          {
-            provide: ComponentMapperService,
-            useClass: MockComponentMapperService
-          }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        AddToCartModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          products: combineReducers(fromProduct.reducers),
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers)
+        })
+      ],
+      declarations: [
+        ProductDetailsComponent,
+        StarRatingComponent,
+        ProductImagesComponent,
+        ProductSummaryComponent,
+        ProductAttributesComponent,
+        ProductReviewsComponent,
+        DynamicSlotComponent,
+        ComponentWrapperComponent,
+        PictureComponent
+      ],
+      providers: [
+        CartService,
+        {
+          provide: ComponentMapperService,
+          useClass: MockComponentMapperService
+        }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductDetailsComponent);

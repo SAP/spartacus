@@ -1,4 +1,4 @@
-import { MaterialModule } from 'app/material.module';
+import { MaterialModule } from 'src/app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
 
@@ -6,14 +6,12 @@ describe('ProductFacetNavigationComponent in product-list', () => {
   let component: ProductFacetNavigationComponent;
   let fixture: ComponentFixture<ProductFacetNavigationComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [MaterialModule],
-        declarations: [ProductFacetNavigationComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [MaterialModule],
+      declarations: [ProductFacetNavigationComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductFacetNavigationComponent);

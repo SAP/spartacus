@@ -1,6 +1,6 @@
 import { of } from 'rxjs/observable/of';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
-import { MaterialModule } from 'app/material.module';
+import { MaterialModule } from 'src/app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductReviewsComponent } from './product-reviews.component';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
@@ -16,20 +16,18 @@ describe('ProductReviewsComponent in product', () => {
   let productReviewsComponent: ProductReviewsComponent;
   let fixture: ComponentFixture<ProductReviewsComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            products: combineReducers(fromStore.reducers)
-          })
-        ],
-        declarations: [ProductReviewsComponent, StarRatingComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          products: combineReducers(fromStore.reducers)
+        })
+      ],
+      declarations: [ProductReviewsComponent, StarRatingComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductReviewsComponent);
