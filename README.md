@@ -1,5 +1,7 @@
 # Spaccelerator
 
+
+
 ## Background
 The SPAccelerator is a fancy name for a Single Page Application (SPA) template for Hybris Commerce. Similar to the accelerators this template will deliver a front-end implementation on top of Hybris Commerce. With a complete difference technology stack and the ability to deliver new features fast.
 
