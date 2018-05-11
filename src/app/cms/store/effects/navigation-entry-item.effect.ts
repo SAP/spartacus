@@ -49,7 +49,7 @@ export class NavigationEntryItemEffects {
                     res =>
                       new navigationItemActions.LoadNavigationItemsSuccess({
                         nodeId: data.nodeId,
-                        components: res.component
+                        components: res['component']
                       })
                   ),
                   catchError(error =>

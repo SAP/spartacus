@@ -20,7 +20,7 @@ export class ProductReviewsEffects {
           map(data => {
             return new productReviewsActions.LoadProductReviewsSuccess({
               productCode,
-              list: data.reviews
+              list: data['reviews']
             });
           }),
           catchError(error =>
