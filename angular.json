@@ -3,9 +3,9 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular6app": {
-      "root": "",
-      "sourceRoot": "src",
+    "storefrontapp": {
+      "root": "projects/storefrontapp/",
+      "sourceRoot": "projects/storefrontapp/src",
       "projectType": "application",
       "prefix": "app",
       "schematics": {},
@@ -13,21 +13,29 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular6app",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss", "src/theme.scss"],
+            "outputPath": "dist/storefrontapp",
+            "index": "projects/storefrontapp/src/index.html",
+            "main": "projects/storefrontapp/src/main.ts",
+            "polyfills": "projects/storefrontapp/src/polyfills.ts",
+            "tsConfig": "projects/storefrontapp/tsconfig.app.json",
+            "assets": [
+              "projects/storefrontapp/src/favicon.ico",
+              "projects/storefrontapp/src/assets"
+            ],
+            "styles": [
+              "projects/storefrontapp/src/styles.scss",
+              "projects/storefrontapp/src/theme.scss"
+            ],
             "scripts": []
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace":
+                    "projects/storefrontapp/src/environments/environment.ts",
+                  "with":
+                    "projects/storefrontapp/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -45,61 +53,67 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular6app:build"
+            "browserTarget": "storefrontapp:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular6app:build:production"
+              "browserTarget": "storefrontapp:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular6app:build"
+            "browserTarget": "storefrontapp:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
-            "styles": ["src/styles.css"],
+            "main": "projects/storefrontapp/src/test.ts",
+            "polyfills": "projects/storefrontapp/src/polyfills.ts",
+            "tsConfig": "projects/storefrontapp/tsconfig.spec.json",
+            "karmaConfig": "projects/storefrontapp/karma.conf.js",
+            "styles": ["projects/storefrontapp/src/styles.css"],
             "scripts": [],
-            "assets": ["src/favicon.ico", "src/assets"]
+            "assets": [
+              "projects/storefrontapp/src/favicon.ico",
+              "projects/storefrontapp/src/assets"
+            ]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
+            "tsConfig": [
+              "projects/storefrontapp/tsconfig.app.json",
+              "projects/storefrontapp/tsconfig.spec.json"
+            ],
             "exclude": ["**/node_modules/**"]
           }
         }
       }
     },
-    "angular6app-e2e": {
-      "root": "e2e/",
+    "storefrontapp-e2e": {
+      "root": "projects/storefrontapp-e2e/",
       "projectType": "application",
       "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular6app:serve"
+            "protractorConfig": "projects/storefrontapp-e2e/protractor.conf.js",
+            "devServerTarget": "storefrontapp:serve"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
+            "tsConfig": "projects/storefrontapp-e2e/tsconfig.e2e.json",
             "exclude": ["**/node_modules/**"]
           }
         }
       }
     }
   },
-  "defaultProject": "angular6app"
+  "defaultProject": "storefrontapp"
 }
