@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MaterialModule } from './../../../../material.module';
 import { ProductImagesComponent } from '../product-images/product-images.component';
-import { PictureComponent } from 'src/app/ui/components/media/picture/picture.component';
+import { PictureComponent } from 'projects/storefrontapp/src/app/ui/components/media/picture/picture.component';
 
 class MockImages {
   PRIMARY = 'mockPrimaryImage';
@@ -15,14 +15,12 @@ describe('ProductImagesComponent product', () => {
   let productImagesComponent: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [MaterialModule],
-        declarations: [ProductImagesComponent, PictureComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [MaterialModule],
+      declarations: [ProductImagesComponent, PictureComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductImagesComponent);

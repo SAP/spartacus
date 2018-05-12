@@ -5,7 +5,7 @@ import {
   inject
 } from '@angular/core/testing';
 
-import { MaterialModule } from 'src/app/material.module';
+import { MaterialModule } from 'projects/storefrontapp/src/app/material.module';
 
 import * as fromRoot from '../../../routing/store';
 import * as fromCart from '../../../cart/store';

@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductDetailsComponent } from './product-details.component';
-import { MaterialModule } from 'src/app/material.module';
-import { DynamicSlotComponent } from 'src/app/cms/components/dynamic-slot/dynamic-slot.component';
+import { MaterialModule } from 'projects/storefrontapp/src/app/material.module';
+import { DynamicSlotComponent } from 'projects/storefrontapp/src/app/cms/components/dynamic-slot/dynamic-slot.component';
 import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { ProductImagesComponent } from '../product-images/product-images.component';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
-import { PictureComponent } from 'src/app/ui/components/media/picture/picture.component';
+import { PictureComponent } from 'projects/storefrontapp/src/app/ui/components/media/picture/picture.component';
 import { ComponentWrapperComponent } from '../../../../cms/components/component-wrapper/component-wrapper.component';
 
 import * as fromRoot from '../../../../routing/store';

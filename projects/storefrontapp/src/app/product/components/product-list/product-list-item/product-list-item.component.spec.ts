@@ -1,4 +1,4 @@
-import { MaterialModule } from 'src/app/material.module';
+import { MaterialModule } from 'projects/storefrontapp/src/app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductListItemComponent } from './product-list-item.component';
 import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';

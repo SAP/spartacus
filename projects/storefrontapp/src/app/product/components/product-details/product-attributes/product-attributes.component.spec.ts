@@ -1,4 +1,4 @@
-import { MaterialModule } from 'src/app/material.module';
+import { MaterialModule } from 'projects/storefrontapp/src/app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductAttributesComponent } from './product-attributes.component';
 

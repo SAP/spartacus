@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
-import { MaterialModule } from 'src/app/material.module';
+import { MaterialModule } from 'projects/storefrontapp/src/app/material.module';
 
 describe('StarRatingComponent in product', () => {
   let starRatingComponent: StarRatingComponent;
