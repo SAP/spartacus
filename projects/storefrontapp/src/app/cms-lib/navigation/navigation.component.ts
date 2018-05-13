@@ -11,7 +11,7 @@ import { ConfigService } from '../../cms/config.service';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
 import { tap, filter, takeWhile } from 'rxjs/operators';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'y-navigation',

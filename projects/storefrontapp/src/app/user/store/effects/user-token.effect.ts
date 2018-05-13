@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions } from '@ngrx/effects';
 import * as fromActions from './../actions/user-token.action';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable ,  of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { UserToken } from '../../models/token-types.model';

@@ -5,7 +5,7 @@ import {
   Input,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../store';
 import { tap } from 'rxjs/operators';

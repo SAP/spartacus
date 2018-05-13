@@ -1,9 +1,9 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-
-import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
-import 'rxjs/add/observable/throw';
+
 
 import { ConfigService } from '../config.service';
 
@@ -30,7 +30,7 @@ export class OccProductService {
 
     return this.http
       .get(this.getProductEndpoint() + `/${productCode}`, { params: params })
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
+      .pipe(catchError((error: any) => observableThrowError(error.json())));
   }
 
   loadProductReviews(productCode: string, maxCount?: number) {
@@ -41,7 +41,7 @@ export class OccProductService {
 
     return this.http
       .get(url)
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
+      .pipe(catchError((error: any) => observableThrowError(error.json())));
   }
   /*
   loadProductReferences(productCode: string) {

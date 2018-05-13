@@ -5,7 +5,7 @@ import {
   HttpHandler,
   HttpRequest
 } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromStore from './../store';
 import { UserToken } from '../models/token-types.model';

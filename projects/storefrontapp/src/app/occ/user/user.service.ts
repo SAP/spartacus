@@ -1,6 +1,7 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { ConfigService } from '../config.service';
-import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
@@ -22,7 +23,7 @@ export class OccUserService {
     const url = this.getUserEndpoint() + userId;
     return this.http
       .get(url)
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
+      .pipe(catchError((error: any) => observableThrowError(error.json())));
   }
 
   loadToken(userId: string, password: string): Observable<any> {
@@ -39,7 +40,7 @@ export class OccUserService {
 
     return this.http
       .post(url, creds, { headers: headers })
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
+      .pipe(catchError((error: any) => observableThrowError(error.json())));
   }
 
   verifyAddress(userId, address) {
@@ -51,7 +52,7 @@ export class OccUserService {
 
     return this.http
       .post(url, address, { headers: headers })
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
+      .pipe(catchError((error: any) => observableThrowError(error.json())));
   }
 
   loadUserAddresses(userId) {
@@ -62,7 +63,7 @@ export class OccUserService {
 
     return this.http
       .get(url, { headers: headers })
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
+      .pipe(catchError((error: any) => observableThrowError(error.json())));
   }
 
   loadUserPaymentMethods(userId) {
@@ -73,7 +74,7 @@ export class OccUserService {
 
     return this.http
       .get(url, { headers: headers })
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
+      .pipe(catchError((error: any) => observableThrowError(error.json())));
   }
 
   protected getOAuthEndpoint() {

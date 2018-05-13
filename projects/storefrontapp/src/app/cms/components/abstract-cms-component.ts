@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import * as fromStore from '../store';
 import { ConfigService } from '../config.service';
 

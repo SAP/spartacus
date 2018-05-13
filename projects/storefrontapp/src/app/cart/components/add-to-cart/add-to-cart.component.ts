@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { CartService } from '../../services/cart.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';

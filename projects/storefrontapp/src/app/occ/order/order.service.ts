@@ -1,8 +1,9 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { ConfigService } from '../config.service';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+
+
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
@@ -35,6 +36,6 @@ export class OccOrderService {
 
     return this.http
       .post(url, {}, { headers: headers, params: params })
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
+      .pipe(catchError((error: any) => observableThrowError(error.json())));
   }
 }

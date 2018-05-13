@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  of } from 'rxjs';
 import { OccProductService } from './../../../occ/product/product.service';
 
 import { Actions, Effect } from '@ngrx/effects';
@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 
 import * as productReviewsActions from './../actions/product-reviews.action';
 import { map, mergeMap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class ProductReviewsEffects {

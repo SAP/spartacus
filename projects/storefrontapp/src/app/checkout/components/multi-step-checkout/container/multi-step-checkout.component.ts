@@ -7,8 +7,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { take, filter, tap } from 'rxjs/operators';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription ,  Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';

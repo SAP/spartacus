@@ -1,8 +1,7 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  of } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions } from '@ngrx/effects';
-import { of } from 'rxjs/observable/of';
 import { map, catchError, switchMap } from 'rxjs/operators';
 
 import * as currenciesActions from '../actions/currencies.action';

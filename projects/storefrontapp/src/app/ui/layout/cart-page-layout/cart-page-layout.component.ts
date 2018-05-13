@@ -6,7 +6,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'y-cart-page-layout',

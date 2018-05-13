@@ -4,10 +4,9 @@ import {
   ChangeDetectionStrategy,
   OnDestroy
 } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  Subscription } from 'rxjs';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
-import { Subscription } from 'rxjs/Subscription';
 import { tap, takeWhile } from 'rxjs/operators';
 
 @Component({

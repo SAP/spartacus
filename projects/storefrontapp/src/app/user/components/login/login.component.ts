@@ -5,7 +5,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { Store } from '@ngrx/store';

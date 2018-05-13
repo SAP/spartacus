@@ -1,6 +1,7 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { PageContext, PageType } from '../../routing/models/page-context.model';
 import { IdList } from './../models/idList.model';
@@ -41,7 +42,7 @@ export class OccCmsService {
           fromString: strParams
         })
       })
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
+      .pipe(catchError((error: any) => observableThrowError(error.json())));
   }
 
   loadComponent(
@@ -56,7 +57,7 @@ export class OccCmsService {
           fromString: this.getRequestParams(pageContext, fields)
         })
       })
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
+      .pipe(catchError((error: any) => observableThrowError(error.json())));
   }
 
   loadListComponents(
@@ -87,7 +88,7 @@ export class OccCmsService {
           fromString: strParams
         })
       })
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
+      .pipe(catchError((error: any) => observableThrowError(error.json())));
   }
 
   private getRequestParams(pageContext: PageContext, fields?: string) {

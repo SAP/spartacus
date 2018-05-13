@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import * as fromActions from './../actions';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  of } from 'rxjs';
 import { Actions, Effect } from '@ngrx/effects';
 import { map, catchError, mergeMap } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
 
