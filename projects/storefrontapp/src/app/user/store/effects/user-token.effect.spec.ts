@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { empty } from 'rxjs/observable/empty';
+import { EMPTY } from 'rxjs';
 import { UserToken } from '../../models/token-types.model';
 
 import { hot, cold } from 'jasmine-marbles';
@@ -16,7 +16,7 @@ import { OccUserService } from '../../../occ/user/user.service';
 @Injectable()
 export class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   set stream(source: Observable<any>) {

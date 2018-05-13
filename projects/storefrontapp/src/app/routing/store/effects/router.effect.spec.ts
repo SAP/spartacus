@@ -6,7 +6,7 @@ import { Actions } from '@ngrx/effects';
 
 import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
+import { EMPTY } from 'rxjs';
 
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -17,7 +17,7 @@ import * as fromActions from '../actions/router.action';
 @Injectable()
 export class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   set stream(source: Observable<any>) {

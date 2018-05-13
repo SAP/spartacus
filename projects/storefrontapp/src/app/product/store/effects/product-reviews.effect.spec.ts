@@ -5,7 +5,7 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
+import { EMPTY } from 'rxjs';
 import { of } from 'rxjs/observable/of';
 import { ConfigService } from './../../../occ/config.service';
 
@@ -27,7 +27,7 @@ const reviewData = {
 
 class MockActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   set stream(source: Observable<any>) {

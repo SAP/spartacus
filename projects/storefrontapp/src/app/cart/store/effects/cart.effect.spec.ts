@@ -6,7 +6,7 @@ import { Actions } from '@ngrx/effects';
 
 import { hot, cold } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
+import { EMPTY } from 'rxjs';
 import { of } from 'rxjs/observable/of';
 
 import { StoreModule, combineReducers } from '@ngrx/store';
@@ -24,7 +24,7 @@ import * as fromActions from '../actions/cart.action';
 @Injectable()
 class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   set stream(source: Observable<any>) {
