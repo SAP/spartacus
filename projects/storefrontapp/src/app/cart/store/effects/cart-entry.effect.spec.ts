@@ -5,9 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Actions } from '@ngrx/effects';
 
 import { hot, cold } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { EMPTY } from 'rxjs';
-import { of } from 'rxjs/observable/of';
+import { Observable ,  EMPTY ,  of } from 'rxjs';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
 import { ConfigService } from '../../../occ/config.service';

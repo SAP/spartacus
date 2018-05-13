@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { ReactiveFormsModule } from '@angular/forms';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 import * as fromRoot from '../../../../routing/store';
 import * as fromCheckout from '../../../store';

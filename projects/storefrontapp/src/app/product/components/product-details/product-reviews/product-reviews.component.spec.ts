@@ -1,4 +1,4 @@
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { MaterialModule } from 'projects/storefrontapp/src/app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';

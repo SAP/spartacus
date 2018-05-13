@@ -10,7 +10,7 @@ import * as fromStore from './../shared/store';
 import * as fromRoot from '../../routing/store';
 
 import * as fromActions from './../shared/store/actions/languages.action';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 class MockConfigService {
   site = {

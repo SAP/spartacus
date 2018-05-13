@@ -3,9 +3,7 @@ import { UserTokenEffects } from '.';
 import { Actions } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { EMPTY } from 'rxjs';
+import { Observable ,  of ,  EMPTY } from 'rxjs';
 import { UserToken } from '../../models/token-types.model';
 
 import { hot, cold } from 'jasmine-marbles';

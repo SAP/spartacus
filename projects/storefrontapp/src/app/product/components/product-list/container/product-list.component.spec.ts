@@ -1,6 +1,6 @@
 import { MaterialModule } from 'projects/storefrontapp/src/app/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 import { ProductListComponent } from './product-list.component';
 import { ProductPagingComponent } from '../product-paging/product-paging.component';

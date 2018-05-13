@@ -9,7 +9,7 @@ import { ConfigService } from './../../config.service';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../shared/store';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 export class MockConfigService {
   server = {

@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { EMPTY } from 'rxjs';
-import { of } from 'rxjs/observable/of';
+import { Observable ,  EMPTY ,  of } from 'rxjs';
 
 import { OccUserService } from '../../../occ/user/user.service';
 import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';

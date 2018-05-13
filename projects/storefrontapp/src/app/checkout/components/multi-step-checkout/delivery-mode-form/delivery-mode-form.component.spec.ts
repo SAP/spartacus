@@ -7,7 +7,7 @@ import {
   FormBuilder,
   AbstractControl
 } from '@angular/forms';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 import * as fromRoot from '../../../../routing/store';
 import * as fromCheckout from '../../../store';

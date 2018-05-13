@@ -5,7 +5,7 @@ import * as fromStore from './../../store';
 import { LoginComponent } from './login.component';
 import { MaterialModule } from '../../../material.module';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageType } from '../../../routing/models/page-context.model';
 import { MatDialog } from '@angular/material';

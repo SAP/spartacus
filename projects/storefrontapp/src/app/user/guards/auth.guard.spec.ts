@@ -5,7 +5,7 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from './../../routing/store';
 import * as fromStore from './../store';
 import * as fromReducers from './../store/reducers';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 
 const mockUserValidToken = {

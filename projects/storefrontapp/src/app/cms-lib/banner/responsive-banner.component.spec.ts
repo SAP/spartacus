@@ -3,7 +3,7 @@ import { DebugElement } from '@angular/core';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';

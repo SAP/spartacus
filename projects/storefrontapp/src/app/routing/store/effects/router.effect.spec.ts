@@ -5,8 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Actions } from '@ngrx/effects';
 
 import { hot } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { EMPTY } from 'rxjs';
+import { Observable ,  EMPTY } from 'rxjs';
 
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';

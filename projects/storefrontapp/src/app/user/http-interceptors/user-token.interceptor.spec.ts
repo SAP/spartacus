@@ -9,7 +9,7 @@ import * as fromRoot from './../../routing/store';
 import * as fromStore from './../store';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { UserTokenInterceptor } from './user-token.interceptor';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { UserToken } from '../models/token-types.model';
 import { ConfigService } from '../../occ/config.service';
 

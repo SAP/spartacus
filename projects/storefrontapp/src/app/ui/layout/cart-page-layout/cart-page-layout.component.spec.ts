@@ -12,7 +12,7 @@ import {
   ComponentWrapperComponent
 } from '../../../cms/components';
 import { CartPageLayoutComponent } from './cart-page-layout.component';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { ComponentMapperService } from '../../../cms/services';
 import { OrderSummaryComponent } from '../../../cart/components/cart-details/order-summary/order-summary.component';
 import { CartItemComponent } from '../../../cart/components/cart-details/cart-item/cart-item.component';

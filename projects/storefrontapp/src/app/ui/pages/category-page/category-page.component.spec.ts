@@ -13,7 +13,7 @@ import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCms from '../../../cms/store';
 import * as fromCart from '../../../cart/store';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 class MockActivatedRoute {
   params = of({

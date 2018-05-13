@@ -16,7 +16,7 @@ import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { ComponentMapperService } from '../../../../cms/services/component-mapper.service';
 import { AddToCartModule } from '../../../../cart/components/add-to-cart/add-to-cart.module';
 import { CartService } from '../../../../cart/services';

@@ -15,7 +15,7 @@ import {
   AbstractControl
 } from '@angular/forms';
 
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import * as fromRouting from '../../../../routing/store';
 import { MaterialModule } from '../../../../material.module';
 import { CheckoutService } from '../../../services';

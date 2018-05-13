@@ -7,7 +7,7 @@ import { MaterialModule } from '../../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 import * as fromRoot from '../../routing/store';
 import * as fromCms from '../../cms/store';

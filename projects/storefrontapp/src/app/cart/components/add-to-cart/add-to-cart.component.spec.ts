@@ -12,7 +12,7 @@ import * as fromCart from '../../../cart/store';
 import * as fromUser from '../../../user/store';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 import { AddToCartComponent } from './add-to-cart.component';
 import { CartService } from '../../../cart/services';

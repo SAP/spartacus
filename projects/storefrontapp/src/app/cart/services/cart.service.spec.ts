@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 import * as fromRoot from '../../routing/store';
 import * as fromCart from '../../cart/store';

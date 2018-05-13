@@ -12,7 +12,7 @@ import * as fromRoot from '../../../../routing/store';
 import * as fromReducer from '../../../store/reducers';
 
 import { CartService } from '../../../services/cart.service';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 class MockCartService {
   removeCartEntry() {}

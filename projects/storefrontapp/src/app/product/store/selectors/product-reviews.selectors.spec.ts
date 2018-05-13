@@ -1,4 +1,4 @@
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from './../../../routing/store';
