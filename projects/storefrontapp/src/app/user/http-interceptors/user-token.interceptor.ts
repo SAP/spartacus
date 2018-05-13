@@ -6,6 +6,7 @@ import {
   HttpRequest
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromStore from './../store';
 import { UserToken } from '../models/token-types.model';
@@ -25,7 +26,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
     let userToken: UserToken;
     this.store
       .select(fromStore.getUserToken)
-      .filter((token: UserToken) => Object.keys(token).length !== 0)
+      .pipe(filter((token: UserToken) => Object.keys(token).length !== 0))
       .subscribe((token: UserToken) => {
         userToken = token;
       });

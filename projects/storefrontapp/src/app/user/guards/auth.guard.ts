@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromStore from './../store';
@@ -13,11 +14,13 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.store.select(fromStore.getUserToken).map(token => {
-      if (!token.access_token) {
-        this.router.navigate(['/']);
-      }
-      return !!token.access_token;
-    });
+    return this.store.select(fromStore.getUserToken).pipe(
+      map(token => {
+        if (!token.access_token) {
+          this.router.navigate(['/']);
+        }
+        return !!token.access_token;
+      })
+    );
   }
 }

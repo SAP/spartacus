@@ -7,6 +7,7 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import * as fromStore from '../store';
 import { ConfigService } from '../../config.service';
 
@@ -24,13 +25,13 @@ export class SiteContextInterceptor implements HttpInterceptor {
     let activeLang = this.configService.site.language;
     this.store
       .select(fromStore.getActiveLanguage)
-      .filter(lang => lang != null)
+      .pipe(filter(lang => lang != null))
       .subscribe(data => (activeLang = data));
 
     let activeCurr = this.configService.site.currency;
     this.store
       .select(fromStore.getActiveCurrency)
-      .filter(curr => curr != null)
+      .pipe(filter(curr => curr != null))
       .subscribe(data => (activeCurr = data));
 
     const baseReqString =
