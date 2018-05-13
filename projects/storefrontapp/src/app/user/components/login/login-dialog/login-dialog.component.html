@@ -4,9 +4,12 @@
 
 <div mat-dialog-content>
     <form fxLayout="column" fxFlexAlign="start">
-        <input matInput type="text" name="username" placeholder="Username" [(ngModel)]="data.username">
-
-        <input matInput type="password" name="password" placeholder="Password" [(ngModel)]="data.password">
+        <mat-form-field>
+            <input matInput type="text" name="username" placeholder="Username" [(ngModel)]="data.username">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="password" name="password" placeholder="Password" [(ngModel)]="data.password">
+        </mat-form-field>
 
         <mat-checkbox color="primary" [(ngModel)]="data.rememberMe" name="rememberMe">Remember me</mat-checkbox>
 

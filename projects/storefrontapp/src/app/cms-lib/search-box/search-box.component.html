@@ -1,5 +1,7 @@
-<input type="text" matInput [formControl]="searchBoxControl" [matAutocomplete]="searchresult" [placeholder]="component?.name"
-    (keyup)="onKey($event)" (focus)="onFocus()">
+<mat-form-field floatPlaceholder="never">
+    <input class="mat-input-container   " type="text" matInput [formControl]="searchBoxControl" [matAutocomplete]="searchresult"
+        [placeholder]="component?.name" (keyup)="onKey($event)" (focus)="onFocus()">
+</mat-form-field>
 
 <mat-autocomplete #searchresult="matAutocomplete" class="autocomplete-response">
     <mat-option *ngIf="(suggestionResults$ | async)?.length>0">
