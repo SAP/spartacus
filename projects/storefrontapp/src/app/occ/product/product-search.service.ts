@@ -1,9 +1,7 @@
-
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-
 
 import { ConfigService } from '../config.service';
 
@@ -36,7 +34,7 @@ export class OccProductSearchService {
 
     return this.http
       .get(this.getProductEndpoint() + '/search', { params: params })
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   queryProductSuggestions(term: string, pageSize = 3): Observable<any> {
@@ -46,6 +44,6 @@ export class OccProductSearchService {
           .set('term', term)
           .set('max', pageSize.toString())
       })
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 }

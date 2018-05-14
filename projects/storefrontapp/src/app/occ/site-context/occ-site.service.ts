@@ -1,9 +1,7 @@
-
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-
 
 import { ConfigService } from '../config.service';
 
@@ -22,12 +20,12 @@ export class OccSiteService {
   loadLanguages(): Observable<any> {
     return this.http
       .get(this.getBaseEndPoint() + '/languages')
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   loadCurrencies(): Observable<any> {
     return this.http
       .get(this.getBaseEndPoint() + '/currencies')
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 }

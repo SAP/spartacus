@@ -1,8 +1,6 @@
-
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { ConfigService } from '../config.service';
-
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
@@ -39,7 +37,7 @@ export class OccCartService {
     const url = this.getCartEndpoint(userId);
     return this.http
       .get(url)
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   public loadCart(
@@ -58,7 +56,7 @@ export class OccCartService {
 
     return this.http
       .get(url, { params: params })
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   public createCart(
@@ -82,7 +80,7 @@ export class OccCartService {
 
     return this.http
       .post(url, toAdd, { params: params })
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   public addCartEntry(
@@ -105,7 +103,7 @@ export class OccCartService {
 
     return this.http
       .post(url, toAdd, { headers: headers, params: params })
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   public updateCartEntry(
@@ -132,7 +130,7 @@ export class OccCartService {
 
     return this.http
       .patch(url, {}, { headers: headers, params: params })
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   public removeCartEntry(
@@ -149,7 +147,7 @@ export class OccCartService {
 
     return this.http
       .delete(url, { headers: headers })
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   public createAddressOnCart(
@@ -165,7 +163,7 @@ export class OccCartService {
           headers: new HttpHeaders().set('Content-Type', 'application/json')
         }
       )
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   public setDeliveryAddress(
@@ -181,7 +179,7 @@ export class OccCartService {
           params: { addressId: addressId }
         }
       )
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   public setDeliveryMode(
@@ -197,13 +195,13 @@ export class OccCartService {
           params: { deliveryModeId: deliveryModeId }
         }
       )
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   public getDeliveryMode(userId: string, cartId: string): Observable<any> {
     return this.http
       .get(this.getCartEndpoint(userId) + cartId + '/deliverymode')
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   public getSupportedDeliveryModes(
@@ -212,7 +210,7 @@ export class OccCartService {
   ): Observable<any> {
     return this.http
       .get(this.getCartEndpoint(userId) + cartId + '/deliverymodes')
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   public getPaymentProviderSubInfo(
@@ -225,7 +223,7 @@ export class OccCartService {
           cartId +
           '/payment/sop/request?responseUrl=sampleUrl'
       )
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   public createSubWithPaymentProvider(
@@ -283,7 +281,7 @@ export class OccCartService {
         {},
         { headers: headers, params: params }
       )
-      .pipe(catchError((error: any) => observableThrowError(error)));
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   public setPaymentDetails(
@@ -299,6 +297,6 @@ export class OccCartService {
           params: { paymentDetailsId: paymentDetailsId }
         }
       )
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 }
