@@ -1,6 +1,9 @@
 {
   "name": "spartacus",
   "version": "0.0.0",
+  "engines": {
+    "node": ">=8.9.0"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
