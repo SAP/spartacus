@@ -7,7 +7,7 @@
       "root": "projects/storefrontapp/",
       "sourceRoot": "projects/storefrontapp/src",
       "projectType": "application",
-      "prefix": "app",
+      "prefix": "y",
       "schematics": {},
       "architect": {
         "build": {
@@ -32,8 +32,10 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+                  "replace":
+                    "projects/storefrontapp/src/environments/environment.ts",
+                  "with":
+                    "projects/storefrontapp/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -72,9 +74,7 @@
             "polyfills": "projects/storefrontapp/src/polyfills.ts",
             "tsConfig": "projects/storefrontapp/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontapp/karma.conf.js",
-            "styles": [
-              "projects/storefrontapp/src/styles.css"
-            ],
+            "styles": ["projects/storefrontapp/src/styles.css"],
             "scripts": [],
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
@@ -89,9 +89,7 @@
               "projects/storefrontapp/tsconfig.app.json",
               "projects/storefrontapp/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -111,9 +109,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "projects/storefrontapp-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -122,7 +118,7 @@
       "root": "projects/storefrontlib",
       "sourceRoot": "projects/storefrontlib/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "y",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -151,9 +147,7 @@
               "projects/storefrontlib/tsconfig.lib.json",
               "projects/storefrontlib/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
