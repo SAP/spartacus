@@ -1,5 +1,4 @@
-
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError as observableThrowError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
@@ -67,7 +66,7 @@ export class OccCmsService {
     currentPage?: number,
     pageSize?: number,
     sort?: string
-  ) {
+  ): Observable<any> {
     let strParams = this.getRequestParams(pageContext, fields);
     if (currentPage !== undefined) {
       strParams === ''

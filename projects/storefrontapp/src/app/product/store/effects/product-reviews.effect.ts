@@ -1,4 +1,4 @@
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { OccProductService } from './../../../occ/product/product.service';
 
 import { Actions, Effect } from '@ngrx/effects';
@@ -19,7 +19,7 @@ export class ProductReviewsEffects {
           map(data => {
             return new productReviewsActions.LoadProductReviewsSuccess({
               productCode,
-              list: data['reviews']
+              list: data.reviews
             });
           }),
           catchError(error =>

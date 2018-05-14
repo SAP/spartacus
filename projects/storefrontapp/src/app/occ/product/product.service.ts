@@ -1,9 +1,7 @@
-
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError as observableThrowError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-
 
 import { ConfigService } from '../config.service';
 
@@ -33,7 +31,7 @@ export class OccProductService {
       .pipe(catchError((error: any) => observableThrowError(error.json())));
   }
 
-  loadProductReviews(productCode: string, maxCount?: number) {
+  loadProductReviews(productCode: string, maxCount?: number): Observable<any> {
     let url = this.getProductEndpoint() + `/${productCode}/reviews`;
     if (maxCount && maxCount > 0) {
       url += `?maxCount=${maxCount}`;
