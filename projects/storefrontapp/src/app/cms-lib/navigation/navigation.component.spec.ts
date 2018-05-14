@@ -1,4 +1,3 @@
-import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -20,7 +19,6 @@ describe('CmsNavigationComponent in CmsLib', () => {
   let store: Store<fromCmsReducer.CmsState>;
   let navigationComponent: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;
-  let el: DebugElement;
 
   const itemsData = {
     MockLink001_AbstractCMSComponent: {
@@ -65,32 +63,28 @@ describe('CmsNavigationComponent in CmsLib', () => {
     }
   };
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          MatMenuModule,
-          MatIconModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
-          }),
-          RouterTestingModule
-        ],
-        providers: [
-          NavigationService,
-          { provide: ConfigService, useClass: UseConfigService }
-        ],
-        declarations: [NavigationComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        MatMenuModule,
+        MatIconModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromCmsReducer.reducers)
+        }),
+        RouterTestingModule
+      ],
+      providers: [
+        NavigationService,
+        { provide: ConfigService, useClass: UseConfigService }
+      ],
+      declarations: [NavigationComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NavigationComponent);
     navigationComponent = fixture.componentInstance;
-
-    el = fixture.debugElement;
 
     store = TestBed.get(Store);
     spyOn(store, 'select').and.returnValues(of(componentData), of(itemsData));

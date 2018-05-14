@@ -1,4 +1,3 @@
-import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -24,7 +23,6 @@ describe('SearchBoxComponent in CmsLib', () => {
   let store: Store<fromCmsReducer.CmsState>;
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
-  let el: DebugElement;
 
   const mockSearchBoxComponentData = {
     uid: '001',
@@ -52,32 +50,28 @@ describe('SearchBoxComponent in CmsLib', () => {
 
   const mockQueryString = '?query=mockQuery';
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          BrowserAnimationsModule,
-          FormsModule,
-          MaterialModule,
-          ReactiveFormsModule,
-          RouterTestingModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers),
-            products: combineReducers(fromProductStore.reducers)
-          })
-        ],
-        declarations: [SearchBoxComponent, PictureComponent],
-        providers: [{ provide: ConfigService, useClass: UseConfigService }]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        BrowserAnimationsModule,
+        FormsModule,
+        MaterialModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromCmsReducer.reducers),
+          products: combineReducers(fromProductStore.reducers)
+        })
+      ],
+      declarations: [SearchBoxComponent, PictureComponent],
+      providers: [{ provide: ConfigService, useClass: UseConfigService }]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchBoxComponent);
     searchBoxComponent = fixture.componentInstance;
-
-    el = fixture.debugElement;
 
     store = TestBed.get(Store);
     spyOn(store, 'select').and.returnValue(of(mockSearchBoxComponentData));

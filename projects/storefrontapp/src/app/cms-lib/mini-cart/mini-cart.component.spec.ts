@@ -1,4 +1,3 @@
-import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -28,7 +27,6 @@ describe('MiniCartComponent', () => {
   let store: Store<fromCms.CmsState>;
   let miniCartComponent: MiniCartComponent;
   let fixture: ComponentFixture<MiniCartComponent>;
-  let el: DebugElement;
 
   const mockComponentData = {
     uid: '001',
@@ -60,35 +58,31 @@ describe('MiniCartComponent', () => {
     { '1234': { entryNumber: 0, product: { code: '1234' } } }
   ];
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          RouterModule,
-          MaterialModule,
-          FlexLayoutModule,
-          RouterTestingModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCms.reducers),
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers)
-          })
-        ],
-        declarations: [MiniCartComponent],
-        providers: [
-          CartService,
-          { provide: ConfigService, useClass: UseConfigService }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterModule,
+        MaterialModule,
+        FlexLayoutModule,
+        RouterTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromCms.reducers),
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers)
+        })
+      ],
+      declarations: [MiniCartComponent],
+      providers: [
+        CartService,
+        { provide: ConfigService, useClass: UseConfigService }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MiniCartComponent);
     miniCartComponent = fixture.componentInstance;
-
-    el = fixture.debugElement;
 
     store = TestBed.get(Store);
 

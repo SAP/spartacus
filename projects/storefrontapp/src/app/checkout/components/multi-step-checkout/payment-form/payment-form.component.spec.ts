@@ -4,7 +4,6 @@ import { PaymentFormComponent } from './payment-form.component';
 import {
   ReactiveFormsModule,
   FormGroup,
-  FormBuilder,
   AbstractControl
 } from '@angular/forms';
 import { of } from 'rxjs';
@@ -59,7 +58,6 @@ describe('PaymentFormComponent', () => {
   let fixture: ComponentFixture<PaymentFormComponent>;
   let service: CheckoutService;
 
-  let fb: FormBuilder;
   let ac: AbstractControl;
 
   beforeEach(async(() => {
@@ -90,7 +88,6 @@ describe('PaymentFormComponent', () => {
     service = TestBed.get(CheckoutService);
     store = TestBed.get(Store);
 
-    fb = TestBed.get(FormBuilder);
     ac = TestBed.get(AbstractControl);
 
     spyOn(store, 'dispatch').and.callThrough();

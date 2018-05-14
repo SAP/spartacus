@@ -28,7 +28,6 @@ const endpoint = '/products';
 
 describe('OccProductSearchService', () => {
   let service: OccProductSearchService;
-  let config: ConfigService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -42,7 +41,6 @@ describe('OccProductSearchService', () => {
 
     service = TestBed.get(OccProductSearchService);
     httpMock = TestBed.get(HttpTestingController);
-    config = TestBed.get(ConfigService);
   });
 
   afterEach(() => {

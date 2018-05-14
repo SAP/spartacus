@@ -46,7 +46,6 @@ const endpoint = '/cms';
 
 describe('OccCmsService', () => {
   let service: OccCmsService;
-  let config: ConfigService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -60,7 +59,6 @@ describe('OccCmsService', () => {
 
     service = TestBed.get(OccCmsService);
     httpMock = TestBed.get(HttpTestingController);
-    config = TestBed.get(ConfigService);
   });
 
   afterEach(() => {

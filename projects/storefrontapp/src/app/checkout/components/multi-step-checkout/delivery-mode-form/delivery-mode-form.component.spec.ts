@@ -4,7 +4,6 @@ import { DeliveryModeFormComponent } from './delivery-mode-form.component';
 import {
   ReactiveFormsModule,
   FormGroup,
-  FormBuilder,
   AbstractControl
 } from '@angular/forms';
 import { of } from 'rxjs';
@@ -49,31 +48,28 @@ describe('DeliveryModeFormComponent', () => {
   let fixture: ComponentFixture<DeliveryModeFormComponent>;
   let service: CheckoutService;
 
-  let fb: FormBuilder;
   let ac: AbstractControl;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers),
-            checkout: combineReducers(fromCheckout.reducers)
-          })
-        ],
-        declarations: [DeliveryModeFormComponent],
-        providers: [
-          CheckoutService,
-          CartService,
-          { provide: FormGroup, useClass: MockFormGroup },
-          { provide: AbstractControl, useClass: MockAbstractControl }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers),
+          checkout: combineReducers(fromCheckout.reducers)
+        })
+      ],
+      declarations: [DeliveryModeFormComponent],
+      providers: [
+        CheckoutService,
+        CartService,
+        { provide: FormGroup, useClass: MockFormGroup },
+        { provide: AbstractControl, useClass: MockAbstractControl }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DeliveryModeFormComponent);
@@ -81,7 +77,6 @@ describe('DeliveryModeFormComponent', () => {
     service = TestBed.get(CheckoutService);
     store = TestBed.get(Store);
 
-    fb = TestBed.get(FormBuilder);
     ac = TestBed.get(AbstractControl);
 
     spyOn(store, 'dispatch').and.callThrough();

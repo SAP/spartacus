@@ -26,7 +26,6 @@ class MockActivatedRoute {
 describe('CategoryPageComponent', () => {
   let component: CategoryPageComponent;
   let fixture: ComponentFixture<CategoryPageComponent>;
-  let ar: MockActivatedRoute;
   let store: Store<fromCms.CmsState>;
 
   beforeEach(async(() => {
@@ -59,8 +58,6 @@ describe('CategoryPageComponent', () => {
     fixture.detectChanges();
 
     store = TestBed.get(Store);
-
-    ar = TestBed.get(MockActivatedRoute);
   });
 
   it('should create', () => {

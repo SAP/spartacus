@@ -11,7 +11,6 @@ import { AddressFormComponent } from './address-form.component';
 import {
   ReactiveFormsModule,
   FormGroup,
-  FormBuilder,
   AbstractControl
 } from '@angular/forms';
 
@@ -60,7 +59,6 @@ describe('AddressFormComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: AddressFormComponent;
   let fixture: ComponentFixture<AddressFormComponent>;
-  let fb: FormBuilder;
   let ac: AbstractControl;
   let dialog: MatDialog;
 
@@ -87,7 +85,6 @@ describe('AddressFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fb = TestBed.get(FormBuilder);
     fixture = TestBed.createComponent(AddressFormComponent);
     component = fixture.componentInstance;
     store = TestBed.get(Store);

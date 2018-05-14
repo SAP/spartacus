@@ -15,7 +15,6 @@ const address = { mockAddress: 'mockAddress', titleCode: 'mr' };
 describe('SuggestedAddressDialogComponent', () => {
   let component: SuggestedAddressDialogComponent;
   let fixture: ComponentFixture<SuggestedAddressDialogComponent>;
-  let dialogRef: MatDialogRef<SuggestedAddressDialogComponent>;
 
   beforeEach(
     async(() => {
@@ -39,7 +38,6 @@ describe('SuggestedAddressDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SuggestedAddressDialogComponent);
     component = fixture.componentInstance;
-    dialogRef = TestBed.get(MatDialogRef);
   });
 
   it('should be created', () => {

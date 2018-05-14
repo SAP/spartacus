@@ -39,7 +39,6 @@ class MockConfigService {
 
 describe('OccUserService', () => {
   let service: OccUserService;
-  let config: ConfigService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -53,7 +52,6 @@ describe('OccUserService', () => {
 
     service = TestBed.get(OccUserService);
     httpMock = TestBed.get(HttpTestingController);
-    config = TestBed.get(ConfigService);
   });
 
   afterEach(() => {
