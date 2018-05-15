@@ -5,6 +5,6 @@
   "prettier.singleQuote": true,
   // Prettify on save
   "editor.formatOnSave": true,
-  //
+  // Uses the project specific typescript version.
   "typescript.tsdk": "node_modules/typescript/lib"
 }

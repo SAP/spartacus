@@ -35,7 +35,7 @@ This project is intended to be edited with [Microsoft Visial Studio Code](https:
 
 #### Workspace Extensions
 
-The development team relies on a few extensions for productivity and code compliance. When you open the source folder in vscode, if you are missing some of these recommended extensions, vscode will prompt you for installation.
+The development team relies on a few extensions for productivity and code compliance. When you open the source folder in vscode, if you are missing some of these recommended extensions, vscode will prompt you for installation. The list of recommended extensions is found in '.vscode/extensions.json'.
 
 Please make sure you install them.
 
