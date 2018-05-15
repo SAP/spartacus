@@ -3,10 +3,14 @@
 echo "Starting pipeline for Spaccelerator project"
 echo "Updating dependencies"
 yarn
-echo "Building"
+echo "-----"
+echo "Dependencies updated. Building SPA"
 ng build
-echo "Linting"
+echo "-----"
+echo "Build complete. Checking code linting"
 ng lint
-echo "Testing"
+echo "-----"
+echo "Linting stage passed. Running unit tests and checking code coverage"
 ng test storefrontapp --watch=false --code-coverage --browsers=ChromeHeadless
-echo "Pipeline completed"
+echo "-----"
+echo "Test s successful. Pipeline completed"
