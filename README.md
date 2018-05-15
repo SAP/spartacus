@@ -1,5 +1,7 @@
 # Spartacus - Angular Storefront
 
+---
+
 ## Installation
 
 Minimum Requirements
@@ -22,6 +24,8 @@ $ yarn start
 ```
 
 Then point your browser to http://localhost:4200/
+
+---
 
 ## Development tools
 
