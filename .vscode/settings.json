@@ -1,6 +1,10 @@
 {
   // Place your settings in this file to overwrite default and user settings.
+  //
+  // Prettier uses single quotes.
   "prettier.singleQuote": true,
+  // Prettify on save
   "editor.formatOnSave": true,
+  //
   "typescript.tsdk": "node_modules/typescript/lib"
 }
