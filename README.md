@@ -1,13 +1,49 @@
-# Spaccelerator
-## Background
-The SPAccelerator is a fancy name for a Single Page Application (SPA) template for Hybris Commerce. Similar to the accelerators this template will deliver a front-end implementation on top of Hybris Commerce. With a complete difference technology stack and the ability to deliver new features fast.
+# Spartacus - Angular Storefront
 
-## Setup
-Detailed setup is described at `https://wiki.hybris.com/display/pskb/SPAccelerator#SPAccelerator-Installation&Setup`.
+---
 
-## Development server
-Run `ng run start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Installation
 
-## Build
+Minimum Requirements
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Run `ng build --aot --prod` for an optimized code base. 
+```
+Node.js >= 8.9.0
+yarn >= 1.6.0
+```
+
+Install dependencies:
+
+```
+$ yarn install
+```
+
+Start the angular app.
+
+```
+$ yarn start
+```
+
+Then point your browser to http://localhost:4200/
+
+---
+
+## Development tools
+
+### VS Code
+
+This project is intended to be edited with [Microsoft Visial Studio Code](https://code.visualstudio.com)
+
+#### Workspace Extensions
+
+The development team relies on a few extensions for productivity and code compliance. When you open the source folder in vscode, if you are missing some of these recommended extensions, vscode will prompt you for installation. The list of recommended extensions is found in '.vscode/extensions.json'.
+
+Please make sure you install them.
+
+#### Workspace settings
+
+These are vscode settings the team relies on. They are shared and enforced via vscode workspace settings. If you want to change something, propose the change don't just commit it, so the whole team uses it.
+
+### Browser: Google Chrome
+
+For development, Google Chrome is recommended. There is a "Debugger for Chrome" extension for vscode in the workspace extensions. This allows you to place breakpoint in typescript from vscode and debug the app from vscode.
+Chrome also manages well security exceptions that are needed to get the application running in a development environment.
