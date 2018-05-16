@@ -25,15 +25,20 @@ package-lock.json
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Coverage reports
+**/coverage
+**/jenkins
+
 # misc
 /.sass-cache
 /connect.lock
-/coverage
 /libpeerconnection.log
+/typings
+
+# Logs
 npm-debug.log
 yarn-error.log
 testem.log
-/typings
 
 # System Files
 .DS_Store
