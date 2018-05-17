@@ -17,10 +17,5 @@
       "dom"
     ],
     "strictPropertyInitialization": false,
-    "paths": {
-      "storefrontlib": [
-        "dist/storefrontlib"
-      ]
-    }
   }
 }
