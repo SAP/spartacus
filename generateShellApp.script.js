@@ -93,7 +93,6 @@ function cleanUpDistTsConfigJsonFile() {
   let tsConfigData = JSON.parse(file);
 
   delete tsConfigData.compilerOptions['paths'];
-  console.log(tsConfigData);
 
   filesystem.writeFileSync(
     TS_CONFIG_DIST_PATH,
