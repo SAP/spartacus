@@ -20,7 +20,7 @@ module.exports = function(config) {
     reporters: ['progress', 'kjhtml', 'dots', 'junit'],
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../../coverage'),
-      reports: ['lcov', 'cobertura'],
+      reports: ['html', 'cobertura'],
       fixWebpackSourcePaths: true,
       thresholds: {
         statements: 80,
