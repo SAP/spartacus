@@ -11,8 +11,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "dist-storefrontapp": "node generateShellApp.script.js",
-    "dist-storefrontlib": "ng build storefrontlib && cd dist/storefrontlib && yarn pack && mv storefrontlib*.tgz .."
+    "dist-storefrontapp":
+      "node generateShellApp.script.js && cd dist/projects/storefrontapp && yarn pack",
+    "dist-storefrontlib":
+      "ng build storefrontlib && cd dist/storefrontlib && yarn pack && mv storefrontlib*.tgz .."
   },
   "private": true,
   "dependencies": {
