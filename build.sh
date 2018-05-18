@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "Starting pipeline for Spartacus project"
+echo "-----"
 echo "Updating dependencies"
 yarn
 echo "-----"
@@ -12,6 +13,7 @@ ng build storefrontlib
 echo "-----"
 echo "Running unit tests and checking code coverage for core lib"
 ng test storefrontlib --watch=false --code-coverage --browsers=ChromeHeadless
+echo "-----"
 echo "Building SPA app"
 ng build storefrontapp
 echo "-----"
