@@ -14,12 +14,12 @@ let path = require('path');
 let ncp = require('ncp').ncp;
 
 const PROJECT_PATH = '.';
-const DIST_PATH = `${PROJECT_PATH}/dist/storefrontshellapp`;
+const DIST_PATH = `${PROJECT_PATH}/dist`;
+const DIST_PROJECT_PATH = `${DIST_PATH}/storefrontshellapp`;
 const STOREFRONTAPP_PATH = `${PROJECT_PATH}/projects/storefrontapp`;
 
 //Inidividual files to be copied over
 const ADDITIONAL_FILES_PATHS = [
-  `${PROJECT_PATH}/coverage`,
   `${PROJECT_PATH}/.gitignore`,
   `${PROJECT_PATH}/angular.json`,
   `${PROJECT_PATH}/package.json`,
@@ -37,7 +37,7 @@ main();
 function main() {
   let promises = [];
   createDistFolder();
-  promises.push(copyInto(STOREFRONTAPP_PATH, DIST_PATH));
+  promises.push(copyInto(STOREFRONTAPP_PATH, DIST_PROJECT_PATH));
   promises.push(copyAdditionalFilesIntoDist(ADDITIONAL_FILES_PATHS));
   Promise.all(promises).then(() => {
     console.log('All done');
@@ -50,13 +50,16 @@ function createDistFolder() {
   if (!filesystem.existsSync(DIST_PATH)) {
     filesystem.mkdirSync(DIST_PATH);
   }
+  if (!filesystem.existsSync(DIST_PROJECT_PATH)) {
+    filesystem.mkdirSync(DIST_PROJECT_PATH);
+  }
 }
 
 function copyAdditionalFilesIntoDist(filePathsArray) {
   let promises = [];
   let promise = new Promise((resolve, reject) => {
     filePathsArray.forEach(filePath => {
-      promises.push(copyInto(filePath, DIST_PATH));
+      promises.push(copyInto(filePath, DIST_PROJECT_PATH));
     });
 
     Promise.all(promises).then(() => {
@@ -66,7 +69,7 @@ function copyAdditionalFilesIntoDist(filePathsArray) {
   return promise;
 }
 function cleanUpDistAngularJsonFile() {
-  let ANGULAR_JSON_DIST_PATH = `${DIST_PATH}/angular.json`;
+  let ANGULAR_JSON_DIST_PATH = `${DIST_PROJECT_PATH}/angular.json`;
   let file = filesystem.readFileSync(ANGULAR_JSON_DIST_PATH);
   let AngularJsonData = JSON.parse(file);
 
@@ -88,7 +91,7 @@ function cleanUpDistAngularJsonFile() {
   );
 }
 function cleanUpDistTsConfigJsonFile() {
-  let TS_CONFIG_DIST_PATH = `${DIST_PATH}/tsconfig.json`;
+  let TS_CONFIG_DIST_PATH = `${DIST_PROJECT_PATH}/tsconfig.json`;
   let file = filesystem.readFileSync(TS_CONFIG_DIST_PATH);
   let tsConfigData = JSON.parse(file);
 
