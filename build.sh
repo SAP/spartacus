@@ -1,16 +1,21 @@
 #!/bin/bash
 
-echo "Starting pipeline for Spaccelerator project"
+echo "Starting pipeline for Spartacus project"
 echo "Updating dependencies"
 yarn
 echo "-----"
-echo "Dependencies updated. Building SPA"
-ng build
-echo "-----"
-echo "Build complete. Checking code linting"
+echo "Validating code linting"
 ng lint
 echo "-----"
-echo "Linting stage passed. Running unit tests and checking code coverage"
+echo "Building SPA core lib"
+ng build storefrontlib
+echo "-----"
+echo "Running unit tests and checking code coverage for core lib"
+ng test storefrontlib --watch=false --code-coverage --browsers=ChromeHeadless
+echo "Building SPA app"
+ng build storefrontapp
+echo "-----"
+echo "Running unit tests and checking code coverage for storefront app"
 ng test storefrontapp --watch=false --code-coverage --browsers=ChromeHeadless
 echo "-----"
-echo "Test s successful. Pipeline completed"
+echo "Spartacus Pipeline completed"
