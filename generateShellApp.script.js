@@ -41,9 +41,9 @@ function main() {
   promises.push(copyInto(STOREFRONTAPP_PATH, DIST_PROJECT_PATH));
   promises.push(copyAdditionalFilesIntoDist(ADDITIONAL_FILES_PATHS));
   Promise.all(promises).then(() => {
-    console.log('All done');
     cleanUpDistAngularJsonFile();
     cleanUpDistTsConfigJsonFile();
+    console.log('Script complete');
   });
 }
 
