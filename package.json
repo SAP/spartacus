@@ -10,7 +10,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "dist-storefrontlib":
+      "ng build storefrontlib && cd dist/storefrontlib && yarn pack && mv storefrontlib*.tgz .."
   },
   "private": true,
   "dependencies": {
