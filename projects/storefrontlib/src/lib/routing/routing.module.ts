@@ -15,7 +15,7 @@ import {
 import { ConfigService, StorageSyncType } from './config.service';
 
 // Angular CLI environment
-import { environment } from '../../environments/environment';
+// import { environment } from '../../environments/environment';
 
 // not used in production
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -28,9 +28,9 @@ export function getMetaReducers(config: ConfigService): MetaReducer<any>[] {
     metaReducers.push(storageSyncReducer);
   }
 
-  if (!environment.production) {
-    metaReducers.push(storeFreeze);
-  }
+  // if (!environment.production) {
+  //   metaReducers.push(storeFreeze);
+  // }
   return metaReducers;
 }
 
@@ -38,8 +38,8 @@ export function getMetaReducers(config: ConfigService): MetaReducer<any>[] {
   imports: [
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
-    StoreRouterConnectingModule,
-    environment.production ? [] : StoreDevtoolsModule.instrument()
+    StoreRouterConnectingModule
+    // environment.production ? [] : StoreDevtoolsModule.instrument()
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },
