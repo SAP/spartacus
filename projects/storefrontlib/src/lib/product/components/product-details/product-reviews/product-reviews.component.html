@@ -16,11 +16,11 @@
                         <!--<button md-button (click)="onClick">
                             <y-star-rating [rating]="review.rating"></y-star-rating>
                         </button>-->
-                        <button mat-icon-button (click)="activeReview = review">
+                        <button mat-icon-button>
                             <mat-icon>expand_more</mat-icon>
                         </button>
                     </mat-list-item>
-                    <div class="comment" [hidden]="activeReview !== review">
+                    <div class="comment">
                         <y-star-rating [rating]="review.rating" class="rating"></y-star-rating>
                         <div>
                             {{review.comment}}
