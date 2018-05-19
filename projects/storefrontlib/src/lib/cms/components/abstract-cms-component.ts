@@ -51,7 +51,7 @@ export abstract class AbstractCmsComponent implements OnDestroy {
     this.load = componentLoad;
   }
 
-  protected getBaseUrl() {
+  public getBaseUrl() {
     return this.config.server.baseUrl;
   }
 

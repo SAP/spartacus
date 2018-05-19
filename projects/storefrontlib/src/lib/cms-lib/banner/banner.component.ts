@@ -34,16 +34,16 @@ export class BannerComponent extends AbstractCmsComponent {
     );
   }
 
-  protected getImageUrl(): string {
+  public getImageUrl(): string {
     return this.hasImage() ? this.component.media.url : '';
   }
 
   // TODO: implement target
-  protected getTarget(): string {
+  public getTarget(): string {
     return '_self';
   }
 
-  protected getUrlLink(): string {
+  public getUrlLink(): string {
     if (this.component.urlLink !== undefined) {
       if (this.component.urlLink.startsWith('/')) {
         return this.component.urlLink;
