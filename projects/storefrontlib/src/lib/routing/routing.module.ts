@@ -29,7 +29,7 @@ export function getMetaReducers(config: ConfigService): MetaReducer<any>[] {
   }
 
   // if (!environment.production) {
-  //   metaReducers.push(storeFreeze);
+     metaReducers.push(storeFreeze);
   // }
   return metaReducers;
 }
@@ -38,8 +38,9 @@ export function getMetaReducers(config: ConfigService): MetaReducer<any>[] {
   imports: [
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
-    StoreRouterConnectingModule
+    StoreRouterConnectingModule,
     // environment.production ? [] : StoreDevtoolsModule.instrument()
+    StoreDevtoolsModule.instrument()
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },
