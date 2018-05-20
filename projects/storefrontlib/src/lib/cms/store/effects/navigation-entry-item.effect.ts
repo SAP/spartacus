@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions } from '@ngrx/effects';
-import { Observable ,  of } from 'rxjs';
-import { map, catchError, filter, mergeMap, take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, catchError, filter, mergeMap, take, tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
 
 import * as navigationItemActions from '../actions/navigation-entry-item.action';
 import * as fromServices from '../../services';
-import { OccCmsService } from '../../services/occ-cms.service'; // tslint:disable-line
 import { IdList } from '../../models/idList.model';
 
 @Injectable()
@@ -33,9 +32,9 @@ export class NavigationEntryItemEffects {
             filter(routerState => routerState !== undefined),
             map(routerState => routerState.state.context),
             take(1),
-            mergeMap(pageContext =>
+            mergeMap(pageContext => {
               // download all items in one request
-              this.occCmsService
+              return this.occCmsService
                 .loadListComponents(
                   data.ids.componentIds,
                   pageContext,
@@ -54,8 +53,8 @@ export class NavigationEntryItemEffects {
                   catchError(error =>
                     of(new navigationItemActions.LoadNavigationItemsFail(error))
                   )
-                )
-            )
+                );
+            })
           );
         } else if (data.ids.pageIds.idList.length > 0) {
           // future work
