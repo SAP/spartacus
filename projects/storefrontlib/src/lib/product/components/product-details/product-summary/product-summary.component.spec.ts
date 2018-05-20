@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MaterialModule } from 'projects/storefrontapp/src/app/material.module';
+import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 
 describe('ProductSummaryComponent in product', () => {

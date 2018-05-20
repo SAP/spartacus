@@ -1,4 +1,4 @@
-import { MaterialModule } from 'projects/storefrontapp/src/app/material.module';
+import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';

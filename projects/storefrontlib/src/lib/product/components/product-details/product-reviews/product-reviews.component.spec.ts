@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
-import { MaterialModule } from 'projects/storefrontapp/src/app/material.module';
+import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductReviewsComponent } from './product-reviews.component';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
