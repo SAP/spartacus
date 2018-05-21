@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import * as fromActions from './../actions';
 import * as fromUserActions from '../../../user/store/actions';
 
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Actions, Effect } from '@ngrx/effects';
 import { map, catchError, mergeMap } from 'rxjs/operators';
 
@@ -121,9 +121,9 @@ export class CheckoutEffects {
                 )
               };
             }),
-            mergeMap(sub =>
+            mergeMap(sub => {
               // create a subscription directly with payment provider
-              this.occCartService
+              return this.occCartService
                 .createSubWithPaymentProvider(sub.url, sub.parameters)
                 .pipe(
                   map(response => this.extractPaymentDetailsFromHtml(response)),
@@ -159,8 +159,8 @@ export class CheckoutEffects {
                       );
                     }
                   })
-                )
-            )
+                );
+            })
           );
       })
     );
