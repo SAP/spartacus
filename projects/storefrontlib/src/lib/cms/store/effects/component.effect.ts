@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions } from '@ngrx/effects';
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   map,
   catchError,
@@ -16,7 +16,6 @@ import * as fromRouting from '../../../routing/store';
 
 import * as componentActions from '../actions/component.action';
 import * as fromServices from '../../services';
-import { OccCmsService } from '../../services/occ-cms.service'; // tslint:disable-line
 
 @Injectable()
 export class ComponentEffects {
