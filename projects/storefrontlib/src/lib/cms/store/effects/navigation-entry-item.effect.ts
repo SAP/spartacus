@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, catchError, filter, mergeMap, take, tap } from 'rxjs/operators';
+import { map, catchError, filter, mergeMap, take } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
