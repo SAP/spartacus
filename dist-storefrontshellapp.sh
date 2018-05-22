@@ -30,4 +30,4 @@ echo "Updating configuration"
 node configure-storefrontshellapp.js ${DESTDIR}
 
 echo "Creating $DESTDIR.tgz"
-tar -zcf ${DESTDIR}.tgz ${DESTDIR}
+( cd dist && tar -zcf storefrontshellapp.tgz storefrontshellapp )
