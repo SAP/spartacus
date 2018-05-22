@@ -1,6 +1,7 @@
 #!/bin/bash
 
-DESTDIR="./dist/storefrontshellapp"
+ARTIFACT="storefrontshellapp"
+DESTDIR="./dist/${ARTIFACT}"
 
 # Deletes $DESTDIR if it extits
 if [ -d "$DESTDIR" ]; then
@@ -30,4 +31,4 @@ echo "Updating configuration"
 node configure-storefrontshellapp.js ${DESTDIR}
 
 echo "Creating $DESTDIR.tgz"
-( cd dist && tar -zcf storefrontshellapp.tgz storefrontshellapp )
+( cd dist && tar -zcf ${ARTIFACT}.tgz ${ARTIFACT} )
