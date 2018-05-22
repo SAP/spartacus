@@ -22,13 +22,15 @@ function cleanUpDistAngularJsonFile(root) {
   let ANGULAR_JSON_PATH = './angular.json';
   let angularJsonFile = filesystem.readFileSync(ANGULAR_JSON_PATH);
   let angularJsonData = JSON.parse(angularJsonFile);
-  let storefrontAppConfig = {'storefrontapp' : angularJsonData.projects.storefrontapp}
+  let storefrontAppConfig = {
+    storefrontapp: angularJsonData.projects.storefrontapp
+  };
 
   //Modify the copied Angular.json file
   let ANGULAR_JSON_DIST_PATH = `${root}/angular.json`;
   let angularJsonDistFile = filesystem.readFileSync(ANGULAR_JSON_DIST_PATH);
   let AngularJsonDistData = JSON.parse(angularJsonDistFile);
-  delete AngularJsonDistData['projects'];
+  AngularJsonDistData['projects'] = {};
   AngularJsonDistData.projects = storefrontAppConfig;
 
   //Save changes to the copied Angular.json file
@@ -47,7 +49,7 @@ function cleanUpDistAngularJsonFile(root) {
 }
 
 function cleanUpDistTsConfigJsonFile(root) {
-  console.log('Cleaning tsconfig.Json in the Dist')
+  console.log('Cleaning tsconfig.Json in the Dist');
   //Get the json from the tsconfig.file
   let TS_CONFIG_DIST_PATH = `${root}/tsconfig.json`;
   let file = filesystem.readFileSync(TS_CONFIG_DIST_PATH);

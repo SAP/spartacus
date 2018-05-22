@@ -27,7 +27,7 @@ mkdir -p ${DESTDIR}/projects
 cp -r ./projects/storefrontapp ${DESTDIR}/projects
 
 echo "Updating configuration"
-node generateShellApp.script.js ${DESTDIR}
+node configure-storefrontshellapp.js ${DESTDIR}
 
 echo "Creating $DESTDIR.tgz"
 tar -zcf ${DESTDIR}.tgz ${DESTDIR}
