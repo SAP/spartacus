@@ -1,0 +1,41 @@
+<div class="content">
+    <h1>Suggested Addresses</h1>
+    <div *ngIf="data.suggested?.length !== 0">
+        <h2>We have some suggestions about the address you entered. Select the address you want to use.</h2>
+        <div>
+            <h3>Suggested Addresses:</h3>
+            <div class="suggested" *ngFor="let suggestedAddress of data.suggested">
+                <div>{{suggestedAddress.firstName}} {{suggestedAddress.lastName}}</div>
+                <div>{{suggestedAddress.line1}}</div>
+                <div *ngIf="suggestedAddress.line2">{{suggestedAddress.line2}}</div>
+                <div>{{suggestedAddress.town}} {{suggestedAddress.region.isocode}}</div>
+                <div>{{suggestedAddress.postalCode}}</div>
+                <button class="button" mat-raised-button color="accent" [mat-dialog-close]="suggestedAddress">Use this address</button>
+            </div>
+
+            <div class="entered">
+                <h3>Address You Entered:</h3>
+                <div>{{data.entered.firstName}} {{data.entered.lastName}}</div>
+                <div>{{data.entered.line1}}</div>
+                <div *ngIf="data.entered.line2">{{data.entered.line2}}</div>
+                <div>{{data.entered.town}} {{data.entered.region.isocode}}</div>
+                <div>{{data.entered.postalCode}}</div>
+                <button class="button" mat-raised-button color="primary" mat-dialog-close>Go back and edit the address you entered</button>
+                <br>
+                <button class="submit-button" mat-raised-button color="accent" mat-dialog-close [mat-dialog-close]="data.entered">Use the address you entered</button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="data.suggested?.length === 0">
+        <h2>We could not find any suggestions.</h2>
+        <h3>Address You Entered:</h3>
+        <div>{{data.entered.firstName}} {{data.entered.lastName}}</div>
+        <div>{{data.entered.line1}}</div>
+        <div *ngIf="data.entered.line2">{{data.entered.line2}}</div>
+        <div>{{data.entered.town}} {{data.entered.region.isocode}}</div>
+        <div>{{data.entered.postalCode}}</div>
+        <button class="button" mat-raised-button color="primary" mat-dialog-close>Go back and edit the address you entered</button>
+        <button class="button" mat-raised-button color="accent" mat-dialog-close [mat-dialog-close]="data.entered">Use the address you entered</button>
+    </div>
+</div>

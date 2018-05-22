@@ -1,0 +1,157 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "storefrontapp": {
+      "root": "projects/storefrontapp/",
+      "sourceRoot": "projects/storefrontapp/src",
+      "projectType": "application",
+      "prefix": "y",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/storefrontapp",
+            "index": "projects/storefrontapp/src/index.html",
+            "main": "projects/storefrontapp/src/main.ts",
+            "polyfills": "projects/storefrontapp/src/polyfills.ts",
+            "tsConfig": "projects/storefrontapp/tsconfig.app.json",
+            "assets": [
+              "projects/storefrontapp/src/favicon.ico",
+              "projects/storefrontapp/src/assets"
+            ],
+            "styles": [
+              "projects/storefrontapp/src/styles.scss",
+              "projects/storefrontapp/src/theme.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace":
+                    "projects/storefrontapp/src/environments/environment.ts",
+                  "with":
+                    "projects/storefrontapp/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "storefrontapp:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "storefrontapp:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "storefrontapp:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/storefrontapp/src/test.ts",
+            "polyfills": "projects/storefrontapp/src/polyfills.ts",
+            "tsConfig": "projects/storefrontapp/tsconfig.spec.json",
+            "karmaConfig": "projects/storefrontapp/karma.conf.js",
+            "styles": ["projects/storefrontapp/src/styles.css"],
+            "scripts": [],
+            "assets": [
+              "projects/storefrontapp/src/favicon.ico",
+              "projects/storefrontapp/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/storefrontapp/tsconfig.app.json",
+              "projects/storefrontapp/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "storefrontapp-e2e": {
+      "root": "projects/storefrontapp-e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/storefrontapp-e2e/protractor.conf.js",
+            "devServerTarget": "storefrontapp:serve"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/storefrontapp-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "storefrontlib": {
+      "root": "projects/storefrontlib",
+      "sourceRoot": "projects/storefrontlib/src",
+      "projectType": "library",
+      "prefix": "y",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/storefrontlib/tsconfig.lib.json",
+            "project": "projects/storefrontlib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/storefrontlib/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/storefrontlib/src/test.ts",
+            "tsConfig": "projects/storefrontlib/tsconfig.spec.json",
+            "karmaConfig": "projects/storefrontlib/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/storefrontlib/tsconfig.lib.json",
+              "projects/storefrontlib/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "storefrontapp"
+}

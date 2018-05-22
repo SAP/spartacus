@@ -1,0 +1,55 @@
+<div>
+    <h3 class="heading">Review and Submit:</h3>
+    <div class="shipping-address">
+        <div>
+            <h4>Shipping To:</h4>
+        </div>
+
+        <div>{{(titleName$ | async)?.name}} {{deliveryAddress.firstName}} {{deliveryAddress.lastName}}</div>
+        <div>{{deliveryAddress.line1}}</div>
+        <div *ngIf="deliveryAddress.line2">{{deliveryAddress.line2}}</div>
+        <div>{{deliveryAddress.town}} {{deliveryAddress.region.isocode}}</div>
+        <div>{{(countryName$ | async)?.name}}</div>
+        <div>{{deliveryAddress.postalCode}}</div>
+        <div *ngIf="deliveryAddress.phone">{{deliveryAddress.phone}}</div>
+    </div>
+    <div class="shipping-method">
+        <div>
+            <h4>Shipping Method:</h4>
+        </div>
+        <div *ngIf="(deliveryMode$ | async) as deliveryMode">
+            {{deliveryMode.name}} - {{deliveryMode.description}} - {{deliveryMode.deliveryCost?.formattedValue}}
+        </div>
+    </div>
+    <div class="payment-method">
+        <div>
+            <h4>Payment Method:</h4>
+        </div>
+        <div>{{paymentDetails.cardType.name}}</div>
+        <div>{{paymentDetails.accountHolderName}}</div>
+        <div>{{paymentDetails.cardNumber}}</div>
+        <div>Expiry: {{paymentDetails.expiryMonth}}/{{paymentDetails.expiryYear}}</div>
+
+    </div>
+    <div class="billing-address">
+        <div>
+            <h4>Billing Address:</h4>
+        </div>
+        <div>{{paymentDetails.billingAddress.firstName}} {{paymentDetails.billingAddress.lastName}}</div>
+        <div>{{paymentDetails.billingAddress.line1}}</div>
+        <div *ngIf="paymentDetails.billingAddress.line2">{{paymentDetails.billingAddress.line2}}</div>
+        <div>{{paymentDetails.billingAddress.town}} {{paymentDetails.billingAddress.region.isocode}}</div>
+        <div>{{paymentDetails.billingAddress.country.name}}</div>
+        <div>{{paymentDetails.billingAddress.postalCode}}</div>
+        <div *ngIf="paymentDetails.billingAddress.phone">{{paymentDetails.billingAddress.phone}}</div>
+    </div>
+
+    <input type="checkbox" class="tandc" (change)="toggleTAndC()">I agree to the terms and conditions
+    <br>
+
+    <div class="buttons">
+        <button (click)="back()">Go Back</button>
+        <button [disabled]="!tAndCToggler" (click)="submitOrder()"> Place Order
+        </button>
+    </div>
+</div>
