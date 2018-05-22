@@ -17,7 +17,7 @@ function main() {
 }
 
 function cleanUpDistAngularJsonFile(root) {
-  console.log('Cleaning Angular.Json in the Dist');
+  console.log(`Updating angular.json in ${root}`);
   //Fetch the storefrontapp config from the original Angular.json
   let ANGULAR_JSON_PATH = './angular.json';
   let angularJsonFile = filesystem.readFileSync(ANGULAR_JSON_PATH);
@@ -42,14 +42,14 @@ function cleanUpDistAngularJsonFile(root) {
         return console.error(err);
       }
       console.log(
-        `Finished cleaning up Angular.Json in ${ANGULAR_JSON_DIST_PATH} `
+        `Finished cleaning up angular.json in ${ANGULAR_JSON_DIST_PATH} `
       );
     }
   );
 }
 
 function cleanUpDistTsConfigJsonFile(root) {
-  console.log('Cleaning tsconfig.Json in the Dist');
+  console.log(`Updating tsconfig.json in ${root}`);
   //Get the json from the tsconfig.file
   let TS_CONFIG_DIST_PATH = `${root}/tsconfig.json`;
   let file = filesystem.readFileSync(TS_CONFIG_DIST_PATH);
@@ -67,7 +67,7 @@ function cleanUpDistTsConfigJsonFile(root) {
         return console.error(err);
       }
       console.log(
-        `Finished cleaning up tsconfig.Json in ${TS_CONFIG_DIST_PATH} `
+        `Finished cleaning up tsconfig.json in ${TS_CONFIG_DIST_PATH} `
       );
     }
   );
