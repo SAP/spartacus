@@ -43,3 +43,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# reporting
+projects/storefrontapp/coverage
+projects/storefrontapp/jenkins
