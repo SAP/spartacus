@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DESTDIR="dist/storefrontshellapp"
+DESTDIR="./dist/storefrontshellapp"
 
 # Deletes $DESTDIR if it extits
 if [ -d "$DESTDIR" ]; then
@@ -27,7 +27,7 @@ mkdir -p ${DESTDIR}/projects
 cp -r ./projects/storefrontapp ${DESTDIR}/projects
 
 echo "Updating configuration"
-# node configureshellapp.js ${DESTDIR}
+node generateShellApp.script.js ${DESTDIR}
 
 echo "Creating $DESTDIR.tgz"
 tar -zcf ${DESTDIR}.tgz ${DESTDIR}
