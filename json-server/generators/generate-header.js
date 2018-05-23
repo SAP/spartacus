@@ -35,7 +35,8 @@ generateLogoConmponent = function() {
       code: '/images/theme/logo_hybris_responsive.svg',
       mime: 'image/png',
       altText: 'hybris Accelerator',
-      url: 'https://dummyimage.com/600x40/ffaacc/fff&text=myrandomlogo'
+      url: 'https://logo.clearbit.com/shareacoke.com'
+      // https://dummyimage.com/600x40/ffaacc/fff&text=myrandomlogo'
     },
     type: 'Simple Banner Component',
     urlLink: '/logo'
