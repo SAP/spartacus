@@ -27,6 +27,13 @@ Then point your browser to http://localhost:4200/
 
 ---
 
+## Dependencies
+
+We pull all of our dependencies from our internal npm registry (artifactory). In order for you to be able to do this, you need to do the following:
+
+1.  Login to [artifactory](https://repository.hybris.com/webapp/#/login)
+2.  Once you have login, there should be an `npm repository` link on the homepage. Click it and follow the instructions to update your local `.npmrc` file with the proper credentials to pull dependencies from artifactory
+
 ## Development tools
 
 ### VS Code
