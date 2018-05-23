@@ -8,7 +8,7 @@
     "ng": "ng",
     "start": "ng serve",
     "start:mock": "ng serve --proxy-config proxy.mock.json",
-    "mockserver": "json-server --config=json-server/config.json ./json-server/generate-data.js",
+    "mockserver": "json-server --config=json-server/config.json ./json-server/generate-data.js  -i uid",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

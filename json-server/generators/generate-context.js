@@ -1,48 +1,48 @@
 var faker = require('faker');
 
-exports.create = function(data, sites) {
+exports.generate = function(data, sites) {
   data.context = [];
   for (const site of sites) {
-    data.context.push({
-      uid: site,
-      languages: generateLanguages(),
-      currencies: generateCurrencies()
-    });
+    generateLanguages(data, site);
+    generateCurrencies(data, site);
   }
 };
 
-function generateLanguages() {
+function generateLanguages(data, site) {
   const languages = [];
-  languages.push(
-    {
-      isocode: 'en',
-      nativeName: 'English'
-    },
-    {
-      isocode: 'de',
-      nativeName: 'German'
-    }
-  );
-
-  return languages;
+  languages.push({
+    isocode: 'en',
+    nativeName: 'English'
+  });
+  languages.push({
+    isocode: 'de',
+    nativeName: 'German'
+  });
+  data[site + '-languages'] = {
+    languages: languages
+  };
 }
 
-function generateCurrencies() {
+function generateCurrencies(data, site) {
   const currencies = [];
   currencies.push(
     {
-      isocode: 'USD'
+      isocode: 'USD',
+      symbol: '$'
     },
     {
-      isocode: 'EUR'
+      isocode: 'EUR',
+      symbol: '€'
     }
   );
-  // use faker
+  // add some fake content as well
   for (const i of [1, 2, 3]) {
     currencies.push({
-      isocode: faker.finance.currencyCode()
+      isocode: faker.finance.currencyCode(),
+      symbol: faker.finance.currencySymbol()
     });
   }
-
-  return currencies;
+  data[site + '-currencies'] = {
+    currencies: currencies
+  };
 }
