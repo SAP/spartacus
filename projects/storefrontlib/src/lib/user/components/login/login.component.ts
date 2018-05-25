@@ -5,6 +5,8 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
+// Linting is disabled on the next line because Observable is reported as an ununsed import.
+// Importing Observable is required by the library build process.
 import { Observable, Subscription } from 'rxjs'; // tslint:disable-line
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { Store } from '@ngrx/store';
