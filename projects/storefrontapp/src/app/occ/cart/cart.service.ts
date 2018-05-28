@@ -241,17 +241,10 @@ export class OccCartService {
         ? (strParams = strParams + key + '=' + parameters[key])
         : (strParams = strParams + '&' + key + '=' + parameters[key]);
     });
-    return this.http.post(
-      postUrl,
-      {},
-      {
-        headers: headers,
-        responseType: 'text',
-        params: new HttpParams({
-          fromString: strParams
-        })
-      }
-    );
+    return this.http.post(postUrl, strParams, {
+      headers: headers,
+      responseType: 'text'
+    });
   }
 
   public createPaymentDetails(
@@ -267,10 +260,6 @@ export class OccCartService {
         : (queryString = queryString + '&' + strParam);
     });
 
-    const params = new HttpParams({
-      fromString: queryString
-    });
-
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
@@ -278,8 +267,8 @@ export class OccCartService {
     return this.http
       .post(
         this.getCartEndpoint(userId) + cartId + '/payment/sop/response',
-        {},
-        { headers: headers, params: params }
+        queryString,
+        { headers: headers }
       )
       .pipe(catchError((error: any) => throwError(error)));
   }

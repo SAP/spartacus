@@ -1,11 +1,7 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import {
-  FormBuilder,
-  FormGroup,
-  FormArray
-} from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 
 import * as fromCartStore from '../../../store';
 import { CartService } from '../../../services/cart.service';
