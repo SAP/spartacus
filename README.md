@@ -17,6 +17,12 @@ Install dependencies:
 $ yarn install
 ```
 
+Build the storefrontlib
+
+```
+ng build storefrontlib
+```
+
 Start the angular app.
 
 ```

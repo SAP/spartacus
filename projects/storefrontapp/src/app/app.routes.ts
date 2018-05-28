@@ -1,17 +1,17 @@
 import { Routes } from '@angular/router';
 
-import { HomePageComponent } from './ui/pages/home-page/home-page.component';
-import { CartPageComponent } from './ui/pages/cart-page/cart-page.component';
-import { ProductPageComponent } from './ui/pages/product-page/product-page.component';
-import { CategoryPageComponent } from './ui/pages/category-page/category-page.component';
-import { MultiStepCheckoutPageComponent } from './ui/pages/multi-step-checkout-page/multi-step-checkout-page.component';
-import { OrderConfirmationPageComponent } from './ui/pages/order-confirmation-page/order-confirmation-page.component';
+import { HomePageComponent } from 'storefrontlib';
+import { CartPageComponent } from 'storefrontlib';
+import { ProductPageComponent } from 'storefrontlib';
+import { CategoryPageComponent } from 'storefrontlib';
+import { MultiStepCheckoutPageComponent } from 'storefrontlib';
+import { OrderConfirmationPageComponent } from 'storefrontlib';
 
-import { PageNotFoundComponent } from './ui/pages/404/404.component';
+import { PageNotFoundComponent } from 'storefrontlib';
 
-import { CmsPageGuards } from './cms/guards/cms-page.guard';
-import { ProductGuard } from './product/guards/product.guard';
-import { AuthGuard } from './user/guards/auth.guard';
+import { CmsPageGuards } from 'storefrontlib';
+import { ProductGuard } from 'storefrontlib';
+import { AuthGuard } from 'storefrontlib';
 
 // TODO: provide URL mappings for site specific routings
 export const appRoutes: Routes = [
