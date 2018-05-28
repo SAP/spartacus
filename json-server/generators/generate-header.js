@@ -1,4 +1,5 @@
 var faker = require('faker');
+var componentGenerator = require('./generate-components');
 
 exports.generateHeaderSlots = function() {
   return [
@@ -23,24 +24,25 @@ exports.generateHeaderSlots = function() {
   ];
 };
 
+exports.generateFooterSlots = function() {
+  return [
+    {
+      position: 'Footer',
+      components: {
+        component: []
+      }
+    }
+  ];
+};
+
 generateLogoConmponent = function() {
-  return {
-    uid: faker.random.number(),
-    typeCode: 'SimpleBannerComponent',
-    modifiedTime: '2017-12-21T18:15:15+0000',
-    name: 'Site Logo Component',
-    container: 'false',
-    external: 'false',
-    media: {
-      code: '/images/theme/logo_hybris_responsive.svg',
-      mime: 'image/png',
-      altText: 'hybris Accelerator',
-      url: 'https://logo.clearbit.com/shareacoke.com'
-      // https://dummyimage.com/600x40/ffaacc/fff&text=myrandomlogo'
-    },
-    type: 'Simple Banner Component',
-    urlLink: '/logo'
-  };
+  return componentGenerator.banner(
+    null,
+    null,
+    '/',
+    'Site Logo Component',
+    'https://logo.clearbit.com/bankofamerica.com'
+  );
 };
 
 generateSearchBoxComponent = function() {
