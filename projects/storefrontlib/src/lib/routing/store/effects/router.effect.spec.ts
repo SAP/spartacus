@@ -1,11 +1,9 @@
-import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
 
 import { hot } from 'jasmine-marbles';
-import { Observable ,  EMPTY } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -13,23 +11,8 @@ import { Location } from '@angular/common';
 import * as fromEffects from './router.effect';
 import * as fromActions from '../actions/router.action';
 
-@Injectable()
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-export function getActions() {
-  return new TestActions();
-}
-
 describe('Router Effects', () => {
-  let actions$: TestActions;
+  let actions$: Observable<any>;
   let effects: fromEffects.RouterEffects;
   let router: Router;
   let location: Location;
@@ -37,13 +20,9 @@ describe('Router Effects', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      providers: [
-        fromEffects.RouterEffects,
-        { provide: Actions, useFactory: getActions }
-      ]
+      providers: [fromEffects.RouterEffects, provideMockActions(() => actions$)]
     });
 
-    actions$ = TestBed.get(Actions);
     effects = TestBed.get(fromEffects.RouterEffects);
     router = TestBed.get(Router);
     location = TestBed.get(Location);
@@ -55,7 +34,7 @@ describe('Router Effects', () => {
         path: ['/test']
       });
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
 
       spyOn(router, 'navigate');
       effects.navigate$.subscribe(value => {
@@ -70,7 +49,7 @@ describe('Router Effects', () => {
     it('should navigate back', () => {
       const action = new fromActions.Back();
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
 
       spyOn(location, 'back');
       effects.navigate$.subscribe(value => {
@@ -83,7 +62,7 @@ describe('Router Effects', () => {
     it('should navigate forward', () => {
       const action = new fromActions.Back();
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
 
       spyOn(location, 'forward');
       effects.navigate$.subscribe(value => {

@@ -1,29 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { CardTypesEffects } from '.';
-import { Actions } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
 
-import { Observable ,  of ,  EMPTY } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
 import { OccMiscsService } from '../../../occ/miscs/miscs.service';
-
-@Injectable()
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-export function getActions() {
-  return new TestActions();
-}
+import { provideMockActions } from '@ngrx/effects/testing';
 
 class MockMiscsService {
   loadCardTypes() {}
@@ -45,20 +29,19 @@ const mockCardTypesList = {
 describe('Card Types effect', () => {
   let service: OccMiscsService;
   let effect: CardTypesEffects;
-  let actions$: TestActions;
+  let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CardTypesEffects,
         { provide: OccMiscsService, useClass: MockMiscsService },
-        { provide: Actions, useFactory: getActions }
+        provideMockActions(() => actions$)
       ]
     });
 
     effect = TestBed.get(CardTypesEffects);
     service = TestBed.get(OccMiscsService);
-    actions$ = TestBed.get(Actions);
 
     spyOn(service, 'loadCardTypes').and.returnValue(of(mockCardTypesList));
   });
@@ -70,7 +53,7 @@ describe('Card Types effect', () => {
         mockCardTypesList.cardTypes
       );
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(effect.loadCardTypes$).toBeObservable(expected);

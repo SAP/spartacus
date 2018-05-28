@@ -1,27 +1,11 @@
-import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable ,  EMPTY ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { OccUserService } from '../../../occ/user/user.service';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import * as fromUserAddressesEffect from './user-addresses.effect';
-
-@Injectable()
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-export function getActions() {
-  return new TestActions();
-}
 
 class MockOccUserService {
   loadUserAddresses(userId: string): Observable<any> {
@@ -34,14 +18,14 @@ const mockUserAddresses = { addresses: ['address1', 'address2'] };
 describe('User Addresses effect', () => {
   let userAddressesEffect: fromUserAddressesEffect.UserAddressesEffects;
   let userService: OccUserService;
-  let actions$: TestActions;
+  let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         fromUserAddressesEffect.UserAddressesEffects,
         { provide: OccUserService, useClass: MockOccUserService },
-        { provide: Actions, useFactory: getActions }
+        provideMockActions(() => actions$)
       ]
     });
 
@@ -49,7 +33,6 @@ describe('User Addresses effect', () => {
       fromUserAddressesEffect.UserAddressesEffects
     );
     userService = TestBed.get(OccUserService);
-    actions$ = TestBed.get(Actions);
 
     spyOn(userService, 'loadUserAddresses').and.returnValue(
       of(mockUserAddresses)
@@ -63,7 +46,7 @@ describe('User Addresses effect', () => {
         mockUserAddresses.addresses
       );
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(userAddressesEffect.loadUserAddresses$).toBeObservable(expected);

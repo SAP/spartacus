@@ -1,29 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { Actions } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
+import { provideMockActions } from '@ngrx/effects/testing';
 
-import { Observable ,  of ,  EMPTY } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
 import { OccUserService } from '../../../occ/user/user.service';
 import { AddressVerificationEffect } from './address-verification.effect';
-
-@Injectable()
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-export function getActions() {
-  return new TestActions();
-}
 
 class MockUserService {
   verifyAddress(userId, address) {}
@@ -34,20 +18,19 @@ const result = 'mockResult';
 describe('Address Verification effect', () => {
   let service: OccUserService;
   let effect: AddressVerificationEffect;
-  let actions$: TestActions;
+  let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         AddressVerificationEffect,
         { provide: OccUserService, useClass: MockUserService },
-        { provide: Actions, useFactory: getActions }
+        provideMockActions(() => actions$)
       ]
     });
 
     effect = TestBed.get(AddressVerificationEffect);
     service = TestBed.get(OccUserService);
-    actions$ = TestBed.get(Actions);
 
     spyOn(service, 'verifyAddress').and.returnValue(of(result));
   });
@@ -61,7 +44,7 @@ describe('Address Verification effect', () => {
       const action = new fromActions.VerifyAddress(payload);
       const completion = new fromActions.VerifyAddressSuccess(result);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(effect.verifyAddress$).toBeObservable(expected);

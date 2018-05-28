@@ -1,27 +1,11 @@
-import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable ,  EMPTY ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { OccUserService } from '../../../occ/user/user.service';
 import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';
 import * as fromUserPaymentMethodsEffect from './payment-methods.effect';
-
-@Injectable()
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-export function getActions() {
-  return new TestActions();
-}
 
 class MockOccUserService {
   loadUserPaymentMethods(userId: string): Observable<any> {
@@ -34,14 +18,14 @@ const mockUserPaymentMethods = { payments: ['payment1', 'payment2'] };
 describe('User Payment Methods effect', () => {
   let userPaymentMethodsEffect: fromUserPaymentMethodsEffect.UserPaymentMethodsEffects;
   let userService: OccUserService;
-  let actions$: TestActions;
+  let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         fromUserPaymentMethodsEffect.UserPaymentMethodsEffects,
         { provide: OccUserService, useClass: MockOccUserService },
-        { provide: Actions, useFactory: getActions }
+        provideMockActions(() => actions$)
       ]
     });
 
@@ -49,7 +33,6 @@ describe('User Payment Methods effect', () => {
       fromUserPaymentMethodsEffect.UserPaymentMethodsEffects
     );
     userService = TestBed.get(OccUserService);
-    actions$ = TestBed.get(Actions);
 
     spyOn(userService, 'loadUserPaymentMethods').and.returnValue(
       of(mockUserPaymentMethods)
@@ -65,7 +48,7 @@ describe('User Payment Methods effect', () => {
         mockUserPaymentMethods.payments
       );
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(userPaymentMethodsEffect.loadUserPaymentMethods$).toBeObservable(

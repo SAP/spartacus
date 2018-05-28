@@ -1,41 +1,24 @@
-import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { Actions } from '@ngrx/effects';
-
 import { hot, cold } from 'jasmine-marbles';
-import { Observable ,  EMPTY ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { OccCmsService } from '../../services/occ-cms.service';
 import { ConfigService } from '../../config.service';
 import * as fromEffects from './navigation-entry-item.effect';
 import * as fromActions from '../actions/navigation-entry-item.action';
 
+import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
 import { PageType } from '../../../routing/models/page-context.model';
 
-@Injectable()
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-export function getActions() {
-  return new TestActions();
-}
-
 describe('Navigation Entry Items Effects', () => {
   let store: Store<fromRoot.State>;
-  let actions$: TestActions;
+  let actions$: Observable<any>;
   let service: OccCmsService;
   let effects: fromEffects.NavigationEntryItemEffects;
 
@@ -75,12 +58,11 @@ describe('Navigation Entry Items Effects', () => {
         OccCmsService,
         ConfigService,
         fromEffects.NavigationEntryItemEffects,
-        { provide: Actions, useFactory: getActions }
+        provideMockActions(() => actions$)
       ]
     });
 
     store = TestBed.get(Store);
-    actions$ = TestBed.get(Actions);
     service = TestBed.get(OccCmsService);
     effects = TestBed.get(fromEffects.NavigationEntryItemEffects);
 
@@ -119,7 +101,7 @@ describe('Navigation Entry Items Effects', () => {
         components: listComponents.component
       });
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(effects.loadNavigationItems$).toBeObservable(expected);

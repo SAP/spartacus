@@ -1,11 +1,8 @@
-import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { Actions } from '@ngrx/effects';
-
 import { hot, cold } from 'jasmine-marbles';
-import { Observable ,  EMPTY ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
@@ -18,26 +15,12 @@ import { CartService } from '../../services';
 import { ProductImageConverterService } from '../../../product/converters';
 import * as fromEffects from './cart.effect';
 import * as fromActions from '../actions/cart.action';
-
-@Injectable()
-class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-function getActions() {
-  return new TestActions();
-}
+import { provideMockActions } from '@ngrx/effects/testing';
 
 describe('Cart effect', () => {
   let cartService: OccCartService;
   let cartEffects: fromEffects.CartEffects;
-  let actions$: TestActions;
+  let actions$: Observable<any>;
 
   const testCart: any = {
     code: 'xxx',
@@ -73,13 +56,12 @@ describe('Cart effect', () => {
         fromEffects.CartEffects,
         ConfigService,
         CartService,
-        { provide: Actions, useFactory: getActions }
+        provideMockActions(() => actions$)
       ]
     });
 
     cartEffects = TestBed.get(fromEffects.CartEffects);
     cartService = TestBed.get(OccCartService);
-    actions$ = TestBed.get(Actions);
 
     spyOn(cartService, 'createCart').and.returnValue(of(testCart));
     spyOn(cartService, 'loadCart').and.returnValue(of(testCart));
@@ -90,7 +72,7 @@ describe('Cart effect', () => {
       const action = new fromActions.CreateCart(userId);
       const completion = new fromActions.CreateCartSuccess(testCart);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(cartEffects.createCart$).toBeObservable(expected);
@@ -105,7 +87,7 @@ describe('Cart effect', () => {
       });
       const completion = new fromActions.LoadCartSuccess(testCart);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(cartEffects.loadCart$).toBeObservable(expected);
@@ -124,7 +106,7 @@ describe('Cart effect', () => {
         toMergeCartGuid: 'testGuid'
       });
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(cartEffects.mergeCart$).toBeObservable(expected);

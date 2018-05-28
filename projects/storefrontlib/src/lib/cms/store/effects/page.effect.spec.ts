@@ -1,11 +1,8 @@
-import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { Actions } from '@ngrx/effects';
-
 import { hot, cold } from 'jasmine-marbles';
-import { Observable ,  EMPTY ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { OccCmsService } from '../../services/occ-cms.service';
 import { DefaultPageService } from './../../services/default-page.service';
@@ -17,31 +14,17 @@ import {
   PageContext,
   PageType
 } from '../../../routing/models/page-context.model';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
-
-@Injectable()
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-export function getActions() {
-  return new TestActions();
-}
 
 export function mockDateNow() {
   return 1000000000000;
 }
 
 describe('Page Effects', () => {
-  let actions$: TestActions;
+  let actions$: Observable<any>;
   let occService: OccCmsService;
   let defaultPageService: DefaultPageService;
   let effects: fromEffects.PageEffects;
@@ -85,11 +68,10 @@ describe('Page Effects', () => {
         ConfigService,
         DefaultPageService,
         fromEffects.PageEffects,
-        { provide: Actions, useFactory: getActions }
+        provideMockActions(() => actions$)
       ]
     });
 
-    actions$ = TestBed.get(Actions);
     occService = TestBed.get(OccCmsService);
     defaultPageService = TestBed.get(DefaultPageService);
     effects = TestBed.get(fromEffects.PageEffects);
@@ -117,7 +99,7 @@ describe('Page Effects', () => {
       const completion1 = new fromActions.LoadPageDataSuccess(payload);
       const completion2 = new fromActions.GetComponentFromPage(comps);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.loadPage$).toBeObservable(expected);
@@ -139,7 +121,7 @@ describe('Page Effects', () => {
       const completion1 = new fromActions.LoadPageDataSuccess(payload);
       const completion2 = new fromActions.GetComponentFromPage(comps);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.loadPage$).toBeObservable(expected);
@@ -164,7 +146,7 @@ describe('Page Effects', () => {
       const completion1 = new fromActions.LoadPageDataSuccess(payload);
       const completion2 = new fromActions.GetComponentFromPage(comps);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.loadPage$).toBeObservable(expected);
