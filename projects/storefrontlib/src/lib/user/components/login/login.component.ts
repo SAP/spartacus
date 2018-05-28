@@ -5,9 +5,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
-// Linting is disabled on the next line because Observable is reported as an ununsed import.
-// Importing Observable is required by the library build process.
-import { Observable, Subscription } from 'rxjs'; // tslint:disable-line
+import { Observable, Subscription } from 'rxjs';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../store';
@@ -22,7 +20,7 @@ import * as fromRouting from '../../../routing/store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  user$ = this.store.select(fromStore.getDetails);
+  user$: Observable<any> = this.store.select(fromStore.getDetails);
   isLogin = false;
 
   username: string;

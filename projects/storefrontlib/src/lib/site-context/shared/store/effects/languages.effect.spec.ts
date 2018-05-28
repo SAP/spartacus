@@ -1,34 +1,17 @@
-import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
-import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
 
 import { hot, cold } from 'jasmine-marbles';
-import { Observable ,  EMPTY ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { OccSiteService } from '../../../../occ/site-context/occ-site.service';
 import { ConfigService } from '../../../../occ/config.service';
 import * as fromEffects from './languages.effect';
 import * as fromActions from '../actions/languages.action';
 
-@Injectable()
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-export function getActions() {
-  return new TestActions();
-}
-
 describe('Languages Effects', () => {
-  let actions$: TestActions;
+  let actions$: Observable<any>;
   let service: OccSiteService;
   let effects: fromEffects.LanguagesEffects;
 
@@ -43,11 +26,10 @@ describe('Languages Effects', () => {
         OccSiteService,
         ConfigService,
         fromEffects.LanguagesEffects,
-        { provide: Actions, useFactory: getActions }
+        provideMockActions(() => actions$)
       ]
     });
 
-    actions$ = TestBed.get(Actions);
     service = TestBed.get(OccSiteService);
     effects = TestBed.get(fromEffects.LanguagesEffects);
 
@@ -59,7 +41,7 @@ describe('Languages Effects', () => {
       const action = new fromActions.LoadLanguages();
       const completion = new fromActions.LoadLanguagesSuccess(data.languages);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(effects.loadLanguages$).toBeObservable(expected);

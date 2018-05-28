@@ -1,34 +1,17 @@
-import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { Actions } from '@ngrx/effects';
-
 import { hot, cold } from 'jasmine-marbles';
-import { Observable ,  EMPTY ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { OccSiteService } from '../../../../occ/site-context/occ-site.service';
 import { ConfigService } from '../../../../occ/config.service';
 import * as fromEffects from './currencies.effect';
 import * as fromActions from '../actions/currencies.action';
-
-@Injectable()
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-export function getActions() {
-  return new TestActions();
-}
+import { provideMockActions } from '@ngrx/effects/testing';
 
 describe('Currencies Effects', () => {
-  let actions$: TestActions;
+  let actions$: Observable<any>;
   let service: OccSiteService;
   let effects: fromEffects.CurrenciesEffects;
 
@@ -45,11 +28,10 @@ describe('Currencies Effects', () => {
         OccSiteService,
         ConfigService,
         fromEffects.CurrenciesEffects,
-        { provide: Actions, useFactory: getActions }
+        provideMockActions(() => actions$)
       ]
     });
 
-    actions$ = TestBed.get(Actions);
     service = TestBed.get(OccSiteService);
     effects = TestBed.get(fromEffects.CurrenciesEffects);
 
@@ -61,7 +43,7 @@ describe('Currencies Effects', () => {
       const action = new fromActions.LoadCurrencies();
       const completion = new fromActions.LoadCurrenciesSuccess(data.currencies);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(effects.loadCurrencies$).toBeObservable(expected);

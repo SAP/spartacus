@@ -1,11 +1,9 @@
-import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
-import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
 
 import { hot, cold } from 'jasmine-marbles';
-import { Observable ,  EMPTY ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { OccProductSearchService } from '../../../occ/product/product-search.service';
 import { ConfigService } from '../../../occ/config.service';
@@ -14,23 +12,8 @@ import { ProductImageConverterService } from '../../converters/product-image-con
 import * as fromEffects from './product-search.effect';
 import * as fromActions from '../actions/product-search.action';
 
-@Injectable()
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-export function getActions() {
-  return new TestActions();
-}
-
 describe('ProductSearch Effects', () => {
-  let actions$: TestActions;
+  let actions$: Observable<any>;
   let service: OccProductSearchService;
   let effects: fromEffects.ProductsSearchEffects;
 
@@ -45,11 +28,10 @@ describe('ProductSearch Effects', () => {
         ProductImageConverterService,
         ConfigService,
         fromEffects.ProductsSearchEffects,
-        { provide: Actions, useFactory: getActions }
+        provideMockActions(() => actions$)
       ]
     });
 
-    actions$ = TestBed.get(Actions);
     service = TestBed.get(OccProductSearchService);
     effects = TestBed.get(fromEffects.ProductsSearchEffects);
 
@@ -65,7 +47,7 @@ describe('ProductSearch Effects', () => {
       });
       const completion = new fromActions.SearchProductsSuccess(searchResult);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(effects.searchProducts$).toBeObservable(expected);
@@ -82,7 +64,7 @@ describe('ProductSearch Effects', () => {
         suggestions.suggestions
       );
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(effects.getProductSuggestions$).toBeObservable(expected);

@@ -1,30 +1,14 @@
 import { TestBed } from '@angular/core/testing';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { UserTokenEffects } from '.';
-import { Actions } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
 
-import { Observable ,  of ,  EMPTY } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { UserToken } from '../../models/token-types.model';
 
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
 import { OccUserService } from '../../../occ/user/user.service';
-
-@Injectable()
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-export function getActions() {
-  return new TestActions();
-}
 
 class MockUserService {
   loadToken(userId: string, password: string): Observable<any> {
@@ -35,7 +19,7 @@ class MockUserService {
 describe('UserToken effect', () => {
   let userService: OccUserService;
   let userTokenEffect: UserTokenEffects;
-  let actions$: TestActions;
+  let actions$: Observable<any>;
   let testToken: UserToken;
 
   beforeEach(() => {
@@ -43,13 +27,12 @@ describe('UserToken effect', () => {
       providers: [
         UserTokenEffects,
         { provide: OccUserService, useClass: MockUserService },
-        { provide: Actions, useFactory: getActions }
+        provideMockActions(() => actions$)
       ]
     });
 
     userTokenEffect = TestBed.get(UserTokenEffects);
     userService = TestBed.get(OccUserService);
-    actions$ = TestBed.get(Actions);
 
     testToken = {
       access_token: 'xxx',
@@ -71,7 +54,7 @@ describe('UserToken effect', () => {
       });
       const completion = new fromActions.LoadUserTokenSuccess(testToken);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(userTokenEffect.loadUserToken$).toBeObservable(expected);

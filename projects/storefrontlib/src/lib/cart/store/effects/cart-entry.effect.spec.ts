@@ -1,36 +1,19 @@
-import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
-import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
 
 import { hot, cold } from 'jasmine-marbles';
-import { Observable ,  EMPTY ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
 import { ConfigService } from '../../../occ/config.service';
 import * as fromEffects from './cart-entry.effect';
 import * as fromActions from '../actions';
 
-@Injectable()
-class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-function getActions() {
-  return new TestActions();
-}
-
 describe('Cart effect', () => {
   let cartService: OccCartService;
   let entryEffects: fromEffects.CartEntryEffects;
-  let actions$: TestActions;
+  let actions$: Observable<any>;
 
   const userId = 'testUserId';
   const cartId = 'testCartId';
@@ -42,13 +25,12 @@ describe('Cart effect', () => {
         OccCartService,
         fromEffects.CartEntryEffects,
         ConfigService,
-        { provide: Actions, useFactory: getActions }
+        provideMockActions(() => actions$)
       ]
     });
 
     entryEffects = TestBed.get(fromEffects.CartEntryEffects);
     cartService = TestBed.get(OccCartService);
-    actions$ = TestBed.get(Actions);
 
     spyOn(cartService, 'addCartEntry').and.returnValue(
       of({ entry: 'testEntry' })
@@ -69,7 +51,7 @@ describe('Cart effect', () => {
         entry: 'testEntry'
       });
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.addEntry$).toBeObservable(expected);
@@ -85,7 +67,7 @@ describe('Cart effect', () => {
       });
       const completion = new fromActions.RemoveEntrySuccess();
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.removeEntry$).toBeObservable(expected);
@@ -102,7 +84,7 @@ describe('Cart effect', () => {
       });
       const completion = new fromActions.UpdateEntrySuccess();
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.updateEntry$).toBeObservable(expected);

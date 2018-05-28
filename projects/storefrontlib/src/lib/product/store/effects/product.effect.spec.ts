@@ -1,11 +1,9 @@
-import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
-import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
 
 import { hot, cold } from 'jasmine-marbles';
-import { Observable ,  EMPTY ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { OccProductService } from '../../../occ/product/product.service';
 import { ConfigService } from '../../../occ/config.service';
@@ -20,24 +18,9 @@ import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromSiteContext from './../../../site-context/shared/store';
 import { PageType } from '../../../routing/models/page-context.model';
 
-@Injectable()
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-export function getActions() {
-  return new TestActions();
-}
-
 describe('Product Effects', () => {
   let store: Store<fromRoot.State>;
-  let actions$: TestActions;
+  let actions$: Observable<any>;
   let service: OccProductService;
   let effects: fromEffects.ProductEffects;
 
@@ -62,12 +45,11 @@ describe('Product Effects', () => {
         ProductReferenceConverterService,
         ConfigService,
         fromEffects.ProductEffects,
-        { provide: Actions, useFactory: getActions }
+        provideMockActions(() => actions$)
       ]
     });
 
     store = TestBed.get(Store);
-    actions$ = TestBed.get(Actions);
     service = TestBed.get(OccProductService);
     effects = TestBed.get(fromEffects.ProductEffects);
 
@@ -79,7 +61,7 @@ describe('Product Effects', () => {
       const action = new fromActions.LoadProduct(productCode);
       const completion = new fromActions.LoadProductSuccess(product);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(effects.loadProduct$).toBeObservable(expected);
@@ -103,7 +85,7 @@ describe('Product Effects', () => {
       const action = new fromSiteContext.LanguageChange();
       const completion = new fromActions.LoadProductSuccess(product);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(effects.refreshProduct$).toBeObservable(expected);

@@ -1,11 +1,9 @@
-import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { Actions } from '@ngrx/effects';
-
 import { hot, cold } from 'jasmine-marbles';
-import { Observable ,  EMPTY ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
 import { ConfigService } from '../../../occ/config.service';
@@ -14,26 +12,11 @@ import * as fromActions from '../actions/checkout.action';
 import * as fromUserActions from '../../../user/store/actions';
 import { OccOrderService } from '../../../occ/order/order.service';
 
-@Injectable()
-class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
-function getActions() {
-  return new TestActions();
-}
-
 describe('Checkout effect', () => {
   let cartService: OccCartService;
   let orderService: OccOrderService;
   let entryEffects: fromEffects.CheckoutEffects;
-  let actions$: TestActions;
+  let actions$: Observable<any>;
 
   const userId = 'testUserId';
   const cartId = 'testCartId';
@@ -58,14 +41,13 @@ describe('Checkout effect', () => {
         OccOrderService,
         fromEffects.CheckoutEffects,
         ConfigService,
-        { provide: Actions, useFactory: getActions }
+        provideMockActions(() => actions$)
       ]
     });
 
     entryEffects = TestBed.get(fromEffects.CheckoutEffects);
     cartService = TestBed.get(OccCartService);
     orderService = TestBed.get(OccOrderService);
-    actions$ = TestBed.get(Actions);
 
     spyOn(cartService, 'createAddressOnCart').and.returnValue(of(address));
     spyOn(cartService, 'setDeliveryAddress').and.returnValue(of({}));
@@ -90,7 +72,7 @@ describe('Checkout effect', () => {
         address: address
       });
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
@@ -106,7 +88,7 @@ describe('Checkout effect', () => {
       });
       const completion = new fromActions.SetDeliveryAddressSuccess(address);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.setDeliveryAddress$).toBeObservable(expected);
@@ -123,7 +105,7 @@ describe('Checkout effect', () => {
         modes
       );
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.loadSupportedDeliveryModes$).toBeObservable(expected);
@@ -141,7 +123,7 @@ describe('Checkout effect', () => {
         'testSelectedModeId'
       );
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.setDeliveryMode$).toBeObservable(expected);
@@ -211,7 +193,7 @@ describe('Checkout effect', () => {
         paymentDetails
       );
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
@@ -237,7 +219,7 @@ describe('Checkout effect', () => {
         paymentDetails
       );
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.setPaymentDetails$).toBeObservable(expected);
@@ -252,7 +234,7 @@ describe('Checkout effect', () => {
       });
       const completion = new fromActions.PlaceOrderSuccess(orderDetails);
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.placeOrder$).toBeObservable(expected);
