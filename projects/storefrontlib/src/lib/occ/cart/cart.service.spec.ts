@@ -437,8 +437,8 @@ describe('OccCartService', () => {
         'application/x-www-form-urlencoded'
       );
       expect(mockReq.request.headers.get('Accept')).toEqual('text/html');
-      expect(mockReq.request.params.get('param')).toEqual('mockParam');
       expect(mockReq.request.responseType).toEqual('text');
+      expect(mockReq.request.body).toEqual('param=mockParam');
       mockReq.flush(cartData);
     });
   });
@@ -466,8 +466,9 @@ describe('OccCartService', () => {
         'application/x-www-form-urlencoded'
       );
       expect(mockReq.request.headers.get('Accept')).toEqual('text/html');
-      expect(mockReq.request.params.get('param1')).toEqual('mockParam1');
-      expect(mockReq.request.params.get('param2')).toEqual('mockParam2');
+      expect(mockReq.request.body).toEqual(
+        'param1=mockParam1&param2=mockParam2'
+      );
       expect(mockReq.request.responseType).toEqual('text');
       mockReq.flush(cartData);
     });
@@ -499,7 +500,7 @@ describe('OccCartService', () => {
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
         'application/x-www-form-urlencoded'
       );
-      expect(mockReq.request.params.get('param')).toEqual('mockParam');
+      expect(mockReq.request.body).toEqual('param=mockParam');
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
     });
@@ -532,9 +533,10 @@ describe('OccCartService', () => {
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
         'application/x-www-form-urlencoded'
       );
-      expect(mockReq.request.params.get('param1')).toEqual('mockParam1');
-      expect(mockReq.request.params.get('param2')).toEqual('mockParam2');
       expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.body).toEqual(
+        'param1=mockParam1&param2=mockParam2'
+      );
       mockReq.flush(cartData);
     });
   });
