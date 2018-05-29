@@ -1608,7 +1608,7 @@ date-now@^0.1.4:
 
 dateformat@^1.0.6:
   version "1.0.12"
-  resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-1.0.12.tgz#9f124b67594c937ff706932e4a642cca8dbbfee9"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/dateformat/-/dateformat-1.0.12.tgz#9f124b67594c937ff706932e4a642cca8dbbfee9"
   dependencies:
     get-stdin "^4.0.1"
     meow "^3.3.0"
@@ -3618,7 +3618,7 @@ karma-coverage-istanbul-reporter@~1.4.2:
 
 karma-coverage@^1.1.2:
   version "1.1.2"
-  resolved "https://registry.yarnpkg.com/karma-coverage/-/karma-coverage-1.1.2.tgz#cc09dceb589a83101aca5fe70c287645ef387689"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/karma-coverage/-/karma-coverage-1.1.2.tgz#cc09dceb589a83101aca5fe70c287645ef387689"
   dependencies:
     dateformat "^1.0.6"
     istanbul "^0.4.0"
@@ -3638,7 +3638,7 @@ karma-jasmine@^1.0.2, karma-jasmine@~1.1.1:
 
 karma-junit-reporter@^1.2.0:
   version "1.2.0"
-  resolved "https://registry.yarnpkg.com/karma-junit-reporter/-/karma-junit-reporter-1.2.0.tgz#4f9c40cedfb1a395f8aef876abf96189917c6396"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/karma-junit-reporter/-/karma-junit-reporter-1.2.0.tgz#4f9c40cedfb1a395f8aef876abf96189917c6396"
   dependencies:
     path-is-absolute "^1.0.0"
     xmlbuilder "8.2.2"
@@ -6868,7 +6868,7 @@ xml2js@^0.4.17:
 
 xmlbuilder@8.2.2:
   version "8.2.2"
-  resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-8.2.2.tgz#69248673410b4ba42e1a6136551d2922335aa773"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/xmlbuilder/-/xmlbuilder-8.2.2.tgz#69248673410b4ba42e1a6136551d2922335aa773"
 
 xmlbuilder@>=1.0.0:
   version "10.0.0"

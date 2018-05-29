@@ -6,7 +6,7 @@ DEFAULT_REGISTRY_URL="https://registry.yarnpkg.com"
 DEFAULT_REGISTRY_OCCURENCES=$(grep -c "${DEFAULT_REGISTRY_URL}" yarn.lock)
 if [ $DEFAULT_REGISTRY_OCCURENCES \> 0 ];
 then 
-    echo "yarn file is corrupt. Found [${DEFAULT_REGISTRY_URL}] ${DEFAULT_REGISTRY_OCCURENCES} time(s).";
+    echo "ERROR: yarn file is corrupt. Found [${DEFAULT_REGISTRY_URL}] ${DEFAULT_REGISTRY_OCCURENCES} time(s).";
     echo "The dependency urls should all point to the hybris Artifactory.";
     exit 1
 else
