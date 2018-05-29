@@ -1,5 +1,18 @@
 #!/bin/bash
 
+
+echo "Validating yarn.lock integrity"
+DEFAULT_REGISTRY_URL="https://registry.yarnpkg.com"
+DEFAULT_REGISTRY_OCCURENCES=$(grep -c "${DEFAULT_REGISTRY_URL}" yarn.lock)
+if [ $DEFAULT_REGISTRY_OCCURENCES \> 0 ];
+then 
+    echo "yarn file is corrupt. Found [${DEFAULT_REGISTRY_URL}] ${DEFAULT_REGISTRY_OCCURENCES} time(s).";
+    echo "The dependency urls should all point to the hybris Artifactory.";
+    exit 1
+else
+    echo "yarn file is valid.";
+fi;
+
 echo "Starting pipeline for Spartacus project"
 echo "-----"
 echo "Updating dependencies"
