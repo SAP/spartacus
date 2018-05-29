@@ -63,19 +63,47 @@ Then point your browser to http://localhost:4200/
 
 ---
 
+## Developing library code
+
+When developing library code, you have to rebuild the library each time you want to see and test your changes in the running app. The Anguar 6 docs give some explanations in [Why do I need to build the library everytime I make changes?](https://github.com/angular/angular-cli/wiki/stories-create-library#why-do-i-need-to-build-the-library-everytime-i-make-changes)
+
+That being said, there is a way to configure the workspace so the lib code is buit like a standalone application, giving the developer the convenience of hot reloading changes.
+
+**WARNING:** This configuration is optional and should only be used for convenience on local development environments. **It should never be commited back to git.**
+
+Here is how it's done: In the tsconfig.json file at the root of the repo, change this:
+
+```
+    "paths": {
+      "storefrontlib": [
+        "dist/storefrontlib"
+      ]
+    }
+```
+
+And use this instead:
+
+```
+    "paths": {
+      "storefrontlib": [
+        "projects/storefrontlib/src/public_api"
+      ]
+    }
+```
+
 ## Development tools
 
-### VS Code
+### Code Editor: VS Code
 
 This project is intended to be edited with [Microsoft Visial Studio Code](https://code.visualstudio.com)
 
-#### Workspace Extensions
+#### VS Code Workspace Extensions
 
 The development team relies on a few extensions for productivity and code compliance. When you open the source folder in vscode, if you are missing some of these recommended extensions, vscode will prompt you for installation. The list of recommended extensions is found in '.vscode/extensions.json'.
 
 Please make sure you install them.
 
-#### Workspace settings
+#### VS Code Workspace settings
 
 These are vscode settings the team relies on. They are shared and enforced via vscode workspace settings. If you want to change something, propose the change don't just commit it, so the whole team uses it.
 
