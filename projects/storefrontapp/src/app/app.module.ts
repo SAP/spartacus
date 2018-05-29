@@ -5,23 +5,23 @@ import { LOCALE_ID } from '@angular/core';
 
 import { ConfigService } from './config.service';
 
-import { OccModule } from './occ/occ.module';
-import { UiModule } from './ui/ui.module';
-import { CmsLibModule } from './cms-lib/cms-lib.module';
-import { UiFrameworkModule } from './ui/ui-framework/ui-framework.module';
+import { OccModule } from 'storefrontlib';
+import { UiModule } from 'storefrontlib';
+import { CmsLibModule } from 'storefrontlib';
+import { UiFrameworkModule } from 'storefrontlib';
 
-import { CmsModule } from './cms/cms.module';
-import { RoutingModule } from './routing/routing.module';
-import { SiteContextModule } from './site-context/site-context.module';
-import { ProductModule } from './product/product.module';
+import { CmsModule } from 'storefrontlib';
+import { RoutingModule } from 'storefrontlib';
+import { SiteContextModule } from 'storefrontlib';
+import { ProductModule } from 'storefrontlib';
 
 import { appRoutes } from './app.routes';
 
 // bootstrap
 import { AppComponent } from './app.component';
-import { UserModule } from './user/user.module';
-import { CartModule } from './cart/cart.module';
-import { CheckoutModule } from './checkout/checkout.module';
+import { UserModule } from 'storefrontlib';
+import { CartModule } from 'storefrontlib';
+import { CheckoutModule } from 'storefrontlib';
 
 @NgModule({
   imports: [
