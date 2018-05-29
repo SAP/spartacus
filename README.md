@@ -6,10 +6,8 @@
 
 ```
 Node.js >= 8.9.0
-
 yarn >= 1.6.0
-
-A user with read access to the Hybris Artifactory (https://repository.hybris.com)
+Read access to Artifactory (https://repository.hybris.com)
 ```
 
 ## Dependencies Configuration
@@ -22,7 +20,7 @@ This is a one time setup. We pull all of our dependencies from our internal npm 
 4.  Out of all the commands in the popup, you will only need to run the first one on your machine. It looks like:
 
 ```
-curl -u[firstname.lastname@sap.com]:[encryptedpassword] https://repository.hybris.com/api/npm/auth
+$ curl -u[firstname.lastname@sap.com]:[encryptedpassword] https://repository.hybris.com/api/npm/auth
 ```
 
 As instructed next, paste the result in your ~/.npmrc file (create the file if it doesn't exist)
@@ -36,7 +34,7 @@ registry=https://repository.hybris.com/api/npm/npm-repository/
 That's it. For a quick way to confirm your new config, you can run:
 
 ```
-yarn config list
+$ yarn config list
 ```
 
 You should see your new ~/.npmrc configurations at the end of the list, in the `info npm config` section.
