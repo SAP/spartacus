@@ -117,7 +117,8 @@ export class CheckoutEffects {
               return {
                 url: data.postUrl,
                 parameters: this.getParamsForPaymentProvider(
-                  payload.paymentDetails
+                  payload.paymentDetails,
+                  data.parameters.entry
                 )
               };
             }),
@@ -224,24 +225,24 @@ export class CheckoutEffects {
     this.domparser = new DOMParser();
   }
 
-  private getParamsForPaymentProvider(paymentDetails: any) {
-    return {
-      card_cardType: this.cardTypes[paymentDetails.cardType.code],
-      card_accountNumber: paymentDetails.cardNumber,
-      card_expirationMonth: paymentDetails.expiryMonth,
-      card_expirationYear: paymentDetails.expiryYear,
-      card_cvNumber: paymentDetails.cvn,
-      billTo_firstName: paymentDetails.billingAddress.firstName,
-      billTo_lastName: paymentDetails.billingAddress.lastName,
-      billTo_street1: paymentDetails.billingAddress.line1,
-      billTo_street2: paymentDetails.billingAddress.line2,
-      billTo_city: paymentDetails.billingAddress.town,
-      billTo_state: paymentDetails.billingAddress.region.isocode.substr(
-        paymentDetails.billingAddress.region.isocode.indexOf('-') + 1
-      ),
-      billTo_country: paymentDetails.billingAddress.country.isocode,
-      billTo_postalCode: paymentDetails.billingAddress.postalCode
-    };
+  private getParamsForPaymentProvider(
+    paymentDetails: any,
+    parameters: { key; value }[]
+  ) {
+    const params = parameters.reduce(function(result, item) {
+      const key = item.key;
+      result[key] = item.value;
+      return result;
+    }, {});
+
+    // this is workaround; we need get keys (e.g. 'card_cardType') from backend
+    params['card_cardType'] = this.cardTypes[paymentDetails.cardType.code];
+    params['card_accountNumber'] = paymentDetails.cardNumber;
+    params['card_expirationMonth'] = paymentDetails.expiryMonth;
+    params['card_expirationYear'] = paymentDetails.expiryYear;
+    params['card_cvNumber'] = paymentDetails.cvn;
+
+    return params;
   }
 
   private extractPaymentDetailsFromHtml(html: string): any {

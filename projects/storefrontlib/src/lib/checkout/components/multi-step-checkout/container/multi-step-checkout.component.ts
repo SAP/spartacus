@@ -7,7 +7,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { take, filter, tap } from 'rxjs/operators';
-import { Subscription ,  Observable } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
@@ -166,7 +166,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   addPaymentInfo(paymentDetailsObject) {
     if (paymentDetailsObject.newPayment) {
-      paymentDetailsObject.payment.billingAddress = this.deliveryAddress;
       this.checkoutService.createPaymentDetails(paymentDetailsObject.payment);
     } else {
       this.checkoutService.setPaymentDetails(paymentDetailsObject.payment);
