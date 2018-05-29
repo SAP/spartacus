@@ -205,21 +205,21 @@
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-2.0.0.tgz#65f78c7dd5a8ac424f44bb2050a9eab247cdeb0c"
 
-"@ngrx/effects@^6.0.0-beta.3":
-  version "6.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-6.0.0-beta.3.tgz#29e70a2fee0e793e9c08cbc7657232c043f9410b"
+"@ngrx/effects@^6.0.1":
+  version "6.0.1"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@ngrx/effects/-/effects-6.0.1.tgz#b4c0a7918b8c9a4dbc2a663ea7562bea5db21257"
 
-"@ngrx/router-store@^6.0.0-beta.3":
-  version "6.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-6.0.0-beta.3.tgz#6f680b6514c3ecd32b6bff91b65390356d03add6"
+"@ngrx/router-store@^6.0.1":
+  version "6.0.1"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@ngrx/router-store/-/router-store-6.0.1.tgz#1c5c77b138eaed030b58f4203bf921e88cc51112"
 
-"@ngrx/store-devtools@^6.0.0-beta.3":
-  version "6.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-6.0.0-beta.3.tgz#899836165b6554c0f981054610293f6d0958d4de"
+"@ngrx/store-devtools@^6.0.1":
+  version "6.0.1"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@ngrx/store-devtools/-/store-devtools-6.0.1.tgz#6049208d1ef8dc5f1f96ffc63373eab2d72f957c"
 
-"@ngrx/store@^6.0.0-beta.3":
-  version "6.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-6.0.0-beta.3.tgz#584e0bb69c2ea75637a2c2adfb27fc08db98dc92"
+"@ngrx/store@^6.0.1":
+  version "6.0.1"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@ngrx/store/-/store-6.0.1.tgz#02c806ce20c698b997e81f5671e0edc07d32cf86"
 
 "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
