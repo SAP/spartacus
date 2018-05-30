@@ -12,16 +12,16 @@ BUMP=$2
 PROJECT_DIR="projects/$PROJECT"
 DEPLOY_DIR="dist/$PROJECT"
 
-pushd .
-cd $PROJECT_DIR
 echo "Bumping version to $BUMP"
-NEW_VERSION=`npm version $BUMP`
+NEW_VERSION=$(cd $PROJECT_DIR && npm version $BUMP)
 echo "New version: $NEW_VERSION"
-popd
+
 echo "Copying $PROJECT_DIR/package.json $DEPLOY_DIR"
 cp $PROJECT_DIR/package.json $DEPLOY_DIR
+
 echo "publishing version $BUMP"
 (cd $DEPLOY_DIR && npm publish .)
+
 cd $PROJECT_DIR
 git commit -am"Bumping version to $NEW_VERSION"
 git tag $PROJECT-$NEW_VERSION
