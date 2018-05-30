@@ -1,16 +1,17 @@
 #!/bin/bash
+set -e
 
 ARTIFACT="storefrontshellapp"
 DESTDIR="./dist/${ARTIFACT}"
 
 # Deletes $DESTDIR if it extits
 if [ -d "$DESTDIR" ]; then
-rm -rf ${DESTDIR}
+  rm -rf ${DESTDIR}
 fi
 
 # Create $DESTDIR
 if [ ! -d "$DESTDIR" ]; then
-mkdir -p ${DESTDIR}
+  mkdir -p ${DESTDIR}
 fi
 
 echo "Copying files to $DESTDIR"
