@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo "Validating tsconfig.json integrity"
 LOCAL_ENV_LIB_PATH="projects/storefrontlib/src/public_api"
