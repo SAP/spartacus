@@ -234,14 +234,12 @@ export class OccCartService {
       'Content-Type': 'application/x-www-form-urlencoded',
       Accept: 'text/html'
     });
-
-    let strParams = '';
+    let httpParams = new HttpParams();
     Object.keys(parameters).forEach(key => {
-      strParams === ''
-        ? (strParams = strParams + key + '=' + parameters[key])
-        : (strParams = strParams + '&' + key + '=' + parameters[key]);
+      httpParams = httpParams.append(key, parameters[key]);
     });
-    return this.http.post(postUrl, strParams, {
+
+    return this.http.post(postUrl, httpParams, {
       headers: headers,
       responseType: 'text'
     });
@@ -252,12 +250,9 @@ export class OccCartService {
     cartId: string,
     parameters: any
   ): Observable<any> {
-    let queryString = '';
+    let httpParams = new HttpParams();
     Object.keys(parameters).forEach(key => {
-      const strParam = key + '=' + parameters[key];
-      queryString === ''
-        ? (queryString = queryString + strParam)
-        : (queryString = queryString + '&' + strParam);
+      httpParams = httpParams.append(key, parameters[key]);
     });
 
     const headers = new HttpHeaders({
@@ -267,7 +262,7 @@ export class OccCartService {
     return this.http
       .post(
         this.getCartEndpoint(userId) + cartId + '/payment/sop/response',
-        queryString,
+        httpParams,
         { headers: headers }
       )
       .pipe(catchError((error: any) => throwError(error)));
