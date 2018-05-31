@@ -17,11 +17,11 @@ echo "New version: $NEW_VERSION"
 sh dist-storefrontshellapp.sh
 
 echo "publishing version $BUMP"
-npm publish dist/storefrontshellapp.tgz
+(cd $DEPLOY_DIR && npm publish storefrontshellapp.tgz)
 
 cd $PROJECT_DIR
 git commit -am"Bumping version to $NEW_VERSION"
 git tag storefrontapp-$NEW_VERSION
 
 echo "Pushing from $PWD"
-# git push origin develop --tags
+git push origin develop --tags
