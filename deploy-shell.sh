@@ -8,18 +8,18 @@ if [ $# == 0 ]; then
 fi
 
 BUMP=$1
-DEPLOY_DIR="dist/storefrontapp"
+DEPLOY_DIR="dist"
 
 echo "Bumping version to $BUMP"
 NEW_VERSION=`npm version $BUMP --no-git-tag-version`
 echo "New version: $NEW_VERSION"
 
+echo "Bulding storefront (shell) app"
 sh dist-storefrontshellapp.sh
 
 echo "publishing version $BUMP"
-(cd $DEPLOY_DIR && npm publish storefrontshellapp.tgz)
+(cd $DEPLOY_DIR && npm publish storefrontapp.tgz)
 
-cd $PROJECT_DIR
 git commit -am"Bumping version to $NEW_VERSION"
 git tag storefrontapp-$NEW_VERSION
 
