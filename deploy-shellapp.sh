@@ -15,7 +15,7 @@ NEW_VERSION=`npm version $BUMP --no-git-tag-version`
 echo "New version: $NEW_VERSION"
 
 echo "Bulding storefront (shell) app"
-sh dist-storefrontshellapp.sh
+sh generate-shellapp.sh
 
 echo "publishing version $BUMP"
 (cd $DEPLOY_DIR && npm publish storefrontapp.tgz)

@@ -1,5 +1,5 @@
 /**
- * This script is used in dist-storefrontshellapp.sh to
+ * This script is used in generate-shellapp.sh to
  * modify the Angular.json and tsconfig.json file.
  */
 let filesystem = require('fs');

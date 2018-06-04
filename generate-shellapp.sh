@@ -29,7 +29,7 @@ cp yarn.lock $DESTDIR
 cp -r ./projects/storefrontapp ${DESTDIR}/projects
 
 echo "Updating configuration"
-node configure-storefrontshellapp.js ${DESTDIR}
+node configure-shellapp.js ${DESTDIR}
 
 echo "Creating storefrontapp.tgz"
 (cd dist && tar -zcf storefrontapp.tgz ${TEMP_DIR})
