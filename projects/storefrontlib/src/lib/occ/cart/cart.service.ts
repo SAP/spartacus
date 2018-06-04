@@ -1,6 +1,7 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { ConfigService } from '../config.service';
+import { CustomEncoder } from '../customer.encoder';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
@@ -234,7 +235,7 @@ export class OccCartService {
       'Content-Type': 'application/x-www-form-urlencoded',
       Accept: 'text/html'
     });
-    let httpParams = new HttpParams();
+    let httpParams = new HttpParams({ encoder: new CustomEncoder() });
     Object.keys(parameters).forEach(key => {
       httpParams = httpParams.append(key, parameters[key]);
     });
@@ -250,7 +251,7 @@ export class OccCartService {
     cartId: string,
     parameters: any
   ): Observable<any> {
-    let httpParams = new HttpParams();
+    let httpParams = new HttpParams({ encoder: new CustomEncoder() });
     Object.keys(parameters).forEach(key => {
       httpParams = httpParams.append(key, parameters[key]);
     });
