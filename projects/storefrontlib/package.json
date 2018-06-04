@@ -1,6 +1,6 @@
 {
   "name": "storefrontlib",
-  "version": "0.0.7-14",
+  "version": "0.0.7-15",
   "peerDependencies": {
     "@angular/animations": "^6.0.0",
     "@angular/cdk": "^6.0.1",
