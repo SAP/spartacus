@@ -48,4 +48,21 @@ describe('workspace-project App', () => {
     const splashBannerComponent = home.getSplahBanner();
     expect<any>(splashBannerComponent.isPresent()).toEqual(true);
   });
+
+  it('should list cameras in page', () => {
+    // go to search results page
+    searchResults.navigateTo('camera');
+    // should go to search results page
+    browser.wait(ExpectedConditions.urlContains('/search/camera'), 2000);
+    const results = searchResults.getProductListItems();
+
+    results.then(function(items) {
+      expect(items.length).toBe(10);
+      const h3 = items[0].element(by.tagName('h3'));
+      console.log(h3.constructor.name);
+      h3.getText().then(function(text) {
+        console.log(text); // FIXME
+      });
+    });
+  });
 });
