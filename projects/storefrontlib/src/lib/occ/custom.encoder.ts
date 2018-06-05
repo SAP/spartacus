@@ -1,3 +1,10 @@
+/**
+ * Angular uses the native encodeURIComponent function,
+ * but then un-encoded some characters that are allowed
+ * to be part of the query according to IETF RFC 3986.
+ * So, to make these characters still encoded, this encoder only
+ * uses the encodeURIComponent.
+ */
 import { HttpParameterCodec } from '@angular/common/http';
 
 export class CustomEncoder implements HttpParameterCodec {
