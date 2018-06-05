@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import * as fromStore from '../store';
 
 import { TrustedClientToken } from '../../user/models/token-types.model';

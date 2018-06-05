@@ -3,8 +3,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
-import { MockBackend } from '@angular/http/testing';
-import { HttpClient } from '@angular/common/http';
 
 import { ConfigService } from '../../occ/config.service';
 import { TrustedClientTokenService } from './trusted-client-token.service';
