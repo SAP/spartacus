@@ -6,17 +6,17 @@ import {
 
 import * as fromTrustedClient from './trusted-client-token.reducer';
 
-export interface AuthenticationState {
+export interface AuthorizationState {
   trustedClient: fromTrustedClient.TrustedClientTokenState;
 }
 
-export const reducers: ActionReducerMap<AuthenticationState> = {
+export const reducers: ActionReducerMap<AuthorizationState> = {
   trustedClient: fromTrustedClient.reducer
 };
 
 export const getApplicationAuthState: MemoizedSelector<
   any,
-  AuthenticationState
-> = createFeatureSelector<AuthenticationState>('auth');
+  AuthorizationState
+> = createFeatureSelector<AuthorizationState>('auth');
 
 export * from './trusted-client-token.reducer';

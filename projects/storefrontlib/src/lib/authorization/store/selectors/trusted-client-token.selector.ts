@@ -9,7 +9,7 @@ export const getTrustedClientAuthState: MemoizedSelector<
   TrustedClientTokenState
 > = createSelector(
   fromFeature.getApplicationAuthState,
-  (state: fromFeature.AuthenticationState) => state.trustedClient
+  (state: fromFeature.AuthorizationState) => state.trustedClient
 );
 
 export const getTrustedToken: MemoizedSelector<

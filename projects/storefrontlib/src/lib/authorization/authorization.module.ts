@@ -5,7 +5,7 @@ import { effects, reducers } from './store';
 import { EffectsModule } from '@ngrx/effects';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { AuthenticationTokenInterceptor } from './http-interceptors/authentication-token.interceptor';
+import { AuthorizationTokenInterceptor } from './http-interceptors/authorization-token.interceptor';
 import { TrustedClientTokenService } from './services/trusted-client-token.service';
 
 @NgModule({
@@ -18,9 +18,9 @@ import { TrustedClientTokenService } from './services/trusted-client-token.servi
     TrustedClientTokenService,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthenticationTokenInterceptor,
+      useClass: AuthorizationTokenInterceptor,
       multi: true
     }
   ]
 })
-export class AuthenticationModule {}
+export class AuthorizationModule {}

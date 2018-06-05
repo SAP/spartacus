@@ -13,7 +13,7 @@ import { of } from 'rxjs';
 
 import * as fromRoot from '../../routing/store';
 import * as fromStore from '../store';
-import { AuthenticationTokenInterceptor } from './authentication-token.interceptor';
+import { AuthorizationTokenInterceptor } from './authorization-token.interceptor';
 import { TrustedClientToken } from '../../user/models/token-types.model';
 
 describe('AuthorizationTokenInterceptor', () => {
@@ -24,7 +24,7 @@ describe('AuthorizationTokenInterceptor', () => {
     scope: ''
   };
   let httpMock: HttpTestingController;
-  let store: Store<fromStore.AuthenticationState>;
+  let store: Store<fromStore.AuthorizationState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -38,7 +38,7 @@ describe('AuthorizationTokenInterceptor', () => {
       providers: [
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: AuthenticationTokenInterceptor,
+          useClass: AuthorizationTokenInterceptor,
           multi: true
         }
       ]

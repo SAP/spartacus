@@ -8,7 +8,7 @@ import * as fromActions from '../actions';
 import { TrustedClientToken } from '../../../user/models/token-types.model';
 
 describe('Trusted Client Token selectors', () => {
-  let store: Store<fromReducers.AuthenticationState>;
+  let store: Store<fromReducers.AuthorizationState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

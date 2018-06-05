@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import * as fromAuthStore from '../../../authentication/store';
+import * as fromAuthStore from '../../../authorization/store';
 
 @Component({
   selector: 'y-header',

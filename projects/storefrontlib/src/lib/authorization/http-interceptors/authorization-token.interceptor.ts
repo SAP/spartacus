@@ -14,8 +14,8 @@ import { TrustedClientToken } from '../../user/models/token-types.model';
 import { filter } from 'rxjs/operators';
 
 @Injectable()
-export class AuthenticationTokenInterceptor implements HttpInterceptor {
-  constructor(private store: Store<fromStore.AuthenticationState>) {}
+export class AuthorizationTokenInterceptor implements HttpInterceptor {
+  constructor(private store: Store<fromStore.AuthorizationState>) {}
 
   intercept(
     request: HttpRequest<any>,
