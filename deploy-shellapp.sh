@@ -8,7 +8,7 @@ if [ $# == 0 ]; then
 fi
 
 BUMP=$1
-DEPLOY_DIR="dist"
+DEPLOY_DIR="dist/storefrontshellapp"
 
 echo "Bumping version to $BUMP"
 NEW_VERSION=`npm version $BUMP --no-git-tag-version`
