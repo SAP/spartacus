@@ -1,5 +1,5 @@
 /**
- * This script is used in dist-storefrontshellapp.sh to
+ * This script is used in generate-shellapp.sh to
  * modify the Angular.json and tsconfig.json file.
  */
 let filesystem = require('fs');
@@ -11,7 +11,7 @@ main();
  ****************/
 function main() {
   let DIST_SHELLAPP_PATH =
-    process.argv.slice(2)[0] || './dist/storefrontshellapp';
+    process.argv.slice(2)[0] || './dist/storefrontshellapp/storefrontapp';
   cleanUpDistAngularJsonFile(DIST_SHELLAPP_PATH);
   cleanUpDistTsConfigJsonFile(DIST_SHELLAPP_PATH);
 }
