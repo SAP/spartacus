@@ -56,6 +56,7 @@ describe('workspace-project App', () => {
     browser.wait(ExpectedConditions.urlContains('/search/camera'), 2000);
     const results = searchResults.getProductListItems();
 
+    // FIXME - remove
     results.then(function(items) {
       expect(items.length).toBe(10);
       const h3 = items[0].element(by.tagName('h3'));

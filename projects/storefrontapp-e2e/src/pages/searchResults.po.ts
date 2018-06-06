@@ -4,7 +4,7 @@ import { browser, element, by } from 'protractor';
 import { E2EUtil } from './../util.po';
 export class SearchResultsPage extends AppPage {
   getProductListItems() {
-    return E2EUtil.getComponentWithinParent(
+    return E2EUtil.getComponentsWithinParent(
       'y-product-list',
       'y-product-list-item'
     );

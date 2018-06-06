@@ -2,11 +2,15 @@ import { browser, element, by, protractor } from 'protractor';
 import { E2EUtil } from './../util.po';
 export class Header {
   getSiteLogoComponent() {
-    return E2EUtil.getComponent('SiteLogoComponent', 'y-banner');
+    return E2EUtil.getComponentWithinDynamicSlot('SiteLogo', 'y-banner');
   }
 
   getSearchComponent() {
-    return E2EUtil.getComponent('SearchBox', 'y-searchbox');
+    return E2EUtil.getComponentWithinDynamicSlot('SearchBox', 'y-searchbox');
+  }
+
+  getLoginComponent() {
+    return E2EUtil.getComponent('y-login');
   }
 
   performSearch(searchKey: string) {
