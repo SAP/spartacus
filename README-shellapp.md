@@ -5,7 +5,6 @@
 ## Minimum Requirements
 
 ```
-A running hybris backend on your local system.
 Node.js >= 8.9.0
 yarn >= 1.6.0
 Read access to Artifactory (https://repository.hybris.com)
@@ -56,4 +55,4 @@ $ yarn start
 
 Then point your browser to http://localhost:4200/
 
-We recommend Google Chrome.
+Google Chrome is recommended.
