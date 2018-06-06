@@ -27,6 +27,7 @@ cp prettier-config.prettierrc $DESTDIR
 cp tsconfig.json $DESTDIR
 cp tslint.json $DESTDIR
 cp yarn.lock $DESTDIR
+cp README-shellapp.md $DESTDIR/README.md
 
 # copy the storefrontapp folder to temp dir
 cp -r ./projects/${APP_NAME} ${DESTDIR}/projects
