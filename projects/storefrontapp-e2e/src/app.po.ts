@@ -12,7 +12,7 @@ export abstract class AppPage {
     return this._header;
   }
 
-  getTitle() {
+  getBrowserPageTitle() {
     const title = browser.getTitle();
     return title;
   }

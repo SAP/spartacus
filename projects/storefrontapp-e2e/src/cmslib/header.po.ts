@@ -13,7 +13,9 @@ export class Header {
     const searchComponent = this.getSearchComponent();
 
     // search for camera
-    const searchInput = searchComponent.element(by.tagName('input'));
+    const searchInput = searchComponent.element(
+      by.css('input[placeholder="Search Box"]')
+    );
     searchInput.sendKeys(searchKey);
     browser
       .actions()
