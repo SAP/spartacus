@@ -18,7 +18,9 @@ export class CartDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<CartDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    console.log(this.data);
+  }
 
   closeDialog() {
     this.dialogRef.close();

@@ -1,0 +1,33 @@
+<div class="added-to-cart-dialog-header">
+  <h1 mat-dialog-title>
+    <span>1 item added to your cart</span>
+  </h1>
+  <mat-icon class="mat-dialog-close-btn" (click)="closeDialog()">close</mat-icon>
+</div>
+
+<ng-container *ngIf="(data.entry$ | async) as entry">
+  <div mat-dialog-content>
+    <div class="entry-info-container">
+      <img class="entry-thumbnail" [src]="entry.product.images.PRIMARY?.thumbnail?.url">
+      <div class="entry-info">
+        <div>
+          {{entry.product.name | slice:0:100 }}
+        </div>
+        <div>
+          <span>Id: {{entry.product.code}}</span>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="added-to-cart-dialog-buttons">
+      <button routerLink="/cart" mat-raised-button color="accent" mat-dialog-close>View cart</button>
+      <button routerLink="/checkout" mat-raised-button color="primary" mat-dialog-close>Proceed to checkout</button>
+    </div>
+
+    <div>
+      <span>Customers also bought</span>
+      <div> items here</div>
+    </div>
+  </div>
+</ng-container>

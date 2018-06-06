@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { CartService } from '../../services/cart.service';
+import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
+import * as fromCartStore from '../../store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -38,7 +40,11 @@ export class AddToCartComponent implements OnChanges, OnDestroy {
     if (this.productCode) {
       this.cartEntry$ = this.store
         .select(fromStore.getEntrySelectorFactory(this.productCode))
-        .pipe(tap(() => (this.isLoading = false)));
+        .pipe(
+          tap(() => {
+            this.isLoading = false;
+          })
+        );
     }
   }
 
@@ -51,5 +57,12 @@ export class AddToCartComponent implements OnChanges, OnDestroy {
     }
     this.isLoading = true;
     this.cartService.addCartEntry(this.productCode, this.quantity);
+    const dialogRef = this.dialog.open(AddedToCartDialogComponent, {
+      data: {
+        entry$: this.cartEntry$
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
   }
 }

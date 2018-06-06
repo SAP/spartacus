@@ -1,0 +1,22 @@
+.added-to-cart-dialog-header {
+  display: flex;
+  justify-content: space-between;
+  .mat-dialog-close-btn {
+    cursor: pointer;
+  }
+}
+.entry-info-container {
+  display: flex;
+  .entry-thumbnail {
+    width: 100px;
+    height: 100px;
+  }
+  .entry-info {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.added-to-cart-dialog-buttons {
+  display: flex;
+  flex-direction: column;
+}
