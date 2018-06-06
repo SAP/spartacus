@@ -1,0 +1,7 @@
+{
+  "package_json": {
+    "dependencies": {
+      "storefrontlib": "^0.0.5"
+    }
+  }
+}
