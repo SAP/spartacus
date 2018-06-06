@@ -1,6 +1,5 @@
 import { AppPage } from './../app.po';
-import { Header } from './../cmslib/header.po';
-import { browser, element, by } from 'protractor';
+import { browser } from 'protractor';
 import { E2EUtil } from './../util.po';
 export class SearchResultsPage extends AppPage {
   getProductListItems() {

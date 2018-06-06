@@ -1,22 +1,11 @@
-import { AppPage } from './app.po';
-import { SearchResultsPage } from './pages/searchResults.po';
-import {
-  browser,
-  element,
-  by,
-  protractor,
-  ExpectedConditions
-} from 'protractor';
+import { browser, ExpectedConditions } from 'protractor';
 import { HomePage } from './pages/home.po';
-import { print } from 'util';
 
 describe('workspace-project App', () => {
   let home: HomePage;
-  let searchResults: SearchResultsPage;
 
   beforeEach(() => {
     home = new HomePage();
-    searchResults = new SearchResultsPage();
   });
 
   it('should display title', () => {
@@ -36,7 +25,7 @@ describe('workspace-project App', () => {
     // go to homepage
     home.navigateTo();
     // search for camera
-    const searchComponent = home.header.performSearch('camera');
+    home.header.performSearch('camera');
     // should go to search results page
     browser.wait(ExpectedConditions.urlContains('/search/camera'), 2000);
   });

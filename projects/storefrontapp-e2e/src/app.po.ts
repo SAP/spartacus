@@ -1,5 +1,5 @@
 import { Header } from './cmslib/header.po';
-import { browser, by, element } from 'protractor';
+import { browser } from 'protractor';
 
 export abstract class AppPage {
   private _header: Header;

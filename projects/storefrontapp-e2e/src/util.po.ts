@@ -1,5 +1,4 @@
-import { browser, element, by } from 'protractor';
-import { print } from 'util';
+import { element, by } from 'protractor';
 
 export class E2EUtil {
   /**

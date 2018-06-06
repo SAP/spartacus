@@ -1,4 +1,4 @@
-import { browser, element, by, protractor } from 'protractor';
+import { browser, by, protractor } from 'protractor';
 import { E2EUtil } from './../util.po';
 export class Header {
   getSiteLogoComponent() {
