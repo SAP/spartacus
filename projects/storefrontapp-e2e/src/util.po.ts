@@ -1,11 +1,4 @@
-import {
-  browser,
-  element,
-  by,
-  ElementArrayFinder,
-  ElementFinder
-} from 'protractor';
-import { print } from 'util';
+import { element, by, ElementArrayFinder, ElementFinder } from 'protractor';
 
 export class E2EUtil {
   /**

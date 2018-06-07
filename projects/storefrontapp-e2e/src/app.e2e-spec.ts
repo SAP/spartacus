@@ -1,14 +1,6 @@
-import { AppPage } from './app.po';
+import { browser, by, ExpectedConditions, promise } from 'protractor';
 import { SearchResultsPage } from './pages/searchResults.po';
-import {
-  browser,
-  element,
-  by,
-  protractor,
-  ExpectedConditions
-} from 'protractor';
 import { HomePage } from './pages/home.po';
-import { print } from 'util';
 
 describe('workspace-project App', () => {
   let home: HomePage;
@@ -21,7 +13,9 @@ describe('workspace-project App', () => {
 
   it('should display title', () => {
     home.navigateTo();
-    expect<any>(home.getTitle()).toEqual('Spaccelerator');
+    expect<promise.Promise<string>>(home.getBrowserPageTitle()).toEqual(
+      'Spaccelerator'
+    );
   });
 
   it('should have site logo', () => {
@@ -29,14 +23,16 @@ describe('workspace-project App', () => {
     home.navigateTo();
     // check if site logo is present
     const siteLogoComponent = home.header.getSiteLogoComponent();
-    expect<any>(siteLogoComponent.isPresent()).toEqual(true);
+    expect<promise.Promise<boolean>>(siteLogoComponent.isPresent()).toEqual(
+      true
+    );
   });
 
   it('should be able to search', () => {
     // go to homepage
     home.navigateTo();
     // search for camera
-    const searchComponent = home.header.performSearch('camera');
+    home.header.performSearch('camera');
     // should go to search results page
     browser.wait(ExpectedConditions.urlContains('/search/camera'), 2000);
   });
@@ -46,7 +42,9 @@ describe('workspace-project App', () => {
     home.navigateTo();
     // check if site logo is present
     const splashBannerComponent = home.getSplahBanner();
-    expect<any>(splashBannerComponent.isPresent()).toEqual(true);
+    expect<promise.Promise<boolean>>(splashBannerComponent.isPresent()).toEqual(
+      true
+    );
   });
 
   it('should list cameras in page', () => {

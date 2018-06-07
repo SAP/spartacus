@@ -1,6 +1,5 @@
 import { AppPage } from './../app.po';
-import { Header } from './../cmslib/header.po';
-import { browser, element, by } from 'protractor';
+import { browser } from 'protractor';
 import { E2EUtil } from './../util.po';
 export class SearchResultsPage extends AppPage {
   getProductListItems() {
@@ -10,7 +9,9 @@ export class SearchResultsPage extends AppPage {
     );
   }
 
-  findProductByDescriptionInPage(productDescription: string) {}
+  findProductByDescriptionInPage(productDescription: string) {
+    // FIXME - implement
+  }
 
   navigateTo(searchKey: string) {
     return browser.get('/search/' + searchKey);

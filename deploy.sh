@@ -12,7 +12,7 @@ BUMP=$2
 PROJECT_DIR="projects/$PROJECT"
 DEPLOY_DIR="dist/$PROJECT"
 
-echo "Bumping version to $BUMP"
+echo "Bumping $PROJECT version to $BUMP"
 NEW_VERSION=$(cd $PROJECT_DIR && npm version $BUMP)
 echo "New version: $NEW_VERSION"
 
