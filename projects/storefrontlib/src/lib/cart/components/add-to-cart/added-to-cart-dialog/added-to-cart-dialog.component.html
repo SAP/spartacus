@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="cart-total-container">
-      <span>cart total</span>
+      <span>cart total {{ (cart$ | async).totalPrice.formattedValue}}</span>
     </div>
     <div class="button-row">
       <div class="added-to-cart-dialog-buttons">
