@@ -13,21 +13,34 @@
         <div>
           {{entry.product.name | slice:0:100 }}
         </div>
-        <div>
-          <span>Id: {{entry.product.code}}</span>
-
+        <div class="entry-detail">
+          <div>
+            <span>Id: {{entry.product.code}}</span>
+          </div>
+          <div>
+            <span>{{entry.basePrice.formattedValue}}</span>
+          </div>
+          <div>
+            <span>quantity {{entry.quantity}}</span>
+          </div>
+          <div>
+            <span>Total: {{entry.totalPrice.formattedValue}}</span>
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="added-to-cart-dialog-buttons">
-      <button routerLink="/cart" mat-raised-button color="accent" mat-dialog-close>View cart</button>
-      <button routerLink="/checkout" mat-raised-button color="primary" mat-dialog-close>Proceed to checkout</button>
+    <div class="cart-total-container">
+      <span>cart total</span>
     </div>
-
-    <div>
+    <div class="button-row">
+      <div class="added-to-cart-dialog-buttons">
+        <button routerLink="/cart" mat-raised-button color="accent" mat-dialog-close>View cart</button>
+        <button routerLink="/checkout" mat-raised-button color="primary" mat-dialog-close>Proceed to checkout</button>
+      </div>
+    </div>
+    <div class="customers-also-bought-container">
       <span>Customers also bought</span>
-      <div> items here</div>
+
     </div>
   </div>
 </ng-container>

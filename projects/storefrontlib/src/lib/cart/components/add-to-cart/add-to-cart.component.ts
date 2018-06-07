@@ -59,7 +59,8 @@ export class AddToCartComponent implements OnChanges, OnDestroy {
     this.cartService.addCartEntry(this.productCode, this.quantity);
     const dialogRef = this.dialog.open(AddedToCartDialogComponent, {
       data: {
-        entry$: this.cartEntry$
+        entry$: this.cartEntry$,
+        cart$: this.store.select(fromCartStore.getActiveCart)
       }
     });
 

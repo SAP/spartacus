@@ -8,16 +8,17 @@ import * as fromServices from './services';
 import { effects, reducers } from './store';
 import { metaReducers } from './store/reducers';
 import { CartDetailsModule } from './components/cart-details/cart-details.module';
+import { CartSharedModule } from './components/cart-shared/cart-shared.module';
 
 @NgModule({
   imports: [
-    CommonModule,
     AddToCartModule,
     CartDetailsModule,
+    CartSharedModule,
     StoreModule.forFeature('cart', reducers, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
-  exports: [AddToCartModule, CartDetailsModule],
+  exports: [AddToCartModule, CartDetailsModule, CartSharedModule],
   providers: [...fromServices.services]
 })
 export class CartModule {}

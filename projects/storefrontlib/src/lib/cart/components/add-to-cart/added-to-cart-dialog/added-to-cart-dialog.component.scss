@@ -14,9 +14,32 @@
   .entry-info {
     display: flex;
     flex-direction: column;
+    .entry-detail {
+      display: flex;
+      justify-content: space-between;
+      div {
+        margin: 10px;
+      }
+      div:first-child {
+        margin-left: 0px;
+      }
+    }
   }
 }
-.added-to-cart-dialog-buttons {
+.cart-total-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
+}
+.button-row {
+  display: flex;
+  flex-direction: row-reverse;
+
+  .added-to-cart-dialog-buttons {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.customers-also-bought-container {
+  height: 100px;
+  background-color: #ccc;
 }

@@ -9,6 +9,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 })
 export class AddedToCartDialogComponent implements OnInit {
   entry$: Observable<any>;
+  cart$: Observable<any>;
 
   constructor(
     public dialogRef: MatDialogRef<AddedToCartDialogComponent>,
@@ -21,6 +22,9 @@ export class AddedToCartDialogComponent implements OnInit {
 
   ngOnInit() {
     this.entry$ = this.data.entry$;
-    this.entry$.subscribe(result => console.log(result));
+    this.cart$ = this.data.cart$;
+
+    this.cart$.subscribe(result => console.log('cart', result));
+    this.entry$.subscribe(result => console.log('entry', result));
   }
 }
