@@ -6,16 +6,16 @@ import { EffectsModule } from '@ngrx/effects';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AuthorizationTokenInterceptor } from './http-interceptors/authorization-token.interceptor';
-import { TrustedClientTokenService } from './services/trusted-client-token.service';
+import { OccModule } from '../occ/occ.module';
 
 @NgModule({
   imports: [
+    OccModule,
     StoreModule.forFeature('auth', reducers),
     EffectsModule.forFeature(effects)
   ],
   declarations: [],
   providers: [
-    TrustedClientTokenService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthorizationTokenInterceptor,

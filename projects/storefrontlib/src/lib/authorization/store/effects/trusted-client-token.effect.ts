@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import * as fromActions from '../actions';
 
-import { TrustedClientTokenService } from '../../services/trusted-client-token.service';
+import { OccClientAuthTokenService } from '../../../occ/client-auth/client-auth-token.service';
 import { TrustedClientToken } from '../../../user/models/token-types.model';
 
 @Injectable()
@@ -28,6 +28,6 @@ export class TrustedClientTokenEffect {
 
   constructor(
     private actions$: Actions,
-    private service: TrustedClientTokenService
+    private service: OccClientAuthTokenService
   ) {}
 }

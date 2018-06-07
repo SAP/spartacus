@@ -3,12 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { ConfigService } from '../../occ/config.service';
+import { ConfigService } from '../config.service';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
 @Injectable()
-export class TrustedClientTokenService {
+export class OccClientAuthTokenService {
   constructor(private config: ConfigService, private http: HttpClient) {}
 
   loadTrustedClientToken(): Observable<any> {

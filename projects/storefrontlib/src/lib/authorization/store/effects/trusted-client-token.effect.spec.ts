@@ -4,7 +4,7 @@ import { of, Observable, throwError } from 'rxjs';
 
 import * as fromActions from '../actions';
 import { TrustedClientTokenEffect } from './trusted-client-token.effect';
-import { TrustedClientTokenService } from '../../services/trusted-client-token.service';
+import { OccClientAuthTokenService } from '../../../occ/client-auth/client-auth-token.service';
 import { TrustedClientToken } from '../../../user/models/token-types.model';
 import { provideMockActions } from '@ngrx/effects/testing';
 
@@ -23,7 +23,7 @@ class MockTrustedClientTokenService {
 
 describe('TrustedClientTokenEffect', () => {
   let effect: TrustedClientTokenEffect;
-  let service: TrustedClientTokenService;
+  let service: OccClientAuthTokenService;
   let actions$: Observable<any>;
 
   beforeEach(() => {
@@ -31,14 +31,14 @@ describe('TrustedClientTokenEffect', () => {
       providers: [
         TrustedClientTokenEffect,
         {
-          provide: TrustedClientTokenService,
+          provide: OccClientAuthTokenService,
           useClass: MockTrustedClientTokenService
         },
         provideMockActions(() => actions$)
       ]
     });
     effect = TestBed.get(TrustedClientTokenEffect);
-    service = TestBed.get(TrustedClientTokenService);
+    service = TestBed.get(OccClientAuthTokenService);
   });
 
   describe('loadTrustedClientToken', () => {
