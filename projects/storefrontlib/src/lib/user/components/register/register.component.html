@@ -1,0 +1,39 @@
+<ng-container>
+  <div class="content">
+    <h1>Create an account</h1>
+    <form fxLayout="column" fxFlexAlign="start" [formGroup]="user">
+      <label>Title:</label>
+      <select formControlName="titleCode">
+        <option value="">Select Title</option>
+        <option *ngFor="let title of (titles$ | async)" [value]="title.code">{{ title.name }}</option>
+      </select>
+
+      <label>First Name:</label>
+      <input type="text" name="firstname" placeholder="First Name" formControlName="firstName">
+
+      <label>Last Name:</label>
+      <input type="text" name="lastname" placeholder="Last Name" formControlName="lastName">
+
+      <label>Email:</label>
+      <input type="email" name="email" placeholder="Email Address" formControlName="email" novalidate>
+
+      <label>Password:</label>
+      <input type="password" name="password" placeholder="Password" formControlName="password">
+
+      <label>Confirm Password:</label>
+      <input type="password" name="confirmpassword" placeholder="Confirm Password" formControlName="passwordconf">
+      <br/>
+      <div fxLayout="row">
+        <input type="checkbox" name="newsletter" formControlName="newsletter">
+        <span>Use my personal data to receive e-mail newsletters for marketing campaigns. To change your settings, go to Consent
+          Management in My Account.</span>
+      </div>
+      <div fxLayout="row">
+        <input type="checkbox" name="termsandconditions" formControlName="termsandconditions">
+        <span>I am confirming that I have read and agreed with the Terms & Conditions</span>
+      </div>
+      <br/>
+      <button (click)="submit()" [disabled]="user.invalid">Register</button>
+    </form>
+  </div>
+</ng-container>

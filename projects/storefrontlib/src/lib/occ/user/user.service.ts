@@ -76,6 +76,27 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
+  registerUser(
+    firstName: string,
+    lastName: string,
+    password: string,
+    titleCode: string,
+    uid: string
+  ): Observable<any> {
+    const url = this.getUserEndpoint();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .post(
+        url,
+        { firstName, lastName, password, titleCode, uid },
+        { headers: headers }
+      )
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
   protected getOAuthEndpoint() {
     return this.configService.server.baseUrl + OAUTH_ENDPOINT;
   }
