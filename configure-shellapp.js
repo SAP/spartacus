@@ -1,6 +1,7 @@
 /**
- * This script is used in generate-shellapp.sh to
- * modify the Angular.json and tsconfig.json file.
+ * This script is used by generate-shellapp.sh to
+ * update the storefrontshellapp's configuration once all
+ * files are copied to the dist folder.
  */
 let filesystem = require('fs');
 
@@ -10,65 +11,94 @@ main();
  *   Functions  *
  ****************/
 function main() {
-  let DIST_SHELLAPP_PATH =
+  const shellappPath =
     process.argv.slice(2)[0] || './dist/storefrontshellapp/storefrontapp';
-  cleanUpDistAngularJsonFile(DIST_SHELLAPP_PATH);
-  cleanUpDistTsConfigJsonFile(DIST_SHELLAPP_PATH);
+
+  const configurationJsonData = filesystem.readFileSync(
+    `./configure-shellapp.json`
+  );
+  const configurationData = JSON.parse(configurationJsonData);
+
+  updateAngularJsonFile(shellappPath);
+  updateTsconfigJsonFile(shellappPath);
+  updatePackageJsonFile(shellappPath, configurationData);
 }
 
-function cleanUpDistAngularJsonFile(root) {
-  console.log(`Updating angular.json in ${root}`);
-  //Fetch the storefrontapp config from the original Angular.json
-  let ANGULAR_JSON_PATH = './angular.json';
-  let angularJsonFile = filesystem.readFileSync(ANGULAR_JSON_PATH);
-  let angularJsonData = JSON.parse(angularJsonFile);
-  let storefrontAppConfig = {
-    storefrontapp: angularJsonData.projects.storefrontapp
+function updateAngularJsonFile(shellappPath) {
+  const angularJsonPath = `${shellappPath}/angular.json`;
+  console.log(`Updating ${angularJsonPath}`);
+  //Modify the copied angular.json file
+  const angularJsonDistFile = filesystem.readFileSync(angularJsonPath);
+  const AngularJsonDistData = JSON.parse(angularJsonDistFile);
+  const storefrontAppConfig = {
+    storefrontapp: AngularJsonDistData.projects.storefrontapp
   };
-
-  //Modify the copied Angular.json file
-  let ANGULAR_JSON_DIST_PATH = `${root}/angular.json`;
-  let angularJsonDistFile = filesystem.readFileSync(ANGULAR_JSON_DIST_PATH);
-  let AngularJsonDistData = JSON.parse(angularJsonDistFile);
+  console.log(`  Removing all projects except "storefrontapp".`);
   AngularJsonDistData['projects'] = {};
   AngularJsonDistData.projects = storefrontAppConfig;
 
   //Save changes to the copied Angular.json file
   filesystem.writeFileSync(
-    ANGULAR_JSON_DIST_PATH,
+    angularJsonPath,
     JSON.stringify(AngularJsonDistData, null, 2),
     err => {
       if (err) {
         return console.error(err);
       }
-      console.log(
-        `Finished cleaning up angular.json in ${ANGULAR_JSON_DIST_PATH} `
-      );
+      console.log(`Done.`);
     }
   );
 }
 
-function cleanUpDistTsConfigJsonFile(root) {
-  console.log(`Updating tsconfig.json in ${root}`);
+function updateTsconfigJsonFile(shellappPath) {
+  const tsConfigPath = `${shellappPath}/tsconfig.json`;
+  console.log(`Updating ${tsConfigPath}`);
   //Get the json from the tsconfig.file
-  let TS_CONFIG_DIST_PATH = `${root}/tsconfig.json`;
-  let file = filesystem.readFileSync(TS_CONFIG_DIST_PATH);
-  let tsConfigData = JSON.parse(file);
+  const file = filesystem.readFileSync(tsConfigPath);
+  const tsConfigData = JSON.parse(file);
 
+  console.log(`  Removing "paths".`);
   //apply modifications to the tsconfig.json
   delete tsConfigData.compilerOptions['paths'];
 
   //save modification
   filesystem.writeFileSync(
-    TS_CONFIG_DIST_PATH,
+    tsConfigPath,
     JSON.stringify(tsConfigData, null, 2),
     err => {
       if (err) {
         return console.error(err);
       }
-      console.log(
-        `Finished cleaning up tsconfig.json in ${TS_CONFIG_DIST_PATH} `
-      );
+      console.log(`Done.`);
+    }
+  );
+}
+
+function updatePackageJsonFile(shellappPath, configurationData) {
+  const packageJsonPath = `${shellappPath}/package.json`;
+  console.log(`Updating ${packageJsonPath}`);
+  //Get the package.json data
+  const packageJsonFile = filesystem.readFileSync(packageJsonPath);
+  const packageJsonData = JSON.parse(packageJsonFile);
+
+  console.log(
+    '  Adding dependencies: ',
+    configurationData.package_json.dependencies
+  );
+  packageJsonData.dependencies = {
+    ...configurationData.package_json.dependencies,
+    ...packageJsonData.dependencies
+  };
+
+  //save modification
+  filesystem.writeFileSync(
+    packageJsonPath,
+    JSON.stringify(packageJsonData, null, 2),
+    err => {
+      if (err) {
+        return console.error(err);
+      }
+      console.log(`Done.`);
     }
   );
 }
