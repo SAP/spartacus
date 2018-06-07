@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ConfigService } from '../config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
+import { UserRegister } from '../../user/models/user.model';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 const USER_ENDPOINT = 'users/';
@@ -76,24 +77,14 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  registerUser(
-    firstName: string,
-    lastName: string,
-    password: string,
-    titleCode: string,
-    uid: string
-  ): Observable<any> {
+  registerUser(user: UserRegister): Observable<any> {
     const url = this.getUserEndpoint();
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
 
     return this.http
-      .post(
-        url,
-        { firstName, lastName, password, titleCode, uid },
-        { headers: headers }
-      )
+      .post(url, user, { headers: headers })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 

@@ -1,9 +1,10 @@
 import * as fromUserRegister from './user-register.action';
+import { UserRegister } from '../../models/user.model';
 
 describe('User Register Actions', () => {
   describe('RegisterUser Action', () => {
     it('should create the action', () => {
-      const user = {
+      const user: UserRegister = {
         firstName: '',
         lastName: '',
         password: '',
