@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'y-added-to-cart-dialog',
@@ -10,10 +11,15 @@ import { Component, OnInit, Inject } from '@angular/core';
 export class AddedToCartDialogComponent implements OnInit {
   entry$: Observable<any>;
   cart$: Observable<any>;
+  form: FormGroup;
+  addedQuantity: number;
+
+  @Output() updateEntryEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(
     public dialogRef: MatDialogRef<AddedToCartDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder
   ) {}
 
   closeDialog() {
@@ -24,7 +30,21 @@ export class AddedToCartDialogComponent implements OnInit {
     this.entry$ = this.data.entry$;
     this.cart$ = this.data.cart$;
 
-    this.cart$.subscribe(result => console.log('cart', result));
-    this.entry$.subscribe(result => console.log('entry', result));
+    this.entry$.subscribe(entry => {
+      if (entry !== undefined) {
+        this.form = this.fb.group({
+          entryArry: this.fb.array([
+            this.fb.group({
+              entryNumber: entry.entryNumber,
+              quantity: entry.quantity
+            })
+          ])
+        });
+      }
+    });
+  }
+
+  updateEntry(event) {
+    this.updateEntryEvent.emit({ entry: event, form: this.form });
   }
 }

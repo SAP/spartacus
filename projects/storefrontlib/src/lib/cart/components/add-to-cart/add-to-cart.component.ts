@@ -57,6 +57,7 @@ export class AddToCartComponent implements OnChanges, OnDestroy {
     }
     this.isLoading = true;
     this.cartService.addCartEntry(this.productCode, this.quantity);
+
     const dialogRef = this.dialog.open(AddedToCartDialogComponent, {
       data: {
         entry$: this.cartEntry$,
@@ -64,6 +65,21 @@ export class AddToCartComponent implements OnChanges, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {});
+    dialogRef.componentInstance.updateEntryEvent.subscribe((data: any) =>
+      this.updateEntryFromModal(data)
+    );
+  }
+
+  private updateEntryFromModal(data) {
+    const form = data.form;
+    const entry = data.entry;
+    const entryFG = form.get('entryArry').value[entry.index];
+    this.cartService.updateCartEntry(entryFG.entryNumber, entryFG.quantity);
+
+    if (entryFG.quantity === 0) {
+      const control = form.get('entryArry');
+      control.removeAt(entry.index);
+      this.dialog.closeAll();
+    }
   }
 }

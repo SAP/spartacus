@@ -8,7 +8,19 @@
 <ng-container *ngIf="(data.entry$ | async) as entry">
   <div mat-dialog-content>
     <div class="entry-info-container">
-      <img class="entry-thumbnail" [src]="entry.product.images.PRIMARY?.thumbnail?.url">
+      <ng-container *ngIf="(entry$ | async) as entry">
+        <ul class="item__list item__list__cart" [formGroup]="form">
+          <table formArrayName="entryArry">
+            <tr>
+              <td>
+                <y-cart-item [parent]="form" formGroupName="0" [entry]="entry" (update)="updateEntry($event)"></y-cart-item>
+              </td>
+            </tr>
+
+          </table>
+        </ul>
+      </ng-container>
+      <!-- <img class="entry-thumbnail" [srsc]="entry.product.images.PRIMARY?.thumbnail?.url">
       <div class="entry-info">
         <div>
           {{entry.product.name | slice:0:100 }}
@@ -27,7 +39,7 @@
             <span>Total: {{entry.totalPrice.formattedValue}}</span>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="cart-total-container">
       <span>cart total {{ (cart$ | async).totalPrice.formattedValue}}</span>
