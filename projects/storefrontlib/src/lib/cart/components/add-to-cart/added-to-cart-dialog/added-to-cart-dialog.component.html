@@ -10,36 +10,9 @@
     <div class="entry-info-container">
       <ng-container *ngIf="(entry$ | async) as entry">
         <ul class="item__list item__list__cart" [formGroup]="form">
-          <table formArrayName="entryArry">
-            <tr>
-              <td>
-                <y-cart-item [parent]="form" formGroupName="0" [entry]="entry" (update)="updateEntry($event)"></y-cart-item>
-              </td>
-            </tr>
-
-          </table>
+          <y-cart-item formGroupName="entryForm" [entry]="entry" (update)="updateEntry($event)"></y-cart-item>
         </ul>
       </ng-container>
-      <!-- <img class="entry-thumbnail" [srsc]="entry.product.images.PRIMARY?.thumbnail?.url">
-      <div class="entry-info">
-        <div>
-          {{entry.product.name | slice:0:100 }}
-        </div>
-        <div class="entry-detail">
-          <div>
-            <span>Id: {{entry.product.code}}</span>
-          </div>
-          <div>
-            <span>{{entry.basePrice.formattedValue}}</span>
-          </div>
-          <div>
-            <span>quantity {{entry.quantity}}</span>
-          </div>
-          <div>
-            <span>Total: {{entry.totalPrice.formattedValue}}</span>
-          </div>
-        </div>
-      </div> -->
     </div>
     <div class="cart-total-container">
       <span>cart total {{ (cart$ | async).totalPrice.formattedValue}}</span>

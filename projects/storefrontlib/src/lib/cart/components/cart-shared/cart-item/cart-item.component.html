@@ -35,13 +35,9 @@
 
     <!-- quantity -->
     <div class="item__quantity" [formGroup]="parent">
-        <div formArrayName="entryArry">
-            <div [formGroupName]="formGroupName">
-                <y-item-counter [value]="entry.quantity" [step]="1" [min]="0" [max]="entry.product.stock?.stockLevel || 1000" (change)="updateEntry()"
-                    formControlName="quantity">
-                </y-item-counter>
-            </div>
-        </div>
+        <y-item-counter [value]="entry.quantity" [step]="1" [min]="0" [max]="entry.product.stock?.stockLevel || 1000" (change)="updateEntry()"
+            formControlName="quantity">
+        </y-item-counter>
     </div>
 
     <!-- delivery -->

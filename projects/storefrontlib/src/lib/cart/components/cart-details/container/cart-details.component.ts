@@ -41,7 +41,6 @@ export class CartDetailsComponent implements OnInit {
             codes.push(entry.product.code);
           }
         }
-        console.log(this.form.get('entryArry'));
       })
     );
   }

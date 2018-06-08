@@ -11,7 +11,12 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 export class AddedToCartDialogComponent implements OnInit {
   entry$: Observable<any>;
   cart$: Observable<any>;
-  form: FormGroup;
+  form: FormGroup = this.fb.group({
+    entryForm: this.fb.group({
+      entryNumber: [0],
+      quantity: [0]
+    })
+  });
   addedQuantity: number;
 
   @Output() updateEntryEvent: EventEmitter<any> = new EventEmitter();
@@ -32,14 +37,9 @@ export class AddedToCartDialogComponent implements OnInit {
 
     this.entry$.subscribe(entry => {
       if (entry !== undefined) {
-        this.form = this.fb.group({
-          entryArry: this.fb.array([
-            this.fb.group({
-              entryNumber: entry.entryNumber,
-              quantity: entry.quantity
-            })
-          ])
-        });
+        const control = this.form.get('entryForm') as FormGroup;
+        control.setControl('entryNumber', this.fb.control(entry.entryNumber));
+        control.setControl('quantity', this.fb.control(entry.quantity));
       }
     });
   }
