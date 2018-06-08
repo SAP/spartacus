@@ -30,7 +30,7 @@ echo "publishing version $BUMP"
 (cd $DEPLOY_DIR && npm publish .)
 
 cd $PROJECT_DIR
-git commit -am"Bumping version to $NEW_VERSION"
-git tag $PROJECT-$NEW_VERSION
+git commit -am"Bumping version to $PROJECT_DIR_NEW_VERSION"
+git tag $PROJECT-$PROJECT_DIR_NEW_VERSION
 echo "Pushing from $PWD"
 git push origin develop --tags
