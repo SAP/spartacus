@@ -12,12 +12,19 @@ BUMP=$2
 PROJECT_DIR="projects/$PROJECT"
 DEPLOY_DIR="dist/$PROJECT"
 
-echo "Bumping $PROJECT version to $BUMP"
-NEW_VERSION=$(cd $PROJECT_DIR && npm version $BUMP)
-echo "New version: $NEW_VERSION"
+echo "Bumping $PROJECT_DIR version to $BUMP"
+PROJECT_DIR_NEW_VERSION=$(cd $PROJECT_DIR && npm version $BUMP)
+echo "New version: $PROJECT_DIR_NEW_VERSION"
 
-echo "Copying $PROJECT_DIR/package.json $DEPLOY_DIR"
-cp $PROJECT_DIR/package.json $DEPLOY_DIR
+echo "Bumping $DEPLOY_DIR to $BUMP"
+DEPLOY_DIR_NEW_VERSION=$(cd $DEPLOY_DIR && npm version $BUMP)
+echo "New version: $DEPLOY_DIR_NEW_VERSION"
+
+if [ ! $DEPLOY_DIR_NEW_VERSION == $PROJECT_DIR_NEW_VERSION ]; then
+    echo "ERROR: Version mismatch between $DEPLOY_DIR and $PROJECT_DIR"
+    echo "Versions: $DEPLOY_DIR_NEW_VERSION vs $PROJECT_DIR_NEW_VERSION"
+    exit 1
+fi
 
 echo "publishing version $BUMP"
 (cd $DEPLOY_DIR && npm publish .)
