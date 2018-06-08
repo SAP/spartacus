@@ -11,7 +11,7 @@ export class CartItemComponent implements OnInit {
   @Input() potentialPromotions: any[];
   @Input() appliedPromotions: any[];
   parent: FormGroup;
-  @Input() formGroupName: string;
+  // used to pass the index in the formGroupArray when the component is used in ngFor
 
   @Output() remove = new EventEmitter<any>();
   @Output() update = new EventEmitter<any>();
@@ -19,13 +19,12 @@ export class CartItemComponent implements OnInit {
 
   ngOnInit() {
     this.parent = this.controlContainer.control as FormGroup;
-    console.log(this.parent);
   }
   removeEntry() {
-    this.remove.emit({ entry: this.entry, index: this.formGroupName });
+    this.remove.emit(this.entry);
   }
 
   updateEntry() {
-    this.update.emit({ entry: this.entry, index: +this.formGroupName });
+    this.update.emit(this.entry);
   }
 }

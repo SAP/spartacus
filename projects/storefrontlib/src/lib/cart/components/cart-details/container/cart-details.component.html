@@ -15,7 +15,7 @@
                     <tr *ngFor="let entry of entries; let i = index;">
                         <td>
                             <y-cart-item [formGroupName]="i" [entry]="entry" [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)" [appliedPromotions]="getAppliedPromotionForEntry(cart, entry)"
-                                (remove)="removeEntry($event)" (update)="updateEntry($event)">
+                                (remove)="removeEntry($event, i)" (update)="updateEntry($event, i)">
                             </y-cart-item>
                         </td>
                     </tr>
