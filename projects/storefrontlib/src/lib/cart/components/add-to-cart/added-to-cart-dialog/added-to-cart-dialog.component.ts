@@ -17,7 +17,11 @@ export class AddedToCartDialogComponent implements OnInit {
       quantity: [0]
     })
   });
-  addedQuantity: number;
+  addedQuantity = 1;
+
+  get absQuantity() {
+    return Math.abs(this.addedQuantity);
+  }
 
   @Output() updateEntryEvent: EventEmitter<any> = new EventEmitter();
 
@@ -45,6 +49,7 @@ export class AddedToCartDialogComponent implements OnInit {
   }
 
   updateEntry(event) {
+    this.addedQuantity += this.form.value.entryForm.quantity - event.quantity;
     this.updateEntryEvent.emit({ entry: event, form: this.form });
   }
 }

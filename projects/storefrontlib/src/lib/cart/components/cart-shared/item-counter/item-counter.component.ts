@@ -90,4 +90,6 @@ export class ItemCounterComponent implements ControlValueAccessor {
     }
     this.onTouch();
   }
+
+  debounceIncAndDec() {}
 }
