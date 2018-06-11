@@ -1,11 +1,9 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-
-import * as fromCartStore from '../../../store';
-import { CartService } from '../../../services/cart.service';
 import { tap } from 'rxjs/operators';
+import { CartService } from '../../../services/cart.service';
+import * as fromCartStore from '../../../store';
 
 @Component({
   selector: 'y-cart-details',

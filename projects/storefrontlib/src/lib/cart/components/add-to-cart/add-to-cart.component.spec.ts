@@ -10,11 +10,10 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
 import { CartService } from '../../../cart/services';
 import * as fromCart from '../../../cart/store';
-import { MaterialModule } from '../../../material.module';
 import * as fromRoot from '../../../routing/store';
 import * as fromUser from '../../../user/store';
-import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
+import { AddToCartModule } from './add-to-cart.module';
 
 describe('AddToCartComponent', () => {
   let store: Store<fromCart.CartState>;
@@ -29,16 +28,14 @@ describe('AddToCartComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
+        AddToCartModule,
         BrowserAnimationsModule,
-        CartSharedModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
           cart: combineReducers(fromCart.reducers),
           user: combineReducers(fromUser.reducers)
         })
       ],
-      declarations: [AddToCartComponent],
       providers: [CartService]
     }).compileComponents();
   }));
@@ -65,9 +62,9 @@ describe('AddToCartComponent', () => {
 
   it('should call addToCart()', inject(
     [CartService, MatDialog],
-    (cartService: CartService, matDialog: MatDialog) => {
+    (cartService: CartService, dialog: MatDialog) => {
       spyOn(cartService, 'addCartEntry').and.callThrough();
-      spyOn(matDialog, 'open').and.callThrough();
+      spyOn(dialog, 'open').and.callThrough();
 
       addToCartComponent.productCode = productCode;
       addToCartComponent.addToCart();
