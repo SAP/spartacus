@@ -1,21 +1,20 @@
 import {
-  async,
   ComponentFixture,
   TestBed,
+  async,
   inject
 } from '@angular/core/testing';
-
-import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
-
-import * as fromRoot from '../../../routing/store';
-import * as fromCart from '../../../cart/store';
-import * as fromUser from '../../../user/store';
-
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { MatDialog } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
-
-import { AddToCartComponent } from './add-to-cart.component';
 import { CartService } from '../../../cart/services';
+import * as fromCart from '../../../cart/store';
+import { MaterialModule } from '../../../material.module';
+import * as fromRoot from '../../../routing/store';
+import * as fromUser from '../../../user/store';
+import { CartSharedModule } from '../cart-shared/cart-shared.module';
+import { AddToCartComponent } from './add-to-cart.component';
 
 describe('AddToCartComponent', () => {
   let store: Store<fromCart.CartState>;
@@ -31,6 +30,8 @@ describe('AddToCartComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MaterialModule,
+        BrowserAnimationsModule,
+        CartSharedModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
           cart: combineReducers(fromCart.reducers),
@@ -62,16 +63,17 @@ describe('AddToCartComponent', () => {
     );
   });
 
-  it(
-    'should call addToCart()',
-    inject([CartService], (cartService: CartService) => {
+  it('should call addToCart()', inject(
+    [CartService, MatDialog],
+    (cartService: CartService, matDialog: MatDialog) => {
       spyOn(cartService, 'addCartEntry').and.callThrough();
+      spyOn(matDialog, 'open').and.callThrough();
 
       addToCartComponent.productCode = productCode;
       addToCartComponent.addToCart();
       expect(cartService.addCartEntry).toHaveBeenCalledWith(productCode, 1);
-    })
-  );
+    }
+  ));
 
   // UI test will be added after replacing Material
 });

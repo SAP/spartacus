@@ -5,7 +5,7 @@
   <mat-icon class="mat-dialog-close-btn" (click)="closeDialog()">close</mat-icon>
 </div>
 
-<ng-container *ngIf="(data.entry$ | async) as entry">
+<ng-container *ngIf="(entry$ | async) as entry">
   <div mat-dialog-content>
     <div class="entry-info-container">
       <ng-container *ngIf="(entry$ | async) as entry">

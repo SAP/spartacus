@@ -13,7 +13,8 @@
     "lib": ["es2015", "dom"],
     "strictPropertyInitialization": false,
     "paths": {
-      "storefrontlib": ["dist/storefrontlib"]
+      // "storefrontlib": ["dist/storefrontlib"]
+      "storefrontlib": ["projects/storefrontlib/src/public_api.ts"]
     }
   }
 }
