@@ -60,6 +60,7 @@ export * from './lib/ui/pages/home-page/home-page.component';
 export * from './lib/ui/pages/multi-step-checkout-page/multi-step-checkout-page.component';
 export * from './lib/ui/pages/cart-page/cart-page.component';
 export * from './lib/ui/pages/order-confirmation-page/order-confirmation-page.component';
+export * from './lib/ui/pages/order-history-page/order-history-page.component';
 export * from './lib/ui/pages/404/404.component';
 export * from './lib/user/components/login/login.component';
 export * from './lib/user/components/login/login-dialog/login-dialog.component';

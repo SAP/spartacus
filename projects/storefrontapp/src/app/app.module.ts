@@ -22,6 +22,7 @@ import { AppComponent } from './app.component';
 import { UserModule } from 'storefrontlib';
 import { CartModule } from 'storefrontlib';
 import { CheckoutModule } from 'storefrontlib';
+import { OrderHistoryPageComponent } from './order-history-page/order-history-page.component';
 
 @NgModule({
   imports: [
@@ -49,7 +50,7 @@ import { CheckoutModule } from 'storefrontlib';
       useValue: 'nl-NL'
     }
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, OrderHistoryPageComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

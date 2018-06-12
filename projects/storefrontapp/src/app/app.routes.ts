@@ -12,6 +12,7 @@ import { PageNotFoundComponent } from 'storefrontlib';
 import { CmsPageGuards } from 'storefrontlib';
 import { ProductGuard } from 'storefrontlib';
 import { AuthGuard } from 'storefrontlib';
+import { OrderHistoryPageComponent } from 'storefrontlib';
 
 // TODO: provide URL mappings for site specific routings
 export const appRoutes: Routes = [
@@ -49,6 +50,11 @@ export const appRoutes: Routes = [
     path: 'product/:productCode',
     canActivate: [ProductGuard, CmsPageGuards],
     component: ProductPageComponent
+  },
+  {
+    path: 'my-account/orders',
+    canActivate: [CmsPageGuards],
+    component: OrderHistoryPageComponent
   },
 
   // redirect OLD links
