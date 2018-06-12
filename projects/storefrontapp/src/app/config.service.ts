@@ -9,16 +9,18 @@ export enum StorageSyncType {
 @Injectable()
 export class ConfigService {
   server = {
-    baseUrl: 'https://localhost:9002',
+    baseUrl: 'https://electronics.dev-com-17.accdemo.b2c.ydev.hybris.com:9002',
     occPrefix: '/rest/v2/'
   };
 
-  lang = sessionStorage.getItem('language') === null
-    ? 'en'
-    : sessionStorage.getItem('language');
-  curr = sessionStorage.getItem('currency') === null
-    ? 'USD'
-    : sessionStorage.getItem('currency');
+  lang =
+    sessionStorage.getItem('language') === null
+      ? 'en'
+      : sessionStorage.getItem('language');
+  curr =
+    sessionStorage.getItem('currency') === null
+      ? 'USD'
+      : sessionStorage.getItem('currency');
 
   site = {
     baseSite: 'electronics',
