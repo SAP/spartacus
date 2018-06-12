@@ -11,7 +11,6 @@ export class CartItemComponent implements OnInit {
   @Input() potentialPromotions: any[];
   @Input() appliedPromotions: any[];
   parent: FormGroup;
-  // used to pass the index in the formGroupArray when the component is used in ngFor
 
   @Output() remove = new EventEmitter<any>();
   @Output() update = new EventEmitter<any>();

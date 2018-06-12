@@ -1,13 +1,13 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormGroup, FormsModule } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
 import { of } from 'rxjs';
 import { CartSharedModule } from './../../cart-shared/cart-shared.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
-describe('AddedToCartDialogComponent', () => {
+fdescribe('AddedToCartDialogComponent', () => {
   let component: AddedToCartDialogComponent;
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
   // Update events represent the previous value of the form
@@ -58,9 +58,8 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should have form quantity control after init and entry observable finished', () => {
-    const form = component.form;
-    // entryForm is the formGroupName
-    expect(form.controls.entryForm.controls.quantity).toBeDefined();
+    const entryForm = component.form.controls.entryForm as FormGroup;
+    expect(entryForm.controls.quantity).toBeDefined();
   });
 
   it('should have default value of addedQuantity to be 1', () => {
