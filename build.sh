@@ -45,4 +45,7 @@ echo "-----"
 echo "Running unit tests and checking code coverage for storefront app"
 ng test storefrontapp --watch=false --code-coverage --browsers=ChromeHeadless
 echo "-----"
+echo "Running end to end tests"
+ng e2e --protractor-config=projects/storefrontapp-e2e/protractor.headless.conf.js
+echo "-----"
 echo "Spartacus Pipeline completed"
