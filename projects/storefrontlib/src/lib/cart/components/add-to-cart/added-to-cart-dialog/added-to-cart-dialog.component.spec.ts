@@ -10,6 +10,9 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 describe('AddedToCartDialogComponent', () => {
   let component: AddedToCartDialogComponent;
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
+  // Update events represent the previous value of the form
+  const mockDecrementUpdateEvent = { quantity: 2 };
+  const mockIncrementUpdateEvent = { quantity: 0 };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,7 +33,7 @@ describe('AddedToCartDialogComponent', () => {
             entry$: of({
               product: { images: '' },
               totalPrice: { formattedValue: '' },
-              quantity: 0,
+              quantity: 1,
               entryNumber: 0
             }),
             cart$: of({
@@ -46,9 +49,31 @@ describe('AddedToCartDialogComponent', () => {
     fixture = TestBed.createComponent(AddedToCartDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    component.ngOnInit();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should have form quantity control after init and entry observable finished', () => {
+    const form = component.form;
+    // entryForm is the formGroupName
+    expect(form.controls.entryForm.controls.quantity).toBeDefined();
+  });
+
+  it('should have default value of addedQuantity to be 1', () => {
+    expect(component.addedQuantity).toBe(1);
+  });
+
+  it('should update entries (increment)', () => {
+    component.updateEntry(mockIncrementUpdateEvent);
+    expect(component.addedQuantity).toBe(2);
+  });
+
+  it('should update entries (decrement)', () => {
+    component.updateEntry(mockDecrementUpdateEvent);
+    expect(component.addedQuantity).toBe(0);
   });
 });

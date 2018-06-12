@@ -49,6 +49,7 @@ export class AddedToCartDialogComponent implements OnInit {
   }
 
   updateEntry(event) {
+    // form is the true value, event is the previous value
     this.addedQuantity += this.form.value.entryForm.quantity - event.quantity;
     this.updateEntryEvent.emit({ entry: event, form: this.form });
   }
