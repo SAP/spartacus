@@ -10,12 +10,12 @@ import { OccSiteService } from './site-context/occ-site.service';
 import { OccCartService } from './cart/cart.service';
 import { OccMiscsService } from './miscs/miscs.service';
 import { OccOrderService } from './order/order.service';
-import { OccClientAuthTokenService } from './client-auth/client-auth-token.service';
+import { OccClientAuthenticationTokenService } from './client-auth/client-authentication-token.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   providers: [
-    OccClientAuthTokenService,
+    OccClientAuthenticationTokenService,
     OccProductSearchService,
     OccProductService,
     OccSiteService,

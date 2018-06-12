@@ -5,10 +5,10 @@ import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import * as fromActions from '../actions';
-import { TrustedClientToken } from '../../../user/models/token-types.model';
+import { ClientAuthenticationToken } from '../../../user/models/token-types.model';
 
-describe('Trusted Client Token selectors', () => {
-  let store: Store<fromReducers.AuthorizationState>;
+describe('Client Token selectors', () => {
+  let store: Store<fromReducers.ClientAuthenticationState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,21 +23,23 @@ describe('Trusted Client Token selectors', () => {
     store = TestBed.get(Store);
   });
 
-  describe('getTrustedToken', () => {
-    it('should return a trusted client token from the state', () => {
-      let result: TrustedClientToken;
+  describe('getClientToken', () => {
+    it('should return a client token from the state', () => {
+      let result: ClientAuthenticationToken;
       store
-        .select(fromSelectors.getTrustedToken)
+        .select(fromSelectors.getAuthClient)
         .subscribe(value => (result = value));
-      expect(result).toEqual(<TrustedClientToken>{});
+      expect(result).toEqual(<ClientAuthenticationToken>{});
 
-      const testToken: TrustedClientToken = {
+      const testToken: ClientAuthenticationToken = {
         access_token: 'abc-123',
         token_type: 'bearer',
         expires_in: 10000,
         scope: ''
       };
-      store.dispatch(new fromActions.LoadTrustedClientTokenSuccess(testToken));
+      store.dispatch(
+        new fromActions.LoadClientAuthenticationTokenSuccess(testToken)
+      );
 
       expect(result).toEqual(testToken);
     });

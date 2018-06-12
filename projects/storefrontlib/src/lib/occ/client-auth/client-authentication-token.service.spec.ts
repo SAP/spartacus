@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { ConfigService } from '../config.service';
-import { OccClientAuthTokenService } from './client-auth-token.service';
+import { OccClientAuthenticationTokenService } from './client-authentication-token.service';
 
 const token: any = 'mockToken';
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
@@ -22,19 +22,19 @@ class MockConfigService {
 }
 
 describe('OccClientAuthTokenService', () => {
-  let service: OccClientAuthTokenService;
+  let service: OccClientAuthenticationTokenService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccClientAuthTokenService,
+        OccClientAuthenticationTokenService,
         { provide: ConfigService, useClass: MockConfigService }
       ]
     });
 
-    service = TestBed.get(OccClientAuthTokenService);
+    service = TestBed.get(OccClientAuthenticationTokenService);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -42,9 +42,9 @@ describe('OccClientAuthTokenService', () => {
     httpMock.verify();
   });
 
-  describe('loadTrustedClientToken', () => {
-    it('Should fetch trusted client auth token', () => {
-      service.loadTrustedClientToken().subscribe(result => {
+  describe('loadClientAuthenticationToken', () => {
+    it('Should fetch client auth token', () => {
+      service.loadClientAuthenticationToken().subscribe(result => {
         expect(result).toEqual(token);
       });
 

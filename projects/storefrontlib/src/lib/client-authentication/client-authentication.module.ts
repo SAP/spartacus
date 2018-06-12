@@ -5,22 +5,22 @@ import { effects, reducers } from './store';
 import { EffectsModule } from '@ngrx/effects';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { AuthorizationTokenInterceptor } from './http-interceptors/authorization-token.interceptor';
+import { AuthenticationTokenInterceptor } from './http-interceptors/authentication-token.interceptor';
 import { OccModule } from '../occ/occ.module';
 
 @NgModule({
   imports: [
     OccModule,
-    StoreModule.forFeature('auth', reducers),
+    StoreModule.forFeature('client-authentication', reducers),
     EffectsModule.forFeature(effects)
   ],
   declarations: [],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthorizationTokenInterceptor,
+      useClass: AuthenticationTokenInterceptor,
       multi: true
     }
   ]
 })
-export class AuthorizationModule {}
+export class ClientAuthenticationModule {}
