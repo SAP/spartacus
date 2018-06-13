@@ -1,4 +1,4 @@
-import { browser, by, ExpectedConditions, promise } from 'protractor';
+import { browser, by, ExpectedConditions, promise, element } from 'protractor';
 import { SearchResultsPage } from './pages/searchResults.po';
 import { HomePage } from './pages/home.po';
 
@@ -50,18 +50,40 @@ describe('workspace-project App', () => {
   it('should list cameras in page', () => {
     // go to search results page
     searchResults.navigateTo('camera');
+
     // should go to search results page
     browser.wait(ExpectedConditions.urlContains('/search/camera'), 2000);
-    const results = searchResults.getProductListItems();
 
-    // FIXME - remove
+    // should show 10 results on page and top one be the Photosmart camera
+    const results = searchResults.getProductListItems();
     results.then(function(items) {
       expect(items.length).toBe(10);
       const h3 = items[0].element(by.tagName('h3'));
-      console.log(h3.constructor.name);
       h3.getText().then(function(text) {
-        console.log(text); // FIXME
+        expect(text).toBe('Photosmart E317 Digital Camera');
       });
     });
+  });
+
+  it('should list with pagination', () => {
+    // go to search results page
+    searchResults.navigateTo('camera');
+
+    // should go to search results page
+    browser.wait(ExpectedConditions.urlContains('/search/camera'), 2000);
+
+    // should have 144 results and 15 pages
+    const pagination = searchResults.getPagination();
+    pagination
+      .element(by.tagName('div'))
+      .getText()
+      .then(function(text) {
+        expect(text).toBe('144 Products, Page: 1 of 15');
+      });
+
+    // go to next page
+    // FIXME - commented out by now, as it is broken on spartacus
+    // const nextButton = pagination.element(by.css('pagination-next'));
+    // nextButton.click();
   });
 });
