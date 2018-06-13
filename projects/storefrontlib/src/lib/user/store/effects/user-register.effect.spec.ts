@@ -8,15 +8,15 @@ import * as fromStore from '../../store';
 import * as fromRouting from '../../../routing/store';
 import { UserRegisterEffects } from './user-register.effect';
 import { OccUserService } from '../../../occ/user/user.service';
-import { UserRegister } from '../../models/user.model';
+import { UserRegisterFormData } from '../../models/user.model';
 
 class MockUserService {
-  registerUser(_user: UserRegister): Observable<any> {
+  registerUser(_user: UserRegisterFormData): Observable<any> {
     return;
   }
 }
 
-const user: UserRegister = {
+const user: UserRegisterFormData = {
   firstName: '',
   lastName: '',
   password: '',

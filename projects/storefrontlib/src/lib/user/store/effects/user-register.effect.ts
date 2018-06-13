@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 
 import { OccUserService } from '../../../occ/user/user.service';
-import { UserRegister } from '../../models/user.model';
+import { UserRegisterFormData } from '../../models/user.model';
 
 @Injectable()
 export class UserRegisterEffects {
@@ -17,7 +17,7 @@ export class UserRegisterEffects {
     .ofType(fromActions.REGISTER_USER)
     .pipe(
       map((action: fromActions.RegisterUser) => action.payload),
-      mergeMap((user: UserRegister) => {
+      mergeMap((user: UserRegisterFormData) => {
         return this.userService.registerUser(user).pipe(
           switchMap(_result => [
             new fromTokenActions.LoadUserToken({

@@ -3,7 +3,8 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
-  AbstractControl
+  AbstractControl,
+  FormControl
 } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -20,20 +21,18 @@ import * as fromCheckoutStore from '../../../checkout/store';
 export class RegisterComponent implements OnInit {
   titles$: Observable<any>;
 
-  user: FormGroup = this.fb.group(
+  userRegistrationForm: FormGroup = this.fb.group(
     {
       titleCode: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, this.validatePassword]],
       passwordconf: ['', Validators.required],
       newsletter: [false],
       termsandconditions: [false, Validators.requiredTrue]
     },
-    {
-      validator: this.matchPassword
-    }
+    { validator: this.matchPassword }
   );
 
   constructor(
@@ -54,20 +53,27 @@ export class RegisterComponent implements OnInit {
   submit() {
     this.store.dispatch(
       new fromUserStore.RegisterUser({
-        firstName: this.user.value.firstName,
-        lastName: this.user.value.lastName,
-        password: this.user.value.password,
-        titleCode: this.user.value.titleCode,
-        uid: this.user.value.email
+        firstName: this.userRegistrationForm.value.firstName,
+        lastName: this.userRegistrationForm.value.lastName,
+        password: this.userRegistrationForm.value.password,
+        titleCode: this.userRegistrationForm.value.titleCode,
+        uid: this.userRegistrationForm.value.email
       })
     );
   }
 
+  private validatePassword(fc: FormControl) {
+    const password = fc.value as string;
+    return password.match(
+      '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^*()_+{};:.,]).{6,}$'
+    )
+      ? null
+      : { InvalidPassword: true };
+  }
+
   private matchPassword(ac: AbstractControl) {
-    const password = ac.get('password').value;
-    const confirmPassword = ac.get('passwordconf').value;
-    if (password !== confirmPassword) {
-      ac.get('passwordconf').setErrors({ MatchPassword: true });
+    if (ac.get('password').value !== ac.get('passwordconf').value) {
+      return { NotEqual: true };
     }
   }
 }

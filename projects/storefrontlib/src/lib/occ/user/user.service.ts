@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ConfigService } from '../config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { UserRegister } from '../../user/models/user.model';
+import { UserRegisterFormData } from '../../user/models/user.model';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 const USER_ENDPOINT = 'users/';
@@ -77,7 +77,7 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  registerUser(user: UserRegister): Observable<any> {
+  registerUser(user: UserRegisterFormData): Observable<any> {
     const url = this.getUserEndpoint();
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'

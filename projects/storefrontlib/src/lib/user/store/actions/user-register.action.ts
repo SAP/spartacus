@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { UserRegister } from '../../models/user.model';
+import { UserRegisterFormData } from '../../models/user.model';
 
 export const REGISTER_USER = '[User] Register User';
 export const REGISTER_USER_FAIL = '[User] Register User Fail';
@@ -8,7 +8,7 @@ export const REGISTER_USER_SUCCESS = '[User] Register User Success';
 
 export class RegisterUser implements Action {
   readonly type = REGISTER_USER;
-  constructor(public payload: UserRegister) {}
+  constructor(public payload: UserRegisterFormData) {}
 }
 
 export class RegisterUserFail implements Action {
