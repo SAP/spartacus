@@ -18,11 +18,13 @@
       <br/>
 
       <label>Email:</label>
-      <input type="email" name="email" placeholder="Email Address" formControlName="email" novalidate>
+      <input [ngClass]="{'error': userRegistrationForm.get('email').invalid }" type="email" name="email" placeholder="Email Address"
+        formControlName="email" novalidate>
       <br/>
 
       <label>Password:</label>
-      <input type="password" name="password" placeholder="Password" formControlName="password">
+      <input [ngClass]="{'error': userRegistrationForm.get('password').invalid }" type="password" name="password" placeholder="Password"
+        formControlName="password">
       <span class="subtitle">
         Minimum length is 6 characters. Must contain at least one number, one special character and one uppercase and one lowercase
         letter.
