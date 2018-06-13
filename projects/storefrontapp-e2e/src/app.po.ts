@@ -1,11 +1,19 @@
-import { browser, by, element } from 'protractor';
+import { Header } from './cmslib/header.po';
+import { browser } from 'protractor';
 
-export class AppPage {
-  navigateTo() {
-    return browser.get('/');
+export abstract class AppPage {
+  private _header: Header;
+
+  constructor() {
+    this._header = new Header();
   }
 
-  getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+  get header(): Header {
+    return this._header;
+  }
+
+  getBrowserPageTitle() {
+    const title = browser.getTitle();
+    return title;
   }
 }
