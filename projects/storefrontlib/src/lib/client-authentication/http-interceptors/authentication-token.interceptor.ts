@@ -19,6 +19,11 @@ import {
   UserToken
 } from '../../user/models/token-types.model';
 
+interface RequestMapping {
+  method: string;
+  urlPattern: string;
+}
+
 @Injectable()
 export class AuthenticationTokenInterceptor implements HttpInterceptor {
   constructor(
@@ -43,17 +48,20 @@ export class AuthenticationTokenInterceptor implements HttpInterceptor {
       })
     );
   }
-  // TODO: validate verbs and chang tests
+
   private getTokenForRequest(
     request: HttpRequest<any>
   ): Observable<AuthenticationToken> {
-    const clientEndpoints = [
-      '^(.*?)/users$',
-      '^(.*?)/forgottenpasswordtokens',
-      '^(.*?)/users/(.*?)/carts/(.*?)/email'
+    const clientEndpoints: Array<RequestMapping> = [
+      { method: 'POST', urlPattern: '^(.*?)/users$' },
+      { method: 'POST', urlPattern: '^(.*?)/forgottenpasswordtokens' },
+      { method: 'PUT', urlPattern: '^(.*?)/users/(.*?)/carts/(.*?)/email' }
     ];
     for (const value of clientEndpoints) {
-      if (request.url.match(value)) {
+      if (
+        request.url.match(value.urlPattern) &&
+        request.method === value.method
+      ) {
         return this.getClientToken();
       }
     }

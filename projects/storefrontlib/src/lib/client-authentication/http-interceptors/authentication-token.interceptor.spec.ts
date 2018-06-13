@@ -81,9 +81,11 @@ describe('AuthenticationTokenInterceptor', () => {
         let authHeader = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(null);
 
-        http.get('/somestore/forgottenpasswordtokens').subscribe(result => {
-          expect(result).toBeTruthy();
-        });
+        http
+          .post('/somestore/forgottenpasswordtokens', { userId: 1 })
+          .subscribe(result => {
+            expect(result).toBeTruthy();
+          });
         mockReq = httpMock.expectOne('/somestore/forgottenpasswordtokens');
         authHeader = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(

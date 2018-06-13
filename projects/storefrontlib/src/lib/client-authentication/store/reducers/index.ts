@@ -17,6 +17,6 @@ export const reducers: ActionReducerMap<ClientAuthenticationState> = {
 export const getApplicationAuthState: MemoizedSelector<
   any,
   ClientAuthenticationState
-> = createFeatureSelector<ClientAuthenticationState>('auth');
+> = createFeatureSelector<ClientAuthenticationState>('client-authentication');
 
 export * from './client-authentication-token.reducer';
