@@ -36,4 +36,12 @@ export class OccOrderService {
       .post(url, {}, { headers: headers, params: params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
+
+  public getListOfOrders(userId: string): Observable<any> {
+    const url = this.getOrderEndpoint(userId);
+
+    return this.http
+      .get(url, {})
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
 }

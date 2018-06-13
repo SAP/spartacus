@@ -1,0 +1,13 @@
+.order-history-page-container {
+  .order-history-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #cccc;
+    padding: 10px;
+    h3 {
+      padding: 0;
+      margin: 0;
+    }
+  }
+}

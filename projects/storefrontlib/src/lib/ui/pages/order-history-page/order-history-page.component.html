@@ -1,3 +1,22 @@
-<p>
-  order-history-page works! Hello world
-</p>
+<div class="order-history-page-container">
+  <div class="order-history-header">
+    <div>
+      Breadcrumbs / Breadcrumbs
+    </div>
+    <ng-container *ngIf=" orders$ | async as orders ">
+      <h3>{{orders.orders.length}} orders found in your Order History</h3>
+    </ng-container>
+  </div>
+  <div class="order-history-body">
+    <ul *ngIf="orders$ | async as orders">
+      <li *ngFor="let order of orders.orders">
+        <span>{{order.code}}</span>
+        <span>{{order.guid}}</span>
+        <span>{{order.placed}}</span>
+        <span>{{order.status}}</span>
+        <span>{{order.statusDisplay}}</span>
+        <span>{{order.total | json}}</span>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -53,7 +53,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'my-account/orders',
-    canActivate: [CmsPageGuards],
+    canActivate: [AuthGuard, CmsPageGuards],
     component: OrderHistoryPageComponent
   },
 
