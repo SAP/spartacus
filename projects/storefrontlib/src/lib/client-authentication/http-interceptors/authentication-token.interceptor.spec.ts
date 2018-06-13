@@ -99,7 +99,7 @@ describe('AuthenticationTokenInterceptor', () => {
       (http: HttpClient) => {
         spyOn(store, 'select').and.returnValue(of({}));
         spyOn(store, 'dispatch').and.stub();
-        http.get('somestore/users').subscribe(result => {
+        http.post('somestore/users', {}).subscribe(result => {
           expect(result).toBeTruthy();
         });
 

@@ -15,7 +15,7 @@ describe('Client Token selectors', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRoot.reducers,
-          auth: combineReducers(fromReducers.reducers)
+          'client-authentication': combineReducers(fromReducers.reducers)
         })
       ]
     });
