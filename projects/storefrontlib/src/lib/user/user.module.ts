@@ -7,8 +7,6 @@ import { metaReducers } from './store/reducers';
 import * as fromGuards from './guards';
 import { LoginModule } from './components/login/login.module';
 import { effects, reducers } from './store';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { UserTokenInterceptor } from './http-interceptors/user-token.interceptor';
 
 @NgModule({
   imports: [
@@ -18,13 +16,6 @@ import { UserTokenInterceptor } from './http-interceptors/user-token.interceptor
     EffectsModule.forFeature(effects)
   ],
   declarations: [],
-  providers: [
-    ...fromGuards.guards,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: UserTokenInterceptor,
-      multi: true
-    }
-  ]
+  providers: [...fromGuards.guards]
 })
 export class UserModule {}
