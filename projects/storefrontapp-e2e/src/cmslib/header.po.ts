@@ -1,16 +1,32 @@
-import { browser, by, protractor } from 'protractor';
+import { LoginModal } from './loginModal.po';
+import {
+  browser,
+  by,
+  ExpectedConditions,
+  ElementFinder,
+  protractor
+} from 'protractor';
 import { E2EUtil } from './../util.po';
 export class Header {
-  getSiteLogoComponent() {
+  getSiteLogoComponent(): ElementFinder {
     return E2EUtil.getComponentWithinDynamicSlot('SiteLogo', 'y-banner');
   }
 
-  getSearchComponent() {
+  getSearchComponent(): ElementFinder {
     return E2EUtil.getComponentWithinDynamicSlot('SearchBox', 'y-searchbox');
   }
 
-  getLoginComponent() {
+  getLoginIconComponent(): ElementFinder {
     return E2EUtil.getComponent('y-login');
+  }
+
+  openLoginModal() {
+    // click on login icon
+    const loginIconButton = E2EUtil.getComponentWithinParent(
+      this.getLoginIconComponent(),
+      'button'
+    );
+    loginIconButton.click();
   }
 
   performSearch(searchKey: string) {
@@ -20,10 +36,6 @@ export class Header {
     const searchInput = searchComponent.element(
       by.css('input[placeholder="Search Box"]')
     );
-    searchInput.sendKeys(searchKey);
-    browser
-      .actions()
-      .sendKeys(protractor.Key.ENTER)
-      .perform();
+    E2EUtil.fillInput(searchInput, searchKey);
   }
 }

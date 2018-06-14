@@ -1,4 +1,11 @@
-import { element, by, ElementArrayFinder, ElementFinder } from 'protractor';
+import {
+  element,
+  by,
+  ElementArrayFinder,
+  ElementFinder,
+  browser,
+  protractor
+} from 'protractor';
 
 export class E2EUtil {
   /**
@@ -50,18 +57,56 @@ export class E2EUtil {
   }
 
   /**
-   * Get all matching cms components with a given selector inside a parent element.
+   * Get a cms component given a parent component and the component css identifier.
    * @param parentSelector An id to be used to search the parent
+   * @param componentClass The css class declared on the component (used to identify the element)
+   * @returns the component found
+   */
+  static getComponentWithinParentByClass(
+    parent: ElementFinder,
+    componentClass: string
+  ): ElementFinder {
+    return parent.element(by.className(componentClass));
+  }
+
+  /**
+   * Get all matching cms components with a given selector inside a parent element.
+   * @param parent parent element where component can be found
    * @param componentSelector The selector declared on the component (used to identify the html tag)
    * @returns the array of elements that matches the search
    */
   static getComponentsWithinParent(
-    parentSelector: string,
+    parent: ElementFinder,
     componentSelector: string
   ): ElementArrayFinder {
-    const parent = element(by.css(parentSelector));
+    return parent.all(by.tagName(componentSelector));
+  }
 
-    const components = parent.all(by.tagName(componentSelector));
-    return components;
+  /**
+   * Finds an input inside a parent
+   * @param parent parent element where input can be found
+   * @param formControlName input identifier
+   */
+  static getInputByFormControlName(
+    parent: ElementFinder,
+    formControlName: string
+  ): ElementFinder {
+    return E2EUtil.getComponentWithinParentByCss(
+      parent,
+      `input[formcontrolname=${formControlName}]`
+    );
+  }
+
+  /**
+   * Fills a given input with the desired value
+   * @param input the input element
+   * @param value the value to fill
+   */
+  static fillInput(input: ElementFinder, value: string) {
+    input.sendKeys(value);
+    browser
+      .actions()
+      .sendKeys(protractor.Key.ENTER)
+      .perform();
   }
 }

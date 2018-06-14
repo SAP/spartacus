@@ -1,3 +1,7 @@
+import { E2ECommonTasks } from './commonTasks.po';
+import { Register } from './pages/register.po';
+import { E2EUtil } from './util.po';
+import { LoginModal } from './cmslib/loginModal.po';
 import { browser, by, ExpectedConditions, promise, element } from 'protractor';
 import { SearchResultsPage } from './pages/searchResults.po';
 import { HomePage } from './pages/home.po';
@@ -5,10 +9,12 @@ import { HomePage } from './pages/home.po';
 describe('workspace-project App', () => {
   let home: HomePage;
   let searchResults: SearchResultsPage;
+  let timestamp: number;
 
   beforeEach(() => {
     home = new HomePage();
     searchResults = new SearchResultsPage();
+    timestamp = Date.now();
   });
 
   it('should display title', () => {
@@ -26,6 +32,47 @@ describe('workspace-project App', () => {
     expect<promise.Promise<boolean>>(siteLogoComponent.isPresent()).toEqual(
       true
     );
+  });
+
+  // FIXME - scaping test now while registration is not finished
+  xit('should be able to register then login', () => {
+    const username = timestamp + '@hybris.com';
+    const password = '12341234';
+    const firstName = 'First';
+    const lastName = 'Last';
+    E2ECommonTasks.register('Mr.', firstName, lastName, username, password);
+    // TODO - check for confirmation message - by now, just waits a bit for registration to finish
+
+    E2ECommonTasks.login(username, password);
+    // wait for login modal to disappear
+    browser.wait(
+      ExpectedConditions.invisibilityOf(new LoginModal().getModal()),
+      2000
+    );
+
+    const loginIconComponent = home.header.getLoginIconComponent();
+    const loginButton = E2EUtil.getComponentWithinParent(
+      loginIconComponent,
+      'button'
+    );
+    const loginSpan = E2EUtil.getComponentWithinParentByCss(
+      loginButton,
+      'span'
+    );
+    // wait until default name disappears
+    browser.wait(
+      ExpectedConditions.not(
+        ExpectedConditions.textToBePresentInElement(loginSpan, 'person')
+      ),
+      2000
+    );
+    // verify that user first and last name is show on login icon component
+    loginSpan.getText().then(function(text) {
+      expect(text).toContain(firstName + ' ' + lastName);
+    });
+
+    // logout: cleanup for next tests
+    E2ECommonTasks.logout();
   });
 
   it('should be able to search', () => {

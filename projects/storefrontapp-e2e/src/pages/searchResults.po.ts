@@ -13,10 +13,11 @@ export class SearchResultsPage extends AppPage {
   }
 
   getProductListItems() {
-    return E2EUtil.getComponentsWithinParent(
-      'y-product-list',
-      'y-product-list-item'
+    const producList = E2EUtil.getComponentWithinParent(
+      this.getPage(),
+      'y-product-list'
     );
+    return E2EUtil.getComponentsWithinParent(producList, 'y-product-list-item');
   }
 
   findProductByDescriptionInPage(productDescription: string) {
