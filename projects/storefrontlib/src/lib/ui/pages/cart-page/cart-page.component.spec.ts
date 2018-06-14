@@ -13,7 +13,7 @@ import * as fromCmsReducer from '../../../cms/store';
 import * as fromCart from '../../../cart/store';
 
 import { CartService } from '../../../cart/services';
-import { OrderSummaryComponent } from '../../../cart/components/cart-shared/order-summary/order-summary.component';
+import { OrderSummaryComponent } from '../../../cart/components/cart-details/order-summary/order-summary.component';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CartItemComponent } from '../../../cart/components/cart-shared/cart-item/cart-item.component';

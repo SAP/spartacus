@@ -14,7 +14,7 @@ import {
 import { CartPageLayoutComponent } from './cart-page-layout.component';
 import { of } from 'rxjs';
 import { ComponentMapperService } from '../../../cms/services';
-import { OrderSummaryComponent } from '../../../cart/components/cart-shared/order-summary/order-summary.component';
+import { OrderSummaryComponent } from '../../../cart/components/cart-details/order-summary/order-summary.component';
 import { CartItemComponent } from '../../../cart/components/cart-shared/cart-item/cart-item.component';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { ItemCounterComponent } from '../../../cart/components/cart-shared/item-counter/item-counter.component';

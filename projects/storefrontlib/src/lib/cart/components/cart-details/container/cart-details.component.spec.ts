@@ -8,7 +8,7 @@ import { CartService } from '../../../services/cart.service';
 import * as fromReducer from '../../../store/reducers';
 import { CartItemComponent } from '../../cart-shared/cart-item/cart-item.component';
 import { ItemCounterComponent } from '../../cart-shared/item-counter/item-counter.component';
-import { OrderSummaryComponent } from '../../cart-shared/order-summary/order-summary.component';
+import { OrderSummaryComponent } from '../order-summary/order-summary.component';
 import { CartDetailsComponent } from './cart-details.component';
 
 class MockCartService {

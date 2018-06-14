@@ -11,7 +11,7 @@ import * as fromRouting from '../../../../routing/store';
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 import { AddressFormComponent } from '../address-form/address-form.component';
-import { OrderSummaryComponent } from '../../../../cart/components/cart-shared/order-summary/order-summary.component';
+import { OrderSummaryComponent } from '../../../../cart/components/cart-details/order-summary/order-summary.component';
 import { DeliveryModeFormComponent } from '../delivery-mode-form/delivery-mode-form.component';
 import { ReviewSubmitComponent } from '../review-submit/review-submit.component';
 
