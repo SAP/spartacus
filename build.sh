@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+DEV_SERVER='10\.27\.165\.187'
+
 echo "Validating tsconfig.json integrity"
 LOCAL_ENV_LIB_PATH="projects/storefrontlib/src/public_api"
 LOCAL_ENV_LIB_PATH_OCCURENCES=$(grep -c "projects/storefrontlib/src/public_api" tsconfig.json || true)
@@ -44,6 +46,10 @@ ng build storefrontapp
 echo "-----"
 echo "Running unit tests and checking code coverage for storefront app"
 ng test storefrontapp --watch=false --code-coverage --browsers=ChromeHeadless
+echo "-----"
+echo "Replacing localhost for the right server to run end to end tests against"
+sed -i -e "s=https://localhost=https://$DEV_SERVER=g" projects/storefrontapp/src/app/config.service.ts
+sed -i -e "s=https://localhost=https://$DEV_SERVER=g" projects/storefrontlib/src/lib/cms/config.service.ts
 echo "-----"
 echo "Running end to end tests"
 ng e2e --protractor-config=projects/storefrontapp-e2e/protractor.headless.conf.js
