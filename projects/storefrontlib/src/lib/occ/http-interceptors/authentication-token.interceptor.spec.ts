@@ -5,16 +5,24 @@ import {
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
+import * as fromStore from '../../user/store';
 import * as fromRoot from '../../routing/store';
-import * as fromStore from '../store';
 import { AuthenticationTokenInterceptor } from './authentication-token.interceptor';
 import {
   ClientAuthenticationToken,
   UserToken
 } from '../../user/models/token-types.model';
 import { ConfigService } from '../../occ/config.service';
+import { OccClientAuthenticationTokenService } from '../client-authentication/client-authentication-token.service';
+
+const testToken: ClientAuthenticationToken = {
+  access_token: 'abc-123',
+  token_type: 'bearer',
+  expires_in: 1000,
+  scope: ''
+};
 
 class MockConfigService {
   server = {
@@ -29,13 +37,13 @@ class MockConfigService {
   };
 }
 
+class MockOccClientAuthenticationTokenService {
+  loadClientAuthenticationToken(): Observable<any> {
+    return of(testToken);
+  }
+}
+
 describe('AuthenticationTokenInterceptor', () => {
-  const testToken: ClientAuthenticationToken = {
-    access_token: 'abc-123',
-    token_type: 'bearer',
-    expires_in: 1000,
-    scope: ''
-  };
   const userToken: UserToken = {
     access_token: 'xxx',
     token_type: 'bearer',
@@ -45,7 +53,7 @@ describe('AuthenticationTokenInterceptor', () => {
     userId: 'xxx'
   };
   let httpMock: HttpTestingController;
-  let store: Store<fromStore.ClientAuthenticationState>;
+  let store: Store<fromStore.UserState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -53,11 +61,15 @@ describe('AuthenticationTokenInterceptor', () => {
         HttpClientTestingModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
-          auth: combineReducers(fromStore.reducers)
+          user: combineReducers(fromStore.reducers)
         })
       ],
       providers: [
         { provide: ConfigService, useClass: MockConfigService },
+        {
+          provide: OccClientAuthenticationTokenService,
+          useClass: MockOccClientAuthenticationTokenService
+        },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: AuthenticationTokenInterceptor,
@@ -90,21 +102,6 @@ describe('AuthenticationTokenInterceptor', () => {
         authHeader = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(
           `${testToken.token_type} ${testToken.access_token}`
-        );
-      }
-    ));
-
-    it('Should fetch client token if the store is empty', inject(
-      [HttpClient],
-      (http: HttpClient) => {
-        spyOn(store, 'select').and.returnValue(of({}));
-        spyOn(store, 'dispatch').and.stub();
-        http.post('somestore/users', {}).subscribe(result => {
-          expect(result).toBeTruthy();
-        });
-
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new fromStore.LoadClientAuthenticationToken()
         );
       }
     ));

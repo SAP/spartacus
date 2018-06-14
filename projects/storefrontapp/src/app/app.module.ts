@@ -5,7 +5,6 @@ import { LOCALE_ID } from '@angular/core';
 
 import { ConfigService } from './config.service';
 
-import { ClientAuthenticationModule } from 'storefrontlib';
 import { OccModule } from 'storefrontlib';
 import { UiModule } from 'storefrontlib';
 import { CmsLibModule } from 'storefrontlib';
@@ -35,7 +34,6 @@ import { CheckoutModule } from 'storefrontlib';
     CmsModule.forRoot(ConfigService),
     SiteContextModule.forRoot(ConfigService),
     CheckoutModule,
-    ClientAuthenticationModule,
     RoutingModule.forRoot(ConfigService),
     RouterModule.forRoot(appRoutes),
     ProductModule,
