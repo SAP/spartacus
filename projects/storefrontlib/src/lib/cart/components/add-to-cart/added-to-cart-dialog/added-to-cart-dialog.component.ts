@@ -19,7 +19,7 @@ export class AddedToCartDialogComponent implements OnInit {
   });
 
   @Output() updateEntryEvent: EventEmitter<any> = new EventEmitter();
-
+  @Output() removeEntryEvent: EventEmitter<any> = new EventEmitter();
   constructor(
     public dialogRef: MatDialogRef<AddedToCartDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -43,8 +43,12 @@ export class AddedToCartDialogComponent implements OnInit {
     });
   }
 
-  updateEntry(event) {
+  updateEntry() {
     // form is the source of truth. event is the previous value
     this.updateEntryEvent.emit(this.form);
+  }
+
+  removeEntry(entry) {
+    this.removeEntryEvent.emit(entry);
   }
 }

@@ -66,18 +66,23 @@ export class AddToCartComponent implements OnChanges, OnDestroy {
     });
 
     dialogRef.componentInstance.updateEntryEvent.subscribe((data: any) =>
-      this.updateEntryFromModal(data)
+      this.updateEntry(data)
     );
+
+    dialogRef.componentInstance.removeEntryEvent.subscribe((data: any) => {
+      this.removeEntry(data);
+    });
   }
 
-  private updateEntryFromModal(data) {
+  private updateEntry(data) {
     const entryFormGroup = data.value.entryForm;
     this.cartService.updateCartEntry(
       entryFormGroup.entryNumber,
       entryFormGroup.quantity
     );
-    if (entryFormGroup.quantity === 0) {
-      this.dialog.closeAll();
-    }
+  }
+  private removeEntry(entry) {
+    this.cartService.removeCartEntry(entry);
+    this.dialog.closeAll();
   }
 }

@@ -10,7 +10,7 @@
     <div class="entry-info-container">
       <ng-container *ngIf="(entry$ | async) as entry">
         <ul class="item__list item__list__cart" [formGroup]="form">
-          <y-cart-item formGroupName="entryForm" [entry]="entry" (update)="updateEntry($event)"></y-cart-item>
+          <y-cart-item formGroupName="entryForm" [entry]="entry" (update)="updateEntry()" (remove)="removeEntry($event)"></y-cart-item>
         </ul>
       </ng-container>
     </div>
