@@ -10,7 +10,7 @@
   <div class="order-history-body">
     <div class="order-table-container">
       <ng-container *ngIf="orders$ | async as orders">
-        <y-order-history-controls [numberOfPages]="orders.pagination.totalPages"></y-order-history-controls>
+        <y-order-history-controls [numberOfPages]="orders.pagination.totalPages" (viewPageEvent)="viewPage($event)"></y-order-history-controls>
         <table>
           <thead>
             <th>Ordered</th>
@@ -29,7 +29,7 @@
             </tr>
           </tbody>
         </table>
-        <y-order-history-controls [numberOfPages]="orders.pagination.totalPages" [sort]="orders.pagination.sort"></y-order-history-controls>
+        <y-order-history-controls [numberOfPages]="orders.pagination.totalPages" [sort]="orders.pagination.sort" (viewPageEvent)="viewPage($event)"></y-order-history-controls>
       </ng-container>
     </div>
   </div>

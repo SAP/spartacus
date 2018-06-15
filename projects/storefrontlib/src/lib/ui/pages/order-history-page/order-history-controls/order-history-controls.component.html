@@ -8,7 +8,8 @@
     <span (click)="prevPage()">prev</span>
     <div class="pages">
       <div class="page-number" [ngClass]="{activePage : currentPage === i}" *ngFor="let i of pages.slice(paginationBoundaries-1, paginationBoundaries+2)"
-        (click)="viewPage(i)">{{i}}</div>
+        (click)="viewPage(i)">{{i}}
+      </div>
     </div>
     <span (click)="nextPage()">next</span>
   </div>

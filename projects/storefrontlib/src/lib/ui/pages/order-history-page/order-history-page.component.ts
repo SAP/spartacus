@@ -18,14 +18,16 @@ export class OrderHistoryPageComponent implements OnInit {
 
   orders$: Observable<any>;
   private ORDER_PER_PAGE = 1;
+  private user_id: string;
 
   ngOnInit() {
     this.usersStore
       .select(fromUserStore.getUserToken)
       .pipe(
         tap(data => {
-          this.orders$ = this.service.getListOfOrders(
-            data.userId,
+          this.user_id = data.userId;
+          this.orders$ = this.service.getUserOrders(
+            this.user_id,
             this.ORDER_PER_PAGE
           );
         })
@@ -44,5 +46,13 @@ export class OrderHistoryPageComponent implements OnInit {
       day: 'numeric'
     };
     return dateObj.toLocaleDateString(local, options);
+  }
+
+  viewPage(pageNumber: number) {
+    this.orders$ = this.service.getUserOrders(
+      this.user_id,
+      this.ORDER_PER_PAGE,
+      pageNumber
+    );
   }
 }

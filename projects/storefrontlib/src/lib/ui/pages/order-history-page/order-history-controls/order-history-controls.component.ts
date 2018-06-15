@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'y-order-history-controls',
@@ -8,6 +8,8 @@ import { Component, OnInit, Input } from '@angular/core';
 export class OrderHistoryControlsComponent implements OnInit {
   @Input() numberOfPages: number;
   @Input() sort: string;
+  @Output() viewPageEvent: EventEmitter = new EventEmitter<number>();
+
   currentPage: number;
   paginationBoundaries: number;
   pages: number[];
@@ -25,33 +27,26 @@ export class OrderHistoryControlsComponent implements OnInit {
   viewPage(pageNumber: number) {
     this.currentPage = pageNumber;
 
-    if (pageNumber > this.pages.length - 2) {
-      console.log('a');
-      this.paginationBoundaries = pageNumber - 2;
+    if (pageNumber === 1) {
+      this.paginationBoundaries = 1;
+    } else if (pageNumber === this.pages.length) {
+      this.paginationBoundaries = this.pages.length - 2; // the last page - 2
     } else {
-      console.log('b');
-      this.paginationBoundaries = pageNumber;
+      this.paginationBoundaries = pageNumber - 1;
     }
 
-    console.log(this.paginationBoundaries);
+    this.viewPageEvent.emit(this.currentPage);
   }
 
   prevPage() {
     if (this.currentPage !== 1) {
-      this.currentPage -= 1;
-    }
-    if (this.paginationBoundaries !== 1) {
-      this.paginationBoundaries -= 1;
+      this.viewPage(this.currentPage - 1);
     }
   }
 
   nextPage() {
     if (this.currentPage !== this.pages.length) {
-      this.currentPage += 1;
-    }
-
-    if (this.paginationBoundaries !== this.pages.length) {
-      this.paginationBoundaries += 1;
+      this.viewPage(this.currentPage + 1);
     }
   }
 }
