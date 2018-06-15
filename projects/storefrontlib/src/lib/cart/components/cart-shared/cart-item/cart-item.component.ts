@@ -26,11 +26,6 @@ export class CartItemComponent implements OnInit {
   }
 
   updateEntry() {
-    if (this.timeout !== undefined) {
-      clearTimeout(this.timeout);
-    }
-    this.timeout = setTimeout(() => {
-      this.update.emit(this.entry);
-    }, 400);
+    this.update.emit(this.entry);
   }
 }
