@@ -8,15 +8,29 @@
     </ng-container>
   </div>
   <div class="order-history-body">
-    <ul *ngIf="orders$ | async as orders">
-      <li *ngFor="let order of orders.orders">
-        <span>{{order.code}}</span>
-        <span>{{order.guid}}</span>
-        <span>{{order.placed}}</span>
-        <span>{{order.status}}</span>
-        <span>{{order.statusDisplay}}</span>
-        <span>{{order.total | json}}</span>
-      </li>
-    </ul>
+    <div class="order-table-container">
+      <ng-container *ngIf="orders$ | async as orders">
+        <y-order-history-controls [numberOfPages]="orders.pagination.totalPages"></y-order-history-controls>
+        <table>
+          <thead>
+            <th>Ordered</th>
+            <th>Order number</th>
+            <th>Order Total</th>
+            <th>Status</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orders.orders">
+              <td>{{createDateString(order.placed)}}</td>
+              <td>
+                <a href="/">{{order.code}}</a>
+              </td>
+              <td>{{order.total.formattedValue}}</td>
+              <td>{{order.statusDisplay}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <y-order-history-controls [numberOfPages]="orders.pagination.totalPages" [sort]="orders.pagination.sort"></y-order-history-controls>
+      </ng-container>
+    </div>
   </div>
 </div>

@@ -37,11 +37,17 @@ export class OccOrderService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  public getListOfOrders(userId: string): Observable<any> {
+  public getListOfOrders(userId: string, pageSize: number): Observable<any> {
     const url = this.getOrderEndpoint(userId);
+    const params = new HttpParams({
+      fromString: 'pageSize=' + pageSize
+    });
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
 
     return this.http
-      .get(url, {})
+      .get(url, { headers: headers, params: params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 }

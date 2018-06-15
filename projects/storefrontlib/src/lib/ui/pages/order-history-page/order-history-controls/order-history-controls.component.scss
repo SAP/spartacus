@@ -1,0 +1,26 @@
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0 10px 0;
+
+  .pagination-container {
+    display: flex;
+    .pages {
+      display: flex;
+      .activePage {
+        background-color: #ccc;
+      }
+    }
+    span,
+    .page-number {
+      border: 1px solid black;
+      padding: 5px;
+      cursor: pointer;
+    }
+    .page-number {
+      min-width: 15px;
+      margin: 0 2px 0 2px;
+      text-align: center;
+    }
+  }
+}
