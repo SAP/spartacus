@@ -12,6 +12,8 @@ export class CartItemComponent implements OnInit {
   @Input() appliedPromotions: any[];
   parent: FormGroup;
 
+  timeout: any;
+
   @Output() remove = new EventEmitter<any>();
   @Output() update = new EventEmitter<any>();
   constructor(private controlContainer: ControlContainer) {}
@@ -24,6 +26,11 @@ export class CartItemComponent implements OnInit {
   }
 
   updateEntry() {
-    this.update.emit(this.entry);
+    if (this.timeout !== undefined) {
+      clearTimeout(this.timeout);
+    }
+    this.timeout = setTimeout(() => {
+      this.update.emit(this.entry);
+    }, 400);
   }
 }
