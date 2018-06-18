@@ -62,6 +62,7 @@ export * from './lib/ui/pages/cart-page/cart-page.component';
 export * from './lib/ui/pages/order-confirmation-page/order-confirmation-page.component';
 export * from './lib/ui/pages/404/404.component';
 export * from './lib/user/components/login/login.component';
+export * from './lib/user/components/register/register.component';
 export * from './lib/user/components/login/login-dialog/login-dialog.component';
 export * from './lib/product/components/product-details/product-reviews/product-reviews.component';
 export * from './lib/product/components/product-details/product-summary/product-summary.component';
@@ -111,5 +112,6 @@ export * from './lib/site-context/language-selector/language-selector.component'
 export * from './lib/site-context/currency-selector/currency-selector.component';
 
 export * from './lib/user/guards/auth.guard';
+export * from './lib/user/guards/not-auth.guard';
 export * from './lib/product/guards/product.guard';
 export * from './lib/cms/guards/cms-page.guard';
