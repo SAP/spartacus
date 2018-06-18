@@ -4,37 +4,38 @@
       <option>Sort</option>
     </select>
     <div class="pagination-container">
-      <span (click)="prevPage()">prev</span>
+      <span class="prev" (click)="prevPage()">prev</span>
       <div class="pages">
-        <div class="page-number">...</div>
+        <div class="page-number-ellipsis" *ngIf="!pages.slice(paginationBoundaries-1, paginationBoundaries+2).includes(1)">...</div>
 
         <div class="page-number" [ngClass]="{activePage : currentPage === i}" *ngFor="let i of pages.slice(paginationBoundaries-1, paginationBoundaries+2)"
           (click)="viewPage(i)">{{i}}
         </div>
 
-        <div class="page-number">...</div>
+        <div class="page-number-ellipsis" *ngIf="!pages.slice(paginationBoundaries-1, paginationBoundaries+2).includes(pages.length)">...</div>
       </div>
-      <span (click)="nextPage()">next</span>
+      <span class="next" (click)="nextPage()">next</span>
     </div>
   </div>
 
   <ng-content select="table"></ng-content>
+
   <div class="table-controls">
     <select>
       <option>Sort</option>
     </select>
     <div class="pagination-container">
-      <span (click)="prevPage()">prev</span>
+      <span class="prev" (click)="prevPage()">prev</span>
       <div class="pages">
-        <div class="page-number">...</div>
+        <div class="page-number-ellipsis" *ngIf="!pages.slice(paginationBoundaries-1, paginationBoundaries+2).includes(1)">...</div>
 
         <div class="page-number" [ngClass]="{activePage : currentPage === i}" *ngFor="let i of pages.slice(paginationBoundaries-1, paginationBoundaries+2)"
           (click)="viewPage(i)">{{i}}
         </div>
 
-        <div class="page-number">...</div>
+        <div class="page-number-ellipsis" *ngIf="!pages.slice(paginationBoundaries-1, paginationBoundaries+2).includes(pages.length)">...</div>
       </div>
-      <span (click)="nextPage()">next</span>
+      <span class="next" (click)="nextPage()">next</span>
     </div>
   </div>
 </div>
