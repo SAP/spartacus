@@ -9,7 +9,7 @@
   </div>
   <div class="order-history-body">
     <div class="order-table-container">
-      <ng-container *ngIf="orders$ | async as orders">
+      <ng-container *ngIf="subject$ | async as orders">
         <y-order-history-controls [numberOfPages]="orders.pagination.totalPages" (viewPageEvent)="viewPage($event)"></y-order-history-controls>
         <table>
           <thead>
