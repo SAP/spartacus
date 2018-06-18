@@ -19,7 +19,7 @@
             <tr *ngFor="let order of orders.orders">
               <td>{{createDateString(order.placed)}}</td>
               <td>
-                <a [routerLink]="['/orders', order.code]">{{order.code}}</a>
+                <a [routerLink]="['/my-account/orders', order.code]">{{order.code}}</a>
               </td>
               <td>{{order.total.formattedValue}}</td>
               <td>{{order.statusDisplay}}</td>

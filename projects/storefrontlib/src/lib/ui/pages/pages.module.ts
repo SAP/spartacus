@@ -17,6 +17,8 @@ import { ProductPageComponent } from './product-page/product-page.component';
 import { MultiStepCheckoutPageComponent } from './multi-step-checkout-page/multi-step-checkout-page.component';
 // My Account Pages
 import { OrderHistoryPageComponent } from './order-history-page/order-history-page.component';
+// OrderPage
+import { OrderDetailsComponent } from './order-details-page/order-details-page.component';
 
 @NgModule({
   imports: [CommonModule, LayoutModule],
@@ -28,7 +30,8 @@ import { OrderHistoryPageComponent } from './order-history-page/order-history-pa
     CartPageComponent,
     MultiStepCheckoutPageComponent,
     OrderConfirmationPageComponent,
-    OrderHistoryPageComponent
+    OrderHistoryPageComponent,
+    OrderDetailsComponent
   ],
   exports: [
     HomePageComponent,
@@ -37,7 +40,8 @@ import { OrderHistoryPageComponent } from './order-history-page/order-history-pa
     PageNotFoundComponent,
     CartPageComponent,
     MultiStepCheckoutPageComponent,
-    OrderHistoryPageComponent
+    OrderHistoryPageComponent,
+    OrderDetailsComponent
   ]
 })
 export class PagesModule {}

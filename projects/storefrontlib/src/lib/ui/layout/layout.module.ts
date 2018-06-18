@@ -20,6 +20,7 @@ import { CartPageLayoutComponent } from './cart-page-layout/cart-page-layout.com
 import { MultiStepCheckoutPageLayoutComponent } from './multi-step-checkout-page-layout/multi-step-checkout-page-layout.component';
 import { OrderConfirmationPageLayoutComponent } from './order-confirmation-page-layout/order-confirmation-page-layout.component';
 import { OrderHistoryPageLayoutComponent } from './order-history-page-layout/order-history-page-layout.component';
+import { OrderDetailsPageLayoutComponent } from './order-details-page-layout/order-details-page-layout.component';
 
 // header components
 import { CookieConfirmationModule } from '../../cms-lib/cookie-confirmation/cookie-confirmation.module';
@@ -30,7 +31,7 @@ import { LoginModule } from '../../user/components/login/login.module';
 import { CartDetailsModule } from '../../cart/components/cart-details/cart-details.module';
 import { ProductModule } from '../../product/product.module';
 import { CheckoutModule } from '../../checkout/checkout.module';
-import { OrderHistoryModule } from './../../order-history/order-history.module';
+import { OrderModule } from './../../order/order.module';
 
 @NgModule({
   imports: [
@@ -48,7 +49,7 @@ import { OrderHistoryModule } from './../../order-history/order-history.module';
     ProductModule,
     CartDetailsModule,
     CheckoutModule,
-    OrderHistoryModule
+    OrderModule
   ],
   declarations: [
     HeaderComponent,
@@ -61,7 +62,8 @@ import { OrderHistoryModule } from './../../order-history/order-history.module';
     CategoryPageLayoutComponent,
     MultiStepCheckoutPageLayoutComponent,
     OrderConfirmationPageLayoutComponent,
-    OrderHistoryPageLayoutComponent
+    OrderHistoryPageLayoutComponent,
+    OrderDetailsPageLayoutComponent
   ],
   exports: [
     MainComponent,
@@ -72,7 +74,8 @@ import { OrderHistoryModule } from './../../order-history/order-history.module';
     CategoryPageLayoutComponent,
     MultiStepCheckoutPageLayoutComponent,
     OrderConfirmationPageLayoutComponent,
-    OrderHistoryPageLayoutComponent
+    OrderHistoryPageLayoutComponent,
+    OrderDetailsPageLayoutComponent
   ]
 })
 export class LayoutModule {}
