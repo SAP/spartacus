@@ -8,7 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class OrderHistoryControlsComponent implements OnInit {
   @Input() numberOfPages: number;
   @Input() sort: string;
-  @Output() viewPageEvent: EventEmitter = new EventEmitter<number>();
+  @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
   currentPage: number;
   paginationBoundaries: number;

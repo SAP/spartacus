@@ -19,6 +19,7 @@ import { ProductDetailsPageLayoutComponent } from './product-details-page-layout
 import { CartPageLayoutComponent } from './cart-page-layout/cart-page-layout.component';
 import { MultiStepCheckoutPageLayoutComponent } from './multi-step-checkout-page-layout/multi-step-checkout-page-layout.component';
 import { OrderConfirmationPageLayoutComponent } from './order-confirmation-page-layout/order-confirmation-page-layout.component';
+import { OrderHistoryPageLayoutComponent } from './order-history-page-layout/order-history-page-layout.component';
 
 // header components
 import { CookieConfirmationModule } from '../../cms-lib/cookie-confirmation/cookie-confirmation.module';
@@ -29,6 +30,7 @@ import { LoginModule } from '../../user/components/login/login.module';
 import { CartDetailsModule } from '../../cart/components/cart-details/cart-details.module';
 import { ProductModule } from '../../product/product.module';
 import { CheckoutModule } from '../../checkout/checkout.module';
+import { OrderHistoryModule } from './../../order-history/order-history.module';
 
 @NgModule({
   imports: [
@@ -45,7 +47,8 @@ import { CheckoutModule } from '../../checkout/checkout.module';
 
     ProductModule,
     CartDetailsModule,
-    CheckoutModule
+    CheckoutModule,
+    OrderHistoryModule
   ],
   declarations: [
     HeaderComponent,
@@ -57,7 +60,8 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     CartPageLayoutComponent,
     CategoryPageLayoutComponent,
     MultiStepCheckoutPageLayoutComponent,
-    OrderConfirmationPageLayoutComponent
+    OrderConfirmationPageLayoutComponent,
+    OrderHistoryPageLayoutComponent
   ],
   exports: [
     MainComponent,
@@ -67,7 +71,8 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     CartPageLayoutComponent,
     CategoryPageLayoutComponent,
     MultiStepCheckoutPageLayoutComponent,
-    OrderConfirmationPageLayoutComponent
+    OrderConfirmationPageLayoutComponent,
+    OrderHistoryPageLayoutComponent
   ]
 })
 export class LayoutModule {}
