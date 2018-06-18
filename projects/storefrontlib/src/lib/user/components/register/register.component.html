@@ -2,36 +2,36 @@
   <div class="content">
     <h1>Create an account</h1>
     <form fxLayout="column" fxFlexAlign="start" [formGroup]="userRegistrationForm">
-      <label>Title:</label>
+      <label>Title*</label>
       <select formControlName="titleCode">
         <option selected disabled>Select Title</option>
         <option *ngFor="let title of (titles$ | async)" [value]="title.code">{{ title.name }}</option>
       </select>
       <br/>
 
-      <label>First Name:</label>
+      <label>First Name*</label>
       <input type="text" name="firstname" placeholder="First Name" formControlName="firstName">
       <br/>
 
-      <label>Last Name:</label>
+      <label>Last Name*</label>
       <input type="text" name="lastname" placeholder="Last Name" formControlName="lastName">
       <br/>
 
-      <label>Email:</label>
-      <input [ngClass]="{'error': userRegistrationForm.get('email').invalid }" type="email" name="email" placeholder="Email Address"
-        formControlName="email" novalidate>
+      <label>Email*</label>
+      <input [ngClass]="{'error': userRegistrationForm.get('email').invalid && userRegistrationForm.get('email').dirty }" type="email"
+        name="email" placeholder="Email Address" formControlName="email" novalidate>
       <br/>
 
-      <label>Password:</label>
-      <input [ngClass]="{'error': userRegistrationForm.get('password').invalid }" type="password" name="password" placeholder="Password"
-        formControlName="password">
+      <label>Password*</label>
+      <input [ngClass]="{'error': userRegistrationForm.get('password').invalid && userRegistrationForm.get('password').dirty}"
+        type="password" name="password" placeholder="Password" formControlName="password">
       <span class="subtitle">
         Minimum length is 6 characters. Must contain at least one number, one special character and one uppercase and one lowercase
         letter.
       </span>
       <br/>
 
-      <label>Confirm Password:</label>
+      <label>Confirm Password*</label>
       <input [ngClass]="{'error': userRegistrationForm.get('password').value !== userRegistrationForm.get('passwordconf').value}"
         type="password" name="confirmpassword" placeholder="Confirm Password" formControlName="passwordconf">
       <br/>
@@ -45,7 +45,7 @@
         <span>I am confirming that I have read and agreed with the Terms & Conditions</span>
       </div>
       <br/>
-      <button (click)="submit()" [disabled]="userRegistrationForm.invalid">Register</button>
+      <button class="submit-btn" (click)="submit()" [disabled]="userRegistrationForm.invalid">Register</button>
     </form>
   </div>
 </ng-container>

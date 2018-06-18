@@ -12,3 +12,14 @@
 .error {
   border-color: red;
 }
+
+.submit-btn {
+  height: 25px;
+  background-color: #9c27b0;
+  color: white;
+  border-radius: 2px;
+}
+.submit-btn:disabled {
+  color: black;
+  background-color: #ccc;
+}
