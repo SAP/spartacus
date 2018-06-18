@@ -17,7 +17,7 @@ export class OrderHistoryPageComponent implements OnInit {
   ) {}
 
   orders$ = new Subject<any>();
-  private ORDER_PER_PAGE = 1;
+  private ORDER_PER_PAGE = 5;
   private user_id: string;
 
   ngOnInit() {
@@ -36,12 +36,24 @@ export class OrderHistoryPageComponent implements OnInit {
       .subscribe();
   }
 
-  viewPage(pageNumber: number) {
-    this.service
-      .getUserOrders(this.user_id, this.ORDER_PER_PAGE, pageNumber)
-      .subscribe(orders => this.orders$.next(orders));
+  viewPage(event: { sortCode: string; currentPage: number }) {
+    this.fetchOrders(event);
   }
 
+  sortOrder(event: { sortCode: string; currentPage: number }) {
+    this.fetchOrders(event);
+  }
+
+  private fetchOrders(event: { sortCode: string; currentPage: number }) {
+    this.service
+      .getUserOrders(
+        this.user_id,
+        this.ORDER_PER_PAGE,
+        event.currentPage,
+        event.sortCode
+      )
+      .subscribe(orders => this.orders$.next(orders));
+  }
   createDateString(date: string) {
     const dateObj = new Date(date);
     const local = 'en-US';

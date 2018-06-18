@@ -8,7 +8,7 @@
     </div>
     <div class="order-history-body">
       <y-order-history-controls *ngIf="orders.pagination.totalResults > 0; else noOrder" [numberOfPages]="orders.pagination.totalPages"
-        (viewPageEvent)="viewPage($event)">
+        [sort]="orders.sorts" (viewPageEvent)="viewPage($event)" (sortOrderEvent)="sortOrder($event)">
         <table>
           <thead>
             <th>Ordered</th>

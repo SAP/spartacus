@@ -1,7 +1,8 @@
 <div class="order-history-controls-container">
   <div class="table-controls">
-    <select>
-      <option>Sort</option>
+    <select [(ngModel)]="activeSort" (change)="sortOrders()">
+      <option disabled>Sort By</option>
+      <option *ngFor="let sort of sort" [value]="sort.code">{{sort.code}}</option>
     </select>
     <div class="pagination-container">
       <span class="prev" (click)="prevPage()">prev</span>
@@ -21,8 +22,9 @@
   <ng-content select="table"></ng-content>
 
   <div class="table-controls">
-    <select>
-      <option>Sort</option>
+    <select [(ngModel)]="activeSort" (change)="sortOrders()">
+      <option disabled>Sort By</option>
+      <option *ngFor="let sort of sort" [value]="sort.code">{{sort.code}}</option>
     </select>
     <div class="pagination-container">
       <span class="prev" (click)="prevPage()">prev</span>

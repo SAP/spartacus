@@ -40,7 +40,8 @@ export class OccOrderService {
   public getUserOrders(
     userId: string,
     pageSize?: number,
-    currentPage?: number
+    currentPage?: number,
+    sort?: string
   ): Observable<any> {
     const url = this.getOrderEndpoint(userId);
     let params = new HttpParams();
@@ -49,6 +50,9 @@ export class OccOrderService {
     }
     if (currentPage) {
       params = params.set('currentPage', currentPage.toString());
+    }
+    if (sort) {
+      params = params.set('sort', sort);
     }
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
