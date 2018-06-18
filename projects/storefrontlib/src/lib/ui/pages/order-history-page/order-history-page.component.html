@@ -7,28 +7,26 @@
       <h3>{{orders.pagination.totalResults}} orders found in your Order History</h3>
     </div>
     <div class="order-history-body">
-      <div class="order-table-container">
-        <y-order-history-controls [numberOfPages]="orders.pagination.totalPages" (viewPageEvent)="viewPage($event)">
-          <table>
-            <thead>
-              <th>Ordered</th>
-              <th>Order number</th>
-              <th>Order Total</th>
-              <th>Status</th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let order of orders.orders">
-                <td>{{createDateString(order.placed)}}</td>
-                <td>
-                  <a href="/">{{order.code}}</a>
-                </td>
-                <td>{{order.total.formattedValue}}</td>
-                <td>{{order.statusDisplay}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </y-order-history-controls>
-      </div>
+      <y-order-history-controls [numberOfPages]="orders.pagination.totalPages" (viewPageEvent)="viewPage($event)">
+        <table>
+          <thead>
+            <th>Ordered</th>
+            <th>Order number</th>
+            <th>Order Total</th>
+            <th>Status</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orders.orders">
+              <td>{{createDateString(order.placed)}}</td>
+              <td>
+                <a href="/">{{order.code}}</a>
+              </td>
+              <td>{{order.total.formattedValue}}</td>
+              <td>{{order.statusDisplay}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </y-order-history-controls>
     </div>
   </ng-container>
 </div>
