@@ -21,43 +21,44 @@ export class OrderHistoryControlsComponent implements OnInit {
   ngOnInit() {
     this.pages = Array(this.numberOfPages)
       .fill(0)
-      .map((x, i) => i + 1);
+      .map((x, i) => i);
 
-    this.currentPage = 1;
+    this.currentPage = 0;
     this.paginationBoundaries = 1;
     this.activeSort = this.sort[0].code;
   }
 
   viewPage(pageNumber: number) {
     this.currentPage = pageNumber;
+
     if (this.pages.length > 3) {
-      if (pageNumber === 1) {
+      if (pageNumber === 0) {
         this.paginationBoundaries = 1;
-      } else if (pageNumber === this.pages.length) {
-        this.paginationBoundaries = this.pages.length - 2; // the last page - 2
+      } else if (pageNumber === this.pages[this.pages.length - 1]) {
+        this.paginationBoundaries = this.pages.length - 2;
       } else {
-        this.paginationBoundaries = pageNumber - 1;
+        this.paginationBoundaries = pageNumber;
       }
     }
     this.viewPageEvent.emit({
-      currentPage: this.currentPage - 1,
+      currentPage: this.currentPage,
       sortCode: this.activeSort
     });
   }
   sortOrders() {
     this.sortOrderEvent.emit({
       sortCode: this.activeSort,
-      currentPage: this.currentPage - 1
+      currentPage: this.currentPage
     });
   }
   prevPage() {
-    if (this.currentPage !== 1) {
+    if (this.currentPage !== 0) {
       this.viewPage(this.currentPage - 1);
     }
   }
 
   nextPage() {
-    if (this.currentPage !== this.pages.length) {
+    if (this.currentPage !== this.pages[this.pages.length - 1]) {
       this.viewPage(this.currentPage + 1);
     }
   }
