@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { OrderHistoryControlsComponent } from './order-history-controls.component';
 
@@ -8,14 +9,15 @@ describe('OrderHistoryControlsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrderHistoryControlsComponent ]
-    })
-    .compileComponents();
+      imports: [FormsModule],
+      declarations: [OrderHistoryControlsComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderHistoryControlsComponent);
     component = fixture.componentInstance;
+    component.sort = [{ code: 'byDate' }, { code: 'byOrderNumber' }];
     fixture.detectChanges();
   });
 
