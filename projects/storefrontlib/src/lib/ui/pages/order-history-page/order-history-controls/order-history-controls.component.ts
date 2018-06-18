@@ -26,16 +26,16 @@ export class OrderHistoryControlsComponent implements OnInit {
 
   viewPage(pageNumber: number) {
     this.currentPage = pageNumber;
-
-    if (pageNumber === 1) {
-      this.paginationBoundaries = 1;
-    } else if (pageNumber === this.pages.length) {
-      this.paginationBoundaries = this.pages.length - 2; // the last page - 2
-    } else {
-      this.paginationBoundaries = pageNumber - 1;
+    if (this.pages.length > 3) {
+      if (pageNumber === 1) {
+        this.paginationBoundaries = 1;
+      } else if (pageNumber === this.pages.length) {
+        this.paginationBoundaries = this.pages.length - 2; // the last page - 2
+      } else {
+        this.paginationBoundaries = pageNumber - 1;
+      }
     }
-
-    this.viewPageEvent.emit(this.currentPage);
+    this.viewPageEvent.emit(this.currentPage - 1);
   }
 
   prevPage() {

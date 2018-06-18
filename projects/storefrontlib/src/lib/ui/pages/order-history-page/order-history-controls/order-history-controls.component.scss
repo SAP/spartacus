@@ -1,26 +1,29 @@
-.table-controls {
+.order-history-controls-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   padding: 10px 0 10px 0;
-
-  .pagination-container {
+  .table-controls {
     display: flex;
-    .pages {
+    justify-content: space-between;
+    .pagination-container {
       display: flex;
-      .activePage {
-        background-color: #ccc;
+      .pages {
+        display: flex;
+        .activePage {
+          background-color: #ccc;
+        }
       }
-    }
-    span,
-    .page-number {
-      border: 1px solid black;
-      padding: 5px;
-      cursor: pointer;
-    }
-    .page-number {
-      min-width: 15px;
-      margin: 0 2px 0 2px;
-      text-align: center;
+      span,
+      .page-number {
+        border: 1px solid black;
+        padding: 5px;
+        cursor: pointer;
+      }
+      .page-number {
+        min-width: 15px;
+        margin: 0 2px 0 2px;
+        text-align: center;
+      }
     }
   }
 }

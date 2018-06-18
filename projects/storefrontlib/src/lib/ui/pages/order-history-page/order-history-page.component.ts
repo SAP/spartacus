@@ -1,4 +1,4 @@
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OccOrderService } from './../../../occ/order/order.service';
 import { Component, OnInit } from '@angular/core';
@@ -16,7 +16,7 @@ export class OrderHistoryPageComponent implements OnInit {
     private usersStore: Store<fromUserStore.UserState>
   ) {}
 
-  subject$ = new Subject<any>();
+  orders$ = new Subject<any>();
   private ORDER_PER_PAGE = 1;
   private user_id: string;
 
@@ -24,14 +24,22 @@ export class OrderHistoryPageComponent implements OnInit {
     this.usersStore
       .select(fromUserStore.getUserToken)
       .pipe(
-        tap(data => {
-          this.user_id = data.userId;
+        tap(userData => {
+          this.user_id = userData.userId;
           this.service
             .getUserOrders(this.user_id, this.ORDER_PER_PAGE)
-            .subscribe(response => this.subject$.next(response));
+            .subscribe(orders => {
+              this.orders$.next(orders);
+            });
         })
       )
       .subscribe();
+  }
+
+  viewPage(pageNumber: number) {
+    this.service
+      .getUserOrders(this.user_id, this.ORDER_PER_PAGE, pageNumber)
+      .subscribe(orders => this.orders$.next(orders));
   }
 
   createDateString(date: string) {
@@ -43,11 +51,5 @@ export class OrderHistoryPageComponent implements OnInit {
       day: 'numeric'
     };
     return dateObj.toLocaleDateString(local, options);
-  }
-
-  viewPage(pageNumber: number) {
-    this.service
-      .getUserOrders(this.user_id, this.ORDER_PER_PAGE, pageNumber)
-      .subscribe(response => this.subject$.next(response));
   }
 }
