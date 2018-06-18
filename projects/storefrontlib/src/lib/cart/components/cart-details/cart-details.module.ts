@@ -1,26 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
-
+import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartDetailsComponent } from './container/cart-details.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
-import { CartItemComponent } from './cart-item/cart-item.component';
-import { ItemCounterComponent } from './item-counter/item-counter.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
-  declarations: [
-    CartDetailsComponent,
-    OrderSummaryComponent,
-    CartItemComponent,
-    ItemCounterComponent
-  ],
-  exports: [
-    CartDetailsComponent,
-    OrderSummaryComponent,
-    CartItemComponent,
-    ItemCounterComponent
-  ]
+  imports: [CartSharedModule],
+  declarations: [CartDetailsComponent, OrderSummaryComponent],
+  exports: [CartDetailsComponent, OrderSummaryComponent]
 })
 export class CartDetailsModule {}

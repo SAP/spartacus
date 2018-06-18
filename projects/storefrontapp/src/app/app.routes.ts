@@ -8,12 +8,14 @@ import { MultiStepCheckoutPageComponent } from 'storefrontlib';
 import { OrderConfirmationPageComponent } from 'storefrontlib';
 import { OrderHistoryPageComponent } from 'storefrontlib';
 import { OrderDetailsComponent } from 'storefrontlib';
+import { RegisterComponent } from 'storefrontlib';
 
 import { PageNotFoundComponent } from 'storefrontlib';
 
 import { CmsPageGuards } from 'storefrontlib';
 import { ProductGuard } from 'storefrontlib';
 import { AuthGuard } from 'storefrontlib';
+import { NotAuthGuard } from 'storefrontlib';
 
 // TODO: provide URL mappings for site specific routings
 export const appRoutes: Routes = [
@@ -61,6 +63,12 @@ export const appRoutes: Routes = [
     path: 'my-account/orders/:orderCode',
     canActivate: [AuthGuard],
     component: OrderDetailsComponent
+  },
+  {
+    path: 'register',
+    canActivate: [NotAuthGuard, CmsPageGuards],
+    component: RegisterComponent,
+    data: { pageLabel: 'login' }
   },
 
   // redirect OLD links

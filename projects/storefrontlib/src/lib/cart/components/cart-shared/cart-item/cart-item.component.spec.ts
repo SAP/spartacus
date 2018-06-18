@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CartItemComponent } from './cart-item.component';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ItemCounterComponent } from '../item-counter/item-counter.component';
+import { CartItemComponent } from './cart-item.component';
 
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
@@ -11,7 +11,12 @@ describe('CartItemComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule],
-      declarations: [CartItemComponent, ItemCounterComponent]
+      declarations: [CartItemComponent, ItemCounterComponent],
+      providers: [
+        {
+          provide: ControlContainer
+        }
+      ]
     }).compileComponents();
   }));
 
@@ -19,7 +24,6 @@ describe('CartItemComponent', () => {
     fixture = TestBed.createComponent(CartItemComponent);
     cartItemComponent = fixture.componentInstance;
     cartItemComponent.entry = 'mockEntry';
-    cartItemComponent.formGroupName = 'mockName';
 
     spyOn(cartItemComponent.remove, 'emit').and.callThrough();
     spyOn(cartItemComponent.update, 'emit').and.callThrough();
@@ -32,18 +36,16 @@ describe('CartItemComponent', () => {
   it('should call removeEntry()', () => {
     cartItemComponent.removeEntry();
 
-    expect(cartItemComponent.remove.emit).toHaveBeenCalledWith({
-      entry: cartItemComponent.entry,
-      index: cartItemComponent.formGroupName
-    });
+    expect(cartItemComponent.remove.emit).toHaveBeenCalledWith(
+      cartItemComponent.entry
+    );
   });
 
   it('should call updateEntry()', () => {
     cartItemComponent.updateEntry();
 
-    expect(cartItemComponent.update.emit).toHaveBeenCalledWith({
-      entry: cartItemComponent.entry,
-      index: +cartItemComponent.formGroupName
-    });
+    expect(cartItemComponent.update.emit).toHaveBeenCalledWith(
+      cartItemComponent.entry
+    );
   });
 });
