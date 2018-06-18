@@ -4,7 +4,7 @@ import { OrderHistoryControlsComponent } from '../order-history-controls/order-h
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { OccOrderService } from './../../../occ/order/order.service';
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromUserStore from '../../../user/store';
 

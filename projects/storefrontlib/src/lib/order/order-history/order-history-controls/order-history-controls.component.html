@@ -7,13 +7,13 @@
     <div class="pagination-container">
       <span class="prev" (click)="prevPage()">prev</span>
       <div class="pages">
-        <div class="page-number-ellipsis" *ngIf="!pages.slice(paginationBoundaries-1, paginationBoundaries+2).includes(0)">...</div>
+        <div class="page-number-ellipsis" *ngIf="pages.slice(paginationBoundaries-1, paginationBoundaries+2).indexOf(0) === -1">...</div>
 
         <div class="page-number" [ngClass]="{activePage : currentPage === i}" *ngFor="let i of pages.slice(paginationBoundaries-1, paginationBoundaries+2)"
           (click)="viewPage(i)">{{i + 1}}
         </div>
 
-        <div class="page-number-ellipsis" *ngIf="!pages.slice(paginationBoundaries-1, paginationBoundaries+2).includes(pages[pages.length -1])">...</div>
+        <div class="page-number-ellipsis" *ngIf="pages.slice(paginationBoundaries-1, paginationBoundaries+2).indexOf(pages[pages.length -1]) === -1">...</div>
       </div>
       <span class="next" (click)="nextPage()">next</span>
     </div>
@@ -29,13 +29,13 @@
     <div class="pagination-container">
       <span class="prev" (click)="prevPage()">prev</span>
       <div class="pages">
-        <div class="page-number-ellipsis" *ngIf="!pages.slice(paginationBoundaries-1, paginationBoundaries+2).includes(0)">...</div>
+        <div class="page-number-ellipsis" *ngIf="pages.slice(paginationBoundaries-1, paginationBoundaries+2).indexOf(0) === -1">...</div>
 
         <div class="page-number" [ngClass]="{activePage : currentPage === i}" *ngFor="let i of pages.slice(paginationBoundaries-1, paginationBoundaries+2)"
-          (click)="viewPage(i)">{{i+1}}
+          (click)="viewPage(i)">{{i + 1}}
         </div>
 
-        <div class="page-number-ellipsis" *ngIf="!pages.slice(paginationBoundaries-1, paginationBoundaries+2).includes(pages[pages.length -1])">...</div>
+        <div class="page-number-ellipsis" *ngIf="pages.slice(paginationBoundaries-1, paginationBoundaries+2).indexOf(pages[pages.length -1]) === -1">...</div>
       </div>
       <span class="next" (click)="nextPage()">next</span>
     </div>
