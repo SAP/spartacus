@@ -5,7 +5,7 @@
       <option *ngFor="let sort of sort" [value]="sort.code">{{sort.code}}</option>
     </select>
     <div class="pagination-container">
-      <span class="prev" (click)="prevPage()">prev</span>
+      <span class="prev" (click)="prevPage()">Prev</span>
       <div class="pages">
         <div class="page-number-ellipsis" *ngIf="pages.slice(paginationBoundaries-1, paginationBoundaries+2).indexOf(0) === -1">...</div>
 
@@ -15,7 +15,7 @@
 
         <div class="page-number-ellipsis" *ngIf="pages.slice(paginationBoundaries-1, paginationBoundaries+2).indexOf(pages[pages.length -1]) === -1">...</div>
       </div>
-      <span class="next" (click)="nextPage()">next</span>
+      <span class="next" (click)="nextPage()">Next</span>
     </div>
   </div>
 
@@ -27,7 +27,7 @@
       <option *ngFor="let sort of sort" [value]="sort.code">{{sort.code}}</option>
     </select>
     <div class="pagination-container">
-      <span class="prev" (click)="prevPage()">prev</span>
+      <span class="prev" (click)="prevPage()">Prev</span>
       <div class="pages">
         <div class="page-number-ellipsis" *ngIf="pages.slice(paginationBoundaries-1, paginationBoundaries+2).indexOf(0) === -1">...</div>
 
@@ -37,7 +37,7 @@
 
         <div class="page-number-ellipsis" *ngIf="pages.slice(paginationBoundaries-1, paginationBoundaries+2).indexOf(pages[pages.length -1]) === -1">...</div>
       </div>
-      <span class="next" (click)="nextPage()">next</span>
+      <span class="next" (click)="nextPage()">Next</span>
     </div>
   </div>
 </div>

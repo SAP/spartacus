@@ -17,15 +17,22 @@ export class UserOrdersEffect {
     .ofType(fromUserOrdersAction.LOAD_USER_ORDERS)
     .pipe(
       map((action: fromUserOrdersAction.LoadUserOrders) => action.payload),
-      switchMap(userId => {
-        return this.occOrderService.getUserOrders(userId).pipe(
-          map((user: any) => {
-            return new fromUserOrdersAction.LoadUserOrdersSuccess(user);
-          }),
-          catchError(error =>
-            of(new fromUserOrdersAction.LoadUserOrdersFail(error))
+      switchMap(payload => {
+        return this.occOrderService
+          .getUserOrders(
+            payload.userId,
+            payload.pageSize,
+            payload.currentPage,
+            payload.sort
           )
-        );
+          .pipe(
+            map((user: any) => {
+              return new fromUserOrdersAction.LoadUserOrdersSuccess(user);
+            }),
+            catchError(error =>
+              of(new fromUserOrdersAction.LoadUserOrdersFail(error))
+            )
+          );
       })
     );
 }

@@ -1,6 +1,5 @@
-import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { OccOrderService } from './../../../occ/order/order.service';
 import { Component, OnInit } from '@angular/core';
 import * as fromUserStore from '../../../user/store';
 import { Store } from '@ngrx/store';
@@ -11,12 +10,9 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./order-history-page.component.scss']
 })
 export class OrderHistoryPageComponent implements OnInit {
-  constructor(
-    private service: OccOrderService,
-    private userStore: Store<fromUserStore.UserState>
-  ) {}
+  constructor(private userStore: Store<fromUserStore.UserState>) {}
 
-  orders$ = new Subject<any>();
+  orders$: Observable<any>;
   private ORDER_PER_PAGE = 5;
   private user_id: string;
 
@@ -26,16 +22,18 @@ export class OrderHistoryPageComponent implements OnInit {
       .pipe(
         tap(userData => {
           this.user_id = userData.userId;
-          this.service
-            .getUserOrders(this.user_id, this.ORDER_PER_PAGE)
-            .subscribe(orders => {
-              this.orders$.next(orders);
-            });
+
+          this.userStore.dispatch(
+            new fromUserStore.LoadUserOrders({
+              userId: this.user_id,
+              pageSize: this.ORDER_PER_PAGE
+            })
+          );
         })
       )
       .subscribe();
 
-    this.userStore.dispatch(new fromUserStore.LoadUserOrders(this.user_id));
+    this.orders$ = this.userStore.select(fromUserStore.getOrders);
   }
 
   viewPage(event: { sortCode: string; currentPage: number }) {
@@ -47,14 +45,14 @@ export class OrderHistoryPageComponent implements OnInit {
   }
 
   private fetchOrders(event: { sortCode: string; currentPage: number }) {
-    this.service
-      .getUserOrders(
-        this.user_id,
-        this.ORDER_PER_PAGE,
-        event.currentPage,
-        event.sortCode
-      )
-      .subscribe(orders => this.orders$.next(orders));
+    this.userStore.dispatch(
+      new fromUserStore.LoadUserOrders({
+        userId: this.user_id,
+        pageSize: this.ORDER_PER_PAGE,
+        currentPage: event.currentPage,
+        sort: event.sortCode
+      })
+    );
   }
   createDateString(date: string) {
     const dateObj = new Date(date);

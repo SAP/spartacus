@@ -7,7 +7,11 @@ export interface UserOrdersState {
 }
 
 export const initialState: UserOrdersState = {
-  orders: <any>{},
+  orders: {
+    orders: [],
+    pagination: <any>{},
+    sort: []
+  },
   loading: false,
   loaded: false
 };
