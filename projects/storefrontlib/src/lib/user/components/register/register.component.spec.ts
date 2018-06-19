@@ -32,7 +32,8 @@ describe('RegisterComponent', () => {
         ReactiveFormsModule,
         StoreModule.forRoot({
           ...fromStore.reducers,
-          user: combineReducers(fromStore.reducers)
+          user: combineReducers(fromStore.reducers),
+          checkout: combineReducers(fromCheckoutStore.reducers)
         })
       ],
       declarations: [RegisterComponent]
@@ -44,7 +45,7 @@ describe('RegisterComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.get(Store);
 
-    spyOn(store, 'dispatch').and.stub();
+    spyOn(store, 'dispatch').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -56,7 +57,6 @@ describe('RegisterComponent', () => {
     it('should load titles', () => {
       spyOn(store, 'select').and.returnValue(of({ mockTitlesList }));
       component.ngOnInit();
-
       component.titles$.subscribe(data => {
         expect(data.mockTitlesList).toEqual(mockTitlesList);
       });
@@ -65,7 +65,6 @@ describe('RegisterComponent', () => {
     it('should fetch titles if the state is empty', () => {
       spyOn(store, 'select').and.returnValue(of({}));
       component.ngOnInit();
-
       component.titles$.subscribe(() => {
         expect(store.dispatch).toHaveBeenCalledWith(
           new fromCheckoutStore.LoadTitles()
