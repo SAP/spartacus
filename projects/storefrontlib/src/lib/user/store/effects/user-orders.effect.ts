@@ -18,6 +18,7 @@ export class UserOrdersEffect {
     .pipe(
       map((action: fromUserOrdersAction.LoadUserOrders) => action.payload),
       switchMap(payload => {
+        console.log(payload);
         return this.occOrderService
           .getUserOrders(
             payload.userId,

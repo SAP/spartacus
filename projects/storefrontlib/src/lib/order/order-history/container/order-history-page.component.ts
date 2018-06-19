@@ -22,7 +22,6 @@ export class OrderHistoryPageComponent implements OnInit {
       .pipe(
         tap(userData => {
           this.user_id = userData.userId;
-
           this.userStore.dispatch(
             new fromUserStore.LoadUserOrders({
               userId: this.user_id,

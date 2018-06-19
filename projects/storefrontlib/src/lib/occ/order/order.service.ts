@@ -57,7 +57,6 @@ export class OccOrderService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
-
     return this.http
       .get(url, { headers: headers, params: params })
       .pipe(catchError((error: any) => throwError(error.json())));
