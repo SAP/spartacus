@@ -6,7 +6,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./order-history-controls.component.scss']
 })
 export class OrderHistoryControlsComponent implements OnInit {
-  @Input() numberOfPages: number;
+  @Input() pagination: any;
   @Input() sort: any[];
   @Output() viewPageEvent: EventEmitter<{}> = new EventEmitter<{}>();
   @Output() sortOrderEvent: EventEmitter<{}> = new EventEmitter<{}>();
@@ -19,7 +19,7 @@ export class OrderHistoryControlsComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.pages = Array(this.numberOfPages)
+    this.pages = Array(this.pagination.totalPages)
       .fill(0)
       .map((x, i) => i);
 
