@@ -61,8 +61,9 @@ export const appRoutes: Routes = [
   },
   {
     path: 'my-account/orders/:orderCode',
-    canActivate: [AuthGuard],
-    component: OrderDetailsComponent
+    canActivate: [AuthGuard, CmsPageGuards],
+    component: OrderDetailsComponent,
+    data: { pageLabel: 'order' }
   },
   {
     path: 'register',
