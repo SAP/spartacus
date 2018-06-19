@@ -2,10 +2,14 @@ import * as fromUserOrdersAction from '../actions/user-orders.action';
 
 export interface UserOrdersState {
   orders: any;
+  loading: boolean;
+  loaded: boolean;
 }
 
 export const initialState: UserOrdersState = {
-  orders: []
+  orders: <any>{},
+  loading: false,
+  loaded: false
 };
 
 export function reducer(
@@ -14,24 +18,28 @@ export function reducer(
 ): UserOrdersState {
   switch (action.type) {
     case fromUserOrdersAction.LOAD_USER_ORDERS: {
-      const orders = action.payload;
       return {
         ...state,
-        orders
+        loading: true,
+        loaded: false
       };
     }
     case fromUserOrdersAction.LOAD_USER_ORDERS_SUCCESS: {
       const orders = action.payload;
       return {
         ...state,
-        orders
+        orders,
+        loaded: true,
+        loading: false
       };
     }
     case fromUserOrdersAction.LOAD_USER_ORDERS_FAIL: {
       const orders = action.payload;
       return {
         ...state,
-        orders
+        orders,
+        loaded: false,
+        loading: false
       };
     }
   }

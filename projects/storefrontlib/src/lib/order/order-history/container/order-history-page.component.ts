@@ -13,7 +13,7 @@ import { Store } from '@ngrx/store';
 export class OrderHistoryPageComponent implements OnInit {
   constructor(
     private service: OccOrderService,
-    private usersStore: Store<fromUserStore.UserState>
+    private userStore: Store<fromUserStore.UserState>
   ) {}
 
   orders$ = new Subject<any>();
@@ -21,7 +21,7 @@ export class OrderHistoryPageComponent implements OnInit {
   private user_id: string;
 
   ngOnInit() {
-    this.usersStore
+    this.userStore
       .select(fromUserStore.getUserToken)
       .pipe(
         tap(userData => {
@@ -34,6 +34,8 @@ export class OrderHistoryPageComponent implements OnInit {
         })
       )
       .subscribe();
+
+    this.userStore.dispatch(new fromUserStore.LoadUserOrders(this.user_id));
   }
 
   viewPage(event: { sortCode: string; currentPage: number }) {

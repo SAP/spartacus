@@ -6,7 +6,7 @@ export const LOAD_USER_ORDERS_SUCCESS = '[User] Load User Orders Success';
 
 export class LoadUserOrders implements Action {
   readonly type = LOAD_USER_ORDERS;
-  constructor(public payload: any) {}
+  constructor(public payload: string) {}
 }
 
 export class LoadUserOrdersFail implements Action {
