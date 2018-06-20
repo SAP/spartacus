@@ -7,9 +7,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start:proxy": "ng serve --proxy-config proxy.backend.js",
-    "start:mock": "ng serve --proxy-config proxy.mock.js",
-    "mockserver": "json-server --config=json-server/config.json ./json-server/generate-data.js  -i uid",
+    "start:proxy": "ng serve --proxy-config mock-server/proxy.backend.js",
+    "start:mock": "ng serve --proxy-config mock-server/proxy.mock.js",
+    "mockserver": "json-server --config=mock-server/config.json ./mock-server/generate-data.js  -i uid",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
