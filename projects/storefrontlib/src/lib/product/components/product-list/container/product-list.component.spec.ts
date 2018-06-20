@@ -129,4 +129,28 @@ describe('ProductListComponent in product-list', () => {
       })
     );
   });
+
+  it('should change pages', done => {
+    const pagination = new ProductPagingComponent();
+    pagination.viewPageEvent.subscribe(event => {
+      expect(event).toEqual(2);
+      component.viewPage(event);
+      expect(component.searchConfig.currentPage).toBe(event);
+      done();
+    });
+
+    pagination.next(2);
+  });
+
+  it('should change sortings', done => {
+    const pagination = new ProductSortingComponent();
+    pagination.sortListEvent.subscribe(event => {
+      expect(event).toEqual('sortCode');
+      component.viewPage(event);
+      expect(component.searchConfig.currentPage).toBe(event);
+      done();
+    });
+
+    pagination.sortList('sortCode');
+  });
 });
