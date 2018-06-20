@@ -25,6 +25,7 @@ describe('ProductListComponent in product-list', () => {
   let store: Store<fromProduct.ProductsState>;
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
+  let searchConfig: SearchConfig;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -56,7 +57,8 @@ describe('ProductListComponent in product-list', () => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
     store = TestBed.get(Store);
-
+    searchConfig = new SearchConfig();
+    searchConfig.pageSize = component.DEFAULT_NUMBER_OF_PRODUCT_IN_LIST;
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -71,11 +73,10 @@ describe('ProductListComponent in product-list', () => {
 
     component.ngOnInit();
     component.model$.subscribe();
-
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProduct.SearchProducts({
         queryText: ':relevance:category:mockCategoryCode',
-        searchConfig: new SearchConfig(10)
+        searchConfig: searchConfig
       })
     );
   });
@@ -87,11 +88,10 @@ describe('ProductListComponent in product-list', () => {
 
     component.ngOnInit();
     component.model$.subscribe();
-
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProduct.SearchProducts({
         queryText: ':relevance:brand:mockBrandCode',
-        searchConfig: new SearchConfig(10)
+        searchConfig: searchConfig
       })
     );
   });
@@ -99,11 +99,10 @@ describe('ProductListComponent in product-list', () => {
   it('should call ngOnChanges and get search results with category code', () => {
     component.categoryCode = 'mockCategoryCode';
     component.ngOnChanges();
-
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProduct.SearchProducts({
         queryText: ':relevance:category:mockCategoryCode',
-        searchConfig: new SearchConfig(10)
+        searchConfig: searchConfig
       })
     );
   });
@@ -115,7 +114,7 @@ describe('ProductListComponent in product-list', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProduct.SearchProducts({
         queryText: ':relevance:brand:mockBrandCode',
-        searchConfig: new SearchConfig(10)
+        searchConfig: searchConfig
       })
     );
   });
@@ -126,7 +125,7 @@ describe('ProductListComponent in product-list', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProduct.SearchProducts({
         queryText: 'mockQuery',
-        searchConfig: new SearchConfig(10)
+        searchConfig: searchConfig
       })
     );
   });

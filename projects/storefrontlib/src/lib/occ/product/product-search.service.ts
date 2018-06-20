@@ -39,7 +39,9 @@ export class OccProductSearchService {
         'sorts(DEFAULT)'
     });
     params = params.set('query', fullQuery);
-    params = params.set('pageSize', searchConfig.pageSize.toString());
+    if (searchConfig.pageSize) {
+      params = params.set('pageSize', searchConfig.pageSize.toString());
+    }
     if (searchConfig.currentPage) {
       params = params.set('currentPage', searchConfig.currentPage.toString());
     }

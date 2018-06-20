@@ -100,7 +100,6 @@ export class ProductListComponent implements OnChanges, OnInit {
       // Overide default options
       this.searchConfig = { ...this.searchConfig, ...options };
     }
-
     this.store.dispatch(
       new fromProductStore.SearchProducts({
         queryText: query,
