@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import * as fromProductStore from '../../../store';
 import { tap, skip } from 'rxjs/operators';
 import { SearchConfig } from '../../../search-config';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'y-product-list',
@@ -20,25 +21,40 @@ import { SearchConfig } from '../../../search-config';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductListComponent implements OnChanges, OnInit {
-  model$;
-
   @ViewChild('sidenav') sidenav: MatSidenav;
-
-  grid: any;
 
   @Input() gridMode: String;
   @Input() query;
   @Input() categoryCode;
   @Input() brandCode;
 
-  subject;
-  config;
+  grid: any;
+  model$: Observable<any>;
+  isFacetPanelOpen: boolean;
+  searchConfig: SearchConfig;
+  DEFAULT_NUMBER_OF_PRODUCT_IN_LIST: number;
 
-  isFacetPanelOpen = true;
+  constructor(protected store: Store<fromProductStore.ProductsState>) {
+    this.isFacetPanelOpen = true;
+    this.DEFAULT_NUMBER_OF_PRODUCT_IN_LIST = 10;
+    this.searchConfig = new SearchConfig();
+    this.searchConfig.pageSize = this.DEFAULT_NUMBER_OF_PRODUCT_IN_LIST;
+  }
 
-  constructor(protected store: Store<fromProductStore.ProductsState>) {}
-
+  ngOnChanges() {
+    if (this.categoryCode) {
+      this.query = ':relevance:category:' + this.categoryCode;
+    }
+    if (this.brandCode) {
+      this.query = ':relevance:brand:' + this.brandCode;
+    }
+    if (this.query) {
+      this.search(this.query);
+    }
+  }
   ngOnInit() {
+    // query = camera
+    // grid.mode = list
     this.grid = {
       mode: this.gridMode
     };
@@ -61,18 +77,6 @@ export class ProductListComponent implements OnChanges, OnInit {
     );
   }
 
-  ngOnChanges() {
-    if (this.categoryCode) {
-      this.query = ':relevance:category:' + this.categoryCode;
-    }
-    if (this.brandCode) {
-      this.query = ':relevance:brand:' + this.brandCode;
-    }
-    if (this.query) {
-      this.search(this.query);
-    }
-  }
-
   toggleSidenav() {
     this.sidenav.toggle();
   }
@@ -81,11 +85,26 @@ export class ProductListComponent implements OnChanges, OnInit {
     this.search(query);
   }
 
-  protected search(query) {
+  viewPage(pageNumber: number) {
+    const options = new SearchConfig();
+    options.currentPage = pageNumber;
+    this.search(this.query, options);
+  }
+  sortList(sortCode: string) {
+    const options = new SearchConfig();
+    options.sortCode = sortCode;
+    this.search(this.query, options);
+  }
+  protected search(query: string, options?: SearchConfig) {
+    if (options) {
+      // Overide default options
+      this.searchConfig = { ...this.searchConfig, ...options };
+    }
+
     this.store.dispatch(
       new fromProductStore.SearchProducts({
         queryText: query,
-        searchConfig: new SearchConfig(10)
+        searchConfig: this.searchConfig
       })
     );
   }
