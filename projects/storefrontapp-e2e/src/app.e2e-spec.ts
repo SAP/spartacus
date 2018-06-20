@@ -1,19 +1,30 @@
+import { CartPage } from './pages/cart.po';
+import { MinicartModal } from './cmslib/minicartModal.po';
 import { E2ECommonTasks } from './commonTasks.po';
 import { Register } from './pages/register.po';
 import { E2EUtil } from './util.po';
 import { LoginModal } from './cmslib/loginModal.po';
-import { browser, by, ExpectedConditions, promise, element } from 'protractor';
+import {
+  browser,
+  by,
+  ExpectedConditions,
+  promise,
+  element,
+  until
+} from 'protractor';
 import { SearchResultsPage } from './pages/searchResults.po';
 import { HomePage } from './pages/home.po';
 
 describe('workspace-project App', () => {
   let home: HomePage;
   let searchResults: SearchResultsPage;
+  let cart: CartPage;
   let timestamp: number;
 
   beforeEach(() => {
     home = new HomePage();
     searchResults = new SearchResultsPage();
+    cart = new CartPage();
     timestamp = Date.now();
   });
 
@@ -104,7 +115,7 @@ describe('workspace-project App', () => {
     // should show 10 results on page and top one be the Photosmart camera
     const results = searchResults.getProductListItems();
     results.then(function(items) {
-      expect(items.length).toBe(10);
+      expect(items.length).toBe(10); // FIXME - lenght should be defined by config
       const h3 = items[0].element(by.tagName('h3'));
       h3.getText().then(function(text) {
         expect(text).toBe('Photosmart E317 Digital Camera');
@@ -132,5 +143,75 @@ describe('workspace-project App', () => {
     // FIXME - commented out by now, as it is broken on spartacus
     // const nextButton = pagination.element(by.css('pagination-next'));
     // nextButton.click();
+  });
+
+  it('should add products to cart', () => {
+    // go to homepage
+    home.navigateTo();
+
+    // FIXME - add register and login steps
+
+    // search for camera
+    home.header.performSearch('camera');
+    // wait for search results page to show up
+    browser.wait(ExpectedConditions.urlContains('/search/camera'), 2000);
+    browser.wait(searchResults.getPage().isDisplayed(), 2000);
+    // select one product by name and add it to the cart
+    searchResults
+      .findProductByNameInResultsPage('Photosmart E317 Digital Camera')
+      .then(function(product1) {
+        expect(product1.isDisplayed()).toBeTruthy();
+        return product1;
+      })
+      .then(function(product1) {
+        const addToCartButton = searchResults.getAddToCartInProductListItem(
+          product1
+        );
+        addToCartButton
+          .element(by.cssContainingText('button', 'Add to Cart'))
+          .click();
+        // quantity should change
+        const quantitySpan = E2EUtil.getComponentWithinParentByCss(
+          product1,
+          'span[class="entry-quantity ng-star-inserted"]'
+        );
+        browser
+          .wait(ExpectedConditions.visibilityOf(quantitySpan), 3000)
+          .then(function() {
+            quantitySpan.getText().then(function(text) {
+              expect(text).toBe('1');
+            });
+          });
+        // FIXME - check with minicart too (seems unable to get entry-quantity span)
+      });
+
+    // search for specific product, but do not press enter
+    home.header.performSearch('1934793', true);
+    const overlay = E2EUtil.getOverlayContainer();
+    browser.wait(ExpectedConditions.visibilityOf(overlay), 2000);
+    E2EUtil.getComponentWithinParentByCss(overlay, `div[role="listbox"]`);
+    // FIXME - select first product in solr suggestions
+
+    const minicartIcon = home.header.getMinicartIconComponent();
+    minicartIcon.click();
+    const minicartModal = new MinicartModal();
+    minicartModal.goToCartPage();
+    // FIXME - check minicart quantities
+
+    // wait for cart page to show up
+    browser.wait(ExpectedConditions.urlContains('/cart'), 2000);
+    cart
+      .findCartEntryByProductName('Photosmart E317 Digital Camera')
+      .then(function(product1) {
+        expect(product1.isDisplayed()).toBeTruthy();
+        return product1;
+      })
+      .then(function(product1) {
+        cart.getCartEntryQuantity(product1).then(function(quantity) {
+          expect(parseInt(quantity, 10)).toBe(1);
+        });
+      });
+
+    // FIXME - add logout step
   });
 });

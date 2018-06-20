@@ -101,12 +101,19 @@ export class E2EUtil {
    * Fills a given input with the desired value
    * @param input the input element
    * @param value the value to fill
+   * @param skipEnter if true, will fill the form but won't press enter (optional param)
    */
-  static fillInput(input: ElementFinder, value: string) {
+  static fillInput(input: ElementFinder, value: string, skipEnter?: boolean) {
     input.sendKeys(value);
-    browser
-      .actions()
-      .sendKeys(protractor.Key.ENTER)
-      .perform();
+    if (!skipEnter) {
+      browser
+        .actions()
+        .sendKeys(protractor.Key.ENTER)
+        .perform();
+    }
+  }
+
+  static getOverlayContainer(): ElementFinder {
+    return element(by.css(`div[class=cdk-overlay-container]`));
   }
 }

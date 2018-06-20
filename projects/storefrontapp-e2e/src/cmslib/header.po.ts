@@ -16,6 +16,10 @@ export class Header {
     return E2EUtil.getComponentWithinDynamicSlot('SearchBox', 'y-searchbox');
   }
 
+  getMinicartIconComponent(): ElementFinder {
+    return E2EUtil.getComponent('y-mini-cart');
+  }
+
   getLoginIconComponent(): ElementFinder {
     return E2EUtil.getComponent('y-login');
   }
@@ -29,13 +33,18 @@ export class Header {
     loginIconButton.click();
   }
 
-  performSearch(searchKey: string) {
+  /**
+   * Fills the search box to perform search
+   * @param searchKey value to put on search box
+   * @param skipEnter if true, will fill the search box but won't press enter (optional param)
+   */
+  performSearch(searchKey: string, skipEnter?: boolean) {
     const searchComponent = this.getSearchComponent();
 
     // search for camera
     const searchInput = searchComponent.element(
       by.css('input[placeholder="Search Box"]')
     );
-    E2EUtil.fillInput(searchInput, searchKey);
+    E2EUtil.fillInput(searchInput, searchKey, skipEnter);
   }
 }
