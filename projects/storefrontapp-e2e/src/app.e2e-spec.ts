@@ -1,3 +1,4 @@
+import { ProductDetailsPage } from './pages/productDetails.po';
 import { CartPage } from './pages/cart.po';
 import { MinicartModal } from './cmslib/minicartModal.po';
 import { E2ECommonTasks } from './commonTasks.po';
@@ -19,12 +20,14 @@ describe('workspace-project App', () => {
   let home: HomePage;
   let searchResults: SearchResultsPage;
   let cart: CartPage;
+  let productDetails: ProductDetailsPage;
   let timestamp: number;
 
   beforeEach(() => {
     home = new HomePage();
     searchResults = new SearchResultsPage();
     cart = new CartPage();
+    productDetails = new ProductDetailsPage();
     timestamp = Date.now();
   });
 
@@ -118,7 +121,7 @@ describe('workspace-project App', () => {
       expect(items.length).toBe(10); // FIXME - lenght should be defined by config
       const h3 = items[0].element(by.tagName('h3'));
       h3.getText().then(function(text) {
-        expect(text).toBe('Photosmart E317 Digital Camera');
+        expect(text).toBe('DIGITAL CAMERA EASYSHARE C875');
       });
     });
   });
@@ -189,17 +192,35 @@ describe('workspace-project App', () => {
     home.header.performSearch('1934793', true);
     const overlay = E2EUtil.getOverlayContainer();
     browser.wait(ExpectedConditions.visibilityOf(overlay), 2000);
-    E2EUtil.getComponentWithinParentByCss(overlay, `div[role="listbox"]`);
-    // FIXME - select first product in solr suggestions
+    const autocompletePanel = E2EUtil.getComponentWithinParentByCss(
+      overlay,
+      `div[role="listbox"]`
+    );
+    // select product from the suggestion list, then add it to cart 2 times
+    const suggestionSpan = autocompletePanel.element(
+      by.cssContainingText('.mat-option-text', 'PowerShot A480')
+    );
+    suggestionSpan.click();
+    browser.wait(
+      ExpectedConditions.visibilityOf(productDetails.getPage()),
+      2000
+    );
+    productDetails.addToCart();
+    productDetails.addToCart();
 
     const minicartIcon = home.header.getMinicartIconComponent();
     minicartIcon.click();
     const minicartModal = new MinicartModal();
+    browser.wait(
+      ExpectedConditions.visibilityOf(minicartModal.getModal()),
+      2000
+    );
     minicartModal.goToCartPage();
     // FIXME - check minicart quantities
 
     // wait for cart page to show up
     browser.wait(ExpectedConditions.urlContains('/cart'), 2000);
+    // check if cart contains quantity 1 of 'Photosmart E317 Digital Camera'
     cart
       .findCartEntryByProductName('Photosmart E317 Digital Camera')
       .then(function(product1) {
@@ -209,6 +230,18 @@ describe('workspace-project App', () => {
       .then(function(product1) {
         cart.getCartEntryQuantity(product1).then(function(quantity) {
           expect(parseInt(quantity, 10)).toBe(1);
+        });
+      });
+    // check if cart contains quantity 2 of 'PowerShot A480'
+    cart
+      .findCartEntryByProductName('PowerShot A480')
+      .then(function(product2) {
+        expect(product2.isDisplayed()).toBeTruthy();
+        return product2;
+      })
+      .then(function(product2) {
+        cart.getCartEntryQuantity(product2).then(function(quantity) {
+          expect(parseInt(quantity, 10)).toBe(2);
         });
       });
 
