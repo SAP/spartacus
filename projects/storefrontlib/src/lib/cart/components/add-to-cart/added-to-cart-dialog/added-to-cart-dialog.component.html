@@ -1,0 +1,27 @@
+<div class="added-to-cart-dialog-header">
+  <h1 mat-dialog-title>
+    <span>Item added to your cart</span>
+  </h1>
+  <mat-icon class="mat-dialog-close-btn" (click)="closeDialog()">close</mat-icon>
+</div>
+
+<ng-container *ngIf="(entry$ | async) as entry">
+  <div mat-dialog-content>
+    <div class="entry-info-container">
+      <ng-container *ngIf="(entry$ | async) as entry">
+        <ul class="item__list item__list__cart" [formGroup]="form">
+          <y-cart-item formGroupName="entryForm" [entry]="entry" (update)="updateEntry()" (remove)="removeEntry($event)"></y-cart-item>
+        </ul>
+      </ng-container>
+    </div>
+    <div class="cart-total-container">
+      <span>cart total {{ (cart$ | async).totalPrice.formattedValue}}</span>
+    </div>
+    <div class="button-row">
+      <div class="added-to-cart-dialog-buttons">
+        <button routerLink="/cart" mat-raised-button color="accent" mat-dialog-close>View cart</button>
+        <button routerLink="/checkout" mat-raised-button color="primary" mat-dialog-close>Proceed to checkout</button>
+      </div>
+    </div>
+  </div>
+</ng-container>
