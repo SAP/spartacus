@@ -115,15 +115,23 @@ describe('workspace-project App', () => {
     // should go to search results page
     browser.wait(ExpectedConditions.urlContains('/search/camera'), 2000);
 
-    // should show 10 results on page and top one be the Photosmart camera
+    // should show 10 results on page and should have Photosmart camera
     const results = searchResults.getProductListItems();
+
     results.then(function(items) {
       expect(items.length).toBe(10); // FIXME - lenght should be defined by config
       const h3 = items[0].element(by.tagName('h3'));
       h3.getText().then(function(text) {
-        expect(text).toBe('DIGITAL CAMERA EASYSHARE C875');
+        expect(text).toBe('Photosmart E317 Digital Camera');
       });
+
+      searchResults
+        .findProductByNameInResultsPage('Photosmart E317 Digital Camera')
+        .then(function(product) {
+          expect(product.isDisplayed()).toBeTruthy();
+        });
     });
+    // FIXME - by now results do not come ordered from occ. Get top element when it does.
   });
 
   it('should list with pagination', () => {
@@ -174,18 +182,17 @@ describe('workspace-project App', () => {
           .element(by.cssContainingText('button', 'Add to Cart'))
           .click();
         // quantity should change
-        const quantitySpan = E2EUtil.getComponentWithinParentByCss(
+        const product1QuantitySpan = E2EUtil.getComponentWithinParentByCss(
           product1,
           'span[class="entry-quantity ng-star-inserted"]'
         );
         browser
-          .wait(ExpectedConditions.visibilityOf(quantitySpan), 3000)
+          .wait(ExpectedConditions.visibilityOf(product1QuantitySpan), 3000)
           .then(function() {
-            quantitySpan.getText().then(function(text) {
+            product1QuantitySpan.getText().then(function(text) {
               expect(text).toBe('1');
             });
           });
-        // FIXME - check with minicart too (seems unable to get entry-quantity span)
       });
 
     // search for specific product, but do not press enter
@@ -201,12 +208,33 @@ describe('workspace-project App', () => {
       by.cssContainingText('.mat-option-text', 'PowerShot A480')
     );
     suggestionSpan.click();
+    // wait until product details page is loaded
     browser.wait(
       ExpectedConditions.visibilityOf(productDetails.getPage()),
       2000
     );
     productDetails.addToCart();
+    // quantity should change
+    const product2QuantitySpan = E2EUtil.getComponentWithinParentByCss(
+      productDetails.getAddToCartComponent(),
+      'span[class="entry-quantity ng-star-inserted"]'
+    );
+    browser
+      .wait(ExpectedConditions.visibilityOf(product2QuantitySpan), 3000)
+      .then(function() {
+        product2QuantitySpan.getText().then(function(text) {
+          expect(text).toBe('1');
+        });
+      });
     productDetails.addToCart();
+    // quantity should change again
+    browser
+      .wait(ExpectedConditions.elementToBeClickable(product2QuantitySpan), 3000)
+      .then(function() {
+        product2QuantitySpan.getText().then(function(text) {
+          expect(text).toBe('2');
+        });
+      });
 
     const minicartIcon = home.header.getMinicartIconComponent();
     minicartIcon.click();
@@ -216,7 +244,7 @@ describe('workspace-project App', () => {
       2000
     );
     minicartModal.goToCartPage();
-    // FIXME - check minicart quantities
+    // FIXME - check minicart quantities (future work)
 
     // wait for cart page to show up
     browser.wait(ExpectedConditions.urlContains('/cart'), 2000);
@@ -231,6 +259,12 @@ describe('workspace-project App', () => {
         cart.getCartEntryQuantity(product1).then(function(quantity) {
           expect(parseInt(quantity, 10)).toBe(1);
         });
+        cart.getCartEntryUnitPrice(product1).then(function(price) {
+          expect(price).toBe('$114.12');
+        });
+        cart.getCartEntryTotalPrice(product1).then(function(price) {
+          expect(price).toBe('$114.12');
+        });
       });
     // check if cart contains quantity 2 of 'PowerShot A480'
     cart
@@ -243,8 +277,13 @@ describe('workspace-project App', () => {
         cart.getCartEntryQuantity(product2).then(function(quantity) {
           expect(parseInt(quantity, 10)).toBe(2);
         });
+        cart.getCartEntryUnitPrice(product2).then(function(price) {
+          expect(price).toBe('$99.85');
+        });
+        cart.getCartEntryTotalPrice(product2).then(function(price) {
+          expect(price).toBe('$199.70');
+        });
       });
-
-    // FIXME - add logout step
+    // FIXME - check cart totals
   });
 });

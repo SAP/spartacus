@@ -17,6 +17,10 @@ export class CartPage extends AppPage {
     return E2EUtil.getComponentsWithinParent(this.getPage(), 'y-cart-item');
   }
 
+  getOrderSummary(): ElementFinder {
+    return E2EUtil.getComponentWithinParent(this.getPage(), 'y-order-summary');
+  }
+
   findCartEntryByProductName(productName: string) {
     const results = this.getCartEntries();
     let match: ElementFinder = null;
@@ -41,6 +45,16 @@ export class CartPage extends AppPage {
       });
   }
 
+  getCartEntryUnitPrice(cartEntry: ElementFinder) {
+    const unitPriceDiv = E2EUtil.getComponentWithinParentByClass(
+      cartEntry,
+      'item__price'
+    );
+    return unitPriceDiv.getText().then(function(text) {
+      return text.slice(text.indexOf('$'));
+    });
+  }
+
   getCartEntryQuantity(cartEntry: ElementFinder) {
     const itemQuantityDiv = E2EUtil.getComponentWithinParentByClass(
       cartEntry,
@@ -48,5 +62,15 @@ export class CartPage extends AppPage {
     );
     const paragraph = E2EUtil.getComponentsWithinParent(itemQuantityDiv, 'p');
     return paragraph.getText();
+  }
+
+  getCartEntryTotalPrice(cartEntry: ElementFinder) {
+    const totalPriceDiv = E2EUtil.getComponentWithinParentByClass(
+      cartEntry,
+      'item__total'
+    );
+    return totalPriceDiv.getText().then(function(text) {
+      return text.slice(text.indexOf('$'));
+    });
   }
 }
