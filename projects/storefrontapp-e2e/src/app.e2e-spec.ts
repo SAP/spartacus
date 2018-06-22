@@ -2,17 +2,9 @@ import { ProductDetailsPage } from './pages/productDetails.po';
 import { CartPage } from './pages/cart.po';
 import { MinicartModal } from './cmslib/minicartModal.po';
 import { E2ECommonTasks } from './commonTasks.po';
-import { Register } from './pages/register.po';
 import { E2EUtil } from './util.po';
 import { LoginModal } from './cmslib/loginModal.po';
-import {
-  browser,
-  by,
-  ExpectedConditions,
-  promise,
-  element,
-  until
-} from 'protractor';
+import { browser, by, ExpectedConditions, promise } from 'protractor';
 import { SearchResultsPage } from './pages/searchResults.po';
 import { HomePage } from './pages/home.po';
 
@@ -156,6 +148,9 @@ describe('workspace-project App', () => {
     // nextButton.click();
   });
 
+  /**
+   * Full interaction. Search 2 products, add to cart, then verify totals in cart.
+   */
   it('should add products to cart', () => {
     // go to homepage
     home.navigateTo();
@@ -190,7 +185,10 @@ describe('workspace-project App', () => {
           .wait(ExpectedConditions.visibilityOf(product1QuantitySpan), 3000)
           .then(function() {
             product1QuantitySpan.getText().then(function(text) {
-              expect(text).toBe('1');
+              expect(text).toBe(
+                '1',
+                'Wrong add to cart button quantity in search results page'
+              );
             });
           });
       });
@@ -223,7 +221,10 @@ describe('workspace-project App', () => {
       .wait(ExpectedConditions.visibilityOf(product2QuantitySpan), 3000)
       .then(function() {
         product2QuantitySpan.getText().then(function(text) {
-          expect(text).toBe('1');
+          expect(text).toBe(
+            '1',
+            'Wrong product details add to cart button quantity'
+          );
         });
       });
     productDetails.addToCart();
@@ -232,7 +233,10 @@ describe('workspace-project App', () => {
       .wait(ExpectedConditions.elementToBeClickable(product2QuantitySpan), 3000)
       .then(function() {
         product2QuantitySpan.getText().then(function(text) {
-          expect(text).toBe('2');
+          expect(text).toBe(
+            '2',
+            'Wrong product details add to cart button quantity'
+          );
         });
       });
 
@@ -257,13 +261,13 @@ describe('workspace-project App', () => {
       })
       .then(function(product1) {
         cart.getCartEntryQuantity(product1).then(function(quantity) {
-          expect(parseInt(quantity, 10)).toBe(1);
+          expect(parseInt(quantity, 10)).toBe(1, 'Wrong cart entry quantity');
         });
         cart.getCartEntryUnitPrice(product1).then(function(price) {
-          expect(price).toBe('$114.12');
+          expect(price).toBe('$114.12', 'Wrong cart entry unit price');
         });
         cart.getCartEntryTotalPrice(product1).then(function(price) {
-          expect(price).toBe('$114.12');
+          expect(price).toBe('$114.12', 'Wrong cart entry total price');
         });
       });
     // check if cart contains quantity 2 of 'PowerShot A480'
@@ -275,15 +279,48 @@ describe('workspace-project App', () => {
       })
       .then(function(product2) {
         cart.getCartEntryQuantity(product2).then(function(quantity) {
-          expect(parseInt(quantity, 10)).toBe(2);
+          expect(parseInt(quantity, 10)).toBe(2, 'Wrong cart entry quantity');
         });
         cart.getCartEntryUnitPrice(product2).then(function(price) {
-          expect(price).toBe('$99.85');
+          expect(price).toBe('$99.85', 'Wrong cart entry unit price');
         });
         cart.getCartEntryTotalPrice(product2).then(function(price) {
-          expect(price).toBe('$199.70');
+          expect(price).toBe('$199.70', 'Wrong cart entry total price');
         });
       });
-    // FIXME - check cart totals
+    // check cart totals
+    cart.getSummarySubtotalValue().then(function(value) {
+      // FIXME - ideally it should be $313.82, but right now it is the same value as in accelerator
+      expect(value).toBe('$293.82', 'Wrong cart summary subtotal');
+    });
+    // FIXME - put back when sales tax is fixed
+    // cart.getSummaryTaxValue().then(function(value) {
+    //   expect(value).toBe('$13.99', 'Wrong cart summary sales tax');
+    // });
+    cart.getSummaryDiscountValue().then(function(value) {
+      expect(value).toBe('$20.00', 'Wrong cart summary discount');
+    });
+    // FIXME - check delivery when available
+    // cart.getSummaryDeliveryValue().then(function(value) {
+    //   expect(value).toBe('$??', 'Wrong cart summary delivery estimation');
+    // });
+    cart.getSummaryTotalValue().then(function(value) {
+      expect(value).toBe('$293.82', 'Wrong cart summary total');
+    });
+  });
+
+  it('should be unable to add out of stock products to cart', () => {
+    // go to homepage
+    home.navigateTo();
+
+    productDetails.navigateTo('358639');
+    // wait until product details page is loaded
+    browser.wait(
+      ExpectedConditions.visibilityOf(productDetails.getPage()),
+      2000
+    );
+    // there should be no add to cart button, and should be an 'Out of stock' message instead
+    expect(productDetails.getAddToCartComponent().isPresent()).toBeFalsy();
+    expect(productDetails.getOutOfStockDiv().isDisplayed()).toBeTruthy();
   });
 });

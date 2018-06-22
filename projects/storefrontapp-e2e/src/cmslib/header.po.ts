@@ -1,11 +1,4 @@
-import { LoginModal } from './loginModal.po';
-import {
-  browser,
-  by,
-  ExpectedConditions,
-  ElementFinder,
-  protractor
-} from 'protractor';
+import { by, ElementFinder } from 'protractor';
 import { E2EUtil } from './../util.po';
 export class Header {
   getSiteLogoComponent(): ElementFinder {

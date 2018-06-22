@@ -1,5 +1,4 @@
-import { Register } from './../pages/register.po';
-import { ElementFinder, by, browser, ExpectedConditions } from 'protractor';
+import { ElementFinder, by } from 'protractor';
 import { E2EUtil } from './../util.po';
 export class LoginModal {
   readonly YMODAL = 'y-login-dialog';

@@ -1,4 +1,4 @@
-import { ElementFinder, by, ElementArrayFinder } from 'protractor';
+import { ElementFinder, by } from 'protractor';
 import { E2EUtil } from './../util.po';
 export class Register {
   readonly YPAGE = 'y-register';

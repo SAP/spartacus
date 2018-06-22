@@ -1,5 +1,5 @@
 import { E2EUtil } from './../util.po';
-import { browser, ElementFinder, ElementArrayFinder, by } from 'protractor';
+import { browser, ElementFinder, by } from 'protractor';
 import { AppPage } from '../app.po';
 
 export class ProductDetailsPage extends AppPage {
@@ -13,12 +13,25 @@ export class ProductDetailsPage extends AppPage {
     return E2EUtil.getComponentWithinParent(this.getPage(), 'y-add-to-cart');
   }
 
+  getProductSummaryComponent(): ElementFinder {
+    return E2EUtil.getComponentWithinParent(
+      this.getPage(),
+      'y-product-summary'
+    );
+  }
+
+  getOutOfStockDiv(): ElementFinder {
+    return this.getProductSummaryComponent().element(
+      by.cssContainingText('div', 'outOfStock')
+    );
+  }
+
   navigateTo(productId: string) {
     return browser.get('/product/' + productId);
   }
 
   addToCart() {
-    const addButton = E2EUtil.getComponentWithinParent(
+    E2EUtil.getComponentWithinParent(
       this.getAddToCartComponent(),
       'button'
     ).click();

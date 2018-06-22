@@ -73,4 +73,37 @@ export class CartPage extends AppPage {
       return text.slice(text.indexOf('$'));
     });
   }
+
+  getOrderSummaryInnerDivValue(textTitle: string) {
+    const outerDiv = E2EUtil.getComponentWithinParentByCss(
+      this.getOrderSummary(),
+      'div[class="order-summary"]'
+    );
+    const mainDiv = E2EUtil.getComponentWithinParent(outerDiv, 'div');
+    const valueDiv = mainDiv.element(by.cssContainingText('div', textTitle));
+    return valueDiv.getText().then(function(text) {
+      return text.slice(text.indexOf('$'));
+    });
+  }
+
+  getSummarySubtotalValue() {
+    return this.getOrderSummaryInnerDivValue('Subtotal:');
+  }
+
+  getSummaryTaxValue() {
+    return this.getOrderSummaryInnerDivValue('Sales Tax:');
+  }
+
+  getSummaryDiscountValue() {
+    return this.getOrderSummaryInnerDivValue('Discount:');
+  }
+
+  // FIXME - implement when element is available on page
+  // getSummaryDeliveryValue() {
+  //   // not available
+  // }
+
+  getSummaryTotalValue() {
+    return this.getOrderSummaryInnerDivValue('Total:');
+  }
 }

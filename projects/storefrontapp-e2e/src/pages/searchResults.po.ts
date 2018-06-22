@@ -1,11 +1,5 @@
 import { AppPage } from './../app.po';
-import {
-  browser,
-  ElementFinder,
-  ElementArrayFinder,
-  by,
-  element
-} from 'protractor';
+import { browser, ElementFinder, ElementArrayFinder, by } from 'protractor';
 import { E2EUtil } from './../util.po';
 export class SearchResultsPage extends AppPage {
   readonly YPAGE = 'y-category-page';
