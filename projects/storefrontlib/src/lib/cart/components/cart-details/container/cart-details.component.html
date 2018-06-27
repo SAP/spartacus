@@ -14,17 +14,15 @@
                 <table formArrayName="entryArry">
                     <tr *ngFor="let entry of entries; let i = index;">
                         <td>
-                            <y-cart-item [parent]="form" [formGroupName]="i" [entry]="entry" 
-                                        [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)" 
-                                        [appliedPromotions]="getAppliedPromotionForEntry(cart, entry)"
-                                        (remove)="removeEntry($event)" (update)="updateEntry($event)">
+                            <y-cart-item [formGroupName]="i" [entry]="entry" [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)" [appliedPromotions]="getAppliedPromotionForEntry(cart, entry)"
+                                (remove)="removeEntry($event, i)" (update)="updateEntry($event, i)">
                             </y-cart-item>
                         </td>
                     </tr>
 
                 </table>
             </ul>
-            
+
             <div class="order-summary">
                 <y-order-summary [cart]="cart"></y-order-summary>
                 <div>

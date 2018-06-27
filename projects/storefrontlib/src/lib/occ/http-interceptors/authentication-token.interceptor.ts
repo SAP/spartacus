@@ -54,15 +54,13 @@ export class AuthenticationTokenInterceptor implements HttpInterceptor {
     request: HttpRequest<any>
   ): Observable<AuthenticationToken> {
     const clientEndpoints: Array<RequestMapping> = [
-      { method: 'POST', urlPattern: '^(.*?)/users$' },
+      { method: 'POST', urlPattern: '^(.*?)/users/$' },
       { method: 'POST', urlPattern: '^(.*?)/forgottenpasswordtokens' },
       { method: 'PUT', urlPattern: '^(.*?)/users/(.*?)/carts/(.*?)/email' }
     ];
+    const url = request.url.split('?')[0];
     for (const value of clientEndpoints) {
-      if (
-        request.url.match(value.urlPattern) &&
-        request.method === value.method
-      ) {
+      if (url.match(value.urlPattern) && request.method === value.method) {
         return this.getClientToken();
       }
     }
