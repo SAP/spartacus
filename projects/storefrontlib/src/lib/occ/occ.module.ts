@@ -12,6 +12,8 @@ import { OccCartService } from './cart/cart.service';
 import { OccMiscsService } from './miscs/miscs.service';
 import { OccOrderService } from './order/order.service';
 import { OccClientAuthenticationTokenService } from './client-authentication/client-authentication-token.service';
+import { HttpErrorInterceptor } from './http-interceptors/http-error.interceptor';
+import { UserErrorHandlingService } from './error-handling/user-error-handling.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -23,7 +25,8 @@ import { OccClientAuthenticationTokenService } from './client-authentication/cli
     OccUserService,
     OccCartService,
     OccMiscsService,
-    OccOrderService
+    OccOrderService,
+    UserErrorHandlingService
   ]
 })
 export class OccModule {
@@ -38,6 +41,11 @@ export class OccModule {
         {
           provide: HTTP_INTERCEPTORS,
           useClass: AuthenticationTokenInterceptor,
+          multi: true
+        },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: HttpErrorInterceptor,
           multi: true
         }
       ]

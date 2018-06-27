@@ -14,6 +14,10 @@ class MockUserService {
   loadToken(userId: string, password: string): Observable<any> {
     return;
   }
+
+  refreshToken(refreshToken: string): Observable<any> {
+    return;
+  }
 }
 
 describe('UserToken effect', () => {
@@ -44,6 +48,7 @@ describe('UserToken effect', () => {
     };
 
     spyOn(userService, 'loadToken').and.returnValue(of(testToken));
+    spyOn(userService, 'refreshToken').and.returnValue(of(testToken));
   });
 
   describe('loadUserToken$', () => {
@@ -58,6 +63,21 @@ describe('UserToken effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(userTokenEffect.loadUserToken$).toBeObservable(expected);
+    });
+  });
+
+  describe('refreshUserToken$', () => {
+    it('should refresh a user token', () => {
+      const action = new fromActions.RefreshUserToken({
+        userId: 'xxx',
+        refreshToken: '123'
+      });
+      const completion = new fromActions.RefreshUserTokenSuccess(testToken);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(userTokenEffect.refreshUserToken$).toBeObservable(expected);
     });
   });
 });

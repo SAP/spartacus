@@ -22,6 +22,14 @@ export function reducer(
         token
       };
     }
+    case fromAction.REFRESH_USER_TOKEN_SUCCESS: {
+      const token = action.payload;
+
+      return {
+        ...state,
+        token
+      };
+    }
   }
   return state;
 }

@@ -8,6 +8,7 @@ import {
 
 const username: any = 'mockUsername';
 const password: any = '1234';
+const refreshToken = '5678';
 
 const user: any = {
   username: username,
@@ -151,6 +152,22 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockUserPaymentMethods);
+    });
+  });
+
+  describe('refresh user token', () => {
+    it('should refresh user token for a given refresh_token', () => {
+      service.refreshToken(refreshToken).subscribe(result => {
+        expect(result).toEqual(token);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'POST' && req.url === mockOauthEndpoint;
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(token);
     });
   });
 });
