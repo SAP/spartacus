@@ -1,6 +1,6 @@
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as fromUserStore from '../../../user/store';
 import { Store } from '@ngrx/store';
 
@@ -9,15 +9,17 @@ import { Store } from '@ngrx/store';
   templateUrl: './order-history-page.component.html',
   styleUrls: ['./order-history-page.component.scss']
 })
-export class OrderHistoryPageComponent implements OnInit {
+export class OrderHistoryPageComponent implements OnInit, OnDestroy {
   constructor(private userStore: Store<fromUserStore.UserState>) {}
 
   orders$: Observable<any>;
-  private ORDER_PER_PAGE = 5;
+  isLoaded$: Observable<any>;
+  userDataSubscription: Subscription;
+  private PAGE_SIZE = 5;
   private user_id: string;
 
   ngOnInit() {
-    this.userStore
+    this.userDataSubscription = this.userStore
       .select(fromUserStore.getUserToken)
       .pipe(
         tap(userData => {
@@ -25,21 +27,24 @@ export class OrderHistoryPageComponent implements OnInit {
           this.userStore.dispatch(
             new fromUserStore.LoadUserOrders({
               userId: this.user_id,
-              pageSize: this.ORDER_PER_PAGE
+              pageSize: this.PAGE_SIZE
             })
           );
         })
       )
       .subscribe();
-
     this.orders$ = this.userStore.select(fromUserStore.getOrders);
+
+    this.isLoaded$ = this.userStore.select(fromUserStore.getOrdersLoaded);
+  }
+
+  ngOnDestroy() {
+    if (this.userDataSubscription) {
+      this.userDataSubscription.unsubscribe();
+    }
   }
 
   viewPage(event: { sortCode: string; currentPage: number }) {
-    this.fetchOrders(event);
-  }
-
-  sortOrder(event: { sortCode: string; currentPage: number }) {
     this.fetchOrders(event);
   }
 
@@ -47,7 +52,7 @@ export class OrderHistoryPageComponent implements OnInit {
     this.userStore.dispatch(
       new fromUserStore.LoadUserOrders({
         userId: this.user_id,
-        pageSize: this.ORDER_PER_PAGE,
+        pageSize: this.PAGE_SIZE,
         currentPage: event.currentPage,
         sort: event.sortCode
       })

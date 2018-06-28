@@ -5,18 +5,16 @@ import { OrderHistoryControlsComponent } from './order-history/order-history-con
 import { OrderHistoryPageComponent } from './order-history/container/order-history-page.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { FormsModule } from '@angular/forms';
+import { yDate } from './../pipes/yDate';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule],
   declarations: [
     OrderHistoryPageComponent,
     OrderHistoryControlsComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    yDate
   ],
-  exports: [
-    OrderHistoryPageComponent,
-    OrderHistoryControlsComponent,
-    OrderDetailsComponent
-  ]
+  exports: [OrderHistoryPageComponent, OrderDetailsComponent]
 })
 export class OrderModule {}

@@ -24,8 +24,8 @@ export function reducer(
     case fromUserOrdersAction.LOAD_USER_ORDERS: {
       return {
         ...state,
-        loading: true,
-        loaded: false
+        loaded: false,
+        loading: true
       };
     }
     case fromUserOrdersAction.LOAD_USER_ORDERS_SUCCESS: {
@@ -38,10 +38,8 @@ export function reducer(
       };
     }
     case fromUserOrdersAction.LOAD_USER_ORDERS_FAIL: {
-      const orders = action.payload;
       return {
         ...state,
-        orders,
         loaded: false,
         loading: false
       };
@@ -51,3 +49,5 @@ export function reducer(
 }
 
 export const getOrders = (state: UserOrdersState) => state.orders;
+export const getOrdersLoaded = (state: UserOrdersState) => state.loaded;
+export const getOrdersLoading = (state: UserOrdersState) => state.loading;

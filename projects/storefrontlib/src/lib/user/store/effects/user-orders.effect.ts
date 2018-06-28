@@ -18,17 +18,16 @@ export class UserOrdersEffect {
     .pipe(
       map((action: fromUserOrdersAction.LoadUserOrders) => action.payload),
       switchMap(payload => {
-        console.log(payload);
         return this.occOrderService
-          .getUserOrders(
+          .getOrders(
             payload.userId,
             payload.pageSize,
             payload.currentPage,
             payload.sort
           )
           .pipe(
-            map((user: any) => {
-              return new fromUserOrdersAction.LoadUserOrdersSuccess(user);
+            map((orders: any) => {
+              return new fromUserOrdersAction.LoadUserOrdersSuccess(orders);
             }),
             catchError(error =>
               of(new fromUserOrdersAction.LoadUserOrdersFail(error))

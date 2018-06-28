@@ -79,8 +79,8 @@ describe('OccOrderService', () => {
 
   describe('getUserOrders', () => {
     it('should fetch user Orders with default options', async(() => {
-      const ORDER_PER_PAGE = 5;
-      service.getUserOrders(userId, ORDER_PER_PAGE).subscribe();
+      const PAGE_SIZE = 5;
+      service.getOrders(userId, PAGE_SIZE).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
         return (
           req.url === usersEndpoint + `/${userId}` + orderEndpoint &&
@@ -90,13 +90,11 @@ describe('OccOrderService', () => {
     }));
 
     it('should fetch user Orders with defined options', async(() => {
-      const ORDER_PER_PAGE = 5;
+      const PAGE_SIZE = 5;
       const currentPage = 1;
       const sort = 'byDate';
 
-      service
-        .getUserOrders(userId, ORDER_PER_PAGE, currentPage, sort)
-        .subscribe();
+      service.getOrders(userId, PAGE_SIZE, currentPage, sort).subscribe();
       const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
         return (
           req.url === usersEndpoint + `/${userId}` + orderEndpoint &&
@@ -104,7 +102,7 @@ describe('OccOrderService', () => {
         );
       }, `GET method and url`);
       expect(mockReq.request.params.get('pageSize')).toEqual(
-        ORDER_PER_PAGE.toString()
+        PAGE_SIZE.toString()
       );
       expect(mockReq.request.params.get('currentPage')).toEqual(
         currentPage.toString()

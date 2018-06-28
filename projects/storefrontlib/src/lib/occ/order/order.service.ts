@@ -37,7 +37,7 @@ export class OccOrderService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  public getUserOrders(
+  public getOrders(
     userId: string,
     pageSize?: number,
     currentPage?: number,
@@ -54,6 +54,8 @@ export class OccOrderService {
     if (sort) {
       params = params.set('sort', sort);
     }
+
+    console.log(params);
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });

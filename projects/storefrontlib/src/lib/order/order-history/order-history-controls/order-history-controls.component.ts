@@ -1,13 +1,21 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 
 @Component({
   selector: 'y-order-history-controls',
   templateUrl: './order-history-controls.component.html',
   styleUrls: ['./order-history-controls.component.scss']
 })
-export class OrderHistoryControlsComponent implements OnInit {
+export class OrderHistoryControlsComponent implements OnInit, OnChanges {
   @Input() pagination: any;
-  @Input() sort: any[];
+  @Input() sorts: any[];
   @Output() viewPageEvent: EventEmitter<{}> = new EventEmitter<{}>();
   @Output() sortOrderEvent: EventEmitter<{}> = new EventEmitter<{}>();
 
@@ -18,33 +26,31 @@ export class OrderHistoryControlsComponent implements OnInit {
 
   constructor() {}
 
+  ngOnChanges(changes: SimpleChanges) {
+    this.currentPage = changes.pagination.currentValue.currentPage;
+    this.calculatePaginationBoundaries(this.currentPage);
+    this.activeSort = this.getActiveSort(this.sorts);
+  }
+
   ngOnInit() {
     this.pages = Array(this.pagination.totalPages)
       .fill(0)
       .map((x, i) => i);
 
-    this.currentPage = 0;
+    this.currentPage = this.pagination.currentPage;
     this.paginationBoundaries = 1;
-    this.activeSort = this.sort[0].code;
+    this.activeSort = this.getActiveSort(this.sorts);
   }
 
   viewPage(pageNumber: number) {
-    this.currentPage = pageNumber;
+    this.calculatePaginationBoundaries(pageNumber);
 
-    if (this.pages.length > 3) {
-      if (pageNumber === 0) {
-        this.paginationBoundaries = 1;
-      } else if (pageNumber === this.pages[this.pages.length - 1]) {
-        this.paginationBoundaries = this.pages.length - 2;
-      } else {
-        this.paginationBoundaries = pageNumber;
-      }
-    }
     this.viewPageEvent.emit({
-      currentPage: this.currentPage,
+      currentPage: pageNumber,
       sortCode: this.activeSort
     });
   }
+
   sortOrders() {
     this.sortOrderEvent.emit({
       sortCode: this.activeSort,
@@ -61,5 +67,21 @@ export class OrderHistoryControlsComponent implements OnInit {
     if (this.currentPage !== this.pages[this.pages.length - 1]) {
       this.viewPage(this.currentPage + 1);
     }
+  }
+
+  private calculatePaginationBoundaries(pageNumber: number) {
+    if (this.pages && this.pages.length > 3) {
+      if (pageNumber === 0) {
+        this.paginationBoundaries = 1;
+      } else if (pageNumber === this.pages[this.pages.length - 1]) {
+        this.paginationBoundaries = this.pages.length - 2;
+      } else {
+        this.paginationBoundaries = pageNumber;
+      }
+    }
+  }
+
+  private getActiveSort(sorts) {
+    return sorts.find(sort => sort.selected).code;
   }
 }
