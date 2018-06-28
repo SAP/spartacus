@@ -25,7 +25,7 @@ describe('ProductListComponent in product-list', () => {
   let store: Store<fromProduct.ProductsState>;
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
-  let searchConfig: SearchConfig;
+  let searchConfig: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -58,7 +58,6 @@ describe('ProductListComponent in product-list', () => {
     component = fixture.componentInstance;
     store = TestBed.get(Store);
     searchConfig = new SearchConfig();
-    searchConfig.pageSize = component.DEFAULT_NUMBER_OF_PRODUCT_IN_LIST;
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -99,6 +98,7 @@ describe('ProductListComponent in product-list', () => {
   it('should call ngOnChanges and get search results with category code', () => {
     component.categoryCode = 'mockCategoryCode';
     component.ngOnChanges();
+    searchConfig = { ...searchConfig, ...{ pageSize: 10 } };
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProduct.SearchProducts({
         queryText: ':relevance:category:mockCategoryCode',
@@ -110,7 +110,7 @@ describe('ProductListComponent in product-list', () => {
   it('should call ngOnChanges get search results with brand code', () => {
     component.brandCode = 'mockBrandCode';
     component.ngOnChanges();
-
+    searchConfig = { ...searchConfig, ...{ pageSize: 10 } };
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProduct.SearchProducts({
         queryText: ':relevance:brand:mockBrandCode',
