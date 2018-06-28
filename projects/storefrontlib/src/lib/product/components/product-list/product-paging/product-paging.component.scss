@@ -5,8 +5,8 @@
     padding: 3px;
     cursor: pointer;
     margin: 0 3px 0 3px;
-  }
-  .pagination-btn:hover {
-    background-color: #ccc;
+    &:hover {
+      background-color: #ccc;
+    }
   }
 }

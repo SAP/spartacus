@@ -27,21 +27,29 @@ export class ProductListComponent implements OnChanges, OnInit {
   @Input() query;
   @Input() categoryCode;
   @Input() brandCode;
+  @Input() itemPerPage: number;
 
   grid: any;
   model$: Observable<any>;
   isFacetPanelOpen: boolean;
-  searchConfig: SearchConfig;
-  DEFAULT_NUMBER_OF_PRODUCT_IN_LIST: number;
+  searchConfig: SearchConfig = new SearchConfig();
 
   constructor(protected store: Store<fromProductStore.ProductsState>) {
     this.isFacetPanelOpen = true;
-    this.DEFAULT_NUMBER_OF_PRODUCT_IN_LIST = 10;
-    this.searchConfig = new SearchConfig();
-    this.searchConfig.pageSize = this.DEFAULT_NUMBER_OF_PRODUCT_IN_LIST;
   }
 
   ngOnChanges() {
+    if (!this.itemPerPage) {
+      // Page List default page size
+      this.searchConfig = { ...this.searchConfig, ...{ pageSize: 10 } };
+    } else {
+      this.searchConfig = {
+        // Page list input page size
+        ...this.searchConfig,
+        ...{ pageSize: this.itemPerPage }
+      };
+    }
+
     if (this.categoryCode) {
       this.query = ':relevance:category:' + this.categoryCode;
     }
@@ -53,8 +61,6 @@ export class ProductListComponent implements OnChanges, OnInit {
     }
   }
   ngOnInit() {
-    // query = camera
-    // grid.mode = list
     this.grid = {
       mode: this.gridMode
     };

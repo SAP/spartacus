@@ -22,14 +22,14 @@
         <div>
             <div *ngIf="grid.mode==='grid'">
                 <mat-grid-list cols="3" cols.sm="2" rowHeight="400px" gutterSize="10px">
-                    <mat-grid-tile *ngFor="let product of model?.product">
+                    <mat-grid-tile *ngFor="let product of model?.products">
                         <y-product-grid-item class="product-grid-item" [product]="product"></y-product-grid-item>
                     </mat-grid-tile>
                 </mat-grid-list>
             </div>
 
             <div *ngIf="grid.mode==='list'" class="product-list">
-                <div *ngFor="let product of model?.products;">
+                <div *ngFor="let product of model?.products">
                     <y-product-list-item class="product-grid-item" [product]="product"></y-product-list-item>
                 </div>
             </div>
