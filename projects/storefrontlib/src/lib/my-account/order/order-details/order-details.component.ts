@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import * as fromUserStore from '../../user/store';
-import { OccOrderService } from './../../occ/order/order.service';
+import * as fromUserStore from '../../../user/store';
+import { OccOrderService } from './../../../occ/order/order.service';
 
 @Component({
   selector: 'y-order-details',

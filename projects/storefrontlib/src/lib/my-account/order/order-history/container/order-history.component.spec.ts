@@ -2,15 +2,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
-import { OrderHistoryPageComponent } from './order-history-page.component';
+import { OrderHistoryComponent } from './order-history.component';
 import { OrderHistoryControlsComponent } from '../order-history-controls/order-history-controls.component';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
-import * as fromRoot from '../../../routing/store';
-import * as fromUserStore from '../../../user/store';
+import * as fromRoot from '../../../../routing/store';
+import * as fromUserStore from '../../../../user/store';
 
 describe('OrderHistoryControlsComponent', () => {
-  let component: OrderHistoryPageComponent;
-  let fixture: ComponentFixture<OrderHistoryPageComponent>;
+  let component: OrderHistoryComponent;
+  let fixture: ComponentFixture<OrderHistoryComponent>;
   let store: Store<fromUserStore.UserState>;
 
   beforeEach(async(() => {
@@ -23,12 +23,12 @@ describe('OrderHistoryControlsComponent', () => {
           orders: combineReducers(fromUserStore.reducers)
         })
       ],
-      declarations: [OrderHistoryPageComponent, OrderHistoryControlsComponent]
+      declarations: [OrderHistoryComponent, OrderHistoryControlsComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderHistoryPageComponent);
+    fixture = TestBed.createComponent(OrderHistoryComponent);
     component = fixture.componentInstance;
     store = TestBed.get(Store);
 

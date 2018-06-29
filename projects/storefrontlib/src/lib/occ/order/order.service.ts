@@ -46,16 +46,15 @@ export class OccOrderService {
     const url = this.getOrderEndpoint(userId);
     let params = new HttpParams();
     if (pageSize) {
-      params = params.append('pageSize', pageSize.toString());
+      params = params.set('pageSize', pageSize.toString());
     }
     if (currentPage) {
-      params = params.append('currentPage', currentPage.toString());
+      params = params.set('currentPage', currentPage.toString());
     }
     if (sort) {
-      params = params.append('sort', sort);
+      params = params.set('sort', sort);
     }
 
-    console.log(params);
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });

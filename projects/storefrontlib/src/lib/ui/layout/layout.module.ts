@@ -1,3 +1,4 @@
+import { MyAccountModule } from './../../my-account/my-account.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -31,7 +32,6 @@ import { LoginModule } from '../../user/components/login/login.module';
 import { CartDetailsModule } from '../../cart/components/cart-details/cart-details.module';
 import { ProductModule } from '../../product/product.module';
 import { CheckoutModule } from '../../checkout/checkout.module';
-import { OrderModule } from './../../order/order.module';
 
 @NgModule({
   imports: [
@@ -49,7 +49,7 @@ import { OrderModule } from './../../order/order.module';
     ProductModule,
     CartDetailsModule,
     CheckoutModule,
-    OrderModule
+    MyAccountModule
   ],
   declarations: [
     HeaderComponent,
