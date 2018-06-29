@@ -1,4 +1,10 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  ChangeDetectionStrategy,
+  EventEmitter
+} from '@angular/core';
 
 @Component({
   selector: 'y-product-sorting',
@@ -8,16 +14,15 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 })
 export class ProductSortingComponent {
   @Input() grid;
+  @Input() sortOptions;
 
-  // TODO: configurable
-  sortOptions = [
-    {
-      code: 'relevance',
-      label: 'Relevance'
-    },
-    {
-      code: 'price',
-      label: 'Price'
-    }
-  ];
+  @Output() sortListEvent: EventEmitter<string>;
+
+  constructor() {
+    this.sortListEvent = new EventEmitter<string>();
+  }
+
+  sortList(sortCode: string) {
+    this.sortListEvent.emit(sortCode);
+  }
 }

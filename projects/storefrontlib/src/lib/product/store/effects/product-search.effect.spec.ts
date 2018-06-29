@@ -16,6 +16,7 @@ describe('ProductSearch Effects', () => {
   let actions$: Observable<any>;
   let service: OccProductSearchService;
   let effects: fromEffects.ProductsSearchEffects;
+  let searchConfig: SearchConfig;
 
   const searchResult: any = { products: [] };
   const suggestions: any = { suggestions: [] };
@@ -35,6 +36,9 @@ describe('ProductSearch Effects', () => {
     service = TestBed.get(OccProductSearchService);
     effects = TestBed.get(fromEffects.ProductsSearchEffects);
 
+    searchConfig = new SearchConfig();
+    searchConfig.pageSize = 10;
+
     spyOn(service, 'query').and.returnValue(of(searchResult));
     spyOn(service, 'queryProductSuggestions').and.returnValue(of(suggestions));
   });
@@ -43,7 +47,7 @@ describe('ProductSearch Effects', () => {
     it('should return searchResult from SearchProductsSuccess', () => {
       const action = new fromActions.SearchProducts({
         queryText: 'test',
-        searchConfig: new SearchConfig(10)
+        searchConfig: searchConfig
       });
       const completion = new fromActions.SearchProductsSuccess(searchResult);
 
@@ -58,7 +62,7 @@ describe('ProductSearch Effects', () => {
     it('should return suggestions from GetProductSuggestionsSuccess', () => {
       const action = new fromActions.GetProductSuggestions({
         term: 'test',
-        searchConfig: new SearchConfig(10)
+        searchConfig: searchConfig
       });
       const completion = new fromActions.GetProductSuggestionsSuccess(
         suggestions.suggestions
