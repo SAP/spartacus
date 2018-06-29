@@ -46,13 +46,13 @@ export class OccOrderService {
     const url = this.getOrderEndpoint(userId);
     let params = new HttpParams();
     if (pageSize) {
-      params = params.set('pageSize', pageSize.toString());
+      params = params.append('pageSize', pageSize.toString());
     }
     if (currentPage) {
-      params = params.set('currentPage', currentPage.toString());
+      params = params.append('currentPage', currentPage.toString());
     }
     if (sort) {
-      params = params.set('sort', sort);
+      params = params.append('sort', sort);
     }
 
     console.log(params);
