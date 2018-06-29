@@ -2,8 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
+import { PaginationAndSortingComponent } from './../pagination-and-sorting/pagination-and-sorting.component';
 import { OrderHistoryComponent } from './order-history.component';
-import { OrderHistoryControlsComponent } from '../order-history-controls/order-history-controls.component';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import * as fromRoot from '../../../../routing/store';
 import * as fromUserStore from '../../../../user/store';
@@ -26,7 +26,7 @@ describe('OrderHistoryControlsComponent', () => {
       ],
       declarations: [
         OrderHistoryComponent,
-        OrderHistoryControlsComponent,
+        PaginationAndSortingComponent,
         yDate
       ]
     }).compileComponents();

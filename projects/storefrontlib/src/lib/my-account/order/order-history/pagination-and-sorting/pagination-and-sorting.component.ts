@@ -9,15 +9,15 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'y-order-history-controls',
-  templateUrl: './order-history-controls.component.html',
-  styleUrls: ['./order-history-controls.component.scss']
+  selector: 'y-pagination-sorting',
+  templateUrl: './pagination-and-sorting.component.html',
+  styleUrls: ['./pagination-and-sorting.component.scss']
 })
-export class OrderHistoryControlsComponent implements OnInit, OnChanges {
+export class PaginationAndSortingComponent implements OnInit, OnChanges {
   @Input() pagination: any;
   @Input() sorts: any[];
   @Output() viewPageEvent: EventEmitter<{}> = new EventEmitter<{}>();
-  @Output() sortOrderEvent: EventEmitter<{}> = new EventEmitter<{}>();
+  @Output() sortEvent: EventEmitter<{}> = new EventEmitter<{}>();
 
   currentPage: number;
   paginationBoundaries: number;
@@ -51,8 +51,8 @@ export class OrderHistoryControlsComponent implements OnInit, OnChanges {
     });
   }
 
-  sortOrders() {
-    this.sortOrderEvent.emit({
+  sort() {
+    this.sortEvent.emit({
       sortCode: this.activeSort,
       currentPage: this.currentPage
     });

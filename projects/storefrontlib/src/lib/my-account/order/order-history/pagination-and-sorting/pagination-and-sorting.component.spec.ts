@@ -1,21 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
-import { OrderHistoryControlsComponent } from './order-history-controls.component';
+import { PaginationAndSortingComponent } from './pagination-and-sorting.component';
 
-describe('OrderHistoryControlsComponent', () => {
-  let component: OrderHistoryControlsComponent;
-  let fixture: ComponentFixture<OrderHistoryControlsComponent>;
+describe('PaginationAndSortingComponent', () => {
+  let component: PaginationAndSortingComponent;
+  let fixture: ComponentFixture<PaginationAndSortingComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule],
-      declarations: [OrderHistoryControlsComponent]
+      declarations: [PaginationAndSortingComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderHistoryControlsComponent);
+    fixture = TestBed.createComponent(PaginationAndSortingComponent);
     component = fixture.componentInstance;
     component.pagination = { totalPages: 5 };
     component.sorts = [
@@ -50,8 +50,8 @@ describe('OrderHistoryControlsComponent', () => {
   });
 
   it('should emit the sortPageEvent', () => {
-    spyOn(component.sortOrderEvent, 'emit');
+    spyOn(component.sortEvent, 'emit');
     component.sortOrders();
-    expect(component.sortOrderEvent.emit).toHaveBeenCalled();
+    expect(component.sortEvent.emit).toHaveBeenCalled();
   });
 });

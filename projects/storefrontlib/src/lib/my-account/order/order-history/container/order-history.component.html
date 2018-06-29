@@ -5,7 +5,7 @@
     </div>
     <div class="order-history-body">
       <ng-container *ngIf="orders.pagination.totalResults > 0; else noOrder">
-        <y-order-history-controls [pagination]="orders.pagination" [sorts]="orders.sorts" (viewPageEvent)="viewPage($event)" (sortOrderEvent)="viewPage($event)"></y-order-history-controls>
+        <y-pagination-sorting [pagination]="orders.pagination" [sorts]="orders.sorts" (viewPageEvent)="viewPage($event)" (sortEvent)="viewPage($event)"></y-pagination-sorting>
 
         <table>
           <thead>
@@ -26,7 +26,7 @@
           </tbody>
         </table>
 
-        <y-order-history-controls [pagination]="orders.pagination" [sorts]="orders.sorts" (viewPageEvent)="viewPage($event)" (sortOrderEvent)="viewPage($event)"></y-order-history-controls>
+        <y-pagination-sorting [pagination]="orders.pagination" [sorts]="orders.sorts" (viewPageEvent)="viewPage($event)" (sortEvent)="viewPage($event)"></y-pagination-sorting>
       </ng-container>
 
       <ng-template #noOrder>
