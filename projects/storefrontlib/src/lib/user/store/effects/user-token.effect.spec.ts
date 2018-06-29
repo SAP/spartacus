@@ -10,6 +10,15 @@ import { hot, cold } from 'jasmine-marbles';
 import * as fromActions from './../actions';
 import { OccUserService } from '../../../occ/user/user.service';
 
+const testToken: UserToken = {
+  access_token: 'xxx',
+  token_type: 'bearer',
+  refresh_token: 'xxx',
+  expires_in: 1000,
+  scope: ['xxx'],
+  userId: 'xxx'
+};
+
 class MockUserService {
   loadToken(userId: string, password: string): Observable<any> {
     return;
@@ -24,7 +33,6 @@ describe('UserToken effect', () => {
   let userService: OccUserService;
   let userTokenEffect: UserTokenEffects;
   let actions$: Observable<any>;
-  let testToken: UserToken;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,15 +45,6 @@ describe('UserToken effect', () => {
 
     userTokenEffect = TestBed.get(UserTokenEffects);
     userService = TestBed.get(OccUserService);
-
-    testToken = {
-      access_token: 'xxx',
-      token_type: 'bearer',
-      refresh_token: 'xxx',
-      expires_in: 1000,
-      scope: ['xxx'],
-      userId: 'xxx'
-    };
 
     spyOn(userService, 'loadToken').and.returnValue(of(testToken));
     spyOn(userService, 'refreshToken').and.returnValue(of(testToken));

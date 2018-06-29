@@ -10,7 +10,7 @@ import { HttpRequest } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { UserErrorHandlingService } from '../error-handling/user-error-handling.service';
+import { UserErrorHandlingService } from '../../occ/error-handling/user-error-handling.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
@@ -23,9 +23,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error: any) => {
-        if (error instanceof Error) {
-          console.warn('An unknown error occured', error);
-        } else if (error instanceof HttpErrorResponse) {
+        if (error instanceof HttpErrorResponse) {
           switch (error.status) {
             case 401:
               return this.userErrorHandlingService.handleExpiredUserToken(
@@ -41,6 +39,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
               }
               break;
           }
+        } else if (error instanceof Error) {
+          console.warn('An unknown error occured', error);
         }
         return throwError(error);
       })

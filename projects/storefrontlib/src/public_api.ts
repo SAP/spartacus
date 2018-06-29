@@ -42,6 +42,7 @@ export * from './lib/site-context/language-selector/language-selector.module';
 export * from './lib/site-context/shared/shared.module';
 export * from './lib/site-context/site-context.module';
 export * from './lib/site-context/currency-selector/currency-selector.module';
+export * from './lib/services/services.module';
 
 export * from './lib/ui/layout/footer/footer.component';
 export * from './lib/ui/layout/cart-page-layout/cart-page-layout.component';

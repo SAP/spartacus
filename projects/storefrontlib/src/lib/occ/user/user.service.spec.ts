@@ -5,6 +5,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
+import { HttpErrorResponse } from '@angular/common/http';
 
 const username: any = 'mockUsername';
 const password: any = '1234';
@@ -168,6 +169,27 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(token);
+    });
+
+    it('should catch refresh error', () => {
+      service.refreshToken('invalid token').subscribe(
+        _result => {},
+        (error: HttpErrorResponse) => {
+          expect(error.status).toBe(400);
+          expect(error.statusText).toEqual('Error');
+        }
+      );
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'POST' && req.url === mockOauthEndpoint;
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(
+        { error: 'Invalid refresh token' },
+        { status: 400, statusText: 'Error' }
+      );
     });
   });
 });

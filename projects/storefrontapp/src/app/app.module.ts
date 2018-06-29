@@ -9,6 +9,7 @@ import { OccModule } from 'storefrontlib';
 import { UiModule } from 'storefrontlib';
 import { CmsLibModule } from 'storefrontlib';
 import { UiFrameworkModule } from 'storefrontlib';
+import { ServicesModule } from 'storefrontlib';
 
 import { CmsModule } from 'storefrontlib';
 import { RoutingModule } from 'storefrontlib';
@@ -30,6 +31,7 @@ import { CheckoutModule } from 'storefrontlib';
     CmsLibModule,
     UiModule,
     UiFrameworkModule,
+    ServicesModule,
 
     CmsModule.forRoot(ConfigService),
     SiteContextModule.forRoot(ConfigService),

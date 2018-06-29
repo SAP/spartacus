@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { tap, filter, take, switchMap } from 'rxjs/operators';
 
 import * as fromUserStore from '../../user/store';
@@ -11,7 +11,7 @@ import { HttpRequest, HttpHandler } from '@angular/common/http';
 
 @Injectable()
 export class UserErrorHandlingService {
-  private isRefreshingToken = false;
+  readonly LOGIN_URL = '/';
 
   constructor(
     private store: Store<fromUserStore.UserState>,
@@ -23,8 +23,7 @@ export class UserErrorHandlingService {
     next: HttpHandler
   ): Observable<any> {
     return this.handleExpiredToken().pipe(
-      switchMap((token: UserToken) => {
-        this.isRefreshingToken = false;
+      switchMap(([token, _loading]: [UserToken, boolean]) => {
         return next.handle(this.createNewRequest(request, token));
       })
     );
@@ -33,31 +32,35 @@ export class UserErrorHandlingService {
   public handleInvalidRefreshToken(): void {
     this.store.dispatch(new fromUserStore.Logout());
     // Redirect to login if user has no token but we don't have a login page
-    window.location.href = '/';
+    window.location.href = this.LOGIN_URL;
   }
 
   private handleExpiredToken(): Observable<any> {
     let oldToken;
-    if (!this.isRefreshingToken) {
-      return this.store.select(fromUserStore.getUserToken).pipe(
-        tap((token: UserToken) => {
-          oldToken = oldToken || token;
-          this.fetchNewToken(token);
-        }),
-        filter(
-          (token: UserToken) => oldToken.access_token !== token.access_token
-        ),
-        take(1)
-      );
-    } else {
-      return this.store.select(fromUserStore.getUserToken).pipe(
-        tap((token: UserToken) => (oldToken = oldToken || token)),
-        filter(
-          (token: UserToken) => oldToken.access_token !== token.access_token
-        ),
-        take(1)
-      );
-    }
+    return combineLatest(
+      this.store.select(fromUserStore.getUserToken),
+      this.store.select(fromUserStore.getUserTokenLoading)
+    ).pipe(
+      tap(([token, loading]: [UserToken, boolean]) => {
+        oldToken = oldToken || token;
+        if (token.access_token && token.refresh_token && !loading) {
+          this.store.dispatch(
+            new fromUserStore.RefreshUserToken({
+              userId: token.userId,
+              refreshToken: token.refresh_token
+            })
+          );
+        } else if (!token.access_token && !token.refresh_token) {
+          // Redirect to login if user has no token but we don't have a login page
+          this.router.navigate([this.LOGIN_URL]);
+        }
+      }),
+      filter(
+        ([token, loading]: [UserToken, boolean]) =>
+          oldToken.access_token !== token.access_token
+      ),
+      take(1)
+    );
   }
 
   private createNewRequest(
@@ -70,20 +73,5 @@ export class UserErrorHandlingService {
       }
     });
     return request;
-  }
-
-  private fetchNewToken(token: UserToken): void {
-    if (token.access_token && token.refresh_token && !this.isRefreshingToken) {
-      this.isRefreshingToken = true;
-      this.store.dispatch(
-        new fromUserStore.RefreshUserToken({
-          userId: token.userId,
-          refreshToken: token.refresh_token
-        })
-      );
-    } else if (!token.access_token || !token.refresh_token) {
-      // Redirect to login if user has no token but we don't have a login page
-      this.router.navigate(['/']);
-    }
   }
 }
