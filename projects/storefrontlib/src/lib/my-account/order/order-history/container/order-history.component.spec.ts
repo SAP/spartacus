@@ -7,6 +7,7 @@ import { OrderHistoryControlsComponent } from '../order-history-controls/order-h
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import * as fromRoot from '../../../../routing/store';
 import * as fromUserStore from '../../../../user/store';
+import { yDate } from '../../../../pipes/yDate';
 
 describe('OrderHistoryControlsComponent', () => {
   let component: OrderHistoryComponent;
@@ -23,7 +24,11 @@ describe('OrderHistoryControlsComponent', () => {
           orders: combineReducers(fromUserStore.reducers)
         })
       ],
-      declarations: [OrderHistoryComponent, OrderHistoryControlsComponent]
+      declarations: [
+        OrderHistoryComponent,
+        OrderHistoryControlsComponent,
+        yDate
+      ]
     }).compileComponents();
   }));
 

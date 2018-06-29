@@ -1,11 +1,11 @@
 import { ActivatedRoute } from '@angular/router';
 import { StoreModule, combineReducers } from '@ngrx/store';
-import { OccOrderService } from './../../occ/order/order.service';
+import { OccOrderService } from './../../../occ/order/order.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrderDetailsComponent } from './order-details.component';
 import { of } from 'rxjs';
-import * as fromRoot from '../../routing/store';
-import * as fromUserStore from '../../user/store';
+import * as fromRoot from '../../../routing/store';
+import * as fromUserStore from '../../../user/store';
 class MockOccOrderService {
   getOrder() {}
 }

@@ -12,7 +12,7 @@ const mockUserOrders = {
   sort: []
 };
 class MockOcOrderService {
-  getUserOrders() {
+  getOrders() {
     return;
   }
 }
@@ -34,7 +34,7 @@ describe('User Orders effect', () => {
     userOrdersEffect = TestBed.get(fromUserOrdersEffect.UserOrdersEffect);
     orderService = TestBed.get(OccOrderService);
 
-    spyOn(orderService, 'getUserOrders').and.returnValue(of(mockUserOrders));
+    spyOn(orderService, 'getOrders').and.returnValue(of(mockUserOrders));
   });
 
   describe('loadUserOrders$', () => {

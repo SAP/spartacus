@@ -18,7 +18,10 @@ describe('OrderHistoryControlsComponent', () => {
     fixture = TestBed.createComponent(OrderHistoryControlsComponent);
     component = fixture.componentInstance;
     component.pagination = { totalPages: 5 };
-    component.sort = [{ code: 'byDate' }, { code: 'byOrderNumber' }];
+    component.sorts = [
+      { code: 'byDate', selected: true },
+      { code: 'byOrderNumber', selected: false }
+    ];
     component.paginationBoundaries = 1;
     fixture.detectChanges();
   });
