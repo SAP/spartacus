@@ -1,8 +1,18 @@
-<div *ngIf="searchResult.pagination.totalPages !== 0" fxFlex>
+<div *ngIf="pagination.totalPages !== 0" fxFlex class="pagination">
     <!--Result by: {{searchResult.pagination.sort}}-->
-    {{searchResult.pagination.totalResults}} Products, Page: {{searchResult.pagination.currentPage + 1}} of {{searchResult.pagination.totalPages}}
+    <div>
+        <span>
+            {{pagination.totalResults}} Products
+        </span>
+        <br/>
+    </div>
+    <div>
+        <span class="pagination-btn" (click)="next(pagination.currentPage - 1)" *ngIf="pagination.currentPage !== 0">Prev</span>
+        <span>Page: {{pagination.currentPage + 1}} of {{pagination.totalPages}}</span>
+        <span class="pagination-btn" (click)="prev(pagination.currentPage + 1)" *ngIf="pagination.currentPage !== pagination.totalPages - 1">Next</span>
+    </div>
 </div>
 
-<div *ngIf="searchResult.pagination.totalPages === 0" fxFlex>
+<div *ngIf="pagination.totalPages === 0" fxFlex>
     No products found.
 </div>

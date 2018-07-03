@@ -92,19 +92,23 @@ export class SearchBoxComponent extends AbstractCmsComponent {
   protected setupSearch() {
     this.searchBoxControl.valueChanges.subscribe(value => {
       if (this.shouldSearchProducts()) {
+        const searchConfig = new SearchConfig();
+        searchConfig.pageSize = this.maxProduct;
         this.store.dispatch(
           new fromProductStore.SearchProducts({
             queryText: value,
-            searchConfig: new SearchConfig(this.maxProduct)
+            searchConfig: searchConfig
           })
         );
       }
 
       if (this.shouldSearchSuggestions()) {
+        const searchConfig = new SearchConfig();
+        searchConfig.pageSize = this.maxSuggestions;
         this.store.dispatch(
           new fromProductStore.GetProductSuggestions({
             term: value,
-            searchConfig: new SearchConfig(this.maxSuggestions)
+            searchConfig: searchConfig
           })
         );
       }
