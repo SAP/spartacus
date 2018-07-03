@@ -1,5 +1,7 @@
+import { OrderDetailsComponent } from 'storefrontlib';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { PaginationAndSortingComponent } from './../pagination-and-sorting/pagination-and-sorting.component';
@@ -7,17 +9,30 @@ import { OrderHistoryComponent } from './order-history.component';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import * as fromRoot from '../../../../routing/store';
 import * as fromUserStore from '../../../../user/store';
-import { yDate } from '../../../../pipes/yDate';
+import { YDate } from '../../../../pipes/yDate';
 
-describe('OrderHistoryControlsComponent', () => {
+const routes = [
+  { path: 'my-account/orders/:id', component: OrderDetailsComponent }
+];
+const mockOrders = {
+  orders: [
+    { code: 1, placed: 1, statusDisplay: 'test', total: { formattedValue: 1 } }
+  ],
+  pagination: { totalResults: 1 },
+  sorts: [{ code: 'byDate', selected: true }]
+};
+
+fdescribe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
   let store: Store<fromUserStore.UserState>;
 
+  let location: Location;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
+        RouterTestingModule.withRoutes(routes),
         FormsModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
@@ -27,7 +42,8 @@ describe('OrderHistoryControlsComponent', () => {
       declarations: [
         OrderHistoryComponent,
         PaginationAndSortingComponent,
-        yDate
+        OrderDetailsComponent,
+        YDate
       ]
     }).compileComponents();
   }));
@@ -36,11 +52,8 @@ describe('OrderHistoryControlsComponent', () => {
     fixture = TestBed.createComponent(OrderHistoryComponent);
     component = fixture.componentInstance;
     store = TestBed.get(Store);
+    location = TestBed.get(Location);
 
-    spyOn(store, 'select').and.returnValues(
-      of({ userId: 'test@sap.com' }),
-      of({ orders: [], pagination: {}, sort: [] })
-    );
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -49,6 +62,11 @@ describe('OrderHistoryControlsComponent', () => {
   });
 
   it('should initialize with the store', () => {
+    spyOn(store, 'select').and.returnValues(
+      of({ userId: 'test@sap.com' }),
+      of(mockOrders)
+    );
+
     component.ngOnInit();
     const action = new fromUserStore.LoadUserOrders({
       userId: 'test@sap.com',
@@ -57,5 +75,36 @@ describe('OrderHistoryControlsComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
     expect(store.select).toHaveBeenCalledWith(fromUserStore.getOrders);
+  });
+
+  it('should redirect when clicking on order id', () => {
+    spyOn(store, 'select').and.returnValues(
+      of({ userId: 'test@sap.com' }),
+      of(mockOrders)
+    );
+
+    fixture.detectChanges();
+    const elem = fixture.debugElement.nativeElement.querySelector(
+      '.order-history-body table a'
+    );
+    elem.click();
+
+    fixture.whenStable().then(() => {
+      expect((location as any).urlChanges[0]).toBe('/my-account/orders/1');
+    });
+  });
+
+  it('should display No orders found page if no orders are found', () => {
+    spyOn(store, 'select').and.returnValues(
+      of({ userId: 'test@sap.com' }),
+      of({ orders: [], pagination: { totalResults: 0 } }),
+      of(true)
+    );
+
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.nativeElement.querySelector('.no-order-container')
+    ).not.toBeNull();
   });
 });

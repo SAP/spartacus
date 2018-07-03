@@ -1,3 +1,4 @@
+import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
@@ -32,8 +33,15 @@ describe('PaginationAndSortingComponent', () => {
 
   it('should emit viewPageEvent', () => {
     spyOn(component.viewPageEvent, 'emit');
-    component.viewPage(0);
-    expect(component.viewPageEvent.emit).toHaveBeenCalled();
+
+    const pageZero = fixture.debugElement.queryAll(By.css('.page-number'))[0];
+
+    pageZero.triggerEventHandler('click', { target: { value: 0 } });
+
+    expect(component.viewPageEvent.emit).toHaveBeenCalledWith({
+      currentPage: 0,
+      sortCode: 'byDate'
+    });
   });
 
   it('should adjust pagination boundaries on viewPage', () => {
@@ -51,7 +59,16 @@ describe('PaginationAndSortingComponent', () => {
 
   it('should emit the sortPageEvent', () => {
     spyOn(component.sortEvent, 'emit');
-    component.sortOrders();
-    expect(component.sortEvent.emit).toHaveBeenCalled();
+    component.currentPage = 0;
+
+    const select = fixture.debugElement.query(By.css('select'));
+    select.triggerEventHandler('change', {
+      target: { value: 'byOrderNumber' }
+    });
+
+    expect(component.sortEvent.emit).toHaveBeenCalledWith({
+      sortCode: 'byOrderNumber',
+      currentPage: 0
+    });
   });
 });

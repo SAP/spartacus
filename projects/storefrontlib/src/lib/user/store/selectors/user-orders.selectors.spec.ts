@@ -31,6 +31,23 @@ describe('User Orders Selectors', () => {
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
+  describe('getOrderState', () => {
+    it('should return the Order state from the store', () => {
+      let result;
+      store
+        .select(fromSelectors.getOrdersState)
+        .subscribe(value => (result = value));
+      expect(result).toEqual({
+        orders: {
+          orders: [],
+          pagination: {},
+          sort: []
+        },
+        loading: false,
+        loaded: false
+      });
+    });
+  });
 
   describe('getOrders', () => {
     it('should return a user Orders', () => {

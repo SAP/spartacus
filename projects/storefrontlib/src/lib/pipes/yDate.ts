@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'yDate' })
-export class yDate implements PipeTransform {
+export class YDate implements PipeTransform {
   transform(date: string) {
     const dateObj = new Date(date);
     const local = 'en-US';

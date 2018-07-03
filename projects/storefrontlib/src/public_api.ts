@@ -118,7 +118,7 @@ export * from './lib/site-context/language-selector/language-selector.component'
 export * from './lib/site-context/currency-selector/currency-selector.component';
 export * from './lib/my-account/order/order-details/order-details.component';
 export * from './lib/my-account/order/order-history/container/order-history.component';
-export * from './lib/my-account/order/order-history/order-history-controls/order-history-controls.component';
+export * from './lib/my-account/order/order-history/pagination-and-sorting/pagination-and-sorting.component';
 
 export * from './lib/user/guards/auth.guard';
 export * from './lib/user/guards/not-auth.guard';
