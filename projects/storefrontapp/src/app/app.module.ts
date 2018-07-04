@@ -9,12 +9,12 @@ import { OccModule } from 'storefrontlib';
 import { UiModule } from 'storefrontlib';
 import { CmsLibModule } from 'storefrontlib';
 import { UiFrameworkModule } from 'storefrontlib';
-import { ServicesModule } from 'storefrontlib';
 
 import { CmsModule } from 'storefrontlib';
 import { RoutingModule } from 'storefrontlib';
 import { SiteContextModule } from 'storefrontlib';
 import { ProductModule } from 'storefrontlib';
+import { ServicesModule } from 'storefrontlib';
 
 import { appRoutes } from './app.routes';
 

@@ -12,7 +12,6 @@ import { OccCartService } from './cart/cart.service';
 import { OccMiscsService } from './miscs/miscs.service';
 import { OccOrderService } from './order/order.service';
 import { OccClientAuthenticationTokenService } from './client-authentication/client-authentication-token.service';
-import { UserErrorHandlingService } from './error-handling/user-error-handling.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -24,8 +23,7 @@ import { UserErrorHandlingService } from './error-handling/user-error-handling.s
     OccUserService,
     OccCartService,
     OccMiscsService,
-    OccOrderService,
-    UserErrorHandlingService
+    OccOrderService
   ]
 })
 export class OccModule {

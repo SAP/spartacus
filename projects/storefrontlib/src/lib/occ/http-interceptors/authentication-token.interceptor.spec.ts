@@ -4,17 +4,10 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
 
-import * as fromStore from '../../user/store';
-import * as fromRoot from '../../routing/store';
 import { AuthenticationTokenInterceptor } from './authentication-token.interceptor';
-import {
-  ClientAuthenticationToken,
-  UserToken
-} from '../../user/models/token-types.model';
-import { ConfigService } from '../../occ/config.service';
+import { ClientAuthenticationToken } from '../../user/models/token-types.model';
 import { OccClientAuthenticationTokenService } from '../client-authentication/client-authentication-token.service';
 
 const testToken: ClientAuthenticationToken = {
@@ -24,19 +17,6 @@ const testToken: ClientAuthenticationToken = {
   scope: ''
 };
 
-class MockConfigService {
-  server = {
-    baseUrl: 'https://localhost:9002',
-    occPrefix: '/rest/v2/'
-  };
-
-  site = {
-    baseSite: 'electronics',
-    language: '',
-    currency: ''
-  };
-}
-
 class MockOccClientAuthenticationTokenService {
   loadClientAuthenticationToken(): Observable<any> {
     return of(testToken);
@@ -44,28 +24,12 @@ class MockOccClientAuthenticationTokenService {
 }
 
 describe('AuthenticationTokenInterceptor', () => {
-  const userToken: UserToken = {
-    access_token: 'xxx',
-    token_type: 'bearer',
-    refresh_token: 'xxx',
-    expires_in: 1000,
-    scope: ['xxx'],
-    userId: 'xxx'
-  };
   let httpMock: HttpTestingController;
-  let store: Store<fromStore.UserState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.reducers,
-          user: combineReducers(fromStore.reducers)
-        })
-      ],
+      imports: [HttpClientTestingModule],
       providers: [
-        { provide: ConfigService, useClass: MockConfigService },
         {
           provide: OccClientAuthenticationTokenService,
           useClass: MockOccClientAuthenticationTokenService
@@ -77,7 +41,6 @@ describe('AuthenticationTokenInterceptor', () => {
         }
       ]
     });
-    store = TestBed.get(Store);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -85,7 +48,6 @@ describe('AuthenticationTokenInterceptor', () => {
     it('Should only add token to specified requests', inject(
       [HttpClient],
       (http: HttpClient) => {
-        spyOn(store, 'select').and.returnValue(of(testToken));
         http.get('/test').subscribe(result => {
           expect(result).toBeTruthy();
         });
@@ -105,52 +67,22 @@ describe('AuthenticationTokenInterceptor', () => {
         );
       }
     ));
-  });
 
-  describe('User Token', () => {
-    beforeEach(() => {
-      spyOn(store, 'select').and.returnValue(of(userToken));
-    });
-
-    it(`Should not add 'Authorization' header with a token info to an HTTP request`, inject(
+    it(`should not add an 'Authorization' token to a request if it already has one`, inject(
       [HttpClient],
       (http: HttpClient) => {
-        http.get('/xxx').subscribe(result => {
-          expect(result).toBeTruthy();
-        });
-
-        const mockReq = httpMock.expectOne(req => {
-          return req.method === 'GET';
-        });
-
-        const authHeader = mockReq.request.headers.get('Authorization');
-        expect(authHeader).toBeFalsy();
-        expect(authHeader).toEqual(null);
-
-        mockReq.flush('someData');
-      }
-    ));
-
-    it(`Should add 'Authorization' header with a token info to an HTTP request`, inject(
-      [HttpClient],
-      (http: HttpClient) => {
+        const headers = { Authorization: 'bearer 123' };
         http
-          .get('https://localhost:9002/rest/v2/electronics')
+          .get('/somestore/forgottenpasswordtokens', { headers })
           .subscribe(result => {
             expect(result).toBeTruthy();
           });
 
-        const mockReq = httpMock.expectOne(req => {
-          return req.method === 'GET';
-        });
-
-        const authHeader = mockReq.request.headers.get('Authorization');
-        expect(authHeader).toBeTruthy();
-        expect(authHeader).toEqual(
-          `${userToken.token_type} ${userToken.access_token}`
+        const mockReq = httpMock.expectOne(
+          '/somestore/forgottenpasswordtokens'
         );
-
-        mockReq.flush('someData');
+        const authHeader = mockReq.request.headers.get('Authorization');
+        expect(authHeader).toBe(headers.Authorization);
       }
     ));
   });

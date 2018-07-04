@@ -4,7 +4,7 @@ import {
   HttpClientTestingModule
 } from '@angular/common/http/testing';
 
-import { UserErrorHandlingService } from '../../occ/error-handling/user-error-handling.service';
+import { UserErrorHandlingService } from '../../user/services/user-error-handling.service';
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
