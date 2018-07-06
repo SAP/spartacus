@@ -132,9 +132,7 @@ describe('AddressFormComponent', () => {
       );
     });
     component.titles$.subscribe(() => {
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCheckout.LoadTitles()
-      );
+      expect(store.dispatch).toHaveBeenCalledWith(new fromUser.LoadTitles());
     });
   });
 

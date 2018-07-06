@@ -15,6 +15,7 @@ import { tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
 import * as fromRouting from '../../../../routing/store';
+import * as fromUser from '../../../../user/store';
 
 import { MatDialog } from '@angular/material';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
@@ -69,10 +70,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         })
       );
 
-    this.titles$ = this.store.select(fromCheckoutStore.getAllTitles).pipe(
+    this.titles$ = this.store.select(fromUser.getAllTitles).pipe(
       tap(titles => {
         if (Object.keys(titles).length === 0) {
-          this.store.dispatch(new fromCheckoutStore.LoadTitles());
+          this.store.dispatch(new fromUser.LoadTitles());
         }
       })
     );

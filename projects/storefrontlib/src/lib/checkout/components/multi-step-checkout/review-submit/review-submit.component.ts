@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../store';
+import * as fromUserStore from '../../../../user/store';
 import { CheckoutService } from '../../../services';
 import { Address } from '../../../models/address-model';
 
@@ -65,12 +66,12 @@ export class ReviewSubmitComponent implements OnInit {
 
     this.titleName$ = this.store
       .select(
-        fromCheckoutStore.titleSelectorFactory(this.deliveryAddress.titleCode)
+        fromUserStore.titleSelectorFactory(this.deliveryAddress.titleCode)
       )
       .pipe(
         tap(title => {
           if (title === null) {
-            this.store.dispatch(new fromCheckoutStore.LoadTitles());
+            this.store.dispatch(new fromUserStore.LoadTitles());
           }
         })
       );

@@ -10,19 +10,22 @@ import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserToken from './user-token.reducer';
 import * as fromUserAddresses from './user-addresses.reducer';
 import * as fromPaymentMethods from './payment-methods.reducer';
+import * as fromTitlesReducer from './titles.reducer';
 
 export interface UserState {
   account: fromUserDetailsReducer.UserDetailsState;
   auth: fromUserToken.UserTokenState;
   addresses: fromUserAddresses.UserAddressesState;
   payments: fromPaymentMethods.UserPaymentMethodsState;
+  titles: fromTitlesReducer.TitlesState;
 }
 
 export const reducers: ActionReducerMap<UserState> = {
   account: fromUserDetailsReducer.reducer,
   auth: fromUserToken.reducer,
   addresses: fromUserAddresses.reducer,
-  payments: fromPaymentMethods.reducer
+  payments: fromPaymentMethods.reducer,
+  titles: fromTitlesReducer.reducer
 };
 
 export const getUserState: MemoizedSelector<
