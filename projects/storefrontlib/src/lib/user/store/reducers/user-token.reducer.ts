@@ -16,30 +16,7 @@ export function reducer(
   action: fromAction.UserTokenAction
 ): UserTokenState {
   switch (action.type) {
-    case fromAction.LOAD_USER_TOKEN: {
-      return {
-        ...state,
-        loading: true
-      };
-    }
-
-    case fromAction.LOAD_USER_TOKEN_SUCCESS: {
-      const token = action.payload;
-
-      return {
-        ...state,
-        token,
-        loading: false
-      };
-    }
-
-    case fromAction.LOAD_USER_TOKEN_FAIL: {
-      return {
-        ...state,
-        loading: false
-      };
-    }
-
+    case fromAction.LOAD_USER_TOKEN:
     case fromAction.REFRESH_USER_TOKEN: {
       return {
         ...state,
@@ -47,6 +24,7 @@ export function reducer(
       };
     }
 
+    case fromAction.LOAD_USER_TOKEN_SUCCESS:
     case fromAction.REFRESH_USER_TOKEN_SUCCESS: {
       const token = action.payload;
 
@@ -57,6 +35,7 @@ export function reducer(
       };
     }
 
+    case fromAction.LOAD_USER_TOKEN_FAIL:
     case fromAction.REFRESH_USER_TOKEN_FAIL: {
       return {
         ...state,

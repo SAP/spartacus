@@ -39,7 +39,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
               }
               break;
           }
-        } else if (error instanceof Error) {
+        } else {
           console.warn('An unknown error occured', error);
         }
         return throwError(error);
