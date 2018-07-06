@@ -1,25 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductDetailsComponent } from './product-details.component';
-import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { DynamicSlotComponent } from 'projects/storefrontlib/src/lib/cms/components/dynamic-slot/dynamic-slot.component';
-import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
-import { StarRatingComponent } from '../star-rating/star-rating.component';
-import { ProductImagesComponent } from '../product-images/product-images.component';
-import { ProductSummaryComponent } from '../product-summary/product-summary.component';
-import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
-import { PictureComponent } from 'projects/storefrontlib/src/lib/ui/components/media/picture/picture.component';
-import { ComponentWrapperComponent } from '../../../../cms/components/component-wrapper/component-wrapper.component';
 
-import * as fromRoot from '../../../../routing/store';
-import * as fromProduct from '../../../store/reducers';
-import * as fromCart from '../../../../cart/store';
-import * as fromUser from '../../../../user/store';
-
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { MaterialModule } from './../../../../material.module';
 import { of } from 'rxjs';
-import { ComponentMapperService } from '../../../../cms/services/component-mapper.service';
 import { AddToCartModule } from '../../../../cart/components/add-to-cart/add-to-cart.module';
 import { CartService } from '../../../../cart/services';
+import * as fromCart from '../../../../cart/store';
+import { ComponentWrapperComponent } from '../../../../cms/components/component-wrapper/component-wrapper.component';
+import { ComponentMapperService } from '../../../../cms/services/component-mapper.service';
+import * as fromRoot from '../../../../routing/store';
+import * as fromUser from '../../../../user/store';
+import * as fromProduct from '../../../store/reducers';
+import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
+import { ProductImagesComponent } from '../product-images/product-images.component';
+import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
+import { ProductSummaryComponent } from '../product-summary/product-summary.component';
+import { StarRatingComponent } from '../star-rating/star-rating.component';
+import { MediaModule } from './../../../../ui/components/media/media.module';
+import { ProductDetailsComponent } from './product-details.component';
 
 class MockComponentMapperService {}
 
@@ -41,7 +40,8 @@ describe('ProductDetailsComponent in product', () => {
           products: combineReducers(fromProduct.reducers),
           cart: combineReducers(fromCart.reducers),
           user: combineReducers(fromUser.reducers)
-        })
+        }),
+        MediaModule
       ],
       declarations: [
         ProductDetailsComponent,
@@ -51,8 +51,7 @@ describe('ProductDetailsComponent in product', () => {
         ProductAttributesComponent,
         ProductReviewsComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent,
-        PictureComponent
+        ComponentWrapperComponent
       ],
       providers: [
         CartService,

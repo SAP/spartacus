@@ -1,3 +1,4 @@
+import { MediaModule } from './../../../../ui/components/media/media.module';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -10,7 +11,7 @@ describe('CartItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule],
+      imports: [RouterTestingModule, ReactiveFormsModule, MediaModule],
       declarations: [CartItemComponent, ItemCounterComponent],
       providers: [
         {
