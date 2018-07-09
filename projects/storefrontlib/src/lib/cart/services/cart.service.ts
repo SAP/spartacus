@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
+import { filter } from 'rxjs/operators';
 import * as fromReducer from '../store/reducers';
 import * as fromAction from '../store/actions';
 import * as fromSelector from '../store/selectors';
@@ -29,30 +30,36 @@ export class CartService {
       }
     });
 
-    this.store.select(fromUser.getUserToken).subscribe(userToken => {
-      if (Object.keys(userToken).length !== 0) {
-        this.userId = userToken.userId;
-      } else {
-        this.userId = ANOYMOUS_USERID;
-      }
-
-      // for login user, whenever there's an existing cart,
-      // we will load the user current cart and merge it into the existing cart
-      if (this.userId !== ANOYMOUS_USERID) {
-        if (Object.keys(this.cart).length === 0) {
-          this.store.dispatch(
-            new fromAction.LoadCart({ userId: this.userId, cartId: 'current' })
-          );
+    this.store
+      .select(fromUser.getUserToken)
+      .pipe(filter(userToken => this.userId !== userToken.userId))
+      .subscribe(userToken => {
+        if (Object.keys(userToken).length !== 0) {
+          this.userId = userToken.userId;
         } else {
-          this.store.dispatch(
-            new fromAction.MergeCart({
-              userId: this.userId,
-              cartId: this.cart.guid
-            })
-          );
+          this.userId = ANOYMOUS_USERID;
         }
-      }
-    });
+
+        // for login user, whenever there's an existing cart,
+        // we will load the user current cart and merge it into the existing cart
+        if (this.userId !== ANOYMOUS_USERID) {
+          if (Object.keys(this.cart).length === 0) {
+            this.store.dispatch(
+              new fromAction.LoadCart({
+                userId: this.userId,
+                cartId: 'current'
+              })
+            );
+          } else {
+            this.store.dispatch(
+              new fromAction.MergeCart({
+                userId: this.userId,
+                cartId: this.cart.guid
+              })
+            );
+          }
+        }
+      });
 
     this.store.select(fromSelector.getRefresh).subscribe(refresh => {
       if (refresh) {
