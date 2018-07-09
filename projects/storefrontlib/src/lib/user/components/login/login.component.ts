@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscription = this.store
       .select(fromStore.getUserToken)
       .pipe(
+        filter((token: UserToken) => !this.isLogin),
         tap((token: UserToken) => {
           if (token.access_token !== undefined) {
             this.isLogin = true;

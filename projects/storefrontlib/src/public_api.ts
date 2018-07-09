@@ -44,7 +44,7 @@ export * from './lib/site-context/site-context.module';
 export * from './lib/site-context/currency-selector/currency-selector.module';
 export * from './lib/my-account/order/order.module';
 export * from './lib/my-account/my-account.module';
-
+export * from './lib/services/services.module';
 export * from './lib/ui/layout/footer/footer.component';
 export * from './lib/ui/layout/cart-page-layout/cart-page-layout.component';
 export * from './lib/ui/layout/multi-step-checkout-page-layout/multi-step-checkout-page-layout.component';

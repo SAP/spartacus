@@ -5,17 +5,12 @@ import {
   HttpHandler,
   HttpEvent
 } from '@angular/common/http';
-
-import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
-import * as fromUserStore from '../../user/store';
+import { switchMap } from 'rxjs/operators';
 
-import { ConfigService } from '../config.service';
 import {
   ClientAuthenticationToken,
-  AuthenticationToken,
-  UserToken
+  AuthenticationToken
 } from '../../user/models/token-types.model';
 import { OccClientAuthenticationTokenService } from '../client-authentication/client-authentication-token.service';
 
@@ -27,8 +22,6 @@ interface RequestMapping {
 @Injectable()
 export class AuthenticationTokenInterceptor implements HttpInterceptor {
   constructor(
-    private store: Store<fromUserStore.UserState>,
-    private configService: ConfigService,
     private clientAuthenticationService: OccClientAuthenticationTokenService
   ) {}
 
@@ -60,35 +53,18 @@ export class AuthenticationTokenInterceptor implements HttpInterceptor {
     ];
     const url = request.url.split('?')[0];
     for (const value of clientEndpoints) {
-      if (url.match(value.urlPattern) && request.method === value.method) {
+      if (
+        url.match(value.urlPattern) &&
+        request.method === value.method &&
+        !request.headers.get('Authorization')
+      ) {
         return this.getClientToken();
       }
     }
-    return this.getUserToken(request);
+    return of(null);
   }
 
   private getClientToken(): Observable<ClientAuthenticationToken> {
     return this.clientAuthenticationService.loadClientAuthenticationToken();
-  }
-
-  private getUserToken(request: HttpRequest<any>): Observable<UserToken> {
-    let userToken: UserToken;
-    this.store
-      .select(fromUserStore.getUserToken)
-      .pipe(filter((token: UserToken) => Object.keys(token).length !== 0))
-      .subscribe((token: UserToken) => {
-        userToken = token;
-      });
-
-    const baseReqString =
-      this.configService.server.baseUrl +
-      this.configService.server.occPrefix +
-      this.configService.site.baseSite;
-
-    if (request.url.indexOf(baseReqString) === -1) {
-      return of(null);
-    } else {
-      return of(userToken);
-    }
   }
 }

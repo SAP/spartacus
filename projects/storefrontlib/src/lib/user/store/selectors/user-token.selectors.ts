@@ -16,3 +16,8 @@ export const getUserToken: MemoizedSelector<any, UserToken> = createSelector(
   getUserAuthState,
   fromUserToken.getUserToken
 );
+
+export const getUserTokenLoading: MemoizedSelector<
+  any,
+  boolean
+> = createSelector(getUserAuthState, fromUserToken.getUserTokenLoading);
