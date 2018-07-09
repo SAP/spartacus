@@ -9,7 +9,7 @@
         </mat-card-title>
         <div>
             <y-star-rating [rating]="product?.averageRating"></y-star-rating>
-            <button mat-button>Reviews</button>
+            <button mat-button (click)="goToReviews()">Reviews</button>
             <button mat-button>Write a review</button>
             <!--
             <button mat-button (click)="onClick">Reviews</button>
@@ -32,7 +32,7 @@
 
             <y-add-to-cart *ngIf="product.stock.stockLevelStatus !== 'outOfStock'" [productCode]="product?.code"></y-add-to-cart>
 
-            <mat-tab-group>
+            <mat-tab-group [(selectedIndex)]="selectedTabIndex">
                 <mat-tab label="PRODUCT DETAILS">
                     <p [innerHTML]="product?.description"></p>
                 </mat-tab>

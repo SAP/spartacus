@@ -1,8 +1,10 @@
+import { MatTabGroup } from '@angular/material';
 import {
   Component,
   OnChanges,
   Input,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ViewChild
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -15,9 +17,10 @@ import * as fromStore from '../../../store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductDetailsComponent implements OnChanges {
+  @ViewChild(MatTabGroup) matTabGroup;
   @Input() productCode: string;
   product$: Observable<any>;
-
+  selectedTabIndex = 0;
   // @ViewChild(ComponentWrapperComponent) cmsComponent: ComponentWrapperComponent;
 
   constructor(protected store: Store<fromStore.ProductsState>) {}
@@ -26,5 +29,13 @@ export class ProductDetailsComponent implements OnChanges {
     this.product$ = this.store.select(
       fromStore.getSelectedProductFactory(this.productCode)
     );
+  }
+
+  goToReviews() {
+    const reviewIndex = this.matTabGroup._tabs._results.findIndex(tab => {
+      return tab.textLabel === 'REVIEWS';
+    });
+    this.selectedTabIndex = reviewIndex;
+    this.matTabGroup._elementRef.nativeElement.scrollIntoView();
   }
 }
