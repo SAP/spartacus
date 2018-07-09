@@ -1,5 +1,21 @@
+.reviewHeaderContainer {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+  .overallRatingContainer {
+    display: flex;
+    flex-direction: column;
+  }
+}
 .review {
   .comment {
     margin: 0 64px;
+    .reviewerNameContainer {
+      margin: 10px 0px 10px 0px;
+      text-align: end;
+      span {
+        font-style: italic;
+      }
+    }
   }
 }

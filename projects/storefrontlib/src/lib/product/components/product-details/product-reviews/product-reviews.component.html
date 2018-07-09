@@ -1,8 +1,18 @@
 <div *ngIf="reviews$ | async as reviews">
-    <mat-card>
+    <mat-card *ngIf="!writingReview; else writeReview">
 
         <mat-card-title>Reviews for {{product?.name}}</mat-card-title>
-        <mat-card-subtitle>as asdfasdf </mat-card-subtitle>
+        <mat-card-subtitle>
+            <div class="reviewHeaderContainer">
+                <div class="overallRatingContainer">
+                    <h3>Overall Rating</h3>
+                    <y-star-rating [rating]="product.averageRating" class="rating"></y-star-rating>
+                </div>
+                <div>
+                    <button class="mat-raised-button mat-primary" (click)="initiateWriteReview()">Write a review</button>
+                </div>
+            </div>
+        </mat-card-subtitle>
 
         <mat-card-content>
 
@@ -16,14 +26,15 @@
                         <!--<button md-button (click)="onClick">
                             <y-star-rating [rating]="review.rating"></y-star-rating>
                         </button>-->
-                        <button mat-icon-button>
-                            <mat-icon>expand_more</mat-icon>
-                        </button>
+                        <span>{{review.headline}}</span>
                     </mat-list-item>
                     <div class="comment">
                         <y-star-rating [rating]="review.rating" class="rating"></y-star-rating>
                         <div>
                             {{review.comment}}
+                        </div>
+                        <div class="reviewerNameContainer">
+                            <span>{{review.principal.name}}</span>
                         </div>
                     </div>
                 </div>
@@ -35,6 +46,30 @@
         </mat-card-actions>
     </mat-card>
 
+    <ng-template #writeReview>
+        <mat-card>
+            <mat-card-title>Write a Review</mat-card-title>
+            <button (click)="test()">test</button>
+            <form [formGroup]="reviewForm">
+                <div>
+                    <span>Review Title</span>
+                    <input type="text" name="title" formControlName='title' />
+                </div>
+                <div>
+                    <span>Write your comments</span>
+                    <textarea type="text" name="comment" formControlName='comment'></textarea>
+                </div>
+                <div>
+                    <span>Rating</span>
+                    <y-star-rating formControlName='rating'></y-star-rating>
+                </div>
+                <div>
+                    <span>Reviewer name (optional)</span>
+                    <input type="text" name="reviewerName" formControlName='reviewerName' />
+                </div>
+            </form>
+        </mat-card>
+    </ng-template>
     <!--<mat-card *ngFor="let review of reviews" class="review">
         <mat-card-header>
             <mat-icon mat-card-avatar>rate_review</mat-icon>

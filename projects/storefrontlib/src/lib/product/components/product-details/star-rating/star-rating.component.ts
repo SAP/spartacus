@@ -1,3 +1,4 @@
+import { ControlValueAccessor } from '@angular/forms';
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
@@ -6,8 +7,9 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./star-rating.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StarRatingComponent {
+export class StarRatingComponent implements ControlValueAccessor {
   @Input() rating;
+  private propagateChange = (_: any) => {};
 
   getStar(index) {
     let icon;
@@ -19,5 +21,24 @@ export class StarRatingComponent {
       icon = 'star_outline';
     }
     return icon;
+  }
+
+  setRating(rating: number) {
+    this.rating = rating;
+    this.propagateChange(this.rating);
+  }
+
+  writeValue(value: any) {
+    if (value !== undefined) {
+      this.rating = value;
+    }
+  }
+
+  registerOnChange(fn: any) {
+    this.propagateChange = fn;
+  }
+
+  registerOnTouched(fn: any) {
+    console.log('touched');
   }
 }
