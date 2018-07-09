@@ -1,6 +1,25 @@
 mat-chip {
-    margin: 5px;
-    &[hidden] {
-        display: none;
+  margin: 5px;
+  &[hidden] {
+    display: none;
+  }
+}
+.facetControlsContainer {
+  text-align: end;
+  margin: 10px 0 10px 0;
+  .showLessFacets {
+    margin-right: 3px;
+  }
+  .showLessFacets,
+  .showMoreFacets {
+    border: 1px solid black;
+    border-radius: 2px;
+    padding: 3px;
+
+    cursor: pointer;
+    color: orange;
+    &:hover {
+      color: #ec7205;
     }
+  }
 }

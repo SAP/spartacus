@@ -11,8 +11,12 @@
             <div *ngFor="let facet of searchResult.facets">
                 <div *ngIf="facet.visible" class="facet-group">
                     <h3>{{facet.name}}</h3>
-                    <div *ngFor="let value of facet.values | slice:0:5">
+                    <div *ngFor="let value of facet.values | slice:0:facetDisplayAmountmap.get(facet.name)">
                         <mat-slide-toggle class="facet-value" color="primary" [checked]="value.selected" (change)="toggleValue(value.query.query.value)">{{value.name}} ({{value.count}})</mat-slide-toggle>
+                    </div>
+                    <div class="facetControlsContainer">
+                        <span class="showLessFacets" (click)="showLess(facet.name)" *ngIf="facetDisplayAmountmap.get(facet.name) > minPerFacet">Show Less ...</span>
+                        <span class="showMoreFacets" (click)="showMore(facet.name)" *ngIf="facet.values.length > facetDisplayAmountmap.get(facet.name)">Show More ...</span>
                     </div>
                 </div>
             </div>
