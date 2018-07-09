@@ -1,31 +1,22 @@
-import { StarRatingComponent } from './../star-rating/star-rating.component';
-import { FormBuilder, NG_VALUE_ACCESSOR, FormGroup } from '@angular/forms';
 import {
+  ChangeDetectionStrategy,
   Component,
+  Input,
   OnChanges,
   OnDestroy,
-  OnInit,
-  Input,
-  ChangeDetectionStrategy,
-  forwardRef
+  OnInit
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import * as fromStore from '../../../store';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import * as fromStore from '../../../store';
 
 @Component({
   selector: 'y-product-reviews',
   templateUrl: './product-reviews.component.html',
   styleUrls: ['./product-reviews.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: forwardRef(() => StarRatingComponent)
-    }
-  ]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductReviewsComponent implements OnChanges, OnInit, OnDestroy {
   @Input() product: any;

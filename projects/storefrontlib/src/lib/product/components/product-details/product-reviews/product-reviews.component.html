@@ -6,7 +6,7 @@
             <div class="reviewHeaderContainer">
                 <div class="overallRatingContainer">
                     <h3>Overall Rating</h3>
-                    <y-star-rating [rating]="product.averageRating" class="rating"></y-star-rating>
+                    <y-star-rating [rating]="product.averageRating" class="rating" [disabled]="true"></y-star-rating>
                 </div>
                 <div>
                     <button class="mat-raised-button mat-primary" (click)="initiateWriteReview()">Write a review</button>
@@ -29,7 +29,7 @@
                         <span>{{review.headline}}</span>
                     </mat-list-item>
                     <div class="comment">
-                        <y-star-rating [rating]="review.rating" class="rating"></y-star-rating>
+                        <y-star-rating [rating]="review.rating" class="rating" [disabled]="true"></y-star-rating>
                         <div>
                             {{review.comment}}
                         </div>
