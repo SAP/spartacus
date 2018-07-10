@@ -25,6 +25,17 @@ export function reducer(
         list
       };
     }
+    // TODO: post product review success, save in store if review needs approval?
+    // case fromProductReviews.POST_PRODUCT_REVIEW_SUCCESS: {
+    //   const reviewResponse = action.payload;
+    //   const list = [...state.list];
+    //   list.unshift(reviewResponse);
+
+    //   return {
+    //     ...state,
+    //     list
+    //   };
+    // }
   }
 
   return state;

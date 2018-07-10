@@ -1,12 +1,13 @@
-import { OccProductService } from './../../../../occ/product/product.service';
+import { Actions } from '@ngrx/effects';
+
 import {
+  ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
-  Output,
-  EventEmitter,
-  ChangeDetectionStrategy
+  Output
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -34,17 +35,16 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
   }
   private _isWritingReview = false;
 
-  maxListItems;
-  reviewForm: FormGroup;
   // TODO: configurable
   initialMaxListItems = 5;
+  maxListItems;
+  reviewForm: FormGroup;
 
   reviews$: Observable<any>;
 
   constructor(
     protected store: Store<fromStore.ProductsState>,
-    private fb: FormBuilder,
-    private service: OccProductService
+    private fb: FormBuilder
   ) {}
 
   ngOnChanges() {
@@ -62,17 +62,11 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
             }
           })
         );
-      this.reviews$.subscribe(data => console.log(data));
     }
   }
 
   ngOnInit() {
-    this.reviewForm = this.fb.group({
-      title: '',
-      comment: '',
-      rating: 0,
-      reviewerName: ''
-    });
+    this.resetReviewForm();
   }
 
   initiateWriteReview() {
@@ -80,23 +74,24 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
   }
 
   cancelWriteReview() {
-    this.resetReviewForm();
     this.isWritingReview = false;
+    this.resetReviewForm();
   }
 
   submitReview() {
-    // this.resetReviewForm();
-    this.service
-      .postProductReview(this.product.code, this.reviewForm.controls)
-      .subscribe();
-
-    this.store.dispatch;
+    this.store.dispatch(
+      new fromStore.PostProductReview({
+        productCode: this.product.code,
+        review: this.reviewForm.controls
+      })
+    );
 
     this.isWritingReview = false;
+    this.resetReviewForm();
   }
 
   private resetReviewForm() {
-    this.reviewForm.reset({
+    this.reviewForm = this.fb.group({
       title: '',
       comment: '',
       rating: 0,
