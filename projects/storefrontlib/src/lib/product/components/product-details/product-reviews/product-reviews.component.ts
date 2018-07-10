@@ -1,8 +1,8 @@
+import { OccProductService } from './../../../../occ/product/product.service';
 import {
   Component,
   Input,
   OnChanges,
-  OnDestroy,
   OnInit,
   Output,
   EventEmitter,
@@ -20,7 +20,7 @@ import * as fromStore from '../../../store';
   styleUrls: ['./product-reviews.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductReviewsComponent implements OnChanges, OnInit, OnDestroy {
+export class ProductReviewsComponent implements OnChanges, OnInit {
   @Input() product: any;
   @Input()
   get isWritingReview() {
@@ -43,7 +43,8 @@ export class ProductReviewsComponent implements OnChanges, OnInit, OnDestroy {
 
   constructor(
     protected store: Store<fromStore.ProductsState>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private service: OccProductService
   ) {}
 
   ngOnChanges() {
@@ -61,6 +62,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit, OnDestroy {
             }
           })
         );
+      this.reviews$.subscribe(data => console.log(data));
     }
   }
 
@@ -73,11 +75,10 @@ export class ProductReviewsComponent implements OnChanges, OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {}
-
   initiateWriteReview() {
     this.isWritingReview = true;
   }
+
   cancelWriteReview() {
     this.resetReviewForm();
     this.isWritingReview = false;
@@ -85,6 +86,12 @@ export class ProductReviewsComponent implements OnChanges, OnInit, OnDestroy {
 
   submitReview() {
     // this.resetReviewForm();
+    this.service
+      .postProductReview(this.product.code, this.reviewForm.controls)
+      .subscribe();
+
+    this.store.dispatch;
+
     this.isWritingReview = false;
   }
 
