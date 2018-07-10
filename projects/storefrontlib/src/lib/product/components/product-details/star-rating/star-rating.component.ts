@@ -22,6 +22,7 @@ import {
 export class StarRatingComponent implements ControlValueAccessor {
   @Input() rating;
   @Input() disabled = false;
+  @Input() steps = 1;
 
   onChange = (rating: number) => {};
   onTouched = () => {};
@@ -30,7 +31,7 @@ export class StarRatingComponent implements ControlValueAccessor {
     let icon;
     if (index <= this.rating) {
       icon = 'star';
-    } else if (index < this.rating + 0.5) {
+    } else if (index <= this.rating + 0.5) {
       icon = 'star_half';
     } else {
       icon = 'star_outline';
@@ -53,12 +54,12 @@ export class StarRatingComponent implements ControlValueAccessor {
       switch (keydown.code) {
         case 'ArrowLeft':
           if (this.rating > 0) {
-            this.writeValue(--this.rating);
+            this.writeValue(this.rating - this.steps);
           }
           break;
         case 'ArrowRight':
           if (this.rating < 5) {
-            this.writeValue(++this.rating);
+            this.writeValue(this.rating + this.steps);
           }
           break;
       }
