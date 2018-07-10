@@ -19,3 +19,22 @@
     }
   }
 }
+.writeReviewContainer {
+  form {
+    width: 50%;
+    .formControlContainer {
+      display: flex;
+      flex-direction: column;
+      margin: 20px 0px;
+      span {
+        margin-bottom: 5px;
+      }
+      textarea {
+        min-height: 100px;
+      }
+    }
+    button[type='submit'] {
+      background-color: #4caf50;
+    }
+  }
+}

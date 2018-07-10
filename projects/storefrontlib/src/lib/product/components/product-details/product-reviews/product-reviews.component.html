@@ -1,5 +1,5 @@
 <div *ngIf="reviews$ | async as reviews">
-    <mat-card *ngIf="!writingReview; else writeReview">
+    <mat-card *ngIf="!isWritingReview; else writeReview">
 
         <mat-card-title>Reviews for {{product?.name}}</mat-card-title>
         <mat-card-subtitle>
@@ -47,25 +47,28 @@
     </mat-card>
 
     <ng-template #writeReview>
-        <mat-card>
+        <mat-card class="writeReviewContainer">
             <mat-card-title>Write a Review</mat-card-title>
-            <button (click)="test()">test</button>
-            <form [formGroup]="reviewForm">
-                <div>
+            <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+                <div class="formControlContainer">
                     <span>Review Title</span>
                     <input type="text" name="title" formControlName='title' />
                 </div>
-                <div>
+                <div class="formControlContainer">
                     <span>Write your comments</span>
                     <textarea type="text" name="comment" formControlName='comment'></textarea>
                 </div>
-                <div>
+                <div class="formControlContainer">
                     <span>Rating</span>
                     <y-star-rating formControlName='rating'></y-star-rating>
                 </div>
-                <div>
+                <div class="formControlContainer">
                     <span>Reviewer name (optional)</span>
                     <input type="text" name="reviewerName" formControlName='reviewerName' />
+                </div>
+                <div>
+                    <button class="mat-raised-button" type="button" (click)="cancelWriteReview()">Cancel</button>
+                    <button class="mat-raised-button" type="submit">submit</button>
                 </div>
             </form>
         </mat-card>

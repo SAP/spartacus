@@ -1,10 +1,12 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   Input,
   OnChanges,
   OnDestroy,
-  OnInit
+  OnInit,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -20,13 +22,22 @@ import * as fromStore from '../../../store';
 })
 export class ProductReviewsComponent implements OnChanges, OnInit, OnDestroy {
   @Input() product: any;
+  @Input()
+  get isWritingReview() {
+    return this._isWritingReview;
+  }
+  @Output() isWritingReviewChange = new EventEmitter();
 
+  set isWritingReview(val) {
+    this._isWritingReview = val;
+    this.isWritingReviewChange.emit(this.isWritingReview);
+  }
+  private _isWritingReview = false;
+
+  maxListItems;
+  reviewForm: FormGroup;
   // TODO: configurable
   initialMaxListItems = 5;
-  maxListItems;
-  writingReview = false;
-
-  reviewForm: FormGroup;
 
   reviews$: Observable<any>;
 
@@ -52,6 +63,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit, OnDestroy {
         );
     }
   }
+
   ngOnInit() {
     this.reviewForm = this.fb.group({
       title: '',
@@ -60,13 +72,28 @@ export class ProductReviewsComponent implements OnChanges, OnInit, OnDestroy {
       reviewerName: ''
     });
   }
+
   ngOnDestroy() {}
 
   initiateWriteReview() {
-    this.writingReview = true;
+    this.isWritingReview = true;
+  }
+  cancelWriteReview() {
+    this.resetReviewForm();
+    this.isWritingReview = false;
   }
 
-  test() {
-    console.log(this.reviewForm.controls);
+  submitReview() {
+    // this.resetReviewForm();
+    this.isWritingReview = false;
+  }
+
+  private resetReviewForm() {
+    this.reviewForm.reset({
+      title: '',
+      comment: '',
+      rating: 0,
+      reviewerName: ''
+    });
   }
 }

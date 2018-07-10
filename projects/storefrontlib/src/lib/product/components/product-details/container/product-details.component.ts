@@ -1,3 +1,4 @@
+import { ProductReviewsComponent } from './../product-reviews/product-reviews.component';
 import { MatTabGroup } from '@angular/material';
 import {
   Component,
@@ -21,6 +22,7 @@ export class ProductDetailsComponent implements OnChanges {
   @Input() productCode: string;
   product$: Observable<any>;
   selectedTabIndex = 0;
+  isWritingReview = false;
   // @ViewChild(ComponentWrapperComponent) cmsComponent: ComponentWrapperComponent;
 
   constructor(protected store: Store<fromStore.ProductsState>) {}
@@ -31,11 +33,19 @@ export class ProductDetailsComponent implements OnChanges {
     );
   }
 
-  goToReviews() {
+  goToReviews(isWritingReview?: boolean) {
+    if (!isWritingReview) {
+      this.isWritingReview = false;
+    }
     const reviewIndex = this.matTabGroup._tabs._results.findIndex(tab => {
-      return tab.textLabel === 'REVIEWS';
+      return tab.textLabel.indexOf('REVIEWS') !== -1;
     });
     this.selectedTabIndex = reviewIndex;
     this.matTabGroup._elementRef.nativeElement.scrollIntoView();
+  }
+
+  writeReview() {
+    this.isWritingReview = true;
+    this.goToReviews(this.isWritingReview);
   }
 }

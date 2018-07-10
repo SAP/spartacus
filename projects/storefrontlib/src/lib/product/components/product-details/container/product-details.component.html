@@ -10,10 +10,10 @@
         <div>
             <y-star-rating [rating]="product?.averageRating"></y-star-rating>
             <button mat-button (click)="goToReviews()">Reviews</button>
-            <button mat-button>Write a review</button>
+            <button mat-button (click)="writeReview()">Write a review</button>
             <!--
-            <button mat-button (click)="onClick">Reviews</button>
-            <button mat-button (click)="onClick">Write a review</button>
+            <button mat-button (click)=" onClick ">Reviews</button>
+            <button mat-button (click)="onClick ">Write a review</button>
     -->
         </div>
 
@@ -23,14 +23,14 @@
                 <div fxFlex="50%" fxFlexOrder.xs="1">
                     <y-product-summary [product]="product"></y-product-summary>
                     <y-dynamic-slot flex position="AddToCart" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
-                    <!--<y-dynamic-slot flex position="VariantSelector"></y-dynamic-slot>-->
+                    <!--<y-dynamic-slot flex position="VariantSelector "></y-dynamic-slot>-->
                 </div>
             </div>
 
             <y-dynamic-slot flex position="CrossSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
             <y-dynamic-slot flex position="UpSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
 
-            <y-add-to-cart *ngIf="product.stock.stockLevelStatus !== 'outOfStock'" [productCode]="product?.code"></y-add-to-cart>
+            <y-add-to-cart *ngIf="product.stock.stockLevelStatus !=='outOfStock'" [productCode]="product?.code"></y-add-to-cart>
 
             <mat-tab-group [(selectedIndex)]="selectedTabIndex">
                 <mat-tab label="PRODUCT DETAILS">
@@ -40,7 +40,7 @@
                     <y-product-attributes [product]="product"></y-product-attributes>
                 </mat-tab>
                 <mat-tab label="REVIEWS">
-                    <y-product-reviews [product]="product"></y-product-reviews>
+                    <y-product-reviews [(isWritingReview)]="isWritingReview" [product]="product"></y-product-reviews>
                 </mat-tab>
 
                 <mat-tab label="Delivery">
