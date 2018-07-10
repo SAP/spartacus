@@ -1,8 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { DynamicSlotComponent } from 'projects/storefrontlib/src/lib/cms/components/dynamic-slot/dynamic-slot.component';
-
-import { MaterialModule } from './../../../../material.module';
 import { of } from 'rxjs';
 import { AddToCartModule } from '../../../../cart/components/add-to-cart/add-to-cart.module';
 import { CartService } from '../../../../cart/services';
@@ -17,8 +15,10 @@ import { ProductImagesComponent } from '../product-images/product-images.compone
 import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
+import { MaterialModule } from './../../../../material.module';
 import { MediaModule } from './../../../../ui/components/media/media.module';
 import { ProductDetailsComponent } from './product-details.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 class MockComponentMapperService {}
 
@@ -34,6 +34,7 @@ describe('ProductDetailsComponent in product', () => {
     TestBed.configureTestingModule({
       imports: [
         MaterialModule,
+        ReactiveFormsModule,
         AddToCartModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,

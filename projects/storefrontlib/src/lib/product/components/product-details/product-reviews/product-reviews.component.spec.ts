@@ -6,6 +6,7 @@ import { ProductReviewsComponent } from './product-reviews.component';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import * as fromRoot from './../../../../routing/store';
 import * as fromStore from '../../../store';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };
@@ -20,6 +21,7 @@ describe('ProductReviewsComponent in product', () => {
     TestBed.configureTestingModule({
       imports: [
         MaterialModule,
+        ReactiveFormsModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
           products: combineReducers(fromStore.reducers)
