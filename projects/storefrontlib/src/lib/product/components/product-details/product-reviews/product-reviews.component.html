@@ -51,15 +51,15 @@
             <mat-card-title>Write a Review</mat-card-title>
             <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
                 <div class="formControlContainer">
-                    <span>Review Title</span>
+                    <span>Review Title *</span>
                     <input type="text" name="title" formControlName='title' />
                 </div>
                 <div class="formControlContainer">
-                    <span>Write your comments</span>
+                    <span>Write your comments *</span>
                     <textarea type="text" name="comment" formControlName='comment'></textarea>
                 </div>
                 <div class="formControlContainer">
-                    <span>Rating</span>
+                    <span>Rating *</span>
                     <y-star-rating formControlName='rating'></y-star-rating>
                 </div>
                 <div class="formControlContainer">
@@ -68,7 +68,7 @@
                 </div>
                 <div>
                     <button class="mat-raised-button" type="button" (click)="cancelWriteReview()">Cancel</button>
-                    <button class="mat-raised-button" type="submit">submit</button>
+                    <button class="mat-raised-button" [ngClass]="{'submitBtn': reviewForm.valid}" type="submit" [disabled]="!reviewForm.valid">submit</button>
                 </div>
             </form>
         </mat-card>

@@ -29,8 +29,10 @@
 
             <y-dynamic-slot flex position="CrossSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
             <y-dynamic-slot flex position="UpSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
+            <div class="addToCartContainer">
+                <y-add-to-cart *ngIf="product.stock.stockLevelStatus !=='outOfStock'" [productCode]="product?.code"></y-add-to-cart>
 
-            <y-add-to-cart *ngIf="product.stock.stockLevelStatus !=='outOfStock'" [productCode]="product?.code"></y-add-to-cart>
+            </div>
 
             <mat-tab-group [(selectedIndex)]="selectedTabIndex">
                 <mat-tab label="PRODUCT DETAILS">

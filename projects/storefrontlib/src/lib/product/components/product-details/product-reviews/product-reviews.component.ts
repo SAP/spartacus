@@ -1,5 +1,3 @@
-import { Actions } from '@ngrx/effects';
-
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,7 +7,7 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -92,9 +90,9 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
 
   private resetReviewForm() {
     this.reviewForm = this.fb.group({
-      title: '',
-      comment: '',
-      rating: 0,
+      title: ['', Validators.required],
+      comment: ['', Validators.required],
+      rating: [0, [Validators.min(1), Validators.max(5)]],
       reviewerName: ''
     });
   }

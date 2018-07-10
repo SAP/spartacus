@@ -1,4 +1,3 @@
-import { ProductReviewsComponent } from './../product-reviews/product-reviews.component';
 import { MatTabGroup } from '@angular/material';
 import {
   Component,
@@ -23,7 +22,6 @@ export class ProductDetailsComponent implements OnChanges {
   product$: Observable<any>;
   selectedTabIndex = 0;
   isWritingReview = false;
-  // @ViewChild(ComponentWrapperComponent) cmsComponent: ComponentWrapperComponent;
 
   constructor(protected store: Store<fromStore.ProductsState>) {}
 
@@ -47,5 +45,9 @@ export class ProductDetailsComponent implements OnChanges {
   writeReview() {
     this.isWritingReview = true;
     this.goToReviews(this.isWritingReview);
+  }
+
+  update(event) {
+    console.log(event);
   }
 }
