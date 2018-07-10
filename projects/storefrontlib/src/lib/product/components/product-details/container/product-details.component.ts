@@ -13,8 +13,7 @@ import * as fromStore from '../../../store';
 @Component({
   selector: 'y-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnChanges {
   @ViewChild(MatTabGroup) matTabGroup;
@@ -45,9 +44,5 @@ export class ProductDetailsComponent implements OnChanges {
   writeReview() {
     this.isWritingReview = true;
     this.goToReviews(this.isWritingReview);
-  }
-
-  update(event) {
-    console.log(event);
   }
 }

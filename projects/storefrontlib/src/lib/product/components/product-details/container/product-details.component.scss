@@ -3,4 +3,10 @@
 }
 .addToCartContainer {
   display: flex;
+  input {
+    text-align: center;
+    margin-top: 20px;
+    margin-left: 10px;
+    width: 50px;
+  }
 }

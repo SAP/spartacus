@@ -51,11 +51,11 @@ export class AddToCartComponent implements OnChanges, OnDestroy {
   ngOnDestroy() {}
 
   addToCart() {
-    if (!this.productCode) {
-      console.warn('no product code found on this component');
+    if (!this.productCode || this.quantity < 0) {
       return;
     }
     this.isLoading = true;
+
     this.cartService.addCartEntry(this.productCode, this.quantity);
 
     const dialogRef = this.dialog.open(AddedToCartDialogComponent, {
