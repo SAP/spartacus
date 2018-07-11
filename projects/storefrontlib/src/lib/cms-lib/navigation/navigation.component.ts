@@ -1,23 +1,25 @@
 import {
-  Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
   Input,
-  OnDestroy
+  OnDestroy,
+  ViewEncapsulation
 } from '@angular/core';
-import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import { NavigationService } from './navigation.service';
-import { ConfigService } from '../../cms/config.service';
 import { Store } from '@ngrx/store';
-import * as fromStore from '../../cms/store';
-import { tap, filter, takeWhile } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { filter, takeWhile, tap } from 'rxjs/operators';
+import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
+import { ConfigService } from '../../cms/config.service';
+import * as fromStore from '../../cms/store';
+import { NavigationService } from './navigation.service';
 
 @Component({
   selector: 'y-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None // To be removed once Material is removed from projects ( to style dialog )
 })
 export class NavigationComponent extends AbstractCmsComponent
   implements OnDestroy {

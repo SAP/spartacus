@@ -15,7 +15,9 @@ export class NavigationService {
   public getNavigationEntryItems(nodeData: any, root: boolean, itemsList = []) {
     if (nodeData.children) {
       this.processChilds(nodeData, itemsList);
-    } else if (nodeData.entries && nodeData.entries.length > 0) {
+    }
+
+    if (nodeData.entries && nodeData.entries.length > 0) {
       nodeData.entries.forEach(entry => {
         itemsList.push({
           superType: entry.itemSuperType,
@@ -48,14 +50,15 @@ export class NavigationService {
    */
   public createNode(nodeData, items) {
     const node = {};
-
     node['title'] = nodeData.title;
     node['url'] = '';
 
     if (nodeData.children) {
       const childs = this.createChilds(nodeData, items);
       node['childs'] = childs;
-    } else if (nodeData.entries && nodeData.entries.length > 0) {
+    }
+
+    if (nodeData.entries && nodeData.entries.length > 0) {
       const entry = nodeData.entries[0];
       const item = items[`${entry.itemId}_${entry.itemSuperType}`];
 

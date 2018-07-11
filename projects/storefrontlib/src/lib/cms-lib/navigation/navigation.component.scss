@@ -1,0 +1,21 @@
+.menu {
+  max-width: none;
+}
+.treeRootNavContainer {
+  min-width: 150px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+  .treeRootNav {
+    font-size: 18px;
+    line-height: 40px;
+    text-transform: uppercase;
+    padding: 0 10px 0 10p;
+  }
+}
+.treeChildNav {
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 30px;
+  padding: 0 15px 0 15px;
+  font-weight: 500;
+}

@@ -8,18 +8,30 @@
     <mat-icon>reorder</mat-icon>
 </a>
 
-<a *ngIf="node.childs && node.title" mat-button [matMenuTriggerFor]="menu">
-    {{node.title}}
-</a>
+<ng-container *ngIf="node.childs && node.title">
+    <a *ngIf="node.url; else childButNoUrl" mat-button [matMenuTriggerFor]="menu">
+        <!-- SPA-565: Will be able to use [routerLink]="node.url" once we remove Material Menu -->
+        {{node.title}}
+    </a>
+    <ng-template #childButNoUrl>
+        <a #childNoUrl mat-button [matMenuTriggerFor]="menu">
+            {{node.title}}
+        </a>
+    </ng-template>
+</ng-container>
 
-<mat-menu #menu="matMenu" style="margin-top:30px" [overlapTrigger]="false" style="width:600px">
+
+<mat-menu class="menu " #menu="matMenu" [overlapTrigger]="false" style="max-width: none;">
     <div *ngIf="node.childs && node.childs[0].childs">
-        <div fxLayout="row" fxLayoutAlign="start start">
-            <div *ngFor="let childNode of node.childs" fxFlex>
-                <a matButton [routerLink]="childNode.url" mat-menu-item> {{childNode.title}}</a>
+        <div fxLayout="row " fxLayoutAlign="start start">
+            <div *ngFor="let childNode of node.childs " fxFlex style="display:flex; flex-direction:column">
+                <div class="treeRootNavContainer">
+                    <a class="treeRootNav " matButton [routerLink]="childNode.url" mat-menu-item> {{childNode.title}}</a>
+                </div>
 
                 <div *ngIf="childNode.childs">
-                    <a *ngFor="let grandChildNode of childNode.childs" [routerLink]="grandChildNode.url" mat-menu-item> {{grandChildNode.title}} </a>
+                    <a class="treeChildNav" *ngFor="let grandChildNode of childNode.childs" [routerLink]="grandChildNode.url" mat-menu-item>
+                        {{grandChildNode.title}} </a>
                 </div>
             </div>
         </div>
