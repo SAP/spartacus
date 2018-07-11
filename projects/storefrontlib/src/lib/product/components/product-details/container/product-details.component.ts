@@ -1,13 +1,7 @@
+import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material';
-import {
-  Component,
-  OnChanges,
-  Input,
-  ChangeDetectionStrategy,
-  ViewChild
-} from '@angular/core';
-import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import * as fromStore from '../../../store';
 
 @Component({

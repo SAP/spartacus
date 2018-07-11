@@ -21,6 +21,19 @@ import { ProductDetailsComponent } from './product-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 class MockComponentMapperService {}
+const mockTabs = {
+  _tabs: {
+    _results: [
+      { textLabel: 'PRODUCT DETAILS' },
+      { textLabel: 'SPECS' },
+      { textLabel: 'REVIEWS' },
+      { textLabel: 'DELIVERY' }
+    ]
+  },
+  _elementRef: {
+    nativeElement: { scrollIntoView: () => {} }
+  }
+};
 
 describe('ProductDetailsComponent in product', () => {
   let store: Store<fromProduct.ProductsState>;
@@ -68,7 +81,7 @@ describe('ProductDetailsComponent in product', () => {
     fixture = TestBed.createComponent(ProductDetailsComponent);
     productDetailsComponent = fixture.componentInstance;
     store = TestBed.get(Store);
-
+    productDetailsComponent.matTabGroup = mockTabs;
     spyOn(store, 'select').and.returnValues(of(mockProduct), of(mockCartEntry));
   });
 
@@ -82,5 +95,15 @@ describe('ProductDetailsComponent in product', () => {
     productDetailsComponent.product$.subscribe(product =>
       expect(product).toEqual(mockProduct)
     );
+  });
+
+  it('should be able to go to REVIEWS through the review button', () => {
+    productDetailsComponent.goToReviews();
+    expect(productDetailsComponent.selectedTabIndex).toBe(2);
+  });
+
+  it('should be able to display the review submission form', () => {
+    productDetailsComponent.writeReview();
+    expect(productDetailsComponent.isWritingReview).toBe(true);
   });
 });
