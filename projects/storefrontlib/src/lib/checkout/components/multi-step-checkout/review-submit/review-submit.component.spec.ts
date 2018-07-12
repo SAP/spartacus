@@ -105,7 +105,7 @@ describe('ReviewSubmitComponent', () => {
     });
     component.countryName$.subscribe(() => {
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCheckout.LoadDeliveryCountries()
+        new fromUser.LoadDeliveryCountries()
       );
     });
     component.titleName$.subscribe(() => {

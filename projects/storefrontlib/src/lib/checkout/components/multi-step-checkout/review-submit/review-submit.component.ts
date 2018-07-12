@@ -52,14 +52,14 @@ export class ReviewSubmitComponent implements OnInit {
 
     this.countryName$ = this.store
       .select(
-        fromCheckoutStore.countrySelectorFactory(
+        fromUserStore.countrySelectorFactory(
           this.deliveryAddress.country.isocode
         )
       )
       .pipe(
         tap(country => {
           if (country === null) {
-            this.store.dispatch(new fromCheckoutStore.LoadDeliveryCountries());
+            this.store.dispatch(new fromUserStore.LoadDeliveryCountries());
           }
         })
       );

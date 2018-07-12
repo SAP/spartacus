@@ -60,15 +60,13 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.countries$ = this.store
-      .select(fromCheckoutStore.getAllDeliveryCountries)
-      .pipe(
-        tap(countries => {
-          if (Object.keys(countries).length === 0) {
-            this.store.dispatch(new fromCheckoutStore.LoadDeliveryCountries());
-          }
-        })
-      );
+    this.countries$ = this.store.select(fromUser.getAllDeliveryCountries).pipe(
+      tap(countries => {
+        if (Object.keys(countries).length === 0) {
+          this.store.dispatch(new fromUser.LoadDeliveryCountries());
+        }
+      })
+    );
 
     this.titles$ = this.store.select(fromUser.getAllTitles).pipe(
       tap(titles => {

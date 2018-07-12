@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
 
-export const LOAD_DELIVERY_COUNTRIES = '[Checkout] Load Delivery Countries';
+export const LOAD_DELIVERY_COUNTRIES = '[User] Load Delivery Countries';
 export const LOAD_DELIVERY_COUNTRIES_FAIL =
-  '[Checkout] Load Delivery Countries Fail';
+  '[User] Load Delivery Countries Fail';
 export const LOAD_DELIVERY_COUNTRIES_SUCCESS =
-  '[Checkout] Load Delivery Countries Success';
+  '[User] Load Delivery Countries Success';
 
 export class LoadDeliveryCountries implements Action {
   readonly type = LOAD_DELIVERY_COUNTRIES;

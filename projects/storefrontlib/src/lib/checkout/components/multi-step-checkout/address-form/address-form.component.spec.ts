@@ -128,7 +128,7 @@ describe('AddressFormComponent', () => {
     component.ngOnInit();
     component.countries$.subscribe(() => {
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCheckout.LoadDeliveryCountries()
+        new fromUser.LoadDeliveryCountries()
       );
     });
     component.titles$.subscribe(() => {

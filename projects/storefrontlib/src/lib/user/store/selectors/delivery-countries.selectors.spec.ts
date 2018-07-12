@@ -7,14 +7,14 @@ import * as fromSelectors from '../selectors';
 import * as fromRoot from './../../../routing/store';
 
 describe('Delivery Countries Selectors', () => {
-  let store: Store<fromReducers.CheckoutState>;
+  let store: Store<fromReducers.UserState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
           ...fromRoot.reducers,
-          checkout: combineReducers(fromReducers.reducers)
+          user: combineReducers(fromReducers.reducers)
         })
       ]
     });
