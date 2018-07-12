@@ -19,7 +19,7 @@ export function reducer(
   switch (action.type) {
     case fromAction.LOAD_CART_SUCCESS:
     case fromAction.CREATE_CART_SUCCESS: {
-      let content = action.payload;
+      const content = { ...action.payload };
       let entries = {};
       if (content.entries) {
         entries = content.entries.reduce(
@@ -34,12 +34,8 @@ export function reducer(
           }
         );
 
-        content = {
-          ...content,
-          entries: undefined
-        };
+        delete content['entries'];
       }
-
       return {
         ...state,
         content,

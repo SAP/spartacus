@@ -29,18 +29,24 @@ export class CartDetailsComponent implements OnInit {
     this.cartService.loadCartDetails();
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
 
-    const codes = [];
-    this.entries$ = this.store.select(fromCartStore.getEntries).pipe(
-      tap(entries => {
-        const control = this.form.get('entryArry') as FormArray;
-        for (const entry of entries) {
-          if (codes.indexOf(entry.product.code) === -1) {
-            control.push(this.createEntryFormGroup(entry));
-            codes.push(entry.product.code);
-          }
+    this.entries$ = this.store.select(fromCartStore.getEntries);
+
+    this.entries$.subscribe(entries => {
+      const entryArryControl = this.form.get('entryArry') as FormArray;
+      for (const entry of entries) {
+        const entryControl = entryArryControl.controls.filter(
+          control =>
+            (control as any).controls.entryNumber.value === entry.entryNumber
+        );
+        if (entryControl[0]) {
+          // Update form values
+          (entryControl[0] as any).controls.quantity.value = entry.quantity;
+        } else {
+          // Create form control for entry
+          entryArryControl.push(this.createEntryFormGroup(entry));
         }
-      })
-    );
+      }
+    });
   }
 
   private createEntryFormGroup(entry) {
