@@ -48,7 +48,7 @@ const mockEntries = [
 const mockOneEntryFormGroup = { entryNumber: 1 };
 const mockZeroIndex = 0;
 
-describe('CartDetailsComponent', () => {
+fdescribe('CartDetailsComponent', () => {
   let store: Store<fromReducer.CartState>;
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
@@ -92,20 +92,20 @@ describe('CartDetailsComponent', () => {
   });
 
   it('should call ngInit to fill the formArray', () => {
-    component.ngOnInit();
-    expect(service.loadCartDetails).toHaveBeenCalled();
-
     let control = component.form.get('entryArry') as FormArray;
     expect(control.value).toEqual([]);
 
-    component.cart$.subscribe();
-    component.entries$.subscribe();
+    component.ngOnInit();
+    expect(service.loadCartDetails).toHaveBeenCalled();
 
-    control = component.form.get('entryArry') as FormArray;
-    expect(control.value).toEqual([
-      { entryNumber: 1, quantity: 1 },
-      { entryNumber: 2, quantity: 2 }
-    ]);
+    component.cart$.subscribe();
+    component.entries$.subscribe(() => {
+      control = component.form.get('entryArry') as FormArray;
+      expect(control.value).toEqual([
+        { entryNumber: 1, quantity: 1 },
+        { entryNumber: 2, quantity: 2 }
+      ]);
+    });
   });
 
   it('should remove entry from cart', () => {
