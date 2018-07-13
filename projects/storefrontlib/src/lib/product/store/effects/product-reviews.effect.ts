@@ -23,7 +23,7 @@ export class ProductReviewsEffects {
             });
           }),
           catchError(error =>
-            of(new productReviewsActions.PostProductReview(productCode))
+            of(new productReviewsActions.LoadProductReviewsFail(productCode))
           )
         );
       })
