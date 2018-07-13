@@ -23,7 +23,7 @@ export class ProductReviewsEffects {
             });
           }),
           catchError(error =>
-            of(new productReviewsActions.LoadProductReviewsFail(productCode))
+            of(new productReviewsActions.PostProductReview(productCode))
           )
         );
       })
@@ -45,7 +45,7 @@ export class ProductReviewsEffects {
             }),
             catchError(error =>
               of(
-                new productReviewsActions.LoadProductReviewsFail(
+                new productReviewsActions.PostProductReviewFail(
                   payload.productCode
                 )
               )
