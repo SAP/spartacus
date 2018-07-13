@@ -29,6 +29,31 @@ export class ProductReviewsEffects {
       })
     );
 
+  @Effect()
+  postProductReview: Observable<any> = this.actions$
+    .ofType(productReviewsActions.POST_PRODUCT_REVIEW)
+    .pipe(
+      map((action: productReviewsActions.PostProductReview) => action.payload),
+      mergeMap(payload => {
+        return this.occProductService
+          .postProductReview(payload.productCode, payload.review)
+          .pipe(
+            map(reviewResponse => {
+              return new productReviewsActions.PostProductReviewSuccess(
+                reviewResponse
+              );
+            }),
+            catchError(error =>
+              of(
+                new productReviewsActions.PostProductReviewFail(
+                  payload.productCode
+                )
+              )
+            )
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private occProductService: OccProductService
