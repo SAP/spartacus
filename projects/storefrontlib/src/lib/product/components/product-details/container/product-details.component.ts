@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
-import { MatTabGroup } from '@angular/material';
+import { MatTabGroup, MatTab } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromStore from '../../../store';
@@ -13,6 +13,7 @@ export class ProductDetailsComponent implements OnChanges {
   @ViewChild(MatTabGroup) matTabGroup;
   @Input() productCode: string;
   product$: Observable<any>;
+  // The value of selectedTabIndex reflects the current tab selected
   selectedTabIndex = 0;
   isWritingReview = false;
 
@@ -28,10 +29,12 @@ export class ProductDetailsComponent implements OnChanges {
     if (!isWritingReview) {
       this.isWritingReview = false;
     }
-    const reviewIndex = this.matTabGroup._tabs._results.findIndex(tab => {
+    const reviewPosition = this.matTabGroup._tabs.find((tab: MatTab) => {
       return tab.textLabel.indexOf('REVIEWS') !== -1;
-    });
-    this.selectedTabIndex = reviewIndex;
+    }).position;
+
+    this.selectedTabIndex += reviewPosition;
+
     this.matTabGroup._elementRef.nativeElement.scrollIntoView();
   }
 
