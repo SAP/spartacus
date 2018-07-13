@@ -1,3 +1,4 @@
+import { MatTab } from '@angular/material';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
@@ -25,15 +26,22 @@ import { DynamicSlotComponent } from './../../../../cms/components/dynamic-slot/
 import { ProductDetailsComponent } from './product-details.component';
 
 class MockComponentMapperService {}
-const mockTabs = {
-  _tabs: {
-    _results: [
-      { textLabel: 'PRODUCT DETAILS' },
-      { textLabel: 'SPECS' },
-      { textLabel: 'REVIEWS' },
-      { textLabel: 'DELIVERY' }
-    ]
-  },
+
+const tab1 = new MatTab(null);
+const tab2 = new MatTab(null);
+const tab3 = new MatTab(null);
+const tab4 = new MatTab(null);
+tab1.textLabel = 'PRODUCT DETAILS';
+tab1.position = 0;
+tab2.textLabel = 'SPECS';
+tab2.position = 1;
+tab3.textLabel = 'REVIEWS';
+tab3.position = 2;
+tab4.textLabel = 'Delivery';
+tab4.position = 3;
+
+const mockTabGroup = {
+  _tabs: [tab1, tab2, tab3, tab4],
   _elementRef: {
     nativeElement: { scrollIntoView: () => {} }
   }
@@ -83,9 +91,11 @@ describe('ProductDetailsComponent in product', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductDetailsComponent);
+    fixture.detectChanges();
     productDetailsComponent = fixture.componentInstance;
     store = TestBed.get(Store);
-    productDetailsComponent.matTabGroup = mockTabs;
+    productDetailsComponent.matTabGroup = mockTabGroup;
+    fixture.detectChanges();
     spyOn(store, 'select').and.returnValues(of(mockProduct), of(mockCartEntry));
   });
 
