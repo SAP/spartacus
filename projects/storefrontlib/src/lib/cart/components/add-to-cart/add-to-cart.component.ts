@@ -51,7 +51,7 @@ export class AddToCartComponent implements OnChanges, OnDestroy {
   ngOnDestroy() {}
 
   addToCart() {
-    if (!this.productCode || this.quantity < 0) {
+    if (!this.productCode || this.quantity <= 0) {
       return;
     }
     this.isLoading = true;

@@ -48,12 +48,15 @@ export class OccProductService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
-    const body = `headline=${review.title.value}&comment=${
-      review.comment.value
-    }&rating=${review.rating.value}&alias=${review.reviewerName.value}`;
+
+    const body = new URLSearchParams();
+    body.append('headline', review.title.value);
+    body.append('comment', review.comment.value);
+    body.append('rating', review.rating.value);
+    body.append('alias', review.reviewerName.value);
 
     return this.http
-      .post(url, body, { headers: headers })
+      .post(url, body.toString(), { headers: headers })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
   /*

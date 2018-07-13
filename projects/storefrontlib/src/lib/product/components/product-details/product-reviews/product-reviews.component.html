@@ -3,13 +3,13 @@
 
         <mat-card-title>Reviews for {{product?.name}}</mat-card-title>
         <mat-card-subtitle>
-            <div class="reviewHeaderContainer">
-                <div class="overallRatingContainer">
+            <div class="review-header-container">
+                <div class="overall-rating-container">
                     <h3>Overall Rating</h3>
                     <y-star-rating [rating]="product.averageRating" class="rating" [disabled]="true"></y-star-rating>
                 </div>
                 <div>
-                    <button class="mat-raised-button mat-primary writeReviewBtn" (click)="initiateWriteReview()">Write a review</button>
+                    <button class="mat-raised-button mat-primary write-review-btn" (click)="initiateWriteReview()">Write a review</button>
                 </div>
             </div>
         </mat-card-subtitle>
@@ -33,8 +33,8 @@
                         <div>
                             {{review.comment}}
                         </div>
-                        <div class="reviewerNameContainer">
-                            <span>{{review.alias? review.alias : review.principal.name}}</span>
+                        <div class="reviewer-name-container">
+                            <span>{{review.alias? review.alias : review.principal?.name}}</span>
                         </div>
                     </div>
                 </div>
@@ -47,28 +47,28 @@
     </mat-card>
 
     <ng-template #writeReview>
-        <mat-card class="writeReviewContainer">
+        <mat-card class="write-review-container">
             <mat-card-title>Write a Review</mat-card-title>
             <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
-                <div class="formControlContainer">
+                <div class="form-control-container">
                     <span>Review Title *</span>
                     <input type="text" name="title" formControlName='title' />
                 </div>
-                <div class="formControlContainer">
+                <div class="form-control-container">
                     <span>Write your comments *</span>
                     <textarea type="text" name="comment" formControlName='comment'></textarea>
                 </div>
-                <div class="formControlContainer">
+                <div class="form-control-container">
                     <span>Rating *</span>
-                    <y-star-rating formControlName='rating' [steps]="0.5"></y-star-rating>
+                    <y-star-rating formControlName="rating" [steps]="0.5"></y-star-rating>
                 </div>
-                <div class="formControlContainer">
+                <div class="form-control-container">
                     <span>Reviewer name (optional)</span>
                     <input type="text" name="reviewerName" formControlName='reviewerName' />
                 </div>
                 <div>
                     <button class="mat-raised-button" type="button" (click)="cancelWriteReview()">Cancel</button>
-                    <button class="mat-raised-button" [ngClass]="{'submitBtn': reviewForm.valid}" type="submit" [disabled]="!reviewForm.valid">submit</button>
+                    <button class="mat-raised-button" [ngClass]="{'submit-btn': reviewForm.valid}" type="submit" [disabled]="!reviewForm.valid">submit</button>
                 </div>
             </form>
         </mat-card>

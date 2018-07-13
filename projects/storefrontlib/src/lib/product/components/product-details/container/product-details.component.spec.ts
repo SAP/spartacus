@@ -1,24 +1,28 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { DynamicSlotComponent } from 'projects/storefrontlib/src/lib/cms/components/dynamic-slot/dynamic-slot.component';
 import { of } from 'rxjs';
-import { AddToCartModule } from '../../../../cart/components/add-to-cart/add-to-cart.module';
+
 import { CartService } from '../../../../cart/services';
-import * as fromCart from '../../../../cart/store';
-import { ComponentWrapperComponent } from '../../../../cms/components/component-wrapper/component-wrapper.component';
 import { ComponentMapperService } from '../../../../cms/services/component-mapper.service';
+
+import { AddToCartModule } from '../../../../cart/components/add-to-cart/add-to-cart.module';
+import { MaterialModule } from './../../../../material.module';
+import { MediaModule } from './../../../../ui/components/media/media.module';
+
+import * as fromCart from '../../../../cart/store';
 import * as fromRoot from '../../../../routing/store';
 import * as fromUser from '../../../../user/store';
 import * as fromProduct from '../../../store/reducers';
+
+import { ComponentWrapperComponent } from '../../../../cms/components/component-wrapper/component-wrapper.component';
 import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
 import { ProductImagesComponent } from '../product-images/product-images.component';
 import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
-import { MaterialModule } from './../../../../material.module';
-import { MediaModule } from './../../../../ui/components/media/media.module';
+import { DynamicSlotComponent } from './../../../../cms/components/dynamic-slot/dynamic-slot.component';
 import { ProductDetailsComponent } from './product-details.component';
-import { ReactiveFormsModule } from '@angular/forms';
 
 class MockComponentMapperService {}
 const mockTabs = {

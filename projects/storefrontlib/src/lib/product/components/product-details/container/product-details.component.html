@@ -29,7 +29,7 @@
 
             <y-dynamic-slot flex position="CrossSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
             <y-dynamic-slot flex position="UpSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
-            <div class="addToCartContainer">
+            <div class="add-to-cart-container">
                 <y-add-to-cart *ngIf="product.stock.stockLevelStatus !=='outOfStock'" [quantity]="addAmountField.value" [productCode]="product?.code"></y-add-to-cart>
                 <input type="number" value="1" step="1" min="1" #addAmountField />
             </div>

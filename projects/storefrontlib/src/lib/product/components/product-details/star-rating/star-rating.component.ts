@@ -50,19 +50,20 @@ export class StarRatingComponent implements ControlValueAccessor {
   }
 
   accessibilityControl(keydown) {
-    if (!this.disabled) {
-      switch (keydown.code) {
-        case 'ArrowLeft':
-          if (this.rating > 0) {
-            this.writeValue(this.rating - this.steps);
-          }
-          break;
-        case 'ArrowRight':
-          if (this.rating < 5) {
-            this.writeValue(this.rating + this.steps);
-          }
-          break;
+    const handlers = {
+      ArrowLeft: () => {
+        if (this.rating > 0) {
+          this.setRating(this.rating - this.steps);
+        }
+      },
+      ArrowRight: () => {
+        if (this.rating < 5) {
+          this.setRating(this.rating + this.steps);
+        }
       }
+    };
+    if (handlers[keydown.code]) {
+      handlers[keydown.code]();
     }
   }
 
