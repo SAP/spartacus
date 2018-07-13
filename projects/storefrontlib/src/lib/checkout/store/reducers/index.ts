@@ -6,8 +6,6 @@ import {
   MemoizedSelector
 } from '@ngrx/store';
 import * as fromCheckout from './checkout.reducer';
-import * as fromCountries from './delivery-countries.reducer';
-import * as fromTitles from './titles.reducer';
 import * as fromCardTypes from './card-types.reducer';
 import * as fromAddressVerification from './address-verification.reducer';
 
@@ -15,16 +13,12 @@ import * as fromAction from '../actions';
 
 export interface CheckoutState {
   steps: fromCheckout.CheckoutState;
-  countries: fromCountries.DeliveryCountriesState;
-  titles: fromTitles.TitlesState;
   cardTypes: fromCardTypes.CardTypesState;
   addressVerification: fromAddressVerification.AddressVerificationState;
 }
 
 export const reducers: ActionReducerMap<CheckoutState> = {
   steps: fromCheckout.reducer,
-  countries: fromCountries.reducer,
-  titles: fromTitles.reducer,
   cardTypes: fromCardTypes.reducer,
   addressVerification: fromAddressVerification.reducer
 };
