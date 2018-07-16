@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
@@ -43,6 +44,7 @@ describe('ProductPageComponent in pages', () => {
       imports: [
         RouterTestingModule,
         MaterialModule,
+        ReactiveFormsModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
           cart: combineReducers(fromCart.reducers),

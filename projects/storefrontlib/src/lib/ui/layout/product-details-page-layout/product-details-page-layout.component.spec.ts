@@ -18,38 +18,38 @@ import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromProduct from '../../../product/store/reducers';
 import * as fromCmsReducer from '../../../cms/store/reducers';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('ProductDetailsPageLayoutComponent', () => {
   let component: ProductDetailsPageLayoutComponent;
   let fixture: ComponentFixture<ProductDetailsPageLayoutComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            products: combineReducers(fromProduct.reducers),
-            cms: combineReducers(fromCmsReducer.reducers)
-          })
-        ],
-        declarations: [
-          ProductDetailsPageLayoutComponent,
-          DynamicSlotComponent,
-          ComponentWrapperComponent,
-          ProductDetailsComponent,
-          ProductAttributesComponent,
-          ProductImagesComponent,
-          StarRatingComponent,
-          ProductSummaryComponent,
-          ProductReviewsComponent,
-          PictureComponent,
-          AddToCartComponent
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        ReactiveFormsModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          products: combineReducers(fromProduct.reducers),
+          cms: combineReducers(fromCmsReducer.reducers)
+        })
+      ],
+      declarations: [
+        ProductDetailsPageLayoutComponent,
+        DynamicSlotComponent,
+        ComponentWrapperComponent,
+        ProductDetailsComponent,
+        ProductAttributesComponent,
+        ProductImagesComponent,
+        StarRatingComponent,
+        ProductSummaryComponent,
+        ProductReviewsComponent,
+        PictureComponent,
+        AddToCartComponent
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductDetailsPageLayoutComponent);

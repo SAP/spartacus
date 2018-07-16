@@ -1,26 +1,51 @@
+import { MatTab } from '@angular/material';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { DynamicSlotComponent } from 'projects/storefrontlib/src/lib/cms/components/dynamic-slot/dynamic-slot.component';
-
-import { MaterialModule } from './../../../../material.module';
 import { of } from 'rxjs';
-import { AddToCartModule } from '../../../../cart/components/add-to-cart/add-to-cart.module';
+
 import { CartService } from '../../../../cart/services';
-import * as fromCart from '../../../../cart/store';
-import { ComponentWrapperComponent } from '../../../../cms/components/component-wrapper/component-wrapper.component';
 import { ComponentMapperService } from '../../../../cms/services/component-mapper.service';
+
+import { AddToCartModule } from '../../../../cart/components/add-to-cart/add-to-cart.module';
+import { MaterialModule } from './../../../../material.module';
+import { MediaModule } from './../../../../ui/components/media/media.module';
+
+import * as fromCart from '../../../../cart/store';
 import * as fromRoot from '../../../../routing/store';
 import * as fromUser from '../../../../user/store';
 import * as fromProduct from '../../../store/reducers';
+
+import { ComponentWrapperComponent } from '../../../../cms/components/component-wrapper/component-wrapper.component';
 import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
 import { ProductImagesComponent } from '../product-images/product-images.component';
 import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
-import { MediaModule } from './../../../../ui/components/media/media.module';
+import { DynamicSlotComponent } from './../../../../cms/components/dynamic-slot/dynamic-slot.component';
 import { ProductDetailsComponent } from './product-details.component';
 
 class MockComponentMapperService {}
+
+const tab1 = new MatTab(null);
+const tab2 = new MatTab(null);
+const tab3 = new MatTab(null);
+const tab4 = new MatTab(null);
+tab1.textLabel = 'PRODUCT DETAILS';
+tab1.position = 0;
+tab2.textLabel = 'SPECS';
+tab2.position = 1;
+tab3.textLabel = 'REVIEWS';
+tab3.position = 2;
+tab4.textLabel = 'Delivery';
+tab4.position = 3;
+
+const mockTabGroup = {
+  _tabs: [tab1, tab2, tab3, tab4],
+  _elementRef: {
+    nativeElement: { scrollIntoView: () => {} }
+  }
+};
 
 describe('ProductDetailsComponent in product', () => {
   let store: Store<fromProduct.ProductsState>;
@@ -34,6 +59,7 @@ describe('ProductDetailsComponent in product', () => {
     TestBed.configureTestingModule({
       imports: [
         MaterialModule,
+        ReactiveFormsModule,
         AddToCartModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
@@ -65,9 +91,11 @@ describe('ProductDetailsComponent in product', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductDetailsComponent);
+    fixture.detectChanges();
     productDetailsComponent = fixture.componentInstance;
     store = TestBed.get(Store);
-
+    productDetailsComponent.matTabGroup = mockTabGroup;
+    fixture.detectChanges();
     spyOn(store, 'select').and.returnValues(of(mockProduct), of(mockCartEntry));
   });
 
@@ -81,5 +109,15 @@ describe('ProductDetailsComponent in product', () => {
     productDetailsComponent.product$.subscribe(product =>
       expect(product).toEqual(mockProduct)
     );
+  });
+
+  it('should be able to go to REVIEWS through the review button', () => {
+    productDetailsComponent.goToReviews();
+    expect(productDetailsComponent.selectedTabIndex).toBe(2);
+  });
+
+  it('should be able to display the review submission form', () => {
+    productDetailsComponent.writeReview();
+    expect(productDetailsComponent.isWritingReview).toBe(true);
   });
 });

@@ -1,14 +1,17 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  OnChanges,
-  OnDestroy,
+  EventEmitter,
   Input,
-  ChangeDetectionStrategy
+  OnChanges,
+  OnInit,
+  Output
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import * as fromStore from '../../../store';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import * as fromStore from '../../../store';
 
 @Component({
   selector: 'y-product-reviews',
@@ -16,16 +19,31 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./product-reviews.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductReviewsComponent implements OnChanges, OnDestroy {
+export class ProductReviewsComponent implements OnChanges, OnInit {
   @Input() product: any;
+  @Input()
+  get isWritingReview() {
+    return this._isWritingReview;
+  }
+  @Output() isWritingReviewChange = new EventEmitter();
+
+  set isWritingReview(val) {
+    this._isWritingReview = val;
+    this.isWritingReviewChange.emit(this.isWritingReview);
+  }
+  private _isWritingReview = false;
 
   // TODO: configurable
   initialMaxListItems = 5;
   maxListItems;
+  reviewForm: FormGroup;
 
   reviews$: Observable<any>;
 
-  constructor(protected store: Store<fromStore.ProductsState>) {}
+  constructor(
+    protected store: Store<fromStore.ProductsState>,
+    private fb: FormBuilder
+  ) {}
 
   ngOnChanges() {
     this.maxListItems = this.initialMaxListItems;
@@ -45,5 +63,37 @@ export class ProductReviewsComponent implements OnChanges, OnDestroy {
     }
   }
 
-  ngOnDestroy() {}
+  ngOnInit() {
+    this.resetReviewForm();
+  }
+
+  initiateWriteReview() {
+    this.isWritingReview = true;
+  }
+
+  cancelWriteReview() {
+    this.isWritingReview = false;
+    this.resetReviewForm();
+  }
+
+  submitReview() {
+    this.store.dispatch(
+      new fromStore.PostProductReview({
+        productCode: this.product.code,
+        review: this.reviewForm.controls
+      })
+    );
+
+    this.isWritingReview = false;
+    this.resetReviewForm();
+  }
+
+  private resetReviewForm() {
+    this.reviewForm = this.fb.group({
+      title: ['', Validators.required],
+      comment: ['', Validators.required],
+      rating: [0, [Validators.min(1), Validators.max(5)]],
+      reviewerName: ''
+    });
+  }
 }

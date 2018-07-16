@@ -21,23 +21,21 @@ describe('ReviewSubmitComponent', () => {
 
   // let ac: AbstractControl;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers),
-            checkout: combineReducers(fromCheckout.reducers)
-          })
-        ],
-        declarations: [ReviewSubmitComponent],
-        providers: [CheckoutService, CartService]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers),
+          checkout: combineReducers(fromCheckout.reducers)
+        })
+      ],
+      declarations: [ReviewSubmitComponent],
+      providers: [CheckoutService, CartService]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReviewSubmitComponent);
@@ -107,13 +105,11 @@ describe('ReviewSubmitComponent', () => {
     });
     component.countryName$.subscribe(() => {
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCheckout.LoadDeliveryCountries()
+        new fromUser.LoadDeliveryCountries()
       );
     });
     component.titleName$.subscribe(() => {
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCheckout.LoadTitles()
-      );
+      expect(store.dispatch).toHaveBeenCalledWith(new fromUser.LoadTitles());
     });
   });
 

@@ -3,8 +3,8 @@ import * as fromFeature from './../reducers';
 import * as fromReducer from './../reducers/delivery-countries.reducer';
 
 export const getDeliveryCountriesState = createSelector(
-  fromFeature.getCheckoutState,
-  (state: fromFeature.CheckoutState) => state.countries
+  fromFeature.getUserState,
+  (state: fromFeature.UserState) => state.countries
 );
 
 export const getDeliveryCountriesEntites: MemoizedSelector<

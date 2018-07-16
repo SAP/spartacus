@@ -4,7 +4,6 @@ import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromStore from '../../store';
-import * as fromCheckoutStore from '../../../checkout/store';
 import { RegisterComponent } from './register.component';
 
 const mockTitlesList = {
@@ -32,8 +31,7 @@ describe('RegisterComponent', () => {
         ReactiveFormsModule,
         StoreModule.forRoot({
           ...fromStore.reducers,
-          user: combineReducers(fromStore.reducers),
-          checkout: combineReducers(fromCheckoutStore.reducers)
+          user: combineReducers(fromStore.reducers)
         })
       ],
       declarations: [RegisterComponent]
@@ -66,9 +64,7 @@ describe('RegisterComponent', () => {
       spyOn(store, 'select').and.returnValue(of({}));
       component.ngOnInit();
       component.titles$.subscribe(() => {
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new fromCheckoutStore.LoadTitles()
-        );
+        expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadTitles());
       });
     });
   });

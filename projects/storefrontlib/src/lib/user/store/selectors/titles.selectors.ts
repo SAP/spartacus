@@ -3,8 +3,8 @@ import * as fromFeature from './../reducers';
 import * as fromReducer from './../reducers/titles.reducer';
 
 export const getTitlesState = createSelector(
-  fromFeature.getCheckoutState,
-  (state: fromFeature.CheckoutState) => state.titles
+  fromFeature.getUserState,
+  (state: fromFeature.UserState) => state.titles
 );
 
 export const getTitlesEntites: MemoizedSelector<any, any> = createSelector(

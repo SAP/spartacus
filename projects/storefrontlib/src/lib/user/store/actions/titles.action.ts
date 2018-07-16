@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
 
-export const LOAD_TITLES = '[Checkout] Load Tiltes';
-export const LOAD_TITLES_FAIL = '[Checkout] Load Titles Fail';
-export const LOAD_TITLES_SUCCESS = '[Checkout] Load Titles Success';
+export const LOAD_TITLES = '[User] Load Tiltes';
+export const LOAD_TITLES_FAIL = '[User] Load Titles Fail';
+export const LOAD_TITLES_SUCCESS = '[User] Load Titles Success';
 
 export class LoadTitles implements Action {
   readonly type = LOAD_TITLES;

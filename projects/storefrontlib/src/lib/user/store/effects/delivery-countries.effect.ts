@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { OccMiscsService } from '../../../occ/miscs/miscs.service';
@@ -13,17 +13,14 @@ export class DeliveryCountriesEffects {
     .ofType(fromAction.LOAD_DELIVERY_COUNTRIES)
     .pipe(
       switchMap(() => {
-        return this.occMiscsService
-          .loadDeliveryCountries()
-          .pipe(
-            map(
-              data =>
-                new fromAction.LoadDeliveryCountriesSuccess(data.countries)
-            ),
-            catchError(error =>
-              of(new fromAction.LoadDeliveryCountriesFail(error))
-            )
-          );
+        return this.occMiscsService.loadDeliveryCountries().pipe(
+          map(
+            data => new fromAction.LoadDeliveryCountriesSuccess(data.countries)
+          ),
+          catchError(error =>
+            of(new fromAction.LoadDeliveryCountriesFail(error))
+          )
+        );
       })
     );
 
