@@ -1,3 +1,4 @@
+import { SearchConfig } from './../../product/search-config';
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -5,8 +6,10 @@ import { catchError } from 'rxjs/operators';
 
 import { ConfigService } from '../config.service';
 
-const DEFAULT_PRODUCT_PAGE_LIST = 20;
 const ENDPOINT_PRODUCT = 'products';
+const DEFAULT_SEARCH_CONFIG: SearchConfig = {
+  pageSize: 20
+};
 
 @Injectable()
 export class OccProductSearchService {
@@ -24,13 +27,27 @@ export class OccProductSearchService {
 
   query(
     fullQuery: string,
-    pageSize = DEFAULT_PRODUCT_PAGE_LIST
+    searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
   ): Observable<any> {
-    const params = new HttpParams({
+    let params = new HttpParams({
       fromString:
-        `query=${fullQuery}&pageSize=${pageSize}` +
-        `&fields=products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL)),facets,breadcrumbs,pagination(DEFAULT)`
+        '&fields=' +
+        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL)),' +
+        'facets,' +
+        'breadcrumbs,' +
+        'pagination(DEFAULT),' +
+        'sorts(DEFAULT)'
     });
+    params = params.set('query', fullQuery);
+    if (searchConfig.pageSize) {
+      params = params.set('pageSize', searchConfig.pageSize.toString());
+    }
+    if (searchConfig.currentPage) {
+      params = params.set('currentPage', searchConfig.currentPage.toString());
+    }
+    if (searchConfig.sortCode) {
+      params = params.set('sort', searchConfig.sortCode);
+    }
 
     return this.http
       .get(this.getProductEndpoint() + '/search', { params: params })

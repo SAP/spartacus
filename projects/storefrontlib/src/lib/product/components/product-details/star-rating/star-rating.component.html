@@ -1,5 +1,5 @@
-
-<mat-icon color="primary"
-    *ngFor="let n of [1,2,3,4,5]">
-    {{getStar(n)}}
-</mat-icon>
+<div tabindex="0" (keydown)="accessibilityControl($event)">
+    <mat-icon color="primary" *ngFor="let n of [1,2,3,4,5]" (click)="onTouched(); setRating(n)">
+        {{getStar(n)}}
+    </mat-icon>
+</div>

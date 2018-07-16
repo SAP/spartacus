@@ -1,19 +1,20 @@
 import { TestBed, inject } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
+  HttpClientTestingModule
 } from '@angular/common/http/testing';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
 
-import * as fromRoot from './../../routing/store';
-import * as fromStore from './../store';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-import { UserTokenInterceptor } from './user-token.interceptor';
+import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { UserToken } from '../models/token-types.model';
-import { ConfigService } from '../../occ/config.service';
 
-export class MockConfigService {
+import * as fromStore from '../store';
+import * as fromRoot from '../../routing/store';
+import { ConfigService } from '../../occ/config.service';
+import { UserToken } from '../models/token-types.model';
+import { UserHttpInterceptor } from './user-http.interceptor';
+
+class MockConfigService {
   server = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
@@ -26,8 +27,8 @@ export class MockConfigService {
   };
 }
 
-describe('UserTokenInterceptor', () => {
-  const testToken: UserToken = {
+describe('UserHttpInterceptor', () => {
+  const userToken: UserToken = {
     access_token: 'xxx',
     token_type: 'bearer',
     refresh_token: 'xxx',
@@ -48,30 +49,24 @@ describe('UserTokenInterceptor', () => {
         })
       ],
       providers: [
+        { provide: ConfigService, useClass: MockConfigService },
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: UserTokenInterceptor,
+          useClass: UserHttpInterceptor,
           multi: true
-        },
-        {
-          provide: ConfigService,
-          useClass: MockConfigService
         }
       ]
     });
 
     store = TestBed.get(Store);
     httpMock = TestBed.get(HttpTestingController);
-    spyOn(store, 'select').and.returnValue(of(testToken));
+
+    spyOn(store, 'select').and.returnValue(of(userToken));
   });
 
-  afterEach(() => {
-    httpMock.verify();
-  });
-
-  it(
-    `Should not add 'Authorization' header with a token info to an HTTP request`,
-    inject([HttpClient], (http: HttpClient) => {
+  it(`Should not add 'Authorization' header with a token info to an HTTP request`, inject(
+    [HttpClient],
+    (http: HttpClient) => {
       http.get('/xxx').subscribe(result => {
         expect(result).toBeTruthy();
       });
@@ -85,12 +80,12 @@ describe('UserTokenInterceptor', () => {
       expect(authHeader).toEqual(null);
 
       mockReq.flush('someData');
-    })
-  );
+    }
+  ));
 
-  it(
-    `Should add 'Authorization' header with a token info to an HTTP request`,
-    inject([HttpClient], (http: HttpClient) => {
+  it(`Should add 'Authorization' header with a token info to an HTTP request`, inject(
+    [HttpClient],
+    (http: HttpClient) => {
       http
         .get('https://localhost:9002/rest/v2/electronics')
         .subscribe(result => {
@@ -104,10 +99,30 @@ describe('UserTokenInterceptor', () => {
       const authHeader = mockReq.request.headers.get('Authorization');
       expect(authHeader).toBeTruthy();
       expect(authHeader).toEqual(
-        `${testToken.token_type} ${testToken.access_token}`
+        `${userToken.token_type} ${userToken.access_token}`
       );
 
       mockReq.flush('someData');
-    })
-  );
+    }
+  ));
+
+  it(`Should not add 'Authorization' token to header if there is already one`, inject(
+    [HttpClient],
+    (http: HttpClient) => {
+      const headers = { Authorization: 'bearer 123' };
+      http
+        .get('https://localhost:9002/rest/v2/electronics', { headers })
+        .subscribe(result => {
+          expect(result).toBeTruthy();
+        });
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'GET';
+      });
+
+      const authHeader = mockReq.request.headers.get('Authorization');
+      expect(authHeader).toBeTruthy();
+      expect(authHeader).toEqual(headers.Authorization);
+    }
+  ));
 });

@@ -1,18 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
-import { ReactiveFormsModule, FormArray } from '@angular/forms';
+import { MediaModule } from './../../../../ui/components/media/media.module';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import { CartDetailsComponent } from './cart-details.component';
-import { OrderSummaryComponent } from '../order-summary/order-summary.component';
-import { CartItemComponent } from '../cart-item/cart-item.component';
-import { ItemCounterComponent } from '../item-counter/item-counter.component';
-
-import * as fromRoot from '../../../../routing/store';
-import * as fromReducer from '../../../store/reducers';
-
-import { CartService } from '../../../services/cart.service';
+import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
+import * as fromRoot from '../../../../routing/store';
+import { CartService } from '../../../services/cart.service';
+import * as fromReducer from '../../../store/reducers';
+import { CartItemComponent } from '../../cart-shared/cart-item/cart-item.component';
+import { ItemCounterComponent } from '../../cart-shared/item-counter/item-counter.component';
+import { OrderSummaryComponent } from '../order-summary/order-summary.component';
+import { CartDetailsComponent } from './cart-details.component';
 
 class MockCartService {
   removeCartEntry() {}
@@ -47,7 +45,8 @@ const mockEntries = [
   { entryNumber: 2, quantity: 2, product: { code: 'p2' } }
 ];
 
-const mockOneEntryFormGroup = { entry: { entryNumber: 1 }, index: 0 };
+const mockOneEntryFormGroup = { entryNumber: 1 };
+const mockZeroIndex = 0;
 
 describe('CartDetailsComponent', () => {
   let store: Store<fromReducer.CartState>;
@@ -63,7 +62,8 @@ describe('CartDetailsComponent', () => {
         StoreModule.forRoot({
           ...fromRoot.reducers,
           cart: combineReducers(fromReducer.reducers)
-        })
+        }),
+        MediaModule
       ],
       declarations: [
         CartDetailsComponent,
@@ -113,7 +113,7 @@ describe('CartDetailsComponent', () => {
     component.cart$.subscribe();
     component.entries$.subscribe();
 
-    component.removeEntry(mockOneEntryFormGroup);
+    component.removeEntry(mockOneEntryFormGroup, mockZeroIndex);
     expect(service.removeCartEntry).toHaveBeenCalledWith({ entryNumber: 1 });
 
     const control = component.form.get('entryArry') as FormArray;
@@ -126,7 +126,7 @@ describe('CartDetailsComponent', () => {
     component.cart$.subscribe();
     component.entries$.subscribe();
 
-    component.updateEntry(mockOneEntryFormGroup);
+    component.updateEntry(mockOneEntryFormGroup, mockZeroIndex);
     expect(service.updateCartEntry).toHaveBeenCalledWith(1, 1);
   });
 
@@ -138,7 +138,7 @@ describe('CartDetailsComponent', () => {
     let control = component.form.get('entryArry').value[0];
     control.quantity = 0;
 
-    component.updateEntry({ entry: { entryNumber: 1 }, index: 0 });
+    component.updateEntry(mockOneEntryFormGroup, mockZeroIndex);
 
     control = component.form.get('entryArry') as FormArray;
     expect(control.value.length).toBe(1);

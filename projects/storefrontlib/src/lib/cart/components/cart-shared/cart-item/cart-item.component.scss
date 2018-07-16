@@ -5,7 +5,7 @@
 .item__list--item {
   display: table;
   table-layout: fixed;
-  width: 75%;
+  width: 100%;
 }
 .item__list--item .item__sku__input,
 .item__list--item .item__toggle,
@@ -28,4 +28,12 @@
 }
 .item__delivery {
   padding-left: 3%;
+}
+.item__image {
+  a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
 }

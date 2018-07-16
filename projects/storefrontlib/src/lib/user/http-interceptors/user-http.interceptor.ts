@@ -1,22 +1,20 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpEvent,
-  HttpInterceptor,
-  HttpHandler,
-  HttpRequest
-} from '@angular/common/http';
+import { HttpInterceptor, HttpHandler, HttpEvent } from '@angular/common/http';
+import { HttpRequest } from '@angular/common/http';
+
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-import * as fromStore from './../store';
-import { UserToken } from '../models/token-types.model';
+
+import * as fromUserStore from '../store';
 import { ConfigService } from '../../occ/config.service';
+import { UserToken } from '../models/token-types.model';
+import { Store } from '@ngrx/store';
 
 @Injectable()
-export class UserTokenInterceptor implements HttpInterceptor {
+export class UserHttpInterceptor implements HttpInterceptor {
   constructor(
-    private store: Store<fromStore.UserState>,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private store: Store<fromUserStore.UserState>
   ) {}
 
   intercept(
@@ -25,7 +23,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     let userToken: UserToken;
     this.store
-      .select(fromStore.getUserToken)
+      .select(fromUserStore.getUserToken)
       .pipe(filter((token: UserToken) => Object.keys(token).length !== 0))
       .subscribe((token: UserToken) => {
         userToken = token;
@@ -36,7 +34,11 @@ export class UserTokenInterceptor implements HttpInterceptor {
       this.configService.server.occPrefix +
       this.configService.site.baseSite;
 
-    if (userToken && request.url.indexOf(baseReqString) > -1) {
+    if (
+      userToken &&
+      request.url.indexOf(baseReqString) > -1 &&
+      !request.headers.get('Authorization')
+    ) {
       request = request.clone({
         setHeaders: {
           Authorization: `${userToken.token_type} ${userToken.access_token}`

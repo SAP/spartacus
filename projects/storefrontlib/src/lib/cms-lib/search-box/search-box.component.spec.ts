@@ -100,18 +100,22 @@ describe('SearchBoxComponent in CmsLib', () => {
   it('should dispatch new search query with new input', () => {
     searchBoxComponent.bootstrap();
     searchBoxComponent.searchBoxControl.setValue('testQuery');
-
     expect(searchBoxComponent.searchBoxControl.value).toEqual('testQuery');
+
+    const searchConfigA = new SearchConfig();
+    searchConfigA.pageSize = searchBoxComponent.maxProduct;
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProductStore.SearchProducts({
         queryText: 'testQuery',
-        searchConfig: new SearchConfig(searchBoxComponent.maxProduct)
+        searchConfig: searchConfigA
       })
     );
+    const searchConfigB = new SearchConfig();
+    searchConfigB.pageSize = searchBoxComponent.maxSuggestions;
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProductStore.GetProductSuggestions({
         term: 'testQuery',
-        searchConfig: new SearchConfig(searchBoxComponent.maxSuggestions)
+        searchConfig: searchConfigB
       })
     );
   });

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ConfigService } from '../config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
+import { UserRegisterFormData } from '../../user/models/user.model';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 const USER_ENDPOINT = 'users/';
@@ -73,6 +74,37 @@ export class OccUserService {
 
     return this.http
       .get(url, { headers: headers })
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
+  refreshToken(refreshToken: string) {
+    const url = this.getOAuthEndpoint();
+    let creds = '';
+    creds +=
+      'client_id=' +
+      encodeURIComponent(this.configService.authentication.client_id);
+    creds +=
+      '&client_secret=' +
+      encodeURIComponent(this.configService.authentication.client_secret);
+    creds += '&refresh_token=' + encodeURI(refreshToken);
+    creds += '&grant_type=refresh_token';
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.http
+      .post(url, creds, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  registerUser(user: UserRegisterFormData): Observable<any> {
+    const url = this.getUserEndpoint();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .post(url, user, { headers: headers })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 

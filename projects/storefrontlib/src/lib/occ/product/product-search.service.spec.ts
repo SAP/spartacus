@@ -6,12 +6,14 @@ import {
 
 import { OccProductSearchService } from './product-search.service';
 import { ConfigService } from '../config.service';
+import { SearchConfig } from '../../product/search-config';
 
 const queryText = 'test';
-const pageSize = 5;
 const searchResults = { products: [{ code: '123' }] };
 const suggestions = ['test'];
-
+const mockSearchConfig: SearchConfig = {
+  pageSize: 5
+};
 export class MockConfigService {
   server = {
     baseUrl: '',
@@ -49,7 +51,7 @@ describe('OccProductSearchService', () => {
 
   describe('query text search', () => {
     it('should return search results for given query text', () => {
-      service.query(queryText, pageSize).subscribe(result => {
+      service.query(queryText, mockSearchConfig).subscribe(result => {
         expect(result).toEqual(searchResults);
       });
 
@@ -58,10 +60,10 @@ describe('OccProductSearchService', () => {
       });
       expect(mockReq.request.params.get('query')).toEqual(queryText);
       expect(mockReq.request.params.get('pageSize')).toEqual(
-        pageSize.toString()
+        mockSearchConfig.pageSize.toString()
       );
       expect(mockReq.request.params.get('fields')).toEqual(
-        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL)),facets,breadcrumbs,pagination(DEFAULT)'
+        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL)),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT)'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -72,15 +74,19 @@ describe('OccProductSearchService', () => {
 
   describe('query product suggestions', () => {
     it('should return suggestions for given term', () => {
-      service.queryProductSuggestions(queryText, pageSize).subscribe(result => {
-        expect(result).toEqual(suggestions);
-      });
+      service
+        .queryProductSuggestions(queryText, mockSearchConfig.pageSize)
+        .subscribe(result => {
+          expect(result).toEqual(suggestions);
+        });
 
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'GET' && req.url === endpoint + '/suggestions';
       });
       expect(mockReq.request.params.get('term')).toEqual(queryText);
-      expect(mockReq.request.params.get('max')).toEqual(pageSize.toString());
+      expect(mockReq.request.params.get('max')).toEqual(
+        mockSearchConfig.pageSize.toString()
+      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

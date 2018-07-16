@@ -1,3 +1,4 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -14,6 +15,7 @@ import { ProductReviewsComponent } from './product-reviews/product-reviews.compo
 
 import { CmsModule } from '../../../cms/cms.module'; // some slots are loaded inside components (i.e. tabs)
 
+import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
 import { MediaModule } from '../../../ui/components/media/media.module';
 import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-cart.module';
 
@@ -21,7 +23,10 @@ import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-car
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
     MediaModule,
+    CartSharedModule,
     MaterialModule,
     FlexLayoutModule,
     CmsModule,

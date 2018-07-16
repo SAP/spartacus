@@ -8,23 +8,23 @@
             You don't have any products in your cart.
         </p>
         <div *ngIf="cart?.totalItems">
-            <mat-nav-list>
-                <mat-list-item *ngFor="let entry of ((data.entries$ | async) | slice:0:data.showProductCount )" [routerLink]="['/product', entry.product.code]"
+            <ul class="cart-item-list">
+                <li class="cart-item-row" *ngFor="let entry of ((data.entries$ | async) | slice:0:data.showProductCount)" [routerLink]="['/product', entry.product.code]"
                     (click)="closeDialog()">
-
-                    <img mat-list-avatar [src]="entry.product.images.PRIMARY?.cartIcon?.url">
-
-                    <a mat-line>{{entry.product.name}}</a>
-                    <p mat-line>
-                        {{entry.quantity}}
-                        <span *ngIf="entry.quantity===1">piece</span>
-                        <span *ngIf="entry.quantity > 1">pieces</span>
-                        for {{entry.totalPrice.formattedValue}}</p>
-                    <button mat-icon-button (click)="removeEntry(entry, $event)">
+                    <y-picture [imageContainer]="entry.product.images?.PRIMARY" imageFormat="cartIcon"></y-picture>
+                    <div class="cart-item-text">
+                        <a>{{entry.product.name}}</a>
+                        <p>
+                            {{entry.quantity}}
+                            <span *ngIf=" entry.quantity===1 ">piece</span>
+                            <span *ngIf="entry.quantity> 1">pieces</span>
+                            for {{entry.totalPrice.formattedValue}}</p>
+                    </div>
+                    <i class="cart-item-delete" (click)="removeEntry(entry, $event)">
                         <mat-icon>delete</mat-icon>
-                    </button>
-                </mat-list-item>
-            </mat-nav-list>
+                    </i>
+                </li>
+            </ul>
 
             <y-banner [component]="data.banner"></y-banner>
 

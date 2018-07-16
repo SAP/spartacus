@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions } from '@ngrx/effects';
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
 
 import * as productsSearchActions from '../actions/product-search.action';
@@ -17,7 +17,7 @@ export class ProductsSearchEffects {
       map((action: productsSearchActions.SearchProducts) => action.payload),
       switchMap(payload => {
         return this.occProductSearchService
-          .query(payload.queryText, payload.searchConfig.pageSize)
+          .query(payload.queryText, payload.searchConfig)
           .pipe(
             map(data => {
               this.productImageConverter.convertList(data.products);

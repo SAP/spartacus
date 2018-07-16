@@ -1,20 +1,21 @@
-
 <li class="item__list--item">
     <!-- product image -->
-    <div class="item__image" *ngIf="entry.product.images">
+    <div class="item__image">
         <a [routerLink]="['/product', entry.product.code]">
-            <img [src]="entry.product.images.PRIMARY?.thumbnail?.url"/>
+            <y-picture [imageContainer]="entry.product.images?.PRIMARY" imageFormat="thumbnail"></y-picture>
         </a>
     </div>
 
     <!-- product name, code, promotions -->
     <div class="item__info">
-        <a [routerLink]="['/product', entry.product.code]"><span class="item__name">{{entry.product.name}}</span></a>
+        <a [routerLink]="['/product', entry.product.code]">
+            <span class="item__name">{{entry.product.name}}</span>
+        </a>
         <div class="item__code">ID: {{entry.product.code}}</div>
 
         <!-- availability-->
         <div class="item__stock">
-             {{ entry.product.stock?.stockLevelStatus | uppercase }}
+            {{ entry.product.stock?.stockLevelStatus | uppercase }}
         </div>
 
         <!-- promotion -->
@@ -28,18 +29,15 @@
 
     <!-- price -->
     <div class="item__price">
-        Price: <strong>{{entry.basePrice?.formattedValue}}</strong>    
+        Price:
+        <strong>{{entry.basePrice?.formattedValue}}</strong>
     </div>
 
     <!-- quantity -->
     <div class="item__quantity" [formGroup]="parent">
-        <div formArrayName="entryArry">
-            <div [formGroupName]="formGroupName">
-                <y-item-counter [value]="entry.quantity" [step]="1" [min]="0" [max]="entry.product.stock?.stockLevel || 1000" 
-                    (change)="updateEntry()" formControlName="quantity">
-                </y-item-counter>
-            </div>
-        </div>
+        <y-item-counter [value]="entry.quantity" [step]="1" [min]="1" [max]="entry.product.stock?.stockLevel || 1000" (change)="updateEntry()"
+            formControlName="quantity">
+        </y-item-counter>
     </div>
 
     <!-- delivery -->

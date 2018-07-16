@@ -1,3 +1,4 @@
+import { MediaModule } from './../../../ui/components/media/media.module';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -14,7 +15,13 @@ describe('CartDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MaterialModule, FormsModule, RouterModule, BannerModule],
+      imports: [
+        MaterialModule,
+        FormsModule,
+        RouterModule,
+        BannerModule,
+        MediaModule
+      ],
       declarations: [CartDialogComponent],
       providers: [
         {
