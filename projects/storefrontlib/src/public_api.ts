@@ -19,6 +19,7 @@ export * from './lib/checkout/components/multi-step-checkout/multi-step-checkout
 export * from './lib/checkout/components/multi-step-checkout/address-form/address-form.module';
 export * from './lib/checkout/components/order-confirmation/order-confirmation.module';
 export * from './lib/cms-lib/cms-lib.module';
+export * from './lib/global-message/global-message.module';
 export * from './lib/cms-lib/mini-cart/mini-cart.module';
 export * from './lib/cms-lib/cookie-confirmation/cookie-confirmation.module';
 export * from './lib/cms-lib/footer-navigation/footer-navigation.module';
