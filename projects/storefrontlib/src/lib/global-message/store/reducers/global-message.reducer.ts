@@ -32,19 +32,16 @@ export function reducer(
     }
 
     case fromAction.REMOVE_MESSAGE: {
-      const msgToBeRemoved = action.payload;
-      const newMessagesState = state.messages.filter(
-        msg =>
-          msg.message_text !== msgToBeRemoved.message_text &&
-          msg.severity_level !== msgToBeRemoved.severity_level
-      );
-
+      const payload = action.payload;
+      const newMessagesState = [...state.messages];
+      newMessagesState.splice(payload.index, 1);
       return {
         ...state,
         ...{ messages: newMessagesState }
       };
     }
   }
+
   return state;
 }
 
