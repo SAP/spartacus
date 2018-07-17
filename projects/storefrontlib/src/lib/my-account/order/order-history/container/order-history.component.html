@@ -16,7 +16,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let order of orders.orders">
-              <td>{{order.placed | yDate}}</td>
+              <td>{{order.placed | date: 'longDate'}}</td>
               <td>
                 <a [routerLink]="['/my-account/orders', order.code]">{{order.code}}</a>
               </td>

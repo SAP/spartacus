@@ -9,7 +9,6 @@ import { OrderHistoryComponent } from './order-history.component';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import * as fromRoot from '../../../../routing/store';
 import * as fromUserStore from '../../../../user/store';
-import { YDatePipe } from '../../../../pipes/yDatePipe';
 
 const routes = [
   { path: 'my-account/orders/:id', component: OrderDetailsComponent }
@@ -42,8 +41,7 @@ fdescribe('OrderHistoryComponent', () => {
       declarations: [
         OrderHistoryComponent,
         PaginationAndSortingComponent,
-        OrderDetailsComponent,
-        YDatePipe
+        OrderDetailsComponent
       ]
     }).compileComponents();
   }));
