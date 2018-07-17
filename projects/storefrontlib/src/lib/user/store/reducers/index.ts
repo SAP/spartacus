@@ -15,6 +15,7 @@ import * as fromTitlesReducer from './titles.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
 
 import * as fromAction from '../actions';
+import * as fromSiteContextAction from '../../../site-context/shared/store/actions';
 
 export interface UserState {
   account: fromUserDetailsReducer.UserDetailsState;
@@ -47,7 +48,10 @@ export function clearUserState(
   return function(state, action) {
     if (action.type === '[User] Logout') {
       state = undefined;
-    } else if (action.type === '[Site-context] Language Change') {
+    } else if (
+      action.type === fromSiteContextAction.LANGUAGE_CHANGE ||
+      action.type === fromSiteContextAction.CURRENCY_CHANGE
+    ) {
       action = new fromAction.ClearMiscsData();
     }
     return reducer(state, action);

@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-export const CLEAR_MISCS_DATA = '[User] Clear Titles and Countries';
+export const CLEAR_MISCS_DATA = '[User] Clear User Misc Data';
 
 export class ClearMiscsData implements Action {
   readonly type = CLEAR_MISCS_DATA;
