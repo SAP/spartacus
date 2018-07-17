@@ -13,7 +13,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   constructor(private userStore: Store<fromUserStore.UserState>) {}
 
   orders$: Observable<any>;
-  isLoaded$: Observable<any>;
+  isLoaded$: Observable<boolean>;
   userDataSubscription: Subscription;
   private PAGE_SIZE = 5;
   private user_id: string;
@@ -34,7 +34,19 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-    this.orders$ = this.userStore.select(fromUserStore.getOrders);
+
+    this.orders$ = this.userStore.select(fromUserStore.getOrders).pipe(
+      tap(orders => {
+        if (Object.keys(orders.orders).length === 0) {
+          this.userStore.dispatch(
+            new fromUserStore.LoadUserOrders({
+              userId: this.user_id,
+              pageSize: this.PAGE_SIZE
+            })
+          );
+        }
+      })
+    );
 
     this.isLoaded$ = this.userStore.select(fromUserStore.getOrdersLoaded);
   }

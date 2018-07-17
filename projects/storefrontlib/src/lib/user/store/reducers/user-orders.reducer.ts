@@ -1,4 +1,5 @@
 import * as fromUserOrdersAction from '../actions/user-orders.action';
+import * as fromAction from '../actions';
 
 export interface UserOrdersState {
   orders: any;
@@ -18,7 +19,7 @@ export const initialState: UserOrdersState = {
 
 export function reducer(
   state = initialState,
-  action: fromUserOrdersAction.UserOrdersAction
+  action: fromUserOrdersAction.UserOrdersAction | fromAction.MiscsDataAction
 ): UserOrdersState {
   switch (action.type) {
     case fromUserOrdersAction.LOAD_USER_ORDERS: {
@@ -44,7 +45,12 @@ export function reducer(
         loading: false
       };
     }
+
+    case fromAction.CLEAR_MISCS_DATA: {
+      return initialState;
+    }
   }
+
   return state;
 }
 
