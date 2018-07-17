@@ -10,6 +10,7 @@ import { CmsModule } from '../../cms/cms.module';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { MainComponent } from './main/main.component';
+import { GlobalMessageModule } from '../../global-message/global-message.module';
 
 // layout
 import { CategoryPageLayoutComponent } from './category-page-layout/category-page-layout.component';
@@ -42,6 +43,7 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     LoginModule,
     LanguageSelectorModule,
     CurrencySelectorModule,
+    GlobalMessageModule,
 
     ProductModule,
     CartDetailsModule,

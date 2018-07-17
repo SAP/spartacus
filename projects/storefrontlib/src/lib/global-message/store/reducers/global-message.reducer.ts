@@ -1,43 +1,66 @@
-import { GlobalMessageState } from './global-message.reducer';
-import { globalMessageActions } from './../actions/global-message.actions';
+import { GlobalMessageAction } from '../actions/global-message.actions';
+import { GlobalMessageType, GlobalMessage } from '../../models/message.model';
 import * as fromAction from '../actions';
 
 export interface GlobalMessageState {
-  messages: Array<{ severity_level: string; message_text: string }>;
+  entities: { [type: string]: string[] };
 }
 
 export const initialState: GlobalMessageState = {
-  messages: []
+  entities: {}
 };
 
 export function reducer(
   state = initialState,
-  action: globalMessageActions
+  action: GlobalMessageAction
 ): GlobalMessageState {
   switch (action.type) {
     case fromAction.ADD_MESSAGE: {
-      const currentMessages = state.messages;
-      const newMessages = [
-        ...currentMessages,
-        {
-          message_text: action.payload.message_text,
-          severity_level: action.payload.severity_level
-        }
-      ];
+      const message: GlobalMessage = action.payload;
 
-      return {
-        ...state,
-        ...{ messages: newMessages }
-      };
+      let entities: any;
+      if (state.entities[message.type] === undefined) {
+        entities = {
+          ...state.entities,
+          [message.type]: [message.text]
+        };
+
+        return {
+          ...state,
+          entities
+        };
+      } else {
+        const msgs = state.entities[message.type];
+        if (msgs.indexOf(message.text) === -1) {
+          entities = {
+            ...state.entities,
+            [message.type]: [...msgs, message.text]
+          };
+
+          return {
+            ...state,
+            entities
+          };
+        }
+      }
+
+      return state;
     }
 
     case fromAction.REMOVE_MESSAGE: {
-      const payload = action.payload;
-      const newMessagesState = [...state.messages];
-      newMessagesState.splice(payload.index, 1);
+      const type = action.payload.type;
+      const index = action.payload.index;
+
+      const messages = [...state.entities[type]];
+      messages.splice(index, 1);
+
+      const entities = {
+        ...state.entities,
+        [type]: messages
+      };
       return {
         ...state,
-        ...{ messages: newMessagesState }
+        entities
       };
     }
   }
@@ -45,4 +68,4 @@ export function reducer(
   return state;
 }
 
-export const getMessages = (state: GlobalMessageState) => state.messages;
+export const getMessages = (state: GlobalMessageState) => state.entities;

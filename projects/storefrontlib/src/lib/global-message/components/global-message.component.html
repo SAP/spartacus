@@ -1,0 +1,14 @@
+<div *ngIf="(messages$ | async) as messages">
+    <div class="alert alert-info" *ngFor="let confMsg of messages[messageType.MSG_TYPE_CONFIRMATION]; let i=index">
+        {{ confMsg }}
+        <button class="close" type="button" (click)="clear(messageType.MSG_TYPE_CONFIRMATION, i)">×</button>
+    </div>
+    <div class="alert alert-warning" *ngFor="let infoMsg of messages[messageType.MSG_TYPE_INFO]; let i=index">
+        {{ infoMsg }}
+        <button class="close" type="button" (click)="clear(messageType.MSG_TYPE_INFO, i)">×</button>
+    </div>
+    <div class="alert alert-danger" *ngFor="let errorMsg of messages[messageType.MSG_TYPE_ERROR]; let i=index">
+        {{ errorMsg }}
+        <button class="close" type="button" (click)="clear(messageType.MSG_TYPE_ERROR, i)">×</button>
+    </div>
+</div>

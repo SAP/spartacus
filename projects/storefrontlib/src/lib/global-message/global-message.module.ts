@@ -1,11 +1,13 @@
-import { StoreModule } from '@ngrx/store';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { StoreModule } from '@ngrx/store';
 
 import { reducers } from './store';
+import { GlobalMessageComponent } from './components/global-messsage.component';
 
 @NgModule({
-  imports: [StoreModule.forFeature('globalMessage', reducers)],
-  declarations: [],
-  exports: []
+  imports: [CommonModule, StoreModule.forFeature('globalMessage', reducers)],
+  declarations: [GlobalMessageComponent],
+  exports: [GlobalMessageComponent]
 })
 export class GlobalMessageModule {}

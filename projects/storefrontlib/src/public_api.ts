@@ -112,6 +112,7 @@ export * from './lib/cart/components/cart-details/order-summary/order-summary.co
 export * from './lib/cart/components/add-to-cart/add-to-cart.component';
 export * from './lib/site-context/language-selector/language-selector.component';
 export * from './lib/site-context/currency-selector/currency-selector.component';
+export * from './lib/global-message/components/global-messsage.component';
 
 export * from './lib/user/guards/auth.guard';
 export * from './lib/user/guards/not-auth.guard';

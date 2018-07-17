@@ -6,11 +6,11 @@ import {
 } from '@ngrx/store';
 
 export interface GlobalMessageState {
-  active: fromGlobalMessage.GlobalMessageState;
+  messages: fromGlobalMessage.GlobalMessageState;
 }
 
 export const reducers: ActionReducerMap<GlobalMessageState> = {
-  active: fromGlobalMessage.reducer
+  messages: fromGlobalMessage.reducer
 };
 
 export const getGlobalMessageState: MemoizedSelector<

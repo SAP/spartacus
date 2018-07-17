@@ -1,13 +1,12 @@
 import { Action } from '@ngrx/store';
+import { GlobalMessage } from '../../models/message.model';
 
-export const ADD_MESSAGE = '[Global Message] add a message';
-export const REMOVE_MESSAGE = '[Global Message] remove a message';
+export const ADD_MESSAGE = '[Global-message] Add a Message';
+export const REMOVE_MESSAGE = '[Global-message] Remove a Message';
 
 export class AddMessage implements Action {
   readonly type = ADD_MESSAGE;
-  constructor(
-    public payload: { message_text: string; severity_level: string }
-  ) {}
+  constructor(public payload: GlobalMessage) {}
 }
 
 export class RemoveMessage implements Action {
@@ -15,4 +14,4 @@ export class RemoveMessage implements Action {
   constructor(public payload: any) {}
 }
 
-export type globalMessageActions = AddMessage | RemoveMessage;
+export type GlobalMessageAction = AddMessage | RemoveMessage;
