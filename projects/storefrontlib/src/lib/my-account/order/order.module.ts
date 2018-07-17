@@ -5,7 +5,7 @@ import { PaginationAndSortingComponent } from './order-history/pagination-and-so
 import { OrderHistoryComponent } from './order-history/container/order-history.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { FormsModule } from '@angular/forms';
-import { YDate } from '../../pipes/yDate';
+import { YDatePipe } from '../../pipes/yDatePipe';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule],
@@ -13,7 +13,7 @@ import { YDate } from '../../pipes/yDate';
     OrderHistoryComponent,
     PaginationAndSortingComponent,
     OrderDetailsComponent,
-    YDate
+    YDatePipe
   ],
   exports: [OrderHistoryComponent, OrderDetailsComponent]
 })
