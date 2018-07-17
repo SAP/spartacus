@@ -71,14 +71,4 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       })
     );
   }
-  createDateString(date: string) {
-    const dateObj = new Date(date);
-    const local = 'en-US';
-    const options = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    };
-    return dateObj.toLocaleDateString(local, options);
-  }
 }
