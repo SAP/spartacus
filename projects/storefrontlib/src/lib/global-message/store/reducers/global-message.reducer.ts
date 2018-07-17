@@ -18,9 +18,8 @@ export function reducer(
     case fromAction.ADD_MESSAGE: {
       const message: GlobalMessage = action.payload;
 
-      let entities: any;
       if (state.entities[message.type] === undefined) {
-        entities = {
+        const entities = {
           ...state.entities,
           [message.type]: [message.text]
         };
@@ -32,7 +31,7 @@ export function reducer(
       } else {
         const msgs = state.entities[message.type];
         if (msgs.indexOf(message.text) === -1) {
-          entities = {
+          const entities = {
             ...state.entities,
             [message.type]: [...msgs, message.text]
           };
