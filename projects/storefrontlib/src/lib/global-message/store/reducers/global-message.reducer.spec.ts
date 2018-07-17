@@ -1,5 +1,6 @@
 import * as fromGlobalMessage from './global-message.reducer';
 import * as fromActions from './../actions';
+import { GlobalMessage, GlobalMessageType } from '../../models/message.model';
 
 describe('Cart reducer', () => {
   describe('undefined action', () => {
@@ -14,29 +15,39 @@ describe('Cart reducer', () => {
 
   describe('ADD_MESSAGE action', () => {
     it('should add message to the list of messages', () => {
-      const mockMessage: any = {
-        message_text: 'test',
-        severity_level: 'debug'
-      };
       const { initialState } = fromGlobalMessage;
 
+      const mockMessage: GlobalMessage = {
+        text: 'test',
+        type: GlobalMessageType.MSG_TYPE_CONFIRMATION
+      };
+
       const action = new fromActions.AddMessage(mockMessage);
+
       const state = fromGlobalMessage.reducer(initialState, action);
-      console.log(state.messages);
-      expect(state.messages).toEqual([mockMessage]);
+
+      expect(state.entities[mockMessage.type]).toEqual([mockMessage.text]);
     });
   });
 
   describe('REMOVE_MESSAGE action', () => {
     it('should remove the message from the state with an index', () => {
       const initialState = {
-        messages: [{ message_text: 'test', severity_level: 'test' }]
+        entities: {
+          [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['test']
+        }
       };
 
-      const action = new fromActions.RemoveMessage({ index: 0 });
+      const action = new fromActions.RemoveMessage({
+        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+        index: 0
+      });
+
       const state = fromGlobalMessage.reducer(initialState, action);
 
-      expect(state.messages).toEqual([]);
+      expect(state.entities[GlobalMessageType.MSG_TYPE_CONFIRMATION]).toEqual(
+        []
+      );
     });
   });
 });

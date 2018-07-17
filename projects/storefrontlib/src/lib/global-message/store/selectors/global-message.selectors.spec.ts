@@ -6,13 +6,16 @@ import * as fromSelectors from './../selectors';
 import * as fromActions from './../actions';
 import { TestBed } from '@angular/core/testing';
 
+import { GlobalMessage, GlobalMessageType } from '../../models/message.model';
+
 describe('Global Messages selectors', () => {
   let store: Store<fromReducers.GlobalMessageState>;
 
-  const testMessage: any = {
-    message_text: 'test',
-    severity_level: 'test'
+  const testMessage: GlobalMessage = {
+    text: 'test',
+    type: GlobalMessageType.MSG_TYPE_CONFIRMATION
   };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -27,14 +30,14 @@ describe('Global Messages selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getGlobalMessageActiveState', () => {
+  describe('getGlobalMessagesActiveState', () => {
     it('should return the global Message active state', () => {
       let result: any;
       store
-        .select(fromSelectors.getGlobalMessageActiveState)
+        .select(fromSelectors.getGlobalMessagesActiveState)
         .subscribe(value => (result = value));
 
-      expect(result).toEqual({ messages: [] });
+      expect(result).toEqual({ entities: {} });
     });
   });
 
@@ -45,11 +48,13 @@ describe('Global Messages selectors', () => {
         result = value;
       });
 
-      expect(result).toEqual([]);
+      expect(result).toEqual({});
 
       store.dispatch(new fromActions.AddMessage(testMessage));
 
-      expect(result).toEqual([testMessage]);
+      expect(result).toEqual({
+        [testMessage.type]: [testMessage.text]
+      });
     });
   });
 });
