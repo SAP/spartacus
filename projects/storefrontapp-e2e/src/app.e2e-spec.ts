@@ -31,7 +31,7 @@ describe('workspace-project App', () => {
     // search for camera
     home.header.performSearch('camera');
     // should go to search results page
-    browser.wait(ExpectedConditions.urlContains('/search/camera'), 2000);
+    browser.wait(ExpectedConditions.urlContains('/search/camera'), 5000);
   });
 
   it('should have splash banner', () => {
