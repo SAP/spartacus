@@ -11,11 +11,10 @@
         </mat-chip-list>
     </mat-option>
 
-    <mat-option *ngFor="let product of (searchResults$ | async)?.products" [value]="product.name" class="option" fxLayout="row"
-        fxFlexAlign="start center" [routerLink]="['/product/', product.code]">
+    <mat-option style="display:flex" *ngFor="let product of (searchResults$ | async)?.products" [value]="product.name" class="option"
+        fxLayout="row" fxFlexAlign="start center" [routerLink]="['/product/', product.code]">
         <div class="picture">
-            <y-picture fxFlex *ngIf="component.displayProductImages && product.images" [imageContainer]="product.images.PRIMARY" imageFormat="thumbnail">
-            </y-picture>
+            <y-picture fxFlex [imageContainer]="product.images?.PRIMARY" imageFormat="thumbnail"></y-picture>
         </div>
         <div fxFlex [innerHTML]="product.name">{{ product.name }}</div>
         <div class="productPrice" fxFlex>{{product.price.formattedValue}}</div>
