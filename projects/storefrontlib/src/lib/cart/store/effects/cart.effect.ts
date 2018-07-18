@@ -102,7 +102,5 @@ export class CartEffects {
     private productImageConverter: ProductImageConverterService,
     private occCartService: OccCartService,
     private cartService: CartService
-  ) {
-    console.log('cart effects constructor');
-  }
+  ) {}
 }

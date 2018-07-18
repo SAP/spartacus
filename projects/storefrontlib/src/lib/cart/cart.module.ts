@@ -8,8 +8,6 @@ import * as fromServices from './services';
 import { effects, reducers } from './store';
 import { metaReducers } from './store/reducers';
 
-import { CartService } from './services';
-
 @NgModule({
   imports: [
     AddToCartModule,
@@ -21,9 +19,4 @@ import { CartService } from './services';
   exports: [AddToCartModule, CartDetailsModule, CartSharedModule],
   providers: [...fromServices.services]
 })
-export class CartModule {
-  constructor(private service: CartService) {
-    console.log('Cart Module Constructor');
-    this.service.initCart();
-  }
-}
+export class CartModule {}
