@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 
 import * as fromStore from '../store';
 import * as fromAction from '../store/actions';
-import { GlobalMessageType, GlobalMessage } from './../models/message.model';
+import { GlobalMessageType } from './../models/message.model';
 
 @Component({
   selector: 'y-global-message',
@@ -13,7 +13,7 @@ import { GlobalMessageType, GlobalMessage } from './../models/message.model';
   styleUrls: ['./global-message.component.scss']
 })
 export class GlobalMessageComponent implements OnInit {
-  messages$: Observable<any>;
+  messages$: Observable<Map<GlobalMessageType, string[]>>;
   messageType: typeof GlobalMessageType = GlobalMessageType;
 
   constructor(protected store: Store<fromStore.GlobalMessageState>) {
@@ -24,7 +24,7 @@ export class GlobalMessageComponent implements OnInit {
         text: 'test confirmation message'
       })
     );
-
+    // test if the repeats are avoided, which it should
     this.store.dispatch(
       new fromAction.AddMessage({
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,

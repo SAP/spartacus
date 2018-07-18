@@ -21,7 +21,7 @@ const mockOrders = {
   sorts: [{ code: 'byDate', selected: true }]
 };
 
-fdescribe('OrderHistoryComponent', () => {
+describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
   let store: Store<fromUserStore.UserState>;

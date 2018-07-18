@@ -1,7 +1,7 @@
 import * as fromGlobalMessage from './global-message.actions';
 import { GlobalMessage, GlobalMessageType } from '../../models/message.model';
 
-describe('Global Message Actions', () => {
+fdescribe('Global Message Actions', () => {
   describe('CreateGlobalMessage Actions', () => {
     describe('AddMessage', () => {
       it('should create the action', () => {

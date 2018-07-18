@@ -2,7 +2,7 @@ import * as fromGlobalMessage from './global-message.reducer';
 import * as fromActions from './../actions';
 import { GlobalMessage, GlobalMessageType } from '../../models/message.model';
 
-describe('Cart reducer', () => {
+fdescribe('Cart reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromGlobalMessage;

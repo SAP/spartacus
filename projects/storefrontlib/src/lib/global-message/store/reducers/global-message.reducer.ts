@@ -3,11 +3,11 @@ import { GlobalMessageType, GlobalMessage } from '../../models/message.model';
 import * as fromAction from '../actions';
 
 export interface GlobalMessageState {
-  entities: { [type: string]: string[] };
+  entities: Map<GlobalMessageType, string[]>;
 }
 
 export const initialState: GlobalMessageState = {
-  entities: {}
+  entities: new Map<GlobalMessageType, string[]>()
 };
 
 export function reducer(
@@ -30,6 +30,7 @@ export function reducer(
         };
       } else {
         const msgs = state.entities[message.type];
+
         if (msgs.indexOf(message.text) === -1) {
           const entities = {
             ...state.entities,
@@ -47,15 +48,15 @@ export function reducer(
     }
 
     case fromAction.REMOVE_MESSAGE: {
-      const type = action.payload.type;
-      const index = action.payload.index;
+      const msgType = action.payload.type;
+      const msgIndex = action.payload.index;
 
-      const messages = [...state.entities[type]];
-      messages.splice(index, 1);
+      const messages = [...state.entities[msgType]];
+      messages.splice(msgIndex, 1);
 
       const entities = {
         ...state.entities,
-        [type]: messages
+        [msgType]: messages
       };
       return {
         ...state,

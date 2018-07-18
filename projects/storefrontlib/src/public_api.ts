@@ -43,6 +43,7 @@ export * from './lib/site-context/language-selector/language-selector.module';
 export * from './lib/site-context/shared/shared.module';
 export * from './lib/site-context/site-context.module';
 export * from './lib/site-context/currency-selector/currency-selector.module';
+export * from './lib/global-message/global-message.module';
 export * from './lib/my-account/order/order.module';
 export * from './lib/my-account/my-account.module';
 export * from './lib/services/services.module';
