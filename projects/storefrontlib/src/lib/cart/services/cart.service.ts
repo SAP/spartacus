@@ -18,7 +18,7 @@ export class CartService {
   getDetails = false;
 
   constructor(private store: Store<fromReducer.CartState>) {
-    this.initCart();
+    console.log('Cart Service Constructor');
   }
 
   initCart() {
@@ -44,6 +44,7 @@ export class CartService {
         // we will load the user current cart and merge it into the existing cart
         if (this.userId !== ANOYMOUS_USERID) {
           if (Object.keys(this.cart).length === 0) {
+            console.log('Cart Service Init: Load Cart action dispatched');
             this.store.dispatch(
               new fromAction.LoadCart({
                 userId: this.userId,

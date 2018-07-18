@@ -15,7 +15,7 @@ function storageConfig(config: ConfigService): LocalStorageConfig {
     }
   }
   return {
-    keys: [{ user: ['auth'] }, { cart: ['active'] }],
+    keys: [{ user: ['auth'] }],
     rehydrate: true,
     storage: storage ? storage : sessionStorage
   };
