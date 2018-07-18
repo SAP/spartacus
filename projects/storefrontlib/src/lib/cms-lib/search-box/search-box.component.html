@@ -11,8 +11,8 @@
         </mat-chip-list>
     </mat-option>
 
-    <mat-option style="display:flex" *ngFor="let product of (searchResults$ | async)?.products" [value]="product.name" class="option"
-        fxLayout="row" fxFlexAlign="start center" [routerLink]="['/product/', product.code]">
+    <mat-option *ngFor="let product of (searchResults$ | async)?.products" [value]="product.name" class="option" fxLayout="row"
+        fxFlexAlign="start center" [routerLink]="['/product/', product.code]">
         <div class="picture">
             <y-picture fxFlex [imageContainer]="product.images?.PRIMARY" imageFormat="thumbnail"></y-picture>
         </div>
