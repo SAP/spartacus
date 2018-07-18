@@ -14,6 +14,14 @@ exports.config = {
   capabilities: {
     browserName: 'chrome',
     acceptInsecureCerts: true,
+    chromeOptions: {
+      args: [
+        '--headless',
+        '--no-sandbox',
+        '--disable-gpu',
+        '--window-size=800,600'
+      ]
+    }
   },
   jasmineNodeOpts: {
     showColors: true,
