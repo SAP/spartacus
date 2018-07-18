@@ -8,8 +8,10 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
 import { ProductImageConverterService } from '../../../product/converters';
-import { CartService } from '../../services/cart.service';
-import { ANOYMOUS_USERID } from '../../services/cart.service';
+import {
+  CartDataService,
+  ANONYMOUS_USERID
+} from '../../services/cartData.service';
 
 @Injectable()
 export class CartEffects {
@@ -25,12 +27,12 @@ export class CartEffects {
       mergeMap(payload => {
         if (payload === undefined || payload.userId === undefined) {
           payload = {
-            userId: this.cartService.userId,
+            userId: this.cartData.userId,
             cartId:
-              this.cartService.userId === ANOYMOUS_USERID
-                ? this.cartService.cart.guid
-                : this.cartService.cart.code,
-            details: this.cartService.getDetails ? true : undefined
+              this.cartData.userId === ANONYMOUS_USERID
+                ? this.cartData.cart.guid
+                : this.cartData.cart.code,
+            details: this.cartData.getDetails ? true : undefined
           };
         }
         if (payload.userId === undefined || payload.cartId === undefined) {
@@ -101,6 +103,6 @@ export class CartEffects {
     private actions$: Actions,
     private productImageConverter: ProductImageConverterService,
     private occCartService: OccCartService,
-    private cartService: CartService
+    private cartData: CartDataService
   ) {}
 }
