@@ -1,0 +1,39 @@
+<div class="order-history-page-container">
+  <ng-container *ngIf="orders$ | async as orders">
+    <div class="order-history-header">
+      <h3>{{orders.pagination.totalResults}} orders found in your Order History</h3>
+    </div>
+    <div class="order-history-body">
+      <ng-container *ngIf="orders.pagination.totalResults > 0; else noOrder">
+        <y-pagination-sorting [pagination]="orders.pagination" [sorts]="orders.sorts" (viewPageEvent)="viewPage($event)" (sortEvent)="viewPage($event)"></y-pagination-sorting>
+
+        <table>
+          <thead>
+            <th>Ordered</th>
+            <th>Order number</th>
+            <th>Order Total</th>
+            <th>Status</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orders.orders">
+              <td>{{order.placed | date: 'longDate'}}</td>
+              <td>
+                <a [routerLink]="['/my-account/orders', order.code]">{{order.code}}</a>
+              </td>
+              <td>{{order.total.formattedValue}}</td>
+              <td>{{order.statusDisplay}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <y-pagination-sorting [pagination]="orders.pagination" [sorts]="orders.sorts" (viewPageEvent)="viewPage($event)" (sortEvent)="viewPage($event)"></y-pagination-sorting>
+      </ng-container>
+
+      <ng-template #noOrder>
+        <div class="no-order-container" *ngIf="isLoaded$ | async">
+          <span>Place an order on our site to view your complete Order History.</span>
+        </div>
+      </ng-template>
+    </div>
+  </ng-container>
+</div>

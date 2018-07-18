@@ -1,0 +1,48 @@
+.order-history-page-container {
+  .order-history-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #cccc;
+    padding: 10px;
+    h3 {
+      padding: 0;
+      margin: 0;
+    }
+  }
+  .order-history-body {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1000px;
+    y-order-history-controls {
+      width: 100%;
+      margin: auto;
+    }
+    table {
+      border-collapse: collapse;
+      border-spacing: 20px;
+      thead {
+        th {
+          border-bottom: 1px solid #ccc;
+          padding: 10px;
+        }
+      }
+      tbody {
+        border-spacing: 20px;
+        td {
+          text-align: center;
+          padding: 15px 50px 15px 50px;
+        }
+      }
+    }
+    .no-order-container {
+      margin: auto;
+      margin-top: 30px;
+      padding: 50px;
+      border: 1px solid #ccc;
+    }
+  }
+}

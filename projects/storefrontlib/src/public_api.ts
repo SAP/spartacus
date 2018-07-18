@@ -42,8 +42,9 @@ export * from './lib/site-context/language-selector/language-selector.module';
 export * from './lib/site-context/shared/shared.module';
 export * from './lib/site-context/site-context.module';
 export * from './lib/site-context/currency-selector/currency-selector.module';
+export * from './lib/my-account/order/order.module';
+export * from './lib/my-account/my-account.module';
 export * from './lib/services/services.module';
-
 export * from './lib/ui/layout/footer/footer.component';
 export * from './lib/ui/layout/cart-page-layout/cart-page-layout.component';
 export * from './lib/ui/layout/multi-step-checkout-page-layout/multi-step-checkout-page-layout.component';
@@ -54,6 +55,8 @@ export * from './lib/ui/layout/order-confirmation-page-layout/order-confirmation
 export * from './lib/ui/layout/main/main.component';
 export * from './lib/ui/layout/landing-page-layout/landing-page-layout.component';
 export * from './lib/ui/layout/header/header.component';
+export * from './lib/ui/layout/order-details-page-layout/order-details-page-layout.component';
+export * from './lib/ui/layout/order-history-page-layout/order-history-page-layout.component';
 export * from './lib/ui/components/media/picture/picture.component';
 export * from './lib/ui/pages/category-page/category-page.component';
 export * from './lib/ui/pages/product-page/product-page.component';
@@ -61,6 +64,8 @@ export * from './lib/ui/pages/home-page/home-page.component';
 export * from './lib/ui/pages/multi-step-checkout-page/multi-step-checkout-page.component';
 export * from './lib/ui/pages/cart-page/cart-page.component';
 export * from './lib/ui/pages/order-confirmation-page/order-confirmation-page.component';
+export * from './lib/ui/pages/order-history-page/order-history-page.component';
+export * from './lib/ui/pages/order-details-page/order-details-page.component';
 export * from './lib/ui/pages/404/404.component';
 export * from './lib/user/components/login/login.component';
 export * from './lib/user/components/register/register.component';
@@ -111,6 +116,9 @@ export * from './lib/cart/components/cart-details/order-summary/order-summary.co
 export * from './lib/cart/components/add-to-cart/add-to-cart.component';
 export * from './lib/site-context/language-selector/language-selector.component';
 export * from './lib/site-context/currency-selector/currency-selector.component';
+export * from './lib/my-account/order/order-details/order-details.component';
+export * from './lib/my-account/order/order-history/container/order-history.component';
+export * from './lib/my-account/order/order-history/pagination-and-sorting/pagination-and-sorting.component';
 
 export * from './lib/user/guards/auth.guard';
 export * from './lib/user/guards/not-auth.guard';
