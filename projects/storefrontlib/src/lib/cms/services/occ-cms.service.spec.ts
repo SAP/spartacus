@@ -44,7 +44,7 @@ export class MockConfigService {
 }
 const endpoint = '/cms';
 
-fdescribe('OccCmsService', () => {
+describe('OccCmsService', () => {
   let service: OccCmsService;
   let httpMock: HttpTestingController;
 
@@ -204,9 +204,11 @@ fdescribe('OccCmsService', () => {
         type: PageType.PRODUCT_PAGE
       };
 
-      service.loadListComponents(ids, context, 'FULL', 0, 5).subscribe(result => {
-        expect(result).toEqual(listComponents);
-      });
+      service
+        .loadListComponents(ids, context, 'FULL', 0, 5)
+        .subscribe(result => {
+          expect(result).toEqual(listComponents);
+        });
 
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'POST' && req.url === endpoint + '/components';
