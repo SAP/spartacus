@@ -1,5 +1,5 @@
 import { CartService } from './cart.service';
-import { CartDataService } from './cartData.service';
+import { CartDataService } from './cart-data.service';
 
 export const services: any[] = [CartService, CartDataService];
 

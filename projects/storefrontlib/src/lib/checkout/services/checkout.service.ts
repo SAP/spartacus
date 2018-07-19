@@ -4,10 +4,7 @@ import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../store/';
 import * as fromUserStore from '../../user/store';
 
-import {
-  ANONYMOUS_USERID,
-  CartDataService
-} from '../../cart/services/cartData.service';
+import { CartDataService } from '../../cart/services/cart-data.service';
 
 @Injectable()
 export class CheckoutService {

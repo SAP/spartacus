@@ -11,7 +11,7 @@ import { ProductImageConverterService } from '../../../product/converters';
 import {
   CartDataService,
   ANONYMOUS_USERID
-} from '../../services/cartData.service';
+} from '../../services/cart-data.service';
 
 @Injectable()
 export class CartEffects {
