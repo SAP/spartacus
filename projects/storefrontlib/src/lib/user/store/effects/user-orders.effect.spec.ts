@@ -40,7 +40,7 @@ class TestActions extends Actions {
   }
 }
 
-fdescribe('User Orders effect', () => {
+describe('User Orders effect', () => {
   let userOrdersEffect: fromUserOrdersEffect.UserOrdersEffect;
   let orderService: OccOrderService;
   let actions$: TestActions;
