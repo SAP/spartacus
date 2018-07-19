@@ -35,11 +35,14 @@ export class CartDetailsComponent implements OnInit {
       for (const entry of entries) {
         const entryControl = entryArryControl.controls.filter(
           control =>
-            (control as any).controls.entryNumber.value === entry.entryNumber
+            (control as FormGroup).controls.entryNumber.value ===
+            entry.entryNumber
         );
         if (entryControl[0]) {
           // Update form values
-          (entryControl[0] as any).controls.quantity.value = entry.quantity;
+          (entryControl[0] as FormGroup).controls.quantity.setValue(
+            entry.quantity
+          );
         } else {
           // Create form control for entry
           entryArryControl.push(this.createEntryFormGroup(entry));

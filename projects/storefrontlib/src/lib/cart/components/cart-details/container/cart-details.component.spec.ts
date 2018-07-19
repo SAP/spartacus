@@ -48,7 +48,7 @@ const mockEntries = [
 const mockOneEntryFormGroup = { entryNumber: 1 };
 const mockZeroIndex = 0;
 
-fdescribe('CartDetailsComponent', () => {
+describe('CartDetailsComponent', () => {
   let store: Store<fromReducer.CartState>;
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
