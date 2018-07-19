@@ -8,7 +8,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { GlobalMessage, GlobalMessageType } from '../../models/message.model';
 
-fdescribe('Global Messages selectors', () => {
+describe('Global Messages selectors', () => {
   let store: Store<fromReducers.GlobalMessageState>;
 
   const testMessage: GlobalMessage = {

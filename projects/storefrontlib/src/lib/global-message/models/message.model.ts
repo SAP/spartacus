@@ -10,6 +10,6 @@ export interface GlobalMessage {
 }
 
 export interface RemoveMessageData {
-  type: string;
+  type: GlobalMessageType;
   index: number;
 }

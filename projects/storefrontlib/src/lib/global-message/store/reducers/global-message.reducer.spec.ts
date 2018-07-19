@@ -2,7 +2,7 @@ import * as fromGlobalMessage from './global-message.reducer';
 import * as fromActions from './../actions';
 import { GlobalMessage, GlobalMessageType } from '../../models/message.model';
 
-fdescribe('Cart reducer', () => {
+describe('Cart reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromGlobalMessage;
@@ -32,10 +32,10 @@ fdescribe('Cart reducer', () => {
 
   describe('REMOVE_MESSAGE action', () => {
     it('should remove the message from the state with an index', () => {
+      const map = new Map<GlobalMessageType, string[]>();
+      map.set(GlobalMessageType.MSG_TYPE_CONFIRMATION, ['test']);
       const initialState = {
-        entities: {
-          [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['test']
-        }
+        entities: map
       };
 
       const action = new fromActions.RemoveMessage({
