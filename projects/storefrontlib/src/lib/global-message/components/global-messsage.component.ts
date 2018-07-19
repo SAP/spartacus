@@ -56,7 +56,7 @@ export class GlobalMessageComponent implements OnInit {
 
   ngOnInit() {
     this.messages$ = this.store
-      .select(fromStore.getGlobalMessages)
+      .select(fromStore.getGlobalMessagesEntities)
       .pipe(filter(data => data !== undefined));
   }
 

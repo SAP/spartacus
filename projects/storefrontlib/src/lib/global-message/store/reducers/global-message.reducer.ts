@@ -1,13 +1,13 @@
 import { GlobalMessageAction } from '../actions/global-message.actions';
-import { GlobalMessageType, GlobalMessage } from '../../models/message.model';
+import { GlobalMessage } from '../../models/message.model';
 import * as fromAction from '../actions';
 
 export interface GlobalMessageState {
-  entities: Map<GlobalMessageType, string[]>;
+  entities: { [type: string]: string[] };
 }
 
 export const initialState: GlobalMessageState = {
-  entities: new Map<GlobalMessageType, string[]>()
+  entities: {}
 };
 
 export function reducer(
@@ -50,7 +50,7 @@ export function reducer(
     case fromAction.REMOVE_MESSAGE: {
       const msgType = action.payload.type;
       const msgIndex = action.payload.index;
-      const messages = [...state.entities.get(msgType)];
+      const messages = [...state.entities[msgType]];
       messages.splice(msgIndex, 1);
 
       const entities = {
@@ -67,4 +67,4 @@ export function reducer(
   return state;
 }
 
-export const getMessages = (state: GlobalMessageState) => state.entities;
+export const getEntities = (state: GlobalMessageState) => state.entities;

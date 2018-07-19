@@ -34,17 +34,17 @@ describe('Global Messages selectors', () => {
     it('should return the global Message active state', () => {
       let result: any;
       store
-        .select(fromSelectors.getGlobalMessagesActiveState)
+        .select(fromSelectors.getGlobalMessagesMessagesState)
         .subscribe(value => (result = value));
-
       expect(result).toEqual({ entities: {} });
     });
   });
 
-  describe('getGlobalMessages', () => {
+  describe('getGlobalMessagesEntities', () => {
     it('should return the list of global messages', () => {
       let result: any;
-      store.select(fromSelectors.getGlobalMessages).subscribe(value => {
+
+      store.select(fromSelectors.getGlobalMessagesEntities).subscribe(value => {
         result = value;
       });
 
@@ -53,7 +53,7 @@ describe('Global Messages selectors', () => {
       store.dispatch(new fromActions.AddMessage(testMessage));
 
       expect(result).toEqual({
-        [testMessage.type]: [testMessage.text]
+        [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['test']
       });
     });
   });

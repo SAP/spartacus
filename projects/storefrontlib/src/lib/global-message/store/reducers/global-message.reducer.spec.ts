@@ -32,10 +32,10 @@ describe('Cart reducer', () => {
 
   describe('REMOVE_MESSAGE action', () => {
     it('should remove the message from the state with an index', () => {
-      const map = new Map<GlobalMessageType, string[]>();
-      map.set(GlobalMessageType.MSG_TYPE_CONFIRMATION, ['test']);
       const initialState = {
-        entities: map
+        entities: {
+          [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['test']
+        }
       };
 
       const action = new fromActions.RemoveMessage({
