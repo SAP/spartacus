@@ -25,7 +25,15 @@ export class CartDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cartService.loadCartDetails();
+    const sub = this.store
+      .select(fromCartStore.getIsLoaded)
+      .subscribe(cartIsLoaded => {
+        if (cartIsLoaded) {
+          this.cartService.loadCartDetails();
+          sub.unsubscribe();
+        }
+      });
+
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
 
     this.entries$ = this.store.select(fromCartStore.getEntries);

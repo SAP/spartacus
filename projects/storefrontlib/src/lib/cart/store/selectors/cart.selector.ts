@@ -26,6 +26,16 @@ export const getEntriesMap: MemoizedSelector<any, any> = createSelector(
   fromCart.getEntries
 );
 
+export const getIsLoading: MemoizedSelector<any, any> = createSelector(
+  getActiveCartState,
+  fromCart.getIsLoading
+);
+
+export const getIsLoaded: MemoizedSelector<any, any> = createSelector(
+  getActiveCartState,
+  fromCart.getIsLoaded
+);
+
 export const getEntrySelectorFactory = (
   productCode
 ): MemoizedSelector<any, any> => {
