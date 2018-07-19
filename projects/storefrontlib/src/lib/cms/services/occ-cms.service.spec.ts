@@ -44,7 +44,7 @@ export class MockConfigService {
 }
 const endpoint = '/cms';
 
-describe('OccCmsService', () => {
+fdescribe('OccCmsService', () => {
   let service: OccCmsService;
   let httpMock: HttpTestingController;
 
