@@ -75,11 +75,10 @@ export class CartService {
 
   loadCartDetails() {
     this.cartData.getDetails = true;
-
     this.store.dispatch(
       new fromAction.LoadCart({
         userId: this.cartData.userId,
-        cartId: this.cartData.cartId,
+        cartId: this.cartData.cartId ? this.cartData.cartId : 'current',
         details: true
       })
     );
