@@ -115,7 +115,6 @@ describe('OccOrderService', () => {
     it('should fetch a single order', async(() => {
       service.getOrder(userId, orderData.code).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
-        console.log(req);
         return (
           req.url ===
             usersEndpoint +

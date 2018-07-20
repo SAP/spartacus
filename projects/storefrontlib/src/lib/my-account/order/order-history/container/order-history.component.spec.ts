@@ -1,7 +1,6 @@
 import { OrderDetailsComponent } from 'storefrontlib';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { PaginationAndSortingComponent } from './../pagination-and-sorting/pagination-and-sorting.component';
@@ -26,8 +25,6 @@ describe('OrderHistoryComponent', () => {
   let fixture: ComponentFixture<OrderHistoryComponent>;
   let store: Store<fromUserStore.UserState>;
 
-  let location: Location;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -50,7 +47,6 @@ describe('OrderHistoryComponent', () => {
     fixture = TestBed.createComponent(OrderHistoryComponent);
     component = fixture.componentInstance;
     store = TestBed.get(Store);
-    location = TestBed.get(Location);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -88,7 +84,11 @@ describe('OrderHistoryComponent', () => {
     elem.click();
 
     fixture.whenStable().then(() => {
-      expect((location as any).urlChanges[0]).toBe('/my-account/orders/1');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromRoot.Go({
+          path: ['my-account/orders/', 1]
+        })
+      );
     });
   });
 

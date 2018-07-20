@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -21,16 +21,20 @@ export class OrderDetailsComponent implements OnInit {
   order$: Observable<any>;
 
   ngOnInit() {
-    this.usersStore
-      .select(fromUserStore.getUserToken)
-      .pipe(
-        tap(userData => {
-          this.order$ = this.service.getOrder(
-            userData.userId,
-            this.route.snapshot.params['orderCode']
-          );
-        })
-      )
-      .subscribe();
+    this.route.params.forEach((params: Params) => {
+      if (params['orderCode']) {
+        this.usersStore
+          .select(fromUserStore.getUserToken)
+          .pipe(
+            tap(userData => {
+              this.order$ = this.service.getOrder(
+                userData.userId,
+                params['orderCode']
+              );
+            })
+          )
+          .subscribe();
+      }
+    });
   }
 }

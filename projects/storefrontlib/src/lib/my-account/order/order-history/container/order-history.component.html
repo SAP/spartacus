@@ -18,7 +18,7 @@
             <tr *ngFor="let order of orders.orders">
               <td>{{order.placed | date: 'longDate'}}</td>
               <td>
-                <a [routerLink]="['/my-account/orders', order.code]">{{order.code}}</a>
+                <a class="orderLink" (click)="goToOrderDetail(order)"> {{order.code}}</a>
               </td>
               <td>{{order.total.formattedValue}}</td>
               <td>{{order.statusDisplay}}</td>

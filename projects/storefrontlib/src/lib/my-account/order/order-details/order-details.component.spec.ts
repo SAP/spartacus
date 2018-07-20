@@ -9,6 +9,13 @@ import * as fromUserStore from '../../../user/store';
 class MockOccOrderService {
   getOrder() {}
 }
+
+class MockActivatedRoute {
+  params = of({
+    orderCode: '1'
+  });
+}
+
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
   let fixture: ComponentFixture<OrderDetailsComponent>;
@@ -25,7 +32,7 @@ describe('OrderDetailsComponent', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: of({ orderCode: '00000000' })
+          useClass: MockActivatedRoute
         },
         {
           provide: OccOrderService,
