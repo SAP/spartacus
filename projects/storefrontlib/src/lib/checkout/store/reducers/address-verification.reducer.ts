@@ -22,6 +22,13 @@ export function reducer(
       };
     }
 
+    case fromAction.VERIFY_ADDRESS_FAIL: {
+      return {
+        ...state,
+        results: 'FAIL'
+      };
+    }
+
     case fromAction.CLEAR_ADDRESS_VERIFICATION_RESULTS: {
       return {
         ...state,

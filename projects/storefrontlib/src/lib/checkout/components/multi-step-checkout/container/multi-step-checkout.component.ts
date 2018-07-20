@@ -7,7 +7,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { take, filter, tap } from 'rxjs/operators';
-import { Subscription ,  Observable } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
@@ -15,6 +15,9 @@ import * as fromUserStore from '../../../../user/store';
 
 import * as fromRouting from '../../../../routing/store';
 import * as fromCart from '../../../../cart/store';
+import * as fromGlobalMessage from '../../../../global-message/store';
+
+import { GlobalMessageType } from './../../../../global-message/models/message.model';
 
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
@@ -111,16 +114,27 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     this.addressVerifySub = this.store
       .select(fromCheckoutStore.getAddressVerificationResults)
-      .pipe(filter(results => Object.keys(results).length !== 0), take(1))
+      .pipe(
+        filter(results => Object.keys(results).length !== 0),
+        take(1)
+      )
       .subscribe(results => {
-        if (results.decision === 'ACCEPT') {
+        if (results === 'FAIL') {
+          this.store.dispatch(
+            new fromCheckoutStore.ClearAddressVerificationResults()
+          );
+        } else if (results.decision === 'ACCEPT') {
           this.addAddress({
             address: address,
             newAddress: true
           });
         } else if (results.decision === 'REJECT') {
-          // will be shown in global message
-          console.log('Invalid Address');
+          this.store.dispatch(
+            new fromGlobalMessage.AddMessage({
+              type: GlobalMessageType.MSG_TYPE_ERROR,
+              text: 'Invalid Address'
+            })
+          );
           this.store.dispatch(
             new fromCheckoutStore.ClearAddressVerificationResults()
           );
@@ -156,7 +170,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     this.step2Sub = this.store
       .select(fromCheckoutStore.getSelectedCode)
-      .pipe(filter(selected => selected !== ''), take(1))
+      .pipe(
+        filter(selected => selected !== ''),
+        take(1)
+      )
       .subscribe(selected => {
         this.step = 3;
         this.refreshCart();
@@ -184,8 +201,12 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
           this.paymentDetails = paymentInfo;
           this.cd.detectChanges();
         } else {
-          // show some message
-          console.log(paymentInfo);
+          this.store.dispatch(
+            new fromGlobalMessage.AddMessage({
+              type: GlobalMessageType.MSG_TYPE_ERROR,
+              text: paymentInfo
+            })
+          );
           this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(3));
         }
       });
@@ -196,7 +217,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     this.step4Sub = this.store
       .select(fromCheckoutStore.getOrderDetails)
-      .pipe(filter(order => Object.keys(order).length !== 0), take(1))
+      .pipe(
+        filter(order => Object.keys(order).length !== 0),
+        take(1)
+      )
       .subscribe(order => {
         this.checkoutService.orderDetails = order;
         this.store.dispatch(

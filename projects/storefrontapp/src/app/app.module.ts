@@ -14,7 +14,6 @@ import { CmsModule } from 'storefrontlib';
 import { RoutingModule } from 'storefrontlib';
 import { SiteContextModule } from 'storefrontlib';
 import { ProductModule } from 'storefrontlib';
-import { ServicesModule } from 'storefrontlib';
 
 import { appRoutes } from './app.routes';
 
@@ -33,7 +32,6 @@ import { GlobalMessageModule } from 'storefrontlib';
     CmsLibModule,
     UiModule,
     UiFrameworkModule,
-    ServicesModule,
 
     CmsModule.forRoot(ConfigService),
     SiteContextModule.forRoot(ConfigService),

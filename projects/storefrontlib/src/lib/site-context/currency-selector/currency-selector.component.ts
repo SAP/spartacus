@@ -5,7 +5,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable ,  Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import * as fromStore from '../shared/store';
@@ -28,16 +28,13 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.store
+    this.subscription = this.store
       .select(fromStore.getCurrenciesLoaded)
-      .pipe(
-        tap(loaded => {
-          if (!loaded) {
-            this.store.dispatch(new fromStore.LoadCurrencies());
-          }
-        })
-      )
-      .subscribe();
+      .subscribe(loaded => {
+        if (!loaded) {
+          this.store.dispatch(new fromStore.LoadCurrencies());
+        }
+      });
 
     this.currencies$ = this.store.select(fromStore.getAllCurrencies);
     this.activeCurrency = this.configService.site.currency;
