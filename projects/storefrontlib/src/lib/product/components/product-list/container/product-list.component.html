@@ -17,7 +17,7 @@
 
     <mat-sidenav-container class="example-container" *ngIf="model?.products">
         <mat-sidenav #sidenav class="example-sidenav" mode="side" [opened]="isFacetPanelOpen" style="width:30%">
-            <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="5" [step]="5" [activeFacetValueCode]="categoryCode || brandCode"
+            <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6" [activeFacetValueCode]="categoryCode || brandCode"
                 [searchResult]="model"></y-product-facet-navigation>
         </mat-sidenav>
         <div>

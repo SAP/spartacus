@@ -16,22 +16,19 @@ import {
 export class ProductFacetNavigationComponent implements OnInit {
   @Input() activeFacetValueCode;
   @Input() searchResult;
-  @Input() minPerFacet;
-  @Input() step;
+  @Input() minPerFacet = 6;
+
   @Output() filter: EventEmitter<any> = new EventEmitter<any>();
 
-  facetDisplayAmountmap: Map<String, number>;
+  showAllPerFacetMap: Map<String, boolean>;
 
   constructor() {
-    this.facetDisplayAmountmap = new Map<String, number>();
+    this.showAllPerFacetMap = new Map<String, boolean>();
   }
 
   ngOnInit() {
     for (const index of Object.keys(this.searchResult.facets)) {
-      this.facetDisplayAmountmap.set(
-        this.searchResult.facets[index].name,
-        this.minPerFacet
-      );
+      this.showAllPerFacetMap.set(this.searchResult.facets[index].name, false);
     }
   }
 
@@ -40,14 +37,14 @@ export class ProductFacetNavigationComponent implements OnInit {
   }
 
   showLess(facetName: String) {
-    this.updateFacetAmount(facetName, -this.step);
-  }
-  showMore(facetName: String) {
-    this.updateFacetAmount(facetName, this.step);
+    this.updateShowAllPerFacetMap(facetName, false);
   }
 
-  private updateFacetAmount(facetName: String, change: number) {
-    const currentAmountDisplayed = this.facetDisplayAmountmap.get(facetName);
-    this.facetDisplayAmountmap.set(facetName, currentAmountDisplayed + change);
+  showMore(facetName: String) {
+    this.updateShowAllPerFacetMap(facetName, true);
+  }
+
+  private updateShowAllPerFacetMap(facetName: String, showAll: boolean) {
+    this.showAllPerFacetMap.set(facetName, showAll);
   }
 }
