@@ -19,6 +19,7 @@ export * from './lib/checkout/components/multi-step-checkout/multi-step-checkout
 export * from './lib/checkout/components/multi-step-checkout/address-form/address-form.module';
 export * from './lib/checkout/components/order-confirmation/order-confirmation.module';
 export * from './lib/cms-lib/cms-lib.module';
+export * from './lib/global-message/global-message.module';
 export * from './lib/cms-lib/mini-cart/mini-cart.module';
 export * from './lib/cms-lib/cookie-confirmation/cookie-confirmation.module';
 export * from './lib/cms-lib/footer-navigation/footer-navigation.module';
@@ -42,6 +43,7 @@ export * from './lib/site-context/language-selector/language-selector.module';
 export * from './lib/site-context/shared/shared.module';
 export * from './lib/site-context/site-context.module';
 export * from './lib/site-context/currency-selector/currency-selector.module';
+export * from './lib/global-message/global-message.module';
 export * from './lib/my-account/order/order.module';
 export * from './lib/my-account/my-account.module';
 export * from './lib/services/services.module';
@@ -116,6 +118,7 @@ export * from './lib/cart/components/cart-details/order-summary/order-summary.co
 export * from './lib/cart/components/add-to-cart/add-to-cart.component';
 export * from './lib/site-context/language-selector/language-selector.component';
 export * from './lib/site-context/currency-selector/currency-selector.component';
+export * from './lib/global-message/components/global-messsage.component';
 export * from './lib/my-account/order/order-details/order-details.component';
 export * from './lib/my-account/order/order-history/container/order-history.component';
 export * from './lib/my-account/order/order-history/pagination-and-sorting/pagination-and-sorting.component';
