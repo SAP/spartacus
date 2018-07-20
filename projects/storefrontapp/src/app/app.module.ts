@@ -24,6 +24,7 @@ import { AppComponent } from './app.component';
 import { UserModule } from 'storefrontlib';
 import { CartModule } from 'storefrontlib';
 import { CheckoutModule } from 'storefrontlib';
+import { StoreLocatorModule } from 'storefrontlib';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { CheckoutModule } from 'storefrontlib';
     RouterModule.forRoot(appRoutes),
     ProductModule,
     UserModule,
-    CartModule
+    CartModule,
+    StoreLocatorModule
   ],
 
   providers: [

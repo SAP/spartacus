@@ -22,6 +22,7 @@ import { MultiStepCheckoutPageLayoutComponent } from './multi-step-checkout-page
 import { OrderConfirmationPageLayoutComponent } from './order-confirmation-page-layout/order-confirmation-page-layout.component';
 import { OrderHistoryPageLayoutComponent } from './order-history-page-layout/order-history-page-layout.component';
 import { OrderDetailsPageLayoutComponent } from './order-details-page-layout/order-details-page-layout.component';
+import { StoreLocatorPageLayoutComponent } from './store-locator-page-layout/store-locator-page-layout.component';
 
 // header components
 import { CookieConfirmationModule } from '../../cms-lib/cookie-confirmation/cookie-confirmation.module';
@@ -63,7 +64,8 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     MultiStepCheckoutPageLayoutComponent,
     OrderConfirmationPageLayoutComponent,
     OrderHistoryPageLayoutComponent,
-    OrderDetailsPageLayoutComponent
+    OrderDetailsPageLayoutComponent,
+    StoreLocatorPageLayoutComponent
   ],
   exports: [
     MainComponent,
@@ -75,7 +77,8 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     MultiStepCheckoutPageLayoutComponent,
     OrderConfirmationPageLayoutComponent,
     OrderHistoryPageLayoutComponent,
-    OrderDetailsPageLayoutComponent
+    OrderDetailsPageLayoutComponent,
+    StoreLocatorPageLayoutComponent
   ]
 })
 export class LayoutModule {}
