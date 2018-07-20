@@ -6,6 +6,7 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromRoot from '../../../../routing/store';
 import { CartService } from '../../../services/cart.service';
+import { CartDataService } from '../../../services/cart-data.service';
 import * as fromReducer from '../../../store/reducers';
 import { CartItemComponent } from '../../cart-shared/cart-item/cart-item.component';
 import { ItemCounterComponent } from '../../cart-shared/item-counter/item-counter.component';
@@ -71,7 +72,10 @@ describe('CartDetailsComponent', () => {
         CartItemComponent,
         ItemCounterComponent
       ],
-      providers: [{ provide: CartService, useClass: MockCartService }]
+      providers: [
+        CartDataService,
+        { provide: CartService, useClass: MockCartService }
+      ]
     }).compileComponents();
   }));
 
@@ -81,7 +85,12 @@ describe('CartDetailsComponent', () => {
     service = TestBed.get(CartService);
 
     store = TestBed.get(Store);
-    spyOn(store, 'select').and.returnValues(of(mockCart), of(mockEntries));
+    spyOn(store, 'select').and.returnValues(
+      of(true),
+      of(mockCart),
+      of(mockEntries)
+    );
+
     spyOn(service, 'removeCartEntry').and.callThrough();
     spyOn(service, 'loadCartDetails').and.callThrough();
     spyOn(service, 'updateCartEntry').and.callThrough();

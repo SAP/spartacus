@@ -10,41 +10,44 @@ import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
 
 import { CheckoutService } from '../../../services/checkout.service';
-import { CartService } from '../../../../cart/services/cart.service';
-
+import { CartDataService } from '../../../../cart/services/cart-data.service';
+const mockCart = {
+  guid: 'test',
+  code: 'test'
+};
 describe('ReviewSubmitComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
   let service: CheckoutService;
-  let cartService: CartService;
+  let cartData: CartDataService;
 
   // let ac: AbstractControl;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers),
-            checkout: combineReducers(fromCheckout.reducers)
-          })
-        ],
-        declarations: [ReviewSubmitComponent],
-        providers: [CheckoutService, CartService]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers),
+          checkout: combineReducers(fromCheckout.reducers)
+        })
+      ],
+      declarations: [ReviewSubmitComponent],
+      providers: [CheckoutService, CartDataService]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReviewSubmitComponent);
     component = fixture.componentInstance;
     service = TestBed.get(CheckoutService);
-    cartService = TestBed.get(CartService);
+    cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
+
+    cartData.cart = mockCart;
 
     component.deliveryAddress = {
       firstName: 'John',
@@ -58,8 +61,8 @@ describe('ReviewSubmitComponent', () => {
       country: { isocode: 'JP' }
     };
 
-    cartService.userId = 'userId';
-    cartService.cart.code = 'cartId';
+    cartData.userId = 'userId';
+    cartData.cart.code = 'cartId';
 
     spyOn(store, 'dispatch').and.callThrough();
 

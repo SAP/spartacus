@@ -15,6 +15,7 @@ import * as fromUser from '../../../../user/store';
 
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
+import { CartDataService } from '../../../../cart/services/cart-data.service';
 
 export class MockAbstractControl {
   hasError() {
@@ -41,12 +42,16 @@ const mockSupportedModes = {
     }
   ]
 };
-
+const mockCart = {
+  guid: 'test',
+  code: 'test'
+};
 describe('DeliveryModeFormComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: DeliveryModeFormComponent;
   let fixture: ComponentFixture<DeliveryModeFormComponent>;
   let service: CheckoutService;
+  let cartData: CartDataService;
 
   let ac: AbstractControl;
 
@@ -65,6 +70,7 @@ describe('DeliveryModeFormComponent', () => {
       providers: [
         CheckoutService,
         CartService,
+        CartDataService,
         { provide: FormGroup, useClass: MockFormGroup },
         { provide: AbstractControl, useClass: MockAbstractControl }
       ]
@@ -75,9 +81,12 @@ describe('DeliveryModeFormComponent', () => {
     fixture = TestBed.createComponent(DeliveryModeFormComponent);
     component = fixture.componentInstance;
     service = TestBed.get(CheckoutService);
+    cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
 
     ac = TestBed.get(AbstractControl);
+
+    cartData.cart = mockCart;
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(ac, 'hasError').and.callThrough();
@@ -100,7 +109,7 @@ describe('DeliveryModeFormComponent', () => {
     });
   });
 
-  it('should call ngOnInit to get suppored shipping methods if they exist', () => {
+  it('should call ngOnInit to get supported shipping methods if they exist', () => {
     spyOn(store, 'select').and.returnValue(of(mockSupportedModes));
     component.ngOnInit();
     component.supportedDeliveryModes$.subscribe(data => {

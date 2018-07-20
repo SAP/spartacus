@@ -30,7 +30,9 @@ export class CartDetailsComponent implements OnInit {
       .subscribe(cartIsLoaded => {
         if (cartIsLoaded) {
           this.cartService.loadCartDetails();
-          sub.unsubscribe();
+          if (sub) {
+            sub.unsubscribe();
+          }
         }
       });
 
