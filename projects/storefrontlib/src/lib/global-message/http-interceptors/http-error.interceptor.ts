@@ -34,12 +34,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((errResponse: any) => {
         if (errResponse instanceof HttpErrorResponse) {
-          console.log(errResponse);
           switch (errResponse.status) {
-            case 401: // Unauthorized
-              // if unauthorized, some actions are required (not just display messages).
-              // so, it will be handled by the interceptor in UserModule
-              break;
             case 400: // Bad Request
               if (
                 errResponse.url.indexOf(OAUTH_ENDPOINT) !== -1 &&
@@ -51,7 +46,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                     new fromAction.AddMessage({
                       type: GlobalMessageType.MSG_TYPE_ERROR,
                       text:
-                        errResponse.error.error_description +
+                        this.getErrorMessage(errResponse) +
                         '. Please login again!'
                     })
                   );
@@ -60,9 +55,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 this.store.dispatch(
                   new fromAction.AddMessage({
                     type: GlobalMessageType.MSG_TYPE_ERROR,
-                    text: errResponse.error.errors[0].message
-                      ? errResponse.error.errors[0].message
-                      : errResponse.message
+                    text: this.getErrorMessage(errResponse)
                   })
                 );
               }
@@ -111,9 +104,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
               this.store.dispatch(
                 new fromAction.AddMessage({
                   type: GlobalMessageType.MSG_TYPE_ERROR,
-                  text: errResponse.error.errors[0].message
-                    ? errResponse.error.errors[0].message
-                    : errResponse.message
+                  text: this.getErrorMessage(errResponse)
                 })
               );
           }
@@ -129,5 +120,18 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         return throwError(errResponse);
       })
     );
+  }
+
+  private getErrorMessage(resp: HttpErrorResponse) {
+    let errMsg = resp.message;
+    if (resp.error) {
+      if (resp.error.errors && resp.error.errors instanceof Array) {
+        errMsg = resp.error.errors[0].message;
+      } else if (resp.error.error_description) {
+        errMsg = resp.error.error_description;
+      }
+    }
+
+    return errMsg;
   }
 }
