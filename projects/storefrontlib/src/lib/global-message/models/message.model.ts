@@ -8,8 +8,3 @@ export interface GlobalMessage {
   text: string;
   type: GlobalMessageType;
 }
-
-export interface RemoveMessageData {
-  type: GlobalMessageType;
-  index: number;
-}
