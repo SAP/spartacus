@@ -1,4 +1,3 @@
-import { RemoveMessageData } from './../../models/message.model';
 import * as fromGlobalMessage from './global-message.actions';
 import { GlobalMessage, GlobalMessageType } from '../../models/message.model';
 
@@ -22,7 +21,7 @@ describe('Global Message Actions', () => {
 
     describe('RemoveAction', () => {
       it('should create the action', () => {
-        const payload: RemoveMessageData = {
+        const payload = {
           type: GlobalMessageType.MSG_TYPE_ERROR,
           index: 0
         };

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { GlobalMessage, RemoveMessageData } from '../../models/message.model';
+import { GlobalMessageType, GlobalMessage } from './../../models/message.model';
 
 export const ADD_MESSAGE = '[Global-message] Add a Message';
 export const REMOVE_MESSAGE = '[Global-message] Remove a Message';
@@ -11,7 +11,7 @@ export class AddMessage implements Action {
 
 export class RemoveMessage implements Action {
   readonly type = REMOVE_MESSAGE;
-  constructor(public payload: RemoveMessageData) {}
+  constructor(public payload: { type: GlobalMessageType; index: number }) {}
 }
 
 export type GlobalMessageAction = AddMessage | RemoveMessage;
