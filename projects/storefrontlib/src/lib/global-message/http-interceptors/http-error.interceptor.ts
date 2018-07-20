@@ -37,10 +37,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           console.log(errResponse);
           switch (errResponse.status) {
             case 401: // Unauthorized
-              return this.userErrorHandlingService.handleExpiredUserToken(
-                request,
-                next
-              );
+              // if unauthorized, some actions are required (not just display messages).
+              // so, it will be handled by the interceptor in UserModule
+              break;
             case 400: // Bad Request
               if (
                 errResponse.url.indexOf(OAUTH_ENDPOINT) !== -1 &&
@@ -56,15 +55,14 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         '. Please login again!'
                     })
                   );
-                } else if (params.indexOf('grant_type=refresh_token')) {
-                  // refresh token fail, force user logout
-                  this.store.dispatch(new fromUser.Logout());
                 }
               } else {
                 this.store.dispatch(
                   new fromAction.AddMessage({
                     type: GlobalMessageType.MSG_TYPE_ERROR,
                     text: errResponse.error.errors[0].message
+                      ? errResponse.error.errors[0].message
+                      : errResponse.message
                   })
                 );
               }
@@ -113,7 +111,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
               this.store.dispatch(
                 new fromAction.AddMessage({
                   type: GlobalMessageType.MSG_TYPE_ERROR,
-                  text: errResponse.message
+                  text: errResponse.error.errors[0].message
+                    ? errResponse.error.errors[0].message
+                    : errResponse.message
                 })
               );
           }
