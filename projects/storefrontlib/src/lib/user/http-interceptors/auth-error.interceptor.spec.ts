@@ -111,10 +111,7 @@ describe('AuthErrorInterceptor', () => {
         );
 
       const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'POST' &&
-          req.url === '/authorizationserver/oauth/token'
-        );
+        return req.method === 'POST' && req.url === url;
       });
 
       mockReq.flush(
