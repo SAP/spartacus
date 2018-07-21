@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -15,17 +15,11 @@ import * as fromStore from '../store';
 import * as fromAction from '../store/actions';
 import { GlobalMessageType } from './../models/message.model';
 
-import * as fromUser from '../../user/store';
-import { UserErrorHandlingService } from '../../user/services/user-error-handling.service';
-
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor(
-    protected store: Store<fromStore.GlobalMessageState>,
-    private userErrorHandlingService: UserErrorHandlingService
-  ) {}
+  constructor(protected store: Store<fromStore.GlobalMessageState>) {}
 
   intercept(
     request: HttpRequest<any>,

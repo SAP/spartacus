@@ -10,7 +10,6 @@ import { Store } from '@ngrx/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import * as fromStore from '../store';
 import * as fromUser from '../store';
 
 import { UserErrorHandlingService } from '../../user/services/user-error-handling.service';
@@ -51,6 +50,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
                   this.store.dispatch(new fromUser.Logout());
                 }
               }
+              break;
           }
         }
         return throwError(errResponse);

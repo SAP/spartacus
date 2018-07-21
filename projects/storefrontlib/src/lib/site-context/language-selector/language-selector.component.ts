@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 import * as fromStore from '../shared/store';
 import { ConfigService } from '../config.service';

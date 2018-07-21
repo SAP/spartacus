@@ -3,7 +3,8 @@ import {
   HttpTestingController,
   HttpClientTestingModule
 } from '@angular/common/http/testing';
-
+import { catchError } from 'rxjs/operators';
+import { throwError, Observable, of } from 'rxjs';
 import { UserErrorHandlingService } from '../../user/services/user-error-handling.service';
 import {
   HTTP_INTERCEPTORS,
@@ -17,7 +18,6 @@ import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import * as fromStore from '../store';
 import * as fromRoot from '../../routing/store';
 import { AuthErrorInterceptor } from './auth-error.interceptor';
-import { Observable, of } from 'rxjs';
 
 class MockUserErrorHandlingService {
   handleExpiredUserToken(
@@ -75,7 +75,17 @@ describe('AuthErrorInterceptor', () => {
         return req.method === 'GET';
       });
 
-      mockReq.flush(null, { status: 401, statusText: 'Unauthorized' });
+      mockReq.flush(
+        {
+          errors: [
+            {
+              type: 'InvalidTokenError',
+              message: 'Invalid access token: some token'
+            }
+          ]
+        },
+        { status: 401, statusText: 'Error' }
+      );
       expect(
         userErrorHandlingService.handleExpiredUserToken
       ).toHaveBeenCalled();
@@ -90,10 +100,15 @@ describe('AuthErrorInterceptor', () => {
 
       spyOn(store, 'dispatch').and.callThrough();
 
-      http.post(url, creds, {}).subscribe(result => {
-        expect(result).toBeTruthy();
-        expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
-      });
+      http
+        .post(url, creds, {})
+        .pipe(catchError((error: any) => throwError(error)))
+        .subscribe(
+          result => {},
+          error => {
+            expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
+          }
+        );
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -102,8 +117,6 @@ describe('AuthErrorInterceptor', () => {
         );
       });
 
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(
         { error: 'invalid_grant' },
         { status: 400, statusText: 'Error' }
