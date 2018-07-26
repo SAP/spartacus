@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StoreLocatorComponent } from './store-locator.component';
+import { StoreFinderPageComponent } from './store-finder-page.component';
 
-describe('StoreLocatorComponent', () => {
-  let component: StoreLocatorComponent;
-  let fixture: ComponentFixture<StoreLocatorComponent>;
+describe('StoreFinderPageComponent', () => {
+  let component: StoreFinderPageComponent;
+  let fixture: ComponentFixture<StoreFinderPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StoreLocatorComponent ]
+      declarations: [ StoreFinderPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StoreLocatorComponent);
+    fixture = TestBed.createComponent(StoreFinderPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

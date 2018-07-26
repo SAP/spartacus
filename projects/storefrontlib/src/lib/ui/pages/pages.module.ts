@@ -20,7 +20,7 @@ import { OrderHistoryPageComponent } from './order-history-page/order-history-pa
 // OrderPage
 import { OrderDetailsPageComponent } from './order-details-page/order-details-page.component';
 // StoreLocatorPage
-import { StoreLocatorPageComponent } from './store-locator-page/store-locator-page.component';
+import { StoreFinderPageComponent } from './store-finder-page/store-finder-page.component';
 
 @NgModule({
   imports: [CommonModule, LayoutModule],
@@ -34,7 +34,7 @@ import { StoreLocatorPageComponent } from './store-locator-page/store-locator-pa
     OrderConfirmationPageComponent,
     OrderHistoryPageComponent,
     OrderDetailsPageComponent,
-    StoreLocatorPageComponent
+    StoreFinderPageComponent
   ],
   exports: [
     HomePageComponent,
@@ -45,7 +45,7 @@ import { StoreLocatorPageComponent } from './store-locator-page/store-locator-pa
     MultiStepCheckoutPageComponent,
     OrderHistoryPageComponent,
     OrderDetailsPageComponent,
-    StoreLocatorPageComponent
+    StoreFinderPageComponent
   ]
 })
 export class PagesModule {}

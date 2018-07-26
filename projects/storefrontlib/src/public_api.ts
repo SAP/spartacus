@@ -57,11 +57,11 @@ export * from './lib/ui/layout/landing-page-layout/landing-page-layout.component
 export * from './lib/ui/layout/header/header.component';
 export * from './lib/ui/layout/order-details-page-layout/order-details-page-layout.component';
 export * from './lib/ui/layout/order-history-page-layout/order-history-page-layout.component';
-export * from './lib/ui/layout/store-locator-page-layout/store-locator-page-layout.component';
+export * from './lib/ui/layout/store-finder-page-layout/store-finder-page-layout.component';
 export * from './lib/ui/components/media/picture/picture.component';
 export * from './lib/ui/pages/category-page/category-page.component';
 export * from './lib/ui/pages/product-page/product-page.component';
-export * from './lib/ui/pages/store-locator-page/store-locator-page.component';
+export * from './lib/ui/pages/store-finder-page/store-finder-page.component';
 export * from './lib/ui/pages/home-page/home-page.component';
 export * from './lib/ui/pages/multi-step-checkout-page/multi-step-checkout-page.component';
 export * from './lib/ui/pages/cart-page/cart-page.component';
@@ -121,8 +121,8 @@ export * from './lib/site-context/currency-selector/currency-selector.component'
 export * from './lib/my-account/order/order-details/order-details.component';
 export * from './lib/my-account/order/order-history/container/order-history.component';
 export * from './lib/my-account/order/order-history/pagination-and-sorting/pagination-and-sorting.component';
-export * from './lib/store-locator/components/store-locator/store-locator.component';
-export * from './lib/store-locator/store-locator.module';
+export * from './lib/store-finder/components/store-finder/store-finder.component';
+export * from './lib/store-finder/store-finder.module';
 
 export * from './lib/user/guards/auth.guard';
 export * from './lib/user/guards/not-auth.guard';
