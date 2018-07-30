@@ -27,9 +27,9 @@ export class ProductFacetNavigationComponent implements OnInit {
   }
 
   ngOnInit() {
-    for (const index of Object.keys(this.searchResult.facets)) {
-      this.showAllPerFacetMap.set(this.searchResult.facets[index].name, false);
-    }
+    this.searchResult.facets.forEach(el => {
+      this.showAllPerFacetMap.set(el.name, false);
+    });
   }
 
   toggleValue(query: string) {

@@ -4,14 +4,14 @@ mat-chip {
     display: none;
   }
 }
-.facetControlsContainer {
+.facet-controls-container {
   text-align: end;
   margin: 10px 0 10px 0;
-  .showLessFacets {
+  .show-less-facets {
     margin-right: 3px;
   }
-  .showLessFacets,
-  .showMoreFacets {
+  .show-less-facets,
+  .show-more-facets {
     border: 1px solid black;
     border-radius: 2px;
     padding: 3px;
