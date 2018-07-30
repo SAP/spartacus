@@ -1,12 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+
+// @import '~projects/storefrontstyles/scss/styles';
+@import '~storefrontstyles/storefrontstyles/scss/styles';
+
 body {
-    margin: 0;
-    font-family: "Open Sans", Helvetica, Arial, sans-serif;
-    font-size: 14px;
+  margin: 0;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  font-size: 14px;
 }
 
-
 .mat-autocomplete-panel {
-    width:100%;
-    max-width:100% !important;
+  width: 100%;
+  max-width: 100% !important;
 }
