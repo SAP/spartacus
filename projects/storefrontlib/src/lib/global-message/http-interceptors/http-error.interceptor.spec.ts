@@ -1,19 +1,13 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 import {
   HttpTestingController,
   HttpClientTestingModule
 } from '@angular/common/http/testing';
 
-import {
-  HTTP_INTERCEPTORS,
-  HttpClient,
-  HttpHandler,
-  HttpRequest,
-  HttpClientModule
-} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { catchError } from 'rxjs/operators';
-import { throwError, Observable, of } from 'rxjs';
+import { throwError } from 'rxjs';
 
 import * as fromStore from '../store';
 import * as fromRoot from '../../routing/store';
@@ -25,7 +19,6 @@ const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
   let store: Store<fromStore.GlobalMessageState>;
-  let error;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -54,7 +47,7 @@ describe('HttpErrorInterceptor', () => {
     `should catch 400 error`,
     inject([HttpClient], (http: HttpClient) => {
       const url = OAUTH_ENDPOINT;
-      let creds = 'refresh_token=some_token&grant_type=password';
+      const creds = 'refresh_token=some_token&grant_type=password';
 
       http
         .post(url, creds, {})
