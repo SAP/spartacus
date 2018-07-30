@@ -114,10 +114,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     this.addressVerifySub = this.store
       .select(fromCheckoutStore.getAddressVerificationResults)
-      .pipe(
-        filter(results => Object.keys(results).length !== 0),
-        take(1)
-      )
+      .pipe(filter(results => Object.keys(results).length !== 0), take(1))
       .subscribe(results => {
         if (results === 'FAIL') {
           this.store.dispatch(
@@ -170,10 +167,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     this.step2Sub = this.store
       .select(fromCheckoutStore.getSelectedCode)
-      .pipe(
-        filter(selected => selected !== ''),
-        take(1)
-      )
+      .pipe(filter(selected => selected !== ''), take(1))
       .subscribe(selected => {
         this.step = 3;
         this.refreshCart();
@@ -201,12 +195,17 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
           this.paymentDetails = paymentInfo;
           this.cd.detectChanges();
         } else {
-          this.store.dispatch(
-            new fromGlobalMessage.AddMessage({
-              type: GlobalMessageType.MSG_TYPE_ERROR,
-              text: paymentInfo
-            })
-          );
+          Object.keys(paymentInfo).forEach(key => {
+            if (key.startsWith('InvalidField')) {
+              this.store.dispatch(
+                new fromGlobalMessage.AddMessage({
+                  type: GlobalMessageType.MSG_TYPE_ERROR,
+                  text: 'InvalidField: ' + paymentInfo[key]
+                })
+              );
+            }
+          });
+
           this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(3));
         }
       });
@@ -217,10 +216,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     this.step4Sub = this.store
       .select(fromCheckoutStore.getOrderDetails)
-      .pipe(
-        filter(order => Object.keys(order).length !== 0),
-        take(1)
-      )
+      .pipe(filter(order => Object.keys(order).length !== 0), take(1))
       .subscribe(order => {
         this.checkoutService.orderDetails = order;
         this.store.dispatch(
