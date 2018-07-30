@@ -1,5 +1,43 @@
+.review-header-container {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+  .overall-rating-container {
+    display: flex;
+    flex-direction: column;
+  }
+}
 .review {
   .comment {
     margin: 0 64px;
+    .reviewer-name-container {
+      margin: 10px 0px 10px 0px;
+      text-align: end;
+      span {
+        font-style: italic;
+      }
+    }
+  }
+}
+.write-review-container {
+  form {
+    width: 50%;
+    .form-control-container {
+      display: flex;
+      flex-direction: column;
+      margin: 20px 0px;
+      span {
+        margin-bottom: 5px;
+      }
+      textarea {
+        min-height: 100px;
+      }
+    }
+    button[type='submit'] {
+      margin-left: 10px;
+    }
+    .submit-btn {
+      background-color: #4caf50;
+    }
   }
 }

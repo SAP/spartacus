@@ -110,13 +110,11 @@ describe('ReviewSubmitComponent', () => {
     });
     component.countryName$.subscribe(() => {
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCheckout.LoadDeliveryCountries()
+        new fromUser.LoadDeliveryCountries()
       );
     });
     component.titleName$.subscribe(() => {
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCheckout.LoadTitles()
-      );
+      expect(store.dispatch).toHaveBeenCalledWith(new fromUser.LoadTitles());
     });
   });
 

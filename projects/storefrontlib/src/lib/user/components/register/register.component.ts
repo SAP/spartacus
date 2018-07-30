@@ -11,7 +11,6 @@ import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromUserStore from '../../store';
-import * as fromCheckoutStore from '../../../checkout/store';
 
 @Component({
   selector: 'y-register',
@@ -41,10 +40,10 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.titles$ = this.store.select(fromCheckoutStore.getAllTitles).pipe(
+    this.titles$ = this.store.select(fromUserStore.getAllTitles).pipe(
       tap(titles => {
         if (Object.keys(titles).length === 0) {
-          this.store.dispatch(new fromCheckoutStore.LoadTitles());
+          this.store.dispatch(new fromUserStore.LoadTitles());
         }
       })
     );

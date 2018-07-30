@@ -30,20 +30,18 @@ describe('CmsParagraphComponent in CmsLib', () => {
     content: 'Arbitrary paragraph content'
   };
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
-          })
-        ],
-        declarations: [ParagraphComponent],
-        providers: [{ provide: ConfigService, useClass: UseConfigService }]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromCmsReducer.reducers)
+        })
+      ],
+      declarations: [ParagraphComponent],
+      providers: [{ provide: ConfigService, useClass: UseConfigService }]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ParagraphComponent);
@@ -52,7 +50,6 @@ describe('CmsParagraphComponent in CmsLib', () => {
     el = fixture.debugElement;
 
     store = TestBed.get(Store);
-    spyOn(store, 'select').and.returnValue(of(componentData));
   });
 
   it('should be created', () => {
@@ -60,11 +57,26 @@ describe('CmsParagraphComponent in CmsLib', () => {
   });
 
   it('should contain cms content in the html rendering after bootstrap', () => {
+    spyOn(store, 'select').and.returnValue(of(componentData));
     expect(paragraphComponent.component).toBeNull();
     paragraphComponent.bootstrap();
     expect(paragraphComponent.component).toBe(componentData);
     expect(el.query(By.css('p')).nativeElement.textContent).toEqual(
       paragraphComponent.component.content
+    );
+  });
+
+  it('should sanitize unsafe html', () => {
+    const unsafeData = Object.assign({}, componentData);
+    unsafeData.content = `<img src="x" onerror='alert(1)'>`;
+    spyOn(store, 'select').and.returnValue(of(unsafeData));
+    spyOn(console, 'warn').and.stub(); // Prevent warning to be showed by Angular when sanitizing
+
+    expect(paragraphComponent.component).toBeNull();
+    paragraphComponent.bootstrap();
+    expect(paragraphComponent.component).toBe(unsafeData);
+    expect(el.query(By.css('p')).nativeElement.innerHTML).toEqual(
+      `<img src="x">`
     );
   });
 });

@@ -69,6 +69,11 @@ describe('AddToCartComponent', () => {
 
       addToCartComponent.productCode = productCode;
       addToCartComponent.addToCart();
+
+      fixture.detectChanges();
+      dialog.closeAll(); // prevent poluting Jasmine UI on browser
+
+      expect(dialog.open).toHaveBeenCalled();
       expect(cartService.addCartEntry).toHaveBeenCalledWith(productCode, 1);
     }
   ));

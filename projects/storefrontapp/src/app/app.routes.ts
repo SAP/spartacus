@@ -6,6 +6,8 @@ import { ProductPageComponent } from 'storefrontlib';
 import { CategoryPageComponent } from 'storefrontlib';
 import { MultiStepCheckoutPageComponent } from 'storefrontlib';
 import { OrderConfirmationPageComponent } from 'storefrontlib';
+import { OrderHistoryPageComponent } from 'storefrontlib';
+import { OrderDetailsPageComponent } from 'storefrontlib';
 import { RegisterComponent } from 'storefrontlib';
 
 import { PageNotFoundComponent } from 'storefrontlib';
@@ -51,6 +53,18 @@ export const appRoutes: Routes = [
     path: 'product/:productCode',
     canActivate: [ProductGuard, CmsPageGuards],
     component: ProductPageComponent
+  },
+  {
+    path: 'my-account/orders',
+    canActivate: [AuthGuard, CmsPageGuards],
+    component: OrderHistoryPageComponent,
+    data: { pageLabel: 'orders' }
+  },
+  {
+    path: 'my-account/orders/:orderCode',
+    canActivate: [AuthGuard, CmsPageGuards],
+    component: OrderDetailsPageComponent,
+    data: { pageLabel: 'order' }
   },
   {
     path: 'register',

@@ -17,13 +17,13 @@ This is a one time setup. We pull all of our dependencies from our internal npm 
 1.  Login to [artifactory](https://repository.hybris.com/webapp/#/login)
 2.  Once you have login, there should be an `npm repository` link on the homepage, in the "Set Me Up" section. Click on it and a popup window with instructions will appear.
 3.  Enter your password in the upper right. This will populate the commands with your encrypted password. This way you can copy and paste the commands directly in the terminal.
-4.  Out of all the commands in the popup, you will only need to run the first one on your machine. It looks like:
+4.  Find the section titled "Using basic authentication", and copy it contents and paste it in your ~/.npmrc file (create the file if it doesn't exist). It should look like:
 
 ```
-$ curl -u[firstname.lastname@sap.com]:[encryptedpassword] https://repository.hybris.com/api/npm/auth
+_auth = pn48PyMlZqQHWl6jb206QVA1zMjF0SnluAH64D3ZxenpQRDNhcCTVNMMdPk=
+email = firstname.lastname@sap.com
+always-auth = true
 ```
-
-As instructed next, paste the result in your ~/.npmrc file (create the file if it doesn't exist)
 
 The last step is to add this line to ~/.npmrc:
 

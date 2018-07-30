@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { DeliveryCountriesEffects } from '.';
+import { DeliveryCountriesEffects } from './delivery-countries.effect';
 
 import { Observable, of } from 'rxjs';
 
