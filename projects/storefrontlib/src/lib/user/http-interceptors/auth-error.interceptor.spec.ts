@@ -1,4 +1,4 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 import {
   HttpTestingController,
   HttpClientTestingModule
@@ -10,8 +10,7 @@ import {
   HTTP_INTERCEPTORS,
   HttpClient,
   HttpHandler,
-  HttpRequest,
-  HttpClientModule
+  HttpRequest
 } from '@angular/common/http';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 
@@ -64,60 +63,52 @@ describe('AuthErrorInterceptor', () => {
     );
   });
 
-  it(
-    `should catch 401 error`,
-    inject([HttpClient], (http: HttpClient) => {
-      http.get('/test').subscribe(result => {
-        expect(result).toBeTruthy();
-      });
+  it(`should catch 401 error`, inject([HttpClient], (http: HttpClient) => {
+    http.get('/test').subscribe(result => {
+      expect(result).toBeTruthy();
+    });
 
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET';
-      });
+    const mockReq = httpMock.expectOne(req => {
+      return req.method === 'GET';
+    });
 
-      mockReq.flush(
-        {
-          errors: [
-            {
-              type: 'InvalidTokenError',
-              message: 'Invalid access token: some token'
-            }
-          ]
-        },
-        { status: 401, statusText: 'Error' }
-      );
-      expect(
-        userErrorHandlingService.handleExpiredUserToken
-      ).toHaveBeenCalled();
-    })
-  );
-
-  it(
-    `should catch 400 error`,
-    inject([HttpClient], (http: HttpClient) => {
-      const url = '/authorizationserver/oauth/token';
-      let creds = 'refresh_token=some_token&grant_type=refresh_token';
-
-      spyOn(store, 'dispatch').and.callThrough();
-
-      http
-        .post(url, creds, {})
-        .pipe(catchError((error: any) => throwError(error)))
-        .subscribe(
-          result => {},
-          error => {
-            expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
+    mockReq.flush(
+      {
+        errors: [
+          {
+            type: 'InvalidTokenError',
+            message: 'Invalid access token: some token'
           }
-        );
+        ]
+      },
+      { status: 401, statusText: 'Error' }
+    );
+    expect(userErrorHandlingService.handleExpiredUserToken).toHaveBeenCalled();
+  }));
 
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === url;
-      });
+  it(`should catch 400 error`, inject([HttpClient], (http: HttpClient) => {
+    const url = '/authorizationserver/oauth/token';
+    const creds = 'refresh_token=some_token&grant_type=refresh_token';
 
-      mockReq.flush(
-        { error: 'invalid_grant' },
-        { status: 400, statusText: 'Error' }
+    spyOn(store, 'dispatch').and.callThrough();
+
+    http
+      .post(url, creds, {})
+      .pipe(catchError((error: any) => throwError(error)))
+      .subscribe(
+        result => {},
+        error => {
+          expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
+        }
       );
-    })
-  );
+
+    const mockReq = httpMock.expectOne(req => {
+      return req.method === 'POST' && req.url === url;
+    });
+
+    mockReq.flush(
+      { error: 'invalid_grant' },
+      { status: 400, statusText: 'Error' }
+    );
+  }));
 });
