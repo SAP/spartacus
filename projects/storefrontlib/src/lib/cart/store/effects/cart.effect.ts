@@ -1,17 +1,11 @@
 import { Injectable } from '@angular/core';
-
-import * as fromActions from './../actions/cart.action';
-
-import { Observable, of } from 'rxjs';
 import { Actions, Effect } from '@ngrx/effects';
-import { map, mergeMap, catchError } from 'rxjs/operators';
-
+import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { OccCartService } from '../../../occ/cart/cart.service';
 import { ProductImageConverterService } from '../../../product/converters';
-import {
-  CartDataService,
-  ANONYMOUS_USERID
-} from '../../services/cart-data.service';
+import { CartDataService } from '../../services/cart-data.service';
+import * as fromActions from './../actions/cart.action';
 
 @Injectable()
 export class CartEffects {
@@ -28,10 +22,7 @@ export class CartEffects {
         if (payload === undefined || payload.userId === undefined) {
           payload = {
             userId: this.cartData.userId,
-            cartId:
-              this.cartData.userId === ANONYMOUS_USERID
-                ? this.cartData.cart.guid
-                : this.cartData.cart.code,
+            cartId: this.cartData.cartId,
             details: this.cartData.getDetails ? true : undefined
           };
         }
