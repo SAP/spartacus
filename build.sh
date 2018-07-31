@@ -27,6 +27,16 @@ else
     echo "yarn.lock file is valid.";
 fi;
 
+echo "Validating that no 'fdescribe' occurrences are present in tests..."
+results=$(grep -rl --include "*.spec.ts" fdescribe projects || true)
+if [[ -z "$results" ]]; then
+    echo "Success: No 'fdescribe' occurrences detected in tests."
+else
+    echo "ERROR: Detected 'fdescribe' occurrence(s) in these files:"
+    echo "$results"
+    exit 1
+fi
+
 echo "Starting pipeline for Spartacus project"
 echo "-----"
 echo "Updating dependencies"

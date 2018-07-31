@@ -3,7 +3,7 @@
     <y-add-to-cart *ngIf="product.stock.stockLevelStatus !== 'outOfStock'" style="position: absolute" [iconOnly]="true" [productCode]="product.code"></y-add-to-cart>
     <div *ngIf="product.stock.stockLevelStatus === 'outOfStock'">Out of Stock</div>
 
-    <y-picture *ngIf="product.images" [imageContainer]="product.images.PRIMARY" imageFormat="product" [routerLink]="['/product/', product.code]"></y-picture>
+    <y-picture [imageContainer]="product.images?.PRIMARY" imageFormat="product" [routerLink]="['/product/', product.code]"></y-picture>
 
     <h3 [routerLink]="['/product/', product.code]" [innerHTML]="product.name">{{product.name}}</h3>
     <p [innerHTML]="product.summary">{{product.summary}}</p>
