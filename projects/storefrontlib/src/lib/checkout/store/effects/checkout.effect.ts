@@ -114,11 +114,15 @@ export class CheckoutEffects {
           .getPaymentProviderSubInfo(payload.userId, payload.cartId)
           .pipe(
             map(data => {
+              const labelsMap = this.convertToMap(data.mappingLabels.entry);
               return {
                 url: data.postUrl,
                 parameters: this.getParamsForPaymentProvider(
-                  payload.paymentDetails
-                )
+                  payload.paymentDetails,
+                  data.parameters.entry,
+                  labelsMap
+                ),
+                mappingLabels: labelsMap
               };
             }),
             mergeMap(sub => {
@@ -134,7 +138,11 @@ export class CheckoutEffects {
                         .createPaymentDetails(
                           payload.userId,
                           payload.cartId,
-                          fromPaymentProvider
+                          this.getPaymentSopResponseParams(
+                            payload.paymentDetails,
+                            fromPaymentProvider,
+                            sub.mappingLabels
+                          )
                         )
                         .pipe(
                           mergeMap(details => {
@@ -205,16 +213,6 @@ export class CheckoutEffects {
     );
 
   private domparser: DOMParser;
-  private cardTypes = {
-    visa: '001',
-    master: '002',
-    amex: '003',
-    discover: '004',
-    diners: '005',
-    jcb: '007',
-    maestro: '024',
-    SWITCH: 'switch'
-  };
 
   constructor(
     private actions$: Actions,
@@ -224,30 +222,86 @@ export class CheckoutEffects {
     this.domparser = new DOMParser();
   }
 
-  private getParamsForPaymentProvider(paymentDetails: any) {
-    return {
-      card_cardType: this.cardTypes[paymentDetails.cardType.code],
-      card_accountNumber: paymentDetails.cardNumber,
-      card_expirationMonth: paymentDetails.expiryMonth,
-      card_expirationYear: paymentDetails.expiryYear,
-      card_cvNumber: paymentDetails.cvn,
-      billTo_firstName: paymentDetails.billingAddress.firstName,
-      billTo_lastName: paymentDetails.billingAddress.lastName,
-      billTo_street1: paymentDetails.billingAddress.line1,
-      billTo_street2: paymentDetails.billingAddress.line2,
-      billTo_city: paymentDetails.billingAddress.town,
-      billTo_state: paymentDetails.billingAddress.region.isocode.substr(
-        paymentDetails.billingAddress.region.isocode.indexOf('-') + 1
-      ),
-      billTo_country: paymentDetails.billingAddress.country.isocode,
-      billTo_postalCode: paymentDetails.billingAddress.postalCode
-    };
+  private getPaymentSopResponseParams(
+    paymentDetails: any,
+    fromPaymentProvider: any,
+    mappingLabels: any
+  ) {
+    const sopResponseParams = {};
+
+    sopResponseParams['decision'] =
+      fromPaymentProvider[mappingLabels['hybris_sop_decision']];
+    sopResponseParams['amount'] =
+      fromPaymentProvider[mappingLabels['hybris_sop_amount']];
+    sopResponseParams['currency'] =
+      fromPaymentProvider[mappingLabels['hybris_sop_currency']];
+
+    sopResponseParams['billTo_country'] =
+      fromPaymentProvider[mappingLabels['hybris_billTo_country']];
+    sopResponseParams['billTo_firstName'] =
+      fromPaymentProvider[mappingLabels['hybris_billTo_firstname']];
+    sopResponseParams['billTo_lastName'] =
+      fromPaymentProvider[mappingLabels['hybris_billTo_lastname']];
+    sopResponseParams['billTo_street1'] =
+      fromPaymentProvider[mappingLabels['hybris_billTo_street1']];
+    sopResponseParams['billTo_city'] =
+      fromPaymentProvider[mappingLabels['hybris_billTo_city']];
+    sopResponseParams['billTo_postalCode'] =
+      fromPaymentProvider[mappingLabels['hybris_billTo_postalcode']];
+
+    sopResponseParams['card_cardType'] = paymentDetails.cardType.code;
+    sopResponseParams['card_accountNumber'] =
+      fromPaymentProvider[mappingLabels['hybris_sop_card_number']];
+    sopResponseParams['card_expirationMonth'] = paymentDetails.expiryMonth;
+    sopResponseParams['card_expirationYear'] = paymentDetails.expiryYear;
+
+    sopResponseParams['reasonCode'] =
+      fromPaymentProvider[mappingLabels['hybris_sop_reason_code']];
+    sopResponseParams['paySubscriptionCreateReply_subscriptionID'] =
+      fromPaymentProvider[mappingLabels['hybris_sop_subscriptionID']];
+
+    if (mappingLabels['hybris_sop_uses_public_signature'] === 'true') {
+      sopResponseParams[
+        'paySubscriptionCreateReply_subscriptionIDPublicSignature'
+      ] =
+        fromPaymentProvider[mappingLabels['hybris_sop_public_signature']];
+    }
+
+    return sopResponseParams;
+  }
+
+  private getParamsForPaymentProvider(
+    paymentDetails: any,
+    parameters: { key; value }[],
+    mappingLabels: any
+  ) {
+    const params = this.convertToMap(parameters);
+
+    params[mappingLabels['hybris_account_holder_name']] =
+      paymentDetails.accountHolderName;
+    params[mappingLabels['hybris_card_type']] = paymentDetails.cardType.code;
+    params[mappingLabels['hybris_card_number']] = paymentDetails.cardNumber;
+
+    if (mappingLabels['hybris_combined_expiry_date'] === 'true') {
+      // tslint:disable-next-line:max-line-length
+      params[mappingLabels['hybris_card_expiry_date']] =
+        paymentDetails.expiryMonth +
+        mappingLabels['hybris_separator_expiry_date'] +
+        paymentDetails.expiryYear;
+    } else {
+      params[mappingLabels['hybris_card_expiration_month']] =
+        paymentDetails.expiryMonth;
+      params[mappingLabels['hybris_card_expiration_year']] =
+        paymentDetails.expiryYear;
+    }
+    params[mappingLabels['hybris_card_cvn']] = paymentDetails.cvn;
+    return params;
   }
 
   private extractPaymentDetailsFromHtml(html: string): any {
     const domdoc = this.domparser.parseFromString(html, 'text/xml');
-    const postFormItems = domdoc.getElementById('postFormItems');
-    const inputs = postFormItems.getElementsByTagName('input');
+    const responseForm = domdoc.getElementsByTagName('form')[0];
+    const inputs = responseForm.getElementsByTagName('input');
 
     const values = {};
     for (let i = 0; inputs[i]; i++) {
@@ -272,5 +326,13 @@ export class CheckoutEffects {
     }
 
     return values;
+  }
+
+  private convertToMap(paramList: { key; value }[]) {
+    return paramList.reduce(function(result, item) {
+      const key = item.key;
+      result[key] = item.value;
+      return result;
+    }, {});
   }
 }
