@@ -23,7 +23,7 @@ export class OccUserService {
     const url = this.getUserEndpoint() + userId;
     return this.http
       .get(url)
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   loadToken(userId: string, password: string): Observable<any> {
@@ -40,7 +40,7 @@ export class OccUserService {
 
     return this.http
       .post(url, creds, { headers: headers })
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   verifyAddress(userId, address) {
@@ -52,7 +52,7 @@ export class OccUserService {
 
     return this.http
       .post(url, address, { headers: headers })
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   loadUserAddresses(userId) {
@@ -63,7 +63,7 @@ export class OccUserService {
 
     return this.http
       .get(url, { headers: headers })
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   loadUserPaymentMethods(userId) {
@@ -74,7 +74,7 @@ export class OccUserService {
 
     return this.http
       .get(url, { headers: headers })
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   refreshToken(refreshToken: string) {
@@ -105,7 +105,7 @@ export class OccUserService {
 
     return this.http
       .post(url, user, { headers: headers })
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   protected getOAuthEndpoint() {

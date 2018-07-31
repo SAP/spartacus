@@ -29,12 +29,6 @@ export class UserErrorHandlingService {
     );
   }
 
-  public handleInvalidRefreshToken(): void {
-    this.store.dispatch(new fromUserStore.Logout());
-    // Redirect to login if user has no token but we don't have a login page
-    window.location.href = this.LOGIN_URL;
-  }
-
   private handleExpiredToken(): Observable<any> {
     let oldToken;
     return combineLatest(
