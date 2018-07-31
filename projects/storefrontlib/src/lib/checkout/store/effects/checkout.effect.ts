@@ -130,6 +130,7 @@ export class CheckoutEffects {
                   mergeMap(fromPaymentProvider => {
                     if (!fromPaymentProvider['hasError']) {
                       // consume response from payment provider and creates payment details
+
                       return this.occCartService
                         .createPaymentDetails(
                           payload.userId,
@@ -231,6 +232,7 @@ export class CheckoutEffects {
       card_expirationMonth: paymentDetails.expiryMonth,
       card_expirationYear: paymentDetails.expiryYear,
       card_cvNumber: paymentDetails.cvn,
+      card_defaultPayment: paymentDetails.defaultPayment,
       billTo_firstName: paymentDetails.billingAddress.firstName,
       billTo_lastName: paymentDetails.billingAddress.lastName,
       billTo_street1: paymentDetails.billingAddress.line1,

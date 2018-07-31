@@ -1,18 +1,10 @@
 <div class="content" *ngIf="existingPaymentMethods.length > 0 && !newPayment;else paymentForm">
     <h3>Payment Methods</h3>
     <div *ngFor="let method of existingPaymentMethods">
-        <div *ngIf="method.defaultPayment">
-            <div>{{method.cardType.name}} (Default Payment Method)</div>
-            <div>{{method.accountHolderName}}</div>
-            <div>{{method.cardNumber}}</div>
-            <div>Expiry: {{method.expiryMonth}}/{{method.expiryYear}}</div>
-            <div class="continue-link">
-                <a [routerLink]="" (click)="paymentMethodSelected(method)">Use this Payment Method</a>
+        <div class="payment-methods">
+            <div>{{method.cardType.name}}
+                <span *ngIf="method.defaultPayment"> (Default Payment Method)</span>
             </div>
-        </div>
-
-        <div class="payment-methods" *ngIf="!method.defaultPayment">
-            <div>{{method.cardType.name}}</div>
             <div>{{method.accountHolderName}}</div>
             <div>{{method.cardNumber}}</div>
             <div>Expiry: {{method.expiryMonth}}/{{method.expiryYear}}</div>
