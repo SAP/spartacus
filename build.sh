@@ -55,17 +55,17 @@ echo "-----"
 echo "Validating code linting"
 ng lint
 echo "-----"
-echo "Building SPA core lib"
-ng build storefrontlib
-echo "-----"
 echo "Running unit tests and checking code coverage for core lib"
 ng test storefrontlib --watch=false --code-coverage --browsers=ChromeHeadless
 echo "-----"
-echo "Building SPA app"
-ng build storefrontapp
-echo "-----"
 echo "Running unit tests and checking code coverage for storefront app"
 ng test storefrontapp --watch=false --browsers=ChromeHeadless
+echo "-----"
+echo "Building SPA core lib"
+ng build storefrontlib
+echo "-----"
+echo "Building SPA app"
+ng build storefrontapp
 echo "-----"
 echo "Setting endpoint with the server to run end to end tests against"
 sed -i -e "s=https://localhost=https://$DEV_SERVER=g" projects/storefrontapp/src/app/config.service.ts
