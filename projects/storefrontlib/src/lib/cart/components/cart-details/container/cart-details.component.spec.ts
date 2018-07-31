@@ -49,7 +49,7 @@ const mockEntries = [
 const mockOneEntryFormGroup = { entryNumber: 1 };
 const mockZeroIndex = 0;
 
-describe('CartDetailsComponent', () => {
+fdescribe('CartDetailsComponent', () => {
   let store: Store<fromReducer.CartState>;
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
@@ -85,11 +85,7 @@ describe('CartDetailsComponent', () => {
     service = TestBed.get(CartService);
 
     store = TestBed.get(Store);
-    spyOn(store, 'select').and.returnValues(
-      of(true),
-      of(mockCart),
-      of(mockEntries)
-    );
+    spyOn(store, 'select').and.returnValues(of(mockCart), of(mockEntries));
 
     spyOn(service, 'removeCartEntry').and.callThrough();
     spyOn(service, 'loadCartDetails').and.callThrough();
