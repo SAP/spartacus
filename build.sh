@@ -37,6 +37,16 @@ else
     exit 1
 fi
 
+echo "Validating that the storefrontlib does not import itself."
+results=$(grep -rl --include "*.ts" "from 'storefrontlib'" projects/storefrontlib || true)
+if [[ -z "$results" ]]; then
+    echo "Success: storefrontlib does not seem to import itself."
+else
+    echo "ERROR: Detected occurrence(s) where storefronlib imports itself in these files:"
+    echo "$results"
+    exit 1
+fi
+
 echo "Starting pipeline for Spartacus project"
 echo "-----"
 echo "Updating dependencies"
