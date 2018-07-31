@@ -14,15 +14,16 @@ import { CmsModule } from 'storefrontlib';
 import { RoutingModule } from 'storefrontlib';
 import { SiteContextModule } from 'storefrontlib';
 import { ProductModule } from 'storefrontlib';
-import { ServicesModule } from 'storefrontlib';
 
 import { appRoutes } from './app.routes';
 
 // bootstrap
 import { AppComponent } from './app.component';
+
 import { UserModule } from 'storefrontlib';
 import { CartModule } from 'storefrontlib';
 import { CheckoutModule } from 'storefrontlib';
+import { GlobalMessageModule } from 'storefrontlib';
 
 @NgModule({
   imports: [
@@ -31,7 +32,6 @@ import { CheckoutModule } from 'storefrontlib';
     CmsLibModule,
     UiModule,
     UiFrameworkModule,
-    ServicesModule,
 
     CmsModule.forRoot(ConfigService),
     SiteContextModule.forRoot(ConfigService),
@@ -40,7 +40,8 @@ import { CheckoutModule } from 'storefrontlib';
     RouterModule.forRoot(appRoutes),
     ProductModule,
     UserModule,
-    CartModule
+    CartModule,
+    GlobalMessageModule
   ],
 
   providers: [
@@ -48,7 +49,7 @@ import { CheckoutModule } from 'storefrontlib';
     {
       // TODO: configure locale
       provide: LOCALE_ID,
-      useValue: 'nl-NL'
+      useValue: 'en-US'
     }
   ],
   declarations: [AppComponent],

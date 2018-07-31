@@ -204,9 +204,11 @@ describe('OccCmsService', () => {
         type: PageType.PRODUCT_PAGE
       };
 
-      service.loadListComponents(ids, context, 'FULL', 0, 5).subscribe(result => {
-        expect(result).toEqual(listComponents);
-      });
+      service
+        .loadListComponents(ids, context, 'FULL', 0, 5)
+        .subscribe(result => {
+          expect(result).toEqual(listComponents);
+        });
 
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'POST' && req.url === endpoint + '/components';

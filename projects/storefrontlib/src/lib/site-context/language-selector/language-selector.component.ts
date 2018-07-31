@@ -5,8 +5,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable ,  Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
 
 import * as fromStore from '../shared/store';
 import { ConfigService } from '../config.service';
@@ -30,14 +29,11 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.store
       .select(fromStore.getLanguagesLoaded)
-      .pipe(
-        tap(loaded => {
-          if (!loaded) {
-            this.store.dispatch(new fromStore.LoadLanguages());
-          }
-        })
-      )
-      .subscribe();
+      .subscribe(loaded => {
+        if (!loaded) {
+          this.store.dispatch(new fromStore.LoadLanguages());
+        }
+      });
 
     this.languages$ = this.store.select(fromStore.getAllLanguages);
     this.activeLanguage = this.configService.site.language;

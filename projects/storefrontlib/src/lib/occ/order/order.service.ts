@@ -36,4 +36,37 @@ export class OccOrderService {
       .post(url, {}, { headers: headers, params: params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
+
+  public getOrders(
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<any> {
+    const url = this.getOrderEndpoint(userId);
+    let params = new HttpParams();
+    if (pageSize) {
+      params = params.set('pageSize', pageSize.toString());
+    }
+    if (currentPage) {
+      params = params.set('currentPage', currentPage.toString());
+    }
+    if (sort) {
+      params = params.set('sort', sort);
+    }
+
+    return this.http
+      .get(url, { params: params })
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
+  public getOrder(userId: string, orderCode: string) {
+    const url = this.getOrderEndpoint(userId);
+
+    const orderUrl = url + '/' + orderCode;
+
+    return this.http
+      .get(orderUrl)
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
 }

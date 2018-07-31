@@ -1,0 +1,33 @@
+.pagination-and-sort-container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0 10px 0;
+  .table-controls {
+    display: flex;
+    justify-content: space-between;
+    .pagination-container {
+      display: flex;
+      .pages {
+        display: flex;
+        .activePage {
+          background-color: #ccc;
+        }
+      }
+      .prev,
+      .next,
+      .page-number {
+        border: 1px solid black;
+        padding: 5px;
+        cursor: pointer;
+      }
+      .page-number {
+        min-width: 15px;
+        margin: 0 2px 0 2px;
+        text-align: center;
+      }
+      .page-number-ellipsis {
+        margin: 0 2px 0 2px;
+      }
+    }
+  }
+}

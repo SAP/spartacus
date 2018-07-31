@@ -1,3 +1,4 @@
+import { MyAccountModule } from './../../my-account/my-account.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -10,6 +11,7 @@ import { CmsModule } from '../../cms/cms.module';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { MainComponent } from './main/main.component';
+import { GlobalMessageModule } from '../../global-message/global-message.module';
 
 // layout
 import { CategoryPageLayoutComponent } from './category-page-layout/category-page-layout.component';
@@ -19,6 +21,8 @@ import { ProductDetailsPageLayoutComponent } from './product-details-page-layout
 import { CartPageLayoutComponent } from './cart-page-layout/cart-page-layout.component';
 import { MultiStepCheckoutPageLayoutComponent } from './multi-step-checkout-page-layout/multi-step-checkout-page-layout.component';
 import { OrderConfirmationPageLayoutComponent } from './order-confirmation-page-layout/order-confirmation-page-layout.component';
+import { OrderHistoryPageLayoutComponent } from './order-history-page-layout/order-history-page-layout.component';
+import { OrderDetailsPageLayoutComponent } from './order-details-page-layout/order-details-page-layout.component';
 
 // header components
 import { CookieConfirmationModule } from '../../cms-lib/cookie-confirmation/cookie-confirmation.module';
@@ -42,10 +46,12 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     LoginModule,
     LanguageSelectorModule,
     CurrencySelectorModule,
+    GlobalMessageModule,
 
     ProductModule,
     CartDetailsModule,
-    CheckoutModule
+    CheckoutModule,
+    MyAccountModule
   ],
   declarations: [
     HeaderComponent,
@@ -57,7 +63,9 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     CartPageLayoutComponent,
     CategoryPageLayoutComponent,
     MultiStepCheckoutPageLayoutComponent,
-    OrderConfirmationPageLayoutComponent
+    OrderConfirmationPageLayoutComponent,
+    OrderHistoryPageLayoutComponent,
+    OrderDetailsPageLayoutComponent
   ],
   exports: [
     MainComponent,
@@ -67,7 +75,9 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     CartPageLayoutComponent,
     CategoryPageLayoutComponent,
     MultiStepCheckoutPageLayoutComponent,
-    OrderConfirmationPageLayoutComponent
+    OrderConfirmationPageLayoutComponent,
+    OrderHistoryPageLayoutComponent,
+    OrderDetailsPageLayoutComponent
   ]
 })
 export class LayoutModule {}
