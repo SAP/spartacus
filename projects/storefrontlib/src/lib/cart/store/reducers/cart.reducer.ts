@@ -4,16 +4,12 @@ export interface CartState {
   content: any;
   entries: { [code: string]: any };
   refresh: boolean;
-  isLoading: boolean;
-  isLoaded: boolean;
 }
 
 export const initialState: CartState = {
   content: {},
   entries: {},
-  refresh: false,
-  isLoading: false,
-  isLoaded: false
+  refresh: false
 };
 
 export function reducer(
@@ -23,9 +19,7 @@ export function reducer(
   switch (action.type) {
     case fromAction.LOAD_CART: {
       return {
-        ...state,
-        isLoading: true,
-        isLoaded: false
+        ...state
       };
     }
 
@@ -38,23 +32,31 @@ export function reducer(
           (entryMap: { [code: string]: any }, entry: any) => {
             return {
               ...entryMap,
-              [entry.product.code]: entry
+              /*
+              If we refresh the page from cart details page, 2 load cart
+              Actions gets dispatched. One is non-detail, and the second is detailed.
+              In the case where the detailed once get resolved first, we merge the existing
+              data with the new data from the response (to not delete existing detailed data).
+              */
+              [entry.product.code]: state.entries[entry.product.code]
+                ? {
+                    ...state.entries[entry.product.code],
+                    ...entry
+                  }
+                : entry
             };
           },
           {
             ...entries
           }
         );
-
         delete content['entries'];
       }
       return {
         ...state,
         content,
         entries,
-        refresh: false,
-        isLoading: false,
-        isLoaded: true
+        refresh: false
       };
     }
 
@@ -63,9 +65,7 @@ export function reducer(
     case fromAction.ADD_ENTRY_SUCCESS: {
       return {
         ...state,
-        refresh: true,
-        isLoading: false,
-        isLoaded: true
+        refresh: true
       };
     }
   }
@@ -76,5 +76,3 @@ export function reducer(
 export const getCartContent = (state: CartState) => state.content;
 export const getRefresh = (state: CartState) => state.refresh;
 export const getEntries = (state: CartState) => state.entries;
-export const getIsLoading = (state: CartState) => state.isLoading;
-export const getIsLoaded = (state: CartState) => state.isLoaded;

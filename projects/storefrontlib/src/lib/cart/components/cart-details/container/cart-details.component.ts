@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { tap } from 'rxjs/operators';
 import { CartService } from '../../../services/cart.service';
 import * as fromCartStore from '../../../store';
 
@@ -25,40 +26,31 @@ export class CartDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const sub = this.store
-      .select(fromCartStore.getIsLoaded)
-      .subscribe(cartIsLoaded => {
-        if (cartIsLoaded) {
-          this.cartService.loadCartDetails();
-          if (sub) {
-            sub.unsubscribe();
-          }
-        }
-      });
+    this.cartService.loadCartDetails();
 
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
 
-    this.entries$ = this.store.select(fromCartStore.getEntries);
-
-    this.entries$.subscribe(entries => {
-      const entryArryControl = this.form.get('entryArry') as FormArray;
-      for (const entry of entries) {
-        const entryControl = entryArryControl.controls.filter(
-          control =>
-            (control as FormGroup).controls.entryNumber.value ===
-            entry.entryNumber
-        );
-        if (entryControl[0]) {
-          // Update form values
-          (entryControl[0] as FormGroup).controls.quantity.setValue(
-            entry.quantity
+    this.entries$ = this.store.select(fromCartStore.getEntries).pipe(
+      tap(entries => {
+        const entryArryControl = this.form.get('entryArry') as FormArray;
+        for (const entry of entries) {
+          const entryControl = entryArryControl.controls.filter(
+            control =>
+              (control as FormGroup).controls.entryNumber.value ===
+              entry.entryNumber
           );
-        } else {
-          // Create form control for entry
-          entryArryControl.push(this.createEntryFormGroup(entry));
+          if (entryControl[0]) {
+            // Update form values
+            (entryControl[0] as FormGroup).controls.quantity.setValue(
+              entry.quantity
+            );
+          } else {
+            // Create form control for entry
+            entryArryControl.push(this.createEntryFormGroup(entry));
+          }
         }
-      }
-    });
+      })
+    );
   }
 
   private createEntryFormGroup(entry) {
