@@ -75,9 +75,9 @@ export const appRoutes: Routes = [
   },
   {
     path: 'store-finder',
-    // canActivate: [CmsPageGuards],
-    data: { pageLabel: 'storeFinderPage' },
-    component: StoreFinderPageComponent
+    canActivate: [CmsPageGuards],
+    component: StoreFinderPageComponent,
+    data: { pageLabel: 'login' },
   },
 
   // redirect OLD links
