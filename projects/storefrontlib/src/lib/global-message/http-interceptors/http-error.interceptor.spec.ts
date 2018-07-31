@@ -66,7 +66,7 @@ describe('HttpErrorInterceptor', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.AddMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
-        text: 'Bad credentials. Please login again!'
+        text: 'Bad credentials. Please login again.'
       })
     );
   }));

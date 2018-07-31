@@ -23,7 +23,7 @@ export class OccUserService {
     const url = this.getUserEndpoint() + userId;
     return this.http
       .get(url)
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   loadToken(userId: string, password: string): Observable<any> {

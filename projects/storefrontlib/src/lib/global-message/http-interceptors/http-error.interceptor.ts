@@ -41,7 +41,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                       type: GlobalMessageType.MSG_TYPE_ERROR,
                       text:
                         this.getErrorMessage(errResponse) +
-                        '. Please login again!'
+                        '. Please login again.'
                     })
                   );
                 }
