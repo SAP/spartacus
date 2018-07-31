@@ -42,7 +42,7 @@ describe('OccMiscsService', () => {
   });
 
   it('should return delivery countries list', () => {
-    const endpoint = 'deliverycountries';
+    const endpoint = 'countries';
 
     const countryList = {
       countries: [
@@ -126,5 +126,38 @@ describe('OccMiscsService', () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(cardTypesList);
+  });
+
+  it('should return regions', () => {
+    const endpoint = 'countries/CA/regions';
+
+    const regions = {
+      regions: [
+        {
+          isocode: 'CA-AB',
+          name: 'Alberta'
+        },
+        {
+          isocode: 'CA-BC',
+          name: 'British Columbia'
+        },
+        {
+          isocode: 'CA-MB',
+          name: 'Manitoba'
+        }
+      ]
+    };
+
+    service.loadRegions('CA').subscribe(result => {
+      expect(result).toEqual(regions);
+    });
+
+    const mockReq = httpMock.expectOne(req => {
+      return req.method === 'GET' && req.url === '/' + endpoint;
+    });
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    mockReq.flush(regions);
   });
 });

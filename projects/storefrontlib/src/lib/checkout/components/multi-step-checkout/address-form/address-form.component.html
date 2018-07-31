@@ -5,7 +5,8 @@
             <div>{{address.firstName}} {{address.lastName}} (Default Shipping Address)
                 <br>{{address.line1}}
                 <br>{{address.line2}}
-                <br>{{address.town}}, {{address.region.isocode}}, {{address.country.isocode}}</div>
+                <br>{{address.town}},
+                <span *ngIf="address.region">{{address.region?.isocode}},</span> {{address.country.isocode}}</div>
             <div class="continue-link">
                 <a [routerLink]="" (click)="addressSelected(address)">Use this address</a>
             </div>
@@ -15,7 +16,8 @@
             <div>{{address.firstName}} {{address.lastName}}
                 <br>{{address.line1}}
                 <br>{{address.line2}}
-                <br>{{address.town}}, {{address.region.isocode}}, {{address.country.isocode}}</div>
+                <br>{{address.town}},
+                <span *ngIf="address.region">{{address.region?.isocode}},</span> {{address.country.isocode}}</div>
             <div class="continue-link">
                 <a [routerLink]="" (click)="addressSelected(address)">Use this address</a>
             </div>
@@ -38,7 +40,7 @@
                 <div>
                     <font size="3">Country:</font>
                 </div>
-                <select class="countries-dropdown " formControlName="isocode">
+                <select class="countries-dropdown" formControlName="isocode">
                     <option value="">Select Country</option>
                     <option *ngFor="let country of (countries$ | async)" [value]="country.isocode">
                         {{ country.name }}
@@ -93,13 +95,19 @@
                 <input class="inputs" type="text" placeholder="City" formControlName="town">
                 <div class="error" *ngIf="required( 'town')">City is required</div>
             </div>
-            <div formGroupName="region">
+            <div formGroupName="region" [ngClass]="{'inactive': !hasRegions}">
                 <div>
                     <font size="3">Province:</font>
                 </div>
                 <div>You'll get an error if you don't enter right code.</div>
-                <input class="inputs" type="text" placeholder="State/Province" formControlName="isocode">
-                <div class="error" *ngIf="required( 'region.isocode')">Province is required</div>
+                <select class="regions-dropdown" formControlName="isocode">
+                    <option value="">Select Region</option>
+                    <option *ngFor="let region of (regions$ | async)[0]" [value]="region.isocode">
+                        <span *ngIf="region.name; else noRegionName">{{ region.name }}</span>
+                        <ng-template #noRegionName>{{region.isocode}}</ng-template>
+                    </option>
+                </select>
+                <div class="error" *ngIf="required('region.isocode')">Province is required</div>
             </div>
 
             <div>

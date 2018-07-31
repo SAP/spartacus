@@ -16,3 +16,4 @@ export * from './payment-methods.action';
 export * from './user-register.action';
 export * from './titles.action';
 export * from './delivery-countries.action';
+export * from './regions.action';

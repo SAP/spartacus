@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
@@ -29,7 +29,9 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
 export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<any>;
   titles$: Observable<any>;
+  regions$: Observable<any>;
   newAddress = false;
+  hasRegions = true;
 
   @Input() existingAddresses;
   @Output() addAddress = new EventEmitter<any>();
@@ -75,6 +77,40 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
       })
     );
+
+    this.regions$ = combineLatest(
+      this.store.select(fromUser.getAllRegions),
+      this.store.select(fromUser.getRegionsLoaded),
+      this.store.select(fromUser.getRegionsLoading)
+    ).pipe(
+      tap(([regions, loaded, loading]: [any, boolean, boolean]) => {
+        const countryIsoCode = this.address.get('country.isocode').value;
+
+        if (regions && regions.length !== 0) {
+          this.hasRegions = true;
+          this.address.get('region.isocode').enable();
+        } else {
+          this.hasRegions = false;
+          this.address.get('region.isocode').disable();
+        }
+
+        if (!loaded && !loading && countryIsoCode) {
+          this.store.dispatch(new fromUser.LoadRegions(countryIsoCode));
+        }
+      })
+    );
+
+    this.onChanges();
+  }
+
+  onChanges(): void {
+    let countryIso;
+    this.address.valueChanges.subscribe(val => {
+      if (val.country.isocode && val.country.isocode !== countryIso) {
+        countryIso = val.country.isocode;
+        this.store.dispatch(new fromUser.LoadRegions(countryIso));
+      }
+    });
   }
 
   toggleDefaultAddress() {

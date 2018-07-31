@@ -4,10 +4,15 @@
 
 .inputs,
 .countries-dropdown,
-.titles-dropdown {
+.titles-dropdown,
+.regions-dropdown {
   width: 40.5%;
   height: 20px;
   margin-bottom: 15px;
+}
+
+.inactive {
+  display: none;
 }
 
 .address {
