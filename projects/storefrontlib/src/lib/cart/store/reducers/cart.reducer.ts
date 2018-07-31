@@ -17,12 +17,6 @@ export function reducer(
   action: fromAction.CartAction | fromAction.CartEntryAction
 ): CartState {
   switch (action.type) {
-    case fromAction.LOAD_CART: {
-      return {
-        ...state
-      };
-    }
-
     case fromAction.LOAD_CART_SUCCESS:
     case fromAction.CREATE_CART_SUCCESS: {
       const content = { ...action.payload };
