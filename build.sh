@@ -55,14 +55,15 @@ echo "-----"
 echo "Validating code linting"
 ng lint
 echo "-----"
-echo "Running unit tests and checking code coverage for core lib"
+echo "Running unit tests and code coverage for core lib"
 ng test storefrontlib --watch=false --code-coverage --browsers=ChromeHeadless 2>&1 |  tee spa_tests.log
 results=$(tail -4 spa_tests.log | grep ERROR || true)
 if [[ -z "$results" ]]; then
     echo "Success: Tests meet coverage expectations"
+    rm spa_tests.log
 else
-    echo "ERROR: Tests don't meet coverage expectations:"
-    echo "$results"
+    echo "Error: Tests did not meet coverage expectations"
+    rm spa_tests.log
     exit 1
 fi
 echo "-----"
