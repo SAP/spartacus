@@ -42,17 +42,17 @@ describe('CheckoutService', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  it(
-    'should CheckoutService is injected',
-    inject([CheckoutService], (checkoutService: CheckoutService) => {
+  it('should CheckoutService is injected', inject(
+    [CheckoutService],
+    (checkoutService: CheckoutService) => {
       expect(checkoutService).toBeTruthy();
-    })
-  );
+    }
+  ));
 
   describe('Create and Set Address', () => {
-    it(
-      'should be able to create and set address to cart',
-      inject([CartService], (cartService: CartService) => {
+    it('should be able to create and set address to cart', inject(
+      [CartService],
+      (cartService: CartService) => {
         cartService.userId = userId;
         cartService.cart = cart;
 
@@ -65,14 +65,14 @@ describe('CheckoutService', () => {
             address: address
           })
         );
-      })
-    );
+      }
+    ));
   });
 
   describe('load Supported Delivery Modes', () => {
-    it(
-      'should be able to load the supported delivery modes',
-      inject([CartService], (cartService: CartService) => {
+    it('should be able to load the supported delivery modes', inject(
+      [CartService],
+      (cartService: CartService) => {
         cartService.userId = userId;
         cartService.cart = cart;
 
@@ -84,14 +84,14 @@ describe('CheckoutService', () => {
             cartId: cart.code
           })
         );
-      })
-    );
+      }
+    ));
   });
 
   describe('set Delivery Mode', () => {
-    it(
-      'should be able to set the delivery mode',
-      inject([CartService], (cartService: CartService) => {
+    it('should be able to set the delivery mode', inject(
+      [CartService],
+      (cartService: CartService) => {
         cartService.userId = userId;
         cartService.cart = cart;
 
@@ -105,15 +105,14 @@ describe('CheckoutService', () => {
             selectedModeId: modeId
           })
         );
-      })
-    );
+      }
+    ));
   });
 
   describe('create payment details', () => {
-    it(
-      'should be able to create payment details',
-
-      inject([CartService], (cartService: CartService) => {
+    it('should be able to create payment details', inject(
+      [CartService],
+      (cartService: CartService) => {
         cartService.userId = userId;
         cartService.cart = cart;
         const paymentInfo = 'mockInfo';
@@ -127,14 +126,14 @@ describe('CheckoutService', () => {
             paymentDetails: paymentInfo
           })
         );
-      })
-    );
+      }
+    ));
   });
 
   describe('place order', () => {
-    it(
-      'should be able to place order',
-      inject([CartService], (cartService: CartService) => {
+    it('should be able to place order', inject(
+      [CartService],
+      (cartService: CartService) => {
         cartService.userId = userId;
         cartService.cart = cart;
 
@@ -146,14 +145,14 @@ describe('CheckoutService', () => {
             cartId: cart.code
           })
         );
-      })
-    );
+      }
+    ));
   });
 
   describe('load address verification results', () => {
-    it(
-      'should load address verification results',
-      inject([CartService], (cartService: CartService) => {
+    it('should load address verification results', inject(
+      [CartService],
+      (cartService: CartService) => {
         cartService.userId = userId;
         cartService.cart = cart;
 
@@ -165,14 +164,14 @@ describe('CheckoutService', () => {
             address: 'mockAddress'
           })
         );
-      })
-    );
+      }
+    ));
   });
 
   describe('load user addresses', () => {
-    it(
-      'should load saved user addresses',
-      inject([CartService], (cartService: CartService) => {
+    it('should load saved user addresses', inject(
+      [CartService],
+      (cartService: CartService) => {
         cartService.userId = userId;
         cartService.cart = cart;
 
@@ -181,14 +180,14 @@ describe('CheckoutService', () => {
         expect(store.dispatch).toHaveBeenCalledWith(
           new fromUser.LoadUserAddresses(userId)
         );
-      })
-    );
+      }
+    ));
   });
 
   describe('set delivery address', () => {
-    it(
-      'should set delivery address',
-      inject([CartService], (cartService: CartService) => {
+    it('should set delivery address', inject(
+      [CartService],
+      (cartService: CartService) => {
         cartService.userId = userId;
         cartService.cart = cart;
 
@@ -201,14 +200,14 @@ describe('CheckoutService', () => {
             address: 'mockAddress'
           })
         );
-      })
-    );
+      }
+    ));
   });
 
   describe('load user payment methods', () => {
-    it(
-      'should load user payment methods',
-      inject([CartService], (cartService: CartService) => {
+    it('should load user payment methods', inject(
+      [CartService],
+      (cartService: CartService) => {
         cartService.userId = userId;
         cartService.cart = cart;
 
@@ -217,14 +216,14 @@ describe('CheckoutService', () => {
         expect(store.dispatch).toHaveBeenCalledWith(
           new fromUser.LoadUserPaymentMethods(userId)
         );
-      })
-    );
+      }
+    ));
   });
 
   describe('set payment details', () => {
-    it(
-      'should set payment details',
-      inject([CartService], (cartService: CartService) => {
+    it('should set payment details', inject(
+      [CartService],
+      (cartService: CartService) => {
         cartService.userId = userId;
         cartService.cart = cart;
 
@@ -237,7 +236,7 @@ describe('CheckoutService', () => {
             paymentDetails: 'mockPaymentDetails'
           })
         );
-      })
-    );
+      }
+    ));
   });
 });

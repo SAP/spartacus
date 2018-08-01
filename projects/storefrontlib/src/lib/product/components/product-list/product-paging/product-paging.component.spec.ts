@@ -5,13 +5,11 @@ describe('ProductPagingComponent', () => {
   let component: ProductPagingComponent;
   let fixture: ComponentFixture<ProductPagingComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        declarations: [ProductPagingComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ProductPagingComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductPagingComponent);

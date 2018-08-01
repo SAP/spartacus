@@ -7,15 +7,20 @@ import { FormGroup, ControlContainer } from '@angular/forms';
   styleUrls: ['./cart-item.component.scss']
 })
 export class CartItemComponent implements OnInit {
-  @Input() entry: any;
-  @Input() potentialPromotions: any[];
-  @Input() appliedPromotions: any[];
+  @Input()
+  entry: any;
+  @Input()
+  potentialPromotions: any[];
+  @Input()
+  appliedPromotions: any[];
   parent: FormGroup;
 
   timeout: any;
 
-  @Output() remove = new EventEmitter<any>();
-  @Output() update = new EventEmitter<any>();
+  @Output()
+  remove = new EventEmitter<any>();
+  @Output()
+  update = new EventEmitter<any>();
   constructor(private controlContainer: ControlContainer) {}
 
   ngOnInit() {

@@ -38,12 +38,12 @@ describe('ComponentMapperService', () => {
     mapperService = TestBed.get(ComponentMapperService);
   });
 
-  it(
-    'should ComponentMapperService is injected',
-    inject([ComponentMapperService], (service: ComponentMapperService) => {
+  it('should ComponentMapperService is injected', inject(
+    [ComponentMapperService],
+    (service: ComponentMapperService) => {
       expect(service).toBeTruthy();
-    })
-  );
+    }
+  ));
 
   describe('getComponentTypeByCode', () => {
     it('should get existing angular component', () => {

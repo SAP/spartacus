@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import * as fromActions from './../actions/cart.action';
 
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Actions, Effect } from '@ngrx/effects';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 

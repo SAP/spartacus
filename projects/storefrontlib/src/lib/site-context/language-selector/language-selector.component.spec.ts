@@ -29,29 +29,27 @@ describe('LanguageSelectorComponent', () => {
   let store: Store<fromStore.SiteContextState>;
   let el: DebugElement;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            siteContext: combineReducers(fromStore.reducers)
-          })
-        ],
-        declarations: [LanguageSelectorComponent],
-        providers: [
-          {
-            provide: ConfigService,
-            useClass: MockConfigService
-          }
-        ]
-      })
-        .overrideComponent(LanguageSelectorComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default }
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          siteContext: combineReducers(fromStore.reducers)
         })
-        .compileComponents();
+      ],
+      declarations: [LanguageSelectorComponent],
+      providers: [
+        {
+          provide: ConfigService,
+          useClass: MockConfigService
+        }
+      ]
     })
-  );
+      .overrideComponent(LanguageSelectorComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default }
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LanguageSelectorComponent);

@@ -16,24 +16,22 @@ describe('SuggestedAddressDialogComponent', () => {
   let component: SuggestedAddressDialogComponent;
   let fixture: ComponentFixture<SuggestedAddressDialogComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [MaterialModule],
-        declarations: [SuggestedAddressDialogComponent],
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [MaterialModule],
+      declarations: [SuggestedAddressDialogComponent],
 
-        providers: [
-          CheckoutService,
-          CartService,
-          {
-            provide: MatDialogRef,
-            useClass: MockMatDialogRef
-          },
-          { provide: MAT_DIALOG_DATA, useValue: { address } }
-        ]
-      }).compileComponents();
-    })
-  );
+      providers: [
+        CheckoutService,
+        CartService,
+        {
+          provide: MatDialogRef,
+          useClass: MockMatDialogRef
+        },
+        { provide: MAT_DIALOG_DATA, useValue: { address } }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SuggestedAddressDialogComponent);

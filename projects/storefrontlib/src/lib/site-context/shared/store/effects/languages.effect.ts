@@ -1,4 +1,4 @@
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions } from '@ngrx/effects';
@@ -14,16 +14,12 @@ export class LanguagesEffects {
     .ofType(languagesActions.LOAD_LANGUAGES)
     .pipe(
       switchMap(() => {
-        return this.occSiteService
-          .loadLanguages()
-          .pipe(
-            map(
-              data => new languagesActions.LoadLanguagesSuccess(data.languages)
-            ),
-            catchError(error =>
-              of(new languagesActions.LoadLanguagesFail(error))
-            )
-          );
+        return this.occSiteService.loadLanguages().pipe(
+          map(
+            data => new languagesActions.LoadLanguagesSuccess(data.languages)
+          ),
+          catchError(error => of(new languagesActions.LoadLanguagesFail(error)))
+        );
       })
     );
 

@@ -14,7 +14,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./cart-page-layout.component.scss']
 })
 export class CartPageLayoutComponent implements AfterViewInit, OnDestroy {
-  @ViewChild(CartDetailsComponent) cartDetail: CartDetailsComponent;
+  @ViewChild(CartDetailsComponent)
+  cartDetail: CartDetailsComponent;
 
   cart: any;
   subscription: Subscription;

@@ -23,13 +23,18 @@ export class ComponentWrapperComponent
   implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('target', { read: ViewContainerRef })
   target;
-  @Input() componentType: string;
-  @Input() componentUid: string;
-  @Input() contextParameters: any;
-  @Input() componentClass: string;
+  @Input()
+  componentType: string;
+  @Input()
+  componentUid: string;
+  @Input()
+  contextParameters: any;
+  @Input()
+  componentClass: string;
   // the component is loaded from server or extracted from cms page data
   // by default, component data is extracted from page data
-  @Input() componentLoad = false;
+  @Input()
+  componentLoad = false;
 
   private isViewInitialized = false;
   cmpRef: ComponentRef<any>;

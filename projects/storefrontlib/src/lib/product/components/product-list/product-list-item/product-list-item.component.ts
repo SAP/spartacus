@@ -7,5 +7,6 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductListItemComponent {
-  @Input() product;
+  @Input()
+  product;
 }

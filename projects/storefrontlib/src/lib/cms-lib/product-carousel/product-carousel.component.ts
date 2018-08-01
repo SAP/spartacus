@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   OnDestroy
 } from '@angular/core';
-import { Observable ,  Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
 import { tap, takeWhile } from 'rxjs/operators';
@@ -26,8 +26,10 @@ export class ProductCarouselComponent extends AbstractCmsComponent
 
   codesSubscription: Subscription;
 
-  @Input() productCodes: Array<String>;
-  @Input() animate = true;
+  @Input()
+  productCodes: Array<String>;
+  @Input()
+  animate = true;
 
   protected fetchData() {
     const codes = this.getProductCodes();

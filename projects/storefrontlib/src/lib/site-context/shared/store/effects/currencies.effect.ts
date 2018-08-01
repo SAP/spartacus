@@ -1,4 +1,4 @@
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions } from '@ngrx/effects';
@@ -14,17 +14,14 @@ export class CurrenciesEffects {
     .ofType(currenciesActions.LOAD_CURRENCIES)
     .pipe(
       switchMap(() => {
-        return this.occSiteService
-          .loadCurrencies()
-          .pipe(
-            map(
-              data =>
-                new currenciesActions.LoadCurrenciesSuccess(data.currencies)
-            ),
-            catchError(error =>
-              of(new currenciesActions.LoadCurrenciesFail(error))
-            )
-          );
+        return this.occSiteService.loadCurrencies().pipe(
+          map(
+            data => new currenciesActions.LoadCurrenciesSuccess(data.currencies)
+          ),
+          catchError(error =>
+            of(new currenciesActions.LoadCurrenciesFail(error))
+          )
+        );
       })
     );
 

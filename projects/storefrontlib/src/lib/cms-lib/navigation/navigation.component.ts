@@ -27,7 +27,8 @@ export class NavigationComponent extends AbstractCmsComponent
 
   done = false;
 
-  @Input() node;
+  @Input()
+  node;
 
   constructor(
     protected cd: ChangeDetectorRef,

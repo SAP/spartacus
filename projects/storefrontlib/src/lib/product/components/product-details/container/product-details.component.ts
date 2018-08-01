@@ -10,8 +10,10 @@ import * as fromStore from '../../../store';
   styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnChanges {
-  @ViewChild(MatTabGroup) matTabGroup;
-  @Input() productCode: string;
+  @ViewChild(MatTabGroup)
+  matTabGroup;
+  @Input()
+  productCode: string;
   product$: Observable<any>;
   // The value of selectedTabIndex reflects the current tab selected
   selectedTabIndex = 0;

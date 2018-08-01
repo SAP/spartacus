@@ -14,11 +14,15 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductFacetNavigationComponent implements OnInit {
-  @Input() activeFacetValueCode;
-  @Input() searchResult;
-  @Input() minPerFacet = 6;
+  @Input()
+  activeFacetValueCode;
+  @Input()
+  searchResult;
+  @Input()
+  minPerFacet = 6;
 
-  @Output() filter: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  filter: EventEmitter<any> = new EventEmitter<any>();
 
   showAllPerFacetMap: Map<String, boolean>;
 
