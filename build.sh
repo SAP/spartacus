@@ -55,6 +55,18 @@ echo "-----"
 echo "Validating code linting"
 ng lint
 echo "-----"
+echo "Validating code formatting (using prettier)"
+prettier --config ./.prettierrc --list-different "projects/**/*{.ts,.js,.json,.scss}" 2>&1 |  tee prettier.log
+results=$(tail -1 prettier.log | grep projects || true)
+if [[ -z "$results" ]]; then
+    echo "Success: Codebase has been prettified correctly"
+    rm prettier.log
+else
+    echo "ERROR: Codebase not prettified. Aborting pipeline. Please format your code"
+    rm prettier.log
+    exit 1
+fi
+echo "-----"
 echo "Running unit tests and code coverage for core lib"
 ng test storefrontlib --watch=false --code-coverage --browsers=ChromeHeadless 2>&1 |  tee spa_tests.log
 results=$(tail -4 spa_tests.log | grep ERROR || true)
