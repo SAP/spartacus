@@ -1,11 +1,12 @@
 import { ConfigService } from '../../../occ/config.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import * as fromUserOrdersEffect from './user-orders.effect';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
 import { OccOrderService } from '../../../occ/order/order.service';
-import { Observable, of, EMPTY, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 
 const mockUserOrders = {
@@ -31,19 +32,10 @@ class MockConfigService {
   };
 }
 
-class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-  set stream(source: Observable<any>) {
-    this.source = source;
-  }
-}
-
 describe('User Orders effect', () => {
   let userOrdersEffect: fromUserOrdersEffect.UserOrdersEffect;
   let orderService: OccOrderService;
-  let actions$: TestActions;
+  let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -51,8 +43,8 @@ describe('User Orders effect', () => {
       providers: [
         OccOrderService,
         fromUserOrdersEffect.UserOrdersEffect,
-        { provide: Actions, useClass: TestActions },
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: ConfigService, useClass: MockConfigService },
+        provideMockActions(() => actions$)
       ]
     });
 
@@ -73,7 +65,7 @@ describe('User Orders effect', () => {
         mockUserOrders
       );
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(userOrdersEffect.loadUserOrders$).toBeObservable(expected);
@@ -89,7 +81,7 @@ describe('User Orders effect', () => {
 
       const completion = new fromUserOrdersAction.LoadUserOrdersFail('Error');
 
-      actions$.stream = hot('-a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(userOrdersEffect.loadUserOrders$).toBeObservable(expected);
