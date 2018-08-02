@@ -27,18 +27,16 @@ export class CartDetailsComponent implements OnInit {
     this.cartService.loadCartDetails();
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
 
-    const codes = [];
     this.entries$ = this.store.select(fromCartStore.getEntries).pipe(
       tap(entries => {
         for (const entry of entries) {
           const entryProductCode = entry.product.code;
 
-          if (codes.indexOf(entryProductCode) === -1) {
+          if (!this.form.controls[entryProductCode]) {
             this.form.setControl(
               entry.product.code,
               this.createEntryFormGroup(entry)
             );
-            codes.push(entryProductCode);
           } else {
             // update form on entries update
             const entryForm = this.form.controls[entryProductCode] as FormGroup;
