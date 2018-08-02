@@ -11,16 +11,13 @@
 
         <ng-container *ngIf="entries$ | async as entries">
             <ul class="item__list item__list__cart" [formGroup]="form">
-                <table formArrayName="entryArry">
-                    <tr *ngFor="let entry of entries; let i = index;">
-                        <td>
-                            <y-cart-item [formGroupName]="i" [entry]="entry" [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)" [appliedPromotions]="getAppliedPromotionForEntry(cart, entry)"
-                                (remove)="removeEntry($event, i)" (update)="updateEntry($event, i)">
-                            </y-cart-item>
-                        </td>
-                    </tr>
-
-                </table>
+                <tr *ngFor="let entry of entries">
+                    <td>
+                        <y-cart-item [formGroupName]="entry.product.code" [entry]="entry" [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)"
+                            [appliedPromotions]="getAppliedPromotionForEntry(cart, entry)" (remove)="removeEntry($event)" (update)="updateEntry($event)">
+                        </y-cart-item>
+                    </td>
+                </tr>
             </ul>
 
             <div class="order-summary">

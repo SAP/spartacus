@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
 import { CartService } from '../../../services/cart.service';
@@ -15,9 +15,7 @@ export class CartDetailsComponent implements OnInit {
   cart$;
   entries$;
 
-  form: FormGroup = this.fb.group({
-    entryArry: this.fb.array([])
-  });
+  form: FormGroup = this.fb.group({});
 
   constructor(
     protected store: Store<fromCartStore.CartState>,
@@ -32,20 +30,19 @@ export class CartDetailsComponent implements OnInit {
     const codes = [];
     this.entries$ = this.store.select(fromCartStore.getEntries).pipe(
       tap(entries => {
-        const entriesFormArray = this.form.get('entryArry') as FormArray;
         for (const entry of entries) {
-          if (codes.indexOf(entry.product.code) === -1) {
-            entriesFormArray.push(this.createEntryFormGroup(entry));
-            codes.push(entry.product.code);
-          } else {
-            const entryForms = entriesFormArray.controls as FormGroup[];
-            const entryForm = entryForms.filter((form: FormGroup) => {
-              return form.controls.entryNumber.value === entry.entryNumber;
-            });
+          const entryProductCode = entry.product.code;
 
-            if (entryForm && entryForm[0]) {
-              entryForm[0].controls.quantity.setValue(entry.quantity);
-            }
+          if (codes.indexOf(entryProductCode) === -1) {
+            this.form.setControl(
+              entry.product.code,
+              this.createEntryFormGroup(entry)
+            );
+            codes.push(entryProductCode);
+          } else {
+            // update form on entries update
+            const entryForm = this.form.controls[entryProductCode] as FormGroup;
+            entryForm.controls.quantity.setValue(entry.quantity);
           }
         }
       })
@@ -59,20 +56,13 @@ export class CartDetailsComponent implements OnInit {
     });
   }
 
-  removeEntry(entry, index) {
+  removeEntry(entry) {
     this.cartService.removeCartEntry(entry);
-    const control = this.form.get('entryArry') as FormArray;
-    control.removeAt(index);
+    delete this.form.controls[entry.product.code];
   }
 
-  updateEntry({ entry, updatedQuantity }, index) {
-    const entryFG = this.form.get('entryArry').value[index];
+  updateEntry({ entry, updatedQuantity }) {
     this.cartService.updateCartEntry(entry.entryNumber, updatedQuantity);
-
-    if (entryFG.quantity === 0) {
-      const control = this.form.get('entryArry') as FormArray;
-      control.removeAt(index);
-    }
   }
 
   getPotentialPromotionForEntry(cart: any, entry: any): any[] {
