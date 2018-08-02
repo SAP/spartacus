@@ -49,8 +49,15 @@ export class AddedToCartDialogComponent implements OnInit {
     });
   }
 
-  updateEntry() {
-    this.updateEntryEvent.emit(this.form);
+  updateEntry({
+    entry,
+    updatedQuantity
+  }: {
+    entry: any;
+    updatedQuantity: number;
+  }) {
+    // this.updateEntryEvent.emit(this.form);
+    this.updateEntryEvent.emit({ entry, updatedQuantity });
   }
 
   removeEntry(entry) {

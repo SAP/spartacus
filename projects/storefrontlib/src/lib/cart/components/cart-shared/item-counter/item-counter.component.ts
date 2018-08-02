@@ -25,6 +25,7 @@ export class ItemCounterComponent implements ControlValueAccessor {
   @Input() step = 1;
   @Input() min = 0;
   @Input() max = 0;
+  @Input() async = false;
 
   @Output() change = new EventEmitter<any>();
 
@@ -64,7 +65,11 @@ export class ItemCounterComponent implements ControlValueAccessor {
   increment() {
     const updatedQuantity = this.value + this.step;
     if (this.value < this.max) {
-      this.writeValue(updatedQuantity);
+      if (!this.async) {
+        // If the async flag is true, then the parent component is responsible for updating the form
+        this.writeValue(updatedQuantity);
+      }
+      // Additionally, we emit a change event, so that users may optionally do something on change
       this.change.emit(updatedQuantity);
     }
     this.onTouch();
@@ -73,7 +78,11 @@ export class ItemCounterComponent implements ControlValueAccessor {
   decrement() {
     const updatedQuantity = this.value - this.step;
     if (this.value > this.min) {
-      this.writeValue(updatedQuantity);
+      if (!this.async) {
+        // If the async flag is true, then the parent component is responsible for updating the form
+        this.writeValue(updatedQuantity);
+      }
+      // Additionally, we emit a change event, so that users may optionally do something on change
       this.change.emit(updatedQuantity);
     }
     this.onTouch();
