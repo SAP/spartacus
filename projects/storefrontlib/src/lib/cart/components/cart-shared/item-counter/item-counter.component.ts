@@ -64,6 +64,7 @@ export class ItemCounterComponent implements ControlValueAccessor {
   increment() {
     const updatedQuantity = this.value + this.step;
     if (this.value < this.max) {
+      this.writeValue(updatedQuantity);
       this.change.emit(updatedQuantity);
     }
     this.onTouch();
@@ -72,6 +73,7 @@ export class ItemCounterComponent implements ControlValueAccessor {
   decrement() {
     const updatedQuantity = this.value - this.step;
     if (this.value > this.min) {
+      this.writeValue(updatedQuantity);
       this.change.emit(updatedQuantity);
     }
     this.onTouch();

@@ -35,16 +35,21 @@ export class AddedToCartDialogComponent implements OnInit {
     this.cart$ = this.data.cart$;
 
     this.entry$.subscribe(entry => {
+      const entryFG = this.form.get('entryForm') as FormGroup;
       if (entry !== undefined) {
-        const control = this.form.get('entryForm') as FormGroup;
-        control.setControl('entryNumber', this.fb.control(entry.entryNumber));
-        control.setControl('quantity', this.fb.control(entry.quantity));
+        entryFG.setControl('entryNumber', this.fb.control(entry.entryNumber));
+        if (!entryFG.controls['quantity']) {
+          // create form control for entry
+          entryFG.setControl('quantity', this.fb.control(entry.quantity));
+        } else {
+          // update form if entry changes
+          entryFG.controls['quantity'].setValue(entry.quantity);
+        }
       }
     });
   }
 
   updateEntry() {
-    // form is the source of truth. event is the previous value
     this.updateEntryEvent.emit(this.form);
   }
 
