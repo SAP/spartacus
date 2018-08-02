@@ -61,6 +61,5 @@ export class ConfigService {
     ProductReferencesComponent: 'ProductReferencesComponent',
     // CMSTabParagraphComponent: 'TabParagraphContainerComponent'
     CMSTabParagraphComponent: 'ParagraphComponent',
-    StoreFinderComponent: 'StoreFinderComponent'
   };
 }
