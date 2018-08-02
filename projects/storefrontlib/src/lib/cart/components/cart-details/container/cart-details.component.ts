@@ -47,13 +47,6 @@ export class CartDetailsComponent implements OnInit {
     );
   }
 
-  private createEntryFormGroup(entry) {
-    return this.fb.group({
-      entryNumber: entry.entryNumber,
-      quantity: entry.quantity
-    });
-  }
-
   removeEntry(entry) {
     this.cartService.removeCartEntry(entry);
     delete this.form.controls[entry.product.code];
@@ -69,6 +62,13 @@ export class CartDetailsComponent implements OnInit {
 
   getAppliedPromotionForEntry(cart: any, entry: any): any[] {
     return this.getPromotionForEntry(cart.appliedProductPromotions, entry);
+  }
+
+  private createEntryFormGroup(entry) {
+    return this.fb.group({
+      entryNumber: entry.entryNumber,
+      quantity: entry.quantity
+    });
   }
 
   private getPromotionForEntry(promotions: any[], entry: any): any {
