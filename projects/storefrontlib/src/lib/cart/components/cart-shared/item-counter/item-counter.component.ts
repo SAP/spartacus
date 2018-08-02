@@ -33,19 +33,6 @@ export class ItemCounterComponent implements ControlValueAccessor {
   private onTouch = () => {};
   private onModelChange = (rating: number) => {};
 
-  registerOnTouched(fn) {
-    this.onTouch = fn;
-  }
-
-  registerOnChange(fn) {
-    this.onModelChange = fn;
-  }
-
-  writeValue(value) {
-    this.value = value || 0;
-    this.onModelChange(this.value);
-  }
-
   onKeyDown(event: KeyboardEvent) {
     const handlers = {
       ArrowDown: () => this.decrement(),
@@ -88,5 +75,20 @@ export class ItemCounterComponent implements ControlValueAccessor {
       this.change.emit(updatedQuantity);
     }
     this.onTouch();
+  }
+
+  // ControlValueAccessor interface
+
+  registerOnTouched(fn) {
+    this.onTouch = fn;
+  }
+
+  registerOnChange(fn) {
+    this.onModelChange = fn;
+  }
+
+  writeValue(value) {
+    this.value = value || 0;
+    this.onModelChange(this.value);
   }
 }
