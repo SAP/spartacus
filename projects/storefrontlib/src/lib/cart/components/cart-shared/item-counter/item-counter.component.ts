@@ -21,7 +21,7 @@ const COUNTER_CONTROL_ACCESSOR = {
   providers: [COUNTER_CONTROL_ACCESSOR]
 })
 export class ItemCounterComponent implements ControlValueAccessor {
-  @Input() value = 0;
+  value = 0;
   @Input() step = 1;
   @Input() min = 0;
   @Input() max = 0;
@@ -30,8 +30,8 @@ export class ItemCounterComponent implements ControlValueAccessor {
 
   focus: boolean;
 
-  private onTouch: Function;
-  private onModelChange: Function;
+  private onTouch = () => {};
+  private onModelChange = (rating: number) => {};
 
   registerOnTouched(fn) {
     this.onTouch = fn;
@@ -43,6 +43,7 @@ export class ItemCounterComponent implements ControlValueAccessor {
 
   writeValue(value) {
     this.value = value || 0;
+    this.onModelChange(this.value);
   }
 
   onKeyDown(event: KeyboardEvent) {
@@ -74,19 +75,17 @@ export class ItemCounterComponent implements ControlValueAccessor {
   }
 
   increment() {
+    const updatedQuantity = this.value + this.step;
     if (this.value < this.max) {
-      this.value = this.value + this.step;
-      this.onModelChange(this.value);
-      this.change.emit();
+      this.change.emit(updatedQuantity);
     }
     this.onTouch();
   }
 
   decrement() {
+    const updatedQuantity = this.value - this.step;
     if (this.value > this.min) {
-      this.value = this.value - this.step;
-      this.onModelChange(this.value);
-      this.change.emit();
+      this.change.emit(updatedQuantity);
     }
     this.onTouch();
   }

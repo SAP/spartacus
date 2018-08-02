@@ -32,11 +32,20 @@ export class CartDetailsComponent implements OnInit {
     const codes = [];
     this.entries$ = this.store.select(fromCartStore.getEntries).pipe(
       tap(entries => {
-        const control = this.form.get('entryArry') as FormArray;
+        const entriesFormArray = this.form.get('entryArry') as FormArray;
         for (const entry of entries) {
           if (codes.indexOf(entry.product.code) === -1) {
-            control.push(this.createEntryFormGroup(entry));
+            entriesFormArray.push(this.createEntryFormGroup(entry));
             codes.push(entry.product.code);
+          } else {
+            const entryForms = entriesFormArray.controls as FormGroup[];
+            const entryForm = entryForms.filter((form: FormGroup) => {
+              return form.controls.entryNumber.value === entry.entryNumber;
+            });
+
+            if (entryForm && entryForm[0]) {
+              entryForm[0].controls.quantity.setValue(entry.quantity);
+            }
           }
         }
       })
@@ -56,9 +65,9 @@ export class CartDetailsComponent implements OnInit {
     control.removeAt(index);
   }
 
-  updateEntry(entry, index) {
+  updateEntry({ entry, updatedQuantity }, index) {
     const entryFG = this.form.get('entryArry').value[index];
-    this.cartService.updateCartEntry(entry.entryNumber, entryFG.quantity);
+    this.cartService.updateCartEntry(entry.entryNumber, updatedQuantity);
 
     if (entryFG.quantity === 0) {
       const control = this.form.get('entryArry') as FormArray;
