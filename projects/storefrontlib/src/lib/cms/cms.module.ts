@@ -16,6 +16,7 @@ import * as fromGuards from './guards';
 
 // services
 import * as fromServices from './services';
+import { ModuleConfigService } from './module.config.service';
 import { ConfigService } from './config.service';
 
 @NgModule({
@@ -25,20 +26,40 @@ import { ConfigService } from './config.service';
     StoreModule.forFeature('cms', reducers, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
-  providers: [...fromServices.services, ...fromGuards.guards, ConfigService],
+  providers: [
+    ...fromServices.services,
+    ...fromGuards.guards,
+    { provide: ConfigService, useClass: ModuleConfigService },
+    ModuleConfigService
+  ],
   declarations: [...fromComponents.components],
   exports: [...fromComponents.components]
 })
 export class CmsModule {
   static forRoot(config: any): any {
+    const configServiceFactory = (
+      appConfigService: ConfigService,
+      moduleConfigService: ConfigService
+    ) => {
+      console.log(
+        'configServiceFactory provided appConfigService',
+        appConfigService
+      );
+      console.log(
+        'configServiceFactory provided moduleConfigService',
+        moduleConfigService
+      );
+      return { ...moduleConfigService, ...appConfigService };
+    };
+    const configServiceProvider = {
+      provide: ConfigService,
+      useFactory: configServiceFactory,
+      deps: [config, ModuleConfigService]
+    };
+
     return {
       ngModule: CmsModule,
-      providers: [
-        {
-          provide: ConfigService,
-          useExisting: config
-        }
-      ]
+      providers: [configServiceProvider]
     };
   }
 }
