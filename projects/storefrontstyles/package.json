@@ -1,10 +1,5 @@
 {
   "name": "storefrontstyles",
   "version": "0.0.0",
-  "description": "Style library containing global styles",
-  "scripts": {
-    "build": "cd .. && tar -zcf storefrontstyles.tgz ./storefrontstyles && mv storefrontstyles.tgz ../dist",
-    "add": "cd ../.. && yarn add storefrontstyles@./dist/storefrontstyles.tgz",
-    "remove": "cd ../.. && yarn remove storefrontstyles"
-  }
+  "description": "Style library containing global styles"
 }
