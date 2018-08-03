@@ -16,7 +16,7 @@ import { UserHttpInterceptor } from './user-http.interceptor';
 
 class MockConfigService {
   server = {
-    baseUrl: 'https://localhost:9002',
+    baseUrl: 'https://backoffice.christian-spartacus1-s2-public.model-t.myhybris.cloud',
     occPrefix: '/rest/v2/'
   };
 
@@ -87,7 +87,7 @@ describe('UserHttpInterceptor', () => {
     `Should add 'Authorization' header with a token info to an HTTP request`,
     inject([HttpClient], (http: HttpClient) => {
       http
-        .get('https://localhost:9002/rest/v2/electronics')
+        .get('https://backoffice.christian-spartacus1-s2-public.model-t.myhybris.cloud/rest/v2/electronics')
         .subscribe(result => {
           expect(result).toBeTruthy();
         });
@@ -111,7 +111,7 @@ describe('UserHttpInterceptor', () => {
     inject([HttpClient], (http: HttpClient) => {
       const headers = { Authorization: 'bearer 123' };
       http
-        .get('https://localhost:9002/rest/v2/electronics', { headers })
+        .get('https://backoffice.christian-spartacus1-s2-public.model-t.myhybris.cloud/rest/v2/electronics', { headers })
         .subscribe(result => {
           expect(result).toBeTruthy();
         });

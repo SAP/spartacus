@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ConfigService {
   server = {
-    baseUrl: 'https://localhost:9002',
+    baseUrl: 'https://backoffice.christian-spartacus1-s2-public.model-t.myhybris.cloud',
     occPrefix: '/rest/v2/'
   };
 

@@ -13,7 +13,7 @@ import { of } from 'rxjs';
 
 export class MockConfigService {
   server = {
-    baseUrl: 'https://localhost:9002',
+    baseUrl: 'https://backoffice.christian-spartacus1-s2-public.model-t.myhybris.cloud',
     occPrefix: '/rest/v2/'
   };
 
@@ -83,7 +83,7 @@ describe('SiteContextInterceptor', () => {
     'should add parameters: lang and curr to a request',
     inject([HttpClient], (http: HttpClient) => {
       http
-        .get('https://localhost:9002/rest/v2/electronics')
+        .get('https://backoffice.christian-spartacus1-s2-public.model-t.myhybris.cloud/rest/v2/electronics')
         .subscribe(result => {
           expect(result).toBeTruthy();
         });
