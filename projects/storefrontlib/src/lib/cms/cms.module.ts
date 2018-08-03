@@ -18,6 +18,7 @@ import * as fromGuards from './guards';
 import * as fromServices from './services';
 import { DefaultConfigService } from '../../default-config.service';
 import { ConfigService } from '../../config.service';
+import { ConfigurableModule } from '../../configurable-module';
 
 @NgModule({
   imports: [
@@ -35,31 +36,12 @@ import { ConfigService } from '../../config.service';
   declarations: [...fromComponents.components],
   exports: [...fromComponents.components]
 })
-export class CmsModule {
+export class CmsModule extends ConfigurableModule {
   static forRoot(config: any): any {
-    const configServiceFactory = (
-      appConfigService: ConfigService,
-      defaultConfigService: ConfigService
-    ) => {
-      console.log(
-        'configServiceFactory provided appConfigService',
-        appConfigService
-      );
-      console.log(
-        'configServiceFactory provided defaultConfigService',
-        defaultConfigService
-      );
-      return { ...defaultConfigService, ...appConfigService };
-    };
-    const configServiceProvider = {
-      provide: ConfigService,
-      useFactory: configServiceFactory,
-      deps: [config, DefaultConfigService]
-    };
-
+    const overriddenConfigProvider = this.getOverriddenConfigProvider(config);
     return {
       ngModule: CmsModule,
-      providers: [configServiceProvider]
+      providers: [overriddenConfigProvider]
     };
   }
 }

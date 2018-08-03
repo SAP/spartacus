@@ -13,6 +13,7 @@ import { OccMiscsService } from './miscs/miscs.service';
 import { OccOrderService } from './order/order.service';
 import { OccClientAuthenticationTokenService } from './client-authentication/client-authentication-token.service';
 import { DefaultConfigService } from '../../default-config.service';
+import { ConfigurableModule } from '../../configurable-module';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -27,32 +28,13 @@ import { DefaultConfigService } from '../../default-config.service';
     OccOrderService
   ]
 })
-export class OccModule {
+export class OccModule extends ConfigurableModule {
   static forRoot(config: any): any {
-    const configServiceFactory = (
-      appConfigService: ConfigService,
-      defaultConfigService: ConfigService
-    ) => {
-      console.log(
-        'OccModule configServiceFactory provided appConfigService',
-        appConfigService
-      );
-      console.log(
-        'OccModule configServiceFactory provided defaultConfigService',
-        defaultConfigService
-      );
-      return { ...defaultConfigService, ...appConfigService };
-    };
-    const configServiceProvider = {
-      provide: ConfigService,
-      useFactory: configServiceFactory,
-      deps: [config, DefaultConfigService]
-    };
-
+    const overriddenConfigProvider = this.getOverriddenConfigProvider(config);
     return {
       ngModule: OccModule,
       providers: [
-        configServiceProvider,
+        overriddenConfigProvider,
         {
           provide: HTTP_INTERCEPTORS,
           useClass: AuthenticationTokenInterceptor,
