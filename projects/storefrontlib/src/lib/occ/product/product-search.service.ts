@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
-import { ConfigService } from '../config.service';
+import { ConfigService } from '../../../config.service';
 
 const ENDPOINT_PRODUCT = 'products';
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {

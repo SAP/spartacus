@@ -1,6 +1,6 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { ConfigService } from '../config.service';
+import { ConfigService } from '../../../config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { UserRegisterFormData } from '../../user/models/user.model';

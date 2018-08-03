@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { OccUserService } from './user.service';
-import { ConfigService } from '../config.service';
+import { ConfigService } from '../../../config.service';
 import {
   HttpClientTestingModule,
   HttpTestingController

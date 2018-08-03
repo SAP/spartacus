@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccProductService } from './product.service';
-import { ConfigService } from '../config.service';
+import { ConfigService } from '../../../config.service';
 
 const productCode = 'testCode';
 const product = {

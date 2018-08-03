@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { ProductImageConverterService } from './product-image-converter.service';
-import { ConfigService } from '../../occ/config.service';
+import { ConfigService } from '../../../config.service';
 
 export class MockConfigService {
   server = {
@@ -95,15 +95,12 @@ describe('ProductImageConverterService', () => {
     service = TestBed.get(ProductImageConverterService);
   });
 
-  it(
-    'should inject ProductImageConverterService',
-    inject(
-      [ProductImageConverterService],
-      (productImageConverterService: ProductImageConverterService) => {
-        expect(productImageConverterService).toBeTruthy();
-      }
-    )
-  );
+  it('should inject ProductImageConverterService', inject(
+    [ProductImageConverterService],
+    (productImageConverterService: ProductImageConverterService) => {
+      expect(productImageConverterService).toBeTruthy();
+    }
+  ));
 
   it('should convert product image', () => {
     service.convertProduct(product);

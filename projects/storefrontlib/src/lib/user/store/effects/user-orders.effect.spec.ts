@@ -1,4 +1,4 @@
-import { ConfigService } from '../../../occ/config.service';
+import { ConfigService } from '../../../../config.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';

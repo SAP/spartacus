@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import * as fromUserStore from '../store';
-import { ConfigService } from '../../occ/config.service';
+import { ConfigService } from '../../../config.service';
 import { UserToken } from '../models/token-types.model';
 import { Store } from '@ngrx/store';
 

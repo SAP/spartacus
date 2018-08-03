@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccMiscsService } from './miscs.service';
-import { ConfigService } from '../config.service';
+import { ConfigService } from '../../../config.service';
 
 export class MockConfigService {
   server = {

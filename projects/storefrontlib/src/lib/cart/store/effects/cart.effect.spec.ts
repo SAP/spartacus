@@ -10,7 +10,7 @@ import * as fromCart from '../../../cart/store';
 import * as fromUser from '../../../user/store';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { ConfigService } from '../../../occ/config.service';
+import { ConfigService } from '../../../../config.service';
 import { CartService } from '../../services';
 import { ProductImageConverterService } from '../../../product/converters';
 import * as fromEffects from './cart.effect';

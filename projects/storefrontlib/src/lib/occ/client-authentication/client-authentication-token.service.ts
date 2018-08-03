@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { ConfigService } from '../config.service';
+import { ConfigService } from '../../../config.service';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 

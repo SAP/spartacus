@@ -4,7 +4,7 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { async, TestBed } from '@angular/core/testing';
-import { ConfigService } from '../config.service';
+import { ConfigService } from '../../../config.service';
 import { OccOrderService } from './order.service';
 
 const userId = '123';

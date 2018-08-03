@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { ConfigService } from '../../../occ/config.service';
+import { ConfigService } from '../../../../config.service';
 import * as fromEffects from './cart-entry.effect';
 import * as fromActions from '../actions';
 

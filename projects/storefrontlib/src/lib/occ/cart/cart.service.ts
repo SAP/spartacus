@@ -1,6 +1,6 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { ConfigService } from '../config.service';
+import { ConfigService } from '../../../config.service';
 import { CustomEncoder } from '../custom.encoder';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';

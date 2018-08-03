@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccProductSearchService } from './product-search.service';
-import { ConfigService } from '../config.service';
+import { ConfigService } from '../../../config.service';
 import { SearchConfig } from '../../product/search-config';
 
 const queryText = 'test';

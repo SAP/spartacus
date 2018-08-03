@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccProductSearchService } from '../../../occ/product/product-search.service';
-import { ConfigService } from '../../../occ/config.service';
+import { ConfigService } from '../../../../config.service';
 import { SearchConfig } from '../../search-config';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 import * as fromEffects from './product-search.effect';
