@@ -1,26 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DefaultConfigService } from '../../default-config.service';
 
 @Injectable()
-export class ConfigService {
-    x = {
-
-    };
-
-    server = {
-        baseUrl: null,
-        occPrefix: null
-    };
-
-    site: {
-        baseSite: null,
-        language: null,
-        currency: null
-    };
-
-    authentication: {
-        client_id: null,
-        client_secret: null
-        userToken: {}
-    };
-
-}
+export class ConfigService extends DefaultConfigService {}

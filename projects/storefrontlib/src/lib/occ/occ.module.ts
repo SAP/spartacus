@@ -12,6 +12,7 @@ import { OccCartService } from './cart/cart.service';
 import { OccMiscsService } from './miscs/miscs.service';
 import { OccOrderService } from './order/order.service';
 import { OccClientAuthenticationTokenService } from './client-authentication/client-authentication-token.service';
+import { DefaultConfigService } from '../../default-config.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -28,13 +29,30 @@ import { OccClientAuthenticationTokenService } from './client-authentication/cli
 })
 export class OccModule {
   static forRoot(config: any): any {
+    const configServiceFactory = (
+      appConfigService: ConfigService,
+      defaultConfigService: ConfigService
+    ) => {
+      console.log(
+        'OccModule configServiceFactory provided appConfigService',
+        appConfigService
+      );
+      console.log(
+        'OccModule configServiceFactory provided defaultConfigService',
+        defaultConfigService
+      );
+      return { ...defaultConfigService, ...appConfigService };
+    };
+    const configServiceProvider = {
+      provide: ConfigService,
+      useFactory: configServiceFactory,
+      deps: [config, DefaultConfigService]
+    };
+
     return {
       ngModule: OccModule,
       providers: [
-        {
-          provide: ConfigService,
-          useExisting: config
-        },
+        configServiceProvider,
         {
           provide: HTTP_INTERCEPTORS,
           useClass: AuthenticationTokenInterceptor,
