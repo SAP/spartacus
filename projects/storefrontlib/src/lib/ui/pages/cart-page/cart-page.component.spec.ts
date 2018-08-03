@@ -1,3 +1,4 @@
+import { MediaModule } from './../../components/media/media.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CartPageComponent } from './cart-page.component';
@@ -36,7 +37,8 @@ describe('CartPageComponent', () => {
           ...fromRoot.reducers,
           cms: combineReducers(fromCmsReducer.reducers),
           cart: combineReducers(fromCart.reducers)
-        })
+        }),
+        MediaModule
       ],
       declarations: [
         CartPageComponent,

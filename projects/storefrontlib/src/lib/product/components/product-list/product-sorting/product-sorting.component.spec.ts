@@ -16,24 +16,17 @@ describe('ProductSortingComponent in product-list', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductSortingComponent);
     component = fixture.componentInstance;
+    component.grid = { mode: 'test' };
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get sort options', () => {
-    const options = [
-      {
-        code: 'relevance',
-        label: 'Relevance'
-      },
-      {
-        code: 'price',
-        label: 'Price'
-      }
-    ];
-
-    expect(component.sortOptions).toEqual(options);
+  it('should emit sort event', () => {
+    spyOn(component.sortListEvent, 'emit');
+    component.sortList('sortCode');
+    expect(component.sortListEvent.emit).toHaveBeenCalledWith('sortCode');
   });
 });

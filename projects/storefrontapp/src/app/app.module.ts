@@ -19,9 +19,11 @@ import { appRoutes } from './app.routes';
 
 // bootstrap
 import { AppComponent } from './app.component';
+
 import { UserModule } from 'storefrontlib';
 import { CartModule } from 'storefrontlib';
 import { CheckoutModule } from 'storefrontlib';
+import { GlobalMessageModule } from 'storefrontlib';
 
 @NgModule({
   imports: [
@@ -38,7 +40,8 @@ import { CheckoutModule } from 'storefrontlib';
     RouterModule.forRoot(appRoutes),
     ProductModule,
     UserModule,
-    CartModule
+    CartModule,
+    GlobalMessageModule
   ],
 
   providers: [
@@ -46,7 +49,7 @@ import { CheckoutModule } from 'storefrontlib';
     {
       // TODO: configure locale
       provide: LOCALE_ID,
-      useValue: 'nl-NL'
+      useValue: 'en-US'
     }
   ],
   declarations: [AppComponent],

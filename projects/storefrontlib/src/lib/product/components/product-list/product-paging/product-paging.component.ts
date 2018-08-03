@@ -1,4 +1,11 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  Output,
+  EventEmitter
+} from '@angular/core';
 
 @Component({
   selector: 'y-product-paging',
@@ -6,6 +13,19 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./product-paging.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductPagingComponent {
-  @Input() searchResult;
+export class ProductPagingComponent implements OnInit {
+  @Input() pagination;
+  @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
+
+  constructor() {}
+
+  ngOnInit() {}
+
+  next(nextPage: number) {
+    this.viewPageEvent.emit(nextPage);
+  }
+
+  prev(prevPage: number) {
+    this.viewPageEvent.emit(prevPage);
+  }
 }

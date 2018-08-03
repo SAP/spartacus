@@ -15,10 +15,13 @@ describe('Product Search Reducer', () => {
 
   describe('SEARCH_PRODUCTS action', () => {
     it('should set loading to true', () => {
+      const mockSearchConfig = new SearchConfig();
+      mockSearchConfig.pageSize = 10;
+
       const { initialState } = fromProductSearch;
       const action = new fromActions.SearchProducts({
         queryText: 'test',
-        searchConfig: new SearchConfig(10)
+        searchConfig: mockSearchConfig
       });
       const state = fromProductSearch.reducer(initialState, action);
 
@@ -28,12 +31,14 @@ describe('Product Search Reducer', () => {
 
   describe('SEARCH_PRODUCTS_SUCCESS action', () => {
     it('should populate search results after loading', () => {
-      const results = { products: [{ code: '123' }] };
+      const mockSearchConfig = new SearchConfig();
+      mockSearchConfig.pageSize = 10;
 
+      const results = { products: [{ code: '123' }] };
       const { initialState } = fromProductSearch;
       const loadAction = new fromActions.SearchProducts({
         queryText: 'test',
-        searchConfig: new SearchConfig(10)
+        searchConfig: mockSearchConfig
       });
       const loadingState = fromProductSearch.reducer(initialState, loadAction);
       const resultAction = new fromActions.SearchProductsSuccess(results);

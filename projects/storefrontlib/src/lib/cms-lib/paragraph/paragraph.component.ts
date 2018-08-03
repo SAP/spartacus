@@ -1,9 +1,4 @@
-import {
-  Component,
-  ViewChild,
-  ElementRef,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 
 @Component({
@@ -14,13 +9,12 @@ import { AbstractCmsComponent } from '../../cms/components/abstract-cms-componen
 })
 export class ParagraphComponent extends AbstractCmsComponent {
   static componentName = 'ParagraphComponent';
-
-  @ViewChild('dataContainer') dataContainer: ElementRef;
+  paragraphData: string;
 
   protected fetchData() {
-    super.fetchData();
     if (this.component && this.component.content) {
-      this.dataContainer.nativeElement.innerHTML = this.component.content;
+      this.paragraphData = this.component.content;
     }
+    super.fetchData();
   }
 }

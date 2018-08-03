@@ -1,0 +1,29 @@
+.cart-item-list {
+  padding: 0;
+  list-style: none;
+  .cart-item-row {
+    outline: none;
+    display: flex;
+    cursor: pointer;
+
+    y-picture {
+      width: 70px;
+      flex: 0.2;
+    }
+
+    .cart-item-text {
+      display: flex;
+      flex-direction: column;
+      flex: 0.7;
+    }
+
+    .cart-item-delete {
+      display: flex;
+      flex: 0.1;
+      text-align: center;
+      mat-icon {
+        margin: auto;
+      }
+    }
+  }
+}

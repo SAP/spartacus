@@ -1,3 +1,4 @@
+import { MediaModule } from './../../../../ui/components/media/media.module';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -61,7 +62,8 @@ describe('CartDetailsComponent', () => {
         StoreModule.forRoot({
           ...fromRoot.reducers,
           cart: combineReducers(fromReducer.reducers)
-        })
+        }),
+        MediaModule
       ],
       declarations: [
         CartDetailsComponent,

@@ -1,5 +1,3 @@
-
-import {filter} from 'rxjs/operators';
 import {
   Component,
   OnInit,
@@ -10,6 +8,7 @@ import {
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import * as fromStore from '../../store';
 
@@ -31,8 +30,8 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.currentSlot$ = this.store
-      .select(fromStore.currentSlotSelectorFactory(this.position)).pipe(
-      filter(data => data !== undefined));
+      .select(fromStore.currentSlotSelectorFactory(this.position))
+      .pipe(filter(data => data !== undefined));
   }
 
   ngOnDestroy() {}
