@@ -8,11 +8,11 @@ import {
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import {
-  ClientAuthenticationToken,
-  AuthenticationToken
-} from '../../user/models/token-types.model';
 import { OccClientAuthenticationTokenService } from '../client-authentication/client-authentication-token.service';
+import {
+  AuthenticationToken,
+  ClientAuthenticationToken
+} from '../models/token-types.model';
 
 interface RequestMapping {
   method: string;

@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import * as fromUserStore from '../../../user/store';
+import * as fromAuthStore from '@auth/store';
 import { OccOrderService } from './../../../occ/order/order.service';
 
 @Component({
@@ -24,7 +25,7 @@ export class OrderDetailsComponent implements OnInit {
     this.route.params.forEach((params: Params) => {
       if (params['orderCode']) {
         this.usersStore
-          .select(fromUserStore.getUserToken)
+          .select(fromAuthStore.getUserToken)
           .pipe(
             tap(userData => {
               this.order$ = this.service.getOrder(

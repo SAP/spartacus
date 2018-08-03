@@ -11,8 +11,8 @@ import { of } from 'rxjs';
 import * as fromStore from '../store';
 import * as fromRoot from '../../routing/store';
 import { ConfigService } from '../../occ/config.service';
-import { UserToken } from '../models/token-types.model';
 import { UserHttpInterceptor } from './user-http.interceptor';
+import { UserToken } from '@auth/models/token-types.model';
 
 class MockConfigService {
   server = {
@@ -64,9 +64,9 @@ describe('UserHttpInterceptor', () => {
     spyOn(store, 'select').and.returnValue(of(userToken));
   });
 
-  it(
-    `Should not add 'Authorization' header with a token info to an HTTP request`,
-    inject([HttpClient], (http: HttpClient) => {
+  it(`Should not add 'Authorization' header with a token info to an HTTP request`, inject(
+    [HttpClient],
+    (http: HttpClient) => {
       http.get('/xxx').subscribe(result => {
         expect(result).toBeTruthy();
       });
@@ -80,12 +80,12 @@ describe('UserHttpInterceptor', () => {
       expect(authHeader).toEqual(null);
 
       mockReq.flush('someData');
-    })
-  );
+    }
+  ));
 
-  it(
-    `Should add 'Authorization' header with a token info to an HTTP request`,
-    inject([HttpClient], (http: HttpClient) => {
+  it(`Should add 'Authorization' header with a token info to an HTTP request`, inject(
+    [HttpClient],
+    (http: HttpClient) => {
       http
         .get('https://localhost:9002/rest/v2/electronics')
         .subscribe(result => {
@@ -103,12 +103,12 @@ describe('UserHttpInterceptor', () => {
       );
 
       mockReq.flush('someData');
-    })
-  );
+    }
+  ));
 
-  it(
-    `Should not add 'Authorization' token to header if there is already one`,
-    inject([HttpClient], (http: HttpClient) => {
+  it(`Should not add 'Authorization' token to header if there is already one`, inject(
+    [HttpClient],
+    (http: HttpClient) => {
       const headers = { Authorization: 'bearer 123' };
       http
         .get('https://localhost:9002/rest/v2/electronics', { headers })
@@ -123,6 +123,6 @@ describe('UserHttpInterceptor', () => {
       const authHeader = mockReq.request.headers.get('Authorization');
       expect(authHeader).toBeTruthy();
       expect(authHeader).toEqual(headers.Authorization);
-    })
-  );
+    }
+  ));
 });

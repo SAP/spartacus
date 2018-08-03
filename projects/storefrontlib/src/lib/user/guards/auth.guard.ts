@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromStore from './../store';
+import * as fromAuthStore from '@auth/store';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -14,7 +15,7 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.store.select(fromStore.getUserToken).pipe(
+    return this.store.select(fromAuthStore.getUserToken).pipe(
       map(token => {
         if (!token.access_token) {
           this.router.navigate(['/']);

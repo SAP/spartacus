@@ -9,9 +9,10 @@ import { Observable, Subscription } from 'rxjs';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../store';
+import * as fromAuthStore from '@auth/store';
 import { tap, map, take, filter } from 'rxjs/operators';
-import { UserToken } from '../../models/token-types.model';
 import * as fromRouting from '../../../routing/store';
+import { UserToken } from '../../../auth/models/token-types.model';
 
 @Component({
   selector: 'y-login',
@@ -36,7 +37,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.store
-      .select(fromStore.getUserToken)
+      .select(fromAuthStore.getUserToken)
       .pipe(
         filter((token: UserToken) => !this.isLogin),
         tap((token: UserToken) => {
@@ -94,7 +95,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login() {
     this.store.dispatch(
-      new fromStore.LoadUserToken({
+      new fromAuthStore.LoadUserToken({
         userId: this.username,
         password: this.password
       })

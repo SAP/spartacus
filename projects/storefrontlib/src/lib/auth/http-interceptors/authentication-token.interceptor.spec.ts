@@ -7,7 +7,7 @@ import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { of, Observable } from 'rxjs';
 
 import { AuthenticationTokenInterceptor } from './authentication-token.interceptor';
-import { ClientAuthenticationToken } from '../../user/models/token-types.model';
+import { ClientAuthenticationToken } from './../models/token-types.model';
 import { OccClientAuthenticationTokenService } from '../client-authentication/client-authentication-token.service';
 
 const testToken: ClientAuthenticationToken = {

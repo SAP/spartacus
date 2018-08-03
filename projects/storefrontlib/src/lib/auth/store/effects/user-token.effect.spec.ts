@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { UserTokenEffects } from '.';
+import { UserTokenEffects } from './user-token.effect';
 
 import { Observable, of } from 'rxjs';
 import { UserToken } from '../../models/token-types.model';

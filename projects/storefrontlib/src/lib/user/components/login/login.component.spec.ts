@@ -2,6 +2,7 @@ import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromStore from './../../store';
+import * as fromAuthActions from '@auth/store/actions';
 import { LoginComponent } from './login.component';
 import { MaterialModule } from '../../../material.module';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +10,7 @@ import { of } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageType } from '../../../routing/models/page-context.model';
 import { MatDialog } from '@angular/material';
-import { UserToken } from '../../models/token-types.model';
+import { UserToken } from './../../../auth/models/token-types.model';
 import * as fromRouting from '../../../routing/store';
 
 const mockUser = {
@@ -35,22 +36,20 @@ describe('LoginComponent', () => {
   let store: Store<fromStore.UserState>;
   let dialog: MatDialog;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          BrowserAnimationsModule,
-          FormsModule,
-          StoreModule.forRoot({
-            ...fromStore.reducers,
-            user: combineReducers(fromStore.reducers)
-          })
-        ],
-        declarations: [LoginComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        StoreModule.forRoot({
+          ...fromStore.reducers,
+          user: combineReducers(fromStore.reducers)
+        })
+      ],
+      declarations: [LoginComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
@@ -106,7 +105,7 @@ describe('LoginComponent', () => {
     component.login();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadUserToken({
+      new fromAuthActions.LoadUserToken({
         userId: component.username,
         password: component.password
       })

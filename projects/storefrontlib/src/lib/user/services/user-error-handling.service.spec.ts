@@ -6,9 +6,10 @@ import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import * as fromStore from '../../user/store';
+import * as fromAuthStore from '@auth/store';
 import * as fromRoot from '../../routing/store';
 import { UserErrorHandlingService } from './user-error-handling.service';
-import { UserToken } from '../../user/models/token-types.model';
+import { UserToken } from '@auth/models/token-types.model';
 
 class MockHttpHandler extends HttpHandler {
   handle(_req: HttpRequest<any>): Observable<HttpEvent<any>> {
@@ -75,16 +76,16 @@ describe('UserErrorHandlingService', () => {
     });
 
     it('should get new token and resend request', () => {
-      store.dispatch(new fromStore.LoadUserTokenSuccess(userToken));
+      store.dispatch(new fromAuthStore.LoadUserTokenSuccess(userToken));
       service.handleExpiredUserToken(httpRequest, httpHandler).subscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.RefreshUserToken({
+        new fromAuthStore.RefreshUserToken({
           userId: userToken.userId,
           refreshToken: userToken.refresh_token
         })
       );
-      store.dispatch(new fromStore.RefreshUserTokenSuccess(newToken));
+      store.dispatch(new fromAuthStore.RefreshUserTokenSuccess(newToken));
       httpRequest = httpRequest.clone({
         setHeaders: {
           Authorization: `${newToken.token_type} ${newToken.access_token}`
@@ -95,21 +96,21 @@ describe('UserErrorHandlingService', () => {
     });
 
     it('should only dispatch refresh token event once', () => {
-      store.dispatch(new fromStore.LoadUserTokenSuccess(userToken));
+      store.dispatch(new fromAuthStore.LoadUserTokenSuccess(userToken));
 
       service.handleExpiredUserToken(httpRequest, httpHandler).subscribe();
 
-      store.dispatch(new fromStore.RefreshUserTokenSuccess(newToken));
+      store.dispatch(new fromAuthStore.RefreshUserTokenSuccess(newToken));
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.RefreshUserToken({
+        new fromAuthStore.RefreshUserToken({
           userId: userToken.userId,
           refreshToken: userToken.refresh_token
         })
       );
 
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new fromStore.RefreshUserToken({
+        new fromAuthStore.RefreshUserToken({
           userId: newToken.userId,
           refreshToken: newToken.refresh_token
         })

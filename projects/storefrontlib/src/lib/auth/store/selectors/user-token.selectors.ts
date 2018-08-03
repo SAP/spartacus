@@ -8,8 +8,8 @@ export const getUserAuthState: MemoizedSelector<
   any,
   UserTokenState
 > = createSelector(
-  fromFeature.getUserState,
-  (state: fromFeature.UserState) => state.auth
+  fromFeature.getAuthState,
+  (state: fromFeature.AuthState) => state.userToken
 );
 
 export const getUserToken: MemoizedSelector<any, UserToken> = createSelector(

@@ -6,9 +6,10 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import * as fromUserStore from '../store';
+import * as fromAuthStore from '@auth/store';
 import { ConfigService } from '../../occ/config.service';
-import { UserToken } from '../models/token-types.model';
 import { Store } from '@ngrx/store';
+import { UserToken } from '../../auth/models/token-types.model';
 
 @Injectable()
 export class UserHttpInterceptor implements HttpInterceptor {
@@ -23,7 +24,7 @@ export class UserHttpInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     let userToken: UserToken;
     this.store
-      .select(fromUserStore.getUserToken)
+      .select(fromAuthStore.getUserToken)
       .pipe(filter((token: UserToken) => Object.keys(token).length !== 0))
       .subscribe((token: UserToken) => {
         userToken = token;

@@ -6,7 +6,7 @@ import * as fromReducer from '../store/reducers';
 import * as fromAction from '../store/actions';
 import * as fromSelector from '../store/selectors';
 
-import * as fromUser from '../../user/store';
+import * as fromAuthSelectors from '@auth/store/selectors';
 
 export const ANOYMOUS_USERID = 'anonymous';
 
@@ -31,7 +31,7 @@ export class CartService {
     });
 
     this.store
-      .select(fromUser.getUserToken)
+      .select(fromAuthSelectors.getUserToken)
       .pipe(filter(userToken => this.userId !== userToken.userId))
       .subscribe(userToken => {
         if (Object.keys(userToken).length !== 0) {

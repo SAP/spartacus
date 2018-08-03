@@ -6,8 +6,9 @@ import { Observable, combineLatest } from 'rxjs';
 import { tap, filter, take, switchMap } from 'rxjs/operators';
 
 import * as fromUserStore from '../../user/store';
-import { UserToken } from '../../user/models/token-types.model';
+import * as fromAuthStore from '@auth/store';
 import { HttpRequest, HttpHandler } from '@angular/common/http';
+import { UserToken } from '../../auth/models/token-types.model';
 
 @Injectable()
 export class UserErrorHandlingService {
@@ -32,14 +33,14 @@ export class UserErrorHandlingService {
   private handleExpiredToken(): Observable<any> {
     let oldToken;
     return combineLatest(
-      this.store.select(fromUserStore.getUserToken),
-      this.store.select(fromUserStore.getUserTokenLoading)
+      this.store.select(fromAuthStore.getUserToken),
+      this.store.select(fromAuthStore.getUserTokenLoading)
     ).pipe(
       tap(([token, loading]: [UserToken, boolean]) => {
         oldToken = oldToken || token;
         if (token.access_token && token.refresh_token && !loading) {
           this.store.dispatch(
-            new fromUserStore.RefreshUserToken({
+            new fromAuthStore.RefreshUserToken({
               userId: token.userId,
               refreshToken: token.refresh_token
             })

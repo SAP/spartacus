@@ -6,7 +6,7 @@ import * as fromRoot from '../../routing/store';
 import * as fromCart from '../../cart/store';
 import * as fromUser from '../../user/store';
 
-import { UserToken } from '../../user/models/token-types.model';
+import { UserToken } from './../../auth/models/token-types.model';
 import { CartService } from './cart.service';
 
 describe('CartService', () => {
@@ -44,12 +44,12 @@ describe('CartService', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  it(
-    'should CartService is injected',
-    inject([CartService], (cartService: CartService) => {
+  it('should CartService is injected', inject(
+    [CartService],
+    (cartService: CartService) => {
       expect(cartService).toBeTruthy();
-    })
-  );
+    }
+  ));
 
   describe('initCart', () => {
     it('should init cart for login user who has session cart', () => {
@@ -98,9 +98,9 @@ describe('CartService', () => {
   });
 
   describe('Load cart details', () => {
-    it(
-      'should be able to load cart with more details',
-      inject([CartService], (cartService: CartService) => {
+    it('should be able to load cart with more details', inject(
+      [CartService],
+      (cartService: CartService) => {
         cartService.userId = userId;
         cartService.cart = cart;
 
@@ -113,8 +113,8 @@ describe('CartService', () => {
             details: true
           })
         );
-      })
-    );
+      }
+    ));
   });
 
   describe('add CartEntry', () => {
