@@ -5,7 +5,7 @@ import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import * as fromProductStore from '../../product/store';
 import { SearchBoxComponent } from './search-box.component';
-import { ConfigService } from '../../cms/config.service';
+import { ConfigService } from '../../../config.service';
 import { MaterialModule } from '../../material.module';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';

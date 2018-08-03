@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccCmsService } from './occ-cms.service';
-import { ConfigService } from '../config.service';
+import { ConfigService } from '../../../config.service';
 import { PageContext, PageType } from '../../routing/models/page-context.model';
 import { IdList } from './../models/idList.model';
 

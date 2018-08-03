@@ -12,7 +12,7 @@ import * as fromRoot from '../../routing/store';
 import * as fromCms from '../../cms/store';
 import * as fromCart from '../../cart/store';
 import * as fromUser from '../../user/store';
-import { ConfigService } from '../../cms/config.service';
+import { ConfigService } from '../../../config.service';
 
 import { MiniCartComponent } from './mini-cart.component';
 import { CartService } from '../../cart/services/cart.service';

@@ -5,7 +5,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccCmsService } from '../../services/occ-cms.service';
-import { ConfigService } from '../../config.service';
+import { ConfigService } from '../../../../config.service';
 import * as fromEffects from './component.effect';
 import * as fromActions from '../actions/component.action';
 

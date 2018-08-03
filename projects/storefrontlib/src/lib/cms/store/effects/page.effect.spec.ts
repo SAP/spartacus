@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 
 import { OccCmsService } from '../../services/occ-cms.service';
 import { DefaultPageService } from './../../services/default-page.service';
-import { ConfigService } from '../../config.service';
+import { ConfigService } from '../../../../config.service';
 import * as fromEffects from './page.effect';
 import * as fromActions from '../actions';
 import { Page } from '../../models/page.model';

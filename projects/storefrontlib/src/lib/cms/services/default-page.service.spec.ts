@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { DefaultPageService } from './default-page.service';
-import { ConfigService } from '../config.service';
+import { ConfigService } from '../../../config.service';
 import { PageType } from '../../routing/models/page-context.model';
 
 export class MockConfigService {
@@ -23,12 +23,12 @@ describe('DefaultPageService', () => {
     service = TestBed.get(DefaultPageService);
   });
 
-  it(
-    'should DefaultPageService is injected',
-    inject([DefaultPageService], (pageService: DefaultPageService) => {
+  it('should DefaultPageService is injected', inject(
+    [DefaultPageService],
+    (pageService: DefaultPageService) => {
       expect(pageService).toBeTruthy();
-    })
-  );
+    }
+  ));
 
   describe('getDefaultPageIdsBytype', () => {
     it('should get the default pageId', () => {

@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
-import { ConfigService } from '../../cms/config.service';
+import { ConfigService } from '../../../config.service';
 
 class UseConfigService {
   cmsComponentMapping = {
@@ -31,21 +31,19 @@ describe('LinkComponent', () => {
     url: 'http://localhost:8888/'
   };
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
-          }),
-          RouterTestingModule
-        ],
-        declarations: [LinkComponent],
-        providers: [{ provide: ConfigService, useClass: UseConfigService }]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromCmsReducer.reducers)
+        }),
+        RouterTestingModule
+      ],
+      declarations: [LinkComponent],
+      providers: [{ provide: ConfigService, useClass: UseConfigService }]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LinkComponent);

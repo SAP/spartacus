@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { NavigationService } from './navigation.service';
-import { ConfigService } from '../../cms/config.service';
+import { ConfigService } from '../../../config.service';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
 import { tap, filter, takeWhile } from 'rxjs/operators';

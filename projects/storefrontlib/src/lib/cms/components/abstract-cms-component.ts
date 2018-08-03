@@ -3,7 +3,7 @@ import { Injectable, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import * as fromStore from '../store';
-import { ConfigService } from '../config.service';
+import { ConfigService } from '../../../config.service';
 
 @Injectable()
 export abstract class AbstractCmsComponent implements OnDestroy {

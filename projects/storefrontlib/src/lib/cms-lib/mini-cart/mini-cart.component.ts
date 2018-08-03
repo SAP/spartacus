@@ -11,7 +11,7 @@ import * as fromStore from '../../cms/store';
 import * as fromCartStore from '../../cart/store';
 import { CartService } from '../../cart/services';
 
-import { ConfigService } from '../../cms/config.service';
+import { ConfigService } from '../../../config.service';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 

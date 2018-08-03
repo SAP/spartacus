@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
-import { ConfigService } from '../../cms/config.service';
+import { ConfigService } from '../../../config.service';
 
 class UseConfigService {
   cmsComponentMapping = {
@@ -60,21 +60,19 @@ describe('ResponsiveBannerComponent', () => {
     urlLink: '/OpenCatalogue/Cameras/Digital-Cameras/Digital-SLR/c/578'
   };
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
-          }),
-          RouterTestingModule
-        ],
-        declarations: [ResponsiveBannerComponent],
-        providers: [{ provide: ConfigService, useClass: UseConfigService }]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromCmsReducer.reducers)
+        }),
+        RouterTestingModule
+      ],
+      declarations: [ResponsiveBannerComponent],
+      providers: [{ provide: ConfigService, useClass: UseConfigService }]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResponsiveBannerComponent);

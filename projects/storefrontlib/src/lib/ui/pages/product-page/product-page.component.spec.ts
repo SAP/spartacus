@@ -22,7 +22,7 @@ import { ProductAttributesComponent } from '../../../product/components/product-
 import { ProductReviewsComponent } from '../../../product/components/product-details/product-reviews/product-reviews.component';
 import { PictureComponent } from '../../components/media/picture/picture.component';
 import { ComponentMapperService } from '../../../cms/services';
-import { ConfigService } from '../../../cms/config.service';
+import { ConfigService } from '../../../../config.service';
 import { AddToCartComponent } from '../../../cart/components/add-to-cart/add-to-cart.component';
 import { CartService } from '../../../cart/services';
 

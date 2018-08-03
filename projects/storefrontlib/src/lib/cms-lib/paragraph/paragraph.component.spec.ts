@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { ParagraphComponent } from './paragraph.component';
-import { ConfigService } from '../../cms/config.service';
+import { ConfigService } from '../../../config.service';
 
 export class UseConfigService {
   cmsComponentMapping = {

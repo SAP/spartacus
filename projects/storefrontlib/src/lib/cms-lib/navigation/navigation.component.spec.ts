@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { NavigationComponent } from './navigation.component';
-import { ConfigService } from '../../cms/config.service';
+import { ConfigService } from '../../../config.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatMenuModule, MatIconModule } from '@angular/material';
 import { NavigationService } from './navigation.service';

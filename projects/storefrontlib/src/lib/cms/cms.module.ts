@@ -17,7 +17,7 @@ import * as fromGuards from './guards';
 // services
 import * as fromServices from './services';
 import { DefaultConfigService } from '../../default-config.service';
-import { ConfigService } from './config.service';
+import { ConfigService } from '../../config.service';
 
 @NgModule({
   imports: [
