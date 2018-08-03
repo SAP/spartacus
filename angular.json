@@ -26,6 +26,12 @@
               "projects/storefrontapp/src/styles.scss",
               "projects/storefrontapp/src/theme.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./projects/storefrontstyles/scss",
+                "./node_modules/storefrontstyles/storefrontstyles/scss"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
