@@ -6,7 +6,7 @@ export const LOAD_REGIONS_FAIL = '[User] Load Regions Fail';
 
 export class LoadRegions implements Action {
   readonly type = LOAD_REGIONS;
-  constructor(public countryCode: string) {}
+  constructor(public payload: string) {}
 }
 
 export class LoadRegionsFail implements Action {

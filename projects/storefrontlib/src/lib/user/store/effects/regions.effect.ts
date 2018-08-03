@@ -13,7 +13,7 @@ export class RegionsEffects {
     .ofType(fromActions.LOAD_REGIONS)
     .pipe(
       map((action: fromActions.LoadRegions) => {
-        return action.countryCode;
+        return action.payload;
       }),
       switchMap((countryCode: string) => {
         return this.occMiscsService.loadRegions(countryCode).pipe(

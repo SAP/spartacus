@@ -1,26 +1,14 @@
 <div class="content" *ngIf="existingAddresses.length > 0 && !newAddress;else addressForm">
     <h3>Shipping Addresses</h3>
     <div *ngFor="let address of existingAddresses">
-        <div *ngIf="address.defaultAddress">
-            <div>{{address.firstName}} {{address.lastName}} (Default Shipping Address)
-                <br>{{address.line1}}
-                <br>{{address.line2}}
-                <br>{{address.town}},
-                <span *ngIf="address.region">{{address.region?.isocode}},</span> {{address.country.isocode}}</div>
-            <div class="continue-link">
-                <a [routerLink]="" (click)="addressSelected(address)">Use this address</a>
-            </div>
-        </div>
-
-        <div *ngIf="!address.defaultAddress">
-            <div>{{address.firstName}} {{address.lastName}}
-                <br>{{address.line1}}
-                <br>{{address.line2}}
-                <br>{{address.town}},
-                <span *ngIf="address.region">{{address.region?.isocode}},</span> {{address.country.isocode}}</div>
-            <div class="continue-link">
-                <a [routerLink]="" (click)="addressSelected(address)">Use this address</a>
-            </div>
+        <div>{{address.firstName}} {{address.lastName}}
+            <span *ngIf="address.defaultAddress">(Default Shipping Address)</span>
+            <br>{{address.line1}}
+            <br>{{address.line2}}
+            <br>{{address.town}},
+            <span *ngIf="address.region">{{address.region?.isocode}},</span> {{address.country.isocode}}</div>
+        <div class="continue-link">
+            <a [routerLink]="" (click)="addressSelected(address)">Use this address</a>
         </div>
     </div>
 
@@ -40,8 +28,8 @@
                 <div>
                     <font size="3">Country:</font>
                 </div>
-                <select class="countries-dropdown" formControlName="isocode">
-                    <option value="">Select Country</option>
+                <select class="countries-dropdown" formControlName="isocode" (change)="onCountryChange($event.target.value)">
+                    <option disabled value="">Select Country</option>
                     <option *ngFor="let country of (countries$ | async)" [value]="country.isocode">
                         {{ country.name }}
                     </option>
@@ -95,7 +83,7 @@
                 <input class="inputs" type="text" placeholder="City" formControlName="town">
                 <div class="error" *ngIf="required( 'town')">City is required</div>
             </div>
-            <div formGroupName="region" [ngClass]="{'inactive': !hasRegions}">
+            <div formGroupName="region" [hidden]="!hasRegions">
                 <div>
                     <font size="3">Province:</font>
                 </div>
@@ -103,8 +91,7 @@
                 <select class="regions-dropdown" formControlName="isocode">
                     <option value="">Select Region</option>
                     <option *ngFor="let region of (regions$ | async)[0]" [value]="region.isocode">
-                        <span *ngIf="region.name; else noRegionName">{{ region.name }}</span>
-                        <ng-template #noRegionName>{{region.isocode}}</ng-template>
+                        {{region.name ? region.name : region.isocode}}
                     </option>
                 </select>
                 <div class="error" *ngIf="required('region.isocode')">Province is required</div>

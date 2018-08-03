@@ -6,7 +6,7 @@ describe('Regions Actions', () => {
       const action = new fromAction.LoadRegions('CA');
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_REGIONS,
-        countryCode: 'CA'
+        payload: 'CA'
       });
     });
   });

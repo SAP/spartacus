@@ -31,7 +31,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   titles$: Observable<any>;
   regions$: Observable<any>;
   newAddress = false;
-  hasRegions = true;
+  hasRegions = false;
 
   @Input() existingAddresses;
   @Output() addAddress = new EventEmitter<any>();
@@ -99,18 +99,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
       })
     );
-
-    this.onChanges();
   }
 
-  onChanges(): void {
-    let countryIso;
-    this.address.valueChanges.subscribe(val => {
-      if (val.country.isocode && val.country.isocode !== countryIso) {
-        countryIso = val.country.isocode;
-        this.store.dispatch(new fromUser.LoadRegions(countryIso));
-      }
-    });
+  onCountryChange(countryIsoCode): void {
+    this.store.dispatch(new fromUser.LoadRegions(countryIsoCode));
   }
 
   toggleDefaultAddress() {
