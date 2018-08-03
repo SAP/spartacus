@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DynamicComponentLoaderModule } from '../../../dynamic-component-loader/dynamic-component-loader.module';
+//import { DynamicComponentLoaderModule } from '../../../dynamic-component-loader/dynamic-component-loader.module';
 import { OrderHistoryPageLayoutModule } from '../../layout/order-history-page-layout/order-history-page-layout.module';
 
 import { OrderHistoryPageComponent } from './order-history-page.component';
@@ -10,7 +10,7 @@ import { CmsPageGuards } from '../../../cms/guards';
 
 const routes: Routes = [
   {
-    path: 'orders',
+    path: 'my-account/orders',
     canActivate: [AuthGuard, CmsPageGuards],
     component: OrderHistoryPageComponent,
     data: { pageLabel: 'orders' }
