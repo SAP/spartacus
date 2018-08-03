@@ -8,6 +8,7 @@ import * as fromCheckout from '../../../store';
 import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
 import * as fromRouting from '../../../../routing/store';
+import * as fromAuth from '@auth/store';
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 import { AddressFormComponent } from '../address-form/address-form.component';
@@ -57,7 +58,8 @@ describe('MultiStepCheckoutComponent', () => {
           ...fromRoot.reducers,
           cart: combineReducers(fromCart.reducers),
           user: combineReducers(fromUser.reducers),
-          checkout: combineReducers(fromCheckout.reducers)
+          checkout: combineReducers(fromCheckout.reducers),
+          auth: combineReducers(fromAuth.reducers)
         })
       ],
       declarations: [

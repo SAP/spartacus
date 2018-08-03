@@ -16,7 +16,7 @@ describe('User Selectors', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRoot.reducers,
-          user: combineReducers(fromReducers.reducers)
+          auth: combineReducers(fromReducers.reducers)
         })
       ]
     });

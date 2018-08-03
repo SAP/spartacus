@@ -8,6 +8,7 @@ import * as fromRoot from '../../../../routing/store';
 import * as fromCheckout from '../../../store';
 import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
+import * as fromAuth from '@auth/store';
 
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
@@ -29,7 +30,8 @@ describe('ReviewSubmitComponent', () => {
           ...fromRoot.reducers,
           cart: combineReducers(fromCart.reducers),
           user: combineReducers(fromUser.reducers),
-          checkout: combineReducers(fromCheckout.reducers)
+          checkout: combineReducers(fromCheckout.reducers),
+          auth: combineReducers(fromAuth.reducers)
         })
       ],
       declarations: [ReviewSubmitComponent],

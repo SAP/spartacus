@@ -48,7 +48,8 @@ describe('UserErrorHandlingService', () => {
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
-          user: combineReducers(fromStore.reducers)
+          user: combineReducers(fromStore.reducers),
+          auth: combineReducers(fromAuthStore.reducers)
         })
       ],
       providers: [

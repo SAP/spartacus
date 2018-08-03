@@ -5,9 +5,10 @@ import { of } from 'rxjs';
 import * as fromRoot from '../../routing/store';
 import * as fromCart from '../../cart/store';
 import * as fromUser from '../../user/store';
+import * as fromAuth from '@auth/store';
 
-import { UserToken } from './../../auth/models/token-types.model';
 import { CartService } from './cart.service';
+import { UserToken } from '@auth/models/token-types.model';
 
 describe('CartService', () => {
   let service: CartService;
@@ -32,7 +33,8 @@ describe('CartService', () => {
         StoreModule.forRoot({
           ...fromRoot.reducers,
           cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers)
+          user: combineReducers(fromUser.reducers),
+          auth: combineReducers(fromAuth.reducers)
         })
       ],
       providers: [CartService]

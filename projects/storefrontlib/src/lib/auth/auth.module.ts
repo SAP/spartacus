@@ -8,12 +8,15 @@ import { OccClientAuthenticationTokenService } from './client-authentication/cli
 
 import { StoreModule } from '@ngrx/store';
 import { reducers } from '@auth/store/reducers';
+import { effects } from '@auth/store/effects';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
-    StoreModule.forFeature('auth', reducers)
+    StoreModule.forFeature('auth', reducers),
+    EffectsModule.forFeature(effects)
   ],
   providers: [OccClientAuthenticationTokenService]
 })
