@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromStore from '../shared/store';
-import { ConfigService } from '../config.service';
+import { ConfigService } from '../../../config.service';
 
 @Component({
   selector: 'y-currency-selector',

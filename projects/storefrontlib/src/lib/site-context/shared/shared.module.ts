@@ -8,7 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
 
 // services
-import { ConfigService } from '../config.service';
+import { ConfigService } from '../../../config.service';
 import { SiteContextInterceptor } from './http-interceptors/site-context.interceptor';
 
 @NgModule({

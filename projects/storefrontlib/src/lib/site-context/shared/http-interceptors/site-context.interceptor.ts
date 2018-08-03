@@ -9,7 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import * as fromStore from '../store';
-import { ConfigService } from '../../config.service';
+import { ConfigService } from '../../../../config.service';
 
 @Injectable()
 export class SiteContextInterceptor implements HttpInterceptor {
