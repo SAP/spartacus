@@ -4,36 +4,19 @@ import { CurrencySelectorModule } from './currency-selector/currency-selector.mo
 import { LanguageSelectorModule } from './language-selector/language-selector.module';
 import { ConfigService } from './config.service';
 import { DefaultConfigService } from '../../default-config.service';
+import { ConfigurableModule } from '../../configurable-module';
 
 @NgModule({
   imports: [CurrencySelectorModule, LanguageSelectorModule],
   providers: [{ provide: ConfigService, useClass: DefaultConfigService }],
   exports: [CurrencySelectorModule, LanguageSelectorModule]
 })
-export class SiteContextModule {
+export class SiteContextModule extends ConfigurableModule {
   static forRoot(config: any): any {
-    const configServiceFactory = (
-      appConfigService: ConfigService,
-      defaultConfigService: ConfigService
-    ) => {
-      console.log(
-        'SiteContextModule configServiceFactory provided appConfigService',
-        appConfigService
-      );
-      console.log(
-        'SiteContextModule configServiceFactory provided defaultConfigService',
-        defaultConfigService
-      );
-      return { ...defaultConfigService, ...appConfigService };
-    };
-    const configServiceProvider = {
-      provide: ConfigService,
-      useFactory: configServiceFactory,
-      deps: [config, DefaultConfigService]
-    };
+    const overriddenConfigProvider = this.getOverriddenConfigProvider(config);
     return {
       ngModule: SiteContextModule,
-      providers: [configServiceProvider]
+      providers: [overriddenConfigProvider]
     };
   }
 }
