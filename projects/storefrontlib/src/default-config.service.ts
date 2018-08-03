@@ -28,11 +28,6 @@ export class DefaultConfigService {
     currency: this.curr
   };
 
-  // site = {
-  //     baseSite: 'apparel-uk',
-  //     language: 'en',
-  //     currency: 'GBP'
-  // };
   storageSyncType = StorageSyncType.SESSION_STORAGE;
 
   defaultPageIdForType = {
@@ -49,7 +44,6 @@ export class DefaultConfigService {
     CMSLinkComponent: 'LinkComponent',
     SimpleResponsiveBannerComponent: 'ResponsiveBannerComponent',
     SimpleBannerComponent: 'BannerComponent',
-    // BreadcrumbComponent:                'BreadcrumbComponent',
     CMSParagraphComponent: 'ParagraphComponent',
     NavigationComponent: 'NavigationComponent',
     FooterNavigationComponent: 'FooterNavigationComponent',
@@ -59,7 +53,6 @@ export class DefaultConfigService {
     ProductCarouselComponent: 'ProductCarouselComponent',
     SearchBoxComponent: 'SearchBoxComponent',
     ProductReferencesComponent: 'ProductReferencesComponent',
-    // CMSTabParagraphComponent: 'TabParagraphContainerComponent'
     CMSTabParagraphComponent: 'ParagraphComponent'
   };
 }
