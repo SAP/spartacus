@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class ModuleConfigService {
+export class DefaultConfigService {
   aa_someprop = 'lib value';
   aa_storefrontlib = 'origin';
   server = {

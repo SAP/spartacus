@@ -16,7 +16,7 @@ import * as fromGuards from './guards';
 
 // services
 import * as fromServices from './services';
-import { ModuleConfigService } from './module.config.service';
+import { DefaultConfigService } from '../../default-config.service';
 import { ConfigService } from './config.service';
 
 @NgModule({
@@ -29,8 +29,8 @@ import { ConfigService } from './config.service';
   providers: [
     ...fromServices.services,
     ...fromGuards.guards,
-    { provide: ConfigService, useClass: ModuleConfigService },
-    ModuleConfigService
+    { provide: ConfigService, useClass: DefaultConfigService },
+    DefaultConfigService
   ],
   declarations: [...fromComponents.components],
   exports: [...fromComponents.components]
@@ -39,22 +39,22 @@ export class CmsModule {
   static forRoot(config: any): any {
     const configServiceFactory = (
       appConfigService: ConfigService,
-      moduleConfigService: ConfigService
+      defaultConfigService: ConfigService
     ) => {
       console.log(
         'configServiceFactory provided appConfigService',
         appConfigService
       );
       console.log(
-        'configServiceFactory provided moduleConfigService',
-        moduleConfigService
+        'configServiceFactory provided defaultConfigService',
+        defaultConfigService
       );
-      return { ...moduleConfigService, ...appConfigService };
+      return { ...defaultConfigService, ...appConfigService };
     };
     const configServiceProvider = {
       provide: ConfigService,
       useFactory: configServiceFactory,
-      deps: [config, ModuleConfigService]
+      deps: [config, DefaultConfigService]
     };
 
     return {
