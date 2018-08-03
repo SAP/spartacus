@@ -1,7 +1,7 @@
 import { ConfigService } from './config.service';
 import { DefaultConfigService } from './default-config.service';
 
-export class ConfigurableModule {
+export class AbstractStorefrontModule {
   static getOverriddenConfigProvider(configOverride: any): any {
     const configServiceFactory = (
       overrideConfigService: any,

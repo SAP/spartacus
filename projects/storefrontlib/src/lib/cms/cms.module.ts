@@ -18,7 +18,7 @@ import * as fromGuards from './guards';
 import * as fromServices from './services';
 import { DefaultConfigService } from '../../default-config.service';
 import { ConfigService } from '../../config.service';
-import { ConfigurableModule } from '../../configurable-module';
+import { AbstractStorefrontModule } from '../../abstract-storefront-module';
 
 @NgModule({
   imports: [
@@ -36,7 +36,7 @@ import { ConfigurableModule } from '../../configurable-module';
   declarations: [...fromComponents.components],
   exports: [...fromComponents.components]
 })
-export class CmsModule extends ConfigurableModule {
+export class CmsModule extends AbstractStorefrontModule {
   static forRoot(config: any): any {
     const overriddenConfigProvider = this.getOverriddenConfigProvider(config);
     return {

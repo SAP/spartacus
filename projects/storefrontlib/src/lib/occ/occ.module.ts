@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ConfigService } from '../../config.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AuthenticationTokenInterceptor } from './http-interceptors/authentication-token.interceptor';
@@ -12,8 +11,7 @@ import { OccCartService } from './cart/cart.service';
 import { OccMiscsService } from './miscs/miscs.service';
 import { OccOrderService } from './order/order.service';
 import { OccClientAuthenticationTokenService } from './client-authentication/client-authentication-token.service';
-import { DefaultConfigService } from '../../default-config.service';
-import { ConfigurableModule } from '../../configurable-module';
+import { AbstractStorefrontModule } from '../../abstract-storefront-module';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -28,7 +26,7 @@ import { ConfigurableModule } from '../../configurable-module';
     OccOrderService
   ]
 })
-export class OccModule extends ConfigurableModule {
+export class OccModule extends AbstractStorefrontModule {
   static forRoot(config: any): any {
     const overriddenConfigProvider = this.getOverriddenConfigProvider(config);
     return {
