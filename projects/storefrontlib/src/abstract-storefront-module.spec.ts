@@ -1,7 +1,5 @@
 import { AbstractStorefrontModule } from './abstract-storefront-module';
 import { DefaultConfigService } from './default-config.service';
-import { TestBed } from '@angular/core/testing';
-import { ConfigService } from './config.service';
 
 class TestStorefrontModule extends AbstractStorefrontModule {}
 
