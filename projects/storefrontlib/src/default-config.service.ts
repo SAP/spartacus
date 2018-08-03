@@ -1,18 +1,31 @@
 import { Injectable } from '@angular/core';
 
+export enum StorageSyncType {
+  NO_STORAGE,
+  LOCAL_STORAGE,
+  SESSION_STORAGE
+}
+
 @Injectable()
 export class DefaultConfigService {
-  aa_someprop = 'lib value';
-  aa_storefrontlib = 'origin';
   server = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
   };
 
+  lang =
+    sessionStorage.getItem('language') === null
+      ? 'en'
+      : sessionStorage.getItem('language');
+  curr =
+    sessionStorage.getItem('currency') === null
+      ? 'USD'
+      : sessionStorage.getItem('currency');
+
   site = {
     baseSite: 'electronics',
-    language: 'en',
-    currency: 'USD'
+    language: this.lang,
+    currency: this.curr
   };
 
   // site = {
@@ -20,15 +33,16 @@ export class DefaultConfigService {
   //     language: 'en',
   //     currency: 'GBP'
   // };
-
-  authentication = {
-    client_id: 'mobile_android',
-    client_secret: 'secret'
-  };
+  storageSyncType = StorageSyncType.SESSION_STORAGE;
 
   defaultPageIdForType = {
     ProductPage: ['productDetails'],
     CategoryPage: ['productList', 'productGrid', 'category']
+  };
+
+  authentication = {
+    client_id: 'mobile_android',
+    client_secret: 'secret'
   };
 
   cmsComponentMapping = {

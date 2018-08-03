@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { DefaultConfigService } from '../../default-config.service';
 
 @Injectable()
-export class ConfigService {
+export class ConfigService extends DefaultConfigService {
   server = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
