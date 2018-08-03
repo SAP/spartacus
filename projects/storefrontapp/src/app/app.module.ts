@@ -24,10 +24,12 @@ import { UserModule } from 'storefrontlib';
 import { CartModule } from 'storefrontlib';
 import { CheckoutModule } from 'storefrontlib';
 import { GlobalMessageModule } from 'storefrontlib';
+import { AuthModule } from '../../../storefrontlib/src/lib/auth/auth.module';
 
 @NgModule({
   imports: [
     BrowserModule,
+    AuthModule.forRoot(ConfigService),
     OccModule.forRoot(ConfigService),
     CmsLibModule,
     UiModule,
