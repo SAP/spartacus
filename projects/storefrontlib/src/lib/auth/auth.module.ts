@@ -6,8 +6,15 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthenticationTokenInterceptor } from './http-interceptors/authentication-token.interceptor';
 import { OccClientAuthenticationTokenService } from './client-authentication/client-authentication-token.service';
 
+import { StoreModule } from '@ngrx/store';
+import { reducers } from '@auth/store/reducers';
+
 @NgModule({
-  imports: [CommonModule, HttpClientModule],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    StoreModule.forFeature('auth', reducers)
+  ],
   providers: [OccClientAuthenticationTokenService]
 })
 export class AuthModule {
