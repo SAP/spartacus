@@ -7,6 +7,5 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductAttributesComponent {
-  @Input()
-  product: any;
+  @Input() product: any;
 }

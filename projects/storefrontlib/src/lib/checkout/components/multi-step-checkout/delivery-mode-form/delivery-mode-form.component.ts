@@ -25,13 +25,10 @@ import { CheckoutService } from '../../../services';
 export class DeliveryModeFormComponent implements OnInit {
   supportedDeliveryModes$: Observable<any>;
 
-  @Output()
-  selectMode = new EventEmitter<any>();
-  @Output()
-  backStep = new EventEmitter<any>();
+  @Output() selectMode = new EventEmitter<any>();
+  @Output() backStep = new EventEmitter<any>();
 
-  @Input()
-  deliveryAddress: Address;
+  @Input() deliveryAddress: Address;
 
   leave = false;
 

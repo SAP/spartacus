@@ -31,12 +31,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   titles$: Observable<any>;
   newAddress = false;
 
-  @Input()
-  existingAddresses;
-  @Output()
-  addAddress = new EventEmitter<any>();
-  @Output()
-  verifyAddress = new EventEmitter<any>();
+  @Input() existingAddresses;
+  @Output() addAddress = new EventEmitter<any>();
+  @Output() verifyAddress = new EventEmitter<any>();
 
   address: FormGroup = this.fb.group({
     defaultAddress: [false],

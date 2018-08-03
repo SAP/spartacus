@@ -8,12 +8,9 @@ const DEFAULT_FORMAT = 'product';
   styleUrls: ['./picture.component.scss']
 })
 export class PictureComponent implements OnInit {
-  @Input()
-  imageContainer;
-  @Input()
-  imageFormat;
-  @Input()
-  imagePosition;
+  @Input() imageContainer;
+  @Input() imageFormat;
+  @Input() imagePosition;
 
   mainImage;
   // imageTypes = {

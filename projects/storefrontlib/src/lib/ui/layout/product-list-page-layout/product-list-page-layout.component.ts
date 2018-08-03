@@ -6,13 +6,9 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./product-list-page-layout.component.scss']
 })
 export class ProductListPageLayoutComponent {
-  @Input()
-  gridMode: String;
+  @Input() gridMode: String;
 
-  @Input()
-  categoryCode;
-  @Input()
-  brandCode;
-  @Input()
-  query;
+  @Input() categoryCode;
+  @Input() brandCode;
+  @Input() query;
 }

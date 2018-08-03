@@ -23,16 +23,12 @@ import { Address } from '../../../models/address-model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReviewSubmitComponent implements OnInit {
-  @Input()
-  deliveryAddress: Address;
-  @Input()
-  paymentDetails: any;
+  @Input() deliveryAddress: Address;
+  @Input() paymentDetails: any;
   tAndCToggler = false;
 
-  @Output()
-  backStep = new EventEmitter<any>();
-  @Output()
-  placeOrder = new EventEmitter<any>();
+  @Output() backStep = new EventEmitter<any>();
+  @Output() placeOrder = new EventEmitter<any>();
 
   deliveryMode$: Observable<any>;
   countryName$: Observable<any>;

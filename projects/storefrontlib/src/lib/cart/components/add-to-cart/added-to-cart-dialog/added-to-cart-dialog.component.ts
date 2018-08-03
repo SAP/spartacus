@@ -18,10 +18,8 @@ export class AddedToCartDialogComponent implements OnInit {
     })
   });
 
-  @Output()
-  updateEntryEvent: EventEmitter<any> = new EventEmitter();
-  @Output()
-  removeEntryEvent: EventEmitter<any> = new EventEmitter();
+  @Output() updateEntryEvent: EventEmitter<any> = new EventEmitter();
+  @Output() removeEntryEvent: EventEmitter<any> = new EventEmitter();
   constructor(
     public dialogRef: MatDialogRef<AddedToCartDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,

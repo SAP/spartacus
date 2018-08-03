@@ -21,17 +21,12 @@ const COUNTER_CONTROL_ACCESSOR = {
   providers: [COUNTER_CONTROL_ACCESSOR]
 })
 export class ItemCounterComponent implements ControlValueAccessor {
-  @Input()
-  value = 0;
-  @Input()
-  step = 1;
-  @Input()
-  min = 0;
-  @Input()
-  max = 0;
+  @Input() value = 0;
+  @Input() step = 1;
+  @Input() min = 0;
+  @Input() max = 0;
 
-  @Output()
-  change = new EventEmitter<any>();
+  @Output() change = new EventEmitter<any>();
 
   focus: boolean;
 

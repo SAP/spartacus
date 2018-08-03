@@ -13,13 +13,10 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductSortingComponent {
-  @Input()
-  grid;
-  @Input()
-  sortOptions;
+  @Input() grid;
+  @Input() sortOptions;
 
-  @Output()
-  sortListEvent: EventEmitter<string>;
+  @Output() sortListEvent: EventEmitter<string>;
 
   constructor() {
     this.sortListEvent = new EventEmitter<string>();

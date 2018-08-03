@@ -21,19 +21,13 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductListComponent implements OnChanges, OnInit {
-  @ViewChild('sidenav')
-  sidenav: MatSidenav;
+  @ViewChild('sidenav') sidenav: MatSidenav;
 
-  @Input()
-  gridMode: String;
-  @Input()
-  query;
-  @Input()
-  categoryCode;
-  @Input()
-  brandCode;
-  @Input()
-  itemPerPage: number;
+  @Input() gridMode: String;
+  @Input() query;
+  @Input() categoryCode;
+  @Input() brandCode;
+  @Input() itemPerPage: number;
 
   grid: any;
   model$: Observable<any>;

@@ -56,7 +56,7 @@ echo "Validating code linting"
 ng lint
 echo "-----"
 echo "Validating code formatting (using prettier)"
-prettier --config ./.prettierrc --list-different "projects/**/*{.ts,.js,.json,.scss}" 2>&1 |  tee prettier.log
+./node_modules/.bin/prettier --config ./.prettierrc --list-different "projects/**/*{.ts,.js,.json,.scss}" 2>&1 |  tee prettier.log
 results=$(tail -1 prettier.log | grep projects || true)
 if [[ -z "$results" ]]; then
     echo "Success: Codebase has been prettified correctly"

@@ -14,14 +14,10 @@ import {
   styleUrls: ['./pagination-and-sorting.component.scss']
 })
 export class PaginationAndSortingComponent implements OnInit, OnChanges {
-  @Input()
-  pagination: any;
-  @Input()
-  sorts: any[];
-  @Output()
-  viewPageEvent: EventEmitter<{}> = new EventEmitter<{}>();
-  @Output()
-  sortEvent: EventEmitter<{}> = new EventEmitter<{}>();
+  @Input() pagination: any;
+  @Input() sorts: any[];
+  @Output() viewPageEvent: EventEmitter<{}> = new EventEmitter<{}>();
+  @Output() sortEvent: EventEmitter<{}> = new EventEmitter<{}>();
 
   currentPage: number;
   paginationBoundaries: number;

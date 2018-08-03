@@ -6,6 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./order-summary.component.scss']
 })
 export class OrderSummaryComponent {
-  @Input()
-  cart: any;
+  @Input() cart: any;
 }

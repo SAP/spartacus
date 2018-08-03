@@ -23,12 +23,9 @@ import { tap } from 'rxjs/operators';
 export class PaymentFormComponent implements OnInit {
   newPayment = false;
 
-  @Input()
-  existingPaymentMethods;
-  @Output()
-  backStep = new EventEmitter<any>();
-  @Output()
-  addPaymentInfo = new EventEmitter<any>();
+  @Input() existingPaymentMethods;
+  @Output() backStep = new EventEmitter<any>();
+  @Output() addPaymentInfo = new EventEmitter<any>();
 
   cardTypes$: Observable<any>;
 

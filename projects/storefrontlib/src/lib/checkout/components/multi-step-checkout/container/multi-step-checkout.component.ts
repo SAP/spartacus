@@ -42,8 +42,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step3Sub: Subscription;
   step4Sub: Subscription;
 
-  @ViewChild(AddressFormComponent)
-  addressForm: AddressFormComponent;
+  @ViewChild(AddressFormComponent) addressForm: AddressFormComponent;
   addressVerifySub: Subscription;
 
   cart$: Observable<any>;

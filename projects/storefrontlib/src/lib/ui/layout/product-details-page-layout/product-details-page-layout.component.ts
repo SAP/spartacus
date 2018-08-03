@@ -6,6 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./product-details-page-layout.component.scss']
 })
 export class ProductDetailsPageLayoutComponent {
-  @Input()
-  productCode;
+  @Input() productCode;
 }

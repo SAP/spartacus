@@ -12,8 +12,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductImagesComponent implements OnChanges {
-  @Input()
-  product: any;
+  @Input() product: any;
   mainImage;
 
   ngOnChanges() {
