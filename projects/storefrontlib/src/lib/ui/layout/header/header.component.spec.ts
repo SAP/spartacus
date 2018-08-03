@@ -11,7 +11,7 @@ import { CurrencySelectorComponent } from '../../../site-context/currency-select
 import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
-import { ConfigService } from '../../../site-context/config.service';
+import { ConfigService } from '../../../../config.service';
 import * as fromUserReducer from '../../../user/store/reducers';
 import * as fromSCStore from './../../../site-context/shared/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
@@ -27,30 +27,28 @@ describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            user: combineReducers(fromUserReducer.reducers),
-            siteContext: combineReducers(fromSCStore.reducers),
-            cms: combineReducers(fromCmsReducer.reducers)
-          })
-        ],
-        declarations: [
-          HeaderComponent,
-          DynamicSlotComponent,
-          ComponentWrapperComponent,
-          LoginComponent,
-          CurrencySelectorComponent,
-          LanguageSelectorComponent
-        ],
-        providers: [{ provide: ConfigService, useClass: MockConfigService }]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          user: combineReducers(fromUserReducer.reducers),
+          siteContext: combineReducers(fromSCStore.reducers),
+          cms: combineReducers(fromCmsReducer.reducers)
+        })
+      ],
+      declarations: [
+        HeaderComponent,
+        DynamicSlotComponent,
+        ComponentWrapperComponent,
+        LoginComponent,
+        CurrencySelectorComponent,
+        LanguageSelectorComponent
+      ],
+      providers: [{ provide: ConfigService, useClass: MockConfigService }]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);

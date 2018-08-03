@@ -1,5 +1,5 @@
 import { By } from '@angular/platform-browser';
-import { ConfigService } from './../config.service';
+import { ConfigService } from '../../../config.service';
 import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
