@@ -60,9 +60,9 @@ describe('AbstractStorefrontModule Tests', () => {
     });
   });
 
-  describe('Test function getOverriddenConfigProvider', () => {
+  describe('Test function getConfigOverrideProvider', () => {
     it('should return a provider', () => {
-      const result = AbstractStorefrontModule.getOverriddenConfigProvider(
+      const result = AbstractStorefrontModule.getConfigOverrideProvider(
         testOverridingConfigService
       );
       expect(result).toBeDefined();
