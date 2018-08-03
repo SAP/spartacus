@@ -13,10 +13,10 @@ import { AbstractStorefrontModule } from '../../abstract-storefront-module';
 })
 export class SiteContextModule extends AbstractStorefrontModule {
   static forRoot(config: any): any {
-    const overriddenConfigProvider = this.getOverriddenConfigProvider(config);
+    const configOverriddeProvider = this.getConfigOverrideProvider(config);
     return {
       ngModule: SiteContextModule,
-      providers: [overriddenConfigProvider]
+      providers: [configOverriddeProvider]
     };
   }
 }

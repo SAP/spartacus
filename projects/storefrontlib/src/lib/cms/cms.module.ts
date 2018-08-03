@@ -38,10 +38,10 @@ import { AbstractStorefrontModule } from '../../abstract-storefront-module';
 })
 export class CmsModule extends AbstractStorefrontModule {
   static forRoot(config: any): any {
-    const overriddenConfigProvider = this.getOverriddenConfigProvider(config);
+    const configOverriddeProvider = this.getConfigOverrideProvider(config);
     return {
       ngModule: CmsModule,
-      providers: [overriddenConfigProvider]
+      providers: [configOverriddeProvider]
     };
   }
 }

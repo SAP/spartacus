@@ -28,11 +28,11 @@ import { AbstractStorefrontModule } from '../../abstract-storefront-module';
 })
 export class OccModule extends AbstractStorefrontModule {
   static forRoot(config: any): any {
-    const overriddenConfigProvider = this.getOverriddenConfigProvider(config);
+    const configOverriddeProvider = this.getConfigOverrideProvider(config);
     return {
       ngModule: OccModule,
       providers: [
-        overriddenConfigProvider,
+        configOverriddeProvider,
         {
           provide: HTTP_INTERCEPTORS,
           useClass: AuthenticationTokenInterceptor,
