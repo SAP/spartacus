@@ -20,7 +20,7 @@ export class LoadClientTokenSuccess implements Action {
   constructor(public payload: ClientAuthenticationToken) {}
 }
 
-export type TokenAction =
+export type ClientTokenAction =
   | LoadClientToken
   | LoadClientTokenFail
   | LoadClientTokenSuccess;
