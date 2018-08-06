@@ -2,7 +2,7 @@ import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromStore from './../../store';
-import * as fromAuthActions from '@auth/store/actions';
+import * as fromAuthStore from '@auth/store';
 import { LoginComponent } from './login.component';
 import { MaterialModule } from '../../../material.module';
 import { FormsModule } from '@angular/forms';
@@ -44,7 +44,8 @@ describe('LoginComponent', () => {
         FormsModule,
         StoreModule.forRoot({
           ...fromStore.reducers,
-          user: combineReducers(fromStore.reducers)
+          user: combineReducers(fromStore.reducers),
+          auth: combineReducers(fromAuthStore.reducers)
         })
       ],
       declarations: [LoginComponent]
@@ -105,7 +106,7 @@ describe('LoginComponent', () => {
     component.login();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromAuthActions.LoadUserToken({
+      new fromAuthStore.LoadUserToken({
         userId: component.username,
         password: component.password
       })

@@ -7,7 +7,7 @@ export const LOAD_CLIENT_TOKEN_SUCCESS = '[Token] Create Client Token Success';
 
 export class LoadClientToken implements Action {
   readonly type = LOAD_CLIENT_TOKEN;
-  constructor(public payload: any) {}
+  constructor() {}
 }
 
 export class LoadClientTokenFail implements Action {
