@@ -8,9 +8,11 @@ import * as fromUser from '../../user/store';
 
 import { UserToken } from '../../user/models/token-types.model';
 import { CartService } from './cart.service';
+import { CartDataService } from './cart-data.service';
 
 describe('CartService', () => {
   let service: CartService;
+  let cartData: CartDataService;
   let store: Store<fromCart.CartState>;
 
   const productCode = '1234';
@@ -35,10 +37,11 @@ describe('CartService', () => {
           user: combineReducers(fromUser.reducers)
         })
       ],
-      providers: [CartService]
+      providers: [CartService, CartDataService]
     });
 
     service = TestBed.get(CartService);
+    cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
@@ -59,8 +62,8 @@ describe('CartService', () => {
         of(true)
       );
       service.initCart();
-      expect(service.cart).toBe(cart);
-      expect(service.userId).toBe(userToken.userId);
+      expect(cartData.cart).toBe(cart);
+      expect(cartData.userId).toBe(userToken.userId);
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.MergeCart({
           userId: userToken.userId,
@@ -79,8 +82,8 @@ describe('CartService', () => {
     it('should init cart for login user who does not have session cart', () => {
       spyOn(store, 'select').and.returnValues(of({}), of(userToken), of(false));
       service.initCart();
-      expect(service.cart).toEqual({});
-      expect(service.userId).toBe(userToken.userId);
+      expect(cartData.cart).toEqual({});
+      expect(cartData.userId).toBe(userToken.userId);
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.LoadCart({
           userId: userToken.userId,
@@ -92,35 +95,32 @@ describe('CartService', () => {
     it('should init cart for anonymous user', () => {
       spyOn(store, 'select').and.returnValues(of({}), of({}), of(false));
       service.initCart();
-      expect(service.cart).toEqual({});
-      expect(service.userId).toBe('anonymous');
+      expect(cartData.cart).toEqual({});
+      expect(cartData.userId).toBe('anonymous');
     });
   });
 
   describe('Load cart details', () => {
-    it('should be able to load cart with more details', inject(
-      [CartService],
-      (cartService: CartService) => {
-        cartService.userId = userId;
-        cartService.cart = cart;
+    it('should be able to load cart with more details', () => {
+      cartData.userId = userId;
+      cartData.cart = cart;
 
-        service.loadCartDetails();
+      service.loadCartDetails();
 
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new fromCart.LoadCart({
-            userId: userId,
-            cartId: cart.code,
-            details: true
-          })
-        );
-      }
-    ));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromCart.LoadCart({
+          userId: userId,
+          cartId: cart.code,
+          details: true
+        })
+      );
+    });
   });
 
   describe('add CartEntry', () => {
     it('should be able to addCartEntry if cart exists', () => {
-      service.userId = userId;
-      service.cart = cart;
+      cartData.userId = userId;
+      cartData.cart = cart;
       service.addCartEntry(productCode, 2);
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -135,8 +135,8 @@ describe('CartService', () => {
 
     it('should be able to addCartEntry if cart does not exist', () => {
       spyOn(store, 'select').and.returnValue(of(cart));
-      service.userId = userId;
-      service.cart = {};
+      cartData.userId = userId;
+      cartData.cart = {};
       service.addCartEntry(productCode, 2);
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -159,8 +159,8 @@ describe('CartService', () => {
 
   describe('update CartEntry', () => {
     it('should be able to updateCartEntry with quantity <> 0', () => {
-      service.userId = userId;
-      service.cart = cart;
+      cartData.userId = userId;
+      cartData.cart = cart;
       service.updateCartEntry('1', 1);
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -174,8 +174,8 @@ describe('CartService', () => {
     });
 
     it('should be able to updateCartEntry with quantity = 0', () => {
-      service.userId = userId;
-      service.cart = cart;
+      cartData.userId = userId;
+      cartData.cart = cart;
       service.updateCartEntry('1', 0);
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -190,8 +190,8 @@ describe('CartService', () => {
 
   describe('remove CartEntry', () => {
     it('should be able to removeCartEntry', () => {
-      service.userId = userId;
-      service.cart = cart;
+      cartData.userId = userId;
+      cartData.cart = cart;
       service.removeCartEntry(mockCartEntry);
 
       expect(store.dispatch).toHaveBeenCalledWith(

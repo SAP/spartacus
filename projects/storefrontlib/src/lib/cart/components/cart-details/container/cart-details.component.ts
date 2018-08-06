@@ -27,16 +27,26 @@ export class CartDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.cartService.loadCartDetails();
+
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
 
-    const codes = [];
     this.entries$ = this.store.select(fromCartStore.getEntries).pipe(
       tap(entries => {
-        const control = this.form.get('entryArry') as FormArray;
+        const entryArryControl = this.form.get('entryArry') as FormArray;
         for (const entry of entries) {
-          if (codes.indexOf(entry.product.code) === -1) {
-            control.push(this.createEntryFormGroup(entry));
-            codes.push(entry.product.code);
+          const entryControl = entryArryControl.controls.filter(
+            control =>
+              (control as FormGroup).controls.entryNumber.value ===
+              entry.entryNumber
+          );
+          if (entryControl[0]) {
+            // Update form values
+            (entryControl[0] as FormGroup).controls.quantity.setValue(
+              entry.quantity
+            );
+          } else {
+            // Create form control for entry
+            entryArryControl.push(this.createEntryFormGroup(entry));
           }
         }
       })

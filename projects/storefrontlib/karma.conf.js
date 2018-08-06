@@ -17,7 +17,7 @@ module.exports = function(config) {
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
-    reporters: ['coverage-istanbul', 'junit'],
+    reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'junit'],
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../../coverage'),
       reports: ['html', 'cobertura', 'text-summary'],
