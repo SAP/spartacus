@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'y-store-locator',
+  selector: 'y-store-finder',
   templateUrl: './store-finder.component.html',
   styleUrls: ['./store-finder.component.scss']
 })
