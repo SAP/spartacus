@@ -7,6 +7,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:proxy:backend": "ng serve --proxy-config proxy_config/proxy.backend.js",
+    "start:proxy:mixed": "ng serve --proxy-config proxy_config/proxy.mixed.js",
+    "start:proxy:mock": "ng serve --proxy-config proxy_config/proxy.mock.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

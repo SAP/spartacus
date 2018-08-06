@@ -24,15 +24,15 @@ export class NavigationService {
       });
     }
 
-    if (root) {
-      const rootUid = nodeData.uid;
-      this.store.dispatch(
-        new fromStore.LoadNavigationItems({
-          nodeId: rootUid,
-          items: itemsList
-        })
-      );
-    }
+    // if (root) {
+    //   const rootUid = nodeData.uid;
+    //   this.store.dispatch(
+    //     new fromStore.LoadNavigationItems({
+    //       nodeId: rootUid,
+    //       items: itemsList
+    //     })
+    //   );
+    // }
   }
 
   private processChilds(node, itemsList) {
