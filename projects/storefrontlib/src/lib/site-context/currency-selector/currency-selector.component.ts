@@ -51,6 +51,7 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
 
     this.store.dispatch(new fromStore.CurrencyChange());
-    sessionStorage.setItem('currency', this.activeCurrency);
+    // UNIVERSAL PLUMB
+    //sessionStorage.setItem('currency', this.activeCurrency);
   }
 }

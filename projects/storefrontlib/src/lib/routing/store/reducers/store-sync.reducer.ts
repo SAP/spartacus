@@ -6,18 +6,20 @@ function storageConfig(config: ConfigService): LocalStorageConfig {
   let storage;
   switch (config.storageSyncType) {
     case StorageSyncType.LOCAL_STORAGE: {
-      storage = localStorage;
+      // UNIVERSAL PLUMB
+      storage = {}; // localStorage;
       break;
     }
     case StorageSyncType.SESSION_STORAGE: {
-      storage = sessionStorage;
+      // UNIVERSAL PLUMB
+      storage = {}; // sessionStorage;
       break;
     }
   }
   return {
     keys: [{ user: ['auth'] }, { cart: ['active'] }],
     rehydrate: true,
-    storage: storage ? storage : sessionStorage
+    storage: storage // UINVERSAL PLUMB  ? storag : sessionStorage
   };
 }
 

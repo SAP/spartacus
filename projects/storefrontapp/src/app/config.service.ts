@@ -13,14 +13,16 @@ export class ConfigService {
     occPrefix: '/rest/v2/'
   };
 
-  lang =
-    sessionStorage.getItem('language') === null
-      ? 'en'
-      : sessionStorage.getItem('language');
-  curr =
-    sessionStorage.getItem('currency') === null
-      ? 'USD'
-      : sessionStorage.getItem('currency');
+  lang = 'en';
+    // UNIVERSAL PLUMB
+    // sessionStorage.getItem('language') === null
+    //   ? 'en'
+    //   : sessionStorage.getItem('language');
+  curr = 'USD';
+    // UNIVERSAL PLUMB
+    // sessionStorage.getItem('currency') === null
+    //   ? 'USD'
+    //   : sessionStorage.getItem('currency');
 
   site = {
     baseSite: 'electronics',

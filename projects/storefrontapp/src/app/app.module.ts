@@ -5,29 +5,26 @@ import { LOCALE_ID } from '@angular/core';
 
 import { ConfigService } from './config.service';
 
-import { OccModule } from 'storefrontlib';
-import { UiModule } from 'storefrontlib';
-import { CmsLibModule } from 'storefrontlib';
-import { UiFrameworkModule } from 'storefrontlib';
-
-import { CmsModule } from 'storefrontlib';
-import { RoutingModule } from 'storefrontlib';
-import { SiteContextModule } from 'storefrontlib';
-import { ProductModule } from 'storefrontlib';
-
 import { appRoutes } from './app.routes';
 
 // bootstrap
 import { AppComponent } from './app.component';
-
-import { UserModule } from 'storefrontlib';
-import { CartModule } from 'storefrontlib';
-import { CheckoutModule } from 'storefrontlib';
-import { GlobalMessageModule } from 'storefrontlib';
+import {CheckoutModule} from '../../../storefrontlib/src/lib/checkout/checkout.module';
+import {CartModule} from '../../../storefrontlib/src/lib/cart/cart.module';
+import {GlobalMessageModule} from '../../../storefrontlib/src/lib/global-message/global-message.module';
+import {OccModule} from '../../../storefrontlib/src/lib/occ/occ.module';
+import {CmsLibModule} from '../../../storefrontlib/src/lib/cms-lib/cms-lib.module';
+import {UiModule} from '../../../storefrontlib/src/lib/ui/ui.module';
+import {UiFrameworkModule} from '../../../storefrontlib/src/lib/ui/ui-framework/ui-framework.module';
+import {CmsModule} from '../../../storefrontlib/src/lib/cms/cms.module';
+import {SiteContextModule} from '../../../storefrontlib/src/lib/site-context/site-context.module';
+import {UserModule} from '../../../storefrontlib/src/lib/user/user.module';
+import {ProductModule} from '../../../storefrontlib/src/lib/product/product.module';
+import {RoutingModule} from '../../../storefrontlib/src/lib/routing/routing.module';
 
 @NgModule({
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     OccModule.forRoot(ConfigService),
     CmsLibModule,
     UiModule,

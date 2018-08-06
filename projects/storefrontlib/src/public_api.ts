@@ -35,6 +35,7 @@ export * from './lib/cms-lib/breadcrumb/breadcrumb.module';
 export * from './lib/cms-lib/banner/banner.module';
 export * from './lib/cms/cms.module';
 export * from './lib/cart/cart.module';
+export * from './lib/cart/services/cart.service';
 export * from './lib/cart/components/cart-details/cart-details.module';
 export * from './lib/cart/components/add-to-cart/add-to-cart.module';
 export * from './lib/routing/routing.module';

@@ -1,21 +1,17 @@
 import { Routes } from '@angular/router';
-
-import { HomePageComponent } from 'storefrontlib';
-import { CartPageComponent } from 'storefrontlib';
-import { ProductPageComponent } from 'storefrontlib';
-import { CategoryPageComponent } from 'storefrontlib';
-import { MultiStepCheckoutPageComponent } from 'storefrontlib';
-import { OrderConfirmationPageComponent } from 'storefrontlib';
-import { OrderHistoryPageComponent } from 'storefrontlib';
-import { OrderDetailsPageComponent } from 'storefrontlib';
-import { RegisterComponent } from 'storefrontlib';
-
-import { PageNotFoundComponent } from 'storefrontlib';
-
-import { CmsPageGuards } from 'storefrontlib';
-import { ProductGuard } from 'storefrontlib';
-import { AuthGuard } from 'storefrontlib';
-import { NotAuthGuard } from 'storefrontlib';
+import {CmsPageGuards} from '../../../storefrontlib/src/lib/cms/guards';
+import {HomePageComponent} from '../../../storefrontlib/src/lib/ui/pages/home-page/home-page.component';
+import {CartPageComponent} from '../../../storefrontlib/src/lib/ui/pages/cart-page/cart-page.component';
+import {AuthGuard, NotAuthGuard} from '../../../storefrontlib/src/lib/user/guards';
+import {MultiStepCheckoutPageComponent} from '../../../storefrontlib/src/lib/ui/pages/multi-step-checkout-page/multi-step-checkout-page.component';
+import {OrderConfirmationPageComponent} from '../../../storefrontlib/src/lib/ui/pages/order-confirmation-page/order-confirmation-page.component';
+import {CategoryPageComponent} from '../../../storefrontlib/src/lib/ui/pages/category-page/category-page.component';
+import {ProductGuard} from '../../../storefrontlib/src/lib/product/guards';
+import {ProductPageComponent} from '../../../storefrontlib/src/lib/ui/pages/product-page/product-page.component';
+import {OrderHistoryPageComponent} from '../../../storefrontlib/src/lib/ui/pages/order-history-page/order-history-page.component';
+import {OrderDetailsPageComponent} from '../../../storefrontlib/src/lib/ui/pages/order-details-page/order-details-page.component';
+import {RegisterComponent} from '../../../storefrontlib/src/lib/user/components/register/register.component';
+import {PageNotFoundComponent} from '../../../storefrontlib/src/lib/ui/pages/404/404.component';
 
 // TODO: provide URL mappings for site specific routings
 export const appRoutes: Routes = [
