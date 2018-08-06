@@ -25,7 +25,7 @@ export class CartItemComponent implements OnInit {
     this.remove.emit(this.entry);
   }
 
-  updateEntry() {
-    this.update.emit(this.entry);
+  updateEntry(updatedQuantity: number) {
+    this.update.emit({ entry: this.entry, updatedQuantity });
   }
 }
