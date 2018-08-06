@@ -35,8 +35,7 @@
 
     <!-- quantity -->
     <div class="item__quantity" [formGroup]="parent">
-        <y-item-counter [value]="entry.quantity" [step]="1" [min]="1" [max]="entry.product.stock?.stockLevel || 1000" (change)="updateEntry()"
-            formControlName="quantity">
+        <y-item-counter [step]="1" [min]="1" [max]="entry.product.stock?.stockLevel || 1000" (change)="updateEntry()" formControlName="quantity">
         </y-item-counter>
     </div>
 

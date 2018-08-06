@@ -6,6 +6,7 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromRoot from '../../../../routing/store';
 import { CartService } from '../../../services/cart.service';
+import { CartDataService } from '../../../services/cart-data.service';
 import * as fromReducer from '../../../store/reducers';
 import { CartItemComponent } from '../../cart-shared/cart-item/cart-item.component';
 import { ItemCounterComponent } from '../../cart-shared/item-counter/item-counter.component';
@@ -71,7 +72,10 @@ describe('CartDetailsComponent', () => {
         CartItemComponent,
         ItemCounterComponent
       ],
-      providers: [{ provide: CartService, useClass: MockCartService }]
+      providers: [
+        CartDataService,
+        { provide: CartService, useClass: MockCartService }
+      ]
     }).compileComponents();
   }));
 
@@ -82,6 +86,7 @@ describe('CartDetailsComponent', () => {
 
     store = TestBed.get(Store);
     spyOn(store, 'select').and.returnValues(of(mockCart), of(mockEntries));
+
     spyOn(service, 'removeCartEntry').and.callThrough();
     spyOn(service, 'loadCartDetails').and.callThrough();
     spyOn(service, 'updateCartEntry').and.callThrough();
@@ -92,20 +97,20 @@ describe('CartDetailsComponent', () => {
   });
 
   it('should call ngInit to fill the formArray', () => {
-    component.ngOnInit();
-    expect(service.loadCartDetails).toHaveBeenCalled();
-
     let control = component.form.get('entryArry') as FormArray;
     expect(control.value).toEqual([]);
 
-    component.cart$.subscribe();
-    component.entries$.subscribe();
+    component.ngOnInit();
+    expect(service.loadCartDetails).toHaveBeenCalled();
 
-    control = component.form.get('entryArry') as FormArray;
-    expect(control.value).toEqual([
-      { entryNumber: 1, quantity: 1 },
-      { entryNumber: 2, quantity: 2 }
-    ]);
+    component.cart$.subscribe();
+    component.entries$.subscribe(() => {
+      control = component.form.get('entryArry') as FormArray;
+      expect(control.value).toEqual([
+        { entryNumber: 1, quantity: 1 },
+        { entryNumber: 2, quantity: 2 }
+      ]);
+    });
   });
 
   it('should remove entry from cart', () => {
