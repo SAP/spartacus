@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Routes, RouterModule } from '@angular/router';
 
+import { CmsPageGuards } from '../../../cms/guards';
 import { LandingPageLayoutModule } from '../../layout/landing-page-layout/landing-page-layout.module';
 import { HomePageComponent } from './home-page.component';
-import { Routes, RouterModule } from '@angular/router';
-import { CmsPageGuards } from '../../../cms/guards';
 
 const routes: Routes = [
   {
