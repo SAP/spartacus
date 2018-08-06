@@ -31,7 +31,10 @@ export class CartPage extends AppPage {
             item,
             'item__info'
           );
-          const span = itemInfoDiv.element(by.tagName('span'));
+          const span = E2EUtil.getComponentWithinParentByClass(
+            itemInfoDiv,
+            'item__name'
+          );
           span.getText().then(function(text) {
             // if found text, return the 'y-product-list-item' element
             if (text === productName) {

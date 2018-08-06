@@ -85,7 +85,7 @@ describe('workspace-project App', () => {
       });
   });
 
-  fit('should list with pagination', () => {
+  it('should list with pagination', () => {
     // go to search results page
     searchResults.navigateTo('camera');
 
@@ -150,7 +150,8 @@ describe('workspace-project App', () => {
                 'Wrong add to cart button quantity in search results page'
               );
             });
-            AddedToCartModal.closeModal();
+            const atcModal: AddedToCartModal = new AddedToCartModal();
+            atcModal.closeModal();
           });
       });
 
@@ -190,29 +191,38 @@ describe('workspace-project App', () => {
           );
         });
         // close add to cart modal
-        AddedToCartModal.closeModal();
-      });
-
-    productDetails.addToCart();
-    // quantity should change again
-    browser
-      .wait(ExpectedConditions.elementToBeClickable(product2QuantitySpan), 3000)
-      .then(function() {
-        product2QuantitySpan.getText().then(function(text) {
-          expect(text).toBe(
-            '2',
-            'Wrong product details add to cart button quantity'
-          );
-        });
-        // close add to cart modal
-        browser.wait(
-          ExpectedConditions.visibilityOf(AddedToCartModal.getModal())
-        );
-        AddedToCartModal.closeModal();
+        const atcModal: AddedToCartModal = new AddedToCartModal();
+        atcModal.closeModal();
       })
       .then(() => {
-        const minicartIcon = home.header.getMinicartIconComponent();
-        minicartIcon.click();
+        // add same product to cart again
+        productDetails.addToCart();
+        const atcModal3: AddedToCartModal = new AddedToCartModal();
+        browser
+          .wait(ExpectedConditions.visibilityOf(atcModal3.getModal()), 2000)
+          .then(() => {
+            atcModal3.closeModal();
+          })
+          .then(() => {
+            browser
+              .wait(ExpectedConditions.visibilityOf(product2QuantitySpan), 3000)
+              .then(function() {
+                product2QuantitySpan.getText().then(function(text) {
+                  expect(text).toBe(
+                    '2',
+                    'Wrong product details add to cart button quantity'
+                  );
+                });
+              }) // then go to cart
+              .then(() => {
+                const minicartIcon = home.header.getMinicartIconComponent();
+                browser
+                  .wait(ExpectedConditions.elementToBeClickable(minicartIcon))
+                  .then(() => {
+                    minicartIcon.click();
+                  });
+              });
+          });
       });
 
     // wait for cart page to show up
