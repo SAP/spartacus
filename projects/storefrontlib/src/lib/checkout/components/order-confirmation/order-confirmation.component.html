@@ -1,4 +1,4 @@
-<div class="order-confirmation-container">
+<div class="order-confirmation-container" *ngIf="order !== undefined">
     <div class="order-confirmation-header">
         <h2>Confirmation of Order: {{order.code}}</h2>
     </div>

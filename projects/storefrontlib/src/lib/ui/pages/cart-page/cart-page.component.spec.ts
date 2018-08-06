@@ -1,24 +1,20 @@
-import { MediaModule } from './../../components/media/media.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { CartPageComponent } from './cart-page.component';
-import { CartPageLayoutComponent } from '../../layout/cart-page-layout/cart-page-layout.component';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperComponent
-} from '../../../cms/components';
-import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
-import { StoreModule, combineReducers } from '@ngrx/store';
-import * as fromRoot from '../../../routing/store';
-import * as fromCmsReducer from '../../../cms/store';
-import * as fromCart from '../../../cart/store';
-
-import { CartService } from '../../../cart/services';
-import { OrderSummaryComponent } from '../../../cart/components/cart-details/order-summary/order-summary.component';
-import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CartItemComponent } from '../../../cart/components/cart-shared/cart-item/cart-item.component';
-import { ItemCounterComponent } from '../../../cart/components/cart-shared/item-counter/item-counter.component';
+import { RouterModule } from '@angular/router';
+import { combineReducers, StoreModule } from '@ngrx/store';
+import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
+import { CartService } from '../../../cart/services';
+import * as fromCart from '../../../cart/store';
+import {
+  ComponentWrapperComponent,
+  DynamicSlotComponent
+} from '../../../cms/components';
+import * as fromCmsReducer from '../../../cms/store';
+import * as fromRoot from '../../../routing/store';
+import { CartPageLayoutComponent } from '../../layout/cart-page-layout/cart-page-layout.component';
+import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
+import { MediaModule } from './../../components/media/media.module';
+import { CartPageComponent } from './cart-page.component';
 
 export class MockCartService {
   loadCartDetails() {}
@@ -38,17 +34,15 @@ describe('CartPageComponent', () => {
           cms: combineReducers(fromCmsReducer.reducers),
           cart: combineReducers(fromCart.reducers)
         }),
-        MediaModule
+        MediaModule,
+        CartSharedModule
       ],
       declarations: [
         CartPageComponent,
         CartPageLayoutComponent,
         DynamicSlotComponent,
         ComponentWrapperComponent,
-        CartDetailsComponent,
-        OrderSummaryComponent,
-        CartItemComponent,
-        ItemCounterComponent
+        CartDetailsComponent
       ],
       providers: [{ provide: CartService, useClass: MockCartService }]
     }).compileComponents();
