@@ -20,6 +20,7 @@ import { ConfigService } from '../../../site-context/config.service';
 import * as fromUserReducer from '../../../user/store/reducers';
 import * as fromSCStore from './../../../site-context/shared/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
+import * as fromAuth from '@auth/store';
 
 class MockConfigService {
   server = {
@@ -47,7 +48,8 @@ describe('MainComponent', () => {
           ...fromRoot.reducers,
           user: combineReducers(fromUserReducer.reducers),
           siteContext: combineReducers(fromSCStore.reducers),
-          cms: combineReducers(fromCmsReducer.reducers)
+          cms: combineReducers(fromCmsReducer.reducers),
+          auth: combineReducers(fromAuth.reducers)
         }),
         GlobalMessageModule
       ],

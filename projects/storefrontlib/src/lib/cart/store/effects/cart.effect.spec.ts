@@ -8,6 +8,7 @@ import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCart from '../../../cart/store';
 import * as fromUser from '../../../user/store';
+import * as fromAuth from '@auth//store';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
 import { ConfigService } from '../../../occ/config.service';
@@ -46,7 +47,8 @@ describe('Cart effect', () => {
         StoreModule.forRoot({
           ...fromRoot.reducers,
           cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers)
+          user: combineReducers(fromUser.reducers),
+          auth: combineReducers(fromAuth.reducers)
         })
       ],
 
