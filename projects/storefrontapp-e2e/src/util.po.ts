@@ -6,6 +6,7 @@ import {
   browser,
   protractor
 } from 'protractor';
+import { print } from 'util';
 
 export class E2EUtil {
   /**
@@ -105,6 +106,7 @@ export class E2EUtil {
    */
   static fillInput(input: ElementFinder, value: string, skipEnter?: boolean) {
     input.sendKeys(value);
+
     if (!skipEnter) {
       browser
         .actions()

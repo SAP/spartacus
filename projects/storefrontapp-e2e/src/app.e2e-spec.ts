@@ -1,9 +1,8 @@
+import { AddedToCartModal } from './cmslib/addedToCartModal.po';
+import { Input } from '@angular/core';
 import { ProductDetailsPage } from './pages/productDetails.po';
 import { CartPage } from './pages/cart.po';
-import { MinicartModal } from './cmslib/minicartModal.po';
-import { E2ECommonTasks } from './commonTasks.po';
 import { E2EUtil } from './util.po';
-import { LoginModal } from './cmslib/loginModal.po';
 import { browser, by, ExpectedConditions, promise } from 'protractor';
 import { SearchResultsPage } from './pages/searchResults.po';
 import { HomePage } from './pages/home.po';
@@ -40,47 +39,6 @@ describe('workspace-project App', () => {
     );
   });
 
-  // FIXME - scaping test now while registration is not finished
-  xit('should be able to register then login', () => {
-    const username = timestamp + '@hybris.com';
-    const password = '12341234';
-    const firstName = 'First';
-    const lastName = 'Last';
-    E2ECommonTasks.register('Mr.', firstName, lastName, username, password);
-    // TODO - check for confirmation message - by now, just waits a bit for registration to finish
-
-    E2ECommonTasks.login(username, password);
-    // wait for login modal to disappear
-    browser.wait(
-      ExpectedConditions.invisibilityOf(new LoginModal().getModal()),
-      2000
-    );
-
-    const loginIconComponent = home.header.getLoginIconComponent();
-    const loginButton = E2EUtil.getComponentWithinParent(
-      loginIconComponent,
-      'button'
-    );
-    const loginSpan = E2EUtil.getComponentWithinParentByCss(
-      loginButton,
-      'span'
-    );
-    // wait until default name disappears
-    browser.wait(
-      ExpectedConditions.not(
-        ExpectedConditions.textToBePresentInElement(loginSpan, 'person')
-      ),
-      2000
-    );
-    // verify that user first and last name is show on login icon component
-    loginSpan.getText().then(function(text) {
-      expect(text).toContain(firstName + ' ' + lastName);
-    });
-
-    // logout: cleanup for next tests
-    E2ECommonTasks.logout();
-  });
-
   it('should be able to search', () => {
     // go to homepage
     home.navigateTo();
@@ -111,22 +69,23 @@ describe('workspace-project App', () => {
     const results = searchResults.getProductListItems();
 
     results.then(function(items) {
-      expect(items.length).toBe(10); // FIXME - lenght should be defined by config
-      const h3 = items[0].element(by.tagName('h3'));
-      h3.getText().then(function(text) {
-        expect(text).toBe('Photosmart E317 Digital Camera');
-      });
+      expect(items.length).toBe(10);
 
-      searchResults
-        .findProductByNameInResultsPage('Photosmart E317 Digital Camera')
-        .then(function(product) {
-          expect(product.isDisplayed()).toBeTruthy();
-        });
+      // FIXME - by now results do not come ordered from occ. Get top element when it does.
+      // const h3 = items[0].element(by.tagName('h3'));
+      // h3.getText().then(function(text) {
+      //   expect(text).toBe('Photosmart E317 Digital Camera');
+      // });
     });
-    // FIXME - by now results do not come ordered from occ. Get top element when it does.
+
+    searchResults
+      .findProductByNameInResultsPage('Photosmart E317 Digital Camera')
+      .then(function(product) {
+        expect(product.isDisplayed()).toBeTruthy();
+      });
   });
 
-  it('should list with pagination', () => {
+  fit('should list with pagination', () => {
     // go to search results page
     searchResults.navigateTo('camera');
 
@@ -139,7 +98,8 @@ describe('workspace-project App', () => {
       .element(by.tagName('div'))
       .getText()
       .then(function(text) {
-        expect(text).toBe('144 Products, Page: 1 of 15');
+        expect(text).toContain('144 Products');
+        expect(text).toContain('Page: 1 of 15');
       });
 
     // go to next page
@@ -190,21 +150,24 @@ describe('workspace-project App', () => {
                 'Wrong add to cart button quantity in search results page'
               );
             });
+            AddedToCartModal.closeModal();
           });
       });
 
     // search for specific product, but do not press enter
     home.header.performSearch('1934793', true);
+
     const overlay = E2EUtil.getOverlayContainer();
     browser.wait(ExpectedConditions.visibilityOf(overlay), 2000);
     const autocompletePanel = E2EUtil.getComponentWithinParentByCss(
       overlay,
       `div[role="listbox"]`
     );
+    browser.wait(ExpectedConditions.visibilityOf(autocompletePanel), 2000);
     // select product from the suggestion list, then add it to cart 2 times
-    const suggestionSpan = autocompletePanel.element(
-      by.cssContainingText('.mat-option-text', 'PowerShot A480')
-    );
+    const suggestionSpan = autocompletePanel
+      .all(by.cssContainingText('.mat-option-text', 'PowerShot A480'))
+      .first();
     suggestionSpan.click();
     // wait until product details page is loaded
     browser.wait(
@@ -226,7 +189,10 @@ describe('workspace-project App', () => {
             'Wrong product details add to cart button quantity'
           );
         });
+        // close add to cart modal
+        AddedToCartModal.closeModal();
       });
+
     productDetails.addToCart();
     // quantity should change again
     browser
@@ -238,17 +204,16 @@ describe('workspace-project App', () => {
             'Wrong product details add to cart button quantity'
           );
         });
+        // close add to cart modal
+        browser.wait(
+          ExpectedConditions.visibilityOf(AddedToCartModal.getModal())
+        );
+        AddedToCartModal.closeModal();
+      })
+      .then(() => {
+        const minicartIcon = home.header.getMinicartIconComponent();
+        minicartIcon.click();
       });
-
-    const minicartIcon = home.header.getMinicartIconComponent();
-    minicartIcon.click();
-    const minicartModal = new MinicartModal();
-    browser.wait(
-      ExpectedConditions.visibilityOf(minicartModal.getModal()),
-      2000
-    );
-    minicartModal.goToCartPage();
-    // FIXME - check minicart quantities (future work)
 
     // wait for cart page to show up
     browser.wait(ExpectedConditions.urlContains('/cart'), 2000);

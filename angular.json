@@ -79,7 +79,8 @@
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets"
-            ]
+            ],
+            "codeCoverageExclude": ["dist/**/*"]
           }
         },
         "lint": {
@@ -137,7 +138,8 @@
           "options": {
             "main": "projects/storefrontlib/src/test.ts",
             "tsConfig": "projects/storefrontlib/tsconfig.spec.json",
-            "karmaConfig": "projects/storefrontlib/karma.conf.js"
+            "karmaConfig": "projects/storefrontlib/karma.conf.js",
+            "codeCoverageExclude": ["dist/**/*"]
           }
         },
         "lint": {
