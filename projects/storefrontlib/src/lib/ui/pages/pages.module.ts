@@ -19,7 +19,7 @@ import { MultiStepCheckoutPageComponent } from './multi-step-checkout-page/multi
 import { OrderHistoryPageComponent } from './order-history-page/order-history-page.component';
 // OrderPage
 import { OrderDetailsPageComponent } from './order-details-page/order-details-page.component';
-// StoreLocatorPage
+// StoreFinderPage
 import { StoreFinderPageComponent } from './store-finder-page/store-finder-page.component';
 
 @NgModule({
