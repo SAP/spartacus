@@ -2,6 +2,7 @@
  * Public API Surface of storefrontlib
  */
 
+export * from './lib/auth/auth.module';
 export * from './lib/ui/layout/layout.module';
 export * from './lib/ui/ui.module';
 export * from './lib/ui/components/components.module';

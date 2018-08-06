@@ -6,24 +6,20 @@ import {
   HttpEvent
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap, filter } from 'rxjs/operators';
 
-import { OccClientAuthenticationTokenService } from '../client-authentication/client-authentication-token.service';
 import {
   AuthenticationToken,
   ClientAuthenticationToken
 } from '../models/token-types.model';
 
-interface RequestMapping {
-  method: string;
-  urlPattern: string;
-}
+import { Store } from '@ngrx/store';
+import * as fromAuthStore from '@auth/store';
+import { RequestMapping } from '@auth/models/client-token-http-param';
 
 @Injectable()
 export class AuthenticationTokenInterceptor implements HttpInterceptor {
-  constructor(
-    private clientAuthenticationService: OccClientAuthenticationTokenService
-  ) {}
+  constructor(private store: Store<fromAuthStore.AuthState>) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -65,6 +61,15 @@ export class AuthenticationTokenInterceptor implements HttpInterceptor {
   }
 
   private getClientToken(): Observable<ClientAuthenticationToken> {
-    return this.clientAuthenticationService.loadClientAuthenticationToken();
+    return this.store.select(fromAuthStore.getClientToken).pipe(
+      tap((token: ClientAuthenticationToken) => {
+        if (Object.keys(token).length === 0) {
+          this.store.dispatch(new fromAuthStore.LoadClientToken());
+        }
+      }),
+      filter(
+        (token: ClientAuthenticationToken) => Object.keys(token).length !== 0
+      )
+    );
   }
 }
