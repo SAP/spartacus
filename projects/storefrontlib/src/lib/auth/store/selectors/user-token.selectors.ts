@@ -4,7 +4,7 @@ import * as fromUserToken from './../reducers/user-token.reducer';
 import { UserToken } from '../../models/token-types.model';
 import { UserTokenState } from '../reducers/user-token.reducer';
 
-export const getUserAuthState: MemoizedSelector<
+export const getUserTokenState: MemoizedSelector<
   any,
   UserTokenState
 > = createSelector(
@@ -13,11 +13,11 @@ export const getUserAuthState: MemoizedSelector<
 );
 
 export const getUserToken: MemoizedSelector<any, UserToken> = createSelector(
-  getUserAuthState,
+  getUserTokenState,
   fromUserToken.getUserToken
 );
 
 export const getUserTokenLoading: MemoizedSelector<
   any,
   boolean
-> = createSelector(getUserAuthState, fromUserToken.getUserTokenLoading);
+> = createSelector(getUserTokenState, fromUserToken.getUserTokenLoading);
