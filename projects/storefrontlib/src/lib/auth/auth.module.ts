@@ -4,7 +4,8 @@ import { ConfigService } from './config.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AuthenticationTokenInterceptor } from './http-interceptors/authentication-token.interceptor';
-import { OccClientAuthenticationTokenService } from '@auth/services/client-authentication/client-authentication-token.service';
+import { ClientAuthenticationTokenService } from '@auth/services/client-authentication/client-authentication-token.service';
+import { UserAuthenticationTokenService } from '@auth/services/user-authentication/user-authentication-token.service';
 import * as fromGuards from './guards';
 
 import { StoreModule } from '@ngrx/store';
@@ -19,7 +20,7 @@ import { EffectsModule } from '@ngrx/effects';
     StoreModule.forFeature('auth', reducers),
     EffectsModule.forFeature(effects)
   ],
-  providers: [OccClientAuthenticationTokenService]
+  providers: [ClientAuthenticationTokenService, UserAuthenticationTokenService]
 })
 export class AuthModule {
   static forRoot(config: any): ModuleWithProviders {

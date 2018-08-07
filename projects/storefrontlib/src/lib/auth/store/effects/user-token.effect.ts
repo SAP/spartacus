@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 
 import { UserToken } from '../../models/token-types.model';
-import { OccUserService } from '../../../occ/user/user.service';
+import { UserAuthenticationTokenService } from '@auth/services/user-authentication/user-authentication-token.service';
 
 @Injectable()
 export class UserTokenEffects {
@@ -16,7 +16,7 @@ export class UserTokenEffects {
     .pipe(
       map((action: fromActions.LoadUserToken) => action.payload),
       mergeMap(({ userId, password }) => {
-        return this.userService.loadToken(userId, password).pipe(
+        return this.userTokenService.loadToken(userId, password).pipe(
           map((token: UserToken) => {
             const date = new Date();
             date.setSeconds(date.getSeconds() + token.expires_in);
@@ -35,7 +35,7 @@ export class UserTokenEffects {
     .pipe(
       map((action: fromActions.RefreshUserToken) => action.payload),
       switchMap(({ userId, refreshToken }) => {
-        return this.userService.refreshToken(refreshToken).pipe(
+        return this.userTokenService.refreshToken(refreshToken).pipe(
           map((token: UserToken) => {
             token.userId = userId;
             const date = new Date();
@@ -48,5 +48,8 @@ export class UserTokenEffects {
       })
     );
 
-  constructor(private actions$: Actions, private userService: OccUserService) {}
+  constructor(
+    private actions$: Actions,
+    private userTokenService: UserAuthenticationTokenService
+  ) {}
 }

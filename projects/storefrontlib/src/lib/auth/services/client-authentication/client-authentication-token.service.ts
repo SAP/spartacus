@@ -8,7 +8,7 @@ import { ConfigService } from './../../config.service';
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
 @Injectable()
-export class OccClientAuthenticationTokenService {
+export class ClientAuthenticationTokenService {
   constructor(private config: ConfigService, private http: HttpClient) {}
 
   loadClientAuthenticationToken(): Observable<any> {

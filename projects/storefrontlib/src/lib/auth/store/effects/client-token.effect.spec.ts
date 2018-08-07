@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { OccClientAuthenticationTokenService } from '@auth/services/client-authentication/client-authentication-token.service';
+import { ClientAuthenticationTokenService } from '@auth/services/client-authentication/client-authentication-token.service';
 import { ClientAuthenticationToken } from '@auth/models/token-types.model';
 import * as fromStore from '@auth/store';
 
@@ -15,13 +15,13 @@ const testToken: ClientAuthenticationToken = {
   scope: 'xxx'
 };
 
-class OccClientAuthenticationTokenServiceMock {
+class ClientAuthenticationTokenServiceMock {
   loadClientAuthenticationToken() {}
 }
 
 describe('ClientTokenEffect', () => {
   let clientTokenEffect: fromStore.ClientTokenEffect;
-  let clientAuthenticationTokenService: OccClientAuthenticationTokenService;
+  let clientAuthenticationTokenService: ClientAuthenticationTokenService;
   let actions$: Observable<any>;
 
   beforeEach(() => {
@@ -29,8 +29,8 @@ describe('ClientTokenEffect', () => {
       providers: [
         fromStore.ClientTokenEffect,
         {
-          provide: OccClientAuthenticationTokenService,
-          useClass: OccClientAuthenticationTokenServiceMock
+          provide: ClientAuthenticationTokenService,
+          useClass: ClientAuthenticationTokenServiceMock
         },
         provideMockActions(() => actions$)
       ]
@@ -38,7 +38,7 @@ describe('ClientTokenEffect', () => {
 
     clientTokenEffect = TestBed.get(fromStore.ClientTokenEffect);
     clientAuthenticationTokenService = TestBed.get(
-      OccClientAuthenticationTokenService
+      ClientAuthenticationTokenService
     );
 
     spyOn(
