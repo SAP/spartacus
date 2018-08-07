@@ -34,6 +34,7 @@ import { LoginModule } from '../../user/components/login/login.module';
 import { CartDetailsModule } from '../../cart/components/cart-details/cart-details.module';
 import { ProductModule } from '../../product/product.module';
 import { CheckoutModule } from '../../checkout/checkout.module';
+import { StoreFinderModule } from '../../store-finder/store-finder.module';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     ProductModule,
     CartDetailsModule,
     CheckoutModule,
-    MyAccountModule
+    MyAccountModule,
+    StoreFinderModule
   ],
   declarations: [
     HeaderComponent,
