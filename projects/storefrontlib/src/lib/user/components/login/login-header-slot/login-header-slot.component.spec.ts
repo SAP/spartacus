@@ -1,16 +1,16 @@
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import * as fromStore from './../../store';
+import * as fromStore from './../../../store';
 import { LoginHeaderSlotComponent } from './login-header-slot.component';
-import { MaterialModule } from '../../../material.module';
+import { MaterialModule } from '../../../../material.module';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PageType } from '../../../routing/models/page-context.model';
+import { PageType } from '../../../../routing/models/page-context.model';
 import { MatDialog } from '@angular/material';
-import { UserToken } from '../../models/token-types.model';
-import * as fromRouting from '../../../routing/store';
+import { UserToken } from '../../../models/token-types.model';
+import * as fromRouting from '../../../../routing/store';
 
 const mockUser = {
   username: 'mockUsername',
@@ -71,7 +71,7 @@ describe('LoginComponent', () => {
     const spy = spyOn(store, 'select');
     spy.and.returnValue(of(routerState));
 
-    component = new LoginHeaderSlotComponent(dialog, store);
+    component = new LoginHeaderSlotComponent(store);
 
     expect(component).toBeTruthy();
   });
@@ -94,19 +94,6 @@ describe('LoginComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromRouting.Go({
         path: ['']
-      })
-    );
-  });
-
-  it('should login', () => {
-    component.username = mockUser.username;
-    component.password = mockUser.password;
-    component.login();
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadUserToken({
-        userId: component.username,
-        password: component.password
       })
     );
   });

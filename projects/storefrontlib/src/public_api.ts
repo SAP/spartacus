@@ -71,6 +71,7 @@ export * from './lib/ui/pages/order-details-page/order-details-page.component';
 export * from './lib/ui/pages/login-page/login-page.component';
 export * from './lib/ui/pages/404/404.component';
 export * from './lib/user/components/login/login-header-slot/login-header-slot.component';
+export * from './lib/user/components/login/login.component';
 export * from './lib/user/components/register/register.component';
 export * from './lib/product/components/product-details/product-reviews/product-reviews.component';
 export * from './lib/product/components/product-details/product-summary/product-summary.component';

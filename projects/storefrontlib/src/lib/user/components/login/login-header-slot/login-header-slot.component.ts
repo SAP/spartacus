@@ -4,7 +4,6 @@ import {
   OnDestroy,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { MatDialog } from '@angular/material';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../../store';
@@ -28,10 +27,7 @@ export class LoginHeaderSlotComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
-  constructor(
-    protected dialog: MatDialog,
-    private store: Store<fromStore.UserState>
-  ) {}
+  constructor(private store: Store<fromStore.UserState>) {}
 
   ngOnInit() {
     this.subscription = this.store
@@ -69,15 +65,6 @@ export class LoginHeaderSlotComponent implements OnInit, OnDestroy {
           );
         }
       });
-  }
-
-  login() {
-    this.store.dispatch(
-      new fromStore.LoadUserToken({
-        userId: this.username,
-        password: this.password
-      })
-    );
   }
 
   ngOnDestroy() {

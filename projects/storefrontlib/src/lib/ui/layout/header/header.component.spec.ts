@@ -6,9 +6,9 @@ import {
   ComponentWrapperComponent
 } from '../../../cms/components';
 import { MaterialModule } from '../../../material.module';
-import { LoginComponent } from '../../../user/components/login/login.component';
 import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
 import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
+import { LoginHeaderSlotComponent } from './../../../user/components/login/login-header-slot/login-header-slot.component';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import { ConfigService } from '../../../site-context/config.service';
@@ -42,9 +42,9 @@ describe('HeaderComponent', () => {
         HeaderComponent,
         DynamicSlotComponent,
         ComponentWrapperComponent,
-        LoginComponent,
         CurrencySelectorComponent,
-        LanguageSelectorComponent
+        LanguageSelectorComponent,
+        LoginHeaderSlotComponent
       ],
       providers: [{ provide: ConfigService, useClass: MockConfigService }]
     }).compileComponents();

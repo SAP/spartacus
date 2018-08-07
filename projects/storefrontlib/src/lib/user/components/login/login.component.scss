@@ -1,0 +1,48 @@
+.login-page-container {
+  .login-page-header {
+    display: flex;
+    padding: 25px;
+    background-color: rgb(249, 249, 249);
+    h3 {
+      margin: auto;
+    }
+  }
+  .login-page-body {
+    padding: 25px;
+    display: flex;
+    .login-form-wrapper {
+      margin: auto;
+      flex: 0.3;
+      form {
+        width: 100%;
+      }
+      .formControl {
+        display: flex;
+        flex-direction: column;
+        margin: 15px 0px 15px 0px;
+        span {
+          margin-bottom: 5px;
+        }
+        input,
+        button {
+          padding: 7px;
+          outline-width: 0;
+        }
+        button {
+          padding-top: 10px;
+          padding-bottom: 10px;
+          color: white;
+          border: 0px;
+          border-radius: 3px;
+          font-weight: 600;
+        }
+        button.login {
+          background-color: rgb(208, 80, 77);
+        }
+        button.register {
+          background-color: rgb(86, 91, 103);
+        }
+      }
+    }
+  }
+}
