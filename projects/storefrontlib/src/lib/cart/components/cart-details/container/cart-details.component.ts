@@ -25,6 +25,7 @@ export class CartDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.cartService.loadCartDetails();
+
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
 
     this.entries$ = this.store.select(fromCartStore.getEntries).pipe(
