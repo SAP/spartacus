@@ -15,7 +15,7 @@ export function reducer(
   switch (action.type) {
     case fromStoreFinder.FIND_STORES_SUCCESS: {
       const stores = action.payload;
-
+      console.log("IN REDUCER");
       const entities = {
         ...state.entities,
         [stores.storeName]: stores

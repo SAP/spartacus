@@ -16,7 +16,6 @@ export class StoreFinderPageLayoutComponent implements OnInit {
   ngOnInit() {}
 
   findStores(address: string) {
-    console.log('in StoreFinderPageLayoutComponent');
     this.findStoresService.findStores(address);
   }
 }
