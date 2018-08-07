@@ -4,6 +4,11 @@ import { ConfigService } from '../config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { UserRegisterFormData } from '../../user/models/user.model';
+import {
+  InterceptorUtil,
+  REQUEST_MAPPING_CUSTOM_HEADER
+} from '../../site-context/shared/http-interceptors/interceptor-util';
+import { RequestMapping } from '@auth/models/request-mapping.model';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 const USER_ENDPOINT = 'users/';
@@ -39,7 +44,7 @@ export class OccUserService {
     });
 
     return this.http
-      .post(url, creds, { headers: headers })
+      .post(url, creds, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -51,7 +56,7 @@ export class OccUserService {
     });
 
     return this.http
-      .post(url, address, { headers: headers })
+      .post(url, address, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -62,7 +67,7 @@ export class OccUserService {
     });
 
     return this.http
-      .get(url, { headers: headers })
+      .get(url, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -73,7 +78,7 @@ export class OccUserService {
     });
 
     return this.http
-      .get(url, { headers: headers })
+      .get(url, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -99,12 +104,21 @@ export class OccUserService {
 
   registerUser(user: UserRegisterFormData): Observable<any> {
     const url = this.getUserEndpoint();
-    const headers = new HttpHeaders({
+    let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
+    const requestMapping: RequestMapping = {
+      method: 'POST',
+      urlPattern: '^(.*?)/users/$'
+    };
+    headers = InterceptorUtil.createHeader(
+      REQUEST_MAPPING_CUSTOM_HEADER,
+      requestMapping,
+      headers
+    );
 
     return this.http
-      .post(url, user, { headers: headers })
+      .post(url, user, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 

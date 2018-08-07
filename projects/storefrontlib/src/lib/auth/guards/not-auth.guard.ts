@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
-import * as fromStore from './../store';
+import * as fromStore from './../../user/store';
 import * as fromAuthStore from '@auth/store';
 
 @Injectable()

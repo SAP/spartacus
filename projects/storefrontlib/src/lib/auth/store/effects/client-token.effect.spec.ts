@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { OccClientAuthenticationTokenService } from '@auth/client-authentication/client-authentication-token.service';
+import { OccClientAuthenticationTokenService } from '@auth/services/client-authentication/client-authentication-token.service';
 import { ClientAuthenticationToken } from '@auth/models/token-types.model';
 import * as fromStore from '@auth/store';
 

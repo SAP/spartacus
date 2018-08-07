@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 
 import { NotAuthGuard } from './not-auth.guard';
 import * as fromRoot from './../../routing/store';
-import * as fromStore from './../store';
+import * as fromStore from './../../user/store';
 
 const mockUserValidToken = {
   access_token: 'Mock Access Token'

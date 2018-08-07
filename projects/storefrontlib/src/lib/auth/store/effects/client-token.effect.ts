@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { Actions, Effect } from '@ngrx/effects';
 
 import * as fromActions from '@auth/store/actions';
-import { OccClientAuthenticationTokenService } from '@auth/client-authentication/client-authentication-token.service';
+import { OccClientAuthenticationTokenService } from '@auth/services/client-authentication/client-authentication-token.service';
 import { map, catchError, mergeMap } from 'rxjs/operators';
 import { ClientAuthenticationToken } from '@auth/models/token-types.model';
 

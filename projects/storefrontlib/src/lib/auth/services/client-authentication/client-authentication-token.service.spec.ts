@@ -4,7 +4,7 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { ConfigService } from '../config.service';
+import { ConfigService } from './../../config.service';
 import { OccClientAuthenticationTokenService } from './client-authentication-token.service';
 
 const token: any = 'mockToken';

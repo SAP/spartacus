@@ -7,7 +7,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { metaReducers } from './store/reducers';
-import * as fromGuards from './guards';
 import { LoginModule } from './components/login/login.module';
 import { effects, reducers } from './store';
 import { RegisterComponent } from './components/register/register.component';
@@ -26,7 +25,6 @@ import { AuthErrorInterceptor } from './http-interceptors/auth-error.interceptor
   ],
   declarations: [RegisterComponent],
   providers: [
-    ...fromGuards.guards,
     UserErrorHandlingService,
     {
       provide: HTTP_INTERCEPTORS,

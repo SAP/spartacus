@@ -12,6 +12,7 @@ import { CartService } from '../../../cart/services';
 import * as fromCart from '../../../cart/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromUser from '../../../user/store';
+import * as fromAuth from '@auth/store';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddToCartModule } from './add-to-cart.module';
 
@@ -33,7 +34,8 @@ describe('AddToCartComponent', () => {
         StoreModule.forRoot({
           ...fromRoot.reducers,
           cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers)
+          user: combineReducers(fromUser.reducers),
+          auth: combineReducers(fromAuth.reducers)
         })
       ],
       providers: [CartService]

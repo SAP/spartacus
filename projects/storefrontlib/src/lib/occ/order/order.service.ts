@@ -33,7 +33,7 @@ export class OccOrderService {
     });
 
     return this.http
-      .post(url, {}, { headers: headers, params: params })
+      .post(url, {}, { headers, params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 

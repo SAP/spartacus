@@ -12,6 +12,7 @@ import * as fromRoot from '../../routing/store';
 import * as fromCms from '../../cms/store';
 import * as fromCart from '../../cart/store';
 import * as fromUser from '../../user/store';
+import * as fromAuth from '@auth/store';
 import { ConfigService } from '../../cms/config.service';
 
 import { MiniCartComponent } from './mini-cart.component';
@@ -69,7 +70,8 @@ describe('MiniCartComponent', () => {
           ...fromRoot.reducers,
           cms: combineReducers(fromCms.reducers),
           cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers)
+          user: combineReducers(fromUser.reducers),
+          auth: combineReducers(fromAuth.reducers)
         })
       ],
       declarations: [MiniCartComponent],
