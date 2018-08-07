@@ -43,10 +43,11 @@ describe('CartItemComponent', () => {
   });
 
   it('should call updateEntry()', () => {
-    cartItemComponent.updateEntry();
+    cartItemComponent.updateEntry(2);
 
-    expect(cartItemComponent.update.emit).toHaveBeenCalledWith(
-      cartItemComponent.entry
-    );
+    expect(cartItemComponent.update.emit).toHaveBeenCalledWith({
+      entry: cartItemComponent.entry,
+      updatedQuantity: 2
+    });
   });
 });
