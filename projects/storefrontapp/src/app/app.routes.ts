@@ -71,7 +71,7 @@ export const appRoutes: Routes = [
     path: 'login',
     canActivate: [NotAuthGuard, CmsPageGuards],
     component: LoginPageComponent,
-    data: { pageLabel: 'login'}
+    data: { pageLabel: 'login' }
   },
   {
     path: 'register',

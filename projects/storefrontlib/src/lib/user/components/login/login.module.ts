@@ -19,6 +19,6 @@ import { LoginComponent } from './login.component';
     RouterModule
   ],
   declarations: [LoginHeaderSlotComponent, LoginComponent],
-  exports: [LoginHeaderSlotComponent, LoginComponent],
+  exports: [LoginHeaderSlotComponent, LoginComponent]
 })
 export class LoginModule {}
