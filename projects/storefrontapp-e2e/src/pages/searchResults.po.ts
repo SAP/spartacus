@@ -1,5 +1,11 @@
 import { AppPage } from './../app.po';
-import { browser, ElementFinder, ElementArrayFinder, by } from 'protractor';
+import {
+  browser,
+  ElementFinder,
+  ElementArrayFinder,
+  by,
+  promise
+} from 'protractor';
 import { E2EUtil } from './../util.po';
 export class SearchResultsPage extends AppPage {
   readonly YPAGE = 'y-category-page';
@@ -20,7 +26,13 @@ export class SearchResultsPage extends AppPage {
     return E2EUtil.getComponentsWithinParent(producList, 'y-product-list-item');
   }
 
-  findProductByNameInResultsPage(productName: string) {
+  navigateTo(searchKey: string): promise.Promise<any> {
+    return browser.get('/search/' + searchKey);
+  }
+
+  findProductByNameInResultsPage(
+    productName: string
+  ): promise.Promise<ElementFinder> {
     const results = this.getProductListItems();
     let match: ElementFinder = null;
     return results
@@ -42,11 +54,21 @@ export class SearchResultsPage extends AppPage {
       );
   }
 
-  getAddToCartInProductListItem(product1: ElementFinder): ElementFinder {
-    return E2EUtil.getComponentWithinParent(product1, 'y-add-to-cart');
+  getAddToCartInProductListItem(product: ElementFinder): ElementFinder {
+    return E2EUtil.getComponentWithinParent(product, 'y-add-to-cart');
   }
 
-  navigateTo(searchKey: string) {
-    return browser.get('/search/' + searchKey);
+  clickAddToCartButton4Product(product: ElementFinder) {
+    const addToCartButton = this.getAddToCartInProductListItem(product);
+    addToCartButton
+      .element(by.cssContainingText('button', 'Add to Cart'))
+      .click();
+  }
+
+  getProductQuantitySpan(product: ElementFinder): ElementFinder {
+    return E2EUtil.getComponentWithinParentByCss(
+      product,
+      'span[class="entry-quantity ng-star-inserted"]'
+    );
   }
 }

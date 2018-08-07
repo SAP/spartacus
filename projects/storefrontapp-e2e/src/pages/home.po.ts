@@ -10,7 +10,7 @@ export class HomePage extends AppPage {
     return E2EUtil.getComponent('y-home-page');
   }
 
-  getSplahBanner() {
+  getSplahBanner(): ElementFinder {
     return E2EUtil.getComponentWithinParentByCss(
       this.homePageTag(),
       '[ng-reflect-component-uid="ElectronicsHompageSplashBanner"]'

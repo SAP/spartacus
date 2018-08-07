@@ -15,7 +15,7 @@ export class E2EUtil {
    * Get a cms component given the component selector name.
    * @param componentSelector The selector declared on the component (used to identify the html tag)
    */
-  static getComponent(componentSelector: string) {
+  static getComponent(componentSelector: string): ElementFinder {
     return element(by.tagName(componentSelector));
   }
 
@@ -86,7 +86,10 @@ export class E2EUtil {
   }
 
   // FIXME - delete
-  static countComponents(parent: ElementFinder, compCss: string) {
+  static countComponents(
+    parent: ElementFinder,
+    compCss: string
+  ): promise.Promise<number> {
     return parent.all(by.css(compCss)).count();
   }
 
@@ -145,5 +148,23 @@ export class E2EUtil {
     return browser.wait(
       ExpectedConditions.not(ExpectedConditions.visibilityOf(elem))
     );
+  }
+
+  /**
+   * Checks if text in an element matches a given value
+   * @param elem element containing text
+   * @param value expected text value
+   * @param errMsg message in case value doesn't match
+   */
+  static checkTextValue(
+    elem: ElementFinder,
+    value: string,
+    errMsg: string
+  ): promise.Promise<void> {
+    return E2EUtil.wait4VisibleElement(elem).then(() => {
+      elem.getText().then(text => {
+        expect(text).toBe(value, errMsg);
+      });
+    });
   }
 }

@@ -63,7 +63,7 @@ describe('workspace-project App', () => {
     searchResults.navigateTo('camera');
 
     // should go to search results page
-    browser.wait(ExpectedConditions.urlContains('/search/camera'), 2000);
+    browser.wait(ExpectedConditions.urlContains('/search/camera'));
 
     // should show 10 results on page and should have Photosmart camera
     const results = searchResults.getProductListItems();
@@ -90,7 +90,7 @@ describe('workspace-project App', () => {
     searchResults.navigateTo('camera');
 
     // should go to search results page
-    browser.wait(ExpectedConditions.urlContains('/search/camera'), 2000);
+    browser.wait(ExpectedConditions.urlContains('/search/camera'));
 
     // should have 144 results and 15 pages
     const pagination = searchResults.getPagination();
@@ -121,8 +121,8 @@ describe('workspace-project App', () => {
     // search for camera
     home.header.performSearch('camera');
     // wait for search results page to show up
-    browser.wait(ExpectedConditions.urlContains('/search/camera'), 2000);
-    browser.wait(searchResults.getPage().isDisplayed(), 2000);
+    browser.wait(ExpectedConditions.urlContains('/search/camera'));
+    browser.wait(searchResults.getPage().isDisplayed());
     // select one product by name and add it to the cart
     searchResults
       .findProductByNameInResultsPage('Photosmart E317 Digital Camera')
@@ -131,26 +131,18 @@ describe('workspace-project App', () => {
         return product1;
       })
       .then(product1 => {
-        const addToCartButton = searchResults.getAddToCartInProductListItem(
+        searchResults.clickAddToCartButton4Product(product1);
+        // quantity should change
+        const product1QuantitySpan = searchResults.getProductQuantitySpan(
           product1
         );
-        addToCartButton
-          .element(by.cssContainingText('button', 'Add to Cart'))
-          .click();
-        // quantity should change
-        const product1QuantitySpan = E2EUtil.getComponentWithinParentByCss(
-          product1,
-          'span[class="entry-quantity ng-star-inserted"]'
-        );
-        E2EUtil.wait4VisibleElement(product1QuantitySpan).then(() => {
-          product1QuantitySpan.getText().then(text => {
-            expect(text).toBe(
-              '1',
-              'Wrong add to cart button quantity in search results page'
-            );
-          });
+        E2EUtil.checkTextValue(
+          product1QuantitySpan,
+          '1',
+          'Wrong add to cart button quantity in search results page'
+        ).then(() => {
           const atcModal: AddedToCartModal = new AddedToCartModal();
-          atcModal.closeModal();
+          atcModal.closeModalWait();
         });
       });
 
@@ -173,109 +165,54 @@ describe('workspace-project App', () => {
     E2EUtil.wait4VisibleElement(productDetails.getPage());
     productDetails.addToCart();
     // quantity should change
-    const product2QuantitySpan = E2EUtil.getComponentWithinParentByCss(
-      productDetails.getAddToCartComponent(),
-      'span[class="entry-quantity ng-star-inserted"]'
-    );
-    E2EUtil.wait4VisibleElement(product2QuantitySpan)
+    const product2QuantitySpan = productDetails.getProductQuantitySpan();
+    E2EUtil.checkTextValue(
+      product2QuantitySpan,
+      '1',
+      'Wrong product details add to cart button quantity'
+    )
       .then(() => {
-        product2QuantitySpan.getText().then(text => {
-          expect(text).toBe(
-            '1',
-            'Wrong product details add to cart button quantity'
-          );
-        });
         // close add to cart modal
         const atcModal: AddedToCartModal = new AddedToCartModal();
-        atcModal.closeModal();
-        E2EUtil.wait4NotVisibleElement(atcModal.getModal());
+        atcModal.closeModalWait();
       })
       .then(() => {
         // add same product to cart again
         productDetails.addToCart();
-        const atcModal3: AddedToCartModal = new AddedToCartModal();
-        E2EUtil.wait4VisibleElement(atcModal3.getModal())
+        const atcModal: AddedToCartModal = new AddedToCartModal();
+        atcModal
+          .closeModalWait()
           .then(() => {
-            atcModal3.closeModal();
-          })
+            E2EUtil.checkTextValue(
+              product2QuantitySpan,
+              '2',
+              'Wrong product details add to cart button quantity'
+            );
+          }) // then go to cart
           .then(() => {
-            E2EUtil.wait4VisibleElement(product2QuantitySpan)
+            const minicartIcon = home.header.getMinicartIconComponent();
+            browser
+              .wait(ExpectedConditions.elementToBeClickable(minicartIcon))
               .then(() => {
-                product2QuantitySpan.getText().then(text => {
-                  expect(text).toBe(
-                    '2',
-                    'Wrong product details add to cart button quantity'
-                  );
-                });
-              }) // then go to cart
-              .then(() => {
-                const minicartIcon = home.header.getMinicartIconComponent();
-                browser
-                  .wait(ExpectedConditions.elementToBeClickable(minicartIcon))
-                  .then(() => {
-                    minicartIcon.click();
-                  });
+                minicartIcon.click();
               });
           });
       });
 
     // wait for cart page to show up
-    browser.wait(ExpectedConditions.urlContains('/cart'), 2000);
+    browser.wait(ExpectedConditions.urlContains('/cart'));
     // check if cart contains quantity 1 of 'Photosmart E317 Digital Camera'
-    cart
-      .findCartEntryByProductName('Photosmart E317 Digital Camera')
-      .then(product1 => {
-        expect(product1.isDisplayed()).toBeTruthy();
-        return product1;
-      })
-      .then(product1 => {
-        cart.getCartEntryQuantity(product1).then(quantity => {
-          expect(parseInt(quantity, 10)).toBe(1, 'Wrong cart entry quantity');
-        });
-        cart.getCartEntryUnitPrice(product1).then(price => {
-          expect(price).toBe('$114.12', 'Wrong cart entry unit price');
-        });
-        cart.getCartEntryTotalPrice(product1).then(price => {
-          expect(price).toBe('$114.12', 'Wrong cart entry total price');
-        });
-      });
+    cart.checkCartEntry(
+      'Photosmart E317 Digital Camera',
+      1,
+      '$114.12',
+      '$114.12'
+    );
     // check if cart contains quantity 2 of 'PowerShot A480'
-    cart
-      .findCartEntryByProductName('PowerShot A480')
-      .then(product2 => {
-        expect(product2.isDisplayed()).toBeTruthy();
-        return product2;
-      })
-      .then(product2 => {
-        cart.getCartEntryQuantity(product2).then(quantity => {
-          expect(parseInt(quantity, 10)).toBe(2, 'Wrong cart entry quantity');
-        });
-        cart.getCartEntryUnitPrice(product2).then(price => {
-          expect(price).toBe('$99.85', 'Wrong cart entry unit price');
-        });
-        cart.getCartEntryTotalPrice(product2).then(price => {
-          expect(price).toBe('$199.70', 'Wrong cart entry total price');
-        });
-      });
+    cart.checkCartEntry('PowerShot A480', 2, '$99.85', '$199.70');
+
     // check cart totals
-    cart.getSummarySubtotalValue().then(value => {
-      // FIXME - ideally it should be $313.82, but right now it is the same value as in accelerator
-      expect(value).toBe('$293.82', 'Wrong cart summary subtotal');
-    });
-    // FIXME - put back when sales tax is fixed
-    // cart.getSummaryTaxValue().then((value) => {
-    //   expect(value).toBe('$13.99', 'Wrong cart summary sales tax');
-    // });
-    cart.getSummaryDiscountValue().then(value => {
-      expect(value).toBe('$20.00', 'Wrong cart summary discount');
-    });
-    // FIXME - check delivery when available
-    // cart.getSummaryDeliveryValue().then((value) => {
-    //   expect(value).toBe('$??', 'Wrong cart summary delivery estimation');
-    // });
-    cart.getSummaryTotalValue().then(value => {
-      expect(value).toBe('$293.82', 'Wrong cart summary total');
-    });
+    cart.checkCartSummary('$293.82', '$20.00', '$293.82');
   });
 
   it('should be unable to add out of stock products to cart', () => {

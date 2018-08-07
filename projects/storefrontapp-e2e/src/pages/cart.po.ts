@@ -1,5 +1,11 @@
 import { E2EUtil } from './../util.po';
-import { browser, ElementFinder, ElementArrayFinder, by } from 'protractor';
+import {
+  browser,
+  ElementFinder,
+  ElementArrayFinder,
+  by,
+  promise
+} from 'protractor';
 import { AppPage } from '../app.po';
 
 export class CartPage extends AppPage {
@@ -9,7 +15,7 @@ export class CartPage extends AppPage {
     return E2EUtil.getComponent(this.YPAGE);
   }
 
-  navigateTo() {
+  navigateTo(): promise.Promise<any> {
     return browser.get('/cart');
   }
 
@@ -21,7 +27,9 @@ export class CartPage extends AppPage {
     return E2EUtil.getComponentWithinParent(this.getPage(), 'y-order-summary');
   }
 
-  findCartEntryByProductName(productName: string) {
+  findCartEntryByProductName(
+    productName: string
+  ): promise.Promise<ElementFinder> {
     const results = this.getCartEntries();
     let match: ElementFinder = null;
     return results
@@ -50,7 +58,7 @@ export class CartPage extends AppPage {
       );
   }
 
-  getCartEntryUnitPrice(cartEntry: ElementFinder) {
+  getCartEntryUnitPrice(cartEntry: ElementFinder): promise.Promise<string> {
     const unitPriceDiv = E2EUtil.getComponentWithinParentByClass(
       cartEntry,
       'item__price'
@@ -60,7 +68,7 @@ export class CartPage extends AppPage {
     });
   }
 
-  getCartEntryQuantity(cartEntry: ElementFinder) {
+  getCartEntryQuantity(cartEntry: ElementFinder): promise.Promise<string> {
     const itemQuantityDiv = E2EUtil.getComponentWithinParentByClass(
       cartEntry,
       'item__quantity'
@@ -69,7 +77,7 @@ export class CartPage extends AppPage {
     return paragraph.getText();
   }
 
-  getCartEntryTotalPrice(cartEntry: ElementFinder) {
+  getCartEntryTotalPrice(cartEntry: ElementFinder): promise.Promise<string> {
     const totalPriceDiv = E2EUtil.getComponentWithinParentByClass(
       cartEntry,
       'item__total'
@@ -79,7 +87,26 @@ export class CartPage extends AppPage {
     });
   }
 
-  getOrderSummaryInnerDivValue(textTitle: string) {
+  checkCartEntry(productName: string, quantity, unitPrice, totalPrice) {
+    this.findCartEntryByProductName(productName)
+      .then(product => {
+        expect(product.isDisplayed()).toBeTruthy();
+        return product;
+      })
+      .then(product => {
+        this.getCartEntryQuantity(product).then(qty => {
+          expect(parseInt(qty, 10)).toBe(quantity, 'Wrong cart entry quantity');
+        });
+        this.getCartEntryUnitPrice(product).then(price => {
+          expect(price).toBe(unitPrice, 'Wrong cart entry unit price');
+        });
+        this.getCartEntryTotalPrice(product).then(price => {
+          expect(price).toBe(totalPrice, 'Wrong cart entry total price');
+        });
+      });
+  }
+
+  getOrderSummaryInnerDivValue(textTitle: string): promise.Promise<string> {
     const outerDiv = E2EUtil.getComponentWithinParentByCss(
       this.getOrderSummary(),
       'div[class="order-summary"]'
@@ -92,15 +119,15 @@ export class CartPage extends AppPage {
     });
   }
 
-  getSummarySubtotalValue() {
+  getSummarySubtotalValue(): promise.Promise<string> {
     return this.getOrderSummaryInnerDivValue('Subtotal:');
   }
 
-  getSummaryTaxValue() {
+  getSummaryTaxValue(): promise.Promise<string> {
     return this.getOrderSummaryInnerDivValue('Sales Tax:');
   }
 
-  getSummaryDiscountValue() {
+  getSummaryDiscountValue(): promise.Promise<string> {
     return this.getOrderSummaryInnerDivValue('Discount:');
   }
 
@@ -109,7 +136,29 @@ export class CartPage extends AppPage {
   //   // not available
   // }
 
-  getSummaryTotalValue() {
+  getSummaryTotalValue(): promise.Promise<string> {
     return this.getOrderSummaryInnerDivValue('Total:');
+  }
+
+  checkCartSummary(subtotal, discount, total) {
+    // check cart totals
+    this.getSummarySubtotalValue().then(value => {
+      // FIXME - ideally it should be $313.82, but right now it is the same value as in accelerator
+      expect(value).toBe(subtotal, 'Wrong cart summary subtotal');
+    });
+    // FIXME - put back when sales tax is fixed
+    // this.getSummaryTaxValue().then((value) => {
+    //   expect(value).toBe('$??', 'Wrong cart summary sales tax');
+    // });
+    this.getSummaryDiscountValue().then(value => {
+      expect(value).toBe(discount, 'Wrong cart summary discount');
+    });
+    // FIXME - check delivery when available
+    // this.getSummaryDeliveryValue().then((value) => {
+    //   expect(value).toBe('$??', 'Wrong cart summary delivery estimation');
+    // });
+    this.getSummaryTotalValue().then(value => {
+      expect(value).toBe(total, 'Wrong cart summary total');
+    });
   }
 }
