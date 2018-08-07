@@ -1,7 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
 import { InterceptorUtil } from './interceptor-util';
 
-fdescribe('InterceptorUtil', () => {
+describe('InterceptorUtil', () => {
   describe('createHeader', () => {
     it('should create new headers object', () => {
       const headerName = 'test';
