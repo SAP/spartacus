@@ -11,6 +11,7 @@ import { OccSiteService } from './site-context/occ-site.service';
 import { OccCartService } from './cart/cart.service';
 import { OccMiscsService } from './miscs/miscs.service';
 import { OccOrderService } from './order/order.service';
+import { OccStoreFinderService } from './store/store-finder.service';
 import { OccClientAuthenticationTokenService } from './client-authentication/client-authentication-token.service';
 
 @NgModule({
@@ -23,7 +24,8 @@ import { OccClientAuthenticationTokenService } from './client-authentication/cli
     OccUserService,
     OccCartService,
     OccMiscsService,
-    OccOrderService
+    OccOrderService,
+    OccStoreFinderService
   ]
 })
 export class OccModule {

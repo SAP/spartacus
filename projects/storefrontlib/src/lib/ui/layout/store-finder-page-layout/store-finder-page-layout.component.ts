@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { FindStoresService } from '../../../store-finder/services/store-finder';
+import { FindStoresService } from '../../../store-finder/services/store-finder.service';
 
 @Component({
   selector: 'y-store-finder-page-layout',

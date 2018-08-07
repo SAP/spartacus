@@ -19,7 +19,7 @@ export class StoreFinderEffect {
     .pipe(
       map((action: any) => action.payload),
       mergeMap(payload =>
-        this.occStoreFinderService.findStores(payload.address).pipe(
+        this.occStoreFinderService.findStores(payload).pipe(
           map(data => {
             return new fromAction.FindStoresSuccess(data);
           }),
