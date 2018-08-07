@@ -4,7 +4,9 @@ import {
   ElementArrayFinder,
   ElementFinder,
   browser,
-  protractor
+  protractor,
+  ExpectedConditions,
+  promise
 } from 'protractor';
 import { print } from 'util';
 
@@ -83,6 +85,11 @@ export class E2EUtil {
     return parent.all(by.tagName(componentSelector));
   }
 
+  // FIXME - delete
+  static countComponents(parent: ElementFinder, compCss: string) {
+    return parent.all(by.css(compCss)).count();
+  }
+
   /**
    * Finds an input inside a parent
    * @param parent parent element where input can be found
@@ -115,7 +122,28 @@ export class E2EUtil {
     }
   }
 
+  /**
+   * Gets the overlay element (mostly used for modals and temporary elements on the page).
+   */
   static getOverlayContainer(): ElementFinder {
     return element(by.css(`div[class=cdk-overlay-container]`));
+  }
+
+  /**
+   * Wait until a given element is visible on the browser
+   * @param elem The element
+   */
+  static wait4VisibleElement(elem: ElementFinder): promise.Promise<{}> {
+    return browser.wait(ExpectedConditions.visibilityOf(elem));
+  }
+
+  /**
+   * Wait until a given element is NOT visible on the browser
+   * @param elem The element
+   */
+  static wait4NotVisibleElement(elem: ElementFinder): promise.Promise<{}> {
+    return browser.wait(
+      ExpectedConditions.not(ExpectedConditions.visibilityOf(elem))
+    );
   }
 }

@@ -84,8 +84,9 @@ export class CartPage extends AppPage {
       this.getOrderSummary(),
       'div[class="order-summary"]'
     );
-    const mainDiv = E2EUtil.getComponentWithinParent(outerDiv, 'div');
+    const mainDiv = E2EUtil.getComponentsWithinParent(outerDiv, 'div').first();
     const valueDiv = mainDiv.element(by.cssContainingText('div', textTitle));
+
     return valueDiv.getText().then(text => {
       return text.slice(text.indexOf('$'));
     });

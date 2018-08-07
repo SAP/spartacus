@@ -95,7 +95,8 @@ describe('workspace-project App', () => {
     // should have 144 results and 15 pages
     const pagination = searchResults.getPagination();
     pagination
-      .element(by.tagName('div'))
+      .all(by.tagName('div'))
+      .first()
       .getText()
       .then(text => {
         expect(text).toContain('144 Products');
@@ -141,48 +142,42 @@ describe('workspace-project App', () => {
           product1,
           'span[class="entry-quantity ng-star-inserted"]'
         );
-        browser
-          .wait(ExpectedConditions.visibilityOf(product1QuantitySpan), 3000)
-          .then(() => {
-            product1QuantitySpan.getText().then(text => {
-              expect(text).toBe(
-                '1',
-                'Wrong add to cart button quantity in search results page'
-              );
-            });
-            const atcModal: AddedToCartModal = new AddedToCartModal();
-            atcModal.closeModal();
+        E2EUtil.wait4VisibleElement(product1QuantitySpan).then(() => {
+          product1QuantitySpan.getText().then(text => {
+            expect(text).toBe(
+              '1',
+              'Wrong add to cart button quantity in search results page'
+            );
           });
+          const atcModal: AddedToCartModal = new AddedToCartModal();
+          atcModal.closeModal();
+        });
       });
 
     // search for specific product, but do not press enter
     home.header.performSearch('1934793', true);
 
     const overlay = E2EUtil.getOverlayContainer();
-    browser.wait(ExpectedConditions.visibilityOf(overlay), 2000);
+    E2EUtil.wait4VisibleElement(overlay);
     const autocompletePanel = E2EUtil.getComponentWithinParentByCss(
       overlay,
       `div[role="listbox"]`
     );
-    browser.wait(ExpectedConditions.visibilityOf(autocompletePanel), 2000);
+    E2EUtil.wait4VisibleElement(autocompletePanel);
     // select product from the suggestion list, then add it to cart 2 times
     const suggestionSpan = autocompletePanel
       .all(by.cssContainingText('.mat-option-text', 'PowerShot A480'))
       .first();
     suggestionSpan.click();
     // wait until product details page is loaded
-    browser.wait(
-      ExpectedConditions.visibilityOf(productDetails.getPage()),
-      2000
-    );
+    E2EUtil.wait4VisibleElement(productDetails.getPage());
     productDetails.addToCart();
     // quantity should change
     const product2QuantitySpan = E2EUtil.getComponentWithinParentByCss(
       productDetails.getAddToCartComponent(),
       'span[class="entry-quantity ng-star-inserted"]'
     );
-    browser
-      .wait(ExpectedConditions.visibilityOf(product2QuantitySpan), 3000)
+    E2EUtil.wait4VisibleElement(product2QuantitySpan)
       .then(() => {
         product2QuantitySpan.getText().then(text => {
           expect(text).toBe(
@@ -193,19 +188,18 @@ describe('workspace-project App', () => {
         // close add to cart modal
         const atcModal: AddedToCartModal = new AddedToCartModal();
         atcModal.closeModal();
+        E2EUtil.wait4NotVisibleElement(atcModal.getModal());
       })
       .then(() => {
         // add same product to cart again
         productDetails.addToCart();
         const atcModal3: AddedToCartModal = new AddedToCartModal();
-        browser
-          .wait(ExpectedConditions.visibilityOf(atcModal3.getModal()), 2000)
+        E2EUtil.wait4VisibleElement(atcModal3.getModal())
           .then(() => {
             atcModal3.closeModal();
           })
           .then(() => {
-            browser
-              .wait(ExpectedConditions.visibilityOf(product2QuantitySpan), 3000)
+            E2EUtil.wait4VisibleElement(product2QuantitySpan)
               .then(() => {
                 product2QuantitySpan.getText().then(text => {
                   expect(text).toBe(
@@ -290,10 +284,8 @@ describe('workspace-project App', () => {
 
     productDetails.navigateTo('358639');
     // wait until product details page is loaded
-    browser.wait(
-      ExpectedConditions.visibilityOf(productDetails.getPage()),
-      2000
-    );
+    E2EUtil.wait4VisibleElement(productDetails.getPage());
+
     // there should be no add to cart button, and should be an 'Out of stock' message instead
     expect(productDetails.getAddToCartComponent().isPresent()).toBeFalsy();
     expect(productDetails.getOutOfStockDiv().isDisplayed()).toBeTruthy();
