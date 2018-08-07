@@ -13,8 +13,8 @@ export class StoreFinderComponent implements OnInit {
     l1: StoreLocation = {
       storeName: "Costco",
       displayStoreName: "Costco",
-      civicCode: "5045",
-      streetName: "Elm Street",
+      line1: "5045",
+      line2: "Elm Street",
       postalCode: "H1R 0S2",
       country: "Canada",
       sundayHours : {opening_time: "9:00", closing_time: "5:00"},

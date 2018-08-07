@@ -1,8 +1,8 @@
 export class StoreLocation {
    storeName: string;
    displayStoreName: string;
-   civicCode: string;
-   streetName: string;
+   line1: string;
+   line2: string;
    postalCode: string;
    country: string;
    sundayHours: {

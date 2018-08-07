@@ -1,8 +1,8 @@
 <div>
   <mat-nav-list class="store-address-list">
     <mat-list-item *ngFor="let location of locations; let i=index" >
-      <a matLine href=""><u>{{i+1}}. {{ location.storeName }}</u></a><br>
-      <p>{{location.civicCode}} {{ location.streetName}}</p><br>
+      <a matLine href=""><u>{{i+1}}. {{ location.displayStoreName }}</u></a><br>
+      <p>{{location.line1}} {{ location.line2}}</p><br>
       <p>{{location.postalCode}}, {{location.country}}</p>
       <button mat-icon-button (click)="getDirections(location)"> Get Directions </button>
     </mat-list-item>
