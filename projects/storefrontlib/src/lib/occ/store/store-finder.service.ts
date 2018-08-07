@@ -20,7 +20,7 @@ export class OccStoreFinderService {
     const url = this.getStoresEndpoint();
     let params = new HttpParams({
         fromString:
-          '&fields=' +
+          '&fields=FULL,' +
           'pagination(DEFAULT),' +
           'sorts(DEFAULT)'
       });
