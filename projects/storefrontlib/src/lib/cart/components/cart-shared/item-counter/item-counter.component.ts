@@ -31,8 +31,8 @@ export class ItemCounterComponent implements ControlValueAccessor {
 
   focus: boolean;
 
-  private onTouch = () => {};
-  private onModelChange = (rating: number) => {};
+  onTouch = () => {};
+  onModelChange = (rating: number) => {};
 
   onKeyDown(event: KeyboardEvent) {
     const handlers = {
