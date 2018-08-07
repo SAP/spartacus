@@ -7,7 +7,8 @@ function validatestyles {
     echo "-----"
     echo "Validating styles app"
     pushd projects/storefrontstyles
-    yarn build
+    yarn
+    yarn sass
     rm -rf temp-scss
     popd
 }
