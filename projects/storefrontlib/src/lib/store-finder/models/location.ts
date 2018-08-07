@@ -1,5 +1,6 @@
 export class StoreLocation {
    storeName: string;
+   displayStoreName: string;
    civicCode: string;
    streetName: string;
    postalCode: string;

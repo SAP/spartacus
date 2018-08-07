@@ -16,7 +16,7 @@ const DEFAULT_SEARCH_CONFIG: SearchConfig = {
 export class OccStoreFinderService {
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
-  listStores(address: string, searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG): Observable<any> {
+  findStores(address: string, searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG): Observable<any> {
     const url = this.getStoresEndpoint();
     let params = new HttpParams({
         fromString:

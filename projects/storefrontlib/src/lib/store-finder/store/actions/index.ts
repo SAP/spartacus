@@ -1,1 +1,1 @@
-export * from './list-stores.action';
+export * from './find-stores.action';
