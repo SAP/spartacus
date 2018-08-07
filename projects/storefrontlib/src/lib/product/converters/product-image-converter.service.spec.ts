@@ -95,15 +95,12 @@ describe('ProductImageConverterService', () => {
     service = TestBed.get(ProductImageConverterService);
   });
 
-  it(
-    'should inject ProductImageConverterService',
-    inject(
-      [ProductImageConverterService],
-      (productImageConverterService: ProductImageConverterService) => {
-        expect(productImageConverterService).toBeTruthy();
-      }
-    )
-  );
+  it('should inject ProductImageConverterService', inject(
+    [ProductImageConverterService],
+    (productImageConverterService: ProductImageConverterService) => {
+      expect(productImageConverterService).toBeTruthy();
+    }
+  ));
 
   it('should convert product image', () => {
     service.convertProduct(product);

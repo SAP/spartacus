@@ -8,7 +8,8 @@ import { MatDialog } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
-import { CartService } from '../../../cart/services';
+import { CartService } from '../../../cart/services/cart.service';
+import { CartDataService } from '../../../cart/services/cart-data.service';
 import * as fromCart from '../../../cart/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromUser from '../../../user/store';
@@ -38,7 +39,7 @@ describe('AddToCartComponent', () => {
           auth: combineReducers(fromAuth.reducers)
         })
       ],
-      providers: [CartService]
+      providers: [CartService, CartDataService]
     }).compileComponents();
   }));
 

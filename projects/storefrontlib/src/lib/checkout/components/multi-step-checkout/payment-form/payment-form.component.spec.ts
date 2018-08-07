@@ -16,6 +16,7 @@ import * as fromAuth from '@auth/store';
 
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
+import { CartDataService } from '../../../../cart/services/cart-data.service';
 import { RouterTestingModule } from '@angular/router/testing';
 
 export class MockAbstractControl {
@@ -78,6 +79,7 @@ describe('PaymentFormComponent', () => {
       providers: [
         CheckoutService,
         CartService,
+        CartDataService,
         { provide: FormGroup, useClass: MockFormGroup },
         { provide: AbstractControl, useClass: MockAbstractControl }
       ]

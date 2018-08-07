@@ -18,6 +18,7 @@ import { ReviewSubmitComponent } from '../review-submit/review-submit.component'
 
 import { CheckoutService } from './../../../services/checkout.service';
 import { CartService } from './../../../../cart/services/cart.service';
+import { CartDataService } from './../../../../cart/services/cart-data.service';
 import { Address } from '../../../models/address-model';
 import { PaymentFormComponent } from '../payment-form/payment-form.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -70,7 +71,7 @@ describe('MultiStepCheckoutComponent', () => {
         PaymentFormComponent,
         ReviewSubmitComponent
       ],
-      providers: [CheckoutService, CartService]
+      providers: [CheckoutService, CartService, CartDataService]
     }).compileComponents();
   }));
 

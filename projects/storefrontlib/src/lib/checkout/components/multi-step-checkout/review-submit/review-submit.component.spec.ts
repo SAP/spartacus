@@ -11,14 +11,17 @@ import * as fromUser from '../../../../user/store';
 import * as fromAuth from '@auth/store';
 
 import { CheckoutService } from '../../../services/checkout.service';
-import { CartService } from '../../../../cart/services/cart.service';
-
+import { CartDataService } from '../../../../cart/services/cart-data.service';
+const mockCart = {
+  guid: 'test',
+  code: 'test'
+};
 describe('ReviewSubmitComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
   let service: CheckoutService;
-  let cartService: CartService;
+  let cartData: CartDataService;
 
   // let ac: AbstractControl;
 
@@ -35,7 +38,7 @@ describe('ReviewSubmitComponent', () => {
         })
       ],
       declarations: [ReviewSubmitComponent],
-      providers: [CheckoutService, CartService]
+      providers: [CheckoutService, CartDataService]
     }).compileComponents();
   }));
 
@@ -43,8 +46,10 @@ describe('ReviewSubmitComponent', () => {
     fixture = TestBed.createComponent(ReviewSubmitComponent);
     component = fixture.componentInstance;
     service = TestBed.get(CheckoutService);
-    cartService = TestBed.get(CartService);
+    cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
+
+    cartData.cart = mockCart;
 
     component.deliveryAddress = {
       firstName: 'John',
@@ -58,8 +63,8 @@ describe('ReviewSubmitComponent', () => {
       country: { isocode: 'JP' }
     };
 
-    cartService.userId = 'userId';
-    cartService.cart.code = 'cartId';
+    cartData.userId = 'userId';
+    cartData.cart.code = 'cartId';
 
     spyOn(store, 'dispatch').and.callThrough();
 
