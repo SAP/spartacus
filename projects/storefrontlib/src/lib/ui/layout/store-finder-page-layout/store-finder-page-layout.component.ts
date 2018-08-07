@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
+import { FormControl } from '@angular/forms';
+
+import { FindStoresService } from '../../../store-finder/services/store-finder';
 
 @Component({
   selector: 'y-store-finder-page-layout',
@@ -7,12 +9,14 @@ import {FormControl} from '@angular/forms';
   styleUrls: ['./store-finder-page-layout.component.scss']
 })
 export class StoreFinderPageLayoutComponent implements OnInit {
-
   storeFinder = new FormControl('');
 
-  constructor() {}
+  constructor(private findStoresService: FindStoresService) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  findStores(address: string) {
+    console.log('in StoreFinderPageLayoutComponent');
+    this.findStoresService.findStores(address);
   }
-
 }

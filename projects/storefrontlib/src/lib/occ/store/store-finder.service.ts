@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { SearchConfig } from './../../product/search-config';
+import { SearchConfig } from '../../product/search-config
 
 import { ConfigService } from '../config.service';
 
@@ -17,6 +17,7 @@ export class OccStoreFinderService {
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
   findStores(address: string, searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG): Observable<any> {
+    console.log("In oCC SERVICE");
     const url = this.getStoresEndpoint();
     let params = new HttpParams({
         fromString:

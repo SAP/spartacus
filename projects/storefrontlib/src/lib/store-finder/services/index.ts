@@ -1,5 +1,5 @@
-import { StoreFinderService } from './store-finder.service';
+import { FindStoresService } from './store-finder.service';
 
-export const services: any[] = [StoreFinderService];
+export const services: any[] = [FindStoresService];
 
 export * from './store-finder.service';

@@ -1,9 +1,9 @@
 <ng-container>
 <div class="wrapper">
   <mat-form-field>
-  <input matInput placeholder="Enter Postcode, Town or Address"/>
+  <input #addressInput matInput placeholder="Enter Postcode, Town or Address"/>
   </mat-form-field> <br/>
-  <button mat-raised-button color="primary">Find Store</button> <br/><br/>
+  <button mat-raised-button color="primary" (click)="findStores(addressInput.value)">Find Stores</button> <br/><br/>
   <a href="" mat-button color="primary"> Use My Location </a> |
   <a href="" mat-button color="primary"> View All Stores</a> <br/>
   <y-dynamic-slot flex position="SideContent"></y-dynamic-slot>
