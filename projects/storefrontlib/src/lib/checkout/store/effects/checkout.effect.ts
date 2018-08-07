@@ -212,14 +212,14 @@ export class CheckoutEffects {
       })
     );
 
-  private domparser: DOMParser;
+  // private domparser: DOMParser;
 
   constructor(
     private actions$: Actions,
     private occCartService: OccCartService,
     private occOrderService: OccOrderService
   ) {
-    this.domparser = new DOMParser();
+    // this.domparser = new DOMParser();
   }
 
   private getPaymentSopResponseParams(
@@ -300,31 +300,31 @@ export class CheckoutEffects {
   }
 
   private extractPaymentDetailsFromHtml(html: string): any {
-    const domdoc = this.domparser.parseFromString(html, 'text/xml');
-    const responseForm = domdoc.getElementsByTagName('form')[0];
-    const inputs = responseForm.getElementsByTagName('input');
+    // const domdoc = this.domparser.parseFromString(html, 'text/xml');
+    // const responseForm = domdoc.getElementsByTagName('form')[0];
+    // const inputs = responseForm.getElementsByTagName('input');
 
     const values = {};
-    for (let i = 0; inputs[i]; i++) {
-      const input = inputs[i];
-      if (
-        input.getAttribute('name') !== '{}' &&
-        input.getAttribute('value') !== ''
-      ) {
-        values[input.getAttribute('name')] = input.getAttribute('value');
-      }
-    }
-
-    // rejected for some reason
-    if (values['decision'] !== 'ACCEPT') {
-      const reason = { hasError: true };
-      Object.keys(values).forEach(name => {
-        if (name === 'reasonCode' || name.startsWith('InvalidField')) {
-          reason[name] = values[name];
-        }
-      });
-      return reason;
-    }
+    // for (let i = 0; inputs[i]; i++) {
+    //   const input = inputs[i];
+    //   if (
+    //     input.getAttribute('name') !== '{}' &&
+    //     input.getAttribute('value') !== ''
+    //   ) {
+    //     values[input.getAttribute('name')] = input.getAttribute('value');
+    //   }
+    // }
+    //
+    // // rejected for some reason
+    // if (values['decision'] !== 'ACCEPT') {
+    //   const reason = { hasError: true };
+    //   Object.keys(values).forEach(name => {
+    //     if (name === 'reasonCode' || name.startsWith('InvalidField')) {
+    //       reason[name] = values[name];
+    //     }
+    //   });
+    //   return reason;
+    // }
 
     return values;
   }

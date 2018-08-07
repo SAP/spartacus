@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {APP_ID, Inject, NgModule, PLATFORM_ID} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID } from '@angular/core';
@@ -21,6 +21,7 @@ import {SiteContextModule} from '../../../storefrontlib/src/lib/site-context/sit
 import {UserModule} from '../../../storefrontlib/src/lib/user/user.module';
 import {ProductModule} from '../../../storefrontlib/src/lib/product/product.module';
 import {RoutingModule} from '../../../storefrontlib/src/lib/routing/routing.module';
+import {isPlatformBrowser} from '@angular/common';
 
 @NgModule({
   imports: [
@@ -52,4 +53,12 @@ import {RoutingModule} from '../../../storefrontlib/src/lib/routing/routing.modu
   declarations: [AppComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+    constructor(
+        @Inject(PLATFORM_ID) private platformId: Object,
+        @Inject(APP_ID) private appId: string) {
+        const platform = isPlatformBrowser(platformId) ?
+            'in the browser' : 'on the server';
+        console.log(`Running ${platform} with appId=${appId}`);
+    }
+}

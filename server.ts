@@ -13,7 +13,7 @@ enableProdMode();
 // Express server
 const app = express();
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4200;
 const DIST_FOLDER = join(process.cwd(), 'dist');
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
@@ -22,12 +22,12 @@ const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/storefront
 // Express Engine
 import { ngExpressEngine } from '@nguniversal/express-engine';
 // Import module map for lazy loading
-// import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
+import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 
 app.engine('html', ngExpressEngine({
   bootstrap: AppServerModuleNgFactory,
   providers: [
-    // provideModuleMap(LAZY_MODULE_MAP)
+    provideModuleMap(LAZY_MODULE_MAP)
   ]
 }));
 
@@ -40,7 +40,7 @@ app.get('/api/*', (req, res) => {
 });
 
 // Server static files from /browser
-app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
+app.get('*.*', express.static(join(DIST_FOLDER, 'storefrontapp')));
 
 // All regular routes use the Universal engine
 app.get('*', (req, res) => {
