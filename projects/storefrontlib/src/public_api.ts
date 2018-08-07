@@ -123,7 +123,7 @@ export * from './lib/my-account/order/order-details/order-details.component';
 export * from './lib/my-account/order/order-history/container/order-history.component';
 export * from './lib/my-account/order/order-history/pagination-and-sorting/pagination-and-sorting.component';
 
-export * from './lib/user/guards/auth.guard';
-export * from './lib/user/guards/not-auth.guard';
+export * from './lib/auth/guards/auth.guard';
+export * from './lib/auth/guards/not-auth.guard';
 export * from './lib/product/guards/product.guard';
 export * from './lib/cms/guards/cms-page.guard';
