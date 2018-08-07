@@ -13,22 +13,20 @@ describe('ProductListPageComponent', () => {
   let component: ProductListPageLayoutComponent;
   let fixture: ComponentFixture<ProductListPageLayoutComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ProductListModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            products: combineReducers(fromProduct.reducers),
-            cart: combineReducers(fromCart.reducers),
-            user: combineReducers(fromUser.reducers)
-          })
-        ],
-        declarations: [ProductListPageLayoutComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ProductListModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          products: combineReducers(fromProduct.reducers),
+          cart: combineReducers(fromCart.reducers),
+          user: combineReducers(fromUser.reducers)
+        })
+      ],
+      declarations: [ProductListPageLayoutComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListPageLayoutComponent);

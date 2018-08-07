@@ -37,21 +37,19 @@ describe('ProductCarouselComponent in CmsLib', () => {
 
   const productCodeArray = ['111111', '222222', '333333', '444444'];
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
-          })
-        ],
-        declarations: [ProductCarouselComponent, PictureComponent],
-        providers: [{ provide: ConfigService, useClass: UseConfigService }]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromCmsReducer.reducers)
+        })
+      ],
+      declarations: [ProductCarouselComponent, PictureComponent],
+      providers: [{ provide: ConfigService, useClass: UseConfigService }]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductCarouselComponent);
