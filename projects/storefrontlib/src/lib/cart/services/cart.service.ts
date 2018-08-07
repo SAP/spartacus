@@ -7,7 +7,6 @@ import * as fromAction from '../store/actions';
 import * as fromSelector from '../store/selectors';
 
 import * as fromAuthSelectors from '@auth/store/selectors';
-import * as fromUser from '../../user/store';
 
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 

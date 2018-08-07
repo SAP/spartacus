@@ -7,7 +7,7 @@ import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import * as fromRoot from '../../routing/store';
 import * as fromStore from '@auth/store';
-import { of, Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 import { AuthenticationTokenInterceptor } from './authentication-token.interceptor';
 import { ClientAuthenticationToken } from './../models/token-types.model';
@@ -19,12 +19,6 @@ const testToken: ClientAuthenticationToken = {
   expires_in: 1000,
   scope: ''
 };
-
-class MockOccClientAuthenticationTokenService {
-  loadClientAuthenticationToken(): Observable<any> {
-    return of(testToken);
-  }
-}
 
 describe('AuthenticationTokenInterceptor', () => {
   let httpMock: HttpTestingController;

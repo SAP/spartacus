@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfigService } from './config.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule,  } from '@angular/common/http';
 
 import { OccUserService } from './user/user.service';
 import { OccProductService } from './product/product.service';
