@@ -68,19 +68,19 @@ describe('workspace-project App', () => {
     // should show 10 results on page and should have Photosmart camera
     const results = searchResults.getProductListItems();
 
-    results.then(function(items) {
+    results.then(items => {
       expect(items.length).toBe(10);
 
       // FIXME - by now results do not come ordered from occ. Get top element when it does.
       // const h3 = items[0].element(by.tagName('h3'));
-      // h3.getText().then(function(text) {
+      // h3.getText().then((text) => {
       //   expect(text).toBe('Photosmart E317 Digital Camera');
       // });
     });
 
     searchResults
       .findProductByNameInResultsPage('Photosmart E317 Digital Camera')
-      .then(function(product) {
+      .then(product => {
         expect(product.isDisplayed()).toBeTruthy();
       });
   });
@@ -97,7 +97,7 @@ describe('workspace-project App', () => {
     pagination
       .element(by.tagName('div'))
       .getText()
-      .then(function(text) {
+      .then(text => {
         expect(text).toContain('144 Products');
         expect(text).toContain('Page: 1 of 15');
       });
@@ -125,11 +125,11 @@ describe('workspace-project App', () => {
     // select one product by name and add it to the cart
     searchResults
       .findProductByNameInResultsPage('Photosmart E317 Digital Camera')
-      .then(function(product1) {
+      .then(product1 => {
         expect(product1.isDisplayed()).toBeTruthy();
         return product1;
       })
-      .then(function(product1) {
+      .then(product1 => {
         const addToCartButton = searchResults.getAddToCartInProductListItem(
           product1
         );
@@ -143,8 +143,8 @@ describe('workspace-project App', () => {
         );
         browser
           .wait(ExpectedConditions.visibilityOf(product1QuantitySpan), 3000)
-          .then(function() {
-            product1QuantitySpan.getText().then(function(text) {
+          .then(() => {
+            product1QuantitySpan.getText().then(text => {
               expect(text).toBe(
                 '1',
                 'Wrong add to cart button quantity in search results page'
@@ -183,8 +183,8 @@ describe('workspace-project App', () => {
     );
     browser
       .wait(ExpectedConditions.visibilityOf(product2QuantitySpan), 3000)
-      .then(function() {
-        product2QuantitySpan.getText().then(function(text) {
+      .then(() => {
+        product2QuantitySpan.getText().then(text => {
           expect(text).toBe(
             '1',
             'Wrong product details add to cart button quantity'
@@ -206,8 +206,8 @@ describe('workspace-project App', () => {
           .then(() => {
             browser
               .wait(ExpectedConditions.visibilityOf(product2QuantitySpan), 3000)
-              .then(function() {
-                product2QuantitySpan.getText().then(function(text) {
+              .then(() => {
+                product2QuantitySpan.getText().then(text => {
                   expect(text).toBe(
                     '2',
                     'Wrong product details add to cart button quantity'
@@ -230,56 +230,56 @@ describe('workspace-project App', () => {
     // check if cart contains quantity 1 of 'Photosmart E317 Digital Camera'
     cart
       .findCartEntryByProductName('Photosmart E317 Digital Camera')
-      .then(function(product1) {
+      .then(product1 => {
         expect(product1.isDisplayed()).toBeTruthy();
         return product1;
       })
-      .then(function(product1) {
-        cart.getCartEntryQuantity(product1).then(function(quantity) {
+      .then(product1 => {
+        cart.getCartEntryQuantity(product1).then(quantity => {
           expect(parseInt(quantity, 10)).toBe(1, 'Wrong cart entry quantity');
         });
-        cart.getCartEntryUnitPrice(product1).then(function(price) {
+        cart.getCartEntryUnitPrice(product1).then(price => {
           expect(price).toBe('$114.12', 'Wrong cart entry unit price');
         });
-        cart.getCartEntryTotalPrice(product1).then(function(price) {
+        cart.getCartEntryTotalPrice(product1).then(price => {
           expect(price).toBe('$114.12', 'Wrong cart entry total price');
         });
       });
     // check if cart contains quantity 2 of 'PowerShot A480'
     cart
       .findCartEntryByProductName('PowerShot A480')
-      .then(function(product2) {
+      .then(product2 => {
         expect(product2.isDisplayed()).toBeTruthy();
         return product2;
       })
-      .then(function(product2) {
-        cart.getCartEntryQuantity(product2).then(function(quantity) {
+      .then(product2 => {
+        cart.getCartEntryQuantity(product2).then(quantity => {
           expect(parseInt(quantity, 10)).toBe(2, 'Wrong cart entry quantity');
         });
-        cart.getCartEntryUnitPrice(product2).then(function(price) {
+        cart.getCartEntryUnitPrice(product2).then(price => {
           expect(price).toBe('$99.85', 'Wrong cart entry unit price');
         });
-        cart.getCartEntryTotalPrice(product2).then(function(price) {
+        cart.getCartEntryTotalPrice(product2).then(price => {
           expect(price).toBe('$199.70', 'Wrong cart entry total price');
         });
       });
     // check cart totals
-    cart.getSummarySubtotalValue().then(function(value) {
+    cart.getSummarySubtotalValue().then(value => {
       // FIXME - ideally it should be $313.82, but right now it is the same value as in accelerator
       expect(value).toBe('$293.82', 'Wrong cart summary subtotal');
     });
     // FIXME - put back when sales tax is fixed
-    // cart.getSummaryTaxValue().then(function(value) {
+    // cart.getSummaryTaxValue().then((value) => {
     //   expect(value).toBe('$13.99', 'Wrong cart summary sales tax');
     // });
-    cart.getSummaryDiscountValue().then(function(value) {
+    cart.getSummaryDiscountValue().then(value => {
       expect(value).toBe('$20.00', 'Wrong cart summary discount');
     });
     // FIXME - check delivery when available
-    // cart.getSummaryDeliveryValue().then(function(value) {
+    // cart.getSummaryDeliveryValue().then((value) => {
     //   expect(value).toBe('$??', 'Wrong cart summary delivery estimation');
     // });
-    cart.getSummaryTotalValue().then(function(value) {
+    cart.getSummaryTotalValue().then(value => {
       expect(value).toBe('$293.82', 'Wrong cart summary total');
     });
   });

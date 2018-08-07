@@ -24,10 +24,10 @@ export class SearchResultsPage extends AppPage {
     const results = this.getProductListItems();
     let match: ElementFinder = null;
     return results
-      .then(function(items) {
+      .then(items => {
         for (const item of items) {
           const h3: ElementFinder = item.element(by.tagName('h3'));
-          h3.getText().then(function(text) {
+          h3.getText().then(text => {
             // if found text, return the 'y-product-list-item' element
             if (text === productName) {
               match = item;
@@ -35,9 +35,11 @@ export class SearchResultsPage extends AppPage {
           });
         }
       })
-      .then(function(): ElementFinder {
-        return match;
-      });
+      .then(
+        (): ElementFinder => {
+          return match;
+        }
+      );
   }
 
   getAddToCartInProductListItem(product1: ElementFinder): ElementFinder {

@@ -25,7 +25,7 @@ export class CartPage extends AppPage {
     const results = this.getCartEntries();
     let match: ElementFinder = null;
     return results
-      .then(function(items) {
+      .then(items => {
         for (const item of items) {
           const itemInfoDiv = E2EUtil.getComponentWithinParentByClass(
             item,
@@ -35,7 +35,7 @@ export class CartPage extends AppPage {
             itemInfoDiv,
             'item__name'
           );
-          span.getText().then(function(text) {
+          span.getText().then(text => {
             // if found text, return the 'y-product-list-item' element
             if (text === productName) {
               match = item;
@@ -43,9 +43,11 @@ export class CartPage extends AppPage {
           });
         }
       })
-      .then(function(): ElementFinder {
-        return match;
-      });
+      .then(
+        (): ElementFinder => {
+          return match;
+        }
+      );
   }
 
   getCartEntryUnitPrice(cartEntry: ElementFinder) {
@@ -53,7 +55,7 @@ export class CartPage extends AppPage {
       cartEntry,
       'item__price'
     );
-    return unitPriceDiv.getText().then(function(text) {
+    return unitPriceDiv.getText().then(text => {
       return text.slice(text.indexOf('$'));
     });
   }
@@ -72,7 +74,7 @@ export class CartPage extends AppPage {
       cartEntry,
       'item__total'
     );
-    return totalPriceDiv.getText().then(function(text) {
+    return totalPriceDiv.getText().then(text => {
       return text.slice(text.indexOf('$'));
     });
   }
@@ -84,7 +86,7 @@ export class CartPage extends AppPage {
     );
     const mainDiv = E2EUtil.getComponentWithinParent(outerDiv, 'div');
     const valueDiv = mainDiv.element(by.cssContainingText('div', textTitle));
-    return valueDiv.getText().then(function(text) {
+    return valueDiv.getText().then(text => {
       return text.slice(text.indexOf('$'));
     });
   }
