@@ -8,6 +8,7 @@ import { MultiStepCheckoutPageComponent } from 'storefrontlib';
 import { OrderConfirmationPageComponent } from 'storefrontlib';
 import { OrderHistoryPageComponent } from 'storefrontlib';
 import { OrderDetailsPageComponent } from 'storefrontlib';
+import { LoginPageComponent } from 'storefrontlib';
 import { RegisterComponent } from 'storefrontlib';
 
 import { PageNotFoundComponent } from 'storefrontlib';
@@ -65,6 +66,12 @@ export const appRoutes: Routes = [
     canActivate: [AuthGuard, CmsPageGuards],
     component: OrderDetailsPageComponent,
     data: { pageLabel: 'order' }
+  },
+  {
+    path: 'login',
+    canActivate: [NotAuthGuard, CmsPageGuards],
+    component: LoginPageComponent,
+    data: { pageLabel: 'login'}
   },
   {
     path: 'register',
