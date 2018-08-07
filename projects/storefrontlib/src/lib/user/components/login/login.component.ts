@@ -5,13 +5,14 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Observable, Subscription } from 'rxjs';
-import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { Store } from '@ngrx/store';
-import * as fromStore from './../../store';
+import { Observable, Subscription } from 'rxjs';
 import { tap, map, take, filter } from 'rxjs/operators';
-import { UserToken } from '../../models/token-types.model';
+
+import * as fromStore from './../../store';
 import * as fromRouting from '../../../routing/store';
+import { UserToken } from '../../models/token-types.model';
+import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 
 @Component({
   selector: 'y-login',
@@ -20,11 +21,8 @@ import * as fromRouting from '../../../routing/store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  user$: Observable<any> = this.store.select(fromStore.getDetails);
-  isLogin = false;
-
+  user$: Observable<any>;
   username: string;
-  password: string;
   rememberMe: boolean;
 
   subscription: Subscription;
@@ -35,15 +33,19 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription = this.store
+    this.user$ = this.store.select(fromStore.getDetails);
+
+    this.store
       .select(fromStore.getUserToken)
       .pipe(
-        filter((token: UserToken) => !this.isLogin),
+        filter((token: UserToken) => this.username !== token.userId),
         tap((token: UserToken) => {
           if (token.access_token !== undefined) {
-            this.isLogin = true;
+            this.username = token.userId;
             this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
             this.store.dispatch(new fromStore.Login());
+          } else {
+            this.username = '';
           }
         })
       )
@@ -53,25 +55,22 @@ export class LoginComponent implements OnInit, OnDestroy {
   openLogin() {
     const dialogRef = this.dialog.open(LoginDialogComponent, {
       data: {
-        username: this.username,
-        password: this.password,
-        rememberMe: this.rememberMe
+        username: '',
+        password: '',
+        rememberMe: ''
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.username = result.username;
-      this.password = result.password;
       this.rememberMe = result.rememberMe;
 
-      if (this.username !== undefined && this.password !== undefined) {
-        this.login();
+      if (result.username !== undefined && result.username !== undefined) {
+        this.login(result.username, result.password);
       }
     });
   }
 
   logout() {
-    this.isLogin = false;
     this.store.dispatch(new fromStore.Logout());
 
     this.store
@@ -92,11 +91,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       });
   }
 
-  login() {
+  login(username: string, password: string) {
     this.store.dispatch(
       new fromStore.LoadUserToken({
-        userId: this.username,
-        password: this.password
+        userId: username,
+        password: password
       })
     );
   }

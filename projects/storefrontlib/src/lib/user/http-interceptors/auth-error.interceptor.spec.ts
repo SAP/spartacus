@@ -25,6 +25,7 @@ class MockUserErrorHandlingService {
   ): Observable<any> {
     return;
   }
+  handleExpiredRefreshToken() {}
 }
 
 describe('AuthErrorInterceptor', () => {
@@ -61,6 +62,7 @@ describe('AuthErrorInterceptor', () => {
     spyOn(userErrorHandlingService, 'handleExpiredUserToken').and.returnValue(
       of({})
     );
+    spyOn(userErrorHandlingService, 'handleExpiredRefreshToken').and.stub();
   });
 
   it(`should catch 401 error`, inject([HttpClient], (http: HttpClient) => {
@@ -85,6 +87,30 @@ describe('AuthErrorInterceptor', () => {
     );
     expect(userErrorHandlingService.handleExpiredUserToken).toHaveBeenCalled();
   }));
+
+  it(`should catch refresh_token 401 error`, inject(
+    [HttpClient],
+    (http: HttpClient) => {
+      http.get('/authorizationserver/oauth/token').subscribe(result => {
+        expect(result).toBeTruthy();
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'GET';
+      });
+
+      mockReq.flush(
+        {
+          error: 'invalid_token',
+          error_description: 'Invalid refresh token (expired): 1234567890'
+        },
+        { status: 401, statusText: 'Error' }
+      );
+      expect(
+        userErrorHandlingService.handleExpiredRefreshToken
+      ).toHaveBeenCalled();
+    }
+  ));
 
   it(`should catch 400 error`, inject([HttpClient], (http: HttpClient) => {
     const url = '/authorizationserver/oauth/token';

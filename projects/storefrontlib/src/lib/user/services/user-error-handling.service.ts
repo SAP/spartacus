@@ -29,6 +29,11 @@ export class UserErrorHandlingService {
     );
   }
 
+  public handleExpiredRefreshToken() {
+    // Logout user
+    this.store.dispatch(new fromUserStore.Logout());
+  }
+
   private handleExpiredToken(): Observable<any> {
     let oldToken;
     return combineLatest(

@@ -35,22 +35,20 @@ describe('LoginComponent', () => {
   let store: Store<fromStore.UserState>;
   let dialog: MatDialog;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          BrowserAnimationsModule,
-          FormsModule,
-          StoreModule.forRoot({
-            ...fromStore.reducers,
-            user: combineReducers(fromStore.reducers)
-          })
-        ],
-        declarations: [LoginComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        StoreModule.forRoot({
+          ...fromStore.reducers,
+          user: combineReducers(fromStore.reducers)
+        })
+      ],
+      declarations: [LoginComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
@@ -91,7 +89,6 @@ describe('LoginComponent', () => {
     spy.and.returnValue(of(routerState));
 
     component.logout();
-    expect(component.isLogin).toEqual(false);
     expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromRouting.Go({
@@ -101,14 +98,12 @@ describe('LoginComponent', () => {
   });
 
   it('should login', () => {
-    component.username = mockUser.username;
-    component.password = mockUser.password;
-    component.login();
+    component.login(mockUser.username, mockUser.password);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadUserToken({
-        userId: component.username,
-        password: component.password
+        userId: mockUser.username,
+        password: mockUser.password
       })
     );
   });
@@ -124,7 +119,6 @@ describe('LoginComponent', () => {
       new fromStore.LoadUserDetails(mockUserToken.userId)
     );
     expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Login());
-    component.isLogin = true;
   });
   // Add some UI unit tests once we remove material
 });
