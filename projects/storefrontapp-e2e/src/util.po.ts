@@ -84,14 +84,6 @@ export class E2EUtil {
     return parent.all(by.tagName(componentSelector));
   }
 
-  // FIXME - delete
-  static countComponents(
-    parent: ElementFinder,
-    compCss: string
-  ): promise.Promise<number> {
-    return parent.all(by.css(compCss)).count();
-  }
-
   /**
    * Finds an input inside a parent
    * @param parent parent element where input can be found

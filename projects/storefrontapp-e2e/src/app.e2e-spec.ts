@@ -1,10 +1,11 @@
+import { browser, by, ExpectedConditions, promise } from 'protractor';
+
 import { AddedToCartModal } from './cmslib/addedToCartModal.po';
 import { ProductDetailsPage } from './pages/productDetails.po';
 import { CartPage } from './pages/cart.po';
-import { E2EUtil } from './util.po';
-import { browser, by, ExpectedConditions, promise } from 'protractor';
 import { SearchResultsPage } from './pages/searchResults.po';
 import { HomePage } from './pages/home.po';
+import { E2EUtil } from './util.po';
 
 describe('workspace-project App', () => {
   let home: HomePage;

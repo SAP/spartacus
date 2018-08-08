@@ -2,17 +2,19 @@ import { AppPage } from './../app.po';
 import { browser, ElementFinder } from 'protractor';
 import { E2EUtil } from './../util.po';
 export class HomePage extends AppPage {
+  readonly YPAGE = 'y-home-page';
+
   navigateTo() {
     return browser.get('/');
   }
 
-  homePageTag(): ElementFinder {
-    return E2EUtil.getComponent('y-home-page');
+  getPage(): ElementFinder {
+    return E2EUtil.getComponent(this.YPAGE);
   }
 
   getSplahBanner(): ElementFinder {
     return E2EUtil.getComponentWithinParentByCss(
-      this.homePageTag(),
+      this.getPage(),
       '[ng-reflect-component-uid="ElectronicsHompageSplashBanner"]'
     );
   }

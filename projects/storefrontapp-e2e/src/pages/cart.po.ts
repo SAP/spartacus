@@ -87,7 +87,12 @@ export class CartPage extends AppPage {
     });
   }
 
-  checkCartEntry(productName: string, quantity, unitPrice, totalPrice) {
+  checkCartEntry(
+    productName: string,
+    quantity: string,
+    unitPrice: string,
+    totalPrice: string
+  ) {
     this.findCartEntryByProductName(productName)
       .then(product => {
         expect(product.isDisplayed()).toBeTruthy();
@@ -140,7 +145,7 @@ export class CartPage extends AppPage {
     return this.getOrderSummaryInnerDivValue('Total:');
   }
 
-  checkCartSummary(subtotal, discount, total) {
+  checkCartSummary(subtotal: string, discount: string, total: string) {
     // check cart totals
     this.getSummarySubtotalValue().then(value => {
       // FIXME - ideally it should be $313.82, but right now it is the same value as in accelerator
