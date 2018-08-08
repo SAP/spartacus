@@ -34,11 +34,6 @@ app.engine('html', ngExpressEngine({
 app.set('view engine', 'html');
 app.set('views', join(DIST_FOLDER, 'storefrontapp'));
 
-// TODO: implement data requests securely
-app.get('/api/*', (req, res) => {
-  res.status(404).send('data requests are not supported');
-});
-
 // Server static files from /browser
 app.get('*.*', express.static(join(DIST_FOLDER, 'storefrontapp')));
 
