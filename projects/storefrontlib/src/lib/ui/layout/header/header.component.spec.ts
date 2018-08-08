@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { HeaderComponent } from './header.component';
 import {
@@ -8,7 +9,7 @@ import {
 import { MaterialModule } from '../../../material.module';
 import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
 import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
-import { LoginHeaderSlotComponent } from './../../../user/components/login/login-header-slot/login-header-slot.component';
+import { LoginComponent } from './../../../user/components/login/login.component';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import { ConfigService } from '../../../site-context/config.service';
@@ -31,6 +32,7 @@ describe('HeaderComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MaterialModule,
+        RouterTestingModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
           user: combineReducers(fromUserReducer.reducers),
@@ -44,7 +46,7 @@ describe('HeaderComponent', () => {
         ComponentWrapperComponent,
         CurrencySelectorComponent,
         LanguageSelectorComponent,
-        LoginHeaderSlotComponent
+        LoginComponent
       ],
       providers: [{ provide: ConfigService, useClass: MockConfigService }]
     }).compileComponents();

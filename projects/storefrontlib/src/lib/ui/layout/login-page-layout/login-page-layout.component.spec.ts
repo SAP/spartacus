@@ -1,14 +1,15 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentWrapperComponent } from './../../../cms/components/component-wrapper/component-wrapper.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoginComponent } from './../../../user/components/login/login.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginPageLayoutComponent } from './login-page-layout.component';
 import { DynamicSlotComponent } from '../../../cms/components';
 
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromStore from '../../../user/store';
+import { LoginModule } from '../../../user/components/login/login.module';
 
-describe('LandingPageLayoutComponent', () => {
+describe('LoginPageLayoutComponent', () => {
   let component: LoginPageLayoutComponent;
   let fixture: ComponentFixture<LoginPageLayoutComponent>;
 
@@ -17,6 +18,8 @@ describe('LandingPageLayoutComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
+        LoginModule,
+        RouterTestingModule,
         StoreModule.forRoot({
           ...fromStore.reducers,
           user: combineReducers(fromStore.reducers)
@@ -24,7 +27,6 @@ describe('LandingPageLayoutComponent', () => {
       ],
       declarations: [
         LoginPageLayoutComponent,
-        LoginComponent,
         ComponentWrapperComponent,
         DynamicSlotComponent
       ]

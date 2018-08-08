@@ -15,7 +15,7 @@ import { OccSiteService } from '../../../occ/site-context/occ-site.service';
 import * as fromRoot from '../../../routing/store';
 import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
 import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
-import { LoginHeaderSlotComponent } from './../../../user/components/login/login-header-slot/login-header-slot.component';
+import { LoginComponent } from './../../../user/components/login/login.component';
 import { ConfigService } from '../../../site-context/config.service';
 import * as fromUserReducer from '../../../user/store/reducers';
 import * as fromSCStore from './../../../site-context/shared/store';
@@ -59,7 +59,7 @@ describe('MainComponent', () => {
         ComponentWrapperComponent,
         LanguageSelectorComponent,
         CurrencySelectorComponent,
-        LoginHeaderSlotComponent
+        LoginComponent
       ],
       providers: [
         { provide: ConfigService, useClass: MockConfigService },

@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
@@ -46,7 +47,21 @@ describe('LoginComponent', () => {
           user: combineReducers(fromStore.reducers)
         })
       ],
-      declarations: [LoginComponent]
+      declarations: [LoginComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              firstChild: {
+                routeConfig: {
+                  canActivate: [{ name: 'AuthGuard' }]
+                }
+              }
+            }
+          }
+        }
+      ]
     }).compileComponents();
   }));
 
@@ -54,8 +69,8 @@ describe('LoginComponent', () => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
     store = TestBed.get(Store);
+
     dialog = TestBed.get(MatDialog);
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(dialog, 'open').and.callThrough();
@@ -71,22 +86,12 @@ describe('LoginComponent', () => {
     const spy = spyOn(store, 'select');
     spy.and.returnValue(of(routerState));
 
-    component = new LoginComponent(store);
-
     expect(component).toBeTruthy();
   });
 
   it('should logout and clear user state', () => {
-    const routerState = {
-      state: {
-        context: {
-          id: 'multiStepCheckoutSummaryPage'
-        }
-      }
-    };
-
     const spy = spyOn(store, 'select');
-    spy.and.returnValue(of(routerState));
+    spy.and.returnValue(of({}));
 
     component.logout();
     expect(component.isLogin).toEqual(false);
