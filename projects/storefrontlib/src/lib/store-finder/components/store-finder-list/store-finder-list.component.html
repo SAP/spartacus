@@ -2,11 +2,10 @@
   <div>
     <ul class="store-address-list">
       <li *ngFor="let location of locations?.stores; let i=index">
-        <a matLine href="">
-          <u>{{i+1}}. {{ location.displayName }}</u>
-        </a>
+        <p><b><u>{{i+1}}. {{ location.displayName }}</u></b></p>
         <p>{{location.address.line1}}</p>
         <p>{{location.address.town}}, {{location.address.region?.name}}, {{location.address.postalCode}}</p>
+        <p></p>
         <button mat-button (click)="getDirections(location)"> Get Directions </button>
       </li>
     </ul>

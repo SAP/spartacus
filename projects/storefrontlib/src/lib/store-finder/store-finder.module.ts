@@ -4,21 +4,24 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { MaterialModule } from '../material.module';
-
-import { StoreFinderComponent } from './components/store-finder/store-finder.component';
+import { CmsModule } from '../cms/cms.module';
 
 import { effects, reducers } from './store';
 import * as fromServices from './services';
+
+import { StoreFinderSearchComponent } from './components/store-finder-search/store-finder-search.component';
+import { StoreFinderListComponent } from './components/store-finder-list/store-finder-list.component';
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
+    CmsModule,
     StoreModule.forFeature('stores', reducers),
     EffectsModule.forFeature(effects)
   ],
-  declarations: [StoreFinderComponent],
-  exports: [StoreFinderComponent],
+  declarations: [StoreFinderSearchComponent, StoreFinderListComponent],
+  exports: [StoreFinderSearchComponent, StoreFinderListComponent],
   providers: [...fromServices.services]
 })
 export class StoreFinderModule {}

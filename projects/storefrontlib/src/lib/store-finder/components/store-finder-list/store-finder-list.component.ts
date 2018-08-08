@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 import * as fromStore from '../../store';
 
 @Component({
-  selector: 'y-store-finder',
-  templateUrl: './store-finder.component.html',
-  styleUrls: ['./store-finder.component.scss']
+  selector: 'y-store-finder-list',
+  templateUrl: './store-finder-list.component.html',
+  styleUrls: ['./store-finder-list.component.scss']
 })
-export class StoreFinderComponent implements OnInit {
+export class StoreFinderListComponent implements OnInit {
   locations$: Observable<any>;
   current_date = new Date();
 
