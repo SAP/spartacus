@@ -29,21 +29,17 @@
             "stylePreprocessorOptions": {
               "includePaths": [
                 "./projects/storefrontstyles/scss",
-                "./node_modules/storefrontstyles/storefrontstyles/scss"
+                "./node_modules/storefrontstyles/scss"
               ]
             },
             "scripts": []
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace":
-                    "projects/storefrontapp/src/environments/environment.ts",
-                  "with":
-                    "projects/storefrontapp/src/environments/environment.prod.ts"
-                }
-              ],
+              "fileReplacements": [{
+                "replace": "projects/storefrontapp/src/environments/environment.ts",
+                "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+              }],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
