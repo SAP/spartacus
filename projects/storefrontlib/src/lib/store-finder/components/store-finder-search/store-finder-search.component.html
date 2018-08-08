@@ -1,10 +1,14 @@
 <div class="wrapper">
   <mat-form-field>
-    <input #addressInput matInput placeholder="Enter Postcode, Town or Address"/>
-  </mat-form-field> <br/>
-  <button mat-raised-button color="primary" (click)="findStores(addressInput.value)">Find Stores</button> <br/><br/>
+    <input #queryInput matInput placeholder="Enter Postcode, Town or Address" />
+  </mat-form-field>
+  <br/>
+  <button mat-raised-button color="primary" (click)="findStores(queryInput.value)">Find Stores</button>
+  <br/>
+  <br/>
   <a href="" mat-button color="primary"> Use My Location </a> |
-  <a href="" mat-button color="primary"> View All Stores</a> <br/>
+  <a href="" mat-button color="primary"> View All Stores</a>
+  <br/>
   <y-dynamic-slot flex position="SideContent"></y-dynamic-slot>
   <y-dynamic-slot flex position="MiddleContent"></y-dynamic-slot>
 </div>

@@ -125,6 +125,7 @@ export * from './lib/my-account/order/order-history/container/order-history.comp
 export * from './lib/my-account/order/order-history/pagination-and-sorting/pagination-and-sorting.component';
 export * from './lib/store-finder/components/store-finder-list/store-finder-list.component';
 export * from './lib/store-finder/components/store-finder-search/store-finder-search.component';
+export * from './lib/store-finder/components/store-finder-paging/store-finder-paging.component';
 export * from './lib/store-finder/store-finder.module';
 
 export * from './lib/user/guards/auth.guard';

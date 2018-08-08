@@ -18,7 +18,7 @@ const DEFAULT_SEARCH_CONFIG: SearchConfig = {
 export class OccStoreFinderService {
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
-  findStores(address: string, searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG): Observable<any> {
+  findStores(query: string, searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG): Observable<any> {
     const url = this.getStoresEndpoint();
     let params = new HttpParams({
         fromString:
@@ -27,7 +27,7 @@ export class OccStoreFinderService {
           'pagination(DEFAULT),' +
           'sorts(DEFAULT)'
       });
-      params = params.set('query', address);
+      params = params.set('query', query);
       if (searchConfig.pageSize) {
         params = params.set('pageSize', searchConfig.pageSize.toString());
       }

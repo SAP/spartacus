@@ -17,14 +17,16 @@ export class StoreFinderEffect {
   findStores$: Observable<any> = this.action$
     .ofType(fromAction.FIND_STORES)
     .pipe(
-      map((action: any) => action.payload),
+      map((action: fromAction.FindStores) => action.payload),
       mergeMap(payload =>
-        this.occStoreFinderService.findStores(payload).pipe(
-          map(data => {
-            return new fromAction.FindStoresSuccess(data);
-          }),
-          catchError(error => of(new fromAction.FindStoresFail(error)))
-        )
+        this.occStoreFinderService
+          .findStores(payload.queryText, payload.searchConfig)
+          .pipe(
+            map(data => {
+              return new fromAction.FindStoresSuccess(data);
+            }),
+            catchError(error => of(new fromAction.FindStoresFail(error)))
+          )
       )
     );
 }

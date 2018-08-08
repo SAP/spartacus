@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {FindStoresService} from '../../services';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { FindStoresService } from '../../services';
 
 @Component({
   selector: 'y-store-finder-search',
@@ -7,14 +7,15 @@ import {FindStoresService} from '../../services';
   styleUrls: ['./store-finder-search.component.scss']
 })
 export class StoreFinderSearchComponent implements OnInit {
+  @Output()
+  persistQuery: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private findStoresService: FindStoresService) { }
+  constructor(private findStoresService: FindStoresService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   findStores(address: string) {
     this.findStoresService.findStores(address);
+    this.persistQuery.emit(address);
   }
-
 }

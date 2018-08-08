@@ -7,8 +7,8 @@ import * as fromStore from '../store';
 @Injectable()
 export class FindStoresService {
   constructor(private store: Store<fromStore.StoresState>) {}
-  
-  findStores(address: string) {
-    this.store.dispatch(new fromStore.FindStores(address));
+
+  findStores(queryText: string) {
+    this.store.dispatch(new fromStore.FindStores({ queryText }));
   }
 }

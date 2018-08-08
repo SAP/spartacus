@@ -11,6 +11,7 @@ import * as fromServices from './services';
 
 import { StoreFinderSearchComponent } from './components/store-finder-search/store-finder-search.component';
 import { StoreFinderListComponent } from './components/store-finder-list/store-finder-list.component';
+import { StoreFinderPagingComponent } from './components/store-finder-paging/store-finder-paging.component';
 
 @NgModule({
   imports: [
@@ -20,8 +21,16 @@ import { StoreFinderListComponent } from './components/store-finder-list/store-f
     StoreModule.forFeature('stores', reducers),
     EffectsModule.forFeature(effects)
   ],
-  declarations: [StoreFinderSearchComponent, StoreFinderListComponent],
-  exports: [StoreFinderSearchComponent, StoreFinderListComponent],
+  declarations: [
+    StoreFinderSearchComponent,
+    StoreFinderListComponent,
+    StoreFinderPagingComponent
+  ],
+  exports: [
+    StoreFinderSearchComponent,
+    StoreFinderListComponent,
+    StoreFinderPagingComponent
+  ],
   providers: [...fromServices.services]
 })
 export class StoreFinderModule {}

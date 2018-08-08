@@ -2,12 +2,19 @@
   <div>
     <ul class="store-address-list">
       <li *ngFor="let location of locations?.stores; let i=index">
-        <p><b><u>{{i+1}}. {{ location.displayName }}</u></b></p>
+        <p>
+          <b>
+            <u>{{i+1}}. {{ location.displayName }}</u>
+          </b>
+        </p>
         <p>{{location.address.line1}}</p>
         <p>{{location.address.town}}, {{location.address.region?.name}}, {{location.address.postalCode}}</p>
         <p></p>
         <button mat-button (click)="getDirections(location)"> Get Directions </button>
       </li>
     </ul>
+  </div>
+  <div *ngIf="locations?.pagination">
+    <y-store-finder-paging [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-store-finder-paging>
   </div>
 </ng-container>
