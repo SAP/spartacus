@@ -23,6 +23,9 @@
         span {
           margin-bottom: 5px;
         }
+        input.invalid-input {
+          border: 1px solid rgb(208, 80, 77);
+        }
         input,
         button {
           padding: 7px;
@@ -38,6 +41,10 @@
         }
         button.login {
           background-color: rgb(208, 80, 77);
+          &:disabled {
+            background-color: #ccc;
+            opacity: 0.8;
+          }
         }
         button.register {
           background-color: rgb(86, 91, 103);

@@ -7,7 +7,8 @@
             <form (submit)="login()" [formGroup]="form">
                 <div class="formControl">
                     <span>Email address</span>
-                    <input placeholder="Email" formControlName="userId" />
+                    <input class="invalid-input" [ngClass]="{'invalid-input':form.controls['userId'].touched && form.controls['userId'].invalid }"
+                        placeholder="Email" formControlName="userId" />
                 </div>
                 <div class="formControl">
                     <span>Password</span>
@@ -17,7 +18,7 @@
                     <a href="">Forgot password?</a>
                 </div>
                 <div class="formControl">
-                    <button class="login" type="submit">SIGN IN</button>
+                    <button class="login" type="submit" [disabled]="form.invalid">SIGN IN</button>
                 </div>
                 <div class="formControl">
                     <span>Don't have an account?</span>

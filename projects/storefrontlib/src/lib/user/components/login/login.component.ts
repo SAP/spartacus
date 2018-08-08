@@ -1,12 +1,13 @@
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import * as fromStore from '../../store';
 import * as fromRouting from '../../../routing/store';
-
+import * as fromGlobalMessage from '../../../global-message/store';
+import { GlobalMessageType } from './../../../global-message/models/message.model';
 @Component({
   selector: 'y-login',
   templateUrl: './login.component.html',
@@ -28,6 +29,12 @@ export class LoginComponent implements OnInit, OnDestroy {
         tap(data => {
           if (data.access_token) {
             this.store.dispatch(
+              new fromGlobalMessage.AddMessage({
+                text: 'Logged In Successfully',
+                type: GlobalMessageType.MSG_TYPE_CONFIRMATION
+              })
+            );
+            this.store.dispatch(
               new fromRouting.Go({
                 path: ['/']
               })
@@ -38,8 +45,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe();
 
     this.form = this.fb.group({
-      userId: [''],
-      password: ['']
+      userId: ['', [Validators.email, Validators.required]],
+      password: ['', Validators.required]
     });
   }
 
