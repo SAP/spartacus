@@ -62,9 +62,9 @@ describe('SiteContextInterceptor', () => {
     httpMock.verify();
   });
 
-  it(
-    'should not add parameters: lang and curr to a request',
-    inject([HttpClient], (http: HttpClient) => {
+  it('should not add parameters: lang and curr to a request', inject(
+    [HttpClient],
+    (http: HttpClient) => {
       http.get('/xxx').subscribe(result => {
         expect(result).toBeTruthy();
       });
@@ -76,12 +76,12 @@ describe('SiteContextInterceptor', () => {
       expect(mockReq.request.params.get('curr')).toEqual(null);
 
       mockReq.flush('somedata');
-    })
-  );
+    }
+  ));
 
-  it(
-    'should add parameters: lang and curr to a request',
-    inject([HttpClient], (http: HttpClient) => {
+  it('should add parameters: lang and curr to a request', inject(
+    [HttpClient],
+    (http: HttpClient) => {
       http
         .get('https://localhost:9002/rest/v2/electronics')
         .subscribe(result => {
@@ -95,6 +95,6 @@ describe('SiteContextInterceptor', () => {
       expect(mockReq.request.params.get('curr')).toEqual(currencyJpy);
 
       mockReq.flush('somedata');
-    })
-  );
+    }
+  ));
 });

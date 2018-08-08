@@ -3,7 +3,7 @@ import { CanActivate } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   tap,
   filter,

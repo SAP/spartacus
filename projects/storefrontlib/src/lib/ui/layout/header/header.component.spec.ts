@@ -27,30 +27,28 @@ describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            user: combineReducers(fromUserReducer.reducers),
-            siteContext: combineReducers(fromSCStore.reducers),
-            cms: combineReducers(fromCmsReducer.reducers)
-          })
-        ],
-        declarations: [
-          HeaderComponent,
-          DynamicSlotComponent,
-          ComponentWrapperComponent,
-          LoginComponent,
-          CurrencySelectorComponent,
-          LanguageSelectorComponent
-        ],
-        providers: [{ provide: ConfigService, useClass: MockConfigService }]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          user: combineReducers(fromUserReducer.reducers),
+          siteContext: combineReducers(fromSCStore.reducers),
+          cms: combineReducers(fromCmsReducer.reducers)
+        })
+      ],
+      declarations: [
+        HeaderComponent,
+        DynamicSlotComponent,
+        ComponentWrapperComponent,
+        LoginComponent,
+        CurrencySelectorComponent,
+        LanguageSelectorComponent
+      ],
+      providers: [{ provide: ConfigService, useClass: MockConfigService }]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);

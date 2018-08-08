@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { OccMiscsService } from '../../../occ/miscs/miscs.service';
@@ -13,12 +13,10 @@ export class CardTypesEffects {
     .ofType(fromAction.LOAD_CARD_TYPES)
     .pipe(
       switchMap(() => {
-        return this.occMiscsService
-          .loadCardTypes()
-          .pipe(
-            map(data => new fromAction.LoadCardTypesSuccess(data.cardTypes)),
-            catchError(error => of(new fromAction.LoadCardTypesFail(error)))
-          );
+        return this.occMiscsService.loadCardTypes().pipe(
+          map(data => new fromAction.LoadCardTypesSuccess(data.cardTypes)),
+          catchError(error => of(new fromAction.LoadCardTypesFail(error)))
+        );
       })
     );
 

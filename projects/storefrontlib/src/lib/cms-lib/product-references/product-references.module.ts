@@ -6,14 +6,14 @@ import { ProductReferencesComponent } from './product-references.component';
 import { ProductCarouselModule } from '../product-carousel/product-carousel.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        // MediaModule,
-        ProductCarouselModule
-    ],
-    declarations: [ProductReferencesComponent],
-    entryComponents: [ProductReferencesComponent],
-    exports: [ProductReferencesComponent]
+  imports: [
+    CommonModule,
+    RouterModule,
+    // MediaModule,
+    ProductCarouselModule
+  ],
+  declarations: [ProductReferencesComponent],
+  entryComponents: [ProductReferencesComponent],
+  exports: [ProductReferencesComponent]
 })
-export class ProductReferencesModule { }
+export class ProductReferencesModule {}

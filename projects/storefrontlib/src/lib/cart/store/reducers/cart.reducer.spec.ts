@@ -57,7 +57,8 @@ describe('Cart reducer', () => {
       const action = new fromActions.LoadCartSuccess(testCart);
       const state = fromCart.reducer(initialState, action);
 
-      testCart.entries = undefined;
+      delete testCart['entries'];
+
       expect(state.content).toEqual(testCart);
       expect(state.entries).toEqual({
         '1234': { entryNumber: 0, product: { code: '1234' } }
