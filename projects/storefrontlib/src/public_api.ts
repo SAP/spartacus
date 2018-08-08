@@ -136,8 +136,4 @@ export * from './lib/ui/pages/multi-step-checkout-page/multi-step-checkout-page.
 export * from './lib/ui/pages/order-details-page/order-details-page.module';
 export * from './lib/ui/pages/product-page/product-page.module';
 
-export * from './lib/dynamic-component-loader/dynamic-component-loader.module';
-export * from './lib/dynamic-component-loader/dynamic-component-loader.service';
-export * from './lib/dynamic-component-loader/dynamic-component-manifest';
-
 export * from './lib/ui/layout/main/main.module';
