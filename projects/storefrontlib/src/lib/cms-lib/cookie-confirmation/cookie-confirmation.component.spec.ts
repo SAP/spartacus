@@ -6,13 +6,11 @@ xdescribe('CookieConfirmationComponent', () => {
   let component: CookieConfirmationComponent;
   let fixture: ComponentFixture<CookieConfirmationComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        declarations: [CookieConfirmationComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [CookieConfirmationComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CookieConfirmationComponent);

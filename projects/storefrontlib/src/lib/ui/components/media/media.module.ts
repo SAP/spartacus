@@ -3,12 +3,8 @@ import { CommonModule } from '@angular/common';
 import { PictureComponent } from './picture/picture.component';
 
 @NgModule({
-    imports: [
-        CommonModule
-    ],
-    declarations: [PictureComponent],
-    exports: [
-        PictureComponent
-    ]
+  imports: [CommonModule],
+  declarations: [PictureComponent],
+  exports: [PictureComponent]
 })
-export class MediaModule { }
+export class MediaModule {}

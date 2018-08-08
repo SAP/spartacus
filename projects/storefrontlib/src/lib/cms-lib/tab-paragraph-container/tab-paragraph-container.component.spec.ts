@@ -8,9 +8,8 @@ describe('TabParagraphContainerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TabParagraphContainerComponent ]
-    })
-    .compileComponents();
+      declarations: [TabParagraphContainerComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

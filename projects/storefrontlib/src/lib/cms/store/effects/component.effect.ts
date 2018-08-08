@@ -25,23 +25,19 @@ export class ComponentEffects {
     .pipe(
       map((action: componentActions.LoadComponent) => action.payload),
       switchMap(uid => {
-        return this.routingStore
-          .select(fromRouting.getRouterState)
-          .pipe(
-            filter(routerState => routerState !== undefined),
-            map(routerState => routerState.state.context),
-            take(1),
-            mergeMap(pageContext =>
-              this.occCmsService
-                .loadComponent(uid, pageContext)
-                .pipe(
-                  map(data => new componentActions.LoadComponentSuccess(data)),
-                  catchError(error =>
-                    of(new componentActions.LoadComponentFail(error))
-                  )
-                )
+        return this.routingStore.select(fromRouting.getRouterState).pipe(
+          filter(routerState => routerState !== undefined),
+          map(routerState => routerState.state.context),
+          take(1),
+          mergeMap(pageContext =>
+            this.occCmsService.loadComponent(uid, pageContext).pipe(
+              map(data => new componentActions.LoadComponentSuccess(data)),
+              catchError(error =>
+                of(new componentActions.LoadComponentFail(error))
+              )
             )
-          );
+          )
+        );
       })
     );
 

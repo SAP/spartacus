@@ -25,19 +25,17 @@ describe('DynamicSlotComponent', () => {
   };
   const payload = { key: 'test', value: page };
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromReducers.reducers)
-          })
-        ],
-        declarations: [DynamicSlotComponent, ComponentWrapperComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromReducers.reducers)
+        })
+      ],
+      declarations: [DynamicSlotComponent, ComponentWrapperComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     store = TestBed.get(Store);

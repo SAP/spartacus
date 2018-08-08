@@ -35,22 +35,20 @@ describe('LoginComponent', () => {
   let store: Store<fromStore.UserState>;
   let dialog: MatDialog;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          BrowserAnimationsModule,
-          FormsModule,
-          StoreModule.forRoot({
-            ...fromStore.reducers,
-            user: combineReducers(fromStore.reducers)
-          })
-        ],
-        declarations: [LoginComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        StoreModule.forRoot({
+          ...fromStore.reducers,
+          user: combineReducers(fromStore.reducers)
+        })
+      ],
+      declarations: [LoginComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
