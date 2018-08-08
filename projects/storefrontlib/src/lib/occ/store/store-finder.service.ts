@@ -23,7 +23,7 @@ export class OccStoreFinderService {
     let params = new HttpParams({
         fromString:
           '&fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL)),' +
-          'address(line1,line2,town,region(FULL),postalCode,phone,country) ),' +
+          'geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country) ),' +
           'pagination(DEFAULT),' +
           'sorts(DEFAULT)'
       });

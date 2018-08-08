@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { StoreLocation } from '../../models/location';
 import * as fromStore from '../../store';
 
 @Component({
@@ -20,5 +19,7 @@ export class StoreFinderComponent implements OnInit {
     this.locations$ = this.store.select(fromStore.getAllStores);
   }
 
-  getDirections(location: StoreLocation) {}
+  getDirections(location: any) {
+    window.open('https://www.google.com/maps/dir/Current+Location/' + location.geoPoint.latitude + ',' + location.geoPoint.longitude);
+  }
 }

@@ -7,7 +7,7 @@
         </a>
         <p>{{location.address.line1}}</p>
         <p>{{location.address.town}}, {{location.address.region?.name}}, {{location.address.postalCode}}</p>
-        <button mat-icon-button (click)="getDirections(location)"> Get Directions </button>
+        <button mat-button (click)="getDirections(location)"> Get Directions </button>
       </li>
     </ul>
   </div>
