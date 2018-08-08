@@ -20,10 +20,9 @@ import { OrderHistoryPageComponent } from './order-history-page/order-history-pa
 // OrderPage
 import { OrderDetailsPageComponent } from './order-details-page/order-details-page.component';
 
-import { LoginPageComponent } from './login-page/login-page.component';
-
+import { LoginPageModule } from './login-page/login-page.module';
 @NgModule({
-  imports: [CommonModule, LayoutModule],
+  imports: [CommonModule, LayoutModule, LoginPageModule],
   declarations: [
     HomePageComponent,
     CategoryPageComponent,
@@ -33,8 +32,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
     MultiStepCheckoutPageComponent,
     OrderConfirmationPageComponent,
     OrderHistoryPageComponent,
-    OrderDetailsPageComponent,
-    LoginPageComponent
+    OrderDetailsPageComponent
   ],
   exports: [
     HomePageComponent,
@@ -44,8 +42,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
     CartPageComponent,
     MultiStepCheckoutPageComponent,
     OrderHistoryPageComponent,
-    OrderDetailsPageComponent,
-    LoginPageComponent
+    OrderDetailsPageComponent
   ]
 })
 export class PagesModule {}

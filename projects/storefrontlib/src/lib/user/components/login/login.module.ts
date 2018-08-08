@@ -6,8 +6,8 @@ import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '../../../material.module';
 
-import { LoginHeaderSlotComponent } from './login-header-slot/login-header-slot.component';
 import { LoginComponent } from './login.component';
+import { LoginFormComponent } from './login-form/login-form.component';
 
 @NgModule({
   imports: [
@@ -18,7 +18,7 @@ import { LoginComponent } from './login.component';
     FlexLayoutModule,
     RouterModule
   ],
-  declarations: [LoginHeaderSlotComponent, LoginComponent],
-  exports: [LoginHeaderSlotComponent, LoginComponent]
+  declarations: [LoginComponent, LoginFormComponent],
+  exports: [LoginComponent, LoginFormComponent]
 })
 export class LoginModule {}

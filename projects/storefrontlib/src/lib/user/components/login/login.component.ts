@@ -1,75 +1,83 @@
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import * as fromStore from '../../store';
+import { Observable, Subscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import * as fromRouting from '../../../routing/store';
-import * as fromGlobalMessage from '../../../global-message/store';
-import { GlobalMessageType } from './../../../global-message/models/message.model';
+import { UserToken } from '../../models/token-types.model';
+import * as fromStore from '../../store';
+
 @Component({
   selector: 'y-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  userTokenSubscription: Subscription;
-  form: FormGroup;
+  user$: Observable<any> = this.store.select(fromStore.getDetails);
+  isLogin = false;
+
+  username: string;
+  password: string;
+  rememberMe: boolean;
+
+  subscription: Subscription;
 
   constructor(
     private store: Store<fromStore.UserState>,
-    private fb: FormBuilder
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.userTokenSubscription = this.store
+    this.subscription = this.store
       .select(fromStore.getUserToken)
+      .subscribe((token: UserToken) => {
+        if (token && token.access_token && !this.isLogin) {
+          this.isLogin = true;
+          this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
+          this.store.dispatch(new fromStore.Login());
+        }
+      });
+  }
+
+  logout() {
+    this.isLogin = false;
+    this.store.dispatch(new fromStore.Logout());
+
+    this.store
+      .select(fromRouting.getRouterState)
       .pipe(
-        tap(data => {
-          if (data.access_token) {
-            this.store.dispatch(
-              new fromGlobalMessage.AddMessage({
-                text: 'Logged In Successfully',
-                type: GlobalMessageType.MSG_TYPE_CONFIRMATION
-              })
-            );
-            this.store.dispatch(
-              new fromRouting.Go({
-                path: ['/']
-              })
-            );
-          }
-        })
+        filter(routerState => routerState !== undefined),
+        take(1)
       )
-      .subscribe();
-
-    this.form = this.fb.group({
-      userId: ['', [Validators.email, Validators.required]],
-      password: ['', Validators.required]
-    });
-  }
-
-  login() {
-    this.store.dispatch(
-      new fromStore.LoadUserToken({
-        userId: this.form.controls.userId.value,
-        password: this.form.controls.password.value
-      })
-    );
-  }
-
-  goToRegister() {
-    this.store.dispatch(
-      new fromRouting.Go({
-        path: ['/register']
-      })
-    );
+      .subscribe(storeRouterState => {
+        let state = this.route.snapshot;
+        while (state.firstChild) {
+          state = state.firstChild;
+        }
+        if (
+          state.routeConfig.canActivate &&
+          state.routeConfig.canActivate.find(
+            child => child.name === 'AuthGuard'
+          )
+        ) {
+          this.store.dispatch(
+            new fromRouting.Go({
+              path: ['']
+            })
+          );
+        }
+      });
   }
 
   ngOnDestroy() {
-    if (this.userTokenSubscription) {
-      this.userTokenSubscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 }
