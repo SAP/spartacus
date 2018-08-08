@@ -1,5 +1,5 @@
 import { E2EUtil } from './../util.po';
-import { by, ElementFinder, promise } from 'protractor';
+import { ElementFinder } from 'protractor';
 export class AddedToCartModal {
   readonly YMODAL = 'y-added-to-cart-dialog';
 

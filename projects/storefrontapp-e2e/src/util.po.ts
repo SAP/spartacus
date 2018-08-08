@@ -8,7 +8,6 @@ import {
   ExpectedConditions,
   promise
 } from 'protractor';
-import { print } from 'util';
 
 export class E2EUtil {
   /**

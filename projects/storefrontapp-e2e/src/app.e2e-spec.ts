@@ -1,5 +1,4 @@
 import { AddedToCartModal } from './cmslib/addedToCartModal.po';
-import { Input } from '@angular/core';
 import { ProductDetailsPage } from './pages/productDetails.po';
 import { CartPage } from './pages/cart.po';
 import { E2EUtil } from './util.po';
@@ -12,14 +11,12 @@ describe('workspace-project App', () => {
   let searchResults: SearchResultsPage;
   let cart: CartPage;
   let productDetails: ProductDetailsPage;
-  let timestamp: number;
 
   beforeEach(() => {
     home = new HomePage();
     searchResults = new SearchResultsPage();
     cart = new CartPage();
     productDetails = new ProductDetailsPage();
-    timestamp = Date.now();
   });
 
   it('should display title', () => {
