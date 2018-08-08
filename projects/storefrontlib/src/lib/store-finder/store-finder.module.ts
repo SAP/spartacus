@@ -18,7 +18,6 @@ import * as fromServices from './services';
     EffectsModule.forFeature(effects)
   ],
   declarations: [StoreFinderComponent],
-  entryComponents: [StoreFinderComponent],
   exports: [StoreFinderComponent],
   providers: [...fromServices.services]
 })

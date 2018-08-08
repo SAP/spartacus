@@ -1,10 +1,14 @@
-<div>
-  <mat-nav-list class="store-address-list">
-    <mat-list-item *ngFor="let location of locations; let i=index" >
-      <a matLine href=""><u>{{i+1}}. {{ location.displayStoreName }}</u></a><br>
-      <p>{{location.line1}} {{ location.line2}}</p><br>
-      <p>{{location.postalCode}}, {{location.country}}</p>
-      <button mat-icon-button (click)="getDirections(location)"> Get Directions </button>
-    </mat-list-item>
-  </mat-nav-list>
-</div>
+<ng-container *ngIf="locations$ | async as locations">
+  <div>
+    <ul class="store-address-list">
+      <li *ngFor="let location of locations?.stores; let i=index">
+        <a matLine href="">
+          <u>{{i+1}}. {{ location.displayName }}</u>
+        </a>
+        <p>{{location.address.line1}}</p>
+        <p>{{location.address.town}}, {{location.address.region?.name}}, {{location.address.postalCode}}</p>
+        <button mat-icon-button (click)="getDirections(location)"> Get Directions </button>
+      </li>
+    </ul>
+  </div>
+</ng-container>

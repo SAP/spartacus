@@ -1,7 +1,8 @@
 import * as fromStoreFinder from '../actions/find-stores.action';
+import { StoreLocation } from '../../models/location';
 
 export interface StoreFinderState {
-  entities: { [storeName: string]: any };
+  entities: any;
 }
 
 export const initialState: StoreFinderState = {
@@ -14,12 +15,7 @@ export function reducer(
 ): StoreFinderState {
   switch (action.type) {
     case fromStoreFinder.FIND_STORES_SUCCESS: {
-      const stores = action.payload;
-      console.log("IN REDUCER");
-      const entities = {
-        ...state.entities,
-        [stores.storeName]: stores
-      };
+      const entities = action.payload;
 
       return {
         ...state,

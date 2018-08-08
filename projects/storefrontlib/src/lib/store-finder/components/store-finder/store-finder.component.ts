@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
 import { StoreLocation } from '../../models/location';
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'y-store-finder',
@@ -7,37 +11,14 @@ import { StoreLocation } from '../../models/location';
   styleUrls: ['./store-finder.component.scss']
 })
 export class StoreFinderComponent implements OnInit {
-   locations: Array<StoreLocation>;
-   current_date =  new Date();
+  locations$: Observable<any>;
+  current_date = new Date();
 
-    l1: StoreLocation = {
-      storeName: "Costco",
-      displayStoreName: "Costco",
-      line1: "5045",
-      line2: "Elm Street",
-      postalCode: "H1R 0S2",
-      country: "Canada",
-      sundayHours : {opening_time: "9:00", closing_time: "5:00"},
-      mondayHours : {opening_time: "9:00", closing_time: "5:00"},
-      tuesdayHours: {opening_time: "9:00", closing_time: "6:00"},
-      wednesdayHours: {opening_time: "9:00", closing_time: "5:00"},
-      thursdayHours: {opening_time: "9:00", closing_time: "5:00"},
-      fridayHours: {opening_time: "9:00", closing_time: "5:00"},
-      saturdayHours: {opening_time: "9:00", closing_time: "5:00"},
-      holidayHours: {date: this.current_date, isOpen: true, opening_time: "8:00", closing_time: "3:00"}
-    };
-  constructor() {
-    this.locations = [];
-  }
+  constructor(private store: Store<fromStore.StoresState>) {}
 
   ngOnInit() {
-    this.locations.push(this.l1);
-    this.locations.push(this.l1);
-    this.locations.push(this.l1);
+    this.locations$ = this.store.select(fromStore.getAllStores);
   }
 
-  getDirections(location: StoreLocation) {
-
-  }
-
+  getDirections(location: StoreLocation) {}
 }

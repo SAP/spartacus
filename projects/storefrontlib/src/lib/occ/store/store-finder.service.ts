@@ -9,7 +9,7 @@ import { ConfigService } from '../config.service';
 
 const STORES_ENDPOINT = 'stores';
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
-    pageSize: 20,
+    pageSize: 3,
     sort: 'asc',
     currentPage: 0
   };
@@ -22,7 +22,7 @@ export class OccStoreFinderService {
     const url = this.getStoresEndpoint();
     let params = new HttpParams({
         fromString:
-          'fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL)),' +
+          '&fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL)),' +
           'address(line1,line2,town,region(FULL),postalCode,phone,country) ),' +
           'pagination(DEFAULT),' +
           'sorts(DEFAULT)'
