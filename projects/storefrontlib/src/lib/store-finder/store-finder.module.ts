@@ -31,7 +31,8 @@ import { StoreFinderMapComponent } from './components/store-finder-map/store-fin
   exports: [
     StoreFinderSearchComponent,
     StoreFinderListComponent,
-    StoreFinderPagingComponent
+    StoreFinderPagingComponent,
+    StoreFinderMapComponent
   ],
   providers: [...fromServices.services]
 })

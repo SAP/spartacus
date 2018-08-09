@@ -1,8 +1,11 @@
-import { Inject } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
+@Injectable({
+  providedIn: 'root'
+})
 export class ExternalJsFileLoader {
-    constructor(@Inject(DOCUMENT)private document: Document) { }
+  constructor(@Inject(DOCUMENT) private document: Document) {}
 
   public load(src: string, params: Object, callback?: EventListener): void {
     const script = this.document.createElement('script');
@@ -11,7 +14,7 @@ export class ExternalJsFileLoader {
     script.async = true;
     script.defer = true;
     if (callback) {
-        script.addEventListener('load', callback);
+      script.addEventListener('load', callback);
     }
 
     document.head.appendChild(script);
@@ -21,7 +24,7 @@ export class ExternalJsFileLoader {
     let result = '';
     const keysArray = Object.keys(params);
     if (keysArray.length > 0) {
-     result = '?' + keysArray.map(key => key + '=' + params[key]).join('&');
+      result = '?' + keysArray.map(key => key + '=' + params[key]).join('&');
     }
     return result;
   }
