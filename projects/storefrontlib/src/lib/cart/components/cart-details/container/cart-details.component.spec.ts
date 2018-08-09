@@ -1,16 +1,16 @@
-import { MediaModule } from './../../../../ui/components/media/media.module';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { FormArray, ReactiveFormsModule } from '@angular/forms';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromRoot from '../../../../routing/store';
-import { CartService } from '../../../services/cart.service';
 import { CartDataService } from '../../../services/cart-data.service';
+import { CartService } from '../../../services/cart.service';
 import * as fromReducer from '../../../store/reducers';
 import { CartItemComponent } from '../../cart-shared/cart-item/cart-item.component';
 import { ItemCounterComponent } from '../../cart-shared/item-counter/item-counter.component';
 import { OrderSummaryComponent } from '../order-summary/order-summary.component';
+import { MediaModule } from './../../../../ui/components/media/media.module';
 import { CartDetailsComponent } from './cart-details.component';
 
 class MockCartService {
@@ -45,9 +45,6 @@ const mockEntries = [
   { entryNumber: 1, quantity: 1, product: { code: 'p1' } },
   { entryNumber: 2, quantity: 2, product: { code: 'p2' } }
 ];
-
-const mockOneEntryFormGroup = { entryNumber: 1 };
-const mockZeroIndex = 0;
 
 describe('CartDetailsComponent', () => {
   let store: Store<fromReducer.CartState>;
@@ -97,19 +94,18 @@ describe('CartDetailsComponent', () => {
   });
 
   it('should call ngInit to fill the formArray', () => {
-    let control = component.form.get('entryArry') as FormArray;
-    expect(control.value).toEqual([]);
+    const form = component.form;
+    expect(form.value).toEqual({});
 
     component.ngOnInit();
     expect(service.loadCartDetails).toHaveBeenCalled();
 
     component.cart$.subscribe();
     component.entries$.subscribe(() => {
-      control = component.form.get('entryArry') as FormArray;
-      expect(control.value).toEqual([
-        { entryNumber: 1, quantity: 1 },
-        { entryNumber: 2, quantity: 2 }
-      ]);
+      expect(form.value).toEqual({
+        p1: { entryNumber: 1, quantity: 1 },
+        p2: { entryNumber: 2, quantity: 2 }
+      });
     });
   });
 
@@ -117,13 +113,22 @@ describe('CartDetailsComponent', () => {
     component.ngOnInit();
     component.cart$.subscribe();
     component.entries$.subscribe();
+    const form = component.form as FormGroup;
 
-    component.removeEntry(mockOneEntryFormGroup, mockZeroIndex);
-    expect(service.removeCartEntry).toHaveBeenCalledWith({ entryNumber: 1 });
+    expect(Object.keys(form.controls).length).toBe(2);
+    component.removeEntry({
+      entryNumber: 1,
+      quantity: 1,
+      product: { code: 'p1' }
+    });
 
-    const control = component.form.get('entryArry') as FormArray;
-    expect(control.value.length).toBe(1);
-    expect(control.value).toEqual([{ entryNumber: 2, quantity: 2 }]);
+    expect(service.removeCartEntry).toHaveBeenCalledWith({
+      entryNumber: 1,
+      quantity: 1,
+      product: { code: 'p1' }
+    });
+
+    expect(Object.keys(form.controls).length).toBe(1);
   });
 
   it('should update entry in a cart', () => {
@@ -131,23 +136,18 @@ describe('CartDetailsComponent', () => {
     component.cart$.subscribe();
     component.entries$.subscribe();
 
-    component.updateEntry(mockOneEntryFormGroup, mockZeroIndex);
-    expect(service.updateCartEntry).toHaveBeenCalledWith(1, 1);
-  });
+    const param = {
+      entry: {
+        entryNumber: 1,
+        quantity: 1,
+        product: { code: 'p1' }
+      },
+      updatedQuantity: 2
+    };
 
-  it('should remove an entry if quantity is set to 0 in a cart', () => {
-    component.ngOnInit();
-    component.cart$.subscribe();
-    component.entries$.subscribe();
+    component.updateEntry(param);
 
-    let control = component.form.get('entryArry').value[0];
-    control.quantity = 0;
-
-    component.updateEntry(mockOneEntryFormGroup, mockZeroIndex);
-
-    control = component.form.get('entryArry') as FormArray;
-    expect(control.value.length).toBe(1);
-    expect(control.value).toEqual([{ entryNumber: 2, quantity: 2 }]);
+    expect(service.updateCartEntry).toHaveBeenCalledWith(1, 2);
   });
 
   it('should get potential promotion for product', () => {

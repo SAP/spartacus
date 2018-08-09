@@ -4,7 +4,7 @@
 
 <ng-container *ngIf="user$ | async as user">
     <button *ngIf="user?.name" mat-button color="primary" [matMenuTriggerFor]="userMenu">
-        {{(user$ | async)?.name}}
+        {{ user.name }}
         <mat-icon>expand_more</mat-icon>
     </button>
 

@@ -7,7 +7,6 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
 import * as fromRouting from '../../../routing/store';
 import { UserToken } from '../../models/token-types.model';
 import * as fromStore from '../../store';
@@ -21,10 +20,6 @@ import * as fromStore from '../../store';
 export class LoginComponent implements OnInit, OnDestroy {
   user$: Observable<any> = this.store.select(fromStore.getDetails);
   isLogin = false;
-
-  username: string;
-  password: string;
-  rememberMe: boolean;
 
   subscription: Subscription;
 
@@ -49,30 +44,20 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isLogin = false;
     this.store.dispatch(new fromStore.Logout());
 
-    this.store
-      .select(fromRouting.getRouterState)
-      .pipe(
-        filter(routerState => routerState !== undefined),
-        take(1)
-      )
-      .subscribe(storeRouterState => {
-        let state = this.route.snapshot;
-        while (state.firstChild) {
-          state = state.firstChild;
-        }
-        if (
-          state.routeConfig.canActivate &&
-          state.routeConfig.canActivate.find(
-            child => child.name === 'AuthGuard'
-          )
-        ) {
-          this.store.dispatch(
-            new fromRouting.Go({
-              path: ['']
-            })
-          );
-        }
-      });
+    let state = this.route.snapshot;
+    while (state.firstChild) {
+      state = state.firstChild;
+    }
+    if (
+      state.routeConfig.canActivate &&
+      state.routeConfig.canActivate.find(child => child.name === 'AuthGuard')
+    ) {
+      this.store.dispatch(
+        new fromRouting.Go({
+          path: ['/login']
+        })
+      );
+    }
   }
 
   ngOnDestroy() {

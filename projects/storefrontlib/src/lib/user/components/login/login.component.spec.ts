@@ -13,12 +13,6 @@ import { MatDialog } from '@angular/material';
 import { UserToken } from '../../models/token-types.model';
 import * as fromRouting from '../../../routing/store';
 
-const mockUser = {
-  username: 'mockUsername',
-  password: '1234',
-  rememberMe: false
-};
-
 const mockUserToken: UserToken = {
   access_token: 'xxx',
   token_type: 'bearer',
@@ -98,14 +92,12 @@ describe('LoginComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromRouting.Go({
-        path: ['']
+        path: ['/login']
       })
     );
   });
 
   it('should load user details when token exists', () => {
-    component.username = mockUser.username;
-
     spyOn(store, 'select').and.returnValue(of(mockUserToken));
 
     component.ngOnInit();

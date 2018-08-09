@@ -74,12 +74,8 @@ export class AddToCartComponent implements OnChanges, OnDestroy {
     });
   }
 
-  private updateEntry(data) {
-    const entryFormGroup = data.value.entryForm;
-    this.cartService.updateCartEntry(
-      entryFormGroup.entryNumber,
-      entryFormGroup.quantity
-    );
+  private updateEntry({ entry, updatedQuantity }) {
+    this.cartService.updateCartEntry(entry.entryNumber, updatedQuantity);
   }
   private removeEntry(entry) {
     this.cartService.removeCartEntry(entry);
