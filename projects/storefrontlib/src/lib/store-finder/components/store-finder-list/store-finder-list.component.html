@@ -1,18 +1,35 @@
 <ng-container *ngIf="locations$ | async as locations">
   <div>
-    <ul class="store-address-list">
-      <li *ngFor="let location of locations?.stores; let i=index">
+    <ol class="store-address-list">
+      <li *ngFor="let location of locations?.stores;">
         <p>
           <b>
-            <u>{{i+1}}. {{ location.displayName }}</u>
+            <u>{{ location.displayName }}</u>
           </b>
         </p>
         <p>{{location.address.line1}}</p>
         <p>{{location.address.town}}, {{location.address.region?.name}}, {{location.address.postalCode}}</p>
-        <p></p>
-        <button mat-button (click)="getDirections(location)"> Get Directions </button>
+        <div *ngIf="isOpen(location)">
+          <div *ngIf="isClosingSoon(); else open">
+            <b style="color: mediumpurple">{{daysOfWeek[getCurrentDay()]}}: Closing Soon </b>
+          </div>
+          <ng-template #open>
+            <b style="color: yellowgreen">{{daysOfWeek[getCurrentDay()]}}: Open until {{getClosingTime(location)}}pm</b>
+          </ng-template>
+        </div>
+        <div *ngIf="!isOpen(location)">
+          <div *ngIf="isOpeningSoon(); else close">
+            <b style="color: mediumpurple">{{daysOfWeek[getCurrentDay()]}}: Opening at
+              {{getOpeningTime(location)}}am</b>
+          </div>
+          <ng-template #close>
+            <b style="color: indianred">Closed</b>
+          </ng-template>
+        </div>
+        <br>
+        <button mat-button (click)="getDirections(location)"> Get Directions</button>
       </li>
-    </ul>
+    </ol>
   </div>
   <div *ngIf="locations?.pagination">
     <y-store-finder-paging [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-store-finder-paging>
