@@ -135,5 +135,6 @@ export * from './lib/ui/pages/category-page/category-page.module';
 export * from './lib/ui/pages/multi-step-checkout-page/multi-step-checkout-page.module';
 export * from './lib/ui/pages/order-details-page/order-details-page.module';
 export * from './lib/ui/pages/product-page/product-page.module';
+export * from './lib/ui/pages/register-page/register-page.module';
 
 export * from './lib/ui/layout/main/main.module';

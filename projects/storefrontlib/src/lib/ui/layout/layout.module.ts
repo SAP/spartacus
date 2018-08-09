@@ -13,6 +13,7 @@ import { MultiStepCheckoutPageLayoutModule } from './multi-step-checkout-page-la
 import { OrderConfirmationPageLayoutModule } from './order-confirmation-page-layout/order-confirmation-page-layout.module';
 import { OrderHistoryPageLayoutModule } from './order-history-page-layout/order-history-page-layout.module';
 import { OrderDetailsPageLayoutModule } from './order-details-page-layout/order-details-page-layout.module';
+import { RegisterLayoutModule } from './register-layout/register-layout.module';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { OrderDetailsPageLayoutModule } from './order-details-page-layout/order-
     MultiStepCheckoutPageLayoutModule,
     OrderDetailsPageLayoutModule,
     OrderConfirmationPageLayoutModule,
-    ProductDetailsPageLayoutModule
+    ProductDetailsPageLayoutModule,
+    RegisterLayoutModule
   ],
   declarations: [],
   exports: [
@@ -38,7 +40,8 @@ import { OrderDetailsPageLayoutModule } from './order-details-page-layout/order-
     MultiStepCheckoutPageLayoutModule,
     OrderDetailsPageLayoutModule,
     OrderConfirmationPageLayoutModule,
-    ProductDetailsPageLayoutModule
+    ProductDetailsPageLayoutModule,
+    RegisterLayoutModule
   ]
 })
 export class LayoutModule {}

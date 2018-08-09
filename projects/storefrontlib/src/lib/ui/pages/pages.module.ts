@@ -17,6 +17,9 @@ import { CategoryPageModule } from './category-page/category-page.module';
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
 
+// RegisterPage
+import { RegisterPageModule } from './register-page/register-page.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -29,6 +32,7 @@ import { ProductPageModule } from './product-page/product-page.module';
     OrderDetailsPageModule,
     OrderConfirmationPageModule,
     ProductPageModule,
+    RegisterPageModule,
     PageNotFoundModule
   ],
   declarations: [],
@@ -41,6 +45,7 @@ import { ProductPageModule } from './product-page/product-page.module';
     OrderDetailsPageModule,
     OrderConfirmationPageModule,
     ProductPageModule,
+    RegisterPageModule,
     PageNotFoundModule
   ]
 })
