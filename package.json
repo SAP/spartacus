@@ -33,6 +33,7 @@
     "@ngrx/router-store": "^6.0.1",
     "@ngrx/store": "^6.0.1",
     "@ngrx/store-devtools": "^6.0.1",
+    "@types/googlemaps": "^3.30.11",
     "core-js": "^2.5.4",
     "hammerjs": "2.0.8",
     "ngrx-store-localstorage": "5.0.0",
