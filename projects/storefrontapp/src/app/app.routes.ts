@@ -8,6 +8,7 @@ import { MultiStepCheckoutPageComponent } from 'storefrontlib';
 import { OrderConfirmationPageComponent } from 'storefrontlib';
 import { OrderHistoryPageComponent } from 'storefrontlib';
 import { OrderDetailsPageComponent } from 'storefrontlib';
+import { StoreFinderPageComponent } from 'storefrontlib';
 import { RegisterComponent } from 'storefrontlib';
 
 import { PageNotFoundComponent } from 'storefrontlib';
@@ -71,6 +72,12 @@ export const appRoutes: Routes = [
     canActivate: [NotAuthGuard, CmsPageGuards],
     component: RegisterComponent,
     data: { pageLabel: 'login' }
+  },
+  {
+    path: 'store-finder',
+    canActivate: [CmsPageGuards],
+    component: StoreFinderPageComponent,
+    data: { pageLabel: 'storefinderPage' },
   },
 
   // redirect OLD links

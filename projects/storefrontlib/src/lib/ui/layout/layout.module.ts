@@ -23,6 +23,7 @@ import { MultiStepCheckoutPageLayoutComponent } from './multi-step-checkout-page
 import { OrderConfirmationPageLayoutComponent } from './order-confirmation-page-layout/order-confirmation-page-layout.component';
 import { OrderHistoryPageLayoutComponent } from './order-history-page-layout/order-history-page-layout.component';
 import { OrderDetailsPageLayoutComponent } from './order-details-page-layout/order-details-page-layout.component';
+import { StoreFinderPageLayoutComponent } from './store-finder-page-layout/store-finder-page-layout.component';
 
 // header components
 import { CookieConfirmationModule } from '../../cms-lib/cookie-confirmation/cookie-confirmation.module';
@@ -33,6 +34,7 @@ import { LoginModule } from '../../user/components/login/login.module';
 import { CartDetailsModule } from '../../cart/components/cart-details/cart-details.module';
 import { ProductModule } from '../../product/product.module';
 import { CheckoutModule } from '../../checkout/checkout.module';
+import { StoreFinderModule } from '../../store-finder/store-finder.module';
 
 @NgModule({
   imports: [
@@ -51,7 +53,8 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     ProductModule,
     CartDetailsModule,
     CheckoutModule,
-    MyAccountModule
+    MyAccountModule,
+    StoreFinderModule
   ],
   declarations: [
     HeaderComponent,
@@ -65,7 +68,8 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     MultiStepCheckoutPageLayoutComponent,
     OrderConfirmationPageLayoutComponent,
     OrderHistoryPageLayoutComponent,
-    OrderDetailsPageLayoutComponent
+    OrderDetailsPageLayoutComponent,
+    StoreFinderPageLayoutComponent
   ],
   exports: [
     MainComponent,
@@ -77,7 +81,8 @@ import { CheckoutModule } from '../../checkout/checkout.module';
     MultiStepCheckoutPageLayoutComponent,
     OrderConfirmationPageLayoutComponent,
     OrderHistoryPageLayoutComponent,
-    OrderDetailsPageLayoutComponent
+    OrderDetailsPageLayoutComponent,
+    StoreFinderPageLayoutComponent
   ]
 })
 export class LayoutModule {}

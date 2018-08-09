@@ -24,6 +24,7 @@ import { UserModule } from 'storefrontlib';
 import { CartModule } from 'storefrontlib';
 import { CheckoutModule } from 'storefrontlib';
 import { GlobalMessageModule } from 'storefrontlib';
+import { StoreFinderModule } from 'storefrontlib';
 
 @NgModule({
   imports: [
@@ -41,7 +42,9 @@ import { GlobalMessageModule } from 'storefrontlib';
     ProductModule,
     UserModule,
     CartModule,
-    GlobalMessageModule
+    GlobalMessageModule,
+    CartModule,
+    StoreFinderModule
   ],
 
   providers: [
