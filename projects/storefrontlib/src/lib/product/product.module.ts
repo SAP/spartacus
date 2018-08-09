@@ -13,8 +13,6 @@ import { CmsModule } from './../cms/cms.module';
 import { MaterialModule } from './../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { CartModule } from '../cart/cart.module';
-
 // guards
 import * as fromGuards from './guards';
 
@@ -25,7 +23,6 @@ import { ProductDetailsModule } from './components/product-details/product-detai
 
 @NgModule({
   imports: [
-    CartModule,
     CommonModule,
     RouterModule,
     MediaModule,
