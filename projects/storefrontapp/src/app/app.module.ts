@@ -24,6 +24,8 @@ import { UserModule } from 'storefrontlib';
 import { CartModule } from 'storefrontlib';
 import { CheckoutModule } from 'storefrontlib';
 import { GlobalMessageModule } from 'storefrontlib';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   imports: [
@@ -41,7 +43,8 @@ import { GlobalMessageModule } from 'storefrontlib';
     ProductModule,
     UserModule,
     CartModule,
-    GlobalMessageModule
+    GlobalMessageModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
 
   providers: [
