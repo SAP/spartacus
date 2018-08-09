@@ -48,9 +48,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     while (state.firstChild) {
       state = state.firstChild;
     }
+
     if (
       state.routeConfig.canActivate &&
-      state.routeConfig.canActivate.find(child => child.name === 'AuthGuard')
+      state.routeConfig.canActivate.find(
+        child => child.GUARD_NAME === 'AuthGuard'
+      )
     ) {
       this.store.dispatch(
         new fromRouting.Go({

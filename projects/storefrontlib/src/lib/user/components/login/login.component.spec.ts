@@ -49,7 +49,7 @@ describe('LoginComponent', () => {
             snapshot: {
               firstChild: {
                 routeConfig: {
-                  canActivate: [{ name: 'AuthGuard' }]
+                  canActivate: [{ GUARD_NAME: 'AuthGuard' }]
                 }
               }
             }
