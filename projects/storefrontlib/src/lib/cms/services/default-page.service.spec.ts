@@ -23,12 +23,12 @@ describe('DefaultPageService', () => {
     service = TestBed.get(DefaultPageService);
   });
 
-  it(
-    'should DefaultPageService is injected',
-    inject([DefaultPageService], (pageService: DefaultPageService) => {
+  it('should DefaultPageService is injected', inject(
+    [DefaultPageService],
+    (pageService: DefaultPageService) => {
       expect(pageService).toBeTruthy();
-    })
-  );
+    }
+  ));
 
   describe('getDefaultPageIdsBytype', () => {
     it('should get the default pageId', () => {

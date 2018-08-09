@@ -6,10 +6,12 @@
   },
   "scripts": {
     "ng": "ng",
+    "prettify-check": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss}\"",
+    "prettify": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss}\" --write",
+    "lint": "ng lint",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint",
     "e2e": "ng e2e"
   },
   "private": false,
@@ -60,6 +62,7 @@
     "karma-junit-reporter": "^1.2.0",
     "ng-packagr": "^3.0.0-rc.2",
     "ngrx-store-freeze": "^0.2.2",
+    "prettier": "1.13.4",
     "protractor": "~5.3.0",
     "ts-node": "~5.0.1",
     "tsickle": ">=0.25.5",
