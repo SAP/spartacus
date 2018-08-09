@@ -24,8 +24,8 @@ export class StoreFinderPagingComponent implements OnInit {
   next(nextPage: number) {
     this.viewPageEvent.emit(nextPage);
   }
-
-  previous(nextPage: number) {
-    this.viewPageEvent.emit(nextPage);
+  
+  previous(previousPage: number) {
+    this.viewPageEvent.emit(previousPage);
   }
 }
