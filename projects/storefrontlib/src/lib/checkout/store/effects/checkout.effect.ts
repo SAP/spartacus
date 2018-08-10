@@ -284,11 +284,6 @@ export class CheckoutEffects {
       paymentDetails.accountHolderName;
     params[mappingLabels['hybris_card_type']] = paymentDetails.cardType.code;
     params[mappingLabels['hybris_card_number']] = paymentDetails.cardNumber;
-    // TODO: SPA-429, Occ does not seem to expect 'defaultPayment'
-    // even mappingLabels, which is a map returned from '/payment/sop/request?responseUrl=sampleUrl',
-    // does not contain something like 'hybris_card_defaultPayment'
-    params['card_defaultPayment'] = paymentDetails.defaultPayment;
-    // card_defaultPayment: paymentDetails.defaultPayment,
     if (mappingLabels['hybris_combined_expiry_date'] === 'true') {
       // tslint:disable-next-line:max-line-length
       params[mappingLabels['hybris_card_expiry_date']] =
