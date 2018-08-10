@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 
 import { OccStoreFinderService } from '../../../occ/store/store-finder.service';
 import { ConfigService } from '../../../occ/config.service';
-import { SearchConfig } from '../../search-config';
+import { SearchConfig } from '../../models/search-config';
 import * as fromEffects from './store-finder.effect';
 import * as fromActions from '../actions/find-stores.action';
 

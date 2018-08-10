@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
-import { SearchConfig } from '../../search-config';
+import { SearchConfig } from '../../models/search-config';
 
 @Component({
   selector: 'y-store-finder-list',
