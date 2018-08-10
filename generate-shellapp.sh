@@ -23,7 +23,7 @@ echo "Copying files to $DESTDIR"
 cp .gitignore $DESTDIR
 cp angular.json $DESTDIR
 cp package.json $DESTDIR
-cp prettier-config.prettierrc $DESTDIR
+cp .prettierrc $DESTDIR
 cp tsconfig.json $DESTDIR
 cp tslint.json $DESTDIR
 cp yarn.lock $DESTDIR
