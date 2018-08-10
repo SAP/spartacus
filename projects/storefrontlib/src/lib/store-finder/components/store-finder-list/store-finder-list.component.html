@@ -19,8 +19,8 @@
         </div>
         <div *ngIf="!isOpen(location)">
           <div *ngIf="isOpeningSoon(); else close">
-            <b style="color: mediumpurple">{{daysOfWeek[getCurrentDay()]}}: Opening at
-              {{getOpeningTime(location)}}am</b>
+            <b style="color: mediumpurple">{{daysOfWeek[getCurrentDay()]}}: Opening at {{getOpeningTime(location)}}am
+            </b>
           </div>
           <ng-template #close>
             <b style="color: indianred">Closed</b>
