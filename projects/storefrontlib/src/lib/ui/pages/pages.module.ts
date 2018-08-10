@@ -19,6 +19,7 @@ import { CategoryPageModule } from './category-page/category-page.module';
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
 
+import { LoginPageModule } from './login-page/login-page.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -32,6 +33,8 @@ import { ProductPageModule } from './product-page/product-page.module';
     OrderConfirmationPageModule,
     ProductPageModule,
     RegisterPageModule,
+    LoginPageModule,
+    // new pages should be added above this line
     PageNotFoundModule
   ],
   declarations: [],
@@ -45,6 +48,8 @@ import { ProductPageModule } from './product-page/product-page.module';
     OrderConfirmationPageModule,
     ProductPageModule,
     RegisterPageModule,
+    LoginPageModule,
+    // new pages should be added above this line
     PageNotFoundModule
   ]
 })
