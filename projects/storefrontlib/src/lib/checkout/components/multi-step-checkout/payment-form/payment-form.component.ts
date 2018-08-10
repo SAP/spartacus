@@ -38,7 +38,8 @@ export class PaymentFormComponent implements OnInit {
     }),
     expiryMonth: ['', Validators.required],
     expiryYear: ['', Validators.required],
-    cvn: ['', Validators.required]
+    cvn: ['', Validators.required],
+    savePaymentInfo: [true]
   });
 
   constructor(
