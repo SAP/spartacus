@@ -35,8 +35,6 @@ export class StoreFinderListComponent implements OnInit {
 
   ngOnInit() {
     this.locations$ = this.store.select(fromStore.getAllStores);
-    this.closingSoon = false;
-    this.openingSoon = false;
   }
 
   getDirections(location: any) {
