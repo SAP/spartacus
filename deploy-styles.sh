@@ -22,10 +22,10 @@ echo "New version: $PROJECT_NEW_VERSION"
 NEW_PACKAGE=$PROJECT-$NEW_VERSION_NO.tgz
 
 echo "Packing $NEW_PACKAGE"
-npm pack
+yarn pack
 
 echo "publishing $NEW_PACKAGE"
-npm publish $NEW_PACKAGE
+yarn publish $NEW_PACKAGE
 
 echo "Cleaning up"
 rm $NEW_PACKAGE
