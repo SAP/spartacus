@@ -13,6 +13,7 @@ import { effects, reducers } from './store';
 import { RegisterComponent } from './components/register/register.component';
 import { UserErrorHandlingService } from './services/user-error-handling.service';
 import { UserHttpInterceptor } from './http-interceptors/user-http.interceptor';
+import { AuthErrorInterceptor } from './http-interceptors/auth-error.interceptor';
 
 @NgModule({
   imports: [
@@ -30,6 +31,11 @@ import { UserHttpInterceptor } from './http-interceptors/user-http.interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: UserHttpInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthErrorInterceptor,
       multi: true
     }
   ],

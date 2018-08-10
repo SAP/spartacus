@@ -46,7 +46,6 @@ export * from './lib/site-context/currency-selector/currency-selector.module';
 export * from './lib/global-message/global-message.module';
 export * from './lib/my-account/order/order.module';
 export * from './lib/my-account/my-account.module';
-export * from './lib/services/services.module';
 export * from './lib/ui/layout/footer/footer.component';
 export * from './lib/ui/layout/cart-page-layout/cart-page-layout.component';
 export * from './lib/ui/layout/multi-step-checkout-page-layout/multi-step-checkout-page-layout.component';
@@ -127,3 +126,15 @@ export * from './lib/user/guards/auth.guard';
 export * from './lib/user/guards/not-auth.guard';
 export * from './lib/product/guards/product.guard';
 export * from './lib/cms/guards/cms-page.guard';
+
+export * from './lib/ui/pages/order-history-page/order-history-page.module';
+export * from './lib/ui/pages/home-page/home-page.module';
+export * from './lib/ui/pages/404/404.module';
+export * from './lib/ui/pages/cart-page/cart-page.module';
+export * from './lib/ui/pages/category-page/category-page.module';
+export * from './lib/ui/pages/multi-step-checkout-page/multi-step-checkout-page.module';
+export * from './lib/ui/pages/order-details-page/order-details-page.module';
+export * from './lib/ui/pages/product-page/product-page.module';
+export * from './lib/ui/pages/register-page/register-page.module';
+
+export * from './lib/ui/layout/main/main.module';

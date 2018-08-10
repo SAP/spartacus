@@ -15,6 +15,9 @@ import * as fromUserStore from '../../../../user/store';
 
 import * as fromRouting from '../../../../routing/store';
 import * as fromCart from '../../../../cart/store';
+import * as fromGlobalMessage from '../../../../global-message/store';
+
+import { GlobalMessageType } from './../../../../global-message/models/message.model';
 
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
@@ -116,14 +119,22 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         take(1)
       )
       .subscribe(results => {
-        if (results.decision === 'ACCEPT') {
+        if (results === 'FAIL') {
+          this.store.dispatch(
+            new fromCheckoutStore.ClearAddressVerificationResults()
+          );
+        } else if (results.decision === 'ACCEPT') {
           this.addAddress({
             address: address,
             newAddress: true
           });
         } else if (results.decision === 'REJECT') {
-          // will be shown in global message
-          console.log('Invalid Address');
+          this.store.dispatch(
+            new fromGlobalMessage.AddMessage({
+              type: GlobalMessageType.MSG_TYPE_ERROR,
+              text: 'Invalid Address'
+            })
+          );
           this.store.dispatch(
             new fromCheckoutStore.ClearAddressVerificationResults()
           );
@@ -190,8 +201,17 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
           this.paymentDetails = paymentInfo;
           this.cd.detectChanges();
         } else {
-          // show some message
-          console.log(paymentInfo);
+          Object.keys(paymentInfo).forEach(key => {
+            if (key.startsWith('InvalidField')) {
+              this.store.dispatch(
+                new fromGlobalMessage.AddMessage({
+                  type: GlobalMessageType.MSG_TYPE_ERROR,
+                  text: 'InvalidField: ' + paymentInfo[key]
+                })
+              );
+            }
+          });
+
           this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(3));
         }
       });

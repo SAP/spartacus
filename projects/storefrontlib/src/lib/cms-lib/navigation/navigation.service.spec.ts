@@ -78,12 +78,12 @@ describe('NavigationService', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  it(
-    'should inject NavigationService',
-    inject([NavigationService], (service: NavigationService) => {
+  it('should inject NavigationService', inject(
+    [NavigationService],
+    (service: NavigationService) => {
       expect(service).toBeTruthy();
-    })
-  );
+    }
+  ));
 
   describe('getNavigationEntryItems', () => {
     it('should get all navigation entry items', () => {
