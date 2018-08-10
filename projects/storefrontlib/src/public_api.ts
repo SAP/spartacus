@@ -58,6 +58,7 @@ export * from './lib/ui/layout/landing-page-layout/landing-page-layout.component
 export * from './lib/ui/layout/header/header.component';
 export * from './lib/ui/layout/order-details-page-layout/order-details-page-layout.component';
 export * from './lib/ui/layout/order-history-page-layout/order-history-page-layout.component';
+export * from './lib/ui/layout/login-page-layout/login-page-layout.component';
 export * from './lib/ui/components/media/picture/picture.component';
 export * from './lib/ui/pages/category-page/category-page.component';
 export * from './lib/ui/pages/product-page/product-page.component';
@@ -67,10 +68,11 @@ export * from './lib/ui/pages/cart-page/cart-page.component';
 export * from './lib/ui/pages/order-confirmation-page/order-confirmation-page.component';
 export * from './lib/ui/pages/order-history-page/order-history-page.component';
 export * from './lib/ui/pages/order-details-page/order-details-page.component';
+export * from './lib/ui/pages/login-page/login-page.component';
 export * from './lib/ui/pages/404/404.component';
 export * from './lib/user/components/login/login.component';
+export * from './lib/user/components/login/login-form/login-form.component';
 export * from './lib/user/components/register/register.component';
-export * from './lib/user/components/login/login-dialog/login-dialog.component';
 export * from './lib/product/components/product-details/product-reviews/product-reviews.component';
 export * from './lib/product/components/product-details/product-summary/product-summary.component';
 export * from './lib/product/components/product-details/product-attributes/product-attributes.component';
@@ -136,5 +138,6 @@ export * from './lib/ui/pages/multi-step-checkout-page/multi-step-checkout-page.
 export * from './lib/ui/pages/order-details-page/order-details-page.module';
 export * from './lib/ui/pages/product-page/product-page.module';
 export * from './lib/ui/pages/register-page/register-page.module';
+export * from './lib/ui/pages/login-page/login-page.module';
 
 export * from './lib/ui/layout/main/main.module';
