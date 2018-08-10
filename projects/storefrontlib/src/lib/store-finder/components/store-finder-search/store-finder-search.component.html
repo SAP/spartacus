@@ -1,6 +1,6 @@
 <div class="wrapper">
   <mat-form-field>
-    <input #queryInput matInput placeholder="Enter Postcode, Town or Address" />
+    <input #queryInput matInput [formControl]="searchBox" placeholder="Enter Postcode, Town or Address" (keyup)="onKey($event)"/>
   </mat-form-field>
   <br/>
   <button mat-raised-button color="primary" (click)="findStores(queryInput.value)">Find Stores</button>
