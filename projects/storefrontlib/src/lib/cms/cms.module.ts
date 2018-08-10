@@ -5,17 +5,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { reducers, effects } from './store';
+import { reducers } from './store';
+import { effects } from './store/effects/index';
 import { metaReducers } from './store/reducers';
 
 // components
-import * as fromComponents from './components';
+import { components } from './components/index';
 
 // guards
-import * as fromGuards from './guards';
+import { guards } from './guards/index';
 
 // services
-import * as fromServices from './services';
+import { services } from './services/index';
 import { ConfigService } from './config.service';
 
 @NgModule({
@@ -25,9 +26,9 @@ import { ConfigService } from './config.service';
     StoreModule.forFeature('cms', reducers, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
-  providers: [...fromServices.services, ...fromGuards.guards, ConfigService],
-  declarations: [...fromComponents.components],
-  exports: [...fromComponents.components]
+  providers: [...services, ...guards, ConfigService],
+  declarations: [...components],
+  exports: [...components]
 })
 export class CmsModule {
   static forRoot(config: any): any {

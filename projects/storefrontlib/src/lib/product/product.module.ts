@@ -4,7 +4,8 @@ import { RouterModule } from '@angular/router';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { reducers, effects } from './store';
+import { reducers } from './store';
+import { effects } from './store/effects/index';
 import { metaReducers } from './store/reducers';
 
 import { MediaModule } from './../ui/components/media/media.module';
@@ -14,10 +15,10 @@ import { MaterialModule } from './../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 // guards
-import * as fromGuards from './guards';
+import { guards } from './guards/index';
 
 // converter
-import * as fromConverter from './converters';
+import { services } from './converters/index';
 import { ProductListModule } from './components/product-list/product-list.module';
 import { ProductDetailsModule } from './components/product-details/product-details.module';
 
@@ -33,6 +34,6 @@ import { ProductDetailsModule } from './components/product-details/product-detai
     EffectsModule.forFeature(effects)
   ],
   exports: [ProductListModule, ProductDetailsModule],
-  providers: [...fromConverter.services, ...fromGuards.guards]
+  providers: [...services, ...guards]
 })
 export class ProductModule {}

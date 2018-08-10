@@ -6,12 +6,9 @@ import {
 } from '@ngrx/router-store';
 import { StoreModule, MetaReducer, META_REDUCERS } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import {
-  reducers,
-  effects,
-  CustomSerializer,
-  getStorageSyncReducer
-} from './store';
+import { reducers, getStorageSyncReducer } from './store/reducers';
+import { CustomSerializer } from './store/reducers/router.reducer';
+import { effects } from './store/effects/index';
 import { ConfigService, StorageSyncType } from './config.service';
 
 // not used in production
@@ -38,7 +35,10 @@ export function getMetaReducers(config: ConfigService): MetaReducer<any>[] {
     StoreDevtoolsModule.instrument() // Should not be used in production (SPA-488)
   ],
   providers: [
-    { provide: RouterStateSerializer, useClass: CustomSerializer },
+    {
+      provide: RouterStateSerializer,
+      useClass: CustomSerializer
+    },
     {
       provide: META_REDUCERS,
       deps: [ConfigService],

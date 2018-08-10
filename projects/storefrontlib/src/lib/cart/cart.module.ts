@@ -4,8 +4,9 @@ import { StoreModule } from '@ngrx/store';
 import { AddToCartModule } from './components/add-to-cart/add-to-cart.module';
 import { CartDetailsModule } from './components/cart-details/cart-details.module';
 import { CartSharedModule } from './components/cart-shared/cart-shared.module';
-import * as fromServices from './services';
-import { effects, reducers } from './store';
+import { services } from './services/index';
+import { reducers } from './store';
+import { effects } from './store/effects/index';
 import { metaReducers } from './store/reducers';
 
 @NgModule({
@@ -17,6 +18,6 @@ import { metaReducers } from './store/reducers';
     EffectsModule.forFeature(effects)
   ],
   exports: [AddToCartModule, CartDetailsModule, CartSharedModule],
-  providers: [...fromServices.services]
+  providers: [...services]
 })
 export class CartModule {}
