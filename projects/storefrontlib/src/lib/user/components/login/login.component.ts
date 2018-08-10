@@ -1,18 +1,15 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  OnInit,
   OnDestroy,
-  ChangeDetectionStrategy
+  OnInit
 } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { tap, map, take, filter } from 'rxjs/operators';
-
-import * as fromStore from './../../store';
 import * as fromRouting from '../../../routing/store';
 import { UserToken } from '../../models/token-types.model';
-import { LoginDialogComponent } from './login-dialog/login-dialog.component';
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'y-login',
@@ -21,15 +18,14 @@ import { LoginDialogComponent } from './login-dialog/login-dialog.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  user$: Observable<any>;
-  username: string;
-  rememberMe: boolean;
+  user$: Observable<any> = this.store.select(fromStore.getDetails);
+  isLogin = false;
 
   subscription: Subscription;
 
   constructor(
-    protected dialog: MatDialog,
-    private store: Store<fromStore.UserState>
+    private store: Store<fromStore.UserState>,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -37,67 +33,35 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.store
       .select(fromStore.getUserToken)
-      .pipe(
-        filter((token: UserToken) => this.username !== token.userId),
-        tap((token: UserToken) => {
-          if (token.access_token !== undefined) {
-            this.username = token.userId;
-            this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
-            this.store.dispatch(new fromStore.Login());
-          } else {
-            this.username = '';
-          }
-        })
-      )
-      .subscribe();
-  }
-
-  openLogin() {
-    const dialogRef = this.dialog.open(LoginDialogComponent, {
-      data: {
-        username: '',
-        password: '',
-        rememberMe: ''
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.rememberMe = result.rememberMe;
-
-      if (result.username !== undefined && result.username !== undefined) {
-        this.login(result.username, result.password);
-      }
-    });
+      .subscribe((token: UserToken) => {
+        if (token && token.access_token && !this.isLogin) {
+          this.isLogin = true;
+          this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
+          this.store.dispatch(new fromStore.Login());
+        }
+      });
   }
 
   logout() {
     this.store.dispatch(new fromStore.Logout());
 
-    this.store
-      .select(fromRouting.getRouterState)
-      .pipe(
-        filter(routerState => routerState !== undefined),
-        map(routerState => routerState.state.context),
-        take(1)
-      )
-      .subscribe(pageContext => {
-        if (pageContext.id === 'multiStepCheckoutSummaryPage') {
-          this.store.dispatch(
-            new fromRouting.Go({
-              path: ['']
-            })
-          );
-        }
-      });
-  }
+    let state = this.route.snapshot;
+    while (state.firstChild) {
+      state = state.firstChild;
+    }
 
-  login(username: string, password: string) {
-    this.store.dispatch(
-      new fromStore.LoadUserToken({
-        userId: username,
-        password: password
-      })
-    );
+    if (
+      state.routeConfig.canActivate &&
+      state.routeConfig.canActivate.find(
+        child => child.GUARD_NAME === 'AuthGuard'
+      )
+    ) {
+      this.store.dispatch(
+        new fromRouting.Go({
+          path: ['/login']
+        })
+      );
+    }
   }
 
   ngOnDestroy() {

@@ -1,9 +1,9 @@
 import {
   Component,
-  Input,
+  EventEmitter,
   forwardRef,
-  Output,
-  EventEmitter
+  Input,
+  Output
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -21,29 +21,18 @@ const COUNTER_CONTROL_ACCESSOR = {
   providers: [COUNTER_CONTROL_ACCESSOR]
 })
 export class ItemCounterComponent implements ControlValueAccessor {
-  @Input() value = 0;
+  value = 0;
   @Input() step = 1;
   @Input() min = 0;
   @Input() max = 0;
+  @Input() async = false;
 
   @Output() change = new EventEmitter<any>();
 
   focus: boolean;
 
-  private onTouch: Function;
-  private onModelChange: Function;
-
-  registerOnTouched(fn) {
-    this.onTouch = fn;
-  }
-
-  registerOnChange(fn) {
-    this.onModelChange = fn;
-  }
-
-  writeValue(value) {
-    this.value = value || 0;
-  }
+  onTouch = () => {};
+  onModelChange = (rating: number) => {};
 
   onKeyDown(event: KeyboardEvent) {
     const handlers = {
@@ -74,20 +63,43 @@ export class ItemCounterComponent implements ControlValueAccessor {
   }
 
   increment() {
+    const updatedQuantity = this.value + this.step;
     if (this.value < this.max) {
-      this.value = this.value + this.step;
-      this.onModelChange(this.value);
-      this.change.emit();
+      if (!this.async) {
+        // If the async flag is true, then the parent component is responsible for updating the form
+        this.writeValue(updatedQuantity);
+      }
+      // Additionally, we emit a change event, so that users may optionally do something on change
+      this.change.emit(updatedQuantity);
     }
     this.onTouch();
   }
 
   decrement() {
+    const updatedQuantity = this.value - this.step;
     if (this.value > this.min) {
-      this.value = this.value - this.step;
-      this.onModelChange(this.value);
-      this.change.emit();
+      if (!this.async) {
+        // If the async flag is true, then the parent component is responsible for updating the form
+        this.writeValue(updatedQuantity);
+      }
+      // Additionally, we emit a change event, so that users may optionally do something on change
+      this.change.emit(updatedQuantity);
     }
     this.onTouch();
+  }
+
+  // ControlValueAccessor interface
+
+  registerOnTouched(fn) {
+    this.onTouch = fn;
+  }
+
+  registerOnChange(fn) {
+    this.onModelChange = fn;
+  }
+
+  writeValue(value) {
+    this.value = value || 0;
+    this.onModelChange(this.value);
   }
 }
