@@ -31,18 +31,21 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.user$ = this.store.select(fromStore.getDetails);
 
-    this.store
+    this.subscription = this.store
       .select(fromStore.getUserToken)
       .subscribe((token: UserToken) => {
         if (token && token.access_token && !this.isLogin) {
           this.isLogin = true;
           this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
           this.store.dispatch(new fromStore.Login());
+        } else if (token && !token.access_token && this.isLogin) {
+          this.isLogin = false;
         }
       });
   }
 
   logout() {
+    this.isLogin = false;
     this.store.dispatch(new fromStore.Logout());
 
     let state = this.route.snapshot;

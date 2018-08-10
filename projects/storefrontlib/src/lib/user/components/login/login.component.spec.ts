@@ -88,6 +88,7 @@ describe('LoginComponent', () => {
     spy.and.returnValue(of({}));
 
     component.logout();
+    expect(component.isLogin).toEqual(false);
     expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromRouting.Go({
@@ -105,6 +106,7 @@ describe('LoginComponent', () => {
       new fromStore.LoadUserDetails(mockUserToken.userId)
     );
     expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Login());
+    component.isLogin = true;
   });
   // Add some UI unit tests once we remove material
 });
