@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { metaReducers } from './store/reducers';
+import { metaReducers } from './store/reducers/index';
 import { guards } from './guards/index';
 import { LoginModule } from './components/login/login.module';
 import { reducerToken, reducerProvider } from './store/reducers/index';

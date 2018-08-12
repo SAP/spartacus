@@ -5,7 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
-import { metaReducers } from './store/reducers';
+import { metaReducers } from './store/reducers/index';
 
 import { services } from './services/index';
 

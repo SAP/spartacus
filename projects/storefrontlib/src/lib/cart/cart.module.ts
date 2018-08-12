@@ -7,7 +7,7 @@ import { CartSharedModule } from './components/cart-shared/cart-shared.module';
 import { services } from './services/index';
 import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
-import { metaReducers } from './store/reducers';
+import { metaReducers } from './store/reducers/index';
 
 @NgModule({
   imports: [
