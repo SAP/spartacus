@@ -1,3 +1,4 @@
+import { InjectionToken } from '@angular/core';
 import {
   ActionReducerMap,
   createFeatureSelector,
@@ -16,10 +17,21 @@ export interface ProductsState {
   reviews: fromProductReviews.ProductReviewsState;
 }
 
-export const reducers: ActionReducerMap<ProductsState> = {
-  search: fromProductsSearch.reducer,
-  details: fromProduct.reducer,
-  reviews: fromProductReviews.reducer
+export function getReducers(): ActionReducerMap<ProductsState> {
+  return {
+    search: fromProductsSearch.reducer,
+    details: fromProduct.reducer,
+    reviews: fromProductReviews.reducer
+  };
+}
+
+export const reducerToken: InjectionToken<
+  ActionReducerMap<ProductsState>
+> = new InjectionToken<ActionReducerMap<ProductsState>>('ProductReducers');
+
+export const reducerProvider: any = {
+  provide: reducerToken,
+  useFactory: getReducers
 };
 
 export const getProductsState: MemoizedSelector<

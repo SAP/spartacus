@@ -1,3 +1,4 @@
+import { InjectionToken } from '@angular/core';
 import * as fromGlobalMessage from './global-message.reducer';
 import {
   ActionReducerMap,
@@ -9,8 +10,21 @@ export interface GlobalMessageState {
   messages: fromGlobalMessage.GlobalMessageState;
 }
 
-export const reducers: ActionReducerMap<GlobalMessageState> = {
-  messages: fromGlobalMessage.reducer
+export function getReducers(): ActionReducerMap<GlobalMessageState> {
+  return {
+    messages: fromGlobalMessage.reducer
+  };
+}
+
+export const reducerToken: InjectionToken<
+  ActionReducerMap<GlobalMessageState>
+> = new InjectionToken<ActionReducerMap<GlobalMessageState>>(
+  'GlobalMessageReducers'
+);
+
+export const reducerProvider: any = {
+  provide: reducerToken,
+  useFactory: getReducers
 };
 
 export const getGlobalMessageState: MemoizedSelector<

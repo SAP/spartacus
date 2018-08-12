@@ -5,7 +5,7 @@ import { AddToCartModule } from './components/add-to-cart/add-to-cart.module';
 import { CartDetailsModule } from './components/cart-details/cart-details.module';
 import { CartSharedModule } from './components/cart-shared/cart-shared.module';
 import { services } from './services/index';
-import { reducers } from './store';
+import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
 import { metaReducers } from './store/reducers';
 
@@ -14,10 +14,10 @@ import { metaReducers } from './store/reducers';
     AddToCartModule,
     CartDetailsModule,
     CartSharedModule,
-    StoreModule.forFeature('cart', reducers, { metaReducers }),
+    StoreModule.forFeature('cart', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
   exports: [AddToCartModule, CartDetailsModule, CartSharedModule],
-  providers: [...services]
+  providers: [reducerProvider, ...services]
 })
 export class CartModule {}

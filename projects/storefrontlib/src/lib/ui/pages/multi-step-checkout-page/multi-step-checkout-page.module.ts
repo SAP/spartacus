@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
-import { CmsPageGuards } from '../../../cms/guards';
-import { AuthGuard } from '../../../user/guards';
+import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
+import { AuthGuard } from '../../../user/guards/auth.guard';
 import { MultiStepCheckoutPageLayoutModule } from '../../layout/multi-step-checkout-page-layout/multi-step-checkout-page-layout.module';
 import { MultiStepCheckoutPageComponent } from './multi-step-checkout-page.component';
 

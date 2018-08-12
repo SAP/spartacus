@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { CmsPageGuards } from '../../../cms/guards';
+import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 
 import { PageNotFoundComponent } from './404.component';
 

@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { reducers } from './store';
+import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
 import { metaReducers } from './store/reducers';
 
@@ -23,10 +23,10 @@ import { ConfigService } from './config.service';
   imports: [
     CommonModule,
     HttpClientModule,
-    StoreModule.forFeature('cms', reducers, { metaReducers }),
+    StoreModule.forFeature('cms', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
-  providers: [...services, ...guards, ConfigService],
+  providers: [reducerProvider, ...services, ...guards, ConfigService],
   declarations: [...components],
   exports: [...components]
 })

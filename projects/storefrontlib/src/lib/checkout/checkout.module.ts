@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { reducers } from './store';
+import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
 import { metaReducers } from './store/reducers';
 
@@ -16,10 +16,10 @@ import { OrderConfirmationModule } from './components/order-confirmation/order-c
   imports: [
     CommonModule,
     MultiStepCheckoutModule,
-    StoreModule.forFeature('checkout', reducers, { metaReducers }),
+    StoreModule.forFeature('checkout', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
   exports: [MultiStepCheckoutModule, OrderConfirmationModule],
-  providers: [...services]
+  providers: [reducerProvider, ...services]
 })
 export class CheckoutModule {}

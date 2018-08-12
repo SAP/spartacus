@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { reducers } from './store';
+import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
 import { metaReducers } from './store/reducers';
 
@@ -30,10 +30,10 @@ import { ProductDetailsModule } from './components/product-details/product-detai
     MaterialModule,
     FlexLayoutModule,
     CmsModule,
-    StoreModule.forFeature('products', reducers, { metaReducers }),
+    StoreModule.forFeature('products', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
   exports: [ProductListModule, ProductDetailsModule],
-  providers: [...services, ...guards]
+  providers: [reducerProvider, ...services, ...guards]
 })
 export class ProductModule {}
