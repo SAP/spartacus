@@ -14,20 +14,10 @@ import {
 import {
   CmsModule,
   RoutingModule,
-  SiteContextModule,
-  ProductModule } from 'storefrontlib';
-
-import { appRoutes } from './app.routes';
+  UserModule } from 'storefrontlib';
 
 // bootstrap
 import { AppComponent } from './app.component';
-
-import {
-  UserModule,
-  CartModule,
-  CheckoutModule,
-  GlobalMessageModule,
-  StoreFinderModule } from 'storefrontlib';
 
 @NgModule({
   imports: [
