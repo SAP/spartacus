@@ -1,7 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
 DEV_SERVER='10\.27\.165\.187'
+
+function validatestyles {
+    echo "-----"
+    echo "Validating styles app"
+    pushd projects/storefrontstyles
+    yarn
+    yarn sass
+    rm -rf temp-scss
+    popd
+}
 
 echo "Validating tsconfig.json integrity"
 LOCAL_ENV_LIB_PATH="projects/storefrontlib/src/public_api"
@@ -54,6 +64,21 @@ yarn
 echo "-----"
 echo "Validating code linting"
 ng lint
+echo "-----"
+echo "Validating code formatting (using prettier)"
+./node_modules/.bin/prettier --config ./.prettierrc --list-different "projects/**/*{.ts,.js,.json,.scss}" 2>&1 |  tee prettier.log
+results=$(tail -1 prettier.log | grep projects || true)
+if [[ -z "$results" ]]; then
+    echo "Success: Codebase has been prettified correctly"
+    rm prettier.log
+else
+    echo "ERROR: Codebase not prettified. Aborting pipeline. Please format your code"
+    rm prettier.log
+    exit 1
+fi
+
+validatestyles
+
 echo "-----"
 echo "Running unit tests and code coverage for core lib"
 ng test storefrontlib --watch=false --code-coverage --browsers=ChromeHeadless 2>&1 |  tee spa_tests.log
