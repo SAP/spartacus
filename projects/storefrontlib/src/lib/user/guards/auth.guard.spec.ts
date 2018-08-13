@@ -7,25 +7,35 @@ import * as fromStore from './../store';
 import * as fromReducers from './../store/reducers';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  Router
+} from '@angular/router';
 
 const mockUserValidToken = {
   access_token: 'Mock Access Token'
 };
 
 const mockUserInvalidToken = {};
+const mockRouter = { navigate: jasmine.createSpy('navigate') };
 const mockActivatedRouteSnapshot = {};
-const mockRouterStateSnapshot = {};
+const mockRouterStateSnapshot = { state: '/checkout' };
 
 describe('AuthGuard', () => {
   let authGuard: AuthGuard;
   let store: Store<fromStore.UserState>;
+  let router;
   let activatedRouteSnapshot;
   let routerStateSnapshot;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         AuthGuard,
+        {
+          provide: Router,
+          useValue: mockRouter
+        },
         {
           provide: ActivatedRouteSnapshot,
           useValue: mockActivatedRouteSnapshot
@@ -45,6 +55,7 @@ describe('AuthGuard', () => {
     });
     store = TestBed.get(Store);
     authGuard = TestBed.get(AuthGuard);
+    router = TestBed.get(Router);
     activatedRouteSnapshot = TestBed.get(ActivatedRouteSnapshot);
     routerStateSnapshot = TestBed.get(RouterStateSnapshot);
   });
@@ -69,5 +80,15 @@ describe('AuthGuard', () => {
       .canActivate(activatedRouteSnapshot, routerStateSnapshot)
       .subscribe(value => (result = value));
     expect(result).toBe(true);
+  });
+
+  it('should redirect to login if invalid token', () => {
+    spyOn(store, 'select').and.returnValue(of(mockUserInvalidToken));
+
+    authGuard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
+
+    expect(router.navigate).toHaveBeenCalledWith(['/login'], {
+      queryParams: { returnUrl: routerStateSnapshot.url }
+    });
   });
 });
