@@ -1,3 +1,4 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginFormComponent } from './login-form.component';
@@ -16,6 +17,7 @@ describe('LoginFormComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
+        RouterTestingModule,
         StoreModule.forRoot({
           ...fromStore.reducers,
           user: combineReducers(fromStore.reducers)

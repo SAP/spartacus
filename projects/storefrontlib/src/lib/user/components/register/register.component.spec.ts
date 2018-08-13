@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
@@ -34,7 +35,8 @@ describe('RegisterComponent', () => {
           user: combineReducers(fromStore.reducers)
         })
       ],
-      declarations: [RegisterComponent]
+      declarations: [RegisterComponent],
+      providers: [{ provide: ActivatedRoute, useValue: {} }]
     }).compileComponents();
   }));
 
