@@ -29,8 +29,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.user$ = this.store.select(fromStore.getDetails);
-
     this.subscription = this.store
       .select(fromStore.getUserToken)
       .subscribe((token: UserToken) => {

@@ -38,11 +38,10 @@ export class AuthErrorInterceptor implements HttpInterceptor {
                   next
                 );
               } else if (
+                // Refresh token expired
+                // Check that the OAUTH endpoint was called and the error is for refresh token is expired
                 errResponse.url.indexOf(OAUTH_ENDPOINT) !== -1 &&
-                errResponse.error.error === 'invalid_token' &&
-                errResponse.error.error_description.startsWith(
-                  'Invalid refresh token (expired)'
-                )
+                errResponse.error.error === 'invalid_token'
               ) {
                 return of(
                   this.userErrorHandlingService.handleExpiredRefreshToken()
@@ -75,10 +74,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
       resp.error.errors instanceof Array &&
       resp.error.errors[0]
     ) {
-      const reason = resp.error.errors[0];
-      if (reason.type === 'InvalidTokenError') {
-        return true;
-      }
+      return resp.error.errors[0].type === 'InvalidTokenError';
     }
     return false;
   }

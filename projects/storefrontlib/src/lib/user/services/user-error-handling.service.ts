@@ -11,7 +11,7 @@ import { HttpRequest, HttpHandler } from '@angular/common/http';
 
 @Injectable()
 export class UserErrorHandlingService {
-  readonly LOGIN_URL = '/';
+  readonly LOGIN_URL = '/login';
 
   constructor(
     private store: Store<fromUserStore.UserState>,
