@@ -21,14 +21,13 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromStore.UserState>,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    public route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.userTokenSubscription = this.store
       .select(fromStore.getUserToken)
       .subscribe(data => {
-        console.log(data);
         if (data && data.access_token) {
           this.store.dispatch(
             new fromGlobalMessage.AddMessage({
@@ -36,8 +35,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
               type: GlobalMessageType.MSG_TYPE_CONFIRMATION
             })
           );
-          console.log(this.route);
           const returnUrl = this.route.snapshot.queryParams['returnUrl'];
+
           if (returnUrl) {
             // If forced to login due to AuthGuard, then redirect to intended destination
             this.store.dispatch(new fromRouting.Go({ path: [returnUrl] }));

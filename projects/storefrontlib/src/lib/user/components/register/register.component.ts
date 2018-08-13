@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -6,20 +7,20 @@ import {
   AbstractControl,
   FormControl
 } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromUserStore from '../../store';
-
+import * as fromRouting from '../../../routing/store';
 @Component({
   selector: 'y-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   titles$: Observable<any>;
-
+  sub: Subscription;
   userRegistrationForm: FormGroup = this.fb.group(
     {
       titleCode: ['', Validators.required],
@@ -36,7 +37,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private store: Store<fromUserStore.UserState>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -59,8 +61,20 @@ export class RegisterComponent implements OnInit {
         uid: this.userRegistrationForm.value.email
       })
     );
-  }
 
+    this.sub = this.store.select(fromUserStore.getUserToken).subscribe(data => {
+      if (data && data.access_token) {
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'];
+        const path = returnUrl ? returnUrl : '/';
+        this.store.dispatch(new fromRouting.Go({ path: [path] }));
+      }
+    });
+  }
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+  }
   private validatePassword(fc: FormControl) {
     const password = fc.value as string;
     return password.match(
