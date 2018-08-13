@@ -6,7 +6,7 @@ import {
 
 import { OccStoreFinderService } from './store-finder.service';
 import { ConfigService } from '../config.service';
-import { SearchConfig } from '../../store-finder/search-config';
+import { SearchConfig } from '../../store-finder/models/search-config';
 
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };

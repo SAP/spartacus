@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { SearchConfig } from '../../store-finder/search-config';
+import { SearchConfig } from '../../store-finder/models/search-config';
 
 import { ConfigService } from '../config.service';
 

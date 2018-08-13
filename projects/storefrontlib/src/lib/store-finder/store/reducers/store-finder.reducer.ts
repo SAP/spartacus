@@ -1,5 +1,4 @@
 import * as fromStoreFinder from '../actions/find-stores.action';
-import { StoreLocation } from '../../models/location';
 
 export interface StoreFinderState {
   entities: any;

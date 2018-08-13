@@ -5,7 +5,7 @@ import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from './store-finder.selectors';
-import { SearchConfig } from '../../search-config';
+import { SearchConfig } from '../../models/search-config';
 
 describe('StoreFinder Selectors', () => {
   let store: Store<fromReducers.StoresState>;

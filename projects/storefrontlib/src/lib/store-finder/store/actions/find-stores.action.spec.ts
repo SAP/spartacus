@@ -1,5 +1,5 @@
 import * as fromActions from './find-stores.action';
-import { SearchConfig } from '../../search-config';
+import { SearchConfig } from '../../models/search-config';
 
 describe('Find Stores Actions', () => {
   describe('FindStores', () => {
