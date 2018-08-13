@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginFormComponent } from './login-form.component';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
@@ -20,7 +21,8 @@ describe('LoginFormComponent', () => {
           user: combineReducers(fromStore.reducers)
         })
       ],
-      declarations: [LoginFormComponent]
+      declarations: [LoginFormComponent],
+      providers: [{ provide: ActivatedRoute, useValue: {} }]
     }).compileComponents();
   }));
 

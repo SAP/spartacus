@@ -7,20 +7,34 @@ import * as fromStore from './../store';
 import * as fromReducers from './../store/reducers';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 const mockUserValidToken = {
   access_token: 'Mock Access Token'
 };
 
 const mockUserInvalidToken = {};
+const mockActivatedRouteSnapshot = {};
+const mockRouterStateSnapshot = {};
 
 describe('AuthGuard', () => {
   let authGuard: AuthGuard;
   let store: Store<fromStore.UserState>;
-
+  let activatedRouteSnapshot;
+  let routerStateSnapshot;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AuthGuard],
+      providers: [
+        AuthGuard,
+        {
+          provide: ActivatedRouteSnapshot,
+          useValue: mockActivatedRouteSnapshot
+        },
+        {
+          provide: RouterStateSnapshot,
+          useValue: mockRouterStateSnapshot
+        }
+      ],
       imports: [
         RouterTestingModule,
         StoreModule.forRoot({
@@ -31,6 +45,8 @@ describe('AuthGuard', () => {
     });
     store = TestBed.get(Store);
     authGuard = TestBed.get(AuthGuard);
+    activatedRouteSnapshot = TestBed.get(ActivatedRouteSnapshot);
+    routerStateSnapshot = TestBed.get(RouterStateSnapshot);
   });
 
   it('should return false', () => {
@@ -38,7 +54,9 @@ describe('AuthGuard', () => {
 
     let result: boolean;
 
-    authGuard.canActivate().subscribe(value => (result = value));
+    authGuard
+      .canActivate(activatedRouteSnapshot, routerStateSnapshot)
+      .subscribe(value => (result = value));
     expect(result).toBe(false);
   });
 
@@ -47,7 +65,9 @@ describe('AuthGuard', () => {
 
     let result: boolean;
 
-    authGuard.canActivate().subscribe(value => (result = value));
+    authGuard
+      .canActivate(activatedRouteSnapshot, routerStateSnapshot)
+      .subscribe(value => (result = value));
     expect(result).toBe(true);
   });
 });
