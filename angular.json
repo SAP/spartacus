@@ -29,21 +29,17 @@
             "stylePreprocessorOptions": {
               "includePaths": [
                 "./projects/storefrontstyles/scss",
-                "./node_modules/storefrontstyles/storefrontstyles/scss"
+                "./node_modules/storefrontstyles/scss"
               ]
             },
             "scripts": []
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace":
-                    "projects/storefrontapp/src/environments/environment.ts",
-                  "with":
-                    "projects/storefrontapp/src/environments/environment.prod.ts"
-                }
-              ],
+              "fileReplacements": [{
+                "replace": "projects/storefrontapp/src/environments/environment.ts",
+                "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+              }],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -85,7 +81,8 @@
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets"
-            ]
+            ],
+            "codeCoverageExclude": ["dist/**/*"]
           }
         },
         "lint": {
@@ -143,7 +140,8 @@
           "options": {
             "main": "projects/storefrontlib/src/test.ts",
             "tsConfig": "projects/storefrontlib/tsconfig.spec.json",
-            "karmaConfig": "projects/storefrontlib/karma.conf.js"
+            "karmaConfig": "projects/storefrontlib/karma.conf.js",
+            "codeCoverageExclude": ["dist/**/*"]
           }
         },
         "lint": {

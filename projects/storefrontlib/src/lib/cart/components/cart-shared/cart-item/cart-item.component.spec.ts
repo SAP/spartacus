@@ -1,8 +1,8 @@
-import { MediaModule } from './../../../../ui/components/media/media.module';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ItemCounterComponent } from '../item-counter/item-counter.component';
+import { MediaModule } from './../../../../ui/components/media/media.module';
 import { CartItemComponent } from './cart-item.component';
 
 describe('CartItemComponent', () => {
@@ -43,10 +43,11 @@ describe('CartItemComponent', () => {
   });
 
   it('should call updateEntry()', () => {
-    cartItemComponent.updateEntry();
+    cartItemComponent.updateEntry(2);
 
-    expect(cartItemComponent.update.emit).toHaveBeenCalledWith(
-      cartItemComponent.entry
-    );
+    expect(cartItemComponent.update.emit).toHaveBeenCalledWith({
+      entry: cartItemComponent.entry,
+      updatedQuantity: 2
+    });
   });
 });

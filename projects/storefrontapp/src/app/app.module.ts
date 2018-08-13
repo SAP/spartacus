@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID } from '@angular/core';
 
 import { ConfigService } from './config.service';
+import { AppRoutingModule } from './app-routing.module';
 
 import {
   OccModule,
@@ -32,22 +32,16 @@ import {
 @NgModule({
   imports: [
     BrowserModule,
-    OccModule.forRoot(ConfigService),
-    CmsLibModule,
-    UiModule,
-    UiFrameworkModule,
-
-    CmsModule.forRoot(ConfigService),
-    SiteContextModule.forRoot(ConfigService),
-    CheckoutModule,
     RoutingModule.forRoot(ConfigService),
-    RouterModule.forRoot(appRoutes),
-    ProductModule,
+    OccModule.forRoot(ConfigService),
+
+    AppRoutingModule,
+
     UserModule,
-    CartModule,
-    GlobalMessageModule,
-    CartModule,
-    StoreFinderModule
+    CmsLibModule,
+    CmsModule.forRoot(ConfigService),
+    UiModule,
+    UiFrameworkModule
   ],
 
   providers: [

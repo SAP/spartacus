@@ -14,6 +14,6 @@ import 'hammerjs';
     FlexLayoutModule
   ],
   declarations: [],
-  exports: [MaterialModule]
+  exports: [MaterialModule, FlexLayoutModule]
 })
 export class UiFrameworkModule {}
