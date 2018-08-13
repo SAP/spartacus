@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import {
+  CanActivate,
+  Router,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot
+} from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -15,11 +20,16 @@ export class AuthGuard implements CanActivate {
     private router: Router
   ) {}
 
-  canActivate(): Observable<boolean> {
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> {
     return this.store.select(fromStore.getUserToken).pipe(
       map(token => {
         if (!token.access_token) {
-          this.router.navigate(['/']);
+          this.router.navigate(['/login'], {
+            queryParams: { returnUrl: state.url }
+          });
         }
         return !!token.access_token;
       })

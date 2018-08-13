@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnDestroy } from '@angular/core';
@@ -19,7 +20,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromStore.UserState>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -33,7 +35,14 @@ export class LoginFormComponent implements OnInit, OnDestroy {
               type: GlobalMessageType.MSG_TYPE_CONFIRMATION
             })
           );
-          this.store.dispatch(new fromRouting.Back());
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'];
+          if (returnUrl) {
+            // If forced to login due to AuthGuard, then redirect to intended destination
+            this.store.dispatch(new fromRouting.Go({ path: [returnUrl] }));
+          } else {
+            // User manual login
+            this.store.dispatch(new fromRouting.Back());
+          }
         }
       });
 
