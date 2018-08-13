@@ -13,23 +13,21 @@ describe('LandingPageLayoutComponent', () => {
   let component: LandingPageLayoutComponent;
   let fixture: ComponentFixture<LandingPageLayoutComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
-          })
-        ],
-        declarations: [
-          LandingPageLayoutComponent,
-          DynamicSlotComponent,
-          ComponentWrapperComponent
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          cms: combineReducers(fromCmsReducer.reducers)
+        })
+      ],
+      declarations: [
+        LandingPageLayoutComponent,
+        DynamicSlotComponent,
+        ComponentWrapperComponent
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LandingPageLayoutComponent);

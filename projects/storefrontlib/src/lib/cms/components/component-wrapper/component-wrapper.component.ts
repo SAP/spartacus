@@ -58,6 +58,7 @@ export class ComponentWrapperComponent
     const componentTypeClass = this.componentMapper.getComponentTypeByCode(
       this.componentType
     );
+
     if (componentTypeClass) {
       const factory = this.componentFactoryResolver.resolveComponentFactory(
         componentTypeClass

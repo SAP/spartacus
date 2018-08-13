@@ -9,15 +9,15 @@ import { MaterialModule } from '../../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        MaterialModule,
-        FlexLayoutModule,
-        MediaModule
-    ],
-    declarations: [ProductCarouselComponent],
-    entryComponents: [ProductCarouselComponent],
-    exports: [ProductCarouselComponent]
+  imports: [
+    CommonModule,
+    RouterModule,
+    MaterialModule,
+    FlexLayoutModule,
+    MediaModule
+  ],
+  declarations: [ProductCarouselComponent],
+  entryComponents: [ProductCarouselComponent],
+  exports: [ProductCarouselComponent]
 })
-export class ProductCarouselModule { }
+export class ProductCarouselModule {}

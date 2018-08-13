@@ -12,8 +12,7 @@ class MockEvent {
 describe('ItemCounterComponent', () => {
   let itemCounterComponent: ItemCounterComponent;
   let fixture: ComponentFixture<ItemCounterComponent>;
-  let fn1: Function;
-  let fn2: Function;
+
   let keyBoardEvent: MockEvent;
   let focusEvent: FocusEvent;
 
@@ -34,14 +33,8 @@ describe('ItemCounterComponent', () => {
     fixture = TestBed.createComponent(ItemCounterComponent);
     itemCounterComponent = fixture.componentInstance;
 
-    fn1 = new Function();
-    fn2 = new Function();
-
     keyBoardEvent = TestBed.get(KeyboardEvent);
     focusEvent = TestBed.get(FocusEvent);
-
-    itemCounterComponent['onTouch'] = fn1;
-    itemCounterComponent['onModelChange'] = fn2;
 
     spyOn(itemCounterComponent, 'decrement').and.callThrough();
     spyOn(itemCounterComponent, 'increment').and.callThrough();
