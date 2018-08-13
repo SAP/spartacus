@@ -17,7 +17,18 @@ const PROXY_CONFIG = {
     secure: false,
     changeOrigin: true,
     logLevel: 'error'
+  },
+
+  '/authorizationserver': {
+      target: BACKEND_SERVER,
+      secure: false,
+      changeOrigin: true,
+      pathRewrite: {
+          "^/authorizationserver": "/oauth2"
+      },
+      logLevel: 'error'
   }
+    
 };
 
 module.exports = PROXY_CONFIG;
