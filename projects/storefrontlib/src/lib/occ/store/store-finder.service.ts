@@ -9,7 +9,7 @@ import { ConfigService } from '../config.service';
 
 const STORES_ENDPOINT = 'stores';
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
-    pageSize: 3,
+    pageSize: 20,
     sort: 'asc',
     currentPage: 0
   };
@@ -19,6 +19,8 @@ export class OccStoreFinderService {
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
   findStores(query: string, searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG): Observable<any> {
+
+    
     const url = this.getStoresEndpoint();
     let params = new HttpParams({
         fromString:
