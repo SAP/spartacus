@@ -8,7 +8,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { CartService } from '../../services/cart.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 import * as fromCartStore from '../../store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
@@ -30,7 +30,6 @@ export class AddToCartComponent implements OnInit {
   @Input() quantity = 1;
 
   cartEntry$: Observable<any>;
-  sub = Subscription;
 
   constructor(
     protected dialog: MatDialog,

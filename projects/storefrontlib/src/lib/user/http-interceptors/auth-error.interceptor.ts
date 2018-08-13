@@ -38,7 +38,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
                   next
                 );
               } else if (
-                // Refresh token expired
+                // Refresh expired token
                 // Check that the OAUTH endpoint was called and the error is for refresh token is expired
                 errResponse.url.indexOf(OAUTH_ENDPOINT) !== -1 &&
                 errResponse.error.error === 'invalid_token'
