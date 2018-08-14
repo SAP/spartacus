@@ -1,6 +1,6 @@
 {
   "name": "storefrontstyles",
-  "version": "v0.0.5",
+  "version": "0.0.7",
   "description": "Style library containing global styles",
   "scripts": {
     "sass": "node-sass ./scss/ -o ./temp-scss --include-path ./"
