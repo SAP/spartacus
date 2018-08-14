@@ -50,7 +50,6 @@ export class UserErrorHandlingService {
             })
           );
         } else if (!token.access_token && !token.refresh_token) {
-          // Redirect to login if user has no token but we don't have a login page
           this.router.navigate([this.LOGIN_URL]);
         }
       }),
