@@ -1,25 +1,43 @@
-import { browser, by, protractor } from 'protractor';
+import { by, ElementFinder } from 'protractor';
 import { E2EUtil } from './../util.po';
 export class Header {
-  getSiteLogoComponent() {
-    return E2EUtil.getComponent('SiteLogoComponent', 'y-banner');
+  getSiteLogoComponent(): ElementFinder {
+    return E2EUtil.getComponentWithinDynamicSlot('SiteLogo', 'y-banner');
   }
 
-  getSearchComponent() {
-    return E2EUtil.getComponent('SearchBox', 'y-searchbox');
+  getSearchComponent(): ElementFinder {
+    return E2EUtil.getComponentWithinDynamicSlot('SearchBox', 'y-searchbox');
   }
 
-  performSearch(searchKey: string) {
+  getMinicartIconComponent(): ElementFinder {
+    return E2EUtil.getComponent('y-mini-cart');
+  }
+
+  getLoginIconComponent(): ElementFinder {
+    return E2EUtil.getComponent('y-login');
+  }
+
+  openLoginModal() {
+    // click on login icon
+    const loginIconButton = E2EUtil.getComponentWithinParent(
+      this.getLoginIconComponent(),
+      'button'
+    );
+    loginIconButton.click();
+  }
+
+  /**
+   * Fills the search box to perform search
+   * @param searchKey value to put on search box
+   * @param skipEnter if true, will fill the search box but won't press enter (optional param)
+   */
+  performSearch(searchKey: string, skipEnter?: boolean) {
     const searchComponent = this.getSearchComponent();
 
     // search for camera
     const searchInput = searchComponent.element(
       by.css('input[placeholder="Search Box"]')
     );
-    searchInput.sendKeys(searchKey);
-    browser
-      .actions()
-      .sendKeys(protractor.Key.ENTER)
-      .perform();
+    E2EUtil.fillInput(searchInput, searchKey, skipEnter);
   }
 }
