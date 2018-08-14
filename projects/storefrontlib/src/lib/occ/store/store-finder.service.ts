@@ -13,8 +13,6 @@ const STORES_DISPLAYED = 'e2egoogleservices.storesdisplayed';
 
 @Injectable()
 export class OccStoreFinderService {
-  configurablePageSize: any;
-
   constructor(
     private http: HttpClient,
     private configService: ConfigService,
@@ -24,8 +22,7 @@ export class OccStoreFinderService {
   findStores(query: string, searchConfig: SearchConfig): Observable<any> {
     return this.e2eConfigService.getConfiguration(STORES_DISPLAYED).pipe(
       mergeMap(result => {
-        this.configurablePageSize = result;
-        searchConfig = { ...searchConfig, pageSize: this.configurablePageSize };
+        searchConfig = { ...searchConfig, pageSize: result };
         return this.callOccFindStores(query, searchConfig);
       })
     );
