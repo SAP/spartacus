@@ -67,10 +67,10 @@ describe('PaymentFormComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers),
-          checkout: combineReducers(fromCheckout.reducers)
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers()),
+          checkout: combineReducers(fromCheckout.getReducers())
         })
       ],
       declarations: [PaymentFormComponent],

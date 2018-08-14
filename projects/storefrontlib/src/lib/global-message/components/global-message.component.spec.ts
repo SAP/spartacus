@@ -20,7 +20,7 @@ describe('GlobalMessageComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromGlobalMessage.reducers
+          ...fromGlobalMessage.getReducers
         })
       ],
       declarations: [GlobalMessageComponent]

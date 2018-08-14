@@ -59,9 +59,9 @@ describe('SearchBoxComponent in CmsLib', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsReducer.reducers),
-          products: combineReducers(fromProductStore.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers()),
+          products: combineReducers(fromProductStore.getReducers())
         })
       ],
       declarations: [SearchBoxComponent, PictureComponent],
