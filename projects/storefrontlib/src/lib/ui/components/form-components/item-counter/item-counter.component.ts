@@ -4,7 +4,10 @@ import {
   EventEmitter,
   forwardRef,
   Input,
-  Output
+  Output,
+  ViewChild,
+  ElementRef,
+  Renderer2
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -22,34 +25,45 @@ const COUNTER_CONTROL_ACCESSOR = {
   providers: [COUNTER_CONTROL_ACCESSOR]
 })
 export class ItemCounterComponent implements OnInit, ControlValueAccessor {
+  @ViewChild('input') private input: ElementRef;
+
   value = 0;
   @Input() step = 1;
   @Input() min;
   @Input() max;
   @Input() async = false;
 
-  @Output() change = new EventEmitter<any>();
+  @Output() update = new EventEmitter<any>();
 
   focus: boolean;
+
+  ngOnInit() {
+    this.writeValue(this.min || 0);
+  }
+
+  constructor(private renderer: Renderer2) {}
 
   onTouch = () => {};
   onModelChange = (rating: number) => {};
 
-  ngOnInit() {
-    if (this.min) {
-      this.value = this.min;
-    }
-  }
+  manualChange(incomingValue) {
+    const newValue =
+      incomingValue > this.max
+        ? this.max
+        : incomingValue < this.min
+          ? this.min
+          : incomingValue;
 
-  manualChange(newQuantity) {
-    if (newQuantity > this.max) {
-      this.writeValue(this.max);
-    } else if (newQuantity < this.min) {
-      this.writeValue(this.min);
-    } else {
-      this.writeValue(newQuantity);
+    if (!this.async) {
+      this.writeValue(newValue);
     }
-    console.log('newQty', newQuantity, 'max', this.max, 'value', this.value);
+
+    this.update.emit(newValue);
+    /* We use the value from the input, however, this value
+      is not the correct value that should be displayed. The correct value to display
+      is this.value, which the parent updates if the async call succeed. If the call
+      fails, then the input will already display the correct value */
+    this.renderer.setProperty(this.input.nativeElement, 'value', this.value);
   }
 
   onKeyDown(event: KeyboardEvent) {
@@ -67,7 +81,6 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   }
 
   onBlur(event: FocusEvent) {
-    console.log('blur');
     this.focus = false;
     event.preventDefault();
     event.stopPropagation();
@@ -75,7 +88,6 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   }
 
   onFocus(event: FocusEvent) {
-    console.log('focus');
     this.focus = true;
     event.preventDefault();
     event.stopPropagation();
@@ -90,7 +102,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
         this.writeValue(updatedQuantity);
       }
       // Additionally, we emit a change event, so that users may optionally do something on change
-      this.change.emit(updatedQuantity);
+      this.update.emit(updatedQuantity);
     }
     this.onTouch();
   }
@@ -103,7 +115,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
         this.writeValue(updatedQuantity);
       }
       // Additionally, we emit a change event, so that users may optionally do something on change
-      this.change.emit(updatedQuantity);
+      this.update.emit(updatedQuantity);
     }
     this.onTouch();
   }
@@ -119,7 +131,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(value) {
-    this.value = value || 0;
+    this.value = value || this.min || 0;
     this.onModelChange(this.value);
   }
 }

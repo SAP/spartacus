@@ -32,7 +32,7 @@
 
   <!-- quantity -->
   <div class="item__quantity" [formGroup]="parent">
-    <y-item-counter [step]="1" [min]="1" [max]="entry.product.stock?.stockLevel || 1000" [async]="true" (change)="updateEntry($event)"
+    <y-item-counter [step]="1" [min]="1" [max]="entry.product.stock?.stockLevel || 1000" [async]="true" (update)="updateEntry($event)"
       formControlName="quantity">
     </y-item-counter>
   </div>

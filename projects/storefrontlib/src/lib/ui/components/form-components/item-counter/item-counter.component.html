@@ -5,7 +5,7 @@
                 <button type="button" (click)="decrement()" [disabled]="value === min">
                     -
                 </button>
-                <input type="number" [ngModel]="value" (ngModelChange)="manualChange($event)" (focus)="onTouch()" [max]="max">
+                <input #input type="number" [value]="value" (change)="manualChange($event.target.value)">
                 <button type="button" (click)="increment()" [disabled]="value === max">
                     +
                 </button>
