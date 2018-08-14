@@ -1,3 +1,4 @@
+import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import {
   Component,
   EventEmitter,
@@ -20,11 +21,11 @@ const COUNTER_CONTROL_ACCESSOR = {
   styleUrls: ['./item-counter.component.scss'],
   providers: [COUNTER_CONTROL_ACCESSOR]
 })
-export class ItemCounterComponent implements ControlValueAccessor {
+export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   value = 0;
   @Input() step = 1;
-  @Input() min = 0;
-  @Input() max = 0;
+  @Input() min;
+  @Input() max;
   @Input() async = false;
 
   @Output() change = new EventEmitter<any>();
@@ -33,6 +34,23 @@ export class ItemCounterComponent implements ControlValueAccessor {
 
   onTouch = () => {};
   onModelChange = (rating: number) => {};
+
+  ngOnInit() {
+    if (this.min) {
+      this.value = this.min;
+    }
+  }
+
+  manualChange(newQuantity) {
+    if (newQuantity > this.max) {
+      this.writeValue(this.max);
+    } else if (newQuantity < this.min) {
+      this.writeValue(this.min);
+    } else {
+      this.writeValue(newQuantity);
+    }
+    console.log('newQty', newQuantity, 'max', this.max, 'value', this.value);
+  }
 
   onKeyDown(event: KeyboardEvent) {
     const handlers = {
@@ -49,6 +67,7 @@ export class ItemCounterComponent implements ControlValueAccessor {
   }
 
   onBlur(event: FocusEvent) {
+    console.log('blur');
     this.focus = false;
     event.preventDefault();
     event.stopPropagation();
@@ -56,6 +75,7 @@ export class ItemCounterComponent implements ControlValueAccessor {
   }
 
   onFocus(event: FocusEvent) {
+    console.log('focus');
     this.focus = true;
     event.preventDefault();
     event.stopPropagation();
@@ -64,7 +84,7 @@ export class ItemCounterComponent implements ControlValueAccessor {
 
   increment() {
     const updatedQuantity = this.value + this.step;
-    if (this.value < this.max) {
+    if (this.value < this.max || !this.max) {
       if (!this.async) {
         // If the async flag is true, then the parent component is responsible for updating the form
         this.writeValue(updatedQuantity);
@@ -77,7 +97,7 @@ export class ItemCounterComponent implements ControlValueAccessor {
 
   decrement() {
     const updatedQuantity = this.value - this.step;
-    if (this.value > this.min) {
+    if (this.value > this.min || !this.min) {
       if (!this.async) {
         // If the async flag is true, then the parent component is responsible for updating the form
         this.writeValue(updatedQuantity);
