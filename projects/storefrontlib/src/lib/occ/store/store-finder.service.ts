@@ -1,26 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, mergeMap } from 'rxjs/operators';
 
 import { SearchConfig } from '../../store-finder/models/search-config';
 
 import { ConfigService } from '../config.service';
+import { OccE2eConfigurationService } from '../e2e/configuration-service';
 
 const STORES_ENDPOINT = 'stores';
-const DEFAULT_SEARCH_CONFIG: SearchConfig = {
-  pageSize: 20,
-  sort: 'asc',
-  currentPage: 0
-};
+const STORES_DISPLAYED = 'e2egoogleservices.storesdisplayed';
 
 @Injectable()
 export class OccStoreFinderService {
-  constructor(private http: HttpClient, private configService: ConfigService) {}
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService,
+    private e2eConfigService: OccE2eConfigurationService
+  ) {}
 
-  findStores(
+  findStores(query: string, searchConfig: SearchConfig): Observable<any> {
+    return this.e2eConfigService.getConfiguration(STORES_DISPLAYED).pipe(
+      mergeMap(result => {
+        searchConfig = { ...searchConfig, pageSize: result };
+        return this.callOccFindStores(query, searchConfig);
+      })
+    );
+  }
+
+  protected callOccFindStores(
     query: string,
-    searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
+    searchConfig: SearchConfig
   ): Observable<any> {
     const url = this.getStoresEndpoint();
     let params = new HttpParams({
