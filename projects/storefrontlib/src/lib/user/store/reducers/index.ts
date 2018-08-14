@@ -1,4 +1,4 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, Provider } from '@angular/core';
 import {
   ActionReducerMap,
   MemoizedSelector,
@@ -43,7 +43,7 @@ export const reducerToken: InjectionToken<
   ActionReducerMap<UserState>
 > = new InjectionToken<ActionReducerMap<UserState>>('UserReducers');
 
-export const reducerProvider: any = {
+export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers
 };

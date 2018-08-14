@@ -1,4 +1,4 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, Provider } from '@angular/core';
 import {
   ActionReducerMap,
   createFeatureSelector,
@@ -29,7 +29,7 @@ export const reducerToken: InjectionToken<
   ActionReducerMap<ProductsState>
 > = new InjectionToken<ActionReducerMap<ProductsState>>('ProductReducers');
 
-export const reducerProvider: any = {
+export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers
 };

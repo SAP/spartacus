@@ -1,4 +1,4 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, Provider } from '@angular/core';
 import * as fromGlobalMessage from './global-message.reducer';
 import {
   ActionReducerMap,
@@ -22,7 +22,7 @@ export const reducerToken: InjectionToken<
   'GlobalMessageReducers'
 );
 
-export const reducerProvider: any = {
+export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers
 };

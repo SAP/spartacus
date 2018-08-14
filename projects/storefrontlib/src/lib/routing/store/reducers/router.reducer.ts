@@ -1,4 +1,4 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, Provider } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
@@ -34,7 +34,7 @@ export const reducerToken: InjectionToken<
   ActionReducerMap<State>
 > = new InjectionToken<ActionReducerMap<State>>('Reducers');
 
-export const reducerProvider: any = {
+export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers
 };
