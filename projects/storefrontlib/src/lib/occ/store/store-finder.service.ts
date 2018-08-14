@@ -9,36 +9,37 @@ import { ConfigService } from '../config.service';
 
 const STORES_ENDPOINT = 'stores';
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
-    pageSize: 20,
-    sort: 'asc',
-    currentPage: 0
-  };
+  pageSize: 20,
+  sort: 'asc',
+  currentPage: 0
+};
 
 @Injectable()
 export class OccStoreFinderService {
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
-  findStores(query: string, searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG): Observable<any> {
-
-    
+  findStores(
+    query: string,
+    searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
+  ): Observable<any> {
     const url = this.getStoresEndpoint();
     let params = new HttpParams({
-        fromString:
-          '&fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL)),' +
-          'geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country) ),' +
-          'pagination(DEFAULT),' +
-          'sorts(DEFAULT)'
-      });
-      params = params.set('query', query);
-      if (searchConfig.pageSize) {
-        params = params.set('pageSize', searchConfig.pageSize.toString());
-      }
-      if (searchConfig.currentPage) {
-        params = params.set('currentPage', searchConfig.currentPage.toString());
-      }
-      if (searchConfig.sort) {
-        params = params.set('sort', searchConfig.sort);
-      }
+      fromString:
+        '&fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL)),' +
+        'geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country) ),' +
+        'pagination(DEFAULT),' +
+        'sorts(DEFAULT)'
+    });
+    params = params.set('query', query);
+    if (searchConfig.pageSize) {
+      params = params.set('pageSize', searchConfig.pageSize.toString());
+    }
+    if (searchConfig.currentPage) {
+      params = params.set('currentPage', searchConfig.currentPage.toString());
+    }
+    if (searchConfig.sort) {
+      params = params.set('sort', searchConfig.sort);
+    }
 
     return this.http
       .get(url, { params: params })
