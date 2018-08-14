@@ -46,8 +46,8 @@ describe('UserErrorHandlingService', () => {
       imports: [
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          user: combineReducers(fromStore.reducers)
+          ...fromRoot.getReducers(),
+          user: combineReducers(fromStore.getReducers())
         })
       ],
       providers: [
@@ -71,7 +71,7 @@ describe('UserErrorHandlingService', () => {
       spyOn(store, 'select').and.returnValue(of({}));
       service.handleExpiredUserToken(httpRequest, httpHandler).subscribe();
 
-      expect(router.navigate).toHaveBeenCalledWith(['/']);
+      expect(router.navigate).toHaveBeenCalledWith(['/login']);
     });
 
     it('should get new token and resend request', () => {

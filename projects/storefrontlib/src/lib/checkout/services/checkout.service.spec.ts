@@ -28,10 +28,10 @@ describe('CheckoutService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromCart.reducers),
-          checkout: combineReducers(fromCheckout.reducers),
-          user: combineReducers(fromUser.reducers)
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromCart.getReducers()),
+          checkout: combineReducers(fromCheckout.getReducers()),
+          user: combineReducers(fromUser.getReducers())
         })
       ],
       providers: [CheckoutService, CartService, CartDataService]

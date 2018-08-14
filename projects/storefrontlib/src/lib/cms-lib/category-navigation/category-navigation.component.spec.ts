@@ -23,8 +23,8 @@ describe('CategoryNavigationComponent', () => {
         MaterialModule,
         NavigationModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsReducer.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers())
         })
       ],
       declarations: [CategoryNavigationComponent],

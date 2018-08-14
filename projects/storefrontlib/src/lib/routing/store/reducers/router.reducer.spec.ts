@@ -7,7 +7,11 @@ import {
 } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { reducers, CustomSerializer } from '../../store';
+import {
+  reducerToken,
+  CustomSerializer,
+  reducerProvider
+} from './router.reducer';
 import { PageType } from '../../models/page-context.model';
 
 @Component({
@@ -24,7 +28,7 @@ describe('Router Reducer', () => {
     TestBed.configureTestingModule({
       declarations: [TestComponent],
       imports: [
-        StoreModule.forRoot(reducers),
+        StoreModule.forRoot(reducerToken),
         RouterTestingModule.withRoutes([
           { path: '', component: TestComponent },
           { path: 'category/:categoryCode', component: TestComponent },
@@ -33,6 +37,7 @@ describe('Router Reducer', () => {
         StoreRouterConnectingModule
       ],
       providers: [
+        reducerProvider,
         {
           provide: RouterStateSerializer,
           useClass: CustomSerializer

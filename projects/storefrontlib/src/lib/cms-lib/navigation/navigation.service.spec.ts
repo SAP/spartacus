@@ -65,8 +65,8 @@ describe('NavigationService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsStore.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsStore.getReducers())
         })
       ],
       providers: [NavigationService]

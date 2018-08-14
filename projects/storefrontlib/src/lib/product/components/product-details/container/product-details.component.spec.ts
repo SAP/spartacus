@@ -62,10 +62,10 @@ describe('ProductDetailsComponent in product', () => {
         ReactiveFormsModule,
         AddToCartModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          products: combineReducers(fromProduct.reducers),
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers)
+          ...fromRoot.getReducers(),
+          products: combineReducers(fromProduct.getReducers()),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers())
         }),
         MediaModule
       ],

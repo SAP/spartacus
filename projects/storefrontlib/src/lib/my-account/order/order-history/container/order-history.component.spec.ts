@@ -31,8 +31,8 @@ describe('OrderHistoryComponent', () => {
         RouterTestingModule.withRoutes(routes),
         FormsModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          orders: combineReducers(fromUserStore.reducers)
+          ...fromRoot.getReducers(),
+          orders: combineReducers(fromUserStore.getReducers())
         })
       ],
       declarations: [
