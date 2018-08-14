@@ -53,40 +53,46 @@ export class StoreFinderListComponent implements OnInit {
     );
   }
 
-  getClosingTime(location: any): string {
+  getClosingTime(location: any): Date {
     let closing_hour =
       location.openingHours.weekDayOpeningList[this.getCurrentDay()].closingTime
-        .hour;
+        .formattedHour.split(':')[0];
     let closing_minutes =
       location.openingHours.weekDayOpeningList[this.getCurrentDay()].closingTime
         .minute;
-    return closing_hour + ':' + closing_minutes;
+    let closing_date = new Date();
+    closing_date.setHours(closing_hour);
+    closing_date.setMinutes(closing_minutes);
+    return closing_date;
   }
-  getOpeningTime(location: any): string {
+  getOpeningTime(location: any): Date {
     let opening_hour =
       location.openingHours.weekDayOpeningList[this.getCurrentDay()].openingTime
-        .hour;
+        .formattedHour.split(':')[0];
     let opening_minutes =
       location.openingHours.weekDayOpeningList[this.getCurrentDay()].openingTime
         .minute;
-    return opening_hour + ':' + opening_minutes;
+    let opening_date = new Date();
+    opening_date.setHours(opening_hour);
+    opening_date.setMinutes(opening_minutes);
+    return opening_date;
   }
 
   getCurrentDay(): number {
     switch (this.current_date.getDay()) {
-      case 0:
+      case 0: //Sun
         return 6;
-      case 1:
+      case 1: //Mon
         return 0;
-      case 2:
+      case 2: //Tues
         return 1;
-      case 3:
+      case 3: //Wed
         return 2;
-      case 4:
+      case 4: //Thurs
         return 3;
-      case 5:
+      case 5: //Fri
         return 4;
-      case 6:
+      case 6: //Sat
         return 5;
     }
   }

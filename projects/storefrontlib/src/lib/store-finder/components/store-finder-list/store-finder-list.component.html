@@ -11,15 +11,21 @@
         <p>{{location.address.town}}, {{location.address.region?.name}}, {{location.address.postalCode}}</p>
         <div *ngIf="isOpen(location)">
           <div *ngIf="isClosingSoon(); else open">
-            <b class="opening_closing_soon">{{daysOfWeek[getCurrentDay()]}}: Closing Soon </b>
+            <b class="opening_closing_soon">
+              {{daysOfWeek[getCurrentDay()]}}: Closing Soon
+            </b>
           </div>
           <ng-template #open>
-            <b id="open">{{daysOfWeek[getCurrentDay()]}}: Open until {{getClosingTime(location)}}pm</b>
+            <b id="open">
+              {{daysOfWeek[getCurrentDay()]}}: Open until {{getClosingTime(location) | date:'shortTime'}}
+            </b>
           </ng-template>
         </div>
         <div *ngIf="!isOpen(location)">
           <div *ngIf="isOpeningSoon(); else close">
-            <b class="opening_closing_soon">{{daysOfWeek[getCurrentDay()]}}: Opening at {{getOpeningTime(location)}}am</b>
+            <b class="opening_closing_soon">
+              {{daysOfWeek[getCurrentDay()]}}: Opening at {{getOpeningTime(location) | date:'shortTime'}}
+            </b>
           </div>
           <ng-template #close>
             <b id="closed">Closed</b>
