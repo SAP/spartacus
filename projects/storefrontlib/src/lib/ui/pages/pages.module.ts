@@ -8,8 +8,8 @@ import { CartPageModule } from './cart-page/cart-page.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
 import { MultiStepCheckoutPageModule } from './multi-step-checkout-page/multi-step-checkout-page.module';
 import { RegisterPageModule } from './register-page/register-page.module';
-
-// my Account Pages
+import { LoginPageModule } from './login-page/login-page.module';
+// ContentPage: my Account Pages
 import { OrderHistoryPageModule } from './order-history-page/order-history-page.module';
 import { OrderDetailsPageModule } from './order-details-page/order-details-page.module';
 
@@ -19,7 +19,6 @@ import { CategoryPageModule } from './category-page/category-page.module';
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
 
-import { LoginPageModule } from './login-page/login-page.module';
 @NgModule({
   imports: [
     CommonModule,

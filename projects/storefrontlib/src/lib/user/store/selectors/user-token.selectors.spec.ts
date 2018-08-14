@@ -15,8 +15,8 @@ describe('User Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          user: combineReducers(fromReducers.reducers)
+          ...fromRoot.getReducers(),
+          user: combineReducers(fromReducers.getReducers())
         })
       ]
     });

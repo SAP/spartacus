@@ -17,8 +17,8 @@ describe('ProductSearch Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          products: combineReducers(fromReducers.reducers)
+          ...fromRoot.getReducers(),
+          products: combineReducers(fromReducers.getReducers())
         })
       ]
     });

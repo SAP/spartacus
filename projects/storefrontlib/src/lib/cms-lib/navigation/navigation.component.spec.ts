@@ -69,8 +69,8 @@ describe('CmsNavigationComponent in CmsLib', () => {
         MatMenuModule,
         MatIconModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsReducer.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers())
         }),
         RouterTestingModule
       ],

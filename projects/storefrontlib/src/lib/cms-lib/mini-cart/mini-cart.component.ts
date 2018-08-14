@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 
 import * as fromStore from '../../cms/store';
 import * as fromCartStore from '../../cart/store';
-import { CartService } from '../../cart/services';
+import { CartService } from '../../cart/services/cart.service';
 
 import { ConfigService } from '../../cms/config.service';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
