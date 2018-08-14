@@ -25,8 +25,8 @@ describe('HttpErrorInterceptor', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          message: combineReducers(fromStore.reducers)
+          ...fromRoot.getReducers(),
+          message: combineReducers(fromStore.getReducers())
         })
       ],
       providers: [

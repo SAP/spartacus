@@ -20,8 +20,8 @@ describe('Global Messages selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          globalMessage: combineReducers(fromReducers.reducers)
+          ...fromRoot.getReducers(),
+          globalMessage: combineReducers(fromReducers.getReducers())
         })
       ]
     });
