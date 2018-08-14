@@ -1,44 +1,58 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, mergeMap } from 'rxjs/operators';
 
 import { SearchConfig } from '../../store-finder/models/search-config';
 
 import { ConfigService } from '../config.service';
+import { OccE2eConfigurationService } from '../e2e/configuration-service';
 
 const STORES_ENDPOINT = 'stores';
-const DEFAULT_SEARCH_CONFIG: SearchConfig = {
-    pageSize: 20,
-    sort: 'asc',
-    currentPage: 0
-  };
+const STORES_DISPLAYED = 'e2egoogleservices.storesdisplayed';
 
 @Injectable()
 export class OccStoreFinderService {
-  constructor(private http: HttpClient, private configService: ConfigService) {}
+  configurablePageSize: any;
 
-  findStores(query: string, searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG): Observable<any> {
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService,
+    private e2eConfigService: OccE2eConfigurationService
+  ) {}
 
-    
+  findStores(query: string, searchConfig: SearchConfig): Observable<any> {
+    return this.e2eConfigService.getConfiguration(STORES_DISPLAYED).pipe(
+      mergeMap(result => {
+        this.configurablePageSize = result;
+        searchConfig = { ...searchConfig, pageSize: this.configurablePageSize };
+        return this.callOccFindStores(query, searchConfig);
+      })
+    );
+  }
+
+  protected callOccFindStores(
+    query: string,
+    searchConfig: SearchConfig
+  ): Observable<any> {
     const url = this.getStoresEndpoint();
     let params = new HttpParams({
-        fromString:
-          '&fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL)),' +
-          'geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country) ),' +
-          'pagination(DEFAULT),' +
-          'sorts(DEFAULT)'
-      });
-      params = params.set('query', query);
-      if (searchConfig.pageSize) {
-        params = params.set('pageSize', searchConfig.pageSize.toString());
-      }
-      if (searchConfig.currentPage) {
-        params = params.set('currentPage', searchConfig.currentPage.toString());
-      }
-      if (searchConfig.sort) {
-        params = params.set('sort', searchConfig.sort);
-      }
+      fromString:
+        '&fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL)),' +
+        'geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country) ),' +
+        'pagination(DEFAULT),' +
+        'sorts(DEFAULT)'
+    });
+    params = params.set('query', query);
+    if (searchConfig.pageSize) {
+      params = params.set('pageSize', searchConfig.pageSize.toString());
+    }
+    if (searchConfig.currentPage) {
+      params = params.set('currentPage', searchConfig.currentPage.toString());
+    }
+    if (searchConfig.sort) {
+      params = params.set('sort', searchConfig.sort);
+    }
 
     return this.http
       .get(url, { params: params })

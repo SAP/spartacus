@@ -17,13 +17,10 @@ import { SearchConfig } from '../../models/search-config';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreFinderListComponent implements OnInit {
-  @Input()
-  query;
+  @Input() query;
 
   locations$: Observable<any>;
   searchConfig: SearchConfig = {
-    pageSize: 3,
-    sort: 'asc',
     currentPage: 0
   };
   current_date = new Date();
