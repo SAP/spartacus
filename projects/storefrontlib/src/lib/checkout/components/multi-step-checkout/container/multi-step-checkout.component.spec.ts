@@ -13,7 +13,6 @@ import { AddressFormComponent } from '../address-form/address-form.component';
 import { DeliveryModeFormComponent } from '../delivery-mode-form/delivery-mode-form.component';
 import { PaymentFormComponent } from '../payment-form/payment-form.component';
 import { ReviewSubmitComponent } from '../review-submit/review-submit.component';
-import { CartSharedModule } from './../../../../cart/components/cart-shared/cart-shared.module';
 import { CartDataService } from './../../../../cart/services/cart-data.service';
 import { CartService } from './../../../../cart/services/cart.service';
 import { CheckoutService } from './../../../services/checkout.service';
