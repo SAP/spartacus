@@ -20,7 +20,7 @@ import { CategoryPageModule } from './category-page/category-page.module';
 import { ProductPageModule } from './product-page/product-page.module';
 
 import { LoginPageModule } from './login-page/login-page.module';
-import {StoreFinderPageModule} from './store-finder-page/store-finder-page.module';
+import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
 @NgModule({
   imports: [
     CommonModule,

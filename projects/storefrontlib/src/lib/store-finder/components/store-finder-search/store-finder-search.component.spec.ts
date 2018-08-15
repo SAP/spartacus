@@ -8,9 +8,8 @@ describe('StoreFinderSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StoreFinderSearchComponent ]
-    })
-    .compileComponents();
+      declarations: [StoreFinderSearchComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

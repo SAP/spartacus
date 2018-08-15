@@ -8,8 +8,7 @@ import { FindStoresService } from '../../services';
   styleUrls: ['./store-finder-search.component.scss']
 })
 export class StoreFinderSearchComponent implements OnInit {
-  @Output()
-  persistQuery: EventEmitter<string> = new EventEmitter<string>();
+  @Output() persistQuery: EventEmitter<string> = new EventEmitter<string>();
   searchBox: FormControl = new FormControl();
 
   constructor(private findStoresService: FindStoresService) {}
