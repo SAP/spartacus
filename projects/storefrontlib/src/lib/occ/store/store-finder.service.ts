@@ -33,7 +33,7 @@ export class OccStoreFinderService {
     searchConfig: SearchConfig
   ): Observable<any> {
     const url = this.getStoresEndpoint();
-    let params = new HttpParams({
+    let params: HttpParams = new HttpParams({
       fromString:
         '&fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL)),' +
         'geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country) ),' +
