@@ -24,6 +24,8 @@ import { AddressFormModule } from './address-form.module';
 
 export class MockAbstractControl {
   hasError() {}
+  enable() {}
+  disable() {}
 }
 
 export class MockFormGroup {
@@ -51,6 +53,19 @@ const mockCountriesList = {
     {
       isocode: 'AD',
       name: 'Andorra'
+    }
+  ]
+};
+
+const mockRegionsList = {
+  regions: [
+    {
+      isocode: 'CA-ON',
+      name: 'Ontario'
+    },
+    {
+      isocode: 'CA-QC',
+      name: 'Quebec'
     }
   ]
 };
@@ -124,7 +139,7 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call ngOnInit to get countries and titles data even when they not exist', () => {
-    spyOn(store, 'select').and.returnValues(of({}), of({}));
+    spyOn(store, 'select').and.returnValues(of({}), of({}), of({}));
     component.ngOnInit();
     component.countries$.subscribe(() => {
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -136,10 +151,11 @@ describe('AddressFormComponent', () => {
     });
   });
 
-  it('should call ngOnInit to get countries and titles data when data exist', () => {
+  it('should call ngOnInit to get countries, titles and regions data when data exist', () => {
     spyOn(store, 'select').and.returnValues(
       of({ mockCountriesList }),
-      of({ mockTitlesList })
+      of({ mockTitlesList }),
+      of({ mockRegionsList })
     );
     component.ngOnInit();
     component.countries$.subscribe(data => {
@@ -147,6 +163,9 @@ describe('AddressFormComponent', () => {
     });
     component.titles$.subscribe(data => {
       expect(data.mockTitlesList).toBe(mockTitlesList);
+    });
+    component.regions$.subscribe(data => {
+      expect(data.mockRegionsList).toBe(mockRegionsList);
     });
   });
 

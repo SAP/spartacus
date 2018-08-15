@@ -118,4 +118,12 @@ describe('UserErrorHandlingService', () => {
       );
     });
   });
+
+  describe('handleExpiredRefreshToken', () => {
+    it('should logout user', () => {
+      service.handleExpiredRefreshToken();
+
+      expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
+    });
+  });
 });

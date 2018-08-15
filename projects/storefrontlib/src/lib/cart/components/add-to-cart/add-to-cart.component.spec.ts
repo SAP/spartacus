@@ -57,7 +57,7 @@ describe('AddToCartComponent', () => {
 
   it('should call ngOnChanges()', () => {
     addToCartComponent.productCode = productCode;
-    addToCartComponent.ngOnChanges();
+    addToCartComponent.ngOnInit();
     addToCartComponent.cartEntry$.subscribe(entry =>
       expect(entry).toEqual(mockCartEntry)
     );

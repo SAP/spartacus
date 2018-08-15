@@ -13,6 +13,7 @@ import * as fromPaymentMethods from './payment-methods.reducer';
 import * as fromUserOrders from './user-orders.reducer';
 import * as fromTitlesReducer from './titles.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
+import * as fromRegionsReducer from './regions.reducer';
 
 import * as fromAction from '../actions';
 
@@ -23,6 +24,7 @@ export interface UserState {
   payments: fromPaymentMethods.UserPaymentMethodsState;
   orders: fromUserOrders.UserOrdersState;
   titles: fromTitlesReducer.TitlesState;
+  regions: fromRegionsReducer.RegionsState;
 }
 
 export function getReducers(): ActionReducerMap<UserState> {
@@ -32,7 +34,8 @@ export function getReducers(): ActionReducerMap<UserState> {
     payments: fromPaymentMethods.reducer,
     orders: fromUserOrders.reducer,
     countries: fromDeliveryCountries.reducer,
-    titles: fromTitlesReducer.reducer
+    titles: fromTitlesReducer.reducer,
+    regions: fromRegionsReducer.reducer
   };
 }
 

@@ -5,9 +5,11 @@ import { UserRegisterEffects } from './user-register.effect';
 import { UserOrdersEffect } from './user-orders.effect';
 import { TitlesEffects } from './titles.effect';
 import { DeliveryCountriesEffects } from './delivery-countries.effect';
+import { RegionsEffects } from './regions.effect';
 
 export const effects: any[] = [
   DeliveryCountriesEffects,
+  RegionsEffects,
   TitlesEffects,
   UserDetailsEffects,
   UserAddressesEffects,
@@ -23,3 +25,4 @@ export * from './user-register.effect';
 export * from './user-orders.effect';
 export * from './titles.effect';
 export * from './delivery-countries.effect';
+export * from './regions.effect';

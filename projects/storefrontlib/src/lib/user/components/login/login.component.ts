@@ -40,6 +40,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.isLogin = true;
           this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
           this.store.dispatch(new fromStore.Login());
+        } else if (token && !token.access_token && this.isLogin) {
+          this.isLogin = false;
         }
       });
   }

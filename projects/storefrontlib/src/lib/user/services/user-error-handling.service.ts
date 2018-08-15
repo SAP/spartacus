@@ -30,6 +30,11 @@ export class UserErrorHandlingService {
     );
   }
 
+  public handleExpiredRefreshToken() {
+    // Logout user
+    this.store.dispatch(new fromUserStore.Logout());
+  }
+
   private handleExpiredToken(): Observable<any> {
     let oldToken;
     return combineLatest(
@@ -46,7 +51,6 @@ export class UserErrorHandlingService {
             })
           );
         } else if (!token.access_token && !token.refresh_token) {
-          // Redirect to login if user has no token but we don't have a login page
           this.router.navigate([this.LOGIN_URL]);
         }
       }),

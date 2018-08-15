@@ -116,7 +116,7 @@ export * from './lib/cms/components/component-wrapper/component-wrapper.componen
 export * from './lib/cart/components/cart-shared/cart-item/cart-item.component';
 export * from './lib/cart/components/cart-details/container/cart-details.component';
 export * from './lib/cart/components/cart-shared/item-counter/item-counter.component';
-export * from './lib/cart/components/cart-details/order-summary/order-summary.component';
+export * from './lib/cart/components/cart-shared/order-summary/order-summary.component';
 export * from './lib/cart/components/add-to-cart/add-to-cart.component';
 export * from './lib/site-context/language-selector/language-selector.component';
 export * from './lib/site-context/currency-selector/currency-selector.component';
