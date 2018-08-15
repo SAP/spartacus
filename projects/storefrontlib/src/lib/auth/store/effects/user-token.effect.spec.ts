@@ -8,7 +8,7 @@ import { UserToken } from '../../models/token-types.model';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
-import { UserAuthenticationTokenService } from '@auth/services/user-authentication/user-authentication-token.service';
+import { UserAuthenticationTokenService } from './../../services/user-authentication/user-authentication-token.service';
 
 const testToken: UserToken = {
   access_token: 'xxx',

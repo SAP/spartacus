@@ -8,7 +8,7 @@ import {
   InterceptorUtil,
   REQUEST_MAPPING_CUSTOM_HEADER
 } from '../../site-context/shared/http-interceptors/interceptor-util';
-import { RequestMapping } from '@auth/models/request-mapping.model';
+import { RequestMapping } from './../../auth/models/request-mapping.model';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';

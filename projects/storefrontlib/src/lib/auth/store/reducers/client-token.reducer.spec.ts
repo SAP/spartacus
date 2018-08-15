@@ -1,6 +1,6 @@
-import * as fromReducer from '@auth/store/reducers/client-token.reducer';
-import * as fromActions from '@auth/store/actions';
-import { ClientAuthenticationToken } from '@auth/models/token-types.model';
+import * as fromReducer from './client-token.reducer';
+import * as fromActions from './../actions';
+import { ClientAuthenticationToken } from './../../models/token-types.model';
 
 const testToken: ClientAuthenticationToken = {
   access_token: 'xxx',

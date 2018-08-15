@@ -8,7 +8,7 @@ import * as fromCheckout from '../../../store';
 import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
 import * as fromRouting from '../../../../routing/store';
-import * as fromAuth from '@auth/store';
+import * as fromAuth from '../../../../auth/store';
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 import { AddressFormComponent } from '../address-form/address-form.component';
@@ -56,10 +56,10 @@ describe('MultiStepCheckoutComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers),
-          checkout: combineReducers(fromCheckout.reducers),
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers()),
+          checkout: combineReducers(fromCheckout.getReducers()),
           auth: combineReducers(fromAuth.reducers)
         })
       ],

@@ -15,7 +15,7 @@ describe('UserToken Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
+          ...fromRoot.getReducers(),
           auth: combineReducers(fromReducers.reducers)
         })
       ]

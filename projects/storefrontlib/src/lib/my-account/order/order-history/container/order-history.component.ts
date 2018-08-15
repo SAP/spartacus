@@ -2,7 +2,7 @@ import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as fromUserStore from '../../../../user/store';
-import * as fromAuthStore from '@auth/store';
+import * as fromAuthStore from './../../../../auth/store';
 import { Store } from '@ngrx/store';
 
 import * as fromRouting from '../../../../routing/store';

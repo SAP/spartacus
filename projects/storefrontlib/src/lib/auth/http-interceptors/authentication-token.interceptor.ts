@@ -14,8 +14,8 @@ import {
 } from '../models/token-types.model';
 
 import { Store } from '@ngrx/store';
-import * as fromAuthStore from '@auth/store';
-import { RequestMapping } from '@auth/models/request-mapping.model';
+import * as fromAuthStore from './../store';
+import { RequestMapping } from './../models/request-mapping.model';
 import {
   REQUEST_MAPPING_CUSTOM_HEADER,
   InterceptorUtil

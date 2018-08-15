@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromStore from '../../store';
-import * as fromAuthStore from '@auth/store';
+import * as fromAuthStore from '../../../auth/store';
 import * as fromRouting from '../../../routing/store';
 import { UserRegisterEffects } from './user-register.effect';
 import { OccUserService } from '../../../occ/user/user.service';
@@ -34,8 +34,8 @@ describe('UserRegister effect', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromStore.reducers,
-          user: combineReducers(fromStore.reducers)
+          ...fromStore.getReducers(),
+          user: combineReducers(fromStore.getReducers())
         })
       ],
       providers: [

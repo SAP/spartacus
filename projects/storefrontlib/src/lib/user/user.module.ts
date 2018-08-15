@@ -6,9 +6,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { metaReducers } from './store/reducers';
+import { metaReducers } from './store/reducers/index';
 import { LoginModule } from './components/login/login.module';
-import { effects, reducers } from './store';
+import { reducerToken, reducerProvider } from './store/reducers/index';
+import { effects } from './store/effects/index';
 import { RegisterComponent } from './components/register/register.component';
 import { UserErrorHandlingService } from './services/user-error-handling.service';
 import { UserHttpInterceptor } from './http-interceptors/user-http.interceptor';
@@ -20,11 +21,12 @@ import { AuthErrorInterceptor } from './http-interceptors/auth-error.interceptor
     FlexLayoutModule,
     LoginModule,
     ReactiveFormsModule,
-    StoreModule.forFeature('user', reducers, { metaReducers }),
+    StoreModule.forFeature('user', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
   declarations: [RegisterComponent],
   providers: [
+    reducerProvider,
     UserErrorHandlingService,
     {
       provide: HTTP_INTERCEPTORS,

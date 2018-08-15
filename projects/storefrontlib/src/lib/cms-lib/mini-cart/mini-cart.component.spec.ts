@@ -12,7 +12,7 @@ import * as fromRoot from '../../routing/store';
 import * as fromCms from '../../cms/store';
 import * as fromCart from '../../cart/store';
 import * as fromUser from '../../user/store';
-import * as fromAuth from '@auth/store';
+import * as fromAuth from '../../auth/store';
 import { ConfigService } from '../../cms/config.service';
 
 import { MiniCartComponent } from './mini-cart.component';
@@ -68,10 +68,10 @@ describe('MiniCartComponent', () => {
         FlexLayoutModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCms.reducers),
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers),
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCms.getReducers()),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers()),
           auth: combineReducers(fromAuth.reducers)
         })
       ],

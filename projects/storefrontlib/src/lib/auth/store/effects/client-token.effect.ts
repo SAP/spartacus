@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Actions, Effect } from '@ngrx/effects';
 
-import * as fromActions from '@auth/store/actions';
-import { ClientAuthenticationTokenService } from '@auth/services/client-authentication/client-authentication-token.service';
+import * as fromActions from './../actions';
+import { ClientAuthenticationTokenService } from './../../services/client-authentication/client-authentication-token.service';
 import { map, catchError, mergeMap } from 'rxjs/operators';
-import { ClientAuthenticationToken } from '@auth/models/token-types.model';
+import { ClientAuthenticationToken } from './../../models/token-types.model';
 
 @Injectable()
 export class ClientTokenEffect {

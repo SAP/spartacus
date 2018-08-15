@@ -12,7 +12,7 @@ import * as fromStore from '../store';
 import * as fromRoot from '../../routing/store';
 import { ConfigService } from '../../occ/config.service';
 import { UserHttpInterceptor } from './user-http.interceptor';
-import { UserToken } from '@auth/models/token-types.model';
+import { UserToken } from './../../auth/models/token-types.model';
 
 class MockConfigService {
   server = {
@@ -44,8 +44,8 @@ describe('UserHttpInterceptor', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          user: combineReducers(fromStore.reducers)
+          ...fromRoot.getReducers(),
+          user: combineReducers(fromStore.getReducers())
         })
       ],
       providers: [

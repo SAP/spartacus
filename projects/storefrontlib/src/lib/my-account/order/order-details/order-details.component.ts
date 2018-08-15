@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import * as fromUserStore from '../../../user/store';
-import * as fromAuthStore from '@auth/store';
+import * as fromAuthStore from './../../../auth/store';
 import { OccOrderService } from './../../../occ/order/order.service';
 
 @Component({

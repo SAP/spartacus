@@ -6,7 +6,7 @@ import {
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import * as fromRoot from '../../routing/store';
-import * as fromStore from '@auth/store';
+import * as fromStore from './../store';
 import { of } from 'rxjs';
 
 import { AuthenticationTokenInterceptor } from './authentication-token.interceptor';
@@ -29,7 +29,7 @@ describe('AuthenticationTokenInterceptor', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
+          ...fromRoot.getReducers(),
           auth: combineReducers(fromStore.reducers)
         })
       ],

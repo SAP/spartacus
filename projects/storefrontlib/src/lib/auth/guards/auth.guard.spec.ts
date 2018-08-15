@@ -4,7 +4,7 @@ import { AuthGuard } from './auth.guard';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from './../../routing/store';
 import * as fromStore from './../../user/store';
-import * as fromReducers from './../store/reducers';
+import * as fromUserReducers from './../../user/store/reducers';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -24,8 +24,8 @@ describe('AuthGuard', () => {
       imports: [
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          user: combineReducers(fromReducers.reducers)
+          ...fromRoot.getReducers(),
+          user: combineReducers(fromUserReducers.getReducers())
         })
       ]
     });

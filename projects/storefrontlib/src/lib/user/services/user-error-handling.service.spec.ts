@@ -6,10 +6,10 @@ import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import * as fromStore from '../../user/store';
-import * as fromAuthStore from '@auth/store';
+import * as fromAuthStore from '../../auth/store';
 import * as fromRoot from '../../routing/store';
 import { UserErrorHandlingService } from './user-error-handling.service';
-import { UserToken } from '@auth/models/token-types.model';
+import { UserToken } from '../../auth/models/token-types.model';
 
 class MockHttpHandler extends HttpHandler {
   handle(_req: HttpRequest<any>): Observable<HttpEvent<any>> {
@@ -47,8 +47,8 @@ describe('UserErrorHandlingService', () => {
       imports: [
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          user: combineReducers(fromStore.reducers),
+          ...fromRoot.getReducers(),
+          user: combineReducers(fromStore.getReducers()),
           auth: combineReducers(fromAuthStore.reducers)
         })
       ],
@@ -73,7 +73,7 @@ describe('UserErrorHandlingService', () => {
       spyOn(store, 'select').and.returnValue(of({}));
       service.handleExpiredUserToken(httpRequest, httpHandler).subscribe();
 
-      expect(router.navigate).toHaveBeenCalledWith(['/']);
+      expect(router.navigate).toHaveBeenCalledWith(['/login']);
     });
 
     it('should get new token and resend request', () => {

@@ -1,5 +1,5 @@
-import { ClientAuthenticationToken } from '@auth/models/token-types.model';
-import * as fromActions from '@auth/store/actions';
+import { ClientAuthenticationToken } from './../../models/token-types.model';
+import * as fromActions from './../actions';
 
 export interface ClientTokenState {
   token: ClientAuthenticationToken;

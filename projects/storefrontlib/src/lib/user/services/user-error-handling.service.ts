@@ -6,13 +6,13 @@ import { Observable, combineLatest } from 'rxjs';
 import { tap, filter, take, switchMap } from 'rxjs/operators';
 
 import * as fromUserStore from '../../user/store';
-import * as fromAuthStore from '@auth/store';
+import * as fromAuthStore from './../../auth/store';
 import { HttpRequest, HttpHandler } from '@angular/common/http';
 import { UserToken } from '../../auth/models/token-types.model';
 
 @Injectable()
 export class UserErrorHandlingService {
-  readonly LOGIN_URL = '/';
+  readonly LOGIN_URL = '/login';
 
   constructor(
     private store: Store<fromUserStore.UserState>,

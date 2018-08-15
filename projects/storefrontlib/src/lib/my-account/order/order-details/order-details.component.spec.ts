@@ -6,7 +6,7 @@ import { OrderDetailsComponent } from './order-details.component';
 import { of } from 'rxjs';
 import * as fromRoot from '../../../routing/store';
 import * as fromUserStore from '../../../user/store';
-import * as fromAuth from '@auth/store';
+import * as fromAuth from '../../../auth/store';
 class MockOccOrderService {
   getOrder() {}
 }
@@ -25,8 +25,8 @@ describe('OrderDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          user: combineReducers(fromUserStore.reducers),
+          ...fromRoot.getReducers(),
+          user: combineReducers(fromUserStore.getReducers()),
           auth: combineReducers(fromAuth.reducers)
         })
       ],

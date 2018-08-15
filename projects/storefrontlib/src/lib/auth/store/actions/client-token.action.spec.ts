@@ -1,5 +1,5 @@
-import * as fromAuthActions from '@auth/store/actions';
-import { ClientAuthenticationToken } from '@auth/models/token-types.model';
+import * as fromAuthActions from './';
+import { ClientAuthenticationToken } from './../../models/token-types.model';
 
 const clientToken: ClientAuthenticationToken = {
   access_token: 'xxx',

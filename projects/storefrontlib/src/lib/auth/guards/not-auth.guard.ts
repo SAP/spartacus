@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../user/store';
-import * as fromAuthStore from '@auth/store';
+import * as fromAuthStore from './../store';
 
 @Injectable()
-export class NotAuthGuard {
+export class NotAuthGuard implements CanActivate {
+  static GUARD_NAME = 'NotAuthGuard';
+
   constructor(
     private store: Store<fromStore.UserState>,
     private router: Router

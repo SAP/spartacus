@@ -13,8 +13,8 @@ describe('Checkout Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          checkout: combineReducers(fromReducers.reducers)
+          ...fromRoot.getReducers(),
+          checkout: combineReducers(fromReducers.getReducers())
         })
       ]
     });

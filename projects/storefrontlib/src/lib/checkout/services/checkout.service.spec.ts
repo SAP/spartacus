@@ -5,7 +5,7 @@ import * as fromRoot from '../../routing/store';
 import * as fromCart from '../../cart/store';
 import * as fromCheckout from '../store';
 import * as fromUser from '../../user/store';
-import * as fromAuth from '@auth/store';
+import * as fromAuth from '../../auth/store';
 
 import { CheckoutService } from './checkout.service';
 import { CartService } from '../../cart/services/cart.service';
@@ -29,10 +29,10 @@ describe('CheckoutService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromCart.reducers),
-          checkout: combineReducers(fromCheckout.reducers),
-          user: combineReducers(fromUser.reducers),
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromCart.getReducers()),
+          checkout: combineReducers(fromCheckout.getReducers()),
+          user: combineReducers(fromUser.getReducers()),
           auth: combineReducers(fromAuth.reducers)
         })
       ],

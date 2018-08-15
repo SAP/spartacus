@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ClientAuthenticationTokenService } from '@auth/services/client-authentication/client-authentication-token.service';
-import { ClientAuthenticationToken } from '@auth/models/token-types.model';
-import * as fromStore from '@auth/store';
+import { ClientAuthenticationTokenService } from './../../services/client-authentication/client-authentication-token.service';
+import { ClientAuthenticationToken } from './../../models/token-types.model';
+import * as fromStore from './../';
 
 import { Observable, of } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
