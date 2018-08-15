@@ -36,7 +36,7 @@
       </li>
     </ol>
   </div>
-  <y-store-finder-map [locations]="locations"></y-store-finder-map>
+  <y-store-finder-map></y-store-finder-map>
   <div *ngIf="locations?.pagination">
     <y-store-finder-paging [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-store-finder-paging>
   </div>

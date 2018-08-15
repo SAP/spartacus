@@ -15,7 +15,7 @@ export class OccE2eConfigurationService {
     const url = this.getConfigurationEndpoint() + '/' + configurationKey;
 
     return this.http
-      .get(url)
+      .get(url, { responseType: 'text' })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
