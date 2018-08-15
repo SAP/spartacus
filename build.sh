@@ -103,6 +103,6 @@ echo "Setting endpoint with the server to run end to end tests against"
 sed -i -e "s=https://localhost=https://$DEV_SERVER=g" projects/storefrontapp/src/app/config.service.ts
 echo "-----"
 echo "Running end to end tests"
-ng e2e --protractor-config=projects/storefrontapp-e2e/protractor.headless.conf.js
+ng e2e --prod --protractor-config=projects/storefrontapp-e2e/protractor.headless.conf.js
 echo "-----"
 echo "Spartacus Pipeline completed"
