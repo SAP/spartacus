@@ -1,26 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { ReactiveFormsModule } from '@angular/forms';
-import { of } from 'rxjs';
-
-import * as fromRoot from '../../../../routing/store';
-import * as fromCheckout from '../../../store';
-import * as fromCart from '../../../../cart/store';
-import * as fromUser from '../../../../user/store';
-import * as fromRouting from '../../../../routing/store';
-
-import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
-import { AddressFormComponent } from '../address-form/address-form.component';
-import { OrderSummaryComponent } from '../../../../cart/components/cart-details/order-summary/order-summary.component';
-import { DeliveryModeFormComponent } from '../delivery-mode-form/delivery-mode-form.component';
-import { ReviewSubmitComponent } from '../review-submit/review-submit.component';
-
-import { CheckoutService } from './../../../services/checkout.service';
-import { CartService } from './../../../../cart/services/cart.service';
-import { CartDataService } from './../../../../cart/services/cart-data.service';
-import { Address } from '../../../models/address-model';
-import { PaymentFormComponent } from '../payment-form/payment-form.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
+import * as fromCart from '../../../../cart/store';
+import * as fromRoot from '../../../../routing/store';
+import * as fromRouting from '../../../../routing/store';
+import * as fromUser from '../../../../user/store';
+import { Address } from '../../../models/address-model';
+import * as fromCheckout from '../../../store';
+import { AddressFormComponent } from '../address-form/address-form.component';
+import { DeliveryModeFormComponent } from '../delivery-mode-form/delivery-mode-form.component';
+import { PaymentFormComponent } from '../payment-form/payment-form.component';
+import { ReviewSubmitComponent } from '../review-submit/review-submit.component';
+import { CartSharedModule } from './../../../../cart/components/cart-shared/cart-shared.module';
+import { CartDataService } from './../../../../cart/services/cart-data.service';
+import { CartService } from './../../../../cart/services/cart.service';
+import { CheckoutService } from './../../../services/checkout.service';
+import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 
 const address: Address = {
   firstName: 'John',
@@ -65,7 +62,6 @@ describe('MultiStepCheckoutComponent', () => {
         MultiStepCheckoutComponent,
         AddressFormComponent,
         DeliveryModeFormComponent,
-        OrderSummaryComponent,
         PaymentFormComponent,
         ReviewSubmitComponent
       ],
