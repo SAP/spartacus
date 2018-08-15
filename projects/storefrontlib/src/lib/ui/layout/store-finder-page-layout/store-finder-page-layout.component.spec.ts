@@ -8,9 +8,8 @@ describe('StoreFinderPageLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StoreFinderPageLayoutComponent ]
-    })
-    .compileComponents();
+      declarations: [StoreFinderPageLayoutComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
