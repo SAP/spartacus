@@ -34,10 +34,10 @@ describe('HeaderComponent', () => {
         MaterialModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          user: combineReducers(fromUserReducer.reducers),
-          siteContext: combineReducers(fromSCStore.reducers),
-          cms: combineReducers(fromCmsReducer.reducers)
+          ...fromRoot.getReducers(),
+          user: combineReducers(fromUserReducer.getReducers()),
+          siteContext: combineReducers(fromSCStore.getReducers()),
+          cms: combineReducers(fromCmsReducer.getReducers())
         })
       ],
       declarations: [

@@ -39,8 +39,8 @@ describe('CmsPageGuards', () => {
       imports: [
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromReducers.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromReducers.getReducers())
         })
       ]
     });

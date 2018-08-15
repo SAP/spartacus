@@ -16,7 +16,8 @@ import * as fromRouting from '../../../routing/store';
 
 import * as pageActions from '../actions/page.action';
 import * as componentActions from '../actions/component.action';
-import * as fromServices from '../../services';
+import { OccCmsService } from '../../services/occ-cms.service';
+import { DefaultPageService } from '../../services/default-page.service';
 
 import { Page } from '../../models/page.model';
 import {
@@ -79,8 +80,8 @@ export class PageEffects {
 
   constructor(
     private actions$: Actions,
-    private occCmsService: fromServices.OccCmsService,
-    private defaultPageService: fromServices.DefaultPageService,
+    private occCmsService: OccCmsService,
+    private defaultPageService: DefaultPageService,
     private routingStore: Store<fromRouting.State>
   ) {}
 
