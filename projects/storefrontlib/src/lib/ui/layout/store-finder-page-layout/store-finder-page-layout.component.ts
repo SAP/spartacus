@@ -6,9 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./store-finder-page-layout.component.scss']
 })
 export class StoreFinderPageLayoutComponent implements OnInit {
-
   constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }
