@@ -9,12 +9,11 @@ import {
   OccModule,
   UiModule,
   CmsLibModule,
-  UiFrameworkModule } from 'storefrontlib';
-
-import {
   CmsModule,
   RoutingModule,
-  UserModule } from 'storefrontlib';
+  UserModule,
+  UiFrameworkModule
+} from 'storefrontlib';
 
 // bootstrap
 import { AppComponent } from './app.component';
