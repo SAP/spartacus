@@ -17,3 +17,4 @@ export * from './user-register.action';
 export * from './user-orders.action';
 export * from './titles.action';
 export * from './delivery-countries.action';
+export * from './regions.action';
