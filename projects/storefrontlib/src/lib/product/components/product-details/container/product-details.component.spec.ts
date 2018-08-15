@@ -1,3 +1,4 @@
+import { ComponentsModule } from './../../../../ui/components/components.module';
 import { MatTab } from '@angular/material';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -9,7 +10,6 @@ import { ComponentMapperService } from '../../../../cms/services/component-mappe
 
 import { AddToCartModule } from '../../../../cart/components/add-to-cart/add-to-cart.module';
 import { MaterialModule } from './../../../../material.module';
-import { MediaModule } from './../../../../ui/components/media/media.module';
 
 import * as fromCart from '../../../../cart/store';
 import * as fromRoot from '../../../../routing/store';
@@ -21,7 +21,6 @@ import { ProductAttributesComponent } from '../product-attributes/product-attrib
 import { ProductImagesComponent } from '../product-images/product-images.component';
 import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
-import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { DynamicSlotComponent } from './../../../../cms/components/dynamic-slot/dynamic-slot.component';
 import { ProductDetailsComponent } from './product-details.component';
 
@@ -67,11 +66,10 @@ describe('ProductDetailsComponent in product', () => {
           cart: combineReducers(fromCart.reducers),
           user: combineReducers(fromUser.reducers)
         }),
-        MediaModule
+        ComponentsModule
       ],
       declarations: [
         ProductDetailsComponent,
-        StarRatingComponent,
         ProductImagesComponent,
         ProductSummaryComponent,
         ProductAttributesComponent,
@@ -114,10 +112,5 @@ describe('ProductDetailsComponent in product', () => {
   it('should be able to go to REVIEWS through the review button', () => {
     productDetailsComponent.goToReviews();
     expect(productDetailsComponent.selectedTabIndex).toBe(2);
-  });
-
-  it('should be able to display the review submission form', () => {
-    productDetailsComponent.writeReview();
-    expect(productDetailsComponent.isWritingReview).toBe(true);
   });
 });

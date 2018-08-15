@@ -1,4 +1,4 @@
-import { MediaModule } from './../../components/media/media.module';
+import { ComponentsModule } from './../../components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { MaterialModule } from '../../../material.module';
@@ -18,7 +18,6 @@ import { ComponentMapperService } from '../../../cms/services';
 import { OrderSummaryComponent } from '../../../cart/components/cart-details/order-summary/order-summary.component';
 import { CartItemComponent } from '../../../cart/components/cart-shared/cart-item/cart-item.component';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { ItemCounterComponent } from '../../../cart/components/cart-shared/item-counter/item-counter.component';
 
 class MockCartService {
   removeCartEntry() {}
@@ -47,7 +46,7 @@ describe('CartPageLayoutComponent', () => {
           cart: combineReducers(fromReducer.reducers),
           cms: combineReducers(fromCmsReducer.reducers)
         }),
-        MediaModule
+        ComponentsModule
       ],
       declarations: [
         CartPageLayoutComponent,
@@ -55,8 +54,7 @@ describe('CartPageLayoutComponent', () => {
         DynamicSlotComponent,
         ComponentWrapperComponent,
         OrderSummaryComponent,
-        CartItemComponent,
-        ItemCounterComponent
+        CartItemComponent
       ],
       providers: [
         { provide: CartService, useClass: MockCartService },

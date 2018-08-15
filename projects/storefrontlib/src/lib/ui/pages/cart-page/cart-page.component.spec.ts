@@ -1,4 +1,4 @@
-import { MediaModule } from './../../components/media/media.module';
+import { ComponentsModule } from './../../components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CartPageComponent } from './cart-page.component';
@@ -18,7 +18,6 @@ import { OrderSummaryComponent } from '../../../cart/components/cart-details/ord
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CartItemComponent } from '../../../cart/components/cart-shared/cart-item/cart-item.component';
-import { ItemCounterComponent } from '../../../cart/components/cart-shared/item-counter/item-counter.component';
 
 export class MockCartService {
   loadCartDetails() {}
@@ -38,7 +37,7 @@ describe('CartPageComponent', () => {
           cms: combineReducers(fromCmsReducer.reducers),
           cart: combineReducers(fromCart.reducers)
         }),
-        MediaModule
+        ComponentsModule
       ],
       declarations: [
         CartPageComponent,
@@ -47,8 +46,7 @@ describe('CartPageComponent', () => {
         ComponentWrapperComponent,
         CartDetailsComponent,
         OrderSummaryComponent,
-        CartItemComponent,
-        ItemCounterComponent
+        CartItemComponent
       ],
       providers: [{ provide: CartService, useClass: MockCartService }]
     }).compileComponents();
