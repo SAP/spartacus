@@ -62,7 +62,8 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     /* We use the value from the input, however, this value
       is not the correct value that should be displayed. The correct value to display
       is this.value, which the parent updates if the async call succeed. If the call
-      fails, then the input will already display the correct value */
+      fails, then the input will need to display this.value, and not what the user
+      recently typed in */
     this.renderer.setProperty(this.input.nativeElement, 'value', this.value);
   }
 
