@@ -5,9 +5,10 @@ import { catchError } from 'rxjs/operators';
 
 import { ConfigService } from '../config.service';
 
-const ENDPOINT_DELIVERY_COUNTRIES = 'deliverycountries';
+const ENDPOINT_COUNTRIES = 'countries';
 const ENDPOINT_TITLES = 'titles';
 const ENDPOINT_CARD_TYPES = 'cardtypes';
+const ENDPOINT_REGIONS = 'regions';
 
 @Injectable()
 export class OccMiscsService {
@@ -25,7 +26,7 @@ export class OccMiscsService {
 
   loadDeliveryCountries(): Observable<any> {
     return this.http
-      .get(this.getEndpoint(ENDPOINT_DELIVERY_COUNTRIES))
+      .get(this.getEndpoint(ENDPOINT_COUNTRIES))
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
@@ -39,5 +40,15 @@ export class OccMiscsService {
     return this.http
       .get(this.getEndpoint(ENDPOINT_CARD_TYPES))
       .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
+  loadRegions(countryIsoCode: string): Observable<any> {
+    return this.http
+      .get(this.getEndpoint(this.buildRegionsUrl(countryIsoCode)))
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
+  private buildRegionsUrl(countryIsoCode: string): string {
+    return `${ENDPOINT_COUNTRIES}/${countryIsoCode}/${ENDPOINT_REGIONS}`;
   }
 }
