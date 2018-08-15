@@ -1,23 +1,22 @@
+import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
+import { MaterialModule } from './../../../material.module';
+import { CartPageLayoutComponent } from './cart-page-layout.component';
 import { ComponentsModule } from './../../components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
-import { MaterialModule } from '../../../material.module';
-import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
-import * as fromRoot from '../../../routing/store';
-import * as fromReducer from '../../../cart/store/reducers';
-import * as fromCmsReducer from '../../../cms/store/reducers';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartService } from '../../../cart/services';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperComponent
-} from '../../../cms/components';
-import { CartPageLayoutComponent } from './cart-page-layout.component';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
+import { CartService } from '../../../cart/services';
+import * as fromReducer from '../../../cart/store/reducers';
+import {
+  ComponentWrapperComponent,
+  DynamicSlotComponent
+} from '../../../cms/components';
+import * as fromCmsReducer from '../../../cms/store';
+import * as fromRoot from '../../../routing/store';
 import { ComponentMapperService } from '../../../cms/services';
-import { OrderSummaryComponent } from '../../../cart/components/cart-details/order-summary/order-summary.component';
-import { CartItemComponent } from '../../../cart/components/cart-shared/cart-item/cart-item.component';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 
 class MockCartService {
   removeCartEntry() {}
@@ -46,15 +45,14 @@ describe('CartPageLayoutComponent', () => {
           cart: combineReducers(fromReducer.getReducers()),
           cms: combineReducers(fromCmsReducer.getReducers())
         }),
-        ComponentsModule
+        ComponentsModule,
+        CartSharedModule
       ],
       declarations: [
         CartPageLayoutComponent,
         CartDetailsComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent,
-        OrderSummaryComponent,
-        CartItemComponent
+        ComponentWrapperComponent
       ],
       providers: [
         { provide: CartService, useClass: MockCartService },
