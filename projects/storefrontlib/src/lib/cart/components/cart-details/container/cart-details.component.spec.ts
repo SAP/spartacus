@@ -7,10 +7,8 @@ import * as fromRoot from '../../../../routing/store';
 import { CartDataService } from '../../../services/cart-data.service';
 import { CartService } from '../../../services/cart.service';
 import * as fromReducer from '../../../store/reducers';
-import { CartItemComponent } from '../../cart-shared/cart-item/cart-item.component';
-import { ItemCounterComponent } from '../../cart-shared/item-counter/item-counter.component';
-import { OrderSummaryComponent } from '../order-summary/order-summary.component';
 import { MediaModule } from './../../../../ui/components/media/media.module';
+import { CartSharedModule } from './../../cart-shared/cart-shared.module';
 import { CartDetailsComponent } from './cart-details.component';
 
 class MockCartService {
@@ -61,14 +59,10 @@ describe('CartDetailsComponent', () => {
           ...fromRoot.getReducers(),
           cart: combineReducers(fromReducer.getReducers())
         }),
-        MediaModule
+        MediaModule,
+        CartSharedModule
       ],
-      declarations: [
-        CartDetailsComponent,
-        OrderSummaryComponent,
-        CartItemComponent,
-        ItemCounterComponent
-      ],
+      declarations: [CartDetailsComponent],
       providers: [
         CartDataService,
         { provide: CartService, useClass: MockCartService }
