@@ -33,7 +33,7 @@ describe('CheckoutService', () => {
           cart: combineReducers(fromCart.getReducers()),
           checkout: combineReducers(fromCheckout.getReducers()),
           user: combineReducers(fromUser.getReducers()),
-          auth: combineReducers(fromAuth.reducers)
+          auth: combineReducers(fromAuth.getReducers())
         })
       ],
       providers: [CheckoutService, CartService, CartDataService]

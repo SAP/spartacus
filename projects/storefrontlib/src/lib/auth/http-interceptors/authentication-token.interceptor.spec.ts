@@ -30,7 +30,7 @@ describe('AuthenticationTokenInterceptor', () => {
         HttpClientTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          auth: combineReducers(fromStore.reducers)
+          auth: combineReducers(fromStore.getReducers())
         })
       ],
       providers: [

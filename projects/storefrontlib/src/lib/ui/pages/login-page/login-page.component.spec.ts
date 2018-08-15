@@ -24,7 +24,7 @@ describe('LoginPageComponent', () => {
         StoreModule.forRoot({
           ...fromStore.getReducers(),
           user: combineReducers(fromStore.getReducers()),
-          auth: combineReducers(fromAuthStore.reducers)
+          auth: combineReducers(fromAuthStore.getReducers())
         })
       ],
       declarations: [

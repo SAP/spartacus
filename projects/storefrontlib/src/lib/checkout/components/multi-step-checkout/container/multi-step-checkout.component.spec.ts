@@ -60,7 +60,7 @@ describe('MultiStepCheckoutComponent', () => {
           cart: combineReducers(fromCart.getReducers()),
           user: combineReducers(fromUser.getReducers()),
           checkout: combineReducers(fromCheckout.getReducers()),
-          auth: combineReducers(fromAuth.reducers)
+          auth: combineReducers(fromAuth.getReducers())
         })
       ],
       declarations: [

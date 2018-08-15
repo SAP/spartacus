@@ -4,38 +4,40 @@ import { ConfigService } from './config.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AuthenticationTokenInterceptor } from './http-interceptors/authentication-token.interceptor';
-import { ClientAuthenticationTokenService } from './services/client-authentication/client-authentication-token.service';
-import { UserAuthenticationTokenService } from './services/user-authentication/user-authentication-token.service';
-import * as fromGuards from './guards';
+import { services } from './services/index';
+import { guards } from './guards/index';
 
 import { StoreModule } from '@ngrx/store';
-import { reducers } from './store/reducers';
-import { effects } from './store/effects';
+import { effects } from './store/effects/index';
+import { reducerToken, reducerProvider } from './store/reducers/index';
 import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
-    StoreModule.forFeature('auth', reducers),
+    StoreModule.forFeature('auth', reducerToken),
     EffectsModule.forFeature(effects)
   ],
-  providers: [ClientAuthenticationTokenService, UserAuthenticationTokenService]
+  providers: [
+    ...guards,
+    ...services,
+    reducerProvider,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationTokenInterceptor,
+      multi: true
+    }
+  ]
 })
 export class AuthModule {
   static forRoot(config: any): ModuleWithProviders {
     return {
       ngModule: AuthModule,
       providers: [
-        ...fromGuards.guards,
         {
           provide: ConfigService,
           useExisting: config
-        },
-        {
-          provide: HTTP_INTERCEPTORS,
-          useClass: AuthenticationTokenInterceptor,
-          multi: true
         }
       ]
     };

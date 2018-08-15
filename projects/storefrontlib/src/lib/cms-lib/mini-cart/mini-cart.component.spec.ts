@@ -72,7 +72,7 @@ describe('MiniCartComponent', () => {
           cms: combineReducers(fromCms.getReducers()),
           cart: combineReducers(fromCart.getReducers()),
           user: combineReducers(fromUser.getReducers()),
-          auth: combineReducers(fromAuth.reducers)
+          auth: combineReducers(fromAuth.getReducers())
         })
       ],
       declarations: [MiniCartComponent],

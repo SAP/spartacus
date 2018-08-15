@@ -36,7 +36,7 @@ describe('AddToCartComponent', () => {
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
           user: combineReducers(fromUser.getReducers()),
-          auth: combineReducers(fromAuth.reducers)
+          auth: combineReducers(fromAuth.getReducers())
         })
       ],
       providers: [CartService, CartDataService]

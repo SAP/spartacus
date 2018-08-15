@@ -49,7 +49,7 @@ describe('MainComponent', () => {
           user: combineReducers(fromUserReducer.getReducers()),
           siteContext: combineReducers(fromSCStore.getReducers()),
           cms: combineReducers(fromCmsReducer.getReducers()),
-          auth: combineReducers(fromAuth.reducers)
+          auth: combineReducers(fromAuth.getReducers())
         }),
         GlobalMessageModule
       ],

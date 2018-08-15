@@ -49,7 +49,7 @@ describe('UserErrorHandlingService', () => {
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           user: combineReducers(fromStore.getReducers()),
-          auth: combineReducers(fromAuthStore.reducers)
+          auth: combineReducers(fromAuthStore.getReducers())
         })
       ],
       providers: [

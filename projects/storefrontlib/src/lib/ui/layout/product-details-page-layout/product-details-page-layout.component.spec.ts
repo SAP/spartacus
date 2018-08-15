@@ -34,7 +34,7 @@ describe('ProductDetailsPageLayoutComponent', () => {
           ...fromRoot.getReducers(),
           products: combineReducers(fromProduct.getReducers()),
           cms: combineReducers(fromCmsReducer.getReducers()),
-          auth: combineReducers(fromAuthStore.reducers)
+          auth: combineReducers(fromAuthStore.getReducers())
         })
       ],
       declarations: [

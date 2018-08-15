@@ -27,7 +27,7 @@ describe('OrderDetailsComponent', () => {
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           user: combineReducers(fromUserStore.getReducers()),
-          auth: combineReducers(fromAuth.reducers)
+          auth: combineReducers(fromAuth.getReducers())
         })
       ],
       declarations: [OrderDetailsComponent],

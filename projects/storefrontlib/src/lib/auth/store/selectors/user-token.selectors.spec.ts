@@ -16,7 +16,7 @@ describe('UserToken Selectors', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          auth: combineReducers(fromReducers.reducers)
+          auth: combineReducers(fromReducers.getReducers())
         })
       ]
     });
