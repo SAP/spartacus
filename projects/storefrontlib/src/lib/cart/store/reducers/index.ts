@@ -1,3 +1,4 @@
+import { InjectionToken, Provider } from '@angular/core';
 import {
   ActionReducerMap,
   createFeatureSelector,
@@ -11,8 +12,19 @@ export interface CartState {
   active: fromCart.CartState;
 }
 
-export const reducers: ActionReducerMap<CartState> = {
-  active: fromCart.reducer
+export function getReducers(): ActionReducerMap<CartState> {
+  return {
+    active: fromCart.reducer
+  };
+}
+
+export const reducerToken: InjectionToken<
+  ActionReducerMap<CartState>
+> = new InjectionToken<ActionReducerMap<CartState>>('CartReducers');
+
+export const reducerProvider: Provider = {
+  provide: reducerToken,
+  useFactory: getReducers
 };
 
 export const getCartState: MemoizedSelector<

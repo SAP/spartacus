@@ -10,7 +10,7 @@ import {
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import * as fromCheckoutStore from '../../../store';
-import { CheckoutService } from '../../../services';
+import { CheckoutService } from '../../../services/checkout.service';
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
 

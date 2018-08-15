@@ -45,9 +45,9 @@ describe('ProductPageComponent in pages', () => {
         MaterialModule,
         ReactiveFormsModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers)
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers())
         }),
         ComponentsModule
       ],

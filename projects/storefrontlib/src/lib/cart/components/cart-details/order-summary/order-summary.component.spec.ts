@@ -14,9 +14,9 @@ describe('OrderSummary', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromCartStore.reducers),
-          user: combineReducers(fromUserStore.reducers)
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromCartStore.getReducers()),
+          user: combineReducers(fromUserStore.getReducers())
         })
       ],
       declarations: [OrderSummaryComponent],

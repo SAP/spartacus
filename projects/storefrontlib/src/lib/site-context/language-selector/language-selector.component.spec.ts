@@ -33,8 +33,8 @@ describe('LanguageSelectorComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          siteContext: combineReducers(fromStore.reducers)
+          ...fromRoot.getReducers(),
+          siteContext: combineReducers(fromStore.getReducers())
         })
       ],
       declarations: [LanguageSelectorComponent],

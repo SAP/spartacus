@@ -29,9 +29,9 @@ describe('ProductDetailsPageLayoutComponent', () => {
         MaterialModule,
         ReactiveFormsModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          products: combineReducers(fromProduct.reducers),
-          cms: combineReducers(fromCmsReducer.reducers)
+          ...fromRoot.getReducers(),
+          products: combineReducers(fromProduct.getReducers()),
+          cms: combineReducers(fromCmsReducer.getReducers())
         }),
         ComponentsModule
       ],

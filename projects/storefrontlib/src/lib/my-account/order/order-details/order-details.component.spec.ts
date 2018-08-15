@@ -24,8 +24,8 @@ describe('OrderDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          user: combineReducers(fromUserStore.reducers)
+          ...fromRoot.getReducers(),
+          user: combineReducers(fromUserStore.getReducers())
         })
       ],
       declarations: [OrderDetailsComponent],

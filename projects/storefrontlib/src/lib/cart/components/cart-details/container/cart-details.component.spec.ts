@@ -57,8 +57,8 @@ describe('CartDetailsComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromReducer.reducers)
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromReducer.getReducers())
         }),
         ComponentsModule
       ],

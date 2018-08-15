@@ -26,8 +26,8 @@ describe('ProductReviewsComponent in product', () => {
         MaterialModule,
         ReactiveFormsModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          products: combineReducers(fromStore.reducers)
+          ...fromRoot.getReducers(),
+          products: combineReducers(fromStore.getReducers())
         }),
         ComponentsModule
       ],

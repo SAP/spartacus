@@ -33,8 +33,8 @@ describe('Navigation Entry Items Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromReducers.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromReducers.getReducers())
         })
       ]
     });

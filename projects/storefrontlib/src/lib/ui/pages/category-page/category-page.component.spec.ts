@@ -32,9 +32,9 @@ describe('CategoryPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCms.reducers),
-          cart: combineReducers(fromCart.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCms.getReducers()),
+          cart: combineReducers(fromCart.getReducers())
         }),
         ProductListModule
       ],

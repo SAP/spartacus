@@ -42,9 +42,9 @@ describe('CartPageLayoutComponent', () => {
         MaterialModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromReducer.reducers),
-          cms: combineReducers(fromCmsReducer.reducers)
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromReducer.getReducers()),
+          cms: combineReducers(fromCmsReducer.getReducers())
         }),
         ComponentsModule
       ],

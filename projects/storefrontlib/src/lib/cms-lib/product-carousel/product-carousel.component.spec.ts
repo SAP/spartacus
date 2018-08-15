@@ -42,8 +42,8 @@ describe('ProductCarouselComponent in CmsLib', () => {
       imports: [
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsReducer.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers())
         })
       ],
       declarations: [ProductCarouselComponent, PictureComponent],
