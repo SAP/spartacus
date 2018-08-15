@@ -8,9 +8,8 @@ describe('CookieMessageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CookieMessageComponent ]
-    })
-    .compileComponents();
+      declarations: [CookieMessageComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -37,24 +37,22 @@ describe('ComponentWrapperComponent', () => {
   let store: Store<fromReducers.CmsState>;
   let el: DebugElement;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          TestModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromReducers.reducers)
-          })
-        ],
-        declarations: [ComponentWrapperComponent],
-        providers: [
-          ComponentMapperService,
-          { provide: ConfigService, useClass: MockConfigService }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        TestModule,
+        StoreModule.forRoot({
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromReducers.getReducers())
+        })
+      ],
+      declarations: [ComponentWrapperComponent],
+      providers: [
+        ComponentMapperService,
+        { provide: ConfigService, useClass: MockConfigService }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ComponentWrapperComponent);

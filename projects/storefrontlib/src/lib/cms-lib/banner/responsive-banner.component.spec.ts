@@ -60,21 +60,19 @@ describe('ResponsiveBannerComponent', () => {
     urlLink: '/OpenCatalogue/Cameras/Digital-Cameras/Digital-SLR/c/578'
   };
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
-          }),
-          RouterTestingModule
-        ],
-        declarations: [ResponsiveBannerComponent],
-        providers: [{ provide: ConfigService, useClass: UseConfigService }]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers())
+        }),
+        RouterTestingModule
+      ],
+      declarations: [ResponsiveBannerComponent],
+      providers: [{ provide: ConfigService, useClass: UseConfigService }]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResponsiveBannerComponent);

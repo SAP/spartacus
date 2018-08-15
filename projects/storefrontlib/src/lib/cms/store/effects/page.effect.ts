@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions } from '@ngrx/effects';
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   map,
   catchError,
@@ -16,7 +16,8 @@ import * as fromRouting from '../../../routing/store';
 
 import * as pageActions from '../actions/page.action';
 import * as componentActions from '../actions/component.action';
-import * as fromServices from '../../services';
+import { OccCmsService } from '../../services/occ-cms.service';
+import { DefaultPageService } from '../../services/default-page.service';
 
 import { Page } from '../../models/page.model';
 import {
@@ -39,7 +40,7 @@ export class PageEffects {
       switchMap(pageContext => {
         if (pageContext === undefined) {
           return this.routingStore.select(fromRouting.getRouterState).pipe(
-            filter(routerState => routerState !== undefined),
+            filter(routerState => routerState && routerState.state),
             filter(routerState => routerState.state.cmsRequired),
             map(routerState => routerState.state.context),
             take(1),
@@ -79,8 +80,8 @@ export class PageEffects {
 
   constructor(
     private actions$: Actions,
-    private occCmsService: fromServices.OccCmsService,
-    private defaultPageService: fromServices.DefaultPageService,
+    private occCmsService: OccCmsService,
+    private defaultPageService: DefaultPageService,
     private routingStore: Store<fromRouting.State>
   ) {}
 

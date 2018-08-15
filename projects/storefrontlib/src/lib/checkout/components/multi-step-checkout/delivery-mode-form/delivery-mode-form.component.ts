@@ -14,7 +14,7 @@ import { tap, takeWhile } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../store';
 import { Address } from '../../../models/address-model';
-import { CheckoutService } from '../../../services';
+import { CheckoutService } from '../../../services/checkout.service';
 
 @Component({
   selector: 'y-delivery-mode-form',

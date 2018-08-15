@@ -15,6 +15,7 @@ import * as fromUser from '../../../../user/store';
 
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
+import { CartDataService } from '../../../../cart/services/cart-data.service';
 import { RouterTestingModule } from '@angular/router/testing';
 
 export class MockAbstractControl {
@@ -66,16 +67,17 @@ describe('PaymentFormComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers),
-          checkout: combineReducers(fromCheckout.reducers)
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers()),
+          checkout: combineReducers(fromCheckout.getReducers())
         })
       ],
       declarations: [PaymentFormComponent],
       providers: [
         CheckoutService,
         CartService,
+        CartDataService,
         { provide: FormGroup, useClass: MockFormGroup },
         { provide: AbstractControl, useClass: MockAbstractControl }
       ]

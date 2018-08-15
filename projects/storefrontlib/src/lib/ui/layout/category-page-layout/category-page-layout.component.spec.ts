@@ -14,23 +14,21 @@ describe('CategoryPageComponent', () => {
   let component: CategoryPageLayoutComponent;
   let fixture: ComponentFixture<CategoryPageLayoutComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
-          })
-        ],
-        declarations: [
-          CategoryPageLayoutComponent,
-          DynamicSlotComponent,
-          ComponentWrapperComponent
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers())
+        })
+      ],
+      declarations: [
+        CategoryPageLayoutComponent,
+        DynamicSlotComponent,
+        ComponentWrapperComponent
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CategoryPageLayoutComponent);

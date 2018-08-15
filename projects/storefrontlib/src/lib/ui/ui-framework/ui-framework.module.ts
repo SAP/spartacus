@@ -7,13 +7,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import 'hammerjs';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        BrowserAnimationsModule,
-        MaterialModule,
-        FlexLayoutModule
-    ],
-    declarations: [],
-    exports: [MaterialModule]
+  imports: [
+    CommonModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    FlexLayoutModule
+  ],
+  declarations: [],
+  exports: [MaterialModule, FlexLayoutModule]
 })
-export class UiFrameworkModule { }
+export class UiFrameworkModule {}

@@ -1,4 +1,4 @@
-import { OrderDetailsComponent } from 'storefrontlib';
+import { OrderDetailsComponent } from '../../order-details/order-details.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
@@ -31,8 +31,8 @@ describe('OrderHistoryComponent', () => {
         RouterTestingModule.withRoutes(routes),
         FormsModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          orders: combineReducers(fromUserStore.reducers)
+          ...fromRoot.getReducers(),
+          orders: combineReducers(fromUserStore.getReducers())
         })
       ],
       declarations: [

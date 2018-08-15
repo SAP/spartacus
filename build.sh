@@ -1,13 +1,23 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
 DEV_SERVER='10\.27\.165\.187'
+
+function validatestyles {
+    echo "-----"
+    echo "Validating styles app"
+    pushd projects/storefrontstyles
+    yarn
+    yarn sass
+    rm -rf temp-scss
+    popd
+}
 
 echo "Validating tsconfig.json integrity"
 LOCAL_ENV_LIB_PATH="projects/storefrontlib/src/public_api"
 LOCAL_ENV_LIB_PATH_OCCURENCES=$(grep -c "projects/storefrontlib/src/public_api" tsconfig.json || true)
 if [ $LOCAL_ENV_LIB_PATH_OCCURENCES \> 0 ];
-then 
+then
     echo "ERROR: tsconfig.json file is invalid. Found [${LOCAL_ENV_LIB_PATH}].";
     echo "The local env configuration should not be pushed to git."
     exit 1
@@ -19,7 +29,7 @@ echo "Validating yarn.lock integrity"
 DEFAULT_REGISTRY_URL="https://registry.yarnpkg.com"
 DEFAULT_REGISTRY_OCCURENCES=$(grep -c "${DEFAULT_REGISTRY_URL}" yarn.lock || true)
 if [ $DEFAULT_REGISTRY_OCCURENCES \> 0 ];
-then 
+then
     echo "ERROR: yarn file is corrupt. Found [${DEFAULT_REGISTRY_URL}] ${DEFAULT_REGISTRY_OCCURENCES} time(s).";
     echo "The dependency urls should all point to the hybris Artifactory.";
     exit 1
@@ -37,6 +47,16 @@ else
     exit 1
 fi
 
+echo "Validating that the storefrontlib does not import itself."
+results=$(grep -rl --include "*.ts" "from 'storefrontlib'" projects/storefrontlib || true)
+if [[ -z "$results" ]]; then
+    echo "Success: storefrontlib does not seem to import itself."
+else
+    echo "ERROR: Detected occurrence(s) where storefronlib imports itself in these files:"
+    echo "$results"
+    exit 1
+fi
+
 echo "Starting pipeline for Spartacus project"
 echo "-----"
 echo "Updating dependencies"
@@ -45,17 +65,41 @@ echo "-----"
 echo "Validating code linting"
 ng lint
 echo "-----"
+echo "Validating code formatting (using prettier)"
+./node_modules/.bin/prettier --config ./.prettierrc --list-different "projects/**/*{.ts,.js,.json,.scss}" 2>&1 |  tee prettier.log
+results=$(tail -1 prettier.log | grep projects || true)
+if [[ -z "$results" ]]; then
+    echo "Success: Codebase has been prettified correctly"
+    rm prettier.log
+else
+    echo "ERROR: Codebase not prettified. Aborting pipeline. Please format your code"
+    rm prettier.log
+    exit 1
+fi
+
+validatestyles
+
+echo "-----"
+echo "Running unit tests and code coverage for core lib"
+ng test storefrontlib --watch=false --code-coverage --browsers=ChromeHeadless 2>&1 |  tee spa_tests.log
+results=$(tail -4 spa_tests.log | grep ERROR || true)
+if [[ -z "$results" ]]; then
+    echo "Success: Tests meet coverage expectations"
+    rm spa_tests.log
+else
+    echo "Error: Tests did not meet coverage expectations"
+    rm spa_tests.log
+    exit 1
+fi
+echo "-----"
+echo "Running unit tests and checking code coverage for storefront app"
+ng test storefrontapp --watch=false --browsers=ChromeHeadless
+echo "-----"
 echo "Building SPA core lib"
 ng build storefrontlib
 echo "-----"
-echo "Running unit tests and checking code coverage for core lib"
-ng test storefrontlib --watch=false --code-coverage --browsers=ChromeHeadless
-echo "-----"
 echo "Building SPA app"
 ng build storefrontapp
-echo "-----"
-echo "Running unit tests and checking code coverage for storefront app"
-ng test storefrontapp --watch=false --code-coverage --browsers=ChromeHeadless
 echo "-----"
 echo "Setting endpoint with the server to run end to end tests against"
 sed -i -e "s=https://localhost=https://$DEV_SERVER=g" projects/storefrontapp/src/app/config.service.ts

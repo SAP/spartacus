@@ -8,15 +8,12 @@ describe('ProductReferenceConverterService', () => {
     });
   });
 
-  it(
-    'should inject ProductReferenceConverterService',
-    inject(
-      [ProductReferenceConverterService],
-      (productReferenceConverterService: ProductReferenceConverterService) => {
-        expect(productReferenceConverterService).toBeTruthy();
-      }
-    )
-  );
+  it('should inject ProductReferenceConverterService', inject(
+    [ProductReferenceConverterService],
+    (productReferenceConverterService: ProductReferenceConverterService) => {
+      expect(productReferenceConverterService).toBeTruthy();
+    }
+  ));
 
   it('should convert product reference', () => {
     // no idea what is the reference data

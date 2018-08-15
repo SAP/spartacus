@@ -65,8 +65,8 @@ describe('NavigationService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsStore.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsStore.getReducers())
         })
       ],
       providers: [NavigationService]
@@ -78,12 +78,12 @@ describe('NavigationService', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  it(
-    'should inject NavigationService',
-    inject([NavigationService], (service: NavigationService) => {
+  it('should inject NavigationService', inject(
+    [NavigationService],
+    (service: NavigationService) => {
       expect(service).toBeTruthy();
-    })
-  );
+    }
+  ));
 
   describe('getNavigationEntryItems', () => {
     it('should get all navigation entry items', () => {

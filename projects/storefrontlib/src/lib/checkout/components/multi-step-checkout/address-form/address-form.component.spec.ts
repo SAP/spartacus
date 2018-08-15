@@ -84,10 +84,10 @@ describe('AddressFormComponent', () => {
         MaterialModule,
         AddressFormModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          checkout: combineReducers(fromCheckout.reducers),
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers)
+          ...fromRoot.getReducers(),
+          checkout: combineReducers(fromCheckout.getReducers()),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers())
         })
       ],
       providers: [

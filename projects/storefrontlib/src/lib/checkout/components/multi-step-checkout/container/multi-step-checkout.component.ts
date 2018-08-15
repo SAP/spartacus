@@ -114,7 +114,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     this.addressVerifySub = this.store
       .select(fromCheckoutStore.getAddressVerificationResults)
-      .pipe(filter(results => Object.keys(results).length !== 0), take(1))
+      .pipe(
+        filter(results => Object.keys(results).length !== 0),
+        take(1)
+      )
       .subscribe(results => {
         if (results === 'FAIL') {
           this.store.dispatch(
@@ -167,7 +170,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     this.step2Sub = this.store
       .select(fromCheckoutStore.getSelectedCode)
-      .pipe(filter(selected => selected !== ''), take(1))
+      .pipe(
+        filter(selected => selected !== ''),
+        take(1)
+      )
       .subscribe(selected => {
         this.step = 3;
         this.refreshCart();
@@ -216,7 +222,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     this.step4Sub = this.store
       .select(fromCheckoutStore.getOrderDetails)
-      .pipe(filter(order => Object.keys(order).length !== 0), take(1))
+      .pipe(
+        filter(order => Object.keys(order).length !== 0),
+        take(1)
+      )
       .subscribe(order => {
         this.checkoutService.orderDetails = order;
         this.store.dispatch(
