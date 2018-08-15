@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ProductGuard } from '../../../product/guards';
-import { CmsPageGuards } from '../../../cms/guards';
+import { ProductGuard } from '../../../product/guards/product.guard';
+import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { ProductDetailsPageLayoutModule } from '../../layout/product-details-page-layout/product-details-page-layout.module';
 import { ProductPageComponent } from './product-page.component';
 

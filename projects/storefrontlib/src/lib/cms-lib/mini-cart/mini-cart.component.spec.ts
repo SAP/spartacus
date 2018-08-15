@@ -67,10 +67,10 @@ describe('MiniCartComponent', () => {
         FlexLayoutModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCms.reducers),
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCms.getReducers()),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers())
         })
       ],
       declarations: [MiniCartComponent],

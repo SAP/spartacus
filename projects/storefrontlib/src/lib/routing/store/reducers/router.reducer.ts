@@ -1,3 +1,4 @@
+import { InjectionToken, Provider } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
@@ -23,8 +24,19 @@ export interface State {
   routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
 }
 
-export const reducers: ActionReducerMap<State> = {
-  routerReducer: fromRouter.routerReducer
+export function getReducers(): ActionReducerMap<State> {
+  return {
+    routerReducer: fromRouter.routerReducer
+  };
+}
+
+export const reducerToken: InjectionToken<
+  ActionReducerMap<State>
+> = new InjectionToken<ActionReducerMap<State>>('Reducers');
+
+export const reducerProvider: Provider = {
+  provide: reducerToken,
+  useFactory: getReducers
 };
 
 export const getRouterState: MemoizedSelector<any, any> = createFeatureSelector<
@@ -47,7 +59,9 @@ export class CustomSerializer
     if (
       state.routeConfig &&
       state.routeConfig.canActivate &&
-      state.routeConfig.canActivate.find(x => x.guardName === 'CmsPageGuards')
+      state.routeConfig.canActivate.find(
+        x => x && x.guardName === 'CmsPageGuards'
+      )
     ) {
       cmsRequired = true;
     }

@@ -50,8 +50,8 @@ describe('Navigation Entry Items Effects', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsReducer.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers())
         })
       ],
       providers: [

@@ -19,8 +19,8 @@ describe('LoginFormComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromStore.reducers,
-          user: combineReducers(fromStore.reducers)
+          ...fromStore.getReducers(),
+          user: combineReducers(fromStore.getReducers())
         })
       ],
       declarations: [LoginFormComponent],

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
-import { CmsPageGuards } from '../../../cms/guards';
+import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { CategoryPageLayoutModule } from '../../layout/category-page-layout/category-page-layout.module';
 import { ProductListPageLayoutModule } from '../../layout/product-list-page-layout/product-list-page-layout.module';
 

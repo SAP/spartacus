@@ -32,8 +32,8 @@ describe('UserRegister effect', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromStore.reducers,
-          user: combineReducers(fromStore.reducers)
+          ...fromStore.getReducers(),
+          user: combineReducers(fromStore.getReducers())
         })
       ],
       providers: [

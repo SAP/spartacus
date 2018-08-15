@@ -19,8 +19,8 @@ describe('Languages Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          siteContext: combineReducers(fromReducers.reducers)
+          ...fromRoot.getReducers(),
+          siteContext: combineReducers(fromReducers.getReducers())
         })
       ]
     });

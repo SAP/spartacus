@@ -1,7 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import * as fromStore from '../../../store';
