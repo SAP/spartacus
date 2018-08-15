@@ -1,11 +1,10 @@
 import {
   Component,
   Input,
-  OnChanges,
-  OnDestroy,
+  OnInit,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { CartService } from '../../services/cart.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 import * as fromCartStore from '../../store';
@@ -21,7 +20,9 @@ import * as fromStore from './../../store';
   styleUrls: ['./add-to-cart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddToCartComponent implements OnChanges, OnDestroy {
+export class AddToCartComponent implements OnInit {
+  dialogRef: MatDialogRef<AddedToCartDialogComponent, any>;
+
   isLoading = false;
   @Input() iconOnly;
 
@@ -36,19 +37,20 @@ export class AddToCartComponent implements OnChanges, OnDestroy {
     protected store: Store<fromStore.CartState>
   ) {}
 
-  ngOnChanges() {
+  ngOnInit() {
     if (this.productCode) {
       this.cartEntry$ = this.store
         .select(fromStore.getEntrySelectorFactory(this.productCode))
         .pipe(
-          tap(() => {
+          tap(entry => {
+            if (this.isLoading && entry) {
+              this.openDialog();
+            }
             this.isLoading = false;
           })
         );
     }
   }
-
-  ngOnDestroy() {}
 
   addToCart() {
     if (!this.productCode || this.quantity <= 0) {
@@ -57,19 +59,21 @@ export class AddToCartComponent implements OnChanges, OnDestroy {
     this.isLoading = true;
 
     this.cartService.addCartEntry(this.productCode, this.quantity);
+  }
 
-    const dialogRef = this.dialog.open(AddedToCartDialogComponent, {
+  private openDialog(): void {
+    this.dialogRef = this.dialog.open(AddedToCartDialogComponent, {
       data: {
         entry$: this.cartEntry$,
         cart$: this.store.select(fromCartStore.getActiveCart)
       }
     });
 
-    dialogRef.componentInstance.updateEntryEvent.subscribe((data: any) =>
+    this.dialogRef.componentInstance.updateEntryEvent.subscribe((data: any) =>
       this.updateEntry(data)
     );
 
-    dialogRef.componentInstance.removeEntryEvent.subscribe((data: any) => {
+    this.dialogRef.componentInstance.removeEntryEvent.subscribe((data: any) => {
       this.removeEntry(data);
     });
   }
