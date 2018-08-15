@@ -17,6 +17,7 @@ import { CartDataService } from './../../../../cart/services/cart-data.service';
 import { CartService } from './../../../../cart/services/cart.service';
 import { CheckoutService } from './../../../services/checkout.service';
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
+import { CartSharedModule } from '../../../../cart/components/cart-shared/cart-shared.module';
 
 const address: Address = {
   firstName: 'John',
@@ -50,6 +51,7 @@ describe('MultiStepCheckoutComponent', () => {
       imports: [
         ReactiveFormsModule,
         RouterTestingModule,
+        CartSharedModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
