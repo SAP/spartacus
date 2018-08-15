@@ -9,7 +9,7 @@
         </mat-card-title>
         <div>
             <y-star-rating [rating]="product?.averageRating"></y-star-rating>
-            <button mat-button (click)="goToReviews()">Reviews</button>
+            <button mat-button (click)="goToReviews()">{{product.numberOfReviews}} Reviews</button>
         </div>
 
         <mat-card-content>
