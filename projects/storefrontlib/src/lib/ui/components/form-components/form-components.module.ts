@@ -1,7 +1,7 @@
+import { MaterialModule } from './../../../material.module';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
 
 /* Components */
 import { StarRatingComponent } from './star-rating/star-rating.component';

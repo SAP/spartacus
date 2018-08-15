@@ -3,13 +3,13 @@
  */
 
 export * from './lib/ui/layout/layout.module';
+export * from './lib/material.module';
 export * from './lib/ui/ui.module';
 export * from './lib/ui/components/components.module';
 export * from './lib/ui/components/media/media.module';
 export * from './lib/ui/components/form-components/form-components.module';
 export * from './lib/ui/pages/pages.module';
 export * from './lib/ui/ui-framework/ui-framework.module';
-export * from './lib/material.module';
 export * from './lib/user/user.module';
 export * from './lib/user/components/login/login.module';
 export * from './lib/product/product.module';
