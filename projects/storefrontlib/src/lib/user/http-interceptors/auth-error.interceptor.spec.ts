@@ -38,8 +38,8 @@ describe('AuthErrorInterceptor', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          user: combineReducers(fromStore.reducers)
+          ...fromRoot.getReducers(),
+          user: combineReducers(fromStore.getReducers())
         })
       ],
       providers: [

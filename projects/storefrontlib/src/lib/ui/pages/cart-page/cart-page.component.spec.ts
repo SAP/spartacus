@@ -34,9 +34,9 @@ describe('CartPageComponent', () => {
         ReactiveFormsModule,
         RouterModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsReducer.reducers),
-          cart: combineReducers(fromCart.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers()),
+          cart: combineReducers(fromCart.getReducers())
         }),
         MediaModule
       ],

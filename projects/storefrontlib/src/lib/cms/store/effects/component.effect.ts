@@ -15,7 +15,7 @@ import { Store } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
 
 import * as componentActions from '../actions/component.action';
-import * as fromServices from '../../services';
+import { OccCmsService } from '../../services/occ-cms.service';
 
 @Injectable()
 export class ComponentEffects {
@@ -43,7 +43,7 @@ export class ComponentEffects {
 
   constructor(
     private actions$: Actions,
-    private occCmsService: fromServices.OccCmsService,
+    private occCmsService: OccCmsService,
     private routingStore: Store<fromRouting.State>
   ) {}
 }

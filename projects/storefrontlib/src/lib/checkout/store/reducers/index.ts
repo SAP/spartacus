@@ -1,3 +1,4 @@
+import { InjectionToken, Provider } from '@angular/core';
 import {
   ActionReducerMap,
   createFeatureSelector,
@@ -17,10 +18,21 @@ export interface CheckoutState {
   addressVerification: fromAddressVerification.AddressVerificationState;
 }
 
-export const reducers: ActionReducerMap<CheckoutState> = {
-  steps: fromCheckout.reducer,
-  cardTypes: fromCardTypes.reducer,
-  addressVerification: fromAddressVerification.reducer
+export function getReducers(): ActionReducerMap<CheckoutState> {
+  return {
+    steps: fromCheckout.reducer,
+    cardTypes: fromCardTypes.reducer,
+    addressVerification: fromAddressVerification.reducer
+  };
+}
+
+export const reducerToken: InjectionToken<
+  ActionReducerMap<CheckoutState>
+> = new InjectionToken<ActionReducerMap<CheckoutState>>('CheckoutReducers');
+
+export const reducerProvider: Provider = {
+  provide: reducerToken,
+  useFactory: getReducers
 };
 
 export const getCheckoutState: MemoizedSelector<

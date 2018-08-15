@@ -4,8 +4,9 @@ import { RouterModule } from '@angular/router';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { reducers, effects } from './store';
-import { metaReducers } from './store/reducers';
+import { reducerToken, reducerProvider } from './store/reducers/index';
+import { effects } from './store/effects/index';
+import { metaReducers } from './store/reducers/index';
 
 import { MediaModule } from './../ui/components/media/media.module';
 import { CmsModule } from './../cms/cms.module';
@@ -13,29 +14,26 @@ import { CmsModule } from './../cms/cms.module';
 import { MaterialModule } from './../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { CartModule } from '../cart/cart.module';
-
 // guards
-import * as fromGuards from './guards';
+import { guards } from './guards/index';
 
 // converter
-import * as fromConverter from './converters';
+import { services } from './converters/index';
 import { ProductListModule } from './components/product-list/product-list.module';
 import { ProductDetailsModule } from './components/product-details/product-details.module';
 
 @NgModule({
   imports: [
-    CartModule,
     CommonModule,
     RouterModule,
     MediaModule,
     MaterialModule,
     FlexLayoutModule,
     CmsModule,
-    StoreModule.forFeature('products', reducers, { metaReducers }),
+    StoreModule.forFeature('products', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
   exports: [ProductListModule, ProductDetailsModule],
-  providers: [...fromConverter.services, ...fromGuards.guards]
+  providers: [reducerProvider, ...services, ...guards]
 })
 export class ProductModule {}
