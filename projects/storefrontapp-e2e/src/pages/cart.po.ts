@@ -89,7 +89,7 @@ export class CartPage extends AppPage {
 
   checkCartEntry(
     productName: string,
-    quantity: string,
+    quantity: string | number,
     unitPrice: string,
     totalPrice: string
   ) {
