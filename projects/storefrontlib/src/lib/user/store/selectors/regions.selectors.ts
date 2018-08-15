@@ -19,13 +19,3 @@ export const getAllRegions: MemoizedSelector<any, any> = createSelector(
     return Object.keys(entities).map(isocode => entities[isocode]);
   }
 );
-
-export const getRegionsLoading: MemoizedSelector<any, boolean> = createSelector(
-  getRegionsState,
-  fromReducer.getRegionsLoading
-);
-
-export const getRegionsLoaded: MemoizedSelector<any, boolean> = createSelector(
-  getRegionsState,
-  fromReducer.getRegionsLoaded
-);

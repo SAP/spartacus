@@ -2,14 +2,10 @@ import * as fromAction from '../actions';
 
 export interface RegionsState {
   entities: any;
-  loading: boolean;
-  loaded: boolean;
 }
 
 export const initialState: RegionsState = {
-  entities: {},
-  loading: false,
-  loaded: true
+  entities: {}
 };
 
 export function reducer(
@@ -22,9 +18,7 @@ export function reducer(
       if (entities) {
         return {
           ...state,
-          entities,
-          loaded: true,
-          loading: false
+          entities
         };
       }
       return initialState;
@@ -32,15 +26,13 @@ export function reducer(
 
     case fromAction.LOAD_REGIONS: {
       return {
-        ...state,
-        loading: true
+        ...state
       };
     }
 
     case fromAction.CLEAR_MISCS_DATA: {
       return {
-        ...initialState,
-        loaded: false
+        ...initialState
       };
     }
   }
@@ -49,5 +41,3 @@ export function reducer(
 }
 
 export const getRegionsEntities = (state: RegionsState) => state.entities;
-export const getRegionsLoading = (state: RegionsState) => state.loading;
-export const getRegionsLoaded = (state: RegionsState) => state.loaded;

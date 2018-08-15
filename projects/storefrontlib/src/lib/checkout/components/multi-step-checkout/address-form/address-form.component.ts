@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
-import { Observable, combineLatest } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
@@ -31,11 +31,13 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   titles$: Observable<any>;
   regions$: Observable<any>;
   newAddress = false;
-  hasRegions = false;
 
-  @Input() existingAddresses;
-  @Output() addAddress = new EventEmitter<any>();
-  @Output() verifyAddress = new EventEmitter<any>();
+  @Input()
+  existingAddresses;
+  @Output()
+  addAddress = new EventEmitter<any>();
+  @Output()
+  verifyAddress = new EventEmitter<any>();
 
   address: FormGroup = this.fb.group({
     defaultAddress: [false],
@@ -62,40 +64,40 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    // Fetching countries
     this.countries$ = this.store.select(fromUser.getAllDeliveryCountries).pipe(
       tap(countries => {
+        // If the store is empty fetch countries. This is also used when changing language.
         if (Object.keys(countries).length === 0) {
           this.store.dispatch(new fromUser.LoadDeliveryCountries());
         }
       })
     );
 
+    // Fetching titles
     this.titles$ = this.store.select(fromUser.getAllTitles).pipe(
       tap(titles => {
+        // If the store is empty fetch titles. This is also used when changing language.
         if (Object.keys(titles).length === 0) {
           this.store.dispatch(new fromUser.LoadTitles());
         }
       })
     );
 
-    this.regions$ = combineLatest(
-      this.store.select(fromUser.getAllRegions),
-      this.store.select(fromUser.getRegionsLoaded),
-      this.store.select(fromUser.getRegionsLoading)
-    ).pipe(
-      tap(([regions, loaded, loading]: [any, boolean, boolean]) => {
-        const countryIsoCode = this.address.get('country.isocode').value;
+    // Fetching regions
+    this.regions$ = this.store.select(fromUser.getAllRegions).pipe(
+      tap(regions => {
+        const regionControl = this.address.get('region.isocode');
 
-        if (regions && regions.length !== 0) {
-          this.hasRegions = true;
-          this.address.get('region.isocode').enable();
+        // If the store is empty fetch regions. This is also used when changing language.
+        if (Object.keys(regions).length === 0) {
+          regionControl.disable();
+          const countryIsoCode = this.address.get('country.isocode').value;
+          if (countryIsoCode) {
+            this.store.dispatch(new fromUser.LoadRegions(countryIsoCode));
+          }
         } else {
-          this.hasRegions = false;
-          this.address.get('region.isocode').disable();
-        }
-
-        if (!loaded && !loading && countryIsoCode) {
-          this.store.dispatch(new fromUser.LoadRegions(countryIsoCode));
+          regionControl.enable();
         }
       })
     );

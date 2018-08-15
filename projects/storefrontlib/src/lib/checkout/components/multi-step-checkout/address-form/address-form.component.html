@@ -83,19 +83,20 @@
                 <input class="inputs" type="text" placeholder="City" formControlName="town">
                 <div class="error" *ngIf="required( 'town')">City is required</div>
             </div>
-            <div formGroupName="region" [hidden]="!hasRegions">
-                <div>
-                    <font size="3">Province:</font>
+            <ng-container *ngIf="regions$ | async as regions">
+                <div formGroupName="region" *ngIf="regions.length !== 0 && address.get('country.isocode').value">
+                    <div>
+                        <font size="3">Province:</font>
+                    </div>
+                    <select class="regions-dropdown" formControlName="isocode">
+                        <option value="">Select Region</option>
+                        <option *ngFor="let region of regions" [value]="region.isocode">
+                            {{region.name ? region.name : region.isocode}}
+                        </option>
+                    </select>
+                    <div class="error" *ngIf="required('region.isocode')">Province is required</div>
                 </div>
-                <div>You'll get an error if you don't enter right code.</div>
-                <select class="regions-dropdown" formControlName="isocode">
-                    <option value="">Select Region</option>
-                    <option *ngFor="let region of (regions$ | async)[0]" [value]="region.isocode">
-                        {{region.name ? region.name : region.isocode}}
-                    </option>
-                </select>
-                <div class="error" *ngIf="required('region.isocode')">Province is required</div>
-            </div>
+            </ng-container>
 
             <div>
                 <div>
