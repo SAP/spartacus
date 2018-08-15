@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+// we use the config from occ module, maybe we need create config inside this module
+import { ConfigService } from '../../../../occ/config.service';
 
 const DEFAULT_FORMAT = 'product';
 
@@ -25,13 +27,15 @@ export class PictureComponent implements OnInit {
   // mdImage;
   // lgImage;
 
-  constructor() {}
+  constructor(protected config: ConfigService) {}
 
   ngOnInit() {
     if (this.imageContainer) {
       const image = this.imageContainer[this.imageFormat || DEFAULT_FORMAT];
       if (image && image.url) {
-        this.mainImage = image.url;
+        this.mainImage = image.url.startsWith('/')
+          ? this.config.server.baseUrl + image.url
+          : image.url;
       }
     }
   }

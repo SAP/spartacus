@@ -4,8 +4,8 @@
     <source *ngIf="smImage" [srcset]="smImage" media="(max-width: 800px)" />
     <source *ngIf="mdImage" [srcset]="mdImage" media="(max-width: 1200px)" />
     <source *ngIf="lgImage" [srcset]="lgImage" media="(min-width: 1200px)" />-->
-    <img *ngIf="imageContainer && imageFormat && imageContainer[imageFormat]" [src]="imageContainer[imageFormat]?.url || 'assets/missing_product_EN_300x300.jpg'"
-        onError="this.src = 'assets/missing_product_EN_300x300.jpg'" />
+    <img *ngIf="mainImage" [src]="mainImage || 'assets/missing_product_EN_300x300.jpg'" onError="this.src = 'assets/missing_product_EN_300x300.jpg'"
+    />
 
     <img *ngIf="!imageContainer" src="assets/missing_product_EN_300x300.jpg" />
 </picture>
