@@ -1,11 +1,13 @@
+import { InjectionToken, Provider } from '@angular/core';
+
 import {
   ActionReducerMap,
   MemoizedSelector,
   createFeatureSelector
 } from '@ngrx/store';
+
 import * as fromUserTokenReducer from './user-token.reducer';
 import * as fromClientTokenReducer from './client-token.reducer';
-import { InjectionToken, Provider } from '@angular/core';
 
 export interface AuthState {
   userToken: fromUserTokenReducer.UserTokenState;
