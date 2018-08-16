@@ -31,21 +31,23 @@ export class UserAuthenticationTokenService {
 
   refreshToken(refreshToken: string) {
     const url = this.getOAuthEndpoint();
-    let creds = '';
-    creds +=
-      'client_id=' +
-      encodeURIComponent(this.configService.authentication.client_id);
-    creds +=
-      '&client_secret=' +
-      encodeURIComponent(this.configService.authentication.client_secret);
-    creds += '&refresh_token=' + encodeURI(refreshToken);
-    creds += '&grant_type=refresh_token';
+    const params = new HttpParams()
+      .set(
+        'client_id',
+        encodeURIComponent(this.configService.authentication.client_id)
+      )
+      .set(
+        'client_secret',
+        encodeURIComponent(this.configService.authentication.client_secret)
+      )
+      .set('refresh_token', encodeURI(refreshToken))
+      .set('grant_type', 'refresh_token');
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
     return this.http
-      .post(url, creds, { headers })
+      .post(url, params, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
