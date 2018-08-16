@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromStore from '../../store';
+import * as fromAuthStore from '../../../auth/store';
 import { UserRegisterEffects } from './user-register.effect';
 import { OccUserService } from '../../../occ/user/user.service';
 import { UserRegisterFormData } from '../../models/user.model';
@@ -52,7 +53,7 @@ describe('UserRegister effect', () => {
   describe('registerUser$', () => {
     it('should register user', () => {
       const action = new fromStore.RegisterUser(user);
-      const loadUser = new fromStore.LoadUserToken({
+      const loadUser = new fromAuthStore.LoadUserToken({
         userId: '',
         password: ''
       });

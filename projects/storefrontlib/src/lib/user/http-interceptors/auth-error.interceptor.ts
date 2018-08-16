@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { HttpRequest } from '@angular/common/http';
 import { Store } from '@ngrx/store';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import * as fromUser from '../store';
@@ -37,6 +37,15 @@ export class AuthErrorInterceptor implements HttpInterceptor {
                   request,
                   next
                 );
+              } else if (
+                // Refresh expired token
+                // Check that the OAUTH endpoint was called and the error is for refresh token is expired
+                errResponse.url.indexOf(OAUTH_ENDPOINT) !== -1 &&
+                errResponse.error.error === 'invalid_token'
+              ) {
+                return of(
+                  this.userErrorHandlingService.handleExpiredRefreshToken()
+                );
               }
               break;
             case 400: // Bad Request
@@ -65,15 +74,8 @@ export class AuthErrorInterceptor implements HttpInterceptor {
       resp.error.errors instanceof Array &&
       resp.error.errors[0]
     ) {
-      const reason = resp.error.errors[0];
-      if (
-        reason.type === 'InvalidTokenError' &&
-        reason.message.startsWith('Invalid access token:')
-      ) {
-        return true;
-      }
+      return resp.error.errors[0].type === 'InvalidTokenError';
     }
-
     return false;
   }
 }

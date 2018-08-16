@@ -11,8 +11,8 @@ import { of } from 'rxjs';
 import * as fromStore from '../store';
 import * as fromRoot from '../../routing/store';
 import { ConfigService } from '../../occ/config.service';
-import { UserToken } from '../models/token-types.model';
 import { UserHttpInterceptor } from './user-http.interceptor';
+import { UserToken } from './../../auth/models/token-types.model';
 
 class MockConfigService {
   server = {

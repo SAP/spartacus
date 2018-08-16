@@ -7,6 +7,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromStore from '../../../store';
 import * as fromRouting from '../../../../routing/store';
+import * as fromAuthStore from '../../../../auth/store';
 
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
@@ -20,7 +21,8 @@ describe('LoginFormComponent', () => {
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromStore.getReducers(),
-          user: combineReducers(fromStore.getReducers())
+          user: combineReducers(fromStore.getReducers()),
+          auth: combineReducers(fromAuthStore.getReducers())
         })
       ],
       declarations: [LoginFormComponent],
@@ -64,7 +66,7 @@ describe('LoginFormComponent', () => {
     component.login();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadUserToken({
+      new fromAuthStore.LoadUserToken({
         userId: 'test@email.com',
         password: 'secret'
       })
