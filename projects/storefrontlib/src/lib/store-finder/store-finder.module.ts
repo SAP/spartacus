@@ -13,6 +13,7 @@ import * as fromServices from './services';
 import { StoreFinderSearchComponent } from './components/store-finder-search/store-finder-search.component';
 import { StoreFinderListComponent } from './components/store-finder-list/store-finder-list.component';
 import { StoreFinderPagingComponent } from './components/store-finder-paging/store-finder-paging.component';
+import { StoreFinderListItemComponent } from './components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { StoreFinderPagingComponent } from './components/store-finder-paging/sto
   declarations: [
     StoreFinderSearchComponent,
     StoreFinderListComponent,
-    StoreFinderPagingComponent
+    StoreFinderPagingComponent,
+    StoreFinderListItemComponent
   ],
   exports: [
     StoreFinderSearchComponent,
