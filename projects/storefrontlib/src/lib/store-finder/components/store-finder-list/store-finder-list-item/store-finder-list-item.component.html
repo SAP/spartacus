@@ -9,12 +9,12 @@
   <div *ngIf="isOpen(location)">
     <div *ngIf="isClosingSoon(); else open">
       <b class="opening_closing_soon">
-        {{daysOfWeek[getCurrentDay()]}}: Closing Soon
+        {{getCurrentDay()}}: Closing Soon
       </b>
     </div>
     <ng-template #open>
       <b id="open">
-        {{daysOfWeek[getCurrentDay()]}}: Open until {{getClosingTime(location) | date:'shortTime'}}
+        {{getCurrentDay()}}: Open until {{getClosingTime(location) | date:'shortTime'}}
       </b>
     </ng-template>
   </div>

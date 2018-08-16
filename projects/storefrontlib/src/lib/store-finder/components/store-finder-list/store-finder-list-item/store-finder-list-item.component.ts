@@ -10,6 +10,7 @@ export class StoreFinderListItemComponent implements OnInit {
   current_date = new Date();
   closingSoon: boolean;
   openingSoon: boolean;
+  readonly DECIMAL_BASE: 10;
   readonly daysOfWeek = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
 
   constructor() {}
@@ -17,8 +18,9 @@ export class StoreFinderListItemComponent implements OnInit {
   ngOnInit() {}
 
   getDirections(location: any) {
+    const google_map_url = 'https://www.google.com/maps/dir/Current+Location/';
     window.open(
-      'https://www.google.com/maps/dir/Current+Location/' +
+      google_map_url +
         location.geoPoint.latitude +
         ',' +
         location.geoPoint.longitude
@@ -27,46 +29,48 @@ export class StoreFinderListItemComponent implements OnInit {
 
   getClosingTime(location: any): Date {
     const closing_hour = location.openingHours.weekDayOpeningList[
-      this.getCurrentDay()
+      this.daysOfWeek.indexOf(this.getCurrentDay())
     ].closingTime.formattedHour.split(':')[0];
     const closing_minutes =
-      location.openingHours.weekDayOpeningList[this.getCurrentDay()].closingTime
-        .minute;
-    const closing_date = new Date();
-    closing_date.setHours(closing_hour);
-    closing_date.setMinutes(closing_minutes);
-    return closing_date;
+      location.openingHours.weekDayOpeningList[
+        this.daysOfWeek.indexOf(this.getCurrentDay())
+      ].closingTime.minute;
+    const closing_date_time = new Date();
+    closing_date_time.setHours(closing_hour);
+    closing_date_time.setMinutes(closing_minutes);
+    return closing_date_time;
   }
 
   getOpeningTime(location: any): Date {
     const opening_hour = location.openingHours.weekDayOpeningList[
-      this.getCurrentDay()
+      this.daysOfWeek.indexOf(this.getCurrentDay())
     ].openingTime.formattedHour.split(':')[0];
     const opening_minutes =
-      location.openingHours.weekDayOpeningList[this.getCurrentDay()].openingTime
-        .minute;
-    const opening_date = new Date();
-    opening_date.setHours(opening_hour);
-    opening_date.setMinutes(opening_minutes);
-    return opening_date;
+      location.openingHours.weekDayOpeningList[
+        this.daysOfWeek.indexOf(this.getCurrentDay())
+      ].openingTime.minute;
+    const opening_date_time = new Date();
+    opening_date_time.setHours(opening_hour);
+    opening_date_time.setMinutes(opening_minutes);
+    return opening_date_time;
   }
 
-  getCurrentDay(): number {
+  getCurrentDay(): string {
     switch (this.current_date.getDay()) {
       case 0: // Sun
-        return 6;
+        return this.daysOfWeek[6];
       case 1: // Mon
-        return 0;
+        return this.daysOfWeek[0];
       case 2: // Tues
-        return 1;
+        return this.daysOfWeek[1];
       case 3: // Wed
-        return 2;
+        return this.daysOfWeek[2];
       case 4: // Thurs
-        return 3;
+        return this.daysOfWeek[3];
       case 5: // Fri
-        return 4;
+        return this.daysOfWeek[4];
       case 6: // Sat
-        return 5;
+        return this.daysOfWeek[5];
     }
   }
 
@@ -79,29 +83,28 @@ export class StoreFinderListItemComponent implements OnInit {
   }
 
   isOpen(location: any): boolean {
-    // let current_time = this.current_date.getHours() +":"+ this.current_date.getMinutes(); //time in 12 hour clock
     const current_hour = parseInt(
       this.current_date.getHours().toLocaleString(),
-      10
+      this.DECIMAL_BASE
     ); // in 24 hour clock
     const closing_hour = location.openingHours.weekDayOpeningList[
-      this.getCurrentDay()
+      this.daysOfWeek.indexOf(this.getCurrentDay())
     ].closingTime.formattedHour.split(':')[0];
     const opening_hour = location.openingHours.weekDayOpeningList[
-      this.getCurrentDay()
+      this.daysOfWeek.indexOf(this.getCurrentDay())
     ].openingTime.formattedHour.split(':')[0];
     if (
-      current_hour <= parseInt(closing_hour, 10) &&
-      current_hour >= parseInt(opening_hour, 10)
+      current_hour <= parseInt(closing_hour, this.DECIMAL_BASE) &&
+      current_hour >= parseInt(opening_hour, this.DECIMAL_BASE)
     ) {
-      if (current_hour + 1 === parseInt(closing_hour, 10)) {
+      if (current_hour + 1 === parseInt(closing_hour, this.DECIMAL_BASE)) {
         // one hour left before closing time
         this.closingSoon = true;
         this.openingSoon = false;
       }
       return true;
     } else {
-      if (current_hour + 1 === parseInt(opening_hour, 10)) {
+      if (current_hour + 1 === parseInt(opening_hour, this.DECIMAL_BASE)) {
         // one hour left before opening time
         this.openingSoon = true;
         this.closingSoon = false;
