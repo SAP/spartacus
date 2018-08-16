@@ -3,8 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { AuthGuard } from './auth.guard';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from './../../routing/store';
-import * as fromStore from './../store';
-import * as fromReducers from './../store/reducers';
+import * as fromStore from './../../auth/store';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -16,7 +15,7 @@ const mockUserInvalidToken = {};
 
 describe('AuthGuard', () => {
   let authGuard: AuthGuard;
-  let store: Store<fromStore.UserState>;
+  let store: Store<fromStore.AuthState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,7 +24,7 @@ describe('AuthGuard', () => {
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          user: combineReducers(fromReducers.getReducers())
+          auth: combineReducers(fromStore.getReducers())
         })
       ]
     });

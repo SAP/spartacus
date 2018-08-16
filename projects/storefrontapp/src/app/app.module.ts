@@ -6,6 +6,7 @@ import { ConfigService } from './config.service';
 import { AppRoutingModule } from './app-routing.module';
 
 import {
+  AuthModule,
   OccModule,
   UiModule,
   CmsLibModule,
@@ -21,6 +22,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   imports: [
     BrowserModule,
+    AuthModule.forRoot(ConfigService),
     RoutingModule.forRoot(ConfigService),
     OccModule.forRoot(ConfigService),
 

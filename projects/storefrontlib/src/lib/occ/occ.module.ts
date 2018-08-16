@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfigService } from './config.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
-import { AuthenticationTokenInterceptor } from './http-interceptors/authentication-token.interceptor';
 import { OccUserService } from './user/user.service';
 import { OccProductService } from './product/product.service';
 import { OccProductSearchService } from './product/product-search.service';
@@ -18,7 +17,6 @@ import { OccE2eConfigurationService } from './e2e/configuration-service';
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   providers: [
-    OccClientAuthenticationTokenService,
     OccProductSearchService,
     OccProductService,
     OccSiteService,
@@ -38,11 +36,6 @@ export class OccModule {
         {
           provide: ConfigService,
           useExisting: config
-        },
-        {
-          provide: HTTP_INTERCEPTORS,
-          useClass: AuthenticationTokenInterceptor,
-          multi: true
         }
       ]
     };

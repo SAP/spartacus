@@ -56,7 +56,7 @@ export class OccProductService {
     body.append('alias', review.reviewerName.value);
 
     return this.http
-      .post(url, body.toString(), { headers: headers })
+      .post(url, body.toString(), { headers })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
   /*

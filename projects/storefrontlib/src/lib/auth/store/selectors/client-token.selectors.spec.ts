@@ -6,17 +6,17 @@ import * as fromRoot from './../../../routing/store';
 import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
 import * as fromActions from './../actions';
-import { UserToken } from '../../models/token-types.model';
+import { ClientAuthenticationToken } from '../../models/token-types.model';
 
-describe('User Selectors', () => {
-  let store: Store<fromReducers.UserState>;
+describe('ClientToken Selectors', () => {
+  let store: Store<fromReducers.AuthState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          user: combineReducers(fromReducers.getReducers())
+          auth: combineReducers(fromReducers.getReducers())
         })
       ]
     });
@@ -25,24 +25,21 @@ describe('User Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getUserToken', () => {
-    it('should return a user token from the state', () => {
-      let result: UserToken;
+  describe('getClientToken', () => {
+    it('should return a client token from the state', () => {
+      let result: ClientAuthenticationToken;
       store
-        .select(fromSelectors.getUserToken)
+        .select(fromSelectors.getClientToken)
         .subscribe(value => (result = value));
-      expect(result).toEqual(<UserToken>{});
+      expect(result).toEqual(<ClientAuthenticationToken>{});
 
-      const testToken: UserToken = {
+      const testToken: ClientAuthenticationToken = {
         access_token: 'xxx',
-        token_type: 'bearer',
-        refresh_token: 'xxx',
-        expires_in: 1000,
-        scope: ['xxx'],
-        userId: 'xxx'
+        token_type: 'xxx',
+        expires_in: 1,
+        scope: 'xxx'
       };
-      store.dispatch(new fromActions.LoadUserTokenSuccess(testToken));
-
+      store.dispatch(new fromActions.LoadClientTokenSuccess(testToken));
       expect(result).toEqual(testToken);
     });
   });

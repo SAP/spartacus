@@ -4,14 +4,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
-import * as fromStore from '../store';
+import * as fromStore from './../store';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   static GUARD_NAME = 'AuthGuard';
 
   constructor(
-    private store: Store<fromStore.UserState>,
+    private store: Store<fromStore.AuthState>,
     private router: Router
   ) {}
 

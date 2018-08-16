@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import * as fromStore from '../../../store';
+import * as fromAuthStore from './../../../../auth/store';
 import * as fromRouting from '../../../../routing/store';
 import * as fromGlobalMessage from '../../../../global-message/store';
 import { GlobalMessageType } from '../../../../global-message/models/message.model';
@@ -23,7 +24,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userTokenSubscription = this.store
-      .select(fromStore.getUserToken)
+      .select(fromAuthStore.getUserToken)
       .subscribe(data => {
         if (data && data.access_token) {
           this.store.dispatch(
@@ -44,7 +45,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   login() {
     this.store.dispatch(
-      new fromStore.LoadUserToken({
+      new fromAuthStore.LoadUserToken({
         userId: this.form.controls.userId.value,
         password: this.form.controls.password.value
       })

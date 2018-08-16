@@ -4,8 +4,11 @@ import { ConfigService } from '../config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { UserRegisterFormData } from '../../user/models/user.model';
+import {
+  InterceptorUtil,
+  USE_CLIENT_TOKEN
+} from '../../site-context/shared/http-interceptors/interceptor-util';
 
-const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
 const ADDRESSES_ENDPOINT = '/addresses';
@@ -26,23 +29,6 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  loadToken(userId: string, password: string): Observable<any> {
-    const url = this.getOAuthEndpoint();
-    let creds = '';
-    creds += 'client_id=' + this.configService.authentication.client_id;
-    creds +=
-      '&client_secret=' + this.configService.authentication.client_secret;
-    creds += '&grant_type=password'; // authorization_code, client_credentials, password
-    creds += '&username=' + userId + '&password=' + password;
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
-    });
-
-    return this.http
-      .post(url, creds, { headers: headers })
-      .pipe(catchError((error: any) => throwError(error)));
-  }
-
   verifyAddress(userId, address) {
     const url =
       this.getUserEndpoint() + userId + ADDRESSES_VERIFICATION_ENDPOINT;
@@ -51,7 +37,7 @@ export class OccUserService {
     });
 
     return this.http
-      .post(url, address, { headers: headers })
+      .post(url, address, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -62,7 +48,7 @@ export class OccUserService {
     });
 
     return this.http
-      .get(url, { headers: headers })
+      .get(url, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -73,43 +59,20 @@ export class OccUserService {
     });
 
     return this.http
-      .get(url, { headers: headers })
-      .pipe(catchError((error: any) => throwError(error)));
-  }
-
-  refreshToken(refreshToken: string) {
-    const url = this.getOAuthEndpoint();
-    let creds = '';
-    creds +=
-      'client_id=' +
-      encodeURIComponent(this.configService.authentication.client_id);
-    creds +=
-      '&client_secret=' +
-      encodeURIComponent(this.configService.authentication.client_secret);
-    creds += '&refresh_token=' + encodeURI(refreshToken);
-    creds += '&grant_type=refresh_token';
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
-    });
-
-    return this.http
-      .post(url, creds, { headers })
+      .get(url, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
   registerUser(user: UserRegisterFormData): Observable<any> {
     const url = this.getUserEndpoint();
-    const headers = new HttpHeaders({
+    let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
+    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
 
     return this.http
-      .post(url, user, { headers: headers })
+      .post(url, user, { headers })
       .pipe(catchError((error: any) => throwError(error)));
-  }
-
-  protected getOAuthEndpoint() {
-    return this.configService.server.baseUrl + OAUTH_ENDPOINT;
   }
 
   protected getUserEndpoint() {

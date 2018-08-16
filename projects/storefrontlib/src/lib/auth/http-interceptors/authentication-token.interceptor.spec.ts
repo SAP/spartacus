@@ -4,11 +4,14 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-import { of, Observable } from 'rxjs';
+import { StoreModule, combineReducers, Store } from '@ngrx/store';
+import * as fromRoot from '../../routing/store';
+import * as fromStore from './../store';
+import { of } from 'rxjs';
 
 import { AuthenticationTokenInterceptor } from './authentication-token.interceptor';
-import { ClientAuthenticationToken } from '../../user/models/token-types.model';
-import { OccClientAuthenticationTokenService } from '../client-authentication/client-authentication-token.service';
+import { ClientAuthenticationToken } from './../models/token-types.model';
+import { InterceptorUtil } from '../../site-context/shared/http-interceptors/interceptor-util';
 
 const testToken: ClientAuthenticationToken = {
   access_token: 'abc-123',
@@ -17,23 +20,20 @@ const testToken: ClientAuthenticationToken = {
   scope: ''
 };
 
-class MockOccClientAuthenticationTokenService {
-  loadClientAuthenticationToken(): Observable<any> {
-    return of(testToken);
-  }
-}
-
 describe('AuthenticationTokenInterceptor', () => {
   let httpMock: HttpTestingController;
+  let store: Store<fromStore.AuthState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.getReducers(),
+          auth: combineReducers(fromStore.getReducers())
+        })
+      ],
       providers: [
-        {
-          provide: OccClientAuthenticationTokenService,
-          useClass: MockOccClientAuthenticationTokenService
-        },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: AuthenticationTokenInterceptor,
@@ -41,7 +41,10 @@ describe('AuthenticationTokenInterceptor', () => {
         }
       ]
     });
+    store = TestBed.get(Store);
     httpMock = TestBed.get(HttpTestingController);
+
+    spyOn(store, 'select').and.returnValue(of(testToken));
   });
 
   describe('Client Token', () => {
@@ -55,11 +58,15 @@ describe('AuthenticationTokenInterceptor', () => {
         let authHeader = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(null);
 
+        spyOn<any>(InterceptorUtil, 'getInterceptorParam').and.returnValue(
+          true
+        );
         http
           .post('/somestore/forgottenpasswordtokens', { userId: 1 })
           .subscribe(result => {
             expect(result).toBeTruthy();
           });
+
         mockReq = httpMock.expectOne('/somestore/forgottenpasswordtokens');
         authHeader = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(
