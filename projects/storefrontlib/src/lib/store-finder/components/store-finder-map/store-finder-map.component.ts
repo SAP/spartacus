@@ -7,7 +7,7 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { GoogleMapRendererServcie } from '../../services/googleMapRenderer.service';
+import { GoogleMapRendererServcie } from '../../services/google-map-renderer.service';
 import * as fromStore from '../../store';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -17,11 +17,8 @@ import { Observable } from 'rxjs';
   templateUrl: './store-finder-map.component.html',
   styleUrls: ['./store-finder-map.component.scss']
 })
-export class StoreFinderMapComponent implements OnInit, OnChanges {
+export class StoreFinderMapComponent implements OnInit {
   @ViewChild('mapElement') private mapElement: ElementRef;
-
-  @Input() centerLat: number;
-  @Input() centerLong: number;
 
   constructor(
     private googleMapRendererService: GoogleMapRendererServcie,
@@ -33,23 +30,18 @@ export class StoreFinderMapComponent implements OnInit, OnChanges {
       if (locations.stores) {
         this.googleMapRendererService.renderMap(
           this.mapElement.nativeElement,
-          locations.stores.map((store, index) => {
-            return {
-              ...store,
-              getLabel: () => '' + (index + 1),
-              getLatitude: () => store.geoPoint.latitude,
-              getLongitude: () => store.geoPoint.longitude
-            };
-          })
+          locations.stores
         );
       }
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-    if (this.centerLat && this.centerLong) {
-      this.googleMapRendererService.centerMap(this.centerLat, this.centerLong);
-    }
+  /**
+   * Sets the center of the map to the given location
+   * @param latitude latitude of the new center
+   * @param longitude longitude of the new center
+   */
+  public centerMap(latitude: number, longitude: number): void {
+    this.googleMapRendererService.centerMap(latitude, longitude);
   }
 }

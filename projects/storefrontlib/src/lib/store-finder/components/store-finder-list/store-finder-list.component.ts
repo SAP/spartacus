@@ -2,43 +2,42 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  Input
+  Input,
+  ViewChild
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
 import { SearchConfig } from '../../models/search-config';
+import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
 
 @Component({
   selector: 'y-store-finder-list',
   templateUrl: './store-finder-list.component.html',
-  styleUrls: ['./store-finder-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./store-finder-list.component.scss']
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreFinderListComponent implements OnInit {
   @Input() query;
 
-  centerLat: number;
-  centerLong: number;
-
-  locations$: Observable<any>;
+  private locations: any;
   searchConfig: SearchConfig = {
     currentPage: 0
   };
   current_date = new Date();
   closingSoon: boolean;
   openingSoon: boolean;
-  loc: any;
+
+  @ViewChild('storeMap') storeMap: StoreFinderMapComponent;
+
   readonly daysOfWeek = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
 
   constructor(private store: Store<fromStore.StoresState>) {}
 
   ngOnInit() {
-    this.locations$ = this.store.select(fromStore.getAllStores);
-    this.locations$.subscribe(result => {
-      console.log('hui');
-      this.loc = result;
+    this.store.select(fromStore.getAllStores).subscribe(locations => {
+      this.locations = locations;
     });
   }
 
@@ -145,9 +144,10 @@ export class StoreFinderListComponent implements OnInit {
     }
   }
 
-  handleClick($event) {
-    console.log(this.loc.stores[$event]);
-    this.centerLat = this.loc.stores[$event].geoPoint.latitude;
-    this.centerLong = this.loc.stores[$event].geoPoint.longitude;
+  private centerStoreOnMapByIndex(index: number): void {
+    this.storeMap.centerMap(
+      this.locations.stores[index].geoPoint.latitude,
+      this.locations.stores[index].geoPoint.longitude
+    );
   }
 }
