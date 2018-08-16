@@ -21,8 +21,6 @@ import { CategoryPageModule } from './category-page/category-page.module';
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
 
-import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
-
 @NgModule({
   imports: [
     CommonModule,
