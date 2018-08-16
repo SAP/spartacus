@@ -8,9 +8,12 @@
 
   <!-- product name, code, promotions -->
   <div class="item__info">
-    <a [routerLink]="['/product', entry.product.code]">
+    <a *ngIf="!disableProductLink; else disabledProductLink" [routerLink]="['/product', entry.product.code]">
       <span class="item__name">{{entry.product.name}}</span>
     </a>
+    <ng-template #disabledProductLink>
+      <span class="item__name">{{entry.product.name}}</span>
+    </ng-template>
     <div class="item__code">ID: {{entry.product.code}}</div>
 
     <!-- availability-->
