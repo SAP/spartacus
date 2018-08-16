@@ -7,6 +7,7 @@ import * as fromCart from '../../../../cart/store';
 import * as fromRoot from '../../../../routing/store';
 import * as fromRouting from '../../../../routing/store';
 import * as fromUser from '../../../../user/store';
+import * as fromAuth from '../../../../auth/store';
 import { Address } from '../../../models/address-model';
 import * as fromCheckout from '../../../store';
 import { AddressFormComponent } from '../address-form/address-form.component';
@@ -56,7 +57,8 @@ describe('MultiStepCheckoutComponent', () => {
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
           user: combineReducers(fromUser.getReducers()),
-          checkout: combineReducers(fromCheckout.getReducers())
+          checkout: combineReducers(fromCheckout.getReducers()),
+          auth: combineReducers(fromAuth.getReducers())
         })
       ],
       declarations: [

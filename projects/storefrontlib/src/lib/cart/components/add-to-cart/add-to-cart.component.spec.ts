@@ -13,6 +13,7 @@ import { CartDataService } from '../../../cart/services/cart-data.service';
 import * as fromCart from '../../../cart/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromUser from '../../../user/store';
+import * as fromAuth from './../../../auth/store';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddToCartModule } from './add-to-cart.module';
 
@@ -34,7 +35,8 @@ describe('AddToCartComponent', () => {
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
-          user: combineReducers(fromUser.getReducers())
+          user: combineReducers(fromUser.getReducers()),
+          auth: combineReducers(fromAuth.getReducers())
         })
       ],
       providers: [CartService, CartDataService]

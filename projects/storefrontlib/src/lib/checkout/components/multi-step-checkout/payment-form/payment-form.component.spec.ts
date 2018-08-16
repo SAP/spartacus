@@ -12,6 +12,7 @@ import * as fromRoot from '../../../../routing/store';
 import * as fromCheckout from '../../../store';
 import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
+import * as fromAuth from '../../../../auth/store';
 
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
@@ -70,7 +71,8 @@ describe('PaymentFormComponent', () => {
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
           user: combineReducers(fromUser.getReducers()),
-          checkout: combineReducers(fromCheckout.getReducers())
+          checkout: combineReducers(fromCheckout.getReducers()),
+          auth: combineReducers(fromAuth.getReducers())
         })
       ],
       declarations: [PaymentFormComponent],
