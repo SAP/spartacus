@@ -9,14 +9,18 @@ import { guards } from './guards/index';
 
 import { StoreModule } from '@ngrx/store';
 import { effects } from './store/effects/index';
-import { reducerToken, reducerProvider } from './store/reducers/index';
+import {
+  reducerToken,
+  reducerProvider,
+  metaReducers
+} from './store/reducers/index';
 import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
-    StoreModule.forFeature('auth', reducerToken),
+    StoreModule.forFeature('auth', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
   providers: [
