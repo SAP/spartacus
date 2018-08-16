@@ -8,7 +8,7 @@ import {
   FormControl
 } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromUserStore from '../../store';
@@ -37,8 +37,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromUserStore.UserState>,
-    private fb: FormBuilder,
-    private route: ActivatedRoute
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -64,9 +63,22 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     this.sub = this.store.select(fromUserStore.getUserToken).subscribe(data => {
       if (data && data.access_token) {
-        const returnUrl = this.route.snapshot.queryParams['returnUrl'];
-        const path = returnUrl ? returnUrl : '/';
-        this.store.dispatch(new fromRouting.Go({ path: [path] }));
+        this.store
+          .select(fromRouting.getRedirectUrl)
+          .pipe(
+            take(1),
+            tap(url => {
+              if (url) {
+                // If forced to login due to AuthGuard, then redirect to intended destination
+                this.store.dispatch(new fromRouting.Go({ path: [url] }));
+                this.store.dispatch(new fromRouting.clearRedirectUrl());
+              } else {
+                // User manual login
+                this.store.dispatch(new fromRouting.Back());
+              }
+            })
+          )
+          .subscribe();
       }
     });
   }

@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { take, tap } from 'rxjs/operators';
 import * as fromStore from '../../../store';
 import * as fromRouting from '../../../../routing/store';
 import * as fromGlobalMessage from '../../../../global-message/store';
@@ -34,15 +35,22 @@ export class LoginFormComponent implements OnInit, OnDestroy {
               type: GlobalMessageType.MSG_TYPE_CONFIRMATION
             })
           );
-          const returnUrl = this.route.snapshot.queryParams['returnUrl'];
-
-          if (returnUrl) {
-            // If forced to login due to AuthGuard, then redirect to intended destination
-            this.store.dispatch(new fromRouting.Go({ path: [returnUrl] }));
-          } else {
-            // User manual login
-            this.store.dispatch(new fromRouting.Back());
-          }
+          this.store
+            .select(fromRouting.getRedirectUrl)
+            .pipe(
+              take(1),
+              tap(url => {
+                if (url) {
+                  // If forced to login due to AuthGuard, then redirect to intended destination
+                  this.store.dispatch(new fromRouting.Go({ path: [url] }));
+                  this.store.dispatch(new fromRouting.clearRedirectUrl());
+                } else {
+                  // User manual login
+                  this.store.dispatch(new fromRouting.Back());
+                }
+              })
+            )
+            .subscribe();
         }
       });
 
