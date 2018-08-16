@@ -6,9 +6,8 @@ import { catchError } from 'rxjs/operators';
 import { UserRegisterFormData } from '../../user/models/user.model';
 import {
   InterceptorUtil,
-  REQUEST_MAPPING_CUSTOM_HEADER
+  USE_CLIENT_TOKEN
 } from '../../site-context/shared/http-interceptors/interceptor-util';
-import { RequestMapping } from './../../auth/models/request-mapping.model';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
@@ -69,15 +68,7 @@ export class OccUserService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    const requestMapping: RequestMapping = {
-      method: 'POST',
-      urlPattern: '^(.*?)/users/$'
-    };
-    headers = InterceptorUtil.createHeader(
-      REQUEST_MAPPING_CUSTOM_HEADER,
-      requestMapping,
-      headers
-    );
+    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
 
     return this.http
       .post(url, user, { headers })

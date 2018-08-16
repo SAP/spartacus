@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 
-export const REQUEST_MAPPING_CUSTOM_HEADER = 'y-request-mapping';
+export const USE_CLIENT_TOKEN = 'y-use-client-token';
 
 export class InterceptorUtil {
   static createHeader<T>(

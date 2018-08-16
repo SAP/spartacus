@@ -58,10 +58,9 @@ describe('AuthenticationTokenInterceptor', () => {
         let authHeader = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(null);
 
-        spyOn<any>(InterceptorUtil, 'getInterceptorParam').and.returnValue({
-          method: 'POST',
-          urlPattern: '^(.*?)/forgottenpasswordtokens'
-        });
+        spyOn<any>(InterceptorUtil, 'getInterceptorParam').and.returnValue(
+          true
+        );
         http
           .post('/somestore/forgottenpasswordtokens', { userId: 1 })
           .subscribe(result => {

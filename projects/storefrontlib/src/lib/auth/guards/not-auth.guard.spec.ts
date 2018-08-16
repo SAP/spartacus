@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 
 import { NotAuthGuard } from './not-auth.guard';
 import * as fromRoot from './../../routing/store';
-import * as fromStore from './../../user/store';
+import * as fromStore from './../../auth/store';
 
 const mockUserValidToken = {
   access_token: 'Mock Access Token'
@@ -15,7 +15,7 @@ const mockUserInvalidToken = {};
 
 describe('NotAuthGuard', () => {
   let authGuard: NotAuthGuard;
-  let store: Store<fromStore.UserState>;
+  let store: Store<fromStore.AuthState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -24,7 +24,7 @@ describe('NotAuthGuard', () => {
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          user: combineReducers(fromStore.getReducers())
+          auth: combineReducers(fromStore.getReducers())
         })
       ]
     });

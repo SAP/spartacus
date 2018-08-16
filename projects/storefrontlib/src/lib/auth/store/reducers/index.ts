@@ -1,11 +1,15 @@
+import { InjectionToken, Provider } from '@angular/core';
+
 import {
   ActionReducerMap,
   MemoizedSelector,
-  createFeatureSelector
+  createFeatureSelector,
+  ActionReducer,
+  MetaReducer
 } from '@ngrx/store';
+
 import * as fromUserTokenReducer from './user-token.reducer';
 import * as fromClientTokenReducer from './client-token.reducer';
-import { InjectionToken, Provider } from '@angular/core';
 
 export interface AuthState {
   userToken: fromUserTokenReducer.UserTokenState;
@@ -32,3 +36,19 @@ export const getAuthState: MemoizedSelector<
   any,
   AuthState
 > = createFeatureSelector<AuthState>('auth');
+
+export function clearAuthState(
+  reducer: ActionReducer<any>
+): ActionReducer<any> {
+  return function(state, action) {
+    if (action.type === '[User] Logout') {
+      state = {
+        ...state,
+        userToken: undefined
+      };
+    }
+    return reducer(state, action);
+  };
+}
+
+export const metaReducers: MetaReducer<any>[] = [clearAuthState];

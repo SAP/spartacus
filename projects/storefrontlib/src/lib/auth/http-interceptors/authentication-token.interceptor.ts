@@ -15,9 +15,8 @@ import {
 
 import { Store } from '@ngrx/store';
 import * as fromAuthStore from './../store';
-import { RequestMapping } from './../models/request-mapping.model';
 import {
-  REQUEST_MAPPING_CUSTOM_HEADER,
+  USE_CLIENT_TOKEN,
   InterceptorUtil
 } from '../../site-context/shared/http-interceptors/interceptor-util';
 
@@ -32,10 +31,8 @@ export class AuthenticationTokenInterceptor implements HttpInterceptor {
     return this.getTokenForRequest(request).pipe(
       switchMap((token: AuthenticationToken) => {
         if (token) {
-          if (this.containsRequestMapping(request)) {
-            const updatedHeaders = request.headers.delete(
-              REQUEST_MAPPING_CUSTOM_HEADER
-            );
+          if (this.useClientToken(request)) {
+            const updatedHeaders = request.headers.delete(USE_CLIENT_TOKEN);
             request = request.clone({ headers: updatedHeaders });
           }
 
@@ -50,26 +47,11 @@ export class AuthenticationTokenInterceptor implements HttpInterceptor {
     );
   }
 
-  // Left these lines commented, as they can be useful once we implement the functionality for 'forgot password'
-  // and 'assigning an email to the cart' (anonymous checkout)
-  //   { method: 'POST', urlPattern: '^(.*?)/forgottenpasswordtokens' },
-  //   { method: 'PUT', urlPattern: '^(.*?)/users/(.*?)/carts/(.*?)/email' }
   private getTokenForRequest(
     request: HttpRequest<any>
   ): Observable<AuthenticationToken> {
-    if (this.containsRequestMapping(request)) {
-      const requestMapping: RequestMapping = InterceptorUtil.getInterceptorParam(
-        REQUEST_MAPPING_CUSTOM_HEADER,
-        request.headers
-      );
-      const url = request.url.split('?')[0];
-      if (
-        url.match(requestMapping.urlPattern) &&
-        request.method === requestMapping.method &&
-        !request.headers.get('Authorization')
-      ) {
-        return this.getClientToken();
-      }
+    if (this.useClientToken(request)) {
+      return this.getClientToken();
     }
 
     return of(null);
@@ -88,11 +70,11 @@ export class AuthenticationTokenInterceptor implements HttpInterceptor {
     );
   }
 
-  private containsRequestMapping(request: HttpRequest<any>): boolean {
-    const requestMapping = InterceptorUtil.getInterceptorParam(
-      REQUEST_MAPPING_CUSTOM_HEADER,
+  private useClientToken(request: HttpRequest<any>): boolean {
+    const isRequestMapping = InterceptorUtil.getInterceptorParam(
+      USE_CLIENT_TOKEN,
       request.headers
     );
-    return Boolean(requestMapping);
+    return Boolean(isRequestMapping);
   }
 }

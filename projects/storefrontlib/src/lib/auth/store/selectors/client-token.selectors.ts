@@ -15,8 +15,3 @@ export const getClientToken: MemoizedSelector<
   any,
   ClientAuthenticationToken
 > = createSelector(getClientTokenState, fromClientToken.getClientToken);
-
-export const getClientTokenLoading: MemoizedSelector<
-  any,
-  boolean
-> = createSelector(getClientTokenState, fromClientToken.getClientTokenLoading);
