@@ -16,7 +16,7 @@ describe('StoreFinder Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
+          ...fromRoot.getReducers(),
           stores: combineReducers(fromReducers.reducers)
         })
       ]
