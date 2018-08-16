@@ -19,6 +19,9 @@ import { SearchConfig } from '../../models/search-config';
 export class StoreFinderListComponent implements OnInit {
   @Input() query;
 
+  centerLat: number;
+  centerLong: number;
+
   locations$: Observable<any>;
   searchConfig: SearchConfig = {
     currentPage: 0
@@ -26,12 +29,17 @@ export class StoreFinderListComponent implements OnInit {
   current_date = new Date();
   closingSoon: boolean;
   openingSoon: boolean;
+  loc: any;
   readonly daysOfWeek = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
 
   constructor(private store: Store<fromStore.StoresState>) {}
 
   ngOnInit() {
     this.locations$ = this.store.select(fromStore.getAllStores);
+    this.locations$.subscribe(result => {
+      console.log('hui');
+      this.loc = result;
+    });
   }
 
   getDirections(location: any) {
@@ -135,5 +143,11 @@ export class StoreFinderListComponent implements OnInit {
       }
       return false;
     }
+  }
+
+  handleClick($event) {
+    console.log(this.loc.stores[$event]);
+    this.centerLat = this.loc.stores[$event].geoPoint.latitude;
+    this.centerLong = this.loc.stores[$event].geoPoint.longitude;
   }
 }

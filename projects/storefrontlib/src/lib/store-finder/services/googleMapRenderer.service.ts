@@ -5,7 +5,7 @@ import { SccConfigurationService } from './SccConfiguration.service';
 import { OccE2eConfigurationService } from '../../occ/e2e/configuration-service';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { Loc } from '../models/loc';
-import { MapData } from '../models/MapData';
+import { GeolocationData } from '../models/MapData';
 
 const GOOGLE_MAP_API_URL = 'https://maps.googleapis.com/maps/api/js';
 const GOOGLE_API_KEY_PROPERRY_NAME = 'e2egoogleservices.apikey';
@@ -26,7 +26,7 @@ export class GoogleMapRendererServcie {
     this.loc = { number: '' };
   }
 
-  public renderMap(mapElement: HTMLElement, payload: MapData[]): void {
+  public renderMap(mapElement: HTMLElement, payload: GeolocationData[]): void {
     if (this.googleMap === undefined) {
       this.sccConfigurationService
         .getConfiguration(GOOGLE_API_KEY_PROPERRY_NAME)
@@ -43,9 +43,13 @@ export class GoogleMapRendererServcie {
     }
   }
 
-  protected initMap(mapElement: HTMLElement, payload: MapData[]): void {
+  protected initMap(mapElement: HTMLElement, payload: GeolocationData[]): void {
+    console.log(payload);
     const mapProp = {
-      center: new google.maps.LatLng(payload[0].latitude, payload[0].longitude),
+      center: new google.maps.LatLng(
+        payload[0].getLatitude(),
+        payload[0].getLongitude()
+      ),
       zoom: DEFAULT_SCALE,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -53,18 +57,33 @@ export class GoogleMapRendererServcie {
     this.createMarkers(payload);
   }
 
-  protected createMarkers(payload: MapData[]): void {
+  protected createMarkers(payload: GeolocationData[]): void {
     payload.forEach(element => {
       const marker = new google.maps.Marker({
-        position: new google.maps.LatLng(element.latitude, element.longitude)
+        position: new google.maps.LatLng(
+          element.getLatitude(),
+          element.getLongitude()
+        )
       });
       this.markers.push(marker);
       marker.setMap(this.googleMap);
-      marker.setLabel(element.label);
+      marker.setLabel(element.getLabel());
+      const contentString =
+        '<div>hui<y-store-finder-search></y-store-finder-search></div>';
+      const infoWindow: google.maps.InfoWindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+      marker.addListener('click', () =>
+        infoWindow.open(this.googleMap, marker)
+      );
     });
   }
 
   protected setMapOnAllMarkers(map: google.maps.Map): void {
     this.markers.forEach(marker => marker.setMap(map));
+  }
+
+  public centerMap(latitute: number, longitude: number): void {
+    this.googleMap.panTo({ lat: latitute, lng: longitude });
   }
 }

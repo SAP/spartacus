@@ -1,8 +1,8 @@
 <ng-container *ngIf="locations$ | async as locations">
   <div>
     <ol class="store-address-list">
-      <li *ngFor="let location of locations?.stores;">
-        <p>
+      <li *ngFor="let location of locations?.stores; index as i">
+        <p (click)="handleClick(i)">
           <b>
             <u>{{ location.displayName }}</u>
           </b>
@@ -36,7 +36,7 @@
       </li>
     </ol>
   </div>
-  <y-store-finder-map></y-store-finder-map>
+  <y-store-finder-map [centerLat]="centerLat" [centerLong]="centerLong"></y-store-finder-map>
   <div *ngIf="locations?.pagination">
     <y-store-finder-paging [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-store-finder-paging>
   </div>

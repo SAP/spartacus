@@ -17,8 +17,11 @@ import { Observable } from 'rxjs';
   templateUrl: './store-finder-map.component.html',
   styleUrls: ['./store-finder-map.component.scss']
 })
-export class StoreFinderMapComponent implements OnInit {
+export class StoreFinderMapComponent implements OnInit, OnChanges {
   @ViewChild('mapElement') private mapElement: ElementRef;
+
+  @Input() centerLat: number;
+  @Input() centerLong: number;
 
   constructor(
     private googleMapRendererService: GoogleMapRendererServcie,
@@ -32,13 +35,21 @@ export class StoreFinderMapComponent implements OnInit {
           this.mapElement.nativeElement,
           locations.stores.map((store, index) => {
             return {
-              label: '' + (index + 1),
-              latitude: store.geoPoint.latitude,
-              longitude: store.geoPoint.longitude
+              ...store,
+              getLabel: () => '' + (index + 1),
+              getLatitude: () => store.geoPoint.latitude,
+              getLongitude: () => store.geoPoint.longitude
             };
           })
         );
       }
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+    if (this.centerLat && this.centerLong) {
+      this.googleMapRendererService.centerMap(this.centerLat, this.centerLong);
+    }
   }
 }

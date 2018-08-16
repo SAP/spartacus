@@ -1,5 +1,5 @@
-export interface MapData {
-  latitude: number;
-  longitude: number;
-  label: string;
+export interface GeolocationData {
+  getLatitude(): number;
+  getLongitude(): number;
+  getLabel(): string;
 }
