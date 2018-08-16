@@ -9,6 +9,8 @@ import { OrderConfirmationPageModule } from './order-confirmation-page/order-con
 import { MultiStepCheckoutPageModule } from './multi-step-checkout-page/multi-step-checkout-page.module';
 import { RegisterPageModule } from './register-page/register-page.module';
 import { LoginPageModule } from './login-page/login-page.module';
+import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
+
 // ContentPage: my Account Pages
 import { OrderHistoryPageModule } from './order-history-page/order-history-page.module';
 import { OrderDetailsPageModule } from './order-details-page/order-details-page.module';
@@ -33,6 +35,7 @@ import { ProductPageModule } from './product-page/product-page.module';
     ProductPageModule,
     RegisterPageModule,
     LoginPageModule,
+    StoreFinderPageModule,
     // new pages should be added above this line
     PageNotFoundModule
   ],
@@ -48,6 +51,7 @@ import { ProductPageModule } from './product-page/product-page.module';
     ProductPageModule,
     RegisterPageModule,
     LoginPageModule,
+    StoreFinderPageModule,
     // new pages should be added above this line
     PageNotFoundModule
   ]

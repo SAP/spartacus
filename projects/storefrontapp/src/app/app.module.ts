@@ -5,13 +5,15 @@ import { LOCALE_ID } from '@angular/core';
 import { ConfigService } from './config.service';
 import { AppRoutingModule } from './app-routing.module';
 
-import { RoutingModule } from 'storefrontlib';
-import { OccModule } from 'storefrontlib';
-import { UserModule } from 'storefrontlib';
-import { UiModule } from 'storefrontlib';
-import { CmsLibModule } from 'storefrontlib';
-import { CmsModule } from 'storefrontlib';
-import { UiFrameworkModule } from 'storefrontlib';
+import {
+  OccModule,
+  UiModule,
+  CmsLibModule,
+  CmsModule,
+  RoutingModule,
+  UserModule,
+  UiFrameworkModule
+} from 'storefrontlib';
 
 // bootstrap
 import { AppComponent } from './app.component';
