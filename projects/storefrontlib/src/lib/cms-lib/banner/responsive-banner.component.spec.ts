@@ -112,6 +112,11 @@ describe('ResponsiveBannerComponent', () => {
     expect(el.query(By.css('picture')).nativeElement.classList[0]).toBe(
       'responsive-banner'
     );
+
+    expect(el.query(By.css('picture')).nativeElement.classList[1]).toBe(
+      componentData.uid
+    );
+
     expect(el.query(By.css('picture')).nativeElement.innerHTML).toContain(
       'sizes="100%" src='
     );
