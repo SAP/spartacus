@@ -7,12 +7,13 @@
   "scripts": {
     "ng": "ng",
     "prettify-check": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss}\"",
-    "prettify": "npm run prettify-check --write",
+    "prettify": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss}\" --write",
     "lint": "ng lint",
     "start": "ng serve",
     "build": "ng build",
+    "build:core:lib": "ng build storefrontlib",
     "test": "ng test",
-    "test:lib": "ng test storefrontlib --code-coverage",
+    "test:core:lib": "ng test storefrontlib --code-coverage",
     "e2e": "ng e2e"
   },
   "private": false,
