@@ -13,10 +13,12 @@ import {
 import { PageContext, PageType } from '../../models/page-context.model';
 import * as fromNgrxRouter from '@ngrx/router-store';
 import * as fromActions from '../actions';
+
 export interface RouterState
   extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
   redirectUrl: string;
 }
+
 export const initialState = {
   redirectUrl: '',
   navigationId: 0,
@@ -30,6 +32,7 @@ export const initialState = {
     cmsRequired: false
   }
 };
+
 export interface ActivatedRouterStateSnapshot {
   url: string;
   queryParams: Params;
@@ -55,7 +58,6 @@ export function reducer(
   switch (action.type) {
     case fromActions.SAVE_REDIRECT_URL: {
       const redirectUrl = action.payload;
-
       return {
         ...state,
         redirectUrl
