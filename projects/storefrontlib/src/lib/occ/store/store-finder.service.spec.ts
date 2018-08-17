@@ -7,6 +7,7 @@ import {
 import { OccStoreFinderService } from './store-finder.service';
 import { ConfigService } from '../config.service';
 import { SearchConfig } from '../../store-finder/models/search-config';
+import { OccE2eConfigurationService } from '../e2e/e2e-configuration-service';
 
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };
@@ -34,6 +35,7 @@ describe('OccStoreFinderService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccStoreFinderService,
+        OccE2eConfigurationService,
         { provide: ConfigService, useClass: MockConfigService }
       ]
     });
@@ -52,23 +54,34 @@ describe('OccStoreFinderService', () => {
         expect(result).toEqual(searchResults);
       });
 
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint;
+      const mockReq1 = httpMock.expectOne({
+        method: 'GET',
+        url: endpoint
       });
-      expect(mockReq.request.params.get('query')).toEqual(queryText);
-      expect(mockReq.request.params.get('pageSize')).toEqual(
+
+      const mockReq2 = httpMock.expectOne({
+        method: 'GET',
+        url: endpoint
+      });
+
+      expect(mockReq2.request.params.get('query')).toEqual(queryText);
+      expect(mockReq2.request.params.get('pageSize')).toEqual(
         mockSearchConfig.pageSize.toString()
       );
-      expect(mockReq.request.params.get('fields')).toEqual(
+      expect(mockReq2.request.params.get('fields')).toEqual(
         'stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL)),' +
           'geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country) ),' +
           'pagination(DEFAULT),' +
           'sorts(DEFAULT)'
       );
 
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(searchResults);
+      expect(mockReq1.cancelled).toBeFalsy();
+      expect(mockReq1.request.responseType).toEqual('json');
+      mockReq2.flush(searchResults);
+
+      expect(mockReq2.cancelled).toBeFalsy();
+      expect(mockReq2.request.responseType).toEqual('json');
+      mockReq2.flush(searchResults);
     });
   });
 });

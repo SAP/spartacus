@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { FindStoresService } from '../../services';
+import { StoreFinderService } from '../../services';
 
 @Component({
   selector: 'y-store-finder-search',
@@ -11,12 +11,12 @@ export class StoreFinderSearchComponent implements OnInit {
   @Output() persistQuery: EventEmitter<string> = new EventEmitter<string>();
   searchBox: FormControl = new FormControl();
 
-  constructor(private findStoresService: FindStoresService) {}
+  constructor(private storeFinderService: StoreFinderService) {}
 
   ngOnInit() {}
 
   findStores(address: string) {
-    this.findStoresService.findStores(address);
+    this.storeFinderService.findStores(address);
     this.persistQuery.emit(address);
   }
 
