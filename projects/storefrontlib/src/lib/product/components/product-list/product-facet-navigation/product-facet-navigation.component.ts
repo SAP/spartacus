@@ -36,7 +36,7 @@ export class ProductFacetNavigationComponent implements OnInit {
   }
 
   toggleValue(query: string) {
-    this.filter.emit(query);
+    this.filter.emit(this.queryCodec.decodeValue(query));
   }
 
   showLess(facetName: String) {
