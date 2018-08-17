@@ -7,8 +7,8 @@ import {
   Validators
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { Observable, Subscription, of } from 'rxjs';
+import { take, tap, switchMap } from 'rxjs/operators';
 import * as fromAuthStore from '../../../auth/store';
 import * as fromRouting from '../../../routing/store';
 import * as fromUserStore from '../../store';
@@ -48,6 +48,27 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       })
     );
+
+    this.sub = this.store
+      .select(fromAuthStore.getUserToken)
+      .pipe(
+        switchMap(data => {
+          if (data && data.access_token) {
+            return this.store.select(fromRouting.getRedirectUrl).pipe(take(1));
+          }
+          return of();
+        })
+      )
+      .subscribe(url => {
+        if (url) {
+          // If forced to login due to AuthGuard, then redirect to intended destination
+          this.store.dispatch(new fromRouting.Go({ path: [url] }));
+          this.store.dispatch(new fromRouting.ClearRedirectUrl());
+        } else {
+          // User manual login
+          this.store.dispatch(new fromRouting.Back());
+        }
+      });
   }
 
   submit() {
@@ -60,27 +81,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         uid: this.userRegistrationForm.value.email
       })
     );
-
-    this.sub = this.store.select(fromAuthStore.getUserToken).subscribe(data => {
-      if (data && data.access_token) {
-        this.store
-          .select(fromRouting.getRedirectUrl)
-          .pipe(
-            take(1),
-            tap(url => {
-              if (url) {
-                // If forced to login due to AuthGuard, then redirect to intended destination
-                this.store.dispatch(new fromRouting.Go({ path: [url] }));
-                this.store.dispatch(new fromRouting.ClearRedirectUrl());
-              } else {
-                // User manual login
-                this.store.dispatch(new fromRouting.Back());
-              }
-            })
-          )
-          .subscribe();
-      }
-    });
   }
   ngOnDestroy() {
     if (this.sub) {

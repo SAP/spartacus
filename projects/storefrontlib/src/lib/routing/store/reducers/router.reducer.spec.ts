@@ -18,7 +18,7 @@ import * as fromNgrxRouter from '@ngrx/router-store';
 })
 class TestComponent {}
 
-fdescribe('Router Reducer', () => {
+describe('Router Reducer', () => {
   let router: Router;
   let store: Store<any>;
 
