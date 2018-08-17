@@ -6,7 +6,7 @@ import { catchError, mergeMap } from 'rxjs/operators';
 import { SearchConfig } from '../../store-finder/models/search-config';
 
 import { ConfigService } from '../config.service';
-import { OccE2eConfigurationService } from '../e2e/configuration-service';
+import { OccE2eConfigurationService } from '../e2e/e2e-configuration-service';
 
 const STORES_ENDPOINT = 'stores';
 const STORES_DISPLAYED = 'e2egoogleservices.storesdisplayed';
