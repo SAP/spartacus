@@ -2,11 +2,11 @@
     <div>
         <div tabindex="0" (keydown)="onKeyDown($event)" (blur)="onBlur($event)" (focus)="onFocus($event)">
             <div>
-                <button type="button" (click)="decrement()" [disabled]="value === min">
+                <button type="button" class="item-counter__decrease" (click)="decrement()" [disabled]="value === min">
                     -
                 </button>
                 <p>{{ value }}</p>
-                <button type="button" (click)="increment()" [disabled]="value === max">
+                <button type="button" class="item-counter__increase" (click)="increment()" [disabled]="value === max">
                     +
                 </button>
             </div>
