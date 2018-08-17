@@ -9,7 +9,7 @@ import * as fromRoot from '../../routing/store';
 import * as fromStore from './../store';
 import { of } from 'rxjs';
 
-import { AuthenticationTokenInterceptor } from './authentication-token.interceptor';
+import { ClientTokenInterceptor } from './client-token.interceptor';
 import { ClientAuthenticationToken } from './../models/token-types.model';
 import { InterceptorUtil } from '../../site-context/shared/http-interceptors/interceptor-util';
 
@@ -20,7 +20,7 @@ const testToken: ClientAuthenticationToken = {
   scope: ''
 };
 
-describe('AuthenticationTokenInterceptor', () => {
+describe('ClientTokenInterceptor', () => {
   let httpMock: HttpTestingController;
   let store: Store<fromStore.AuthState>;
 
@@ -36,7 +36,7 @@ describe('AuthenticationTokenInterceptor', () => {
       providers: [
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: AuthenticationTokenInterceptor,
+          useClass: ClientTokenInterceptor,
           multi: true
         }
       ]

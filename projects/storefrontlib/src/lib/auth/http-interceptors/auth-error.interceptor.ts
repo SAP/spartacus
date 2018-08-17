@@ -12,7 +12,7 @@ import { catchError } from 'rxjs/operators';
 
 import * as fromUser from '../store';
 
-import { UserErrorHandlingService } from '../../user/services/user-error-handling.service';
+import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -20,7 +20,7 @@ const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 export class AuthErrorInterceptor implements HttpInterceptor {
   constructor(
     private userErrorHandlingService: UserErrorHandlingService,
-    private store: Store<fromUser.UserState>
+    private store: Store<fromUser.AuthState>
   ) {}
 
   intercept(

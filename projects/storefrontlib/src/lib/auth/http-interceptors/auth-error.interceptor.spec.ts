@@ -3,20 +3,21 @@ import {
   HttpTestingController,
   HttpClientTestingModule
 } from '@angular/common/http/testing';
-import { catchError } from 'rxjs/operators';
-import { throwError, Observable, of } from 'rxjs';
-import { UserErrorHandlingService } from '../../user/services/user-error-handling.service';
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
   HttpHandler,
   HttpRequest
 } from '@angular/common/http';
+
+import { catchError } from 'rxjs/operators';
+import { throwError, Observable, of } from 'rxjs';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 
 import * as fromStore from '../store';
 import * as fromRoot from '../../routing/store';
 import { AuthErrorInterceptor } from './auth-error.interceptor';
+import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
 
 class MockUserErrorHandlingService {
   handleExpiredUserToken(
@@ -30,7 +31,7 @@ class MockUserErrorHandlingService {
 
 describe('AuthErrorInterceptor', () => {
   let userErrorHandlingService: UserErrorHandlingService;
-  let store: Store<fromStore.UserState>;
+  let store: Store<fromStore.AuthState>;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {

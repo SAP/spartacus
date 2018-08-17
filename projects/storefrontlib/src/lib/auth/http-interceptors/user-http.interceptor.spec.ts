@@ -36,7 +36,7 @@ describe('UserHttpInterceptor', () => {
     scope: ['xxx'],
     userId: 'xxx'
   };
-  let store: Store<fromStore.UserState>;
+  let store: Store<fromStore.AuthState>;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -45,7 +45,7 @@ describe('UserHttpInterceptor', () => {
         HttpClientTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          user: combineReducers(fromStore.getReducers())
+          auth: combineReducers(fromStore.getReducers())
         })
       ],
       providers: [

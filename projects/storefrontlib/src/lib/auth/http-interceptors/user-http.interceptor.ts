@@ -15,7 +15,7 @@ import { UserToken } from '../../auth/models/token-types.model';
 export class UserHttpInterceptor implements HttpInterceptor {
   constructor(
     private configService: ConfigService,
-    private store: Store<fromUserStore.UserState>
+    private store: Store<fromUserStore.AuthState>
   ) {}
 
   intercept(

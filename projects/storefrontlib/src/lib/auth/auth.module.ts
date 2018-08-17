@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ConfigService } from './config.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { AuthenticationTokenInterceptor } from './http-interceptors/authentication-token.interceptor';
+import { ClientTokenInterceptor } from './http-interceptors/client-token.interceptor';
+import { UserHttpInterceptor } from './http-interceptors/user-http.interceptor';
+import { AuthErrorInterceptor } from './http-interceptors/auth-error.interceptor';
 import { services } from './services/index';
 import { guards } from './guards/index';
 
@@ -29,7 +31,17 @@ import { EffectsModule } from '@ngrx/effects';
     reducerProvider,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthenticationTokenInterceptor,
+      useClass: ClientTokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UserHttpInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthErrorInterceptor,
       multi: true
     }
   ]

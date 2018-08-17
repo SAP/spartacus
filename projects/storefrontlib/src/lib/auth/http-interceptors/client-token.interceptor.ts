@@ -21,7 +21,7 @@ import {
 } from '../../site-context/shared/http-interceptors/interceptor-util';
 
 @Injectable()
-export class AuthenticationTokenInterceptor implements HttpInterceptor {
+export class ClientTokenInterceptor implements HttpInterceptor {
   constructor(private store: Store<fromAuthStore.AuthState>) {}
 
   intercept(
