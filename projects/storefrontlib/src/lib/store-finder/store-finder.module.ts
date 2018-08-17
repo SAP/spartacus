@@ -33,7 +33,8 @@ import { StoreFinderListItemComponent } from './components/store-finder-list/sto
   exports: [
     StoreFinderSearchComponent,
     StoreFinderListComponent,
-    StoreFinderPagingComponent
+    StoreFinderPagingComponent,
+    StoreFinderListItemComponent
   ],
   providers: [...fromServices.services]
 })

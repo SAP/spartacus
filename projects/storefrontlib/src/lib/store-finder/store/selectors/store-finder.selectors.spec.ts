@@ -21,7 +21,7 @@ describe('StoreFinder Selectors', () => {
         })
       ]
     });
-    store = TestBed.get(store);
+    store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
