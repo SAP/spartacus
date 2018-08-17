@@ -11,7 +11,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 import { StoreFinderService } from '../../../store-finder/services';
-import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromStore from '../../../store-finder/store';
 import * as fromRoot from '../../../routing/store';
 import { combineReducers, StoreModule } from '@ngrx/store';
@@ -30,8 +29,7 @@ describe('StoreFinderPageComponent', () => {
         BrowserAnimationsModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          stores: combineReducers(fromStore.reducers),
-          cms: combineReducers(fromCmsReducer.getReducers())
+          stores: combineReducers(fromStore.reducers)
         })
       ],
       declarations: [
