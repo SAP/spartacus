@@ -14,6 +14,7 @@ const addFirstCameraToCart = (
   //   // search for camera
   home.header.performSearch('camera');
   // wait for search results page to show up
+
   browser.wait(ExpectedConditions.urlContains('/search/camera'));
   browser.wait(searchResults.getPage().isDisplayed());
   // select one product by name and add it to the cart
@@ -35,8 +36,59 @@ const addFirstCameraToCart = (
       minicartIcon.click();
     });
 };
+const addThreeCamerasToCart = (
+  home: HomePage,
+  searchResults: SearchResultsPage
+) => {
+  //   // search for camera
+  home.header.performSearch('camera');
+  // wait for search results page to show up
+  browser.wait(ExpectedConditions.urlContains('/search/camera'));
+  browser.wait(searchResults.getPage().isDisplayed());
+  // select one product by name and add it to the cart
+  searchResults
+    .findProductByNameInResultsPage('Photosmart E317 Digital Camera')
+    .then(product1 => {
+      expect(product1.isDisplayed()).toBeTruthy();
+      return product1;
+    })
+    .then(product1 => {
+      searchResults.clickAddToCartButton4Product(product1);
+      const atcModal: AddedToCartModal = new AddedToCartModal();
+      atcModal.closeModalWait();
+    });
+  searchResults
+    .findProductByNameInResultsPage('DIGITAL CAMERA EASYSHARE C875')
+    .then(product1 => {
+      expect(product1.isDisplayed()).toBeTruthy();
+      return product1;
+    })
+    .then(product1 => {
+      searchResults.clickAddToCartButton4Product(product1);
+      const atcModal: AddedToCartModal = new AddedToCartModal();
+      atcModal.closeModalWait();
+    });
+  searchResults
+    .findProductByNameInResultsPage('EASYSHARE Z730 Zoom Digital Camera')
+    .then(product1 => {
+      expect(product1.isDisplayed()).toBeTruthy();
+      return product1;
+    })
+    .then(product1 => {
+      searchResults.clickAddToCartButton4Product(product1);
+      const atcModal: AddedToCartModal = new AddedToCartModal();
+      atcModal.closeModalWait();
+    });
+  const minicartIcon = home.header.getMinicartIconComponent();
+  browser
+    .wait(ExpectedConditions.elementToBeClickable(minicartIcon))
+    .then(() => {
+      minicartIcon.click();
+    });
+};
 
-describe('cart', () => {
+// TODO-SS: don't forget to fdescribe
+fdescribe('cart', () => {
   let home: HomePage;
   let searchResults: SearchResultsPage;
   let cart: CartPage;
@@ -47,6 +99,10 @@ describe('cart', () => {
     searchResults = new SearchResultsPage();
     cart = new CartPage();
     productDetails = new ProductDetailsPage();
+    browser
+      .manage()
+      .window()
+      .setSize(1600, 1000);
   });
 
   /**
@@ -141,6 +197,9 @@ describe('cart', () => {
 
     // wait for cart page to show up
     browser.wait(ExpectedConditions.urlContains('/cart'));
+
+    // TODO-SS: uncomment below, as it works correctly with SAP's backend, not Tobias
+
     //   // check if cart contains quantity 1 of 'Photosmart E317 Digital Camera'
     //   cart.checkCartEntry(
     //     'Photosmart E317 Digital Camera',
@@ -205,5 +264,49 @@ describe('cart', () => {
       const picture = E2EUtil.getComponentWithinParent(entry, 'y-picture');
       expect(picture.isPresent()).toBeTruthy();
     });
+  });
+  // TODO-SS: don't forget to unfit
+  fit('should contains three products in cart', async () => {
+    // go to homepage
+    home.navigateTo();
+    addThreeCamerasToCart(home, searchResults);
+    // wait for cart page to show up
+    browser.wait(ExpectedConditions.urlContains('/cart'));
+    E2EUtil.wait4VisibleElement(cart.getCartDetails());
+
+    // TODO-SS:
+    // Sort it out, as when you go to cart page,
+    // scroll position is on the bottom and first cart-item isn't visible
+    await browser.executeScript('window.scrollTo(0,0);');
+
+    // Click all increase buttons
+    const increase1 = cart.getCartEntryIncreaseQtyBtn(0).click();
+    const increase2 = cart.getCartEntryIncreaseQtyBtn(1).click();
+    const increase3 = cart.getCartEntryIncreaseQtyBtn(2).click();
+
+    const isCounterCorrectAmount = (element, amount) => () => {
+      return new Promise((resolve, reject) => {
+        element.getText().then(text => resolve(text === amount));
+      });
+    };
+
+    browser.wait(
+      ExpectedConditions.and(
+        isCounterCorrectAmount(cart.getCartEntryQty(0), '2')
+      ),
+      5000
+    );
+    browser.wait(
+      ExpectedConditions.and(
+        isCounterCorrectAmount(cart.getCartEntryQty(1), '2')
+      ),
+      5000
+    );
+    browser.wait(
+      ExpectedConditions.and(
+        isCounterCorrectAmount(cart.getCartEntryQty(2), '2')
+      ),
+      5000
+    );
   });
 });
