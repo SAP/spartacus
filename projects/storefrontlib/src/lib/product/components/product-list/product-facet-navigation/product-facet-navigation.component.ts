@@ -6,6 +6,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { HttpUrlEncodingCodec } from '@angular/common/http';
 
 @Component({
   selector: 'y-product-facet-navigation',
@@ -21,9 +22,11 @@ export class ProductFacetNavigationComponent implements OnInit {
   @Output() filter: EventEmitter<any> = new EventEmitter<any>();
 
   showAllPerFacetMap: Map<String, boolean>;
+  queryCodec: HttpUrlEncodingCodec;
 
   constructor() {
     this.showAllPerFacetMap = new Map<String, boolean>();
+    this.queryCodec = new HttpUrlEncodingCodec();
   }
 
   ngOnInit() {
