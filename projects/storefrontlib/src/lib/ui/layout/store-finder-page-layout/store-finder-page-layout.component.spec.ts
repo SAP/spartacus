@@ -12,8 +12,8 @@ import { StoreFinderSearchComponent } from '../../../store-finder/components/sto
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../material.module';
 import { CommonModule } from '@angular/common';
-import { FindStoresService } from '../../../store-finder/services';
-import { OccE2eConfigurationService } from '../../../occ/e2e/configuration-service';
+import { StoreFinderService } from '../../../store-finder/services';
+import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('StoreFinderPageLayoutComponent', () => {
@@ -40,7 +40,7 @@ describe('StoreFinderPageLayoutComponent', () => {
         StoreFinderListComponent,
         StoreFinderSearchComponent
       ],
-      providers: [FindStoresService, OccE2eConfigurationService]
+      providers: [StoreFinderService, OccE2eConfigurationService]
     }).compileComponents();
   }));
 
