@@ -9,7 +9,7 @@ describe('StoreFinderService', () => {
   let service: StoreFinderService;
   let store: Store<fromStore.StoresState>;
 
-  const queryText: string = 'test';
+  const queryText = 'test';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -29,8 +29,8 @@ describe('StoreFinderService', () => {
 
   it('should inject StoreFinderService', inject(
     [StoreFinderService],
-    (StoreFinderService: StoreFinderService) => {
-      expect(StoreFinderService).toBeTruthy();
+    (storeFinderService: StoreFinderService) => {
+      expect(storeFinderService).toBeTruthy();
     }
   ));
 
