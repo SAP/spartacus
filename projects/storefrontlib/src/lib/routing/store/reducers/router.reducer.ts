@@ -71,19 +71,25 @@ export function reducer(
     }
     case fromNgrxRouter.ROUTER_NAVIGATION:
     case fromNgrxRouter.ROUTER_ERROR:
-    case fromNgrxRouter.ROUTER_CANCEL:
+    case fromNgrxRouter.ROUTER_CANCEL: {
       const currentUrl = action.payload.routerState.url;
+      let redirectUrl;
+      if (
+        currentUrl === '/login' ||
+        currentUrl === '/register' ||
+        currentUrl === state.redirectUrl
+      ) {
+        redirectUrl = state.redirectUrl;
+      } else {
+        redirectUrl = '';
+      }
+
       return {
-        redirectUrl: state
-          ? currentUrl === '/login' ||
-            currentUrl === '/register' ||
-            currentUrl === state.redirectUrl
-            ? state.redirectUrl
-            : ''
-          : '',
+        redirectUrl: redirectUrl,
         state: action.payload.routerState,
         navigationId: action.payload.event.id
       };
+    }
     default: {
       return state;
     }
