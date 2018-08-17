@@ -44,7 +44,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
                 if (url) {
                   // If forced to login due to AuthGuard, then redirect to intended destination
                   this.store.dispatch(new fromRouting.Go({ path: [url] }));
-                  this.store.dispatch(new fromRouting.clearRedirectUrl());
+                  this.store.dispatch(new fromRouting.ClearRedirectUrl());
                 } else {
                   // User manual login
                   this.store.dispatch(new fromRouting.Back());

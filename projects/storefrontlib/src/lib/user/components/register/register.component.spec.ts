@@ -5,6 +5,7 @@ import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromStore from '../../store';
+import * as fromAuthStore from '../../../auth/store';
 import { RegisterComponent } from './register.component';
 
 const mockTitlesList = {
@@ -32,7 +33,8 @@ describe('RegisterComponent', () => {
         ReactiveFormsModule,
         StoreModule.forRoot({
           ...fromStore.getReducers(),
-          user: combineReducers(fromStore.getReducers())
+          user: combineReducers(fromStore.getReducers()),
+          auth: combineReducers(fromAuthStore.getReducers())
         })
       ],
       declarations: [RegisterComponent],

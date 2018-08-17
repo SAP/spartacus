@@ -31,8 +31,8 @@ export class SaveRedirectUrl implements Action {
   constructor(public payload: string) {}
 }
 
-export class clearRedirectUrl implements Action {
+export class ClearRedirectUrl implements Action {
   readonly type = CLEAR_REDIRECT_URL;
 }
 
-export type Actions = Go | Back | Forward | SaveRedirectUrl | clearRedirectUrl;
+export type Actions = Go | Back | Forward | SaveRedirectUrl | ClearRedirectUrl;

@@ -1,18 +1,18 @@
-import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  FormGroup,
-  FormBuilder,
-  Validators,
   AbstractControl,
-  FormControl
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
 } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
-
-import { Store } from '@ngrx/store';
-import * as fromUserStore from '../../store';
+import * as fromAuthStore from '../../../auth/store';
 import * as fromRouting from '../../../routing/store';
+import * as fromUserStore from '../../store';
+
 @Component({
   selector: 'y-register',
   templateUrl: './register.component.html',
@@ -61,7 +61,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.sub = this.store.select(fromUserStore.getUserToken).subscribe(data => {
+    this.sub = this.store.select(fromAuthStore.getUserToken).subscribe(data => {
       if (data && data.access_token) {
         this.store
           .select(fromRouting.getRedirectUrl)
@@ -71,7 +71,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
               if (url) {
                 // If forced to login due to AuthGuard, then redirect to intended destination
                 this.store.dispatch(new fromRouting.Go({ path: [url] }));
-                this.store.dispatch(new fromRouting.clearRedirectUrl());
+                this.store.dispatch(new fromRouting.ClearRedirectUrl());
               } else {
                 // User manual login
                 this.store.dispatch(new fromRouting.Back());
