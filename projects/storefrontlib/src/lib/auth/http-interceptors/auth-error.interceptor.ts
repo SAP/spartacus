@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import * as fromUser from '../store';
+import * as fromStore from '../store';
 
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
 
@@ -20,7 +20,7 @@ const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 export class AuthErrorInterceptor implements HttpInterceptor {
   constructor(
     private userErrorHandlingService: UserErrorHandlingService,
-    private store: Store<fromUser.AuthState>
+    private store: Store<fromStore.AuthState>
   ) {}
 
   intercept(
@@ -56,7 +56,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
                 const params = request.body.split('&');
                 if (params.indexOf('grant_type=refresh_token')) {
                   // refresh token fail, force user logout
-                  this.store.dispatch(new fromUser.Logout());
+                  this.store.dispatch(new fromStore.Logout());
                 }
               }
               break;

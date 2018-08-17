@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpRequest, HttpHandler } from '@angular/common/http';
 
 import { Store } from '@ngrx/store';
 import { Observable, combineLatest } from 'rxjs';
 import { tap, filter, take, switchMap } from 'rxjs/operators';
 
-import * as fromStore from './../../store';
-import { HttpRequest, HttpHandler } from '@angular/common/http';
+import * as fromStore from '../../store';
 import { UserToken } from '../../models/token-types.model';
 
 @Injectable()
