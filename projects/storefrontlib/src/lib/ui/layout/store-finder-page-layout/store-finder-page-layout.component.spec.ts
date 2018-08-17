@@ -16,7 +16,7 @@ import { FindStoresService } from '../../../store-finder/services';
 import { OccE2eConfigurationService } from '../../../occ/e2e/configuration-service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-fdescribe('StoreFinderPageLayoutComponent', () => {
+describe('StoreFinderPageLayoutComponent', () => {
   let component: StoreFinderPageLayoutComponent;
   let fixture: ComponentFixture<StoreFinderPageLayoutComponent>;
 
