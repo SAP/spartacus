@@ -10,14 +10,14 @@ import { MaterialModule } from '../../../material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
-import { FindStoresService } from '../../../store-finder/services';
+import { StoreFinderService } from '../../../store-finder/services';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromStore from '../../../store-finder/store';
 import * as fromRoot from '../../../routing/store';
 import { combineReducers, StoreModule } from '@ngrx/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-fdescribe('StoreFinderPageComponent', () => {
+describe('StoreFinderPageComponent', () => {
   let component: StoreFinderPageComponent;
   let fixture: ComponentFixture<StoreFinderPageComponent>;
 
@@ -42,7 +42,7 @@ fdescribe('StoreFinderPageComponent', () => {
         StoreFinderListComponent,
         StoreFinderListItemComponent
       ],
-      providers: [FindStoresService, OccE2eConfigurationService]
+      providers: [StoreFinderService, OccE2eConfigurationService]
     }).compileComponents();
   }));
 
