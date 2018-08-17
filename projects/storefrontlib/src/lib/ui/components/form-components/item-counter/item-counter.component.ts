@@ -1,6 +1,6 @@
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import {
   Component,
+  OnInit,
   EventEmitter,
   forwardRef,
   Input,

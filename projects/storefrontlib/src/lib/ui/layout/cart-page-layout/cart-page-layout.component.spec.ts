@@ -1,7 +1,3 @@
-import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
-import { MaterialModule } from './../../../material.module';
-import { CartPageLayoutComponent } from './cart-page-layout.component';
-import { ComponentsModule } from './../../components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -14,9 +10,13 @@ import {
   ComponentWrapperComponent,
   DynamicSlotComponent
 } from '../../../cms/components';
+import { ComponentMapperService } from '../../../cms/services';
 import * as fromCmsReducer from '../../../cms/store';
 import * as fromRoot from '../../../routing/store';
-import { ComponentMapperService } from '../../../cms/services';
+import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
+import { MaterialModule } from './../../../material.module';
+import { ComponentsModule } from './../../components/components.module';
+import { CartPageLayoutComponent } from './cart-page-layout.component';
 
 class MockCartService {
   removeCartEntry() {}
