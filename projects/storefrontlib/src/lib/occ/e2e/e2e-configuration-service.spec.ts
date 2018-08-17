@@ -4,13 +4,12 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { OccE2eConfigurationService } from './configuration-service';
+import { OccE2eConfigurationService } from './e2e-configuration-service';
 import { ConfigService } from '../config.service';
 
 const configurationKey = 'test';
 const searchResult = 5;
-const endpoint =
-  '/e2econfigurationwebservices/e2econfiguration/e2egoogleservices.storesdisplayed';
+const endpoint = '/e2econfigurationwebservices/e2econfiguration/test';
 
 export class MockConfigService {
   server = {
@@ -51,8 +50,9 @@ describe('OccE2eConfigurationService', () => {
         expect(result).toEqual(searchResult);
       });
 
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint;
+      const mockReq = httpMock.expectOne({
+        method: 'GET',
+        url: endpoint
       });
 
       expect(mockReq.cancelled).toBeFalsy();
