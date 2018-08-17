@@ -5,11 +5,15 @@ import {
   OnInit
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import * as fromRouting from '../../../routing/store';
-import { UserToken } from '../../models/token-types.model';
+
+import { UserToken } from '../../../auth/models/token-types.model';
+
 import * as fromStore from '../../store';
+import * as fromAuthStore from './../../../auth/store';
+import * as fromRouting from '../../../routing/store';
 
 @Component({
   selector: 'y-login',
@@ -30,7 +34,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.store
-      .select(fromStore.getUserToken)
+      .select(fromAuthStore.getUserToken)
       .subscribe((token: UserToken) => {
         if (token && token.access_token && !this.isLogin) {
           this.isLogin = true;

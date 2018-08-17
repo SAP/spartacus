@@ -103,7 +103,7 @@ export class OccCartService {
     });
 
     return this.http
-      .post(url, toAdd, { headers: headers, params: params })
+      .post(url, toAdd, { headers, params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
@@ -130,7 +130,7 @@ export class OccCartService {
     });
 
     return this.http
-      .patch(url, {}, { headers: headers, params: params })
+      .patch(url, {}, { headers, params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
@@ -147,7 +147,7 @@ export class OccCartService {
     });
 
     return this.http
-      .delete(url, { headers: headers })
+      .delete(url, { headers })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
@@ -241,7 +241,7 @@ export class OccCartService {
     });
 
     return this.http.post(postUrl, httpParams, {
-      headers: headers,
+      headers,
       responseType: 'text'
     });
   }
@@ -264,7 +264,7 @@ export class OccCartService {
       .post(
         this.getCartEndpoint(userId) + cartId + '/payment/sop/response',
         httpParams,
-        { headers: headers }
+        { headers }
       )
       .pipe(catchError((error: any) => throwError(error)));
   }

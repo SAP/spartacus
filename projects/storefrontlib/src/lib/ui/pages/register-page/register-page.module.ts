@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { RegisterPageComponent } from './register-page.component';
 import { RegisterLayoutModule } from '../../layout/register-layout/register-layout.module';
-import { NotAuthGuard } from '../../../user/guards/not-auth.guard';
+import { NotAuthGuard } from './../../../auth/guards/not-auth.guard';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 
 const routes: Routes = [

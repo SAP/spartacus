@@ -36,14 +36,10 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace":
-                    "projects/storefrontapp/src/environments/environment.ts",
-                  "with":
-                    "projects/storefrontapp/src/environments/environment.prod.ts"
-                }
-              ],
+              "fileReplacements": [{
+                "replace": "projects/storefrontapp/src/environments/environment.ts",
+                "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+              }],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -110,6 +106,11 @@
           "options": {
             "protractorConfig": "projects/storefrontapp-e2e/protractor.conf.js",
             "devServerTarget": "storefrontapp:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "storefrontapp:serve:production"
+            }
           }
         },
         "lint": {
