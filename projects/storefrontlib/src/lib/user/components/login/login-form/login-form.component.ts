@@ -16,17 +16,16 @@ import { GlobalMessageType } from '../../../../global-message/models/message.mod
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
-  userTokenSubscription: Subscription;
+  sub: Subscription;
   form: FormGroup;
 
   constructor(
     private store: Store<fromStore.UserState>,
-    private fb: FormBuilder,
-    public route: ActivatedRoute
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
-    this.userTokenSubscription = this.store
+    this.sub = this.store
       .select(fromAuthStore.getUserToken)
       .pipe(
         switchMap(data => {
@@ -69,8 +68,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.userTokenSubscription) {
-      this.userTokenSubscription.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
     }
   }
 }
