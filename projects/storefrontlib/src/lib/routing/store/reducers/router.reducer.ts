@@ -13,13 +13,24 @@ import {
 import { PageContext, PageType } from '../../models/page-context.model';
 import * as fromNgrxRouter from '@ngrx/router-store';
 import * as fromActions from '../actions';
-
 export interface RouterState
-  extends fromNgrxRouter.RouterReducerState<ActivatedRouteSnapShotState> {
+  extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
   redirectUrl: string;
 }
-
-export interface ActivatedRouteSnapShotState {
+export const initialState = {
+  redirectUrl: '',
+  navigationId: 0,
+  state: {
+    url: '',
+    queryParams: {},
+    params: {},
+    context: {
+      id: ''
+    },
+    cmsRequired: false
+  }
+};
+export interface ActivatedRouterStateSnapshot {
   url: string;
   queryParams: Params;
   params: Params;
@@ -36,10 +47,15 @@ export function getReducers(): ActionReducerMap<State> {
     router: reducer
   };
 }
-export function reducer(state: RouterState, action: any): RouterState {
+
+export function reducer(
+  state: RouterState = initialState,
+  action: any
+): RouterState {
   switch (action.type) {
     case fromActions.SAVE_REDIRECT_URL: {
       const redirectUrl = action.payload;
+
       return {
         ...state,
         redirectUrl
@@ -54,7 +70,6 @@ export function reducer(state: RouterState, action: any): RouterState {
     case fromNgrxRouter.ROUTER_NAVIGATION:
     case fromNgrxRouter.ROUTER_ERROR:
     case fromNgrxRouter.ROUTER_CANCEL:
-      // redirectUrl: state ? (state.redirectUrl ? state.redirectUrl : '') : '',
       const currentUrl = action.payload.routerState.url;
       return {
         redirectUrl: state
@@ -83,7 +98,7 @@ export const reducerProvider: Provider = {
 };
 
 export const getRouterState: MemoizedSelector<any, any> = createFeatureSelector<
-  fromNgrxRouter.RouterReducerState<ActivatedRouteSnapShotState>
+  fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot>
 >('router');
 
 export const getRedirectUrl: MemoizedSelector<any, any> = createSelector(
@@ -95,8 +110,9 @@ export const getRedirectUrl: MemoizedSelector<any, any> = createSelector(
 and to reduce the amount of properties to be passed to the reducer.
  */
 export class CustomSerializer
-  implements fromNgrxRouter.RouterStateSerializer<ActivatedRouteSnapShotState> {
-  serialize(routerState: RouterStateSnapshot): ActivatedRouteSnapShotState {
+  implements
+    fromNgrxRouter.RouterStateSerializer<ActivatedRouterStateSnapshot> {
+  serialize(routerState: RouterStateSnapshot): ActivatedRouterStateSnapshot {
     const { url } = routerState;
     const { queryParams } = routerState.root;
 
