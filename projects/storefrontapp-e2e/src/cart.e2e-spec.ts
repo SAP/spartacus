@@ -280,9 +280,9 @@ fdescribe('cart', () => {
     await browser.executeScript('window.scrollTo(0,0);');
 
     // Click all increase buttons
-    const increase1 = cart.getCartEntryIncreaseQtyBtn(0).click();
-    const increase2 = cart.getCartEntryIncreaseQtyBtn(1).click();
-    const increase3 = cart.getCartEntryIncreaseQtyBtn(2).click();
+    cart.getCartEntryIncreaseQtyBtn(0).click();
+    cart.getCartEntryIncreaseQtyBtn(1).click();
+    cart.getCartEntryIncreaseQtyBtn(2).click();
 
     const isCounterCorrectAmount = (element, amount) => () => {
       return new Promise((resolve, reject) => {
