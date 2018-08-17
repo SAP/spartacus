@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions } from '@ngrx/effects';
 import * as fromActions from '../actions/user-register.action';
-import * as fromTokenActions from '../actions/user-token.action';
+import * as fromTokenActions from './../../../auth/store/actions';
 import * as fromRouting from '../../../routing/store';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';

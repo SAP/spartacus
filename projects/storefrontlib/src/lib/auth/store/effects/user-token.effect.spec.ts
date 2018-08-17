@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { UserTokenEffects } from '.';
+import { UserTokenEffects } from './user-token.effect';
 
 import { Observable, of } from 'rxjs';
 import { UserToken } from '../../models/token-types.model';
@@ -8,7 +8,7 @@ import { UserToken } from '../../models/token-types.model';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
-import { OccUserService } from '../../../occ/user/user.service';
+import { UserAuthenticationTokenService } from './../../services/user-authentication/user-authentication-token.service';
 
 const testToken: UserToken = {
   access_token: 'xxx',
@@ -19,7 +19,7 @@ const testToken: UserToken = {
   userId: 'xxx'
 };
 
-class MockUserService {
+class UserAuthenticationTokenServiceMock {
   loadToken(userId: string, password: string): Observable<any> {
     return;
   }
@@ -30,7 +30,7 @@ class MockUserService {
 }
 
 describe('UserToken effect', () => {
-  let userService: OccUserService;
+  let userTokenService: UserAuthenticationTokenService;
   let userTokenEffect: UserTokenEffects;
   let actions$: Observable<any>;
 
@@ -38,16 +38,19 @@ describe('UserToken effect', () => {
     TestBed.configureTestingModule({
       providers: [
         UserTokenEffects,
-        { provide: OccUserService, useClass: MockUserService },
+        {
+          provide: UserAuthenticationTokenService,
+          useClass: UserAuthenticationTokenServiceMock
+        },
         provideMockActions(() => actions$)
       ]
     });
 
     userTokenEffect = TestBed.get(UserTokenEffects);
-    userService = TestBed.get(OccUserService);
+    userTokenService = TestBed.get(UserAuthenticationTokenService);
 
-    spyOn(userService, 'loadToken').and.returnValue(of(testToken));
-    spyOn(userService, 'refreshToken').and.returnValue(of(testToken));
+    spyOn(userTokenService, 'loadToken').and.returnValue(of(testToken));
+    spyOn(userTokenService, 'refreshToken').and.returnValue(of(testToken));
   });
 
   describe('loadUserToken$', () => {

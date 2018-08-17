@@ -4,8 +4,8 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { ConfigService } from '../config.service';
-import { OccClientAuthenticationTokenService } from './client-authentication-token.service';
+import { ConfigService } from './../../config.service';
+import { ClientAuthenticationTokenService } from './client-authentication-token.service';
 
 const token: any = 'mockToken';
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
@@ -21,20 +21,20 @@ class MockConfigService {
   };
 }
 
-describe('OccClientAuthTokenService', () => {
-  let service: OccClientAuthenticationTokenService;
+describe('ClientAuthenticationTokenService', () => {
+  let service: ClientAuthenticationTokenService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccClientAuthenticationTokenService,
+        ClientAuthenticationTokenService,
         { provide: ConfigService, useClass: MockConfigService }
       ]
     });
 
-    service = TestBed.get(OccClientAuthenticationTokenService);
+    service = TestBed.get(ClientAuthenticationTokenService);
     httpMock = TestBed.get(HttpTestingController);
   });
 

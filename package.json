@@ -11,7 +11,9 @@
     "lint": "ng lint",
     "start": "ng serve",
     "build": "ng build",
+    "build:core:lib": "ng build storefrontlib",
     "test": "ng test",
+    "test:core:lib": "ng test storefrontlib --code-coverage",
     "e2e": "ng e2e"
   },
   "private": false,

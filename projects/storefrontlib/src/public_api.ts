@@ -2,6 +2,7 @@
  * Public API Surface of storefrontlib
  */
 
+export * from './lib/auth/auth.module';
 export * from './lib/ui/layout/layout.module';
 export * from './lib/ui/ui.module';
 export * from './lib/ui/components/components.module';
@@ -131,8 +132,8 @@ export * from './lib/store-finder/components/store-finder-search/store-finder-se
 export * from './lib/store-finder/components/store-finder-paging/store-finder-paging.component';
 export * from './lib/store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
 
-export * from './lib/user/guards/auth.guard';
-export * from './lib/user/guards/not-auth.guard';
+export * from './lib/auth/guards/auth.guard';
+export * from './lib/auth/guards/not-auth.guard';
 export * from './lib/product/guards/product.guard';
 export * from './lib/cms/guards/cms-page.guard';
 

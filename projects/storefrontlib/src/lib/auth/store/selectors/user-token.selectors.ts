@@ -4,20 +4,20 @@ import * as fromUserToken from './../reducers/user-token.reducer';
 import { UserToken } from '../../models/token-types.model';
 import { UserTokenState } from '../reducers/user-token.reducer';
 
-export const getUserAuthState: MemoizedSelector<
+export const getUserTokenState: MemoizedSelector<
   any,
   UserTokenState
 > = createSelector(
-  fromFeature.getUserState,
-  (state: fromFeature.UserState) => state.auth
+  fromFeature.getAuthState,
+  (state: fromFeature.AuthState) => state.userToken
 );
 
 export const getUserToken: MemoizedSelector<any, UserToken> = createSelector(
-  getUserAuthState,
+  getUserTokenState,
   fromUserToken.getUserToken
 );
 
 export const getUserTokenLoading: MemoizedSelector<
   any,
   boolean
-> = createSelector(getUserAuthState, fromUserToken.getUserTokenLoading);
+> = createSelector(getUserTokenState, fromUserToken.getUserTokenLoading);

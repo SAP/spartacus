@@ -5,6 +5,7 @@ import * as fromRoot from '../../routing/store';
 import * as fromCart from '../../cart/store';
 import * as fromCheckout from '../store';
 import * as fromUser from '../../user/store';
+import * as fromAuth from '../../auth/store';
 
 import { CheckoutService } from './checkout.service';
 import { CartService } from '../../cart/services/cart.service';
@@ -31,7 +32,8 @@ describe('CheckoutService', () => {
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
           checkout: combineReducers(fromCheckout.getReducers()),
-          user: combineReducers(fromUser.getReducers())
+          user: combineReducers(fromUser.getReducers()),
+          auth: combineReducers(fromAuth.getReducers())
         })
       ],
       providers: [CheckoutService, CartService, CartDataService]
