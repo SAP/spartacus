@@ -6,18 +6,24 @@ import {
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import * as fromRoot from '../../routing/store';
-import * as fromStore from './../store';
+import * as fromStore from '../store';
 import { of } from 'rxjs';
 
 import { ClientTokenInterceptor } from './client-token.interceptor';
 import { ClientAuthenticationToken } from './../models/token-types.model';
 import { InterceptorUtil } from '../../site-context/shared/http-interceptors/interceptor-util';
+import { ClientTokenState } from '../store/reducers/client-token.reducer';
 
 const testToken: ClientAuthenticationToken = {
   access_token: 'abc-123',
   token_type: 'bearer',
   expires_in: 1000,
   scope: ''
+};
+const clientTokenState: ClientTokenState = {
+  loaded: true,
+  loading: false,
+  token: testToken
 };
 
 describe('ClientTokenInterceptor', () => {
@@ -44,7 +50,7 @@ describe('ClientTokenInterceptor', () => {
     store = TestBed.get(Store);
     httpMock = TestBed.get(HttpTestingController);
 
-    spyOn(store, 'select').and.returnValue(of(testToken));
+    spyOn(store, 'select').and.returnValue(of(clientTokenState));
   });
 
   describe('Client Token', () => {

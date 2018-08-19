@@ -18,6 +18,7 @@ import * as fromStore from '../store';
 import * as fromRoot from '../../routing/store';
 import { AuthErrorInterceptor } from './auth-error.interceptor';
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
+import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
 
 class MockUserErrorHandlingService {
   handleExpiredUserToken(
@@ -29,8 +30,18 @@ class MockUserErrorHandlingService {
   handleExpiredRefreshToken() {}
 }
 
+class MockClientErrorHandlingService {
+  handleExpiredClientToken(
+    _request: HttpRequest<any>,
+    _next: HttpHandler
+  ): Observable<any> {
+    return;
+  }
+}
+
 describe('AuthErrorInterceptor', () => {
   let userErrorHandlingService: UserErrorHandlingService;
+  let clientErrorHandlingService: ClientErrorHandlingService;
   let store: Store<fromStore.AuthState>;
   let httpMock: HttpTestingController;
 
@@ -40,13 +51,17 @@ describe('AuthErrorInterceptor', () => {
         HttpClientTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          user: combineReducers(fromStore.getReducers())
+          auth: combineReducers(fromStore.getReducers())
         })
       ],
       providers: [
         {
           provide: UserErrorHandlingService,
           useClass: MockUserErrorHandlingService
+        },
+        {
+          provide: ClientErrorHandlingService,
+          useClass: MockClientErrorHandlingService
         },
         {
           provide: HTTP_INTERCEPTORS,
@@ -57,6 +72,7 @@ describe('AuthErrorInterceptor', () => {
     });
 
     userErrorHandlingService = TestBed.get(UserErrorHandlingService);
+    clientErrorHandlingService = TestBed.get(ClientErrorHandlingService);
     store = TestBed.get(Store);
     httpMock = TestBed.get(HttpTestingController);
 
@@ -64,6 +80,10 @@ describe('AuthErrorInterceptor', () => {
       of({})
     );
     spyOn(userErrorHandlingService, 'handleExpiredRefreshToken').and.stub();
+    spyOn(
+      clientErrorHandlingService,
+      'handleExpiredClientToken'
+    ).and.returnValue(of({}));
   });
 
   it(`should catch 401 error`, inject([HttpClient], (http: HttpClient) => {
