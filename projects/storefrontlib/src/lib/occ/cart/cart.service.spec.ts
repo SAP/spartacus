@@ -64,7 +64,7 @@ describe('OccCartService', () => {
     httpMock.verify();
   });
 
-  describe('load all carts', () => {
+  describe('load all carts basic data', () => {
     it('should load all carts for given user', () => {
       service.loadAllCarts(userId).subscribe(result => {
         expect(result).toEqual([cartData]);
@@ -79,11 +79,36 @@ describe('OccCartService', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.params.get('fields')).toEqual(
+        'carts(' + BASIC_PARAMS + ')'
+      );
       mockReq.flush([cartData]);
     });
   });
 
-  describe('load cart details', () => {
+  describe('load all carts details data', () => {
+    it('should load all carts for given user with details flag', () => {
+      service.loadAllCarts(userId, true).subscribe(result => {
+        expect(result).toEqual([cartData]);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url === usersEndpoint + `/${userId}` + cartsEndpoint
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.params.get('fields')).toEqual(
+        'carts(' + DETAILS_PARAMS + ')'
+      );
+      mockReq.flush([cartData]);
+    });
+  });
+
+  describe('load cart basic data', () => {
     it('should load cart details for given userId and cartId', () => {
       service.loadCart(userId, cartId).subscribe(result => {
         expect(result).toEqual(cartData);
@@ -103,7 +128,7 @@ describe('OccCartService', () => {
     });
   });
 
-  describe('load cart details', () => {
+  describe('load cart detailed data', () => {
     it('should load cart details for given userId, cartId and details flag', () => {
       service.loadCart(userId, cartId, true).subscribe(result => {
         expect(result).toEqual(cartData);
@@ -120,6 +145,28 @@ describe('OccCartService', () => {
       expect(mockReq.request.responseType).toEqual('json');
       expect(mockReq.request.params.get('fields')).toEqual(DETAILS_PARAMS);
       mockReq.flush(cartData);
+    });
+  });
+
+  describe('load current cart data', () => {
+    it('should load current cart for given userId', () => {
+      service.loadCart(userId, 'current').subscribe(result => {
+        expect(result).toEqual(cartData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url === usersEndpoint + `/${userId}` + cartsEndpoint
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.params.get('fields')).toEqual(
+        'carts(' + BASIC_PARAMS + ')'
+      );
+      mockReq.flush({ carts: [cartData] });
     });
   });
 
