@@ -5,8 +5,9 @@ import { StoreFinderPageLayoutComponent } from '../../layout/store-finder-page-l
 import { StoreFinderPagingComponent } from '../../../store-finder/components/store-finder-paging/store-finder-paging.component';
 import { StoreFinderSearchComponent } from '../../../store-finder/components/store-finder-search/store-finder-search.component';
 import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-list/store-finder-list.component';
-import { StoreFinderListItemComponent } 
-from '../../../store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
+import {
+  StoreFinderListItemComponent
+} from '../../../store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
 import { MaterialModule } from '../../../material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';

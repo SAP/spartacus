@@ -15,17 +15,17 @@ export class StoreFinderListItemComponent implements OnInit {
 
   getDirections(location: any) {
     const google_map_url = 'https://www.google.com/maps/dir/Current+Location/';
-    const latitude = this.storeDataService.getLatitudeForAStore(location);
-    const longitude = this.storeDataService.getLongitudeForAStore(location);
+    const latitude = this.storeDataService.getStoreLatitude(location);
+    const longitude = this.storeDataService.getStoreLongitude(location);
     window.open(google_map_url + latitude + ',' + longitude);
   }
 
   getClosingTime(location: any): Date {
-    return this.storeDataService.getClosingTimeForAStore(location);
+    return this.storeDataService.getStoreClosingTime(location);
   }
 
   getOpeningTime(location: any): Date {
-    return this.storeDataService.getOpeningTimeForAStore(location);
+    return this.storeDataService.getStoreOpeningTime(location);
   }
 
   getCurrentDay(): string {

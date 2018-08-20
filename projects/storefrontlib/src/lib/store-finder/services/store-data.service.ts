@@ -8,15 +8,15 @@ export class StoreDataService {
 
   constructor() {}
 
-  getLatitudeForAStore(location: any): string {
+  getStoreLatitude(location: any): string {
     return location.geoPoint.latitude;
   }
 
-  getLongitudeForAStore(location: any): string {
+  getStoreLongitude(location: any): string {
     return location.geoPoint.longitude;
   }
 
-  getClosingTimeForAStore(location: any): Date {
+  getStoreClosingTime(location: any): Date {
     const closing_hour = location.openingHours.weekDayOpeningList[
       this.daysOfWeek.indexOf(this.getCurrentDay())
     ].closingTime.formattedHour.split(':')[0];
@@ -30,7 +30,7 @@ export class StoreDataService {
     return closing_date_time;
   }
 
-  getOpeningTimeForAStore(location: any): Date {
+  getStoreOpeningTime(location: any): Date {
     const opening_hour = location.openingHours.weekDayOpeningList[
       this.daysOfWeek.indexOf(this.getCurrentDay())
     ].openingTime.formattedHour.split(':')[0];

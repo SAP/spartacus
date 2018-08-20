@@ -6,8 +6,9 @@ import * as fromStore from '../../../store-finder/store';
 import * as fromRoot from '../../../routing/store';
 import { combineReducers, StoreModule } from '@ngrx/store';
 import { StoreFinderPagingComponent } from '../../../store-finder/components/store-finder-paging/store-finder-paging.component';
-import { StoreFinderListItemComponent } 
-from '../../../store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
+import {
+  StoreFinderListItemComponent
+} from '../../../store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
 import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-list/store-finder-list.component';
 import { StoreFinderSearchComponent } from '../../../store-finder/components/store-finder-search/store-finder-search.component';
 import { ReactiveFormsModule } from '@angular/forms';
