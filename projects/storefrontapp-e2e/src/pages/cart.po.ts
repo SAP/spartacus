@@ -73,8 +73,8 @@ export class CartPage extends AppPage {
       cartEntry,
       'item__quantity'
     );
-    const paragraph = E2EUtil.getComponentsWithinParent(itemQuantityDiv, 'p');
-    return paragraph.getText();
+    const input = E2EUtil.getComponentsWithinParent(itemQuantityDiv, 'input');
+    return input.getAttribute('value');
   }
 
   getCartEntryTotalPrice(cartEntry: ElementFinder): promise.Promise<string> {
