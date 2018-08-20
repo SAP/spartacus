@@ -37,23 +37,6 @@
     </y-item-counter>
   </div>
 
-  <!-- delivery -->
-  <div class="item__delivery" *ngIf="entry.product.purchasable">
-    <ng-container *ngIf="entry.product.stock.stockLevelStatus !== 'outOfStock'">
-      <ng-container *ngIf="!entry.deliveryPointOfService || !entry.product.availableForPickup">
-        Shipping
-      </ng-container>
-    </ng-container>
-
-    <ng-container *ngIf="entry.deliveryPointOfService?.name">
-      PickUp
-    </ng-container>
-
-    <ng-container *ngIf="entry.product.availableForPickup && entry.deliveryPointOfService?.name">
-      {{entry.deliveryPointOfService.name}}
-    </ng-container>
-  </div>
-
   <!-- total -->
   <div class="item__total">
     Total: {{entry.totalPrice.formattedValue}}
