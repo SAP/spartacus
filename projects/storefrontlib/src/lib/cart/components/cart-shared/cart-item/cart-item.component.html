@@ -14,7 +14,7 @@
     <div class="item__code">ID: {{entry.product.code}}</div>
 
     <!-- availability-->
-    <div class="item__stock">
+    <div class="item__stock" *ngIf="entry.product.stock.stockLevelStatus === 'outOfStock'">
       {{ entry.product.stock?.stockLevelStatus | uppercase }}
     </div>
 
