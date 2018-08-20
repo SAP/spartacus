@@ -38,7 +38,7 @@ describe('ItemCounterComponent', () => {
 
     spyOn(itemCounterComponent, 'decrement').and.callThrough();
     spyOn(itemCounterComponent, 'increment').and.callThrough();
-    spyOn(itemCounterComponent.change, 'emit').and.callThrough();
+    spyOn(itemCounterComponent.update, 'emit').and.callThrough();
     spyOn(keyBoardEvent, 'preventDefault').and.callThrough();
     spyOn(keyBoardEvent, 'stopPropagation').and.callThrough();
     spyOn(focusEvent, 'preventDefault').and.callThrough();
@@ -107,7 +107,7 @@ describe('ItemCounterComponent', () => {
     itemCounterComponent.increment();
 
     expect(itemCounterComponent.value).toEqual(2);
-    expect(itemCounterComponent.change.emit).toHaveBeenCalled();
+    expect(itemCounterComponent.update.emit).toHaveBeenCalled();
   });
 
   it('should call increment() with value greater than max', () => {
@@ -116,7 +116,7 @@ describe('ItemCounterComponent', () => {
     itemCounterComponent.increment();
 
     expect(itemCounterComponent.value).toEqual(3);
-    expect(itemCounterComponent.change.emit).not.toHaveBeenCalled();
+    expect(itemCounterComponent.update.emit).not.toHaveBeenCalled();
   });
 
   it('should call decrement() with value greater than min', () => {
@@ -125,7 +125,7 @@ describe('ItemCounterComponent', () => {
     itemCounterComponent.decrement();
 
     expect(itemCounterComponent.value).toEqual(2);
-    expect(itemCounterComponent.change.emit).toHaveBeenCalled();
+    expect(itemCounterComponent.update.emit).toHaveBeenCalled();
   });
 
   it('should call decrement() with value less than max', () => {
@@ -134,6 +134,6 @@ describe('ItemCounterComponent', () => {
     itemCounterComponent.decrement();
 
     expect(itemCounterComponent.value).toEqual(1);
-    expect(itemCounterComponent.change.emit).not.toHaveBeenCalled();
+    expect(itemCounterComponent.update.emit).not.toHaveBeenCalled();
   });
 });
