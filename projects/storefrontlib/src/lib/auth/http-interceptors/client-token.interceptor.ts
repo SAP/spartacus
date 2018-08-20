@@ -18,7 +18,7 @@ import {
 import {
   USE_CLIENT_TOKEN,
   InterceptorUtil
-} from '../../site-context/shared/http-interceptors/interceptor-util';
+} from '../../occ/utils/interceptor-util';
 import { ClientTokenState } from '../store/reducers/client-token.reducer';
 import { ConfigService } from '../config.service';
 
@@ -38,7 +38,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
       this.configService.server.occPrefix +
       this.configService.site.baseSite;
 
-    return this.getTokenForRequest(request).pipe(
+    return this.getClientTokenForRequest(request).pipe(
       switchMap((token: AuthenticationToken) => {
         if (token && request.url.indexOf(baseReqString) > -1) {
           request = request.clone({
@@ -52,7 +52,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     );
   }
 
-  private getTokenForRequest(
+  private getClientTokenForRequest(
     request: HttpRequest<any>
   ): Observable<AuthenticationToken> {
     if (

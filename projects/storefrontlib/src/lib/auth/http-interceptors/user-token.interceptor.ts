@@ -11,7 +11,7 @@ import { ConfigService } from '../../occ/config.service';
 import { UserToken } from '../../auth/models/token-types.model';
 
 @Injectable()
-export class UserHttpInterceptor implements HttpInterceptor {
+export class UserTokenInterceptor implements HttpInterceptor {
   constructor(
     private configService: ConfigService,
     private store: Store<fromStore.AuthState>

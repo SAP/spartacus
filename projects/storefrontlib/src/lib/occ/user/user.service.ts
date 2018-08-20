@@ -4,10 +4,7 @@ import { ConfigService } from '../config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { UserRegisterFormData } from '../../user/models/user.model';
-import {
-  InterceptorUtil,
-  USE_CLIENT_TOKEN
-} from '../../site-context/shared/http-interceptors/interceptor-util';
+import { InterceptorUtil, USE_CLIENT_TOKEN } from '../utils/interceptor-util';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';

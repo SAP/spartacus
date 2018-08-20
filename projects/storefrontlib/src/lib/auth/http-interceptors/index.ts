@@ -1,7 +1,7 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthErrorInterceptor } from './auth-error.interceptor';
 import { ClientTokenInterceptor } from './client-token.interceptor';
-import { UserHttpInterceptor } from './user-http.interceptor';
+import { UserTokenInterceptor } from './user-token.interceptor';
 import { Provider } from '@angular/core';
 
 export const interceptors: Provider[] = [
@@ -12,7 +12,7 @@ export const interceptors: Provider[] = [
   },
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: UserHttpInterceptor,
+    useClass: UserTokenInterceptor,
     multi: true
   },
   {

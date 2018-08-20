@@ -11,7 +11,7 @@ import { of } from 'rxjs';
 import * as fromStore from '../store';
 import * as fromRoot from '../../routing/store';
 import { ConfigService } from '../../occ/config.service';
-import { UserHttpInterceptor } from './user-http.interceptor';
+import { UserTokenInterceptor } from './user-token.interceptor';
 import { UserToken } from './../../auth/models/token-types.model';
 
 class MockConfigService {
@@ -27,7 +27,7 @@ class MockConfigService {
   };
 }
 
-describe('UserHttpInterceptor', () => {
+describe('UserTokenInterceptor', () => {
   const userToken: UserToken = {
     access_token: 'xxx',
     token_type: 'bearer',
@@ -52,7 +52,7 @@ describe('UserHttpInterceptor', () => {
         { provide: ConfigService, useClass: MockConfigService },
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: UserHttpInterceptor,
+          useClass: UserTokenInterceptor,
           multi: true
         }
       ]

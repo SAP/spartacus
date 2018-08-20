@@ -11,7 +11,7 @@ import { of } from 'rxjs';
 
 import { ClientTokenInterceptor } from './client-token.interceptor';
 import { ClientAuthenticationToken } from './../models/token-types.model';
-import { InterceptorUtil } from '../../site-context/shared/http-interceptors/interceptor-util';
+import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 import { ClientTokenState } from '../store/reducers/client-token.reducer';
 import { ConfigService } from '../config.service';
 

@@ -3,7 +3,7 @@ import { HttpRequest, HttpHandler } from '@angular/common/http';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { switchMap, tap, filter } from 'rxjs/operators';
+import { switchMap, tap, filter, map } from 'rxjs/operators';
 
 import * as fromStore from '../../store';
 import { ClientAuthenticationToken } from '../../models/token-types.model';
@@ -18,7 +18,7 @@ export class ClientErrorHandlingService {
     next: HttpHandler
   ): Observable<any> {
     return this.handleExpiredToken().pipe(
-      switchMap(({ token }: { token: ClientAuthenticationToken }) => {
+      switchMap((token: ClientAuthenticationToken) => {
         return next.handle(this.createNewRequestWithNewToken(request, token));
       })
     );
@@ -31,7 +31,8 @@ export class ClientErrorHandlingService {
           this.store.dispatch(new fromStore.LoadClientToken());
         }
       }),
-      filter((state: ClientTokenState) => state.loaded)
+      filter((state: ClientTokenState) => state.loaded),
+      map((state: ClientTokenState) => state.token)
     );
   }
 

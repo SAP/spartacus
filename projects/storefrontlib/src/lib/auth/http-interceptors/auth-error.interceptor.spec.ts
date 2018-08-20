@@ -20,7 +20,7 @@ import * as fromRoot from '../../routing/store';
 import { AuthErrorInterceptor } from './auth-error.interceptor';
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
 import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
-import { USE_CLIENT_TOKEN } from '../../site-context/shared/http-interceptors/interceptor-util';
+import { USE_CLIENT_TOKEN } from '../../occ/utils/interceptor-util';
 
 class MockUserErrorHandlingService {
   handleExpiredUserToken(
