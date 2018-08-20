@@ -64,8 +64,8 @@ describe('OccCartService', () => {
     httpMock.verify();
   });
 
-  describe('load all carts basic data', () => {
-    it('should load all carts for given user', () => {
+  describe('load all carts', () => {
+    it('should load all carts basic data for given user', () => {
       service.loadAllCarts(userId).subscribe(result => {
         expect(result).toEqual([cartData]);
       });
@@ -84,10 +84,8 @@ describe('OccCartService', () => {
       );
       mockReq.flush([cartData]);
     });
-  });
 
-  describe('load all carts details data', () => {
-    it('should load all carts for given user with details flag', () => {
+    it('should load all carts details data for given user with details flag', () => {
       service.loadAllCarts(userId, true).subscribe(result => {
         expect(result).toEqual([cartData]);
       });
@@ -108,8 +106,8 @@ describe('OccCartService', () => {
     });
   });
 
-  describe('load cart basic data', () => {
-    it('should load cart details for given userId and cartId', () => {
+  describe('load cart data', () => {
+    it('should load cart basic data for given userId and cartId', () => {
       service.loadCart(userId, cartId).subscribe(result => {
         expect(result).toEqual(cartData);
       });
@@ -126,10 +124,8 @@ describe('OccCartService', () => {
       expect(mockReq.request.params.get('fields')).toEqual(BASIC_PARAMS);
       mockReq.flush(cartData);
     });
-  });
 
-  describe('load cart detailed data', () => {
-    it('should load cart details for given userId, cartId and details flag', () => {
+    it('should load cart detail data for given userId, cartId and details flag', () => {
       service.loadCart(userId, cartId, true).subscribe(result => {
         expect(result).toEqual(cartData);
       });
@@ -146,9 +142,7 @@ describe('OccCartService', () => {
       expect(mockReq.request.params.get('fields')).toEqual(DETAILS_PARAMS);
       mockReq.flush(cartData);
     });
-  });
 
-  describe('load current cart data', () => {
     it('should load current cart for given userId', () => {
       service.loadCart(userId, 'current').subscribe(result => {
         expect(result).toEqual(cartData);
