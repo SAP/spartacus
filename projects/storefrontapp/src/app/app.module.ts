@@ -13,7 +13,8 @@ import {
   CmsModule,
   RoutingModule,
   UserModule,
-  UiFrameworkModule
+  UiFrameworkModule,
+  SiteContextModule
 } from 'storefrontlib';
 
 // bootstrap
@@ -25,6 +26,7 @@ import { AppComponent } from './app.component';
     AuthModule.forRoot(ConfigService),
     RoutingModule.forRoot(ConfigService),
     OccModule.forRoot(ConfigService),
+    SiteContextModule.forRoot(ConfigService),
 
     AppRoutingModule,
 

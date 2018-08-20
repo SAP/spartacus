@@ -22,6 +22,10 @@ export class ResponsiveBannerComponent extends BannerComponent {
     return this.hasImage() ? this.getImage().url : '';
   }
 
+  getClass(): string {
+    return 'responsive-banner ' + this.uid;
+  }
+
   private getImage(): any {
     return this.component.media['desktop'];
   }
