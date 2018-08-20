@@ -2,6 +2,7 @@ import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'y-added-to-cart-dialog',
@@ -31,22 +32,23 @@ export class AddedToCartDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.entry$ = this.data.entry$;
     this.cart$ = this.data.cart$;
 
-    this.entry$.subscribe(entry => {
-      const entryFG = this.form.get('entryForm') as FormGroup;
-      if (entry !== undefined) {
-        entryFG.setControl('entryNumber', this.fb.control(entry.entryNumber));
-        if (!entryFG.controls['quantity']) {
-          // create form control for entry
-          entryFG.setControl('quantity', this.fb.control(entry.quantity));
-        } else {
-          // update form if entry changes
-          entryFG.controls['quantity'].setValue(entry.quantity);
+    this.entry$ = this.data.entry$.pipe(
+      tap(entry => {
+        const entryFG = this.form.get('entryForm') as FormGroup;
+        if (entry !== undefined) {
+          entryFG.setControl('entryNumber', this.fb.control(entry.entryNumber));
+          if (!entryFG.controls['quantity']) {
+            // create form control for entry
+            entryFG.setControl('quantity', this.fb.control(entry.quantity));
+          } else {
+            // update form if entry changes
+            entryFG.controls['quantity'].setValue(entry.quantity);
+          }
         }
-      }
-    });
+      })
+    );
   }
 
   updateEntry({

@@ -42,19 +42,16 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     if (codes && codes.length > 0) {
       this.codesSubscription = this.store
         .select(fromProductStore.getAllProductCodes)
-        .pipe(
-          takeWhile(() => this.alive),
-          tap(productCodes => {
-            if (this.firstTime || productCodes.length === 0) {
-              codes
-                .filter(code => productCodes.indexOf(code) === -1)
-                .forEach(code => {
-                  this.store.dispatch(new fromProductStore.LoadProduct(code));
-                });
-            }
-          })
-        )
-        .subscribe();
+        .pipe(takeWhile(() => this.alive))
+        .subscribe(productCodes => {
+          if (this.firstTime || productCodes.length === 0) {
+            codes
+              .filter(code => productCodes.indexOf(code) === -1)
+              .forEach(code => {
+                this.store.dispatch(new fromProductStore.LoadProduct(code));
+              });
+          }
+        });
 
       this.firstTime = false;
 

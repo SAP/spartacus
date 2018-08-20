@@ -13,36 +13,40 @@ import { UserToken } from '../../auth/models/token-types.model';
 
 @Injectable()
 export class UserHttpInterceptor implements HttpInterceptor {
+  userToken: UserToken;
+  baseReqString: string;
+
   constructor(
     private configService: ConfigService,
     private store: Store<fromUserStore.UserState>
-  ) {}
+  ) {
+    this.baseReqString =
+      this.configService.server.baseUrl +
+      this.configService.server.occPrefix +
+      this.configService.site.baseSite;
+
+    this.store
+      .select(fromAuthStore.getUserToken)
+      .pipe(filter((token: UserToken) => Object.keys(token).length !== 0))
+      .subscribe((token: UserToken) => {
+        this.userToken = token;
+      });
+  }
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    let userToken: UserToken;
-    this.store
-      .select(fromAuthStore.getUserToken)
-      .pipe(filter((token: UserToken) => Object.keys(token).length !== 0))
-      .subscribe((token: UserToken) => {
-        userToken = token;
-      });
-
-    const baseReqString =
-      this.configService.server.baseUrl +
-      this.configService.server.occPrefix +
-      this.configService.site.baseSite;
-
     if (
-      userToken &&
-      request.url.indexOf(baseReqString) > -1 &&
+      this.userToken &&
+      request.url.indexOf(this.baseReqString) > -1 &&
       !request.headers.get('Authorization')
     ) {
       request = request.clone({
         setHeaders: {
-          Authorization: `${userToken.token_type} ${userToken.access_token}`
+          Authorization: `${this.userToken.token_type} ${
+            this.userToken.access_token
+          }`
         }
       });
     }
