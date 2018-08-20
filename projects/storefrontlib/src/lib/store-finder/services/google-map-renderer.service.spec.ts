@@ -18,8 +18,7 @@ import {
 const MAP_DOM_ELEMENT_INNER_HTML = 'map dom element inner html';
 const GOOGLE_API_KEY = 'google_api_key';
 
-@Injectable({ providedIn: 'root' })
-export class ExternalJsFileLoaderMock {
+class ExternalJsFileLoaderMock {
   public load(src: string, params?: Object, callback?: EventListener): void {
     window['google'] = {};
     window['google'].maps = {};
@@ -36,8 +35,7 @@ export class ExternalJsFileLoaderMock {
   }
 }
 
-@Injectable({ providedIn: 'root' })
-export class OccE2eConfigurationServiceMock {
+class OccE2eConfigurationServiceMock {
   getConfiguration(configurationKey: string): Observable<any> {
     return of(GOOGLE_API_KEY);
   }
@@ -76,22 +74,20 @@ describe('GoogleMapRendererService', () => {
     occE2eConfigurationServiceMock = bed.get(OccE2eConfigurationService);
   });
 
-  // GIVEN
-
-  // WHEN
-
-  // THEN
-
   it(
     'should render map',
     fakeAsync(() => {
+      // given
       spyOn(
         occE2eConfigurationServiceMock,
         'getConfiguration'
       ).and.callThrough();
       spyOn(externalJsFileLoaderMock, 'load').and.callThrough();
 
+      // when
       googleMapRendererService.renderMap(mapDomElement, locations);
+
+      // then
       expect(
         occE2eConfigurationServiceMock.getConfiguration
       ).toHaveBeenCalledWith('e2egoogleservices.apikey');
@@ -109,6 +105,7 @@ describe('GoogleMapRendererService', () => {
   it(
     'should not create a new map',
     fakeAsync(() => {
+      // given the map is already rendered
       googleMapRendererService.renderMap(mapDomElement, locations);
       tick();
 
@@ -118,6 +115,10 @@ describe('GoogleMapRendererService', () => {
       ).and.callThrough();
       spyOn(externalJsFileLoaderMock, 'load').and.callThrough();
 
+      // when rendering the map one more time
+      googleMapRendererService.renderMap(mapDomElement, locations);
+
+      // then google js is not loaded again
       expect(
         occE2eConfigurationServiceMock.getConfiguration
       ).toHaveBeenCalledTimes(0);
