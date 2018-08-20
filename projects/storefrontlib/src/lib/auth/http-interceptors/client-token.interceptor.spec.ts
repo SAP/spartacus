@@ -13,6 +13,7 @@ import { ClientTokenInterceptor } from './client-token.interceptor';
 import { ClientAuthenticationToken } from './../models/token-types.model';
 import { InterceptorUtil } from '../../site-context/shared/http-interceptors/interceptor-util';
 import { ClientTokenState } from '../store/reducers/client-token.reducer';
+import { ConfigService } from '../config.service';
 
 const testToken: ClientAuthenticationToken = {
   access_token: 'abc-123',
@@ -25,6 +26,19 @@ const clientTokenState: ClientTokenState = {
   loading: false,
   token: testToken
 };
+
+class MockConfigService {
+  server = {
+    baseUrl: 'https://localhost:9002',
+    occPrefix: '/rest/v2/'
+  };
+
+  site = {
+    baseSite: 'electronics',
+    language: '',
+    currency: ''
+  };
+}
 
 describe('ClientTokenInterceptor', () => {
   let httpMock: HttpTestingController;
@@ -40,6 +54,7 @@ describe('ClientTokenInterceptor', () => {
         })
       ],
       providers: [
+        { provide: ConfigService, useClass: MockConfigService },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: ClientTokenInterceptor,
@@ -57,10 +72,14 @@ describe('ClientTokenInterceptor', () => {
     it('Should only add token to specified requests', inject(
       [HttpClient],
       (http: HttpClient) => {
-        http.get('/test').subscribe(result => {
-          expect(result).toBeTruthy();
-        });
-        let mockReq = httpMock.expectOne('/test');
+        http
+          .get('https://localhost:9002/rest/v2/electronics/test')
+          .subscribe(result => {
+            expect(result).toBeTruthy();
+          });
+        let mockReq = httpMock.expectOne(
+          'https://localhost:9002/rest/v2/electronics/test'
+        );
         let authHeader = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(null);
 
@@ -68,12 +87,17 @@ describe('ClientTokenInterceptor', () => {
           true
         );
         http
-          .post('/somestore/forgottenpasswordtokens', { userId: 1 })
+          .post(
+            'https://localhost:9002/rest/v2/electronics/somestore/forgottenpasswordtokens',
+            { userId: 1 }
+          )
           .subscribe(result => {
             expect(result).toBeTruthy();
           });
 
-        mockReq = httpMock.expectOne('/somestore/forgottenpasswordtokens');
+        mockReq = httpMock.expectOne(
+          'https://localhost:9002/rest/v2/electronics/somestore/forgottenpasswordtokens'
+        );
         authHeader = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(
           `${testToken.token_type} ${testToken.access_token}`

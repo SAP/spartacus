@@ -8,30 +8,39 @@ import {
 import { Observable, of } from 'rxjs';
 import { switchMap, tap, filter, map } from 'rxjs/operators';
 
+import { Store } from '@ngrx/store';
+import * as fromAuthStore from './../store';
+
 import {
   AuthenticationToken,
   ClientAuthenticationToken
 } from '../models/token-types.model';
-
-import { Store } from '@ngrx/store';
-import * as fromAuthStore from './../store';
 import {
   USE_CLIENT_TOKEN,
   InterceptorUtil
 } from '../../site-context/shared/http-interceptors/interceptor-util';
 import { ClientTokenState } from '../store/reducers/client-token.reducer';
+import { ConfigService } from '../config.service';
 
 @Injectable()
 export class ClientTokenInterceptor implements HttpInterceptor {
-  constructor(private store: Store<fromAuthStore.AuthState>) {}
+  constructor(
+    private configService: ConfigService,
+    private store: Store<fromAuthStore.AuthState>
+  ) {}
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    const baseReqString =
+      this.configService.server.baseUrl +
+      this.configService.server.occPrefix +
+      this.configService.site.baseSite;
+
     return this.getTokenForRequest(request).pipe(
       switchMap((token: AuthenticationToken) => {
-        if (token) {
+        if (token && request.url.indexOf(baseReqString) > -1) {
           request = request.clone({
             setHeaders: {
               Authorization: `${token.token_type} ${token.access_token}`
