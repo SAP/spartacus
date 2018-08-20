@@ -68,9 +68,10 @@ export class OccCartService {
       return this.loadAllCarts(userId, details).pipe(
         map(cartsData => {
           if (cartsData && cartsData.carts) {
-            cartsData.carts.find(cart => {
-              return cart.saveTime !== undefined;
+            const activeCart = cartsData.carts.find(cart => {
+              return cart['saveTime'] === undefined;
             });
+            return activeCart;
           } else {
             return null;
           }
