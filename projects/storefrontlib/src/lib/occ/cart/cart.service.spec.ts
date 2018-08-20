@@ -80,7 +80,7 @@ describe('OccCartService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(mockReq.request.params.get('fields')).toEqual(
-        'carts(' + BASIC_PARAMS + ')'
+        'carts(' + BASIC_PARAMS + ',saveTime)'
       );
       mockReq.flush([cartData]);
     });
@@ -100,7 +100,7 @@ describe('OccCartService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(mockReq.request.params.get('fields')).toEqual(
-        'carts(' + DETAILS_PARAMS + ')'
+        'carts(' + DETAILS_PARAMS + ',saveTime)'
       );
       mockReq.flush([cartData]);
     });
@@ -158,7 +158,7 @@ describe('OccCartService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(mockReq.request.params.get('fields')).toEqual(
-        'carts(' + BASIC_PARAMS + ')'
+        'carts(' + BASIC_PARAMS + ',saveTime)'
       );
       mockReq.flush({ carts: [cartData] });
     });
