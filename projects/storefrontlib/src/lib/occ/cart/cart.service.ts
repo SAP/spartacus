@@ -40,10 +40,10 @@ export class OccCartService {
     const url = this.getCartEndpoint(userId);
     const params = details
       ? new HttpParams({
-          fromString: 'fields=carts(' + DETAILS_PARAMS + ')'
+          fromString: 'fields=carts(' + DETAILS_PARAMS + ',saveTime)'
         })
       : new HttpParams({
-          fromString: 'fields=carts(' + BASIC_PARAMS + ')'
+          fromString: 'fields=carts(' + BASIC_PARAMS + ',saveTime)'
         });
     return this.http
       .get(url, { params: params })
@@ -66,10 +66,15 @@ export class OccCartService {
 
     if (cartId === 'current') {
       return this.loadAllCarts(userId, details).pipe(
-        map(
-          cartsData =>
-            cartsData && cartsData.carts ? cartsData.carts[0] : null
-        )
+        map(cartsData => {
+          if (cartsData && cartsData.carts) {
+            cartsData.carts.find(cart => {
+              return cart.saveTime !== undefined;
+            });
+          } else {
+            return null;
+          }
+        })
       );
     } else {
       return this.http
