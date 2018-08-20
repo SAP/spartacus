@@ -21,7 +21,7 @@ import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.co
 export class StoreFinderListComponent implements OnInit {
   @Input() query;
 
-  private locations: any;
+  locations: any;
   searchConfig: SearchConfig = {
     currentPage: 0
   };
@@ -144,7 +144,7 @@ export class StoreFinderListComponent implements OnInit {
     }
   }
 
-  private centerStoreOnMapByIndex(index: number): void {
+  centerStoreOnMapByIndex(index: number): void {
     this.storeMap.centerMap(
       this.locations.stores[index].geoPoint.latitude,
       this.locations.stores[index].geoPoint.longitude

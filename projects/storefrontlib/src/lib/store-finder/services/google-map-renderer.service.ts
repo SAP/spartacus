@@ -1,7 +1,6 @@
 import { ExternalJsFileLoader } from './external-js-file-loader.service';
 import {} from '@types/googlemaps';
 import { Injectable } from '@angular/core';
-import { SccConfigurationService } from './SccConfiguration.service';
 import { OccE2eConfigurationService } from '../../occ/e2e/configuration-service';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { Loc } from '../models/loc';
@@ -14,7 +13,7 @@ const DEFAULT_SCALE = 12;
   providedIn: 'root'
 })
 export class GoogleMapRendererServcie {
-  private googleMap: google.maps.Map;
+  private googleMap: google.maps.Map = null;
   private markers: google.maps.Marker[];
 
   constructor(
@@ -29,7 +28,7 @@ export class GoogleMapRendererServcie {
    * @param locations array containign geo data to be displayed on the map
    */
   public renderMap(mapElement: HTMLElement, locations: any[]): void {
-    if (this.googleMap === undefined) {
+    if (this.googleMap === null) {
       this.sccConfigurationService
         .getConfiguration(GOOGLE_API_KEY_PROPERRY_NAME)
         .subscribe(result => {
