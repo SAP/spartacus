@@ -7,26 +7,12 @@
   <p>{{location.address.line1}}</p>
   <p>{{location.address.town}}, {{location.address.region?.name}}, {{location.address.postalCode}}</p>
   <div *ngIf="isOpen(location)">
-    <div *ngIf="isClosingSoon(); else open">
-      <b class="opening_closing_soon">
-        {{getCurrentDay()}}: Closing Soon
-      </b>
-    </div>
-    <ng-template #open>
-      <b id="open">
-        {{getCurrentDay()}}: Open until {{getClosingTime(location) | date:'shortTime'}}
-      </b>
-    </ng-template>
+    <b id="open">
+      {{getCurrentDay()}}: Open until {{getClosingTime(location) | date:'shortTime'}}
+    </b>
   </div>
   <div *ngIf="!isOpen(location)">
-    <div *ngIf="isOpeningSoon(); else close">
-      <b class="opening_closing_soon">
-        {{daysOfWeek[getCurrentDay()]}}: Opening at {{getOpeningTime(location) | date:'shortTime'}}
-      </b>
-    </div>
-    <ng-template #close>
-      <b id="closed">Closed</b>
-    </ng-template>
+    <b id="closed">{{getCurrentDay()}}: Closed</b>
   </div>
   <br>
   <button mat-button (click)="getDirections(location)"> Get Directions</button>
