@@ -3,6 +3,10 @@
   "dest": "../../dist/storefrontlib",
   "deleteDestPath": false,
   "lib": {
-    "entryFile": "src/public_api.ts"
+    "entryFile": "src/public_api.ts",
+    "styleIncludePaths": [
+      "../storefrontstyles/scss",
+      "../../node_modules/storefrontstyles/scss"
+    ]
   }
 }

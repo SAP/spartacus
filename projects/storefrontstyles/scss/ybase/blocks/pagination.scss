@@ -1,0 +1,35 @@
+@import 'theme.scss';
+@import '~bootstrap/scss/pagination';
+
+.page-item {
+  &.disabled {
+    .page-link {
+      &[aria-label='Previous'],
+      &[aria-label='Next'] {
+        color: theme-color('light');
+      }
+    }
+  }
+  .page-link {
+    padding: 10px 24px;
+    font-size: 18px;
+    color: theme-color('text');
+
+    &:hover {
+      background-color: theme-color('primary');
+      color: theme-color('inverse');
+      font-weight: $font-weight-bold;
+    }
+
+    &[aria-label='Previous'],
+    &[aria-label='Next'] {
+      padding: 10px 15px;
+      color: theme-color('secondary');
+    }
+
+    span {
+      position: relative;
+      bottom: 1px;
+    }
+  }
+}
