@@ -37,15 +37,6 @@ describe('workspace-project App', () => {
     );
   });
 
-  it('should be able to search', () => {
-    // go to homepage
-    home.navigateTo();
-    // search for camera
-    home.header.performSearch('camera');
-    // should go to search results page
-    browser.wait(ExpectedConditions.urlContains('/search/camera'), 5000);
-  });
-
   it('should have splash banner', () => {
     // go to homepage
     home.navigateTo();
@@ -56,12 +47,14 @@ describe('workspace-project App', () => {
     );
   });
 
-  it('should list cameras in page', () => {
+  it('should be able to search and get results in page', () => {
     // go to search results page
     searchResults.navigateTo('camera');
 
     // should go to search results page
     browser.wait(ExpectedConditions.urlContains('/search/camera'));
+
+    browser.waitForAngular();
 
     // should show 10 results on page and should have Photosmart camera
     const results = searchResults.getProductListItems();
@@ -89,6 +82,8 @@ describe('workspace-project App', () => {
 
     // should go to search results page
     browser.wait(ExpectedConditions.urlContains('/search/camera'));
+
+    browser.waitForAngular();
 
     // should have 144 results and 15 pages
     const pagination = searchResults.getPagination();
