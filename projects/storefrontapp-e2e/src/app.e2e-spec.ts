@@ -50,7 +50,7 @@ describe('workspace-project App', () => {
     // go to homepage
     home.navigateTo();
     // check if site logo is present
-    const splashBannerComponent = home.getSplahBanner();
+    const splashBannerComponent = home.getSplashBanner();
     expect<promise.Promise<boolean>>(splashBannerComponent.isPresent()).toEqual(
       true
     );
