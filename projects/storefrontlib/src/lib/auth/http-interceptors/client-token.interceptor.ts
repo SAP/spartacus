@@ -56,7 +56,6 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     ) {
       return this.store.select(fromAuthStore.getClientTokenState).pipe(
         tap((state: ClientTokenState) => {
-          console.log(state);
           if (!state.loading && Object.keys(state.token).length === 0) {
             this.store.dispatch(new fromAuthStore.LoadClientToken());
           }
