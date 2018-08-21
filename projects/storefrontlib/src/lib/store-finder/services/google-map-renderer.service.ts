@@ -48,6 +48,15 @@ export class GoogleMapRendererService {
   }
 
   /**
+   * Centers the map to the given point
+   * @param latitute latitude of the new center
+   * @param longitude longitude of the new center
+   */
+  public centerMap(latitute: number, longitude: number): void {
+    this.googleMap.panTo({ lat: latitute, lng: longitude });
+  }
+
+  /**
    * Defines and returns {@link google.maps.LatLng} representing a point where the map will be centered
    * @param locations list of locations
    */
@@ -100,14 +109,5 @@ export class GoogleMapRendererService {
    */
   protected setMapOnAllMarkers(map: google.maps.Map): void {
     this.markers.forEach(marker => marker.setMap(map));
-  }
-
-  /**
-   * Centers the map to the given point
-   * @param latitute latitude of the new center
-   * @param longitude longitude of the new center
-   */
-  public centerMap(latitute: number, longitude: number): void {
-    this.googleMap.panTo({ lat: latitute, lng: longitude });
   }
 }

@@ -2,7 +2,6 @@ import {
   Component,
   ElementRef,
   ViewChild,
-  OnInit,
   Input,
   OnChanges,
   SimpleChanges
@@ -17,23 +16,22 @@ import { Observable } from 'rxjs';
   templateUrl: './store-finder-map.component.html',
   styleUrls: ['./store-finder-map.component.scss']
 })
-export class StoreFinderMapComponent implements OnInit {
+export class StoreFinderMapComponent implements OnChanges {
   @ViewChild('mapElement') private mapElement: ElementRef;
+  @Input() private locations: any;
 
   constructor(
     private googleMapRendererService: GoogleMapRendererService,
     private store: Store<fromStore.StoresState>
   ) {}
 
-  ngOnInit(): void {
-    this.store.select(fromStore.getAllStores).subscribe(locations => {
-      if (locations.stores) {
-        this.googleMapRendererService.renderMap(
-          this.mapElement.nativeElement,
-          locations.stores
-        );
-      }
-    });
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.locations && this.locations.stores) {
+      this.googleMapRendererService.renderMap(
+        this.mapElement.nativeElement,
+        this.locations.stores
+      );
+    }
   }
 
   /**
