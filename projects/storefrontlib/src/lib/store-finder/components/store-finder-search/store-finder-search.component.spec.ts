@@ -11,7 +11,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as fromStore from '../../store';
 
-fdescribe('StoreFinderSearchComponent', () => {
+describe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;
   let fixture: ComponentFixture<StoreFinderSearchComponent>;
   let service: StoreFinderService;
