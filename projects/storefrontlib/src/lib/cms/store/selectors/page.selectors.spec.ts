@@ -32,8 +32,8 @@ describe('Cms PageData Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromReducers.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromReducers.getReducers())
         })
       ]
     });

@@ -16,6 +16,7 @@ import { ConfigService } from '../../../site-context/config.service';
 import * as fromUserReducer from '../../../user/store/reducers';
 import * as fromSCStore from './../../../site-context/shared/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
+import * as fromAuth from '../../../auth/store';
 
 class MockConfigService {
   site = {
@@ -34,10 +35,11 @@ describe('HeaderComponent', () => {
         MaterialModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          user: combineReducers(fromUserReducer.reducers),
-          siteContext: combineReducers(fromSCStore.reducers),
-          cms: combineReducers(fromCmsReducer.reducers)
+          ...fromRoot.getReducers(),
+          user: combineReducers(fromUserReducer.getReducers()),
+          siteContext: combineReducers(fromSCStore.getReducers()),
+          cms: combineReducers(fromCmsReducer.getReducers()),
+          auth: combineReducers(fromAuth.getReducers())
         })
       ],
       declarations: [

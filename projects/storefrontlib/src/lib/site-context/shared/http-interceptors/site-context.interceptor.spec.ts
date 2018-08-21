@@ -36,8 +36,8 @@ describe('SiteContextInterceptor', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          siteContext: combineReducers(fromStore.reducers)
+          ...fromRoot.getReducers(),
+          siteContext: combineReducers(fromStore.getReducers())
         })
       ],
       providers: [

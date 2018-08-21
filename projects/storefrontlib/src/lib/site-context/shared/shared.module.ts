@@ -5,7 +5,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { reducers, effects } from './store';
+import { reducerToken, reducerProvider } from './store/reducers/index';
+import { effects } from './store/effects/index';
 
 // services
 import { ConfigService } from '../config.service';
@@ -15,10 +16,11 @@ import { SiteContextInterceptor } from './http-interceptors/site-context.interce
   imports: [
     CommonModule,
     HttpClientModule,
-    StoreModule.forFeature('siteContext', reducers),
+    StoreModule.forFeature('siteContext', reducerToken),
     EffectsModule.forFeature(effects)
   ],
   providers: [
+    reducerProvider,
     ConfigService,
     {
       provide: HTTP_INTERCEPTORS,

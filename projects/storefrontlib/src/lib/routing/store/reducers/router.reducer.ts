@@ -1,17 +1,39 @@
+import { InjectionToken, Provider } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   Params
 } from '@angular/router';
 import {
+  createSelector,
   createFeatureSelector,
   ActionReducerMap,
   MemoizedSelector
 } from '@ngrx/store';
-import * as fromRouter from '@ngrx/router-store';
 import { PageContext, PageType } from '../../models/page-context.model';
+import * as fromNgrxRouter from '@ngrx/router-store';
+import * as fromActions from '../actions';
 
-export interface RouterStateUrl {
+export interface RouterState
+  extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
+  redirectUrl: string;
+}
+
+export const initialState = {
+  redirectUrl: '',
+  navigationId: 0,
+  state: {
+    url: '',
+    queryParams: {},
+    params: {},
+    context: {
+      id: ''
+    },
+    cmsRequired: false
+  }
+};
+
+export interface ActivatedRouterStateSnapshot {
   url: string;
   queryParams: Params;
   params: Params;
@@ -20,20 +42,85 @@ export interface RouterStateUrl {
 }
 
 export interface State {
-  routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
+  router: RouterState;
 }
 
-export const reducers: ActionReducerMap<State> = {
-  routerReducer: fromRouter.routerReducer
+export function getReducers(): ActionReducerMap<State> {
+  return {
+    router: reducer
+  };
+}
+
+export function reducer(
+  state: RouterState = initialState,
+  action: any
+): RouterState {
+  switch (action.type) {
+    case fromActions.SAVE_REDIRECT_URL: {
+      const redirectUrl = action.payload;
+      return {
+        ...state,
+        redirectUrl
+      };
+    }
+    case fromActions.CLEAR_REDIRECT_URL: {
+      return {
+        ...state,
+        redirectUrl: ''
+      };
+    }
+    case fromNgrxRouter.ROUTER_NAVIGATION:
+    case fromNgrxRouter.ROUTER_ERROR:
+    case fromNgrxRouter.ROUTER_CANCEL: {
+      const currentUrl = action.payload.routerState.url;
+      let redirectUrl;
+      if (
+        currentUrl === '/login' ||
+        currentUrl === '/register' ||
+        currentUrl === state.redirectUrl
+      ) {
+        redirectUrl = state.redirectUrl;
+      } else {
+        redirectUrl = '';
+      }
+
+      return {
+        redirectUrl: redirectUrl,
+        state: action.payload.routerState,
+        navigationId: action.payload.event.id
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+export const reducerToken: InjectionToken<
+  ActionReducerMap<State>
+> = new InjectionToken<ActionReducerMap<State>>('RouterReducers');
+
+export const reducerProvider: Provider = {
+  provide: reducerToken,
+  useFactory: getReducers
 };
 
 export const getRouterState: MemoizedSelector<any, any> = createFeatureSelector<
-  fromRouter.RouterReducerState<RouterStateUrl>
->('routerReducer');
+  fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot>
+>('router');
 
+export const getRedirectUrl: MemoizedSelector<any, any> = createSelector(
+  getRouterState,
+  state => state.redirectUrl
+);
+
+/* The serializer is there to parse the RouterStateSnapshot,
+and to reduce the amount of properties to be passed to the reducer.
+ */
 export class CustomSerializer
-  implements fromRouter.RouterStateSerializer<RouterStateUrl> {
-  serialize(routerState: RouterStateSnapshot): RouterStateUrl {
+  implements
+    fromNgrxRouter.RouterStateSerializer<ActivatedRouterStateSnapshot> {
+  serialize(routerState: RouterStateSnapshot): ActivatedRouterStateSnapshot {
     const { url } = routerState;
     const { queryParams } = routerState.root;
 
@@ -47,7 +134,9 @@ export class CustomSerializer
     if (
       state.routeConfig &&
       state.routeConfig.canActivate &&
-      state.routeConfig.canActivate.find(x => x.guardName === 'CmsPageGuards')
+      state.routeConfig.canActivate.find(
+        x => x && x.guardName === 'CmsPageGuards'
+      )
     ) {
       cmsRequired = true;
     }

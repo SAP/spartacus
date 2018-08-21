@@ -3,7 +3,7 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { ProductImageConverterService } from '../../../product/converters';
+import { ProductImageConverterService } from '../../../product/converters/product-image-converter.service';
 import { CartDataService } from '../../services/cart-data.service';
 import * as fromActions from './../actions/cart.action';
 
@@ -83,7 +83,7 @@ export class CartEffects {
             return new fromActions.CreateCart({
               userId: payload.userId,
               oldCartId: payload.cartId,
-              toMergeCartGuid: currentCart.guid
+              toMergeCartGuid: currentCart ? currentCart.guid : undefined
             });
           })
         );

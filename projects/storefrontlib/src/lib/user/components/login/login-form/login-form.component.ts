@@ -1,9 +1,10 @@
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
+import { take, switchMap } from 'rxjs/operators';
 import * as fromStore from '../../../store';
+import * as fromAuthStore from './../../../../auth/store';
 import * as fromRouting from '../../../../routing/store';
 import * as fromGlobalMessage from '../../../../global-message/store';
 import { GlobalMessageType } from '../../../../global-message/models/message.model';
@@ -14,7 +15,7 @@ import { GlobalMessageType } from '../../../../global-message/models/message.mod
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
-  userTokenSubscription: Subscription;
+  sub: Subscription;
   form: FormGroup;
 
   constructor(
@@ -23,16 +24,29 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.userTokenSubscription = this.store
-      .select(fromStore.getUserToken)
-      .subscribe(data => {
-        if (data && data.access_token) {
-          this.store.dispatch(
-            new fromGlobalMessage.AddMessage({
-              text: 'Logged In Successfully',
-              type: GlobalMessageType.MSG_TYPE_CONFIRMATION
-            })
-          );
+    this.sub = this.store
+      .select(fromAuthStore.getUserToken)
+      .pipe(
+        switchMap(data => {
+          if (data && data.access_token) {
+            this.store.dispatch(
+              new fromGlobalMessage.AddMessage({
+                text: 'Logged In Successfully',
+                type: GlobalMessageType.MSG_TYPE_CONFIRMATION
+              })
+            );
+            return this.store.select(fromRouting.getRedirectUrl).pipe(take(1));
+          }
+          return of();
+        })
+      )
+      .subscribe(url => {
+        if (url) {
+          // If forced to login due to AuthGuard, then redirect to intended destination
+          this.store.dispatch(new fromRouting.Go({ path: [url] }));
+          this.store.dispatch(new fromRouting.ClearRedirectUrl());
+        } else {
+          // User manual login
           this.store.dispatch(new fromRouting.Back());
         }
       });
@@ -45,7 +59,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   login() {
     this.store.dispatch(
-      new fromStore.LoadUserToken({
+      new fromAuthStore.LoadUserToken({
         userId: this.form.controls.userId.value,
         password: this.form.controls.password.value
       })
@@ -53,8 +67,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.userTokenSubscription) {
-      this.userTokenSubscription.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
     }
   }
 }

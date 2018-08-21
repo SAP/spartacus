@@ -2,7 +2,8 @@ import { ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import * as fromStore from '../../store';
+import * as fromStore from './../../store';
+import * as fromAuthStore from './../../../auth/store';
 import { LoginComponent } from './login.component';
 import { MaterialModule } from '../../../material.module';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +11,7 @@ import { of } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageType } from '../../../routing/models/page-context.model';
 import { MatDialog } from '@angular/material';
-import { UserToken } from '../../models/token-types.model';
+import { UserToken } from './../../../auth/models/token-types.model';
 import * as fromRouting from '../../../routing/store';
 
 const mockUserToken: UserToken = {
@@ -37,8 +38,9 @@ describe('LoginComponent', () => {
         BrowserAnimationsModule,
         FormsModule,
         StoreModule.forRoot({
-          ...fromStore.reducers,
-          user: combineReducers(fromStore.reducers)
+          ...fromStore.getReducers(),
+          user: combineReducers(fromStore.getReducers()),
+          auth: combineReducers(fromAuthStore.getReducers())
         })
       ],
       declarations: [LoginComponent],

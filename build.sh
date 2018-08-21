@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
+set -o pipefail
 
 DEV_SERVER='10\.27\.165\.187'
 
@@ -81,30 +82,28 @@ validatestyles
 
 echo "-----"
 echo "Running unit tests and code coverage for core lib"
-ng test storefrontlib --watch=false --code-coverage --browsers=ChromeHeadless 2>&1 |  tee spa_tests.log
-results=$(tail -4 spa_tests.log | grep ERROR || true)
-if [[ -z "$results" ]]; then
-    echo "Success: Tests meet coverage expectations"
-    rm spa_tests.log
-else
+exec 5>&1
+output=$(ng test storefrontlib --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
-    rm spa_tests.log
     exit 1
 fi
+
 echo "-----"
 echo "Running unit tests and checking code coverage for storefront app"
 ng test storefrontapp --watch=false --browsers=ChromeHeadless
 echo "-----"
 echo "Building SPA core lib"
-ng build storefrontlib
+ng build storefrontlib --prod
 echo "-----"
 echo "Building SPA app"
-ng build storefrontapp
+ng build storefrontapp --prod
 echo "-----"
 echo "Setting endpoint with the server to run end to end tests against"
 sed -i -e "s=https://localhost=https://$DEV_SERVER=g" projects/storefrontapp/src/app/config.service.ts
 echo "-----"
 echo "Running end to end tests"
-ng e2e --protractor-config=projects/storefrontapp-e2e/protractor.headless.conf.js
+ng e2e --prod --protractor-config=projects/storefrontapp-e2e/protractor.headless.conf.js
 echo "-----"
 echo "Spartacus Pipeline completed"
