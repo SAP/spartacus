@@ -1,9 +1,13 @@
-import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { ConfigService } from '../config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
+import { ConfigService } from '../config.service';
+
 import { UserRegisterFormData } from '../../user/models/user.model';
+
 import { InterceptorUtil, USE_CLIENT_TOKEN } from '../utils/interceptor-util';
 
 const USER_ENDPOINT = 'users/';

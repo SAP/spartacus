@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler } from '@angular/common/http';
 
 import { Store } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
 import { switchMap, tap, filter, map } from 'rxjs/operators';
 
-import * as fromStore from '../../store';
 import { ClientAuthenticationToken } from '../../models/token-types.model';
+
+import * as fromStore from '../../store';
 import { ClientTokenState } from '../../store/reducers/client-token.reducer';
 
 @Injectable()
@@ -17,14 +19,14 @@ export class ClientErrorHandlingService {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<any> {
-    return this.handleExpiredToken().pipe(
+    return this.loadNewClientToken().pipe(
       switchMap((token: ClientAuthenticationToken) => {
         return next.handle(this.createNewRequestWithNewToken(request, token));
       })
     );
   }
 
-  private handleExpiredToken(): Observable<any> {
+  private loadNewClientToken(): Observable<any> {
     return this.store.select(fromStore.getClientTokenState).pipe(
       tap((state: ClientTokenState) => {
         if (!state.loading) {

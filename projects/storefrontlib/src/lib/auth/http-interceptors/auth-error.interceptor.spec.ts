@@ -17,10 +17,13 @@ import { StoreModule, combineReducers, Store } from '@ngrx/store';
 
 import * as fromStore from '../store';
 import * as fromRoot from '../../routing/store';
+
 import { AuthErrorInterceptor } from './auth-error.interceptor';
+
+import { USE_CLIENT_TOKEN } from '../../occ/utils/interceptor-util';
+
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
 import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
-import { USE_CLIENT_TOKEN } from '../../occ/utils/interceptor-util';
 
 class MockUserErrorHandlingService {
   handleExpiredUserToken(

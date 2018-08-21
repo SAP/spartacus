@@ -1,13 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+
+import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
 import * as fromStore from '../../store';
 import * as fromRoot from '../../../routing/store';
+
 import { UserErrorHandlingService } from './user-error-handling.service';
+
 import { UserToken } from '../../models/token-types.model';
 
 class MockHttpHandler extends HttpHandler {

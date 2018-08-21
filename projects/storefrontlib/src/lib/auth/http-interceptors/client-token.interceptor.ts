@@ -38,7 +38,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
       this.configService.server.occPrefix +
       this.configService.site.baseSite;
 
-    return this.getClientTokenForRequest(request).pipe(
+    return this.getClientToken(request).pipe(
       switchMap((token: AuthenticationToken) => {
         if (token && request.url.indexOf(baseReqString) > -1) {
           request = request.clone({
@@ -52,29 +52,24 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     );
   }
 
-  private getClientTokenForRequest(
+  private getClientToken(
     request: HttpRequest<any>
   ): Observable<AuthenticationToken> {
     if (
       InterceptorUtil.getInterceptorParam(USE_CLIENT_TOKEN, request.headers)
     ) {
-      return this.getClientToken();
+      return this.store.select(fromAuthStore.getClientTokenState).pipe(
+        tap((state: ClientTokenState) => {
+          if (!state.loading && Object.keys(state.token).length === 0) {
+            this.store.dispatch(new fromAuthStore.LoadClientToken());
+          }
+        }),
+        filter(
+          (state: ClientTokenState) => Object.keys(state.token).length !== 0
+        ),
+        map((state: ClientTokenState) => state.token)
+      );
     }
-
     return of(null);
-  }
-
-  private getClientToken(): Observable<ClientAuthenticationToken> {
-    return this.store.select(fromAuthStore.getClientTokenState).pipe(
-      tap((state: ClientTokenState) => {
-        if (!state.loading && Object.keys(state.token).length === 0) {
-          this.store.dispatch(new fromAuthStore.LoadClientToken());
-        }
-      }),
-      filter(
-        (state: ClientTokenState) => Object.keys(state.token).length !== 0
-      ),
-      map((state: ClientTokenState) => state.token)
-    );
   }
 }

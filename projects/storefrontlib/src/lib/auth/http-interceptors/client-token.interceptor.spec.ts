@@ -4,15 +4,20 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
-import * as fromRoot from '../../routing/store';
-import * as fromStore from '../store';
 import { of } from 'rxjs';
 
-import { ClientTokenInterceptor } from './client-token.interceptor';
-import { ClientAuthenticationToken } from './../models/token-types.model';
-import { InterceptorUtil } from '../../occ/utils/interceptor-util';
+import * as fromRoot from '../../routing/store';
+import * as fromStore from '../store';
 import { ClientTokenState } from '../store/reducers/client-token.reducer';
+
+import { ClientTokenInterceptor } from './client-token.interceptor';
+
+import { InterceptorUtil } from '../../occ/utils/interceptor-util';
+
+import { ClientAuthenticationToken } from './../models/token-types.model';
+
 import { ConfigService } from '../config.service';
 
 const testToken: ClientAuthenticationToken = {

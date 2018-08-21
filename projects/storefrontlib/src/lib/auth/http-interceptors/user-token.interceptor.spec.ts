@@ -3,15 +3,18 @@ import {
   HttpTestingController,
   HttpClientTestingModule
 } from '@angular/common/http/testing';
-
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromStore from '../store';
 import * as fromRoot from '../../routing/store';
+
 import { ConfigService } from '../../occ/config.service';
+
 import { UserTokenInterceptor } from './user-token.interceptor';
+
 import { UserToken } from './../../auth/models/token-types.model';
 
 class MockConfigService {

@@ -2,20 +2,29 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpEvent } from '@angular/common/http';
 import { HttpRequest } from '@angular/common/http';
 
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+
+import { ConfigService } from '../../occ/config.service';
+
+import { UserToken } from '../../auth/models/token-types.model';
 
 import * as fromStore from '../store';
-import { ConfigService } from '../../occ/config.service';
-import { UserToken } from '../../auth/models/token-types.model';
 
 @Injectable()
 export class UserTokenInterceptor implements HttpInterceptor {
+  baseReqString;
+
   constructor(
     private configService: ConfigService,
     private store: Store<fromStore.AuthState>
-  ) {}
+  ) {
+    this.baseReqString =
+      this.configService.server.baseUrl +
+      this.configService.server.occPrefix +
+      this.configService.site.baseSite;
+  }
 
   intercept(
     request: HttpRequest<any>,
@@ -29,14 +38,9 @@ export class UserTokenInterceptor implements HttpInterceptor {
         userToken = token;
       });
 
-    const baseReqString =
-      this.configService.server.baseUrl +
-      this.configService.server.occPrefix +
-      this.configService.site.baseSite;
-
     if (
       userToken &&
-      request.url.indexOf(baseReqString) > -1 &&
+      request.url.indexOf(this.baseReqString) > -1 &&
       !request.headers.get('Authorization')
     ) {
       request = request.clone({

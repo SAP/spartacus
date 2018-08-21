@@ -5,10 +5,12 @@ import { HttpHandler, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
+import { ClientAuthenticationToken } from '../../models/token-types.model';
+
+import { ClientErrorHandlingService } from './client-error-handling.service';
+
 import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../store';
-import { ClientErrorHandlingService } from './client-error-handling.service';
-import { ClientAuthenticationToken } from '../../models/token-types.model';
 
 class MockHttpHandler extends HttpHandler {
   handle(_req: HttpRequest<any>): Observable<HttpEvent<any>> {

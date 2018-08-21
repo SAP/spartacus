@@ -1,20 +1,23 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ConfigService } from './config.service';
 import { HttpClientModule } from '@angular/common/http';
 
+import { ConfigService } from './config.service';
 import { services } from './services/index';
+
 import { guards } from './guards/index';
+
 import { interceptors } from './http-interceptors/index';
 
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
 import { effects } from './store/effects/index';
 import {
   reducerToken,
   reducerProvider,
   metaReducers
 } from './store/reducers/index';
-import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   imports: [

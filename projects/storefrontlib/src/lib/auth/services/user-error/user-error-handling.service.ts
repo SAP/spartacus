@@ -7,6 +7,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { tap, filter, take, switchMap } from 'rxjs/operators';
 
 import * as fromStore from '../../store';
+
 import { UserToken } from '../../models/token-types.model';
 
 @Injectable()
