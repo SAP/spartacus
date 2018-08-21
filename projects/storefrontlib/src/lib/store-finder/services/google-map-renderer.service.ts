@@ -12,7 +12,7 @@ const DEFAULT_SCALE = 12;
 @Injectable({
   providedIn: 'root'
 })
-export class GoogleMapRendererServcie {
+export class GoogleMapRendererService {
   private googleMap: google.maps.Map = null;
   private markers: google.maps.Marker[];
 

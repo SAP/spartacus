@@ -7,7 +7,7 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { GoogleMapRendererServcie } from '../../services/google-map-renderer.service';
+import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
 import * as fromStore from '../../store';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -21,7 +21,7 @@ export class StoreFinderMapComponent implements OnInit {
   @ViewChild('mapElement') private mapElement: ElementRef;
 
   constructor(
-    private googleMapRendererService: GoogleMapRendererServcie,
+    private googleMapRendererService: GoogleMapRendererService,
     private store: Store<fromStore.StoresState>
   ) {}
 

@@ -1,4 +1,4 @@
-import { GoogleMapRendererServcie } from './google-map-renderer.service';
+import { GoogleMapRendererService } from './google-map-renderer.service';
 import {
   TestBed,
   async,
@@ -17,6 +17,14 @@ import {
 
 const MAP_DOM_ELEMENT_INNER_HTML = 'map dom element inner html';
 const GOOGLE_API_KEY = 'google_api_key';
+const locations = [
+  {
+    geoPoint: {
+      latitude: 0,
+      longitude: 0
+    }
+  }
+];
 
 class ExternalJsFileLoaderMock {
   public load(src: string, params?: Object, callback?: EventListener): void {
@@ -42,25 +50,16 @@ class OccE2eConfigurationServiceMock {
 }
 
 describe('GoogleMapRendererService', () => {
-  let googleMapRendererService: GoogleMapRendererServcie;
+  let googleMapRendererService: GoogleMapRendererService;
 
   let externalJsFileLoaderMock: ExternalJsFileLoader;
   let occE2eConfigurationServiceMock: OccE2eConfigurationService;
-  const mapDomElement: HTMLElement = document.createElement('div');
-
-  const locations = [
-    {
-      geoPoint: {
-        latitude: 0,
-        longitude: 0
-      }
-    }
-  ];
+  let mapDomElement: HTMLElement;
 
   beforeEach(() => {
     const bed = TestBed.configureTestingModule({
       providers: [
-        GoogleMapRendererServcie,
+        GoogleMapRendererService,
         { provide: ExternalJsFileLoader, useClass: ExternalJsFileLoaderMock },
         {
           provide: OccE2eConfigurationService,
@@ -69,8 +68,9 @@ describe('GoogleMapRendererService', () => {
       ]
     });
 
+    mapDomElement = document.createElement('div');
     externalJsFileLoaderMock = bed.get(ExternalJsFileLoader);
-    googleMapRendererService = bed.get(GoogleMapRendererServcie);
+    googleMapRendererService = bed.get(GoogleMapRendererService);
     occE2eConfigurationServiceMock = bed.get(OccE2eConfigurationService);
   });
 
