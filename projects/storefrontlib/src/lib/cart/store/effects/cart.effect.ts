@@ -83,7 +83,7 @@ export class CartEffects {
             return new fromActions.CreateCart({
               userId: payload.userId,
               oldCartId: payload.cartId,
-              toMergeCartGuid: currentCart.guid
+              toMergeCartGuid: currentCart ? currentCart.guid : undefined
             });
           })
         );

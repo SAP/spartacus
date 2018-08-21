@@ -11,11 +11,11 @@ import {
   DynamicSlotComponent
 } from '../../../cms/components';
 import { ComponentMapperService } from '../../../cms/services';
-import * as fromCmsReducer from '../../../cms/store/reducers';
-import { MaterialModule } from '../../../material.module';
+import * as fromCmsReducer from '../../../cms/store';
 import * as fromRoot from '../../../routing/store';
 import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
-import { MediaModule } from './../../components/media/media.module';
+import { MaterialModule } from './../../../material.module';
+import { ComponentsModule } from './../../components/components.module';
 import { CartPageLayoutComponent } from './cart-page-layout.component';
 
 class MockCartService {
@@ -45,7 +45,7 @@ describe('CartPageLayoutComponent', () => {
           cart: combineReducers(fromReducer.getReducers()),
           cms: combineReducers(fromCmsReducer.getReducers())
         }),
-        MediaModule,
+        ComponentsModule,
         CartSharedModule
       ],
       declarations: [
