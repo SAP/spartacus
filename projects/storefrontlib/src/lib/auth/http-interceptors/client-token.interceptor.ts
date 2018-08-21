@@ -7,10 +7,9 @@ import {
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { switchMap, tap, filter, map } from 'rxjs/operators';
-
 import { Store } from '@ngrx/store';
-import * as fromAuthStore from './../store';
 
+import * as fromAuthStore from './../store';
 import { AuthenticationToken } from '../models/token-types.model';
 import {
   USE_CLIENT_TOKEN,
@@ -21,6 +20,11 @@ import { ConfigService } from '../config.service';
 
 @Injectable()
 export class ClientTokenInterceptor implements HttpInterceptor {
+  baseReqString =
+    this.configService.server.baseUrl +
+    this.configService.server.occPrefix +
+    this.configService.site.baseSite;
+
   constructor(
     private configService: ConfigService,
     private store: Store<fromAuthStore.AuthState>
@@ -30,14 +34,9 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const baseReqString =
-      this.configService.server.baseUrl +
-      this.configService.server.occPrefix +
-      this.configService.site.baseSite;
-
     return this.getClientToken(request).pipe(
       switchMap((token: AuthenticationToken) => {
-        if (token && request.url.indexOf(baseReqString) > -1) {
+        if (token && request.url.indexOf(this.baseReqString) > -1) {
           request = request.clone({
             setHeaders: {
               Authorization: `${token.token_type} ${token.access_token}`
@@ -57,6 +56,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     ) {
       return this.store.select(fromAuthStore.getClientTokenState).pipe(
         tap((state: ClientTokenState) => {
+          console.log(state);
           if (!state.loading && Object.keys(state.token).length === 0) {
             this.store.dispatch(new fromAuthStore.LoadClientToken());
           }
