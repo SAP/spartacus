@@ -13,6 +13,8 @@ PROJECT_DIR="projects/$PROJECT"
 
 pushd $PROJECT_DIR
 
+rm importer.js
+
 echo "Bumping $PROJECT version to $BUMP"
 
 PROJECT_NEW_VERSION=`npm version $BUMP`
