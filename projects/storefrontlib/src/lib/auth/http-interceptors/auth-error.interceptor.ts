@@ -6,13 +6,11 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { HttpRequest } from '@angular/common/http';
-
 import { Store } from '@ngrx/store';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import * as fromStore from '../store';
-
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
 import {
   InterceptorUtil,
