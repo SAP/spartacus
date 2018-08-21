@@ -16,7 +16,6 @@ import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.co
   selector: 'y-store-finder-list',
   templateUrl: './store-finder-list.component.html',
   styleUrls: ['./store-finder-list.component.scss']
-  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreFinderListComponent implements OnInit {
   @Input() query;

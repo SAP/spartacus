@@ -63,7 +63,7 @@ describe('OccStoreFinderService', () => {
       });
 
       expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.responseType).toEqual('text');
     });
   });
 });

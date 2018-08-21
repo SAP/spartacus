@@ -45,6 +45,7 @@ describe('ExternalJsFileLoader', () => {
 
     // then
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
+    expect(jsDomElement.type).toEqual('text/javascript');
     expect(jsDomElement.src).toContain(SCRIPT_LOAD_URL);
     expect(jsDomElement.src.split('?')[1]).toEqual(
       'param1=value1&param2=value2'
@@ -67,6 +68,7 @@ describe('ExternalJsFileLoader', () => {
 
     // then
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
+    expect(jsDomElement.type).toEqual('text/javascript');
     expect(jsDomElement.src).toContain(SCRIPT_LOAD_URL);
     expect(jsDomElement.src.split('?')[1]).toEqual(
       'param1=value1&param2=value2'
@@ -85,6 +87,7 @@ describe('ExternalJsFileLoader', () => {
 
     // then
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
+    expect(jsDomElement.type).toEqual('text/javascript');
     expect(jsDomElement.src).toEqual(SCRIPT_LOAD_URL);
     expect(jsDomElement.addEventListener).toHaveBeenCalledTimes(0);
   });

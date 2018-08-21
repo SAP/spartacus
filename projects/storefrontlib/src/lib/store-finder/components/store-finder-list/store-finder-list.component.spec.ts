@@ -9,6 +9,7 @@ import * as fromReducers from '../../store/reducers';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreFinderPagingComponent } from '../store-finder-paging/store-finder-paging.component';
 import { StoreFinderListItemComponent } from './store-finder-list-item/store-finder-list-item.component';
+import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
 
 describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
@@ -28,7 +29,8 @@ describe('StoreFinderListComponent', () => {
       declarations: [
         StoreFinderListComponent,
         StoreFinderPagingComponent,
-        StoreFinderListItemComponent
+        StoreFinderListItemComponent,
+        StoreFinderMapComponent
       ]
     }).compileComponents();
   }));

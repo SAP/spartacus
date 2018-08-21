@@ -16,6 +16,7 @@ import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-s
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /* tslint:disable */
 import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
+import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
 /* tslint:enable */
 
 describe('StoreFinderPageLayoutComponent', () => {
@@ -40,7 +41,8 @@ describe('StoreFinderPageLayoutComponent', () => {
         StoreFinderPagingComponent,
         StoreFinderListItemComponent,
         StoreFinderListComponent,
-        StoreFinderSearchComponent
+        StoreFinderSearchComponent,
+        StoreFinderMapComponent
       ],
       providers: [StoreFinderService, OccE2eConfigurationService]
     }).compileComponents();

@@ -15,7 +15,7 @@ describe('StoreFinderMapComponent', () => {
   let component: StoreFinderMapComponent;
   let fixture: ComponentFixture<StoreFinderMapComponent>;
   let mapRendererService: GoogleMapRendererService;
-  let el: DebugElement;
+  let debugElement: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -31,8 +31,8 @@ describe('StoreFinderMapComponent', () => {
     component = fixture.componentInstance;
     component.locations = [];
     component.mapElement = new ElementRef<HTMLElement>(mapDomElement);
-    el = fixture.debugElement;
-    mapRendererService = el.injector.get(GoogleMapRendererService);
+    debugElement = fixture.debugElement;
+    mapRendererService = debugElement.injector.get(GoogleMapRendererService);
     fixture.detectChanges();
   });
 
@@ -45,7 +45,7 @@ describe('StoreFinderMapComponent', () => {
     spyOn(mapRendererService, 'renderMap').and.callThrough();
 
     // when locations are changed
-    component.locations.push(location);
+    component.locations = [location];
     component.ngOnChanges({
       locations: new SimpleChange(null, location, false)
     });
@@ -54,6 +54,20 @@ describe('StoreFinderMapComponent', () => {
     expect(mapRendererService.renderMap).toHaveBeenCalledWith(mapDomElement, [
       location
     ]);
+  });
+
+  it('should not render map when locations are not changed', () => {
+    // given
+    spyOn(mapRendererService, 'renderMap').and.callThrough();
+
+    // when locations are changed
+    component.locations = [location];
+    component.ngOnChanges({
+      notLocation: new SimpleChange(undefined, null, false)
+    });
+
+    // then call map renderer service
+    expect(mapRendererService.renderMap).toHaveBeenCalledTimes(0);
   });
 
   it('should center map', () => {

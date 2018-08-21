@@ -11,6 +11,7 @@ import { StoreFinderSearchComponent } from '../../store-finder-search/store-find
 import { combineReducers, StoreModule } from '@ngrx/store';
 import * as fromReducers from '../../../store/reducers';
 import * as fromRoot from '../../../../routing/store';
+import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
@@ -137,7 +138,8 @@ describe('StoreFinderListItemComponent', () => {
         StoreFinderListItemComponent,
         StoreFinderListComponent,
         StoreFinderPagingComponent,
-        StoreFinderSearchComponent
+        StoreFinderSearchComponent,
+        StoreFinderMapComponent
       ],
       providers: [StoreFinderService, StoreDataService]
     }).compileComponents();

@@ -16,6 +16,7 @@ import { combineReducers, StoreModule } from '@ngrx/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /* tslint:disable */
 import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
+import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
 /* tslint:enable */
 
 describe('StoreFinderPageComponent', () => {
@@ -40,7 +41,8 @@ describe('StoreFinderPageComponent', () => {
         StoreFinderPagingComponent,
         StoreFinderSearchComponent,
         StoreFinderListComponent,
-        StoreFinderListItemComponent
+        StoreFinderListItemComponent,
+        StoreFinderMapComponent
       ],
       providers: [StoreFinderService, OccE2eConfigurationService]
     }).compileComponents();
