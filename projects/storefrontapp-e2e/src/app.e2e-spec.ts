@@ -162,6 +162,7 @@ describe('workspace-project App', () => {
     // wait until product details page is loaded
     E2EUtil.wait4VisibleElement(productDetails.getPage());
     productDetails.addToCart();
+    browser.waitForAngular();
     // quantity should change
     const product2QuantitySpan = productDetails.getProductQuantitySpan();
     E2EUtil.checkTextValue(
@@ -177,6 +178,7 @@ describe('workspace-project App', () => {
       .then(() => {
         // add same product to cart again
         productDetails.addToCart();
+        browser.waitForAngular();
         const atcModal: AddedToCartModal = new AddedToCartModal();
         atcModal
           .closeModalWait()

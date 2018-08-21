@@ -33,10 +33,10 @@ describe('ProductListComponent in product-list', () => {
         MaterialModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          products: combineReducers(fromProduct.reducers),
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers)
+          ...fromRoot.getReducers(),
+          products: combineReducers(fromProduct.getReducers()),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers())
         })
       ],
       declarations: [

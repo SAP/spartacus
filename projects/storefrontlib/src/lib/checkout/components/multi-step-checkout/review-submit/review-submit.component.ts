@@ -13,7 +13,7 @@ import { tap } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../store';
 import * as fromUserStore from '../../../../user/store';
-import { CheckoutService } from '../../../services';
+import { CheckoutService } from '../../../services/checkout.service';
 import { Address } from '../../../models/address-model';
 
 @Component({

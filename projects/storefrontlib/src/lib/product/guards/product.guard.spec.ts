@@ -22,8 +22,8 @@ describe('ProductGuard', () => {
       imports: [
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          products: combineReducers(fromStore.reducers)
+          ...fromRoot.getReducers(),
+          products: combineReducers(fromStore.getReducers())
         })
       ],
       providers: [ProductGuard]

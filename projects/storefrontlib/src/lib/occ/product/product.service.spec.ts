@@ -65,7 +65,7 @@ describe('OccProductService', () => {
       });
 
       expect(mockReq.request.params.get('fields')).toEqual(
-        'DEFAULT,averageRating,images(FULL),classifications'
+        'DEFAULT,averageRating,images(FULL),classifications,numberOfReviews'
       );
 
       expect(mockReq.cancelled).toBeFalsy();

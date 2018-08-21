@@ -18,8 +18,8 @@ describe('CategoryPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsReducer.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers())
         })
       ],
       declarations: [

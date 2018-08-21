@@ -8,6 +8,7 @@ import { DynamicSlotComponent } from '../../../cms/components';
 
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromStore from '../../../user/store';
+import * as fromAuthStore from '../../../auth/store';
 
 describe('LoginPageComponent', () => {
   let component: LoginPageComponent;
@@ -21,8 +22,9 @@ describe('LoginPageComponent', () => {
         LoginPageLayoutModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromStore.reducers,
-          user: combineReducers(fromStore.reducers)
+          ...fromStore.getReducers(),
+          user: combineReducers(fromStore.getReducers()),
+          auth: combineReducers(fromAuthStore.getReducers())
         })
       ],
       declarations: [

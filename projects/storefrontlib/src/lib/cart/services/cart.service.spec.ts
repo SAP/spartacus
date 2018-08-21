@@ -5,9 +5,10 @@ import { of } from 'rxjs';
 import * as fromRoot from '../../routing/store';
 import * as fromCart from '../../cart/store';
 import * as fromUser from '../../user/store';
+import * as fromAuth from '../../auth/store';
 
-import { UserToken } from '../../user/models/token-types.model';
 import { CartService } from './cart.service';
+import { UserToken } from '../../auth/models/token-types.model';
 import { CartDataService } from './cart-data.service';
 
 describe('CartService', () => {
@@ -32,9 +33,10 @@ describe('CartService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers)
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers()),
+          auth: combineReducers(fromAuth.getReducers())
         })
       ],
       providers: [CartService, CartDataService]

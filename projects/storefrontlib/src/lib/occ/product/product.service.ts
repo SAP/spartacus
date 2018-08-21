@@ -23,7 +23,8 @@ export class OccProductService {
 
   loadProduct(productCode: string): Observable<any> {
     const params = new HttpParams({
-      fromString: 'fields=DEFAULT,averageRating,images(FULL),classifications'
+      fromString:
+        'fields=DEFAULT,averageRating,images(FULL),classifications,numberOfReviews'
     });
 
     return this.http
@@ -56,7 +57,7 @@ export class OccProductService {
     body.append('alias', review.reviewerName.value);
 
     return this.http
-      .post(url, body.toString(), { headers: headers })
+      .post(url, body.toString(), { headers })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
   /*
