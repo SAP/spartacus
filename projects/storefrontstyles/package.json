@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Style library containing global styles",
   "scripts": {
-    "sass": "node-sass ./scss/ -o ./temp-scss --include-path ./"
+    "sass": "node-sass ./scss/ -o ./temp-scss --include-path ./ --importer=./importer.js"
   },
   "devDependencies": {
     "node-sass": "^4.9.0"
