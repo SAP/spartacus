@@ -8,6 +8,7 @@ import * as fromRoot from '../../../../routing/store';
 import * as fromCheckout from '../../../store';
 import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
+import * as fromAuth from '../../../../auth/store';
 
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
@@ -29,10 +30,11 @@ describe('ReviewSubmitComponent', () => {
       imports: [
         ReactiveFormsModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers),
-          checkout: combineReducers(fromCheckout.reducers)
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers()),
+          checkout: combineReducers(fromCheckout.getReducers()),
+          auth: combineReducers(fromAuth.getReducers())
         })
       ],
       declarations: [ReviewSubmitComponent],

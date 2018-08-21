@@ -13,6 +13,7 @@ import { CartDataService } from '../../../cart/services/cart-data.service';
 import * as fromCart from '../../../cart/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromUser from '../../../user/store';
+import * as fromAuth from './../../../auth/store';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddToCartModule } from './add-to-cart.module';
 
@@ -32,9 +33,10 @@ describe('AddToCartComponent', () => {
         AddToCartModule,
         BrowserAnimationsModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers)
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers()),
+          auth: combineReducers(fromAuth.getReducers())
         })
       ],
       providers: [CartService, CartDataService]
@@ -55,7 +57,7 @@ describe('AddToCartComponent', () => {
 
   it('should call ngOnChanges()', () => {
     addToCartComponent.productCode = productCode;
-    addToCartComponent.ngOnChanges();
+    addToCartComponent.ngOnInit();
     addToCartComponent.cartEntry$.subscribe(entry =>
       expect(entry).toEqual(mockCartEntry)
     );

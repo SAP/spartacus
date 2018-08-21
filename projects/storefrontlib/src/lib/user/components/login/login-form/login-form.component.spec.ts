@@ -4,6 +4,7 @@ import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromStore from '../../../store';
+import * as fromAuthStore from '../../../../auth/store';
 
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
@@ -16,8 +17,9 @@ describe('LoginFormComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         StoreModule.forRoot({
-          ...fromStore.reducers,
-          user: combineReducers(fromStore.reducers)
+          ...fromStore.getReducers(),
+          user: combineReducers(fromStore.getReducers()),
+          auth: combineReducers(fromAuthStore.getReducers())
         })
       ],
       declarations: [LoginFormComponent]
@@ -49,7 +51,7 @@ describe('LoginFormComponent', () => {
     component.login();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadUserToken({
+      new fromAuthStore.LoadUserToken({
         userId: 'test@email.com',
         password: 'secret'
       })

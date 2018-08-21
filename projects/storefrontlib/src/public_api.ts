@@ -2,6 +2,7 @@
  * Public API Surface of storefrontlib
  */
 
+export * from './lib/auth/auth.module';
 export * from './lib/ui/layout/layout.module';
 export * from './lib/ui/ui.module';
 export * from './lib/ui/components/components.module';
@@ -118,7 +119,7 @@ export * from './lib/cms/components/component-wrapper/component-wrapper.componen
 export * from './lib/cart/components/cart-shared/cart-item/cart-item.component';
 export * from './lib/cart/components/cart-details/container/cart-details.component';
 export * from './lib/cart/components/cart-shared/item-counter/item-counter.component';
-export * from './lib/cart/components/cart-details/order-summary/order-summary.component';
+export * from './lib/cart/components/cart-shared/order-summary/order-summary.component';
 export * from './lib/cart/components/add-to-cart/add-to-cart.component';
 export * from './lib/site-context/language-selector/language-selector.component';
 export * from './lib/site-context/currency-selector/currency-selector.component';
@@ -129,9 +130,10 @@ export * from './lib/my-account/order/order-history/pagination-and-sorting/pagin
 export * from './lib/store-finder/components/store-finder-list/store-finder-list.component';
 export * from './lib/store-finder/components/store-finder-search/store-finder-search.component';
 export * from './lib/store-finder/components/store-finder-paging/store-finder-paging.component';
+export * from './lib/store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
 
-export * from './lib/user/guards/auth.guard';
-export * from './lib/user/guards/not-auth.guard';
+export * from './lib/auth/guards/auth.guard';
+export * from './lib/auth/guards/not-auth.guard';
 export * from './lib/product/guards/product.guard';
 export * from './lib/cms/guards/cms-page.guard';
 

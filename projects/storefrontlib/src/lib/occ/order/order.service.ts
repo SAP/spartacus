@@ -5,6 +5,9 @@ import { ConfigService } from '../config.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
+// To be changed to a more optimised params after ticket: C3PO-1076
+const FULL_PARAMS = 'fields=FULL';
+
 @Injectable()
 export class OccOrderService {
   constructor(
@@ -25,7 +28,7 @@ export class OccOrderService {
   public placeOrder(userId: string, cartId: string): Observable<any> {
     const url = this.getOrderEndpoint(userId);
     const params = new HttpParams({
-      fromString: 'cartId=' + cartId
+      fromString: 'cartId=' + cartId + '&' + FULL_PARAMS
     });
 
     const headers = new HttpHeaders({
@@ -33,7 +36,7 @@ export class OccOrderService {
     });
 
     return this.http
-      .post(url, {}, { headers: headers, params: params })
+      .post(url, {}, { headers, params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 

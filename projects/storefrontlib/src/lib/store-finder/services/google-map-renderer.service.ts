@@ -1,7 +1,7 @@
 import { ExternalJsFileLoader } from './external-js-file-loader.service';
 import {} from '@types/googlemaps';
 import { Injectable } from '@angular/core';
-import { OccE2eConfigurationService } from '../../occ/e2e/configuration-service';
+import { OccE2eConfigurationService } from '../../occ/e2e/e2e-configuration-service';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { Loc } from '../models/loc';
 

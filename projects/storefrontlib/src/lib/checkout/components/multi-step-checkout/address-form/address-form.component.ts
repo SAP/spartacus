@@ -29,6 +29,7 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
 export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<any>;
   titles$: Observable<any>;
+  regions$: Observable<any>;
   newAddress = false;
 
   @Input() existingAddresses;
@@ -60,21 +61,47 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    // Fetching countries
     this.countries$ = this.store.select(fromUser.getAllDeliveryCountries).pipe(
       tap(countries => {
+        // If the store is empty fetch countries. This is also used when changing language.
         if (Object.keys(countries).length === 0) {
           this.store.dispatch(new fromUser.LoadDeliveryCountries());
         }
       })
     );
 
+    // Fetching titles
     this.titles$ = this.store.select(fromUser.getAllTitles).pipe(
       tap(titles => {
+        // If the store is empty fetch titles. This is also used when changing language.
         if (Object.keys(titles).length === 0) {
           this.store.dispatch(new fromUser.LoadTitles());
         }
       })
     );
+
+    // Fetching regions
+    this.regions$ = this.store.select(fromUser.getAllRegions).pipe(
+      tap(regions => {
+        const regionControl = this.address.get('region.isocode');
+
+        // If the store is empty fetch regions. This is also used when changing language.
+        if (Object.keys(regions).length === 0) {
+          regionControl.disable();
+          const countryIsoCode = this.address.get('country.isocode').value;
+          if (countryIsoCode) {
+            this.store.dispatch(new fromUser.LoadRegions(countryIsoCode));
+          }
+        } else {
+          regionControl.enable();
+        }
+      })
+    );
+  }
+
+  onCountryChange(countryIsoCode): void {
+    this.store.dispatch(new fromUser.LoadRegions(countryIsoCode));
   }
 
   toggleDefaultAddress() {

@@ -7,11 +7,11 @@ import {
 import { OccStoreFinderService } from './store-finder.service';
 import { ConfigService } from '../config.service';
 import { SearchConfig } from '../../store-finder/models/search-config';
+import { OccE2eConfigurationService } from '../e2e/e2e-configuration-service';
 
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };
 const mockSearchConfig: SearchConfig = { pageSize: 5 };
-const endpoint = '/stores';
 
 export class MockConfigService {
   server = {
@@ -34,6 +34,7 @@ describe('OccStoreFinderService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccStoreFinderService,
+        OccE2eConfigurationService,
         { provide: ConfigService, useClass: MockConfigService }
       ]
     });
@@ -48,27 +49,21 @@ describe('OccStoreFinderService', () => {
 
   describe('query text search', () => {
     it('should return search results for given query text', () => {
-      service.findStores(queryText, mockSearchConfig).subscribe(result => {
-        expect(result).toEqual(searchResults);
-      });
+      service
+        .findStores(queryText, mockSearchConfig)
+        .toPromise()
+        .then(result => {
+          expect(result).toEqual(searchResults);
+        });
 
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint;
+      const mockReq = httpMock.expectOne({
+        method: 'GET',
+        url:
+          '/e2econfigurationwebservices/e2econfiguration/e2egoogleservices.storesdisplayed'
       });
-      expect(mockReq.request.params.get('query')).toEqual(queryText);
-      expect(mockReq.request.params.get('pageSize')).toEqual(
-        mockSearchConfig.pageSize.toString()
-      );
-      expect(mockReq.request.params.get('fields')).toEqual(
-        'stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL)),' +
-          'geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country) ),' +
-          'pagination(DEFAULT),' +
-          'sorts(DEFAULT)'
-      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(searchResults);
     });
   });
 });

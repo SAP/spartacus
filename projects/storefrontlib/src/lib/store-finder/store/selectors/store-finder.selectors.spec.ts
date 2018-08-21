@@ -16,12 +16,12 @@ describe('StoreFinder Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
+          ...fromRoot.getReducers(),
           stores: combineReducers(fromReducers.reducers)
         })
       ]
     });
-    store = TestBed.get(store);
+    store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

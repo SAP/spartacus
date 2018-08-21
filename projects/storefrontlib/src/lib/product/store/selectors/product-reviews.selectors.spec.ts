@@ -41,8 +41,8 @@ describe('Product Reviews selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          products: combineReducers(fromStore.reducers)
+          ...fromRoot.getReducers(),
+          products: combineReducers(fromStore.getReducers())
         })
       ]
     });

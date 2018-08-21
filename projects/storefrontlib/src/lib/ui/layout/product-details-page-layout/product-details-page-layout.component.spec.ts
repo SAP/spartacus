@@ -18,6 +18,7 @@ import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromProduct from '../../../product/store/reducers';
 import * as fromCmsReducer from '../../../cms/store/reducers';
+import * as fromAuthStore from '../../../auth/store/reducers';
 import { ReactiveFormsModule } from '@angular/forms';
 
 describe('ProductDetailsPageLayoutComponent', () => {
@@ -30,9 +31,10 @@ describe('ProductDetailsPageLayoutComponent', () => {
         MaterialModule,
         ReactiveFormsModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          products: combineReducers(fromProduct.reducers),
-          cms: combineReducers(fromCmsReducer.reducers)
+          ...fromRoot.getReducers(),
+          products: combineReducers(fromProduct.getReducers()),
+          cms: combineReducers(fromCmsReducer.getReducers()),
+          auth: combineReducers(fromAuthStore.getReducers())
         })
       ],
       declarations: [

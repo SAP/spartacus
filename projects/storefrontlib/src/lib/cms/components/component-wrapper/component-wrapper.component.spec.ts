@@ -42,8 +42,8 @@ describe('ComponentWrapperComponent', () => {
       imports: [
         TestModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromReducers.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromReducers.getReducers())
         })
       ],
       declarations: [ComponentWrapperComponent],

@@ -5,19 +5,15 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
-import { HttpErrorResponse } from '@angular/common/http';
 
 const username: any = 'mockUsername';
 const password: any = '1234';
-const refreshToken = '5678';
 
 const user: any = {
   username: username,
   password: password
 };
-const token: any = 'mockToken';
 const endpoint = '/users';
-const mockOauthEndpoint = '/authorizationserver/oauth/token';
 const addressVerificationEndpoint = '/addresses/verification';
 const addressesEndpoint = '/addresses';
 const paymentDetailsEndpoint = '/paymentdetails';
@@ -73,22 +69,6 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(user);
-    });
-  });
-
-  describe('load user token', () => {
-    it('should load user token for given username and password', () => {
-      service.loadToken(username, password).subscribe(result => {
-        expect(result).toEqual(token);
-      });
-
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === mockOauthEndpoint;
-      });
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(token);
     });
   });
 
@@ -153,43 +133,6 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockUserPaymentMethods);
-    });
-  });
-
-  describe('refresh user token', () => {
-    it('should refresh user token for a given refresh_token', () => {
-      service.refreshToken(refreshToken).subscribe(result => {
-        expect(result).toEqual(token);
-      });
-
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === mockOauthEndpoint;
-      });
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(token);
-    });
-
-    it('should catch refresh error', () => {
-      service.refreshToken('invalid token').subscribe(
-        _result => {},
-        (error: HttpErrorResponse) => {
-          expect(error.status).toBe(400);
-          expect(error.statusText).toEqual('Error');
-        }
-      );
-
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === mockOauthEndpoint;
-      });
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(
-        { error: 'Invalid refresh token' },
-        { status: 400, statusText: 'Error' }
-      );
     });
   });
 });

@@ -1,3 +1,4 @@
+import { InjectionToken, Provider } from '@angular/core';
 import {
   ActionReducerMap,
   createFeatureSelector,
@@ -16,10 +17,21 @@ export interface CmsState {
   navigation: fromNavigation.NavigationItemState;
 }
 
-export const reducers: ActionReducerMap<CmsState> = {
-  page: fromPage.reducer,
-  component: fromComponent.reducer,
-  navigation: fromNavigation.reducer
+export function getReducers(): ActionReducerMap<CmsState> {
+  return {
+    page: fromPage.reducer,
+    component: fromComponent.reducer,
+    navigation: fromNavigation.reducer
+  };
+}
+
+export const reducerToken: InjectionToken<
+  ActionReducerMap<CmsState>
+> = new InjectionToken<ActionReducerMap<CmsState>>('CmsReducers');
+
+export const reducerProvider: Provider = {
+  provide: reducerToken,
+  useFactory: getReducers
 };
 
 export const getCmsState: MemoizedSelector<
