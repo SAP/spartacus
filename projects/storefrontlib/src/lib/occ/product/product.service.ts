@@ -23,7 +23,8 @@ export class OccProductService {
 
   loadProduct(productCode: string): Observable<any> {
     const params = new HttpParams({
-      fromString: 'fields=DEFAULT,averageRating,images(FULL),classifications'
+      fromString:
+        'fields=DEFAULT,averageRating,images(FULL),classifications,numberOfReviews'
     });
 
     return this.http

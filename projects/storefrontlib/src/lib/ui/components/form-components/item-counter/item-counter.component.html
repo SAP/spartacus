@@ -5,7 +5,7 @@
                 <button type="button" (click)="decrement()" [disabled]="value === min">
                     -
                 </button>
-                <p>{{ value }}</p>
+                <input #input type="number" [value]="value" (change)="manualChange($event.target.value)">
                 <button type="button" (click)="increment()" [disabled]="value === max">
                     +
                 </button>

@@ -1,3 +1,4 @@
+import { CartSharedModule } from './../../cart-shared/cart-shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -7,9 +8,8 @@ import * as fromRoot from '../../../../routing/store';
 import { CartDataService } from '../../../services/cart-data.service';
 import { CartService } from '../../../services/cart.service';
 import * as fromReducer from '../../../store/reducers';
-import { MediaModule } from './../../../../ui/components/media/media.module';
-import { CartSharedModule } from './../../cart-shared/cart-shared.module';
 import { CartDetailsComponent } from './cart-details.component';
+import { ComponentsModule } from '../../../../ui/components/components.module';
 
 class MockCartService {
   removeCartEntry() {}
@@ -59,7 +59,7 @@ describe('CartDetailsComponent', () => {
           ...fromRoot.getReducers(),
           cart: combineReducers(fromReducer.getReducers())
         }),
-        MediaModule,
+        ComponentsModule,
         CartSharedModule
       ],
       declarations: [CartDetailsComponent],
