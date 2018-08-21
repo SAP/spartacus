@@ -11,10 +11,7 @@ import { switchMap, tap, filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromAuthStore from './../store';
 
-import {
-  AuthenticationToken,
-  ClientAuthenticationToken
-} from '../models/token-types.model';
+import { AuthenticationToken } from '../models/token-types.model';
 import {
   USE_CLIENT_TOKEN,
   InterceptorUtil

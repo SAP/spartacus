@@ -4,7 +4,7 @@ import { HttpRequest } from '@angular/common/http';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 import { ConfigService } from '../../occ/config.service';
 
