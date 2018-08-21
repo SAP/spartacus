@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
+set -o pipefail
 
 DEV_SERVER='10\.27\.165\.187'
 
@@ -81,8 +82,8 @@ validatestyles
 
 echo "-----"
 echo "Running unit tests and code coverage for core lib"
-output=`ng test storefrontlib --watch=false --code-coverage --browsers=ChromeHeadless`
-echo $output
+exec 5>&1
+output=$(ng test storefrontlib --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
