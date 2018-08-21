@@ -10,7 +10,7 @@ class DocumentMock {
   appendChild() {}
 }
 
-fdescribe('ExternalJsFileLoader', () => {
+describe('ExternalJsFileLoader', () => {
   let externalJsFileLoader: ExternalJsFileLoader;
 
   let documentMock: Document;
@@ -33,13 +33,17 @@ fdescribe('ExternalJsFileLoader', () => {
   });
 
   it('should load script with params and callback', () => {
+    // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
     spyOn(documentMock, 'appendChild').and.callThrough();
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
     const params = { param1: 'value1', param2: 'value2' };
     const callback = function() {};
+
+    // when
     externalJsFileLoader.load(SCRIPT_LOAD_URL, params, callback);
 
+    // then
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
     expect(jsDomElement.src).toContain(SCRIPT_LOAD_URL);
     expect(jsDomElement.src.split('?')[1]).toEqual(
@@ -52,12 +56,16 @@ fdescribe('ExternalJsFileLoader', () => {
   });
 
   it('should load script with params', () => {
+    // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
     spyOn(documentMock, 'appendChild').and.callThrough();
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
     const params = { param1: 'value1', param2: 'value2' };
+
+    // when
     externalJsFileLoader.load(SCRIPT_LOAD_URL, params);
 
+    // then
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
     expect(jsDomElement.src).toContain(SCRIPT_LOAD_URL);
     expect(jsDomElement.src.split('?')[1]).toEqual(
@@ -67,11 +75,15 @@ fdescribe('ExternalJsFileLoader', () => {
   });
 
   it('should load script', () => {
+    // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
     spyOn(documentMock, 'appendChild').and.callThrough();
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
+
+    // when
     externalJsFileLoader.load(SCRIPT_LOAD_URL);
 
+    // then
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
     expect(jsDomElement.src).toEqual(SCRIPT_LOAD_URL);
     expect(jsDomElement.addEventListener).toHaveBeenCalledTimes(0);

@@ -7,9 +7,6 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
-import * as fromStore from '../../store';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'y-store-finder-map',
@@ -17,19 +14,16 @@ import { Observable } from 'rxjs';
   styleUrls: ['./store-finder-map.component.scss']
 })
 export class StoreFinderMapComponent implements OnChanges {
-  @ViewChild('mapElement') private mapElement: ElementRef;
-  @Input() private locations: any;
+  @ViewChild('mapElement') mapElement: ElementRef;
+  @Input() locations: any[];
 
-  constructor(
-    private googleMapRendererService: GoogleMapRendererService,
-    private store: Store<fromStore.StoresState>
-  ) {}
+  constructor(private googleMapRendererService: GoogleMapRendererService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.locations && this.locations.stores) {
+    if (changes.locations && this.locations) {
       this.googleMapRendererService.renderMap(
         this.mapElement.nativeElement,
-        this.locations.stores
+        this.locations
       );
     }
   }
