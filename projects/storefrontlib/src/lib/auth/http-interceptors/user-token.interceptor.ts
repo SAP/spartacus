@@ -4,7 +4,7 @@ import { HttpRequest } from '@angular/common/http';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 
 import { ConfigService } from '../../occ/config.service';
 
@@ -30,26 +30,22 @@ export class UserTokenInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    let userToken: UserToken;
-    this.store
-      .select(fromStore.getUserToken)
-      .pipe(filter((token: UserToken) => Object.keys(token).length !== 0))
-      .subscribe((token: UserToken) => {
-        userToken = token;
-      });
-
-    if (
-      userToken &&
-      request.url.indexOf(this.baseReqString) > -1 &&
-      !request.headers.get('Authorization')
-    ) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `${userToken.token_type} ${userToken.access_token}`
+    return this.store.select(fromStore.getUserToken).pipe(
+      switchMap((token: UserToken) => {
+        if (
+          token &&
+          request.url.indexOf(this.baseReqString) > -1 &&
+          !request.headers.get('Authorization')
+        ) {
+          request = request.clone({
+            setHeaders: {
+              Authorization: `${token.token_type} ${token.access_token}`
+            }
+          });
         }
-      });
-    }
 
-    return next.handle(request);
+        return next.handle(request);
+      })
+    );
   }
 }
