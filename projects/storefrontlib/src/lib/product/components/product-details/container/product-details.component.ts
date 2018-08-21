@@ -37,9 +37,4 @@ export class ProductDetailsComponent implements OnChanges {
 
     this.matTabGroup._elementRef.nativeElement.scrollIntoView();
   }
-
-  writeReview() {
-    this.isWritingReview = true;
-    this.goToReviews(this.isWritingReview);
-  }
 }

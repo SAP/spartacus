@@ -160,7 +160,7 @@ describe('Router Reducer', () => {
   it('should return the router state', () => {
     let routerReducer;
     store.subscribe(routerStore => {
-      routerReducer = routerStore.routerReducer;
+      routerReducer = routerStore.router;
     });
 
     router

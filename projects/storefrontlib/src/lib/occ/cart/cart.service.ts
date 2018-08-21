@@ -4,14 +4,16 @@ import { ConfigService } from '../config.service';
 import { CustomEncoder } from '../custom.encoder';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
+// for mini cart
 const BASIC_PARAMS =
-  'fields=DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
+  'DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
   'entries(totalPrice(formattedValue),product(images(FULL)))';
 
+// for cart details page
 const DETAILS_PARAMS =
-  'fields=DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,' +
+  'DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,' +
   'entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue)),' +
   'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(formattedValue),subTotal(formattedValue),' +
   'deliveryItemsQuantity,totalTax(formattedValue),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue)';
@@ -34,11 +36,18 @@ export class OccCartService {
     );
   }
 
-  public loadAllCarts(userId: string): Observable<any> {
+  public loadAllCarts(userId: string, details?: boolean): Observable<any> {
     const url = this.getCartEndpoint(userId);
+    const params = details
+      ? new HttpParams({
+          fromString: 'fields=carts(' + DETAILS_PARAMS + ',saveTime)'
+        })
+      : new HttpParams({
+          fromString: 'fields=carts(' + BASIC_PARAMS + ',saveTime)'
+        });
     return this.http
-      .get(url)
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .get(url, { params: params })
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   public loadCart(
@@ -49,15 +58,30 @@ export class OccCartService {
     const url = this.getCartEndpoint(userId) + cartId;
     const params = details
       ? new HttpParams({
-          fromString: DETAILS_PARAMS
+          fromString: 'fields=' + DETAILS_PARAMS
         })
       : new HttpParams({
-          fromString: BASIC_PARAMS
+          fromString: 'fields=' + BASIC_PARAMS
         });
 
-    return this.http
-      .get(url, { params: params })
-      .pipe(catchError((error: any) => throwError(error.json())));
+    if (cartId === 'current') {
+      return this.loadAllCarts(userId, details).pipe(
+        map(cartsData => {
+          if (cartsData && cartsData.carts) {
+            const activeCart = cartsData.carts.find(cart => {
+              return cart['saveTime'] === undefined;
+            });
+            return activeCart;
+          } else {
+            return null;
+          }
+        })
+      );
+    } else {
+      return this.http
+        .get(url, { params: params })
+        .pipe(catchError((error: any) => throwError(error)));
+    }
   }
 
   public createCart(
@@ -67,7 +91,7 @@ export class OccCartService {
   ): Observable<any> {
     const url = this.getCartEndpoint(userId);
     const toAdd = JSON.stringify({});
-    let queryString = BASIC_PARAMS;
+    let queryString = 'fields=' + BASIC_PARAMS;
 
     if (oldCartId) {
       queryString = queryString + '&oldCartId=' + oldCartId;
