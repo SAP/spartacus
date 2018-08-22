@@ -1,19 +1,8 @@
 import { GoogleMapRendererService } from './google-map-renderer.service';
-import {
-  TestBed,
-  async,
-  ComponentFixture,
-  fakeAsync,
-  tick
-} from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ExternalJsFileLoader } from './external-js-file-loader.service';
-import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { OccE2eConfigurationService } from '../../occ/e2e/e2e-configuration-service';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting
-} from '@angular/platform-browser-dynamic/testing';
 import { StoreDataService } from '.';
 
 const MAP_DOM_ELEMENT_INNER_HTML = 'map dom element inner html';

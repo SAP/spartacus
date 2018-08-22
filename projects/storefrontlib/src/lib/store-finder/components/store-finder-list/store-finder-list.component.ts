@@ -1,12 +1,5 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  Input,
-  ViewChild
-} from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
 import { SearchConfig } from '../../models/search-config';
