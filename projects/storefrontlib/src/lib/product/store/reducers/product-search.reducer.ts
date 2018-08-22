@@ -55,6 +55,7 @@ export function reducer(
 }
 
 export const getSearchResults = (state: ProductsSearchState) => state.results;
+export const getSearchResultsPagination = (state: ProductsSearchState) => state.results.pagination;
 export const getSearchResultsLoading = (state: ProductsSearchState) =>
   state.loading;
 export const getProductSuggestions = (state: ProductsSearchState) =>

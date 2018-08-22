@@ -39,16 +39,11 @@ export class ProductListComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges() {
-    if (!this.itemPerPage) {
-      // Page List default page size
-      this.searchConfig = { ...this.searchConfig, ...{ pageSize: 10 } };
-    } else {
-      this.searchConfig = {
-        // Page list input page size
-        ...this.searchConfig,
-        ...{ pageSize: this.itemPerPage }
-      };
-    }
+    this.searchConfig = {
+      // Page list input page size
+      ...this.searchConfig,
+      pageSize: this.itemPerPage || 10
+    };
 
     if (this.categoryCode) {
       this.query = ':relevance:category:' + this.categoryCode;

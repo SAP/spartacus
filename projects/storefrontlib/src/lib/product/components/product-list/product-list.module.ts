@@ -16,6 +16,7 @@ import { ProductSortingComponent } from './product-sorting/product-sorting.compo
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
 import { ProductLineItemComponent } from './product-line-item/product-line-item.component';
+import { ProductListTotalComponent } from './product-list-total/product-list-total.component';
 
 @NgModule({
   imports: [
@@ -33,12 +34,14 @@ import { ProductLineItemComponent } from './product-line-item/product-line-item.
     ProductSortingComponent,
     ProductListItemComponent,
     ProductGridItemComponent,
-    ProductLineItemComponent
+    ProductLineItemComponent,
+    ProductListTotalComponent
   ],
   exports: [
     ProductListComponent,
     ProductListItemComponent,
-    ProductGridItemComponent
+    ProductGridItemComponent,
+    ProductListTotalComponent
   ]
 })
 export class ProductListModule {}
