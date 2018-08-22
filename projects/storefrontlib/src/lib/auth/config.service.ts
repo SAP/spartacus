@@ -7,6 +7,10 @@ export class ConfigService {
     occPrefix: null
   };
 
+  site = {
+    baseSite: null
+  };
+
   authentication: {
     client_id: null;
     client_secret: null;

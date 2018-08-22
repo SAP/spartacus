@@ -1,4 +1,4 @@
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpRequest } from '@angular/common/http';
 
 export const USE_CLIENT_TOKEN = 'y-use-client-token';
 
@@ -16,6 +16,14 @@ export class InterceptorUtil {
       JSON.stringify(interceptorParam)
     );
     return headers;
+  }
+
+  static removeHeader(
+    headerName: string,
+    request: HttpRequest<any>
+  ): HttpRequest<any> {
+    const updatedHeaders = request.headers.delete(headerName);
+    return request.clone({ headers: updatedHeaders });
   }
 
   static getInterceptorParam<T>(headerName: string, headers: HttpHeaders): T {
