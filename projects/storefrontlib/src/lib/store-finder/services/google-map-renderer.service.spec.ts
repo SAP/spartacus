@@ -59,7 +59,7 @@ class StoreDataServiceMock {
   }
 }
 
-fdescribe('GoogleMapRendererService', () => {
+describe('GoogleMapRendererService', () => {
   let googleMapRendererService: GoogleMapRendererService;
 
   let externalJsFileLoaderMock: ExternalJsFileLoader;
