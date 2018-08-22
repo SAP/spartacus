@@ -91,7 +91,7 @@ describe('LoginComponent', () => {
 
     component.logout();
     expect(component.isLogin).toEqual(false);
-    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
+    expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Logout());
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromRouting.Go({
         path: ['/login']
@@ -107,7 +107,7 @@ describe('LoginComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadUserDetails(mockUserToken.userId)
     );
-    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Login());
+    expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Login());
     component.isLogin = true;
   });
   // Add some UI unit tests once we remove material
