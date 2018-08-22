@@ -14,6 +14,7 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
+import { StoreDataService } from '.';
 
 const MAP_DOM_ELEMENT_INNER_HTML = 'map dom element inner html';
 const GOOGLE_API_KEY = 'google_api_key';
@@ -49,11 +50,21 @@ class OccE2eConfigurationServiceMock {
   }
 }
 
-describe('GoogleMapRendererService', () => {
+class StoreDataServiceMock {
+  getStoreLatitude(location: any): number {
+    return 10;
+  }
+  getStoreLongitude(location: any): number {
+    return 20;
+  }
+}
+
+fdescribe('GoogleMapRendererService', () => {
   let googleMapRendererService: GoogleMapRendererService;
 
   let externalJsFileLoaderMock: ExternalJsFileLoader;
   let occE2eConfigurationServiceMock: OccE2eConfigurationService;
+  let storeDataServiceMock: StoreDataService;
   let mapDomElement: HTMLElement;
 
   beforeEach(() => {
@@ -64,6 +75,10 @@ describe('GoogleMapRendererService', () => {
         {
           provide: OccE2eConfigurationService,
           useClass: OccE2eConfigurationServiceMock
+        },
+        {
+          provide: StoreDataService,
+          useClass: StoreDataServiceMock
         }
       ]
     });
@@ -72,6 +87,7 @@ describe('GoogleMapRendererService', () => {
     externalJsFileLoaderMock = bed.get(ExternalJsFileLoader);
     googleMapRendererService = bed.get(GoogleMapRendererService);
     occE2eConfigurationServiceMock = bed.get(OccE2eConfigurationService);
+    storeDataServiceMock = bed.get(StoreDataService);
   });
 
   it(
@@ -83,6 +99,8 @@ describe('GoogleMapRendererService', () => {
         'getConfiguration'
       ).and.callThrough();
       spyOn(externalJsFileLoaderMock, 'load').and.callThrough();
+      spyOn(storeDataServiceMock, 'getStoreLatitude').and.callThrough();
+      spyOn(storeDataServiceMock, 'getStoreLongitude').and.callThrough();
 
       // when
       googleMapRendererService.renderMap(mapDomElement, locations);
@@ -96,6 +114,8 @@ describe('GoogleMapRendererService', () => {
         Object({ key: GOOGLE_API_KEY }),
         jasmine.any(Function)
       );
+      expect(storeDataServiceMock.getStoreLatitude).toHaveBeenCalled();
+      expect(storeDataServiceMock.getStoreLongitude).toHaveBeenCalled();
 
       tick();
       expect(mapDomElement.innerHTML).toEqual(MAP_DOM_ELEMENT_INNER_HTML);
@@ -114,6 +134,8 @@ describe('GoogleMapRendererService', () => {
         'getConfiguration'
       ).and.callThrough();
       spyOn(externalJsFileLoaderMock, 'load').and.callThrough();
+      spyOn(storeDataServiceMock, 'getStoreLatitude').and.callThrough();
+      spyOn(storeDataServiceMock, 'getStoreLongitude').and.callThrough();
 
       // when rendering the map one more time
       googleMapRendererService.renderMap(mapDomElement, locations);
@@ -123,6 +145,8 @@ describe('GoogleMapRendererService', () => {
         occE2eConfigurationServiceMock.getConfiguration
       ).toHaveBeenCalledTimes(0);
       expect(externalJsFileLoaderMock.load).toHaveBeenCalledTimes(0);
+      expect(storeDataServiceMock.getStoreLatitude).toHaveBeenCalled();
+      expect(storeDataServiceMock.getStoreLongitude).toHaveBeenCalled();
     })
   );
 });

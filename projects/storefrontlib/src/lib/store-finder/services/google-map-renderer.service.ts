@@ -3,7 +3,7 @@ import {} from '@types/googlemaps';
 import { Injectable } from '@angular/core';
 import { OccE2eConfigurationService } from '../../occ/e2e/e2e-configuration-service';
 import { catchError, mergeMap } from 'rxjs/operators';
-import { Loc } from '../models/loc';
+import { StoreDataService } from '.';
 
 const GOOGLE_MAP_API_URL = 'https://maps.googleapis.com/maps/api/js';
 const GOOGLE_API_KEY_PROPERRY_NAME = 'e2egoogleservices.apikey';
@@ -18,7 +18,8 @@ export class GoogleMapRendererService {
 
   constructor(
     private externalJsFileLoader: ExternalJsFileLoader,
-    private sccConfigurationService: OccE2eConfigurationService
+    private sccConfigurationService: OccE2eConfigurationService,
+    private storeDataService: StoreDataService
   ) {}
 
   /**
@@ -62,8 +63,8 @@ export class GoogleMapRendererService {
    */
   protected defineMapCenter(locations: any): google.maps.LatLng {
     return new google.maps.LatLng(
-      locations[0].geoPoint.latitude,
-      locations[0].geoPoint.longitude
+      this.storeDataService.getStoreLatitude(locations[0]),
+      this.storeDataService.getStoreLongitude(locations[0])
     );
   }
 
@@ -93,8 +94,8 @@ export class GoogleMapRendererService {
     locations.forEach((element, index) => {
       const marker = new google.maps.Marker({
         position: new google.maps.LatLng(
-          element.geoPoint.latitude,
-          element.geoPoint.longitude
+          this.storeDataService.getStoreLatitude(element),
+          this.storeDataService.getStoreLongitude(element)
         )
       });
       this.markers.push(marker);

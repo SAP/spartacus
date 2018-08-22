@@ -8,11 +8,11 @@ export class StoreDataService {
 
   constructor() {}
 
-  getStoreLatitude(location: any): string {
+  getStoreLatitude(location: any): number {
     return location.geoPoint.latitude;
   }
 
-  getStoreLongitude(location: any): string {
+  getStoreLongitude(location: any): number {
     return location.geoPoint.longitude;
   }
 
