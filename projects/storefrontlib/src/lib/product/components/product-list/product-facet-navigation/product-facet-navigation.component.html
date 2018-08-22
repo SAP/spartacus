@@ -1,25 +1,28 @@
 <div class="dark">
-    <mat-card>
-        <mat-card-content>
-            <mat-chip-list>
-                <mat-chip *ngFor="let breadcrumb of searchResult.breadcrumbs" color="primary" selected="true" [hidden]="breadcrumb.facetValueCode === activeFacetValueCode"
-                    (click)="toggleValue(breadcrumb.removeQuery.query.value)">
-                    {{breadcrumb.facetValueName}}
-                </mat-chip>
-            </mat-chip-list>
+  <mat-card>
+    <mat-card-content>
+      <mat-chip-list>
+        <mat-chip *ngFor="let breadcrumb of searchResult.breadcrumbs" color="primary" selected="true" [hidden]="breadcrumb.facetValueCode === activeFacetValueCode"
+          (click)="toggleValue(breadcrumb.removeQuery.query.value)">
+          {{breadcrumb.facetValueName}}
+        </mat-chip>
+      </mat-chip-list>
 
-            <div *ngFor="let facet of searchResult.facets">
-                <div *ngIf="facet.visible" class="facet-group">
-                    <h3>{{facet.name}}</h3>
-                    <div *ngFor="let value of facet.values | slice:0: showAllPerFacetMap.get(facet.name)? facet.values.length : minPerFacet">
-                        <mat-slide-toggle class="facet-value" color="primary" [checked]="value.selected" (change)="toggleValue(value.query.query.value)">{{value.name}} ({{value.count}})</mat-slide-toggle>
-                    </div>
-                    <div class="facet-controls-container">
-                        <span class="show-less-facets" (click)="showLess(facet.name)" *ngIf="showAllPerFacetMap.get(facet.name)">Show Less ...</span>
-                        <span class="show-more-facets" (click)="showMore(facet.name)" *ngIf="!showAllPerFacetMap.get(facet.name) && facet.values.length > minPerFacet">Show More ...</span>
-                    </div>
-                </div>
-            </div>
-        </mat-card-content>
-    </mat-card>
-</div>
+      <mat-expansion-panel [expanded]="i < 5" *ngFor="let facet of searchResult.facets; let i = index" class="mat-elevation-z">
+        <mat-expansion-panel-header *ngIf="facet.visible">
+          <mat-panel-title>
+            {{facet.name}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngFor="let value of facet.values | slice:0: showAllPerFacetMap.get(facet.name)? facet.values.length : minPerFacet">
+          <mat-slide-toggle class="facet-value" color="primary" [checked]="value.selected" (change)="toggleValue(value.query.query.value)">{{value.name}} ({{value.count}})</mat-slide-toggle>
+        </div>
+        <div class="facet-controls-container">
+          <span class="show-less-facets" (click)="showLess(facet.name)" *ngIf="showAllPerFacetMap.get(facet.name)">Show Less ...</span>
+          <span class="show-more-facets" (click)="showMore(facet.name)" *ngIf="!showAllPerFacetMap.get(facet.name) && facet.values.length > minPerFacet">Show More ...</span>
+        </div>
+      </mat-expansion-panel>
+
+    </mat-card-content>
+  </mat-card>
+</div> -->

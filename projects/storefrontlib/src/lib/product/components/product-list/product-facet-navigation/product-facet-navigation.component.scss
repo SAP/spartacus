@@ -4,6 +4,7 @@ mat-chip {
     display: none;
   }
 }
+
 .facet-controls-container {
   text-align: end;
   margin: 10px 0 10px 0;
@@ -15,11 +16,14 @@ mat-chip {
     border: 1px solid black;
     border-radius: 2px;
     padding: 3px;
-
     cursor: pointer;
     color: orange;
     &:hover {
       color: #ec7205;
     }
   }
+}
+
+.mat-card {
+  padding: 20px 0;
 }
