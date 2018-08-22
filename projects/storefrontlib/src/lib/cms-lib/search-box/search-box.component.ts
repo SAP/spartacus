@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
@@ -30,6 +30,7 @@ export class SearchBoxComponent extends AbstractCmsComponent {
   minCharactersBeforeRequest: number;
 
   clickedInside = false;
+  subscription: Subscription;
 
   @HostListener('click')
   clickInside() {
@@ -90,7 +91,7 @@ export class SearchBoxComponent extends AbstractCmsComponent {
   }
 
   protected setupSearch() {
-    this.searchBoxControl.valueChanges.subscribe(value => {
+    this.subscription = this.searchBoxControl.valueChanges.subscribe(value => {
       if (this.shouldSearchProducts()) {
         const searchConfig = new SearchConfig();
         searchConfig.pageSize = this.maxProduct;
@@ -143,5 +144,12 @@ export class SearchBoxComponent extends AbstractCmsComponent {
       value !== null &&
       value.length >= this.minCharactersBeforeRequest
     );
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    super.ngOnDestroy();
   }
 }
