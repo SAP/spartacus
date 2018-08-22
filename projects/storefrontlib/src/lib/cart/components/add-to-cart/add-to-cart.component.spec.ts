@@ -56,7 +56,7 @@ describe('AddToCartComponent', () => {
     store = TestBed.get(Store);
     service = TestBed.get(CartService);
     addToCartComponent.productCode = productCode;
-    dialog = fixture.debugElement.injector.get<any>(MatDialog);
+    dialog = fixture.debugElement.injector.get<MatDialog>(MatDialog);
     spyOn(service, 'addCartEntry').and.callThrough();
     spyOn(store, 'select').and.returnValue(of(mockCartEntry));
     spyOn(dialog, 'open').and.callThrough();
