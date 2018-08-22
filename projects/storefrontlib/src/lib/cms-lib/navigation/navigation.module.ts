@@ -6,9 +6,16 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { NavigationComponent } from './navigation.component';
 import { NavigationService } from './navigation.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, MaterialModule, FlexLayoutModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MaterialModule,
+    FlexLayoutModule,
+    NgbModule
+  ],
   providers: [NavigationService],
   declarations: [NavigationComponent],
   entryComponents: [NavigationComponent],

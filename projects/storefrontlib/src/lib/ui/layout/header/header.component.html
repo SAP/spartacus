@@ -1,27 +1,52 @@
 <!--
 <y-cookie-confirmation></y-cookie-confirmation>
 -->
+<header class="y-header">
 
-<div id="top" class="top-header">
+    <div class="y-content__slot d-flex align-items-center">
+        <y-header-skipper></y-header-skipper>
+        <y-language-selector class="d-none d-lg-block"></y-language-selector>
+        <y-currency-selector class="d-none d-lg-block"></y-currency-selector>
+        <y-tertiary-bar class="ml-auto"></y-tertiary-bar>
+    </div>
+
+    <div class="y-content__slot d-flex align-items-center">
+        <y-dynamic-slot position="SiteLogo"></y-dynamic-slot>
+        <y-dynamic-slot position="SearchBox" class="ml-auto"></y-dynamic-slot>
+        <y-login class="ml-auto d-none d-lg-block"></y-login>
+        <y-dynamic-slot position="MiniCart"></y-dynamic-slot>
+    </div>
+
+    <div class="y-content__slot">
+        <y-dynamic-slot position="NavigationBar"></y-dynamic-slot>
+    </div>
+
+    <!-- <div class="y-content__slot">
+        <y-mobile-menu></y-mobile-menu>
+    </div> -->
+
+</header>
+
+
+<!-- <div id="top" class="top-header">
     <mat-card fxLayout="row" fxLayoutAlign="start start">
         <y-dynamic-slot position="SiteLogo" fxFlex></y-dynamic-slot>
         <y-dynamic-slot position="SearchBox" fxFlex="50%"></y-dynamic-slot>
         <y-dynamic-slot position="MiniCart" fxLayout="row" fxLayoutAlign="start start"></y-dynamic-slot>
-        <y-dynamic-slot position="StoreFinder" class="storeFinder" ></y-dynamic-slot>
+        <y-dynamic-slot position="StoreFinder" class="storeFinder"></y-dynamic-slot>
         <y-login></y-login>
         <y-dynamic-slot position="HeaderLinks"></y-dynamic-slot>
         <y-currency-selector></y-currency-selector>
         <y-language-selector></y-language-selector>
     </mat-card>
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-</div>
+</div> -->
 
-<!--
-    The HomepageNavLink is a mistake in the sample data...
-    <y-dynamic-slot position="HomepageNavLink" ></y-dynamic-slot>
--->
+
+<!-- The HomepageNavLink is a mistake in the sample data...
+<y-dynamic-slot position="HomepageNavLink"></y-dynamic-slot>
 
 <div class="navigation-header">
     <y-dynamic-slot position="NavigationBar"></y-dynamic-slot>
     <y-dynamic-slot position="BottomHeader"></y-dynamic-slot>
-</div>
+</div> -->

@@ -1,14 +1,23 @@
-<mat-menu #userMenu="matMenu" x-position="before">
-    <button mat-menu-item (click)="logout()"> Logout </button>
-</mat-menu>
-
 <ng-container *ngIf="user$ | async as user">
-    <button *ngIf="user?.name" mat-button color="primary" [matMenuTriggerFor]="userMenu">
-        {{ user.name }}
-        <mat-icon>expand_more</mat-icon>
-    </button>
+    <ng-container *ngIf="user?.name">
+        <div class="y-login-status__greet">Hi, {{user.name}}</div>
+        <!-- <div ngbDropdown class="y-login-status__dropdown">
+            <a href="#" class="nav-link y-login-status__toggle" id="dropdownBasic1" ngbDropdownToggle>My Account</a>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="y-login-status__menu">
+                <a href="#" class="dropdown-item y-login-status__item">Orders</a>
+                <a href="#" class="dropdown-item y-login-status__item">Account profile</a>
+                <a href="#" class="dropdown-item y-login-status__item">Manage subscription</a>
+                <a href="#" class="dropdown-item y-login-status__item">Item 4</a>
+                <a href="#" class="dropdown-item y-login-status__item">Item 5</a>
+                <a href="#" class="dropdown-item y-login-status__item">Item 6</a>
+                <a href="#" class="dropdown-item y-login-status__item">Item 7</a>
+            </div>
+        </div> -->
+        <y-dynamic-slot position="HeaderLinks" class="nav-link y-login-status__toggle y-login-status__dropdown"></y-dynamic-slot>
+        <!-- <a href="#" style="color:white" class="dropdown-item y-login-status__item" (click)="logout()">Sign Out</a> -->
+    </ng-container>
 
-    <button *ngIf="!user?.name" routerLink="login" mat-icon-button color="primary">
-        <mat-icon>person</mat-icon>
-    </button>
+    <ng-container *ngIf="!user?.name">
+        <a routerLink="login">Sign In / Register</a>
+    </ng-container>
 </ng-container>

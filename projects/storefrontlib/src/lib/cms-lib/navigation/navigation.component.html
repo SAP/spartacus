@@ -1,31 +1,20 @@
-<!-- link WITHOUT childs -->
-<a mat-button *ngIf="!node.childs" [routerLink]="node.url">
-    <span *ngIf="node.title">{{node.title}}</span>
-</a>
+<div class="y-navigation__item nav-item" ngbDropdown>
+    <a *ngIf="node.childs && !node.title; else nodeWithChilds" ngbDropdownToggle>
+        Reorder
+    </a>
+    <ng-template #nodeWithChilds>
+        <a *ngIf="node.childs; else noChilds" ngbDropdownToggle class="y-navigation__link nav-link" role="button" id="{{ node.title }}">{{ node.title }}</a>
+    </ng-template>
+    <ng-template #noChilds>
+        <a [routerLink]="node.url" class="y-navigation__link nav-link" role="button" id="{{ node.title }}">{{ node.title }}</a>
+    </ng-template>
+    <!-- DO NOT delete this line, this is the fix for accessible on-hover menus -->
+    <!-- <a ngbDropdownToggle href="{{ category.url }}" [hidden]="focusedCategory !== category.id" class="sr-only-focusable" role="button" id="dropdownToggle + {{ category.id }}">Expand {{ category.label }}</a> -->
 
-<!-- link WITH childs -->
-<a *ngIf="node.childs && !node.title" mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>reorder</mat-icon>
-</a>
-
-<a *ngIf="node.childs && node.title" mat-button [matMenuTriggerFor]="menu">
-    {{node.title}}
-</a>
-
-<mat-menu #menu="matMenu" style="margin-top:30px" [overlapTrigger]="false" style="width:600px">
-    <div *ngIf="node.childs && node.childs[0].childs">
-        <div fxLayout="row" fxLayoutAlign="start start">
-            <div *ngFor="let childNode of node.childs" fxFlex>
-                <a matButton [routerLink]="childNode.url" mat-menu-item> {{childNode.title}}</a>
-
-                <div *ngIf="childNode.childs">
-                    <a *ngFor="let grandChildNode of childNode.childs" [routerLink]="grandChildNode.url" mat-menu-item> {{grandChildNode.title}} </a>
-                </div>
-            </div>
+    <div ngbDropdownMenu class="y-navigation__child-list" [attr.aria-labelledby]="node.item" role="list">
+        <div role="listitem" *ngFor="let item of node.childs" class="dropdown-item y-navigation__child-item">
+            <a [routerLink]="item.url" class="y-navigation__child-link">{{ item.title }} </a>
+            <a [routerLink]="subCategory.url" *ngFor="let subCategory of item.childs">{{subCategory.title}} </a>
         </div>
     </div>
-    <div *ngIf="node.childs && !node.childs[0].childs">
-        <a *ngFor="let childNode of node.childs" [routerLink]="childNode.url" mat-menu-item> {{childNode.title}}</a>
-    </div>
-
-</mat-menu>
+</div>

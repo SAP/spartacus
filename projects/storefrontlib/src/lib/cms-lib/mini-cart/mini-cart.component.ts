@@ -52,6 +52,7 @@ export class MiniCartComponent extends AbstractCmsComponent {
     super.fetchData();
   }
 
+  // SPA-589 : this code isnt used for now
   openCart() {
     const dialogRef = this.dialog.open(CartDialogComponent, {
       data: {
