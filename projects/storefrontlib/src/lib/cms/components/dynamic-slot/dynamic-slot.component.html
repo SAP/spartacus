@@ -1,7 +1,8 @@
 <div *ngFor="let component of ((currentSlot$ | async) | slice:0:limit)" >
-    <y-component-wrapper 
-        [componentType]="component?.typeCode" 
-        [componentUid]="component?.uid" 
+    <y-component-wrapper
+        [attr.data-componentUid]="component?.uid"
+        [componentType]="component?.typeCode"
+        [componentUid]="component?.uid"
         [contextParameters]="contextParameters"
         [componentClass]="componentClass">
     </y-component-wrapper>

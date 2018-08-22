@@ -40,7 +40,7 @@ export class ProductDetailsPage extends AppPage {
   getProductQuantitySpan(): ElementFinder {
     return E2EUtil.getComponentWithinParentByCss(
       this.getAddToCartComponent(),
-      'span[class="entry-quantity ng-star-inserted"]'
+      'span[class="entry-quantity"]'
     );
   }
 }

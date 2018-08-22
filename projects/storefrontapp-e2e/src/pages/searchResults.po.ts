@@ -68,7 +68,7 @@ export class SearchResultsPage extends AppPage {
   getProductQuantitySpan(product: ElementFinder): ElementFinder {
     return E2EUtil.getComponentWithinParentByCss(
       product,
-      'span[class="entry-quantity ng-star-inserted"]'
+      'span[class="entry-quantity"]'
     );
   }
 }
