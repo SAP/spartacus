@@ -23,6 +23,7 @@
     "hammerjs": "2.0.8",
     "ngrx-store-localstorage": "5.0.0",
     "rxjs": "^6.0.0",
-    "zone.js": "^0.8.26"
+    "zone.js": "^0.8.26",
+    "hamburgers":"^0.9.3"
   }
 }

@@ -12,9 +12,9 @@
     <!-- <a ngbDropdownToggle href="{{ category.url }}" [hidden]="focusedCategory !== category.id" class="sr-only-focusable" role="button" id="dropdownToggle + {{ category.id }}">Expand {{ category.label }}</a> -->
 
     <div ngbDropdownMenu class="y-navigation__child-list" [attr.aria-labelledby]="node.item" role="list">
-        <div role="listitem" *ngFor="let item of node.childs" class="dropdown-item y-navigation__child-item">
-            <a [routerLink]="item.url" class="y-navigation__child-link">{{ item.title }} </a>
-            <a [routerLink]="subCategory.url" *ngFor="let subCategory of item.childs">{{subCategory.title}} </a>
+        <div role="listitem" *ngFor="let subCategory of node.childs" class="dropdown-item y-navigation__child-item">
+            <a [routerLink]="subCategory.url" class="y-navigation__child-link">{{ subCategory.title }} </a>
+            <a [routerLink]="subCategoryChild.url" *ngFor="let subCategoryChild of subCategory.childs">{{subCategoryChild.title}} </a>
         </div>
     </div>
 </div>

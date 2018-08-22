@@ -2,7 +2,7 @@
     <form class="y-search-box__form">
         <div class="y-search-box__group form-group">
             <input class="y-search-box__input form-control" type="text" placeholder="Search here..." aria-label="search" type="text"
-                matInput [formControl]="searchBoxControl" [matAutocomplete]="searchresult" [placeholder]="component?.name" (keyup)="onKey($event)"
+                [formControl]="searchBoxControl" [matAutocomplete]="searchresult" [placeholder]="component?.name" (keyup)="onKey($event)"
                 (focus)="onFocus()">
             <button class="y-search-box__button btn-submit" type="submit" aria-label="Submit">
                 <svg class="y-search-box__icon" xmlns="http://www.w3.org/2000/svg" viewBox="-4472 4760 26 26">

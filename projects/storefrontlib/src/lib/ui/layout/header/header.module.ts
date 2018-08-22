@@ -6,10 +6,21 @@ import { HeaderComponent } from './header.component';
 import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
 import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
 import { LoginModule } from '../../../user/components/login/login.module';
+import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 
 @NgModule({
   imports: [CommonModule, SiteContextModule, CmsModule, LoginModule],
-  declarations: [HeaderComponent, HeaderSkipperComponent, TertiaryBarComponent],
-  exports: [HeaderComponent, HeaderSkipperComponent, TertiaryBarComponent]
+  declarations: [
+    HeaderComponent,
+    HeaderSkipperComponent,
+    TertiaryBarComponent,
+    MobileMenuComponent
+  ],
+  exports: [
+    HeaderComponent,
+    HeaderSkipperComponent,
+    TertiaryBarComponent,
+    MobileMenuComponent
+  ]
 })
 export class HeaderModule {}
