@@ -1,4 +1,5 @@
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpRequest } from '@angular/common/http';
+
 import { InterceptorUtil } from './interceptor-util';
 
 describe('InterceptorUtil', () => {
@@ -30,15 +31,30 @@ describe('InterceptorUtil', () => {
     });
   });
 
+  describe(`removeHeader`, () => {
+    it(`should remove a header`, () => {
+      let request = new HttpRequest('GET', 'http://test.com');
+      const headerName = 'X';
+      request = request.clone({
+        setHeaders: {
+          headerName: `true`
+        }
+      });
+
+      request = InterceptorUtil.removeHeader(headerName, request);
+      expect(request.headers.get(headerName)).toBeFalsy();
+    });
+  });
+
   describe('getInterceptorParam', () => {
     it('should return an object from defined headers', () => {
-      const headerValue = '{"url":"testUrl","pattern":"bla bla"}';
+      const headerValue = 'true';
       const headerName = 'test';
       const headers = new HttpHeaders().set(headerName, headerValue);
 
       const result = InterceptorUtil.getInterceptorParam(headerName, headers);
       expect(result).toBeTruthy();
-      expect(result).toEqual({ url: 'testUrl', pattern: 'bla bla' });
+      expect(result).toEqual(true);
     });
     it('should return undefined when no header is found', () => {
       const result = InterceptorUtil.getInterceptorParam(
