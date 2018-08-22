@@ -12,7 +12,6 @@ import {
   CmsLibModule,
   CmsModule,
   RoutingModule,
-  UserModule,
   UiFrameworkModule,
   SiteContextModule
 } from 'storefrontlib';
@@ -30,7 +29,6 @@ import { AppComponent } from './app.component';
 
     AppRoutingModule,
 
-    UserModule,
     CmsLibModule,
     CmsModule.forRoot(ConfigService),
     UiModule,

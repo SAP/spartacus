@@ -3,20 +3,27 @@ import {
   HttpTestingController,
   HttpClientTestingModule
 } from '@angular/common/http/testing';
-import { catchError } from 'rxjs/operators';
-import { throwError, Observable, of } from 'rxjs';
-import { UserErrorHandlingService } from '../../user/services/user-error-handling.service';
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
   HttpHandler,
-  HttpRequest
+  HttpRequest,
+  HttpHeaders
 } from '@angular/common/http';
+
+import { catchError } from 'rxjs/operators';
+import { throwError, Observable, of } from 'rxjs';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 
 import * as fromStore from '../store';
 import * as fromRoot from '../../routing/store';
+
 import { AuthErrorInterceptor } from './auth-error.interceptor';
+
+import { USE_CLIENT_TOKEN } from '../../occ/utils/interceptor-util';
+
+import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
+import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
 
 class MockUserErrorHandlingService {
   handleExpiredUserToken(
@@ -28,9 +35,19 @@ class MockUserErrorHandlingService {
   handleExpiredRefreshToken() {}
 }
 
+class MockClientErrorHandlingService {
+  handleExpiredClientToken(
+    _request: HttpRequest<any>,
+    _next: HttpHandler
+  ): Observable<any> {
+    return;
+  }
+}
+
 describe('AuthErrorInterceptor', () => {
   let userErrorHandlingService: UserErrorHandlingService;
-  let store: Store<fromStore.UserState>;
+  let clientErrorHandlingService: ClientErrorHandlingService;
+  let store: Store<fromStore.AuthState>;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -39,13 +56,17 @@ describe('AuthErrorInterceptor', () => {
         HttpClientTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          user: combineReducers(fromStore.getReducers())
+          auth: combineReducers(fromStore.getReducers())
         })
       ],
       providers: [
         {
           provide: UserErrorHandlingService,
           useClass: MockUserErrorHandlingService
+        },
+        {
+          provide: ClientErrorHandlingService,
+          useClass: MockClientErrorHandlingService
         },
         {
           provide: HTTP_INTERCEPTORS,
@@ -56,6 +77,7 @@ describe('AuthErrorInterceptor', () => {
     });
 
     userErrorHandlingService = TestBed.get(UserErrorHandlingService);
+    clientErrorHandlingService = TestBed.get(ClientErrorHandlingService);
     store = TestBed.get(Store);
     httpMock = TestBed.get(HttpTestingController);
 
@@ -63,30 +85,70 @@ describe('AuthErrorInterceptor', () => {
       of({})
     );
     spyOn(userErrorHandlingService, 'handleExpiredRefreshToken').and.stub();
+    spyOn(
+      clientErrorHandlingService,
+      'handleExpiredClientToken'
+    ).and.returnValue(of({}));
   });
 
-  it(`should catch 401 error`, inject([HttpClient], (http: HttpClient) => {
-    http.get('/test').subscribe(result => {
-      expect(result).toBeTruthy();
-    });
+  it(`should catch 401 error for a client token`, inject(
+    [HttpClient],
+    (http: HttpClient) => {
+      const headers = new HttpHeaders().set(USE_CLIENT_TOKEN, 'true');
+      const options = {
+        headers
+      };
+      http.get('/test', options).subscribe(result => {
+        expect(result).toBeTruthy();
+      });
 
-    const mockReq = httpMock.expectOne(req => {
-      return req.method === 'GET';
-    });
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'GET';
+      });
+      mockReq.flush(
+        {
+          errors: [
+            {
+              type: 'InvalidTokenError',
+              message: 'Invalid access token: some token'
+            }
+          ]
+        },
+        { status: 401, statusText: 'Error' }
+      );
+      expect(
+        clientErrorHandlingService.handleExpiredClientToken
+      ).toHaveBeenCalled();
+    }
+  ));
 
-    mockReq.flush(
-      {
-        errors: [
-          {
-            type: 'InvalidTokenError',
-            message: 'Invalid access token: some token'
-          }
-        ]
-      },
-      { status: 401, statusText: 'Error' }
-    );
-    expect(userErrorHandlingService.handleExpiredUserToken).toHaveBeenCalled();
-  }));
+  it(`should catch 401 error for a user token`, inject(
+    [HttpClient],
+    (http: HttpClient) => {
+      http.get('/test').subscribe(result => {
+        expect(result).toBeTruthy();
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'GET';
+      });
+
+      mockReq.flush(
+        {
+          errors: [
+            {
+              type: 'InvalidTokenError',
+              message: 'Invalid access token: some token'
+            }
+          ]
+        },
+        { status: 401, statusText: 'Error' }
+      );
+      expect(
+        userErrorHandlingService.handleExpiredUserToken
+      ).toHaveBeenCalled();
+    }
+  ));
 
   it(`should catch refresh_token 401 error`, inject(
     [HttpClient],

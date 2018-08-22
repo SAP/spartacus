@@ -16,6 +16,7 @@ import * as fromDeliveryCountries from './delivery-countries.reducer';
 import * as fromRegionsReducer from './regions.reducer';
 
 import * as fromAction from '../actions';
+import * as fromAuthAction from '../../../auth/store/actions';
 
 export interface UserState {
   account: fromUserDetailsReducer.UserDetailsState;
@@ -57,7 +58,7 @@ export function clearUserState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return function(state, action) {
-    if (action.type === fromAction.LOGOUT) {
+    if (action.type === fromAuthAction.LOGOUT) {
       state = undefined;
     } else if (
       action.type === '[Site-context] Language Change' ||
