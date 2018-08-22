@@ -1,15 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+
+import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
-import * as fromStore from '../../user/store';
-import * as fromAuthStore from '../../auth/store';
-import * as fromRoot from '../../routing/store';
+import * as fromStore from '../../store';
+import * as fromRoot from '../../../routing/store';
+
 import { UserErrorHandlingService } from './user-error-handling.service';
-import { UserToken } from '../../auth/models/token-types.model';
+
+import { UserToken } from '../../models/token-types.model';
 
 class MockHttpHandler extends HttpHandler {
   handle(_req: HttpRequest<any>): Observable<HttpEvent<any>> {
@@ -37,7 +39,7 @@ describe('UserErrorHandlingService', () => {
     userId: 'xxx'
   };
 
-  let store: Store<fromStore.UserState>;
+  let store: Store<fromStore.AuthState>;
   let service: UserErrorHandlingService;
   let httpHandler: HttpHandler;
   let router: Router;
@@ -48,8 +50,7 @@ describe('UserErrorHandlingService', () => {
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          user: combineReducers(fromStore.getReducers()),
-          auth: combineReducers(fromAuthStore.getReducers())
+          auth: combineReducers(fromStore.getReducers())
         })
       ],
       providers: [
@@ -77,16 +78,16 @@ describe('UserErrorHandlingService', () => {
     });
 
     it('should get new token and resend request', () => {
-      store.dispatch(new fromAuthStore.LoadUserTokenSuccess(userToken));
+      store.dispatch(new fromStore.LoadUserTokenSuccess(userToken));
       service.handleExpiredUserToken(httpRequest, httpHandler).subscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromAuthStore.RefreshUserToken({
+        new fromStore.RefreshUserToken({
           userId: userToken.userId,
           refreshToken: userToken.refresh_token
         })
       );
-      store.dispatch(new fromAuthStore.RefreshUserTokenSuccess(newToken));
+      store.dispatch(new fromStore.RefreshUserTokenSuccess(newToken));
       httpRequest = httpRequest.clone({
         setHeaders: {
           Authorization: `${newToken.token_type} ${newToken.access_token}`
@@ -97,21 +98,21 @@ describe('UserErrorHandlingService', () => {
     });
 
     it('should only dispatch refresh token event once', () => {
-      store.dispatch(new fromAuthStore.LoadUserTokenSuccess(userToken));
+      store.dispatch(new fromStore.LoadUserTokenSuccess(userToken));
 
       service.handleExpiredUserToken(httpRequest, httpHandler).subscribe();
 
-      store.dispatch(new fromAuthStore.RefreshUserTokenSuccess(newToken));
+      store.dispatch(new fromStore.RefreshUserTokenSuccess(newToken));
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromAuthStore.RefreshUserToken({
+        new fromStore.RefreshUserToken({
           userId: userToken.userId,
           refreshToken: userToken.refresh_token
         })
       );
 
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new fromAuthStore.RefreshUserToken({
+        new fromStore.RefreshUserToken({
           userId: newToken.userId,
           refreshToken: newToken.refresh_token
         })

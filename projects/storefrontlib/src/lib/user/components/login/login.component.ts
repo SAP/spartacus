@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (token && token.access_token && !this.isLogin) {
           this.isLogin = true;
           this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
-          this.store.dispatch(new fromStore.Login());
+          this.store.dispatch(new fromAuthStore.Login());
         } else if (token && !token.access_token && this.isLogin) {
           this.isLogin = false;
         }
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   logout() {
     this.isLogin = false;
-    this.store.dispatch(new fromStore.Logout());
+    this.store.dispatch(new fromAuthStore.Logout());
 
     let state = this.route.snapshot;
     while (state.firstChild) {
