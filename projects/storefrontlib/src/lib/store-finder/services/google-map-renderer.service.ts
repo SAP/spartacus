@@ -1,8 +1,6 @@
 import { ExternalJsFileLoader } from './external-js-file-loader.service';
-import {} from '@types/googlemaps';
 import { Injectable } from '@angular/core';
 import { OccE2eConfigurationService } from '../../occ/e2e/e2e-configuration-service';
-import { catchError, mergeMap } from 'rxjs/operators';
 import { StoreDataService } from '.';
 
 const GOOGLE_MAP_API_URL = 'https://maps.googleapis.com/maps/api/js';
