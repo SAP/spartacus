@@ -1,12 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { PaymentFormComponent } from './payment-method.component';
-import {
-  ReactiveFormsModule,
-  FormGroup,
-  AbstractControl
-} from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+
+import { PaymentFormModule } from './payment-form/payment-form.module';
+import { PaymentMethodComponent } from './payment-method.component';
 
 import * as fromRoot from '../../../../routing/store';
 import * as fromCheckout from '../../../store';
@@ -17,33 +15,6 @@ import * as fromAuth from '../../../../auth/store';
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
-import { RouterTestingModule } from '@angular/router/testing';
-
-export class MockAbstractControl {
-  hasError() {
-    return true;
-  }
-  get touched() {
-    return true;
-  }
-}
-
-export class MockFormGroup {
-  get() {}
-}
-
-const mockCardTypes = {
-  cardTypes: [
-    {
-      code: 'amex',
-      name: 'American Express'
-    },
-    {
-      isocode: 'maestro',
-      name: 'Maestro'
-    }
-  ]
-};
 
 const paymentDetails = {
   accountHolderName: 'Name',
@@ -54,18 +25,17 @@ const paymentDetails = {
   cvn: '123'
 };
 
-describe('PaymentFormComponent', () => {
-  let store: Store<fromCheckout.CheckoutState>;
-  let component: PaymentFormComponent;
-  let fixture: ComponentFixture<PaymentFormComponent>;
-  let service: CheckoutService;
+const mockPaymentMethods = ['payment1', 'payment2'];
 
-  let ac: AbstractControl;
+describe('PaymentMethodComponent', () => {
+  let store: Store<fromCheckout.CheckoutState>;
+  let component: PaymentMethodComponent;
+  let fixture: ComponentFixture<PaymentMethodComponent>;
+  let service: CheckoutService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        ReactiveFormsModule,
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
@@ -73,53 +43,42 @@ describe('PaymentFormComponent', () => {
           user: combineReducers(fromUser.getReducers()),
           checkout: combineReducers(fromCheckout.getReducers()),
           auth: combineReducers(fromAuth.getReducers())
-        })
+        }),
+        PaymentFormModule
       ],
-      declarations: [PaymentFormComponent],
-      providers: [
-        CheckoutService,
-        CartService,
-        CartDataService,
-        { provide: FormGroup, useClass: MockFormGroup },
-        { provide: AbstractControl, useClass: MockAbstractControl }
-      ]
+      declarations: [PaymentMethodComponent],
+      providers: [CheckoutService, CartService, CartDataService]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PaymentFormComponent);
+    fixture = TestBed.createComponent(PaymentMethodComponent);
     component = fixture.componentInstance;
     service = TestBed.get(CheckoutService);
     store = TestBed.get(Store);
 
-    ac = TestBed.get(AbstractControl);
-
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOn(ac, 'hasError').and.callThrough();
-    spyOn(service, 'loadSupportedCardTypes').and.callThrough();
-
+    spyOn(service, 'loadUserPaymentMethods').and.callThrough();
     spyOn(component.addPaymentInfo, 'emit').and.callThrough();
     spyOn(component.backStep, 'emit').and.callThrough();
-    spyOn(component.payment, 'get').and.returnValue(ac);
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get suppored card types if they do not exist', () => {
-    spyOn(store, 'select').and.returnValue(of({}));
+  it('should call ngOnInit to get existing payment methods if they do not exist', () => {
+    spyOn(store, 'select').and.returnValue(of([]));
     component.ngOnInit();
-    component.cardTypes$.subscribe(() => {
-      expect(service.loadSupportedCardTypes).toHaveBeenCalled();
+    component.existingPaymentMethods$.subscribe(() => {
+      expect(service.loadUserPaymentMethods).toHaveBeenCalled();
     });
   });
 
-  it('should call ngOnInit to get suppored card types if they exist', () => {
-    spyOn(store, 'select').and.returnValue(of(mockCardTypes));
+  it('should call ngOnInit to get existing payment methods if they exist', () => {
+    spyOn(store, 'select').and.returnValue(of(mockPaymentMethods));
     component.ngOnInit();
-    component.cardTypes$.subscribe(data => {
-      expect(data).toBe(mockCardTypes);
+    component.existingPaymentMethods$.subscribe(data => {
+      expect(data).toBe(mockPaymentMethods);
     });
   });
 
@@ -131,43 +90,21 @@ describe('PaymentFormComponent', () => {
     });
   });
 
-  it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
-    component.payment.value.defaultPayment = false;
-    component.toggleDefaultPaymentMethod();
-    expect(component.payment.value.defaultPayment).toBeTruthy();
-  });
-
-  it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
-    component.payment.value.defaultPayment = true;
-    component.toggleDefaultPaymentMethod();
-    expect(component.payment.value.defaultPayment).toBeFalsy();
-  });
-
   it('should call addNewPaymentMethod()', () => {
-    component.addNewPaymentMethod();
-    expect(component.newPayment).toBeTruthy();
-  });
-
-  it('should call next()', () => {
-    component.next();
+    component.addNewPaymentMethod(paymentDetails);
     expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
-      payment: component.payment.value,
+      payment: paymentDetails,
       newPayment: true
     });
+  });
+
+  it('should call goToPaymentForm()', () => {
+    component.goToPaymentForm();
+    expect(component.isPaymentForm).toEqual(true);
   });
 
   it('should call back()', () => {
     component.back();
     expect(component.backStep.emit).toHaveBeenCalled();
-  });
-
-  it('should call required(name: string)', () => {
-    component.required('someName');
-    expect(component.payment.get).toHaveBeenCalledWith('someName');
-  });
-
-  it('should call notSelected(name: string)', () => {
-    component.notSelected('someName');
-    expect(component.payment.get).toHaveBeenCalledWith('someName');
   });
 });

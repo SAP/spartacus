@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-//import { MaterialModule } from '../../../../../material.module';
-import { PaymentFormComponent } from './payment-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
-//import { RouterModule } from '@angular/router';
+
+import { PaymentFormComponent } from './payment-form.component';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule],
