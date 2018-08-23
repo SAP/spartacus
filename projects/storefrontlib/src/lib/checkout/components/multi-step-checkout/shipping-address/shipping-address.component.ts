@@ -3,17 +3,13 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   Output,
-  EventEmitter,
-  OnDestroy,
-  Input
+  EventEmitter
 } from '@angular/core';
-
+import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
 
-import { Store } from '@ngrx/store';
 import * as fromUserStore from '../../../../user/store';
 import * as fromRouting from '../../../../routing/store';
-
 import { CheckoutService } from '../../../services/checkout.service';
 
 @Component({

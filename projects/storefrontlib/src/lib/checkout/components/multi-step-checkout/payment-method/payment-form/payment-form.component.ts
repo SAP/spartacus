@@ -3,16 +3,15 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   Output,
-  EventEmitter,
-  Input
+  EventEmitter
 } from '@angular/core';
-
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 import * as fromCheckoutStore from '../../../../store';
 import { CheckoutService } from '../../../../services/checkout.service';
-import { Store } from '@ngrx/store';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'y-payment-form',

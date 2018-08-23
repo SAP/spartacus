@@ -5,11 +5,11 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { tap } from 'rxjs/operators';
 
 import * as fromUserStore from '../../../../user/store';
 import { CheckoutService } from '../../../services/checkout.service';
-import { Store } from '@ngrx/store';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'y-payment-method',
