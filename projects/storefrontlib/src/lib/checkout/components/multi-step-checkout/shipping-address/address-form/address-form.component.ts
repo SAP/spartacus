@@ -9,16 +9,20 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { tap, filter, take } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
-import * as fromCheckoutStore from '../../../store';
-import * as fromRouting from '../../../../routing/store';
-import * as fromUser from '../../../../user/store';
+import * as fromCheckoutStore from '../../../../store';
+import * as fromRouting from '../../../../../routing/store';
+import * as fromUser from '../../../../../user/store';
+import { CheckoutService } from '../../../../services/checkout.service';
 
 import { MatDialog } from '@angular/material';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+
+import * as fromGlobalMessage from '../../../../../global-message/store';
+import { GlobalMessageType } from '.././../../../../global-message/models/message.model';
 
 @Component({
   selector: 'y-address-form',
@@ -30,11 +34,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<any>;
   titles$: Observable<any>;
   regions$: Observable<any>;
-  newAddress = false;
 
-  @Input() existingAddresses;
   @Output() addAddress = new EventEmitter<any>();
-  @Output() verifyAddress = new EventEmitter<any>();
+  @Output() backToAddress = new EventEmitter<any>();
+
+  addressVerifySub: Subscription;
 
   address: FormGroup = this.fb.group({
     defaultAddress: [false],
@@ -57,6 +61,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   constructor(
     protected store: Store<fromRouting.State>,
     private fb: FormBuilder,
+    protected checkoutService: CheckoutService,
     protected dialog: MatDialog
   ) {}
 
@@ -98,6 +103,32 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
       })
     );
+
+    // verify the new added address
+    this.addressVerifySub = this.store
+      .select(fromCheckoutStore.getAddressVerificationResults)
+      .pipe(filter(results => Object.keys(results).length !== 0))
+      .subscribe((results: any) => {
+        if (results === 'FAIL') {
+          this.store.dispatch(
+            new fromCheckoutStore.ClearAddressVerificationResults()
+          );
+        } else if (results.decision === 'ACCEPT') {
+          this.addAddress.emit(this.address.value);
+        } else if (results.decision === 'REJECT') {
+          this.store.dispatch(
+            new fromGlobalMessage.AddMessage({
+              type: GlobalMessageType.MSG_TYPE_ERROR,
+              text: 'Invalid Address'
+            })
+          );
+          this.store.dispatch(
+            new fromCheckoutStore.ClearAddressVerificationResults()
+          );
+        } else if (results.decision === 'REVIEW') {
+          this.openSuggestedAddress(results);
+        }
+      });
   }
 
   onCountryChange(countryIsoCode): void {
@@ -108,16 +139,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.address.value.defaultAddress = !this.address.value.defaultAddress;
   }
 
-  addressSelected(address) {
-    this.addAddress.emit({ address: address, newAddress: false });
+  back() {
+    this.backToAddress.emit();
   }
 
-  addNewAddress() {
-    this.newAddress = true;
-  }
-
-  next() {
-    this.verifyAddress.emit(this.address.value);
+  verfiyAddress() {
+    this.checkoutService.verifyAddress(this.address.value);
   }
 
   openSuggestedAddress(results: any) {
@@ -141,21 +168,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           },
           address
         );
-        this.addAddress.emit({ address: address, newAddress: true });
+        this.addAddress.emit(address);
       }
     });
-  }
-
-  back() {
-    if (this.newAddress) {
-      this.newAddress = false;
-    } else {
-      this.store.dispatch(
-        new fromRouting.Go({
-          path: ['/cart']
-        })
-      );
-    }
   }
 
   required(name: string) {
@@ -175,5 +190,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       new fromCheckoutStore.ClearAddressVerificationResults()
     );
+
+    if (this.addressVerifySub) {
+      this.addressVerifySub.unsubscribe();
+    }
   }
 }

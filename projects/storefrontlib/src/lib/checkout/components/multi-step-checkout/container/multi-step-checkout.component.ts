@@ -3,8 +3,7 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   OnDestroy,
-  ChangeDetectorRef,
-  ViewChild
+  ChangeDetectorRef
 } from '@angular/core';
 import { take, filter, tap } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
@@ -23,7 +22,6 @@ import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
 
 import { Address } from '../../../models/address-model';
-import { AddressFormComponent } from '../address-form/address-form.component';
 
 @Component({
   selector: 'y-multi-step-checkout',
@@ -42,11 +40,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step3Sub: Subscription;
   step4Sub: Subscription;
 
-  @ViewChild(AddressFormComponent) addressForm: AddressFormComponent;
-  addressVerifySub: Subscription;
-
   cart$: Observable<any>;
-  existingAddresses$: Observable<any>;
   existingPaymentMethods$: Observable<any>;
 
   constructor(
@@ -58,26 +52,24 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.cart$ = this.store.select(fromCart.getActiveCart);
+    this.processSteps();
+  }
 
-    this.existingAddresses$ = this.store
-      .select(fromUserStore.getAddresses)
+  processSteps() {
+    this.step4Sub = this.store
+      .select(fromCheckoutStore.getOrderDetails)
       .pipe(
-        tap(addresses => {
-          if (addresses.length === 0) {
-            this.checkoutService.loadUserAddresses();
-          }
-        })
-      );
-
-    this.existingPaymentMethods$ = this.store
-      .select(fromUserStore.getPaymentMethods)
-      .pipe(
-        tap(payments => {
-          if (payments.length === 0) {
-            this.checkoutService.loadUserPaymentMethods();
-          }
-        })
-      );
+        filter(order => Object.keys(order).length !== 0),
+        take(1)
+      )
+      .subscribe(order => {
+        this.checkoutService.orderDetails = order;
+        this.store.dispatch(
+          new fromRouting.Go({
+            path: ['orderConfirmation']
+          })
+        );
+      });
   }
 
   ngOnDestroy() {
@@ -93,9 +85,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     if (this.step4Sub) {
       this.step4Sub.unsubscribe();
     }
-    if (this.addressVerifySub) {
-      this.addressVerifySub.unsubscribe();
-    }
+
     this.store.dispatch(new fromCheckoutStore.ClearCheckoutData());
   }
 
@@ -107,41 +97,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
       this.step = backStep;
     }
-  }
-
-  verifyAddress(address) {
-    this.checkoutService.verifyAddress(address);
-
-    this.addressVerifySub = this.store
-      .select(fromCheckoutStore.getAddressVerificationResults)
-      .pipe(
-        filter(results => Object.keys(results).length !== 0),
-        take(1)
-      )
-      .subscribe(results => {
-        if (results === 'FAIL') {
-          this.store.dispatch(
-            new fromCheckoutStore.ClearAddressVerificationResults()
-          );
-        } else if (results.decision === 'ACCEPT') {
-          this.addAddress({
-            address: address,
-            newAddress: true
-          });
-        } else if (results.decision === 'REJECT') {
-          this.store.dispatch(
-            new fromGlobalMessage.AddMessage({
-              type: GlobalMessageType.MSG_TYPE_ERROR,
-              text: 'Invalid Address'
-            })
-          );
-          this.store.dispatch(
-            new fromCheckoutStore.ClearAddressVerificationResults()
-          );
-        } else if (results.decision === 'REVIEW') {
-          this.addressForm.openSuggestedAddress(results);
-        }
-      });
   }
 
   addAddress(addressObject) {
@@ -219,21 +174,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   placeOrder() {
     this.checkoutService.placeOrder();
-
-    this.step4Sub = this.store
-      .select(fromCheckoutStore.getOrderDetails)
-      .pipe(
-        filter(order => Object.keys(order).length !== 0),
-        take(1)
-      )
-      .subscribe(order => {
-        this.checkoutService.orderDetails = order;
-        this.store.dispatch(
-          new fromRouting.Go({
-            path: ['orderConfirmation']
-          })
-        );
-      });
   }
 
   private refreshCart() {

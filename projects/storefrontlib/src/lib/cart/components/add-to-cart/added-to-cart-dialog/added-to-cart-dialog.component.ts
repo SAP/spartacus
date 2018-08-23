@@ -32,12 +32,12 @@ export class AddedToCartDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cart$ = this.data.cart$;
+    const entryFG = this.form.get('entryForm') as FormGroup;
 
+    this.cart$ = this.data.cart$;
     this.entry$ = this.data.entry$.pipe(
-      tap(entry => {
-        const entryFG = this.form.get('entryForm') as FormGroup;
-        if (entry !== undefined) {
+      tap((entry: any) => {
+        if (entry !== undefined && Object.keys(entry).length !== 0) {
           entryFG.setControl('entryNumber', this.fb.control(entry.entryNumber));
           if (!entryFG.controls['quantity']) {
             // create form control for entry

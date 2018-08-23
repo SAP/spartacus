@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { DeliveryModeFormComponent } from './delivery-mode-form.component';
+import { DeliveryModeFormComponent } from './delivery-mode.component';
 import {
   ReactiveFormsModule,
   FormGroup,
