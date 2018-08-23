@@ -15,7 +15,7 @@ export class HomePage extends AppPage {
   getSplahBanner(): ElementFinder {
     return E2EUtil.getComponentWithinParentByCss(
       this.getPage(),
-      '[data-component-uid="ElectronicsHompageSplashBanner"]'
+      '[data-component-uid="ElectronicsHompageSplashBannerComponent"]'
     );
   }
 }
