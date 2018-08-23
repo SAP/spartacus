@@ -1,3 +1,5 @@
+import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
+import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -17,6 +19,7 @@ import * as fromUserReducer from '../../../user/store/reducers';
 import * as fromSCStore from './../../../site-context/shared/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuth from '../../../auth/store';
+import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 
 class MockConfigService {
   site = {
@@ -48,6 +51,9 @@ describe('HeaderComponent', () => {
         ComponentWrapperComponent,
         CurrencySelectorComponent,
         LanguageSelectorComponent,
+        HeaderSkipperComponent,
+        TertiaryBarComponent,
+        MobileMenuComponent,
         LoginComponent
       ],
       providers: [{ provide: ConfigService, useClass: MockConfigService }]

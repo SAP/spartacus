@@ -32,8 +32,6 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
     this.currentSlot$ = this.store
       .select(fromStore.currentSlotSelectorFactory(this.position))
       .pipe(filter(data => data !== undefined));
-
-    this.currentSlot$.subscribe(data => console.log(this.position + ':', data));
   }
 
   ngOnDestroy() {}

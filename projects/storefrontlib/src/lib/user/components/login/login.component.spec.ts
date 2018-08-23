@@ -1,18 +1,21 @@
-import { ActivatedRoute } from '@angular/router';
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
-
-import * as fromStore from './../../store';
-import * as fromAuthStore from './../../../auth/store';
-import { LoginComponent } from './login.component';
-import { MaterialModule } from '../../../material.module';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PageType } from '../../../routing/models/page-context.model';
 import { MatDialog } from '@angular/material';
-import { UserToken } from './../../../auth/models/token-types.model';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute } from '@angular/router';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
+import { CmsModule } from '../../../cms/cms.module';
+import { MaterialModule } from '../../../material.module';
+import { PageType } from '../../../routing/models/page-context.model';
 import * as fromRouting from '../../../routing/store';
+import { UserToken } from './../../../auth/models/token-types.model';
+import * as fromAuthStore from './../../../auth/store';
+import * as fromStore from './../../store';
+import * as fromCms from '../../../cms/store';
+import { LoginComponent } from './login.component';
+import { EffectsModule } from '@ngrx/effects';
 
 const mockUserToken: UserToken = {
   access_token: 'xxx',
@@ -41,10 +44,13 @@ describe('LoginComponent', () => {
           ...fromStore.getReducers(),
           user: combineReducers(fromStore.getReducers()),
           auth: combineReducers(fromAuthStore.getReducers())
-        })
+        }),
+        EffectsModule.forRoot(fromCms.effects),
+        CmsModule
       ],
       declarations: [LoginComponent],
       providers: [
+        provideMockActions(() => of()),
         {
           provide: ActivatedRoute,
           useValue: {
