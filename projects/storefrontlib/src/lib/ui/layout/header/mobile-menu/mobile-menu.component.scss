@@ -26,51 +26,57 @@ $y-mobile-menu-width: 100% !default;
 $y-mobile-menu-position-left-hidden: -1000vh !default;
 
 .y-mobile-menu {
-    position: $y-mobile-menu-position;
-    @include var-color('background-color', $y-mobile-menu-background-color);
-    @include var-color('color', $y-mobile-menu-color);
+  position: $y-mobile-menu-position;
+  @include var-color('background-color', $y-mobile-menu-background-color);
+  @include var-color('color', $y-mobile-menu-color);
+  display: flex;
+  flex-flow: column;
+
+  &__components {
     display: flex;
-    flex-flow: column;
+    flex-direction: column;
+    @include var-color(
+      'background-color',
+      $y-mobile-menu-components-background-color
+    );
+  }
 
-    &__components {
-        display: flex;
-        flex-direction: column;
-        @include var-color('background-color', $y-mobile-menu-components-background-color);
-    }
+  &__locale {
+    display: flex;
+    justify-content: flex-start;
+    padding: $y-mobile-menu-locale-trbl-padding;
+  }
 
-    &__locale {
-        display: flex;
-        justify-content: flex-start;
-        padding: $y-mobile-menu-locale-trbl-padding;
+  &__control {
+    @include media-breakpoint-up(lg) {
+      display: none;
     }
+    @include media-breakpoint-down(md) {
+      position: $y-mobile-menu-control-position-md;
+      top: $y-mobile-menu-control-position-md-top;
+    }
+  }
 
-    &__control {
-        @include media-breakpoint-up(lg) {
-            display: none;
-        }
-        @include media-breakpoint-down(md) {
-            position: $y-mobile-menu-control-position-md;
-            top: $y-mobile-menu-control-position-md-top;
-        }
+  &__content {
+    @include media-breakpoint-up(lg) {
+      display: none;
     }
-
-    &__content {
-        @include media-breakpoint-up(lg) {
-            display: none;
-        }
-        @include media-breakpoint-down(md) {
-            position: $y-mobile-menu-position;
-            left: $y-mobile-menu-position-left;
-            @include var-color('background-color', $y-mobile-menu-md-content-background-color);
-            transition: $y-mobile-menu-transition;
-            z-index: $y-mobile-menu-z-index;
-            width: $y-mobile-menu-width;
-            &[aria-hidden='true'] {
-                display: none;
-            }
-            &[aria-hidden='false'] {
-                left: $y-mobile-menu-position-left-hidden;
-            }
-        }
+    @include media-breakpoint-down(md) {
+      position: $y-mobile-menu-position;
+      left: $y-mobile-menu-position-left;
+      @include var-color(
+        'background-color',
+        $y-mobile-menu-md-content-background-color
+      );
+      transition: $y-mobile-menu-transition;
+      z-index: $y-mobile-menu-z-index;
+      width: $y-mobile-menu-width;
+      &[aria-hidden='true'] {
+        display: none;
+      }
+      &[aria-hidden='false'] {
+        left: $y-mobile-menu-position-left-hidden;
+      }
     }
+  }
 }
