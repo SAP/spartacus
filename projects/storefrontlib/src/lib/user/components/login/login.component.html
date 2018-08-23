@@ -2,6 +2,7 @@
     <ng-container *ngIf="user?.name">
         <div class="y-login-status__greet">Hi, {{user.name}}</div>
         <!-- <div ngbDropdown class="y-login-status__dropdown">
+
             <a href="#" class="nav-link y-login-status__toggle" id="dropdownBasic1" ngbDropdownToggle>My Account</a>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="y-login-status__menu">
                 <a href="#" class="dropdown-item y-login-status__item">Orders</a>
@@ -13,8 +14,8 @@
                 <a href="#" class="dropdown-item y-login-status__item">Item 7</a>
             </div>
         </div> -->
-        <y-dynamic-slot position="HeaderLinks" class="nav-link y-login-status__toggle y-login-status__dropdown"></y-dynamic-slot>
-        <!-- <a href="#" style="color:white" class="dropdown-item y-login-status__item" (click)="logout()">Sign Out</a> -->
+        <y-dynamic-slot position="HeaderLinks" class="y-login-status__dropdown"></y-dynamic-slot>
+        <a href="#" style="color:var(--y-inverse)" class="dropdown-item y-login-status__item" (click)="logout()">Sign Out</a>
     </ng-container>
 
     <ng-container *ngIf="!user?.name">
