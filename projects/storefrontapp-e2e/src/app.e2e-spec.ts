@@ -48,8 +48,9 @@ describe('workspace-project App', () => {
   });
 
   it('should be able to search and get results in page', () => {
-    // go to search results page
-    searchResults.navigateTo('camera');
+    home.navigateTo();
+
+    home.header.performSearch('camera');
 
     // should go to search results page
     browser.wait(ExpectedConditions.urlContains('/search/camera'));
