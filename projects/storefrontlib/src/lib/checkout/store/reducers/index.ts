@@ -48,7 +48,7 @@ export function clearCheckoutState(
       action = new fromAction.ClearMiscsData();
     } else if (action.type === '[Site-context] Currency Change') {
       action = new fromAction.ClearSupportedDeliveryModes();
-    } else if (action.type === '[User] Logout') {
+    } else if (action.type === '[Auth] Logout') {
       action = new fromAction.ClearCheckoutData();
     }
 

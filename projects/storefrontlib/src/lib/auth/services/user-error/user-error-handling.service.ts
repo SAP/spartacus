@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpRequest, HttpHandler } from '@angular/common/http';
 
 import { Store } from '@ngrx/store';
 import { Observable, combineLatest } from 'rxjs';
 import { tap, filter, take, switchMap } from 'rxjs/operators';
 
-import * as fromUserStore from '../../user/store';
-import * as fromAuthStore from './../../auth/store';
-import { HttpRequest, HttpHandler } from '@angular/common/http';
-import { UserToken } from '../../auth/models/token-types.model';
+import * as fromStore from '../../store';
+
+import { UserToken } from '../../models/token-types.model';
 
 @Injectable()
 export class UserErrorHandlingService {
   readonly LOGIN_URL = '/login';
 
   constructor(
-    private store: Store<fromUserStore.UserState>,
+    private store: Store<fromStore.AuthState>,
     private router: Router
   ) {}
 
@@ -32,20 +32,20 @@ export class UserErrorHandlingService {
 
   public handleExpiredRefreshToken() {
     // Logout user
-    this.store.dispatch(new fromUserStore.Logout());
+    this.store.dispatch(new fromStore.Logout());
   }
 
   private handleExpiredToken(): Observable<any> {
     let oldToken;
     return combineLatest(
-      this.store.select(fromAuthStore.getUserToken),
-      this.store.select(fromAuthStore.getUserTokenLoading)
+      this.store.select(fromStore.getUserToken),
+      this.store.select(fromStore.getUserTokenLoading)
     ).pipe(
       tap(([token, loading]: [UserToken, boolean]) => {
         oldToken = oldToken || token;
         if (token.access_token && token.refresh_token && !loading) {
           this.store.dispatch(
-            new fromAuthStore.RefreshUserToken({
+            new fromStore.RefreshUserToken({
               userId: token.userId,
               refreshToken: token.refresh_token
             })
