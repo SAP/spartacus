@@ -3,7 +3,7 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import * as fromAction from '../actions/find-stores.action';
+import * as fromAction from './../actions/find-stores.action';
 import { OccStoreFinderService } from '../../../occ/store/store-finder.service';
 
 @Injectable()

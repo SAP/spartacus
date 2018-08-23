@@ -5,7 +5,8 @@ import { StoreFinderListComponent } from '../store-finder-list.component';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../../material.module';
-import { StoreDataService, StoreFinderService } from '../../../services';
+import * as fromServices from './../../../services';
+// import { StoreDataService, StoreFinderService } from '../../../services';
 import { StoreFinderPagingComponent } from '../../store-finder-paging/store-finder-paging.component';
 import { StoreFinderSearchComponent } from '../../store-finder-search/store-finder-search.component';
 import { combineReducers, StoreModule } from '@ngrx/store';
@@ -139,7 +140,7 @@ describe('StoreFinderListItemComponent', () => {
         StoreFinderPagingComponent,
         StoreFinderSearchComponent
       ],
-      providers: [StoreFinderService, StoreDataService]
+      providers: [fromServices.services]
     }).compileComponents();
   }));
 

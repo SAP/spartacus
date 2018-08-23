@@ -1,5 +1,5 @@
 import * as fromReducers from './store-finder.reducer';
-import * as fromActions from '../actions/find-stores.action';
+import * as fromActions from './../actions/find-stores.action';
 import { SearchConfig } from '../../models/search-config';
 
 describe('Store Finder Reducer', () => {

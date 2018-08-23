@@ -11,7 +11,7 @@ import { StoreFinderSearchComponent } from '../../../store-finder/components/sto
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../material.module';
 import { CommonModule } from '@angular/common';
-import { StoreFinderService } from '../../../store-finder/services';
+import { StoreFinderService } from '../../../store-finder/services/store-finder.service';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /* tslint:disable */
