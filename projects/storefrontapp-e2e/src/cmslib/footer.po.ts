@@ -1,5 +1,5 @@
-import {by, ElementArrayFinder, ElementFinder} from 'protractor';
-import {E2EUtil} from './../util.po';
+import { by, ElementArrayFinder, ElementFinder } from 'protractor';
+import { E2EUtil } from './../util.po';
 
 export class Footer {
 
