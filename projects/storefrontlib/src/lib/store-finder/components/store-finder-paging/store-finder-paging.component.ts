@@ -19,7 +19,9 @@ export class StoreFinderPagingComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('test');
+  }
 
   next(nextPage: number) {
     this.viewPageEvent.emit(nextPage);

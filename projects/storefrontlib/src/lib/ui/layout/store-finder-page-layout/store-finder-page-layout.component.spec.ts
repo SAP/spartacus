@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StoreFinderPageLayoutComponent } from './store-finder-page-layout.component';
-import * as fromCmsReducer from '../../../cms/store/reducers';
+import * as fromCmsReducer from '../../../cms/store';
 import * as fromStore from '../../../store-finder/store';
 import * as fromRoot from '../../../routing/store';
 import { combineReducers, StoreModule } from '@ngrx/store';

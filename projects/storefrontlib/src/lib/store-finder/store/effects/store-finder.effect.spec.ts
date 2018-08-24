@@ -9,7 +9,7 @@ import { OccStoreFinderService } from '../../../occ/store/store-finder.service';
 import { ConfigService } from '../../../occ/config.service';
 import { SearchConfig } from '../../models/search-config';
 import * as fromEffects from './store-finder.effect';
-import * as fromActions from './../actions/find-stores.action';
+import * as fromActions from '../actions/find-stores.action';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 
 describe('StoreFinder Effects', () => {

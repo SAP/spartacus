@@ -5,7 +5,7 @@ import { MaterialModule } from '../../../material.module';
 import * as fromRoot from '../../../routing/store';
 import { combineReducers, StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
-import * as fromReducers from '../../store/reducers';
+import * as fromReducers from '../../store';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreFinderPagingComponent } from '../store-finder-paging/store-finder-paging.component';
 import { StoreFinderListItemComponent } from './store-finder-list-item/store-finder-list-item.component';
