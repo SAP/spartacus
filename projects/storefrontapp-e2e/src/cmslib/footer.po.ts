@@ -6,7 +6,7 @@ export class Footer {
   readonly footerNavigation: ElementFinder = E2EUtil.getComponentWithinDynamicSlot('Footer', 'y-footer-navigation');
   readonly notice: ElementFinder = this.footerNavigation.element(by.css('.y-footer-navigation__notice'));
   readonly linkSections: ElementArrayFinder = this.footerNavigation.all(by.css('.y-footer-navigation__container'));
-  readonly linkSectionHeader = (sectionNo: number): ElementFinder  => this.linkSections.get(sectionNo).element(by.tagName('h1'));
+  readonly linkSectionHeader = (sectionNo: number): ElementFinder => this.linkSections.get(sectionNo).element(by.tagName('h1'));
 
   async getNoticeText(): Promise<string> {
     return this.notice.getText();

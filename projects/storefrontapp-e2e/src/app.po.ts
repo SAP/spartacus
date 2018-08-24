@@ -6,7 +6,7 @@ export abstract class AppPage {
   readonly header = new Header();
   readonly footer = new Footer();
 
-  getBrowserPageTitle() {
+  async getBrowserPageTitle(): Promise<string> {
     return browser.getTitle();
   }
 }
