@@ -1,7 +1,8 @@
 import {
   Component,
   HostListener,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnDestroy
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
@@ -17,7 +18,8 @@ import { SearchConfig } from '../../product/search-config';
   styleUrls: ['./search-box.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchBoxComponent extends AbstractCmsComponent {
+export class SearchBoxComponent extends AbstractCmsComponent
+  implements OnDestroy {
   static componentName = 'SearchBoxComponent';
 
   searchBoxControl: FormControl = new FormControl();
