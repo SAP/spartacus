@@ -7,7 +7,7 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
-import { tap, takeWhile } from 'rxjs/operators';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'y-product-carousel',

@@ -6,7 +6,7 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { take, filter } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 
 import * as fromCheckoutStore from '../../../store';
