@@ -1,19 +1,12 @@
 import { Header } from './cmslib/header.po';
 import { browser } from 'protractor';
+import {Footer} from './cmslib/footer.po';
 
 export abstract class AppPage {
-  private _header: Header;
-
-  constructor() {
-    this._header = new Header();
-  }
-
-  get header(): Header {
-    return this._header;
-  }
+  readonly header = new Header();
+  readonly footer = new Footer();
 
   getBrowserPageTitle() {
-    const title = browser.getTitle();
-    return title;
+    return browser.getTitle();
   }
 }

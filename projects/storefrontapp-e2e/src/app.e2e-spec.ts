@@ -47,6 +47,22 @@ describe('workspace-project App', () => {
     );
   });
 
+  it('should have footer with footer navigation and notice', async () => {
+    // go to homepage
+    await home.navigateTo();
+    const footer = home.footer;
+
+    expect(await footer.footerNavigation.isPresent()).toEqual(
+      true
+    );
+
+    expect(await footer.getSectionsCount()).toEqual(3);
+    expect(await footer.getSectionHEader(0)).toEqual('Accelerator');
+    expect(await footer.getLinkUrlByTitle('About hybris')).toEqual('http://www.hybris.com/');
+
+    expect(await footer.getNoticeText()).toEqual('© 2016 hybris software');
+  });
+
   it('should be able to search and get results in page', () => {
     home.navigateTo();
 
