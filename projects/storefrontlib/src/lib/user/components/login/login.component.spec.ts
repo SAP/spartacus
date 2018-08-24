@@ -1,21 +1,26 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { CmsModule } from '../../../cms/cms.module';
+import {
+  ComponentWrapperComponent,
+  DynamicSlotComponent
+} from '../../../cms/components';
+import { ConfigService } from '../../../cms/config.service';
 import { MaterialModule } from '../../../material.module';
 import { PageType } from '../../../routing/models/page-context.model';
 import * as fromRouting from '../../../routing/store';
 import { UserToken } from './../../../auth/models/token-types.model';
 import * as fromAuthStore from './../../../auth/store';
 import * as fromStore from './../../store';
-import * as fromCms from '../../../cms/store';
+import * as fromCms from './../../../cms/store';
 import { LoginComponent } from './login.component';
-import { EffectsModule } from '@ngrx/effects';
 
 const mockUserToken: UserToken = {
   access_token: 'xxx',
@@ -26,29 +31,55 @@ const mockUserToken: UserToken = {
   userId: 'xxx'
 };
 
+const mockUserDetails: any = {
+  displayUid: 'Display Uid',
+  firstName: 'First',
+  lastName: 'Last',
+  name: 'First Last',
+  type: 'Mock Type',
+  uid: 'UID'
+};
+
+class MockConfigService {
+  server = {
+    baseUrl: 'https://localhost:9002',
+    occPrefix: '/rest/v2/'
+  };
+
+  site = {
+    baseSite: 'electronics',
+    language: '',
+    currency: ''
+  };
+}
+
 const cntx = { id: 'testPageId', type: PageType.CONTENT_PAGE };
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let store: Store<fromStore.UserState>;
-  let dialog: MatDialog;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         MaterialModule,
         BrowserAnimationsModule,
+        RouterTestingModule,
         FormsModule,
         StoreModule.forRoot({
           ...fromStore.getReducers(),
           user: combineReducers(fromStore.getReducers()),
-          auth: combineReducers(fromAuthStore.getReducers())
+          auth: combineReducers(fromAuthStore.getReducers()),
+          cms: combineReducers(fromCms.getReducers())
         }),
-        EffectsModule.forRoot(fromCms.effects),
-        CmsModule
+        HttpClientTestingModule
       ],
-      declarations: [LoginComponent],
+      declarations: [
+        ComponentWrapperComponent,
+        DynamicSlotComponent,
+        LoginComponent
+      ],
       providers: [
         provideMockActions(() => of()),
         {
@@ -62,7 +93,8 @@ describe('LoginComponent', () => {
               }
             }
           }
-        }
+        },
+        { provide: ConfigService, useClass: MockConfigService }
       ]
     }).compileComponents();
   }));
@@ -73,9 +105,7 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
     store = TestBed.get(Store);
 
-    dialog = TestBed.get(MatDialog);
     spyOn(store, 'dispatch').and.callThrough();
-    spyOn(dialog, 'open').and.callThrough();
   });
 
   it('should be created', () => {
@@ -116,5 +146,28 @@ describe('LoginComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Login());
     component.isLogin = true;
   });
-  // Add some UI unit tests once we remove material
+
+  describe('UI tests', () => {
+    it('should contain the dynamic slot: HeaderLinks', () => {
+      component.ngOnInit();
+      component.user$ = of(mockUserDetails);
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.query(
+          By.css('y-dynamic-slot[position="HeaderLinks"]')
+        )
+      ).not.toBeNull();
+    });
+
+    it('should display the correct message depending on whether the user is logged on or not', () => {
+      component.ngOnInit();
+      component.user$ = of({});
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.query(By.css('a[routerLink="login"'))
+      ).not.toBeNull();
+    });
+  });
 });

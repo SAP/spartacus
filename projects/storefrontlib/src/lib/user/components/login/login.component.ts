@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -18,11 +13,10 @@ import * as fromRouting from '../../../routing/store';
 @Component({
   selector: 'y-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  user$: Observable<any> = this.store.select(fromStore.getDetails);
+  user$: Observable<any>;
   isLogin = false;
 
   subscription: Subscription;
@@ -33,6 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.user$ = this.store.select(fromStore.getDetails);
     this.subscription = this.store
       .select(fromAuthStore.getUserToken)
       .subscribe((token: UserToken) => {

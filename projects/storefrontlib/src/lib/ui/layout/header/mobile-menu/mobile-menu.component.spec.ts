@@ -16,6 +16,7 @@ import { CurrencySelectorComponent } from './../../../../site-context/currency-s
 import { LanguageSelectorComponent } from './../../../../site-context/language-selector/language-selector.component';
 import { LoginModule } from './../../../../user/components/login/login.module';
 import { MobileMenuComponent } from './mobile-menu.component';
+import { By } from '@angular/platform-browser';
 
 describe('MobileMenuComponent', () => {
   let component: MobileMenuComponent;
@@ -60,5 +61,36 @@ describe('MobileMenuComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('UI tests', () => {
+    it('should contain the hamburger', () => {
+      expect(
+        fixture.debugElement.query(By.css('button.hamburger'))
+      ).not.toBeNull();
+    });
+
+    it('should contain the login status component', () => {
+      expect(fixture.debugElement.query(By.css('y-login'))).not.toBeNull();
+    });
+
+    it('should contain the Site Context components', () => {
+      expect(
+        fixture.debugElement.query(By.css('y-language-selector'))
+      ).not.toBeNull();
+      expect(
+        fixture.debugElement.query(By.css('y-currency-selector'))
+      ).not.toBeNull();
+    });
+
+    describe('Dynamic slots', () => {
+      it('should contain the NavigationBar', () => {
+        expect(
+          fixture.debugElement.query(
+            By.css('y-dynamic-slot[position="NavigationBar"]')
+          )
+        ).not.toBeNull();
+      });
+    });
   });
 });
