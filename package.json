@@ -6,8 +6,8 @@
   },
   "scripts": {
     "ng": "ng",
-    "prettify-check": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss}\"",
-    "prettify": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss}\" --write",
+    "prettier": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss}\"",
+    "prettier-fix": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss}\" --write",
     "lint": "ng lint",
     "start": "ng serve",
     "build": "ng build",

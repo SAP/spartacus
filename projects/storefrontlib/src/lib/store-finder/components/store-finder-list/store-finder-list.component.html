@@ -1,0 +1,12 @@
+<ng-container *ngIf="locations$ | async as locations">
+  <div>
+    <ol class="store-address-list">
+      <li *ngFor="let location of locations?.stores;">
+        <y-store-finder-list-item [location]="location"></y-store-finder-list-item>
+      </li>
+    </ol>
+  </div>
+  <div *ngIf="locations?.pagination">
+    <y-store-finder-paging [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-store-finder-paging>
+  </div>
+</ng-container>

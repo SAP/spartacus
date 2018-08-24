@@ -1,10 +1,4 @@
 <ng-container>
-  <div class="wrapper">
-    <mat-form-field>
-    <input matInput placeholder="Enter Postcode, Town or Address"/>
-    </mat-form-field><br/>
-    <button mat-raised-button color="primary">Find Store</button><br/><br/>
-    <a href="" mat-button color="primary"> Use My Location</a> |
-    <a href="" mat-button color="primary"> View All Stores</a><br/>
-  </div>
+    <y-store-finder-search (persistQuery)="persistQuery($event)"></y-store-finder-search>
+    <y-store-finder-list [query]="query"></y-store-finder-list>
 </ng-container>

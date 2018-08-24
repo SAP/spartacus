@@ -1,0 +1,33 @@
+import * as fromReducers from './store-finder.reducer';
+import * as fromActions from '../actions/find-stores.action';
+import { SearchConfig } from '../../models/search-config';
+
+describe('Store Finder Reducer', () => {
+  describe('Undefined action', () => {
+    it('should return the default state', () => {
+      const { initialState } = fromReducers;
+      const action = {} as any;
+      const state = fromReducers.reducer(undefined, action);
+
+      expect(state).toBe(initialState);
+    });
+  });
+
+  describe('FIND_STORES_SUCCESS action', () => {
+    it('should populate results after loading', () => {
+      const searchConfig: SearchConfig = { pageSize: 10 };
+      const results = { stores: [{ name: 'test' }] };
+      const { initialState } = fromReducers;
+      const loadAction = new fromActions.FindStores({
+        queryText: 'test',
+        searchConfig
+      });
+
+      const loadingState = fromReducers.reducer(initialState, loadAction);
+      const resultAction = new fromActions.FindStoresSuccess(results);
+      const state = fromReducers.reducer(loadingState, resultAction);
+
+      expect(state.entities).toEqual(results);
+    });
+  });
+});
