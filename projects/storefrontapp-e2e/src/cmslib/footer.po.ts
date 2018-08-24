@@ -16,7 +16,7 @@ export class Footer {
     return this.linkSections.count();
   }
 
-  async getSectionHEader(sectionNo: number) {
+  async getSectionHeader(sectionNo: number) {
     return this.linkSectionHeader(sectionNo).getText();
   }
 

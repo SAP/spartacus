@@ -57,7 +57,7 @@ describe('workspace-project App', () => {
     );
 
     expect(await footer.getSectionsCount()).toEqual(3);
-    expect(await footer.getSectionHEader(0)).toEqual('Accelerator');
+    expect(await footer.getSectionHeader(0)).toEqual('Accelerator');
     expect(await footer.getLinkUrlByTitle('About hybris')).toEqual('http://www.hybris.com/');
 
     expect(await footer.getNoticeText()).toEqual('© 2016 hybris software');
