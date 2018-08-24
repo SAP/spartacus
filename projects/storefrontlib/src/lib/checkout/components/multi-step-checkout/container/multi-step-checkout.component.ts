@@ -55,8 +55,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.step1Sub = this.store
       .select(fromCheckoutStore.getDeliveryAddress)
       .pipe(
-        filter(deliveryAddress => Object.keys(deliveryAddress).length !== 0),
-        take(1)
+        filter(
+          deliveryAddress =>
+            Object.keys(deliveryAddress).length !== 0 && this.step === 1
+        )
       )
       .subscribe(deliveryAddress => {
         this.step = 2;
@@ -68,10 +70,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     // step2: select delivery mode
     this.step2Sub = this.store
       .select(fromCheckoutStore.getSelectedCode)
-      .pipe(
-        filter(selected => selected !== ''),
-        take(1)
-      )
+      .pipe(filter(selected => selected !== '' && this.step === 2))
       .subscribe(() => {
         this.step = 3;
         this.refreshCart();
@@ -82,8 +81,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.step3Sub = this.store
       .select(fromCheckoutStore.getPaymentDetails)
       .pipe(
-        filter(paymentInfo => Object.keys(paymentInfo).length !== 0),
-        take(1)
+        filter(
+          paymentInfo =>
+            Object.keys(paymentInfo).length !== 0 && this.step === 3
+        )
       )
       .subscribe(paymentInfo => {
         if (!paymentInfo['hasError']) {
@@ -109,10 +110,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     // step4: place order
     this.step4Sub = this.store
       .select(fromCheckoutStore.getOrderDetails)
-      .pipe(
-        filter(order => Object.keys(order).length !== 0),
-        take(1)
-      )
+      .pipe(filter(order => Object.keys(order).length !== 0 && this.step === 4))
       .subscribe(order => {
         this.checkoutService.orderDetails = order;
         this.store.dispatch(
