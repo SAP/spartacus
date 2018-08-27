@@ -1,7 +1,16 @@
 import { E2EUtil } from './../util.po';
-import { ElementFinder } from 'protractor';
+import { by, element, ElementFinder } from 'protractor';
 export class AddedToCartModal {
   readonly YMODAL = 'y-added-to-cart-dialog';
+
+  readonly modal: ElementFinder = element(by.tagName(this.YMODAL));
+  readonly proceedToCheckoutButton: ElementFinder = this.modal.element(
+    by.css('button[routerLink="/checkout"]')
+  );
+
+  async waitForReady() {
+    await E2EUtil.wait4VisibleElement(this.modal);
+  }
 
   getModal(): ElementFinder {
     return E2EUtil.getComponent(this.YMODAL);

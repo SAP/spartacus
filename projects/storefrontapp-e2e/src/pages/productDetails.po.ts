@@ -1,23 +1,24 @@
 import { E2EUtil } from './../util.po';
-import { browser, ElementFinder, by } from 'protractor';
+import { browser, ElementFinder, by, element } from 'protractor';
 import { AppPage } from '../app.po';
 
 export class ProductDetailsPage extends AppPage {
   readonly YPAGE = 'y-product-page';
 
-  getPage(): ElementFinder {
-    return E2EUtil.getComponent(this.YPAGE);
-  }
+  readonly page: ElementFinder = element(by.tagName(this.YPAGE));
+  readonly addToCartComponent: ElementFinder = this.page.element(
+    by.tagName('y-add-to-cart')
+  );
+  readonly addToCartButton: ElementFinder = this.addToCartComponent.element(
+    by.tagName('button')
+  );
 
   getAddToCartComponent(): ElementFinder {
-    return E2EUtil.getComponentWithinParent(this.getPage(), 'y-add-to-cart');
+    return E2EUtil.getComponentWithinParent(this.page, 'y-add-to-cart');
   }
 
   getProductSummaryComponent(): ElementFinder {
-    return E2EUtil.getComponentWithinParent(
-      this.getPage(),
-      'y-product-summary'
-    );
+    return E2EUtil.getComponentWithinParent(this.page, 'y-product-summary');
   }
 
   getOutOfStockDiv(): ElementFinder {
@@ -30,8 +31,13 @@ export class ProductDetailsPage extends AppPage {
     return browser.get('/product/' + productId);
   }
 
+  async waitForReady() {
+    // TODO: Some product details page probably doens't have addToCart button, so it's not a good check
+    await E2EUtil.wait4VisibleElement(this.page);
+  }
+
   addToCart() {
-    E2EUtil.getComponentWithinParent(
+    return E2EUtil.getComponentWithinParent(
       this.getAddToCartComponent(),
       'button'
     ).click();

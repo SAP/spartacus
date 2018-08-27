@@ -172,7 +172,7 @@ describe('workspace-project App', () => {
       .first();
     suggestionSpan.click();
     // wait until product details page is loaded
-    E2EUtil.wait4VisibleElement(productDetails.getPage());
+    E2EUtil.wait4VisibleElement(productDetails.page);
     productDetails.addToCart();
     browser.waitForAngular();
     // quantity should change
@@ -228,12 +228,9 @@ describe('workspace-project App', () => {
   });
 
   it('should be unable to add out of stock products to cart', () => {
-    // go to homepage
-    home.navigateTo();
-
     productDetails.navigateTo('358639');
     // wait until product details page is loaded
-    E2EUtil.wait4VisibleElement(productDetails.getPage());
+    E2EUtil.wait4VisibleElement(productDetails.page);
 
     // there should be no add to cart button, and should be an 'Out of stock' message instead
     expect(productDetails.getAddToCartComponent().isPresent()).toBeFalsy();

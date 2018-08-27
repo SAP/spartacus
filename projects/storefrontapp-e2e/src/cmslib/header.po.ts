@@ -1,6 +1,23 @@
-import { by, ElementFinder } from 'protractor';
+import { by, element, ElementFinder } from 'protractor';
 import { E2EUtil } from './../util.po';
 export class Header {
+  readonly header: ElementFinder = element(by.tagName('y-header'));
+  readonly miniCartButton: ElementFinder = this.header.element(
+    by.tagName('y-mini-cart')
+  );
+  readonly loginComponent: ElementFinder = this.header.element(
+    by.tagName('y-login')
+  );
+  readonly logoutButton: ElementFinder = element(
+    by.cssContainingText('.cdk-overlay-container button', 'Logout')
+  );
+  readonly myAccountButton: ElementFinder = this.header.element(
+    by.cssContainingText('a', 'My Account')
+  );
+  readonly orderHistoryButton: ElementFinder = element(
+    by.cssContainingText('.cdk-overlay-container a', 'Order History')
+  );
+
   getSiteLogoComponent(): ElementFinder {
     return E2EUtil.getComponentWithinDynamicSlot('SiteLogo', 'y-banner');
   }
@@ -39,5 +56,11 @@ export class Header {
       by.css('input[placeholder="Search Box"]')
     );
     E2EUtil.fillInput(searchInput, searchKey, skipEnter);
+  }
+
+  async isLoggedIn(): Promise<boolean> {
+    return !(await this.getLoginIconComponent()
+      .element(by.cssContainingText('button mat-icon', 'person'))
+      .isPresent());
   }
 }
