@@ -19,27 +19,33 @@ export function reducer(
   switch (action.type) {
     case fromAction.LOAD_CART_SUCCESS:
     case fromAction.CREATE_CART_SUCCESS: {
-      let content = action.payload;
+      const content = { ...action.payload };
       let entries = {};
       if (content.entries) {
         entries = content.entries.reduce(
           (entryMap: { [code: string]: any }, entry: any) => {
             return {
               ...entryMap,
-              [entry.product.code]: entry
+              /*
+              If we refresh the page from cart details page, 2 load cart
+              Actions gets dispatched. One is non-detail, and the second is detailed.
+              In the case where the detailed once get resolved first, we merge the existing
+              data with the new data from the response (to not delete existing detailed data).
+              */
+              [entry.product.code]: state.entries[entry.product.code]
+                ? {
+                    ...state.entries[entry.product.code],
+                    ...entry
+                  }
+                : entry
             };
           },
           {
             ...entries
           }
         );
-
-        content = {
-          ...content,
-          entries: undefined
-        };
+        delete content['entries'];
       }
-
       return {
         ...state,
         content,

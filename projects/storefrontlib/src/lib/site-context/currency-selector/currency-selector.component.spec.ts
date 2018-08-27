@@ -29,29 +29,27 @@ describe('CurrencySelectorComponent', () => {
   let store: Store<fromStore.SiteContextState>;
   let el: DebugElement;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            siteContext: combineReducers(fromStore.reducers)
-          })
-        ],
-        declarations: [CurrencySelectorComponent],
-        providers: [
-          {
-            provide: ConfigService,
-            useClass: MockConfigService
-          }
-        ]
-      })
-        .overrideComponent(CurrencySelectorComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default }
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRoot.getReducers(),
+          siteContext: combineReducers(fromStore.getReducers())
         })
-        .compileComponents();
+      ],
+      declarations: [CurrencySelectorComponent],
+      providers: [
+        {
+          provide: ConfigService,
+          useClass: MockConfigService
+        }
+      ]
     })
-  );
+      .overrideComponent(CurrencySelectorComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default }
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CurrencySelectorComponent);

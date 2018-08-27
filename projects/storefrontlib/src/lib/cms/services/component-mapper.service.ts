@@ -11,25 +11,25 @@ export class ComponentMapperService {
   ) {}
 
   /**
-     * @desc
-     * returns a web component for the CMS typecode.
-     *
-     * The mapping of CMS components to web componetns requires a mapping.
-     * This is configurable when the module is loaded.
-     *
-     * For example:
-     *
-     *  {
-     *      'CMSLinkComponent': 'LinkComponent',
-     *      'SimpleResponsiveBannerComponent': 'SimpleResponsiveBannerComponent',
-     *      [etc.]
-     *  }
-     *
-     * The type codes are dynamic since they depend on the implementation.
-     * Customer will add, extend or ingore standard components.
-     *
-     * @param typeCode the component type
-     */
+   * @desc
+   * returns a web component for the CMS typecode.
+   *
+   * The mapping of CMS components to web componetns requires a mapping.
+   * This is configurable when the module is loaded.
+   *
+   * For example:
+   *
+   *  {
+   *      'CMSLinkComponent': 'LinkComponent',
+   *      'SimpleResponsiveBannerComponent': 'SimpleResponsiveBannerComponent',
+   *      [etc.]
+   *  }
+   *
+   * The type codes are dynamic since they depend on the implementation.
+   * Customer will add, extend or ingore standard components.
+   *
+   * @param typeCode the component type
+   */
   protected getType(typeCode: string) {
     return this.config.cmsComponentMapping[typeCode];
   }
@@ -53,8 +53,8 @@ export class ComponentMapperService {
     const factories = Array.from(
       this.componentFactoryResolver['_factories'].keys()
     );
-    const factoryClass = <Type<any>>factories.find(
-      (x: any) => x.componentName === alias
+    const factoryClass = <Type<any>>(
+      factories.find((x: any) => x.componentName === alias)
     );
 
     return factoryClass;

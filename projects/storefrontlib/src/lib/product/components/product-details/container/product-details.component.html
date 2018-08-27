@@ -9,12 +9,7 @@
         </mat-card-title>
         <div>
             <y-star-rating [rating]="product?.averageRating"></y-star-rating>
-            <button mat-button (click)="goToReviews()">Reviews</button>
-            <button mat-button (click)="writeReview()">Write a review</button>
-            <!--
-            <button mat-button (click)=" onClick ">Reviews</button>
-            <button mat-button (click)="onClick ">Write a review</button>
-    -->
+            <button mat-button (click)="goToReviews()">{{product.numberOfReviews}} Reviews</button>
         </div>
 
         <mat-card-content>
@@ -31,7 +26,8 @@
             <y-dynamic-slot flex position="UpSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
             <div class="add-to-cart-container">
                 <y-add-to-cart *ngIf="product.stock.stockLevelStatus !=='outOfStock'" [quantity]="addAmountField.value" [productCode]="product?.code"></y-add-to-cart>
-                <input type="number" value="1" step="1" min="1" #addAmountField />
+                <y-item-counter [min]="1" [max]="product.stock.stockLevel" #addAmountField></y-item-counter>
+                <span> Stock: {{product.stock.stockLevel}} </span>
             </div>
 
             <mat-tab-group [(selectedIndex)]="selectedTabIndex">

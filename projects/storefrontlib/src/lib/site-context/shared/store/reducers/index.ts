@@ -1,3 +1,4 @@
+import { InjectionToken, Provider } from '@angular/core';
 import {
   ActionReducerMap,
   createFeatureSelector,
@@ -12,9 +13,22 @@ export interface SiteContextState {
   currencies: fromCurrencies.CurrenciesState;
 }
 
-export const reducers: ActionReducerMap<SiteContextState> = {
-  languages: fromLanguages.reducer,
-  currencies: fromCurrencies.reducer
+export function getReducers(): ActionReducerMap<SiteContextState> {
+  return {
+    languages: fromLanguages.reducer,
+    currencies: fromCurrencies.reducer
+  };
+}
+
+export const reducerToken: InjectionToken<
+  ActionReducerMap<SiteContextState>
+> = new InjectionToken<ActionReducerMap<SiteContextState>>(
+  'SiteContextReducers'
+);
+
+export const reducerProvider: Provider = {
+  provide: reducerToken,
+  useFactory: getReducers
 };
 
 export const getSiteContextState: MemoizedSelector<

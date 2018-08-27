@@ -1,0 +1,11 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+$y-footer-background-color: 'dark' !default;
+$y-footer-color: 'inverse' !default;
+
+.y-footer {
+  @include var-color('background-color', $y-footer-background-color);
+  @include var-color('color', $y-footer-color);
+}

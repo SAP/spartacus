@@ -31,6 +31,7 @@ export abstract class AbstractCmsComponent implements OnDestroy {
           this.store.dispatch(new fromStore.LoadComponent(this.uid));
         } else if (componentData != null) {
           this.component = componentData;
+          this.uid = componentData.uid;
           this.fetchData();
         }
       });

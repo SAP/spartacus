@@ -1,21 +1,20 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID } from '@angular/core';
 
 import { ConfigService } from './config.service';
+import { AppRoutingModule } from './app-routing.module';
 
-import { OccModule } from 'storefrontlib';
-import { UiModule } from 'storefrontlib';
-import { CmsLibModule } from 'storefrontlib';
-import { UiFrameworkModule } from 'storefrontlib';
-
-import { CmsModule } from 'storefrontlib';
-import { RoutingModule } from 'storefrontlib';
-import { SiteContextModule } from 'storefrontlib';
-import { ProductModule } from 'storefrontlib';
-
-import { appRoutes } from './app.routes';
+import {
+  AuthModule,
+  OccModule,
+  UiModule,
+  CmsLibModule,
+  CmsModule,
+  RoutingModule,
+  UiFrameworkModule,
+  SiteContextModule
+} from 'storefrontlib';
 
 // bootstrap
 import { AppComponent } from './app.component';
@@ -30,11 +29,14 @@ import { environment } from '../environments/environment';
 @NgModule({
   imports: [
     BrowserModule,
+    AuthModule.forRoot(ConfigService),
+    RoutingModule.forRoot(ConfigService),
     OccModule.forRoot(ConfigService),
-    CmsLibModule,
-    UiModule,
-    UiFrameworkModule,
+    SiteContextModule.forRoot(ConfigService),
 
+    AppRoutingModule,
+
+    CmsLibModule,
     CmsModule.forRoot(ConfigService),
     SiteContextModule.forRoot(ConfigService),
     CheckoutModule,
@@ -45,6 +47,8 @@ import { environment } from '../environments/environment';
     CartModule,
     GlobalMessageModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+    UiModule,
+    UiFrameworkModule
   ],
 
   providers: [
@@ -58,4 +62,4 @@ import { environment } from '../environments/environment';
   declarations: [AppComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

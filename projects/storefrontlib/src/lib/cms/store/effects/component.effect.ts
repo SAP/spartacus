@@ -15,7 +15,7 @@ import { Store } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
 
 import * as componentActions from '../actions/component.action';
-import * as fromServices from '../../services';
+import { OccCmsService } from '../../services/occ-cms.service';
 
 @Injectable()
 export class ComponentEffects {
@@ -25,29 +25,25 @@ export class ComponentEffects {
     .pipe(
       map((action: componentActions.LoadComponent) => action.payload),
       switchMap(uid => {
-        return this.routingStore
-          .select(fromRouting.getRouterState)
-          .pipe(
-            filter(routerState => routerState !== undefined),
-            map(routerState => routerState.state.context),
-            take(1),
-            mergeMap(pageContext =>
-              this.occCmsService
-                .loadComponent(uid, pageContext)
-                .pipe(
-                  map(data => new componentActions.LoadComponentSuccess(data)),
-                  catchError(error =>
-                    of(new componentActions.LoadComponentFail(error))
-                  )
-                )
+        return this.routingStore.select(fromRouting.getRouterState).pipe(
+          filter(routerState => routerState !== undefined),
+          map(routerState => routerState.state.context),
+          take(1),
+          mergeMap(pageContext =>
+            this.occCmsService.loadComponent(uid, pageContext).pipe(
+              map(data => new componentActions.LoadComponentSuccess(data)),
+              catchError(error =>
+                of(new componentActions.LoadComponentFail(error))
+              )
             )
-          );
+          )
+        );
       })
     );
 
   constructor(
     private actions$: Actions,
-    private occCmsService: fromServices.OccCmsService,
+    private occCmsService: OccCmsService,
     private routingStore: Store<fromRouting.State>
   ) {}
 }

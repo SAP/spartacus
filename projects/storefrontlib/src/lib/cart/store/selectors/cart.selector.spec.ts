@@ -42,8 +42,8 @@ describe('Cart selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromReducers.reducers)
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromReducers.getReducers())
         })
       ]
     });

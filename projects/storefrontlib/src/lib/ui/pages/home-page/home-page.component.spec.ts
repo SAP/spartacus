@@ -14,24 +14,22 @@ describe('HomePageComponent', () => {
   let component: HomePageComponent;
   let fixture: ComponentFixture<HomePageComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            cms: combineReducers(fromCmsReducer.reducers)
-          })
-        ],
-        declarations: [
-          HomePageComponent,
-          LandingPageLayoutComponent,
-          DynamicSlotComponent,
-          ComponentWrapperComponent
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers())
+        })
+      ],
+      declarations: [
+        HomePageComponent,
+        LandingPageLayoutComponent,
+        DynamicSlotComponent,
+        ComponentWrapperComponent
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomePageComponent);

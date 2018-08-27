@@ -2,6 +2,7 @@ import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as fromUserStore from '../../../../user/store';
+import * as fromAuthStore from './../../../../auth/store';
 import { Store } from '@ngrx/store';
 
 import * as fromRouting from '../../../../routing/store';
@@ -22,7 +23,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userDataSubscription = this.store
-      .select(fromUserStore.getUserToken)
+      .select(fromAuthStore.getUserToken)
       .pipe(
         tap(userData => {
           this.user_id = userData.userId;

@@ -1,34 +1,33 @@
 <ng-container *ngIf="cart$ | async as cart">
-    <div *ngIf="cart.totalItems">
-        <div class="headings">
-            <h2>Shopping Cart</h2>
-            <h4>ID {{cart.code}}</h4>
-        </div>
-
-        <div class="sub-heading">
-            Cart total ({{cart.deliveryItemsQuantity}} items): {{cart.totalPrice?.formattedValue}}
-        </div>
-
-        <ng-container *ngIf="entries$ | async as entries">
-            <ul class="item__list item__list__cart" [formGroup]="form">
-                <table formArrayName="entryArry">
-                    <tr *ngFor="let entry of entries; let i = index;">
-                        <td>
-                            <y-cart-item [formGroupName]="i" [entry]="entry" [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)" [appliedPromotions]="getAppliedPromotionForEntry(cart, entry)"
-                                (remove)="removeEntry($event, i)" (update)="updateEntry($event, i)">
-                            </y-cart-item>
-                        </td>
-                    </tr>
-
-                </table>
-            </ul>
-
-            <div class="order-summary">
-                <y-order-summary [cart]="cart"></y-order-summary>
-                <div>
-                    <button routerLink="/checkout" mat-raised-button color="accent" *ngIf="entries.length">Proceed to Checkout</button>
-                </div>
-            </div>
-        </ng-container>
+  <div *ngIf="cart.totalItems">
+    <div class="headings">
+      <h2>Shopping Cart</h2>
+      <h4>ID {{cart.code}}</h4>
     </div>
+
+    <div class="sub-heading">
+      Cart total ({{cart.deliveryItemsQuantity}} items): {{cart.totalPrice?.formattedValue}}
+    </div>
+
+    <ng-container *ngIf="entries$ | async as entries">
+      <ul class="item__list item__list__cart" [formGroup]="form">
+        <table>
+          <tr *ngFor="let entry of entries">
+            <td>
+              <y-cart-item [formGroupName]="entry.product.code" [entry]="entry" [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)"
+                [appliedPromotions]="getAppliedPromotionForEntry(cart, entry)" (remove)="removeEntry($event)" (update)="updateEntry($event)">
+              </y-cart-item>
+            </td>
+          </tr>
+        </table>
+      </ul>
+
+      <div class="order-summary">
+        <y-order-summary [cart]="cart"></y-order-summary>
+        <div>
+          <button routerLink="/checkout" mat-raised-button color="accent" *ngIf="entries.length">Proceed to Checkout</button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
 </ng-container>
