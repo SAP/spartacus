@@ -8,5 +8,8 @@
   </div>
   <div *ngIf="locations?.pagination">
     <y-store-finder-paging [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-store-finder-paging>
+    <div *ngIf="locations.pagination.totalPages === 0" fxFlex>
+      No Stores Found.
+    </div>
   </div>
 </ng-container>

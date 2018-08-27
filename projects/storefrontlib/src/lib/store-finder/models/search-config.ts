@@ -1,4 +1,4 @@
-export class SearchConfig {
+export interface SearchConfig {
   pageSize?: number;
   currentPage?: number;
   sort?: string;
