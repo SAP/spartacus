@@ -4,7 +4,12 @@ import {
   HttpClientTestingModule
 } from '@angular/common/http/testing';
 
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  HttpParams,
+  HttpHeaders
+} from '@angular/common/http';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
@@ -45,10 +50,15 @@ describe('HttpErrorInterceptor', () => {
 
   it(`should catch 400 error`, inject([HttpClient], (http: HttpClient) => {
     const url = OAUTH_ENDPOINT;
-    const creds = 'refresh_token=some_token&grant_type=password';
+    const params = new HttpParams()
+      .set('refresh_token', 'some_token')
+      .set('grant_type', 'password'); // authorization_code, client_credentials, password
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
 
     http
-      .post(url, creds, {})
+      .post(url, params, { headers })
       .pipe(catchError((error: any) => throwError(error)))
       .subscribe(result => {}, error => (this.error = error));
 

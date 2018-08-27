@@ -73,8 +73,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
                 errResponse.url.indexOf(OAUTH_ENDPOINT) !== -1 &&
                 errResponse.error.error === 'invalid_grant'
               ) {
-                const params = request.body.split('&');
-                if (params.indexOf('grant_type=refresh_token')) {
+                if (request.body.get('grant_type') === 'refresh_token') {
                   // refresh token fail, force user logout
                   this.store.dispatch(new fromStore.Logout());
                 }
