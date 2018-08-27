@@ -1,47 +1,58 @@
-<li class="item__list--item">
-  <!-- product image -->
-  <div class="item__image">
-    <a [routerLink]="['/product', entry.product.code]">
-      <y-picture [imageContainer]="entry.product.images?.PRIMARY" imageFormat="thumbnail"></y-picture>
-    </a>
-  </div>
-
-  <!-- product name, code, promotions -->
-  <div class="item__info">
-    <a *ngIf="!disableProductLink; else disabledProductLink" [routerLink]="['/product', entry.product.code]">
-      <span class="item__name">{{entry.product.name}}</span>
-    </a>
-    <ng-template #disabledProductLink>
-      <span class="item__name">{{entry.product.name}}</span>
-    </ng-template>
-    <div class="item__code">ID: {{entry.product.code}}</div>
-
-    <!-- availability-->
-    <div class="item__stock">
+<td class="y-cart-item">
+  <a [routerLink]="['/product', entry.product.code]">
+    <y-picture [imageContainer]="entry.product.images?.PRIMARY" imageFormat="thumbnail"></y-picture>
+  </a>
+</td>
+<td class="y-cart-item">
+  <div class="y-cart-item__description-list" role="list">
+    <div class="y-cart-item__item-title" role="listitem">
+      <a *ngIf="!disableProductLink; else disabledProductLink" [routerLink]="['/product', entry.product.code]">
+        <span class="item__name">{{entry.product.name}}</span>
+      </a>
+      <ng-template #disabledProductLink>
+        <span class="item__name">{{entry.product.name}}</span>
+      </ng-template>
+    </div>
+    <div class="y-cart-item__item-id" role="listitem">ID {{entry.product.code}}</div>
+    <div class="y-cart-item__item-size" role="listitem">
+      <strong>Size</strong> Medium</div>
+    <div class="y-cart-item__item-colour" role="listitem">
+      <strong>Color</strong> Black </div>
+    <div class="y-cart-item__item-width" role="listitem">
+      <strong>Width</strong> Wide</div>
+    <div class="y-cart-item__item-promo" role="listitem" *ngFor="let promotion of potentialPromotions">
+        {{ promotion.description}}
+    </div>
+    <div class="y-cart-item__item-unavailable" role="listitem">
       {{ entry.product.stock?.stockLevelStatus | uppercase }}
     </div>
-
-    <!-- promotion -->
-    <div class="promo" *ngFor="let promotion of potentialPromotions">
-      {{ promotion.description}}
-    </div>
   </div>
-
-  <!-- price -->
-  <div class="item__price">
-    Price:
-    <strong>{{entry.basePrice?.formattedValue}}</strong>
+</td>
+<td class="y-cart-item y-cart-item--center">
+  <div class="table--mobile">Item price</div>
+  <div class="y-cart-item__price" aria-label="item price">
+    {{entry.basePrice?.formattedValue}}
   </div>
+</td>
+<td [formGroup]="parent" class="y-cart-item y-cart-item--center">
+  <y-item-counter [step]="1" [min]="1" [max]="entry.product.stock?.stockLevel || 1000" [async]="true" (update)="updateEntry($event)"
+    formControlName="quantity">
+  </y-item-counter>
+</td>
+<td class="y-cart-item y-cart-item--center">
+  <div class="table--mobile">Total</div>
+  <div class="y-cart-item__total" tabindex="0" aria-label="item total"> {{entry.totalPrice.formattedValue}}</div>
+  <a class="y-cart-item__remove" [routerLink]="" (click)="removeEntry()">Remove</a>
+</td>
 
-  <!-- quantity -->
-  <div class="item__quantity" [formGroup]="parent">
-    <y-item-counter [step]="1" [min]="1" [max]="entry.product.stock?.stockLevel || 1000" [async]="true" (update)="updateEntry($event)"
-      formControlName="quantity">
-    </y-item-counter>
-  </div>
+
+
+
+
+<!--  OLD VERSION -->
 
   <!-- delivery -->
-  <div class="item__delivery" *ngIf="entry.product.purchasable">
+  <!-- <div class="item__delivery" *ngIf="entry.product.purchasable">
     <ng-container *ngIf="entry.product.stock.stockLevelStatus !== 'outOfStock'">
       <ng-container *ngIf="!entry.deliveryPointOfService || !entry.product.availableForPickup">
         Shipping
@@ -55,15 +66,4 @@
     <ng-container *ngIf="entry.product.availableForPickup && entry.deliveryPointOfService?.name">
       {{entry.deliveryPointOfService.name}}
     </ng-container>
-  </div>
-
-  <!-- total -->
-  <div class="item__total">
-    Total: {{entry.totalPrice.formattedValue}}
-  </div>
-
-  <!-- actions -->
-  <div>
-    <a [routerLink]="" (click)="removeEntry()">Remove</a>
-  </div>
-</li>
+  </div> -->

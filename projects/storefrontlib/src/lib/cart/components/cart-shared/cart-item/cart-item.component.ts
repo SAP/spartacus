@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlContainer, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'y-cart-item',
+  selector: '[y-cart-item]',
   templateUrl: './cart-item.component.html',
   styleUrls: ['./cart-item.component.scss']
 })
