@@ -52,13 +52,13 @@ describe('workspace-project App', () => {
     await home.navigateTo();
     const footer = home.footer;
 
-    expect(await footer.footerNavigation.isPresent()).toEqual(
-      true
-    );
+    expect(await footer.footerNavigation.isPresent()).toEqual(true);
 
     expect(await footer.getSectionsCount()).toEqual(3);
     expect(await footer.getSectionHeader(0)).toEqual('Accelerator');
-    expect(await footer.getLinkUrlByTitle('About hybris')).toEqual('http://www.hybris.com/');
+    expect(await footer.getLinkUrlByTitle('About hybris')).toEqual(
+      'http://www.hybris.com/'
+    );
 
     expect(await footer.getNoticeText()).toEqual('© 2016 hybris software');
   });
