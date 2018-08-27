@@ -97,6 +97,61 @@ describe('MultiStepCheckoutComponent', () => {
     expect(component.step).toEqual(1);
   });
 
+  it('should call processSteps() to process step 1: set delivery address', () => {
+    const mockDeliveryAddress = ['address1', 'address2'];
+    spyOn(store, 'select').and.returnValues(
+      of(mockDeliveryAddress),
+      of(''),
+      of({}),
+      of({})
+    );
+    component.processSteps();
+    expect(component.step).toEqual(2);
+  });
+
+  it('should call processSteps() to process step 2: select delivery mode', () => {
+    const mockDeliveryAddress = ['address1', 'address2'];
+    spyOn(store, 'select').and.returnValues(
+      of(mockDeliveryAddress),
+      of('test mode'),
+      of({}),
+      of({})
+    );
+    component.processSteps();
+    expect(component.step).toEqual(3);
+  });
+
+  it('should call processSteps() to process step 3: set payment info', () => {
+    const mockDeliveryAddress = ['address1', 'address2'];
+    const mockPaymentInfo = { card: '12345' };
+    spyOn(store, 'select').and.returnValues(
+      of(mockDeliveryAddress),
+      of('test mode'),
+      of(mockPaymentInfo),
+      of({})
+    );
+    component.processSteps();
+    expect(component.step).toEqual(4);
+  });
+
+  it('should call processSteps() to process step 4: place order', () => {
+    const mockDeliveryAddress = ['address1', 'address2'];
+    const mockPaymentInfo = { card: '12345' };
+    const mockOrder = { id: '1234' };
+    spyOn(store, 'select').and.returnValues(
+      of(mockDeliveryAddress),
+      of('test mode'),
+      of(mockPaymentInfo),
+      of(mockOrder)
+    );
+    component.processSteps();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromRoot.Go({
+        path: ['orderConfirmation']
+      })
+    );
+  });
+
   it('should call setStep()', () => {
     component.step = 2;
     component.setStep(1);

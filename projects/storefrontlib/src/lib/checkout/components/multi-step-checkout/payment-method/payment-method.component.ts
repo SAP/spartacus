@@ -6,6 +6,7 @@ import {
   EventEmitter
 } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import * as fromUserStore from '../../../../user/store';
@@ -19,7 +20,7 @@ import { CheckoutService } from '../../../services/checkout.service';
 })
 export class PaymentMethodComponent implements OnInit {
   isPaymentForm = false;
-  existingPaymentMethods$;
+  existingPaymentMethods$: Observable<any>;
 
   @Output() backStep = new EventEmitter<any>();
   @Output() addPaymentInfo = new EventEmitter<any>();

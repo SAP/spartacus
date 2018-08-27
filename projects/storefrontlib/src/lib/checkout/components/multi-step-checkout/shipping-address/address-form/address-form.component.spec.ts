@@ -159,7 +159,7 @@ describe('AddressFormComponent', () => {
     });
   });
 
-  it('should  with address verification result "accept"', () => {
+  it('should add address with address verification result "accept"', () => {
     const mockAddressVerificationResult = { decision: 'ACCEPT' };
     spyOn(store, 'select').and.returnValues(
       of({}),
@@ -173,7 +173,7 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  it('should  with address verification result "reject"', () => {
+  it('should clear address verification result with address verification result "reject"', () => {
     const mockAddressVerificationResult = { decision: 'REJECT' };
     spyOn(store, 'select').and.returnValues(
       of({}),
@@ -187,7 +187,7 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  it('should  with address verification result "review"', () => {
+  it('should open suggested address with address verification result "review"', () => {
     const mockAddressVerificationResult = { decision: 'REVIEW' };
     spyOn(store, 'select').and.returnValues(
       of({}),

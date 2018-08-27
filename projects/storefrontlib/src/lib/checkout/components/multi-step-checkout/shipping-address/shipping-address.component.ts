@@ -6,6 +6,7 @@ import {
   EventEmitter
 } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import * as fromUserStore from '../../../../user/store';
@@ -19,7 +20,7 @@ import { CheckoutService } from '../../../services/checkout.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShippingAddressComponent implements OnInit {
-  existingAddresses$;
+  existingAddresses$: Observable<any>;
   isAddressForm = false;
 
   @Output() addAddress = new EventEmitter<any>();
