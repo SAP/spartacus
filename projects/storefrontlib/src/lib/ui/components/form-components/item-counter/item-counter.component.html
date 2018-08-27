@@ -1,15 +1,8 @@
-<div class="item-counter" [class.focused]="focus">
-    <div>
-        <div tabindex="0" (keydown)="onKeyDown($event)" (blur)="onBlur($event)" (focus)="onFocus($event)">
-            <div>
-                <button type="button" (click)="decrement()" [disabled]="value === min">
-                    -
-                </button>
-                <input #input type="number" [value]="value" (change)="manualChange($event.target.value)">
-                <button type="button" (click)="increment()" [disabled]="value === max">
-                    +
-                </button>
-            </div>
-        </div>
-    </div>
+<div class="table--mobile">Qty</div>
+<div class="y-item-counter btn-group" role="group" tabindex="0" aria-label="Add more items" [class.focused]="focus" (keydown)="onKeyDown($event)"
+  (blur)="onBlur($event)" (focus)="onFocus($event)">
+  <button type="button" class="y-item-counter__action" (click)="decrement()" [disabled]="value === min"> - </button>
+  <div class="y-item-counter__value"> {{ value }} </div>
+  <button type="button" class="y-item-counter__action" (click)="increment()" [disabled]="value === max"> + </button>
 </div>
+

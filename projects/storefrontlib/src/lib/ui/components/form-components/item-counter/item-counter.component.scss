@@ -1,49 +1,40 @@
-.item-counter {
-  &.focused {
-    box-shadow: 0 1px 1px white;
-  }
-  background: white;
-  border-radius: 3px;
-  overflow: hidden;
-  & > div > div {
-    display: flex;
-    align-items: center;
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+@import '~bootstrap/scss/button-group';
 
-    & > div {
-      display: flex;
-      flex-direction: row;
-    }
-  }
-  /* For Firefox */
-  input[type='number'] {
-    -moz-appearance: textfield;
-  }
-  /* Webkit browsers like Safari and Chrome */
-  input[type='number']::-webkit-inner-spin-button,
-  input[type='number']::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  input {
-    font-size: 16px;
-    font-weight: 400;
-    text-align: center;
-    width: 40px;
-    height: 30px;
-    margin: 0 5px 0 5px;
-  }
+// y-item-counter color variables
+$y-item-counter-border-bottom-color: 'light' !default;
+$y-item-counter-value-border-left-color: 'light' !default;
+$y-item-counter-value-border-right-color: 'light' !default;
+$y-item-counter-action-color: 'text' !default;
+$y-item-counter-action-background-color: 'transparent' !default;
+$y-item-counter-action-disabled-color: 'light' !important;
 
-  button {
-    padding: 3px;
-    border-radius: 0;
-    line-height: 1;
-    padding: 7px 7px;
-    background: #647be0;
-    color: #fff;
-    font-weight: 500;
-    &:disabled {
-      background: rgba(0, 0, 0, 0.1);
-      color: rgba(0, 0, 0, 0.4);
+.y-item-counter {
+    border-radius: 4px;
+    border: 1px solid;
+    @include var-color('border-color', $y-item-counter-border-bottom-color);
+    &__value {
+        border-left: 1px solid;
+        border-right: 1px solid;
+        @include var-color('border-left-color', $y-item-counter-value-border-left-color);
+        @include var-color('border-right-color', $y-item-counter-value-border-right-color);
+        padding: 12px 18px;
+        max-height: 46px;
+        min-width: 48px;
     }
-  }
+    &__action {
+        max-height: 48px;
+        min-width: 40px;
+        border: none;
+        @include var-color('color', $y-item-counter-action-color);
+        @include var-color('background-color', $y-item-counter-action-background-color);
+        @include type('3');
+
+        &:disabled {
+            @include var-color('color', $y-item-counter-action-disabled-color);
+            opacity: 1;
+        }
+    }
 }
