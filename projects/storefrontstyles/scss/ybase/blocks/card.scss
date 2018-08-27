@@ -1,0 +1,31 @@
+@import 'theme.scss';
+@import '~bootstrap/scss/card';
+
+.card {
+  border-radius: 0;
+}
+
+.card-body {
+  padding: 30px 30px 20px 30px;
+}
+
+.card-header {
+  background-color: theme-color('secondary');
+  font-size: $small-font-size;
+  font-weight: $font-weight-bold;
+  color: $white;
+  line-height: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 0 !important;
+}
+
+.card__actions-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.25rem 0 0 0;
+}
+
+.card-link {
+  font-size: $small-font-size;
+}
