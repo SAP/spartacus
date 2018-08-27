@@ -1,3 +1,4 @@
+/// <reference types="@types/googlemaps" />
 import { ExternalJsFileLoader } from './external-js-file-loader.service';
 import { Injectable } from '@angular/core';
 import { OccE2eConfigurationService } from '../../occ/e2e/e2e-configuration-service';

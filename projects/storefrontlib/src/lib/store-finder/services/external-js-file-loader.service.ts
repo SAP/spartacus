@@ -5,7 +5,7 @@ import { DOCUMENT } from '@angular/common';
   providedIn: 'root'
 })
 export class ExternalJsFileLoader {
-  constructor(@Inject(DOCUMENT) private document: Document) {}
+  constructor(@Inject(DOCUMENT) private document: any) {}
 
   /**
    * Loads a javascript from an external URL
