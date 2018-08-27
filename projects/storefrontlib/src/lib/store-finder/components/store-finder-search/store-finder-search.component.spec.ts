@@ -4,8 +4,7 @@ import { StoreFinderSearchComponent } from './store-finder-search.component';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../../material.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { StoreFinderService } from '../../services';
-import * as fromReducers from '../../store/reducers';
+import { StoreFinderService } from '../../services/store-finder.service';
 import * as fromRoot from '../../../routing/store';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,7 +30,7 @@ describe('StoreFinderSearchComponent', () => {
         BrowserAnimationsModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          stores: combineReducers(fromReducers.reducers)
+          stores: combineReducers(fromStore.reducers)
         })
       ],
       declarations: [StoreFinderSearchComponent],

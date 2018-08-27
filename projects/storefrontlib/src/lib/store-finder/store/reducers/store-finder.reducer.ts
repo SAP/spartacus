@@ -1,4 +1,4 @@
-import * as fromStoreFinder from '../actions/find-stores.action';
+import * as fromStoreFinder from './../actions/find-stores.action';
 
 export interface StoreFinderState {
   entities: any;

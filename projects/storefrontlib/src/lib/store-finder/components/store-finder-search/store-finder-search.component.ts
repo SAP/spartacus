@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { StoreFinderService } from '../../services';
+import { StoreFinderService } from '../../services/store-finder.service';
 
 @Component({
   selector: 'y-store-finder-search',
