@@ -1,33 +1,50 @@
 <ng-container *ngIf="cart$ | async as cart">
-  <div *ngIf="cart.totalItems">
-    <div class="headings">
-      <h2>Shopping Cart</h2>
-      <h4>ID {{cart.code}}</h4>
-    </div>
-
-    <div class="sub-heading">
-      Cart total ({{cart.deliveryItemsQuantity}} items): {{cart.totalPrice?.formattedValue}}
-    </div>
-
+  <div class="y-cart-details container">
     <ng-container *ngIf="entries$ | async as entries">
-      <ul class="item__list item__list__cart" [formGroup]="form">
-        <table>
-          <tr *ngFor="let entry of entries">
-            <td>
-              <y-cart-item [formGroupName]="entry.product.code" [entry]="entry" [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)"
-                [appliedPromotions]="getAppliedPromotionForEntry(cart, entry)" (remove)="removeEntry($event)" (update)="updateEntry($event)">
-              </y-cart-item>
-            </td>
-          </tr>
-        </table>
-      </ul>
-
-      <div class="order-summary">
-        <y-order-summary [cart]="cart"></y-order-summary>
-        <div>
-          <button routerLink="/checkout" mat-raised-button color="accent" *ngIf="entries.length">Proceed to Checkout</button>
-        </div>
+      <div class="row">
+          <div class="col-md-12 col-lg-9">
+              <div class="y-cart-details__cart-total">
+                Cart total ({{cart.deliveryItemsQuantity}} items): {{cart.totalPrice?.formattedValue}}
+              </div>
+                <table [formGroup]="form" class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Description</th>
+                      <th scope="col"> </th>
+                      <th scope="col">Item price</th>
+                      <th scope="col">Qty</th>
+                      <th scope="col">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="let entry of entries"
+                      y-cart-item
+                      [formGroupName]="entry.product.code"
+                      [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)"
+                      [appliedPromotions]="getAppliedPromotionForEntry(cart, entry)"
+                      (remove)="removeEntry($event)"
+                      (update)="updateEntry($event)"
+                      [entry]="entry"
+                    >
+                    </tr>
+                  </tbody>
+                </table>
+              <!--NOT FOR MVP  <y-cart-coupon></y-cart-coupon> -->
+          </div>
+          <div class="col-md-5 offset-md-7 col-lg-3 offset-lg-0">
+              <y-order-summary [cart]="cart"></y-order-summary>
+              <div class="y-cart-details__checkbox form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                  <label class="form-check-label" for="defaultCheck1">
+                      By checking this box, I am confirming that I have read and agree with the
+                      <a href="#">Terms & Conditions</a>
+                  </label>
+              </div>
+              <button routerLink="/checkout" *ngIf="entries.length" class="btn btn-primary btn-block" type="button">Proceed to Checkout</button>
+          </div>
       </div>
     </ng-container>
   </div>
 </ng-container>
+

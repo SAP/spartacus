@@ -9,9 +9,17 @@
   <div mat-dialog-content>
     <div class="entry-info-container">
       <ng-container *ngIf="(entry$ | async) as entry">
-        <ul class="item__list item__list__cart" [formGroup]="form">
-          <y-cart-item formGroupName="entryForm" [entry]="entry" [disableProductLink]="true" (update)="updateEntry($event)" (remove)="removeEntry($event)"></y-cart-item>
-        </ul>
+        <table class="item__list item__list__cart" [formGroup]="form">
+          <tr
+            y-cart-item
+            formGroupName="entryForm"
+            [entry]="entry"
+            [disableProductLink]="true"
+            (update)="updateEntry($event)"
+            (remove)="removeEntry($event)"
+          ></tr>
+          <!-- <y-cart-item formGroupName="entryForm" [entry]="entry" [disableProductLink]="true" (update)="updateEntry($event)" (remove)="removeEntry($event)"></y-cart-item> -->
+        </table>
       </ng-container>
     </div>
     <div class="cart-total-container">
