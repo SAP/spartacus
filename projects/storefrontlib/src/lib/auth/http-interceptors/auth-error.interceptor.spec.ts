@@ -8,7 +8,8 @@ import {
   HttpClient,
   HttpHandler,
   HttpRequest,
-  HttpHeaders
+  HttpHeaders,
+  HttpParams
 } from '@angular/common/http';
 
 import { catchError } from 'rxjs/operators';
@@ -176,12 +177,17 @@ describe('AuthErrorInterceptor', () => {
 
   it(`should catch 400 error`, inject([HttpClient], (http: HttpClient) => {
     const url = '/authorizationserver/oauth/token';
-    const creds = 'refresh_token=some_token&grant_type=refresh_token';
+    const params = new HttpParams()
+      .set('refresh_token', 'some_token')
+      .set('grant_type', 'refresh_token'); // authorization_code, client_credentials, password
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
 
     spyOn(store, 'dispatch').and.callThrough();
 
     http
-      .post(url, creds, {})
+      .post(url, params, { headers })
       .pipe(catchError((error: any) => throwError(error)))
       .subscribe(
         result => {},

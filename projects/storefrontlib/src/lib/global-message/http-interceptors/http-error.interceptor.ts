@@ -34,8 +34,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 errResponse.url.indexOf(OAUTH_ENDPOINT) !== -1 &&
                 errResponse.error.error === 'invalid_grant'
               ) {
-                const params = request.body.split('&');
-                if (params.indexOf('grant_type=password')) {
+                if (request.body.get('grant_type') === 'password') {
                   this.store.dispatch(
                     new fromAction.AddMessage({
                       type: GlobalMessageType.MSG_TYPE_ERROR,
