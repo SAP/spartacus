@@ -5,6 +5,9 @@ import { LOCALE_ID } from '@angular/core';
 import { ConfigService } from './config.service';
 import { AppRoutingModule } from './app-routing.module';
 
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+
 import {
   AuthModule,
   OccModule,
@@ -19,13 +22,6 @@ import {
 // bootstrap
 import { AppComponent } from './app.component';
 
-import { UserModule } from 'storefrontlib';
-import { CartModule } from 'storefrontlib';
-import { CheckoutModule } from 'storefrontlib';
-import { GlobalMessageModule } from 'storefrontlib';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
-
 @NgModule({
   imports: [
     BrowserModule,
@@ -35,18 +31,9 @@ import { environment } from '../environments/environment';
     SiteContextModule.forRoot(ConfigService),
 
     AppRoutingModule,
-
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     CmsLibModule,
     CmsModule.forRoot(ConfigService),
-    SiteContextModule.forRoot(ConfigService),
-    CheckoutModule,
-    RoutingModule.forRoot(ConfigService),
-    RouterModule.forRoot(appRoutes),
-    ProductModule,
-    UserModule,
-    CartModule,
-    GlobalMessageModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
     UiModule,
     UiFrameworkModule
   ],
