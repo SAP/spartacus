@@ -1,18 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { StoreFinderListItemComponent } from './store-finder-list-item.component';
-import { StoreFinderListComponent } from '../store-finder-list.component';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { combineReducers, StoreModule } from '@ngrx/store';
+
 import { MaterialModule } from '../../../../material.module';
-import * as fromServices from './../../../services';
-// import { StoreDataService, StoreFinderService } from '../../../services';
 import { StoreFinderPagingComponent } from '../../store-finder-paging/store-finder-paging.component';
 import { StoreFinderSearchComponent } from '../../store-finder-search/store-finder-search.component';
-import { combineReducers, StoreModule } from '@ngrx/store';
+import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
+import { StoreFinderListItemComponent } from './store-finder-list-item.component';
+import { StoreFinderListComponent } from '../store-finder-list.component';
+
 import * as fromReducers from '../../../store';
 import * as fromRoot from '../../../../routing/store';
-import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
+import * as fromServices from './../../../services';
 
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;

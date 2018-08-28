@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { combineReducers, StoreModule } from '@ngrx/store';
+
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -15,11 +16,12 @@ import { StoreDataService } from '../../services';
 
 import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../../store/reducers';
+import * as fromStore from '../../store';
 
 describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
   let fixture: ComponentFixture<StoreFinderListComponent>;
-
+  let store: Store<fromStore.StoresState>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -45,10 +47,24 @@ describe('StoreFinderListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListComponent);
     component = fixture.componentInstance;
+    store = TestBed.get(Store);
+    spyOn(store, 'dispatch').and.callThrough();
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should change pages', done => {
+    const pagination = new StoreFinderPagingComponent();
+    pagination.viewPageEvent.subscribe(event => {
+      expect(event).toEqual(3);
+      component.viewPage(event);
+      expect(store.dispatch).toHaveBeenCalled();
+      expect(component.searchConfig.currentPage).toBe(event);
+      done();
+    });
+    pagination.next(3);
   });
 });

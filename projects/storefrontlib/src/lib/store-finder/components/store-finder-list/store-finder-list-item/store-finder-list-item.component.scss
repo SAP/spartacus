@@ -1,7 +1,14 @@
-#closed {
-  color: indianred;
+.location_info {
+  font-weight: bold;
+  text-decoration: underline;
 }
 
-#open {
+.closed {
+  color: indianred;
+  font-weight: bold;
+}
+
+.open {
   color: yellowgreen;
+  font-weight: bold;
 }
