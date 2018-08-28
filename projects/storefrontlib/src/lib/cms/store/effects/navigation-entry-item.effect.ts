@@ -62,6 +62,13 @@ export class NavigationEntryItemEffects {
         } else if (data.ids.mediaIds.idList.length > 0) {
           // future work
           // send request to get list of media
+        } else {
+          console.warn('Navigation nodes are empty:', data.nodeId);
+          return of(
+            new navigationItemActions.LoadNavigationItemsFail(
+              'navigation nodes are empty'
+            )
+          );
         }
       })
     );

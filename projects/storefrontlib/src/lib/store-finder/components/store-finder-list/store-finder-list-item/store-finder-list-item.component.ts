@@ -11,29 +11,9 @@ export class StoreFinderListItemComponent {
   @Input() location;
   @Input() locationId: number = null;
   @Output() storeItemClick: EventEmitter<number> = new EventEmitter();
-  readonly daysOfWeek = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
+  readonly current_date = new Date();
 
   constructor(private storeDataService: StoreDataService) {}
-
-  getCurrentDayIndex(): number {
-    const current_date = new Date();
-    switch (current_date.getDay()) {
-      case 0: // Sun
-        return 6;
-      case 1: // Mon
-        return 0;
-      case 2: // Tues
-        return 1;
-      case 3: // Wed
-        return 2;
-      case 4: // Thurs
-        return 3;
-      case 5: // Fri
-        return 4;
-      case 6: // Sat
-        return 5;
-    }
-  }
 
   getDirections(location: any): string {
     const google_map_url = 'https://www.google.com/maps/dir/Current+Location/';
@@ -45,22 +25,19 @@ export class StoreFinderListItemComponent {
   getClosingTime(location: any): Date {
     return this.storeDataService.getStoreClosingTime(
       location,
-      this.getCurrentDayIndex()
+      this.current_date
     );
   }
 
   getOpeningTime(location: any): Date {
     return this.storeDataService.getStoreOpeningTime(
       location,
-      this.getCurrentDayIndex()
+      this.current_date
     );
   }
 
   isOpen(location: any): boolean {
-    return this.storeDataService.isStoreOpen(
-      location,
-      this.getCurrentDayIndex()
-    );
+    return this.storeDataService.isStoreOpen(location, this.current_date);
   }
 
   handleStoreItemClick() {
