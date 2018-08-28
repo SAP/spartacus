@@ -1,13 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { StoreFinderSearchComponent } from './store-finder-search.component';
-import { CommonModule } from '@angular/common';
-import { MaterialModule } from '../../../material.module';
-import { ReactiveFormsModule } from '@angular/forms';
-import { StoreFinderService } from '../../services/store-finder.service';
-import * as fromRoot from '../../../routing/store';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+
+import { MaterialModule } from '../../../material.module';
+import { StoreFinderSearchComponent } from './store-finder-search.component';
+import { StoreFinderService } from '../../services/store-finder.service';
+
+import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../store';
 
 describe('StoreFinderSearchComponent', () => {

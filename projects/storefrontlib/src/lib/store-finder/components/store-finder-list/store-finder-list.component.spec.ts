@@ -1,15 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { StoreFinderListComponent } from './store-finder-list.component';
-import { MaterialModule } from '../../../material.module';
-import * as fromRoot from '../../../routing/store';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { RouterTestingModule } from '@angular/router/testing';
-import * as fromReducers from '../../store';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { MaterialModule } from '../../../material.module';
 import { StoreFinderPagingComponent } from '../store-finder-paging/store-finder-paging.component';
 import { StoreFinderListItemComponent } from './store-finder-list-item/store-finder-list-item.component';
+import { StoreFinderListComponent } from './store-finder-list.component';
+
 import * as fromStore from '../../store';
+import * as fromReducers from '../../store';
+import * as fromRoot from '../../../routing/store';
 
 describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
