@@ -146,7 +146,7 @@ describe('Big Happy Path', () => {
     );
   });
 
-  xit('should be able to check order in order history', async () => {
+  it('should be able to check order in order history', async () => {
     // Go to my-account and assess that the new order is the newest in the list.
     const orderHistoryPage = new OrderHistoryPage();
     await orderHistoryPage.goToViaHeader();
