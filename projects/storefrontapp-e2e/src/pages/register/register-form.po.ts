@@ -33,7 +33,8 @@ export class RegisterForm {
 
   async setTitle(value: string) {
     await this.titleSelect
-      .all(by.cssContainingText('option', value)).get(0)
+      .all(by.cssContainingText('option', value))
+      .get(0)
       .click();
   }
 
