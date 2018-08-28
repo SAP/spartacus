@@ -95,64 +95,7 @@ And use this instead:
 
 ### Building for production
 
-To create a production build (with `aot` and other various optimizations), run:
-
-```
-yarn build:core:lib --prod
-yarn build --prod
-```
-
-These commands are equivalent to the following `ng` commands, respectively:
-
-```
-ng build storefrontlib --prod
-ng build --prod
-```
-
-This creates javascript files that are stored in `dist` folder, and those have to be deployed to a production-ready server, i.e [`nginx`](https://www.nginx.com/) or other.
-
-### Running a production build
-
-As part of our definition of done, we should test our feature branches before merging against a production build. To test it, we use the following commands:
-
-```
-yarn build:core:lib --prod
-yarn start --prod
-```
-
-These commands are equivalent to the following `ng` commands, respectively:
-
-```
-ng build storefrontlib --prod
-ng serve --prod
-```
-
-However, after we added the service worker (SW) file to our codebase, we are getting the following error in the browser's console after running a production build:
-
-```
-A bad HTTP response code (404) was received when fetching the script.
-Failed to load resource: net::ERR_INVALID_RESPONSE
-main.0e8d920201461b5fa835.js:1 ERROR Error: Uncaught (in promise): TypeError: Failed to register a ServiceWorker: A bad HTTP response code (404) was received when fetching the script.
-TypeError: Failed to register a ServiceWorker: A bad HTTP response code (404) was received when fetching the script.
-    at P (polyfills.0374c798ca6892ab6b5e.js:1)
-    at polyfills.0374c798ca6892ab6b5e.js:1
-    at polyfills.0374c798ca6892ab6b5e.js:1
-    at t.invoke (polyfills.0374c798ca6892ab6b5e.js:1)
-    at Object.onInvoke (main.0e8d920201461b5fa835.js:1)
-    at t.invoke (polyfills.0374c798ca6892ab6b5e.js:1)
-    at e.run (polyfills.0374c798ca6892ab6b5e.js:1)
-    at polyfills.0374c798ca6892ab6b5e.js:1
-    at t.invokeTask (polyfills.0374c798ca6892ab6b5e.js:1)
-    at Object.onInvokeTask (main.0e8d920201461b5fa835.js:1)
-```
-
-Navigating to the browser's `Application` tab, we can see that the SW didn't start.
-
-This error affects only PWA functionlities, becuase the SW didn't start. Developing and testing other features on a production build can continue without any interuptions. Thus, when developing features that are not related to PWA, one can continue to use `yarn start --prod`.
-
-To avoid caching our application during development, the SW is only activated in a production build. For this, and some other reasons, the webpack's development server doesn't support SWs. Thus, we are using [`http-server`](https://github.com/indexzero/http-server) for testing PWA features.
-
-The only way to test/run PWA build is to:
+The storefront uses service workers for PWA support (in production mode only). Therefore, we can't use the default angular CLI commands to build and run the app in production mode. To properly build and run in production mode, use these commands:
 
 ```
 yarn build:core:lib --prod
@@ -161,9 +104,8 @@ yarn start:pwa  // this will start the http-server
 ```
 
 When the server is up, navigate to [`http://localhost:3000/`](http://localhost:3000/).
-Notice that there isn't an error about a SW, like we had above.
 
-If we navigate to the browser's `Application` tab, we can see that the SW is running.
+If we navigate to the browser's `Application` tab, we can see that the service worker is running.
 
 ## Development tools
 
