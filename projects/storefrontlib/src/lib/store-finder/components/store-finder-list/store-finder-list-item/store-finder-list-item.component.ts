@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { StoreDataService } from '../../../services/store-data.service';
 
 @Component({
@@ -6,33 +6,34 @@ import { StoreDataService } from '../../../services/store-data.service';
   templateUrl: './store-finder-list-item.component.html',
   styleUrls: ['./store-finder-list-item.component.scss']
 })
-export class StoreFinderListItemComponent implements OnInit {
+export class StoreFinderListItemComponent {
   @Input() location;
+  readonly current_date = new Date();
 
   constructor(private storeDataService: StoreDataService) {}
 
-  ngOnInit() {}
-
-  getDirections(location: any) {
+  getDirections(location: any): string {
     const google_map_url = 'https://www.google.com/maps/dir/Current+Location/';
     const latitude = this.storeDataService.getStoreLatitude(location);
     const longitude = this.storeDataService.getStoreLongitude(location);
-    window.open(google_map_url + latitude + ',' + longitude);
+    return google_map_url + latitude + ',' + longitude;
   }
 
   getClosingTime(location: any): Date {
-    return this.storeDataService.getStoreClosingTime(location);
+    return this.storeDataService.getStoreClosingTime(
+      location,
+      this.current_date
+    );
   }
 
   getOpeningTime(location: any): Date {
-    return this.storeDataService.getStoreOpeningTime(location);
-  }
-
-  getCurrentDay(): string {
-    return this.storeDataService.getCurrentDay();
+    return this.storeDataService.getStoreOpeningTime(
+      location,
+      this.current_date
+    );
   }
 
   isOpen(location: any): boolean {
-    return this.storeDataService.isStoreOpen(location);
+    return this.storeDataService.isStoreOpen(location, this.current_date);
   }
 }

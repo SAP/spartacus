@@ -2,11 +2,16 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class StoreDataService {
-  current_date = new Date();
   readonly DECIMAL_BASE: 10;
-  readonly daysOfWeek = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
-
-  constructor() {}
+  readonly weekDays = {
+    0: 'Sun',
+    1: 'Mon',
+    2: 'Tue',
+    3: 'Wed',
+    4: 'Thur',
+    5: 'Fri',
+    6: 'Sat'
+  };
 
   getStoreLatitude(location: any): string {
     return location.geoPoint.latitude;
@@ -16,67 +21,40 @@ export class StoreDataService {
     return location.geoPoint.longitude;
   }
 
-  getStoreClosingTime(location: any): Date {
-    const closing_hour = location.openingHours.weekDayOpeningList[
-      this.daysOfWeek.indexOf(this.getCurrentDay())
-    ].closingTime.formattedHour.split(':')[0];
-    const closing_minutes =
-      location.openingHours.weekDayOpeningList[
-        this.daysOfWeek.indexOf(this.getCurrentDay())
-      ].closingTime.minute;
+  getStoreClosingTime(location: any, current_date: Date): Date {
+    const today_schedule = this.getSchedule(location, current_date);
+    const closing_hour = today_schedule.closingTime.formattedHour.split(':')[0];
+    const closing_minutes = today_schedule.closingTime.minute;
     const closing_date_time = new Date();
     closing_date_time.setHours(closing_hour);
     closing_date_time.setMinutes(closing_minutes);
     return closing_date_time;
   }
 
-  getStoreOpeningTime(location: any): Date {
-    const opening_hour = location.openingHours.weekDayOpeningList[
-      this.daysOfWeek.indexOf(this.getCurrentDay())
-    ].openingTime.formattedHour.split(':')[0];
-    const opening_minutes =
-      location.openingHours.weekDayOpeningList[
-        this.daysOfWeek.indexOf(this.getCurrentDay())
-      ].openingTime.minute;
+  getStoreOpeningTime(location: any, current_date: Date): Date {
+    const today_schedule = this.getSchedule(location, current_date);
+    const opening_hour = today_schedule.openingTime.formattedHour.split(':')[0];
+    const opening_minutes = today_schedule.openingTime.minute;
     const opening_date_time = new Date();
     opening_date_time.setHours(opening_hour);
     opening_date_time.setMinutes(opening_minutes);
     return opening_date_time;
   }
 
-  isStoreOpen(location: any): boolean {
-    const current_hour = parseInt(
-      this.current_date.getHours().toLocaleString(),
-      this.DECIMAL_BASE
-    ); // in 24 hour clock
-    const closing_hour = location.openingHours.weekDayOpeningList[
-      this.daysOfWeek.indexOf(this.getCurrentDay())
-    ].closingTime.formattedHour.split(':')[0];
-    const opening_hour = location.openingHours.weekDayOpeningList[
-      this.daysOfWeek.indexOf(this.getCurrentDay())
-    ].openingTime.formattedHour.split(':')[0];
+  isStoreOpen(location: any, current_date: Date): boolean {
+    const today_schedule = this.getSchedule(location, current_date);
+    const closing_hour = today_schedule.closingTime.formattedHour.split(':')[0];
+    const opening_hour = today_schedule.openingTime.formattedHour.split(':')[0];
     return (
-      current_hour <= parseInt(closing_hour, this.DECIMAL_BASE) &&
-      current_hour >= parseInt(opening_hour, this.DECIMAL_BASE)
+      current_date.getHours() <= parseInt(closing_hour, this.DECIMAL_BASE) &&
+      current_date.getHours() >= parseInt(opening_hour, this.DECIMAL_BASE)
     );
   }
 
-  getCurrentDay(): string {
-    switch (this.current_date.getDay()) {
-      case 0: // Sun
-        return this.daysOfWeek[6];
-      case 1: // Mon
-        return this.daysOfWeek[0];
-      case 2: // Tues
-        return this.daysOfWeek[1];
-      case 3: // Wed
-        return this.daysOfWeek[2];
-      case 4: // Thurs
-        return this.daysOfWeek[3];
-      case 5: // Fri
-        return this.daysOfWeek[4];
-      case 6: // Sat
-        return this.daysOfWeek[5];
-    }
+  getSchedule(location: any, date: Date): any {
+    const weekday = this.weekDays[date.getDay()];
+    return location.openingHours.weekDayOpeningList.find(
+      weekDayOpeningListItem => weekDayOpeningListItem.weekDay === weekday
+    );
   }
 }

@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   ChangeDetectionStrategy,
   Output,
   EventEmitter,
@@ -13,13 +12,9 @@ import {
   styleUrls: ['./store-finder-paging.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StoreFinderPagingComponent implements OnInit {
+export class StoreFinderPagingComponent {
   @Input() pagination;
   @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
-
-  constructor() {}
-
-  ngOnInit() {}
 
   next(nextPage: number) {
     this.viewPageEvent.emit(nextPage);

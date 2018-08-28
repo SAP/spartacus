@@ -7,13 +7,13 @@
   <p>{{location.address.line1}}</p>
   <p>{{location.address.town}}, {{location.address.region?.name}}, {{location.address.postalCode}}</p>
   <div *ngIf="isOpen(location)">
-    <b id="open">
-      {{getCurrentDay()}}: Open until {{getClosingTime(location) | date:'shortTime'}}
+    <b class="open">
+      {{getClosingTime(location) | date:'EEE'}}: Open until {{getClosingTime(location) | date:'shortTime'}}
     </b>
   </div>
   <div *ngIf="!isOpen(location)">
-    <b id="closed">{{getCurrentDay()}}: Closed</b>
+    <b class="closed">{{getClosingTime(location) | date: 'EEE'}}: Closed</b>
   </div>
   <br>
-  <button mat-button (click)="getDirections(location)"> Get Directions</button>
+  <a href="{{getDirections(location)}}" mat-button color="primary" target="_blank">Get Directions</a>
 </ng-container>
