@@ -5,6 +5,9 @@ import { LOCALE_ID } from '@angular/core';
 import { ConfigService } from './config.service';
 import { AppRoutingModule } from './app-routing.module';
 
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+
 import {
   AuthModule,
   OccModule,
@@ -18,9 +21,6 @@ import {
 
 // bootstrap
 import { AppComponent } from './app.component';
-
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
 
 @NgModule({
   imports: [
@@ -52,4 +52,4 @@ import { environment } from '../environments/environment';
   declarations: [AppComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
