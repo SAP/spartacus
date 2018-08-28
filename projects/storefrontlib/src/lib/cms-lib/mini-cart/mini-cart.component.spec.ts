@@ -117,7 +117,7 @@ describe('MiniCartComponent', () => {
   });
 
   describe('UI test', () => {
-    it('should', () => {
+    it('should contain a link to redirect to /cart', () => {
       expect(fixture.debugElement.query(By.css('button[routerLink="/cart"]')));
     });
   });
