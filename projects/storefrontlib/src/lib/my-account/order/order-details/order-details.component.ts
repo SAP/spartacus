@@ -7,6 +7,11 @@ import * as fromUserStore from '../../../user/store';
 import * as fromAuthStore from './../../../auth/store';
 import { OccOrderService } from './../../../occ/order/order.service';
 
+// NOTE: this a work in progress component. The code here is not ready for production.
+// From Wei:
+// this block of codes need to be re-considered. First, we can get 'orderCode' from routing store.
+// Second, We don't call occ service from component. Occ Service should be called from store effect; and we read order details from store.
+
 @Component({
   selector: 'y-order-details',
   templateUrl: './order-details.component.html',
