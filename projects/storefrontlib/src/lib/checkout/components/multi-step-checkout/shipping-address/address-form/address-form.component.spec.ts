@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import * as fromRoot from '../../../../routing/store';
-import * as fromCheckout from '../../../store';
-import * as fromCart from '../../../../cart/store';
-import * as fromUser from '../../../../user/store';
+import * as fromRoot from '../../../../../routing/store';
+import * as fromCheckout from '../../../../store';
+import * as fromCart from '../../../../../cart/store';
+import * as fromUser from '../../../../../user/store';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
@@ -15,10 +15,10 @@ import {
 } from '@angular/forms';
 
 import { of } from 'rxjs';
-import * as fromRouting from '../../../../routing/store';
-import { MaterialModule } from '../../../../material.module';
-import { CheckoutService } from '../../../services';
-import { CartService } from '../../../../cart/services';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from '../.././../../../material.module';
+import { CheckoutService } from '../../../../services';
+import { CartService, CartDataService } from '../../../../../cart/services';
 import { MatDialog } from '@angular/material';
 import { AddressFormModule } from './address-form.module';
 
@@ -76,11 +76,13 @@ describe('AddressFormComponent', () => {
   let fixture: ComponentFixture<AddressFormComponent>;
   let ac: AbstractControl;
   let dialog: MatDialog;
+  let service: CheckoutService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
+        BrowserAnimationsModule,
         MaterialModule,
         AddressFormModule,
         StoreModule.forRoot({
@@ -94,7 +96,8 @@ describe('AddressFormComponent', () => {
         CheckoutService,
         CartService,
         { provide: FormGroup, useClass: MockFormGroup },
-        { provide: AbstractControl, useClass: MockAbstractControl }
+        { provide: AbstractControl, useClass: MockAbstractControl },
+        CartDataService
       ]
     }).compileComponents();
   }));
@@ -105,42 +108,28 @@ describe('AddressFormComponent', () => {
     store = TestBed.get(Store);
     ac = TestBed.get(AbstractControl);
     dialog = TestBed.get(MatDialog);
+    service = TestBed.get(CheckoutService);
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(ac, 'hasError').and.callThrough();
+
     spyOn(component.addAddress, 'emit').and.callThrough();
-    spyOn(component.verifyAddress, 'emit').and.callThrough();
-    spyOn(component, 'addNewAddress').and.callThrough();
+    spyOn(component.backToAddress, 'emit').and.callThrough();
     spyOn(component.address, 'get').and.returnValue(ac);
+    spyOn(component, 'openSuggestedAddress').and.callThrough();
     spyOn(dialog, 'open').and.callThrough();
+
+    spyOn(service, 'verifyAddress').and.callThrough();
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call addressSelected(address)', () => {
-    const mockAddress = 'mockAddress';
-
-    component.addressSelected(mockAddress);
-
-    expect(component.addAddress.emit).toHaveBeenCalledWith({
-      address: mockAddress,
-      newAddress: false
-    });
-  });
-
-  it('should call addNewAddress()', () => {
-    expect(component.newAddress).toBeFalsy();
-
-    component.addNewAddress();
-
-    expect(component.newAddress).toBeTruthy();
-  });
-
   it('should call ngOnInit to get countries and titles data even when they not exist', () => {
-    spyOn(store, 'select').and.returnValues(of({}), of({}), of({}));
+    spyOn(store, 'select').and.returnValues(of({}), of({}), of({}), of({}));
     component.ngOnInit();
+
     component.countries$.subscribe(() => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromUser.LoadDeliveryCountries()
@@ -151,11 +140,12 @@ describe('AddressFormComponent', () => {
     });
   });
 
-  it('should call ngOnInit to get countries, titles and regions data when data exist', () => {
+  it('should call ngOnInit to get countries, regions and titles and regions data when data exist', () => {
     spyOn(store, 'select').and.returnValues(
       of({ mockCountriesList }),
       of({ mockTitlesList }),
-      of({ mockRegionsList })
+      of({ mockRegionsList }),
+      of({})
     );
     component.ngOnInit();
     component.countries$.subscribe(data => {
@@ -169,31 +159,56 @@ describe('AddressFormComponent', () => {
     });
   });
 
-  it('should call next()', () => {
-    component.next();
-    expect(component.verifyAddress.emit).toHaveBeenCalled();
+  it('should add address with address verification result "accept"', () => {
+    const mockAddressVerificationResult = { decision: 'ACCEPT' };
+    spyOn(store, 'select').and.returnValues(
+      of({}),
+      of({}),
+      of({}),
+      of(mockAddressVerificationResult)
+    );
+    component.ngOnInit();
+    expect(component.addAddress.emit).toHaveBeenCalledWith(
+      component.address.value
+    );
+  });
+
+  it('should clear address verification result with address verification result "reject"', () => {
+    const mockAddressVerificationResult = { decision: 'REJECT' };
+    spyOn(store, 'select').and.returnValues(
+      of({}),
+      of({}),
+      of({}),
+      of(mockAddressVerificationResult)
+    );
+    component.ngOnInit();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromCheckout.ClearAddressVerificationResults()
+    );
+  });
+
+  it('should open suggested address with address verification result "review"', () => {
+    const mockAddressVerificationResult = { decision: 'REVIEW' };
+    spyOn(store, 'select').and.returnValues(
+      of({}),
+      of({}),
+      of({}),
+      of(mockAddressVerificationResult)
+    );
+    component.ngOnInit();
+    expect(component.openSuggestedAddress).toHaveBeenCalledWith(
+      mockAddressVerificationResult
+    );
+  });
+
+  it('should call verfiyAddress()', () => {
+    component.verfiyAddress();
+    expect(service.verifyAddress).toHaveBeenCalled();
   });
 
   it('should call back()', () => {
     component.back();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromRouting.Go({
-        path: ['/cart']
-      })
-    );
-  });
-
-  it('should call back() and redirect to saved addresses page of there are saved addresses', () => {
-    component.newAddress = true;
-
-    component.back();
-
-    expect(store.dispatch).not.toHaveBeenCalledWith(
-      new fromRouting.Go({
-        path: ['/cart']
-      })
-    );
-    expect(component.newAddress).toBeFalsy();
+    expect(component.backToAddress.emit).toHaveBeenCalledWith();
   });
 
   it('should call required(name: string)', () => {

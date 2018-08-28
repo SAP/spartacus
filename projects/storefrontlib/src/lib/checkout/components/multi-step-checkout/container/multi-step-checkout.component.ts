@@ -3,27 +3,21 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   OnDestroy,
-  ChangeDetectorRef,
-  ViewChild
+  ChangeDetectorRef
 } from '@angular/core';
-import { take, filter, tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { filter } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
-import * as fromUserStore from '../../../../user/store';
-
 import * as fromRouting from '../../../../routing/store';
 import * as fromCart from '../../../../cart/store';
 import * as fromGlobalMessage from '../../../../global-message/store';
 
 import { GlobalMessageType } from './../../../../global-message/models/message.model';
-
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
-
 import { Address } from '../../../models/address-model';
-import { AddressFormComponent } from '../address-form/address-form.component';
 
 @Component({
   selector: 'y-multi-step-checkout',
@@ -42,12 +36,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step3Sub: Subscription;
   step4Sub: Subscription;
 
-  @ViewChild(AddressFormComponent) addressForm: AddressFormComponent;
-  addressVerifySub: Subscription;
-
   cart$: Observable<any>;
-  existingAddresses$: Observable<any>;
-  existingPaymentMethods$: Observable<any>;
 
   constructor(
     protected checkoutService: CheckoutService,
@@ -58,104 +47,18 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.cart$ = this.store.select(fromCart.getActiveCart);
-
-    this.existingAddresses$ = this.store
-      .select(fromUserStore.getAddresses)
-      .pipe(
-        tap(addresses => {
-          if (addresses.length === 0) {
-            this.checkoutService.loadUserAddresses();
-          }
-        })
-      );
-
-    this.existingPaymentMethods$ = this.store
-      .select(fromUserStore.getPaymentMethods)
-      .pipe(
-        tap(payments => {
-          if (payments.length === 0) {
-            this.checkoutService.loadUserPaymentMethods();
-          }
-        })
-      );
+    this.processSteps();
   }
 
-  ngOnDestroy() {
-    if (this.step1Sub) {
-      this.step1Sub.unsubscribe();
-    }
-    if (this.step2Sub) {
-      this.step2Sub.unsubscribe();
-    }
-    if (this.step3Sub) {
-      this.step3Sub.unsubscribe();
-    }
-    if (this.step4Sub) {
-      this.step4Sub.unsubscribe();
-    }
-    if (this.addressVerifySub) {
-      this.addressVerifySub.unsubscribe();
-    }
-    this.store.dispatch(new fromCheckoutStore.ClearCheckoutData());
-  }
-
-  setStep(backStep) {
-    if (this.step > backStep) {
-      for (let i = backStep; i <= this.step; i++) {
-        this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(i));
-      }
-
-      this.step = backStep;
-    }
-  }
-
-  verifyAddress(address) {
-    this.checkoutService.verifyAddress(address);
-
-    this.addressVerifySub = this.store
-      .select(fromCheckoutStore.getAddressVerificationResults)
-      .pipe(
-        filter(results => Object.keys(results).length !== 0),
-        take(1)
-      )
-      .subscribe(results => {
-        if (results === 'FAIL') {
-          this.store.dispatch(
-            new fromCheckoutStore.ClearAddressVerificationResults()
-          );
-        } else if (results.decision === 'ACCEPT') {
-          this.addAddress({
-            address: address,
-            newAddress: true
-          });
-        } else if (results.decision === 'REJECT') {
-          this.store.dispatch(
-            new fromGlobalMessage.AddMessage({
-              type: GlobalMessageType.MSG_TYPE_ERROR,
-              text: 'Invalid Address'
-            })
-          );
-          this.store.dispatch(
-            new fromCheckoutStore.ClearAddressVerificationResults()
-          );
-        } else if (results.decision === 'REVIEW') {
-          this.addressForm.openSuggestedAddress(results);
-        }
-      });
-  }
-
-  addAddress(addressObject) {
-    if (addressObject.newAddress) {
-      this.checkoutService.createAndSetAddress(addressObject.address);
-    } else {
-      this.checkoutService.setDeliveryAddress(addressObject.address);
-    }
-
+  processSteps() {
+    // step1: set delivery address
     this.step1Sub = this.store
       .select(fromCheckoutStore.getDeliveryAddress)
       .pipe(
-        filter(deliveryAddress => Object.keys(deliveryAddress).length !== 0),
-        take(1)
+        filter(
+          deliveryAddress =>
+            Object.keys(deliveryAddress).length !== 0 && this.step === 1
+        )
       )
       .subscribe(deliveryAddress => {
         this.step = 2;
@@ -163,37 +66,25 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         this.deliveryAddress = deliveryAddress;
         this.cd.detectChanges();
       });
-  }
 
-  setDeliveryMode(deliveryMode: any) {
-    this.checkoutService.setDeliveryMode(deliveryMode.deliveryModeId);
-
+    // step2: select delivery mode
     this.step2Sub = this.store
       .select(fromCheckoutStore.getSelectedCode)
-      .pipe(
-        filter(selected => selected !== ''),
-        take(1)
-      )
-      .subscribe(selected => {
+      .pipe(filter(selected => selected !== '' && this.step === 2))
+      .subscribe(() => {
         this.step = 3;
         this.refreshCart();
         this.cd.detectChanges();
       });
-  }
 
-  addPaymentInfo(paymentDetailsObject) {
-    if (paymentDetailsObject.newPayment) {
-      paymentDetailsObject.payment.billingAddress = this.deliveryAddress;
-      this.checkoutService.createPaymentDetails(paymentDetailsObject.payment);
-    } else {
-      this.checkoutService.setPaymentDetails(paymentDetailsObject.payment);
-    }
-
+    // step3: set payment information
     this.step3Sub = this.store
       .select(fromCheckoutStore.getPaymentDetails)
       .pipe(
-        filter(paymentInfo => Object.keys(paymentInfo).length !== 0),
-        take(1)
+        filter(
+          paymentInfo =>
+            Object.keys(paymentInfo).length !== 0 && this.step === 3
+        )
       )
       .subscribe(paymentInfo => {
         if (!paymentInfo['hasError']) {
@@ -215,17 +106,11 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
           this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(3));
         }
       });
-  }
 
-  placeOrder() {
-    this.checkoutService.placeOrder();
-
+    // step4: place order
     this.step4Sub = this.store
       .select(fromCheckoutStore.getOrderDetails)
-      .pipe(
-        filter(order => Object.keys(order).length !== 0),
-        take(1)
-      )
+      .pipe(filter(order => Object.keys(order).length !== 0 && this.step === 4))
       .subscribe(order => {
         this.checkoutService.orderDetails = order;
         this.store.dispatch(
@@ -234,6 +119,58 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
           })
         );
       });
+  }
+
+  ngOnDestroy() {
+    if (this.step1Sub) {
+      this.step1Sub.unsubscribe();
+    }
+    if (this.step2Sub) {
+      this.step2Sub.unsubscribe();
+    }
+    if (this.step3Sub) {
+      this.step3Sub.unsubscribe();
+    }
+    if (this.step4Sub) {
+      this.step4Sub.unsubscribe();
+    }
+
+    this.store.dispatch(new fromCheckoutStore.ClearCheckoutData());
+  }
+
+  setStep(backStep) {
+    if (this.step > backStep) {
+      for (let i = backStep; i <= this.step; i++) {
+        this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(i));
+      }
+
+      this.step = backStep;
+    }
+  }
+
+  addAddress(addressObject) {
+    if (addressObject.newAddress) {
+      this.checkoutService.createAndSetAddress(addressObject.address);
+    } else {
+      this.checkoutService.setDeliveryAddress(addressObject.address);
+    }
+  }
+
+  setDeliveryMode(deliveryMode: any) {
+    this.checkoutService.setDeliveryMode(deliveryMode.deliveryModeId);
+  }
+
+  addPaymentInfo(paymentDetailsObject) {
+    if (paymentDetailsObject.newPayment) {
+      paymentDetailsObject.payment.billingAddress = this.deliveryAddress;
+      this.checkoutService.createPaymentDetails(paymentDetailsObject.payment);
+    } else {
+      this.checkoutService.setPaymentDetails(paymentDetailsObject.payment);
+    }
+  }
+
+  placeOrder() {
+    this.checkoutService.placeOrder();
   }
 
   private refreshCart() {
