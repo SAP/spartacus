@@ -1,3 +1,4 @@
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -46,7 +47,6 @@ describe('RegisterComponent', () => {
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
     store = TestBed.get(Store);
-
     spyOn(store, 'dispatch').and.callThrough();
     fixture.detectChanges();
   });
@@ -85,6 +85,17 @@ describe('RegisterComponent', () => {
           uid: ''
         })
       );
+    });
+  });
+
+  describe('UI test', () => {
+    it('should format email to lower case on blur', () => {
+      const input = fixture.debugElement.query(By.css('input[type="email"]'))
+        .nativeElement;
+      input.value = 'TEST@SAP.COM';
+      input.dispatchEvent(new Event('blur'));
+
+      expect(input.value).toBe('test@sap.com');
     });
   });
 });
