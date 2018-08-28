@@ -1,7 +1,7 @@
 import { ActivatedRoute, Params } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import * as fromUserStore from '../../../user/store';
 import * as fromAuthStore from './../../../auth/store';
@@ -12,7 +12,9 @@ import { OccOrderService } from './../../../occ/order/order.service';
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.scss']
 })
-export class OrderDetailsComponent implements OnInit {
+export class OrderDetailsComponent implements OnInit, OnDestroy {
+  private subscription: Subscription;
+
   constructor(
     private service: OccOrderService,
     private usersStore: Store<fromUserStore.UserState>,
@@ -24,7 +26,7 @@ export class OrderDetailsComponent implements OnInit {
   ngOnInit() {
     this.route.params.forEach((params: Params) => {
       if (params['orderCode']) {
-        this.usersStore
+        this.subscription = this.usersStore
           .select(fromAuthStore.getUserToken)
           .pipe(
             tap(userData => {
@@ -35,7 +37,14 @@ export class OrderDetailsComponent implements OnInit {
             })
           )
           .subscribe();
+        return;
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

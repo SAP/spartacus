@@ -4,10 +4,10 @@ import {
   ChangeDetectionStrategy,
   OnDestroy
 } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
-import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'y-product-carousel',
@@ -22,7 +22,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   products$: Observable<any[]>;
   pause: boolean;
   firstTime = true;
-  alive = true;
+  private finishSubject = new Subject();
 
   codesSubscription: Subscription;
 
@@ -42,7 +42,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     if (codes && codes.length > 0) {
       this.codesSubscription = this.store
         .select(fromProductStore.getAllProductCodes)
-        .pipe(takeWhile(() => this.alive))
+        .pipe(takeUntil(this.finishSubject))
         .subscribe(productCodes => {
           if (this.firstTime || productCodes.length === 0) {
             codes
@@ -82,8 +82,10 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   ngOnDestroy() {
     if (this.codesSubscription) {
       this.codesSubscription.unsubscribe();
-      this.alive = false;
     }
+    this.finishSubject.next();
+    this.finishSubject.complete();
+
     super.ngOnDestroy();
   }
 }
