@@ -90,9 +90,6 @@ describe('Big Happy Path', () => {
     );
     expect(await deliveryForm.address.getText()).toContain('Winstoon Rumfoord');
     expect(await deliveryForm.address.getText()).toContain('Tralfamadore');
-    expect(await checkoutPage.orderSummary.getText()).toContain(
-      'Total: $1,301.54'
-    );
 
     await deliveryForm.setDeliveryMethod();
     await deliveryForm.nextButton.click();

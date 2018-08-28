@@ -49,7 +49,7 @@ export class AddressForm {
 
   async setCountry(value: string) {
     await this.countrySelect
-      .element(by.cssContainingText('option', value))
+      .all(by.cssContainingText('option', value)).get(0)
       .click();
   }
 
