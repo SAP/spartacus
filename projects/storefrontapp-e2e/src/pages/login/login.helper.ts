@@ -89,7 +89,7 @@ export class LoginHelper {
   static async logOutViaHeader() {
     const header = new Header();
     await header.loginComponent.click();
-    await E2EUtil.wait4VisibleElement(header.logoutButton);
+    await E2EUtil.wait4PresentElement(header.logoutButton);
     await header.logoutButton.click();
   }
 }

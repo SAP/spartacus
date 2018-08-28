@@ -12,7 +12,7 @@ export class LoginPage extends AppPage {
   }
 
   async waitForReady() {
-    await E2EUtil.wait4VisibleElement(this.loginForm.form);
+    await E2EUtil.wait4PresentElement(this.loginForm.form);
   }
 
   async performLogin(email: string, password: string) {

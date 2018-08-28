@@ -9,6 +9,7 @@ export class AddressForm {
   readonly form: ElementFinder = this.parentElement.element(
     by.tagName('y-address-form')
   );
+  readonly header: ElementFinder = this.form.element(by.css('h3.heading'));
   readonly countrySelect: ElementFinder = this.form.element(
     by.css('[formcontrolname="isocode"]')
   );
@@ -76,6 +77,6 @@ export class AddressForm {
   }
 
   async waitForReady() {
-    await E2EUtil.wait4VisibleElement(this.form);
+    await E2EUtil.wait4PresentElement(this.form);
   }
 }

@@ -12,6 +12,6 @@ export class RegisterPage extends AppPage {
   }
 
   async waitForReady() {
-    await E2EUtil.wait4VisibleElement(this.registerForm.form);
+    await E2EUtil.wait4PresentElement(this.registerForm.form);
   }
 }

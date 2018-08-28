@@ -9,6 +9,8 @@ export class DeliveryModeForm {
   readonly form: ElementFinder = this.parentElement.element(
     by.tagName('y-delivery-mode-form')
   );
+  readonly header: ElementFinder = this.form.element(by.css('h3.heading'));
+  readonly address: ElementFinder = this.form.element(by.css('.address'));
   readonly deliveryModeSelect: ElementFinder = this.form.element(
     by.css('[formcontrolname="deliveryModeId"]')
   );
@@ -24,6 +26,6 @@ export class DeliveryModeForm {
   }
 
   async waitForReady() {
-    await E2EUtil.wait4VisibleElement(this.form);
+    await E2EUtil.wait4PresentElement(this.form);
   }
 }

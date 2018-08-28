@@ -5,16 +5,18 @@ import { ProductDetailsPage } from './productDetails.po';
 
 export class CategoryDslrPage extends AppPage {
   readonly page: ElementFinder = element(by.tagName('y-category-page-layout'));
-  // prettier-ignore
+
   readonly productElement = (productNo: number): ElementFinder =>
-    this.page.all(by.tagName('y-responsive-banner')).get(productNo)
+    this.page.all(by.tagName('y-responsive-banner')).get(productNo); // tslint:disable-line
 
   async waitForReady() {
-    await E2EUtil.wait4VisibleElement(this.productElement(0));
+    await E2EUtil.wait4VisibleElement(this.page);
   }
 
   async openProduct(productNo: number) {
-    await this.productElement(productNo).click();
+    const el = this.productElement(productNo);
+    await E2EUtil.wait4VisibleElement(el);
+    await el.click();
     return new ProductDetailsPage();
   }
 }

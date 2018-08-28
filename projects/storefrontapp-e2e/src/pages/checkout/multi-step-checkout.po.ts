@@ -10,6 +10,10 @@ export class MultiStepCheckoutPage extends AppPage {
     by.tagName('y-multi-step-checkout-page')
   );
 
+  readonly orderSummary: ElementFinder = this.page.element(
+    by.tagName('y-order-summary')
+  );
+
   readonly addressForm: AddressForm = new AddressForm(this.page);
   readonly deliveryForm: DeliveryModeForm = new DeliveryModeForm(this.page);
   readonly paymentForm: PaymentForm = new PaymentForm(this.page);

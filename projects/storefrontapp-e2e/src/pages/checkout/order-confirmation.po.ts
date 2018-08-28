@@ -17,6 +17,6 @@ export class OrderConfirmationPage extends AppPage {
   );
 
   async waitForReady() {
-    await E2EUtil.wait4VisibleElement(this.confirmationComponent);
+    await E2EUtil.wait4PresentElement(this.confirmationComponent);
   }
 }

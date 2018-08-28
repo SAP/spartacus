@@ -8,6 +8,9 @@ export class AddedToCartModal {
     by.css('button[routerLink="/checkout"]')
   );
 
+  readonly cartItem = (itemNo: number): ElementFinder =>
+    this.modal.all(by.tagName('y-cart-item')).get(itemNo); // tslint:disable-line
+
   async waitForReady() {
     await E2EUtil.wait4VisibleElement(this.modal);
   }

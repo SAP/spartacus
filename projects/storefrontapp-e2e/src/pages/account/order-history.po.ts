@@ -19,11 +19,11 @@ export class OrderHistoryPage extends AppPage {
   async goToViaHeader() {
     const header = new Header();
     await header.myAccountButton.click();
-    await E2EUtil.wait4VisibleElement(header.orderHistoryButton);
+    await E2EUtil.wait4PresentElement(header.orderHistoryButton);
     await header.orderHistoryButton.click();
   }
 
   async waitForReady() {
-    await E2EUtil.wait4VisibleElement(this.historyTable);
+    await E2EUtil.wait4PresentElement(this.historyTable);
   }
 }

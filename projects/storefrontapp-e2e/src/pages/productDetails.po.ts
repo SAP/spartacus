@@ -6,6 +6,16 @@ export class ProductDetailsPage extends AppPage {
   readonly YPAGE = 'y-product-page';
 
   readonly page: ElementFinder = element(by.tagName(this.YPAGE));
+  readonly productDetails: ElementFinder = this.page.element(
+    by.tagName('y-product-details')
+  );
+  readonly productTitle: ElementFinder = this.productDetails.element(
+    by.css('.product-title')
+  );
+  readonly productCode: ElementFinder = this.productDetails.element(
+    by.css('.product-code')
+  );
+
   readonly addToCartComponent: ElementFinder = this.page.element(
     by.tagName('y-add-to-cart')
   );
@@ -32,8 +42,7 @@ export class ProductDetailsPage extends AppPage {
   }
 
   async waitForReady() {
-    // TODO: Some product details page probably doens't have addToCart button, so it's not a good check
-    await E2EUtil.wait4VisibleElement(this.page);
+    await E2EUtil.wait4PresentElement(this.productDetails);
   }
 
   addToCart() {

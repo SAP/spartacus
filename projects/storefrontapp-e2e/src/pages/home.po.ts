@@ -15,7 +15,7 @@ export class HomePage extends AppPage {
   }
 
   async waitForReady() {
-    await E2EUtil.wait4VisibleElement(this.splashBanner);
+    await E2EUtil.wait4PresentElement(this.splashBanner);
   }
 
   getPage(): ElementFinder {
