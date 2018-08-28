@@ -18,8 +18,9 @@
       <br/>
 
       <label>Email*</label>
-      <input [ngClass]="{'error': userRegistrationForm.get('email').invalid && userRegistrationForm.get('email').dirty }" type="email"
-        name="email" placeholder="Email Address" formControlName="email" novalidate>
+      <input #emailControl [ngClass]="{'error': userRegistrationForm.get('email').invalid && userRegistrationForm.get('email').dirty }"
+        (blur)="userRegistrationForm.get('email').setValue(emailControl.value.toLowerCase())" type="email" name="email" placeholder="Email Address"
+        formControlName="email" novalidate>
       <br/>
 
       <label>Password*</label>
@@ -37,8 +38,8 @@
       <br/>
       <div fxLayout="row">
         <input type="checkbox" name="newsletter" formControlName="newsletter">
-        <span>Use my personal data to receive e-mail newsletters for marketing campaigns. To change your settings, go to Consent
-          Management in My Account.</span>
+        <span>Use my personal data to receive e-mail newsletters for marketing campaigns. To change your settings, go to
+          Consent Management in My Account.</span>
       </div>
       <div fxLayout="row">
         <input type="checkbox" name="termsandconditions" formControlName="termsandconditions">
