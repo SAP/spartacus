@@ -134,7 +134,6 @@ export class CheckoutEffects {
                   mergeMap(fromPaymentProvider => {
                     if (!fromPaymentProvider['hasError']) {
                       // consume response from payment provider and creates payment details
-
                       return this.occCartService
                         .createPaymentDetails(
                           payload.userId,
@@ -256,8 +255,6 @@ export class CheckoutEffects {
     sopResponseParams['card_expirationMonth'] = paymentDetails.expiryMonth;
     sopResponseParams['card_expirationYear'] = paymentDetails.expiryYear;
     sopResponseParams['card_nameOnCard'] = paymentDetails.accountHolderName;
-    sopResponseParams['defaultPayment'] = paymentDetails.defaultPayment;
-    sopResponseParams['savePaymentInfo'] = true;
 
     sopResponseParams['reasonCode'] =
       fromPaymentProvider[mappingLabels['hybris_sop_reason_code']];
@@ -280,10 +277,12 @@ export class CheckoutEffects {
     mappingLabels: any
   ) {
     const params = this.convertToMap(parameters);
+
     params[mappingLabels['hybris_account_holder_name']] =
       paymentDetails.accountHolderName;
     params[mappingLabels['hybris_card_type']] = paymentDetails.cardType.code;
     params[mappingLabels['hybris_card_number']] = paymentDetails.cardNumber;
+
     if (mappingLabels['hybris_combined_expiry_date'] === 'true') {
       // tslint:disable-next-line:max-line-length
       params[mappingLabels['hybris_card_expiry_date']] =
