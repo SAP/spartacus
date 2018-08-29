@@ -257,7 +257,7 @@ export class CheckoutEffects {
     sopResponseParams['card_expirationYear'] = paymentDetails.expiryYear;
     sopResponseParams['card_nameOnCard'] = paymentDetails.accountHolderName;
     sopResponseParams['defaultPayment'] = paymentDetails.defaultPayment;
-    sopResponseParams['savePaymentInfo'] = paymentDetails.savePaymentInfo;
+    sopResponseParams['savePaymentInfo'] = true;
 
     sopResponseParams['reasonCode'] =
       fromPaymentProvider[mappingLabels['hybris_sop_reason_code']];
