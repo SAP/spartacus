@@ -2,7 +2,7 @@
 import { ExternalJsFileLoader } from './external-js-file-loader.service';
 import { Injectable } from '@angular/core';
 import { OccE2eConfigurationService } from '../../occ/e2e/e2e-configuration-service';
-import { StoreDataService } from '.';
+import { StoreDataService } from './store-data.service';
 
 const GOOGLE_MAP_API_URL = 'https://maps.googleapis.com/maps/api/js';
 const GOOGLE_API_KEY_PROPERRY_NAME = 'e2egoogleservices.apikey';
@@ -60,7 +60,7 @@ export class GoogleMapRendererService {
    * Defines and returns {@link google.maps.LatLng} representing a point where the map will be centered
    * @param locations list of locations
    */
-  protected defineMapCenter(locations: any): google.maps.LatLng {
+  protected defineMapCenter(locations: any[]): google.maps.LatLng {
     return new google.maps.LatLng(
       this.storeDataService.getStoreLatitude(locations[0]),
       this.storeDataService.getStoreLongitude(locations[0])

@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 import { SearchConfig } from '../../models/search-config';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
+import { StoreDataService } from '../../services/store-data.service';
 
 @Component({
   selector: 'y-store-finder-list',
@@ -20,7 +21,10 @@ export class StoreFinderListComponent implements OnInit {
 
   @ViewChild('storeMap') storeMap: StoreFinderMapComponent;
 
-  constructor(private store: Store<fromStore.StoresState>) {}
+  constructor(
+    private store: Store<fromStore.StoresState>,
+    private storeDataService: StoreDataService
+  ) {}
 
   ngOnInit() {
     this.store.select(fromStore.getAllStores).subscribe(locations => {
@@ -40,8 +44,8 @@ export class StoreFinderListComponent implements OnInit {
 
   centerStoreOnMapByIndex(index: number): void {
     this.storeMap.centerMap(
-      this.locations.stores[index].geoPoint.latitude,
-      this.locations.stores[index].geoPoint.longitude
+      this.storeDataService.getStoreLatitude(this.locations.stores[index]),
+      this.storeDataService.getStoreLongitude(this.locations.stores[index])
     );
   }
 }

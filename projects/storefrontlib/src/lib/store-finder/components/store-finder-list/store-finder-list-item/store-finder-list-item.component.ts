@@ -9,7 +9,7 @@ import { StoreDataService } from '../../../services/store-data.service';
 })
 export class StoreFinderListItemComponent {
   @Input() location;
-  @Input() locationId: number = null;
+  @Input() locationIndex: number = null;
   @Output() storeItemClick: EventEmitter<number> = new EventEmitter();
   readonly current_date = new Date();
 
@@ -41,8 +41,8 @@ export class StoreFinderListItemComponent {
   }
 
   handleStoreItemClick() {
-    if (this.locationId !== null) {
-      this.storeItemClick.emit(this.locationId);
+    if (this.locationIndex !== null) {
+      this.storeItemClick.emit(this.locationIndex);
     }
   }
 }

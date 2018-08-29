@@ -1,7 +1,8 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { DebugElement, SimpleChange, ElementRef } from '@angular/core';
+
 import { StoreFinderMapComponent } from './store-finder-map.component';
 import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
-import { DebugElement, SimpleChange, ElementRef } from '@angular/core';
 
 class MapRendererServiceMock {
   public renderMap(mapElement: HTMLElement, locations: any[]): void {}

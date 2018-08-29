@@ -39,7 +39,11 @@ export class ExternalJsFileLoader {
     let result = '';
     const keysArray = Object.keys(params);
     if (keysArray.length > 0) {
-      result = '?' + keysArray.map(key => key + '=' + params[key]).join('&');
+      result =
+        '?' +
+        keysArray
+          .map(key => encodeURI(key) + '=' + encodeURI(params[key]))
+          .join('&');
     }
     return result;
   }

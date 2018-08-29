@@ -1,12 +1,13 @@
 <ng-container *ngIf="locations">
-  <div>
+  <div class="storesList">
     <ol class="store-address-list">
       <li *ngFor="let location of locations?.stores; let i = index;">
-        <y-store-finder-list-item [location]="location" [locationId]="i" (storeItemClick)="centerStoreOnMapByIndex($event)"></y-store-finder-list-item>
+        <y-store-finder-list-item [location]="location" [locationIndex]="i" (storeItemClick)="centerStoreOnMapByIndex($event)"></y-store-finder-list-item>
       </li>
     </ol>
   </div>
-  <y-store-finder-map #storeMap [locations]="locations.stores"></y-store-finder-map>
+  <y-store-finder-map class="storesMap" #storeMap [locations]="locations.stores"></y-store-finder-map>
+  <div class="clear"></div>
   <div *ngIf="locations?.pagination">
     <y-store-finder-paging [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-store-finder-paging>
     <div *ngIf="locations.pagination.totalPages === 0" fxFlex>

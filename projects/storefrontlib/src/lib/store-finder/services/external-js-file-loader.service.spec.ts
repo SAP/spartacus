@@ -60,7 +60,7 @@ describe('ExternalJsFileLoader', () => {
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
     spyOn(documentMock, 'appendChild').and.callThrough();
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
-    const params = { param1: 'value1', param2: 'value2' };
+    const params = { param1: 'value1', param2: 'value2 plus space' };
 
     // when
     externalJsFileLoader.load(SCRIPT_LOAD_URL, params);
@@ -70,7 +70,7 @@ describe('ExternalJsFileLoader', () => {
     expect(jsDomElement.type).toEqual('text/javascript');
     expect(jsDomElement.src).toContain(SCRIPT_LOAD_URL);
     expect(jsDomElement.src.split('?')[1]).toEqual(
-      'param1=value1&param2=value2'
+      'param1=value1&param2=value2%20plus%20space'
     );
     expect(jsDomElement.addEventListener).toHaveBeenCalledTimes(0);
   });

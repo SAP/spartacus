@@ -3,7 +3,7 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ExternalJsFileLoader } from './external-js-file-loader.service';
 import { Observable, of } from 'rxjs';
 import { OccE2eConfigurationService } from '../../occ/e2e/e2e-configuration-service';
-import { StoreDataService } from '.';
+import { StoreDataService } from './store-data.service';
 
 const MAP_DOM_ELEMENT_INNER_HTML = 'map dom element inner html';
 const GOOGLE_API_KEY = 'google_api_key';
