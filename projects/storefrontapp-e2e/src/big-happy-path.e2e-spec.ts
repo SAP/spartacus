@@ -6,10 +6,18 @@ import { OrderHistoryPage } from './pages/account/order-history.po';
 import { MultiStepCheckoutPage } from './pages/checkout/multi-step-checkout.po';
 import { ProductDetailsPage } from './pages/productDetails.po';
 import { E2EUtil } from './util.po';
+import { AddressForm } from './pages/checkout/address-form.po';
+import { PaymentForm } from './pages/checkout/payment-form.po';
 
 describe('Big Happy Path', () => {
   const home: HomePage = new HomePage();
   const checkoutPage = new MultiStepCheckoutPage();
+
+  const USER_FULL_NAME = `${LoginHelper.DEFAULT_FIRST_NAME} ${
+    LoginHelper.DEFAULT_LAST_NAME
+  }`;
+  const PRODUCT_NAME = 'Alpha 350';
+  const PRODUCT_CODE = '1446509';
 
   beforeAll(async () => {
     // Go to Home
@@ -23,7 +31,7 @@ describe('Big Happy Path', () => {
 
     expect(await home.header.isLoggedIn()).toBeTruthy();
     expect(await home.header.loginComponent.getText()).toContain(
-      'Winston Rumfoord'
+      USER_FULL_NAME
     );
 
     // Log out.
@@ -39,24 +47,25 @@ describe('Big Happy Path', () => {
     const productDetailsPage = await categoryDslr.openProduct(6);
     await productDetailsPage.waitForReady();
     expect(await productDetailsPage.productTitle.getText()).toEqual(
-      'Alpha 350'
+      PRODUCT_NAME
     );
     expect(await productDetailsPage.productCode.getText()).toContain(
-      'ID 1446509'
+      PRODUCT_CODE
     );
   });
 
   it('should add product to cart and go to checkout', async () => {
     const productDetailsPage = new ProductDetailsPage();
+    await productDetailsPage.itemCounterUpButton.click();
     await productDetailsPage.addToCartButton.click();
 
-    // 4.	Added-to-Cart modal opens. Close it.
+    // Added-to-Cart modal opens. Close it.
     const atcModal = new AddedToCartModal();
     await atcModal.waitForReady();
 
     const item = atcModal.cartItem(0);
     await E2EUtil.wait4PresentElement(item);
-    expect(await item.getText()).toContain('Alpha 350');
+    expect(await item.getText()).toContain(PRODUCT_NAME);
 
     await atcModal.proceedToCheckoutButton.click();
 
@@ -74,7 +83,7 @@ describe('Big Happy Path', () => {
       'Step 1: Shipping Address'
     );
     expect(await checkoutPage.orderSummary.getText()).toContain(
-      'Subtotal: $1,301.54'
+      'Subtotal: $2,623.08'
     );
 
     await addressForm.fillIn();
@@ -84,12 +93,13 @@ describe('Big Happy Path', () => {
   it('should choose delivery', async () => {
     const deliveryForm = checkoutPage.deliveryForm;
     await deliveryForm.waitForReady();
-
     expect(await deliveryForm.header.getText()).toContain(
       'Choose a shipping method'
     );
-    expect(await deliveryForm.address.getText()).toContain('Winstoon Rumfoord');
-    expect(await deliveryForm.address.getText()).toContain('Tralfamadore');
+    expect(await deliveryForm.address.getText()).toContain(
+      AddressForm.LAST_NAME
+    );
+    expect(await deliveryForm.address.getText()).toContain(AddressForm.CITY);
 
     await deliveryForm.setDeliveryMethod();
     await deliveryForm.nextButton.click();
@@ -101,7 +111,7 @@ describe('Big Happy Path', () => {
 
     expect(await paymentForm.header.getText()).toContain('Choose a card type');
     expect(await checkoutPage.orderSummary.getText()).toContain(
-      'Total: $1,313.53'
+      'Total: $2,635.07'
     );
 
     await paymentForm.fillIn();
@@ -115,21 +125,25 @@ describe('Big Happy Path', () => {
 
     expect(await reviewForm.header.getText()).toContain('Review and Submit');
     expect(await reviewForm.shippingAddress.getText()).toContain(
-      'Winstoon Rumfoord'
+      AddressForm.LAST_NAME
     );
     expect(await reviewForm.shippingAddress.getText()).toContain(
-      'Tralfamadore'
+      AddressForm.CITY
     );
     expect(await reviewForm.shippingMethod.getText()).toContain(
       'Standard Delivery'
     );
-    expect(await reviewForm.paymentMethod.getText()).toContain('Visa');
-    expect(await reviewForm.billingAddress.getText()).toContain(
-      'Winstoon Rumfoord'
+    expect(await reviewForm.paymentMethod.getText()).toContain(
+      PaymentForm.CARD_TYPE
     );
-    expect(await reviewForm.billingAddress.getText()).toContain('Tralfamadore');
+    expect(await reviewForm.billingAddress.getText()).toContain(
+      AddressForm.LAST_NAME
+    );
+    expect(await reviewForm.billingAddress.getText()).toContain(
+      AddressForm.CITY
+    );
     expect(await checkoutPage.orderSummary.getText()).toContain(
-      'Total: $1,313.53'
+      'Total: $2,635.07'
     );
 
     const orderConfirmationPage = await reviewForm.placeOrder();
@@ -141,6 +155,30 @@ describe('Big Happy Path', () => {
     expect(await orderConfirmationPage.confimationMessage.getText()).toContain(
       'Thank you for your order!'
     );
+    expect(await orderConfirmationPage.shippingAddress.getText()).toContain(
+      AddressForm.LAST_NAME
+    );
+    expect(await orderConfirmationPage.shippingAddress.getText()).toContain(
+      AddressForm.CITY
+    );
+    expect(await orderConfirmationPage.shippingMethod.getText()).toContain(
+      'Standard Delivery'
+    );
+    expect(await orderConfirmationPage.paymentMethod.getText()).toContain(
+      PaymentForm.CARD_TYPE
+    );
+    expect(await orderConfirmationPage.billingAddress.getText()).toContain(
+      AddressForm.LAST_NAME
+    );
+    expect(await orderConfirmationPage.billingAddress.getText()).toContain(
+      AddressForm.CITY
+    );
+    expect(await orderConfirmationPage.orderItem(0).getText()).toContain(
+      PRODUCT_CODE
+    );
+    expect(await orderConfirmationPage.orderSummary.getText()).toContain(
+      'Total: $2,635.07'
+    );
   });
 
   it('should be able to check order in order history', async () => {
@@ -150,6 +188,9 @@ describe('Big Happy Path', () => {
     await orderHistoryPage.waitForReady();
     expect(await orderHistoryPage.historyHeader.getText()).toContain(
       '1 orders found in your Order History'
+    );
+    expect(await orderHistoryPage.historyItem(0).getText()).toContain(
+      '$2,635.07'
     );
 
     // Logout at the end of test

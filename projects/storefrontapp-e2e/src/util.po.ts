@@ -166,4 +166,28 @@ export class E2EUtil {
       });
     });
   }
+
+  /**
+   * Select option from <select> element by text
+   * @param selectElement
+   * @param text
+   */
+  static selectOptionByText(selectElement: ElementFinder, text: string) {
+    return selectElement
+      .all(by.cssContainingText('option', text))
+      .get(0)
+      .click();
+  }
+
+  /**
+   * Select option from <select> element by option number
+   * @param selectElement
+   * @param optionNo
+   */
+  static selectOptionByNo(selectElement: ElementFinder, optionNo: number) {
+    return selectElement
+      .all(by.tagName('option'))
+      .get(optionNo)
+      .click();
+  }
 }

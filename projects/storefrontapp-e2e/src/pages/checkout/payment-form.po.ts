@@ -2,6 +2,13 @@ import { by, element, ElementFinder } from 'protractor';
 import { E2EUtil } from '../../util.po';
 
 export class PaymentForm {
+  static readonly CARD_HOLDER = 'Winston Rumfoord';
+  static readonly CARD_NUMBER = '4111111111111111';
+  static readonly CARD_TYPE = 'Visa';
+  static readonly CARD_MONTH = '12';
+  static readonly CARD_YEAR = '2080';
+  static readonly CARD_CCV = '123';
+
   constructor(
     private parentElement: ElementFinder = element(by.tagName('y-root'))
   ) {}
@@ -33,18 +40,16 @@ export class PaymentForm {
   );
 
   async selectCardType(value: string) {
-    await this.cardTypeSelect
-      .element(by.cssContainingText('option', value))
-      .click();
+    await E2EUtil.selectOptionByText(this.cardTypeSelect, value);
   }
 
   async fillIn() {
-    await this.accountHolderName.sendKeys('Winston Rumfoord');
-    await this.cardNumber.sendKeys('4111111111111111');
-    await this.selectCardType('Visa');
-    await this.expiryMonth.sendKeys('12');
-    await this.expiryYear.sendKeys('2080');
-    await this.verificationNumber.sendKeys('123');
+    await this.accountHolderName.sendKeys(PaymentForm.CARD_HOLDER);
+    await this.cardNumber.sendKeys(PaymentForm.CARD_NUMBER);
+    await this.selectCardType(PaymentForm.CARD_TYPE);
+    await this.expiryMonth.sendKeys(PaymentForm.CARD_MONTH);
+    await this.expiryYear.sendKeys(PaymentForm.CARD_YEAR);
+    await this.verificationNumber.sendKeys(PaymentForm.CARD_CCV);
   }
 
   async waitForReady() {

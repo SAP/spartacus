@@ -15,6 +15,8 @@ export class OrderHistoryPage extends AppPage {
   readonly historyTable: ElementFinder = this.orderHistoryComponent.element(
     by.tagName('table')
   );
+  readonly historyItem = (itemNo: number): ElementFinder =>
+    this.historyTable.all(by.css('tbody tr')).get(itemNo);
 
   async goToViaHeader() {
     const header = new Header();

@@ -8,6 +8,16 @@ export class LoginHelper {
   static userEmail: string;
   static userPassword: string;
 
+  static readonly DEFAULT_TITLE = 'Mr.';
+  static readonly DEFAULT_FIRST_NAME = 'Winston';
+  static readonly DEFAULT_LAST_NAME = 'Rumfoord';
+  static readonly DEFAULT_USER_DOMAIN = 'ydev.hybris.com';
+  static readonly DEFAULT_PASSWORD = `TestP@sw0rd`;
+
+  /**
+   * Can ba used for any user context action
+   * If user is not logged in it registers new user (unless already registered one for current session) and perform user login
+   */
   static async ensureUserIsLoggedIn() {
     const loginPage = new LoginPage();
     const isLoggedIn = await loginPage.header.isLoggedIn();
@@ -28,13 +38,13 @@ export class LoginHelper {
     }
   }
 
-  static async goToLoginViaHeader() {
+  static async navigateToLoginViaHeader() {
     const header = new Header();
     await header.getLoginIconComponent().click();
   }
 
-  static async goToRegisterViaHeader() {
-    await LoginHelper.goToLoginViaHeader();
+  static async navigateToRegisterViaHeader() {
+    await LoginHelper.navigateToLoginViaHeader();
     const loginPage = new LoginPage();
     await loginPage.waitForReady();
     await loginPage.loginForm.registerButton.click();
@@ -42,17 +52,17 @@ export class LoginHelper {
 
   static async registerNewUser() {
     const registerPage = new RegisterPage();
-    await LoginHelper.goToRegisterViaHeader();
+    await LoginHelper.navigateToRegisterViaHeader();
     await registerPage.waitForReady();
 
-    const testUserId = `user${Date.now()}`;
-    const userEmail = `${testUserId}@test.w9.pl`;
-    const userPassword = `TestP@sw0rd`;
+    const testUserId = Date.now() - 1535535333333;
+    const userEmail = `user${testUserId}@${LoginHelper.DEFAULT_USER_DOMAIN}`;
+    const userPassword = LoginHelper.DEFAULT_PASSWORD;
 
     await registerPage.registerForm.fillInForm(
-      'Mr',
-      'Winston',
-      'Rumfoord',
+      LoginHelper.DEFAULT_TITLE,
+      LoginHelper.DEFAULT_FIRST_NAME,
+      LoginHelper.DEFAULT_LAST_NAME,
       userEmail,
       userPassword
     );

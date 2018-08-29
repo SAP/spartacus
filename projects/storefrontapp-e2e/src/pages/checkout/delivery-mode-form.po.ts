@@ -7,7 +7,7 @@ export class DeliveryModeForm {
   ) {}
 
   readonly form: ElementFinder = this.parentElement.element(
-    by.tagName('y-delivery-mode-form')
+    by.tagName('y-delivery-mode')
   );
   readonly header: ElementFinder = this.form.element(by.css('h3.heading'));
   readonly address: ElementFinder = this.form.element(by.css('.address'));
@@ -19,10 +19,7 @@ export class DeliveryModeForm {
   );
 
   async setDeliveryMethod(option: number = 1) {
-    await this.deliveryModeSelect
-      .all(by.tagName('option'))
-      .get(option)
-      .click();
+    await E2EUtil.selectOptionByNo(this.deliveryModeSelect, option);
   }
 
   async waitForReady() {

@@ -22,6 +22,12 @@ export class ProductDetailsPage extends AppPage {
   readonly addToCartButton: ElementFinder = this.addToCartComponent.element(
     by.tagName('button')
   );
+  readonly itemCounterComponent: ElementFinder = this.productDetails.element(
+    by.tagName('y-item-counter')
+  );
+  readonly itemCounterUpButton: ElementFinder = this.itemCounterComponent
+    .all(by.tagName('button'))
+    .get(1);
 
   getAddToCartComponent(): ElementFinder {
     return E2EUtil.getComponentWithinParent(this.page, 'y-add-to-cart');

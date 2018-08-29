@@ -2,6 +2,17 @@ import { by, element, ElementFinder } from 'protractor';
 import { E2EUtil } from '../../util.po';
 
 export class AddressForm {
+  static readonly COUNTRY = 'United States';
+  static readonly FIELD = 'Mr.';
+  static readonly FIRST_NAME = 'Winstoon';
+  static readonly LAST_NAME = 'Rumfoord';
+  static readonly ADDRESS_LINE_1 = 'Chrono-Synclastic Infundibulum';
+  static readonly ADDRESS_LINE_2 = 'Betelgeuse';
+  static readonly CITY = 'Tralfamadore';
+  static readonly PROVINCE = 'Connecticut';
+  static readonly POSTAL_CODE = '06247';
+  static readonly PHONE_NUMBER = '555 555 555';
+
   constructor(
     private parentElement: ElementFinder = element(by.tagName('y-root'))
   ) {}
@@ -48,33 +59,28 @@ export class AddressForm {
   );
 
   async setCountry(value: string) {
-    await this.countrySelect
-      .all(by.cssContainingText('option', value))
-      .get(0)
-      .click();
+    await E2EUtil.selectOptionByText(this.countrySelect, value);
   }
 
   async setTitle(value: string) {
-    await this.titleSelect
-      .element(by.cssContainingText('option', value))
-      .click();
+    await E2EUtil.selectOptionByText(this.titleSelect, value);
   }
 
   async setProvince(value: string) {
-    await this.province.element(by.cssContainingText('option', value)).click();
+    await E2EUtil.selectOptionByText(this.province, value);
   }
 
   async fillIn() {
-    await this.setCountry('United States');
-    await this.setTitle('Mr.');
-    await this.firstName.sendKeys('Winstoon');
-    await this.lastName.sendKeys('Rumfoord');
-    await this.addressLine1.sendKeys('Chrono-Synclastic Infundibulum');
-    await this.addressLine2.sendKeys('Betelgeuse');
-    await this.city.sendKeys('Tralfamadore');
-    await this.setProvince('Connecticut');
-    await this.postalCode.sendKeys('06247');
-    await this.phoneNumber.sendKeys('555 555 555');
+    await this.setCountry(AddressForm.COUNTRY);
+    await this.setTitle(AddressForm.FIELD);
+    await this.firstName.sendKeys(AddressForm.FIRST_NAME);
+    await this.lastName.sendKeys(AddressForm.LAST_NAME);
+    await this.addressLine1.sendKeys(AddressForm.ADDRESS_LINE_1);
+    await this.addressLine2.sendKeys(AddressForm.ADDRESS_LINE_2);
+    await this.city.sendKeys(AddressForm.CITY);
+    await this.setProvince(AddressForm.PROVINCE);
+    await this.postalCode.sendKeys(AddressForm.POSTAL_CODE);
+    await this.phoneNumber.sendKeys(AddressForm.PHONE_NUMBER);
   }
 
   async waitForReady() {

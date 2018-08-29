@@ -1,4 +1,5 @@
 import { by, element, ElementFinder } from 'protractor';
+import { E2EUtil } from '../../util.po';
 
 export class RegisterForm {
   constructor(
@@ -32,10 +33,7 @@ export class RegisterForm {
   );
 
   async setTitle(value: string) {
-    await this.titleSelect
-      .all(by.cssContainingText('option', value))
-      .get(0)
-      .click();
+    await E2EUtil.selectOptionByText(this.titleSelect, value);
   }
 
   async setFirstName(value: string) {
