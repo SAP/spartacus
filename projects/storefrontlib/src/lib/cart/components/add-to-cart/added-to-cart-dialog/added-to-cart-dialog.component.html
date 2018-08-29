@@ -10,14 +10,14 @@
     <div class="entry-info-container">
       <ng-container *ngIf="(entry$ | async) as entry">
         <table class="item__list item__list__cart table" [formGroup]="form">
-          <tr
+          <!-- <tr
             y-cart-item
             formGroupName="entryForm"
             [entry]="entry"
             [disableProductLink]="true"
             (update)="updateEntry($event)"
             (remove)="removeEntry($event)"
-          ></tr>
+          ></tr> -->
         </table>
       </ng-container>
     </div>
