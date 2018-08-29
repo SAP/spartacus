@@ -91,6 +91,22 @@ And use this instead:
     }
 ```
 
+## Production
+
+### Building for production
+
+The storefront uses service workers for PWA support (in production mode only). Therefore, we can't use the default angular CLI commands to build and run the app in production mode. To properly build and run in production mode, use these commands:
+
+```
+yarn build:core:lib --prod
+yarn build --prod
+yarn start:pwa  // this will start the http-server
+```
+
+When the server is up, navigate to [`http://localhost:3000/`](http://localhost:3000/).
+
+If we navigate to the browser's `Application` tab, we can see that the service worker is running.
+
 ## Development tools
 
 ### Code Editor: VS Code

@@ -1,0 +1,26 @@
+<ng-container *ngIf="existingAddresses$ | async as existingAddresses">
+    <div class="content" *ngIf="existingAddresses.length > 0 && !isAddressForm; else addressForm">
+        <h3>Shipping Addresses</h3>
+        <div *ngFor="let address of existingAddresses">
+            <div>{{address.firstName}} {{address.lastName}}
+                <span *ngIf="address.defaultAddress">(Default Shipping Address)</span>
+                <br>{{address.line1}}
+                <br>{{address.line2}}
+                <br>{{address.town}},
+                <span *ngIf="address.region">{{address.region?.isocode}},</span> {{address.country.isocode}}</div>
+            <div class="continue-link">
+                <a [routerLink]="" (click)="addressSelected(address)">Use this address</a>
+            </div>
+        </div>
+
+        <div></div>
+        <div class="buttons">
+            <button mat-raised-button color="primary" (click)="back()">Go Back</button>
+            <button mat-raised-button color="accent" (click)="goToAddressForm()">Add a New Address</button>
+        </div>
+    </div>
+</ng-container>
+
+<ng-template #addressForm>
+    <y-address-form (addAddress)="addNewAddress($event)" (backToAddress)="backToAddress()"></y-address-form>
+</ng-template>

@@ -17,26 +17,24 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   orders$: Observable<any>;
   isLoaded$: Observable<boolean>;
-  userDataSubscription: Subscription;
+  subscription: Subscription;
   private PAGE_SIZE = 5;
   private user_id: string;
 
   ngOnInit() {
-    this.userDataSubscription = this.store
+    this.subscription = this.store
       .select(fromAuthStore.getUserToken)
-      .pipe(
-        tap(userData => {
+      .subscribe(userData => {
+        if (userData && userData.userId) {
           this.user_id = userData.userId;
-
           this.store.dispatch(
             new fromUserStore.LoadUserOrders({
               userId: this.user_id,
               pageSize: this.PAGE_SIZE
             })
           );
-        })
-      )
-      .subscribe();
+        }
+      });
 
     this.orders$ = this.store.select(fromUserStore.getOrders).pipe(
       tap(orders => {
@@ -55,8 +53,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.userDataSubscription) {
-      this.userDataSubscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 
