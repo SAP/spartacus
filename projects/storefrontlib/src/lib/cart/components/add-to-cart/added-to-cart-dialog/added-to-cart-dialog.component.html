@@ -8,11 +8,9 @@
 <ng-container *ngIf="(entry$ | async) as entry">
   <div mat-dialog-content>
     <div class="entry-info-container">
-      <ng-container *ngIf="(entry$ | async) as entry">
-        <ul class="item__list item__list__cart" [formGroup]="form">
-          <y-cart-item formGroupName="entryForm" [entry]="entry" [disableProductLink]="true" (update)="updateEntry($event)" (remove)="removeEntry($event)"></y-cart-item>
-        </ul>
-      </ng-container>
+      <ul class="item__list item__list__cart" [formGroup]="form">
+        <y-cart-item formGroupName="entryForm" [entry]="entry" [disableProductLink]="true" (update)="updateEntry($event)" (remove)="removeEntry($event)"></y-cart-item>
+      </ul>
     </div>
     <div class="cart-total-container">
       <span>cart total {{ (cart$ | async).totalPrice.formattedValue}}</span>

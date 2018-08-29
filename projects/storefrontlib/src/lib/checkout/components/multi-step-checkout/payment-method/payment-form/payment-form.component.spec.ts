@@ -8,15 +8,15 @@ import {
 } from '@angular/forms';
 import { of } from 'rxjs';
 
-import * as fromRoot from '../../../../routing/store';
-import * as fromCheckout from '../../../store';
-import * as fromCart from '../../../../cart/store';
-import * as fromUser from '../../../../user/store';
-import * as fromAuth from '../../../../auth/store';
+import * as fromRoot from '../../../../../routing/store';
+import * as fromCheckout from '../../../../store';
+import * as fromCart from '../../../../../cart/store';
+import * as fromUser from '../../../../../user/store';
+import * as fromAuth from '../../../../../auth/store';
 
-import { CheckoutService } from '../../../services/checkout.service';
-import { CartService } from '../../../../cart/services/cart.service';
-import { CartDataService } from '../../../../cart/services/cart-data.service';
+import { CheckoutService } from '../../../../services/checkout.service';
+import { CartService } from '../../../../../cart/services/cart.service';
+import { CartDataService } from '../../../../../cart/services/cart-data.service';
 import { RouterTestingModule } from '@angular/router/testing';
 
 export class MockAbstractControl {
@@ -43,15 +43,6 @@ const mockCardTypes = {
       name: 'Maestro'
     }
   ]
-};
-
-const paymentDetails = {
-  accountHolderName: 'Name',
-  cardNumber: '123456789',
-  cardType: 'Visa',
-  expiryMonth: '01',
-  expiryYear: '2022',
-  cvn: '123'
 };
 
 describe('PaymentFormComponent', () => {
@@ -99,7 +90,7 @@ describe('PaymentFormComponent', () => {
     spyOn(service, 'loadSupportedCardTypes').and.callThrough();
 
     spyOn(component.addPaymentInfo, 'emit').and.callThrough();
-    spyOn(component.backStep, 'emit').and.callThrough();
+    spyOn(component.backToPayment, 'emit').and.callThrough();
     spyOn(component.payment, 'get').and.returnValue(ac);
   });
 
@@ -123,14 +114,6 @@ describe('PaymentFormComponent', () => {
     });
   });
 
-  it('should call paymentMethodSelected(paymentDetails)', () => {
-    component.paymentMethodSelected(paymentDetails);
-    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
-      payment: paymentDetails,
-      newPayment: false
-    });
-  });
-
   it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
     component.payment.value.defaultPayment = false;
     component.toggleDefaultPaymentMethod();
@@ -143,22 +126,16 @@ describe('PaymentFormComponent', () => {
     expect(component.payment.value.defaultPayment).toBeFalsy();
   });
 
-  it('should call addNewPaymentMethod()', () => {
-    component.addNewPaymentMethod();
-    expect(component.newPayment).toBeTruthy();
-  });
-
   it('should call next()', () => {
     component.next();
-    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
-      payment: component.payment.value,
-      newPayment: true
-    });
+    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith(
+      component.payment.value
+    );
   });
 
   it('should call back()', () => {
     component.back();
-    expect(component.backStep.emit).toHaveBeenCalled();
+    expect(component.backToPayment.emit).toHaveBeenCalled();
   });
 
   it('should call required(name: string)', () => {

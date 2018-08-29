@@ -13,37 +13,39 @@ import { ConfigService } from '../../config.service';
 
 @Injectable()
 export class SiteContextInterceptor implements HttpInterceptor {
+  baseReqString: string;
+  activeLang = this.configService.site.language;
+  activeCurr = this.configService.site.currency;
+
   constructor(
     private store: Store<fromStore.SiteContextState>,
     private configService: ConfigService
-  ) {}
+  ) {
+    this.baseReqString =
+      this.configService.server.baseUrl +
+      this.configService.server.occPrefix +
+      this.configService.site.baseSite;
+
+    this.store
+      .select(fromStore.getActiveLanguage)
+      .pipe(filter(lang => lang != null))
+      .subscribe(data => (this.activeLang = data));
+
+    this.store
+      .select(fromStore.getActiveCurrency)
+      .pipe(filter(curr => curr != null))
+      .subscribe(data => (this.activeCurr = data));
+  }
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    let activeLang = this.configService.site.language;
-    this.store
-      .select(fromStore.getActiveLanguage)
-      .pipe(filter(lang => lang != null))
-      .subscribe(data => (activeLang = data));
-
-    let activeCurr = this.configService.site.currency;
-    this.store
-      .select(fromStore.getActiveCurrency)
-      .pipe(filter(curr => curr != null))
-      .subscribe(data => (activeCurr = data));
-
-    const baseReqString =
-      this.configService.server.baseUrl +
-      this.configService.server.occPrefix +
-      this.configService.site.baseSite;
-
-    if (request.url.indexOf(baseReqString) > -1) {
+    if (request.url.indexOf(this.baseReqString) > -1) {
       request = request.clone({
         setParams: {
-          lang: activeLang,
-          curr: activeCurr
+          lang: this.activeLang,
+          curr: this.activeCurr
         }
       });
     }
