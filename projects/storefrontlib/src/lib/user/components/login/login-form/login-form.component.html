@@ -4,12 +4,12 @@
     <label for="userId">Email address</label>
     <input type="email" class="form-control" formControlName="userId" id="userId" placeholder="Enter email">
     <div class="invalid-feedback" *ngIf="form.controls['userId'].touched && form.controls['userId'].invalid">
-      <!-- todo: handle invalid input message -->
+      <span>This is not a valid email format.</span>
     </div>
   </div>
   <div class="form-group">
     <label for="password">Password</label>
-    <input type="password" class="form-control" id="password" placeholder="Password">
+    <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
   </div>
   <p>
     <a routerLink="/login/reset" aria-controls="reset-password" class="btn-link">Forgot password?</a>

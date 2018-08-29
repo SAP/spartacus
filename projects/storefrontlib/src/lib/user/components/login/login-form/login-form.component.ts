@@ -29,12 +29,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap(data => {
           if (data && data.access_token) {
-            this.store.dispatch(
-              new fromGlobalMessage.AddMessage({
-                text: 'Logged In Successfully',
-                type: GlobalMessageType.MSG_TYPE_CONFIRMATION
-              })
-            );
             return this.store.select(fromRouting.getRedirectUrl).pipe(take(1));
           }
           return of();
