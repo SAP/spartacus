@@ -8,7 +8,6 @@ $y-order-summary-promotions-color: 'success' !default;
 $y-order-summary-total-savings-color: 'success' !default;
 
 .y-order-summary {
-    @include var-color('background-color', $y-order-summary-background-color);
     padding: 1rem;
     margin-bottom: 1.5rem;
 
