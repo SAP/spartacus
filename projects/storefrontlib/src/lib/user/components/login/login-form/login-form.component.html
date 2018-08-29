@@ -2,8 +2,9 @@
 <form (submit)="login()" [formGroup]="form">
   <div class="form-group">
     <label for="userId">Email address</label>
-    <input type="email" class="form-control" formControlName="userId" id="userId" placeholder="Enter email">
-    <div class="invalid-feedback" *ngIf="form.controls['userId'].touched && form.controls['userId'].invalid">
+    <input type="email" class="form-control" [class.is-invalid]="form.controls['userId'].invalid && (form.controls['userId'].touched || form.controls['userId'].dirty)"
+      formControlName="userId" id="userId" placeholder="Enter email">
+    <div class="invalid-feedback" *ngIf="form.controls['userId'].invalid && (form.controls['userId'].touched || form.controls['userId'].dirty)">
       <span>This is not a valid email format.</span>
     </div>
   </div>

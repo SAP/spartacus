@@ -6,8 +6,6 @@ import { take, switchMap } from 'rxjs/operators';
 import * as fromStore from '../../../store';
 import * as fromAuthStore from './../../../../auth/store';
 import * as fromRouting from '../../../../routing/store';
-import * as fromGlobalMessage from '../../../../global-message/store';
-import { GlobalMessageType } from '../../../../global-message/models/message.model';
 
 @Component({
   selector: 'y-login-form',
