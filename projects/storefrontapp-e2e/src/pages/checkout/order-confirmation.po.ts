@@ -37,7 +37,7 @@ export class OrderConfirmationPage extends AppPage {
       .all(
         by.css('.order-items-container table.order-items-table tr td .entry')
       )
-      .get(itemNo)
+      .get(itemNo);
 
   async waitForReady() {
     await E2EUtil.wait4PresentElement(this.confirmationComponent);
