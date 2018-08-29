@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, HostListener } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  HostListener
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -23,7 +30,7 @@ export class CartItemComponent implements OnInit {
 
   @HostListener('window:resize')
   onResize() {
-      this.currentWindowWidth = window.innerWidth;
+    this.currentWindowWidth = window.innerWidth;
   }
 
   ngOnInit() {
@@ -58,7 +65,10 @@ export class CartItemComponent implements OnInit {
 
   getPromotionForEntry(entry: any): any {
     const entryPromotions = [];
-    if (this.potentialProductPromotions && this.potentialProductPromotions.length > 0) {
+    if (
+      this.potentialProductPromotions &&
+      this.potentialProductPromotions.length > 0
+    ) {
       for (const promotion of this.potentialProductPromotions) {
         if (
           promotion.description &&

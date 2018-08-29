@@ -7,19 +7,19 @@ $y-cart-details-checkbox-label-color: 'text' !default;
 $y-cart-details-checkbox-link-color: 'text' !default;
 
 .y-cart-details {
-    &__cart-total {
-        @include type('4');
-        margin: 0 0 1rem 0;
-    }
-    &__checkbox {
-        margin: 0 0 1rem 0;
-        @include type('7');
+  &__cart-total {
+    @include type('4');
+    margin: 0 0 1rem 0;
+  }
+  &__checkbox {
+    margin: 0 0 1rem 0;
+    @include type('7');
 
-        label {
-            @include var-color('color', $y-cart-details-checkbox-label-color);
-        }
-        a {
-            @include var-color('color', $y-cart-details-checkbox-link-color);
-        }
+    label {
+      @include var-color('color', $y-cart-details-checkbox-label-color);
     }
+    a {
+      @include var-color('color', $y-cart-details-checkbox-link-color);
+    }
+  }
 }
