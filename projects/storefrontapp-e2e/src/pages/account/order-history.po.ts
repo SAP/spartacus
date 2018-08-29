@@ -1,4 +1,4 @@
-import { by, element, ElementFinder } from 'protractor';
+import { browser, by, element, ElementFinder } from 'protractor';
 import { AppPage } from '../../app.po';
 import { Header } from '../../cmslib/header.po';
 import { E2EUtil } from '../../util.po';
@@ -18,14 +18,19 @@ export class OrderHistoryPage extends AppPage {
   readonly historyItem = (itemNo: number): ElementFinder =>
     this.historyTable.all(by.css('tbody tr')).get(itemNo);
 
+  async navigateTo() {
+    await browser.get('/my-account/orders');
+    await this.waitForReady();
+  }
+
+  async waitForReady() {
+    await E2EUtil.wait4VisibleElement(this.historyTable);
+  }
+
   async goToViaHeader() {
     const header = new Header();
     await header.myAccountButton.click();
     await E2EUtil.wait4VisibleElement(header.orderHistoryButton);
     await header.orderHistoryButton.click();
-  }
-
-  async waitForReady() {
-    await E2EUtil.wait4VisibleElement(this.historyTable);
   }
 }

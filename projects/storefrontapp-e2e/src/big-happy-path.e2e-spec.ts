@@ -184,8 +184,7 @@ describe('Big Happy Path', () => {
   it('should be able to check order in order history', async () => {
     // Go to my-account and assess that the new order is the newest in the list.
     const orderHistoryPage = new OrderHistoryPage();
-    await orderHistoryPage.goToViaHeader();
-    await orderHistoryPage.waitForReady();
+    await orderHistoryPage.navigateTo();
     expect(await orderHistoryPage.historyHeader.getText()).toContain(
       '1 orders found in your Order History'
     );
