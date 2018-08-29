@@ -3,8 +3,8 @@
         Reorder
     </a>
     <ng-template #nodeWithChilds>
-        <a href="#" *ngIf="node.childs; else noChilds" ngbDropdownToggle class="y-navigation__link nav-link" role="button" id="{{ node.title }}">{{
-            node.title }}</a>
+        <span *ngIf="node.childs; else noChilds" ngbDropdownToggle class="y-navigation__link nav-link" role="button" id="{{ node.title }}">{{
+            node.title }}</span>
     </ng-template>
     <ng-template #noChilds>
         <a [routerLink]="node.url" class="y-navigation__link nav-link" role="button" id="{{ node.title }}">{{ node.title
