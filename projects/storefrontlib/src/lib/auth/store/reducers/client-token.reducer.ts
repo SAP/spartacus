@@ -3,10 +3,14 @@ import * as fromActions from './../actions';
 
 export interface ClientTokenState {
   token: ClientAuthenticationToken;
+  loading: boolean;
+  loaded: boolean;
 }
 
 export const initialState: ClientTokenState = {
-  token: <ClientAuthenticationToken>{}
+  token: <ClientAuthenticationToken>{},
+  loading: false,
+  loaded: false
 };
 
 export function reducer(
@@ -16,7 +20,9 @@ export function reducer(
   switch (action.type) {
     case fromActions.LOAD_CLIENT_TOKEN: {
       return {
-        ...state
+        ...state,
+        loading: true,
+        loaded: false
       };
     }
 
@@ -24,13 +30,17 @@ export function reducer(
       const token = action.payload;
       return {
         ...state,
-        token
+        token,
+        loading: false,
+        loaded: true
       };
     }
 
     case fromActions.LOAD_CLIENT_TOKEN_FAIL: {
       return {
-        ...state
+        ...state,
+        loading: false,
+        loaded: true
       };
     }
   }
