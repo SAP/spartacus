@@ -5,7 +5,7 @@
 // y-cart-details color variables
 $y-cart-details-checkbox-label-color: 'text' !default;
 $y-cart-details-checkbox-link-color: 'text' !default;
-$y-cart-details-tr-order-bottom: 'light' !default;
+
 .y-cart-details {
     &__cart-total {
         @include type('4');
@@ -21,21 +21,5 @@ $y-cart-details-tr-order-bottom: 'light' !default;
         a {
             @include var-color('color', $y-cart-details-checkbox-link-color);
         }
-    }
-
-    table {
-        @include type('7');
-    }
-    thead {
-        tr {
-            margin-bottom: 0 none;
-        }
-        @include media-breakpoint-down(sm) {
-            display: none;
-        }
-    }
-    tr {
-        border-bottom: 1px solid;
-        @include var-color('border-bottom-color', $y-cart-details-tr-order-bottom);
     }
 }
