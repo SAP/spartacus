@@ -1,69 +1,81 @@
-<td class="y-cart-item">
-  <a [routerLink]="['/product', entry.product.code]">
-    <y-picture [imageContainer]="entry.product.images?.PRIMARY" imageFormat="thumbnail"></y-picture>
-  </a>
-</td>
-<td class="y-cart-item">
-  <div class="y-cart-item__description-list" role="list">
-    <div class="y-cart-item__item-title" role="listitem">
-      <a *ngIf="!disableProductLink; else disabledProductLink" [routerLink]="['/product', entry.product.code]">
-        <span class="item__name">{{entry.product.name}}</span>
-      </a>
-      <ng-template #disabledProductLink>
-        <span class="item__name">{{entry.product.name}}</span>
-      </ng-template>
-    </div>
-    <div class="y-cart-item__item-id" role="listitem">ID {{entry.product.code}}</div>
-    <div class="y-cart-item__item-size" role="listitem">
-      <strong>Size</strong> Medium</div>
-    <div class="y-cart-item__item-colour" role="listitem">
-      <strong>Color</strong> Black </div>
-    <div class="y-cart-item__item-width" role="listitem">
-      <strong>Width</strong> Wide</div>
-    <div class="y-cart-item__item-promo" role="listitem" *ngFor="let promotion of potentialPromotions">
-        {{ promotion.description}}
-    </div>
-    <div class="y-cart-item__item-unavailable" role="listitem">
-      {{ entry.product.stock?.stockLevelStatus | uppercase }}
-    </div>
-  </div>
-</td>
-<td class="y-cart-item y-cart-item--center">
-  <div class="table--mobile">Item price</div>
-  <div class="y-cart-item__price" aria-label="item price">
-    {{entry.basePrice?.formattedValue}}
-  </div>
-</td>
-<td [formGroup]="parent" class="y-cart-item y-cart-item--center">
-  <y-item-counter [step]="1" [min]="1" [max]="entry.product.stock?.stockLevel || 1000" [async]="true" (update)="updateEntry($event)"
-    formControlName="quantity">
-  </y-item-counter>
-</td>
-<td class="y-cart-item y-cart-item--center">
-  <div class="table--mobile">Total</div>
-  <div class="y-cart-item__total" tabindex="0" aria-label="item total"> {{entry.totalPrice.formattedValue}}</div>
-  <a class="y-cart-item__remove" [routerLink]="" (click)="removeEntry()">Remove</a>
-</td>
+<table class="table y-cart-item" [formGroup]="form">
+    <thead *ngIf="!isMobile">
+      <tr>
+        <th scope="col">Description</th>
+        <th scope="col"> </th>
+        <th scope="col">Item price</th>
+        <th scope="col">Qty</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entry of entries" [formGroupName]="entry.product.code">
+        <td>
+          <a [routerLink]="['/product', entry.product.code]">
+            <y-picture [imageContainer]="entry.product.images?.PRIMARY" imageFormat="thumbnail"></y-picture>
+          </a>
+        </td>
+        <td>
+          <div class="y-cart-item__description-list" role="list">
+            <div class="y-cart-item__item-title" role="listitem">
+              <a *ngIf="!disableProductLink; else disabledProductLink" [routerLink]="['/product', entry.product.code]">
+                <span class="item__name">{{entry.product.name}}</span>
+              </a>
+              <ng-template #disabledProductLink>
+                <span class="item__name">{{entry.product.name}}</span>
+              </ng-template>
+            </div>
+            <div class="y-cart-item__item-id" role="listitem">ID {{entry.product.code}}</div>
+            <br />
+            <!-- TODO Where do we get this info? -->
+            <!-- <div class="y-cart-item__item-size" role="listitem">
+              <span class="y-cart-item__item--desc" *ngIf="!isMobile">Size</span>
+              <div class="table--mobile">Size</div>
+              <span class="y-cart-item__item--value">Medium</span>
+            </div>
+            <div class="y-cart-item__item-colour" role="listitem">
+              <span class="y-cart-item__item--desc" *ngIf="!isMobile">Color</span>
+              <div class="table--mobile">Color</div>
+              <span class="y-cart-item__item--value">Black</span>
+            </div>
+            <div class="y-cart-item__item-width" role="listitem">
+              <span class="y-cart-item__item--desc" *ngIf="!isMobile">Width</span>
+              <div class="table--mobile">Width</div>
+              <span class="y-cart-item__item--value">Wide</span>
+            </div> -->
+            <br />
+            <div class="y-cart-item__item-unavailable" role="listitem"> {{ entry.product.stock?.stockLevelStatus | uppercase }}</div>
 
+            <div
+              class="y-cart-item__item-promo"
+              role="listitem"
+              *ngFor="let promotion of getPromotionForEntry(entry)"
+              [innerHTML]="promotion.description"
+            >
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="table--mobile">Item price</div>
+          <div class="y-cart-item__price" aria-label="item price">
+            {{entry.basePrice?.formattedValue}}
+          </div>
+        </td>
 
-
-
-
-<!--  OLD VERSION -->
-
-  <!-- delivery -->
-  <!-- <div class="item__delivery" *ngIf="entry.product.purchasable">
-    <ng-container *ngIf="entry.product.stock.stockLevelStatus !== 'outOfStock'">
-      <ng-container *ngIf="!entry.deliveryPointOfService || !entry.product.availableForPickup">
-        Shipping
-      </ng-container>
-    </ng-container>
-
-    <ng-container *ngIf="entry.deliveryPointOfService?.name">
-      PickUp
-    </ng-container>
-
-    <ng-container *ngIf="entry.product.availableForPickup && entry.deliveryPointOfService?.name">
-      {{entry.deliveryPointOfService.name}}
-    </ng-container>
-  </div> -->
+        <td>
+          <div class="table--mobile">Qty</div>
+          <div *ngIf="isReadOnly" class="y-cart-item__qty">1</div>
+          <div *ngIf="!isReadOnly">
+            <y-item-counter [step]="1" [min]="1" [max]="entry.product.stock?.stockLevel || 1000" [async]="true" (update)="updateEntry($event, entry)"
+              formControlName="quantity">
+            </y-item-counter>
+          </div>
+        </td>
+        <td>
+          <div class="table--mobile">Total</div>
+          <div class="y-cart-item__total" tabindex="0" aria-label="item total"> {{entry.totalPrice.formattedValue}}</div>
+          <a *ngIf="!isReadOnly" href="#" class="y-cart-item__remove" [routerLink]="" (click)="removeEntry(entry)"> Remove</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
