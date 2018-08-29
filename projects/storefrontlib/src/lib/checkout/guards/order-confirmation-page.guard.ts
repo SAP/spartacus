@@ -4,11 +4,12 @@ import { CanActivate, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { CheckoutService } from '../services/checkout.service';
+
 import * as fromAuthStore from '../../auth/store';
 import { UserToken } from '../../auth';
-import { switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class OrderConfirmationPageGuard implements CanActivate {
@@ -26,18 +27,19 @@ export class OrderConfirmationPageGuard implements CanActivate {
           userLoggedIn = true;
         }
 
-        const orderDetailsPresent = this.orderDetailsPresent();
-        if (!orderDetailsPresent) {
-          let redirectTo: string;
-          if (userLoggedIn) {
-            redirectTo = '/my-account/orders';
-          } else {
-            redirectTo = '/';
-          }
-          this.router.navigate([redirectTo]);
+        if (this.orderDetailsPresent()) {
+          return of(true);
         }
 
-        return of(orderDetailsPresent);
+        let redirectTo: string;
+        if (userLoggedIn) {
+          redirectTo = '/my-account/orders';
+        } else {
+          redirectTo = '/';
+        }
+        this.router.navigate([redirectTo]);
+
+        return of(false);
       })
     );
   }

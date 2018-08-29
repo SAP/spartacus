@@ -18,7 +18,7 @@ const mockUserValidToken = {
   access_token: 'Mock Access Token'
 };
 
-fdescribe(`OrderConfirmationPageGuard`, () => {
+describe(`OrderConfirmationPageGuard`, () => {
   let router: Router;
   let guard: OrderConfirmationPageGuard;
   let store: Store<fromAuthStore.AuthState>;
