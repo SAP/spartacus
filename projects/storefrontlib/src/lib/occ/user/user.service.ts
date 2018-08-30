@@ -18,10 +18,7 @@ const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 @Injectable()
 export class OccUserService {
   // some extending from baseservice is not working here...
-  constructor(
-    protected http: HttpClient,
-    protected config: OccModuleConfig
-  ) {}
+  constructor(protected http: HttpClient, protected config: OccModuleConfig) {}
 
   public loadUser(userId: string): Observable<any> {
     const url = this.getUserEndpoint() + userId;

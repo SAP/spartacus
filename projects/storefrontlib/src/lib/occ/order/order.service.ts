@@ -10,10 +10,7 @@ const FULL_PARAMS = 'fields=FULL';
 
 @Injectable()
 export class OccOrderService {
-  constructor(
-    protected http: HttpClient,
-    protected config: OccModuleConfig
-  ) {}
+  constructor(protected http: HttpClient, protected config: OccModuleConfig) {}
 
   protected getOrderEndpoint(userId: string) {
     const orderEndpoint = '/users/' + userId + '/orders';

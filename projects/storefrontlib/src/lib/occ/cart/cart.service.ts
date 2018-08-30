@@ -20,10 +20,7 @@ const DETAILS_PARAMS =
 
 @Injectable()
 export class OccCartService {
-  constructor(
-    protected http: HttpClient,
-    protected config: OccModuleConfig
-  ) {}
+  constructor(protected http: HttpClient, protected config: OccModuleConfig) {}
 
   protected getCartEndpoint(userId: string) {
     const cartEndpoint = 'users/' + userId + '/carts/';
