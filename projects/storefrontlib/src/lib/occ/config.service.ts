@@ -2,22 +2,14 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ConfigService {
-  x = {};
-
   server = {
-    baseUrl: null,
-    occPrefix: null
+    baseUrl: 'https://localhost:9002',
+    occPrefix: '/rest/v2/'
   };
 
-  site: {
-    baseSite: null;
-    language: null;
-    currency: null;
-  };
-
-  authentication: {
-    client_id: null;
-    client_secret: null;
-    userToken: {};
+  site = {
+    baseSite: 'electronics',
+    language: 'en',
+    currency: 'USD'
   };
 }

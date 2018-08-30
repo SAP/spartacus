@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfigService } from './config.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -24,13 +24,13 @@ import { OccOrderService } from './order/order.service';
   ]
 })
 export class OccModule {
-  static forRoot(config: any): any {
+  static forRoot(configOverride?: any): ModuleWithProviders {
     return {
       ngModule: OccModule,
       providers: [
         {
           provide: ConfigService,
-          useExisting: config
+          useValue: { ...new ConfigService(), ...configOverride }
         }
       ]
     };
