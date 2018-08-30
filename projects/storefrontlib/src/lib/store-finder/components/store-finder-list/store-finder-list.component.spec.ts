@@ -10,12 +10,12 @@ import { StoreFinderListComponent } from './store-finder-list.component';
 import { StoreFinderPagingComponent } from '../store-finder-paging/store-finder-paging.component';
 import { StoreFinderListItemComponent } from './store-finder-list-item/store-finder-list-item.component';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
-import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
-import { ConfigService } from '../../../occ/config.service';
-import { StoreDataService } from '../../services';
+import { services } from '../../services';
 
 import * as fromReducers from '../../store';
 import * as fromRoot from '../../../routing/store';
+import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
+import { ConfigService } from '../../../occ/config.service';
 
 describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
@@ -39,7 +39,7 @@ describe('StoreFinderListComponent', () => {
         StoreFinderListItemComponent,
         StoreFinderMapComponent
       ],
-      providers: [OccE2eConfigurationService, ConfigService, StoreDataService]
+      providers: [...services, OccE2eConfigurationService, ConfigService]
     }).compileComponents();
   }));
 

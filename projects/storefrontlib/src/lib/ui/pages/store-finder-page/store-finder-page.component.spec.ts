@@ -12,10 +12,7 @@ import { StoreFinderSearchComponent } from '../../../store-finder/components/sto
 import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-list/store-finder-list.component';
 import { MaterialModule } from '../../../material.module';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
-import {
-  StoreFinderService,
-  StoreDataService
-} from '../../../store-finder/services';
+import { services } from '../../../store-finder/services';
 import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
 import { ConfigService } from '../../../occ/config.service';
 /* tslint:disable */
@@ -51,12 +48,7 @@ describe('StoreFinderPageComponent', () => {
         StoreFinderListItemComponent,
         StoreFinderMapComponent
       ],
-      providers: [
-        StoreFinderService,
-        OccE2eConfigurationService,
-        ConfigService,
-        StoreDataService
-      ]
+      providers: [...services, OccE2eConfigurationService, ConfigService]
     }).compileComponents();
   }));
 

@@ -8,9 +8,7 @@ const GOOGLE_MAP_API_URL = 'https://maps.googleapis.com/maps/api/js';
 const GOOGLE_API_KEY_PROPERRY_NAME = 'e2egoogleservices.apikey';
 const DEFAULT_SCALE = 12;
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class GoogleMapRendererService {
   private googleMap: google.maps.Map = null;
   private markers: google.maps.Marker[];
