@@ -1,25 +1,13 @@
-.content {
-  width: 50%;
-  max-width: 400px;
-  margin: auto;
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+//register page variables
+$y-register-registration-link-text-decoration: underline !important;
+.y-section__login-link {
+  margin-top: $spacer;
 }
 
-.subtitle {
-  font-style: italic;
-  font-size: 12px;
-}
-
-.error {
-  border-color: red;
-}
-
-.submit-btn {
-  height: 25px;
-  background-color: #9c27b0;
-  color: white;
-  border-radius: 2px;
-}
-.submit-btn:disabled {
-  color: black;
-  background-color: #ccc;
+.y_section-registration-link {
+  cursor: pointer;
+  text-decoration: $y-register-registration-link-text-decoration;
 }
