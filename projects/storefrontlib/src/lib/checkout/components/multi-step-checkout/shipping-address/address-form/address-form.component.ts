@@ -28,6 +28,12 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
+  labels = {
+    title: 'Shipping Address',
+    btnContinue: 'Continue',
+    btnBack: 'Change Address'
+  };
+
   countries$: Observable<any>;
   titles$: Observable<any>;
   regions$: Observable<any>;
@@ -97,6 +103,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           }
         } else {
           regionControl.enable();
+          regions.forEach(region => {
+            if (!region.name) {
+              region.name = region.isocode;
+            }
+          });
         }
       })
     );
@@ -130,6 +141,21 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   onCountryChange(countryIsoCode): void {
     this.store.dispatch(new fromUser.LoadRegions(countryIsoCode));
+  }
+
+  titleSelected(title) {
+    this.address['controls'].titleCode.setValue(title.code);
+  }
+  countrySelected(country) {
+    this.address['controls'].country['controls'].isocode.setValue(
+      country.isocode
+    );
+  }
+
+  regionSelected(region) {
+    this.address['controls'].region['controls'].isocode.setValue(
+      region.isocode
+    );
   }
 
   toggleDefaultAddress() {

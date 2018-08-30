@@ -1,46 +1,72 @@
-.heading {
-  margin-left: 40px;
-}
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+@import '../../container/multi-step-checkout.component';
 
-.inputs,
-.countries-dropdown,
-.titles-dropdown,
-.regions-dropdown {
-  width: 40.5%;
-  height: 20px;
-  margin-bottom: 15px;
-}
+// y-address-form variables
 
-.address {
-  margin-left: 22px;
-}
+$y-address-form-no-padding: 0 !default;
+$y-address-form-title-padding: 2.375rem 0 1.75rem 0 !default;
+$y-address-form-title-margin: 0 auto !default;
 
-.form-labels {
-  height: 50%;
-  vertical-align: left;
-}
+$y-address-form-body-padding-bottom: 1.875rem !default;
+$y-address-form-text-margin-bottom: 1.25rem !default;
 
-.content {
-  margin-left: 40px;
-}
+$y-address-form-text-md-padding-left: 3.5rem !default;
+$y-address-form-text-sm-padding-left: 1.5rem !default;
 
-.buttons {
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
+.y-address-form,
+.y-existing-address {
+  &.container {
+    padding: $y-address-form-no-padding;
+  }
 
-.error {
-  color: red;
-  font-weight: 500;
-  font-size: 12px;
-  text-transform: uppercase;
-  border-radius: 0 0 3px 3px;
-  line-height: 1;
-  padding: 6px 10px;
-  margin-top: -1px;
-}
+  &__title {
+    text-transform: uppercase;
+    margin: $y-address-form-title-margin;
+    padding: $y-address-form-title-padding;
+  }
 
-.continue-link {
-  padding-top: 10px;
-  padding-bottom: 20px;
+  &__body {
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: $y-address-form-body-padding-bottom;
+  }
+
+  &__text {
+    margin-bottom: $y-address-form-text-margin-bottom;
+  }
+
+  &__btns {
+    padding-bottom: 1rem;
+  }
+
+  .form-check {
+    padding: $y-address-form-no-padding;
+  }
+
+  // ***************************** MEDIA QUERIES *****************************
+
+  @include checkout-media-style();
+  &__body {
+    &.row {
+      @include media-breakpoint-down(md) {
+        padding: $y-address-form-no-padding;
+      }
+    }
+  }
+  &__text {
+    @include media-breakpoint-down(md) {
+      padding-left: $y-address-form-text-md-padding-left;
+    }
+    @include media-breakpoint-down(sm) {
+      padding-left: $y-address-form-text-sm-padding-left;
+    }
+  }
+
+  &__card {
+    @include media-breakpoint-down(md) {
+      background-color: theme-color('inverse');
+    }
+  }
 }
