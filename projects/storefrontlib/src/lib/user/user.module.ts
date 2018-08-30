@@ -26,4 +26,4 @@ import { RegisterComponent } from './components/register/register.component';
   providers: [reducerProvider],
   exports: [RegisterComponent]
 })
-export class UserModule { }
+export class UserModule {}
