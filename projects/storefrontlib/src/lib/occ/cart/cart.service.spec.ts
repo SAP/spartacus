@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { OccCartService } from './cart.service';
-import { ConfigService } from '../config.service';
+import { OccModuleConfig } from '../occ-module-config';
 import {
   HttpClientTestingModule,
   HttpTestingController
@@ -25,7 +25,7 @@ const DETAILS_PARAMS =
   'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(formattedValue),subTotal(formattedValue),' +
   'deliveryItemsQuantity,totalTax(formattedValue),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue)';
 
-class MockConfigService {
+class MockOccModuleConfig {
   server = {
     baseUrl: '',
     occPrefix: ''
@@ -33,12 +33,6 @@ class MockConfigService {
 
   site = {
     baseSite: ''
-  };
-
-  authentication = {
-    client_id: '',
-    client_secret: '',
-    userToken: {}
   };
 }
 
@@ -52,7 +46,7 @@ describe('OccCartService', () => {
       providers: [
         OccCartService,
         ProductImageConverterService,
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
       ]
     });
 
