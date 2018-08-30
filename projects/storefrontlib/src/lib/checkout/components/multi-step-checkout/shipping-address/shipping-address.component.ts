@@ -12,6 +12,8 @@ import { tap } from 'rxjs/operators';
 import * as fromUserStore from '../../../../user/store';
 import * as fromRouting from '../../../../routing/store';
 import { CheckoutService } from '../../../services/checkout.service';
+import { Card } from '../../../../ui/components/card/card.component';
+import { Address } from '../../../models/address-model';
 
 @Component({
   selector: 'y-shipping-address',
@@ -20,8 +22,17 @@ import { CheckoutService } from '../../../services/checkout.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShippingAddressComponent implements OnInit {
+  labels = {
+    title: 'Shipping Address',
+    btnAddNewAddress: 'Add New Address',
+    btnContinue: 'Continue',
+    btnBack: 'Back to cart'
+  };
+
   existingAddresses$: Observable<any>;
   isAddressForm = false;
+  selectedAddress: Address;
+  cards = [];
 
   @Output() addAddress = new EventEmitter<any>();
 
@@ -37,13 +48,52 @@ export class ShippingAddressComponent implements OnInit {
         tap(addresses => {
           if (addresses.length === 0) {
             this.checkoutService.loadUserAddresses();
+          } else {
+            if (this.cards.length === 0) {
+              addresses.forEach(address => {
+                this.getCardContent(address);
+              });
+            }
           }
         })
       );
   }
 
-  addressSelected(address) {
-    this.addAddress.emit({ address: address, newAddress: false });
+  getCardContent(address) {
+    const card: Card = {
+      title: address.defaultAddress ? 'Default Shipping Address' : '',
+      textBold: address.firstName + ' ' + address.lastName,
+      text: [
+        address.line1,
+        address.line2,
+        address.town +
+          ', ' +
+          address.region.isocode +
+          ', ' +
+          address.country.isocode,
+        address.postalCode
+      ],
+      actions: [{ name: 'Ship to this address', event: 'send' }]
+    };
+
+    this.cards.push(card);
+  }
+
+  addressSelected(address, index) {
+    this.selectedAddress = address;
+
+    for (let i = 0; this.cards[i]; i++) {
+      const card = this.cards[i];
+      if (i === index) {
+        card.header = 'SELECTED';
+      } else {
+        card.header = '';
+      }
+    }
+  }
+
+  next() {
+    this.addAddress.emit({ address: this.selectedAddress, newAddress: false });
   }
 
   addNewAddress(address) {
