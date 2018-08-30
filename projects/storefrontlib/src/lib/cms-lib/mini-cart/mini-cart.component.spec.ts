@@ -1,3 +1,4 @@
+import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -115,5 +116,9 @@ describe('MiniCartComponent', () => {
     );
   });
 
-  // will do the ui test after replace Material
+  describe('UI test', () => {
+    it('should contain a link to redirect to /cart', () => {
+      expect(fixture.debugElement.query(By.css('button[routerLink="/cart"]')));
+    });
+  });
 });
