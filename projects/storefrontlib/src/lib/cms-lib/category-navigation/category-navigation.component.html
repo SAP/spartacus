@@ -1,6 +1,5 @@
-<div>
-    <mat-card class="category-navigation">
-        <y-navigation *ngFor="let child of node.childs" style="float:left" [node]="child">
-        </y-navigation>  
-    </mat-card>
-</div>
+<nav class="y-navigation">
+    <div class="y-navigation__list nav">
+        <y-navigation *ngFor="let child of node.childs" ngbDropdown [node]="child" [dropdownMode]="'column'"></y-navigation>
+    </div>
+</nav>

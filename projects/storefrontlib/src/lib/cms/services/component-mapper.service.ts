@@ -36,7 +36,6 @@ export class ComponentMapperService {
 
   getComponentTypeByCode(typeCode: string): Type<any> {
     const alias = this.getType(typeCode);
-
     if (!alias) {
       if (this.missingComponents.indexOf(typeCode) === -1) {
         this.missingComponents.push(typeCode);
