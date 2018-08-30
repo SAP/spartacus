@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './login-page-layout.component.html',
   styles: ['./login-page-layout.scss']
 })
-export class LoginPageLayoutComponent {
-  title = 'Sign In / Register';
-}
+export class LoginPageLayoutComponent {}
