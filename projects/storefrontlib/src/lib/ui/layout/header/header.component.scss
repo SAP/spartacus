@@ -1,19 +1,43 @@
-.top-header {
-  position: fixed;
-  z-index: 100;
-  background-color: #fff;
-  width: 100%;
-  height: 60px;
-  top: 0;
+@import 'theme';
+@import 'functions';
+@import 'mixins';
 
-  mat-card {
-    padding: 10px 20px;
+//header color variables
+$y-header-background-color: 'dark' !default;
+$y-header-color: 'inverse' !default;
+$y-header-separator-color: 'secondary' !default;
+
+//header variables
+$y-header-skipper-position: absolute !default;
+$y-header-trbl-margin: 0 auto !default;
+$y-header-bar-height: none !default;
+$y-header-separator-position: absolute !default;
+$y-header-separator-position-top: 43px !default;
+$y-header-separator-position-left: 0 !default;
+$y-header-separator-border-width: 1px !default;
+$y-header-separator-width: 100vw !default;
+
+:host {
+  @include reset;
+  @include var-color('background-color', $y-header-background-color);
+  @include var-color('color', $y-header-color);
+}
+
+.y-header {
+  margin: $y-header-trbl-margin;
+  max-height: $y-header-bar-height;
+  overflow: visible;
+  @include media-breakpoint-up(lg) {
+    @include make-container-max-widths;
+    &:before {
+      content: '';
+      position: $y-header-separator-position;
+      border-bottom-style: solid;
+      border-bottom-width: $y-header-separator-border-width;
+      @include var-color('border-bottom-color', $y-header-separator-color);
+      width: $y-header-separator-width;
+      left: $y-header-separator-position-left;
+      top: $y-header-separator-position-top;
+    }
   }
-}
-.navigation-header {
-  margin-top: 60px;
-}
-
-.storeFinder {
-  margin-top: 12px;
 }
