@@ -40,7 +40,4 @@ export class ConfigService {
     // CMSTabParagraphComponent: 'TabParagraphContainerComponent'
     CMSTabParagraphComponent: 'ParagraphComponent'
   };
-
-  someprop = 'default';
-  cmsmoduleprop = 'default';
 }
