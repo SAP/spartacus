@@ -13,12 +13,6 @@ export class ConfigService {
     currency: 'USD'
   };
 
-  // site = {
-  //     baseSite: 'apparel-uk',
-  //     language: 'en',
-  //     currency: 'GBP'
-  // };
-
   authentication = {
     client_id: 'mobile_android',
     client_secret: 'secret'
@@ -40,9 +34,13 @@ export class ConfigService {
     CategoryNavigationComponent: 'CategoryNavigationComponent',
     ProductAddToCartComponent: 'AddToCartComponent',
     MiniCartComponent: 'MiniCartComponent',
-    // ProductCarouselComponent:           'ProductCarouselComponent',
-    // SearchBoxComponent:                 'SearchBoxComponent',
+    ProductCarouselComponent: 'ProductCarouselComponent',
+    SearchBoxComponent: 'SearchBoxComponent',
     ProductReferencesComponent: 'ProductReferencesComponent',
-    CMSTabParagraphComponent: 'TabParagraphContainerComponent'
+    // CMSTabParagraphComponent: 'TabParagraphContainerComponent'
+    CMSTabParagraphComponent: 'ParagraphComponent'
   };
+
+  someprop = 'default';
+  cmsmoduleprop = 'default';
 }
