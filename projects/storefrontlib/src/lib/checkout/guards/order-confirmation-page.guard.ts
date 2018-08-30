@@ -1,47 +1,24 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 
-import { Store } from '@ngrx/store';
-
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 
 import { CheckoutService } from '../services/checkout.service';
-
-import * as fromAuthStore from '../../auth/store';
-import { UserToken } from '../../auth';
 
 @Injectable()
 export class OrderConfirmationPageGuard implements CanActivate {
   constructor(
     private checkoutService: CheckoutService,
-    private router: Router,
-    private store: Store<fromAuthStore.AuthState>
+    private router: Router
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.store.select(fromAuthStore.getUserToken).pipe(
-      switchMap((token: UserToken) => {
-        let userLoggedIn = false;
-        if (token && Object.keys(token).length !== 0) {
-          userLoggedIn = true;
-        }
+    if (this.orderDetailsPresent()) {
+      return of(true);
+    }
 
-        if (this.orderDetailsPresent()) {
-          return of(true);
-        }
-
-        let redirectTo: string;
-        if (userLoggedIn) {
-          redirectTo = '/my-account/orders';
-        } else {
-          redirectTo = '/';
-        }
-        this.router.navigate([redirectTo]);
-
-        return of(false);
-      })
-    );
+    this.router.navigate(['/my-account/orders']);
+    return of(false);
   }
 
   private orderDetailsPresent(): boolean {
