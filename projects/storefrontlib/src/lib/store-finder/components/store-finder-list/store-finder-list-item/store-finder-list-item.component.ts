@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+
 import { StoreDataService } from '../../../services/store-data.service';
 
 @Component({
@@ -8,6 +9,8 @@ import { StoreDataService } from '../../../services/store-data.service';
 })
 export class StoreFinderListItemComponent {
   @Input() location;
+  @Input() locationIndex: number = null;
+  @Output() storeItemClick: EventEmitter<number> = new EventEmitter();
   readonly current_date = new Date();
 
   constructor(private storeDataService: StoreDataService) {}
@@ -35,5 +38,11 @@ export class StoreFinderListItemComponent {
 
   isOpen(location: any): boolean {
     return this.storeDataService.isStoreOpen(location, this.current_date);
+  }
+
+  handleStoreItemClick() {
+    if (this.locationIndex !== null) {
+      this.storeItemClick.emit(this.locationIndex);
+    }
   }
 }

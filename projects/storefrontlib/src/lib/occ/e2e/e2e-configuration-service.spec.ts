@@ -8,7 +8,7 @@ import { OccE2eConfigurationService } from './e2e-configuration-service';
 import { ConfigService } from '../config.service';
 
 const configurationKey = 'test';
-const searchResult = 5;
+const searchResult = '5';
 const endpoint = '/e2econfigurationwebservices/e2econfiguration/test';
 
 export class MockConfigService {
@@ -56,7 +56,7 @@ describe('OccE2eConfigurationService', () => {
       });
 
       expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.responseType).toEqual('text');
       mockReq.flush(searchResult);
     });
   });

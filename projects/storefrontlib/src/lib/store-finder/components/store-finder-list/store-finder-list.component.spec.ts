@@ -1,27 +1,33 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { MaterialModule } from '../../../material.module';
+
+import { StoreFinderListComponent } from './store-finder-list.component';
 import { StoreFinderPagingComponent } from '../store-finder-paging/store-finder-paging.component';
 import { StoreFinderListItemComponent } from './store-finder-list-item/store-finder-list-item.component';
-import { StoreFinderListComponent } from './store-finder-list.component';
+import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
+import { services } from '../../services';
 
-import * as fromStore from '../../store';
 import * as fromReducers from '../../store';
 import * as fromRoot from '../../../routing/store';
+import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
+import { ConfigService } from '../../../occ/config.service';
 
 describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
   let fixture: ComponentFixture<StoreFinderListComponent>;
-  let store: Store<fromStore.StoresState>;
+  let store: Store<fromReducers.StoresState>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         MaterialModule,
         ReactiveFormsModule,
         RouterTestingModule,
+        HttpClientTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           stores: combineReducers(fromReducers.reducers)
@@ -30,8 +36,10 @@ describe('StoreFinderListComponent', () => {
       declarations: [
         StoreFinderListComponent,
         StoreFinderPagingComponent,
-        StoreFinderListItemComponent
-      ]
+        StoreFinderListItemComponent,
+        StoreFinderMapComponent
+      ],
+      providers: [...services, OccE2eConfigurationService, ConfigService]
     }).compileComponents();
   }));
 

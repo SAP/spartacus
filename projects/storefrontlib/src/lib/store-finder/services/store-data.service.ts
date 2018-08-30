@@ -13,11 +13,11 @@ export class StoreDataService {
     6: 'Sat'
   };
 
-  getStoreLatitude(location: any): string {
+  getStoreLatitude(location: any): number {
     return location.geoPoint.latitude;
   }
 
-  getStoreLongitude(location: any): string {
+  getStoreLongitude(location: any): number {
     return location.geoPoint.longitude;
   }
 

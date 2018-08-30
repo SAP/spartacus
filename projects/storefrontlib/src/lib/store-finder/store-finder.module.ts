@@ -14,6 +14,7 @@ import { services } from './services/index';
 import { StoreFinderSearchComponent } from './components/store-finder-search/store-finder-search.component';
 import { StoreFinderListComponent } from './components/store-finder-list/store-finder-list.component';
 import { StoreFinderPagingComponent } from './components/store-finder-paging/store-finder-paging.component';
+import { StoreFinderMapComponent } from './components/store-finder-map/store-finder-map.component';
 import { StoreFinderListItemComponent } from './components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
 
 @NgModule({
@@ -29,12 +30,14 @@ import { StoreFinderListItemComponent } from './components/store-finder-list/sto
     StoreFinderSearchComponent,
     StoreFinderListComponent,
     StoreFinderPagingComponent,
+    StoreFinderMapComponent,
     StoreFinderListItemComponent
   ],
   exports: [
     StoreFinderSearchComponent,
     StoreFinderListComponent,
     StoreFinderPagingComponent,
+    StoreFinderMapComponent,
     StoreFinderListItemComponent
   ],
   providers: [...services]

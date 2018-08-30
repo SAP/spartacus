@@ -6,6 +6,7 @@ import { combineReducers, StoreModule } from '@ngrx/store';
 import { MaterialModule } from '../../../../material.module';
 import { StoreFinderPagingComponent } from '../../store-finder-paging/store-finder-paging.component';
 import { StoreFinderSearchComponent } from '../../store-finder-search/store-finder-search.component';
+import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
 import { StoreFinderListComponent } from '../store-finder-list.component';
 
@@ -138,7 +139,8 @@ describe('StoreFinderListItemComponent', () => {
         StoreFinderListItemComponent,
         StoreFinderListComponent,
         StoreFinderPagingComponent,
-        StoreFinderSearchComponent
+        StoreFinderSearchComponent,
+        StoreFinderMapComponent
       ],
       providers: [fromServices.services]
     }).compileComponents();
