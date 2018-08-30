@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ConfigService } from './config.service';
+import { OccModuleConfig } from './occ-module-config';
 import { HttpClientModule } from '@angular/common/http';
 
 import { OccUserService } from './user/user.service';
@@ -29,8 +29,8 @@ export class OccModule {
       ngModule: OccModule,
       providers: [
         {
-          provide: ConfigService,
-          useValue: { ...new ConfigService(), ...configOverride }
+          provide: OccModuleConfig,
+          useValue: { ...new OccModuleConfig(), ...configOverride }
         }
       ]
     };

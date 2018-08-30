@@ -1,6 +1,6 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { ConfigService } from '../config.service';
+import { OccModuleConfig } from '../occ-module-config';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
@@ -12,15 +12,15 @@ const FULL_PARAMS = 'fields=FULL';
 export class OccOrderService {
   constructor(
     protected http: HttpClient,
-    protected configService: ConfigService
+    protected config: OccModuleConfig
   ) {}
 
   protected getOrderEndpoint(userId: string) {
     const orderEndpoint = '/users/' + userId + '/orders';
     return (
-      this.configService.server.baseUrl +
-      this.configService.server.occPrefix +
-      this.configService.site.baseSite +
+      this.config.server.baseUrl +
+      this.config.server.occPrefix +
+      this.config.site.baseSite +
       orderEndpoint
     );
   }

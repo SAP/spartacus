@@ -5,9 +5,9 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccMiscsService } from './miscs.service';
-import { ConfigService } from '../config.service';
+import { OccModuleConfig } from '../occ-module-config';
 
-export class MockConfigService {
+export class MockOccModuleConfig {
   server = {
     baseUrl: '',
     occPrefix: ''
@@ -29,7 +29,7 @@ describe('OccMiscsService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccMiscsService,
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
       ]
     });
 
