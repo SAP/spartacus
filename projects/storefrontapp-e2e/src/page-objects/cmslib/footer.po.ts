@@ -1,5 +1,5 @@
 import { by, ElementArrayFinder, ElementFinder } from 'protractor';
-import { E2EUtil } from './../util.po';
+import { E2EUtil } from '../../e2e-util';
 
 export class Footer {
   readonly footerNavigation: ElementFinder = E2EUtil.getComponentWithinDynamicSlot(

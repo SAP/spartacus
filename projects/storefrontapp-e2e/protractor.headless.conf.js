@@ -5,7 +5,7 @@ exports.config = {
   baseUrl: 'http://localhost:4200/',
   allScriptsTimeout: 10000,
   specs: ['./src/**/*.e2e-spec.ts'],
-
+  SELENIUM_PROMISE_MANAGER: false,
   capabilities: {
     browserName: 'chrome',
     acceptInsecureCerts: true,

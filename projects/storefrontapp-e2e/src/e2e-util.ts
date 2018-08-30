@@ -105,11 +105,15 @@ export class E2EUtil {
    * @param value the value to fill
    * @param skipEnter if true, will fill the form but won't press enter (optional param)
    */
-  static fillInput(input: ElementFinder, value: string, skipEnter?: boolean) {
-    input.sendKeys(value);
+  static async fillInput(
+    input: ElementFinder,
+    value: string,
+    skipEnter?: boolean
+  ) {
+    await input.sendKeys(value);
 
     if (!skipEnter) {
-      browser
+      await browser
         .actions()
         .sendKeys(protractor.Key.ENTER)
         .perform();
@@ -157,5 +161,13 @@ export class E2EUtil {
         expect(text).toBe(value, errMsg);
       });
     });
+  }
+
+  /**
+   * Finds price in text by looking for $ sign
+   * @param textWithPrice
+   */
+  static findPrice(textWithPrice: string) {
+    return textWithPrice.slice(textWithPrice.indexOf('$'));
   }
 }
