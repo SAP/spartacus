@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       titleCode: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email, this.emailEndsWith]],
       password: ['', [Validators.required, this.validatePassword]],
       passwordconf: ['', Validators.required],
       newsletter: [false],
@@ -48,7 +48,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       })
     );
-
     this.sub = this.store
       .select(fromAuthStore.getUserToken)
       .pipe(
@@ -94,6 +93,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     )
       ? null
       : { InvalidPassword: true };
+  }
+  private emailEndsWith(fc: FormControl) {
+    const email = fc.value as string;
+    // Enforce domain (e.g: .com )
+
+    return email.match('[.][a-zA-Z]+$') ? null : { InvalidEmail: true };
   }
 
   private matchPassword(ac: AbstractControl) {
