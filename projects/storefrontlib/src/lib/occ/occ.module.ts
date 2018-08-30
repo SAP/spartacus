@@ -11,6 +11,14 @@ import { OccCartService } from './cart/cart.service';
 import { OccMiscsService } from './miscs/miscs.service';
 import { OccOrderService } from './order/order.service';
 
+export function overrideOccModuleConfig(configOverride: any) {
+  return { ...new OccModuleConfig(), ...configOverride };
+}
+
+export const OCC_MODULE_CONFIG_OVERRIDE: InjectionToken<
+  string
+> = new InjectionToken<string>('OCC_MODULE_CONFIG_OVERRIDE');
+
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   providers: [
@@ -41,11 +49,3 @@ export class OccModule {
     };
   }
 }
-
-export function overrideOccModuleConfig(configOverride: any) {
-  return { ...new OccModuleConfig(), ...configOverride };
-}
-
-export const OCC_MODULE_CONFIG_OVERRIDE: InjectionToken<
-  string
-> = new InjectionToken<string>('OCC_MODULE_CONFIG_OVERRIDE');
