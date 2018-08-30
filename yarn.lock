@@ -2706,6 +2706,10 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6:
   version "4.1.11"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
+hamburgers@^0.9.3:
+  version "0.9.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/hamburgers/-/hamburgers-0.9.3.tgz#73b3d299652a028647ca68b2957df172c76cc636"
+
 hammerjs@2.0.8:
   version "2.0.8"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
