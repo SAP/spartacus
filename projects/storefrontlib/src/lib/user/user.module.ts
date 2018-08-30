@@ -4,6 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { RouterModule } from '@angular/router';
 
 import { metaReducers } from './store/reducers/index';
 import { LoginModule } from './components/login/login.module';
@@ -20,7 +21,8 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forFeature('user', reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
+    RouterModule
   ],
   declarations: [RegisterComponent, ResetPasswordComponent],
   providers: [reducerProvider],

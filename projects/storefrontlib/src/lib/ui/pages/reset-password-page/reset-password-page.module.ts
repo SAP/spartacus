@@ -17,7 +17,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, ResetPasswordPageLayoutModule, RouterModule.forChild(routes)],
+  imports: [
+    CommonModule,
+    ResetPasswordPageLayoutModule,
+    RouterModule.forChild(routes)
+  ],
   declarations: [ResetPasswordPageComponent],
   exports: [ResetPasswordPageComponent]
 })
