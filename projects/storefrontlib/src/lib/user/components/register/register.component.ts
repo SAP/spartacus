@@ -90,7 +90,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   private validatePassword(fc: FormControl) {
     const password = fc.value as string;
     return password.match(
-      '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^*()_+{};:.,]).{6,}$'
+      '^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$%^*()_+{};:.,]).{6,}$'
     )
       ? null
       : { InvalidPassword: true };

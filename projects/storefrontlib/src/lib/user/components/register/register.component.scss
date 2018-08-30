@@ -11,3 +11,7 @@ $y-register-registration-link-text-decoration: underline !important;
   cursor: pointer;
   text-decoration: $y-register-registration-link-text-decoration;
 }
+
+.error {
+  border-color: red;
+}
