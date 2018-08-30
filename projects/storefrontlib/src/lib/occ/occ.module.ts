@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, InjectionToken } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OccModuleConfig } from './occ-module-config';
 import { HttpClientModule } from '@angular/common/http';
@@ -29,10 +29,23 @@ export class OccModule {
       ngModule: OccModule,
       providers: [
         {
+          provide: OCC_MODULE_CONFIG_OVERRIDE,
+          useValue: configOverride
+        },
+        {
           provide: OccModuleConfig,
-          useValue: { ...new OccModuleConfig(), ...configOverride }
+          useFactory: overrideOccModuleConfig,
+          deps: [OCC_MODULE_CONFIG_OVERRIDE]
         }
       ]
     };
   }
 }
+
+export function overrideOccModuleConfig(configOverride: any) {
+  return { ...new OccModuleConfig(), ...configOverride };
+}
+
+export const OCC_MODULE_CONFIG_OVERRIDE: InjectionToken<
+  string
+> = new InjectionToken<string>('OCC_MODULE_CONFIG_OVERRIDE');
