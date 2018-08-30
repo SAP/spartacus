@@ -1,15 +1,3 @@
-<!--
-<h2>Checkout</h2>
-
-<div class="board-inner" id="status-buttons">
-    <ul class="progressbar">
-        <li [ngClass]="{'active': step===1 || step===2 || step===3 || step===4}" (click)="setStep(1)">Shipping Address</li>
-        <li [ngClass]="{'active': step===2 || step===3 || step===4}" (click)="setStep(2)">Shipping Method</li>
-        <li [ngClass]="{'active': step===3 || step===4}" (click)="setStep(3)">Payment</li>
-        <li [ngClass]="{'active': step===4}" (click)="setStep(4)">Review</li>
-    </ul>
-</div>
--->
 <div class="y-page">
     <header class="y-page__header">
         <h1 class="y-page__title d-none d-lg-block d-xl-block">{{ labels.title }}</h1>
@@ -35,7 +23,7 @@
                             <y-shipping-address (addAddress)="addAddress($event)"></y-shipping-address>
                         </div>
                         <div *ngIf="nav.status.active && step === 2">
-                            <y-delivery-mode [deliveryAddress]="deliveryAddress" (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode>
+                            <y-delivery-mode (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode>
                         </div>
                         <div *ngIf="nav.status.active && step === 3">
                             <y-payment-method (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-method>
@@ -62,7 +50,7 @@
                                 <y-shipping-address (addAddress)="addAddress($event)"></y-shipping-address>
                             </div>
                             <div *ngIf="nav.status.active && step === 2">
-                                <y-delivery-mode [deliveryAddress]="deliveryAddress" (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode>
+                                <y-delivery-mode (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode>
                             </div>
                             <div *ngIf="nav.status.active && step === 3">
                                 <y-payment-method (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-method>

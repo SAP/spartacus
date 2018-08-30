@@ -111,7 +111,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(deliveryAddress => {
-        this.step = 2;
+        this.nextStep(2);
         this.refreshCart();
         this.deliveryAddress = deliveryAddress;
         this.cd.detectChanges();
@@ -122,7 +122,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
       .select(fromCheckoutStore.getSelectedCode)
       .pipe(filter(selected => selected !== '' && this.step === 2))
       .subscribe(() => {
-        this.step = 3;
+        this.nextStep(3);
         this.refreshCart();
         this.cd.detectChanges();
       });
@@ -138,7 +138,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
       )
       .subscribe(paymentInfo => {
         if (!paymentInfo['hasError']) {
-          this.step = 4;
+          this.nextStep(4);
           this.paymentDetails = paymentInfo;
           this.cd.detectChanges();
         } else {
@@ -171,23 +171,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
-    if (this.step1Sub) {
-      this.step1Sub.unsubscribe();
-    }
-    if (this.step2Sub) {
-      this.step2Sub.unsubscribe();
-    }
-    if (this.step3Sub) {
-      this.step3Sub.unsubscribe();
-    }
-    if (this.step4Sub) {
-      this.step4Sub.unsubscribe();
-    }
-
-    this.store.dispatch(new fromCheckoutStore.ClearCheckoutData());
-  }
-
   setStep(backStep) {
     if (this.step > backStep) {
       for (let i = backStep; i <= this.step; i++) {
@@ -196,6 +179,26 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
       this.step = backStep;
     }
+  }
+
+  nextStep(step: number): void {
+    const previousStep = step - 1;
+
+    this.navs.forEach(function(nav) {
+      if (nav.id === previousStep) {
+        nav.status.completed = true;
+      }
+      if (nav.id === step) {
+        nav.status.active = true;
+        nav.status.disabled = false;
+      } else {
+        nav.status.active = false;
+      }
+
+      nav.progressBar = nav.status.active || nav.status.completed;
+    });
+
+    this.step = step;
   }
 
   addAddress(addressObject) {
@@ -225,5 +228,22 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   private refreshCart() {
     this.cartService.loadCartDetails();
+  }
+
+  ngOnDestroy() {
+    if (this.step1Sub) {
+      this.step1Sub.unsubscribe();
+    }
+    if (this.step2Sub) {
+      this.step2Sub.unsubscribe();
+    }
+    if (this.step3Sub) {
+      this.step3Sub.unsubscribe();
+    }
+    if (this.step4Sub) {
+      this.step4Sub.unsubscribe();
+    }
+
+    this.store.dispatch(new fromCheckoutStore.ClearCheckoutData());
   }
 }
