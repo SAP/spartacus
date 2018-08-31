@@ -1,3 +1,4 @@
+<!--
 <div>
     <h3 class="heading">Review and Submit:</h3>
     <div class="shipping-address">
@@ -52,4 +53,48 @@
         <button [disabled]="!tAndCToggler" (click)="submitOrder()"> Place Order
         </button>
     </div>
+</div>
+-->
+<div class="y-review container">
+    <!-- TITLE -->
+    <h3 class="y-review__title d-none d-lg-block d-xl-block">{{labels.title}}</h3>
+    <div class="y-review__summary row">
+        <!-- SHIPPING ADDRESS SECTION -->
+        <div class="col-md-12 col-lg-6 col-xl-4">
+            <div class="y-review__summary-card">
+                <y-card [content]="address"></y-card>
+            </div>
+        </div>
+
+        <!-- SHIPPING SECTION -->
+        <div class="col-md-12 col-lg-6 col-xl-4">
+            <div class="y-review__summary-card">
+                <y-card [content]="shipping"></y-card>
+            </div>
+        </div>
+
+        <!-- PAYMENT METHOD SECTION -->
+        <div class="col-md-12 col-lg-6 col-xl-4">
+            <div class="y-review__summary-card">
+                <y-card [content]="payment"></y-card>
+            </div>
+        </div>
+
+        <!-- SHIPPING METHOD SECTION -->
+        <div class="col-md-12 col-lg-6 col-xl-4">
+            <div class="y-review__summary-card">
+                <y-card [content]="shippingMethod"></y-card>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART ITEM SECTION -->
+    <div class="y-review__cart-total d-none d-lg-block d-xl-block">{{labels.cartTotal}}</div>
+    <h4 class="y-review__cart-total-header d-block d-lg-none d-xl-none">{{labels.orderItems}}</h4>
+    <div class="y-review__cart-item col-md-12 col-lg-12" *ngIf="entries$ | async as entries">
+        <div *ngFor="let entry of entries">
+            <y-cart-item [isReadOnly]="true" [entry]="entry"></y-cart-item>
+        </div>
+    </div>
+
 </div>

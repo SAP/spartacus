@@ -13,6 +13,7 @@ import { tap } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../store';
 import * as fromUserStore from '../../../../user/store';
+import * as fromCartStore from '../../../../cart/store';
 import { CheckoutService } from '../../../services/checkout.service';
 import { Address } from '../../../models/address-model';
 
@@ -23,6 +24,12 @@ import { Address } from '../../../models/address-model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReviewSubmitComponent implements OnInit {
+  labels = {
+    title: 'Review',
+    cartTotal: 'Cart total (3 items): $300.00',
+    orderItems: 'Order Items'
+  };
+
   @Input() deliveryAddress: Address;
   @Input() paymentDetails: any;
   tAndCToggler = false;
@@ -34,12 +41,16 @@ export class ReviewSubmitComponent implements OnInit {
   countryName$: Observable<any>;
   titleName$: Observable<any>;
 
+  entries$: Observable<any>;
+
   constructor(
     protected store: Store<fromCheckoutStore.CheckoutState>,
     private service: CheckoutService
   ) {}
 
   ngOnInit() {
+    this.entries$ = this.store.select(fromCartStore.getEntries);
+
     this.deliveryMode$ = this.store
       .select(fromCheckoutStore.getSelectedDeliveryMode)
       .pipe(
@@ -88,4 +99,32 @@ export class ReviewSubmitComponent implements OnInit {
   submitOrder() {
     this.placeOrder.emit();
   }
+
+  address = {
+    title: 'Ship To',
+    textBold: '<Full Name>',
+    text: [
+      '<Address 1>',
+      '<Address 2>',
+      '<City>, <State>, <Zip>',
+      '<phone number>'
+    ]
+  };
+
+  shipping = {
+    title: 'Shipping',
+    textBold: '<Standart Shipping>',
+    text: ['<(3-5 business days)>']
+  };
+
+  payment = {
+    title: 'Payment',
+    textBold: '<Full name>',
+    text: ['<**************4567>', '<Expires: MM / YYYY>']
+  };
+
+  shippingMethod = {
+    title: 'Shipping Method',
+    text: ['<Fedex 3-Day Ground>']
+  };
 }
