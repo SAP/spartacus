@@ -19,15 +19,17 @@ import { RoutingModuleConfig, StorageSyncType } from './routing-module-config';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
 
-export function overrideOccModuleConfig(configOverride: any) {
+export function overrideRoutingModuleConfig(configOverride: any) {
   return { ...new RoutingModuleConfig(), ...configOverride };
 }
 
 export const ROUTING_MODULE_CONFIG_OVERRIDE: InjectionToken<
   string
-> = new InjectionToken<string>('OCC_MODULE_CONFIG_OVERRIDE');
+> = new InjectionToken<string>('ROUTING_MODULE_CONFIG_OVERRIDE');
 
-export function getMetaReducers(config: RoutingModuleConfig): MetaReducer<any>[] {
+export function getMetaReducers(
+  config: RoutingModuleConfig
+): MetaReducer<any>[] {
   const metaReducers: MetaReducer<any>[] = [];
   if (config.storageSyncType !== StorageSyncType.NO_STORAGE) {
     const storageSyncReducer = getStorageSyncReducer(config);
@@ -71,7 +73,7 @@ export class RoutingModule {
         },
         {
           provide: RoutingModuleConfig,
-          useFactory: overrideOccModuleConfig,
+          useFactory: overrideRoutingModuleConfig,
           deps: [ROUTING_MODULE_CONFIG_OVERRIDE]
         }
       ]
