@@ -24,7 +24,6 @@ describe('Product search', () => {
 
     // should show 10 results on page and should have Photosmart camera
     const items = searchResults.productListItems;
-
     expect(await items.count()).toBe(10);
 
     // FIXME - by now results do not come ordered from occ. Get top element when it does.
@@ -32,8 +31,7 @@ describe('Product search', () => {
     // h3.getText().then((text) => {
     //   expect(text).toBe('Photosmart E317 Digital Camera');
     // });
-
-    const product = await searchResults.findProductByNameInResultsPage(
+    const product = await searchResults.productByNameInResults(
       'Photosmart E317 Digital Camera'
     );
     expect(await product.isDisplayed()).toBeTruthy();

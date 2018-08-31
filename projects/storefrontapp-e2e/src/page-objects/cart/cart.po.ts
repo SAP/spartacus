@@ -17,13 +17,7 @@ export class CartPage extends AppPage {
   readonly orderSummary: ElementFinder = this.page.element(
     by.tagName('y-order-summary')
   );
-
-  async navigateTo() {
-    await browser.get('/cart');
-  }
-
-  findCartEntryByProductName(productName: string): ElementFinder {
-    return this.cartEntries
+  readonly cartEntryByProductName = (productName: string): ElementFinder => this.cartEntries
       .filter(el =>
         el
           .element(by.css('.item__info .item__name'))
@@ -31,30 +25,29 @@ export class CartPage extends AppPage {
           .then(text => text === productName)
       )
       .first();
+
+  async navigateTo() {
+    await browser.get('/cart');
+    await this.waitForReady();
   }
 
+  async waitForReady() {
+    await E2EUtil.wait4VisibleElement(this.page);
+  }
+
+
   async getCartEntryUnitPrice(cartEntry: ElementFinder): Promise<string> {
-    const unitPriceDiv = E2EUtil.getComponentWithinParentByClass(
-      cartEntry,
-      'item__price'
-    );
+    const unitPriceDiv = cartEntry.element(by.css('.item__price'));
     return E2EUtil.findPrice(await unitPriceDiv.getText());
   }
 
   async getCartEntryQuantity(cartEntry: ElementFinder): Promise<string> {
-    const itemQuantityDiv = E2EUtil.getComponentWithinParentByClass(
-      cartEntry,
-      'item__quantity'
-    );
-    const input = E2EUtil.getComponentsWithinParent(itemQuantityDiv, 'input');
+    const input = cartEntry.element(by.css('.item__quantity input'));
     return input.getAttribute('value');
   }
 
   async getCartEntryTotalPrice(cartEntry: ElementFinder): Promise<string> {
-    const totalPriceDiv = E2EUtil.getComponentWithinParentByClass(
-      cartEntry,
-      'item__total'
-    );
+    const totalPriceDiv = cartEntry.element(by.css('.item__total'));
     return E2EUtil.findPrice(await totalPriceDiv.getText());
   }
 
@@ -64,7 +57,7 @@ export class CartPage extends AppPage {
     unitPrice: string,
     totalPrice: string
   ) {
-    const product = this.findCartEntryByProductName(productName);
+    const product = this.cartEntryByProductName(productName);
     expect(await product.isDisplayed()).toBeTruthy();
 
     expect(parseInt(await this.getCartEntryQuantity(product), 10)).toBe(
@@ -80,11 +73,8 @@ export class CartPage extends AppPage {
   }
 
   async getOrderSummaryInnerDivValue(textTitle: string): Promise<string> {
-    const outerDiv = E2EUtil.getComponentWithinParentByCss(
-      this.orderSummary,
-      'div[class="order-summary"]'
-    );
-    const mainDiv = E2EUtil.getComponentsWithinParent(outerDiv, 'div').first();
+    const outerDiv = this.orderSummary.element(by.css('div[class="order-summary"]'));
+    const mainDiv = outerDiv.all(by.tagName('div')).first();
     const valueDiv = mainDiv.element(by.cssContainingText('div', textTitle));
 
     return E2EUtil.findPrice(await valueDiv.getText());

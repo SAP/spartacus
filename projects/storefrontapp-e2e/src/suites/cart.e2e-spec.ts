@@ -36,11 +36,9 @@ describe('Cart interactions', () => {
     await E2EUtil.wait4VisibleElement(searchResults.page);
     // select one product by name and add it to the cart
 
-    const product1 = searchResults.findProductByNameInResultsPage(
+    const product1 = searchResults.productByNameInResults(
       'Photosmart E317 Digital Camera'
     );
-
-
     expect(await product1.isDisplayed()).toBeTruthy();
 
     await searchResults.clickAddToCartButton4Product(product1);
@@ -76,7 +74,8 @@ describe('Cart interactions', () => {
     // wait until product details page is loaded
     await E2EUtil.wait4VisibleElement(productDetails.page);
     await productDetails.addToCart();
-    await browser.waitForAngular();
+    await atcModal.waitForReady();
+
     // quantity should change
     const product2QuantitySpan = productDetails.productQuantitySpan;
     await E2EUtil.checkTextValue(

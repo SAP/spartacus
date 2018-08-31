@@ -3,9 +3,7 @@ import {
   browser,
   ElementFinder,
   ElementArrayFinder,
-  by,
-  promise,
-  element
+  by
 } from 'protractor';
 import { E2EUtil } from '../e2e-util';
 
@@ -20,6 +18,14 @@ export class SearchResultsPage extends AppPage {
   readonly productListItems: ElementArrayFinder = this.page
     .element(by.tagName('y-product-list'))
     .all(by.tagName('y-product-list-item'));
+  readonly productByNameInResults = (productName: string): ElementFinder => this.productListItems
+    .filter(el =>
+      el
+        .element(by.tagName('h3'))
+        .getText()
+        .then(text => text === productName)
+    )
+    .first()
 
   async navigateTo(searchKey: string) {
     await browser.get('/search/' + searchKey);
@@ -30,16 +36,6 @@ export class SearchResultsPage extends AppPage {
     return E2EUtil.wait4VisibleElement(this.page);
   }
 
-  findProductByNameInResultsPage(productName: string): ElementFinder {
-    return this.productListItems
-      .filter(el =>
-        el
-          .element(by.tagName('h3'))
-          .getText()
-          .then(text => text === productName)
-      )
-      .first();
-  }
 
   getAddToCartInProductListItem(product: ElementFinder): ElementFinder {
     return E2EUtil.getComponentWithinParent(product, 'y-add-to-cart');
