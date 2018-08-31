@@ -1,7 +1,28 @@
-@import '../../../styling/_variables.scss';
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+@import '~bootstrap/scss/forms';
 
-.language-selector__select {
-  padding: 5px;
-  margin-top: 10px;
-  margin-right: 10px;
+//$currency-selector-variables
+$language-selector-input-border-style: none;
+$language-selector-input-border-width: 0;
+
+:host {
+  display: inline-block;
+}
+
+.y-language-selector {
+  @include media-breakpoint-down(md) {
+    color: theme-color('text');
+  }
+
+  &__label {
+    @include sr-only();
+  }
+  &__control {
+    color: inherit;
+    background-color: transparent;
+    border: $language-selector-input-border-width
+      $language-selector-input-border-style;
+  }
 }

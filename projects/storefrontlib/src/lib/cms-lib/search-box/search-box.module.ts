@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { MediaModule } from '../../ui/components/media/media.module';
 
@@ -13,6 +13,7 @@ import { SearchBoxComponent } from './search-box.component';
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule,
     ReactiveFormsModule,
     MaterialModule,
