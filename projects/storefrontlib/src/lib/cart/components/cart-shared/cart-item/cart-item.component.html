@@ -27,22 +27,13 @@
             </div>
             <div class="y-cart-item__item-id" role="listitem">ID {{entry.product.code}}</div>
             <br />
-            <!-- TODO Where do we get this info? -->
-            <!-- <div class="y-cart-item__item-size" role="listitem">
-              <span class="y-cart-item__item--desc" *ngIf="!isMobile">Size</span>
-              <div class="table--mobile">Size</div>
-              <span class="y-cart-item__item--value">Medium</span>
+            <div *ngIf="entry.product.variantOptionQualifiers?.length > 0">
+              <div role="listitem" *ngFor="let variant of entry.product.variantOptionQualifiers">
+                <span class="y-cart-item__item--desc" *ngIf="!isMobile">{{variant.name}}</span>
+                <div class="table--mobile">{{variant.name}}</div>
+                <span class="y-cart-item__item--value">{{variant.value}}</span>
+              </div>
             </div>
-            <div class="y-cart-item__item-colour" role="listitem">
-              <span class="y-cart-item__item--desc" *ngIf="!isMobile">Color</span>
-              <div class="table--mobile">Color</div>
-              <span class="y-cart-item__item--value">Black</span>
-            </div>
-            <div class="y-cart-item__item-width" role="listitem">
-              <span class="y-cart-item__item--desc" *ngIf="!isMobile">Width</span>
-              <div class="table--mobile">Width</div>
-              <span class="y-cart-item__item--value">Wide</span>
-            </div> -->
             <br />
             <div class="y-cart-item__item-unavailable" *ngIf="isProductOutOfStock(entry)" role="listitem"> {{ entry.product.stock?.stockLevelStatus | uppercase }}</div>
 
