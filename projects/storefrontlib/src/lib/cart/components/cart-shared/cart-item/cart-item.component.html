@@ -44,7 +44,7 @@
               <span class="y-cart-item__item--value">Wide</span>
             </div> -->
             <br />
-            <div class="y-cart-item__item-unavailable" role="listitem"> {{ entry.product.stock?.stockLevelStatus | uppercase }}</div>
+            <div class="y-cart-item__item-unavailable" *ngIf="isProductOutOfStock(entry)" role="listitem"> {{ entry.product.stock?.stockLevelStatus | uppercase }}</div>
 
             <div
               class="y-cart-item__item-promo"

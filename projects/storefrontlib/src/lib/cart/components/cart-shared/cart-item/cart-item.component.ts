@@ -50,6 +50,11 @@ export class CartItemComponent implements OnInit {
     });
   }
 
+  isProductOutOfStock(product) {
+    // TODO Move stocklevelstatuses across the app to an enum
+    return product && product.stock && product.stock.stockLevelStatus === 'outOfStock';
+  }
+
   removeEntry(entry) {
     this.remove.emit(entry);
     delete this.form.controls[entry.product.code];
