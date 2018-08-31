@@ -10,7 +10,7 @@ import { SiteContextModule } from '../../../site-context/site-context.module';
 import { UiFrameworkModule } from '../../ui-framework/ui-framework.module';
 
 import { MainComponent } from './main.component';
-import { HeaderComponent } from '../header/header.component';
+import { HeaderModule } from './../header/header.module';
 import { FooterComponent } from '../footer/footer.component';
 
 @NgModule({
@@ -21,9 +21,10 @@ import { FooterComponent } from '../footer/footer.component';
     CmsModule,
     LoginModule,
     SiteContextModule,
+    HeaderModule,
     UiFrameworkModule
   ],
-  declarations: [MainComponent, HeaderComponent, FooterComponent],
-  exports: [MainComponent, HeaderComponent, FooterComponent]
+  declarations: [MainComponent, FooterComponent],
+  exports: [MainComponent, FooterComponent]
 })
 export class MainModule {}
