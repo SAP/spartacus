@@ -25,7 +25,7 @@ export function overrideAuthModuleConfig(configOverride: any) {
 
 export const AUTH_MODULE_CONFIG_OVERRIDE: InjectionToken<
   string
-> = new InjectionToken<string>('OCC_MODULE_CONFIG_OVERRIDE');
+> = new InjectionToken<string>('AUTH_MODULE_CONFIG_OVERRIDE');
 
 @NgModule({
   imports: [
