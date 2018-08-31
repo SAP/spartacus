@@ -41,6 +41,4 @@ describe('App basics', () => {
 
     expect(await footer.getNoticeText()).toEqual('© 2016 hybris software');
   });
-
-
 });

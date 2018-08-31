@@ -55,5 +55,4 @@ describe('Product search', () => {
     // const nextButton = pagination.element(by.css('pagination-next'));
     // nextButton.click();
   });
-
 });

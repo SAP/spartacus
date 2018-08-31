@@ -1,10 +1,8 @@
-import { by, ElementArrayFinder, ElementFinder } from 'protractor';
-import { E2EUtil } from '../../e2e-util';
+import { by, element, ElementArrayFinder, ElementFinder } from 'protractor';
 
 export class Footer {
-  readonly footerNavigation: ElementFinder = E2EUtil.getComponentWithinDynamicSlot(
-    'Footer',
-    'y-footer-navigation'
+  readonly footerNavigation: ElementFinder = element(
+    by.dynamicSlot('Footer', 'y-footer-navigation')
   );
   readonly notice: ElementFinder = this.footerNavigation.element(
     by.css('.y-footer-navigation__notice')

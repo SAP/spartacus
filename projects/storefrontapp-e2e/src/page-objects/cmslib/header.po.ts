@@ -1,19 +1,17 @@
-import { by, ElementFinder } from 'protractor';
+import { by, element, ElementFinder } from 'protractor';
 import { E2EUtil } from '../../e2e-util';
 
 export class Header {
-  readonly siteLogoComponent: ElementFinder = E2EUtil.getComponentWithinDynamicSlot(
-    'SiteLogo',
-    'y-banner'
+  readonly siteLogoComponent: ElementFinder = element(
+    by.dynamicSlot('SiteLogo', 'y-banner')
   );
-  readonly searchComponent: ElementFinder = E2EUtil.getComponentWithinDynamicSlot(
-    'SearchBox',
-    'y-searchbox'
+  readonly searchComponent: ElementFinder = element(
+    by.dynamicSlot('SearchBox', 'y-searchbox')
   );
-  readonly minicartIconComponent: ElementFinder = E2EUtil.getComponent(
-    'y-mini-cart'
+  readonly minicartIconComponent: ElementFinder = element(
+    by.tagName('y-mini-cart')
   );
-  readonly loginIconComponent: ElementFinder = E2EUtil.getComponent('y-login');
+  readonly loginIconComponent: ElementFinder = element(by.tagName('y-login'));
   readonly loginIconButton: ElementFinder = this.loginIconComponent.element(
     by.tagName('button')
   );
@@ -33,10 +31,6 @@ export class Header {
    */
   async performSearch(searchKey: string, skipEnter?: boolean) {
     // search for camera
-    await E2EUtil.fillInput(
-      this.searchInput,
-      searchKey,
-      skipEnter
-    );
+    await E2EUtil.fillInput(this.searchInput, searchKey, skipEnter);
   }
 }

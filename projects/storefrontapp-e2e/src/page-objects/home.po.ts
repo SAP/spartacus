@@ -17,5 +17,4 @@ export class HomePage extends AppPage {
   async waitForReady() {
     await E2EUtil.wait4VisibleElement(this.page);
   }
-
 }

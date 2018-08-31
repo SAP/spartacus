@@ -17,7 +17,8 @@ export class CartPage extends AppPage {
   readonly orderSummary: ElementFinder = this.page.element(
     by.tagName('y-order-summary')
   );
-  readonly cartEntryByProductName = (productName: string): ElementFinder => this.cartEntries
+  readonly cartEntryByProductName = (productName: string): ElementFinder =>
+    this.cartEntries
       .filter(el =>
         el
           .element(by.css('.item__info .item__name'))
@@ -34,7 +35,6 @@ export class CartPage extends AppPage {
   async waitForReady() {
     await E2EUtil.wait4VisibleElement(this.page);
   }
-
 
   async getCartEntryUnitPrice(cartEntry: ElementFinder): Promise<string> {
     const unitPriceDiv = cartEntry.element(by.css('.item__price'));
@@ -73,7 +73,9 @@ export class CartPage extends AppPage {
   }
 
   async getOrderSummaryInnerDivValue(textTitle: string): Promise<string> {
-    const outerDiv = this.orderSummary.element(by.css('div[class="order-summary"]'));
+    const outerDiv = this.orderSummary.element(
+      by.css('div[class="order-summary"]')
+    );
     const mainDiv = outerDiv.all(by.tagName('div')).first();
     const valueDiv = mainDiv.element(by.cssContainingText('div', textTitle));
 

@@ -1,4 +1,4 @@
-import { browser, by, ExpectedConditions, promise } from 'protractor';
+import { browser, by, ExpectedConditions } from 'protractor';
 import { AddedToCartModal } from '../page-objects/cmslib/addedToCartModal.po';
 import { CartPage } from '../page-objects/cart/cart.po';
 import { HomePage } from '../page-objects/home.po';
@@ -60,10 +60,8 @@ describe('Cart interactions', () => {
 
     const overlay = E2EUtil.getOverlayContainer();
     await E2EUtil.wait4VisibleElement(overlay);
-    const autocompletePanel = E2EUtil.getComponentWithinParentByCss(
-      overlay,
-      `div[role="listbox"]`
-    );
+    const autocompletePanel = overlay.element(by.css(`div[role="listbox"]`));
+
     await E2EUtil.wait4VisibleElement(autocompletePanel);
     // select product from the suggestion list, then add it to cart 2 times
     const suggestionSpan = autocompletePanel
@@ -132,9 +130,7 @@ describe('Cart interactions', () => {
     await E2EUtil.wait4VisibleElement(productDetails.page);
 
     // there should be no add to cart button, and should be an 'Out of stock' message instead
-    expect(
-      await productDetails.addToCartComponent.isPresent()
-    ).toBeFalsy();
+    expect(await productDetails.addToCartComponent.isPresent()).toBeFalsy();
     expect(await productDetails.outOfStockDiv.isDisplayed()).toBeTruthy();
   });
 });

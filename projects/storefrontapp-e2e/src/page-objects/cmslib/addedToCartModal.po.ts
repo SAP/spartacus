@@ -4,7 +4,9 @@ export class AddedToCartModal {
   readonly YMODAL = 'y-added-to-cart-dialog';
 
   modal: ElementFinder = element(by.tagName(this.YMODAL));
-  closeButton: ElementFinder = this.modal.element(by.css('.mat-dialog-close-btn'));
+  closeButton: ElementFinder = this.modal.element(
+    by.css('.mat-dialog-close-btn')
+  );
 
   async waitForReady() {
     await E2EUtil.wait4VisibleElement(this.modal);

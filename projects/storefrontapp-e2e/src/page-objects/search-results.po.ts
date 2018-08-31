@@ -3,29 +3,30 @@ import {
   browser,
   ElementFinder,
   ElementArrayFinder,
-  by
+  by,
+  element
 } from 'protractor';
 import { E2EUtil } from '../e2e-util';
 
 export class SearchResultsPage extends AppPage {
   readonly YPAGE = 'y-category-page';
 
-  readonly page: ElementFinder = E2EUtil.getComponent(this.YPAGE);
-  readonly pagination: ElementFinder = E2EUtil.getComponentWithinParent(
-    this.page,
-    'y-product-paging'
+  readonly page: ElementFinder = element(by.tagName(this.YPAGE));
+  readonly pagination: ElementFinder = this.page.element(
+    by.tagName('y-product-paging')
   );
   readonly productListItems: ElementArrayFinder = this.page
     .element(by.tagName('y-product-list'))
     .all(by.tagName('y-product-list-item'));
-  readonly productByNameInResults = (productName: string): ElementFinder => this.productListItems
-    .filter(el =>
-      el
-        .element(by.tagName('h3'))
-        .getText()
-        .then(text => text === productName)
-    )
-    .first()
+  readonly productByNameInResults = (productName: string): ElementFinder =>
+    this.productListItems
+      .filter(el =>
+        el
+          .element(by.tagName('h3'))
+          .getText()
+          .then(text => text === productName)
+      )
+      .first();
 
   async navigateTo(searchKey: string) {
     await browser.get('/search/' + searchKey);
@@ -36,9 +37,8 @@ export class SearchResultsPage extends AppPage {
     return E2EUtil.wait4VisibleElement(this.page);
   }
 
-
   getAddToCartInProductListItem(product: ElementFinder): ElementFinder {
-    return E2EUtil.getComponentWithinParent(product, 'y-add-to-cart');
+    return product.element(by.tagName('y-add-to-cart'));
   }
 
   async clickAddToCartButton4Product(product: ElementFinder) {
@@ -49,9 +49,8 @@ export class SearchResultsPage extends AppPage {
   }
 
   getProductQuantitySpan(product: ElementFinder): ElementFinder {
-    return E2EUtil.getComponentWithinParentByCss(
-      product,
-      'span[class="entry-quantity ng-star-inserted"]'
+    return product.element(
+      by.css('span[class="entry-quantity ng-star-inserted"]')
     );
   }
 }
