@@ -29,6 +29,7 @@ export class DeliveryModeComponent implements OnInit {
   };
 
   supportedDeliveryModes$: Observable<any>;
+  @Input() selectedShippingMethod: string;
 
   @Output() selectMode = new EventEmitter<any>();
   @Output() backStep = new EventEmitter<any>();
@@ -53,6 +54,12 @@ export class DeliveryModeComponent implements OnInit {
         tap(supportedModes => {
           if (Object.keys(supportedModes).length === 0) {
             this.service.loadSupportedDeliveryModes();
+          } else {
+            if (this.selectedShippingMethod) {
+              this.mode.controls['deliveryModeId'].setValue(
+                this.selectedShippingMethod
+              );
+            }
           }
         })
       );

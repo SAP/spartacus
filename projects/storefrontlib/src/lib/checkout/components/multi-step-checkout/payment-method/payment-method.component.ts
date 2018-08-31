@@ -3,7 +3,8 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   Output,
-  EventEmitter
+  EventEmitter,
+  Input
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -29,7 +30,7 @@ export class PaymentMethodComponent implements OnInit {
 
   isPaymentForm = false;
   existingPaymentMethods$: Observable<any>;
-  selectedPayment: any;
+  @Input() selectedPayment: any;
   cards = [];
 
   @Output() backStep = new EventEmitter<any>();
@@ -50,7 +51,13 @@ export class PaymentMethodComponent implements OnInit {
           } else {
             if (this.cards.length === 0) {
               payments.forEach(payment => {
-                this.getCardContent(payment);
+                const card = this.getCardContent(payment);
+                if (
+                  this.selectedPayment &&
+                  this.selectedPayment.id === payment.id
+                ) {
+                  card.header = 'SELECTED';
+                }
               });
             }
           }
@@ -58,7 +65,7 @@ export class PaymentMethodComponent implements OnInit {
       );
   }
 
-  getCardContent(payment) {
+  getCardContent(payment): Card {
     const card: Card = {
       title: payment.defaultPayment ? 'Default Payment Method' : '',
       textBold: payment.accountHolderName,
@@ -71,6 +78,7 @@ export class PaymentMethodComponent implements OnInit {
     };
 
     this.cards.push(card);
+    return card;
   }
 
   paymentMethodSelected(paymentDetails, index) {

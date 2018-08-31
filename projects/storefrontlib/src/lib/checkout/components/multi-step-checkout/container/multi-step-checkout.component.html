@@ -20,13 +20,13 @@
 
                     <div *ngFor="let nav of navs" class="d-none d-lg-block d-xl-block">
                         <div *ngIf="nav.status.active && step === 1">
-                            <y-shipping-address (addAddress)="addAddress($event)"></y-shipping-address>
+                            <y-shipping-address [selectedAddress]="deliveryAddress" (addAddress)="addAddress($event)"></y-shipping-address>
                         </div>
                         <div *ngIf="nav.status.active && step === 2">
-                            <y-delivery-mode (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode>
+                            <y-delivery-mode [selectedShippingMethod]="shippingMethod" (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode>
                         </div>
                         <div *ngIf="nav.status.active && step === 3">
-                            <y-payment-method (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-method>
+                            <y-payment-method [selectedPayment]="paymentDetails" (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-method>
                         </div>
                         <div *ngIf="nav.status.active && step === 4">
                             <y-review-submit (placeOrder)="placeOrder()" [deliveryAddress]="deliveryAddress" [paymentDetails]="paymentDetails" (backStep)="setStep(3)">
@@ -47,13 +47,13 @@
 
                             <!-- Content -->
                             <div *ngIf="nav.status.active && step === 1">
-                                <y-shipping-address (addAddress)="addAddress($event)"></y-shipping-address>
+                                <y-shipping-address [selectedAddress]="deliveryAddress" (addAddress)="addAddress($event)"></y-shipping-address>
                             </div>
                             <div *ngIf="nav.status.active && step === 2">
-                                <y-delivery-mode (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode>
+                                <y-delivery-mode [selectedShippingMethod]="shippingMethod" (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode>
                             </div>
                             <div *ngIf="nav.status.active && step === 3">
-                                <y-payment-method (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-method>
+                                <y-payment-method [selectedPayment]="paymentDetails" (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-method>
                             </div>
                             <div *ngIf="nav.status.active && step === 4">
                                 <y-review-submit (placeOrder)="placeOrder()" [deliveryAddress]="deliveryAddress" [paymentDetails]="paymentDetails" (backStep)="setStep(3)">

@@ -30,6 +30,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   deliveryAddress: Address;
   paymentDetails: any;
+  shippingMethod: string;
 
   step1Sub: Subscription;
   step2Sub: Subscription;
@@ -111,9 +112,9 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(deliveryAddress => {
+        this.deliveryAddress = deliveryAddress;
         this.nextStep(2);
         this.refreshCart();
-        this.deliveryAddress = deliveryAddress;
         this.cd.detectChanges();
       });
 
@@ -121,9 +122,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.step2Sub = this.store
       .select(fromCheckoutStore.getSelectedCode)
       .pipe(filter(selected => selected !== '' && this.step === 2))
-      .subscribe(() => {
+      .subscribe(selectedMode => {
         this.nextStep(3);
         this.refreshCart();
+        this.shippingMethod = selectedMode;
         this.cd.detectChanges();
       });
 
@@ -152,7 +154,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
               );
             }
           });
-
           this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(3));
         }
       });
@@ -172,13 +173,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   }
 
   setStep(backStep) {
-    if (this.step > backStep) {
-      for (let i = backStep; i <= this.step; i++) {
-        this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(i));
-      }
-
-      this.nextStep(backStep);
-    }
+    this.nextStep(backStep);
   }
 
   nextStep(step: number): void {
@@ -205,12 +200,28 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     if (addressObject.newAddress) {
       this.checkoutService.createAndSetAddress(addressObject.address);
     } else {
-      this.checkoutService.setDeliveryAddress(addressObject.address);
+      // if the selected address is the same as the cart's one
+      if (
+        this.deliveryAddress &&
+        addressObject.address.id === this.deliveryAddress.id
+      ) {
+        this.nextStep(2);
+      } else {
+        this.checkoutService.setDeliveryAddress(addressObject.address);
+      }
     }
   }
 
   setDeliveryMode(deliveryMode: any) {
-    this.checkoutService.setDeliveryMode(deliveryMode.deliveryModeId);
+    // if the selected shipping method is the same as the cart's one
+    if (
+      this.shippingMethod &&
+      this.shippingMethod === deliveryMode.deliveryModeId
+    ) {
+      this.nextStep(3);
+    } else {
+      this.checkoutService.setDeliveryMode(deliveryMode.deliveryModeId);
+    }
   }
 
   addPaymentInfo(paymentDetailsObject) {
@@ -218,7 +229,15 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
       paymentDetailsObject.payment.billingAddress = this.deliveryAddress;
       this.checkoutService.createPaymentDetails(paymentDetailsObject.payment);
     } else {
-      this.checkoutService.setPaymentDetails(paymentDetailsObject.payment);
+      // if the selected paymetn is the same as the cart's one
+      if (
+        this.paymentDetails &&
+        this.paymentDetails.id === paymentDetailsObject.payment.id
+      ) {
+        this.nextStep(4);
+      } else {
+        this.checkoutService.setPaymentDetails(paymentDetailsObject.payment);
+      }
     }
   }
 

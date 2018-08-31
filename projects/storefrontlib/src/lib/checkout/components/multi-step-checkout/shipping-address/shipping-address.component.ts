@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   Output,
+  Input,
   EventEmitter
 } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -31,9 +32,9 @@ export class ShippingAddressComponent implements OnInit {
 
   existingAddresses$: Observable<any>;
   isAddressForm = false;
-  selectedAddress: Address;
   cards = [];
 
+  @Input() selectedAddress: Address;
   @Output() addAddress = new EventEmitter<any>();
 
   constructor(
@@ -51,7 +52,13 @@ export class ShippingAddressComponent implements OnInit {
           } else {
             if (this.cards.length === 0) {
               addresses.forEach(address => {
-                this.getCardContent(address);
+                const card = this.getCardContent(address);
+                if (
+                  this.selectedAddress &&
+                  this.selectedAddress.id === address.id
+                ) {
+                  card.header = 'SELECTED';
+                }
               });
             }
           }
@@ -59,7 +66,7 @@ export class ShippingAddressComponent implements OnInit {
       );
   }
 
-  getCardContent(address) {
+  getCardContent(address): Card {
     const card: Card = {
       title: address.defaultAddress ? 'Default Shipping Address' : '',
       textBold: address.firstName + ' ' + address.lastName,
@@ -77,6 +84,8 @@ export class ShippingAddressComponent implements OnInit {
     };
 
     this.cards.push(card);
+
+    return card;
   }
 
   addressSelected(address, index) {
