@@ -78,7 +78,8 @@ export class ShippingAddressComponent implements OnInit {
           address.region.isocode +
           ', ' +
           address.country.isocode,
-        address.postalCode
+        address.postalCode,
+        address.phone
       ],
       actions: [{ name: 'Ship to this address', event: 'send' }]
     };
