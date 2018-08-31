@@ -4,10 +4,10 @@ import { NavigationModule } from '../navigation/navigation.module';
 import { CategoryNavigationComponent } from './category-navigation.component';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
-import { ConfigService } from '../../cms/config.service';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { BootstrapModule } from '../../bootstap.module';
 
-class UseConfigService {
+class UseCmsModuleConfig {
   cmsComponentMapping = {
     CategoryNavigationComponent: 'CategoryNavigationComponent'
   };
@@ -28,7 +28,7 @@ describe('CategoryNavigationComponent', () => {
         })
       ],
       declarations: [CategoryNavigationComponent],
-      providers: [{ provide: ConfigService, useClass: UseConfigService }]
+      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

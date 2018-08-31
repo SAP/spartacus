@@ -4,6 +4,7 @@ import { LOCALE_ID } from '@angular/core';
 
 import { ConfigService } from './config.service';
 import { AppRoutingModule } from './app-routing.module';
+import { config } from './config';
 
 import {
   AuthModule,
@@ -24,13 +25,13 @@ import { AppComponent } from './app.component';
     BrowserModule,
     AuthModule.forRoot(ConfigService),
     RoutingModule.forRoot(ConfigService),
-    OccModule.forRoot(ConfigService),
+    OccModule.forRoot(config),
     SiteContextModule.forRoot(ConfigService),
 
     AppRoutingModule,
 
     CmsLibModule,
-    CmsModule.forRoot(ConfigService),
+    CmsModule.forRoot(config),
     UiModule,
     UiFrameworkModule
   ],

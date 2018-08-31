@@ -11,7 +11,7 @@ import * as fromStore from '../../cms/store';
 import * as fromCartStore from '../../cart/store';
 import { CartService } from '../../cart/services/cart.service';
 
-import { ConfigService } from '../../cms/config.service';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 
@@ -35,7 +35,7 @@ export class MiniCartComponent extends AbstractCmsComponent {
   constructor(
     protected cd: ChangeDetectorRef,
     protected store: Store<fromStore.CmsState>,
-    protected config: ConfigService,
+    protected config: CmsModuleConfig,
     protected dialog: MatDialog,
     protected cartService: CartService
   ) {

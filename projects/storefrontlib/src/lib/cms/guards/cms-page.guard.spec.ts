@@ -4,14 +4,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { CmsPageGuards } from './cms-page.guard';
 import { DefaultPageService } from '../services/default-page.service';
-import { ConfigService } from '../config.service';
+import { CmsModuleConfig } from '../cms-module-config';
 import * as fromRoot from '../../routing/store';
 import * as fromReducers from '../store/reducers';
 import { PageType } from '../../routing/models/page-context.model';
 import { Page } from '../models/page.model';
 import * as fromActions from '../store/actions/page.action';
 
-export class MockConfigService {
+export class MockCmsModuleConfig {
   defaultPageIdForType = {
     ProductPage: ['testProductPage']
   };
@@ -34,7 +34,7 @@ describe('CmsPageGuards', () => {
       providers: [
         CmsPageGuards,
         DefaultPageService,
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
       ],
       imports: [
         RouterTestingModule,
