@@ -13,21 +13,21 @@ import {
   reducerProvider
 } from './store/reducers/router.reducer';
 import { effects } from './store/effects/index';
-import { ConfigService, StorageSyncType } from './config.service';
+import { RoutingModuleConfig, StorageSyncType } from './routing-module-config';
 
 // not used in production
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
 
 export function overrideOccModuleConfig(configOverride: any) {
-  return { ...new ConfigService(), ...configOverride };
+  return { ...new RoutingModuleConfig(), ...configOverride };
 }
 
 export const ROUTING_MODULE_CONFIG_OVERRIDE: InjectionToken<
   string
 > = new InjectionToken<string>('OCC_MODULE_CONFIG_OVERRIDE');
 
-export function getMetaReducers(config: ConfigService): MetaReducer<any>[] {
+export function getMetaReducers(config: RoutingModuleConfig): MetaReducer<any>[] {
   const metaReducers: MetaReducer<any>[] = [];
   if (config.storageSyncType !== StorageSyncType.NO_STORAGE) {
     const storageSyncReducer = getStorageSyncReducer(config);
@@ -52,10 +52,10 @@ export function getMetaReducers(config: ConfigService): MetaReducer<any>[] {
       provide: RouterStateSerializer,
       useClass: CustomSerializer
     },
-    ConfigService,
+    RoutingModuleConfig,
     {
       provide: META_REDUCERS,
-      deps: [ConfigService],
+      deps: [RoutingModuleConfig],
       useFactory: getMetaReducers
     }
   ]
@@ -70,7 +70,7 @@ export class RoutingModule {
           useValue: configOverride
         },
         {
-          provide: ConfigService,
+          provide: RoutingModuleConfig,
           useFactory: overrideOccModuleConfig,
           deps: [ROUTING_MODULE_CONFIG_OVERRIDE]
         }

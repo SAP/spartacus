@@ -1,13 +1,13 @@
 import { getStorageSyncReducer } from './store-sync.reducer';
-import { StorageSyncType } from '../../config.service';
+import { StorageSyncType } from '../../routing-module-config';
 
-class MockConfigService {
+class MockRoutingModuleConfig {
   storageSyncType;
 }
 
 describe('get store Sync reducer', () => {
   it('should return a proper localStorageSync function', () => {
-    const config = new MockConfigService();
+    const config = new MockRoutingModuleConfig();
     config.storageSyncType = StorageSyncType.SESSION_STORAGE;
 
     const result = getStorageSyncReducer(config);

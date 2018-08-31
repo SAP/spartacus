@@ -6,6 +6,6 @@ export class StorageSyncType {
   static SESSION_STORAGE = 'SESSION_STORAGE';
 }
 @Injectable()
-export class ConfigService {
+export class RoutingModuleConfig {
   storageSyncType: string = StorageSyncType.SESSION_STORAGE;
 }
