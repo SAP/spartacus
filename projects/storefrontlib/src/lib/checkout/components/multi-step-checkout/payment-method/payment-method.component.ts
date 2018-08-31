@@ -11,6 +11,7 @@ import { tap } from 'rxjs/operators';
 
 import * as fromUserStore from '../../../../user/store';
 import { CheckoutService } from '../../../services/checkout.service';
+import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
   selector: 'y-payment-method',
@@ -19,8 +20,17 @@ import { CheckoutService } from '../../../services/checkout.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentMethodComponent implements OnInit {
+  labels = {
+    title: 'Payment',
+    btnAddPayment: 'Add New Payment',
+    btnContinue: 'Continue',
+    btnBack: 'Back'
+  };
+
   isPaymentForm = false;
   existingPaymentMethods$: Observable<any>;
+  selectedPayment: any;
+  cards = [];
 
   @Output() backStep = new EventEmitter<any>();
   @Output() addPaymentInfo = new EventEmitter<any>();
@@ -37,13 +47,50 @@ export class PaymentMethodComponent implements OnInit {
         tap(payments => {
           if (payments.length === 0) {
             this.checkoutService.loadUserPaymentMethods();
+          } else {
+            if (this.cards.length === 0) {
+              payments.forEach(payment => {
+                this.getCardContent(payment);
+              });
+            }
           }
         })
       );
   }
 
-  paymentMethodSelected(paymentDetails) {
-    this.addPaymentInfo.emit({ payment: paymentDetails, newPayment: false });
+  getCardContent(payment) {
+    const card: Card = {
+      title: payment.defaultPayment ? 'Default Payment Method' : '',
+      textBold: payment.accountHolderName,
+      text: [
+        payment.cardNumber,
+        'Expires: ' + payment.expiryMonth + '/' + payment.expiryYear
+      ],
+      img: 'assets/visa.png',
+      actions: [{ name: 'Use this payment', event: 'send' }]
+    };
+
+    this.cards.push(card);
+  }
+
+  paymentMethodSelected(paymentDetails, index) {
+    this.selectedPayment = paymentDetails;
+
+    for (let i = 0; this.cards[i]; i++) {
+      const card = this.cards[i];
+      if (i === index) {
+        card.header = 'SELECTED';
+      } else {
+        card.header = '';
+      }
+    }
+  }
+
+  next() {
+    this.addPaymentInfo.emit({
+      payment: this.selectedPayment,
+      newPayment: false
+    });
   }
 
   addNewPaymentMethod(paymentDetails) {

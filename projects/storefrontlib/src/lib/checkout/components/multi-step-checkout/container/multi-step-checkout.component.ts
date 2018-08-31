@@ -177,7 +177,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(i));
       }
 
-      this.step = backStep;
+      this.nextStep(backStep);
     }
   }
 

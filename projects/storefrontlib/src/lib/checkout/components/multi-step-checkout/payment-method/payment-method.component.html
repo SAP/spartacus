@@ -1,32 +1,26 @@
 <ng-container *ngIf="existingPaymentMethods$ | async as existingPaymentMethods">
-    <div class="content" *ngIf="existingPaymentMethods.length > 0 && !isPaymentForm; else paymentForm">
-        <h3>Payment Methods</h3>
-        <div *ngFor="let method of existingPaymentMethods">
-            <div *ngIf="method.defaultPayment">
-                <div>{{method.cardType.name}} (Default Payment Method)</div>
-                <div>{{method.accountHolderName}}</div>
-                <div>{{method.cardNumber}}</div>
-                <div>Expiry: {{method.expiryMonth}}/{{method.expiryYear}}</div>
-                <div class="continue-link">
-                    <a [routerLink]="" (click)="paymentMethodSelected(method)">Use this Payment Method</a>
-                </div>
-            </div>
+    <div class="y-existing-payment-methods container" *ngIf="existingPaymentMethods.length > 0 && !isPaymentForm; else paymentForm">
+        <h3 class="y-existing-payment-methods__title d-none d-lg-block d-xl-block">{{labels.title}}</h3>
+        <p class="y-existing-payment-methods__text">Choose a payment method</p>
+        <div class="y-existing-payment-methods__btn row justify-content-end">
+            <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action" (click)="goToPaymentForm()">{{labels.btnAddPayment}}</button></div>
+        </div>
 
-            <div class="payment-methods" *ngIf="!method.defaultPayment">
-                <div>{{method.cardType.name}}</div>
-                <div>{{method.accountHolderName}}</div>
-                <div>{{method.cardNumber}}</div>
-                <div>Expiry: {{method.expiryMonth}}/{{method.expiryYear}}</div>
-                <div class="continue-link">
-                    <a [routerLink]="" (click)="paymentMethodSelected(method)">Use this Payment Method</a>
+        <div class="y-existing-payment-methods__body row">
+            <div class="col-md-12 col-lg-6" *ngFor="let method of existingPaymentMethods; let i=index;">
+                <div class="y-existing-payment-methods__card">
+                    <y-card [border]="true" [content]="cards[i]" (sendCard)="paymentMethodSelected(method, i)"></y-card>
                 </div>
             </div>
         </div>
 
-        <div></div>
-        <div class="buttons">
-            <button mat-raised-button color="primary" (click)="back()">Go Back</button>
-            <button mat-raised-button color="accent" (click)="goToPaymentForm()">Add a New Payment Method</button>
+        <div class="row">
+            <div class="col-md-12 col-lg-6">
+                <button class="btn btn-block btn-action" (click)="back()">{{labels.btnBack}}</button>
+            </div>
+            <div class="col-md-12 col-lg-6">
+                <button class="btn btn-block btn-primary" [disabled]="selectedPayment === undefined" (click)="next()">{{labels.btnContinue}}</button>
+            </div>
         </div>
     </div>
 </ng-container>
