@@ -7,7 +7,7 @@ import * as fromActions from '../../store/actions';
 import { ComponentWrapperComponent } from './component-wrapper.component';
 import { ComponentMapperService } from '../../services/component-mapper.service';
 import { AbstractCmsComponent } from '../abstract-cms-component';
-import { ConfigService } from '../../config.service';
+import { CmsModuleConfig } from '../../cms-module-config';
 import { By } from '@angular/platform-browser';
 
 @Component({
@@ -23,7 +23,7 @@ export class TestComponent extends AbstractCmsComponent {
 })
 export class TestModule {}
 
-export class MockConfigService {
+export class MockCmsModuleConfig {
   cmsComponentMapping = {
     CMSTestComponent: 'TestComponent'
   };
@@ -49,7 +49,7 @@ describe('ComponentWrapperComponent', () => {
       declarations: [ComponentWrapperComponent],
       providers: [
         ComponentMapperService,
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
       ]
     }).compileComponents();
   }));

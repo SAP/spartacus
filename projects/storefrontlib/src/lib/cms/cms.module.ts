@@ -17,10 +17,10 @@ import { guards } from './guards/index';
 
 // services
 import { services } from './services/index';
-import { ConfigService } from './config.service';
+import { CmsModuleConfig } from './cms-module-config';
 
 export function overrideCmsModuleConfig(configOverride: any) {
-  return { ...new ConfigService(), ...configOverride };
+  return { ...new CmsModuleConfig(), ...configOverride };
 }
 
 export const CMS_MODULE_CONFIG_OVERRIDE: InjectionToken<
@@ -34,7 +34,7 @@ export const CMS_MODULE_CONFIG_OVERRIDE: InjectionToken<
     StoreModule.forFeature('cms', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
-  providers: [reducerProvider, ...services, ...guards, ConfigService],
+  providers: [reducerProvider, ...services, ...guards, CmsModuleConfig],
   declarations: [...components],
   exports: [...components]
 })
@@ -48,7 +48,7 @@ export class CmsModule {
           useValue: configOverride
         },
         {
-          provide: ConfigService,
+          provide: CmsModuleConfig,
           useFactory: overrideCmsModuleConfig,
           deps: [CMS_MODULE_CONFIG_OVERRIDE]
         }
