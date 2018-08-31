@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 
-export enum StorageSyncType {
-  NO_STORAGE,
-  LOCAL_STORAGE,
-  SESSION_STORAGE
+export class StorageSyncType {
+  static NO_STORAGE = 'NO_STORAGE';
+  static LOCAL_STORAGE = 'LOCAL_STORAGE';
+  static SESSION_STORAGE = 'SESSION_STORAGE';
 }
-
 @Injectable()
 export class ConfigService {
-  storageSyncType = StorageSyncType.SESSION_STORAGE;
+  storageSyncType: string = StorageSyncType.SESSION_STORAGE;
 }
