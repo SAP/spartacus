@@ -1,8 +1,8 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, InjectionToken } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { ConfigService } from './config.service';
+import { AuthModuleConfig } from './auth-module.config';
 import { services } from './services/index';
 
 import { guards } from './guards/index';
@@ -19,6 +19,14 @@ import {
   metaReducers
 } from './store/reducers/index';
 
+export function overrideAuthModuleConfig(configOverride: any) {
+  return { ...new AuthModuleConfig(), ...configOverride };
+}
+
+export const AUTH_MODULE_CONFIG_OVERRIDE: InjectionToken<
+  string
+> = new InjectionToken<string>('OCC_MODULE_CONFIG_OVERRIDE');
+
 @NgModule({
   imports: [
     CommonModule,
@@ -29,13 +37,18 @@ import {
   providers: [...guards, ...services, ...interceptors, reducerProvider]
 })
 export class AuthModule {
-  static forRoot(config: any): ModuleWithProviders {
+  static forRoot(configOverride?: any): ModuleWithProviders {
     return {
       ngModule: AuthModule,
       providers: [
         {
-          provide: ConfigService,
-          useExisting: config
+          provide: AUTH_MODULE_CONFIG_OVERRIDE,
+          useValue: configOverride
+        },
+        {
+          provide: AuthModuleConfig,
+          useFactory: overrideAuthModuleConfig,
+          deps: [AUTH_MODULE_CONFIG_OVERRIDE]
         }
       ]
     };
