@@ -85,6 +85,16 @@ export class PageEffects {
     private routingStore: Store<fromRouting.State>
   ) {}
 
+  static normalizeComponentArray(component: any = []) {
+    if (Array.isArray(component)) {
+      return component;
+    } else if (component.uid) {
+      return [component];
+    } else {
+      return [];
+    }
+  }
+
   private getPageData(res: any, pageContext: PageContext): any {
     const page: Page = {
       loadTime: Date.now(),
@@ -98,13 +108,14 @@ export class PageEffects {
 
     for (const slot of res.contentSlots.contentSlot) {
       page.slots[slot.position] = [];
-      if (slot.components.component) {
-        for (const component of slot.components.component) {
-          page.slots[slot.position].push({
-            uid: component.uid,
-            typeCode: component.typeCode
-          });
-        }
+      const components = PageEffects.normalizeComponentArray(
+        slot.components.component
+      );
+      for (const component of components) {
+        page.slots[slot.position].push({
+          uid: component.uid,
+          typeCode: component.typeCode
+        });
       }
     }
     this.defaultPageService.getDefaultPageIdsBytype(pageContext.type);
@@ -132,10 +143,11 @@ export class PageEffects {
     const components: any[] = [];
     if (pageData) {
       for (const slot of pageData.contentSlots.contentSlot) {
-        if (slot.components.component) {
-          for (const component of slot.components.component) {
-            components.push(component);
-          }
+        const slotComponents = PageEffects.normalizeComponentArray(
+          slot.components.component
+        );
+        for (const component of slotComponents) {
+          components.push(component);
         }
       }
     }
