@@ -1,17 +1,14 @@
 import { by } from 'protractor';
 import { HomePage } from '../page-objects/home.po';
 import { SearchResultsPage } from '../page-objects/search-results.po';
-import { ProductDetailsPage } from '../page-objects/product-details.po';
 
 describe('Product search', () => {
   let home: HomePage;
   let searchResults: SearchResultsPage;
-  let productDetails: ProductDetailsPage;
 
   beforeEach(async () => {
     home = new HomePage();
     searchResults = new SearchResultsPage();
-    productDetails = new ProductDetailsPage();
   });
 
   it('should be able to search and get results in page', async () => {
