@@ -36,7 +36,10 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
       });
 
     this.currencies$ = this.store.select(fromStore.getAllCurrencies);
-    this.activeCurrency = this.configService.site.currency;
+    this.activeCurrency =
+      sessionStorage.getItem('currency') === null
+        ? this.configService.site.currency
+        : sessionStorage.getItem('currency');
     this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
   }
 

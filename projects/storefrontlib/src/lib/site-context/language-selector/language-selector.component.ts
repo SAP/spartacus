@@ -36,7 +36,10 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
       });
 
     this.languages$ = this.store.select(fromStore.getAllLanguages);
-    this.activeLanguage = this.configService.site.language;
+    this.activeLanguage =
+      sessionStorage.getItem('language') === null
+        ? this.configService.site.language
+        : sessionStorage.getItem('language');
     this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
   }
 
