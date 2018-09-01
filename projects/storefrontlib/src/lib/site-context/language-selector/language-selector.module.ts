@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { LanguageSelectorComponent } from './language-selector.component';
 
 import { SharedModule } from '../shared/shared.module';
-import { ConfigService } from '../config.service';
+import { SiteContextModuleConfig } from '../site-context-module-config';
 
 @NgModule({
-  imports: [CommonModule, SharedModule.forRoot(ConfigService)],
+  imports: [CommonModule, SharedModule],
   declarations: [LanguageSelectorComponent],
   exports: [LanguageSelectorComponent],
-  providers: [ConfigService]
+  providers: [SiteContextModuleConfig]
 })
 export class LanguageSelectorModule {}

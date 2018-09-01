@@ -2,10 +2,10 @@ import { NgModule, InjectionToken, ModuleWithProviders } from '@angular/core';
 
 import { CurrencySelectorModule } from './currency-selector/currency-selector.module';
 import { LanguageSelectorModule } from './language-selector/language-selector.module';
-import { ConfigService } from './config.service';
+import { SiteContextModuleConfig } from './site-context-module-config';
 
 export function overrideSiteContextModuleConfig(configOverride: any) {
-  return { ...new ConfigService(), ...configOverride };
+  return { ...new SiteContextModuleConfig(), ...configOverride };
 }
 
 export const SITE_CONTEXT_MODULE_CONFIG_OVERRIDE: InjectionToken<
@@ -14,7 +14,7 @@ export const SITE_CONTEXT_MODULE_CONFIG_OVERRIDE: InjectionToken<
 
 @NgModule({
   imports: [CurrencySelectorModule, LanguageSelectorModule],
-  providers: [ConfigService],
+  providers: [SiteContextModuleConfig],
   exports: [CurrencySelectorModule, LanguageSelectorModule]
 })
 export class SiteContextModule {
@@ -27,7 +27,7 @@ export class SiteContextModule {
           useValue: configOverride
         },
         {
-          provide: ConfigService,
+          provide: SiteContextModuleConfig,
           useFactory: overrideSiteContextModuleConfig,
           deps: [SITE_CONTEXT_MODULE_CONFIG_OVERRIDE]
         }

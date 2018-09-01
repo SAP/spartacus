@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromStore from '../shared/store';
-import { ConfigService } from '../config.service';
+import { SiteContextModuleConfig } from '../site-context-module-config';
 
 @Component({
   selector: 'y-currency-selector',
@@ -23,7 +23,7 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromStore.SiteContextState>,
-    private configService: ConfigService
+    private config: SiteContextModuleConfig
   ) {}
 
   ngOnInit() {
@@ -38,7 +38,7 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
     this.currencies$ = this.store.select(fromStore.getAllCurrencies);
     this.activeCurrency =
       sessionStorage.getItem('currency') === null
-        ? this.configService.site.currency
+        ? this.config.site.currency
         : sessionStorage.getItem('currency');
     this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
   }

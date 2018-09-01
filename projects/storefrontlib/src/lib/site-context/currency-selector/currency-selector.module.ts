@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { CurrencySelectorComponent } from './currency-selector.component';
 
 import { SharedModule } from '../shared/shared.module';
-import { ConfigService } from '../config.service';
+import { SiteContextModuleConfig } from '../site-context-module-config';
 
 @NgModule({
-  imports: [CommonModule, SharedModule.forRoot(ConfigService)],
+  imports: [CommonModule, SharedModule],
   declarations: [CurrencySelectorComponent],
   exports: [CurrencySelectorComponent],
-  providers: [ConfigService]
+  providers: [SiteContextModuleConfig]
 })
 export class CurrencySelectorModule {}

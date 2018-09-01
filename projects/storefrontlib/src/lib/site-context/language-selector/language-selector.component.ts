@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromStore from '../shared/store';
-import { ConfigService } from '../config.service';
+import { SiteContextModuleConfig } from '../site-context-module-config';
 
 @Component({
   selector: 'y-language-selector',
@@ -23,7 +23,7 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromStore.SiteContextState>,
-    private configService: ConfigService
+    private config: SiteContextModuleConfig
   ) {}
 
   ngOnInit() {
@@ -38,7 +38,7 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
     this.languages$ = this.store.select(fromStore.getAllLanguages);
     this.activeLanguage =
       sessionStorage.getItem('language') === null
-        ? this.configService.site.language
+        ? this.config.site.language
         : sessionStorage.getItem('language');
     this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
   }
