@@ -12,10 +12,4 @@ export class ConfigService {
     language: 'en',
     currency: 'USD'
   };
-
-  // site = {
-  //     baseSite: 'apparel-uk',
-  //     language: 'en',
-  //     currency: 'GBP'
-  // };
 }
