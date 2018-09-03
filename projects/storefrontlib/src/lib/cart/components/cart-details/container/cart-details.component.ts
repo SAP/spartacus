@@ -38,4 +38,13 @@ export class CartDetailsComponent implements OnInit {
   updateEntry({ entry, updatedQuantity }) {
     this.cartService.updateCartEntry(entry.entryNumber, updatedQuantity);
   }
+
+  getAllPromotionsForCart(cart) {
+    return cart.potentialProductPromotions.concat(cart.appliedProductPromotions);
+  }
+
+  cartHasPromotions(cart) {
+    return cart.potentialProductPromotions.length > 0
+      || cart.appliedProductPromotions.length > 0;
+  }
 }
