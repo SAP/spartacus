@@ -5,6 +5,7 @@
 // y-cart-details color variables
 $y-cart-details-checkbox-label-color: 'text' !default;
 $y-cart-details-checkbox-link-color: 'text' !default;
+$y-cart-details-promotions-color: 'success' !default;
 
 .y-cart-details {
   &__cart-total {
@@ -23,7 +24,7 @@ $y-cart-details-checkbox-link-color: 'text' !default;
     }
   }
   &__promotions {
-    @include var-color('color', $y-order-summary-promotions-color);
+    @include var-color('color', $y-cart-details-promotions-color);
     @include type('7');
     padding: 0.5rem 0;
   }
