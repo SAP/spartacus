@@ -1,0 +1,46 @@
+.heading {
+  margin-left: 40px;
+}
+
+.inputs,
+.countries-dropdown,
+.titles-dropdown,
+.regions-dropdown {
+  width: 40.5%;
+  height: 20px;
+  margin-bottom: 15px;
+}
+
+.address {
+  margin-left: 22px;
+}
+
+.form-labels {
+  height: 50%;
+  vertical-align: left;
+}
+
+.content {
+  margin-left: 40px;
+}
+
+.buttons {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.error {
+  color: red;
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  border-radius: 0 0 3px 3px;
+  line-height: 1;
+  padding: 6px 10px;
+  margin-top: -1px;
+}
+
+.continue-link {
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
