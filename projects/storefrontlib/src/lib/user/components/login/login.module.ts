@@ -1,15 +1,13 @@
-import { CmsModule } from './../../../cms/cms.module';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '../../../material.module';
-
-import { LoginComponent } from './login.component';
+import { BootstrapModule } from './../../../bootstap.module';
+import { CmsModule } from './../../../cms/cms.module';
 import { LoginFormComponent } from './login-form/login-form.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from './login.component';
 
 @NgModule({
   imports: [
@@ -20,8 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FlexLayoutModule,
     RouterModule,
     CmsModule,
-    // Bootstrap
-    NgbModule.forRoot()
+    BootstrapModule
   ],
   declarations: [LoginComponent, LoginFormComponent],
   exports: [LoginComponent, LoginFormComponent]

@@ -17,12 +17,12 @@ import { Address } from '../../../models/address-model';
 import { CheckoutService } from '../../../services/checkout.service';
 
 @Component({
-  selector: 'y-delivery-mode-form',
-  templateUrl: './delivery-mode-form.component.html',
-  styleUrls: ['./delivery-mode-form.component.scss'],
+  selector: 'y-delivery-mode',
+  templateUrl: './delivery-mode.component.html',
+  styleUrls: ['./delivery-mode.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DeliveryModeFormComponent implements OnInit {
+export class DeliveryModeComponent implements OnInit {
   supportedDeliveryModes$: Observable<any>;
 
   @Output() selectMode = new EventEmitter<any>();

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { DeliveryModeFormComponent } from './delivery-mode-form.component';
+import { DeliveryModeComponent } from './delivery-mode.component';
 import {
   ReactiveFormsModule,
   FormGroup,
@@ -47,10 +47,10 @@ const mockCart = {
   guid: 'test',
   code: 'test'
 };
-describe('DeliveryModeFormComponent', () => {
+describe('DeliveryModeComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
-  let component: DeliveryModeFormComponent;
-  let fixture: ComponentFixture<DeliveryModeFormComponent>;
+  let component: DeliveryModeComponent;
+  let fixture: ComponentFixture<DeliveryModeComponent>;
   let service: CheckoutService;
   let cartData: CartDataService;
 
@@ -68,7 +68,7 @@ describe('DeliveryModeFormComponent', () => {
           auth: combineReducers(fromAuth.getReducers())
         })
       ],
-      declarations: [DeliveryModeFormComponent],
+      declarations: [DeliveryModeComponent],
       providers: [
         CheckoutService,
         CartService,
@@ -80,7 +80,7 @@ describe('DeliveryModeFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DeliveryModeFormComponent);
+    fixture = TestBed.createComponent(DeliveryModeComponent);
     component = fixture.componentInstance;
     service = TestBed.get(CheckoutService);
     cartData = TestBed.get(CartDataService);

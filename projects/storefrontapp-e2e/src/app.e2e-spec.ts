@@ -37,31 +37,41 @@ describe('workspace-project App', () => {
     );
   });
 
-  it('should be able to search', () => {
-    // go to homepage
-    home.navigateTo();
-    // search for camera
-    home.header.performSearch('camera');
-    // should go to search results page
-    browser.wait(ExpectedConditions.urlContains('/search/camera'), 5000);
-  });
-
   it('should have splash banner', () => {
     // go to homepage
     home.navigateTo();
     // check if site logo is present
-    const splashBannerComponent = home.getSplahBanner();
+    const splashBannerComponent = home.getSplashBanner();
     expect<promise.Promise<boolean>>(splashBannerComponent.isPresent()).toEqual(
       true
     );
   });
 
-  it('should list cameras in page', () => {
-    // go to search results page
-    searchResults.navigateTo('camera');
+  it('should have footer with footer navigation and notice', async () => {
+    // go to homepage
+    await home.navigateTo();
+    const footer = home.footer;
+
+    expect(await footer.footerNavigation.isPresent()).toEqual(true);
+
+    expect(await footer.getSectionsCount()).toEqual(3);
+    expect(await footer.getSectionHeader(0)).toEqual('Accelerator');
+    expect(await footer.getLinkUrlByTitle('About hybris')).toEqual(
+      'http://www.hybris.com/'
+    );
+
+    expect(await footer.getNoticeText()).toEqual('© 2016 hybris software');
+  });
+
+  it('should be able to search and get results in page', () => {
+    home.navigateTo();
+
+    home.header.performSearch('camera');
 
     // should go to search results page
     browser.wait(ExpectedConditions.urlContains('/search/camera'));
+
+    browser.waitForAngular();
 
     // should show 10 results on page and should have Photosmart camera
     const results = searchResults.getProductListItems();
@@ -89,6 +99,8 @@ describe('workspace-project App', () => {
 
     // should go to search results page
     browser.wait(ExpectedConditions.urlContains('/search/camera'));
+
+    browser.waitForAngular();
 
     // should have 144 results and 15 pages
     const pagination = searchResults.getPagination();

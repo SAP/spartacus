@@ -7,7 +7,7 @@
                         transform="translate(326 16)" />
                 </g>
             </svg>
-            <span class="y-mini-cart__count" aria-label="My cart. 999 items currently in your cart.">{{cart?.deliveryItemsQuantity}}</span>
+            <span class="y-mini-cart__count" [attr.aria-label]="'My cart. '+cart?.deliveryItemsQuantity+' items currently in your cart.'">{{cart?.deliveryItemsQuantity}}</span>
         </button>
     </div>
 </ng-container>

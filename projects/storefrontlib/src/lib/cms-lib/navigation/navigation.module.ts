@@ -1,3 +1,4 @@
+import { BootstrapModule } from './../../bootstap.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -6,7 +7,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { NavigationComponent } from './navigation.component';
 import { NavigationService } from './navigation.service';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     RouterModule,
     MaterialModule,
     FlexLayoutModule,
-    NgbModule
+    BootstrapModule
   ],
   providers: [NavigationService],
   declarations: [NavigationComponent],

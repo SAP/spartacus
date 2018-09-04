@@ -3,16 +3,15 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   Output,
-  EventEmitter,
-  Input
+  EventEmitter
 } from '@angular/core';
-
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Observable } from 'rxjs';
-import * as fromCheckoutStore from '../../../store';
-import { CheckoutService } from '../../../services/checkout.service';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+
+import * as fromCheckoutStore from '../../../../store';
+import { CheckoutService } from '../../../../services/checkout.service';
 
 @Component({
   selector: 'y-payment-form',
@@ -21,13 +20,10 @@ import { tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentFormComponent implements OnInit {
-  newPayment = false;
-
-  @Input() existingPaymentMethods;
-  @Output() backStep = new EventEmitter<any>();
-  @Output() addPaymentInfo = new EventEmitter<any>();
-
   cardTypes$: Observable<any>;
+
+  @Output() backToPayment = new EventEmitter<any>();
+  @Output() addPaymentInfo = new EventEmitter<any>();
 
   payment: FormGroup = this.fb.group({
     defaultPayment: [false],
@@ -57,28 +53,16 @@ export class PaymentFormComponent implements OnInit {
     );
   }
 
-  paymentMethodSelected(paymentDetails) {
-    this.addPaymentInfo.emit({ payment: paymentDetails, newPayment: false });
-  }
-
   toggleDefaultPaymentMethod() {
     this.payment.value.defaultPayment = !this.payment.value.defaultPayment;
   }
 
-  addNewPaymentMethod() {
-    this.newPayment = true;
-  }
-
   back() {
-    if (this.newPayment) {
-      this.newPayment = false;
-    } else {
-      this.backStep.emit();
-    }
+    this.backToPayment.emit();
   }
 
   next() {
-    this.addPaymentInfo.emit({ payment: this.payment.value, newPayment: true });
+    this.addPaymentInfo.emit(this.payment.value);
   }
 
   required(name: string) {

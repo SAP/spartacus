@@ -12,10 +12,10 @@ export class HomePage extends AppPage {
     return E2EUtil.getComponent(this.YPAGE);
   }
 
-  getSplahBanner(): ElementFinder {
+  getSplashBanner(): ElementFinder {
     return E2EUtil.getComponentWithinParentByCss(
       this.getPage(),
-      '.ElectronicsHompageSplashBannerComponent'
+      '[data-component-uid="ElectronicsHompageSplashBannerComponent"]'
     );
   }
 }

@@ -6,7 +6,5 @@
   // Prettify on save
   "editor.formatOnSave": true,
   // Uses the project specific typescript version.
-  "typescript.tsdk": "node_modules/typescript/lib",
-
-  "javascript.implicitProjectConfig.checkJs": true
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
