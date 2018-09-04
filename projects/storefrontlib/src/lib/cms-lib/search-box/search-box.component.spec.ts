@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromRoot from '../../routing/store';
@@ -8,13 +7,13 @@ import * as fromProductStore from '../../product/store';
 import * as fromRouting from '../../routing/store';
 import { SearchBoxComponent } from './search-box.component';
 import { ConfigService } from '../../cms/config.service';
-import { MaterialModule } from '../../material.module';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchConfig } from '../../product/search-config';
 import { By } from '@angular/platform-browser';
+import { BootstrapModule } from '../../bootstap.module';
 
 export class UseConfigService {
   cmsComponentMapping = {
@@ -68,9 +67,9 @@ describe('SearchBoxComponent in CmsLib', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        BootstrapModule,
         BrowserAnimationsModule,
         FormsModule,
-        MaterialModule,
         ReactiveFormsModule,
         RouterTestingModule,
         StoreModule.forRoot({
@@ -80,8 +79,7 @@ describe('SearchBoxComponent in CmsLib', () => {
         })
       ],
       declarations: [SearchBoxComponent, PictureComponent],
-      providers: [{ provide: ConfigService, useClass: UseConfigService }],
-      schemas: [NO_ERRORS_SCHEMA]
+      providers: [{ provide: ConfigService, useClass: UseConfigService }]
     }).compileComponents();
   }));
 
