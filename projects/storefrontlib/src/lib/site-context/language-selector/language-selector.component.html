@@ -1,7 +1,6 @@
-<div class="form-group">
-    <i class="fa fa-globe" aria-hidden="true"></i>
-    <label class="sr-only" for="language-selector">Language</label>
-    <select class="form-control language-selector__select" id="language-selector" (change)="setActiveLanguage($event.target.value)">
-        <option *ngFor="let item of (languages$ | async)" [selected]="activeLanguage == item.isocode" [value]="item.isocode">{{item.nativeName}}</option>
+<div class="y-language-selector">
+    <label class="y-language-selector__label" for="languageSelector">Language</label>
+    <select class="y-language-selector__control form-control" name="" id="languageSelector" (change)="setActiveLanguage($event.target.value)">
+        <option *ngFor="let item of (languages$ | async)" value="{{item.isocode}}" [selected]="activeLanguage == item.isocode">{{item.nativeName}}</option>
     </select>
 </div>
