@@ -12,6 +12,8 @@ import { services } from './services/index';
 import { MultiStepCheckoutModule } from './components/multi-step-checkout/multi-step-checkout.module';
 import { OrderConfirmationModule } from './components/order-confirmation/order-confirmation.module';
 
+import { guards } from './guards/index';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -20,6 +22,6 @@ import { OrderConfirmationModule } from './components/order-confirmation/order-c
     EffectsModule.forFeature(effects)
   ],
   exports: [MultiStepCheckoutModule, OrderConfirmationModule],
-  providers: [reducerProvider, ...services]
+  providers: [reducerProvider, ...services, ...guards]
 })
 export class CheckoutModule {}

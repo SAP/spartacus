@@ -7,7 +7,6 @@ import {
 } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
 
 import { OccModuleConfig } from '../../occ/occ-module-config';
 import { UserToken } from '../../auth/models/token-types.model';
@@ -25,12 +24,9 @@ export class UserTokenInterceptor implements HttpInterceptor {
     private config: OccModuleConfig,
     private store: Store<fromStore.AuthState>
   ) {
-    this.store
-      .select(fromStore.getUserToken)
-      .pipe(filter((token: UserToken) => Object.keys(token).length !== 0))
-      .subscribe((token: UserToken) => {
-        this.userToken = token;
-      });
+    this.store.select(fromStore.getUserToken).subscribe((token: UserToken) => {
+      this.userToken = token;
+    });
   }
 
   intercept(
