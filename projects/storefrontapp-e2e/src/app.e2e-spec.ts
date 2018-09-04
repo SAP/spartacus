@@ -2,7 +2,6 @@ import { browser, by, ExpectedConditions, promise } from 'protractor';
 
 import { AddedToCartModal } from './cmslib/addedToCartModal.po';
 import { ProductDetailsPage } from './pages/productDetails.po';
-import { CartPage } from './pages/cart.po';
 import { SearchResultsPage } from './pages/searchResults.po';
 import { HomePage } from './pages/home.po';
 import { E2EUtil } from './util.po';
@@ -10,13 +9,11 @@ import { E2EUtil } from './util.po';
 describe('workspace-project App', () => {
   let home: HomePage;
   let searchResults: SearchResultsPage;
-  let cart: CartPage;
   let productDetails: ProductDetailsPage;
 
   beforeEach(() => {
     home = new HomePage();
     searchResults = new SearchResultsPage();
-    cart = new CartPage();
     productDetails = new ProductDetailsPage();
   });
 
