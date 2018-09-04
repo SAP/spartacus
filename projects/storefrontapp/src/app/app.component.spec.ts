@@ -1,6 +1,12 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 
+describe('AppComponent', () => {
+  it('should be always true', async(() => {
+    expect(true).toBeTruthy();
+  }));
+});
+
 xdescribe('AppComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
