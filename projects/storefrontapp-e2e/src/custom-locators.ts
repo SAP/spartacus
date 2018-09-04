@@ -1,4 +1,4 @@
-import { ProtractorBy } from 'protractor';
+import { ProtractorBy, Locator } from 'protractor';
 
 export function addCustomLocators(by: ProtractorBy) {
   by.addLocator('dynamicSlot', function(
@@ -8,7 +8,6 @@ export function addCustomLocators(by: ProtractorBy) {
     opt_rootSelector
   ) {
     const using = opt_parentElement || document;
-    console.log('aaa', slotPosition, elementTag);
     return using.querySelectorAll(
       `y-dynamic-slot[position=${slotPosition}] ${elementTag}`
     );

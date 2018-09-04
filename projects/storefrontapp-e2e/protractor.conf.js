@@ -27,7 +27,7 @@ exports.config = {
       })
     );
 
-    // Add the custom locators
+    // Add custom locators
     require('./src/custom-locators').addCustomLocators(by);
   }
 };
