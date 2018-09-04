@@ -27,7 +27,7 @@ export class MockConfigService {
   };
 }
 
-fdescribe('OccStoreFinderService', () => {
+describe('OccStoreFinderService', () => {
   let service: OccStoreFinderService;
   let httpMock: HttpTestingController;
 
