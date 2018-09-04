@@ -29,7 +29,7 @@
 
             <div class="form-group">
               <label for="email">Email address</label>
-              <input class="form-control" [ngClass]="{'error': userRegistrationForm.get('email').invalid && userRegistrationForm.get('email').dirty }"
+              <input class="form-control" [ngClass]="{'error': (userRegistrationForm.get('email').errors?.email || userRegistrationForm.get('email').errors?.InvalidEmail) && userRegistrationForm.get('email').dirty}"
                 type="email" id="email" name="email" placeholder="Email Address" formControlName="email">
             </div>
 
