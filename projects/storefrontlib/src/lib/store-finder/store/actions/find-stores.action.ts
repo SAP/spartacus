@@ -28,6 +28,7 @@ export class FindStoresSuccess implements Action {
 
 export class FindAllStores implements Action {
   readonly type = FIND_ALL_STORES;
+  constructor() {}
 }
 
 export class FindAllStoresFail implements Action {

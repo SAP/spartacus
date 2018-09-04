@@ -37,6 +37,7 @@ describe('StoreFinder Effects', () => {
     searchConfig = { pageSize: 10 };
 
     spyOn(service, 'findStores').and.returnValue(of(searchResult));
+    spyOn(service, 'storesCount').and.returnValue(of(searchResult));
   });
 
   describe('findStores$', () => {
@@ -51,6 +52,18 @@ describe('StoreFinder Effects', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effects.findStores$).toBeObservable(expected);
+    });
+  });
+
+  describe('findAllStores$', () => {
+    it('should return searchResult from FindAllStoresSuccess', () => {
+      const action = new fromActions.FindAllStores();
+      const completion = new fromActions.FindAllStoresSuccess(searchResult);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.findAllStores$).toBeObservable(expected);
     });
   });
 });
