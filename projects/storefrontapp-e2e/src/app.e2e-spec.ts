@@ -156,75 +156,76 @@ describe('workspace-project App', () => {
         });
       });
 
-    // search for specific product, but do not press enter
-    home.header.performSearch('1934793', true);
+    // TODO: Uncomment when the product search is added back
+    // // search for specific product, but do not press enter
+    // home.header.performSearch('1934793', true);
 
-    const overlay = E2EUtil.getOverlayContainer();
-    E2EUtil.wait4VisibleElement(overlay);
-    const autocompletePanel = E2EUtil.getComponentWithinParentByCss(
-      overlay,
-      `div[role="listbox"]`
-    );
-    E2EUtil.wait4VisibleElement(autocompletePanel);
-    // select product from the suggestion list, then add it to cart 2 times
-    const suggestionSpan = autocompletePanel
-      .all(by.cssContainingText('.mat-option-text', 'PowerShot A480'))
-      .first();
-    suggestionSpan.click();
-    // wait until product details page is loaded
-    E2EUtil.wait4VisibleElement(productDetails.getPage());
-    productDetails.addToCart();
-    browser.waitForAngular();
-    // quantity should change
-    const product2QuantitySpan = productDetails.getProductQuantitySpan();
-    E2EUtil.checkTextValue(
-      product2QuantitySpan,
-      '1',
-      'Wrong product details add to cart button quantity'
-    )
-      .then(() => {
-        // close add to cart modal
-        const atcModal: AddedToCartModal = new AddedToCartModal();
-        atcModal.closeModalWait();
-      })
-      .then(() => {
-        // add same product to cart again
-        productDetails.addToCart();
-        browser.waitForAngular();
-        const atcModal: AddedToCartModal = new AddedToCartModal();
-        atcModal
-          .closeModalWait()
-          .then(() => {
-            E2EUtil.checkTextValue(
-              product2QuantitySpan,
-              '2',
-              'Wrong product details add to cart button quantity'
-            );
-          }) // then go to cart
-          .then(() => {
-            const minicartIcon = home.header.getMinicartIconComponent();
-            browser
-              .wait(ExpectedConditions.elementToBeClickable(minicartIcon))
-              .then(() => {
-                minicartIcon.click();
-              });
-          });
-      });
+    // const overlay = E2EUtil.getOverlayContainer();
+    // E2EUtil.wait4VisibleElement(overlay);
+    // const autocompletePanel = E2EUtil.getComponentWithinParentByCss(
+    //   overlay,
+    //   `div[role="listbox"]`
+    // );
+    // E2EUtil.wait4VisibleElement(autocompletePanel);
+    // // select product from the suggestion list, then add it to cart 2 times
+    // const suggestionSpan = autocompletePanel
+    //   .all(by.cssContainingText('.mat-option-text', 'PowerShot A480'))
+    //   .first();
+    // suggestionSpan.click();
+    // // wait until product details page is loaded
+    // E2EUtil.wait4VisibleElement(productDetails.getPage());
+    // productDetails.addToCart();
+    // browser.waitForAngular();
+    // // quantity should change
+    // const product2QuantitySpan = productDetails.getProductQuantitySpan();
+    // E2EUtil.checkTextValue(
+    //   product2QuantitySpan,
+    //   '1',
+    //   'Wrong product details add to cart button quantity'
+    // )
+    //   .then(() => {
+    //     // close add to cart modal
+    //     const atcModal: AddedToCartModal = new AddedToCartModal();
+    //     atcModal.closeModalWait();
+    //   })
+    //   .then(() => {
+    //     // add same product to cart again
+    //     productDetails.addToCart();
+    //     browser.waitForAngular();
+    //     const atcModal: AddedToCartModal = new AddedToCartModal();
+    //     atcModal
+    //       .closeModalWait()
+    //       .then(() => {
+    //         E2EUtil.checkTextValue(
+    //           product2QuantitySpan,
+    //           '2',
+    //           'Wrong product details add to cart button quantity'
+    //         );
+    //       }) // then go to cart
+    //       .then(() => {
+    //         const minicartIcon = home.header.getMinicartIconComponent();
+    //         browser
+    //           .wait(ExpectedConditions.elementToBeClickable(minicartIcon))
+    //           .then(() => {
+    //             minicartIcon.click();
+    //           });
+    //       });
+    //   });
 
-    // wait for cart page to show up
-    browser.wait(ExpectedConditions.urlContains('/cart'));
-    // check if cart contains quantity 1 of 'Photosmart E317 Digital Camera'
-    cart.checkCartEntry(
-      'Photosmart E317 Digital Camera',
-      1,
-      '$114.12',
-      '$114.12'
-    );
-    // check if cart contains quantity 2 of 'PowerShot A480'
-    cart.checkCartEntry('PowerShot A480', 2, '$99.85', '$199.70');
+    // // wait for cart page to show up
+    // browser.wait(ExpectedConditions.urlContains('/cart'));
+    // // check if cart contains quantity 1 of 'Photosmart E317 Digital Camera'
+    // cart.checkCartEntry(
+    //   'Photosmart E317 Digital Camera',
+    //   1,
+    //   '$114.12',
+    //   '$114.12'
+    // );
+    // // check if cart contains quantity 2 of 'PowerShot A480'
+    // cart.checkCartEntry('PowerShot A480', 2, '$99.85', '$199.70');
 
-    // check cart totals
-    cart.checkCartSummary('$293.82', '$20.00', '$293.82');
+    // // check cart totals
+    // cart.checkCartSummary('$293.82', '$20.00', '$293.82');
   });
 
   it('should be unable to add out of stock products to cart', () => {
