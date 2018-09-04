@@ -36,13 +36,10 @@ export class ReviewSubmitComponent implements OnInit {
   @Input() shippingMethod: string;
   @Input() paymentDetails: any;
 
-  @Output() backStep = new EventEmitter<any>();
-  @Output() placeOrder = new EventEmitter<any>();
-
   //deliveryMode$: Observable<any>;
   //countryName$: Observable<any>;
   //titleName$: Observable<any>;
-  tAndCToggler = false;
+
   entries$: Observable<any>;
 
   constructor(
@@ -88,18 +85,6 @@ export class ReviewSubmitComponent implements OnInit {
           }
         })
       );*/
-  }
-
-  toggleTAndC() {
-    this.tAndCToggler = !this.tAndCToggler;
-  }
-
-  back() {
-    this.backStep.emit();
-  }
-
-  submitOrder() {
-    this.placeOrder.emit();
   }
 
   getAddressCard() {

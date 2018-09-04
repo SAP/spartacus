@@ -38,6 +38,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step4Sub: Subscription;
 
   cart$: Observable<any>;
+  tAndCToggler = false;
 
   labels = {
     title: 'Checkout <#> items',
@@ -243,6 +244,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   placeOrder() {
     this.checkoutService.placeOrder();
+  }
+
+  toggleTAndC() {
+    this.tAndCToggler = !this.tAndCToggler;
   }
 
   private refreshCart() {

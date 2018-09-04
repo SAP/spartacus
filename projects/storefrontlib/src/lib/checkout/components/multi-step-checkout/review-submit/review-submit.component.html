@@ -89,19 +89,4 @@
             <y-cart-item [isReadOnly]="true" [entry]="entry"></y-cart-item>
         </div>
     </div>
-
-    <div class="col-md-7 offset-md-5 col-lg-4 offset-lg-0">
-        <!-- CHECKBOX AND PLACE ORDER BUTTON -->
-        <div class="y-multi-step-checkout__place-order">
-            <div class="y-multi-step-checkout__place-order-form form-check">
-                <input class="form-check-input" type="checkbox" (change)="toggleTAndC()" id="t&cCheck">
-                <label class="form-check-label" for="defaultCheck1">
-                    I confirm that I have read and agree with the
-                    <a href="#">Terms & Conditions</a>
-                </label>
-            </div>
-            <button [disabled]="!tAndCToggler" (click)="submitOrder()" class="btn btn-primary btn-block">{{labels.btnPlaceOrder}}</button>
-            <button class="btn btn-action btn-block" (click)="back()">{{labels.btnBack}}</button>
-        </div>
-    </div>
 </div>
