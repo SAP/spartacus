@@ -5,11 +5,11 @@ export class Header {
   readonly miniCartButton: ElementFinder = this.header.element(
     by.tagName('y-mini-cart')
   );
-  readonly loginComponent: ElementFinder = this.header.element(
-    by.tagName('y-login')
-  );
-  readonly logoutButton: ElementFinder = element(
-    by.cssContainingText('.cdk-overlay-container button', 'Logout')
+  readonly loginComponent: ElementFinder = this.header
+    .all(by.tagName('y-login'))
+    .first();
+  readonly logoutButton: ElementFinder = this.loginComponent.element(
+    by.cssContainingText('a', 'Sign Out')
   );
   readonly myAccountButton: ElementFinder = this.header.element(
     by.cssContainingText('a', 'My Account')
@@ -31,7 +31,7 @@ export class Header {
   }
 
   getLoginIconComponent(): ElementFinder {
-    return E2EUtil.getComponent('y-login');
+    return this.header.all(by.tagName('y-login')).first();
   }
 
   openLoginModal() {

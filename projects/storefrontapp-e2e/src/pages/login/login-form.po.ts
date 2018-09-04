@@ -1,4 +1,5 @@
 import { by, element, ElementFinder } from 'protractor';
+import { E2EUtil } from '../../util.po';
 
 export class LoginForm {
   constructor(
@@ -20,6 +21,10 @@ export class LoginForm {
   readonly registerButton: ElementFinder = this.form.element(
     by.cssContainingText('a', 'REGISTER')
   );
+
+  async waitForReady() {
+    await E2EUtil.wait4VisibleElement(this.form);
+  }
 
   async fillInForm(email: string, password: string) {
     await this.emailField.sendKeys(email);

@@ -14,7 +14,7 @@ exports.config = {
         '--headless',
         '--no-sandbox',
         '--disable-gpu',
-        '--window-size=800,600'
+        '--window-size=1024,768'
       ]
     }
   },

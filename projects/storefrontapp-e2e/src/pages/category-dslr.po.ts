@@ -1,4 +1,4 @@
-import { by, element, ElementFinder } from 'protractor';
+import { browser, by, element, ElementFinder } from 'protractor';
 import { AppPage } from '../app.po';
 import { E2EUtil } from '../util.po';
 import { ProductDetailsPage } from './productDetails.po';
@@ -14,8 +14,12 @@ export class CategoryDslrPage extends AppPage {
   }
 
   async openProduct(productNo: number) {
-    const el = this.productElement(productNo);
+    const el = this.productElement(productNo).element(by.tagName('img'));
     await E2EUtil.wait4VisibleElement(el);
+    await browser
+      .actions()
+      .mouseMove(el)
+      .perform();
     await el.click();
     return new ProductDetailsPage();
   }

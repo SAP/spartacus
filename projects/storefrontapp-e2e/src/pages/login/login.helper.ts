@@ -1,7 +1,6 @@
 import { LoginPage } from './login.po';
 import { browser, ExpectedConditions } from 'protractor';
 import { RegisterPage } from '../register/register.po';
-import { E2EUtil } from '../../util.po';
 import { Header } from '../../cmslib/header.po';
 
 export class LoginHelper {
@@ -98,8 +97,6 @@ export class LoginHelper {
 
   static async logOutViaHeader() {
     const header = new Header();
-    await header.loginComponent.click();
-    await E2EUtil.wait4PresentElement(header.logoutButton);
     await header.logoutButton.click();
   }
 }

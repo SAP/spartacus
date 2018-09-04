@@ -71,6 +71,7 @@ describe('Big Happy Path', () => {
 
     // Log in. Should see checkout page.
     const form = new LoginForm();
+    await form.waitForReady();
     await form.fillInForm(LoginHelper.userEmail, LoginHelper.userPassword);
     await form.submitLogin();
   });
