@@ -36,7 +36,7 @@ export class Header {
 
     // search for camera
     const searchInput = searchComponent.element(
-      by.css('input[placeholder="Search Box"]')
+      by.css('input[placeholder="Search here..."]')
     );
     E2EUtil.fillInput(searchInput, searchKey, skipEnter);
   }
