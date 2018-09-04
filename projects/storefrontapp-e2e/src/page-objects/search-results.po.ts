@@ -53,4 +53,11 @@ export class SearchResultsPage extends AppPage {
       by.css('span[class="entry-quantity ng-star-inserted"]')
     );
   }
+
+  async getPaginationText(): Promise<string> {
+    return this.pagination
+      .all(by.tagName('div'))
+      .first()
+      .getText();
+  }
 }

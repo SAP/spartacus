@@ -34,4 +34,8 @@ export class ProductDetailsPage extends AppPage {
   async addToCart() {
     await this.addToCartButton.click();
   }
+
+  async getProductQuantity(): Promise<string> {
+    return this.productQuantitySpan.getText();
+  }
 }

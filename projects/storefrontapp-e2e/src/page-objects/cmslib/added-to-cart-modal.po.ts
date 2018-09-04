@@ -19,7 +19,7 @@ export class AddedToCartModal {
   /**
    * Check if modal is displayed, close it, then wait until not visible.
    */
-  async closeModalWait(): Promise<void> {
+  async closeModalWait() {
     if (await this.modal.isDisplayed()) {
       await this.closeModal();
       await E2EUtil.wait4NotVisibleElement(this.modal);

@@ -1,10 +1,11 @@
-import { browser, by, ExpectedConditions } from 'protractor';
-import { AddedToCartModal } from '../page-objects/cmslib/addedToCartModal.po';
+import { browser, ExpectedConditions } from 'protractor';
 import { CartPage } from '../page-objects/cart/cart.po';
 import { HomePage } from '../page-objects/home.po';
 import { SearchResultsPage } from '../page-objects/search-results.po';
 import { ProductDetailsPage } from '../page-objects/product-details.po';
 import { E2EUtil } from '../e2e-util';
+import { AutocompletePanel } from '../page-objects/cmslib/autocomplete-panel.po';
+import { AddedToCartModal } from '../page-objects/cmslib/added-to-cart-modal.po';
 
 describe('Cart interactions', () => {
   let home: HomePage;
@@ -30,12 +31,11 @@ describe('Cart interactions', () => {
 
     // search for camera
     await home.header.performSearch('camera');
+
     // wait for search results page to show up
-    await browser.wait(ExpectedConditions.urlContains('/search/camera'));
+    searchResults.waitForReady();
 
-    await E2EUtil.wait4VisibleElement(searchResults.page);
     // select one product by name and add it to the cart
-
     const product1 = searchResults.productByNameInResults(
       'Photosmart E317 Digital Camera'
     );
@@ -43,46 +43,39 @@ describe('Cart interactions', () => {
 
     await searchResults.clickAddToCartButton4Product(product1);
 
+    const atcModal: AddedToCartModal = new AddedToCartModal();
+    await atcModal.waitForReady();
+
     // quantity should change
     const product1QuantitySpan = searchResults.getProductQuantitySpan(product1);
-
-    await E2EUtil.checkTextValue(
-      product1QuantitySpan,
+    expect(await product1QuantitySpan.getText()).toEqual(
       '1',
       'Wrong add to cart button quantity in search results page'
     );
-    const atcModal: AddedToCartModal = new AddedToCartModal();
 
     await atcModal.closeModalWait();
 
     // search for specific product, but do not press enter
     await home.header.performSearch('1934793', true);
 
-    const overlay = E2EUtil.getOverlayContainer();
-    await E2EUtil.wait4VisibleElement(overlay);
-    const autocompletePanel = overlay.element(by.css(`div[role="listbox"]`));
+    const autocompletePanel = new AutocompletePanel();
+    await autocompletePanel.waitForReady();
 
-    await E2EUtil.wait4VisibleElement(autocompletePanel);
     // select product from the suggestion list, then add it to cart 2 times
-    const suggestionSpan = autocompletePanel
-      .all(by.cssContainingText('.mat-option-text', 'PowerShot A480'))
-      .first();
-    await suggestionSpan.click();
+    await autocompletePanel.selectProduct('PowerShot A480');
 
     // wait until product details page is loaded
-    await E2EUtil.wait4VisibleElement(productDetails.page);
+    await productDetails.waitForReady();
     await productDetails.addToCart();
     await atcModal.waitForReady();
 
     // quantity should change
-    const product2QuantitySpan = productDetails.productQuantitySpan;
-    await E2EUtil.checkTextValue(
-      product2QuantitySpan,
+    expect(await productDetails.getProductQuantity()).toEqual(
       '1',
       'Wrong product details add to cart button quantity'
     );
-    // close add to cart modal
 
+    // close add to cart modal
     await atcModal.closeModalWait();
 
     // add same product to cart again
@@ -92,8 +85,7 @@ describe('Cart interactions', () => {
 
     await atcModal.closeModalWait();
 
-    await E2EUtil.checkTextValue(
-      product2QuantitySpan,
+    expect(await productDetails.getProductQuantity()).toEqual(
       '2',
       'Wrong product details add to cart button quantity'
     );
@@ -104,9 +96,9 @@ describe('Cart interactions', () => {
     await minicartIcon.click();
 
     // wait for cart page to show up
-    await browser.wait(ExpectedConditions.urlContains('/cart'));
-    // check if cart contains quantity 1 of 'Photosmart E317 Digital Camera'
+    await cart.waitForReady();
 
+    // check if cart contains quantity 1 of 'Photosmart E317 Digital Camera'
     await cart.checkCartEntry(
       'Photosmart E317 Digital Camera',
       1,

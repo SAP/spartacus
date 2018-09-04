@@ -1,4 +1,3 @@
-import { by } from 'protractor';
 import { HomePage } from '../page-objects/home.po';
 import { SearchResultsPage } from '../page-objects/search-results.po';
 
@@ -39,11 +38,7 @@ describe('Product search', () => {
     await searchResults.navigateTo('camera');
 
     // should have 144 results and 15 pages
-    const text = await searchResults.pagination
-      .all(by.tagName('div'))
-      .first()
-      .getText();
-
+    const text = await searchResults.getPaginationText();
     expect(text).toContain('144 Products');
     expect(text).toContain('Page: 1 of 15');
 

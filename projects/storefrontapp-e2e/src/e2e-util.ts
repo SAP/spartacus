@@ -1,6 +1,4 @@
 import {
-  element,
-  by,
   ElementFinder,
   browser,
   protractor,
@@ -31,13 +29,6 @@ export class E2EUtil {
   }
 
   /**
-   * Gets the overlay element (mostly used for modals and temporary elements on the page).
-   */
-  static getOverlayContainer(): ElementFinder {
-    return element(by.css(`div[class=cdk-overlay-container]`));
-  }
-
-  /**
    * Wait until a given element is visible on the browser
    * @param elem The element
    */
@@ -53,24 +44,6 @@ export class E2EUtil {
     return browser.wait(
       ExpectedConditions.not(ExpectedConditions.visibilityOf(elem))
     );
-  }
-
-  /**
-   * Checks if text in an element matches a given value
-   * @param elem element containing text
-   * @param value expected text value
-   * @param errMsg message in case value doesn't match
-   */
-  static checkTextValue(
-    elem: ElementFinder,
-    value: string,
-    errMsg: string
-  ): promise.Promise<void> {
-    return E2EUtil.wait4VisibleElement(elem).then(() => {
-      elem.getText().then(text => {
-        expect(text).toBe(value, errMsg);
-      });
-    });
   }
 
   /**

@@ -10,7 +10,8 @@ import { E2EUtil } from '../../e2e-util';
 
 export class CartPage extends AppPage {
   readonly YPAGE = 'y-cart-page';
-  readonly page = element(by.tagName(this.YPAGE));
+
+  readonly page: ElementFinder = element(by.tagName(this.YPAGE));
   readonly cartEntries: ElementArrayFinder = this.page.all(
     by.tagName('y-cart-item')
   );
