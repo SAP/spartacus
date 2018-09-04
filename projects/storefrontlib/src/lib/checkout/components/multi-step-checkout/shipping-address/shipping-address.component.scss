@@ -3,70 +3,58 @@
 @import 'mixins';
 @import '../container/multi-step-checkout.component';
 
-// y-address-form variables
-
-$y-address-form-no-padding: 0 !default;
-$y-address-form-title-padding: 2.375rem 0 1.75rem 0 !default;
-$y-address-form-title-margin: 0 auto !default;
-
-$y-address-form-body-padding-bottom: 1.875rem !default;
-$y-address-form-text-margin-bottom: 1.25rem !default;
-
-$y-address-form-text-md-padding-left: 3.5rem !default;
-$y-address-form-text-sm-padding-left: 1.5rem !default;
-
-.y-address-form,
+$y-existing-address-card-background-color: 'inverse' !default;
+// y-existing-address variables
+$y-existing-address-no-padding: 0 !default;
+$y-existing-address-title-padding: 2.375rem 0 1.75rem 0 !default;
+$y-existing-address-title-margin: 0 auto !default;
+$y-existing-address-body-padding-bottom: 1.875rem !default;
+$y-existing-address-text-margin-bottom: 1.25rem !default;
+$y-existing-address-text-md-padding-left: 3.5rem !default;
+$y-existing-address-text-sm-padding-left: 1.5rem !default;
 .y-existing-address {
   &.container {
-    padding: $y-address-form-no-padding;
+    padding: $y-existing-address-no-padding;
   }
-
   &__title {
     text-transform: uppercase;
-    margin: $y-address-form-title-margin;
-    padding: $y-address-form-title-padding;
+    margin: $y-existing-address-title-margin;
+    padding: $y-existing-address-title-padding;
   }
-
   &__body {
     display: flex;
     align-items: flex-end;
-    padding-bottom: $y-address-form-body-padding-bottom;
+    padding-bottom: $y-existing-address-body-padding-bottom;
   }
-
   &__text {
-    margin-bottom: $y-address-form-text-margin-bottom;
+    margin-bottom: $y-existing-address-text-margin-bottom;
   }
-
   &__btns {
     padding-bottom: 1rem;
   }
-
-  .form-check {
-    padding: $y-address-form-no-padding;
-  }
-
   // ***************************** MEDIA QUERIES *****************************
-
   @include checkout-media-style();
   &__body {
     &.row {
       @include media-breakpoint-down(md) {
-        padding: $y-address-form-no-padding;
+        padding: $y-existing-address-no-padding;
       }
     }
   }
   &__text {
     @include media-breakpoint-down(md) {
-      padding-left: $y-address-form-text-md-padding-left;
+      padding-left: $y-existing-address-text-md-padding-left;
     }
     @include media-breakpoint-down(sm) {
-      padding-left: $y-address-form-text-sm-padding-left;
+      padding-left: $y-existing-address-text-sm-padding-left;
     }
   }
-
   &__card {
     @include media-breakpoint-down(md) {
-      background-color: theme-color('inverse');
+      @include var-color(
+        'background-color',
+        $y-existing-address-card-background-color
+      );
     }
   }
 }

@@ -7,91 +7,69 @@
 // y-payment-form color variables
 $y-payment-form-media-background-color: 'background' !default;
 $y-payment-form-tooltip-icon-text-color: $inverse !default;
-
+$y-payment-form-card-background-color: $inverse !default;
 // y-payment-form  variables
 $y-payment-form-no-padding: 0 !default;
 $y-payment-form-no-margin: 0 !default;
-
 $y-payment-form-header-margin: 0 auto !default;
 $y-payment-form-header-padding: 2.375rem 0 1.25rem 0 !default;
 $y-payment-form-header-title-margin-bottom: 0 !default;
 $y-payment-form-header-image-margin-left: 1rem !default;
-
 $y-payment-form-tooltip-icon-margin-left: 0.625rem !default;
 $y-payment-form-tooltip-icon-size: 1.125rem !default;
-
 $y-payment-form-billing-margin-bottom: 1.25rem !default;
 $y-payment-form-billing-address-padding: 0.875rem 0 1.25rem 0 !default;
-
 $y-payment-form-img-margin: 0 1rem 1.25rem 0 !default;
-
 $y-payment-form-title-margin: 0 auto !default;
 $y-payment-form-title-padding: 2.375rem 0 1.75rem 0 !default;
 $y-payment-form-body-padding-bottom: 1.875rem !default;
-
 // Media Queries
 $y-payment-form-text-md-padding-left: 3.5rem !default;
 $y-payment-form-text-sm-padding-left: 1.5rem !default;
 $y-payment-form-text-md-padding-left: 3.5rem !default;
 $y-payment-form-header-image-md-margin-right: 1rem !default;
 $y-payment-form-header-image-md-margin-left: 0 !default;
-
 $y-payment-form-btns-margin-bottom: 1rem !default;
-
-.y-payment-form,
-.y-existing-payment-methods {
+.y-payment-form {
   &.container {
     padding: 0;
   }
-
   &__header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     margin: $y-payment-form-header-margin;
     padding: $y-payment-form-header-padding;
-
     &-title {
       text-transform: uppercase;
       margin-bottom: $y-payment-form-header-title-margin-bottom;
     }
-
     &-image {
       margin-left: $y-payment-form-header-image-margin-left;
     }
   }
-
   &__tooltip-icon {
     margin-left: $y-payment-form-tooltip-icon-margin-left;
     height: $y-payment-form-tooltip-icon-size;
     width: $y-payment-form-tooltip-icon-size;
   }
-
   &__billing {
     margin-bottom: $y-payment-form-billing-margin-bottom;
-
     &-address {
       @include type('4');
       padding: $y-payment-form-billing-address-padding;
     }
   }
-
   &__img {
     margin: $y-payment-form-img-margin;
-
-    &-link {
-    }
-
     &-container {
       display: flex;
     }
   }
-
   .form-check {
     padding: $y-payment-form-no-padding;
     margin: $y-payment-form-no-margin;
   }
-
   .form-group {
     &__exp-date {
       display: flex;
@@ -99,23 +77,18 @@ $y-payment-form-btns-margin-bottom: 1rem !default;
       flex-wrap: nowrap;
     }
   }
-
   &__title {
     text-transform: uppercase;
     margin: $y-payment-form-title-margin;
     padding: $y-payment-form-title-padding;
   }
-
   &__body {
     display: flex;
     align-items: flex-end;
     padding-bottom: $y-payment-form-body-padding-bottom;
   }
-
   // ***************************** MEDIA QUERIES *****************************
-
   @include checkout-media-style();
-
   &__body {
     &.row {
       @include media-breakpoint-down(md) {
@@ -123,7 +96,6 @@ $y-payment-form-btns-margin-bottom: 1rem !default;
       }
     }
   }
-
   &__text {
     @include media-breakpoint-down(md) {
       padding-left: $y-payment-form-text-md-padding-left;
@@ -132,7 +104,6 @@ $y-payment-form-btns-margin-bottom: 1rem !default;
       padding-left: $y-payment-form-text-sm-padding-left;
     }
   }
-
   &__header {
     @include media-breakpoint-down(md) {
       padding: $y-payment-form-no-padding;
@@ -144,13 +115,14 @@ $y-payment-form-btns-margin-bottom: 1rem !default;
       }
     }
   }
-
   &__card {
     @include media-breakpoint-down(md) {
-      background-color: theme-color('inverse');
+      @include var-color(
+        'background-color',
+        $y-payment-form-card-background-color
+      );
     }
   }
-
   &__btns {
     .btn-action {
       @include media-breakpoint-down(sm) {

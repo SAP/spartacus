@@ -3,50 +3,39 @@
 @import 'mixins';
 @import '../../container/multi-step-checkout.component';
 
+$y-address-form-card-background-color: 'inverse' !default;
 // y-address-form variables
-
 $y-address-form-no-padding: 0 !default;
 $y-address-form-title-padding: 2.375rem 0 1.75rem 0 !default;
 $y-address-form-title-margin: 0 auto !default;
-
 $y-address-form-body-padding-bottom: 1.875rem !default;
 $y-address-form-text-margin-bottom: 1.25rem !default;
-
 $y-address-form-text-md-padding-left: 3.5rem !default;
 $y-address-form-text-sm-padding-left: 1.5rem !default;
-
-.y-address-form,
-.y-existing-address {
+.y-address-form {
   &.container {
     padding: $y-address-form-no-padding;
   }
-
   &__title {
     text-transform: uppercase;
     margin: $y-address-form-title-margin;
     padding: $y-address-form-title-padding;
   }
-
   &__body {
     display: flex;
     align-items: flex-end;
     padding-bottom: $y-address-form-body-padding-bottom;
   }
-
   &__text {
     margin-bottom: $y-address-form-text-margin-bottom;
   }
-
   &__btns {
     padding-bottom: 1rem;
   }
-
   .form-check {
     padding: $y-address-form-no-padding;
   }
-
   // ***************************** MEDIA QUERIES *****************************
-
   @include checkout-media-style();
   &__body {
     &.row {
@@ -63,10 +52,12 @@ $y-address-form-text-sm-padding-left: 1.5rem !default;
       padding-left: $y-address-form-text-sm-padding-left;
     }
   }
-
   &__card {
     @include media-breakpoint-down(md) {
-      background-color: theme-color('inverse');
+      @include var-color(
+        'background-color',
+        $y-address-form-card-background-color
+      );
     }
   }
 }
