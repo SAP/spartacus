@@ -10,6 +10,7 @@ import * as fromStore from '../../store';
 })
 export class StoreFinderListCountComponent implements OnInit {
   locations: any;
+
   constructor(private store: Store<fromStore.StoresState>) {}
 
   ngOnInit() {

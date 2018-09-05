@@ -1,3 +1,7 @@
 <ng-container *ngIf="locations">
-
+    <mat-grid-list cols="1" rowHeight="100px">
+        <mat-grid-tile *ngFor="let country of locations?.countriesAndRegionsStoreCount;">
+            {{country.name}}
+        </mat-grid-tile>
+    </mat-grid-list>
 </ng-container>
