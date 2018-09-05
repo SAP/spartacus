@@ -31,7 +31,7 @@ import { AppComponent } from './app.component';
     AppRoutingModule,
 
     CmsLibModule,
-    CmsModule.forRoot(ConfigService),
+    CmsModule.forRoot(config),
     UiModule,
     UiFrameworkModule
   ],

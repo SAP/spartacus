@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccCmsService } from './occ-cms.service';
-import { ConfigService } from '../config.service';
+import { CmsModuleConfig } from '../cms-module-config';
 import { PageContext, PageType } from '../../routing/models/page-context.model';
 import { IdList } from './../models/idList.model';
 
@@ -30,7 +30,7 @@ const listComponents: any = {
   pagination: { count: 10 }
 };
 
-export class MockConfigService {
+export class MockCmsModuleConfig {
   server = {
     baseUrl: '',
     occPrefix: ''
@@ -53,7 +53,7 @@ describe('OccCmsService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccCmsService,
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
       ]
     });
 
