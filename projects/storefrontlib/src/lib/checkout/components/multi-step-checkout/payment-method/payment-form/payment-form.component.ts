@@ -13,6 +13,7 @@ import { tap } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../../store';
 import { CheckoutService } from '../../../../services/checkout.service';
+import { Card } from '../../../../../ui/components/card/card.component';
 
 @Component({
   selector: 'y-payment-form',
@@ -27,33 +28,8 @@ export class PaymentFormComponent implements OnInit {
     btnBack: 'Change Payment'
   };
 
-  months = [
-    { id: '1', name: '01' },
-    { id: '2', name: '02' },
-    { id: '3', name: '03' },
-    { id: '4', name: '04' },
-    { id: '5', name: '05' },
-    { id: '6', name: '06' },
-    { id: '7', name: '07' },
-    { id: '8', name: '08' },
-    { id: '9', name: '09' },
-    { id: '10', name: '10' },
-    { id: '11', name: '11' },
-    { id: '12', name: '12' }
-  ];
-  years = [
-    { id: '1', name: '2010' },
-    { id: '2', name: '2011' },
-    { id: '3', name: '2012' },
-    { id: '4', name: '2013' },
-    { id: '5', name: '2014' },
-    { id: '6', name: '2015' },
-    { id: '7', name: '2016' },
-    { id: '8', name: '2017' },
-    { id: '9', name: '2018' },
-    { id: '10', name: '2019' },
-    { id: '11', name: '2020' }
-  ];
+  months = [];
+  years = [];
 
   cardTypes$: Observable<any>;
   shippingAddress$: Observable<any>;
@@ -81,6 +57,18 @@ export class PaymentFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    const year = new Date().getFullYear();
+    for (let i = 0; i < 7; i++) {
+      this.years.push({ id: i + 1, name: year + i });
+    }
+    for (let i = 1; i <= 12; i++) {
+      if (i < 10) {
+        this.months.push({ id: i, name: '0' + i.toString() });
+      } else {
+        this.months.push({ id: i, name: i.toString() });
+      }
+    }
+
     this.cardTypes$ = this.store.select(fromCheckoutStore.getAllCardTypes).pipe(
       tap(cardTypes => {
         if (Object.keys(cardTypes).length === 0) {
@@ -113,7 +101,7 @@ export class PaymentFormComponent implements OnInit {
     this.sameAsShippingAddress = !this.sameAsShippingAddress;
   }
 
-  getAddressCardContent(address) {
+  getAddressCardContent(address): Card {
     return {
       textBold: address.firstName + ' ' + address.lastName,
       text: [
