@@ -27,7 +27,7 @@ export class StoreFinderListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.store.select(fromStore.getAllStores).subscribe(locations => {
+    this.store.select(fromStore.getFindStoresEntities).subscribe(locations => {
       this.locations = locations;
     });
   }

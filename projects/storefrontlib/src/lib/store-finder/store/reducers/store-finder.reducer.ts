@@ -1,11 +1,13 @@
 import * as fromStoreFinder from './../actions/find-stores.action';
 
 export interface StoreFinderState {
-  entities: any;
+  findStoresEntities: any;
+  viewAllStoresEntities: any;
 }
 
 export const initialState: StoreFinderState = {
-  entities: {}
+  findStoresEntities: {},
+  viewAllStoresEntities: {}
 };
 
 export function reducer(
@@ -14,14 +16,28 @@ export function reducer(
 ): StoreFinderState {
   switch (action.type) {
     case fromStoreFinder.FIND_STORES_SUCCESS: {
-      const entities = action.payload;
+      const findStoresEntities = action.payload;
 
       return {
         ...state,
-        entities
+        findStoresEntities
       };
     }
     case fromStoreFinder.FIND_STORES_FAIL: {
+      return {
+        ...state
+      };
+    }
+
+    case fromStoreFinder.FIND_ALL_STORES_SUCCESS: {
+      const viewAllStoresEntities = action.payload;
+
+      return {
+        ...state,
+        viewAllStoresEntities
+      };
+    }
+    case fromStoreFinder.FIND_ALL_STORES_FAIL: {
       return {
         ...state
       };
@@ -31,5 +47,7 @@ export function reducer(
   return state;
 }
 
-export const getStoreFinderEntities = (state: StoreFinderState) =>
-  state.entities;
+export const getFindStoresEntities = (state: StoreFinderState) =>
+  state.findStoresEntities;
+export const getViewAllStoresEntities = (state: StoreFinderState) =>
+  state.viewAllStoresEntities;
