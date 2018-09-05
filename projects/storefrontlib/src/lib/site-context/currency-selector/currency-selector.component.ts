@@ -36,10 +36,7 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
       });
 
     this.currencies$ = this.store.select(fromStore.getAllCurrencies);
-    this.activeCurrency =
-      sessionStorage.getItem('currency') === null
-        ? this.config.site.currency
-        : sessionStorage.getItem('currency');
+    this.activeCurrency = this.getActiveCurrency();
     this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
   }
 
@@ -55,5 +52,15 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(new fromStore.CurrencyChange());
     sessionStorage.setItem('currency', this.activeCurrency);
+  }
+
+  protected getActiveCurrency(): string {
+    if (sessionStorage) {
+      return sessionStorage.getItem('currency') === null
+        ? this.config.site.currency
+        : sessionStorage.getItem('currency');
+    } else {
+      return this.config.site.currency;
+    }
   }
 }

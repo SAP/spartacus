@@ -36,10 +36,7 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
       });
 
     this.languages$ = this.store.select(fromStore.getAllLanguages);
-    this.activeLanguage =
-      sessionStorage.getItem('language') === null
-        ? this.config.site.language
-        : sessionStorage.getItem('language');
+    this.activeLanguage = this.getActiveLanguage();
     this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
   }
 
@@ -55,5 +52,15 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(new fromStore.LanguageChange());
     sessionStorage.setItem('language', this.activeLanguage);
+  }
+
+  protected getActiveLanguage(): string {
+    if (sessionStorage) {
+      return sessionStorage.getItem('language') === null
+        ? this.config.site.language
+        : sessionStorage.getItem('language');
+    } else {
+      return this.config.site.language;
+    }
   }
 }
