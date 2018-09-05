@@ -40,11 +40,19 @@ export class CartDetailsComponent implements OnInit {
   }
 
   getAllPromotionsForCart(cart) {
-    return cart.potentialProductPromotions.concat(cart.appliedProductPromotions);
+    const potentialPromotions = cart.potentialProductPromotions || [];
+    const appliedPromotions = cart.appliedProductPromotions || [];
+    return [
+      ...potentialPromotions,
+      ...appliedPromotions,
+    ];
   }
 
   cartHasPromotions(cart) {
-    return cart.potentialProductPromotions.length > 0
-      || cart.appliedProductPromotions.length > 0;
+    const hasPotentialPromotions = cart.potentialProductPromotions
+      && cart.potentialProductPromotions.length > 0;
+    const hasAppliedPromotions = cart.appliedProductPromotions
+      && cart.appliedProductPromotions.length > 0;
+    return hasPotentialPromotions || hasAppliedPromotions;
   }
 }
