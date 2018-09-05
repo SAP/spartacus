@@ -14,6 +14,7 @@ import * as fromUserStore from '../../../../user/store';
 import * as fromCartStore from '../../../../cart/store';
 import { CheckoutService } from '../../../services/checkout.service';
 import { Address } from '../../../models/address-model';
+import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
   selector: 'y-review-submit',
@@ -70,7 +71,7 @@ export class ReviewSubmitComponent implements OnInit {
       );
   }
 
-  getAddressCard(countryName) {
+  getAddressCard(countryName): Card {
     if (!countryName) {
       countryName = this.deliveryAddress.country.isocode;
     }
@@ -94,17 +95,17 @@ export class ReviewSubmitComponent implements OnInit {
     };
   }
 
-  getShippingMethodCard(deliveryMode) {
+  getShippingMethodCard(deliveryMode): Card {
     if (deliveryMode) {
       return {
         title: 'Shipping Method',
-        textBold: [this.shippingMethod],
+        textBold: this.shippingMethod,
         text: [deliveryMode.description]
       };
     }
   }
 
-  getPaymentCard() {
+  getPaymentCard(): Card {
     return {
       title: 'Payment',
       textBold: this.paymentDetails.accountHolderName,
