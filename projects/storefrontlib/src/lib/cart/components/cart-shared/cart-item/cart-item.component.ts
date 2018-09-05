@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class CartItemComponent implements OnInit {
   @Input() entry: any;
-  @Input() isReadOnly: boolean = false;
+  @Input() isReadOnly = false;
   @Input() disableProductLink = false;
   @Input() potentialPromotions: any[];
   @Input() appliedPromotions: any[];

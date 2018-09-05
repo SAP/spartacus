@@ -1,12 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  OnChanges,
-  EventEmitter,
-  SimpleChanges
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 export interface Card {
   header?: string;
@@ -29,11 +21,11 @@ export class CardComponent implements OnInit {
   @Output() sendCard: EventEmitter<number> = new EventEmitter();
   @Output() editCard: EventEmitter<number> = new EventEmitter();
 
-  @Input() border: boolean = false;
+  @Input() border = false;
 
-  @Input() editMode: boolean = false;
+  @Input() editMode = false;
 
-  @Input() isDefault: boolean = false;
+  @Input() isDefault = false;
 
   @Input() content: Card;
 
