@@ -8,9 +8,9 @@ import * as fromCmsReducer from '../../cms/store/reducers';
 import { ProductCarouselComponent } from './product-carousel.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
-import { ConfigService } from '../../cms/config.service';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 
-export class UseConfigService {
+export class UseCmsModuleConfig {
   cmsComponentMapping = {
     ProductCarouselComponent: 'ProductCarouselComponent'
   };
@@ -42,12 +42,12 @@ describe('ProductCarouselComponent in CmsLib', () => {
       imports: [
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsReducer.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers())
         })
       ],
       declarations: [ProductCarouselComponent, PictureComponent],
-      providers: [{ provide: ConfigService, useClass: UseConfigService }]
+      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

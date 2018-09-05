@@ -1,16 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { reducers } from './store';
+import { reducerToken, reducerProvider } from './store/reducers/index';
 import { GlobalMessageComponent } from './components/global-messsage.component';
 import { HttpErrorInterceptor } from './http-interceptors/http-error.interceptor';
 
 @NgModule({
-  imports: [CommonModule, StoreModule.forFeature('globalMessage', reducers)],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    StoreModule.forFeature('globalMessage', reducerToken)
+  ],
   declarations: [GlobalMessageComponent],
   providers: [
+    reducerProvider,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,

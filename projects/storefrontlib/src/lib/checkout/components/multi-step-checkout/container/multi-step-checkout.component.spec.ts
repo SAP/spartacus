@@ -1,26 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { ReactiveFormsModule } from '@angular/forms';
-import { of } from 'rxjs';
-
-import * as fromRoot from '../../../../routing/store';
-import * as fromCheckout from '../../../store';
-import * as fromCart from '../../../../cart/store';
-import * as fromUser from '../../../../user/store';
-import * as fromRouting from '../../../../routing/store';
-
-import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
-import { AddressFormComponent } from '../address-form/address-form.component';
-import { OrderSummaryComponent } from '../../../../cart/components/cart-details/order-summary/order-summary.component';
-import { DeliveryModeFormComponent } from '../delivery-mode-form/delivery-mode-form.component';
-import { ReviewSubmitComponent } from '../review-submit/review-submit.component';
-
-import { CheckoutService } from './../../../services/checkout.service';
-import { CartService } from './../../../../cart/services/cart.service';
-import { CartDataService } from './../../../../cart/services/cart-data.service';
-import { Address } from '../../../models/address-model';
-import { PaymentFormComponent } from '../payment-form/payment-form.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
+import * as fromCart from '../../../../cart/store';
+import * as fromRoot from '../../../../routing/store';
+import * as fromUser from '../../../../user/store';
+import * as fromAuth from '../../../../auth/store';
+import { Address } from '../../../models/address-model';
+import * as fromCheckout from '../../../store';
+import { CartSharedModule } from '../../../../cart/components/cart-shared/cart-shared.module';
+import { ShippingAddressModule } from '../shipping-address/shipping-address.module';
+import { DeliveryModeModule } from '../delivery-mode/delivery-mode.module';
+import { PaymentMethodModule } from '../payment-method/payment-method.module';
+import { ReviewSubmitModule } from '../review-submit/review-submit.module';
+import { CartDataService } from './../../../../cart/services/cart-data.service';
+import { CartService } from './../../../../cart/services/cart.service';
+import { CheckoutService } from './../../../services/checkout.service';
+import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 
 const address: Address = {
   firstName: 'John',
@@ -44,7 +41,7 @@ const paymentDetails = {
 };
 
 describe('MultiStepCheckoutComponent', () => {
-  let store: Store<fromRouting.State>;
+  let store: Store<fromRoot.State>;
   let component: MultiStepCheckoutComponent;
   let fixture: ComponentFixture<MultiStepCheckoutComponent>;
   let service: CheckoutService;
@@ -54,21 +51,20 @@ describe('MultiStepCheckoutComponent', () => {
       imports: [
         ReactiveFormsModule,
         RouterTestingModule,
+        CartSharedModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers),
-          checkout: combineReducers(fromCheckout.reducers)
-        })
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers()),
+          checkout: combineReducers(fromCheckout.getReducers()),
+          auth: combineReducers(fromAuth.getReducers())
+        }),
+        ShippingAddressModule,
+        DeliveryModeModule,
+        PaymentMethodModule,
+        ReviewSubmitModule
       ],
-      declarations: [
-        MultiStepCheckoutComponent,
-        AddressFormComponent,
-        DeliveryModeFormComponent,
-        OrderSummaryComponent,
-        PaymentFormComponent,
-        ReviewSubmitComponent
-      ],
+      declarations: [MultiStepCheckoutComponent],
       providers: [CheckoutService, CartService, CartDataService]
     }).compileComponents();
   }));
@@ -84,8 +80,6 @@ describe('MultiStepCheckoutComponent', () => {
     spyOn(service, 'createAndSetAddress').and.callThrough();
     spyOn(service, 'setDeliveryAddress').and.callThrough();
     spyOn(service, 'setDeliveryMode').and.callThrough();
-    spyOn(service, 'loadUserAddresses').and.callThrough();
-    spyOn(service, 'loadUserPaymentMethods').and.callThrough();
     spyOn(service, 'createPaymentDetails').and.callThrough();
     spyOn(service, 'setPaymentDetails').and.callThrough();
     spyOn(service, 'placeOrder').and.callThrough();
@@ -95,84 +89,67 @@ describe('MultiStepCheckoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit() with user addresses, cart and payment methods already loaded', () => {
-    const mockUserAddresses = ['address1', 'address2'];
-    const mockPaymentMethods = ['payment1', 'payment2'];
+  it('should call ngOnInit() before process steps', () => {
     const mockCartData = {};
-
-    spyOn(store, 'select').and.returnValues(
-      of(mockCartData),
-      of(mockUserAddresses),
-      of(mockPaymentMethods)
-    );
-
+    spyOn(store, 'select').and.returnValue(of(mockCartData));
     component.ngOnInit();
-
-    expect(service.loadUserAddresses).not.toHaveBeenCalled();
-    expect(service.loadUserPaymentMethods).not.toHaveBeenCalled();
-    component.existingAddresses$.subscribe(data =>
-      expect(data).toEqual(mockUserAddresses)
-    );
-    component.existingPaymentMethods$.subscribe(data =>
-      expect(data).toEqual(mockPaymentMethods)
-    );
     component.cart$.subscribe(cart => expect(cart).toEqual(mockCartData));
+    expect(component.step).toEqual(1);
   });
 
-  it('should call ngOnInit() with user addresses, cart and payment methods not already loaded', () => {
-    spyOn(store, 'select').and.returnValues(of([]), of([]), of([]));
-
-    component.ngOnInit();
-
-    component.existingAddresses$.subscribe(data => expect(data).toEqual([]));
-    component.existingPaymentMethods$.subscribe(data =>
-      expect(data).toEqual([])
-    );
-    component.cart$.subscribe(cart => expect(cart).toEqual([]));
-
-    expect(service.loadUserAddresses).toHaveBeenCalled();
-    expect(service.loadUserPaymentMethods).toHaveBeenCalled();
-  });
-
-  it('should call verifyAddress(address) with valid address', () => {
-    const mockAddressVerificationResult = { decision: 'ACCEPT' };
+  it('should call processSteps() to process step 1: set delivery address', () => {
+    const mockDeliveryAddress = ['address1', 'address2'];
     spyOn(store, 'select').and.returnValues(
-      of(mockAddressVerificationResult),
-      of([]),
-      of([])
+      of(mockDeliveryAddress),
+      of(''),
+      of({}),
+      of({})
     );
-    component.verifyAddress('mockAddress');
-    expect(component.addAddress).toHaveBeenCalledWith({
-      address: 'mockAddress',
-      newAddress: true
-    });
+    component.processSteps();
+    expect(component.step).toEqual(2);
   });
 
-  it('should call verifyAddress(address) with invalid address', () => {
-    const mockAddressVerificationResult = { decision: 'REJECT' };
-    spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
-    component.verifyAddress('mockAddress');
-    expect(component.addAddress).not.toHaveBeenCalled();
+  it('should call processSteps() to process step 2: select delivery mode', () => {
+    const mockDeliveryAddress = ['address1', 'address2'];
+    spyOn(store, 'select').and.returnValues(
+      of(mockDeliveryAddress),
+      of('test mode'),
+      of({}),
+      of({})
+    );
+    component.processSteps();
+    expect(component.step).toEqual(3);
   });
 
-  // Commented it out untill we remove dependency on MatDialog
-  // it('should call verifyAddress(address) and return suggested addresses', () => {
-  //   const mockAddressVerificationResult = {
-  //     decision: 'REVIEW',
-  //     suggestedAddresses: ['address1', 'address2']
-  //   };
-  //   spyOn(store, 'select').and.returnValue(of(mockAddressVerificationResult));
-  //   component.verifyAddress('mockAddress');
-  // });
+  it('should call processSteps() to process step 3: set payment info', () => {
+    const mockDeliveryAddress = ['address1', 'address2'];
+    const mockPaymentInfo = { card: '12345' };
+    spyOn(store, 'select').and.returnValues(
+      of(mockDeliveryAddress),
+      of('test mode'),
+      of(mockPaymentInfo),
+      of({})
+    );
+    component.processSteps();
+    expect(component.step).toEqual(4);
+  });
 
-  it('should call ngOnInit() with user addresses not already loaded', () => {
-    const mockUserAddresses = [];
-    spyOn(store, 'select').and.returnValue(of(mockUserAddresses));
-
-    component.ngOnInit();
-    component.existingAddresses$.subscribe();
-
-    expect(service.loadUserAddresses).toHaveBeenCalled();
+  it('should call processSteps() to process step 4: place order', () => {
+    const mockDeliveryAddress = ['address1', 'address2'];
+    const mockPaymentInfo = { card: '12345' };
+    const mockOrder = { id: '1234' };
+    spyOn(store, 'select').and.returnValues(
+      of(mockDeliveryAddress),
+      of('test mode'),
+      of(mockPaymentInfo),
+      of(mockOrder)
+    );
+    component.processSteps();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromRoot.Go({
+        path: ['orderConfirmation']
+      })
+    );
   });
 
   it('should call setStep()', () => {
@@ -189,9 +166,7 @@ describe('MultiStepCheckoutComponent', () => {
     spyOn(store, 'select').and.returnValues(of(address), of([]));
 
     component.addAddress({ address: address, newAddress: true });
-
     expect(service.createAndSetAddress).toHaveBeenCalledWith(address);
-    expect(component.step).toBe(2);
   });
 
   it('should call addAddress() with address selected from existing addresses', () => {
@@ -200,7 +175,6 @@ describe('MultiStepCheckoutComponent', () => {
     component.addAddress({ address: address, newAddress: false });
     expect(service.createAndSetAddress).not.toHaveBeenCalledWith(address);
     expect(service.setDeliveryAddress).toHaveBeenCalledWith(address);
-    expect(component.step).toBe(2);
   });
 
   it('should call setDeliveryMode()', () => {
@@ -213,7 +187,6 @@ describe('MultiStepCheckoutComponent', () => {
     expect(service.setDeliveryMode).toHaveBeenCalledWith(
       deliveryMode.deliveryModeId
     );
-    expect(component.step).toBe(3);
   });
 
   it('should call addPaymentInfo() with new created payment info', () => {
@@ -228,10 +201,9 @@ describe('MultiStepCheckoutComponent', () => {
     component.addPaymentInfo({ payment: paymentDetails, newPayment: true });
 
     expect(service.createPaymentDetails).toHaveBeenCalledWith(paymentDetails);
-    expect(component.step).toBe(4);
   });
 
-  it('should call addAddress() with address selected from existing addresses', () => {
+  it('should call addPaymentInfo() with paymenent selected from existing ones', () => {
     spyOn(store, 'select').and.returnValues(
       of(paymentDetails),
       of([]),
@@ -241,12 +213,10 @@ describe('MultiStepCheckoutComponent', () => {
 
     component.deliveryAddress = address;
     component.addPaymentInfo({ payment: paymentDetails, newPayment: false });
-
     expect(service.createPaymentDetails).not.toHaveBeenCalledWith(
       paymentDetails
     );
     expect(service.setPaymentDetails).toHaveBeenCalledWith(paymentDetails);
-    expect(component.step).toBe(4);
   });
 
   it('should call placeOrder()', () => {
@@ -255,10 +225,5 @@ describe('MultiStepCheckoutComponent', () => {
 
     component.placeOrder();
     expect(service.placeOrder).toHaveBeenCalled();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromRouting.Go({
-        path: ['orderConfirmation']
-      })
-    );
   });
 });

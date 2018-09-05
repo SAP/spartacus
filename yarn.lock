@@ -202,8 +202,14 @@
     tslib "^1.9.0"
 
 "@ng-bootstrap/ng-bootstrap@^2.0.0":
-  version "2.0.0"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-2.0.0.tgz#65f78c7dd5a8ac424f44bb2050a9eab247cdeb0c"
+  version "2.2.2"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-2.2.2.tgz#07c64badd48b563140eb5a6327b5516bf2226834"
+
+"@ng-select/ng-select@2.1.3":
+  version "2.1.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@ng-select/ng-select/-/ng-select-2.1.3.tgz#c56d32edef24de4b7bcf8e7a00162e60853f4e57"
+  dependencies:
+    tslib "^1.9.0"
 
 "@ngrx/effects@^6.0.1":
   version "6.0.1"
@@ -823,6 +829,10 @@ boom@5.x.x:
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/boom/-/boom-5.2.0.tgz#5dd9da6ee3a5f302077436290cb717d3f4a54e02"
   dependencies:
     hoek "4.x.x"
+
+bootstrap@^4.1.3:
+  version "4.1.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/bootstrap/-/bootstrap-4.1.3.tgz#0eb371af2c8448e8c210411d0cb824a6409a12be"
 
 boxen@^1.2.1:
   version "1.3.0"
@@ -2695,6 +2705,10 @@ got@^6.7.1:
 graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6:
   version "4.1.11"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
+
+hamburgers@^0.9.3:
+  version "0.9.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/hamburgers/-/hamburgers-0.9.3.tgz#73b3d299652a028647ca68b2957df172c76cc636"
 
 hammerjs@2.0.8:
   version "2.0.8"

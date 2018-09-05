@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  FormGroup,
-  FormBuilder,
-  Validators,
   AbstractControl,
-  FormControl
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
 } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-
 import { Store } from '@ngrx/store';
+import { Observable, Subscription, of } from 'rxjs';
+import { take, tap, switchMap } from 'rxjs/operators';
+import * as fromAuthStore from '../../../auth/store';
+import * as fromRouting from '../../../routing/store';
 import * as fromUserStore from '../../store';
 
 @Component({
@@ -17,15 +18,15 @@ import * as fromUserStore from '../../store';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   titles$: Observable<any>;
-
+  sub: Subscription;
   userRegistrationForm: FormGroup = this.fb.group(
     {
       titleCode: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email, this.emailEndsWith]],
       password: ['', [Validators.required, this.validatePassword]],
       passwordconf: ['', Validators.required],
       newsletter: [false],
@@ -47,6 +48,26 @@ export class RegisterComponent implements OnInit {
         }
       })
     );
+    this.sub = this.store
+      .select(fromAuthStore.getUserToken)
+      .pipe(
+        switchMap(data => {
+          if (data && data.access_token) {
+            return this.store.select(fromRouting.getRedirectUrl).pipe(take(1));
+          }
+          return of();
+        })
+      )
+      .subscribe(url => {
+        if (url) {
+          // If forced to login due to AuthGuard, then redirect to intended destination
+          this.store.dispatch(new fromRouting.Go({ path: [url] }));
+          this.store.dispatch(new fromRouting.ClearRedirectUrl());
+        } else {
+          // User manual login
+          this.store.dispatch(new fromRouting.Back());
+        }
+      });
   }
 
   submit() {
@@ -60,14 +81,24 @@ export class RegisterComponent implements OnInit {
       })
     );
   }
-
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+  }
   private validatePassword(fc: FormControl) {
     const password = fc.value as string;
     return password.match(
-      '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^*()_+{};:.,]).{6,}$'
+      '^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$%^*()_+{};:.,]).{6,}$'
     )
       ? null
       : { InvalidPassword: true };
+  }
+  private emailEndsWith(fc: FormControl) {
+    const email = fc.value as string;
+    // Enforce domain (e.g: .com )
+
+    return email.match('[.][a-zA-Z]+$') ? null : { InvalidEmail: true };
   }
 
   private matchPassword(ac: AbstractControl) {

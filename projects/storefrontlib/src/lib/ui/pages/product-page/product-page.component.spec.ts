@@ -1,3 +1,4 @@
+import { ComponentsModule } from './../../components/components.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -15,14 +16,12 @@ import {
   DynamicSlotComponent,
   ComponentWrapperComponent
 } from '../../../cms/components';
-import { StarRatingComponent } from '../../../product/components/product-details/star-rating/star-rating.component';
 import { ProductImagesComponent } from '../../../product/components/product-details/product-images/product-images.component';
 import { ProductSummaryComponent } from '../../../product/components/product-details/product-summary/product-summary.component';
 import { ProductAttributesComponent } from '../../../product/components/product-details/product-attributes/product-attributes.component';
 import { ProductReviewsComponent } from '../../../product/components/product-details/product-reviews/product-reviews.component';
-import { PictureComponent } from '../../components/media/picture/picture.component';
 import { ComponentMapperService } from '../../../cms/services';
-import { ConfigService } from '../../../cms/config.service';
+import { CmsModuleConfig } from '../../../cms/cms-module-config';
 import { AddToCartComponent } from '../../../cart/components/add-to-cart/add-to-cart.component';
 import { CartService } from '../../../cart/services';
 
@@ -46,26 +45,25 @@ describe('ProductPageComponent in pages', () => {
         MaterialModule,
         ReactiveFormsModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers)
-        })
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers())
+        }),
+        ComponentsModule
       ],
       declarations: [
         ProductPageComponent,
         ProductDetailsPageLayoutComponent,
         ProductDetailsComponent,
         DynamicSlotComponent,
-        StarRatingComponent,
         ProductImagesComponent,
         ProductSummaryComponent,
         ProductAttributesComponent,
         ProductReviewsComponent,
         ComponentWrapperComponent,
-        PictureComponent,
         AddToCartComponent
       ],
-      providers: [ComponentMapperService, ConfigService, CartService]
+      providers: [ComponentMapperService, CmsModuleConfig, CartService]
     }).compileComponents();
   }));
 

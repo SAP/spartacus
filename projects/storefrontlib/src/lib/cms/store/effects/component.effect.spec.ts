@@ -5,7 +5,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccCmsService } from '../../services/occ-cms.service';
-import { ConfigService } from '../../config.service';
+import { CmsModuleConfig } from '../../cms-module-config';
 import * as fromEffects from './component.effect';
 import * as fromActions from '../actions/component.action';
 
@@ -29,13 +29,13 @@ describe('Component Effects', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsReducer.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers())
         })
       ],
       providers: [
         OccCmsService,
-        ConfigService,
+        CmsModuleConfig,
         fromEffects.ComponentEffects,
         provideMockActions(() => actions$)
       ]

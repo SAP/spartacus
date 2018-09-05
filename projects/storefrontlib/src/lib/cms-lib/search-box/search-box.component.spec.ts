@@ -5,15 +5,16 @@ import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import * as fromProductStore from '../../product/store';
 import { SearchBoxComponent } from './search-box.component';
-import { ConfigService } from '../../cms/config.service';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { MaterialModule } from '../../material.module';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchConfig } from '../../product/search-config';
+import { By } from '@angular/platform-browser';
 
-export class UseConfigService {
+export class UseCmsModuleConfig {
   cmsComponentMapping = {
     SearchBoxComponent: 'SearchBoxComponent'
   };
@@ -59,13 +60,13 @@ describe('SearchBoxComponent in CmsLib', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsReducer.reducers),
-          products: combineReducers(fromProductStore.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers()),
+          products: combineReducers(fromProductStore.getReducers())
         })
       ],
       declarations: [SearchBoxComponent, PictureComponent],
-      providers: [{ provide: ConfigService, useClass: UseConfigService }]
+      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 
@@ -93,8 +94,6 @@ describe('SearchBoxComponent in CmsLib', () => {
     expect(searchBoxComponent.component).toBeNull();
     searchBoxComponent.bootstrap();
     expect(searchBoxComponent.component).toBe(mockSearchBoxComponentData);
-
-    // TODO: after replacing material with boothstrap4, need some ui test here
   });
 
   it('should dispatch new search query with new input', () => {
@@ -154,5 +153,14 @@ describe('SearchBoxComponent in CmsLib', () => {
     searchBoxComponent.clickout();
     expect(searchBoxComponent.clickout).toHaveBeenCalled();
     expect(searchBoxComponent.clickedInside).toBe(false);
+  });
+
+  describe('UI tests', () => {
+    it('should contain an input text field', () => {
+      expect(
+        fixture.debugElement.query(By.css('input[type="text"]'))
+      ).not.toBeNull();
+    });
+    // TODO: UI test once auto complete is no longer with material
   });
 });

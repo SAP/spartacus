@@ -1,14 +1,11 @@
-<mat-menu #userMenu="matMenu" x-position="before">
-    <button mat-menu-item (click)="logout()"> Logout </button>
-</mat-menu>
-
 <ng-container *ngIf="user$ | async as user">
-    <button *ngIf="user?.name" mat-button color="primary" [matMenuTriggerFor]="userMenu">
-        {{(user$ | async)?.name}}
-        <mat-icon>expand_more</mat-icon>
-    </button>
+    <ng-container *ngIf="user?.name">
+        <div class="y-login-status__greet">Hi, {{user.name}}</div>
+        <y-dynamic-slot position="HeaderLinks" class="y-login-status__dropdown"></y-dynamic-slot>
+        <a href="#" style="color:var(--y-inverse)" class="dropdown-item y-login-status__item" (click)="logout()">Sign Out</a>
+    </ng-container>
 
-    <button *ngIf="!user?.name" (click)="openLogin()" mat-icon-button color="primary">
-        <mat-icon>person</mat-icon>
-    </button>
+    <ng-container *ngIf="!user?.name">
+        <a routerLink="login">Sign In / Register</a>
+    </ng-container>
 </ng-container>

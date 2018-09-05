@@ -1,9 +1,9 @@
+import { ComponentsModule } from './../../../../ui/components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromStore from '../../../store';
-import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { MaterialModule } from './../../../../material.module';
 import * as fromRoot from './../../../../routing/store';
 import { ProductReviewsComponent } from './product-reviews.component';
@@ -26,11 +26,12 @@ describe('ProductReviewsComponent in product', () => {
         MaterialModule,
         ReactiveFormsModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          products: combineReducers(fromStore.reducers)
-        })
+          ...fromRoot.getReducers(),
+          products: combineReducers(fromStore.getReducers())
+        }),
+        ComponentsModule
       ],
-      declarations: [ProductReviewsComponent, StarRatingComponent]
+      declarations: [ProductReviewsComponent]
     }).compileComponents();
   }));
 

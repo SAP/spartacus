@@ -7,9 +7,9 @@ import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
-import { ConfigService } from '../../cms/config.service';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 
-class UseConfigService {
+class UseCmsModuleConfig {
   cmsComponentMapping = {
     CMSLinkComponent: 'LinkComponent'
   };
@@ -35,13 +35,13 @@ describe('LinkComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsReducer.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers())
         }),
         RouterTestingModule
       ],
       declarations: [LinkComponent],
-      providers: [{ provide: ConfigService, useClass: UseConfigService }]
+      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

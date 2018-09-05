@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders, InjectionToken } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ConfigService } from './config.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { OccModuleConfig } from './occ-module-config';
+import { HttpClientModule } from '@angular/common/http';
 
-import { AuthenticationTokenInterceptor } from './http-interceptors/authentication-token.interceptor';
 import { OccUserService } from './user/user.service';
 import { OccProductService } from './product/product.service';
 import { OccProductSearchService } from './product/product-search.service';
@@ -11,12 +10,18 @@ import { OccSiteService } from './site-context/occ-site.service';
 import { OccCartService } from './cart/cart.service';
 import { OccMiscsService } from './miscs/miscs.service';
 import { OccOrderService } from './order/order.service';
-import { OccClientAuthenticationTokenService } from './client-authentication/client-authentication-token.service';
+
+export function overrideOccModuleConfig(configOverride: any) {
+  return { ...new OccModuleConfig(), ...configOverride };
+}
+
+export const OCC_MODULE_CONFIG_OVERRIDE: InjectionToken<
+  string
+> = new InjectionToken<string>('OCC_MODULE_CONFIG_OVERRIDE');
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   providers: [
-    OccClientAuthenticationTokenService,
     OccProductSearchService,
     OccProductService,
     OccSiteService,
@@ -27,18 +32,18 @@ import { OccClientAuthenticationTokenService } from './client-authentication/cli
   ]
 })
 export class OccModule {
-  static forRoot(config: any): any {
+  static forRoot(configOverride?: any): ModuleWithProviders {
     return {
       ngModule: OccModule,
       providers: [
         {
-          provide: ConfigService,
-          useExisting: config
+          provide: OCC_MODULE_CONFIG_OVERRIDE,
+          useValue: configOverride
         },
         {
-          provide: HTTP_INTERCEPTORS,
-          useClass: AuthenticationTokenInterceptor,
-          multi: true
+          provide: OccModuleConfig,
+          useFactory: overrideOccModuleConfig,
+          deps: [OCC_MODULE_CONFIG_OVERRIDE]
         }
       ]
     };

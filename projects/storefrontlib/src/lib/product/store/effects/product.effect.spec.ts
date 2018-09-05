@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccProductService } from '../../../occ/product/product.service';
-import { ConfigService } from '../../../occ/config.service';
+import { OccModuleConfig } from '../../../occ/occ-module-config';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 import { ProductReferenceConverterService } from '../../converters/product-reference-converter.service';
 
@@ -35,15 +35,15 @@ describe('Product Effects', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsReducer.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers())
         })
       ],
       providers: [
         OccProductService,
         ProductImageConverterService,
         ProductReferenceConverterService,
-        ConfigService,
+        OccModuleConfig,
         fromEffects.ProductEffects,
         provideMockActions(() => actions$)
       ]

@@ -1,3 +1,4 @@
+import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -12,13 +13,14 @@ import * as fromRoot from '../../routing/store';
 import * as fromCms from '../../cms/store';
 import * as fromCart from '../../cart/store';
 import * as fromUser from '../../user/store';
-import { ConfigService } from '../../cms/config.service';
+import * as fromAuth from '../../auth/store';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 
 import { MiniCartComponent } from './mini-cart.component';
 import { CartService } from '../../cart/services/cart.service';
 import { CartDataService } from '../../cart/services/cart-data.service';
 
-export class UseConfigService {
+export class UseCmsModuleConfig {
   cmsComponentMapping = {
     MiniCartComponent: 'MiniCartComponent'
   };
@@ -67,17 +69,18 @@ describe('MiniCartComponent', () => {
         FlexLayoutModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCms.reducers),
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCms.getReducers()),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers()),
+          auth: combineReducers(fromAuth.getReducers())
         })
       ],
       declarations: [MiniCartComponent],
       providers: [
         CartService,
         CartDataService,
-        { provide: ConfigService, useClass: UseConfigService }
+        { provide: CmsModuleConfig, useClass: UseCmsModuleConfig }
       ]
     }).compileComponents();
   }));
@@ -113,5 +116,9 @@ describe('MiniCartComponent', () => {
     );
   });
 
-  // will do the ui test after replace Material
+  describe('UI test', () => {
+    it('should contain a link to redirect to /cart', () => {
+      expect(fixture.debugElement.query(By.css('button[routerLink="/cart"]')));
+    });
+  });
 });

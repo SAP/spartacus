@@ -16,7 +16,8 @@ import * as fromRouting from '../../../routing/store';
 
 import * as pageActions from '../actions/page.action';
 import * as componentActions from '../actions/component.action';
-import * as fromServices from '../../services';
+import { OccCmsService } from '../../services/occ-cms.service';
+import { DefaultPageService } from '../../services/default-page.service';
 
 import { Page } from '../../models/page.model';
 import {
@@ -31,15 +32,15 @@ export class PageEffects {
     .ofType(
       pageActions.LOAD_PAGEDATA,
       '[Site-context] Language Change',
-      '[User] Logout',
-      '[User] Login'
+      '[Auth] Logout',
+      '[Auth] Login'
     )
     .pipe(
       map((action: pageActions.LoadPageData) => action.payload),
       switchMap(pageContext => {
         if (pageContext === undefined) {
           return this.routingStore.select(fromRouting.getRouterState).pipe(
-            filter(routerState => routerState !== undefined),
+            filter(routerState => routerState && routerState.state),
             filter(routerState => routerState.state.cmsRequired),
             map(routerState => routerState.state.context),
             take(1),
@@ -79,8 +80,8 @@ export class PageEffects {
 
   constructor(
     private actions$: Actions,
-    private occCmsService: fromServices.OccCmsService,
-    private defaultPageService: fromServices.DefaultPageService,
+    private occCmsService: OccCmsService,
+    private defaultPageService: DefaultPageService,
     private routingStore: Store<fromRouting.State>
   ) {}
 
@@ -97,7 +98,10 @@ export class PageEffects {
 
     for (const slot of res.contentSlots.contentSlot) {
       page.slots[slot.position] = [];
-      if (slot.components.component) {
+      if (
+        slot.components.component &&
+        Array.isArray(slot.components.component)
+      ) {
         for (const component of slot.components.component) {
           page.slots[slot.position].push({
             uid: component.uid,
@@ -131,7 +135,10 @@ export class PageEffects {
     const components: any[] = [];
     if (pageData) {
       for (const slot of pageData.contentSlots.contentSlot) {
-        if (slot.components.component) {
+        if (
+          slot.components.component &&
+          Array.isArray(slot.components.component)
+        ) {
           for (const component of slot.components.component) {
             components.push(component);
           }

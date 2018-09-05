@@ -19,9 +19,9 @@ describe('ProductLineItemComponent in product-list', () => {
         MaterialModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers)
+          ...fromRoot.getReducers(),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers())
         })
       ],
       declarations: [ProductLineItemComponent, AddToCartComponent],

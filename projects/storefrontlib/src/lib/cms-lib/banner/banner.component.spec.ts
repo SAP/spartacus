@@ -7,9 +7,9 @@ import { of } from 'rxjs';
 import { BannerComponent } from './banner.component';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
-import { ConfigService } from '../../cms/config.service';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 
-class UseConfigService {
+class UseCmsModuleConfig {
   cmsComponentMapping = {
     SimpleBannerComponent: 'BannerComponent'
   };
@@ -44,13 +44,13 @@ describe('BannerComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsReducer.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers())
         }),
         RouterTestingModule
       ],
       declarations: [BannerComponent],
-      providers: [{ provide: ConfigService, useClass: UseConfigService }]
+      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

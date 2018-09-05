@@ -2,6 +2,7 @@ import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as fromUserStore from '../../../../user/store';
+import * as fromAuthStore from './../../../../auth/store';
 import { Store } from '@ngrx/store';
 
 import * as fromRouting from '../../../../routing/store';
@@ -16,26 +17,24 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   orders$: Observable<any>;
   isLoaded$: Observable<boolean>;
-  userDataSubscription: Subscription;
+  subscription: Subscription;
   private PAGE_SIZE = 5;
   private user_id: string;
 
   ngOnInit() {
-    this.userDataSubscription = this.store
-      .select(fromUserStore.getUserToken)
-      .pipe(
-        tap(userData => {
+    this.subscription = this.store
+      .select(fromAuthStore.getUserToken)
+      .subscribe(userData => {
+        if (userData && userData.userId) {
           this.user_id = userData.userId;
-
           this.store.dispatch(
             new fromUserStore.LoadUserOrders({
               userId: this.user_id,
               pageSize: this.PAGE_SIZE
             })
           );
-        })
-      )
-      .subscribe();
+        }
+      });
 
     this.orders$ = this.store.select(fromUserStore.getOrders).pipe(
       tap(orders => {
@@ -54,8 +53,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.userDataSubscription) {
-      this.userDataSubscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 
