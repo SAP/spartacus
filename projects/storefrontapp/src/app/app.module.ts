@@ -24,7 +24,7 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     AuthModule.forRoot(config),
-    RoutingModule.forRoot(ConfigService),
+    RoutingModule.forRoot(config),
     OccModule.forRoot(config),
     SiteContextModule.forRoot(ConfigService),
 
