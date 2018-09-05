@@ -23,7 +23,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   imports: [
     BrowserModule,
-    AuthModule.forRoot(ConfigService),
+    AuthModule.forRoot(config),
     RoutingModule.forRoot(ConfigService),
     OccModule.forRoot(config),
     SiteContextModule.forRoot(ConfigService),
