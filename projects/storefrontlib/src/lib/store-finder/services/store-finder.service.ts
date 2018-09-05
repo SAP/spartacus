@@ -11,4 +11,8 @@ export class StoreFinderService {
   findStores(queryText: string) {
     this.store.dispatch(new fromStore.FindStores({ queryText }));
   }
+
+  viewAllStores() {
+    this.store.dispatch(new fromStore.FindAllStores());
+  }
 }

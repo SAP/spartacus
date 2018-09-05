@@ -10,6 +10,7 @@ import { StoreFinderPageLayoutComponent } from '../../layout/store-finder-page-l
 import { StoreFinderPagingComponent } from '../../../store-finder/components/store-finder-paging/store-finder-paging.component';
 import { StoreFinderSearchComponent } from '../../../store-finder/components/store-finder-search/store-finder-search.component';
 import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-list/store-finder-list.component';
+import { StoreFinderListCountComponent } from '../../../store-finder/components/store-finder-list-count/store-finder-list-count.component';
 import { MaterialModule } from '../../../material.module';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 import { services } from '../../../store-finder/services';
@@ -46,7 +47,8 @@ describe('StoreFinderPageComponent', () => {
         StoreFinderSearchComponent,
         StoreFinderListComponent,
         StoreFinderListItemComponent,
-        StoreFinderMapComponent
+        StoreFinderMapComponent,
+        StoreFinderListCountComponent
       ],
       providers: [...services, OccE2eConfigurationService, ConfigService]
     }).compileComponents();

@@ -47,6 +47,8 @@ describe('StoreFinderSearchComponent', () => {
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(component, 'findStores').and.callThrough();
     spyOn(service, 'findStores').and.callThrough();
+    spyOn(component, 'viewAllStores').and.callThrough();
+    spyOn(service, 'viewAllStores').and.callThrough();
     spyOn(component, 'onKey').and.callThrough();
     fixture.detectChanges();
   });
@@ -80,5 +82,12 @@ describe('StoreFinderSearchComponent', () => {
     component.onKey(badKeyEvent);
     expect(component.onKey).toHaveBeenCalled();
     expect(component.findStores).not.toHaveBeenCalled();
+  });
+
+  it('should view all stores', () => {
+    component.viewAllStores();
+    expect(component.viewAllStores).toHaveBeenCalled();
+    expect(service.viewAllStores).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.FindAllStores());
   });
 });
