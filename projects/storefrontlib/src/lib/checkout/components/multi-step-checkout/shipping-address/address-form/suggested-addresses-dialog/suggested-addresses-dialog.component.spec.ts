@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MaterialModule } from '../../../../../material.module';
-import { CheckoutService } from '../../../../services';
+import { MaterialModule } from '../../../../../../material.module';
+import { CheckoutService } from '../../../../../services';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog.component';
-import { CartService } from '../../../../../cart/services';
+import { CartService } from '../../../../../../cart/services';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 class MockMatDialogRef {

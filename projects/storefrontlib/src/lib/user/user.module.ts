@@ -20,6 +20,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     LoginModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
     StoreModule.forFeature('user', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
     RouterModule

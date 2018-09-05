@@ -1,3 +1,5 @@
+import { MobileMenuComponent } from './../header/mobile-menu/mobile-menu.component';
+import { HeaderSkipperComponent } from './../header/header-skipper/header-skipper.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MainComponent } from './main.component';
@@ -21,6 +23,7 @@ import * as fromUserReducer from '../../../user/store/reducers';
 import * as fromSCStore from './../../../site-context/shared/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuth from '../../../auth/store';
+import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
 
 class MockConfigService {
   server = {
@@ -61,6 +64,9 @@ describe('MainComponent', () => {
         ComponentWrapperComponent,
         LanguageSelectorComponent,
         CurrencySelectorComponent,
+        HeaderSkipperComponent,
+        TertiaryBarComponent,
+        MobileMenuComponent,
         LoginComponent
       ],
       providers: [

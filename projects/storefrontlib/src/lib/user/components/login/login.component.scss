@@ -1,0 +1,101 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+@import '~bootstrap/scss/nav';
+@import '~bootstrap/scss/dropdown';
+
+//login color variables
+$y-login-status-greet-color: 'inverse' !default;
+$y-login-status-md-greet-color: 'text' !default;
+$y-login-status-toggle-color: 'inverse' !default;
+$y-login-status-toggle-hover-color: 'primary' !default;
+$y-login-status-md-toggle-color: 'text' !default;
+$y-login-status-md-menu-background-color: 'transparent' !default;
+$y-login-status-item-color: 'text' !default;
+$y-login-status-item-hover-color: 'primary' !default;
+$y-login-status-item-hover-background-color: 'transparent' !default;
+
+//login variables
+$y-login-greet-trbl-padding: 0 !default;
+$y-login-greet-trbl-md-padding: 0.75rem 1.5rem 0 1.5rem !default;
+$y-login-toggle-trbl-padding: 0 0.5rem 1rem 0 !default;
+$y-login-toggle-trbl-md-padding: 0 1.5rem 0.75rem 1.5rem !default;
+$y-login-menu-border-radius: 0 !default;
+$y-login-menu-trbl-padding: 0 !default;
+$y-login-menu-md-position: relative !default;
+$y-login-menu-md-width: 100% !default;
+$y-login-menu-md-border: 0 none !default;
+$y-login-menu-md-border-radius: 0 !default;
+$y-login-menu-md-trbl-padding: 0 0 0.75rem 0 !default;
+$y-login-item-trbl-padding: 0.75rem 1.5rem !default;
+$y-login-item-trbl-md-padding: 0.45rem 1.5rem !default;
+$y-login-item-border-bottom: 1px solid theme-color('background') !default;
+$y-login-item-last-child: none !default;
+$y-login-item-text-decoration: none !default;
+
+.y-login-status {
+  &__greet {
+    @include var-color('color', $y-login-status-greet-color);
+    font-weight: $font-weight-bold;
+    padding: $y-login-greet-trbl-padding;
+    @include type('7');
+    @include media-breakpoint-down(md) {
+      @include var-color('color', $y-login-status-md-greet-color);
+      padding: $y-login-greet-trbl-md-padding;
+      @include type();
+    }
+    margin-bottom: 0;
+  }
+  &__toggle {
+    @include var-color('color', $y-login-status-toggle-color);
+    padding: $y-login-toggle-trbl-padding;
+    &:hover {
+      @include var-color('color', $y-login-status-toggle-hover-color);
+    }
+    @include media-breakpoint-down(md) {
+      display: flex;
+      justify-content: space-between;
+      @include var-color('color', $y-login-status-md-toggle-color);
+      padding: $y-login-toggle-trbl-md-padding;
+      &::after {
+        margin-right: 20px;
+      }
+    }
+  }
+  &__menu {
+    border-radius: $y-login-menu-border-radius;
+    padding: $y-login-menu-trbl-padding;
+    @include media-breakpoint-down(md) {
+      position: $y-login-menu-md-position;
+      width: $y-login-menu-md-width;
+      border: $y-login-menu-md-border;
+      border-radius: $y-login-menu-md-border-radius;
+      @include var-color(
+        'background-color',
+        $y-login-status-md-menu-background-color
+      );
+      padding: $y-login-menu-md-trbl-padding;
+      top: 0 !important;
+    }
+  }
+  &__item {
+    padding: $y-login-item-trbl-padding;
+    border-bottom: $y-login-item-border-bottom;
+    @include var-color('color', $y-login-status-item-color);
+    @include type('7');
+    &:hover {
+      @include var-color('color', $y-login-status-item-hover-color);
+      @include var-color(
+        'background-color',
+        $y-login-status-item-hover-background-color
+      );
+      text-decoration: $y-login-item-text-decoration;
+    }
+    &:last-child {
+      border-bottom: $y-login-item-last-child;
+    }
+    @include media-breakpoint-down(md) {
+      padding: $y-login-item-trbl-md-padding;
+    }
+  }
+}
