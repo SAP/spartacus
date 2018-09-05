@@ -57,7 +57,7 @@ export class PaymentFormComponent implements OnInit {
 
   cardTypes$: Observable<any>;
   shippingAddress$: Observable<any>;
-  sameAsShippingAddress: boolean = true;
+  sameAsShippingAddress = true;
 
   @Output() backToPayment = new EventEmitter<any>();
   @Output() addPaymentInfo = new EventEmitter<any>();

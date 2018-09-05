@@ -103,11 +103,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           }
         } else {
           regionControl.enable();
-          regions.forEach(region => {
-            if (!region.name) {
-              region.name = region.isocode;
-            }
-          });
         }
       })
     );
@@ -146,6 +141,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   titleSelected(title) {
     this.address['controls'].titleCode.setValue(title.code);
   }
+
   countrySelected(country) {
     this.address['controls'].country['controls'].isocode.setValue(
       country.isocode

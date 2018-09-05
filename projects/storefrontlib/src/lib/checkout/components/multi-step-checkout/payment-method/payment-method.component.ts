@@ -30,9 +30,9 @@ export class PaymentMethodComponent implements OnInit {
 
   isPaymentForm = false;
   existingPaymentMethods$: Observable<any>;
-  @Input() selectedPayment: any;
   cards = [];
 
+  @Input() selectedPayment: any;
   @Output() backStep = new EventEmitter<any>();
   @Output() addPaymentInfo = new EventEmitter<any>();
 
@@ -66,6 +66,12 @@ export class PaymentMethodComponent implements OnInit {
   }
 
   getCardContent(payment): Card {
+    let ccImage;
+    if (payment.cardType.code === 'visa') {
+      ccImage = 'assets/visa.png';
+    } else if (payment.cardType.code === 'master') {
+      ccImage = 'assets/masterCard.png';
+    }
     const card: Card = {
       title: payment.defaultPayment ? 'Default Payment Method' : '',
       textBold: payment.accountHolderName,
@@ -73,7 +79,7 @@ export class PaymentMethodComponent implements OnInit {
         payment.cardNumber,
         'Expires: ' + payment.expiryMonth + '/' + payment.expiryYear
       ],
-      img: 'assets/visa.png',
+      img: ccImage,
       actions: [{ name: 'Use this payment', event: 'send' }]
     };
 
