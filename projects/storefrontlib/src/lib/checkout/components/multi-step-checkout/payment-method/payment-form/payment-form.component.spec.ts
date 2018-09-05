@@ -46,6 +46,7 @@ const mockAddress: Address = {
   postalCode: 'zip',
   country: { isocode: 'JP' }
 };
+
 const mockCardTypes = {
   cardTypes: [
     {

@@ -7,10 +7,12 @@ import {
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../store';
 import * as fromUserStore from '../../../../user/store';
 import * as fromCartStore from '../../../../cart/store';
+import { CheckoutService } from '../../../services/checkout.service';
 import { Address } from '../../../models/address-model';
 
 @Component({
@@ -34,19 +36,38 @@ export class ReviewSubmitComponent implements OnInit {
   deliveryMode$: Observable<any>;
   countryName$: Observable<any>;
 
-  constructor(protected store: Store<fromCheckoutStore.CheckoutState>) {}
+  constructor(
+    protected store: Store<fromCheckoutStore.CheckoutState>,
+    private service: CheckoutService
+  ) {}
 
   ngOnInit() {
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
     this.entries$ = this.store.select(fromCartStore.getEntries);
 
-    this.deliveryMode$ = this.store.select(
-      fromCheckoutStore.getSelectedDeliveryMode
-    );
+    this.deliveryMode$ = this.store
+      .select(fromCheckoutStore.getSelectedDeliveryMode)
+      .pipe(
+        tap(selected => {
+          if (selected === null) {
+            this.service.loadSupportedDeliveryModes();
+          }
+        })
+      );
 
-    this.countryName$ = this.store.select(
-      fromUserStore.countrySelectorFactory(this.deliveryAddress.country.isocode)
-    );
+    this.countryName$ = this.store
+      .select(
+        fromUserStore.countrySelectorFactory(
+          this.deliveryAddress.country.isocode
+        )
+      )
+      .pipe(
+        tap(country => {
+          if (country === null) {
+            this.store.dispatch(new fromUserStore.LoadDeliveryCountries());
+          }
+        })
+      );
   }
 
   getAddressCard(countryName) {
@@ -74,11 +95,13 @@ export class ReviewSubmitComponent implements OnInit {
   }
 
   getShippingMethodCard(deliveryMode) {
-    return {
-      title: 'Shipping Method',
-      textBold: [this.shippingMethod],
-      text: [deliveryMode.description]
-    };
+    if (deliveryMode) {
+      return {
+        title: 'Shipping Method',
+        textBold: [this.shippingMethod],
+        text: [deliveryMode.description]
+      };
+    }
   }
 
   getPaymentCard() {
