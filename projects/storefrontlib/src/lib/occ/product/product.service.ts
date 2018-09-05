@@ -1,6 +1,6 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
 import { ConfigService } from '../config.service';
@@ -23,7 +23,8 @@ export class OccProductService {
 
   loadProduct(productCode: string): Observable<any> {
     const params = new HttpParams({
-      fromString: 'fields=DEFAULT,averageRating,images(FULL),classifications'
+      fromString:
+        'fields=DEFAULT,averageRating,images(FULL),classifications,numberOfReviews'
     });
 
     return this.http
@@ -39,6 +40,24 @@ export class OccProductService {
 
     return this.http
       .get(url)
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
+  public postProductReview(productCode: String, review: any): Observable<any> {
+    const url = this.getProductEndpoint() + `/${productCode}/reviews`;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    const body = new URLSearchParams();
+    body.append('headline', review.title.value);
+    body.append('comment', review.comment.value);
+    body.append('rating', review.rating.value);
+    body.append('alias', review.reviewerName.value);
+
+    return this.http
+      .post(url, body.toString(), { headers })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
   /*

@@ -2,9 +2,10 @@
     <mat-icon>expand_more</mat-icon>
 </button>
 <mat-menu #productSort="matMenu">
-    <button *ngFor="let sort of sortOptions" mat-menu-item>
+    <button *ngFor="let sort of sortOptions" mat-menu-item (click)="sortList(sort.code)">
         <mat-icon color="primary">sort_by_alpha</mat-icon>
-        {{sort.label}}</button>
+        {{sort.name}}
+    </button>
     <mat-divider></mat-divider>
     <div fxLayout="row" fxLayoutAlign="space-around center">
         <button mat-icon-button [disabled]="grid.mode === 'grid'" (click)="grid.mode='grid'">

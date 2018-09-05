@@ -1,0 +1,63 @@
+@import 'theme.scss';
+@import '~bootstrap/scss/tables';
+
+.table {
+  thead {
+    th {
+      border-bottom: 0 none;
+      border-top: none;
+      font-size: $small-font-size;
+      font-weight: $font-weight-semi;
+      text-transform: uppercase;
+      color: theme-color('secondary');
+      text-align: center;
+    }
+  }
+  td {
+    vertical-align: middle;
+  }
+  &-hover {
+    tbody {
+      tr {
+        min-height: 74px;
+        &:hover {
+          background-color: theme-color('background');
+        }
+      }
+    }
+  }
+  &--mobile {
+    font-weight: $font-weight-bold;
+    display: none;
+    @include media-breakpoint-down(sm) {
+      display: inline-flex;
+    }
+  }
+
+  &-close {
+    position: relative;
+    right: 18px;
+    width: 18px;
+    height: 18px;
+
+    &:hover {
+      opacity: 1;
+    }
+    &:before,
+    &:after {
+      position: absolute;
+      left: 15px;
+      content: ' ';
+      height: 18px;
+      width: 2px;
+      background-color: theme-color('secondary');
+      top: 30%;
+    }
+    &:before {
+      transform: rotate(45deg);
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
+  }
+}

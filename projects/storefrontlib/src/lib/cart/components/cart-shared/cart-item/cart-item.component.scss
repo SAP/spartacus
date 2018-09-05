@@ -29,3 +29,11 @@
 .item__delivery {
   padding-left: 3%;
 }
+.item__image {
+  a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+}

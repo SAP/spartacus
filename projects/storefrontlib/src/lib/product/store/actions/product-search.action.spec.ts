@@ -2,12 +2,17 @@ import * as fromProductSearch from './product-search.action';
 import { SearchConfig } from '../../search-config';
 
 describe('Product Search Actions', () => {
+  let searchConfig: SearchConfig;
+  beforeEach(() => {
+    searchConfig = new SearchConfig();
+    searchConfig.pageSize = 10;
+  });
   describe('SearchProducts Actions', () => {
     describe('SearchProducts', () => {
       it('should create an action', () => {
         const payload = {
           queryText: 'test',
-          searchConfig: new SearchConfig(10)
+          searchConfig: searchConfig
         };
         const action = new fromProductSearch.SearchProducts(payload);
         expect({ ...action }).toEqual({
@@ -47,7 +52,7 @@ describe('Product Search Actions', () => {
       it('should create an action', () => {
         const payload = {
           term: 'test',
-          searchConfig: new SearchConfig(10)
+          searchConfig: searchConfig
         };
         const action = new fromProductSearch.GetProductSuggestions(payload);
         expect({ ...action }).toEqual({

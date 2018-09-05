@@ -1,25 +1,44 @@
-@import '../../../theme';
-@include mat-core();
+@import 'theme';
+@import 'functions';
+@import 'mixins';
 
+//mini-cart color variables
+$y-mini-cart-button-background-color: 'primary' !default;
+$y-mini-cart-button-color: 'inverse' !default;
 
-@media screen and (max-width: 480px) {
-    fxHide.xs {
-        display: none;
+//mini-cart variables
+$y-mini-cart-button-height: 50px !default;
+$y-mini-cart-button-border-radius: 0 !default;
+$y-mini-cart-button-md-height: 60px !default;
+$y-mini-cart-button-md-trbl-padding: 0.5rem 0.75rem 0 0.75rem !default;
+$y-mini-cart-icon-width: 25px !default;
+$y-mini-cart-count-trbl-margin: 0 0 0 0.35rem !default;
+
+.y-mini-cart {
+  &__button {
+    @include var-color(
+      'background-color',
+      $y-mini-cart-button-background-color
+    );
+    @include var-color('color', $y-mini-cart-button-color);
+    position: relative;
+    height: $y-mini-cart-button-height;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: $y-mini-cart-button-border-radius;
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+      height: $y-mini-cart-button-md-height;
+      padding: $y-mini-cart-button-md-trbl-padding;
     }
-}
-
-
-.entry-quantity {
-    background-color: mat-color($accent);
-    font-size: 10px;
-    display: block;
-    width: 15px;
-    height: 15px;
-    padding: 2px;
-    position: absolute;
-    line-height: 15px;
-    border-radius: 20px;
-    margin-top: -5px;
-    margin-left: 18px;
-    color: #fff;
+  }
+  &__icon {
+    width: $y-mini-cart-icon-width;
+    fill: currentColor;
+    pointer-events: none;
+  }
+  &__count {
+    margin: $y-mini-cart-count-trbl-margin;
+  }
 }

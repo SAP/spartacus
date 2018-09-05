@@ -17,11 +17,10 @@ module.exports = function(config) {
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
-    reporters: ['progress', 'kjhtml', 'dots', 'junit'],
+    reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'junit'],
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../../coverage'),
-      reports: ['html', 'cobertura'],
-      fixWebpackSourcePaths: true,
+      reports: ['html', 'cobertura', 'text-summary'],
       thresholds: {
         statements: 80,
         lines: 80,

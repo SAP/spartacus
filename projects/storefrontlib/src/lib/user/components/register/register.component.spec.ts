@@ -1,10 +1,11 @@
+import { ActivatedRoute } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromStore from '../../store';
-import * as fromCheckoutStore from '../../../checkout/store';
+import * as fromAuthStore from '../../../auth/store';
 import { RegisterComponent } from './register.component';
 
 const mockTitlesList = {
@@ -31,12 +32,13 @@ describe('RegisterComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         StoreModule.forRoot({
-          ...fromStore.reducers,
-          user: combineReducers(fromStore.reducers),
-          checkout: combineReducers(fromCheckoutStore.reducers)
+          ...fromStore.getReducers(),
+          user: combineReducers(fromStore.getReducers()),
+          auth: combineReducers(fromAuthStore.getReducers())
         })
       ],
-      declarations: [RegisterComponent]
+      declarations: [RegisterComponent],
+      providers: [{ provide: ActivatedRoute, useValue: {} }]
     }).compileComponents();
   }));
 
@@ -66,9 +68,7 @@ describe('RegisterComponent', () => {
       spyOn(store, 'select').and.returnValue(of({}));
       component.ngOnInit();
       component.titles$.subscribe(() => {
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new fromCheckoutStore.LoadTitles()
-        );
+        expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadTitles());
       });
     });
   });

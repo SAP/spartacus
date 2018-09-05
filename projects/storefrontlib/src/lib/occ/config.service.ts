@@ -2,25 +2,22 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ConfigService {
-    x = {
+  x = {};
 
-    };
+  server = {
+    baseUrl: null,
+    occPrefix: null
+  };
 
-    server = {
-        baseUrl: null,
-        occPrefix: null
-    };
+  site: {
+    baseSite: null;
+    language: null;
+    currency: null;
+  };
 
-    site: {
-        baseSite: null,
-        language: null,
-        currency: null
-    };
-
-    authentication: {
-        client_id: null,
-        client_secret: null
-        userToken: {}
-    };
-
+  authentication: {
+    client_id: null;
+    client_secret: null;
+    userToken: {};
+  };
 }

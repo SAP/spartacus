@@ -17,8 +17,8 @@ describe('ProductSearch Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          products: combineReducers(fromReducers.reducers)
+          ...fromRoot.getReducers(),
+          products: combineReducers(fromReducers.getReducers())
         })
       ]
     });
@@ -29,7 +29,8 @@ describe('ProductSearch Selectors', () => {
   describe('getSearchResults', () => {
     it('should return the product search results', () => {
       let result;
-
+      const searchConfig = new SearchConfig();
+      searchConfig.pageSize = 10;
       store
         .select(fromSelectors.getSearchResults)
         .subscribe(value => (result = value));
@@ -39,7 +40,7 @@ describe('ProductSearch Selectors', () => {
       store.dispatch(
         new fromActions.SearchProducts({
           queryText: 'test',
-          searchConfig: new SearchConfig(10)
+          searchConfig: searchConfig
         })
       );
       store.dispatch(new fromActions.SearchProductsSuccess(searchResults));

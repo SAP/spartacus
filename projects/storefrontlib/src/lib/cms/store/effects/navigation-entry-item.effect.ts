@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
 
 import * as navigationItemActions from '../actions/navigation-entry-item.action';
-import * as fromServices from '../../services';
+import { OccCmsService } from '../../services/occ-cms.service';
 import { IdList } from '../../models/idList.model';
 
 @Injectable()
@@ -62,6 +62,13 @@ export class NavigationEntryItemEffects {
         } else if (data.ids.mediaIds.idList.length > 0) {
           // future work
           // send request to get list of media
+        } else {
+          console.warn('Navigation nodes are empty:', data.nodeId);
+          return of(
+            new navigationItemActions.LoadNavigationItemsFail(
+              'navigation nodes are empty'
+            )
+          );
         }
       })
     );
@@ -86,7 +93,7 @@ export class NavigationEntryItemEffects {
 
   constructor(
     private actions$: Actions,
-    private occCmsService: fromServices.OccCmsService,
+    private occCmsService: OccCmsService,
     private routingStore: Store<fromRouting.State>
   ) {}
 }

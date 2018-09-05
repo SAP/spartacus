@@ -26,6 +26,12 @@
               "projects/storefrontapp/src/styles.scss",
               "projects/storefrontapp/src/theme.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./projects/storefrontstyles/scss",
+                "./node_modules/storefrontstyles/scss"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -79,7 +85,8 @@
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets"
-            ]
+            ],
+            "codeCoverageExclude": ["dist/**/*"]
           }
         },
         "lint": {
@@ -103,6 +110,11 @@
           "options": {
             "protractorConfig": "projects/storefrontapp-e2e/protractor.conf.js",
             "devServerTarget": "storefrontapp:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "storefrontapp:serve:production"
+            }
           }
         },
         "lint": {
@@ -137,7 +149,11 @@
           "options": {
             "main": "projects/storefrontlib/src/test.ts",
             "tsConfig": "projects/storefrontlib/tsconfig.spec.json",
-            "karmaConfig": "projects/storefrontlib/karma.conf.js"
+            "karmaConfig": "projects/storefrontlib/karma.conf.js",
+            "codeCoverageExclude": ["dist/**/*"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["./projects/storefrontstyles/scss"]
+            }
           }
         },
         "lint": {

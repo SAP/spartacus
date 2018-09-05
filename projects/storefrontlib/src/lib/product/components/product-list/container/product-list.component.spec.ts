@@ -25,6 +25,7 @@ describe('ProductListComponent in product-list', () => {
   let store: Store<fromProduct.ProductsState>;
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
+  let searchConfig: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -32,10 +33,10 @@ describe('ProductListComponent in product-list', () => {
         MaterialModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          products: combineReducers(fromProduct.reducers),
-          cart: combineReducers(fromCart.reducers),
-          user: combineReducers(fromUser.reducers)
+          ...fromRoot.getReducers(),
+          products: combineReducers(fromProduct.getReducers()),
+          cart: combineReducers(fromCart.getReducers()),
+          user: combineReducers(fromUser.getReducers())
         })
       ],
       declarations: [
@@ -56,7 +57,7 @@ describe('ProductListComponent in product-list', () => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
     store = TestBed.get(Store);
-
+    searchConfig = new SearchConfig();
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -71,11 +72,10 @@ describe('ProductListComponent in product-list', () => {
 
     component.ngOnInit();
     component.model$.subscribe();
-
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProduct.SearchProducts({
         queryText: ':relevance:category:mockCategoryCode',
-        searchConfig: new SearchConfig(10)
+        searchConfig: searchConfig
       })
     );
   });
@@ -87,11 +87,10 @@ describe('ProductListComponent in product-list', () => {
 
     component.ngOnInit();
     component.model$.subscribe();
-
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProduct.SearchProducts({
         queryText: ':relevance:brand:mockBrandCode',
-        searchConfig: new SearchConfig(10)
+        searchConfig: searchConfig
       })
     );
   });
@@ -99,11 +98,11 @@ describe('ProductListComponent in product-list', () => {
   it('should call ngOnChanges and get search results with category code', () => {
     component.categoryCode = 'mockCategoryCode';
     component.ngOnChanges();
-
+    searchConfig = { ...searchConfig, ...{ pageSize: 10 } };
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProduct.SearchProducts({
         queryText: ':relevance:category:mockCategoryCode',
-        searchConfig: new SearchConfig(10)
+        searchConfig: searchConfig
       })
     );
   });
@@ -111,11 +110,11 @@ describe('ProductListComponent in product-list', () => {
   it('should call ngOnChanges get search results with brand code', () => {
     component.brandCode = 'mockBrandCode';
     component.ngOnChanges();
-
+    searchConfig = { ...searchConfig, ...{ pageSize: 10 } };
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProduct.SearchProducts({
         queryText: ':relevance:brand:mockBrandCode',
-        searchConfig: new SearchConfig(10)
+        searchConfig: searchConfig
       })
     );
   });
@@ -126,8 +125,32 @@ describe('ProductListComponent in product-list', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProduct.SearchProducts({
         queryText: 'mockQuery',
-        searchConfig: new SearchConfig(10)
+        searchConfig: searchConfig
       })
     );
+  });
+
+  it('should change pages', done => {
+    const pagination = new ProductPagingComponent();
+    pagination.viewPageEvent.subscribe(event => {
+      expect(event).toEqual(2);
+      component.viewPage(event);
+      expect(component.searchConfig.currentPage).toBe(event);
+      done();
+    });
+
+    pagination.next(2);
+  });
+
+  it('should change sortings', done => {
+    const pagination = new ProductSortingComponent();
+    pagination.sortListEvent.subscribe(event => {
+      expect(event).toEqual('sortCode');
+      component.viewPage(event);
+      expect(component.searchConfig.currentPage).toBe(event);
+      done();
+    });
+
+    pagination.sortList('sortCode');
   });
 });

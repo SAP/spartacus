@@ -1,0 +1,49 @@
+.item-counter {
+  &.focused {
+    box-shadow: 0 1px 1px white;
+  }
+  background: white;
+  border-radius: 3px;
+  overflow: hidden;
+  & > div > div {
+    display: flex;
+    align-items: center;
+
+    & > div {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+  /* For Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+  /* Webkit browsers like Safari and Chrome */
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    width: 40px;
+    height: 30px;
+    margin: 0 5px 0 5px;
+  }
+
+  button {
+    padding: 3px;
+    border-radius: 0;
+    line-height: 1;
+    padding: 7px 7px;
+    background: #647be0;
+    color: #fff;
+    font-weight: 500;
+    &:disabled {
+      background: rgba(0, 0, 0, 0.1);
+      color: rgba(0, 0, 0, 0.4);
+    }
+  }
+}

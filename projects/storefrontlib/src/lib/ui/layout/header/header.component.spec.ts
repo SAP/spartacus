@@ -1,20 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { HeaderComponent } from './header.component';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { combineReducers, StoreModule } from '@ngrx/store';
+import * as fromAuth from '../../../auth/store';
 import {
-  DynamicSlotComponent,
-  ComponentWrapperComponent
+  ComponentWrapperComponent,
+  DynamicSlotComponent
 } from '../../../cms/components';
+import * as fromCmsReducer from '../../../cms/store/reducers';
 import { MaterialModule } from '../../../material.module';
-import { LoginComponent } from '../../../user/components/login/login.component';
-import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
-import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
-import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import { ConfigService } from '../../../site-context/config.service';
+import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
+import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
 import * as fromUserReducer from '../../../user/store/reducers';
 import * as fromSCStore from './../../../site-context/shared/store';
-import * as fromCmsReducer from '../../../cms/store/reducers';
+import { LoginComponent } from './../../../user/components/login/login.component';
+import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
+import { HeaderComponent } from './header.component';
+import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
+import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
 
 class MockConfigService {
   site = {
@@ -27,30 +32,33 @@ describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          MaterialModule,
-          StoreModule.forRoot({
-            ...fromRoot.reducers,
-            user: combineReducers(fromUserReducer.reducers),
-            siteContext: combineReducers(fromSCStore.reducers),
-            cms: combineReducers(fromCmsReducer.reducers)
-          })
-        ],
-        declarations: [
-          HeaderComponent,
-          DynamicSlotComponent,
-          ComponentWrapperComponent,
-          LoginComponent,
-          CurrencySelectorComponent,
-          LanguageSelectorComponent
-        ],
-        providers: [{ provide: ConfigService, useClass: MockConfigService }]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        RouterTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.getReducers(),
+          user: combineReducers(fromUserReducer.getReducers()),
+          siteContext: combineReducers(fromSCStore.getReducers()),
+          cms: combineReducers(fromCmsReducer.getReducers()),
+          auth: combineReducers(fromAuth.getReducers())
+        })
+      ],
+      declarations: [
+        HeaderComponent,
+        DynamicSlotComponent,
+        ComponentWrapperComponent,
+        CurrencySelectorComponent,
+        LanguageSelectorComponent,
+        HeaderSkipperComponent,
+        TertiaryBarComponent,
+        MobileMenuComponent,
+        LoginComponent
+      ],
+      providers: [{ provide: ConfigService, useClass: MockConfigService }]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);
@@ -60,5 +68,84 @@ describe('HeaderComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  // UI TEST
+  describe('UI tests', () => {
+    it('should contain the header skipper component', () => {
+      expect(
+        fixture.debugElement.query(By.css('y-header-skipper'))
+      ).not.toBeNull();
+    });
+
+    it('should contain the Site Context Selectors', () => {
+      expect(
+        fixture.debugElement.query(
+          By.css('div.y-content__slot:not(#y-mobile-menu) y-language-selector')
+        )
+      ).not.toBeNull();
+
+      expect(
+        fixture.debugElement.query(
+          By.css('div.y-content__slot:not(#y-mobile-menu) y-currency-selector')
+        )
+      ).not.toBeNull();
+    });
+
+    it('should contain the tertiary-bar component', () => {
+      expect(
+        fixture.debugElement.query(By.css('y-tertiary-bar'))
+      ).not.toBeNull();
+    });
+
+    it('should contain the login status component', () => {
+      expect(
+        fixture.debugElement.query(
+          By.css('div.y-content__slot:not(#y-mobile-menu) y-login')
+        )
+      ).not.toBeNull();
+    });
+
+    it('should contain the mobile menu component', () => {
+      expect(
+        fixture.debugElement.query(By.css('y-mobile-menu'))
+      ).not.toBeNull();
+    });
+
+    describe('Dynamic slots', () => {
+      it('should contain site logo', () => {
+        expect(
+          fixture.debugElement.query(
+            By.css('y-dynamic-slot[position="SiteLogo"]')
+          )
+        ).not.toBeNull();
+      });
+
+      it('should contain the searchbox', () => {
+        expect(
+          fixture.debugElement.query(
+            By.css('y-dynamic-slot[position="SearchBox"]')
+          )
+        ).not.toBeNull();
+      });
+
+      it('should contain the mini cart', () => {
+        expect(
+          fixture.debugElement.query(
+            By.css('y-dynamic-slot[position="MiniCart"]')
+          )
+        ).not.toBeNull();
+      });
+
+      it('should contain the navigation bar', () => {
+        expect(
+          fixture.debugElement.query(
+            By.css(
+              'div.y-content__slot:not(#y-mobile-menu) y-dynamic-slot[position="NavigationBar"]'
+            )
+          )
+        ).not.toBeNull();
+      });
+    });
   });
 });

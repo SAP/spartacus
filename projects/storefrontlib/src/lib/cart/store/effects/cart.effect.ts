@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
-
-import * as fromActions from './../actions/cart.action';
-
-import { Observable ,  of } from 'rxjs';
 import { Actions, Effect } from '@ngrx/effects';
-import { map, mergeMap, catchError } from 'rxjs/operators';
-
+import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { ProductImageConverterService } from '../../../product/converters';
-import { CartService } from '../../services/cart.service';
-import { ANOYMOUS_USERID } from '../../services/cart.service';
+import { ProductImageConverterService } from '../../../product/converters/product-image-converter.service';
+import { CartDataService } from '../../services/cart-data.service';
+import * as fromActions from './../actions/cart.action';
 
 @Injectable()
 export class CartEffects {
@@ -25,12 +21,9 @@ export class CartEffects {
       mergeMap(payload => {
         if (payload === undefined || payload.userId === undefined) {
           payload = {
-            userId: this.cartService.userId,
-            cartId:
-              this.cartService.userId === ANOYMOUS_USERID
-                ? this.cartService.cart.guid
-                : this.cartService.cart.code,
-            details: this.cartService.getDetails ? true : undefined
+            userId: this.cartData.userId,
+            cartId: this.cartData.cartId,
+            details: this.cartData.getDetails ? true : undefined
           };
         }
         if (payload.userId === undefined || payload.cartId === undefined) {
@@ -90,7 +83,7 @@ export class CartEffects {
             return new fromActions.CreateCart({
               userId: payload.userId,
               oldCartId: payload.cartId,
-              toMergeCartGuid: currentCart.guid
+              toMergeCartGuid: currentCart ? currentCart.guid : undefined
             });
           })
         );
@@ -101,6 +94,6 @@ export class CartEffects {
     private actions$: Actions,
     private productImageConverter: ProductImageConverterService,
     private occCartService: OccCartService,
-    private cartService: CartService
+    private cartData: CartDataService
   ) {}
 }

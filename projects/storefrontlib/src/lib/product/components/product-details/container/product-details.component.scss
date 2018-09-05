@@ -1,4 +1,16 @@
 .product-title {
-    font-weight: 700;
-
+  font-weight: 700;
+}
+.add-to-cart-container {
+  display: flex;
+  input {
+    text-align: center;
+    margin-top: 20px;
+    margin-left: 10px;
+    width: 50px;
+  }
+  y-item-counter {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
 }

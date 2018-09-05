@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromStore from './../store';
@@ -10,18 +10,19 @@ import { tap, filter, take, switchMap, catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class ProductGuard implements CanActivate {
-  constructor(private store: Store<fromStore.ProductsState>) {}
+  requestedProductCode: string;
 
-  canActivate(): Observable<boolean> {
-    let requestedProductCode;
+  constructor(private store: Store<fromStore.ProductsState>) {
     this.store
       .select(fromRouting.getRouterState)
       .subscribe(
         routerState =>
-          (requestedProductCode = routerState.state.params['productCode'])
+          (this.requestedProductCode = routerState.state.params['productCode'])
       );
+  }
 
-    return this.checkStore(requestedProductCode).pipe(
+  canActivate(): Observable<boolean> {
+    return this.checkStore(this.requestedProductCode).pipe(
       switchMap(found => of(found)),
       catchError(err => of(false))
     );

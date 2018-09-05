@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormGroup, ControlContainer } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ControlContainer, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'y-cart-item',
@@ -8,6 +8,7 @@ import { FormGroup, ControlContainer } from '@angular/forms';
 })
 export class CartItemComponent implements OnInit {
   @Input() entry: any;
+  @Input() disableProductLink = false;
   @Input() potentialPromotions: any[];
   @Input() appliedPromotions: any[];
   parent: FormGroup;
@@ -25,7 +26,7 @@ export class CartItemComponent implements OnInit {
     this.remove.emit(this.entry);
   }
 
-  updateEntry() {
-    this.update.emit(this.entry);
+  updateEntry(updatedQuantity: number) {
+    this.update.emit({ entry: this.entry, updatedQuantity });
   }
 }

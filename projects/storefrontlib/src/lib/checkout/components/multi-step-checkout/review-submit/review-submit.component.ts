@@ -12,7 +12,8 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../store';
-import { CheckoutService } from '../../../services';
+import * as fromUserStore from '../../../../user/store';
+import { CheckoutService } from '../../../services/checkout.service';
 import { Address } from '../../../models/address-model';
 
 @Component({
@@ -51,26 +52,26 @@ export class ReviewSubmitComponent implements OnInit {
 
     this.countryName$ = this.store
       .select(
-        fromCheckoutStore.countrySelectorFactory(
+        fromUserStore.countrySelectorFactory(
           this.deliveryAddress.country.isocode
         )
       )
       .pipe(
         tap(country => {
           if (country === null) {
-            this.store.dispatch(new fromCheckoutStore.LoadDeliveryCountries());
+            this.store.dispatch(new fromUserStore.LoadDeliveryCountries());
           }
         })
       );
 
     this.titleName$ = this.store
       .select(
-        fromCheckoutStore.titleSelectorFactory(this.deliveryAddress.titleCode)
+        fromUserStore.titleSelectorFactory(this.deliveryAddress.titleCode)
       )
       .pipe(
         tap(title => {
           if (title === null) {
-            this.store.dispatch(new fromCheckoutStore.LoadTitles());
+            this.store.dispatch(new fromUserStore.LoadTitles());
           }
         })
       );

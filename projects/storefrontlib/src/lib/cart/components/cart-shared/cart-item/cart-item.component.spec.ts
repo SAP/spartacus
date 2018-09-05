@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentsModule } from './../../../../ui/components/components.module';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ItemCounterComponent } from '../item-counter/item-counter.component';
 import { CartItemComponent } from './cart-item.component';
 
 describe('CartItemComponent', () => {
@@ -10,8 +10,8 @@ describe('CartItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule],
-      declarations: [CartItemComponent, ItemCounterComponent],
+      imports: [RouterTestingModule, ReactiveFormsModule, ComponentsModule],
+      declarations: [CartItemComponent],
       providers: [
         {
           provide: ControlContainer
@@ -42,10 +42,11 @@ describe('CartItemComponent', () => {
   });
 
   it('should call updateEntry()', () => {
-    cartItemComponent.updateEntry();
+    cartItemComponent.updateEntry(2);
 
-    expect(cartItemComponent.update.emit).toHaveBeenCalledWith(
-      cartItemComponent.entry
-    );
+    expect(cartItemComponent.update.emit).toHaveBeenCalledWith({
+      entry: cartItemComponent.entry,
+      updatedQuantity: 2
+    });
   });
 });

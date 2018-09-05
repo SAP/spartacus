@@ -1,0 +1,143 @@
+@import 'theme';
+@import 'mixins';
+@import '~bootstrap/scss/buttons';
+
+//buttons - https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss#L348
+.btn {
+  text-transform: $btn-text-transform;
+  font-size: $font-size-base * 1.125;
+  line-height: 1.34;
+  padding: 11px 12px;
+  height: 48px;
+  max-height: 48px;
+  min-width: 48px;
+
+  &-sm {
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 40px;
+    max-height: 40px;
+    min-width: 40px;
+  }
+
+  &-lg {
+    height: 55px;
+    max-height: 55px;
+    min-width: 55px;
+  }
+
+  &-primary {
+    &:hover {
+      background-color: mix(#000000, theme-color('primary'), 12%);
+      border-color: mix(#000000, theme-color('primary'), 12%);
+    }
+
+    &.active {
+      background-color: mix(#000000, theme-color('primary'), 12%) !important;
+      border-color: mix(#000000, theme-color('primary'), 12%) !important;
+    }
+
+    &.disabled {
+      background-color: lighten(theme-color('primary'), 26%);
+      border-color: lighten(theme-color('primary'), 26%);
+      opacity: 1;
+      &:hover {
+        border-color: lighten(theme-color('primary'), 26%);
+      }
+    }
+  }
+
+  &-secondary {
+    &:hover {
+      background-color: darken(theme-color('secondary'), 16%);
+      border-color: darken(theme-color('secondary'), 16%);
+    }
+
+    &.active {
+      background-color: darken(theme-color('secondary'), 16%) !important;
+      border-color: darken(theme-color('secondary'), 16%) !important;
+    }
+
+    &.disabled {
+      background-color: lighten(theme-color('secondary'), 31%);
+      border-color: lighten(theme-color('secondary'), 31%);
+      opacity: 1;
+      &:hover {
+        border-color: lighten(theme-color('secondary'), 31%);
+      }
+    }
+  }
+
+  &-link {
+    color: theme-color('text');
+    font-size: $font-size-base * 1.125;
+    text-decoration: underline !important;
+    cursor: pointer;
+    display: inline-block;
+  }
+}
+
+.btn-action {
+  @extend .btn-outline-text !optional;
+  border: 2px solid;
+
+  &:hover {
+    color: theme-color('primary');
+    border: 2px solid theme-color('primary');
+    background-color: theme-color('inverse');
+  }
+
+  &.active {
+    color: theme-color('primary') !important;
+    border: 2px solid !important;
+    background-color: theme-color('inverse') !important;
+  }
+
+  &.disabled {
+    border: 2px solid theme-color('light');
+    color: theme-color('light');
+    opacity: 1;
+  }
+}
+
+.btn[aria-pressed='true'] {
+  @extend .btn.active;
+  &.btn-primary {
+    @extend .btn-primary;
+  }
+  &.btn-secondary {
+    @extend .btn-secondary;
+  }
+  &.btn-action {
+    @extend .btn-action;
+  }
+}
+
+.btn[aria-disabled='true'] {
+  @extend .btn.disabled;
+  cursor: auto !important;
+  opacity: 0.6;
+  &.btn-primary {
+    @extend .btn-primary.disabled;
+  }
+  &.btn-secondary {
+    @extend .btn-secondary.disabled;
+  }
+  &.btn-action {
+    @extend .btn-action.disabled;
+  }
+}
+
+.btn[disabled] {
+  &.btn-primary {
+    @extend .btn-primary.disabled;
+  }
+
+  &.btn-secondary {
+    @extend .btn-secondary.disabled;
+  }
+
+  &.btn-action {
+    @extend .btn-action.disabled;
+  }
+}

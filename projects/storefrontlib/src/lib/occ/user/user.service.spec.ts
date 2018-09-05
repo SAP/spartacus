@@ -13,9 +13,7 @@ const user: any = {
   username: username,
   password: password
 };
-const token: any = 'mockToken';
 const endpoint = '/users';
-const mockOauthEndpoint = '/authorizationserver/oauth/token';
 const addressVerificationEndpoint = '/addresses/verification';
 const addressesEndpoint = '/addresses';
 const paymentDetailsEndpoint = '/paymentdetails';
@@ -71,22 +69,6 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(user);
-    });
-  });
-
-  describe('load user token', () => {
-    it('should load user token for given username and password', () => {
-      service.loadToken(username, password).subscribe(result => {
-        expect(result).toEqual(token);
-      });
-
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === mockOauthEndpoint;
-      });
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(token);
     });
   });
 

@@ -1,3 +1,15 @@
-<p>
-  404!
-</p>
+<div class="y-page">
+  <section class="y-page__section">
+    <img class="y-error__img" src="assets/404.png" alt="error 404">
+    <div class="y-error">
+      <h2 class="">Opps!</h2>
+      <div class="y-error--message">
+        We couldn't find the page you are looking for.
+      </div>
+      <p>Here are some helpful links instead:</p>
+      <div *ngFor="let navigation of errorNav">
+        <a class="btn-link" [routerLink]="navigation.link" routerLinkActive="active">{{navigation.label}}</a>
+      </div>
+    </div>
+  </section>
+</div>

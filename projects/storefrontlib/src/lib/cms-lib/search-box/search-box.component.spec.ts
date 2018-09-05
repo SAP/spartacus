@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchConfig } from '../../product/search-config';
+import { By } from '@angular/platform-browser';
 
 export class UseConfigService {
   cmsComponentMapping = {
@@ -59,9 +60,9 @@ describe('SearchBoxComponent in CmsLib', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         StoreModule.forRoot({
-          ...fromRoot.reducers,
-          cms: combineReducers(fromCmsReducer.reducers),
-          products: combineReducers(fromProductStore.reducers)
+          ...fromRoot.getReducers(),
+          cms: combineReducers(fromCmsReducer.getReducers()),
+          products: combineReducers(fromProductStore.getReducers())
         })
       ],
       declarations: [SearchBoxComponent, PictureComponent],
@@ -93,25 +94,27 @@ describe('SearchBoxComponent in CmsLib', () => {
     expect(searchBoxComponent.component).toBeNull();
     searchBoxComponent.bootstrap();
     expect(searchBoxComponent.component).toBe(mockSearchBoxComponentData);
-
-    // TODO: after replacing material with boothstrap4, need some ui test here
   });
 
   it('should dispatch new search query with new input', () => {
     searchBoxComponent.bootstrap();
     searchBoxComponent.searchBoxControl.setValue('testQuery');
-
     expect(searchBoxComponent.searchBoxControl.value).toEqual('testQuery');
+
+    const searchConfigA = new SearchConfig();
+    searchConfigA.pageSize = searchBoxComponent.maxProduct;
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProductStore.SearchProducts({
         queryText: 'testQuery',
-        searchConfig: new SearchConfig(searchBoxComponent.maxProduct)
+        searchConfig: searchConfigA
       })
     );
+    const searchConfigB = new SearchConfig();
+    searchConfigB.pageSize = searchBoxComponent.maxSuggestions;
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromProductStore.GetProductSuggestions({
         term: 'testQuery',
-        searchConfig: new SearchConfig(searchBoxComponent.maxSuggestions)
+        searchConfig: searchConfigB
       })
     );
   });
@@ -150,5 +153,14 @@ describe('SearchBoxComponent in CmsLib', () => {
     searchBoxComponent.clickout();
     expect(searchBoxComponent.clickout).toHaveBeenCalled();
     expect(searchBoxComponent.clickedInside).toBe(false);
+  });
+
+  describe('UI tests', () => {
+    it('should contain an input text field', () => {
+      expect(
+        fixture.debugElement.query(By.css('input[type="text"]'))
+      ).not.toBeNull();
+    });
+    // TODO: UI test once auto complete is no longer with material
   });
 });
