@@ -18,6 +18,8 @@ import { GlobalMessageType } from './../../../../global-message/models/message.m
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
 import { Address } from '../../../models/address-model';
+import { checkoutNavBar } from './checkout-navigation-bar';
+import { CartDataService } from '../../../../cart/services';
 
 @Component({
   selector: 'y-multi-step-checkout',
@@ -41,63 +43,24 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   tAndCToggler = false;
 
   labels = {
-    title: 'Checkout <#> items',
-    cartTotal: 'Cart total (3 items): $300.00',
     btnPlaceOrder: 'Place Order',
     btnBack: 'Back'
   };
 
-  navs = [
-    {
-      id: 1,
-      label: '1. Shipping Address',
-      status: {
-        disabled: false,
-        completed: false,
-        active: true
-      },
-      progressBar: true
-    },
-    {
-      id: 2,
-      label: '2. Shipping Method',
-      status: {
-        disabled: true,
-        completed: false,
-        active: false
-      },
-      progressBar: false
-    },
-    {
-      id: 3,
-      label: '3. Payment',
-      status: {
-        disabled: true,
-        completed: false,
-        active: false
-      },
-      progressBar: false
-    },
-    {
-      id: 4,
-      label: '4. Review',
-      status: {
-        disabled: true,
-        completed: false,
-        active: false
-      },
-      progressBar: false
-    }
-  ];
+  navs = checkoutNavBar;
 
   constructor(
     protected checkoutService: CheckoutService,
     protected cartService: CartService,
+    protected cartDataService: CartDataService,
     private store: Store<fromCheckoutStore.CheckoutState>,
     protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
+    if (!this.cartDataService.getDetails) {
+      this.cartService.loadCartDetails();
+    }
     this.cart$ = this.store.select(fromCart.getActiveCart);
     this.processSteps();
   }

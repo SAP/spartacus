@@ -1,11 +1,13 @@
 <div class="y-page">
-    <header class="y-page__header">
-        <h1 class="y-page__title d-none d-lg-block d-xl-block">{{ labels.title }}</h1>
-    </header>
+    <ng-container *ngIf="cart$ | async as cart">
+        <header class="y-page__header">
+            <h1 class="y-page__title d-none d-lg-block d-xl-block">Checkout {{cart.totalItems}} items
+            </h1>
+        </header>
 
-    <div class="y-multi-step-checkout container">
-        <div class="row">
-            <ng-container *ngIf="cart$ | async as cart">
+        <div class="y-multi-step-checkout container">
+            <div class="row">
+
                 <div class="col-md-12 col-lg-8">
                     <!-- VISIBLE ONLY ON LG AND XL SCREENS-->
                     <!-- Navigation -->
@@ -36,7 +38,7 @@
 
                     <!-- VISIBLE ONLY ON MD, SM AND XS SCREENS-->
                     <div class="y-multi-step-checkout__nav--media d-block d-lg-none d-xl-none">
-                        <div class="y-multi-step-checkout__nav-list--media">{{labels.cartTotal}}</div>
+                        <div class="y-multi-step-checkout__nav-list--media">Cart total ({{cart.totalItems}} items): {{cart.subTotal?.formattedValue}}</div>
 
                         <div *ngFor="let nav of navs">
                             <!-- Navigation -->
@@ -81,7 +83,8 @@
                     </div>
 
                 </div>
-            </ng-container>
+
+            </div>
         </div>
-    </div>
+    </ng-container>
 </div>
