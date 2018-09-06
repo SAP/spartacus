@@ -3,12 +3,12 @@ import { AppComponent } from './app.component';
 import { Component } from '@angular/core';
 
 @Component({ selector: 'y-main', template: '' })
-class MainComponent {}
+class MockMainComponent {}
 
 describe('AppComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent, MainComponent]
+      declarations: [AppComponent, MockMainComponent]
     });
     TestBed.compileComponents();
   });
