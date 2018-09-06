@@ -1,18 +1,20 @@
 @import 'theme.scss';
 @import '~bootstrap/scss/card';
-
 .card {
   border-radius: 0;
 }
 
 .card-body {
-  padding: 30px 30px 20px 30px;
+  padding: 20px;
+  &__title {
+    padding-bottom: 10px;
+    @include type('4');
+  }
 }
 
 .card-header {
   background-color: theme-color('secondary');
-  font-size: $small-font-size;
-  font-weight: $font-weight-bold;
+  @include type('8');
   color: $white;
   line-height: 20px;
   padding-top: 5px;
@@ -26,6 +28,10 @@
   padding: 1.25rem 0 0 0;
 }
 
+.card__label--bold {
+  font-weight: $font-weight-bold;
+}
+
 .card-link {
-  font-size: $small-font-size;
+  @include type('8');
 }
