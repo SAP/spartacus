@@ -5,8 +5,8 @@
     </a>
 
     <div class="y-product-images__items" *ngIf="product.images">
-        <a class="y-product-images__item--small" *ngFor="let image of product.images.GALLERY" (click)="showImage(image)">
-            <y-picture [imageContainer]="image" imageFormat="thumbnail">
+        <a class="y-product-images__item--small" *ngFor="let image of product.images.GALLERY">
+            <y-picture [imageContainer]="image" imageFormat="thumbnail" (click)="showImage(image)">
             </y-picture>
         </a>
     </div>
