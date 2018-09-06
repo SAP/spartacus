@@ -17,7 +17,7 @@ import { StoreFinderListItemComponent } from '../../../store-finder/components/s
 /* tslint:enable */
 import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
 
-import { ConfigService } from '../../../occ/config.service';
+import { OccModuleConfig } from '../../../occ/occ-module-config';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromStore from '../../../store-finder/store';
 import * as fromRoot from '../../../routing/store';
@@ -48,7 +48,7 @@ describe('StoreFinderPageLayoutComponent', () => {
         StoreFinderSearchComponent,
         StoreFinderMapComponent
       ],
-      providers: [...services, OccE2eConfigurationService, ConfigService]
+      providers: [...services, OccE2eConfigurationService, OccModuleConfig]
     }).compileComponents();
   }));
 

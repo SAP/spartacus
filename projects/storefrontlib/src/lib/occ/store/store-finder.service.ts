@@ -5,7 +5,7 @@ import { catchError, mergeMap } from 'rxjs/operators';
 
 import { SearchConfig } from '../../store-finder/models/search-config';
 
-import { ConfigService } from '../config.service';
+import { OccModuleConfig } from '../occ-module-config';
 import { OccE2eConfigurationService } from '../e2e/e2e-configuration-service';
 
 const STORES_ENDPOINT = 'stores';
@@ -15,7 +15,7 @@ const STORES_DISPLAYED = 'e2egoogleservices.storesdisplayed';
 export class OccStoreFinderService {
   constructor(
     private http: HttpClient,
-    private configService: ConfigService,
+    private occModuleConfig: OccModuleConfig,
     private e2eConfigService: OccE2eConfigurationService
   ) {}
 
@@ -58,9 +58,9 @@ export class OccStoreFinderService {
 
   protected getStoresEndpoint() {
     return (
-      this.configService.server.baseUrl +
-      this.configService.server.occPrefix +
-      this.configService.site.baseSite +
+      this.occModuleConfig.server.baseUrl +
+      this.occModuleConfig.server.occPrefix +
+      this.occModuleConfig.site.baseSite +
       '/' +
       STORES_ENDPOINT
     );

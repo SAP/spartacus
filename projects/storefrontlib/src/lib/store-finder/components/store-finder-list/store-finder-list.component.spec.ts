@@ -15,7 +15,7 @@ import { services } from '../../services';
 import * as fromReducers from '../../store';
 import * as fromRoot from '../../../routing/store';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
-import { ConfigService } from '../../../occ/config.service';
+import { OccModuleConfig } from '../../../occ/occ-module-config';
 
 describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
@@ -39,7 +39,7 @@ describe('StoreFinderListComponent', () => {
         StoreFinderListItemComponent,
         StoreFinderMapComponent
       ],
-      providers: [...services, OccE2eConfigurationService, ConfigService]
+      providers: [...services, OccE2eConfigurationService, OccModuleConfig]
     }).compileComponents();
   }));
 

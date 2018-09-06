@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccStoreFinderService } from '../../../occ/store/store-finder.service';
-import { ConfigService } from '../../../occ/config.service';
+import { OccModuleConfig } from '../../../occ/occ-module-config';
 import { SearchConfig } from '../../models/search-config';
 import * as fromEffects from './store-finder.effect';
 import * as fromActions from '../actions/find-stores.action';
@@ -26,7 +26,7 @@ describe('StoreFinder Effects', () => {
       providers: [
         OccStoreFinderService,
         OccE2eConfigurationService,
-        ConfigService,
+        OccModuleConfig,
         fromEffects.StoreFinderEffect,
         provideMockActions(() => actions$)
       ]
