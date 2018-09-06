@@ -13,26 +13,12 @@ export class ConfigService {
     occPrefix: '/rest/v2/'
   };
 
-  lang =
-    sessionStorage.getItem('language') === null
-      ? 'en'
-      : sessionStorage.getItem('language');
-  curr =
-    sessionStorage.getItem('currency') === null
-      ? 'USD'
-      : sessionStorage.getItem('currency');
-
   site = {
     baseSite: 'electronics',
-    language: this.lang,
-    currency: this.curr
+    language: 'en',
+    currency: 'USD'
   };
 
-  // site = {
-  //     baseSite: 'apparel-uk',
-  //     language: 'en',
-  //     currency: 'GBP'
-  // };
   storageSyncType = StorageSyncType.SESSION_STORAGE;
 
   defaultPageIdForType = {

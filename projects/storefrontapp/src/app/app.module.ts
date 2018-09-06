@@ -26,7 +26,7 @@ import { AppComponent } from './app.component';
     AuthModule.forRoot(config),
     RoutingModule.forRoot(config),
     OccModule.forRoot(config),
-    SiteContextModule.forRoot(ConfigService),
+    SiteContextModule.forRoot(config),
 
     AppRoutingModule,
 
