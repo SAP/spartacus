@@ -1,4 +1,59 @@
-.price {
-  font-size: 25px;
-  font-weight: bold;
+@import "theme";
+@import "functions";
+@import "mixins";
+$y-product-summary-variant-info-color: "secondary" !default;
+$y-product-summary-color-example-border-color: "light" !default;
+$y-product-summary-color-example-border-color-focus: "primary" !default;
+$y-product-summary-price-old-color: "secondary" !default;
+$y-product-summary-price-new-color: "primary" !default;
+$y-product-summary-price-new-trbl-margin: 0 0 0 10px !default;
+$y-product-summary-description-trbl-margin: 10px 0 50px 0 !default;
+$y-product-summary-variant-label-trbl-margin: 15px 0 10px 0 !default;
+$y-product-summary-variant-info-trbl-margin: 0 0 0 15px !default;
+$y-product-summary-color-variants-height: 34px !default;
+$y-product-summary-color-variants-width: 34px !default;
+$y-product-summary-color-variants-border: 4px solid !default;
+$y-product-summary-color-variants-border-radius: 20px !default;
+$y-product-summary-color-variants-trbl-margin: 0 10px 0 0 !default;
+.y-product-summary {
+  &__price {
+    display: inline-block;
+    @include type("3");
+    font-weight: $font-weight-normal;
+    &--old {
+      @include var-color("color", $y-product-summary-price-old-color);
+      text-decoration: line-through;
+    }
+    &--new {
+      @include var-color("color", $y-product-summary-price-new-color);
+      margin: $y-product-summary-price-new-trbl-margin;
+    }
+  }
+  &__description {
+    @include type();
+    margin: $y-product-summary-description-trbl-margin;
+  }
+  &__variant-label {
+    @include type("8");
+    margin: $y-product-summary-variant-label-trbl-margin;
+  }
+  &__variant-info {
+    @include type("7");
+    margin: $y-product-summary-variant-info-trbl-margin;
+    @include var-color("color", $y-product-summary-variant-info-color);
+  } //these are just examples and could change
+  &__color-variants {
+    .color-example {
+      display: inline-block;
+      height: $y-product-summary-color-variants-height;
+      width: $y-product-summary-color-variants-width;
+      border: $y-product-summary-color-variants-border;
+      @include var-color("color", $y-product-summary-color-example-border-color);
+      border-radius: $y-product-summary-color-variants-border-radius;
+      margin: $y-product-summary-color-variants-trbl-margin;
+    }
+    .color-example:focus {
+      @include var-color("color", $y-product-summary-color-example-border-color-focus);
+    }
+  }
 }
