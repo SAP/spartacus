@@ -16,17 +16,17 @@ import {
   InterceptorUtil
 } from '../../occ/utils/interceptor-util';
 import { ClientTokenState } from '../store/reducers/client-token.reducer';
-import { ConfigService } from '../config.service';
+import { AuthModuleConfig } from '../auth-module.config';
 
 @Injectable()
 export class ClientTokenInterceptor implements HttpInterceptor {
   baseReqString =
-    this.configService.server.baseUrl +
-    this.configService.server.occPrefix +
-    this.configService.site.baseSite;
+    this.config.server.baseUrl +
+    this.config.server.occPrefix +
+    this.config.site.baseSite;
 
   constructor(
-    private configService: ConfigService,
+    private config: AuthModuleConfig,
     private store: Store<fromAuthStore.AuthState>
   ) {}
 
