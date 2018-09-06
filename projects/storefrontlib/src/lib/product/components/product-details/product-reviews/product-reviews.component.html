@@ -1,91 +1,65 @@
-<div *ngIf="reviews$ | async as reviews">
-    <mat-card *ngIf="!isWritingReview; else writeReview">
-
-        <mat-card-title>Reviews for {{product?.name}}</mat-card-title>
-        <mat-card-subtitle>
-            <div class="review-header-container">
-                <div class="overall-rating-container">
-                    <h3>Overall Rating</h3>
-                    <y-star-rating [rating]="product.averageRating" class="rating" [disabled]="true"></y-star-rating>
-                </div>
-                <div>
-                    <button class="mat-raised-button mat-primary write-review-btn" (click)="initiateWriteReview()">Write a review</button>
-                </div>
+<div class="y-product-reviews__tab-review" *ngIf="!isWritingReview; else writeReview">
+    <div class="y-product-reviews__tab-review--head">
+        <div class="row">
+            <div class="col-auto mr-auto">
+                <h3>Overall Rating</h3>
+                <y-star-rating [rating]="product.averageRating"></y-star-rating>
             </div>
-        </mat-card-subtitle>
-
-        <mat-card-content>
-
-            <mat-list>
-                <div *ngFor="let review of (reviews | slice:0:maxListItems)" class="review">
-                    <mat-list-item>
-                        <mat-icon mat-list-icon color="primary">rate_review</mat-icon>
-                        <!--
-                        <h4 matLine>"{{review.headline}}"</h4>
-                        <p matLine>By {{review.principal.name}} on {{review.date | date}}</p>-->
-                        <!--<button md-button (click)="onClick">
-                            <y-star-rating [rating]="review.rating"></y-star-rating>
-                        </button>-->
-                        <span>{{review.headline}}</span>
-                    </mat-list-item>
-                    <div class="comment">
-                        <y-star-rating [rating]="review.rating" class="rating" [disabled]="true"></y-star-rating>
-                        <div>
-                            {{review.comment}}
+            <div class="col-auto">
+                <button class="btn btn-primary" (click)="initiateWriteReview()">Write a Review</button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!isWritingReview; else writeReview">
+        <div *ngIf="reviews$ | async as reviews">
+            <div class="y-product-reviews__tab-review--container" *ngFor="let review of (reviews | slice:0:maxListItems)">
+                <div class="y-product-reviews__tab-review--details">
+                    <h5>{{review.headline}}</h5>
+                    <div class="row">
+                        <div class="col-auto mr-auto">
+                            <y-star-rating [rating]="review.rating" [disabled]="true"></y-star-rating>
                         </div>
-                        <div class="reviewer-name-container">
-                            <span>{{review.alias? review.alias : review.principal?.name}}</span>
+                        <div class="col-auto">
+                            <div class="y-product-reviews__tab-review--date">{{review.date | date}}</div>
                         </div>
                     </div>
                 </div>
-            </mat-list>
-        </mat-card-content>
-        <mat-card-actions align="end">
+                <p class="y-product-reviews__tab-review--text"> {{review.comment}} </p>
+                <span class="y-product-reviews__tab-review--name">
+                    {{review.alias? review.alias : review.principal?.name}}
+                </span>
+            </div>
             <a (click)="maxListItems = reviews.length" *ngIf="maxListItems === initialMaxListItems" mat-button>More</a>
             <a (click)="maxListItems = initialMaxListItems" *ngIf="maxListItems !== initialMaxListItems" mat-button>Less</a>
-        </mat-card-actions>
-    </mat-card>
-
-    <ng-template #writeReview>
-        <mat-card class="write-review-container">
-            <mat-card-title>Write a Review</mat-card-title>
-            <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
-                <div class="form-control-container">
-                    <span>Review Title *</span>
-                    <input type="text" name="title" formControlName='title' />
-                </div>
-                <div class="form-control-container">
-                    <span>Write your comments *</span>
-                    <textarea type="text" name="comment" formControlName='comment'></textarea>
-                </div>
-                <div class="form-control-container">
-                    <span>Rating *</span>
-                    <y-star-rating formControlName="rating" [steps]="0.5"></y-star-rating>
-                </div>
-                <div class="form-control-container">
-                    <span>Reviewer name (optional)</span>
-                    <input type="text" name="reviewerName" formControlName='reviewerName' />
-                </div>
-                <div>
-                    <button class="mat-raised-button" type="button" (click)="cancelWriteReview()">Cancel</button>
-                    <button class="mat-raised-button" [ngClass]="{'submit-btn': reviewForm.valid}" type="submit" [disabled]="!reviewForm.valid">submit</button>
-                </div>
-            </form>
-        </mat-card>
-    </ng-template>
-    <!--<mat-card *ngFor="let review of reviews" class="review">
-        <mat-card-header>
-            <mat-icon mat-card-avatar>rate_review</mat-icon>
-            <mat-card-title>"{{review.headline}}"</mat-card-title>
-            <mat-card-subtitle>By {{review.principal.name}} on {{review.date | date}}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-            {{review.comment}}
-        </mat-card-content>
-        <mat-card-actions align="end">
-            <y-star-rating [rating]="review.rating"></y-star-rating>
-        </mat-card-actions>
-    </mat-card>-->
-
-
+        </div>
+    </div>
 </div>
+
+<ng-template #writeReview>
+    <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+        <div class="form-group">
+            <label for="reviewTitle">Review Title</label>
+            <input type="text" class="form-control" id="reviewTitle" aria-describedby="reviewTitle" formControlName='title'>
+        </div>
+        <div class="form-group">
+            <label for="reviewComments">Write your comments</label>
+            <textarea class="form-control" id="reviewComments" rows="3" formControlName='comment'></textarea>
+        </div>
+        <div class="form-group">
+            <label for="reviewComments">Rating</label>
+            <y-star-rating formControlName="rating" [steps]="0.5"></y-star-rating>
+        </div>
+        <div class="form-group">
+            <label for="reviewerName">Reviewer name (optional)</label>
+            <input type="text" class="form-control" id="reviewerName" formControlName='reviewerName' aria-describedby="reviewTitle">
+        </div>
+        <div class="form-group row">
+            <div class="col-12 col-md-4">
+                <button type="submit" class="btn btn-block btn-secondary" (click)="cancelWriteReview()">Cancel</button>
+            </div>
+            <div class="col-12 col-md-4">
+                <button type="submit" class="btn btn-block btn-primary" [ngClass]="{'submit-btn': reviewForm.valid}" [disabled]="!reviewForm.valid">Summit</button>
+            </div>
+        </div>
+    </form>
+</ng-template>

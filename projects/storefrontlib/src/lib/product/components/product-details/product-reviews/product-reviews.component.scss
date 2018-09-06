@@ -1,43 +1,49 @@
-.review-header-container {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #ccc;
-  .overall-rating-container {
-    display: flex;
-    flex-direction: column;
-  }
-}
-.review {
-  .comment {
-    margin: 0 64px;
-    .reviewer-name-container {
-      margin: 10px 0px 10px 0px;
-      text-align: end;
-      span {
-        font-style: italic;
+@import "theme";
+@import "functions";
+@import "mixins";
+$y-product-reviews-trbl-margin: 0 0 40px 0 !default;
+$y-product-reviews-review-trbl-margin: 0 0 25px 0 !default;
+$y-product-reviews-review-border-color: "light" !default;
+$y-product-reviews-review-border: 1px solid !default;
+$y-product-reviews-review-head-trbl-padding: 0 0 25px 0 !default;
+$y-product-reviews-review-head-trbl-margin: 0 0 40px 0 !default;
+$y-product-reviews-review-container-trbl-margin: 0 0 25px 0 !default;
+$y-product-reviews-review-details-trbl-margin: 0 0 20px 0 !default;
+$y-product-reviews-review-text-trbl-margin: 0 0 10px 0 !default;
+$y-product-reviews-review-text-width: 80% !default;
+$y-product-reviews-review-mobile-text-width: 100% !default;
+$y-product-reviews-review-head-mobile-btn-trbl-margin: 20px 0 0 0 !default;
+.y-product-reviews {
+  margin: $y-product-reviews-trbl-margin;
+  &__tab-review {
+    margin: $y-product-reviews-review-trbl-margin;
+    &--head {
+      border-bottom: $y-product-reviews-review-border;
+      @include var-color("border-color", $y-product-reviews-review-border-color);
+      padding: $y-product-reviews-review-head-trbl-padding;
+      margin: $y-product-reviews-review-head-trbl-margin;
+      @include media-breakpoint-down(sm) {
+        button {
+          margin: $y-product-reviews-review-head-mobile-btn-trbl-margin;
+        }
       }
     }
-  }
-}
-.write-review-container {
-  form {
-    width: 50%;
-    .form-control-container {
-      display: flex;
-      flex-direction: column;
-      margin: 20px 0px;
-      span {
-        margin-bottom: 5px;
-      }
-      textarea {
-        min-height: 100px;
+    &--container {
+      margin: $y-product-reviews-review-container-trbl-margin;
+    }
+    &--details {
+      margin: $y-product-reviews-review-details-trbl-margin;
+    }
+    &--text {
+      margin: $y-product-reviews-review-text-trbl-margin;
+      width: $y-product-reviews-review-text-width;
+      @include media-breakpoint-down(md) {
+        width: $y-product-reviews-review-mobile-text-width;
       }
     }
-    button[type='submit'] {
-      margin-left: 10px;
-    }
-    .submit-btn {
-      background-color: #4caf50;
+    &--name {
+      text-align: right;
+      display: block;
     }
   }
 }
