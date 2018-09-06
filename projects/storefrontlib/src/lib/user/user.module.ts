@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { RouterModule } from '@angular/router';
@@ -12,21 +12,20 @@ import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { FormValidationService } from '../ui/services/form-validation/form-validation.service';
 
 @NgModule({
   imports: [
     CommonModule,
     FlexLayoutModule,
     LoginModule,
-    FormsModule,
     ReactiveFormsModule,
-    RouterModule,
     StoreModule.forFeature('user', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
     RouterModule
   ],
   declarations: [RegisterComponent, ResetPasswordComponent],
-  providers: [reducerProvider],
+  providers: [reducerProvider, FormValidationService],
   exports: [RegisterComponent, ResetPasswordComponent]
 })
 export class UserModule {}
