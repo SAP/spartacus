@@ -10,7 +10,7 @@ import {
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import { MaterialModule } from '../../../material.module';
 import * as fromRoot from '../../../routing/store';
-import { ConfigService } from '../../../site-context/config.service';
+import { SiteContextModuleConfig } from '../../../site-context/site-context-module-config';
 import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
 import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
 import * as fromUserReducer from '../../../user/store/reducers';
@@ -21,7 +21,7 @@ import { HeaderComponent } from './header.component';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
 
-class MockConfigService {
+class MockSiteContextModuleConfig {
   site = {
     language: 'de',
     currency: 'JPY'
@@ -56,7 +56,12 @@ describe('HeaderComponent', () => {
         MobileMenuComponent,
         LoginComponent
       ],
-      providers: [{ provide: ConfigService, useClass: MockConfigService }]
+      providers: [
+        {
+          provide: SiteContextModuleConfig,
+          useClass: MockSiteContextModuleConfig
+        }
+      ]
     }).compileComponents();
   }));
 

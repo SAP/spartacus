@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccProductSearchService } from './product-search.service';
-import { ConfigService } from '../config.service';
+import { OccModuleConfig } from '../occ-module-config';
 import { SearchConfig } from '../../product/search-config';
 
 const queryText = 'test';
@@ -14,7 +14,7 @@ const suggestions = ['test'];
 const mockSearchConfig: SearchConfig = {
   pageSize: 5
 };
-export class MockConfigService {
+export class MockOccModuleConfig {
   server = {
     baseUrl: '',
     occPrefix: ''
@@ -37,7 +37,7 @@ describe('OccProductSearchService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccProductSearchService,
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
       ]
     });
 
