@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromStore from '../../../store';
@@ -6,7 +12,8 @@ import * as fromStore from '../../../store';
 @Component({
   selector: 'y-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.scss']
+  styleUrls: ['./product-details.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProductDetailsComponent implements OnChanges {
   @ViewChild('tabSet') tabSet;
