@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class ConfigService {
+export class CmsModuleConfig {
   server = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
@@ -12,12 +12,6 @@ export class ConfigService {
     language: 'en',
     currency: 'USD'
   };
-
-  // site = {
-  //     baseSite: 'apparel-uk',
-  //     language: 'en',
-  //     currency: 'GBP'
-  // };
 
   authentication = {
     client_id: 'mobile_android',
@@ -40,9 +34,10 @@ export class ConfigService {
     CategoryNavigationComponent: 'CategoryNavigationComponent',
     ProductAddToCartComponent: 'AddToCartComponent',
     MiniCartComponent: 'MiniCartComponent',
-    // ProductCarouselComponent:           'ProductCarouselComponent',
-    // SearchBoxComponent:                 'SearchBoxComponent',
+    ProductCarouselComponent: 'ProductCarouselComponent',
+    SearchBoxComponent: 'SearchBoxComponent',
     ProductReferencesComponent: 'ProductReferencesComponent',
-    CMSTabParagraphComponent: 'TabParagraphContainerComponent'
+    // CMSTabParagraphComponent: 'TabParagraphContainerComponent'
+    CMSTabParagraphComponent: 'ParagraphComponent'
   };
 }
