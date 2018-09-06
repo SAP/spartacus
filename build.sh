@@ -101,9 +101,6 @@ echo "Building SPA app"
 ng build storefrontapp --prod
 echo "-----"
 echo "Setting endpoint with the server to run end to end tests against"
-echo "in projects/storefrontapp/src/app/config.service.ts"
-sed -i -e "s=https://localhost=https://$DEV_SERVER=g" projects/storefrontapp/src/app/config.service.ts
-echo "in projects/storefrontapp/src/app/config.ts"
 sed -i -e "s=https://localhost=https://$DEV_SERVER=g" projects/storefrontapp/src/app/config.ts
 echo "-----"
 echo "Running end to end tests"

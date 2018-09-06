@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID } from '@angular/core';
 
-import { ConfigService } from './config.service';
 import { AppRoutingModule } from './app-routing.module';
 import { config } from './config';
 
@@ -37,7 +36,6 @@ import { AppComponent } from './app.component';
   ],
 
   providers: [
-    ConfigService,
     {
       // TODO: configure locale
       provide: LOCALE_ID,
