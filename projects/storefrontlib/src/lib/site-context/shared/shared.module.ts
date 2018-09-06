@@ -9,7 +9,6 @@ import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
 
 // services
-import { ConfigService } from '../config.service';
 import { SiteContextInterceptor } from './http-interceptors/site-context.interceptor';
 
 @NgModule({
@@ -21,7 +20,6 @@ import { SiteContextInterceptor } from './http-interceptors/site-context.interce
   ],
   providers: [
     reducerProvider,
-    ConfigService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: SiteContextInterceptor,
@@ -29,16 +27,4 @@ import { SiteContextInterceptor } from './http-interceptors/site-context.interce
     }
   ]
 })
-export class SharedModule {
-  static forRoot(config: any): any {
-    return {
-      ngModule: SharedModule,
-      providers: [
-        {
-          provide: ConfigService,
-          useExisting: config
-        }
-      ]
-    };
-  }
-}
+export class SharedModule {}

@@ -40,7 +40,7 @@ const mockUserDetails: any = {
   uid: 'UID'
 };
 
-class MockConfigService {
+class MockCmsModuleConfig {
   server = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
@@ -94,7 +94,7 @@ describe('LoginComponent', () => {
             }
           }
         },
-        { provide: CmsModuleConfig, useClass: MockConfigService }
+        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
       ]
     }).compileComponents();
   }));

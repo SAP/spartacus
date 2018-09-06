@@ -13,7 +13,7 @@ export class TertiaryBarComponent implements OnInit {
     },
     {
       label: 'Find a store',
-      url: '#'
+      url: '/store-finder'
     },
     {
       label: 'Contact us',

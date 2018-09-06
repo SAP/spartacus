@@ -11,7 +11,7 @@ import * as fromRoot from '../../../../routing/store';
 import * as fromSCStore from '../../../../site-context/shared/store';
 import * as fromUser from '../../../../user/store';
 import { CmsModule } from './../../../../cms/cms.module';
-import { ConfigService } from './../../../../site-context/config.service';
+import { SiteContextModuleConfig } from '../../../../site-context/site-context-module-config';
 import { CurrencySelectorComponent } from './../../../../site-context/currency-selector/currency-selector.component';
 import { LanguageSelectorComponent } from './../../../../site-context/language-selector/language-selector.component';
 import { LoginModule } from './../../../../user/components/login/login.module';
@@ -46,7 +46,7 @@ describe('MobileMenuComponent', () => {
         provideMockActions(() => of()),
         fromCms.NavigationEntryItemEffects,
         {
-          provide: ConfigService,
+          provide: SiteContextModuleConfig,
           useValue: { site: 'en' }
         }
       ]
