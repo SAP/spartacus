@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { OccUserService } from './user.service';
-import { ConfigService } from '../config.service';
+import { OccModuleConfig } from '../occ-module-config';
 import {
   HttpClientTestingModule,
   HttpTestingController
@@ -18,7 +18,7 @@ const addressVerificationEndpoint = '/addresses/verification';
 const addressesEndpoint = '/addresses';
 const paymentDetailsEndpoint = '/paymentdetails';
 
-class MockConfigService {
+class MockOccModuleConfig {
   server = {
     baseUrl: '',
     occPrefix: ''
@@ -26,12 +26,6 @@ class MockConfigService {
 
   site = {
     baseSite: ''
-  };
-
-  authentication = {
-    client_id: '',
-    client_secret: '',
-    userToken: {}
   };
 }
 
@@ -44,7 +38,7 @@ describe('OccUserService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccUserService,
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
       ]
     });
 

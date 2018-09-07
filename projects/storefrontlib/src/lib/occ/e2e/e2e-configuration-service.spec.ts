@@ -5,13 +5,13 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccE2eConfigurationService } from './e2e-configuration-service';
-import { ConfigService } from '../config.service';
+import { OccModuleConfig } from '../occ-module-config';
 
 const configurationKey = 'test';
 const searchResult = '5';
 const endpoint = '/e2econfigurationwebservices/e2econfiguration/test';
 
-export class MockConfigService {
+export class MockOccModuleConfig {
   server = {
     baseUrl: '',
     occPrefix: ''
@@ -32,7 +32,7 @@ describe('OccE2eConfigurationService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccE2eConfigurationService,
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
       ]
     });
 

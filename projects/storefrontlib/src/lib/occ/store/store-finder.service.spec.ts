@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccStoreFinderService } from './store-finder.service';
-import { ConfigService } from '../config.service';
+import { OccModuleConfig } from '../occ-module-config';
 import { SearchConfig } from '../../store-finder/models/search-config';
 import { OccE2eConfigurationService } from '../e2e/e2e-configuration-service';
 
@@ -15,7 +15,7 @@ const mockSearchConfig: SearchConfig = { pageSize: 5 };
 
 const storeCountResponseBody = { CA: 50 };
 
-export class MockConfigService {
+export class MockOccModuleConfig {
   server = {
     baseUrl: '',
     occPrefix: ''
@@ -37,7 +37,7 @@ describe('OccStoreFinderService', () => {
       providers: [
         OccStoreFinderService,
         OccE2eConfigurationService,
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
       ]
     });
 

@@ -6,9 +6,9 @@ import { of } from 'rxjs';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { ParagraphComponent } from './paragraph.component';
-import { ConfigService } from '../../cms/config.service';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 
-export class UseConfigService {
+export class UseCmsModuleConfig {
   cmsComponentMapping = {
     CMSParagraphComponent: 'ParagraphComponent'
   };
@@ -39,7 +39,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
         })
       ],
       declarations: [ParagraphComponent],
-      providers: [{ provide: ConfigService, useClass: UseConfigService }]
+      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

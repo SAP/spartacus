@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccSiteService } from '../../../../occ/site-context/occ-site.service';
-import { ConfigService } from '../../../../occ/config.service';
+import { OccModuleConfig } from '../../../../occ/occ-module-config';
 import * as fromEffects from './languages.effect';
 import * as fromActions from '../actions/languages.action';
 
@@ -24,7 +24,7 @@ describe('Languages Effects', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccSiteService,
-        ConfigService,
+        OccModuleConfig,
         fromEffects.LanguagesEffects,
         provideMockActions(() => actions$)
       ]
