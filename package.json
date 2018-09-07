@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "start": "ng serve --proxy-config mock-server/proxy.backend.js",
     "start:mock": "ng serve --proxy-config mock-server/proxy.mock.js",
-    "mockserver": "json-server --config=mock-server/config.json ./mock-server/generate-data.js  -i uid",
+    "mockserver": "cd ./projects/backend/mockgenerator && npm run start",
     "build": "ng build",
     "build:core:lib": "ng build storefrontlib",
     "test": "ng test",
