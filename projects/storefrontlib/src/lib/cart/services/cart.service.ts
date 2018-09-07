@@ -144,10 +144,10 @@ export class CartService {
   }
 
   isCartCreated(cart: any): boolean {
-    return cart && Object.keys(cart).length > 0;
+    return cart && !!Object.keys(cart).length;
   }
 
   isCartEmpty(cart: any): boolean {
-    return cart && cart.totalItems > 0;
+    return cart && !!cart.totalItems;
   }
 }
