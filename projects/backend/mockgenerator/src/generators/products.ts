@@ -57,8 +57,7 @@ export class ProductsGenerator extends ClientGenerator {
   }
 
   async getAllSearchProducts(site: string) {
-    const fields =
-      'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL))';
+    const fields = 'products(code)';
     let totalPages = 1,
       allProducts = [];
     for (let i = 0; i < totalPages; i++) {
