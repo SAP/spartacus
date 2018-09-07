@@ -1,19 +1,20 @@
-import {CommerceWebservicesV2} from "hybris-occ-client";
-import * as fs from "fs";
+import { CommerceWebservicesV2 } from 'occ-client';
+import * as fs from 'fs';
 
 export interface GeneratorOptions {
-  anonymize?: boolean
+  anonymize?: boolean;
 }
 
 export interface Generator {
-  generate() : Promise<{ [key: string]: any }>
+  generate(): Promise<{ [key: string]: any }>;
 }
 
 export abstract class ClientGenerator implements Generator {
-
-  constructor(public client: CommerceWebservicesV2,
-              public sites: string[],
-              public options: GeneratorOptions = {anonymize: true}) {}
+  constructor(
+    public client: CommerceWebservicesV2,
+    public sites: string[],
+    public options: GeneratorOptions = { anonymize: true }
+  ) {}
 
   async generate() {
     const data = {};
@@ -23,8 +24,7 @@ export abstract class ClientGenerator implements Generator {
     return data;
   }
 
-  abstract async generateForSite(site: string) : Promise<{ [key: string]: any }>;
-
+  abstract async generateForSite(site: string): Promise<{ [key: string]: any }>;
 }
 
 export async function generateAll(generators: Generator[]) {
@@ -35,7 +35,10 @@ export async function generateAll(generators: Generator[]) {
   return data;
 }
 
-export async function generateToFile(generators: Generator[], output = "db.json") {
+export async function generateToFile(
+  generators: Generator[],
+  output = 'db.json'
+) {
   const data = await generateAll(generators);
   fs.writeFileSync(output, JSON.stringify(data));
 }

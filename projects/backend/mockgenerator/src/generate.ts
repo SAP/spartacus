@@ -1,5 +1,5 @@
 import { UsersGenerator } from './generators/users';
-import { CommerceWebservicesV2 } from 'hybris-occ-client';
+import { CommerceWebservicesV2 } from 'occ-client';
 import { LanguagesGenerator } from './generators/languages';
 import { ProductsGenerator } from './generators/products';
 import { generateToFile } from './helpers/client-generator';

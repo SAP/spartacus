@@ -1,10 +1,6 @@
+import { CommerceWebservicesV2, CommerceWebservicesV2Models } from 'occ-client';
 import { ClientGenerator } from '../../helpers/client-generator';
 import { ENDPOINTS } from '../../constants/endpoints';
-
-import {
-  CommerceWebservicesV2,
-  CommerceWebservicesV2Models
-} from 'hybris-occ-client';
 
 export class CategoriesGenerator extends ClientGenerator {
   async generateForSite(site: string) {

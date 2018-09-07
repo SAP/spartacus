@@ -1,8 +1,5 @@
 import { ClientGenerator } from '../../helpers/client-generator';
-import {
-  CommerceWebservicesV2,
-  CommerceWebservicesV2Models
-} from 'hybris-occ-client';
+import { CommerceWebservicesV2, CommerceWebservicesV2Models } from 'occ-client';
 import { CONTENT_PAGES } from '../../constants/content-pages';
 
 export class ComponentGenerator extends ClientGenerator {

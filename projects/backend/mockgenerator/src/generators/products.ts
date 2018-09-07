@@ -1,8 +1,8 @@
-import { Product } from 'hybris-occ-client/typings/lib/models';
+import { CommerceWebservicesV2Models } from 'occ-client';
+import { Product } from 'occ-client/typings/lib/models';
 import { ClientGenerator } from '../helpers/client-generator';
 import * as faker from 'faker';
 import { ENDPOINTS } from '../constants/endpoints';
-import { CommerceWebservicesV2Models } from 'hybris-occ-client';
 
 const PRODUCT_PAGE_SIZE: number = 50;
 const GET_FULL_CATALOG: boolean = true;
