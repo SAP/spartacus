@@ -10,12 +10,9 @@
                 <strong *ngFor="let promotion of getAllPromotionsForCart(cart)" [innerHTML]="promotion.description">
                 </strong>
               </div>
-              <y-cart-item
-                [entries]="entries"
-                [potentialProductPromotions]="cart.potentialProductPromotions"
-                (remove)="removeEntry($event)"
-                (update)="updateEntry($event)"
-              ></y-cart-item>
+              <y-cart-item-list
+                [items]="entries"
+              ></y-cart-item-list>
               <!--NOT FOR MVP  <y-cart-coupon></y-cart-coupon> -->
           </div>
           <div class="col-md-5 offset-md-7 col-lg-3 offset-lg-0">
@@ -33,4 +30,3 @@
     </ng-container>
   </div>
 </ng-container>
-
