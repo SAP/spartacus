@@ -1,12 +1,8 @@
-.pagination {
-  display: flex;
-  .pagination-btn {
-    border: 1px solid black;
-    padding: 3px;
-    cursor: pointer;
-    margin: 0 3px 0 3px;
-    &:hover {
-      background-color: #ccc;
-    }
-  }
+@import "theme";
+@import "functions";
+@import "mixins";
+
+.y-product-search__pagination {
+  display: inline-block;
+  vertical-align: top;
 }
