@@ -1,4 +1,4 @@
-const BACKEND_SERVER = 'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002';
+const BACKEND_SERVER = 'https://localhost:9002';
 
 const PROXY_CONFIG = {
   '/rest': {

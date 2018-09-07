@@ -1,6 +1,6 @@
 export const config = {
   server: {
-    baseUrl: 'https://localhost:9002',
+    baseUrl: '',
     occPrefix: '/rest/v2/'
   }
 };
