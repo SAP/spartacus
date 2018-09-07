@@ -27,17 +27,17 @@ export class CartDetailsComponent implements OnInit {
   }
 
   getAllPromotionsForCart(cart) {
-    const potentialPromotions = cart.potentialProductPromotions || [];
-    const appliedPromotions = cart.appliedProductPromotions || [];
+    const potentialPromotions = cart.potentialOrderPromotions || [];
+    const appliedPromotions = cart.appliedOrderPromotions || [];
     return [...potentialPromotions, ...appliedPromotions];
   }
 
   cartHasPromotions(cart) {
     const hasPotentialPromotions =
-      cart.potentialProductPromotions &&
-      cart.potentialProductPromotions.length > 0;
+      cart.potentialOrderPromotions &&
+      cart.potentialOrderPromotions.length > 0;
     const hasAppliedPromotions =
-      cart.appliedProductPromotions && cart.appliedProductPromotions.length > 0;
+      cart.appliedOrderPromotions && cart.appliedOrderPromotions.length > 0;
     return hasPotentialPromotions || hasAppliedPromotions;
   }
 }
