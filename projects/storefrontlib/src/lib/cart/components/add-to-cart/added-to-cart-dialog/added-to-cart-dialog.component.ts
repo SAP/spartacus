@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  OnInit,
+  Output,
+  Input
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs';
@@ -19,8 +26,10 @@ export class AddedToCartDialogComponent implements OnInit {
     })
   });
 
+  @Input() more = true;
   @Output() updateEntryEvent: EventEmitter<any> = new EventEmitter();
   @Output() removeEntryEvent: EventEmitter<any> = new EventEmitter();
+
   constructor(
     public dialogRef: MatDialogRef<AddedToCartDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
