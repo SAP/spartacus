@@ -34,8 +34,7 @@ export class CartDetailsComponent implements OnInit {
 
   cartHasPromotions(cart) {
     const hasPotentialPromotions =
-      cart.potentialOrderPromotions &&
-      cart.potentialOrderPromotions.length > 0;
+      cart.potentialOrderPromotions && cart.potentialOrderPromotions.length > 0;
     const hasAppliedPromotions =
       cart.appliedOrderPromotions && cart.appliedOrderPromotions.length > 0;
     return hasPotentialPromotions || hasAppliedPromotions;
