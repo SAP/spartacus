@@ -12,7 +12,6 @@ import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { FormValidationService } from '../ui/services/form-validation/form-validation.service';
 
 @NgModule({
   imports: [
@@ -25,7 +24,7 @@ import { FormValidationService } from '../ui/services/form-validation/form-valid
     RouterModule
   ],
   declarations: [RegisterComponent, ResetPasswordComponent],
-  providers: [reducerProvider, FormValidationService],
+  providers: [reducerProvider],
   exports: [RegisterComponent, ResetPasswordComponent]
 })
 export class UserModule {}

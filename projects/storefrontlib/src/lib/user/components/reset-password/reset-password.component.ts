@@ -16,7 +16,7 @@ export class ResetPasswordComponent implements OnInit {
     this.form = this.fb.group({
       userId: [
         '',
-        [Validators.email, this.fv.Validators.emailDomain, Validators.required]
+        [Validators.email, this.fv.emailDomainValidator, Validators.required]
       ]
     });
   }

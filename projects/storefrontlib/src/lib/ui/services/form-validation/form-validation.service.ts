@@ -5,11 +5,9 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 export class FormValidationService {
   constructor() {}
 
-  Validators = {
-    emailDomain(control: AbstractControl): ValidationErrors | null {
-      const email = control.value as string;
+  emailDomainValidator(control: AbstractControl): ValidationErrors | null {
+    const email = control.value as string;
 
-      return email.match('[.][a-zA-Z]+$') ? null : { InvalidEmail: true };
-    }
-  };
+    return email.match('[.][a-zA-Z]+$') ? null : { InvalidEmail: true };
+  }
 }
