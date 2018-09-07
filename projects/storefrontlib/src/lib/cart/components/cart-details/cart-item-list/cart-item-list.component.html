@@ -15,6 +15,7 @@
           <y-cart-item
             [formGroupName]="item.product.code"
             [item]="item"
+            [potentialProductPromotions]="getPotentialProductPromotionsForItem(item)"
             [readonly]="isReadOnly"
             (remove)="removeEntry($event)"
           ></y-cart-item>

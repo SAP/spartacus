@@ -15,6 +15,8 @@ export class CartItemListComponent implements OnInit {
 
   @Input() items: Item[] = [];
 
+  @Input() potentialProductPromotions: any[] = [];
+
   form: FormGroup = this.fb.group({});
 
   constructor(protected cartService: CartService, protected fb: FormBuilder) {}
@@ -40,10 +42,47 @@ export class CartItemListComponent implements OnInit {
     this.cartService.updateCartEntry(item.entryNumber, updatedQuantity);
   }
 
+  getPotentialProductPromotionsForItem(item) {
+    const entryPromotions = [];
+    if (
+      this.potentialProductPromotions &&
+      this.potentialProductPromotions.length > 0
+    ) {
+      for (const promotion of this.potentialProductPromotions) {
+        if (
+          promotion.description &&
+          promotion.consumedEntries &&
+          promotion.consumedEntries.length > 0
+        ) {
+          for (const consumedEntry of promotion.consumedEntries) {
+            if (this.isConsumedByEntry(consumedEntry, item)) {
+              entryPromotions.push(promotion);
+            }
+          }
+        }
+      }
+    }
+    return entryPromotions;
+  }
+
   private createEntryFormGroup(entry) {
     return this.fb.group({
       entryNumber: entry.entryNumber,
       quantity: entry.quantity
     });
+  }
+
+  private isConsumedByEntry(consumedEntry: any, entry: any): boolean {
+    const consumendEntryNumber = consumedEntry.orderEntryNumber;
+    if (entry.entries && entry.entries.length > 0) {
+      for (const subEntry of entry.entries) {
+        if (subEntry.entryNumber === consumendEntryNumber) {
+          return true;
+        }
+      }
+      return false;
+    } else {
+      return consumendEntryNumber === entry.entryNumber;
+    }
   }
 }
