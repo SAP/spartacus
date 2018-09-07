@@ -4,6 +4,9 @@ import * as faker from 'faker';
 import { ENDPOINTS } from '../constants/endpoints';
 import { CommerceWebservicesV2Models } from 'hybris-occ-client';
 
+const PRODUCT_PAGE_SIZE: number = 50;
+const GET_FULL_CATALOG: boolean = true;
+
 export class ProductsGenerator extends ClientGenerator {
   async generateForSite(site: string) {
     let {
@@ -61,10 +64,12 @@ export class ProductsGenerator extends ClientGenerator {
     for (let i = 0; i < totalPages; i++) {
       const { products, pagination } = await this.client.searchProducts(site, {
         fields,
-        pageSize: 100,
+        pageSize: PRODUCT_PAGE_SIZE,
         currentPage: i
       });
-      totalPages = pagination.totalPages;
+      if (GET_FULL_CATALOG) {
+        totalPages = pagination.totalPages;
+      }
       allProducts = allProducts.concat(products);
     }
     return allProducts;
