@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class ConfigService {
+export class SiteContextModuleConfig {
   server = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
@@ -12,10 +12,4 @@ export class ConfigService {
     language: 'en',
     currency: 'USD'
   };
-
-  // site = {
-  //     baseSite: 'apparel-uk',
-  //     language: 'en',
-  //     currency: 'GBP'
-  // };
 }

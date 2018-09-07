@@ -5,13 +5,13 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { SiteContextInterceptor } from './site-context.interceptor';
-import { ConfigService } from './../../config.service';
+import { SiteContextModuleConfig } from '../../site-context-module-config';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../shared/store';
 import { of } from 'rxjs';
 
-export class MockConfigService {
+export class MockSiteContextModuleConfig {
   server = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
@@ -42,8 +42,8 @@ describe('SiteContextInterceptor', () => {
       ],
       providers: [
         {
-          provide: ConfigService,
-          useClass: MockConfigService
+          provide: SiteContextModuleConfig,
+          useClass: MockSiteContextModuleConfig
         },
         {
           provide: HTTP_INTERCEPTORS,

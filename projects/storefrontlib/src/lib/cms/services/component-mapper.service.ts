@@ -1,5 +1,5 @@
 import { Injectable, Type, ComponentFactoryResolver } from '@angular/core';
-import { ConfigService } from '../config.service';
+import { CmsModuleConfig } from '../cms-module-config';
 
 @Injectable()
 export class ComponentMapperService {
@@ -7,7 +7,7 @@ export class ComponentMapperService {
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    private config: ConfigService
+    private config: CmsModuleConfig
   ) {}
 
   /**
