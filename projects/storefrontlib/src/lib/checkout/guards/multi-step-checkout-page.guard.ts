@@ -23,7 +23,7 @@ export class MultiStepCheckoutPageGuard implements CanActivate {
       .pipe(
         map(cart => {
           if (this.cartService.isCartEmpty(cart)) {
-            this.router.navigate(['/cart']);
+            this.router.navigate(['']);
             return false;
           }
           return true;
