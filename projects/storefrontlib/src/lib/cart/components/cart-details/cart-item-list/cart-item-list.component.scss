@@ -1,0 +1,95 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+//y-cart-item-list color variables
+$y-cart-item-list-header-color: 'secondary' !default;
+$y-cart-item-list-header-border-color: 'light' !default;
+$y-cart-item-list-row-border-color: 'light' !default;
+
+//y-cart-item-list variables
+$y-cart-item-list-row-margin: 0 !default;
+$y-cart-item-list-row-padding: 1.125rem 0 !default;
+
+$y-cart-item-list-header-border-bottom: 1px solid !default;
+$y-cart-item-list-header-no-padding: 0 !default;
+
+$y-cart-item-list-row-padding: 1.625rem 0 !default;
+$y-cart-item-list-row-border-bottom: 1px solid !default;
+
+$y-cart-item-list-header-row-padding-md: 1.125rem 2.5rem !default;
+$y-cart-item-list-header-row-padding-sm: 1.125rem 0 !default;
+
+$y-cart-item-list-item-padding-md: 0 2.5rem !default;
+$y-cart-item-list-item-padding-sm: 0 0 0 1rem !default;
+
+.y-cart-item-list {
+  .row {
+    margin: $y-cart-item-list-row-margin;
+    padding: $y-cart-item-list-row-padding;
+  }
+
+  &__header {
+    text-transform: uppercase;
+    @include var-color('color', $y-cart-item-list-header-color);
+
+    border-bottom: $y-cart-item-list-header-border-bottom;
+    @include var-color(
+      'border-bottom-color',
+      $y-cart-item-list-header-border-color
+    );
+
+    .col-10 {
+      display: flex;
+    }
+
+    .col-2,
+    .col-5 {
+      padding: $y-cart-item-list-header-no-padding;
+    }
+
+    &--desc {
+      text-align: left;
+    }
+
+    &--price,
+    &--qty {
+      text-align: center;
+    }
+
+    &--total {
+      text-align: right;
+    }
+  }
+
+  &__row {
+    padding: $y-cart-item-list-row-padding;
+    border-bottom: $y-cart-item-list-row-border-bottom;
+    @include var-color(
+      'border-bottom-color',
+      $y-cart-item-list-row-border-color
+    );
+  }
+
+  // ------------------------------------ MEDIA QUERIES ------------------------------------
+
+  @include media-breakpoint-down(md) {
+    .y-cart-item-list__header.row {
+      padding: $y-cart-item-list-header-row-padding-md;
+    }
+
+    .y-cart-item-list__item {
+      padding: $y-cart-item-list-item-padding-md;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    .y-cart-item-list__header.row {
+      padding: $y-cart-item-list-header-row-padding-sm;
+    }
+
+    .y-cart-item-list__item {
+      padding: $y-cart-item-list-item-padding-sm;
+    }
+  }
+}
