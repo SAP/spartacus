@@ -7,9 +7,9 @@
   },
   "scripts": {
     "start": "json-server --config=config.json db.json -i uid",
-    "start:dynamic": "yarn build && json-server --config=config.json built/generate-data.js -i uid",
-    "build": "rm -rf built/ && tsc",
-    "generate": "yarn build && node built/generate"
+    "start:dynamic": "yarn build && json-server --config=config.json dist/generate-data.js -i uid",
+    "build": "rm -rf dist/ && tsc --outDir ./dist",
+    "generate": "yarn build && node dist/generate"
   },
   "private": false,
   "dependencies": {
