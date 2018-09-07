@@ -35,6 +35,11 @@ export class LoginFormComponent implements OnInit, OnDestroy {
                 type: GlobalMessageType.MSG_TYPE_CONFIRMATION
               })
             );
+            this.store.dispatch(
+              new fromGlobalMessage.RemoveMessagesByType(
+                GlobalMessageType.MSG_TYPE_ERROR
+              )
+            );
             return this.store.select(fromRouting.getRedirectUrl).pipe(take(1));
           }
           return of();
