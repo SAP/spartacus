@@ -1,0 +1,12 @@
+{
+  "/rest/v2/:baseSiteId/languages(\\?.+)?": "/:baseSiteId-languages",
+  "/rest/v2/:baseSiteId/currencies(\\?.+)?": "/:baseSiteId-currencies",
+
+  "/rest/v2/:baseSiteId/cms/pages": "/:baseSiteId-pages",
+  "/rest/v2/:baseSiteId/cms/pages/:uid": "/:baseSiteId-pages/:uid",
+  "/rest/v2/:baseSiteId/cms/pages(\\?.+)?pageLabelOrId=:pageLabelOrId":
+    "/:baseSiteId-pages?uid=:pageLabelOrId&singular=1",
+
+  "/rest/v2/electronics/products/search(\\?.+)?": "/search",
+  "/rest/v2/electronics/products/suggestions(\\?.+)?": "/suggestions"
+}
