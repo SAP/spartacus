@@ -34,7 +34,13 @@ export const AUTH_MODULE_CONFIG_OVERRIDE: InjectionToken<
     StoreModule.forFeature('auth', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
-  providers: [...guards, ...services, ...interceptors, reducerProvider]
+  providers: [
+    ...guards,
+    ...services,
+    ...interceptors,
+    reducerProvider,
+    AuthModuleConfig
+  ]
 })
 export class AuthModule {
   static forRoot(configOverride?: any): ModuleWithProviders {
