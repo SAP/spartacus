@@ -4,13 +4,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { AuthGuard } from './../../../auth/guards/auth.guard';
+import { MultiStepCheckoutPageGuard } from '../../../checkout/guards/multi-step-checkout-page.guard';
 import { MultiStepCheckoutPageLayoutModule } from '../../layout/multi-step-checkout-page-layout/multi-step-checkout-page-layout.module';
 import { MultiStepCheckoutPageComponent } from './multi-step-checkout-page.component';
 
 const routes: Routes = [
   {
     path: 'checkout',
-    canActivate: [AuthGuard, CmsPageGuards],
+    canActivate: [AuthGuard, CmsPageGuards, MultiStepCheckoutPageGuard],
     data: { pageLabel: 'multiStepCheckoutSummaryPage' },
     component: MultiStepCheckoutPageComponent
   }

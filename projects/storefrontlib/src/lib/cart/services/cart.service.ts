@@ -43,7 +43,7 @@ export class CartService {
         // for login user, whenever there's an existing cart,
         // we will load the user current cart and merge it into the existing cart
         if (this.cartData.userId !== ANONYMOUS_USERID) {
-          if (Object.keys(this.cartData.cart).length === 0) {
+          if (!this.isCartCreated(this.cartData.cart)) {
             this.store.dispatch(
               new fromAction.LoadCart({
                 userId: this.cartData.userId,
@@ -86,7 +86,7 @@ export class CartService {
   }
 
   addCartEntry(productCode: string, quantity: number) {
-    if (Object.keys(this.cartData.cart).length === 0) {
+    if (!this.isCartCreated(this.cartData.cart)) {
       this.store.dispatch(
         new fromAction.CreateCart({ userId: this.cartData.userId })
       );
@@ -141,5 +141,13 @@ export class CartService {
         })
       );
     }
+  }
+
+  isCartCreated(cart: any): boolean {
+    return cart && Object.keys(cart).length > 0;
+  }
+
+  isCartEmpty(cart: any): boolean {
+    return cart && cart.totalItems > 0;
   }
 }
