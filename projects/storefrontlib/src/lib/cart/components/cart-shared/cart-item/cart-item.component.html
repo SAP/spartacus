@@ -1,72 +1,77 @@
-<table class="table y-cart-item" [formGroup]="form">
-    <thead *ngIf="!isMobile">
-      <tr>
-        <th scope="col">Description</th>
-        <th scope="col"> </th>
-        <th scope="col">Item price</th>
-        <th scope="col">Qty</th>
-        <th scope="col">Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let entry of entries" [formGroupName]="entry.product.code">
-        <td>
-          <a [routerLink]="['/product', entry.product.code]">
-            <y-picture [imageContainer]="entry.product.images?.PRIMARY" imageFormat="thumbnail"></y-picture>
-          </a>
-        </td>
-        <td>
-          <div class="y-cart-item__description-list" role="list">
-            <div class="y-cart-item__item-title" role="listitem">
-              <a *ngIf="!disableProductLink; else disabledProductLink" [routerLink]="['/product', entry.product.code]">
-                <span class="item__name">{{entry.product.name}}</span>
-              </a>
-              <ng-template #disabledProductLink>
-                <span class="item__name">{{entry.product.name}}</span>
-              </ng-template>
+<div [ngClass]="compact ? 'y-cart-item--compact row' : 'y-cart-item row'">
+  <!-- Item Image -->
+  <div class="col-2 y-cart-item__image-container">
+    <a [routerLink]="['/product', item.product.code]">
+      <y-picture [imageContainer]="item.product.images?.PRIMARY" imageFormat="thumbnail"></y-picture>
+    </a>
+  </div>
+  <!-- Item Information -->
+  <div class="y-cart-item__info col-10">
+      <!-- Item Name -->
+    <div *ngIf="item.name" class="y-cart-item__name col-6">{{item.product.name}}</div>
+    <div class="y-cart-item__info-container row ">
+        <!-- Item Description -->
+        <div class="y-cart-item__description" [ngClass]="compact ? '' : ' col-3'">
+            <div *ngIf="item.product.code" class="y-cart-item__code">ID {{item.product.code}}</div>
+            <!-- Variants -->
+            <div *ngFor="let variant of item.product.variantOptionQualifiers" class="y-cart-item__property">
+                <div class="y-cart-item__property--label">{{variant.name}}</div>
+                <div class="y-cart-item__property--value">{{variant.value}}</div>
             </div>
-            <div class="y-cart-item__item-id" role="listitem">ID {{entry.product.code}}</div>
-            <br />
-            <div *ngIf="entry.product.variantOptionQualifiers?.length > 0">
-              <div role="listitem" *ngFor="let variant of entry.product.variantOptionQualifiers">
-                <span class="y-cart-item__item--desc" *ngIf="!isMobile">{{variant.name}}</span>
-                <div class="table--mobile">{{variant.name}}</div>
-                <span class="y-cart-item__item--value">{{variant.value}}</span>
-              </div>
+        </div>
+        <!-- Item Price -->
+        <div *ngIf="item.basePrice" class="y-cart-item__price" [ngClass]="compact ? '' : ' col-3'">
+            <div class="y-cart-item__price--label" [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none' ">
+                Item
             </div>
-            <br />
-            <div class="y-cart-item__item-unavailable" *ngIf="isProductOutOfStock(entry)" role="listitem"> {{ entry.product.stock?.stockLevelStatus | uppercase }}</div>
-
-            <div
-              class="y-cart-item__item-promo"
-              role="listitem"
-              *ngFor="let promotion of getPromotionForEntry(entry)"
-              [innerHTML]="promotion.description"
-            >
+            <div *ngIf="item.basePrice" class="y-cart-item__price--value">
+                {{item.basePrice?.formattedValue}}
             </div>
-          </div>
-        </td>
-        <td>
-          <div class="table--mobile">Item price</div>
-          <div class="y-cart-item__price" aria-label="item price">
-            {{entry.basePrice?.formattedValue}}
-          </div>
-        </td>
-
-        <td>
-          <div class="table--mobile">Qty</div>
-          <div *ngIf="isReadOnly" class="y-cart-item__qty">1</div>
-          <div *ngIf="!isReadOnly">
-            <y-item-counter [step]="1" [min]="1" [max]="entry.product.stock?.stockLevel || 1000" [async]="true" (update)="updateEntry($event, entry)"
-              formControlName="quantity">
-            </y-item-counter>
-          </div>
-        </td>
-        <td>
-          <div class="table--mobile">Total</div>
-          <div class="y-cart-item__total" tabindex="0" aria-label="item total"> {{entry.totalPrice.formattedValue}}</div>
-          <a *ngIf="!isReadOnly" href="#" class="y-cart-item__remove" [routerLink]="" (click)="removeEntry(entry)"> Remove</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            <!-- <div *ngIf="item.oldPrice || item.newPrice" class="y-cart-item__price--value">
+                <div class="y-cart-item__price--old">{{item.oldPrice}}</div>
+                <div class="y-cart-item__price--new">{{item.newPrice}}</div>
+            </div> -->
+        </div>
+        <!-- Item Quantity -->
+        <div *ngIf="item.quantity" class="y-cart-item__quantity" [ngClass]="compact ? '' : ' col-3'">
+            <div class="y-cart-item__quantity--label" [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none' ">
+                Qty
+            </div>
+            <div *ngIf="readonly" class="y-cart-item__quantity--value">
+                {{item.quantity}}
+            </div>
+            <div *ngIf="!readonly" class="y-cart-item__quantity--value" [formGroup]="parent">
+                <y-item-counter
+                    [step]="1"
+                    [min]="1"
+                    [max]="item.product.stock?.stockLevel || 1000"
+                    (change)="updateItem($event, item)"
+                    formControlName="quantity"
+                >
+                </y-item-counter>
+            </div>
+        </div>
+        <!-- Total -->
+        <div *ngIf="item.totalPrice" class="y-cart-item__total" [ngClass]="compact ? '' : ' col-3'">
+            <div class="y-cart-item__total--label" [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none' ">
+                Total
+            </div>
+            <div class="y-cart-item__total--value">
+                {{item.totalPrice.formattedValue}}
+            </div>
+        </div>
+    </div>
+    <!-- Availability -->
+    <div *ngIf="isProductOutOfStock(item)" class="y-cart-item__availability col-12">{{item.product.stock?.stockLevelStatus}}</div>
+    <!-- Promotion -->
+    <div
+        class="y-cart-item__promo col-12"
+        *ngFor="let promotion of potentialProductPromotions"
+        [innerHTML]="promotion.description">
+    </div>
+    <!-- Actions -->
+    <div *ngIf="!readonly" class="y-cart-item__actions col-12 ">
+        <a [routerLink]="" (click)="removeItem($event)">Remove</a>
+    </div>
+  </div>
+</div>
