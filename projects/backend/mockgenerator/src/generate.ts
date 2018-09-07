@@ -12,6 +12,7 @@ import { CartGenerator } from './generators/cart';
 import { CategoriesGenerator } from './generators/cms/categories';
 import { TitlesGenerator } from './generators/titles';
 import { DeliveryTabGenerator } from './generators/delivery-tab';
+import { ComponentGenerator } from './generators/cms/components';
 
 const args = minimist(process.argv.slice(2));
 const backendUrl =
@@ -31,6 +32,7 @@ const generators = [
   new SuggestionsGenerator(client, sites),
   new ContentPageGenerator(client, sites),
   new ProductReviewsGenerator(client, sites),
+  new ComponentGenerator(client, sites),
   new CategoriesGenerator(client, sites),
   new TitlesGenerator(client, sites),
   new CartGenerator(client, sites),

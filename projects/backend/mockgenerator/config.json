@@ -7,6 +7,7 @@
     "./middlewares/singular.js",
     "./middlewares/auth.js",
     "./middlewares/media.js",
-    "./middlewares/createCart.js"
+    "./middlewares/createCart.js",
+    "./middlewares/post2get.js"
   ]
 }
