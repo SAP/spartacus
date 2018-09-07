@@ -20,10 +20,6 @@
                     </div>
 
                     <y-product-summary [product]="product" (onItemCountChange)="itemCount = $event"></y-product-summary>
-
-                    <button class="btn btn-primary btn-block" type="button">
-                        Add to cart
-                    </button>
                     <y-add-to-cart *ngIf="product.stock.stockLevelStatus !=='outOfStock'" [quantity]="itemCount" [productCode]="product?.code"></y-add-to-cart>
 
                     <a href="#" class="btn-link">
