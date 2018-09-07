@@ -1,7 +1,0 @@
-{
-  "port": 3000,
-  "id": "uid",
-  "routes": "./mock-server/routes.json",
-  "watch": true,
-  "middlewares": "./mock-server/middleware.js"
-}
