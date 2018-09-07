@@ -148,6 +148,6 @@ export class CartService {
   }
 
   isCartEmpty(cart: any): boolean {
-    return cart && !!cart.totalItems;
+    return cart && !cart.totalItems;
   }
 }
