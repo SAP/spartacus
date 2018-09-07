@@ -1,0 +1,24 @@
+{
+  "name": "hybris-mock-server",
+  "license": "MIT",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "scripts": {
+    "start": "json-server --config=config.json db.json -i uid",
+    "start:dynamic": "yarn build && json-server --config=config.json built/generate-data.js -i uid",
+    "build": "rm -rf built/ && tsc",
+    "generate": "yarn build && node built/generate"
+  },
+  "private": false,
+  "dependencies": {
+    "hybris-occ-client": "git+ssh://git@gitlab.divante.pl:60022/SAP/hybris-occ-library.git#v0.1.1",
+    "json-server": "^0.14.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0",
+    "typescript": "^2.9.2"
+  }
+}

@@ -73,7 +73,7 @@ We provide a proxy configuration to allows development without a local Hybris Co
 
 There are 2 available configurations for the backend:
 
-1.  Redirect backend calls to an external available commerce server
+1.  Redirect backend calls to an external available commerce server (default)
 2.  Redirect backend calls to a local [json-server](https://github.com/typicode/json-serve)
 
 The advantages of a proxied backend are:
