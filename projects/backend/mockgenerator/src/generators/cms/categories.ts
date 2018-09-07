@@ -27,12 +27,19 @@ export class CategoriesGenerator extends ClientGenerator {
     catalog: string
   ) {
     let promises = [];
-    let categories = [];
+    let categoryPages = [];
 
     await client.getCatalog(catalog, site).then(response => {
-      const categoryIds = this.getCategoryIds(
-        response.catalogVersions[1].categories
-      );
+      // TODO: filter the active catalog version(s). Multiple active
+      // content catalog version can be used in a multi-catalog setup
+      // The current backend doesn't provide this information.
+      // Actually, the backend should not even expose non-active versions...
+      let categories = [];
+      response.catalogVersions
+        .filter(cat => !!cat.categories)
+        .forEach(cat => (categories = categories.concat(cat.categories)));
+
+      const categoryIds = this.getCategoryIds(categories);
       for (const id of categoryIds) {
         promises.push(
           new Promise(resolve => {
@@ -44,7 +51,7 @@ export class CategoriesGenerator extends ClientGenerator {
               },
               (error, service, resource, response) => {
                 if (!error) {
-                  categories[
+                  categoryPages[
                     `${site}-${ENDPOINTS.CATEGORY_SINGLE}-${id}`
                   ] = JSON.parse(response.bodyAsText);
                 } else {
@@ -58,7 +65,7 @@ export class CategoriesGenerator extends ClientGenerator {
       }
     });
 
-    return Promise.all(promises).then(() => categories);
+    return Promise.all(promises).then(() => categoryPages);
   }
 
   private getCategoryIds(
