@@ -24,8 +24,9 @@ function sendImage(uri, res) {
   if (media) {
     const context = /context=(.*)/.exec(uri.path)[1];
     const sizes = /([0-9]+)x([0-9]+)/.exec(media);
-    const width = sizes[1];
-    const height = sizes[2];
+
+    const width = sizes ? sizes[1] : '100';
+    const height = sizes ? sizes[2] : '100';
     res.send = () =>
       res.redirect(
         `https://placeimg.com/${width}/${height}/tech?${getUnqiueRedirectSuffix(
@@ -36,7 +37,7 @@ function sendImage(uri, res) {
 }
 
 function getMedia(uri) {
-  const media = /medias\/(.+)\.jpg/.exec(uri);
+  const media = /medias\/(.+)\.[jpg|svg]/.exec(uri);
   return media && media[1];
 }
 
