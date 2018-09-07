@@ -1,6 +1,7 @@
 'use strict';
 const url = require('url');
 
+const unique = {};
 module.exports = (req, res, next) => {
   const uri = url.parse(req.url, true);
   sendImage(uri, res);
@@ -10,17 +11,27 @@ module.exports = (req, res, next) => {
 
 function sendContextImage(uri, res) {
   if (isContextMedia(uri.path)) {
-    res.send = () => res.redirect('https://placeimg.com/200/200/tech');
+    const context = /context=(.*)/.exec(uri.path)[1];
+    res.send = () =>
+      res.redirect(
+        `https://placeimg.com/200/200/tech?${getUnqiueRedirectSuffix(context)}`
+      );
   }
 }
 
 function sendImage(uri, res) {
   const media = getMedia(uri.pathname);
   if (media) {
+    const context = /context=(.*)/.exec(uri.path)[1];
     const sizes = /([0-9]+)x([0-9]+)/.exec(media);
     const width = sizes[1];
     const height = sizes[2];
-    res.send = () => res.redirect(`https://placeimg.com/${width}/${height}/tech`);
+    res.send = () =>
+      res.redirect(
+        `https://placeimg.com/${width}/${height}/tech?${getUnqiueRedirectSuffix(
+          context
+        )}`
+      );
   }
 }
 
@@ -31,4 +42,11 @@ function getMedia(uri) {
 
 function isContextMedia(uri) {
   return /medias\/\?context=(.+)/.test(uri);
+}
+
+function getUnqiueRedirectSuffix(uri) {
+  if (!unique[uri]) {
+    unique[uri] = Object.keys(unique).length;
+  }
+  return unique[uri];
 }
