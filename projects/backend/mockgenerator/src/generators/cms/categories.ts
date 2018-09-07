@@ -1,48 +1,76 @@
-import { ClientGenerator } from "../../helpers/client-generator";
-import { ENDPOINTS } from "../../constants/endpoints";
-import { flatObject } from "../../helpers/object";
-import { CommerceWebservicesV2, CommerceWebservicesV2Models } from "hybris-occ-client";
+import { ClientGenerator } from '../../helpers/client-generator';
+import { ENDPOINTS } from '../../constants/endpoints';
+
+import {
+  CommerceWebservicesV2,
+  CommerceWebservicesV2Models
+} from 'hybris-occ-client';
 
 export class CategoriesGenerator extends ClientGenerator {
-
   async generateForSite(site: string) {
     return await this.getCatalogsData(site);
   }
 
-  getCatalogsData(site: string) {
-    return new Promise((resolve) => {
-      this.client.getCatalogs(site).then((response) => {
+  private getCatalogsData(site: string) {
+    return new Promise(resolve => {
+      this.client.getCatalogs(site).then(response => {
         response.catalogs.forEach(element => {
-          resolve(this.fetchCategoryData(this.client, site, element.id));
+          resolve(this.collectCategoryData(this.client, site, element.id));
         });
       });
     });
   }
 
-  async fetchCategoryData(client: CommerceWebservicesV2, site: string, catalog: string) {
+  private async collectCategoryData(
+    client: CommerceWebservicesV2,
+    site: string,
+    catalog: string
+  ) {
     let promises = [];
     let categories = [];
 
-    await client.getCatalog(catalog, site).then((response) => {
-      let catalogCategories = flatObject(response.catalogVersions[1].categories);
-
-      Object.keys(catalogCategories).forEach(key => {
-        if (key.search('id') !== -1) {
-          promises.push(new Promise((resolve) => {
-            client.getPageData(site, {
-              pageType: CommerceWebservicesV2Models.PageType.CategoryPage,
-              code: catalogCategories[key]
-            }, (error, service, resource, response) => {
-              let category;
-              if (!error) {
-                category = categories[`${site}-${ENDPOINTS.CATEGORY_SINGLE}-${catalogCategories[key]}`] = JSON.parse(response.bodyAsText);
-              } resolve(category);
-            })
-          }));
-        }
-      });
+    await client.getCatalog(catalog, site).then(response => {
+      const categoryIds = this.getCategoryIds(
+        response.catalogVersions[1].categories
+      );
+      for (const id of categoryIds) {
+        promises.push(
+          new Promise(resolve => {
+            client.getPageData(
+              site,
+              {
+                pageType: CommerceWebservicesV2Models.PageType.CategoryPage,
+                code: id
+              },
+              (error, service, resource, response) => {
+                if (!error) {
+                  categories[
+                    `${site}-${ENDPOINTS.CATEGORY_SINGLE}-${id}`
+                  ] = JSON.parse(response.bodyAsText);
+                } else {
+                  console.error(`The category ${id} could not be fetched`);
+                }
+                resolve();
+              }
+            );
+          })
+        );
+      }
     });
 
     return Promise.all(promises).then(() => categories);
+  }
+
+  private getCategoryIds(
+    categoryData: CommerceWebservicesV2Models.CategoryHierarchy[]
+  ): any[] {
+    let ids = [];
+    for (const category of categoryData) {
+      ids.push(category.id);
+      if (!!category.subcategories) {
+        ids = ids.concat(this.getCategoryIds(category.subcategories));
+      }
+    }
+    return ids;
   }
 }
