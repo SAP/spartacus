@@ -39,3 +39,9 @@
     flex-direction: column;
   }
 }
+.loading-container {
+  min-height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

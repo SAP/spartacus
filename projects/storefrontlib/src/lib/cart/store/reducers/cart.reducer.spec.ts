@@ -76,4 +76,22 @@ describe('Cart reducer', () => {
       expect(state.refresh).toEqual(true);
     });
   });
+
+  describe('REMOVE_ENTRY or ADD_ENTRY or UPDATE_ENTRY or LOAD_CART or CREATE_CART', () => {
+    it('should set loading to true', () => {
+      const { initialState } = fromCart;
+      const action = new fromActions.AddEntry({});
+      const state = fromCart.reducer(initialState, action);
+      expect(state.isLoading).toEqual(true);
+    });
+  });
+
+  describe('REMOVE_ENTRY_SUCCESS or ADD_ENTRY_SUCCESS or UPDATE_ENTRY_SUCCESS or LOAD_CART_SUCCESS or CREATE_CART_SUCCESS', () => {
+    it('should set loading to false', () => {
+      const { initialState } = fromCart;
+      const action = new fromActions.AddEntrySuccess({});
+      const state = fromCart.reducer(initialState, action);
+      expect(state.isLoading).toEqual(false);
+    });
+  });
 });

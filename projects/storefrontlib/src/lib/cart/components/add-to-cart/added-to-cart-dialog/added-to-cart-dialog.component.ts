@@ -12,6 +12,7 @@ import { tap } from 'rxjs/operators';
 export class AddedToCartDialogComponent implements OnInit {
   entry$: Observable<any>;
   cart$: Observable<any>;
+  isLoading$: Observable<boolean>;
   form: FormGroup = this.fb.group({
     entryForm: this.fb.group({
       entryNumber: [0],
@@ -35,6 +36,7 @@ export class AddedToCartDialogComponent implements OnInit {
     const entryFG = this.form.get('entryForm') as FormGroup;
 
     this.cart$ = this.data.cart$;
+    this.isLoading$ = this.data.isLoading$;
     this.entry$ = this.data.entry$.pipe(
       tap((entry: any) => {
         if (entry !== undefined && Object.keys(entry).length !== 0) {

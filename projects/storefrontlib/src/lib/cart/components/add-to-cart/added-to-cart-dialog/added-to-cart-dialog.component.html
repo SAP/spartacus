@@ -1,15 +1,16 @@
 <div class="added-to-cart-dialog-header">
   <h1 mat-dialog-title>
-    <span>Item added to your cart</span>
+    <span>{{ (isLoading$ | async) ? "Updating your cart ... " : "Item added to your cart" }}</span>
   </h1>
   <mat-icon class="mat-dialog-close-btn" (click)="closeDialog()">close</mat-icon>
 </div>
 
-<ng-container *ngIf="(entry$ | async) as entry">
+<ng-container *ngIf="!(isLoading$ | async) && (entry$ | async) as entry">
   <div mat-dialog-content>
     <div class="entry-info-container">
       <ul class="item__list item__list__cart" [formGroup]="form">
-        <y-cart-item formGroupName="entryForm" [entry]="entry" [disableProductLink]="true" (update)="updateEntry($event)" (remove)="removeEntry($event)"></y-cart-item>
+        <y-cart-item formGroupName="entryForm" [entry]="entry" [disableProductLink]="true" (update)="updateEntry($event)"
+          (remove)="removeEntry($event)"></y-cart-item>
       </ul>
     </div>
     <div class="cart-total-container">
@@ -20,6 +21,14 @@
         <button routerLink="/cart" mat-raised-button color="accent" mat-dialog-close>View cart</button>
         <button routerLink="/checkout" mat-raised-button color="primary" mat-dialog-close>Proceed to checkout</button>
       </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="(isLoading$ | async)">
+  <div mat-dialog-content>
+    <div class="loading-container">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
     </div>
   </div>
 </ng-container>

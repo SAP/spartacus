@@ -9,10 +9,8 @@ import { CartService } from '../../services/cart.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 import * as fromCartStore from '../../store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
-import * as fromStore from './../../store';
 
 @Component({
   selector: 'y-add-to-cart',
@@ -23,32 +21,26 @@ import * as fromStore from './../../store';
 export class AddToCartComponent implements OnInit {
   dialogRef: MatDialogRef<AddedToCartDialogComponent, any>;
 
-  isLoading = false;
   @Input() iconOnly;
 
   @Input() productCode;
   @Input() quantity = 1;
 
   cartEntry$: Observable<any>;
+  isLoading$: Observable<boolean>;
 
   constructor(
     protected dialog: MatDialog,
     protected cartService: CartService,
-    protected store: Store<fromStore.CartState>
+    protected store: Store<fromCartStore.CartState>
   ) {}
 
   ngOnInit() {
     if (this.productCode) {
-      this.cartEntry$ = this.store
-        .select(fromStore.getEntrySelectorFactory(this.productCode))
-        .pipe(
-          tap(entry => {
-            if (this.isLoading && entry) {
-              this.openDialog();
-            }
-            this.isLoading = false;
-          })
-        );
+      this.isLoading$ = this.store.select(fromCartStore.getIsLoading);
+      this.cartEntry$ = this.store.select(
+        fromCartStore.getEntrySelectorFactory(this.productCode)
+      );
     }
   }
 
@@ -56,8 +48,7 @@ export class AddToCartComponent implements OnInit {
     if (!this.productCode || this.quantity <= 0) {
       return;
     }
-    this.isLoading = true;
-
+    this.openDialog();
     this.cartService.addCartEntry(this.productCode, this.quantity);
   }
 
@@ -65,7 +56,8 @@ export class AddToCartComponent implements OnInit {
     this.dialogRef = this.dialog.open(AddedToCartDialogComponent, {
       data: {
         entry$: this.cartEntry$,
-        cart$: this.store.select(fromCartStore.getActiveCart)
+        cart$: this.store.select(fromCartStore.getActiveCart),
+        isLoading$: this.isLoading$
       }
     });
 

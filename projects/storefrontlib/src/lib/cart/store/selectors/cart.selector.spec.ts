@@ -87,6 +87,27 @@ describe('Cart selectors', () => {
     });
   });
 
+  describe('getIsLoading', () => {
+    it('should return the isLoading value', () => {
+      let result: any;
+      store
+        .select(fromSelectors.getIsLoading)
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(
+        new fromActions.AddEntry({
+          userId: 'testUserId',
+          cartId: 'testCartId',
+          productCode: 'testProductCode',
+          quantity: 1
+        })
+      );
+      expect(result).toEqual(true);
+    });
+  });
+
   describe('getEntriesMap', () => {
     it('should return the cart entries in map', () => {
       let result: any;
