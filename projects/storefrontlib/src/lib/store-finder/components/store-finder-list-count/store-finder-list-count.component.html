@@ -1,7 +1,9 @@
 <ng-container *ngIf="locations">
-    <mat-grid-list cols="1" rowHeight="100px">
-        <mat-grid-tile *ngFor="let country of locations?.countriesAndRegionsStoreCount;">
-            {{country.name}}
-        </mat-grid-tile>
-    </mat-grid-list>
+    <div *ngFor="let country of locations?.countriesAndRegionsStoreCount;">
+        <span [ngClass]="country?.storeCountDataList ? 'country-header' : 'country-header-link'">{{country.name}}</span><span
+            [ngClass]="country?.storeCountDataList ? 'country-header' : 'country-header-link'" *ngIf="!country?.storeCountDataList">({{country.count}})</span>
+        <div *ngFor="let region of country?.storeCountDataList;" class="col-md-4">
+            <button mat-button class="primary"><u>{{region.name}} ({{region.count}})</u></button>
+        </div>
+    </div>
 </ng-container>
