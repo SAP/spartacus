@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccProductService } from './product.service';
-import { ConfigService } from '../config.service';
+import { OccModuleConfig } from '../occ-module-config';
 
 const productCode = 'testCode';
 const product = {
@@ -19,7 +19,7 @@ const productReviews = [
   { id: 2, text: 'Review 2' }
 ];
 
-export class MockConfigService {
+export class MockOccModuleConfig {
   server = {
     baseUrl: '',
     occPrefix: ''
@@ -42,7 +42,7 @@ describe('OccProductService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccProductService,
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
       ]
     });
 

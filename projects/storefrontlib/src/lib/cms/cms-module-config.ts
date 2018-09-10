@@ -1,48 +1,26 @@
 import { Injectable } from '@angular/core';
 
-export enum StorageSyncType {
-  NO_STORAGE,
-  LOCAL_STORAGE,
-  SESSION_STORAGE
-}
-
 @Injectable()
-export class ConfigService {
+export class CmsModuleConfig {
   server = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
   };
 
-  lang =
-    sessionStorage.getItem('language') === null
-      ? 'en'
-      : sessionStorage.getItem('language');
-  curr =
-    sessionStorage.getItem('currency') === null
-      ? 'USD'
-      : sessionStorage.getItem('currency');
-
   site = {
     baseSite: 'electronics',
-    language: this.lang,
-    currency: this.curr
-  };
-
-  // site = {
-  //     baseSite: 'apparel-uk',
-  //     language: 'en',
-  //     currency: 'GBP'
-  // };
-  storageSyncType = StorageSyncType.SESSION_STORAGE;
-
-  defaultPageIdForType = {
-    ProductPage: ['productDetails'],
-    CategoryPage: ['productList', 'productGrid', 'category']
+    language: 'en',
+    currency: 'USD'
   };
 
   authentication = {
     client_id: 'mobile_android',
     client_secret: 'secret'
+  };
+
+  defaultPageIdForType = {
+    ProductPage: ['productDetails'],
+    CategoryPage: ['productList', 'productGrid', 'category']
   };
 
   cmsComponentMapping = {

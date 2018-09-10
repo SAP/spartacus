@@ -5,7 +5,7 @@ import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import * as fromProductStore from '../../product/store';
 import { SearchBoxComponent } from './search-box.component';
-import { ConfigService } from '../../cms/config.service';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { MaterialModule } from '../../material.module';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -14,7 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchConfig } from '../../product/search-config';
 import { By } from '@angular/platform-browser';
 
-export class UseConfigService {
+export class UseCmsModuleConfig {
   cmsComponentMapping = {
     SearchBoxComponent: 'SearchBoxComponent'
   };
@@ -66,7 +66,7 @@ describe('SearchBoxComponent in CmsLib', () => {
         })
       ],
       declarations: [SearchBoxComponent, PictureComponent],
-      providers: [{ provide: ConfigService, useClass: UseConfigService }]
+      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

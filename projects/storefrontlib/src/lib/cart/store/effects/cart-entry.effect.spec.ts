@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { ConfigService } from '../../../occ/config.service';
+import { OccModuleConfig } from '../../../occ/occ-module-config';
 import * as fromEffects from './cart-entry.effect';
 import * as fromActions from '../actions';
 
@@ -24,7 +24,7 @@ describe('Cart effect', () => {
       providers: [
         OccCartService,
         fromEffects.CartEntryEffects,
-        ConfigService,
+        OccModuleConfig,
         provideMockActions(() => actions$)
       ]
     });

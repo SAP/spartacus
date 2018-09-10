@@ -4,7 +4,7 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { async, TestBed } from '@angular/core/testing';
-import { ConfigService } from '../config.service';
+import { OccModuleConfig } from '../occ-module-config';
 import { OccOrderService } from './order.service';
 
 const userId = '123';
@@ -19,7 +19,7 @@ const orderData = {
 const usersEndpoint = '/users';
 const orderEndpoint = '/orders';
 
-class MockConfigService {
+class MockOccModuleConfig {
   server = {
     baseUrl: '',
     occPrefix: ''
@@ -27,12 +27,6 @@ class MockConfigService {
 
   site = {
     baseSite: ''
-  };
-
-  authentication = {
-    client_id: '',
-    client_secret: '',
-    userToken: {}
   };
 }
 
@@ -45,7 +39,7 @@ describe('OccOrderService', () => {
       imports: [HttpClientModule, HttpClientTestingModule],
       providers: [
         OccOrderService,
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
       ]
     });
 
