@@ -9,21 +9,12 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2015",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2015", "dom"],
     "strictPropertyInitialization": false,
     "paths": {
-      "storefrontlib": [
-        "dist/storefrontlib"
-      ],
-      "featurelib": [
-        "dist/featurelib"
-      ]
+      "storefrontlib": ["dist/storefrontlib"],
+      "featurelib": ["projects/featurelib/src/public_api"]
     }
   }
 }

@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { CustomParagraphComponent } from './custom-paragraph.component';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [CustomParagraphComponent]
+  imports: [CommonModule],
+  declarations: [CustomParagraphComponent],
+  exports: [CustomParagraphComponent]
 })
-export class CustomParagraphModule { }
+export class CustomParagraphModule {}

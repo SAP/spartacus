@@ -16,6 +16,8 @@ import {
   SiteContextModule
 } from 'storefrontlib';
 
+import { CustomParagraphModule } from 'featurelib';
+
 // bootstrap
 import { AppComponent } from './app.component';
 
@@ -32,7 +34,8 @@ import { AppComponent } from './app.component';
     CmsLibModule,
     CmsModule.forRoot(config),
     UiModule,
-    UiFrameworkModule
+    UiFrameworkModule,
+    CustomParagraphModule
   ],
 
   providers: [
