@@ -99,16 +99,17 @@ export class PaymentFormComponent implements OnInit {
   }
 
   getAddressCardContent(address): Card {
+    let region = '';
+    if (address.region && address.region.isocode) {
+      region = address.region.isocode + ',';
+    }
+
     return {
       textBold: address.firstName + ' ' + address.lastName,
       text: [
         address.line1,
         address.line2,
-        address.town +
-          ', ' +
-          address.region.isocode +
-          ', ' +
-          address.country.isocode,
+        address.town + ', ' + region + address.country.isocode,
         address.postalCode,
         address.phone
       ]
