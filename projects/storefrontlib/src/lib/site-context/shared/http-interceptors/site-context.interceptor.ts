@@ -9,22 +9,22 @@ import {
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import * as fromStore from '../store';
-import { ConfigService } from '../../config.service';
+import { SiteContextModuleConfig } from '../../site-context-module-config';
 
 @Injectable()
 export class SiteContextInterceptor implements HttpInterceptor {
   baseReqString: string;
-  activeLang = this.configService.site.language;
-  activeCurr = this.configService.site.currency;
+  activeLang = this.config.site.language;
+  activeCurr = this.config.site.currency;
 
   constructor(
     private store: Store<fromStore.SiteContextState>,
-    private configService: ConfigService
+    private config: SiteContextModuleConfig
   ) {
     this.baseReqString =
-      this.configService.server.baseUrl +
-      this.configService.server.occPrefix +
-      this.configService.site.baseSite;
+      this.config.server.baseUrl +
+      this.config.server.occPrefix +
+      this.config.site.baseSite;
 
     this.store
       .select(fromStore.getActiveLanguage)

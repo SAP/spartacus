@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromStore from '../shared/store';
-import { ConfigService } from '../config.service';
+import { SiteContextModuleConfig } from '../site-context-module-config';
 
 @Component({
   selector: 'y-currency-selector',
@@ -23,7 +23,7 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromStore.SiteContextState>,
-    private configService: ConfigService
+    private config: SiteContextModuleConfig
   ) {}
 
   ngOnInit() {
@@ -36,7 +36,7 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
       });
 
     this.currencies$ = this.store.select(fromStore.getAllCurrencies);
-    this.activeCurrency = this.configService.site.currency;
+    this.activeCurrency = this.getActiveCurrency();
     this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
   }
 
@@ -51,6 +51,18 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
 
     this.store.dispatch(new fromStore.CurrencyChange());
-    sessionStorage.setItem('currency', this.activeCurrency);
+    if (sessionStorage) {
+      sessionStorage.setItem('currency', this.activeCurrency);
+    }
+  }
+
+  protected getActiveCurrency(): string {
+    if (sessionStorage) {
+      return sessionStorage.getItem('currency') === null
+        ? this.config.site.currency
+        : sessionStorage.getItem('currency');
+    } else {
+      return this.config.site.currency;
+    }
   }
 }

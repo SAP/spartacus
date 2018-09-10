@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromStore from '../shared/store';
-import { ConfigService } from '../config.service';
+import { SiteContextModuleConfig } from '../site-context-module-config';
 
 @Component({
   selector: 'y-language-selector',
@@ -23,7 +23,7 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromStore.SiteContextState>,
-    private configService: ConfigService
+    private config: SiteContextModuleConfig
   ) {}
 
   ngOnInit() {
@@ -36,7 +36,7 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
       });
 
     this.languages$ = this.store.select(fromStore.getAllLanguages);
-    this.activeLanguage = this.configService.site.language;
+    this.activeLanguage = this.getActiveLanguage();
     this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
   }
 
@@ -51,6 +51,18 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
 
     this.store.dispatch(new fromStore.LanguageChange());
-    sessionStorage.setItem('language', this.activeLanguage);
+    if (sessionStorage) {
+      sessionStorage.setItem('language', this.activeLanguage);
+    }
+  }
+
+  protected getActiveLanguage(): string {
+    if (sessionStorage) {
+      return sessionStorage.getItem('language') === null
+        ? this.config.site.language
+        : sessionStorage.getItem('language');
+    } else {
+      return this.config.site.language;
+    }
   }
 }
