@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'y-register-page',
-  templateUrl: './register-page.component.html',
-  styleUrls: ['./register-page.component.scss']
+  selector: 'y-help-page',
+  templateUrl: './help-page.component.html',
+  styleUrls: ['./help-page.component.scss']
 })
-export class RegisterPageComponent {
+export class HelpPageComponent {
   constructor() {}
 }
