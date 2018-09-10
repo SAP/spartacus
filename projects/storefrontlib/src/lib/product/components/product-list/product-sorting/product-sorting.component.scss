@@ -1,0 +1,15 @@
+@import "theme";
+@import "functions";
+@import "mixins";
+
+$y-product-search-dropdown-trbl-padding: 0 35px 0 0 !default;
+$y-product-search-dropdown-height: 48px !default;
+
+
+.y-product-search__dropdown {
+    height: $y-product-search-dropdown-height;
+
+    .ng-arrow-wrapper {
+        padding: $y-product-search-dropdown-trbl-padding;
+    }
+}

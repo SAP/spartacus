@@ -16,12 +16,18 @@ import { ProductSortingComponent } from './product-sorting/product-sorting.compo
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
 import { ProductLineItemComponent } from './product-line-item/product-line-item.component';
+import { NgbPaginationConfig, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ProductViewComponent } from './product-view/product-view.component';
+
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     MediaModule,
+    NgbPaginationModule,
+    NgSelectModule,
     MaterialModule,
     FlexLayoutModule,
     AddToCartModule
@@ -33,7 +39,11 @@ import { ProductLineItemComponent } from './product-line-item/product-line-item.
     ProductSortingComponent,
     ProductListItemComponent,
     ProductGridItemComponent,
-    ProductLineItemComponent
+    ProductLineItemComponent,
+    ProductViewComponent
+  ],
+  providers: [
+    NgbPaginationConfig   // SS: Is is the best p
   ],
   exports: [
     ProductListComponent,

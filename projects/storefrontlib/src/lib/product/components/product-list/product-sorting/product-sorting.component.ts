@@ -23,6 +23,7 @@ export class ProductSortingComponent {
   }
 
   sortList(sortCode: string) {
+    console.log(sortCode);
     this.sortListEvent.emit(sortCode);
   }
 }
