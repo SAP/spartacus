@@ -12,9 +12,8 @@ const routes: Routes = [
     canActivate: [CmsPageGuards],
 
     // TODO:
-    // When 'help page' is implemented in CMS backend,
+    // When 'help page' is implemented in CMS bagsckend,
     // then 'homepage' pageLabel should be changed to adequate one
-
     data: { pageLabel: 'homepage' },
 
     component: HelpPageComponent
