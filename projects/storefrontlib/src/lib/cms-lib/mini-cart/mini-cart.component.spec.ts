@@ -14,13 +14,13 @@ import * as fromCms from '../../cms/store';
 import * as fromCart from '../../cart/store';
 import * as fromUser from '../../user/store';
 import * as fromAuth from '../../auth/store';
-import { ConfigService } from '../../cms/config.service';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 
 import { MiniCartComponent } from './mini-cart.component';
 import { CartService } from '../../cart/services/cart.service';
 import { CartDataService } from '../../cart/services/cart-data.service';
 
-export class UseConfigService {
+export class UseCmsModuleConfig {
   cmsComponentMapping = {
     MiniCartComponent: 'MiniCartComponent'
   };
@@ -80,7 +80,7 @@ describe('MiniCartComponent', () => {
       providers: [
         CartService,
         CartDataService,
-        { provide: ConfigService, useClass: UseConfigService }
+        { provide: CmsModuleConfig, useClass: UseCmsModuleConfig }
       ]
     }).compileComponents();
   }));

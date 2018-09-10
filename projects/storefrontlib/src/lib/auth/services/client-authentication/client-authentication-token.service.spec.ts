@@ -4,13 +4,13 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { ConfigService } from './../../config.service';
+import { AuthModuleConfig } from '../../auth-module.config';
 import { ClientAuthenticationTokenService } from './client-authentication-token.service';
 
 const token: any = 'mockToken';
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
-class MockConfigService {
+class MockAuthModuleConfig {
   server = {
     baseUrl: ''
   };
@@ -30,7 +30,7 @@ describe('ClientAuthenticationTokenService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         ClientAuthenticationTokenService,
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: AuthModuleConfig, useClass: MockAuthModuleConfig }
       ]
     });
 

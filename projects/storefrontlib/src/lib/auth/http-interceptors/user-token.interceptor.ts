@@ -8,7 +8,7 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { ConfigService } from '../../occ/config.service';
+import { OccModuleConfig } from '../../occ/occ-module-config';
 import { UserToken } from '../../auth/models/token-types.model';
 import * as fromStore from '../store';
 
@@ -16,12 +16,12 @@ import * as fromStore from '../store';
 export class UserTokenInterceptor implements HttpInterceptor {
   userToken: UserToken;
   baseReqString =
-    this.configService.server.baseUrl +
-    this.configService.server.occPrefix +
-    this.configService.site.baseSite;
+    this.config.server.baseUrl +
+    this.config.server.occPrefix +
+    this.config.site.baseSite;
 
   constructor(
-    private configService: ConfigService,
+    private config: OccModuleConfig,
     private store: Store<fromStore.AuthState>
   ) {
     this.store.select(fromStore.getUserToken).subscribe((token: UserToken) => {
