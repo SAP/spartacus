@@ -21,13 +21,6 @@ import { Card } from '../../../../ui/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentMethodComponent implements OnInit {
-  labels = {
-    title: 'Payment',
-    btnAddPayment: 'Add New Payment',
-    btnContinue: 'Continue',
-    btnBack: 'Back'
-  };
-
   isPaymentForm = false;
   existingPaymentMethods$: Observable<any>;
   cards = [];

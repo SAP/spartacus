@@ -1,6 +1,6 @@
 <div class="y-review container">
     <!-- TITLE -->
-    <h3 class="y-review__title d-none d-lg-block d-xl-block">{{labels.title}}</h3>
+    <h3 class="y-review__title d-none d-lg-block d-xl-block">Review</h3>
     <div class="y-review__summary row">
         <!-- SHIPPING ADDRESS SECTION -->
         <div class="col-md-12 col-lg-6 col-xl-4">
@@ -28,7 +28,7 @@
     <div class="y-review__cart-total d-none d-lg-block d-xl-block" *ngIf="cart$ | async as cart">
         Cart total ({{cart.totalItems}} items): {{cart.subTotal.formattedValue}}
     </div>
-    <h4 class="y-review__cart-total-header d-block d-lg-none d-xl-none">{{labels.orderItems}}</h4>
+    <h4 class="y-review__cart-total-header d-block d-lg-none d-xl-none">Order Items</h4>
     <div class="y-review__cart-item col-md-12 col-lg-12" *ngIf="entries$ | async as entries">
         <div *ngFor="let entry of entries">
             <y-cart-item [isReadOnly]="true" [entry]="entry"></y-cart-item>

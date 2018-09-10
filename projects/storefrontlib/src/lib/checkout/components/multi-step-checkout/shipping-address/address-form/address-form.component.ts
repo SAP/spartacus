@@ -28,12 +28,6 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
-  labels = {
-    title: 'Shipping Address',
-    btnContinue: 'Continue',
-    btnBack: 'Change Address'
-  };
-
   countries$: Observable<any>;
   titles$: Observable<any>;
   regions$: Observable<any>;
@@ -49,7 +43,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
-    line2: ['', Validators.required],
+    line2: [''],
     town: ['', Validators.required],
     region: this.fb.group({
       isocode: ['', Validators.required]

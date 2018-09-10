@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BootstrapModule } from '../../../../../bootstap.module';
 import { CardModule } from '../../../../../ui/components/card/card.module';
 
 import { PaymentFormComponent } from './payment-form.component';
@@ -12,7 +12,7 @@ import { PaymentFormComponent } from './payment-form.component';
     CommonModule,
     ReactiveFormsModule,
     NgSelectModule,
-    NgbModule.forRoot(),
+    BootstrapModule,
     CardModule
   ],
   declarations: [PaymentFormComponent],

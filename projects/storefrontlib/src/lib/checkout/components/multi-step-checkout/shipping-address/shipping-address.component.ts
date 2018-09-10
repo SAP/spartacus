@@ -23,13 +23,6 @@ import { Address } from '../../../models/address-model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShippingAddressComponent implements OnInit {
-  labels = {
-    title: 'Shipping Address',
-    btnAddNewAddress: 'Add New Address',
-    btnContinue: 'Continue',
-    btnBack: 'Back to cart'
-  };
-
   existingAddresses$: Observable<any>;
   isAddressForm = false;
   cards = [];
@@ -67,17 +60,17 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   getCardContent(address): Card {
+    let region = '';
+    if (address.region && address.region.isocode) {
+      region = address.region.isocode;
+    }
     const card: Card = {
       title: address.defaultAddress ? 'Default Shipping Address' : '',
       textBold: address.firstName + ' ' + address.lastName,
       text: [
         address.line1,
         address.line2,
-        address.town +
-          ', ' +
-          address.region.isocode +
-          ', ' +
-          address.country.isocode,
+        address.town + ', ' + region + ', ' + address.country.isocode,
         address.postalCode,
         address.phone
       ],

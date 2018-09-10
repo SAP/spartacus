@@ -42,11 +42,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   cart$: Observable<any>;
   tAndCToggler = false;
 
-  labels = {
-    btnPlaceOrder: 'Place Order',
-    btnBack: 'Back'
-  };
-
   navs = checkoutNavBar;
 
   constructor(

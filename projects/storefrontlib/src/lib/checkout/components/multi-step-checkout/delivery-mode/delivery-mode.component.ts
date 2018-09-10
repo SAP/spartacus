@@ -22,12 +22,6 @@ import { CheckoutService } from '../../../services/checkout.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeliveryModeComponent implements OnInit {
-  labels = {
-    title: 'Shipping Method',
-    btnContinue: 'Continue',
-    btnBack: 'Back'
-  };
-
   supportedDeliveryModes$: Observable<any>;
   @Input() selectedShippingMethod: string;
 

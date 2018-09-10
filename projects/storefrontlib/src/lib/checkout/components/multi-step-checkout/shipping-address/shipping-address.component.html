@@ -1,9 +1,10 @@
 <ng-container *ngIf="existingAddresses$ | async as existingAddresses">
     <div class="y-existing-address container" *ngIf="existingAddresses.length > 0 && !isAddressForm; else addressForm">
-        <h3 class="y-existing-address__title d-none d-lg-block d-xl-block">{{labels.title}}</h3>
+        <h3 class="y-existing-address__title d-none d-lg-block d-xl-block">Shipping Address</h3>
         <p class="y-existing-address__text">Select your Shipping Address</p>
         <div class="y-existing-address__btn row justify-content-end">
-            <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action" (click)="goToAddressForm()">{{labels.btnAddNewAddress}}</button></div>
+            <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action" (click)="goToAddressForm()">Add
+                    New Address</button></div>
         </div>
 
         <div class="y-existing-address__body row">
@@ -16,10 +17,10 @@
 
         <div class="row">
             <div class="col-md-12 col-lg-6">
-                <button class="btn btn-block btn-action" (click)="back()">{{labels.btnBack}}</button>
+                <button class="btn btn-block btn-action" (click)="back()">Back to cart</button>
             </div>
             <div class="col-md-12 col-lg-6">
-                <button class="btn btn-block btn-primary" [disabled]="selectedAddress === undefined" (click)="next()">{{labels.btnContinue}}</button>
+                <button class="btn btn-block btn-primary" [disabled]="selectedAddress === undefined" (click)="next()">Continue</button>
             </div>
         </div>
     </div>

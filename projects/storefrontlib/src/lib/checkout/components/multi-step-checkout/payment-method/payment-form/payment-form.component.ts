@@ -21,12 +21,6 @@ import { Card } from '../../../../../ui/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentFormComponent implements OnInit {
-  labels = {
-    title: 'Payment',
-    btnContinue: 'Continue',
-    btnBack: 'Change Payment'
-  };
-
   months = [];
   years = [];
 
@@ -56,17 +50,7 @@ export class PaymentFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const year = new Date().getFullYear();
-    for (let i = 0; i < 7; i++) {
-      this.years.push({ id: i + 1, name: year + i });
-    }
-    for (let i = 1; i <= 12; i++) {
-      if (i < 10) {
-        this.months.push({ id: i, name: '0' + i.toString() });
-      } else {
-        this.months.push({ id: i, name: i.toString() });
-      }
-    }
+    this.expMonthAndYear();
 
     this.cardTypes$ = this.store.select(fromCheckoutStore.getAllCardTypes).pipe(
       tap(cardTypes => {
@@ -78,6 +62,20 @@ export class PaymentFormComponent implements OnInit {
     this.shippingAddress$ = this.store.select(
       fromCheckoutStore.getDeliveryAddress
     );
+  }
+
+  expMonthAndYear() {
+    const year = new Date().getFullYear();
+    for (let i = 0; i < 10; i++) {
+      this.years.push({ id: i + 1, name: year + i });
+    }
+    for (let i = 1; i <= 12; i++) {
+      if (i < 10) {
+        this.months.push({ id: i, name: '0' + i.toString() });
+      } else {
+        this.months.push({ id: i, name: i.toString() });
+      }
+    }
   }
 
   toggleDefaultPaymentMethod() {

@@ -1,9 +1,10 @@
 <ng-container *ngIf="existingPaymentMethods$ | async as existingPaymentMethods">
     <div class="y-existing-payment-methods container" *ngIf="existingPaymentMethods.length > 0 && !isPaymentForm; else paymentForm">
-        <h3 class="y-existing-payment-methods__title d-none d-lg-block d-xl-block">{{labels.title}}</h3>
+        <h3 class="y-existing-payment-methods__title d-none d-lg-block d-xl-block">Payment</h3>
         <p class="y-existing-payment-methods__text">Choose a payment method</p>
         <div class="y-existing-payment-methods__btn row justify-content-end">
-            <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action" (click)="goToPaymentForm()">{{labels.btnAddPayment}}</button></div>
+            <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action" (click)="goToPaymentForm()">Add
+                    New Payment</button></div>
         </div>
 
         <div class="y-existing-payment-methods__body row">
@@ -16,10 +17,10 @@
 
         <div class="row">
             <div class="col-md-12 col-lg-6">
-                <button class="btn btn-block btn-action" (click)="back()">{{labels.btnBack}}</button>
+                <button class="btn btn-block btn-action" (click)="back()">Back</button>
             </div>
             <div class="col-md-12 col-lg-6">
-                <button class="btn btn-block btn-primary" [disabled]="selectedPayment === undefined" (click)="next()">{{labels.btnContinue}}</button>
+                <button class="btn btn-block btn-primary" [disabled]="selectedPayment === undefined" (click)="next()">Continue</button>
             </div>
         </div>
     </div>

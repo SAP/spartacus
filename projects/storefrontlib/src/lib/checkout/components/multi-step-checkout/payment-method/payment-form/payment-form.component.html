@@ -1,73 +1,9 @@
-<!--
-<div [formGroup]="payment">
-    <h3 class="heading">Choose a card type:</h3>
-    <div class="content">
-        <div>
-            <div>
-                <font size="3">Account Holder Name:</font>
-            </div>
-            <input class="inputs" type="text" placeholder="Account Holder Name" formControlName="accountHolderName">
-            <div class="error" *ngIf="required( 'accountHolderName')">Account Holder Name is required</div>
-        </div>
-        <div>
-            <div>
-                <font size="3">Card Number:</font>
-            </div>
-            <input class="inputs" type="text" placeholder="Card Number" formControlName="cardNumber">
-            <div class="error" *ngIf="required('cardNumber')">Card Number is required</div>
-        </div>
-        <div formGroupName="cardType">
-            <div>
-                <font size="3">Card Type:</font>
-            </div>
-            <select class="card-types-dropdown" formControlName="code">
-                <option value="">Select Card Type</option>
-                <option *ngFor="let cardType of (cardTypes$ | async)" [value]="cardType.code">
-                    {{ cardType.name }}
-                </option>
-            </select>
-            <div class="error" *ngIf="notSelected( 'cardType.code')">Card Type not select </div>
-        </div>
-        <div>
-            <div>
-                <font size="3">Card Expiry Month:</font>
-            </div>
-            <input class="inputs" type="text" placeholder="MM" formControlName="expiryMonth">
-            <div class="error" *ngIf="required( 'expiryMonth')">Card Expiry Month is required</div>
-        </div>
-        <div>
-            <div>
-                <font size="3">Card Expiry Year:</font>
-            </div>
-            <input class="inputs" type="text" placeholder="YYYY" formControlName="expiryYear">
-            <div class="error" *ngIf="required( 'expiryYear')">Card Expiry Year is required</div>
-        </div>
-        <div>
-            <div>
-                <font size="3">Card Verification Number:</font>
-            </div>
-            <input class="inputs" type="text" placeholder="Card Verification Number" formControlName="cvn">
-            <div class="error" *ngIf="required( 'cvn')">Card Verification Number is required</div>
-        </div>
-
-        <input type="checkbox" class="savePaymentMethodAsDefault" (change)="toggleDefaultPaymentMethod()">Save As Default
-        <br>
-    </div>
-
-    <div class="buttons">
-        <button mat-raised-button color="primary" (click)="back()">Change Payment</button>
-        <button [disabled]="payment.invalid || notSelected( 'cardType.code')" (click)="next()">Next
-        </button>
-    </div>
-</div>
--->
-
 <div class="y-payment-form container">
     <div class="row ">
         <div class="col-md-12 col-lg-9">
             <!-- TITLE -->
             <div class="y-payment-form__header">
-                <h3 class="y-payment-form__header-title d-none d-lg-block d-xl-block">{{labels.title}}</h3>
+                <h3 class="y-payment-form__header-title d-none d-lg-block d-xl-block">Payment</h3>
             </div>
             <!-- FORM -->
             <div [formGroup]="payment">
@@ -135,9 +71,10 @@
 
                 <!-- BUTTON SECTION -->
                 <div class="y-payment-form__btns row">
-                    <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action" (click)="back()">{{labels.btnBack}}</button></div>
+                    <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action" (click)="back()">Change
+                            Payment</button></div>
                     <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-primary" [disabled]="payment.invalid || notSelected( 'cardType.code')"
-                            (click)="next()">{{labels.btnContinue}}</button></div>
+                            (click)="next()">Continue</button></div>
                 </div>
             </div>
         </div>

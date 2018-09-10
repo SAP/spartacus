@@ -23,11 +23,6 @@ import { Card } from '../../../../ui/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReviewSubmitComponent implements OnInit {
-  labels = {
-    title: 'Review',
-    orderItems: 'Order Items'
-  };
-
   @Input() deliveryAddress: Address;
   @Input() shippingMethod: string;
   @Input() paymentDetails: any;
