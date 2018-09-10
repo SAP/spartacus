@@ -8,7 +8,7 @@
   <!-- Item Information -->
   <div class="y-cart-item__info col-10">
       <!-- Item Name -->
-    <div *ngIf="item.name" class="y-cart-item__name col-6">{{item.product.name}}</div>
+    <div *ngIf="item.product.name" class="y-cart-item__name col-6">{{item.product.name}}</div>
     <div class="y-cart-item__info-container row ">
         <!-- Item Description -->
         <div class="y-cart-item__description" [ngClass]="compact ? '' : ' col-3'">
@@ -71,7 +71,7 @@
     </div>
     <!-- Actions -->
     <div *ngIf="!readonly" class="y-cart-item__actions col-12 ">
-        <a [routerLink]="" (click)="removeItem($event)">Remove</a>
+        <a [routerLink]="" (click)="removeItem()">Remove</a>
     </div>
   </div>
 </div>
