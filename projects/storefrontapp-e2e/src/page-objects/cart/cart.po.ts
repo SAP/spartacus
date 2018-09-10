@@ -95,38 +95,21 @@ export class CartPage extends AppPage {
     return this.getOrderSummaryInnerDivValue('Discount:');
   }
 
-  // FIXME - implement when element is available on page
-  // getSummaryDeliveryValue() {
-  //   // not available
-  // }
-
   async getSummaryTotalValue(): Promise<string> {
     return this.getOrderSummaryInnerDivValue('Total:');
   }
 
   async checkCartSummary(subtotal: string, discount: string, total: string) {
-    // check cart totals
-
     // FIXME - ideally it should be $313.82, but right now it is the same value as in accelerator
     expect(await this.getSummarySubtotalValue()).toBe(
       subtotal,
       'Wrong cart summary subtotal'
     );
 
-    // FIXME - put back when sales tax is fixed
-    // this.getSummaryTaxValue().then((value) => {
-    //   expect(value).toBe('$??', 'Wrong cart summary sales tax');
-    // });
-
     expect(await this.getSummaryDiscountValue()).toBe(
       discount,
       'Wrong cart summary discount'
     );
-
-    // FIXME - check delivery when available
-    // this.getSummaryDeliveryValue().then((value) => {
-    //   expect(value).toBe('$??', 'Wrong cart summary delivery estimation');
-    // });
 
     expect(await this.getSummaryTotalValue()).toBe(
       total,
