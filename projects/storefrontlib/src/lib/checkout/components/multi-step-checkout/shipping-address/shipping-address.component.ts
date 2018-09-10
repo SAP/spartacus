@@ -62,7 +62,7 @@ export class ShippingAddressComponent implements OnInit {
   getCardContent(address): Card {
     let region = '';
     if (address.region && address.region.isocode) {
-      region = address.region.isocode + ',';
+      region = address.region.isocode + ', ';
     }
     const card: Card = {
       title: address.defaultAddress ? 'Default Shipping Address' : '',

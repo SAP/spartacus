@@ -101,7 +101,7 @@ export class PaymentFormComponent implements OnInit {
   getAddressCardContent(address): Card {
     let region = '';
     if (address.region && address.region.isocode) {
-      region = address.region.isocode + ',';
+      region = address.region.isocode + ', ';
     }
 
     return {
