@@ -12,7 +12,7 @@ const routes: Routes = [
     canActivate: [CmsPageGuards],
 
     // TODO:
-    // When 'contact page' is implemented in CMS backend,
+    // When 'sale page' is implemented in CMS backend,
     // then 'homepage' pageLabel should be changed to adequate one
     data: { pageLabel: 'homepage' },
 
