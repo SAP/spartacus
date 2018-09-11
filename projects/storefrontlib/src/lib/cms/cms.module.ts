@@ -34,7 +34,17 @@ export const CMS_MODULE_CONFIG_OVERRIDE: InjectionToken<
     StoreModule.forFeature('cms', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
-  providers: [reducerProvider, ...services, ...guards, CmsModuleConfig],
+  providers: [
+    reducerProvider,
+    ...services,
+    ...guards,
+    CmsModuleConfig,
+    {
+      provide: 'cmsComponentMapping',
+      multi: true,
+      useValue: {}
+    }
+  ],
   declarations: [...components],
   exports: [...components]
 })

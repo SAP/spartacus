@@ -6,6 +6,13 @@ import { CustomParagraphComponent } from './custom-paragraph.component';
   imports: [CommonModule],
   declarations: [CustomParagraphComponent],
   exports: [CustomParagraphComponent],
-  entryComponents: [CustomParagraphComponent]
+  entryComponents: [CustomParagraphComponent],
+  providers: [
+    {
+      provide: 'cmsComponentMapping',
+      multi: true,
+      useValue: { CMSParagraphComponent: 'CustomParagraphComponent' }
+    }
+  ]
 })
 export class CustomParagraphModule {}

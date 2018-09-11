@@ -1,0 +1,71 @@
+@-webkit-keyframes super-awesome-blink {
+  0% {
+    background-color: #fff;
+    color: #000;
+  }
+  49% {
+    background-color: #fff;
+    color: #000;
+  }
+  50% {
+    background-color: #000;
+    color: #fff;
+  }
+  99% {
+    background-color: #000;
+    color: #fff;
+  }
+  100% {
+    background-color: #fff;
+    color: #000;
+  }
+}
+@-moz-keyframes super-awesome-blink {
+  0% {
+    background-color: #fff;
+    color: #000;
+  }
+  49% {
+    background-color: #fff;
+    color: #000;
+  }
+  50% {
+    background-color: #000;
+    color: #fff;
+  }
+  99% {
+    background-color: #000;
+    color: #fff;
+  }
+  100% {
+    background-color: #fff;
+    color: #000;
+  }
+}
+@keyframes super-awesome-blink {
+  0% {
+    background-color: #fff;
+    color: #000;
+  }
+  49% {
+    background-color: #fff;
+    color: #000;
+  }
+  50% {
+    background-color: #000;
+    color: #fff;
+  }
+  99% {
+    background-color: #000;
+    color: #fff;
+  }
+  100% {
+    background-color: #fff;
+    color: #000;
+  }
+}
+div {
+  -webkit-animation: super-awesome-blink 0.5s infinite;
+  -moz-animation: super-awesome-blink 0.5s infinite;
+  animation: super-awesome-blink 0.5s infinite;
+}

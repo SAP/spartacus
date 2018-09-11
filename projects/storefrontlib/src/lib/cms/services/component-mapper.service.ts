@@ -1,15 +1,46 @@
-import { Injectable, Type, ComponentFactoryResolver } from '@angular/core';
+import {
+  Injectable,
+  Type,
+  ComponentFactoryResolver,
+  Inject
+} from '@angular/core';
 import { CmsModuleConfig } from '../cms-module-config';
 
 @Injectable()
 export class ComponentMapperService {
   missingComponents = [];
+  private cmsComponentMapping: any;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    private config: CmsModuleConfig
-  ) {}
+    private config: CmsModuleConfig,
+    @Inject('cmsComponentMapping') protected customCmsComponentMappingProviders
+  ) {
+    console.log(
+      'ComponentMapperService customCmsComponentMappingProviders',
+      customCmsComponentMappingProviders
+    );
 
+    let customCmsComponentMappings = {};
+    customCmsComponentMappingProviders.forEach(element => {
+      customCmsComponentMappings = { ...customCmsComponentMappings, ...element };
+    });
+    console.log('ComponentMapperService customCmsComponentMappings', customCmsComponentMappings);
+
+    console.log(
+      'ComponentMapperService config.cmsComponentMapping',
+      this.config.cmsComponentMapping
+    );
+
+    this.cmsComponentMapping = {
+      ...this.config.cmsComponentMapping,
+      ...customCmsComponentMappings
+    };
+    console.log(
+      'ComponentMapperService this.cmsComponentMapping',
+      this.cmsComponentMapping
+    );
+  }
   /**
    * @desc
    * returns a web component for the CMS typecode.
@@ -31,7 +62,7 @@ export class ComponentMapperService {
    * @param typeCode the component type
    */
   protected getType(typeCode: string) {
-    return this.config.cmsComponentMapping[typeCode];
+    return this.cmsComponentMapping[typeCode];
   }
 
   getComponentTypeByCode(typeCode: string): Type<any> {
@@ -56,7 +87,9 @@ export class ComponentMapperService {
       factories.find((x: any) => x.componentName === alias)
     );
     if (!factoryClass) {
-      console.warn(`No factory class found for typecode CMS component alias ${alias}`);
+      console.warn(
+        `No factory class found for typecode CMS component alias ${alias}`
+      );
     }
 
     return factoryClass;
