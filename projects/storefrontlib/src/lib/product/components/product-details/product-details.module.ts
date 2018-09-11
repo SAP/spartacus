@@ -10,12 +10,7 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
 import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
 
 import { CmsModule } from '../../../cms/cms.module'; // some slots are loaded inside components (i.e. tabs)
-import {
-  NgbTabsetModule,
-  NgbAccordionModule,
-  NgbTabsetConfig,
-  NgbAccordionConfig
-} from '@ng-bootstrap/ng-bootstrap';
+import { BootstrapModule } from './../../../bootstap.module';
 // guards
 import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
 import { ComponentsModule } from './../../../ui/components/components.module';
@@ -31,8 +26,7 @@ import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-car
     CartSharedModule,
     CmsModule,
     AddToCartModule,
-    NgbTabsetModule,
-    NgbAccordionModule
+    BootstrapModule
   ],
   declarations: [
     ProductSummaryComponent,
@@ -48,6 +42,5 @@ import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-car
     ProductImagesComponent,
     ProductReviewsComponent
   ],
-  providers: [NgbTabsetConfig, NgbAccordionConfig]
 })
 export class ProductDetailsModule {}

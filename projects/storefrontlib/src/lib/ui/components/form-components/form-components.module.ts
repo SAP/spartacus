@@ -2,7 +2,7 @@ import { MaterialModule } from './../../../material.module';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { NgbRatingModule, NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { BootstrapModule } from './../../../bootstap.module';
 /* Components */
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { ItemCounterComponent } from './item-counter/item-counter.component';
@@ -13,10 +13,9 @@ import { ItemCounterComponent } from './item-counter/item-counter.component';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    NgbRatingModule
+    BootstrapModule
   ],
   declarations: [StarRatingComponent, ItemCounterComponent],
-  exports: [StarRatingComponent, ItemCounterComponent],
-  providers: [NgbRatingConfig]
+  exports: [StarRatingComponent, ItemCounterComponent]
 })
 export class FormComponentsModule {}
