@@ -26,9 +26,11 @@ describe('MultiStepCheckoutPageGuard', () => {
   let multiStepCheckoutPageGuard: MultiStepCheckoutPageGuard;
   let cartService: CartService;
   let router;
-  let store: Store<fromStore.CartState>;
+  let mockStore: MockStore<any>;
 
   beforeEach(() => {
+    mockStore = new MockStore({});
+
     TestBed.configureTestingModule({
       providers: [
         MultiStepCheckoutPageGuard,
@@ -42,12 +44,12 @@ describe('MultiStepCheckoutPageGuard', () => {
         },
         {
           provide: Store,
-          useValue: new MockStore({})
+          useValue: mockStore
         }
       ],
       imports: [RouterTestingModule]
     });
-    store = TestBed.get(Store);
+
     cartService = TestBed.get(CartService);
     multiStepCheckoutPageGuard = TestBed.get(MultiStepCheckoutPageGuard);
     router = TestBed.get(Router);
