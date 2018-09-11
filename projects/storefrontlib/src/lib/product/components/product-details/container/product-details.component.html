@@ -16,11 +16,11 @@
                     </div>
 
                     <div class="d-md-none">
-                        <y-product-images></y-product-images>
+                        <y-product-images [product]="product"></y-product-images>
                     </div>
 
                     <y-product-summary [product]="product" (onItemCountChange)="itemCount = $event"></y-product-summary>
-                    <y-add-to-cart *ngIf="product.stock.stockLevelStatus !=='outOfStock'" [quantity]="itemCount" [productCode]="product?.code"></y-add-to-cart>
+                    <y-add-to-cart *ngIf="product?.stock?.stockLevelStatus !=='outOfStock'" [quantity]="itemCount" [productCode]="product?.code"></y-add-to-cart>
 
                     <a href="#" class="btn-link">
                         Share
