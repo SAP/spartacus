@@ -28,7 +28,7 @@ export class CmsModuleConfig {
     SimpleResponsiveBannerComponent: 'ResponsiveBannerComponent',
     SimpleBannerComponent: 'BannerComponent',
     // BreadcrumbComponent:                'BreadcrumbComponent',
-    CMSParagraphComponent: 'ParagraphComponent',
+    CMSParagraphComponent: 'CustomParagraphComponent',
     NavigationComponent: 'NavigationComponent',
     FooterNavigationComponent: 'FooterNavigationComponent',
     CategoryNavigationComponent: 'CategoryNavigationComponent',

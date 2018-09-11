@@ -55,6 +55,9 @@ export class ComponentMapperService {
     const factoryClass = <Type<any>>(
       factories.find((x: any) => x.componentName === alias)
     );
+    if (!factoryClass) {
+      console.warn(`No factory class found for typecode CMS component alias ${alias}`);
+    }
 
     return factoryClass;
   }

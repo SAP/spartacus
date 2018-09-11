@@ -5,6 +5,7 @@ import { CustomParagraphComponent } from './custom-paragraph.component';
 @NgModule({
   imports: [CommonModule],
   declarations: [CustomParagraphComponent],
-  exports: [CustomParagraphComponent]
+  exports: [CustomParagraphComponent],
+  entryComponents: [CustomParagraphComponent]
 })
 export class CustomParagraphModule {}
