@@ -3,7 +3,8 @@ import {
   browser,
   protractor,
   ExpectedConditions,
-  promise
+  promise,
+  by
 } from 'protractor';
 
 export class E2EUtil {
@@ -52,5 +53,29 @@ export class E2EUtil {
    */
   static findPrice(textWithPrice: string) {
     return textWithPrice.slice(textWithPrice.indexOf('$'));
+  }
+
+  /**
+   * Select option from <select> element by text
+   * @param selectElement
+   * @param text
+   */
+  static selectOptionByText(selectElement: ElementFinder, text: string) {
+    return selectElement
+      .all(by.cssContainingText('option', text))
+      .get(0)
+      .click();
+  }
+
+  /**
+   * Select option from <select> element by option number
+   * @param selectElement
+   * @param optionNo
+   */
+  static selectOptionByNo(selectElement: ElementFinder, optionNo: number) {
+    return selectElement
+      .all(by.tagName('option'))
+      .get(optionNo)
+      .click();
   }
 }

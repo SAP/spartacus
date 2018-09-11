@@ -90,7 +90,7 @@ describe('Cart interactions', () => {
       'Wrong product details add to cart button quantity'
     );
 
-    const minicartIcon = home.header.minicartIconComponent;
+    const minicartIcon = home.header.miniCartButton;
     await browser.wait(ExpectedConditions.elementToBeClickable(minicartIcon));
 
     await minicartIcon.click();
