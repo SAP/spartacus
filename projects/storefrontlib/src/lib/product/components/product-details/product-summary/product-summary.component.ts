@@ -13,10 +13,10 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductSummaryComponent {
-  @Output() onItemCountChange = new EventEmitter<any>();
+  @Output() itemCountChange = new EventEmitter<any>();
   @Input() product: any;
 
-  onUpdateCount(value) {
-    this.onItemCountChange.emit(value);
+  updateCount(value) {
+    this.itemCountChange.emit(value);
   }
 }

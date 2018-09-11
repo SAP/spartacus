@@ -56,7 +56,10 @@ $y-accordion-mobile-head-btn-height: 74px !default;
   }
   &__tab-section {
     @include type();
-    @include var-color( 'background-color', $y-product-details-tab-content-background-color);
+    @include var-color(
+      'background-color',
+      $y-product-details-tab-content-background-color
+    );
     padding: $y-product-details-tab-content-trbl-padding;
   }
 }
@@ -79,15 +82,24 @@ $y-accordion-mobile-head-btn-height: 74px !default;
       &:first-of-type {
         border-bottom: $y-accordion-mobile-head-border;
         border-top: $y-accordion-mobile-head-border;
-        @include var-color( 'border-color', $y-accordion-mobile-head-border-color);
+        @include var-color(
+          'border-color',
+          $y-accordion-mobile-head-border-color
+        );
       }
       &:not(:first-of-type) {
         border-bottom: $y-accordion-mobile-head-border;
-        @include var-color( 'border-color', $y-accordion-mobile-head-border-color);
+        @include var-color(
+          'border-color',
+          $y-accordion-mobile-head-border-color
+        );
       }
       &:not(:last-of-type) {
         border-bottom: $y-accordion-mobile-head-border;
-        @include var-color( 'border-color', $y-accordion-mobile-head-border-color);
+        @include var-color(
+          'border-color',
+          $y-accordion-mobile-head-border-color
+        );
       }
       &-header {
         @include var-color('background', $y-accordian-mobile-background-color);
@@ -108,7 +120,10 @@ $y-accordion-mobile-head-btn-height: 74px !default;
       }
       &-body {
         padding: $y-accordion-mobile-body-padding;
-        @include var-color( 'background', $y-accordian-mobile-body-background-color);
+        @include var-color(
+          'background',
+          $y-accordian-mobile-body-background-color
+        );
       }
     }
   }

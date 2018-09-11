@@ -20,7 +20,7 @@ export class ProductDetailsComponent implements OnChanges {
   @ViewChild('tabSetWrapper') tabSetWrapper;
   @Input() productCode: string;
   product$: Observable<any>;
-  itemCount: number = 1;
+  itemCount = 1;
 
   isWritingReview = false;
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 const DEFAULT_FORMAT = 'product';
 
@@ -28,10 +28,6 @@ export class PictureComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.changeImage();
-  }
-
-  ngOnChanges() {
     this.changeImage();
   }
 
