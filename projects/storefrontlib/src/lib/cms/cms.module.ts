@@ -1,4 +1,4 @@
-import { NgModule, InjectionToken } from '@angular/core';
+import { NgModule, InjectionToken, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -39,7 +39,7 @@ export const CMS_MODULE_CONFIG_OVERRIDE: InjectionToken<
   exports: [...components]
 })
 export class CmsModule {
-  static forRoot(configOverride?: any): any {
+  static forRoot(configOverride?: any): ModuleWithProviders {
     return {
       ngModule: CmsModule,
       providers: [
