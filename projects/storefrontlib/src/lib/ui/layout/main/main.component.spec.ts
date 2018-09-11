@@ -18,14 +18,14 @@ import * as fromRoot from '../../../routing/store';
 import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
 import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
 import { LoginComponent } from './../../../user/components/login/login.component';
-import { ConfigService } from '../../../site-context/config.service';
+import { SiteContextModuleConfig } from '../../../site-context/site-context-module-config';
 import * as fromUserReducer from '../../../user/store/reducers';
 import * as fromSCStore from './../../../site-context/shared/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuth from '../../../auth/store';
 import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
 
-class MockConfigService {
+class MockSiteContextModuleConfig {
   server = {
     baseUrl: '',
     occPrefix: ''
@@ -70,7 +70,10 @@ describe('MainComponent', () => {
         LoginComponent
       ],
       providers: [
-        { provide: ConfigService, useClass: MockConfigService },
+        {
+          provide: SiteContextModuleConfig,
+          useClass: MockSiteContextModuleConfig
+        },
         { provide: OccSiteService }
       ]
     }).compileComponents();
