@@ -2,18 +2,24 @@ import { by, element, ElementFinder } from 'protractor';
 import { E2EUtil } from '../../e2e-util';
 
 export class Header {
-  readonly siteLogoComponent: ElementFinder = element(
+  readonly header: ElementFinder = element(by.tagName('y-header'));
+  readonly siteLogoComponent: ElementFinder = this.header.element(
     by.dynamicSlot('SiteLogo', 'y-banner')
   );
-  readonly searchComponent: ElementFinder = element(
+  readonly searchComponent: ElementFinder = this.header.element(
     by.dynamicSlot('SearchBox', 'y-searchbox')
   );
-  readonly minicartIconComponent: ElementFinder = element(
+  readonly miniCartButton: ElementFinder = this.header.element(
     by.tagName('y-mini-cart')
   );
-  readonly loginIconComponent: ElementFinder = element(by.tagName('y-login'));
-  readonly loginIconButton: ElementFinder = this.loginIconComponent.element(
-    by.tagName('button')
+  readonly loginComponent: ElementFinder = this.header
+    .all(by.tagName('y-login'))
+    .first();
+  readonly loginIconButton: ElementFinder = this.loginComponent.element(
+    by.tagName('a')
+  );
+  readonly logoutButton: ElementFinder = this.loginComponent.element(
+    by.cssContainingText('a', 'Sign Out')
   );
   readonly searchInput: ElementFinder = this.searchComponent.element(
     by.css('input[placeholder="Search Box"]')
@@ -32,5 +38,11 @@ export class Header {
   async performSearch(searchKey: string, skipEnter?: boolean) {
     // search for camera
     await E2EUtil.fillInput(this.searchInput, searchKey, skipEnter);
+  }
+
+  async isLoggedIn(): Promise<boolean> {
+    return !(await this.loginComponent
+      .element(by.cssContainingText('button mat-icon', 'person'))
+      .isPresent());
   }
 }

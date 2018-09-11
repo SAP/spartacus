@@ -1,6 +1,6 @@
 import { by, element, ElementFinder } from 'protractor';
-import { AppPage } from '../../app.po';
-import { E2EUtil } from '../../util.po';
+import { AppPage } from '../app.po';
+import { E2EUtil } from '../../e2e-util';
 
 export class OrderConfirmationPage extends AppPage {
   readonly page: ElementFinder = element(
@@ -40,6 +40,6 @@ export class OrderConfirmationPage extends AppPage {
       .get(itemNo);
 
   async waitForReady() {
-    await E2EUtil.wait4PresentElement(this.confirmationComponent);
+    await E2EUtil.wait4VisibleElement(this.confirmationComponent);
   }
 }

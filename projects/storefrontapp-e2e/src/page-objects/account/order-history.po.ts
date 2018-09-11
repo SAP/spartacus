@@ -1,7 +1,6 @@
 import { browser, by, element, ElementFinder } from 'protractor';
-import { AppPage } from '../../app.po';
-import { Header } from '../../cmslib/header.po';
-import { E2EUtil } from '../../util.po';
+import { AppPage } from '../app.po';
+import { E2EUtil } from '../../e2e-util';
 
 export class OrderHistoryPage extends AppPage {
   readonly page: ElementFinder = element(by.tagName('y-order-history-page'));
@@ -25,12 +24,5 @@ export class OrderHistoryPage extends AppPage {
 
   async waitForReady() {
     await E2EUtil.wait4VisibleElement(this.historyTable);
-  }
-
-  async goToViaHeader() {
-    const header = new Header();
-    await header.myAccountButton.click();
-    await E2EUtil.wait4VisibleElement(header.orderHistoryButton);
-    await header.orderHistoryButton.click();
   }
 }

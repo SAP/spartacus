@@ -1,6 +1,6 @@
 import { by, element, ElementFinder } from 'protractor';
-import { E2EUtil } from '../../util.po';
 import { OrderConfirmationPage } from './order-confirmation.po';
+import { E2EUtil } from '../../e2e-util';
 
 export class ReviewForm {
   constructor(
@@ -37,6 +37,6 @@ export class ReviewForm {
   }
 
   async waitForReady() {
-    await E2EUtil.wait4PresentElement(this.form);
+    await E2EUtil.wait4VisibleElement(this.form);
   }
 }

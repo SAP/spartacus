@@ -1,5 +1,5 @@
 import { by, element, ElementFinder } from 'protractor';
-import { E2EUtil } from '../../util.po';
+import { E2EUtil } from '../../e2e-util';
 
 export class RegisterForm {
   constructor(

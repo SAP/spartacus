@@ -1,7 +1,7 @@
 import { browser, by, element, ElementFinder } from 'protractor';
-import { AppPage } from '../app.po';
-import { E2EUtil } from '../util.po';
-import { ProductDetailsPage } from './productDetails.po';
+import { AppPage } from './app.po';
+import { E2EUtil } from '../e2e-util';
+import { ProductDetailsPage } from './product-details.po';
 
 export class CategoryDslrPage extends AppPage {
   readonly page: ElementFinder = element(by.tagName('y-category-page-layout'));

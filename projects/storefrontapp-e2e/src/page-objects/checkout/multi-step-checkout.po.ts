@@ -1,9 +1,9 @@
 import { by, element, ElementFinder } from 'protractor';
-import { AppPage } from '../../app.po';
 import { AddressForm } from './address-form.po';
 import { DeliveryModeForm } from './delivery-mode-form.po';
 import { PaymentForm } from './payment-form.po';
 import { ReviewForm } from './review-form.po';
+import { AppPage } from '../app.po';
 
 export class MultiStepCheckoutPage extends AppPage {
   readonly page: ElementFinder = element(

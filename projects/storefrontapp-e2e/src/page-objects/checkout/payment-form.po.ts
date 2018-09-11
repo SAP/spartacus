@@ -1,5 +1,5 @@
 import { by, element, ElementFinder } from 'protractor';
-import { E2EUtil } from '../../util.po';
+import { E2EUtil } from '../../e2e-util';
 
 export class PaymentForm {
   static readonly CARD_HOLDER = 'Winston Rumfoord';
@@ -53,6 +53,6 @@ export class PaymentForm {
   }
 
   async waitForReady() {
-    await E2EUtil.wait4PresentElement(this.form);
+    await E2EUtil.wait4VisibleElement(this.form);
   }
 }

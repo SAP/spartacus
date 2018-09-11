@@ -1,5 +1,5 @@
 import { by, element, ElementFinder } from 'protractor';
-import { E2EUtil } from '../../util.po';
+import { E2EUtil } from '../../e2e-util';
 
 export class AddressForm {
   static readonly COUNTRY = 'United States';
@@ -84,6 +84,6 @@ export class AddressForm {
   }
 
   async waitForReady() {
-    await E2EUtil.wait4PresentElement(this.form);
+    await E2EUtil.wait4VisibleElement(this.form);
   }
 }

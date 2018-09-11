@@ -1,7 +1,7 @@
 import { browser, by, element, ElementFinder } from 'protractor';
-import { AppPage } from '../../app.po';
 import { LoginForm } from './login-form.po';
-import { E2EUtil } from '../../util.po';
+import { AppPage } from '../app.po';
+import { E2EUtil } from '../../e2e-util';
 
 export class LoginPage extends AppPage {
   readonly page: ElementFinder = element(by.tagName('y-login-page'));
@@ -12,7 +12,7 @@ export class LoginPage extends AppPage {
   }
 
   async waitForReady() {
-    await E2EUtil.wait4PresentElement(this.loginForm.form);
+    await E2EUtil.wait4VisibleElement(this.loginForm.form);
   }
 
   async performLogin(email: string, password: string) {

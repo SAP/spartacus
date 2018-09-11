@@ -1,7 +1,7 @@
 import { LoginPage } from './login.po';
 import { browser, ExpectedConditions } from 'protractor';
 import { RegisterPage } from '../register/register.po';
-import { Header } from '../../cmslib/header.po';
+import { Header } from '../cmslib/header.po';
 
 export class LoginHelper {
   static userEmail: string;
@@ -39,7 +39,7 @@ export class LoginHelper {
 
   static async navigateToLoginViaHeader() {
     const header = new Header();
-    await header.getLoginIconComponent().click();
+    await header.loginIconButton.click();
   }
 
   static async navigateToRegisterViaHeader() {

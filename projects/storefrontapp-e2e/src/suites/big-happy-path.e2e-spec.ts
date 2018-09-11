@@ -1,13 +1,13 @@
-import { AddedToCartModal } from './cmslib/addedToCartModal.po';
-import { HomePage } from './pages/home.po';
-import { LoginHelper } from './pages/login/login.helper';
-import { LoginForm } from './pages/login/login-form.po';
-import { OrderHistoryPage } from './pages/account/order-history.po';
-import { MultiStepCheckoutPage } from './pages/checkout/multi-step-checkout.po';
-import { ProductDetailsPage } from './pages/productDetails.po';
-import { E2EUtil } from './util.po';
-import { AddressForm } from './pages/checkout/address-form.po';
-import { PaymentForm } from './pages/checkout/payment-form.po';
+import { HomePage } from '../page-objects/home.po';
+import { MultiStepCheckoutPage } from '../page-objects/checkout/multi-step-checkout.po';
+import { LoginHelper } from '../page-objects/login/login.helper';
+import { AddedToCartModal } from '../page-objects/cmslib/added-to-cart-modal.po';
+import { E2EUtil } from '../e2e-util';
+import { LoginForm } from '../page-objects/login/login-form.po';
+import { ProductDetailsPage } from '../page-objects/product-details.po';
+import { AddressForm } from '../page-objects/checkout/address-form.po';
+import { PaymentForm } from '../page-objects/checkout/payment-form.po';
+import { OrderHistoryPage } from '../page-objects/account/order-history.po';
 
 describe('Big Happy Path', () => {
   const home: HomePage = new HomePage();
@@ -64,7 +64,7 @@ describe('Big Happy Path', () => {
     await atcModal.waitForReady();
 
     const item = atcModal.cartItem(0);
-    await E2EUtil.wait4PresentElement(item);
+    await E2EUtil.wait4VisibleElement(item);
     expect(await item.getText()).toContain(PRODUCT_NAME);
 
     await atcModal.proceedToCheckoutButton.click();
