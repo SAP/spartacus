@@ -20,7 +20,7 @@ import {
   ]
 })
 export class StarRatingComponent implements ControlValueAccessor {
-  @Input() rating;
+  @Input() rating = 1;
   @Input() disabled = false;
   @Input() steps = 1;
 
@@ -50,9 +50,5 @@ export class StarRatingComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
   }
 }
