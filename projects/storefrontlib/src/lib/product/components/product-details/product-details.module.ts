@@ -41,6 +41,6 @@ import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-car
     ProductAttributesComponent,
     ProductImagesComponent,
     ProductReviewsComponent
-  ],
+  ]
 })
 export class ProductDetailsModule {}

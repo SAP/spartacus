@@ -1,9 +1,9 @@
-@import "theme";
-@import "functions";
-@import "mixins";
+@import 'theme';
+@import 'functions';
+@import 'mixins';
 $y-product-reviews-trbl-margin: 0 0 40px 0 !default;
 $y-product-reviews-review-trbl-margin: 0 0 25px 0 !default;
-$y-product-reviews-review-border-color: "light" !default;
+$y-product-reviews-review-border-color: 'light' !default;
 $y-product-reviews-review-border: 1px solid !default;
 $y-product-reviews-review-head-trbl-padding: 0 0 25px 0 !default;
 $y-product-reviews-review-head-trbl-margin: 0 0 40px 0 !default;
@@ -19,7 +19,10 @@ $y-product-reviews-review-head-mobile-btn-trbl-margin: 20px 0 0 0 !default;
     margin: $y-product-reviews-review-trbl-margin;
     &--head {
       border-bottom: $y-product-reviews-review-border;
-      @include var-color("border-color", $y-product-reviews-review-border-color);
+      @include var-color(
+        'border-color',
+        $y-product-reviews-review-border-color
+      );
       padding: $y-product-reviews-review-head-trbl-padding;
       margin: $y-product-reviews-review-head-trbl-margin;
       @include media-breakpoint-down(sm) {

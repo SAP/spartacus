@@ -35,7 +35,10 @@ $y-item-counter-action-trbl-margin: 0 !default;
     min-width: $y-item-counter-action-width;
     border: none;
     @include var-color('color', $y-item-counter-action-color);
-    @include var-color('background-color', $y-item-counter-action-background-color);
+    @include var-color(
+      'background-color',
+      $y-item-counter-action-background-color
+    );
     @include type('3');
     margin: $y-item-counter-action-trbl-margin;
     &:disabled {

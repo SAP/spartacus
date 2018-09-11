@@ -6,13 +6,9 @@
 //Fonts must be added separate from the theme
 @import 'fonts';
 //Bootsrap modules (these are things we are NOT changing at all)
-@import '~bootstrap/scss/reboot',
-'~bootstrap/scss/type',
-'~bootstrap/scss/grid',
-'~bootstrap/scss/utilities',
-'~bootstrap/scss/transitions',
-'~bootstrap/scss/card',
-'~bootstrap/scss/nav';
+@import '~bootstrap/scss/reboot', '~bootstrap/scss/type', '~bootstrap/scss/grid',
+  '~bootstrap/scss/utilities', '~bootstrap/scss/transitions',
+  '~bootstrap/scss/card', '~bootstrap/scss/nav';
 @import '~@ng-select/ng-select/themes/default.theme.css';
 //bootsrap enhancements (these are things we ARE changing)
 @import 'ybase/blocks/buttons';
