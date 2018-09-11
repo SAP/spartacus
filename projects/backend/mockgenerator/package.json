@@ -5,7 +5,7 @@
     "node": ">=8.9.0"
   },
   "scripts": {
-    "start": "json-server --config=config.json db.json -i uid",
+    "start": "json-server --config=config.json ./datasets/db.json -i uid",
     "start:dynamic": "yarn build && json-server --config=config.json dist/generate-data.js -i uid",
     "build": "rm -rf dist/ && tsc",
     "generate": "yarn build && node dist/generate"
