@@ -8,13 +8,18 @@ import { CartService } from '../../../../cart/services';
 import { ComponentMapperService } from '../../../../cms/services/component-mapper.service';
 
 import { AddToCartModule } from '../../../../cart/components/add-to-cart/add-to-cart.module';
-import { MaterialModule } from './../../../../material.module';
-
 import * as fromCart from '../../../../cart/store';
 import * as fromRoot from '../../../../routing/store';
 import * as fromUser from '../../../../user/store';
 import * as fromProduct from '../../../store/reducers';
-
+import {
+  NgbTabsetModule,
+  NgbAccordionModule,
+  NgbTabsetConfig,
+  NgbAccordionConfig,
+  NgbModule
+} from '@ng-bootstrap/ng-bootstrap';
+// guards
 import { ComponentWrapperComponent } from '../../../../cms/components/component-wrapper/component-wrapper.component';
 import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
 import { ProductImagesComponent } from '../product-images/product-images.component';
@@ -36,16 +41,19 @@ describe('ProductDetailsComponent in product', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         ReactiveFormsModule,
+        // CartModule,
         AddToCartModule,
+        NgbModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           products: combineReducers(fromProduct.getReducers()),
           cart: combineReducers(fromCart.getReducers()),
           user: combineReducers(fromUser.getReducers())
         }),
-        ComponentsModule
+        ComponentsModule,
+        NgbTabsetModule,
+        NgbAccordionModule
       ],
       declarations: [
         ProductDetailsComponent,
@@ -58,6 +66,8 @@ describe('ProductDetailsComponent in product', () => {
       ],
       providers: [
         CartService,
+        NgbTabsetConfig,
+        NgbAccordionConfig,
         {
           provide: ComponentMapperService,
           useClass: MockComponentMapperService
@@ -85,10 +95,5 @@ describe('ProductDetailsComponent in product', () => {
     productDetailsComponent.product$.subscribe(product =>
       expect(product).toEqual(mockProduct)
     );
-  });
-
-  it('should be able to go to REVIEWS through the review button', () => {
-    // productDetailsComponent.goToReviews();
-    // expect(productDetailsComponent.selectedTabIndex).toBe(2);
   });
 });
