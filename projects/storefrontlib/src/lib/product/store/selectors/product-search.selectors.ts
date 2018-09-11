@@ -16,6 +16,14 @@ export const getSearchResults: MemoizedSelector<any, any> = createSelector(
   fromProductSearch.getSearchResults
 );
 
+export const getSearchResultsWithFiltersQuery: MemoizedSelector<
+  any,
+  any
+> = createSelector(
+  getProductsSearchState,
+  fromProductSearch.getSearchResultsWithFiltersQuery
+);
+
 export const getProductSuggestions: MemoizedSelector<
   any,
   any[]

@@ -65,22 +65,27 @@ export class ProductListComponent implements OnChanges, OnInit {
       mode: this.gridMode
     };
 
-    this.model$ = this.store.select(fromProductStore.getSearchResults).pipe(
-      skip(1),
-      tap(results => {
-        if (Object.keys(results).length === 0) {
-          if (this.categoryCode) {
-            this.query = ':relevance:category:' + this.categoryCode;
+    this.model$ = this.store
+      .select(fromProductStore.getSearchResultsWithFiltersQuery)
+      .pipe(
+        skip(1),
+        tap(({ results, filtersQuery }) => {
+          if (filtersQuery) {
+            this.query = filtersQuery;
           }
-          if (this.brandCode) {
-            this.query = ':relevance:brand:' + this.brandCode;
+          if (Object.keys(results).length === 0) {
+            if (this.categoryCode) {
+              this.query = ':relevance:category:' + this.categoryCode;
+            }
+            if (this.brandCode) {
+              this.query = ':relevance:brand:' + this.brandCode;
+            }
+            if (this.query) {
+              this.search(this.query);
+            }
           }
-          if (this.query) {
-            this.search(this.query);
-          }
-        }
-      })
-    );
+        })
+      );
   }
 
   toggleSidenav() {

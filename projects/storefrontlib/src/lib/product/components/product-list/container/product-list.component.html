@@ -8,35 +8,35 @@
             </mat-card>
         </div>
 
-        <div fxFlex *ngIf="model?.pagination" fxLayout="row" fxLayoutAlign="space-between center">
-            <y-product-paging [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-product-paging>
-            <y-product-sorting fxFlex="50px" [sortOptions]="model.sorts" [grid]="grid" (sortListEvent)="sortList($event)"></y-product-sorting>
+        <div fxFlex *ngIf="model?.results?.pagination" fxLayout="row" fxLayoutAlign="space-between center">
+            <y-product-paging [pagination]="model.results?.pagination" (viewPageEvent)="viewPage($event)"></y-product-paging>
+            <y-product-sorting fxFlex="50px" [sortOptions]="model.results?.sorts" [grid]="grid" (sortListEvent)="sortList($event)"></y-product-sorting>
         </div>
 
     </div>
 
-    <mat-sidenav-container class="example-container" *ngIf="model?.products">
+    <mat-sidenav-container class="example-container" *ngIf="model?.results?.products">
         <mat-sidenav #sidenav class="example-sidenav" mode="side" [opened]="isFacetPanelOpen" style="width:30%">
             <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6" [activeFacetValueCode]="categoryCode || brandCode"
-                [searchResult]="model"></y-product-facet-navigation>
+                [searchResult]="model.results"></y-product-facet-navigation>
         </mat-sidenav>
         <div>
             <div *ngIf="grid.mode==='grid'">
                 <mat-grid-list cols="3" cols.sm="2" rowHeight="400px" gutterSize="10px">
-                    <mat-grid-tile *ngFor="let product of model?.products">
+                    <mat-grid-tile *ngFor="let product of model?.results?.products">
                         <y-product-grid-item class="product-grid-item" [product]="product"></y-product-grid-item>
                     </mat-grid-tile>
                 </mat-grid-list>
             </div>
 
             <div *ngIf="grid.mode==='list'" class="product-list">
-                <div *ngFor="let product of model?.products">
+                <div *ngFor="let product of model?.results?.products">
                     <y-product-list-item class="product-grid-item" [product]="product"></y-product-list-item>
                 </div>
             </div>
 
             <div *ngIf="grid.mode==='line'">
-                <y-product-line-item *ngFor="let product of model?.products" [product]="product"></y-product-line-item>
+                <y-product-line-item *ngFor="let product of model?.results?.products" [product]="product"></y-product-line-item>
             </div>
         </div>
     </mat-sidenav-container>

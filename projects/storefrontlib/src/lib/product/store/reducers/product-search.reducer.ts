@@ -4,12 +4,14 @@ export interface ProductsSearchState {
   results: any;
   suggestions: any[];
   loading: boolean;
+  filtersQuery: string;
 }
 
 export const initialState: ProductsSearchState = {
   results: {},
   suggestions: [],
-  loading: false
+  loading: false,
+  filtersQuery: ''
 };
 
 export function reducer(
@@ -20,7 +22,8 @@ export function reducer(
     case fromProductsSearch.SEARCH_PRODUCTS: {
       return {
         ...state,
-        loading: true
+        loading: true,
+        filtersQuery: action.payload.queryText
       };
     }
 
@@ -55,6 +58,9 @@ export function reducer(
 }
 
 export const getSearchResults = (state: ProductsSearchState) => state.results;
+export const getSearchResultsWithFiltersQuery = (
+  state: ProductsSearchState
+) => ({ results: state.results, filtersQuery: state.filtersQuery });
 export const getSearchResultsLoading = (state: ProductsSearchState) =>
   state.loading;
 export const getProductSuggestions = (state: ProductsSearchState) =>
