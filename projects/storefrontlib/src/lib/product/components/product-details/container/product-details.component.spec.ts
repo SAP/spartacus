@@ -1,13 +1,12 @@
 import { ComponentsModule } from './../../../../ui/components/components.module';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
-import { CartService } from '../../../../cart/services';
 import { ComponentMapperService } from '../../../../cms/services/component-mapper.service';
 
-import { AddToCartModule } from '../../../../cart/components/add-to-cart/add-to-cart.module';
 import * as fromCart from '../../../../cart/store';
 import * as fromRoot from '../../../../routing/store';
 import * as fromUser from '../../../../user/store';
@@ -20,16 +19,10 @@ import {
   NgbModule
 } from '@ng-bootstrap/ng-bootstrap';
 // guards
-import { ComponentWrapperComponent } from '../../../../cms/components/component-wrapper/component-wrapper.component';
-import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
-import { ProductImagesComponent } from '../product-images/product-images.component';
-import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
-import { ProductSummaryComponent } from '../product-summary/product-summary.component';
-import { DynamicSlotComponent } from './../../../../cms/components/dynamic-slot/dynamic-slot.component';
+
 import { ProductDetailsComponent } from './product-details.component';
 
 class MockComponentMapperService {}
-
 describe('ProductDetailsComponent in product', () => {
   let store: Store<fromProduct.ProductsState>;
   let productDetailsComponent: ProductDetailsComponent;
@@ -42,8 +35,6 @@ describe('ProductDetailsComponent in product', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        // CartModule,
-        AddToCartModule,
         NgbModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
@@ -55,17 +46,9 @@ describe('ProductDetailsComponent in product', () => {
         NgbTabsetModule,
         NgbAccordionModule
       ],
-      declarations: [
-        ProductDetailsComponent,
-        ProductImagesComponent,
-        ProductSummaryComponent,
-        ProductAttributesComponent,
-        ProductReviewsComponent,
-        DynamicSlotComponent,
-        ComponentWrapperComponent
-      ],
+      schemas: [NO_ERRORS_SCHEMA],
+      declarations: [ProductDetailsComponent],
       providers: [
-        CartService,
         NgbTabsetConfig,
         NgbAccordionConfig,
         {
@@ -100,7 +83,8 @@ describe('ProductDetailsComponent in product', () => {
   it('should go to reviews tab', () => {
     productDetailsComponent.productCode = '123456';
     productDetailsComponent.ngOnChanges();
-    productDetailsComponent.product$.subscribe(() => {
+    productDetailsComponent.product$.subscribe(product => {
+      fixture.detectChanges();
       productDetailsComponent.goToReviews();
       expect(productDetailsComponent.tabSet.activeId).toEqual('reviews');
     });

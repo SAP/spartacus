@@ -29,89 +29,90 @@
             </div>
         </div>
     </div>
-</ng-container>
 
 
-<div class="y-product-details__tabset" #tabSetWrapper>
-    <ngb-tabset justify="center" #tabSet>
-        <ngb-tab>
-            <ng-template ngbTabTitle>
-                <div class="y-product-details__tab-title">
-                    Product Details
-                </div>
-            </ng-template>
-            <ng-template ngbTabContent>
-                <div class="y-product-details__tab-section">
+
+    <div class="y-product-details__tabset" #tabSetWrapper>
+        <ngb-tabset justify="center" #tabSet>
+            <ngb-tab>
+                <ng-template ngbTabTitle>
+                    <div class="y-product-details__tab-title">
+                        Product Details
+                    </div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div class="y-product-details__tab-section">
+                        <p [innerHTML]="product?.description"></p>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle>
+                    <div class="y-product-details__tab-title">
+                        Specs
+                    </div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div class="y-product-details__tab-section">
+                        <y-product-attributes [product]="product"></y-product-attributes>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+
+            <ngb-tab id="reviews">
+                <ng-template ngbTabTitle>
+                    <div class="y-product-details__tab-title">
+                        Reviews ({{product?.numberOfReviews}})
+                    </div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div class="y-product-details__tab-section">
+                        <y-product-reviews [(isWritingReview)]="isWritingReview" [product]="product"></y-product-reviews>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle>
+                    <div class="y-product-details__tab-title">
+                        Shipping
+                    </div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div class="y-product-details__tab-section">
+                        <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'" [componentLoad]="true"></y-component-wrapper>
+                        <y-dynamic-slot position="Tabs"></y-dynamic-slot>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+
+    <!-- Mobile accordion -->
+    <div class="y-product-details__tabset-mobile">
+        <ngb-accordion #acc="ngbAccordion">
+            <ngb-panel id="toggle-1" title="Product Details">
+                <ng-template ngbPanelContent>
                     <p [innerHTML]="product?.description"></p>
-                </div>
-            </ng-template>
-        </ngb-tab>
-        <ngb-tab>
-            <ng-template ngbTabTitle>
-                <div class="y-product-details__tab-title">
-                    Specs
-                </div>
-            </ng-template>
-            <ng-template ngbTabContent>
-                <div class="y-product-details__tab-section">
+                </ng-template>
+            </ngb-panel>
+            <ngb-panel id="toggle-2" title="Specs">
+                <ng-template ngbPanelContent>
                     <y-product-attributes [product]="product"></y-product-attributes>
-                </div>
-            </ng-template>
-        </ngb-tab>
-
-        <ngb-tab id="reviews">
-            <ng-template ngbTabTitle>
-                <div class="y-product-details__tab-title">
-                    Reviews ({{product?.numberOfReviews}})
-                </div>
-            </ng-template>
-            <ng-template ngbTabContent>
-                <div class="y-product-details__tab-section">
+                </ng-template>
+            </ngb-panel>
+            <ngb-panel id="toggle-3" title="Reviews">
+                <ng-template ngbPanelContent>
                     <y-product-reviews [(isWritingReview)]="isWritingReview" [product]="product"></y-product-reviews>
-                </div>
-            </ng-template>
-        </ngb-tab>
-        <ngb-tab>
-            <ng-template ngbTabTitle>
-                <div class="y-product-details__tab-title">
-                    Shipping
-                </div>
-            </ng-template>
-            <ng-template ngbTabContent>
-                <div class="y-product-details__tab-section">
-                    <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'" [componentLoad]="true"></y-component-wrapper>
-                    <y-dynamic-slot position="Tabs"></y-dynamic-slot>
-                </div>
-            </ng-template>
-        </ngb-tab>
-    </ngb-tabset>
-</div>
-
-<!-- Mobile accordion -->
-<div class="y-product-details__tabset-mobile">
-    <ngb-accordion #acc="ngbAccordion">
-        <ngb-panel id="toggle-1" title="Product Details">
-            <ng-template ngbPanelContent>
-                <p [innerHTML]="product?.description"></p>
-            </ng-template>
-        </ngb-panel>
-        <ngb-panel id="toggle-2" title="Specs">
-            <ng-template ngbPanelContent>
-                <y-product-attributes [product]="product"></y-product-attributes>
-            </ng-template>
-        </ngb-panel>
-        <ngb-panel id="toggle-3" title="Reviews">
-            <ng-template ngbPanelContent>
-                <y-product-reviews [(isWritingReview)]="isWritingReview" [product]="product"></y-product-reviews>
-            </ng-template>
-        </ngb-panel>
-        <ngb-panel id="toggle-4" title="Shipping">
-            <ng-template ngbPanelContent>
-                <div class="y-product-details__tab-section">
-                    <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'" [componentLoad]="true"></y-component-wrapper>
-                    <y-dynamic-slot position="Tabs"></y-dynamic-slot>
-                </div>
-            </ng-template>
-        </ngb-panel>
-    </ngb-accordion>
-</div>
+                </ng-template>
+            </ngb-panel>
+            <ngb-panel id="toggle-4" title="Shipping">
+                <ng-template ngbPanelContent>
+                    <div class="y-product-details__tab-section">
+                        <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'" [componentLoad]="true"></y-component-wrapper>
+                        <y-dynamic-slot position="Tabs"></y-dynamic-slot>
+                    </div>
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+    </div>
+</ng-container>
