@@ -11,7 +11,7 @@ import * as fromUser from '../../../user/store';
 import * as fromAuth from '../../../auth/store';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { ConfigService } from '../../../occ/config.service';
+import { OccModuleConfig } from '../../../occ/occ-module-config';
 import { CartService } from '../../services/cart.service';
 import { CartDataService } from '../../services/cart-data.service';
 import { ProductImageConverterService } from '../../../product/converters';
@@ -57,7 +57,7 @@ describe('Cart effect', () => {
         OccCartService,
         ProductImageConverterService,
         fromEffects.CartEffects,
-        ConfigService,
+        OccModuleConfig,
         CartService,
         CartDataService,
         provideMockActions(() => actions$)

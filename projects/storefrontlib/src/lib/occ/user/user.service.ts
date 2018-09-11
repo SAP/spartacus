@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { ConfigService } from '../config.service';
+import { OccModuleConfig } from '../occ-module-config';
 
 import { UserRegisterFormData } from '../../user/models/user.model';
 
@@ -18,10 +18,7 @@ const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 @Injectable()
 export class OccUserService {
   // some extending from baseservice is not working here...
-  constructor(
-    protected http: HttpClient,
-    protected configService: ConfigService
-  ) {}
+  constructor(protected http: HttpClient, protected config: OccModuleConfig) {}
 
   public loadUser(userId: string): Observable<any> {
     const url = this.getUserEndpoint() + userId;
@@ -78,9 +75,9 @@ export class OccUserService {
 
   protected getUserEndpoint() {
     return (
-      this.configService.server.baseUrl +
-      this.configService.server.occPrefix +
-      this.configService.site.baseSite +
+      this.config.server.baseUrl +
+      this.config.server.occPrefix +
+      this.config.site.baseSite +
       '/' +
       USER_ENDPOINT
     );
