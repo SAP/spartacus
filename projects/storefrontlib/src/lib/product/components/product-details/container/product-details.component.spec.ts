@@ -96,4 +96,13 @@ describe('ProductDetailsComponent in product', () => {
       expect(product).toEqual(mockProduct)
     );
   });
+
+  it('should go to reviews tab', () => {
+    productDetailsComponent.productCode = '123456';
+    productDetailsComponent.ngOnChanges();
+    productDetailsComponent.product$.subscribe(() => {
+      productDetailsComponent.goToReviews();
+      expect(productDetailsComponent.tabSet.activeId).toEqual('reviews');
+    });
+  });
 });
