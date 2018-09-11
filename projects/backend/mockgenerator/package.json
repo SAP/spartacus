@@ -1,6 +1,5 @@
 {
   "name": "hybris-mock-server",
-  "license": "MIT",
   "version": "0.1.0",
   "engines": {
     "node": ">=8.9.0"
