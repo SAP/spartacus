@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { combineReducers, StoreModule } from '@ngrx/store';
 
 import { StoreFinderListCountComponent } from './store-finder-list-count.component';
 
@@ -9,7 +9,6 @@ import * as fromRoot from '../../../routing/store';
 describe('StoreFinderListCountComponent', () => {
   let component: StoreFinderListCountComponent;
   let fixture: ComponentFixture<StoreFinderListCountComponent>;
-  let store: Store<fromReducers.StoresState>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -26,8 +25,6 @@ describe('StoreFinderListCountComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListCountComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
-    spyOn(store, 'dispatch').and.callThrough;
     fixture.detectChanges();
   });
 
