@@ -10,6 +10,7 @@
     "prettier-fix": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss}\" --write",
     "lint": "ng lint",
     "start": "ng serve",
+    "start:dev": "ng serve --configuration development",
     "build": "ng build",
     "build:core:lib": "ng build storefrontlib",
     "test": "ng test",
