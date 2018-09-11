@@ -3,7 +3,7 @@
         <span [ngClass]="country?.storeCountDataList ? 'country-header' : 'country-header-link'">{{country.name}}</span><span
             [ngClass]="country?.storeCountDataList ? 'country-header' : 'country-header-link'" *ngIf="!country?.storeCountDataList">({{country.count}})</span>
         <div *ngFor="let region of country?.storeCountDataList;" class="col-md-4">
-            <button mat-button class="primary"><u>{{region.name}} ({{region.count}})</u></button>
+            <button mat-button class="primary"><u>{{region.name}}</u> ({{region.count}})</button>
         </div>
     </div>
 </ng-container>
