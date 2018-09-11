@@ -2,7 +2,7 @@ import { HelpPageComponent } from './help-page.component';
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { HelpPageLayoutModule } from '../../layout/help-page-layout/help-page-layout.module';
 
-fdescribe('HelpPageLayoutComponent', () => {
+describe('HelpPageLayoutComponent', () => {
   let component: HelpPageComponent;
   let fixture: ComponentFixture<HelpPageComponent>;
 
