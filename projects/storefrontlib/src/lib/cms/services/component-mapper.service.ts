@@ -16,30 +16,33 @@ export class ComponentMapperService {
     private config: CmsModuleConfig,
     @Inject('cmsComponentMapping') protected customCmsComponentMappingProviders
   ) {
-    console.log(
-      'ComponentMapperService customCmsComponentMappingProviders',
-      customCmsComponentMappingProviders
-    );
+    // console.log(
+    //   'ComponentMapperService customCmsComponentMappingProviders',
+    //   customCmsComponentMappingProviders
+    // );
 
     let customCmsComponentMappings = {};
     customCmsComponentMappingProviders.forEach(element => {
-      customCmsComponentMappings = { ...customCmsComponentMappings, ...element };
+      customCmsComponentMappings = {
+        ...customCmsComponentMappings,
+        ...element
+      };
     });
-    console.log('ComponentMapperService customCmsComponentMappings', customCmsComponentMappings);
+    // console.log('ComponentMapperService customCmsComponentMappings', customCmsComponentMappings);
 
-    console.log(
-      'ComponentMapperService config.cmsComponentMapping',
-      this.config.cmsComponentMapping
-    );
+    // console.log(
+    //   'ComponentMapperService config.cmsComponentMapping',
+    //   this.config.cmsComponentMapping
+    // );
 
     this.cmsComponentMapping = {
       ...this.config.cmsComponentMapping,
       ...customCmsComponentMappings
     };
-    console.log(
-      'ComponentMapperService this.cmsComponentMapping',
-      this.cmsComponentMapping
-    );
+    // console.log(
+    //   'ComponentMapperService this.cmsComponentMapping',
+    //   this.cmsComponentMapping
+    // );
   }
   /**
    * @desc
