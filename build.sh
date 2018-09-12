@@ -91,9 +91,6 @@ if [[ -n "$coverage" ]]; then
 fi
 
 echo "-----"
-echo "Running unit tests and checking code coverage for storefront app"
-ng test storefrontapp --watch=false --browsers=ChromeHeadless
-echo "-----"
 echo "Building SPA core lib"
 ng build storefrontlib --prod
 echo "-----"
