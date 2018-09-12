@@ -22,7 +22,7 @@ export class ProductDetailsPage extends AppPage {
     by.tagName('y-product-summary')
   );
   readonly outOfStockDiv: ElementFinder = this.productSummaryComponent.element(
-    by.cssContainingText('div', 'outOfStock')
+    by.cssContainingText('span', 'Out of stock')
   );
   readonly addToCartButton: ElementFinder = this.addToCartComponent.element(
     by.tagName('button')
