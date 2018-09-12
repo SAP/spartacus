@@ -1,12 +1,34 @@
-<mat-card class="product">
+<!--<div class="row">-->
+    <div class="col-12 col-sm-6 col-md-4">
+        <a [routerLink]="['/product/', product.code]" class="y-product-search-grid__image--container">
+            <img class="y-product-search-grid__image" [src]="product.images?.PRIMARY" alt="{{product.summary}}">
+            <y-picture [imageContainer]="product.images?.PRIMARY" imageFormat="product" [routerLink]="['/product/', product.code]" [imageDescription]="product.summary"></y-picture>
+        </a>
+        <a [routerLink]="['/product/', product.code]" class="y-product-search-grid__name" [innerHTML]="product.name">{{product.name}}</a>
 
-    <y-add-to-cart *ngIf="product.stock.stockLevelStatus !== 'outOfStock'" style="position: absolute" [iconOnly]="true" [productCode]="product.code"></y-add-to-cart>
-    <div *ngIf="product.stock.stockLevelStatus === 'outOfStock'">Out of Stock</div>
+        <div class="y-product-search-grid__rating">
+            <y-star-rating [rating]="product?.averageRating"></y-star-rating>
+        </div>
+        <div class="y-product-search-grid__price--container">
+            <div class="y-product-search-grid__price y-product-search-grid__price--new" aria-label="new item price">
+                {{product.price.formattedValue}}
+            </div>
+        </div>
 
-    <y-picture [imageContainer]="product.images?.PRIMARY" imageFormat="product" [routerLink]="['/product/', product.code]"></y-picture>
+        <y-add-to-cart *ngIf="product.stock.stockLevelStatus !== 'outOfStock'" [productCode]="product.code"></y-add-to-cart>
+    </div>
+<!--</div>-->
 
-    <h3 [routerLink]="['/product/', product.code]" [innerHTML]="product.name">{{product.name}}</h3>
-    <p [innerHTML]="product.summary">{{product.summary}}</p>
-    <p>{{product.price.currencyIso}} {{product.price.value}}</p>
 
-</mat-card>
+<!--<mat-card class="product">-->
+
+    <!--<y-add-to-cart *ngIf="product.stock.stockLevelStatus !== 'outOfStock'" style="position: absolute" [iconOnly]="true" [productCode]="product.code"></y-add-to-cart>-->
+    <!--<div *ngIf="product.stock.stockLevelStatus === 'outOfStock'">Out of Stock</div>-->
+
+    <!--<y-picture [imageContainer]="product.images?.PRIMARY" imageFormat="product" [routerLink]="['/product/', product.code]"></y-picture>-->
+
+    <!--<h3 [routerLink]="['/product/', product.code]" [innerHTML]="product.name">{{product.name}}</h3>-->
+    <!--<p [innerHTML]="product.summary">{{product.summary}}</p>-->
+    <!--<p>{{product.price.currencyIso}} {{product.price.value}}</p>-->
+
+<!--</mat-card>-->

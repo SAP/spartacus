@@ -1,12 +1,40 @@
-<mat-card class="product">
+<div class="y-product-search-list">
+    <div class="row">
+        <div class="col-12 col-md-4">
+            <a [routerLink]="['/product/', product.code]" class="y-product-search-list__image__container">
+                <img class="y-product-search-list__image" [src]="product.images?.PRIMARY" [alt]="product.summary">
+            </a>
+        </div>
+        <div class="col-12 col-md-8">
+            <a [routerLink]="['/product/', product.code]" class="y-product-search-list__name" [innerHtml]="product.name">{{product.name}}</a>
+            <!y-star-rating><!/y-star-rating>
+            <div class="y-product-search-list__price" aria-label="new item price">
+                {{product.price.formattedValue}}
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <p class="y-product-search-list__summary" [innerHtml]="product.summary">
+                        {{product.summary}}
+                    </p>
+                </div>
+                <div class="col-12 col-md-4">
+                    <button type="button" class="btn btn-primary btn-block">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <y-picture [imageContainer]="product.images?.PRIMARY" imageFormat="thumbnail" [routerLink]="['/product/', product.code]"></y-picture>
 
-    <h3 [innerHtml]="product.name" [routerLink]="['/product/', product.code]">{{product.name}}</h3>
-    <p [innerHtml]="product.summary">{{product.summary}}</p>
-    <p>{{product.price.formattedValue}}</p>
+<!--<mat-card class="product">-->
 
-    <y-add-to-cart *ngIf="product.stock.stockLevelStatus !== 'outOfStock'" [productCode]="product.code"></y-add-to-cart>
-    <div *ngIf="product.stock.stockLevelStatus === 'outOfStock'">Out of Stock</div>
+    <!--<y-picture [imageContainer]="product.images?.PRIMARY" imageFormat="thumbnail" [routerLink]="['/product/', product.code]"></y-picture>-->
 
-</mat-card>
+    <!--<h3 [innerHtml]="product.name" [routerLink]="['/product/', product.code]">{{product.name}}</h3>-->
+    <!--<p [innerHtml]="product.summary">{{product.summary}}</p>-->
+    <!--<p>{{product.price.formattedValue}}</p>-->
+
+    <!--<y-add-to-cart *ngIf="product.stock.stockLevelStatus !== 'outOfStock'" [productCode]="product.code"></y-add-to-cart>-->
+    <!--<div *ngIf="product.stock.stockLevelStatus === 'outOfStock'">Out of Stock</div>-->
+
+<!--</mat-card>-->

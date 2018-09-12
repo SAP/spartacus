@@ -15,10 +15,10 @@ import { ProductPagingComponent } from './product-paging/product-paging.componen
 import { ProductSortingComponent } from './product-sorting/product-sorting.component';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
-import { ProductLineItemComponent } from './product-line-item/product-line-item.component';
-import { NgbPaginationConfig, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbModalModule, NgbModule, NgbPaginationConfig, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ProductViewComponent } from './product-view/product-view.component';
+import { FormComponentsModule } from '../../../ui/components/form-components/form-components.module';
 
 
 @NgModule({
@@ -26,11 +26,15 @@ import { ProductViewComponent } from './product-view/product-view.component';
     CommonModule,
     RouterModule,
     MediaModule,
-    NgbPaginationModule,
+    NgbModule.forRoot(),
+    // NgbPaginationModule,
+    // NgbCollapseModule,
+    // NgbModalModule,
     NgSelectModule,
     MaterialModule,
     FlexLayoutModule,
-    AddToCartModule
+    AddToCartModule,
+    FormComponentsModule
   ],
   declarations: [
     ProductListComponent,
@@ -39,7 +43,6 @@ import { ProductViewComponent } from './product-view/product-view.component';
     ProductSortingComponent,
     ProductListItemComponent,
     ProductGridItemComponent,
-    ProductLineItemComponent,
     ProductViewComponent
   ],
   providers: [

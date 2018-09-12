@@ -31,16 +31,15 @@
                         </div>
                         <div class="y-product-search__item--container">
                             <!-- <div *ngIf="grid.mode==='grid'"> -->
-                            <y-product-grid-item *ngFor="let product of model?.products" [product]="product"></y-product-grid-item>
+                            <div class="row">
+                                <y-product-grid-item *ngFor="let product of model?.products" [product]="product"></y-product-grid-item>
+                            </div>
                             <!-- </div> -->
 
                             <!-- <div *ngIf="grid.mode==='list'" class="product-list"> -->
-                            <!-- <y-product-list-item></y-product-list-item> -->
+                            <!--<y-product-list-item *ngFor="let product of model?.products" [product]="product"></y-product-list-item> -->
                             <!-- </div> -->
 
-                            <!-- <div *ngIf="grid.mode==='line'">
-                                <y-product-line-item *ngFor="let product of model?.products" [product]="product"></y-product-line-item>
-                            </div>  -->
                         </div>
                         <div class="y-product-search__sorting--bottom">
                             <div class="row">

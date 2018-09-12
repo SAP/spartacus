@@ -7,6 +7,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { HttpUrlEncodingCodec } from '@angular/common/http';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'y-product-facet-navigation',
@@ -24,7 +25,11 @@ export class ProductFacetNavigationComponent implements OnInit {
   showAllPerFacetMap: Map<String, boolean>;
   queryCodec: HttpUrlEncodingCodec;
 
-  constructor() {
+  get visibleFacets() {
+    return this.searchResult.facets.filter(facet => facet.visible);
+  }
+
+  constructor(private modalService: NgbModal) {
     this.showAllPerFacetMap = new Map<String, boolean>();
     this.queryCodec = new HttpUrlEncodingCodec();
   }
@@ -32,6 +37,14 @@ export class ProductFacetNavigationComponent implements OnInit {
   ngOnInit() {
     this.searchResult.facets.forEach(el => {
       this.showAllPerFacetMap.set(el.name, false);
+    });
+  }
+
+  openFilterModal(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      // this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      // this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
 
