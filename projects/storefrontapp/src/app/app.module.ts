@@ -13,11 +13,9 @@ import {
   CmsModule,
   RoutingModule,
   UiFrameworkModule,
-  SiteContextModule
+  SiteContextModule,
+  MainComponent
 } from 'storefrontlib';
-
-// bootstrap
-import { AppComponent } from './app.component';
 
 @NgModule({
   imports: [
@@ -42,7 +40,6 @@ import { AppComponent } from './app.component';
       useValue: 'en-US'
     }
   ],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent]
+  bootstrap: [MainComponent]
 })
 export class AppModule {}
