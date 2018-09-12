@@ -12,7 +12,7 @@ import {
   ComponentWrapperComponent,
   DynamicSlotComponent
 } from '../../../cms/components';
-import { ConfigService } from '../../../cms/config.service';
+import { CmsModuleConfig } from '../../../cms/cms-module-config';
 import { MaterialModule } from '../../../material.module';
 import { PageType } from '../../../routing/models/page-context.model';
 import * as fromRouting from '../../../routing/store';
@@ -40,7 +40,7 @@ const mockUserDetails: any = {
   uid: 'UID'
 };
 
-class MockConfigService {
+class MockCmsModuleConfig {
   server = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
@@ -94,7 +94,7 @@ describe('LoginComponent', () => {
             }
           }
         },
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
       ]
     }).compileComponents();
   }));

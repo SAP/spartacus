@@ -24,6 +24,10 @@ describe('ProductFacetNavigationComponent in product-list', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should define query decoder', () => {
+    expect(component.queryCodec).toBeDefined();
+  });
+
   it('should toggle value', () => {
     component.toggleValue('mockQuery');
     expect(component.filter.emit).toHaveBeenCalledWith('mockQuery');
