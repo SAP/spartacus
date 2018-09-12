@@ -4,7 +4,6 @@ import { HomePage } from '../page-objects/home.po';
 import { SearchResultsPage } from '../page-objects/search-results.po';
 import { ProductDetailsPage } from '../page-objects/product-details.po';
 import { E2EUtil } from '../e2e-util';
-import { AutocompletePanel } from '../page-objects/cmslib/autocomplete-panel.po';
 import { AddedToCartModal } from '../page-objects/cmslib/added-to-cart-modal.po';
 
 describe('Cart interactions', () => {
