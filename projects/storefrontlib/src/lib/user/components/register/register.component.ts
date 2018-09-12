@@ -11,7 +11,7 @@ import { take, tap, switchMap } from 'rxjs/operators';
 import * as fromAuthStore from '../../../auth/store';
 import * as fromRouting from '../../../routing/store';
 import * as fromUserStore from '../../store';
-import { FormValidationService } from '../../../ui/services/form-validation/form-validation.service';
+import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
 
 @Component({
   selector: 'y-register',
@@ -31,12 +31,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.email,
-          this.formValidationService.emailDomainValidator
+          CustomFormValidators.emailDomainValidator
         ]
       ],
       password: [
         '',
-        [Validators.required, this.formValidationService.passwordValidator]
+        [Validators.required, CustomFormValidators.passwordValidator]
       ],
       passwordconf: ['', Validators.required],
       newsletter: [false],
@@ -47,8 +47,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromUserStore.UserState>,
-    private fb: FormBuilder,
-    private formValidationService: FormValidationService
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {

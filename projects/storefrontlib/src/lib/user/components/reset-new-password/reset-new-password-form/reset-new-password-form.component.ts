@@ -6,7 +6,7 @@ import {
   AbstractControl
 } from '@angular/forms';
 
-import { FormValidationService } from '../../../../ui/services/form-validation/form-validation.service';
+import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
 
 @Component({
   selector: 'y-reset-new-password-form',
@@ -16,10 +16,7 @@ import { FormValidationService } from '../../../../ui/services/form-validation/f
 export class ResetNewPasswordFormComponent implements OnInit {
   form: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private formValidationService: FormValidationService
-  ) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     // TODO: We need API to verify token, and get address email
@@ -28,7 +25,7 @@ export class ResetNewPasswordFormComponent implements OnInit {
       {
         password: [
           '',
-          [Validators.required, this.formValidationService.passwordValidator]
+          [Validators.required, CustomFormValidators.passwordValidator]
         ],
         repassword: ['', [Validators.required]]
       },
