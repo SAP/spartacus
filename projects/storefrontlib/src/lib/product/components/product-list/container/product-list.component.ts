@@ -113,4 +113,9 @@ export class ProductListComponent implements OnChanges, OnInit {
       })
     );
   }
+
+  onViewModeChange($event: string) {
+    console.log($event);
+    this.grid.mode = $event;
+  }
 }
