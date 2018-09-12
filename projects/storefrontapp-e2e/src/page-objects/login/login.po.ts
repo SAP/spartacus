@@ -6,6 +6,9 @@ import { E2EUtil } from '../../e2e-util';
 export class LoginPage extends AppPage {
   readonly page: ElementFinder = element(by.tagName('y-login-page'));
   readonly loginForm: LoginForm = new LoginForm(this.page);
+  readonly registerButton: ElementFinder = this.page.element(
+    by.cssContainingText('a', 'Register')
+  );
 
   navigateTo() {
     return browser.get('/login');

@@ -33,7 +33,7 @@ describe('Cart interactions', () => {
     await home.header.performSearch('camera');
 
     // wait for search results page to show up
-    searchResults.waitForReady();
+    await searchResults.waitForReady();
 
     // select one product by name and add it to the cart
     const product1 = searchResults.productByNameInResults(
