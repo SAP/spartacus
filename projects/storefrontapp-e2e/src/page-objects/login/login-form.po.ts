@@ -14,7 +14,6 @@ export class LoginForm {
   );
 
   async waitForReady() {
-    console.log('form', this.form);
     await E2EUtil.wait4VisibleElement(this.form);
   }
 
