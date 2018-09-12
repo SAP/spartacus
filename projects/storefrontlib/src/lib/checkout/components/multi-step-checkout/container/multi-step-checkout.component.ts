@@ -153,6 +153,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     });
 
     this.step = step;
+    this.tAndCToggler = false;
   }
 
   addAddress(addressObject) {
