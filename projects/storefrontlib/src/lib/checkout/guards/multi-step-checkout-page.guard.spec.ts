@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 
 import { MultiStepCheckoutPageGuard } from './multi-step-checkout-page.guard';
 import { Store } from '@ngrx/store';
-import * as fromStore from './../../cart/store';
 import { CartService } from '../../cart/services';
 import { BehaviorSubject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,9 +15,6 @@ const mockCartService = {
 const MAIN_PAGE_ROUTE = [''];
 
 export class MockStore<T> extends BehaviorSubject<T> {
-  constructor(private initialState: T) {
-    super(initialState);
-  }
   select = () => this;
 }
 

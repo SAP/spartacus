@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../cart/store';
-import { map, skipWhile, tap } from 'rxjs/operators';
+import { map, skipWhile } from 'rxjs/operators';
 import { CartService } from '../../cart/services';
 
 @Injectable()
