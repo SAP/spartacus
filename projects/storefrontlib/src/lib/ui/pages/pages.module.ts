@@ -9,6 +9,7 @@ import { OrderConfirmationPageModule } from './order-confirmation-page/order-con
 import { MultiStepCheckoutPageModule } from './multi-step-checkout-page/multi-step-checkout-page.module';
 import { RegisterPageModule } from './register-page/register-page.module';
 import { LoginPageModule } from './login-page/login-page.module';
+import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
 import { SalePageModule } from './sale-page/sale-page.module';
 
@@ -36,6 +37,7 @@ import { ProductPageModule } from './product-page/product-page.module';
     ProductPageModule,
     RegisterPageModule,
     LoginPageModule,
+    ResetPasswordPageModule,
     StoreFinderPageModule,
     SalePageModule,
     // new pages should be added above this line
@@ -53,6 +55,7 @@ import { ProductPageModule } from './product-page/product-page.module';
     ProductPageModule,
     RegisterPageModule,
     LoginPageModule,
+    ResetPasswordPageModule,
     StoreFinderPageModule,
     SalePageModule,
     // new pages should be added above this line
