@@ -10,7 +10,7 @@
                     <div class="y-product-details__item-code">ID {{product?.code}}</div>
 
                     <div class="y-product-details__item-rating">
-                        <y-star-rating [rating]="product?.averageRating"></y-star-rating>
+                        <y-star-rating [rating]="product?.averageRating" [disabled]="true"></y-star-rating>
                         <div class="y-product-details__review-count">({{product?.numberOfReviews}})</div>
                         <a class="y-product-details__review-link btn-link" (click)="goToReviews($event)">Write a review</a>
                     </div>
