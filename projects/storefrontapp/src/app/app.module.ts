@@ -32,14 +32,6 @@ import {
     UiModule,
     UiFrameworkModule
   ],
-
-  providers: [
-    {
-      // TODO: configure locale
-      provide: LOCALE_ID,
-      useValue: 'en-US'
-    }
-  ],
   bootstrap: [MainComponent]
 })
 export class AppModule {}
