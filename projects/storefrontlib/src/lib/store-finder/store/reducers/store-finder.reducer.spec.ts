@@ -27,7 +27,21 @@ describe('Store Finder Reducer', () => {
       const resultAction = new fromActions.FindStoresSuccess(results);
       const state = fromReducers.reducer(loadingState, resultAction);
 
-      expect(state.entities).toEqual(results);
+      expect(state.findStoresEntities).toEqual(results);
+    });
+  });
+
+  describe('FIND_ALL_STORES_SUCCESS action', () => {
+    it('should populate results after loading', () => {
+      const results = { stores: [{ name: 'test' }] };
+      const { initialState } = fromReducers;
+      const loadAction = new fromActions.FindAllStores();
+
+      const loadingState = fromReducers.reducer(initialState, loadAction);
+      const resultAction = new fromActions.FindAllStoresSuccess(results);
+      const state = fromReducers.reducer(loadingState, resultAction);
+
+      expect(state.viewAllStoresEntities).toEqual(results);
     });
   });
 });
