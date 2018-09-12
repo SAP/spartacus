@@ -11,7 +11,7 @@
 //Bootsrap modules (these are things we are NOT changing at all)
 @import '~bootstrap/scss/reboot', '~bootstrap/scss/type', '~bootstrap/scss/grid',
   '~bootstrap/scss/utilities', '~bootstrap/scss/transitions',
-  '~bootstrap/scss/card';
+  '~bootstrap/scss/card', '~bootstrap/scss/nav';
 
 @import '~@ng-select/ng-select/themes/default.theme.css';
 
@@ -25,6 +25,7 @@
 @import 'ybase/blocks/tables';
 @import 'ybase/blocks/card';
 @import 'ybase/blocks/accordion';
+@import 'ybase/blocks/tabs';
 
 //layout
 @import 'ybase/layout/app';

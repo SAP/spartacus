@@ -1,4 +1,5 @@
 @import 'theme';
+@import 'functions';
 @import 'mixins';
 
 .accordion {
@@ -11,31 +12,40 @@
       padding: 25px 20px;
       border: none;
 
-      a {
+      h5 {
         font-size: $font-size-base * 1.375;
         font-weight: 600;
         color: theme-color('text');
 
-        &:hover {
-          text-decoration: none;
-        }
+        .btn {
+          text-align: left;
+          text-decoration: none !important;
+          width: 100%;
+          font-weight: 600;
 
-        &:after {
-          float: right;
-          font-size: 33px;
-        }
-
-        &[aria-expanded='false'] {
-          &:after {
-            content: '+';
+          &:hover {
+            text-decoration: none;
           }
-        }
-
-        &[aria-expanded='true'] {
-          color: theme-color('primary');
 
           &:after {
-            content: '\2013';
+            float: right;
+            font-size: 33px;
+            bottom: 12px;
+            position: relative;
+          }
+
+          &[aria-expanded='false'] {
+            &:after {
+              content: '+';
+            }
+          }
+
+          &[aria-expanded='true'] {
+            color: theme-color('primary');
+
+            &:after {
+              content: '\2013';
+            }
           }
         }
       }
