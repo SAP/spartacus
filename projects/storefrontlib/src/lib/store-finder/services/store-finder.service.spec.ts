@@ -43,4 +43,14 @@ describe('StoreFinderService', () => {
       );
     });
   });
+
+  describe('View All Stores', () => {
+    it('should dispatch a new action', () => {
+      service.viewAllStores();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.FindAllStores()
+      );
+    });
+  });
 });

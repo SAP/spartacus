@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StoreFinderPageLayoutComponent implements OnInit {
   query: string;
+  showMapListComponent: boolean;
 
   constructor() {}
 
@@ -14,5 +15,9 @@ export class StoreFinderPageLayoutComponent implements OnInit {
 
   persistQuery(query: string) {
     this.query = query;
+  }
+
+  showMapList(value: boolean) {
+    this.showMapListComponent = value;
   }
 }
