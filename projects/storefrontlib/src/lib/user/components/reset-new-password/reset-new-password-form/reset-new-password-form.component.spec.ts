@@ -3,13 +3,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResetNewPasswordFormComponent } from './reset-new-password-form.component';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 
+import { FormValidationService } from '../../../../ui/services/form-validation/form-validation.service';
+
 describe('ResetNewPasswordFormComponent', () => {
   let component: ResetNewPasswordFormComponent;
   let fixture: ComponentFixture<ResetNewPasswordFormComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, RouterTestingModule],
-      declarations: [ResetNewPasswordFormComponent]
+      declarations: [ResetNewPasswordFormComponent],
+      providers: [FormValidationService]
     }).compileComponents();
   }));
 

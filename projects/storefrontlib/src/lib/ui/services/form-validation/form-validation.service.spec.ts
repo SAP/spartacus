@@ -5,12 +5,18 @@ describe('FormValidationService', () => {
   let service: FormValidationService;
   let email: FormControl;
   let emailError: ValidationErrors;
+  let password: FormControl;
+  let passwordError: ValidationErrors;
 
   beforeEach(() => {
     service = new FormValidationService();
     email = new FormControl();
     emailError = {
       InvalidEmail: true
+    };
+    password = new FormControl();
+    passwordError = {
+      InvalidPassword: true
     };
   });
 
@@ -23,6 +29,16 @@ describe('FormValidationService', () => {
     it('should reject email without domain', () => {
       email.setValue('test@test');
       expect(service.emailDomainValidator(email)).toEqual(emailError);
+    });
+  });
+
+  describe('Password validator', () => {
+    it('should apply specified rule', () => {
+      password.setValue('Test123!');
+      expect(service.passwordValidator(password)).toBeNull();
+
+      password.setValue('test123!');
+      expect(service.passwordValidator(password)).toEqual(passwordError);
     });
   });
 });

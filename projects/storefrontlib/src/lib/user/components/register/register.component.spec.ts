@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import * as fromStore from '../../store';
 import * as fromAuthStore from '../../../auth/store';
 import { RegisterComponent } from './register.component';
+import { FormValidationService } from '../../../ui/services/form-validation/form-validation.service';
 
 const mockTitlesList = {
   titles: [
@@ -38,7 +39,10 @@ describe('RegisterComponent', () => {
         })
       ],
       declarations: [RegisterComponent],
-      providers: [{ provide: ActivatedRoute, useValue: {} }]
+      providers: [
+        { provide: ActivatedRoute, useValue: {} },
+        FormValidationService
+      ]
     }).compileComponents();
   }));
 
