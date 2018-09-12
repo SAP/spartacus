@@ -7,6 +7,11 @@ export class AddedToCartModal {
   closeButton: ElementFinder = this.modal.element(
     by.css('.mat-dialog-close-btn')
   );
+  readonly proceedToCheckoutButton: ElementFinder = this.modal.element(
+    by.css('button[routerLink="/checkout"]')
+  );
+  readonly cartItem = (itemNo: number): ElementFinder =>
+    this.modal.all(by.tagName('y-cart-item')).get(itemNo); // tslint:disable-line
 
   async waitForReady() {
     await E2EUtil.wait4VisibleElement(this.modal);

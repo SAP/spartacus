@@ -8,7 +8,10 @@ exports.config = {
   SELENIUM_PROMISE_MANAGER: false,
   capabilities: {
     browserName: 'chrome',
-    acceptInsecureCerts: true
+    acceptInsecureCerts: true,
+    chromeOptions: {
+      args: ['--window-size=1024,768']
+    }
   },
   jasmineNodeOpts: {
     showColors: true,
