@@ -1,14 +1,20 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
+import { StoreDataService } from '../../services';
 
 @Component({
   selector: 'y-store-finder-store-description',
   templateUrl: './store-finder-store-description.component.html',
   styleUrls: ['./store-finder-store-description.component.css']
 })
-export class StoreFinderStoreDescriptionComponent implements OnInit {
+export class StoreFinderStoreDescriptionComponent
+  extends AbstractStoreItemComponent
+  implements OnInit {
   @Input() location: any;
 
-  constructor() {}
+  constructor(protected storeDataService: StoreDataService) {
+    super(storeDataService);
+  }
 
   ngOnInit() {}
 }

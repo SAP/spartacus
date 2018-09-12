@@ -1,20 +1,24 @@
 <ng-container>
-  <p (click)="handleStoreItemClick()">
-    <b>
-      <u>{{ location.displayName }}</u>
-    </b>
-  </p>
-  <p>{{location.address.line1}}</p>
-  <p>{{location.address.town}}, {{location.address.region?.name}}, {{location.address.postalCode}}</p>
-  <div *ngIf="isOpen(location)">
-    <b class="open">
-      {{getClosingTime(location) | date:'EEE'}}: Open until {{getClosingTime(location) | date:'shortTime'}}
-    </b>
-  </div>
-  <div *ngIf="!isOpen(location)">
-    <b class="closed">{{getClosingTime(location) | date: 'EEE'}}: Closed</b>
-  </div>
-  <br>
-  <a href="{{getDirections(location)}}" mat-button color="primary" target="_blank">Get Directions</a>
-  <y-store-finder-map locations="[location]"></y-store-finder-map>
+  <article class="storeInfo">
+    <h2 class="storeName">{{ location.displayName }}</h2>
+
+    <p class="storeAddress">{{location.address.line1}}
+      <br/> {{location.address.town + ','}} {{location.address.region? location.address.region.name + ',': ''}} {{location.address.postalCode}}</p>
+
+    <section class="contactInfo">
+      <p>
+        <a href="{{getDirections(location)}}" target="_blank">label: Get Directions</a>
+      </p>
+      <p>label: call phone numer</p>
+      <p>label: contact us</p>
+    </section>
+    <div>
+      <y-schedule [location]="location">
+        <h3>label: Store hours</h3>
+      </y-schedule>
+    </div>
+  </article>
+  <article class="storeMap">
+    <y-store-finder-map [locations]="[location]"></y-store-finder-map>
+  </article>
 </ng-container>

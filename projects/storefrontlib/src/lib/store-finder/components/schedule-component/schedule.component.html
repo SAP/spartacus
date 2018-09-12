@@ -1,0 +1,20 @@
+<ng-content></ng-content>
+<p *ngFor="let day of days">
+    <span class="days">{{day | date:'EEE'}}</span>
+    <span *ngIf="storeDataService.isStoreOpen(location, day)" class="schedule">
+        {{storeDataService.getStoreOpeningTime(location, day) | date: 'HH:mm'}} - {{storeDataService.getStoreClosingTime(location,
+        day) | date: 'HH:mm'}}
+    </span>
+    <span *ngIf="!storeDataService.isStoreOpen(location, day)">closed</span>
+</p>
+
+<div class="container">
+    <div *ngFor="let day of days" class="row">
+        <div class="days col-md-6">{{day | date:'EEE'}}</div>
+        <div *ngIf="storeDataService.isStoreOpen(location, day)" class="schedule col-md-6">
+            {{storeDataService.getStoreOpeningTime(location, day) | date: 'HH:mm'}} - {{storeDataService.getStoreClosingTime(location,
+            day) | date: 'HH:mm'}}
+        </div>
+        <span *ngIf="!storeDataService.isStoreOpen(location, day)">closed</span>
+    </div>
+</div>

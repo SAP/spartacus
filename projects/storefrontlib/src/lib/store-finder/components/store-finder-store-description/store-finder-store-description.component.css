@@ -1,0 +1,21 @@
+.storeName {
+  font-weight: bold;
+}
+
+.storeContactLink {
+}
+
+.contactInfo p {
+  font-weight: bold;
+  text-decoration: underline;
+  color: black;
+  margin-bottom: 0.5rem;
+}
+
+.contactInfo {
+  margin-bottom: 1rem;
+}
+
+.contactInfo a {
+  color: black;
+}
