@@ -1,20 +1,15 @@
 //Functions and mixins
 @import 'functions';
 @import 'mixins';
-
 //Bring in the theme
 @import 'theme';
-
 //Fonts must be added separate from the theme
 @import 'fonts';
-
 //Bootsrap modules (these are things we are NOT changing at all)
 @import '~bootstrap/scss/reboot', '~bootstrap/scss/type', '~bootstrap/scss/grid',
   '~bootstrap/scss/utilities', '~bootstrap/scss/transitions',
   '~bootstrap/scss/card', '~bootstrap/scss/nav';
-
 @import '~@ng-select/ng-select/themes/default.theme.css';
-
 //bootsrap enhancements (these are things we ARE changing)
 @import 'ybase/blocks/buttons';
 @import 'ybase/blocks/forms';
@@ -26,10 +21,8 @@
 @import 'ybase/blocks/card';
 @import 'ybase/blocks/accordion';
 @import 'ybase/blocks/tabs';
-
 //layout
 @import 'ybase/layout/app';
 @import 'ybase/layout/page';
 @import 'ybase/layout/section';
-
 //non-bootstrap blocks and components here below

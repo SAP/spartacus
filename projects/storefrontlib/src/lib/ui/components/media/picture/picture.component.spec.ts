@@ -26,13 +26,13 @@ describe('PictureComponent', () => {
     const mockImageContainer = { product: { url: 'mockProductImageUrl' } };
     component.imageContainer = mockImageContainer;
 
-    component.ngOnInit();
+    component.ngOnChanges();
 
     expect(component.mainImage).toEqual('mockProductImageUrl');
   });
 
   it('should call ngOnInit() with invalid image url', () => {
-    component.ngOnInit();
+    component.ngOnChanges();
 
     expect(component.mainImage).toEqual(undefined);
   });

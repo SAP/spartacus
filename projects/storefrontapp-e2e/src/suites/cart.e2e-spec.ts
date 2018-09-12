@@ -33,7 +33,7 @@ describe('Cart interactions', () => {
     await home.header.performSearch('camera');
 
     // wait for search results page to show up
-    searchResults.waitForReady();
+    await searchResults.waitForReady();
 
     // select one product by name and add it to the cart
     const product1 = searchResults.productByNameInResults(
@@ -46,12 +46,13 @@ describe('Cart interactions', () => {
     const atcModal: AddedToCartModal = new AddedToCartModal();
     await atcModal.waitForReady();
 
-    // quantity should change
-    const product1QuantitySpan = searchResults.getProductQuantitySpan(product1);
-    expect(await product1QuantitySpan.getText()).toEqual(
-      '1',
-      'Wrong add to cart button quantity in search results page'
-    );
+    // // quantity should change
+    // TODO: That is commented, as on new styling we don't have that element
+    // const product1QuantitySpan = searchResults.getProductQuantitySpan(product1);
+    // expect(await product1QuantitySpan.getText()).toEqual(
+    //   '1',
+    //   'Wrong add to cart button quantity in search results page'
+    // );
 
     await atcModal.closeModalWait();
 
@@ -70,10 +71,11 @@ describe('Cart interactions', () => {
     await atcModal.waitForReady();
 
     // quantity should change
-    expect(await productDetails.getProductQuantity()).toEqual(
-      '1',
-      'Wrong product details add to cart button quantity'
-    );
+    // TODO: That is commented, as on new styling we don't have that element
+    // expect(await productDetails.getProductQuantity()).toEqual(
+    //   '1',
+    //   'Wrong product details add to cart button quantity'
+    // );
 
     // close add to cart modal
     await atcModal.closeModalWait();
@@ -85,10 +87,11 @@ describe('Cart interactions', () => {
 
     await atcModal.closeModalWait();
 
-    expect(await productDetails.getProductQuantity()).toEqual(
-      '2',
-      'Wrong product details add to cart button quantity'
-    );
+    // TODO: That is commented, as on new styling we don't have that element
+    // expect(await productDetails.getProductQuantity()).toEqual(
+    //   '2',
+    //   'Wrong product details add to cart button quantity'
+    // );
 
     const minicartIcon = home.header.miniCartButton;
     await browser.wait(ExpectedConditions.elementToBeClickable(minicartIcon));
