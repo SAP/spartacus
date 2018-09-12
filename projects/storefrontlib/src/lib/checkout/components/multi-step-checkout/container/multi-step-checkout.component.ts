@@ -19,7 +19,7 @@ import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
 import { Address } from '../../../models/address-model';
 import { checkoutNavBar } from './checkout-navigation-bar';
-import { CartDataService } from '../../../../cart/services';
+import { CartDataService } from '../../../../cart/services/cart-data.service';
 
 @Component({
   selector: 'y-multi-step-checkout',
