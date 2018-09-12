@@ -1,12 +1,20 @@
+.stores-container {
+  display: block;
+}
+
 .store-address-list {
   font-size: smaller;
+  height: 525px;
 }
 
-.storesList {
+.stores-list {
   float: left;
+  height: 550px;
+  width: auto;
+  overflow: auto;
 }
 
-.storesMap {
+.stores-map {
   float: right;
 }
 

@@ -7,6 +7,7 @@ import { StoreDataService } from './store-data.service';
 const GOOGLE_MAP_API_URL = 'https://maps.googleapis.com/maps/api/js';
 const GOOGLE_API_KEY_PROPERRY_NAME = 'e2egoogleservices.apikey';
 const DEFAULT_SCALE = 12;
+const SELECTED_MARKER_SCALE = 16;
 
 @Injectable()
 export class GoogleMapRendererService {
@@ -42,6 +43,8 @@ export class GoogleMapRendererService {
     } else {
       this.setMapOnAllMarkers(null);
       this.createMarkers(locations);
+      this.googleMap.setCenter(this.defineMapCenter(locations));
+      this.googleMap.setZoom(DEFAULT_SCALE);
     }
   }
 
@@ -52,6 +55,7 @@ export class GoogleMapRendererService {
    */
   public centerMap(latitute: number, longitude: number): void {
     this.googleMap.panTo({ lat: latitute, lng: longitude });
+    this.googleMap.setZoom(SELECTED_MARKER_SCALE);
   }
 
   /**
@@ -93,11 +97,11 @@ export class GoogleMapRendererService {
         position: new google.maps.LatLng(
           this.storeDataService.getStoreLatitude(element),
           this.storeDataService.getStoreLongitude(element)
-        )
+        ),
+        label: index + 1 + ''
       });
       this.markers.push(marker);
       marker.setMap(this.googleMap);
-      marker.setLabel(index + 1 + '');
     });
   }
 
