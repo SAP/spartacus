@@ -2,9 +2,6 @@
   font-weight: bold;
 }
 
-.storeContactLink {
-}
-
 .contactInfo p {
   font-weight: bold;
   text-decoration: underline;
@@ -18,4 +15,8 @@
 
 .contactInfo a {
   color: black;
+}
+
+.schedule {
+  margin-top: 1.5rem;
 }
