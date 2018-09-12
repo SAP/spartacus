@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
-
-import { Store } from '@ngrx/store';
 import * as fromStore from './../../cart/store';
-import { map, skipWhile } from 'rxjs/operators';
-import { CartService } from '../../cart/services';
+
+import { CartService } from '../../cart/services/cart.service';
+import { skipWhile, map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 @Injectable()
-export class MultiStepCheckoutPageGuard implements CanActivate {
+export class CartNotEmptyGuard implements CanActivate {
   constructor(
     private store: Store<fromStore.CartState>,
     private cartService: CartService,

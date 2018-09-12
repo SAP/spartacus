@@ -8,6 +8,7 @@ import { services } from './services/index';
 import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
 import { metaReducers } from './store/reducers/index';
+import { guards } from './guards/index';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { metaReducers } from './store/reducers/index';
     EffectsModule.forFeature(effects)
   ],
   exports: [AddToCartModule, CartDetailsModule, CartSharedModule],
-  providers: [reducerProvider, ...services]
+  providers: [reducerProvider, ...services, ...guards]
 })
 export class CartModule {}

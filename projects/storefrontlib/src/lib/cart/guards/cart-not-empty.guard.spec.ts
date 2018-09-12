@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MultiStepCheckoutPageGuard } from './multi-step-checkout-page.guard';
+import { CartNotEmptyGuard } from './cart-not-empty.guard';
 import { Store } from '@ngrx/store';
 import { CartService } from '../../cart/services';
 import { BehaviorSubject } from 'rxjs';
@@ -18,8 +18,8 @@ export class MockStore<T> extends BehaviorSubject<T> {
   select = () => this;
 }
 
-describe('MultiStepCheckoutPageGuard', () => {
-  let multiStepCheckoutPageGuard: MultiStepCheckoutPageGuard;
+describe('CartNotEmptyGuard', () => {
+  let cartNotEmptyGuard: CartNotEmptyGuard;
   let cartService: CartService;
   let router;
   let mockStore: MockStore<any>;
@@ -29,7 +29,7 @@ describe('MultiStepCheckoutPageGuard', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        MultiStepCheckoutPageGuard,
+        CartNotEmptyGuard,
         {
           provide: Router,
           useValue: mockRouter
@@ -47,7 +47,7 @@ describe('MultiStepCheckoutPageGuard', () => {
     });
 
     cartService = TestBed.get(CartService);
-    multiStepCheckoutPageGuard = TestBed.get(MultiStepCheckoutPageGuard);
+    cartNotEmptyGuard = TestBed.get(CartNotEmptyGuard);
     router = TestBed.get(Router);
   });
 
@@ -56,7 +56,7 @@ describe('MultiStepCheckoutPageGuard', () => {
 
     beforeEach(() => {
       spyOn(router, 'navigate');
-      canActivate$ = multiStepCheckoutPageGuard.canActivate();
+      canActivate$ = cartNotEmptyGuard.canActivate();
     });
 
     describe('when cart is created', () => {
