@@ -73,7 +73,7 @@ export class ReviewSubmitComponent implements OnInit {
 
     let region = '';
     if (this.deliveryAddress.region && this.deliveryAddress.region.isocode) {
-      region = this.deliveryAddress.region.isocode;
+      region = this.deliveryAddress.region.isocode + ', ';
     }
 
     return {
@@ -83,7 +83,7 @@ export class ReviewSubmitComponent implements OnInit {
       text: [
         this.deliveryAddress.line1,
         this.deliveryAddress.line2,
-        this.deliveryAddress.town + ', ' + region + ', ' + countryName,
+        this.deliveryAddress.town + ', ' + region + countryName,
         this.deliveryAddress.postalCode,
         this.deliveryAddress.phone
       ]
