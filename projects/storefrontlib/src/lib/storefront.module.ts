@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { AuthModule } from './auth';
 import { RoutingModule } from './routing';
 import { OccModule } from './occ';
@@ -20,6 +20,13 @@ import { UiModule, UiFrameworkModule } from './ui';
   ],
   exports: [],
   declarations: [],
-  providers: []
+  providers: [{ provide: 'APP_CONFIG', useValue: {} }]
 })
-export class StorefrontModule {}
+export class StorefrontModule {
+  static withConfig(config?: any): ModuleWithProviders {
+    return {
+      ngModule: CmsModule,
+      providers: [{ provide: 'APP_CONFIG', useValue: config }]
+    };
+  }
+}
