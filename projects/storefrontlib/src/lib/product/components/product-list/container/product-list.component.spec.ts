@@ -1,4 +1,3 @@
-import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
@@ -19,6 +18,11 @@ import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { ProductViewComponent } from '../product-view/product-view.component';
+import { NgbCollapseModule, NgbPaginationModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { StarRatingComponent } from '../../../../ui';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 describe('ProductListComponent in product-list', () => {
   let store: Store<fromProduct.ProductsState>;
@@ -29,7 +33,11 @@ describe('ProductListComponent in product-list', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
+        NgbPaginationModule,
+        NgbCollapseModule,
+        NgbRatingModule,
+        NgSelectModule,
+        FormsModule,
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
@@ -46,7 +54,9 @@ describe('ProductListComponent in product-list', () => {
         ProductListItemComponent,
         ProductSortingComponent,
         AddToCartComponent,
-        PictureComponent
+        PictureComponent,
+        ProductViewComponent,
+        StarRatingComponent
       ]
     }).compileComponents();
   }));

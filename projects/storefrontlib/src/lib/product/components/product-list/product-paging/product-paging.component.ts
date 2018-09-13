@@ -22,7 +22,6 @@ export class ProductPagingComponent implements OnInit {
   ngOnInit() {}
 
   pageChange(page: number) {
-    console.log(this.pagination.currentPage);
     this.viewPageEvent.emit(page);
   }
 
