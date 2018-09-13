@@ -4,7 +4,10 @@
 
 .store-address-list {
   font-size: smaller;
+  list-style: none;
   height: 525px;
+  padding: 15px;
+  margin: 15px;
 }
 
 .stores-list {
@@ -14,6 +17,17 @@
   overflow: auto;
 }
 
+.store-list-item {
+  border-top: 0.0625rem solid #dbdcdc;
+}
+
+.store-list-item:hover {
+  background-color: #f6f6f6;
+}
+
+.selected-store-item {
+  background-color: #eff0f0;
+}
 .stores-map {
   float: right;
 }

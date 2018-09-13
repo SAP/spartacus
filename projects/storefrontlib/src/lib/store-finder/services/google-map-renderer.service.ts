@@ -26,7 +26,11 @@ export class GoogleMapRendererService {
    * @param mapElement HTML element inside of which the map will be displayed
    * @param locations array containign geo data to be displayed on the map
    */
-  public renderMap(mapElement: HTMLElement, locations: any[]): void {
+  public renderMap(
+    mapElement: HTMLElement,
+    locations: any[],
+    selectedIndex: any
+  ): void {
     if (this.googleMap === null) {
       this.sccConfigurationService
         .getConfiguration(GOOGLE_API_KEY_PROPERRY_NAME)
@@ -36,13 +40,13 @@ export class GoogleMapRendererService {
             { key: result },
             () => {
               this.initMap(mapElement, this.defineMapCenter(locations));
-              this.createMarkers(locations);
+              this.createMarkers(locations, selectedIndex);
             }
           );
         });
     } else {
       this.setMapOnAllMarkers(null);
-      this.createMarkers(locations);
+      this.createMarkers(locations, selectedIndex);
       this.googleMap.setCenter(this.defineMapCenter(locations));
       this.googleMap.setZoom(DEFAULT_SCALE);
     }
@@ -90,7 +94,7 @@ export class GoogleMapRendererService {
    * Erases the current map's markers and create a new one based on the given locations
    * @param locations array of locations to be displayed on the map
    */
-  protected createMarkers(locations: any[]): void {
+  protected createMarkers(locations: any[], selectedIndex: any): void {
     this.markers = [];
     locations.forEach((element, index) => {
       const marker = new google.maps.Marker({
@@ -102,6 +106,15 @@ export class GoogleMapRendererService {
       });
       this.markers.push(marker);
       marker.setMap(this.googleMap);
+      marker.addListener('mouseover', function() {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+      });
+      marker.addListener('mouseout', function() {
+        marker.setAnimation(null);
+      });
+      marker.addListener('click', function() {
+        selectedIndex(index);
+      });
     });
   }
 

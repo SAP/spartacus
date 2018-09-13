@@ -18,6 +18,7 @@ export class StoreFinderListComponent implements OnInit {
   searchConfig: SearchConfig = {
     currentPage: 0
   };
+  selectedStore: number;
 
   @ViewChild('storeMap') storeMap: StoreFinderMapComponent;
 
@@ -43,9 +44,16 @@ export class StoreFinderListComponent implements OnInit {
   }
 
   centerStoreOnMapByIndex(index: number): void {
+    this.selectedStore = index;
     this.storeMap.centerMap(
       this.storeDataService.getStoreLatitude(this.locations.stores[index]),
       this.storeDataService.getStoreLongitude(this.locations.stores[index])
     );
+  }
+
+  selectStoreItemList(index: number): void {
+    this.selectedStore = index;
+    let storeListItem = document.getElementById('item-' + index);
+    storeListItem.scrollIntoView();
   }
 }

@@ -15,6 +15,7 @@ const locations = [
     }
   }
 ];
+const selectedIndex: number = 0;
 
 class ExternalJsFileLoaderMock {
   public load(src: string, params?: Object, callback?: EventListener): void {
@@ -92,7 +93,11 @@ describe('GoogleMapRendererService', () => {
       spyOn(storeDataServiceMock, 'getStoreLongitude').and.callThrough();
 
       // when
-      googleMapRendererService.renderMap(mapDomElement, locations);
+      googleMapRendererService.renderMap(
+        mapDomElement,
+        locations,
+        selectedIndex
+      );
 
       // then
       expect(
@@ -115,7 +120,11 @@ describe('GoogleMapRendererService', () => {
     'should not create a new map',
     fakeAsync(() => {
       // given the map is already rendered
-      googleMapRendererService.renderMap(mapDomElement, locations);
+      googleMapRendererService.renderMap(
+        mapDomElement,
+        locations,
+        selectedIndex
+      );
       tick();
 
       spyOn(
@@ -127,7 +136,11 @@ describe('GoogleMapRendererService', () => {
       spyOn(storeDataServiceMock, 'getStoreLongitude').and.callThrough();
 
       // when rendering the map one more time
-      googleMapRendererService.renderMap(mapDomElement, locations);
+      googleMapRendererService.renderMap(
+        mapDomElement,
+        locations,
+        selectedIndex
+      );
 
       // then google js is not loaded again
       expect(

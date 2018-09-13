@@ -4,7 +4,9 @@ import {
   ViewChild,
   Input,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
 
@@ -16,16 +18,23 @@ import { GoogleMapRendererService } from '../../services/google-map-renderer.ser
 export class StoreFinderMapComponent implements OnChanges {
   @ViewChild('mapElement') mapElement: ElementRef;
   @Input() locations: any[];
-
+  @Output() storeItem: EventEmitter<number> = new EventEmitter();
   constructor(private googleMapRendererService: GoogleMapRendererService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.locations && this.locations) {
       this.googleMapRendererService.renderMap(
         this.mapElement.nativeElement,
-        this.locations
+        this.locations,
+        markerIndex => {
+          this.selectStoreItemClickHandle(markerIndex);
+        }
       );
     }
+  }
+
+  selectStoreItemClickHandle(markerIndex: number) {
+    this.storeItem.emit(markerIndex);
   }
 
   /**
