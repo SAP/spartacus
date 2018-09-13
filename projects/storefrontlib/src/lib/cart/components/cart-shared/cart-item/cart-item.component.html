@@ -7,20 +7,19 @@
   </div>
   <!-- Item Information -->
   <div class="y-cart-item__info col-10">
-      <!-- Item Name -->
-    <div *ngIf="item.product.name" class="y-cart-item__name col-6">{{item.product.name}}</div>
     <div class="y-cart-item__info-container row ">
         <!-- Item Description -->
-        <div class="y-cart-item__description" [ngClass]="compact ? '' : ' col-3'">
+        <div class="y-cart-item__description" [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
+            <div *ngIf="item.product.name" class="y-cart-item__name">{{item.product.name}}</div>
             <div *ngIf="item.product.code" class="y-cart-item__code">ID {{item.product.code}}</div>
             <!-- Variants -->
             <div *ngFor="let variant of item.product.variantOptionQualifiers" class="y-cart-item__property">
-                <div class="y-cart-item__property--label">{{variant.name}}</div>
-                <div class="y-cart-item__property--value">{{variant.value}}</div>
+              <div class="y-cart-item__property--label">{{variant.name}}</div>
+              <div class="y-cart-item__property--value">{{variant.value}}</div>
             </div>
-        </div>
+          </div>
         <!-- Item Price -->
-        <div *ngIf="item.basePrice" class="y-cart-item__price" [ngClass]="compact ? '' : ' col-3'">
+        <div *ngIf="item.basePrice" class="y-cart-item__price" [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'">
             <div class="y-cart-item__price--label" [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none' ">
                 Item
             </div>
@@ -45,14 +44,14 @@
                     [step]="1"
                     [min]="1"
                     [max]="item.product.stock?.stockLevel || 1000"
-                    (change)="updateItem($event, item)"
+                    (update)="updateItem($event, item)"
                     formControlName="quantity"
                 >
                 </y-item-counter>
             </div>
         </div>
         <!-- Total -->
-        <div *ngIf="item.totalPrice" class="y-cart-item__total" [ngClass]="compact ? '' : ' col-3'">
+        <div *ngIf="item.totalPrice" class="y-cart-item__total" [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'">
             <div class="y-cart-item__total--label" [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none' ">
                 Total
             </div>

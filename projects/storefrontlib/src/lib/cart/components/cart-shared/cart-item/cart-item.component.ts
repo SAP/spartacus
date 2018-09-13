@@ -42,8 +42,8 @@ export class CartItemComponent implements OnInit {
     );
   }
 
-  updateItem(updatedQuantity: number, item) {
-    this.update.emit({ item, updatedQuantity });
+  updateItem(updatedQuantity: number) {
+    this.update.emit({ item: this.item, updatedQuantity });
   }
 
   removeItem() {
