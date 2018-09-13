@@ -18,24 +18,26 @@
         </div>
     </ng-template>
     
-    <ng-template ngFor let-facet [ngForOf]="visibleFacets">
+    <ng-template ngFor let-facet [ngForOf]="visibleFacets" let-facetId="index">
         <span class="y-search-facet-header">
             <a class="y-search-facet-header__link" (click)="toggleFacet(facet.name)"
-               [attr.aria-expanded]="!isCollapsedOne" aria-controls="">
+               [attr.aria-expanded]="!isFacetCollapsed(facet.name)" aria-controls="">
                 {{facet.name}}
             </a>
         </span>
         <div id="facet1" [ngbCollapse]="isFacetCollapsed(facet.name)">
             <ul class="y-search-facet-list">
-                <li *ngFor="let value of facet.values | slice:0: showAllPerFacetMap.get(facet.name)? facet.values.length : minPerFacet">
+                <li *ngFor="let value of getVisibleFacetValues(facet); index as facetValueId">
                     <div class="form-check">
-                        <input class="form-check-input y-search-facet-checkbox" role="checkbox" type="checkbox" id="defaultCheck1" aria-checked="true"
+                        <input class="form-check-input y-search-facet-checkbox" role="checkbox" type="checkbox" id="facetCheck{{facetId}}_{{facetValueId}}" aria-checked="true"
                                [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
-                        <label class="form-checkbox y-search-facet-list__label" for="defaultCheck1">
+                        <label class="form-checkbox y-search-facet-list__label" for="facetCheck{{facetId}}_{{facetValueId}}">
                             {{value.name}} ({{value.count}})
                         </label>
                     </div>
                 </li>
+                <li (click)="showLess(facet.name)" *ngIf="showAllPerFacetMap.get(facet.name)">Show less...</li>
+                <li (click)="showMore(facet.name)" *ngIf="!showAllPerFacetMap.get(facet.name) && facet.values.length > minPerFacet">Show more...</li>
             </ul>
         </div>
     </ng-template>
@@ -70,14 +72,14 @@
     </div>
     <div class="modal-body y-search-facet__modal-body">
         <form>
-            <div class="form-group" *ngFor="let facet of searchResult.facets">
+            <div class="form-group" *ngFor="let facet of searchResult.facets; index as facetId">
                 <h4 class="y-search-facet__modal--label" for="megapixels">{{facet.name}}</h4>
                 <div class="input-group">
                     <ul class="y-search-facet-list">
-                        <li *ngFor="let value of facet.values | slice:0: showAllPerFacetMap.get(facet.name)? facet.values.length : minPerFacet">
+                        <li *ngFor="let value of facet.values; index as facetValueId">
                             <div class="form-check">
-                                <input class="form-check-input y-search-facet-checkbox" role="checkbox" type="checkbox" id="defaultCheck1" aria-checked="true" [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
-                                <label class="form-checkbox y-search-facet-list__label" for="defaultCheck1">
+                                <input class="form-check-input y-search-facet-checkbox" role="checkbox" type="checkbox" id="facetModalCheck{{facetId}}_{{facetValueId}}" aria-checked="true" [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
+                                <label class="form-checkbox y-search-facet-list__label" for="facetModalCheck{{facetId}}_{{facetValueId}}">
                                     {{value.name}} ({{value.count}})
                                 </label>
                             </div>

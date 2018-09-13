@@ -42,11 +42,7 @@ export class ProductFacetNavigationComponent implements OnInit {
   }
 
   openFilterModal(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      // this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      // this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
   }
 
   toggleValue(query: string) {
@@ -76,4 +72,9 @@ export class ProductFacetNavigationComponent implements OnInit {
       this.collapsedFacets.add(facetName);
     }
   }
+
+  getVisibleFacetValues(facet) {
+    return facet.values.slice(0, this.showAllPerFacetMap.get(facet.name) ? facet.values.length : this.minPerFacet);
+  }
+
 }
