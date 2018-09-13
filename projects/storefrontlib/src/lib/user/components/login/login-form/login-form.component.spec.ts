@@ -115,8 +115,7 @@ describe('LoginFormComponent', () => {
     ];
 
     function testValidEmail(email) {
-      // tslint:disable-next-line:quotemark
-      it("should be valid when is '" + email + "'", function() {
+      it(`should be valid when is '${email}'`, function() {
         const control = component.form.controls['userId'];
 
         control.setValue(email);
@@ -125,8 +124,7 @@ describe('LoginFormComponent', () => {
     }
 
     function testInvalidEmail(email) {
-      // tslint:disable-next-line:quotemark
-      it("should NOT be valid when is '" + email + "'", function() {
+      it(`should NOT be valid when is '${email}'`, function() {
         const control = component.form.controls['userId'];
 
         control.setValue(email);
