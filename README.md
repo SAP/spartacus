@@ -47,12 +47,6 @@ Install dependencies:
 yarn install
 ```
 
-Build the storefrontlib
-
-```bash
-ng build storefrontlib
-```
-
 Start the angular app.
 
 ```bash
