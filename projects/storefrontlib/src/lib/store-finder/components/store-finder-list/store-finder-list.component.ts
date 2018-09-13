@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Store } from '@ngrx/store';
 
 import * as fromStore from '../../store';
@@ -24,7 +25,8 @@ export class StoreFinderListComponent implements OnInit {
 
   constructor(
     private store: Store<fromStore.StoresState>,
-    private storeDataService: StoreDataService
+    private storeDataService: StoreDataService,
+    @Inject(DOCUMENT) private document: any
   ) {}
 
   ngOnInit() {
@@ -53,7 +55,7 @@ export class StoreFinderListComponent implements OnInit {
 
   selectStoreItemList(index: number): void {
     this.selectedStore = index;
-    let storeListItem = document.getElementById('item-' + index);
+    let storeListItem = this.document.getElementById('item-' + index);
     storeListItem.scrollIntoView();
   }
 }

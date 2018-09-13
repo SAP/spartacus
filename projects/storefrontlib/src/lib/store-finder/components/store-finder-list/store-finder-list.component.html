@@ -6,7 +6,7 @@
             </li>
         </ol>
     </div>
-    <y-store-finder-map class="stores-map" #storeMap [locations]="locations.stores" (storeItem)="selectStoreItemList($event)"></y-store-finder-map>
+    <y-store-finder-map class="stores-map" #storeMap [locations]="locations.stores" (selectedStoreItem)="selectStoreItemList($event)"></y-store-finder-map>
     <div class="clear"></div>
     <div *ngIf="locations?.pagination">
         <y-store-finder-paging [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-store-finder-paging>
