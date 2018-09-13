@@ -39,9 +39,7 @@ input[type='checkbox'],
 input[type='radio'] {
   height: 22px;
   width: 22px;
-  margin: 0 15px 0 0;
   vertical-align: middle;
-  position: relative;
   cursor: pointer;
   line-height: 1.42857;
   appearance: none;
@@ -52,6 +50,9 @@ input[type='radio'] {
   outline: none;
   border-style: solid;
   border-width: 1px;
+  position: absolute;
+  margin-top: 0.3rem;
+  margin-left: -1.25rem;
 }
 
 .form-check {
@@ -59,6 +60,7 @@ input[type='radio'] {
 
   label {
     font-weight: $font-weight-normal;
+    margin-left: 0.75rem;
   }
 
   input + .form-check-label {
@@ -119,9 +121,9 @@ input[type='radio'] {
 
 input[type='radio'] {
   border-radius: 50%;
-  position: relative;
   display: inline-block;
   border: 2px solid theme-color('light');
+  position: absolute;
 
   &::after {
     content: '';
