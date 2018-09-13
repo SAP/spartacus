@@ -145,7 +145,7 @@ describe('ProductListComponent in product-list', () => {
   it('should change pages', done => {
     const pagination = new ProductPagingComponent();
     pagination.viewPageEvent.subscribe(event => {
-      expect(event).toEqual(2);
+      expect(event).toEqual(1);
       component.viewPage(event);
       expect(component.searchConfig.currentPage).toBe(event);
       done();
