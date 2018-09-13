@@ -3,7 +3,7 @@ import { E2EUtil } from '../../e2e-util';
 
 export class LoginForm {
   constructor(
-    private parentElement: ElementFinder = element(by.tagName('y-root'))
+    private parentElement: ElementFinder = element(by.tagName('y-main'))
   ) {}
 
   readonly form: ElementFinder = this.parentElement.element(
