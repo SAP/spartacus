@@ -28,7 +28,7 @@ export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
       debounceTime(300),
       distinctUntilChanged(),
       switchMap(term => {
-        if (term.length >= (this.minCharactersBeforeRequest || 3)) {
+        if (term.length >= this.minCharactersBeforeRequest) {
           return this.fetch(term).pipe(
             map(res => res.map(suggestion => suggestion.value))
           );
