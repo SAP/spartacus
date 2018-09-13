@@ -57,16 +57,16 @@ export class AddToCartComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-
     this.cartService.addCartEntry(this.productCode, this.quantity);
   }
 
-  openModal() {
+  private openModal() {
     this.modalInstance = this.modalService
       .open(AddedToCartDialogComponent, { centered: true, size: 'lg' }).componentInstance;
     this.modalInstance.entry$ = this.cartEntry$;
     this.modalInstance.cart$ = this.store.select(fromCartStore.getActiveCart);
     this.modalInstance.quantity = this.quantity;
+
 
     this.modalInstance.updateEntryEvent.subscribe((data: any) =>
       this.updateEntry(data)
@@ -82,6 +82,7 @@ export class AddToCartComponent implements OnInit {
   }
   private removeEntry(entry) {
     this.cartService.removeCartEntry(entry);
-    this.modalInstance.close();
+    // this.modalInstance.close();
+    // this.modalService.dismissAll();
   }
 }

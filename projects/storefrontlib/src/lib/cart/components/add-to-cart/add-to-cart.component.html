@@ -1,7 +1,4 @@
-<div class="y-added-to-cart-dialog__btn" >
-    <button
-        class="btn btn-primary"
-        (click)="openModal()"
-        [disabled]="isLoading || quantity <= 0"
-    >ADD TO CART</button>
-</div>
+<button class="btn btn-primary btn-block" type="button" [disabled]="isLoading || quantity <= 0" (click)="addToCart()">
+    <span *ngIf="cartEntry$ | async as entry" class="entry-quantity">{{entry.quantity}}</span>
+    Add to cart
+</button>
