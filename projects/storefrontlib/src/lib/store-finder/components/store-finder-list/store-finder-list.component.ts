@@ -55,7 +55,7 @@ export class StoreFinderListComponent implements OnInit {
 
   selectStoreItemList(index: number): void {
     this.selectedStore = index;
-    let storeListItem = this.document.getElementById('item-' + index);
+    const storeListItem = this.document.getElementById('item-' + index);
     storeListItem.scrollIntoView();
   }
 }
