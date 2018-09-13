@@ -83,10 +83,6 @@ export class ProductListComponent implements OnChanges, OnInit {
     );
   }
 
-  toggleSidenav() {
-    this.sidenav.toggle();
-  }
-
   onFilter(query: string) {
     this.search(query);
   }
@@ -96,11 +92,13 @@ export class ProductListComponent implements OnChanges, OnInit {
     options.currentPage = pageNumber;
     this.search(this.query, options);
   }
+
   sortList(sortCode: string) {
     const options = new SearchConfig();
     options.sortCode = sortCode;
     this.search(this.query, options);
   }
+
   protected search(query: string, options?: SearchConfig) {
     if (options) {
       // Overide default options
@@ -115,7 +113,6 @@ export class ProductListComponent implements OnChanges, OnInit {
   }
 
   onViewModeChange($event: string) {
-    console.log($event);
     this.grid.mode = $event;
   }
 }
