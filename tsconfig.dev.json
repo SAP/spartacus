@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "storefrontlib": ["projects/storefrontlib/src/public_api"]
+    }
+  }
+}
