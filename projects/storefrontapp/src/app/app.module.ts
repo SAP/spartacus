@@ -13,7 +13,8 @@ import {
   CmsModule,
   RoutingModule,
   UiFrameworkModule,
-  SiteContextModule
+  SiteContextModule,
+  GlobalErrorHandlingModule
 } from 'storefrontlib';
 
 // bootstrap
@@ -22,6 +23,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   imports: [
     BrowserModule,
+    GlobalErrorHandlingModule,
     AuthModule.forRoot(config),
     RoutingModule.forRoot(config),
     OccModule.forRoot(config),

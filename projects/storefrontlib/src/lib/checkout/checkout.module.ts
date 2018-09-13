@@ -13,13 +13,15 @@ import { MultiStepCheckoutModule } from './components/multi-step-checkout/multi-
 import { OrderConfirmationModule } from './components/order-confirmation/order-confirmation.module';
 
 import { guards } from './guards/index';
+import { GlobalErrorHandlingModule } from '../error-handling/global-error-handling.module';
 
 @NgModule({
   imports: [
     CommonModule,
     MultiStepCheckoutModule,
     StoreModule.forFeature('checkout', reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
+    GlobalErrorHandlingModule
   ],
   exports: [MultiStepCheckoutModule, OrderConfirmationModule],
   providers: [reducerProvider, ...services, ...guards]
