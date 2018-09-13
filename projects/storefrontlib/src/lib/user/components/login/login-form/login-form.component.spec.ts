@@ -72,4 +72,94 @@ describe('LoginFormComponent', () => {
       new fromRouting.Go({ path: ['/test'] })
     );
   });
+
+  describe('userId form field', () => {
+    const validEmails = [
+      'email@example.com',
+      'firstname.lastname@example.com',
+      'email@subdomain.example.com',
+      'firstname+lastname@example.com',
+      'email@123.123.123.com',
+      'email@[123.123.123.123]',
+      '"email"@example.com',
+      '1234567890@example.com',
+      'email@example-one.com',
+      '_______@example.com',
+      'email@example.name',
+      'email@example.museum',
+      'email@example.co.jp',
+      'firstname-lastname@example.com'
+    ];
+    const invalidEmails = [
+      '',
+      ' ',
+      'plainaddress',
+      ' startspace@example.com',
+      'middle space@example.com',
+      'endspace@example.com ',
+      '#@%^%#$@#$@#.com',
+      '@example.com',
+      'Joe Smith <email@example.com>',
+      'email.example.com',
+      'email@example@example.com',
+      '.email@example.com',
+      'email.@example.com',
+      'email..email@example.com',
+      'email@example.com (Joe Smith)',
+      'email@example',
+      'email@111.222.333.44444',
+      'email@example..com',
+      'Abc..123@example.com',
+      '”(),:;<>[]@example.com',
+      'this is"really"notallowed@example.com'
+    ];
+
+    function testValidEmail(email) {
+      // tslint:disable-next-line:quotemark
+      it("should be valid when is '" + email + "'", function() {
+        const control = component.form.controls['userId'];
+
+        control.setValue(email);
+        expect(control.valid).toBeTruthy();
+      });
+    }
+
+    function testInvalidEmail(email) {
+      // tslint:disable-next-line:quotemark
+      it("should NOT be valid when is '" + email + "'", function() {
+        const control = component.form.controls['userId'];
+
+        control.setValue(email);
+        expect(control.valid).toBeFalsy();
+      });
+    }
+
+    validEmails.forEach(testValidEmail);
+    invalidEmails.forEach(testInvalidEmail);
+  });
+
+  describe('password form field', () => {
+    it('should be valid when not empty', () => {
+      const control = component.form.controls['password'];
+
+      control.setValue('not-empty');
+      expect(control.valid).toBeTruthy();
+
+      control.setValue('not empty');
+      expect(control.valid).toBeTruthy();
+
+      control.setValue(' ');
+      expect(control.valid).toBeTruthy();
+    });
+
+    it('should NOT be valid when empty', () => {
+      const control = component.form.controls['password'];
+
+      control.setValue('');
+      expect(control.valid).toBeFalsy();
+
+      control.setValue(null);
+      expect(control.valid).toBeFalsy();
+    });
+  });
 });
