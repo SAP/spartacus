@@ -6,6 +6,15 @@ export class ProductDetailsPage extends AppPage {
   readonly YPAGE = 'y-product-page';
 
   readonly page: ElementFinder = element(by.tagName(this.YPAGE));
+  readonly productDetails: ElementFinder = this.page.element(
+    by.tagName('y-product-details')
+  );
+  readonly productTitle: ElementFinder = this.productDetails.element(
+    by.css('.product-title')
+  );
+  readonly productCode: ElementFinder = this.productDetails.element(
+    by.css('.product-code')
+  );
   readonly addToCartComponent: ElementFinder = this.page.element(
     by.tagName('y-add-to-cart')
   );
@@ -13,7 +22,7 @@ export class ProductDetailsPage extends AppPage {
     by.tagName('y-product-summary')
   );
   readonly outOfStockDiv: ElementFinder = this.productSummaryComponent.element(
-    by.cssContainingText('div', 'outOfStock')
+    by.cssContainingText('span', 'Out of stock')
   );
   readonly addToCartButton: ElementFinder = this.addToCartComponent.element(
     by.tagName('button')
@@ -21,6 +30,12 @@ export class ProductDetailsPage extends AppPage {
   readonly productQuantitySpan: ElementFinder = this.addToCartComponent.element(
     by.css('span[class="entry-quantity ng-star-inserted"]')
   );
+  readonly itemCounterComponent: ElementFinder = this.productDetails.element(
+    by.tagName('y-item-counter')
+  );
+  readonly itemCounterUpButton: ElementFinder = this.itemCounterComponent
+    .all(by.tagName('button'))
+    .get(1);
 
   async navigateTo(productId: string) {
     await browser.get('/product/' + productId);

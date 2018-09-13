@@ -40,7 +40,6 @@ $y-item-counter-action-disabled-color: 'light' !important;
       $y-item-counter-action-background-color
     );
     @include type('3');
-
     &:disabled {
       @include var-color('color', $y-item-counter-action-disabled-color);
       opacity: 1;
