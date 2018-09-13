@@ -10,10 +10,10 @@ export class ProductDetailsPage extends AppPage {
     by.tagName('y-product-details')
   );
   readonly productTitle: ElementFinder = this.productDetails.element(
-    by.css('.product-title')
+    by.css('.y-product-details__item-name')
   );
   readonly productCode: ElementFinder = this.productDetails.element(
-    by.css('.product-code')
+    by.css('.y-product-details__item-code')
   );
   readonly addToCartComponent: ElementFinder = this.page.element(
     by.tagName('y-add-to-cart')

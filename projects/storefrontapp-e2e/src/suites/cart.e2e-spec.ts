@@ -7,7 +7,7 @@ import { E2EUtil } from '../e2e-util';
 import { AutocompletePanel } from '../page-objects/cmslib/autocomplete-panel.po';
 import { AddedToCartModal } from '../page-objects/cmslib/added-to-cart-modal.po';
 
-describe('Cart interactions', () => {
+xdescribe('Cart interactions', () => {
   let home: HomePage;
   let searchResults: SearchResultsPage;
   let cart: CartPage;

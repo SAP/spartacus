@@ -9,7 +9,7 @@ import { AddressForm } from '../page-objects/checkout/address-form.po';
 import { PaymentForm } from '../page-objects/checkout/payment-form.po';
 import { OrderHistoryPage } from '../page-objects/account/order-history.po';
 
-describe('Big Happy Path', () => {
+xdescribe('Big Happy Path', () => {
   const home: HomePage = new HomePage();
   const checkoutPage = new MultiStepCheckoutPage();
 
