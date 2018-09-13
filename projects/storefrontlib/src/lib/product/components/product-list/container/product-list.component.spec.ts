@@ -19,7 +19,11 @@ import * as fromUser from '../../../../user/store';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { ProductViewComponent } from '../product-view/product-view.component';
-import { NgbCollapseModule, NgbPaginationModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCollapseModule,
+  NgbPaginationModule,
+  NgbRatingModule
+} from '@ng-bootstrap/ng-bootstrap';
 import { StarRatingComponent } from '../../../../ui';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';

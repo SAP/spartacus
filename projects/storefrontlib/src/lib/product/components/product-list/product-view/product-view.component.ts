@@ -26,7 +26,8 @@ export class ProductViewComponent {
   }
 
   changeMode() {
-    const newMode = this.mode === ViewModes.Grid ? ViewModes.List : ViewModes.Grid;
+    const newMode =
+      this.mode === ViewModes.Grid ? ViewModes.List : ViewModes.Grid;
     this.modeChange.emit(newMode);
   }
 }

@@ -1,12 +1,12 @@
-@import "theme";
-@import "functions";
-@import "mixins";
+@import 'theme';
+@import 'functions';
+@import 'mixins';
 
 $y-search-facet-trbl-padding: 0 !default;
 
 $y-search-facet-list-trbl-margin: 0 0 32px 0 !default;
 
-$y-search-facet-mobile-btn-trbl-margin:0 0 20px 0 !default;
+$y-search-facet-mobile-btn-trbl-margin: 0 0 20px 0 !default;
 
 $y-search-facet-filter-header-trbl-margin: 0 0 20px 0 !default;
 $y-search-facet-filter-header-trbl-padding: 0 0 10px 0 !default;
@@ -14,7 +14,7 @@ $y-search-facet-filter-header-trbl-padding: 0 0 10px 0 !default;
 $y-search-facet-filter-header-mobile-trbl-margin: 0 20px 0px 0 !default;
 
 $y-search-facet-filter-trbl-margin: 0 0 40px 0 !default;
-$y-search-facet-filter-color: "light" !default;
+$y-search-facet-filter-color: 'light' !default;
 
 $y-search-facet-filter-pill-trbl-padding: 10px 10px 10px 13px !default;
 $y-search-facet-filter-pill-trbl-margin: 10px 10px 5px 0 !default;
@@ -22,23 +22,23 @@ $y-search-facet-filter-pill-border-radius: 4px !default;
 
 $y-search-facet-filter-pill-button-trbl-margin: 0 0 0 10px;
 
-$y-search-facet-header-border: 1px solid !default;;
-$y-search-facet-header-border-color: "light" !default;
-$y-search-facet-header-color: "text" !default;
-$y-search-facet-header-selected-color: "primary" !default;
+$y-search-facet-header-border: 1px solid !default;
+$y-search-facet-header-border-color: 'light' !default;
+$y-search-facet-header-color: 'text' !default;
+$y-search-facet-header-selected-color: 'primary' !default;
 $y-search-facet-header-trbl-padding: 0 0 10px 0 !default;
 $y-search-facet-header-trbl-margin: 0 0 17px 0 !default;
 $y-search-facet-header-link-font-size: 25px !default;
 $y-search-facet-header-link-top: 10px !default;
 $y-search-facet-header-link-icon-height: 2px !default;
 
-$y-search-facet-header-icon-color: "secondary" !default;
+$y-search-facet-header-icon-color: 'secondary' !default;
 
 $y-search-facet-form-check-trbl-padding: 0 !default;
 $y-search-facet-form-check-trbl-margin: 0 0 11px 0 !default;
 
-$y-search-facet-label-color: "secondary" !default;
-$y-search-facet-label-selected-color: "primary" !default;
+$y-search-facet-label-color: 'secondary' !default;
+$y-search-facet-label-selected-color: 'primary' !default;
 
 $y-search-facet-item-link-trbl-margin: 0 0 16px 0 !default;
 
@@ -48,9 +48,7 @@ $y-search-facet-modal-label-trbl-margin: 0 0 27px 0 !default;
 $y-search-facet-modal-footer-trbl-margin: 0 0 0 20px !default;
 $y-search-facet-modal-footer-btn-width: 50% !default;
 
-
 .y-search-facet {
-
   &-list {
     padding: $y-search-facet-trbl-padding;
     list-style: none;
@@ -62,25 +60,25 @@ $y-search-facet-modal-footer-btn-width: 50% !default;
     }
 
     &__label {
-      @include var-color("color", $y-search-facet-label-color);
-      @include type("4");
+      @include var-color('color', $y-search-facet-label-color);
+      @include type('4');
     }
 
-    input[type="checkbox"]:checked + &__label {
-      @include var-color("color", $y-search-facet-label-selected-color);
+    input[type='checkbox']:checked + &__label {
+      @include var-color('color', $y-search-facet-label-selected-color);
     }
 
     &__item--link {
-      @include type("");
+      @include type('');
       margin: $y-search-facet-item-link-trbl-margin;
     }
   }
 
   &-header {
     border-bottom: $y-search-facet-header-border;
-    @include type("4");
-    @include var-color("color", $y-search-facet-header-color);
-    @include var-color("border-color", $y-search-facet-header-border-color);
+    @include type('4');
+    @include var-color('color', $y-search-facet-header-color);
+    @include var-color('border-color', $y-search-facet-header-border-color);
     padding: $y-search-facet-header-trbl-padding;
     margin: $y-search-facet-header-trbl-margin;
     display: block;
@@ -93,20 +91,20 @@ $y-search-facet-modal-footer-btn-width: 50% !default;
         position: relative;
         top: $y-search-facet-header-link-top;
         font-weight: $font-weight-normal;
-        @include var-color("color", $y-search-facet-header-icon-color);
+        @include var-color('color', $y-search-facet-header-icon-color);
       }
 
-      &[aria-expanded="false"] {
+      &[aria-expanded='false'] {
         &:after {
-          content:'+';
+          content: '+';
         }
       }
 
-      &[aria-expanded="true"] {
-        @include var-color("color", $y-search-facet-header-selected-color);
+      &[aria-expanded='true'] {
+        @include var-color('color', $y-search-facet-header-selected-color);
 
         &:after {
-          content:'\2013';
+          content: '\2013';
           height: $y-search-facet-header-link-icon-height;
         }
       }
@@ -118,8 +116,8 @@ $y-search-facet-modal-footer-btn-width: 50% !default;
   }
 
   &-filter__header {
-    @include type("4");
-    @include var-color("color", $y-search-facet-header-color);
+    @include type('4');
+    @include var-color('color', $y-search-facet-header-color);
     padding: $y-search-facet-filter-header-trbl-padding;
     margin: $y-search-facet-filter-header-trbl-margin;
 
@@ -130,7 +128,7 @@ $y-search-facet-modal-footer-btn-width: 50% !default;
   }
 
   &-filter__pill {
-    @include var-color("background", $y-search-facet-filter-color);
+    @include var-color('background', $y-search-facet-filter-color);
     padding: $y-search-facet-filter-pill-trbl-padding;
     margin: $y-search-facet-filter-pill-trbl-margin;
     display: inline-block;
@@ -142,7 +140,7 @@ $y-search-facet-modal-footer-btn-width: 50% !default;
   }
 
   &-modal__title {
-    @include type("3");
+    @include type('3');
   }
 
   @include media-breakpoint-down(md) {
@@ -168,7 +166,7 @@ $y-search-facet-modal-footer-btn-width: 50% !default;
     }
 
     &__modal--label {
-      @include type("4");
+      @include type('4');
       font-weight: $font-weight-semi;
       margin: $y-search-facet-modal-label-trbl-margin;
     }

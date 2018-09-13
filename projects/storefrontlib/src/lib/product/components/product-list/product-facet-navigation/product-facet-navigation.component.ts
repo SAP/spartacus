@@ -42,7 +42,7 @@ export class ProductFacetNavigationComponent implements OnInit {
   }
 
   openFilterModal(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 
   toggleValue(query: string) {
@@ -74,7 +74,11 @@ export class ProductFacetNavigationComponent implements OnInit {
   }
 
   getVisibleFacetValues(facet) {
-    return facet.values.slice(0, this.showAllPerFacetMap.get(facet.name) ? facet.values.length : this.minPerFacet);
+    return facet.values.slice(
+      0,
+      this.showAllPerFacetMap.get(facet.name)
+        ? facet.values.length
+        : this.minPerFacet
+    );
   }
-
 }

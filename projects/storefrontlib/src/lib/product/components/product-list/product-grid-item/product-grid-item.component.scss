@@ -65,7 +65,10 @@ $y-search-grid-price-new-trbl-margin: 0 0 25px 5px !default;
     &:after {
       content: '';
       background: $y-search-grid-name-after-background;
-      @include var-color('background-color', $y-search-grid-name-after-background-color);
+      @include var-color(
+        'background-color',
+        $y-search-grid-name-after-background-color
+      );
       position: absolute;
       height: $y-search-grid-name-after-height;
       width: $y-search-grid-name-after-width;

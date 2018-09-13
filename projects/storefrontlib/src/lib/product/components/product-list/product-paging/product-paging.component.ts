@@ -24,5 +24,4 @@ export class ProductPagingComponent implements OnInit {
   pageChange(page: number) {
     this.viewPageEvent.emit(page);
   }
-
 }

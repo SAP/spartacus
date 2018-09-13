@@ -8,7 +8,7 @@ describe('ProductPagingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ NgbPaginationModule.forRoot() ],
+      imports: [NgbPaginationModule.forRoot()],
       declarations: [ProductPagingComponent]
     }).compileComponents();
   }));
