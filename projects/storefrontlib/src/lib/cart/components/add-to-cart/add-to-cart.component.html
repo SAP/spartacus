@@ -1,6 +1,7 @@
-<button [disabled]="isLoading || quantity <= 0" mat-raised-button color="primary" class="call-to-action" (click)="addToCart()">
-    <span *ngIf="cartEntry$ | async as entry" class="entry-quantity">{{entry.quantity}}</span>
-    <mat-icon>add_shopping_cart</mat-icon>
-    <span *ngIf="!iconOnly">Add to Cart</span>
-    <mat-progress-bar *ngIf="isLoading" class="loader" color="primary" mode="indeterminate"></mat-progress-bar>
-</button>
+<div class="y-added-to-cart-dialog__btn" >
+    <button
+        class="btn btn-primary"
+        (click)="openModal()"
+        [disabled]="isLoading || quantity <= 0"
+    >ADD TO CART</button>
+</div>

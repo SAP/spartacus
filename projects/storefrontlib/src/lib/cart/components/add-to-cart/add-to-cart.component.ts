@@ -2,14 +2,14 @@ import {
   Component,
   Input,
   OnInit,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
 import { CartService } from '../../services/cart.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 import * as fromCartStore from '../../store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../store';
@@ -21,7 +21,7 @@ import * as fromStore from './../../store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddToCartComponent implements OnInit {
-  dialogRef: MatDialogRef<AddedToCartDialogComponent, any>;
+  modalInstance: AddedToCartDialogComponent;
 
   isLoading = false;
   @Input() iconOnly;
@@ -32,8 +32,8 @@ export class AddToCartComponent implements OnInit {
   cartEntry$: Observable<any>;
 
   constructor(
-    protected dialog: MatDialog,
     protected cartService: CartService,
+    private modalService: NgbModal,
     protected store: Store<fromStore.CartState>
   ) {}
 
@@ -44,7 +44,7 @@ export class AddToCartComponent implements OnInit {
         .pipe(
           tap(entry => {
             if (this.isLoading && entry) {
-              this.openDialog();
+              this.openModal();
             }
             this.isLoading = false;
           })
@@ -61,19 +61,18 @@ export class AddToCartComponent implements OnInit {
     this.cartService.addCartEntry(this.productCode, this.quantity);
   }
 
-  private openDialog(): void {
-    this.dialogRef = this.dialog.open(AddedToCartDialogComponent, {
-      data: {
-        entry$: this.cartEntry$,
-        cart$: this.store.select(fromCartStore.getActiveCart)
-      }
-    });
+  openModal() {
+    this.modalInstance = this.modalService
+      .open(AddedToCartDialogComponent, { centered: true, size: 'lg' }).componentInstance;
+    this.modalInstance.entry$ = this.cartEntry$;
+    this.modalInstance.cart$ = this.store.select(fromCartStore.getActiveCart);
+    this.modalInstance.quantity = this.quantity;
 
-    this.dialogRef.componentInstance.updateEntryEvent.subscribe((data: any) =>
+    this.modalInstance.updateEntryEvent.subscribe((data: any) =>
       this.updateEntry(data)
     );
 
-    this.dialogRef.componentInstance.removeEntryEvent.subscribe((data: any) => {
+    this.modalInstance.removeEntryEvent.subscribe((data: any) => {
       this.removeEntry(data);
     });
   }
@@ -83,6 +82,6 @@ export class AddToCartComponent implements OnInit {
   }
   private removeEntry(entry) {
     this.cartService.removeCartEntry(entry);
-    this.dialog.closeAll();
+    this.modalInstance.close();
   }
 }

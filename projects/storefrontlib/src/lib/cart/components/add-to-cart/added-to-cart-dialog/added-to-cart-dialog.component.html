@@ -1,8 +1,8 @@
 <div class="y-added-to-cart-dialog">
   <!-- Modal Header -->
   <div class="y-added-to-cart-dialog__header modal-header">
-    <div class="y-added-to-cart-dialog__title modal-title">1 item added to your cart</div>
-    <button type="button" class="close" aria-label="Close" (click)="closeDialog()">
+    <div class="y-added-to-cart-dialog__title modal-title">{{quantity}} item added to your cart</div>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -23,8 +23,8 @@
           </div>
           <!-- Actions -->
           <div class="y-added-to-cart-dialog__actions">
-            <a routerLink="/cart" class="btn btn-primary" (click)="closeDialog()">view cart</a>
-            <a routerLink="/checkout" class="btn btn-secondary" (click)="closeDialog()">proceed to checkout</a>
+            <a routerLink="/cart" class="btn btn-primary" (click)="activeModal.dismiss('Cross click')">view cart</a>
+            <a routerLink="/checkout" class="btn btn-secondary" (click)="activeModal.dismiss('Cross click')">proceed to checkout</a>
           </div>
         </div>
       </div>

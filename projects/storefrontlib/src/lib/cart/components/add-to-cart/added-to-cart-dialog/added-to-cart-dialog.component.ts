@@ -7,9 +7,9 @@ import {
   Input
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'y-added-to-cart-dialog',
@@ -26,37 +26,35 @@ export class AddedToCartDialogComponent implements OnInit {
     })
   });
 
-  @Input() more = true;
+  @Input() more = false;
+  @Input() quantity = 0;
   @Output() updateEntryEvent: EventEmitter<any> = new EventEmitter();
   @Output() removeEntryEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    public dialogRef: MatDialogRef<AddedToCartDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public activeModal: NgbActiveModal
   ) {}
-
-  closeDialog() {
-    this.dialogRef.close();
-  }
 
   ngOnInit() {
     const entryFG = this.form.get('entryForm') as FormGroup;
+    console.log('this:',this)
+    console.log('active modal', this.activeModal);
+    // this.entry$ = this.entry$.pipe(
+    //   tap((entry: any) => {
+    //     console.log('entry here', entry);
 
-    this.cart$ = this.data.cart$;
-    this.entry$ = this.data.entry$.pipe(
-      tap((entry: any) => {
-        if (entry !== undefined && Object.keys(entry).length !== 0) {
-          entryFG.setControl('entryNumber', this.fb.control(entry.entryNumber));
-          if (!entryFG.controls['quantity']) {
-            // create form control for entry
-            entryFG.setControl('quantity', this.fb.control(entry.quantity));
-          } else {
-            // update form if entry changes
-            entryFG.controls['quantity'].setValue(entry.quantity);
-          }
-        }
-      })
+    //     if (entry !== undefined && Object.keys(entry).length !== 0) {
+    //       entryFG.setControl('entryNumber', this.fb.control(entry.entryNumber));
+    //       if (!entryFG.controls['quantity']) {
+    //         // create form control for entry
+    //         entryFG.setControl('quantity', this.fb.control(entry.quantity));
+    //       } else {
+    //         // update form if entry changes
+    //         entryFG.controls['quantity'].setValue(entry.quantity);
+    //       }
+    //     }
+    //   })
     );
   }
 
