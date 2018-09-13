@@ -5,16 +5,11 @@ import { StoreFinderMapComponent } from './store-finder-map.component';
 import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
 
 class MapRendererServiceMock {
-  public renderMap(
-    mapElement: HTMLElement,
-    locations: any[],
-    selectedIndex
-  ): void {}
+  public renderMap(mapElement: HTMLElement, locations: any[]): void {}
   public centerMap(latitude: number, longitude: number): void {}
 }
 
 const location = { geoPoint: {} };
-const selectedIndex = function() {};
 const mapDomElement = document.createElement('div');
 
 describe('StoreFinderMapComponent', () => {
