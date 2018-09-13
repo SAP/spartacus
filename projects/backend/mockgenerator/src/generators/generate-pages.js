@@ -3,7 +3,7 @@ const componentGenerator = require('./generate-components');
 const ENDPOINTS = require('../constants/endpoints');
 const products = require('../services/products');
 
-exports.generate = function (sites) {
+exports.generate = function(sites) {
   const data = {};
   // generate pages for each site
   for (const site of sites) {
@@ -51,25 +51,29 @@ function generateHomepage() {
     name: 'testPage',
     template: 'testTemplate',
     contentSlots: {
-      contentSlot: [{
+      contentSlot: [
+        {
           components: {
-            component: [{
-              uid: 'ElectronicsHomepageProductCarouselComponent',
-              typeCode: 'ProductCarouselComponent',
-              modifiedTime: '2018-07-10T00:22:49.391Z',
-              name: 'Electronics Homepage Product Carousel',
-              container: 'false',
-              popup: 'false',
-              scroll: 'ALLVISIBLE',
-              productCodes,
-              title: 'Our Bestselling Products'
-            }]
+            component: [
+              {
+                uid: 'ElectronicsHomepageProductCarouselComponent',
+                typeCode: 'ProductCarouselComponent',
+                modifiedTime: '2018-07-10T00:22:49.391Z',
+                name: 'Electronics Homepage Product Carousel',
+                container: 'false',
+                popup: 'false',
+                scroll: 'ALLVISIBLE',
+                productCodes,
+                title: 'Our Bestselling Products'
+              }
+            ]
           },
           name: 'Section3 Slot for Homepage',
           position: 'Section3',
           slotId: 'Section3Slot-Homepage',
           slotShared: false
-        }]
+        }
+      ]
         .concat(headerGenerator.generateHeaderSlots())
         .concat(generateHomePageSlots())
         .concat(headerGenerator.generateFooterSlots())
@@ -92,8 +96,9 @@ function generateCartPage() {
   return page;
 }
 
-generateHomePageSlots = function () {
-  return [{
+generateHomePageSlots = function() {
+  return [
+    {
       position: 'Section1',
       components: {
         component: [componentGenerator.banner(800, 200, '/a-link')]

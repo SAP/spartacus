@@ -1,14 +1,13 @@
 import * as faker from 'faker';
-import {ClientGenerator} from "../helpers/client-generator";
-import {ENDPOINTS} from "../constants/endpoints";
+import { ClientGenerator } from '../helpers/client-generator';
+import { ENDPOINTS } from '../constants/endpoints';
 
 export class ProductReviewsGenerator extends ClientGenerator {
-
   async generateForSite(site: string) {
     const reviews = this.generateProductReviews();
     return {
       [ENDPOINTS.PRODUCTS_REVIEWS]: { reviews }
-    }
+    };
   }
 
   generateProductReviews() {
@@ -26,5 +25,4 @@ export class ProductReviewsGenerator extends ClientGenerator {
         rating: faker.random.number()
       }));
   }
-
 }
