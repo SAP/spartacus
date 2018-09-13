@@ -15,7 +15,7 @@ const locations = [
     }
   }
 ];
-const selectedIndex: number = 0;
+const selectedIndex = 0;
 
 class ExternalJsFileLoaderMock {
   public load(src: string, params?: Object, callback?: EventListener): void {
