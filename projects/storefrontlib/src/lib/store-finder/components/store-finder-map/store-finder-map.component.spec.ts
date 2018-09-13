@@ -5,11 +5,16 @@ import { StoreFinderMapComponent } from './store-finder-map.component';
 import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
 
 class MapRendererServiceMock {
-  public renderMap(mapElement: HTMLElement, locations: any[]): void {}
+  public renderMap(
+    mapElement: HTMLElement,
+    locations: any[],
+    selectedIndex
+  ): void {}
   public centerMap(latitude: number, longitude: number): void {}
 }
 
 const location = { geoPoint: {} };
+const selectedIndex = function() {};
 const mapDomElement = document.createElement('div');
 
 describe('StoreFinderMapComponent', () => {
@@ -52,9 +57,11 @@ describe('StoreFinderMapComponent', () => {
     });
 
     // then call map renderer service
-    expect(mapRendererService.renderMap).toHaveBeenCalledWith(mapDomElement, [
-      location
-    ]);
+    expect(mapRendererService.renderMap).toHaveBeenCalledWith(
+      mapDomElement,
+      [location],
+      jasmine.any(Function)
+    );
   });
 
   it('should not render map when locations are not changed', () => {
