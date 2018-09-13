@@ -110,6 +110,7 @@ describe('SearchBoxComponent in CmsLib', () => {
   it('should dispatch new search query on text update', () => {
     selectSpy.and.returnValue(of(mockSearchBoxComponentData));
     searchBoxComponent.bootstrap();
+    searchBoxComponent.ngOnInit();
 
     selectSpy.and.returnValue(of([mockSearchSuggestions]));
     searchBoxComponent.searchBoxControl.setValue('testQuery');
