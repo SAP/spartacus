@@ -1,14 +1,18 @@
-<mat-card *ngFor="let class of product?.classifications">
-    <mat-card-title [innerHTML]="class.name"></mat-card-title>
-    <mat-card-content *ngFor="let feature of class.features"
-        fxLayout="row" fxLayoutAlign="start start"  >
-        <div fxFlex>
+<table class="y-product-details-tab-table" *ngFor="let class of product?.classifications">
+    <th class="y-product-details-tab-table--head">
+        <h3>{{class.name}}</h3>
+    </th>
+    <tr class="y-product-details-tab-table--tr" *ngFor="let feature of class.features">
+        <td class="y-product-details-tab-table--td">
             {{ feature.name }}
-        </div>
-        <mat-list fxFlex="50%" dense>
-            <mat-list-item *ngFor="let featureValue of feature.featureValues">
-                <h4 mat-line>{{featureValue.value}} {{feature.featureUnit.symbol}}</h4>
-            </mat-list-item>
-        </mat-list>
-    </mat-card-content>
-</mat-card>
+        </td>
+        <td class="y-product-details-tab-table--td">
+            <ul class="y-product-details-tab-table--list">
+                <li *ngFor="let featureValue of feature?.featureValues">
+                    {{featureValue?.value}}
+                </li>
+            </ul>
+        </td>
+    </tr>
+
+</table>

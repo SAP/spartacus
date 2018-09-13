@@ -12,6 +12,10 @@ import * as fromAuth from '../../../../auth/store';
 
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
+
+import { CardModule } from '../../../../ui/components/card/card.module';
+import { CartSharedModule } from '../../../../cart/components/cart-shared/cart-shared.module';
+
 const mockCart = {
   guid: 'test',
   code: 'test'
@@ -23,8 +27,6 @@ describe('ReviewSubmitComponent', () => {
   let service: CheckoutService;
   let cartData: CartDataService;
 
-  // let ac: AbstractControl;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -35,7 +37,9 @@ describe('ReviewSubmitComponent', () => {
           user: combineReducers(fromUser.getReducers()),
           checkout: combineReducers(fromCheckout.getReducers()),
           auth: combineReducers(fromAuth.getReducers())
-        })
+        }),
+        CardModule,
+        CartSharedModule
       ],
       declarations: [ReviewSubmitComponent],
       providers: [CheckoutService, CartDataService]
@@ -50,6 +54,8 @@ describe('ReviewSubmitComponent', () => {
     store = TestBed.get(Store);
 
     cartData.cart = mockCart;
+    cartData.userId = 'userId';
+    cartData.cart.code = 'cartId';
 
     component.deliveryAddress = {
       firstName: 'John',
@@ -62,29 +68,30 @@ describe('ReviewSubmitComponent', () => {
       postalCode: 'zip',
       country: { isocode: 'JP' }
     };
-
-    cartData.userId = 'userId';
-    cartData.cart.code = 'cartId';
+    component.shippingMethod = 'standard-gross';
+    component.paymentDetails = {
+      accountHolderName: 'Name',
+      cardNumber: '123456789',
+      cardType: 'Visa',
+      expiryMonth: '01',
+      expiryYear: '2022',
+      cvn: '123'
+    };
 
     spyOn(store, 'dispatch').and.callThrough();
-
     spyOn(service, 'loadSupportedDeliveryModes').and.callThrough();
-
-    spyOn(component, 'toggleTAndC').and.callThrough();
-    spyOn(component, 'submitOrder').and.callThrough();
-    spyOn(component.backStep, 'emit').and.callThrough();
-    spyOn(component.placeOrder, 'emit').and.callThrough();
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get delivery mode, country name and title name if they exists', () => {
+  it('should call ngOnInit to get cart, entry, delivery mode, country name if they exists', () => {
     spyOn(store, 'select').and.returnValues(
+      of({}),
+      of({}),
       of('mockMode'),
-      of('mockCountryName'),
-      of('mockTitleName')
+      of('mockCountryName')
     );
 
     component.ngOnInit();
@@ -92,13 +99,10 @@ describe('ReviewSubmitComponent', () => {
     component.countryName$.subscribe(data =>
       expect(data).toEqual('mockCountryName')
     );
-    component.titleName$.subscribe(data =>
-      expect(data).toEqual('mockTitleName')
-    );
   });
 
   it('should call ngOnInit to get delivery mode if it does not exists', () => {
-    spyOn(store, 'select').and.returnValues(of(null), of(null), of(null));
+    spyOn(store, 'select').and.returnValues(of({}), of({}), of(null), of(null));
 
     component.ngOnInit();
     component.deliveryMode$.subscribe(() => {
@@ -115,26 +119,36 @@ describe('ReviewSubmitComponent', () => {
         new fromUser.LoadDeliveryCountries()
       );
     });
-    component.titleName$.subscribe(() => {
-      expect(store.dispatch).toHaveBeenCalledWith(new fromUser.LoadTitles());
-    });
   });
 
-  it('should call toggleTAndC(toggle)', () => {
-    expect(component.tAndCToggler).toBeFalsy();
-    component.toggleTAndC();
-    expect(component.tAndCToggler).toBeTruthy();
-    component.toggleTAndC();
-    expect(component.tAndCToggler).toBeFalsy();
+  it('should call getAddressCard(countryName) to get address card data', () => {
+    const card = component.getAddressCard('Canada');
+    expect(card.title).toEqual('Ship To');
+    expect(card.textBold).toEqual('John Doe');
+    expect(card.text).toEqual([
+      'Toyosaki 2 create on cart',
+      'line2',
+      'town, JP-27, Canada',
+      'zip',
+      undefined
+    ]);
   });
 
-  it('should call back()', () => {
-    component.back();
-    expect(component.backStep.emit).toHaveBeenCalled();
+  it('should call getShippingMethodCard(deliveryMode) to get shipping method card data', () => {
+    const selectedMode = {
+      code: 'standard-gross',
+      description: 'Standard Delivery description'
+    };
+    const card = component.getShippingMethodCard(selectedMode);
+    expect(card.title).toEqual('Shipping Method');
+    expect(card.textBold).toEqual('standard-gross');
+    expect(card.text).toEqual(['Standard Delivery description']);
   });
 
-  it('should call submit()', () => {
-    component.submitOrder();
-    expect(component.placeOrder.emit).toHaveBeenCalled();
+  it('should call getPaymentCard() to get payment card data', () => {
+    const card = component.getPaymentCard();
+    expect(card.title).toEqual('Payment');
+    expect(card.textBold).toEqual('Name');
+    expect(card.text).toEqual(['123456789', 'Expires: 01/2022']);
   });
 });

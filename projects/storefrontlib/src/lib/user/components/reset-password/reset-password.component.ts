@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { FormValidationService } from '../../../ui/services/form-validation/form-validation.service';
+import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
 
 @Component({
   selector: 'y-reset-password',
@@ -10,13 +10,17 @@ import { FormValidationService } from '../../../ui/services/form-validation/form
 export class ResetPasswordComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private fv: FormValidationService) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.form = this.fb.group({
       userId: [
         '',
-        [Validators.email, this.fv.emailDomainValidator, Validators.required]
+        [
+          Validators.email,
+          CustomFormValidators.emailDomainValidator,
+          Validators.required
+        ]
       ]
     });
   }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
 const DEFAULT_FORMAT = 'product';
 
@@ -7,7 +7,7 @@ const DEFAULT_FORMAT = 'product';
   templateUrl: './picture.component.html',
   styleUrls: ['./picture.component.scss']
 })
-export class PictureComponent implements OnInit {
+export class PictureComponent implements OnChanges {
   @Input() imageContainer;
   @Input() imageFormat;
   @Input() imagePosition;
@@ -27,7 +27,11 @@ export class PictureComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {
+  ngOnChanges() {
+    this.changeImage();
+  }
+
+  changeImage() {
     if (this.imageContainer) {
       const image = this.imageContainer[this.imageFormat || DEFAULT_FORMAT];
       if (image && image.url) {

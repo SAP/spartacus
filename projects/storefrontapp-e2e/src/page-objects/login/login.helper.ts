@@ -46,7 +46,7 @@ export class LoginHelper {
     await LoginHelper.navigateToLoginViaHeader();
     const loginPage = new LoginPage();
     await loginPage.waitForReady();
-    await loginPage.loginForm.registerButton.click();
+    await loginPage.registerButton.click();
   }
 
   static async registerNewUser() {
