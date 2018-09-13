@@ -19,7 +19,7 @@ import { NgbCollapseModule, NgbModalModule, NgbModule, NgbPaginationConfig, NgbP
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ProductViewComponent } from './product-view/product-view.component';
 import { FormComponentsModule } from '../../../ui/components/form-components/form-components.module';
-
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -34,7 +34,8 @@ import { FormComponentsModule } from '../../../ui/components/form-components/for
     MaterialModule,
     FlexLayoutModule,
     AddToCartModule,
-    FormComponentsModule
+    FormComponentsModule,
+    FormsModule
   ],
   declarations: [
     ProductListComponent,

@@ -14,7 +14,7 @@
                         <div class="y-product-search__sorting--top">
                             <div class="row">
                                 <div class="col-12 col-lg-4 mr-auto">
-                                    <y-product-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)"></y-product-sorting>
+                                    <y-product-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)" [selectedOption]="model.pagination.sort"></y-product-sorting>
                                 </div>
                                 <div class="col-auto">
                                     <y-product-paging [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-product-paging>
@@ -42,13 +42,13 @@
                         <div class="y-product-search__sorting--bottom">
                             <div class="row">
                                 <div class="col-12 col-lg-4 mr-auto">
-                                    <y-product-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)"></y-product-sorting>
+                                    <y-product-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)" [selectedOption]="model.pagination.sort"></y-product-sorting>
                                 </div>
                                 <div class="col-auto">
                                     <y-product-paging [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-product-paging>
                                 </div>
                                 <div class="col-auto ml-auto ml-lg-0">
-                                    <y-product-view></y-product-view>
+                                    <y-product-view [mode]="grid.mode" (modeChange)="onViewModeChange($event)"></y-product-view>
                                 </div>
                                 <div class="col-12 d-lg-none d-xl-none">
                                     <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6" [activeFacetValueCode]="categoryCode || brandCode"

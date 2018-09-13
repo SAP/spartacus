@@ -14,7 +14,7 @@ import {
 })
 export class ProductSortingComponent {
   @Input() sortOptions;
-
+  @Input() selectedOption: string;
   @Output() sortListEvent: EventEmitter<string>;
 
   constructor() {
@@ -22,7 +22,6 @@ export class ProductSortingComponent {
   }
 
   sortList(sortCode: string) {
-    console.log(sortCode);
     this.sortListEvent.emit(sortCode);
   }
 }

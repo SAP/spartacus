@@ -24,6 +24,7 @@ export class ProductFacetNavigationComponent implements OnInit {
 
   showAllPerFacetMap: Map<String, boolean>;
   queryCodec: HttpUrlEncodingCodec;
+  private collapsedFacets = new Set<string>();
 
   get visibleFacets() {
     return this.searchResult.facets.filter(facet => facet.visible);
@@ -62,5 +63,17 @@ export class ProductFacetNavigationComponent implements OnInit {
 
   private updateShowAllPerFacetMap(facetName: String, showAll: boolean) {
     this.showAllPerFacetMap.set(facetName, showAll);
+  }
+
+  isFacetCollapsed(facetName: string) {
+    return this.collapsedFacets.has(facetName);
+  }
+
+  toggleFacet(facetName: string) {
+    if (this.collapsedFacets.has(facetName)) {
+      this.collapsedFacets.delete(facetName);
+    } else {
+      this.collapsedFacets.add(facetName);
+    }
   }
 }

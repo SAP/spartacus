@@ -20,12 +20,12 @@
     
     <ng-template ngFor let-facet [ngForOf]="visibleFacets">
         <span class="y-search-facet-header">
-            <a class="y-search-facet-header__link" (click)="isCollapsedOne = !isCollapsedOne"
+            <a class="y-search-facet-header__link" (click)="toggleFacet(facet.name)"
                [attr.aria-expanded]="!isCollapsedOne" aria-controls="">
                 {{facet.name}}
             </a>
         </span>
-        <div id="facet1" [ngbCollapse]="isCollapsedOne">
+        <div id="facet1" [ngbCollapse]="isFacetCollapsed(facet.name)">
             <ul class="y-search-facet-list">
                 <li *ngFor="let value of facet.values | slice:0: showAllPerFacetMap.get(facet.name)? facet.values.length : minPerFacet">
                     <div class="form-check">
