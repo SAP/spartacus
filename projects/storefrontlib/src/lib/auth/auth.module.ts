@@ -54,7 +54,7 @@ export class AuthModule {
         {
           provide: AuthModuleConfig,
           useFactory: overrideAuthModuleConfig,
-          deps: [AUTH_MODULE_CONFIG_OVERRIDE]
+          deps: ['APP_CONFIG']
         }
       ]
     };

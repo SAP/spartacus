@@ -50,7 +50,7 @@ export class CmsModule {
         {
           provide: CmsModuleConfig,
           useFactory: overrideCmsModuleConfig,
-          deps: [CMS_MODULE_CONFIG_OVERRIDE]
+          deps: ['APP_CONFIG']
         }
       ]
     };
