@@ -1,28 +1,26 @@
-<ng-container>
-  <div class="container">
-    <div class="row">
-      <article class="storeInfo col-lg-4">
-        <h2>{{ location.displayName }}</h2>
+<div class="container">
+  <div class="row">
+    <article class="storeInfo col-lg-4">
+      <h2>{{ location.displayName }}</h2>
 
-        <p class="storeAddress">{{location.address.line1}}
-          <br/> {{location.address.town + ','}} {{location.address.region? location.address.region.name + ',': ''}} {{location.address.postalCode}}</p>
+      <p class="storeAddress">{{location.address.line1}}
+        <br/> {{location.address.town + ','}} {{location.address.region? location.address.region.name + ',': ''}} {{location.address.postalCode}}</p>
 
-        <section class="contactInfo">
-          <p>
-            <a href="{{getDirections(location)}}" target="_blank">label: Get Directions</a>
-          </p>
-          <p>label: call phone numer</p>
-          <p>label: contact us</p>
-        </section>
-        <div class="schedule">
-          <y-schedule [location]="location">
-            <h3>label: Store hours</h3>
-          </y-schedule>
-        </div>
-      </article>
-      <article class="storeMap col-lg-8">
-        <y-store-finder-map [locations]="[location]"></y-store-finder-map>
-      </article>
-    </div>
+      <section class="contactInfo">
+        <p>
+          <a href="{{getDirections(location)}}" target="_blank">label: Get Directions</a>
+        </p>
+        <p>label: call phone numer</p>
+        <p>label: contact us</p>
+      </section>
+      <div class="schedule">
+        <y-schedule [location]="location">
+          <h3>label: Store hours</h3>
+        </y-schedule>
+      </div>
+    </article>
+    <article class="storeMap col-lg-8">
+      <y-store-finder-map [locations]="[location]"></y-store-finder-map>
+    </article>
   </div>
-</ng-container>
+</div>

@@ -7,14 +7,10 @@ import { StoreDataService } from '../../services';
   templateUrl: './store-finder-store-description.component.html',
   styleUrls: ['./store-finder-store-description.component.css']
 })
-export class StoreFinderStoreDescriptionComponent
-  extends AbstractStoreItemComponent
-  implements OnInit {
+export class StoreFinderStoreDescriptionComponent extends AbstractStoreItemComponent {
   @Input() location: any;
 
   constructor(protected storeDataService: StoreDataService) {
     super(storeDataService);
   }
-
-  ngOnInit() {}
 }
