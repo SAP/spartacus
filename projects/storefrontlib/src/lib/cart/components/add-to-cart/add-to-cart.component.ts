@@ -21,7 +21,7 @@ import * as fromStore from './../../store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddToCartComponent implements OnInit {
-  modalInstance: AddedToCartDialogComponent;
+  modalInstance;
 
   isLoading = false;
   @Input() iconOnly;
@@ -82,7 +82,6 @@ export class AddToCartComponent implements OnInit {
   }
   private removeEntry(entry) {
     this.cartService.removeCartEntry(entry);
-    // this.modalInstance.close();
-    // this.modalService.dismissAll();
+    this.modalInstance.close();
   }
 }
