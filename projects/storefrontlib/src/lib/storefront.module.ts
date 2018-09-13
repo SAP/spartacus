@@ -25,7 +25,7 @@ import { UiModule, UiFrameworkModule } from './ui';
 export class StorefrontModule {
   static withConfig(config?: any): ModuleWithProviders {
     return {
-      ngModule: CmsModule,
+      ngModule: StorefrontModule,
       providers: [{ provide: 'APP_CONFIG', useValue: config }]
     };
   }
