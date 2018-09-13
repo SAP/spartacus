@@ -44,12 +44,16 @@ export class BannerComponent extends AbstractCmsComponent {
   }
 
   public getUrlLink(): string {
+    let url = '';
+
     if (this.component.urlLink !== undefined) {
+      url = this.getBaseUrl();
       if (this.component.urlLink.startsWith('/')) {
-        return this.component.urlLink;
+        url += this.component.urlLink;
       } else {
-        return '/' + this.component.urlLink;
+        url += '/' + this.component.urlLink;
       }
     }
+    return url;
   }
 }
