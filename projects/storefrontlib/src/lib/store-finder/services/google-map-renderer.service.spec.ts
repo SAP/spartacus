@@ -24,11 +24,13 @@ class ExternalJsFileLoaderMock {
     window['google'].maps.MapTypeId = {};
     window['google'].maps.Map = function(mapDomElement: HTMLElement) {
       mapDomElement.innerHTML = MAP_DOM_ELEMENT_INNER_HTML;
+      this.setCenter = function() {};
+      this.setZoom = function() {};
     };
     window['google'].maps.LatLng = function() {};
     window['google'].maps.Marker = function() {
       this.setMap = function() {};
-      this.setLabel = function() {};
+      this.addListener = function() {};
     };
     callback(new Event('test'));
   }
