@@ -19,27 +19,25 @@ export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
 
   searchBoxControl: FormControl = new FormControl();
 
-  test = '';
   maxProduct: number;
   maxSuggestions: number;
   minCharactersBeforeRequest: number;
 
-  // prettier-ignore
   public search = (text$: Observable<string>) => {
     return text$.pipe(
       debounceTime(300),
       distinctUntilChanged(),
       switchMap(term => {
-        if (term.length >= (this.component.minCharactersBeforeRequest || 3)) {
-          return this.fetch(term).pipe(map(res => {
-            return res.map(suggestion => suggestion.value);
-          }));
+        if (term.length >= (this.minCharactersBeforeRequest || 3)) {
+          return this.fetch(term).pipe(
+            map(res => res.map(suggestion => suggestion.value))
+          );
         } else {
           return of([]);
         }
       })
     );
-  }
+  };
 
   ngOnInit() {
     this.configSearch();
@@ -63,13 +61,9 @@ export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
     );
   }
 
-  private fetch(text: string) {
+  private fetch(text: string): Observable<any[]> {
     this.executeSearch(text);
 
-    return this.suggestionSearch();
-  }
-
-  private suggestionSearch(): Observable<any[]> {
     return this.store.select(fromProductStore.getProductSuggestions);
   }
 
