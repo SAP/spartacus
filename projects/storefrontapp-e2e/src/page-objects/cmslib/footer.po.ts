@@ -1,10 +1,8 @@
-import { by, ElementArrayFinder, ElementFinder } from 'protractor';
-import { E2EUtil } from './../util.po';
+import { by, element, ElementArrayFinder, ElementFinder } from 'protractor';
 
 export class Footer {
-  readonly footerNavigation: ElementFinder = E2EUtil.getComponentWithinDynamicSlot(
-    'Footer',
-    'y-footer-navigation'
+  readonly footerNavigation: ElementFinder = element(
+    by.dynamicSlot('Footer', 'y-footer-navigation')
   );
   readonly notice: ElementFinder = this.footerNavigation.element(
     by.css('.y-footer-navigation__notice')
@@ -12,9 +10,9 @@ export class Footer {
   readonly linkSections: ElementArrayFinder = this.footerNavigation.all(
     by.css('.y-footer-navigation__container')
   );
-  // prettier-ignore
+
   readonly linkSectionHeader = (sectionNo: number): ElementFinder =>
-    this.linkSections.get(sectionNo).element(by.tagName('h1'))
+    this.linkSections.get(sectionNo).element(by.tagName('h1'));
 
   async getNoticeText(): Promise<string> {
     return this.notice.getText();

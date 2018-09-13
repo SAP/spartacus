@@ -89,29 +89,9 @@ The mock server can be started with an npm script `start:mock`. With this config
 
 When developing library code, you have to rebuild the library each time you want to see and test your changes in the running app. The Anguar 6 docs give some explanations in [Why do I need to build the library everytime I make changes?](https://github.com/angular/angular-cli/wiki/stories-create-library#why-do-i-need-to-build-the-library-everytime-i-make-changes)
 
-That being said, there is a way to configure the workspace so the lib code is buit like a standalone application, giving the developer the convenience of hot reloading changes.
+That being said, there is a way to build the lib code as a standalone application, giving the developer the convenience of hot reloading changes. There's a special npm script that be used to build the application and libraries on any changes: `npm run start:dev`
 
-**WARNING:** This configuration is optional and should only be used for convenience on local development environments. **It should never be commited back to git.**
-
-Here is how it's done: In the tsconfig.json file at the root of the repo, change this:
-
-```json
-    "paths": {
-      "storefrontlib": [
-        "dist/storefrontlib"
-      ]
-    }
-```
-
-And use this instead:
-
-```json
-    "paths": {
-      "storefrontlib": [
-        "projects/storefrontlib/src/public_api"
-      ]
-    }
-```
+**WARNING:** Running in dev mode should only be used for convenience on local development environments. New code merged in develop should be tested against a regular library build and also production mode.
 
 ## Production
 

@@ -1,4 +1,3 @@
-import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductAttributesComponent } from './product-attributes.component';
 
@@ -8,7 +7,6 @@ describe('ProductAttributesComponent in product', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MaterialModule],
       declarations: [ProductAttributesComponent]
     }).compileComponents();
   }));
