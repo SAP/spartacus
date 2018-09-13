@@ -43,9 +43,7 @@ export class SearchResultsPage extends AppPage {
 
   async clickAddToCartButton4Product(product: ElementFinder) {
     const addToCartButton = this.getAddToCartInProductListItem(product);
-    await addToCartButton
-      .element(by.cssContainingText('button', 'Add to Cart'))
-      .click();
+    await addToCartButton.click();
   }
 
   getProductQuantitySpan(product: ElementFinder): ElementFinder {

@@ -18,9 +18,6 @@ export class LoginForm {
   readonly signInButton: ElementFinder = this.form.element(
     by.css('button[type=submit]')
   );
-  readonly registerButton: ElementFinder = this.form.element(
-    by.cssContainingText('a', 'REGISTER')
-  );
 
   async waitForReady() {
     await E2EUtil.wait4VisibleElement(this.form);
