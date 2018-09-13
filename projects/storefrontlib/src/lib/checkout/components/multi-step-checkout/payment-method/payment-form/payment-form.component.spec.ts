@@ -18,6 +18,9 @@ import { CheckoutService } from '../../../../services/checkout.service';
 import { CartService } from '../../../../../cart/services/cart.service';
 import { CartDataService } from '../../../../../cart/services/cart-data.service';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CardModule } from '../../../../../ui/components/card/card.module';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { Address } from '../../../../models/address-model';
 
 export class MockAbstractControl {
   hasError() {
@@ -31,6 +34,18 @@ export class MockAbstractControl {
 export class MockFormGroup {
   get() {}
 }
+
+const mockAddress: Address = {
+  firstName: 'John',
+  lastName: 'Doe',
+  titleCode: 'mr',
+  line1: 'Toyosaki 2 create on cart',
+  line2: 'line2',
+  town: 'town',
+  region: { isocode: 'JP-27' },
+  postalCode: 'zip',
+  country: { isocode: 'JP' }
+};
 
 const mockCardTypes = {
   cardTypes: [
@@ -58,6 +73,8 @@ describe('PaymentFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         RouterTestingModule,
+        CardModule,
+        NgSelectModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
@@ -114,6 +131,17 @@ describe('PaymentFormComponent', () => {
     });
   });
 
+  it('should call ngOnInit to get shipping address set in cart', () => {
+    spyOn(store, 'select').and.returnValues(of(mockCardTypes), of(mockAddress));
+    component.ngOnInit();
+    component.cardTypes$.subscribe(data => {
+      expect(data).toBe(mockCardTypes);
+    });
+    component.shippingAddress$.subscribe(data => {
+      expect(data).toBe(mockAddress);
+    });
+  });
+
   it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
     component.payment.value.defaultPayment = false;
     component.toggleDefaultPaymentMethod();
@@ -146,5 +174,34 @@ describe('PaymentFormComponent', () => {
   it('should call notSelected(name: string)', () => {
     component.notSelected('someName');
     expect(component.payment.get).toHaveBeenCalledWith('someName');
+  });
+
+  it('should call paymentSelected(card)', () => {
+    component.paymentSelected({ code: 'test select payment' });
+    expect(
+      component.payment['controls'].cardType['controls'].code.value
+    ).toEqual('test select payment');
+  });
+
+  it('should call monthSelected(month)', () => {
+    component.monthSelected({ id: '05' });
+    expect(component.payment['controls'].expiryMonth.value).toEqual('05');
+  });
+
+  it('should call yearSelected(year)', () => {
+    component.yearSelected({ name: '2022' });
+    expect(component.payment['controls'].expiryYear.value).toEqual('2022');
+  });
+
+  it('should call getAddressCardContent(address)', () => {
+    const card = component.getAddressCardContent(mockAddress);
+    expect(card.textBold).toEqual('John Doe');
+    expect(card.text).toEqual([
+      'Toyosaki 2 create on cart',
+      'line2',
+      'town, JP-27, JP',
+      'zip',
+      undefined
+    ]);
   });
 });
