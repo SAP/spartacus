@@ -17,4 +17,4 @@ export * from './lib/store-finder/index';
 export * from './lib/ui/index';
 export * from './lib/user/index';
 export * from './lib/material.module';
-export * from './lib/storefrontlib.module';
+export * from './lib/storefront.module';

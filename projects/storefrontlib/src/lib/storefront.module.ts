@@ -22,4 +22,4 @@ import { UiModule, UiFrameworkModule } from './ui';
   declarations: [],
   providers: []
 })
-export class StorefrontLibModule {}
+export class StorefrontModule {}

@@ -4,10 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { config } from './config';
 
-import { MainComponent, StorefrontLibModule } from 'storefrontlib';
+import { MainComponent, StorefrontModule } from 'storefrontlib';
 
 @NgModule({
-  imports: [BrowserModule, AppRoutingModule, StorefrontLibModule],
+  imports: [BrowserModule, AppRoutingModule, StorefrontModule],
   bootstrap: [MainComponent],
   providers: [{ provide: 'APP_CONFIG', useValue: config }]
 })
