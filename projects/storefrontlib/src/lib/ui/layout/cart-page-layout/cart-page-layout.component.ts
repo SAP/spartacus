@@ -1,11 +1,9 @@
 import {
   Component,
-  ViewChild,
-  AfterViewInit,
-  ChangeDetectorRef,
-  OnDestroy
+  OnInit
 } from '@angular/core';
-import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
+import { Store } from '@ngrx/store';
+import * as fromCartStore from '../../../cart/store';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,24 +11,18 @@ import { Subscription } from 'rxjs';
   templateUrl: './cart-page-layout.component.html',
   styleUrls: ['./cart-page-layout.component.scss']
 })
-export class CartPageLayoutComponent implements AfterViewInit, OnDestroy {
-  @ViewChild(CartDetailsComponent) cartDetail: CartDetailsComponent;
+export class CartPageLayoutComponent implements OnInit {
 
-  cart: any;
+  cart$;
   subscription: Subscription;
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  constructor(
+    protected store: Store<fromCartStore.CartState>
+  ) {}
 
-  ngAfterViewInit() {
-    this.subscription = this.cartDetail.cart$.subscribe(data => {
-      this.cart = data;
-      this.changeDetector.detectChanges();
-    });
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+  ngOnInit() {
+    this.cart$ = this
+      .store
+      .select(fromCartStore.getActiveCart);
   }
 }
