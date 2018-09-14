@@ -5,9 +5,16 @@ import { PaginationAndSortingComponent } from './order-history/pagination-and-so
 import { OrderHistoryComponent } from './order-history/container/order-history.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { FormsModule } from '@angular/forms';
-
+import { NgSelectModule } from '@ng-select/ng-select';
+import { BootstrapModule } from '../../bootstap.module';
 @NgModule({
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    NgSelectModule,
+    BootstrapModule
+  ],
   declarations: [
     OrderHistoryComponent,
     PaginationAndSortingComponent,
