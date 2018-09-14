@@ -41,17 +41,21 @@ export class GoogleMapRendererService {
             { key: result },
             () => {
               this.initMap(mapElement, this.defineMapCenter(locations));
-              if (selectMarkerHandler)
+              if (selectMarkerHandler) {
                 this.createMarkers(locations, selectMarkerHandler);
-              else this.createMarkers(locations);
+              } else {
+                this.createMarkers(locations);
+              }
             }
           );
         });
     } else {
       this.setMapOnAllMarkers(null);
-      if (selectMarkerHandler)
+      if (selectMarkerHandler) {
         this.createMarkers(locations, selectMarkerHandler);
-      else this.createMarkers(locations);
+      } else {
+        this.createMarkers(locations);
+      }
       this.googleMap.setCenter(this.defineMapCenter(locations));
       this.googleMap.setZoom(DEFAULT_SCALE);
     }
