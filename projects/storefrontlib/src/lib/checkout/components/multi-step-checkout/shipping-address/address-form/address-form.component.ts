@@ -43,7 +43,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
-    line2: ['', Validators.required],
+    line2: [''],
     town: ['', Validators.required],
     region: this.fb.group({
       isocode: ['', Validators.required]
@@ -130,6 +130,22 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   onCountryChange(countryIsoCode): void {
     this.store.dispatch(new fromUser.LoadRegions(countryIsoCode));
+  }
+
+  titleSelected(title) {
+    this.address['controls'].titleCode.setValue(title.code);
+  }
+
+  countrySelected(country) {
+    this.address['controls'].country['controls'].isocode.setValue(
+      country.isocode
+    );
+  }
+
+  regionSelected(region) {
+    this.address['controls'].region['controls'].isocode.setValue(
+      region.isocode
+    );
   }
 
   toggleDefaultAddress() {

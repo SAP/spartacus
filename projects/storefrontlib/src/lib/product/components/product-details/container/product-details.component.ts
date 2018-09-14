@@ -1,5 +1,10 @@
-import { Component, Input, OnChanges, ViewChild } from '@angular/core';
-import { MatTabGroup, MatTab } from '@angular/material';
+import {
+  Component,
+  Input,
+  OnChanges,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromStore from '../../../store';
@@ -7,14 +12,16 @@ import * as fromStore from '../../../store';
 @Component({
   selector: 'y-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.scss']
+  styleUrls: ['./product-details.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProductDetailsComponent implements OnChanges {
-  @ViewChild(MatTabGroup) matTabGroup;
+  @ViewChild('tabSet') tabSet;
+  @ViewChild('tabSetWrapper') tabSetWrapper;
   @Input() productCode: string;
   product$: Observable<any>;
-  // The value of selectedTabIndex reflects the current tab selected
-  selectedTabIndex = 0;
+  itemCount = 1;
+
   isWritingReview = false;
 
   constructor(protected store: Store<fromStore.ProductsState>) {}
@@ -29,12 +36,7 @@ export class ProductDetailsComponent implements OnChanges {
     if (!isWritingReview) {
       this.isWritingReview = false;
     }
-    const reviewPosition = this.matTabGroup._tabs.find((tab: MatTab) => {
-      return tab.textLabel.indexOf('REVIEWS') !== -1;
-    }).position;
-
-    this.selectedTabIndex += reviewPosition;
-
-    this.matTabGroup._elementRef.nativeElement.scrollIntoView();
+    this.tabSet.select('reviews');
+    this.tabSetWrapper.nativeElement.scrollIntoView();
   }
 }

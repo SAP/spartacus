@@ -19,7 +19,10 @@ import * as fromProduct from '../../../product/store/reducers';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuthStore from '../../../auth/store/reducers';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import {
+  NgbTabsetModule,
+  NgbAccordionModule
+} from '@ng-bootstrap/ng-bootstrap';
 describe('ProductDetailsPageLayoutComponent', () => {
   let component: ProductDetailsPageLayoutComponent;
   let fixture: ComponentFixture<ProductDetailsPageLayoutComponent>;
@@ -28,6 +31,8 @@ describe('ProductDetailsPageLayoutComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MaterialModule,
+        NgbTabsetModule,
+        NgbAccordionModule,
         ReactiveFormsModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
