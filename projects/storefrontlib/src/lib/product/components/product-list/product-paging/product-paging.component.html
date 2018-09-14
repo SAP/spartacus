@@ -1,7 +1,8 @@
 <ngb-pagination 
         [collectionSize]="pagination.totalResults" 
         [page]="pagination.currentPage+1" 
-        (pageChange)="pageChange($event)" 
+        (pageChange)="pageChange($event)"
+        [maxSize]="3"
         class="y-product-search__pagination" 
         aria-label="product search pagination">
 </ngb-pagination>
