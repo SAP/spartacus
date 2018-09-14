@@ -7,7 +7,9 @@ import {
   NgbRatingModule,
   NgbRatingConfig,
   NgbDropdownModule,
-  NgbTypeaheadModule
+  NgbTypeaheadModule,
+  NgbPaginationModule,
+  NgbPaginationConfig
 } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   imports: [
@@ -15,15 +17,22 @@ import {
     NgbTypeaheadModule.forRoot(),
     NgbTabsetModule,
     NgbAccordionModule,
-    NgbRatingModule
+    NgbRatingModule,
+    NgbPaginationModule
   ],
   exports: [
     NgbDropdownModule,
     NgbTabsetModule,
     NgbAccordionModule,
     NgbRatingModule,
-    NgbTypeaheadModule
+    NgbTypeaheadModule,
+    NgbPaginationModule
   ],
-  providers: [NgbTabsetConfig, NgbAccordionConfig, NgbRatingConfig]
+  providers: [
+    NgbTabsetConfig,
+    NgbAccordionConfig,
+    NgbRatingConfig,
+    NgbPaginationConfig
+  ]
 })
 export class BootstrapModule {}
