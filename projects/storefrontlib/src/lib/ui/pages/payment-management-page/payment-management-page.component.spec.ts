@@ -2,7 +2,7 @@ import { PaymentManagementPageComponent } from './payment-management-page.compon
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { PaymentManagementPageLayoutModule } from '../../layout/payment-management-page-layout/payment-management-page-layout.module';
 
-fdescribe('PaymentManagementPageLayoutComponent', () => {
+describe('PaymentManagementPageLayoutComponent', () => {
   let component: PaymentManagementPageComponent;
   let fixture: ComponentFixture<PaymentManagementPageComponent>;
 

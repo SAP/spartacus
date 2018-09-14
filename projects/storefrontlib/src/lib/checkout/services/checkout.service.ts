@@ -8,6 +8,7 @@ import {
   CartDataService,
   ANONYMOUS_USERID
 } from '../../cart/services/cart-data.service';
+import { CartService } from '../../cart/services/cart.service';
 
 @Injectable()
 export class CheckoutService {
@@ -16,6 +17,8 @@ export class CheckoutService {
   constructor(
     private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
     private userStore: Store<fromUserStore.UserState>,
+    // tslint:disable-next-line:no-unused-variable max-line-length
+    private cartService: CartService, // hack: unused, but it has to be created before CheckoutService, because CartService initializes CartDataService
     private cartData: CartDataService
   ) {}
 
