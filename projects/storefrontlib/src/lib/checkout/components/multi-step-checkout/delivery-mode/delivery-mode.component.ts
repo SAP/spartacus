@@ -13,7 +13,6 @@ import { Observable } from 'rxjs';
 import { tap, takeWhile } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../store';
-import { Address } from '../../../models/address-model';
 import { CheckoutService } from '../../../services/checkout.service';
 
 @Component({
@@ -24,11 +23,10 @@ import { CheckoutService } from '../../../services/checkout.service';
 })
 export class DeliveryModeComponent implements OnInit {
   supportedDeliveryModes$: Observable<any>;
+  @Input() selectedShippingMethod: string;
 
   @Output() selectMode = new EventEmitter<any>();
   @Output() backStep = new EventEmitter<any>();
-
-  @Input() deliveryAddress: Address;
 
   leave = false;
 
@@ -50,6 +48,12 @@ export class DeliveryModeComponent implements OnInit {
         tap(supportedModes => {
           if (Object.keys(supportedModes).length === 0) {
             this.service.loadSupportedDeliveryModes();
+          } else {
+            if (this.selectedShippingMethod) {
+              this.mode.controls['deliveryModeId'].setValue(
+                this.selectedShippingMethod
+              );
+            }
           }
         })
       );
@@ -65,7 +69,7 @@ export class DeliveryModeComponent implements OnInit {
   }
 
   get deliveryModeInvalid() {
-    const control = this.mode.get('deliveryModeId');
-    return control.hasError('required') && control.touched;
+    const control = this.mode.controls['deliveryModeId'];
+    return control.invalid;
   }
 }
