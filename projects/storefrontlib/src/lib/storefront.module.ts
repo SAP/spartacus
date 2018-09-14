@@ -1,11 +1,11 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { AuthModule } from './auth';
-import { RoutingModule } from './routing';
-import { OccModule } from './occ';
-import { SiteContextModule } from './site-context';
-import { CmsLibModule } from './cms-lib';
-import { CmsModule } from './cms';
-import { UiModule, UiFrameworkModule } from './ui';
+import { AuthModule } from './auth/index';
+import { RoutingModule } from './routing/index';
+import { OccModule } from './occ/index';
+import { SiteContextModule } from './site-context/index';
+import { CmsLibModule } from './cms-lib/index';
+import { CmsModule } from './cms/index';
+import { UiModule, UiFrameworkModule } from './ui/index';
 
 @NgModule({
   imports: [
