@@ -8,69 +8,61 @@
   <!-- Item Information -->
   <div class="y-cart-item__info col-10">
     <div class="y-cart-item__info-container row ">
-        <!-- Item Description -->
-        <div class="y-cart-item__description" [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
-            <div *ngIf="item.product.name" class="y-cart-item__name">{{item.product.name}}</div>
-            <div *ngIf="item.product.code" class="y-cart-item__code">ID {{item.product.code}}</div>
-            <!-- Variants -->
-            <div *ngFor="let variant of item.product.variantOptionQualifiers" class="y-cart-item__property">
-              <div class="y-cart-item__property--label">{{variant.name}}</div>
-              <div class="y-cart-item__property--value">{{variant.value}}</div>
-            </div>
-          </div>
-        <!-- Item Price -->
-        <div *ngIf="item.basePrice" class="y-cart-item__price" [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'">
-            <div class="y-cart-item__price--label" [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none' ">
-                Item
-            </div>
-            <div *ngIf="item.basePrice" class="y-cart-item__price--value">
-                {{item.basePrice?.formattedValue}}
-            </div>
-            <!-- <div *ngIf="item.oldPrice || item.newPrice" class="y-cart-item__price--value">
+      <!-- Item Description -->
+      <div class="y-cart-item__description" [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
+        <div *ngIf="item.product.name" class="y-cart-item__name">{{item.product.name}}</div>
+        <div *ngIf="item.product.code" class="y-cart-item__code">ID {{item.product.code}}</div>
+        <!-- Variants -->
+        <div *ngFor="let variant of item.product.variantOptionQualifiers" class="y-cart-item__property">
+          <div class="y-cart-item__property--label">{{variant.name}}</div>
+          <div class="y-cart-item__property--value">{{variant.value}}</div>
+        </div>
+      </div>
+      <!-- Item Price -->
+      <div *ngIf="item.basePrice" class="y-cart-item__price" [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'">
+        <div class="y-cart-item__price--label" [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none' ">
+          Item
+        </div>
+        <div *ngIf="item.basePrice" class="y-cart-item__price--value">
+          {{item.basePrice?.formattedValue}}
+        </div>
+        <!-- <div *ngIf="item.oldPrice || item.newPrice" class="y-cart-item__price--value">
                 <div class="y-cart-item__price--old">{{item.oldPrice}}</div>
                 <div class="y-cart-item__price--new">{{item.newPrice}}</div>
             </div> -->
+      </div>
+      <!-- Item Quantity -->
+      <div *ngIf="item.quantity" class="y-cart-item__quantity" [ngClass]="compact ? '' : ' col-3'">
+        <div class="y-cart-item__quantity--label" [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none' ">
+          Qty
         </div>
-        <!-- Item Quantity -->
-        <div *ngIf="item.quantity" class="y-cart-item__quantity" [ngClass]="compact ? '' : ' col-3'">
-            <div class="y-cart-item__quantity--label" [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none' ">
-                Qty
-            </div>
-            <div *ngIf="readonly" class="y-cart-item__quantity--value">
-                {{item.quantity}}
-            </div>
-            <div *ngIf="!readonly" class="y-cart-item__quantity--value" [formGroup]="parent">
-                <y-item-counter
-                    [step]="1"
-                    [min]="1"
-                    [max]="item.product.stock?.stockLevel || 1000"
-                    (update)="updateItem($event, item)"
-                    formControlName="quantity"
-                >
-                </y-item-counter>
-            </div>
+        <div *ngIf="readonly" class="y-cart-item__quantity--value">
+          {{item.quantity}}
         </div>
-        <!-- Total -->
-        <div *ngIf="item.totalPrice" class="y-cart-item__total" [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'">
-            <div class="y-cart-item__total--label" [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none' ">
-                Total
-            </div>
-            <div class="y-cart-item__total--value">
-                {{item.totalPrice.formattedValue}}
-            </div>
+        <div *ngIf="!readonly" class="y-cart-item__quantity--value" [formGroup]="parent">
+          <y-item-counter [step]="1" [min]="1" [max]="item.product.stock?.stockLevel || 1000" (update)="updateItem($event, item)"
+            formControlName="quantity">
+          </y-item-counter>
         </div>
+      </div>
+      <!-- Total -->
+      <div *ngIf="item.totalPrice" class="y-cart-item__total" [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'">
+        <div class="y-cart-item__total--label" [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none' ">
+          Total
+        </div>
+        <div class="y-cart-item__total--value">
+          {{item.totalPrice.formattedValue}}
+        </div>
+      </div>
     </div>
     <!-- Availability -->
     <div *ngIf="isProductOutOfStock(item)" class="y-cart-item__availability col-12">{{item.product.stock?.stockLevelStatus}}</div>
     <!-- Promotion -->
-    <div
-        class="y-cart-item__promo col-12"
-        *ngFor="let promotion of potentialProductPromotions"
-        [innerHTML]="promotion.description">
+    <div class="y-cart-item__promo col-12" *ngFor="let promotion of potentialProductPromotions" [innerHTML]="promotion.description">
     </div>
     <!-- Actions -->
     <div *ngIf="!readonly" class="y-cart-item__actions col-12 ">
-        <a [routerLink]="" (click)="removeItem()">Remove</a>
+      <a [routerLink]="" (click)="removeItem()">Remove</a>
     </div>
   </div>
 </div>

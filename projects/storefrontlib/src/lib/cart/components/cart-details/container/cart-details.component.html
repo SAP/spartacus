@@ -2,31 +2,29 @@
   <div class="y-cart-details container">
     <ng-container *ngIf="entries$ | async as entries">
       <div class="row">
-          <div class="col-md-12 col-lg-9">
-              <div class="y-cart-details__cart-total">
-                Cart total ({{cart.deliveryItemsQuantity}} items): {{cart.totalPrice?.formattedValue}}
-              </div>
-              <div class="y-cart-details__promotions" *ngIf="cartHasPromotions(cart)">
-                <strong *ngFor="let promotion of getAllPromotionsForCart(cart)" [innerHTML]="promotion.description">
-                </strong>
-              </div>
-              <y-cart-item-list
-                [items]="entries"
-                [potentialProductPromotions]="cart.potentialProductPromotions"
-              ></y-cart-item-list>
-              <!--NOT FOR MVP  <y-cart-coupon></y-cart-coupon> -->
+        <div class="col-md-12 col-lg-9">
+          <div class="y-cart-details__cart-total">
+            Cart total ({{cart.deliveryItemsQuantity}} items): {{cart.totalPrice?.formattedValue}}
           </div>
-          <div class="col-md-5 offset-md-7 col-lg-3 offset-lg-0">
-              <y-order-summary [cart]="cart"></y-order-summary>
-              <div class="y-cart-details__checkbox form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                  <label class="form-check-label" for="defaultCheck1">
-                      By checking this box, I am confirming that I have read and agree with the
-                      <a href="#">Terms & Conditions</a>
-                  </label>
-              </div>
-              <button routerLink="/checkout" *ngIf="entries.length" class="btn btn-primary btn-block" type="button">Proceed to Checkout</button>
+          <div class="y-cart-details__promotions" *ngIf="cartHasPromotions(cart)">
+            <strong *ngFor="let promotion of getAllPromotionsForCart(cart)" [innerHTML]="promotion.description">
+            </strong>
           </div>
+          <y-cart-item-list [items]="entries" [potentialProductPromotions]="cart.potentialProductPromotions"></y-cart-item-list>
+          <!--NOT FOR MVP  <y-cart-coupon></y-cart-coupon> -->
+        </div>
+        <div class="col-md-5 offset-md-7 col-lg-3 offset-lg-0">
+          <y-order-summary [cart]="cart"></y-order-summary>
+          <div class="y-cart-details__checkbox form-check">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+              By checking this box, I am confirming that I have read and agree with the
+              <a href="#">Terms & Conditions</a>
+            </label>
+          </div>
+          <button routerLink="/checkout" *ngIf="entries.length" class="btn btn-primary btn-block" type="button">Proceed
+            to Checkout</button>
+        </div>
       </div>
     </ng-container>
   </div>
