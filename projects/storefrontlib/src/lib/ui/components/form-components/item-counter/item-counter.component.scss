@@ -23,30 +23,33 @@ $y-item-counter-action-trbl-margin: 0 0 0 0 !default;
 $y-item-counter-action-trbl-margin: 0 !default;
 
 .y-item-counter {
-    border-radius: $y-item-counter-border-radius;
-    border: $y-item-counter-border;
-    @include var-color('border-color', $y-item-counter-border-color);
-    &__value {
-        border-left: $y-item-counter-value-border;
-        border-right: $y-item-counter-value-border;
-        @include var-color('border-left-color', $y-item-counter-border-color);
-        @include var-color('border-right-color', $y-item-counter-border-color);
-        padding: $y-item-counter-value-trbl-padding;
-        max-height: $y-item-counter-value-height;
-        min-width: $y-item-counter-value-width;
-    }
-    &__action {
-        max-height: $y-item-counter-action-height;
-        min-width: $y-item-counter-action-width;
-        border: none;
-        @include var-color('color', $y-item-counter-action-color);
-        @include var-color('background-color', $y-item-counter-action-background-color);
-        @include type('3');
-        margin: $y-item-counter-action-trbl-margin;
+  border-radius: $y-item-counter-border-radius;
+  border: $y-item-counter-border;
+  @include var-color('border-color', $y-item-counter-border-color);
+  &__value {
+    border-left: $y-item-counter-value-border;
+    border-right: $y-item-counter-value-border;
+    @include var-color('border-left-color', $y-item-counter-border-color);
+    @include var-color('border-right-color', $y-item-counter-border-color);
+    padding: $y-item-counter-value-trbl-padding;
+    max-height: $y-item-counter-value-height;
+    min-width: $y-item-counter-value-width;
+  }
+  &__action {
+    max-height: $y-item-counter-action-height;
+    min-width: $y-item-counter-action-width;
+    border: none;
+    @include var-color('color', $y-item-counter-action-color);
+    @include var-color(
+      'background-color',
+      $y-item-counter-action-background-color
+    );
+    @include type('3');
+    margin: $y-item-counter-action-trbl-margin;
 
-        &:disabled {
-            @include var-color('color', $y-item-counter-action-disabled-color);
-            opacity: 1;
-        }
+    &:disabled {
+      @include var-color('color', $y-item-counter-action-disabled-color);
+      opacity: 1;
     }
+  }
 }

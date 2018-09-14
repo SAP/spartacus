@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  Input,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -30,10 +24,7 @@ export class AddedToCartDialogComponent implements OnInit {
   @Output() updateEntryEvent: EventEmitter<any> = new EventEmitter();
   @Output() removeEntryEvent: EventEmitter<any> = new EventEmitter();
 
-  constructor(
-    private fb: FormBuilder,
-    public activeModal: NgbActiveModal
-  ) {}
+  constructor(private fb: FormBuilder, public activeModal: NgbActiveModal) {}
 
   ngOnInit() {
     const entryFG = this.form.get('entryForm') as FormGroup;

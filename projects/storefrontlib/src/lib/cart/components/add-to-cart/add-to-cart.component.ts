@@ -2,7 +2,7 @@ import {
   Component,
   Input,
   OnInit,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
@@ -61,12 +61,13 @@ export class AddToCartComponent implements OnInit {
   }
 
   private openModal() {
-    this.modalInstance = this.modalService
-      .open(AddedToCartDialogComponent, { centered: true, size: 'lg' }).componentInstance;
+    this.modalInstance = this.modalService.open(AddedToCartDialogComponent, {
+      centered: true,
+      size: 'lg'
+    }).componentInstance;
     this.modalInstance.entry$ = this.cartEntry$;
     this.modalInstance.cart$ = this.store.select(fromCartStore.getActiveCart);
     this.modalInstance.quantity = this.quantity;
-
 
     this.modalInstance.updateEntryEvent.subscribe((data: any) =>
       this.updateEntry(data)
