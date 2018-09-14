@@ -20,7 +20,8 @@
             "tsConfig": "projects/storefrontapp/tsconfig.app.json",
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
-              "projects/storefrontapp/src/assets"
+              "projects/storefrontapp/src/assets",
+              "projects/storefrontapp/src/manifest.json"
             ],
             "styles": [
               "projects/storefrontapp/src/styles.scss",
@@ -83,7 +84,9 @@
             "scripts": [],
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
-              "projects/storefrontapp/src/assets"
+              "projects/storefrontapp/src/assets",
+              "projects/storefrontapp/src/manifest.json"
+
             ],
             "codeCoverageExclude": ["dist/**/*"]
           }
