@@ -20,6 +20,7 @@ import { CategoryPageModule } from './category-page/category-page.module';
 
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
+import { StoreDescriptionPageModule } from './store-description-page/store-description-page.module';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { ProductPageModule } from './product-page/product-page.module';
     RegisterPageModule,
     LoginPageModule,
     StoreFinderPageModule,
+    StoreDescriptionPageModule,
     // new pages should be added above this line
     PageNotFoundModule
   ],
@@ -52,6 +54,7 @@ import { ProductPageModule } from './product-page/product-page.module';
     RegisterPageModule,
     LoginPageModule,
     StoreFinderPageModule,
+    StoreDescriptionPageModule,
     // new pages should be added above this line
     PageNotFoundModule
   ]
