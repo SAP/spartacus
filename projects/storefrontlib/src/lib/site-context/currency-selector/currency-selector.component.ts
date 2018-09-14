@@ -2,13 +2,15 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  OnDestroy
+  OnDestroy, Inject
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromStore from '../shared/store';
-import { SiteContextModuleConfig } from '../site-context-module-config';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { Configuration } from '../../config/config.module';
+
 
 @Component({
   selector: 'y-currency-selector',
@@ -23,7 +25,7 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromStore.SiteContextState>,
-    private config: SiteContextModuleConfig
+    @Inject(Configuration) private config: CmsModuleConfig
   ) {}
 
   ngOnInit() {

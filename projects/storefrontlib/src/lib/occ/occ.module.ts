@@ -10,17 +10,10 @@ import { OccSiteService } from './site-context/occ-site.service';
 import { OccCartService } from './cart/cart.service';
 import { OccMiscsService } from './miscs/miscs.service';
 import { OccOrderService } from './order/order.service';
-
-export function overrideOccModuleConfig(configOverride: any) {
-  return { ...new OccModuleConfig(), ...configOverride };
-}
-
-export const OCC_MODULE_CONFIG_OVERRIDE: InjectionToken<
-  string
-> = new InjectionToken<string>('OCC_MODULE_CONFIG_OVERRIDE');
+import { ConfigModule, Configuration } from '../config/config.module';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, ConfigModule.withConfig(new OccModuleConfig())],
   providers: [
     OccProductSearchService,
     OccProductService,
@@ -29,24 +22,10 @@ export const OCC_MODULE_CONFIG_OVERRIDE: InjectionToken<
     OccCartService,
     OccMiscsService,
     OccOrderService,
-    OccModuleConfig
+    {
+      provide: OccModuleConfig,
+      useExisting: Configuration
+    }
   ]
 })
-export class OccModule {
-  static forRoot(configOverride?: any): ModuleWithProviders {
-    return {
-      ngModule: OccModule,
-      providers: [
-        {
-          provide: OCC_MODULE_CONFIG_OVERRIDE,
-          useValue: configOverride
-        },
-        {
-          provide: OccModuleConfig,
-          useFactory: overrideOccModuleConfig,
-          deps: ['APP_CONFIG']
-        }
-      ]
-    };
-  }
-}
+export class OccModule {}

@@ -18,45 +18,25 @@ import {
   reducerProvider,
   metaReducers
 } from './store/reducers/index';
-
-export function overrideAuthModuleConfig(configOverride: any) {
-  return { ...new AuthModuleConfig(), ...configOverride };
-}
-
-export const AUTH_MODULE_CONFIG_OVERRIDE: InjectionToken<
-  string
-> = new InjectionToken<string>('AUTH_MODULE_CONFIG_OVERRIDE');
+import { ConfigModule, Configuration } from '../config/config.module';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
     StoreModule.forFeature('auth', reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
+    ConfigModule.withConfig(new AuthModuleConfig())
   ],
   providers: [
     ...guards,
     ...services,
     ...interceptors,
     reducerProvider,
-    AuthModuleConfig
+    {
+      provide: AuthModuleConfig,
+      useExisting: Configuration
+    }
   ]
 })
-export class AuthModule {
-  static forRoot(configOverride?: any): ModuleWithProviders {
-    return {
-      ngModule: AuthModule,
-      providers: [
-        {
-          provide: AUTH_MODULE_CONFIG_OVERRIDE,
-          useValue: configOverride
-        },
-        {
-          provide: AuthModuleConfig,
-          useFactory: overrideAuthModuleConfig,
-          deps: ['APP_CONFIG']
-        }
-      ]
-    };
-  }
-}
+export class AuthModule {}

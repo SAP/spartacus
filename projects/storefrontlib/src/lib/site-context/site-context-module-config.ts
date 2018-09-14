@@ -1,15 +1,26 @@
-import { Injectable } from '@angular/core';
-
-@Injectable()
-export class SiteContextModuleConfig {
-  server = {
-    baseUrl: 'https://localhost:9002',
-    occPrefix: '/rest/v2/'
+export interface SiteContextConfig {
+  server?: {
+    baseUrl?: string,
+    occPrefix?: string
   };
 
-  site = {
+  site?: {
+    baseSite?: string,
+    language?: string,
+    currency?: string
+  };
+
+}
+
+export const defaultConfig: SiteContextConfig = {
+  server: {
+    baseUrl: 'https://localhost:9002',
+    occPrefix: '/rest/v2/'
+  },
+
+  site: {
     baseSite: 'electronics',
     language: 'en',
     currency: 'USD'
-  };
-}
+  }
+};

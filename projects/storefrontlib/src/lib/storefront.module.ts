@@ -9,24 +9,24 @@ import { UiModule, UiFrameworkModule } from './ui/index';
 
 @NgModule({
   imports: [
-    AuthModule.forRoot(),
-    RoutingModule.forRoot(),
-    OccModule.forRoot(),
-    SiteContextModule.forRoot(),
+    AuthModule,
+    RoutingModule,
+    OccModule,
+    SiteContextModule,
     CmsLibModule,
-    CmsModule.forRoot(),
+    CmsModule,
     UiModule,
-    UiFrameworkModule
+    UiFrameworkModule,
+    ConfigModule.forRoot()
   ],
   exports: [UiModule],
-  declarations: [],
-  providers: [{ provide: 'APP_CONFIG', useValue: {} }]
+  declarations: []
 })
 export class StorefrontModule {
-  static withConfig(config?: any): ModuleWithProviders {
+  static withConfig(config?: StorefrontConfig): ModuleWithProviders {
     return {
       ngModule: StorefrontModule,
-      providers: [{ provide: 'APP_CONFIG', useValue: config }]
+      providers: [ provideConfig(config) ]
     };
   }
 }

@@ -5,11 +5,11 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { SiteContextInterceptor } from './site-context.interceptor';
-import { SiteContextModuleConfig } from '../../site-context-module-config';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../shared/store';
 import { of } from 'rxjs';
+import { Configuration } from '../../../config/config.module';
 
 export class MockSiteContextModuleConfig {
   server = {
@@ -42,7 +42,7 @@ describe('SiteContextInterceptor', () => {
       ],
       providers: [
         {
-          provide: SiteContextModuleConfig,
+          provide: Configuration,
           useClass: MockSiteContextModuleConfig
         },
         {

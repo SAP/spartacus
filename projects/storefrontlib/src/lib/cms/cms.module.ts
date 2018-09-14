@@ -18,41 +18,26 @@ import { guards } from './guards/index';
 // services
 import { services } from './services/index';
 import { CmsModuleConfig } from './cms-module-config';
-
-export function overrideCmsModuleConfig(configOverride: any) {
-  return { ...new CmsModuleConfig(), ...configOverride };
-}
-
-export const CMS_MODULE_CONFIG_OVERRIDE: InjectionToken<
-  string
-> = new InjectionToken<string>('CMS_MODULE_CONFIG_OVERRIDE');
+import { ConfigModule, Configuration } from '../config/config.module';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
     StoreModule.forFeature('cms', reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
+    ConfigModule.withConfig(new CmsModuleConfig())
   ],
-  providers: [reducerProvider, ...services, ...guards, CmsModuleConfig],
+  providers: [
+    reducerProvider,
+    ...services,
+    ...guards,
+    {
+      provide: CmsModuleConfig,
+      useExisting: Configuration
+    }
+  ],
   declarations: [...components],
   exports: [...components]
 })
-export class CmsModule {
-  static forRoot(configOverride?: any): ModuleWithProviders {
-    return {
-      ngModule: CmsModule,
-      providers: [
-        {
-          provide: CMS_MODULE_CONFIG_OVERRIDE,
-          useValue: configOverride
-        },
-        {
-          provide: CmsModuleConfig,
-          useFactory: overrideCmsModuleConfig,
-          deps: ['APP_CONFIG']
-        }
-      ]
-    };
-  }
-}
+export class CmsModule {}

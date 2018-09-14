@@ -18,14 +18,8 @@ import { RoutingModuleConfig, StorageSyncType } from './routing-module-config';
 // not used in production
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
+import { ConfigModule, Configuration } from '../config/config.module';
 
-export function overrideRoutingModuleConfig(configOverride: any) {
-  return { ...new RoutingModuleConfig(), ...configOverride };
-}
-
-export const ROUTING_MODULE_CONFIG_OVERRIDE: InjectionToken<
-  string
-> = new InjectionToken<string>('ROUTING_MODULE_CONFIG_OVERRIDE');
 
 export function getMetaReducers(
   config: RoutingModuleConfig
@@ -46,7 +40,8 @@ export function getMetaReducers(
     StoreModule.forRoot(reducerToken),
     EffectsModule.forRoot(effects),
     StoreRouterConnectingModule,
-    StoreDevtoolsModule.instrument() // Should not be used in production (SPA-488)
+    StoreDevtoolsModule.instrument(), // Should not be used in production (SPA-488)
+    ConfigModule.withConfig(new RoutingModuleConfig())
   ],
   providers: [
     reducerProvider,
@@ -59,24 +54,11 @@ export function getMetaReducers(
       provide: META_REDUCERS,
       deps: [RoutingModuleConfig],
       useFactory: getMetaReducers
+    },
+    {
+      provide: RoutingModuleConfig,
+      useExisting: Configuration
     }
   ]
 })
-export class RoutingModule {
-  static forRoot(configOverride?: any): ModuleWithProviders {
-    return {
-      ngModule: RoutingModule,
-      providers: [
-        {
-          provide: ROUTING_MODULE_CONFIG_OVERRIDE,
-          useValue: configOverride
-        },
-        {
-          provide: RoutingModuleConfig,
-          useFactory: overrideRoutingModuleConfig,
-          deps: ['APP_CONFIG']
-        }
-      ]
-    };
-  }
-}
+export class RoutingModule {}
