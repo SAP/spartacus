@@ -18,8 +18,10 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   orders$: Observable<any>;
   isLoaded$: Observable<boolean>;
   subscription: Subscription;
+  page = 0;
   private PAGE_SIZE = 5;
   private user_id: string;
+  private sortType: string;
 
   ngOnInit() {
     this.subscription = this.store
@@ -38,7 +40,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
     this.orders$ = this.store.select(fromUserStore.getOrders).pipe(
       tap(orders => {
-        if (Object.keys(orders.orders).length === 0) {
+        if (orders.orders && Object.keys(orders.orders).length === 0) {
           this.store.dispatch(
             new fromUserStore.LoadUserOrders({
               userId: this.user_id,
@@ -48,7 +50,9 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
         }
       })
     );
-
+    this.orders$.subscribe(orders => {
+      this.sortType = orders.pagination.sort;
+    });
     this.isLoaded$ = this.store.select(fromUserStore.getOrdersLoaded);
   }
 
@@ -56,6 +60,31 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  getLabel(label) {
+    const labels = {
+      byDate: 'By date',
+      byOrderNumber: 'By Order Number'
+    };
+    return labels[label];
+  }
+
+  changeSortCode(sortCode: string) {
+    const event = {
+      sortCode,
+      currentPage: 0
+    };
+    this.fetchOrders(event);
+  }
+
+  pageChange(page: number) {
+    const event = {
+      sortCode: this.sortType,
+      currentPage: page - 1
+    };
+    this.page = page;
+    this.fetchOrders(event);
   }
 
   viewPage(event: { sortCode: string; currentPage: number }) {
