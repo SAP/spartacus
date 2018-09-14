@@ -77,38 +77,9 @@ describe('ProductListComponent in product-list', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit and get search result if the result is empty with given categoryCode', () => {
-    spyOn(store, 'select').and.returnValues(of({}, {}));
-
-    component.categoryCode = 'mockCategoryCode';
-
-    component.ngOnInit();
-    component.model$.subscribe();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromProduct.SearchProducts({
-        queryText: ':relevance:category:mockCategoryCode',
-        searchConfig: searchConfig
-      })
-    );
-  });
-
-  it('should call ngOnInit and get search result if the result is empty with given brandCode', () => {
-    spyOn(store, 'select').and.returnValues(of({}, {}));
-
-    component.brandCode = 'mockBrandCode';
-
-    component.ngOnInit();
-    component.model$.subscribe();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromProduct.SearchProducts({
-        queryText: ':relevance:brand:mockBrandCode',
-        searchConfig: searchConfig
-      })
-    );
-  });
-
   it('should call ngOnChanges and get search results with category code', () => {
     component.categoryCode = 'mockCategoryCode';
+    component.ngOnInit();
     component.ngOnChanges();
     searchConfig = { ...searchConfig, ...{ pageSize: 10 } };
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -121,6 +92,7 @@ describe('ProductListComponent in product-list', () => {
 
   it('should call ngOnChanges get search results with brand code', () => {
     component.brandCode = 'mockBrandCode';
+    component.ngOnInit();
     component.ngOnChanges();
     searchConfig = { ...searchConfig, ...{ pageSize: 10 } };
     expect(store.dispatch).toHaveBeenCalledWith(
