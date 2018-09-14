@@ -107,4 +107,21 @@ $y-search-box-search-icon-height: 28px !default;
     @include var-color('fill', $y-search-box-button-icon-fill-color);
     pointer-events: none;
   }
+  &__dropdown-content {
+    @include media-breakpoint-down(xl) {
+      width: $y-search-box-input-width-xl;
+    }
+    @include media-breakpoint-down(lg) {
+      width: $y-search-box-input-width-lg;
+    }
+    @include media-breakpoint-down(md) {
+      width: $y-search-box-input-width-md;
+    }
+    @include media-breakpoint-down(sm) {
+      width: $y-search-box-input-width-sm;
+    }
+    @include media-breakpoint-down(xs) {
+      width: $y-search-box-input-width-xs;
+    }
+  }
 }

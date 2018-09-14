@@ -1,10 +1,11 @@
 export interface Address {
+  id?: string;
   titleCode: string;
   firstName: string;
   lastName: string;
   companyName?: string;
   line1: string;
-  line2: string;
+  line2?: string;
   town: string;
   region?: {
     isocode: string;
