@@ -9,22 +9,23 @@ export interface Item {
 }
 
 @Component({selector: 'y-cart-item', templateUrl: './cart-item.component.html', styleUrls: ['./cart-item.component.scss']})
-export class CartItemComponent {
+export class CartItemComponent implements OnInit {
 
   @Input()compact = false;
   @Input()item : Item;
   @Input()potentialProductPromotions : any[];
-  @Input()potentialPromotions : any[];
-  @Input()appliedPromotions : any[];
-  @Input()disableProductLink = false;
-  @Input()parent : FormGroup;
+  @Input()isReadOnly = false;
 
   @Output()remove = new EventEmitter < any > ();
   @Output()update = new EventEmitter < any > ();
 
-  timeout : any;
+  parent : FormGroup;
 
   constructor(private controlContainer : ControlContainer) {}
+
+  ngOnInit() {
+    this.parent = this.controlContainer.control as FormGroup;
+  }
 
   isProductOutOfStock(product) {
     // TODO Move stocklevelstatuses across the app to an enum
@@ -37,7 +38,7 @@ export class CartItemComponent {
       .emit({item: this.item, updatedQuantity});
   }
 
-  removeEntry() {
+  removeItem() {
     this
       .remove
       .emit(this.item);

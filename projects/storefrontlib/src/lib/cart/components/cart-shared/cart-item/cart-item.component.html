@@ -36,11 +36,11 @@
         <div class="y-cart-item__quantity--label" [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none' ">
           Qty
         </div>
-        <div *ngIf="readonly" class="y-cart-item__quantity--value">
+        <div *ngIf="isReadOnly" class="y-cart-item__quantity--value">
           {{item.quantity}}
         </div>
-        <div *ngIf="!readonly" class="y-cart-item__quantity--value" [formGroup]="parent">
-          <y-item-counter [step]="1" [min]="1" [max]="item.product.stock?.stockLevel || 1000" (update)="updateItem($event, item)"
+        <div *ngIf="!isReadOnly" class="y-cart-item__quantity--value" [formGroup]="parent">
+          <y-item-counter [step]="1" [min]="1" [max]="item.product.stock?.stockLevel || 1000" (update)="updateItem($event)"
             formControlName="quantity">
           </y-item-counter>
         </div>
@@ -61,7 +61,7 @@
     <div class="y-cart-item__promo col-12" *ngFor="let promotion of potentialProductPromotions" [innerHTML]="promotion.description">
     </div>
     <!-- Actions -->
-    <div *ngIf="!readonly" class="y-cart-item__actions col-12 ">
+    <div *ngIf="!isReadOnly" class="y-cart-item__actions col-12 ">
       <a [routerLink]="" (click)="removeItem()">Remove</a>
     </div>
   </div>

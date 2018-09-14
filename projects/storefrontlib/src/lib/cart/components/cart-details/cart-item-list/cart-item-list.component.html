@@ -9,16 +9,11 @@
   </div>
 
   <div class="y-cart-item-list__body" [formGroup]="form">
-    <div class="y-cart-item-list__row" *ngFor="let item of items" >
+    <div class="y-cart-item-list__row" *ngFor="let item of items">
       <div class="y-cart-item-list__item">
-        <y-cart-item
-          [formGroupName]="item.product.code"
-          [item]="item"
-          [potentialProductPromotions]="getPotentialProductPromotionsForItem(item)"
-          [readonly]="isReadOnly"
-          (remove)="removeEntry($event)"
-          (update)="updateEntry($event)"
-        ></y-cart-item>
+        <y-cart-item [formGroupName]="item.product.code" [item]="item" [potentialProductPromotions]="getPotentialProductPromotionsForItem(item)"
+          [isReadOnly]="isReadOnly" (remove)="removeEntry($event)" (update)="updateEntry($event)">
+        </y-cart-item>
       </div>
     </div>
   </div>
