@@ -20,7 +20,7 @@
                                     <y-product-paging [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-product-paging>
                                 </div>
                                 <div class="col-auto ml-auto ml-lg-0">
-                                    <y-product-view [mode]="grid.mode" (modeChange)="onViewModeChange($event)"></y-product-view>
+                                    <y-product-view [(mode)]="grid.mode"></y-product-view>
                                 </div>
                                 <div class="col-12 d-lg-none d-xl-none">
                                     <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6" [activeFacetValueCode]="categoryCode || brandCode"
@@ -48,7 +48,7 @@
                                     <y-product-paging [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-product-paging>
                                 </div>
                                 <div class="col-auto ml-auto ml-lg-0">
-                                    <y-product-view [mode]="grid.mode" (modeChange)="onViewModeChange($event)"></y-product-view>
+                                    <y-product-view [(mode)]="grid.mode"></y-product-view>
                                 </div>
                                 <div class="col-12 d-lg-none d-xl-none">
                                     <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6" [activeFacetValueCode]="categoryCode || brandCode"
