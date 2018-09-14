@@ -18,7 +18,7 @@ import { UiModule, UiFrameworkModule } from './ui/index';
     UiModule,
     UiFrameworkModule
   ],
-  exports: [],
+  exports: [UiModule],
   declarations: [],
   providers: [{ provide: 'APP_CONFIG', useValue: {} }]
 })
