@@ -31,7 +31,7 @@
             <th scope="col">Total</th>
           </thead>
           <tbody>
-            <tr *ngFor="let order of orders.orders">
+            <tr *ngFor="let order of orders.orders" (click)="goToOrderDetail(order)">
               <td class="y-order-history__code">
                 <div class="d-md-none y-order-history__label">Order #</div>
                 <a routerLink="/account/order-history/order-detail" routerLinkActive="active" class="y-order-history__value">
