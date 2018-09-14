@@ -1,8 +1,32 @@
-@import '../../../theme';
-@include mat-core();
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+@import '~bootstrap/scss/nav';
+@import '~bootstrap/scss/dropdown';
 
-.category-navigation {
-  padding: 5px;
-  height: 40px;
-  background-color: mat-color($primary);
+//this hack here for now, until we decide how we go about keyboard navigation
+// .dropdown:hover>.dropdown-menu,
+// .dropdown:focus>.dropdown-menu {
+//   display: block;
+// }
+
+//navigation color variables
+$y-navigation-list-background-color: 'inverse' !default;
+
+//navigation variables
+$y-navigation-list-trbl-padding: 1rem 0 !default;
+
+.y-navigation {
+  &__list {
+    display: flex;
+    justify-content: space-between;
+    padding: $y-navigation-list-trbl-padding;
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+      @include var-color(
+        'background-color',
+        $y-navigation-list-background-color
+      );
+    }
+  }
 }

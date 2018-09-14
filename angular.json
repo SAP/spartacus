@@ -36,6 +36,9 @@
             "scripts": []
           },
           "configurations": {
+            "development": {
+              "tsConfig": "tsconfig.dev.json"
+            },
             "production": {
               "fileReplacements": [{
                 "replace": "projects/storefrontapp/src/environments/environment.ts",
@@ -62,6 +65,9 @@
           "configurations": {
             "production": {
               "browserTarget": "storefrontapp:build:production"
+            },
+            "development": {
+              "browserTarget": "storefrontapp:build:development"
             }
           }
         },

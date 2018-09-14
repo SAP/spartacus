@@ -1,51 +1,72 @@
-<ng-container>
-  <div class="content">
-    <h1>Create an account</h1>
-    <form fxLayout="column" fxFlexAlign="start" [formGroup]="userRegistrationForm">
-      <label>Title*</label>
-      <select formControlName="titleCode">
-        <option selected disabled>Select Title</option>
-        <option *ngFor="let title of (titles$ | async)" [value]="title.code">{{ title.name }}</option>
-      </select>
-      <br/>
+<div class="y-page">
+  <header class="y-page__header">
+    <h1 class="y-page__title">Register</h1>
+  </header>
+  <section class="y-page__section container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="y-section">
+          <h1 class="y-section__title">Create an account</h1>
+          <form [formGroup]="userRegistrationForm">
 
-      <label>First Name*</label>
-      <input type="text" name="firstname" placeholder="First Name" formControlName="firstName">
-      <br/>
+            <div class="form-group">
+              <label for="titleCode">Title</label>
+              <select formControlName="titleCode" class="form-control" id="titleCode">
+                <option selected disabled>Select Title</option>
+                <option *ngFor="let title of (titles$ | async)" [value]="title.code">{{ title.name }}</option>
+              </select>
+            </div>
 
-      <label>Last Name*</label>
-      <input type="text" name="lastname" placeholder="Last Name" formControlName="lastName">
-      <br/>
+            <div class="form-group">
+              <label for="firstName">First name</label>
+              <input class="form-control" type="text" id="firstName" name="firstname" placeholder="First Name" formControlName="firstName">
+            </div>
 
-      <label>Email*</label>
-      <input [ngClass]="{'error': userRegistrationForm.get('email').invalid && userRegistrationForm.get('email').dirty }" type="email"
-        name="email" placeholder="Email Address" formControlName="email" novalidate>
-      <br/>
+            <div class="form-group">
+              <label for="lastName">Last name</label>
+              <input class="form-control" type="text" id="lastName" name="lastname" placeholder="Last Name" formControlName="lastName">
+            </div>
 
-      <label>Password*</label>
-      <input [ngClass]="{'error': userRegistrationForm.get('password').invalid && userRegistrationForm.get('password').dirty}"
-        type="password" name="password" placeholder="Password" formControlName="password">
-      <span class="subtitle">
-        Minimum length is 6 characters. Must contain at least one number, one special character and one uppercase and one lowercase
-        letter.
-      </span>
-      <br/>
+            <div class="form-group">
+              <label for="email">Email address</label>
+              <input class="form-control" [ngClass]="{'error': (userRegistrationForm.get('email').errors?.email || userRegistrationForm.get('email').errors?.InvalidEmail) && userRegistrationForm.get('email').dirty}"
+                type="email" id="email" name="email" placeholder="Email Address" formControlName="email">
+            </div>
 
-      <label>Confirm Password*</label>
-      <input [ngClass]="{'error': userRegistrationForm.get('password').value !== userRegistrationForm.get('passwordconf').value}"
-        type="password" name="confirmpassword" placeholder="Confirm Password" formControlName="passwordconf">
-      <br/>
-      <div fxLayout="row">
-        <input type="checkbox" name="newsletter" formControlName="newsletter">
-        <span>Use my personal data to receive e-mail newsletters for marketing campaigns. To change your settings, go to Consent
-          Management in My Account.</span>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input class="form-control" [ngClass]="{'error': userRegistrationForm.get('password').invalid && userRegistrationForm.get('password').dirty}"
+                type="password" id="password" name="password" placeholder="Password" formControlName="password">
+            </div>
+
+            <div class="form-group">
+              <label for="confirmpassword">Confirm password</label>
+              <input class="form-control" [ngClass]="{'error': userRegistrationForm.get('password').value !== userRegistrationForm.get('passwordconf').value}"
+                type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm Password" formControlName="passwordconf">
+            </div>
+
+            <div class="form-group">
+              <div class="form-check">
+                <input type="checkbox" id="newsletter" name="newsletter" class="form-check-input" formControlName="newsletter">
+                <label class="form-check-label" for="newsletter">Use my personal data to receive e-mail newsletters for marketing
+                  campaigns. To change your settings, go to Consent Management in My Account.</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-check">
+                <input type="checkbox" name="termsandconditions" id="termsandconditions" formControlName="termsandconditions">
+                <label class="form-check-label" for="termsandconditions">I am confirming that I have read and agreed with
+                  the
+                  <a class="y_sectoin-registration-link" href="#">Terms & Conditions</a>
+                </label>
+              </div>
+            </div>
+            <button type="submit" (click)="submit()" [disabled]="userRegistrationForm.invalid" class="btn btn-block btn-primary">Register</button>
+            <a class="y-section__login-link btn-link" routerLink="/login">I already have an account. Sign In</a>
+          </form>
+        </div>
       </div>
-      <div fxLayout="row">
-        <input type="checkbox" name="termsandconditions" formControlName="termsandconditions">
-        <span>I am confirming that I have read and agreed with the Terms & Conditions</span>
-      </div>
-      <br/>
-      <button class="submit-btn" (click)="submit()" [disabled]="userRegistrationForm.invalid">Register</button>
-    </form>
-  </div>
-</ng-container>
+    </div>
+  </section>
+</div>

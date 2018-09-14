@@ -7,10 +7,10 @@ import {
 } from '@angular/core';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { NavigationService } from './navigation.service';
-import { ConfigService } from '../../cms/config.service';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
-import { tap, filter, takeWhile } from 'rxjs/operators';
+import { takeWhile } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -27,13 +27,14 @@ export class NavigationComponent extends AbstractCmsComponent
 
   done = false;
 
+  @Input() dropdownMode = 'list';
   @Input() node;
 
   constructor(
     protected cd: ChangeDetectorRef,
     private navigationService: NavigationService,
     protected store: Store<fromStore.CmsState>,
-    protected config: ConfigService
+    protected config: CmsModuleConfig
   ) {
     super(cd, store, config);
   }
@@ -48,24 +49,16 @@ export class NavigationComponent extends AbstractCmsComponent
 
     this.itemSubscription = this.store
       .select(fromStore.itemsSelectorFactory(navigation.uid))
-      .pipe(
-        takeWhile(() => !this.done),
-        tap(items => {
-          if (items === undefined) {
-            this.navigationService.getNavigationEntryItems(
-              navigation,
-              true,
-              []
-            );
-          }
-        }),
-        filter(items => items !== undefined)
-      )
+      .pipe(takeWhile(() => !this.done))
       .subscribe(items => {
-        this.done = true;
-        this.node = this.navigationService.createNode(navigation, items);
-        if (!this.cd['destroyed']) {
-          this.cd.detectChanges();
+        if (items === undefined) {
+          this.navigationService.getNavigationEntryItems(navigation, true, []);
+        } else {
+          this.done = true;
+          this.node = this.navigationService.createNode(navigation, items);
+          if (!this.cd['destroyed']) {
+            this.cd.detectChanges();
+          }
         }
       });
   }

@@ -67,29 +67,25 @@ Then point your browser to http://localhost:4200/
 
 When developing library code, you have to rebuild the library each time you want to see and test your changes in the running app. The Anguar 6 docs give some explanations in [Why do I need to build the library everytime I make changes?](https://github.com/angular/angular-cli/wiki/stories-create-library#why-do-i-need-to-build-the-library-everytime-i-make-changes)
 
-That being said, there is a way to configure the workspace so the lib code is buit like a standalone application, giving the developer the convenience of hot reloading changes.
+That being said, there is a way to build the lib code as a standalone application, giving the developer the convenience of hot reloading changes. There's a special npm script that be used to build the application and libraries on any changes: `npm run start:dev`
 
-**WARNING:** This configuration is optional and should only be used for convenience on local development environments. **It should never be commited back to git.**
+**WARNING:** Running in dev mode should only be used for convenience on local development environments. New code merged in develop should be tested against a regular library build and also production mode.
 
-Here is how it's done: In the tsconfig.json file at the root of the repo, change this:
+## Production
 
-```json
-    "paths": {
-      "storefrontlib": [
-        "dist/storefrontlib"
-      ]
-    }
+### Building for production
+
+The storefront uses service workers for PWA support (in production mode only). Therefore, we can't use the default angular CLI commands to build and run the app in production mode. To properly build and run in production mode, use these commands:
+
+```
+yarn build:core:lib --prod
+yarn build --prod
+yarn start:pwa  // this will start the http-server
 ```
 
-And use this instead:
+When the server is up, navigate to [`http://localhost:3000/`](http://localhost:3000/).
 
-```json
-    "paths": {
-      "storefrontlib": [
-        "projects/storefrontlib/src/public_api"
-      ]
-    }
-```
+If we navigate to the browser's `Application` tab, we can see that the service worker is running.
 
 ## Development tools
 

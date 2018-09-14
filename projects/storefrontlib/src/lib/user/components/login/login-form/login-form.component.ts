@@ -6,8 +6,6 @@ import { take, switchMap } from 'rxjs/operators';
 import * as fromStore from '../../../store';
 import * as fromAuthStore from './../../../../auth/store';
 import * as fromRouting from '../../../../routing/store';
-import * as fromGlobalMessage from '../../../../global-message/store';
-import { GlobalMessageType } from '../../../../global-message/models/message.model';
 
 @Component({
   selector: 'y-login-form',
@@ -29,12 +27,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap(data => {
           if (data && data.access_token) {
-            this.store.dispatch(
-              new fromGlobalMessage.AddMessage({
-                text: 'Logged In Successfully',
-                type: GlobalMessageType.MSG_TYPE_CONFIRMATION
-              })
-            );
             return this.store.select(fromRouting.getRedirectUrl).pipe(take(1));
           }
           return of();
@@ -52,7 +44,15 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       });
 
     this.form = this.fb.group({
-      userId: ['', [Validators.email, Validators.required]],
+      userId: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ // tslint:disable-line
+          )
+        ]
+      ],
       password: ['', Validators.required]
     });
   }

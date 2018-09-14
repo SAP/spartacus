@@ -4,12 +4,12 @@ import { of } from 'rxjs';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { NavigationComponent } from './navigation.component';
-import { ConfigService } from '../../cms/config.service';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatMenuModule, MatIconModule } from '@angular/material';
 import { NavigationService } from './navigation.service';
 
-export class UseConfigService {
+export class UseCmsModuleConfig {
   cmsComponentMapping = {
     CMSNavigationComponent: 'NavigationComponent'
   };
@@ -76,7 +76,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
       ],
       providers: [
         NavigationService,
-        { provide: ConfigService, useClass: UseConfigService }
+        { provide: CmsModuleConfig, useClass: UseCmsModuleConfig }
       ],
       declarations: [NavigationComponent]
     }).compileComponents();
