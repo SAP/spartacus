@@ -25,11 +25,12 @@ export class GoogleMapRendererService {
    * If map already exists it will use an existing map otherwise it will create one
    * @param mapElement HTML element inside of which the map will be displayed
    * @param locations array containign geo data to be displayed on the map
+   * @param selectMarkerHandler function to handle whenever a marker on a map is clicked
    */
   public renderMap(
     mapElement: HTMLElement,
     locations: any[],
-    selectedIndex: any
+    selectMarkerHandler?: Function
   ): void {
     if (this.googleMap === null) {
       this.sccConfigurationService
@@ -40,13 +41,17 @@ export class GoogleMapRendererService {
             { key: result },
             () => {
               this.initMap(mapElement, this.defineMapCenter(locations));
-              this.createMarkers(locations, selectedIndex);
+              if (selectMarkerHandler)
+                this.createMarkers(locations, selectMarkerHandler);
+              else this.createMarkers(locations);
             }
           );
         });
     } else {
       this.setMapOnAllMarkers(null);
-      this.createMarkers(locations, selectedIndex);
+      if (selectMarkerHandler)
+        this.createMarkers(locations, selectMarkerHandler);
+      else this.createMarkers(locations);
       this.googleMap.setCenter(this.defineMapCenter(locations));
       this.googleMap.setZoom(DEFAULT_SCALE);
     }
@@ -93,8 +98,12 @@ export class GoogleMapRendererService {
   /**
    * Erases the current map's markers and create a new one based on the given locations
    * @param locations array of locations to be displayed on the map
+   * @param selectMarkerHandler function to handle whenever a marker on a map is clicked
    */
-  protected createMarkers(locations: any[], selectedIndex: any): void {
+  protected createMarkers(
+    locations: any[],
+    selectMarkerHandler?: Function
+  ): void {
     this.markers = [];
     locations.forEach((element, index) => {
       const marker = new google.maps.Marker({
@@ -112,9 +121,11 @@ export class GoogleMapRendererService {
       marker.addListener('mouseout', function() {
         marker.setAnimation(null);
       });
-      marker.addListener('click', function() {
-        selectedIndex(index);
-      });
+      if (selectMarkerHandler) {
+        marker.addListener('click', function() {
+          selectMarkerHandler(index);
+        });
+      }
     });
   }
 
