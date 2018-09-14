@@ -19,9 +19,9 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   isLoaded$: Observable<boolean>;
   subscription: Subscription;
   page = 0;
-  private PAGE_SIZE = 5;
+  sortType: string;
   private user_id: string;
-  private sortType: string;
+  private PAGE_SIZE = 5;
 
   ngOnInit() {
     this.subscription = this.store
@@ -75,6 +75,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       sortCode,
       currentPage: 0
     };
+    this.page = 0;
+    this.sortType = sortCode;
     this.fetchOrders(event);
   }
 

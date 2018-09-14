@@ -111,4 +111,20 @@ describe('OrderHistoryComponent', () => {
       )
     ).not.toBeNull();
   });
+  it('should return correct label', () => {
+    const label = component.getLabel('byDate');
+    const label2 = component.getLabel('byOrderNumber');
+
+    expect(label).toBe('By date');
+    expect(label2).toBe('By Order Number');
+  });
+
+  it('should set correctly sort code', () => {
+    component.changeSortCode('byDate');
+    fixture.detectChanges();
+    expect(component.sortType).toBe('byDate');
+    expect(component.page).toBe(0);
+  });
+
+  it('should set correctly page', () => {});
 });
