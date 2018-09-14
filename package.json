@@ -41,7 +41,7 @@
     "core-js": "^2.5.4",
     "hamburgers": "^0.9.3",
     "hammerjs": "2.0.8",
-    "ngrx-store-localstorage": "5.0.0",
+    "ngrx-store-localstorage": "^5.0.1",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },
