@@ -30,12 +30,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         switchMap(data => {
           if (data && data.access_token) {
             this.store.dispatch(
-              new fromGlobalMessage.AddMessage({
-                text: 'Logged In Successfully',
-                type: GlobalMessageType.MSG_TYPE_CONFIRMATION
-              })
-            );
-            this.store.dispatch(
               new fromGlobalMessage.RemoveMessagesByType(
                 GlobalMessageType.MSG_TYPE_ERROR
               )
