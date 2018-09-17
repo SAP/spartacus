@@ -24,7 +24,10 @@ import { ComponentMapperService } from '../../../cms/services';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
 import { AddToCartComponent } from '../../../cart/components/add-to-cart/add-to-cart.component';
 import { CartService } from '../../../cart/services';
-
+import {
+  NgbTabsetModule,
+  NgbAccordionModule
+} from '@ng-bootstrap/ng-bootstrap';
 const routerState = {
   state: {
     params: {
@@ -44,6 +47,8 @@ describe('ProductPageComponent in pages', () => {
         RouterTestingModule,
         MaterialModule,
         ReactiveFormsModule,
+        NgbTabsetModule,
+        NgbAccordionModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),

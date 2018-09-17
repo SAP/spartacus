@@ -1,29 +1,55 @@
-.heading {
-  margin-left: 40px;
-}
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+@import '../container/multi-step-checkout.component';
 
-.content,
-.buttons,
-.address {
-  margin-left: 40px;
-}
+// y-delivery-mode color variables
+$y-delivery-mode-form-media-background-color: 'background' !default;
+$y-delivery-mode-form-label-details-color: 'success' !default;
 
-.address {
-  margin-bottom: 20px;
-}
+// y-delivery-mode variables
+$y-delivery-mode-form-no-padding: 0 !default;
+$y-delivery-mode-form-title-margin: 0 auto !default;
+$y-delivery-mode-form-title-padding: 2.375rem 0 1.75rem 0 !default;
 
-.delivery-mode-dropdown {
-  width: 40.5%;
-  height: 20px;
-}
+.y-delivery-mode-form {
+  &.container {
+    padding: $y-delivery-mode-form-no-padding;
+  }
 
-.error {
-  color: red;
-  font-weight: 500;
-  font-size: 12px;
-  text-transform: uppercase;
-  border-radius: 0 0 3px 3px;
-  line-height: 1;
-  padding: 6px 10px;
-  margin-top: -1px;
+  &__title {
+    text-transform: uppercase;
+    margin: $y-delivery-mode-form-title-margin;
+    padding: $y-delivery-mode-form-title-padding;
+  }
+
+  &__label {
+    padding: $y-delivery-mode-form-no-padding;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    &--shipping-mode {
+      flex: 50%;
+    }
+    &--price {
+      flex: 50%;
+      text-align: right;
+    }
+    &--details {
+      flex: 100%;
+      @include var-color('color', $y-delivery-mode-form-label-details-color);
+    }
+  }
+
+  .form-check {
+    padding: $y-delivery-mode-form-no-padding;
+    display: flex;
+  }
+
+  // ***************************** MEDIA QUERIES *****************************
+
+  @include checkout-media-style();
 }

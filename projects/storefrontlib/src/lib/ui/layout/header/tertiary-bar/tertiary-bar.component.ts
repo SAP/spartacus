@@ -21,7 +21,7 @@ export class TertiaryBarComponent implements OnInit {
     },
     {
       label: 'Help',
-      url: '#'
+      url: '/help'
     }
   ];
   constructor() {}

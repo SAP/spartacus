@@ -1,15 +1,23 @@
-<div class="price">
-  {{product?.price?.formattedValue}}
-</div>
+<div class="y-product-summary">
+  <div class="y-product-summary__price y-product-summary__price" aria-label="new item price">
+    {{product?.price?.formattedValue}}
+  </div>
 
-<div [innerHTML]="product?.summary"></div>
+  <div class="y-product-summary__description">
+    <p [innerHTML]="product?.summary"> </p>
+  </div>
 
-<mat-divider></mat-divider>
+  <div class="y-product-summary__variant">
+    <div class="y-product-summary__variant-label">
+      Qty:
+    </div>
+    <y-item-counter [min]="1" [max]="product.stock.stockLevel" *ngIf="product?.stock?.stockLevel > 0" (update)="updateCount($event)"></y-item-counter>
+    <span class="y-product-summary__variant-info">
+      <span *ngIf="product?.stock?.stockLevel > 0">
+        {{product?.stock?.stockLevel}} in stock</span>
+      <span *ngIf="product?.stock?.stockLevel == 0">Out of stock</span>
+    </span>
+  </div>
 
-<div *ngIf="product.stock.stockLevelStatus !== 'outOfStock'">
-  {{product?.stock?.stockLevelStatus}} - {{product?.stock?.stockLevel}}
-</div>
 
-<div *ngIf="product.stock.stockLevelStatus === 'outOfStock'">
-  {{product?.stock?.stockLevelStatus}}
 </div>

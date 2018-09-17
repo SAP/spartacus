@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { LOCALE_ID } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { config } from './config';
@@ -13,11 +12,9 @@ import {
   CmsModule,
   RoutingModule,
   UiFrameworkModule,
-  SiteContextModule
+  SiteContextModule,
+  MainComponent
 } from 'storefrontlib';
-
-// bootstrap
-import { AppComponent } from './app.component';
 
 @NgModule({
   imports: [
@@ -34,15 +31,6 @@ import { AppComponent } from './app.component';
     UiModule,
     UiFrameworkModule
   ],
-
-  providers: [
-    {
-      // TODO: configure locale
-      provide: LOCALE_ID,
-      useValue: 'en-US'
-    }
-  ],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent]
+  bootstrap: [MainComponent]
 })
 export class AppModule {}

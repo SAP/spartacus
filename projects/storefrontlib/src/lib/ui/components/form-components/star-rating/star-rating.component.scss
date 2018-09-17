@@ -1,0 +1,25 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+$y-star-rating-rating-star-color: 'light' !default;
+$y-star-rating-rating-full-color: 'primary' !default;
+$y-star-rating-rating-half-color: 'primary' !default;
+$y-star-rating-rating-trbl-margin: 0 5px 0 0 !default;
+// styling for ngb-rating
+.star {
+  position: relative;
+  display: inline-block;
+  @include var-color('color', $y-star-rating-rating-star-color);
+  margin: $y-star-rating-rating-trbl-margin;
+}
+
+.full {
+  @include var-color('color', $y-star-rating-rating-full-color);
+}
+
+.half {
+  position: absolute;
+  display: inline-block;
+  overflow: hidden;
+  @include var-color('color', $y-star-rating-rating-half-color);
+}

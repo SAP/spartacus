@@ -22,7 +22,7 @@ export class MockAbstractControl {
   hasError() {
     return true;
   }
-  get touched() {
+  get invalid() {
     return true;
   }
 }
@@ -119,6 +119,17 @@ describe('DeliveryModeComponent', () => {
     });
   });
 
+  it('should call ngOnInit to set shipping method if user selected it before', () => {
+    component.selectedShippingMethod = 'shipping method set in cart';
+    spyOn(store, 'select').and.returnValue(of(mockSupportedModes));
+    component.ngOnInit();
+    component.supportedDeliveryModes$.subscribe(() => {
+      expect(component.mode.controls['deliveryModeId'].value).toEqual(
+        'shipping method set in cart'
+      );
+    });
+  });
+
   it('should stop supportedDeliveryModes subscription when leave this component even they do not exist', () => {
     component.leave = true;
     spyOn(store, 'select').and.returnValue(of({}));
@@ -141,9 +152,8 @@ describe('DeliveryModeComponent', () => {
     expect(component.leave).toBe(true);
   });
 
-  it('should get deliveryModeInvalid)', () => {
+  it('should get deliveryModeInvalid()', () => {
     const invalid = component.deliveryModeInvalid;
     expect(invalid).toBe(true);
-    expect(component.mode.get).toHaveBeenCalledWith('deliveryModeId');
   });
 });
