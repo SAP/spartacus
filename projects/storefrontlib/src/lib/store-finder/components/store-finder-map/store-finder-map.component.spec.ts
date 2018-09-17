@@ -52,9 +52,11 @@ describe('StoreFinderMapComponent', () => {
     });
 
     // then call map renderer service
-    expect(mapRendererService.renderMap).toHaveBeenCalledWith(mapDomElement, [
-      location
-    ]);
+    expect(mapRendererService.renderMap).toHaveBeenCalledWith(
+      mapDomElement,
+      [location],
+      jasmine.any(Function)
+    );
   });
 
   it('should not render map when locations are not changed', () => {

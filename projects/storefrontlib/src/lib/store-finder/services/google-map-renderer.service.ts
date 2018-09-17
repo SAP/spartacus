@@ -7,6 +7,7 @@ import { StoreDataService } from './store-data.service';
 const GOOGLE_MAP_API_URL = 'https://maps.googleapis.com/maps/api/js';
 const GOOGLE_API_KEY_PROPERRY_NAME = 'e2egoogleservices.apikey';
 const DEFAULT_SCALE = 12;
+const SELECTED_MARKER_SCALE = 16;
 
 @Injectable()
 export class GoogleMapRendererService {
@@ -24,8 +25,13 @@ export class GoogleMapRendererService {
    * If map already exists it will use an existing map otherwise it will create one
    * @param mapElement HTML element inside of which the map will be displayed
    * @param locations array containign geo data to be displayed on the map
+   * @param selectMarkerHandler function to handle whenever a marker on a map is clicked
    */
-  public renderMap(mapElement: HTMLElement, locations: any[]): void {
+  public renderMap(
+    mapElement: HTMLElement,
+    locations: any[],
+    selectMarkerHandler?: Function
+  ): void {
     if (this.googleMap === null) {
       this.sccConfigurationService
         .getConfiguration(GOOGLE_API_KEY_PROPERRY_NAME)
@@ -35,13 +41,23 @@ export class GoogleMapRendererService {
             { key: result },
             () => {
               this.initMap(mapElement, this.defineMapCenter(locations));
-              this.createMarkers(locations);
+              if (selectMarkerHandler) {
+                this.createMarkers(locations, selectMarkerHandler);
+              } else {
+                this.createMarkers(locations);
+              }
             }
           );
         });
     } else {
       this.setMapOnAllMarkers(null);
-      this.createMarkers(locations);
+      if (selectMarkerHandler) {
+        this.createMarkers(locations, selectMarkerHandler);
+      } else {
+        this.createMarkers(locations);
+      }
+      this.googleMap.setCenter(this.defineMapCenter(locations));
+      this.googleMap.setZoom(DEFAULT_SCALE);
     }
   }
 
@@ -52,6 +68,7 @@ export class GoogleMapRendererService {
    */
   public centerMap(latitute: number, longitude: number): void {
     this.googleMap.panTo({ lat: latitute, lng: longitude });
+    this.googleMap.setZoom(SELECTED_MARKER_SCALE);
   }
 
   /**
@@ -85,19 +102,34 @@ export class GoogleMapRendererService {
   /**
    * Erases the current map's markers and create a new one based on the given locations
    * @param locations array of locations to be displayed on the map
+   * @param selectMarkerHandler function to handle whenever a marker on a map is clicked
    */
-  protected createMarkers(locations: any[]): void {
+  protected createMarkers(
+    locations: any[],
+    selectMarkerHandler?: Function
+  ): void {
     this.markers = [];
     locations.forEach((element, index) => {
       const marker = new google.maps.Marker({
         position: new google.maps.LatLng(
           this.storeDataService.getStoreLatitude(element),
           this.storeDataService.getStoreLongitude(element)
-        )
+        ),
+        label: index + 1 + ''
       });
       this.markers.push(marker);
       marker.setMap(this.googleMap);
-      marker.setLabel(index + 1 + '');
+      marker.addListener('mouseover', function() {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+      });
+      marker.addListener('mouseout', function() {
+        marker.setAnimation(null);
+      });
+      if (selectMarkerHandler) {
+        marker.addListener('click', function() {
+          selectMarkerHandler(index);
+        });
+      }
     });
   }
 

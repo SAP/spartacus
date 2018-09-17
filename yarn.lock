@@ -3495,6 +3495,10 @@ jasminewd2@^2.1.0:
   version "2.2.0"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/jasminewd2/-/jasminewd2-2.2.0.tgz#e37cf0b17f199cce23bea71b2039395246b4ec4e"
 
+jquery@^1.9.1:
+  version "1.12.4"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/jquery/-/jquery-1.12.4.tgz#01e1dfba290fe73deba77ceeacb0f9ba2fec9e0c"
+
 js-base64@^2.1.8:
   version "2.4.8"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/js-base64/-/js-base64-2.4.8.tgz#57a9b130888f956834aa40c5b165ba59c758f033"
@@ -4791,6 +4795,10 @@ pkg-dir@^2.0.0:
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/pkg-dir/-/pkg-dir-2.0.0.tgz#f6d5d1109e19d63edf428e0bd57e12777615334b"
   dependencies:
     find-up "^2.1.0"
+
+popper.js@^1.14.3:
+  version "1.14.4"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/popper.js/-/popper.js-1.14.4.tgz#8eec1d8ff02a5a3a152dd43414a15c7b79fd69b6"
 
 portfinder@^1.0.13, portfinder@^1.0.9:
   version "1.0.17"

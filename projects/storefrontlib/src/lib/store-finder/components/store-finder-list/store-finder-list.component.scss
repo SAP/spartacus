@@ -1,12 +1,34 @@
+.stores-container {
+  display: block;
+}
+
 .store-address-list {
   font-size: smaller;
+  list-style: none;
+  height: 525px;
+  padding: 15px;
+  margin: 15px;
 }
 
-.storesList {
+.stores-list {
   float: left;
+  height: 550px;
+  width: auto;
+  overflow: auto;
 }
 
-.storesMap {
+.store-list-item {
+  border-top: 0.0625rem solid #dbdcdc;
+}
+
+.store-list-item:hover {
+  background-color: #f6f6f6;
+}
+
+.selected-store-item {
+  background-color: #eff0f0;
+}
+.stores-map {
   float: right;
 }
 

@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Store } from '@ngrx/store';
 
 import * as fromStore from '../../store';
@@ -18,12 +19,14 @@ export class StoreFinderListComponent implements OnInit {
   searchConfig: SearchConfig = {
     currentPage: 0
   };
+  selectedStore: number;
 
   @ViewChild('storeMap') storeMap: StoreFinderMapComponent;
 
   constructor(
     private store: Store<fromStore.StoresState>,
-    private storeDataService: StoreDataService
+    private storeDataService: StoreDataService,
+    @Inject(DOCUMENT) private document: any
   ) {}
 
   ngOnInit() {
@@ -43,9 +46,16 @@ export class StoreFinderListComponent implements OnInit {
   }
 
   centerStoreOnMapByIndex(index: number): void {
+    this.selectedStore = index;
     this.storeMap.centerMap(
       this.storeDataService.getStoreLatitude(this.locations.stores[index]),
       this.storeDataService.getStoreLongitude(this.locations.stores[index])
     );
+  }
+
+  selectStoreItemList(index: number): void {
+    this.selectedStore = index;
+    const storeListItem = this.document.getElementById('item-' + index);
+    storeListItem.scrollIntoView();
   }
 }
