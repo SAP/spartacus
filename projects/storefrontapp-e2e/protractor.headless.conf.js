@@ -5,7 +5,7 @@ exports.config = {
   baseUrl: 'http://localhost:4200/',
   allScriptsTimeout: 10000,
   specs: ['./src/**/*.e2e-spec.ts'],
-
+  SELENIUM_PROMISE_MANAGER: false,
   capabilities: {
     browserName: 'chrome',
     acceptInsecureCerts: true,
@@ -14,7 +14,7 @@ exports.config = {
         '--headless',
         '--no-sandbox',
         '--disable-gpu',
-        '--window-size=800,600'
+        '--window-size=1024,768'
       ]
     }
   },
@@ -34,5 +34,8 @@ exports.config = {
         }
       })
     );
+
+    // Add custom locators
+    require('./src/custom-locators').addCustomLocators(by);
   }
 };
