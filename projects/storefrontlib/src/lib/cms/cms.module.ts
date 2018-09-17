@@ -1,4 +1,4 @@
-import { NgModule, InjectionToken, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -17,8 +17,8 @@ import { guards } from './guards/index';
 
 // services
 import { services } from './services/index';
-import { CmsModuleConfig } from './cms-module-config';
-import { ConfigModule, Configuration } from '../config/config.module';
+import { defaultCmsModuleConfig } from './cms-module-config';
+import { ConfigModule } from '../config/config.module';
 
 @NgModule({
   imports: [
@@ -26,16 +26,12 @@ import { ConfigModule, Configuration } from '../config/config.module';
     HttpClientModule,
     StoreModule.forFeature('cms', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfig(new CmsModuleConfig())
+    ConfigModule.withConfig( defaultCmsModuleConfig )
   ],
   providers: [
     reducerProvider,
     ...services,
-    ...guards,
-    {
-      provide: CmsModuleConfig,
-      useExisting: Configuration
-    }
+    ...guards
   ],
   declarations: [...components],
   exports: [...components]

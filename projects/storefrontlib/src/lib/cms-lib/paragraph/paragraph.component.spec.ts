@@ -7,12 +7,13 @@ import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { ParagraphComponent } from './paragraph.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { Config } from '../../config/config.module';
 
-export class UseCmsModuleConfig {
-  cmsComponentMapping = {
+const UseCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     CMSParagraphComponent: 'ParagraphComponent'
-  };
-}
+  }
+};
 
 describe('CmsParagraphComponent in CmsLib', () => {
   let store: Store<fromCmsReducer.CmsState>;
@@ -39,7 +40,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
         })
       ],
       declarations: [ParagraphComponent],
-      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
+      providers: [{ provide: Config, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

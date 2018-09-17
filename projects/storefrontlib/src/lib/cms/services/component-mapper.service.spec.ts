@@ -2,6 +2,7 @@ import { Component, NgModule } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
 import { ComponentMapperService } from './component-mapper.service';
 import { CmsModuleConfig } from '../cms-module-config';
+import { Config } from '../../config/config.module';
 
 @Component({
   template: 'test'
@@ -17,11 +18,11 @@ export class TestComponent {
 })
 export class TestModule {}
 
-export class MockCmsModuleConfig {
-  cmsComponentMapping = {
+const MockCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     CMSTestComponent: 'TestComponent'
-  };
-}
+  }
+};
 
 describe('ComponentMapperService', () => {
   let mapperService: ComponentMapperService;
@@ -31,7 +32,7 @@ describe('ComponentMapperService', () => {
       imports: [TestModule],
       providers: [
         ComponentMapperService,
-        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
+        { provide: Config, useClass: MockCmsModuleConfig }
       ]
     });
 

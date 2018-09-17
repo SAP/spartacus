@@ -8,12 +8,13 @@ import { LinkComponent } from './link.component';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { Config } from '../../config/config.module';
 
-class UseCmsModuleConfig {
-  cmsComponentMapping = {
+const UseCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     CMSLinkComponent: 'LinkComponent'
-  };
-}
+  }
+};
 
 describe('LinkComponent', () => {
   let linkComponent: LinkComponent;
@@ -41,7 +42,7 @@ describe('LinkComponent', () => {
         RouterTestingModule
       ],
       declarations: [LinkComponent],
-      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
+      providers: [{ provide: Config, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

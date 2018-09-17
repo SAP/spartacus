@@ -9,12 +9,13 @@ import { MatListModule, MatCardModule } from '@angular/material';
 import { NavigationModule } from '../navigation/navigation.module';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { Config } from '../../config/config.module';
 
-class UseCmsModuleConfig {
-  cmsComponentMapping = {
+const UseCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     FooterNavigationComponent: 'FooterNavigationComponent'
-  };
-}
+  }
+};
 
 const mockLinks = [
   {
@@ -48,7 +49,7 @@ describe('FooterNavigationComponent', () => {
         NavigationModule
       ],
       declarations: [FooterNavigationComponent],
-      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
+      providers: [{ provide: Config, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

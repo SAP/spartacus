@@ -9,12 +9,13 @@ import { ProductCarouselComponent } from './product-carousel.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { Config } from '../../config/config.module';
 
-export class UseCmsModuleConfig {
-  cmsComponentMapping = {
+const UseCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     ProductCarouselComponent: 'ProductCarouselComponent'
-  };
-}
+  }
+};
 
 describe('ProductCarouselComponent in CmsLib', () => {
   let store: Store<fromCmsReducer.CmsState>;
@@ -47,7 +48,7 @@ describe('ProductCarouselComponent in CmsLib', () => {
         })
       ],
       declarations: [ProductCarouselComponent, PictureComponent],
-      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
+      providers: [{ provide: Config, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

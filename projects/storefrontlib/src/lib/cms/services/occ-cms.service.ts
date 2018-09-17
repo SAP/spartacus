@@ -1,16 +1,17 @@
 import { throwError, Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { PageContext, PageType } from '../../routing/models/page-context.model';
 import { IdList } from './../models/idList.model';
 import { CmsModuleConfig } from '../cms-module-config';
+import { Config } from '../../config/config.module';
 
 @Injectable()
 export class OccCmsService {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-  constructor(private http: HttpClient, private config: CmsModuleConfig) {}
+  constructor(private http: HttpClient, @Inject(Config) private config: CmsModuleConfig) {}
 
   protected getBaseEndPoint() {
     return (

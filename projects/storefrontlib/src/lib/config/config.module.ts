@@ -1,20 +1,20 @@
 import {
   InjectionToken,
   ModuleWithProviders,
-  NgModule,
-  Provider
+  NgModule, Provider
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { defaultServerConfig } from './server-config';
 
-const ConfigurationChunk = new InjectionToken('CONFIG_TOKEN');
-export const Configuration = new InjectionToken('CONFIGURATION');
+const ConfigChunk = new InjectionToken('ConfigurationChunk');
+export const Config = new InjectionToken('Configuration');
 
-export function provideConfig(config: any) {
-  return { provide: ConfigurationChunk, useValue: config, multi: true };
+export function provideConfig(config: any = {}): Provider {
+  return { provide: ConfigChunk, useValue: config, multi: true };
 }
 
-function configurationFactory(configChunks: any[]) {
-  return configChunks.reduce((acc, curr) => ({ ...acc, ...curr }), {});
+export function configurationFactory(configChunks: any[]) {
+  return Object.assign({}, ...configChunks);
 }
 
 @NgModule({
@@ -25,25 +25,24 @@ export class ConfigModule {
   static withConfig(config: any): ModuleWithProviders {
     return {
       ngModule: ConfigModule,
-      providers: [provideConfig(config)]
+      providers: [
+        provideConfig(config)
+      ]
     };
   }
 
-  static forRoot(config?: any): ModuleWithProviders {
-    const providers: Provider[] = [
-      {
-        provide: Configuration,
-        useFactory: configurationFactory,
-        deps: [ConfigurationChunk]
-      }
-    ];
-    if (config) {
-      providers.push(provideConfig(config));
-    }
-
+  static forRoot(config: any = {}): ModuleWithProviders {
     return {
       ngModule: ConfigModule,
-      providers: providers
+      providers: [
+        provideConfig(defaultServerConfig),
+        provideConfig(config),
+        {
+          provide: Config,
+          useFactory: configurationFactory,
+          deps: [ConfigChunk]
+        }
+      ]
     };
   }
 }

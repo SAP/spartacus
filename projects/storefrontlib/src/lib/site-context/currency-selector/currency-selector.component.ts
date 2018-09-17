@@ -9,7 +9,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import * as fromStore from '../shared/store';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { Configuration } from '../../config/config.module';
+import { Config } from '../../config/config.module';
 
 
 @Component({
@@ -25,7 +25,7 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromStore.SiteContextState>,
-    @Inject(Configuration) private config: CmsModuleConfig
+    @Inject(Config) private config: CmsModuleConfig
   ) {}
 
   ngOnInit() {

@@ -1,7 +1,7 @@
 import {
   Component,
   ChangeDetectorRef,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy, Inject
 } from '@angular/core';
 
 import { Store } from '@ngrx/store';
@@ -16,6 +16,7 @@ import { AbstractCmsComponent } from '../../cms/components/abstract-cms-componen
 import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 
 import { MatDialog } from '@angular/material';
+import { Config } from '../../config/config.module';
 
 @Component({
   selector: 'y-mini-cart',
@@ -35,7 +36,7 @@ export class MiniCartComponent extends AbstractCmsComponent {
   constructor(
     protected cd: ChangeDetectorRef,
     protected store: Store<fromStore.CmsState>,
-    protected config: CmsModuleConfig,
+    @Inject(Config) protected config: CmsModuleConfig,
     protected dialog: MatDialog,
     protected cartService: CartService
   ) {

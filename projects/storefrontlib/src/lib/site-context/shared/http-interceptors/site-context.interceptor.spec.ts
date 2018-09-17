@@ -9,7 +9,7 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../shared/store';
 import { of } from 'rxjs';
-import { Configuration } from '../../../config/config.module';
+import { Config } from '../../../config/config.module';
 
 export class MockSiteContextModuleConfig {
   server = {
@@ -42,7 +42,7 @@ describe('SiteContextInterceptor', () => {
       ],
       providers: [
         {
-          provide: Configuration,
+          provide: Config,
           useClass: MockSiteContextModuleConfig
         },
         {

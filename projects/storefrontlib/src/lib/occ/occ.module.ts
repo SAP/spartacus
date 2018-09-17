@@ -10,10 +10,12 @@ import { OccSiteService } from './site-context/occ-site.service';
 import { OccCartService } from './cart/cart.service';
 import { OccMiscsService } from './miscs/miscs.service';
 import { OccOrderService } from './order/order.service';
-import { ConfigModule, Configuration } from '../config/config.module';
+import { ConfigModule, Config } from '../config/config.module';
+
+const defaultConfig = {}; //new OccModuleConfig();
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, ConfigModule.withConfig(new OccModuleConfig())],
+  imports: [CommonModule, HttpClientModule, ConfigModule.withConfig(defaultConfig)],
   providers: [
     OccProductSearchService,
     OccProductService,
@@ -24,7 +26,7 @@ import { ConfigModule, Configuration } from '../config/config.module';
     OccOrderService,
     {
       provide: OccModuleConfig,
-      useExisting: Configuration
+      useExisting: Config
     }
   ]
 })

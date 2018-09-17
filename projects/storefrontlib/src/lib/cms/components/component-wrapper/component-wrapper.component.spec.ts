@@ -9,6 +9,7 @@ import { ComponentMapperService } from '../../services/component-mapper.service'
 import { AbstractCmsComponent } from '../abstract-cms-component';
 import { CmsModuleConfig } from '../../cms-module-config';
 import { By } from '@angular/platform-browser';
+import { Config } from '../../../config/config.module';
 
 @Component({
   template: 'test content'
@@ -23,11 +24,11 @@ export class TestComponent extends AbstractCmsComponent {
 })
 export class TestModule {}
 
-export class MockCmsModuleConfig {
-  cmsComponentMapping = {
+const MockCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     CMSTestComponent: 'TestComponent'
-  };
-}
+  }
+};
 
 const cmsComponents: any[] = [{ uid: 'TestUid', typeCode: 'CMSTestComponent' }];
 
@@ -49,7 +50,7 @@ describe('ComponentWrapperComponent', () => {
       declarations: [ComponentWrapperComponent],
       providers: [
         ComponentMapperService,
-        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
+        { provide: Config, useClass: MockCmsModuleConfig }
       ]
     }).compileComponents();
   }));

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-interface ServerConfig { baseUrl?: string; occPrefix?: string; }
-interface SiteConfig { baseSite?: string; language?: string; currency?: string; }
+export interface ServerConfig { baseUrl?: string; occPrefix?: string; }
+export interface SiteConfig { baseSite?: string; language?: string; currency?: string; }
 
 @Injectable()
 export class OccModuleConfig {

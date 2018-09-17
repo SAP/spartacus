@@ -1,18 +1,16 @@
-import { Injectable } from '@angular/core';
+import { ServerConfig } from '../config/server-config';
+import { SiteContextConfig } from '../site-context/site-context-module-config';
 
-@Injectable()
-export class AuthModuleConfig {
-  server = {
-    baseUrl: 'https://localhost:9002',
-    occPrefix: '/rest/v2/'
-  };
-
-  site = {
-    baseSite: 'electronics'
-  };
-
-  authentication = {
-    client_id: 'mobile_android',
-    client_secret: 'secret'
+export interface AuthModuleConfig extends ServerConfig, SiteContextConfig {
+  authentication?: {
+    client_id?: string;
+    client_secret?: string;
   };
 }
+
+export const defaultAuthModuleConfig: AuthModuleConfig = {
+  authentication: {
+    client_id: 'mobile_android',
+    client_secret: 'secret'
+  }
+};

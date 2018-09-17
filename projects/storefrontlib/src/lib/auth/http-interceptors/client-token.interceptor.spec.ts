@@ -19,6 +19,7 @@ import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 import { ClientAuthenticationToken } from './../models/token-types.model';
 
 import { AuthModuleConfig } from '../auth-module.config';
+import { Config } from '../../config/config.module';
 
 const testToken: ClientAuthenticationToken = {
   access_token: 'abc-123',
@@ -32,16 +33,16 @@ const clientTokenState: ClientTokenState = {
   token: testToken
 };
 
-class MockAuthModuleConfig {
-  server = {
+const MockAuthModuleConfig: AuthModuleConfig = {
+  server: {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
-  };
+  },
 
-  site = {
+  site: {
     baseSite: 'electronics'
-  };
-}
+  }
+};
 
 describe('ClientTokenInterceptor', () => {
   let httpMock: HttpTestingController;
@@ -57,7 +58,7 @@ describe('ClientTokenInterceptor', () => {
         })
       ],
       providers: [
-        { provide: AuthModuleConfig, useClass: MockAuthModuleConfig },
+        { provide: Config, useValue: MockAuthModuleConfig },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: ClientTokenInterceptor,

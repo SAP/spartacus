@@ -10,7 +10,7 @@ import * as fromRoot from './../../routing/store';
 import * as fromActions from './../shared/store/actions/currencies.action';
 import { PageType } from '../../routing/models/page-context.model';
 import { of } from 'rxjs';
-import { Configuration } from '../../config/config.module';
+import { Config } from '../../config/config.module';
 
 class MockSiteContextModuleConfig {
   site = {
@@ -40,7 +40,7 @@ describe('CurrencySelectorComponent', () => {
       declarations: [CurrencySelectorComponent],
       providers: [
         {
-          provide: Configuration,
+          provide: Config,
           useClass: MockSiteContextModuleConfig
         }
       ]

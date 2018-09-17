@@ -2,12 +2,13 @@ import { TestBed, inject } from '@angular/core/testing';
 import { DefaultPageService } from './default-page.service';
 import { CmsModuleConfig } from '../cms-module-config';
 import { PageType } from '../../routing/models/page-context.model';
+import { Config } from '../../config/config.module';
 
-export class MockCmsModuleConfig {
-  defaultPageIdForType = {
+const MockCmsModuleConfig: CmsModuleConfig = {
+  defaultPageIdForType: {
     ProductPage: ['testPage']
-  };
-}
+  }
+};
 
 describe('DefaultPageService', () => {
   let service: DefaultPageService;
@@ -16,7 +17,7 @@ describe('DefaultPageService', () => {
     TestBed.configureTestingModule({
       providers: [
         DefaultPageService,
-        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
+        { provide: Config, useClass: MockCmsModuleConfig }
       ]
     });
 

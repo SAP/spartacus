@@ -8,8 +8,8 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromStore from '../shared/store';
-import { Configuration } from '../../config/config.module';
 import { SiteContextConfig } from '../site-context-module-config';
+import { Config } from '../../config/config.module';
 
 @Component({
   selector: 'y-language-selector',
@@ -24,7 +24,7 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromStore.SiteContextState>,
-    @Inject(Configuration) private config: SiteContextConfig
+    @Inject(Config) private config: SiteContextConfig
   ) {}
 
   ngOnInit() {

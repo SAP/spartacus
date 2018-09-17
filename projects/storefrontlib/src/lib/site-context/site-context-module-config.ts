@@ -1,23 +1,14 @@
-export interface SiteContextConfig {
-  server?: {
-    baseUrl?: string,
-    occPrefix?: string
-  };
+import { ServerConfig } from '../config/server-config';
 
+export interface SiteContextConfig extends ServerConfig {
   site?: {
-    baseSite?: string,
-    language?: string,
-    currency?: string
+    baseSite?: string;
+    language?: string;
+    currency?: string;
   };
-
 }
 
 export const defaultConfig: SiteContextConfig = {
-  server: {
-    baseUrl: 'https://localhost:9002',
-    occPrefix: '/rest/v2/'
-  },
-
   site: {
     baseSite: 'electronics',
     language: 'en',

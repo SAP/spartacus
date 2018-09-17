@@ -1,29 +1,45 @@
 import { Injectable } from '@angular/core';
+import { ServerConfig } from '../config/server-config';
+import { SiteContextConfig } from '../site-context/site-context-module-config';
+import { AuthModuleConfig } from '../auth/auth-module.config';
 
-@Injectable()
-export class CmsModuleConfig {
-  server = {
-    baseUrl: 'https://localhost:9002',
-    occPrefix: '/rest/v2/'
+export interface CMSComponentMappingConfig {
+  [CMSComponent: string]: string;
+  CMSLinkComponent?: string;
+  SimpleResponsiveBannerComponent?: string;
+  SimpleBannerComponent?: string;
+  // BreadcrumbComponent: string;
+  CMSParagraphComponent?: string;
+  NavigationComponent?: string;
+  FooterNavigationComponent?: string;
+  CategoryNavigationComponent?: string;
+  ProductAddToCartComponent?: string;
+  MiniCartComponent?: string;
+  ProductCarouselComponent?: string;
+  SearchBoxComponent?: string;
+  ProductReferencesComponent?: string;
+  // CMSTabParagraphComponent: string;
+  CMSTabParagraphComponent?: string;
+}
+
+export interface CmsModuleConfig extends ServerConfig, SiteContextConfig, AuthModuleConfig {
+
+  defaultPageIdForType?: {
+    ProductPage?: string[],
+    CategoryPage?: string[]
   };
 
-  site = {
-    baseSite: 'electronics',
-    language: 'en',
-    currency: 'USD'
-  };
+  cmsComponentMapping?: CMSComponentMappingConfig;
+}
 
-  authentication = {
-    client_id: 'mobile_android',
-    client_secret: 'secret'
-  };
+export const defaultCmsModuleConfig: CmsModuleConfig = {
 
-  defaultPageIdForType = {
+  defaultPageIdForType: {
     ProductPage: ['productDetails'],
     CategoryPage: ['productList', 'productGrid', 'category']
-  };
+  },
 
-  cmsComponentMapping = {
+  cmsComponentMapping: {
     CMSLinkComponent: 'LinkComponent',
     SimpleResponsiveBannerComponent: 'ResponsiveBannerComponent',
     SimpleBannerComponent: 'BannerComponent',
@@ -39,5 +55,5 @@ export class CmsModuleConfig {
     ProductReferencesComponent: 'ProductReferencesComponent',
     // CMSTabParagraphComponent: 'TabParagraphContainerComponent'
     CMSTabParagraphComponent: 'ParagraphComponent'
-  };
-}
+  }
+};

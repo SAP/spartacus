@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   HttpInterceptor,
   HttpRequest,
@@ -17,6 +17,7 @@ import {
 } from '../../occ/utils/interceptor-util';
 import { ClientTokenState } from '../store/reducers/client-token.reducer';
 import { AuthModuleConfig } from '../auth-module.config';
+import { Config } from '../../config/config.module';
 
 @Injectable()
 export class ClientTokenInterceptor implements HttpInterceptor {
@@ -26,7 +27,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     this.config.site.baseSite;
 
   constructor(
-    private config: AuthModuleConfig,
+    @Inject(Config) private config: AuthModuleConfig,
     private store: Store<fromAuthStore.AuthState>
   ) {}
 

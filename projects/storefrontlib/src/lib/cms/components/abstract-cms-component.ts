@@ -1,9 +1,10 @@
-import { Injectable, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
+import { Injectable, OnDestroy, ChangeDetectorRef, Input, Inject } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import * as fromStore from '../store';
 import { CmsModuleConfig } from '../cms-module-config';
+import { Config } from '../../config/config.module';
 
 @Injectable()
 export abstract class AbstractCmsComponent implements OnDestroy {
@@ -16,7 +17,7 @@ export abstract class AbstractCmsComponent implements OnDestroy {
   constructor(
     protected cd: ChangeDetectorRef,
     protected store: Store<fromStore.CmsState>,
-    protected config: CmsModuleConfig
+    @Inject(Config) protected config: CmsModuleConfig
   ) {}
 
   setContextParameters(contextParameters: any) {

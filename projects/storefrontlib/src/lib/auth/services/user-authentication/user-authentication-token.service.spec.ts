@@ -6,7 +6,7 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { UserAuthenticationTokenService } from './user-authentication-token.service';
-import { AuthModuleConfig } from '../../auth-module.config';
+import { Config } from '../../../config/config.module';
 
 const username: any = 'mockUsername';
 const password: any = '1234';
@@ -15,18 +15,18 @@ const refreshToken = '5678';
 const token: any = 'mockToken';
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
-class MockAuthModuleConfig {
-  server = {
+const MockAuthModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  authentication = {
+  authentication: {
     client_id: '',
     client_secret: '',
     userToken: {}
-  };
-}
+  }
+};
 
 describe('UserAuthenticationTokenService', () => {
   let service: UserAuthenticationTokenService;
@@ -37,7 +37,7 @@ describe('UserAuthenticationTokenService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         UserAuthenticationTokenService,
-        { provide: AuthModuleConfig, useClass: MockAuthModuleConfig }
+        { provide: Config, useValue: MockAuthModuleConfig }
       ]
     });
 

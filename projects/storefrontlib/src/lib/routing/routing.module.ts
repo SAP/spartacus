@@ -18,8 +18,9 @@ import { RoutingModuleConfig, StorageSyncType } from './routing-module-config';
 // not used in production
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
-import { ConfigModule, Configuration } from '../config/config.module';
+import { ConfigModule, Config } from '../config/config.module';
 
+const defaultConfig = {}; // new RoutingModuleConfig();
 
 export function getMetaReducers(
   config: RoutingModuleConfig
@@ -41,7 +42,7 @@ export function getMetaReducers(
     EffectsModule.forRoot(effects),
     StoreRouterConnectingModule,
     StoreDevtoolsModule.instrument(), // Should not be used in production (SPA-488)
-    ConfigModule.withConfig(new RoutingModuleConfig())
+    ConfigModule.withConfig(defaultConfig)
   ],
   providers: [
     reducerProvider,
@@ -57,7 +58,7 @@ export function getMetaReducers(
     },
     {
       provide: RoutingModuleConfig,
-      useExisting: Configuration
+      useExisting: Config
     }
   ]
 })

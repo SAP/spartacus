@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Input,
-  OnDestroy
+  OnDestroy, Inject
 } from '@angular/core';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { NavigationService } from './navigation.service';
@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
 import { takeWhile } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { Config } from '../../config/config.module';
 
 @Component({
   selector: 'y-navigation',
@@ -34,7 +35,7 @@ export class NavigationComponent extends AbstractCmsComponent
     protected cd: ChangeDetectorRef,
     private navigationService: NavigationService,
     protected store: Store<fromStore.CmsState>,
-    protected config: CmsModuleConfig
+    @Inject(Config) protected config: CmsModuleConfig
   ) {
     super(cd, store, config);
   }
