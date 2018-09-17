@@ -54,7 +54,7 @@ describe('OccCmsService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccCmsService,
-        { provide: Config, useClass: MockCmsModuleConfig }
+        { provide: Config, useValue: MockCmsModuleConfig }
       ]
     });
 

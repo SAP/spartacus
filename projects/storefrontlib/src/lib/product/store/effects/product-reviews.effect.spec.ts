@@ -9,6 +9,7 @@ import { OccModuleConfig } from '../../../occ/occ-module-config';
 import * as fromEffects from '../effects/product-reviews.effect';
 import * as fromActions from '../actions/product-reviews.action';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Config } from '../../../config/config.module';
 
 const reviewData = {
   reviews: [
@@ -23,6 +24,13 @@ const reviewData = {
   ]
 };
 
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
+    baseUrl: '',
+    occPrefix: ''
+  }
+};
+
 describe('Product reviews effect', () => {
   let actions$: Observable<any>;
   let service: OccProductService;
@@ -33,7 +41,7 @@ describe('Product reviews effect', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccProductService,
-        OccModuleConfig,
+        { provide: Config, useValue: MockOccModuleConfig },
         fromEffects.ProductReviewsEffects,
         provideMockActions(() => actions$)
       ]

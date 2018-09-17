@@ -6,9 +6,18 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { OccModuleConfig } from '../../../occ/occ-module-config';
 import * as fromEffects from './cart-entry.effect';
 import * as fromActions from '../actions';
+import { Config } from '../../../config/config.module';
+import { OccModuleConfig } from '../../../occ/occ-module-config';
+
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
+    baseUrl: '',
+    occPrefix: ''
+  }
+};
+
 
 describe('Cart effect', () => {
   let cartService: OccCartService;
@@ -24,7 +33,7 @@ describe('Cart effect', () => {
       providers: [
         OccCartService,
         fromEffects.CartEntryEffects,
-        OccModuleConfig,
+        { provide: Config, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$)
       ]
     });

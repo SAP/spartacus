@@ -11,13 +11,14 @@ import * as fromActions from './../shared/store/actions/currencies.action';
 import { PageType } from '../../routing/models/page-context.model';
 import { of } from 'rxjs';
 import { Config } from '../../config/config.module';
+import { SiteContextModuleConfig } from '../site-context-module-config';
 
-class MockSiteContextModuleConfig {
-  site = {
+const MockSiteContextModuleConfig: SiteContextModuleConfig = {
+  site: {
     language: 'de',
     currency: 'JPY'
-  };
-}
+  }
+};
 
 describe('CurrencySelectorComponent', () => {
   const currencies: any[] = [
@@ -41,7 +42,7 @@ describe('CurrencySelectorComponent', () => {
       providers: [
         {
           provide: Config,
-          useClass: MockSiteContextModuleConfig
+          useValue: MockSiteContextModuleConfig
         }
       ]
     })

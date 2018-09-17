@@ -1,13 +1,14 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { ProductImageConverterService } from './product-image-converter.service';
 import { OccModuleConfig } from '../../occ/occ-module-config';
+import { Config } from '../../config/config.module';
 
-export class MockOccModuleConfig {
-  server = {
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
-}
+  }
+};
 
 describe('ProductImageConverterService', () => {
   let service: ProductImageConverterService;
@@ -88,7 +89,7 @@ describe('ProductImageConverterService', () => {
     TestBed.configureTestingModule({
       providers: [
         ProductImageConverterService,
-        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
+        { provide: Config, useValue: MockOccModuleConfig }
       ]
     });
 

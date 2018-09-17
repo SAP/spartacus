@@ -21,6 +21,7 @@ import * as fromAuthStore from './../../../auth/store';
 import * as fromStore from './../../store';
 import * as fromCms from './../../../cms/store';
 import { LoginComponent } from './login.component';
+import { Config } from '../../../config/config.module';
 
 const mockUserToken: UserToken = {
   access_token: 'xxx',
@@ -40,18 +41,18 @@ const mockUserDetails: any = {
   uid: 'UID'
 };
 
-class MockCmsModuleConfig {
-  server = {
+const MockCmsModuleConfig: CmsModuleConfig = {
+  server: {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
-  };
+  },
 
-  site = {
+  site: {
     baseSite: 'electronics',
     language: '',
     currency: ''
-  };
-}
+  }
+};
 
 const cntx = { id: 'testPageId', type: PageType.CONTENT_PAGE };
 
@@ -94,7 +95,7 @@ describe('LoginComponent', () => {
             }
           }
         },
-        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
+        { provide: Config, useValue: MockCmsModuleConfig }
       ]
     }).compileComponents();
   }));

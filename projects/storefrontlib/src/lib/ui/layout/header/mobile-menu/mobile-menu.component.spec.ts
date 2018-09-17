@@ -11,12 +11,12 @@ import * as fromRoot from '../../../../routing/store';
 import * as fromSCStore from '../../../../site-context/shared/store';
 import * as fromUser from '../../../../user/store';
 import { CmsModule } from './../../../../cms/cms.module';
-import { SiteContextModuleConfig } from '../../../../site-context/site-context-module-config';
 import { CurrencySelectorComponent } from './../../../../site-context/currency-selector/currency-selector.component';
 import { LanguageSelectorComponent } from './../../../../site-context/language-selector/language-selector.component';
 import { LoginModule } from './../../../../user/components/login/login.module';
 import { MobileMenuComponent } from './mobile-menu.component';
 import { By } from '@angular/platform-browser';
+import { Config } from '../../../../config/config.module';
 
 describe('MobileMenuComponent', () => {
   let component: MobileMenuComponent;
@@ -46,7 +46,7 @@ describe('MobileMenuComponent', () => {
         provideMockActions(() => of()),
         fromCms.NavigationEntryItemEffects,
         {
-          provide: SiteContextModuleConfig,
+          provide: Config,
           useValue: { site: 'en' }
         }
       ]

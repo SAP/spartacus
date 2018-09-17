@@ -32,7 +32,7 @@ describe('ComponentMapperService', () => {
       imports: [TestModule],
       providers: [
         ComponentMapperService,
-        { provide: Config, useClass: MockCmsModuleConfig }
+        { provide: Config, useValue: MockCmsModuleConfig }
       ]
     });
 

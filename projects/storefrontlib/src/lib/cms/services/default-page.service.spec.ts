@@ -17,7 +17,7 @@ describe('DefaultPageService', () => {
     TestBed.configureTestingModule({
       providers: [
         DefaultPageService,
-        { provide: Config, useClass: MockCmsModuleConfig }
+        { provide: Config, useValue: MockCmsModuleConfig }
       ]
     });
 

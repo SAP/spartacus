@@ -1,4 +1,4 @@
 import { ServerConfig } from '../config/server-config';
-import { SiteContextConfig } from '../site-context/site-context-module-config';
+import { SiteContextModuleConfig } from '../site-context/site-context-module-config';
 
-export interface OccModuleConfig extends ServerConfig, SiteContextConfig {}
+export interface OccModuleConfig extends ServerConfig, SiteContextModuleConfig {}

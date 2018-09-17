@@ -9,7 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import * as fromStore from '../store';
-import { SiteContextConfig } from '../../site-context-module-config';
+import { SiteContextModuleConfig } from '../../site-context-module-config';
 import { Config } from '../../../config/config.module';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class SiteContextInterceptor implements HttpInterceptor {
 
   constructor(
     private store: Store<fromStore.SiteContextState>,
-    @Inject(Config) private config: SiteContextConfig
+    @Inject(Config) private config: SiteContextModuleConfig
   ) {
     this.baseReqString =
       this.config.server.baseUrl +

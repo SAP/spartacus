@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromStore from '../shared/store';
-import { SiteContextConfig } from '../site-context-module-config';
+import { SiteContextModuleConfig } from '../site-context-module-config';
 import { Config } from '../../config/config.module';
 
 @Component({
@@ -24,7 +24,7 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromStore.SiteContextState>,
-    @Inject(Config) private config: SiteContextConfig
+    @Inject(Config) private config: SiteContextModuleConfig
   ) {}
 
   ngOnInit() {

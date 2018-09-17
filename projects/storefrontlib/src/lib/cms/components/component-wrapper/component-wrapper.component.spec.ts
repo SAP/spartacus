@@ -50,7 +50,7 @@ describe('ComponentWrapperComponent', () => {
       declarations: [ComponentWrapperComponent],
       providers: [
         ComponentMapperService,
-        { provide: Config, useClass: MockCmsModuleConfig }
+        { provide: Config, useValue: MockCmsModuleConfig }
       ]
     }).compileComponents();
   }));

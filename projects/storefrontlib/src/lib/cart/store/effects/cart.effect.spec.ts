@@ -18,6 +18,7 @@ import { ProductImageConverterService } from '../../../product/converters';
 import * as fromEffects from './cart.effect';
 import * as fromActions from '../actions/cart.action';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Config } from '../../../config/config.module';
 
 describe('Cart effect', () => {
   let cartService: OccCartService;
@@ -35,6 +36,13 @@ describe('Cart effect', () => {
     total_price_with_tax: {
       currency_iso: 'USD',
       value: 0
+    }
+  };
+
+  const MockOccModuleConfig: OccModuleConfig = {
+    server: {
+      baseUrl: '',
+      occPrefix: ''
     }
   };
 
@@ -57,7 +65,7 @@ describe('Cart effect', () => {
         OccCartService,
         ProductImageConverterService,
         fromEffects.CartEffects,
-        OccModuleConfig,
+        { provide: Config, useValue: MockOccModuleConfig },
         CartService,
         CartDataService,
         provideMockActions(() => actions$)

@@ -9,6 +9,14 @@ import { OccSiteService } from '../../../../occ/site-context/occ-site.service';
 import { OccModuleConfig } from '../../../../occ/occ-module-config';
 import * as fromEffects from './languages.effect';
 import * as fromActions from '../actions/languages.action';
+import { Config } from '../../../../config/config.module';
+
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
+    baseUrl: '',
+    occPrefix: ''
+  }
+};
 
 describe('Languages Effects', () => {
   let actions$: Observable<any>;
@@ -24,7 +32,7 @@ describe('Languages Effects', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccSiteService,
-        OccModuleConfig,
+        { provide: Config, useValue: MockOccModuleConfig },
         fromEffects.LanguagesEffects,
         provideMockActions(() => actions$)
       ]

@@ -9,6 +9,14 @@ import { OccModuleConfig } from '../../../../occ/occ-module-config';
 import * as fromEffects from './currencies.effect';
 import * as fromActions from '../actions/currencies.action';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Config } from '../../../../config/config.module';
+
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
+    baseUrl: '',
+    occPrefix: ''
+  }
+};
 
 describe('Currencies Effects', () => {
   let actions$: Observable<any>;
@@ -26,7 +34,7 @@ describe('Currencies Effects', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccSiteService,
-        OccModuleConfig,
+        { provide: Config, useValue: MockOccModuleConfig },
         fromEffects.CurrenciesEffects,
         provideMockActions(() => actions$)
       ]

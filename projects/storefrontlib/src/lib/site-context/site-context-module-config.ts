@@ -1,6 +1,6 @@
 import { ServerConfig } from '../config/server-config';
 
-export interface SiteContextConfig extends ServerConfig {
+export interface SiteContextModuleConfig extends ServerConfig {
   site?: {
     baseSite?: string;
     language?: string;
@@ -8,7 +8,7 @@ export interface SiteContextConfig extends ServerConfig {
   };
 }
 
-export const defaultConfig: SiteContextConfig = {
+export const defaultSiteContextModuleConfig: SiteContextModuleConfig = {
   site: {
     baseSite: 'electronics',
     language: 'en',

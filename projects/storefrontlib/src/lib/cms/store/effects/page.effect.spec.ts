@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 
 import { OccCmsService } from '../../services/occ-cms.service';
 import { DefaultPageService } from './../../services/default-page.service';
-import { CmsModuleConfig } from '../../cms-module-config';
+import { defaultCmsModuleConfig } from '../../cms-module-config';
 import * as fromEffects from './page.effect';
 import * as fromActions from '../actions';
 import { Page } from '../../models/page.model';
@@ -18,6 +18,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
+import { Config } from '../../../config/config.module';
 
 export function mockDateNow() {
   return 1000000000000;
@@ -65,7 +66,7 @@ describe('Page Effects', () => {
       ],
       providers: [
         OccCmsService,
-        CmsModuleConfig,
+        { provide: Config, useValue: defaultCmsModuleConfig },
         DefaultPageService,
         fromEffects.PageEffects,
         provideMockActions(() => actions$)

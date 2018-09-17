@@ -20,13 +20,14 @@ import { HeaderSkipperComponent } from './header-skipper/header-skipper.componen
 import { HeaderComponent } from './header.component';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
+import { Config } from '../../../config/config.module';
 
-class MockSiteContextModuleConfig {
-  site = {
+const MockSiteContextModuleConfig: SiteContextModuleConfig = {
+  site: {
     language: 'de',
     currency: 'JPY'
-  };
-}
+  }
+};
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -58,8 +59,8 @@ describe('HeaderComponent', () => {
       ],
       providers: [
         {
-          provide: SiteContextModuleConfig,
-          useClass: MockSiteContextModuleConfig
+          provide: Config,
+          useValue: MockSiteContextModuleConfig
         }
       ]
     }).compileComponents();

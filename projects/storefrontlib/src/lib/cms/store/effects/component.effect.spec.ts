@@ -5,7 +5,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccCmsService } from '../../services/occ-cms.service';
-import { CmsModuleConfig } from '../../cms-module-config';
+import { defaultCmsModuleConfig } from '../../cms-module-config';
 import * as fromEffects from './component.effect';
 import * as fromActions from '../actions/component.action';
 
@@ -15,6 +15,7 @@ import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
 import { PageType } from '../../../routing/models/page-context.model';
+import { Config } from '../../../config/config.module';
 
 describe('Component Effects', () => {
   let store: Store<fromRoot.State>;
@@ -35,7 +36,7 @@ describe('Component Effects', () => {
       ],
       providers: [
         OccCmsService,
-        CmsModuleConfig,
+        { provide: Config, useValue: defaultCmsModuleConfig },
         fromEffects.ComponentEffects,
         provideMockActions(() => actions$)
       ]

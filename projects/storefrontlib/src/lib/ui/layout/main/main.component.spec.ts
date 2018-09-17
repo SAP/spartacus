@@ -24,19 +24,20 @@ import * as fromSCStore from './../../../site-context/shared/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuth from '../../../auth/store';
 import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
+import { Config } from '../../../config/config.module';
 
-class MockSiteContextModuleConfig {
-  server = {
+const MockSiteContextModuleConfig: SiteContextModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  site = {
+  site: {
     baseSite: '',
     language: '',
     currency: ''
-  };
-}
+  }
+};
 
 describe('MainComponent', () => {
   let component: MainComponent;
@@ -71,8 +72,8 @@ describe('MainComponent', () => {
       ],
       providers: [
         {
-          provide: SiteContextModuleConfig,
-          useClass: MockSiteContextModuleConfig
+          provide: Config,
+          useValue: MockSiteContextModuleConfig
         },
         { provide: OccSiteService }
       ]

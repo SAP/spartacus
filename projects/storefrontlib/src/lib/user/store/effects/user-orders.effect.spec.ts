@@ -8,6 +8,7 @@ import * as fromUserOrdersAction from '../actions/user-orders.action';
 import { OccOrderService } from '../../../occ/order/order.service';
 import { Observable, of, throwError } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
+import { Config } from '../../../config/config.module';
 
 const mockUserOrders = {
   orders: [],
@@ -15,16 +16,16 @@ const mockUserOrders = {
   sort: []
 };
 
-class MockOccModuleConfig {
-  server = {
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  site = {
+  site: {
     baseSite: ''
-  };
-}
+  }
+};
 
 describe('User Orders effect', () => {
   let userOrdersEffect: fromUserOrdersEffect.UserOrdersEffect;
@@ -37,7 +38,7 @@ describe('User Orders effect', () => {
       providers: [
         OccOrderService,
         fromUserOrdersEffect.UserOrdersEffect,
-        { provide: OccModuleConfig, useClass: MockOccModuleConfig },
+        { provide: Config, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$)
       ]
     });
