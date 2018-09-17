@@ -16,6 +16,8 @@ export class SortingComponent {
   @Input() sortOptions;
   @Input() selectedOption: string;
   @Input() placeholder: string;
+  @Input() sortLabels: any;
+
   @Output() sortListEvent: EventEmitter<string>;
 
   constructor() {
