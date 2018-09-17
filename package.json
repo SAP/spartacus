@@ -15,7 +15,8 @@
     "build:core:lib": "ng build storefrontlib",
     "test": "ng test",
     "test:core:lib": "ng test storefrontlib --code-coverage",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "e2e:ci": "ng e2e --configuration=ci --protractor-config=projects/storefrontapp-e2e/protractor.headless.conf.js"
   },
   "private": false,
   "dependencies": {
