@@ -24,8 +24,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   sortType: string;
   sortLabels = {
-    byDate: 'By date',
-    byOrderNumber: 'By Order Number'
+    byDate: 'Date',
+    byOrderNumber: 'Order Number'
   };
 
   ngOnInit() {

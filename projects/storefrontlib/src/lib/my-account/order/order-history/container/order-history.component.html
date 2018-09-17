@@ -12,7 +12,7 @@
         <!-- Select Form and Pagination Top -->
         <div class="y-order-history__form-pagination--top row">
           <div class="y-order-history__form-group form-group col-sm-12 col-md-4 col-lg-4">
-            <y-sorting [sortOptions]="orders.sorts" (sortListEvent)="changeSortCode($event)" [selectedOption]="orders.pagination.sort"
+            <y-sorting [sortOptions]="orders.sorts" [sortLabels]="sortLabels" (sortListEvent)="changeSortCode($event)" [selectedOption]="orders.pagination.sort"
               [placeholder]="'Sort by Most recent'"></y-sorting>
           </div>
           <div class="y-order-history__pagination">
@@ -55,7 +55,7 @@
         <!-- Select Form and Pagination Bottom -->
         <div class="y-order-history__form-pagination--bottom row">
           <div class="y-order-history__form-group form-group col-sm-12 col-md-4 col-lg-4">
-            <y-sorting [sortOptions]="orders.sorts" (sortListEvent)="changeSortCode($event)" [selectedOption]="orders.pagination.sort"
+            <y-sorting [sortOptions]="orders.sorts" [sortLabels]="sortLabels" (sortListEvent)="changeSortCode($event)" [selectedOption]="orders.pagination.sort"
               [placeholder]="'Sort by Most recent'"></y-sorting>
           </div>
           <div class="y-order-history__pagination">
