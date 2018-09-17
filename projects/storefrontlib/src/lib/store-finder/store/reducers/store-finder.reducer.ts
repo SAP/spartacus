@@ -31,5 +31,5 @@ export function reducer(
   return state;
 }
 
-export const getStoreFinderEntities = (state: StoreFinderState) =>
+export const getStoreFinderEntities = (state: StoreFinderState): any =>
   state.entities;
