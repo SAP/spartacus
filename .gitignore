@@ -1,7 +1,6 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 .npmrc
-
 # compiled output
 /dist
 /tmp
@@ -13,7 +12,6 @@ package-lock.json
 
 # IDEs and editors
 /.idea
-*.iml
 .project
 .classpath
 .c9/
@@ -46,6 +44,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-
-# sed backup files
-*.ts-e
