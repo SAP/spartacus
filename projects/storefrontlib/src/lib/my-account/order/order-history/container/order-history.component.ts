@@ -1,5 +1,5 @@
-import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, Subscription, of } from 'rxjs';
+import { tap, switchMap } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as fromUserStore from '../../../../user/store';
 import * as fromAuthStore from './../../../../auth/store';
@@ -18,8 +18,10 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   orders$: Observable<any>;
   isLoaded$: Observable<boolean>;
   subscription: Subscription;
-  private PAGE_SIZE = 5;
+  page = 0;
+  sortType: string;
   private user_id: string;
+  private PAGE_SIZE = 5;
 
   ngOnInit() {
     this.subscription = this.store
@@ -27,18 +29,16 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       .subscribe(userData => {
         if (userData && userData.userId) {
           this.user_id = userData.userId;
-          this.store.dispatch(
-            new fromUserStore.LoadUserOrders({
-              userId: this.user_id,
-              pageSize: this.PAGE_SIZE
-            })
-          );
         }
       });
 
     this.orders$ = this.store.select(fromUserStore.getOrders).pipe(
       tap(orders => {
-        if (Object.keys(orders.orders).length === 0) {
+        if (
+          orders.orders &&
+          Object.keys(orders.orders).length === 0 &&
+          this.user_id
+        ) {
           this.store.dispatch(
             new fromUserStore.LoadUserOrders({
               userId: this.user_id,
@@ -46,6 +46,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
             })
           );
         }
+        console.log(orders);
+        this.sortType = orders.pagination.sort;
       })
     );
 
@@ -56,6 +58,33 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  getLabel(label) {
+    const labels = {
+      byDate: 'By date',
+      byOrderNumber: 'By Order Number'
+    };
+    return labels[label];
+  }
+
+  changeSortCode(sortCode: string) {
+    const event = {
+      sortCode,
+      currentPage: 0
+    };
+    this.page = 0;
+    this.sortType = sortCode;
+    this.fetchOrders(event);
+  }
+
+  pageChange(page: number) {
+    const event = {
+      sortCode: this.sortType,
+      currentPage: page - 1
+    };
+    this.page = page;
+    this.fetchOrders(event);
   }
 
   viewPage(event: { sortCode: string; currentPage: number }) {

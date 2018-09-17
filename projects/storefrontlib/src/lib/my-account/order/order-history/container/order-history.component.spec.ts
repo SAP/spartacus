@@ -3,9 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
+import { StoreModule, combineReducers, Store } from '@ngrx/store';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { BootstrapModule } from '../../../../bootstap.module';
 import { PaginationAndSortingComponent } from './../pagination-and-sorting/pagination-and-sorting.component';
 import { OrderHistoryComponent } from './order-history.component';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import * as fromRoot from '../../../../routing/store';
 import * as fromUserStore from '../../../../user/store';
 
@@ -33,7 +35,9 @@ describe('OrderHistoryComponent', () => {
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           orders: combineReducers(fromUserStore.getReducers())
-        })
+        }),
+        NgSelectModule,
+        BootstrapModule
       ],
       declarations: [
         OrderHistoryComponent,
@@ -79,7 +83,7 @@ describe('OrderHistoryComponent', () => {
 
     fixture.detectChanges();
     const elem = fixture.debugElement.nativeElement.querySelector(
-      '.order-history-body table a'
+      '.y-order-history__table tbody tr'
     );
     elem.click();
 
@@ -102,7 +106,25 @@ describe('OrderHistoryComponent', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.debugElement.nativeElement.querySelector('.no-order-container')
+      fixture.debugElement.nativeElement.querySelector(
+        '.y-order-history__no-order'
+      )
     ).not.toBeNull();
   });
+  it('should return correct label', () => {
+    const label = component.getLabel('byDate');
+    const label2 = component.getLabel('byOrderNumber');
+
+    expect(label).toBe('By date');
+    expect(label2).toBe('By Order Number');
+  });
+
+  it('should set correctly sort code', () => {
+    component.changeSortCode('byDate');
+    fixture.detectChanges();
+    expect(component.sortType).toBe('byDate');
+    expect(component.page).toBe(0);
+  });
+
+  it('should set correctly page', () => {});
 });
