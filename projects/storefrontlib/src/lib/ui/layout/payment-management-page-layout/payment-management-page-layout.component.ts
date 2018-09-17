@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { CheckoutService } from '../../../checkout/services/checkout.service';
 import { tap } from 'rxjs/operators';
 import * as fromUserStore from '../../../user/store';
+import { CartService } from '../../../cart/services/cart.service';
 
 @Component({
   selector: 'y-payment-management-page-layout',
@@ -15,6 +16,9 @@ export class PaymentManagementPageLayoutComponent implements OnInit {
 
   constructor(
     private store: Store<fromUserStore.UserState>,
+    // spike-new:
+    // tslint:disable-next-line:no-unused-variable max-line-length
+    private cartService: CartService, // hack: unused, but it has to be created before CheckoutService, because CartService initializes CartDataService
     private checkoutService: CheckoutService
   ) {}
 

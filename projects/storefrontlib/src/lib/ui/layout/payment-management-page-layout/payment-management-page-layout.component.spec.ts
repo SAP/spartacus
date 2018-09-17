@@ -3,10 +3,12 @@ import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { CheckoutService } from '../../../checkout/services/checkout.service';
+import { CartService } from '../../../cart/services/cart.service';
 
 const mockCheckoutService = {
   loadUserPaymentMethods: () => {}
 };
+const mockCartService = {};
 
 class MockStore<T> extends BehaviorSubject<T> {
   select = () => this;
@@ -29,6 +31,10 @@ describe('PaymentManagementPageLayoutComponent', () => {
         {
           provide: CheckoutService,
           useValue: mockCheckoutService
+        },
+        {
+          provide: CartService,
+          useValue: mockCartService
         }
       ],
       declarations: [PaymentManagementPageLayoutComponent]
