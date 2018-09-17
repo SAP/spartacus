@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromCartStore from '../../../cart/store';
 import { Subscription, Observable } from 'rxjs';
-import { CartService } from '../../../cart/services';
+import { CartService } from '../../../cart/services/cart.service';
 
 @Component({
   selector: 'y-cart-page-layout',
