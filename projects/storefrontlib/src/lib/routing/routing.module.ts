@@ -18,6 +18,7 @@ import { RoutingModuleConfig, StorageSyncType } from './routing-module-config';
 // not used in production
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
+import { RouterModule } from '@angular/router';
 
 export function overrideRoutingModuleConfig(configOverride: any) {
   return { ...new RoutingModuleConfig(), ...configOverride };
@@ -43,6 +44,7 @@ export function getMetaReducers(
 
 @NgModule({
   imports: [
+    RouterModule.forRoot([]),
     StoreModule.forRoot(reducerToken),
     EffectsModule.forRoot(effects),
     StoreRouterConnectingModule,
