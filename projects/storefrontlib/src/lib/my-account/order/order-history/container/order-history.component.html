@@ -12,15 +12,10 @@
         <!-- Select Form and Pagination Top -->
         <div class="y-order-history__form-pagination--top row">
           <div class="y-order-history__form-group form-group col-sm-12 col-md-4 col-lg-4">
-            <ng-select [searchable]="false" [clearable]="false" placeholder="Sort by Most recent" (change)="changeSortCode($event)" [ngModel]="sortType">
-              <ng-option *ngFor="let option of orders.sorts" [value]="option.code">{{getLabel(option.code)}}</ng-option>
-            </ng-select>
+            <y-sorting [sortOptions]="orders.sorts" (sortListEvent)="changeSortCode($event)" [selectedOption]="orders.pagination.sort"
+              [placeholder]="'Sort by Most recent'"></y-sorting>
           </div>
           <div class="y-order-history__pagination">
-            <!--
-            <ngb-pagination [page]="page" (pageChange)="pageChange($event)" [pageSize]="orders?.pagination?.pageSize"
-              [collectionSize]="orders?.pagination?.totalResults" class="y-product-search__pagination" aria-label="product search pagination"></ngb-pagination>
-              -->
             <y-pagination [pagination]="orders.pagination" (viewPageEvent)="pageChange($event)"></y-pagination>
           </div>
         </div>
@@ -60,13 +55,11 @@
         <!-- Select Form and Pagination Bottom -->
         <div class="y-order-history__form-pagination--bottom row">
           <div class="y-order-history__form-group form-group col-sm-12 col-md-4 col-lg-4">
-            <ng-select [searchable]="false" [clearable]="false" placeholder="Sort by Most recent" (change)="changeSortCode($event)" [ngModel]="sortType">
-              <ng-option *ngFor="let option of orders.sorts" [value]="option.code">{{getLabel(option.code)}}</ng-option>
-            </ng-select>
+            <y-sorting [sortOptions]="orders.sorts" (sortListEvent)="changeSortCode($event)" [selectedOption]="orders.pagination.sort"
+              [placeholder]="'Sort by Most recent'"></y-sorting>
           </div>
           <div class="y-order-history__pagination">
-            <ngb-pagination [pageSize]="orders?.pagination?.pageSize" [collectionSize]="orders?.pagination?.totalResults" [page]="page"
-              (pageChange)="pageChange($event)" class="y-product-search__pagination" aria-label="product search pagination"></ngb-pagination>
+            <y-pagination [pagination]="orders.pagination" (viewPageEvent)="pageChange($event)"></y-pagination>
           </div>
         </div>
       </ng-container>

@@ -18,10 +18,15 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   orders$: Observable<any>;
   isLoaded$: Observable<boolean>;
   subscription: Subscription;
-  page = 0;
-  sortType: string;
+
   private user_id: string;
   private PAGE_SIZE = 5;
+
+  sortType: string;
+  sortLabels = {
+    byDate: 'By date',
+    byOrderNumber: 'By Order Number'
+  };
 
   ngOnInit() {
     this.subscription = this.store
@@ -46,7 +51,6 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
             })
           );
         }
-        console.log(orders);
         this.sortType = orders.pagination.sort;
       })
     );
@@ -60,20 +64,11 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  getLabel(label) {
-    const labels = {
-      byDate: 'By date',
-      byOrderNumber: 'By Order Number'
-    };
-    return labels[label];
-  }
-
   changeSortCode(sortCode: string) {
     const event = {
       sortCode,
       currentPage: 0
     };
-    this.page = 0;
     this.sortType = sortCode;
     this.fetchOrders(event);
   }
@@ -81,13 +76,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   pageChange(page: number) {
     const event = {
       sortCode: this.sortType,
-      currentPage: page - 1
+      currentPage: page
     };
-    this.page = page;
-    this.fetchOrders(event);
-  }
-
-  viewPage(event: { sortCode: string; currentPage: number }) {
     this.fetchOrders(event);
   }
 
