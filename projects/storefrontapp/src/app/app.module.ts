@@ -5,11 +5,7 @@ import { MainComponent, StorefrontModule } from 'storefrontlib';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    RouterModule.forRoot([]),
-    StorefrontModule.withConfig()
-  ],
+  imports: [BrowserModule, RouterModule.forRoot([]), StorefrontModule],
   bootstrap: [MainComponent]
 })
 export class AppModule {}
