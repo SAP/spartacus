@@ -34,10 +34,12 @@
   </div>
 
   <!-- quantity -->
-  <div class="item__quantity" [formGroup]="parent">
-    <y-item-counter [step]="1" [min]="1" [max]="entry.product.stock?.stockLevel || 1000" [async]="true" (update)="updateEntry($event)"
-      formControlName="quantity">
-    </y-item-counter>
+  <div *ngIf="!isReadOnly">
+    <div class="item__quantity" [formGroup]="parent">
+      <y-item-counter [step]="1" [min]="1" [max]="entry.product.stock?.stockLevel || 1000" [async]="true" (update)="updateEntry($event)"
+        formControlName="quantity">
+      </y-item-counter>
+    </div>
   </div>
 
   <!-- delivery -->
@@ -63,7 +65,7 @@
   </div>
 
   <!-- actions -->
-  <div>
+  <div *ngIf="!isReadOnly">
     <a [routerLink]="" (click)="removeEntry()">Remove</a>
   </div>
 </li>
