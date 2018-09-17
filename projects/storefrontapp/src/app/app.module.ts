@@ -8,12 +8,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     BrowserModule,
     RouterModule.forRoot([]),
-    StorefrontModule.withConfig({
-      server: {
-        baseUrl: 'https://10.27.165.187:9002',
-        occPrefix: '/rest/v2/'
-      }
-    })
+    StorefrontModule.withConfig()
   ],
   bootstrap: [MainComponent]
 })
