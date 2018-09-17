@@ -8,7 +8,6 @@ import {
   CartDataService,
   ANONYMOUS_USERID
 } from '../../cart/services/cart-data.service';
-import { CartService } from '../../cart/services/cart.service';
 
 @Injectable()
 export class CheckoutService {
