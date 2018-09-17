@@ -26,6 +26,26 @@ describe('Currencies Reducer', () => {
       const action = new fromActions.LoadCurrenciesSuccess(currencies);
       const state = fromCurrencies.reducer(initialState, action);
       expect(state.entities).toEqual(entities);
+      expect(state.loading).toEqual(false);
+    });
+  });
+
+  describe('LOAD_CURRENCIES_FAIL action', () => {
+    it('should disable loading', () => {
+      const { initialState } = fromCurrencies;
+      initialState.loading = true;
+      const action = new fromActions.LoadCurrenciesFail({});
+      const state = fromCurrencies.reducer(initialState, action);
+      expect(state.loading).toEqual(false);
+    });
+  });
+
+  describe('LOAD_CURRENCIES action', () => {
+    it('should set loading to true', () => {
+      const { initialState } = fromCurrencies;
+      const action = new fromActions.LoadCurrencies();
+      const state = fromCurrencies.reducer(initialState, action);
+      expect(state.loading).toEqual(true);
     });
   });
 

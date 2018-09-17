@@ -93,4 +93,22 @@ describe('Currencies Selectors', () => {
       expect(result).toEqual(true);
     });
   });
+
+  describe('getCurrenciesLoading', () => {
+    it('should return whether currencies are loading', () => {
+      let result;
+
+      store
+        .select(fromSelectors.getCurrenciesLoading)
+        .subscribe(value => (result = value));
+
+      store.dispatch(new fromActions.LoadCurrenciesFail({}));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new fromActions.LoadCurrencies());
+
+      expect(result).toEqual(true);
+    });
+  });
 });
