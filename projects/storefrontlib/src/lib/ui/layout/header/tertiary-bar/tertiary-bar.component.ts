@@ -17,7 +17,7 @@ export class TertiaryBarComponent implements OnInit {
     },
     {
       label: 'Contact us',
-      url: '#'
+      url: '/contact'
     },
     {
       label: 'Help',
