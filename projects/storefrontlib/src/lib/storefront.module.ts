@@ -7,6 +7,7 @@ import { CmsLibModule } from './cms-lib/index';
 import { CmsModule } from './cms/index';
 import { UiModule, UiFrameworkModule } from './ui/index';
 import { ConfigModule, provideConfig } from './config/config.module';
+import { StorefrontModuleConfig } from './storefront-config';
 
 @NgModule({
   imports: [
@@ -24,7 +25,7 @@ import { ConfigModule, provideConfig } from './config/config.module';
   declarations: []
 })
 export class StorefrontModule {
-  static withConfig(config?: any): ModuleWithProviders {
+  static withConfig(config?: StorefrontModuleConfig): ModuleWithProviders {
     return {
       ngModule: StorefrontModule,
       providers: [ provideConfig(config) ]

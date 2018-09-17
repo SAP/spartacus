@@ -5,7 +5,7 @@ export enum StorageSyncType {
 }
 
 export interface RoutingModuleConfig {
-  storageSyncType: StorageSyncType;
+  storageSyncType?: StorageSyncType;
 }
 
 export const defaultRoutingModuleConfig: RoutingModuleConfig = {

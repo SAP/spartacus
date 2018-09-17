@@ -14,9 +14,7 @@ export function provideConfig(config: any = {}): Provider {
 }
 
 export function configurationFactory(configChunks: any[]) {
-  const config = Object.assign({}, ...configChunks);
-  console.log('-------- config ---------', config);
-  return config;
+  return Object.assign({}, ...configChunks);
 }
 
 @NgModule({
