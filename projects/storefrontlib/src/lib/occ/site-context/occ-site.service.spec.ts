@@ -5,19 +5,20 @@ import {
 } from '@angular/common/http/testing';
 import { OccSiteService } from './occ-site.service';
 import { OccModuleConfig } from '../occ-module-config';
+import { Config } from '../../config/config.module';
 
-class MockOccModuleConfig {
-  server = {
+const MockOccModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  site = {
+  site: {
     baseSite: '',
     language: '',
     currency: ''
-  };
-}
+  }
+};
 
 describe('OccSiteService', () => {
   let service: OccSiteService;
@@ -28,7 +29,7 @@ describe('OccSiteService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccSiteService,
-        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
+        { provide: Config, useValue: MockOccModuleConfig }
       ]
     });
 

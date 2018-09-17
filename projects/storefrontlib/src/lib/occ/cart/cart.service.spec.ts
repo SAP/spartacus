@@ -6,6 +6,7 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { ProductImageConverterService } from '../../product/converters';
+import { Config } from '../../config/config.module';
 
 const userId = '123';
 const cartId = '456';
@@ -25,16 +26,16 @@ const DETAILS_PARAMS =
   'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(formattedValue),subTotal(formattedValue),' +
   'deliveryItemsQuantity,totalTax(formattedValue),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue)';
 
-class MockOccModuleConfig {
-  server = {
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  site = {
+  site: {
     baseSite: ''
-  };
-}
+  }
+};
 
 describe('OccCartService', () => {
   let service: OccCartService;
@@ -46,7 +47,7 @@ describe('OccCartService', () => {
       providers: [
         OccCartService,
         ProductImageConverterService,
-        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
+        { provide: Config, useValue: MockOccModuleConfig }
       ]
     });
 

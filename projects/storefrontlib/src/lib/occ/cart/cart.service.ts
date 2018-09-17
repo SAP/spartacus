@@ -1,10 +1,11 @@
 import { throwError, Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { OccModuleConfig } from '../occ-module-config';
 import { CustomEncoder } from '../custom.encoder';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
+import { Config } from '../../config/config.module';
 
 // for mini cart
 const BASIC_PARAMS =
@@ -20,7 +21,7 @@ const DETAILS_PARAMS =
 
 @Injectable()
 export class OccCartService {
-  constructor(protected http: HttpClient, protected config: OccModuleConfig) {}
+  constructor(protected http: HttpClient, @Inject(Config) protected config: OccModuleConfig) {}
 
   protected getCartEndpoint(userId: string) {
     const cartEndpoint = 'users/' + userId + '/carts/';

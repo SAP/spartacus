@@ -6,6 +6,7 @@ import {
 import { async, TestBed } from '@angular/core/testing';
 import { OccModuleConfig } from '../occ-module-config';
 import { OccOrderService } from './order.service';
+import { Config } from '../../config/config.module';
 
 const userId = '123';
 const cartId = '456';
@@ -19,16 +20,16 @@ const orderData = {
 const usersEndpoint = '/users';
 const orderEndpoint = '/orders';
 
-class MockOccModuleConfig {
-  server = {
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  site = {
+  site: {
     baseSite: ''
-  };
-}
+  }
+};
 
 describe('OccOrderService', () => {
   let service: OccOrderService;
@@ -39,7 +40,7 @@ describe('OccOrderService', () => {
       imports: [HttpClientModule, HttpClientTestingModule],
       providers: [
         OccOrderService,
-        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
+        { provide: Config, useValue: MockOccModuleConfig }
       ]
     });
 

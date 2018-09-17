@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { OccModuleConfig } from '../../occ/occ-module-config';
+import { Config } from '../../config/config.module';
 
 @Injectable()
 export class ProductImageConverterService {
-  constructor(protected config: OccModuleConfig) {}
+  constructor(@Inject(Config) protected config: OccModuleConfig) {}
 
   convertList(list: Array<any>) {
     if (!list) {

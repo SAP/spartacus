@@ -1,9 +1,10 @@
 import { throwError, Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
 import { OccModuleConfig } from '../occ-module-config';
+import { Config } from '../../config/config.module';
 
 const ENDPOINT_COUNTRIES = 'countries';
 const ENDPOINT_TITLES = 'titles';
@@ -12,7 +13,7 @@ const ENDPOINT_REGIONS = 'regions';
 
 @Injectable()
 export class OccMiscsService {
-  constructor(private http: HttpClient, private config: OccModuleConfig) {}
+  constructor(private http: HttpClient, @Inject(Config) private config: OccModuleConfig) {}
 
   protected getEndpoint(endpoint: string) {
     return (

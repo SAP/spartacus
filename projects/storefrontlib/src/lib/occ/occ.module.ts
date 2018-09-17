@@ -1,6 +1,5 @@
-import { NgModule, ModuleWithProviders, InjectionToken } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OccModuleConfig } from './occ-module-config';
 import { HttpClientModule } from '@angular/common/http';
 
 import { OccUserService } from './user/user.service';
@@ -10,12 +9,9 @@ import { OccSiteService } from './site-context/occ-site.service';
 import { OccCartService } from './cart/cart.service';
 import { OccMiscsService } from './miscs/miscs.service';
 import { OccOrderService } from './order/order.service';
-import { ConfigModule, Config } from '../config/config.module';
-
-const defaultConfig = {}; //new OccModuleConfig();
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, ConfigModule.withConfig(defaultConfig)],
+  imports: [CommonModule, HttpClientModule],
   providers: [
     OccProductSearchService,
     OccProductService,
@@ -23,11 +19,7 @@ const defaultConfig = {}; //new OccModuleConfig();
     OccUserService,
     OccCartService,
     OccMiscsService,
-    OccOrderService,
-    {
-      provide: OccModuleConfig,
-      useExisting: Config
-    }
+    OccOrderService
   ]
 })
 export class OccModule {}

@@ -6,6 +6,7 @@ import { SiteContextModule } from './site-context/index';
 import { CmsLibModule } from './cms-lib/index';
 import { CmsModule } from './cms/index';
 import { UiModule, UiFrameworkModule } from './ui/index';
+import { ConfigModule, provideConfig } from './config/config.module';
 
 @NgModule({
   imports: [
@@ -23,7 +24,7 @@ import { UiModule, UiFrameworkModule } from './ui/index';
   declarations: []
 })
 export class StorefrontModule {
-  static withConfig(config?: StorefrontConfig): ModuleWithProviders {
+  static withConfig(config?: any): ModuleWithProviders {
     return {
       ngModule: StorefrontModule,
       providers: [ provideConfig(config) ]

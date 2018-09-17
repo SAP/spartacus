@@ -6,15 +6,17 @@ import {
 import { CommonModule } from '@angular/common';
 import { defaultServerConfig } from './server-config';
 
-const ConfigChunk = new InjectionToken('ConfigurationChunk');
 export const Config = new InjectionToken('Configuration');
+export const ConfigChunk = new InjectionToken('ConfigurationChunk');
 
 export function provideConfig(config: any = {}): Provider {
   return { provide: ConfigChunk, useValue: config, multi: true };
 }
 
 export function configurationFactory(configChunks: any[]) {
-  return Object.assign({}, ...configChunks);
+  const config = Object.assign({}, ...configChunks);
+  console.log('-------- config ---------', config);
+  return config;
 }
 
 @NgModule({
