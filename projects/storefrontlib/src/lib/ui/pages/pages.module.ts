@@ -59,11 +59,8 @@ import { ProductPageModule } from './product-page/product-page.module';
     LoginPageModule,
     ResetPasswordPageModule,
     StoreFinderPageModule,
-<<<<<<< HEAD
     PaymentManagementPageModule,
-=======
     ResetNewPasswordPageModule,
->>>>>>> 4e123697eb783e319d7de4232d2d3d4d29a94cfc
     // new pages should be added above this line
     PageNotFoundModule
   ]
