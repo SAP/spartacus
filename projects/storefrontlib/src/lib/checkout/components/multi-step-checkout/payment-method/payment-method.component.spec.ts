@@ -15,6 +15,7 @@ import * as fromAuth from '../../../../auth/store';
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
+import { CardModule } from '../../../../ui/components/card/card.module';
 
 const paymentDetails = {
   accountHolderName: 'Name',
@@ -24,8 +25,6 @@ const paymentDetails = {
   expiryYear: '2022',
   cvn: '123'
 };
-
-const mockPaymentMethods = ['payment1', 'payment2'];
 
 describe('PaymentMethodComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
@@ -37,6 +36,7 @@ describe('PaymentMethodComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
+        CardModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
@@ -75,15 +75,34 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call ngOnInit to get existing payment methods if they exist', () => {
-    spyOn(store, 'select').and.returnValue(of(mockPaymentMethods));
+    const mockPayments = [paymentDetails];
+    spyOn(store, 'select').and.returnValue(of(mockPayments));
     component.ngOnInit();
     component.existingPaymentMethods$.subscribe(data => {
-      expect(data).toBe(mockPaymentMethods);
+      expect(data).toBe(mockPayments);
+      expect(component.cards.length).toEqual(1);
     });
   });
 
-  it('should call paymentMethodSelected(paymentDetails)', () => {
-    component.paymentMethodSelected(paymentDetails);
+  it('should call getCardContent() to get address card data', () => {
+    const card = component.getCardContent(paymentDetails);
+    expect(card.title).toEqual('');
+    expect(card.textBold).toEqual('Name');
+    expect(card.text).toEqual(['123456789', 'Expires: 01/2022']);
+  });
+
+  it('should call paymentMethodSelected(paymentDetails, index)', () => {
+    const card = { title: 'test card' };
+    component.cards.push(card);
+    component.paymentMethodSelected(paymentDetails, 0);
+
+    expect(component.selectedPayment).toEqual(paymentDetails);
+    expect(component.cards[0].header).toEqual('SELECTED');
+  });
+
+  it('should call next() to submit request', () => {
+    component.selectedPayment = paymentDetails;
+    component.next();
     expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
       payment: paymentDetails,
       newPayment: false
