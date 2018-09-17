@@ -54,6 +54,26 @@
               "vendorChunk": false,
               "buildOptimizer": true,
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
+            },
+            "ci": {
+              "fileReplacements": [
+                {
+                  "replace":
+                    "projects/storefrontapp/src/environments/environment.ts",
+                  "with":
+                    "projects/storefrontapp/src/environments/environment.ci.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             }
           }
         },
@@ -65,6 +85,12 @@
           "configurations": {
             "production": {
               "browserTarget": "storefrontapp:build:production"
+            },
+            "development": {
+              "browserTarget": "storefrontapp:build:development"
+            },
+            "ci": {
+              "browserTarget": "storefrontapp:build:ci"
             }
           }
         },
@@ -115,6 +141,9 @@
           "configurations": {
             "production": {
               "devServerTarget": "storefrontapp:serve:production"
+            },
+            "ci": {
+              "devServerTarget": "storefrontapp:serve:ci"
             }
           }
         },
