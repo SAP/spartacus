@@ -1,21 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductSortingComponent } from './product-sorting.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { ProductViewComponent } from './product-view.component';
 
-describe('ProductSortingComponent in product-list', () => {
-  let component: ProductSortingComponent;
-  let fixture: ComponentFixture<ProductSortingComponent>;
+describe('ProductViewComponent in product-list', () => {
+  let component: ProductViewComponent;
+  let fixture: ComponentFixture<ProductViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgSelectModule, FormsModule],
-      declarations: [ProductSortingComponent]
+      declarations: [ProductViewComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProductSortingComponent);
+    fixture = TestBed.createComponent(ProductViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -25,8 +25,8 @@ describe('ProductSortingComponent in product-list', () => {
   });
 
   it('should emit sort event', () => {
-    spyOn(component.sortListEvent, 'emit');
-    component.sortList('sortCode');
-    expect(component.sortListEvent.emit).toHaveBeenCalledWith('sortCode');
+    spyOn(component.modeChange, 'emit');
+    component.changeMode();
+    expect(component.modeChange.emit).toHaveBeenCalledWith('grid');
   });
 });
