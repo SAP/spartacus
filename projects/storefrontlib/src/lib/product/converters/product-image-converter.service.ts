@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ConfigService } from '../../occ/config.service';
+import { OccModuleConfig } from '../../occ/occ-module-config';
 
 @Injectable()
 export class ProductImageConverterService {
-  constructor(protected configService: ConfigService) {}
+  constructor(protected config: OccModuleConfig) {}
 
   convertList(list: Array<any>) {
     if (!list) {
@@ -49,7 +49,7 @@ export class ProductImageConverterService {
         }
 
         // set full image URL path
-        image.url = this.configService.server.baseUrl + image.url;
+        image.url = this.config.server.baseUrl + image.url;
 
         imageContainer[image.format] = image;
       }

@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccProductSearchService } from '../../../occ/product/product-search.service';
-import { ConfigService } from '../../../occ/config.service';
+import { OccModuleConfig } from '../../../occ/occ-module-config';
 import { SearchConfig } from '../../search-config';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 import * as fromEffects from './product-search.effect';
@@ -27,7 +27,7 @@ describe('ProductSearch Effects', () => {
       providers: [
         OccProductSearchService,
         ProductImageConverterService,
-        ConfigService,
+        OccModuleConfig,
         fromEffects.ProductsSearchEffects,
         provideMockActions(() => actions$)
       ]

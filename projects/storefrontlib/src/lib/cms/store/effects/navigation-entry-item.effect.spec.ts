@@ -5,7 +5,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccCmsService } from '../../services/occ-cms.service';
-import { ConfigService } from '../../config.service';
+import { CmsModuleConfig } from '../../cms-module-config';
 import * as fromEffects from './navigation-entry-item.effect';
 import * as fromActions from '../actions/navigation-entry-item.action';
 
@@ -56,7 +56,7 @@ describe('Navigation Entry Items Effects', () => {
       ],
       providers: [
         OccCmsService,
-        ConfigService,
+        CmsModuleConfig,
         fromEffects.NavigationEntryItemEffects,
         provideMockActions(() => actions$)
       ]

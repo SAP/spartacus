@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { ConfigService } from './../../../occ/config.service';
+import { OccModuleConfig } from '../../../occ/occ-module-config';
 
 import * as fromEffects from '../effects/product-reviews.effect';
 import * as fromActions from '../actions/product-reviews.action';
@@ -33,7 +33,7 @@ describe('Product reviews effect', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccProductService,
-        ConfigService,
+        OccModuleConfig,
         fromEffects.ProductReviewsEffects,
         provideMockActions(() => actions$)
       ]

@@ -1,8 +1,8 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { ProductImageConverterService } from './product-image-converter.service';
-import { ConfigService } from '../../occ/config.service';
+import { OccModuleConfig } from '../../occ/occ-module-config';
 
-export class MockConfigService {
+export class MockOccModuleConfig {
   server = {
     baseUrl: '',
     occPrefix: ''
@@ -88,7 +88,7 @@ describe('ProductImageConverterService', () => {
     TestBed.configureTestingModule({
       providers: [
         ProductImageConverterService,
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
       ]
     });
 

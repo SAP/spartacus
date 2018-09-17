@@ -21,10 +21,13 @@ import { ProductSummaryComponent } from '../../../product/components/product-det
 import { ProductAttributesComponent } from '../../../product/components/product-details/product-attributes/product-attributes.component';
 import { ProductReviewsComponent } from '../../../product/components/product-details/product-reviews/product-reviews.component';
 import { ComponentMapperService } from '../../../cms/services';
-import { ConfigService } from '../../../cms/config.service';
+import { CmsModuleConfig } from '../../../cms/cms-module-config';
 import { AddToCartComponent } from '../../../cart/components/add-to-cart/add-to-cart.component';
 import { CartService } from '../../../cart/services';
-
+import {
+  NgbTabsetModule,
+  NgbAccordionModule
+} from '@ng-bootstrap/ng-bootstrap';
 const routerState = {
   state: {
     params: {
@@ -44,6 +47,8 @@ describe('ProductPageComponent in pages', () => {
         RouterTestingModule,
         MaterialModule,
         ReactiveFormsModule,
+        NgbTabsetModule,
+        NgbAccordionModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
@@ -63,7 +68,7 @@ describe('ProductPageComponent in pages', () => {
         ComponentWrapperComponent,
         AddToCartComponent
       ],
-      providers: [ComponentMapperService, ConfigService, CartService]
+      providers: [ComponentMapperService, CmsModuleConfig, CartService]
     }).compileComponents();
   }));
 
