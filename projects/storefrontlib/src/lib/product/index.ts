@@ -9,7 +9,6 @@ export * from './components/product-list/product-paging/product-paging.component
 export * from './components/product-list/product-grid-item/product-grid-item.component';
 export * from './components/product-list/product-sorting/product-sorting.component';
 export * from './components/product-list/container/product-list.component';
-export * from './components/product-list/product-line-item/product-line-item.component';
 export * from './components/product-list/product-facet-navigation/product-facet-navigation.component';
 export * from './guards/product.guard';
 export * from './components/product-details/product-details.module';
