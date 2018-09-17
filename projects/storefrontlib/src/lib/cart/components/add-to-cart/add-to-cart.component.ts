@@ -9,7 +9,7 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
 import * as fromCartStore from '../../store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Store } from '@ngrx/store';
 import * as fromStore from './../../store';
