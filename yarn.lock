@@ -4270,9 +4270,9 @@ ngrx-store-freeze@^0.2.2:
   dependencies:
     deep-freeze-strict "^1.1.1"
 
-ngrx-store-localstorage@5.0.0:
-  version "5.0.0"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/ngrx-store-localstorage/-/ngrx-store-localstorage-5.0.0.tgz#adc5b8373fee995f6bb2c508a0e510fc2047a74e"
+ngrx-store-localstorage@^5.0.1:
+  version "5.0.1"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/ngrx-store-localstorage/-/ngrx-store-localstorage-5.0.1.tgz#83b1db02c7262dafd4866a3477fb7ac668aba3ba"
 
 no-case@^2.2.0:
   version "2.3.2"
