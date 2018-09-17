@@ -1,0 +1,3 @@
+<ng-select [searchable]="false" [clearable]="false" placeholder="{{placeholder}}" (change)="sortList($event)" [ngModel]="selectedOption">
+    <ng-option *ngFor="let sort of sortOptions" [value]="sort.code">{{sort.name}}</ng-option>
+</ng-select>
