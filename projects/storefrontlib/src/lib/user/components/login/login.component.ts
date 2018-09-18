@@ -52,9 +52,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.routingSub = this.store
       .select(fromRouting.getRouterState)
-      .subscribe(routerState => (this.currentUrl = routerState.state.url));
+      .subscribe(routerState => {
+        if (routerState && routerState.state) {
+          this.currentUrl = routerState.state.url;
+        }
+      });
 
     this.user$ = this.store.select(fromStore.getDetails);
+
     this.subscription = this.store
       .select(fromAuthStore.getUserToken)
       .subscribe((token: UserToken) => {
