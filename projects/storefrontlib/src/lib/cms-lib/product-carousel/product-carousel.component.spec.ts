@@ -9,7 +9,6 @@ import { ProductCarouselComponent } from './product-carousel.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { Config } from '../../config/config.module';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {

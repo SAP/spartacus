@@ -4,7 +4,6 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { ClientAuthenticationTokenService } from './client-authentication-token.service';
-import { Config } from '../../../config/config.module';
 import { AuthModuleConfig } from '../../auth-module.config';
 
 const token: any = 'mockToken';

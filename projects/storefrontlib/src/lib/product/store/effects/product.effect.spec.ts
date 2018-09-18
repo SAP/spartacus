@@ -17,7 +17,6 @@ import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromSiteContext from './../../../site-context/shared/store';
 import { PageType } from '../../../routing/models/page-context.model';
-import { Config } from '../../../config/config.module';
 
 const MockOccModuleConfig: OccModuleConfig = {
   server: {

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   HttpInterceptor,
   HttpRequest,
@@ -17,7 +17,6 @@ import {
 } from '../../occ/utils/interceptor-util';
 import { ClientTokenState } from '../store/reducers/client-token.reducer';
 import { AuthModuleConfig } from '../auth-module.config';
-import { Config } from '../../config/config.module';
 
 @Injectable()
 export class ClientTokenInterceptor implements HttpInterceptor {

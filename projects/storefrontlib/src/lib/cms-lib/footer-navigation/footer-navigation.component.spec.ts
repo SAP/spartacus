@@ -9,7 +9,6 @@ import { MatListModule, MatCardModule } from '@angular/material';
 import { NavigationModule } from '../navigation/navigation.module';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { Config } from '../../config/config.module';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {

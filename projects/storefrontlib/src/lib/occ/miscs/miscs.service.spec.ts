@@ -6,7 +6,6 @@ import {
 
 import { OccMiscsService } from './miscs.service';
 import { OccModuleConfig } from '../occ-module-config';
-import { Config } from '../../config/config.module';
 
 const MockOccModuleConfig: OccModuleConfig = {
   server: {

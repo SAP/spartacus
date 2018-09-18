@@ -18,7 +18,6 @@ import { ProductImageConverterService } from '../../../product/converters';
 import * as fromEffects from './cart.effect';
 import * as fromActions from '../actions/cart.action';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Config } from '../../../config/config.module';
 
 describe('Cart effect', () => {
   let cartService: OccCartService;

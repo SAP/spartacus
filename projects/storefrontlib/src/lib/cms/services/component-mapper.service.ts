@@ -1,6 +1,5 @@
-import { Injectable, Type, ComponentFactoryResolver, Inject } from '@angular/core';
+import { Injectable, Type, ComponentFactoryResolver } from '@angular/core';
 import { CmsModuleConfig } from '../cms-module-config';
-import { Config } from '../../config/config.module';
 
 @Injectable()
 export class ComponentMapperService {

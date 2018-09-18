@@ -8,7 +8,6 @@ import { Observable, of } from 'rxjs';
 import { OccCartService } from '../../../occ/cart/cart.service';
 import * as fromEffects from './cart-entry.effect';
 import * as fromActions from '../actions';
-import { Config } from '../../../config/config.module';
 import { OccModuleConfig } from '../../../occ/occ-module-config';
 
 const MockOccModuleConfig: OccModuleConfig = {

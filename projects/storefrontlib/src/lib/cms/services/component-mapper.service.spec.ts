@@ -1,8 +1,7 @@
 import { Component, NgModule } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
 import { ComponentMapperService } from './component-mapper.service';
-import { CmsModuleConfig, defaultCmsModuleConfig } from '../cms-module-config';
-import { Config } from '../../config/config.module';
+import { CmsModuleConfig } from '../cms-module-config';
 
 @Component({
   template: 'test'

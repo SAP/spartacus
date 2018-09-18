@@ -18,7 +18,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
-import { Config } from '../../../config/config.module';
 
 export function mockDateNow() {
   return 1000000000000;

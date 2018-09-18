@@ -1,7 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { ProductImageConverterService } from './product-image-converter.service';
 import { OccModuleConfig } from '../../occ/occ-module-config';
-import { Config } from '../../config/config.module';
 
 const MockOccModuleConfig: OccModuleConfig = {
   server: {

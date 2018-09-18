@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   HttpInterceptor,
   HttpHandler,
@@ -9,7 +9,6 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UserToken } from '../../auth/models/token-types.model';
 import * as fromStore from '../store';
-import { Config } from '../../config/config.module';
 import { AuthModuleConfig } from '../auth-module.config';
 
 @Injectable()

@@ -6,7 +6,6 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { ProductImageConverterService } from '../../product/converters';
-import { Config } from '../../config/config.module';
 
 const userId = '123';
 const cartId = '456';

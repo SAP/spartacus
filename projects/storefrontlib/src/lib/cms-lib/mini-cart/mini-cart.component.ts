@@ -1,7 +1,7 @@
 import {
   Component,
   ChangeDetectorRef,
-  ChangeDetectionStrategy, Inject
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 import { Store } from '@ngrx/store';
@@ -16,7 +16,6 @@ import { AbstractCmsComponent } from '../../cms/components/abstract-cms-componen
 import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 
 import { MatDialog } from '@angular/material';
-import { Config } from '../../config/config.module';
 
 @Component({
   selector: 'y-mini-cart',

@@ -11,7 +11,6 @@ import { SearchConfig } from '../../search-config';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 import * as fromEffects from './product-search.effect';
 import * as fromActions from '../actions/product-search.action';
-import { Config } from '../../../config/config.module';
 
 const MockOccModuleConfig: OccModuleConfig = {
   server: {

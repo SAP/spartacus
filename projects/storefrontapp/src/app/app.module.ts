@@ -11,12 +11,7 @@ import { environment } from '../environments/environment';
     RouterModule.forRoot([]),
     StorefrontModule.withConfig({
       server: {
-<<<<<<< HEAD
-        baseUrl: 'https://10.27.165.187:9002'
-=======
         baseUrl: environment.occBaseUrl,
-        occPrefix: '/rest/v2/'
->>>>>>> feature/SPA-1104
       }
     })
   ],

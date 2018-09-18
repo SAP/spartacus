@@ -7,7 +7,6 @@ import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { ParagraphComponent } from './paragraph.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { Config } from '../../config/config.module';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {

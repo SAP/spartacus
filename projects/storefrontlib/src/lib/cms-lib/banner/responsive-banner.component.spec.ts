@@ -8,7 +8,6 @@ import { ResponsiveBannerComponent } from './responsive-banner.component';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { Config } from '../../config/config.module';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {

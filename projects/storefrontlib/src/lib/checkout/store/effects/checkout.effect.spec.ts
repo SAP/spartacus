@@ -11,7 +11,6 @@ import * as fromEffects from './checkout.effect';
 import * as fromActions from '../actions/checkout.action';
 import * as fromUserActions from '../../../user/store/actions';
 import { OccOrderService } from '../../../occ/order/order.service';
-import { Config } from '../../../config/config.module';
 
 const MockOccModuleConfig: OccModuleConfig = {
   server: {

@@ -1,11 +1,10 @@
 import { throwError, Observable } from 'rxjs';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { PageContext, PageType } from '../../routing/models/page-context.model';
 import { IdList } from './../models/idList.model';
 import { CmsModuleConfig } from '../cms-module-config';
-import { Config } from '../../config/config.module';
 
 @Injectable()
 export class OccCmsService {

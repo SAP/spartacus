@@ -13,7 +13,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchConfig } from '../../product/search-config';
 import { By } from '@angular/platform-browser';
-import { Config } from '../../config/config.module';
+import { BootstrapModule } from '../../bootstap.module';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {

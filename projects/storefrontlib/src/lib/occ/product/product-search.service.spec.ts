@@ -7,7 +7,6 @@ import {
 import { OccProductSearchService } from './product-search.service';
 import { OccModuleConfig } from '../occ-module-config';
 import { SearchConfig } from '../../product/search-config';
-import { Config } from '../../config/config.module';
 
 const queryText = 'test';
 const searchResults = { products: [{ code: '123' }] };

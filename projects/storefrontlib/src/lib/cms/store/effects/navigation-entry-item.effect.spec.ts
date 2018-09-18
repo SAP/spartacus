@@ -15,7 +15,6 @@ import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
 import { PageType } from '../../../routing/models/page-context.model';
-import { Config } from '../../../config/config.module';
 
 describe('Navigation Entry Items Effects', () => {
   let store: Store<fromRoot.State>;

@@ -1,10 +1,9 @@
 import { throwError, Observable } from 'rxjs';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { OccModuleConfig } from '../occ-module-config';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { Config } from '../../config/config.module';
 
 // To be changed to a more optimised params after ticket: C3PO-1076
 const FULL_PARAMS = 'fields=FULL';

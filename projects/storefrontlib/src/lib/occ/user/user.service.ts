@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { throwError, Observable } from 'rxjs';
@@ -9,7 +9,6 @@ import { OccModuleConfig } from '../occ-module-config';
 import { UserRegisterFormData } from '../../user/models/user.model';
 
 import { InterceptorUtil, USE_CLIENT_TOKEN } from '../utils/interceptor-util';
-import { Config } from '../../config/config.module';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';

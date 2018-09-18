@@ -19,7 +19,6 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { MiniCartComponent } from './mini-cart.component';
 import { CartService } from '../../cart/services/cart.service';
 import { CartDataService } from '../../cart/services/cart-data.service';
-import { Config } from '../../config/config.module';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {

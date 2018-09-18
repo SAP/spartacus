@@ -4,13 +4,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { CmsPageGuards } from './cms-page.guard';
 import { DefaultPageService } from '../services/default-page.service';
-import { CmsModuleConfig, defaultCmsModuleConfig } from '../cms-module-config';
+import { CmsModuleConfig } from '../cms-module-config';
 import * as fromRoot from '../../routing/store';
 import * as fromReducers from '../store/reducers';
 import { PageType } from '../../routing/models/page-context.model';
 import { Page } from '../models/page.model';
 import * as fromActions from '../store/actions/page.action';
-import { Config } from '../../config/config.module';
 
 const MockCmsModuleConfig: CmsModuleConfig = {
   defaultPageIdForType: {

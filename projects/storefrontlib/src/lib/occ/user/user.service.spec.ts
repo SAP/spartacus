@@ -5,7 +5,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
-import { Config } from '../../config/config.module';
 
 const username: any = 'mockUsername';
 const password: any = '1234';

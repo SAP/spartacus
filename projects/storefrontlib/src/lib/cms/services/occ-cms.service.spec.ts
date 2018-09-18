@@ -7,8 +7,7 @@ import {
 import { OccCmsService } from './occ-cms.service';
 import { PageContext, PageType } from '../../routing/models/page-context.model';
 import { IdList } from './../models/idList.model';
-import { Config } from '../../config/config.module';
-import { CmsModuleConfig, defaultCmsModuleConfig } from '../cms-module-config';
+import { CmsModuleConfig } from '../cms-module-config';
 
 const comps: any[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },

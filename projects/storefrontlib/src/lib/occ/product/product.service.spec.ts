@@ -6,7 +6,6 @@ import {
 
 import { OccProductService } from './product.service';
 import { OccModuleConfig } from '../occ-module-config';
-import { Config } from '../../config/config.module';
 
 const productCode = 'testCode';
 const product = {

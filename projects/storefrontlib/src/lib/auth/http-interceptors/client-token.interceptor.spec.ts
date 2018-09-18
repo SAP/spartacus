@@ -19,7 +19,6 @@ import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 import { ClientAuthenticationToken } from './../models/token-types.model';
 
 import { AuthModuleConfig } from '../auth-module.config';
-import { Config } from '../../config/config.module';
 
 const testToken: ClientAuthenticationToken = {
   access_token: 'abc-123',

@@ -8,7 +8,6 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatMenuModule, MatIconModule } from '@angular/material';
 import { NavigationService } from './navigation.service';
-import { Config } from '../../config/config.module';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {

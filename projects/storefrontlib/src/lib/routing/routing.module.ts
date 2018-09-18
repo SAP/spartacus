@@ -1,4 +1,4 @@
-import { NgModule, InjectionToken, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import {
   StoreRouterConnectingModule,

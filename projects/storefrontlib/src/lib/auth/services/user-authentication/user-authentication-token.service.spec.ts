@@ -6,7 +6,6 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { UserAuthenticationTokenService } from './user-authentication-token.service';
-import { Config } from '../../../config/config.module';
 import { AuthModuleConfig } from '../../auth-module.config';
 
 const username: any = 'mockUsername';

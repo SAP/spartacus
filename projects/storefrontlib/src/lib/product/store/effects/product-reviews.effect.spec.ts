@@ -9,7 +9,6 @@ import { OccModuleConfig } from '../../../occ/occ-module-config';
 import * as fromEffects from '../effects/product-reviews.effect';
 import * as fromActions from '../actions/product-reviews.action';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Config } from '../../../config/config.module';
 
 const reviewData = {
   reviews: [
