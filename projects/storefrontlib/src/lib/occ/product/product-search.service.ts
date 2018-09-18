@@ -14,7 +14,7 @@ const DEFAULT_SEARCH_CONFIG: SearchConfig = {
 
 @Injectable()
 export class OccProductSearchService {
-  constructor(private http: HttpClient, @Inject(Config) private config: OccModuleConfig) {}
+  constructor(private http: HttpClient, private config: OccModuleConfig) {}
 
   protected getProductEndpoint() {
     return (

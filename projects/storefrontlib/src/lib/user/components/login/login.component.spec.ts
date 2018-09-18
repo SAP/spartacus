@@ -95,7 +95,7 @@ describe('LoginComponent', () => {
             }
           }
         },
-        { provide: Config, useValue: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
       ]
     }).compileComponents();
   }));

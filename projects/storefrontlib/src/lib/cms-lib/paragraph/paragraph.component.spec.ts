@@ -40,7 +40,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
         })
       ],
       declarations: [ParagraphComponent],
-      providers: [{ provide: Config, useValue: UseCmsModuleConfig }]
+      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

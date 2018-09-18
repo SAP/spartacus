@@ -65,7 +65,7 @@ describe('Cart effect', () => {
         OccCartService,
         ProductImageConverterService,
         fromEffects.CartEffects,
-        { provide: Config, useValue: MockOccModuleConfig },
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         CartService,
         CartDataService,
         provideMockActions(() => actions$)

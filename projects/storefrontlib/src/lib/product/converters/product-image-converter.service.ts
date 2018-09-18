@@ -4,7 +4,7 @@ import { Config } from '../../config/config.module';
 
 @Injectable()
 export class ProductImageConverterService {
-  constructor(@Inject(Config) protected config: OccModuleConfig) {}
+  constructor(protected config: OccModuleConfig) {}
 
   convertList(list: Array<any>) {
     if (!list) {

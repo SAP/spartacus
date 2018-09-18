@@ -30,7 +30,7 @@ describe('OccMiscsService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccMiscsService,
-        { provide: Config, useValue: MockOccModuleConfig }
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig }
       ]
     });
 

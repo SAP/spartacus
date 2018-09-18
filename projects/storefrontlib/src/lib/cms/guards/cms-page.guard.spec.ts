@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { CmsPageGuards } from './cms-page.guard';
 import { DefaultPageService } from '../services/default-page.service';
-import { CmsModuleConfig } from '../cms-module-config';
+import { CmsModuleConfig, defaultCmsModuleConfig } from '../cms-module-config';
 import * as fromRoot from '../../routing/store';
 import * as fromReducers from '../store/reducers';
 import { PageType } from '../../routing/models/page-context.model';
@@ -35,7 +35,7 @@ describe('CmsPageGuards', () => {
       providers: [
         CmsPageGuards,
         DefaultPageService,
-        { provide: Config, useValue: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
       ],
       imports: [
         RouterTestingModule,

@@ -35,7 +35,7 @@ export class NavigationComponent extends AbstractCmsComponent
     protected cd: ChangeDetectorRef,
     private navigationService: NavigationService,
     protected store: Store<fromStore.CmsState>,
-    @Inject(Config) protected config: CmsModuleConfig
+    protected config: CmsModuleConfig
   ) {
     super(cd, store, config);
   }

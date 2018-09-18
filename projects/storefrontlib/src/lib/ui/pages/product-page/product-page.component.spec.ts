@@ -69,7 +69,7 @@ describe('ProductPageComponent in pages', () => {
         ComponentWrapperComponent,
         AddToCartComponent
       ],
-      providers: [ComponentMapperService, { provide: Config, useValue: defaultCmsModuleConfig }, CartService]
+      providers: [ComponentMapperService, { provide: CmsModuleConfig, useValue: defaultCmsModuleConfig }, CartService]
     }).compileComponents();
   }));
 

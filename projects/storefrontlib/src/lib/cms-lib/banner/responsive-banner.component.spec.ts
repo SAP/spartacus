@@ -71,7 +71,7 @@ describe('ResponsiveBannerComponent', () => {
         RouterTestingModule
       ],
       declarations: [ResponsiveBannerComponent],
-      providers: [{ provide: Config, useValue: UseCmsModuleConfig }]
+      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

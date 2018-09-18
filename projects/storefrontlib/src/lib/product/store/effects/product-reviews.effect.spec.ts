@@ -41,7 +41,7 @@ describe('Product reviews effect', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccProductService,
-        { provide: Config, useValue: MockOccModuleConfig },
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         fromEffects.ProductReviewsEffects,
         provideMockActions(() => actions$)
       ]

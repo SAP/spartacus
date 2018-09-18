@@ -8,7 +8,7 @@ import { Config } from '../../config/config.module';
 
 @Injectable()
 export class OccSiteService {
-  constructor(private http: HttpClient, @Inject(Config) private config: OccModuleConfig) {}
+  constructor(private http: HttpClient, private config: OccModuleConfig) {}
 
   protected getBaseEndPoint() {
     return (

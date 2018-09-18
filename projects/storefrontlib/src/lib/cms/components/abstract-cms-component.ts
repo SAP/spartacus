@@ -17,7 +17,7 @@ export abstract class AbstractCmsComponent implements OnDestroy {
   constructor(
     protected cd: ChangeDetectorRef,
     protected store: Store<fromStore.CmsState>,
-    @Inject(Config) protected config: CmsModuleConfig
+    protected config: CmsModuleConfig
   ) {}
 
   setContextParameters(contextParameters: any) {

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { defaultAuthModuleConfig } from './auth-module.config';
+import { AuthModuleConfig, defaultAuthModuleConfig } from './auth-module.config';
 import { services } from './services/index';
 
 import { guards } from './guards/index';
@@ -18,7 +18,7 @@ import {
   reducerProvider,
   metaReducers
 } from './store/reducers/index';
-import { ConfigModule } from '../config/config.module';
+import { Config, ConfigModule } from '../config/config.module';
 
 @NgModule({
   imports: [
@@ -32,7 +32,8 @@ import { ConfigModule } from '../config/config.module';
     ...guards,
     ...services,
     ...interceptors,
-    reducerProvider
+    reducerProvider,
+    { provide: AuthModuleConfig, useExisting: Config }
   ]
 })
 export class AuthModule {}

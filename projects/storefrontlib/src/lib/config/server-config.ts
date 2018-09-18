@@ -1,4 +1,4 @@
-export interface ServerConfig {
+export abstract class ServerConfig {
   server?: {
     baseUrl?: string,
     occPrefix?: string

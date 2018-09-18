@@ -13,7 +13,7 @@ const ENDPOINT_REGIONS = 'regions';
 
 @Injectable()
 export class OccMiscsService {
-  constructor(private http: HttpClient, @Inject(Config) private config: OccModuleConfig) {}
+  constructor(private http: HttpClient, private config: OccModuleConfig) {}
 
   protected getEndpoint(endpoint: string) {
     return (

@@ -1,7 +1,13 @@
 import { ServerConfig } from '../config/server-config';
 import { SiteContextModuleConfig } from '../site-context/site-context-module-config';
 
-export interface AuthModuleConfig extends ServerConfig, SiteContextModuleConfig {
+export abstract class AuthModuleConfig extends ServerConfig implements SiteContextModuleConfig {
+  site?: {
+    baseSite?: string;
+    language?: string;
+    currency?: string;
+  };
+
   authentication?: {
     client_id?: string;
     client_secret?: string;

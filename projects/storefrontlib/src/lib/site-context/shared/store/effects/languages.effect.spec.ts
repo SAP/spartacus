@@ -32,7 +32,7 @@ describe('Languages Effects', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccSiteService,
-        { provide: Config, useValue: MockOccModuleConfig },
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         fromEffects.LanguagesEffects,
         provideMockActions(() => actions$)
       ]

@@ -35,7 +35,7 @@ describe('ProductSearch Effects', () => {
       providers: [
         OccProductSearchService,
         ProductImageConverterService,
-        { provide: Config, useValue: MockOccModuleConfig },
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         fromEffects.ProductsSearchEffects,
         provideMockActions(() => actions$)
       ]

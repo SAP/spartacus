@@ -22,7 +22,7 @@ export class BannerComponent extends AbstractCmsComponent {
   constructor(
     protected cd: ChangeDetectorRef,
     protected store: Store<fromStore.CmsState>,
-    @Inject(Config) protected config: CmsModuleConfig
+    protected config: CmsModuleConfig
   ) {
     super(cd, store, config);
   }

@@ -1,6 +1,6 @@
 import { ServerConfig } from '../config/server-config';
 
-export interface SiteContextModuleConfig extends ServerConfig {
+export abstract class SiteContextModuleConfig extends ServerConfig {
   site?: {
     baseSite?: string;
     language?: string;

@@ -10,14 +10,14 @@ import * as fromRoot from '../../routing/store';
 
 import * as fromActions from './../shared/store/actions/languages.action';
 import { of } from 'rxjs';
-import { Config } from '../../config/config.module';
+import { SiteContextModuleConfig } from '../site-context-module-config';
 
-class MockSiteContextModuleConfig {
-  site = {
+const MockSiteContextModuleConfig = {
+  site: {
     language: 'de',
     currency: 'JPY'
-  };
-}
+  }
+};
 
 describe('LanguageSelectorComponent', () => {
   const languages = [
@@ -40,8 +40,8 @@ describe('LanguageSelectorComponent', () => {
       declarations: [LanguageSelectorComponent],
       providers: [
         {
-          provide: Config,
-          useClass: MockSiteContextModuleConfig
+          provide: SiteContextModuleConfig,
+          useValue: MockSiteContextModuleConfig
         }
       ]
     })

@@ -33,7 +33,7 @@ describe('Cart effect', () => {
       providers: [
         OccCartService,
         fromEffects.CartEntryEffects,
-        { provide: Config, useValue: MockOccModuleConfig },
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$)
       ]
     });

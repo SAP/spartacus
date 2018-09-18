@@ -47,7 +47,7 @@ describe('OccCartService', () => {
       providers: [
         OccCartService,
         ProductImageConverterService,
-        { provide: Config, useValue: MockOccModuleConfig }
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig }
       ]
     });
 

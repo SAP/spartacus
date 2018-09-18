@@ -9,6 +9,8 @@ import { OccSiteService } from './site-context/occ-site.service';
 import { OccCartService } from './cart/cart.service';
 import { OccMiscsService } from './miscs/miscs.service';
 import { OccOrderService } from './order/order.service';
+import { Config } from '../config/config.module';
+import { OccModuleConfig } from './occ-module-config';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -19,7 +21,8 @@ import { OccOrderService } from './order/order.service';
     OccUserService,
     OccCartService,
     OccMiscsService,
-    OccOrderService
+    OccOrderService,
+    { provide: OccModuleConfig, useExisting: Config }
   ]
 })
 export class OccModule {}

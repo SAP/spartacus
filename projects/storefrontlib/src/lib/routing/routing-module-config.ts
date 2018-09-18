@@ -4,7 +4,7 @@ export enum StorageSyncType {
   SESSION_STORAGE = 'SESSION_STORAGE'
 }
 
-export interface RoutingModuleConfig {
+export abstract class RoutingModuleConfig {
   storageSyncType?: StorageSyncType;
 }
 

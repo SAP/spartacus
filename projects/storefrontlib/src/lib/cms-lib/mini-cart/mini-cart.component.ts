@@ -36,7 +36,7 @@ export class MiniCartComponent extends AbstractCmsComponent {
   constructor(
     protected cd: ChangeDetectorRef,
     protected store: Store<fromStore.CmsState>,
-    @Inject(Config) protected config: CmsModuleConfig,
+    protected config: CmsModuleConfig,
     protected dialog: MatDialog,
     protected cartService: CartService
   ) {

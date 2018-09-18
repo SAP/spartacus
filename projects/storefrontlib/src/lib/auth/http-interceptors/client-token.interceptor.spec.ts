@@ -58,7 +58,7 @@ describe('ClientTokenInterceptor', () => {
         })
       ],
       providers: [
-        { provide: Config, useValue: MockAuthModuleConfig },
+        { provide: AuthModuleConfig, useValue: MockAuthModuleConfig },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: ClientTokenInterceptor,

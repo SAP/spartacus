@@ -38,7 +38,7 @@ describe('User Orders effect', () => {
       providers: [
         OccOrderService,
         fromUserOrdersEffect.UserOrdersEffect,
-        { provide: Config, useValue: MockOccModuleConfig },
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$)
       ]
     });

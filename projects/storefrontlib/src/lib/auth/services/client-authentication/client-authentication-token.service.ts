@@ -11,7 +11,7 @@ const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
 @Injectable()
 export class ClientAuthenticationTokenService {
-  constructor(@Inject(Config) private config: AuthModuleConfig, private http: HttpClient) {}
+  constructor(private config: AuthModuleConfig, private http: HttpClient) {}
 
   loadClientAuthenticationToken(): Observable<any> {
     const url = this.getOAuthEndpoint();

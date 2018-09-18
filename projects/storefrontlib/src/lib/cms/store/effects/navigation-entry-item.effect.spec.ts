@@ -57,7 +57,7 @@ describe('Navigation Entry Items Effects', () => {
       ],
       providers: [
         OccCmsService,
-        { provide: Config, useValue: defaultCmsModuleConfig },
+        { provide: CmsModuleConfig, useValue: defaultCmsModuleConfig },
         fromEffects.NavigationEntryItemEffects,
         provideMockActions(() => actions$)
       ]

@@ -52,7 +52,8 @@ export function getMetaReducers(
       provide: META_REDUCERS,
       deps: [Config],
       useFactory: getMetaReducers
-    }
+    },
+    { provide: RoutingModuleConfig, useExisting: Config }
   ]
 })
 export class RoutingModule {}

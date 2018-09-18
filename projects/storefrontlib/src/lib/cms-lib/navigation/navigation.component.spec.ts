@@ -77,7 +77,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
       ],
       providers: [
         NavigationService,
-        { provide: Config, useValue: UseCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
       ],
       declarations: [NavigationComponent]
     }).compileComponents();

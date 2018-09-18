@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { UserAuthenticationTokenService } from './user-authentication-token.service';
 import { Config } from '../../../config/config.module';
+import { AuthModuleConfig } from '../../auth-module.config';
 
 const username: any = 'mockUsername';
 const password: any = '1234';
@@ -37,7 +38,7 @@ describe('UserAuthenticationTokenService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         UserAuthenticationTokenService,
-        { provide: Config, useValue: MockAuthModuleConfig }
+        { provide: AuthModuleConfig, useValue: MockAuthModuleConfig }
       ]
     });
 

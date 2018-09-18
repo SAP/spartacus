@@ -49,7 +49,7 @@ describe('FooterNavigationComponent', () => {
         NavigationModule
       ],
       declarations: [FooterNavigationComponent],
-      providers: [{ provide: Config, useValue: UseCmsModuleConfig }]
+      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

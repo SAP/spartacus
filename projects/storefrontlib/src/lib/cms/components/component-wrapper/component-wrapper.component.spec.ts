@@ -7,7 +7,7 @@ import * as fromActions from '../../store/actions';
 import { ComponentWrapperComponent } from './component-wrapper.component';
 import { ComponentMapperService } from '../../services/component-mapper.service';
 import { AbstractCmsComponent } from '../abstract-cms-component';
-import { CmsModuleConfig } from '../../cms-module-config';
+import { CmsModuleConfig, defaultCmsModuleConfig } from '../../cms-module-config';
 import { By } from '@angular/platform-browser';
 import { Config } from '../../../config/config.module';
 
@@ -50,7 +50,7 @@ describe('ComponentWrapperComponent', () => {
       declarations: [ComponentWrapperComponent],
       providers: [
         ComponentMapperService,
-        { provide: Config, useValue: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
       ]
     }).compileComponents();
   }));

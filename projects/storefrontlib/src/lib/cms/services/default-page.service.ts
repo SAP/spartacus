@@ -5,7 +5,7 @@ import { Config } from '../../config/config.module';
 
 @Injectable()
 export class DefaultPageService {
-  constructor(@Inject(Config) private config: CmsModuleConfig) {}
+  constructor(private config: CmsModuleConfig) {}
 
   getDefaultPageIdsBytype(type: PageType): string[] {
     return this.config.defaultPageIdForType[type];

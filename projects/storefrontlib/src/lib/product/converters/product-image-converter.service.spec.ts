@@ -89,7 +89,7 @@ describe('ProductImageConverterService', () => {
     TestBed.configureTestingModule({
       providers: [
         ProductImageConverterService,
-        { provide: Config, useValue: MockOccModuleConfig }
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig }
       ]
     });
 

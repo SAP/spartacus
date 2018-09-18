@@ -67,7 +67,7 @@ describe('SearchBoxComponent in CmsLib', () => {
         })
       ],
       declarations: [SearchBoxComponent, PictureComponent],
-      providers: [{ provide: Config, useValue: UseCmsModuleConfig }]
+      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

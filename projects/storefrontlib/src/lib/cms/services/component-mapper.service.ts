@@ -8,7 +8,7 @@ export class ComponentMapperService {
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    @Inject(Config) private config: CmsModuleConfig
+    private config: CmsModuleConfig
   ) {}
 
   /**

@@ -1,7 +1,7 @@
 import { Component, NgModule } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
 import { ComponentMapperService } from './component-mapper.service';
-import { CmsModuleConfig } from '../cms-module-config';
+import { CmsModuleConfig, defaultCmsModuleConfig } from '../cms-module-config';
 import { Config } from '../../config/config.module';
 
 @Component({
@@ -32,7 +32,7 @@ describe('ComponentMapperService', () => {
       imports: [TestModule],
       providers: [
         ComponentMapperService,
-        { provide: Config, useValue: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
       ]
     });
 

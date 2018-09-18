@@ -11,7 +11,7 @@ const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
 @Injectable()
 export class UserAuthenticationTokenService {
-  constructor(private http: HttpClient, @Inject(Config) private config: AuthModuleConfig) {}
+  constructor(private http: HttpClient, private config: AuthModuleConfig) {}
 
   loadToken(userId: string, password: string): Observable<any> {
     const url = this.getOAuthEndpoint();

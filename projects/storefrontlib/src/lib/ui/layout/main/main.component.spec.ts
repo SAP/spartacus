@@ -72,7 +72,7 @@ describe('MainComponent', () => {
       ],
       providers: [
         {
-          provide: Config,
+          provide: SiteContextModuleConfig,
           useValue: MockSiteContextModuleConfig
         },
         { provide: OccSiteService }

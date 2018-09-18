@@ -17,8 +17,8 @@ import { guards } from './guards/index';
 
 // services
 import { services } from './services/index';
-import { defaultCmsModuleConfig } from './cms-module-config';
-import { ConfigModule } from '../config/config.module';
+import { CmsModuleConfig, defaultCmsModuleConfig } from './cms-module-config';
+import { Config, ConfigModule } from '../config/config.module';
 
 @NgModule({
   imports: [
@@ -31,7 +31,8 @@ import { ConfigModule } from '../config/config.module';
   providers: [
     reducerProvider,
     ...services,
-    ...guards
+    ...guards,
+    { provide: CmsModuleConfig, useExisting: Config }
   ],
   declarations: [...components],
   exports: [...components]

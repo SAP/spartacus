@@ -11,7 +11,7 @@ import { Config } from '../../config/config.module';
 export class OccCmsService {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-  constructor(private http: HttpClient, @Inject(Config) private config: CmsModuleConfig) {}
+  constructor(private http: HttpClient, private config: CmsModuleConfig) {}
 
   protected getBaseEndPoint() {
     return (

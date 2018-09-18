@@ -51,7 +51,7 @@ describe('Product Effects', () => {
         OccProductService,
         ProductImageConverterService,
         ProductReferenceConverterService,
-        { provide: Config, useValue: MockOccModuleConfig },
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         fromEffects.ProductEffects,
         provideMockActions(() => actions$)
       ]

@@ -10,6 +10,7 @@ import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../shared/store';
 import { of } from 'rxjs';
 import { Config } from '../../../config/config.module';
+import { SiteContextModuleConfig } from '../../site-context-module-config';
 
 export class MockSiteContextModuleConfig {
   server = {
@@ -42,7 +43,7 @@ describe('SiteContextInterceptor', () => {
       ],
       providers: [
         {
-          provide: Config,
+          provide: SiteContextModuleConfig,
           useClass: MockSiteContextModuleConfig
         },
         {

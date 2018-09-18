@@ -48,7 +48,7 @@ describe('Checkout effect', () => {
         OccCartService,
         OccOrderService,
         fromEffects.CheckoutEffects,
-        { provide: Config, useValue: MockOccModuleConfig },
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$)
       ]
     });

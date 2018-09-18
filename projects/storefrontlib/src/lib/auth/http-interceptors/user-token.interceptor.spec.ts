@@ -11,14 +11,11 @@ import { of } from 'rxjs';
 import * as fromStore from '../store';
 import * as fromRoot from '../../routing/store';
 
-import { OccModuleConfig } from '../../occ/occ-module-config';
-
 import { UserTokenInterceptor } from './user-token.interceptor';
-
 import { UserToken } from './../../auth/models/token-types.model';
-import { Config } from '../../config/config.module';
+import { AuthModuleConfig } from '../auth-module.config';
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockAuthModuleConfig: AuthModuleConfig = {
   server: {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
@@ -53,7 +50,7 @@ describe('UserTokenInterceptor', () => {
         })
       ],
       providers: [
-        { provide: Config, useValue: MockOccModuleConfig },
+        { provide: AuthModuleConfig, useValue: MockAuthModuleConfig },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: UserTokenInterceptor,

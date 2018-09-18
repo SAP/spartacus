@@ -27,7 +27,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     this.config.site.baseSite;
 
   constructor(
-    @Inject(Config) private config: AuthModuleConfig,
+    private config: AuthModuleConfig,
     private store: Store<fromAuthStore.AuthState>
   ) {}
 

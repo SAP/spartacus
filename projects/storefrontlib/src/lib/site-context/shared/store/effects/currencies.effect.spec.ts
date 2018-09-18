@@ -34,7 +34,7 @@ describe('Currencies Effects', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccSiteService,
-        { provide: Config, useValue: MockOccModuleConfig },
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         fromEffects.CurrenciesEffects,
         provideMockActions(() => actions$)
       ]

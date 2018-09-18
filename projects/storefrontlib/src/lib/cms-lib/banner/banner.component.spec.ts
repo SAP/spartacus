@@ -51,7 +51,7 @@ describe('BannerComponent', () => {
         RouterTestingModule
       ],
       declarations: [BannerComponent],
-      providers: [{ provide: Config, useValue: UseCmsModuleConfig }]
+      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

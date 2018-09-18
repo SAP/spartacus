@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { ServerConfig } from '../config/server-config';
 import { SiteContextModuleConfig } from '../site-context/site-context-module-config';
 import { AuthModuleConfig } from '../auth/auth-module.config';
@@ -22,7 +21,18 @@ export interface CMSComponentMappingConfig {
   CMSTabParagraphComponent?: string;
 }
 
-export interface CmsModuleConfig extends ServerConfig, SiteContextModuleConfig, AuthModuleConfig {
+export abstract class CmsModuleConfig extends ServerConfig implements SiteContextModuleConfig, AuthModuleConfig {
+
+  site?: {
+    baseSite?: string;
+    language?: string;
+    currency?: string;
+  };
+
+  authentication?: {
+    client_id?: string;
+    client_secret?: string;
+  };
 
   defaultPageIdForType?: {
     ProductPage?: string[],

@@ -42,7 +42,7 @@ describe('LinkComponent', () => {
         RouterTestingModule
       ],
       declarations: [LinkComponent],
-      providers: [{ provide: Config, useValue: UseCmsModuleConfig }]
+      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

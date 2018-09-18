@@ -81,7 +81,7 @@ describe('MiniCartComponent', () => {
       providers: [
         CartService,
         CartDataService,
-        { provide: Config, useValue: UseCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
       ]
     }).compileComponents();
   }));
