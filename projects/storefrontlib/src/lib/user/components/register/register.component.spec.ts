@@ -116,6 +116,38 @@ describe('RegisterComponent', () => {
 
       expect(component.userRegistrationForm.valid).toBeTruthy();
     });
+
+    it('form invalid when not all required fields filled', () => {
+      component.ngOnInit();
+      const {
+        userRegistrationForm: { controls }
+      } = component;
+      controls['titleCode'].setValue('');
+      controls['firstName'].setValue('John');
+      controls['lastName'].setValue('');
+      controls['email'].setValue('JohnDoe@thebest.john.intheworld.com');
+      controls['termsandconditions'].setValue(true);
+      controls['password'].setValue('strongPass$!123');
+      controls['passwordconf'].setValue('strongPass$!123');
+
+      expect(component.userRegistrationForm.valid).toBeFalsy();
+    });
+
+    it('form invalid when not terms not checked', () => {
+      component.ngOnInit();
+      const {
+        userRegistrationForm: { controls }
+      } = component;
+      controls['titleCode'].setValue('Mr');
+      controls['firstName'].setValue('John');
+      controls['lastName'].setValue('Doe');
+      controls['email'].setValue('JohnDoe@thebest.john.intheworld.com');
+      controls['termsandconditions'].setValue(false);
+      controls['password'].setValue('strongPass$!123');
+      controls['passwordconf'].setValue('strongPass$!123');
+
+      expect(component.userRegistrationForm.valid).toBeFalsy();
+    });
   });
 
   describe('submit', () => {
