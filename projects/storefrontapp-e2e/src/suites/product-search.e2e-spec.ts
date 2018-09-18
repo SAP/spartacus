@@ -33,14 +33,13 @@ describe('Product search', () => {
     expect(await product.isDisplayed()).toBeTruthy();
   });
 
-  it('should list with pagination', async () => {
+  it('should list with results', async () => {
     // go to search results page
     await searchResults.navigateTo('camera');
 
     // should have 144 results and 15 pages
-    const text = await searchResults.getPaginationText();
-    expect(text).toContain('144 Products');
-    expect(text).toContain('Page: 1 of 15');
+    const text = await searchResults.getHeaderText();
+    expect(text).toContain('144 results for cameras');
 
     // go to next page
     // FIXME - commented out by now, as it is broken on spartacus

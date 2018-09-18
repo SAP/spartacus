@@ -7,14 +7,16 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'y-product-sorting',
-  templateUrl: './product-sorting.component.html',
-  styleUrls: ['./product-sorting.component.scss'],
+  selector: 'y-sorting',
+  templateUrl: './sorting.component.html',
+  styleUrls: ['./sorting.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductSortingComponent {
-  @Input() grid;
+export class SortingComponent {
   @Input() sortOptions;
+  @Input() selectedOption: string;
+  @Input() placeholder: string;
+  @Input() sortLabels: any;
 
   @Output() sortListEvent: EventEmitter<string>;
 

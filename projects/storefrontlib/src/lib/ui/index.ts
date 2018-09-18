@@ -4,6 +4,7 @@ export * from './layout/layout.module';
 export * from './components/components.module';
 export * from './components/media/media.module';
 export * from './components/form-components/form-components.module';
+export * from './components/pagination-and-sorting/pagination-and-sorting.module';
 export * from './pages/pages.module';
 export * from './layout/footer/footer.component';
 export * from './layout/cart-page-layout/cart-page-layout.component';
