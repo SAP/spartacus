@@ -1,6 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { CartItemListComponent } from './cart-item-list.component';
+import { CartItemComponent } from '../../cart-shared/cart-item/cart-item.component';
+import { ComponentsModule } from '../../../../ui/components/components.module';
+import { CartService } from '../../../services/cart.service';
+
+class MockCartService {
+  removeCartEntry() {}
+  loadCartDetails() {}
+  updateCartEntry() {}
+}
 
 describe('CartItemListComponent', () => {
   let component: CartItemListComponent;
@@ -8,7 +19,11 @@ describe('CartItemListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CartItemListComponent]
+      imports: [ComponentsModule, ReactiveFormsModule, RouterTestingModule],
+      declarations: [CartItemListComponent, CartItemComponent],
+      providers: [
+        { provide: CartService, useClass: MockCartService }
+      ]
     }).compileComponents();
   }));
 

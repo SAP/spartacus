@@ -8,6 +8,7 @@ import { CartDataService } from '../../../services/cart-data.service';
 import { CartService } from '../../../services/cart.service';
 import * as fromReducer from '../../../store/reducers';
 import { CartDetailsComponent } from './cart-details.component';
+import { CartItemListComponent } from './../cart-item-list/cart-item-list.component';
 import { ComponentsModule } from '../../../../ui/components/components.module';
 
 class MockCartService {
@@ -180,7 +181,7 @@ describe('CartDetailsComponent', () => {
         ComponentsModule,
         CartSharedModule
       ],
-      declarations: [CartDetailsComponent],
+      declarations: [CartDetailsComponent, CartItemListComponent],
       providers: [
         CartDataService,
         { provide: CartService, useClass: MockCartService }

@@ -33,7 +33,7 @@ describe('CartItemComponent', () => {
     expect(cartItemComponent).toBeTruthy();
   });
 
-  it('should call removeEntry()', () => {
+  it('should call removeItem()', () => {
     cartItemComponent.removeItem();
 
     expect(cartItemComponent.remove.emit).toHaveBeenCalledWith(
@@ -41,11 +41,11 @@ describe('CartItemComponent', () => {
     );
   });
 
-  it('should call updateEntry()', () => {
+  it('should call updateItem()', () => {
     cartItemComponent.updateItem(2);
 
     expect(cartItemComponent.update.emit).toHaveBeenCalledWith({
-      entry: cartItemComponent.item,
+      item: cartItemComponent.item,
       updatedQuantity: 2
     });
   });
