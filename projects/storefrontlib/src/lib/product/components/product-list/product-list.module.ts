@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { BootstrapModule } from '../../../bootstap.module';
+import { BootstrapModule } from '../../../bootstrap.module';
 import { ProductListComponent } from './container/product-list.component';
 import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';
 import { ProductPagingComponent } from './product-paging/product-paging.component';
