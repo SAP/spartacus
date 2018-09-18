@@ -66,7 +66,7 @@
 
       <!-- NO ORDER CONTAINER -->
       <ng-template #noOrder>
-        <div class="y-order-history__no-order row">
+        <div class="y-order-history__no-order row" *ngIf="isLoaded$ | async">
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div>We have no order records for this account.</div>
             <a routerLink="/" routerLinkActive="active" class="btn btn-primary btn-block">Start Shopping</a>
