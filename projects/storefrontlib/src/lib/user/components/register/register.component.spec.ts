@@ -71,6 +71,11 @@ describe('RegisterComponent', () => {
         expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadTitles());
       });
     });
+
+    it('form invalid when empty', () => {
+      component.ngOnInit();
+      expect(component.userRegistrationForm.valid).toBeFalsy();
+    });
   });
 
   describe('submit', () => {
