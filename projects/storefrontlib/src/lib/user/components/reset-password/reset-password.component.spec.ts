@@ -3,10 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
 import { ResetPasswordComponent } from './reset-password.component';
 
-describe('ResetPasswordComponent', () => {
+fdescribe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
   let fixture: ComponentFixture<ResetPasswordComponent>;
   let form: DebugElement;
@@ -16,8 +15,7 @@ describe('ResetPasswordComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, RouterTestingModule],
-      declarations: [ResetPasswordComponent],
-      providers: [CustomFormValidators]
+      declarations: [ResetPasswordComponent]
     }).compileComponents();
   }));
 
