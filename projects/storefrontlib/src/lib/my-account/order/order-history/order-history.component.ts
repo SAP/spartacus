@@ -50,7 +50,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
               pageSize: this.PAGE_SIZE
             })
           );
-        } else {
+        }
+        if (orders.pagination) {
           this.sortType = orders.pagination.sort;
         }
       })
