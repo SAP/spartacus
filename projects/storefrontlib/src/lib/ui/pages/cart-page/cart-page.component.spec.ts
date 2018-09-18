@@ -45,7 +45,7 @@ describe('CartPageComponent', () => {
         DynamicSlotComponent,
         ComponentWrapperComponent,
         CartDetailsComponent,
-        CartItemListComponent,
+        CartItemListComponent
       ],
       providers: [{ provide: CartService, useClass: MockCartService }]
     }).compileComponents();

@@ -21,9 +21,7 @@ describe('CartItemListComponent', () => {
     TestBed.configureTestingModule({
       imports: [ComponentsModule, ReactiveFormsModule, RouterTestingModule],
       declarations: [CartItemListComponent, CartItemComponent],
-      providers: [
-        { provide: CartService, useClass: MockCartService }
-      ]
+      providers: [{ provide: CartService, useClass: MockCartService }]
     }).compileComponents();
   }));
 

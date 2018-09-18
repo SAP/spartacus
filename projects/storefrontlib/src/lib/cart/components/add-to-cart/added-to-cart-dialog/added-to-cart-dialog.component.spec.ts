@@ -26,9 +26,7 @@ describe('AddedToCartDialogComponent', () => {
         NgbModule.forRoot()
       ],
       declarations: [AddedToCartDialogComponent],
-      providers: [
-        { provide: NgbActiveModal, useClass: MockNgbActiveModal }
-      ]
+      providers: [{ provide: NgbActiveModal, useClass: MockNgbActiveModal }]
     }).compileComponents();
   }));
 
