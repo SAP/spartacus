@@ -13,7 +13,11 @@ import {
   reducerProvider
 } from './store/reducers/router.reducer';
 import { effects } from './store/effects/index';
-import { defaultRoutingModuleConfig, RoutingModuleConfig, StorageSyncType } from './routing-module-config';
+import {
+  defaultRoutingModuleConfig,
+  RoutingModuleConfig,
+  StorageSyncType
+} from './routing-module-config';
 
 // not used in production
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';

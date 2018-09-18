@@ -1,7 +1,7 @@
 export abstract class ServerConfig {
   server?: {
-    baseUrl?: string,
-    occPrefix?: string
+    baseUrl?: string;
+    occPrefix?: string;
   };
 }
 

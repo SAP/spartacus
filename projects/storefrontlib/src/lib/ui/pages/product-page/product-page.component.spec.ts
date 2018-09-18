@@ -21,14 +21,16 @@ import { ProductSummaryComponent } from '../../../product/components/product-det
 import { ProductAttributesComponent } from '../../../product/components/product-details/product-attributes/product-attributes.component';
 import { ProductReviewsComponent } from '../../../product/components/product-details/product-reviews/product-reviews.component';
 import { ComponentMapperService } from '../../../cms/services';
-import { CmsModuleConfig, defaultCmsModuleConfig } from '../../../cms/cms-module-config';
+import {
+  CmsModuleConfig,
+  defaultCmsModuleConfig
+} from '../../../cms/cms-module-config';
 import { AddToCartComponent } from '../../../cart/components/add-to-cart/add-to-cart.component';
 import { CartService } from '../../../cart/services';
 import {
   NgbTabsetModule,
   NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
-import { Config } from '../../../config/config.module';
 const routerState = {
   state: {
     params: {
@@ -69,7 +71,11 @@ describe('ProductPageComponent in pages', () => {
         ComponentWrapperComponent,
         AddToCartComponent
       ],
-      providers: [ComponentMapperService, { provide: CmsModuleConfig, useValue: defaultCmsModuleConfig }, CartService]
+      providers: [
+        ComponentMapperService,
+        { provide: CmsModuleConfig, useValue: defaultCmsModuleConfig },
+        CartService
+      ]
     }).compileComponents();
   }));
 

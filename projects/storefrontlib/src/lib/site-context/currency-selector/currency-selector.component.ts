@@ -10,7 +10,6 @@ import { Observable, Subscription } from 'rxjs';
 import * as fromStore from '../shared/store';
 import { SiteContextModuleConfig } from '../site-context-module-config';
 
-
 @Component({
   selector: 'y-currency-selector',
   templateUrl: './currency-selector.component.html',

@@ -21,7 +21,6 @@ import * as fromAuthStore from './../../../auth/store';
 import * as fromStore from './../../store';
 import * as fromCms from './../../../cms/store';
 import { LoginComponent } from './login.component';
-import { Config } from '../../../config/config.module';
 
 const mockUserToken: UserToken = {
   access_token: 'xxx',

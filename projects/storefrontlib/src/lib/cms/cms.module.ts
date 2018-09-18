@@ -26,7 +26,7 @@ import { Config, ConfigModule } from '../config/config.module';
     HttpClientModule,
     StoreModule.forFeature('cms', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfig( defaultCmsModuleConfig )
+    ConfigModule.withConfig(defaultCmsModuleConfig)
   ],
   providers: [
     reducerProvider,

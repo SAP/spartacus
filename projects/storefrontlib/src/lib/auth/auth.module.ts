@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AuthModuleConfig, defaultAuthModuleConfig } from './auth-module.config';
+import {
+  AuthModuleConfig,
+  defaultAuthModuleConfig
+} from './auth-module.config';
 import { services } from './services/index';
 
 import { guards } from './guards/index';
@@ -26,7 +29,7 @@ import { Config, ConfigModule } from '../config/config.module';
     HttpClientModule,
     StoreModule.forFeature('auth', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfig( defaultAuthModuleConfig )
+    ConfigModule.withConfig(defaultAuthModuleConfig)
   ],
   providers: [
     ...guards,

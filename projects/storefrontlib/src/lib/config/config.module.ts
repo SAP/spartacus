@@ -1,7 +1,8 @@
 import {
   InjectionToken,
   ModuleWithProviders,
-  NgModule, Provider
+  NgModule,
+  Provider
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { defaultServerConfig } from './server-config';
@@ -26,9 +27,7 @@ export class ConfigModule {
   static withConfig(config: any): ModuleWithProviders {
     return {
       ngModule: ConfigModule,
-      providers: [
-        provideConfig(config)
-      ]
+      providers: [provideConfig(config)]
     };
   }
 

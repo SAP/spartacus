@@ -11,7 +11,7 @@ import { environment } from '../environments/environment';
     RouterModule.forRoot([]),
     StorefrontModule.withConfig({
       server: {
-        baseUrl: environment.occBaseUrl,
+        baseUrl: environment.occBaseUrl
       }
     })
   ],

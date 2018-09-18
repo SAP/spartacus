@@ -9,7 +9,6 @@ import { OccModuleConfig } from '../../../../occ/occ-module-config';
 import * as fromEffects from './currencies.effect';
 import * as fromActions from '../actions/currencies.action';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Config } from '../../../../config/config.module';
 
 const MockOccModuleConfig: OccModuleConfig = {
   server: {

@@ -16,7 +16,6 @@ import { LanguageSelectorComponent } from './../../../../site-context/language-s
 import { LoginModule } from './../../../../user/components/login/login.module';
 import { MobileMenuComponent } from './mobile-menu.component';
 import { By } from '@angular/platform-browser';
-import { Config } from '../../../../config/config.module';
 import { SiteContextModuleConfig } from '../../../../site-context/site-context-module-config';
 import { CmsModuleConfig } from '../../../../cms/cms-module-config';
 

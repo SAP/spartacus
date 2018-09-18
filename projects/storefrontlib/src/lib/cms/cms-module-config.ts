@@ -21,8 +21,8 @@ export interface CMSComponentMappingConfig {
   CMSTabParagraphComponent?: string;
 }
 
-export abstract class CmsModuleConfig extends ServerConfig implements SiteContextModuleConfig, AuthModuleConfig {
-
+export abstract class CmsModuleConfig extends ServerConfig
+  implements SiteContextModuleConfig, AuthModuleConfig {
   site?: {
     baseSite?: string;
     language?: string;
@@ -35,15 +35,14 @@ export abstract class CmsModuleConfig extends ServerConfig implements SiteContex
   };
 
   defaultPageIdForType?: {
-    ProductPage?: string[],
-    CategoryPage?: string[]
+    ProductPage?: string[];
+    CategoryPage?: string[];
   };
 
   cmsComponentMapping?: CMSComponentMappingConfig;
 }
 
 export const defaultCmsModuleConfig: CmsModuleConfig = {
-
   defaultPageIdForType: {
     ProductPage: ['productDetails'],
     CategoryPage: ['productList', 'productGrid', 'category']

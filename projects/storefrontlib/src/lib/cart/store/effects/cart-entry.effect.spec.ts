@@ -17,7 +17,6 @@ const MockOccModuleConfig: OccModuleConfig = {
   }
 };
 
-
 describe('Cart effect', () => {
   let cartService: OccCartService;
   let entryEffects: fromEffects.CartEntryEffects;

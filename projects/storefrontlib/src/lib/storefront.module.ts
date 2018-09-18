@@ -28,7 +28,7 @@ export class StorefrontModule {
   static withConfig(config?: StorefrontModuleConfig): ModuleWithProviders {
     return {
       ngModule: StorefrontModule,
-      providers: [ provideConfig(config) ]
+      providers: [provideConfig(config)]
     };
   }
 }
