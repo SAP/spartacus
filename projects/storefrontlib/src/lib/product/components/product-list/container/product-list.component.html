@@ -1,43 +1,63 @@
 <ng-container *ngIf="model$ | async as model">
-    <div fxLayout="row">
-        <div fxFlex="30%" class="dark">
-            <mat-card style="padding:0">
-                <button mat-button (click)="toggleSidenav()" style="width:100%">
-                    <mat-icon>tune</mat-icon>
-                </button>
-            </mat-card>
-        </div>
+    <div class="y-page">
+        <header class="y-page__header">
+            <h1 class="y-page__title">{{model.pagination.totalResults}} results for cameras</h1>
+        </header>
+        <section class="y-page__section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-lg-3 d-none d-lg-block">
+                        <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6" [activeFacetValueCode]="categoryCode || brandCode"
+                            [searchResult]="model"></y-product-facet-navigation>
+                    </div>
+                    <div class="col-12 col-lg-9">
+                        <div class="y-product-search__sorting--top">
+                            <div class="row">
+                                <div class="col-12 col-lg-4 mr-auto">
+                                    <y-product-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)" [selectedOption]="model.pagination.sort"></y-product-sorting>
+                                </div>
+                                <div class="col-auto">
+                                    <y-product-paging [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-product-paging>
+                                </div>
+                                <div class="col-auto ml-auto ml-lg-0">
+                                    <y-product-view [(mode)]="grid.mode"></y-product-view>
+                                </div>
+                                <div class="col-12 d-lg-none d-xl-none">
+                                    <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6" [activeFacetValueCode]="categoryCode || brandCode"
+                                        [searchResult]="model"></y-product-facet-navigation>
 
-        <div fxFlex *ngIf="model?.pagination" fxLayout="row" fxLayoutAlign="space-between center">
-            <y-product-paging [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-product-paging>
-            <y-product-sorting fxFlex="50px" [sortOptions]="model.sorts" [grid]="grid" (sortListEvent)="sortList($event)"></y-product-sorting>
-        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="y-product-search__item--container">
+                            <div *ngIf="grid.mode==='grid'" class="row">
+                                <y-product-grid-item *ngFor="let product of model?.products" [product]="product" class="col-12 col-sm-6 col-md-4"></y-product-grid-item>
+                            </div>
 
-    </div>
-
-    <mat-sidenav-container class="example-container" *ngIf="model?.products">
-        <mat-sidenav #sidenav class="example-sidenav" mode="side" [opened]="isFacetPanelOpen" style="width:30%">
-            <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6" [activeFacetValueCode]="categoryCode || brandCode"
-                [searchResult]="model"></y-product-facet-navigation>
-        </mat-sidenav>
-        <div>
-            <div *ngIf="grid.mode==='grid'">
-                <mat-grid-list cols="3" cols.sm="2" rowHeight="400px" gutterSize="10px">
-                    <mat-grid-tile *ngFor="let product of model?.products">
-                        <y-product-grid-item class="product-grid-item" [product]="product"></y-product-grid-item>
-                    </mat-grid-tile>
-                </mat-grid-list>
-            </div>
-
-            <div *ngIf="grid.mode==='list'" class="product-list">
-                <div *ngFor="let product of model?.products">
-                    <y-product-list-item class="product-grid-item" [product]="product"></y-product-list-item>
+                            <ng-template [ngIf]="grid.mode==='list'">
+                                <y-product-list-item *ngFor="let product of model?.products" [product]="product"></y-product-list-item>
+                            </ng-template>
+                        </div>
+                        <div class="y-product-search__sorting--bottom">
+                            <div class="row">
+                                <div class="col-12 col-lg-4 mr-auto">
+                                    <y-product-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)" [selectedOption]="model.pagination.sort"></y-product-sorting>
+                                </div>
+                                <div class="col-auto">
+                                    <y-product-paging [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-product-paging>
+                                </div>
+                                <div class="col-auto ml-auto ml-lg-0">
+                                    <y-product-view [(mode)]="grid.mode"></y-product-view>
+                                </div>
+                                <div class="col-12 d-lg-none d-xl-none">
+                                    <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6" [activeFacetValueCode]="categoryCode || brandCode"
+                                        [searchResult]="model"></y-product-facet-navigation>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div *ngIf="grid.mode==='line'">
-                <y-product-line-item *ngFor="let product of model?.products" [product]="product"></y-product-line-item>
-            </div>
-        </div>
-    </mat-sidenav-container>
+        </section>
+    </div>
 </ng-container>
