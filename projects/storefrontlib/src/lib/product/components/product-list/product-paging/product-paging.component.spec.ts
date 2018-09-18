@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductPagingComponent } from './product-paging.component';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('ProductPagingComponent', () => {
   let component: ProductPagingComponent;
@@ -7,6 +8,7 @@ describe('ProductPagingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [NgbPaginationModule.forRoot()],
       declarations: [ProductPagingComponent]
     }).compileComponents();
   }));

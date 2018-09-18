@@ -14,7 +14,7 @@
         <table>
           <tr *ngFor="let entry of entries">
             <td>
-              <y-cart-item [formGroupName]="entry.product.code" [entry]="entry" [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)"
+              <y-cart-item [parent]="form.controls[entry.product.code]" [entry]="entry" [potentialPromotions]="getPotentialPromotionForEntry(cart, entry)"
                 [appliedPromotions]="getAppliedPromotionForEntry(cart, entry)" (remove)="removeEntry($event)" (update)="updateEntry($event)">
               </y-cart-item>
             </td>
