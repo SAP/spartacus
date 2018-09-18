@@ -1,0 +1,7 @@
+@import 'mixins';
+
+$y-link-color: 'primary' !default;
+
+.y-link {
+  @include var-color('color', $y-link-color);
+}
