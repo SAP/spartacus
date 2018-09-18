@@ -62,7 +62,7 @@ describe('CartNotEmptyGuard', () => {
     router = TestBed.get(Router);
   });
 
-  fdescribe('canActivate:', () => {
+  describe('canActivate:', () => {
     let canActivate$;
 
     beforeEach(() => {
