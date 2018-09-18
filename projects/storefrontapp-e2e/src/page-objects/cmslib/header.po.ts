@@ -22,7 +22,7 @@ export class Header {
     by.cssContainingText('a', 'Sign Out')
   );
   readonly searchInput: ElementFinder = this.searchComponent.element(
-    by.css('input[placeholder="Search Box"]')
+    by.css('input.y-search-box__input')
   );
 
   async openLoginModal() {
