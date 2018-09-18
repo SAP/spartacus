@@ -8,8 +8,6 @@ const fs = require('fs');
 const file = 'projects/storefrontapp/src/index.html';
 
 const config = {
-  FetchExternalResources: ['script'],
-  ProcessExternalResources: ['script'],
   MutationEvents: '2.0',
   QuerySelector: false
 };
