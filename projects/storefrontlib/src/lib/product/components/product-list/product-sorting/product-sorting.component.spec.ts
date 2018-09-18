@@ -1,6 +1,7 @@
-import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductSortingComponent } from './product-sorting.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 describe('ProductSortingComponent in product-list', () => {
   let component: ProductSortingComponent;
@@ -8,7 +9,7 @@ describe('ProductSortingComponent in product-list', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MaterialModule],
+      imports: [NgSelectModule, FormsModule],
       declarations: [ProductSortingComponent]
     }).compileComponents();
   }));
@@ -16,7 +17,6 @@ describe('ProductSortingComponent in product-list', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductSortingComponent);
     component = fixture.componentInstance;
-    component.grid = { mode: 'test' };
     fixture.detectChanges();
   });
 
