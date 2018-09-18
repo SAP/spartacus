@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { AddToCartModule } from './components/add-to-cart/add-to-cart.module';
 import { CartDetailsModule } from './components/cart-details/cart-details.module';
 import { CartSharedModule } from './components/cart-shared/cart-shared.module';
@@ -14,6 +16,7 @@ import { metaReducers } from './store/reducers/index';
     AddToCartModule,
     CartDetailsModule,
     CartSharedModule,
+    NgbModule.forRoot(),
     StoreModule.forFeature('cart', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],

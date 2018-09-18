@@ -11,6 +11,8 @@ import { RegisterPageModule } from './register-page/register-page.module';
 import { LoginPageModule } from './login-page/login-page.module';
 import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
+import { ContactPageModule } from './contact-page/contact-page.module';
+import { SalePageModule } from './sale-page/sale-page.module';
 import { HelpPageModule } from './help-page/help-page.module';
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
 // ContentPage: my Account Pages
@@ -23,45 +25,30 @@ import { CategoryPageModule } from './category-page/category-page.module';
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
 
-@NgModule({
-  imports: [
-    CommonModule,
+const pageModules = [
+  OrderHistoryPageModule,
+  HomePageModule,
+  CategoryPageModule,
+  CartPageModule,
+  MultiStepCheckoutPageModule,
+  OrderDetailsPageModule,
+  OrderConfirmationPageModule,
+  ProductPageModule,
+  RegisterPageModule,
+  LoginPageModule,
+  ResetPasswordPageModule,
+  StoreFinderPageModule,
+  ContactPageModule,
+  SalePageModule,
+  HelpPageModule,
+  ResetNewPasswordPageModule,
+  // new pages should be added above this line
+  PageNotFoundModule
+];
 
-    OrderHistoryPageModule,
-    HomePageModule,
-    CategoryPageModule,
-    CartPageModule,
-    MultiStepCheckoutPageModule,
-    OrderDetailsPageModule,
-    OrderConfirmationPageModule,
-    ProductPageModule,
-    RegisterPageModule,
-    LoginPageModule,
-    ResetPasswordPageModule,
-    StoreFinderPageModule,
-    HelpPageModule,
-    ResetNewPasswordPageModule,
-    // new pages should be added above this line
-    PageNotFoundModule
-  ],
+@NgModule({
+  imports: [CommonModule, ...pageModules],
   declarations: [],
-  exports: [
-    OrderHistoryPageModule,
-    HomePageModule,
-    CategoryPageModule,
-    CartPageModule,
-    MultiStepCheckoutPageModule,
-    OrderDetailsPageModule,
-    OrderConfirmationPageModule,
-    ProductPageModule,
-    RegisterPageModule,
-    LoginPageModule,
-    ResetPasswordPageModule,
-    StoreFinderPageModule,
-    HelpPageModule,
-    ResetNewPasswordPageModule,
-    // new pages should be added above this line
-    PageNotFoundModule
-  ]
+  exports: [...pageModules]
 })
 export class PagesModule {}

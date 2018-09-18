@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { BootstrapModule } from '../../../bootstap.module';
+import { BootstrapModule } from '../../../bootstrap.module';
 import { ProductListComponent } from './container/product-list.component';
 import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';

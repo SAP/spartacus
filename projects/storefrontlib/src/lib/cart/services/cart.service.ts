@@ -40,8 +40,8 @@ export class CartService {
           this.cartData.userId = ANONYMOUS_USERID;
         }
 
-        // for login user, whenever there's an existing cart,
-        // we will load the user current cart and merge it into the existing cart
+        // for login user, whenever there's an existing cart, we will load the user
+        // current cart and merge it into the existing cart
         if (this.cartData.userId !== ANONYMOUS_USERID) {
           if (Object.keys(this.cartData.cart).length === 0) {
             this.store.dispatch(

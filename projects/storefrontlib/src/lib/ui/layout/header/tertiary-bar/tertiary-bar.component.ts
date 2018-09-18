@@ -9,7 +9,7 @@ export class TertiaryBarComponent implements OnInit {
   tertiaryNavItems: any[] = [
     {
       label: 'Sale',
-      url: '#'
+      url: '/sale'
     },
     {
       label: 'Find a store',
@@ -17,7 +17,7 @@ export class TertiaryBarComponent implements OnInit {
     },
     {
       label: 'Contact us',
-      url: '#'
+      url: '/contact'
     },
     {
       label: 'Help',
