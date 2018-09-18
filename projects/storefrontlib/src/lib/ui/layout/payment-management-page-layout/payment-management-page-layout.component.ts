@@ -16,7 +16,6 @@ export class PaymentManagementPageLayoutComponent implements OnInit {
 
   constructor(
     private store: Store<fromUserStore.UserState>,
-    // spike-new:
     // tslint:disable-next-line:no-unused-variable max-line-length
     private cartService: CartService, // hack: unused, but it has to be created before CheckoutService, because CartService initializes CartDataService
     private checkoutService: CheckoutService
