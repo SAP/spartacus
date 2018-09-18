@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { defaultServerConfig } from './server-config';
+import { deepMerge } from './utils/deep-merge';
 
 export const Config = new InjectionToken('Configuration');
 export const ConfigChunk = new InjectionToken('ConfigurationChunk');
@@ -14,7 +15,7 @@ export function provideConfig(config: any = {}): Provider {
 }
 
 export function configurationFactory(configChunks: any[]) {
-  return Object.assign({}, ...configChunks);
+  return deepMerge({}, ...configChunks);
 }
 
 @NgModule({
