@@ -1,10 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductListComponent } from './product-list.component';
-import { ProductPagingComponent } from '../product-paging/product-paging.component';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
-import { ProductSortingComponent } from '../product-sorting/product-sorting.component';
 import { ProductListItemComponent } from '../product-list-item/product-list-item.component';
 import { AddToCartComponent } from '../../../../cart/components/add-to-cart/add-to-cart.component';
 import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
@@ -24,8 +22,10 @@ import {
   NgbRatingModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { StarRatingComponent } from '../../../../ui';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
+import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
+import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
 
 describe('ProductListComponent in product-list', () => {
   let store: Store<fromProduct.ProductsState>;
@@ -39,7 +39,7 @@ describe('ProductListComponent in product-list', () => {
         NgbPaginationModule,
         NgbCollapseModule,
         NgbRatingModule,
-        NgSelectModule,
+        PaginationAndSortingModule,
         FormsModule,
         RouterTestingModule,
         StoreModule.forRoot({
@@ -51,11 +51,9 @@ describe('ProductListComponent in product-list', () => {
       ],
       declarations: [
         ProductListComponent,
-        ProductPagingComponent,
         ProductFacetNavigationComponent,
         ProductGridItemComponent,
         ProductListItemComponent,
-        ProductSortingComponent,
         AddToCartComponent,
         PictureComponent,
         ProductViewComponent,
@@ -114,7 +112,7 @@ describe('ProductListComponent in product-list', () => {
   });
 
   it('should change pages', done => {
-    const pagination = new ProductPagingComponent();
+    const pagination = new PaginationComponent();
     pagination.viewPageEvent.subscribe(event => {
       expect(event).toEqual(1);
       component.viewPage(event);
@@ -126,7 +124,7 @@ describe('ProductListComponent in product-list', () => {
   });
 
   it('should change sortings', done => {
-    const pagination = new ProductSortingComponent();
+    const pagination = new SortingComponent();
     pagination.sortListEvent.subscribe(event => {
       expect(event).toEqual('sortCode');
       component.viewPage(event);
