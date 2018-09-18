@@ -1,5 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ControlContainer, FormGroup } from '@angular/forms';
+import { FormGroup, ControlContainer } from '@angular/forms';
+
+export interface Item {
+  product?: any;
+  quantity?: any;
+  basePrice?: any;
+  totalPrice?: any;
+}
 
 @Component({
   selector: 'y-cart-item',
@@ -7,26 +14,36 @@ import { ControlContainer, FormGroup } from '@angular/forms';
   styleUrls: ['./cart-item.component.scss']
 })
 export class CartItemComponent implements OnInit {
-  @Input() entry: any;
-  @Input() disableProductLink = false;
-  @Input() potentialPromotions: any[];
-  @Input() appliedPromotions: any[];
-  parent: FormGroup;
-
-  timeout: any;
+  @Input() compact = false;
+  @Input() item: Item;
+  @Input() potentialProductPromotions: any[];
+  @Input() isReadOnly = false;
 
   @Output() remove = new EventEmitter<any>();
   @Output() update = new EventEmitter<any>();
+
+  parent: FormGroup;
+
   constructor(private controlContainer: ControlContainer) {}
 
   ngOnInit() {
     this.parent = this.controlContainer.control as FormGroup;
   }
-  removeEntry() {
-    this.remove.emit(this.entry);
+
+  isProductOutOfStock(product) {
+    // TODO Move stocklevelstatuses across the app to an enum
+    return (
+      product &&
+      product.stock &&
+      product.stock.stockLevelStatus === 'outOfStock'
+    );
   }
 
-  updateEntry(updatedQuantity: number) {
-    this.update.emit({ entry: this.entry, updatedQuantity });
+  updateItem(updatedQuantity: number) {
+    this.update.emit({ item: this.item, updatedQuantity });
+  }
+
+  removeItem() {
+    this.remove.emit(this.item);
   }
 }

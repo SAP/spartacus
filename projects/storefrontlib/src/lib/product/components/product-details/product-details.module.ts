@@ -3,9 +3,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { MaterialModule } from '../../../material.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
-
 import { ProductDetailsComponent } from './container/product-details.component';
 import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
 import { ProductImagesComponent } from './product-images/product-images.component';
@@ -13,7 +10,8 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
 import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
 
 import { CmsModule } from '../../../cms/cms.module'; // some slots are loaded inside components (i.e. tabs)
-
+import { BootstrapModule } from '../../../bootstrap.module';
+// guards
 import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
 import { ComponentsModule } from './../../../ui/components/components.module';
 import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-cart.module';
@@ -26,10 +24,9 @@ import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-car
     ReactiveFormsModule,
     ComponentsModule,
     CartSharedModule,
-    MaterialModule,
-    FlexLayoutModule,
     CmsModule,
-    AddToCartModule
+    AddToCartModule,
+    BootstrapModule
   ],
   declarations: [
     ProductSummaryComponent,

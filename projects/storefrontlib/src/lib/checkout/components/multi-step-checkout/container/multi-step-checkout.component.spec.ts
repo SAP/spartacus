@@ -20,6 +20,7 @@ import { CheckoutService } from './../../../services/checkout.service';
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 
 const address: Address = {
+  id: 'mock address id',
   firstName: 'John',
   lastName: 'Doe',
   titleCode: 'mr',
@@ -32,6 +33,7 @@ const address: Address = {
 };
 
 const paymentDetails = {
+  id: 'mock payment id',
   accountHolderName: 'Name',
   cardNumber: '123456789',
   cardType: 'Visa',
@@ -45,6 +47,7 @@ describe('MultiStepCheckoutComponent', () => {
   let component: MultiStepCheckoutComponent;
   let fixture: ComponentFixture<MultiStepCheckoutComponent>;
   let service: CheckoutService;
+  let cartService: CartService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -74,15 +77,18 @@ describe('MultiStepCheckoutComponent', () => {
     component = fixture.componentInstance;
     service = TestBed.get(CheckoutService);
     store = TestBed.get(Store);
+    cartService = TestBed.get(CartService);
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(component, 'addAddress').and.callThrough();
+    spyOn(component, 'nextStep').and.callThrough();
     spyOn(service, 'createAndSetAddress').and.callThrough();
     spyOn(service, 'setDeliveryAddress').and.callThrough();
     spyOn(service, 'setDeliveryMode').and.callThrough();
     spyOn(service, 'createPaymentDetails').and.callThrough();
     spyOn(service, 'setPaymentDetails').and.callThrough();
     spyOn(service, 'placeOrder').and.callThrough();
+    spyOn(cartService, 'loadCartDetails').and.callThrough();
   });
 
   it('should be created', () => {
@@ -95,6 +101,8 @@ describe('MultiStepCheckoutComponent', () => {
     component.ngOnInit();
     component.cart$.subscribe(cart => expect(cart).toEqual(mockCartData));
     expect(component.step).toEqual(1);
+
+    expect(cartService.loadCartDetails).toHaveBeenCalled();
   });
 
   it('should call processSteps() to process step 1: set delivery address', () => {
@@ -106,7 +114,7 @@ describe('MultiStepCheckoutComponent', () => {
       of({})
     );
     component.processSteps();
-    expect(component.step).toEqual(2);
+    expect(component.nextStep).toHaveBeenCalledWith(2);
   });
 
   it('should call processSteps() to process step 2: select delivery mode', () => {
@@ -118,7 +126,7 @@ describe('MultiStepCheckoutComponent', () => {
       of({})
     );
     component.processSteps();
-    expect(component.step).toEqual(3);
+    expect(component.nextStep).toHaveBeenCalledWith(3);
   });
 
   it('should call processSteps() to process step 3: set payment info', () => {
@@ -131,7 +139,7 @@ describe('MultiStepCheckoutComponent', () => {
       of({})
     );
     component.processSteps();
-    expect(component.step).toEqual(4);
+    expect(component.nextStep).toHaveBeenCalledWith(4);
   });
 
   it('should call processSteps() to process step 4: place order', () => {
@@ -153,13 +161,30 @@ describe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call setStep()', () => {
-    component.step = 2;
-    component.setStep(1);
-    expect(component.step).toBe(1);
+    component.setStep(2);
+    expect(component.nextStep).toHaveBeenCalledWith(2);
+  });
 
-    component.step = 2;
-    component.setStep(3);
-    expect(component.step).toBe(2);
+  it('should call nextStep()', () => {
+    // next step is 3
+    component.nextStep(3);
+    // previous 2 steps are complete
+    expect(component.navs[0].status.completed).toBeTruthy();
+    expect(component.navs[1].status.completed).toBeTruthy();
+    // step3 is active, and enabled, progress bar is on
+    expect(component.navs[2].status.active).toBeTruthy();
+    expect(component.navs[2].status.disabled).toBeFalsy();
+    expect(component.navs[2].progressBar).toBeTruthy();
+    // except step3, other steps are not active
+    // step1, progress bar is on
+    expect(component.navs[0].status.active).toBeFalsy();
+    expect(component.navs[0].progressBar).toBeTruthy();
+    // step2, progress bar is on
+    expect(component.navs[1].status.active).toBeFalsy();
+    expect(component.navs[1].progressBar).toBeTruthy();
+    // step4, progress bar is off
+    expect(component.navs[3].status.active).toBeFalsy();
+    expect(component.navs[3].progressBar).toBeFalsy();
   });
 
   it('should call addAddress() with new created address', () => {
@@ -177,6 +202,16 @@ describe('MultiStepCheckoutComponent', () => {
     expect(service.setDeliveryAddress).toHaveBeenCalledWith(address);
   });
 
+  it('should call addAddress() with address already set to the cart, then go to next step direclty', () => {
+    component.deliveryAddress = address;
+
+    spyOn(store, 'select').and.returnValues(of(address), of([]));
+    component.addAddress({ address: address, newAddress: false });
+
+    expect(component.nextStep).toHaveBeenCalledWith(2);
+    expect(service.setDeliveryAddress).not.toHaveBeenCalledWith(address);
+  });
+
   it('should call setDeliveryMode()', () => {
     const deliveryMode: any = {
       deliveryModeId: 'testId'
@@ -185,6 +220,20 @@ describe('MultiStepCheckoutComponent', () => {
 
     component.setDeliveryMode(deliveryMode);
     expect(service.setDeliveryMode).toHaveBeenCalledWith(
+      deliveryMode.deliveryModeId
+    );
+  });
+
+  it('should call setDeliveryMode() with the delivery mode already set to cart, go to next step directly', () => {
+    const deliveryMode: any = {
+      deliveryModeId: 'testId'
+    };
+    component.shippingMethod = 'testId';
+    spyOn(store, 'select').and.returnValues(of(deliveryMode), of([]));
+    component.setDeliveryMode(deliveryMode);
+
+    expect(component.nextStep).toHaveBeenCalledWith(3);
+    expect(service.setDeliveryMode).not.toHaveBeenCalledWith(
       deliveryMode.deliveryModeId
     );
   });
@@ -199,7 +248,6 @@ describe('MultiStepCheckoutComponent', () => {
 
     component.deliveryAddress = address;
     component.addPaymentInfo({ payment: paymentDetails, newPayment: true });
-
     expect(service.createPaymentDetails).toHaveBeenCalledWith(paymentDetails);
   });
 
@@ -219,11 +267,34 @@ describe('MultiStepCheckoutComponent', () => {
     expect(service.setPaymentDetails).toHaveBeenCalledWith(paymentDetails);
   });
 
+  it('should call addPaymentInfo() with paymenent already set to cart, then go to next step direclty', () => {
+    component.paymentDetails = paymentDetails;
+    spyOn(store, 'select').and.returnValues(
+      of(paymentDetails),
+      of([]),
+      of([]),
+      of([])
+    );
+
+    component.deliveryAddress = address;
+    component.addPaymentInfo({ payment: paymentDetails, newPayment: false });
+    expect(component.nextStep).toHaveBeenCalledWith(4);
+    expect(service.setPaymentDetails).not.toHaveBeenCalledWith(paymentDetails);
+  });
+
   it('should call placeOrder()', () => {
     const orderDetails = 'mockOrderDetails';
     spyOn(store, 'select').and.returnValues(of(orderDetails));
 
     component.placeOrder();
     expect(service.placeOrder).toHaveBeenCalled();
+  });
+
+  it('should call toggleTAndC(toggle)', () => {
+    expect(component.tAndCToggler).toBeFalsy();
+    component.toggleTAndC();
+    expect(component.tAndCToggler).toBeTruthy();
+    component.toggleTAndC();
+    expect(component.tAndCToggler).toBeFalsy();
   });
 });

@@ -4,13 +4,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FooterNavigationComponent } from './footer-navigation.component';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
-import { ConfigService } from '../../cms/config.service';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { MatListModule, MatCardModule } from '@angular/material';
 import { NavigationModule } from '../navigation/navigation.module';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-class UseConfigService {
+class UseCmsModuleConfig {
   cmsComponentMapping = {
     FooterNavigationComponent: 'FooterNavigationComponent'
   };
@@ -48,7 +48,7 @@ describe('FooterNavigationComponent', () => {
         NavigationModule
       ],
       declarations: [FooterNavigationComponent],
-      providers: [{ provide: ConfigService, useClass: UseConfigService }]
+      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

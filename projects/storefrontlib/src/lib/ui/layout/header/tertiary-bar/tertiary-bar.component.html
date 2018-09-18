@@ -1,0 +1,7 @@
+<nav class="y-tertiary-bar">
+  <ul class="y-tertiary-bar__list nav">
+    <li class="y-tertiary-bar__item nav-item" *ngFor="let item of tertiaryNavItems">
+      <a class="y-tertiary-bar__link nav-link" [routerLink]="[item.url]">{{ item.label }}</a>
+    </li>
+  </ul>
+</nav>

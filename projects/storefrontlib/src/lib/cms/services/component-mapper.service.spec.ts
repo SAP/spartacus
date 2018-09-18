@@ -1,7 +1,7 @@
 import { Component, NgModule } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
 import { ComponentMapperService } from './component-mapper.service';
-import { ConfigService } from '../config.service';
+import { CmsModuleConfig } from '../cms-module-config';
 
 @Component({
   template: 'test'
@@ -17,7 +17,7 @@ export class TestComponent {
 })
 export class TestModule {}
 
-export class MockConfigService {
+export class MockCmsModuleConfig {
   cmsComponentMapping = {
     CMSTestComponent: 'TestComponent'
   };
@@ -31,7 +31,7 @@ describe('ComponentMapperService', () => {
       imports: [TestModule],
       providers: [
         ComponentMapperService,
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
       ]
     });
 

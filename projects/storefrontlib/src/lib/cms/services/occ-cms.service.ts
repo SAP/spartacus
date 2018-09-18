@@ -4,13 +4,13 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { PageContext, PageType } from '../../routing/models/page-context.model';
 import { IdList } from './../models/idList.model';
-import { ConfigService } from '../config.service';
+import { CmsModuleConfig } from '../cms-module-config';
 
 @Injectable()
 export class OccCmsService {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-  constructor(private http: HttpClient, private config: ConfigService) {}
+  constructor(private http: HttpClient, private config: CmsModuleConfig) {}
 
   protected getBaseEndPoint() {
     return (

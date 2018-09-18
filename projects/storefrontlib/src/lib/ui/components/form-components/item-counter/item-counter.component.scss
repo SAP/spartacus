@@ -1,49 +1,55 @@
-.item-counter {
-  &.focused {
-    box-shadow: 0 1px 1px white;
-  }
-  background: white;
-  border-radius: 3px;
-  overflow: hidden;
-  & > div > div {
-    display: flex;
-    align-items: center;
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+@import '~bootstrap/scss/button-group';
 
-    & > div {
-      display: flex;
-      flex-direction: row;
-    }
-  }
-  /* For Firefox */
-  input[type='number'] {
-    -moz-appearance: textfield;
-  }
-  /* Webkit browsers like Safari and Chrome */
-  input[type='number']::-webkit-inner-spin-button,
-  input[type='number']::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  input {
-    font-size: 16px;
-    font-weight: 400;
-    text-align: center;
-    width: 40px;
-    height: 30px;
-    margin: 0 5px 0 5px;
-  }
+// y-item-counter color variables
+$y-item-counter-border-color: 'light' !default;
+$y-item-counter-border: 1px solid !default;
+$y-item-counter-border-radius: 4px !default;
 
-  button {
-    padding: 3px;
-    border-radius: 0;
-    line-height: 1;
-    padding: 7px 7px;
-    background: #647be0;
-    color: #fff;
-    font-weight: 500;
+$y-item-counter-value-border: 1px solid !default;
+$y-item-counter-value-trbl-padding: 12px 18px 12px 18px !default;
+$y-item-counter-value-height: 46px !default;
+$y-item-counter-value-width: 48px !default;
+
+$y-item-counter-action-height: 48px !default;
+$y-item-counter-action-width: 40px !default;
+$y-item-counter-action-color: 'text' !default;
+$y-item-counter-action-background-color: 'transparent' !default;
+$y-item-counter-action-disabled-color: 'light' !important;
+$y-item-counter-action-trbl-margin: 0 0 0 0 !default;
+
+$y-item-counter-action-trbl-margin: 0 !default;
+
+.y-item-counter {
+  border-radius: $y-item-counter-border-radius;
+  border: $y-item-counter-border;
+  @include var-color('border-color', $y-item-counter-border-color);
+  &__value {
+    border-left: $y-item-counter-value-border;
+    border-right: $y-item-counter-value-border;
+    @include var-color('border-left-color', $y-item-counter-border-color);
+    @include var-color('border-right-color', $y-item-counter-border-color);
+    padding: $y-item-counter-value-trbl-padding;
+    max-height: $y-item-counter-value-height;
+    min-width: $y-item-counter-value-width;
+  }
+  &__action {
+    max-height: $y-item-counter-action-height;
+    min-width: $y-item-counter-action-width;
+    border: none;
+    @include var-color('color', $y-item-counter-action-color);
+    @include var-color(
+      'background-color',
+      $y-item-counter-action-background-color
+    );
+    @include type('3');
+    margin: $y-item-counter-action-trbl-margin;
+
     &:disabled {
-      background: rgba(0, 0, 0, 0.1);
-      color: rgba(0, 0, 0, 0.4);
+      @include var-color('color', $y-item-counter-action-disabled-color);
+      opacity: 1;
     }
   }
 }

@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators
 } from '@angular/forms';
@@ -12,6 +11,7 @@ import { take, tap, switchMap } from 'rxjs/operators';
 import * as fromAuthStore from '../../../auth/store';
 import * as fromRouting from '../../../routing/store';
 import * as fromUserStore from '../../store';
+import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
 
 @Component({
   selector: 'y-register',
@@ -26,8 +26,18 @@ export class RegisterComponent implements OnInit, OnDestroy {
       titleCode: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, this.validatePassword]],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.email,
+          CustomFormValidators.emailDomainValidator
+        ]
+      ],
+      password: [
+        '',
+        [Validators.required, CustomFormValidators.passwordValidator]
+      ],
       passwordconf: ['', Validators.required],
       newsletter: [false],
       termsandconditions: [false, Validators.requiredTrue]
@@ -48,7 +58,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       })
     );
-
     this.sub = this.store
       .select(fromAuthStore.getUserToken)
       .pipe(
@@ -86,14 +95,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (this.sub) {
       this.sub.unsubscribe();
     }
-  }
-  private validatePassword(fc: FormControl) {
-    const password = fc.value as string;
-    return password.match(
-      '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^*()_+{};:.,]).{6,}$'
-    )
-      ? null
-      : { InvalidPassword: true };
   }
 
   private matchPassword(ac: AbstractControl) {

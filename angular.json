@@ -50,6 +50,7 @@
               "vendorChunk": false,
               "buildOptimizer": true,
               "serviceWorker": true
+              "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             }
           }
         },
