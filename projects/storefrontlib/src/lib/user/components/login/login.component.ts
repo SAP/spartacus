@@ -24,8 +24,10 @@ import * as fromRouting from '../../../routing/store';
 export class LoginComponent implements OnInit, OnDestroy {
   user$: Observable<any>;
   isLogin = false;
+  currentUrl = '';
 
   subscription: Subscription;
+  routingSub: Subscription;
 
   constructor(
     private store: Store<fromStore.UserState>,
@@ -39,8 +41,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       const target = event.target || event.srcElement;
       if (
-        target.innerText === 'Sign Out' ||
-        (target.attributes.href && target.attributes.href.nodeValue === '/')
+        target.attributes.href &&
+        target.attributes.href.nodeValue === this.currentUrl
       ) {
         this.logout();
       }
@@ -48,6 +50,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.routingSub = this.store
+      .select(fromRouting.getRouterState)
+      .subscribe(routerState => (this.currentUrl = routerState.state.url));
+
     this.user$ = this.store.select(fromStore.getDetails);
     this.subscription = this.store
       .select(fromAuthStore.getUserToken)
@@ -88,6 +94,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+    if (this.routingSub) {
+      this.routingSub.unsubscribe();
     }
   }
 }
