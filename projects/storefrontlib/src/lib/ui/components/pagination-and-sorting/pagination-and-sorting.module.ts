@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { BootstrapModule } from './../../../bootstap.module';
+import { BootstrapModule } from './../../../bootstrap.module';
 /* Components */
 import { PaginationComponent } from './pagination/pagination.component';
 import { SortingComponent } from './sorting/sorting.component';
