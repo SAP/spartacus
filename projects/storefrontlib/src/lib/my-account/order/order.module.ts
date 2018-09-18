@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { BootstrapModule } from '../../bootstap.module';
+import { BootstrapModule } from '../../bootstrap.module';
 import { PaginationAndSortingModule } from '../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 /* component */
 import { OrderHistoryComponent } from './order-history/order-history.component';

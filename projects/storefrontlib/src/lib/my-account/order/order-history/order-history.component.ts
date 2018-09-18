@@ -1,11 +1,11 @@
-import { Observable, Subscription, of } from 'rxjs';
-import { tap, switchMap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import * as fromUserStore from '../../../../user/store';
-import * as fromAuthStore from './../../../../auth/store';
+import * as fromUserStore from '../../../user/store';
+import * as fromAuthStore from '../../../auth/store';
 import { Store } from '@ngrx/store';
 
-import * as fromRouting from '../../../../routing/store';
+import * as fromRouting from '../../../routing/store';
 
 @Component({
   selector: 'y-order-history',
@@ -50,8 +50,9 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
               pageSize: this.PAGE_SIZE
             })
           );
+        } else {
+          this.sortType = orders.pagination.sort;
         }
-        this.sortType = orders.pagination.sort;
       })
     );
 
