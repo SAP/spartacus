@@ -18,11 +18,10 @@ describe('AddedToCartDialogComponent', () => {
         FormsModule,
         RouterTestingModule,
         CartSharedModule,
-        NgbModule.forRoot(),
+        NgbModule.forRoot()
       ],
       declarations: [AddedToCartDialogComponent],
-      providers: [
-      ]
+      providers: []
     }).compileComponents();
   }));
 
