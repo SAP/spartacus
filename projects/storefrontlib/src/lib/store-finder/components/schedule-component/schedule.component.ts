@@ -12,7 +12,7 @@ export class ScheduleComponent implements OnChanges {
   @Input() location: any;
   days: Date[] = null;
 
-  constructor(public storeDataService: StoreDataService) {}
+  constructor(private storeDataService: StoreDataService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     const initialDate = this.getInitialDate();
@@ -33,5 +33,21 @@ export class ScheduleComponent implements OnChanges {
     currentDate.setDate(currentDate.getDate() - currentDate.getDay());
 
     return currentDate;
+  }
+
+  /**
+   * Returns the store's opening time for the given date
+   * @param date date
+   */
+  protected getStoreOpeningTime(date: Date): Date {
+    return this.storeDataService.getStoreOpeningTime(this.location, date);
+  }
+
+  /**
+   * Returns the store's closing time for the given date
+   * @param date date
+   */
+  protected getStoreClosingTime(date: Date): Date {
+    return this.storeDataService.getStoreClosingTime(this.location, date);
   }
 }

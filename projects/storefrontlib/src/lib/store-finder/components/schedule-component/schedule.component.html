@@ -2,10 +2,9 @@
 <div class="container scheduleWrapper">
     <div *ngFor="let day of days" class="row">
         <div class="days col-lg-6">{{day | date:'EEE'}}</div>
-        <div *ngIf="storeDataService.getStoreOpeningTime(location, day) !== null" class="hours col-lg-6">
-            {{storeDataService.getStoreOpeningTime(location, day) | date: 'HH:mm'}} - {{storeDataService.getStoreClosingTime(location,
-            day) | date: 'HH:mm'}}
+        <div *ngIf="getStoreOpeningTime(day) !== null" class="hours col-lg-6">
+            {{getStoreOpeningTime(day) | date: 'HH:mm'}} - {{getStoreClosingTime(day) | date: 'HH:mm'}}
         </div>
-        <div *ngIf="storeDataService.getStoreOpeningTime(location, day) === null" class="hours col-lg-6">label: closed</div>
+        <div *ngIf="getStoreOpeningTime(day) === null" class="hours col-lg-6">closed</div>
     </div>
 </div>
