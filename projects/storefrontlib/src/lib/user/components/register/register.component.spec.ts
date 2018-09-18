@@ -76,6 +76,15 @@ describe('RegisterComponent', () => {
       component.ngOnInit();
       expect(component.userRegistrationForm.valid).toBeFalsy();
     });
+
+    it('should contains error if repassword is different than password', () => {
+      component.ngOnInit();
+      component.userRegistrationForm.controls['password'].setValue('test');
+      component.userRegistrationForm.controls['passwordconf'].setValue('test1');
+
+      const isNotEqual = component.userRegistrationForm.hasError('NotEqual');
+      expect(isNotEqual).toBeTruthy();
+    });
   });
 
   describe('submit', () => {
