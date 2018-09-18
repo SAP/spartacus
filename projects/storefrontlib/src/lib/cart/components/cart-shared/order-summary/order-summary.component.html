@@ -1,27 +1,36 @@
-<div class="order-summary">
-    <h3>Order Summary</h3>
-    <div *ngIf="cart">
-        <div>
-            Subtotal: {{cart.totalPrice?.formattedValue}}
-        </div>
+<div class="y-order-summary">
 
-        <div>
-            Sales Tax: {{cart.totalTax?.formattedValue}}
-        </div>
+    <h4>Order Summary</h4>
 
-        <div>
-            Discount: {{cart.totalDiscounts?.formattedValue}}
-        </div>
+    <div class="y-order-summary__partials" *ngIf="cart">
 
-        <div>
-            Total: {{cart.totalPriceWithTax?.formattedValue}}
+        <div class="y-order-summary__row">
+            <div class="col-6 y-order-summary__label">Subtotal: </div>
+            <div class="col-6 y-order-summary__amount">{{cart.totalPrice?.formattedValue}}</div>
+        </div>
+        <div class="y-order-summary__row">
+            <div class="col-6 y-order-summary__label">Estimated shipping: </div>
+            <!-- TODO: Implement shipping price -->
+            <div class="col-6 y-order-summary__amount">Free</div>
+        </div>
+        <div class="y-order-summary__row y-order-summary__total-savings">
+            <div class="col-6 y-order-summary__label">Discount: </div>
+            <div class="col-6 y-order-summary__amount">{{cart.totalDiscounts?.formattedValue}}</div>
+        </div>
+        <div class="y-order-summary__row">
+            <div class="col-6 y-order-summary__label">Sales Tax:</div>
+            <div class="col-6 y-order-summary__amount">{{cart.totalTax?.formattedValue}}</div>
+        </div>
+        <div class="y-order-summary__row y-order-summary__total-final">
+            <div class="col-6 y-order-summary__label">Total: </div>
+            <div class="col-6 y-order-summary__amount">{{cart.totalPriceWithTax?.formattedValue}}</div>
         </div>
     </div>
-</div>
 
-<div class="cartproline" *ngIf="cart.appliedOrderPromotions?.length > 0">
-    <h3>Received Promotions</h3>
-    <div class="promotion" *ngFor="let promotion of cart.appliedOrderPromotions">
-        {{promotion.description}}
+    <div class="y-order-summary__promotions" *ngIf="cart.appliedOrderPromotions?.length > 0">
+        <strong *ngFor="let promotion of cart.appliedOrderPromotions">
+            {{promotion.description}}
+        </strong>
     </div>
+
 </div>

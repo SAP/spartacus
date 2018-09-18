@@ -31,7 +31,7 @@
     <h4 class="y-review__cart-total-header d-block d-lg-none d-xl-none">Order Items</h4>
     <div class="y-review__cart-item col-md-12 col-lg-12" *ngIf="entries$ | async as entries">
         <div *ngFor="let entry of entries">
-            <y-cart-item [isReadOnly]="true" [entry]="entry"></y-cart-item>
+            <y-cart-item [isReadOnly]="true" [item]="entry"></y-cart-item>
         </div>
     </div>
 </div>
