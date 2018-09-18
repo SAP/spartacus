@@ -12,6 +12,9 @@ import { LoginPageModule } from './login-page/login-page.module';
 import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
 import { PaymentManagementPageModule } from './payment-management-page/payment-management-page.module';
+import { ContactPageModule } from './contact-page/contact-page.module';
+import { SalePageModule } from './sale-page/sale-page.module';
+import { HelpPageModule } from './help-page/help-page.module';
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
 
 // ContentPage: my Account Pages
@@ -41,6 +44,9 @@ import { ProductPageModule } from './product-page/product-page.module';
     ResetPasswordPageModule,
     StoreFinderPageModule,
     PaymentManagementPageModule,
+    ContactPageModule,
+    SalePageModule,
+    HelpPageModule,
     ResetNewPasswordPageModule,
     // new pages should be added above this line
     PageNotFoundModule
@@ -60,6 +66,9 @@ import { ProductPageModule } from './product-page/product-page.module';
     ResetPasswordPageModule,
     StoreFinderPageModule,
     PaymentManagementPageModule,
+    ContactPageModule,
+    SalePageModule,
+    HelpPageModule,
     ResetNewPasswordPageModule,
     // new pages should be added above this line
     PageNotFoundModule

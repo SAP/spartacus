@@ -35,9 +35,6 @@
             "scripts": []
           },
           "configurations": {
-            "development": {
-              "tsConfig": "tsconfig.dev.json"
-            },
             "production": {
               "fileReplacements": [
                 {
@@ -55,7 +52,8 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": true,
+              "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             }
           }
         },
@@ -67,9 +65,6 @@
           "configurations": {
             "production": {
               "browserTarget": "storefrontapp:build:production"
-            },
-            "development": {
-              "browserTarget": "storefrontapp:build:development"
             }
           }
         },

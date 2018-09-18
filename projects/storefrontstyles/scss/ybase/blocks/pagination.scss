@@ -1,35 +1,45 @@
-@import 'theme.scss';
+@import 'theme';
+@import 'mixins';
 @import '~bootstrap/scss/pagination';
+
+$y-pagination-page-action-trbl-padding: 12px 14px 12px 14px !default;
+$y-pagination-page-action-color: 'secondary' !default;
+
+$y-pagination-page-link-trbl-padding: 12px 17px 12px 17px !default;
+$y-pagination-page-link-color: 'text' !default;
+$y-pagination-page-link-hover-color: 'inverse' !default;
+$y-pagination-page-link-hover-background-color: 'primary' !default;
+
+$y-pagination-page-link-disabled-color: 'light' !default;
 
 .page-item {
   &.disabled {
     .page-link {
       &[aria-label='Previous'],
       &[aria-label='Next'] {
-        color: theme-color('light');
+        @include var-color('color', $y-pagination-page-link-disabled-color);
       }
     }
   }
+
   .page-link {
-    padding: 10px 24px;
-    font-size: 18px;
-    color: theme-color('text');
+    padding: $y-pagination-page-link-trbl-padding;
+    font-size: $h4-font-size;
+    @include var-color('color', $y-pagination-page-link-color);
 
     &:hover {
-      background-color: theme-color('primary');
-      color: theme-color('inverse');
+      @include var-color(
+        'background-color',
+        $y-pagination-page-link-hover-background-color
+      );
+      @include var-color('color', $y-pagination-page-link-hover-color);
       font-weight: $font-weight-bold;
     }
 
     &[aria-label='Previous'],
     &[aria-label='Next'] {
-      padding: 10px 15px;
-      color: theme-color('secondary');
-    }
-
-    span {
-      position: relative;
-      bottom: 1px;
+      padding: $y-pagination-page-action-trbl-padding;
+      @include var-color('color', $y-pagination-page-action-color);
     }
   }
 }
