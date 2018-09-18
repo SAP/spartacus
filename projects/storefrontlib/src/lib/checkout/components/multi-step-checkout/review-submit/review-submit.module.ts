@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { CardModule } from '../../../../ui/components/card/card.module';
 import { ReviewSubmitComponent } from './review-submit.component';
-import { CartSharedModule } from '../../../../cart/components/cart-shared/cart-shared.module';
+import { CartModule } from '../../../../cart/cart.module';
 
 @NgModule({
-  imports: [CommonModule, CardModule, CartSharedModule],
+  imports: [CommonModule, CardModule, CartModule],
   declarations: [ReviewSubmitComponent],
   entryComponents: [ReviewSubmitComponent],
   exports: [ReviewSubmitComponent]
