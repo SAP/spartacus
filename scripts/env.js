@@ -19,9 +19,13 @@ JSDOM.fromFile(file, config).then(dom => {
   meta.name = 'occ-backend-base-url';
   document.getElementsByTagName('head')[0].appendChild(meta);
 
-  fs.writeFile(file, document.documentElement.outerHTML, function(error) {
-    if (error) {
-      console.log('Error' + error);
+  fs.writeFile(
+    file,
+    '<!doctype html>' + document.documentElement.outerHTML,
+    function(error) {
+      if (error) {
+        console.log('Error writing file: ' + error);
+      }
     }
-  });
+  );
 });
