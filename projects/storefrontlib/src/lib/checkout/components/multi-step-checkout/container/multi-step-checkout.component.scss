@@ -1,79 +1,251 @@
-/*progressbar*/
-.progressbar {
-  overflow: hidden;
-  /*CSS counters to number the steps*/
-  counter-reset: step;
-  width: 50%;
-  /*margin: 0 auto 5px;*/
-}
-.progressbar li {
-  list-style-type: none;
-  color: black;
-  text-transform: uppercase;
-  font-size: 12px;
-  width: 25%;
-  float: left;
-  position: relative;
-}
-.progressbar li:before {
-  content: counter(step);
-  counter-increment: step;
-  width: 30px;
-  line-height: 30px;
-  display: block;
-  font-size: 12px;
-  color: #333;
-  background: gray;
-  border-radius: 10%;
-  /*margin: 0 auto 5px auto;*/
-}
-/*progressbar connectors*/
-.progressbar li:after {
-  content: '';
-  width: 100%;
-  height: 2px;
-  background: green;
-  position: absolute;
-  left: -100%;
-  top: 11px;
-  z-index: -1; /*put it behind the numbers*/
-}
-.progressbar li:first-child:after {
-  /*connector not needed before the first step*/
-  content: none;
-}
-/*marking active/completed steps green*/
-/*The number of the step and the connector before it = green*/
-.progressbar li.active:before,
-.progressbar li.active:after {
-  background: rgb(255, 99, 71);
-  color: white;
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+// y-multi-step-checkout color variables
+$y-multi-step-checkout-progress-bar-color: 'primary' !default;
+$y-multi-step-checkout-media-background-color: 'background' !default;
+$y-multi-step-checkout-nav-list-media-border-color: 'light' !default;
+$y-multi-step-checkout-media-border-color: 'light' !default;
+
+// y-multi-step-checkout variables
+$y-multi-step-checkout-padding: 2.5rem 0 !default;
+$y-multi-step-checkout-no-padding: 0 !default;
+$y-multi-step-checkout-no-margin: 0 !default;
+$y-multi-step-checkout-no-margin-bottom: 0 !default;
+
+$y-multi-step-checkout-nav-margin-bottom: 0 !default;
+
+$y-multi-step-checkout-nav-item-padding: 0 0 1.375rem 0 !default;
+$y-multi-step-checkout-nav-item-before-padding: 0 0.5rem !default;
+
+$y-multi-step-checkout-nav-list-padding: 0 !default;
+$y-multi-step-checkout-nav-list-margin-bottom: 0 !default;
+$y-multi-step-checkout-nav-list-media-line-height: 4.75rem !default;
+$y-multi-step-checkout-nav-list-media-border-top: 1px solid !default;
+$y-multi-step-checkout-nav-list-media-md-padding: 3.5rem !default;
+$y-multi-step-checkout-nav-list-media-sm-padding: 1.375rem !default;
+
+$y-multi-step-checkout-nav-link-cursor: pointer !default;
+$y-multi-step-checkout-nav-link-disabled-cursor: not-allowed !default;
+
+$y-multi-step-checkout-progressbar-border-bottom: 5px solid !default;
+
+$y-multi-step-checkout-place-order-padding: 0 1rem !default;
+$y-multi-step-checkout-place-order-form-check-input-size: 1.375rem !default;
+$y-multi-step-checkout-place-order-btn-margin-top: 1.25rem !default;
+
+// Media Queries
+$y-multi-step-checkout-media-border: 1px solid;
+$y-multi-step-checkout-media-margin-bottom: 2.375rem !default;
+$y-multi-step-checkout-media-col-md-7-padding: 4.375rem !default;
+$y-multi-step-checkout-media-col-sm-7-padding: 1.375rem !default;
+$y-multi-step-checkout-media-col-md-12-padding: 0 4.375rem 1.875rem 4.375rem !default;
+$y-multi-step-checkout-media-col-sm-12-padding: 0 2.25rem 1.25rem 2.25rem !default;
+$y-multi-step-checkout-btn-padding-bottom: 1rem !default;
+$y-multi-step-checkout-btn-md-padding: 0 3.5rem 1.25rem 0 !default;
+$y-multi-step-checkout-btn-sm-padding: 1.25rem !default;
+$y-multi-step-checkout-btns-margin-bottom: 1rem !default;
+$y-multi-step-checkout-btns-padding: 0 !default;
+
+.y-multi-step-checkout {
+  padding: $y-multi-step-checkout-padding;
+
+  &__nav {
+    @include type('4', 'semi');
+    margin-bottom: $y-multi-step-checkout-nav-margin-bottom;
+
+    &-list {
+      display: flex;
+      flex-direction: row;
+      list-style: none;
+      padding: $y-multi-step-checkout-nav-list-padding;
+      margin-bottom: $y-multi-step-checkout-nav-list-margin-bottom;
+    }
+
+    &-item {
+      color: theme-color('text');
+      padding: $y-multi-step-checkout-nav-item-padding;
+
+      &.progressbar {
+        border-bottom: $y-multi-step-checkout-progressbar-border-bottom;
+        @include var-color(
+          'border-bottom-color',
+          $y-multi-step-checkout-progress-bar-color
+        );
+      }
+
+      &::before {
+        padding: $y-multi-step-checkout-nav-item-before-padding;
+        content: '>';
+      }
+
+      &:first-child::before {
+        content: '';
+        padding: $y-multi-step-checkout-no-padding;
+      }
+
+      &.is-disabled {
+        color: theme-color('light');
+      }
+    }
+
+    &-link,
+    &-link:hover {
+      cursor: $y-multi-step-checkout-nav-link-cursor;
+
+      &.is-disabled {
+        color: theme-color('light');
+        cursor: $y-multi-step-checkout-nav-link-disabled-cursor;
+      }
+
+      &.is-active {
+        color: theme-color('primary');
+      }
+    }
+
+    &--media {
+      &:last-child {
+        border-bottom: $y-multi-step-checkout-media-border;
+        @include var-color(
+          'border-color',
+          $y-multi-step-checkout-media-border-color
+        );
+      }
+    }
+
+    &-list--media {
+      @include type('3');
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      line-height: $y-multi-step-checkout-nav-list-media-line-height;
+      min-width: 100%;
+      border-top: $y-multi-step-checkout-nav-list-media-border-top;
+      @include var-color(
+        'border-color',
+        $y-multi-step-checkout-nav-list-media-border-color
+      );
+      margin-bottom: $y-multi-step-checkout-no-margin;
+
+      button {
+        text-transform: uppercase;
+        font-weight: $font-weight-bold;
+      }
+
+      @include media-breakpoint-down(md) {
+        padding-left: $y-multi-step-checkout-nav-list-media-md-padding;
+        padding-right: $y-multi-step-checkout-nav-list-media-md-padding;
+      }
+
+      @include media-breakpoint-down(sm) {
+        padding-left: $y-multi-step-checkout-nav-list-media-sm-padding;
+        padding-right: $y-multi-step-checkout-nav-list-media-sm-padding;
+      }
+    }
+  }
+
+  &__place-order {
+    padding: $y-multi-step-checkout-place-order-padding;
+
+    &-form {
+      padding: $y-multi-step-checkout-no-padding;
+      display: flex;
+      .form-check-input {
+        min-height: $y-multi-step-checkout-place-order-form-check-input-size;
+        min-width: $y-multi-step-checkout-place-order-form-check-input-size;
+      }
+    }
+
+    button {
+      margin-top: $y-multi-step-checkout-place-order-btn-margin-top;
+    }
+  }
+
+  // ***************************** MEDIA QUERIES *****************************
+
+  @include media-breakpoint-down(md) {
+    margin: $y-multi-step-checkout-no-margin;
+  }
+
+  &.container {
+    @include media-breakpoint-down(md) {
+      max-width: 100%;
+      padding: $y-multi-step-checkout-no-padding;
+    }
+  }
+
+  .col-md-7 {
+    @include media-breakpoint-down(md) {
+      padding-right: $y-multi-step-checkout-media-col-md-7-padding;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding-right: $y-multi-step-checkout-media-col-sm-7-padding;
+      padding-left: $y-multi-step-checkout-media-col-sm-7-padding;
+    }
+  }
+
+  &__nav {
+    &-list--media {
+      &.is-active {
+        @include media-breakpoint-down(md) {
+          @include var-color(
+            'background-color',
+            $y-multi-step-checkout-media-background-color
+          );
+        }
+      }
+    }
+  }
 }
 
-h2 {
-  margin-left: 40px;
-}
+// Mixin imported in the other multi-step-checkout components
+@mixin checkout-media-style() {
+  @include media-breakpoint-down(md) {
+    margin-bottom: $y-multi-step-checkout-media-margin-bottom;
+    @include var-color(
+      'background-color',
+      $y-multi-step-checkout-media-background-color
+    );
+  }
 
-.order-summary-address-form {
-  margin-left: 55%;
-  margin-top: -665px;
-  margin-bottom: 580px;
-}
+  .col-md-12 {
+    @include media-breakpoint-down(md) {
+      padding: $y-multi-step-checkout-media-col-md-12-padding;
+    }
 
-.order-delivery-mode-form {
-  margin-left: 55%;
-  margin-top: -225px;
-  margin-bottom: 170px;
-}
+    @include media-breakpoint-down(sm) {
+      padding: $y-multi-step-checkout-media-col-sm-12-padding;
+    }
+  }
 
-.payment-form {
-  margin-left: 55%;
-  margin-top: -418px;
-  margin-bottom: 350px;
-}
+  &.container {
+    @include media-breakpoint-down(md) {
+      max-width: 100%;
+      margin-bottom: $y-multi-step-checkout-no-margin-bottom;
+    }
+  }
 
-.order-review {
-  margin-left: 55%;
-  margin-top: -421px;
-  margin-bottom: 326px;
+  &__btn {
+    padding-bottom: $y-multi-step-checkout-btn-padding-bottom;
+    @include media-breakpoint-down(md) {
+      padding: $y-multi-step-checkout-btn-md-padding;
+    }
+    @include media-breakpoint-down(sm) {
+      padding: $y-multi-step-checkout-btn-sm-padding;
+    }
+  }
+
+  &__btns {
+    @include media-breakpoint-down(md) {
+      padding: $y-multi-step-checkout-btns-padding;
+    }
+    .btn-action {
+      @include media-breakpoint-down(sm) {
+        margin-bottom: $y-multi-step-checkout-btns-margin-bottom;
+      }
+    }
+  }
 }

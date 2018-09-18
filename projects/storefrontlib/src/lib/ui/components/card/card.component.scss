@@ -1,0 +1,56 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+// y-card color variables
+$y-card-border-color: 'light' !default;
+$y-card-delete-mode-background-color: 'background' !default;
+$y-card-delete-msg-color: 'danger' !default;
+
+// y-card variables
+$y-card-border: 1px solid !default;
+$y-card-body-delete-padding: 1rem 0 0 0 !default;
+$y-card-body-delete-msg-padding: 0 0 1.25rem 0 !default;
+$y-card-body-actions-container-padding: 1.25rem 0 0 0 !default;
+$y-card-body-actions-container-card-link-padding: 0 0 0 1rem !default;
+
+.y-card {
+  &--border {
+    border: $y-card-border;
+    @include var-color('border-color', $y-card-border-color);
+  }
+
+  &--delete-mode {
+    @include var-color(
+      'background-color',
+      $y-card-delete-mode-background-color
+    );
+  }
+
+  &-body {
+    &__delete {
+      padding: $y-card-body-delete-padding;
+      &-msg {
+        @include var-color('color', $y-card-delete-msg-color);
+        padding: $y-card-body-delete-msg-padding;
+      }
+    }
+
+    &__container {
+      display: flex;
+    }
+
+    &__label-container {
+      flex-grow: 2;
+    }
+
+    &__actions-container {
+      display: flex;
+      justify-content: flex-end;
+      padding: $y-card-body-actions-container-padding;
+      .card-link {
+        padding: $y-card-body-actions-container-card-link-padding;
+      }
+    }
+  }
+}

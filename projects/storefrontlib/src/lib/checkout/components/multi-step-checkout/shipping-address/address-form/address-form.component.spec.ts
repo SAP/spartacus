@@ -57,18 +57,16 @@ const mockCountriesList = {
   ]
 };
 
-const mockRegionsList = {
-  regions: [
-    {
-      isocode: 'CA-ON',
-      name: 'Ontario'
-    },
-    {
-      isocode: 'CA-QC',
-      name: 'Quebec'
-    }
-  ]
-};
+const mockRegionsList = [
+  {
+    isocode: 'CA-ON',
+    name: 'Ontario'
+  },
+  {
+    isocode: 'CA-QC',
+    name: 'Quebec'
+  }
+];
 
 describe('AddressFormComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
@@ -140,11 +138,11 @@ describe('AddressFormComponent', () => {
     });
   });
 
-  it('should call ngOnInit to get countries, regions and titles and regions data when data exist', () => {
+  it('should call ngOnInit to get countries, titles and regions data when data exist', () => {
     spyOn(store, 'select').and.returnValues(
       of({ mockCountriesList }),
       of({ mockTitlesList }),
-      of({ mockRegionsList }),
+      of(mockRegionsList),
       of({})
     );
     component.ngOnInit();
@@ -155,7 +153,7 @@ describe('AddressFormComponent', () => {
       expect(data.mockTitlesList).toBe(mockTitlesList);
     });
     component.regions$.subscribe(data => {
-      expect(data.mockRegionsList).toBe(mockRegionsList);
+      expect(data).toBe(mockRegionsList);
     });
   });
 
@@ -164,7 +162,7 @@ describe('AddressFormComponent', () => {
     spyOn(store, 'select').and.returnValues(
       of({}),
       of({}),
-      of({}),
+      of([]),
       of(mockAddressVerificationResult)
     );
     component.ngOnInit();
@@ -178,7 +176,7 @@ describe('AddressFormComponent', () => {
     spyOn(store, 'select').and.returnValues(
       of({}),
       of({}),
-      of({}),
+      of([]),
       of(mockAddressVerificationResult)
     );
     component.ngOnInit();
@@ -225,5 +223,26 @@ describe('AddressFormComponent', () => {
     component.address.value.defaultAddress = false;
     component.toggleDefaultAddress();
     expect(component.address.value.defaultAddress).toBeTruthy();
+  });
+
+  it('should call titleSelected()', () => {
+    component.titleSelected({ code: 'test select title' });
+    expect(component.address['controls'].titleCode.value).toEqual(
+      'test select title'
+    );
+  });
+
+  it('should call countrySelected()', () => {
+    component.countrySelected({ isocode: 'test select country' });
+    expect(
+      component.address['controls'].country['controls'].isocode.value
+    ).toEqual('test select country');
+  });
+
+  it('should call regionSelected()', () => {
+    component.regionSelected({ isocode: 'test select region' });
+    expect(
+      component.address['controls'].region['controls'].isocode.value
+    ).toEqual('test select region');
   });
 });
