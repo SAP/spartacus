@@ -1,15 +1,15 @@
-import { OrderDetailsComponent } from '../../order-details/order-details.component';
+import { OrderDetailsComponent } from '../order-details/order-details.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { BootstrapModule } from '../../../../bootstap.module';
-import { PaginationAndSortingComponent } from './../pagination-and-sorting/pagination-and-sorting.component';
+import { BootstrapModule } from '../../../bootstap.module';
+//import { PaginationAndSortingComponent } from './../pagination-and-sorting/pagination-and-sorting.component';
 import { OrderHistoryComponent } from './order-history.component';
-import * as fromRoot from '../../../../routing/store';
-import * as fromUserStore from '../../../../user/store';
+import * as fromRoot from '../../../routing/store';
+import * as fromUserStore from '../../../user/store';
 
 const routes = [
   { path: 'my-account/orders/:id', component: OrderDetailsComponent }
@@ -41,7 +41,7 @@ describe('OrderHistoryComponent', () => {
       ],
       declarations: [
         OrderHistoryComponent,
-        PaginationAndSortingComponent,
+        //PaginationAndSortingComponent,
         OrderDetailsComponent
       ]
     }).compileComponents();
