@@ -11,6 +11,7 @@ import { LoginModule } from './components/login/login.module';
 import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
 import { RegisterComponent } from './components/register/register.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   imports: [
@@ -18,12 +19,12 @@ import { RegisterComponent } from './components/register/register.component';
     FlexLayoutModule,
     LoginModule,
     ReactiveFormsModule,
-    RouterModule,
     StoreModule.forFeature('user', reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
+    RouterModule
   ],
-  declarations: [RegisterComponent],
+  declarations: [RegisterComponent, ResetPasswordComponent],
   providers: [reducerProvider],
-  exports: [RegisterComponent]
+  exports: [RegisterComponent, ResetPasswordComponent]
 })
 export class UserModule {}
