@@ -25,49 +25,30 @@ import { CategoryPageModule } from './category-page/category-page.module';
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
 
-@NgModule({
-  imports: [
-    CommonModule,
+const pageModules = [
+  OrderHistoryPageModule,
+  HomePageModule,
+  CategoryPageModule,
+  CartPageModule,
+  MultiStepCheckoutPageModule,
+  OrderDetailsPageModule,
+  OrderConfirmationPageModule,
+  ProductPageModule,
+  RegisterPageModule,
+  LoginPageModule,
+  ResetPasswordPageModule,
+  StoreFinderPageModule,
+  ContactPageModule,
+  SalePageModule,
+  HelpPageModule,
+  ResetNewPasswordPageModule,
+  // new pages should be added above this line
+  PageNotFoundModule
+];
 
-    OrderHistoryPageModule,
-    HomePageModule,
-    CategoryPageModule,
-    CartPageModule,
-    MultiStepCheckoutPageModule,
-    OrderDetailsPageModule,
-    OrderConfirmationPageModule,
-    ProductPageModule,
-    RegisterPageModule,
-    LoginPageModule,
-    ResetPasswordPageModule,
-    StoreFinderPageModule,
-    ContactPageModule,
-    SalePageModule,
-    HelpPageModule,
-    ResetNewPasswordPageModule,
-    // new pages should be added above this line
-    PageNotFoundModule
-  ],
+@NgModule({
+  imports: [CommonModule, ...pageModules],
   declarations: [],
-  exports: [
-    OrderHistoryPageModule,
-    HomePageModule,
-    CategoryPageModule,
-    CartPageModule,
-    MultiStepCheckoutPageModule,
-    OrderDetailsPageModule,
-    OrderConfirmationPageModule,
-    ProductPageModule,
-    RegisterPageModule,
-    LoginPageModule,
-    ResetPasswordPageModule,
-    StoreFinderPageModule,
-    ContactPageModule,
-    SalePageModule,
-    HelpPageModule,
-    ResetNewPasswordPageModule,
-    // new pages should be added above this line
-    PageNotFoundModule
-  ]
+  exports: [...pageModules]
 })
 export class PagesModule {}
