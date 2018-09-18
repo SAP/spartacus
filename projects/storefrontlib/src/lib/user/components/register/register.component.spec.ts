@@ -79,8 +79,11 @@ describe('RegisterComponent', () => {
 
     it('should contains error if repassword is different than password', () => {
       component.ngOnInit();
-      component.userRegistrationForm.controls['password'].setValue('test');
-      component.userRegistrationForm.controls['passwordconf'].setValue('test1');
+      const {
+        userRegistrationForm: { controls }
+      } = component;
+      controls['password'].setValue('test');
+      controls['passwordconf'].setValue('test1');
 
       const isNotEqual = component.userRegistrationForm.hasError('NotEqual');
       expect(isNotEqual).toBeTruthy();
@@ -88,11 +91,30 @@ describe('RegisterComponent', () => {
 
     it('should not contain error if repassword is the same as password', () => {
       component.ngOnInit();
-      component.userRegistrationForm.controls['password'].setValue('test');
-      component.userRegistrationForm.controls['passwordconf'].setValue('test');
+      const {
+        userRegistrationForm: { controls }
+      } = component;
+      controls['password'].setValue('test');
+      controls['passwordconf'].setValue('test');
 
       const isNotEqual = component.userRegistrationForm.hasError('NotEqual');
       expect(isNotEqual).toBeFalsy();
+    });
+
+    it('form valid when filled', () => {
+      component.ngOnInit();
+      const {
+        userRegistrationForm: { controls }
+      } = component;
+      controls['titleCode'].setValue('Mr');
+      controls['firstName'].setValue('John');
+      controls['lastName'].setValue('Doe');
+      controls['email'].setValue('JohnDoe@thebest.john.intheworld.com');
+      controls['termsandconditions'].setValue(true);
+      controls['password'].setValue('strongPass$!123');
+      controls['passwordconf'].setValue('strongPass$!123');
+
+      expect(component.userRegistrationForm.valid).toBeTruthy();
     });
   });
 
