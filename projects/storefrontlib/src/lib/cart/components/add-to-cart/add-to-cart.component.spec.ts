@@ -1,9 +1,11 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { MatDialog } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
+import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+
 import { CartService } from '../../../cart/services/cart.service';
 import { CartDataService } from '../../../cart/services/cart-data.service';
 import * as fromCart from '../../../cart/store';
@@ -28,7 +30,7 @@ describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
   let service;
-  let dialog;
+  let modalInstance;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -36,6 +38,7 @@ describe('AddToCartComponent', () => {
         AddToCartModule,
         BrowserAnimationsModule,
         RouterTestingModule,
+        NgbModule.forRoot(),
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
@@ -56,10 +59,10 @@ describe('AddToCartComponent', () => {
     store = TestBed.get(Store);
     service = TestBed.get(CartService);
     addToCartComponent.productCode = productCode;
-    dialog = fixture.debugElement.injector.get<MatDialog>(MatDialog);
+    modalInstance = fixture.debugElement.injector.get<NgbModal>(NgbModal);
     spyOn(service, 'addCartEntry').and.callThrough();
     spyOn(store, 'select').and.returnValue(of(mockCartEntry));
-    spyOn(dialog, 'open').and.callThrough();
+    spyOn(modalInstance, 'open').and.callThrough();
 
     fixture.detectChanges();
   });
@@ -79,8 +82,7 @@ describe('AddToCartComponent', () => {
     addToCartComponent.addToCart();
     addToCartComponent.cartEntry$.subscribe();
 
-    dialog.closeAll();
-    expect(dialog.open).toHaveBeenCalled();
+    expect(modalInstance.open).toHaveBeenCalled();
     expect(service.addCartEntry).toHaveBeenCalledWith(productCode, 1);
   });
 

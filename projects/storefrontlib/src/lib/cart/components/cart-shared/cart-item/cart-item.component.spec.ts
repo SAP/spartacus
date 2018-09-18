@@ -23,7 +23,7 @@ describe('CartItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemComponent);
     cartItemComponent = fixture.componentInstance;
-    cartItemComponent.entry = 'mockEntry';
+    cartItemComponent.item = {};
 
     spyOn(cartItemComponent.remove, 'emit').and.callThrough();
     spyOn(cartItemComponent.update, 'emit').and.callThrough();
@@ -34,18 +34,18 @@ describe('CartItemComponent', () => {
   });
 
   it('should call removeEntry()', () => {
-    cartItemComponent.removeEntry();
+    cartItemComponent.removeItem();
 
     expect(cartItemComponent.remove.emit).toHaveBeenCalledWith(
-      cartItemComponent.entry
+      cartItemComponent.item
     );
   });
 
   it('should call updateEntry()', () => {
-    cartItemComponent.updateEntry(2);
+    cartItemComponent.updateItem(2);
 
     expect(cartItemComponent.update.emit).toHaveBeenCalledWith({
-      entry: cartItemComponent.entry,
+      entry: cartItemComponent.item,
       updatedQuantity: 2
     });
   });

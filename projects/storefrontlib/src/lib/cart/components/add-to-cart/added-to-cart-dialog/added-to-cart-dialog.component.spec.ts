@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, FormsModule } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
-import { of } from 'rxjs';
 import { CartSharedModule } from './../../cart-shared/cart-shared.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
@@ -17,27 +17,11 @@ describe('AddedToCartDialogComponent', () => {
         MaterialModule,
         FormsModule,
         RouterTestingModule,
-        CartSharedModule
+        CartSharedModule,
+        NgbModule.forRoot(),
       ],
       declarations: [AddedToCartDialogComponent],
       providers: [
-        {
-          provide: MatDialogRef
-        },
-        {
-          provide: MAT_DIALOG_DATA,
-          useValue: {
-            entry$: of({
-              product: { images: '' },
-              totalPrice: { formattedValue: '' },
-              quantity: 1,
-              entryNumber: 0
-            }),
-            cart$: of({
-              totalPrice: { formattedValue: '' }
-            })
-          }
-        }
       ]
     }).compileComponents();
   }));
