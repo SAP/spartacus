@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'payment-management',
     canActivate: [AuthGuard, CmsPageGuards],
-    data: { pageLabel: 'homepage' }, // temporary hack
+    data: { pageLabel: 'homepage' }, // temporary hack: 'homepage' should be changed to proper pageLabel when it has it's own ready CMS page
     component: PaymentManagementPageComponent
   }
 ];
