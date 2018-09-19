@@ -1,10 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CategoryPageLayoutComponent } from './category-page-layout.component';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperComponent
-} from '../../../cms/components';
+import { DynamicSlotComponent } from '../../../cms/components';
 import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
@@ -22,11 +19,7 @@ describe('CategoryPageComponent', () => {
           cms: combineReducers(fromCmsReducer.getReducers())
         })
       ],
-      declarations: [
-        CategoryPageLayoutComponent,
-        DynamicSlotComponent,
-        ComponentWrapperComponent
-      ]
+      declarations: [CategoryPageLayoutComponent, DynamicSlotComponent]
     }).compileComponents();
   }));
 

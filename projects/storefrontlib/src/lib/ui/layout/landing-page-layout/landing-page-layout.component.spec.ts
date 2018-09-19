@@ -1,10 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LandingPageLayoutComponent } from './landing-page-layout.component';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperComponent
-} from '../../../cms/components';
+import { DynamicSlotComponent } from '../../../cms/components';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
@@ -21,11 +18,7 @@ describe('LandingPageLayoutComponent', () => {
           cms: combineReducers(fromCmsReducer.getReducers())
         })
       ],
-      declarations: [
-        LandingPageLayoutComponent,
-        DynamicSlotComponent,
-        ComponentWrapperComponent
-      ]
+      declarations: [LandingPageLayoutComponent, DynamicSlotComponent]
     }).compileComponents();
   }));
 

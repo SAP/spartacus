@@ -12,10 +12,7 @@ import * as fromRoot from '../../../routing/store';
 import { ProductPageComponent } from './product-page.component';
 import { ProductDetailsPageLayoutComponent } from '../../layout/product-details-page-layout/product-details-page-layout.component';
 import { ProductDetailsComponent } from '../../../product/components/product-details/container/product-details.component';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperComponent
-} from '../../../cms/components';
+import { DynamicSlotComponent } from '../../../cms/components';
 import { ProductImagesComponent } from '../../../product/components/product-details/product-images/product-images.component';
 import { ProductSummaryComponent } from '../../../product/components/product-details/product-summary/product-summary.component';
 import { ProductAttributesComponent } from '../../../product/components/product-details/product-attributes/product-attributes.component';
@@ -65,7 +62,6 @@ describe('ProductPageComponent in pages', () => {
         ProductSummaryComponent,
         ProductAttributesComponent,
         ProductReviewsComponent,
-        ComponentWrapperComponent,
         AddToCartComponent
       ],
       providers: [ComponentMapperService, CmsModuleConfig, CartService]

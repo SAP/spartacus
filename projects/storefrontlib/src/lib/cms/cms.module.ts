@@ -18,6 +18,7 @@ import { guards } from './guards/index';
 // services
 import { services } from './services/index';
 import { CmsModuleConfig } from './cms-module-config';
+import { ComponentWrapperDirective } from './components/dynamic-slot/component-wrapper.directive';
 
 export function overrideCmsModuleConfig(configOverride: any) {
   return { ...new CmsModuleConfig(), ...configOverride };

@@ -2,10 +2,7 @@ import { ComponentsModule } from './../../components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductDetailsPageLayoutComponent } from './product-details-page-layout.component';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperComponent
-} from '../../../cms/components';
+import { DynamicSlotComponent } from '../../../cms/components';
 import { ProductDetailsComponent } from '../../../product/components/product-details/container/product-details.component';
 import { MaterialModule } from '../../../material.module';
 import { ProductAttributesComponent } from '../../../product/components/product-details/product-attributes/product-attributes.component';
@@ -45,7 +42,6 @@ describe('ProductDetailsPageLayoutComponent', () => {
       declarations: [
         ProductDetailsPageLayoutComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent,
         ProductDetailsComponent,
         ProductAttributesComponent,
         ProductImagesComponent,
