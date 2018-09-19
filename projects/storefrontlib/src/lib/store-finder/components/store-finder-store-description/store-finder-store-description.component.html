@@ -10,8 +10,10 @@
         <p>
           <a href="{{getDirections(location)}}" target="_blank">Get Directions</a>
         </p>
-        <p>call: {{location.address.phone}}</p>
-        <p>contact us</p>
+        <p>Call {{location.address.phone}}</p>
+        <p>
+          <a href="mailto:{{location.address.email}}">Contact us</a>
+        </p>
       </section>
       <div class="schedule">
         <y-schedule [location]="location">

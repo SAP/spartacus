@@ -1,17 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { StoreModule, combineReducers } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
 
 import { StoreDescriptionPageComponent } from './store-description-page.component';
 import { StoreDescriptionPageLayoutComponent } from '../../layout/store-description-page-layout/store-description-page-layout.component';
-// tslint:disable-next-line:max-line-length
-import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
 import { ScheduleComponent } from '../../../store-finder/components/schedule-component/schedule.component';
 import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
-import { StoreModule, combineReducers } from '@ngrx/store';
+// tslint:disable-next-line:max-line-length
+import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
 
 import * as fromReducers from '../../../store-finder/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromServices from '../../../store-finder/services';
-import { ActivatedRoute } from '@angular/router';
 
 const fakeActivatedRoute = {
   snapshot: { data: {} }

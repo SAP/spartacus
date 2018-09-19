@@ -3,13 +3,7 @@ import { NgModule } from '@angular/core';
 import { StoreDescriptionPageLayoutComponent } from './store-description-page-layout.component';
 
 @NgModule({
-  imports: [
-    /* CommonModule,
-    ProductModule,
-    CmsModule,
-    MaterialModule, */
-    StoreFinderModule
-  ],
+  imports: [StoreFinderModule],
   declarations: [StoreDescriptionPageLayoutComponent],
   exports: [StoreDescriptionPageLayoutComponent]
 })

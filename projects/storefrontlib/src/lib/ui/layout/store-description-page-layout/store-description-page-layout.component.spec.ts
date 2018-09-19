@@ -3,10 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { StoreModule, combineReducers } from '@ngrx/store';
 
 import { StoreDescriptionPageLayoutComponent } from './store-description-page-layout.component';
-// tslint:disable-next-line:max-line-length
-import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
+
 import { ScheduleComponent } from '../../../store-finder/components/schedule-component/schedule.component';
 import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
+// tslint:disable-next-line:max-line-length
+import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
 
 import * as fromReducers from '../../../store-finder/store';
 import * as fromRoot from '../../../routing/store';
