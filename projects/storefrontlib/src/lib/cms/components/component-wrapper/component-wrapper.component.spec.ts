@@ -8,7 +8,6 @@ import { ComponentWrapperComponent } from './component-wrapper.component';
 import { ComponentMapperService } from '../../services/component-mapper.service';
 import { AbstractCmsComponent } from '../abstract-cms-component';
 import { CmsModuleConfig } from '../../cms-module-config';
-import { By } from '@angular/platform-browser';
 
 @Component({
   template: 'test content'
@@ -75,7 +74,6 @@ describe('ComponentWrapperComponent', () => {
 
     wrapperComponent.componentType = 'CMSTestComponent';
     wrapperComponent.componentUid = 'TestUid';
-    wrapperComponent.componentClass = 'testCssClass';
     wrapperComponent.contextParameters = 'test context parameters';
 
     wrapperComponent.ngAfterViewInit();
@@ -89,8 +87,5 @@ describe('ComponentWrapperComponent', () => {
     expect(wrapperComponent.cmpRef.instance.contextParameters).toEqual(
       'test context parameters'
     );
-    expect(
-      el.query(By.css('.testCssClass')).nativeElement.textContent.trim()
-    ).toEqual('test content');
   });
 });
