@@ -14,7 +14,7 @@
     "start:qa": "ng serve -c=qa",
     "build": "ng build --prod",
     "build:qa": "ng build -c=qa",
-    "build:core:lib": "ng build storefrontlib",
+    "build:core:lib": "ng build storefrontlib --prod",
     "test": "ng test",
     "test:core:lib": "ng test storefrontlib --code-coverage",
     "e2e": "ng e2e",
