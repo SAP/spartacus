@@ -1,4 +1,5 @@
-<y-component-wrapper *ngFor="let component of ((currentSlot$ | async) | slice:0:limit)" [attr.data-component-uid]="component?.uid"
-    [componentType]="component?.typeCode" [componentUid]="component?.uid" [contextParameters]="contextParameters"
-    [class]="componentClass">
-</y-component-wrapper>
+<ng-container *ngFor="let component of ((currentSlot$ | async) | slice:0:limit)">
+    <y-component-wrapper *ngIf="component" [attr.data-component-uid]="component.uid" [componentType]="component.typeCode"
+        [componentUid]="component.uid" [contextParameters]="contextParameters" [class]="componentClass">
+    </y-component-wrapper>
+</ng-container>
