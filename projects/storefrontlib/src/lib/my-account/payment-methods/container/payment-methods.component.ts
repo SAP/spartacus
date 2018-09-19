@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromUserStore from '../../../user/store';
 import { CheckoutService } from '../../../checkout/services/checkout.service';
-import { tap, map, filter } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { Card } from '../../../ui/components/card/card.component';
 import { CartService } from '../../../cart/services/cart.service';
 
