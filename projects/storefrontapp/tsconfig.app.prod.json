@@ -3,10 +3,7 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/app",
     "module": "es2015",
-    "types": [],
-    "paths": {
-      "storefrontlib": ["dist/storefrontlib"]
-    }
+    "types": []
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"]
 }
