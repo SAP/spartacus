@@ -24,7 +24,6 @@ import * as fromRouting from '../../../routing/store';
 export class LoginComponent implements OnInit, OnDestroy {
   user$: Observable<any>;
   isLogin = false;
-  currentUrl = '';
 
   subscription: Subscription;
   routingSub: Subscription;
@@ -42,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       const target = event.target || event.srcElement;
       if (
         target.attributes.href &&
-        target.attributes.href.nodeValue === this.currentUrl
+        target.attributes['ng-reflect-router-link'] === undefined
       ) {
         this.logout();
       }
@@ -50,14 +49,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.routingSub = this.store
-      .select(fromRouting.getRouterState)
-      .subscribe(routerState => {
-        if (routerState && routerState.state) {
-          this.currentUrl = routerState.state.url;
-        }
-      });
-
     this.user$ = this.store.select(fromStore.getDetails);
 
     this.subscription = this.store
