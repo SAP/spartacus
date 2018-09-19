@@ -25,11 +25,13 @@ export class StoreFinderStoreDescriptionComponent
 
   ngOnInit(): void {
     this.store.subscribe((storesState: fromStore.StoresState) => {
-      this.location = fromStore
-        .getAllStores(storesState)
-        .stores.filter(
+      const stores = fromStore.getAllStores(storesState).stores;
+
+      if (stores) {
+        this.location = stores.filter(
           (store: any) => store.name === this.route.snapshot.params.store
         )[0];
+      }
     });
   }
 }
