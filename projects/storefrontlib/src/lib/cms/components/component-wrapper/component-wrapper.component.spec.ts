@@ -8,6 +8,7 @@ import { ComponentWrapperComponent } from './component-wrapper.component';
 import { ComponentMapperService } from '../../services/component-mapper.service';
 import { AbstractCmsComponent } from '../abstract-cms-component';
 import { CmsModuleConfig } from '../../cms-module-config';
+import { By } from '@angular/platform-browser';
 
 @Component({
   template: 'test content'
@@ -34,7 +35,6 @@ describe('ComponentWrapperComponent', () => {
   let wrapperComponent: ComponentWrapperComponent;
   let fixture: ComponentFixture<ComponentWrapperComponent>;
   let store: Store<fromReducers.CmsState>;
-  let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -56,7 +56,6 @@ describe('ComponentWrapperComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ComponentWrapperComponent);
     wrapperComponent = fixture.componentInstance;
-    el = fixture.debugElement;
 
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
