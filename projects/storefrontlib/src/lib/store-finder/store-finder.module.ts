@@ -18,7 +18,6 @@ import { StoreFinderMapComponent } from './components/store-finder-map/store-fin
 import { StoreFinderListItemComponent } from './components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
 import { StoreFinderStoreDescriptionComponent } from './components/store-finder-store-description/store-finder-store-description.component';
 import { ScheduleComponent } from './components/schedule-component/schedule.component';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -27,8 +26,7 @@ import { RouterModule } from '@angular/router';
     CmsModule,
     ReactiveFormsModule,
     StoreModule.forFeature('stores', reducers),
-    EffectsModule.forFeature(effects),
-    RouterModule
+    EffectsModule.forFeature(effects)
   ],
   declarations: [
     StoreFinderSearchComponent,

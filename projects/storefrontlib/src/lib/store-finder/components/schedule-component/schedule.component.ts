@@ -10,18 +10,18 @@ const WEEK_DAYS_NUMBER = 7;
 })
 export class ScheduleComponent implements OnChanges {
   @Input() location: any;
-  days: Date[] = null;
+  displayDays: Date[] = null;
 
   constructor(private storeDataService: StoreDataService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     const initialDate = this.getInitialDate();
-    this.days = [];
+    this.displayDays = [];
 
     for (let i = 0; i < WEEK_DAYS_NUMBER; i++) {
       const date = new Date(initialDate.valueOf());
       date.setDate(date.getDate() + i);
-      this.days.push(date);
+      this.displayDays.push(date);
     }
   }
 
