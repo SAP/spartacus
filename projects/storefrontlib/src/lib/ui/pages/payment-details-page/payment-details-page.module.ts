@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PaymentDetailsPageComponent } from './payment-details-page.component';
 import { AuthGuard } from '../../../auth/guards/auth.guard';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
-import { PaymentMethodsModule } from '../../../my-account/payment-methods/payment-methods.module';
+import { PaymentDetailsPageLayoutModule } from '../../layout/payment-details-page-layout/payment-details-page-layout.module';
 
 const routes: Routes = [
   {
@@ -17,7 +17,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, PaymentMethodsModule, RouterModule.forChild(routes)],
+  imports: [
+    CommonModule,
+    PaymentDetailsPageLayoutModule,
+    RouterModule.forChild(routes)
+  ],
   declarations: [PaymentDetailsPageComponent],
   exports: [PaymentDetailsPageComponent]
 })

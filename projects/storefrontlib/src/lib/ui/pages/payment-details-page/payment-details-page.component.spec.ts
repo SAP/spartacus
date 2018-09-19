@@ -3,10 +3,10 @@ import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'y-payment-methods',
+  selector: 'y-payment-details-page-layout',
   template: ''
 })
-class MockPaymentMethodsComponent {}
+class MockPaymentDetailsPageLayoutComponent {}
 
 describe('PaymentDetailsPageComponent', () => {
   let component: PaymentDetailsPageComponent;
@@ -14,7 +14,10 @@ describe('PaymentDetailsPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PaymentDetailsPageComponent, MockPaymentMethodsComponent]
+      declarations: [
+        PaymentDetailsPageComponent,
+        MockPaymentDetailsPageLayoutComponent
+      ]
     }).compileComponents();
   }));
   beforeEach(() => {
