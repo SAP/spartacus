@@ -28,6 +28,14 @@ export class OccStoreFinderService {
     );
   }
 
+  storesCount(): Observable<any> {
+    const storeCountUrl = this.getStoresEndpoint('count');
+
+    return this.http
+      .get(storeCountUrl)
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
   protected callOccFindStores(
     query: string,
     searchConfig: SearchConfig
@@ -56,13 +64,14 @@ export class OccStoreFinderService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  protected getStoresEndpoint() {
-    return (
+  protected getStoresEndpoint(url?: string) {
+    const baseUrl =
       this.occModuleConfig.server.baseUrl +
       this.occModuleConfig.server.occPrefix +
       this.occModuleConfig.site.baseSite +
       '/' +
-      STORES_ENDPOINT
-    );
+      STORES_ENDPOINT;
+
+    return url ? baseUrl + '/' + url : baseUrl;
   }
 }

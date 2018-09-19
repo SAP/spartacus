@@ -16,8 +16,20 @@ import { MaterialModule } from '../../../../material.module';
 import { CheckoutService } from '../../../services';
 import { CartService, CartDataService } from '../../../../cart/services';
 import { AddressFormModule } from './address-form/address-form.module';
+import { CardModule } from '../../../../ui/components/card/card.module';
+import { Address } from '../../../models/address-model';
 
-const mockAddress = 'mockAddress';
+const mockAddress: Address = {
+  firstName: 'John',
+  lastName: 'Doe',
+  titleCode: 'mr',
+  line1: 'Toyosaki 2 create on cart',
+  line2: 'line2',
+  town: 'town',
+  region: { isocode: 'JP-27' },
+  postalCode: 'zip',
+  country: { isocode: 'JP' }
+};
 
 describe('ShippinegAddressComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
@@ -31,6 +43,7 @@ describe('ShippinegAddressComponent', () => {
         MaterialModule,
         AddressFormModule,
         RouterTestingModule,
+        CardModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           checkout: combineReducers(fromCheckout.getReducers()),
@@ -68,16 +81,40 @@ describe('ShippinegAddressComponent', () => {
   });
 
   it('should call ngOnInit to get existing address if they exist', () => {
-    const mockAddresses = ['address1', 'address2'];
+    const mockAddresses = [mockAddress];
     spyOn(store, 'select').and.returnValue(of(mockAddresses));
     component.ngOnInit();
     component.existingAddresses$.subscribe(data => {
       expect(data).toBe(mockAddresses);
+      expect(component.cards.length).toEqual(1);
     });
   });
 
-  it('should call addressSelected(address)', () => {
-    component.addressSelected(mockAddress);
+  it('should call getCardContent() to get address card data', () => {
+    const card = component.getCardContent(mockAddress);
+    expect(card.title).toEqual('');
+    expect(card.textBold).toEqual('John Doe');
+    expect(card.text).toEqual([
+      'Toyosaki 2 create on cart',
+      'line2',
+      'town, JP-27, JP',
+      'zip',
+      undefined
+    ]);
+  });
+
+  it('should call addressSelected(address, index)', () => {
+    const card = { title: 'test card' };
+    component.cards.push(card);
+    component.addressSelected(mockAddress, 0);
+
+    expect(component.selectedAddress).toEqual(mockAddress);
+    expect(component.cards[0].header).toEqual('SELECTED');
+  });
+
+  it('should call next() to submit request', () => {
+    component.selectedAddress = mockAddress;
+    component.next();
     expect(component.addAddress.emit).toHaveBeenCalledWith({
       address: mockAddress,
       newAddress: false

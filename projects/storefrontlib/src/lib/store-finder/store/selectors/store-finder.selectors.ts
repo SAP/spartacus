@@ -11,10 +11,18 @@ export const getStoresState: MemoizedSelector<
   (state: fromReducer.StoresState) => state.stores
 );
 
-export const getAllStores: MemoizedSelector<
+export const getFindStoresEntities: MemoizedSelector<
   fromReducer.StoresState,
   any
 > = createSelector(
   getStoresState,
-  fromStoreFinderReducer.getStoreFinderEntities
+  fromStoreFinderReducer.getFindStoresEntities
+);
+
+export const getViewAllStoresEntities: MemoizedSelector<
+  any,
+  any
+> = createSelector(
+  getStoresState,
+  fromStoreFinderReducer.getViewAllStoresEntities
 );

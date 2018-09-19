@@ -30,7 +30,7 @@ describe('StoreFinder Selectors', () => {
       let result;
       const searchConfig: SearchConfig = { pageSize: 10 };
       store
-        .select(fromSelectors.getAllStores)
+        .select(fromSelectors.getFindStoresEntities)
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -39,6 +39,22 @@ describe('StoreFinder Selectors', () => {
         new fromActions.FindStores({ queryText: 'test', searchConfig })
       );
       store.dispatch(new fromActions.FindStoresSuccess(searchResult));
+
+      expect(result).toEqual(searchResult);
+    });
+  });
+
+  describe('viewAllStores', () => {
+    it('should return the stores search results', () => {
+      let result;
+      store
+        .select(fromSelectors.getViewAllStoresEntities)
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual({});
+
+      store.dispatch(new fromActions.FindAllStores());
+      store.dispatch(new fromActions.FindAllStoresSuccess(searchResult));
 
       expect(result).toEqual(searchResult);
     });

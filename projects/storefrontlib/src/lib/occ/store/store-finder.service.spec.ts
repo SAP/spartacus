@@ -13,6 +13,8 @@ const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };
 const mockSearchConfig: SearchConfig = { pageSize: 5 };
 
+const storeCountResponseBody = { CA: 50 };
+
 export class MockOccModuleConfig {
   server = {
     baseUrl: '',
@@ -65,5 +67,15 @@ describe('OccStoreFinderService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('text');
     });
+  });
+
+  it('should request stores count', () => {
+    service.storesCount().subscribe(result => {
+      expect(result).toEqual(storeCountResponseBody);
+    });
+
+    httpMock
+      .expectOne({ method: 'GET', url: '/stores/count' })
+      .flush(storeCountResponseBody);
   });
 });

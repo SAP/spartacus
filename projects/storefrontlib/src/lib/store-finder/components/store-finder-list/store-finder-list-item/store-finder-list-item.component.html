@@ -1,19 +1,21 @@
 <ng-container>
-  <p (click)="handleStoreItemClick()">
-    <b>
-      <u>{{ location.displayName }}</u>
-    </b>
-  </p>
-  <p>{{location.address.line1}}</p>
-  <p>{{location.address.town}}, {{location.address.region?.name}}, {{location.address.postalCode}}</p>
-  <div *ngIf="isOpen(location)">
-    <b class="open">
-      {{getClosingTime(location) | date:'EEE'}}: Open until {{getClosingTime(location) | date:'shortTime'}}
-    </b>
-  </div>
-  <div *ngIf="!isOpen(location)">
-    <b class="closed">{{getClosingTime(location) | date: 'EEE'}}: Closed</b>
-  </div>
-  <br>
-  <a href="{{getDirections(location)}}" mat-button color="primary" target="_blank">Get Directions</a>
+    <div (click)="handleStoreItemClick()">
+        <p>
+            <b>
+                <u>{{ locationIndex + 1 }}){{ location.displayName }}</u>
+            </b>
+        </p>
+        <p>{{location.address.line1}}</p>
+        <p>{{location.address.town}}, {{location.address.region?.name}}, {{location.address.postalCode}}</p>
+        <div *ngIf="isOpen(location)">
+            <b class="open">
+                {{getClosingTime(location) | date:'EEE'}}: Open until {{getClosingTime(location) | date:'shortTime'}}
+            </b>
+        </div>
+        <div *ngIf="!isOpen(location)">
+            <b class="closed">{{getClosingTime(location) | date: 'EEE'}}: Closed</b>
+        </div>
+        <br>
+        <a href="{{getDirections(location)}}" mat-button color="primary" target="_blank">Get Directions</a>
+    </div>
 </ng-container>

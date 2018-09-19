@@ -5,11 +5,15 @@ import { catchError } from 'rxjs/operators';
 
 import { OccModuleConfig } from '../occ-module-config';
 
-const E2E_ENDPOINT = '/e2econfigurationwebservices/e2econfiguration';
+const E2E_CONFIGURATION_ENDPOINT =
+  '/e2econfigurationwebservices/e2econfiguration';
 
 @Injectable()
 export class OccE2eConfigurationService {
-  constructor(private http: HttpClient, private occModuleConfig: OccModuleConfig) {}
+  constructor(
+    private http: HttpClient,
+    private occModuleConfig: OccModuleConfig
+  ) {}
 
   getConfiguration(configurationKey: string): Observable<any> {
     const url = this.getConfigurationEndpoint() + '/' + configurationKey;
@@ -20,6 +24,6 @@ export class OccE2eConfigurationService {
   }
 
   protected getConfigurationEndpoint() {
-    return this.occModuleConfig.server.baseUrl + E2E_ENDPOINT;
+    return this.occModuleConfig.server.baseUrl + E2E_CONFIGURATION_ENDPOINT;
   }
 }

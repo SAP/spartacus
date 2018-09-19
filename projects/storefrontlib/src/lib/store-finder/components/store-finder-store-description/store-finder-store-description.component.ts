@@ -25,8 +25,7 @@ export class StoreFinderStoreDescriptionComponent
 
   ngOnInit(): void {
     this.store.subscribe((storesState: fromStore.StoresState) => {
-      const stores = fromStore.getAllStores(storesState).stores;
-
+      const stores = fromStore.getFindStoresEntities(storesState).stores;
       if (stores) {
         this.location = stores.filter(
           (store: any) => store.name === this.route.snapshot.params.store

@@ -13,9 +13,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductSortingComponent {
-  @Input() grid;
   @Input() sortOptions;
-
+  @Input() selectedOption: string;
   @Output() sortListEvent: EventEmitter<string>;
 
   constructor() {
