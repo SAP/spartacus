@@ -2476,8 +2476,6 @@ forever-agent@~0.6.1:
   version "0.6.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/forever-agent/-/forever-agent-0.6.1.tgz#fbc71f0c41adeb37f96c577ad1ed42d8fdacca91"
 
-<<<<<<< HEAD
-=======
 form-data@~2.1.1:
   version "2.1.4"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/form-data/-/form-data-2.1.4.tgz#33c183acf193276ecaa98143a69e94bfee1750d1"
@@ -2486,7 +2484,6 @@ form-data@~2.1.1:
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
 
->>>>>>> develop
 form-data@~2.3.1, form-data@~2.3.2:
   version "2.3.2"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/form-data/-/form-data-2.3.2.tgz#4970498be604c20c005d4f5c23aecd21d6b49099"
@@ -4030,11 +4027,6 @@ miller-rabin@^4.0.0:
   version "1.36.0"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/mime-db/-/mime-db-1.36.0.tgz#5020478db3c7fe93aad7bbcc4dcf869c43363397"
 
-<<<<<<< HEAD
-mime-types@^2.1.12, mime-types@~2.1.11, mime-types@~2.1.17, mime-types@~2.1.18, mime-types@~2.1.19:
-  version "2.1.20"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/mime-types/-/mime-types-2.1.20.tgz#930cb719d571e903738520f8470911548ca2cc19"
-=======
 mime-db@~1.36.0:
   version "1.36.0"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/mime-db/-/mime-db-1.36.0.tgz#5020478db3c7fe93aad7bbcc4dcf869c43363397"
@@ -4042,7 +4034,6 @@ mime-db@~1.36.0:
 mime-types@^2.1.12, mime-types@~2.1.11, mime-types@~2.1.17, mime-types@~2.1.18, mime-types@~2.1.7:
   version "2.1.18"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/mime-types/-/mime-types-2.1.18.tgz#6f323f60a83d11146f831ff11fd66e2fe5503bb8"
->>>>>>> develop
   dependencies:
     mime-db "~1.36.0"
 
@@ -5352,11 +5343,6 @@ request@2.87.0:
     tunnel-agent "^0.6.0"
     uuid "^3.1.0"
 
-<<<<<<< HEAD
-request@^2.74.0, request@^2.83.0, request@^2.87.0:
-  version "2.88.0"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
-=======
 request@2.87.0:
   version "2.87.0"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/request/-/request-2.87.0.tgz#32f00235cd08d482b4d0d68db93a829c0ed5756e"
@@ -5410,7 +5396,6 @@ request@^2.87.0:
 request@~2.79.0:
   version "2.79.0"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/request/-/request-2.79.0.tgz#4dfe5bf6be8b8cdc37fcf93e04b65577722710de"
->>>>>>> develop
   dependencies:
     aws-sign2 "~0.7.0"
     aws4 "^1.8.0"
