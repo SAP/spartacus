@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { StoreFinderService } from '../../services/store-finder.service';
+import { WindowRef } from '../../services/windowRef';
 
 @Component({
   selector: 'y-store-finder-search',
@@ -12,7 +13,8 @@ export class StoreFinderSearchComponent {
   @Output() showMapList: EventEmitter<boolean> = new EventEmitter<boolean>();
   searchBox: FormControl = new FormControl();
 
-  constructor(private storeFinderService: StoreFinderService) {}
+  constructor(private storeFinderService: StoreFinderService, private winRef: WindowRef) {
+  }
 
   findStores(address: string) {
     this.storeFinderService.findStores(address);
@@ -23,6 +25,12 @@ export class StoreFinderSearchComponent {
   viewAllStores() {
     this.storeFinderService.viewAllStores();
     this.showMapList.emit(false);
+  }
+
+  viewStoresWithMyLoc() {
+    this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
+      (position: Position) => this.storeFinderService.findStores('', [position.coords.latitude, position.coords.longitude]));
+    this.showMapList.emit(true);
   }
 
   onKey(event: any) {
