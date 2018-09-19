@@ -1,7 +1,8 @@
 {
   "package_json": {
     "dependencies": {
-      "storefrontlib": "^0.x"
+      "storefrontlib": "^0.x",
+      "storefrontstyles": "^0.x"
     }
   }
 }
