@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement, SimpleChange } from '@angular/core';
+import { SimpleChange } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { ScheduleComponent } from './schedule.component';
@@ -43,7 +43,6 @@ class StoreDataServiceMock {
   }
 
   getStoreClosingTime(location: any, date: Date): Date {
-    const result = new Date();
     switch (date.getDay()) {
       case 1: {
         // Monday

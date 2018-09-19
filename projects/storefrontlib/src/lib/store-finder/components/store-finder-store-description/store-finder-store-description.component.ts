@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
 import { StoreDataService } from '../../services';
 import { Store } from '@ngrx/store';

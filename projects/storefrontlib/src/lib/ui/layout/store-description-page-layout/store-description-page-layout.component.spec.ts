@@ -1,6 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { StoreModule, combineReducers } from '@ngrx/store';
 
 import { StoreDescriptionPageLayoutComponent } from './store-description-page-layout.component';
+// tslint:disable-next-line:max-line-length
+import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
+import { ScheduleComponent } from '../../../store-finder/components/schedule-component/schedule.component';
+import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
+
+import * as fromReducers from '../../../store-finder/store';
+import * as fromRoot from '../../../routing/store';
+import * as fromServices from '../../../store-finder/services';
+
+const fakeActivatedRoute = {
+  snapshot: { data: {} }
+} as ActivatedRoute;
 
 describe('StoreDescriptionPageLayoutComponent', () => {
   let component: StoreDescriptionPageLayoutComponent;
@@ -8,9 +22,23 @@ describe('StoreDescriptionPageLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StoreDescriptionPageLayoutComponent ]
-    })
-    .compileComponents();
+      declarations: [
+        StoreDescriptionPageLayoutComponent,
+        StoreFinderStoreDescriptionComponent,
+        ScheduleComponent,
+        StoreFinderMapComponent
+      ],
+      imports: [
+        StoreModule.forRoot({
+          ...fromRoot.getReducers(),
+          stores: combineReducers(fromReducers.reducers)
+        })
+      ],
+      providers: [
+        ...fromServices.services,
+        { provide: ActivatedRoute, useValue: fakeActivatedRoute }
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

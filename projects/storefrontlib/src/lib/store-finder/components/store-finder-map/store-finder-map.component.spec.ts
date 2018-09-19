@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement, SimpleChange, ElementRef } from '@angular/core';
 
 import { StoreFinderMapComponent } from './store-finder-map.component';
@@ -18,17 +18,16 @@ describe('StoreFinderMapComponent', () => {
   let mapRendererService: GoogleMapRendererService;
   let debugElement: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [StoreFinderMapComponent],
-      providers: [
-        { provide: GoogleMapRendererService, useClass: MapRendererServiceMock }
-      ]
-    }).compileComponents();
-  }));
-
   beforeEach(() => {
-    fixture = TestBed.createComponent(StoreFinderMapComponent);
+    const bed = TestBed.configureTestingModule({
+      declarations: [StoreFinderMapComponent]
+    });
+
+    bed.overrideProvider(GoogleMapRendererService, {
+      useValue: new MapRendererServiceMock()
+    });
+
+    fixture = bed.createComponent(StoreFinderMapComponent);
     component = fixture.componentInstance;
     component.locations = [];
     component.mapElement = new ElementRef<HTMLElement>(mapDomElement);
