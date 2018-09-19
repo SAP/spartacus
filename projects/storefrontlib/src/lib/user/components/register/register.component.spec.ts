@@ -22,6 +22,7 @@ const mockTitlesList = {
 };
 
 describe('RegisterComponent', () => {
+  let controls;
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
   let store: Store<fromStore.UserState>;
@@ -49,6 +50,8 @@ describe('RegisterComponent', () => {
 
     spyOn(store, 'dispatch').and.callThrough();
     fixture.detectChanges();
+
+    controls = component.userRegistrationForm.controls;
   });
 
   it('should create', () => {
@@ -79,9 +82,7 @@ describe('RegisterComponent', () => {
 
     it('should contains error if repassword is different than password', () => {
       component.ngOnInit();
-      const {
-        userRegistrationForm: { controls }
-      } = component;
+
       controls['password'].setValue('test');
       controls['passwordconf'].setValue('test1');
 
@@ -91,9 +92,7 @@ describe('RegisterComponent', () => {
 
     it('should not contain error if repassword is the same as password', () => {
       component.ngOnInit();
-      const {
-        userRegistrationForm: { controls }
-      } = component;
+
       controls['password'].setValue('test');
       controls['passwordconf'].setValue('test');
 
@@ -103,9 +102,7 @@ describe('RegisterComponent', () => {
 
     it('form valid when filled', () => {
       component.ngOnInit();
-      const {
-        userRegistrationForm: { controls }
-      } = component;
+
       controls['titleCode'].setValue('Mr');
       controls['firstName'].setValue('John');
       controls['lastName'].setValue('Doe');
@@ -119,9 +116,7 @@ describe('RegisterComponent', () => {
 
     it('form invalid when not all required fields filled', () => {
       component.ngOnInit();
-      const {
-        userRegistrationForm: { controls }
-      } = component;
+
       controls['titleCode'].setValue('');
       controls['firstName'].setValue('John');
       controls['lastName'].setValue('');
@@ -135,9 +130,7 @@ describe('RegisterComponent', () => {
 
     it('form invalid when not terms not checked', () => {
       component.ngOnInit();
-      const {
-        userRegistrationForm: { controls }
-      } = component;
+
       controls['titleCode'].setValue('Mr');
       controls['firstName'].setValue('John');
       controls['lastName'].setValue('Doe');
