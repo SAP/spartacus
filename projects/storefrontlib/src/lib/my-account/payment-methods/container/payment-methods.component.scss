@@ -1,0 +1,46 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+//y-payment-methods variables
+$y-payment-methods-padding-left-sm: 1.25rem !default;
+$y-payment-methods-padding-right-sm: 1.25rem !default;
+
+$y-payment-methods-header-padding: 2.5rem 0 0 0 !default;
+
+$y-payment-methods-exisiting-methods-padding: 1.875rem 0 2.5rem 0 !default;
+$y-payment-methods-exisiting-methods-padding-md: 0 0 3.125rem 0 !default;
+$y-payment-methods-exisiting-methods-padding-sm: 0 0 4.375rem 0 !default;
+
+$y-payment-methods-card-padding-top-md: 1.875rem !default;
+
+.y-payment-methods {
+  &__header {
+    padding: $y-payment-methods-header-padding;
+  }
+
+  &__exisiting-methods {
+    display: flex;
+    align-items: flex-end;
+    padding: $y-payment-methods-exisiting-methods-padding;
+
+    @include media-breakpoint-down(md) {
+      padding: $y-payment-methods-exisiting-methods-padding-md;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: $y-payment-methods-exisiting-methods-padding-sm;
+    }
+  }
+
+  &__card {
+    @include media-breakpoint-down(md) {
+      padding-top: $y-payment-methods-card-padding-top-md;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding-left: $y-payment-methods-padding-left-sm;
+    padding-right: $y-payment-methods-padding-right-sm;
+  }
+}

@@ -9,7 +9,7 @@ import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 
 const routes: Routes = [
   {
-    path: 'payment-management',
+    path: 'my-account/payment-details',
     canActivate: [AuthGuard, CmsPageGuards],
     data: { pageLabel: 'homepage' }, // TODO temporary hack: 'homepage' should be changed to proper value when we have dedicated CMS page
     component: PaymentManagementPageComponent
