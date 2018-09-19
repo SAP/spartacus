@@ -21,6 +21,12 @@
 
           <div class="col-sm-12 col-md-4 col-lg-3">
             <div class="y-order-confirmation__review-summary-card">
+              <y-card [content]="getBillingAddressCardContent(order.paymentInfo.billingAddress)"></y-card>
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-4 col-lg-3">
+            <div class="y-order-confirmation__review-summary-card">
               <y-card [content]="getShippingCardContent(order.deliveryMode)"></y-card>
             </div>
           </div>
@@ -28,12 +34,6 @@
           <div class="col-sm-12 col-md-4 col-lg-3">
             <div class="y-order-confirmation__review-summary-card">
               <y-card [content]="getPaymentInfoCardContent(order.paymentInfo)"></y-card>
-            </div>
-          </div>
-
-          <div class="col-sm-12 col-md-4 col-lg-3">
-            <div class="y-order-confirmation__review-summary-card">
-              <y-card [content]="getShippingMethodCardContent(order.deliveryMode)"></y-card>
             </div>
           </div>
         </div>

@@ -210,19 +210,19 @@ export class CheckoutEffects {
         return this.occOrderService
           .placeOrder(payload.userId, payload.cartId)
           .pipe(
-            switchMap(data => {
+            map(data => {
               for (const entry of data.entries) {
                 this.productImageConverter.convertProduct(entry.product);
               }
-
-              return [
-                new fromActions.PlaceOrderSuccess(data),
-                new fromGlobalMessagesActions.AddMessage({
-                  text: 'Order placed successfully',
-                  type: GlobalMessageType.MSG_TYPE_CONFIRMATION
-                })
-              ];
+              return data;
             }),
+            switchMap(data => [
+              new fromActions.PlaceOrderSuccess(data),
+              new fromGlobalMessagesActions.AddMessage({
+                text: 'Order placed successfully',
+                type: GlobalMessageType.MSG_TYPE_CONFIRMATION
+              })
+            ]),
             catchError(error => of(new fromActions.PlaceOrderFail(error)))
           );
       })

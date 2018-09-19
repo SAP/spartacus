@@ -36,8 +36,9 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
 
   getAddressCardContent(deliveryAddress: any): Card {
     return {
-      textBold: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+      textBold: `Ship To`,
       text: [
+        `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
         deliveryAddress.line1,
         deliveryAddress.line2,
         `${deliveryAddress.town}, ${deliveryAddress.country.isocode}, ${
@@ -55,20 +56,29 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
     };
   }
 
-  getPaymentInfoCardContent(paymentInfo: any): Card {
+  getBillingAddressCardContent(billingAddress: any): Card {
     return {
-      textBold: paymentInfo.accountHolderName,
+      textBold: `Billing address`,
       text: [
-        paymentInfo.cardNumber,
-        `Expires in ${paymentInfo.expiryMonth} / ${paymentInfo.expiryYear}`
+        `${billingAddress.firstName} ${billingAddress.lastName}`,
+        billingAddress.line1,
+        billingAddress.line2,
+        `${billingAddress.town}, ${billingAddress.country.isocode}, ${
+          billingAddress.postalCode
+        }`,
+        billingAddress.phone
       ]
     };
   }
 
-  getShippingMethodCardContent(deliveryMode: any): Card {
+  getPaymentInfoCardContent(paymentInfo: any): Card {
     return {
-      textBold: deliveryMode.name,
-      text: [deliveryMode.description]
+      textBold: `Payment`,
+      text: [
+        paymentInfo.accountHolderName,
+        paymentInfo.cardNumber,
+        `Expires in ${paymentInfo.expiryMonth} / ${paymentInfo.expiryYear}`
+      ]
     };
   }
 }
