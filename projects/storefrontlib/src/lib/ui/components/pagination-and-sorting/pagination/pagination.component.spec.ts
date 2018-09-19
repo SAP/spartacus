@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductPagingComponent } from './product-paging.component';
+import { PaginationComponent } from './pagination.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
-describe('ProductPagingComponent', () => {
-  let component: ProductPagingComponent;
-  let fixture: ComponentFixture<ProductPagingComponent>;
+describe('PaginationComponent', () => {
+  let component: PaginationComponent;
+  let fixture: ComponentFixture<PaginationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgbPaginationModule.forRoot()],
-      declarations: [ProductPagingComponent]
+      declarations: [PaginationComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProductPagingComponent);
+    fixture = TestBed.createComponent(PaginationComponent);
     component = fixture.componentInstance;
   });
 
