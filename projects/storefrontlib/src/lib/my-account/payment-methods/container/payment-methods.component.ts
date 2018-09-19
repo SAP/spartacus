@@ -46,7 +46,7 @@ export class PaymentMethodsComponent implements OnInit {
       textBold: payment.accountHolderName,
       text: [
         payment.cardNumber,
-        'Expires: ' + payment.expiryMonth + '/' + payment.expiryYear
+        `Expires: ${payment.expiryMonth}/${payment.expiryYear}`
       ],
       img: ccImage,
       actions: [{ name: 'DELETE', event: 'delete' }],
@@ -57,6 +57,6 @@ export class PaymentMethodsComponent implements OnInit {
   }
 
   deletePaymentMethod(paymentMethod) {
-    console.log('TODO: delete payment method in backend'); // TODO delete payment method in backend
+    // TODO delete payment method in backend
   }
 }
