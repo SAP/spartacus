@@ -37,7 +37,7 @@ const mockStore = {
 
 describe('CartNotEmptyGuard', () => {
   let cartNotEmptyGuard: CartNotEmptyGuard;
-  let router;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
