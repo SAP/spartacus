@@ -26,7 +26,6 @@ export class ComponentWrapperComponent
   @Input() componentType: string;
   @Input() componentUid: string;
   @Input() contextParameters: any;
-  @Input() componentClass: string;
   // the component is loaded from server or extracted from cms page data
   // by default, component data is extracted from page data
   @Input() componentLoad = false;
