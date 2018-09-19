@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PaymentDetailsPageComponent } from './payment-details-page.component';
 import { AuthGuard } from '../../../auth/guards/auth.guard';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
+import { PaymentMethodsModule } from '../../../my-account/payment-methods/payment-methods.module';
 
 const routes: Routes = [
   {
@@ -16,7 +17,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(routes)],
+  imports: [CommonModule, PaymentMethodsModule, RouterModule.forChild(routes)],
   declarations: [PaymentDetailsPageComponent],
   exports: [PaymentDetailsPageComponent]
 })
