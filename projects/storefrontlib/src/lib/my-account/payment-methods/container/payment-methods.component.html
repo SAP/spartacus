@@ -4,20 +4,14 @@
     <h3>Payment methods</h3>
   </div>
 
-  <ng-container *ngIf="existingPaymentMethods$ | async as existingPaymentMethods">
-    <div class="content" *ngIf="existingPaymentMethods?.length">
-      <div *ngFor="let method of existingPaymentMethods">
-
-      </div>
-    </div>
-  </ng-container>
-
   <div class="y-payment-methods__body">
     <div class="y-payment-methods__msg">New payment methods are added during checkout.</div>
-    <div *ngIf="existingPaymentMethods" class="y-payment-methods__exisiting-methods row">
-      <div *ngFor="let payment of existingPaymentMethods" class="y-payment-methods__card col-sm-12 col-md-12 col-lg-6">
-        <y-card [border]="true" [content]="payment" (emittedEvent)="emittedEventHandler($event)"></y-card>
+
+    <div *ngIf="paymentMethods$ | async as paymentMethods" class="y-payment-methods__exisiting-methods row">
+      <div class="y-payment-methods__card col-sm-12 col-md-12 col-lg-6" *ngFor="let paymentMethod of paymentMethods">
+        <y-card [border]="true" [content]="getCardContent(paymentMethod)" (deleteCard)="deletePaymentMethod(paymentMethod)"></y-card>
       </div>
     </div>
+
   </div>
 </div>

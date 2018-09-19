@@ -36,7 +36,7 @@
         <div *ngIf="content.actions && !editMode" class="y-card-body__actions-container">
             <div *ngFor="let action of content.actions">
                 <div [ngSwitch]="action.event">
-                    <a *ngSwitchCase="'delete'" class="card-link btn-link" (click)="delete()">{{action.name}}</a>
+                    <a *ngSwitchCase="'delete'" class="card-link btn-link" (click)="setEditMode()">{{action.name}}</a>
                     <a *ngSwitchCase="'default'" class="card-link btn-link" (click)="setDefault()">{{action.name}}</a>
                     <a *ngSwitchCase="'send'" class="card-link btn-link" (click)="send()">{{action.name}}</a>
                     <a *ngSwitchCase="'edit'" class="card-link btn-link" (click)="edit()">{{action.name}}</a>
