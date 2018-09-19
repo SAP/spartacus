@@ -68,21 +68,5 @@ export class AddToCartComponent implements OnInit {
     this.modalInstance.entry$ = this.cartEntry$;
     this.modalInstance.cart$ = this.store.select(fromCartStore.getActiveCart);
     this.modalInstance.quantity = this.quantity;
-
-    this.modalInstance.updateEntryEvent.subscribe((data: any) =>
-      this.updateEntry(data)
-    );
-
-    this.modalInstance.removeEntryEvent.subscribe((data: any) => {
-      this.removeEntry(data);
-    });
-  }
-
-  private updateEntry({ entry, updatedQuantity }) {
-    this.cartService.updateCartEntry(entry.entryNumber, updatedQuantity);
-  }
-  private removeEntry(entry) {
-    this.cartService.removeCartEntry(entry);
-    this.modalInstance.close();
   }
 }

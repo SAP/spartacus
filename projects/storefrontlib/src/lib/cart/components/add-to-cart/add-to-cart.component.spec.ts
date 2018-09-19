@@ -70,7 +70,7 @@ describe('AddToCartComponent', () => {
     expect(addToCartComponent).toBeTruthy();
   });
 
-  it('should call ngOnChanges()', () => {
+  it('should call ngOnInit()', () => {
     addToCartComponent.ngOnInit();
     addToCartComponent.cartEntry$.subscribe(entry =>
       expect(entry).toEqual(mockCartEntry)
