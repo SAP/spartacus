@@ -20,7 +20,10 @@ function main() {
   const configurationData = JSON.parse(configurationJsonData);
 
   updateAngularJsonFile(shellappPath);
-  updateTsconfigJsonFile(shellappPath);
+  updateTsconfigJsonFile(shellappPath + '/tsconfig.json');
+  updateTsconfigJsonFile(
+    shellappPath + '/projects/storefrontapp/tsconfig.app.prod.json'
+  );
   updatePackageJsonFile(shellappPath, configurationData);
 }
 
@@ -50,8 +53,7 @@ function updateAngularJsonFile(shellappPath) {
   );
 }
 
-function updateTsconfigJsonFile(shellappPath) {
-  const tsConfigPath = `${shellappPath}/tsconfig.json`;
+function updateTsconfigJsonFile(tsConfigPath) {
   console.log(`Updating ${tsConfigPath}`);
   //Get the json from the tsconfig.file
   const file = filesystem.readFileSync(tsConfigPath);

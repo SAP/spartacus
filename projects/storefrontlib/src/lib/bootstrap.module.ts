@@ -10,7 +10,8 @@ import {
   NgbTypeaheadModule,
   NgbCollapseModule,
   NgbModalModule,
-  NgbPaginationModule
+  NgbPaginationModule,
+  NgbPaginationConfig
 } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   imports: [
@@ -33,6 +34,11 @@ import {
     NgbModalModule,
     NgbPaginationModule
   ],
-  providers: [NgbTabsetConfig, NgbAccordionConfig, NgbRatingConfig]
+  providers: [
+    NgbTabsetConfig,
+    NgbAccordionConfig,
+    NgbRatingConfig,
+    NgbPaginationConfig
+  ]
 })
 export class BootstrapModule {}

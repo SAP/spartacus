@@ -14,7 +14,7 @@ import { CheckoutService } from '../../../services/checkout.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
 
 import { CardModule } from '../../../../ui/components/card/card.module';
-import { CartSharedModule } from '../../../../cart/components/cart-shared/cart-shared.module';
+import { CartDetailsModule } from '../../../../cart/components/cart-details/cart-details.module';
 
 const mockCart = {
   guid: 'test',
@@ -39,7 +39,7 @@ describe('ReviewSubmitComponent', () => {
           auth: combineReducers(fromAuth.getReducers())
         }),
         CardModule,
-        CartSharedModule
+        CartDetailsModule
       ],
       declarations: [ReviewSubmitComponent],
       providers: [CheckoutService, CartDataService]
