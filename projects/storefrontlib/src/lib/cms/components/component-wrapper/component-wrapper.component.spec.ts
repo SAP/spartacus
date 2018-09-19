@@ -1,4 +1,4 @@
-import { Component, NgModule, DebugElement } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
@@ -8,7 +8,6 @@ import { ComponentWrapperComponent } from './component-wrapper.component';
 import { ComponentMapperService } from '../../services/component-mapper.service';
 import { AbstractCmsComponent } from '../abstract-cms-component';
 import { CmsModuleConfig } from '../../cms-module-config';
-import { By } from '@angular/platform-browser';
 
 @Component({
   template: 'test content'
