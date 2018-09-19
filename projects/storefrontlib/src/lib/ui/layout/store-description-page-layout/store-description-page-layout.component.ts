@@ -5,11 +5,6 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './store-description-page-layout.component.html',
   styleUrls: ['./store-description-page-layout.component.css']
 })
-export class StoreDescriptionPageLayoutComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class StoreDescriptionPageLayoutComponent {
+  constructor() {}
 }
