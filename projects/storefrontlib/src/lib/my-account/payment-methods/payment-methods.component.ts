@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import * as fromUserStore from '../../../user/store';
-import { CheckoutService } from '../../../checkout/services/checkout.service';
+import * as fromUserStore from '../../user/store';
+import { CheckoutService } from '../../checkout/services/checkout.service';
 import { tap } from 'rxjs/operators';
-import { Card } from '../../../ui/components/card/card.component';
-import { CartService } from '../../../cart/services/cart.service';
+import { Card } from '../../ui/components/card/card.component';
+import { CartService } from '../../cart/services/cart.service';
 
 @Component({
   selector: 'y-payment-methods',
