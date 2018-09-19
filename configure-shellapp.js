@@ -90,6 +90,15 @@ function updatePackageJsonFile(shellappPath, configurationData) {
     ...packageJsonData.dependencies
   };
 
+  packageJsonData.scripts = { // setting default package.json scripts
+    ng: 'ng',
+    start: 'ng serve',
+    build: 'ng build',
+    test: 'ng test',
+    lint: 'ng lint',
+    e2e: 'ng e2e'
+  }
+
   //save modification
   filesystem.writeFileSync(
     packageJsonPath,
