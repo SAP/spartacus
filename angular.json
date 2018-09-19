@@ -111,6 +111,9 @@
             },
             "ci": {
               "browserTarget": "storefrontapp:build:ci"
+            },
+            "qa": {
+              "browserTarget": "storefrontapp:build:qa"
             }
           }
         },

@@ -11,6 +11,7 @@
     "lint": "ng lint",
     "start": "ng serve",
     "start:prod": "ng serve --prod",
+    "start:qa": "ng serve -c=ci",
     "build": "ng build --prod",
     "build:qa": "ng build -c=qa",
     "build:core:lib": "ng build storefrontlib",
