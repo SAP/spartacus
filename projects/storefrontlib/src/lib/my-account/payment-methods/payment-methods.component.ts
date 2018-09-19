@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromUserStore from '../../user/store';
-import { CheckoutService } from '../../checkout/services/checkout.service';
+import * as fromAuthStore from '../../auth/store';
 import { tap } from 'rxjs/operators';
 import { Card } from '../../ui/components/card/card.component';
-import { CartService } from '../../cart/services/cart.service';
 
 @Component({
   selector: 'y-payment-methods',
@@ -15,12 +14,7 @@ import { CartService } from '../../cart/services/cart.service';
 export class PaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<any>;
 
-  constructor(
-    protected store: Store<fromUserStore.UserState>,
-    // tslint:disable-next-line:no-unused-variable max-line-length
-    private cartService: CartService, // hack: unused, but it has to be created before CheckoutService, because CartService initializes CartDataService
-    protected checkoutService: CheckoutService
-  ) {}
+  constructor(private store: Store<fromUserStore.UserState>) {}
 
   ngOnInit() {
     this.paymentMethods$ = this.store
@@ -28,10 +22,23 @@ export class PaymentMethodsComponent implements OnInit {
       .pipe(
         tap(paymentMethods => {
           if (!paymentMethods.length) {
-            this.checkoutService.loadUserPaymentMethods();
+            this.loadPaymentMethods();
           }
         })
       );
+  }
+
+  private loadPaymentMethods() {
+    this.store
+      .select(fromAuthStore.getUserToken)
+      .subscribe(userData => {
+        if (userData && userData.userId) {
+          this.store.dispatch(
+            new fromUserStore.LoadUserPaymentMethods(userData.userId)
+          );
+        }
+      })
+      .unsubscribe();
   }
 
   getCardContent(payment): Card {
