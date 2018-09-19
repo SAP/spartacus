@@ -37,6 +37,7 @@ describe('Currencies Reducer', () => {
       const action = new fromActions.LoadCurrenciesFail({});
       const state = fromCurrencies.reducer(initialState, action);
       expect(state.loading).toEqual(false);
+      expect(state.loaded).toEqual(false);
     });
   });
 

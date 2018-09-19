@@ -44,6 +44,7 @@ export function reducer(
     case fromCurrencies.LOAD_CURRENCIES_FAIL: {
       return {
         ...state,
+        loaded: false,
         loading: false
       };
     }

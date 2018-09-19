@@ -37,6 +37,7 @@ describe('Languages Reducer', () => {
       const action = new fromActions.LoadLanguagesFail({});
       const state = fromLanguages.reducer(initialState, action);
       expect(state.loading).toEqual(false);
+      expect(state.loaded).toEqual(false);
     });
   });
 

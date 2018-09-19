@@ -44,6 +44,7 @@ export function reducer(
     case fromLanguages.LOAD_LANGUAGES_FAIL: {
       return {
         ...state,
+        loaded: false,
         loading: false
       };
     }
