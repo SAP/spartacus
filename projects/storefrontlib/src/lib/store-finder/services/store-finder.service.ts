@@ -9,9 +9,11 @@ export class StoreFinderService {
   constructor(private store: Store<fromStore.StoresState>) {}
 
   findStores(queryText: string, longitudeLatitude?: number[]) {
-    this.store.dispatch(
-      new fromStore.FindStores({ queryText, longitudeLatitude })
-    );
+    if (longitudeLatitude) {
+      this.store.dispatch(
+        new fromStore.FindStores({ queryText, longitudeLatitude })
+      );
+    } else this.store.dispatch(new fromStore.FindStores({ queryText }));
   }
 
   viewAllStores() {
