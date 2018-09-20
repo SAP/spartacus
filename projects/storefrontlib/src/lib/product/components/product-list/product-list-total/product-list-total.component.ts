@@ -1,12 +1,8 @@
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import {
-  Component,
-  Input,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import * as fromProductStore from '../../../store';
 
 @Component({

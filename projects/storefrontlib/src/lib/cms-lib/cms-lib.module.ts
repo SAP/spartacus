@@ -34,8 +34,6 @@ import { CookieConfirmationModule } from './cookie-confirmation/cookie-confirmat
     TabParagraphContainerModule,
     CookieConfirmationModule
   ],
-  exports: [
-    BreadcrumbModule
-  ]
+  exports: [BreadcrumbModule]
 })
 export class CmsLibModule {}
