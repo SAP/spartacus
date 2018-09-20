@@ -11,7 +11,7 @@ export class MultiStepCheckoutPage extends AppPage {
   );
 
   readonly orderSummary: ElementFinder = this.page.element(
-    by.tagName('y-order-summary')
+    by.css('.y-order-summary__amount')
   );
 
   readonly addressForm: AddressForm = new AddressForm(this.page);
