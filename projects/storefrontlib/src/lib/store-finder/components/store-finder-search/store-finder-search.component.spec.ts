@@ -14,6 +14,31 @@ import * as fromStore from '../../store';
 const latitude = 10.1;
 const longitude = 39.2;
 
+const coor: Coordinates = {
+  latitude: latitude,
+  longitude: longitude,
+  accuracy: 0,
+  altitude: null,
+  altitudeAccuracy: null,
+  heading: null,
+  speed: null
+};
+const position = { coords: coor, timestamp: new Date().valueOf() };
+
+class WindowRefMock {
+  get nativeWindow(): any {
+    return {
+      navigator: {
+        geolocation: {
+          getCurrentPosition: function(callback: Function) {
+            callback(position);
+          }
+        }
+      }
+    };
+  }
+}
+
 describe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;
   let fixture: ComponentFixture<StoreFinderSearchComponent>;
@@ -38,7 +63,7 @@ describe('StoreFinderSearchComponent', () => {
         })
       ],
       declarations: [StoreFinderSearchComponent],
-      providers: [StoreFinderService]
+      providers: [StoreFinderService, WindowRefMock]
     }).compileComponents();
   }));
 
