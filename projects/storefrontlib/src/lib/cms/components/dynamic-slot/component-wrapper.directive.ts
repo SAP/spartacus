@@ -7,7 +7,7 @@ import {
   ComponentRef,
   ComponentFactoryResolver
 } from '@angular/core';
-import { ComponentMapperService } from '../../services';
+import { ComponentMapperService } from '../../services/component-mapper.service';
 import { AbstractCmsComponent } from '../abstract-cms-component';
 
 @Directive({
