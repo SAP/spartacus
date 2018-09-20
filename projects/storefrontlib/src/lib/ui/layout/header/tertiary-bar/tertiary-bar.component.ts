@@ -12,10 +12,6 @@ export class TertiaryBarComponent implements OnInit {
       url: '/sale'
     },
     {
-      label: 'Find a store',
-      url: '/store-finder'
-    },
-    {
       label: 'Contact us',
       url: '/contact'
     },
