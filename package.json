@@ -15,7 +15,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "start:pwa": "cd ./dist/storefrontapp/ && http-server -p 3000",
+    "start:pwa": "cd ./dist/storefrontapp/ && http-server -p 4200",
     "test:core:lib": "ng test storefrontlib --code-coverage"
   },
   "private": false,
