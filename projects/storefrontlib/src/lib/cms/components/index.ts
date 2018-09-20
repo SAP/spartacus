@@ -1,4 +1,3 @@
-export * from './dynamic-slot/dynamic-slot.module';
 export * from './dynamic-slot/dynamic-slot.component';
 export * from './dynamic-slot/component-wrapper.directive';
 

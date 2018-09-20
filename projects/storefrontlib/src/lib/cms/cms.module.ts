@@ -18,7 +18,6 @@ import { guards } from './guards/index';
 // services
 import { services } from './services/index';
 import { CmsModuleConfig } from './cms-module-config';
-import { DynamicSlotModule } from './components/dynamic-slot/dynamic-slot.module';
 
 export function overrideCmsModuleConfig(configOverride: any) {
   return { ...new CmsModuleConfig(), ...configOverride };
@@ -32,12 +31,11 @@ export const CMS_MODULE_CONFIG_OVERRIDE: InjectionToken<
   imports: [
     CommonModule,
     HttpClientModule,
-    DynamicSlotModule,
     StoreModule.forFeature('cms', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
   providers: [reducerProvider, ...services, ...guards, CmsModuleConfig],
-  declarations: [],
+  declarations: [...components],
   exports: [...components]
 })
 export class CmsModule {
