@@ -14,14 +14,14 @@ const testText = 'test text';
 @Component({
   template: `<div id="debugEl1">${testText}</div>`
 })
-export class TestComponent1 extends AbstractCmsComponent {
+export class TestComponent extends AbstractCmsComponent {
   static componentName = 'TestComponent1';
 }
 
 @NgModule({
-  declarations: [TestComponent1],
-  entryComponents: [TestComponent1],
-  exports: [TestComponent1]
+  declarations: [TestComponent],
+  entryComponents: [TestComponent],
+  exports: [TestComponent]
 })
 export class TestModule {}
 
@@ -32,10 +32,8 @@ export class MockCmsModuleConfig {
 }
 
 @Component({
-  template: `
-    <ng-container yComponentWrapper 
-      componentType="CMSTestComponent"></ng-container>
-    `
+  template:
+    '<ng-container yComponentWrapper componentType="CMSTestComponent"></ng-container>'
 })
 class TestWrapperComponent {}
 

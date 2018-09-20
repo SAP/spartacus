@@ -44,12 +44,19 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
 
       this.cmpRef = this.vcr.createComponent(factory);
       const instance: AbstractCmsComponent = this.cmpRef.instance;
-      if (instance.setUid) instance.setUid(this.componentUid);
-      if (instance.setLoad) instance.setLoad(this.componentLoad);
+      if (instance.setUid) {
+        instance.setUid(this.componentUid);
+      }
+      if (instance.setLoad) {
+        instance.setLoad(this.componentLoad);
+      }
       // pass parameters to dynamic component
-      if (this.contextParameters && instance.setContextParameters)
+      if (this.contextParameters && instance.setContextParameters) {
         instance.setContextParameters(this.contextParameters);
-      if (instance.bootstrap) instance.bootstrap();
+      }
+      if (instance.bootstrap) {
+        instance.bootstrap();
+      }
     }
   }
 
