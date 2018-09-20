@@ -40,8 +40,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       const target = event.target || event.srcElement;
       if (
-        target.attributes.href &&
-        target.attributes['ng-reflect-router-link'] === undefined
+        target.attributes['class'] &&
+        target.attributes['class'].nodeValue === 'y-navigation__child-link' &&
+        target.attributes.href === undefined
       ) {
         this.logout();
       }
