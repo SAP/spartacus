@@ -15,7 +15,7 @@ import { OccOrderService } from '../../../occ/order/order.service';
 import { ProductImageConverterService } from '../../../product/converters';
 import { GlobalMessageType } from '../../../global-message/models/message.model';
 
-fdescribe('Checkout effect', () => {
+describe('Checkout effect', () => {
   let cartService: OccCartService;
   let orderService: OccOrderService;
   let entryEffects: fromEffects.CheckoutEffects;
@@ -342,7 +342,7 @@ fdescribe('Checkout effect', () => {
     });
   });
 
-  fdescribe('placeOrder$', () => {
+  describe('placeOrder$', () => {
     it('should place order', () => {
       spyOn(productImageConverter, 'convertProduct').and.returnValue(
         orderDetails
