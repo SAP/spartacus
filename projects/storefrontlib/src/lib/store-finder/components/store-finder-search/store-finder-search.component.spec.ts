@@ -7,39 +7,12 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { MaterialModule } from '../../../material.module';
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 import { StoreFinderService } from '../../services/store-finder.service';
-import {WindowRef} from '../../services/windowRef';
 
 import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../store';
 
-
 const latitude = 10.1;
 const longitude = 39.2;
-
-const coor: Coordinates = {
-  latitude: latitude,
-  longitude: longitude,
-  accuracy: 0,
-  altitude: null,
-  altitudeAccuracy: null,
-  heading: null,
-  speed: null
-};
-const position = {coords: coor, timestamp: new Date().valueOf()};
-
-class WindowRefMock {
-  get nativeWindow(): any {
-    return {
-      navigator: {
-        geolocation: {
-          getCurrentPosition: function (callback: Function) {
-            callback(position);
-          }
-        }
-      }
-    };
-  }
-}
 
 describe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;

@@ -6,11 +6,12 @@ import * as fromStore from '../store';
 
 @Injectable()
 export class StoreFinderService {
-  constructor(private store: Store<fromStore.StoresState>) {
-  }
+  constructor(private store: Store<fromStore.StoresState>) {}
 
   findStores(queryText: string, longitudeLatitude?: number[]) {
-    this.store.dispatch(new fromStore.FindStores({ queryText, longitudeLatitude }));
+    this.store.dispatch(
+      new fromStore.FindStores({ queryText, longitudeLatitude })
+    );
   }
 
   viewAllStores() {

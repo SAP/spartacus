@@ -13,8 +13,10 @@ export class StoreFinderSearchComponent {
   @Output() showMapList: EventEmitter<boolean> = new EventEmitter<boolean>();
   searchBox: FormControl = new FormControl();
 
-  constructor(private storeFinderService: StoreFinderService, private winRef: WindowRef) {
-  }
+  constructor(
+    private storeFinderService: StoreFinderService,
+    private winRef: WindowRef
+  ) {}
 
   findStores(address: string) {
     this.storeFinderService.findStores(address);
@@ -29,7 +31,12 @@ export class StoreFinderSearchComponent {
 
   viewStoresWithMyLoc() {
     this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
-      (position: Position) => this.storeFinderService.findStores('', [position.coords.latitude, position.coords.longitude]));
+      (position: Position) =>
+        this.storeFinderService.findStores('', [
+          position.coords.latitude,
+          position.coords.longitude
+        ])
+    );
     this.showMapList.emit(true);
   }
 
