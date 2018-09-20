@@ -1,8 +1,7 @@
+import { ComponentsModule } from './../../../../ui/components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ItemCounterComponent } from '../item-counter/item-counter.component';
-import { MediaModule } from './../../../../ui/components/media/media.module';
 import { CartItemComponent } from './cart-item.component';
 
 describe('CartItemComponent', () => {
@@ -11,8 +10,8 @@ describe('CartItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, MediaModule],
-      declarations: [CartItemComponent, ItemCounterComponent],
+      imports: [RouterTestingModule, ReactiveFormsModule, ComponentsModule],
+      declarations: [CartItemComponent],
       providers: [
         {
           provide: ControlContainer
@@ -24,7 +23,7 @@ describe('CartItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemComponent);
     cartItemComponent = fixture.componentInstance;
-    cartItemComponent.entry = 'mockEntry';
+    cartItemComponent.item = {};
 
     spyOn(cartItemComponent.remove, 'emit').and.callThrough();
     spyOn(cartItemComponent.update, 'emit').and.callThrough();
@@ -34,19 +33,19 @@ describe('CartItemComponent', () => {
     expect(cartItemComponent).toBeTruthy();
   });
 
-  it('should call removeEntry()', () => {
-    cartItemComponent.removeEntry();
+  it('should call removeItem()', () => {
+    cartItemComponent.removeItem();
 
     expect(cartItemComponent.remove.emit).toHaveBeenCalledWith(
-      cartItemComponent.entry
+      cartItemComponent.item
     );
   });
 
-  it('should call updateEntry()', () => {
-    cartItemComponent.updateEntry(2);
+  it('should call updateItem()', () => {
+    cartItemComponent.updateItem(2);
 
     expect(cartItemComponent.update.emit).toHaveBeenCalledWith({
-      entry: cartItemComponent.entry,
+      item: cartItemComponent.item,
       updatedQuantity: 2
     });
   });

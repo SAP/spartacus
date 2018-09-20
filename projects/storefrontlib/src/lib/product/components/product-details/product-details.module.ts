@@ -3,20 +3,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { MaterialModule } from '../../../material.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
-
 import { ProductDetailsComponent } from './container/product-details.component';
 import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
 import { ProductImagesComponent } from './product-images/product-images.component';
 import { ProductSummaryComponent } from './product-summary/product-summary.component';
-import { StarRatingComponent } from './star-rating/star-rating.component';
 import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
 
 import { CmsModule } from '../../../cms/cms.module'; // some slots are loaded inside components (i.e. tabs)
-
+import { BootstrapModule } from '../../../bootstrap.module';
+// guards
 import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
-import { MediaModule } from '../../../ui/components/media/media.module';
+import { ComponentsModule } from './../../../ui/components/components.module';
 import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-cart.module';
 
 @NgModule({
@@ -25,19 +22,17 @@ import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-car
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    MediaModule,
+    ComponentsModule,
     CartSharedModule,
-    MaterialModule,
-    FlexLayoutModule,
     CmsModule,
-    AddToCartModule
+    AddToCartModule,
+    BootstrapModule
   ],
   declarations: [
     ProductSummaryComponent,
     ProductAttributesComponent,
     ProductDetailsComponent,
     ProductImagesComponent,
-    StarRatingComponent,
     ProductReviewsComponent
   ],
   exports: [
@@ -45,7 +40,6 @@ import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-car
     ProductSummaryComponent,
     ProductAttributesComponent,
     ProductImagesComponent,
-    StarRatingComponent,
     ProductReviewsComponent
   ]
 })

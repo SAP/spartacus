@@ -1,41 +1,91 @@
-<h2>Checkout</h2>
+<div class="y-page">
+    <ng-container *ngIf="cart$ | async as cart">
+        <header class="y-page__header">
+            <h1 class="y-page__title d-none d-lg-block d-xl-block">Checkout {{cart.totalItems}} items
+            </h1>
+        </header>
 
-<div class="board-inner" id="status-buttons">
-    <ul class="progressbar">
-        <li [ngClass]="{'active': step===1 || step===2 || step===3 || step===4}" (click)="setStep(1)">Shipping Address</li>
-        <li [ngClass]="{'active': step===2 || step===3 || step===4}" (click)="setStep(2)">Shipping Method</li>
-        <li [ngClass]="{'active': step===3 || step===4}" (click)="setStep(3)">Payment</li>
-        <li [ngClass]="{'active': step===4}" (click)="setStep(4)">Review</li>
-    </ul>
+        <div class="y-multi-step-checkout container">
+            <div class="row">
+
+                <div class="col-md-12 col-lg-8">
+                    <!-- VISIBLE ONLY ON LG AND XL SCREENS-->
+                    <!-- Navigation -->
+                    <div class="y-multi-step-checkout__nav d-none d-lg-block d-xl-block">
+                        <ul class="y-multi-step-checkout__nav-list">
+                            <li *ngFor="let nav of navs" class="y-multi-step-checkout__nav-item" [ngClass]="{' is-disabled': nav.status.disabled,' progressbar': nav.progressBar}">
+                                <a class=" y-multi-step-checkout__nav-link " [ngClass]="{' is-disabled': nav.status.disabled, ' is-active': nav.status.active}"
+                                    (click)="nav.status.disabled === false ? setStep(nav.id) : false">{{nav.label}}</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div *ngFor="let nav of navs" class="d-none d-lg-block d-xl-block">
+                        <div *ngIf="nav.status.active && step === 1">
+                            <y-shipping-address [selectedAddress]="deliveryAddress" (addAddress)="addAddress($event)"></y-shipping-address>
+                        </div>
+                        <div *ngIf="nav.status.active && step === 2">
+                            <y-delivery-mode [selectedShippingMethod]="shippingMethod" (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode>
+                        </div>
+                        <div *ngIf="nav.status.active && step === 3">
+                            <y-payment-method [selectedPayment]="paymentDetails" (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-method>
+                        </div>
+                        <div *ngIf="nav.status.active && step === 4">
+                            <y-review-submit [deliveryAddress]="deliveryAddress" [shippingMethod]="shippingMethod" [paymentDetails]="paymentDetails">
+                            </y-review-submit>
+                        </div>
+                    </div>
+
+                    <!-- VISIBLE ONLY ON MD, SM AND XS SCREENS-->
+                    <div class="y-multi-step-checkout__nav--media d-block d-lg-none d-xl-none">
+                        <div class="y-multi-step-checkout__nav-list--media">Cart total ({{cart.totalItems}} items): {{cart.subTotal?.formattedValue}}</div>
+
+                        <div *ngFor="let nav of navs">
+                            <!-- Navigation -->
+                            <div class="y-multi-step-checkout__nav-list--media" [ngClass]="{' is-active': nav.status.active}">
+                                <div>{{nav.label}}</div>
+                                <button *ngIf="nav.status.completed && !nav.status.active" class="btn btn-link" (click)="setStep(nav.id)">edit</button>
+                            </div>
+
+                            <!-- Content -->
+                            <div *ngIf="nav.status.active && step === 1">
+                                <y-shipping-address [selectedAddress]="deliveryAddress" (addAddress)="addAddress($event)"></y-shipping-address>
+                            </div>
+                            <div *ngIf="nav.status.active && step === 2">
+                                <y-delivery-mode [selectedShippingMethod]="shippingMethod" (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode>
+                            </div>
+                            <div *ngIf="nav.status.active && step === 3">
+                                <y-payment-method [selectedPayment]="paymentDetails" (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-method>
+                            </div>
+                            <div *ngIf="nav.status.active && step === 4">
+                                <y-review-submit [deliveryAddress]="deliveryAddress" [shippingMethod]="shippingMethod" [paymentDetails]="paymentDetails">
+                                </y-review-submit>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ORDER SUMMARY SECTION -->
+                <div class="col-md-7 offset-md-5 col-lg-4 offset-lg-0">
+                    <y-order-summary [cart]="cart"></y-order-summary>
+
+                    <!-- CHECKBOX AND PLACE ORDER BUTTON -->
+                    <div class="y-multi-step-checkout__place-order" *ngIf="step === 4">
+                        <div class="y-multi-step-checkout__place-order-form form-check">
+                            <input class="form-check-input" type="checkbox" (change)="toggleTAndC()" id="t&cCheck">
+                            <label class="form-check-label" for="defaultCheck1">
+                                I confirm that I have read and agree with the
+                                <a href="#">Terms & Conditions</a>
+                            </label>
+                        </div>
+                        <button [disabled]="!tAndCToggler" (click)="placeOrder()" class="btn btn-primary btn-block">Place
+                            Order</button>
+                        <button class="btn btn-action btn-block" (click)="setStep(3)">Back</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </ng-container>
 </div>
-
-<ng-container *ngIf="cart$ | async as cart">
-    <div id="step1" *ngIf="step === 1">
-        <y-address-form [existingAddresses]="(existingAddresses$ | async)" (addAddress)="addAddress($event)" (verifyAddress)="verifyAddress($event)"></y-address-form>
-        <div class="order-summary-address-form">
-            <y-order-summary [cart]="cart"></y-order-summary>
-        </div>
-    </div>
-
-    <div id="step2" *ngIf="step === 2">
-        <y-delivery-mode-form [deliveryAddress]="deliveryAddress" (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode-form>
-        <div class="order-delivery-mode-form">
-            <y-order-summary [cart]="cart"></y-order-summary>
-        </div>
-    </div>
-
-    <div id="step3" *ngIf="step === 3">
-        <y-payment-form [existingPaymentMethods]="(existingPaymentMethods$ | async)" (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-form>
-        <div class="payment-form">
-            <y-order-summary [cart]="cart"></y-order-summary>
-        </div>
-    </div>
-
-    <div id="step4" *ngIf="step === 4">
-        <y-review-submit (placeOrder)="placeOrder()" [deliveryAddress]="deliveryAddress" [paymentDetails]="paymentDetails" (backStep)="setStep(3)">
-        </y-review-submit>
-        <div class="order-review">
-            <y-order-summary [cart]="cart"></y-order-summary>
-        </div>
-    </div>
-</ng-container>

@@ -1,0 +1,95 @@
+@import '../../theme';
+@import '../../mixins';
+@import '~bootstrap/scss/alert';
+
+//alert - https://github.com/twbs/bootstrap/blob/v4-dev/scss/alert.scss
+.alert {
+  text-align: center;
+  color: theme-color('text');
+  @include type('6', 'semi');
+  padding: 22px 4rem 22px 20px;
+  line-height: 1.5;
+
+  &-icon {
+    height: 26px;
+    margin-right: spacer(2);
+    position: relative;
+    display: inline-block;
+    &::before {
+      position: relative;
+      font-size: 18px;
+      font-weight: $font-weight-bold;
+      text-align: center;
+      display: inline-block;
+      width: 26px;
+      height: 26px;
+    }
+  }
+
+  &-success {
+    background-color: mix(#ffffff, theme-color('success'), 80%);
+    border: none;
+    .alert-icon {
+      background-color: theme-color('success');
+      border-radius: 50%;
+      &::before {
+        content: '\0393';
+        color: mix(#ffffff, theme-color('success'), 80%);
+        transform: rotate(-135deg);
+        bottom: 1px;
+      }
+    }
+  }
+
+  &-danger {
+    background-color: mix(#ffffff, theme-color('danger'), 85%);
+    border: none;
+    .alert-icon {
+      border-radius: 50%;
+      background-color: theme-color('danger');
+      &::before {
+        content: '!';
+        color: mix(#ffffff, theme-color('danger'), 85%);
+      }
+    }
+  }
+
+  &-info {
+    background-color: mix(#ffffff, theme-color('info'), 80%);
+    border: none;
+    .alert-icon {
+      background-color: theme-color('info');
+      border-radius: 50%;
+      &::before {
+        content: '\00a1';
+        color: mix(#ffffff, theme-color('info'), 80%);
+        bottom: 3px;
+      }
+    }
+  }
+
+  &-warning {
+    background-color: mix(#ffffff, theme-color('warning'), 78%);
+    border: none;
+    .alert-icon {
+      border-bottom: 25px solid theme-color('warning');
+      border-left: 13px solid transparent;
+      border-right: 13px solid transparent;
+      &::before {
+        content: '!';
+        color: mix(#ffffff, theme-color('warning'), 78%);
+        border-radius: 0;
+        height: 0;
+        width: 0;
+        text-indent: -0.15em;
+        top: 3px;
+        left: 0.5px;
+      }
+    }
+  }
+
+  .close {
+    font-size: 2rem;
+    font-weight: $font-weight-normal;
+  }
+}

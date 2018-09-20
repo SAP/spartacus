@@ -7,7 +7,7 @@ import {
 import { Store } from '@ngrx/store';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import * as fromStore from '../../cms/store';
-import { ConfigService } from '../../cms/config.service';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 
 @Component({
   selector: 'y-banner',
@@ -21,7 +21,7 @@ export class BannerComponent extends AbstractCmsComponent {
   constructor(
     protected cd: ChangeDetectorRef,
     protected store: Store<fromStore.CmsState>,
-    protected config: ConfigService
+    protected config: CmsModuleConfig
   ) {
     super(cd, store, config);
   }
@@ -41,6 +41,10 @@ export class BannerComponent extends AbstractCmsComponent {
   // TODO: implement target
   public getTarget(): string {
     return '_self';
+  }
+
+  getAltText() {
+    return this.component.media.altText;
   }
 
   public getUrlLink(): string {

@@ -3,27 +3,23 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   OnDestroy,
-  ChangeDetectorRef,
-  ViewChild
+  ChangeDetectorRef
 } from '@angular/core';
-import { take, filter, tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { filter } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
 import * as fromCheckoutStore from '../../../store';
-import * as fromUserStore from '../../../../user/store';
-
 import * as fromRouting from '../../../../routing/store';
 import * as fromCart from '../../../../cart/store';
 import * as fromGlobalMessage from '../../../../global-message/store';
 
 import { GlobalMessageType } from './../../../../global-message/models/message.model';
-
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
-
 import { Address } from '../../../models/address-model';
-import { AddressFormComponent } from '../address-form/address-form.component';
+import { checkoutNavBar } from './checkout-navigation-bar';
+import { CartDataService } from '../../../../cart/services/cart-data.service';
 
 @Component({
   selector: 'y-multi-step-checkout',
@@ -36,48 +32,185 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   deliveryAddress: Address;
   paymentDetails: any;
+  shippingMethod: string;
 
   step1Sub: Subscription;
   step2Sub: Subscription;
   step3Sub: Subscription;
   step4Sub: Subscription;
 
-  @ViewChild(AddressFormComponent) addressForm: AddressFormComponent;
-  addressVerifySub: Subscription;
-
   cart$: Observable<any>;
-  existingAddresses$: Observable<any>;
-  existingPaymentMethods$: Observable<any>;
+  tAndCToggler = false;
+
+  navs = checkoutNavBar;
 
   constructor(
     protected checkoutService: CheckoutService,
     protected cartService: CartService,
+    protected cartDataService: CartDataService,
     private store: Store<fromCheckoutStore.CheckoutState>,
     protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
+    if (!this.cartDataService.getDetails) {
+      this.cartService.loadCartDetails();
+    }
     this.cart$ = this.store.select(fromCart.getActiveCart);
+    this.processSteps();
+  }
 
-    this.existingAddresses$ = this.store
-      .select(fromUserStore.getAddresses)
+  processSteps() {
+    // step1: set delivery address
+    this.step1Sub = this.store
+      .select(fromCheckoutStore.getDeliveryAddress)
       .pipe(
-        tap(addresses => {
-          if (addresses.length === 0) {
-            this.checkoutService.loadUserAddresses();
-          }
-        })
-      );
+        filter(
+          deliveryAddress =>
+            Object.keys(deliveryAddress).length !== 0 && this.step === 1
+        )
+      )
+      .subscribe(deliveryAddress => {
+        this.deliveryAddress = deliveryAddress;
+        this.nextStep(2);
+        this.refreshCart();
+        this.cd.detectChanges();
+      });
 
-    this.existingPaymentMethods$ = this.store
-      .select(fromUserStore.getPaymentMethods)
+    // step2: select delivery mode
+    this.step2Sub = this.store
+      .select(fromCheckoutStore.getSelectedCode)
+      .pipe(filter(selected => selected !== '' && this.step === 2))
+      .subscribe(selectedMode => {
+        this.nextStep(3);
+        this.refreshCart();
+        this.shippingMethod = selectedMode;
+        this.cd.detectChanges();
+      });
+
+    // step3: set payment information
+    this.step3Sub = this.store
+      .select(fromCheckoutStore.getPaymentDetails)
       .pipe(
-        tap(payments => {
-          if (payments.length === 0) {
-            this.checkoutService.loadUserPaymentMethods();
-          }
-        })
-      );
+        filter(
+          paymentInfo =>
+            Object.keys(paymentInfo).length !== 0 && this.step === 3
+        )
+      )
+      .subscribe(paymentInfo => {
+        if (!paymentInfo['hasError']) {
+          this.nextStep(4);
+          this.paymentDetails = paymentInfo;
+          this.cd.detectChanges();
+        } else {
+          Object.keys(paymentInfo).forEach(key => {
+            if (key.startsWith('InvalidField')) {
+              this.store.dispatch(
+                new fromGlobalMessage.AddMessage({
+                  type: GlobalMessageType.MSG_TYPE_ERROR,
+                  text: 'InvalidField: ' + paymentInfo[key]
+                })
+              );
+            }
+          });
+          this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(3));
+        }
+      });
+
+    // step4: place order
+    this.step4Sub = this.store
+      .select(fromCheckoutStore.getOrderDetails)
+      .pipe(filter(order => Object.keys(order).length !== 0 && this.step === 4))
+      .subscribe(order => {
+        this.checkoutService.orderDetails = order;
+        this.store.dispatch(
+          new fromRouting.Go({
+            path: ['orderConfirmation']
+          })
+        );
+      });
+  }
+
+  setStep(backStep) {
+    this.nextStep(backStep);
+  }
+
+  nextStep(step: number): void {
+    const previousStep = step - 1;
+
+    this.navs.forEach(function(nav) {
+      if (nav.id === previousStep) {
+        nav.status.completed = true;
+      }
+      if (nav.id === step) {
+        nav.status.active = true;
+        nav.status.disabled = false;
+      } else {
+        nav.status.active = false;
+      }
+
+      nav.progressBar = nav.status.active || nav.status.completed;
+    });
+
+    this.step = step;
+    this.tAndCToggler = false;
+  }
+
+  addAddress(addressObject) {
+    if (addressObject.newAddress) {
+      this.checkoutService.createAndSetAddress(addressObject.address);
+    } else {
+      // if the selected address is the same as the cart's one
+      if (
+        this.deliveryAddress &&
+        addressObject.address.id === this.deliveryAddress.id
+      ) {
+        this.nextStep(2);
+      } else {
+        this.checkoutService.setDeliveryAddress(addressObject.address);
+      }
+    }
+  }
+
+  setDeliveryMode(deliveryMode: any) {
+    // if the selected shipping method is the same as the cart's one
+    if (
+      this.shippingMethod &&
+      this.shippingMethod === deliveryMode.deliveryModeId
+    ) {
+      this.nextStep(3);
+    } else {
+      this.checkoutService.setDeliveryMode(deliveryMode.deliveryModeId);
+    }
+  }
+
+  addPaymentInfo(paymentDetailsObject) {
+    if (paymentDetailsObject.newPayment) {
+      paymentDetailsObject.payment.billingAddress = this.deliveryAddress;
+      this.checkoutService.createPaymentDetails(paymentDetailsObject.payment);
+    } else {
+      // if the selected paymetn is the same as the cart's one
+      if (
+        this.paymentDetails &&
+        this.paymentDetails.id === paymentDetailsObject.payment.id
+      ) {
+        this.nextStep(4);
+      } else {
+        this.checkoutService.setPaymentDetails(paymentDetailsObject.payment);
+      }
+    }
+  }
+
+  placeOrder() {
+    this.checkoutService.placeOrder();
+  }
+
+  toggleTAndC() {
+    this.tAndCToggler = !this.tAndCToggler;
+  }
+
+  private refreshCart() {
+    this.cartService.loadCartDetails();
   }
 
   ngOnDestroy() {
@@ -93,150 +226,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     if (this.step4Sub) {
       this.step4Sub.unsubscribe();
     }
-    if (this.addressVerifySub) {
-      this.addressVerifySub.unsubscribe();
-    }
+
     this.store.dispatch(new fromCheckoutStore.ClearCheckoutData());
-  }
-
-  setStep(backStep) {
-    if (this.step > backStep) {
-      for (let i = backStep; i <= this.step; i++) {
-        this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(i));
-      }
-
-      this.step = backStep;
-    }
-  }
-
-  verifyAddress(address) {
-    this.checkoutService.verifyAddress(address);
-
-    this.addressVerifySub = this.store
-      .select(fromCheckoutStore.getAddressVerificationResults)
-      .pipe(
-        filter(results => Object.keys(results).length !== 0),
-        take(1)
-      )
-      .subscribe(results => {
-        if (results === 'FAIL') {
-          this.store.dispatch(
-            new fromCheckoutStore.ClearAddressVerificationResults()
-          );
-        } else if (results.decision === 'ACCEPT') {
-          this.addAddress({
-            address: address,
-            newAddress: true
-          });
-        } else if (results.decision === 'REJECT') {
-          this.store.dispatch(
-            new fromGlobalMessage.AddMessage({
-              type: GlobalMessageType.MSG_TYPE_ERROR,
-              text: 'Invalid Address'
-            })
-          );
-          this.store.dispatch(
-            new fromCheckoutStore.ClearAddressVerificationResults()
-          );
-        } else if (results.decision === 'REVIEW') {
-          this.addressForm.openSuggestedAddress(results);
-        }
-      });
-  }
-
-  addAddress(addressObject) {
-    if (addressObject.newAddress) {
-      this.checkoutService.createAndSetAddress(addressObject.address);
-    } else {
-      this.checkoutService.setDeliveryAddress(addressObject.address);
-    }
-
-    this.step1Sub = this.store
-      .select(fromCheckoutStore.getDeliveryAddress)
-      .pipe(
-        filter(deliveryAddress => Object.keys(deliveryAddress).length !== 0),
-        take(1)
-      )
-      .subscribe(deliveryAddress => {
-        this.step = 2;
-        this.refreshCart();
-        this.deliveryAddress = deliveryAddress;
-        this.cd.detectChanges();
-      });
-  }
-
-  setDeliveryMode(deliveryMode: any) {
-    this.checkoutService.setDeliveryMode(deliveryMode.deliveryModeId);
-
-    this.step2Sub = this.store
-      .select(fromCheckoutStore.getSelectedCode)
-      .pipe(
-        filter(selected => selected !== ''),
-        take(1)
-      )
-      .subscribe(selected => {
-        this.step = 3;
-        this.refreshCart();
-        this.cd.detectChanges();
-      });
-  }
-
-  addPaymentInfo(paymentDetailsObject) {
-    if (paymentDetailsObject.newPayment) {
-      paymentDetailsObject.payment.billingAddress = this.deliveryAddress;
-      this.checkoutService.createPaymentDetails(paymentDetailsObject.payment);
-    } else {
-      this.checkoutService.setPaymentDetails(paymentDetailsObject.payment);
-    }
-
-    this.step3Sub = this.store
-      .select(fromCheckoutStore.getPaymentDetails)
-      .pipe(
-        filter(paymentInfo => Object.keys(paymentInfo).length !== 0),
-        take(1)
-      )
-      .subscribe(paymentInfo => {
-        if (!paymentInfo['hasError']) {
-          this.step = 4;
-          this.paymentDetails = paymentInfo;
-          this.cd.detectChanges();
-        } else {
-          Object.keys(paymentInfo).forEach(key => {
-            if (key.startsWith('InvalidField')) {
-              this.store.dispatch(
-                new fromGlobalMessage.AddMessage({
-                  type: GlobalMessageType.MSG_TYPE_ERROR,
-                  text: 'InvalidField: ' + paymentInfo[key]
-                })
-              );
-            }
-          });
-
-          this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(3));
-        }
-      });
-  }
-
-  placeOrder() {
-    this.checkoutService.placeOrder();
-
-    this.step4Sub = this.store
-      .select(fromCheckoutStore.getOrderDetails)
-      .pipe(
-        filter(order => Object.keys(order).length !== 0),
-        take(1)
-      )
-      .subscribe(order => {
-        this.checkoutService.orderDetails = order;
-        this.store.dispatch(
-          new fromRouting.Go({
-            path: ['orderConfirmation']
-          })
-        );
-      });
-  }
-
-  private refreshCart() {
-    this.cartService.loadCartDetails();
   }
 }

@@ -1,0 +1,37 @@
+@import '../../theme.scss';
+@import '~bootstrap/scss/card';
+.card {
+  border-radius: 0;
+}
+
+.card-body {
+  padding: 20px;
+  &__title {
+    padding-bottom: 10px;
+    @include type('4');
+  }
+}
+
+.card-header {
+  background-color: theme-color('secondary');
+  @include type('8');
+  color: $white;
+  line-height: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 0 !important;
+}
+
+.card__actions-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.25rem 0 0 0;
+}
+
+.card__label--bold {
+  font-weight: $font-weight-bold;
+}
+
+.card-link {
+  @include type('8');
+}

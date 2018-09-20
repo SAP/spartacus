@@ -6,6 +6,8 @@ import {
   EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { HttpUrlEncodingCodec } from '@angular/common/http';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'y-product-facet-navigation',
@@ -21,9 +23,16 @@ export class ProductFacetNavigationComponent implements OnInit {
   @Output() filter: EventEmitter<any> = new EventEmitter<any>();
 
   showAllPerFacetMap: Map<String, boolean>;
+  queryCodec: HttpUrlEncodingCodec;
+  private collapsedFacets = new Set<string>();
 
-  constructor() {
+  get visibleFacets() {
+    return this.searchResult.facets.filter(facet => facet.visible);
+  }
+
+  constructor(private modalService: NgbModal) {
     this.showAllPerFacetMap = new Map<String, boolean>();
+    this.queryCodec = new HttpUrlEncodingCodec();
   }
 
   ngOnInit() {
@@ -32,8 +41,12 @@ export class ProductFacetNavigationComponent implements OnInit {
     });
   }
 
+  openFilterModal(content) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+  }
+
   toggleValue(query: string) {
-    this.filter.emit(query);
+    this.filter.emit(this.queryCodec.decodeValue(query));
   }
 
   showLess(facetName: String) {
@@ -46,5 +59,26 @@ export class ProductFacetNavigationComponent implements OnInit {
 
   private updateShowAllPerFacetMap(facetName: String, showAll: boolean) {
     this.showAllPerFacetMap.set(facetName, showAll);
+  }
+
+  isFacetCollapsed(facetName: string) {
+    return this.collapsedFacets.has(facetName);
+  }
+
+  toggleFacet(facetName: string) {
+    if (this.collapsedFacets.has(facetName)) {
+      this.collapsedFacets.delete(facetName);
+    } else {
+      this.collapsedFacets.add(facetName);
+    }
+  }
+
+  getVisibleFacetValues(facet) {
+    return facet.values.slice(
+      0,
+      this.showAllPerFacetMap.get(facet.name)
+        ? facet.values.length
+        : this.minPerFacet
+    );
   }
 }

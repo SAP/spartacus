@@ -1,18 +1,26 @@
-import { ActivatedRoute } from '@angular/router';
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
-
-import * as fromStore from './../../store';
-import * as fromAuthStore from './../../../auth/store';
-import { LoginComponent } from './login.component';
-import { MaterialModule } from '../../../material.module';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
+import {
+  ComponentWrapperComponent,
+  DynamicSlotComponent
+} from '../../../cms/components';
+import { CmsModuleConfig } from '../../../cms/cms-module-config';
+import { MaterialModule } from '../../../material.module';
 import { PageType } from '../../../routing/models/page-context.model';
-import { MatDialog } from '@angular/material';
-import { UserToken } from './../../../auth/models/token-types.model';
 import * as fromRouting from '../../../routing/store';
+import { UserToken } from './../../../auth/models/token-types.model';
+import * as fromAuthStore from './../../../auth/store';
+import * as fromStore from './../../store';
+import * as fromCms from './../../../cms/store';
+import { LoginComponent } from './login.component';
 
 const mockUserToken: UserToken = {
   access_token: 'xxx',
@@ -23,28 +31,57 @@ const mockUserToken: UserToken = {
   userId: 'xxx'
 };
 
+const mockUserDetails: any = {
+  displayUid: 'Display Uid',
+  firstName: 'First',
+  lastName: 'Last',
+  name: 'First Last',
+  type: 'Mock Type',
+  uid: 'UID'
+};
+
+class MockCmsModuleConfig {
+  server = {
+    baseUrl: 'https://localhost:9002',
+    occPrefix: '/rest/v2/'
+  };
+
+  site = {
+    baseSite: 'electronics',
+    language: '',
+    currency: ''
+  };
+}
+
 const cntx = { id: 'testPageId', type: PageType.CONTENT_PAGE };
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let store: Store<fromStore.UserState>;
-  let dialog: MatDialog;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         MaterialModule,
         BrowserAnimationsModule,
+        RouterTestingModule,
         FormsModule,
         StoreModule.forRoot({
           ...fromStore.getReducers(),
           user: combineReducers(fromStore.getReducers()),
-          auth: combineReducers(fromAuthStore.getReducers())
-        })
+          auth: combineReducers(fromAuthStore.getReducers()),
+          cms: combineReducers(fromCms.getReducers())
+        }),
+        HttpClientTestingModule
       ],
-      declarations: [LoginComponent],
+      declarations: [
+        ComponentWrapperComponent,
+        DynamicSlotComponent,
+        LoginComponent
+      ],
       providers: [
+        provideMockActions(() => of()),
         {
           provide: ActivatedRoute,
           useValue: {
@@ -56,7 +93,8 @@ describe('LoginComponent', () => {
               }
             }
           }
-        }
+        },
+        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
       ]
     }).compileComponents();
   }));
@@ -67,9 +105,7 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
     store = TestBed.get(Store);
 
-    dialog = TestBed.get(MatDialog);
     spyOn(store, 'dispatch').and.callThrough();
-    spyOn(dialog, 'open').and.callThrough();
   });
 
   it('should be created', () => {
@@ -91,7 +127,7 @@ describe('LoginComponent', () => {
 
     component.logout();
     expect(component.isLogin).toEqual(false);
-    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
+    expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Logout());
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromRouting.Go({
         path: ['/login']
@@ -107,8 +143,31 @@ describe('LoginComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadUserDetails(mockUserToken.userId)
     );
-    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Login());
+    expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Login());
     component.isLogin = true;
   });
-  // Add some UI unit tests once we remove material
+
+  describe('UI tests', () => {
+    it('should contain the dynamic slot: HeaderLinks', () => {
+      component.ngOnInit();
+      component.user$ = of(mockUserDetails);
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.query(
+          By.css('y-dynamic-slot[position="HeaderLinks"]')
+        )
+      ).not.toBeNull();
+    });
+
+    it('should display the correct message depending on whether the user is logged on or not', () => {
+      component.ngOnInit();
+      component.user$ = of({});
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.query(By.css('a[routerLink="login"'))
+      ).not.toBeNull();
+    });
+  });
 });

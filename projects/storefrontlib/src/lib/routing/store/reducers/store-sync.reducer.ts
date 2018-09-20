@@ -1,8 +1,11 @@
-import { ConfigService, StorageSyncType } from './../../config.service';
+import {
+  RoutingModuleConfig,
+  StorageSyncType
+} from '../../routing-module-config';
 import { ActionReducer, MetaReducer } from '@ngrx/store';
 import { localStorageSync, LocalStorageConfig } from 'ngrx-store-localstorage';
 
-function storageConfig(config: ConfigService): LocalStorageConfig {
+function storageConfig(config: RoutingModuleConfig): LocalStorageConfig {
   let storage;
   switch (config.storageSyncType) {
     case StorageSyncType.LOCAL_STORAGE: {
@@ -15,13 +18,15 @@ function storageConfig(config: ConfigService): LocalStorageConfig {
     }
   }
   return {
-    keys: [{ auth: ['userToken'] }],
+    keys: [{ auth: ['userToken', 'clientToken'] }],
     rehydrate: true,
     storage: storage ? storage : sessionStorage
   };
 }
 
-export function getStorageSyncReducer(config: ConfigService): MetaReducer<any> {
+export function getStorageSyncReducer(
+  config: RoutingModuleConfig
+): MetaReducer<any> {
   const storage = storageConfig(config);
 
   return function(reducer: ActionReducer<any>): ActionReducer<any> {

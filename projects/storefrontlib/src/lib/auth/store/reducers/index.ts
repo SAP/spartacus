@@ -41,7 +41,7 @@ export function clearAuthState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return function(state, action) {
-    if (action.type === '[User] Logout') {
+    if (action.type === '[Auth] Logout') {
       state = {
         ...state,
         userToken: undefined

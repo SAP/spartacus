@@ -1,20 +1,31 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, InjectionToken } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ConfigService } from './config.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
-import { AuthenticationTokenInterceptor } from './http-interceptors/authentication-token.interceptor';
+import { AuthModuleConfig } from './auth-module.config';
 import { services } from './services/index';
+
 import { guards } from './guards/index';
 
+import { interceptors } from './http-interceptors/index';
+
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
 import { effects } from './store/effects/index';
 import {
   reducerToken,
   reducerProvider,
   metaReducers
 } from './store/reducers/index';
-import { EffectsModule } from '@ngrx/effects';
+
+export function overrideAuthModuleConfig(configOverride: any) {
+  return { ...new AuthModuleConfig(), ...configOverride };
+}
+
+export const AUTH_MODULE_CONFIG_OVERRIDE: InjectionToken<
+  string
+> = new InjectionToken<string>('AUTH_MODULE_CONFIG_OVERRIDE');
 
 @NgModule({
   imports: [
@@ -26,22 +37,24 @@ import { EffectsModule } from '@ngrx/effects';
   providers: [
     ...guards,
     ...services,
+    ...interceptors,
     reducerProvider,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthenticationTokenInterceptor,
-      multi: true
-    }
+    AuthModuleConfig
   ]
 })
 export class AuthModule {
-  static forRoot(config: any): ModuleWithProviders {
+  static forRoot(configOverride?: any): ModuleWithProviders {
     return {
       ngModule: AuthModule,
       providers: [
         {
-          provide: ConfigService,
-          useExisting: config
+          provide: AUTH_MODULE_CONFIG_OVERRIDE,
+          useValue: configOverride
+        },
+        {
+          provide: AuthModuleConfig,
+          useFactory: overrideAuthModuleConfig,
+          deps: [AUTH_MODULE_CONFIG_OVERRIDE]
         }
       ]
     };

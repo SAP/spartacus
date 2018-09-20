@@ -1,13 +1,17 @@
+import { of } from 'rxjs';
+import { CmsModule } from './../../../cms/cms.module';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ComponentWrapperComponent } from './../../../cms/components/component-wrapper/component-wrapper.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginPageLayoutComponent } from './login-page-layout.component';
-import { DynamicSlotComponent } from '../../../cms/components';
 
 import { StoreModule, combineReducers } from '@ngrx/store';
+import * as fromCms from '../../../cms/store';
 import * as fromStore from '../../../user/store';
+import * as fromAuthStore from '../../../auth/store';
 import { LoginModule } from '../../../user/components/login/login.module';
+import { provideMockActions } from '../../../../../../../node_modules/@ngrx/effects/testing';
+import { EffectsModule } from '@ngrx/effects';
 
 describe('LoginPageLayoutComponent', () => {
   let component: LoginPageLayoutComponent;
@@ -20,16 +24,16 @@ describe('LoginPageLayoutComponent', () => {
         ReactiveFormsModule,
         LoginModule,
         RouterTestingModule,
+        CmsModule,
         StoreModule.forRoot({
           ...fromStore.getReducers(),
-          user: combineReducers(fromStore.getReducers())
-        })
+          user: combineReducers(fromStore.getReducers()),
+          auth: combineReducers(fromAuthStore.getReducers())
+        }),
+        EffectsModule.forRoot(fromCms.effects)
       ],
-      declarations: [
-        LoginPageLayoutComponent,
-        ComponentWrapperComponent,
-        DynamicSlotComponent
-      ]
+      declarations: [LoginPageLayoutComponent],
+      providers: [provideMockActions(() => of())]
     }).compileComponents();
   }));
 

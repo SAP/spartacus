@@ -32,8 +32,8 @@ export class PageEffects {
     .ofType(
       pageActions.LOAD_PAGEDATA,
       '[Site-context] Language Change',
-      '[User] Logout',
-      '[User] Login'
+      '[Auth] Logout',
+      '[Auth] Login'
     )
     .pipe(
       map((action: pageActions.LoadPageData) => action.payload),
@@ -98,7 +98,10 @@ export class PageEffects {
 
     for (const slot of res.contentSlots.contentSlot) {
       page.slots[slot.position] = [];
-      if (slot.components.component) {
+      if (
+        slot.components.component &&
+        Array.isArray(slot.components.component)
+      ) {
         for (const component of slot.components.component) {
           page.slots[slot.position].push({
             uid: component.uid,
@@ -132,7 +135,10 @@ export class PageEffects {
     const components: any[] = [];
     if (pageData) {
       for (const slot of pageData.contentSlots.contentSlot) {
-        if (slot.components.component) {
+        if (
+          slot.components.component &&
+          Array.isArray(slot.components.component)
+        ) {
           for (const component of slot.components.component) {
             components.push(component);
           }

@@ -1,6 +1,3 @@
-// Protractor configuration file, see link for more information
-// https://github.com/angular/protractor/blob/master/lib/config.ts
-
 const { SpecReporter } = require('jasmine-spec-reporter');
 
 exports.config = {
@@ -8,10 +5,13 @@ exports.config = {
   baseUrl: 'http://localhost:4200/',
   allScriptsTimeout: 10000,
   specs: ['./src/**/*.e2e-spec.ts'],
-
+  SELENIUM_PROMISE_MANAGER: false,
   capabilities: {
     browserName: 'chrome',
-    acceptInsecureCerts: true
+    acceptInsecureCerts: true,
+    chromeOptions: {
+      args: ['--window-size=1024,768']
+    }
   },
   jasmineNodeOpts: {
     showColors: true,
@@ -29,5 +29,8 @@ exports.config = {
         }
       })
     );
+
+    // Add custom locators
+    require('./src/custom-locators').addCustomLocators(by);
   }
 };

@@ -1,57 +1,118 @@
 <ng-container *ngIf="product$ | async as product">
-    <mat-card>
+    <div class="container">
+        <div class="y-product-details">
+            <div class="row">
+                <div class="col-lg-7 d-none d-md-block">
+                    <y-product-images [product]="product"></y-product-images>
+                </div>
+                <div class="col-lg-5">
+                    <div class="y-product-details__item-name">{{product?.name}}</div>
+                    <div class="y-product-details__item-code">ID {{product?.code}}</div>
 
-        <mat-card-title>
-            <span class="product-title">{{product?.name}}</span>
-            <span class="product-code">
-                <span class="prefix"> | ID {{product?.code}}</span>
-            </span>
-        </mat-card-title>
-        <div>
-            <y-star-rating [rating]="product?.averageRating"></y-star-rating>
-            <button mat-button (click)="goToReviews()">Reviews</button>
-            <button mat-button (click)="writeReview()">Write a review</button>
-            <!--
-            <button mat-button (click)=" onClick ">Reviews</button>
-            <button mat-button (click)="onClick ">Write a review</button>
-    -->
-        </div>
+                    <div class="y-product-details__item-rating">
+                        <y-star-rating [rating]="product?.averageRating" [disabled]="true"></y-star-rating>
+                        <div class="y-product-details__review-count">({{product?.numberOfReviews}})</div>
+                        <a class="y-product-details__review-link btn-link" (click)="goToReviews($event)">Write a review</a>
+                    </div>
 
-        <mat-card-content>
-            <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start" fxLayoutGap="24px">
-                <y-product-images fxFlexOrder.xs="2" [product]="product" fxFlex="50%"></y-product-images>
-                <div fxFlex="50%" fxFlexOrder.xs="1">
-                    <y-product-summary [product]="product"></y-product-summary>
-                    <y-dynamic-slot flex position="AddToCart" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
-                    <!--<y-dynamic-slot flex position="VariantSelector "></y-dynamic-slot>-->
+                    <div class="d-md-none">
+                        <y-product-images [product]="product"></y-product-images>
+                    </div>
+
+                    <y-product-summary [product]="product" (itemCountChange)="itemCount = $event"></y-product-summary>
+                    <y-add-to-cart *ngIf="product?.stock?.stockLevelStatus !=='outOfStock'" [quantity]="itemCount" [productCode]="product?.code"></y-add-to-cart>
+
+                    <a href="#" class="btn-link">
+                        Share
+                    </a>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <y-dynamic-slot flex position="CrossSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
-            <y-dynamic-slot flex position="UpSelling" [contextParameters]="{productCode: productCode}"></y-dynamic-slot>
-            <div class="add-to-cart-container">
-                <y-add-to-cart *ngIf="product.stock.stockLevelStatus !=='outOfStock'" [quantity]="addAmountField.value" [productCode]="product?.code"></y-add-to-cart>
-                <input type="number" value="1" step="1" min="1" #addAmountField />
-            </div>
 
-            <mat-tab-group [(selectedIndex)]="selectedTabIndex">
-                <mat-tab label="PRODUCT DETAILS">
+
+    <div class="y-product-details__tabset" #tabSetWrapper>
+        <ngb-tabset justify="center" #tabSet>
+            <ngb-tab>
+                <ng-template ngbTabTitle>
+                    <div class="y-product-details__tab-title">
+                        Product Details
+                    </div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div class="y-product-details__tab-section">
+                        <p [innerHTML]="product?.description"></p>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle>
+                    <div class="y-product-details__tab-title">
+                        Specs
+                    </div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div class="y-product-details__tab-section">
+                        <y-product-attributes [product]="product"></y-product-attributes>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+
+            <ngb-tab id="reviews">
+                <ng-template ngbTabTitle>
+                    <div class="y-product-details__tab-title">
+                        Reviews ({{product?.numberOfReviews}})
+                    </div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div class="y-product-details__tab-section">
+                        <y-product-reviews [(isWritingReview)]="isWritingReview" [product]="product"></y-product-reviews>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle>
+                    <div class="y-product-details__tab-title">
+                        Shipping
+                    </div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div class="y-product-details__tab-section">
+                        <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'" [componentLoad]="true"></y-component-wrapper>
+                        <y-dynamic-slot position="Tabs"></y-dynamic-slot>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+
+    <!-- Mobile accordion -->
+    <div class="y-product-details__tabset-mobile">
+        <ngb-accordion #acc="ngbAccordion">
+            <ngb-panel id="toggle-1" title="Product Details">
+                <ng-template ngbPanelContent>
                     <p [innerHTML]="product?.description"></p>
-                </mat-tab>
-                <mat-tab label="SPECS">
+                </ng-template>
+            </ngb-panel>
+            <ngb-panel id="toggle-2" title="Specs">
+                <ng-template ngbPanelContent>
                     <y-product-attributes [product]="product"></y-product-attributes>
-                </mat-tab>
-                <mat-tab label="REVIEWS">
+                </ng-template>
+            </ngb-panel>
+            <ngb-panel id="toggle-3" title="Reviews">
+                <ng-template ngbPanelContent>
                     <y-product-reviews [(isWritingReview)]="isWritingReview" [product]="product"></y-product-reviews>
-                </mat-tab>
-
-                <mat-tab label="Delivery">
-                    <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'" [componentLoad]="true"></y-component-wrapper>
-                    <y-dynamic-slot position="Tabs"></y-dynamic-slot>
-                </mat-tab>
-            </mat-tab-group>
-
-        </mat-card-content>
-
-    </mat-card>
+                </ng-template>
+            </ngb-panel>
+            <ngb-panel id="toggle-4" title="Shipping">
+                <ng-template ngbPanelContent>
+                    <div class="y-product-details__tab-section">
+                        <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'" [componentLoad]="true"></y-component-wrapper>
+                        <y-dynamic-slot position="Tabs"></y-dynamic-slot>
+                    </div>
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+    </div>
 </ng-container>

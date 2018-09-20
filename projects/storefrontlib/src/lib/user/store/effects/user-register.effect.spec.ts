@@ -6,7 +6,6 @@ import { hot, cold } from 'jasmine-marbles';
 
 import * as fromStore from '../../store';
 import * as fromAuthStore from '../../../auth/store';
-import * as fromRouting from '../../../routing/store';
 import { UserRegisterEffects } from './user-register.effect';
 import { OccUserService } from '../../../occ/user/user.service';
 import { UserRegisterFormData } from '../../models/user.model';
@@ -58,14 +57,12 @@ describe('UserRegister effect', () => {
         userId: '',
         password: ''
       });
-      const navigate = new fromRouting.Go({ path: [''] });
       const completion = new fromStore.RegisterUserSuccess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(bc)', {
         b: loadUser,
-        c: navigate,
-        d: completion
+        c: completion
       });
 
       expect(effect.registerUser$).toBeObservable(expected);

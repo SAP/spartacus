@@ -1,13 +1,10 @@
-import {
-  ComponentFixture,
-  TestBed,
-  async,
-  inject
-} from '@angular/core/testing';
-import { MatDialog } from '@angular/material';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
+import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { CartService } from '../../../cart/services/cart.service';
 import { CartDataService } from '../../../cart/services/cart-data.service';
 import * as fromCart from '../../../cart/store';
@@ -17,21 +14,30 @@ import * as fromAuth from './../../../auth/store';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddToCartModule } from './add-to-cart.module';
 
+const productCode = '1234';
+const mockCartEntry: any = [];
+class MockCartService {
+  addCartEntry(_productCode: string, _quantity: number): void {
+    mockCartEntry.push({
+      '1234': { entryNumber: 0, product: { code: productCode } }
+    });
+  }
+}
+
 describe('AddToCartComponent', () => {
   let store: Store<fromCart.CartState>;
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
-
-  const productCode = '1234';
-  const mockCartEntry: any = [
-    { '1234': { entryNumber: 0, product: { code: productCode } } }
-  ];
+  let service;
+  let modalInstance;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         AddToCartModule,
         BrowserAnimationsModule,
+        RouterTestingModule,
+        NgbModule.forRoot(),
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
@@ -39,7 +45,10 @@ describe('AddToCartComponent', () => {
           auth: combineReducers(fromAuth.getReducers())
         })
       ],
-      providers: [CartService, CartDataService]
+      providers: [
+        CartDataService,
+        { provide: CartService, useClass: MockCartService }
+      ]
     }).compileComponents();
   }));
 
@@ -47,8 +56,14 @@ describe('AddToCartComponent', () => {
     fixture = TestBed.createComponent(AddToCartComponent);
     addToCartComponent = fixture.componentInstance;
     store = TestBed.get(Store);
-
+    service = TestBed.get(CartService);
+    addToCartComponent.productCode = productCode;
+    modalInstance = fixture.debugElement.injector.get<NgbModal>(NgbModal);
+    spyOn(service, 'addCartEntry').and.callThrough();
     spyOn(store, 'select').and.returnValue(of(mockCartEntry));
+    spyOn(modalInstance, 'open').and.callThrough();
+
+    fixture.detectChanges();
   });
 
   it('should be created', () => {
@@ -56,29 +71,19 @@ describe('AddToCartComponent', () => {
   });
 
   it('should call ngOnChanges()', () => {
-    addToCartComponent.productCode = productCode;
     addToCartComponent.ngOnInit();
     addToCartComponent.cartEntry$.subscribe(entry =>
       expect(entry).toEqual(mockCartEntry)
     );
   });
 
-  it('should call addToCart()', inject(
-    [CartService, MatDialog],
-    (cartService: CartService, dialog: MatDialog) => {
-      spyOn(cartService, 'addCartEntry').and.callThrough();
-      spyOn(dialog, 'open').and.callThrough();
+  it('should call addToCart()', () => {
+    addToCartComponent.addToCart();
+    addToCartComponent.cartEntry$.subscribe();
 
-      addToCartComponent.productCode = productCode;
-      addToCartComponent.addToCart();
-
-      fixture.detectChanges();
-      dialog.closeAll(); // prevent poluting Jasmine UI on browser
-
-      expect(dialog.open).toHaveBeenCalled();
-      expect(cartService.addCartEntry).toHaveBeenCalledWith(productCode, 1);
-    }
-  ));
+    expect(modalInstance.open).toHaveBeenCalled();
+    expect(service.addCartEntry).toHaveBeenCalledWith(productCode, 1);
+  });
 
   // UI test will be added after replacing Material
 });

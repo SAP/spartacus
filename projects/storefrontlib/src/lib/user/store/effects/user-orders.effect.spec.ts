@@ -1,4 +1,4 @@
-import { ConfigService } from '../../../occ/config.service';
+import { OccModuleConfig } from '../../../occ/occ-module-config';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
@@ -15,7 +15,7 @@ const mockUserOrders = {
   sort: []
 };
 
-class MockConfigService {
+class MockOccModuleConfig {
   server = {
     baseUrl: '',
     occPrefix: ''
@@ -23,12 +23,6 @@ class MockConfigService {
 
   site = {
     baseSite: ''
-  };
-
-  authentication = {
-    client_id: '',
-    client_secret: '',
-    userToken: {}
   };
 }
 
@@ -43,7 +37,7 @@ describe('User Orders effect', () => {
       providers: [
         OccOrderService,
         fromUserOrdersEffect.UserOrdersEffect,
-        { provide: ConfigService, useClass: MockConfigService },
+        { provide: OccModuleConfig, useClass: MockOccModuleConfig },
         provideMockActions(() => actions$)
       ]
     });

@@ -1,0 +1,9 @@
+@import '../../theme';
+@import '~bootstrap/scss/modal';
+@import '~bootstrap/scss/close';
+
+.modal {
+  &[aria-hidden='false'] {
+    display: block;
+  }
+}

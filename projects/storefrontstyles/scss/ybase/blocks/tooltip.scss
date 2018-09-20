@@ -1,0 +1,22 @@
+@import '../../theme.scss';
+@import '~bootstrap/scss/tooltip';
+
+.bs-tooltip-left {
+  .arrow {
+    &:before {
+      border-left-color: theme-color('text');
+    }
+  }
+}
+
+.tooltip {
+  &.show {
+    opacity: 1;
+  }
+}
+
+.tooltip-inner {
+  background-color: theme-color('text');
+  padding: 9px 15px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+}

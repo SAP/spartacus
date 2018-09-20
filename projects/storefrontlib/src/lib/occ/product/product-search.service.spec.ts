@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccProductSearchService } from './product-search.service';
-import { ConfigService } from '../config.service';
+import { OccModuleConfig } from '../occ-module-config';
 import { SearchConfig } from '../../product/search-config';
 
 const queryText = 'test';
@@ -14,7 +14,7 @@ const suggestions = ['test'];
 const mockSearchConfig: SearchConfig = {
   pageSize: 5
 };
-export class MockConfigService {
+export class MockOccModuleConfig {
   server = {
     baseUrl: '',
     occPrefix: ''
@@ -37,7 +37,7 @@ describe('OccProductSearchService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccProductSearchService,
-        { provide: ConfigService, useClass: MockConfigService }
+        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
       ]
     });
 
@@ -63,7 +63,8 @@ describe('OccProductSearchService', () => {
         mockSearchConfig.pageSize.toString()
       );
       expect(mockReq.request.params.get('fields')).toEqual(
-        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL)),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT)'
+        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL)' +
+          ',averageRating),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT)'
       );
 
       expect(mockReq.cancelled).toBeFalsy();

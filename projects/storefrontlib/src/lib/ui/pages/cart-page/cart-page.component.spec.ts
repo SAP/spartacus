@@ -1,3 +1,4 @@
+import { ComponentsModule } from './../../components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -10,10 +11,11 @@ import {
   DynamicSlotComponent
 } from '../../../cms/components';
 import * as fromCmsReducer from '../../../cms/store';
+import { CartItemListComponent } from './../../../cart/components/cart-details/cart-item-list/cart-item-list.component';
+
 import * as fromRoot from '../../../routing/store';
 import { CartPageLayoutComponent } from '../../layout/cart-page-layout/cart-page-layout.component';
 import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
-import { MediaModule } from './../../components/media/media.module';
 import { CartPageComponent } from './cart-page.component';
 
 export class MockCartService {
@@ -34,7 +36,7 @@ describe('CartPageComponent', () => {
           cms: combineReducers(fromCmsReducer.getReducers()),
           cart: combineReducers(fromCart.getReducers())
         }),
-        MediaModule,
+        ComponentsModule,
         CartSharedModule
       ],
       declarations: [
@@ -42,7 +44,8 @@ describe('CartPageComponent', () => {
         CartPageLayoutComponent,
         DynamicSlotComponent,
         ComponentWrapperComponent,
-        CartDetailsComponent
+        CartDetailsComponent,
+        CartItemListComponent
       ],
       providers: [{ provide: CartService, useClass: MockCartService }]
     }).compileComponents();

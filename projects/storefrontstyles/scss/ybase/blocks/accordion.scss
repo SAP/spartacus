@@ -1,0 +1,48 @@
+@import '../../theme';
+@import '../../functions';
+@import '../../mixins';
+.accordion {
+  .card {
+    margin-bottom: 20px;
+    border: none;
+    &-header {
+      background-color: theme-color('background');
+      padding: 25px 20px;
+      border: none;
+      h5 {
+        font-size: $font-size-base * 1.375;
+        font-weight: 600;
+        color: theme-color('text');
+        .btn {
+          text-align: left;
+          text-decoration: none !important;
+          width: 100%;
+          font-weight: 600;
+          &:hover {
+            text-decoration: none;
+          }
+          &:after {
+            float: right;
+            font-size: 33px;
+            bottom: 12px;
+            position: relative;
+          }
+          &[aria-expanded='false'] {
+            &:after {
+              content: '+';
+            }
+          }
+          &[aria-expanded='true'] {
+            color: theme-color('primary');
+            &:after {
+              content: '\2013';
+            }
+          }
+        }
+      }
+    }
+    &-body {
+      padding: 30px 0 20px 0;
+    }
+  }
+}

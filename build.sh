@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
+set -o pipefail
 
 DEV_SERVER='10\.27\.165\.187'
 
@@ -13,17 +14,24 @@ function validatestyles {
     popd
 }
 
-echo "Validating tsconfig.json integrity"
+function validateTsConfigFile {
+    echo "Validating ${TSCONFIGFILE_TO_VALIDATE} integrity"
+    LOCAL_ENV_LIB_PATH_OCCURENCES=$(grep -c "projects/storefrontlib/src/public_api" ${TSCONFIGFILE_TO_VALIDATE} || true)
+    if [ $LOCAL_ENV_LIB_PATH_OCCURENCES \> 0 ];
+    then
+        echo "ERROR: ${TSCONFIGFILE_TO_VALIDATE} file is invalid. Found [${LOCAL_ENV_LIB_PATH}].";
+        echo "A proper ng-packager build in /dist should be used in this context."
+        exit 1
+    else
+        echo "${TSCONFIGFILE_TO_VALIDATE} file is valid.";
+    fi;
+}
+
 LOCAL_ENV_LIB_PATH="projects/storefrontlib/src/public_api"
-LOCAL_ENV_LIB_PATH_OCCURENCES=$(grep -c "projects/storefrontlib/src/public_api" tsconfig.json || true)
-if [ $LOCAL_ENV_LIB_PATH_OCCURENCES \> 0 ];
-then
-    echo "ERROR: tsconfig.json file is invalid. Found [${LOCAL_ENV_LIB_PATH}].";
-    echo "The local env configuration should not be pushed to git."
-    exit 1
-else
-    echo "tsconfig.json file is valid.";
-fi;
+TSCONFIGFILE_TO_VALIDATE="projects/storefrontapp/tsconfig.app.prod.json"
+validateTsConfigFile
+TSCONFIGFILE_TO_VALIDATE="projects/storefrontapp-e2e/tsconfig.e2e.json"
+validateTsConfigFile
 
 echo "Validating yarn.lock integrity"
 DEFAULT_REGISTRY_URL="https://registry.yarnpkg.com"
@@ -81,8 +89,8 @@ validatestyles
 
 echo "-----"
 echo "Running unit tests and code coverage for core lib"
-output=`ng test storefrontlib --watch=false --code-coverage --browsers=ChromeHeadless`
-echo $output
+exec 5>&1
+output=$(ng test storefrontlib --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
@@ -90,19 +98,16 @@ if [[ -n "$coverage" ]]; then
 fi
 
 echo "-----"
-echo "Running unit tests and checking code coverage for storefront app"
-ng test storefrontapp --watch=false --browsers=ChromeHeadless
-echo "-----"
 echo "Building SPA core lib"
-ng build storefrontlib
+ng build storefrontlib --prod
 echo "-----"
 echo "Building SPA app"
-ng build storefrontapp
+ng build storefrontapp --prod
 echo "-----"
 echo "Setting endpoint with the server to run end to end tests against"
-sed -i -e "s=https://localhost=https://$DEV_SERVER=g" projects/storefrontapp/src/app/config.service.ts
+sed -i -e "s=https://localhost=https://$DEV_SERVER=g" projects/storefrontapp/src/app/config.ts
 echo "-----"
 echo "Running end to end tests"
-ng e2e --protractor-config=projects/storefrontapp-e2e/protractor.headless.conf.js
+ng e2e --prod --protractor-config=projects/storefrontapp-e2e/protractor.headless.conf.js
 echo "-----"
 echo "Spartacus Pipeline completed"

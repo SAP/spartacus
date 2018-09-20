@@ -1,0 +1,12 @@
+@import 'theme';
+
+:root {
+  @each $color, $value in $theme-colors {
+    --y-#{$color}: #{$value};
+  }
+
+  --direction: #{$direction};
+
+  // to be picked up at a later time
+  // --y-font-family: #{$font-family-sans-serif};
+}

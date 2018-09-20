@@ -1,147 +1,115 @@
-import {
-  Component,
-  HostListener,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
 import * as fromRouting from '../../routing/store';
 import { SearchConfig } from '../../product/search-config';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'y-searchbox',
   templateUrl: './search-box.component.html',
-  styleUrls: ['./search-box.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./search-box.component.scss']
 })
-export class SearchBoxComponent extends AbstractCmsComponent {
+export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
   static componentName = 'SearchBoxComponent';
 
   searchBoxControl: FormControl = new FormControl();
-
-  searchResults$: Observable<any[]>;
-  suggestionResults$: Observable<any[]>;
 
   maxProduct: number;
   maxSuggestions: number;
   minCharactersBeforeRequest: number;
 
-  clickedInside = false;
+  public search = (text$: Observable<string>) => {
+    return text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(term => {
+        if (term.length >= this.minCharactersBeforeRequest) {
+          return this.fetch(term).pipe(
+            map(res => res.map(suggestion => suggestion.value))
+          );
+        } else {
+          return of([]);
+        }
+      })
+    );
+  };
 
-  @HostListener('click')
-  clickInside() {
-    this.clickedInside = true;
+  ngOnInit() {
+    this.configSearch();
   }
 
-  @HostListener('document:click')
-  clickout() {
-    // Reset the search box if the user clicks outside the search box
-    if (!this.clickedInside && this.searchBoxControl.dirty) {
-      this.searchBoxControl.reset();
-      this.store.dispatch(new fromProductStore.CleanProductSearchState());
-    }
-    this.clickedInside = false;
+  public submitSearch(): void {
+    this.launchSearchPage(this.searchBoxControl.value);
   }
 
-  protected fetchData() {
-    if (this.component) {
-      this.configSearch();
-
-      if (this.component.displayProducts) {
-        this.searchResults$ = this.store.select(
-          fromProductStore.getSearchResults
-        );
-      }
-
-      if (this.component.displaySuggestions) {
-        this.suggestionResults$ = this.store.select(
-          fromProductStore.getProductSuggestions
-        );
-      }
-
-      this.setupSearch();
-      super.fetchData();
-    }
-  }
-
-  onKey(event: any) {
+  public onKey(event: any) {
     if (event.key === 'Enter') {
       this.launchSearchPage(this.searchBoxControl.value);
     }
   }
 
-  onFocus() {
-    this.searchBoxControl.reset();
-    this.store.dispatch(new fromProductStore.CleanProductSearchState());
-  }
-
-  launchSearchPage(query: string) {
-    // TODO: make the URL configurable
+  public launchSearchPage(query: string) {
     this.store.dispatch(
       new fromRouting.Go({
         path: ['/search', query]
       })
     );
-
-    this.searchBoxControl.reset();
   }
 
-  protected setupSearch() {
-    this.searchBoxControl.valueChanges.subscribe(value => {
-      if (this.shouldSearchProducts()) {
-        const searchConfig = new SearchConfig();
-        searchConfig.pageSize = this.maxProduct;
-        this.store.dispatch(
-          new fromProductStore.SearchProducts({
-            queryText: value,
-            searchConfig: searchConfig
-          })
-        );
-      }
+  private fetch(text: string): Observable<any[]> {
+    this.executeSearch(text);
 
-      if (this.shouldSearchSuggestions()) {
-        const searchConfig = new SearchConfig();
-        searchConfig.pageSize = this.maxSuggestions;
-        this.store.dispatch(
-          new fromProductStore.GetProductSuggestions({
-            term: value,
-            searchConfig: searchConfig
-          })
-        );
-      }
-    });
+    return this.store.select(fromProductStore.getProductSuggestions);
   }
 
-  private shouldSearchSuggestions() {
-    return (
-      this.component &&
-      this.component.displaySuggestions &&
-      this.meetsLength(this.searchBoxControl.value)
-    );
+  // Uncomment for product search
+  // private productSearch(): Observable<any> {
+  //   return this.store.select(fromProductStore.getSearchResults);
+  // }
+
+  private executeSearch(search: string) {
+    // Uncomment for product search
+    // if (this.shouldSearchProducts()) {
+    //   const searchConfig = new SearchConfig();
+    //   searchConfig.pageSize = this.maxProduct;
+    //   this.store.dispatch(
+    //     new fromProductStore.SearchProducts({
+    //       queryText: search,
+    //       searchConfig: searchConfig
+    //     })
+    //   );
+    // }
+
+    if (this.shouldSearchSuggestions()) {
+      const searchConfig = new SearchConfig();
+      searchConfig.pageSize = this.maxSuggestions;
+      this.store.dispatch(
+        new fromProductStore.GetProductSuggestions({
+          term: search,
+          searchConfig: searchConfig
+        })
+      );
+    }
   }
-  private shouldSearchProducts() {
-    return (
-      this.component &&
-      this.component.displayProducts &&
-      this.meetsLength(this.searchBoxControl.value)
-    );
+
+  private shouldSearchSuggestions(): Boolean {
+    return this.component && this.component.displaySuggestions;
   }
+
+  // Uncomment for product search
+  // private shouldSearchProducts(): Boolean {
+  //   return this.component && this.component.displayProducts;
+  // }
 
   private configSearch() {
     this.maxProduct = this.component.maxProducts || 5;
     this.maxSuggestions = this.component.maxSuggestions || 5;
     this.minCharactersBeforeRequest =
       this.component.minCharactersBeforeRequest || 3;
-  }
-
-  private meetsLength(value: string): boolean {
-    return (
-      this.minCharactersBeforeRequest &&
-      value !== null &&
-      value.length >= this.minCharactersBeforeRequest
-    );
   }
 }

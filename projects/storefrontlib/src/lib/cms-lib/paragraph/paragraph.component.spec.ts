@@ -6,9 +6,9 @@ import { of } from 'rxjs';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { ParagraphComponent } from './paragraph.component';
-import { ConfigService } from '../../cms/config.service';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 
-export class UseConfigService {
+export class UseCmsModuleConfig {
   cmsComponentMapping = {
     CMSParagraphComponent: 'ParagraphComponent'
   };
@@ -39,7 +39,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
         })
       ],
       declarations: [ParagraphComponent],
-      providers: [{ provide: ConfigService, useClass: UseConfigService }]
+      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 
@@ -68,7 +68,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
 
   it('should sanitize unsafe html', () => {
     const unsafeData = Object.assign({}, componentData);
-    unsafeData.content = `<img src="x" onerror='alert(1)'>`;
+    unsafeData.content = `<img src="" onerror='alert(1)'>`;
     spyOn(store, 'select').and.returnValue(of(unsafeData));
     spyOn(console, 'warn').and.stub(); // Prevent warning to be showed by Angular when sanitizing
 
@@ -76,7 +76,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
     paragraphComponent.bootstrap();
     expect(paragraphComponent.component).toBe(unsafeData);
     expect(el.query(By.css('p')).nativeElement.innerHTML).toEqual(
-      `<img src="x">`
+      `<img src="">`
     );
   });
 });

@@ -1,0 +1,30 @@
+<div class="y-delivery-mode-form container">
+    <div class="row ">
+        <div class="col-md-12 col-lg-9">
+            <!-- TITLE -->
+            <h3 class="y-delivery-mode-form__title d-none d-lg-block d-xl-block">Shipping Method</h3>
+            <!-- FORM -->
+            <div [formGroup]="mode">
+                <div class="form-check" *ngFor="let mode of (supportedDeliveryModes$ | async); let i=index">
+                    <input class="form-check-input" role="radio" type="radio" tabindex="0" id="modeRadios{{i}}" aria-checked="true" [value]="mode.code"
+                        formControlName="deliveryModeId">
+                    <label class="y-delivery-mode-form__label form-check-label form-radio-label" for="exampleRadios1">
+                        <div class="y-delivery-mode-form__label--shipping-mode">{{ mode.name }}</div>
+                        <div class="y-delivery-mode-form__label--price">{{mode.deliveryCost.formattedValue}}</div>
+                        <div class="y-delivery-mode-form__label--details">{{mode.description}}</div>
+                    </label>
+                </div>
+
+                <!-- BUTTON SECTION -->
+                <div class="y-delivery-mode-form__btns row">
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <button class="btn btn-block btn-action" (click)="back()">Back</button>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <button class="btn btn-block btn-primary" [disabled]="deliveryModeInvalid" (click)="next()">Continue</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,8 +1,9 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   OnDestroy,
-  OnInit
+  OnInit,
+  ElementRef,
+  Renderer2
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -18,28 +19,54 @@ import * as fromRouting from '../../../routing/store';
 @Component({
   selector: 'y-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  user$: Observable<any> = this.store.select(fromStore.getDetails);
+  user$: Observable<any>;
   isLogin = false;
+  currentUrl = '';
 
   subscription: Subscription;
+  routingSub: Subscription;
 
   constructor(
     private store: Store<fromStore.UserState>,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private elementRef: ElementRef,
+    private renderer: Renderer2
+  ) {
+    this.renderer.listen(this.elementRef.nativeElement, 'click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const target = event.target || event.srcElement;
+      if (
+        target.attributes.href &&
+        target.attributes.href.nodeValue === this.currentUrl
+      ) {
+        this.logout();
+      }
+    });
+  }
 
   ngOnInit() {
+    this.routingSub = this.store
+      .select(fromRouting.getRouterState)
+      .subscribe(routerState => {
+        if (routerState && routerState.state) {
+          this.currentUrl = routerState.state.url;
+        }
+      });
+
+    this.user$ = this.store.select(fromStore.getDetails);
+
     this.subscription = this.store
       .select(fromAuthStore.getUserToken)
       .subscribe((token: UserToken) => {
         if (token && token.access_token && !this.isLogin) {
           this.isLogin = true;
           this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
-          this.store.dispatch(new fromStore.Login());
+          this.store.dispatch(new fromAuthStore.Login());
         } else if (token && !token.access_token && this.isLogin) {
           this.isLogin = false;
         }
@@ -48,7 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   logout() {
     this.isLogin = false;
-    this.store.dispatch(new fromStore.Logout());
+    this.store.dispatch(new fromAuthStore.Logout());
 
     let state = this.route.snapshot;
     while (state.firstChild) {
@@ -72,6 +99,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+    if (this.routingSub) {
+      this.routingSub.unsubscribe();
     }
   }
 }

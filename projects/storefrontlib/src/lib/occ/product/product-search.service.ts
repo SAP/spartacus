@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
-import { ConfigService } from '../config.service';
+import { OccModuleConfig } from '../occ-module-config';
 
 const ENDPOINT_PRODUCT = 'products';
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
@@ -13,7 +13,7 @@ const DEFAULT_SEARCH_CONFIG: SearchConfig = {
 
 @Injectable()
 export class OccProductSearchService {
-  constructor(private http: HttpClient, private config: ConfigService) {}
+  constructor(private http: HttpClient, private config: OccModuleConfig) {}
 
   protected getProductEndpoint() {
     return (
@@ -32,7 +32,7 @@ export class OccProductSearchService {
     let params = new HttpParams({
       fromString:
         '&fields=' +
-        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL)),' +
+        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL),averageRating),' +
         'facets,' +
         'breadcrumbs,' +
         'pagination(DEFAULT),' +

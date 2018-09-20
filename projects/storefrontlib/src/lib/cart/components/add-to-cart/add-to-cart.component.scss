@@ -1,25 +1,3 @@
-@import '../../../../theme';
-@include mat-core();
-
-.call-to-action {
-  margin-top: 20px;
-  .entry-quantity {
-    background-color: mat-color($accent);
-    font-size: 11px;
-    display: block;
-    width: 18px;
-    height: 18px;
-    padding: 2px;
-    position: absolute;
-    line-height: 18px;
-    border-radius: 20px;
-    margin-top: -15px;
-    margin-left: -10px;
-  }
-  .loader {
-    margin-left: -16px;
-    position: absolute;
-    width: 100%;
-    margin-top: -5px;
-  }
+.entry-quantity {
+  display: none; // TODO: Discuss with UX, as it used to be in material design
 }

@@ -5,7 +5,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccSiteService } from '../../../../occ/site-context/occ-site.service';
-import { ConfigService } from '../../../../occ/config.service';
+import { OccModuleConfig } from '../../../../occ/occ-module-config';
 import * as fromEffects from './currencies.effect';
 import * as fromActions from '../actions/currencies.action';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -26,7 +26,7 @@ describe('Currencies Effects', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccSiteService,
-        ConfigService,
+        OccModuleConfig,
         fromEffects.CurrenciesEffects,
         provideMockActions(() => actions$)
       ]

@@ -1,0 +1,55 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+@import '../container/multi-step-checkout.component';
+
+// y-delivery-mode color variables
+$y-delivery-mode-form-media-background-color: 'background' !default;
+$y-delivery-mode-form-label-details-color: 'success' !default;
+
+// y-delivery-mode variables
+$y-delivery-mode-form-no-padding: 0 !default;
+$y-delivery-mode-form-title-margin: 0 auto !default;
+$y-delivery-mode-form-title-padding: 2.375rem 0 1.75rem 0 !default;
+
+.y-delivery-mode-form {
+  &.container {
+    padding: $y-delivery-mode-form-no-padding;
+  }
+
+  &__title {
+    text-transform: uppercase;
+    margin: $y-delivery-mode-form-title-margin;
+    padding: $y-delivery-mode-form-title-padding;
+  }
+
+  &__label {
+    padding: $y-delivery-mode-form-no-padding;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    &--shipping-mode {
+      flex: 50%;
+    }
+    &--price {
+      flex: 50%;
+      text-align: right;
+    }
+    &--details {
+      flex: 100%;
+      @include var-color('color', $y-delivery-mode-form-label-details-color);
+    }
+  }
+
+  .form-check {
+    padding: $y-delivery-mode-form-no-padding;
+    display: flex;
+  }
+
+  // ***************************** MEDIA QUERIES *****************************
+
+  @include checkout-media-style();
+}

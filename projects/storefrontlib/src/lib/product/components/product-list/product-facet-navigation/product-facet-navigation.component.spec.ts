@@ -1,6 +1,6 @@
-import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
+import { NgbCollapseModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('ProductFacetNavigationComponent in product-list', () => {
   let component: ProductFacetNavigationComponent;
@@ -8,7 +8,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MaterialModule],
+      imports: [NgbCollapseModule, NgbModalModule.forRoot()],
       declarations: [ProductFacetNavigationComponent]
     }).compileComponents();
   }));
@@ -22,6 +22,10 @@ describe('ProductFacetNavigationComponent in product-list', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should define query decoder', () => {
+    expect(component.queryCodec).toBeDefined();
   });
 
   it('should toggle value', () => {

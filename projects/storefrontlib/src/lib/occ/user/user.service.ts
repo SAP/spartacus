@@ -1,13 +1,14 @@
-import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { ConfigService } from '../config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
+import { OccModuleConfig } from '../occ-module-config';
+
 import { UserRegisterFormData } from '../../user/models/user.model';
-import {
-  InterceptorUtil,
-  USE_CLIENT_TOKEN
-} from '../../site-context/shared/http-interceptors/interceptor-util';
+
+import { InterceptorUtil, USE_CLIENT_TOKEN } from '../utils/interceptor-util';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
@@ -17,10 +18,7 @@ const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 @Injectable()
 export class OccUserService {
   // some extending from baseservice is not working here...
-  constructor(
-    protected http: HttpClient,
-    protected configService: ConfigService
-  ) {}
+  constructor(protected http: HttpClient, protected config: OccModuleConfig) {}
 
   public loadUser(userId: string): Observable<any> {
     const url = this.getUserEndpoint() + userId;
@@ -77,9 +75,9 @@ export class OccUserService {
 
   protected getUserEndpoint() {
     return (
-      this.configService.server.baseUrl +
-      this.configService.server.occPrefix +
-      this.configService.site.baseSite +
+      this.config.server.baseUrl +
+      this.config.server.occPrefix +
+      this.config.site.baseSite +
       '/' +
       USER_ENDPOINT
     );

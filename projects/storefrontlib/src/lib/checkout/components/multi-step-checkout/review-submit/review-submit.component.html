@@ -1,55 +1,37 @@
-<div>
-    <h3 class="heading">Review and Submit:</h3>
-    <div class="shipping-address">
-        <div>
-            <h4>Shipping To:</h4>
+<div class="y-review container">
+    <!-- TITLE -->
+    <h3 class="y-review__title d-none d-lg-block d-xl-block">Review</h3>
+    <div class="y-review__summary row">
+        <!-- SHIPPING ADDRESS SECTION -->
+        <div class="col-md-12 col-lg-6 col-xl-4">
+            <div class="y-review__summary-card">
+                <y-card [content]="getAddressCard((countryName$ | async)?.name)"></y-card>
+            </div>
         </div>
 
-        <div>{{(titleName$ | async)?.name}} {{deliveryAddress.firstName}} {{deliveryAddress.lastName}}</div>
-        <div>{{deliveryAddress.line1}}</div>
-        <div *ngIf="deliveryAddress.line2">{{deliveryAddress.line2}}</div>
-        <div>{{deliveryAddress.town}} {{deliveryAddress.region?.isocode ? deliveryAddress.region.isocode: ''}}</div>
-        <div>{{(countryName$ | async)?.name}}</div>
-        <div>{{deliveryAddress.postalCode}}</div>
-        <div *ngIf="deliveryAddress.phone">{{deliveryAddress.phone}}</div>
-    </div>
-    <div class="shipping-method">
-        <div>
-            <h4>Shipping Method:</h4>
+        <!-- SHIPPING METHOD SECTION -->
+        <div class="col-md-12 col-lg-6 col-xl-4">
+            <div class="y-review__summary-card">
+                <y-card [content]="getShippingMethodCard(deliveryMode$ | async)"></y-card>
+            </div>
         </div>
-        <div *ngIf="(deliveryMode$ | async) as deliveryMode">
-            {{deliveryMode.name}} - {{deliveryMode.description}} - {{deliveryMode.deliveryCost?.formattedValue}}
-        </div>
-    </div>
-    <div class="payment-method">
-        <div>
-            <h4>Payment Method:</h4>
-        </div>
-        <div>{{paymentDetails.cardType.name}}</div>
-        <div>{{paymentDetails.accountHolderName}}</div>
-        <div>{{paymentDetails.cardNumber}}</div>
-        <div>Expiry: {{paymentDetails.expiryMonth}}/{{paymentDetails.expiryYear}}</div>
 
-    </div>
-    <div class="billing-address">
-        <div>
-            <h4>Billing Address:</h4>
+        <!-- PAYMENT METHOD SECTION -->
+        <div class="col-md-12 col-lg-6 col-xl-4">
+            <div class="y-review__summary-card">
+                <y-card [content]="getPaymentCard()"></y-card>
+            </div>
         </div>
-        <div>{{paymentDetails.billingAddress.firstName}} {{paymentDetails.billingAddress.lastName}}</div>
-        <div>{{paymentDetails.billingAddress.line1}}</div>
-        <div *ngIf="paymentDetails.billingAddress.line2">{{paymentDetails.billingAddress.line2}}</div>
-        <div>{{paymentDetails.billingAddress.town}} {{deliveryAddress.region?.isocode ? deliveryAddress.region.isocode: ''}}</div>
-        <div>{{paymentDetails.billingAddress.country.name}}</div>
-        <div>{{paymentDetails.billingAddress.postalCode}}</div>
-        <div *ngIf="paymentDetails.billingAddress.phone">{{paymentDetails.billingAddress.phone}}</div>
     </div>
 
-    <input type="checkbox" class="tandc" (change)="toggleTAndC()">I agree to the terms and conditions
-    <br>
-
-    <div class="buttons">
-        <button (click)="back()">Go Back</button>
-        <button [disabled]="!tAndCToggler" (click)="submitOrder()"> Place Order
-        </button>
-    </div>
+    <!-- CART ITEM SECTION -->
+    <ng-container *ngIf="cart$ | async as cart">
+        <div class="y-review__cart-total d-none d-lg-block d-xl-block">
+            Cart total ({{cart.totalItems}} items): {{cart.subTotal.formattedValue}}
+        </div>
+        <h4 class="y-review__cart-total-header d-block d-lg-none d-xl-none">Order Items</h4>
+        <div class="y-review__cart-item col-md-12 col-lg-12" *ngIf="entries$ | async as entries">
+            <y-cart-item-list [items]="entries" [isReadOnly]="true" [potentialProductPromotions]="cart.potentialProductPromotions"></y-cart-item-list>
+        </div>
+    </ng-container>
 </div>

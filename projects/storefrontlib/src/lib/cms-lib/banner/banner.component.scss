@@ -1,8 +1,27 @@
-picture {
-  &.responsive-banner {
-    img {
-      width: 100%;
-      display: block;
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+//logo color variables
+$y-logo-color: 'inverse' !default;
+
+//logo variables
+$y-logo-width: 35% !default;
+$y-logo-md-size: 30% !default;
+$y-logo-xs-size: 25% !default;
+$y-logo-mobile-trbl-margin: 0 0 0 5rem;
+
+.y-logo {
+  @include var-color('color', $y-logo-color);
+  &__image {
+    width: $y-logo-width;
+    @include media-breakpoint-down(md) {
+      width: $y-logo-md-size;
+      margin: $y-logo-mobile-trbl-margin;
+    }
+    @include media-breakpoint-down(xs) {
+      width: $y-logo-xs-size;
+      margin: $y-logo-mobile-trbl-margin;
     }
   }
 }

@@ -1,0 +1,34 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+//error page variables
+$y-error-align: center !default;
+$y-error-img-trbl-margin: 0 auto 30px auto !default;
+
+$y-error-message-font-weight: $font-weight-semi !default;
+$y-error-message-trbl-padding: 0 20px 0 20px !default;
+
+$y-error-message-span-sm-trbl-margin: 29px 0 0 0 !default;
+
+.y-error {
+  text-align: $y-error-align;
+
+  &--message {
+    @include type('4');
+    font-weight: $y-error-message-font-weight;
+    padding: $y-error-message-trbl-padding;
+
+    span {
+      display: block;
+      @include media-breakpoint-down(sm) {
+        margin-top: $y-error-message-span-sm-trbl-margin;
+      }
+    }
+  }
+}
+
+.y-error__img {
+  margin: $y-error-img-trbl-margin;
+  display: block;
+}

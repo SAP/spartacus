@@ -1,27 +1,39 @@
-<div class="added-to-cart-dialog-header">
-  <h1 mat-dialog-title>
-    <span>Item added to your cart</span>
-  </h1>
-  <mat-icon class="mat-dialog-close-btn" (click)="closeDialog()">close</mat-icon>
-</div>
-
-<ng-container *ngIf="(entry$ | async) as entry">
-  <div mat-dialog-content>
-    <div class="entry-info-container">
-      <ng-container *ngIf="(entry$ | async) as entry">
-        <ul class="item__list item__list__cart" [formGroup]="form">
-          <y-cart-item formGroupName="entryForm" [entry]="entry" [disableProductLink]="true" (update)="updateEntry($event)" (remove)="removeEntry($event)"></y-cart-item>
-        </ul>
-      </ng-container>
-    </div>
-    <div class="cart-total-container">
-      <span>cart total {{ (cart$ | async).totalPrice.formattedValue}}</span>
-    </div>
-    <div class="button-row">
-      <div class="added-to-cart-dialog-buttons">
-        <button routerLink="/cart" mat-raised-button color="accent" mat-dialog-close>View cart</button>
-        <button routerLink="/checkout" mat-raised-button color="primary" mat-dialog-close>Proceed to checkout</button>
+<div class="y-added-to-cart-dialog">
+  <!-- Modal Header -->
+  <div class="y-added-to-cart-dialog__header modal-header">
+    <div class="y-added-to-cart-dialog__title modal-title">{{quantity}} item(s) added to your cart</div>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <!-- Modal Body -->
+  <ng-container *ngIf="(entry$ | async) as entry">
+    <div class="y-added-to-cart-dialog__body modal-body">
+      <div class="y-added-to-cart-dialog__info-container row">
+        <div class="y-added-to-cart-dialog__item-container col-sm-12 col-md-6" [formGroup]="form">
+          <y-cart-item [item]="entry" [compact]="true" [isReadOnly]="true"></y-cart-item>
+        </div>
+        <!-- Separator -->
+        <div class="y-added-to-cart-dialog__separator col-sm-12 d-xs-block d-sm-block d-md-none"></div>
+        <!-- Total container -->
+        <div class="y-added-to-cart-dialog__total-container col-sm-12 col-md-6">
+          <div class="y-added-to-cart-dialog__total">
+            <div>Cart total ({{ (cart$ | async).deliveryItemsQuantity }} items)</div>
+            <div>{{ (cart$ | async).totalPrice.formattedValue}}</div>
+          </div>
+          <!-- Actions -->
+          <div class="y-added-to-cart-dialog__actions">
+            <a routerLink="/cart" class="btn btn-primary" (click)="activeModal.dismiss('Cross click')">view cart</a>
+            <a routerLink="/checkout" class="btn btn-secondary" (click)="activeModal.dismiss('Cross click')">proceed to
+              checkout</a>
+          </div>
+        </div>
+      </div>
+      <!-- Product Item Container -->
+      <div *ngIf="more" class="y-added-to-cart-dialog__more-container row">
+        <h2>You may also like</h2>
+        <!-- <y-product-grid-item [product]="entry.product"></y-product-grid-item> -->
       </div>
     </div>
-  </div>
-</ng-container>
+  </ng-container>
+</div>

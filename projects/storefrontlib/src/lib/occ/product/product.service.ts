@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
-import { ConfigService } from '../config.service';
+import { OccModuleConfig } from '../occ-module-config';
 
 const ENDPOINT_PRODUCT = 'products';
 
 @Injectable()
 export class OccProductService {
-  constructor(private http: HttpClient, private config: ConfigService) {}
+  constructor(private http: HttpClient, private config: OccModuleConfig) {}
 
   protected getProductEndpoint() {
     return (
@@ -23,7 +23,8 @@ export class OccProductService {
 
   loadProduct(productCode: string): Observable<any> {
     const params = new HttpParams({
-      fromString: 'fields=DEFAULT,averageRating,images(FULL),classifications'
+      fromString:
+        'fields=DEFAULT,averageRating,images(FULL),classifications,numberOfReviews'
     });
 
     return this.http
