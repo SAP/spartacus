@@ -1,25 +1,35 @@
-import {Component, Input, OnInit, OnChanges, ChangeDetectionStrategy} from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
-import {Store} from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import * as fromProductStore from '../../../store';
-import {filter} from 'rxjs/operators';
-import {SearchConfig} from '../../../search-config';
-import {Observable} from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
+import { SearchConfig } from '../../../search-config';
+import { Observable } from 'rxjs';
 
-@Component({selector: 'y-product-list', templateUrl: './product-list.component.html', styleUrls: ['./product-list.component.scss'], changeDetection: ChangeDetectionStrategy.OnPush})
-export class ProductListComponent implements OnChanges,
-OnInit {
-  @Input()gridMode : String;
-  @Input()query;
-  @Input()categoryCode;
-  @Input()brandCode;
-  @Input()itemPerPage : number;
+@Component({
+  selector: 'y-product-list',
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ProductListComponent implements OnChanges, OnInit {
+  @Input() gridMode: String;
+  @Input() query;
+  @Input() categoryCode;
+  @Input() brandCode;
+  @Input() itemPerPage: number;
 
-  grid : any;
-  model$ : Observable < any >;
-  searchConfig : SearchConfig = new SearchConfig();
+  grid: any;
+  model$: Observable<any>;
+  searchConfig: SearchConfig = new SearchConfig();
 
-  constructor(protected store : Store < fromProductStore.ProductsState >) {}
+  constructor(protected store: Store<fromProductStore.ProductsState>) {}
 
   ngOnChanges() {
     if (!this.itemPerPage) {
@@ -56,29 +66,35 @@ OnInit {
       mode: this.gridMode
     };
 
-    this.model$ = this
-      .store
-      .select(fromProductStore.getSearchResults)
-      .pipe(filter(results => Object.keys(results).length > 0));
+    this.model$ = this.store
+      .select(fromProductStore.getSearchResultsWithFiltersQuery)
+      .pipe(
+        filter(({ results }) => Object.keys(results).length > 0),
+        tap(({ filtersQuery }) => {
+          if (filtersQuery) {
+            this.query = filtersQuery;
+          }
+        })
+      );
   }
 
-  onFilter(query : string) {
+  onFilter(query: string) {
     this.search(query);
   }
 
-  viewPage(pageNumber : number) {
+  viewPage(pageNumber: number) {
     const options = new SearchConfig();
     options.currentPage = pageNumber;
     this.search(this.query, options);
   }
 
-  sortList(sortCode : string) {
+  sortList(sortCode: string) {
     const options = new SearchConfig();
     options.sortCode = sortCode;
     this.search(this.query, options);
   }
 
-  protected search(query : string, options?: SearchConfig) {
+  protected search(query: string, options?: SearchConfig) {
     if (options) {
       // Overide default options
       this.searchConfig = {
@@ -86,8 +102,11 @@ OnInit {
         ...options
       };
     }
-    this
-      .store
-      .dispatch(new fromProductStore.SearchProducts({queryText: query, searchConfig: this.searchConfig}));
+    this.store.dispatch(
+      new fromProductStore.SearchProducts({
+        queryText: query,
+        searchConfig: this.searchConfig
+      })
+    );
   }
 }
