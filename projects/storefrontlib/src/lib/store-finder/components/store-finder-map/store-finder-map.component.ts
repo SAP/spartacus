@@ -13,7 +13,8 @@ import { GoogleMapRendererService } from '../../services/google-map-renderer.ser
 @Component({
   selector: 'y-store-finder-map',
   templateUrl: './store-finder-map.component.html',
-  styleUrls: ['./store-finder-map.component.scss']
+  styleUrls: ['./store-finder-map.component.scss'],
+  providers: [GoogleMapRendererService]
 })
 export class StoreFinderMapComponent implements OnChanges {
   @ViewChild('mapElement') mapElement: ElementRef;

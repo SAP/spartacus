@@ -24,6 +24,7 @@ import { CategoryPageModule } from './category-page/category-page.module';
 
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
+import { StoreDescriptionPageModule } from './store-description-page/store-description-page.module';
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { ProductPageModule } from './product-page/product-page.module';
     LoginPageModule,
     ResetPasswordPageModule,
     StoreFinderPageModule,
+    StoreDescriptionPageModule,
     ContactPageModule,
     SalePageModule,
     HelpPageModule,
@@ -62,6 +64,7 @@ import { ProductPageModule } from './product-page/product-page.module';
     LoginPageModule,
     ResetPasswordPageModule,
     StoreFinderPageModule,
+    StoreDescriptionPageModule,
     ContactPageModule,
     SalePageModule,
     HelpPageModule,
