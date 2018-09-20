@@ -8,12 +8,14 @@ import {
   ComponentWrapperComponent
 } from '../../../cms/components';
 import { ProductListModule } from '../../../product/components/product-list/product-list.module';
+import { BreadcrumbComponent } from './../../../cms-lib/breadcrumb/breadcrumb.component';
 import { ActivatedRoute } from '@angular/router';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCms from '../../../cms/store';
 import * as fromCart from '../../../cart/store';
 import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 
 class MockActivatedRoute {
   params = of({
@@ -36,14 +38,16 @@ describe('CategoryPageComponent', () => {
           cms: combineReducers(fromCms.getReducers()),
           cart: combineReducers(fromCart.getReducers())
         }),
-        ProductListModule
+        ProductListModule,
+        RouterTestingModule
       ],
       declarations: [
         CategoryPageComponent,
         CategoryPageLayoutComponent,
         ProductListPageLayoutComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent
+        ComponentWrapperComponent,
+        BreadcrumbComponent
       ],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },

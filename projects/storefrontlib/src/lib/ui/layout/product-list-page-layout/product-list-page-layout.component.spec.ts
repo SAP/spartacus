@@ -1,3 +1,4 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductListPageLayoutComponent } from './product-list-page-layout.component';
@@ -8,7 +9,13 @@ import * as fromRoot from '../../../routing/store';
 import * as fromProduct from '../../../product/store';
 import * as fromCart from '../../../cart/store';
 import * as fromUser from '../../../user/store';
-
+import { BreadcrumbComponent } from './../../../cms-lib/breadcrumb/breadcrumb.component';
+import { CmsModuleConfig } from '../../../cms/cms-module-config';
+class UseCmsModuleConfig {
+  cmsComponentMapping = {
+    CMSLinkComponent: 'LinkComponent'
+  };
+}
 describe('ProductListPageComponent', () => {
   let component: ProductListPageLayoutComponent;
   let fixture: ComponentFixture<ProductListPageLayoutComponent>;
@@ -22,9 +29,11 @@ describe('ProductListPageComponent', () => {
           products: combineReducers(fromProduct.getReducers()),
           cart: combineReducers(fromCart.getReducers()),
           user: combineReducers(fromUser.getReducers())
-        })
+        }),
+        RouterTestingModule
       ],
-      declarations: [ProductListPageLayoutComponent]
+      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }],
+      declarations: [ProductListPageLayoutComponent, BreadcrumbComponent]
     }).compileComponents();
   }));
 
