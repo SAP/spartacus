@@ -1,5 +1,9 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  AbstractControl
+} from '@angular/forms';
 import { LoginFormComponent } from './login-form.component';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
@@ -74,72 +78,48 @@ describe('LoginFormComponent', () => {
   });
 
   describe('userId form field', () => {
-    const validEmails = [
-      'email@example.com',
-      'firstname.lastname@example.com',
-      'email@subdomain.example.com',
-      'firstname+lastname@example.com',
-      'email@123.123.123.com',
-      'email@[123.123.123.123]',
-      '"email"@example.com',
-      '1234567890@example.com',
-      'email@example-one.com',
-      '_______@example.com',
-      'email@example.name',
-      'email@example.museum',
-      'email@example.co.jp',
-      'firstname-lastname@example.com'
-    ];
-    const invalidEmails = [
-      '',
-      ' ',
-      'plainaddress',
-      ' startspace@example.com',
-      'middle space@example.com',
-      'endspace@example.com ',
-      '#@%^%#$@#$@#.com',
-      '@example.com',
-      'Joe Smith <email@example.com>',
-      'email.example.com',
-      'email@example@example.com',
-      '.email@example.com',
-      'email.@example.com',
-      'email..email@example.com',
-      'email@example.com (Joe Smith)',
-      'email@example',
-      'email@111.222.333.44444',
-      'email@example..com',
-      'Abc..123@example.com',
-      '”(),:;<>[]@example.com',
-      'this is"really"notallowed@example.com'
-    ];
+    let control: AbstractControl;
 
-    function testValidEmail(email) {
-      it(`should be valid when is '${email}'`, function() {
-        const control = component.form.controls['userId'];
+    beforeEach(() => {
+      control = component.form.controls['userId'];
+    });
 
-        control.setValue(email);
-        expect(control.valid).toBeTruthy();
-      });
-    }
+    it('should NOT be valid when empty', () => {
+      control.setValue('');
+      expect(control.valid).toBeFalsy();
+    });
 
-    function testInvalidEmail(email) {
-      it(`should NOT be valid when is '${email}'`, function() {
-        const control = component.form.controls['userId'];
+    it('should NOT be valid when is an invalid email', () => {
+      control.setValue('with space@email.com');
+      expect(control.valid).toBeFalsy();
 
-        control.setValue(email);
-        expect(control.valid).toBeFalsy();
-      });
-    }
+      control.setValue('without.domain@');
+      expect(control.valid).toBeFalsy();
 
-    validEmails.forEach(testValidEmail);
-    invalidEmails.forEach(testInvalidEmail);
+      control.setValue('without.at.com');
+      expect(control.valid).toBeFalsy();
+
+      control.setValue('@without.username.com');
+      expect(control.valid).toBeFalsy();
+    });
+
+    it('should be valid when is a valid email', () => {
+      control.setValue('valid@email.com');
+      expect(control.valid).toBeTruthy();
+
+      control.setValue('valid123@example.email.com');
+      expect(control.valid).toBeTruthy();
+    });
   });
 
   describe('password form field', () => {
-    it('should be valid when not empty', () => {
-      const control = component.form.controls['password'];
+    let control: AbstractControl;
 
+    beforeEach(() => {
+      control = component.form.controls['password'];
+    });
+
+    it('should be valid when not empty', () => {
       control.setValue('not-empty');
       expect(control.valid).toBeTruthy();
 
@@ -151,8 +131,6 @@ describe('LoginFormComponent', () => {
     });
 
     it('should NOT be valid when empty', () => {
-      const control = component.form.controls['password'];
-
       control.setValue('');
       expect(control.valid).toBeFalsy();
 
