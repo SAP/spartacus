@@ -63,7 +63,8 @@ describe('OccProductSearchService', () => {
         mockSearchConfig.pageSize.toString()
       );
       expect(mockReq.request.params.get('fields')).toEqual(
-        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL)),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT)'
+        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL)' +
+          ',averageRating),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT)'
       );
 
       expect(mockReq.cancelled).toBeFalsy();

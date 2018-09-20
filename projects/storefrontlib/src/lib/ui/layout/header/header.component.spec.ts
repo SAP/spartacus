@@ -4,8 +4,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, StoreModule } from '@ngrx/store';
 import * as fromAuth from '../../../auth/store';
 import {
-  ComponentWrapperComponent,
-  DynamicSlotComponent
+  DynamicSlotComponent,
+  ComponentWrapperDirective
 } from '../../../cms/components';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import { MaterialModule } from '../../../material.module';
@@ -49,7 +49,7 @@ describe('HeaderComponent', () => {
       declarations: [
         HeaderComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent,
+        ComponentWrapperDirective,
         CurrencySelectorComponent,
         LanguageSelectorComponent,
         HeaderSkipperComponent,

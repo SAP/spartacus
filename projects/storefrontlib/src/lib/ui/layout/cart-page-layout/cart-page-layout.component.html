@@ -1,10 +1,17 @@
+<div class="y-page" *ngIf="cart$ | async as cart">
+    <header class="y-page__header">
+        <h1 class="y-page__title">Shopping Cart (ID {{cart?.code}})</h1>
+    </header>
 
-    <div>
-        <y-dynamic-slot class="empty-cart-message" *ngIf="!cart?.totalItems" position="EmptyCartMiddleContent"></y-dynamic-slot>
-        <y-cart-details></y-cart-details>
-    </div>
-    
-    <!-- Need to implement the product suggestion component for the cart page  -->
-    <div>
-        <y-dynamic-slot *ngIf="cart?.totalItems" position="BottomContentSlot" fxFlex></y-dynamic-slot>
-    </div>
+    <section class="y-page__section">
+        <div>
+            <y-dynamic-slot class="empty-cart-message" *ngIf="!cart?.totalItems" position="EmptyCartMiddleContent"></y-dynamic-slot>
+            <y-cart-details *ngIf="cart?.totalItems"></y-cart-details>
+        </div>
+
+        <!-- Need to implement the product suggestion component for the cart page  -->
+        <div>
+            <y-dynamic-slot *ngIf="cart?.totalItems" position="BottomContentSlot" fxFlex></y-dynamic-slot>
+        </div>
+    </section>
+</div>

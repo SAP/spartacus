@@ -8,7 +8,7 @@ export class HomePage extends AppPage {
 
   readonly page: ElementFinder = element(by.tagName(this.YPAGE));
   readonly splashBanner: ElementFinder = this.page.element(
-    by.css('[data-component-uid="ElectronicsHompageSplashBannerComponent"]')
+    by.css('.ElectronicsHompageSplashBannerComponent')
   );
 
   async navigateTo() {

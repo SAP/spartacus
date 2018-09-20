@@ -1,4 +1,4 @@
-import { BootstrapModule } from './../../bootstap.module';
+import { BootstrapModule } from '../../bootstrap.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';

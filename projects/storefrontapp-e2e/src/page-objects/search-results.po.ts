@@ -22,7 +22,7 @@ export class SearchResultsPage extends AppPage {
     this.productListItems
       .filter(el =>
         el
-          .element(by.tagName('h3'))
+          .element(by.css('a.y-product-search-list__name'))
           .getText()
           .then(text => text === productName)
       )
@@ -52,10 +52,7 @@ export class SearchResultsPage extends AppPage {
     );
   }
 
-  async getPaginationText(): Promise<string> {
-    return this.pagination
-      .all(by.tagName('div'))
-      .first()
-      .getText();
+  getHeaderText() {
+    return this.page.element(by.css('header h1')).getText();
   }
 }

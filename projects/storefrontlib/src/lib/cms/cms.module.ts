@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-
 import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
 import { metaReducers } from './store/reducers/index';
@@ -15,10 +13,16 @@ import { components } from './components/index';
 // guards
 import { guards } from './guards/index';
 
-// services
-import { services } from './services/index';
 import { CmsModuleConfig, defaultCmsModuleConfig } from './cms-module-config';
+import { OccCmsService } from './services/occ-cms.service';
+import { ComponentMapperService, DefaultPageService } from './services';
 import { Config, ConfigModule } from '../config/config.module';
+
+const services: any[] = [
+  OccCmsService,
+  ComponentMapperService,
+  DefaultPageService
+];
 
 @NgModule({
   imports: [

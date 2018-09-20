@@ -87,6 +87,20 @@ describe('Cart selectors', () => {
     });
   });
 
+  describe('getLoaded', () => {
+    it('should return the loaded value', () => {
+      let result: any;
+      store
+        .select(fromSelectors.getLoaded)
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new fromActions.CreateCartSuccess(testEmptyCart));
+      expect(result).toEqual(true);
+    });
+  });
+
   describe('getEntriesMap', () => {
     it('should return the cart entries in map', () => {
       let result: any;
