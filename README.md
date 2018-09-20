@@ -72,17 +72,12 @@ The IDE will use the library sources by default.
 
 ### Building for production
 
-The storefront uses service workers for PWA support (in production mode only). Therefore, we can't use the default angular CLI commands to build and run the app in production mode. To properly build and run in production mode, use these commands:
+As a developer or QA specialist, we need to run the storefront in "prod mode" to make sure everything will work fine when the app will be build for production. This is done using these 2 commands:
 
 ```
-yarn build:core:lib --prod
-yarn build --prod
-yarn start:pwa  // this will start the http-server
+yarn build:core:lib
+yarn start:qa
 ```
-
-When the server is up, navigate to [`http://localhost:3000/`](http://localhost:3000/).
-
-If we navigate to the browser's `Application` tab, we can see that the service worker is running.
 
 ## Development tools
 
