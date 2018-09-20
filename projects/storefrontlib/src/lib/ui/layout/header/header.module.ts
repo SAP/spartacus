@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { CurrencySelectorComponent } from './../../../site-context/currency-selector/currency-selector.component';
 import { LanguageSelectorComponent } from './../../../site-context/language-selector/language-selector.component';
 import { CmsModule } from './../../../cms/cms.module';
@@ -11,7 +12,13 @@ import { LoginModule } from '../../../user/components/login/login.module';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 
 @NgModule({
-  imports: [CommonModule, SiteContextModule, CmsModule, LoginModule],
+  imports: [
+    CommonModule,
+    SiteContextModule,
+    CmsModule,
+    LoginModule,
+    RouterModule
+  ],
   declarations: [
     HeaderComponent,
     HeaderSkipperComponent,

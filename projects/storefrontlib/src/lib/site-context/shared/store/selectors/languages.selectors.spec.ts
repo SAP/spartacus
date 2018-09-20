@@ -91,4 +91,22 @@ describe('Languages Selectors', () => {
       expect(result).toEqual(true);
     });
   });
+
+  describe('getLanguagesLoading', () => {
+    it('should return whether languages are loading', () => {
+      let result;
+
+      store
+        .select(fromSelectors.getLanguagesLoading)
+        .subscribe(value => (result = value));
+
+      store.dispatch(new fromActions.LoadLanguagesFail({}));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new fromActions.LoadLanguages());
+
+      expect(result).toEqual(true);
+    });
+  });
 });

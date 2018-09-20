@@ -1,52 +1,42 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  OnChanges,
-  ViewChild,
-  ChangeDetectionStrategy
-} from '@angular/core';
-import { MatSidenav } from '@angular/material';
+import {Component, Input, OnInit, OnChanges, ChangeDetectionStrategy} from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import * as fromProductStore from '../../../store';
-import { tap, skip } from 'rxjs/operators';
-import { SearchConfig } from '../../../search-config';
-import { Observable } from 'rxjs';
+import {filter} from 'rxjs/operators';
+import {SearchConfig} from '../../../search-config';
+import {Observable} from 'rxjs';
 
-@Component({
-  selector: 'y-product-list',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class ProductListComponent implements OnChanges, OnInit {
-  @ViewChild('sidenav') sidenav: MatSidenav;
+@Component({selector: 'y-product-list', templateUrl: './product-list.component.html', styleUrls: ['./product-list.component.scss'], changeDetection: ChangeDetectionStrategy.OnPush})
+export class ProductListComponent implements OnChanges,
+OnInit {
+  @Input()gridMode : String;
+  @Input()query;
+  @Input()categoryCode;
+  @Input()brandCode;
+  @Input()itemPerPage : number;
 
-  @Input() gridMode: String;
-  @Input() query;
-  @Input() categoryCode;
-  @Input() brandCode;
-  @Input() itemPerPage: number;
+  grid : any;
+  model$ : Observable < any >;
+  searchConfig : SearchConfig = new SearchConfig();
 
-  grid: any;
-  model$: Observable<any>;
-  isFacetPanelOpen: boolean;
-  searchConfig: SearchConfig = new SearchConfig();
-
-  constructor(protected store: Store<fromProductStore.ProductsState>) {
-    this.isFacetPanelOpen = true;
-  }
+  constructor(protected store : Store < fromProductStore.ProductsState >) {}
 
   ngOnChanges() {
     if (!this.itemPerPage) {
       // Page List default page size
-      this.searchConfig = { ...this.searchConfig, ...{ pageSize: 10 } };
+      this.searchConfig = {
+        ...this.searchConfig,
+        ...{
+          pageSize: 10
+        }
+      };
     } else {
       this.searchConfig = {
         // Page list input page size
         ...this.searchConfig,
-        ...{ pageSize: this.itemPerPage }
+        ...{
+          pageSize: this.itemPerPage
+        }
       };
     }
 
@@ -60,62 +50,44 @@ export class ProductListComponent implements OnChanges, OnInit {
       this.search(this.query);
     }
   }
+
   ngOnInit() {
     this.grid = {
       mode: this.gridMode
     };
 
-    this.model$ = this.store
-      .select(fromProductStore.getSearchResultsWithFiltersQuery)
-      .pipe(
-        skip(1),
-        tap(({ results, filtersQuery }) => {
-          if (filtersQuery) {
-            this.query = filtersQuery;
-          }
-          if (Object.keys(results).length === 0) {
-            if (this.categoryCode) {
-              this.query = ':relevance:category:' + this.categoryCode;
-            }
-            if (this.brandCode) {
-              this.query = ':relevance:brand:' + this.brandCode;
-            }
-            if (this.query) {
-              this.search(this.query);
-            }
-          }
-        })
-      );
+    this.model$ = this
+      .store
+      .select(fromProductStore.getSearchResults)
+      .pipe(filter(results => Object.keys(results).length > 0));
   }
 
-  toggleSidenav() {
-    this.sidenav.toggle();
-  }
-
-  onFilter(query: string) {
+  onFilter(query : string) {
     this.search(query);
   }
 
-  viewPage(pageNumber: number) {
+  viewPage(pageNumber : number) {
     const options = new SearchConfig();
     options.currentPage = pageNumber;
     this.search(this.query, options);
   }
-  sortList(sortCode: string) {
+
+  sortList(sortCode : string) {
     const options = new SearchConfig();
     options.sortCode = sortCode;
     this.search(this.query, options);
   }
-  protected search(query: string, options?: SearchConfig) {
+
+  protected search(query : string, options?: SearchConfig) {
     if (options) {
       // Overide default options
-      this.searchConfig = { ...this.searchConfig, ...options };
+      this.searchConfig = {
+        ...this.searchConfig,
+        ...options
+      };
     }
-    this.store.dispatch(
-      new fromProductStore.SearchProducts({
-        queryText: query,
-        searchConfig: this.searchConfig
-      })
-    );
+    this
+      .store
+      .dispatch(new fromProductStore.SearchProducts({queryText: query, searchConfig: this.searchConfig}));
   }
 }

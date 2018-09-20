@@ -11,6 +11,7 @@ import {
   DynamicSlotComponent
 } from '../../../cms/components';
 import * as fromCmsReducer from '../../../cms/store';
+import { CartItemListComponent } from './../../../cart/components/cart-details/cart-item-list/cart-item-list.component';
 
 import * as fromRoot from '../../../routing/store';
 import { CartPageLayoutComponent } from '../../layout/cart-page-layout/cart-page-layout.component';
@@ -43,7 +44,8 @@ describe('CartPageComponent', () => {
         CartPageLayoutComponent,
         DynamicSlotComponent,
         ComponentWrapperComponent,
-        CartDetailsComponent
+        CartDetailsComponent,
+        CartItemListComponent
       ],
       providers: [{ provide: CartService, useClass: MockCartService }]
     }).compileComponents();
