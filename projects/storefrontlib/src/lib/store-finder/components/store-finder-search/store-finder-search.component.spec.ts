@@ -44,6 +44,7 @@ describe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;
   let fixture: ComponentFixture<StoreFinderSearchComponent>;
   let service: StoreFinderService;
+  let windowRef: WindowRef;
   let store: Store<fromStore.StoresState>;
   const keyEvent = {
     key: 'Enter'
@@ -64,7 +65,7 @@ describe('StoreFinderSearchComponent', () => {
         })
       ],
       declarations: [StoreFinderSearchComponent],
-      providers: [StoreFinderService, {provide: WindowRef, useClass: WindowRefMock}]
+      providers: [StoreFinderService, { provide: WindowRef, useClass: WindowRefMock }]
     }).compileComponents();
   }));
 
@@ -72,6 +73,7 @@ describe('StoreFinderSearchComponent', () => {
     fixture = TestBed.createComponent(StoreFinderSearchComponent);
     component = fixture.componentInstance;
     service = TestBed.get(StoreFinderService);
+    windowRef = TestBed.get(WindowRef);
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(component, 'findStores').and.callThrough();
@@ -79,6 +81,7 @@ describe('StoreFinderSearchComponent', () => {
     spyOn(component, 'viewAllStores').and.callThrough();
     spyOn(service, 'viewAllStores').and.callThrough();
     spyOn(component, 'onKey').and.callThrough();
+    spyOn(component, 'viewStoresWithMyLoc').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -94,7 +97,8 @@ describe('StoreFinderSearchComponent', () => {
     expect(service.findStores).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.FindStores({
-        queryText: 'query'
+        queryText: 'query',
+        longitudeLatitude: undefined
       })
     );
   });
