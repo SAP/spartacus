@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  occBaseUrl: ''
+  occBaseUrl: 'https://10.27.165.187:9002'
 };

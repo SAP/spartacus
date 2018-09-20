@@ -2,8 +2,6 @@
 set -e
 set -o pipefail
 
-DEV_SERVER='10\.27\.165\.187'
-
 function validatestyles {
     echo "-----"
     echo "Validating styles app"
@@ -104,10 +102,7 @@ echo "-----"
 echo "Building SPA app"
 ng build storefrontapp --prod
 echo "-----"
-echo "Setting endpoint with the server to run end to end tests against"
-sed -i -e "s=https://localhost=https://$DEV_SERVER=g" projects/storefrontapp/src/app/config.ts
-echo "-----"
 echo "Running end to end tests"
-ng e2e --prod --protractor-config=projects/storefrontapp-e2e/protractor.headless.conf.js
+yarn e2e:ci
 echo "-----"
 echo "Spartacus Pipeline completed"

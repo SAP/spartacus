@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  occBaseUrl: ''
+  occBaseUrl: 'https://localhost:9002'
 };
