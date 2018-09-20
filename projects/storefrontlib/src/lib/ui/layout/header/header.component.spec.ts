@@ -3,7 +3,10 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, StoreModule } from '@ngrx/store';
 import * as fromAuth from '../../../auth/store';
-import { DynamicSlotComponent } from '../../../cms/components';
+import {
+  DynamicSlotComponent,
+  ComponentWrapperDirective
+} from '../../../cms/components';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import { MaterialModule } from '../../../material.module';
 import * as fromRoot from '../../../routing/store';
@@ -45,6 +48,7 @@ describe('HeaderComponent', () => {
       declarations: [
         HeaderComponent,
         DynamicSlotComponent,
+        ComponentWrapperDirective,
         CurrencySelectorComponent,
         LanguageSelectorComponent,
         HeaderSkipperComponent,

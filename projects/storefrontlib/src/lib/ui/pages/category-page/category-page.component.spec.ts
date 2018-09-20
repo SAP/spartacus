@@ -3,7 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CategoryPageComponent } from './category-page.component';
 import { CategoryPageLayoutComponent } from '../../layout/category-page-layout/category-page-layout.component';
 import { ProductListPageLayoutComponent } from '../../layout/product-list-page-layout/product-list-page-layout.component';
-import { DynamicSlotComponent } from '../../../cms/components';
+import {
+  DynamicSlotComponent,
+  ComponentWrapperDirective
+} from '../../../cms/components';
 import { ProductListModule } from '../../../product/components/product-list/product-list.module';
 import { ActivatedRoute } from '@angular/router';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
@@ -39,7 +42,8 @@ describe('CategoryPageComponent', () => {
         CategoryPageComponent,
         CategoryPageLayoutComponent,
         ProductListPageLayoutComponent,
-        DynamicSlotComponent
+        DynamicSlotComponent,
+        ComponentWrapperDirective
       ],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },

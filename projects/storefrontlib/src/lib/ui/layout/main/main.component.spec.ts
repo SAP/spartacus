@@ -6,7 +6,10 @@ import { MainComponent } from './main.component';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DynamicSlotComponent } from '../../../cms/components';
+import {
+  DynamicSlotComponent,
+  ComponentWrapperDirective
+} from '../../../cms/components';
 import { MaterialModule } from '../../../material.module';
 import { GlobalMessageModule } from '../../../global-message/global-message.module';
 import { StoreModule, combineReducers } from '@ngrx/store';
@@ -58,6 +61,7 @@ describe('MainComponent', () => {
         HeaderComponent,
         FooterComponent,
         DynamicSlotComponent,
+        ComponentWrapperDirective,
         LanguageSelectorComponent,
         CurrencySelectorComponent,
         HeaderSkipperComponent,

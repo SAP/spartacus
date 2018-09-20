@@ -8,7 +8,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { DynamicSlotComponent } from '../../../cms/components';
+import {
+  DynamicSlotComponent,
+  ComponentWrapperDirective
+} from '../../../cms/components';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
 import { MaterialModule } from '../../../material.module';
 import { PageType } from '../../../routing/models/page-context.model';
@@ -72,7 +75,11 @@ describe('LoginComponent', () => {
         }),
         HttpClientTestingModule
       ],
-      declarations: [DynamicSlotComponent, LoginComponent],
+      declarations: [
+        DynamicSlotComponent,
+        LoginComponent,
+        ComponentWrapperDirective
+      ],
       providers: [
         provideMockActions(() => of()),
         {

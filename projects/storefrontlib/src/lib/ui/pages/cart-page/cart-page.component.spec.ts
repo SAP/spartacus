@@ -6,7 +6,10 @@ import { combineReducers, StoreModule } from '@ngrx/store';
 import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
 import { CartService } from '../../../cart/services';
 import * as fromCart from '../../../cart/store';
-import { DynamicSlotComponent } from '../../../cms/components';
+import {
+  DynamicSlotComponent,
+  ComponentWrapperDirective
+} from '../../../cms/components';
 import * as fromCmsReducer from '../../../cms/store';
 import { CartItemListComponent } from './../../../cart/components/cart-details/cart-item-list/cart-item-list.component';
 
@@ -40,6 +43,7 @@ describe('CartPageComponent', () => {
         CartPageComponent,
         CartPageLayoutComponent,
         DynamicSlotComponent,
+        ComponentWrapperDirective,
         CartDetailsComponent,
         CartItemListComponent
       ],

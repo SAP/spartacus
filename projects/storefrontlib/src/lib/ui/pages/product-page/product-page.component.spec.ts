@@ -12,7 +12,10 @@ import * as fromRoot from '../../../routing/store';
 import { ProductPageComponent } from './product-page.component';
 import { ProductDetailsPageLayoutComponent } from '../../layout/product-details-page-layout/product-details-page-layout.component';
 import { ProductDetailsComponent } from '../../../product/components/product-details/container/product-details.component';
-import { DynamicSlotComponent } from '../../../cms/components';
+import {
+  DynamicSlotComponent,
+  ComponentWrapperDirective
+} from '../../../cms/components';
 import { ProductImagesComponent } from '../../../product/components/product-details/product-images/product-images.component';
 import { ProductSummaryComponent } from '../../../product/components/product-details/product-summary/product-summary.component';
 import { ProductAttributesComponent } from '../../../product/components/product-details/product-attributes/product-attributes.component';
@@ -25,6 +28,7 @@ import {
   NgbTabsetModule,
   NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
+
 const routerState = {
   state: {
     params: {
@@ -58,6 +62,7 @@ describe('ProductPageComponent in pages', () => {
         ProductDetailsPageLayoutComponent,
         ProductDetailsComponent,
         DynamicSlotComponent,
+        ComponentWrapperDirective,
         ProductImagesComponent,
         ProductSummaryComponent,
         ProductAttributesComponent,
