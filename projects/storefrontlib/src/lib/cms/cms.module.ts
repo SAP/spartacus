@@ -37,7 +37,7 @@ export const CMS_MODULE_CONFIG_OVERRIDE: InjectionToken<
     EffectsModule.forFeature(effects)
   ],
   providers: [reducerProvider, ...services, ...guards, CmsModuleConfig],
-  declarations: [...components],
+  declarations: [],
   exports: [...components]
 })
 export class CmsModule {
