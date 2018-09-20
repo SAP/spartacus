@@ -1,14 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
+import { CartItemListComponent } from './../../../cart/components/cart-details/cart-item-list/cart-item-list.component';
+
 import { CartService } from '../../../cart/services';
 import * as fromReducer from '../../../cart/store/reducers';
 import {
-  ComponentWrapperComponent,
-  DynamicSlotComponent
+  DynamicSlotComponent,
+  ComponentWrapperDirective
 } from '../../../cms/components';
 import { ComponentMapperService } from '../../../cms/services';
 import * as fromCmsReducer from '../../../cms/store';
@@ -51,8 +53,9 @@ describe('CartPageLayoutComponent', () => {
       declarations: [
         CartPageLayoutComponent,
         CartDetailsComponent,
+        CartItemListComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent
+        ComponentWrapperDirective
       ],
       providers: [
         { provide: CartService, useClass: MockCartService },
@@ -69,23 +72,18 @@ describe('CartPageLayoutComponent', () => {
     store = TestBed.get(Store);
 
     spyOn(service, 'loadCartDetails').and.callThrough();
+    spyOn(store, 'select').and.returnValue(of('mockCart'));
   });
 
   it('should create cart page', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngAfterViewInit', () => {
-    component.cartDetail = new CartDetailsComponent(
-      store,
-      service,
-      new FormBuilder()
-    );
-    component.cartDetail.cart$ = of(['mockData']);
+  it('should call ngOnInit', () => {
+    component.ngOnInit();
 
-    component.ngAfterViewInit();
-    fixture.detectChanges();
-
-    expect(component.cart[0]).toBe('mockData');
+    component.cart$.subscribe(cart => {
+      expect(cart).toBe('mockCart');
+    });
   });
 });

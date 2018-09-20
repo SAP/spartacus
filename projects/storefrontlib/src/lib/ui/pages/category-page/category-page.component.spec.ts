@@ -5,7 +5,7 @@ import { CategoryPageLayoutComponent } from '../../layout/category-page-layout/c
 import { ProductListPageLayoutComponent } from '../../layout/product-list-page-layout/product-list-page-layout.component';
 import {
   DynamicSlotComponent,
-  ComponentWrapperComponent
+  ComponentWrapperDirective
 } from '../../../cms/components';
 import { ProductListModule } from '../../../product/components/product-list/product-list.module';
 import { ActivatedRoute } from '@angular/router';
@@ -43,7 +43,7 @@ describe('CategoryPageComponent', () => {
         CategoryPageLayoutComponent,
         ProductListPageLayoutComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent
+        ComponentWrapperDirective
       ],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },

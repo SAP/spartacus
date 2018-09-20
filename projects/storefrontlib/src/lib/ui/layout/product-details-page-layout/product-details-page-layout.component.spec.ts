@@ -4,7 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductDetailsPageLayoutComponent } from './product-details-page-layout.component';
 import {
   DynamicSlotComponent,
-  ComponentWrapperComponent
+  ComponentWrapperDirective
 } from '../../../cms/components';
 import { ProductDetailsComponent } from '../../../product/components/product-details/container/product-details.component';
 import { MaterialModule } from '../../../material.module';
@@ -23,6 +23,7 @@ import {
   NgbTabsetModule,
   NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
+
 describe('ProductDetailsPageLayoutComponent', () => {
   let component: ProductDetailsPageLayoutComponent;
   let fixture: ComponentFixture<ProductDetailsPageLayoutComponent>;
@@ -45,7 +46,7 @@ describe('ProductDetailsPageLayoutComponent', () => {
       declarations: [
         ProductDetailsPageLayoutComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent,
+        ComponentWrapperDirective,
         ProductDetailsComponent,
         ProductAttributesComponent,
         ProductImagesComponent,

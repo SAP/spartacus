@@ -29,3 +29,8 @@ export const getLanguagesLoaded: MemoizedSelector<
   any,
   boolean
 > = createSelector(getLanguagesState, fromLanguages.getLanguagesLoaded);
+
+export const getLanguagesLoading: MemoizedSelector<
+  any,
+  boolean
+> = createSelector(getLanguagesState, fromLanguages.getLanguagesLoading);

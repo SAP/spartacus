@@ -25,13 +25,13 @@
     </div>
 
     <!-- CART ITEM SECTION -->
-    <div class="y-review__cart-total d-none d-lg-block d-xl-block" *ngIf="cart$ | async as cart">
-        Cart total ({{cart.totalItems}} items): {{cart.subTotal.formattedValue}}
-    </div>
-    <h4 class="y-review__cart-total-header d-block d-lg-none d-xl-none">Order Items</h4>
-    <div class="y-review__cart-item col-md-12 col-lg-12" *ngIf="entries$ | async as entries">
-        <div *ngFor="let entry of entries">
-            <y-cart-item [isReadOnly]="true" [entry]="entry"></y-cart-item>
+    <ng-container *ngIf="cart$ | async as cart">
+        <div class="y-review__cart-total d-none d-lg-block d-xl-block">
+            Cart total ({{cart.totalItems}} items): {{cart.subTotal.formattedValue}}
         </div>
-    </div>
+        <h4 class="y-review__cart-total-header d-block d-lg-none d-xl-none">Order Items</h4>
+        <div class="y-review__cart-item col-md-12 col-lg-12" *ngIf="entries$ | async as entries">
+            <y-cart-item-list [items]="entries" [isReadOnly]="true" [potentialProductPromotions]="cart.potentialProductPromotions"></y-cart-item-list>
+        </div>
+    </ng-container>
 </div>
