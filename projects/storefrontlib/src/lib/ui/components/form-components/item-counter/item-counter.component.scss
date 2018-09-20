@@ -2,21 +2,26 @@
 @import 'functions';
 @import 'mixins';
 @import '~bootstrap/scss/button-group';
+
 // y-item-counter color variables
 $y-item-counter-border-color: 'light' !default;
 $y-item-counter-border: 1px solid !default;
 $y-item-counter-border-radius: 4px !default;
+
 $y-item-counter-value-border: 1px solid !default;
 $y-item-counter-value-trbl-padding: 12px 18px 12px 18px !default;
 $y-item-counter-value-height: 46px !default;
 $y-item-counter-value-width: 48px !default;
+
 $y-item-counter-action-height: 48px !default;
 $y-item-counter-action-width: 40px !default;
 $y-item-counter-action-color: 'text' !default;
 $y-item-counter-action-background-color: 'transparent' !default;
 $y-item-counter-action-disabled-color: 'light' !important;
 $y-item-counter-action-trbl-margin: 0 0 0 0 !default;
+
 $y-item-counter-action-trbl-margin: 0 !default;
+
 .y-item-counter {
   border-radius: $y-item-counter-border-radius;
   border: $y-item-counter-border;
@@ -41,6 +46,7 @@ $y-item-counter-action-trbl-margin: 0 !default;
     );
     @include type('3');
     margin: $y-item-counter-action-trbl-margin;
+
     &:disabled {
       @include var-color('color', $y-item-counter-action-disabled-color);
       opacity: 1;
