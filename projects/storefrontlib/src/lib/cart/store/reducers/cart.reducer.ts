@@ -4,12 +4,14 @@ export interface CartState {
   content: any;
   entries: { [code: string]: any };
   refresh: boolean;
+  loaded: boolean;
 }
 
 export const initialState: CartState = {
   content: {},
   entries: {},
-  refresh: false
+  refresh: false,
+  loaded: false
 };
 
 export function reducer(
@@ -50,7 +52,8 @@ export function reducer(
         ...state,
         content,
         entries,
-        refresh: false
+        refresh: false,
+        loaded: true
       };
     }
 
@@ -70,3 +73,4 @@ export function reducer(
 export const getCartContent = (state: CartState) => state.content;
 export const getRefresh = (state: CartState) => state.refresh;
 export const getEntries = (state: CartState) => state.entries;
+export const getLoaded = (state: CartState) => state.loaded;

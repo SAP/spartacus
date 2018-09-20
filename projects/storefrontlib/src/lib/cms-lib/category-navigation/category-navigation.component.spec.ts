@@ -5,7 +5,7 @@ import { CategoryNavigationComponent } from './category-navigation.component';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { BootstrapModule } from '../../bootstap.module';
+import { BootstrapModule } from '../../bootstrap.module';
 
 class UseCmsModuleConfig {
   cmsComponentMapping = {

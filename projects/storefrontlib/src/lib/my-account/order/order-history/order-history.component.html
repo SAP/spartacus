@@ -1,0 +1,78 @@
+<ng-container *ngIf="orders$ | async as orders">
+  <div class="y-order-history container">
+
+    <!-- HEADER -->
+    <div class="y-order-history__header">
+      <h3>Order history</h3>
+    </div>
+
+    <!-- BODY -->
+    <div class="y-order-history__body">
+      <ng-container *ngIf="orders.pagination.totalResults > 0; else noOrder">
+        <!-- Select Form and Pagination Top -->
+        <div class="y-order-history__form-pagination--top row">
+          <div class="y-order-history__form-group form-group col-sm-12 col-md-4 col-lg-4">
+            <y-sorting [sortOptions]="orders.sorts" [sortLabels]="sortLabels" (sortListEvent)="changeSortCode($event)" [selectedOption]="orders.pagination.sort"
+              [placeholder]="'Sort by Most recent'"></y-sorting>
+          </div>
+          <div class="y-order-history__pagination">
+            <y-pagination [pagination]="orders.pagination" (viewPageEvent)="pageChange($event)"></y-pagination>
+          </div>
+        </div>
+        <!-- TABLE -->
+        <table class="table y-order-history__table">
+          <thead class="y-order-history__thead--mobile">
+            <th scope="col">Order #</th>
+            <th scope="col">Date</th>
+            <th scope="col">Status</th>
+            <th scope="col">Total</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orders.orders" (click)="goToOrderDetail(order)">
+              <td class="y-order-history__code">
+                <div class="d-md-none y-order-history__label">Order #</div>
+                <a routerLink="/account/order-history/order-detail" routerLinkActive="active" class="y-order-history__value">
+                  {{order?.code}}</a>
+              </td>
+              <td class="y-order-history__placed">
+                <div class="d-md-none y-order-history__label">Date</div>
+                <a routerLink="/account/order-history/order-detail" routerLinkActive="active" class="y-order-history__value">{{order?.placed
+                  | date: 'longDate'}}</a>
+              </td>
+              <td class="y-order-history__status">
+                <div class="d-md-none y-order-history__label">Status</div>
+                <a routerLink="/account/order-history/order-detail" routerLinkActive="active" class="y-order-history__value">
+                  {{order?.statusDisplay}}</a>
+              </td>
+              <td class="y-order-history__total">
+                <div class="d-md-none y-order-history__label">Total</div>
+                <a routerLink="/account/order-history/order-detail" routerLinkActive="active" class="y-order-history__value">
+                  {{order?.total.formattedValue}}</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Select Form and Pagination Bottom -->
+        <div class="y-order-history__form-pagination--bottom row">
+          <div class="y-order-history__form-group form-group col-sm-12 col-md-4 col-lg-4">
+            <y-sorting [sortOptions]="orders.sorts" [sortLabels]="sortLabels" (sortListEvent)="changeSortCode($event)" [selectedOption]="orders.pagination.sort"
+              [placeholder]="'Sort by Most recent'"></y-sorting>
+          </div>
+          <div class="y-order-history__pagination">
+            <y-pagination [pagination]="orders.pagination" (viewPageEvent)="pageChange($event)"></y-pagination>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- NO ORDER CONTAINER -->
+      <ng-template #noOrder>
+        <div class="y-order-history__no-order row" *ngIf="isLoaded$ | async">
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <div>We have no order records for this account.</div>
+            <a routerLink="/" routerLinkActive="active" class="btn btn-primary btn-block">Start Shopping</a>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</ng-container>

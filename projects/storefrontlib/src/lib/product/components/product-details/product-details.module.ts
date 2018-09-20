@@ -10,7 +10,7 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
 import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
 
 import { CmsModule } from '../../../cms/cms.module'; // some slots are loaded inside components (i.e. tabs)
-import { BootstrapModule } from './../../../bootstap.module';
+import { BootstrapModule } from '../../../bootstrap.module';
 // guards
 import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
 import { ComponentsModule } from './../../../ui/components/components.module';

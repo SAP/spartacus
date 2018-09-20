@@ -43,6 +43,10 @@ export class BannerComponent extends AbstractCmsComponent {
     return '_self';
   }
 
+  getAltText() {
+    return this.component.media.altText;
+  }
+
   public getUrlLink(): string {
     if (this.component.urlLink !== undefined) {
       if (this.component.urlLink.startsWith('/')) {
