@@ -19,11 +19,15 @@ export class OccStoreFinderService {
     private e2eConfigService: OccE2eConfigurationService
   ) {}
 
-  findStores(query: string, searchConfig: SearchConfig): Observable<any> {
+  findStores(
+    query: string,
+    searchConfig: SearchConfig,
+    longitudeLatitude?: number[]
+  ): Observable<any> {
     return this.e2eConfigService.getConfiguration(STORES_DISPLAYED).pipe(
       mergeMap(result => {
         searchConfig = { ...searchConfig, pageSize: result };
-        return this.callOccFindStores(query, searchConfig);
+        return this.callOccFindStores(query, searchConfig, longitudeLatitude);
       })
     );
   }
@@ -38,7 +42,8 @@ export class OccStoreFinderService {
 
   protected callOccFindStores(
     query: string,
-    searchConfig: SearchConfig
+    searchConfig: SearchConfig,
+    longitudeLatitude?: number[]
   ): Observable<any> {
     const url = this.getStoresEndpoint();
     let params: HttpParams = new HttpParams({
@@ -48,7 +53,12 @@ export class OccStoreFinderService {
         'pagination(DEFAULT),' +
         'sorts(DEFAULT)'
     });
-    params = params.set('query', query);
+    if (longitudeLatitude) {
+      params = params.set('latitude', String(longitudeLatitude[0]));
+      params = params.set('longitude', String(longitudeLatitude[1]));
+    } else {
+      params = params.set('query', query);
+    }
     if (searchConfig.pageSize) {
       params = params.set('pageSize', searchConfig.pageSize.toString());
     }

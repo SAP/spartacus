@@ -65,7 +65,10 @@ describe('StoreFinderSearchComponent', () => {
         })
       ],
       declarations: [StoreFinderSearchComponent],
-      providers: [StoreFinderService, { provide: WindowRef, useClass: WindowRefMock }]
+      providers: [
+        StoreFinderService,
+        { provide: WindowRef, useClass: WindowRefMock }
+      ]
     }).compileComponents();
   }));
 
@@ -82,6 +85,7 @@ describe('StoreFinderSearchComponent', () => {
     spyOn(service, 'viewAllStores').and.callThrough();
     spyOn(component, 'onKey').and.callThrough();
     spyOn(component, 'viewStoresWithMyLoc').and.callThrough();
+    spyOn(windowRef, 'nativeWindow').and.callThrough();
     fixture.detectChanges();
   });
 
