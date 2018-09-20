@@ -20,12 +20,14 @@ export class AddressForm {
   readonly form: ElementFinder = this.parentElement.element(
     by.tagName('y-address-form')
   );
-  readonly header: ElementFinder = this.form.element(by.css('h3.heading'));
+  readonly header: ElementFinder = this.form.element(
+    by.css('h3.y-address-form__title')
+  );
   readonly countrySelect: ElementFinder = this.form.element(
-    by.css('[formcontrolname="isocode"]')
+    by.css('[bindValue="isocode"]')
   );
   readonly titleSelect: ElementFinder = this.form.element(
-    by.css('[formcontrolname="titleCode"]')
+    by.css('[bindValue="code"]')
   );
   readonly firstName: ElementFinder = this.form.element(
     by.css('[formcontrolname="firstName"]')
@@ -43,7 +45,7 @@ export class AddressForm {
     by.css('[formcontrolname="town"]')
   );
   readonly province: ElementFinder = this.form.element(
-    by.css('[formgroupname="region"] [formcontrolname="isocode"]')
+    by.css('[bindValue="region"]')
   );
   readonly postalCode: ElementFinder = this.form.element(
     by.css('[formcontrolname="postalCode"]')
@@ -55,19 +57,19 @@ export class AddressForm {
     by.css('.saveAddressAsDefault')
   );
   readonly nextButton: ElementFinder = this.form.element(
-    by.cssContainingText('button', 'Next')
+    by.cssContainingText('button', 'Continue')
   );
 
   async setCountry(value: string) {
-    await E2EUtil.selectOptionByText(this.countrySelect, value);
+    await E2EUtil.selectNgSelectOptionByText(this.countrySelect, value);
   }
 
   async setTitle(value: string) {
-    await E2EUtil.selectOptionByText(this.titleSelect, value);
+    await E2EUtil.selectNgSelectOptionByText(this.titleSelect, value);
   }
 
   async setProvince(value: string) {
-    await E2EUtil.selectOptionByText(this.province, value);
+    await E2EUtil.selectNgSelectOptionByText(this.province, value);
   }
 
   async fillIn() {
