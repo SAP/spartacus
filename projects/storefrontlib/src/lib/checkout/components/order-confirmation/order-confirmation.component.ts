@@ -52,7 +52,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
 
   getBillingAddressCardContent(billingAddress: any): Card {
     return {
-      title: 'Billing address',
+      title: 'Billing To',
       textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
       text: [
         billingAddress.line1,
