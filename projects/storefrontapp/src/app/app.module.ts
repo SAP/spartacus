@@ -9,8 +9,7 @@ import { environment } from '../environments/environment';
     BrowserModule,
     StorefrontModule.withConfig({
       server: {
-        baseUrl: environment.occBaseUrl,
-        occPrefix: '/rest/v2/'
+        baseUrl: environment.occBaseUrl
       }
     })
   ],

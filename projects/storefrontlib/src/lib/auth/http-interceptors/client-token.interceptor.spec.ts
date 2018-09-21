@@ -32,16 +32,16 @@ const clientTokenState: ClientTokenState = {
   token: testToken
 };
 
-class MockAuthModuleConfig {
-  server = {
+const MockAuthModuleConfig: AuthModuleConfig = {
+  server: {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
-  };
+  },
 
-  site = {
+  site: {
     baseSite: 'electronics'
-  };
-}
+  }
+};
 
 describe('ClientTokenInterceptor', () => {
   let httpMock: HttpTestingController;
@@ -57,7 +57,7 @@ describe('ClientTokenInterceptor', () => {
         })
       ],
       providers: [
-        { provide: AuthModuleConfig, useClass: MockAuthModuleConfig },
+        { provide: AuthModuleConfig, useValue: MockAuthModuleConfig },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: ClientTokenInterceptor,

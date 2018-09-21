@@ -15,8 +15,6 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./search-box.component.scss']
 })
 export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
-  static componentName = 'SearchBoxComponent';
-
   searchBoxControl: FormControl = new FormControl();
 
   maxProduct: number;

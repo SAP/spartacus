@@ -1,0 +1,89 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+//y-cart-item-list color variables
+$y-cart-item-list-header-color: 'secondary' !default;
+$y-cart-item-list-header-border-color: 'light' !default;
+$y-cart-item-list-row-border-color: 'light' !default;
+
+//y-cart-item-list variables
+$y-cart-item-list-header-margin: 0 !default;
+$y-cart-item-list-header-padding: 1.125rem 0 !default;
+$y-cart-item-list-header-border-bottom: 1px solid !default;
+$y-cart-item-list-header-desc-padding-left: 0 !default;
+$y-cart-item-list-header-desc-padding-right: 0 !default;
+$y-cart-item-list-header-price-padding-left: 0 !default;
+$y-cart-item-list-header-total-padding-right: 0 !default;
+$y-cart-item-list-header-padding-md: 1.125rem 2.5rem !default;
+
+$y-cart-item-list-row-padding: 1.25rem 0 !default;
+$y-cart-item-list-row-border-bottom: 1px solid !default;
+
+$y-cart-item-list-item-padding-md: 0 2.5rem !default;
+$y-cart-item-list-item-padding-sm: 0 0 0 1rem !default;
+
+.y-cart-item-list {
+  &__header {
+    @include type('8');
+    margin: $y-cart-item-list-header-margin;
+    padding: $y-cart-item-list-header-padding;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    @include var-color('color', $y-cart-item-list-header-color);
+
+    border-bottom: $y-cart-item-list-header-border-bottom;
+    @include var-color(
+      'border-bottom-color',
+      $y-cart-item-list-header-border-color
+    );
+
+    &--desc {
+      text-align: left;
+      padding-left: $y-cart-item-list-header-desc-padding-left;
+      padding-right: $y-cart-item-list-header-desc-padding-right;
+    }
+
+    &--price,
+    &--qty {
+      text-align: center;
+
+      @include media-breakpoint-down(md) {
+        text-align: left;
+      }
+    }
+
+    &--total {
+      text-align: right;
+      padding-right: $y-cart-item-list-header-total-padding-right;
+    }
+  }
+
+  &__row {
+    padding: $y-cart-item-list-row-padding;
+    border-bottom: $y-cart-item-list-row-border-bottom;
+    @include var-color(
+      'border-bottom-color',
+      $y-cart-item-list-row-border-color
+    );
+  }
+
+  // ------------------------------------ MEDIA QUERIES ------------------------------------
+
+  @include media-breakpoint-down(md) {
+    .y-cart-item-list__header {
+      padding: $y-cart-item-list-header-padding-md;
+    }
+
+    .y-cart-item-list__item {
+      padding: $y-cart-item-list-item-padding-md;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    .y-cart-item-list__item {
+      padding: $y-cart-item-list-item-padding-sm;
+    }
+  }
+}

@@ -12,6 +12,7 @@ import * as fromAuthStore from '../../../auth/store';
 import { LoginModule } from '../../../user/components/login/login.module';
 import { provideMockActions } from '../../../../../../../node_modules/@ngrx/effects/testing';
 import { EffectsModule } from '@ngrx/effects';
+import { ConfigModule } from '../../../config/config.module';
 
 describe('LoginPageLayoutComponent', () => {
   let component: LoginPageLayoutComponent;
@@ -24,6 +25,7 @@ describe('LoginPageLayoutComponent', () => {
         ReactiveFormsModule,
         LoginModule,
         RouterTestingModule,
+        ConfigModule.forRoot(),
         CmsModule,
         StoreModule.forRoot({
           ...fromStore.getReducers(),

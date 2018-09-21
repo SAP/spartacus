@@ -61,8 +61,8 @@ Then point your browser to http://localhost:4200/
 
 Most of the code is developed in separated libraries. The library code is build with ngPackagr, while the application is build with webpack. The two different separate builds might slow down the development process, which is why by default in development mode, the build is done by webpack only.
 
-Using two separate build processes complicates development, especially when the developer both implements library code and application code. In order to allow for a seamless build, in development mode both library and application code is build with webpack. We're relying on the standard angular-cli flags for production and development; development is the default, production can be enabled with the `--prod` flag.
-For convinience reasons, a npm script is added to start the application in production mode: `npm run start:prod`.
+Using two separate build processes complicates development, especially when the developer both implements library code and application code. In order to allow for a seamless build, in development mode both library and application code is build with webpack. We're relying on the standard angular-cli flags for production and development; development is the default, production mode is used when using the 'qa' build environment.
+For convenience reasons, a package.json script is added to start the application in production mode with the 'qa' environment like so: `yarn start:qa`.
 
 The IDE will use the library sources by default.
 
@@ -70,19 +70,14 @@ The IDE will use the library sources by default.
 
 ## Production
 
-### Building for production
+### Running in prod mode
 
-The storefront uses service workers for PWA support (in production mode only). Therefore, we can't use the default angular CLI commands to build and run the app in production mode. To properly build and run in production mode, use these commands:
+As a developer or QA specialist, we need to run the storefront in "prod mode" to make sure everything will work fine when the app will be build for production. This is done using these 2 commands to build storefrontlib and the launch the app in prod mode:
 
 ```
-yarn build:core:lib --prod
-yarn build --prod
-yarn start:pwa  // this will start the http-server
+yarn build:core:lib
+yarn start:qa
 ```
-
-When the server is up, navigate to [`http://localhost:3000/`](http://localhost:3000/).
-
-If we navigate to the browser's `Application` tab, we can see that the service worker is running.
 
 ## Development tools
 

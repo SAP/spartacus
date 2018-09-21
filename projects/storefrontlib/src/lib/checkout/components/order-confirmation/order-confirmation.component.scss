@@ -1,71 +1,203 @@
-$grey: rgb(242, 242, 242);
-.order-confirmation-container {
-  .order-confirmation-header,
-  .header-msg-container {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+// y-order-confirmation color variables
+$y-order-confirmation-create-account-background-color: 'background' !default;
+$y-order-confirmation-create-account-border-color: 'light' !default;
+$y-order-confirmation-review-summary-background-color: 'background' !default;
+$y-order-confirmation-review-summary-background-color-md: 'inverse' !default;
+$y-order-confirmation-review-summary-border-color: 'light' !default;
+$y-order-confirmation-review-summary-card-border-color: 'light' !default;
+$y-order-confirmation-order-items-border-color: 'light' !default;
+$y-order-confirmation-review-summary-card-background-color: 'inverse' !default;
+
+// y-order-confirmation variables
+
+$y-order-confirmation-message-align: center !default;
+$y-order-confirmation-message-padding: 2.5rem !default;
+$y-order-confirmation-message-font-weight: $font-weight-normal !default;
+$y-order-confirmation-message-print-font-size: $small-font-size !default;
+$y-order-confirmation-message-print-font-weight: $font-weight-bold !default;
+
+$y-order-confirmation-create-account-border: 1px solid !default;
+$y-order-confirmation-create-account-padding: 2.5rem 0 3.75rem 0 !default;
+$y-order-confirmation-create-account-container-padding: 0 !default;
+$y-order-confirmation-create-account-container-margin: 0 auto !default;
+$y-order-confirmation-create-account-container-md-padding: 0 6.25rem !default;
+$y-order-confirmation-create-account-container-sm-padding: 0 1.25rem !default;
+$y-order-confirmation-create-account-container-xs-padding: 0 1.25rem !default;
+
+$y-order-confirmation-btns-padding-top: 0.875rem !default;
+
+$y-order-confirmation-review-summary-border: 1px solid !default;
+$y-order-confirmation-review-summary-container-padding: 0 !default;
+$y-order-confirmation-review-summary-container-md-padding: 0 1.25rem !default;
+$y-order-confirmation-review-summary-container-sm-padding: 1.25rem !default;
+$y-order-confirmation-review-summary-card-border: 1px solid !default;
+$y-order-confirmation-review-summary-card-margin: 0.625rem 0 !default;
+
+$y-order-confirmation-order-items-border: 1px solid !default;
+$y-order-confirmation-order-items-padding: 1.375rem 0 !default;
+$y-order-confirmation-order-items-header-margin: 0 !default;
+$y-order-confirmation-order-items-container-padding: 0 !default;
+$y-order-confirmation-order-items-container-md-padding: 0 2.5rem !default;
+$y-order-confirmation-order-items-container-sm-padding: 0 1.25rem !default;
+
+$y-order-confirmation-order-summary-padding-right: 0 !default;
+$y-order-confirmation-order-summary-container-md-padding-right: 1.625rem !default;
+$y-order-confirmation-order-summary-container-sm-padding: 0 !default;
+
+.y-order-confirmation {
+  &__message {
+    text-align: $y-order-confirmation-message-align;
+    padding: $y-order-confirmation-message-padding;
+
+    h2 {
+      font-weight: $y-order-confirmation-message-font-weight;
+    }
+
+    .btn-link {
+      font-size: $y-order-confirmation-message-print-font-size;
+      font-weight: $y-order-confirmation-message-print-font-weight;
+      text-transform: uppercase;
+    }
   }
 
-  .order-confirmation-header {
-    height: 50px;
-    background-color: $grey;
-    span {
-      margin: auto;
-    }
-  }
-  .header-msg-container {
-    height: 150px;
-    .header-msg {
-      display: flex;
-      flex-direction: column;
-      margin: auto;
-    }
-  }
-  .user-checkout-info-container {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px 50px 20px 50px;
-    background-color: $grey;
-    .user-checkout-info {
-      .info {
-        display: block;
-        word-wrap: break-word;
-        width: 150px;
-        white-space: normal;
+  &__create-account {
+    @include var-color(
+      'background-color',
+      $y-order-confirmation-create-account-background-color
+    );
+    padding: $y-order-confirmation-create-account-padding;
+    border-top: $y-order-confirmation-create-account-border;
+    @include var-color(
+      'border-top-color',
+      $y-order-confirmation-create-account-border-color
+    );
+    border-bottom: $y-order-confirmation-create-account-border;
+    @include var-color(
+      'border-bottom-color',
+      $y-order-confirmation-create-account-border-color
+    );
+
+    .container {
+      margin: $y-order-confirmation-create-account-container-margin;
+      padding: $y-order-confirmation-create-account-container-padding;
+      @include media-breakpoint-down(md) {
+        max-width: 100%;
+        min-width: 100%;
+        padding: $y-order-confirmation-create-account-container-md-padding;
+      }
+      @include media-breakpoint-down(sm) {
+        padding: $y-order-confirmation-create-account-container-sm-padding;
+      }
+      @include media-breakpoint-down(xs) {
+        padding: $y-order-confirmation-create-account-container-xs-padding;
       }
     }
   }
-  .order-items-container {
-    .order-items-header {
-      text-align: center;
+
+  &__btns {
+    padding-top: $y-order-confirmation-btns-padding-top;
+  }
+
+  &__review-summary {
+    @include var-color(
+      'background-color',
+      $y-order-confirmation-review-summary-background-color
+    );
+    border-bottom: $y-order-confirmation-review-summary-border;
+    @include var-color(
+      'border-bottom-color',
+      $y-order-confirmation-review-summary-border-color
+    );
+
+    @include media-breakpoint-down(md) {
+      @include var-color(
+        'background-color',
+        $y-order-confirmation-review-summary-background-color-md
+      );
     }
-    .order-items-table {
-      width: 100%;
-      padding: 0 50px 0 50px;
-      border-collapse: collapse;
-      th {
-        text-align: left;
-        height: 35px;
-        background-color: $grey;
+
+    &-card {
+      @include media-breakpoint-down(sm) {
+        @include var-color(
+          'background-color',
+          $y-order-confirmation-review-summary-card-background-color
+        );
+        border: $y-order-confirmation-review-summary-card-border;
+        @include var-color(
+          'border-color',
+          $y-order-confirmation-review-summary-card-border-color
+        );
+        margin: $y-order-confirmation-review-summary-card-margin;
       }
-      td {
-        border-bottom: 1px solid $grey;
+    }
+
+    .container {
+      padding: $y-order-confirmation-review-summary-container-padding;
+      @include media-breakpoint-down(md) {
+        max-width: 100%;
+        min-width: 100%;
+        padding: $y-order-confirmation-review-summary-container-md-padding;
       }
-      .entry {
-        display: flex;
-        .productImage {
-          width: 150px;
-        }
-        .entryDetail {
-          display: flex;
-          flex-direction: column;
-        }
+      @include media-breakpoint-down(sm) {
+        padding: $y-order-confirmation-review-summary-container-sm-padding;
       }
     }
   }
-  .order-summary-container {
-    text-align: right;
-    padding: 10px 50px 10px 50px;
+
+  &__order-items {
+    &-header {
+      @include type('4');
+      padding: $y-order-confirmation-order-items-padding;
+      margin: $y-order-confirmation-order-items-header-margin;
+      border-bottom: $y-order-confirmation-order-items-border;
+      @include var-color(
+        'border-bottom-color',
+        $y-order-confirmation-order-items-border-color
+      );
+      @include media-breakpoint-down(md) {
+        max-width: 100%;
+        min-width: 100%;
+        padding-left: 2.5rem;
+      }
+      @include media-breakpoint-down(sm) {
+        max-width: 100%;
+        min-width: 100%;
+        padding-left: 1rem;
+      }
+    }
+
+    &.container {
+      @include media-breakpoint-down(md) {
+        max-width: 100%;
+        min-width: 100%;
+        padding: 0;
+        // padding: $y-order-confirmation-order-items-container-md-padding;
+      }
+      @include media-breakpoint-down(sm) {
+        max-width: 100%;
+        min-width: 100%;
+        padding: 0;
+        // padding: $y-order-confirmation-order-items-container-sm-padding;
+      }
+    }
+  }
+
+  &__order-summary {
+    padding-right: $y-order-confirmation-order-summary-padding-right;
+    &.container {
+      @include media-breakpoint-down(md) {
+        max-width: 100%;
+        min-width: 100%;
+        padding-right: $y-order-confirmation-order-summary-container-md-padding-right;
+      }
+
+      @include media-breakpoint-down(sm) {
+        padding: $y-order-confirmation-order-summary-container-sm-padding;
+      }
+    }
   }
 }

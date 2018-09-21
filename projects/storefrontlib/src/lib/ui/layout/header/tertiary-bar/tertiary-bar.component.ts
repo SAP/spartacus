@@ -9,19 +9,15 @@ export class TertiaryBarComponent implements OnInit {
   tertiaryNavItems: any[] = [
     {
       label: 'Sale',
-      url: '#'
-    },
-    {
-      label: 'Find a store',
-      url: '/store-finder'
+      url: '/sale'
     },
     {
       label: 'Contact us',
-      url: '#'
+      url: '/contact'
     },
     {
       label: 'Help',
-      url: '#'
+      url: '/help'
     }
   ];
   constructor() {}

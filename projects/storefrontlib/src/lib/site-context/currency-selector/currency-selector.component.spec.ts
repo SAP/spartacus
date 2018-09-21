@@ -1,5 +1,4 @@
 import { By } from '@angular/platform-browser';
-import { SiteContextModuleConfig } from '../site-context-module-config';
 import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -11,13 +10,14 @@ import * as fromRoot from './../../routing/store';
 import * as fromActions from './../shared/store/actions/currencies.action';
 import { PageType } from '../../routing/models/page-context.model';
 import { of } from 'rxjs';
+import { SiteContextModuleConfig } from '../site-context-module-config';
 
-class MockSiteContextModuleConfig {
-  site = {
+const MockSiteContextModuleConfig: SiteContextModuleConfig = {
+  site: {
     language: 'de',
     currency: 'JPY'
-  };
-}
+  }
+};
 
 describe('CurrencySelectorComponent', () => {
   const currencies: any[] = [
@@ -41,7 +41,7 @@ describe('CurrencySelectorComponent', () => {
       providers: [
         {
           provide: SiteContextModuleConfig,
-          useClass: MockSiteContextModuleConfig
+          useValue: MockSiteContextModuleConfig
         }
       ]
     })

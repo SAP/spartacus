@@ -11,6 +11,7 @@ import { CmsModule } from './../../../cms/cms.module';
 import { LoginPageLayoutModule } from './../../layout/login-page-layout/login-page-layout.module';
 import { LoginPageComponent } from './login-page.component';
 import { EffectsModule } from '@ngrx/effects';
+import { ConfigModule } from '../../../config/config.module';
 
 describe('LoginPageComponent', () => {
   let component: LoginPageComponent;
@@ -29,7 +30,8 @@ describe('LoginPageComponent', () => {
           auth: combineReducers(fromAuthStore.getReducers())
         }),
         EffectsModule.forRoot(fromCms.effects),
-        CmsModule
+        CmsModule,
+        ConfigModule.forRoot()
       ],
       declarations: [LoginPageComponent],
       providers: [provideMockActions(() => of())]
