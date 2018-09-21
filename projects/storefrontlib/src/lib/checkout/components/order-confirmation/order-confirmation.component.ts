@@ -16,18 +16,11 @@ import { Card } from '../../../ui/components/card/card.component';
 })
 export class OrderConfirmationComponent implements OnInit, OnDestroy {
   order: any;
-  cart: any;
 
   constructor(protected checkoutService: CheckoutService) {}
 
   ngOnInit() {
     this.order = this.checkoutService.orderDetails;
-    this.cart = {
-      totalPrice: this.order.totalPrice,
-      totalDiscounts: this.order.totalDiscounts,
-      totalTax: this.order.totalTax,
-      totalPriceWithTax: this.order.totalPriceWithTax
-    };
   }
 
   ngOnDestroy() {
@@ -36,9 +29,9 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
 
   getAddressCardContent(deliveryAddress: any): Card {
     return {
-      textBold: `Ship To`,
+      title: `Ship To`,
+      textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
       text: [
-        `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
         deliveryAddress.line1,
         deliveryAddress.line2,
         `${deliveryAddress.town}, ${deliveryAddress.country.isocode}, ${
@@ -51,16 +44,17 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
 
   getShippingCardContent(deliveryMode: any): Card {
     return {
-      textBold: `Shipping method`,
-      text: [deliveryMode.name, deliveryMode.description]
+      title: `Shipping method`,
+      textBold: deliveryMode.name,
+      text: [deliveryMode.description]
     };
   }
 
   getBillingAddressCardContent(billingAddress: any): Card {
     return {
-      textBold: `Billing address`,
+      title: `Billing address`,
+      textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
       text: [
-        `${billingAddress.firstName} ${billingAddress.lastName}`,
         billingAddress.line1,
         billingAddress.line2,
         `${billingAddress.town}, ${billingAddress.country.isocode}, ${
@@ -73,9 +67,9 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
 
   getPaymentInfoCardContent(paymentInfo: any): Card {
     return {
-      textBold: `Payment`,
+      title: `Payment`,
+      textBold: paymentInfo.accountHolderName,
       text: [
-        paymentInfo.accountHolderName,
         paymentInfo.cardNumber,
         `Expires in ${paymentInfo.expiryMonth} / ${paymentInfo.expiryYear}`
       ]
