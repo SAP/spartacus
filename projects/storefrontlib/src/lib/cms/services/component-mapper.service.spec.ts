@@ -4,11 +4,10 @@ import { ComponentMapperService } from './component-mapper.service';
 import { CmsModuleConfig } from '../cms-module-config';
 
 @Component({
+  selector: 'y-test',
   template: 'test'
 })
-export class TestComponent {
-  static componentName = 'TestComponent';
-}
+export class TestComponent {}
 
 @NgModule({
   declarations: [TestComponent],
@@ -19,7 +18,7 @@ export class TestModule {}
 
 const MockCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
-    CMSTestComponent: 'TestComponent'
+    CMSTestComponent: 'y-test'
   }
 };
 
