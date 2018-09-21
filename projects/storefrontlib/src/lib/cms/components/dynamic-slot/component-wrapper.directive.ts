@@ -1,60 +1,38 @@
 import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  Input,
-  ViewChild,
+  Directive,
   ViewContainerRef,
-  ComponentFactoryResolver,
-  ChangeDetectionStrategy,
+  Input,
+  AfterViewInit,
+  OnDestroy,
   ComponentRef,
-  OnDestroy
+  ComponentFactoryResolver
 } from '@angular/core';
-import { AbstractCmsComponent } from '../abstract-cms-component';
 import { ComponentMapperService } from '../../services/component-mapper.service';
+import { AbstractCmsComponent } from '../abstract-cms-component';
 
-@Component({
-  selector: 'y-component-wrapper',
-  templateUrl: './component-wrapper.component.html',
-  styleUrls: ['./component-wrapper.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+@Directive({
+  selector: '[yComponentWrapper]'
 })
-export class ComponentWrapperComponent
-  implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('target', { read: ViewContainerRef })
-  target;
+export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
   @Input() componentType: string;
   @Input() componentUid: string;
+  @Input() componentCssClass: string;
   @Input() contextParameters: any;
-  @Input() componentClass: string;
-  // the component is loaded from server or extracted from cms page data
-  // by default, component data is extracted from page data
   @Input() componentLoad = false;
 
-  private isViewInitialized = false;
   cmpRef: ComponentRef<any>;
 
   constructor(
+    private vcr: ViewContainerRef,
     private componentFactoryResolver: ComponentFactoryResolver,
     private componentMapper: ComponentMapperService
   ) {}
 
-  ngOnInit() {}
-
   ngAfterViewInit() {
-    this.isViewInitialized = true;
     this.launchComponent();
   }
 
-  launchComponent() {
-    if (!this.isViewInitialized) {
-      return;
-    }
-
-    if (this.cmpRef) {
-      this.cmpRef.destroy();
-    }
-
+  private launchComponent() {
     const componentTypeClass = this.componentMapper.getComponentTypeByCode(
       this.componentType
     );
@@ -63,17 +41,22 @@ export class ComponentWrapperComponent
       const factory = this.componentFactoryResolver.resolveComponentFactory(
         componentTypeClass
       );
-      this.cmpRef = this.target.createComponent(factory);
+
+      this.cmpRef = this.vcr.createComponent(factory);
       const instance: AbstractCmsComponent = this.cmpRef.instance;
       if (instance.setUid) {
         instance.setUid(this.componentUid);
       }
-      instance.setLoad(this.componentLoad);
+      if (instance.setLoad) {
+        instance.setLoad(this.componentLoad);
+      }
       // pass parameters to dynamic component
       if (this.contextParameters && instance.setContextParameters) {
         instance.setContextParameters(this.contextParameters);
       }
-      instance.bootstrap();
+      if (instance.bootstrap) {
+        instance.bootstrap();
+      }
     }
   }
 

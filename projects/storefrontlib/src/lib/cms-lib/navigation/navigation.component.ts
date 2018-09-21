@@ -21,8 +21,6 @@ import { Subscription } from 'rxjs';
 })
 export class NavigationComponent extends AbstractCmsComponent
   implements OnDestroy {
-  static componentName = 'NavigationComponent';
-
   itemSubscription: Subscription;
 
   done = false;
