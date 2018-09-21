@@ -24,8 +24,6 @@ import { MatDialog } from '@angular/material';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MiniCartComponent extends AbstractCmsComponent {
-  static componentName = 'MiniCartComponent';
-
   cart$: Observable<any>;
   entries$: Observable<any>;
 

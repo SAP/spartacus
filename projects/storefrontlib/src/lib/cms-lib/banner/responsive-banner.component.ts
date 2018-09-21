@@ -8,7 +8,6 @@ import { BannerComponent } from './banner.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResponsiveBannerComponent extends BannerComponent {
-  static componentName = 'ResponsiveBannerComponent';
   // TODO: move to a more generic location
   // TODO: Make configurable
   private formats = [
