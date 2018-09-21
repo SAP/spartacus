@@ -12,6 +12,13 @@ import { ProductImageConverterService } from '../../converters/product-image-con
 import * as fromEffects from './product-search.effect';
 import * as fromActions from '../actions/product-search.action';
 
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
+    baseUrl: '',
+    occPrefix: ''
+  }
+};
+
 describe('ProductSearch Effects', () => {
   let actions$: Observable<any>;
   let service: OccProductSearchService;
@@ -27,7 +34,7 @@ describe('ProductSearch Effects', () => {
       providers: [
         OccProductSearchService,
         ProductImageConverterService,
-        OccModuleConfig,
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         fromEffects.ProductsSearchEffects,
         provideMockActions(() => actions$)
       ]

@@ -3,10 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LinkComponent } from './link.component';
 
-import { MaterialModule } from '../../material.module';
-
 @NgModule({
-  imports: [CommonModule, RouterModule, MaterialModule],
+  imports: [CommonModule, RouterModule],
   declarations: [LinkComponent],
   exports: [LinkComponent],
   entryComponents: [LinkComponent]

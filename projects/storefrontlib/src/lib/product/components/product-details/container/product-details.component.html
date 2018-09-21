@@ -20,7 +20,8 @@
                     </div>
 
                     <y-product-summary [product]="product" (itemCountChange)="itemCount = $event"></y-product-summary>
-                    <y-add-to-cart *ngIf="product?.stock?.stockLevelStatus !=='outOfStock'" [quantity]="itemCount" [productCode]="product?.code"></y-add-to-cart>
+                    <y-add-to-cart *ngIf="product?.stock?.stockLevelStatus !=='outOfStock'" [quantity]="itemCount"
+                        [productCode]="product?.code"></y-add-to-cart>
 
                     <a href="#" class="btn-link">
                         Share
@@ -79,7 +80,8 @@
                 </ng-template>
                 <ng-template ngbTabContent>
                     <div class="y-product-details__tab-section">
-                        <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'" [componentLoad]="true"></y-component-wrapper>
+                        <ng-container yComponentWrapper componentType="CMSTabParagraphComponent" componentUid="deliveryTab"
+                            [componentLoad]="true"></ng-container>
                         <y-dynamic-slot position="Tabs"></y-dynamic-slot>
                     </div>
                 </ng-template>
@@ -108,7 +110,10 @@
             <ngb-panel id="toggle-4" title="Shipping">
                 <ng-template ngbPanelContent>
                     <div class="y-product-details__tab-section">
-                        <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'" [componentLoad]="true"></y-component-wrapper>
+                        <!-- <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'"
+                            [componentLoad]="true"></y-component-wrapper> -->
+                        <div yComponentWrapper componentType="CMSTabParagraphComponent" componentUid="deliveryTab"
+                            [componentLoad]="true"></div>
                         <y-dynamic-slot position="Tabs"></y-dynamic-slot>
                     </div>
                 </ng-template>

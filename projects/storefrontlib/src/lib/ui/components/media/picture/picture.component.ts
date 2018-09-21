@@ -11,19 +11,9 @@ export class PictureComponent implements OnChanges {
   @Input() imageContainer;
   @Input() imageFormat;
   @Input() imagePosition;
+  @Input() imageAlt;
 
   mainImage;
-  // imageTypes = {
-  //     xs: 'xs',
-  //     sm: 'thumbnail',
-  //     md: 'md',
-  //     lg: 'lg'
-  // };
-
-  // xsImage;
-  // smImage;
-  // mdImage;
-  // lgImage;
 
   constructor() {}
 

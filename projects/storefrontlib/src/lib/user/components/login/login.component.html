@@ -2,7 +2,6 @@
     <ng-container *ngIf="user?.name">
         <div class="y-login-status__greet">Hi, {{user.name}}</div>
         <y-dynamic-slot position="HeaderLinks" class="y-login-status__dropdown"></y-dynamic-slot>
-        <a href="#" style="color:var(--y-inverse)" class="dropdown-item y-login-status__item" (click)="logout()">Sign Out</a>
     </ng-container>
 
     <ng-container *ngIf="!user?.name">

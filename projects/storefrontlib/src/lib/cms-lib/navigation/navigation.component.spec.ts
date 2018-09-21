@@ -9,11 +9,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatMenuModule, MatIconModule } from '@angular/material';
 import { NavigationService } from './navigation.service';
 
-export class UseCmsModuleConfig {
-  cmsComponentMapping = {
+const UseCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     CMSNavigationComponent: 'NavigationComponent'
-  };
-}
+  }
+};
 
 describe('CmsNavigationComponent in CmsLib', () => {
   let store: Store<fromCmsReducer.CmsState>;
@@ -76,7 +76,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
       ],
       providers: [
         NavigationService,
-        { provide: CmsModuleConfig, useClass: UseCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
       ],
       declarations: [NavigationComponent]
     }).compileComponents();

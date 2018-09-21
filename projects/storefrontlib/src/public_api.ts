@@ -2,6 +2,7 @@
  * Public API Surface of storefrontlib
  */
 
+export * from './lib/config/index';
 export * from './lib/auth/index';
 export * from './lib/cart/index';
 export * from './lib/checkout/index';
@@ -17,3 +18,5 @@ export * from './lib/store-finder/index';
 export * from './lib/ui/index';
 export * from './lib/user/index';
 export * from './lib/material.module';
+export * from './lib/storefront.module';
+export * from './lib/storefront-config';

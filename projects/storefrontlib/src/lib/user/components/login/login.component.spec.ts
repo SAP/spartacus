@@ -9,8 +9,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import {
-  ComponentWrapperComponent,
-  DynamicSlotComponent
+  DynamicSlotComponent,
+  ComponentWrapperDirective
 } from '../../../cms/components';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
 import { MaterialModule } from '../../../material.module';
@@ -40,18 +40,18 @@ const mockUserDetails: any = {
   uid: 'UID'
 };
 
-class MockCmsModuleConfig {
-  server = {
+const MockCmsModuleConfig: CmsModuleConfig = {
+  server: {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
-  };
+  },
 
-  site = {
+  site: {
     baseSite: 'electronics',
     language: '',
     currency: ''
-  };
-}
+  }
+};
 
 const cntx = { id: 'testPageId', type: PageType.CONTENT_PAGE };
 
@@ -76,9 +76,9 @@ describe('LoginComponent', () => {
         HttpClientTestingModule
       ],
       declarations: [
-        ComponentWrapperComponent,
         DynamicSlotComponent,
-        LoginComponent
+        LoginComponent,
+        ComponentWrapperDirective
       ],
       providers: [
         provideMockActions(() => of()),
@@ -94,7 +94,7 @@ describe('LoginComponent', () => {
             }
           }
         },
-        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
       ]
     }).compileComponents();
   }));
