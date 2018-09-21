@@ -25,7 +25,7 @@ const coor: Coordinates = {
   speed: null
 };
 const position = { coords: coor, timestamp: new Date().valueOf() };
-/* tslint:disable */
+
 class WindowRefMock {
   get nativeWindow(): any {
     return {
@@ -39,13 +39,14 @@ class WindowRefMock {
     };
   }
 }
-/* tslint:enable */
 
 describe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;
   let fixture: ComponentFixture<StoreFinderSearchComponent>;
   let service: StoreFinderService;
+  /* tslint:disable */
   let windowRef: WindowRef;
+  /* tslint:enable */
   let store: Store<fromStore.StoresState>;
   const keyEvent = {
     key: 'Enter'
