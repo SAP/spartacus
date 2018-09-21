@@ -25,18 +25,18 @@ import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuth from '../../../auth/store';
 import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
 
-class MockSiteContextModuleConfig {
-  server = {
+const MockSiteContextModuleConfig: SiteContextModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  site = {
+  site: {
     baseSite: '',
     language: '',
     currency: ''
-  };
-}
+  }
+};
 
 describe('MainComponent', () => {
   let component: MainComponent;
@@ -72,7 +72,7 @@ describe('MainComponent', () => {
       providers: [
         {
           provide: SiteContextModuleConfig,
-          useClass: MockSiteContextModuleConfig
+          useValue: MockSiteContextModuleConfig
         },
         { provide: OccSiteService }
       ]

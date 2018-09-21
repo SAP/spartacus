@@ -5,7 +5,10 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccCmsService } from '../../services/occ-cms.service';
-import { CmsModuleConfig } from '../../cms-module-config';
+import {
+  CmsModuleConfig,
+  defaultCmsModuleConfig
+} from '../../cms-module-config';
 import * as fromEffects from './component.effect';
 import * as fromActions from '../actions/component.action';
 
@@ -35,7 +38,7 @@ describe('Component Effects', () => {
       ],
       providers: [
         OccCmsService,
-        CmsModuleConfig,
+        { provide: CmsModuleConfig, useValue: defaultCmsModuleConfig },
         fromEffects.ComponentEffects,
         provideMockActions(() => actions$)
       ]

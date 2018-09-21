@@ -12,6 +12,13 @@ import * as fromActions from '../actions/checkout.action';
 import * as fromUserActions from '../../../user/store/actions';
 import { OccOrderService } from '../../../occ/order/order.service';
 
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
+    baseUrl: '',
+    occPrefix: ''
+  }
+};
+
 describe('Checkout effect', () => {
   let cartService: OccCartService;
   let orderService: OccOrderService;
@@ -40,7 +47,7 @@ describe('Checkout effect', () => {
         OccCartService,
         OccOrderService,
         fromEffects.CheckoutEffects,
-        OccModuleConfig,
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$)
       ]
     });

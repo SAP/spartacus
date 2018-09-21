@@ -11,24 +11,22 @@ import { of } from 'rxjs';
 import * as fromStore from '../store';
 import * as fromRoot from '../../routing/store';
 
-import { OccModuleConfig } from '../../occ/occ-module-config';
-
 import { UserTokenInterceptor } from './user-token.interceptor';
-
 import { UserToken } from './../../auth/models/token-types.model';
+import { AuthModuleConfig } from '../auth-module.config';
 
-class MockOccModuleConfig {
-  server = {
+const MockAuthModuleConfig: AuthModuleConfig = {
+  server: {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
-  };
+  },
 
-  site = {
+  site: {
     baseSite: 'electronics',
     language: '',
     currency: ''
-  };
-}
+  }
+};
 
 describe('UserTokenInterceptor', () => {
   const userToken: UserToken = {
@@ -52,7 +50,7 @@ describe('UserTokenInterceptor', () => {
         })
       ],
       providers: [
-        { provide: OccModuleConfig, useClass: MockOccModuleConfig },
+        { provide: AuthModuleConfig, useValue: MockAuthModuleConfig },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: UserTokenInterceptor,
