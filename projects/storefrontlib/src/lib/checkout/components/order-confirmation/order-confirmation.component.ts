@@ -29,7 +29,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
 
   getAddressCardContent(deliveryAddress: any): Card {
     return {
-      title: `Ship To`,
+      title: 'Ship to',
       textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
       text: [
         deliveryAddress.line1,
@@ -44,7 +44,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
 
   getShippingCardContent(deliveryMode: any): Card {
     return {
-      title: `Shipping method`,
+      title: 'Shipping method',
       textBold: deliveryMode.name,
       text: [deliveryMode.description]
     };
@@ -52,7 +52,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
 
   getBillingAddressCardContent(billingAddress: any): Card {
     return {
-      title: `Billing address`,
+      title: 'Billing address',
       textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
       text: [
         billingAddress.line1,
@@ -67,7 +67,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
 
   getPaymentInfoCardContent(paymentInfo: any): Card {
     return {
-      title: `Payment`,
+      title: 'Payment',
       textBold: paymentInfo.accountHolderName,
       text: [
         paymentInfo.cardNumber,
