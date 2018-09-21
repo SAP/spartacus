@@ -101,8 +101,7 @@ describe('StoreFinderSearchComponent', () => {
     expect(service.findStores).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.FindStores({
-        queryText: 'query',
-        longitudeLatitude: undefined
+        queryText: 'query'
       })
     );
   });
