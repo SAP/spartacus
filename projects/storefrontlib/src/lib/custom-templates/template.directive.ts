@@ -2,10 +2,10 @@ import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { CustomTemplateService } from './custom-template.service';
 
 @Directive({
-  selector: '[yTemplate]'
+  selector: '[yInnerTemplate]'
 })
-export class TemplateDirective {
-  @Input() yTemplate: string;
+export class InnerTemplateDirective {
+  @Input() yInnerTemplate: string;
 
   constructor(
     private vcr: ViewContainerRef,
@@ -15,7 +15,7 @@ export class TemplateDirective {
 
   ngOnInit() {
     const customTemplate = this.customTemplateService.getFeature(
-      this.yTemplate
+      this.yInnerTemplate
     );
     const ctx = (<any>this.vcr.injector).view.context;
     this.vcr.createEmbeddedView(customTemplate || this.templateRef, {
