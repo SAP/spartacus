@@ -29,7 +29,7 @@ export class SiteContextModule {
         {
           provide: SiteContextModuleConfig,
           useFactory: overrideSiteContextModuleConfig,
-          deps: [SITE_CONTEXT_MODULE_CONFIG_OVERRIDE]
+          deps: ['APP_CONFIG']
         }
       ]
     };

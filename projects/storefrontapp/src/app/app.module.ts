@@ -1,35 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { config } from './config';
-
-import {
-  AuthModule,
-  OccModule,
-  UiModule,
-  CmsLibModule,
-  CmsModule,
-  RoutingModule,
-  UiFrameworkModule,
-  SiteContextModule,
-  MainComponent
-} from 'storefrontlib';
+import { MainComponent, StorefrontModule } from 'storefrontlib';
+import { RouterModule } from '@angular/router';
+import { environment } from '../environments/environment';
 
 @NgModule({
   imports: [
     BrowserModule,
-    AuthModule.forRoot(config),
-    RoutingModule.forRoot(config),
-    OccModule.forRoot(config),
-    SiteContextModule.forRoot(config),
-
-    AppRoutingModule,
-
-    CmsLibModule,
-    CmsModule.forRoot(config),
-    UiModule,
-    UiFrameworkModule
+    RouterModule.forRoot([]),
+    StorefrontModule.withConfig({
+      server: {
+        baseUrl: environment.occBaseUrl,
+        occPrefix: '/rest/v2/'
+      }
+    })
   ],
   bootstrap: [MainComponent]
 })

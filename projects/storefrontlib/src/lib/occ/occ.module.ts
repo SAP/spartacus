@@ -44,7 +44,7 @@ export class OccModule {
         {
           provide: OccModuleConfig,
           useFactory: overrideOccModuleConfig,
-          deps: [OCC_MODULE_CONFIG_OVERRIDE]
+          deps: ['APP_CONFIG']
         }
       ]
     };
