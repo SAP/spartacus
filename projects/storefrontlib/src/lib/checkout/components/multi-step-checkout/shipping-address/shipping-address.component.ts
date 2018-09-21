@@ -26,6 +26,7 @@ export class ShippingAddressComponent implements OnInit {
   existingAddresses$: Observable<any>;
   isAddressForm = false;
   cards = [];
+  isLoading = true;
 
   @Input() selectedAddress: Address;
   @Output() addAddress = new EventEmitter<any>();
@@ -36,6 +37,9 @@ export class ShippingAddressComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.store.select(fromUserStore.getLoading).subscribe(loading => {
+      this.isLoading = loading;
+    });
     this.existingAddresses$ = this.store
       .select(fromUserStore.getAddresses)
       .pipe(
