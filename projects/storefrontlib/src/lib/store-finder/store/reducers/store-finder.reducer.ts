@@ -42,6 +42,36 @@ export function reducer(
         ...state
       };
     }
+
+    case fromStoreFinder.FIND_ALL_STORES_BY_COUNTRY_SUCCESS: {
+      const findStoresEntities = action.payload;
+
+      return {
+        ...state,
+        findStoresEntities
+      };
+    }
+    
+    case fromStoreFinder.FIND_ALL_STORES_BY_COUNTRY_FAIL: {
+      return {
+        ...state
+      };
+    }
+  
+    case fromStoreFinder.FIND_ALL_STORES_BY_REGION_SUCCESS: {
+      const findStoresEntities = action.payload;
+
+      return {
+        ...state,
+        findStoresEntities
+      };
+    }
+
+    case fromStoreFinder.FIND_ALL_STORES_BY_REGION_FAIL: {
+      return {
+        ...state
+      };
+    }
   }
 
   return state;

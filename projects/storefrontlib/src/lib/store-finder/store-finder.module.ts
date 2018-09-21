@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -17,6 +18,7 @@ import { StoreFinderPagingComponent } from './components/store-finder-paging/sto
 import { StoreFinderMapComponent } from './components/store-finder-map/store-finder-map.component';
 import { StoreFinderListItemComponent } from './components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
 import { StoreFinderListCountComponent } from './components/store-finder-list-count/store-finder-list-count.component';
+import { StoreFinderGridComponent } from './components/store-finder-grid/store-finder-grid.component';
 
 @NgModule({
   imports: [
@@ -24,6 +26,7 @@ import { StoreFinderListCountComponent } from './components/store-finder-list-co
     MaterialModule,
     CmsModule,
     ReactiveFormsModule,
+    RouterModule,
     StoreModule.forFeature('stores', reducers),
     EffectsModule.forFeature(effects)
   ],
@@ -33,7 +36,8 @@ import { StoreFinderListCountComponent } from './components/store-finder-list-co
     StoreFinderPagingComponent,
     StoreFinderMapComponent,
     StoreFinderListItemComponent,
-    StoreFinderListCountComponent
+    StoreFinderListCountComponent,
+    StoreFinderGridComponent
   ],
   exports: [
     StoreFinderSearchComponent,
@@ -41,7 +45,8 @@ import { StoreFinderListCountComponent } from './components/store-finder-list-co
     StoreFinderPagingComponent,
     StoreFinderMapComponent,
     StoreFinderListItemComponent,
-    StoreFinderListCountComponent
+    StoreFinderListCountComponent,
+    StoreFinderGridComponent
   ],
   providers: [...services]
 })

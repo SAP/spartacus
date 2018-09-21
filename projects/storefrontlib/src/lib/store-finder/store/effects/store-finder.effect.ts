@@ -41,4 +41,38 @@ export class StoreFinderEffect {
         );
       })
     );
+
+  @Effect()
+  findAllStoresByCountry$: Observable<any> = this.actions$
+    .ofType(fromAction.FIND_ALL_STORES_BY_COUNTRY)
+    .pipe(
+      map((action: fromAction.FindAllStoresByCountry) => action.payload),
+      mergeMap(payload =>
+        this.occStoreFinderService
+          .findStoresByCountry(payload.countryIsoCode)
+          .pipe(
+            map(data => {
+              return new fromAction.FindAllStoresByCountrySuccess(data);
+            }),
+            catchError(error => of(new fromAction.FindAllStoresByCountryFail(error)))
+          )
+      )
+    );
+
+    @Effect()
+    findAllStoresByRegion$: Observable<any> = this.actions$
+      .ofType(fromAction.FIND_ALL_STORES_BY_REGION)
+      .pipe(
+        map((action: fromAction.FindAllStoresByRegion) => action.payload),
+        mergeMap(payload =>
+          this.occStoreFinderService
+            .findStoresByRegion(payload.countryIsoCode, payload.regionIsoCode)
+            .pipe(
+              map(data => {
+                return new fromAction.FindAllStoresByRegionSuccess(data);
+              }),
+              catchError(error => of(new fromAction.FindAllStoresByRegionFail(error)))
+            )
+        )
+      );
 }

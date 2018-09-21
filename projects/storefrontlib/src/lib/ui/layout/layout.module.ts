@@ -16,6 +16,7 @@ import { OrderDetailsPageLayoutModule } from './order-details-page-layout/order-
 import { RegisterLayoutModule } from './register-layout/register-layout.module';
 import { LoginPageLayoutModule } from './login-page-layout/login-page-layout.module';
 import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-finder-page-layout.module';
+import { StoreListPageLayoutModule } from './store-list-page-layout/store-list-page-layout.module';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-fi
     ProductDetailsPageLayoutModule,
     RegisterLayoutModule,
     LoginPageLayoutModule,
-    StoreFinderPageLayoutModule
+    StoreFinderPageLayoutModule,
+    StoreListPageLayoutModule
   ],
   declarations: [],
   exports: [
@@ -47,7 +49,8 @@ import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-fi
     ProductDetailsPageLayoutModule,
     RegisterLayoutModule,
     LoginPageLayoutModule,
-    StoreFinderPageLayoutModule
+    StoreFinderPageLayoutModule,
+    StoreListPageLayoutModule
   ]
 })
 export class LayoutModule {}

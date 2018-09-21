@@ -1,9 +1,15 @@
 <ng-container *ngIf="locations" class="container">
     <div *ngFor="let country of locations?.countriesAndRegionsStoreCount;" class="col-md-2">
-        <span [ngClass]="country?.storeCountDataList ? 'country-header' : 'country-header-link'">{{country.name}}</span><span
-            [ngClass]="country?.storeCountDataList ? 'country-header' : 'country-header-link'" *ngIf="!country?.storeCountDataList">({{country.count}})</span>
+        <a [routerLink]="['/store-finder/country', country.isoCode]">
+            <button mat-button class="primary" (click)="viewAllStoresForCountry(country.isoCode)">
+                <span [ngClass]="country?.storeCountDataList ? 'country-header' : 'country-header-link'">{{country.name}}</span><span
+                    [ngClass]="country?.storeCountDataList ? 'country-header' : 'country-header-link'" *ngIf="!country?.storeCountDataList">({{country.count}})</span>
+            </button>
+        </a>
         <div *ngFor="let region of country?.storeCountDataList;" class="col-md-4">
-            <button mat-button class="primary"><u>{{region.name}}</u> ({{region.count}})</button>
+            <a [routerLink]="['/store-finder/country', country.isoCode, 'region', region.isoCode]">
+                <button mat-button class="primary" (click)="viewAllStoresForRegion(country.isoCode, region.isoCode)"><u>{{region.name}}</u> ({{region.count}})</button>
+            </a>
         </div>
     </div>
 </ng-container>
