@@ -23,6 +23,7 @@ import {
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { ConfigModule, Config } from '../config/config.module';
+import { RouterModule } from '@angular/router';
 
 export function getMetaReducers(
   config: RoutingModuleConfig
@@ -40,6 +41,7 @@ export function getMetaReducers(
 
 @NgModule({
   imports: [
+    RouterModule.forRoot([]),
     StoreModule.forRoot(reducerToken),
     EffectsModule.forRoot(effects),
     StoreRouterConnectingModule,
