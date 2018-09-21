@@ -13,7 +13,9 @@ export class StoreFinderService {
       this.store.dispatch(
         new fromStore.FindStores({ queryText, longitudeLatitude })
       );
-    } else this.store.dispatch(new fromStore.FindStores({ queryText }));
+    } else {
+      this.store.dispatch(new fromStore.FindStores({ queryText }));
+    }
   }
 
   viewAllStores() {

@@ -25,7 +25,7 @@ const coor: Coordinates = {
   speed: null
 };
 const position = { coords: coor, timestamp: new Date().valueOf() };
-
+/* tslint:disable */
 class WindowRefMock {
   get nativeWindow(): any {
     return {
@@ -39,6 +39,7 @@ class WindowRefMock {
     };
   }
 }
+/* tslint:enable */
 
 describe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;
@@ -85,7 +86,6 @@ describe('StoreFinderSearchComponent', () => {
     spyOn(service, 'viewAllStores').and.callThrough();
     spyOn(component, 'onKey').and.callThrough();
     spyOn(component, 'viewStoresWithMyLoc').and.callThrough();
-    spyOn(windowRef, 'nativeWindow').and.callThrough();
     fixture.detectChanges();
   });
 
