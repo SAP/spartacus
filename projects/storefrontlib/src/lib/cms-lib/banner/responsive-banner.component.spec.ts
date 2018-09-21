@@ -9,14 +9,14 @@ import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 
-class UseCmsModuleConfig {
-  cmsComponentMapping = {
+const UseCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     SimpleResponsiveBannerComponent: 'ResponsiveBannerComponent'
-  };
-  server = {
+  },
+  server: {
     baseUrl: 'https://localhost:9002'
-  };
-}
+  }
+};
 
 describe('ResponsiveBannerComponent', () => {
   let responsiveBannerComponent: ResponsiveBannerComponent;
@@ -70,7 +70,7 @@ describe('ResponsiveBannerComponent', () => {
         RouterTestingModule
       ],
       declarations: [ResponsiveBannerComponent],
-      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
+      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

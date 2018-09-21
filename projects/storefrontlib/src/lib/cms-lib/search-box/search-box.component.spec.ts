@@ -15,11 +15,11 @@ import { SearchConfig } from '../../product/search-config';
 import { By } from '@angular/platform-browser';
 import { BootstrapModule } from '../../bootstrap.module';
 
-export class UseCmsModuleConfig {
-  cmsComponentMapping = {
+const UseCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     SearchBoxComponent: 'SearchBoxComponent'
-  };
-}
+  }
+};
 
 describe('SearchBoxComponent in CmsLib', () => {
   let store: Store<fromCmsReducer.CmsState>;
@@ -79,7 +79,7 @@ describe('SearchBoxComponent in CmsLib', () => {
         })
       ],
       declarations: [SearchBoxComponent, PictureComponent],
-      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
+      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

@@ -18,16 +18,16 @@ const addressVerificationEndpoint = '/addresses/verification';
 const addressesEndpoint = '/addresses';
 const paymentDetailsEndpoint = '/paymentdetails';
 
-class MockOccModuleConfig {
-  server = {
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  site = {
+  site: {
     baseSite: ''
-  };
-}
+  }
+};
 
 describe('OccUserService', () => {
   let service: OccUserService;
@@ -38,7 +38,7 @@ describe('OccUserService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccUserService,
-        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig }
       ]
     });
 

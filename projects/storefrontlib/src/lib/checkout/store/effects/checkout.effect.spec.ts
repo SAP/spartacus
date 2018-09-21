@@ -15,6 +15,13 @@ import { OccOrderService } from '../../../occ/order/order.service';
 import { ProductImageConverterService } from '../../../product/converters';
 import { GlobalMessageType } from '../../../global-message/models/message.model';
 
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
+    baseUrl: '',
+    occPrefix: ''
+  }
+};
+
 describe('Checkout effect', () => {
   let cartService: OccCartService;
   let orderService: OccOrderService;
@@ -43,9 +50,9 @@ describe('Checkout effect', () => {
       providers: [
         OccCartService,
         OccOrderService,
-        fromEffects.CheckoutEffects,
-        OccModuleConfig,
         ProductImageConverterService,
+        fromEffects.CheckoutEffects,
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$)
       ]
     });

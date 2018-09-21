@@ -17,8 +17,6 @@ import * as fromProductStore from '../../product/store';
 })
 export class ProductCarouselComponent extends AbstractCmsComponent
   implements OnDestroy {
-  static componentName = 'ProductCarouselComponent';
-
   products$: Observable<any[]>;
   pause: boolean;
   firstTime = true;
