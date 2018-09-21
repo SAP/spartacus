@@ -1,17 +1,16 @@
-declare global {
-  interface Window {
-    addToHomeScreen: any;
+let ATHSPrompt = {
+  canPrompt: false,
+  prompt: function() {
+    return false;
   }
-}
-function enableATHS() {
-  window.addToHomeScreen = window.addToHomeScreen || {};
-  window.addToHomeScreen.isAvailable = false;
+};
 
-  window.addEventListener('beforeinstallprompt', function(e: any) {
+function enableATHS() {
+  window.addEventListener('beforeinstallprompt', (e: any) => {
     e.preventDefault();
-    window.addToHomeScreen = e;
-    window.addToHomeScreen.isAvailable = true;
+    ATHSPrompt = e;
+    ATHSPrompt.canPrompt = true;
   });
 }
 
-export { enableATHS };
+export { enableATHS, ATHSPrompt };
