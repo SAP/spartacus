@@ -6,7 +6,7 @@ import { CustomTemplateService } from './custom-template.service';
   selector: '[yOverrideTemplate]'
 })
 export class OverrideTemplateDirective {
-  @Input() overrideTemplate: string;
+  @Input() yOverrideTemplate: string;
 
   constructor(
     private tpl: TemplateRef<any>,
@@ -15,7 +15,7 @@ export class OverrideTemplateDirective {
 
   ngOnInit() {
     const feature: FeatureTemplate = {
-      feature: this.overrideTemplate,
+      feature: this.yOverrideTemplate,
       template: this.tpl
     };
     this.templateService.template = feature;

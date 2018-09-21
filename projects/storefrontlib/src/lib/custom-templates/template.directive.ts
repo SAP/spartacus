@@ -18,8 +18,6 @@ export class InnerTemplateDirective {
       this.yInnerTemplate
     );
     const ctx = (<any>this.vcr.injector).view.context;
-    this.vcr.createEmbeddedView(customTemplate || this.templateRef, {
-      $implicit: ctx
-    });
+    this.vcr.createEmbeddedView(customTemplate || this.templateRef, ctx);
   }
 }
