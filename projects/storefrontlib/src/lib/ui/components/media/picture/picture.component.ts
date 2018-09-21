@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { missingProductImgSrc } from '../../../images/missingProduct';
 
 const DEFAULT_FORMAT = 'product';
 
@@ -14,6 +15,7 @@ export class PictureComponent implements OnChanges {
   @Input() imageAlt;
 
   mainImage;
+  missingProductImgSrc = missingProductImgSrc;
 
   constructor() {}
 
@@ -28,5 +30,9 @@ export class PictureComponent implements OnChanges {
         this.mainImage = image.url;
       }
     }
+  }
+
+  imgErrorHandler(event) {
+    event.target.src = missingProductImgSrc;
   }
 }
