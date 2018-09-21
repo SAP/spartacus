@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
+export enum StorageSyncType {
+  NO_STORAGE = 'NO_STORAGE',
+  LOCAL_STORAGE = 'LOCAL_STORAGE',
+  SESSION_STORAGE = 'SESSION_STORAGE'
+}
 
-export class StorageSyncType {
-  static NO_STORAGE = 'NO_STORAGE';
-  static LOCAL_STORAGE = 'LOCAL_STORAGE';
-  static SESSION_STORAGE = 'SESSION_STORAGE';
+export abstract class RoutingModuleConfig {
+  storageSyncType?: StorageSyncType;
 }
-@Injectable()
-export class RoutingModuleConfig {
-  storageSyncType: string = StorageSyncType.SESSION_STORAGE;
-}
+
+export const defaultRoutingModuleConfig: RoutingModuleConfig = {
+  storageSyncType: StorageSyncType.SESSION_STORAGE
+};

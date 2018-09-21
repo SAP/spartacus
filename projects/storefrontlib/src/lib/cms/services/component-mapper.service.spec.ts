@@ -16,11 +16,11 @@ export class TestComponent {}
 })
 export class TestModule {}
 
-export class MockCmsModuleConfig {
-  cmsComponentMapping = {
+const MockCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     CMSTestComponent: 'y-test'
-  };
-}
+  }
+};
 
 describe('ComponentMapperService', () => {
   let mapperService: ComponentMapperService;
@@ -30,7 +30,7 @@ describe('ComponentMapperService', () => {
       imports: [TestModule],
       providers: [
         ComponentMapperService,
-        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
       ]
     });
 
