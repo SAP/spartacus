@@ -1,61 +1,54 @@
-# Spartacus - Angular Storefront
+# What is Spartacus?
 
----
+Spartacus is an extendable and configurable storefront for SAP Commerce Cloud, built as a lean, Angular-based, single-page web application. Unlike Accelerator templates, which are bundled with SAP Commerce Cloud, the Sparatcus storefront is decoupled from the SAP Commerce Cloud backend, and it communicates with the backend only through REST API calls.
 
-## Minimum Requirements
+Spartacus provides the core capabilities needed to build and deploy a branded frontend. The first iterations of Spartacus contain the basics of what an ecommerce storefront should include:
 
-```
-Node.js >= 8.9.0
-yarn >= 1.6.0
-Read access to Artifactory (https://repository.hybris.com)
-```
+- home page
+- search
+- categories
+- product details
+- cart page
+- adding to cart
+- checkout
+- order history
 
-## Dependencies Configuration
+Soon after the first release to open source, the team behind Spartacus at SAP will add new functionality frequently.
 
-This is a one time setup. We pull all of our dependencies from our internal npm registry (artifactory). In order for you to be able to do this, you need to do the following:
+The Spartacus storefront is built with upgradability and extensibility in mind, and contains the foundations for future Progressive Web App (PWA) functionality. Extending Spartacus is easy and fast, and seamless upgrades mean you can take advantage of the latest features with little effort.
 
-1.  Login to [artifactory](https://repository.hybris.com/webapp/#/login)
-2.  Once you have logged in, there should be an `npm repository` section on the homepage in the `Set Me Up` section. Click on it and a popup window with instructions will appear.
-3.  Enter your password in the upper right. This will populate the commands with your encrypted password. This way you can copy and paste the commands directly in the terminal.
-4.  Find the section titled "Using basic authentication", and copy it contents and paste it in your ~/.npmrc file (create the file if it doesn't exist). It should look like:
+Spartacus is released as open source to provide greater access to partners and customers who are developing storefronts for use with SAP Commerce. Providing Spartacus as open source also creates the opportunity for the SAP Commerce Cloud community to contribute back to the storefront. However, Spartacus will continue to be actively developed by SAP Commerce Cloud's Team Spartacus and other teams for a long time to come.
 
-```bash
-_auth = <USERNAME>:<PASSWORD> (converted to base 64)
-email = firstname.lastname@sap.com
-always-auth = true
-```
+Read the [documentation](docs/README.md) to learn more about the technology and architecture of the Spartacus storefront, and see [SAP Customer Experience](https://cx.sap.com/en/products/commerce) for more information about SAP Commerce Cloud.
 
-The last step is to add this line to ~/.npmrc (so that npm packages can be downloaded from artifactory instead of the npm public registry):
+# Setup and Installation
 
-```bash
-registry=https://repository.hybris.com/api/npm/npm-repository/
-```
+To get up and running with Spartacus, the simplest approach is to build the application from ready-made libraries. You can also clone and build from source.
 
-That's it. For a quick way to confirm your new config, you can run:
+Spartacus is meant to be paired with the SAP Commerce backend, but the Spartacus repo includes a mock server that can be used as well.
 
-```bash
-yarn config list
-```
+For full installation and setup information, see the [Getting Started](docs) documentation.
 
-You should see your new ~/.npmrc configurations at the end of the list, in the `info npm config` section.
+# Customizing and Extending Spartacus
 
-## Installation Steps
+Although you are free to clone and change anything and everything in Spartacus, we hope you won't do that :)
 
-Install dependencies:
+To maintain our promise of upgradability, we strongly recommend that you extend Spartacus by building separate feature libraries that add to or change the provided functionality.
 
-```bash
-yarn install
-```
+Spartacus is designed with an application shell (storefrontapp) that contains core resources that are needed to load the rest of the web app. These core resources are provided through libraries, such as the `storefrontlib` and `storefrontstylelib`. You then build new feature libraries that contains all custom functionality and pages. It is also possible to change the shell app, but it's not recommended.
 
-Start the angular app.
+Don't forget that one of the more powerful features of SAP Commerce Cloud is its support for CMS (Content Management System). All custom data, such as logos, links, and more, are fetched from the server through CMS requests. For this reason, we also strongly recommend that you try to keep Spartacus "generic" in that it doesn't contain anything specific that a content manager might want to change later through a web console, instead of by asking a coder.
 
-```bash
-yarn start
-```
+For a full explanation and guidelines, see [Extending and Customizing Spartacus](docs) and [Spartacus Architecture](docs).
 
-Then point your browser to http://localhost:4200/
+# Contributions
 
----
+Team Spartacus is excited to hear ideas, requests, and especially code contributions. Here are a few ways to learn more and start prepping your first pull-request:
+
+- Read [](CONTRIBUTING.md) for an overview of our contribution policies.
+- Read the documentation in [Community](docs), especially the [Code of Conduct](doc) and the [GitHub Workflow](doc) documents.
+- Join our general communication channel on [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE)
+- Start creating issues or making requests through GitHub's issue tracking service or through ZenHub
 
 ## Development Experience
 
