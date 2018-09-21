@@ -24,20 +24,20 @@ export class CmsModuleConfig {
   };
 
   cmsComponentMapping = {
-    CMSLinkComponent: 'LinkComponent',
-    SimpleResponsiveBannerComponent: 'ResponsiveBannerComponent',
-    SimpleBannerComponent: 'BannerComponent',
-    // BreadcrumbComponent:                'BreadcrumbComponent',
-    CMSParagraphComponent: 'ParagraphComponent',
-    NavigationComponent: 'NavigationComponent',
-    FooterNavigationComponent: 'FooterNavigationComponent',
-    CategoryNavigationComponent: 'CategoryNavigationComponent',
-    ProductAddToCartComponent: 'AddToCartComponent',
-    MiniCartComponent: 'MiniCartComponent',
-    ProductCarouselComponent: 'ProductCarouselComponent',
-    SearchBoxComponent: 'SearchBoxComponent',
-    ProductReferencesComponent: 'ProductReferencesComponent',
-    // CMSTabParagraphComponent: 'TabParagraphContainerComponent'
-    CMSTabParagraphComponent: 'ParagraphComponent'
+    CMSLinkComponent: 'y-link',
+    SimpleResponsiveBannerComponent: 'y-responsive-banner',
+    SimpleBannerComponent: 'y-banner',
+    // BreadcrumbComponent:                'y-breadcrumb',
+    CMSParagraphComponent: 'y-paragraph',
+    NavigationComponent: 'y-navigation',
+    FooterNavigationComponent: 'y-footer-navigation',
+    CategoryNavigationComponent: 'y-category-navigation',
+    ProductAddToCartComponent: 'y-add-to-cart',
+    MiniCartComponent: 'y-mini-cart',
+    ProductCarouselComponent: 'y-product-carousel',
+    SearchBoxComponent: 'y-searchbox',
+    ProductReferencesComponent: 'y-product-references',
+    // CMSTabParagraphComponent: 'y-tab-paragraph-container'
+    CMSTabParagraphComponent: 'y-paragraph'
   };
 }

@@ -74,7 +74,7 @@ export class RoutingModule {
         {
           provide: RoutingModuleConfig,
           useFactory: overrideRoutingModuleConfig,
-          deps: [ROUTING_MODULE_CONFIG_OVERRIDE]
+          deps: ['APP_CONFIG']
         }
       ]
     };

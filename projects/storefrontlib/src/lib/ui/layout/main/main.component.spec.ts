@@ -8,7 +8,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   DynamicSlotComponent,
-  ComponentWrapperComponent
+  ComponentWrapperDirective
 } from '../../../cms/components';
 import { MaterialModule } from '../../../material.module';
 import { GlobalMessageModule } from '../../../global-message/global-message.module';
@@ -61,7 +61,7 @@ describe('MainComponent', () => {
         HeaderComponent,
         FooterComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent,
+        ComponentWrapperDirective,
         LanguageSelectorComponent,
         CurrencySelectorComponent,
         HeaderSkipperComponent,

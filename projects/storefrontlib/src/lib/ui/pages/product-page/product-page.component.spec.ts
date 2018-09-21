@@ -14,7 +14,7 @@ import { ProductDetailsPageLayoutComponent } from '../../layout/product-details-
 import { ProductDetailsComponent } from '../../../product/components/product-details/container/product-details.component';
 import {
   DynamicSlotComponent,
-  ComponentWrapperComponent
+  ComponentWrapperDirective
 } from '../../../cms/components';
 import { ProductImagesComponent } from '../../../product/components/product-details/product-images/product-images.component';
 import { ProductSummaryComponent } from '../../../product/components/product-details/product-summary/product-summary.component';
@@ -28,6 +28,7 @@ import {
   NgbTabsetModule,
   NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
+
 const routerState = {
   state: {
     params: {
@@ -61,11 +62,11 @@ describe('ProductPageComponent in pages', () => {
         ProductDetailsPageLayoutComponent,
         ProductDetailsComponent,
         DynamicSlotComponent,
+        ComponentWrapperDirective,
         ProductImagesComponent,
         ProductSummaryComponent,
         ProductAttributesComponent,
         ProductReviewsComponent,
-        ComponentWrapperComponent,
         AddToCartComponent
       ],
       providers: [ComponentMapperService, CmsModuleConfig, CartService]
