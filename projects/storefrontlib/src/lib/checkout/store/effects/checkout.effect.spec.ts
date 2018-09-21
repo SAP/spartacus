@@ -10,13 +10,24 @@ import { OccModuleConfig } from '../../../occ/occ-module-config';
 import * as fromEffects from './checkout.effect';
 import * as fromActions from '../actions/checkout.action';
 import * as fromUserActions from '../../../user/store/actions';
+import * as fromGlobalMessageActions from '../../../global-message/store/actions';
 import { OccOrderService } from '../../../occ/order/order.service';
+import { ProductImageConverterService } from '../../../product/converters';
+import { GlobalMessageType } from '../../../global-message/models/message.model';
+
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
+    baseUrl: '',
+    occPrefix: ''
+  }
+};
 
 describe('Checkout effect', () => {
   let cartService: OccCartService;
   let orderService: OccOrderService;
   let entryEffects: fromEffects.CheckoutEffects;
   let actions$: Observable<any>;
+  let productImageConverter: ProductImageConverterService;
 
   const userId = 'testUserId';
   const cartId = 'testCartId';
@@ -31,7 +42,7 @@ describe('Checkout effect', () => {
     mode1: 'mode1',
     mode2: 'mode2'
   };
-  const orderDetails = 'orderDetails';
+  const orderDetails = { entries: [] };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,8 +50,9 @@ describe('Checkout effect', () => {
       providers: [
         OccCartService,
         OccOrderService,
+        ProductImageConverterService,
         fromEffects.CheckoutEffects,
-        OccModuleConfig,
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$)
       ]
     });
@@ -48,6 +60,7 @@ describe('Checkout effect', () => {
     entryEffects = TestBed.get(fromEffects.CheckoutEffects);
     cartService = TestBed.get(OccCartService);
     orderService = TestBed.get(OccOrderService);
+    productImageConverter = TestBed.get(ProductImageConverterService);
 
     spyOn(cartService, 'createAddressOnCart').and.returnValue(of(address));
     spyOn(cartService, 'setDeliveryAddress').and.returnValue(of({}));
@@ -338,14 +351,22 @@ describe('Checkout effect', () => {
 
   describe('placeOrder$', () => {
     it('should place order', () => {
+      spyOn(productImageConverter, 'convertProduct').and.returnValue(
+        orderDetails
+      );
+
       const action = new fromActions.PlaceOrder({
         userId: userId,
         cartId: cartId
       });
-      const completion = new fromActions.PlaceOrderSuccess(orderDetails);
+      const completion1 = new fromActions.PlaceOrderSuccess(orderDetails);
+      const completion2 = new fromGlobalMessageActions.AddMessage({
+        text: 'Order placed successfully',
+        type: GlobalMessageType.MSG_TYPE_CONFIRMATION
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(entryEffects.placeOrder$).toBeObservable(expected);
     });

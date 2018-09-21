@@ -1,83 +1,56 @@
-<div class="order-confirmation-container" *ngIf="order !== undefined">
-    <div class="order-confirmation-header">
-        <h2>Confirmation of Order: {{order.code}}</h2>
-    </div>
-    <div class="header-msg-container">
-        <div class="header-msg">
-            <h3>Thank you for your order!</h3>
-            <span>An invoice has been sent by email. You should receive it soon.</span>
-        </div>
-    </div>
-    <div class="user-checkout-info-container">
-        <div class="user-checkout-info">
-            <h3>SHIP TO</h3>
-            <span class="info">
-                {{order.deliveryAddress.firstName + " " + order.deliveryAddress.lastName + ", " + order.deliveryAddress.line1 + ", " + order.deliveryAddress.line2
-                + " " + order.deliveryAddress.town + ", " + order.deliveryAddress.country.isocode + ", " + order.deliveryAddress.region.isocode
-                + ", " + order.deliveryAddress.postalCode}}
-            </span>
-        </div>
-        <div class="user-checkout-info">
-            <h3>BILL TO</h3>
-            <span class="info">
-                {{order.paymentInfo.billingAddress.firstName + " " + order.paymentInfo.billingAddress.lastName + ", " + order.paymentInfo.billingAddress.line1
-                + ", " + order.paymentInfo.billingAddress.line2 + " " + order.paymentInfo.billingAddress.town + ", " + order.paymentInfo.billingAddress.country.isocode
-                + ", " + order.paymentInfo.billingAddress?.region?.isocode + ", " + order.paymentInfo.billingAddress.postalCode}}
-            </span>
-        </div>
-        <div class="user-checkout-info">
-            <h3>PAYMENT METHOD</h3>
-            <span class="info">
-                {{order.paymentInfo.cardType.name + ", " + order.paymentInfo.accountHolderName + ", " + order.paymentInfo.cardNumber + ",
-                Expires in " + order.paymentInfo.expiryMonth + "/"+order.paymentInfo.expiryYear}}
-            </span>
-        </div>
-        <div class="user-checkout-info">
-            <h3>SHIPPING METHOD</h3>
-            <span class="info">
-                {{order.deliveryMode.name + ", " + order.deliveryMode.description}}
-            </span>
-        </div>
+<div class="y-page">
+  <header class="y-page__header">
+    <h1 class="y-page__title">Confirmation of Order: {{order.code}}</h1>
+  </header>
 
+  <div class="y-order-confirmation">
+    <div class="y-order-confirmation__message">
+      <h2>Thank you for your order!</h2>
+      <p>An invoice has been sent by email. You should receive it soon.</p>
+      <!-- <a href="#" class="btn-link">Print Page</a> -->
     </div>
-    <div class="order-items-container">
-        <div class="order-items-header">
-            <h2>Order Items</h2>
+
+    <div class="y-order-confirmation__review-summary">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12 col-md-4 col-lg-3">
+            <div class="y-order-confirmation__review-summary-card">
+              <y-card [content]="getAddressCardContent(order.deliveryAddress)"></y-card>
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-4 col-lg-3">
+            <div class="y-order-confirmation__review-summary-card">
+              <y-card [content]="getBillingAddressCardContent(order.paymentInfo.billingAddress)"></y-card>
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-4 col-lg-3">
+            <div class="y-order-confirmation__review-summary-card">
+              <y-card [content]="getShippingCardContent(order.deliveryMode)"></y-card>
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-4 col-lg-3">
+            <div class="y-order-confirmation__review-summary-card">
+              <y-card [content]="getPaymentInfoCardContent(order.paymentInfo)"></y-card>
+            </div>
+          </div>
         </div>
-        <table class="order-items-table">
-            <thead>
-                <th>Item</th>
-                <th>Item Price</th>
-                <th>Quantity</th>
-                <th>Item Total</th>
-            </thead>
-            <tbody>
-                <tr *ngFor="let entry of order.entries">
-                    <td>
-                        <div class="entry">
-                            <div class="productImage">
-                                <y-picture [imageContainer]="entry.product.images" imageFormat="2"></y-picture>
-                            </div>
-                            <div class="entryDetail">
-                                <a [routerLink]="entry.product.url">{{entry.product.name}}</a>
-                                <span>{{entry.product.code}}</span>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        {{entry.basePrice.formattedValue}}
-                    </td>
-                    <td>
-                        {{entry.quantity}}
-                    </td>
-                    <td>
-                        {{entry.totalPrice.value}}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+      </div>
     </div>
-    <div class="order-summary-container">
-        <y-order-summary [cart]="order"></y-order-summary>
+
+    <div class="y-order-confirmation__order-items container">
+      <h4 class="y-order-confirmation__order-items-header">Order Items</h4>
+      <y-cart-item-list [items]="order.entries" [isReadOnly]="true"></y-cart-item-list>
     </div>
+
+    <div class="y-order-confirmation__order-summary container">
+      <div class="row justify-content-end">
+        <div class="col-sm-12 col-md-6 col-lg-5 col-xl-4">
+          <y-order-summary [cart]="order"></y-order-summary>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

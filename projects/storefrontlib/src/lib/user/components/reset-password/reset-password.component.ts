@@ -14,14 +14,7 @@ export class ResetPasswordComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      userId: [
-        '',
-        [
-          Validators.email,
-          CustomFormValidators.emailDomainValidator,
-          Validators.required
-        ]
-      ]
+      userId: ['', [Validators.required, CustomFormValidators.emailValidator]]
     });
   }
 

@@ -20,11 +20,11 @@ import { MiniCartComponent } from './mini-cart.component';
 import { CartService } from '../../cart/services/cart.service';
 import { CartDataService } from '../../cart/services/cart-data.service';
 
-export class UseCmsModuleConfig {
-  cmsComponentMapping = {
+const UseCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     MiniCartComponent: 'MiniCartComponent'
-  };
-}
+  }
+};
 
 describe('MiniCartComponent', () => {
   let store: Store<fromCms.CmsState>;
@@ -80,7 +80,7 @@ describe('MiniCartComponent', () => {
       providers: [
         CartService,
         CartDataService,
-        { provide: CmsModuleConfig, useClass: UseCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
       ]
     }).compileComponents();
   }));
