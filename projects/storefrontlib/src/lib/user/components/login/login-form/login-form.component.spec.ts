@@ -7,8 +7,6 @@ import { of } from 'rxjs';
 import * as fromStore from '../../../store';
 import * as fromRouting from '../../../../routing/store';
 import * as fromAuthStore from '../../../../auth/store';
-import * as fromGlobalMessage from '../../../../global-message/store';
-import { GlobalMessageType } from './../../../../global-message/models/message.model';
 
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
@@ -70,12 +68,6 @@ describe('LoginFormComponent', () => {
   });
 
   it('should redirect to returnUrl saved in store if there is one', () => {
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromGlobalMessage.AddMessage({
-        text: 'Logged In Successfully',
-        type: GlobalMessageType.MSG_TYPE_CONFIRMATION
-      })
-    );
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromRouting.Go({ path: ['/test'] })
     );

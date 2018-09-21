@@ -5,7 +5,7 @@
     <source *ngIf="mdImage" [srcset]="mdImage" media="(max-width: 1200px)" />
     <source *ngIf="lgImage" [srcset]="lgImage" media="(min-width: 1200px)" />-->
     <img *ngIf="mainImage" [src]="mainImage || 'assets/missing_product_EN_300x300.jpg'" onError="this.src = 'assets/missing_product_EN_300x300.jpg'"
-    />
+        [alt]="imageAlt" />
 
     <img *ngIf="!imageContainer" src="assets/missing_product_EN_300x300.jpg" />
 </picture>

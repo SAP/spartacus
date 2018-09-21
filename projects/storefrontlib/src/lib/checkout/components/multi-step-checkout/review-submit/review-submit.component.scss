@@ -1,33 +1,138 @@
-.heading {
-  margin-left: 40px;
-}
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+@import '../container/multi-step-checkout.component';
 
-.shipping-address {
-  margin-left: 40px;
-  margin-right: 200px;
-}
+// y-review color variables
+$y-review-media-background-color: 'background' !default;
+$y-review-summary-background-color: 'background' !default;
+$y-review-summary-card-border-color: 'light' !default;
+$y-review-cart-item-border-color: 'light' !default;
 
-.shipping-method {
-  margin-left: 26%;
-  margin-top: -150px;
-}
+// y-review variables
+$y-review-no-margin: 0 !default;
+$y-review-no-padding: 0 !default;
 
-.payment-method {
-  margin-top: 125px;
-  margin-left: 40px;
-}
+$y-review-container-margin-bottom: 2.5rem !default;
 
-.billing-address {
-  margin-left: 26%;
-  margin-top: -118px;
-}
+$y-review-title-margin: 0 auto !default;
+$y-review-title-padding: 2.375rem 0 1.25rem 0 !default;
 
-.tandc {
-  margin-left: 40px;
-  margin-top: 2%;
-}
+$y-review-summary-margin-left: 0 !default;
+$y-review-summary-card-border: 1px solid !default;
 
-.buttons {
-  margin-left: 40px;
-  margin-top: 20px;
+$y-review-row-margin-right: 0 !default;
+$y-review-col-md-4-padding-right: 0 !default;
+
+$y-review-cart-item-border-top: 1px solid !default;
+$y-review-cart-total-margin-top: 2.625rem !default;
+$y-review-cart-total-header-border: 1px solid !default;
+$y-review-cart-total-header-padding: 1.375rem 0 !default;
+$y-review-cart-total-header-margin: 0 !default;
+$y-review-cart-total-header-border-color: 'light' !default;
+
+// Media Queries
+$y-review-col-md-12-md-padding: 0 3.5rem 3.5rem 3.5rem !default;
+$y-review-col-md-12-sm-padding: 0 1.25rem 1.25rem 1.25rem !default;
+
+.y-review {
+  &.container {
+    padding: $y-review-no-padding;
+    margin-bottom: $y-review-container-margin-bottom;
+  }
+
+  &__title {
+    text-transform: uppercase;
+    margin: $y-review-title-margin;
+    padding: $y-review-title-padding;
+  }
+
+  &__summary {
+    margin-left: $y-review-summary-margin-left;
+    @include var-color('background-color', $y-review-summary-background-color);
+
+    &-card {
+      @include media-breakpoint-down(md) {
+        background-color: theme-color('inverse');
+        border: $y-review-summary-card-border;
+        @include var-color('border-color', $y-review-summary-card-border-color);
+      }
+    }
+  }
+
+  .row {
+    margin-right: $y-review-row-margin-right;
+  }
+
+  .form-check {
+    padding: $y-review-no-padding;
+    margin: $y-review-no-margin;
+  }
+
+  .col-md-4 {
+    padding-right: $y-review-col-md-4-padding-right;
+  }
+
+  &__cart-total {
+    @include type('4');
+    margin-top: $y-review-cart-total-margin-top;
+
+    &-header {
+      @include type('4');
+      padding: $y-review-cart-total-header-padding;
+      margin: $y-review-cart-total-header-margin;
+      border-top: $y-review-cart-total-header-border;
+      @include var-color(
+        'border-top-color',
+        $y-review-cart-total-header-border-color
+      );
+      border-bottom: $y-review-cart-total-header-border;
+      @include var-color(
+        'border-bottom-color',
+        $y-review-cart-total-header-border-color
+      );
+
+      @include media-breakpoint-down(md) {
+        border-bottom: none;
+        max-width: 100%;
+        min-width: 100%;
+        padding-left: 3.5rem;
+      }
+      @include media-breakpoint-down(sm) {
+        max-width: 100%;
+        min-width: 100%;
+        padding-left: 1.25rem;
+      }
+    }
+  }
+
+  &__cart-item {
+    padding: 0;
+    .col-md-12 {
+      @include media-breakpoint-down(md) {
+        padding: 0;
+      }
+
+      @include media-breakpoint-down(sm) {
+        padding: 0;
+      }
+    }
+    @include media-breakpoint-down(md) {
+      border-top: $y-review-cart-item-border-top;
+      @include var-color('border-color', $y-review-cart-item-border-color);
+    }
+  }
+
+  // ***************************** MEDIA QUERIES *****************************
+
+  @include checkout-media-style();
+  .col-md-12 {
+    @include media-breakpoint-down(md) {
+      padding: $y-review-col-md-12-md-padding;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: $y-review-col-md-12-sm-padding;
+    }
+  }
 }

@@ -21,37 +21,62 @@ export class StoreDataService {
     return location.geoPoint.longitude;
   }
 
-  getStoreClosingTime(location: any, current_date: Date): Date {
-    const today_schedule = this.getSchedule(location, current_date);
-    const closing_hour = today_schedule.closingTime.formattedHour.split(':')[0];
-    const closing_minutes = today_schedule.closingTime.minute;
-    const closing_date_time = new Date();
-    closing_date_time.setHours(closing_hour);
-    closing_date_time.setMinutes(closing_minutes);
-    return closing_date_time;
+  getStoreClosingTime(location: any, date: Date): Date {
+    const requestedDaySchedule = this.getSchedule(location, date);
+    let result: Date = null;
+
+    if (requestedDaySchedule.closed === false) {
+      const closingHour = requestedDaySchedule.closingTime.formattedHour.split(
+        ':'
+      )[0];
+      const closingMinute = requestedDaySchedule.closingTime.minute;
+      result = new Date(date.valueOf());
+      result.setHours(closingHour);
+      result.setMinutes(closingMinute);
+    }
+
+    return result;
   }
 
-  getStoreOpeningTime(location: any, current_date: Date): Date {
-    const today_schedule = this.getSchedule(location, current_date);
-    const opening_hour = today_schedule.openingTime.formattedHour.split(':')[0];
-    const opening_minutes = today_schedule.openingTime.minute;
-    const opening_date_time = new Date();
-    opening_date_time.setHours(opening_hour);
-    opening_date_time.setMinutes(opening_minutes);
-    return opening_date_time;
+  getStoreOpeningTime(location: any, date: Date): Date {
+    const requestedDaySchedule = this.getSchedule(location, date);
+    let result: Date = null;
+
+    if (requestedDaySchedule.closed === false) {
+      const openingHour = requestedDaySchedule.openingTime.formattedHour.split(
+        ':'
+      )[0];
+      const openingMinutes = requestedDaySchedule.openingTime.minute;
+      result = new Date();
+      result.setHours(openingHour);
+      result.setMinutes(openingMinutes);
+    }
+
+    return result;
   }
 
-  isStoreOpen(location: any, current_date: Date): boolean {
-    const today_schedule = this.getSchedule(location, current_date);
-    const closing_hour = today_schedule.closingTime.formattedHour.split(':')[0];
-    const opening_hour = today_schedule.openingTime.formattedHour.split(':')[0];
-    return (
-      current_date.getHours() <= parseInt(closing_hour, this.DECIMAL_BASE) &&
-      current_date.getHours() >= parseInt(opening_hour, this.DECIMAL_BASE)
-    );
+  isStoreOpen(location: any, date: Date): boolean {
+    const requestedDaySchedule = this.getSchedule(location, date);
+    let result = false;
+
+    if (requestedDaySchedule.closed === false) {
+      const openingDate = this.getStoreOpeningTime(location, date);
+      const closingDate = this.getStoreClosingTime(location, date);
+
+      result = date > openingDate && date < closingDate;
+    }
+
+    return result;
   }
 
-  getSchedule(location: any, date: Date): any {
+  /**
+   * Extracts schedule from the given location for the given date
+   * @param location location
+   * @param date date
+   *
+   * @returns payload describing the store's schedule for the given day.
+   */
+  protected getSchedule(location: any, date: Date): any {
     const weekday = this.weekDays[date.getDay()];
     return location.openingHours.weekDayOpeningList.find(
       weekDayOpeningListItem => weekDayOpeningListItem.weekDay === weekday

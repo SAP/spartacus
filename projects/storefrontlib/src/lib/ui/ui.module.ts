@@ -6,7 +6,6 @@ import { PagesModule } from './pages/pages.module';
 
 @NgModule({
   imports: [CommonModule, LayoutModule, PagesModule],
-  exports: [LayoutModule, PagesModule],
-  declarations: []
+  exports: [LayoutModule, PagesModule]
 })
 export class UiModule {}

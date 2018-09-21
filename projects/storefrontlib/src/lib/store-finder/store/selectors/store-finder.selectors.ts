@@ -4,14 +4,17 @@ import * as fromReducer from '../reducers';
 import * as fromStoreFinderReducer from '../reducers/store-finder.reducer';
 
 export const getStoresState: MemoizedSelector<
-  any,
+  fromReducer.StoresState,
   fromStoreFinderReducer.StoreFinderState
 > = createSelector(
   fromReducer.getStoresFinderState,
   (state: fromReducer.StoresState) => state.stores
 );
 
-export const getFindStoresEntities: MemoizedSelector<any, any> = createSelector(
+export const getFindStoresEntities: MemoizedSelector<
+  fromReducer.StoresState,
+  any
+> = createSelector(
   getStoresState,
   fromStoreFinderReducer.getFindStoresEntities
 );

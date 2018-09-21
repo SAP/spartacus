@@ -1,5 +1,40 @@
-.product-grid-item {
-  width: 100%;
-  // margin: 15px;
-  height: 100%;
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+$y-search-container-trbl-margin: 40px 0 !default;
+
+$y-search-sorting-border-color: 'light' !default;
+$y-search-sorting-border: 1px solid !default;
+
+$y-search-sorting-top-trbl-padding: 0 0 8px 0 !default;
+
+$y-search-sorting-bottom-trbl-padding: 25px 0 0px 0 !default;
+
+.y-product-search {
+  &__item--container {
+    margin: $y-search-container-trbl-margin;
+  }
+
+  &__sorting {
+    &--top {
+      border-bottom: $y-search-sorting-border;
+      @include var-color('border-color', $y-search-sorting-border-color);
+      padding: $y-search-sorting-top-trbl-padding;
+
+      @include media-breakpoint-down(md) {
+        border-bottom: none;
+      }
+    }
+
+    &--bottom {
+      border-top: $y-search-sorting-border;
+      @include var-color('border-color', $y-search-sorting-border-color);
+      padding: $y-search-sorting-bottom-trbl-padding;
+
+      @include media-breakpoint-down(md) {
+        border-top: none;
+      }
+    }
+  }
 }

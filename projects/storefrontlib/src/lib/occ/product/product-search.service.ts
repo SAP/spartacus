@@ -32,7 +32,7 @@ export class OccProductSearchService {
     let params = new HttpParams({
       fromString:
         '&fields=' +
-        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL)),' +
+        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL),averageRating),' +
         'facets,' +
         'breadcrumbs,' +
         'pagination(DEFAULT),' +

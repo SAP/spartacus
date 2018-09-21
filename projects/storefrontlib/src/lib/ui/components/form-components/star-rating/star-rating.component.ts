@@ -20,24 +20,12 @@ import {
   ]
 })
 export class StarRatingComponent implements ControlValueAccessor {
-  @Input() rating;
+  @Input() rating = 1;
   @Input() disabled = false;
   @Input() steps = 1;
 
   onChange = (rating: number) => {};
   onTouched = () => {};
-
-  getStar(index) {
-    let icon;
-    if (index <= this.rating) {
-      icon = 'star';
-    } else if (index <= this.rating + 0.5) {
-      icon = 'star_half';
-    } else {
-      icon = 'star_outline';
-    }
-    return icon;
-  }
 
   get value() {
     return this.rating;
@@ -46,24 +34,6 @@ export class StarRatingComponent implements ControlValueAccessor {
   setRating(rating: number) {
     if (!this.disabled) {
       this.writeValue(rating);
-    }
-  }
-
-  accessibilityControl(keydown) {
-    const handlers = {
-      ArrowLeft: () => {
-        if (this.rating > 0) {
-          this.setRating(this.rating - this.steps);
-        }
-      },
-      ArrowRight: () => {
-        if (this.rating < 5) {
-          this.setRating(this.rating + this.steps);
-        }
-      }
-    };
-    if (handlers[keydown.code]) {
-      handlers[keydown.code]();
     }
   }
 
@@ -80,9 +50,5 @@ export class StarRatingComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
   }
 }

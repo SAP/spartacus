@@ -17,6 +17,8 @@ import { StoreFinderListComponent } from './components/store-finder-list/store-f
 import { StoreFinderPagingComponent } from './components/store-finder-paging/store-finder-paging.component';
 import { StoreFinderMapComponent } from './components/store-finder-map/store-finder-map.component';
 import { StoreFinderListItemComponent } from './components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
+import { StoreFinderStoreDescriptionComponent } from './components/store-finder-store-description/store-finder-store-description.component';
+import { ScheduleComponent } from './components/schedule-component/schedule.component';
 import { StoreFinderListCountComponent } from './components/store-finder-list-count/store-finder-list-count.component';
 import { StoreFinderGridComponent } from './components/store-finder-grid/store-finder-grid.component';
 
@@ -36,8 +38,10 @@ import { StoreFinderGridComponent } from './components/store-finder-grid/store-f
     StoreFinderPagingComponent,
     StoreFinderMapComponent,
     StoreFinderListItemComponent,
-    StoreFinderListCountComponent,
-    StoreFinderGridComponent
+    StoreFinderGridComponent,
+    StoreFinderStoreDescriptionComponent,
+    ScheduleComponent,
+    StoreFinderListCountComponent
   ],
   exports: [
     StoreFinderSearchComponent,
@@ -46,7 +50,9 @@ import { StoreFinderGridComponent } from './components/store-finder-grid/store-f
     StoreFinderMapComponent,
     StoreFinderListItemComponent,
     StoreFinderListCountComponent,
-    StoreFinderGridComponent
+    StoreFinderGridComponent,
+    StoreFinderStoreDescriptionComponent,
+    ScheduleComponent,
   ],
   providers: [...services]
 })

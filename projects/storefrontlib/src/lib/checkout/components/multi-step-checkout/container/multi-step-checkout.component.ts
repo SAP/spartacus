@@ -18,6 +18,8 @@ import { GlobalMessageType } from './../../../../global-message/models/message.m
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
 import { Address } from '../../../models/address-model';
+import { checkoutNavBar } from './checkout-navigation-bar';
+import { CartDataService } from '../../../../cart/services/cart-data.service';
 
 @Component({
   selector: 'y-multi-step-checkout',
@@ -30,6 +32,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   deliveryAddress: Address;
   paymentDetails: any;
+  shippingMethod: string;
 
   step1Sub: Subscription;
   step2Sub: Subscription;
@@ -37,15 +40,22 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step4Sub: Subscription;
 
   cart$: Observable<any>;
+  tAndCToggler = false;
+
+  navs = checkoutNavBar;
 
   constructor(
     protected checkoutService: CheckoutService,
     protected cartService: CartService,
+    protected cartDataService: CartDataService,
     private store: Store<fromCheckoutStore.CheckoutState>,
     protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
+    if (!this.cartDataService.getDetails) {
+      this.cartService.loadCartDetails();
+    }
     this.cart$ = this.store.select(fromCart.getActiveCart);
     this.processSteps();
   }
@@ -61,9 +71,9 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(deliveryAddress => {
-        this.step = 2;
-        this.refreshCart();
         this.deliveryAddress = deliveryAddress;
+        this.nextStep(2);
+        this.refreshCart();
         this.cd.detectChanges();
       });
 
@@ -71,9 +81,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.step2Sub = this.store
       .select(fromCheckoutStore.getSelectedCode)
       .pipe(filter(selected => selected !== '' && this.step === 2))
-      .subscribe(() => {
-        this.step = 3;
+      .subscribe(selectedMode => {
+        this.nextStep(3);
         this.refreshCart();
+        this.shippingMethod = selectedMode;
         this.cd.detectChanges();
       });
 
@@ -88,7 +99,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
       )
       .subscribe(paymentInfo => {
         if (!paymentInfo['hasError']) {
-          this.step = 4;
+          this.nextStep(4);
           this.paymentDetails = paymentInfo;
           this.cd.detectChanges();
         } else {
@@ -102,7 +113,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
               );
             }
           });
-
           this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(3));
         }
       });
@@ -121,6 +131,88 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
       });
   }
 
+  setStep(backStep) {
+    this.nextStep(backStep);
+  }
+
+  nextStep(step: number): void {
+    const previousStep = step - 1;
+
+    this.navs.forEach(function(nav) {
+      if (nav.id === previousStep) {
+        nav.status.completed = true;
+      }
+      if (nav.id === step) {
+        nav.status.active = true;
+        nav.status.disabled = false;
+      } else {
+        nav.status.active = false;
+      }
+
+      nav.progressBar = nav.status.active || nav.status.completed;
+    });
+
+    this.step = step;
+    this.tAndCToggler = false;
+  }
+
+  addAddress(addressObject) {
+    if (addressObject.newAddress) {
+      this.checkoutService.createAndSetAddress(addressObject.address);
+    } else {
+      // if the selected address is the same as the cart's one
+      if (
+        this.deliveryAddress &&
+        addressObject.address.id === this.deliveryAddress.id
+      ) {
+        this.nextStep(2);
+      } else {
+        this.checkoutService.setDeliveryAddress(addressObject.address);
+      }
+    }
+  }
+
+  setDeliveryMode(deliveryMode: any) {
+    // if the selected shipping method is the same as the cart's one
+    if (
+      this.shippingMethod &&
+      this.shippingMethod === deliveryMode.deliveryModeId
+    ) {
+      this.nextStep(3);
+    } else {
+      this.checkoutService.setDeliveryMode(deliveryMode.deliveryModeId);
+    }
+  }
+
+  addPaymentInfo(paymentDetailsObject) {
+    if (paymentDetailsObject.newPayment) {
+      paymentDetailsObject.payment.billingAddress = this.deliveryAddress;
+      this.checkoutService.createPaymentDetails(paymentDetailsObject.payment);
+    } else {
+      // if the selected paymetn is the same as the cart's one
+      if (
+        this.paymentDetails &&
+        this.paymentDetails.id === paymentDetailsObject.payment.id
+      ) {
+        this.nextStep(4);
+      } else {
+        this.checkoutService.setPaymentDetails(paymentDetailsObject.payment);
+      }
+    }
+  }
+
+  placeOrder() {
+    this.checkoutService.placeOrder();
+  }
+
+  toggleTAndC() {
+    this.tAndCToggler = !this.tAndCToggler;
+  }
+
+  private refreshCart() {
+    this.cartService.loadCartDetails();
+  }
+
   ngOnDestroy() {
     if (this.step1Sub) {
       this.step1Sub.unsubscribe();
@@ -136,44 +228,5 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     }
 
     this.store.dispatch(new fromCheckoutStore.ClearCheckoutData());
-  }
-
-  setStep(backStep) {
-    if (this.step > backStep) {
-      for (let i = backStep; i <= this.step; i++) {
-        this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(i));
-      }
-
-      this.step = backStep;
-    }
-  }
-
-  addAddress(addressObject) {
-    if (addressObject.newAddress) {
-      this.checkoutService.createAndSetAddress(addressObject.address);
-    } else {
-      this.checkoutService.setDeliveryAddress(addressObject.address);
-    }
-  }
-
-  setDeliveryMode(deliveryMode: any) {
-    this.checkoutService.setDeliveryMode(deliveryMode.deliveryModeId);
-  }
-
-  addPaymentInfo(paymentDetailsObject) {
-    if (paymentDetailsObject.newPayment) {
-      paymentDetailsObject.payment.billingAddress = this.deliveryAddress;
-      this.checkoutService.createPaymentDetails(paymentDetailsObject.payment);
-    } else {
-      this.checkoutService.setPaymentDetails(paymentDetailsObject.payment);
-    }
-  }
-
-  placeOrder() {
-    this.checkoutService.placeOrder();
-  }
-
-  private refreshCart() {
-    this.cartService.loadCartDetails();
   }
 }

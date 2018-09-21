@@ -47,12 +47,6 @@ Install dependencies:
 yarn install
 ```
 
-Build the storefrontlib
-
-```bash
-ng build storefrontlib
-```
-
 Start the angular app.
 
 ```bash
@@ -65,31 +59,14 @@ Then point your browser to http://localhost:4200/
 
 ## Developing library code
 
-When developing library code, you have to rebuild the library each time you want to see and test your changes in the running app. The Anguar 6 docs give some explanations in [Why do I need to build the library everytime I make changes?](https://github.com/angular/angular-cli/wiki/stories-create-library#why-do-i-need-to-build-the-library-everytime-i-make-changes)
+Most of the code is developed in separated libraries. The library code is build with ngPackagr, while the application is build with webpack. The two different separate builds might slow down the development process, which is why by default in development mode, the build is done by webpack only.
 
-That being said, there is a way to configure the workspace so the lib code is buit like a standalone application, giving the developer the convenience of hot reloading changes.
+Using two separate build processes complicates development, especially when the developer both implements library code and application code. In order to allow for a seamless build, in development mode both library and application code is build with webpack. We're relying on the standard angular-cli flags for production and development; development is the default, production can be enabled with the `--prod` flag.
+For convinience reasons, a npm script is added to start the application in production mode: `npm run start:prod`.
 
-**WARNING:** This configuration is optional and should only be used for convenience on local development environments. **It should never be commited back to git.**
+The IDE will use the library sources by default.
 
-Here is how it's done: In the tsconfig.json file at the root of the repo, change this:
-
-```json
-    "paths": {
-      "storefrontlib": [
-        "dist/storefrontlib"
-      ]
-    }
-```
-
-And use this instead:
-
-```json
-    "paths": {
-      "storefrontlib": [
-        "projects/storefrontlib/src/public_api"
-      ]
-    }
-```
+**WARNING:** Running in dev mode should only be used for convenience on local development environments. New code merged in develop should be tested against a regular library build and also production mode. The Anguar 6 docs give some explanations in [Why do I need to build the library everytime I make changes?](https://github.com/angular/angular-cli/wiki/stories-create-library#why-do-i-need-to-build-the-library-everytime-i-make-changes)
 
 ## Production
 

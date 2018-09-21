@@ -16,5 +16,5 @@ export const reducers: ActionReducerMap<StoresState> = {
 
 export const getStoresFinderState: MemoizedSelector<
   any,
-  any
+  StoresState
 > = createFeatureSelector<StoresState>('stores');

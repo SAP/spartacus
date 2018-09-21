@@ -1,5 +1,9 @@
-<div tabindex="0" (keydown)="accessibilityControl($event)">
-    <mat-icon color="primary" *ngFor="let n of [1,2,3,4,5]" (click)="onTouched(); setRating(n)">
-        {{getStar(n)}}
-    </mat-icon>
+<div class="y-star-rating" tabindex="0">
+    <ng-template #template let-fill="fill">
+        <span class="star" [class.full]="fill === 100">
+            <span class="half" [style.width.%]="fill">&#9733;</span> &#9733;
+        </span>
+    </ng-template>
+    <ngb-rating [(rate)]="rating" (rateChange)="onTouched(); setRating($event)" [starTemplate]="template" [readonly]="disabled"
+        max="5"></ngb-rating>
 </div>

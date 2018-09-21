@@ -32,7 +32,8 @@ export const OCC_MODULE_CONFIG_OVERRIDE: InjectionToken<
     OccMiscsService,
     OccOrderService,
     OccStoreFinderService,
-    OccE2eConfigurationService
+    OccE2eConfigurationService,
+    OccModuleConfig
   ]
 })
 export class OccModule {
