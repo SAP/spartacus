@@ -15,6 +15,7 @@ import { BootstrapModule } from '../../../bootstrap.module';
 import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
 import { ComponentsModule } from './../../../ui/components/components.module';
 import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-cart.module';
+import { CustomTemplatesModule } from '../../../custom-templates/custom-templates.module';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-car
     CartSharedModule,
     CmsModule,
     AddToCartModule,
-    BootstrapModule
+    BootstrapModule,
+    CustomTemplatesModule
   ],
   declarations: [
     ProductSummaryComponent,

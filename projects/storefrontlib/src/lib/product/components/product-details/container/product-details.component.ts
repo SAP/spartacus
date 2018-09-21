@@ -8,6 +8,7 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromStore from '../../../store';
+import { ProductDetailTemplates } from '../../../product-templates.model';
 
 @Component({
   selector: 'y-product-details',
@@ -21,6 +22,8 @@ export class ProductDetailsComponent implements OnChanges {
   @Input() productCode: string;
   product$: Observable<any>;
   itemCount = 1;
+
+  innerTemplates = ProductDetailTemplates;
 
   isWritingReview = false;
 
