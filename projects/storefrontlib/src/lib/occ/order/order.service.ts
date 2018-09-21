@@ -60,13 +60,21 @@ export class OccOrderService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  public getOrder(userId: string, orderCode: string) {
+  public getOrder(userId: string, orderCode: string, fields?: string) {
     const url = this.getOrderEndpoint(userId);
 
     const orderUrl = url + '/' + orderCode;
 
+    let params = new HttpParams();
+
+    if (fields) {
+      params = params.set('fields', fields);
+    }
+
     return this.http
-      .get(orderUrl)
+      .get(orderUrl, {
+        params: params
+      })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 }
