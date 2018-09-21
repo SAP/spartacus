@@ -10,7 +10,7 @@ import { StoreFinderService } from '../../services/store-finder.service';
 
 import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../store';
-import { WindowRef } from '../../services/windowRef';
+import { WindowRef } from '../../services/window-ref';
 
 const latitude = 10.1;
 const longitude = 39.2;
