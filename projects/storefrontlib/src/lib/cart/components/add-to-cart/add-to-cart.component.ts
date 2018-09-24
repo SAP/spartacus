@@ -8,7 +8,6 @@ import { CartService } from '../../services/cart.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 import * as fromCartStore from '../../store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Store } from '@ngrx/store';
@@ -28,8 +27,7 @@ export class AddToCartComponent implements OnInit {
   @Input() quantity = 1;
 
   cartEntry$: Observable<any>;
-  isLoading$: Observable<boolean>;
-  isLoading;
+  loaded$: Observable<boolean>;
 
   constructor(
     protected cartService: CartService,
@@ -39,16 +37,10 @@ export class AddToCartComponent implements OnInit {
 
   ngOnInit() {
     if (this.productCode) {
-      this.cartEntry$ = this.store
-        .select(fromCartStore.getEntrySelectorFactory(this.productCode))
-        .pipe(
-          tap(entry => {
-            if (this.isLoading && entry) {
-              this.openModal();
-            }
-            this.isLoading = false;
-          })
-        );
+      this.loaded$ = this.store.select(fromCartStore.getLoaded);
+      this.cartEntry$ = this.store.select(
+        fromCartStore.getEntrySelectorFactory(this.productCode)
+      );
     }
   }
 
@@ -56,7 +48,7 @@ export class AddToCartComponent implements OnInit {
     if (!this.productCode || this.quantity <= 0) {
       return;
     }
-    this.isLoading = true;
+    this.openModal();
     this.cartService.addCartEntry(this.productCode, this.quantity);
   }
 
@@ -67,6 +59,7 @@ export class AddToCartComponent implements OnInit {
     }).componentInstance;
     this.modalInstance.entry$ = this.cartEntry$;
     this.modalInstance.cart$ = this.store.select(fromCartStore.getActiveCart);
+    this.modalInstance.loaded$ = this.loaded$;
     this.modalInstance.quantity = this.quantity;
 
     this.modalInstance.updateEntryEvent.subscribe((data: any) =>

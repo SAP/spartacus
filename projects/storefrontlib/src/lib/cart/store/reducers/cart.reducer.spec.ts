@@ -84,16 +84,16 @@ describe('Cart reducer', () => {
       const { initialState } = fromCart;
       const action = new fromActions.AddEntry({});
       const state = fromCart.reducer(initialState, action);
-      expect(state.isLoading).toEqual(true);
+      expect(state.loaded).toEqual(false);
     });
   });
 
-  describe('REMOVE_ENTRY_SUCCESS or ADD_ENTRY_SUCCESS or UPDATE_ENTRY_SUCCESS or LOAD_CART_SUCCESS or CREATE_CART_SUCCESS', () => {
+  describe('LOAD_CART_SUCCESS or CREATE_CART_SUCCESS', () => {
     it('should set loading to false', () => {
       const { initialState } = fromCart;
-      const action = new fromActions.AddEntrySuccess({});
+      const action = new fromActions.LoadCartSuccess({});
       const state = fromCart.reducer(initialState, action);
-      expect(state.isLoading).toEqual(false);
+      expect(state.loaded).toEqual(true);
     });
   });
 });

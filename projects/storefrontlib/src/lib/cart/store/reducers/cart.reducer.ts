@@ -63,7 +63,7 @@ export function reducer(
       return {
         ...state,
         refresh: true,
-        isLoading: false
+        loaded: false
       };
     }
 
@@ -74,7 +74,7 @@ export function reducer(
     case fromAction.CREATE_CART:
       return {
         ...state,
-        isLoading: true
+        loaded: false
       };
   }
 

@@ -1,4 +1,4 @@
-<button class="btn btn-primary btn-block" type="button" [disabled]="isLoading || quantity <= 0" (click)="addToCart()">
+<button class="btn btn-primary btn-block" type="button" [disabled]="!(loaded$ | async) || quantity <= 0" (click)="addToCart()">
   <span *ngIf="cartEntry$ | async as entry" class="entry-quantity">{{entry.quantity}}</span>
   Add to cart
 </button>
