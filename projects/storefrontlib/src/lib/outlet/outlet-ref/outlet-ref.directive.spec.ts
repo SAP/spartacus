@@ -1,4 +1,4 @@
-import { Component, inject, TemplateRef } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OutletRefDirective } from './outlet-ref.directive';
 import { OutletDirective } from '../outlet.directive';
