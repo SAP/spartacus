@@ -40,18 +40,18 @@ const mockUserDetails: any = {
   uid: 'UID'
 };
 
-class MockCmsModuleConfig {
-  server = {
+const MockCmsModuleConfig: CmsModuleConfig = {
+  server: {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
-  };
+  },
 
-  site = {
+  site: {
     baseSite: 'electronics',
     language: '',
     currency: ''
-  };
-}
+  }
+};
 
 const cntx = { id: 'testPageId', type: PageType.CONTENT_PAGE };
 
@@ -94,7 +94,7 @@ describe('LoginComponent', () => {
             }
           }
         },
-        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
       ]
     }).compileComponents();
   }));

@@ -5,9 +5,9 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccCmsService } from './occ-cms.service';
-import { CmsModuleConfig } from '../cms-module-config';
 import { PageContext, PageType } from '../../routing/models/page-context.model';
 import { IdList } from './../models/idList.model';
+import { CmsModuleConfig } from '../cms-module-config';
 
 const comps: any[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -30,18 +30,18 @@ const listComponents: any = {
   pagination: { count: 10 }
 };
 
-export class MockCmsModuleConfig {
-  server = {
+const MockCmsModuleConfig: CmsModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  site = {
+  site: {
     baseSite: '',
     language: '',
     currency: ''
-  };
-}
+  }
+};
 const endpoint = '/cms';
 
 describe('OccCmsService', () => {
@@ -53,7 +53,7 @@ describe('OccCmsService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccCmsService,
-        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
       ]
     });
 

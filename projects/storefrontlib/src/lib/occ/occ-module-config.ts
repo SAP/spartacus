@@ -1,15 +1,11 @@
-import { Injectable } from '@angular/core';
+import { ServerConfig } from '../config/server-config';
+import { SiteContextModuleConfig } from '../site-context/site-context-module-config';
 
-@Injectable()
-export class OccModuleConfig {
-  server = {
-    baseUrl: 'https://localhost:9002',
-    occPrefix: '/rest/v2/'
-  };
-
-  site = {
-    baseSite: 'electronics',
-    language: 'en',
-    currency: 'USD'
+export abstract class OccModuleConfig extends ServerConfig
+  implements SiteContextModuleConfig {
+  site?: {
+    baseSite?: string;
+    language?: string;
+    currency?: string;
   };
 }
