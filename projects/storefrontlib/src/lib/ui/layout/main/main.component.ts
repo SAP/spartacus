@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'y-main',
+  selector: 'cx-storefront',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
