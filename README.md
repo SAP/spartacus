@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project.svg?token=yywzsFgC8dWSfJQxPGHs&branch=develop)](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project)
+
 # What is Spartacus?
 
 Spartacus is an extendable and configurable storefront for SAP Commerce Cloud, built as a lean, Angular-based, single-page web application. Unlike Accelerator templates, which are bundled with SAP Commerce Cloud, the Sparatcus storefront is decoupled from the SAP Commerce Cloud backend, and it communicates with the backend only through REST API calls.
