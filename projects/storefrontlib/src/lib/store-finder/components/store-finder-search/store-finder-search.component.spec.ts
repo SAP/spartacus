@@ -44,9 +44,7 @@ describe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;
   let fixture: ComponentFixture<StoreFinderSearchComponent>;
   let service: StoreFinderService;
-  /* tslint:disable */
   let windowRef: WindowRef;
-  /* tslint:enable */
   let store: Store<fromStore.StoresState>;
   const keyEvent = {
     key: 'Enter'
@@ -86,7 +84,7 @@ describe('StoreFinderSearchComponent', () => {
     spyOn(component, 'viewAllStores').and.callThrough();
     spyOn(service, 'viewAllStores').and.callThrough();
     spyOn(component, 'onKey').and.callThrough();
-    spyOn(component, 'viewStoresWithMyLoc').and.callThrough();
+    spyOn(windowRef, 'nativeWindow').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -130,13 +128,7 @@ describe('StoreFinderSearchComponent', () => {
 
   it('should view stores near by my location', () => {
     component.viewStoresWithMyLoc();
-    expect(component.viewStoresWithMyLoc).toHaveBeenCalled();
-    expect(service.findStores).toHaveBeenCalled();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.FindStores({
-        queryText: '',
-        longitudeLatitude: [latitude, longitude]
-      })
-    );
+    expect(service.findStores).toHaveBeenCalledWith('', [latitude, longitude]);
+    expect(windowRef.nativeWindow).toHaveBeenCalled();
   });
 });

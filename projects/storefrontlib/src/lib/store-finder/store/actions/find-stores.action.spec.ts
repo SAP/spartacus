@@ -16,7 +16,7 @@ describe('Find Stores Actions', () => {
     });
   });
 
-  describe('FindStores', () => {
+  describe('FindStores with coordinates', () => {
     it('should create FindStores action with only coordinates', () => {
       const longitudeLatitude: number[] = [10.1, 20.2];
       const payload = { queryText: '', longitudeLatitude };
