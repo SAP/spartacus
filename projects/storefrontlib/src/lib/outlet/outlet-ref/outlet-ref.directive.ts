@@ -5,7 +5,7 @@ import { OutletService } from '../outlet.service';
   selector: '[cxOutletRef]'
 })
 export class OutletRefDirective implements OnInit {
-  @Input() outletRef: string;
+  @Input('cxOutletRef') outletRef: string;
 
   constructor(
     private tpl: TemplateRef<any>,

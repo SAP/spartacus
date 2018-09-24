@@ -11,7 +11,7 @@ import { OutletService } from './outlet.service';
   selector: '[cxOutlet]'
 })
 export class OutletDirective implements OnInit {
-  @Input() outlet: string;
+  @Input('cxOutlet') outlet: string;
 
   constructor(
     private vcr: ViewContainerRef,
