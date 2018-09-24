@@ -1,12 +1,19 @@
-.wrapper {
-  text-align: center;
-  padding-top: 3%;
-}
+@import 'theme';
+@import 'functions';
+@import 'mixins';
 
-.mat-form-field {
-  width: 30%;
-}
+.y-store-finder-search {
+  margin-bottom: 3rem;
 
-.mat-raised-button {
-  width: 30%;
+  &__button {
+    margin-bottom: 1rem;
+  }
+
+  &__bottom-links {
+    text-align: center;
+  }
+
+  &__links {
+    @include type('6');
+  }
 }
