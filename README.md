@@ -1,101 +1,61 @@
-# Spartacus - Angular Storefront
+[![Build Status](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project.svg?token=yywzsFgC8dWSfJQxPGHs&branch=develop)](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project)
 
----
+# What is Spartacus?
 
-## Minimum Requirements
+Spartacus is a lean, angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.
 
-```
-Node.js >= 8.9.0
-yarn >= 1.6.0
-Read access to Artifactory (https://repository.hybris.com)
-```
+## Extendable
 
-## Dependencies Configuration
+The Spartacus storefront is easy to extend & upgrade. It is packaged as a library that you can include in your storefront, which allows you to add to/remove/modify the out-the-box storefront features with your own. Newer versions of Spartacus can be used by changing the version of the library you’re using.
 
-This is a one time setup. We pull all of our dependencies from our internal npm registry (artifactory). In order for you to be able to do this, you need to do the following:
+## Progressive
 
-1.  Login to [artifactory](https://repository.hybris.com/webapp/#/login)
-2.  Once you have logged in, there should be an `npm repository` section on the homepage in the `Set Me Up` section. Click on it and a popup window with instructions will appear.
-3.  Enter your password in the upper right. This will populate the commands with your encrypted password. This way you can copy and paste the commands directly in the terminal.
-4.  Find the section titled "Using basic authentication", and copy it contents and paste it in your ~/.npmrc file (create the file if it doesn't exist). It should look like:
+Spartacus is on a journey to be fully compliant with the Progressive Web Application (PWA) checklist. We aim to add support for all major features of a PWA-enabled storefront, to offer the best possible customer experience regardless of device or location.
 
-```bash
-_auth = <USERNAME>:<PASSWORD> (converted to base 64)
-email = firstname.lastname@sap.com
-always-auth = true
-```
+## Open Source
 
-The last step is to add this line to ~/.npmrc (so that npm packages can be downloaded from artifactory instead of the npm public registry):
+Spartacus is open source. It will be continually developed by the SAP Commerce Cloud team, but we are very keen to welcome contributors and to foster an inclusive, active development community for Spartacus.
 
-```bash
-registry=https://repository.hybris.com/api/npm/npm-repository/
-```
+## Technology
 
-That's it. For a quick way to confirm your new config, you can run:
+Read the [documentation](docs/README.md) to learn more about the technology and architecture of the Spartacus storefront, and see [SAP Customer Experience](https://cx.sap.com/en/products/commerce) for more information about SAP Commerce Cloud.
 
-```bash
-yarn config list
-```
+## Storefront features
 
-You should see your new ~/.npmrc configurations at the end of the list, in the `info npm config` section.
+Spartacus provides core storefront features such as:
 
-## Installation Steps
+- home page
+- search
+- categories
+- product details
+- cart page
+- adding to cart
+- checkout
+- order history
 
-Install dependencies:
+# Setup and Installation
 
-```bash
-yarn install
-```
+To get up and running with Spartacus, the simplest approach is to build the application from ready-made libraries. You can also clone and build from source.
 
-Start the angular app.
+The Spartacus repository includes a mock server that can be used as well as the Commerce APIs provided by a SAP Commerce Cloud instance.
 
-```bash
-yarn start
-```
+For more information, see the [Getting Started](docs) documentation.
 
-Then point your browser to http://localhost:4200/
+# Customizing and Extending Spartacus
 
----
+To maintain our promise of upgradability, the design pattern for Spartacus is for non-core features to be built as feature libraries that add to or change the provided functionality.
 
-## Developing library code
+Spartacus comes with an application shell (storefrontapp) that contains core resources that are needed to load the rest of the web app. These core resources are provided through libraries, such as the `storefrontlib` and `storefrontstylelib`. You then build new feature libraries that contain any custom functionality and pages. It is recommended to keep the shell app as a container for libraries and to avoid developing features directly in the shell app.
 
-Most of the code is developed in separated libraries. The library code is build with ngPackagr, while the application is build with webpack. The two different separate builds might slow down the development process, which is why by default in development mode, the build is done by webpack only.
+Content for Spartacus pages is fetched from the SAP Commerce Cloud CMS (Content Management System), such as logos, links, banners and static pages. We recommend that new content-driven features follow the same pattern to enable a Content Managers to modify page content through the CMS tools.
 
-Using two separate build processes complicates development, especially when the developer both implements library code and application code. In order to allow for a seamless build, in development mode both library and application code is build with webpack. We're relying on the standard angular-cli flags for production and development; development is the default, production mode is used when using the 'qa' build environment.
-For convenience reasons, a package.json script is added to start the application in production mode with the 'qa' environment like so: `yarn start:qa`.
+For a full explanation and guidelines, see [Extending and Customizing Spartacus](docs) and [Spartacus Architecture](docs).
 
-The IDE will use the library sources by default.
+# Contributions
 
-**WARNING:** Running in dev mode should only be used for convenience on local development environments. New code merged in develop should be tested against a regular library build and also production mode. The Anguar 6 docs give some explanations in [Why do I need to build the library everytime I make changes?](https://github.com/angular/angular-cli/wiki/stories-create-library#why-do-i-need-to-build-the-library-everytime-i-make-changes)
+Team Spartacus is excited to incorporate ideas, requests, and especially code contributions. Here are a few ways to learn more and start prepping your first pull-request:
 
-## Production
-
-### Running in prod mode
-
-As a developer or QA specialist, we need to run the storefront in "prod mode" to make sure everything will work fine when the app will be build for production. This is done using these 2 commands to build storefrontlib and the launch the app in prod mode:
-
-```
-yarn build:core:lib
-yarn start:qa
-```
-
-## Development tools
-
-### Code Editor: VS Code
-
-We use [Microsoft Visual Studio Code](https://code.visualstudio.com) for development. We rely on a series of features and plugins from it.
-
-#### VS Code Workspace Extensions
-
-The development team relies on a few extensions for productivity and code compliance. When you open the source folder in vscode, if you are missing some of these recommended extensions, vscode will prompt you for installation. The list of recommended extensions is found in '.vscode/extensions.json'.
-
-Please make sure you install them.
-
-#### VS Code Workspace settings
-
-These are vscode settings the team relies on. They are shared and enforced via vscode workspace settings. If you want to add or change something, propose the change to the team instead of just commiting it, so the whole team uses it and can benefit from it.
-
-### Browser: Google Chrome
-
-For development, Google Chrome is recommended. There is a "Debugger for Chrome" extension for vscode in the workspace extensions. This allows you to place breakpoint in typescript from vscode and debug the app from vscode.
-Chrome also manages well security exceptions that are needed to get the application running in a development environment.
+- Read [](CONTRIBUTING.md) for an overview of our contribution policies.
+- Read the documentation in [Community](docs), especially the [Code of Conduct](doc) and the [GitHub Workflow](doc) documents.
+- Join our general communication channel on [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE)
+- Start creating issues or making requests through GitHub's issue tracking service or through ZenHub

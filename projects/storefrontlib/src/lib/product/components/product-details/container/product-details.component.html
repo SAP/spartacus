@@ -53,7 +53,6 @@
         </div>
 
 
-
         <ng-container *cxOutlet="outlets.TAB">
             <div class="y-product-details__tabset" #tabSetWrapper>
                 <ngb-tabset justify="center" #tabSet>
@@ -66,7 +65,9 @@
                         <ng-template ngbTabContent>
                             <div class="y-product-details__tab-section">
                                 <ng-container *cxOutlet="outlets.DESCRIPTION">
-                                    <p [innerHTML]="product?.description"></p>
+                                    <div class="container">
+                                        <p [innerHTML]="product?.description"></p>
+                                    </div>
                                 </ng-container>
                             </div>
                         </ng-template>
@@ -80,7 +81,9 @@
                         <ng-template ngbTabContent>
                             <div class="y-product-details__tab-section">
                                 <ng-container *cxOutlet="outlets.SPECIFICATIONS">
-                                    <y-product-attributes [product]="product"></y-product-attributes>
+                                    <div class="container">
+                                        <y-product-attributes [product]="product"></y-product-attributes>
+                                    </div>
                                 </ng-container>
                             </div>
                         </ng-template>
@@ -95,7 +98,9 @@
                         <ng-template ngbTabContent>
                             <div class="y-product-details__tab-section">
                                 <ng-container *cxOutlet="outlets.REVIEWS">
-                                    <y-product-reviews [(isWritingReview)]="isWritingReview" [product]="product"></y-product-reviews>
+                                    <div class="container">
+                                        <y-product-reviews [(isWritingReview)]="isWritingReview" [product]="product"></y-product-reviews>
+                                    </div>
                                 </ng-container>
                             </div>
                         </ng-template>
@@ -109,16 +114,17 @@
                         <ng-template ngbTabContent>
                             <div class="y-product-details__tab-section">
                                 <ng-container *cxOutlet="outlets.SHIPPING">
-                                    <ng-container yComponentWrapper componentType="CMSTabParagraphComponent"
-                                        componentUid="deliveryTab" [componentLoad]="true"></ng-container>
+                                    <div class="container">
+                                        <ng-container yComponentWrapper componentType="CMSTabParagraphComponent"
+                                            componentUid="deliveryTab" [componentLoad]="true"></ng-container>
+                                        <y-dynamic-slot position="Tabs"></y-dynamic-slot>
+                                    </div>
                                 </ng-container>
-                                <y-dynamic-slot position="Tabs"></y-dynamic-slot>
                             </div>
                         </ng-template>
                     </ngb-tab>
                 </ngb-tabset>
             </div>
-
 
             <!-- Mobile accordion -->
             <div class="y-product-details__tabset-mobile">
@@ -146,23 +152,19 @@
                     </ngb-panel>
                     <ngb-panel id="toggle-4" title="Shipping">
                         <ng-template ngbPanelContent>
-                            <div class="y-product-details__tab-section">
-
-                                <ng-container *cxOutlet="outlets.SHIPPING">
+                            <ng-container *cxOutlet="outlets.SHIPPING">
+                                <div class="container">
                                     <!-- <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'"
                             [componentLoad]="true"></y-component-wrapper> -->
                                     <div yComponentWrapper componentType="CMSTabParagraphComponent" componentUid="deliveryTab"
                                         [componentLoad]="true"></div>
                                     <y-dynamic-slot position="Tabs"></y-dynamic-slot>
-                                </ng-container>
-                            </div>
+                                </div>
+                            </ng-container>
                         </ng-template>
                     </ngb-panel>
                 </ngb-accordion>
             </div>
-
         </ng-container>
 
-
     </ng-container>
-</ng-container>

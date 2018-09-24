@@ -28,10 +28,13 @@ export const getAllCurrencies: MemoizedSelector<any, any> = createSelector(
   }
 );
 
-export const getCurrenciesLoaded: MemoizedSelector<
+export const getCurrenciesLoadAttempted: MemoizedSelector<
   any,
   boolean
-> = createSelector(getCurrenciesState, fromCurrencies.getCurrenciesLoaded);
+> = createSelector(
+  getCurrenciesState,
+  fromCurrencies.getCurrenciesLoadAttempted
+);
 
 export const getCurrenciesLoading: MemoizedSelector<
   any,
