@@ -8,7 +8,7 @@ import {
 
 import { Store } from '@ngrx/store';
 import * as fromProductStore from '../../../store';
-import { filter, tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { SearchConfig } from '../../../search-config';
 import { Observable } from 'rxjs';
 
@@ -32,23 +32,10 @@ export class ProductListComponent implements OnChanges, OnInit {
   constructor(protected store: Store<fromProductStore.ProductsState>) {}
 
   ngOnChanges() {
-    if (!this.itemPerPage) {
-      // Page List default page size
-      this.searchConfig = {
-        ...this.searchConfig,
-        ...{
-          pageSize: 10
-        }
-      };
-    } else {
-      this.searchConfig = {
-        // Page list input page size
-        ...this.searchConfig,
-        ...{
-          pageSize: this.itemPerPage
-        }
-      };
-    }
+    this.searchConfig = {
+      ...this.searchConfig,
+      pageSize: this.itemPerPage || 10
+    };
 
     if (this.categoryCode) {
       this.query = ':relevance:category:' + this.categoryCode;
@@ -67,18 +54,12 @@ export class ProductListComponent implements OnChanges, OnInit {
     };
 
     this.model$ = this.store
-      .select(fromProductStore.getSearchResultsWithFiltersQuery)
-      .pipe(
-        filter(({ results }) => Object.keys(results).length > 0),
-        tap(({ filtersQuery }) => {
-          if (filtersQuery) {
-            this.query = filtersQuery;
-          }
-        })
-      );
+      .select(fromProductStore.getSearchResults)
+      .pipe(filter(results => Object.keys(results).length > 0));
   }
 
   onFilter(query: string) {
+    this.query = query;
     this.search(query);
   }
 

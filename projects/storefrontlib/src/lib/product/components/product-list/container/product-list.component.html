@@ -1,62 +1,62 @@
 <ng-container *ngIf="model$ | async as model">
     <div class="y-page">
         <header class="y-page__header">
-            <h1 class="y-page__title">{{model?.results?.pagination.totalResults}} results for cameras</h1>
+            <h1 class="y-page__title">{{model?.pagination.totalResults}} results for cameras</h1>
         </header>
         <section class="y-page__section">
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-3 d-none d-lg-block">
                         <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6"
-                            [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="model?.results"></y-product-facet-navigation>
+                            [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="model"></y-product-facet-navigation>
                     </div>
                     <div class="col-12 col-lg-9">
                         <div class="y-product-search__sorting--top">
                             <div class="row">
                                 <div class="col-12 col-lg-4 mr-auto">
                                     <div class="form-group y-product-search__dropdown">
-                                        <y-sorting [sortOptions]="model?.results?.sorts" (sortListEvent)="sortList($event)"
-                                            [selectedOption]="model?.results?.pagination.sort" [placeholder]="'Sort by Relevance'"></y-sorting>
+                                        <y-sorting [sortOptions]="model?.sorts" (sortListEvent)="sortList($event)"
+                                            [selectedOption]="model?.pagination.sort" [placeholder]="'Sort by Relevance'"></y-sorting>
                                     </div>
                                 </div>
                                 <div class="col-auto" class="y-product-search__pagination" aria-label="product search pagination">
-                                    <y-pagination [pagination]="model?.results?.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
+                                    <y-pagination [pagination]="model?.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
                                 </div>
                                 <div class="col-auto ml-auto ml-lg-0">
                                     <y-product-view [(mode)]="grid.mode"></y-product-view>
                                 </div>
                                 <div class="col-12 d-lg-none d-xl-none">
                                     <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6"
-                                        [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="model?.results"></y-product-facet-navigation>
+                                        [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="model"></y-product-facet-navigation>
                                 </div>
                             </div>
                         </div>
                         <div class="y-product-search__item--container">
                             <div *ngIf="grid.mode==='grid'" class="row">
-                                <y-product-grid-item *ngFor="let product of model?.results?.products" [product]="product" class="col-12 col-sm-6 col-md-4"></y-product-grid-item>
+                                <y-product-grid-item *ngFor="let product of model?.products" [product]="product" class="col-12 col-sm-6 col-md-4"></y-product-grid-item>
                             </div>
 
                             <ng-template [ngIf]="grid.mode==='list'">
-                                <y-product-list-item *ngFor="let product of model?.results?.products" [product]="product"></y-product-list-item>
+                                <y-product-list-item *ngFor="let product of model?.products" [product]="product"></y-product-list-item>
                             </ng-template>
                         </div>
                         <div class="y-product-search__sorting--bottom">
                             <div class="row">
                                 <div class="col-12 col-lg-4 mr-auto">
                                     <div class="form-group y-product-search__dropdown">
-                                        <y-sorting [sortOptions]="model?.results?.sorts" (sortListEvent)="sortList($event)"
-                                            [selectedOption]="model?.results?.pagination.sort" [placeholder]="'Sort by Relevance'"></y-sorting>
+                                        <y-sorting [sortOptions]="model?.sorts" (sortListEvent)="sortList($event)"
+                                            [selectedOption]="model?.pagination.sort" [placeholder]="'Sort by Relevance'"></y-sorting>
                                     </div>
                                 </div>
                                 <div class="col-auto" class="y-product-search__pagination" aria-label="product search pagination">
-                                    <y-pagination [pagination]="model?.results?.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
+                                    <y-pagination [pagination]="model?.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
                                 </div>
                                 <div class="col-auto ml-auto ml-lg-0">
                                     <y-product-view [(mode)]="grid.mode"></y-product-view>
                                 </div>
                                 <div class="col-12 d-lg-none d-xl-none">
                                     <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6"
-                                        [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="model?.results"></y-product-facet-navigation>
+                                        [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="model"></y-product-facet-navigation>
                                 </div>
                             </div>
                         </div>
