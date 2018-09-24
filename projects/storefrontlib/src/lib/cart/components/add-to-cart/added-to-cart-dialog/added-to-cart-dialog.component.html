@@ -2,7 +2,8 @@
   <!-- Modal Header -->
   <div class="y-added-to-cart-dialog__header modal-header">
     <div class="y-added-to-cart-dialog__title modal-title" *ngIf="loaded$ | async; else loadingTitle">{{quantity}}
-      item(s) added to your cart</div>
+      item(s) added to your cart
+    </div>
     <ng-template #loadingTitle>
       <div class="y-added-to-cart-dialog__title modal-title">Updating cart...</div>
     </ng-template>
