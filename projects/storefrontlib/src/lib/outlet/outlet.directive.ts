@@ -14,8 +14,7 @@ import { OutletService } from './outlet.service';
   selector: '[outlet]'
 })
 export class OutletDirective implements OnInit {
-  @Input()
-  outlet: string;
+  @Input() outlet: string;
 
   constructor(
     private vcr: ViewContainerRef,
@@ -25,7 +24,11 @@ export class OutletDirective implements OnInit {
 
   ngOnInit() {
     const customTemplate = this.outletService.get(this.outlet);
-    const ctx = (<any>this.vcr.injector).view.context;
-    this.vcr.createEmbeddedView(customTemplate || this.templateRef, { $implicit: ctx });
+    if (customTemplate) {
+      const ctx = (<any>this.vcr.injector).view.context;
+      this.vcr.createEmbeddedView(customTemplate, { $implicit: ctx });
+    } else {
+      this.vcr.createEmbeddedView(this.templateRef);
+    }
   }
 }

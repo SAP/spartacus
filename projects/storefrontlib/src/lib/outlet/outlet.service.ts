@@ -9,12 +9,10 @@ export class OutletService {
   constructor() {}
 
   add(outlet: string, template: TemplateRef<any>) {
-    console.log('add new', outlet);
     this.features[outlet] = template;
   }
 
-  get(outlet: string): TemplateRef<HTMLElement> {
-    console.log('get existing', outlet);
+  get(outlet: string): TemplateRef<any> {
     return this.features[outlet] ? this.features[outlet] : null;
   }
 }
