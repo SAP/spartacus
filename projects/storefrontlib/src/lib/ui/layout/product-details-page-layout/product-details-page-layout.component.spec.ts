@@ -23,6 +23,7 @@ import {
   NgbTabsetModule,
   NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
+import { OutletDirective } from '../../../outlet';
 
 describe('ProductDetailsPageLayoutComponent', () => {
   let component: ProductDetailsPageLayoutComponent;
@@ -52,7 +53,8 @@ describe('ProductDetailsPageLayoutComponent', () => {
         ProductImagesComponent,
         ProductSummaryComponent,
         ProductReviewsComponent,
-        AddToCartComponent
+        AddToCartComponent,
+        OutletDirective
       ]
     }).compileComponents();
   }));

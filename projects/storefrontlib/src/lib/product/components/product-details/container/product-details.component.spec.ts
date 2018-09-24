@@ -20,6 +20,16 @@ import {
 // guards
 
 import { ProductDetailsComponent } from './product-details.component';
+import { OutletDirective } from '../../../../outlet';
+import {
+  DynamicSlotComponent,
+  ComponentWrapperDirective
+} from '../../../../cms/components';
+import { ProductImagesComponent } from '../product-images/product-images.component';
+import { ProductSummaryComponent } from '../product-summary/product-summary.component';
+import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
+import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
+import { AddToCartComponent } from 'dist/storefrontlib/lib/cart';
 
 class MockComponentMapperService {}
 describe('ProductDetailsComponent in product', () => {
@@ -45,7 +55,18 @@ describe('ProductDetailsComponent in product', () => {
         NgbTabsetModule,
         NgbAccordionModule
       ],
-      declarations: [ProductDetailsComponent],
+      declarations: [
+        ProductDetailsComponent,
+
+        DynamicSlotComponent,
+        ComponentWrapperDirective,
+        ProductImagesComponent,
+        ProductSummaryComponent,
+        ProductAttributesComponent,
+        ProductReviewsComponent,
+        AddToCartComponent,
+        OutletDirective
+      ],
       providers: [
         NgbTabsetConfig,
         NgbAccordionConfig,
