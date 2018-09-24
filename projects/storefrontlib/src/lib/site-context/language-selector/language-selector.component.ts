@@ -28,10 +28,10 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = combineLatest(
-      this.store.select(fromStore.getLanguagesLoaded),
+      this.store.select(fromStore.getLanguagesAttemptedToLoad),
       this.store.select(fromStore.getLanguagesLoading)
-    ).subscribe(([loaded, loading]) => {
-      if (!loaded && !loading) {
+    ).subscribe(([attemptedToLoad, loading]) => {
+      if (!attemptedToLoad && !loading) {
         this.store.dispatch(new fromStore.LoadLanguages());
       }
     });
