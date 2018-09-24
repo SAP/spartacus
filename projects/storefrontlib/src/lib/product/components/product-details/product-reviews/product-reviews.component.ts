@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { ProductFacade } from '../../../store/product.facade';
+import { ReviewService } from '../../../services/review.service';
 
 @Component({
   selector: 'y-product-reviews',
@@ -39,7 +39,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
   reviews$: Observable<any>;
 
   constructor(
-    protected productFacade: ProductFacade,
+    protected reviewService: ReviewService,
     private fb: FormBuilder
   ) {}
 
@@ -47,7 +47,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
     this.maxListItems = this.initialMaxListItems;
 
     if (this.product) {
-      this.reviews$ = this.productFacade.getProductReviews(this.product.code);
+      this.reviews$ = this.reviewService.getByProductCode(this.product.code);
     }
   }
 
@@ -65,10 +65,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
   }
 
   submitReview() {
-    this.productFacade.submitReview(
-      this.product.code,
-      this.reviewForm.controls
-    );
+    this.reviewService.add(this.product.code, this.reviewForm.controls);
 
     this.isWritingReview = false;
     this.resetReviewForm();

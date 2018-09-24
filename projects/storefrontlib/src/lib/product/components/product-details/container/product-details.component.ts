@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ProductFacade } from '../../../store/product.facade';
+import { ProductService } from '../../../services/product.service';
 
 @Component({
   selector: 'y-product-details',
@@ -24,10 +24,10 @@ export class ProductDetailsComponent implements OnChanges {
 
   isWritingReview = false;
 
-  constructor(protected productFacade: ProductFacade) {}
+  constructor(protected productService: ProductService) {}
 
   ngOnChanges() {
-    this.product$ = this.productFacade.getProductByCode(this.productCode);
+    this.product$ = this.productService.get(this.productCode);
   }
 
   goToReviews(isWritingReview?: boolean) {
