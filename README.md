@@ -69,7 +69,7 @@ Spartacus is currently in a pre-release beta state.
 
 Spartacus is provided "as-is" with no official lines of support. 
 
-- Ask a question in the Help chat of our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE) channel.
+To get help from the Spartacus community, post a question in the Help chat of our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE) channel.
 
 For help getting Spartacus working with your licensed SAP Commerce Cloud instance, please contact your SAP Support channel.
 
