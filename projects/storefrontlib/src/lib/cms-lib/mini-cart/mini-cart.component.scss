@@ -15,6 +15,10 @@ $y-mini-cart-icon-width: 25px !default;
 $y-mini-cart-count-trbl-margin: 0 0 0 0.35rem !default;
 
 .y-mini-cart {
+  @include media-breakpoint-up(md) {
+    margin-left: 1.5rem;
+  }
+
   &__button {
     @include var-color(
       'background-color',

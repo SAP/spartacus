@@ -18,6 +18,13 @@ import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromSiteContext from './../../../site-context/shared/store';
 import { PageType } from '../../../routing/models/page-context.model';
 
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
+    baseUrl: '',
+    occPrefix: ''
+  }
+};
+
 describe('Product Effects', () => {
   let store: Store<fromRoot.State>;
   let actions$: Observable<any>;
@@ -43,7 +50,7 @@ describe('Product Effects', () => {
         OccProductService,
         ProductImageConverterService,
         ProductReferenceConverterService,
-        OccModuleConfig,
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         fromEffects.ProductEffects,
         provideMockActions(() => actions$)
       ]

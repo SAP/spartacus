@@ -12,11 +12,10 @@ import { StoreModule, combineReducers } from '@ngrx/store';
 const testText = 'test text';
 
 @Component({
+  selector: 'y-test',
   template: `<div id="debugEl1">${testText}</div>`
 })
-export class TestComponent extends AbstractCmsComponent {
-  static componentName = 'TestComponent1';
-}
+export class TestComponent extends AbstractCmsComponent {}
 
 @NgModule({
   declarations: [TestComponent],
@@ -25,11 +24,11 @@ export class TestComponent extends AbstractCmsComponent {
 })
 export class TestModule {}
 
-export class MockCmsModuleConfig {
-  cmsComponentMapping = {
-    CMSTestComponent: 'TestComponent1'
-  };
-}
+const MockCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
+    CMSTestComponent: 'y-test'
+  }
+};
 
 @Component({
   template:
@@ -56,7 +55,7 @@ describe('ComponentWrapperDirective', () => {
       ],
       providers: [
         ComponentMapperService,
-        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
       ]
     }).compileComponents();
   }));
