@@ -4,15 +4,13 @@ import { Injectable, TemplateRef } from '@angular/core';
   providedIn: 'root'
 })
 export class OutletService {
-  features = {};
-
-  constructor() {}
+  private templatesRefs = {};
 
   add(outlet: string, template: TemplateRef<any>) {
-    this.features[outlet] = template;
+    this.templatesRefs[outlet] = template;
   }
 
   get(outlet: string): TemplateRef<any> {
-    return this.features[outlet] ? this.features[outlet] : null;
+    return this.templatesRefs[outlet] ? this.templatesRefs[outlet] : null;
   }
 }
