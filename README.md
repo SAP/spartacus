@@ -39,7 +39,7 @@ To get up and running with Spartacus, the simplest approach is to build the appl
 
 The Spartacus repository includes a mock server that can be used as well as the Commerce APIs provided by a SAP Commerce Cloud instance.
 
-For more information, see the [Getting Started](docs) documentation.
+For more information, see the [Getting Started](docs/setupandinstallation.md) documentation.
 
 # Customizing and Extending Spartacus
 
@@ -49,7 +49,7 @@ Spartacus comes with an application shell (storefrontapp) that contains core res
 
 Content for Spartacus pages is fetched from the SAP Commerce Cloud CMS (Content Management System), such as logos, links, banners and static pages. We recommend that new content-driven features follow the same pattern to enable a Content Managers to modify page content through the CMS tools.
 
-For a full explanation and guidelines, see [Extending and Customizing Spartacus](docs/extendingandcustomizing.md) and [Spartacus Architecture](docs/setupandinstallation).
+For a full explanation and guidelines, see [Extending and Customizing Spartacus](docs/extendingandcustomizing.md) and [Spartacus Architecture](docs/architecture).
 
 # Contributions
 
