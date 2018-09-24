@@ -20,7 +20,8 @@
                     </div>
 
                     <y-product-summary [product]="product" (itemCountChange)="itemCount = $event"></y-product-summary>
-                    <y-add-to-cart *ngIf="product?.stock?.stockLevelStatus !=='outOfStock'" [quantity]="itemCount" [productCode]="product?.code"></y-add-to-cart>
+                    <y-add-to-cart *ngIf="product?.stock?.stockLevelStatus !=='outOfStock'" [quantity]="itemCount"
+                        [productCode]="product?.code"></y-add-to-cart>
 
                     <a href="#" class="btn-link">
                         Share
@@ -42,7 +43,9 @@
                 </ng-template>
                 <ng-template ngbTabContent>
                     <div class="y-product-details__tab-section">
-                        <p [innerHTML]="product?.description"></p>
+                        <div class="container">
+                            <p [innerHTML]="product?.description"></p>
+                        </div>
                     </div>
                 </ng-template>
             </ngb-tab>
@@ -54,7 +57,9 @@
                 </ng-template>
                 <ng-template ngbTabContent>
                     <div class="y-product-details__tab-section">
-                        <y-product-attributes [product]="product"></y-product-attributes>
+                        <div class="container">
+                            <y-product-attributes [product]="product"></y-product-attributes>
+                        </div>
                     </div>
                 </ng-template>
             </ngb-tab>
@@ -67,7 +72,9 @@
                 </ng-template>
                 <ng-template ngbTabContent>
                     <div class="y-product-details__tab-section">
-                        <y-product-reviews [(isWritingReview)]="isWritingReview" [product]="product"></y-product-reviews>
+                        <div class="container">
+                            <y-product-reviews [(isWritingReview)]="isWritingReview" [product]="product"></y-product-reviews>
+                        </div>
                     </div>
                 </ng-template>
             </ngb-tab>
@@ -79,8 +86,11 @@
                 </ng-template>
                 <ng-template ngbTabContent>
                     <div class="y-product-details__tab-section">
-                        <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'" [componentLoad]="true"></y-component-wrapper>
-                        <y-dynamic-slot position="Tabs"></y-dynamic-slot>
+                        <div class="container">
+                            <ng-container yComponentWrapper componentType="CMSTabParagraphComponent" componentUid="deliveryTab"
+                                [componentLoad]="true"></ng-container>
+                            <y-dynamic-slot position="Tabs"></y-dynamic-slot>
+                        </div>
                     </div>
                 </ng-template>
             </ngb-tab>
@@ -107,8 +117,11 @@
             </ngb-panel>
             <ngb-panel id="toggle-4" title="Shipping">
                 <ng-template ngbPanelContent>
-                    <div class="y-product-details__tab-section">
-                        <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'" [componentLoad]="true"></y-component-wrapper>
+                    <div class="container">
+                        <!-- <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'"
+                            [componentLoad]="true"></y-component-wrapper> -->
+                        <div yComponentWrapper componentType="CMSTabParagraphComponent" componentUid="deliveryTab"
+                            [componentLoad]="true"></div>
                         <y-dynamic-slot position="Tabs"></y-dynamic-slot>
                     </div>
                 </ng-template>

@@ -4,7 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material.module';
-import { BootstrapModule } from './../../../bootstap.module';
+import { BootstrapModule } from '../../../bootstrap.module';
 import { CmsModule } from './../../../cms/cms.module';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { LoginComponent } from './login.component';

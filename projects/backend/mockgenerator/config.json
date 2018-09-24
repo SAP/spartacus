@@ -1,0 +1,13 @@
+{
+  "port": 3000,
+  "id": "uid",
+  "routes": "./routes.json",
+  "watch": true,
+  "middlewares": [
+    "./middlewares/singular.js",
+    "./middlewares/auth.js",
+    "./middlewares/media.js",
+    "./middlewares/createCart.js",
+    "./middlewares/post2get.js"
+  ]
+}

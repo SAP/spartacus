@@ -1,0 +1,23 @@
+{
+  "name": "hybris-mock-server",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "scripts": {
+    "start": "json-server --config=config.json ./datasets/db.json -i uid",
+    "start:dynamic": "yarn build && json-server --config=config.json dist/generate-data.js -i uid",
+    "build": "rm -rf dist/ && tsc",
+    "generate": "yarn build && node dist/generate"
+  },
+  "private": false,
+  "dependencies": {
+    "json-server": "^0.14.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0",
+    "occ-client": "../occ-client",
+    "typescript": "^2.9.2"
+  }
+}

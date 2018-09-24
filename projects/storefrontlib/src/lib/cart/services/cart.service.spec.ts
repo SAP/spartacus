@@ -205,4 +205,31 @@ describe('CartService', () => {
       );
     });
   });
+
+  describe('isCartCreated', () => {
+    it('should return false, when argument is empty object', () => {
+      expect(service.isCartCreated({})).toBe(false);
+    });
+
+    it('should return true, when argument is an non-empty object', () => {
+      expect(service.isCartCreated({ guid: 'hash' })).toBe(true);
+      expect(service.isCartCreated({ totalItems: 0 })).toBe(true);
+      expect(service.isCartCreated({ totalItems: 99 })).toBe(true);
+    });
+  });
+
+  describe('isCartEmpty', () => {
+    it('should return true, when argument is an empty object', () => {
+      expect(service.isCartEmpty({})).toBe(true);
+    });
+
+    it('should return true, when totalItems property of argument is 0', () => {
+      expect(service.isCartEmpty({ totalItems: 0 })).toBe(true);
+    });
+
+    it('should return false, when totalItems property of argument is greater than 0', () => {
+      expect(service.isCartEmpty({ totalItems: 1 })).toBe(false);
+      expect(service.isCartEmpty({ totalItems: 99 })).toBe(false);
+    });
+  });
 });

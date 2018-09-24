@@ -38,3 +38,19 @@ $y-search-sorting-bottom-trbl-padding: 25px 0 0px 0 !default;
     }
   }
 }
+
+.y-product-search__pagination {
+  display: inline-block;
+  vertical-align: top;
+}
+
+$y-product-search-dropdown-trbl-padding: 0 35px 0 0 !default;
+$y-product-search-dropdown-height: 48px !default;
+
+.y-product-search__dropdown {
+  height: $y-product-search-dropdown-height;
+
+  .ng-arrow-wrapper {
+    padding: $y-product-search-dropdown-trbl-padding;
+  }
+}

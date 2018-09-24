@@ -21,6 +21,11 @@ export const getRefresh: MemoizedSelector<any, boolean> = createSelector(
   fromCart.getRefresh
 );
 
+export const getLoaded: MemoizedSelector<any, boolean> = createSelector(
+  getActiveCartState,
+  fromCart.getLoaded
+);
+
 export const getEntriesMap: MemoizedSelector<any, any> = createSelector(
   getActiveCartState,
   fromCart.getEntries
