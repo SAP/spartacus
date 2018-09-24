@@ -4,9 +4,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 
-import { Store } from '@ngrx/store';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import * as fromStore from '../../cms/store';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 
 @Component({
@@ -18,10 +16,9 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
 export class BannerComponent extends AbstractCmsComponent {
   constructor(
     protected cd: ChangeDetectorRef,
-    protected store: Store<fromStore.CmsState>,
     protected config: CmsModuleConfig
   ) {
-    super(cd, store, config);
+    super(cd);
   }
 
   hasImage() {
@@ -58,4 +55,9 @@ export class BannerComponent extends AbstractCmsComponent {
     }
     return url;
   }
+
+  public getBaseUrl() {
+    return this.config.server.baseUrl;
+  }
+
 }

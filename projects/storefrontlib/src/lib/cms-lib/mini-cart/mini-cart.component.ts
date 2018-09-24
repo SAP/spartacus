@@ -33,11 +33,10 @@ export class MiniCartComponent extends AbstractCmsComponent {
   constructor(
     protected cd: ChangeDetectorRef,
     protected store: Store<fromStore.CmsState>,
-    protected config: CmsModuleConfig,
     protected dialog: MatDialog,
     protected cartService: CartService
   ) {
-    super(cd, store, config);
+    super(cd);
   }
 
   protected fetchData() {

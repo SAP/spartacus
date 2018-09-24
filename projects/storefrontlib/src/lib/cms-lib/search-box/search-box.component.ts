@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, switchMap, map } from 'rxjs/operators';
-
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
 import * as fromRouting from '../../routing/store';
 import { SearchConfig } from '../../product/search-config';
 import { debounceTime } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../cms/store';
 
 @Component({
   selector: 'y-searchbox',
@@ -20,6 +21,13 @@ export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
   maxProduct: number;
   maxSuggestions: number;
   minCharactersBeforeRequest: number;
+
+  constructor(
+    protected cd: ChangeDetectorRef,
+    protected store: Store<fromStore.CmsState>,
+  ) {
+    super(cd);
+  }
 
   public search = (text$: Observable<string>) => {
     return text$.pipe(

@@ -8,7 +8,11 @@ import {
   ComponentFactoryResolver
 } from '@angular/core';
 import { ComponentMapperService } from '../../services/component-mapper.service';
-import { AbstractCmsComponent } from '../abstract-cms-component';
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../store';
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { CmsComponent } from '../cms.component';
 
 @Directive({
   selector: '[yComponentWrapper]'
@@ -25,7 +29,8 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
   constructor(
     private vcr: ViewContainerRef,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private componentMapper: ComponentMapperService
+    private componentMapper: ComponentMapperService,
+    protected store: Store<fromStore.CmsState>
   ) {}
 
   ngAfterViewInit() {
@@ -43,21 +48,28 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
       );
 
       this.cmpRef = this.vcr.createComponent(factory);
-      const instance: AbstractCmsComponent = this.cmpRef.instance;
-      if (instance.setUid) {
-        instance.setUid(this.componentUid);
-      }
-      if (instance.setLoad) {
-        instance.setLoad(this.componentLoad);
-      }
-      // pass parameters to dynamic component
-      if (this.contextParameters && instance.setContextParameters) {
-        instance.setContextParameters(this.contextParameters);
-      }
-      if (instance.bootstrap) {
-        instance.bootstrap();
+      const instance: CmsComponent = this.cmpRef.instance;
+
+      if (instance.OnCmsComponentInit) {
+        instance.OnCmsComponentInit(
+          this.componentUid,
+          this.getComponentData(this.componentUid, this.componentLoad),
+          this.contextParameters
+        );
       }
     }
+  }
+
+  getComponentData(uid: string, shouldLoad: boolean): Observable<any> {
+    return this.store
+      .select(fromStore.componentSelectorFactory(uid))
+      .pipe(
+        tap(componentData => {
+          if (componentData === undefined && shouldLoad) {
+            this.store.dispatch(new fromStore.LoadComponent(uid));
+          }
+        })
+      );
   }
 
   ngOnDestroy() {
