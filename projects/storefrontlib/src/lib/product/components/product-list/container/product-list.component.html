@@ -7,16 +7,15 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-3 d-none d-lg-block">
-                        <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6"
-                            [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="model"></y-product-facet-navigation>
+                        <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6" [activeFacetValueCode]="categoryCode || brandCode"
+                            [searchResult]="model"></y-product-facet-navigation>
                     </div>
                     <div class="col-12 col-lg-9">
                         <div class="y-product-search__sorting--top">
                             <div class="row">
                                 <div class="col-12 col-lg-4 mr-auto">
                                     <div class="form-group y-product-search__dropdown">
-                                        <y-sorting [sortOptions]="model?.sorts" (sortListEvent)="sortList($event)"
-                                            [selectedOption]="model?.pagination.sort" [placeholder]="'Sort by Relevance'"></y-sorting>
+                                        <y-sorting [sortOptions]="model?.sorts" (sortListEvent)="sortList($event)" [selectedOption]="model?.pagination.sort" [placeholder]="'Sort by Relevance'"></y-sorting>
                                     </div>
                                 </div>
                                 <div class="col-auto" class="y-product-search__pagination" aria-label="product search pagination">
@@ -26,8 +25,8 @@
                                     <y-product-view [(mode)]="grid.mode"></y-product-view>
                                 </div>
                                 <div class="col-12 d-lg-none d-xl-none">
-                                    <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6"
-                                        [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="model"></y-product-facet-navigation>
+                                    <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6" [activeFacetValueCode]="categoryCode || brandCode"
+                                        [searchResult]="model"></y-product-facet-navigation>
                                 </div>
                             </div>
                         </div>
@@ -44,8 +43,7 @@
                             <div class="row">
                                 <div class="col-12 col-lg-4 mr-auto">
                                     <div class="form-group y-product-search__dropdown">
-                                        <y-sorting [sortOptions]="model?.sorts" (sortListEvent)="sortList($event)"
-                                            [selectedOption]="model?.pagination.sort" [placeholder]="'Sort by Relevance'"></y-sorting>
+                                        <y-sorting [sortOptions]="model?.sorts" (sortListEvent)="sortList($event)" [selectedOption]="model?.pagination.sort" [placeholder]="'Sort by Relevance'"></y-sorting>
                                     </div>
                                 </div>
                                 <div class="col-auto" class="y-product-search__pagination" aria-label="product search pagination">
@@ -55,8 +53,8 @@
                                     <y-product-view [(mode)]="grid.mode"></y-product-view>
                                 </div>
                                 <div class="col-12 d-lg-none d-xl-none">
-                                    <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6"
-                                        [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="model"></y-product-facet-navigation>
+                                    <y-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6" [activeFacetValueCode]="categoryCode || brandCode"
+                                        [searchResult]="model"></y-product-facet-navigation>
                                 </div>
                             </div>
                         </div>
