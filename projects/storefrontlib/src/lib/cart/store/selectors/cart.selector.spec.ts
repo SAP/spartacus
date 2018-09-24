@@ -87,23 +87,16 @@ describe('Cart selectors', () => {
     });
   });
 
-  describe('getIsLoading', () => {
-    it('should return the isLoading value', () => {
+  describe('getLoaded', () => {
+    it('should return the loaded value', () => {
       let result: any;
       store
-        .select(fromSelectors.getIsLoading)
+        .select(fromSelectors.getLoaded)
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
 
-      store.dispatch(
-        new fromActions.AddEntry({
-          userId: 'testUserId',
-          cartId: 'testCartId',
-          productCode: 'testProductCode',
-          quantity: 1
-        })
-      );
+      store.dispatch(new fromActions.CreateCartSuccess(testEmptyCart));
       expect(result).toEqual(true);
     });
   });

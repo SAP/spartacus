@@ -6,6 +6,7 @@ import { take, switchMap } from 'rxjs/operators';
 import * as fromStore from '../../../store';
 import * as fromAuthStore from './../../../../auth/store';
 import * as fromRouting from '../../../../routing/store';
+import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
 
 @Component({
   selector: 'y-login-form',
@@ -44,15 +45,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       });
 
     this.form = this.fb.group({
-      userId: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(
-            /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ // tslint:disable-line
-          )
-        ]
-      ],
+      userId: ['', [Validators.required, CustomFormValidators.emailValidator]],
       password: ['', Validators.required]
     });
   }

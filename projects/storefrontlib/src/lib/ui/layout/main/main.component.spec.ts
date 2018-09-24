@@ -8,7 +8,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   DynamicSlotComponent,
-  ComponentWrapperComponent
+  ComponentWrapperDirective
 } from '../../../cms/components';
 import { MaterialModule } from '../../../material.module';
 import { GlobalMessageModule } from '../../../global-message/global-message.module';
@@ -25,18 +25,18 @@ import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuth from '../../../auth/store';
 import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
 
-class MockSiteContextModuleConfig {
-  server = {
+const MockSiteContextModuleConfig: SiteContextModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  site = {
+  site: {
     baseSite: '',
     language: '',
     currency: ''
-  };
-}
+  }
+};
 
 describe('MainComponent', () => {
   let component: MainComponent;
@@ -61,7 +61,7 @@ describe('MainComponent', () => {
         HeaderComponent,
         FooterComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent,
+        ComponentWrapperDirective,
         LanguageSelectorComponent,
         CurrencySelectorComponent,
         HeaderSkipperComponent,
@@ -72,7 +72,7 @@ describe('MainComponent', () => {
       providers: [
         {
           provide: SiteContextModuleConfig,
-          useClass: MockSiteContextModuleConfig
+          useValue: MockSiteContextModuleConfig
         },
         { provide: OccSiteService }
       ]

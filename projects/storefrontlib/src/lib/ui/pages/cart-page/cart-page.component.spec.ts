@@ -7,8 +7,8 @@ import { CartDetailsComponent } from '../../../cart/components/cart-details/cont
 import { CartService } from '../../../cart/services';
 import * as fromCart from '../../../cart/store';
 import {
-  ComponentWrapperComponent,
-  DynamicSlotComponent
+  DynamicSlotComponent,
+  ComponentWrapperDirective
 } from '../../../cms/components';
 import * as fromCmsReducer from '../../../cms/store';
 
@@ -42,7 +42,7 @@ describe('CartPageComponent', () => {
         CartPageComponent,
         CartPageLayoutComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent,
+        ComponentWrapperDirective,
         CartDetailsComponent
       ],
       providers: [{ provide: CartService, useClass: MockCartService }]

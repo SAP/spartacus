@@ -35,6 +35,7 @@ describe('Cart reducer', () => {
       expect(state.content).toEqual(testCart);
       expect(state.entries).toEqual({});
       expect(state.refresh).toEqual(false);
+      expect(state.loaded).toEqual(true);
     });
 
     it('should load an existing cart', () => {
@@ -64,6 +65,7 @@ describe('Cart reducer', () => {
         '1234': { entryNumber: 0, product: { code: '1234' } }
       });
       expect(state.refresh).toEqual(false);
+      expect(state.loaded).toEqual(true);
     });
   });
 

@@ -6,18 +6,18 @@ import {
 import { OccSiteService } from './occ-site.service';
 import { OccModuleConfig } from '../occ-module-config';
 
-class MockOccModuleConfig {
-  server = {
+const MockOccModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  site = {
+  site: {
     baseSite: '',
     language: '',
     currency: ''
-  };
-}
+  }
+};
 
 describe('OccSiteService', () => {
   let service: OccSiteService;
@@ -28,7 +28,7 @@ describe('OccSiteService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccSiteService,
-        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig }
       ]
     });
 

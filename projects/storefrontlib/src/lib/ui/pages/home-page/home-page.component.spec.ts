@@ -4,7 +4,7 @@ import { HomePageComponent } from './home-page.component';
 import { LandingPageLayoutComponent } from '../../layout/landing-page-layout/landing-page-layout.component';
 import {
   DynamicSlotComponent,
-  ComponentWrapperComponent
+  ComponentWrapperDirective
 } from '../../../cms/components';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
@@ -26,7 +26,7 @@ describe('HomePageComponent', () => {
         HomePageComponent,
         LandingPageLayoutComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent
+        ComponentWrapperDirective
       ]
     }).compileComponents();
   }));
