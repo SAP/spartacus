@@ -13,7 +13,7 @@ export * from './layout/product-list-page-layout/product-list-page-layout.compon
 export * from './layout/product-details-page-layout/product-details-page-layout.component';
 export * from './layout/category-page-layout/category-page-layout.component';
 export * from './layout/order-confirmation-page-layout/order-confirmation-page-layout.component';
-export * from './layout/main/main.component';
+export * from './layout/main/storefront.component';
 export * from './layout/landing-page-layout/landing-page-layout.component';
 export * from './layout/header/header.component';
 export * from './layout/order-details-page-layout/order-details-page-layout.component';
