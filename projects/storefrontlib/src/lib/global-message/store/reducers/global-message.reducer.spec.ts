@@ -50,4 +50,30 @@ describe('Cart reducer', () => {
       );
     });
   });
+
+  describe('REMOVE_MESSAGES_BY_TYPE action', () => {
+    it('should remove messages by type from the state', () => {
+      const initialState = {
+        entities: {
+          [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['test', 'test2'],
+          [GlobalMessageType.MSG_TYPE_ERROR]: ['test']
+        }
+      };
+
+      const action = new fromActions.RemoveMessagesByType(
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+
+      const state = fromGlobalMessage.reducer(initialState, action);
+
+      expect(state.entities[GlobalMessageType.MSG_TYPE_CONFIRMATION]).toEqual(
+        []
+      );
+
+      // does not modify other fields
+      expect(state.entities[GlobalMessageType.MSG_TYPE_ERROR]).toEqual(
+        initialState.entities[GlobalMessageType.MSG_TYPE_ERROR]
+      );
+    });
+  });
 });
