@@ -58,15 +58,15 @@ describe('ProductDetailsComponent in product', () => {
     expect(productDetailsComponent).toBeTruthy();
   });
 
-  /*it('should call ngOnChanges()', () => {
+  it('should call ngOnChanges()', () => {
     productDetailsComponent.productCode = '123456';
     productDetailsComponent.ngOnChanges();
     productDetailsComponent.product$.subscribe(product =>
       expect(product).toEqual(mockProduct)
     );
-  });*/
+  });
 
-  /*it('should go to reviews tab', () => {
+  it('should go to reviews tab', () => {
     productDetailsComponent.productCode = '123456';
     productDetailsComponent.ngOnChanges();
     productDetailsComponent.product$.subscribe(() => {
@@ -74,5 +74,5 @@ describe('ProductDetailsComponent in product', () => {
       productDetailsComponent.goToReviews();
       expect(productDetailsComponent.tabSet.activeId).toEqual('reviews');
     });
-  });*/
+  });
 });

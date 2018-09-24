@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { StoreModule, Store } from '@ngrx/store';
+import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromRoot from '../../routing/store';
@@ -16,7 +16,8 @@ describe('ProductSearchService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRoot.getReducers()
+          ...fromRoot.getReducers(),
+          products: combineReducers(fromStore.getReducers())
         })
       ],
       providers: [ProductSearchService]
