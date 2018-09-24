@@ -62,9 +62,20 @@ export function reducer(
     case fromAction.ADD_ENTRY_SUCCESS: {
       return {
         ...state,
-        refresh: true
+        refresh: true,
+        loaded: false
       };
     }
+
+    case fromAction.REMOVE_ENTRY:
+    case fromAction.UPDATE_ENTRY:
+    case fromAction.ADD_ENTRY:
+    case fromAction.LOAD_CART:
+    case fromAction.CREATE_CART:
+      return {
+        ...state,
+        loaded: false
+      };
   }
 
   return state;

@@ -1,7 +1,12 @@
 <div class="y-added-to-cart-dialog">
   <!-- Modal Header -->
   <div class="y-added-to-cart-dialog__header modal-header">
-    <div class="y-added-to-cart-dialog__title modal-title">{{quantity}} item(s) added to your cart</div>
+    <div class="y-added-to-cart-dialog__title modal-title" *ngIf="loaded$ | async; else loadingTitle">{{quantity}}
+      item(s) added to your cart
+    </div>
+    <ng-template #loadingTitle>
+      <div class="y-added-to-cart-dialog__title modal-title">Updating cart...</div>
+    </ng-template>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -9,7 +14,12 @@
   <!-- Modal Body -->
   <ng-container *ngIf="(entry$ | async) as entry">
     <div class="y-added-to-cart-dialog__body modal-body">
-      <div class="y-added-to-cart-dialog__info-container row">
+      <div class="y-added-to-cart-dialog__info-container row" *ngIf="!(loaded$ | async)">
+        <div class="col-sm-12">
+          <y-spinner></y-spinner>
+        </div>
+      </div>
+      <div class="y-added-to-cart-dialog__info-container row" *ngIf="loaded$ | async">
         <div class="y-added-to-cart-dialog__item-container col-sm-12 col-md-6" [formGroup]="form">
           <y-cart-item [item]="entry" [compact]="true" [isReadOnly]="true"></y-cart-item>
         </div>
@@ -30,7 +40,7 @@
         </div>
       </div>
       <!-- Product Item Container -->
-      <div *ngIf="more" class="y-added-to-cart-dialog__more-container row">
+      <div *ngIf="more && (loaded$ | async)" class="y-added-to-cart-dialog__more-container row">
         <h2>You may also like</h2>
         <!-- <y-product-grid-item [product]="entry.product"></y-product-grid-item> -->
       </div>
