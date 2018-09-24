@@ -2,14 +2,14 @@ import * as fromLanguages from '../actions/languages.action';
 
 export interface LanguagesState {
   entities: { [isocode: string]: any };
-  attemptedToLoad: boolean;
+  loadAttempted: boolean;
   loading: boolean;
   activeLanguage: string;
 }
 
 export const initialState: LanguagesState = {
   entities: {},
-  attemptedToLoad: false,
+  loadAttempted: false,
   loading: false,
   activeLanguage: null
 };
@@ -36,7 +36,7 @@ export function reducer(
       return {
         ...state,
         entities,
-        attemptedToLoad: true,
+        loadAttempted: true,
         loading: false
       };
     }
@@ -44,7 +44,7 @@ export function reducer(
     case fromLanguages.LOAD_LANGUAGES_FAIL: {
       return {
         ...state,
-        attemptedToLoad: true,
+        loadAttempted: true,
         loading: false
       };
     }
@@ -69,8 +69,8 @@ export function reducer(
 }
 
 export const getLanguagesEntities = (state: LanguagesState) => state.entities;
-export const getLanguagesAttemptedToLoad = (state: LanguagesState) =>
-  state.attemptedToLoad;
+export const getLanguagesLoadAttempted = (state: LanguagesState) =>
+  state.loadAttempted;
 export const getLanguagesLoading = (state: LanguagesState) => state.loading;
 export const getActiveLanguage = (state: LanguagesState) =>
   state.activeLanguage;

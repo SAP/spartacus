@@ -28,10 +28,10 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = combineLatest(
-      this.store.select(fromStore.getCurrenciesAttemptedToLoad),
+      this.store.select(fromStore.getCurrenciesLoadAttempted),
       this.store.select(fromStore.getCurrenciesLoading)
-    ).subscribe(([attemptedToLoad, loading]) => {
-      if (!attemptedToLoad && !loading) {
+    ).subscribe(([loadAttempted, loading]) => {
+      if (!loadAttempted && !loading) {
         this.store.dispatch(new fromStore.LoadCurrencies());
       }
     });

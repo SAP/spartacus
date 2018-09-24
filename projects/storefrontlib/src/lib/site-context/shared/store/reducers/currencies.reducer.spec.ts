@@ -27,7 +27,7 @@ describe('Currencies Reducer', () => {
       const state = fromCurrencies.reducer(initialState, action);
       expect(state.entities).toEqual(entities);
       expect(state.loading).toEqual(false);
-      expect(state.attemptedToLoad).toEqual(true);
+      expect(state.loadAttempted).toEqual(true);
     });
   });
 
@@ -38,7 +38,7 @@ describe('Currencies Reducer', () => {
       const action = new fromActions.LoadCurrenciesFail({});
       const state = fromCurrencies.reducer(initialState, action);
       expect(state.loading).toEqual(false);
-      expect(state.attemptedToLoad).toEqual(true);
+      expect(state.loadAttempted).toEqual(true);
     });
   });
 

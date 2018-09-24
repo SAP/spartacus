@@ -2,14 +2,14 @@ import * as fromCurrencies from '../actions/currencies.action';
 
 export interface CurrenciesState {
   entities: { [isocode: string]: any };
-  attemptedToLoad: boolean;
+  loadAttempted: boolean;
   loading: boolean;
   activeCurrency: string;
 }
 
 export const initialState: CurrenciesState = {
   entities: {},
-  attemptedToLoad: false,
+  loadAttempted: false,
   loading: false,
   activeCurrency: null
 };
@@ -36,7 +36,7 @@ export function reducer(
       return {
         ...state,
         entities,
-        attemptedToLoad: true,
+        loadAttempted: true,
         loading: false
       };
     }
@@ -44,7 +44,7 @@ export function reducer(
     case fromCurrencies.LOAD_CURRENCIES_FAIL: {
       return {
         ...state,
-        attemptedToLoad: true,
+        loadAttempted: true,
         loading: false
       };
     }
@@ -70,8 +70,8 @@ export function reducer(
 }
 
 export const getCurrenciesEntities = (state: CurrenciesState) => state.entities;
-export const getCurrenciesAttemptedToLoad = (state: CurrenciesState) =>
-  state.attemptedToLoad;
+export const getCurrenciesLoadAttempted = (state: CurrenciesState) =>
+  state.loadAttempted;
 export const getCurrenciesLoading = (state: CurrenciesState) => state.loading;
 export const getActiveCurrency = (state: CurrenciesState) =>
   state.activeCurrency;
