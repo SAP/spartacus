@@ -49,7 +49,7 @@ Spartacus comes with an application shell (storefrontapp) that contains core res
 
 Content for Spartacus pages is fetched from the SAP Commerce Cloud CMS (Content Management System), such as logos, links, banners and static pages. We recommend that new content-driven features follow the same pattern to enable a Content Managers to modify page content through the CMS tools.
 
-For a full explanation and guidelines, see [Extending and Customizing Spartacus](docs) and [Spartacus Architecture](docs).
+For a full explanation and guidelines, see [Extending and Customizing Spartacus](docs/extendingandcustomizing.md) and [Spartacus Architecture](docs/setupandinstallation).
 
 # Contributions
 
@@ -58,4 +58,3 @@ Team Spartacus is excited to incorporate ideas, requests, and especially code co
 - Read [](CONTRIBUTING.md) for an overview of our contribution policies.
 - Read the documentation in [Community](docs), especially the [Code of Conduct](doc) and the [GitHub Workflow](doc) documents.
 - Join our general communication channel on [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE)
-- Start creating issues or making requests through GitHub's issue tracking service or through ZenHub
