@@ -2,13 +2,15 @@ import { Directive, TemplateRef, Input, OnInit } from '@angular/core';
 import { OutletService } from '../outlet.service';
 
 @Directive({
-  selector: '[outletRef]'
+  selector: '[cxOutletRef]'
 })
 export class OutletRefDirective implements OnInit {
-  @Input()
-  outletRef: string;
+  @Input() outletRef: string;
 
-  constructor(private tpl: TemplateRef<any>, private outletService: OutletService) {}
+  constructor(
+    private tpl: TemplateRef<any>,
+    private outletService: OutletService
+  ) {}
 
   ngOnInit() {
     this.outletService.add(this.outletRef, this.tpl);

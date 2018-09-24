@@ -3,15 +3,12 @@ import {
   Input,
   TemplateRef,
   ViewContainerRef,
-  OnInit,
-  AfterViewInit,
-  ChangeDetectorRef,
-  SimpleChanges
+  OnInit
 } from '@angular/core';
 import { OutletService } from './outlet.service';
 
 @Directive({
-  selector: '[outlet]'
+  selector: '[cxOutlet]'
 })
 export class OutletDirective implements OnInit {
   @Input() outlet: string;

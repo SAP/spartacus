@@ -17,13 +17,13 @@ import { ProductDetailOutlets } from '../../../product-outlets.model';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductDetailsComponent implements OnChanges {
+  static outlets = ProductDetailOutlets;
   @ViewChild('tabSet') tabSet;
   @ViewChild('tabSetWrapper') tabSetWrapper;
   @Input() productCode: string;
   product$: Observable<any>;
   itemCount = 1;
 
-  static outlets = ProductDetailOutlets;
   get outlets() {
     return ProductDetailsComponent.outlets;
   }
