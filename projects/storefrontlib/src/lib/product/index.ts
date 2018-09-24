@@ -11,4 +11,4 @@ export * from './components/product-list/product-facet-navigation/product-facet-
 export * from './guards/product.guard';
 export * from './components/product-details/product-details.module';
 export * from './components/product-list/product-list.module';
-export * from './product-templates.model';
+export * from './product-outlets.model';

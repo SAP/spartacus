@@ -8,7 +8,7 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromStore from '../../../store';
-import { ProductDetailTemplates } from '../../../product-templates.model';
+import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
   selector: 'y-product-details',
@@ -23,7 +23,10 @@ export class ProductDetailsComponent implements OnChanges {
   product$: Observable<any>;
   itemCount = 1;
 
-  innerTemplates = ProductDetailTemplates;
+  static outlets = ProductDetailOutlets;
+  get outlets() {
+    return ProductDetailsComponent.outlets;
+  }
 
   isWritingReview = false;
 
