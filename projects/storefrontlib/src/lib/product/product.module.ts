@@ -17,6 +17,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 // guards
 import { guards } from './guards/index';
 
+// facade
+import { ProductFacade } from './store/product.facade';
+
 // converter
 import { services } from './converters/index';
 import { ProductListModule } from './components/product-list/product-list.module';
@@ -34,6 +37,6 @@ import { ProductDetailsModule } from './components/product-details/product-detai
     EffectsModule.forFeature(effects)
   ],
   exports: [ProductListModule, ProductDetailsModule],
-  providers: [reducerProvider, ...services, ...guards]
+  providers: [reducerProvider, ...services, ...guards, ProductFacade]
 })
 export class ProductModule {}

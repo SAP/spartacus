@@ -8,10 +8,8 @@ import {
   Output
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import * as fromStore from '../../../store';
+import { ProductFacade } from '../../../store/product.facade';
 
 @Component({
   selector: 'y-product-reviews',
@@ -41,7 +39,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
   reviews$: Observable<any>;
 
   constructor(
-    protected store: Store<fromStore.ProductsState>,
+    protected productFacade: ProductFacade,
     private fb: FormBuilder
   ) {}
 
@@ -49,17 +47,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
     this.maxListItems = this.initialMaxListItems;
 
     if (this.product) {
-      this.reviews$ = this.store
-        .select(fromStore.getSelectedProductReviewsFactory(this.product.code))
-        .pipe(
-          tap(reviews => {
-            if (reviews === undefined && this.product.code !== undefined) {
-              this.store.dispatch(
-                new fromStore.LoadProductReviews(this.product.code)
-              );
-            }
-          })
-        );
+      this.reviews$ = this.productFacade.getProductReviews(this.product.code);
     }
   }
 
@@ -77,11 +65,9 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
   }
 
   submitReview() {
-    this.store.dispatch(
-      new fromStore.PostProductReview({
-        productCode: this.product.code,
-        review: this.reviewForm.controls
-      })
+    this.productFacade.submitReview(
+      this.product.code,
+      this.reviewForm.controls
     );
 
     this.isWritingReview = false;

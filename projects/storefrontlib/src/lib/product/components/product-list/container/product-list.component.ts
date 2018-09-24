@@ -5,12 +5,9 @@ import {
   OnChanges,
   ChangeDetectionStrategy
 } from '@angular/core';
-
-import { Store } from '@ngrx/store';
-import * as fromProductStore from '../../../store';
-import { filter } from 'rxjs/operators';
-import { SearchConfig } from '../../../search-config';
 import { Observable } from 'rxjs';
+import { SearchConfig } from '../../../search-config';
+import { ProductFacade } from '../../../store/product.facade';
 
 @Component({
   selector: 'y-product-list',
@@ -29,7 +26,7 @@ export class ProductListComponent implements OnChanges, OnInit {
   model$: Observable<any>;
   searchConfig: SearchConfig = new SearchConfig();
 
-  constructor(protected store: Store<fromProductStore.ProductsState>) {}
+  constructor(protected productFacade: ProductFacade) {}
 
   ngOnChanges() {
     if (!this.itemPerPage) {
@@ -59,12 +56,11 @@ export class ProductListComponent implements OnChanges, OnInit {
       mode: this.gridMode
     };
 
-    this.model$ = this.store
-      .select(fromProductStore.getSearchResults)
-      .pipe(filter(results => Object.keys(results).length > 0));
+    this.model$ = this.productFacade.searchResults$;
   }
 
   onFilter(query: string) {
+    this.query = query;
     this.search(query);
   }
 
@@ -85,11 +81,6 @@ export class ProductListComponent implements OnChanges, OnInit {
       // Overide default options
       this.searchConfig = { ...this.searchConfig, ...options };
     }
-    this.store.dispatch(
-      new fromProductStore.SearchProducts({
-        queryText: query,
-        searchConfig: this.searchConfig
-      })
-    );
+    this.productFacade.searchProducts(query, this.searchConfig);
   }
 }
