@@ -10,6 +10,10 @@ if (environment.production) {
   enableProdMode();
 }
 
-enableATHS();
+enableATHS(true);
 
+if (ATHSPrompt.prompt) {
+  // show ATHS promp wheneber you can
+  ATHSPrompt.prompt();
+}
 platformBrowserDynamic().bootstrapModule(AppModule);

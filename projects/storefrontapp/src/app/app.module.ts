@@ -28,7 +28,9 @@ import {
     SiteContextModule.forRoot(config),
 
     AppRoutingModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('/ngsw-worker.js', {
+      enabled: environment.production
+    }),
     CmsLibModule,
     CmsModule.forRoot(config),
     UiModule,
@@ -36,4 +38,4 @@ import {
   ],
   bootstrap: [MainComponent]
 })
-export class AppModule { }
+export class AppModule {}
