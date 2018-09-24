@@ -79,6 +79,11 @@ describe('HttpErrorInterceptor', () => {
         text: 'Bad credentials. Please login again.'
       })
     );
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.RemoveMessagesByType(
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      )
+    );
   }));
 
   it(`should catch 403 of error`, inject([HttpClient], (http: HttpClient) => {

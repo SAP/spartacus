@@ -29,16 +29,10 @@ export class ProductListComponent implements OnChanges, OnInit {
   constructor(protected productSearchService: ProductSearchService) {}
 
   ngOnChanges() {
-    if (!this.itemPerPage) {
-      // Page List default page size
-      this.searchConfig = { ...this.searchConfig, ...{ pageSize: 10 } };
-    } else {
-      this.searchConfig = {
-        // Page list input page size
-        ...this.searchConfig,
-        ...{ pageSize: this.itemPerPage }
-      };
-    }
+    this.searchConfig = {
+      ...this.searchConfig,
+      pageSize: this.itemPerPage || 10
+    };
 
     if (this.categoryCode) {
       this.query = ':relevance:category:' + this.categoryCode;
@@ -79,7 +73,10 @@ export class ProductListComponent implements OnChanges, OnInit {
   protected search(query: string, options?: SearchConfig) {
     if (options) {
       // Overide default options
-      this.searchConfig = { ...this.searchConfig, ...options };
+      this.searchConfig = {
+        ...this.searchConfig,
+        ...options
+      };
     }
     this.productSearchService.search(query, this.searchConfig);
   }

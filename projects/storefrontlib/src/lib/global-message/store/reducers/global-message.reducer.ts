@@ -62,6 +62,17 @@ export function reducer(
         entities
       };
     }
+
+    case fromAction.REMOVE_MESSAGES_BY_TYPE: {
+      const entities = {
+        ...state.entities,
+        [action.payload]: []
+      };
+      return {
+        ...state,
+        entities
+      };
+    }
   }
 
   return state;

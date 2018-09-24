@@ -6,6 +6,8 @@ import { take, switchMap } from 'rxjs/operators';
 import * as fromStore from '../../../store';
 import * as fromAuthStore from './../../../../auth/store';
 import * as fromRouting from '../../../../routing/store';
+import * as fromGlobalMessage from '../../../../global-message/store';
+import { GlobalMessageType } from '../../../../global-message/models/message.model';
 import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
 
 @Component({
@@ -28,6 +30,11 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap(data => {
           if (data && data.access_token) {
+            this.store.dispatch(
+              new fromGlobalMessage.RemoveMessagesByType(
+                GlobalMessageType.MSG_TYPE_ERROR
+              )
+            );
             return this.store.select(fromRouting.getRedirectUrl).pipe(take(1));
           }
           return of();
