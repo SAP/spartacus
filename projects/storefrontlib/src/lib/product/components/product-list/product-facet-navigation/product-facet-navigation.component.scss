@@ -61,7 +61,8 @@ $y-search-facet-modal-footer-btn-width: 50% !default;
 
     &__label {
       @include var-color('color', $y-search-facet-label-color);
-      @include type('4');
+      @include type('6');
+      font-weight: $font-weight-normal;
     }
 
     input[type='checkbox']:checked + &__label {
@@ -71,6 +72,12 @@ $y-search-facet-modal-footer-btn-width: 50% !default;
     &__item--link {
       @include type('');
       margin: $y-search-facet-item-link-trbl-margin;
+    }
+
+    &__item--show-more {
+      &:after {
+        content: '\003e';
+      }
     }
   }
 
