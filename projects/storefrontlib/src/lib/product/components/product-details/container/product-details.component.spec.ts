@@ -29,7 +29,7 @@ import { ProductImagesComponent } from '../product-images/product-images.compone
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
 import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
-import { AddToCartComponent } from 'dist/storefrontlib/lib/cart';
+import { AddToCartComponent } from '../../../../cart';
 
 class MockComponentMapperService {}
 describe('ProductDetailsComponent in product', () => {
