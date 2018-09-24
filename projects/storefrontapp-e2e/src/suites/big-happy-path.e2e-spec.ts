@@ -9,7 +9,7 @@ import { AddressForm } from '../page-objects/checkout/address-form.po';
 import { PaymentForm } from '../page-objects/checkout/payment-form.po';
 import { OrderHistoryPage } from '../page-objects/account/order-history.po';
 
-xdescribe('Big Happy Path', () => {
+fdescribe('Big Happy Path', () => {
   const home: HomePage = new HomePage();
   const checkoutPage = new MultiStepCheckoutPage();
 
@@ -80,12 +80,8 @@ xdescribe('Big Happy Path', () => {
     const addressForm = checkoutPage.addressForm;
     await addressForm.waitForReady();
 
-    expect(await addressForm.header.getText()).toContain(
-      'Step 1: Shipping Address'
-    );
-    expect(await checkoutPage.orderSummary.getText()).toContain(
-      'Subtotal: $2,623.08'
-    );
+    expect(await addressForm.header.getText()).toContain('SHIPPING ADDRESS');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,623.08');
 
     await addressForm.fillIn();
     await addressForm.nextButton.click();
@@ -94,14 +90,7 @@ xdescribe('Big Happy Path', () => {
   it('should choose delivery', async () => {
     const deliveryForm = checkoutPage.deliveryForm;
     await deliveryForm.waitForReady();
-    expect(await deliveryForm.header.getText()).toContain(
-      'Choose a shipping method'
-    );
-    expect(await deliveryForm.address.getText()).toContain(
-      AddressForm.LAST_NAME
-    );
-    expect(await deliveryForm.address.getText()).toContain(AddressForm.CITY);
-
+    expect(await deliveryForm.header.getText()).toContain('SHIPPING METHOD');
     await deliveryForm.setDeliveryMethod();
     await deliveryForm.nextButton.click();
   });
@@ -110,10 +99,8 @@ xdescribe('Big Happy Path', () => {
     const paymentForm = checkoutPage.paymentForm;
     await paymentForm.waitForReady();
 
-    expect(await paymentForm.header.getText()).toContain('Choose a card type');
-    expect(await checkoutPage.orderSummary.getText()).toContain(
-      'Total: $2,635.07'
-    );
+    expect(await paymentForm.header.getText()).toContain('PAYMENT');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,635.07');
 
     await paymentForm.fillIn();
     await paymentForm.nextButton.click();

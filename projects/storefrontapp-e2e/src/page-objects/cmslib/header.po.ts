@@ -19,7 +19,7 @@ export class Header {
     by.tagName('a')
   );
   readonly logoutButton: ElementFinder = this.loginComponent.element(
-    by.cssContainingText('a', 'Sign Out')
+    by.cssContainingText('button', 'Logout')
   );
   readonly searchInput: ElementFinder = this.searchComponent.element(
     by.css('input[placeholder="Search here..."]')
