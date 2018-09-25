@@ -54,8 +54,8 @@ export class OccStoreFinderService {
         'sorts(DEFAULT)'
     });
     if (longitudeLatitude) {
-      params = params.set('latitude', String(longitudeLatitude[0]));
-      params = params.set('longitude', String(longitudeLatitude[1]));
+      params = params.set('longitude', String(longitudeLatitude[0]));
+      params = params.set('latitude', String(longitudeLatitude[1]));
     } else {
       params = params.set('query', query);
     }

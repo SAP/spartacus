@@ -33,8 +33,8 @@ export class StoreFinderSearchComponent {
     this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
       (position: Position) =>
         this.storeFinderService.findStores('', [
-          position.coords.latitude,
-          position.coords.longitude
+          position.coords.longitude,
+          position.coords.latitude
         ])
     );
     this.showMapList.emit(true);
