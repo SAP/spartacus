@@ -29,9 +29,20 @@ import { ProductImagesComponent } from '../product-images/product-images.compone
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
 import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
-import { AddToCartComponent } from '../../../../cart';
+import { Component, Input } from '@angular/core';
 
 class MockComponentMapperService {}
+
+@Component({
+  selector: 'y-add-to-cart',
+  template: '<button>add to cart</button>'
+})
+export class MockAddToCartComponent {
+  @Input() iconOnly;
+  @Input() productCode;
+  @Input() quantity;
+}
+
 describe('ProductDetailsComponent in product', () => {
   let store: Store<fromProduct.ProductsState>;
   let productDetailsComponent: ProductDetailsComponent;
@@ -64,7 +75,7 @@ describe('ProductDetailsComponent in product', () => {
         ProductSummaryComponent,
         ProductAttributesComponent,
         ProductReviewsComponent,
-        AddToCartComponent,
+        MockAddToCartComponent,
         OutletDirective
       ],
       providers: [

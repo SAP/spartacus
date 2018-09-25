@@ -19,7 +19,6 @@ import { ComponentMapperService } from './services/component-mapper.service';
 import { Config, ConfigModule } from '../config/config.module';
 import { DefaultPageService } from './services/default-page.service';
 import { OutletModule } from '../outlet/outlet.module';
-import { OutletDirective } from 'dist/storefrontlib/lib/outlet';
 
 const services: any[] = [
   OccCmsService,
