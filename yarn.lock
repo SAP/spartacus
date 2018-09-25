@@ -131,15 +131,15 @@
     "@angular-devkit/core" "0.8.3"
     rxjs "~6.2.0"
 
-"@angular/animations@^6.0.0":
-  version "6.0.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/animations/-/animations-6.0.1.tgz#21fd5b059765b48c9823e05cfe470ccdd816e8b1"
+"@angular/animations@^6.1.8":
+  version "6.1.8"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/animations/-/animations-6.1.8.tgz#a1861c7f63aca5bd18ba48e0c736ee7b1f2dac36"
   dependencies:
     tslib "^1.9.0"
 
-"@angular/cdk@^6.0.1":
-  version "6.0.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/cdk/-/cdk-6.0.1.tgz#dde0ef5b1b3ce9989136ca1a73af1de404141bfd"
+"@angular/cdk@^6.4.7":
+  version "6.4.7"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/cdk/-/cdk-6.4.7.tgz#1549b304dd412e82bd854cc55a7d5c6772ee0411"
   dependencies:
     tslib "^1.7.1"
 
@@ -192,15 +192,15 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/forms@^6.0.0":
-  version "6.0.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/forms/-/forms-6.0.1.tgz#8ac4fbcd857a53613e8bcd58127e137d5ff0c98f"
+"@angular/forms@^6.1.8":
+  version "6.1.8"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/forms/-/forms-6.1.8.tgz#058429b99fc4c6554fe4943a23d4d6221cb1d9ac"
   dependencies:
     tslib "^1.9.0"
 
-"@angular/http@^6.0.0":
-  version "6.0.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/http/-/http-6.0.1.tgz#52ac3c29349c11c0982e61095c3ed7aeb54d5c40"
+"@angular/http@^6.1.8":
+  version "6.1.8"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/http/-/http-6.1.8.tgz#8c627a879285a366e960edc15522006474f4ec6f"
   dependencies:
     tslib "^1.9.0"
 
@@ -208,11 +208,13 @@
   version "6.1.8"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/language-service/-/language-service-6.1.8.tgz#2b076eca1e415204a4e2e8e4b066d258a7fe16fd"
 
-"@angular/material@^6.0.1":
-  version "6.0.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/material/-/material-6.0.1.tgz#17558dba6b9372df6cae1d248d2360c9570dc44a"
+"@angular/material@^6.4.7":
+  version "6.4.7"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/material/-/material-6.4.7.tgz#3c8f2d6a6a7904d97be29e06a84ffb62a8da6c16"
   dependencies:
     tslib "^1.7.1"
+  optionalDependencies:
+    parse5 "^5.0.0"
 
 "@angular/platform-browser-dynamic@^6.1.8":
   version "6.1.8"
@@ -220,9 +222,9 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/platform-browser@^6.0.0":
-  version "6.0.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/platform-browser/-/platform-browser-6.0.1.tgz#3c663f56b5321586e26b6d9f394e13fa17b82d33"
+"@angular/platform-browser@^6.1.8":
+  version "6.1.8"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/platform-browser/-/platform-browser-6.1.8.tgz#2a0340995ee4b67809f10e039a872afb7f228403"
   dependencies:
     tslib "^1.9.0"
 
@@ -235,9 +237,9 @@
     "@schematics/angular" "0.6.8"
     typescript "~2.6.2"
 
-"@angular/router@^6.0.0":
-  version "6.0.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/router/-/router-6.0.1.tgz#bc4943b1798ed8f622f1a4f773ff5f01b5ab70de"
+"@angular/router@^6.1.8":
+  version "6.1.8"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/router/-/router-6.1.8.tgz#7106a55392e9f920358544f431dace2ef3715630"
   dependencies:
     tslib "^1.9.0"
 
@@ -4984,6 +4986,10 @@ parse-json@^4.0.0:
 parse5@^4.0.0:
   version "4.0.0"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/parse5/-/parse5-4.0.0.tgz#6d78656e3da8d78b4ec0b906f7c08ef1dfe3f608"
+
+parse5@^5.0.0:
+  version "5.1.0"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/parse5/-/parse5-5.1.0.tgz#c59341c9723f414c452975564c7c00a68d58acd2"
 
 parsejson@0.0.3:
   version "0.0.3"
