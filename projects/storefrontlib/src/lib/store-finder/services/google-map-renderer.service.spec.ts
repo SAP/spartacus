@@ -82,51 +82,75 @@ describe('GoogleMapRendererService', () => {
     storeDataServiceMock = bed.get(StoreDataService);
   });
 
-  it('should render map', fakeAsync(() => {
-    // given
-    spyOn(occE2eConfigurationServiceMock, 'getConfiguration').and.callThrough();
-    spyOn(externalJsFileLoaderMock, 'load').and.callThrough();
-    spyOn(storeDataServiceMock, 'getStoreLatitude').and.callThrough();
-    spyOn(storeDataServiceMock, 'getStoreLongitude').and.callThrough();
+  it(
+    'should render map',
+    fakeAsync(() => {
+      // given
+      spyOn(
+        occE2eConfigurationServiceMock,
+        'getConfiguration'
+      ).and.callThrough();
+      spyOn(externalJsFileLoaderMock, 'load').and.callThrough();
+      spyOn(storeDataServiceMock, 'getStoreLatitude').and.callThrough();
+      spyOn(storeDataServiceMock, 'getStoreLongitude').and.callThrough();
 
-    // when
-    googleMapRendererService.renderMap(mapDomElement, locations, selectedIndex);
+      // when
+      googleMapRendererService.renderMap(
+        mapDomElement,
+        locations,
+        selectedIndex
+      );
 
-    // then
-    expect(
-      occE2eConfigurationServiceMock.getConfiguration
-    ).toHaveBeenCalledWith('e2egoogleservices.apikey');
-    expect(externalJsFileLoaderMock.load).toHaveBeenCalledWith(
-      'https://maps.googleapis.com/maps/api/js',
-      Object({ key: GOOGLE_API_KEY }),
-      jasmine.any(Function)
-    );
-    expect(storeDataServiceMock.getStoreLatitude).toHaveBeenCalled();
-    expect(storeDataServiceMock.getStoreLongitude).toHaveBeenCalled();
+      // then
+      expect(
+        occE2eConfigurationServiceMock.getConfiguration
+      ).toHaveBeenCalledWith('e2egoogleservices.apikey');
+      expect(externalJsFileLoaderMock.load).toHaveBeenCalledWith(
+        'https://maps.googleapis.com/maps/api/js',
+        Object({ key: GOOGLE_API_KEY }),
+        jasmine.any(Function)
+      );
+      expect(storeDataServiceMock.getStoreLatitude).toHaveBeenCalled();
+      expect(storeDataServiceMock.getStoreLongitude).toHaveBeenCalled();
 
-    tick();
-    expect(mapDomElement.innerHTML).toEqual(MAP_DOM_ELEMENT_INNER_HTML);
-  }));
+      tick();
+      expect(mapDomElement.innerHTML).toEqual(MAP_DOM_ELEMENT_INNER_HTML);
+    })
+  );
 
-  it('should not create a new map', fakeAsync(() => {
-    // given the map is already rendered
-    googleMapRendererService.renderMap(mapDomElement, locations, selectedIndex);
-    tick();
+  it(
+    'should not create a new map',
+    fakeAsync(() => {
+      // given the map is already rendered
+      googleMapRendererService.renderMap(
+        mapDomElement,
+        locations,
+        selectedIndex
+      );
+      tick();
 
-    spyOn(occE2eConfigurationServiceMock, 'getConfiguration').and.callThrough();
-    spyOn(externalJsFileLoaderMock, 'load').and.callThrough();
-    spyOn(storeDataServiceMock, 'getStoreLatitude').and.callThrough();
-    spyOn(storeDataServiceMock, 'getStoreLongitude').and.callThrough();
+      spyOn(
+        occE2eConfigurationServiceMock,
+        'getConfiguration'
+      ).and.callThrough();
+      spyOn(externalJsFileLoaderMock, 'load').and.callThrough();
+      spyOn(storeDataServiceMock, 'getStoreLatitude').and.callThrough();
+      spyOn(storeDataServiceMock, 'getStoreLongitude').and.callThrough();
 
-    // when rendering the map one more time
-    googleMapRendererService.renderMap(mapDomElement, locations, selectedIndex);
+      // when rendering the map one more time
+      googleMapRendererService.renderMap(
+        mapDomElement,
+        locations,
+        selectedIndex
+      );
 
-    // then google js is not loaded again
-    expect(
-      occE2eConfigurationServiceMock.getConfiguration
-    ).toHaveBeenCalledTimes(0);
-    expect(externalJsFileLoaderMock.load).toHaveBeenCalledTimes(0);
-    expect(storeDataServiceMock.getStoreLatitude).toHaveBeenCalled();
-    expect(storeDataServiceMock.getStoreLongitude).toHaveBeenCalled();
-  }));
+      // then google js is not loaded again
+      expect(
+        occE2eConfigurationServiceMock.getConfiguration
+      ).toHaveBeenCalledTimes(0);
+      expect(externalJsFileLoaderMock.load).toHaveBeenCalledTimes(0);
+      expect(storeDataServiceMock.getStoreLatitude).toHaveBeenCalled();
+      expect(storeDataServiceMock.getStoreLongitude).toHaveBeenCalled();
+    })
+  );
 });

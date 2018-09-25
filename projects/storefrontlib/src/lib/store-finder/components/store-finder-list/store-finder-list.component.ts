@@ -13,8 +13,7 @@ import { StoreDataService } from '../../services/store-data.service';
   styleUrls: ['./store-finder-list.component.scss']
 })
 export class StoreFinderListComponent implements OnInit {
-  @Input()
-  query;
+  @Input() query;
 
   locations: any;
   searchConfig: SearchConfig = {
@@ -22,8 +21,7 @@ export class StoreFinderListComponent implements OnInit {
   };
   selectedStore: number;
 
-  @ViewChild('storeMap')
-  storeMap: StoreFinderMapComponent;
+  @ViewChild('storeMap') storeMap: StoreFinderMapComponent;
 
   constructor(
     private store: Store<fromStore.StoresState>,

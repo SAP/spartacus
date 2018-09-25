@@ -3,11 +3,8 @@ import { NgModule } from '@angular/core';
 import { StoreListPageLayoutComponent } from './store-list-page-layout.component';
 
 @NgModule({
-  imports: [
-    StoreFinderModule
-  ],
+  imports: [StoreFinderModule],
   declarations: [StoreListPageLayoutComponent],
   exports: [StoreListPageLayoutComponent]
 })
-
 export class StoreListPageLayoutModule {}

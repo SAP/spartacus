@@ -13,10 +13,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreFinderPagingComponent {
-  @Input()
-  pagination;
-  @Output()
-  viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
+  @Input() pagination;
+  @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
   next(nextPage: number) {
     this.viewPageEvent.emit(nextPage);
