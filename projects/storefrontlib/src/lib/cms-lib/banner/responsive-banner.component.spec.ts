@@ -8,6 +8,7 @@ import { ResponsiveBannerComponent } from './responsive-banner.component';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -69,7 +70,7 @@ describe('ResponsiveBannerComponent', () => {
         }),
         RouterTestingModule
       ],
-      declarations: [ResponsiveBannerComponent],
+      declarations: [ResponsiveBannerComponent, GenericLinkComponent],
       providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
