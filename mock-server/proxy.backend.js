@@ -8,6 +8,13 @@ const PROXY_CONFIG = {
     logLevel: 'error'
   },
 
+  '/authorizationserver': {
+    target: BACKEND_SERVER,
+    secure: false,
+    changeOrigin: true,
+    logLevel: 'error'
+  },
+
   '/medias': {
     target: BACKEND_SERVER,
     secure: false,

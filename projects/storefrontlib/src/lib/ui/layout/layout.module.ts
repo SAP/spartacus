@@ -20,43 +20,27 @@ import { SalePageLayoutModule } from './sale-page-layout/sale-page-layout.module
 import { HelpPageLayoutModule } from './help-page-layout/help-page-layout.module';
 import { ContactPageLayoutModule } from './contact-page-layout/contact-page-layout.module';
 
+const layoutModules = [
+  LandingPageLayoutModule,
+  OrderHistoryPageLayoutModule,
+  CartPageLayoutModule,
+  CategoryPageLayoutModule,
+  ProductListPageLayoutModule,
+  MultiStepCheckoutPageLayoutModule,
+  OrderDetailsPageLayoutModule,
+  OrderConfirmationPageLayoutModule,
+  ProductDetailsPageLayoutModule,
+  RegisterLayoutModule,
+  LoginPageLayoutModule,
+  StoreFinderPageLayoutModule,
+  SalePageLayoutModule,
+  HelpPageLayoutModule,
+  ContactPageLayoutModule
+];
+
 @NgModule({
-  imports: [
-    MainModule,
-    LandingPageLayoutModule,
-    OrderHistoryPageLayoutModule,
-    CartPageLayoutModule,
-    CategoryPageLayoutModule,
-    ProductListPageLayoutModule,
-    MultiStepCheckoutPageLayoutModule,
-    OrderDetailsPageLayoutModule,
-    OrderConfirmationPageLayoutModule,
-    ProductDetailsPageLayoutModule,
-    RegisterLayoutModule,
-    LoginPageLayoutModule,
-    StoreFinderPageLayoutModule,
-    SalePageLayoutModule,
-    HelpPageLayoutModule,
-    ContactPageLayoutModule
-  ],
+  imports: [MainModule, ...layoutModules],
   declarations: [],
-  exports: [
-    MainModule,
-    LandingPageLayoutModule,
-    OrderHistoryPageLayoutModule,
-    CartPageLayoutModule,
-    CategoryPageLayoutModule,
-    ProductListPageLayoutModule,
-    MultiStepCheckoutPageLayoutModule,
-    OrderDetailsPageLayoutModule,
-    OrderConfirmationPageLayoutModule,
-    ProductDetailsPageLayoutModule,
-    RegisterLayoutModule,
-    LoginPageLayoutModule,
-    StoreFinderPageLayoutModule,
-    SalePageLayoutModule,
-    HelpPageLayoutModule,
-    ContactPageLayoutModule
-  ]
+  exports: [MainModule, ...layoutModules]
 })
 export class LayoutModule {}
