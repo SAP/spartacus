@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, switchMap, map } from 'rxjs/operators';
@@ -12,7 +12,8 @@ import { debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'y-searchbox',
   templateUrl: './search-box.component.html',
-  styleUrls: ['./search-box.component.scss']
+  styleUrls: ['./search-box.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
   searchBoxControl: FormControl = new FormControl();

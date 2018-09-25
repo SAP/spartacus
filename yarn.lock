@@ -92,11 +92,27 @@
     rxjs "^6.0.0"
     source-map "^0.5.6"
 
+"@angular-devkit/core@0.6.8":
+  version "0.6.8"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular-devkit/core/-/core-0.6.8.tgz#3b09d97bd2588f0091df11921f7ed772431806aa"
+  dependencies:
+    ajv "~6.4.0"
+    chokidar "^2.0.3"
+    rxjs "^6.0.0"
+    source-map "^0.5.6"
+
 "@angular-devkit/schematics@0.6.1":
   version "0.6.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular-devkit/schematics/-/schematics-0.6.1.tgz#8e94fbd45e24596f1f0a086a70dde88dbc6cf96e"
   dependencies:
     "@angular-devkit/core" "0.6.1"
+    rxjs "^6.0.0"
+
+"@angular-devkit/schematics@0.6.8":
+  version "0.6.8"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular-devkit/schematics/-/schematics-0.6.8.tgz#6360a0271f1f422862bf932a03b3741e76ac5ff0"
+  dependencies:
+    "@angular-devkit/core" "0.6.8"
     rxjs "^6.0.0"
 
 "@angular/animations@^6.0.0":
@@ -195,9 +211,24 @@
   dependencies:
     tslib "^1.9.0"
 
+"@angular/pwa@^0.6.8":
+  version "0.6.8"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/pwa/-/pwa-0.6.8.tgz#2bc0d8e64e997bdfb39bbd2301322c0d2163851a"
+  dependencies:
+    "@angular-devkit/core" "0.6.8"
+    "@angular-devkit/schematics" "0.6.8"
+    "@schematics/angular" "0.6.8"
+    typescript "~2.6.2"
+
 "@angular/router@^6.0.0":
   version "6.0.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/router/-/router-6.0.1.tgz#bc4943b1798ed8f622f1a4f773ff5f01b5ab70de"
+  dependencies:
+    tslib "^1.9.0"
+
+"@angular/service-worker@^6.0.0":
+  version "6.1.8"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/service-worker/-/service-worker-6.1.8.tgz#1f8be0db90d28a019cfeaa684ff00bfe739f3dda"
   dependencies:
     tslib "^1.9.0"
 
@@ -245,6 +276,14 @@
   dependencies:
     "@angular-devkit/core" "0.6.1"
     "@angular-devkit/schematics" "0.6.1"
+    typescript ">=2.6.2 <2.8"
+
+"@schematics/angular@0.6.8":
+  version "0.6.8"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@schematics/angular/-/angular-0.6.8.tgz#a8d1afc33e77160296b0a8b3d02f0ee4dfe9d1d2"
+  dependencies:
+    "@angular-devkit/core" "0.6.8"
+    "@angular-devkit/schematics" "0.6.8"
     typescript ">=2.6.2 <2.8"
 
 "@schematics/update@0.6.1":
@@ -1267,6 +1306,10 @@ color-name@^1.1.1:
   version "1.1.3"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
 
+colors@1.0.3:
+  version "1.0.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/colors/-/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
+
 colors@1.1.2:
   version "1.1.2"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/colors/-/colors-1.1.2.tgz#168a4701756b6a7f51a12ce0c97bfa28c084ed63"
@@ -1458,6 +1501,10 @@ cors@^2.8.4:
   dependencies:
     object-assign "^4"
     vary "^1"
+
+corser@~2.0.0:
+  version "2.0.1"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/corser/-/corser-2.0.1.tgz#8eda252ecaab5840dcd975ceb90d9370c819ff87"
 
 cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
   version "2.2.2"
@@ -1909,6 +1956,15 @@ ecc-jsbn@~0.1.1:
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/ecc-jsbn/-/ecc-jsbn-0.1.1.tgz#0fc73a9ed5f0d53c38193398523ef7e543777505"
   dependencies:
     jsbn "~0.1.0"
+
+ecstatic@^3.0.0:
+  version "3.3.0"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/ecstatic/-/ecstatic-3.3.0.tgz#91cd417d152abf85b37b1ab3ebf3bd25cdc64e80"
+  dependencies:
+    he "^1.1.1"
+    mime "^1.6.0"
+    minimist "^1.1.0"
+    url-join "^2.0.5"
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -2903,6 +2959,10 @@ he@1.1.x:
   version "1.1.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
 
+he@^1.1.1:
+  version "1.2.0"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
+
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -3004,13 +3064,26 @@ http-proxy-middleware@~0.18.0:
     lodash "^4.17.5"
     micromatch "^3.1.9"
 
-http-proxy@^1.13.0, http-proxy@^1.16.2:
+http-proxy@^1.13.0, http-proxy@^1.16.2, http-proxy@^1.8.1:
   version "1.17.0"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/http-proxy/-/http-proxy-1.17.0.tgz#7ad38494658f84605e2f6db4436df410f4e5be9a"
   dependencies:
     eventemitter3 "^3.0.0"
     follow-redirects "^1.0.0"
     requires-port "^1.0.0"
+
+http-server@^0.11.1:
+  version "0.11.1"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/http-server/-/http-server-0.11.1.tgz#2302a56a6ffef7f9abea0147d838a5e9b6b6a79b"
+  dependencies:
+    colors "1.0.3"
+    corser "~2.0.0"
+    ecstatic "^3.0.0"
+    http-proxy "^1.8.1"
+    opener "~1.4.0"
+    optimist "0.6.x"
+    portfinder "^1.0.13"
+    union "~0.4.3"
 
 http-signature@~1.1.0:
   version "1.1.1"
@@ -3941,6 +4014,10 @@ lodash@^3.8.0:
   version "3.10.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
+lodash@^4.17.0:
+  version "4.17.11"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
+
 log-symbols@^2.1.0:
   version "2.2.0"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/log-symbols/-/log-symbols-2.2.0.tgz#5740e1c5d6f0dfda4ad9323b5332107ef6b4c40a"
@@ -4164,7 +4241,7 @@ mime@1.4.1:
   version "1.4.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/mime/-/mime-1.4.1.tgz#121f9ebc49e3766f311a76e1fa1c8003c4b03aa6"
 
-mime@^1.3.4, mime@^1.4.1:
+mime@^1.3.4, mime@^1.4.1, mime@^1.6.0:
   version "1.6.0"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/mime/-/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1"
 
@@ -4719,13 +4796,17 @@ once@1.x, once@^1.3.0, once@^1.3.1, once@^1.3.3, once@^1.4.0:
   dependencies:
     wrappy "1"
 
+opener@~1.4.0:
+  version "1.4.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/opener/-/opener-1.4.3.tgz#5c6da2c5d7e5831e8ffa3964950f8d6674ac90b8"
+
 opn@^5.1.0, opn@~5.3.0:
   version "5.3.0"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/opn/-/opn-5.3.0.tgz#64871565c863875f052cfdf53d3e3cb5adb53b1c"
   dependencies:
     is-wsl "^1.1.0"
 
-optimist@^0.6.1, optimist@~0.6.0:
+optimist@0.6.x, optimist@^0.6.1, optimist@~0.6.0:
   version "0.6.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/optimist/-/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686"
   dependencies:
@@ -5227,6 +5308,10 @@ qs@6.5.1:
 qs@6.5.2, qs@~6.5.1, qs@~6.5.2:
   version "6.5.2"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
+
+qs@~2.3.3:
+  version "2.3.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/qs/-/qs-2.3.3.tgz#e9e85adbe75da0bbe4c8e0476a086290f863b404"
 
 qs@~6.3.0:
   version "6.3.2"
@@ -6646,6 +6731,10 @@ typedarray@^0.0.6:
   version "2.7.2"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/typescript/-/typescript-2.7.2.tgz#2d615a1ef4aee4f574425cdff7026edf81919836"
 
+typescript@~2.6.2:
+  version "2.6.2"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/typescript/-/typescript-2.6.2.tgz#3c5b6fd7f6de0914269027f03c0946758f7673a4"
+
 uglify-es@^3.3.4:
   version "3.3.9"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/uglify-es/-/uglify-es-3.3.9.tgz#0c1c4f0700bed8dbc124cdb304d2592ca203e677"
@@ -6698,6 +6787,12 @@ union-value@^1.0.0:
     get-value "^2.0.6"
     is-extendable "^0.1.1"
     set-value "^0.4.3"
+
+union@~0.4.3:
+  version "0.4.6"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/union/-/union-0.4.6.tgz#198fbdaeba254e788b0efcb630bc11f24a2959e0"
+  dependencies:
+    qs "~2.3.3"
 
 unique-filename@^1.1.0:
   version "1.1.0"
@@ -6774,6 +6869,10 @@ uri-js@^4.2.1:
 urix@^0.1.0:
   version "0.1.0"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/urix/-/urix-0.1.0.tgz#da937f7a62e21fec1fd18d49b35c2935067a6c72"
+
+url-join@^2.0.5:
+  version "2.0.5"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/url-join/-/url-join-2.0.5.tgz#5af22f18c052a000a48d7b82c5e9c2e2feeda728"
 
 url-join@^4.0.0:
   version "4.0.0"
