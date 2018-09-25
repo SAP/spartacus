@@ -36,7 +36,7 @@ import { ContactPageLayoutModule } from './contact-page-layout/contact-page-layo
     RegisterLayoutModule,
     LoginPageLayoutModule,
     StoreFinderPageLayoutModule,
-    StoreListPageLayoutModule
+    StoreListPageLayoutModule,
     SalePageLayoutModule,
     HelpPageLayoutModule,
     ContactPageLayoutModule
@@ -56,7 +56,7 @@ import { ContactPageLayoutModule } from './contact-page-layout/contact-page-layo
     RegisterLayoutModule,
     LoginPageLayoutModule,
     StoreFinderPageLayoutModule,
-    StoreListPageLayoutModule
+    StoreListPageLayoutModule,
     SalePageLayoutModule,
     HelpPageLayoutModule,
     ContactPageLayoutModule
