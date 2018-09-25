@@ -1,13 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
-import * as fromRoot from '../../routing/store';
-import * as fromCmsReducer from '../../cms/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsService } from '../../cms/facade/cms.service';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -21,7 +19,6 @@ const UseCmsModuleConfig: CmsModuleConfig = {
 describe('ResponsiveBannerComponent', () => {
   let responsiveBannerComponent: ResponsiveBannerComponent;
   let fixture: ComponentFixture<ResponsiveBannerComponent>;
-  let store: Store<fromCmsReducer.CmsState>;
   let el: DebugElement;
 
   const componentData = {
@@ -60,17 +57,18 @@ describe('ResponsiveBannerComponent', () => {
     urlLink: '/OpenCatalogue/Cameras/Digital-Cameras/Digital-SLR/c/578'
   };
 
+  const MockCmsService = {
+    getComponentData: () => of(componentData)
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        }),
-        RouterTestingModule
-      ],
+      imports: [RouterTestingModule],
       declarations: [ResponsiveBannerComponent],
-      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
+      providers: [
+        { provide: CmsService, useValue: MockCmsService },
+        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
+      ]
     }).compileComponents();
   }));
 
@@ -78,9 +76,6 @@ describe('ResponsiveBannerComponent', () => {
     fixture = TestBed.createComponent(ResponsiveBannerComponent);
     responsiveBannerComponent = fixture.componentInstance;
     el = fixture.debugElement;
-
-    store = TestBed.get(Store);
-    spyOn(store, 'select').and.returnValue(of(componentData));
   });
 
   it('should create responsive banner component', () => {
@@ -89,7 +84,10 @@ describe('ResponsiveBannerComponent', () => {
 
   it('should contain responsive banner image source, source set and redirect url', () => {
     expect(responsiveBannerComponent.component).toBeNull();
-    responsiveBannerComponent.bootstrap();
+    responsiveBannerComponent.onCmsComponentInit(
+      componentData.uid,
+      of(componentData)
+    );
     expect(responsiveBannerComponent.component).toBe(componentData);
     expect(el.query(By.css('a')).nativeElement.href).toContain(
       responsiveBannerComponent.component.urlLink

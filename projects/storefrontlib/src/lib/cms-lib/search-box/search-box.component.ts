@@ -9,6 +9,7 @@ import { SearchConfig } from '../../product/search-config';
 import { debounceTime } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
+import { CmsService } from '../../cms/facade/cms.service';
 
 @Component({
   selector: 'y-searchbox',
@@ -23,10 +24,11 @@ export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
   minCharactersBeforeRequest: number;
 
   constructor(
+    protected cmsService: CmsService,
     protected cd: ChangeDetectorRef,
-    protected store: Store<fromStore.CmsState>,
+    protected store: Store<fromStore.CmsState>
   ) {
-    super(cd);
+    super(cmsService, cd);
   }
 
   public search = (text$: Observable<string>) => {

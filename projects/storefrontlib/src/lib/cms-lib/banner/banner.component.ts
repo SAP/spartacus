@@ -6,6 +6,7 @@ import {
 
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsService } from '../../cms/facade/cms.service';
 
 @Component({
   selector: 'y-banner',
@@ -15,10 +16,11 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
 })
 export class BannerComponent extends AbstractCmsComponent {
   constructor(
+    protected cmsService: CmsService,
     protected cd: ChangeDetectorRef,
     protected config: CmsModuleConfig
   ) {
-    super(cd);
+    super(cmsService, cd);
   }
 
   hasImage() {
@@ -59,5 +61,4 @@ export class BannerComponent extends AbstractCmsComponent {
   public getBaseUrl() {
     return this.config.server.baseUrl;
   }
-
 }

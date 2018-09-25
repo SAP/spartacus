@@ -8,12 +8,12 @@ import { Store } from '@ngrx/store';
   providedIn: 'root'
 })
 export class CmsService {
-  constructor(protected store: Store<fromStore.CmsState>) {}
+  constructor(private store: Store<fromStore.CmsState>) {}
 
-  getComponentData(uid: string, shouldLoad: boolean): Observable<any> {
+  getComponentData(uid: string): Observable<any> {
     return this.store.select(fromStore.componentSelectorFactory(uid)).pipe(
       tap(componentData => {
-        if (componentData === undefined && shouldLoad) {
+        if (componentData === undefined) {
           this.store.dispatch(new fromStore.LoadComponent(uid));
         }
       }),

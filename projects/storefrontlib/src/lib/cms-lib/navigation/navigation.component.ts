@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
 import { takeWhile } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { CmsService } from '../../cms/facade/cms.service';
 
 @Component({
   selector: 'y-navigation',
@@ -28,11 +29,12 @@ export class NavigationComponent extends AbstractCmsComponent
   @Input() node;
 
   constructor(
+    protected cmsService: CmsService,
     protected cd: ChangeDetectorRef,
     private navigationService: NavigationService,
-    protected store: Store<fromStore.CmsState>,
+    protected store: Store<fromStore.CmsState>
   ) {
-    super(cd);
+    super(cmsService, cd);
   }
 
   protected fetchData() {

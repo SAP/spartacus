@@ -1,30 +1,30 @@
 import { Injectable, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { CmsComponent } from './cms.component';
-import { filter } from 'rxjs/operators';
+import { CmsService } from '../facade/cms.service';
 
 @Injectable()
 export abstract class AbstractCmsComponent implements CmsComponent, OnDestroy {
   @Input() public component: any = null;
   protected uid: string;
-  protected load: boolean;
   protected contextParameters: any;
   protected subscription: Subscription;
 
-  constructor(protected cd: ChangeDetectorRef) {}
+  constructor(
+    protected cmsService: CmsService,
+    protected cd: ChangeDetectorRef
+  ) {}
 
-  onCmsComponentInit(
-    uuid: string,
-    componentData$: Observable<any>,
-    contextParameters?: any
-  ) {
-    this.uid = uuid;
+  onCmsComponentInit(uid: string, contextParameters?: any) {
+    this.uid = uid;
     this.contextParameters = contextParameters;
 
-    this.subscription = componentData$.subscribe(component => {
-      this.component = component;
-      this.fetchData();
-    });
+    this.subscription = this.cmsService
+      .getComponentData(uid)
+      .subscribe(component => {
+        this.component = component;
+        this.fetchData();
+      });
   }
 
   protected fetchData() {

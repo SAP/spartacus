@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { ComponentMapperService } from '../../services/component-mapper.service';
 import { CmsComponent } from '../cms.component';
-import { CmsService } from '../../facade/cms.service';
 
 @Directive({
   selector: '[yComponentWrapper]'
@@ -19,15 +18,13 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
   @Input() componentUid: string;
   @Input() componentCssClass: string;
   @Input() contextParameters: any;
-  @Input() componentLoad = false;
 
   cmpRef: ComponentRef<any>;
 
   constructor(
     private vcr: ViewContainerRef,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private componentMapper: ComponentMapperService,
-    protected cmsService: CmsService
+    private componentMapper: ComponentMapperService
   ) {}
 
   ngAfterViewInit() {
@@ -48,11 +45,7 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
       const instance: CmsComponent = this.cmpRef.instance;
 
       if (instance.onCmsComponentInit) {
-        instance.onCmsComponentInit(
-          this.componentUid,
-          this.cmsService.getComponentData(this.componentUid, this.componentLoad),
-          this.contextParameters
-        );
+        instance.onCmsComponentInit(this.componentUid, this.contextParameters);
       }
     }
   }
