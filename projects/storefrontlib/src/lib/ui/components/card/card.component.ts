@@ -28,6 +28,7 @@ export class CardComponent implements OnInit {
   @Input() isDefault = false;
 
   @Input() content: Card;
+  @Input() fitToContainer = false;
 
   // ACTIONS
 

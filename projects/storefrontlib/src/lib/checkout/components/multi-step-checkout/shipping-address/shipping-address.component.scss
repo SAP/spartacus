@@ -35,6 +35,7 @@ $y-existing-address-text-sm-padding-left: 1.5rem !default;
   // ***************************** MEDIA QUERIES *****************************
   @include checkout-media-style();
   &__body {
+    align-items: stretch;
     &.row {
       @include media-breakpoint-down(md) {
         padding: $y-existing-address-no-padding;
@@ -50,7 +51,10 @@ $y-existing-address-text-sm-padding-left: 1.5rem !default;
     }
   }
   &__card {
-    @include media-breakpoint-down(md) {
+    padding-bottom: 30px;
+
+    &-inner {
+      height: 100%;
       @include var-color(
         'background-color',
         $y-existing-address-card-background-color
