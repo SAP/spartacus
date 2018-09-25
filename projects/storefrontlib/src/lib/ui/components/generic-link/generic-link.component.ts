@@ -11,7 +11,7 @@ import { Component, Input } from '@angular/core';
 export class GenericLinkComponent {
   static readonly isAbsoluteUrlRegex: RegExp = /^https?:\/\//i;
 
-  @Input() url; // used in href/routerLink attribute
+  @Input() url;
 
   @Input() target;
   @Input() class;
