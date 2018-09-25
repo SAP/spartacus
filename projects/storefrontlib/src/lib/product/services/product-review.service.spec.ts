@@ -5,10 +5,10 @@ import { of } from 'rxjs';
 import * as fromRoot from '../../routing/store';
 import * as fromStore from '../store';
 
-import { ReviewService } from './review.service';
+import { ProductReviewService } from './product-review.service';
 
 describe('ReviewService', () => {
-  let service: ReviewService;
+  let service: ProductReviewService;
   let store: Store<fromStore.ProductsState>;
   const mockReview = { code: 'testId' };
 
@@ -20,18 +20,18 @@ describe('ReviewService', () => {
           products: combineReducers(fromStore.getReducers())
         })
       ],
-      providers: [ReviewService]
+      providers: [ProductReviewService]
     });
 
     store = TestBed.get(Store);
-    service = TestBed.get(ReviewService);
+    service = TestBed.get(ProductReviewService);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should ReviewService is injected', inject(
-    [ReviewService],
-    (reviewService: ReviewService) => {
+    [ProductReviewService],
+    (reviewService: ProductReviewService) => {
       expect(reviewService).toBeTruthy();
     }
   ));

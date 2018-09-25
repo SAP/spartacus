@@ -6,7 +6,7 @@ import { tap } from 'rxjs/operators';
 import * as fromStore from '../store';
 
 @Injectable()
-export class ReviewService {
+export class ProductReviewService {
   constructor(private store: Store<fromStore.ProductsState>) {}
 
   getByProductCode(productCode: string): Observable<any> {

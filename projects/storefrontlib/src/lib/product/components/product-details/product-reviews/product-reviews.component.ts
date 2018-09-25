@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { ReviewService } from '../../../services/review.service';
+import { ProductReviewService } from '../../../services/product-review.service';
 
 @Component({
   selector: 'y-product-reviews',
@@ -39,7 +39,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
   reviews$: Observable<any>;
 
   constructor(
-    protected reviewService: ReviewService,
+    protected reviewService: ProductReviewService,
     private fb: FormBuilder
   ) {}
 

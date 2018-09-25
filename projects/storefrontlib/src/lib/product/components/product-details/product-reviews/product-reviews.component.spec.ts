@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import * as fromStore from '../../../store';
 import * as fromRoot from './../../../../routing/store';
 import { ProductReviewsComponent } from './product-reviews.component';
-import { ReviewService } from '../../../services/review.service';
+import { ProductReviewService } from '../../../services/product-review.service';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };
@@ -18,7 +18,7 @@ const reviews = [
 describe('ProductReviewsComponent in product', () => {
   let productReviewsComponent: ProductReviewsComponent;
   let fixture: ComponentFixture<ProductReviewsComponent>;
-  let service: ReviewService;
+  let service: ProductReviewService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,14 +30,14 @@ describe('ProductReviewsComponent in product', () => {
         }),
         ComponentsModule
       ],
-      providers: [ReviewService],
+      providers: [ProductReviewService],
       declarations: [ProductReviewsComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductReviewsComponent);
-    service = TestBed.get(ReviewService);
+    service = TestBed.get(ProductReviewService);
     productReviewsComponent = fixture.componentInstance;
     productReviewsComponent.product = product;
 
