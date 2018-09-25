@@ -12,7 +12,7 @@
     </button>
   </div>
   <!-- Modal Body -->
-  <ng-container *ngIf="(entry$ | async) as entry">
+  <ng-container *ngIf="!(loaded$ | async) || (entry$ | async) as entry">
     <div class="y-added-to-cart-dialog__body modal-body">
       <div class="y-added-to-cart-dialog__info-container row" *ngIf="!(loaded$ | async)">
         <div class="col-sm-12">
