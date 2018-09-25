@@ -12,7 +12,11 @@ export const FIND_ALL_STORES_SUCCESS = '[FindStores] Find All Stores Success';
 export class FindStores implements Action {
   readonly type = FIND_STORES;
   constructor(
-    public payload: { queryText: string; searchConfig?: SearchConfig }
+    public payload: {
+      queryText: string;
+      longitudeLatitude?: number[];
+      searchConfig?: SearchConfig;
+    }
   ) {}
 }
 

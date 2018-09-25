@@ -8,8 +8,14 @@ import * as fromStore from '../store';
 export class StoreFinderService {
   constructor(private store: Store<fromStore.StoresState>) {}
 
-  findStores(queryText: string) {
-    this.store.dispatch(new fromStore.FindStores({ queryText }));
+  findStores(queryText: string, longitudeLatitude?: number[]) {
+    if (longitudeLatitude) {
+      this.store.dispatch(
+        new fromStore.FindStores({ queryText, longitudeLatitude })
+      );
+    } else {
+      this.store.dispatch(new fromStore.FindStores({ queryText }));
+    }
   }
 
   viewAllStores() {

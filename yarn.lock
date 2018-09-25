@@ -841,10 +841,10 @@ base@^0.11.1:
     pascalcase "^0.1.1"
 
 basic-auth@~2.0.0:
-  version "2.0.0"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/basic-auth/-/basic-auth-2.0.0.tgz#015db3f353e02e56377755f962742e8981e7bbba"
+  version "2.0.1"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/basic-auth/-/basic-auth-2.0.1.tgz#b998279bf47ce38344b4f3cf916d4679bbf51e3a"
   dependencies:
-    safe-buffer "5.1.1"
+    safe-buffer "5.1.2"
 
 batch@0.6.1:
   version "0.6.1"
@@ -1442,15 +1442,15 @@ compressible@~2.0.14:
     mime-db ">= 1.34.0 < 2"
 
 compression@^1.5.2, compression@^1.7.1:
-  version "1.7.2"
-  resolved "http://registry.npmjs.org/compression/-/compression-1.7.2.tgz#aaffbcd6aaf854b44ebb280353d5ad1651f59a69"
+  version "1.7.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/compression/-/compression-1.7.3.tgz#27e0e176aaf260f7f2c2813c3e440adb9f1993db"
   dependencies:
-    accepts "~1.3.4"
+    accepts "~1.3.5"
     bytes "3.0.0"
-    compressible "~2.0.13"
+    compressible "~2.0.14"
     debug "2.6.9"
     on-headers "~1.0.1"
-    safe-buffer "5.1.1"
+    safe-buffer "5.1.2"
     vary "~1.1.2"
 
 concat-map@0.0.1:
@@ -2117,8 +2117,8 @@ errorhandler@^1.2.0:
     escape-html "~1.0.3"
 
 es-abstract@^1.5.1:
-  version "1.11.0"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/es-abstract/-/es-abstract-1.11.0.tgz#cce87d518f0496893b1a30cd8461835535480681"
+  version "1.12.0"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/es-abstract/-/es-abstract-1.12.0.tgz#9dbbdd27c6856f0001421ca18782d786bf8a6165"
   dependencies:
     es-to-primitive "^1.1.1"
     function-bind "^1.1.1"
@@ -3584,8 +3584,8 @@ jasminewd2@^2.1.0:
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/jasminewd2/-/jasminewd2-2.2.0.tgz#e37cf0b17f199cce23bea71b2039395246b4ec4e"
 
 jju@^1.1.0:
-  version "1.3.0"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/jju/-/jju-1.3.0.tgz#dadd9ef01924bc728b03f2f7979bdbd62f7a2aaa"
+  version "1.4.0"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/jju/-/jju-1.4.0.tgz#a3abe2718af241a2b2904f84a625970f389ae32a"
 
 jquery@^1.9.1:
   version "1.12.4"
@@ -3957,17 +3957,17 @@ lodash.tail@^4.1.1:
   version "4.1.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/lodash.tail/-/lodash.tail-4.1.1.tgz#d2333a36d9e7717c8ad2f7cacafec7c32b444664"
 
-lodash@4, lodash@^4.0.0, lodash@^4.11.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.5.0:
-  version "4.17.10"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
+lodash@4, lodash@^4.11.2:
+  version "4.17.11"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
 lodash@^3.8.0:
   version "3.10.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
-lodash@^4.17.0, lodash@^4.17.10, lodash@~4.17.10:
-  version "4.17.11"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
+lodash@^4.0.0, lodash@^4.17.0, lodash@^4.17.10, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.5.0, lodash@~4.17.10:
+  version "4.17.10"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
 
 log4js@^0.6.31:
   version "0.6.38"
@@ -4163,6 +4163,10 @@ miller-rabin@^4.0.0:
   version "1.36.0"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/mime-db/-/mime-db-1.36.0.tgz#5020478db3c7fe93aad7bbcc4dcf869c43363397"
 
+mime-db@~1.33.0:
+  version "1.33.0"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/mime-db/-/mime-db-1.33.0.tgz#a3492050a5cb9b63450541e39d9788d2272783db"
+
 mime-types@^2.1.12, mime-types@~2.1.11, mime-types@~2.1.17, mime-types@~2.1.18:
   version "2.1.18"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/mime-types/-/mime-types-2.1.18.tgz#6f323f60a83d11146f831ff11fd66e2fe5503bb8"
@@ -4274,12 +4278,12 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0:
     minimist "0.0.8"
 
 morgan@^1.9.0:
-  version "1.9.0"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/morgan/-/morgan-1.9.0.tgz#d01fa6c65859b76fcf31b3cb53a3821a311d8051"
+  version "1.9.1"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/morgan/-/morgan-1.9.1.tgz#0a8d16734a1d9afbc824b99df87e738e58e2da59"
   dependencies:
     basic-auth "~2.0.0"
     debug "2.6.9"
-    depd "~1.1.1"
+    depd "~1.1.2"
     on-finished "~2.3.0"
     on-headers "~1.0.1"
 
@@ -4322,8 +4326,8 @@ nan@^2.10.0, nan@^2.9.2:
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/nan/-/nan-2.11.0.tgz#574e360e4d954ab16966ec102c0c049fd961a099"
 
 nanoid@^1.0.1:
-  version "1.0.2"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/nanoid/-/nanoid-1.0.2.tgz#15d2b5e76b6dbfb15cac1000cb457d4bfc845bdb"
+  version "1.2.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/nanoid/-/nanoid-1.2.3.tgz#b8f022193a5808f9e3112658a2c34e43b24c009a"
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -4979,8 +4983,8 @@ pkg-dir@^2.0.0:
     find-up "^2.1.0"
 
 please-upgrade-node@^3.0.2:
-  version "3.0.2"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/please-upgrade-node/-/please-upgrade-node-3.0.2.tgz#7b9eaeca35aa4a43d6ebdfd10616c042f9a83acc"
+  version "3.1.1"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/please-upgrade-node/-/please-upgrade-node-3.1.1.tgz#ed320051dfcc5024fae696712c8288993595e8ac"
   dependencies:
     semver-compare "^1.0.0"
 

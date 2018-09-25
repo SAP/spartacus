@@ -17,6 +17,7 @@ describe('StoreFinder Effects', () => {
   let service: OccStoreFinderService;
   let effects: fromEffects.StoreFinderEffect;
   let searchConfig: SearchConfig;
+  const longitudeLatitude: number[] = [10.1, 20.2];
 
   const searchResult: any = { stores: [] };
 
@@ -44,6 +45,22 @@ describe('StoreFinder Effects', () => {
     it('should return searchResult from FindStoresSuccess', () => {
       const action = new fromActions.FindStores({
         queryText: 'test',
+        searchConfig
+      });
+      const completion = new fromActions.FindStoresSuccess(searchResult);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.findStores$).toBeObservable(expected);
+    });
+  });
+
+  describe('findStores$ with coordinates', () => {
+    it('should return searchResult from FindStoresSuccess without queryText', () => {
+      const action = new fromActions.FindStores({
+        queryText: '',
+        longitudeLatitude,
         searchConfig
       });
       const completion = new fromActions.FindStoresSuccess(searchResult);

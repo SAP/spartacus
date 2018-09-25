@@ -5,7 +5,21 @@ describe('Find Stores Actions', () => {
   describe('FindStores', () => {
     it('should create FindStores action', () => {
       const searchConfig: SearchConfig = { pageSize: 10 };
-      const payload = { queryText: 'test', searchConfig };
+      const longitudeLatitude: number[] = [10.1, 20.2];
+      const payload = { queryText: 'test', longitudeLatitude, searchConfig };
+      const action = new fromActions.FindStores(payload);
+
+      expect({ ...action }).toEqual({
+        type: fromActions.FIND_STORES,
+        payload
+      });
+    });
+  });
+
+  describe('FindStores with coordinates', () => {
+    it('should create FindStores action with only coordinates', () => {
+      const longitudeLatitude: number[] = [10.1, 20.2];
+      const payload = { queryText: '', longitudeLatitude };
       const action = new fromActions.FindStores(payload);
 
       expect({ ...action }).toEqual({

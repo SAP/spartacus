@@ -9,6 +9,7 @@ describe('StoreFinderService', () => {
   let service: StoreFinderService;
   let store: Store<fromStore.StoresState>;
 
+  const longitudeLatitude: number[] = [10.1, 20.2];
   const queryText = 'test';
 
   beforeEach(() => {
@@ -40,6 +41,16 @@ describe('StoreFinderService', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.FindStores({ queryText })
+      );
+    });
+  });
+
+  describe('Find Stores', () => {
+    it('should dispatch a new action with coordinates', () => {
+      service.findStores(queryText, longitudeLatitude);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.FindStores({ queryText, longitudeLatitude })
       );
     });
   });
