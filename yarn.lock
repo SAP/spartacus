@@ -257,21 +257,21 @@
   dependencies:
     tslib "^1.9.0"
 
-"@ngrx/effects@^6.0.1":
-  version "6.0.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@ngrx/effects/-/effects-6.0.1.tgz#b4c0a7918b8c9a4dbc2a663ea7562bea5db21257"
+"@ngrx/effects@^6.1.0":
+  version "6.1.0"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@ngrx/effects/-/effects-6.1.0.tgz#3c1e1ab1e5a86c6d9c29d4f3771e42cc9bd8576c"
 
-"@ngrx/router-store@^6.0.1":
-  version "6.0.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@ngrx/router-store/-/router-store-6.0.1.tgz#1c5c77b138eaed030b58f4203bf921e88cc51112"
+"@ngrx/router-store@^6.1.0":
+  version "6.1.0"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@ngrx/router-store/-/router-store-6.1.0.tgz#a225de3fbb262429561d722e139dde7efdcf0cea"
 
-"@ngrx/store-devtools@^6.0.1":
-  version "6.0.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@ngrx/store-devtools/-/store-devtools-6.0.1.tgz#6049208d1ef8dc5f1f96ffc63373eab2d72f957c"
+"@ngrx/store-devtools@^6.1.0":
+  version "6.1.0"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@ngrx/store-devtools/-/store-devtools-6.1.0.tgz#cf65a3149628dc37badd094204484dde9ba14200"
 
-"@ngrx/store@^6.0.1":
-  version "6.0.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@ngrx/store/-/store-6.0.1.tgz#02c806ce20c698b997e81f5671e0edc07d32cf86"
+"@ngrx/store@^6.1.0":
+  version "6.1.0"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@ngrx/store/-/store-6.1.0.tgz#5b027647a797bf027912568214b10375dd75af38"
 
 "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
@@ -4473,9 +4473,9 @@ ng-packagr@^3.0.0-rc.2:
     uglify-js "^3.0.7"
     update-notifier "^2.3.0"
 
-ngrx-store-freeze@^0.2.2:
-  version "0.2.2"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/ngrx-store-freeze/-/ngrx-store-freeze-0.2.2.tgz#fbc1f50dbee8f5a63a34aa589abeb422d68f7fc5"
+ngrx-store-freeze@^0.2.4:
+  version "0.2.4"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/ngrx-store-freeze/-/ngrx-store-freeze-0.2.4.tgz#146687cdf7e21244eb9003c7e883f2125847076c"
   dependencies:
     deep-freeze-strict "^1.1.1"
 
