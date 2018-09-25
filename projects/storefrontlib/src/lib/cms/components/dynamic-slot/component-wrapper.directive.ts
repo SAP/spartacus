@@ -18,6 +18,7 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
   @Input() componentUid: string;
   @Input() componentCssClass: string;
   @Input() contextParameters: any;
+  @Input() loadRequired = false;
 
   cmpRef: ComponentRef<any>;
 
@@ -45,9 +46,14 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
       const instance: CmsComponent = this.cmpRef.instance;
 
       if (instance.onCmsComponentInit) {
-        instance.onCmsComponentInit(this.componentUid, this.contextParameters);
+        instance.onCmsComponentInit(
+          this.componentUid,
+          this.contextParameters,
+          this.loadRequired
+        );
       }
-      if (this.componentLoad) {
+
+      if (this.loadRequired) {
         this.cmpRef.changeDetectorRef.detectChanges();
       }
     }

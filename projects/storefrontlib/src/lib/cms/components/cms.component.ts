@@ -1,3 +1,7 @@
 export interface CmsComponent {
-  onCmsComponentInit(uuid: string, contextParameters?: any);
+  onCmsComponentInit(
+    uid: string,
+    contextParameters?: any,
+    loadRequired?: boolean
+  );
 }

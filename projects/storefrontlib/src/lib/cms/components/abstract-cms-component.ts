@@ -15,12 +15,16 @@ export abstract class AbstractCmsComponent implements CmsComponent, OnDestroy {
     protected cd: ChangeDetectorRef
   ) {}
 
-  onCmsComponentInit(uid: string, contextParameters?: any) {
+  onCmsComponentInit(
+    uid: string,
+    contextParameters?: any,
+    loadRequired?: boolean
+  ) {
     this.uid = uid;
     this.contextParameters = contextParameters;
 
     this.subscription = this.cmsService
-      .getComponentData(uid)
+      .getComponentData(uid, loadRequired)
       .subscribe(component => {
         this.component = component;
         this.fetchData();
