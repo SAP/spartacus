@@ -1,17 +1,11 @@
-import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, Subscription, merge } from 'rxjs';
+import { tap, map } from 'rxjs/operators';
 import * as fromUserStore from '../../../user/store';
-import * as fromAuthStore from './../../../auth/store';
-import { OccOrderService } from './../../../occ/order/order.service';
+import * as fromAuthStore from '../../../auth/store';
+import * as fromRoutingStore from '../../../routing/store';
 import { Card } from '../../../ui/components/card/card.component';
-
-// NOTE: this a work in progress component. The code here is not ready for production.
-//
-// This block of codes need to be re-considered. First, we can get 'orderCode' from routing store.
-// Second, We don't call occ service from component. Occ Service should be called from store effect; and we read order details from store.
 
 @Component({
   selector: 'y-order-details',
@@ -20,40 +14,52 @@ import { Card } from '../../../ui/components/card/card.component';
   encapsulation: ViewEncapsulation.None
 })
 export class OrderDetailsComponent implements OnInit, OnDestroy {
-  private subscription: Subscription;
-
   constructor(
-    private service: OccOrderService,
-    private usersStore: Store<fromUserStore.UserState>,
-    private route: ActivatedRoute
+    private store: Store<fromUserStore.UserState>,
+    private routingStore: Store<fromRoutingStore.State>
   ) {}
 
   order$: Observable<any>;
+  subscription: Subscription;
+  loaded: Boolean;
+
+  private userId: string;
+  private orderCode: string;
 
   ngOnInit() {
-    this.route.params.forEach((params: Params) => {
-      if (params['orderCode']) {
-        this.subscription = this.usersStore
-          .select(fromAuthStore.getUserToken)
-          .pipe(
-            tap(userData => {
-              this.order$ = this.service.getOrder(
-                userData.userId,
-                params['orderCode'],
-                'FULL'
-              );
+    this.subscription = merge(
+      this.store.select(fromAuthStore.getUserToken).pipe(
+        map(userData => {
+          this.userId = userData.userId;
+        })
+      ),
+      this.routingStore.select(fromRoutingStore.getRouterState).pipe(
+        map(routingData => {
+          this.orderCode = routingData.state.params.orderCode;
+        })
+      )
+    ).subscribe();
+
+    this.loaded = false;
+    this.order$ = this.store.select(fromUserStore.getOrderDetails).pipe(
+      tap(order => {
+        if (!this.loaded && this.userId) {
+          this.store.dispatch(
+            new fromUserStore.LoadOrderDetails({
+              userId: this.userId,
+              orderCode: this.orderCode
             })
-          )
-          .subscribe();
-        return;
-      }
-    });
+          );
+          this.loaded = true;
+        }
+      })
+    );
   }
 
   getAddressCardContent(address): Card {
     let region = '';
-    if (address.region && address.region.isocode) {
-      region = address.region.isocode + ', ';
+    if (address.country && address.country.isocode) {
+      region = `${address.country.isocode}, `;
     }
 
     return {
