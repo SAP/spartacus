@@ -8,7 +8,5 @@ import { Component, OnInit } from '@angular/core';
 export class StoreListPageComponent implements OnInit {
   constructor() {}
 
-  ngOnInit() {
-    console.log("in store-list-page.component.ts");
-  }
+  ngOnInit() {}
 }

@@ -72,4 +72,76 @@ describe('Find Stores Actions', () => {
       });
     });
   });
+
+  describe('FindAllStoresByCountry', () => {
+    it('should create FindAllStoresByCountry action', () => {
+      const payload = { countryIsoCode: 'test'};
+      const action = new fromActions.FindAllStoresByCountry(payload);
+
+      expect({ ...action }).toEqual({
+        type: fromActions.FIND_ALL_STORES_BY_COUNTRY,
+        payload
+      });
+    });
+  });
+
+  describe('FindAllStoresByCountryFail', () => {
+    it('should create FindAllStoresByCountryFail action', () => {
+      const payload = {};
+      const action = new fromActions.FindAllStoresByCountryFail(payload);
+
+      expect({ ...action }).toEqual({
+        type: fromActions.FIND_ALL_STORES_BY_COUNTRY_FAIL,
+        payload
+      });
+    });
+  });
+
+  describe('FindAllStoresByCountrySuccess', () => {
+    it('should create FindAllStoresByCountrySuccess action', () => {
+      const payload = [{ stores: ['test'] }];
+      const action = new fromActions.FindAllStoresByCountrySuccess(payload);
+
+      expect({ ...action }).toEqual({
+        type: fromActions.FIND_ALL_STORES_BY_COUNTRY_SUCCESS,
+        payload
+      });
+    });
+  });
+
+  describe('FindAllStoresByRegion', () => {
+    it('should create FindAllStoresByRegion action', () => {
+      const payload = { countryIsoCode: 'test', regionIsoCode: 'test'};
+      const action = new fromActions.FindAllStoresByRegion(payload);
+
+      expect({ ...action }).toEqual({
+        type: fromActions.FIND_ALL_STORES_BY_REGION,
+        payload
+      });
+    });
+  });
+
+  describe('FindAllStoresByRegionFail', () => {
+    it('should create FindAllStoresByRegionFail action', () => {
+      const payload = {};
+      const action = new fromActions.FindAllStoresByRegionFail(payload);
+
+      expect({ ...action }).toEqual({
+        type: fromActions.FIND_ALL_STORES_BY_REGION_FAIL,
+        payload
+      });
+    });
+  });
+
+  describe('FindAllStoresByRegionSuccess', () => {
+    it('should create FindAllStoresByRegionSuccess action', () => {
+      const payload = [{ stores: ['test'] }];
+      const action = new fromActions.FindAllStoresByRegionSuccess(payload);
+
+      expect({ ...action }).toEqual({
+        type: fromActions.FIND_ALL_STORES_BY_REGION_SUCCESS,
+        payload
+      });
+    });
+  });
 });

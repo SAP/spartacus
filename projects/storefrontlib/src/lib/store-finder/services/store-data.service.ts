@@ -47,7 +47,7 @@ export class StoreDataService {
         ':'
       )[0];
       const openingMinutes = requestedDaySchedule.openingTime.minute;
-      result = new Date();
+      result = new Date(date.valueOf());
       result.setHours(openingHour);
       result.setMinutes(openingMinutes);
     }

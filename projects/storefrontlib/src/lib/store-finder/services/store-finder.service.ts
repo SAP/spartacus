@@ -17,13 +17,10 @@ export class StoreFinderService {
   }
 
   viewAllStoresForCountry(countryIsoCode: string) {
-    console.log(countryIsoCode);
     this.store.dispatch(new fromStore.FindAllStoresByCountry({countryIsoCode}));
   }
 
   viewAllStoresForRegion(countryIsoCode: string, regionIsoCode: string) {
-    console.log(countryIsoCode);
-    console.log(regionIsoCode);
     this.store.dispatch(new fromStore.FindAllStoresByRegion({countryIsoCode, regionIsoCode}));
   }
 }

@@ -1,6 +1,6 @@
 <ng-container *ngIf="locations">
     <ul class="stores-grid">
-        <li *ngFor="let location of locations?.pointOfServices; let i = index;" id="{{'item-' + i}}">
+        <li *ngFor="let location of locations?.pointOfServices; let i = index;" (click)="viewStore(location)" id="{{'item-' + i}}">
             <y-store-finder-list-item [location]="location"></y-store-finder-list-item>
         </li>
     </ul>

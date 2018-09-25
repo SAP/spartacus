@@ -25,11 +25,8 @@ export class StoreFinderGridComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('hello, friend');
     if (this.route.snapshot.params.country) {
-      console.log('daaaaaaaayo');
       if (this.route.snapshot.params.region) {
-        console.log('me say daaaaaaAAAaAAaaaAyyyyoooooo');
         this.viewAllStoresForRegion(this.route.snapshot.params.country, this.route.snapshot.params.region);
       } else {
         this.viewAllStoresForCountry(this.route.snapshot.params.country);
@@ -37,14 +34,17 @@ export class StoreFinderGridComponent implements OnInit {
     }
 
     this.store.select(fromStore.getFindStoresEntities).subscribe(locations => {
-      console.log(locations.pointOfServices);
       if (locations.pointOfServices && locations.pointOfServices.length === 1) {
-        console.log("hello darkness my old friend")
         this.router.navigate(['store-finder','country',this.route.snapshot.params.country,
           'region', this.route.snapshot.params.region, locations.pointOfServices[0].name]);
       }
       this.locations = locations;
     });
+  }
+
+  viewStore(location: number) {
+    this.router.navigate(['store-finder','country',this.route.snapshot.params.country,
+      'region', this.route.snapshot.params.region, location['name']]);
   }
 
   viewAllStoresForCountry(countryIsoCode: string) {

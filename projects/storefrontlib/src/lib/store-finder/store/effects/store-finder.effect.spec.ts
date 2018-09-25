@@ -38,6 +38,8 @@ describe('StoreFinder Effects', () => {
 
     spyOn(service, 'findStores').and.returnValue(of(searchResult));
     spyOn(service, 'storesCount').and.returnValue(of(searchResult));
+    spyOn(service, 'findStoresByCountry').and.returnValue(of(searchResult));
+    spyOn(service, 'findStoresByRegion').and.returnValue(of(searchResult));
   });
 
   describe('findStores$', () => {
@@ -64,6 +66,30 @@ describe('StoreFinder Effects', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effects.findAllStores$).toBeObservable(expected);
+    });
+  });
+
+  describe('findAllStoresByCountry$', () => {
+    it('should return searchResult from FindAllStoresByCountrySuccess', () => {
+      const action = new fromActions.FindAllStoresByCountry({countryIsoCode: 'test'});
+      const completion = new fromActions.FindAllStoresByCountrySuccess(searchResult);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.findAllStoresByCountry$).toBeObservable(expected);
+    });
+  });
+  
+  describe('findAllStoresByRegion$', () => {
+    it('should return searchResult from FindAllStoresByRegionSuccess', () => {
+      const action = new fromActions.FindAllStoresByRegion({countryIsoCode: 'test', regionIsoCode: 'CA-QC'});
+      const completion = new fromActions.FindAllStoresByRegionSuccess(searchResult);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.findAllStoresByRegion$).toBeObservable(expected);
     });
   });
 });
