@@ -9,6 +9,13 @@
     "@angular-devkit/core" "0.6.1"
     rxjs "^6.0.0"
 
+"@angular-devkit/architect@0.8.3":
+  version "0.8.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular-devkit/architect/-/architect-0.8.3.tgz#320c7de2e2e7b984a0e4be51dc60dfe12d4c973e"
+  dependencies:
+    "@angular-devkit/core" "0.8.3"
+    rxjs "~6.2.0"
+
 "@angular-devkit/build-angular@~0.6.1":
   version "0.6.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular-devkit/build-angular/-/build-angular-0.6.1.tgz#e59df34271d74436e62086dcf1523e2d22ac7f1b"
@@ -101,12 +108,14 @@
     rxjs "^6.0.0"
     source-map "^0.5.6"
 
-"@angular-devkit/schematics@0.6.1":
-  version "0.6.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular-devkit/schematics/-/schematics-0.6.1.tgz#8e94fbd45e24596f1f0a086a70dde88dbc6cf96e"
+"@angular-devkit/core@0.8.3":
+  version "0.8.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular-devkit/core/-/core-0.8.3.tgz#a7158195dc90997de62ec0b12af3325870182c3b"
   dependencies:
-    "@angular-devkit/core" "0.6.1"
-    rxjs "^6.0.0"
+    ajv "~6.4.0"
+    chokidar "^2.0.3"
+    rxjs "~6.2.0"
+    source-map "^0.5.6"
 
 "@angular-devkit/schematics@0.6.8":
   version "0.6.8"
@@ -114,6 +123,13 @@
   dependencies:
     "@angular-devkit/core" "0.6.8"
     rxjs "^6.0.0"
+
+"@angular-devkit/schematics@0.8.3":
+  version "0.8.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular-devkit/schematics/-/schematics-0.8.3.tgz#32f2e99b43c39864ec63301963329c9190d7c5d2"
+  dependencies:
+    "@angular-devkit/core" "0.8.3"
+    rxjs "~6.2.0"
 
 "@angular/animations@^6.0.0":
   version "6.0.1"
@@ -127,20 +143,19 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/cli@~6.0.1":
-  version "6.0.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/cli/-/cli-6.0.1.tgz#52c21451716be51716a413c5367b3f3d003f8447"
+"@angular/cli@~6.2.3":
+  version "6.2.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/cli/-/cli-6.2.3.tgz#212e11cd5e2eed994b33feb93c550a84a0e38ba8"
   dependencies:
-    "@angular-devkit/architect" "0.6.1"
-    "@angular-devkit/core" "0.6.1"
-    "@angular-devkit/schematics" "0.6.1"
-    "@schematics/angular" "0.6.1"
-    "@schematics/update" "0.6.1"
-    opn "~5.3.0"
-    resolve "^1.1.7"
-    rxjs "^6.0.0"
+    "@angular-devkit/architect" "0.8.3"
+    "@angular-devkit/core" "0.8.3"
+    "@angular-devkit/schematics" "0.8.3"
+    "@schematics/angular" "0.8.3"
+    "@schematics/update" "0.8.3"
+    json-schema-traverse "^0.4.1"
+    opn "^5.3.0"
+    rxjs "~6.2.0"
     semver "^5.1.0"
-    silent-error "^1.0.0"
     symbol-observable "^1.2.0"
     yargs-parser "^10.0.0"
 
@@ -165,9 +180,9 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/core@^6.0.0":
-  version "6.0.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/core/-/core-6.0.1.tgz#47f0db3ee6f088c65e87b7748fa1e0f329138df7"
+"@angular/core@^6.1.8":
+  version "6.1.8"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/core/-/core-6.1.8.tgz#2de584e184dc148a55ec153f8125acdf3e88eae6"
   dependencies:
     tslib "^1.9.0"
 
@@ -199,9 +214,9 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser-dynamic@^6.0.0":
-  version "6.0.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/platform-browser-dynamic/-/platform-browser-dynamic-6.0.1.tgz#4831fcd457bf220c76d71ffffa6c41c625df7dfc"
+"@angular/platform-browser-dynamic@^6.1.8":
+  version "6.1.8"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/platform-browser-dynamic/-/platform-browser-dynamic-6.1.8.tgz#a0c523857e9e55343e6e1747052141d870d4e870"
   dependencies:
     tslib "^1.9.0"
 
@@ -270,14 +285,6 @@
     tree-kill "^1.0.0"
     webpack-sources "^1.1.0"
 
-"@schematics/angular@0.6.1":
-  version "0.6.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@schematics/angular/-/angular-0.6.1.tgz#912495d248b95fcd20a04609e48cf2a4516b2071"
-  dependencies:
-    "@angular-devkit/core" "0.6.1"
-    "@angular-devkit/schematics" "0.6.1"
-    typescript ">=2.6.2 <2.8"
-
 "@schematics/angular@0.6.8":
   version "0.6.8"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/@schematics/angular/-/angular-0.6.8.tgz#a8d1afc33e77160296b0a8b3d02f0ee4dfe9d1d2"
@@ -286,14 +293,22 @@
     "@angular-devkit/schematics" "0.6.8"
     typescript ">=2.6.2 <2.8"
 
-"@schematics/update@0.6.1":
-  version "0.6.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@schematics/update/-/update-0.6.1.tgz#047ae51df9d80827d56e2f88b662b7c109cb0988"
+"@schematics/angular@0.8.3":
+  version "0.8.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@schematics/angular/-/angular-0.8.3.tgz#f4b661c5a196a06c050c0ae56809e6dbcfbf9f98"
   dependencies:
-    "@angular-devkit/core" "0.6.1"
-    "@angular-devkit/schematics" "0.6.1"
+    "@angular-devkit/core" "0.8.3"
+    "@angular-devkit/schematics" "0.8.3"
+    typescript ">=2.6.2 <2.10"
+
+"@schematics/update@0.8.3":
+  version "0.8.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@schematics/update/-/update-0.8.3.tgz#e8ca76066fa14a9db732e20cf41ec540c8ee7a13"
+  dependencies:
+    "@angular-devkit/core" "0.8.3"
+    "@angular-devkit/schematics" "0.8.3"
     npm-registry-client "^8.5.1"
-    rxjs "^6.0.0"
+    rxjs "~6.2.0"
     semver "^5.3.0"
     semver-intersect "^1.1.2"
 
@@ -3698,6 +3713,10 @@ json-schema-traverse@^0.3.0:
   version "0.3.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/json-schema-traverse/-/json-schema-traverse-0.3.1.tgz#349a6d44c53a51de89b40805c5d5e59b417d3340"
 
+json-schema-traverse@^0.4.1:
+  version "0.4.1"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/json-schema-traverse/-/json-schema-traverse-0.4.1.tgz#69f6a87d9513ab8bb8fe63bdb0979c448e684660"
+
 json-schema@0.2.3:
   version "0.2.3"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/json-schema/-/json-schema-0.2.3.tgz#b480c892e59a2f05954ce727bd3f2a4e882f9e13"
@@ -4800,9 +4819,15 @@ opener@~1.4.0:
   version "1.4.3"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/opener/-/opener-1.4.3.tgz#5c6da2c5d7e5831e8ffa3964950f8d6674ac90b8"
 
-opn@^5.1.0, opn@~5.3.0:
+opn@^5.1.0:
   version "5.3.0"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/opn/-/opn-5.3.0.tgz#64871565c863875f052cfdf53d3e3cb5adb53b1c"
+  dependencies:
+    is-wsl "^1.1.0"
+
+opn@^5.3.0:
+  version "5.4.0"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/opn/-/opn-5.4.0.tgz#cb545e7aab78562beb11aa3bfabc7042e1761035"
   dependencies:
     is-wsl "^1.1.0"
 
@@ -5784,6 +5809,12 @@ rxjs@^6.0.0:
   dependencies:
     tslib "^1.9.0"
 
+rxjs@~6.2.0:
+  version "6.2.2"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/rxjs/-/rxjs-6.2.2.tgz#eb75fa3c186ff5289907d06483a77884586e1cf9"
+  dependencies:
+    tslib "^1.9.0"
+
 safe-buffer@5.1.1:
   version "5.1.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
@@ -6045,7 +6076,7 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
-silent-error@^1.0.0, silent-error@^1.1.0:
+silent-error@^1.1.0:
   version "1.1.0"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/silent-error/-/silent-error-1.1.0.tgz#2209706f1c850a9f1d10d0d840918b46f26e1bc9"
   dependencies:
@@ -6726,6 +6757,10 @@ type-is@~1.6.15, type-is@~1.6.16:
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
+
+"typescript@>=2.6.2 <2.10":
+  version "2.9.2"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
 
 "typescript@>=2.6.2 <2.8", typescript@~2.7.2:
   version "2.7.2"
