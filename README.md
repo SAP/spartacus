@@ -33,10 +33,14 @@ Spartacus provides core storefront features such as:
 - checkout
 - order history
 
+
+
 # Requirements
 
 - SAP Commerce Cloud instance (Release 1808 or unreleased 1811) (1811 release is planned for end of November)
 - Angular (https://angular.io/)
+
+
 
 # Download and Installation
 
@@ -44,7 +48,8 @@ To get up and running with Spartacus, the simplest approach is to build the appl
 
 Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs. In the future, you will be able to use Spartacus with a mock server.
 
-For more information, see the [Getting Started](docs/setupandinstallation.md) documentation.
+For complete setup instructions, see the [Setup and Installation](docs/setupandinstallation.md) guide.
+
 
 ## Customizing and Extending Spartacus
 
@@ -56,14 +61,19 @@ Content for Spartacus pages is fetched from the SAP Commerce Cloud CMS (Content 
 
 For a full explanation and guidelines, see [Extending and Customizing Spartacus](docs/extendingandcustomizing.md) and [Spartacus Architecture](docs/architecture).
 
+
+
 # Limitations
 
-- Spartacus can be configured to work with Release 1808 of SAP Commerce Cloud and is being built with the upcoming 1811 release in mind. This means that certain features of Spartacus may only work with Release 1811 of SAP Commerce Cloud. 
-- The Spartacus repository currently includes a mock server, but it's incomplete and cannot yet be used.
+Spartacus works with Release 1808 of SAP Commerce Cloud and is being built with the upcoming 1811 release in mind. This means that certain features of Spartacus may only work with future Release 1811 of SAP Commerce Cloud. 
+
+
 
 # Known Issues
 
-Spartacus is currently in a pre-release beta state. 
+Spartacus is currently in a pre-release beta state. Known issues are documented in the GitHub issue tracking system.
+
+
 
 # How to Obtain Support
 
@@ -71,15 +81,19 @@ Spartacus is provided "as-is" with no official lines of support.
 
 To get help from the Spartacus community, post a question in the Help chat of our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE) channel.
 
-For help getting Spartacus working with your licensed SAP Commerce Cloud instance, please contact your SAP Support channel.
+For help getting Spartacus working with your licensed SAP Commerce Cloud instance, please contact SAP Support.
+
+
 
 # Contributing
 
-Team Spartacus is excited to incorporate ideas, requests, and especially code contributions. However, for the moment, Spartacus is restricted to updates by SAP employees. In the meantime:
+Team Spartacus welcomes feedback, ideas, requests, and especially code contributions. However, for the moment, Spartacus is restricted to updates by SAP employees. In the meantime:
 
-- Post a comment to our Feedback chat in our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE) channel.
+- Post comments to our Feedback chat in our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE) channel.
 - Read the documentation in [Community](docs/community/README.md), especially the [Code of Conduct](docs/community/codeofconduct.md) and the [GitHub Workflow](docs/community/githubworklow) documents.
-- Post an issue in the [GitHub bug tracking system](docs/community/githubworklow).
+- Create an issue in the [GitHub bug tracking system](docs/community/githubworklow).
+
+
 
 # To Do
 
@@ -93,6 +107,8 @@ Some of the upcoming features or changes to the open source release:
 - Style customization examples
 - Performance improvements through App Shell Caching
 - Completion of test coverage, including end-to-end tests
+
+
 
 # License
 
