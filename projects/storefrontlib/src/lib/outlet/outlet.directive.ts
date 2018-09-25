@@ -21,10 +21,16 @@ export class OutletDirective implements OnInit {
 
   ngOnInit() {
     const customTemplate = this.outletService.get(this.outlet);
-
-    const ctx = (<any>this.vcr.injector).view.context;
     this.vcr.createEmbeddedView(customTemplate || this.templateRef, {
-      $implicit: ctx
+      $implicit: this.context
     });
+  }
+
+  private get context() {
+    const ctx = (<any>this.vcr.injector).view.context;
+
+    // the context might already be given $implicit
+    // by a parent *ngIf or *ngFor
+    return ctx.$implicit || ctx;
   }
 }
