@@ -5,17 +5,10 @@ import { ProductCarouselComponent } from './product-carousel.component';
 
 import { MediaModule } from '../../ui/components/media/media.module';
 
-import { MaterialModule } from '../../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    MaterialModule,
-    FlexLayoutModule,
-    MediaModule
-  ],
+  imports: [CommonModule, RouterModule, FlexLayoutModule, MediaModule],
   declarations: [ProductCarouselComponent],
   entryComponents: [ProductCarouselComponent],
   exports: [ProductCarouselComponent]

@@ -2,7 +2,6 @@ import { BootstrapModule } from '../../bootstrap.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MaterialModule } from '../../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { NavigationComponent } from './navigation.component';
@@ -12,7 +11,6 @@ import { NavigationService } from './navigation.service';
   imports: [
     CommonModule,
     RouterModule,
-    MaterialModule,
     FlexLayoutModule,
     BootstrapModule
   ],

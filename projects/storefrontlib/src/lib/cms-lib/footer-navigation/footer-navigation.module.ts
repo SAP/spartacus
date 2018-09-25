@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FooterNavigationComponent } from './footer-navigation.component';
 
-import { MaterialModule } from '../../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, MaterialModule, FlexLayoutModule],
+  imports: [CommonModule, RouterModule, FlexLayoutModule],
   declarations: [FooterNavigationComponent],
   entryComponents: [FooterNavigationComponent],
   exports: [FooterNavigationComponent]
