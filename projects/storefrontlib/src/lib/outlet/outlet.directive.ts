@@ -6,12 +6,13 @@ import {
   OnInit
 } from '@angular/core';
 import { OutletService } from './outlet.service';
+import { OutletPosition } from './outlet.model';
 
 @Directive({
   selector: '[cxOutlet]'
 })
 export class OutletDirective implements OnInit {
-  @Input('cxOutlet') outlet: string;
+  @Input() cxOutlet: string;
 
   _context;
   @Input()
@@ -26,14 +27,22 @@ export class OutletDirective implements OnInit {
   ) {}
 
   ngOnInit() {
-    const customTemplate = this.outletService.get(this.outlet);
+    this.renderTemplate(OutletPosition.BEFORE);
+    this.renderTemplate(OutletPosition.REPLACE, true);
+    this.renderTemplate(OutletPosition.AFTER);
+  }
 
-    this.vcr.createEmbeddedView(customTemplate || this.templateRef, {
-      $implicit: this.context
-    });
+  private renderTemplate(position: OutletPosition, replace = false) {
+    const template = this.outletService.get(this.cxOutlet, position);
+    if (template || replace) {
+      this.vcr.createEmbeddedView(template || this.templateRef, {
+        $implicit: this.context
+      });
+    }
   }
 
   private get context() {
+    // return specific context if provided
     if (this._context) {
       return this._context;
     }
