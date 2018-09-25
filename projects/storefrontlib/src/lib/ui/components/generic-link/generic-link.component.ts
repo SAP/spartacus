@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
  * This component navigates using [routerLink] attribute when input 'url' is a relative url. Otherwise (when it's absolute), [href] is used.
  */
 @Component({
-  selector: 'y-generic-link',
+  selector: 'cx-generic-link',
   templateUrl: './generic-link.component.html',
   styleUrls: ['./generic-link.component.scss']
 })
@@ -19,11 +19,11 @@ export class GenericLinkComponent {
   @Input() style;
   @Input() title;
 
-  getUrlWithLeadingSlash(url: string): string {
-    if (url !== undefined) {
-      return url.startsWith('/') ? url : '/' + url;
+  get routerUrl() {
+    if (this.url !== undefined) {
+      return this.url.startsWith('/') ? this.url : '/' + this.url;
     }
-    return url;
+    return this.url;
   }
 
   isAbsoluteUrl(url: string): boolean {

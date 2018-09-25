@@ -24,20 +24,6 @@ describe('GenericLinkComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('getUrlWithLeadingSlash', () => {
-    it('should return url with slash at the beginning', () => {
-      const expectedResult = '/relative/url';
-
-      expect(component.getUrlWithLeadingSlash('relative/url')).toBe(
-        expectedResult
-      );
-
-      expect(component.getUrlWithLeadingSlash('/relative/url')).toBe(
-        expectedResult
-      );
-    });
-  });
-
   describe('isAbsoluteUrl', () => {
     it('should return true when url starts with http:// or https://', () => {
       expect(component.isAbsoluteUrl('https://example.com')).toBeTruthy();
