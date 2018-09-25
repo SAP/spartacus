@@ -1,5 +1,9 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  AbstractControl
+} from '@angular/forms';
 import { LoginFormComponent } from './login-form.component';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
@@ -71,5 +75,67 @@ describe('LoginFormComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromRouting.Go({ path: ['/test'] })
     );
+  });
+
+  describe('userId form field', () => {
+    let control: AbstractControl;
+
+    beforeEach(() => {
+      control = component.form.controls['userId'];
+    });
+
+    it('should NOT be valid when empty', () => {
+      control.setValue('');
+      expect(control.valid).toBeFalsy();
+    });
+
+    it('should NOT be valid when is an invalid email', () => {
+      control.setValue('with space@email.com');
+      expect(control.valid).toBeFalsy();
+
+      control.setValue('without.domain@');
+      expect(control.valid).toBeFalsy();
+
+      control.setValue('without.at.com');
+      expect(control.valid).toBeFalsy();
+
+      control.setValue('@without.username.com');
+      expect(control.valid).toBeFalsy();
+    });
+
+    it('should be valid when is a valid email', () => {
+      control.setValue('valid@email.com');
+      expect(control.valid).toBeTruthy();
+
+      control.setValue('valid123@example.email.com');
+      expect(control.valid).toBeTruthy();
+    });
+  });
+
+  describe('password form field', () => {
+    let control: AbstractControl;
+
+    beforeEach(() => {
+      control = component.form.controls['password'];
+    });
+
+    it('should be valid when not empty', () => {
+      control.setValue('not-empty');
+      expect(control.valid).toBeTruthy();
+
+      control.setValue('not empty');
+      expect(control.valid).toBeTruthy();
+
+      control.setValue(' ');
+      expect(control.valid).toBeTruthy();
+    });
+
+    it('should NOT be valid when empty', () => {
+      control.setValue('');
+      expect(control.valid).toBeFalsy();
+
+      control.setValue(null);
+      expect(control.valid).toBeFalsy();
+    });
   });
 });

@@ -11,14 +11,12 @@ import { StoreFinderPagingComponent } from '../../../store-finder/components/sto
 import { StoreFinderSearchComponent } from '../../../store-finder/components/store-finder-search/store-finder-search.component';
 import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-list/store-finder-list.component';
 import { StoreFinderListCountComponent } from '../../../store-finder/components/store-finder-list-count/store-finder-list-count.component';
-import { MaterialModule } from '../../../material.module';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 import { services } from '../../../store-finder/services';
 import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
 import { OccModuleConfig } from '../../../occ/occ-module-config';
-/* tslint:disable */
+// tslint:disable-next-line:max-line-length
 import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
-/* tslint:enable */
 
 import * as fromStore from '../../../store-finder/store';
 import * as fromRoot from '../../../routing/store';
@@ -30,7 +28,6 @@ describe('StoreFinderPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         ReactiveFormsModule,
         CommonModule,
         BrowserAnimationsModule,

@@ -10,11 +10,11 @@ import { NavigationModule } from '../navigation/navigation.module';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-class UseCmsModuleConfig {
-  cmsComponentMapping = {
+const UseCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     FooterNavigationComponent: 'FooterNavigationComponent'
-  };
-}
+  }
+};
 
 const mockLinks = [
   {
@@ -48,7 +48,7 @@ describe('FooterNavigationComponent', () => {
         NavigationModule
       ],
       declarations: [FooterNavigationComponent],
-      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
+      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

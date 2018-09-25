@@ -4,7 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
-import { CartItemListComponent } from './../../../cart/components/cart-details/cart-item-list/cart-item-list.component';
 
 import { CartService } from '../../../cart/services';
 import * as fromReducer from '../../../cart/store/reducers';
@@ -53,7 +52,6 @@ describe('CartPageLayoutComponent', () => {
       declarations: [
         CartPageLayoutComponent,
         CartDetailsComponent,
-        CartItemListComponent,
         DynamicSlotComponent,
         ComponentWrapperDirective
       ],

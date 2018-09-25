@@ -10,7 +10,6 @@ import {
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import { MaterialModule } from '../../../material.module';
 import * as fromRoot from '../../../routing/store';
-import { SiteContextModuleConfig } from '../../../site-context/site-context-module-config';
 import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
 import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
 import * as fromUserReducer from '../../../user/store/reducers';
@@ -20,13 +19,15 @@ import { HeaderSkipperComponent } from './header-skipper/header-skipper.componen
 import { HeaderComponent } from './header.component';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
+import { CmsModuleConfig } from '../../../cms/cms-module-config';
+import { SiteContextModuleConfig } from '../../../site-context/site-context-module-config';
 
-class MockSiteContextModuleConfig {
-  site = {
+const MockCmsModuleConfig: CmsModuleConfig = {
+  site: {
     language: 'de',
     currency: 'JPY'
-  };
-}
+  }
+};
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -59,7 +60,7 @@ describe('HeaderComponent', () => {
       providers: [
         {
           provide: SiteContextModuleConfig,
-          useClass: MockSiteContextModuleConfig
+          useValue: MockCmsModuleConfig
         }
       ]
     }).compileComponents();

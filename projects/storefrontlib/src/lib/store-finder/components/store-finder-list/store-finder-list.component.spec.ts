@@ -4,8 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { MaterialModule } from '../../../material.module';
-
 import { StoreFinderListComponent } from './store-finder-list.component';
 import { StoreFinderPagingComponent } from '../store-finder-paging/store-finder-paging.component';
 import { StoreFinderListItemComponent } from './store-finder-list-item/store-finder-list-item.component';
@@ -24,7 +22,6 @@ describe('StoreFinderListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         ReactiveFormsModule,
         RouterTestingModule,
         HttpClientTestingModule,

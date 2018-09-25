@@ -4,17 +4,46 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import { MaterialModule } from '../../../material.module';
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 import { StoreFinderService } from '../../services/store-finder.service';
 
 import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../store';
+import { WindowRef } from '../../services/window-ref';
+
+const latitude = 10.1;
+const longitude = 39.2;
+
+const coor: Coordinates = {
+  latitude: latitude,
+  longitude: longitude,
+  accuracy: 0,
+  altitude: null,
+  altitudeAccuracy: null,
+  heading: null,
+  speed: null
+};
+const position = { coords: coor, timestamp: new Date().valueOf() };
+
+class WindowRefMock {
+  get nativeWindow(): any {
+    return {
+      navigator: {
+        geolocation: {
+          getCurrentPosition: function(callback: Function) {
+            callback(position);
+          }
+        }
+      }
+    };
+  }
+}
 
 describe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;
   let fixture: ComponentFixture<StoreFinderSearchComponent>;
   let service: StoreFinderService;
+  let windowRef: WindowRef;
   let store: Store<fromStore.StoresState>;
   const keyEvent = {
     key: 'Enter'
@@ -26,7 +55,6 @@ describe('StoreFinderSearchComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        MaterialModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
         StoreModule.forRoot({
@@ -35,7 +63,10 @@ describe('StoreFinderSearchComponent', () => {
         })
       ],
       declarations: [StoreFinderSearchComponent],
-      providers: [StoreFinderService]
+      providers: [
+        StoreFinderService,
+        { provide: WindowRef, useClass: WindowRefMock }
+      ]
     }).compileComponents();
   }));
 
@@ -43,6 +74,7 @@ describe('StoreFinderSearchComponent', () => {
     fixture = TestBed.createComponent(StoreFinderSearchComponent);
     component = fixture.componentInstance;
     service = TestBed.get(StoreFinderService);
+    windowRef = TestBed.get(WindowRef);
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(component, 'findStores').and.callThrough();
@@ -50,6 +82,7 @@ describe('StoreFinderSearchComponent', () => {
     spyOn(component, 'viewAllStores').and.callThrough();
     spyOn(service, 'viewAllStores').and.callThrough();
     spyOn(component, 'onKey').and.callThrough();
+    spyOn(windowRef, 'nativeWindow').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -89,5 +122,10 @@ describe('StoreFinderSearchComponent', () => {
     expect(component.viewAllStores).toHaveBeenCalled();
     expect(service.viewAllStores).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalledWith(new fromStore.FindAllStores());
+  });
+
+  it('should view stores near by my location', () => {
+    component.viewStoresWithMyLoc();
+    expect(service.findStores).toHaveBeenCalledWith('', [longitude, latitude]);
   });
 });

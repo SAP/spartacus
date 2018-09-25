@@ -6,27 +6,29 @@ import { SiteContextModule } from './site-context/index';
 import { CmsLibModule } from './cms-lib/index';
 import { CmsModule } from './cms/index';
 import { UiModule, UiFrameworkModule } from './ui/index';
+import { ConfigModule, provideConfig } from './config/config.module';
+import { StorefrontModuleConfig } from './storefront-config';
 
 @NgModule({
   imports: [
-    AuthModule.forRoot(),
-    RoutingModule.forRoot(),
-    OccModule.forRoot(),
-    SiteContextModule.forRoot(),
+    AuthModule,
+    RoutingModule,
+    OccModule,
+    SiteContextModule,
     CmsLibModule,
-    CmsModule.forRoot(),
+    CmsModule,
     UiModule,
-    UiFrameworkModule
+    UiFrameworkModule,
+    ConfigModule.forRoot()
   ],
   exports: [UiModule],
-  declarations: [],
-  providers: [{ provide: 'APP_CONFIG', useValue: {} }]
+  declarations: []
 })
 export class StorefrontModule {
-  static withConfig(config?: any): ModuleWithProviders {
+  static withConfig(config?: StorefrontModuleConfig): ModuleWithProviders {
     return {
       ngModule: StorefrontModule,
-      providers: [{ provide: 'APP_CONFIG', useValue: config }]
+      providers: [provideConfig(config)]
     };
   }
 }

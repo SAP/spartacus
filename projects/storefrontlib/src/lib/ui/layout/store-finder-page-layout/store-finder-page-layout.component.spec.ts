@@ -11,7 +11,6 @@ import { StoreFinderListComponent } from '../../../store-finder/components/store
 import { StoreFinderSearchComponent } from '../../../store-finder/components/store-finder-search/store-finder-search.component';
 import { StoreFinderListCountComponent } from '../../../store-finder/components/store-finder-list-count/store-finder-list-count.component';
 import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
-import { MaterialModule } from '../../../material.module';
 import { services } from '../../../store-finder/services';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 
@@ -20,9 +19,8 @@ import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromStore from '../../../store-finder/store';
 import * as fromRoot from '../../../routing/store';
 
-/* tslint:disable */
+// tslint:disable-next-line:max-line-length
 import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
-/* tslint:enable */
 
 describe('StoreFinderPageLayoutComponent', () => {
   let component: StoreFinderPageLayoutComponent;
@@ -32,7 +30,6 @@ describe('StoreFinderPageLayoutComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        MaterialModule,
         CommonModule,
         BrowserAnimationsModule,
         HttpClientTestingModule,

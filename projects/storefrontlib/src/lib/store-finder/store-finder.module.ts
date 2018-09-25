@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { MaterialModule } from '../material.module';
 import { CmsModule } from '../cms/cms.module';
 
 import { effects } from './store/effects/index';
@@ -23,7 +22,6 @@ import { StoreFinderListCountComponent } from './components/store-finder-list-co
 @NgModule({
   imports: [
     CommonModule,
-    MaterialModule,
     CmsModule,
     ReactiveFormsModule,
     StoreModule.forFeature('stores', reducers),
