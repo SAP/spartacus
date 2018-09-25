@@ -5,9 +5,9 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as fromStore from '../../../store';
+
+import { ProductService } from '../../../services/product.service';
 
 @Component({
   selector: 'y-product-details',
@@ -24,12 +24,10 @@ export class ProductDetailsComponent implements OnChanges {
 
   isWritingReview = false;
 
-  constructor(protected store: Store<fromStore.ProductsState>) {}
+  constructor(protected productService: ProductService) {}
 
   ngOnChanges() {
-    this.product$ = this.store.select(
-      fromStore.getSelectedProductFactory(this.productCode)
-    );
+    this.product$ = this.productService.get(this.productCode);
   }
 
   goToReviews(isWritingReview?: boolean) {

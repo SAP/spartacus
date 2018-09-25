@@ -27,44 +27,100 @@
   }
 
   &-primary {
+    @include var-color('background-color', 'primary');
+    @include var-color('border-color', 'primary');
+
     &:hover {
-      background-color: mix(#000000, theme-color('primary'), 12%);
-      border-color: mix(#000000, theme-color('primary'), 12%);
+      // background-color: mix(#000000, theme-color('primary'), 12%);
+      // border-color: mix(#000000, theme-color('primary'), 12%);
+      @include var-color('background-color', 'primary');
+      @include var-color('border-color', 'primary');
+      @include cx-darken(88);
     }
 
     &.active {
-      background-color: mix(#000000, theme-color('primary'), 12%) !important;
-      border-color: mix(#000000, theme-color('primary'), 12%) !important;
+      // background-color: mix(#000000, theme-color('primary'), 12%) !important;
+      // border-color: mix(#000000, theme-color('primary'), 12%) !important;
+      @include var-color('background-color', 'primary');
+      @include var-color('border-color', 'primary');
+      @include cx-darken(88);
     }
 
     &.disabled {
-      background-color: lighten(theme-color('primary'), 26%);
-      border-color: lighten(theme-color('primary'), 26%);
-      opacity: 1;
+      // background-color: lighten(theme-color('primary'), 26%);
+      // border-color: lighten(theme-color('primary'), 26%);
+      // opacity: 1;
+      @include var-color('background-color', 'primary');
+      @include var-color('border-color', 'primary');
       &:hover {
-        border-color: lighten(theme-color('primary'), 26%);
+        // border-color: lighten(theme-color('primary'), 26%);
+        @include var-color('border-color', 'primary');
+        @include cx-darken(100);
       }
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+      @include var-color('background-color', 'primary');
+      @include var-color('border-color', 'primary');
+      @include cx-darken(88);
+
+      &:focus {
+        box-shadow: 0 0 0 0.2em rgba(var(--y-primary), 0.5);
+      }
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.2em rgba(var(--y-primary), 0.5);
     }
   }
 
   &-secondary {
+    @include var-color('background-color', 'secondary');
+    @include var-color('border-color', 'secondary');
+
     &:hover {
-      background-color: darken(theme-color('secondary'), 16%);
-      border-color: darken(theme-color('secondary'), 16%);
+      // background-color: darken(theme-color('secondary'), 16%);
+      // border-color: darken(theme-color('secondary'), 16%);
+      @include var-color('background-color', 'secondary');
+      @include var-color('border-color', 'secondary');
+      @include cx-darken(84);
     }
 
     &.active {
-      background-color: darken(theme-color('secondary'), 16%) !important;
-      border-color: darken(theme-color('secondary'), 16%) !important;
+      // background-color: darken(theme-color('secondary'), 16%) !important;
+      // border-color: darken(theme-color('secondary'), 16%) !important;
+      @include var-color('background-color', 'secondary');
+      @include var-color('border-color', 'secondary');
+      @include cx-darken(84);
     }
 
     &.disabled {
-      background-color: lighten(theme-color('secondary'), 31%);
-      border-color: lighten(theme-color('secondary'), 31%);
-      opacity: 1;
+      // background-color: lighten(theme-color('secondary'), 31%);
+      // border-color: lighten(theme-color('secondary'), 31%);
+      // opacity: 1;
+      @include var-color('background-color', 'secondary');
+      @include var-color('border-color', 'secondary');
       &:hover {
-        border-color: lighten(theme-color('secondary'), 31%);
+        // border-color: lighten(theme-color('secondary'), 31%);
+        @include var-color('border-color', 'secondary');
+        @include cx-darken(100);
       }
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+      @include var-color('background-color', 'secondary');
+      @include var-color('border-color', 'secondary');
+      @include cx-darken(84);
+
+      &:focus {
+        box-shadow: 0 0 0 0.2em rgba(var(--y-secondary), 0.5);
+      }
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.2em rgba(var(--y-secondary), 0.5);
     }
   }
 

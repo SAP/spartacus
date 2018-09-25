@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, switchMap, map } from 'rxjs/operators';
@@ -14,7 +14,8 @@ import { CmsService } from '../../cms/facade/cms.service';
 @Component({
   selector: 'y-searchbox',
   templateUrl: './search-box.component.html',
-  styleUrls: ['./search-box.component.scss']
+  styleUrls: ['./search-box.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
   searchBoxControl: FormControl = new FormControl();

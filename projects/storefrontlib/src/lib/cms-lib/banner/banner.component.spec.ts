@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { BannerComponent } from './banner.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { CmsService } from '../../cms/facade/cms.service';
+import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -44,7 +45,7 @@ describe('BannerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [BannerComponent],
+      declarations: [BannerComponent, GenericLinkComponent],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
@@ -62,15 +63,12 @@ describe('BannerComponent', () => {
     expect(bannerComponent).toBeTruthy();
   });
 
-  it('should contain image source and redirect url', () => {
+  it('should contain image source', () => {
     expect(bannerComponent.component).toBeNull();
     bannerComponent.onCmsComponentInit(componentData.uid);
     expect(bannerComponent.component).toBe(componentData);
     expect(el.query(By.css('img')).nativeElement.src).toContain(
       bannerComponent.component.media.url
-    );
-    expect(el.query(By.css('a')).nativeElement.href).toContain(
-      bannerComponent.component.urlLink
     );
   });
 });

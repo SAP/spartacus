@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
 import { CmsService } from '../../cms/facade/cms.service';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
@@ -64,7 +65,7 @@ describe('ResponsiveBannerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [ResponsiveBannerComponent],
+      declarations: [ResponsiveBannerComponent, GenericLinkComponent],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
