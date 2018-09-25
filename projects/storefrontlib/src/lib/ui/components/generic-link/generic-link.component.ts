@@ -9,7 +9,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./generic-link.component.scss']
 })
 export class GenericLinkComponent {
-  static readonly isAbsoluteUrlRegex: RegExp = /^https?:\/\//i;
+  private readonly absoluteUrlRegex: RegExp = /^https?:\/\//i;
 
   @Input() url;
 
@@ -27,6 +27,6 @@ export class GenericLinkComponent {
   }
 
   isAbsoluteUrl(url: string): boolean {
-    return GenericLinkComponent.isAbsoluteUrlRegex.test(url);
+    return this.absoluteUrlRegex.test(url);
   }
 }
