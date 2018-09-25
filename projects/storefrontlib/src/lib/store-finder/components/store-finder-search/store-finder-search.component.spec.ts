@@ -128,6 +128,6 @@ describe('StoreFinderSearchComponent', () => {
 
   it('should view stores near by my location', () => {
     component.viewStoresWithMyLoc();
-    expect(service.findStores).toHaveBeenCalledWith('', [latitude, longitude]);
+    expect(service.findStores).toHaveBeenCalledWith('', [longitude, latitude]);
   });
 });
