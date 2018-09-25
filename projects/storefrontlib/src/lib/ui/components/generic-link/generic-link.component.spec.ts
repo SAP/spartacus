@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GenericLinkComponent } from './generic-link.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('GenericLinkComponent', () => {
   let component: GenericLinkComponent;
@@ -8,6 +9,7 @@ describe('GenericLinkComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [GenericLinkComponent]
     }).compileComponents();
   }));
@@ -20,5 +22,39 @@ describe('GenericLinkComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('getUrlWithLeadingSlash', () => {
+    it('should return url with slash at the beginning', () => {
+      const expectedResult = '/relative/url';
+
+      expect(component.getUrlWithLeadingSlash('relative/url')).toBe(
+        expectedResult
+      );
+
+      expect(component.getUrlWithLeadingSlash('/relative/url')).toBe(
+        expectedResult
+      );
+    });
+  });
+
+  describe('isAbsoluteUrl', () => {
+    it('should return true when url starts with http:// or https://', () => {
+      expect(component.isAbsoluteUrl('https://example.com')).toBeTruthy();
+      expect(component.isAbsoluteUrl('http://example.com')).toBeTruthy();
+      expect(component.isAbsoluteUrl('http://')).toBeTruthy();
+      expect(component.isAbsoluteUrl('https://')).toBeTruthy();
+    });
+
+    it('should return false when url does not start with http:// or https://', () => {
+      expect(
+        component.isAbsoluteUrl('other-protocole://example.com')
+      ).toBeFalsy();
+      expect(component.isAbsoluteUrl('://example.com')).toBeFalsy();
+      expect(component.isAbsoluteUrl('example.com')).toBeFalsy();
+      expect(component.isAbsoluteUrl('./relative/url')).toBeFalsy();
+      expect(component.isAbsoluteUrl('/relative/url')).toBeFalsy();
+      expect(component.isAbsoluteUrl('relative/url')).toBeFalsy();
+    });
   });
 });

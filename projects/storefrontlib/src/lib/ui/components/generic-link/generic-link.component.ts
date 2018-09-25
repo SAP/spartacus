@@ -19,7 +19,7 @@ export class GenericLinkComponent {
   @Input() style;
   @Input() title;
 
-  getUrlWithSlash(url: string): string {
+  getUrlWithLeadingSlash(url: string): string {
     if (url !== undefined) {
       return url.startsWith('/') ? url : '/' + url;
     }

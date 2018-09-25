@@ -4,7 +4,7 @@
     </a>
 </ng-container>
 <ng-template #isRelativeUrl>
-    <a [routerLink]="getUrlWithSlash(url)" [target]="target" [class]="class" [id]="id" [style]="style" [title]="title">
+    <a [routerLink]="getUrlWithLeadingSlash(url)" [target]="target" [class]="class" [id]="id" [style]="style" [title]="title">
         <ng-container *ngTemplateOutlet="templateOutlet"></ng-container>
     </a>
 </ng-template>
