@@ -19,7 +19,7 @@ import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-fi
 import { SalePageLayoutModule } from './sale-page-layout/sale-page-layout.module';
 import { HelpPageLayoutModule } from './help-page-layout/help-page-layout.module';
 import { ContactPageLayoutModule } from './contact-page-layout/contact-page-layout.module';
-import { OutletRefModule } from '../../outlet';
+import { OutletRefModule } from '../../outlet/index';
 
 const layoutModules = [
   LandingPageLayoutModule,
