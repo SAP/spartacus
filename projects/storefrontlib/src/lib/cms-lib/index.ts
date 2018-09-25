@@ -1,5 +1,4 @@
 export * from './cms-lib.module';
-export * from './mini-cart/cart-dialog/cart-dialog.component';
 export * from './mini-cart/mini-cart.component';
 export * from './cookie-confirmation/cookie-message/cookie-message.component';
 export * from './cookie-confirmation/cookie-confirmation.component';

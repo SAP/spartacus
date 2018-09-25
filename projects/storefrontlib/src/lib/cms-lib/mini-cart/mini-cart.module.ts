@@ -7,7 +7,6 @@ import { MaterialModule } from '../../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MiniCartComponent } from './mini-cart.component';
-import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 
 import { BannerModule } from '../banner/banner.module';
 
@@ -20,8 +19,8 @@ import { BannerModule } from '../banner/banner.module';
     BannerModule,
     MediaModule
   ],
-  declarations: [MiniCartComponent, CartDialogComponent],
-  entryComponents: [MiniCartComponent, CartDialogComponent],
+  declarations: [MiniCartComponent],
+  entryComponents: [MiniCartComponent],
   exports: [MiniCartComponent]
 })
 export class MiniCartModule {}

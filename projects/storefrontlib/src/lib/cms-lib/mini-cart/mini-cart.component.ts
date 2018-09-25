@@ -13,7 +13,6 @@ import { CartService } from '../../cart/services/cart.service';
 
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 
 import { MatDialog } from '@angular/material';
 
@@ -48,25 +47,5 @@ export class MiniCartComponent extends AbstractCmsComponent {
     this.entries$ = this.store.select(fromCartStore.getEntries);
 
     super.fetchData();
-  }
-
-  // SPA-589 : this code isnt used for now
-  openCart() {
-    const dialogRef = this.dialog.open(CartDialogComponent, {
-      data: {
-        cart$: this.cart$,
-        entries$: this.entries$,
-        showProductCount: this.showProductCount,
-        banner: this.banner
-      }
-    });
-
-    const sub = dialogRef.componentInstance.onDelete.subscribe(entry => {
-      this.cartService.removeCartEntry(entry);
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      sub.unsubscribe();
-    });
   }
 }
