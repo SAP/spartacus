@@ -1,13 +1,6 @@
-import {
-  Component,
-  ChangeDetectorRef,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { Store } from '@ngrx/store';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import * as fromStore from '../../cms/store';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
 
 @Component({
   selector: 'y-banner',

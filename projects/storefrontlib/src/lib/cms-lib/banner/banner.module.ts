@@ -4,10 +4,10 @@ import { RouterModule } from '@angular/router';
 import { BannerComponent } from './banner.component';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { GeneralLinkModule } from '../../ui/components/general-link/general-link.module';
+import { GenericLinkModule } from '../../ui/components/generic-link/generic-link.module';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, FlexLayoutModule, GeneralLinkModule],
+  imports: [CommonModule, RouterModule, FlexLayoutModule, GenericLinkModule],
   declarations: [BannerComponent, ResponsiveBannerComponent],
   exports: [BannerComponent, ResponsiveBannerComponent],
   entryComponents: [BannerComponent, ResponsiveBannerComponent]
