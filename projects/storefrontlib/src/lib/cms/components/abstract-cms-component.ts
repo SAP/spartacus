@@ -13,7 +13,7 @@ export abstract class AbstractCmsComponent implements CmsComponent, OnDestroy {
 
   constructor(protected cd: ChangeDetectorRef) {}
 
-  OnCmsComponentInit(
+  onCmsComponentInit(
     uuid: string,
     componentData$: Observable<any>,
     contextParameters?: any
@@ -21,12 +21,10 @@ export abstract class AbstractCmsComponent implements CmsComponent, OnDestroy {
     this.uid = uuid;
     this.contextParameters = contextParameters;
 
-    this.subscription = componentData$
-      .pipe(filter(Boolean))
-      .subscribe(component => {
-        this.component = component;
-        this.fetchData();
-      });
+    this.subscription = componentData$.subscribe(component => {
+      this.component = component;
+      this.fetchData();
+    });
   }
 
   protected fetchData() {
