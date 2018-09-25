@@ -18,6 +18,8 @@ import { OccCmsService } from './services/occ-cms.service';
 import { ComponentMapperService } from './services/component-mapper.service';
 import { Config, ConfigModule } from '../config/config.module';
 import { DefaultPageService } from './services/default-page.service';
+import { OutletModule } from '../outlet/outlet.module';
+import { OutletDirective } from 'dist/storefrontlib/lib/outlet';
 
 const services: any[] = [
   OccCmsService,
@@ -31,7 +33,8 @@ const services: any[] = [
     HttpClientModule,
     StoreModule.forFeature('cms', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfig(defaultCmsModuleConfig)
+    ConfigModule.withConfig(defaultCmsModuleConfig),
+    OutletModule
   ],
   providers: [
     reducerProvider,
