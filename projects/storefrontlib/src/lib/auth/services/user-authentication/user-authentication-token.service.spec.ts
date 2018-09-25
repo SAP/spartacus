@@ -15,18 +15,18 @@ const refreshToken = '5678';
 const token: any = 'mockToken';
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
-class MockAuthModuleConfig {
-  server = {
+const MockAuthModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  authentication = {
+  authentication: {
     client_id: '',
     client_secret: '',
     userToken: {}
-  };
-}
+  }
+};
 
 describe('UserAuthenticationTokenService', () => {
   let service: UserAuthenticationTokenService;
@@ -37,7 +37,7 @@ describe('UserAuthenticationTokenService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         UserAuthenticationTokenService,
-        { provide: AuthModuleConfig, useClass: MockAuthModuleConfig }
+        { provide: AuthModuleConfig, useValue: MockAuthModuleConfig }
       ]
     });
 

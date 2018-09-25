@@ -49,13 +49,13 @@ export class ComponentMapperService {
       return;
     }
 
-    const factories = Array.from(
-      this.componentFactoryResolver['_factories'].keys()
+    const factoryEntries = Array.from(
+      this.componentFactoryResolver['_factories'].entries()
     );
-    const factoryClass = <Type<any>>(
-      factories.find((x: any) => x.componentName === alias)
+    const factoryEntry = factoryEntries.find(
+      ([key, value]: any) => value.selector === alias
     );
 
-    return factoryClass;
+    return factoryEntry ? factoryEntry[0] : null;
   }
 }

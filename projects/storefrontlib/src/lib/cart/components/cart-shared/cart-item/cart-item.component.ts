@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, ControlContainer } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 export interface Item {
   product?: any;
@@ -22,13 +22,9 @@ export class CartItemComponent implements OnInit {
   @Output() remove = new EventEmitter<any>();
   @Output() update = new EventEmitter<any>();
 
-  parent: FormGroup;
+  @Input() parent: FormGroup;
 
-  constructor(private controlContainer: ControlContainer) {}
-
-  ngOnInit() {
-    this.parent = this.controlContainer.control as FormGroup;
-  }
+  ngOnInit() {}
 
   isProductOutOfStock(product) {
     // TODO Move stocklevelstatuses across the app to an enum

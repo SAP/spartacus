@@ -7,11 +7,10 @@ import { CartDetailsComponent } from '../../../cart/components/cart-details/cont
 import { CartService } from '../../../cart/services';
 import * as fromCart from '../../../cart/store';
 import {
-  ComponentWrapperComponent,
-  DynamicSlotComponent
+  DynamicSlotComponent,
+  ComponentWrapperDirective
 } from '../../../cms/components';
 import * as fromCmsReducer from '../../../cms/store';
-import { CartItemListComponent } from './../../../cart/components/cart-details/cart-item-list/cart-item-list.component';
 
 import * as fromRoot from '../../../routing/store';
 import { CartPageLayoutComponent } from '../../layout/cart-page-layout/cart-page-layout.component';
@@ -43,9 +42,8 @@ describe('CartPageComponent', () => {
         CartPageComponent,
         CartPageLayoutComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent,
-        CartDetailsComponent,
-        CartItemListComponent
+        ComponentWrapperDirective,
+        CartDetailsComponent
       ],
       providers: [{ provide: CartService, useClass: MockCartService }]
     }).compileComponents();

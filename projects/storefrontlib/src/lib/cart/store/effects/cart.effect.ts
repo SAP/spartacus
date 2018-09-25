@@ -34,7 +34,7 @@ export class CartEffects {
           .loadCart(payload.userId, payload.cartId, payload.details)
           .pipe(
             map((cart: any) => {
-              if (cart.entries) {
+              if (cart && cart.entries) {
                 for (const entry of cart.entries) {
                   this.productImageConverter.convertProduct(entry.product);
                 }

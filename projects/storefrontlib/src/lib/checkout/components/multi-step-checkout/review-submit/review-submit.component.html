@@ -1,37 +1,37 @@
 <div class="y-review container">
-    <!-- TITLE -->
-    <h3 class="y-review__title d-none d-lg-block d-xl-block">Review</h3>
-    <div class="y-review__summary row">
-        <!-- SHIPPING ADDRESS SECTION -->
-        <div class="col-md-12 col-lg-6 col-xl-4">
-            <div class="y-review__summary-card">
-                <y-card [content]="getAddressCard((countryName$ | async)?.name)"></y-card>
-            </div>
-        </div>
-
-        <!-- SHIPPING METHOD SECTION -->
-        <div class="col-md-12 col-lg-6 col-xl-4">
-            <div class="y-review__summary-card">
-                <y-card [content]="getShippingMethodCard(deliveryMode$ | async)"></y-card>
-            </div>
-        </div>
-
-        <!-- PAYMENT METHOD SECTION -->
-        <div class="col-md-12 col-lg-6 col-xl-4">
-            <div class="y-review__summary-card">
-                <y-card [content]="getPaymentCard()"></y-card>
-            </div>
-        </div>
+  <!-- TITLE -->
+  <h3 class="y-review__title d-none d-lg-block d-xl-block">Review</h3>
+  <div class="y-review__summary row">
+    <!-- SHIPPING ADDRESS SECTION -->
+    <div class="col-md-12 col-lg-6 col-xl-4">
+      <div class="y-review__summary-card">
+        <y-card [content]="getAddressCard((countryName$ | async)?.name)"></y-card>
+      </div>
     </div>
 
-    <!-- CART ITEM SECTION -->
-    <div class="y-review__cart-total d-none d-lg-block d-xl-block" *ngIf="cart$ | async as cart">
-        Cart total ({{cart.totalItems}} items): {{cart.subTotal.formattedValue}}
+    <!-- SHIPPING METHOD SECTION -->
+    <div class="col-md-12 col-lg-6 col-xl-4">
+      <div class="y-review__summary-card">
+        <y-card [content]="getShippingMethodCard(deliveryMode$ | async)"></y-card>
+      </div>
+    </div>
+
+    <!-- PAYMENT METHOD SECTION -->
+    <div class="col-md-12 col-lg-6 col-xl-4">
+      <div class="y-review__summary-card">
+        <y-card [content]="getPaymentCard()"></y-card>
+      </div>
+    </div>
+  </div>
+
+  <!-- CART ITEM SECTION -->
+  <ng-container *ngIf="cart$ | async as cart">
+    <div class="y-review__cart-total d-none d-lg-block d-xl-block">
+      Cart total ({{cart.totalItems}} items): {{cart.subTotal?.formattedValue}}
     </div>
     <h4 class="y-review__cart-total-header d-block d-lg-none d-xl-none">Order Items</h4>
     <div class="y-review__cart-item col-md-12 col-lg-12" *ngIf="entries$ | async as entries">
-        <div *ngFor="let entry of entries">
-            <y-cart-item [isReadOnly]="true" [item]="entry"></y-cart-item>
-        </div>
+      <y-cart-item-list [items]="entries" [isReadOnly]="true" [potentialProductPromotions]="cart.potentialProductPromotions"></y-cart-item-list>
     </div>
+  </ng-container>
 </div>

@@ -5,7 +5,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 
 import * as fromStore from '../shared/store';
 import { SiteContextModuleConfig } from '../site-context-module-config';
@@ -27,13 +27,14 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription = this.store
-      .select(fromStore.getLanguagesLoaded)
-      .subscribe(loaded => {
-        if (!loaded) {
-          this.store.dispatch(new fromStore.LoadLanguages());
-        }
-      });
+    this.subscription = combineLatest(
+      this.store.select(fromStore.getLanguagesLoadAttempted),
+      this.store.select(fromStore.getLanguagesLoading)
+    ).subscribe(([loadAttempted, loading]) => {
+      if (!loadAttempted && !loading) {
+        this.store.dispatch(new fromStore.LoadLanguages());
+      }
+    });
 
     this.languages$ = this.store.select(fromStore.getAllLanguages);
     this.activeLanguage = this.getActiveLanguage();

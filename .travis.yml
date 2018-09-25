@@ -1,0 +1,26 @@
+language: node_js
+node_js:
+  - 8.9.0
+
+dist: trusty
+
+addons:
+  chrome: stable
+
+branches:
+  only:
+    - develop
+    - /^feature\/.*$/
+
+before_script:
+  - npm install -g angular-cli
+
+script:
+  - ng test --watch=false --browsers=ChromeHeadless
+  - ng build --prod
+
+notifications:
+  email:
+    on_failure: change
+    on_success: change
+

@@ -3,6 +3,8 @@ import { GlobalMessageType, GlobalMessage } from './../../models/message.model';
 
 export const ADD_MESSAGE = '[Global-message] Add a Message';
 export const REMOVE_MESSAGE = '[Global-message] Remove a Message';
+export const REMOVE_MESSAGES_BY_TYPE =
+  '[Global-message] Remove messages by type';
 
 export class AddMessage implements Action {
   readonly type = ADD_MESSAGE;
@@ -14,4 +16,12 @@ export class RemoveMessage implements Action {
   constructor(public payload: { type: GlobalMessageType; index: number }) {}
 }
 
-export type GlobalMessageAction = AddMessage | RemoveMessage;
+export class RemoveMessagesByType implements Action {
+  readonly type = REMOVE_MESSAGES_BY_TYPE;
+  constructor(public payload: GlobalMessageType) {}
+}
+
+export type GlobalMessageAction =
+  | AddMessage
+  | RemoveMessage
+  | RemoveMessagesByType;
