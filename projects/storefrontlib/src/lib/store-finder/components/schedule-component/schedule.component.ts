@@ -9,7 +9,8 @@ const WEEK_DAYS_NUMBER = 7;
   styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnChanges {
-  @Input() location: any;
+  @Input()
+  location: any;
   displayDays: Date[] = null;
 
   constructor(private storeDataService: StoreDataService) {}

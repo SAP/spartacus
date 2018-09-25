@@ -37,20 +37,26 @@ export class OccStoreFinderService {
   }
 
   findStoresByCountry(countryIsoCode: string): Observable<any> {
-    const storesByCountryUrl = this.getStoresEndpoint('country/' + countryIsoCode);
+    const storesByCountryUrl = this.getStoresEndpoint(
+      'country/' + countryIsoCode
+    );
 
     return this.http
-    .get(storesByCountryUrl)
-    .pipe(catchError((error: any) => throwError(error.json())));
+      .get(storesByCountryUrl)
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  findStoresByRegion(countryIsoCode: string, regionIsoCode: string): Observable<any> {
-    const storesByRegionUrl = 
-      this.getStoresEndpoint('country/' + countryIsoCode + '/region/' + regionIsoCode);
+  findStoresByRegion(
+    countryIsoCode: string,
+    regionIsoCode: string
+  ): Observable<any> {
+    const storesByRegionUrl = this.getStoresEndpoint(
+      'country/' + countryIsoCode + '/region/' + regionIsoCode
+    );
 
     return this.http
-    .get(storesByRegionUrl)
-    .pipe(catchError((error: any) => throwError(error.json())));
+      .get(storesByRegionUrl)
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   protected callOccFindStores(

@@ -9,8 +9,10 @@ import { AbstractStoreItemComponent } from '../../abstract-store-item/abstract-s
   styleUrls: ['./store-finder-list-item.component.scss']
 })
 export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
-  @Input() locationIndex: number = null;
-  @Output() storeItemClick: EventEmitter<number> = new EventEmitter();
+  @Input()
+  locationIndex: number = null;
+  @Output()
+  storeItemClick: EventEmitter<number> = new EventEmitter();
 
   constructor(protected storeDataService: StoreDataService) {
     super(storeDataService);

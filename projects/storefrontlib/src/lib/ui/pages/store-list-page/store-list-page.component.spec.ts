@@ -2,8 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule, combineReducers } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { ActivatedRoute, UrlSegment } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -11,25 +10,23 @@ import { StoreListPageComponent } from './store-list-page.component';
 import { StoreListPageLayoutComponent } from '../../layout/store-list-page-layout/store-list-page-layout.component';
 import { StoreFinderGridComponent } from '../../../store-finder/components/store-finder-grid/store-finder-grid.component';
 import { StoreFinderSearchComponent } from '../../../store-finder/components/store-finder-search/store-finder-search.component';
+// tslint:disable-next-line:max-line-length
 import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
 import { ScheduleComponent } from '../../../store-finder/components/schedule-component/schedule.component';
-import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
 import { MaterialModule } from '../../../material.module';
-// tslint:disable-next-line:max-line-length
-import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
 
 import * as fromReducers from '../../../store-finder/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromServices from '../../../store-finder/services';
 
 const MockActivatedRoute = {
-    snapshot : {
-        params : {
-            country: 'CA',
-            region: 'CA-QC'
-        }
+  snapshot: {
+    params: {
+      country: 'CA',
+      region: 'CA-QC'
     }
   }
+};
 
 describe('StoreListPageComponent', () => {
   let component: StoreListPageComponent;

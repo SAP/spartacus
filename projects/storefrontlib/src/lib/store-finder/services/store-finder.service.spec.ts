@@ -55,13 +55,13 @@ describe('StoreFinderService', () => {
       );
     });
   });
-  
+
   describe('View All Stores for Country', () => {
     it('should dispatch a new action', () => {
       service.viewAllStoresForCountry(countryIsoCode);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindAllStoresByCountry({countryIsoCode})
+        new fromStore.FindAllStoresByCountry({ countryIsoCode })
       );
     });
   });
@@ -71,7 +71,7 @@ describe('StoreFinderService', () => {
       service.viewAllStoresForRegion('CA', 'CA-QC');
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindAllStoresByRegion({countryIsoCode, regionIsoCode})
+        new fromStore.FindAllStoresByRegion({ countryIsoCode, regionIsoCode })
       );
     });
   });

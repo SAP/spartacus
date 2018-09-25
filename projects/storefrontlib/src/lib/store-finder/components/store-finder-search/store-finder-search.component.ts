@@ -8,8 +8,10 @@ import { StoreFinderService } from '../../services/store-finder.service';
   styleUrls: ['./store-finder-search.component.scss']
 })
 export class StoreFinderSearchComponent {
-  @Output() persistQuery: EventEmitter<string> = new EventEmitter<string>();
-  @Output() showMapList: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output()
+  persistQuery: EventEmitter<string> = new EventEmitter<string>();
+  @Output()
+  showMapList: EventEmitter<boolean> = new EventEmitter<boolean>();
   searchBox: FormControl = new FormControl();
 
   constructor(private storeFinderService: StoreFinderService) {}

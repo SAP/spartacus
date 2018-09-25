@@ -17,10 +17,14 @@ export class StoreFinderService {
   }
 
   viewAllStoresForCountry(countryIsoCode: string) {
-    this.store.dispatch(new fromStore.FindAllStoresByCountry({countryIsoCode}));
+    this.store.dispatch(
+      new fromStore.FindAllStoresByCountry({ countryIsoCode })
+    );
   }
 
   viewAllStoresForRegion(countryIsoCode: string, regionIsoCode: string) {
-    this.store.dispatch(new fromStore.FindAllStoresByRegion({countryIsoCode, regionIsoCode}));
+    this.store.dispatch(
+      new fromStore.FindAllStoresByRegion({ countryIsoCode, regionIsoCode })
+    );
   }
 }

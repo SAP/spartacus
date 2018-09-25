@@ -71,8 +71,12 @@ describe('StoreFinder Effects', () => {
 
   describe('findAllStoresByCountry$', () => {
     it('should return searchResult from FindAllStoresByCountrySuccess', () => {
-      const action = new fromActions.FindAllStoresByCountry({countryIsoCode: 'test'});
-      const completion = new fromActions.FindAllStoresByCountrySuccess(searchResult);
+      const action = new fromActions.FindAllStoresByCountry({
+        countryIsoCode: 'test'
+      });
+      const completion = new fromActions.FindAllStoresByCountrySuccess(
+        searchResult
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -80,11 +84,16 @@ describe('StoreFinder Effects', () => {
       expect(effects.findAllStoresByCountry$).toBeObservable(expected);
     });
   });
-  
+
   describe('findAllStoresByRegion$', () => {
     it('should return searchResult from FindAllStoresByRegionSuccess', () => {
-      const action = new fromActions.FindAllStoresByRegion({countryIsoCode: 'test', regionIsoCode: 'CA-QC'});
-      const completion = new fromActions.FindAllStoresByRegionSuccess(searchResult);
+      const action = new fromActions.FindAllStoresByRegion({
+        countryIsoCode: 'test',
+        regionIsoCode: 'CA-QC'
+      });
+      const completion = new fromActions.FindAllStoresByRegionSuccess(
+        searchResult
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

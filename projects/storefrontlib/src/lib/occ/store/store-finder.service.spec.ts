@@ -87,7 +87,7 @@ describe('OccStoreFinderService', () => {
       service.findStoresByCountry(countryIsoCode).subscribe(result => {
         expect(result).toEqual(searchResults);
       });
-  
+
       httpMock
         .expectOne({ method: 'GET', url: '/stores/country/' + countryIsoCode })
         .flush(searchResults);
@@ -96,12 +96,17 @@ describe('OccStoreFinderService', () => {
 
   describe('query by region', () => {
     it('should request stores by region', () => {
-      service.findStoresByRegion(countryIsoCode, regionIsoCode).subscribe(result => {
-        expect(result).toEqual(searchResults);
-      });
-  
+      service
+        .findStoresByRegion(countryIsoCode, regionIsoCode)
+        .subscribe(result => {
+          expect(result).toEqual(searchResults);
+        });
+
       httpMock
-        .expectOne({ method: 'GET', url: '/stores/country/' + countryIsoCode + '/region/' + regionIsoCode })
+        .expectOne({
+          method: 'GET',
+          url: '/stores/country/' + countryIsoCode + '/region/' + regionIsoCode
+        })
         .flush(searchResults);
     });
   });

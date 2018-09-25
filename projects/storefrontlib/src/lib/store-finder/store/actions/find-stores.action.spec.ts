@@ -75,7 +75,7 @@ describe('Find Stores Actions', () => {
 
   describe('FindAllStoresByCountry', () => {
     it('should create FindAllStoresByCountry action', () => {
-      const payload = { countryIsoCode: 'test'};
+      const payload = { countryIsoCode: 'test' };
       const action = new fromActions.FindAllStoresByCountry(payload);
 
       expect({ ...action }).toEqual({
@@ -111,7 +111,7 @@ describe('Find Stores Actions', () => {
 
   describe('FindAllStoresByRegion', () => {
     it('should create FindAllStoresByRegion action', () => {
-      const payload = { countryIsoCode: 'test', regionIsoCode: 'test'};
+      const payload = { countryIsoCode: 'test', regionIsoCode: 'test' };
       const action = new fromActions.FindAllStoresByRegion(payload);
 
       expect({ ...action }).toEqual({

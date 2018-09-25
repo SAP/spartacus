@@ -52,7 +52,7 @@ import { StoreFinderGridComponent } from './components/store-finder-grid/store-f
     StoreFinderListCountComponent,
     StoreFinderGridComponent,
     StoreFinderStoreDescriptionComponent,
-    ScheduleComponent,
+    ScheduleComponent
   ],
   providers: [...services]
 })
