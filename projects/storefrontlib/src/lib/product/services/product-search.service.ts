@@ -14,8 +14,6 @@ export class ProductSearchService {
 
   constructor(private store: Store<fromStore.ProductsState>) {}
 
-  // TODO: We will add default SearchConfig.
-  // So, if it is not passed, we will use the default one.
   search(query: string, searchConfig?: SearchConfig) {
     this.store.dispatch(
       new fromStore.SearchProducts({
