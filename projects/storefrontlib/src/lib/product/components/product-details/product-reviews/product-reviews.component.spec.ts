@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromStore from '../../../store';
-import { MaterialModule } from './../../../../material.module';
 import * as fromRoot from './../../../../routing/store';
 import { ProductReviewsComponent } from './product-reviews.component';
 
@@ -23,7 +22,6 @@ describe('ProductReviewsComponent in product', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         ReactiveFormsModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),

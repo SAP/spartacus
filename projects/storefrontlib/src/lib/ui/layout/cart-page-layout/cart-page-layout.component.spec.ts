@@ -15,7 +15,6 @@ import { ComponentMapperService } from '../../../cms/services';
 import * as fromCmsReducer from '../../../cms/store';
 import * as fromRoot from '../../../routing/store';
 import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
-import { MaterialModule } from './../../../material.module';
 import { ComponentsModule } from './../../components/components.module';
 import { CartPageLayoutComponent } from './cart-page-layout.component';
 
@@ -39,7 +38,6 @@ describe('CartPageLayoutComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        MaterialModule,
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
