@@ -38,9 +38,9 @@ Spartacus provides core storefront features such as:
 # Requirements
 
 - SAP Commerce Cloud instance (Release 1808 or unreleased 1811) (1811 release is planned for end of November)
-- Angular (https://angular.io/)
-
-
+- Angular (https://angular.io/) >= 6.0.1
+- node.js >= 8.9.0
+- yarn >= 1.6.0
 
 # Download and Installation
 
