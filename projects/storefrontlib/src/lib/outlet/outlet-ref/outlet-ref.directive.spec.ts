@@ -41,13 +41,6 @@ describe('OutletDirective', () => {
     service = TestBed.get(OutletService);
   });
 
-  //   it('should OutletService is injected', inject(
-  //     [OutletService],
-  //     (outletService: OutletService) => {
-  //       expect(outletService).toBeTruthy();
-  //     }
-  //   ));
-
   it('should render custom content', () => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
