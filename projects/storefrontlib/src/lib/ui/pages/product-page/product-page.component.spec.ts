@@ -1,6 +1,5 @@
 import { ComponentsModule } from './../../components/components.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
@@ -49,7 +48,6 @@ describe('ProductPageComponent in pages', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        MaterialModule,
         ReactiveFormsModule,
         NgbTabsetModule,
         NgbAccordionModule,

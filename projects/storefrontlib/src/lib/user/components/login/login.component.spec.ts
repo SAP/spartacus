@@ -13,7 +13,6 @@ import {
   ComponentWrapperDirective
 } from '../../../cms/components';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
-import { MaterialModule } from '../../../material.module';
 import { PageType } from '../../../routing/models/page-context.model';
 import * as fromRouting from '../../../routing/store';
 import { UserToken } from './../../../auth/models/token-types.model';
@@ -63,7 +62,6 @@ describe('LoginComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         BrowserAnimationsModule,
         RouterTestingModule,
         FormsModule,
