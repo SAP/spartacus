@@ -6,8 +6,8 @@ import { OutletPosition } from '../outlet.model';
   selector: '[cxOutletRef]'
 })
 export class OutletRefDirective implements OnInit {
-  @Input('cxOutletRef') outletRef: string;
-  @Input('cxOutletPos') outletPos: OutletPosition;
+  @Input() cxOutletRef: string;
+  @Input() cxOutletPos: OutletPosition;
 
   constructor(
     private tpl: TemplateRef<any>,
@@ -15,6 +15,6 @@ export class OutletRefDirective implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.outletService.add(this.outletRef, this.tpl, this.outletPos);
+    this.outletService.add(this.cxOutletRef, this.tpl, this.cxOutletPos);
   }
 }
