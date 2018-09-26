@@ -11,7 +11,7 @@ export const initialState: CartState = {
   content: {},
   entries: {},
   refresh: false,
-  loaded: false
+  loaded: true
 };
 
 export function reducer(
