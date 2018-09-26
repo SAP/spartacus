@@ -33,6 +33,7 @@ export class StoreFinderGridComponent implements OnInit {
     }
 
     this.store.select(fromStore.getFindStoresEntities).subscribe(locations => {
+      console.log(locations);
       if (locations.pointOfServices && locations.pointOfServices.length === 1) {
         this.router.navigate([
           'store-finder',
@@ -47,22 +48,22 @@ export class StoreFinderGridComponent implements OnInit {
     });
   }
 
-  viewStore(location: number) {
+  viewStore(location: any): void {
     this.router.navigate([
       'store-finder',
       'country',
       this.route.snapshot.params.country,
       'region',
       this.route.snapshot.params.region,
-      location['name']
+      location.name
     ]);
   }
 
-  viewAllStoresForCountry(countryIsoCode: string) {
+  viewAllStoresForCountry(countryIsoCode: string): void {
     this.storeFinderService.viewAllStoresForCountry(countryIsoCode);
   }
 
-  viewAllStoresForRegion(countryIsoCode: string, regionIsoCode: string) {
+  viewAllStoresForRegion(countryIsoCode: string, regionIsoCode: string): void {
     this.storeFinderService.viewAllStoresForRegion(
       countryIsoCode,
       regionIsoCode
