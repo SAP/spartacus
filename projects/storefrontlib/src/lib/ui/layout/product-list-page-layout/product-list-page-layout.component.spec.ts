@@ -8,6 +8,7 @@ import * as fromRoot from '../../../routing/store';
 import * as fromProduct from '../../../product/store';
 import * as fromCart from '../../../cart/store';
 import * as fromUser from '../../../user/store';
+import { ProductSearchService } from '../../../product/services';
 
 describe('ProductListPageComponent', () => {
   let component: ProductListPageLayoutComponent;
@@ -24,6 +25,7 @@ describe('ProductListPageComponent', () => {
           user: combineReducers(fromUser.getReducers())
         })
       ],
+      providers: [ProductSearchService],
       declarations: [ProductListPageLayoutComponent]
     }).compileComponents();
   }));
