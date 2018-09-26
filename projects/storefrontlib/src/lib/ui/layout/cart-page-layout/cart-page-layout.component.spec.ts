@@ -17,6 +17,7 @@ import * as fromRoot from '../../../routing/store';
 import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
 import { ComponentsModule } from './../../components/components.module';
 import { CartPageLayoutComponent } from './cart-page-layout.component';
+import { OutletDirective } from '../../../outlet';
 
 class MockCartService {
   removeCartEntry() {}
@@ -51,7 +52,8 @@ describe('CartPageLayoutComponent', () => {
         CartPageLayoutComponent,
         CartDetailsComponent,
         DynamicSlotComponent,
-        ComponentWrapperDirective
+        ComponentWrapperDirective,
+        OutletDirective
       ],
       providers: [
         { provide: CartService, useClass: MockCartService },

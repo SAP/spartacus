@@ -20,6 +20,7 @@ import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
 import { SiteContextModuleConfig } from '../../../site-context/site-context-module-config';
+import { OutletDirective } from '../../../outlet';
 
 const MockCmsModuleConfig: CmsModuleConfig = {
   site: {
@@ -53,7 +54,8 @@ describe('HeaderComponent', () => {
         HeaderSkipperComponent,
         TertiaryBarComponent,
         MobileMenuComponent,
-        LoginComponent
+        LoginComponent,
+        OutletDirective
       ],
       providers: [
         {

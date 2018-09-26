@@ -23,6 +23,7 @@ import * as fromSCStore from '../../../site-context/shared/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuth from '../../../auth/store';
 import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
+import { OutletDirective } from '../../../outlet';
 
 const MockSiteContextModuleConfig: SiteContextModuleConfig = {
   server: {
@@ -65,7 +66,8 @@ describe('StorefrontComponent', () => {
         HeaderSkipperComponent,
         TertiaryBarComponent,
         MobileMenuComponent,
-        LoginComponent
+        LoginComponent,
+        OutletDirective
       ],
       providers: [
         {

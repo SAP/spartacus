@@ -20,6 +20,7 @@ import * as fromAuthStore from './../../../auth/store';
 import * as fromStore from './../../store';
 import * as fromCms from './../../../cms/store';
 import { LoginComponent } from './login.component';
+import { OutletDirective } from '../../../outlet';
 
 const mockUserToken: UserToken = {
   access_token: 'xxx',
@@ -76,7 +77,8 @@ describe('LoginComponent', () => {
       declarations: [
         DynamicSlotComponent,
         LoginComponent,
-        ComponentWrapperDirective
+        ComponentWrapperDirective,
+        OutletDirective
       ],
       providers: [
         provideMockActions(() => of()),
