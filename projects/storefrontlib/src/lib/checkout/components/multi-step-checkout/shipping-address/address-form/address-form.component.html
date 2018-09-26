@@ -7,23 +7,26 @@
                     <ng-container *ngIf="titles$ | async as titles">
                         <div *ngIf="titles.length !== 0">
                             <label for="Title" aria-required="true" class="required">Title</label>
-                            <ng-select [searchable]="false" [clearable]="false" [items]="titles" bindLabel="name" bindValue="code" placeholder="Select Title..."
-                                (add)="titleSelected($event)">
+                            <ng-select [searchable]="false" [clearable]="false" [items]="titles" bindLabel="name"
+                                bindValue="code" placeholder="Select Title..." (add)="titleSelected($event)">
                             </ng-select>
                         </div>
                     </ng-container>
                 </div>
                 <div class="form-group">
                     <label for="FirstName" aria-required="true" class="required">First name</label>
-                    <input id="firstName" class="form-control" type="text" required placeholder="First Name" formControlName="firstName">
+                    <input id="firstName" class="form-control" type="text" required placeholder="First Name"
+                        formControlName="firstName">
                 </div>
                 <div class="form-group">
                     <label for="LastName" aria-required="true" class="required">Last name</label>
-                    <input id="lastName" type="text" class="form-control" required placeholder="Last Name" formControlName="lastName">
+                    <input id="lastName" type="text" class="form-control" required placeholder="Last Name"
+                        formControlName="lastName">
                 </div>
                 <div class="form-group">
                     <label for="Address1" aria-required="true" class="required">Address 1</label>
-                    <input id="address1" type="text" class="form-control" required placeholder="Street Address" formControlName="line1">
+                    <input id="address1" type="text" class="form-control" required placeholder="Street Address"
+                        formControlName="line1">
                 </div>
                 <div class="form-group">
                     <label for="Address2">Address 2 (optional)</label>
@@ -33,8 +36,9 @@
                     <ng-container *ngIf="countries$ | async as countries">
                         <div *ngIf="countries.length !== 0">
                             <label for="Country" aria-required="true" class="required">Country</label>
-                            <ng-select [searchable]="false" [clearable]="false" [items]="countries" bindLabel="name" bindValue="isocode" placeholder="Select One..."
-                                (add)="countrySelected($event)" (change)="onCountryChange($event.isocode)">
+                            <ng-select [searchable]="false" [clearable]="false" [items]="countries" bindLabel="name"
+                                bindValue="isocode" placeholder="Select One..." (add)="countrySelected($event)"
+                                (change)="onCountryChange($event.isocode)">
                             </ng-select>
                         </div>
                     </ng-container>
@@ -49,13 +53,13 @@
                             <div *ngIf="regions.length !== 0">
                                 <label for="State" aria-required="true" class="required">State</label>
                                 <ng-container *ngIf="regions[0].name">
-                                    <ng-select [searchable]="false" [clearable]="false" [items]="regions" bindLabel="name" bindValue="isocode" placeholder="Select One..."
-                                        (add)="regionSelected($event)">
+                                    <ng-select [searchable]="false" [clearable]="false" [items]="regions" bindLabel="name"
+                                        bindValue="isocode" placeholder="Select One..." (add)="regionSelected($event)">
                                     </ng-select>
                                 </ng-container>
                                 <ng-container *ngIf="!regions[0].name">
-                                    <ng-select [searchable]="false" [clearable]="false" [items]="regions" bindLabel="isocode" bindValue="isocode" placeholder="Select One..."
-                                        (add)="regionSelected($event)">
+                                    <ng-select [searchable]="false" [clearable]="false" [items]="regions" bindLabel="isocode"
+                                        bindValue="isocode" placeholder="Select One..." (add)="regionSelected($event)">
                                     </ng-select>
                                 </ng-container>
                             </div>
@@ -63,12 +67,14 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="ZipCode" aria-required="true" class="required">Zip Code</label>
-                        <input id="zipCode" type="text" class="form-control" required placeholder="Postal Code/Zip" formControlName="postalCode">
+                        <input id="zipCode" type="text" class="form-control" required placeholder="Postal Code/Zip"
+                            formControlName="postalCode">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="PhoneNumber">Phone Number (optional)</label>
-                    <input id="phoneNumber" type="text" class="form-control" placeholder="(555) 555 - 0123" formControlName="phone">
+                    <input id="phoneNumber" type="text" class="form-control" placeholder="(555) 555 - 0123"
+                        formControlName="phone">
                 </div>
                 <div class="form-group">
                     <div class="form-check">
@@ -78,10 +84,11 @@
                 </div>
                 <div class="y-address-form__btns row">
                     <div class="col-sm-12 col-md-6 col-lg-6">
-                        <button class="btn btn-block btn-action" (click)="back()">Change Address</button>
+                        <button class="btn btn-block btn-outline-primary" (click)="back()">Change Address</button>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6">
-                        <button class="btn btn-block btn-primary" [disabled]="address.invalid || notSelected( 'country.isocode')" (click)="verfiyAddress()">Continue</button>
+                        <button class="btn btn-block btn-primary" [disabled]="address.invalid || notSelected( 'country.isocode')"
+                            (click)="verfiyAddress()">Continue</button>
                     </div>
                 </div>
             </div>

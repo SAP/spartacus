@@ -3,7 +3,7 @@
         <h3 class="y-existing-address__title d-none d-lg-block d-xl-block">Shipping Address</h3>
         <p class="y-existing-address__text">Select your Shipping Address</p>
         <div class="y-existing-address__btn row justify-content-end">
-            <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action" (click)="goToAddressForm()">Add
+            <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-outline-primary" (click)="goToAddressForm()">Add
                     New Address</button></div>
         </div>
 
@@ -17,7 +17,7 @@
 
         <div class="row">
             <div class="col-md-12 col-lg-6">
-                <button class="btn btn-block btn-action" (click)="back()">Back to cart</button>
+                <button class="btn btn-block btn-outline-primary" (click)="back()">Back to cart</button>
             </div>
             <div class="col-md-12 col-lg-6">
                 <button class="btn btn-block btn-primary" [disabled]="selectedAddress === undefined" (click)="next()">Continue</button>

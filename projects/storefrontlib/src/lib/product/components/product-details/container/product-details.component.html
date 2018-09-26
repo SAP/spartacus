@@ -12,7 +12,8 @@
                     <div class="y-product-details__item-rating">
                         <y-star-rating [rating]="product?.averageRating" [disabled]="true"></y-star-rating>
                         <div class="y-product-details__review-count">({{product?.numberOfReviews}})</div>
-                        <a class="y-product-details__review-link btn-link" (click)="goToReviews($event)">Write a review</a>
+                        <a class="y-product-details__review-link btn btn-link" (click)="goToReviews($event)">Write a
+                            review</a>
                     </div>
 
                     <div class="d-md-none">
@@ -23,7 +24,7 @@
                     <y-add-to-cart *ngIf="product?.stock?.stockLevelStatus !=='outOfStock'" [quantity]="itemCount"
                         [productCode]="product?.code"></y-add-to-cart>
 
-                    <a href="#" class="btn-link">
+                    <a href="#" class="btn btn-link">
                         Share
                     </a>
                 </div>

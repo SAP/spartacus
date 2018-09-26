@@ -4,8 +4,8 @@
             Filter By
         </h4>
         <div class="y-search-facet-filter__container">
-            <div *ngFor="let breadcrumb of searchResult.breadcrumbs" [hidden]="breadcrumb.facetValueCode === activeFacetValueCode" class="y-search-facet-filter__pill"
-                role="filter">
+            <div *ngFor="let breadcrumb of searchResult.breadcrumbs" [hidden]="breadcrumb.facetValueCode === activeFacetValueCode"
+                class="y-search-facet-filter__pill" role="filter">
                 {{breadcrumb.facetValueName}}
                 <button type="button" class="close" aria-label="Close" (click)="toggleValue(breadcrumb.removeQuery.query.value)">
                     <span aria-hidden="true">&times;</span>
@@ -42,7 +42,8 @@
 </div>
 
 <div class="y-search-facet__mobile">
-    <button class="btn btn-action btn-block y-search-facet__mobile--btn" (click)="openFilterModal(content)">Filter by</button>
+    <button class="btn btn-outline-primary btn-block y-search-facet__mobile--btn" (click)="openFilterModal(content)">Filter
+        by</button>
 </div>
 
 <!-- START ONLY SHOW FILTER SECTION IN MOBILE WHEN THEY ARE SELECTED -->
@@ -76,8 +77,9 @@
                     <ul class="y-search-facet-list">
                         <li *ngFor="let value of facet.values; index as facetValueId">
                             <div class="form-check">
-                                <input class="form-check-input y-search-facet-checkbox" role="checkbox" type="checkbox" id="facetModalCheck{{facetId}}_{{facetValueId}}"
-                                    aria-checked="true" [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
+                                <input class="form-check-input y-search-facet-checkbox" role="checkbox" type="checkbox"
+                                    id="facetModalCheck{{facetId}}_{{facetValueId}}" aria-checked="true" [checked]="value.selected"
+                                    (change)="toggleValue(value.query.query.value)">
                                 <label class="form-checkbox y-search-facet-list__label" for="facetModalCheck{{facetId}}_{{facetValueId}}">
                                     {{value.name}} ({{value.count}})
                                 </label>
