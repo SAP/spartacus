@@ -11,13 +11,19 @@ import { Component, Input } from '@angular/core';
 export class GenericLinkComponent {
   private readonly absoluteUrlRegex: RegExp = /^https?:\/\//i;
 
-  @Input() url;
+  @Input()
+  url;
 
-  @Input() target;
-  @Input() class;
-  @Input() id;
-  @Input() style;
-  @Input() title;
+  @Input()
+  target;
+  @Input()
+  class;
+  @Input()
+  id;
+  @Input()
+  style;
+  @Input()
+  title;
 
   get routerUrl() {
     if (this.url !== undefined) {
