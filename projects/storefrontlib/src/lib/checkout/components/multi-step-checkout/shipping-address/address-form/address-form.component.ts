@@ -18,7 +18,6 @@ import * as fromGlobalMessage from '../../../../../global-message/store';
 import { CheckoutService } from '../../../../services/checkout.service';
 import { GlobalMessageType } from '.././../../../../global-message/models/message.model';
 
-import { MatDialog } from '@angular/material';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 
 @Component({
@@ -58,8 +57,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   constructor(
     protected store: Store<fromRouting.State>,
     private fb: FormBuilder,
-    protected checkoutService: CheckoutService,
-    protected dialog: MatDialog
+    protected checkoutService: CheckoutService
   ) {}
 
   ngOnInit() {
@@ -160,31 +158,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.checkoutService.verifyAddress(this.address.value);
   }
 
-  openSuggestedAddress(results: any) {
-    const dialogRef = this.dialog.open(SuggestedAddressDialogComponent, {
-      data: {
-        entered: this.address.value,
-        suggested: results.suggestedAddresses
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(address => {
-      this.store.dispatch(
-        new fromCheckoutStore.ClearAddressVerificationResults()
-      );
-      if (address) {
-        address = Object.assign(
-          {
-            titleCode: this.address.value.titleCode,
-            phone: this.address.value.phone,
-            selected: true
-          },
-          address
-        );
-        this.addAddress.emit(address);
-      }
-    });
-  }
+  openSuggestedAddress(results: any) {}
 
   required(name: string) {
     return (
