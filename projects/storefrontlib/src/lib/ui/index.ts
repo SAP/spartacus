@@ -26,6 +26,7 @@ export * from './layout/contact-page-layout/contact-page-layout.component';
 export * from './components/media/picture/picture.component';
 export * from './components/form-components/star-rating/star-rating.component';
 export * from './components/form-components/item-counter/item-counter.component';
+export * from './components/generic-link/generic-link.component';
 export * from './pages/category-page/category-page.component';
 export * from './pages/product-page/product-page.component';
 export * from './pages/store-finder-page/store-finder-page.component';
