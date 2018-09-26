@@ -1,4 +1,5 @@
 @import '../../theme';
+@import '../../mixins';
 @import '~bootstrap/scss/forms';
 @import '~bootstrap/scss/custom-forms';
 
@@ -91,8 +92,8 @@ input[type='radio'] {
 
     &:checked {
       font-style: normal;
-      border: theme-color('primary');
-      background-color: theme-color('primary');
+      border: var(--y-primary, theme-color('primary'));
+      background-color: var(--y-primary, theme-color('primary'));
 
       &::after {
         color: theme-color('inverse');
@@ -137,11 +138,11 @@ input[type='radio'] {
     top: 4px;
   }
   &:checked {
-    border-color: theme-color('primary') !important;
+    border-color: var(--y-primary, theme-color('primary')) !important;
     background-color: theme-color('inverse');
 
     &::after {
-      background-color: theme-color('primary');
+      @include var-color('background-color', 'primary');
     }
   }
 }

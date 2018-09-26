@@ -34,5 +34,18 @@ describe('Global Message Actions', () => {
         });
       });
     });
+
+    describe('RemoveMessagesByType', () => {
+      it('should create the action', () => {
+        const payload = GlobalMessageType.MSG_TYPE_CONFIRMATION;
+
+        const action = new fromGlobalMessage.RemoveMessagesByType(payload);
+
+        expect({ ...action }).toEqual({
+          type: fromGlobalMessage.REMOVE_MESSAGES_BY_TYPE,
+          payload: payload
+        });
+      });
+    });
   });
 });

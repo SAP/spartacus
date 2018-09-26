@@ -1,8 +1,8 @@
-import { MobileMenuComponent } from './../header/mobile-menu/mobile-menu.component';
-import { HeaderSkipperComponent } from './../header/header-skipper/header-skipper.component';
+import { MobileMenuComponent } from '../header/mobile-menu/mobile-menu.component';
+import { HeaderSkipperComponent } from '../header/header-skipper/header-skipper.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MainComponent } from './main.component';
+import { StorefrontComponent } from './storefront.component';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -17,10 +17,10 @@ import { OccSiteService } from '../../../occ/site-context/occ-site.service';
 import * as fromRoot from '../../../routing/store';
 import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
 import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
-import { LoginComponent } from './../../../user/components/login/login.component';
+import { LoginComponent } from '../../../user/components/login/login.component';
 import { SiteContextModuleConfig } from '../../../site-context/site-context-module-config';
 import * as fromUserReducer from '../../../user/store/reducers';
-import * as fromSCStore from './../../../site-context/shared/store';
+import * as fromSCStore from '../../../site-context/shared/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuth from '../../../auth/store';
 import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
@@ -38,9 +38,9 @@ const MockSiteContextModuleConfig: SiteContextModuleConfig = {
   }
 };
 
-describe('MainComponent', () => {
-  let component: MainComponent;
-  let fixture: ComponentFixture<MainComponent>;
+describe('StorefrontComponent', () => {
+  let component: StorefrontComponent;
+  let fixture: ComponentFixture<StorefrontComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -57,7 +57,7 @@ describe('MainComponent', () => {
         GlobalMessageModule
       ],
       declarations: [
-        MainComponent,
+        StorefrontComponent,
         HeaderComponent,
         FooterComponent,
         DynamicSlotComponent,
@@ -80,7 +80,7 @@ describe('MainComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MainComponent);
+    fixture = TestBed.createComponent(StorefrontComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

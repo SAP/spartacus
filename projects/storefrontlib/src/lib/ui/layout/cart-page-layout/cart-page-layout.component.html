@@ -1,5 +1,5 @@
 <div class="y-page" *ngIf="cart$ | async as cart">
-    <header class="y-page__header">
+    <header class="y-page__header" *ngIf="cart?.totalItems">
         <h1 class="y-page__title">Shopping Cart (ID {{cart?.code}})</h1>
     </header>
 

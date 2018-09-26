@@ -57,6 +57,9 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
       if (instance.bootstrap) {
         instance.bootstrap();
       }
+      if (this.componentLoad) {
+        this.cmpRef.changeDetectorRef.detectChanges();
+      }
     }
   }
 

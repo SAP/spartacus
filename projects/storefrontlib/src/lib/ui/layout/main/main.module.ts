@@ -9,7 +9,7 @@ import { SiteContextModule } from '../../../site-context/site-context.module';
 
 import { UiFrameworkModule } from '../../ui-framework/ui-framework.module';
 
-import { MainComponent } from './main.component';
+import { StorefrontComponent } from './storefront.component';
 import { HeaderModule } from './../header/header.module';
 import { FooterComponent } from '../footer/footer.component';
 
@@ -24,7 +24,7 @@ import { FooterComponent } from '../footer/footer.component';
     HeaderModule,
     UiFrameworkModule
   ],
-  declarations: [MainComponent, FooterComponent],
-  exports: [MainComponent, FooterComponent]
+  declarations: [StorefrontComponent, FooterComponent],
+  exports: [StorefrontComponent, FooterComponent]
 })
 export class MainModule {}
