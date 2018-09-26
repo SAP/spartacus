@@ -6,11 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import {
-  NgbTabsetModule,
-  NgbTabsetConfig,
-  NgbModule
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabsetModule, NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
 
 import { StoreFinderPageLayoutComponent } from './store-finder-page-layout.component';
 import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-list/store-finder-list.component';
