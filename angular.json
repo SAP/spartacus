@@ -36,9 +36,6 @@
             "scripts": []
           },
           "configurations": {
-            "development": {
-              "tsConfig": "tsconfig.dev.json"
-            },
             "production": {
               "fileReplacements": [{
                 "replace": "projects/storefrontapp/src/environments/environment.ts",
@@ -53,7 +50,8 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "serviceWorker": true
+              "serviceWorker": true,
+              "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             }
           }
         },
@@ -65,9 +63,6 @@
           "configurations": {
             "production": {
               "browserTarget": "storefrontapp:build:production"
-            },
-            "development": {
-              "browserTarget": "storefrontapp:build:development"
             }
           }
         },

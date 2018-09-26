@@ -9,7 +9,8 @@
   <div mat-dialog-content>
     <div class="entry-info-container">
       <ul class="item__list item__list__cart" [formGroup]="form">
-        <y-cart-item formGroupName="entryForm" [entry]="entry" [disableProductLink]="true" (update)="updateEntry($event)" (remove)="removeEntry($event)"></y-cart-item>
+        <y-cart-item [parent]="form.get('entryForm')" [entry]="entry" [disableProductLink]="true" (update)="updateEntry($event)"
+          (remove)="removeEntry($event)"></y-cart-item>
       </ul>
     </div>
     <div class="cart-total-container">

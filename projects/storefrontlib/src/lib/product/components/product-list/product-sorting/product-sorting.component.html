@@ -1,21 +1,5 @@
-<button mat-icon-button mat-color="primary" [mat-menu-trigger-for]="productSort">
-    <mat-icon>expand_more</mat-icon>
-</button>
-<mat-menu #productSort="matMenu">
-    <button *ngFor="let sort of sortOptions" mat-menu-item (click)="sortList(sort.code)">
-        <mat-icon color="primary">sort_by_alpha</mat-icon>
-        {{sort.name}}
-    </button>
-    <mat-divider></mat-divider>
-    <div fxLayout="row" fxLayoutAlign="space-around center">
-        <button mat-icon-button [disabled]="grid.mode === 'grid'" (click)="grid.mode='grid'">
-            <mat-icon>view_module</mat-icon>
-        </button>
-        <button mat-icon-button [disabled]="grid.mode === 'list'" (click)="grid.mode='list'">
-            <mat-icon>view_list</mat-icon>
-        </button>
-        <button mat-icon-button [disabled]="grid.mode === 'line'" (click)="grid.mode='line'">
-            <mat-icon>view_headline</mat-icon>
-        </button>
-    </div>
-</mat-menu>
+<div class="form-group y-product-search__dropdown">
+    <ng-select [searchable]="false" [clearable]="false" placeholder="Sort by Relevance" (change)="sortList($event)" [ngModel]="selectedOption">
+        <ng-option *ngFor="let sort of sortOptions" [value]="sort.code">{{sort.name}}</ng-option>
+    </ng-select>
+</div>

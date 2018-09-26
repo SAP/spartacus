@@ -1,25 +1,37 @@
 import { NgModule } from '@angular/core';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   NgbTabsetModule,
   NgbAccordionModule,
   NgbTabsetConfig,
   NgbAccordionConfig,
   NgbRatingModule,
-  NgbRatingConfig
+  NgbRatingConfig,
+  NgbDropdownModule,
+  NgbTypeaheadModule,
+  NgbCollapseModule,
+  NgbModalModule,
+  NgbPaginationModule
 } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   imports: [
     NgbDropdownModule.forRoot(),
+    NgbTypeaheadModule.forRoot(),
+    NgbPaginationModule.forRoot(),
+    NgbModalModule.forRoot(),
     NgbTabsetModule,
     NgbAccordionModule,
-    NgbRatingModule
+    NgbRatingModule,
+    NgbCollapseModule
   ],
   exports: [
     NgbDropdownModule,
     NgbTabsetModule,
     NgbAccordionModule,
-    NgbRatingModule
+    NgbRatingModule,
+    NgbTypeaheadModule,
+    NgbCollapseModule,
+    NgbModalModule,
+    NgbPaginationModule
   ],
   providers: [NgbTabsetConfig, NgbAccordionConfig, NgbRatingConfig]
 })
