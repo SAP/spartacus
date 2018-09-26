@@ -19,14 +19,16 @@ $y-search-list-price-new-trbl-margin: 0 0 0 5px !default;
 $y-search-list-price-old-color: 'secondary' !default;
 $y-search-list-price-new-color: 'primary' !default;
 
+
 .y-product-search-list {
   border-bottom: $y-search-list-border;
   @include var-color('border-color', $y-search-list-border-color);
   margin: $y-search-list-trbl-margin;
 
-  &:last-child {
+  &:last-of-type {
     border-bottom: none;
   }
+
 
   &__image__container {
     display: block;
