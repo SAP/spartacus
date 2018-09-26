@@ -22,6 +22,7 @@ import {
   NgbTabsetModule,
   NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
+import { ProductService } from '../../../product/services';
 
 describe('ProductDetailsPageLayoutComponent', () => {
   let component: ProductDetailsPageLayoutComponent;
@@ -41,6 +42,7 @@ describe('ProductDetailsPageLayoutComponent', () => {
         }),
         ComponentsModule
       ],
+      providers: [ProductService],
       declarations: [
         ProductDetailsPageLayoutComponent,
         DynamicSlotComponent,
