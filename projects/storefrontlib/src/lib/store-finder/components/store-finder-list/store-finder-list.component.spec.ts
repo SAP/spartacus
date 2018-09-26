@@ -14,6 +14,7 @@ import * as fromRoot from '../../../routing/store';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 import { OccModuleConfig } from '../../../occ/occ-module-config';
 import { PaginationComponent } from '../../../ui/components/pagination-and-sorting/pagination/pagination.component';
+import { BootstrapModule } from '../../../bootstrap.module';
 
 describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
@@ -25,6 +26,7 @@ describe('StoreFinderListComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         HttpClientTestingModule,
+        BootstrapModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           stores: combineReducers(fromReducers.reducers)

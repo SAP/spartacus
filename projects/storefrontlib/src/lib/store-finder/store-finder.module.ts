@@ -18,6 +18,7 @@ import { StoreFinderStoreDescriptionComponent } from './components/store-finder-
 import { ScheduleComponent } from './components/schedule-component/schedule.component';
 import { StoreFinderListCountComponent } from './components/store-finder-list-count/store-finder-list-count.component';
 import { PaginationAndSortingModule } from '../ui/components/pagination-and-sorting/pagination-and-sorting.module';
+import { BootstrapModule } from '../bootstrap.module';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { PaginationAndSortingModule } from '../ui/components/pagination-and-sort
     ReactiveFormsModule,
     StoreModule.forFeature('stores', reducers),
     EffectsModule.forFeature(effects),
-    PaginationAndSortingModule
+    PaginationAndSortingModule,
+    BootstrapModule
   ],
   declarations: [
     StoreFinderSearchComponent,
