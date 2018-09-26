@@ -65,7 +65,7 @@ describe('CurrencySelectorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should contain currencies button', () => {
+  it('should contain disabled currencies dropdown', () => {
     component.currencies$ = of(currencies);
 
     const label = el.query(By.css('label'));
@@ -74,17 +74,23 @@ describe('CurrencySelectorComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(select.nativeElement.value).toEqual(currencies[0].isocode);
+      expect(select.nativeElement.disabled).toBeTruthy();
     });
 
     expect(label.nativeElement.textContent).toEqual('Currency');
   });
 
-  it('should get currency data', () => {
+  it('should get currency data and enable dropdown', () => {
     const action = new fromActions.LoadCurrenciesSuccess(currencies);
+    const select = el.query(By.css('select'));
+
     store.dispatch(action);
 
     store.select(fromStore.getAllCurrencies).subscribe(data => {
       expect(data).toEqual(currencies);
+
+      fixture.detectChanges();
+      expect(select.nativeElement.disabled).toBeFalsy();
     });
   });
 

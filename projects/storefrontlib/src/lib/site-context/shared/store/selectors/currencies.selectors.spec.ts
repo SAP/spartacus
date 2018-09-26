@@ -88,10 +88,13 @@ describe('Currencies Selectors', () => {
 
       expect(result).toEqual(false);
 
+      store.dispatch(new fromActions.LoadCurrencies());
+      expect(result).toEqual(false);
+
       store.dispatch(new fromActions.LoadCurrenciesSuccess(currencies));
       expect(result).toEqual(true);
 
-      store.dispatch(new fromActions.LoadCurrenciesFail(currencies));
+      store.dispatch(new fromActions.LoadCurrenciesFail({}));
       expect(result).toEqual(true);
     });
   });
@@ -104,13 +107,39 @@ describe('Currencies Selectors', () => {
         .select(fromSelectors.getCurrenciesLoading)
         .subscribe(value => (result = value));
 
-      store.dispatch(new fromActions.LoadCurrenciesFail({}));
+      store.dispatch(new fromActions.LoadCurrencies());
+      expect(result).toEqual(true);
 
+      store.dispatch(new fromActions.LoadCurrenciesSuccess(currencies));
       expect(result).toEqual(false);
 
       store.dispatch(new fromActions.LoadCurrencies());
-
       expect(result).toEqual(true);
+
+      store.dispatch(new fromActions.LoadCurrenciesFail({}));
+      expect(result).toEqual(false);
+    });
+  });
+
+  describe('getCurrenciesLoaded', () => {
+    it('should return whether currencies are successfully loaded', () => {
+      let result;
+
+      store
+        .select(fromSelectors.getCurrenciesLoaded)
+        .subscribe(value => (result = value));
+
+      store.dispatch(new fromActions.LoadCurrencies());
+      expect(result).toEqual(false);
+
+      store.dispatch(new fromActions.LoadCurrenciesSuccess(currencies));
+      expect(result).toEqual(true);
+
+      store.dispatch(new fromActions.LoadCurrencies());
+      expect(result).toEqual(false);
+
+      store.dispatch(new fromActions.LoadCurrenciesFail({}));
+      expect(result).toEqual(false);
     });
   });
 });

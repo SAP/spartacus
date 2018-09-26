@@ -1,6 +1,7 @@
 <div class="y-language-selector">
     <label class="y-language-selector__label" for="languageSelector">Language</label>
-    <select class="y-language-selector__control form-control" name="" id="languageSelector" (change)="setActiveLanguage($event.target.value)">
+    <select class="y-language-selector__control form-control" name="" id="languageSelector" (change)="setActiveLanguage($event.target.value)"
+        [disabled]="!(languagesLoaded$ | async)">
         <option *ngFor="let item of (languages$ | async)" value="{{item.isocode}}" [selected]="activeLanguage == item.isocode">{{item.nativeName}}</option>
     </select>
 </div>

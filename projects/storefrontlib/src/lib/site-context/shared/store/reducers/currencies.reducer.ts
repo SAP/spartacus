@@ -4,6 +4,7 @@ export interface CurrenciesState {
   entities: { [isocode: string]: any };
   loadAttempted: boolean;
   loading: boolean;
+  loaded: boolean;
   activeCurrency: string;
 }
 
@@ -11,6 +12,7 @@ export const initialState: CurrenciesState = {
   entities: {},
   loadAttempted: false,
   loading: false,
+  loaded: false,
   activeCurrency: null
 };
 
@@ -37,7 +39,8 @@ export function reducer(
         ...state,
         entities,
         loadAttempted: true,
-        loading: false
+        loading: false,
+        loaded: true
       };
     }
 
@@ -52,7 +55,8 @@ export function reducer(
     case fromCurrencies.LOAD_CURRENCIES: {
       return {
         ...state,
-        loading: true
+        loading: true,
+        loaded: false
       };
     }
 
@@ -73,5 +77,6 @@ export const getCurrenciesEntities = (state: CurrenciesState) => state.entities;
 export const getCurrenciesLoadAttempted = (state: CurrenciesState) =>
   state.loadAttempted;
 export const getCurrenciesLoading = (state: CurrenciesState) => state.loading;
+export const getCurrenciesLoaded = (state: CurrenciesState) => state.loaded;
 export const getActiveCurrency = (state: CurrenciesState) =>
   state.activeCurrency;
