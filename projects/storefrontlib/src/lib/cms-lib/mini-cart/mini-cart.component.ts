@@ -14,8 +14,6 @@ import { CartService } from '../../cart/services/cart.service';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 
-import { MatDialog } from '@angular/material';
-
 @Component({
   selector: 'y-mini-cart',
   templateUrl: './mini-cart.component.html',
@@ -33,7 +31,6 @@ export class MiniCartComponent extends AbstractCmsComponent {
     protected cd: ChangeDetectorRef,
     protected store: Store<fromStore.CmsState>,
     protected config: CmsModuleConfig,
-    protected dialog: MatDialog,
     protected cartService: CartService
   ) {
     super(cd, store, config);
