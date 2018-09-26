@@ -10,10 +10,10 @@ import { Store } from '@ngrx/store';
 export class CmsService {
   constructor(private store: Store<fromStore.CmsState>) {}
 
-  getComponentData(uid: string, load: boolean = false): Observable<any> {
+  getComponentData(uid: string): Observable<any> {
     return this.store.select(fromStore.componentSelectorFactory(uid)).pipe(
       tap(componentData => {
-        if (componentData === undefined && load) {
+        if (componentData === undefined) {
           this.store.dispatch(new fromStore.LoadComponent(uid));
         }
       }, filter(Boolean))

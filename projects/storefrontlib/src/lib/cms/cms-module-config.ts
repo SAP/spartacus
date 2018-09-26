@@ -63,6 +63,6 @@ export const defaultCmsModuleConfig: CmsModuleConfig = {
     SearchBoxComponent: 'y-searchbox',
     ProductReferencesComponent: 'y-product-references',
     // CMSTabParagraphComponent: 'y-tab-paragraph-container'
-    CMSTabParagraphComponent: 'y-tab-paragraph'
+    CMSTabParagraphComponent: 'y-paragraph'
   }
 };

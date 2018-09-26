@@ -5,7 +5,6 @@ export * from './cookie-confirmation/cookie-message/cookie-message.component';
 export * from './cookie-confirmation/cookie-confirmation.component';
 export * from './footer-navigation/footer-navigation.component';
 export * from './paragraph/paragraph.component';
-export * from './paragraph/tab-paragraph/tab-paragraph.component';
 export * from './product-carousel/product-carousel.component';
 export * from './tab-paragraph-container/tab-paragraph-container.component';
 export * from './navigation/navigation.component';
