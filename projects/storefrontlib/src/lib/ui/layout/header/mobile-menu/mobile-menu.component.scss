@@ -35,10 +35,8 @@ $y-mobile-menu-position-left-hidden: -1000vh !default;
   &__components {
     display: flex;
     flex-direction: column;
-    @include var-color(
-      'background-color',
-      $y-mobile-menu-components-background-color
-    );
+    @include var-color('background-color',
+    $y-mobile-menu-components-background-color);
   }
 
   &__locale {
@@ -51,6 +49,7 @@ $y-mobile-menu-position-left-hidden: -1000vh !default;
     @include media-breakpoint-up(lg) {
       display: none;
     }
+
     @include media-breakpoint-down(md) {
       position: $y-mobile-menu-control-position-md;
       top: $y-mobile-menu-control-position-md-top;
@@ -61,22 +60,28 @@ $y-mobile-menu-position-left-hidden: -1000vh !default;
     @include media-breakpoint-up(lg) {
       display: none;
     }
+
     @include media-breakpoint-down(md) {
       position: $y-mobile-menu-position;
       left: $y-mobile-menu-position-left;
-      @include var-color(
-        'background-color',
-        $y-mobile-menu-md-content-background-color
-      );
+      @include var-color('background-color',
+      $y-mobile-menu-md-content-background-color);
       transition: $y-mobile-menu-transition;
       z-index: $y-mobile-menu-z-index;
       width: $y-mobile-menu-width;
+
       &[aria-hidden='true'] {
         display: none;
       }
+
       &[aria-hidden='false'] {
         left: $y-mobile-menu-position-left-hidden;
       }
     }
+  }
+
+  // temporary solution
+  #add-to-home-screen {
+    width: 100%;
   }
 }

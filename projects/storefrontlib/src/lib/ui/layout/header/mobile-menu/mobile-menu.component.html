@@ -1,23 +1,27 @@
 <div class="y-mobile-menu">
 
-      <div class="y-mobile-menu__control">
-            <button class="hamburger hamburger--squeeze" type="button" (click)="showMenu = !showMenu" [ngClass]="{ 'is-active': showMenu }"
-                  [attr.aria-expanded]="showMenu" aria-label="Menu" aria-controls="header-account-container, header-categories-container, header-locale-container">
-                  <span class="hamburger-box">
-                        <span class="hamburger-inner"></span>
-                  </span>
-            </button>
-      </div>
+  <div class="y-mobile-menu__control">
+    <button class="hamburger hamburger--squeeze" type="button" (click)="showMenu = !showMenu" [ngClass]="{ 'is-active': showMenu }"
+      [attr.aria-expanded]="showMenu" aria-label="Menu" aria-controls="header-account-container, header-categories-container, header-locale-container">
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+  </div>
 
-      <div class="y-mobile-menu__content" [attr.aria-hidden]="!showMenu">
-            <div class="y-mobile-menu__components">
-                  <y-login></y-login>
-                  <y-dynamic-slot position="NavigationBar" class="d-block d-lg-none"></y-dynamic-slot>
-                  <div class="y-mobile-menu__locale">
-                        <y-language-selector></y-language-selector>
-                        <y-currency-selector></y-currency-selector>
-                  </div>
-            </div>
+  <div class="y-mobile-menu__content" [attr.aria-hidden]="!showMenu">
+    <div class="y-mobile-menu__components">
+      <y-login></y-login>
+      <y-dynamic-slot position="NavigationBar" class="d-block d-lg-none"></y-dynamic-slot>
+      <div class="y-mobile-menu__locale">
+        <y-language-selector></y-language-selector>
+        <y-currency-selector></y-currency-selector>
       </div>
+      <!-- temporary solution -->
+      <div *ngIf="canAddToHomeScreen">
+        <button class="btn btn-primary" id="add-to-home-screen" (click)="addToHomeScreen()">Add to Home screen</button>
+      </div>
+    </div>
+  </div>
 
 </div>

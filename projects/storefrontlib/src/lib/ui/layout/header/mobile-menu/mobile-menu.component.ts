@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ATHSPrompt } from '../../../../pwa/addToHomScreen';
 
 @Component({
   selector: 'y-mobile-menu',
@@ -10,4 +11,11 @@ export class MobileMenuComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  canAddToHomeScreen(): boolean {
+    return ATHSPrompt.canPrompt;
+  }
+  addToHomeScreen(): void {
+    ATHSPrompt.prompt();
+  }
 }
