@@ -4,20 +4,23 @@
 
 //buttons - https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss#L348
 .btn {
-  text-transform: $btn-text-transform;
+  --y-height: 48px;
+
   font-size: 1.125em;
   line-height: 1.125em;
+  text-transform: $btn-text-transform;
+
   padding: 11px 12px;
-  height: 48px;
+  height: var(--y-height);
 
   &-sm {
     padding-top: 0;
     padding-bottom: 0;
-    height: 40px;
+    --y-height: 40px;
   }
 
   &-lg {
-    height: 55px;
+    --y-height: 55px;
   }
 
   &-primary {
