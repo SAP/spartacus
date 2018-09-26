@@ -4,8 +4,6 @@ import { CheckoutService } from '../../../../../services';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog.component';
 import { CartService } from '../../../../../../cart/services';
 
-const address = { mockAddress: 'mockAddress', titleCode: 'mr' };
-
 describe('SuggestedAddressDialogComponent', () => {
   let component: SuggestedAddressDialogComponent;
   let fixture: ComponentFixture<SuggestedAddressDialogComponent>;

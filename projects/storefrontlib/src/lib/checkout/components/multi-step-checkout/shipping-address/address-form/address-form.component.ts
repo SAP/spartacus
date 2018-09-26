@@ -18,8 +18,6 @@ import * as fromGlobalMessage from '../../../../../global-message/store';
 import { CheckoutService } from '../../../../services/checkout.service';
 import { GlobalMessageType } from '.././../../../../global-message/models/message.model';
 
-import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
-
 @Component({
   selector: 'y-address-form',
   templateUrl: './address-form.component.html',

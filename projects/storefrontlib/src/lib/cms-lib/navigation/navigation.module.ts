@@ -8,12 +8,7 @@ import { NavigationComponent } from './navigation.component';
 import { NavigationService } from './navigation.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    FlexLayoutModule,
-    BootstrapModule
-  ],
+  imports: [CommonModule, RouterModule, FlexLayoutModule, BootstrapModule],
   providers: [NavigationService],
   declarations: [NavigationComponent],
   entryComponents: [NavigationComponent],
