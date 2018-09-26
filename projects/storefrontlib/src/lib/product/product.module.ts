@@ -12,7 +12,6 @@ import { MediaModule } from './../ui/components/media/media.module';
 import { CmsModule } from './../cms/cms.module';
 
 import { MaterialModule } from './../material.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 // guards
 import { guards } from './guards/index';
@@ -28,7 +27,6 @@ import { ProductDetailsModule } from './components/product-details/product-detai
     RouterModule,
     MediaModule,
     MaterialModule,
-    FlexLayoutModule,
     CmsModule,
     StoreModule.forFeature('products', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)

@@ -177,12 +177,6 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/flex-layout@^6.0.0-beta.15":
-  version "6.0.0-beta.15"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/flex-layout/-/flex-layout-6.0.0-beta.15.tgz#9e85e9292286941973c7e6cdec02990d5fd6ec15"
-  dependencies:
-    tslib "^1.7.1"
-
 "@angular/forms@^6.1.8":
   version "6.1.8"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/forms/-/forms-6.1.8.tgz#058429b99fc4c6554fe4943a23d4d6221cb1d9ac"
@@ -5825,9 +5819,9 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-rxjs@^6.0.0:
-  version "6.1.0"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/rxjs/-/rxjs-6.1.0.tgz#833447de4e4f6427b9cec3e5eb9f56415cd28315"
+rxjs@^6.0.0, rxjs@^6.3.3:
+  version "6.3.3"
+  resolved "https://repository.hybris.com:443/api/npm/npm-repository/rxjs/-/rxjs-6.3.3.tgz#3c6a7fa420e844a81390fb1158a9ec614f4bad55"
   dependencies:
     tslib "^1.9.0"
 
@@ -6680,11 +6674,11 @@ tsickle@^0.32.1:
     source-map "^0.6.0"
     source-map-support "^0.5.0"
 
-tslib@^1.7.1, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
+tslib@^1.7.1, tslib@^1.8.0, tslib@^1.8.1:
   version "1.9.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/tslib/-/tslib-1.9.1.tgz#a5d1f0532a49221c87755cfcc89ca37197242ba7"
 
-tslib@^1.9.3:
+tslib@^1.9.0, tslib@^1.9.3:
   version "1.9.3"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
 

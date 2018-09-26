@@ -1,4 +1,4 @@
-<a fxFlex *ngIf="hasImage()" [target]="getTarget()" [routerLink]="getUrlLink()">
+<a *ngIf="hasImage()" [target]="getTarget()" [routerLink]="getUrlLink()">
   <picture [class]="getClass()">
     <img [src]="getBaseUrl() + getImageUrl()" [srcset]="getResponsiveSrcset()" sizes="100%" />
   </picture>
