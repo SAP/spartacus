@@ -26,7 +26,7 @@ describe('CmsService', () => {
     (service: CmsService) => {
       const testUid = 'test_uid';
 
-      const data$ = service.getComponentData(testUid);
+      const data$ = service.getComponentData(testUid, true);
       expect(MockStore.select).toHaveBeenCalled();
 
       data$.subscribe(() => {});
