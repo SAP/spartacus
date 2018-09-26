@@ -25,6 +25,7 @@ $y-search-box-input-width-md: 19rem !default;
 $y-search-box-input-width-sm: 7rem !default;
 $y-search-box-input-width-xs: auto !default;
 $y-search-box-input-radius: 0 !default;
+$y-search-box-input-margin-bottom: 0 !default;
 $y-search-box-input-trbl-padding: 0 !default;
 $y-search-box-button-border: 0 none !default;
 $y-search-box-search-icon-width: 28px !default;
@@ -71,6 +72,7 @@ $y-search-box-search-icon-height: 28px !default;
     @include var-color('color', $y-search-box-input-color);
     border: $y-search-box-input-border;
     border-radius: $y-search-box-input-radius;
+    margin-bottom: $y-search-box-input-margin-bottom;
     &[aria-label='search'] {
       @include media-breakpoint-down(xl) {
         width: $y-search-box-input-width-xl;
