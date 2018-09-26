@@ -8,8 +8,7 @@ import { enableATHS } from 'storefrontlib';
 
 if (environment.production) {
   enableProdMode();
+  enableATHS();
 }
-
-enableATHS();
 
 platformBrowserDynamic().bootstrapModule(AppModule);
