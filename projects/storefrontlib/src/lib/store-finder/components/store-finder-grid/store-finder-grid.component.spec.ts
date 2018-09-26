@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, Router } from '@angular/router';
 import { combineReducers, StoreModule, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
@@ -17,37 +18,30 @@ class StoreFinderServiceMock {
   viewAllStoresForRegion(countryIsoCode: string, regionIsoCode: string) {}
 }
 
-const mockStores = {
-  findStoresEntities: {
-    pointOfServices: [
-      {
-        displayName: 'testName',
-        address: {
-          line1: 'testAddressLine1',
-          town: 'testTown',
-          postalCode: 'testPostalCode'
-        }
-      },
-      {
-        displayName: 'testName2',
-        address: {
-          line1: 'testAddressLine1',
-          town: 'testTown',
-          postalCode: 'testPostalCode'
-        }
-      }
-    ]
-  }
-};
-
 const countryIsoCode: string = 'CA';
 const regionIsoCode: string = 'CA-QC';
 
-fdescribe('StoreFinderGridComponent', () => {
+const location = {
+  name: 'testName'
+};
+
+const mockActivatedRoute = {
+  snapshot: {
+    params: {
+      country: countryIsoCode,
+      region: regionIsoCode
+    }
+  }
+};
+
+describe('StoreFinderGridComponent', () => {
   let component: StoreFinderGridComponent;
   let fixture: ComponentFixture<StoreFinderGridComponent>;
   let storeFinderServiceMock: StoreFinderServiceMock;
   let store: Store<fromReducers.StoresState>;
+  let mockRouter = {
+    navigate: jasmine.createSpy('navigate')
+  };
 
   beforeEach(async(() => {
     const bed = TestBed.configureTestingModule({
@@ -63,7 +57,9 @@ fdescribe('StoreFinderGridComponent', () => {
         ...services,
         StoreFinderServiceMock,
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
-        { provide: Location,  }
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: mockActivatedRoute },
+        { provide: Router, useValue: mockRouter }
       ]
     });
     bed.compileComponents();
@@ -106,15 +102,15 @@ fdescribe('StoreFinderGridComponent', () => {
     ).toHaveBeenCalledWith(countryIsoCode, regionIsoCode);
   });
 
-  it('should call viewStore when a button is clicked', () => {
-    expect(component).toBeTruthy();
-    spyOn(this.store, 'select').and.returnValues(of(mockStores));
-    spyOn(component, 'viewStore').and.stub;
-    console.log(fixture.debugElement.nativeElement);
-    let button = fixture.debugElement.nativeElement.querySelector('button');
-
-    fixture.whenStable().then(() => {
-      expect(component.viewStore).toHaveBeenCalled();
-    });
+  it('should route when viewStore is called', () => {
+    component.viewStore(location);
+    expect(mockRouter.navigate).toHaveBeenCalledWith([
+      'store-finder',
+      'country',
+      mockActivatedRoute.snapshot.params.country,
+      'region',
+      mockActivatedRoute.snapshot.params.region,
+      location.name
+    ]);
   });
 });

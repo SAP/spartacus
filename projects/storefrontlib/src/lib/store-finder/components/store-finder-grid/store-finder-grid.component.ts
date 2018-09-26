@@ -33,7 +33,6 @@ export class StoreFinderGridComponent implements OnInit {
     }
 
     this.store.select(fromStore.getFindStoresEntities).subscribe(locations => {
-      console.log(locations);
       if (locations.pointOfServices && locations.pointOfServices.length === 1) {
         this.router.navigate([
           'store-finder',
