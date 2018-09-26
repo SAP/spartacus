@@ -86,8 +86,6 @@ describe('Languages Selectors', () => {
 
       expect(result).toEqual(false);
 
-      expect(result).toEqual(false);
-
       store.dispatch(new fromActions.LoadLanguages());
       expect(result).toEqual(false);
 
