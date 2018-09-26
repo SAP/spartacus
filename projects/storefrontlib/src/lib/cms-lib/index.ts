@@ -1,7 +1,5 @@
 export * from './cms-lib.module';
 export * from './mini-cart/mini-cart.component';
-export * from './cookie-confirmation/cookie-message/cookie-message.component';
-export * from './cookie-confirmation/cookie-confirmation.component';
 export * from './footer-navigation/footer-navigation.component';
 export * from './paragraph/paragraph.component';
 export * from './product-carousel/product-carousel.component';
@@ -15,7 +13,6 @@ export * from './breadcrumb/breadcrumb.component';
 export * from './banner/banner.component';
 export * from './banner/responsive-banner.component';
 export * from './mini-cart/mini-cart.module';
-export * from './cookie-confirmation/cookie-confirmation.module';
 export * from './footer-navigation/footer-navigation.module';
 export * from './paragraph/paragraph.module';
 export * from './product-carousel/product-carousel.module';
