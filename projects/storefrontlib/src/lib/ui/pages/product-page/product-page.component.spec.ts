@@ -32,6 +32,7 @@ import {
   NgbTabsetModule,
   NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
+import { OutletDirective } from '../../../outlet';
 
 const routerState = {
   state: {
@@ -71,7 +72,8 @@ describe('ProductPageComponent in pages', () => {
         ProductSummaryComponent,
         ProductAttributesComponent,
         ProductReviewsComponent,
-        AddToCartComponent
+        AddToCartComponent,
+        OutletDirective
       ],
       providers: [
         ComponentMapperService,
