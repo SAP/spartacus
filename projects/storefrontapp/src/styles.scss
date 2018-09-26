@@ -6,3 +6,29 @@
   width: 100%;
   max-width: 100% !important;
 }
+
+:root {
+  --y-darken-factor: 1;
+
+  --y-primary-h: 0;
+  --y-primary-s: 99;
+  --y-primary-l: 67;
+
+  --y-secondary-h: 222;
+  --y-secondary-s: 5;
+  --y-secondary-l: 48;
+}
+
+* {
+  --y-primary: hsl(
+    var(--y-primary-h),
+    calc(var(--y-primary-s) * 1%),
+    calc(var(--y-primary-l) * var(--y-darken-factor) * 1%)
+  );
+
+  --y-secondary: hsl(
+    var(--y-secondary-h),
+    calc(var(--y-secondary-s) * 1%),
+    calc(var(--y-secondary-l) * var(--y-darken-factor) * 1%)
+  );
+}
