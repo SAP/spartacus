@@ -16,7 +16,8 @@ export class CmsService {
         if (componentData === undefined) {
           this.store.dispatch(new fromStore.LoadComponent(uid));
         }
-      }, filter(Boolean))
+      }),
+      filter(Boolean)
     );
   }
 }
