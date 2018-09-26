@@ -14,8 +14,10 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaginationComponent implements OnInit {
-  @Input() pagination;
-  @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
+  @Input()
+  pagination;
+  @Output()
+  viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() {}
 

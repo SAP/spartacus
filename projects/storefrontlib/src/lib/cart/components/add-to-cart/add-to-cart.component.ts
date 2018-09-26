@@ -24,10 +24,13 @@ export class AddToCartComponent implements OnInit {
   modalInstance;
 
   isLoading = false;
-  @Input() iconOnly;
+  @Input()
+  iconOnly;
 
-  @Input() productCode;
-  @Input() quantity = 1;
+  @Input()
+  productCode;
+  @Input()
+  quantity = 1;
 
   cartEntry$: Observable<any>;
 

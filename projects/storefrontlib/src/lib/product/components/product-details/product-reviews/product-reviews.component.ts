@@ -20,12 +20,14 @@ import * as fromStore from '../../../store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductReviewsComponent implements OnChanges, OnInit {
-  @Input() product: any;
+  @Input()
+  product: any;
   @Input()
   get isWritingReview() {
     return this._isWritingReview;
   }
-  @Output() isWritingReviewChange = new EventEmitter();
+  @Output()
+  isWritingReviewChange = new EventEmitter();
 
   set isWritingReview(val) {
     this._isWritingReview = val;

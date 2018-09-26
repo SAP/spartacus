@@ -14,11 +14,16 @@ import { AbstractCmsComponent } from '../abstract-cms-component';
   selector: '[yComponentWrapper]'
 })
 export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
-  @Input() componentType: string;
-  @Input() componentUid: string;
-  @Input() componentCssClass: string;
-  @Input() contextParameters: any;
-  @Input() componentLoad = false;
+  @Input()
+  componentType: string;
+  @Input()
+  componentUid: string;
+  @Input()
+  componentCssClass: string;
+  @Input()
+  contextParameters: any;
+  @Input()
+  componentLoad = false;
 
   cmpRef: ComponentRef<any>;
 

@@ -25,9 +25,12 @@ export class PaymentMethodComponent implements OnInit {
   existingPaymentMethods$: Observable<any>;
   cards = [];
 
-  @Input() selectedPayment: any;
-  @Output() backStep = new EventEmitter<any>();
-  @Output() addPaymentInfo = new EventEmitter<any>();
+  @Input()
+  selectedPayment: any;
+  @Output()
+  backStep = new EventEmitter<any>();
+  @Output()
+  addPaymentInfo = new EventEmitter<any>();
 
   constructor(
     protected store: Store<fromUserStore.UserState>,

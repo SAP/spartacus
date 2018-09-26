@@ -25,8 +25,10 @@ export class NavigationComponent extends AbstractCmsComponent
 
   done = false;
 
-  @Input() dropdownMode = 'list';
-  @Input() node;
+  @Input()
+  dropdownMode = 'list';
+  @Input()
+  node;
 
   constructor(
     protected cd: ChangeDetectorRef,

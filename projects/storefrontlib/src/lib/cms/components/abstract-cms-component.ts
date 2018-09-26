@@ -7,7 +7,8 @@ import { CmsModuleConfig } from '../cms-module-config';
 
 @Injectable()
 export abstract class AbstractCmsComponent implements OnDestroy {
-  @Input() public component: any = null;
+  @Input()
+  public component: any = null;
   protected uid: string;
   protected load: boolean;
   protected contextParameters: any;

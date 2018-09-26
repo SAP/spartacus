@@ -24,8 +24,10 @@ export class ProductCarouselComponent extends AbstractCmsComponent
 
   codesSubscription: Subscription;
 
-  @Input() productCodes: Array<String>;
-  @Input() animate = true;
+  @Input()
+  productCodes: Array<String>;
+  @Input()
+  animate = true;
 
   protected fetchData() {
     const codes = this.getProductCodes();

@@ -16,9 +16,12 @@ import * as fromStore from '../../../store';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductDetailsComponent implements OnChanges {
-  @ViewChild('tabSet') tabSet;
-  @ViewChild('tabSetWrapper') tabSetWrapper;
-  @Input() productCode: string;
+  @ViewChild('tabSet')
+  tabSet;
+  @ViewChild('tabSetWrapper')
+  tabSetWrapper;
+  @Input()
+  productCode: string;
   product$: Observable<any>;
   itemCount = 1;
 
