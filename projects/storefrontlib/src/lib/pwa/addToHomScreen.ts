@@ -5,14 +5,11 @@ let ATHSPrompt = {
   }
 };
 
-function enableATHS(auto: boolean = false) {
+function enableATHS() {
   window.addEventListener('beforeinstallprompt', (e: any) => {
     e.preventDefault();
     ATHSPrompt = e;
     ATHSPrompt.canPrompt = true;
-    if (auto) {
-      ATHSPrompt.prompt();
-    }
   });
 }
 

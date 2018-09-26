@@ -4,16 +4,12 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
-import { enableATHS, ATHSPrompt } from 'storefrontlib';
+import { enableATHS } from 'storefrontlib';
 
 if (environment.production) {
   enableProdMode();
 }
 
-enableATHS(true);
+enableATHS();
 
-if (ATHSPrompt.prompt) {
-  // show ATHS promp wheneber you can
-  ATHSPrompt.prompt();
-}
 platformBrowserDynamic().bootstrapModule(AppModule);
