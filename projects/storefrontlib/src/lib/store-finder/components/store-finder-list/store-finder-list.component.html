@@ -56,7 +56,7 @@
 
         <div *ngIf="locations?.pagination" class="row">
             <div class="col-md-6 offset-md-3 y-store-finder-list__pagination">
-                <y-store-finder-paging [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-store-finder-paging>
+                <y-pagination [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
             </div>
         </div>
 

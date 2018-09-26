@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { StoreFinderListComponent } from './store-finder-list.component';
-import { StoreFinderPagingComponent } from '../store-finder-paging/store-finder-paging.component';
 import { StoreFinderListItemComponent } from './store-finder-list-item/store-finder-list-item.component';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
 import { services } from '../../services';
@@ -14,6 +13,7 @@ import * as fromReducers from '../../store';
 import * as fromRoot from '../../../routing/store';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 import { OccModuleConfig } from '../../../occ/occ-module-config';
+import { PaginationComponent } from '../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 
 describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
@@ -32,7 +32,6 @@ describe('StoreFinderListComponent', () => {
       ],
       declarations: [
         StoreFinderListComponent,
-        StoreFinderPagingComponent,
         StoreFinderListItemComponent,
         StoreFinderMapComponent
       ],
@@ -53,7 +52,7 @@ describe('StoreFinderListComponent', () => {
   });
 
   it('should change pages', done => {
-    const pagination = new StoreFinderPagingComponent();
+    const pagination = new PaginationComponent();
     pagination.viewPageEvent.subscribe(event => {
       expect(event).toEqual(3);
       component.viewPage(event);
@@ -61,6 +60,6 @@ describe('StoreFinderListComponent', () => {
       expect(component.searchConfig.currentPage).toBe(event);
       done();
     });
-    pagination.next(3);
+    pagination.pageChange(3);
   });
 });

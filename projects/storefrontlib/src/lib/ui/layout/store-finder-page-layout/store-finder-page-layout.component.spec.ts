@@ -6,7 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { StoreFinderPageLayoutComponent } from './store-finder-page-layout.component';
-import { StoreFinderPagingComponent } from '../../../store-finder/components/store-finder-paging/store-finder-paging.component';
 import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-list/store-finder-list.component';
 import { StoreFinderSearchComponent } from '../../../store-finder/components/store-finder-search/store-finder-search.component';
 import { StoreFinderListCountComponent } from '../../../store-finder/components/store-finder-list-count/store-finder-list-count.component';
@@ -41,7 +40,6 @@ describe('StoreFinderPageLayoutComponent', () => {
       ],
       declarations: [
         StoreFinderPageLayoutComponent,
-        StoreFinderPagingComponent,
         StoreFinderListItemComponent,
         StoreFinderListComponent,
         StoreFinderSearchComponent,
