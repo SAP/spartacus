@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import 'hammerjs';
 
 @NgModule({
   imports: [CommonModule, BrowserAnimationsModule, FlexLayoutModule],
