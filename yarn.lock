@@ -193,12 +193,6 @@
   version "6.0.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/language-service/-/language-service-6.0.1.tgz#1e0681ce69eadeb6ac77411d36a82672bb89c68f"
 
-"@angular/material@^6.0.1":
-  version "6.0.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/material/-/material-6.0.1.tgz#17558dba6b9372df6cae1d248d2360c9570dc44a"
-  dependencies:
-    tslib "^1.7.1"
-
 "@angular/platform-browser-dynamic@^6.0.0":
   version "6.0.1"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/@angular/platform-browser-dynamic/-/platform-browser-dynamic-6.0.1.tgz#4831fcd457bf220c76d71ffffa6c41c625df7dfc"
