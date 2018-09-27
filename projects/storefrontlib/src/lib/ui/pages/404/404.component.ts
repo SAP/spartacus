@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { pageNotFoundImgSrc } from '../../images/pageNotFound';
 
 @Component({
   selector: 'y-404',
@@ -6,6 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./404.component.scss']
 })
 export class PageNotFoundComponent {
+  pageNotFoundImgSrc = pageNotFoundImgSrc;
   errorNav = [
     {
       link: '/',

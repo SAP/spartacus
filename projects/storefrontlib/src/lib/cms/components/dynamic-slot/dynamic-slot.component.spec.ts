@@ -6,6 +6,7 @@ import * as fromReducers from '../../store/reducers';
 import * as fromActions from '../../store/actions';
 import { Page } from '../../models/page.model';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
+import { OutletDirective } from '../../../outlet';
 
 describe('DynamicSlotComponent', () => {
   let dynamicSlotComponent: DynamicSlotComponent;
@@ -33,7 +34,11 @@ describe('DynamicSlotComponent', () => {
           cms: combineReducers(fromReducers.getReducers())
         })
       ],
-      declarations: [DynamicSlotComponent, ComponentWrapperDirective]
+      declarations: [
+        DynamicSlotComponent,
+        ComponentWrapperDirective,
+        OutletDirective
+      ]
     }).compileComponents();
   }));
 

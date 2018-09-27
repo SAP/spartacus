@@ -1,5 +1,4 @@
 import { ComponentsModule } from './../../../../ui/components/components.module';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { combineReducers, StoreModule } from '@ngrx/store';
@@ -12,8 +11,32 @@ import * as fromRoot from '../../../../routing/store';
 import * as fromProduct from '../../../store/reducers';
 import { BootstrapModule } from '../../../../bootstrap.module';
 import { ProductDetailsComponent } from './product-details.component';
+import { OutletDirective } from '../../../../outlet';
+import {
+  DynamicSlotComponent,
+  ComponentWrapperDirective
+} from '../../../../cms/components';
+import { ProductImagesComponent } from '../product-images/product-images.component';
+import { ProductSummaryComponent } from '../product-summary/product-summary.component';
+import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
+import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
+import { Component, Input } from '@angular/core';
 
 class MockComponentMapperService {}
+
+@Component({
+  selector: 'y-add-to-cart',
+  template: '<button>add to cart</button>'
+})
+export class MockAddToCartComponent {
+  @Input()
+  iconOnly;
+  @Input()
+  productCode;
+  @Input()
+  quantity;
+}
+
 describe('ProductDetailsComponent in product', () => {
   let service: ProductService;
   let productDetailsComponent: ProductDetailsComponent;
@@ -32,8 +55,18 @@ describe('ProductDetailsComponent in product', () => {
         }),
         ComponentsModule
       ],
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [ProductDetailsComponent],
+      declarations: [
+        ProductDetailsComponent,
+
+        DynamicSlotComponent,
+        ComponentWrapperDirective,
+        ProductImagesComponent,
+        ProductSummaryComponent,
+        ProductAttributesComponent,
+        ProductReviewsComponent,
+        MockAddToCartComponent,
+        OutletDirective
+      ],
       providers: [
         ProductService,
         {

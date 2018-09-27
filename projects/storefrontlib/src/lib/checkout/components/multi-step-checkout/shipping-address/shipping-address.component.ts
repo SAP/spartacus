@@ -27,8 +27,10 @@ export class ShippingAddressComponent implements OnInit {
   isAddressForm = false;
   cards = [];
 
-  @Input() selectedAddress: Address;
-  @Output() addAddress = new EventEmitter<any>();
+  @Input()
+  selectedAddress: Address;
+  @Output()
+  addAddress = new EventEmitter<any>();
 
   constructor(
     protected store: Store<fromUserStore.UserState>,
