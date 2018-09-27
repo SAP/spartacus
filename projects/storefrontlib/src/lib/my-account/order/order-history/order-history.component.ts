@@ -5,8 +5,6 @@ import * as fromUserStore from '../../../user/store';
 import * as fromAuthStore from '../../../auth/store';
 import { Store } from '@ngrx/store';
 
-import * as fromRouting from '../../../routing/store';
-
 @Component({
   selector: 'y-order-history',
   templateUrl: './order-history.component.html',

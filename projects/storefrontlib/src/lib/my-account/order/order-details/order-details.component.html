@@ -1,62 +1,60 @@
-<ng-container>
-  <div class="y-order-details container" *ngIf="order$ | async as order">
-    <div *ngIf="loaded">
-      <div class="y-order-details__order-header row">
-        <div class="y-order-details__detail col-sm-12 col-md-4 col-lg-4">
-          <div class="y-order-details__label">Order #</div>
-          <div class="y-order-details__value">{{order?.code}}</div>
-        </div>
-        <div class="y-order-details__detail col-sm-12 col-md-4 col-lg-4">
-          <div class="y-order-details__label">Placed</div>
-          <div class="y-order-details__value">{{order?.created | date}}</div>
-        </div>
-        <div class="y-order-details__detail col-sm-12 col-md-4 col-lg-4">
-          <div class="y-order-details__label">Status</div>
-          <div class="y-order-details__value">{{order?.statusDisplay}}</div>
+<ng-container *ngIf="order$ | async as order">
+  <div *ngIf="loaded && order?.code" class="y-order-details container">
+    <div class="y-order-details__order-header row">
+      <div class="y-order-details__detail col-sm-12 col-md-4 col-lg-4">
+        <div class="y-order-details__label">Order #</div>
+        <div class="y-order-details__value">{{order?.code}}</div>
+      </div>
+      <div class="y-order-details__detail col-sm-12 col-md-4 col-lg-4">
+        <div class="y-order-details__label">Placed</div>
+        <div class="y-order-details__value">{{order?.created | date}}</div>
+      </div>
+      <div class="y-order-details__detail col-sm-12 col-md-4 col-lg-4">
+        <div class="y-order-details__label">Status</div>
+        <div class="y-order-details__value">{{order?.statusDisplay}}</div>
+      </div>
+    </div>
+
+    <div *ngFor="let consignment of order.consignments" class="y-order-details__list row">
+      <div class="y-order-details__list-header col-12">
+        <div class="y-order-details__status">{{consignment?.status}}</div>
+        <div class="y-order-details__date">
+          <div>Shipped on &nbsp;</div>
+          <div>{{consignment?.statusDate | date}}</div>
         </div>
       </div>
-
-      <div *ngFor="let consignment of order.consignments" class="y-order-details__list row">
-        <div class="y-order-details__list-header col-12">
-          <div class="y-order-details__status">{{consignment?.status}}</div>
-          <div class="y-order-details__date">
-            <div>Shipped on &nbsp;</div>
-            <div>{{consignment?.statusDate | date}}</div>
-          </div>
-        </div>
-        <div class="y-order-details__item-list col-12">
-          <y-cart-item-list [items]="getConsignmentProducts(consignment)" [isReadOnly]="true"></y-cart-item-list>
-        </div>
+      <div class="y-order-details__item-list col-12">
+        <y-cart-item-list [items]="getConsignmentProducts(consignment)" [isReadOnly]="true"></y-cart-item-list>
       </div>
+    </div>
 
-      <div *ngIf="order.unconsignedEntries" class="y-order-details__list row">
-        <div class="y-order-details__list-header col-12">
-          <div class="y-order-details__status">In process...</div>
-        </div>
-        <div class="y-order-details__item-list col-12">
-          <y-cart-item-list [items]="order?.unconsignedEntries" [isReadOnly]="true"></y-cart-item-list>
-        </div>
+    <div *ngIf="order.unconsignedEntries" class="y-order-details__list row">
+      <div class="y-order-details__list-header col-12">
+        <div class="y-order-details__status">In process...</div>
       </div>
-
-      <div class="row justify-content-end">
-        <div class="y-order-details__order-summary col-sm-12 col-md-6 col-lg-5 col-xl-4">
-          <y-order-summary [cart]="order"></y-order-summary>
-        </div>
+      <div class="y-order-details__item-list col-12">
+        <y-cart-item-list [items]="order?.unconsignedEntries" [isReadOnly]="true"></y-cart-item-list>
       </div>
+    </div>
 
-      <div class="y-order-details__account-summary row">
-        <div class="y-order-details__account-summary-card col-sm-12 col-md-4">
-          <y-card [content]="getAddressCardContent(order?.deliveryAddress)"></y-card>
-        </div>
-        <div class="y-order-details__account-summary-card col-sm-12 col-md-4">
-          <y-card [content]="getShippingContent(order?.deliveryMode)"></y-card>
-        </div>
-        <div class="y-order-details__account-summary-card col-sm-12 col-md-4">
-          <y-card [content]="getPaymentContent(order?.paymentInfo)"></y-card>
-        </div>
-        <div class="y-order-details__account-summary-card col-sm-12 col-md-4">
-          <y-card [content]="getShippingMethodContent(order?.deliveryMode)"></y-card>
-        </div>
+    <div class="row justify-content-end">
+      <div class="y-order-details__order-summary col-sm-12 col-md-6 col-lg-5 col-xl-4">
+        <y-order-summary [cart]="order"></y-order-summary>
+      </div>
+    </div>
+
+    <div class="y-order-details__account-summary row">
+      <div class="y-order-details__account-summary-card col-sm-12 col-md-4">
+        <y-card [content]="getAddressCardContent(order?.deliveryAddress)"></y-card>
+      </div>
+      <div class="y-order-details__account-summary-card col-sm-12 col-md-4">
+        <y-card [content]="getShippingContent(order?.deliveryMode)"></y-card>
+      </div>
+      <div class="y-order-details__account-summary-card col-sm-12 col-md-4">
+        <y-card [content]="getPaymentContent(order?.paymentInfo)"></y-card>
+      </div>
+      <div class="y-order-details__account-summary-card col-sm-12 col-md-4">
+        <y-card [content]="getShippingMethodContent(order?.deliveryMode)"></y-card>
       </div>
     </div>
   </div>

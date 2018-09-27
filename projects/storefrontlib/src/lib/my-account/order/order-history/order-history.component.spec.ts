@@ -8,6 +8,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { BootstrapModule } from '../../../bootstrap.module';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { OrderHistoryComponent } from './order-history.component';
+import { CartSharedModule } from '../../../cart/components/cart-shared/cart-shared.module';
+import { CardModule } from '../../../ui/components/card/card.module';
 import * as fromRoot from '../../../routing/store';
 import * as fromUserStore from '../../../user/store';
 
@@ -33,6 +35,8 @@ describe('OrderHistoryComponent', () => {
         RouterTestingModule.withRoutes(routes),
         PaginationAndSortingModule,
         FormsModule,
+        CartSharedModule,
+        CardModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           orders: combineReducers(fromUserStore.getReducers())

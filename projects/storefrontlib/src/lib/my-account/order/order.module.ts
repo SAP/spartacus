@@ -10,7 +10,6 @@ import { CardModule } from '../../ui/components/card/card.module';
 /* component */
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
-import { CartDetailsModule } from '../../cart';
 
 @NgModule({
   imports: [
@@ -20,7 +19,6 @@ import { CartDetailsModule } from '../../cart';
     NgSelectModule,
     BootstrapModule,
     PaginationAndSortingModule,
-    CartDetailsModule,
     CartSharedModule,
     CardModule
   ],

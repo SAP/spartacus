@@ -3,6 +3,8 @@ import { StoreModule, combineReducers } from '@ngrx/store';
 import { OccOrderService } from './../../../occ/order/order.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrderDetailsComponent } from './order-details.component';
+import { CartSharedModule } from '../../../cart/components/cart-shared/cart-shared.module';
+import { CardModule } from '../../../ui/components/card/card.module';
 import { of } from 'rxjs';
 import * as fromRoot from '../../../routing/store';
 import * as fromUserStore from '../../../user/store';
@@ -24,6 +26,8 @@ describe('OrderDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        CartSharedModule,
+        CardModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           user: combineReducers(fromUserStore.getReducers()),
