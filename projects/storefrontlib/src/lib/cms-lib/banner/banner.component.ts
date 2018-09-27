@@ -1,12 +1,11 @@
 import {
   Component,
-  ChangeDetectorRef,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
 } from '@angular/core';
 
-import { Store } from '@ngrx/store';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import * as fromStore from '../../cms/store';
+import { CmsService } from '../../cms/facade/cms.service';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 
 @Component({
@@ -17,11 +16,11 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
 })
 export class BannerComponent extends AbstractCmsComponent {
   constructor(
+    protected cmsService: CmsService,
     protected cd: ChangeDetectorRef,
-    protected store: Store<fromStore.CmsState>,
     protected config: CmsModuleConfig
   ) {
-    super(cd, store, config);
+    super(cmsService, cd);
   }
 
   hasImage() {
@@ -45,17 +44,7 @@ export class BannerComponent extends AbstractCmsComponent {
     return this.component.media.altText;
   }
 
-  public getUrlLink(): string {
-    let url = '';
-
-    if (this.component.urlLink !== undefined) {
-      url = this.getBaseUrl();
-      if (this.component.urlLink.startsWith('/')) {
-        url += this.component.urlLink;
-      } else {
-        url += '/' + this.component.urlLink;
-      }
-    }
-    return url;
+  public getBaseUrl() {
+    return this.config.server.baseUrl;
   }
 }

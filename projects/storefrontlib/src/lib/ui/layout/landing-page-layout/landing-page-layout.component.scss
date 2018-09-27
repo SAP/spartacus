@@ -1,0 +1,38 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+.row {
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  max-height: 100%;
+  align-content: flex-start;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  @include media-breakpoint-down(xs) {
+    flex-direction: column;
+  }
+}
+
+.column {
+  flex: 1 1 0%;
+  box-sizing: border-box;
+  flex-direction: row;
+  display: flex;
+
+  @include media-breakpoint-down(xs) {
+    flex-direction: column;
+  }
+}
+
+.section4 {
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+
+  @include media-breakpoint-down(xs) {
+    flex-direction: column;
+  }
+}

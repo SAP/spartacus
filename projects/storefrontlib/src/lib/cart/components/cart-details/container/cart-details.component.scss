@@ -12,17 +12,6 @@ $y-cart-details-promotions-color: 'success' !default;
     @include type('4');
     margin: 0 0 1rem 0;
   }
-  &__checkbox {
-    margin: 0 0 1rem 0;
-    @include type('7');
-
-    label {
-      @include var-color('color', $y-cart-details-checkbox-label-color);
-    }
-    a {
-      @include var-color('color', $y-cart-details-checkbox-link-color);
-    }
-  }
   &__promotions {
     @include var-color('color', $y-cart-details-promotions-color);
     @include type('7');

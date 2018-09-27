@@ -1,7 +1,18 @@
 {
-  "name": "storefrontstyles",
-  "version": "0.0.7",
+  "name": "@spartacus/storefrontstyles",
+  "version": "0.0.8",
   "description": "Style library containing global styles",
+  "homepage": "https://github.com/SAP/cloud-commerce-spartacus-storefront",
+  "keywords": [
+    "spartacus",
+    "storefront",
+    "storefrontstyles"
+  ],
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/SAP/cloud-commerce-spartacus-storefront/tree/develop/projects/storefrontstyles",
   "scripts": {
     "sass": "node-sass ./scss/ -o ./temp-scss --include-path ./ --importer=./importer.js"
   },

@@ -8,6 +8,7 @@ import { CmsModuleConfig } from '../../cms-module-config';
 import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../../store/reducers';
 import { StoreModule, combineReducers } from '@ngrx/store';
+import { OutletDirective } from '../../../outlet';
 
 const testText = 'test text';
 
@@ -51,7 +52,8 @@ describe('ComponentWrapperDirective', () => {
       declarations: [
         TestWrapperComponent,
         DynamicSlotComponent,
-        ComponentWrapperDirective
+        ComponentWrapperDirective,
+        OutletDirective
       ],
       providers: [
         ComponentMapperService,
