@@ -1,4 +1,17 @@
-.product-caraousel {
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+$y-product-carousel-header-trbl-margin: 40px 0 22px 0 !default;
+
+.y-product-carousel {
+  &__header {
+    text-align: center;
+    margin: $y-product-carousel-header-trbl-margin;
+  }
+}
+
+.product-carousel {
   height: 250px;
   overflow: hidden;
   margin: 10px 0;
