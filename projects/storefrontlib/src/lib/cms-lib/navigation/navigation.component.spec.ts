@@ -8,6 +8,7 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatMenuModule, MatIconModule } from '@angular/material';
 import { NavigationService } from './navigation.service';
+import { CmsService } from '../../cms/facade/cms.service';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -63,6 +64,10 @@ describe('CmsNavigationComponent in CmsLib', () => {
     }
   };
 
+  const MockCmsService = {
+    getComponentData: () => of(componentData)
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -76,6 +81,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
       ],
       providers: [
         NavigationService,
+        { provide: CmsService, useValue: MockCmsService },
         { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
       ],
       declarations: [NavigationComponent]
@@ -87,7 +93,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
     navigationComponent = fixture.componentInstance;
 
     store = TestBed.get(Store);
-    spyOn(store, 'select').and.returnValues(of(componentData), of(itemsData));
+    spyOn(store, 'select').and.returnValues(of(itemsData));
   });
 
   it('should be created', () => {
@@ -96,7 +102,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
 
   it('should contain cms content in the html rendering after bootstrap', () => {
     expect(navigationComponent.component).toBeNull();
-    navigationComponent.bootstrap();
+    navigationComponent.onCmsComponentInit(componentData.uid);
     expect(navigationComponent.component).toBe(componentData);
 
     // TODO: after replacing material with boothstrap4, need some ui test here
