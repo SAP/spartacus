@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 import * as fromStore from '../../store';
 import { StoreFinderService } from '../../services/store-finder.service';
@@ -32,7 +32,7 @@ export class StoreFinderGridComponent implements OnInit {
       }
     }
 
-    this.store.select(fromStore.getFindStoresEntities).subscribe(locations => {
+    this.store.pipe(select((state: any) => fromStore.getFindStoresEntities(state))).subscribe(locations => {
       if (locations.pointOfServices && locations.pointOfServices.length === 1) {
         this.router.navigate([
           'store-finder',
