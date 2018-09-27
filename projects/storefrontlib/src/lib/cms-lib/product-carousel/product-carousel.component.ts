@@ -28,8 +28,10 @@ export class ProductCarouselComponent extends AbstractCmsComponent
 
   codesSubscription: Subscription;
 
-  @Input() productCodes: Array<String>;
-  @Input() animate = true;
+  @Input()
+  productCodes: Array<String>;
+  @Input()
+  animate = true;
 
   constructor(
     protected cmsService: CmsService,

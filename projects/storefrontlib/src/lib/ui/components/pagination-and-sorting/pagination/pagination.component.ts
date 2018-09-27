@@ -16,8 +16,10 @@ import {
   encapsulation: ViewEncapsulation.None
 })
 export class PaginationComponent implements OnInit {
-  @Input() pagination;
-  @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
+  @Input()
+  pagination;
+  @Output()
+  viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() {}
 

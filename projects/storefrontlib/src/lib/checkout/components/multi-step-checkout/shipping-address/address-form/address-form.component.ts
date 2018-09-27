@@ -32,8 +32,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   titles$: Observable<any>;
   regions$: Observable<any>;
 
-  @Output() addAddress = new EventEmitter<any>();
-  @Output() backToAddress = new EventEmitter<any>();
+  @Output()
+  addAddress = new EventEmitter<any>();
+  @Output()
+  backToAddress = new EventEmitter<any>();
 
   addressVerifySub: Subscription;
 

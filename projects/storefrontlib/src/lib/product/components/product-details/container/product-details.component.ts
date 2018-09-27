@@ -17,9 +17,12 @@ import { ProductDetailOutlets } from '../../../product-outlets.model';
 })
 export class ProductDetailsComponent implements OnChanges {
   static outlets = ProductDetailOutlets;
-  @ViewChild('tabSet') tabSet;
-  @ViewChild('tabSetWrapper') tabSetWrapper;
-  @Input() productCode: string;
+  @ViewChild('tabSet')
+  tabSet;
+  @ViewChild('tabSetWrapper')
+  tabSetWrapper;
+  @Input()
+  productCode: string;
   product$: Observable<any>;
   itemCount = 1;
 
