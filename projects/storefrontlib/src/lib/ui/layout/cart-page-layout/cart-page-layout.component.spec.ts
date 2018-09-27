@@ -4,13 +4,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
-import { CartItemListComponent } from './../../../cart/components/cart-details/cart-item-list/cart-item-list.component';
 
 import { CartService } from '../../../cart/services';
 import * as fromReducer from '../../../cart/store/reducers';
 import {
-  ComponentWrapperComponent,
-  DynamicSlotComponent
+  DynamicSlotComponent,
+  ComponentWrapperDirective
 } from '../../../cms/components';
 import { ComponentMapperService } from '../../../cms/services';
 import * as fromCmsReducer from '../../../cms/store';
@@ -19,6 +18,7 @@ import { CartSharedModule } from './../../../cart/components/cart-shared/cart-sh
 import { MaterialModule } from './../../../material.module';
 import { ComponentsModule } from './../../components/components.module';
 import { CartPageLayoutComponent } from './cart-page-layout.component';
+import { OutletDirective } from '../../../outlet';
 
 class MockCartService {
   removeCartEntry() {}
@@ -53,9 +53,9 @@ describe('CartPageLayoutComponent', () => {
       declarations: [
         CartPageLayoutComponent,
         CartDetailsComponent,
-        CartItemListComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent
+        ComponentWrapperDirective,
+        OutletDirective
       ],
       providers: [
         { provide: CartService, useClass: MockCartService },

@@ -43,6 +43,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         '. Please login again.'
                     })
                   );
+                  this.store.dispatch(
+                    new fromAction.RemoveMessagesByType(
+                      GlobalMessageType.MSG_TYPE_CONFIRMATION
+                    )
+                  );
                 }
               } else {
                 this.store.dispatch(

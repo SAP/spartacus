@@ -14,20 +14,26 @@ import { ProductDetailsPageLayoutComponent } from '../../layout/product-details-
 import { ProductDetailsComponent } from '../../../product/components/product-details/container/product-details.component';
 import {
   DynamicSlotComponent,
-  ComponentWrapperComponent
+  ComponentWrapperDirective
 } from '../../../cms/components';
 import { ProductImagesComponent } from '../../../product/components/product-details/product-images/product-images.component';
 import { ProductSummaryComponent } from '../../../product/components/product-details/product-summary/product-summary.component';
 import { ProductAttributesComponent } from '../../../product/components/product-details/product-attributes/product-attributes.component';
 import { ProductReviewsComponent } from '../../../product/components/product-details/product-reviews/product-reviews.component';
 import { ComponentMapperService } from '../../../cms/services';
-import { CmsModuleConfig } from '../../../cms/cms-module-config';
+import {
+  CmsModuleConfig,
+  defaultCmsModuleConfig
+} from '../../../cms/cms-module-config';
 import { AddToCartComponent } from '../../../cart/components/add-to-cart/add-to-cart.component';
 import { CartService } from '../../../cart/services';
+import { ProductService } from '../../../product/services';
 import {
   NgbTabsetModule,
   NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
+import { OutletDirective } from '../../../outlet';
+
 const routerState = {
   state: {
     params: {
@@ -61,14 +67,20 @@ describe('ProductPageComponent in pages', () => {
         ProductDetailsPageLayoutComponent,
         ProductDetailsComponent,
         DynamicSlotComponent,
+        ComponentWrapperDirective,
         ProductImagesComponent,
         ProductSummaryComponent,
         ProductAttributesComponent,
         ProductReviewsComponent,
-        ComponentWrapperComponent,
-        AddToCartComponent
+        AddToCartComponent,
+        OutletDirective
       ],
-      providers: [ComponentMapperService, CmsModuleConfig, CartService]
+      providers: [
+        ComponentMapperService,
+        { provide: CmsModuleConfig, useValue: defaultCmsModuleConfig },
+        CartService,
+        ProductService
+      ]
     }).compileComponents();
   }));
 

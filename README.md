@@ -1,106 +1,116 @@
-# Spartacus - Angular Storefront
+[![Build Status](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project.svg?token=yywzsFgC8dWSfJQxPGHs&branch=develop)](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project)
 
----
+# What is Spartacus?
 
-## Minimum Requirements
+Spartacus is a lean, angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.
 
-```
-Node.js >= 8.9.0
-yarn >= 1.6.0
-Read access to Artifactory (https://repository.hybris.com)
-```
+## Extendable
 
-## Dependencies Configuration
+The Spartacus storefront is easy to extend & upgrade. It is packaged as a library that you can include in your storefront, which allows you to add to/remove/modify the out-the-box storefront features with your own. Newer versions of Spartacus can be used by changing the version of the library you’re using.
 
-This is a one time setup. We pull all of our dependencies from our internal npm registry (artifactory). In order for you to be able to do this, you need to do the following:
+## Progressive
 
-1.  Login to [artifactory](https://repository.hybris.com/webapp/#/login)
-2.  Once you have logged in, there should be an `npm repository` section on the homepage in the `Set Me Up` section. Click on it and a popup window with instructions will appear.
-3.  Enter your password in the upper right. This will populate the commands with your encrypted password. This way you can copy and paste the commands directly in the terminal.
-4.  Find the section titled "Using basic authentication", and copy it contents and paste it in your ~/.npmrc file (create the file if it doesn't exist). It should look like:
+Spartacus is on a journey to be fully compliant with the Progressive Web Application (PWA) checklist. We aim to add support for all major features of a PWA-enabled storefront, to offer the best possible customer experience regardless of device or location.
 
-```bash
-_auth = <USERNAME>:<PASSWORD> (converted to base 64)
-email = firstname.lastname@sap.com
-always-auth = true
-```
+## Open Source
 
-The last step is to add this line to ~/.npmrc (so that npm packages can be downloaded from artifactory instead of the npm public registry):
+Spartacus is open source. It will be continually developed by the SAP Commerce Cloud team, but we are very keen to welcome contributors and to foster an inclusive, active development community for Spartacus.
 
-```bash
-registry=https://repository.hybris.com/api/npm/npm-repository/
-```
+## Technology
 
-That's it. For a quick way to confirm your new config, you can run:
+Read the [documentation](docs/README.md) to learn more about the technology and architecture of the Spartacus storefront, and see [SAP Customer Experience](https://cx.sap.com/en/products/commerce) for more information about SAP Commerce Cloud.
 
-```bash
-yarn config list
-```
+## Storefront features
 
-You should see your new ~/.npmrc configurations at the end of the list, in the `info npm config` section.
+Spartacus provides core storefront features such as:
 
-## Installation Steps
+- home page
+- search
+- categories
+- product details
+- cart page
+- adding to cart
+- checkout
+- order history
 
-Install dependencies:
 
-```bash
-yarn install
-```
 
-Start the angular app.
+# Requirements
 
-```bash
-yarn start
-```
+- SAP Commerce Cloud instance (Release 1808 or unreleased 1811) (1811 release is planned for end of November)
+- Angular (https://angular.io/) >= 6.0.1
+- node.js >= 8.9.0
+- yarn >= 1.6.0
 
-Then point your browser to http://localhost:4200/
+# Download and Installation
 
----
+To get up and running with Spartacus, the simplest approach is to build the application from ready-made libraries. You can also clone and build from source.
 
-## Developing library code
+Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs. In the future, you will be able to use Spartacus with a mock server.
 
-Most of the code is developed in separated libraries. The library code is build with ngPackagr, while the application is build with webpack. The two different separate builds might slow down the development process, which is why by default in development mode, the build is done by webpack only.
+For complete setup instructions, see the [Setup and Installation](docs/setupandinstallation.md) guide.
 
-Using two separate build processes complicates development, especially when the developer both implements library code and application code. In order to allow for a seamless build, in development mode both library and application code is build with webpack. We're relying on the standard angular-cli flags for production and development; development is the default, production can be enabled with the `--prod` flag.
-For convinience reasons, a npm script is added to start the application in production mode: `npm run start:prod`.
 
-The IDE will use the library sources by default.
+## Customizing and Extending Spartacus
 
-**WARNING:** Running in dev mode should only be used for convenience on local development environments. New code merged in develop should be tested against a regular library build and also production mode. The Anguar 6 docs give some explanations in [Why do I need to build the library everytime I make changes?](https://github.com/angular/angular-cli/wiki/stories-create-library#why-do-i-need-to-build-the-library-everytime-i-make-changes)
+To maintain our promise of upgradability, the design pattern for Spartacus is for non-core features to be built as feature libraries that add to or change the provided functionality.
 
-## Production
+Spartacus comes with an application shell (storefrontapp) that contains core resources that are needed to load the rest of the web app. These core resources are provided through libraries, such as the `storefrontlib` and `storefrontstylelib`. You then build new feature libraries that contain any custom functionality and pages. It is recommended to keep the shell app as a container for libraries and to avoid developing features directly in the shell app.
 
-### Building for production
+Content for Spartacus pages is fetched from the SAP Commerce Cloud CMS (Content Management System), such as logos, links, banners and static pages. We recommend that new content-driven features follow the same pattern to enable a Content Managers to modify page content through the CMS tools.
 
-The storefront uses service workers for PWA support (in production mode only). Therefore, we can't use the default angular CLI commands to build and run the app in production mode. To properly build and run in production mode, use these commands:
+For a full explanation and guidelines, see [Extending and Customizing Spartacus](docs/extendingandcustomizing.md) and [Spartacus Architecture](docs/architecture).
 
-```
-yarn build:core:lib --prod
-yarn build --prod
-yarn start:pwa  // this will start the http-server
-```
 
-When the server is up, navigate to [`http://localhost:3000/`](http://localhost:3000/).
 
-If we navigate to the browser's `Application` tab, we can see that the service worker is running.
+# Limitations
 
-## Development tools
+Spartacus works with Release 1808 of SAP Commerce Cloud and is being built with the upcoming 1811 release in mind. This means that certain features of Spartacus may only work with future Release 1811 of SAP Commerce Cloud. 
 
-### Code Editor: VS Code
 
-We use [Microsoft Visual Studio Code](https://code.visualstudio.com) for development. We rely on a series of features and plugins from it.
 
-#### VS Code Workspace Extensions
+# Known Issues
 
-The development team relies on a few extensions for productivity and code compliance. When you open the source folder in vscode, if you are missing some of these recommended extensions, vscode will prompt you for installation. The list of recommended extensions is found in '.vscode/extensions.json'.
+Spartacus is currently in a pre-release beta state. Known issues are documented in the GitHub issue tracking system.
 
-Please make sure you install them.
 
-#### VS Code Workspace settings
 
-These are vscode settings the team relies on. They are shared and enforced via vscode workspace settings. If you want to add or change something, propose the change to the team instead of just commiting it, so the whole team uses it and can benefit from it.
+# How to Obtain Support
 
-### Browser: Google Chrome
+Spartacus is provided "as-is" with no official lines of support. 
 
-For development, Google Chrome is recommended. There is a "Debugger for Chrome" extension for vscode in the workspace extensions. This allows you to place breakpoint in typescript from vscode and debug the app from vscode.
-Chrome also manages well security exceptions that are needed to get the application running in a development environment.
+To get help from the Spartacus community, post a question in the Help chat of our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE) channel.
+
+For help getting Spartacus working with your licensed SAP Commerce Cloud instance, please contact SAP Support.
+
+
+
+# Contributing
+
+Team Spartacus welcomes feedback, ideas, requests, and especially code contributions. However, for the moment, Spartacus is restricted to updates by SAP employees. In the meantime:
+
+- Post comments to our Feedback chat in our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE) channel.
+- Read the documentation in [Community](docs/community/README.md), especially the [Code of Conduct](docs/community/codeofconduct.md) and the [GitHub Workflow](docs/community/githubworklow) documents.
+- Create an issue in the [GitHub bug tracking system](docs/community/githubworklow).
+
+
+
+# To Do
+
+Many changes are coming! All tasks will be posted to our GitHub issue board, and this section will be updated with the major roadmap items.
+
+Some of the upcoming features or changes to the open source release:
+- Mock server
+- Ability to specific a different billing address when checking out
+- Personal information pages (My Account, Payment Management, Address Management)
+- Extensibility examples
+- Style customization examples
+- Performance improvements through App Shell Caching
+- Completion of test coverage, including end-to-end tests
+
+
+
+# License
+
+Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
+This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE](LICENSE.txt) file.

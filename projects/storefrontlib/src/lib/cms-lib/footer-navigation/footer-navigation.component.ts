@@ -7,6 +7,4 @@ import { NavigationComponent } from '../navigation/navigation.component';
   styleUrls: ['./footer-navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FooterNavigationComponent extends NavigationComponent {
-  static componentName = 'FooterNavigationComponent';
-}
+export class FooterNavigationComponent extends NavigationComponent {}

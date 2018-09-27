@@ -1,7 +1,7 @@
 import { ProductImageConverterService } from './product-image-converter.service';
 import { ProductReferenceConverterService } from './product-reference-converter.service';
 
-export const services: any[] = [
+export const converterServices: any[] = [
   ProductImageConverterService,
   ProductReferenceConverterService
 ];

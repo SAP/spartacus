@@ -1,3 +1,3 @@
-<a class="y-logo navbar-brand" [target]="getTarget()" [routerLink]="getUrlLink()">
-    <img class="y-logo__image" [title]="getAltText()" [alt]="getAltText()" [src]="getBaseUrl() + getImageUrl()" />
-</a>
+<cx-generic-link [url]="component.urlLink" [target]="getTarget()">
+  <img [title]="getAltText()" [alt]="getAltText()" [src]="getBaseUrl() + getImageUrl()" />
+</cx-generic-link>
