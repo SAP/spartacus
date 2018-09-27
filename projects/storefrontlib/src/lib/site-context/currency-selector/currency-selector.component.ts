@@ -18,7 +18,6 @@ import { SiteContextModuleConfig } from '../site-context-module-config';
 })
 export class CurrencySelectorComponent implements OnInit, OnDestroy {
   currencies$: Observable<any>;
-  currenciesLoaded$: Observable<boolean>;
   activeCurrency: string;
   subscription: Subscription;
 
@@ -38,7 +37,6 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
     });
 
     this.currencies$ = this.store.select(fromStore.getAllCurrencies);
-    this.currenciesLoaded$ = this.store.select(fromStore.getCurrenciesLoaded);
     this.activeCurrency = this.getActiveCurrency();
     this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
   }

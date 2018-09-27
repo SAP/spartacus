@@ -27,7 +27,6 @@ describe('Languages Reducer', () => {
       const state = fromLanguages.reducer(initialState, action);
       expect(state.entities).toEqual(entities);
       expect(state.loading).toEqual(false);
-      expect(state.loaded).toEqual(true);
       expect(state.loadAttempted).toEqual(true);
     });
   });
@@ -49,7 +48,6 @@ describe('Languages Reducer', () => {
       const action = new fromActions.LoadLanguages();
       const state = fromLanguages.reducer(initialState, action);
       expect(state.loading).toEqual(true);
-      expect(state.loaded).toEqual(false);
     });
   });
 

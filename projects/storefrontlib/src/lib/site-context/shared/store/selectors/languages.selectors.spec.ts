@@ -86,15 +86,10 @@ describe('Languages Selectors', () => {
 
       expect(result).toEqual(false);
 
-      expect(result).toEqual(false);
-
-      store.dispatch(new fromActions.LoadLanguages());
-      expect(result).toEqual(false);
-
       store.dispatch(new fromActions.LoadLanguagesSuccess(languages));
       expect(result).toEqual(true);
 
-      store.dispatch(new fromActions.LoadLanguagesFail({}));
+      store.dispatch(new fromActions.LoadLanguagesFail(languages));
       expect(result).toEqual(true);
     });
   });
@@ -107,39 +102,13 @@ describe('Languages Selectors', () => {
         .select(fromSelectors.getLanguagesLoading)
         .subscribe(value => (result = value));
 
-      store.dispatch(new fromActions.LoadLanguages());
-      expect(result).toEqual(true);
-
-      store.dispatch(new fromActions.LoadLanguagesSuccess(languages));
-      expect(result).toEqual(false);
-
-      store.dispatch(new fromActions.LoadLanguages());
-      expect(result).toEqual(true);
-
       store.dispatch(new fromActions.LoadLanguagesFail({}));
+
       expect(result).toEqual(false);
-    });
-  });
-
-  describe('getLanguagesLoaded', () => {
-    it('should return whether languages are successfully loaded', () => {
-      let result;
-
-      store
-        .select(fromSelectors.getLanguagesLoaded)
-        .subscribe(value => (result = value));
 
       store.dispatch(new fromActions.LoadLanguages());
-      expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.LoadLanguagesSuccess(languages));
       expect(result).toEqual(true);
-
-      store.dispatch(new fromActions.LoadLanguages());
-      expect(result).toEqual(false);
-
-      store.dispatch(new fromActions.LoadLanguagesFail({}));
-      expect(result).toEqual(false);
     });
   });
 });

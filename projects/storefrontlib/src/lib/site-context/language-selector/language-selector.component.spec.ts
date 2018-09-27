@@ -65,7 +65,7 @@ describe('LanguageSelectorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should contain disabled languages dropdown', () => {
+  it('should contain languages button', () => {
     component.languages$ = of(languages);
 
     const label = el.query(By.css('label'));
@@ -76,23 +76,17 @@ describe('LanguageSelectorComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(select.nativeElement.value).toEqual(languages[0].isocode);
-      expect(select.nativeElement.disabled).toBeTruthy();
     });
 
     expect(label.nativeElement.textContent).toEqual('Language');
   });
 
-  it('should get language data and enable dropdown', () => {
+  it('should get language data', () => {
     const action = new fromActions.LoadLanguagesSuccess(languages);
-    const select = el.query(By.css('select'));
-
     store.dispatch(action);
 
     store.select(fromStore.getAllLanguages).subscribe(data => {
       expect(data).toEqual(languages);
-
-      fixture.detectChanges();
-      expect(select.nativeElement.disabled).toBeFalsy();
     });
   });
 

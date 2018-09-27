@@ -18,7 +18,6 @@ import { SiteContextModuleConfig } from '../site-context-module-config';
 })
 export class LanguageSelectorComponent implements OnInit, OnDestroy {
   languages$: Observable<any>;
-  languagesLoaded$: Observable<boolean>;
   activeLanguage: string;
   subscription: Subscription;
 
@@ -38,7 +37,6 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
     });
 
     this.languages$ = this.store.select(fromStore.getAllLanguages);
-    this.languagesLoaded$ = this.store.select(fromStore.getLanguagesLoaded);
     this.activeLanguage = this.getActiveLanguage();
     this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
   }

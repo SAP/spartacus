@@ -4,7 +4,6 @@ export interface LanguagesState {
   entities: { [isocode: string]: any };
   loadAttempted: boolean;
   loading: boolean;
-  loaded: boolean;
   activeLanguage: string;
 }
 
@@ -12,7 +11,6 @@ export const initialState: LanguagesState = {
   entities: {},
   loadAttempted: false,
   loading: false,
-  loaded: false,
   activeLanguage: null
 };
 
@@ -39,8 +37,7 @@ export function reducer(
         ...state,
         entities,
         loadAttempted: true,
-        loading: false,
-        loaded: true
+        loading: false
       };
     }
 
@@ -55,8 +52,7 @@ export function reducer(
     case fromLanguages.LOAD_LANGUAGES: {
       return {
         ...state,
-        loading: true,
-        loaded: false
+        loading: true
       };
     }
 
@@ -76,6 +72,5 @@ export const getLanguagesEntities = (state: LanguagesState) => state.entities;
 export const getLanguagesLoadAttempted = (state: LanguagesState) =>
   state.loadAttempted;
 export const getLanguagesLoading = (state: LanguagesState) => state.loading;
-export const getLanguagesLoaded = (state: LanguagesState) => state.loaded;
 export const getActiveLanguage = (state: LanguagesState) =>
   state.activeLanguage;
