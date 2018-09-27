@@ -8,10 +8,14 @@ const DEFAULT_FORMAT = 'product';
   styleUrls: ['./picture.component.scss']
 })
 export class PictureComponent implements OnChanges {
-  @Input() imageContainer;
-  @Input() imageFormat;
-  @Input() imagePosition;
-  @Input() imageAlt;
+  @Input()
+  imageContainer;
+  @Input()
+  imageFormat;
+  @Input()
+  imagePosition;
+  @Input()
+  imageAlt;
 
   mainImage;
 

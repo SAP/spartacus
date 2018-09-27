@@ -21,10 +21,13 @@ import { Store } from '@ngrx/store';
 export class AddToCartComponent implements OnInit {
   modalInstance;
 
-  @Input() iconOnly;
+  @Input()
+  iconOnly;
 
-  @Input() productCode;
-  @Input() quantity = 1;
+  @Input()
+  productCode;
+  @Input()
+  quantity = 1;
 
   cartEntry$: Observable<any>;
   loaded$: Observable<boolean>;

@@ -29,9 +29,12 @@ class MockComponentMapperService {}
   template: '<button>add to cart</button>'
 })
 export class MockAddToCartComponent {
-  @Input() iconOnly;
-  @Input() productCode;
-  @Input() quantity;
+  @Input()
+  iconOnly;
+  @Input()
+  productCode;
+  @Input()
+  quantity;
 }
 
 describe('ProductDetailsComponent in product', () => {

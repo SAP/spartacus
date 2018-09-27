@@ -6,8 +6,10 @@ import { OutletPosition } from '../outlet.model';
   selector: '[cxOutletRef]'
 })
 export class OutletRefDirective implements OnInit {
-  @Input() cxOutletRef: string;
-  @Input() cxOutletPos: OutletPosition;
+  @Input()
+  cxOutletRef: string;
+  @Input()
+  cxOutletPos: OutletPosition;
 
   constructor(
     private tpl: TemplateRef<any>,

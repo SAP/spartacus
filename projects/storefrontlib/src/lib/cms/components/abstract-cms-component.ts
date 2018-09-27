@@ -5,7 +5,8 @@ import { CmsService } from '../facade/cms.service';
 
 @Injectable()
 export abstract class AbstractCmsComponent implements CmsComponent, OnDestroy {
-  @Input() public component: any = null;
+  @Input()
+  public component: any = null;
   protected uid: string;
   protected contextParameters: any;
   protected subscription: Subscription;
