@@ -1,9 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { combineReducers, StoreModule } from '@ngrx/store';
-import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+
+import { combineReducers, StoreModule } from '@ngrx/store';
+
+import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { StoreFinderSearchComponent } from '../../store-finder-search/store-finder-search.component';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
