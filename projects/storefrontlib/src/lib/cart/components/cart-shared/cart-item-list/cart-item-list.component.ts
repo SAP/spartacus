@@ -10,13 +10,17 @@ import { CartService } from '../../../services/cart.service';
   encapsulation: ViewEncapsulation.None
 })
 export class CartItemListComponent implements OnInit {
-  @Input() isReadOnly = false;
+  @Input()
+  isReadOnly = false;
 
-  @Input() hasHeader = true;
+  @Input()
+  hasHeader = true;
 
-  @Input() items: Item[] = [];
+  @Input()
+  items: Item[] = [];
 
-  @Input() potentialProductPromotions: any[] = [];
+  @Input()
+  potentialProductPromotions: any[] = [];
 
   form: FormGroup = this.fb.group({});
 

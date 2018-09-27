@@ -12,6 +12,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class AddedToCartDialogComponent implements OnInit {
   entry$: Observable<any>;
   cart$: Observable<any>;
+  loaded$: Observable<boolean>;
   form: FormGroup = this.fb.group({
     entryForm: this.fb.group({
       entryNumber: [0],
@@ -19,10 +20,14 @@ export class AddedToCartDialogComponent implements OnInit {
     })
   });
 
-  @Input() more = false;
-  @Input() quantity = 0;
-  @Output() updateEntryEvent: EventEmitter<any> = new EventEmitter();
-  @Output() removeEntryEvent: EventEmitter<any> = new EventEmitter();
+  @Input()
+  more = false;
+  @Input()
+  quantity = 0;
+  @Output()
+  updateEntryEvent: EventEmitter<any> = new EventEmitter();
+  @Output()
+  removeEntryEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(private fb: FormBuilder, public activeModal: NgbActiveModal) {}
 
