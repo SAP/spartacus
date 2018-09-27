@@ -1,39 +1,33 @@
 import { Injectable, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
-
-import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import * as fromStore from '../store';
-import { CmsModuleConfig } from '../cms-module-config';
+import { CmsComponent } from './cms.component';
+import { CmsService } from '../facade/cms.service';
 
 @Injectable()
-export abstract class AbstractCmsComponent implements OnDestroy {
-  @Input() public component: any = null;
+export abstract class AbstractCmsComponent implements CmsComponent, OnDestroy {
+  @Input()
+  public component: any = null;
   protected uid: string;
-  protected load: boolean;
   protected contextParameters: any;
   protected subscription: Subscription;
 
   constructor(
-    protected cd: ChangeDetectorRef,
-    protected store: Store<fromStore.CmsState>,
-    protected config: CmsModuleConfig
+    protected cmsService: CmsService,
+    protected cd: ChangeDetectorRef
   ) {}
 
-  setContextParameters(contextParameters: any) {
+  onCmsComponentInit(uid: string, contextParameters?: any) {
+    this.uid = uid;
     this.contextParameters = contextParameters;
+    this.initSubscription();
   }
 
-  bootstrap() {
-    this.subscription = this.store
-      .select(fromStore.componentSelectorFactory(this.uid))
-      .subscribe(componentData => {
-        if (componentData === undefined && this.load) {
-          this.store.dispatch(new fromStore.LoadComponent(this.uid));
-        } else if (componentData != null) {
-          this.component = componentData;
-          this.uid = componentData.uid;
-          this.fetchData();
-        }
+  protected initSubscription() {
+    this.subscription = this.cmsService
+      .getComponentData(this.uid)
+      .subscribe(component => {
+        this.component = component;
+        this.fetchData();
       });
   }
 
@@ -42,18 +36,6 @@ export abstract class AbstractCmsComponent implements OnDestroy {
       this.cd.detectChanges();
     }
     // can be used by implementations
-  }
-
-  setUid(uid: string) {
-    this.uid = uid;
-  }
-
-  setLoad(componentLoad: boolean) {
-    this.load = componentLoad;
-  }
-
-  public getBaseUrl() {
-    return this.config.server.baseUrl;
   }
 
   ngOnDestroy() {

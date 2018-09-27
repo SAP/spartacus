@@ -23,9 +23,12 @@ import { Card } from '../../../../ui/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReviewSubmitComponent implements OnInit {
-  @Input() deliveryAddress: Address;
-  @Input() shippingMethod: string;
-  @Input() paymentDetails: any;
+  @Input()
+  deliveryAddress: Address;
+  @Input()
+  shippingMethod: string;
+  @Input()
+  paymentDetails: any;
 
   entries$: Observable<any>;
   cart$: Observable<any>;

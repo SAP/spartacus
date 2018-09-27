@@ -10,9 +10,9 @@ import { Observable } from 'rxjs';
 import * as fromStore from '../../cms/store';
 import * as fromCartStore from '../../cart/store';
 import { CartService } from '../../cart/services/cart.service';
-
-import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
+
+import { CmsService } from '../../cms/facade/cms.service';
 
 @Component({
   selector: 'y-mini-cart',
@@ -28,12 +28,12 @@ export class MiniCartComponent extends AbstractCmsComponent {
   banner: any;
 
   constructor(
+    protected cmsService: CmsService,
     protected cd: ChangeDetectorRef,
     protected store: Store<fromStore.CmsState>,
-    protected config: CmsModuleConfig,
     protected cartService: CartService
   ) {
-    super(cd, store, config);
+    super(cmsService, cd);
   }
 
   protected fetchData() {

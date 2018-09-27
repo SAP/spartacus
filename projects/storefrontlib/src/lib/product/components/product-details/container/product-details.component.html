@@ -116,7 +116,7 @@
                                 <ng-container *cxOutlet="outlets.SHIPPING">
                                     <div class="container">
                                         <ng-container yComponentWrapper componentType="CMSTabParagraphComponent"
-                                            componentUid="deliveryTab" [componentLoad]="true"></ng-container>
+                                            componentUid="deliveryTab"></ng-container>
                                         <y-dynamic-slot position="Tabs"></y-dynamic-slot>
                                     </div>
                                 </ng-container>
@@ -155,9 +155,8 @@
                             <ng-container *cxOutlet="outlets.SHIPPING">
                                 <div class="container">
                                     <!-- <y-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'"
-                            [componentLoad]="true"></y-component-wrapper> -->
-                                    <div yComponentWrapper componentType="CMSTabParagraphComponent" componentUid="deliveryTab"
-                                        [componentLoad]="true"></div>
+                                    ></y-component-wrapper> -->
+                                    <div yComponentWrapper componentType="CMSTabParagraphComponent" componentUid="deliveryTab"></div>
                                     <y-dynamic-slot position="Tabs"></y-dynamic-slot>
                                 </div>
                             </ng-container>
