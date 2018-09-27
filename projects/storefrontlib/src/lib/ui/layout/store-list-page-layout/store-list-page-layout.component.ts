@@ -10,4 +10,12 @@ export class StoreListPageLayoutComponent {
   showMapListComponent: boolean;
 
   constructor() {}
+
+  persistQuery(query: string) {
+    this.query = query;
+  }
+
+  showMapList(value: boolean) {
+    this.showMapListComponent = value;
+  }
 }
