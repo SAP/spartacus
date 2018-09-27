@@ -20,3 +20,4 @@ export * from './lib/user/index';
 export * from './lib/material.module';
 export * from './lib/storefront.module';
 export * from './lib/storefront-config';
+export * from './lib/outlet/index';

@@ -12,6 +12,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class AddedToCartDialogComponent implements OnInit {
   entry$: Observable<any>;
   cart$: Observable<any>;
+  loaded$: Observable<boolean>;
   form: FormGroup = this.fb.group({
     entryForm: this.fb.group({
       entryNumber: [0],

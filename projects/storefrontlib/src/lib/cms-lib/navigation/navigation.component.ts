@@ -7,11 +7,11 @@ import {
 } from '@angular/core';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { NavigationService } from './navigation.service';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
 import { takeWhile } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { CmsService } from '../../cms/facade/cms.service';
 
 @Component({
   selector: 'y-navigation',
@@ -31,12 +31,12 @@ export class NavigationComponent extends AbstractCmsComponent
   node;
 
   constructor(
+    protected cmsService: CmsService,
     protected cd: ChangeDetectorRef,
     private navigationService: NavigationService,
-    protected store: Store<fromStore.CmsState>,
-    protected config: CmsModuleConfig
+    protected store: Store<fromStore.CmsState>
   ) {
-    super(cd, store, config);
+    super(cmsService, cd);
   }
 
   protected fetchData() {

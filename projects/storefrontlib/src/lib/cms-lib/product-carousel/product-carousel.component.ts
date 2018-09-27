@@ -2,12 +2,16 @@ import {
   Component,
   Input,
   ChangeDetectionStrategy,
-  OnDestroy
+  OnDestroy,
+  ChangeDetectorRef
 } from '@angular/core';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../cms/store';
+import { CmsService } from '../../cms/facade/cms.service';
 
 @Component({
   selector: 'y-product-carousel',
@@ -28,6 +32,14 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   productCodes: Array<String>;
   @Input()
   animate = true;
+
+  constructor(
+    protected cmsService: CmsService,
+    protected cd: ChangeDetectorRef,
+    protected store: Store<fromStore.CmsState>
+  ) {
+    super(cmsService, cd);
+  }
 
   protected fetchData() {
     const codes = this.getProductCodes();

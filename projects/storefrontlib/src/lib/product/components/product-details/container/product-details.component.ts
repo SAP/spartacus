@@ -6,8 +6,8 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { ProductService } from '../../../services/product.service';
+import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
   selector: 'y-product-details',
@@ -16,6 +16,7 @@ import { ProductService } from '../../../services/product.service';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductDetailsComponent implements OnChanges {
+  static outlets = ProductDetailOutlets;
   @ViewChild('tabSet')
   tabSet;
   @ViewChild('tabSetWrapper')
@@ -24,6 +25,10 @@ export class ProductDetailsComponent implements OnChanges {
   productCode: string;
   product$: Observable<any>;
   itemCount = 1;
+
+  get outlets() {
+    return ProductDetailsComponent.outlets;
+  }
 
   isWritingReview = false;
 

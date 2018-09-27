@@ -14,6 +14,7 @@ import * as fromRoot from '../../../routing/store';
 import * as fromCms from '../../../cms/store';
 import * as fromCart from '../../../cart/store';
 import { of } from 'rxjs';
+import { OutletDirective } from '../../../outlet';
 
 class MockActivatedRoute {
   params = of({
@@ -43,7 +44,8 @@ describe('CategoryPageComponent', () => {
         CategoryPageLayoutComponent,
         ProductListPageLayoutComponent,
         DynamicSlotComponent,
-        ComponentWrapperDirective
+        ComponentWrapperDirective,
+        OutletDirective
       ],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },

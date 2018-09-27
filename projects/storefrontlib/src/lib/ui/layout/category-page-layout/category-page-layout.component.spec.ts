@@ -8,6 +8,7 @@ import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
 import { StoreModule, combineReducers } from '@ngrx/store';
+import { OutletDirective } from '../../../outlet';
 
 describe('CategoryPageLayoutComponent', () => {
   let component: CategoryPageLayoutComponent;
@@ -24,7 +25,8 @@ describe('CategoryPageLayoutComponent', () => {
       declarations: [
         CategoryPageLayoutComponent,
         DynamicSlotComponent,
-        ComponentWrapperDirective
+        ComponentWrapperDirective,
+        OutletDirective
       ]
     }).compileComponents();
   }));

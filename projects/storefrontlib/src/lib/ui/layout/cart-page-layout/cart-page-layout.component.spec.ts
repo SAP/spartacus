@@ -18,6 +18,7 @@ import { CartSharedModule } from './../../../cart/components/cart-shared/cart-sh
 import { MaterialModule } from './../../../material.module';
 import { ComponentsModule } from './../../components/components.module';
 import { CartPageLayoutComponent } from './cart-page-layout.component';
+import { OutletDirective } from '../../../outlet';
 
 class MockCartService {
   removeCartEntry() {}
@@ -53,7 +54,8 @@ describe('CartPageLayoutComponent', () => {
         CartPageLayoutComponent,
         CartDetailsComponent,
         DynamicSlotComponent,
-        ComponentWrapperDirective
+        ComponentWrapperDirective,
+        OutletDirective
       ],
       providers: [
         { provide: CartService, useClass: MockCartService },
