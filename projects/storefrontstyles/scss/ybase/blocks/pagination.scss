@@ -30,7 +30,10 @@ $y-pagination-page-link-disabled-color: 'light' !default;
     @include var-color('color', $y-pagination-page-link-color);
 
     &:hover {
-      @include var-color('background-color', $y-pagination-page-link-hover-background-color);
+      @include var-color(
+        'background-color',
+        $y-pagination-page-link-hover-background-color
+      );
       @include var-color('color', $y-pagination-page-link-hover-color);
       font-weight: $font-weight-bold;
     }
