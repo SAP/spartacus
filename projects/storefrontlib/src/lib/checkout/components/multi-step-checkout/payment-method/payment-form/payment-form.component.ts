@@ -28,8 +28,10 @@ export class PaymentFormComponent implements OnInit {
   shippingAddress$: Observable<any>;
   sameAsShippingAddress = true;
 
-  @Output() backToPayment = new EventEmitter<any>();
-  @Output() addPaymentInfo = new EventEmitter<any>();
+  @Output()
+  backToPayment = new EventEmitter<any>();
+  @Output()
+  addPaymentInfo = new EventEmitter<any>();
 
   payment: FormGroup = this.fb.group({
     defaultPayment: [false],

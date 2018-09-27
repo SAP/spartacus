@@ -14,10 +14,14 @@ import { CmsComponent } from '../cms.component';
   selector: '[yComponentWrapper]'
 })
 export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
-  @Input() componentType: string;
-  @Input() componentUid: string;
-  @Input() componentCssClass: string;
-  @Input() contextParameters: any;
+  @Input()
+  componentType: string;
+  @Input()
+  componentUid: string;
+  @Input()
+  componentCssClass: string;
+  @Input()
+  contextParameters: any;
 
   cmpRef: ComponentRef<any>;
 

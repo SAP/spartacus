@@ -23,10 +23,13 @@ import { CheckoutService } from '../../../services/checkout.service';
 })
 export class DeliveryModeComponent implements OnInit {
   supportedDeliveryModes$: Observable<any>;
-  @Input() selectedShippingMethod: string;
+  @Input()
+  selectedShippingMethod: string;
 
-  @Output() selectMode = new EventEmitter<any>();
-  @Output() backStep = new EventEmitter<any>();
+  @Output()
+  selectMode = new EventEmitter<any>();
+  @Output()
+  backStep = new EventEmitter<any>();
 
   leave = false;
 
