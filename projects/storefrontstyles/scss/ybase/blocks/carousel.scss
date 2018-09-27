@@ -1,0 +1,32 @@
+@import '~bootstrap/scss/carousel';
+@import '../../theme';
+@import '../../mixins';
+
+.carousel {
+  padding-bottom: 20px;
+}
+
+.carousel-indicators {
+  bottom: 0;
+  margin-bottom: 0;
+
+  > .active {
+    background-color: theme-color('primary');
+  }
+
+  > li {
+    background-color: theme-color('light');
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+  }
+}
+
+.carousel-control-prev, .carousel-control-next {
+  width: 30px;
+}
+
+.carousel-inner {
+  margin-left: 30px;
+  margin-right: 30px;
+}
