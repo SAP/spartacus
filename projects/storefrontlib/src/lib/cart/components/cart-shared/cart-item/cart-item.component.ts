@@ -14,15 +14,22 @@ export interface Item {
   styleUrls: ['./cart-item.component.scss']
 })
 export class CartItemComponent implements OnInit {
-  @Input() compact = false;
-  @Input() item: Item;
-  @Input() potentialProductPromotions: any[];
-  @Input() isReadOnly = false;
+  @Input()
+  compact = false;
+  @Input()
+  item: Item;
+  @Input()
+  potentialProductPromotions: any[];
+  @Input()
+  isReadOnly = false;
 
-  @Output() remove = new EventEmitter<any>();
-  @Output() update = new EventEmitter<any>();
+  @Output()
+  remove = new EventEmitter<any>();
+  @Output()
+  update = new EventEmitter<any>();
 
-  @Input() parent: FormGroup;
+  @Input()
+  parent: FormGroup;
 
   ngOnInit() {}
 

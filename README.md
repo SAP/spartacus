@@ -33,15 +33,25 @@ Spartacus provides core storefront features such as:
 - checkout
 - order history
 
-# Setup and Installation
+
+
+# Requirements
+
+- SAP Commerce Cloud instance (Release 1808 or unreleased 1811) (1811 release is planned for end of November)
+- Angular (https://angular.io/) >= 6.0.1
+- node.js >= 8.9.0
+- yarn >= 1.6.0
+
+# Download and Installation
 
 To get up and running with Spartacus, the simplest approach is to build the application from ready-made libraries. You can also clone and build from source.
 
-The Spartacus repository includes a mock server that can be used as well as the Commerce APIs provided by a SAP Commerce Cloud instance.
+Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs. In the future, you will be able to use Spartacus with a mock server.
 
-For more information, see the [Getting Started](docs) documentation.
+For complete setup instructions, see the [Setup and Installation](docs/setupandinstallation.md) guide.
 
-# Customizing and Extending Spartacus
+
+## Customizing and Extending Spartacus
 
 To maintain our promise of upgradability, the design pattern for Spartacus is for non-core features to be built as feature libraries that add to or change the provided functionality.
 
@@ -49,13 +59,58 @@ Spartacus comes with an application shell (storefrontapp) that contains core res
 
 Content for Spartacus pages is fetched from the SAP Commerce Cloud CMS (Content Management System), such as logos, links, banners and static pages. We recommend that new content-driven features follow the same pattern to enable a Content Managers to modify page content through the CMS tools.
 
-For a full explanation and guidelines, see [Extending and Customizing Spartacus](docs) and [Spartacus Architecture](docs).
+For a full explanation and guidelines, see [Extending and Customizing Spartacus](docs/extendingandcustomizing.md) and [Spartacus Architecture](docs/architecture).
 
-# Contributions
 
-Team Spartacus is excited to incorporate ideas, requests, and especially code contributions. Here are a few ways to learn more and start prepping your first pull-request:
 
-- Read [](CONTRIBUTING.md) for an overview of our contribution policies.
-- Read the documentation in [Community](docs), especially the [Code of Conduct](doc) and the [GitHub Workflow](doc) documents.
-- Join our general communication channel on [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE)
-- Start creating issues or making requests through GitHub's issue tracking service or through ZenHub
+# Limitations
+
+Spartacus works with Release 1808 of SAP Commerce Cloud and is being built with the upcoming 1811 release in mind. This means that certain features of Spartacus may only work with future Release 1811 of SAP Commerce Cloud. 
+
+
+
+# Known Issues
+
+Spartacus is currently in a pre-release beta state. Known issues are documented in the GitHub issue tracking system.
+
+
+
+# How to Obtain Support
+
+Spartacus is provided "as-is" with no official lines of support. 
+
+To get help from the Spartacus community, post a question in the Help chat of our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE) channel.
+
+For help getting Spartacus working with your licensed SAP Commerce Cloud instance, please contact SAP Support.
+
+
+
+# Contributing
+
+Team Spartacus welcomes feedback, ideas, requests, and especially code contributions. However, for the moment, Spartacus is restricted to updates by SAP employees. In the meantime:
+
+- Post comments to our Feedback chat in our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE) channel.
+- Read the documentation in [Community](docs/community/README.md), especially the [Code of Conduct](docs/community/codeofconduct.md) and the [GitHub Workflow](docs/community/githubworklow) documents.
+- Create an issue in the [GitHub bug tracking system](docs/community/githubworklow).
+
+
+
+# To Do
+
+Many changes are coming! All tasks will be posted to our GitHub issue board, and this section will be updated with the major roadmap items.
+
+Some of the upcoming features or changes to the open source release:
+- Mock server
+- Ability to specific a different billing address when checking out
+- Personal information pages (My Account, Payment Management, Address Management)
+- Extensibility examples
+- Style customization examples
+- Performance improvements through App Shell Caching
+- Completion of test coverage, including end-to-end tests
+
+
+
+# License
+
+Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
+This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE](LICENSE.txt) file.

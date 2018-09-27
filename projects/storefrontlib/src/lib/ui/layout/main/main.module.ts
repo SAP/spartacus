@@ -12,7 +12,7 @@ import { UiFrameworkModule } from '../../ui-framework/ui-framework.module';
 import { StorefrontComponent } from './storefront.component';
 import { HeaderModule } from './../header/header.module';
 import { FooterComponent } from '../footer/footer.component';
-
+import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -22,7 +22,8 @@ import { FooterComponent } from '../footer/footer.component';
     LoginModule,
     SiteContextModule,
     HeaderModule,
-    UiFrameworkModule
+    UiFrameworkModule,
+    OutletRefModule
   ],
   declarations: [StorefrontComponent, FooterComponent],
   exports: [StorefrontComponent, FooterComponent]

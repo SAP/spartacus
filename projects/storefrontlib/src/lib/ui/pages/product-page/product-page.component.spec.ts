@@ -27,10 +27,12 @@ import {
 } from '../../../cms/cms-module-config';
 import { AddToCartComponent } from '../../../cart/components/add-to-cart/add-to-cart.component';
 import { CartService } from '../../../cart/services';
+import { ProductService } from '../../../product/services';
 import {
   NgbTabsetModule,
   NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
+import { OutletDirective } from '../../../outlet';
 
 const routerState = {
   state: {
@@ -70,12 +72,14 @@ describe('ProductPageComponent in pages', () => {
         ProductSummaryComponent,
         ProductAttributesComponent,
         ProductReviewsComponent,
-        AddToCartComponent
+        AddToCartComponent,
+        OutletDirective
       ],
       providers: [
         ComponentMapperService,
         { provide: CmsModuleConfig, useValue: defaultCmsModuleConfig },
-        CartService
+        CartService,
+        ProductService
       ]
     }).compileComponents();
   }));

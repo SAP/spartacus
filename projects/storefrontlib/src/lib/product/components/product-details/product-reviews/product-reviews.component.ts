@@ -8,10 +8,8 @@ import {
   Output
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import * as fromStore from '../../../store';
+import { ProductReviewService } from '../../../services/product-review.service';
 
 @Component({
   selector: 'y-product-reviews',
@@ -20,12 +18,14 @@ import * as fromStore from '../../../store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductReviewsComponent implements OnChanges, OnInit {
-  @Input() product: any;
+  @Input()
+  product: any;
   @Input()
   get isWritingReview() {
     return this._isWritingReview;
   }
-  @Output() isWritingReviewChange = new EventEmitter();
+  @Output()
+  isWritingReviewChange = new EventEmitter();
 
   set isWritingReview(val) {
     this._isWritingReview = val;
@@ -41,7 +41,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
   reviews$: Observable<any>;
 
   constructor(
-    protected store: Store<fromStore.ProductsState>,
+    protected reviewService: ProductReviewService,
     private fb: FormBuilder
   ) {}
 
@@ -49,17 +49,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
     this.maxListItems = this.initialMaxListItems;
 
     if (this.product) {
-      this.reviews$ = this.store
-        .select(fromStore.getSelectedProductReviewsFactory(this.product.code))
-        .pipe(
-          tap(reviews => {
-            if (reviews === undefined && this.product.code !== undefined) {
-              this.store.dispatch(
-                new fromStore.LoadProductReviews(this.product.code)
-              );
-            }
-          })
-        );
+      this.reviews$ = this.reviewService.getByProductCode(this.product.code);
     }
   }
 
@@ -77,12 +67,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
   }
 
   submitReview() {
-    this.store.dispatch(
-      new fromStore.PostProductReview({
-        productCode: this.product.code,
-        review: this.reviewForm.controls
-      })
-    );
+    this.reviewService.add(this.product.code, this.reviewForm.controls);
 
     this.isWritingReview = false;
     this.resetReviewForm();

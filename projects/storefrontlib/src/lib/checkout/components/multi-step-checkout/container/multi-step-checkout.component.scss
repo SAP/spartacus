@@ -100,7 +100,7 @@ $y-multi-step-checkout-btns-padding: 0 !default;
       }
 
       &.is-active {
-        color: theme-color('primary');
+        @include var-color('color', 'primary');
       }
     }
 
