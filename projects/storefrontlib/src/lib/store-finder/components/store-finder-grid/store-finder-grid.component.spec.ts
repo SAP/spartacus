@@ -1,14 +1,12 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
 import { combineReducers, StoreModule, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { StoreFinderGridComponent } from './store-finder-grid.component';
 import { StoreFinderListItemComponent } from '../store-finder-list/store-finder-list-item/store-finder-list-item.component';
-
 import { StoreFinderService } from '../../services/store-finder.service';
-
 import * as fromReducers from '../../store';
 import * as fromRoot from '../../../routing/store';
 import { services } from '../../services';

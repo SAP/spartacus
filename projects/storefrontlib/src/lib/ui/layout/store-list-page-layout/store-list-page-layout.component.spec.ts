@@ -1,9 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { combineReducers, StoreModule } from '@ngrx/store';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { combineReducers, StoreModule } from '@ngrx/store';
 
 import { StoreListPageLayoutComponent } from './store-list-page-layout.component';
 import { StoreFinderSearchComponent } from '../../../store-finder/components/store-finder-search/store-finder-search.component';
@@ -13,7 +14,6 @@ import { StoreFinderListComponent } from '../../../store-finder/components/store
 import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
 import { MaterialModule } from '../../../material.module';
 import { services } from '../../../store-finder/services';
-
 import * as fromStore from '../../../store-finder/store';
 
 /* tslint:disable */
