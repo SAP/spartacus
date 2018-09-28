@@ -8,5 +8,6 @@
       "../storefrontstyles/scss",
       "../../node_modules/storefrontstyles/scss"
     ]
-  }
+  },
+  "whitelistedNonPeerDependencies": ["hamburgers"]
 }
