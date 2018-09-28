@@ -77,7 +77,7 @@ Spartacus works with Release 1808 of SAP Commerce Cloud and is being built with 
 
 # Known Issues
 
-Spartacus is currently in a pre-release beta state. Known issues are documented in the GitHub issue tracking system.
+Known issues are documented in the GitHub issue tracking system.
 
 
 
@@ -103,7 +103,7 @@ Team Spartacus welcomes feedback, ideas, requests, and especially code contribut
 
 # To Do
 
-Many changes are coming! All tasks will be posted to our GitHub issue board, and this section will be updated with the major roadmap items.
+Many changes are coming! All tasks will be posted to our GitHub issue tracking system, and this section will be updated with the major roadmap items.
 
 Some of the upcoming features or changes to the open source release:
 - Mock server
