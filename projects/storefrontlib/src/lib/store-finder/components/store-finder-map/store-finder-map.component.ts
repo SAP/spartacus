@@ -17,9 +17,12 @@ import { GoogleMapRendererService } from '../../services/google-map-renderer.ser
   providers: [GoogleMapRendererService]
 })
 export class StoreFinderMapComponent implements OnChanges {
-  @ViewChild('mapElement') mapElement: ElementRef;
-  @Input() locations: any[];
-  @Output() selectedStoreItem: EventEmitter<number> = new EventEmitter();
+  @ViewChild('mapElement')
+  mapElement: ElementRef;
+  @Input()
+  locations: any[];
+  @Output()
+  selectedStoreItem: EventEmitter<number> = new EventEmitter();
   constructor(private googleMapRendererService: GoogleMapRendererService) {}
 
   ngOnChanges(changes: SimpleChanges): void {

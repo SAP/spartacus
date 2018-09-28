@@ -2,7 +2,8 @@ import { Input } from '@angular/core';
 import { StoreDataService } from '../../services/store-data.service';
 
 export class AbstractStoreItemComponent {
-  @Input() location;
+  @Input()
+  location;
   readonly current_date = new Date();
 
   constructor(protected storeDataService: StoreDataService) {}
