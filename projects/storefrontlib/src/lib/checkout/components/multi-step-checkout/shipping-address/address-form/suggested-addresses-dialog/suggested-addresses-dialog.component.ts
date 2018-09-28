@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'y-suggested-addresses-dialog',
@@ -7,6 +8,12 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SuggestedAddressDialogComponent {
-  public data: any;
-  constructor() {}
+  constructor(public activeModal: NgbActiveModal) {}
+
+  @Input()
+  suggestedAddresses: any[];
+  @Input()
+  enteredAddress: any;
+
+  selectedAddress: any;
 }
