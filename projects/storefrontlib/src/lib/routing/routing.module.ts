@@ -20,7 +20,6 @@ import {
 } from './routing-module-config';
 
 // not used in production
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { ConfigModule, Config } from '../config/config.module';
 import { RouterModule } from '@angular/router';
@@ -45,7 +44,6 @@ export function getMetaReducers(
     StoreModule.forRoot(reducerToken),
     EffectsModule.forRoot(effects),
     StoreRouterConnectingModule,
-    StoreDevtoolsModule.instrument(), // Should not be used in production (SPA-488)
     ConfigModule.withConfig(defaultRoutingModuleConfig)
   ],
   providers: [

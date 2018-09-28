@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { RouterModule } from '@angular/router';
-import { MaterialModule } from '../../material.module';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -68,7 +67,6 @@ describe('MiniCartComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterModule,
-        MaterialModule,
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
