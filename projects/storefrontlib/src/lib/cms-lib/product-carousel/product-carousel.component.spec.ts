@@ -70,7 +70,6 @@ describe('ProductCarouselComponent in CmsLib', () => {
     store = TestBed.get(Store);
 
     spyOn(store, 'select').and.returnValues(of(productCodeArray));
-
   });
 
   it('should be created', () => {

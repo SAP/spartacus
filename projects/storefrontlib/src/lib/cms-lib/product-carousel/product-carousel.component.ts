@@ -50,9 +50,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     this.setItemsPerPage();
     this.resizeSubscription = fromEvent(window, 'resize')
       .pipe(debounceTime(300))
-      .subscribe(
-        this.setItemsPerPage.bind(this)
-      );
+      .subscribe(this.setItemsPerPage.bind(this));
   }
 
   prev() {
