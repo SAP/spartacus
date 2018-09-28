@@ -16,11 +16,16 @@ import { ProductSearchService } from '../../../services/product-search.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductListComponent implements OnChanges, OnInit {
-  @Input() gridMode: String;
-  @Input() query;
-  @Input() categoryCode;
-  @Input() brandCode;
-  @Input() itemPerPage: number;
+  @Input()
+  gridMode: String;
+  @Input()
+  query;
+  @Input()
+  categoryCode;
+  @Input()
+  brandCode;
+  @Input()
+  itemPerPage: number;
 
   grid: any;
   model$: Observable<any>;

@@ -1,6 +1,12 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
+import { CmsService } from '../../cms/facade/cms.service';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 
 @Component({
   selector: 'y-banner',
@@ -9,6 +15,14 @@ import { AbstractCmsComponent } from '../../cms/components/abstract-cms-componen
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BannerComponent extends AbstractCmsComponent {
+  constructor(
+    protected cmsService: CmsService,
+    protected cd: ChangeDetectorRef,
+    protected config: CmsModuleConfig
+  ) {
+    super(cmsService, cd);
+  }
+
   hasImage() {
     return (
       undefined !== this.component &&
@@ -28,5 +42,9 @@ export class BannerComponent extends AbstractCmsComponent {
 
   getAltText() {
     return this.component.media.altText;
+  }
+
+  public getBaseUrl() {
+    return this.config.server.baseUrl;
   }
 }

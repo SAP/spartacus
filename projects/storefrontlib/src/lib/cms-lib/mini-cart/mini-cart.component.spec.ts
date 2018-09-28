@@ -3,14 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { RouterModule } from '@angular/router';
-import { MaterialModule } from '../../material.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromRoot from '../../routing/store';
-import * as fromCms from '../../cms/store';
 import * as fromCart from '../../cart/store';
 import * as fromUser from '../../user/store';
 import * as fromAuth from '../../auth/store';
@@ -19,6 +16,7 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { MiniCartComponent } from './mini-cart.component';
 import { CartService } from '../../cart/services/cart.service';
 import { CartDataService } from '../../cart/services/cart-data.service';
+import { CmsService } from '../../cms/facade/cms.service';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -27,7 +25,7 @@ const UseCmsModuleConfig: CmsModuleConfig = {
 };
 
 describe('MiniCartComponent', () => {
-  let store: Store<fromCms.CmsState>;
+  let store: Store<fromCart.CartState>;
   let miniCartComponent: MiniCartComponent;
   let fixture: ComponentFixture<MiniCartComponent>;
 
@@ -40,6 +38,10 @@ describe('MiniCartComponent', () => {
       uid: 'banner',
       typeCode: 'SimpleBannerComponent'
     }
+  };
+
+  const MockCmsService = {
+    getComponentData: () => of(mockComponentData)
   };
 
   const testCart: any = {
@@ -65,12 +67,9 @@ describe('MiniCartComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterModule,
-        MaterialModule,
-        FlexLayoutModule,
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          cms: combineReducers(fromCms.getReducers()),
           cart: combineReducers(fromCart.getReducers()),
           user: combineReducers(fromUser.getReducers()),
           auth: combineReducers(fromAuth.getReducers())
@@ -80,6 +79,7 @@ describe('MiniCartComponent', () => {
       providers: [
         CartService,
         CartDataService,
+        { provide: CmsService, useValue: MockCmsService },
         { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
       ]
     }).compileComponents();
@@ -91,11 +91,7 @@ describe('MiniCartComponent', () => {
 
     store = TestBed.get(Store);
 
-    spyOn(store, 'select').and.returnValues(
-      of(mockComponentData),
-      of(testCart),
-      of(testEntries)
-    );
+    spyOn(store, 'select').and.returnValues(of(testCart), of(testEntries));
   });
 
   it('should be created', () => {
@@ -104,8 +100,7 @@ describe('MiniCartComponent', () => {
 
   it('should contain cms content in the html rendering after bootstrap', () => {
     expect(miniCartComponent.component).toBeNull();
-
-    miniCartComponent.bootstrap();
+    miniCartComponent.onCmsComponentInit(mockComponentData.uid);
     expect(miniCartComponent.component).toBe(mockComponentData);
 
     expect(miniCartComponent.banner).toBe(

@@ -15,12 +15,9 @@ branches:
 before_script:
   - npm install -g angular-cli
 
-script:
-  - ng test --watch=false --browsers=ChromeHeadless
-  - ng build --prod
+script: ./build.sh
 
 notifications:
   email:
     on_failure: change
     on_success: change
-

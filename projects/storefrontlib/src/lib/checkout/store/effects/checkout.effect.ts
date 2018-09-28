@@ -283,8 +283,7 @@ export class CheckoutEffects {
     if (mappingLabels['hybris_sop_uses_public_signature'] === 'true') {
       sopResponseParams[
         'paySubscriptionCreateReply_subscriptionIDPublicSignature'
-      ] =
-        fromPaymentProvider[mappingLabels['hybris_sop_public_signature']];
+      ] = fromPaymentProvider[mappingLabels['hybris_sop_public_signature']];
     }
 
     return sopResponseParams;
