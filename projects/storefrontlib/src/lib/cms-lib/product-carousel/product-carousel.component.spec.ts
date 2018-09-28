@@ -18,7 +18,7 @@ const UseCmsModuleConfig: CmsModuleConfig = {
   }
 };
 
-fdescribe('ProductCarouselComponent in CmsLib', () => {
+describe('ProductCarouselComponent in CmsLib', () => {
   let store: Store<fromCmsReducer.CmsState>;
   let productCarouselComponent: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
