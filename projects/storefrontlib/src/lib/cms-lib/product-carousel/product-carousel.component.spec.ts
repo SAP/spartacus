@@ -18,7 +18,7 @@ const UseCmsModuleConfig: CmsModuleConfig = {
   }
 };
 
-describe('ProductCarouselComponent in CmsLib', () => {
+fdescribe('ProductCarouselComponent in CmsLib', () => {
   let store: Store<fromCmsReducer.CmsState>;
   let productCarouselComponent: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
@@ -80,19 +80,10 @@ describe('ProductCarouselComponent in CmsLib', () => {
     expect(productCarouselComponent.component).toBeNull();
 
     productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
+    fixture.detectChanges();
     expect(productCarouselComponent.component).toBe(mockComponentData);
-
     expect(el.query(By.css('H3')).nativeElement.textContent).toEqual(
       productCarouselComponent.component.title
     );
-  });
-
-  it('should call getProductCodes()', () => {
-    spyOn(productCarouselComponent, 'getProductCodes').and.returnValue(
-      productCodeArray
-    );
-    const codes = productCarouselComponent.getProductCodes();
-    expect(productCarouselComponent.getProductCodes).toHaveBeenCalled();
-    expect(codes).toBe(productCodeArray);
   });
 });
