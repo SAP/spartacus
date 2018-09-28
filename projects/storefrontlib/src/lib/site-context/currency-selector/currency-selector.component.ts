@@ -5,7 +5,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 
 import * as fromStore from '../shared/store';
 import { SiteContextModuleConfig } from '../site-context-module-config';
@@ -27,13 +27,14 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription = this.store
-      .select(fromStore.getCurrenciesLoaded)
-      .subscribe(loaded => {
-        if (!loaded) {
-          this.store.dispatch(new fromStore.LoadCurrencies());
-        }
-      });
+    this.subscription = combineLatest(
+      this.store.select(fromStore.getCurrenciesLoadAttempted),
+      this.store.select(fromStore.getCurrenciesLoading)
+    ).subscribe(([loadAttempted, loading]) => {
+      if (!loadAttempted && !loading) {
+        this.store.dispatch(new fromStore.LoadCurrencies());
+      }
+    });
 
     this.currencies$ = this.store.select(fromStore.getAllCurrencies);
     this.activeCurrency = this.getActiveCurrency();

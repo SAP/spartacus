@@ -1,5 +1,4 @@
 import { By } from '@angular/platform-browser';
-import { SiteContextModuleConfig } from '../site-context-module-config';
 import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -11,13 +10,14 @@ import * as fromRoot from './../../routing/store';
 import * as fromActions from './../shared/store/actions/currencies.action';
 import { PageType } from '../../routing/models/page-context.model';
 import { of } from 'rxjs';
+import { SiteContextModuleConfig } from '../site-context-module-config';
 
-class MockSiteContextModuleConfig {
-  site = {
+const MockSiteContextModuleConfig: SiteContextModuleConfig = {
+  site: {
     language: 'de',
     currency: 'JPY'
-  };
-}
+  }
+};
 
 describe('CurrencySelectorComponent', () => {
   const currencies: any[] = [
@@ -41,7 +41,7 @@ describe('CurrencySelectorComponent', () => {
       providers: [
         {
           provide: SiteContextModuleConfig,
-          useClass: MockSiteContextModuleConfig
+          useValue: MockSiteContextModuleConfig
         }
       ]
     })
@@ -65,7 +65,7 @@ describe('CurrencySelectorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should contain currencies button', () => {
+  it('should contain dropdown with currencies', () => {
     component.currencies$ = of(currencies);
 
     const label = el.query(By.css('label'));
@@ -77,6 +77,22 @@ describe('CurrencySelectorComponent', () => {
     });
 
     expect(label.nativeElement.textContent).toEqual('Currency');
+  });
+
+  it('should contain disabled dropdown when currencies list is empty', () => {
+    component.currencies$ = of([]);
+    const select = el.query(By.css('select'));
+    fixture.detectChanges();
+
+    expect(select.nativeElement.disabled).toBeTruthy();
+  });
+
+  it('should contain enabled dropdown when currencies list is NOT empty', () => {
+    component.currencies$ = of(currencies);
+    const select = el.query(By.css('select'));
+    fixture.detectChanges();
+
+    expect(select.nativeElement.disabled).toBeFalsy();
   });
 
   it('should get currency data', () => {

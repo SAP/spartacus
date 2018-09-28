@@ -26,14 +26,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       titleCode: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.email,
-          CustomFormValidators.emailDomainValidator
-        ]
-      ],
+      email: ['', [Validators.required, CustomFormValidators.emailValidator]],
       password: [
         '',
         [Validators.required, CustomFormValidators.passwordValidator]

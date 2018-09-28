@@ -25,15 +25,21 @@ const COUNTER_CONTROL_ACCESSOR = {
   providers: [COUNTER_CONTROL_ACCESSOR]
 })
 export class ItemCounterComponent implements OnInit, ControlValueAccessor {
-  @ViewChild('input') private input: ElementRef;
+  @ViewChild('input')
+  private input: ElementRef;
 
   value = 0;
-  @Input() step = 1;
-  @Input() min;
-  @Input() max;
-  @Input() async = false;
+  @Input()
+  step = 1;
+  @Input()
+  min;
+  @Input()
+  max;
+  @Input()
+  async = false;
 
-  @Output() update = new EventEmitter<any>();
+  @Output()
+  update = new EventEmitter<any>();
 
   focus: boolean;
 

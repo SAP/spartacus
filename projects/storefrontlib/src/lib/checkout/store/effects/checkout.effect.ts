@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 
 import * as fromActions from './../actions';
 import * as fromUserActions from '../../../user/store/actions';
+import * as fromGlobalMessagesActions from '../../../global-message/store/actions';
 
 import { Observable, of } from 'rxjs';
 import { Actions, Effect } from '@ngrx/effects';
-import { map, catchError, mergeMap } from 'rxjs/operators';
+import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
 import { OccOrderService } from '../../../occ/order/order.service';
+import { GlobalMessageType } from '../../../global-message/models/message.model';
+import { ProductImageConverterService } from '../../../product/converters/product-image-converter.service';
 
 @Injectable()
 export class CheckoutEffects {
@@ -207,7 +210,19 @@ export class CheckoutEffects {
         return this.occOrderService
           .placeOrder(payload.userId, payload.cartId)
           .pipe(
-            map(data => new fromActions.PlaceOrderSuccess(data)),
+            map(data => {
+              for (const entry of data.entries) {
+                this.productImageConverter.convertProduct(entry.product);
+              }
+              return data;
+            }),
+            switchMap(data => [
+              new fromActions.PlaceOrderSuccess(data),
+              new fromGlobalMessagesActions.AddMessage({
+                text: 'Order placed successfully',
+                type: GlobalMessageType.MSG_TYPE_CONFIRMATION
+              })
+            ]),
             catchError(error => of(new fromActions.PlaceOrderFail(error)))
           );
       })
@@ -218,7 +233,8 @@ export class CheckoutEffects {
   constructor(
     private actions$: Actions,
     private occCartService: OccCartService,
-    private occOrderService: OccOrderService
+    private occOrderService: OccOrderService,
+    private productImageConverter: ProductImageConverterService
   ) {
     this.domparser = new DOMParser();
   }
@@ -267,8 +283,7 @@ export class CheckoutEffects {
     if (mappingLabels['hybris_sop_uses_public_signature'] === 'true') {
       sopResponseParams[
         'paySubscriptionCreateReply_subscriptionIDPublicSignature'
-      ] =
-        fromPaymentProvider[mappingLabels['hybris_sop_public_signature']];
+      ] = fromPaymentProvider[mappingLabels['hybris_sop_public_signature']];
     }
 
     return sopResponseParams;

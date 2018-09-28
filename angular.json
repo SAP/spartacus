@@ -7,7 +7,7 @@
       "root": "projects/storefrontapp/",
       "sourceRoot": "projects/storefrontapp/src",
       "projectType": "application",
-      "prefix": "y",
+      "prefix": "cx",
       "schematics": {},
       "architect": {
         "build": {
@@ -22,10 +22,7 @@
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets"
             ],
-            "styles": [
-              "projects/storefrontapp/src/styles.scss",
-              "projects/storefrontapp/src/theme.scss"
-            ],
+            "styles": ["projects/storefrontapp/src/styles.scss"],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "./projects/storefrontstyles/scss",
@@ -53,6 +50,47 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
+              "serviceWorker": true,
+              "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
+            },
+            "ci": {
+              "fileReplacements": [
+                {
+                  "replace":
+                    "projects/storefrontapp/src/environments/environment.ts",
+                  "with":
+                    "projects/storefrontapp/src/environments/environment.ci.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
+            },
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace":
+                    "projects/storefrontapp/src/environments/environment.ts",
+                  "with":
+                    "projects/storefrontapp/src/environments/environment.qa.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             }
           }
@@ -65,6 +103,15 @@
           "configurations": {
             "production": {
               "browserTarget": "storefrontapp:build:production"
+            },
+            "development": {
+              "browserTarget": "storefrontapp:build:development"
+            },
+            "ci": {
+              "browserTarget": "storefrontapp:build:ci"
+            },
+            "qa": {
+              "browserTarget": "storefrontapp:build:qa"
             }
           }
         },
@@ -115,6 +162,9 @@
           "configurations": {
             "production": {
               "devServerTarget": "storefrontapp:serve:production"
+            },
+            "ci": {
+              "devServerTarget": "storefrontapp:serve:ci"
             }
           }
         },
@@ -131,7 +181,7 @@
       "root": "projects/storefrontlib",
       "sourceRoot": "projects/storefrontlib/src",
       "projectType": "library",
-      "prefix": "y",
+      "prefix": "cx",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",

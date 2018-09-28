@@ -1,4 +1,3 @@
-import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductListItemComponent } from './product-list-item.component';
 import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
@@ -9,6 +8,8 @@ import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../../routing/store';
 import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
+import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { StarRatingComponent } from '../../../../ui';
 
 describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
@@ -17,8 +18,8 @@ describe('ProductListItemComponent in product-list', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         RouterTestingModule,
+        NgbRatingModule.forRoot(),
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
@@ -28,7 +29,8 @@ describe('ProductListItemComponent in product-list', () => {
       declarations: [
         ProductListItemComponent,
         PictureComponent,
-        AddToCartComponent
+        AddToCartComponent,
+        StarRatingComponent
       ],
       providers: [CartService]
     }).compileComponents();

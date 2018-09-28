@@ -9,10 +9,10 @@ import { SiteContextModule } from '../../../site-context/site-context.module';
 
 import { UiFrameworkModule } from '../../ui-framework/ui-framework.module';
 
-import { MainComponent } from './main.component';
+import { StorefrontComponent } from './storefront.component';
 import { HeaderModule } from './../header/header.module';
 import { FooterComponent } from '../footer/footer.component';
-
+import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -22,9 +22,10 @@ import { FooterComponent } from '../footer/footer.component';
     LoginModule,
     SiteContextModule,
     HeaderModule,
-    UiFrameworkModule
+    UiFrameworkModule,
+    OutletRefModule
   ],
-  declarations: [MainComponent, FooterComponent],
-  exports: [MainComponent, FooterComponent]
+  declarations: [StorefrontComponent, FooterComponent],
+  exports: [StorefrontComponent, FooterComponent]
 })
 export class MainModule {}

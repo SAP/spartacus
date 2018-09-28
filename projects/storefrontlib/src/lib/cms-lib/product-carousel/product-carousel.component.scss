@@ -1,9 +1,14 @@
-.product-caraousel {
+.product-carousel {
   height: 250px;
   overflow: hidden;
   margin: 10px 0;
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
   .carousel-container {
     overflow: hidden;
+    flex: 1 1 0%;
+    box-sizing: border-box;
   }
   .product-panel {
     height: 100%;

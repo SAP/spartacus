@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'y-added-to-cart-dialog',
@@ -12,6 +12,7 @@ import { tap } from 'rxjs/operators';
 export class AddedToCartDialogComponent implements OnInit {
   entry$: Observable<any>;
   cart$: Observable<any>;
+  loaded$: Observable<boolean>;
   form: FormGroup = this.fb.group({
     entryForm: this.fb.group({
       entryNumber: [0],
@@ -19,23 +20,20 @@ export class AddedToCartDialogComponent implements OnInit {
     })
   });
 
-  @Output() updateEntryEvent: EventEmitter<any> = new EventEmitter();
-  @Output() removeEntryEvent: EventEmitter<any> = new EventEmitter();
-  constructor(
-    public dialogRef: MatDialogRef<AddedToCartDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private fb: FormBuilder
-  ) {}
+  @Input()
+  more = false;
+  @Input()
+  quantity = 0;
+  @Output()
+  updateEntryEvent: EventEmitter<any> = new EventEmitter();
+  @Output()
+  removeEntryEvent: EventEmitter<any> = new EventEmitter();
 
-  closeDialog() {
-    this.dialogRef.close();
-  }
+  constructor(private fb: FormBuilder, public activeModal: NgbActiveModal) {}
 
   ngOnInit() {
     const entryFG = this.form.get('entryForm') as FormGroup;
-
-    this.cart$ = this.data.cart$;
-    this.entry$ = this.data.entry$.pipe(
+    this.entry$.pipe(
       tap((entry: any) => {
         if (entry !== undefined && Object.keys(entry).length !== 0) {
           entryFG.setControl('entryNumber', this.fb.control(entry.entryNumber));

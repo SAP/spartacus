@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { MediaModule } from '../../ui/components/media/media.module';
 
 import { SearchBoxComponent } from './search-box.component';
-import { BootstrapModule } from '../../bootstap.module';
+import { BootstrapModule } from '../../bootstrap.module';
 
 @NgModule({
   imports: [

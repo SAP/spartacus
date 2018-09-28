@@ -4,15 +4,13 @@ import {
   OnInit,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
 import { CartService } from '../../services/cart.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 import * as fromCartStore from '../../store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Store } from '@ngrx/store';
-import * as fromStore from './../../store';
 
 @Component({
   selector: 'y-add-to-cart',
@@ -21,34 +19,31 @@ import * as fromStore from './../../store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddToCartComponent implements OnInit {
-  dialogRef: MatDialogRef<AddedToCartDialogComponent, any>;
+  modalInstance;
 
-  isLoading = false;
-  @Input() iconOnly;
+  @Input()
+  iconOnly;
 
-  @Input() productCode;
-  @Input() quantity = 1;
+  @Input()
+  productCode;
+  @Input()
+  quantity = 1;
 
   cartEntry$: Observable<any>;
+  loaded$: Observable<boolean>;
 
   constructor(
-    protected dialog: MatDialog,
     protected cartService: CartService,
-    protected store: Store<fromStore.CartState>
+    private modalService: NgbModal,
+    protected store: Store<fromCartStore.CartState>
   ) {}
 
   ngOnInit() {
     if (this.productCode) {
-      this.cartEntry$ = this.store
-        .select(fromStore.getEntrySelectorFactory(this.productCode))
-        .pipe(
-          tap(entry => {
-            if (this.isLoading && entry) {
-              this.openDialog();
-            }
-            this.isLoading = false;
-          })
-        );
+      this.loaded$ = this.store.select(fromCartStore.getLoaded);
+      this.cartEntry$ = this.store.select(
+        fromCartStore.getEntrySelectorFactory(this.productCode)
+      );
     }
   }
 
@@ -56,24 +51,25 @@ export class AddToCartComponent implements OnInit {
     if (!this.productCode || this.quantity <= 0) {
       return;
     }
-    this.isLoading = true;
-
+    this.openModal();
     this.cartService.addCartEntry(this.productCode, this.quantity);
   }
 
-  private openDialog(): void {
-    this.dialogRef = this.dialog.open(AddedToCartDialogComponent, {
-      data: {
-        entry$: this.cartEntry$,
-        cart$: this.store.select(fromCartStore.getActiveCart)
-      }
-    });
+  private openModal() {
+    this.modalInstance = this.modalService.open(AddedToCartDialogComponent, {
+      centered: true,
+      size: 'lg'
+    }).componentInstance;
+    this.modalInstance.entry$ = this.cartEntry$;
+    this.modalInstance.cart$ = this.store.select(fromCartStore.getActiveCart);
+    this.modalInstance.loaded$ = this.loaded$;
+    this.modalInstance.quantity = this.quantity;
 
-    this.dialogRef.componentInstance.updateEntryEvent.subscribe((data: any) =>
+    this.modalInstance.updateEntryEvent.subscribe((data: any) =>
       this.updateEntry(data)
     );
 
-    this.dialogRef.componentInstance.removeEntryEvent.subscribe((data: any) => {
+    this.modalInstance.removeEntryEvent.subscribe((data: any) => {
       this.removeEntry(data);
     });
   }
@@ -83,6 +79,6 @@ export class AddToCartComponent implements OnInit {
   }
   private removeEntry(entry) {
     this.cartService.removeCartEntry(entry);
-    this.dialog.closeAll();
+    this.modalInstance.close();
   }
 }

@@ -1,18 +1,24 @@
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { PaginationAndSortingComponent } from './order-history/pagination-and-sorting/pagination-and-sorting.component';
-import { OrderHistoryComponent } from './order-history/container/order-history.component';
-import { OrderDetailsComponent } from './order-details/order-details.component';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { BootstrapModule } from '../../bootstrap.module';
+import { PaginationAndSortingModule } from '../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
+/* component */
+import { OrderHistoryComponent } from './order-history/order-history.component';
+import { OrderDetailsComponent } from './order-details/order-details.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, FormsModule],
-  declarations: [
-    OrderHistoryComponent,
-    PaginationAndSortingComponent,
-    OrderDetailsComponent
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    NgSelectModule,
+    BootstrapModule,
+    PaginationAndSortingModule
   ],
+  declarations: [OrderHistoryComponent, OrderDetailsComponent],
   exports: [OrderHistoryComponent, OrderDetailsComponent]
 })
 export class OrderModule {}

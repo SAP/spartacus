@@ -4,11 +4,12 @@ import { HomePageComponent } from './home-page.component';
 import { LandingPageLayoutComponent } from '../../layout/landing-page-layout/landing-page-layout.component';
 import {
   DynamicSlotComponent,
-  ComponentWrapperComponent
+  ComponentWrapperDirective
 } from '../../../cms/components';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
+import { OutletDirective } from '../../../outlet';
 
 describe('HomePageComponent', () => {
   let component: HomePageComponent;
@@ -26,7 +27,8 @@ describe('HomePageComponent', () => {
         HomePageComponent,
         LandingPageLayoutComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent
+        ComponentWrapperDirective,
+        OutletDirective
       ]
     }).compileComponents();
   }));

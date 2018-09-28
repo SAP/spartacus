@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromRoot from '../../routing/store';
-import * as fromCmsReducer from '../../cms/store/reducers';
 import * as fromProductStore from '../../product/store';
 import * as fromRouting from '../../routing/store';
 import { SearchBoxComponent } from './search-box.component';
@@ -13,16 +12,17 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchConfig } from '../../product/search-config';
 import { By } from '@angular/platform-browser';
-import { BootstrapModule } from '../../bootstap.module';
+import { BootstrapModule } from '../../bootstrap.module';
+import { CmsService } from '../../cms/facade/cms.service';
 
-export class UseCmsModuleConfig {
-  cmsComponentMapping = {
+const UseCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     SearchBoxComponent: 'SearchBoxComponent'
-  };
-}
+  }
+};
 
 describe('SearchBoxComponent in CmsLib', () => {
-  let store: Store<fromCmsReducer.CmsState>;
+  let store: Store<any>;
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
   let selectSpy: jasmine.Spy;
@@ -41,6 +41,10 @@ describe('SearchBoxComponent in CmsLib', () => {
     maxSuggestions: '5',
     minCharactersBeforeRequest: '3',
     waitTimeBeforeRequest: '500'
+  };
+
+  const MockCmsService = {
+    getComponentData: () => of(mockSearchBoxComponentData)
   };
 
   const mockSearchSuggestions = {
@@ -74,12 +78,14 @@ describe('SearchBoxComponent in CmsLib', () => {
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers()),
           products: combineReducers(fromProductStore.getReducers())
         })
       ],
       declarations: [SearchBoxComponent, PictureComponent],
-      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
+      providers: [
+        { provide: CmsService, useValue: MockCmsService },
+        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
+      ]
     }).compileComponents();
   }));
 
@@ -101,15 +107,13 @@ describe('SearchBoxComponent in CmsLib', () => {
   });
 
   it('should contain cms content in the html rendering after bootstrap', () => {
-    selectSpy.and.returnValue(of(mockSearchBoxComponentData));
     expect(searchBoxComponent.component).toBeNull();
-    searchBoxComponent.bootstrap();
+    searchBoxComponent.onCmsComponentInit(mockSearchBoxComponentData.uid);
     expect(searchBoxComponent.component).toBe(mockSearchBoxComponentData);
   });
 
   it('should dispatch new search query on text update', () => {
-    selectSpy.and.returnValue(of(mockSearchBoxComponentData));
-    searchBoxComponent.bootstrap();
+    searchBoxComponent.onCmsComponentInit(mockSearchBoxComponentData.uid);
     searchBoxComponent.ngOnInit();
 
     selectSpy.and.returnValue(of([mockSearchSuggestions]));

@@ -14,18 +14,18 @@ const suggestions = ['test'];
 const mockSearchConfig: SearchConfig = {
   pageSize: 5
 };
-export class MockOccModuleConfig {
-  server = {
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  site = {
+  site: {
     baseSite: '',
     language: '',
     currency: ''
-  };
-}
+  }
+};
 const endpoint = '/products';
 
 describe('OccProductSearchService', () => {
@@ -37,7 +37,7 @@ describe('OccProductSearchService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccProductSearchService,
-        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig }
       ]
     });
 
@@ -63,7 +63,8 @@ describe('OccProductSearchService', () => {
         mockSearchConfig.pageSize.toString()
       );
       expect(mockReq.request.params.get('fields')).toEqual(
-        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL)),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT)'
+        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL)' +
+          ',averageRating),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT)'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
