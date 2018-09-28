@@ -3,6 +3,10 @@
 @import 'mixins';
 @import '~bootstrap/scss/forms';
 
+//currency selector color variables
+$y-language-selector-arrow-color: 'inverse' !default;
+$y-language-selector-arrow-color-mobile: 'text' !default;
+
 //$currency-selector-variables
 $language-selector-input-border-style: none;
 $language-selector-input-border-width: 0;
@@ -12,6 +16,8 @@ $language-selector-input-border-width: 0;
 }
 
 .y-language-selector {
+  position: relative;
+
   @include media-breakpoint-down(md) {
     color: theme-color('text');
   }
@@ -22,7 +28,26 @@ $language-selector-input-border-width: 0;
   &__control {
     color: inherit;
     background-color: transparent;
-    border: $language-selector-input-border-width
-      $language-selector-input-border-style;
+    border: $language-selector-input-border-width $language-selector-input-border-style;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 20px;
+  }
+  &__arrow-down {
+    @include var-color('border-color', $y-language-selector-arrow-color);
+    border-style: solid;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    position: absolute;
+    right: 0.25rem;
+    margin-top: 1rem;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+
+    @include media-breakpoint-down(md) {
+      @include var-color('border-color',$y-language-selector-arrow-color-mobile);
+    }
   }
 }
