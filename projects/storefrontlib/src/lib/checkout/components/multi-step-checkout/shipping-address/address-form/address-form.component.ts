@@ -164,7 +164,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   openSuggestedAddress(results: any) {
-    debugger;
     if (!this.suggestedAddressModalRef) {
       this.suggestedAddressModalRef = this.modalService.open(
         SuggestedAddressDialogComponent,
