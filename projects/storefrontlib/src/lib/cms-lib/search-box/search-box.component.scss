@@ -12,6 +12,7 @@ $y-search-box-input-placeholder-color: 'inverse' !default;
 $y-search-box-input-background-color: 'transparent' !default;
 $y-search-box-input-focus-background-color: 'transparent' !default;
 $y-search-box-input-color: 'inverse' !default;
+$y-search-box-input-focus-color: 'inverse' !default;
 $y-search-box-button-background-color: 'transparent' !default;
 $y-search-box-button-icon-fill-color: 'inverse' !default;
 $y-search-box-item-background-color: 'primary' !default;
@@ -96,6 +97,7 @@ $y-search-box-search-icon-height: 28px !default;
         $y-search-box-input-focus-background-color
       );
       box-shadow: none;
+      @include var-color('color', $y-search-box-input-focus-color);
     }
   }
   &__button {

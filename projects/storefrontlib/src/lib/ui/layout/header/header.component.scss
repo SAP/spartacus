@@ -40,6 +40,17 @@ $y-header-separator-width: 100vw !default;
       top: $y-header-separator-position-top;
     }
   }
+  @include media-breakpoint-down(md) {
+    // display: flex;
+    height: 90px;
+    &:first-child {
+      padding-top: 10px;
+    }
+  }
+  @include media-breakpoint-down(sm) {
+    // display: flex;
+    height: 70px;
+  }
 }
 /**
   Introduce the beauty of CSS vars here. 

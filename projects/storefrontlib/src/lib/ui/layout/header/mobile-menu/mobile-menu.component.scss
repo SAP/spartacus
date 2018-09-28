@@ -5,6 +5,9 @@
 //https://github.com/jonsuh/hamburgers
 $hamburger-types: (squeeze);
 $hamburger-layer-color: theme-color('inverse');
+$hamburger-layer-width: 20px !default;
+$hamburger-layer-height: 2px !default;
+$hamburger-layer-spacing: 3px !default;
 @import '~hamburgers/_sass/hamburgers/hamburgers';
 
 //mobile-menu color variables
