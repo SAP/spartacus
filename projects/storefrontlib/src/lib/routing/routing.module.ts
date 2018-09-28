@@ -19,8 +19,6 @@ import {
   StorageSyncType
 } from './routing-module-config';
 
-// not used in production
-import { storeFreeze } from 'ngrx-store-freeze';
 import { ConfigModule, Config } from '../config/config.module';
 import { RouterModule } from '@angular/router';
 
@@ -32,8 +30,6 @@ export function getMetaReducers(
     const storageSyncReducer = getStorageSyncReducer(config);
     metaReducers.push(storageSyncReducer);
   }
-
-  metaReducers.push(storeFreeze); // Should not be used in production (SPA-488)
 
   return metaReducers;
 }
