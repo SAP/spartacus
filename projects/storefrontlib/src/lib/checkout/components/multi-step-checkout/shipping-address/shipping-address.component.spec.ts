@@ -12,7 +12,6 @@ import { ShippingAddressComponent } from './shipping-address.component';
 
 import { of } from 'rxjs';
 import * as fromRouting from '../../../../routing/store';
-import { MaterialModule } from '../../../../material.module';
 import { CheckoutService } from '../../../services';
 import { CartService, CartDataService } from '../../../../cart/services';
 import { AddressFormModule } from './address-form/address-form.module';
@@ -40,7 +39,6 @@ describe('ShippinegAddressComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         AddressFormModule,
         RouterTestingModule,
         CardModule,

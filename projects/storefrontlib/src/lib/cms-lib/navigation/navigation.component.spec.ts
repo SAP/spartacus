@@ -6,7 +6,6 @@ import * as fromCmsReducer from '../../cms/store/reducers';
 import { NavigationComponent } from './navigation.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatMenuModule, MatIconModule } from '@angular/material';
 import { NavigationService } from './navigation.service';
 import { CmsService } from '../../cms/facade/cms.service';
 
@@ -71,8 +70,6 @@ describe('CmsNavigationComponent in CmsLib', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatMenuModule,
-        MatIconModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cms: combineReducers(fromCmsReducer.getReducers())

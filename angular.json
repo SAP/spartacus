@@ -22,15 +22,9 @@
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets"
             ],
-            "styles": [
-              "projects/storefrontapp/src/styles.scss",
-              "projects/storefrontapp/src/theme.scss"
-            ],
+            "styles": ["projects/storefrontapp/src/styles.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects/storefrontstyles/scss",
-                "./node_modules/storefrontstyles/scss"
-              ]
+              "includePaths": ["./projects", "./projects/storefrontstyles/scss"]
             },
             "scripts": []
           },
