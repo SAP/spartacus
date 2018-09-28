@@ -12,7 +12,8 @@ import { OutletPosition } from './outlet.model';
   selector: '[cxOutlet]'
 })
 export class OutletDirective implements OnInit {
-  @Input() cxOutlet: string;
+  @Input()
+  cxOutlet: string;
 
   private _context: any;
   @Input()

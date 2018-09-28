@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { missingProductImgSrc } from '../../../images/missingProduct';
 
 const DEFAULT_FORMAT = 'product';
 
@@ -8,12 +9,17 @@ const DEFAULT_FORMAT = 'product';
   styleUrls: ['./picture.component.scss']
 })
 export class PictureComponent implements OnChanges {
-  @Input() imageContainer;
-  @Input() imageFormat;
-  @Input() imagePosition;
-  @Input() imageAlt;
+  @Input()
+  imageContainer;
+  @Input()
+  imageFormat;
+  @Input()
+  imagePosition;
+  @Input()
+  imageAlt;
 
   mainImage;
+  missingProductImgSrc = missingProductImgSrc;
 
   constructor() {}
 
@@ -28,5 +34,9 @@ export class PictureComponent implements OnChanges {
         this.mainImage = image.url;
       }
     }
+  }
+
+  imgErrorHandler(event) {
+    event.target.src = missingProductImgSrc;
   }
 }

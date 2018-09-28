@@ -5,7 +5,7 @@
     "module": "es2015",
     "types": [],
     "paths": {
-      "storefrontlib": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"]
     }
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"]
