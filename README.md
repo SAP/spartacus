@@ -44,6 +44,12 @@ Spartacus provides core storefront features such as:
 
 # Download and Installation
 
+*******
+PLEASE NOTE (Sept. 28, 2018): 
+- Spartacus is currently in pre-alpha state. The current code base is for evaluation only and should not be used to start development on a production storefront release.
+- This first usable pre-alpha release of Spartacus will be available second week of October with proper documentation. Current links are placeholders.
+*******
+
 To get up and running with Spartacus, the simplest approach is to build the application from ready-made libraries. You can also clone and build from source.
 
 Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs. In the future, you will be able to use Spartacus with a mock server.
