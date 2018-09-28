@@ -14,13 +14,11 @@
   "repository": "https://github.com/SAP/cloud-commerce-spartacus-storefront",
   "peerDependencies": {
     "@angular/animations": "^6.0.0",
-    "@angular/cdk": "^6.0.1",
     "@angular/common": "^6.0.0",
     "@angular/compiler": "^6.0.0",
     "@angular/core": "^6.0.0",
     "@angular/forms": "^6.0.0",
     "@angular/http": "^6.0.0",
-    "@angular/material": "^6.0.1",
     "@angular/platform-browser": "^6.0.0",
     "@angular/platform-browser-dynamic": "^6.0.0",
     "@angular/router": "^6.0.0",
@@ -30,7 +28,6 @@
     "@ngrx/store": "^6.0.1",
     "core-js": "^2.5.4",
     "hamburgers": "^0.9.3",
-    "hammerjs": "2.0.8",
     "ngrx-store-localstorage": "^5.0.1",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
