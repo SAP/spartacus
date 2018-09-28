@@ -5,7 +5,6 @@ import {
   OnDestroy,
   ViewChild,
   OnInit,
-  DoCheck,
   ChangeDetectorRef
 } from '@angular/core';
 import { Observable, Subscription, Subject, fromEvent } from 'rxjs';
