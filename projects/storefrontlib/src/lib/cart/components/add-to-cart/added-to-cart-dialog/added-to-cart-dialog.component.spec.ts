@@ -4,7 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 
-import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
 import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
 import { CartSharedModule } from './../../cart-shared/cart-shared.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
@@ -20,7 +19,6 @@ describe('AddedToCartDialogComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         FormsModule,
         RouterTestingModule,
         CartSharedModule,

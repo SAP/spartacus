@@ -8,7 +8,6 @@ import {
   ComponentWrapperDirective
 } from '../../../cms/components';
 import * as fromCmsReducer from '../../../cms/store/reducers';
-import { MaterialModule } from '../../../material.module';
 import * as fromRoot from '../../../routing/store';
 import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
 import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
@@ -37,7 +36,6 @@ describe('HeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),

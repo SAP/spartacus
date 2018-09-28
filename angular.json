@@ -22,10 +22,7 @@
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets"
             ],
-            "styles": [
-              "projects/storefrontapp/src/styles.scss",
-              "projects/storefrontapp/src/theme.scss"
-            ],
+            "styles": ["projects/storefrontapp/src/styles.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["./projects", "./projects/storefrontstyles/scss"]
             },

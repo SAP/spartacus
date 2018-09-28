@@ -31,21 +31,27 @@
 
             <div class="form-group">
               <label for="email">Email address</label>
-              <input class="form-control" [ngClass]="{'error': (userRegistrationForm.get('email').errors?.email || userRegistrationForm.get('email').errors?.InvalidEmail) && userRegistrationForm.get('email').dirty}"
+              <input class="form-control" [class.is-invalid]="(userRegistrationForm.get('email').errors?.email || userRegistrationForm.get('email').errors?.InvalidEmail) && userRegistrationForm.get('email').dirty"
                 type="email" id="email" name="email" placeholder="Email Address" formControlName="email">
             </div>
 
             <div class="form-group">
               <label for="password">Password</label>
-              <input class="form-control" [ngClass]="{'error': userRegistrationForm.get('password').invalid && userRegistrationForm.get('password').dirty}"
+              <input class="form-control" [class.is-invalid]="userRegistrationForm.get('password').invalid && userRegistrationForm.get('password').dirty"
                 type="password" id="password" name="password" placeholder="Password" formControlName="password">
+              <div class="invalid-feedback" *ngIf="userRegistrationForm.get('password').invalid && userRegistrationForm.get('password').dirty">
+                <span>Password must be six characters minimum, with one uppercase letter, one number, one symbol</span>
+              </div>
             </div>
 
             <div class="form-group">
               <label for="confirmpassword">Confirm password</label>
-              <input class="form-control" [ngClass]="{'error': userRegistrationForm.get('password').value !== userRegistrationForm.get('passwordconf').value}"
+              <input class="form-control" [class.is-invalid]="userRegistrationForm.get('password').value !== userRegistrationForm.get('passwordconf').value"
                 type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm Password"
                 formControlName="passwordconf">
+              <div class="invalid-feedback" *ngIf="userRegistrationForm.get('password').value !== userRegistrationForm.get('passwordconf').value && userRegistrationForm.get('passwordconf').value">
+                <span>Both password must match</span>
+              </div>
             </div>
 
             <div class="form-group">

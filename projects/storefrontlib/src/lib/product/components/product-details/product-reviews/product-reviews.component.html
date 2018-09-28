@@ -29,8 +29,8 @@
                     {{review.alias? review.alias : review.principal?.name}}
                 </span>
             </div>
-            <a (click)="maxListItems = reviews.length" *ngIf="maxListItems === initialMaxListItems" mat-button>More</a>
-            <a (click)="maxListItems = initialMaxListItems" *ngIf="maxListItems !== initialMaxListItems" mat-button>Less</a>
+            <a (click)="maxListItems = reviews.length" *ngIf="maxListItems === initialMaxListItems">More</a>
+            <a (click)="maxListItems = initialMaxListItems" *ngIf="maxListItems !== initialMaxListItems">Less</a>
         </div>
     </div>
 </div>
@@ -58,7 +58,8 @@
                 <button type="submit" class="btn btn-block btn-secondary" (click)="cancelWriteReview()">Cancel</button>
             </div>
             <div class="col-12 col-md-4">
-                <button type="submit" class="btn btn-block btn-primary" [ngClass]="{'submit-btn': reviewForm.valid}" [disabled]="!reviewForm.valid">Summit</button>
+                <button type="submit" class="btn btn-block btn-primary" [ngClass]="{'submit-btn': reviewForm.valid}"
+                    [disabled]="!reviewForm.valid">Summit</button>
             </div>
         </div>
     </form>
