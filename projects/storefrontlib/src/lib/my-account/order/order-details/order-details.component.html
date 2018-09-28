@@ -1,15 +1,15 @@
 <ng-container *ngIf="order$ | async as order">
   <div *ngIf="loaded && order?.code" class="y-order-details container">
     <div class="y-order-details__order-header row">
-      <div class="y-order-details__detail col-sm-12 col-md-4 col-lg-4">
+      <div class="y-order-details__detail col-sm-12 col-md-4">
         <div class="y-order-details__label">Order #</div>
         <div class="y-order-details__value">{{order?.code}}</div>
       </div>
-      <div class="y-order-details__detail col-sm-12 col-md-4 col-lg-4">
+      <div class="y-order-details__detail col-sm-12 col-md-4">
         <div class="y-order-details__label">Placed</div>
         <div class="y-order-details__value">{{order?.created | date}}</div>
       </div>
-      <div class="y-order-details__detail col-sm-12 col-md-4 col-lg-4">
+      <div class="y-order-details__detail col-sm-12 col-md-4">
         <div class="y-order-details__label">Status</div>
         <div class="y-order-details__value">{{order?.statusDisplay}}</div>
       </div>
@@ -18,7 +18,7 @@
     <div *ngFor="let consignment of order.consignments" class="y-order-details__list row">
       <div class="y-order-details__list-header col-12">
         <div class="y-order-details__status">{{consignment?.status}}</div>
-        <div class="y-order-details__date">
+        <div *ngIf="consignment?.statusDate" class="y-order-details__date">
           <div>Shipped on &nbsp;</div>
           <div>{{consignment?.statusDate | date}}</div>
         </div>
