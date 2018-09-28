@@ -10,7 +10,6 @@ import {
   DynamicSlotComponent,
   ComponentWrapperDirective
 } from '../../../cms/components';
-import { MaterialModule } from '../../../material.module';
 import { GlobalMessageModule } from '../../../global-message/global-message.module';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import { OccSiteService } from '../../../occ/site-context/occ-site.service';
@@ -47,7 +46,6 @@ describe('StorefrontComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        MaterialModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           user: combineReducers(fromUserReducer.getReducers()),

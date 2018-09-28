@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MaterialModule } from './../../../../material.module';
 import { ProductImagesComponent } from '../product-images/product-images.component';
 import { PictureComponent } from 'projects/storefrontlib/src/lib/ui/components/media/picture/picture.component';
 
@@ -17,7 +16,6 @@ describe('ProductImagesComponent product', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MaterialModule],
       declarations: [ProductImagesComponent, PictureComponent]
     }).compileComponents();
   }));
