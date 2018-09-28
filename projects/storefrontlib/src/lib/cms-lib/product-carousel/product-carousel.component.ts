@@ -2,10 +2,13 @@ import {
   Component,
   Input,
   ChangeDetectionStrategy,
-  OnDestroy
+  OnDestroy,
+  ViewChild,
+  OnInit,
+  DoCheck
 } from '@angular/core';
-import { Observable, Subscription, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subscription, Subject, fromEvent } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
 
@@ -16,26 +19,36 @@ import * as fromProductStore from '../../product/store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCarouselComponent extends AbstractCmsComponent
-  implements OnDestroy {
-  products$: Observable<any[]>;
-  pause: boolean;
-  firstTime = true;
-  private finishSubject = new Subject();
+  implements OnDestroy, OnInit {
+  productGroups: any[];
+  itemPerPage;
 
+  products$: Observable<any[]>;
+  private finishSubject = new Subject();
+  private firstTime = true;
+
+  resizeSubscription: Subscription;
   codesSubscription: Subscription;
 
+  @ViewChild('carousel') carousel: any;
   @Input() productCodes: Array<String>;
-  @Input() animate = true;
+
+  ngOnInit() {
+    this.setItemsPerPage();
+    this.resizeSubscription = fromEvent(window, 'resize')
+      .subscribe(this.setItemsPerPage.bind(this));
+  }
+
+  prev() {
+    this.carousel.prev();
+  }
+
+  next() {
+    this.carousel.next();
+  }
 
   protected fetchData() {
     const codes = this.getProductCodes();
-
-    if (
-      this.contextParameters &&
-      this.contextParameters.hasOwnProperty('animate')
-    ) {
-      this.animate = this.contextParameters.animate;
-    }
 
     if (codes && codes.length > 0) {
       this.codesSubscription = this.store
@@ -53,11 +66,38 @@ export class ProductCarouselComponent extends AbstractCmsComponent
 
       this.firstTime = false;
 
-      this.products$ = this.store.select(
-        fromProductStore.getSelectedProductsFactory(codes)
-      );
+      this.products$ = this.store
+        .select(fromProductStore.getSelectedProductsFactory(codes))
+        .pipe(
+          tap(this.group.bind(this))
+        );
     }
     super.fetchData();
+  }
+
+  private group(products) {
+    const groups = [];
+    products.forEach(product => {
+      const lastGroup = groups[groups.length - 1];
+      if (lastGroup && lastGroup.length < this.itemPerPage) {
+        lastGroup.push(product);
+      } else {
+        groups.push([product]);
+      }
+    });
+    this.productGroups = groups;
+    return groups;
+  }
+
+  private setItemsPerPage() {
+    const { innerWidth } = window;
+    if (innerWidth < 576) {
+      this.itemPerPage = 1;
+    } else if (innerWidth > 576 && innerWidth < 768) {
+      this.itemPerPage = 2;
+    } else {
+      this.itemPerPage = 4;
+    }
   }
 
   getProductCodes(): Array<string> {
@@ -70,16 +110,12 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     return codes;
   }
 
-  stop() {
-    this.pause = true;
-  }
-  continue() {
-    this.pause = false;
-  }
-
   ngOnDestroy() {
     if (this.codesSubscription) {
       this.codesSubscription.unsubscribe();
+    }
+    if (this.resizeSubscription) {
+      this.resizeSubscription.unsubscribe();
     }
     this.finishSubject.next();
     this.finishSubject.complete();

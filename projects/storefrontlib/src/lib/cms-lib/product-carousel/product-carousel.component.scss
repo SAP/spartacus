@@ -1,46 +1,49 @@
-.product-caraousel {
-  height: 250px;
-  overflow: hidden;
-  margin: 10px 0;
-  .carousel-container {
-    overflow: hidden;
-  }
-  .product-panel {
-    height: 100%;
-    width: 5000px;
-    position: relative;
-    &.animate {
-      animation: carousel 25s infinite;
-    }
-    &.pause {
-      animation-play-state: paused;
-    }
-  }
-  .product {
-    height: 100%;
-    margin: 0 10px 10px 0;
-    padding: 10px;
-    width: 200px;
-    float: left;
-    display: block;
-
-    .productName {
-      margin-right: auto;
-      margin-left: auto;
-      margin-bottom: 10px;
-    }
-  }
+.carousel-header {
+  text-align: center;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
-/* Standard syntax */
-@keyframes carousel {
-  0% {
-    left: 0px;
+.carousel-container {
+  position: relative;
+}
+
+.carousel-arrow {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: calc(50% - 50px);
+  fill: #747881;
+}
+
+.carousel-prev {
+  transform: rotate(180deg);
+}
+
+.carousel-next {
+  right: 0;
+}
+
+.product-container {
+  display: inline-block;
+  text-align: center;
+}
+.product {
+  height: 100%;
+  margin: 0 10px 10px 0;
+  padding: 10px;
+  width: 265px;
+  float: left;
+  display: block;
+
+  .productName {
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 10px;
+    text-align: center;
   }
-  50% {
-    left: calc(-800px);
-  }
-  100% {
-    left: 0px;
+
+  .product-price {
+    text-align: center;
   }
 }

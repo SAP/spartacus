@@ -4,9 +4,11 @@ import { RouterModule } from '@angular/router';
 import { ProductCarouselComponent } from './product-carousel.component';
 
 import { MediaModule } from '../../ui/components/media/media.module';
+import { ComponentsModule } from '../../ui/components/components.module';
 
 import { MaterialModule } from '../../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { BootstrapModule } from '../../bootstrap.module';
 
 @NgModule({
   imports: [
@@ -14,7 +16,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     RouterModule,
     MaterialModule,
     FlexLayoutModule,
-    MediaModule
+    MediaModule,
+    ComponentsModule,
+    BootstrapModule
   ],
   declarations: [ProductCarouselComponent],
   entryComponents: [ProductCarouselComponent],
