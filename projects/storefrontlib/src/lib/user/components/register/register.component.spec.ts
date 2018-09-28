@@ -22,6 +22,7 @@ const mockTitlesList = {
 };
 
 describe('RegisterComponent', () => {
+  let controls;
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
   let store: Store<fromStore.UserState>;
@@ -49,6 +50,8 @@ describe('RegisterComponent', () => {
 
     spyOn(store, 'dispatch').and.callThrough();
     fixture.detectChanges();
+
+    controls = component.userRegistrationForm.controls;
   });
 
   it('should create', () => {
@@ -70,6 +73,73 @@ describe('RegisterComponent', () => {
       component.titles$.subscribe(() => {
         expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadTitles());
       });
+    });
+
+    it('form invalid when empty', () => {
+      component.ngOnInit();
+      expect(component.userRegistrationForm.valid).toBeFalsy();
+    });
+
+    it('should contains error if repassword is different than password', () => {
+      component.ngOnInit();
+
+      controls['password'].setValue('test');
+      controls['passwordconf'].setValue('test1');
+
+      const isNotEqual = component.userRegistrationForm.hasError('NotEqual');
+      expect(isNotEqual).toBeTruthy();
+    });
+
+    it('should not contain error if repassword is the same as password', () => {
+      component.ngOnInit();
+
+      controls['password'].setValue('test');
+      controls['passwordconf'].setValue('test');
+
+      const isNotEqual = component.userRegistrationForm.hasError('NotEqual');
+      expect(isNotEqual).toBeFalsy();
+    });
+
+    it('form valid when filled', () => {
+      component.ngOnInit();
+
+      controls['titleCode'].setValue('Mr');
+      controls['firstName'].setValue('John');
+      controls['lastName'].setValue('Doe');
+      controls['email'].setValue('JohnDoe@thebest.john.intheworld.com');
+      controls['termsandconditions'].setValue(true);
+      controls['password'].setValue('strongPass$!123');
+      controls['passwordconf'].setValue('strongPass$!123');
+
+      expect(component.userRegistrationForm.valid).toBeTruthy();
+    });
+
+    it('form invalid when not all required fields filled', () => {
+      component.ngOnInit();
+
+      controls['titleCode'].setValue('');
+      controls['firstName'].setValue('John');
+      controls['lastName'].setValue('');
+      controls['email'].setValue('JohnDoe@thebest.john.intheworld.com');
+      controls['termsandconditions'].setValue(true);
+      controls['password'].setValue('strongPass$!123');
+      controls['passwordconf'].setValue('strongPass$!123');
+
+      expect(component.userRegistrationForm.valid).toBeFalsy();
+    });
+
+    it('form invalid when not terms not checked', () => {
+      component.ngOnInit();
+
+      controls['titleCode'].setValue('Mr');
+      controls['firstName'].setValue('John');
+      controls['lastName'].setValue('Doe');
+      controls['email'].setValue('JohnDoe@thebest.john.intheworld.com');
+      controls['termsandconditions'].setValue(false);
+      controls['password'].setValue('strongPass$!123');
+      controls['passwordconf'].setValue('strongPass$!123');
+
+      expect(component.userRegistrationForm.valid).toBeFalsy();
     });
   });
 

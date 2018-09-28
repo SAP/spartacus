@@ -27,9 +27,14 @@ describe('404Component', () => {
 
   describe('UI test', () => {
     it('should display the 404 image', () => {
+      const imgDebugElement = fixture.debugElement.query(
+        By.css('img.y-error__img')
+      );
+      expect(imgDebugElement).not.toBeNull();
+      const img = imgDebugElement.nativeElement;
       expect(
-        fixture.debugElement.query(By.css('img[src="assets/404.png"]'))
-      ).not.toBeNull();
+        img.src.startsWith('data:image/gif;base64,iVBORw0KGgoAAAANSUhEUg')
+      ).toBeTruthy();
     });
   });
 });

@@ -23,6 +23,8 @@ import {
   NgbTabsetModule,
   NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
+import { OutletDirective } from '../../../outlet';
+import { ProductService } from '../../../product/services';
 
 describe('ProductDetailsPageLayoutComponent', () => {
   let component: ProductDetailsPageLayoutComponent;
@@ -43,6 +45,7 @@ describe('ProductDetailsPageLayoutComponent', () => {
         }),
         ComponentsModule
       ],
+      providers: [ProductService],
       declarations: [
         ProductDetailsPageLayoutComponent,
         DynamicSlotComponent,
@@ -52,7 +55,8 @@ describe('ProductDetailsPageLayoutComponent', () => {
         ProductImagesComponent,
         ProductSummaryComponent,
         ProductReviewsComponent,
-        AddToCartComponent
+        AddToCartComponent,
+        OutletDirective
       ]
     }).compileComponents();
   }));

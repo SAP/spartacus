@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -16,7 +15,6 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 @NgModule({
   imports: [
     CommonModule,
-    FlexLayoutModule,
     LoginModule,
     ReactiveFormsModule,
     StoreModule.forFeature('user', reducerToken, { metaReducers }),

@@ -18,8 +18,10 @@ export enum ViewModes {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductViewComponent {
-  @Input() mode: ViewModes;
-  @Output() modeChange = new EventEmitter<string>();
+  @Input()
+  mode: ViewModes;
+  @Output()
+  modeChange = new EventEmitter<string>();
 
   get buttonClass() {
     return `y-product-search__layout--${this.mode}`;
