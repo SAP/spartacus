@@ -13,6 +13,8 @@ import { tap } from 'rxjs/operators';
 import * as fromUserStore from '../../../../user/store';
 import { CheckoutService } from '../../../services/checkout.service';
 import { Card } from '../../../../ui/components/card/card.component';
+import { masterCardImgSrc } from '../../../../ui/images/masterCard';
+import { visaImgSrc } from '../../../../ui/images/visa';
 
 @Component({
   selector: 'y-payment-method',
@@ -64,9 +66,9 @@ export class PaymentMethodComponent implements OnInit {
   getCardContent(payment): Card {
     let ccImage;
     if (payment.cardType.code === 'visa') {
-      ccImage = 'assets/visa.png';
+      ccImage = visaImgSrc;
     } else if (payment.cardType.code === 'master') {
-      ccImage = 'assets/masterCard.png';
+      ccImage = masterCardImgSrc;
     }
     const card: Card = {
       title: payment.defaultPayment ? 'Default Payment Method' : '',
