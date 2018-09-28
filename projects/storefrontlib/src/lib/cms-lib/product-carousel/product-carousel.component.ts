@@ -8,7 +8,7 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { Observable, Subscription, Subject, fromEvent } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap, debounceTime } from 'rxjs/operators';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
 import { Store } from '@ngrx/store';
@@ -48,9 +48,11 @@ export class ProductCarouselComponent extends AbstractCmsComponent
 
   ngOnInit() {
     this.setItemsPerPage();
-    this.resizeSubscription = fromEvent(window, 'resize').subscribe(
-      this.setItemsPerPage.bind(this)
-    );
+    this.resizeSubscription = fromEvent(window, 'resize')
+      .pipe(debounceTime(300))
+      .subscribe(
+        this.setItemsPerPage.bind(this)
+      );
   }
 
   prev() {

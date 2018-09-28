@@ -10,6 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { CmsService } from '../../cms/facade/cms.service';
+import { BootstrapModule } from '../../bootstrap.module';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -49,7 +50,8 @@ describe('ProductCarouselComponent in CmsLib', () => {
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cms: combineReducers(fromCmsReducer.getReducers())
-        })
+        }),
+        BootstrapModule
       ],
       declarations: [ProductCarouselComponent, PictureComponent],
       providers: [
@@ -69,8 +71,6 @@ describe('ProductCarouselComponent in CmsLib', () => {
 
     spyOn(store, 'select').and.returnValues(of(productCodeArray));
 
-    spyOn(productCarouselComponent, 'stop').and.callThrough();
-    spyOn(productCarouselComponent, 'continue').and.callThrough();
   });
 
   it('should be created', () => {
@@ -95,17 +95,5 @@ describe('ProductCarouselComponent in CmsLib', () => {
     const codes = productCarouselComponent.getProductCodes();
     expect(productCarouselComponent.getProductCodes).toHaveBeenCalled();
     expect(codes).toBe(productCodeArray);
-  });
-
-  it('should call stop()', () => {
-    productCarouselComponent.stop();
-    expect(productCarouselComponent.stop).toHaveBeenCalled();
-    expect(productCarouselComponent.pause).toBe(true);
-  });
-
-  it('should call continue()', () => {
-    productCarouselComponent.continue();
-    expect(productCarouselComponent.continue).toHaveBeenCalled();
-    expect(productCarouselComponent.pause).toBe(false);
   });
 });
