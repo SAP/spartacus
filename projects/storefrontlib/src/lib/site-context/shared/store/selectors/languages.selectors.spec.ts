@@ -76,18 +76,20 @@ describe('Languages Selectors', () => {
     });
   });
 
-  describe('getLanguagesLoaded', () => {
-    it('should return whether languages are loaded', () => {
+  describe('getLanguagesLoadAttempted', () => {
+    it('should return whether attempted to load languages', () => {
       let result;
 
       store
-        .select(fromSelectors.getLanguagesLoaded)
+        .select(fromSelectors.getLanguagesLoadAttempted)
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
 
       store.dispatch(new fromActions.LoadLanguagesSuccess(languages));
+      expect(result).toEqual(true);
 
+      store.dispatch(new fromActions.LoadLanguagesFail(languages));
       expect(result).toEqual(true);
     });
   });

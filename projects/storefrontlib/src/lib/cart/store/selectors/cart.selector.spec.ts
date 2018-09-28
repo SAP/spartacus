@@ -94,10 +94,10 @@ describe('Cart selectors', () => {
         .select(fromSelectors.getLoaded)
         .subscribe(value => (result = value));
 
-      expect(result).toEqual(false);
-
-      store.dispatch(new fromActions.CreateCartSuccess(testEmptyCart));
       expect(result).toEqual(true);
+
+      store.dispatch(new fromActions.CreateCart(testEmptyCart));
+      expect(result).toEqual(false);
     });
   });
 

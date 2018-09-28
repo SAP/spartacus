@@ -13,7 +13,6 @@ import {
   ComponentWrapperDirective
 } from '../../../cms/components';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
-import { MaterialModule } from '../../../material.module';
 import { PageType } from '../../../routing/models/page-context.model';
 import * as fromRouting from '../../../routing/store';
 import { UserToken } from './../../../auth/models/token-types.model';
@@ -21,6 +20,7 @@ import * as fromAuthStore from './../../../auth/store';
 import * as fromStore from './../../store';
 import * as fromCms from './../../../cms/store';
 import { LoginComponent } from './login.component';
+import { OutletDirective } from '../../../outlet';
 
 const mockUserToken: UserToken = {
   access_token: 'xxx',
@@ -63,7 +63,6 @@ describe('LoginComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         BrowserAnimationsModule,
         RouterTestingModule,
         FormsModule,
@@ -78,7 +77,8 @@ describe('LoginComponent', () => {
       declarations: [
         DynamicSlotComponent,
         LoginComponent,
-        ComponentWrapperDirective
+        ComponentWrapperDirective,
+        OutletDirective
       ],
       providers: [
         provideMockActions(() => of()),

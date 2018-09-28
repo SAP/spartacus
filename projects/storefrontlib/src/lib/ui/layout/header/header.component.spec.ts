@@ -8,7 +8,6 @@ import {
   ComponentWrapperDirective
 } from '../../../cms/components';
 import * as fromCmsReducer from '../../../cms/store/reducers';
-import { MaterialModule } from '../../../material.module';
 import * as fromRoot from '../../../routing/store';
 import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
 import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
@@ -21,6 +20,7 @@ import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
 import { SiteContextModuleConfig } from '../../../site-context/site-context-module-config';
+import { OutletDirective } from '../../../outlet';
 
 const MockCmsModuleConfig: CmsModuleConfig = {
   site: {
@@ -36,7 +36,6 @@ describe('HeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
@@ -55,7 +54,8 @@ describe('HeaderComponent', () => {
         HeaderSkipperComponent,
         TertiaryBarComponent,
         MobileMenuComponent,
-        LoginComponent
+        LoginComponent,
+        OutletDirective
       ],
       providers: [
         {
