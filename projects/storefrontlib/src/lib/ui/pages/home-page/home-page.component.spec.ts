@@ -9,6 +9,7 @@ import {
 import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
+import { OutletDirective } from '../../../outlet';
 
 describe('HomePageComponent', () => {
   let component: HomePageComponent;
@@ -26,7 +27,8 @@ describe('HomePageComponent', () => {
         HomePageComponent,
         LandingPageLayoutComponent,
         DynamicSlotComponent,
-        ComponentWrapperDirective
+        ComponentWrapperDirective,
+        OutletDirective
       ]
     }).compileComponents();
   }));

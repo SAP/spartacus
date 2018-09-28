@@ -33,8 +33,7 @@
                     </div>
                 </li>
                 <li (click)="showLess(facet.name)" *ngIf="showAllPerFacetMap.get(facet.name)">Show less...</li>
-                <li (click)="showMore(facet.name)" *ngIf="!showAllPerFacetMap.get(facet.name) && facet.values.length > minPerFacet">Show
-                    more...
+                <li (click)="showMore(facet.name)" *ngIf="!showAllPerFacetMap.get(facet.name) && facet.values.length > minPerFacet">Show more...
                 </li>
             </ul>
         </div>
