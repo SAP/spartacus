@@ -11,6 +11,7 @@ import * as fromCartStore from '../../../store';
 export class CartDetailsComponent implements OnInit {
   cart$;
   entries$;
+  cartLoading = false;
 
   constructor(protected store: Store<fromCartStore.CartState>) {}
 
@@ -18,6 +19,10 @@ export class CartDetailsComponent implements OnInit {
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
 
     this.entries$ = this.store.select(fromCartStore.getEntries);
+
+    this.store
+      .select(fromCartStore.getLoaded)
+      .subscribe(isLoaded => (this.cartLoading = !isLoaded));
   }
 
   getAllPromotionsForCart(cart) {
