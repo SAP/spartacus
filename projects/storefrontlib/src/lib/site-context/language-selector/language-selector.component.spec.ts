@@ -65,12 +65,11 @@ describe('LanguageSelectorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should contain languages button', () => {
+  it('should contain dropdown with languages', () => {
     component.languages$ = of(languages);
 
     const label = el.query(By.css('label'));
     const select = el.query(By.css('select'));
-
     fixture.changeDetectorRef.markForCheck();
 
     fixture.whenStable().then(() => {
@@ -79,6 +78,22 @@ describe('LanguageSelectorComponent', () => {
     });
 
     expect(label.nativeElement.textContent).toEqual('Language');
+  });
+
+  it('should contain disabled dropdown when languages list is empty', () => {
+    component.languages$ = of([]);
+    const select = el.query(By.css('select'));
+    fixture.detectChanges();
+
+    expect(select.nativeElement.disabled).toBeTruthy();
+  });
+
+  it('should contain enabled dropdown when languages list is NOT empty', () => {
+    component.languages$ = of(languages);
+    const select = el.query(By.css('select'));
+    fixture.detectChanges();
+
+    expect(select.nativeElement.disabled).toBeFalsy();
   });
 
   it('should get language data', () => {

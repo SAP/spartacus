@@ -75,7 +75,6 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "karma-junit-reporter": "^1.2.0",
     "ng-packagr": "^4.2.0",
-    "ngrx-store-freeze": "^0.2.4",
     "node-sass": "^4.9.3",
     "prettier": "1.14.3",
     "protractor": "~5.4.1",
