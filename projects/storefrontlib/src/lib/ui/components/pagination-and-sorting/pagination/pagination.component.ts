@@ -4,18 +4,22 @@ import {
   Input,
   ChangeDetectionStrategy,
   Output,
-  EventEmitter
+  EventEmitter,
+  ViewEncapsulation
 } from '@angular/core';
 
 @Component({
   selector: 'y-pagination',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class PaginationComponent implements OnInit {
-  @Input() pagination;
-  @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
+  @Input()
+  pagination;
+  @Output()
+  viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() {}
 

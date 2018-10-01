@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import { MaterialModule } from '../../../material.module';
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 import { StoreFinderService } from '../../services/store-finder.service';
 
@@ -56,7 +55,6 @@ describe('StoreFinderSearchComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        MaterialModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
         StoreModule.forRoot({

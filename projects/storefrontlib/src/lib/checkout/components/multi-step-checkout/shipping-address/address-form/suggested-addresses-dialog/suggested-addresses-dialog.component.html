@@ -10,7 +10,7 @@
                 <div *ngIf="suggestedAddress.line2">{{suggestedAddress.line2}}</div>
                 <div>{{suggestedAddress.town}} {{suggestedAddress.region.isocode}}</div>
                 <div>{{suggestedAddress.postalCode}}</div>
-                <button class="button" mat-raised-button color="accent" [mat-dialog-close]="suggestedAddress">Use this address</button>
+                <button class="button" color="accent">Use this address</button>
             </div>
 
             <div class="entered">
@@ -20,9 +20,9 @@
                 <div *ngIf="data.entered.line2">{{data.entered.line2}}</div>
                 <div>{{data.entered.town}} {{data.entered.region.isocode}}</div>
                 <div>{{data.entered.postalCode}}</div>
-                <button class="button" mat-raised-button color="primary" mat-dialog-close>Go back and edit the address you entered</button>
+                <button class="button" color="primary">Go back and edit the address you entered</button>
                 <br>
-                <button class="submit-button" mat-raised-button color="accent" mat-dialog-close [mat-dialog-close]="data.entered">Use the address you entered</button>
+                <button class="submit-button" color="accent">Use the address you entered</button>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
         <div *ngIf="data.entered.line2">{{data.entered.line2}}</div>
         <div>{{data.entered.town}} {{data.entered.region.isocode}}</div>
         <div>{{data.entered.postalCode}}</div>
-        <button class="button" mat-raised-button color="primary" mat-dialog-close>Go back and edit the address you entered</button>
-        <button class="button" mat-raised-button color="accent" mat-dialog-close [mat-dialog-close]="data.entered">Use the address you entered</button>
+        <button class="button" color="primary">Go back and edit the address you entered</button>
+        <button class="button" color="accent">Use the address you entered</button>
     </div>
 </div>

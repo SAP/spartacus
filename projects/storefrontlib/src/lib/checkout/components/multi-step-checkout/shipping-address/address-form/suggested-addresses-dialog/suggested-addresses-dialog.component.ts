@@ -1,5 +1,4 @@
-import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'y-suggested-addresses-dialog',
@@ -8,8 +7,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SuggestedAddressDialogComponent {
-  constructor(
-    public dialogRef: MatDialogRef<SuggestedAddressDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  public data: any;
+  constructor() {}
 }

@@ -9,8 +9,10 @@ import { WindowRef } from '../../services/window-ref';
   styleUrls: ['./store-finder-search.component.scss']
 })
 export class StoreFinderSearchComponent {
-  @Output() persistQuery: EventEmitter<string> = new EventEmitter<string>();
-  @Output() showMapList: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output()
+  persistQuery: EventEmitter<string> = new EventEmitter<string>();
+  @Output()
+  showMapList: EventEmitter<boolean> = new EventEmitter<boolean>();
   searchBox: FormControl = new FormControl();
 
   constructor(

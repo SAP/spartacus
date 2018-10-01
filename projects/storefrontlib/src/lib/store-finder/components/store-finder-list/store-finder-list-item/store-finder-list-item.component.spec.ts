@@ -1,10 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+
 import { combineReducers, StoreModule } from '@ngrx/store';
 
-import { MaterialModule } from '../../../../material.module';
-import { StoreFinderPagingComponent } from '../../store-finder-paging/store-finder-paging.component';
+import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { StoreFinderSearchComponent } from '../../store-finder-search/store-finder-search.component';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
@@ -12,7 +14,7 @@ import { StoreFinderListComponent } from '../store-finder-list.component';
 
 import * as fromReducers from '../../../store';
 import * as fromRoot from '../../../../routing/store';
-import * as fromServices from '../../../services';
+import * as fromServices from '../../../services/index';
 
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
@@ -129,16 +131,16 @@ describe('StoreFinderListItemComponent', () => {
       imports: [
         CommonModule,
         ReactiveFormsModule,
-        MaterialModule,
+        NgbTabsetModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           stores: combineReducers(fromReducers.reducers)
         })
       ],
+      schemas: [NO_ERRORS_SCHEMA],
       declarations: [
         StoreFinderListItemComponent,
         StoreFinderListComponent,
-        StoreFinderPagingComponent,
         StoreFinderSearchComponent,
         StoreFinderMapComponent
       ],

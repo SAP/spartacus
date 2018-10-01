@@ -30,6 +30,7 @@ $y-navigation-link-trbl-padding: 0.2rem 0 !default;
 $y-navigation-link-md-trbl-padding: 0.5rem 1.5rem !default;
 $y-navigation-link-md-trbl-margin: 20px !default;
 $y-navigation-link-lg-trbl-padding: 0.5rem 0 !default;
+$y-navigation-link-hover-cursor: pointer;
 $y-navigation-child-list-border-radius: 0 !default;
 $y-navigation-child-list-text-case: capitalize !default;
 $y-navigation-child-list-trbl-padding: 0 !default;
@@ -70,6 +71,7 @@ $y-navigation-child-column-item-trbl-padding: 0.25rem 1.5rem !default;
     }
     &:hover {
       @include var-color('color', $y-navigation-link-hover-color);
+      cursor: $y-navigation-link-hover-cursor;
     }
     @include media-breakpoint-down(md) {
       @include var-color('color', $y-navigation-link-md-color);
@@ -140,8 +142,7 @@ $y-navigation-child-column-item-trbl-padding: 0.25rem 1.5rem !default;
   //column option
   &__column-title {
     text-transform: $y-navigation-column-title-text-case;
-    font-weight: $y-navigation-column-title-font-weight;
-    @include type('7');
+    @include type('7', $y-navigation-column-title-font-weight);
     display: block;
     width: 100%;
     padding: $y-navigation-column-title-trbl-padding;
