@@ -8,7 +8,13 @@ import { ShippingAddressComponent } from './shipping-address.component';
 import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, AddressFormModule, CardModule, SpinnerModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    AddressFormModule,
+    CardModule,
+    SpinnerModule
+  ],
   declarations: [ShippingAddressComponent],
   entryComponents: [ShippingAddressComponent],
   exports: [ShippingAddressComponent]
