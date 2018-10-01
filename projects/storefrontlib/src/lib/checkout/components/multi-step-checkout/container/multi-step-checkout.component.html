@@ -20,29 +20,14 @@
                         </ul>
                     </div>
 
-                    <div *ngFor="let nav of navs" class="d-none d-lg-block d-xl-block">
-                        <div *ngIf="nav.status.active && step === 1">
-                            <y-shipping-address [selectedAddress]="deliveryAddress" (addAddress)="addAddress($event)"></y-shipping-address>
-                        </div>
-                        <div *ngIf="nav.status.active && step === 2">
-                            <y-delivery-mode [selectedShippingMethod]="shippingMethod" (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode>
-                        </div>
-                        <div *ngIf="nav.status.active && step === 3">
-                            <y-payment-method [selectedPayment]="paymentDetails" (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-method>
-                        </div>
-                        <div *ngIf="nav.status.active && step === 4">
-                            <y-review-submit [deliveryAddress]="deliveryAddress" [shippingMethod]="shippingMethod" [paymentDetails]="paymentDetails">
-                            </y-review-submit>
-                        </div>
-                    </div>
-
                     <!-- VISIBLE ONLY ON MD, SM AND XS SCREENS-->
-                    <div class="y-multi-step-checkout__nav--media d-block d-lg-none d-xl-none">
-                        <div class="y-multi-step-checkout__nav-list--media">Cart total ({{cart.totalItems}} items): {{cart.subTotal?.formattedValue}}</div>
+                    <div class="y-multi-step-checkout__nav--media">
+                        <div class="y-multi-step-checkout__nav-list--media  d-block d-lg-none d-xl-none">Cart total
+                            ({{cart.totalItems}} items): {{cart.subTotal?.formattedValue}}</div>
 
                         <div *ngFor="let nav of navs">
                             <!-- Navigation -->
-                            <div class="y-multi-step-checkout__nav-list--media" [ngClass]="{' is-active': nav.status.active}">
+                            <div class="y-multi-step-checkout__nav-list--media  d-block d-lg-none d-xl-non" [ngClass]="{' is-active': nav.status.active}">
                                 <div>{{nav.label}}</div>
                                 <button *ngIf="nav.status.completed && !nav.status.active" class="btn btn-link" (click)="setStep(nav.id)">edit</button>
                             </div>
@@ -52,13 +37,16 @@
                                 <y-shipping-address [selectedAddress]="deliveryAddress" (addAddress)="addAddress($event)"></y-shipping-address>
                             </div>
                             <div *ngIf="nav.status.active && step === 2">
-                                <y-delivery-mode [selectedShippingMethod]="shippingMethod" (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode>
+                                <y-delivery-mode [selectedShippingMethod]="shippingMethod" (selectMode)="setDeliveryMode($event)"
+                                    (backStep)="setStep(1)"></y-delivery-mode>
                             </div>
                             <div *ngIf="nav.status.active && step === 3">
-                                <y-payment-method [selectedPayment]="paymentDetails" (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-method>
+                                <y-payment-method [selectedPayment]="paymentDetails" (addPaymentInfo)="addPaymentInfo($event)"
+                                    (backStep)="setStep(2)"></y-payment-method>
                             </div>
                             <div *ngIf="nav.status.active && step === 4">
-                                <y-review-submit [deliveryAddress]="deliveryAddress" [shippingMethod]="shippingMethod" [paymentDetails]="paymentDetails">
+                                <y-review-submit [deliveryAddress]="deliveryAddress" [shippingMethod]="shippingMethod"
+                                    [paymentDetails]="paymentDetails">
                                 </y-review-submit>
                             </div>
                         </div>
