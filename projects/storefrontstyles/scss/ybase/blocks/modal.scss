@@ -13,46 +13,46 @@ $modal-max-width-sm: 100% !important;
 $modal-min-width-sm: 100% !important;
 
 .modal {
-    &-header {
-        padding: $modal-header-padding;
-    }
-    &-body {
-        padding: 27px 30px;
-    }
-    &-content {
-        border-radius: $modal-content-border-radius;
-    }
-    .close {
-        font-size: 38px;
-        font-weight: 100;
-        bottom: 5px;
-        position: relative;
-    }
-    &[aria-hidden='false'] {
-        display: block;
-    }
+  &-header {
+    padding: $modal-header-padding;
+  }
+  &-body {
+    padding: 27px 30px;
+  }
+  &-content {
+    border-radius: $modal-content-border-radius;
+  }
+  .close {
+    font-size: 38px;
+    font-weight: 100;
+    bottom: 5px;
+    position: relative;
+  }
+  &[aria-hidden='false'] {
+    display: block;
+  }
 }
 
 .modal-xl,
 .modal-lg {
-    max-width: $modal-max-width;
-    min-width: $modal-min-width;
+  max-width: $modal-max-width;
+  min-width: $modal-min-width;
 }
 @include media-breakpoint-up(md) {
-    .modal-lg {
-        max-width: $modal-max-width-md;
-        min-width: $modal-min-width-md;
-    }
+  .modal-lg {
+    max-width: $modal-max-width-md;
+    min-width: $modal-min-width-md;
+  }
 }
 @include media-breakpoint-down(sm) {
-    .modal-lg {
-        min-width: $modal-max-width-sm;
-        max-width: $modal-min-width-sm;
-    }
-    .modal-dialog-centered {
-        margin: $modal-dialog-margin-sm;
-        height: 100%;
-        align-items: unset !important;
-        overflow-y: auto;
-    }
+  .modal-lg {
+    min-width: $modal-max-width-sm;
+    max-width: $modal-min-width-sm;
+  }
+  .modal-dialog-centered {
+    margin: $modal-dialog-margin-sm;
+    height: 100%;
+    align-items: unset !important;
+    overflow-y: auto;
+  }
 }
