@@ -76,6 +76,15 @@ describe('ProductCarouselComponent in CmsLib', () => {
     expect(productCarouselComponent).toBeTruthy();
   });
 
+  it('should call getProductCodes()', () => {
+    spyOn(productCarouselComponent, 'getProductCodes').and.returnValue(
+      productCodeArray
+    );
+    const codes = productCarouselComponent.getProductCodes();
+    expect(productCarouselComponent.getProductCodes).toHaveBeenCalled();
+    expect(codes).toBe(productCodeArray);
+  });
+
   it('should contain cms content in the html rendering after bootstrap', () => {
     expect(productCarouselComponent.component).toBeNull();
 
