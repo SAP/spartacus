@@ -41,15 +41,27 @@ $y-header-separator-width: 100vw !default;
     }
   }
   @include media-breakpoint-down(md) {
-    // display: flex;
     height: 90px;
-    &:first-child {
-      padding-top: 10px;
-    }
+    padding-top: 1.15rem;
   }
-  @include media-breakpoint-down(sm) {
-    // display: flex;
+  @include media-breakpoint-down(xs) {
     height: 70px;
+    padding-top: 0.5rem;
+  }
+
+  &__logo {
+    --width: 100px;
+    //keeping logo width simple for now
+
+    @include media-breakpoint-down(md) {
+      --margin: 0 0 0 5rem;
+    }
+    // @include media-breakpoint-down(md) {
+    //   --width: 35%;
+    // }
+    // @include media-breakpoint-down(xs) {
+    //   --width: 25%;
+    // }
   }
 }
 /**
@@ -61,16 +73,3 @@ $y-header-separator-width: 100vw !default;
   With this setup, a customer can override the width with:
   .site-logo img { --margin: 100%; }
 */
-.site-logo {
-  --width: 35%;
-
-  @include media-breakpoint-down(md) {
-    --margin: 0 0 0 5rem;
-  }
-  @include media-breakpoint-down(md) {
-    --width: 30%;
-  }
-  @include media-breakpoint-down(xs) {
-    --width: 25%;
-  }
-}
