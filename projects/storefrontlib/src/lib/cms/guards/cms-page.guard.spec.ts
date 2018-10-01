@@ -11,11 +11,11 @@ import { PageType } from '../../routing/models/page-context.model';
 import { Page } from '../models/page.model';
 import * as fromActions from '../store/actions/page.action';
 
-export class MockCmsModuleConfig {
-  defaultPageIdForType = {
+const MockCmsModuleConfig: CmsModuleConfig = {
+  defaultPageIdForType: {
     ProductPage: ['testProductPage']
-  };
-}
+  }
+};
 
 describe('CmsPageGuards', () => {
   let store: Store<fromReducers.CmsState>;
@@ -34,7 +34,7 @@ describe('CmsPageGuards', () => {
       providers: [
         CmsPageGuards,
         DefaultPageService,
-        { provide: CmsModuleConfig, useClass: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
       ],
       imports: [
         RouterTestingModule,

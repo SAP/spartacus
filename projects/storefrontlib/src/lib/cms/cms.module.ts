@@ -1,10 +1,8 @@
-import { NgModule, InjectionToken, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-
 import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
 import { metaReducers } from './store/reducers/index';
@@ -15,44 +13,35 @@ import { components } from './components/index';
 // guards
 import { guards } from './guards/index';
 
-// services
-import { services } from './services/index';
-import { CmsModuleConfig } from './cms-module-config';
+import { CmsModuleConfig, defaultCmsModuleConfig } from './cms-module-config';
+import { OccCmsService } from './services/occ-cms.service';
+import { ComponentMapperService } from './services/component-mapper.service';
+import { Config, ConfigModule } from '../config/config.module';
+import { DefaultPageService } from './services/default-page.service';
+import { OutletModule } from '../outlet/outlet.module';
 
-export function overrideCmsModuleConfig(configOverride: any) {
-  return { ...new CmsModuleConfig(), ...configOverride };
-}
-
-export const CMS_MODULE_CONFIG_OVERRIDE: InjectionToken<
-  string
-> = new InjectionToken<string>('CMS_MODULE_CONFIG_OVERRIDE');
+const services: any[] = [
+  OccCmsService,
+  ComponentMapperService,
+  DefaultPageService
+];
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
     StoreModule.forFeature('cms', reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
+    ConfigModule.withConfig(defaultCmsModuleConfig),
+    OutletModule
   ],
-  providers: [reducerProvider, ...services, ...guards, CmsModuleConfig],
+  providers: [
+    reducerProvider,
+    ...services,
+    ...guards,
+    { provide: CmsModuleConfig, useExisting: Config }
+  ],
   declarations: [...components],
   exports: [...components]
 })
-export class CmsModule {
-  static forRoot(configOverride?: any): ModuleWithProviders {
-    return {
-      ngModule: CmsModule,
-      providers: [
-        {
-          provide: CMS_MODULE_CONFIG_OVERRIDE,
-          useValue: configOverride
-        },
-        {
-          provide: CmsModuleConfig,
-          useFactory: overrideCmsModuleConfig,
-          deps: [CMS_MODULE_CONFIG_OVERRIDE]
-        }
-      ]
-    };
-  }
-}
+export class CmsModule {}

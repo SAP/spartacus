@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, ControlContainer } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 export interface Item {
   product?: any;
@@ -14,21 +14,24 @@ export interface Item {
   styleUrls: ['./cart-item.component.scss']
 })
 export class CartItemComponent implements OnInit {
-  @Input() compact = false;
-  @Input() item: Item;
-  @Input() potentialProductPromotions: any[];
-  @Input() isReadOnly = false;
+  @Input()
+  compact = false;
+  @Input()
+  item: Item;
+  @Input()
+  potentialProductPromotions: any[];
+  @Input()
+  isReadOnly = false;
 
-  @Output() remove = new EventEmitter<any>();
-  @Output() update = new EventEmitter<any>();
+  @Output()
+  remove = new EventEmitter<any>();
+  @Output()
+  update = new EventEmitter<any>();
 
+  @Input()
   parent: FormGroup;
 
-  constructor(private controlContainer: ControlContainer) {}
-
-  ngOnInit() {
-    this.parent = this.controlContainer.control as FormGroup;
-  }
+  ngOnInit() {}
 
   isProductOutOfStock(product) {
     // TODO Move stocklevelstatuses across the app to an enum

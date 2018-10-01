@@ -5,9 +5,9 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as fromStore from '../../../store';
+import { ProductService } from '../../../services/product.service';
+import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
   selector: 'y-product-details',
@@ -16,20 +16,26 @@ import * as fromStore from '../../../store';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductDetailsComponent implements OnChanges {
-  @ViewChild('tabSet') tabSet;
-  @ViewChild('tabSetWrapper') tabSetWrapper;
-  @Input() productCode: string;
+  static outlets = ProductDetailOutlets;
+  @ViewChild('tabSet')
+  tabSet;
+  @ViewChild('tabSetWrapper')
+  tabSetWrapper;
+  @Input()
+  productCode: string;
   product$: Observable<any>;
   itemCount = 1;
 
+  get outlets() {
+    return ProductDetailsComponent.outlets;
+  }
+
   isWritingReview = false;
 
-  constructor(protected store: Store<fromStore.ProductsState>) {}
+  constructor(protected productService: ProductService) {}
 
   ngOnChanges() {
-    this.product$ = this.store.select(
-      fromStore.getSelectedProductFactory(this.productCode)
-    );
+    this.product$ = this.productService.get(this.productCode);
   }
 
   goToReviews(isWritingReview?: boolean) {

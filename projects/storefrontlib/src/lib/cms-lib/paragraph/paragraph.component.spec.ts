@@ -1,21 +1,11 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import * as fromRoot from '../../routing/store';
-import * as fromCmsReducer from '../../cms/store/reducers';
 import { ParagraphComponent } from './paragraph.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
-
-export class UseCmsModuleConfig {
-  cmsComponentMapping = {
-    CMSParagraphComponent: 'ParagraphComponent'
-  };
-}
+import { CmsService } from '../../cms/facade/cms.service';
 
 describe('CmsParagraphComponent in CmsLib', () => {
-  let store: Store<fromCmsReducer.CmsState>;
   let paragraphComponent: ParagraphComponent;
   let fixture: ComponentFixture<ParagraphComponent>;
   let el: DebugElement;
@@ -30,16 +20,15 @@ describe('CmsParagraphComponent in CmsLib', () => {
     content: 'Arbitrary paragraph content'
   };
 
+  class MockCmsServiceClass {
+    getComponentData = () => of(componentData);
+  }
+  const MockCmsService = new MockCmsServiceClass();
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        })
-      ],
       declarations: [ParagraphComponent],
-      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
+      providers: [{ provide: CmsService, useValue: MockCmsService }]
     }).compileComponents();
   }));
 
@@ -48,8 +37,6 @@ describe('CmsParagraphComponent in CmsLib', () => {
     paragraphComponent = fixture.componentInstance;
 
     el = fixture.debugElement;
-
-    store = TestBed.get(Store);
   });
 
   it('should be created', () => {
@@ -57,9 +44,8 @@ describe('CmsParagraphComponent in CmsLib', () => {
   });
 
   it('should contain cms content in the html rendering after bootstrap', () => {
-    spyOn(store, 'select').and.returnValue(of(componentData));
     expect(paragraphComponent.component).toBeNull();
-    paragraphComponent.bootstrap();
+    paragraphComponent.onCmsComponentInit(componentData.uid);
     expect(paragraphComponent.component).toBe(componentData);
     expect(el.query(By.css('p')).nativeElement.textContent).toEqual(
       paragraphComponent.component.content
@@ -69,11 +55,12 @@ describe('CmsParagraphComponent in CmsLib', () => {
   it('should sanitize unsafe html', () => {
     const unsafeData = Object.assign({}, componentData);
     unsafeData.content = `<img src="" onerror='alert(1)'>`;
-    spyOn(store, 'select').and.returnValue(of(unsafeData));
+    spyOn(MockCmsService, 'getComponentData').and.returnValue(of(unsafeData));
+
     spyOn(console, 'warn').and.stub(); // Prevent warning to be showed by Angular when sanitizing
 
     expect(paragraphComponent.component).toBeNull();
-    paragraphComponent.bootstrap();
+    paragraphComponent.onCmsComponentInit('');
     expect(paragraphComponent.component).toBe(unsafeData);
     expect(el.query(By.css('p')).nativeElement.innerHTML).toEqual(
       `<img src="">`

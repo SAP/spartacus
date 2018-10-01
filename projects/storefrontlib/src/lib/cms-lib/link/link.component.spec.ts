@@ -1,24 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
-import * as fromRoot from '../../routing/store';
-import * as fromCmsReducer from '../../cms/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsService } from '../../cms/facade/cms.service';
 
-class UseCmsModuleConfig {
-  cmsComponentMapping = {
+const UseCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     CMSLinkComponent: 'LinkComponent'
-  };
-}
+  }
+};
 
 describe('LinkComponent', () => {
   let linkComponent: LinkComponent;
   let fixture: ComponentFixture<LinkComponent>;
-  let store: Store<fromCmsReducer.CmsState>;
   let el: DebugElement;
 
   const componentData = {
@@ -31,17 +28,18 @@ describe('LinkComponent', () => {
     url: 'http://localhost:8888/'
   };
 
+  const MockCmsService = {
+    getComponentData: () => of(componentData)
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        }),
-        RouterTestingModule
-      ],
+      imports: [RouterTestingModule],
       declarations: [LinkComponent],
-      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
+      providers: [
+        { provide: CmsService, useValue: MockCmsService },
+        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
+      ]
     }).compileComponents();
   }));
 
@@ -49,9 +47,6 @@ describe('LinkComponent', () => {
     fixture = TestBed.createComponent(LinkComponent);
     linkComponent = fixture.componentInstance;
     el = fixture.debugElement;
-
-    store = TestBed.get(Store);
-    spyOn(store, 'select').and.returnValue(of(componentData));
   });
 
   it('should create link component', () => {
@@ -60,7 +55,7 @@ describe('LinkComponent', () => {
 
   it('should contain link name and url', () => {
     expect(linkComponent.component).toBeNull();
-    linkComponent.bootstrap();
+    linkComponent.onCmsComponentInit(componentData.uid);
     expect(linkComponent.component).toBe(componentData);
     expect(el.query(By.css('a')).nativeElement.textContent).toEqual(
       linkComponent.component.linkName

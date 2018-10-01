@@ -19,18 +19,18 @@ const productReviews = [
   { id: 2, text: 'Review 2' }
 ];
 
-export class MockOccModuleConfig {
-  server = {
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  site = {
+  site: {
     baseSite: '',
     language: '',
     currency: ''
-  };
-}
+  }
+};
 const endpoint = '/products';
 
 describe('OccProductService', () => {
@@ -42,7 +42,7 @@ describe('OccProductService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccProductService,
-        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig }
       ]
     });
 

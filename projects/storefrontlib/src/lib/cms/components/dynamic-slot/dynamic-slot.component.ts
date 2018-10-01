@@ -13,7 +13,7 @@ import { filter } from 'rxjs/operators';
 import * as fromStore from '../../store';
 
 @Component({
-  selector: 'y-dynamic-slot,[y-dynamic-slot]',
+  selector: 'y-dynamic-slot',
   templateUrl: './dynamic-slot.component.html',
   styleUrls: ['./dynamic-slot.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -21,17 +21,21 @@ import * as fromStore from '../../store';
 export class DynamicSlotComponent implements OnInit, OnDestroy {
   currentSlot$: Observable<any>;
 
-  @Input() position: string;
-  @Input() limit: number;
-  @Input() contextParameters: any;
-  @Input() componentClass: string;
+  @Input()
+  position: string;
+  @Input()
+  limit: number;
+  @Input()
+  contextParameters: any;
+  @Input()
+  componentClass: string;
 
   constructor(private store: Store<fromStore.CmsState>) {}
 
   ngOnInit() {
     this.currentSlot$ = this.store
       .select(fromStore.currentSlotSelectorFactory(this.position))
-      .pipe(filter(data => data !== undefined));
+      .pipe(filter(Boolean));
   }
 
   ngOnDestroy() {}

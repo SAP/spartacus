@@ -15,16 +15,16 @@ const mockUserOrders = {
   sort: []
 };
 
-class MockOccModuleConfig {
-  server = {
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  site = {
+  site: {
     baseSite: ''
-  };
-}
+  }
+};
 
 describe('User Orders effect', () => {
   let userOrdersEffect: fromUserOrdersEffect.UserOrdersEffect;
@@ -37,7 +37,7 @@ describe('User Orders effect', () => {
       providers: [
         OccOrderService,
         fromUserOrdersEffect.UserOrdersEffect,
-        { provide: OccModuleConfig, useClass: MockOccModuleConfig },
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$)
       ]
     });

@@ -25,7 +25,12 @@ export const getAllLanguages: MemoizedSelector<any, any> = createSelector(
   }
 );
 
-export const getLanguagesLoaded: MemoizedSelector<
+export const getLanguagesLoadAttempted: MemoizedSelector<
   any,
   boolean
-> = createSelector(getLanguagesState, fromLanguages.getLanguagesLoaded);
+> = createSelector(getLanguagesState, fromLanguages.getLanguagesLoadAttempted);
+
+export const getLanguagesLoading: MemoizedSelector<
+  any,
+  boolean
+> = createSelector(getLanguagesState, fromLanguages.getLanguagesLoading);

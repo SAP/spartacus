@@ -7,11 +7,11 @@ import * as fromCmsReducer from '../../cms/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { BootstrapModule } from '../../bootstrap.module';
 
-class UseCmsModuleConfig {
-  cmsComponentMapping = {
+const UseCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     CategoryNavigationComponent: 'CategoryNavigationComponent'
-  };
-}
+  }
+};
 
 describe('CategoryNavigationComponent', () => {
   let component: CategoryNavigationComponent;
@@ -28,7 +28,7 @@ describe('CategoryNavigationComponent', () => {
         })
       ],
       declarations: [CategoryNavigationComponent],
-      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
+      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

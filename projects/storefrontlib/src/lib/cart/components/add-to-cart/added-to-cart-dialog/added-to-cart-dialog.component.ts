@@ -13,15 +13,19 @@ import { CartService } from '../../../services/cart.service';
 export class AddedToCartDialogComponent implements OnInit {
   entry$: Observable<any>;
   cart$: Observable<any>;
+  loaded$: Observable<boolean>;
   form: FormGroup = this.fb.group({
-    entryForm: this.fb.group({
-      entryNumber: [0],
-      quantity: [0]
-    })
+    entryForm: this.fb.group({ entryNumber: [0], quantity: [0] })
   });
 
-  @Input() more = false;
-  @Input() quantity = 0;
+  @Input()
+  more = false;
+  @Input()
+  quantity = 0;
+  @Output()
+  updateEntryEvent: EventEmitter<any> = new EventEmitter();
+  @Output()
+  removeEntryEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private fb: FormBuilder,

@@ -9,12 +9,13 @@ import { ProductCarouselComponent } from './product-carousel.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsService } from '../../cms/facade/cms.service';
 
-export class UseCmsModuleConfig {
-  cmsComponentMapping = {
+const UseCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     ProductCarouselComponent: 'ProductCarouselComponent'
-  };
-}
+  }
+};
 
 describe('ProductCarouselComponent in CmsLib', () => {
   let store: Store<fromCmsReducer.CmsState>;
@@ -35,6 +36,10 @@ describe('ProductCarouselComponent in CmsLib', () => {
     container: 'false'
   };
 
+  const MockCmsService = {
+    getComponentData: () => of(mockComponentData)
+  };
+
   const productCodeArray = ['111111', '222222', '333333', '444444'];
 
   beforeEach(async(() => {
@@ -47,7 +52,10 @@ describe('ProductCarouselComponent in CmsLib', () => {
         })
       ],
       declarations: [ProductCarouselComponent, PictureComponent],
-      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
+      providers: [
+        { provide: CmsService, useValue: MockCmsService },
+        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
+      ]
     }).compileComponents();
   }));
 
@@ -59,10 +67,7 @@ describe('ProductCarouselComponent in CmsLib', () => {
 
     store = TestBed.get(Store);
 
-    spyOn(store, 'select').and.returnValues(
-      of(mockComponentData),
-      of(productCodeArray)
-    );
+    spyOn(store, 'select').and.returnValues(of(productCodeArray));
 
     spyOn(productCarouselComponent, 'stop').and.callThrough();
     spyOn(productCarouselComponent, 'continue').and.callThrough();
@@ -75,7 +80,7 @@ describe('ProductCarouselComponent in CmsLib', () => {
   it('should contain cms content in the html rendering after bootstrap', () => {
     expect(productCarouselComponent.component).toBeNull();
 
-    productCarouselComponent.bootstrap();
+    productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
     expect(productCarouselComponent.component).toBe(mockComponentData);
 
     expect(el.query(By.css('H3')).nativeElement.textContent).toEqual(

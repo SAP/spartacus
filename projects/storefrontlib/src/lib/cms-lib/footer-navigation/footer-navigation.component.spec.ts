@@ -5,16 +5,15 @@ import { FooterNavigationComponent } from './footer-navigation.component';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { MatListModule, MatCardModule } from '@angular/material';
 import { NavigationModule } from '../navigation/navigation.module';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-class UseCmsModuleConfig {
-  cmsComponentMapping = {
+const UseCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     FooterNavigationComponent: 'FooterNavigationComponent'
-  };
-}
+  }
+};
 
 const mockLinks = [
   {
@@ -43,12 +42,10 @@ describe('FooterNavigationComponent', () => {
           cms: combineReducers(fromCmsReducer.getReducers())
         }),
         RouterTestingModule,
-        MatListModule,
-        MatCardModule,
         NavigationModule
       ],
       declarations: [FooterNavigationComponent],
-      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
+      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
     }).compileComponents();
   }));
 

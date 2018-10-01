@@ -5,7 +5,7 @@ import { CategoryPageLayoutComponent } from '../../layout/category-page-layout/c
 import { ProductListPageLayoutComponent } from '../../layout/product-list-page-layout/product-list-page-layout.component';
 import {
   DynamicSlotComponent,
-  ComponentWrapperComponent
+  ComponentWrapperDirective
 } from '../../../cms/components';
 import { ProductListModule } from '../../../product/components/product-list/product-list.module';
 import { ActivatedRoute } from '@angular/router';
@@ -14,6 +14,7 @@ import * as fromRoot from '../../../routing/store';
 import * as fromCms from '../../../cms/store';
 import * as fromCart from '../../../cart/store';
 import { of } from 'rxjs';
+import { OutletDirective } from '../../../outlet';
 
 class MockActivatedRoute {
   params = of({
@@ -43,7 +44,8 @@ describe('CategoryPageComponent', () => {
         CategoryPageLayoutComponent,
         ProductListPageLayoutComponent,
         DynamicSlotComponent,
-        ComponentWrapperComponent
+        ComponentWrapperDirective,
+        OutletDirective
       ],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },

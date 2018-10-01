@@ -14,18 +14,18 @@ const suggestions = ['test'];
 const mockSearchConfig: SearchConfig = {
   pageSize: 5
 };
-export class MockOccModuleConfig {
-  server = {
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
     baseUrl: '',
     occPrefix: ''
-  };
+  },
 
-  site = {
+  site: {
     baseSite: '',
     language: '',
     currency: ''
-  };
-}
+  }
+};
 const endpoint = '/products';
 
 describe('OccProductSearchService', () => {
@@ -37,7 +37,7 @@ describe('OccProductSearchService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccProductSearchService,
-        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig }
       ]
     });
 

@@ -8,11 +8,9 @@ import { CartService } from '../../services/cart.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 import * as fromCartStore from '../../store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Store } from '@ngrx/store';
-import * as fromStore from './../../store';
 
 @Component({
   selector: 'y-add-to-cart',
@@ -23,32 +21,29 @@ import * as fromStore from './../../store';
 export class AddToCartComponent implements OnInit {
   modalInstance;
 
-  isLoading = false;
-  @Input() iconOnly;
+  @Input()
+  iconOnly;
 
-  @Input() productCode;
-  @Input() quantity = 1;
+  @Input()
+  productCode;
+  @Input()
+  quantity = 1;
 
   cartEntry$: Observable<any>;
+  loaded$: Observable<boolean>;
 
   constructor(
     protected cartService: CartService,
     private modalService: NgbModal,
-    protected store: Store<fromStore.CartState>
+    protected store: Store<fromCartStore.CartState>
   ) {}
 
   ngOnInit() {
     if (this.productCode) {
-      this.cartEntry$ = this.store
-        .select(fromStore.getEntrySelectorFactory(this.productCode))
-        .pipe(
-          tap(entry => {
-            if (this.isLoading && entry) {
-              this.openModal();
-            }
-            this.isLoading = false;
-          })
-        );
+      this.loaded$ = this.store.select(fromCartStore.getLoaded);
+      this.cartEntry$ = this.store.select(
+        fromCartStore.getEntrySelectorFactory(this.productCode)
+      );
     }
   }
 
@@ -56,7 +51,7 @@ export class AddToCartComponent implements OnInit {
     if (!this.productCode || this.quantity <= 0) {
       return;
     }
-    this.isLoading = true;
+    this.openModal();
     this.cartService.addCartEntry(this.productCode, this.quantity);
   }
 
@@ -67,6 +62,7 @@ export class AddToCartComponent implements OnInit {
     }).componentInstance;
     this.modalInstance.entry$ = this.cartEntry$;
     this.modalInstance.cart$ = this.store.select(fromCartStore.getActiveCart);
+    this.modalInstance.loaded$ = this.loaded$;
     this.modalInstance.quantity = this.quantity;
   }
 }

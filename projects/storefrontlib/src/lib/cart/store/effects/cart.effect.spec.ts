@@ -38,6 +38,13 @@ describe('Cart effect', () => {
     }
   };
 
+  const MockOccModuleConfig: OccModuleConfig = {
+    server: {
+      baseUrl: '',
+      occPrefix: ''
+    }
+  };
+
   const userId = 'testUserId';
   const cartId = 'testCartId';
 
@@ -57,7 +64,7 @@ describe('Cart effect', () => {
         OccCartService,
         ProductImageConverterService,
         fromEffects.CartEffects,
-        OccModuleConfig,
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
         CartService,
         CartDataService,
         provideMockActions(() => actions$)
