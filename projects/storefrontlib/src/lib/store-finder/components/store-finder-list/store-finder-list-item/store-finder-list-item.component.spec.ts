@@ -14,7 +14,7 @@ import { StoreFinderListComponent } from '../store-finder-list.component';
 
 import * as fromReducers from '../../../store';
 import * as fromRoot from '../../../../routing/store';
-import * as fromServices from '../../../services';
+import * as fromServices from '../../../services/index';
 
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;

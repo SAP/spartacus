@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
-import { StoreDataService } from '../../services';
+import { StoreDataService } from '../../services/index';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 import { ActivatedRoute } from '@angular/router';

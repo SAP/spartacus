@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { StoreDataService } from '../../services';
+import { StoreDataService } from '../../services/index';
 
 const WEEK_DAYS_NUMBER = 7;
 

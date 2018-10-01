@@ -1,5 +1,5 @@
 import { Input } from '@angular/core';
-import { StoreDataService } from '../../services/store-data.service';
+import { StoreDataService } from '../../services/index';
 
 export class AbstractStoreItemComponent {
   @Input()
