@@ -2095,11 +2095,6 @@ deep-extend@^0.6.0:
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
   integrity sha1-xPp8lUBKF6nD6Mp+FTcxK3NjMKw=
 
-deep-freeze-strict@^1.1.1:
-  version "1.1.1"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/deep-freeze-strict/-/deep-freeze-strict-1.1.1.tgz#77d0583ca24a69be4bbd9ac2fae415d55523e5b0"
-  integrity sha1-d9BYPKJKab5LvZrC+uQV1VUj5bA=
-
 deep-is@~0.1.3:
   version "0.1.3"
   resolved "https://repository.hybris.com:443/api/npm/npm-repository/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
@@ -5156,13 +5151,6 @@ ng-packagr@^4.2.0:
     stylus "^0.54.5"
     uglify-js "^3.0.7"
     update-notifier "^2.3.0"
-
-ngrx-store-freeze@^0.2.4:
-  version "0.2.4"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/ngrx-store-freeze/-/ngrx-store-freeze-0.2.4.tgz#146687cdf7e21244eb9003c7e883f2125847076c"
-  integrity sha1-FGaHzffiEkTrkAPH6IPyElhHB2w=
-  dependencies:
-    deep-freeze-strict "^1.1.1"
 
 ngrx-store-localstorage@^5.0.1:
   version "5.1.0"
