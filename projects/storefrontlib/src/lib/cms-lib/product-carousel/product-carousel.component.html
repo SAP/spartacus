@@ -1,7 +1,7 @@
 <H3 class="carousel-header">{{component?.title}}</H3>
 <div class="carousel-container" *ngIf="products$ | async">
     <ng-container *ngIf="productGroups">
-        <ngb-carousel #carousel [wrap]="false" [showNavigationArrows]="false"
+        <ngb-carousel #carousel [wrap]="true" [showNavigationArrows]="false"
             [showNavigationIndicators]="true" (slide)="slideTransitionCompleted($event)">
             <ng-template ngbSlide *ngFor="let group of productGroups">
                 <div class="product-container" *ngFor="let product of group">
