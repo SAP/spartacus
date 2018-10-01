@@ -14,6 +14,7 @@ import * as fromProductStore from '../../product/store';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
 import { CmsService } from '../../cms/facade/cms.service';
+import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
 
 @Component({
   selector: 'y-product-carousel',
@@ -60,6 +61,8 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   next() {
     this.carousel.next();
   }
+
+  slideTransitionCompleted(event: NgbSlideEvent) {}
 
   protected fetchData() {
     const codes = this.getProductCodes();
