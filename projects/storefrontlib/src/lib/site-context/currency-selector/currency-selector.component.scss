@@ -46,7 +46,10 @@ $currency-selector-input-border-width: 0;
     -webkit-transform: rotate(45deg);
 
     @include media-breakpoint-down(md) {
-      @include var-color('border-color',$y-currency-selector-arrow-color-mobile);
+      @include var-color(
+        'border-color',
+        $y-currency-selector-arrow-color-mobile
+      );
     }
   }
 }

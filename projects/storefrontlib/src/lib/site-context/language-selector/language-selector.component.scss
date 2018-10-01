@@ -28,7 +28,8 @@ $language-selector-input-border-width: 0;
   &__control {
     color: inherit;
     background-color: transparent;
-    border: $language-selector-input-border-width $language-selector-input-border-style;
+    border: $language-selector-input-border-width
+      $language-selector-input-border-style;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -47,7 +48,10 @@ $language-selector-input-border-width: 0;
     -webkit-transform: rotate(45deg);
 
     @include media-breakpoint-down(md) {
-      @include var-color('border-color',$y-language-selector-arrow-color-mobile);
+      @include var-color(
+        'border-color',
+        $y-language-selector-arrow-color-mobile
+      );
     }
   }
 }
