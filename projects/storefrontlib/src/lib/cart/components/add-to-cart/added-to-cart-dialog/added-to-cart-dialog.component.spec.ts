@@ -47,10 +47,9 @@ describe('AddedToCartDialogComponent', () => {
     component = fixture.componentInstance;
     cartService = TestBed.get(CartService);
     modalService = TestBed.get(NgbActiveModal);
-    // fixture.detectChanges();
     component.entry$ = of(undefined);
-    spyOn(cartService, 'updateCartEntry').and.callThrough();
-    spyOn(cartService, 'removeCartEntry').and.callThrough();
+    spyOn(cartService, 'updateCartEntry').and.stub();
+    spyOn(cartService, 'removeCartEntry').and.stub();
     spyOn(modalService, 'close').and.callThrough();
     component.ngOnInit();
   });
