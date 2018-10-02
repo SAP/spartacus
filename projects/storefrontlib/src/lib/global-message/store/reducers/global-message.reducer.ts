@@ -19,27 +19,23 @@ export function reducer(
       const message: GlobalMessage = action.payload;
 
       if (state.entities[message.type] === undefined) {
-        const entities = {
-          ...state.entities,
-          [message.type]: [message.text]
-        };
-
         return {
           ...state,
-          entities
+          entities: {
+            ...state.entities,
+            [message.type]: [message.text]
+          }
         };
       } else {
         const msgs = state.entities[message.type];
 
         if (msgs.indexOf(message.text) === -1) {
-          const entities = {
-            ...state.entities,
-            [message.type]: [...msgs, message.text]
-          };
-
           return {
             ...state,
-            entities
+            entities: {
+              ...state.entities,
+              [message.type]: [...msgs, message.text]
+            }
           };
         }
       }
@@ -53,13 +49,12 @@ export function reducer(
       const messages = [...state.entities[msgType]];
       messages.splice(msgIndex, 1);
 
-      const entities = {
-        ...state.entities,
-        [msgType]: messages
-      };
       return {
         ...state,
-        entities
+        entities: {
+          ...state.entities,
+          [msgType]: messages
+        }
       };
     }
 
