@@ -6,12 +6,7 @@ import { MediaModule } from '../../ui/components/media/media.module';
 import { BootstrapModule } from '../../bootstrap.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    MediaModule,
-    BootstrapModule
-  ],
+  imports: [CommonModule, RouterModule, MediaModule, BootstrapModule],
   declarations: [ProductCarouselComponent],
   entryComponents: [ProductCarouselComponent],
   exports: [ProductCarouselComponent]

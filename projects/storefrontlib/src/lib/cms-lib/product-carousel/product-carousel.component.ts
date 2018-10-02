@@ -109,7 +109,10 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     const { innerWidth } = window;
     if (innerWidth < smallScreenMaxWidth) {
       this.itemPerPage = 1;
-    } else if (innerWidth > smallScreenMaxWidth && innerWidth < tabletScreenMaxWidth) {
+    } else if (
+      innerWidth > smallScreenMaxWidth &&
+      innerWidth < tabletScreenMaxWidth
+    ) {
       this.itemPerPage = 2;
     } else {
       this.itemPerPage = 4;
