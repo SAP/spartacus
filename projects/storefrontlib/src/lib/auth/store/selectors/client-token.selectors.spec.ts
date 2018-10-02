@@ -25,22 +25,4 @@ describe('ClientToken Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getClientToken', () => {
-    it('should return a client token from the state', () => {
-      let result: ClientAuthenticationToken;
-      store
-        .select(fromSelectors.getClientToken)
-        .subscribe(value => (result = value));
-      expect(result).toEqual(<ClientAuthenticationToken>{});
-
-      const testToken: ClientAuthenticationToken = {
-        access_token: 'xxx',
-        token_type: 'xxx',
-        expires_in: 1,
-        scope: 'xxx'
-      };
-      store.dispatch(new fromActions.LoadClientTokenSuccess(testToken));
-      expect(result).toEqual(testToken);
-    });
-  });
 });
