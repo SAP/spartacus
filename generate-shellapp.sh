@@ -32,6 +32,10 @@ cp README-shellapp.md $DESTDIR/README.md
 # copy the storefrontapp folder to temp dir
 cp -r ./projects/${APP_NAME} ${DESTDIR}/projects
 
+
+echo "Update the storefrontstyles import to use @spartacus/styles"
+sed -i '' -e "s='storefrontstyles/index'='~@spartacus/styles/index'=g" ${DESTDIR}/projects/storefrontapp/src/styles.scss    
+
 echo "Updating configuration"
 node configure-shellapp.js ${DESTDIR}
 
