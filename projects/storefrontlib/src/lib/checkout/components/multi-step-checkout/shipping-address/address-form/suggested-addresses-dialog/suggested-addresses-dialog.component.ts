@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  OnInit
+} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -7,7 +12,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./suggested-addresses-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SuggestedAddressDialogComponent {
+export class SuggestedAddressDialogComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal) {}
 
   @Input()
@@ -16,4 +21,10 @@ export class SuggestedAddressDialogComponent {
   enteredAddress: any;
 
   selectedAddress: any;
+
+  ngOnInit(): void {
+    this.selectedAddress = this.suggestedAddresses.length
+      ? this.suggestedAddresses[0]
+      : this.enteredAddress;
+  }
 }
