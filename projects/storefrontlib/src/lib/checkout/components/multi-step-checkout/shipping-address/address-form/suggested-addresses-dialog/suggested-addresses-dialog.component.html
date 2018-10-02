@@ -1,50 +1,3 @@
-<!-- <div class="content">
-    <h1>Suggested Addresses</h1>
-    <div *ngIf="data.suggested?.length !== 0">
-        <h2>We have some suggestions about the address you entered. Select the address you want to use.</h2>
-        <div>
-            <h3>Suggested Addresses:</h3>
-            <div class="suggested" *ngFor="let suggestedAddress of data.suggested">
-                <div>{{suggestedAddress?.firstName}} {{suggestedAddress?.lastName}}</div>
-                <div>{{suggestedAddress?.line1}}</div>
-                <div *ngIf="suggestedAddress?.line2">{{suggestedAddress?.line2}}</div>
-                <div>{{suggestedAddress?.town}} {{suggestedAddress?.region.isocode}}</div>
-                <div>{{suggestedAddress?.postalCode}}</div>
-                <button class="button" mcolor="accent" >Use this
-                    address</button>
-            </div>
-
-            <div class="entered">
-                <h3>Address You Entered:</h3>
-                <div>{{data.entered.firstName}} {{data.entered.lastName}}</div>
-                <div>{{data.entered.line1}}</div>
-                <div *ngIf="data.entered.line2">{{data.entered.line2}}</div>
-                <div>{{data.entered.town}} {{data.entered.region.isocode}}</div>
-                <div>{{data.entered.postalCode}}</div>
-                <button class="button" color="primary">Go back and edit the address
-                    you entered</button>
-                <br>
-                <button class="submit-button" color="accent">Use
-                    the address you entered</button>
-            </div>
-        </div>
-    </div>
-
-    <div *ngIf="data.suggested?.length === 0">
-        <h2>We could not find any suggestions.</h2>
-        <h3>Address You Entered:</h3>
-        <div>{{data.entered.firstName}} {{data.entered.lastName}}</div>
-        <div>{{data.entered.line1}}</div>
-        <div *ngIf="data.entered.line2">{{data.entered.line2}}</div>
-        <div>{{data.entered.town}} {{data.entered.region.isocode}}</div>
-        <div>{{data.entered.postalCode}}</div>
-        <button class="button" color="primary">Go back and edit the address you
-            entered</button>
-        <button class="button" color="accent">Use
-            the address you entered</button>
-    </div>
-</div> -->
-
 <div class="y-suggested-addresses-dialog">
     <div class="y-suggested-addresses-dialog__header modal-header">
         <div class="y-suggested-addresses-dialog__title modal-title">Verify your address</div>
@@ -62,53 +15,48 @@
                 </div>
             </div>
 
-            <ng-container *ngIf="suggestedAddresses?.length; else noSuggestedAddresses">
-                <div class="row">
-                    <div class="y-suggested-addresses-dialog__options col-md-12">
-                        <div class="form-check" *ngFor="let suggestedAddress of suggestedAddresses; let i = index">
-                            <input class="form-check-input" type="radio" name="selectedAddress" [(ngModel)]="selectedAddress"
-                                [value]="suggestedAddress" [id]="'suggested-addresses--suggested-' + i" />
-                            <label class="form-check-label y-suggested-addresses-dialog__label" [for]="'suggested-addresses--suggested-' + i">
-                                Suggested address {{suggestedAddresses?.length > 1 ? (i+1) : null}}
-                            </label>
-                            <div class="y-suggested-addresses-dialog__suggested">
-                                {{suggestedAddress?.firstName}} {{suggestedAddress?.lastName}}<br />
-                                {{suggestedAddress?.line1}}<br />
-                                <span>{{suggestedAddress?.line2}}</span><br />
-                                {{suggestedAddress?.town}} {{suggestedAddress?.region?.isocode}}<br />
-                                {{suggestedAddress?.postalCode}}
-                            </div>
+            <div class="row">
+                <div class="y-suggested-addresses-dialog__options col-md-12">
+                    <div class="form-check" *ngFor="let suggestedAddress of suggestedAddresses; let i = index">
+                        <input class="form-check-input" type="radio" name="selectedAddress" [(ngModel)]="selectedAddress"
+                            [value]="suggestedAddress" [id]="'suggested-addresses--suggested-' + i" />
+                        <label class="form-check-label y-suggested-addresses-dialog__label" [for]="'suggested-addresses--suggested-' + i">
+                            Suggested address {{suggestedAddresses?.length > 1 ? (i+1) : null}}
+                        </label>
+                        <div class="y-suggested-addresses-dialog__suggested">
+                            {{suggestedAddress?.firstName}} {{suggestedAddress?.lastName}}<br />
+                            {{suggestedAddress?.line1}}<br />
+                            <span>{{suggestedAddress?.line2}}</span><br />
+                            {{suggestedAddress?.town}} {{suggestedAddress?.region?.isocode}}<br />
+                            {{suggestedAddress?.postalCode}}
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="selectedAddress" [(ngModel)]="selectedAddress"
-                                [value]="enteredAddress" id="suggested-addresses--entered" />
-                            <label class="form-check-label y-suggested-addresses-dialog__label" for="suggested-addresses--entered">
-                                Entered address
-                            </label>
-                            <div class="y-suggested-addresses-dialog__entered">
-                                {{enteredAddress?.firstName}} {{enteredAddress?.lastName}}<br />
-                                {{enteredAddress?.line1}}<br />
-                                <span>{{enteredAddress?.line2}}</span><br />
-                                {{enteredAddress?.town}} {{enteredAddress?.region?.isocode}}<br />
-                                {{enteredAddress?.postalCode}}
-                            </div>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="selectedAddress" [(ngModel)]="selectedAddress"
+                            [value]="enteredAddress" id="suggested-addresses--entered" />
+                        <label class="form-check-label y-suggested-addresses-dialog__label" for="suggested-addresses--entered">
+                            Entered address
+                        </label>
+                        <div class="y-suggested-addresses-dialog__entered">
+                            {{enteredAddress?.firstName}} {{enteredAddress?.lastName}}<br />
+                            {{enteredAddress?.line1}}<br />
+                            <span>{{enteredAddress?.line2}}</span><br />
+                            {{enteredAddress?.town}} {{enteredAddress?.region?.isocode}}<br />
+                            {{enteredAddress?.postalCode}}
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="y-suggested-addresses-dialog__actions col-sm-12 col-md-6 offset-md-6">
-                        <a class="btn btn-secondary btn-block y-suggested-addresses-dialog__actions__btn" (click)="activeModal.close()">
-                            Edit address
-                        </a>
-                        <a class="btn btn-primary btn-block y-suggested-addresses-dialog__actions__btn" (click)="activeModal.close(selectedAddress)">
-                            Save address
-                        </a>
-                    </div>
+            </div>
+            <div class="row">
+                <div class="y-suggested-addresses-dialog__actions col-sm-12 col-md-6 offset-md-6">
+                    <a class="btn btn-secondary btn-block y-suggested-addresses-dialog__actions__btn" (click)="activeModal.close()">
+                        Edit address
+                    </a>
+                    <a class="btn btn-primary btn-block y-suggested-addresses-dialog__actions__btn" (click)="activeModal.close(selectedAddress)">
+                        Save address
+                    </a>
                 </div>
-            </ng-container>
-            <ng-template #noSuggestedAddresses>
-                SPIKE TODO IMPLEMENT IT
-            </ng-template>
+            </div>
         </div>
     </div>
 </div>
