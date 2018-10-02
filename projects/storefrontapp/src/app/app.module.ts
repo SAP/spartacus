@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import {
-  StorefrontComponent,
-  StorefrontModule
-} from '@spartacus/storefrontlib';
+import { StorefrontComponent, StorefrontModule } from '@spartacus/storefront';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+
+const devImports = [];
+
+if (!environment.production) {
+  devImports.push(StoreDevtoolsModule.instrument());
+}
 
 @NgModule({
   imports: [
@@ -14,7 +18,8 @@ import { environment } from '../environments/environment';
       server: {
         baseUrl: environment.occBaseUrl
       }
-    })
+    }),
+    ...devImports
   ],
   bootstrap: [StorefrontComponent]
 })

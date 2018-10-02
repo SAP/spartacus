@@ -7,7 +7,6 @@ import {
   ComponentWrapperDirective
 } from '../../../cms/components';
 import { ProductDetailsComponent } from '../../../product/components/product-details/container/product-details.component';
-import { MaterialModule } from '../../../material.module';
 import { ProductAttributesComponent } from '../../../product/components/product-details/product-attributes/product-attributes.component';
 import { ProductImagesComponent } from '../../../product/components/product-details/product-images/product-images.component';
 import { ProductSummaryComponent } from '../../../product/components/product-details/product-summary/product-summary.component';
@@ -33,7 +32,6 @@ describe('ProductDetailsPageLayoutComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         NgbTabsetModule,
         NgbAccordionModule,
         ReactiveFormsModule,
