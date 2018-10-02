@@ -1,10 +1,10 @@
 <div class="y-item-counter btn-group" role="group" tabindex="0" aria-label="Add more items" [class.focused]="focus"
   (keydown)="onKeyDown($event)" (blur)="onBlur($event)" (focus)="onFocus($event)">
-  <button type="button" class="y-item-counter__action" (click)="decrement()" [disabled]="cartLoading || value === min">
+  <button type="button" class="y-item-counter__action" (click)="decrement()" [disabled]="cartIsLoading || value === min">
     -
   </button>
   <div class="y-item-counter__value"> {{ value }} </div>
-  <button type="button" class="y-item-counter__action" (click)="increment()" [disabled]="cartLoading || value === max">
+  <button type="button" class="y-item-counter__action" (click)="increment()" [disabled]="cartIsLoading || value === max">
     +
   </button>
 </div>

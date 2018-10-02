@@ -38,7 +38,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   @Input()
   async = false;
   @Input()
-  cartLoading = false;
+  cartIsLoading = false;
 
   @Output()
   update = new EventEmitter<any>();

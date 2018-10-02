@@ -23,7 +23,7 @@ export class CartItemComponent implements OnInit {
   @Input()
   isReadOnly = false;
   @Input()
-  cartLoading = false;
+  cartIsLoading = false;
 
   @Output()
   remove = new EventEmitter<any>();

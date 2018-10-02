@@ -23,7 +23,7 @@ export class CartItemListComponent implements OnInit {
   potentialProductPromotions: any[] = [];
 
   @Input()
-  cartLoading = false;
+  cartIsLoading = false;
 
   form: FormGroup = this.fb.group({});
 
