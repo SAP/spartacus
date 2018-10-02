@@ -8,17 +8,20 @@ import {
   ComponentFactoryResolver
 } from '@angular/core';
 import { ComponentMapperService } from '../../services/component-mapper.service';
-import { AbstractCmsComponent } from '../abstract-cms-component';
+import { CmsComponent } from '../cms.component';
 
 @Directive({
   selector: '[yComponentWrapper]'
 })
 export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
-  @Input() componentType: string;
-  @Input() componentUid: string;
-  @Input() componentCssClass: string;
-  @Input() contextParameters: any;
-  @Input() componentLoad = false;
+  @Input()
+  componentType: string;
+  @Input()
+  componentUid: string;
+  @Input()
+  componentCssClass: string;
+  @Input()
+  contextParameters: any;
 
   cmpRef: ComponentRef<any>;
 
@@ -43,22 +46,10 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
       );
 
       this.cmpRef = this.vcr.createComponent(factory);
-      const instance: AbstractCmsComponent = this.cmpRef.instance;
-      if (instance.setUid) {
-        instance.setUid(this.componentUid);
-      }
-      if (instance.setLoad) {
-        instance.setLoad(this.componentLoad);
-      }
-      // pass parameters to dynamic component
-      if (this.contextParameters && instance.setContextParameters) {
-        instance.setContextParameters(this.contextParameters);
-      }
-      if (instance.bootstrap) {
-        instance.bootstrap();
-      }
-      if (this.componentLoad) {
-        this.cmpRef.changeDetectorRef.detectChanges();
+      const instance: CmsComponent = this.cmpRef.instance;
+
+      if (instance.onCmsComponentInit) {
+        instance.onCmsComponentInit(this.componentUid, this.contextParameters);
       }
     }
   }

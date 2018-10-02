@@ -16,10 +16,8 @@ import {
 
 import { of } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from '../.././../../../material.module';
 import { CheckoutService } from '../../../../services';
 import { CartService, CartDataService } from '../../../../../cart/services';
-import { MatDialog } from '@angular/material';
 import { AddressFormModule } from './address-form.module';
 
 export class MockAbstractControl {
@@ -73,7 +71,6 @@ describe('AddressFormComponent', () => {
   let component: AddressFormComponent;
   let fixture: ComponentFixture<AddressFormComponent>;
   let ac: AbstractControl;
-  let dialog: MatDialog;
   let service: CheckoutService;
 
   beforeEach(async(() => {
@@ -81,7 +78,6 @@ describe('AddressFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        MaterialModule,
         AddressFormModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
@@ -105,7 +101,6 @@ describe('AddressFormComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.get(Store);
     ac = TestBed.get(AbstractControl);
-    dialog = TestBed.get(MatDialog);
     service = TestBed.get(CheckoutService);
 
     spyOn(store, 'dispatch').and.callThrough();
@@ -115,7 +110,6 @@ describe('AddressFormComponent', () => {
     spyOn(component.backToAddress, 'emit').and.callThrough();
     spyOn(component.address, 'get').and.returnValue(ac);
     spyOn(component, 'openSuggestedAddress').and.callThrough();
-    spyOn(dialog, 'open').and.callThrough();
 
     spyOn(service, 'verifyAddress').and.callThrough();
   });

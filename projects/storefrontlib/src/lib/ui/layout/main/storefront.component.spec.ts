@@ -10,7 +10,6 @@ import {
   DynamicSlotComponent,
   ComponentWrapperDirective
 } from '../../../cms/components';
-import { MaterialModule } from '../../../material.module';
 import { GlobalMessageModule } from '../../../global-message/global-message.module';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import { OccSiteService } from '../../../occ/site-context/occ-site.service';
@@ -24,6 +23,7 @@ import * as fromSCStore from '../../../site-context/shared/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuth from '../../../auth/store';
 import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
+import { OutletDirective } from '../../../outlet';
 
 const MockSiteContextModuleConfig: SiteContextModuleConfig = {
   server: {
@@ -46,7 +46,6 @@ describe('StorefrontComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        MaterialModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           user: combineReducers(fromUserReducer.getReducers()),
@@ -67,7 +66,8 @@ describe('StorefrontComponent', () => {
         HeaderSkipperComponent,
         TertiaryBarComponent,
         MobileMenuComponent,
-        LoginComponent
+        LoginComponent,
+        OutletDirective
       ],
       providers: [
         {

@@ -7,7 +7,6 @@ import {
   ComponentWrapperDirective
 } from '../../../cms/components';
 import { ProductDetailsComponent } from '../../../product/components/product-details/container/product-details.component';
-import { MaterialModule } from '../../../material.module';
 import { ProductAttributesComponent } from '../../../product/components/product-details/product-attributes/product-attributes.component';
 import { ProductImagesComponent } from '../../../product/components/product-details/product-images/product-images.component';
 import { ProductSummaryComponent } from '../../../product/components/product-details/product-summary/product-summary.component';
@@ -23,6 +22,7 @@ import {
   NgbTabsetModule,
   NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
+import { OutletDirective } from '../../../outlet';
 import { ProductService } from '../../../product/services';
 
 describe('ProductDetailsPageLayoutComponent', () => {
@@ -32,7 +32,6 @@ describe('ProductDetailsPageLayoutComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         NgbTabsetModule,
         NgbAccordionModule,
         ReactiveFormsModule,
@@ -54,7 +53,8 @@ describe('ProductDetailsPageLayoutComponent', () => {
         ProductImagesComponent,
         ProductSummaryComponent,
         ProductReviewsComponent,
-        AddToCartComponent
+        AddToCartComponent,
+        OutletDirective
       ]
     }).compileComponents();
   }));

@@ -1,11 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import 'storefrontstyles';
-
-.mat-autocomplete-panel {
-  width: 100%;
-  max-width: 100% !important;
-}
+@import 'storefrontstyles/index';
 
 :root {
   --y-darken-factor: 1;

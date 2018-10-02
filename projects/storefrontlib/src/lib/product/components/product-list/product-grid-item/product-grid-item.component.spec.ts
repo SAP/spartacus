@@ -1,4 +1,3 @@
-import { MaterialModule } from 'projects/storefrontlib/src/lib/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductGridItemComponent } from './product-grid-item.component';
 import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
@@ -19,7 +18,6 @@ describe('ProductGridItemComponent in product-list', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         RouterTestingModule,
         NgbRatingModule.forRoot(),
         StoreModule.forRoot({
