@@ -48,6 +48,9 @@
 <div class="y-suggested-addresses-dialog">
     <div class="y-suggested-addresses-dialog__header modal-header">
         <div class="y-suggested-addresses-dialog__title modal-title">Verify your address</div>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="y-suggested-addresses-dialog__body modal-body" ngForm>
         <div class="container">
