@@ -15,7 +15,12 @@ $y-mini-cart-icon-width: 25px !default;
 $y-mini-cart-count-trbl-margin: 0 0 0 0.35rem !default;
 
 .y-mini-cart {
-  @include media-breakpoint-up(md) {
+  //these are temp fixes until store finder
+  //gets back to its original position
+  @include media-breakpoint-up(xs) {
+    margin-left: 1rem;
+  }
+  @include media-breakpoint-up(sm) {
     margin-left: 1.5rem;
   }
 
