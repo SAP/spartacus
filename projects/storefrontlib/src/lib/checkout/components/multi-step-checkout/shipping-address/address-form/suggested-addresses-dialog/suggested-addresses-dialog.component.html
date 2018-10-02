@@ -65,10 +65,11 @@
             <ng-container *ngIf="suggestedAddresses?.length; else noSuggestedAddresses">
                 <div class="row">
                     <div class="y-suggested-addresses-dialog__options col-md-12">
-                        <div class="form-check" *ngFor="let suggestedAddress of suggestedAddresses">
-                            <label class="form-check-label y-suggested-addresses-dialog__label">
-                                Suggested address
-                                <input class="form-check-input" type="radio" name="selectedAddress" [(ngModel)]="selectedAddress" />
+                        <div class="form-check" *ngFor="let suggestedAddress of suggestedAddresses; let i = index">
+                            <input class="form-check-input" type="radio" name="selectedAddress" [(ngModel)]="selectedAddress"
+                                [value]="suggestedAddress" [id]="'suggested-addresses--suggested-' + i" />
+                            <label class="form-check-label y-suggested-addresses-dialog__label" [for]="'suggested-addresses--suggested-' + i">
+                                Suggested address {{suggestedAddresses?.length > 1 ? (i+1) : null}}
                             </label>
                             <div class="y-suggested-addresses-dialog__suggested">
                                 {{suggestedAddress?.firstName}} {{suggestedAddress?.lastName}}<br />
@@ -79,9 +80,10 @@
                             </div>
                         </div>
                         <div class="form-check">
-                            <label class="form-check-label y-suggested-addresses-dialog__label">
+                            <input class="form-check-input" type="radio" name="selectedAddress" [(ngModel)]="selectedAddress"
+                                [value]="enteredAddress" id="suggested-addresses--entered" />
+                            <label class="form-check-label y-suggested-addresses-dialog__label" for="suggested-addresses--entered">
                                 Entered address
-                                <input class="form-check-input" type="radio" name="selectedAddress" [(ngModel)]="selectedAddress">
                             </label>
                             <div class="y-suggested-addresses-dialog__entered">
                                 {{enteredAddress?.firstName}} {{enteredAddress?.lastName}}<br />
