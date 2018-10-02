@@ -2,11 +2,12 @@
 @import '../../mixins';
 @import '~bootstrap/scss/pagination';
 
-$y-pagination-page-action-trbl-padding: 12px 14px 12px 14px !default;
+$y-pagination-page-action-trbl-padding: 11px 14px 12px 14px !default;
 $y-pagination-page-action-color: 'secondary' !default;
 
 $y-pagination-page-link-trbl-padding: 12px 17px 12px 17px !default;
 $y-pagination-page-link-color: 'text' !default;
+$y-pagination-page-link-height: 48px !default;
 $y-pagination-page-link-hover-color: 'inverse' !default;
 $y-pagination-page-link-hover-background-color: 'primary' !default;
 
@@ -25,6 +26,7 @@ $y-pagination-page-link-disabled-color: 'light' !default;
   .page-link {
     padding: $y-pagination-page-link-trbl-padding;
     font-size: $h4-font-size;
+    height: $y-pagination-page-link-height;
     @include var-color('color', $y-pagination-page-link-color);
 
     &:hover {
@@ -40,6 +42,10 @@ $y-pagination-page-link-disabled-color: 'light' !default;
     &[aria-label='Next'] {
       padding: $y-pagination-page-action-trbl-padding;
       @include var-color('color', $y-pagination-page-action-color);
+
+      &:hover {
+        @include var-color('color', $y-pagination-page-link-hover-color);
+      }
     }
   }
 }

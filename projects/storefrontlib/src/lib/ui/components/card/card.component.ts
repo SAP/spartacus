@@ -16,19 +16,28 @@ export interface Card {
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent implements OnInit {
-  @Output() deleteCard: EventEmitter<number> = new EventEmitter();
-  @Output() setDefaultCard: EventEmitter<number> = new EventEmitter();
-  @Output() sendCard: EventEmitter<number> = new EventEmitter();
-  @Output() editCard: EventEmitter<number> = new EventEmitter();
+  @Output()
+  deleteCard: EventEmitter<number> = new EventEmitter();
+  @Output()
+  setDefaultCard: EventEmitter<number> = new EventEmitter();
+  @Output()
+  sendCard: EventEmitter<number> = new EventEmitter();
+  @Output()
+  editCard: EventEmitter<number> = new EventEmitter();
 
-  @Input() border = false;
+  @Input()
+  border = false;
 
-  @Input() editMode = false;
+  @Input()
+  editMode = false;
 
-  @Input() isDefault = false;
+  @Input()
+  isDefault = false;
 
-  @Input() content: Card;
-  @Input() fitToContainer = false;
+  @Input()
+  content: Card;
+  @Input()
+  fitToContainer = false;
 
   // ACTIONS
 

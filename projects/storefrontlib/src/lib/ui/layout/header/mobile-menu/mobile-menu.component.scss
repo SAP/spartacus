@@ -31,6 +31,7 @@ $y-mobile-menu-position-left-hidden: -1000vh !default;
   @include var-color('color', $y-mobile-menu-color);
   display: flex;
   flex-flow: column;
+  z-index: 100;
 
   &__components {
     display: flex;
@@ -78,5 +79,14 @@ $y-mobile-menu-position-left-hidden: -1000vh !default;
         left: $y-mobile-menu-position-left-hidden;
       }
     }
+  }
+
+  &__overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
   }
 }

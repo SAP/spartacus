@@ -31,18 +31,6 @@ validateTsConfigFile
 TSCONFIGFILE_TO_VALIDATE="projects/storefrontapp-e2e/tsconfig.e2e.json"
 validateTsConfigFile
 
-echo "Validating yarn.lock integrity"
-DEFAULT_REGISTRY_URL="https://registry.yarnpkg.com"
-DEFAULT_REGISTRY_OCCURENCES=$(grep -c "${DEFAULT_REGISTRY_URL}" yarn.lock || true)
-if [ $DEFAULT_REGISTRY_OCCURENCES \> 0 ];
-then
-    echo "ERROR: yarn file is corrupt. Found [${DEFAULT_REGISTRY_URL}] ${DEFAULT_REGISTRY_OCCURENCES} time(s).";
-    echo "The dependency urls should all point to the hybris Artifactory.";
-    exit 1
-else
-    echo "yarn.lock file is valid.";
-fi;
-
 echo "Validating that no 'fdescribe' occurrences are present in tests..."
 results=$(grep -rl --include "*.spec.ts" fdescribe projects || true)
 if [[ -z "$results" ]]; then

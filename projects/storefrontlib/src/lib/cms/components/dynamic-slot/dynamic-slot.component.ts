@@ -21,10 +21,14 @@ import * as fromStore from '../../store';
 export class DynamicSlotComponent implements OnInit, OnDestroy {
   currentSlot$: Observable<any>;
 
-  @Input() position: string;
-  @Input() limit: number;
-  @Input() contextParameters: any;
-  @Input() componentClass: string;
+  @Input()
+  position: string;
+  @Input()
+  limit: number;
+  @Input()
+  contextParameters: any;
+  @Input()
+  componentClass: string;
 
   constructor(private store: Store<fromStore.CmsState>) {}
 
