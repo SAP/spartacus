@@ -3,14 +3,14 @@ import * as fromUserAddressesAction from '../actions/user-addresses.action';
 export interface UserAddressesState {
   list: any[];
   states: {
-    loading: boolean;
+    isLoading: boolean;
   };
 }
 
 export const initialState: UserAddressesState = {
   list: [],
   states: {
-    loading: true
+    isLoading: true
   }
 };
 
@@ -28,7 +28,7 @@ export function reducer(
           list,
           states: {
             ...state.states,
-            loading: false
+            isLoading: false
           }
         };
       } else {
@@ -36,7 +36,7 @@ export function reducer(
           ...state,
           states: {
             ...state.states,
-            loading: false
+            isLoading: false
           }
         };
       }
@@ -47,7 +47,7 @@ export function reducer(
         ...state,
         states: {
           ...state.states,
-          loading: false
+          isLoading: false
         }
       };
     }
@@ -57,7 +57,7 @@ export function reducer(
         ...state,
         states: {
           ...state.states,
-          loading: true
+          isLoading: true
         }
       };
     }
@@ -66,4 +66,4 @@ export function reducer(
 }
 
 export const getAddresses = (state: UserAddressesState) => state.list;
-export const getLoading = (state: UserAddressesState) => state.states.loading;
+export const getLoading = (state: UserAddressesState) => state.states.isLoading;
