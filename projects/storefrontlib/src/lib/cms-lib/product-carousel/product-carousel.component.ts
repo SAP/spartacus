@@ -101,14 +101,15 @@ export class ProductCarouselComponent extends AbstractCmsComponent
       }
     });
     this.productGroups = groups;
-    return groups;
   }
 
   private setItemsPerPage() {
+    const smallScreenMaxWidth = 576;
+    const tabletScreenMaxWidth = 768;
     const { innerWidth } = window;
-    if (innerWidth < 576) {
+    if (innerWidth < smallScreenMaxWidth) {
       this.itemPerPage = 1;
-    } else if (innerWidth > 576 && innerWidth < 768) {
+    } else if (innerWidth > smallScreenMaxWidth && innerWidth < tabletScreenMaxWidth) {
       this.itemPerPage = 2;
     } else {
       this.itemPerPage = 4;
