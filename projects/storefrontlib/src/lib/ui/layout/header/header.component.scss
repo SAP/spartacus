@@ -16,6 +16,10 @@ $y-header-separator-position-top: 43px !default;
 $y-header-separator-position-left: 0 !default;
 $y-header-separator-border-width: 1px !default;
 $y-header-separator-width: 100vw !default;
+$y-header-height-tablet: 90px !default;
+$y-header-height-mobile: 70px !default;
+$y-header-trbl-padding-tablet: 1.15rem 0 0 0 !default;
+$y-header-trbl-padding-mobile: 0.5rem 0 0 0 !default;
 
 :host {
   @include reset;
@@ -41,12 +45,12 @@ $y-header-separator-width: 100vw !default;
     }
   }
   @include media-breakpoint-down(md) {
-    height: 90px;
-    padding-top: 1.15rem;
+    height: $y-header-height-tablet;
+    padding: $y-header-trbl-padding-tablet;
   }
   @include media-breakpoint-down(xs) {
-    height: 70px;
-    padding-top: 0.5rem;
+    height: $y-header-height-mobile;
+    padding: $y-header-trbl-padding-mobile;
   }
 
   &__logo {
