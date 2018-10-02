@@ -10,6 +10,7 @@ import { switchMap, tap, filter, map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import * as fromAuthStore from './../store';
+import { getClientTokenState } from './../store/selectors/client-token.selectors';
 import { AuthenticationToken } from '../models/token-types.model';
 import {
   USE_CLIENT_TOKEN,

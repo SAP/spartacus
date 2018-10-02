@@ -24,7 +24,7 @@ export class UserErrorHandlingService {
     next: HttpHandler
   ): Observable<any> {
     return this.handleExpiredToken().pipe(
-      switchMap(([token, _loading]: [UserToken, boolean]) => {
+      switchMap(([token]: [UserToken, boolean]) => {
         return next.handle(this.createNewRequestWithNewToken(request, token));
       })
     );
@@ -55,7 +55,7 @@ export class UserErrorHandlingService {
         }
       }),
       filter(
-        ([token, loading]: [UserToken, boolean]) =>
+        ([token]: [UserToken, boolean]) =>
           oldToken.access_token !== token.access_token
       ),
       take(1)
