@@ -74,11 +74,11 @@ export class PaymentFormComponent implements OnInit {
     for (let i = 0; i < 10; i++) {
       this.years.push({ id: i + 1, name: year + i });
     }
-    for (let i = 1; i <= 12; i++) {
-      if (i < 10) {
-        this.months.push({ id: i, name: '0' + i.toString() });
+    for (let j = 1; j <= 12; j++) {
+      if (j < 10) {
+        this.months.push({ id: j, name: '0' + j.toString() });
       } else {
-        this.months.push({ id: i, name: i.toString() });
+        this.months.push({ id: j, name: j.toString() });
       }
     }
   }

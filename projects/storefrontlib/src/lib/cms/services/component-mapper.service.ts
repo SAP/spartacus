@@ -53,7 +53,7 @@ export class ComponentMapperService {
       this.componentFactoryResolver['_factories'].entries()
     );
     const factoryEntry = factoryEntries.find(
-      ([key, value]: any) => value.selector === alias
+      ([, value]: any) => value.selector === alias
     );
 
     return factoryEntry ? factoryEntry[0] : null;

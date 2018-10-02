@@ -10,6 +10,7 @@ import { switchMap, tap, filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromAuthStore from './../store';
+import { getClientTokenState } from './../store/selectors/client-token.selectors';
 import { AuthenticationToken } from '../models/token-types.model';
 import {
   USE_CLIENT_TOKEN,
@@ -54,7 +55,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     if (
       InterceptorUtil.getInterceptorParam(USE_CLIENT_TOKEN, request.headers)
     ) {
-      return this.store.select(fromAuthStore.getClientTokenState).pipe(
+      return this.store.select(getClientTokenState).pipe(
         tap((state: ClientTokenState) => {
           if (!state.loading && Object.keys(state.token).length === 0) {
             this.store.dispatch(new fromAuthStore.LoadClientToken());
