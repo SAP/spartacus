@@ -55,11 +55,14 @@
       }
     }
   }
+}
 
-  &.btn-link {
-    color: var(--y-text);
-    background: none;
-    border: none;
+.btn-link {
+  color: var(--y-text);
+  background: none;
+  border: none;
+  &:hover {
+    color: var(--y-primary);
   }
 }
 
