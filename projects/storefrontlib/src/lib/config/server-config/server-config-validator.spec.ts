@@ -15,6 +15,6 @@ describe('serverConfigValidator', () => {
         baseUrl: ''
       }
     };
-    expect(serverConfigValidator(invalidConfig)).toBeUndefined();
+    expect(serverConfigValidator(invalidConfig)).toBeFalsy();
   });
 });

@@ -24,10 +24,10 @@ export function provideConfig(config: any = {}): Provider {
 
 export function configurationFactory(
   configChunks: any[],
-  configGuards: ConfigValidator[]
+  configValidators: ConfigValidator[]
 ) {
   const config = deepMerge({}, ...configChunks);
-  validateConfig(config, configGuards);
+  validateConfig(config, configValidators);
   return config;
 }
 

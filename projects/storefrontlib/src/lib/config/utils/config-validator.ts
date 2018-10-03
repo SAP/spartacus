@@ -1,11 +1,19 @@
 import { InjectionToken, Provider } from '@angular/core';
 
-export const ConfigValidatorToken = new InjectionToken('ConfigurationGuard');
+export const ConfigValidatorToken = new InjectionToken(
+  'ConfigurationValidator'
+);
 
 export type ConfigValidator = (config: any) => string | void;
 
-export function provideConfigValidator(configGuard: ConfigValidator): Provider {
-  return { provide: ConfigValidatorToken, useValue: configGuard, multi: true };
+export function provideConfigValidator(
+  configValidator: ConfigValidator
+): Provider {
+  return {
+    provide: ConfigValidatorToken,
+    useValue: configValidator,
+    multi: true
+  };
 }
 
 export function validateConfig(
