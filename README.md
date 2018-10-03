@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project.svg?token=yywzsFgC8dWSfJQxPGHs&branch=develop)](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project)
+[![Build Status](https://travis-ci.org/SAP/cloud-commerce-spartacus-storefront.svg?branch=develop)](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project)
 
 # What is Spartacus?
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpRequest, HttpHandler } from '@angular/common/http';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, combineLatest } from 'rxjs';
 import { tap, filter, take, switchMap } from 'rxjs/operators';
 
@@ -24,7 +24,7 @@ export class UserErrorHandlingService {
     next: HttpHandler
   ): Observable<any> {
     return this.handleExpiredToken().pipe(
-      switchMap(([token, _loading]: [UserToken, boolean]) => {
+      switchMap(([token]: [UserToken, boolean]) => {
         return next.handle(this.createNewRequestWithNewToken(request, token));
       })
     );
@@ -38,8 +38,8 @@ export class UserErrorHandlingService {
   private handleExpiredToken(): Observable<any> {
     let oldToken;
     return combineLatest(
-      this.store.select(fromStore.getUserToken),
-      this.store.select(fromStore.getUserTokenLoading)
+      this.store.pipe(select(fromStore.getUserToken)),
+      this.store.pipe(select(fromStore.getUserTokenLoading))
     ).pipe(
       tap(([token, loading]: [UserToken, boolean]) => {
         oldToken = oldToken || token;
@@ -55,7 +55,7 @@ export class UserErrorHandlingService {
         }
       }),
       filter(
-        ([token, loading]: [UserToken, boolean]) =>
+        ([token]: [UserToken, boolean]) =>
           oldToken.access_token !== token.access_token
       ),
       take(1)
