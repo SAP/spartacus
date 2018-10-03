@@ -17,6 +17,7 @@ import { CartPageLayoutComponent } from '../../layout/cart-page-layout/cart-page
 import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
 import { CartPageComponent } from './cart-page.component';
 import { OutletDirective } from '../../../outlet';
+import * as fromAuth from '../../../auth/store';
 
 export class MockCartService {
   loadCartDetails() {}
@@ -34,7 +35,8 @@ describe('CartPageComponent', () => {
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cms: combineReducers(fromCmsReducer.getReducers()),
-          cart: combineReducers(fromCart.getReducers())
+          cart: combineReducers(fromCart.getReducers()),
+          auth: combineReducers(fromAuth.getReducers())
         }),
         ComponentsModule,
         CartSharedModule

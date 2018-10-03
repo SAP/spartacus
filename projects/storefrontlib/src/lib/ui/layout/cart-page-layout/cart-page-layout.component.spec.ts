@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
 
 import { CartService } from '../../../cart/services';
@@ -18,6 +18,7 @@ import { CartSharedModule } from './../../../cart/components/cart-shared/cart-sh
 import { ComponentsModule } from './../../components/components.module';
 import { CartPageLayoutComponent } from './cart-page-layout.component';
 import { OutletDirective } from '../../../outlet';
+import * as fromAuthStore from '../../../auth/store';
 
 class MockCartService {
   removeCartEntry() {}
@@ -43,7 +44,8 @@ describe('CartPageLayoutComponent', () => {
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromReducer.getReducers()),
-          cms: combineReducers(fromCmsReducer.getReducers())
+          cms: combineReducers(fromCmsReducer.getReducers()),
+          auth: combineReducers(fromAuthStore.getReducers())
         }),
         ComponentsModule,
         CartSharedModule
