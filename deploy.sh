@@ -40,6 +40,13 @@ function parse_options(){
     esac
     shift
   done
+
+  echo "Project: $PROJECT"
+  echo "Version: $BUMP"
+  echo "Preid: $preid"
+  echo "dry-run: $dryrun"
+  exit
+
 }
 
 parse_options
