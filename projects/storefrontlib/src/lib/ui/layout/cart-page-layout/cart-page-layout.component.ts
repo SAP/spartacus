@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import * as fromCartStore from '../../../cart/store';
+import * as fromUserStore from '../../../auth/store';
 import { Subscription, Observable } from 'rxjs';
 import { CartService } from '../../../cart/services/cart.service';
 
@@ -19,7 +20,11 @@ export class CartPageLayoutComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cartService.loadCartDetails();
+    this.store.pipe(select(fromUserStore.getUserToken)).subscribe(token => {
+      if (token.access_token) {
+        this.cartService.loadCartDetails();
+      }
+    });
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
   }
 }
