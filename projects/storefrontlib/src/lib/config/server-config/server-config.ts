@@ -7,7 +7,6 @@ export abstract class ServerConfig {
 
 export const defaultServerConfig: ServerConfig = {
   server: {
-    baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
   }
 };
