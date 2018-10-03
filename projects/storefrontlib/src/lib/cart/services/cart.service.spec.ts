@@ -9,7 +9,7 @@ import * as fromAuth from '../../auth/store';
 
 import { CartService } from './cart.service';
 import { UserToken } from '../../auth/models/token-types.model';
-import { CartDataService } from './cart-data.service';
+import { CartDataService, ANONYMOUS_USERID } from './cart-data.service';
 
 describe('CartService', () => {
   let service: CartService;
@@ -103,7 +103,7 @@ describe('CartService', () => {
   });
 
   describe('Load cart details', () => {
-    it('should be able to load cart with more details', () => {
+    it('should load more details when a user is logged in', () => {
       cartData.userId = userId;
       cartData.cart = cart;
 
@@ -116,6 +116,29 @@ describe('CartService', () => {
           details: true
         })
       );
+    });
+
+    it('should load more details for anonymous user if cartid exists', () => {
+      cartData.userId = ANONYMOUS_USERID;
+      cartData.cart = cart;
+
+      service.loadCartDetails();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromCart.LoadCart({
+          userId: ANONYMOUS_USERID,
+          cartId: cart.guid,
+          details: true
+        })
+      );
+    });
+
+    it('should not load more details for anonymous user if cartid is null', () => {
+      cartData.userId = ANONYMOUS_USERID;
+
+      service.loadCartDetails();
+
+      expect(store.dispatch).not.toHaveBeenCalled();
     });
   });
 

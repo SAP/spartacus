@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { of, BehaviorSubject } from 'rxjs';
+import { of } from 'rxjs';
 import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
 
 import { CartService } from '../../../cart/services';

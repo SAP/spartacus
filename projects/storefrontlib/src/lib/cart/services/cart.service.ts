@@ -77,27 +77,23 @@ export class CartService {
   loadCartDetails() {
     this.cartData.getDetails = true;
 
-    this.store
-      .pipe(select(fromAuthSelectors.getUserToken))
-      .subscribe(userToken => {
-        if (userToken && userToken.access_token) {
-          this.store.dispatch(
-            new fromAction.LoadCart({
-              userId: this.cartData.userId,
-              cartId: this.cartData.cartId ? this.cartData.cartId : 'current',
-              details: true
-            })
-          );
-        } else if (this.cartData.cartId) {
-          this.store.dispatch(
-            new fromAction.LoadCart({
-              userId: this.cartData.userId,
-              cartId: this.cartData.cartId,
-              details: true
-            })
-          );
-        }
-      });
+    if (this.cartData.userId !== ANONYMOUS_USERID) {
+      this.store.dispatch(
+        new fromAction.LoadCart({
+          userId: this.cartData.userId,
+          cartId: this.cartData.cartId ? this.cartData.cartId : 'current',
+          details: true
+        })
+      );
+    } else if (this.cartData.cartId) {
+      this.store.dispatch(
+        new fromAction.LoadCart({
+          userId: this.cartData.userId,
+          cartId: this.cartData.cartId,
+          details: true
+        })
+      );
+    }
   }
 
   addCartEntry(productCode: string, quantity: number) {
