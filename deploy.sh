@@ -65,11 +65,16 @@ echo "publishing version $BUMP"
 published=(cd $DEPLOY_DIR && npm publish .)
 
 if [[ =z "$results" ]]; then
+
+  RELEASE_BRANCH="release/$PROJECT_DIR_NEW_VERSION"
+  git checkout -b $RELEASE_BRANCH
+
   cd $PROJECT_DIR
-  git commit -am"Bumping version to $PROJECT_DIR_NEW_VERSION"
+  git add package.json
+  git commit -m"Bumping $PROJECT version to $PROJECT_DIR_NEW_VERSION"
   git tag $PROJECT-$PROJECT_DIR_NEW_VERSION
   echo "Pushing from $PWD"
-  git push origin develop --tags
+  git push -u origin $RELEASE_BRANCH --tags
 
   echo 'Deploy script finished successfully'
 else
