@@ -1,6 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { of } from 'rxjs';
+import * as NgrxStore from '@ngrx/store';
+import { BehaviorSubject } from 'rxjs';
 
 import * as fromRoot from '../../routing/store';
 import * as fromCart from '../../cart/store';
@@ -10,6 +11,9 @@ import * as fromAuth from '../../auth/store';
 import { CartService } from './cart.service';
 import { UserToken } from '../../auth/models/token-types.model';
 import { CartDataService } from './cart-data.service';
+
+import * as fromCartSelectors from '../store/selectors';
+import * as fromAuthSelectors from './../../auth/store/selectors';
 
 describe('CartService', () => {
   let service: CartService;
@@ -29,6 +33,24 @@ describe('CartService', () => {
   };
   const mockCartEntry: any = { entryNumber: 0, product: { code: productCode } };
 
+  const mockCartSelectors = {
+    getRefresh: new BehaviorSubject(null),
+    getActiveCart: new BehaviorSubject(null)
+  };
+  const mockAuthSelectors = {
+    getUserToken: new BehaviorSubject(null)
+  };
+  const mockSelect = selector => {
+    switch (selector) {
+      case fromCartSelectors.getRefresh:
+        return () => mockCartSelectors.getRefresh;
+      case fromCartSelectors.getActiveCart:
+        return () => mockCartSelectors.getActiveCart;
+      case fromAuthSelectors.getUserToken:
+        return () => mockAuthSelectors.getUserToken;
+    }
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -47,6 +69,7 @@ describe('CartService', () => {
     store = TestBed.get(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
   });
 
   it('should CartService is injected', inject(
@@ -58,11 +81,9 @@ describe('CartService', () => {
 
   describe('initCart', () => {
     it('should init cart for login user who has session cart', () => {
-      spyOn(store, 'select').and.returnValues(
-        of(cart),
-        of(userToken),
-        of(true)
-      );
+      mockCartSelectors.getActiveCart.next(cart);
+      mockCartSelectors.getRefresh.next(true);
+      mockAuthSelectors.getUserToken.next(userToken);
       service.initCart();
       expect(cartData.cart).toBe(cart);
       expect(cartData.userId).toBe(userToken.userId);
@@ -82,7 +103,9 @@ describe('CartService', () => {
     });
 
     it('should init cart for login user who does not have session cart', () => {
-      spyOn(store, 'select').and.returnValues(of({}), of(userToken), of(false));
+      mockCartSelectors.getActiveCart.next({});
+      mockCartSelectors.getRefresh.next(false);
+      mockAuthSelectors.getUserToken.next(userToken);
       service.initCart();
       expect(cartData.cart).toEqual({});
       expect(cartData.userId).toBe(userToken.userId);
@@ -95,7 +118,9 @@ describe('CartService', () => {
     });
 
     it('should init cart for anonymous user', () => {
-      spyOn(store, 'select').and.returnValues(of({}), of({}), of(false));
+      mockCartSelectors.getActiveCart.next({});
+      mockCartSelectors.getRefresh.next(false);
+      mockAuthSelectors.getUserToken.next({});
       service.initCart();
       expect(cartData.cart).toEqual({});
       expect(cartData.userId).toBe('anonymous');
@@ -136,7 +161,7 @@ describe('CartService', () => {
     });
 
     it('should be able to addCartEntry if cart does not exist', () => {
-      spyOn(store, 'select').and.returnValue(of(cart));
+      mockCartSelectors.getActiveCart.next(cart);
       cartData.userId = userId;
       cartData.cart = {};
       service.addCartEntry(productCode, 2);
