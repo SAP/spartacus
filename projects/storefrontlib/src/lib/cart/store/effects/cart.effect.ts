@@ -25,7 +25,11 @@ export class CartEffects {
           details: this.cartData.getDetails ? true : undefined
         };
       }
-      if (payload.userId === undefined || payload.cartId === undefined) {
+
+      if (this.isAnonymousUser(payload)) {
+        return of();
+      }
+      if (this.isMissingData(payload)) {
         return of(new fromActions.LoadCartFail({}));
       }
 
@@ -89,4 +93,12 @@ export class CartEffects {
     private occCartService: OccCartService,
     private cartData: CartDataService
   ) {}
+
+  private isAnonymousUser(payload) {
+    return payload.userId === 'anonymous' || payload.cartId === 'current';
+  }
+
+  private isMissingData(payload) {
+    return payload.userId === undefined || payload.cartId === undefined;
+  }
 }
