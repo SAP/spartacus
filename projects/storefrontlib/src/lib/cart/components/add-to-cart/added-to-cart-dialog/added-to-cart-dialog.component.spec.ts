@@ -15,8 +15,8 @@ class MockNgbActiveModal {
 }
 
 class MockCartService {
-  updateCartEntry(entryNumber, updatedQuantity) {}
-  removeCartEntry(entry) {}
+  updateCartEntry(_entryNumber, _updatedQuantity) {}
+  removeCartEntry(_entry) {}
 }
 
 describe('AddedToCartDialogComponent', () => {

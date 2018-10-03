@@ -8,7 +8,7 @@ import * as fromUserDetailsAction from '../actions/user-details.action';
 import * as fromUserDetailsEffect from './user-details.effect';
 
 class MockOccUserService {
-  loadUser(username: string): Observable<any> {
+  loadUser(_username: string): Observable<any> {
     return;
   }
 }
