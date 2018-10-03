@@ -39,7 +39,7 @@ describe('AddToCartComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         SpinnerModule,
-        NgbModule.forRoot(),
+        NgbModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
