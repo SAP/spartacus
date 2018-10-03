@@ -1,49 +1,54 @@
-.carousel-header {
+@import 'mixins';
+
+$y-product-carousel-arrow-color: #747881 !default;
+
+.y-carousel__header {
   text-align: center;
   margin-bottom: 1rem;
   margin-top: 1rem;
 }
 
-.carousel-container {
+.y-carousel__container {
   position: relative;
 }
 
-.carousel-arrow {
+.y-carousel__arrow {
   width: 20px;
   height: 20px;
   position: absolute;
   top: calc(50% - 50px);
-  fill: #747881;
+  @include var-color('fill', $y-product-carousel-arrow-color);
+
+  &--prev {
+    transform: rotate(180deg);
+  }
+
+  &--next {
+    right: 0;
+  }
 }
 
-.carousel-prev {
-  transform: rotate(180deg);
-}
-
-.carousel-next {
-  right: 0;
-}
-
-.product-container {
+.y-carousel__product-container {
   display: inline-block;
   text-align: center;
 }
-.product {
+
+.y-carousel__product {
   height: 100%;
   margin: 0 10px 10px 0;
   padding: 10px;
   width: 265px;
   float: left;
   display: block;
+}
 
-  .productName {
-    margin-right: auto;
-    margin-left: auto;
-    margin-bottom: 10px;
-    text-align: center;
-  }
+.y-carousel__product-name {
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 10px;
+  text-align: center;
+}
 
-  .product-price {
-    text-align: center;
-  }
+.y-carousel__product-price {
+  text-align: center;
 }
