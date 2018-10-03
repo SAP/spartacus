@@ -1,17 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
-import { of } from 'rxjs';
 
 import { NotAuthGuard } from './not-auth.guard';
 import * as fromRoot from './../../routing/store';
 import * as fromStore from './../../auth/store';
 
-const mockUserValidToken = {
-  access_token: 'Mock Access Token'
+const mockUserToken = {
+  access_token: 'Mock Access Token',
+  token_type: 'test',
+  refresh_token: 'test',
+  expires_in: 1,
+  scope: ['test'],
+  userId: 'test'
 };
-
-const mockUserInvalidToken = {};
 
 describe('NotAuthGuard', () => {
   let authGuard: NotAuthGuard;
@@ -33,14 +35,12 @@ describe('NotAuthGuard', () => {
   });
 
   it('should return false', () => {
-    spyOn(store, 'select').and.returnValue(of(mockUserValidToken));
+    store.dispatch(new fromStore.LoadUserTokenSuccess(mockUserToken));
 
     authGuard.canActivate().subscribe(value => expect(value).toBe(false));
   });
 
   it('should return true', () => {
-    spyOn(store, 'select').and.returnValue(of(mockUserInvalidToken));
-
     authGuard.canActivate().subscribe(value => expect(value).toBe(true));
   });
 });
