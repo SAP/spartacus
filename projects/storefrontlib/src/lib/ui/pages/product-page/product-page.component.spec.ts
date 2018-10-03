@@ -2,6 +2,7 @@ import { ComponentsModule } from './../../components/components.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import * as ngrxStore from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
 import * as fromCart from '../../../cart/store';
 import * as fromUser from '../../../user/store';
@@ -87,8 +88,9 @@ describe('ProductPageComponent in pages', () => {
     component = fixture.componentInstance;
 
     store = TestBed.get(Store);
-
-    spyOn(store, 'select').and.returnValue(of(routerState));
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(routerState)
+    );
   });
 
   it('should create', () => {
