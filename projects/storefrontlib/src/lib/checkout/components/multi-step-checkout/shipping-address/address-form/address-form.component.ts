@@ -155,7 +155,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.checkoutService.verifyAddress(this.address.value);
   }
 
-  openSuggestedAddress(results: any) {}
+  openSuggestedAddress(_results: any) {}
 
   required(name: string) {
     return (
