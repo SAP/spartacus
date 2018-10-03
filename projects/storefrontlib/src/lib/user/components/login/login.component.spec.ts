@@ -115,14 +115,14 @@ describe('LoginComponent', () => {
       }
     };
 
-    const spy = spyOn(store, 'select');
+    const spy = spyOn(store, 'pipe');
     spy.and.returnValue(of(routerState));
 
     expect(component).toBeTruthy();
   });
 
   it('should logout and clear user state', () => {
-    const spy = spyOn(store, 'select');
+    const spy = spyOn(store, 'pipe');
     spy.and.returnValue(of({}));
 
     component.logout();
@@ -136,7 +136,7 @@ describe('LoginComponent', () => {
   });
 
   it('should load user details when token exists', () => {
-    spyOn(store, 'select').and.returnValue(of(mockUserToken));
+    spyOn(store, 'pipe').and.returnValue(of(mockUserToken));
 
     component.ngOnInit();
 

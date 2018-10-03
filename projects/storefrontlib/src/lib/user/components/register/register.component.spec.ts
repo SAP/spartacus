@@ -60,7 +60,7 @@ describe('RegisterComponent', () => {
 
   describe('ngOnInit', () => {
     it('should load titles', () => {
-      spyOn(store, 'select').and.returnValue(of({ mockTitlesList }));
+      spyOn(store, 'pipe').and.returnValue(of({ mockTitlesList }));
       component.ngOnInit();
       component.titles$.subscribe(data => {
         expect(data.mockTitlesList).toEqual(mockTitlesList);
@@ -68,7 +68,7 @@ describe('RegisterComponent', () => {
     });
 
     it('should fetch titles if the state is empty', () => {
-      spyOn(store, 'select').and.returnValue(of({}));
+      spyOn(store, 'pipe').and.returnValue(of({}));
       component.ngOnInit();
       component.titles$.subscribe(() => {
         expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadTitles());

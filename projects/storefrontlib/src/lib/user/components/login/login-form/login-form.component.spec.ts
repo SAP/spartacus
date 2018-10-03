@@ -39,7 +39,7 @@ describe('LoginFormComponent', () => {
     store = TestBed.get(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
-    spyOn(store, 'select').and.returnValues(
+    spyOn(store, 'pipe').and.returnValues(
       of(undefined),
       of({ access_token: 'test' }),
       of('/test')
