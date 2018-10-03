@@ -63,10 +63,6 @@ $y-search-box-search-icon-height: 28px !default;
   }
 
   &__input {
-    @include media-breakpoint-down(xs) {
-      display: none;
-    }
-
     @include placeholder {
       @include var-color('color', $y-search-box-input-placeholder-color);
     }
@@ -79,6 +75,11 @@ $y-search-box-search-icon-height: 28px !default;
     margin-bottom: $y-search-box-input-margin-bottom;
 
     &[aria-label='search'] {
+      &:focus {
+        @include var-color('background-color', $y-search-box-input-focus-background-color);
+        box-shadow: none;
+      }
+
       @include media-breakpoint-down(xl) {
         width: $y-search-box-input-width-xl;
       }
@@ -96,35 +97,30 @@ $y-search-box-search-icon-height: 28px !default;
       }
 
       @include media-breakpoint-down(xs) {
-        width: $y-search-box-input-width-xs;
-      }
+        @include var-color('background-color', $y-search-box-input-mobile-background-color);
+        @include var-color('color', $y-search-box-input-color);
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 100%;
+        width: 100%;
 
-      &:focus {
-        @include var-color('background-color', $y-search-box-input-focus-background-color);
-        box-shadow: none;
+        &:focus {
+          @include var-color('background-color', $y-search-box-input-mobile-focus-background-color);
+          @include var-color('color', $y-search-box-input-color);
+        }
+
+        +.dropdown-menu {
+          width: 100%;
+          margin-top: 0;
+          border-radius: 0;
+          border: 0;
+        }
       }
     }
 
-    &.is-mobile {
-      @include var-color('background-color', $y-search-box-input-mobile-background-color);
-      @include var-color('color', $y-search-box-input-color);
+    &.show-mobile {
       display: block;
-      position: absolute;
-      left: 0;
-      top: 100%;
-      width: 100%;
-
-      &:focus {
-        @include var-color('background-color', $y-search-box-input-mobile-focus-background-color);
-        @include var-color('color', $y-search-box-input-color);
-      }
-
-      +.dropdown-menu {
-        width: 100%;
-        margin-top: 0;
-        border-radius: 0;
-        border: 0;
-      }
     }
   }
 

@@ -2,7 +2,7 @@
   <form class="y-search-box__form">
     <div class="y-search-box__group form-group">
       <!-- searchbox input -->
-      <input class="y-search-box__input form-control dropdown-menu-toggle" [ngClass]="{'is-mobile': isMobileSearchVisible}"
+      <input class="y-search-box__input form-control dropdown-menu-toggle" [ngClass]="{'show-mobile': isMobileSearchVisible}"
         type="text" placeholder="Search here..." aria-label="search" [ngbTypeahead]="search" [resultTemplate]="rt"
         [formControl]="searchBoxControl" (keyup)="onKey($event)" />
       <!-- searchbox button desktop -->
