@@ -62,12 +62,19 @@ if [ ! $DEPLOY_DIR_NEW_VERSION == $PROJECT_DIR_NEW_VERSION ]; then
 fi
 
 echo "publishing version $BUMP"
-(cd $DEPLOY_DIR && npm publish .)
+published=(cd $DEPLOY_DIR && npm publish .)
 
-cd $PROJECT_DIR
-git commit -am"Bumping version to $PROJECT_DIR_NEW_VERSION"
-git tag $PROJECT-$PROJECT_DIR_NEW_VERSION
-echo "Pushing from $PWD"
-git push origin develop --tags
+if [[ =z "$results" ]]; then
+  cd $PROJECT_DIR
+  git commit -am"Bumping version to $PROJECT_DIR_NEW_VERSION"
+  git tag $PROJECT-$PROJECT_DIR_NEW_VERSION
+  echo "Pushing from $PWD"
+  git push origin develop --tags
 
-echo 'Deploy script finished successfully'
+  echo 'Deploy script finished successfully'
+else
+  echo 'Error publishing package to npm. Reverting package bump and aborting. Please rebuild your library'
+  (cd $PROJECT_DIR && git checkout package.json)
+  exit 1
+fi
+
