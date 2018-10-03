@@ -21,13 +21,11 @@ Generate a new angular application via the Angular CLI :
 ng new {appname} --style=scss
 ```
 
-# Add the storefront dependencies
+# Add the Storefront's Peer Dependencies
 
-In `{appname}/package.json`, add the two Spartacus libraries and their peer dependencies
+In `{appname}/package.json`, add the following dependencies in the `dependencies` section. They are required by the Spartacus storefront.
 
 ```
-“@spartacus/storefront”: “0.x”,
-“@spartacus/styles”: “0.x”,
 "@angular/pwa": "^0.6.8",
 "@angular/service-worker": "^6.0.0",
 "@ng-bootstrap/ng-bootstrap": "^3.2.2",
@@ -39,11 +37,22 @@ In `{appname}/package.json`, add the two Spartacus libraries and their peer depe
 "ngrx-store-localstorage": "^5.0.1”
 ```
 
-Then install the dependencies. With yarn, it's done with:
+Next, install the dependencies. With yarn, it's done with:
 
 ```
 yarn install
 ```
+
+# Add the storefront dependencies.
+
+Add the storefront's dependencies to your app. There are two libraries to add. You can do so with these commands:
+
+```
+$ yarn add @spartacus/storefront@next
+$ yarn add @spartacus/styles@next
+```
+
+The Storfront libraries are not yet released and the `@next` tag will install the latest pre-alpha version available.
 
 # Import the storefront module int your app.
 
@@ -127,3 +136,23 @@ Go in `{approot}/src/styles.scss and add:`
 ```
 @import "~@spartacus/styles/index";
 ```
+
+# Build and Start
+
+## Validate the backend
+
+Validate your backend installation. Direct your browser (preferably Chrome) to your backend's cms occ endpoint, which by default is available at: `{server-base-url}/rest/v2/electronics/cms/pages`. For example, with a backend instace running from `https://localhost:9002` you would access: https://localhost:9002/rest/v2/electronics/cms/pages.
+
+If you are running a development instance with a self signed https certificate, you need to accept the security exception in your browser.
+
+When the request works, you see an xml response in your browser.
+
+## Start the Storefront Application
+
+Start the application with the storefront enabled like you would normally do:
+
+```
+$ ng serve
+```
+
+When the app server is properly started, point your browser to http://localhost:4200 as instructed from the terminal output of `ng serve`.
