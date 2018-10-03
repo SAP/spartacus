@@ -29,6 +29,8 @@ export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
   maxSuggestions: number;
   minCharactersBeforeRequest: number;
 
+  isMobileSearchVisible: boolean;
+
   constructor(
     protected cmsService: CmsService,
     protected cd: ChangeDetectorRef,
@@ -125,5 +127,9 @@ export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
     this.maxSuggestions = this.component.maxSuggestions || 5;
     this.minCharactersBeforeRequest =
       this.component.minCharactersBeforeRequest || 3;
+  }
+
+  public toggleMobileSearchInput(): void {
+    this.isMobileSearchVisible = !this.isMobileSearchVisible;
   }
 }
