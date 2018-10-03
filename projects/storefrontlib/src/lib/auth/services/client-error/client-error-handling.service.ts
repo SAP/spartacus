@@ -9,6 +9,7 @@ import { switchMap, tap, filter, map } from 'rxjs/operators';
 import { ClientAuthenticationToken } from '../../models/token-types.model';
 
 import * as fromStore from '../../store';
+import { getClientTokenState } from '../../store/selectors/client-token.selectors';
 import { ClientTokenState } from '../../store/reducers/client-token.reducer';
 
 @Injectable()
@@ -27,7 +28,7 @@ export class ClientErrorHandlingService {
   }
 
   private loadNewClientToken(): Observable<any> {
-    return this.store.select(fromStore.getClientTokenState).pipe(
+    return this.store.select(getClientTokenState).pipe(
       tap((state: ClientTokenState) => {
         if (!state.loading) {
           this.store.dispatch(new fromStore.LoadClientToken());

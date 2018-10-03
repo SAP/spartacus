@@ -37,8 +37,7 @@
                         <div *ngIf="countries.length !== 0">
                             <label for="Country" aria-required="true" class="required">Country</label>
                             <ng-select [searchable]="false" [clearable]="false" [items]="countries" bindLabel="name"
-                                bindValue="isocode" placeholder="Select One..." (change)="countrySelected($event)"
-                                (change)="onCountryChange($event.isocode)">
+                                bindValue="isocode" placeholder="Select One..." (change)="countrySelected($event)">
                             </ng-select>
                         </div>
                     </ng-container>

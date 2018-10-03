@@ -234,6 +234,9 @@ describe('AddressFormComponent', () => {
     expect(
       component.address['controls'].country['controls'].isocode.value
     ).toEqual('test select country');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromUser.LoadRegions('test select country')
+    );
   });
 
   it('should call regionSelected()', () => {
