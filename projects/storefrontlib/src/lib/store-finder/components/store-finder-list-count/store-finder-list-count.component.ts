@@ -14,7 +14,7 @@ export class StoreFinderListCountComponent implements OnInit {
 
   constructor(private store: Store<fromStore.StoresState>) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.locations$ = this.store.pipe(
       select(fromStore.getViewAllStoresEntities)
     );

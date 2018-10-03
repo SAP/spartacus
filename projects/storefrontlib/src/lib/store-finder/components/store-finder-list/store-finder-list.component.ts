@@ -41,7 +41,7 @@ export class StoreFinderListComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private document: any
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store
       .pipe(
         select(fromStore.getFindStoresEntities),
@@ -52,7 +52,7 @@ export class StoreFinderListComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }

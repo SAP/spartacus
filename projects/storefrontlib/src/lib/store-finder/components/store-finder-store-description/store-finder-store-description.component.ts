@@ -43,7 +43,7 @@ export class StoreFinderStoreDescriptionComponent
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
