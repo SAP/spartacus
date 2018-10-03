@@ -7,7 +7,7 @@ import {
   DynamicSlotComponent,
   ComponentWrapperDirective
 } from '../../../cms/components';
-import * as ngrxStore from '@ngrx/store';
+import * as NgrxStore from '@ngrx/store';
 import { ProductListModule } from '../../../product/components/product-list/product-list.module';
 import { ActivatedRoute } from '@angular/router';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
@@ -68,7 +68,7 @@ describe('CategoryPageComponent', () => {
   });
 
   it('should call ngOnInit()', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+    spyOnProperty(NgrxStore, 'select').and.returnValue(() => () =>
       of('cartPage')
     );
     component.ngOnInit();
