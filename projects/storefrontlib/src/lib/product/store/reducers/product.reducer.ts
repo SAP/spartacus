@@ -16,27 +16,21 @@ export function reducer(
     case fromProduct.LOAD_PRODUCT_SUCCESS: {
       const detail = action.payload;
 
-      const entities = {
-        ...state.entities,
-        [detail.code]: detail
-      };
-
       return {
         ...state,
-        entities
+        entities: {
+          ...state.entities,
+          [detail.code]: detail
+        }
       };
     }
     case fromProduct.LOAD_PRODUCT_FAIL: {
-      const detail = action.payload;
-
-      const entities = {
-        ...state.entities,
-        [detail.code]: {}
-      };
-
       return {
         ...state,
-        entities
+        entities: {
+          ...state.entities,
+          [action.payload.code]: {}
+        }
       };
     }
   }

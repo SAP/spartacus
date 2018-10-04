@@ -6,11 +6,9 @@ import {
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
-import { of } from 'rxjs';
 
 import * as fromRoot from '../../routing/store';
 import * as fromStore from '../store';
-import { ClientTokenState } from '../store/reducers/client-token.reducer';
 
 import { ClientTokenInterceptor } from './client-token.interceptor';
 
@@ -25,11 +23,6 @@ const testToken: ClientAuthenticationToken = {
   token_type: 'bearer',
   expires_in: 1000,
   scope: ''
-};
-const clientTokenState: ClientTokenState = {
-  loaded: true,
-  loading: false,
-  token: testToken
 };
 
 const MockAuthModuleConfig: AuthModuleConfig = {
@@ -67,14 +60,13 @@ describe('ClientTokenInterceptor', () => {
     });
     store = TestBed.get(Store);
     httpMock = TestBed.get(HttpTestingController);
-
-    spyOn(store, 'select').and.returnValue(of(clientTokenState));
   });
 
   describe('Client Token', () => {
     it('Should only add token to specified requests', inject(
       [HttpClient],
       (http: HttpClient) => {
+        store.dispatch(new fromStore.LoadClientTokenSuccess(testToken));
         http
           .get('https://localhost:9002/rest/v2/electronics/test')
           .subscribe(result => {

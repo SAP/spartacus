@@ -1,9 +1,11 @@
 <div class="y-currency-selector">
     <label class="y-currency-selector__label" for="currencySelector">Currency</label>
     <ng-container *ngIf="currencies$ | async as currencies">
+        <i class="y-currency-selector__arrow-down"></i>
         <select class="y-currency-selector__control form-control" name="" id="currencySelector" (change)="setActiveCurrency($event.target.value)"
             [disabled]="!currencies.length">
-            <option *ngFor="let item of currencies" [selected]="activeCurrency == item.isocode" [value]="item.isocode">
+            <option class="y-currency-selector__option" *ngFor=" let item of currencies" [selected]="activeCurrency == item.isocode"
+                [value]="item.isocode">
                 {{item.symbol}} {{item.isocode}}</option>
         </select>
     </ng-container>
