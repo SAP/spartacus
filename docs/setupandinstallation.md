@@ -3,7 +3,7 @@
 ## Frontend Requirements
 
 - [link to Spartacus requirmeents: (yarn, node)]
-- Angular cli v6 >= 6.2.4 and < 7.0.0
+- Angular cli v6.2.4
 
 ## Backend requirements [needs work]
 
