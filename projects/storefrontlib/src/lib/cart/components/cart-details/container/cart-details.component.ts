@@ -11,6 +11,7 @@ import * as fromCartStore from '../../../store';
 export class CartDetailsComponent implements OnInit {
   cart$;
   entries$;
+  cartLoaded$;
 
   constructor(protected store: Store<fromCartStore.CartState>) {}
 
@@ -18,6 +19,8 @@ export class CartDetailsComponent implements OnInit {
     this.cart$ = this.store.select(fromCartStore.getActiveCart);
 
     this.entries$ = this.store.select(fromCartStore.getEntries);
+
+    this.cartLoaded$ = this.store.select(fromCartStore.getLoaded);
   }
 
   getAllPromotionsForCart(cart) {
