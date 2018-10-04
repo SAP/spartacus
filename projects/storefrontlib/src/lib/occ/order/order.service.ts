@@ -15,7 +15,7 @@ export class OccOrderService {
   protected getOrderEndpoint(userId: string) {
     const orderEndpoint = '/users/' + userId + '/orders';
     return (
-      this.config.server.baseUrl +
+      this.config.server.baseUrl || '' +
       this.config.server.occPrefix +
       this.config.site.baseSite +
       orderEndpoint
