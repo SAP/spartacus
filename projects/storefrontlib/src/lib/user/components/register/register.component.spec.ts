@@ -1,8 +1,8 @@
 import { ActivatedRoute } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { StoreModule, combineReducers, Store, select } from '@ngrx/store';
-import { of, BehaviorSubject } from 'rxjs';
+import { StoreModule, combineReducers, Store } from '@ngrx/store';
+import { BehaviorSubject } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
 import * as fromStore from '../../store';
 import * as fromAuthStore from '../../../auth/store';
