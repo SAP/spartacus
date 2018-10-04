@@ -160,7 +160,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.checkoutService.verifyAddress(this.address.value);
   }
 
-  openSuggestedAddress(_results: any) {
+  openSuggestedAddress(results: any) {
     if (!this.suggestedAddressModalRef) {
       this.suggestedAddressModalRef = this.modalService.open(
         SuggestedAddressDialogComponent,
