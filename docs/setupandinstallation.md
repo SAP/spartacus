@@ -29,7 +29,7 @@ In `{appname}/package.json`, add the following dependencies in the `dependencies
 "@angular/pwa": "^0.6.8",
 "@angular/service-worker": "^6.0.0",
 "@ng-bootstrap/ng-bootstrap": "^3.2.2",
-"@ng-select/ng-select": "2.9.1",
+"@ng-select/ng-select": "^2.9.1",
 "@ngrx/effects": "^6.1.0",
 "@ngrx/router-store": "^6.1.0",
 "@ngrx/store": "^6.1.0",
