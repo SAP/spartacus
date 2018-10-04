@@ -1,4 +1,5 @@
 export abstract class ServerConfig {
+  production?: boolean;
   server?: {
     baseUrl?: string;
     occPrefix?: string;

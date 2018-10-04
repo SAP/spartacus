@@ -7,17 +7,23 @@ describe('config validator', () => {
     expect(console.warn).not.toHaveBeenCalled();
   });
 
-  it('should warn if there is validation error', () => {
+  it('should warn if there is a validation error', () => {
     spyOn(console, 'warn');
     validateConfig({}, [c => 'error']);
     expect(console.warn).toHaveBeenCalledWith('error');
   });
 
-  it('should not warn only for errors', () => {
+  it('should warn only for errors', () => {
     spyOn(console, 'warn');
     const mockInvalid = c => 'error';
     const mockValidValidator = c => {};
     validateConfig({}, [mockInvalid, mockValidValidator, mockInvalid]);
     expect(console.warn).toHaveBeenCalledTimes(2);
+  });
+
+  it('should not warn in production mode', () => {
+    spyOn(console, 'warn');
+    validateConfig({ production: true }, [c => 'error']);
+    expect(console.warn).not.toHaveBeenCalled();
   });
 });

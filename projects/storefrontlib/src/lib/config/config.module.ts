@@ -27,7 +27,9 @@ export function configurationFactory(
   configValidators: ConfigValidator[]
 ) {
   const config = deepMerge({}, ...configChunks);
-  validateConfig(config, configValidators);
+  if (!config.production) {
+    validateConfig(config, configValidators);
+  }
   return config;
 }
 
