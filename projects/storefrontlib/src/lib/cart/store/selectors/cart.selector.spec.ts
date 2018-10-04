@@ -1,4 +1,4 @@
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { Store, StoreModule, combineReducers, select } from '@ngrx/store';
 
 import * as fromRoot from './../../../routing/store';
 import * as fromReducers from './../reducers';
@@ -56,7 +56,7 @@ describe('Cart selectors', () => {
     it('should return the active cart from the state', () => {
       let result: any;
       store
-        .select(fromSelectors.getActiveCart)
+        .pipe(select(fromSelectors.getActiveCart))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -70,7 +70,7 @@ describe('Cart selectors', () => {
     it('should return the refresh value', () => {
       let result: any;
       store
-        .select(fromSelectors.getRefresh)
+        .pipe(select(fromSelectors.getRefresh))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
@@ -91,7 +91,7 @@ describe('Cart selectors', () => {
     it('should return the loaded value', () => {
       let result: any;
       store
-        .select(fromSelectors.getLoaded)
+        .pipe(select(fromSelectors.getLoaded))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
@@ -105,7 +105,7 @@ describe('Cart selectors', () => {
     it('should return the cart entries in map', () => {
       let result: any;
       store
-        .select(fromSelectors.getEntriesMap)
+        .pipe(select(fromSelectors.getEntriesMap))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -123,7 +123,7 @@ describe('Cart selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getEntrySelectorFactory('1234'))
+        .pipe(select(fromSelectors.getEntrySelectorFactory('1234')))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(undefined);
@@ -138,7 +138,7 @@ describe('Cart selectors', () => {
     it('should return the list of entries', () => {
       let result: any;
       store
-        .select(fromSelectors.getEntries)
+        .pipe(select(fromSelectors.getEntries))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
