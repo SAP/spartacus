@@ -12,9 +12,6 @@
     "access": "public"
   },
   "repository": "https://github.com/SAP/cloud-commerce-spartacus-storefront",
-  "dependencies": {
-    "hamburgers": "^0.9.3"
-  },
   "peerDependencies": {
     "@angular/animations": "^6.1.8",
     "@angular/common": "^6.1.8",
