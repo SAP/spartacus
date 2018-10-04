@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CartNotEmptyGuard } from './cart-not-empty.guard';
-import { Store } from '@ngrx/store';
 import { CartService } from '../../cart/services';
 import { BehaviorSubject } from 'rxjs';
+import { Store, StoreModule } from '@ngrx/store';
+import * as NgrxStore from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import * as fromStore from './../../cart/store';
@@ -22,16 +23,12 @@ const mockSelectors = {
   getLoaded: new BehaviorSubject(null),
   getActiveCart: new BehaviorSubject(null)
 };
-const mockStore = {
-  select: selector => {
-    switch (selector) {
-      case fromStore.getLoaded:
-        return mockSelectors.getLoaded;
-      case fromStore.getActiveCart:
-        return mockSelectors.getActiveCart;
-      default:
-        return null;
-    }
+const mockSelect = selector => {
+  switch (selector) {
+    case fromStore.getLoaded:
+      return () => mockSelectors.getLoaded;
+    case fromStore.getActiveCart:
+      return () => mockSelectors.getActiveCart;
   }
 };
 
@@ -43,6 +40,7 @@ describe('CartNotEmptyGuard', () => {
     TestBed.configureTestingModule({
       providers: [
         CartNotEmptyGuard,
+        Store,
         {
           provide: Router,
           useValue: mockRouter
@@ -50,17 +48,14 @@ describe('CartNotEmptyGuard', () => {
         {
           provide: CartService,
           useValue: mockCartService
-        },
-        {
-          provide: Store,
-          useValue: mockStore
         }
       ],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule, StoreModule.forRoot({})]
     });
 
     cartNotEmptyGuard = TestBed.get(CartNotEmptyGuard);
     router = TestBed.get(Router);
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
   });
 
   describe('canActivate:', () => {

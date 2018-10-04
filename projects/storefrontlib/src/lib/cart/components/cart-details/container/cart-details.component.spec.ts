@@ -2,7 +2,6 @@ import { CartSharedModule } from './../../cart-shared/cart-shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
 import * as fromRoot from '../../../../routing/store';
 import { CartDataService } from '../../../services/cart-data.service';
 import { CartService } from '../../../services/cart.service';
@@ -165,7 +164,6 @@ const mockData = [
 ];
 
 describe('CartDetailsComponent', () => {
-  let store: Store<fromReducer.CartState>;
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
 
@@ -191,8 +189,6 @@ describe('CartDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartDetailsComponent);
     component = fixture.componentInstance;
-
-    store = TestBed.get(Store);
   });
 
   it('should create cart details component', () => {
@@ -200,16 +196,12 @@ describe('CartDetailsComponent', () => {
   });
 
   mockData.forEach(({ cart, expectedResult }) => {
-    it(`should get all promotions for  cart ${cart.id}`, () => {
-      spyOn(store, 'select').and.returnValues(of(cart));
-
+    it(`should get all promotions for cart ${cart.id}`, () => {
       const promotions = component.getAllPromotionsForCart(cart);
       expect(promotions).toEqual(expectedResult);
     });
 
     it(`should check if cart has promotions ${cart.id}`, () => {
-      spyOn(store, 'select').and.returnValues(of(cart));
-
       const hasPromotion = component.cartHasPromotions(cart);
       expect(hasPromotion).toEqual(expectedResult.length > 0);
     });
