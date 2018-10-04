@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { OnInit, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import * as fromRouting from '../../../routing/store';
@@ -18,7 +18,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.store
-      .select(fromRouting.getRouterState)
+      .pipe(select(fromRouting.getRouterState))
       .subscribe(
         routerState =>
           (this.productCode = routerState.state.params['productCode'])
