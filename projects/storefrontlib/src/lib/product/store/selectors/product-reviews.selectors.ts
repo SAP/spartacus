@@ -20,8 +20,3 @@ export const getSelectedProductReviewsFactory = (
     }
   });
 };
-
-export const getProductCode: MemoizedSelector<any, string> = createSelector(
-  getProductReviewsState,
-  fromReview.getReviewProductCode
-);

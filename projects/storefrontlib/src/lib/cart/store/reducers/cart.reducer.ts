@@ -11,7 +11,7 @@ export const initialState: CartState = {
   content: {},
   entries: {},
   refresh: false,
-  loaded: true
+  loaded: false
 };
 
 export function reducer(
@@ -62,8 +62,7 @@ export function reducer(
     case fromAction.ADD_ENTRY_SUCCESS: {
       return {
         ...state,
-        refresh: true,
-        loaded: false
+        refresh: true
       };
     }
 
