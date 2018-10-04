@@ -75,12 +75,11 @@ export class OccUserService {
 
   protected getUserEndpoint() {
     return (
-      (this.config.server.baseUrl ||
-      '') +
-        this.config.server.occPrefix +
-        this.config.site.baseSite +
-        '/' +
-        USER_ENDPOINT
+      (this.config.server.baseUrl || '') +
+      this.config.server.occPrefix +
+      this.config.site.baseSite +
+      '/' +
+      USER_ENDPOINT
     );
   }
 }

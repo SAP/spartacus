@@ -14,8 +14,10 @@ export class OccCmsService {
 
   protected getBaseEndPoint() {
     return (
-      (this.config.server.baseUrl ||
-      '') + this.config.server.occPrefix + this.config.site.baseSite + '/cms'
+      (this.config.server.baseUrl || '') +
+      this.config.server.occPrefix +
+      this.config.site.baseSite +
+      '/cms'
     );
   }
 

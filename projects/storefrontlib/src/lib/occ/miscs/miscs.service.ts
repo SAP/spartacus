@@ -16,12 +16,11 @@ export class OccMiscsService {
 
   protected getEndpoint(endpoint: string) {
     return (
-      (this.config.server.baseUrl ||
-      '') +
-        this.config.server.occPrefix +
-        this.config.site.baseSite +
-        '/' +
-        endpoint
+      (this.config.server.baseUrl || '') +
+      this.config.server.occPrefix +
+      this.config.site.baseSite +
+      '/' +
+      endpoint
     );
   }
 
