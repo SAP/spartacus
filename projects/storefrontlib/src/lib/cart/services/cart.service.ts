@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
 import * as fromReducer from '../store/reducers';
 import * as fromAction from '../store/actions';
@@ -76,13 +76,24 @@ export class CartService {
 
   loadCartDetails() {
     this.cartData.getDetails = true;
-    this.store.dispatch(
-      new fromAction.LoadCart({
-        userId: this.cartData.userId,
-        cartId: this.cartData.cartId ? this.cartData.cartId : 'current',
-        details: true
-      })
-    );
+
+    if (this.cartData.userId !== ANONYMOUS_USERID) {
+      this.store.dispatch(
+        new fromAction.LoadCart({
+          userId: this.cartData.userId,
+          cartId: this.cartData.cartId ? this.cartData.cartId : 'current',
+          details: true
+        })
+      );
+    } else if (this.cartData.cartId) {
+      this.store.dispatch(
+        new fromAction.LoadCart({
+          userId: this.cartData.userId,
+          cartId: this.cartData.cartId,
+          details: true
+        })
+      );
+    }
   }
 
   addCartEntry(productCode: string, quantity: number) {

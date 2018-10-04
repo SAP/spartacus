@@ -1,4 +1,4 @@
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { Store, StoreModule, combineReducers, select } from '@ngrx/store';
 
 import { TestBed } from '@angular/core/testing';
 
