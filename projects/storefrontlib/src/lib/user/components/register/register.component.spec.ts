@@ -1,11 +1,12 @@
 import { ActivatedRoute } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
-import { of } from 'rxjs';
-
+import { StoreModule, combineReducers, Store, select } from '@ngrx/store';
+import { of, BehaviorSubject } from 'rxjs';
+import * as NgrxStore from '@ngrx/store';
 import * as fromStore from '../../store';
 import * as fromAuthStore from '../../../auth/store';
+import * as fromUserStore from '../../store';
 import { RegisterComponent } from './register.component';
 
 const mockTitlesList = {
@@ -19,6 +20,20 @@ const mockTitlesList = {
       name: 'Mrs.'
     }
   ]
+};
+
+const selectors = {
+  getUserToken: new BehaviorSubject(null),
+  getAllTitles: new BehaviorSubject(null)
+};
+const mockSelect = selector => {
+  switch (selector) {
+    case fromUserStore.getAllTitles:
+      return () => selectors.getAllTitles;
+
+    case fromAuthStore.getUserToken:
+      return () => selectors.getUserToken;
+  }
 };
 
 describe('RegisterComponent', () => {
@@ -48,7 +63,9 @@ describe('RegisterComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.get(Store);
 
+    selectors.getUserToken.next({});
     spyOn(store, 'dispatch').and.callThrough();
+
     fixture.detectChanges();
 
     controls = component.userRegistrationForm.controls;
@@ -60,7 +77,10 @@ describe('RegisterComponent', () => {
 
   describe('ngOnInit', () => {
     it('should load titles', () => {
-      spyOn(store, 'pipe').and.returnValue(of({ mockTitlesList }));
+      spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
+      selectors.getAllTitles.next({ mockTitlesList });
+      selectors.getUserToken.next(null);
+
       component.ngOnInit();
       component.titles$.subscribe(data => {
         expect(data.mockTitlesList).toEqual(mockTitlesList);
@@ -68,7 +88,6 @@ describe('RegisterComponent', () => {
     });
 
     it('should fetch titles if the state is empty', () => {
-      spyOn(store, 'pipe').and.returnValue(of({}));
       component.ngOnInit();
       component.titles$.subscribe(() => {
         expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadTitles());
@@ -76,6 +95,8 @@ describe('RegisterComponent', () => {
     });
 
     it('form invalid when empty', () => {
+      spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
+      selectors.getAllTitles.next({ mockTitlesList });
       component.ngOnInit();
       expect(component.userRegistrationForm.valid).toBeFalsy();
     });
