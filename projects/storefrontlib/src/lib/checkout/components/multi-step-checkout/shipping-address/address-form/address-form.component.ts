@@ -7,7 +7,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { tap, filter } from 'rxjs/operators';
 
@@ -62,7 +62,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Fetching countries
-    this.countries$ = this.store.select(fromUser.getAllDeliveryCountries).pipe(
+    this.countries$ = this.store.pipe(
+      select(fromUser.getAllDeliveryCountries),
       tap(countries => {
         // If the store is empty fetch countries. This is also used when changing language.
         if (Object.keys(countries).length === 0) {
@@ -72,7 +73,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // Fetching titles
-    this.titles$ = this.store.select(fromUser.getAllTitles).pipe(
+    this.titles$ = this.store.pipe(
+      select(fromUser.getAllTitles),
       tap(titles => {
         // If the store is empty fetch titles. This is also used when changing language.
         if (Object.keys(titles).length === 0) {
@@ -82,7 +84,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // Fetching regions
-    this.regions$ = this.store.select(fromUser.getAllRegions).pipe(
+    this.regions$ = this.store.pipe(
+      select(fromUser.getAllRegions),
       tap(regions => {
         const regionControl = this.address.get('region.isocode');
 
@@ -101,8 +104,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     // verify the new added address
     this.addressVerifySub = this.store
-      .select(fromCheckoutStore.getAddressVerificationResults)
-      .pipe(filter(results => Object.keys(results).length !== 0))
+      .pipe(
+        select(fromCheckoutStore.getAddressVerificationResults),
+        filter(results => Object.keys(results).length !== 0)
+      )
       .subscribe((results: any) => {
         if (results === 'FAIL') {
           this.store.dispatch(
