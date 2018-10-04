@@ -17,8 +17,8 @@ export class OccProductSearchService {
 
   protected getProductEndpoint() {
     return (
-      this.config.server.baseUrl ||
-      '' +
+      (this.config.server.baseUrl ||
+      '') +
         this.config.server.occPrefix +
         this.config.site.baseSite +
         '/' +
