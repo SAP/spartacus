@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CheckoutService } from '../../../../services';
 import { CartService, CartDataService } from '../../../../../cart/services';
 import { AddressFormModule } from './address-form.module';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 export class MockAbstractControl {
   hasError() {}
@@ -91,7 +92,8 @@ describe('AddressFormComponent', () => {
         CartService,
         { provide: FormGroup, useClass: MockFormGroup },
         { provide: AbstractControl, useClass: MockAbstractControl },
-        CartDataService
+        CartDataService,
+        NgbModal
       ]
     }).compileComponents();
   }));
@@ -109,9 +111,6 @@ describe('AddressFormComponent', () => {
     spyOn(component.addAddress, 'emit').and.callThrough();
     spyOn(component.backToAddress, 'emit').and.callThrough();
     spyOn(component.address, 'get').and.returnValue(ac);
-    spyOn(component, 'openSuggestedAddress').and.callThrough();
-
-    spyOn(service, 'verifyAddress').and.callThrough();
   });
 
   it('should be created', () => {
@@ -153,6 +152,7 @@ describe('AddressFormComponent', () => {
 
   it('should add address with address verification result "accept"', () => {
     const mockAddressVerificationResult = { decision: 'ACCEPT' };
+    spyOn(component, 'openSuggestedAddress');
     spyOn(store, 'select').and.returnValues(
       of({}),
       of({}),
@@ -167,6 +167,7 @@ describe('AddressFormComponent', () => {
 
   it('should clear address verification result with address verification result "reject"', () => {
     const mockAddressVerificationResult = { decision: 'REJECT' };
+    spyOn(component, 'openSuggestedAddress');
     spyOn(store, 'select').and.returnValues(
       of({}),
       of({}),
@@ -181,6 +182,7 @@ describe('AddressFormComponent', () => {
 
   it('should open suggested address with address verification result "review"', () => {
     const mockAddressVerificationResult = { decision: 'REVIEW' };
+    spyOn(component, 'openSuggestedAddress');
     spyOn(store, 'select').and.returnValues(
       of({}),
       of({}),
@@ -194,6 +196,7 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call verfiyAddress()', () => {
+    spyOn(service, 'verifyAddress');
     component.verfiyAddress();
     expect(service.verifyAddress).toHaveBeenCalled();
   });
