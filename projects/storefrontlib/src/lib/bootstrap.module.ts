@@ -16,10 +16,10 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   imports: [
-    NgbDropdownModule.forRoot(),
-    NgbTypeaheadModule.forRoot(),
-    NgbPaginationModule.forRoot(),
-    NgbModalModule.forRoot(),
+    NgbDropdownModule,
+    NgbTypeaheadModule,
+    NgbPaginationModule,
+    NgbModalModule,
     NgbTabsetModule,
     NgbAccordionModule,
     NgbRatingModule,
