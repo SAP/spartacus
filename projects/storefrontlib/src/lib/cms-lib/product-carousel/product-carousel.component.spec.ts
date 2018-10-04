@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
+import * as fromProductStore from '../../product/store';
 import { ProductCarouselComponent } from './product-carousel.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
@@ -36,6 +37,15 @@ describe('ProductCarouselComponent in CmsLib', () => {
     type: 'Product Carousel',
     container: 'false'
   };
+
+  const mockProducts = [{
+    uid: '001',
+    code: 'C001',
+    name: 'Camera',
+    price: {
+      formattedValue: '$100.00'
+    }
+  }];
 
   const MockCmsService = {
     getComponentData: () => of(mockComponentData)
@@ -69,7 +79,12 @@ describe('ProductCarouselComponent in CmsLib', () => {
 
     store = TestBed.get(Store);
 
-    spyOn(store, 'select').and.returnValues(of(productCodeArray));
+    spyOn(store, 'select').and.callFake(realSelector => {
+     if (realSelector === fromProductStore.getAllProductCodes) {
+      return of(productCodeArray);
+     }
+     return of(mockProducts);
+    });
   });
 
   it('should be created', () => {
