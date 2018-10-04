@@ -34,7 +34,7 @@ In `{appname}/package.json`, add the following dependencies in the `dependencies
 "@ngrx/router-store": "^6.1.0",
 "@ngrx/store": "^6.1.0",
 "bootstrap": "^4.1.3",
-"ngrx-store-localstorage": "^5.0.1”
+"ngrx-store-localstorage": "^5.0.1"
 ```
 
 Next, install the dependencies. With yarn, it's done with:
@@ -59,7 +59,7 @@ The Storfront libraries are not yet released and the `@next` tag will install th
 To do so, go to `{appname}/src/app/app.modult.ts` and add
 
 ```
-import { StorefrontModule } from '@spartacus/storefront’;
+import { StorefrontModule } from '@spartacus/storefront';
 ```
 
 Then add the StorefrontModule to the import section of the NgModule decorator:
