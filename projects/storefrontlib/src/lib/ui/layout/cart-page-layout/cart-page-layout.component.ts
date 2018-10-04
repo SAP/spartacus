@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromCartStore from '../../../cart/store';
-import { Subscription, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CartService } from '../../../cart/services/cart.service';
 
 @Component({
@@ -11,7 +11,6 @@ import { CartService } from '../../../cart/services/cart.service';
 })
 export class CartPageLayoutComponent implements OnInit {
   cart$: Observable<any>;
-  subscription: Subscription;
 
   constructor(
     protected store: Store<fromCartStore.CartState>,

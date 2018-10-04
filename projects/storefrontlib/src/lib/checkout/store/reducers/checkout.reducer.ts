@@ -37,6 +37,10 @@ export function reducer(
 
     case fromAction.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS: {
       const supportedModes = action.payload.deliveryModes;
+      if (!supportedModes) {
+        return state;
+      }
+
       const supported = supportedModes.reduce(
         (modes: { [code: string]: any }, mode: any) => {
           return {
@@ -49,46 +53,41 @@ export function reducer(
         }
       );
 
-      const deliveryMode = {
-        ...state.deliveryMode,
-        supported
-      };
-
       return {
         ...state,
-        deliveryMode
+        deliveryMode: {
+          ...state.deliveryMode,
+          supported
+        }
       };
     }
 
     case fromAction.SET_DELIVERY_MODE_SUCCESS: {
       const selected = action.payload;
-      const deliveryMode = {
-        ...state.deliveryMode,
-        selected
-      };
 
       return {
         ...state,
-        deliveryMode
+        deliveryMode: {
+          ...state.deliveryMode,
+          selected
+        }
       };
     }
 
     case fromAction.CREATE_PAYMENT_DETAILS_SUCCESS:
     case fromAction.SET_PAYMENT_DETAILS_SUCCESS: {
-      const details = action.payload;
-
       return {
         ...state,
-        paymentDetails: details
+        paymentDetails: action.payload
       };
     }
 
     case fromAction.CREATE_PAYMENT_DETAILS_FAIL: {
-      const details = action.payload;
-      if (details['hasError']) {
+      const paymentDetails = action.payload;
+      if (paymentDetails['hasError']) {
         return {
           ...state,
-          paymentDetails: details
+          paymentDetails
         };
       }
 
@@ -119,14 +118,13 @@ export function reducer(
         }
 
         case 2: {
-          const deliveryMode = {
-            ...state.deliveryMode,
-            supported: {},
-            selected: ''
-          };
           return {
             ...state,
-            deliveryMode
+            deliveryMode: {
+              ...state.deliveryMode,
+              supported: {},
+              selected: ''
+            }
           };
         }
 
@@ -143,15 +141,12 @@ export function reducer(
 
     case fromAction.CLEAR_SUPPORTED_DELIVERY_MODES:
     case fromAction.CLEAR_MISCS_DATA: {
-      const supported = {};
-      const deliveryMode = {
-        ...state.deliveryMode,
-        supported
-      };
-
       return {
         ...state,
-        deliveryMode
+        deliveryMode: {
+          ...state.deliveryMode,
+          supported: {}
+        }
       };
     }
   }

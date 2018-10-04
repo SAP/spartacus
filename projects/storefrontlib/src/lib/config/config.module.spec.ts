@@ -20,7 +20,6 @@ describe('ConfigModule', () => {
     expect(config).toEqual(
       jasmine.objectContaining({
         server: {
-          baseUrl: 'https://localhost:9002',
           occPrefix: '/rest/v2/'
         }
       })

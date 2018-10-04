@@ -94,7 +94,7 @@ describe('Cart selectors', () => {
         .select(fromSelectors.getLoaded)
         .subscribe(value => (result = value));
 
-      expect(result).toEqual(true);
+      expect(result).toEqual(false);
 
       store.dispatch(new fromActions.CreateCart(testEmptyCart));
       expect(result).toEqual(false);

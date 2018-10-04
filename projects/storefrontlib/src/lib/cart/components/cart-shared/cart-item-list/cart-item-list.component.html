@@ -12,7 +12,7 @@
     <div class="y-cart-item-list__row" *ngFor="let item of items">
       <div class="y-cart-item-list__item">
         <y-cart-item [parent]="form.controls[item.product.code]" [item]="item" [potentialProductPromotions]="getPotentialProductPromotionsForItem(item)"
-          [isReadOnly]="isReadOnly" (remove)="removeEntry($event)" (update)="updateEntry($event)">
+          [isReadOnly]="isReadOnly" (remove)="removeEntry($event)" [cartIsLoading]="cartIsLoading" (update)="updateEntry($event)">
         </y-cart-item>
       </div>
     </div>

@@ -126,10 +126,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       });
   }
 
-  onCountryChange(countryIsoCode): void {
-    this.store.dispatch(new fromUser.LoadRegions(countryIsoCode));
-  }
-
   titleSelected(title) {
     this.address['controls'].titleCode.setValue(title.code);
   }
@@ -138,6 +134,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.address['controls'].country['controls'].isocode.setValue(
       country.isocode
     );
+    this.store.dispatch(new fromUser.LoadRegions(country.isocode));
   }
 
   regionSelected(region) {
