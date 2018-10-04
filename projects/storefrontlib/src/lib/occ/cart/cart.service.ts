@@ -25,11 +25,12 @@ export class OccCartService {
   protected getCartEndpoint(userId: string) {
     const cartEndpoint = 'users/' + userId + '/carts/';
     return (
-      this.config.server.baseUrl || '' +
-      this.config.server.occPrefix +
-      this.config.site.baseSite +
-      '/' +
-      cartEndpoint
+      this.config.server.baseUrl ||
+      '' +
+        this.config.server.occPrefix +
+        this.config.site.baseSite +
+        '/' +
+        cartEndpoint
     );
   }
 

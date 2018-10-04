@@ -15,9 +15,8 @@ import { AuthModuleConfig } from '../auth-module.config';
 export class UserTokenInterceptor implements HttpInterceptor {
   userToken: UserToken;
   baseReqString =
-    this.config.server.baseUrl || '' +
-    this.config.server.occPrefix +
-    this.config.site.baseSite;
+    this.config.server.baseUrl ||
+    '' + this.config.server.occPrefix + this.config.site.baseSite;
 
   constructor(
     private config: AuthModuleConfig,

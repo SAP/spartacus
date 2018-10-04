@@ -20,10 +20,4 @@ describe('config validator', () => {
     validateConfig({}, [mockInvalid, mockValidValidator, mockInvalid]);
     expect(console.warn).toHaveBeenCalledTimes(2);
   });
-
-  it('should not warn in production mode', () => {
-    spyOn(console, 'warn');
-    validateConfig({ production: true }, [c => 'error']);
-    expect(console.warn).not.toHaveBeenCalled();
-  });
 });

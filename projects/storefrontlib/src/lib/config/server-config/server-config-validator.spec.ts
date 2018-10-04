@@ -1,5 +1,5 @@
 import { serverConfigValidator } from './server-config-validator';
-import { ServerConfig } from '@spartacus/storefront';
+import { ServerConfig } from './server-config';
 
 describe('serverConfigValidator', () => {
   it('should warn about undefined baseUrl', () => {

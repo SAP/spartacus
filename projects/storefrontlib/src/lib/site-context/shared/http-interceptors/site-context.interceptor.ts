@@ -22,9 +22,8 @@ export class SiteContextInterceptor implements HttpInterceptor {
     private config: SiteContextModuleConfig
   ) {
     this.baseReqString =
-      this.config.server.baseUrl || '' +
-      this.config.server.occPrefix +
-      this.config.site.baseSite;
+      this.config.server.baseUrl ||
+      '' + this.config.server.occPrefix + this.config.site.baseSite;
 
     this.store
       .select(fromStore.getActiveLanguage)
