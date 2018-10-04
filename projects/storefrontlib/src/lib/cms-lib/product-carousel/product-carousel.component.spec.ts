@@ -38,14 +38,16 @@ describe('ProductCarouselComponent in CmsLib', () => {
     container: 'false'
   };
 
-  const mockProducts = [{
-    uid: '001',
-    code: 'C001',
-    name: 'Camera',
-    price: {
-      formattedValue: '$100.00'
+  const mockProducts = [
+    {
+      uid: '001',
+      code: 'C001',
+      name: 'Camera',
+      price: {
+        formattedValue: '$100.00'
+      }
     }
-  }];
+  ];
 
   const MockCmsService = {
     getComponentData: () => of(mockComponentData)
@@ -80,10 +82,10 @@ describe('ProductCarouselComponent in CmsLib', () => {
     store = TestBed.get(Store);
 
     spyOn(store, 'select').and.callFake(realSelector => {
-     if (realSelector === fromProductStore.getAllProductCodes) {
-      return of(productCodeArray);
-     }
-     return of(mockProducts);
+      if (realSelector === fromProductStore.getAllProductCodes) {
+        return of(productCodeArray);
+      }
+      return of(mockProducts);
     });
   });
 
