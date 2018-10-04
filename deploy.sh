@@ -6,7 +6,7 @@ function usage() {
   echo "Usage: `basename $0` -p [project_name] -v [npm_version] --preid [prerelease_id] --dry-run"
 }
 
-function parse_options(){
+function parse_options() {
   if [ $# == 0 ]; then
     usage
     exit
@@ -45,11 +45,11 @@ function parse_options(){
   echo "Version: $BUMP"
   echo "Preid: $preid"
   echo "dry-run: $dryrun"
-  exit
 
 }
 
 parse_options
+exit
 
 PROJECT_DIR="projects/$PROJECT"
 DEPLOY_DIR="dist/$PROJECT"
