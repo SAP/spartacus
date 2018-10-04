@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { UserToken } from '../../../auth/models/token-types.model';
@@ -50,10 +50,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.user$ = this.store.select(fromStore.getDetails);
+    this.user$ = this.store.pipe(select(fromStore.getDetails));
 
     this.subscription = this.store
-      .select(fromAuthStore.getUserToken)
+      .pipe(select(fromAuthStore.getUserToken))
       .subscribe((token: UserToken) => {
         if (token && token.access_token && !this.isLogin) {
           this.isLogin = true;

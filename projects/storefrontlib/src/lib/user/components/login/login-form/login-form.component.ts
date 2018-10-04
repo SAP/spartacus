@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Subscription, of } from 'rxjs';
 import { take, switchMap } from 'rxjs/operators';
 import * as fromStore from '../../../store';
@@ -26,8 +26,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.store
-      .select(fromAuthStore.getUserToken)
       .pipe(
+        select(fromAuthStore.getUserToken),
         switchMap(data => {
           if (data && data.access_token) {
             this.store.dispatch(
@@ -35,7 +35,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
                 GlobalMessageType.MSG_TYPE_ERROR
               )
             );
-            return this.store.select(fromRouting.getRedirectUrl).pipe(take(1));
+            return this.store.pipe(
+              select(fromRouting.getRedirectUrl),
+              take(1)
+            );
           }
           return of();
         })

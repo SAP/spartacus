@@ -8,7 +8,7 @@ describe('PaginationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbPaginationModule.forRoot()],
+      imports: [NgbPaginationModule],
       declarations: [PaginationComponent]
     }).compileComponents();
   }));

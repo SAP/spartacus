@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { switchMap, tap, filter, map } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 import * as fromAuthStore from './../store';
 import { getClientTokenState } from './../store/selectors/client-token.selectors';
@@ -22,7 +22,7 @@ import { AuthModuleConfig } from '../auth-module.config';
 @Injectable()
 export class ClientTokenInterceptor implements HttpInterceptor {
   baseReqString =
-    this.config.server.baseUrl +
+    (this.config.server.baseUrl || '') +
     this.config.server.occPrefix +
     this.config.site.baseSite;
 
@@ -55,7 +55,8 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     if (
       InterceptorUtil.getInterceptorParam(USE_CLIENT_TOKEN, request.headers)
     ) {
-      return this.store.select(getClientTokenState).pipe(
+      return this.store.pipe(
+        select(fromAuthStore.getClientTokenState),
         tap((state: ClientTokenState) => {
           if (!state.loading && Object.keys(state.token).length === 0) {
             this.store.dispatch(new fromAuthStore.LoadClientToken());

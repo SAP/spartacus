@@ -2,9 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import * as NgrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
-
 import { CartService } from '../../../cart/services';
 import * as fromReducer from '../../../cart/store/reducers';
 import {
@@ -70,7 +70,9 @@ describe('CartPageLayoutComponent', () => {
     store = TestBed.get(Store);
 
     spyOn(service, 'loadCartDetails').and.callThrough();
-    spyOn(store, 'select').and.returnValue(of('mockCart'));
+    spyOnProperty(NgrxStore, 'select').and.returnValue(() => () =>
+      of('mockCart')
+    );
   });
 
   it('should create cart page', () => {

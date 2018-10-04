@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
 import * as fromReducer from '../store/reducers';
 import * as fromAction from '../store/actions';
@@ -22,7 +22,7 @@ export class CartService {
   }
 
   initCart() {
-    this.store.select(fromSelector.getActiveCart).subscribe(cart => {
+    this.store.pipe(select(fromSelector.getActiveCart)).subscribe(cart => {
       this.cartData.cart = cart;
       if (this.callback) {
         this.callback();
@@ -31,8 +31,10 @@ export class CartService {
     });
 
     this.store
-      .select(fromAuthSelectors.getUserToken)
-      .pipe(filter(userToken => this.cartData.userId !== userToken.userId))
+      .pipe(
+        select(fromAuthSelectors.getUserToken),
+        filter(userToken => this.cartData.userId !== userToken.userId)
+      )
       .subscribe(userToken => {
         if (Object.keys(userToken).length !== 0) {
           this.cartData.userId = userToken.userId;
@@ -61,7 +63,7 @@ export class CartService {
         }
       });
 
-    this.store.select(fromSelector.getRefresh).subscribe(refresh => {
+    this.store.pipe(select(fromSelector.getRefresh)).subscribe(refresh => {
       if (refresh) {
         this.store.dispatch(
           new fromAction.LoadCart({
@@ -76,13 +78,24 @@ export class CartService {
 
   loadCartDetails() {
     this.cartData.getDetails = true;
-    this.store.dispatch(
-      new fromAction.LoadCart({
-        userId: this.cartData.userId,
-        cartId: this.cartData.cartId ? this.cartData.cartId : 'current',
-        details: true
-      })
-    );
+
+    if (this.cartData.userId !== ANONYMOUS_USERID) {
+      this.store.dispatch(
+        new fromAction.LoadCart({
+          userId: this.cartData.userId,
+          cartId: this.cartData.cartId ? this.cartData.cartId : 'current',
+          details: true
+        })
+      );
+    } else if (this.cartData.cartId) {
+      this.store.dispatch(
+        new fromAction.LoadCart({
+          userId: this.cartData.userId,
+          cartId: this.cartData.cartId,
+          details: true
+        })
+      );
+    }
   }
 
   addCartEntry(productCode: string, quantity: number) {

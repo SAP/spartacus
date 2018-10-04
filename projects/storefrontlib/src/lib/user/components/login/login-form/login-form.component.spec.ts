@@ -7,7 +7,8 @@ import {
 import { LoginFormComponent } from './login-form.component';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import * as NgrxStore from '@ngrx/store';
+import { BehaviorSubject } from 'rxjs';
 import * as fromStore from '../../../store';
 import * as fromRouting from '../../../../routing/store';
 import * as fromAuthStore from '../../../../auth/store';
@@ -38,12 +39,24 @@ describe('LoginFormComponent', () => {
 
     store = TestBed.get(Store);
 
+    const selectors = {
+      getUserToken: new BehaviorSubject(null),
+      getRedirectUrl: new BehaviorSubject(null)
+    };
+    const mockSelect = selector => {
+      switch (selector) {
+        case fromRouting.getRedirectUrl:
+          return () => selectors.getRedirectUrl;
+
+        case fromAuthStore.getUserToken:
+          return () => selectors.getUserToken;
+      }
+    };
     spyOn(store, 'dispatch').and.callThrough();
-    spyOn(store, 'select').and.returnValues(
-      of(undefined),
-      of({ access_token: 'test' }),
-      of('/test')
-    );
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
+
+    selectors.getUserToken.next({ access_token: 'test' });
+    selectors.getRedirectUrl.next('/test');
 
     component.ngOnInit();
     fixture.detectChanges();

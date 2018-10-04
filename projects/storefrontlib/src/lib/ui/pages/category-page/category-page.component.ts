@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromCmsStore from '../../../cms/store';
 
 @Component({
@@ -32,6 +32,6 @@ export class CategoryPageComponent implements OnInit {
       }
     });
 
-    this.cmsPage$ = this.store.select(fromCmsStore.getLatestPage);
+    this.cmsPage$ = this.store.pipe(select(fromCmsStore.getLatestPage));
   }
 }

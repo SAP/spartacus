@@ -5,8 +5,15 @@ import {
   Provider
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { defaultServerConfig } from './server-config';
+import { defaultServerConfig } from './server-config/server-config';
 import { deepMerge } from './utils/deep-merge';
+import { serverConfigValidator } from './server-config/server-config-validator';
+import {
+  ConfigValidator,
+  ConfigValidatorToken,
+  provideConfigValidator,
+  validateConfig
+} from './utils/config-validator';
 
 export const Config = new InjectionToken('Configuration');
 export const ConfigChunk = new InjectionToken('ConfigurationChunk');
@@ -15,8 +22,15 @@ export function provideConfig(config: any = {}): Provider {
   return { provide: ConfigChunk, useValue: config, multi: true };
 }
 
-export function configurationFactory(configChunks: any[]) {
-  return deepMerge({}, ...configChunks);
+export function configurationFactory(
+  configChunks: any[],
+  configValidators: ConfigValidator[]
+) {
+  const config = deepMerge({}, ...configChunks);
+  if (!config.production) {
+    validateConfig(config, configValidators);
+  }
+  return config;
 }
 
 @NgModule({
@@ -40,8 +54,9 @@ export class ConfigModule {
         {
           provide: Config,
           useFactory: configurationFactory,
-          deps: [ConfigChunk]
-        }
+          deps: [ConfigChunk, ConfigValidatorToken]
+        },
+        provideConfigValidator(serverConfigValidator)
       ]
     };
   }
