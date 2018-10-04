@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { combineReducers, Store, StoreModule, select } from '@ngrx/store';
 
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
@@ -35,7 +35,7 @@ describe('User Orders Selectors', () => {
     it('should return the Order state from the store', () => {
       let result;
       store
-        .select(fromSelectors.getOrdersState)
+        .pipe(select(fromSelectors.getOrdersState))
         .subscribe(value => (result = value));
       expect(result).toEqual({
         orders: {
@@ -53,7 +53,7 @@ describe('User Orders Selectors', () => {
     it('should return a user Orders', () => {
       let result;
       store
-        .select(fromSelectors.getOrders)
+        .pipe(select(fromSelectors.getOrders))
         .subscribe(value => (result = value));
       expect(result).toEqual({
         orders: [],

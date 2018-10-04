@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, of } from 'rxjs';
 import { take, tap, switchMap } from 'rxjs/operators';
 import * as fromAuthStore from '../../../auth/store';
@@ -44,7 +44,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.titles$ = this.store.select(fromUserStore.getAllTitles).pipe(
+    this.titles$ = this.store.pipe(
+      select(fromUserStore.getAllTitles),
       tap(titles => {
         if (Object.keys(titles).length === 0) {
           this.store.dispatch(new fromUserStore.LoadTitles());
@@ -52,11 +53,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
       })
     );
     this.sub = this.store
-      .select(fromAuthStore.getUserToken)
       .pipe(
+        select(fromAuthStore.getUserToken),
         switchMap(data => {
           if (data && data.access_token) {
-            return this.store.select(fromRouting.getRedirectUrl).pipe(take(1));
+            return this.store.pipe(select(fromRouting.getRedirectUrl, take(1)));
           }
           return of();
         })
