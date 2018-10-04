@@ -1,20 +1,25 @@
 import {
-  ChangeDetectorRef,
   Component,
-  OnInit,
   ViewEncapsulation
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { combineLatest, merge, Observable, of } from 'rxjs';
 import { distinctUntilChanged, switchMap, map } from 'rxjs/operators';
-import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
 import * as fromRouting from '../../routing/store';
-import { SearchConfig } from '../../product/search-config';
 import { debounceTime } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { ProductSearchService } from '../../product/services/product-search.service';
+
+
+interface SearchBoxConfig {
+  maxProducts: number;
+  displaySuggestions: boolean;
+  maxSuggestions: number;
+  minCharactersBeforeRequest: number;
+}
 
 @Component({
   selector: 'y-searchbox',
@@ -22,30 +27,40 @@ import { CmsService } from '../../cms/facade/cms.service';
   styleUrls: ['./search-box.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
+export class SearchBoxComponent {
   searchBoxControl: FormControl = new FormControl();
 
-  maxProduct: number;
-  maxSuggestions: number;
-  minCharactersBeforeRequest: number;
+  defaultConfig: SearchBoxConfig = {
+    maxProducts: 5,
+    displaySuggestions: true,
+    maxSuggestions: 5,
+    minCharactersBeforeRequest: 3
+  };
+
+  config$: Observable<SearchBoxConfig> = merge(
+    of(this.defaultConfig),
+    this.componentData.data$.pipe(map(config => ({ ...this.defaultConfig, ...config })))
+  );
 
   isMobileSearchVisible: boolean;
 
   constructor(
-    protected cmsService: CmsService,
-    protected cd: ChangeDetectorRef,
-    protected store: Store<fromStore.CmsState>
-  ) {
-    super(cmsService, cd);
-  }
+    protected componentData: CmsComponentData,
+    protected store: Store<fromStore.CmsState>,
+    protected searchService: ProductSearchService
+  ) { }
 
-  public search = (text$: Observable<string>) => {
-    return text$.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(term => {
-        if (term.length >= this.minCharactersBeforeRequest) {
-          return this.fetch(term).pipe(
+  search = (text$: Observable<string>) => {
+    return combineLatest(
+      text$.pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      ),
+      this.config$
+    ).pipe(
+      switchMap(([term, config]) => {
+        if (term.length >= config.minCharactersBeforeRequest) {
+          return this.fetch(term, config).pipe(
             map(res => res.map(suggestion => suggestion.value))
           );
         } else {
@@ -54,10 +69,6 @@ export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
       })
     );
   };
-
-  ngOnInit() {
-    this.configSearch();
-  }
 
   public submitSearch(): void {
     this.launchSearchPage(this.searchBoxControl.value);
@@ -77,8 +88,8 @@ export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
     );
   }
 
-  private fetch(text: string): Observable<any[]> {
-    this.executeSearch(text);
+  private fetch(text: string, config: SearchBoxConfig): Observable<any[]> {
+    this.executeSearch(text, config);
 
     return this.store.select(fromProductStore.getProductSuggestions);
   }
@@ -88,7 +99,7 @@ export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
   //   return this.store.select(fromProductStore.getSearchResults);
   // }
 
-  private executeSearch(search: string) {
+  private executeSearch(search: string, config: SearchBoxConfig) {
     // Uncomment for product search
     // if (this.shouldSearchProducts()) {
     //   const searchConfig = new SearchConfig();
@@ -101,33 +112,17 @@ export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
     //   );
     // }
 
-    if (this.shouldSearchSuggestions()) {
-      const searchConfig = new SearchConfig();
-      searchConfig.pageSize = this.maxSuggestions;
-      this.store.dispatch(
-        new fromProductStore.GetProductSuggestions({
-          term: search,
-          searchConfig: searchConfig
-        })
-      );
+    if (config.displaySuggestions) {
+      this.searchService.getSuggestions(search, {
+        pageSize: config.maxSuggestions
+      });
     }
-  }
-
-  private shouldSearchSuggestions(): Boolean {
-    return this.component && this.component.displaySuggestions;
   }
 
   // Uncomment for product search
   // private shouldSearchProducts(): Boolean {
   //   return this.component && this.component.displayProducts;
   // }
-
-  private configSearch() {
-    this.maxProduct = this.component.maxProducts || 5;
-    this.maxSuggestions = this.component.maxSuggestions || 5;
-    this.minCharactersBeforeRequest =
-      this.component.minCharactersBeforeRequest || 3;
-  }
 
   public toggleMobileSearchInput(): void {
     this.isMobileSearchVisible = !this.isMobileSearchVisible;
