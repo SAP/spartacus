@@ -49,8 +49,8 @@ yarn install
 Add the storefront's dependencies to your app. There are two libraries to add. You can do so with these commands:
 
 ```
-$ yarn add @spartacus/styles@next
-$ yarn add @spartacus/storefront@next
+$ yarn add @spartacus/styles
+$ yarn add @spartacus/storefront
 ```
 
 The Storfront libraries are not yet released and the `@next` tag will install the latest pre-alpha version available.
