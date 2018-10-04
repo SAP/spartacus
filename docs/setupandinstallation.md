@@ -15,10 +15,11 @@ SAP CX 1808 backend with the electronics store sample data
 
 # Create a new Angular application
 
-Generate a new angular application via the Angular CLI :
+Generate a new angular application via the Angular CLI and then `cd` in the app's folder :
 
 ```
-ng new {appname} --style=scss
+$ ng new {appname} --style=scss
+$ cd {appname}
 ```
 
 # Add the Storefront's Peer Dependencies
