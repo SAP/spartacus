@@ -1,20 +1,29 @@
 <div class="y-search-box">
-    <form class="y-search-box__form">
-        <div class="y-search-box__group form-group">
-            <input class="y-search-box__input form-control dropdown-menu-toggle
-            " type="text" placeholder="Search here..."
-                aria-label="search" [ngbTypeahead]="search" [resultTemplate]="rt" [formControl]="searchBoxControl"
-                (keyup)="onKey($event)" />
-            <button class=" y-search-box__button btn-submit " type="submit " aria-label="Submit " (click)="submitSearch()"
-                [disabled]="!searchBoxControl?.value">
-                <svg class="y-search-box__icon " xmlns="http://www.w3.org/2000/svg " viewBox="-4472 4760 26 26 ">
-                    <path id="Tracé_982 " data-name="Tracé 982 " d="M9.75,19.5a9.241,9.241,0,0,0,6.067-2.167l8.342,8.342a1.072,1.072,0,0,0,1.517-1.517l-8.342-8.342A9.854,9.854,0,0,0,19.5,9.75,9.75,9.75,0,1,0,9.75,19.5Zm0-17.333A7.583,7.583,0,1,1,2.167,9.75,7.537,7.537,0,0,1,9.75,2.167Z "
-                        transform="translate(-4472 4760) " />
-                </svg>
-            </button>
-            <ng-template #rt let-suggestion="result">
-                <div class="y-search-box__dropdown-content">{{suggestion}}</div>
-            </ng-template>
-        </div>
-    </form>
+  <form class="y-search-box__form">
+    <div class="y-search-box__group form-group">
+      <!-- searchbox input -->
+      <input class="y-search-box__input form-control dropdown-menu-toggle" [ngClass]="{'show-mobile': isMobileSearchVisible}"
+        type="text" placeholder="Search here..." aria-label="search" [ngbTypeahead]="search" [resultTemplate]="rt"
+        [formControl]="searchBoxControl" (keyup)="onKey($event)" />
+      <!-- searchbox button desktop -->
+      <button class="y-search-box__button y-search-box__button-desktop" type="submit" aria-label="Submit " (click)="submitSearch()"
+        [disabled]="!searchBoxControl?.value">
+        <svg class="y-search-box__icon " xmlns="http://www.w3.org/2000/svg " viewBox="-4472 4760 26 26 ">
+          <path id="Tracé_982 " data-name="Tracé 982 " d="M9.75,19.5a9.241,9.241,0,0,0,6.067-2.167l8.342,8.342a1.072,1.072,0,0,0,1.517-1.517l-8.342-8.342A9.854,9.854,0,0,0,19.5,9.75,9.75,9.75,0,1,0,9.75,19.5Zm0-17.333A7.583,7.583,0,1,1,2.167,9.75,7.537,7.537,0,0,1,9.75,2.167Z "
+            transform="translate(-4472 4760) " />
+        </svg>
+      </button>
+      <!-- searchbox button mobile -->
+      <button class="y-search-box__button y-search-box__button-mobile" type="button" aria-label="Search " (click)="toggleMobileSearchInput()">
+        <svg class="y-search-box__icon " xmlns="http://www.w3.org/2000/svg " viewBox="-4472 4760 26 26 ">
+          <path id="Tracé_982 " data-name="Tracé 982 " d="M9.75,19.5a9.241,9.241,0,0,0,6.067-2.167l8.342,8.342a1.072,1.072,0,0,0,1.517-1.517l-8.342-8.342A9.854,9.854,0,0,0,19.5,9.75,9.75,9.75,0,1,0,9.75,19.5Zm0-17.333A7.583,7.583,0,1,1,2.167,9.75,7.537,7.537,0,0,1,9.75,2.167Z "
+            transform="translate(-4472 4760) " />
+        </svg>
+      </button>
+      <!-- searchbox results -->
+      <ng-template #rt let-suggestion="result">
+        <div class="y-search-box__dropdown-content">{{suggestion}}</div>
+      </ng-template>
+    </div>
+  </form>
 </div>

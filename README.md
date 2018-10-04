@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project.svg?token=yywzsFgC8dWSfJQxPGHs&branch=develop)](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project)
+[![Build Status](https://travis-ci.org/SAP/cloud-commerce-spartacus-storefront.svg?branch=develop)](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project)
 
 # What is Spartacus?
 
@@ -38,7 +38,7 @@ Spartacus provides core storefront features such as:
 # Requirements
 
 - SAP Commerce Cloud instance (Release 1808 or unreleased 1811) (1811 release is planned for end of November)
-- Angular (https://angular.io/) >= 6.0.1
+- Angular CLI (https://angular.io/): >= 6.2.4 and < 7.0.0
 - node.js >= 8.9.0
 - yarn >= 1.6.0
 

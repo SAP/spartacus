@@ -15,7 +15,12 @@ $y-mini-cart-icon-width: 25px !default;
 $y-mini-cart-count-trbl-margin: 0 0 0 0.35rem !default;
 
 .y-mini-cart {
-  @include media-breakpoint-up(md) {
+  //these are temp fixes until store finder
+  //gets back to its original position
+  @include media-breakpoint-up(xs) {
+    margin-left: 1rem;
+  }
+  @include media-breakpoint-up(sm) {
     margin-left: 1.5rem;
   }
 
@@ -31,10 +36,15 @@ $y-mini-cart-count-trbl-margin: 0 0 0 0.35rem !default;
     align-items: center;
     justify-content: space-between;
     border-radius: $y-mini-cart-button-border-radius;
-    @include media-breakpoint-down(md) {
+    margin-right: 1rem;
+    @include media-breakpoint-up(md) {
       flex-direction: column;
       height: $y-mini-cart-button-md-height;
       padding: $y-mini-cart-button-md-trbl-padding;
+      margin-right: 1.5rem;
+    }
+    @include media-breakpoint-up(lg) {
+      margin-right: 0;
     }
   }
   &__icon {
