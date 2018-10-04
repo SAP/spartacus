@@ -87,19 +87,22 @@ function updatePackageJsonFile(shellappPath, configurationData) {
     '  Adding dependencies: ',
     configurationData.package_json.dependencies
   );
-  packageJsonData.dependencies = {
-    ...configurationData.package_json.dependencies,
-    ...packageJsonData.dependencies
-  };
 
-  packageJsonData.scripts = { // setting default package.json scripts
+  // SPA-1289
+  // packageJsonData.dependencies = {
+  //   ...configurationData.package_json.dependencies,
+  //   ...packageJsonData.dependencies
+  // };
+
+  packageJsonData.scripts = {
+    // setting default package.json scripts
     ng: 'ng',
     start: 'ng serve',
     build: 'ng build',
     test: 'ng test',
     lint: 'ng lint',
     e2e: 'ng e2e'
-  }
+  };
 
   //save modification
   filesystem.writeFileSync(

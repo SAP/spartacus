@@ -6,7 +6,6 @@ import {
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
-import { of } from 'rxjs';
 
 import * as fromStore from '../store';
 import * as fromRoot from '../../routing/store';
@@ -61,8 +60,6 @@ describe('UserTokenInterceptor', () => {
 
     store = TestBed.get(Store);
     httpMock = TestBed.get(HttpTestingController);
-
-    spyOn(store, 'select').and.returnValue(of(userToken));
   });
 
   it(`Should not add 'Authorization' header with a token info to an HTTP request`, inject(
@@ -87,6 +84,7 @@ describe('UserTokenInterceptor', () => {
   it(`Should add 'Authorization' header with a token info to an HTTP request`, inject(
     [HttpClient],
     (http: HttpClient) => {
+      store.dispatch(new fromStore.LoadUserTokenSuccess(userToken));
       http
         .get('https://localhost:9002/rest/v2/electronics')
         .subscribe(result => {

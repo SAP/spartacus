@@ -3,10 +3,16 @@
   "dest": "../../dist/storefrontlib",
   "deleteDestPath": false,
   "lib": {
+    "umdModuleIds": {
+      "@ngrx/effects": "effects",
+      "@ng-bootstrap/ng-bootstrap": "ngBootstrap",
+      "@ngrx/store": "store",
+      "@ngrx/router-store": "fromNgrxRouter",
+      "ngrx-store-localstorage": "ngrxStoreLocalstorage",
+      "@ng-select/ng-select": "ngSelect"
+    },
     "entryFile": "src/public_api.ts",
-    "styleIncludePaths": [
-      "../storefrontstyles/scss",
-      "../../node_modules/storefrontstyles/scss"
-    ]
-  }
+    "styleIncludePaths": ["../", "../storefrontstyles/scss"]
+  },
+  "whitelistedNonPeerDependencies": ["hamburgers"]
 }

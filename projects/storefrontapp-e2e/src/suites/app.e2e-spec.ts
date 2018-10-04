@@ -9,7 +9,7 @@ describe('App basics', () => {
 
   it('should display title', async () => {
     await home.navigateTo();
-    expect(await home.getBrowserPageTitle()).toEqual('Spaccelerator');
+    expect(await home.getBrowserPageTitle()).toEqual('Spartacus Storefront');
   });
 
   it('should have site logo', async () => {
