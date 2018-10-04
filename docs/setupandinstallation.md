@@ -124,7 +124,7 @@ imports: [BrowserModule, StorefrontModule.withConfig({
 
 # Add the Storefron Component
 
-Add the storefront component in the UI. Go to `{approot}/src/app.app.component.ts` and replace the whole content of the file by this line:
+Add the storefront component in the UI. Go to `{approot}/src/app.app.component.html` and replace the whole content of the file by this line:
 
 ```
 <cx-storefront>Loading...</cx-storefront>
