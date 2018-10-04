@@ -1,4 +1,4 @@
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { Store, StoreModule, combineReducers, select } from '@ngrx/store';
 
 import * as fromRoot from './../../../routing/store';
 import * as fromReducers from './../reducers';
@@ -34,7 +34,7 @@ describe('Global Messages selectors', () => {
     it('should return the global Message active state', () => {
       let result: any;
       store
-        .select(fromSelectors.getGlobalMessagesMessagesState)
+        .pipe(select(fromSelectors.getGlobalMessagesMessagesState))
         .subscribe(value => (result = value));
       expect(result).toEqual({ entities: {} });
     });
@@ -44,9 +44,11 @@ describe('Global Messages selectors', () => {
     it('should return the list of global messages', () => {
       let result: any;
 
-      store.select(fromSelectors.getGlobalMessagesEntities).subscribe(value => {
-        result = value;
-      });
+      store
+        .pipe(select(fromSelectors.getGlobalMessagesEntities))
+        .subscribe(value => {
+          result = value;
+        });
 
       expect(result).toEqual({});
 
