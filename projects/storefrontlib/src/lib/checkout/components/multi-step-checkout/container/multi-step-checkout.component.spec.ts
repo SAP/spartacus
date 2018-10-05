@@ -11,14 +11,11 @@ import * as fromAuth from '../../../../auth/store';
 import { Address } from '../../../models/address-model';
 import * as fromCheckout from '../../../store';
 import { CartSharedModule } from '../../../../cart/components/cart-shared/cart-shared.module';
-import { ShippingAddressModule } from '../shipping-address/shipping-address.module';
-import { DeliveryModeModule } from '../delivery-mode/delivery-mode.module';
-import { PaymentMethodModule } from '../payment-method/payment-method.module';
-import { ReviewSubmitModule } from '../review-submit/review-submit.module';
 import { CartDataService } from './../../../../cart/services/cart-data.service';
 import { CartService } from './../../../../cart/services/cart.service';
 import { CheckoutService } from './../../../services/checkout.service';
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
+import { Component, Input } from '@angular/core';
 
 const mockAddress: Address = {
   id: 'mock address id',
@@ -41,19 +38,18 @@ const mockPaymentDetails = {
   expiryYear: '2022',
   cvn: '123'
 };
-const mockDeliveryAddress = ['address1', 'address2'];
+const mockDeliveryAddresses = ['address1', 'address2'];
 const mockSelectedCode = 'test mode';
-const mockPaymentInfo = { card: '12345' };
-const mockOrder = { id: '1234' };
+const mockOrderDetails = { id: '1234' };
 
 const mockCheckoutSelectors = {
-  getDeliveryAddress: new BehaviorSubject(null),
-  getSelectedCode: new BehaviorSubject(null),
-  getPaymentDetails: new BehaviorSubject(null),
-  getOrderDetails: new BehaviorSubject(null)
+  getDeliveryAddress: new BehaviorSubject([]),
+  getSelectedCode: new BehaviorSubject(''),
+  getPaymentDetails: new BehaviorSubject({}),
+  getOrderDetails: new BehaviorSubject({})
 };
 const mockCartSelectors = {
-  getActiveCart: new BehaviorSubject(null)
+  getActiveCart: new BehaviorSubject({})
 };
 const mockSelect = selector => {
   switch (selector) {
@@ -69,6 +65,34 @@ const mockSelect = selector => {
       return () => mockCartSelectors.getActiveCart;
   }
 };
+
+@Component({ selector: 'y-delivery-mode', template: '' })
+class MockDeliveryModeComponent {
+  @Input()
+  selectedShippingMethod;
+}
+
+@Component({ selector: 'y-payment-method', template: '' })
+class MockPaymentMethodComponent {
+  @Input()
+  selectedPayment;
+}
+
+@Component({ selector: 'y-review-submit', template: '' })
+class MockReviewSubmitComponent {
+  @Input()
+  deliveryAddress;
+  @Input()
+  shippingMethod;
+  @Input()
+  paymentDetails;
+}
+
+@Component({ selector: 'y-shipping-address', template: '' })
+class MockShippingAddressComponent {
+  @Input()
+  selectedAddress;
+}
 
 fdescribe('MultiStepCheckoutComponent', () => {
   let store: Store<fromRoot.State>;
@@ -89,13 +113,15 @@ fdescribe('MultiStepCheckoutComponent', () => {
           user: combineReducers(fromUser.getReducers()),
           checkout: combineReducers(fromCheckout.getReducers()),
           auth: combineReducers(fromAuth.getReducers())
-        }),
-        ShippingAddressModule,
-        DeliveryModeModule,
-        PaymentMethodModule,
-        ReviewSubmitModule
+        })
       ],
-      declarations: [MultiStepCheckoutComponent],
+      declarations: [
+        MultiStepCheckoutComponent,
+        MockDeliveryModeComponent,
+        MockPaymentMethodComponent,
+        MockReviewSubmitComponent,
+        MockShippingAddressComponent
+      ],
       providers: [CheckoutService, CartService, CartDataService]
     }).compileComponents();
   }));
@@ -120,9 +146,9 @@ fdescribe('MultiStepCheckoutComponent', () => {
     spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
   });
 
-  // it('should be created', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should be created', () => {
+    expect(component).toBeTruthy();
+  });
 
   it('should call ngOnInit() before process steps', () => {
     const mockCartData = {};
@@ -133,8 +159,7 @@ fdescribe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call processSteps() to process step 1: set delivery address', () => {
-    mockCartSelectors.getActiveCart.next(null);
-    mockCheckoutSelectors.getDeliveryAddress.next(mockDeliveryAddress);
+    mockCheckoutSelectors.getDeliveryAddress.next(mockDeliveryAddresses);
     mockCheckoutSelectors.getSelectedCode.next('');
     mockCheckoutSelectors.getPaymentDetails.next({});
     mockCheckoutSelectors.getOrderDetails.next({});
@@ -143,185 +168,180 @@ fdescribe('MultiStepCheckoutComponent', () => {
     expect(component.nextStep).toHaveBeenCalledWith(2);
   });
 
-  // it('should call processSteps() to process step 2: select delivery mode', () => {
-  //   mockCheckoutSelectors.getDeliveryAddress.next(mockDeliveryAddress);
-  //   mockCheckoutSelectors.getSelectedCode.next(mockSelectedCode);
-  //   mockCheckoutSelectors.getPaymentDetails.next({});
-  //   mockCheckoutSelectors.getOrderDetails.next({});
+  it('should call processSteps() to process step 2: select delivery mode', () => {
+    mockCheckoutSelectors.getDeliveryAddress.next(mockDeliveryAddresses);
+    mockCheckoutSelectors.getSelectedCode.next(mockSelectedCode);
+    mockCheckoutSelectors.getPaymentDetails.next({});
+    mockCheckoutSelectors.getOrderDetails.next({});
 
-  //   component.processSteps();
-  //   expect(component.nextStep).toHaveBeenCalledWith(3);
-  // });
+    component.processSteps();
+    expect(component.nextStep).toHaveBeenCalledWith(3);
+  });
 
-  // it('should call processSteps() to process step 3: set payment info', () => {
-  //   mockCheckoutSelectors.getDeliveryAddress.next(mockDeliveryAddress);
-  //   mockCheckoutSelectors.getSelectedCode.next(mockSelectedCode);
-  //   mockCheckoutSelectors.getPaymentDetails.next(mockPaymentInfo);
-  //   mockCheckoutSelectors.getOrderDetails.next({});
+  it('should call processSteps() to process step 3: set payment info', () => {
+    mockCheckoutSelectors.getDeliveryAddress.next(mockDeliveryAddresses);
+    mockCheckoutSelectors.getSelectedCode.next(mockSelectedCode);
+    mockCheckoutSelectors.getPaymentDetails.next(mockPaymentDetails);
+    mockCheckoutSelectors.getOrderDetails.next({});
 
-  //   component.processSteps();
-  //   expect(component.nextStep).toHaveBeenCalledWith(4);
-  // });
+    component.processSteps();
+    expect(component.nextStep).toHaveBeenCalledWith(4);
+  });
 
-  // it('should call processSteps() to process step 4: place order', () => {
-  //   mockCheckoutSelectors.getDeliveryAddress.next(mockDeliveryAddress);
-  //   mockCheckoutSelectors.getSelectedCode.next(mockSelectedCode);
-  //   mockCheckoutSelectors.getPaymentDetails.next(mockPaymentInfo);
-  //   mockCheckoutSelectors.getOrderDetails.next(mockOrder);
+  it('should call processSteps() to process step 4: place order', () => {
+    mockCheckoutSelectors.getDeliveryAddress.next(mockDeliveryAddresses);
+    mockCheckoutSelectors.getSelectedCode.next(mockSelectedCode);
+    mockCheckoutSelectors.getPaymentDetails.next(mockPaymentDetails);
+    mockCheckoutSelectors.getOrderDetails.next(mockOrderDetails);
 
-  //   component.processSteps();
-  //   expect(store.dispatch).toHaveBeenCalledWith(
-  //     new fromRoot.Go({
-  //       path: ['orderConfirmation']
-  //     })
-  //   );
-  // });
+    component.processSteps();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromRoot.Go({
+        path: ['orderConfirmation']
+      })
+    );
+  });
 
-  // it('should call setStep()', () => {
-  //   component.setStep(2);
-  //   expect(component.nextStep).toHaveBeenCalledWith(2);
-  // });
+  it('should call setStep()', () => {
+    component.setStep(2);
+    expect(component.nextStep).toHaveBeenCalledWith(2);
+  });
 
-  // it('should call nextStep()', () => {
-  //   // next step is 3
-  //   component.nextStep(3);
-  //   // previous 2 steps are complete
-  //   expect(component.navs[0].status.completed).toBeTruthy();
-  //   expect(component.navs[1].status.completed).toBeTruthy();
-  //   // step3 is active, and enabled, progress bar is on
-  //   expect(component.navs[2].status.active).toBeTruthy();
-  //   expect(component.navs[2].status.disabled).toBeFalsy();
-  //   expect(component.navs[2].progressBar).toBeTruthy();
-  //   // except step3, other steps are not active
-  //   // step1, progress bar is on
-  //   expect(component.navs[0].status.active).toBeFalsy();
-  //   expect(component.navs[0].progressBar).toBeTruthy();
-  //   // step2, progress bar is on
-  //   expect(component.navs[1].status.active).toBeFalsy();
-  //   expect(component.navs[1].progressBar).toBeTruthy();
-  //   // step4, progress bar is off
-  //   expect(component.navs[3].status.active).toBeFalsy();
-  //   expect(component.navs[3].progressBar).toBeFalsy();
-  // });
+  it('should call nextStep()', () => {
+    // next step is 3
+    component.nextStep(3);
+    // previous 2 steps are complete
+    expect(component.navs[0].status.completed).toBeTruthy();
+    expect(component.navs[1].status.completed).toBeTruthy();
+    // step3 is active, and enabled, progress bar is on
+    expect(component.navs[2].status.active).toBeTruthy();
+    expect(component.navs[2].status.disabled).toBeFalsy();
+    expect(component.navs[2].progressBar).toBeTruthy();
+    // except step3, other steps are not active
+    // step1, progress bar is on
+    expect(component.navs[0].status.active).toBeFalsy();
+    expect(component.navs[0].progressBar).toBeTruthy();
+    // step2, progress bar is on
+    expect(component.navs[1].status.active).toBeFalsy();
+    expect(component.navs[1].progressBar).toBeTruthy();
+    // step4, progress bar is off
+    expect(component.navs[3].status.active).toBeFalsy();
+    expect(component.navs[3].progressBar).toBeFalsy();
+  });
 
-  // it('should call addAddress() with new created address', () => {
-  //   mockCheckoutSelectors.getDeliveryAddress.next(mockAddress);
+  it('should call addAddress() with new created address', () => {
+    mockCheckoutSelectors.getDeliveryAddress.next([mockAddress]);
 
-  //   component.addAddress({ address: mockAddress, newAddress: true });
-  //   expect(service.createAndSetAddress).toHaveBeenCalledWith(mockAddress);
-  // });
+    component.addAddress({ address: mockAddress, newAddress: true });
+    expect(service.createAndSetAddress).toHaveBeenCalledWith(mockAddress);
+  });
 
-  // it('should call addAddress() with address selected from existing addresses', () => {
-  //   mockCheckoutSelectors.getDeliveryAddress.next(mockAddress);
+  it('should call addAddress() with address selected from existing addresses', () => {
+    mockCheckoutSelectors.getDeliveryAddress.next([mockAddress]);
 
-  //   component.addAddress({ address: mockAddress, newAddress: false });
-  //   expect(service.createAndSetAddress).not.toHaveBeenCalledWith(mockAddress);
-  //   expect(service.setDeliveryAddress).toHaveBeenCalledWith(mockAddress);
-  // });
+    component.addAddress({ address: mockAddress, newAddress: false });
+    expect(service.createAndSetAddress).not.toHaveBeenCalledWith(mockAddress);
+    expect(service.setDeliveryAddress).toHaveBeenCalledWith(mockAddress);
+  });
 
-  // it('should call addAddress() with address already set to the cart, then go to next step direclty', () => {
-  //   component.deliveryAddress = mockAddress;
+  it('should call addAddress() with address already set to the cart, then go to next step direclty', () => {
+    component.deliveryAddress = mockAddress;
 
-  //   mockCheckoutSelectors.getDeliveryAddress.next(mockAddress);
-  //   component.addAddress({ address: mockAddress, newAddress: false });
+    mockCheckoutSelectors.getDeliveryAddress.next([mockAddress]);
+    component.addAddress({ address: mockAddress, newAddress: false });
 
-  //   expect(component.nextStep).toHaveBeenCalledWith(2);
-  //   expect(service.setDeliveryAddress).not.toHaveBeenCalledWith(mockAddress);
-  // });
+    expect(component.nextStep).toHaveBeenCalledWith(2);
+    expect(service.setDeliveryAddress).not.toHaveBeenCalledWith(mockAddress);
+  });
 
-  // it('should call setDeliveryMode()', () => {
-  //   const deliveryMode: any = {
-  //     deliveryModeId: 'testId'
-  //   };
-  //   mockCheckoutSelectors.getDeliveryAddress.next(mockAddress);
+  it('should call setDeliveryMode()', () => {
+    const deliveryMode: any = {
+      deliveryModeId: 'testId'
+    };
+    mockCheckoutSelectors.getDeliveryAddress.next([mockAddress]);
 
-  //   component.setDeliveryMode(deliveryMode);
-  //   expect(service.setDeliveryMode).toHaveBeenCalledWith(
-  //     deliveryMode.deliveryModeId
-  //   );
-  // });
+    component.setDeliveryMode(deliveryMode);
+    expect(service.setDeliveryMode).toHaveBeenCalledWith(
+      deliveryMode.deliveryModeId
+    );
+  });
 
-  // it('should call setDeliveryMode() with the delivery mode already set to cart, go to next step directly', () => {
-  //   const deliveryMode: any = {
-  //     deliveryModeId: 'testId'
-  //   };
-  //   component.shippingMethod = 'testId';
-  //   spyOn(store, 'select').and.returnValues(of(deliveryMode), of([]));
-  //   component.setDeliveryMode(deliveryMode);
+  it('should call setDeliveryMode() with the delivery mode already set to cart, go to next step directly', () => {
+    const deliveryMode: any = {
+      deliveryModeId: 'testId'
+    };
+    component.shippingMethod = 'testId';
+    mockCheckoutSelectors.getDeliveryAddress.next(deliveryMode);
+    mockCheckoutSelectors.getSelectedCode.next('');
 
-  //   expect(component.nextStep).toHaveBeenCalledWith(3);
-  //   expect(service.setDeliveryMode).not.toHaveBeenCalledWith(
-  //     deliveryMode.deliveryModeId
-  //   );
-  // });
+    component.setDeliveryMode(deliveryMode);
 
-  // it('should call addPaymentInfo() with new created payment info', () => {
-  //   spyOn(store, 'select').and.returnValues(
-  //     of(mockPaymentDetails),
-  //     of([]),
-  //     of([]),
-  //     of([])
-  //   );
+    expect(component.nextStep).toHaveBeenCalledWith(3);
+    expect(service.setDeliveryMode).not.toHaveBeenCalledWith(
+      deliveryMode.deliveryModeId
+    );
+  });
 
-  //   component.deliveryAddress = mockAddress;
-  //   component.addPaymentInfo({ payment: mockPaymentDetails, newPayment: true });
-  //   expect(service.createPaymentDetails).toHaveBeenCalledWith(
-  //     mockPaymentDetails
-  //   );
-  // });
+  it('should call addPaymentInfo() with new created payment info', () => {
+    mockCheckoutSelectors.getDeliveryAddress.next([mockAddress]);
+    mockCheckoutSelectors.getSelectedCode.next('');
+    mockCheckoutSelectors.getPaymentDetails.next(mockPaymentDetails);
+    mockCheckoutSelectors.getOrderDetails.next({});
 
-  // it('should call addPaymentInfo() with paymenent selected from existing ones', () => {
-  //   spyOn(store, 'select').and.returnValues(
-  //     of(mockPaymentDetails),
-  //     of([]),
-  //     of([]),
-  //     of([])
-  //   );
+    component.deliveryAddress = mockAddress;
+    component.addPaymentInfo({ payment: mockPaymentDetails, newPayment: true });
+    expect(service.createPaymentDetails).toHaveBeenCalledWith(
+      mockPaymentDetails
+    );
+  });
 
-  //   component.deliveryAddress = mockAddress;
-  //   component.addPaymentInfo({
-  //     payment: mockPaymentDetails,
-  //     newPayment: false
-  //   });
-  //   expect(service.createPaymentDetails).not.toHaveBeenCalledWith(
-  //     mockPaymentDetails
-  //   );
-  //   expect(service.setPaymentDetails).toHaveBeenCalledWith(mockPaymentDetails);
-  // });
+  it('should call addPaymentInfo() with paymenent selected from existing ones', () => {
+    mockCheckoutSelectors.getDeliveryAddress.next([mockAddress]);
+    mockCheckoutSelectors.getSelectedCode.next('');
+    mockCheckoutSelectors.getPaymentDetails.next(mockPaymentDetails);
+    mockCheckoutSelectors.getOrderDetails.next({});
 
-  // it('should call addPaymentInfo() with paymenent already set to cart, then go to next step direclty', () => {
-  //   component.paymentDetails = mockPaymentDetails;
-  //   spyOn(store, 'select').and.returnValues(
-  //     of(mockPaymentDetails),
-  //     of([]),
-  //     of([]),
-  //     of([])
-  //   );
+    component.deliveryAddress = mockAddress;
+    component.addPaymentInfo({
+      payment: mockPaymentDetails,
+      newPayment: false
+    });
+    expect(service.createPaymentDetails).not.toHaveBeenCalledWith(
+      mockPaymentDetails
+    );
+    expect(service.setPaymentDetails).toHaveBeenCalledWith(mockPaymentDetails);
+  });
 
-  //   component.deliveryAddress = mockAddress;
-  //   component.addPaymentInfo({
-  //     payment: mockPaymentDetails,
-  //     newPayment: false
-  //   });
-  //   expect(component.nextStep).toHaveBeenCalledWith(4);
-  //   expect(service.setPaymentDetails).not.toHaveBeenCalledWith(
-  //     mockPaymentDetails
-  //   );
-  // });
+  it('should call addPaymentInfo() with paymenent already set to cart, then go to next step direclty', () => {
+    mockCheckoutSelectors.getDeliveryAddress.next([mockAddress]);
+    mockCheckoutSelectors.getSelectedCode.next('');
+    mockCheckoutSelectors.getPaymentDetails.next(mockPaymentDetails);
+    mockCheckoutSelectors.getOrderDetails.next({});
 
-  // it('should call placeOrder()', () => {
-  //   const orderDetails = 'mockOrderDetails';
-  //   spyOn(store, 'select').and.returnValues(of(orderDetails));
+    component.paymentDetails = mockPaymentDetails;
+    component.deliveryAddress = mockAddress;
+    component.addPaymentInfo({
+      payment: mockPaymentDetails,
+      newPayment: false
+    });
+    expect(component.nextStep).toHaveBeenCalledWith(4);
+    expect(service.setPaymentDetails).not.toHaveBeenCalledWith(
+      mockPaymentDetails
+    );
+  });
 
-  //   component.placeOrder();
-  //   expect(service.placeOrder).toHaveBeenCalled();
-  // });
+  it('should call placeOrder()', () => {
+    mockCheckoutSelectors.getOrderDetails.next(mockOrderDetails);
 
-  // it('should call toggleTAndC(toggle)', () => {
-  //   expect(component.tAndCToggler).toBeFalsy();
-  //   component.toggleTAndC();
-  //   expect(component.tAndCToggler).toBeTruthy();
-  //   component.toggleTAndC();
-  //   expect(component.tAndCToggler).toBeFalsy();
-  // });
+    component.placeOrder();
+    expect(service.placeOrder).toHaveBeenCalled();
+  });
+
+  it('should call toggleTAndC(toggle)', () => {
+    expect(component.tAndCToggler).toBeFalsy();
+    component.toggleTAndC();
+    expect(component.tAndCToggler).toBeTruthy();
+    component.toggleTAndC();
+    expect(component.tAndCToggler).toBeFalsy();
+  });
 });
