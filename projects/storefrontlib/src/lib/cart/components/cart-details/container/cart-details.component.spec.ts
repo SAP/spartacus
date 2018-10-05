@@ -1,7 +1,7 @@
 import { CartSharedModule } from './../../cart-shared/cart-shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { combineReducers, StoreModule } from '@ngrx/store';
 import * as fromRoot from '../../../../routing/store';
 import { CartDataService } from '../../../services/cart-data.service';
 import { CartService } from '../../../services/cart.service';
