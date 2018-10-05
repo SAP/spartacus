@@ -29,7 +29,7 @@ describe('AddedToCartDialogComponent', () => {
         FormsModule,
         RouterTestingModule,
         CartSharedModule,
-        NgbModule.forRoot(),
+        NgbModule,
         SpinnerModule
       ],
       declarations: [AddedToCartDialogComponent],

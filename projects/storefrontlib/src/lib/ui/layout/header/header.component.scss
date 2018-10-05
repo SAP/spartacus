@@ -34,6 +34,7 @@ $y-header-trbl-padding-mobile: 0.5rem 0 0 0 !default;
   overflow: visible;
 
   @include media-breakpoint-up(lg) {
+    position: static;
     @include make-container-max-widths;
 
     &:before {
@@ -81,18 +82,3 @@ $y-header-trbl-padding-mobile: 0.5rem 0 0 0 !default;
   With this setup, a customer can override the width with:
   .site-logo img { --margin: 100%; }
 */
-.site-logo {
-  --width: 35%;
-
-  @include media-breakpoint-down(md) {
-    --margin: 0 0 0 5rem;
-  }
-
-  @include media-breakpoint-down(md) {
-    --width: 30%;
-  }
-
-  @include media-breakpoint-down(xs) {
-    --width: 25%;
-  }
-}

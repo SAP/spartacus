@@ -18,5 +18,8 @@
   },
   "devDependencies": {
     "node-sass": "^4.9.0"
+  },
+  "peerDependencies": {
+    "bootstrap": "^4.1.3"
   }
 }

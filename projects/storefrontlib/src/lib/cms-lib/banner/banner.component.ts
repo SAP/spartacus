@@ -45,6 +45,6 @@ export class BannerComponent extends AbstractCmsComponent {
   }
 
   public getBaseUrl() {
-    return this.config.server.baseUrl;
+    return this.config.server.baseUrl || '';
   }
 }

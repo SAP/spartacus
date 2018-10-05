@@ -22,7 +22,7 @@ export class CartService {
   }
 
   initCart() {
-    this.store.select(fromSelector.getActiveCart).subscribe(cart => {
+    this.store.pipe(select(fromSelector.getActiveCart)).subscribe(cart => {
       this.cartData.cart = cart;
       if (this.callback) {
         this.callback();
@@ -31,8 +31,10 @@ export class CartService {
     });
 
     this.store
-      .select(fromAuthSelectors.getUserToken)
-      .pipe(filter(userToken => this.cartData.userId !== userToken.userId))
+      .pipe(
+        select(fromAuthSelectors.getUserToken),
+        filter(userToken => this.cartData.userId !== userToken.userId)
+      )
       .subscribe(userToken => {
         if (Object.keys(userToken).length !== 0) {
           this.cartData.userId = userToken.userId;
@@ -61,7 +63,7 @@ export class CartService {
         }
       });
 
-    this.store.select(fromSelector.getRefresh).subscribe(refresh => {
+    this.store.pipe(select(fromSelector.getRefresh)).subscribe(refresh => {
       if (refresh) {
         this.store.dispatch(
           new fromAction.LoadCart({
