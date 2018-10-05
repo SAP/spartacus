@@ -39,7 +39,7 @@ export class ShippingAddressComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.store.pipe(select(fromUserStore.getLoading));
+    this.isLoading$ = this.store.pipe(select(fromUserStore.getAddressLoading));
     this.existingAddresses$ = this.store
       .select(fromUserStore.getAddresses)
       .pipe(

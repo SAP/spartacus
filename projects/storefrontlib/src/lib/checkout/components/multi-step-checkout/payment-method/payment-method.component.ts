@@ -6,7 +6,7 @@ import {
   EventEmitter,
   Input
 } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -26,6 +26,7 @@ export class PaymentMethodComponent implements OnInit {
   isPaymentForm = false;
   existingPaymentMethods$: Observable<any>;
   cards = [];
+  isLoading$: Observable<any>;
 
   @Input()
   selectedPayment: any;
@@ -40,6 +41,9 @@ export class PaymentMethodComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.isLoading$ = this.store.pipe(
+      select(fromUserStore.getPaymentMethodLoading)
+    );
     this.existingPaymentMethods$ = this.store
       .select(fromUserStore.getPaymentMethods)
       .pipe(

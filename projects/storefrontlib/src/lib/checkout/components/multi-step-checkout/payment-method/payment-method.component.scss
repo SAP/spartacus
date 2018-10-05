@@ -71,6 +71,10 @@ $y-existing-payment-methods-btns-margin-bottom: 1rem !default;
     margin: $y-existing-payment-methods-title-margin;
     padding: $y-existing-payment-methods-title-padding;
   }
+  &__spinner {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
   &__body {
     display: flex;
     align-items: flex-end;

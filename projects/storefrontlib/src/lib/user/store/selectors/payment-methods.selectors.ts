@@ -16,3 +16,11 @@ export const getPaymentMethods: MemoizedSelector<any, any> = createSelector(
   getPaymentMethodsState,
   fromUserPaymentMethodsReducer.getPaymentMethods
 );
+
+export const getPaymentMethodLoading: MemoizedSelector<
+  any,
+  boolean
+> = createSelector(
+  getPaymentMethodsState,
+  fromUserPaymentMethodsReducer.getLoading
+);
