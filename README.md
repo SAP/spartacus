@@ -6,7 +6,9 @@ Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud.
 
 ## Extendable
 
-The Spartacus storefront is easy to extend & upgrade. It is packaged as a library that you can include in your storefront, which allows you to add to/remove/modify the out-the-box storefront features with your own. Newer versions of Spartacus can be used by changing the version of the library you’re using.
+ Spartacus is designed to be upgradable while maintaining full extendability. You'll be able to adopt new versions of Spartacus by updating the Spartacus libraries that we will regularly enhance. 
+ 
+ We’re making great progress and are planning our first beta in Q1 2019 and a launch date in Q2 2019. In the meantime, in order to ensure that the first release is as extendable and upgradable as we'd like, breaking changes will very likely be introduced. Please keep that in mind if you decide to start a project using the Spartacus storefront, prior to the first release. 
 
 ## Progressive
 
