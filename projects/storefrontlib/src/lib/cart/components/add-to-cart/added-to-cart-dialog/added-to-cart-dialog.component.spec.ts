@@ -1,9 +1,8 @@
 import { CartService } from './../../../services/cart.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs';
 
 import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
 import { CartSharedModule } from './../../cart-shared/cart-shared.module';
