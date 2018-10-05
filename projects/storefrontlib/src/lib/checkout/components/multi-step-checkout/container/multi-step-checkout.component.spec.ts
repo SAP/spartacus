@@ -42,30 +42,6 @@ const mockDeliveryAddresses = ['address1', 'address2'];
 const mockSelectedCode = 'test mode';
 const mockOrderDetails = { id: '1234' };
 
-const mockCheckoutSelectors = {
-  getDeliveryAddress: new BehaviorSubject([]),
-  getSelectedCode: new BehaviorSubject(''),
-  getPaymentDetails: new BehaviorSubject({}),
-  getOrderDetails: new BehaviorSubject({})
-};
-const mockCartSelectors = {
-  getActiveCart: new BehaviorSubject({})
-};
-const mockSelect = selector => {
-  switch (selector) {
-    case fromCheckout.getDeliveryAddress:
-      return () => mockCheckoutSelectors.getDeliveryAddress;
-    case fromCheckout.getSelectedCode:
-      return () => mockCheckoutSelectors.getSelectedCode;
-    case fromCheckout.getPaymentDetails:
-      return () => mockCheckoutSelectors.getPaymentDetails;
-    case fromCheckout.getOrderDetails:
-      return () => mockCheckoutSelectors.getOrderDetails;
-    case fromCart.getActiveCart:
-      return () => mockCartSelectors.getActiveCart;
-  }
-};
-
 @Component({ selector: 'y-delivery-mode', template: '' })
 class MockDeliveryModeComponent {
   @Input()
@@ -100,6 +76,8 @@ fdescribe('MultiStepCheckoutComponent', () => {
   let fixture: ComponentFixture<MultiStepCheckoutComponent>;
   let service: CheckoutService;
   let cartService: CartService;
+  let mockCheckoutSelectors;
+  let mockCartSelectors;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -143,6 +121,30 @@ fdescribe('MultiStepCheckoutComponent', () => {
     spyOn(service, 'setPaymentDetails').and.callThrough();
     spyOn(service, 'placeOrder').and.callThrough();
     spyOn(cartService, 'loadCartDetails').and.callThrough();
+
+    mockCheckoutSelectors = {
+      getDeliveryAddress: new BehaviorSubject([]),
+      getSelectedCode: new BehaviorSubject(''),
+      getPaymentDetails: new BehaviorSubject({}),
+      getOrderDetails: new BehaviorSubject({})
+    };
+    mockCartSelectors = {
+      getActiveCart: new BehaviorSubject({})
+    };
+    const mockSelect = selector => {
+      switch (selector) {
+        case fromCheckout.getDeliveryAddress:
+          return () => mockCheckoutSelectors.getDeliveryAddress;
+        case fromCheckout.getSelectedCode:
+          return () => mockCheckoutSelectors.getSelectedCode;
+        case fromCheckout.getPaymentDetails:
+          return () => mockCheckoutSelectors.getPaymentDetails;
+        case fromCheckout.getOrderDetails:
+          return () => mockCheckoutSelectors.getOrderDetails;
+        case fromCart.getActiveCart:
+          return () => mockCartSelectors.getActiveCart;
+      }
+    };
     spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
   });
 
