@@ -1,6 +1,10 @@
+@import 'theme';
+@import 'functions';
 @import 'mixins';
 
-$y-product-carousel-arrow-color: #747881 !default;
+$y-product-carousel-arrow-color: 'secondary' !default;
+$y-product-carousel-indicators-color: 'light' !default;
+$y-product-carousel-indicators-color-active: 'primary' !default;
 
 .y-carousel__header {
   text-align: center;
@@ -51,4 +55,24 @@ $y-product-carousel-arrow-color: #747881 !default;
 
 .y-carousel__product-price {
   text-align: center;
+}
+
+.carousel-indicators {
+  li {
+    margin-left: 30px !important;
+  }
+
+  > .active {
+    @include var-color(
+      'background-color',
+      $y-product-carousel-indicators-color-active
+    );
+  }
+
+  > li {
+    @include var-color(
+      'background-color',
+      $y-product-carousel-indicators-color
+    );
+  }
 }
