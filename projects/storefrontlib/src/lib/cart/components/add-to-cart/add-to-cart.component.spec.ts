@@ -1,7 +1,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule, combineReducers } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -27,7 +27,6 @@ class MockCartService {
 }
 
 describe('AddToCartComponent', () => {
-  let store: Store<fromCart.CartState>;
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
   let service;
@@ -58,7 +57,6 @@ describe('AddToCartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddToCartComponent);
     addToCartComponent = fixture.componentInstance;
-    store = TestBed.get(Store);
     service = TestBed.get(CartService);
     addToCartComponent.productCode = productCode;
     modalInstance = fixture.debugElement.injector.get<NgbModal>(NgbModal);
