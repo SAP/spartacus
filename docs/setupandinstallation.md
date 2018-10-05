@@ -21,7 +21,7 @@ The Spartacus JavaScript Storefront uses SAP Commerce for its backend, and makes
 Perform the following steps to set up your backend:
 
 - Install a new instance of SAP Commerce 1808 using the `b2c_acc` recipe.
-- Import `spartacus_sample_data.impex`, which you can download here: [link to file on help.hybris.com]
+- Import `spartacus_sample_data.impex`, which you can download here: https://help.hybris.com/1808/api/spartacus/spartacus_sample_data.impex
 - Configure your OCC client, as described here: https://help.hybris.com/1808/hcd/627c92db29ce4fce8b01ffbe478a8b3b.html#loio4079b4327ac243b6b3bd507cda6d74ff
 
 # Creating a New Angular Application
@@ -182,11 +182,32 @@ This section describes how to validate your backend installation, and then start
 
 # Known Issues
 
-• Logo is tiny>>> import media to fix logo
+The following are known issues with the current release of Spartacus JavaScript Storefront:
 
-•	Missing categories
+- When using SAP Commerce 1808 for your backend, you are currently not able to add payment details or address details in the Spartacus storefront, which prevents successful checkout. However, if you add payment and address details through the Accelerator electronics storefront, they will then appear in the Spartacus storefront, and you will be able to check out.
 
-•	Missing footer
+-	The Spartacus storefront is currently missing all categories.
 
-•	Can’t check out with 1808
+-	The Spartacus storefront is currently missing the footer.
+
+- Certain AddOns may cause the Spartacus storefront to not work properly.
+
+- You may notice that the logo is very small. This can be fixed as follows:
+
+   1.	Log in to Backoffice.
+   
+   2. Select `WCMS` in the left-hand navigation pane, then select the `Component` child node that appears below.
+
+   3. Search for the term `SiteLogoComponent` in the Search box in the top-center panel.
+   
+        You can modify the component directly in the Online Catalog, or you can modify it in the Staged Catalog and then perform a sync.
+
+   4. Open the `Administration` tab of the SiteLogoComponent, and remove the `Media` value.
+
+   5. Click the button labelled `...` next to the `Media` field.
+   
+   6. In the pop-up search box that appears, search for the desired media file in your system and select it.
+
+   7. Save your changes
+
 
