@@ -16,6 +16,10 @@ $y-header-separator-position-top: 43px !default;
 $y-header-separator-position-left: 0 !default;
 $y-header-separator-border-width: 1px !default;
 $y-header-separator-width: 100vw !default;
+$y-header-height-tablet: 90px !default;
+$y-header-height-mobile: 70px !default;
+$y-header-trbl-padding-tablet: 1.15rem 0 0 0 !default;
+$y-header-trbl-padding-mobile: 0.5rem 0 0 0 !default;
 
 :host {
   @include reset;
@@ -30,6 +34,7 @@ $y-header-separator-width: 100vw !default;
   overflow: visible;
 
   @include media-breakpoint-up(lg) {
+    position: static;
     @include make-container-max-widths;
 
     &:before {
@@ -43,6 +48,29 @@ $y-header-separator-width: 100vw !default;
       top: $y-header-separator-position-top;
     }
   }
+  @include media-breakpoint-down(md) {
+    height: $y-header-height-tablet;
+    padding: $y-header-trbl-padding-tablet;
+  }
+  @include media-breakpoint-down(xs) {
+    height: $y-header-height-mobile;
+    padding: $y-header-trbl-padding-mobile;
+  }
+
+  &__logo {
+    --width: 100px;
+    //keeping logo width simple for now
+
+    @include media-breakpoint-down(md) {
+      --margin: 0 0 0 5rem;
+    }
+    // @include media-breakpoint-down(md) {
+    //   --width: 35%;
+    // }
+    // @include media-breakpoint-down(xs) {
+    //   --width: 25%;
+    // }
+  }
 }
 
 /**
@@ -54,18 +82,3 @@ $y-header-separator-width: 100vw !default;
   With this setup, a customer can override the width with:
   .site-logo img { --margin: 100%; }
 */
-.site-logo {
-  --width: 35%;
-
-  @include media-breakpoint-down(md) {
-    --margin: 0 0 0 5rem;
-  }
-
-  @include media-breakpoint-down(md) {
-    --width: 30%;
-  }
-
-  @include media-breakpoint-down(xs) {
-    --width: 25%;
-  }
-}

@@ -22,6 +22,8 @@ export class CartItemComponent implements OnInit {
   potentialProductPromotions: any[];
   @Input()
   isReadOnly = false;
+  @Input()
+  cartIsLoading = false;
 
   @Output()
   remove = new EventEmitter<any>();

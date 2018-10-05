@@ -21,8 +21,6 @@ class MockCartService {
 
 describe('AddedToCartDialogComponent', () => {
   let component: AddedToCartDialogComponent;
-  let cartService: CartService;
-  let modalService: NgbActiveModal;
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
 
   beforeEach(async(() => {
@@ -31,7 +29,7 @@ describe('AddedToCartDialogComponent', () => {
         FormsModule,
         RouterTestingModule,
         CartSharedModule,
-        NgbModule.forRoot(),
+        NgbModule,
         SpinnerModule
       ],
       declarations: [AddedToCartDialogComponent],
@@ -45,32 +43,9 @@ describe('AddedToCartDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddedToCartDialogComponent);
     component = fixture.componentInstance;
-    cartService = TestBed.get(CartService);
-    modalService = TestBed.get(NgbActiveModal);
-    component.entry$ = of(undefined);
-    spyOn(cartService, 'updateCartEntry').and.stub();
-    spyOn(cartService, 'removeCartEntry').and.stub();
-    spyOn(modalService, 'close').and.callThrough();
-    component.ngOnInit();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should have form quantity control after init and entry observable finished', () => {
-    const entryForm = component.form.controls.entryForm as FormGroup;
-    expect(entryForm.controls.quantity).toBeDefined();
-  });
-
-  it('should update entry', () => {
-    component.updateEntry({ entry: { entryNumber: 2 }, updatedQuantity: 4 });
-    expect(cartService.updateCartEntry).toHaveBeenCalledWith(2, 4);
-  });
-
-  it('should remove entry', () => {
-    component.removeEntry({ id: 1 });
-    expect(cartService.removeCartEntry).toHaveBeenCalledWith({ id: 1 });
-    expect(modalService.close).toHaveBeenCalled();
   });
 });
