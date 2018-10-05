@@ -1,58 +1,54 @@
 #!/usr/bin/env bash
 set -e
-set -u
+
 
 function usage() {
-  echo "Usage: `basename $0` -p [project_name] -v [npm_version] --preid [prerelease_id] --dry-run"
+  echo "Usage: `basename $0` -v [npm_version] --preid [prerelease_id] --dry-run"
 }
 
-function parse_options() {
-  if [ $# == 0 ]; then
-    usage
-    exit
-  fi
+dryrun=false
 
-  while [[ $# -gt 0 ]]
-  do
-    case $1 in
-      -p | --project )
-        shift
-        PROJECT=$1
-        ;;
-      -v | --version )
-        shift
-        BUMP=$1
-        ;;
-      --preid )
-        shift
-        preid=$1
-        ;;
-      --dry-run )
-        dryrun=true
-        ;;
-      -h | --help )
-        usage
-        exit
-        ;;
-      * )
-        usage
-        exit 1
-    esac
-    shift
-  done
+if [ $# == 0 ]; then
+  usage
+  exit
+fi
 
-  echo "Project: $PROJECT"
-  echo "Version: $BUMP"
-  echo "Preid: $preid"
-  echo "dry-run: $dryrun"
+while [[ $# -gt 0 ]]
+do
+  case $1 in
+    -p | --project )
+      shift
+      PROJECT=$1
+      ;;
+    -v | --version )
+      shift
+      BUMP=$1
+      ;;
+    --preid )
+      shift
+      preid=$1
+      ;;
+    --dryrun )
+      dryrun=true
+      ;;
+    -h | --help )
+      usage
+      exit 0
+      ;;
+    * )
+      usage
+      exit 1
+  esac
+  shift
+done
 
-}
+echo "Version: $BUMP"
+echo "Preid: $preid"
+echo "dry-run: $dryrun"
 
-parse_options
-exit
-
-PROJECT_DIR="projects/$PROJECT"
-DEPLOY_DIR="dist/$PROJECT"
+PROJECT='storefront'
+PROJECT_DIR="projects/storefrontlib"
+DEPLOY_DIR="dist/storefrontlib"
 
 echo "Bumping $PROJECT_DIR version to $BUMP"
 PROJECT_DIR_NEW_VERSION=$(cd $PROJECT_DIR && npm version $BUMP)
@@ -71,15 +67,17 @@ fi
 echo "publishing version $BUMP"
 published=(cd $DEPLOY_DIR && npm publish .)
 
-if [[ =z "$results" ]]; then
+if [[ -z "$published" ]]; then
+  NEW_VERSION=${PROJECT_DIR_NEW_VERSION:1}
 
-  RELEASE_BRANCH="release/$PROJECT_DIR_NEW_VERSION"
+  RELEASE_BRANCH="release/spartacus-$NEW_VERSION"
   git checkout -b $RELEASE_BRANCH
 
   cd $PROJECT_DIR
   git add package.json
   git commit -m"Bumping $PROJECT version to $PROJECT_DIR_NEW_VERSION"
-  git tag $PROJECT-$PROJECT_DIR_NEW_VERSION
+  echo "Tagging new version $PROJECT-$NEW_VERSION"
+  git tag $PROJECT-$NEW_VERSION
   echo "Pushing from $PWD"
   git push -u origin $RELEASE_BRANCH --tags
 
