@@ -23,28 +23,35 @@ export class StoreFinderGridComponent implements OnInit {
   ngOnInit() {
     if (this.route.snapshot.params.country) {
       if (this.route.snapshot.params.region) {
-        this.viewAllStoresForRegion(
+        this.storeFinderService.viewAllStoresForRegion(
           this.route.snapshot.params.country,
           this.route.snapshot.params.region
         );
       } else {
-        this.viewAllStoresForCountry(this.route.snapshot.params.country);
+        this.storeFinderService.viewAllStoresForCountry(
+          this.route.snapshot.params.country
+        );
       }
     }
 
-    this.store.pipe(select((state: any) => fromStore.getFindStoresEntities(state))).subscribe(locations => {
-      if (locations.pointOfServices && locations.pointOfServices.length === 1) {
-        this.router.navigate([
-          'store-finder',
-          'country',
-          this.route.snapshot.params.country,
-          'region',
-          this.route.snapshot.params.region,
-          locations.pointOfServices[0].name
-        ]);
-      }
-      this.locations = locations;
-    });
+    this.store
+      .pipe(select((state: any) => fromStore.getFindStoresEntities(state)))
+      .subscribe(locations => {
+        if (
+          locations.pointOfServices &&
+          locations.pointOfServices.length === 1
+        ) {
+          this.router.navigate([
+            'store-finder',
+            'country',
+            this.route.snapshot.params.country,
+            'region',
+            this.route.snapshot.params.region,
+            locations.pointOfServices[0].name
+          ]);
+        }
+        this.locations = locations;
+      });
   }
 
   viewStore(location: any): void {
@@ -56,16 +63,5 @@ export class StoreFinderGridComponent implements OnInit {
       this.route.snapshot.params.region,
       location.name
     ]);
-  }
-
-  viewAllStoresForCountry(countryIsoCode: string): void {
-    this.storeFinderService.viewAllStoresForCountry(countryIsoCode);
-  }
-
-  viewAllStoresForRegion(countryIsoCode: string, regionIsoCode: string): void {
-    this.storeFinderService.viewAllStoresForRegion(
-      countryIsoCode,
-      regionIsoCode
-    );
   }
 }

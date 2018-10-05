@@ -2,9 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
-import { StoreListPageComponent } from './store-list-page.component';
 import { CmsPageGuards } from '../../../cms/guards';
 import { StoreListPageLayoutModule } from '../../layout/store-list-page-layout/store-list-page-layout.module';
+
+import { StoreListPageComponent } from './store-list-page.component';
 
 const routes: Routes = [
   {
