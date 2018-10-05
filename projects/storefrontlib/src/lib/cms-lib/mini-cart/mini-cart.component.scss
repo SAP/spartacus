@@ -37,7 +37,7 @@ $y-mini-cart-count-trbl-margin: 0 0 0 0.35rem !default;
     justify-content: space-between;
     border-radius: $y-mini-cart-button-border-radius;
     margin-right: 1rem;
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-down(sm) {
       flex-direction: column;
       height: $y-mini-cart-button-md-height;
       padding: $y-mini-cart-button-md-trbl-padding;

@@ -12,6 +12,5 @@
     },
     "entryFile": "src/public_api.ts",
     "styleIncludePaths": ["../", "../storefrontstyles/scss"]
-  },
-  "whitelistedNonPeerDependencies": ["hamburgers"]
+  }
 }
