@@ -232,15 +232,11 @@ fdescribe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call addAddress() with new created address', () => {
-    mockCheckoutSelectors.getDeliveryAddress.next([mockAddress]);
-
     component.addAddress({ address: mockAddress, newAddress: true });
     expect(service.createAndSetAddress).toHaveBeenCalledWith(mockAddress);
   });
 
   it('should call addAddress() with address selected from existing addresses', () => {
-    mockCheckoutSelectors.getDeliveryAddress.next([mockAddress]);
-
     component.addAddress({ address: mockAddress, newAddress: false });
     expect(service.createAndSetAddress).not.toHaveBeenCalledWith(mockAddress);
     expect(service.setDeliveryAddress).toHaveBeenCalledWith(mockAddress);
@@ -248,8 +244,6 @@ fdescribe('MultiStepCheckoutComponent', () => {
 
   it('should call addAddress() with address already set to the cart, then go to next step direclty', () => {
     component.deliveryAddress = mockAddress;
-
-    mockCheckoutSelectors.getDeliveryAddress.next([mockAddress]);
     component.addAddress({ address: mockAddress, newAddress: false });
 
     expect(component.nextStep).toHaveBeenCalledWith(2);
@@ -260,8 +254,6 @@ fdescribe('MultiStepCheckoutComponent', () => {
     const deliveryMode: any = {
       deliveryModeId: 'testId'
     };
-    mockCheckoutSelectors.getDeliveryAddress.next([mockAddress]);
-
     component.setDeliveryMode(deliveryMode);
     expect(service.setDeliveryMode).toHaveBeenCalledWith(
       deliveryMode.deliveryModeId
@@ -285,7 +277,7 @@ fdescribe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call addPaymentInfo() with new created payment info', () => {
-    mockCheckoutSelectors.getDeliveryAddress.next([mockAddress]);
+    mockCheckoutSelectors.getDeliveryAddress.next([]);
     mockCheckoutSelectors.getSelectedCode.next('');
     mockCheckoutSelectors.getPaymentDetails.next(mockPaymentDetails);
     mockCheckoutSelectors.getOrderDetails.next({});
@@ -298,7 +290,7 @@ fdescribe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call addPaymentInfo() with paymenent selected from existing ones', () => {
-    mockCheckoutSelectors.getDeliveryAddress.next([mockAddress]);
+    mockCheckoutSelectors.getDeliveryAddress.next([]);
     mockCheckoutSelectors.getSelectedCode.next('');
     mockCheckoutSelectors.getPaymentDetails.next(mockPaymentDetails);
     mockCheckoutSelectors.getOrderDetails.next({});
@@ -315,7 +307,7 @@ fdescribe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call addPaymentInfo() with paymenent already set to cart, then go to next step direclty', () => {
-    mockCheckoutSelectors.getDeliveryAddress.next([mockAddress]);
+    mockCheckoutSelectors.getDeliveryAddress.next([]);
     mockCheckoutSelectors.getSelectedCode.next('');
     mockCheckoutSelectors.getPaymentDetails.next(mockPaymentDetails);
     mockCheckoutSelectors.getOrderDetails.next({});
