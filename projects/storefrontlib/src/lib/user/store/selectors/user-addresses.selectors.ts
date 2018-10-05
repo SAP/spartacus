@@ -17,7 +17,7 @@ export const getAddresses: MemoizedSelector<any, any> = createSelector(
   fromUserAddressesReducer.getAddresses
 );
 
-export const getAddressLoading: MemoizedSelector<any, boolean> = createSelector(
-  getAddressesState,
-  fromUserAddressesReducer.getLoading
-);
+export const getAddressesLoading: MemoizedSelector<
+  any,
+  boolean
+> = createSelector(getAddressesState, fromUserAddressesReducer.getLoading);

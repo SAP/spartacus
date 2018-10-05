@@ -42,7 +42,7 @@ export class PaymentMethodComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading$ = this.store.pipe(
-      select(fromUserStore.getPaymentMethodLoading)
+      select(fromUserStore.getPaymentMethodsLoading)
     );
     this.existingPaymentMethods$ = this.store
       .select(fromUserStore.getPaymentMethods)
