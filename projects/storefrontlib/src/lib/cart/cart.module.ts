@@ -17,7 +17,7 @@ import { guards } from './guards/index';
     AddToCartModule,
     CartDetailsModule,
     CartSharedModule,
-    NgbModule.forRoot(),
+    NgbModule,
     StoreModule.forFeature('cart', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],

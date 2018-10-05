@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { Store, StoreModule, combineReducers, select } from '@ngrx/store';
 
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
@@ -38,7 +38,7 @@ describe('Regions Selectors', () => {
 
       let result;
       store
-        .select(fromSelectors.getAllRegions)
+        .pipe(select(fromSelectors.getAllRegions))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);

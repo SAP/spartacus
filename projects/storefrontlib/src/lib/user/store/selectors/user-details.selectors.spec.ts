@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { combineReducers, Store, StoreModule, select } from '@ngrx/store';
 
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
@@ -36,7 +36,7 @@ describe('User Details Selectors', () => {
     it('should return a user details', () => {
       let result;
       store
-        .select(fromSelectors.getDetails)
+        .pipe(select(fromSelectors.getDetails))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});

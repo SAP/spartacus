@@ -2,6 +2,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import * as NgrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -39,7 +40,7 @@ describe('AddToCartComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         SpinnerModule,
-        NgbModule.forRoot(),
+        NgbModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
@@ -62,7 +63,6 @@ describe('AddToCartComponent', () => {
     addToCartComponent.productCode = productCode;
     modalInstance = fixture.debugElement.injector.get<NgbModal>(NgbModal);
     spyOn(service, 'addCartEntry').and.callThrough();
-    spyOn(store, 'select').and.returnValue(of(mockCartEntry));
     spyOn(modalInstance, 'open').and.callThrough();
 
     fixture.detectChanges();
@@ -73,6 +73,9 @@ describe('AddToCartComponent', () => {
   });
 
   it('should call ngOnInit()', () => {
+    spyOnProperty(NgrxStore, 'select').and.returnValue(() => () =>
+      of(mockCartEntry)
+    );
     addToCartComponent.ngOnInit();
     addToCartComponent.cartEntry$.subscribe(entry =>
       expect(entry).toEqual(mockCartEntry)
