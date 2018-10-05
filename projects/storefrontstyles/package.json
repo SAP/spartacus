@@ -1,7 +1,7 @@
 {
   "name": "@spartacus/styles",
-  "version": "0.1.0-prealpha.1",
-  "description": "Spartacus - the global style library",
+  "version": "0.1.0-prealpha.2",
+  "description": "Style library containing global styles",
   "homepage": "https://github.com/SAP/cloud-commerce-spartacus-storefront",
   "keywords": [
     "spartacus",

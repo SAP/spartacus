@@ -22,7 +22,7 @@ export class ProductReviewsEffects {
               list: data.reviews
             });
           }),
-          catchError(error =>
+          catchError(_error =>
             of(new productReviewsActions.LoadProductReviewsFail(productCode))
           )
         );
@@ -43,7 +43,7 @@ export class ProductReviewsEffects {
                 reviewResponse
               );
             }),
-            catchError(error =>
+            catchError(_error =>
               of(
                 new productReviewsActions.PostProductReviewFail(
                   payload.productCode
