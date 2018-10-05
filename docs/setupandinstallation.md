@@ -195,7 +195,7 @@ The following are known issues with the current release of Spartacus JavaScript 
 
 - You may notice that the logo is very small. This can be fixed as follows:
 
-  1.  Log in to Backoffice.
+  1.  Log in to SAP Commerce Backoffice.
 
   2.  Select `WCMS` in the left-hand navigation pane, then select the `Component` child node that appears below.
 
