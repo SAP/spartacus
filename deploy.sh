@@ -50,12 +50,20 @@ PROJECT='storefront'
 PROJECT_DIR="projects/storefrontlib"
 DEPLOY_DIR="dist/storefrontlib"
 
+NPM_COMMAND="npm version $BUMP"
+
 echo "Bumping $PROJECT_DIR version to $BUMP"
-PROJECT_DIR_NEW_VERSION=$(cd $PROJECT_DIR && npm version $BUMP)
+if [[ "prerelease" == $BUMP ]]; then
+  NPM_COMMAND="$NPM_COMMAND --preid=$preid"
+fi
+
+echo "Command $NPM_COMMAND"
+PROJECT_DIR_NEW_VERSION=$(cd $PROJECT_DIR && $NPM_COMMAND)
 echo "New version: $PROJECT_DIR_NEW_VERSION"
 
 echo "Bumping $DEPLOY_DIR to $BUMP"
-DEPLOY_DIR_NEW_VERSION=$(cd $DEPLOY_DIR && npm version $BUMP)
+DEPLOY_DIR_NEW_VERSION=$(cd $DEPLOY_DIR && $NPM_COMMAND)
+
 echo "New version: $DEPLOY_DIR_NEW_VERSION"
 
 if [ ! $DEPLOY_DIR_NEW_VERSION == $PROJECT_DIR_NEW_VERSION ]; then
