@@ -1,73 +1,89 @@
-# Prerequisites:
+# Setup and Installation
+
+The following instructions describe how to build a storefront application from ready-made libraries.
+
+# Prerequisites
+
+Before carrying out the procedures below, please ensure the following frontend and backend requirements are in place.
 
 ## Frontend Requirements
 
-- [link to Spartacus requirmeents: (yarn, node)]
+Your Angular development environment should include the following:
+
 - Angular cli v6.2.4
+- node.js >= 8.9.0
+- yarn >= 1.6.0
 
-## Backend requirements [needs work]
+## Backend Requirements
 
-SAP CX 1808 backend with the electronics store sample data
+The Spartacus JavaScript Storefront uses SAP Commerce for its backend, and makes use of the sample data from the B2C Accelerator electronics storefront in particular. 
 
-- Use a new SAP CX instance with the b2c recipe.
-- Have an occ client configured [link to occ oauth client config]
-- Import additional sample data [link to the impex]
+Perform the following steps to set up your backend:
 
-# Create a new Angular application
+- Install a new instance of SAP Commerce 1808 using the `b2c_acc` recipe.
+- Import `spartacus_sample_data.impex`, which you can download here: [link to file on help.hybris.com]
+- Configure your OCC client, as described here: https://help.hybris.com/1808/hcd/627c92db29ce4fce8b01ffbe478a8b3b.html#loio4079b4327ac243b6b3bd507cda6d74ff
 
-Generate a new angular application via the Angular CLI and then `cd` in the app's folder :
+# Creating a New Angular Application
 
-```
-$ ng new {appname} --style=scss
-$ cd {appname}
-```
+In the following procedure, we create a new Angular application with the name `mystore`.
 
-# Add the Storefront's Peer Dependencies
+1. Generate a new Angular application using the Angular CLI, as follows:
+   ```
+   $ ng new {mystore} --style=scss
+   ```
+2. Access the newly created directory:
+   ```
+   $ cd {mystore}
+   ```
+# Adding Peer Dependencies to the Storefront
 
-In `{appname}/package.json`, add the following dependencies in the `dependencies` section. They are required by the Spartacus storefront.
+The dependencies in this procedure are required by the Spartacus storefront.
 
-```
-"@angular/pwa": "^0.6.8",
-"@angular/service-worker": "^6.0.0",
-"@ng-bootstrap/ng-bootstrap": "^3.2.2",
-"@ng-select/ng-select": "^2.9.1",
-"@ngrx/effects": "^6.1.0",
-"@ngrx/router-store": "^6.1.0",
-"@ngrx/store": "^6.1.0",
-"bootstrap": "^4.1.3",
-"ngrx-store-localstorage": "^5.0.1"
-```
+1. Add the following dependencies to the `dependencies` section of `{mystore}/package.json`:
 
-Next, install the dependencies. With yarn, it's done with:
+   ```
+   "@angular/pwa": "^0.6.8",
+   "@angular/service-worker": "^6.0.0",
+   "@ng-bootstrap/ng-bootstrap": "^3.2.2",
+   "@ng-select/ng-select": "^2.9.1",
+   "@ngrx/effects": "^6.1.0",
+   "@ngrx/router-store": "^6.1.0",
+   "@ngrx/store": "^6.1.0",
+   "bootstrap": "^4.1.3",
+   "ngrx-store-localstorage": "^5.0.1"
+   ```
 
-```
-yarn install
-```
+2. Install the dependencies. The following is an example using yarn:
 
-# Add the storefront dependencies.
+   ```
+   yarn install
+   ```
 
-Add the storefront's dependencies to your app. There are two libraries to add. You can do so with these commands:
+# Adding the Storefront Dependencies
+
+There are two libraries you must add to your storefront application. You can do so with yarn, as follows:
 
 ```
 $ yarn add @spartacus/styles
 $ yarn add @spartacus/storefront
 ```
 
-The Storfront libraries are not yet released and the `@next` tag will install the latest pre-alpha version available.
+The storefront libraries are not yet released and the `@next` tag will install the latest pre-alpha version available.
 
-# Import the storefront module int your app.
+# Importing the Storefront Module into Your Application
 
-To do so, go to `{appname}/src/app/app.modult.ts` and add
+1. Open `{mystore}/src/app/app.modult.ts` and add the following lines:
 
-```
-import { StorefrontModule } from '@spartacus/storefront';
-```
+   ```
+   import { StorefrontModule } from '@spartacus/storefront';
+   ```
 
-Then add the StorefrontModule to the import section of the NgModule decorator:
+2. Add the `StorefrontModule` to the import section of the `NgModule` decorator:
 
-```
-imports: [BrowserModule, StorefrontModule],
-```
+   ```
+   imports: [BrowserModule, StorefrontModule],
+   ```
 
 Your file should look like this:
 
@@ -91,11 +107,11 @@ import { StorefrontModule } from '@spartacus/storefront';
 export class AppModule { }
 ```
 
-# Configure the Storefront
+# Configuring the Storefront
 
-All the storefront has default values for all it's configurations, but each setup is unique, so you will likely need to override these defaults so the storefront can, for example, communicate with your SPA CS backend instance.
+The Spartacus storefront has default values for all of its configurations. However, you may need to override these values. An example use case would be so that your storefront can communicate with your SAP Commerce backend.
 
-To configure the storfront, use the ‘withConfig’ method on the StorefrontModule.
+To configure the storfront, use the `withConfig` method on the StorefrontModule. The following is an example:
 
 ```
   imports: [
@@ -112,8 +128,7 @@ To configure the storfront, use the ‘withConfig’ method on the StorefrontMod
   ],
 ```
 
-The values in the example are the default values for the configs. You may omit to specify a config if you do not need to override its value.
-For example, if you only need to override the backend base url, you can use this config:
+This example uses the default values for the configs. You do not have to specify a config if you do not need to override its value. For example, if you only need to override the backend base URL, you can use this config:
 
 ```
 imports: [BrowserModule, StorefrontModule.withConfig({
@@ -123,37 +138,55 @@ imports: [BrowserModule, StorefrontModule.withConfig({
 })]
 ```
 
-# Add the Storefron Component
+# Adding the Storefront Component
 
-Add the storefront component in the UI. Go to `{approot}/src/app.app.component.html` and replace the whole content of the file by this line:
+This procedure adds the storefront component in the UI. 
 
-```
-<cx-storefront>Loading...</cx-storefront>
-```
+1. Open `{approot}/src/app.app.component.html` and replace the entire contents of the file with the following line:
 
-Import the styles from the @spartacus/styles library.
-Go in `{approot}/src/styles.scss and add:`
+   ```
+   <cx-storefront>Loading...</cx-storefront>
+   ```
 
-```
-@import "~@spartacus/styles/index";
-```
+2. Import the styles from the `@spartacus/styles` library by opening `{approot}/src/styles.scss` and adding the following line:
 
-# Build and Start
+   ```
+   @import "~@spartacus/styles/index";
+   ```
 
-## Validate the backend
+# Building and Starting
 
-Validate your backend installation. Direct your browser (preferably Chrome) to your backend's cms occ endpoint, which by default is available at: `{server-base-url}/rest/v2/electronics/cms/pages`. For example, with a backend instace running from `https://localhost:9002` you would access: https://localhost:9002/rest/v2/electronics/cms/pages.
+This section describes how to validate your backend installation, and then start the application with the storefront enabled.
 
-If you are running a development instance with a self signed https certificate, you need to accept the security exception in your browser.
+## Validating the Backend
 
-When the request works, you see an xml response in your browser.
+1. Use a web browser (Chrome is highly recommended) to access the CMS OCC endpoint of your backend.
 
-## Start the Storefront Application
+   The default is available at: `{server-base-url}/rest/v2/electronics/cms/pages`. 
+   
+   For example, with a backend instace running from `https://localhost:9002`, you would access: https://localhost:9002/rest/v2/electronics/cms/pages.
 
-Start the application with the storefront enabled like you would normally do:
+2. Accept the security exception in your browser if you are running a development instance with a self-signed HTTPS certificate.
 
-```
-$ ng serve
-```
+   When the request works, you see an XML response in your browser.
 
-When the app server is properly started, point your browser to http://localhost:4200 as instructed from the terminal output of `ng serve`.
+## Starting the Storefront Application
+
+1. Start the application with the storefront enabled, as follows:
+
+   ```
+   $ ng serve
+   ```
+
+2. When the app server is properly started, point your browser to http://localhost:4200, as instructed from the terminal output of `ng serve`.
+
+# Known Issues
+
+• Logo is tiny>>> import media to fix logo
+
+•	Missing categories
+
+•	Missing footer
+
+•	Can’t check out with 1808
+
