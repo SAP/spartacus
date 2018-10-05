@@ -32,22 +32,28 @@ $y-product-carousel-indicators-color-active: 'primary' !default;
   &__product-container {
     display: inline-block;
     text-align: center;
+    @include media-breakpoint-down(sm) {
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   &__product {
     height: 100%;
-    margin: 0 10px 10px 0;
-    padding: 10px;
-    width: 265px;
-    float: left;
-    display: block;
+    align-self: center;
+    width: 100%;
+    @include media-breakpoint-up(md) {
+      margin: 0 10px 10px 0;
+      width: 265px;
+      padding: 10px;
+    }
   }
 
   &__product-name {
     @include type('5');
     margin-right: auto;
     margin-left: auto;
-    margin-bottom: 10px;
+    margin-bottom: 2rem;
     text-align: center;
   }
 
