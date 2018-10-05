@@ -1,4 +1,4 @@
-<ng-container *ngIf="isLoading">
+<ng-container *ngIf="(isLoading$ | async)">
   <div class="y-existing-address container">
     <h3 class="y-existing-address__title d-none d-lg-block d-xl-block">
       Shipping Address
@@ -9,7 +9,7 @@
   </div>
 </ng-container>
 
-<ng-container *ngIf="(existingAddresses$ | async) && !(isLoading) && existingAddresses$ | async as existingAddresses">
+<ng-container *ngIf="(existingAddresses$ | async) && !(isLoading$ | async) && existingAddresses$ | async as existingAddresses">
   <div class="y-existing-address container" *ngIf="existingAddresses.length > 0 && !isAddressForm">
     <h3 class="y-existing-address__title d-none d-lg-block d-xl-block">Shipping Address</h3>
     <p class="y-existing-address__text">Select your Shipping Address</p>
@@ -37,7 +37,7 @@
   </div>
 </ng-container>
 
-<ng-container *ngIf="!(isLoading)  && existingAddresses$ | async as existingAddresses">
+<ng-container *ngIf="!(isLoading$ | async) && existingAddresses$ | async as existingAddresses">
   <ng-container *ngIf="existingAddresses.length == 0 || isAddressForm">
     <y-address-form (addAddress)="addNewAddress($event)" (backToAddress)="backToAddress()"></y-address-form>
   </ng-container>
