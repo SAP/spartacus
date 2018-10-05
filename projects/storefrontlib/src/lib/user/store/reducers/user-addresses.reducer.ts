@@ -2,16 +2,12 @@ import * as fromUserAddressesAction from '../actions/user-addresses.action';
 
 export interface UserAddressesState {
   list: any[];
-  states: {
-    isLoading: boolean;
-  };
+  isLoading: boolean;
 }
 
 export const initialState: UserAddressesState = {
   list: [],
-  states: {
-    isLoading: true
-  }
+  isLoading: false
 };
 
 export function reducer(
@@ -26,18 +22,12 @@ export function reducer(
         return {
           ...state,
           list,
-          states: {
-            ...state.states,
-            isLoading: false
-          }
+          isLoading: false
         };
       } else {
         return {
           ...state,
-          states: {
-            ...state.states,
-            isLoading: false
-          }
+          isLoading: false
         };
       }
     }
@@ -45,20 +35,14 @@ export function reducer(
     case fromUserAddressesAction.LOAD_USER_ADDRESSES_FAIL: {
       return {
         ...state,
-        states: {
-          ...state.states,
-          isLoading: false
-        }
+        isLoading: false
       };
     }
 
     case fromUserAddressesAction.LOAD_USER_ADDRESSES: {
       return {
         ...state,
-        states: {
-          ...state.states,
-          isLoading: true
-        }
+        isLoading: true
       };
     }
   }
@@ -66,4 +50,4 @@ export function reducer(
 }
 
 export const getAddresses = (state: UserAddressesState) => state.list;
-export const getLoading = (state: UserAddressesState) => state.states.isLoading;
+export const getLoading = (state: UserAddressesState) => state.isLoading;
