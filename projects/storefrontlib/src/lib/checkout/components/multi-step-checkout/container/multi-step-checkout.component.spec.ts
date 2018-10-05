@@ -265,9 +265,6 @@ fdescribe('MultiStepCheckoutComponent', () => {
       deliveryModeId: 'testId'
     };
     component.shippingMethod = 'testId';
-    mockCheckoutSelectors.getDeliveryAddress.next(deliveryMode);
-    mockCheckoutSelectors.getSelectedCode.next('');
-
     component.setDeliveryMode(deliveryMode);
 
     expect(component.nextStep).toHaveBeenCalledWith(3);
@@ -277,11 +274,6 @@ fdescribe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call addPaymentInfo() with new created payment info', () => {
-    mockCheckoutSelectors.getDeliveryAddress.next([]);
-    mockCheckoutSelectors.getSelectedCode.next('');
-    mockCheckoutSelectors.getPaymentDetails.next(mockPaymentDetails);
-    mockCheckoutSelectors.getOrderDetails.next({});
-
     component.deliveryAddress = mockAddress;
     component.addPaymentInfo({ payment: mockPaymentDetails, newPayment: true });
     expect(service.createPaymentDetails).toHaveBeenCalledWith(
@@ -290,11 +282,6 @@ fdescribe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call addPaymentInfo() with paymenent selected from existing ones', () => {
-    mockCheckoutSelectors.getDeliveryAddress.next([]);
-    mockCheckoutSelectors.getSelectedCode.next('');
-    mockCheckoutSelectors.getPaymentDetails.next(mockPaymentDetails);
-    mockCheckoutSelectors.getOrderDetails.next({});
-
     component.deliveryAddress = mockAddress;
     component.addPaymentInfo({
       payment: mockPaymentDetails,
@@ -307,11 +294,6 @@ fdescribe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call addPaymentInfo() with paymenent already set to cart, then go to next step direclty', () => {
-    mockCheckoutSelectors.getDeliveryAddress.next([]);
-    mockCheckoutSelectors.getSelectedCode.next('');
-    mockCheckoutSelectors.getPaymentDetails.next(mockPaymentDetails);
-    mockCheckoutSelectors.getOrderDetails.next({});
-
     component.paymentDetails = mockPaymentDetails;
     component.deliveryAddress = mockAddress;
     component.addPaymentInfo({
@@ -325,8 +307,6 @@ fdescribe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call placeOrder()', () => {
-    mockCheckoutSelectors.getOrderDetails.next(mockOrderDetails);
-
     component.placeOrder();
     expect(service.placeOrder).toHaveBeenCalled();
   });
