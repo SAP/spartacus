@@ -10,14 +10,18 @@
   bottom: 0;
   margin-bottom: 0;
 
+  li {
+    margin-left: 25px !important;
+  }
+
   > .active {
     background-color: theme-color('primary');
   }
 
   > li {
     background-color: theme-color('light');
-    width: 15px;
-    height: 15px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
   }
 }
