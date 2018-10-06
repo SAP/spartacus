@@ -4,7 +4,7 @@
         <div class="container">
             <div class="y-product-details">
                 <div class="row">
-                    <div class="col-lg-7 d-none d-md-block">
+                    <div class="col-lg-7">
                         <ng-container *cxOutlet="outlets.IMAGES">
                             <y-product-images [product]="product"></y-product-images>
                         </ng-container>
@@ -25,12 +25,6 @@
                                     review</a>
                             </div>
                         </ng-container>
-
-                        <div class="d-md-none">
-                            <ng-container *cxOutlet="outlets.IMAGES">
-                                <y-product-images [product]="product"></y-product-images>
-                            </ng-container>
-                        </div>
 
                         <ng-container *cxOutlet="outlets.SUMMARY">
                             <y-product-summary [product]="product" (itemCountChange)="itemCount = $event"></y-product-summary>
