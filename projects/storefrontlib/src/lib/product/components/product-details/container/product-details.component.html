@@ -3,7 +3,7 @@
     <ng-container *cxOutlet="outlets.PAGE">
         <div class="container">
             <div class="y-product-details">
-                <div class="title">
+                <div>
                     <ng-container *cxOutlet="outlets.TITLE">
                         <div class="y-product-details__item-name">{{product?.name}}</div>
                         <div class="y-product-details__item-code">ID {{product?.code}}</div>
@@ -14,7 +14,7 @@
                         <y-product-images [product]="product"></y-product-images>
                     </ng-container>
                 </div>
-                <div class="meta">
+                <div>
                     <ng-container *cxOutlet="outlets.RATING">
                         <div class="y-product-details__item-rating">
                             <y-star-rating [rating]="product?.averageRating" [disabled]="true"></y-star-rating>
