@@ -20,9 +20,13 @@ Spartacus is on a journey to be fully compliant with the Progressive Web Applica
 
 Spartacus is open source. It will be continually developed by the SAP Commerce Cloud team, but we are very keen to welcome contributors and to foster an inclusive, active development community for Spartacus.
 
+See our [contributing documentation](CONTRIBUTING.md) for more information.
+
 ## Technology
 
-Read the [documentation](docs/README.md) to learn more about the technology and architecture of the Spartacus storefront, and see [SAP Customer Experience](https://cx.sap.com/en/products/commerce) for more information about SAP Commerce Cloud.
+The Spartacus storefront is part of our exciting new journey towards a customizable-yet-upgradable technology for SAP Commerce Cloud installations.
+
+See [SAP Customer Experience](https://cx.sap.com/en/products/commerce) for more information about SAP Commerce Cloud.
 
 ## Storefront features
 
@@ -41,18 +45,12 @@ Spartacus provides core storefront features such as:
 
 # Requirements
 
-- SAP Commerce Cloud instance (Release 1808 or unreleased 1811) (1811 release is planned for end of November)
+- SAP Commerce Cloud instance (Release 1808)
 - Angular CLI (https://angular.io/): >= 6.2.4 and < 7.0.0
 - node.js >= 8.9.0
 - yarn >= 1.6.0
 
 # Download and Installation
-
-*******
-PLEASE NOTE (Sept. 28, 2018): 
-- Spartacus is currently in pre-alpha state. The current code base is for evaluation only and should not be used to start development on a production storefront release.
-- This first usable pre-alpha release of Spartacus will be available second week of October with proper documentation. Current links are placeholders.
-*******
 
 To get up and running with Spartacus, the simplest approach is to build the application from ready-made libraries. You can also clone and build from source.
 
@@ -69,13 +67,15 @@ Spartacus comes with an application shell (storefrontapp) that contains core res
 
 Content for Spartacus pages is fetched from the SAP Commerce Cloud CMS (Content Management System), such as logos, links, banners and static pages. We recommend that new content-driven features follow the same pattern to enable a Content Managers to modify page content through the CMS tools.
 
-For a full explanation and guidelines, see [Extending and Customizing Spartacus](docs/extendingandcustomizing.md) and [Spartacus Architecture](docs/architecture).
+The documentation for customizing and extending Spartacus is still under development and will be released soon.
 
 
 
 # Limitations
 
-Spartacus works with Release 1808 of SAP Commerce Cloud and is being built with the upcoming 1811 release in mind. This means that certain features of Spartacus may only work with future Release 1811 of SAP Commerce Cloud. 
+Spartacus works with Release 1808 of SAP Commerce Cloud, with some limitations. See the [Setup and Installation](docs/setupandinstallation.md) guide for more information.
+
+Spartacus is also being updated so that it works well with upcoming releases of SAP Commerce Cloud.  This means that certain features of Spartacus may only work with unreleased future editions of SAP Commerce Cloud. This will be noted as we release new versions of Spartacus.
 
 
 
@@ -97,7 +97,7 @@ To get help from the Spartacus community, post a question in the Help chat of ou
 Team Spartacus welcomes feedback, ideas, requests, and especially code contributions. 
 
 - Post comments to our Feedback chat in our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE) channel.
-- Read the [Contributing documentation](CONTRIBUTING.md) and learn how to:
+- Read the [Contributing document](CONTRIBUTING.md) and learn how to:
   - Help others
   - Report an issue
   - Contribute code to Spartacus
@@ -106,18 +106,17 @@ Team Spartacus welcomes feedback, ideas, requests, and especially code contribut
 
 # To Do
 
-Many changes are coming! All tasks will be posted to our GitHub issue tracking system, and this section will be updated with the major roadmap items.
+Many changes are coming! Most tasks will be posted to our GitHub issue tracking system, and this section will be updated with the major roadmap items.
 
 Some of the upcoming features or changes to the open source release:
 - Mock server
-- Ability to specific a different billing address when checking out
 - Personal information pages (My Account, Payment Management, Address Management)
 - Extensibility examples
 - Style customization examples
 - Performance improvements through App Shell Caching
 - Completion of test coverage, including end-to-end tests
 
-
+As mentioned, some of the improvements will mean breaking changes. While we strive to avoid doing so, we cannot guarantee this will not happen before the first release.
 
 # License
 
