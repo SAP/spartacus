@@ -35,7 +35,8 @@ $md-width: 992px;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto 1fr;
   }
-  .images {
+
+  &__item-images {
     @media (min-width: $md-width) {
       grid-row: 1 / span 2;
     }

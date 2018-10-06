@@ -9,7 +9,7 @@
                         <div class="y-product-details__item-code">ID {{product?.code}}</div>
                     </ng-container>
                 </div>
-                <div class="images">
+                <div class="y-product-details__item-images">
                     <ng-container *cxOutlet="outlets.IMAGES">
                         <y-product-images [product]="product"></y-product-images>
                     </ng-container>
@@ -42,7 +42,6 @@
                 </div>
             </div>
         </div>
-
 
         <ng-container *cxOutlet="outlets.TAB">
             <div class="y-product-details__tabset" #tabSetWrapper>
