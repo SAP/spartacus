@@ -1,3 +1,5 @@
+![](docs/assets/spartacus-blue.png)
+
 [![Build Status](https://travis-ci.org/SAP/cloud-commerce-spartacus-storefront.svg?branch=develop)](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project)
 
 # What is Spartacus?
@@ -7,7 +9,7 @@ Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud.
 ## Extendable
 
  Spartacus is designed to be upgradable while maintaining full extendability. You'll be able to adopt new versions of Spartacus by updating the Spartacus libraries that we will regularly enhance. 
- 
+
  We’re making great progress and are planning our first beta in Q1 2019 and a launch date in Q2 2019. In the meantime, in order to ensure that the first release is as extendable and upgradable as we'd like, breaking changes will very likely be introduced. Please keep that in mind if you decide to start a project using the Spartacus storefront, prior to the first release. 
 
 ## Progressive
