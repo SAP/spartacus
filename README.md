@@ -94,11 +94,13 @@ To get help from the Spartacus community, post a question in the Help chat of ou
 
 # Contributing
 
-Team Spartacus welcomes feedback, ideas, requests, and especially code contributions. However, for the moment, Spartacus is restricted to updates by SAP employees. In the meantime:
+Team Spartacus welcomes feedback, ideas, requests, and especially code contributions. 
 
 - Post comments to our Feedback chat in our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE) channel.
-- Read the documentation in [Community](docs/community/README.md), especially the [Code of Conduct](docs/community/codeofconduct.md) and the [GitHub Workflow](docs/community/githubworklow) documents.
-- Create an issue in the [GitHub bug tracking system](docs/community/githubworklow).
+- Read the [Contributing documentation](CONTRIBUTING.md) and learn how to:
+  - Help others
+  - Report an issue
+  - Contribute code to Spartacus
 
 
 
