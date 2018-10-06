@@ -1,4 +1,4 @@
-<img src="docs/assets/spartacus-blue.png" width="700">
+![](docs/assets/spartacus-blue.png)
 
 [![Build Status](https://travis-ci.org/SAP/cloud-commerce-spartacus-storefront.svg?branch=develop)](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project)
 
