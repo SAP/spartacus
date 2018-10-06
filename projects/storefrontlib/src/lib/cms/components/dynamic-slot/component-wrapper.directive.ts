@@ -5,12 +5,13 @@ import {
   AfterViewInit,
   OnDestroy,
   ComponentRef,
-  ComponentFactoryResolver, Injector
+  ComponentFactoryResolver, Injector, ReflectiveInjector
 } from '@angular/core';
 import { ComponentMapperService } from '../../services/component-mapper.service';
 import { CmsComponentData } from '../cms-component-data';
 import { CmsService } from '../../facade/cms.service';
 import { AbstractCmsComponent } from '@spartacus/storefront';
+import { SearchBoxComponentService } from '../../../cms-lib/search-box/search-box-component.service';
 
 @Directive({
   selector: '[yComponentWrapper]'
@@ -66,15 +67,29 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
       data$: this.cmsService.getComponentData(this.componentUid)
     };
 
-    return Injector.create({
-      providers: [
-        {
-          provide: CmsComponentData,
-          useValue: componentData
-        }
-      ],
-      parent: this.injector
-    });
+    const providers = [
+      {
+        provide: CmsComponentData,
+        useValue: componentData
+      }
+    ];
+
+    const componentProvider = this.componentMapper.getComponentProviders(this.componentType);
+    if (componentProvider) {
+      providers.push(componentProvider);
+    }
+
+    return ReflectiveInjector.resolveAndCreate(providers, this.injector);
+
+    // return Injector.create({
+    //   providers: [
+    //     {
+    //       provide: CmsComponentData,
+    //       useValue: componentData
+    //     }
+    //   ],
+    //   parent: this.injector
+    // });
   }
 
   ngOnDestroy() {

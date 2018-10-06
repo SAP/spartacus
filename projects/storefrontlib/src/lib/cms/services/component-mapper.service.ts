@@ -58,4 +58,8 @@ export class ComponentMapperService {
 
     return factoryEntry ? factoryEntry[0] : null;
   }
+
+  getComponentProviders(typeCode: string) {
+    return this.config.cmsComponentServiceProviders[typeCode];
+  }
 }

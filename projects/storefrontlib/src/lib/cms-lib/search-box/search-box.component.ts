@@ -6,8 +6,7 @@ import { SearchBoxComponentService } from './search-box-component.service';
   selector: 'y-searchbox',
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  providers: [SearchBoxComponentService]
+  encapsulation: ViewEncapsulation.None
 })
 export class SearchBoxComponent {
   searchBoxControl: FormControl = new FormControl();

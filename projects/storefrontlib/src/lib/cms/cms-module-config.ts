@@ -1,6 +1,7 @@
 import { ServerConfig } from '../config/server-config/server-config';
 import { SiteContextModuleConfig } from '../site-context/site-context-module-config';
 import { AuthModuleConfig } from '../auth/auth-module.config';
+import { SearchBoxComponentService } from '../cms-lib/search-box/search-box-component.service';
 
 export interface CMSComponentMappingConfig {
   [CMSComponent: string]: string;
@@ -19,6 +20,11 @@ export interface CMSComponentMappingConfig {
   ProductReferencesComponent?: string;
   // CMSTabParagraphComponent: string;
   CMSTabParagraphComponent?: string;
+}
+
+export interface CMSComponentProviders {
+  [CMSComponent: string]: any;
+  SearchBoxComponent?: any;
 }
 
 export abstract class CmsModuleConfig extends ServerConfig
@@ -40,6 +46,7 @@ export abstract class CmsModuleConfig extends ServerConfig
   };
 
   cmsComponentMapping?: CMSComponentMappingConfig;
+  cmsComponentServiceProviders?: CMSComponentProviders;
 }
 
 export const defaultCmsModuleConfig: CmsModuleConfig = {
@@ -64,5 +71,12 @@ export const defaultCmsModuleConfig: CmsModuleConfig = {
     ProductReferencesComponent: 'y-product-references',
     // CMSTabParagraphComponent: 'y-tab-paragraph-container'
     CMSTabParagraphComponent: 'y-paragraph'
+  },
+
+  cmsComponentServiceProviders: {
+    SearchBoxComponent: {
+      provide: SearchBoxComponentService,
+      useClass: SearchBoxComponentService
+    }
   }
 };
