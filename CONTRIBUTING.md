@@ -12,8 +12,8 @@ Note: This is a living document. Like the Spartacus code, this document will be 
 ## Helping Others
 
 An easy way to start is by helping others who may have questions or need support. Look for such requests here:
-- Spartacus Slack community
-- StackOverlow posts tagged with spartacus-storefront
+- Spartacus [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE)
+- [Stack Overflow posts tagged with'spartacus'](https://stackoverflow.com/questions/tagged/spartacus)
 
 ----
 ## Reporting Issues
