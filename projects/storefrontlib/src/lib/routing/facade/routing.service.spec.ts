@@ -6,7 +6,6 @@ import { Store } from '@ngrx/store';
 const storeMock = { dispatch() {} };
 
 describe('RoutingService', () => {
-
   let store: Store<any>;
 
   beforeEach(() => {
@@ -16,20 +15,28 @@ describe('RoutingService', () => {
           provide: Store,
           useValue: storeMock
         },
-        RoutingService]
+        RoutingService
+      ]
     });
 
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  it('should be created', inject([RoutingService], (service: RoutingService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject(
+    [RoutingService],
+    (service: RoutingService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 
-  it('should dispatch navigation action', inject([RoutingService], (service: RoutingService) => {
-    service.go('/search', 'query');
-    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Go({ path: ['/search', 'query'] }));
-  }));
-
+  it('should dispatch navigation action', inject(
+    [RoutingService],
+    (service: RoutingService) => {
+      service.go('/search', 'query');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.Go({ path: ['/search', 'query'] })
+      );
+    }
+  ));
 });

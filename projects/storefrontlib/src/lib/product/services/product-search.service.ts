@@ -12,7 +12,9 @@ export class ProductSearchService {
     .select(fromStore.getSearchResults)
     .pipe(filter(results => Object.keys(results).length > 0));
 
-  readonly searchSuggestions$: Observable<any> = this.store.pipe(select(fromStore.getProductSuggestions));
+  readonly searchSuggestions$: Observable<any> = this.store.pipe(
+    select(fromStore.getProductSuggestions)
+  );
 
   constructor(private store: Store<fromStore.ProductsState>) {}
 

@@ -7,8 +7,7 @@ import { Store } from '@ngrx/store';
   providedIn: 'root'
 })
 export class RoutingService {
-
-  constructor(private store: Store<fromStore.RouterState>) { }
+  constructor(private store: Store<fromStore.RouterState>) {}
 
   public go(path: string, query: any) {
     this.store.dispatch(
@@ -16,7 +15,5 @@ export class RoutingService {
         path: [path, query]
       })
     );
-
   }
-
 }
