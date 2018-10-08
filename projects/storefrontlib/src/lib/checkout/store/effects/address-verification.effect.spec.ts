@@ -9,7 +9,7 @@ import { AddressVerificationEffect } from './address-verification.effect';
 const result = 'mockResult';
 
 class MockUserService {
-  verifyAddress(userId, address) {}
+  verifyAddress(_userId, _address) {}
 }
 
 describe('Address Verification effect', () => {

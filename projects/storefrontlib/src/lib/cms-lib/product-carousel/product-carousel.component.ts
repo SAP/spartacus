@@ -62,7 +62,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     this.carousel.next();
   }
 
-  slideTransitionCompleted(event: NgbSlideEvent) {}
+  slideTransitionCompleted(_event: NgbSlideEvent) {}
 
   protected fetchData() {
     const codes = this.getProductCodes();
