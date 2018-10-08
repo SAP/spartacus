@@ -117,6 +117,13 @@ describe('SearchBoxComponent in CmsLib', () => {
     expect(serviceSpy.search).toHaveBeenCalled();
   });
 
+  it('should dispatch new search query on input', () => {
+    searchBoxComponent.queryText = 'test input';
+    expect(searchBoxComponent.searchBoxControl.value).toEqual('test input');
+    fixture.detectChanges();
+    expect(serviceSpy.search).toHaveBeenCalled();
+  });
+
   it('should call onKey(event: any) and launchSearchPage(query: string)', () => {
     searchBoxComponent.onKey(mockKeyEvent1);
     expect(searchBoxComponent.onKey).toHaveBeenCalled();
