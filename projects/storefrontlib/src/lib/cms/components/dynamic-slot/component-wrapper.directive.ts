@@ -11,7 +11,7 @@ import {
 import { ComponentMapperService } from '../../services/component-mapper.service';
 import { CmsService } from '../../facade/cms.service';
 import { CmsComponentData } from '../cms-component-data';
-import { AbstractCmsComponent } from '@spartacus/storefront';
+import { AbstractCmsComponent } from '../abstract-cms-component';
 
 @Directive({
   selector: '[yComponentWrapper]'
