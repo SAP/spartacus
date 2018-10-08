@@ -15,6 +15,7 @@ import { UserToken } from '../../../auth/models/token-types.model';
 import * as fromStore from '../../store';
 import * as fromAuthStore from './../../../auth/store';
 import * as fromRouting from '../../../routing/store';
+import { AuthService } from '../../../auth/facade/auth.service';
 
 @Component({
   selector: 'y-login',
@@ -29,6 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   routingSub: Subscription;
 
   constructor(
+    private auth: AuthService,
     private store: Store<fromStore.UserState>,
     private route: ActivatedRoute,
     private elementRef: ElementRef,
@@ -52,8 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.user$ = this.store.pipe(select(fromStore.getDetails));
 
-    this.subscription = this.store
-      .pipe(select(fromAuthStore.getUserToken))
+    this.subscription = this.auth.userToken$
       .subscribe((token: UserToken) => {
         if (token && token.access_token && !this.isLogin) {
           this.isLogin = true;
