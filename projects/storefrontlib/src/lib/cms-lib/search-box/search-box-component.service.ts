@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { ProductSearchService } from '../../product/services/product-search.service';
 import { combineLatest, merge, Observable, of } from 'rxjs';
@@ -26,18 +26,22 @@ export class SearchBoxComponentService {
     minCharactersBeforeRequest: 3
   };
 
-  config$: Observable<SearchBoxConfig> = merge(
-    of(this.defaultConfig),
-    this.componentData.data$.pipe(
-      map(config => ({ ...this.defaultConfig, ...config }))
-    )
-  );
+  config$: Observable<SearchBoxConfig> = of(this.defaultConfig);
 
   constructor(
-    protected componentData: CmsComponentData,
+    @Optional() protected componentData: CmsComponentData,
     protected searchService: ProductSearchService,
     protected routingService: RoutingService
-  ) {}
+  ) {
+    if (componentData) {
+      this.config$ = merge(
+        this.config$,
+        this.componentData.data$.pipe(
+          map(config => ({ ...this.defaultConfig, ...config }))
+        )
+      );
+    }
+  }
 
   search = (text$: Observable<string>) =>
     combineLatest(
