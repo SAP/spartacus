@@ -38,10 +38,8 @@ describe('ShippingAddressComponent', () => {
   let fixture: ComponentFixture<ShippingAddressComponent>;
   let service: CheckoutService;
   let mockSelectors: {
-    user: {
-      getLoading: BehaviorSubject<boolean>;
-      getAddresses: BehaviorSubject<any[]>;
-    };
+    getLoading: BehaviorSubject<boolean>;
+    getAddresses: BehaviorSubject<any[]>;
   };
 
   beforeEach(async(() => {
@@ -70,16 +68,15 @@ describe('ShippingAddressComponent', () => {
     service = TestBed.get(CheckoutService);
 
     mockSelectors = {
-        getLoading: new BehaviorSubject(false),
-        getAddresses: new BehaviorSubject([])
-      }
+      getLoading: new BehaviorSubject(false),
+      getAddresses: new BehaviorSubject([])
     };
     spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
       switch (selector) {
         case fromUser.getLoading:
-          return () => mockSelectors.user.getLoading;
+          return () => mockSelectors.getLoading;
         case fromUser.getAddresses:
-          return () => mockSelectors.user.getAddresses;
+          return () => mockSelectors.getAddresses;
       }
     });
 
@@ -94,8 +91,8 @@ describe('ShippingAddressComponent', () => {
   });
 
   it('should call ngOnInit to get existing address if they do not exist', () => {
-    mockSelectors.user.getLoading.next(false);
-    mockSelectors.user.getAddresses.next([]);
+    mockSelectors.getLoading.next(false);
+    mockSelectors.getAddresses.next([]);
     component.ngOnInit();
     component.existingAddresses$.subscribe(() => {
       expect(service.loadUserAddresses).toHaveBeenCalled();
@@ -104,8 +101,8 @@ describe('ShippingAddressComponent', () => {
 
   it('should call ngOnInit to get existing address if they exist', () => {
     const mockAddresses = [mockAddress];
-    mockSelectors.user.getLoading.next(false);
-    mockSelectors.user.getAddresses.next(mockAddresses);
+    mockSelectors.getLoading.next(false);
+    mockSelectors.getAddresses.next(mockAddresses);
     component.ngOnInit();
     component.existingAddresses$.subscribe(data => {
       expect(data).toBe(mockAddresses);
