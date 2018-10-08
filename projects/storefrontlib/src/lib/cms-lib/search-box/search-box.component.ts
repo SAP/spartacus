@@ -1,135 +1,33 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, switchMap, map } from 'rxjs/operators';
-import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import * as fromProductStore from '../../product/store';
-import * as fromRouting from '../../routing/store';
-import { SearchConfig } from '../../product/search-config';
-import { debounceTime } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-import * as fromStore from '../../cms/store';
-import { CmsService } from '../../cms/facade/cms.service';
+import { SearchBoxComponentService } from './search-box-component.service';
 
 @Component({
   selector: 'y-searchbox',
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [SearchBoxComponentService]
 })
-export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
+export class SearchBoxComponent {
   searchBoxControl: FormControl = new FormControl();
-
-  maxProduct: number;
-  maxSuggestions: number;
-  minCharactersBeforeRequest: number;
-
   isMobileSearchVisible: boolean;
 
-  constructor(
-    protected cmsService: CmsService,
-    protected cd: ChangeDetectorRef,
-    protected store: Store<fromStore.CmsState>
-  ) {
-    super(cmsService, cd);
-  }
+  constructor(protected service: SearchBoxComponentService) {}
 
-  public search = (text$: Observable<string>) => {
-    return text$.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(term => {
-        if (term.length >= this.minCharactersBeforeRequest) {
-          return this.fetch(term).pipe(
-            map(res => res.map(suggestion => suggestion.value))
-          );
-        } else {
-          return of([]);
-        }
-      })
-    );
-  };
+  search = this.service.search;
 
-  ngOnInit() {
-    this.configSearch();
-  }
-
-  public submitSearch(): void {
-    this.launchSearchPage(this.searchBoxControl.value);
+  public submitSearch() {
+    this.service.launchSearchPage(this.searchBoxControl.value);
   }
 
   public onKey(event: any) {
     if (event.key === 'Enter') {
-      this.launchSearchPage(this.searchBoxControl.value);
+      this.service.launchSearchPage(this.searchBoxControl.value);
     }
   }
 
-  public launchSearchPage(query: string) {
-    this.store.dispatch(
-      new fromRouting.Go({
-        path: ['/search', query]
-      })
-    );
-  }
-
-  private fetch(text: string): Observable<any[]> {
-    this.executeSearch(text);
-
-    return this.store.select(fromProductStore.getProductSuggestions);
-  }
-
-  // Uncomment for product search
-  // private productSearch(): Observable<any> {
-  //   return this.store.select(fromProductStore.getSearchResults);
-  // }
-
-  private executeSearch(search: string) {
-    // Uncomment for product search
-    // if (this.shouldSearchProducts()) {
-    //   const searchConfig = new SearchConfig();
-    //   searchConfig.pageSize = this.maxProduct;
-    //   this.store.dispatch(
-    //     new fromProductStore.SearchProducts({
-    //       queryText: search,
-    //       searchConfig: searchConfig
-    //     })
-    //   );
-    // }
-
-    if (this.shouldSearchSuggestions()) {
-      const searchConfig = new SearchConfig();
-      searchConfig.pageSize = this.maxSuggestions;
-      this.store.dispatch(
-        new fromProductStore.GetProductSuggestions({
-          term: search,
-          searchConfig: searchConfig
-        })
-      );
-    }
-  }
-
-  private shouldSearchSuggestions(): Boolean {
-    return this.component && this.component.displaySuggestions;
-  }
-
-  // Uncomment for product search
-  // private shouldSearchProducts(): Boolean {
-  //   return this.component && this.component.displayProducts;
-  // }
-
-  private configSearch() {
-    this.maxProduct = this.component.maxProducts || 5;
-    this.maxSuggestions = this.component.maxSuggestions || 5;
-    this.minCharactersBeforeRequest =
-      this.component.minCharactersBeforeRequest || 3;
-  }
-
-  public toggleMobileSearchInput(): void {
+  public toggleMobileSearchInput() {
     this.isMobileSearchVisible = !this.isMobileSearchVisible;
   }
 }
