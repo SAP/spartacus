@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-import { Store } from '@ngrx/store';
-import * as fromStore from '../../cms/store';
 import { ProductSearchService } from '../../product/services/product-search.service';
 import { combineLatest, merge, Observable, of } from 'rxjs';
 import {
@@ -10,7 +8,7 @@ import {
   map,
   switchMap
 } from 'rxjs/operators';
-import * as fromRouting from '../../routing/store';
+import { RoutingService } from '../../routing/facade/routing.service';
 
 interface SearchBoxConfig {
   maxProducts: number;
@@ -37,8 +35,8 @@ export class SearchBoxComponentService {
 
   constructor(
     protected componentData: CmsComponentData,
-    protected store: Store<fromStore.CmsState>,
-    protected searchService: ProductSearchService
+    protected searchService: ProductSearchService,
+    protected routingService: RoutingService
   ) {}
 
   search = (text$: Observable<string>) =>
@@ -61,11 +59,7 @@ export class SearchBoxComponentService {
     );
 
   public launchSearchPage(query: string) {
-    this.store.dispatch(
-      new fromRouting.Go({
-        path: ['/search', query]
-      })
-    );
+    this.routingService.go('/search', query);
   }
 
   private fetch(text: string, config: SearchBoxConfig): Observable<any[]> {
