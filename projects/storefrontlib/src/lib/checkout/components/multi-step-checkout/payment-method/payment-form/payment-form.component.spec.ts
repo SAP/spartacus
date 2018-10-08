@@ -48,18 +48,16 @@ const mockAddress: Address = {
   country: { isocode: 'JP' }
 };
 
-const mockCardTypes = {
-  cardTypes: [
-    {
-      code: 'amex',
-      name: 'American Express'
-    },
-    {
-      isocode: 'maestro',
-      name: 'Maestro'
-    }
-  ]
-};
+const mockCardTypes = [
+  {
+    code: 'amex',
+    name: 'American Express'
+  },
+  {
+    isocode: 'maestro',
+    name: 'Maestro'
+  }
+];
 
 describe('PaymentFormComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
@@ -68,7 +66,10 @@ describe('PaymentFormComponent', () => {
   let service: CheckoutService;
 
   let ac: AbstractControl;
-  let mockCheckoutSelectors;
+  let mockCheckoutSelectors: {
+    getAllCardTypes: BehaviorSubject<any[]>;
+    getDeliveryAddress: BehaviorSubject<any[]>;
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -131,7 +132,7 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get suppored card types if they do not exist', () => {
-    mockCheckoutSelectors.getAllCardTypes.next({});
+    mockCheckoutSelectors.getAllCardTypes.next([]);
     component.ngOnInit();
     component.cardTypes$.subscribe(() => {
       expect(service.loadSupportedCardTypes).toHaveBeenCalled();
