@@ -1,8 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import * as NgrxStore from '@ngrx/store';
 import { ReviewSubmitComponent } from './review-submit.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import * as fromRoot from '../../../../routing/store';
 import * as fromCheckout from '../../../store';
@@ -20,12 +21,13 @@ const mockCart = {
   guid: 'test',
   code: 'test'
 };
-describe('ReviewSubmitComponent', () => {
+fdescribe('ReviewSubmitComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
   let service: CheckoutService;
   let cartData: CartDataService;
+  let mockSelectors;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -78,6 +80,31 @@ describe('ReviewSubmitComponent', () => {
       cvn: '123'
     };
 
+    mockSelectors = {
+      cart: {
+        getActiveCart: new BehaviorSubject({}),
+        getEntries: new BehaviorSubject({})
+      },
+      checkout: {
+        getSelectedDeliveryMode: new BehaviorSubject([])
+      },
+      user: {
+        countrySelectorFactory: new BehaviorSubject([])
+      }
+    };
+    spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
+      switch (selector) {
+        case fromCart.getActiveCart:
+          return () => mockSelectors.cart.getActiveCart;
+        case fromCart.getEntries:
+          return () => mockSelectors.cart.getEntries;
+        case fromCheckout.getSelectedDeliveryMode:
+          return () => mockSelectors.checkout.getSelectedDeliveryMode;
+        default:
+          return () => mockSelectors.user.countrySelectorFactory;
+      }
+    });
+
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(service, 'loadSupportedDeliveryModes').and.callThrough();
   });
@@ -87,12 +114,10 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call ngOnInit to get cart, entry, delivery mode, country name if they exists', () => {
-    spyOn(store, 'select').and.returnValues(
-      of({}),
-      of({}),
-      of('mockMode'),
-      of('mockCountryName')
-    );
+    mockSelectors.cart.getActiveCart.next({});
+    mockSelectors.cart.getEntries.next({});
+    mockSelectors.checkout.getSelectedDeliveryMode.next('mockMode');
+    mockSelectors.user.countrySelectorFactory.next('mockCountryName');
 
     component.ngOnInit();
     component.deliveryMode$.subscribe(data => expect(data).toEqual('mockMode'));
@@ -102,7 +127,10 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call ngOnInit to get delivery mode if it does not exists', () => {
-    spyOn(store, 'select').and.returnValues(of({}), of({}), of(null), of(null));
+    mockSelectors.cart.getActiveCart.next({});
+    mockSelectors.cart.getEntries.next({});
+    mockSelectors.checkout.getSelectedDeliveryMode.next(null);
+    mockSelectors.user.countrySelectorFactory.next(null);
 
     component.ngOnInit();
     component.deliveryMode$.subscribe(() => {
