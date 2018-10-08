@@ -31,7 +31,9 @@ describe('PaymentMethodComponent', () => {
   let component: PaymentMethodComponent;
   let fixture: ComponentFixture<PaymentMethodComponent>;
   let service: CheckoutService;
-  let mockUserSelectors;
+  let mockSelectors: {
+    getPaymentMethods: BehaviorSubject<any[]>;
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -57,13 +59,13 @@ describe('PaymentMethodComponent', () => {
     component = fixture.componentInstance;
     service = TestBed.get(CheckoutService);
 
-    mockUserSelectors = {
+    mockSelectors = {
       getPaymentMethods: new BehaviorSubject([])
     };
     spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
       switch (selector) {
         case fromUser.getPaymentMethods:
-          return () => mockUserSelectors.getPaymentMethods;
+          return () => mockSelectors.getPaymentMethods;
       }
     });
 
@@ -77,7 +79,7 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call ngOnInit to get existing payment methods if they do not exist', () => {
-    mockUserSelectors.getPaymentMethods.next([]);
+    mockSelectors.getPaymentMethods.next([]);
     component.ngOnInit();
     component.existingPaymentMethods$.subscribe(() => {
       expect(service.loadUserPaymentMethods).toHaveBeenCalled();
@@ -86,7 +88,7 @@ describe('PaymentMethodComponent', () => {
 
   it('should call ngOnInit to get existing payment methods if they exist', () => {
     const mockPayments = [paymentDetails];
-    mockUserSelectors.getPaymentMethods.next(mockPayments);
+    mockSelectors.getPaymentMethods.next(mockPayments);
     component.ngOnInit();
     component.existingPaymentMethods$.subscribe(data => {
       expect(data).toBe(mockPayments);

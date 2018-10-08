@@ -76,8 +76,17 @@ describe('MultiStepCheckoutComponent', () => {
   let fixture: ComponentFixture<MultiStepCheckoutComponent>;
   let service: CheckoutService;
   let cartService: CartService;
-  let mockCheckoutSelectors;
-  let mockCartSelectors;
+  let mockSelectors: {
+    checkout: {
+      getDeliveryAddress: BehaviorSubject<any[]>;
+      getSelectedCode: BehaviorSubject<string>;
+      getPaymentDetails: BehaviorSubject<any>;
+      getOrderDetails: BehaviorSubject<any>;
+    };
+    cart: {
+      getActiveCart: BehaviorSubject<any>;
+    };
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -111,27 +120,29 @@ describe('MultiStepCheckoutComponent', () => {
     store = TestBed.get(Store);
     cartService = TestBed.get(CartService);
 
-    mockCheckoutSelectors = {
-      getDeliveryAddress: new BehaviorSubject([]),
-      getSelectedCode: new BehaviorSubject(''),
-      getPaymentDetails: new BehaviorSubject({}),
-      getOrderDetails: new BehaviorSubject({})
-    };
-    mockCartSelectors = {
-      getActiveCart: new BehaviorSubject({})
+    mockSelectors = {
+      checkout: {
+        getDeliveryAddress: new BehaviorSubject([]),
+        getSelectedCode: new BehaviorSubject(''),
+        getPaymentDetails: new BehaviorSubject({}),
+        getOrderDetails: new BehaviorSubject({})
+      },
+      cart: {
+        getActiveCart: new BehaviorSubject({})
+      }
     };
     spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
       switch (selector) {
         case fromCheckout.getDeliveryAddress:
-          return () => mockCheckoutSelectors.getDeliveryAddress;
+          return () => mockSelectors.checkout.getDeliveryAddress;
         case fromCheckout.getSelectedCode:
-          return () => mockCheckoutSelectors.getSelectedCode;
+          return () => mockSelectors.checkout.getSelectedCode;
         case fromCheckout.getPaymentDetails:
-          return () => mockCheckoutSelectors.getPaymentDetails;
+          return () => mockSelectors.checkout.getPaymentDetails;
         case fromCheckout.getOrderDetails:
-          return () => mockCheckoutSelectors.getOrderDetails;
+          return () => mockSelectors.checkout.getOrderDetails;
         case fromCart.getActiveCart:
-          return () => mockCartSelectors.getActiveCart;
+          return () => mockSelectors.cart.getActiveCart;
       }
     });
 
@@ -153,47 +164,47 @@ describe('MultiStepCheckoutComponent', () => {
 
   it('should call ngOnInit() before process steps', () => {
     const mockCartData = {};
-    mockCartSelectors.getActiveCart.next(mockCartData);
+    mockSelectors.cart.getActiveCart.next(mockCartData);
     component.ngOnInit();
     expect(component.step).toEqual(1);
     expect(cartService.loadCartDetails).toHaveBeenCalled();
   });
 
   it('should call processSteps() to process step 1: set delivery address', () => {
-    mockCheckoutSelectors.getDeliveryAddress.next(mockDeliveryAddresses);
-    mockCheckoutSelectors.getSelectedCode.next('');
-    mockCheckoutSelectors.getPaymentDetails.next({});
-    mockCheckoutSelectors.getOrderDetails.next({});
+    mockSelectors.checkout.getDeliveryAddress.next(mockDeliveryAddresses);
+    mockSelectors.checkout.getSelectedCode.next('');
+    mockSelectors.checkout.getPaymentDetails.next({});
+    mockSelectors.checkout.getOrderDetails.next({});
 
     component.processSteps();
     expect(component.nextStep).toHaveBeenCalledWith(2);
   });
 
   it('should call processSteps() to process step 2: select delivery mode', () => {
-    mockCheckoutSelectors.getDeliveryAddress.next(mockDeliveryAddresses);
-    mockCheckoutSelectors.getSelectedCode.next(mockSelectedCode);
-    mockCheckoutSelectors.getPaymentDetails.next({});
-    mockCheckoutSelectors.getOrderDetails.next({});
+    mockSelectors.checkout.getDeliveryAddress.next(mockDeliveryAddresses);
+    mockSelectors.checkout.getSelectedCode.next(mockSelectedCode);
+    mockSelectors.checkout.getPaymentDetails.next({});
+    mockSelectors.checkout.getOrderDetails.next({});
 
     component.processSteps();
     expect(component.nextStep).toHaveBeenCalledWith(3);
   });
 
   it('should call processSteps() to process step 3: set payment info', () => {
-    mockCheckoutSelectors.getDeliveryAddress.next(mockDeliveryAddresses);
-    mockCheckoutSelectors.getSelectedCode.next(mockSelectedCode);
-    mockCheckoutSelectors.getPaymentDetails.next(mockPaymentDetails);
-    mockCheckoutSelectors.getOrderDetails.next({});
+    mockSelectors.checkout.getDeliveryAddress.next(mockDeliveryAddresses);
+    mockSelectors.checkout.getSelectedCode.next(mockSelectedCode);
+    mockSelectors.checkout.getPaymentDetails.next(mockPaymentDetails);
+    mockSelectors.checkout.getOrderDetails.next({});
 
     component.processSteps();
     expect(component.nextStep).toHaveBeenCalledWith(4);
   });
 
   it('should call processSteps() to process step 4: place order', () => {
-    mockCheckoutSelectors.getDeliveryAddress.next(mockDeliveryAddresses);
-    mockCheckoutSelectors.getSelectedCode.next(mockSelectedCode);
-    mockCheckoutSelectors.getPaymentDetails.next(mockPaymentDetails);
-    mockCheckoutSelectors.getOrderDetails.next(mockOrderDetails);
+    mockSelectors.checkout.getDeliveryAddress.next(mockDeliveryAddresses);
+    mockSelectors.checkout.getSelectedCode.next(mockSelectedCode);
+    mockSelectors.checkout.getPaymentDetails.next(mockPaymentDetails);
+    mockSelectors.checkout.getOrderDetails.next(mockOrderDetails);
 
     component.processSteps();
     expect(store.dispatch).toHaveBeenCalledWith(
