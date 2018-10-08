@@ -108,15 +108,14 @@ describe('PaymentFormComponent', () => {
       getAllCardTypes: new BehaviorSubject([]),
       getDeliveryAddress: new BehaviorSubject([])
     };
-    const mockSelect = selector => {
+    spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
       switch (selector) {
         case fromCheckout.getAllCardTypes:
           return () => mockCheckoutSelectors.getAllCardTypes;
         case fromCheckout.getDeliveryAddress:
           return () => mockCheckoutSelectors.getDeliveryAddress;
       }
-    };
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
+    });
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(ac, 'hasError').and.callThrough();

@@ -120,7 +120,7 @@ describe('MultiStepCheckoutComponent', () => {
     mockCartSelectors = {
       getActiveCart: new BehaviorSubject({})
     };
-    const mockSelect = selector => {
+    spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
       switch (selector) {
         case fromCheckout.getDeliveryAddress:
           return () => mockCheckoutSelectors.getDeliveryAddress;
@@ -133,8 +133,7 @@ describe('MultiStepCheckoutComponent', () => {
         case fromCart.getActiveCart:
           return () => mockCartSelectors.getActiveCart;
       }
-    };
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
+    });
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(component, 'addAddress').and.callThrough();
