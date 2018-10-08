@@ -111,17 +111,6 @@ describe('MultiStepCheckoutComponent', () => {
     store = TestBed.get(Store);
     cartService = TestBed.get(CartService);
 
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOn(component, 'addAddress').and.callThrough();
-    spyOn(component, 'nextStep').and.callThrough();
-    spyOn(service, 'createAndSetAddress').and.callThrough();
-    spyOn(service, 'setDeliveryAddress').and.callThrough();
-    spyOn(service, 'setDeliveryMode').and.callThrough();
-    spyOn(service, 'createPaymentDetails').and.callThrough();
-    spyOn(service, 'setPaymentDetails').and.callThrough();
-    spyOn(service, 'placeOrder').and.callThrough();
-    spyOn(cartService, 'loadCartDetails').and.callThrough();
-
     mockCheckoutSelectors = {
       getDeliveryAddress: new BehaviorSubject([]),
       getSelectedCode: new BehaviorSubject(''),
@@ -146,6 +135,17 @@ describe('MultiStepCheckoutComponent', () => {
       }
     };
     spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
+
+    spyOn(store, 'dispatch').and.callThrough();
+    spyOn(component, 'addAddress').and.callThrough();
+    spyOn(component, 'nextStep').and.callThrough();
+    spyOn(service, 'createAndSetAddress').and.callThrough();
+    spyOn(service, 'setDeliveryAddress').and.callThrough();
+    spyOn(service, 'setDeliveryMode').and.callThrough();
+    spyOn(service, 'createPaymentDetails').and.callThrough();
+    spyOn(service, 'setPaymentDetails').and.callThrough();
+    spyOn(service, 'placeOrder').and.callThrough();
+    spyOn(cartService, 'loadCartDetails').and.callThrough();
   });
 
   it('should be created', () => {

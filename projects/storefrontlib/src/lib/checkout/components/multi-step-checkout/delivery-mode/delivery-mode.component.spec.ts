@@ -7,7 +7,7 @@ import {
   FormGroup,
   AbstractControl
 } from '@angular/forms';
-import { of, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import * as fromRoot from '../../../../routing/store';
 import * as fromCheckout from '../../../store';
