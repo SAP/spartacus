@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import {
   map,
@@ -11,7 +11,7 @@ import {
   take
 } from 'rxjs/operators';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
 
 import * as componentActions from '../actions/component.action';
@@ -21,11 +21,12 @@ import { OccCmsService } from '../../services/occ-cms.service';
 export class ComponentEffects {
   @Effect()
   loadComponent$: Observable<any> = this.actions$
-    .ofType(componentActions.LOAD_COMPONENT)
     .pipe(
+      ofType(componentActions.LOAD_COMPONENT),
       map((action: componentActions.LoadComponent) => action.payload),
       switchMap(uid => {
-        return this.routingStore.select(fromRouting.getRouterState).pipe(
+        return this.routingStore.pipe(
+          select(fromRouting.getRouterState),
           filter(routerState => routerState !== undefined),
           map(routerState => routerState.state.context),
           take(1),

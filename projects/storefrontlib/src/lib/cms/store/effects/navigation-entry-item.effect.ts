@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, catchError, filter, mergeMap, take } from 'rxjs/operators';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
 
 import * as navigationItemActions from '../actions/navigation-entry-item.action';
@@ -15,8 +15,8 @@ import { IdList } from '../../models/idList.model';
 export class NavigationEntryItemEffects {
   @Effect()
   loadNavigationItems$: Observable<any> = this.actions$
-    .ofType(navigationItemActions.LOAD_NAVIGATION_ITEMS)
     .pipe(
+      ofType(navigationItemActions.LOAD_NAVIGATION_ITEMS),
       map(
         (action: navigationItemActions.LoadNavigationItems) => action.payload
       ),
@@ -28,7 +28,8 @@ export class NavigationEntryItemEffects {
       }),
       mergeMap(data => {
         if (data.ids.componentIds.idList.length > 0) {
-          return this.routingStore.select(fromRouting.getRouterState).pipe(
+          return this.routingStore.pipe(
+            select(fromRouting.getRouterState),
             filter(routerState => routerState !== undefined),
             map(routerState => routerState.state.context),
             take(1),

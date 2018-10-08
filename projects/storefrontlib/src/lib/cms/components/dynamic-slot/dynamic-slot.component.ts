@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -34,8 +34,9 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.currentSlot$ = this.store
-      .select(fromStore.currentSlotSelectorFactory(this.position))
-      .pipe(filter(Boolean));
+      .pipe(
+        select(fromStore.currentSlotSelectorFactory(this.position)),
+        filter(Boolean));
   }
 
   ngOnDestroy() {}
