@@ -11,7 +11,7 @@ import { Observable, Subscription, Subject, fromEvent } from 'rxjs';
 import { takeUntil, tap, debounceTime } from 'rxjs/operators';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
 import { CmsService } from '../../cms/facade/cms.service';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
@@ -69,8 +69,10 @@ export class ProductCarouselComponent extends AbstractCmsComponent
 
     if (codes && codes.length > 0) {
       this.codesSubscription = this.store
-        .select(fromProductStore.getAllProductCodes)
-        .pipe(takeUntil(this.finishSubject))
+        .pipe(
+          select(fromProductStore.getAllProductCodes),
+          takeUntil(this.finishSubject)
+        )
         .subscribe(productCodes => {
           if (this.firstTime || productCodes.length === 0) {
             codes
@@ -84,8 +86,10 @@ export class ProductCarouselComponent extends AbstractCmsComponent
       this.firstTime = false;
 
       this.products$ = this.store
-        .select(fromProductStore.getSelectedProductsFactory(codes))
-        .pipe(tap(this.group.bind(this)));
+        .pipe(
+          select(fromProductStore.getSelectedProductsFactory(codes)),
+          tap(this.group.bind(this))
+        );
     }
     super.fetchData();
   }

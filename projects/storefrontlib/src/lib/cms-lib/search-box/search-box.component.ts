@@ -12,7 +12,7 @@ import * as fromProductStore from '../../product/store';
 import * as fromRouting from '../../routing/store';
 import { SearchConfig } from '../../product/search-config';
 import { debounceTime } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
 import { CmsService } from '../../cms/facade/cms.service';
 
@@ -80,7 +80,7 @@ export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
   private fetch(text: string): Observable<any[]> {
     this.executeSearch(text);
 
-    return this.store.select(fromProductStore.getProductSuggestions);
+    return this.store.pipe(select(fromProductStore.getProductSuggestions));
   }
 
   // Uncomment for product search
