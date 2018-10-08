@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SearchBoxComponentService } from './search-box-component.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'y-searchbox',
@@ -15,7 +16,7 @@ export class SearchBoxComponent {
 
   constructor(protected service: SearchBoxComponentService) {}
 
-  search = this.service.search;
+  search: (text$: Observable<string>) => Observable<any> = this.service.search;
 
   public submitSearch() {
     this.service.launchSearchPage(this.searchBoxControl.value);
