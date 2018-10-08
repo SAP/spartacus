@@ -1,7 +1,7 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SearchBoxComponentService } from './search-box-component.service';
-import { Observable } from 'rxjs';
+import { merge, Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'y-searchbox',
@@ -14,9 +14,18 @@ export class SearchBoxComponent {
   searchBoxControl: FormControl = new FormControl();
   isMobileSearchVisible: boolean;
 
+  queryText$: Subject<string> = new Subject();
+
+  @Input('queryText')
+  set queryText(value: string) {
+    this.queryText$.next(value);
+    this.searchBoxControl.setValue(value);
+  }
+
   constructor(protected service: SearchBoxComponentService) {}
 
-  search: (text$: Observable<string>) => Observable<any> = this.service.search;
+  search = (text$: Observable<string>) =>
+    this.service.search(merge(text$, this.queryText$));
 
   public submitSearch() {
     this.service.launchSearchPage(this.searchBoxControl.value);
