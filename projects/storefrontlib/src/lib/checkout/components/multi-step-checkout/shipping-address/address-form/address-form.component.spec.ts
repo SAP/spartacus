@@ -63,7 +63,7 @@ const mockRegions = [
   }
 ];
 
-fdescribe('AddressFormComponent', () => {
+describe('AddressFormComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: AddressFormComponent;
   let fixture: ComponentFixture<AddressFormComponent>;
