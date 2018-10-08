@@ -4,11 +4,12 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
+import * as NgrxStore from '@ngrx/store';
+import { StoreModule, combineReducers } from '@ngrx/store';
 import { SiteContextInterceptor } from './site-context.interceptor';
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../shared/store';
-import { of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { SiteContextModuleConfig } from '../../site-context-module-config';
 
 export class MockSiteContextModuleConfig {
@@ -23,12 +24,25 @@ export class MockSiteContextModuleConfig {
     currency: ''
   };
 }
+const selectors = {
+  getActiveCurrency: new BehaviorSubject(null),
+  getActiveLanguage: new BehaviorSubject(null)
+};
+
+const mockSelect = selector => {
+  switch (selector) {
+    case fromStore.getActiveLanguage:
+      return () => selectors.getActiveLanguage;
+
+    case fromStore.getActiveCurrency:
+      return () => selectors.getActiveCurrency;
+  }
+};
 
 describe('SiteContextInterceptor', () => {
   const languageDe = 'de';
   const currencyJpy = 'JPY';
 
-  let store: Store<fromStore.SiteContextState>;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -53,9 +67,8 @@ describe('SiteContextInterceptor', () => {
       ]
     });
 
-    store = TestBed.get(Store);
     httpMock = TestBed.get(HttpTestingController);
-    spyOn(store, 'select').and.returnValues(of(languageDe), of(currencyJpy));
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
   });
 
   afterEach(() => {
@@ -65,13 +78,16 @@ describe('SiteContextInterceptor', () => {
   it('should not add parameters: lang and curr to a request', inject(
     [HttpClient],
     (http: HttpClient) => {
+      selectors.getActiveLanguage.next(null);
+      selectors.getActiveCurrency.next(null);
       http.get('/xxx').subscribe(result => {
         expect(result).toBeTruthy();
       });
-
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'GET';
       });
+
+      console.log(mockReq.request.params.get('lang'));
       expect(mockReq.request.params.get('lang')).toEqual(null);
       expect(mockReq.request.params.get('curr')).toEqual(null);
 
@@ -82,6 +98,8 @@ describe('SiteContextInterceptor', () => {
   it('should add parameters: lang and curr to a request', inject(
     [HttpClient],
     (http: HttpClient) => {
+      selectors.getActiveLanguage.next(languageDe);
+      selectors.getActiveCurrency.next(currencyJpy);
       http
         .get('https://localhost:9002/rest/v2/electronics')
         .subscribe(result => {
@@ -91,6 +109,7 @@ describe('SiteContextInterceptor', () => {
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'GET';
       });
+      console.log(mockReq.request.params.get('lang'));
       expect(mockReq.request.params.get('lang')).toEqual(languageDe);
       expect(mockReq.request.params.get('curr')).toEqual(currencyJpy);
 
