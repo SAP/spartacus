@@ -21,13 +21,24 @@ const mockCart = {
   guid: 'test',
   code: 'test'
 };
-fdescribe('ReviewSubmitComponent', () => {
+describe('ReviewSubmitComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
   let service: CheckoutService;
   let cartData: CartDataService;
-  let mockSelectors;
+  let mockSelectors: {
+    cart: {
+      getActiveCart: BehaviorSubject<object>;
+      getEntries: BehaviorSubject<any[]>;
+    };
+    checkout: {
+      getSelectedDeliveryMode: BehaviorSubject<string>;
+    };
+    user: {
+      countrySelectorFactory: BehaviorSubject<any>;
+    };
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -83,10 +94,10 @@ fdescribe('ReviewSubmitComponent', () => {
     mockSelectors = {
       cart: {
         getActiveCart: new BehaviorSubject({}),
-        getEntries: new BehaviorSubject({})
+        getEntries: new BehaviorSubject([])
       },
       checkout: {
-        getSelectedDeliveryMode: new BehaviorSubject([])
+        getSelectedDeliveryMode: new BehaviorSubject('')
       },
       user: {
         countrySelectorFactory: new BehaviorSubject([])
@@ -115,7 +126,7 @@ fdescribe('ReviewSubmitComponent', () => {
 
   it('should call ngOnInit to get cart, entry, delivery mode, country name if they exists', () => {
     mockSelectors.cart.getActiveCart.next({});
-    mockSelectors.cart.getEntries.next({});
+    mockSelectors.cart.getEntries.next([]);
     mockSelectors.checkout.getSelectedDeliveryMode.next('mockMode');
     mockSelectors.user.countrySelectorFactory.next('mockCountryName');
 
@@ -128,7 +139,7 @@ fdescribe('ReviewSubmitComponent', () => {
 
   it('should call ngOnInit to get delivery mode if it does not exists', () => {
     mockSelectors.cart.getActiveCart.next({});
-    mockSelectors.cart.getEntries.next({});
+    mockSelectors.cart.getEntries.next([]);
     mockSelectors.checkout.getSelectedDeliveryMode.next(null);
     mockSelectors.user.countrySelectorFactory.next(null);
 
