@@ -11,9 +11,9 @@ When a file is consistently not following these rules and adhering to the rules 
 
 We are following [Google's Style Guide](https://angular.io/guide/styleguide).
 
-### Coding Guidelines Reported from the CLI
+### Coding Guidelines Check using the CLI
 
-Certain guideline violations can be detected automatically by a tool called codelyzer.  It's bundled with the Angular CLI. You can analyze an angular app with the following command:
+Certain guideline violations can be detected automatically by a tool called codelyzer, which is bundled with the Angular CLI. You can analyze an angular app with the following command:
 
 ```
 $ ng lint
@@ -65,10 +65,40 @@ We have chosen to use the NGRX store to manage the global application state in o
 - Use one common store for the whole app.
 - Using the store doesn’t mean that we need to cache everything.  Caching should be used with intent and where it makes sense.  In general, cms data is a good candidate for caching; application data is not.
 
-### Site pages
+### Site Context
 
-When working on a page, don't forget about the language and currency options that are available from the header at any time. Data may need updating when site-context is changed; sometimes we also need to update the data for user login/logout).
+Site context can be changed for each page. The response data may be different for different site context. Keep this in mind when working on pages.
 
-### Components
+Also, logged-in users and anonymous users may see different response data. When working on pages, take into consideration that a user can change their login status through login or logout.
 
-In component, if you manually call subscribe (not using async pipe), don't forget to unsubscribe it. It is generally better to use async pipe instead of .subscribe).
+### Naming Conventions
+
+Component selectors should always start with "cx-". (Currently, many component selectors start with "y-" but this is being chnaged.)
+
+### Code Structure
+
+The code structure of each module should be consistent. For example:
+
+- Store-related codes are in the `store` folder
+- Component codes are inside the `component` folder
+- All OCC (API) services are inside `OccModule`
+
+However, common UI components are inside the `UI/components` folder.
+
+### Keep Modules Small
+
+Try to keep modules as small as possible. In most cases, one module has only one component.
+
+### Unit Tests, Always
+
+New code must always be covered by unit tests.
+
+### Reduce Module Dependencies
+
+Always try to reduce module dependencies.
+
+### Layers in Spartacus
+
+`occ -> ngrx/store -> component`
+
+We are currently planning to add a one-layer "facade" between ngrx/store and component. ProductModule is currently done, as is a part of CmsModule. We will add facades to all feature modules soon.
