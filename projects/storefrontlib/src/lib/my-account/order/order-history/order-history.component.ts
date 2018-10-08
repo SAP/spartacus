@@ -3,7 +3,7 @@ import { tap } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as fromUserStore from '../../../user/store';
 import * as fromAuthStore from '../../../auth/store';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 import * as fromRouting from '../../../routing/store';
 
@@ -30,15 +30,16 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.store
-      .select(fromAuthStore.getUserToken)
+      .pipe(select(fromAuthStore.getUserToken))
       .subscribe(userData => {
         if (userData && userData.userId) {
           this.user_id = userData.userId;
         }
       });
 
-    this.orders$ = this.store.select(fromUserStore.getOrders).pipe(
-      tap(orders => {
+    this.orders$ = this.store.pipe(
+      select(fromUserStore.getOrders),
+      tap((orders: any) => {
         if (
           orders.orders &&
           Object.keys(orders.orders).length === 0 &&
@@ -57,7 +58,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.isLoaded$ = this.store.select(fromUserStore.getOrdersLoaded);
+    this.isLoaded$ = this.store.pipe(select(fromUserStore.getOrdersLoaded));
   }
 
   ngOnDestroy() {
