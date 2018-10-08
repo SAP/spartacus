@@ -5,10 +5,12 @@ import {
   AfterViewInit,
   OnDestroy,
   ComponentRef,
-  ComponentFactoryResolver
+  ComponentFactoryResolver, Injector
 } from '@angular/core';
 import { ComponentMapperService } from '../../services/component-mapper.service';
-import { CmsComponent } from '../cms.component';
+import { CmsService } from '../../facade/cms.service';
+import { CmsComponentData } from '../cms-component-data';
+import { AbstractCmsComponent } from '@spartacus/storefront';
 
 @Directive({
   selector: '[yComponentWrapper]'
@@ -28,7 +30,9 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
   constructor(
     private vcr: ViewContainerRef,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private componentMapper: ComponentMapperService
+    private componentMapper: ComponentMapperService,
+    private injector: Injector,
+    private cmsService: CmsService
   ) {}
 
   ngAfterViewInit() {
@@ -45,13 +49,36 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
         componentTypeClass
       );
 
-      this.cmpRef = this.vcr.createComponent(factory);
-      const instance: CmsComponent = this.cmpRef.instance;
+      this.cmpRef = this.vcr.createComponent(
+        factory,
+        undefined,
+        this.getInjectorForComponent()
+      );
 
+      // TODO: Remove after AbstractCmsComponent will be removed
+      const instance: AbstractCmsComponent = this.cmpRef.instance;
       if (instance.onCmsComponentInit) {
         instance.onCmsComponentInit(this.componentUid, this.contextParameters);
       }
     }
+  }
+
+  private getInjectorForComponent() {
+    const componentData: CmsComponentData = {
+      uid: this.componentUid,
+      contextParameters: this.contextParameters,
+      data$: this.cmsService.getComponentData(this.componentUid)
+    };
+
+    return Injector.create({
+      providers: [
+        {
+          provide: CmsComponentData,
+          useValue: componentData
+        }
+      ],
+      parent: this.injector
+    });
   }
 
   ngOnDestroy() {
