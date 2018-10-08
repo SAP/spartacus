@@ -70,7 +70,7 @@ class MockShippingAddressComponent {
   selectedAddress;
 }
 
-fdescribe('MultiStepCheckoutComponent', () => {
+describe('MultiStepCheckoutComponent', () => {
   let store: Store<fromRoot.State>;
   let component: MultiStepCheckoutComponent;
   let fixture: ComponentFixture<MultiStepCheckoutComponent>;
