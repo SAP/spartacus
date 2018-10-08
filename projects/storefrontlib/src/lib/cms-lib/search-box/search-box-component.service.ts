@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
 import { ProductSearchService } from '../../product/services/product-search.service';
 import { combineLatest, merge, Observable, of } from 'rxjs';
@@ -72,7 +72,7 @@ export class SearchBoxComponentService {
   private fetch(text: string, config: SearchBoxConfig): Observable<any[]> {
     this.executeSearch(text, config);
 
-    return this.store.select(fromProductStore.getProductSuggestions);
+    return this.store.pipe(select(fromProductStore.getProductSuggestions));
   }
 
   // Uncomment for product search
