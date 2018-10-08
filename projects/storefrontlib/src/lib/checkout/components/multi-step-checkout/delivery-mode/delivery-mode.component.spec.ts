@@ -145,7 +145,7 @@ describe('DeliveryModeComponent', () => {
 
   it('should stop supportedDeliveryModes subscription when leave this component even they do not exist', () => {
     component.leave = true;
-    mockCheckoutSelectors.getSupportedDeliveryModes.next({});
+    mockCheckoutSelectors.getSupportedDeliveryModes.next([]);
     component.ngOnInit();
     component.supportedDeliveryModes$.subscribe(() => {
       expect(service.loadSupportedDeliveryModes).not.toHaveBeenCalled();

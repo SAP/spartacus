@@ -7,7 +7,7 @@ import {
   Input
 } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import * as fromUserStore from '../../../../user/store';

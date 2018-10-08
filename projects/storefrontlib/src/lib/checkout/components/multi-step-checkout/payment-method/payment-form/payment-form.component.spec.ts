@@ -148,14 +148,15 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get shipping address set in cart', () => {
+    const mockAddresses = [mockAddress];
     mockCheckoutSelectors.getAllCardTypes.next(mockCardTypes);
-    mockCheckoutSelectors.getDeliveryAddress.next(mockAddress);
+    mockCheckoutSelectors.getDeliveryAddress.next(mockAddresses);
     component.ngOnInit();
     component.cardTypes$.subscribe(data => {
       expect(data).toBe(mockCardTypes);
     });
     component.shippingAddress$.subscribe(data => {
-      expect(data).toBe(mockAddress);
+      expect(data).toBe(mockAddresses);
     });
   });
 
