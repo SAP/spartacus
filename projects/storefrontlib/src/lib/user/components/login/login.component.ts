@@ -13,9 +13,8 @@ import { Observable, Subscription } from 'rxjs';
 import { UserToken } from '../../../auth/models/token-types.model';
 
 import * as fromStore from '../../store';
-import * as fromAuthStore from './../../../auth/store';
-import * as fromRouting from '../../../routing/store';
 import { AuthService } from '../../../auth/facade/auth.service';
+import { RoutingService } from '../../../routing/facade/routing.service';
 
 @Component({
   selector: 'y-login',
@@ -31,6 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     private auth: AuthService,
+    private routing: RoutingService,
     private store: Store<fromStore.UserState>,
     private route: ActivatedRoute,
     private elementRef: ElementRef,
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (token && token.access_token && !this.isLogin) {
           this.isLogin = true;
           this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
-          this.store.dispatch(new fromAuthStore.Login());
+          this.auth.login();
         } else if (token && !token.access_token && this.isLogin) {
           this.isLogin = false;
         }
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   logout() {
     this.isLogin = false;
-    this.store.dispatch(new fromAuthStore.Logout());
+    this.auth.logout();
 
     let state = this.route.snapshot;
     while (state.firstChild) {
@@ -81,11 +81,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         child => child.GUARD_NAME === 'AuthGuard'
       )
     ) {
-      this.store.dispatch(
-        new fromRouting.Go({
-          path: ['/login']
-        })
-      );
+      this.routing.go('/login');
     }
   }
 

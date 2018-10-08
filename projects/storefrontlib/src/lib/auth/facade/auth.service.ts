@@ -21,4 +21,11 @@ export class AuthService {
     );
   }
 
+  login() {
+    this.store.dispatch(new fromAuthStore.Login());
+  }
+
+  logout() {
+    this.store.dispatch(new fromAuthStore.Logout());
+  }
 }
