@@ -1,19 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
-import * as fromRoot from '../../routing/store';
-import * as fromProductStore from '../../product/store';
-import * as fromRouting from '../../routing/store';
 import { SearchBoxComponent } from './search-box.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SearchConfig } from '../../product/search-config';
 import { By } from '@angular/platform-browser';
 import { BootstrapModule } from '../../bootstrap.module';
 import { CmsService } from '../../cms/facade/cms.service';
+import { CmsComponentData, ProductSearchService } from '@spartacus/storefront';
+import { SearchBoxComponentService } from './search-box-component.service';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -22,10 +18,9 @@ const UseCmsModuleConfig: CmsModuleConfig = {
 };
 
 describe('SearchBoxComponent in CmsLib', () => {
-  let store: Store<any>;
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
-  let selectSpy: jasmine.Spy;
+  let serviceSpy: any;
 
   const mockSearchBoxComponentData = {
     uid: '001',
@@ -47,17 +42,6 @@ describe('SearchBoxComponent in CmsLib', () => {
     getComponentData: () => of(mockSearchBoxComponentData)
   };
 
-  const mockSearchSuggestions = {
-    suggestions: [
-      {
-        value: 'test1'
-      },
-      {
-        value: 'test2'
-      }
-    ]
-  };
-
   const mockKeyEvent1 = {
     key: 'Enter'
   };
@@ -66,7 +50,10 @@ describe('SearchBoxComponent in CmsLib', () => {
     key: 'Enter123'
   };
 
-  const mockQueryString = '?query=mockQuery';
+  class SearchBoxComponentServiceSpy {
+    launchSearchPage = jasmine.createSpy('launchSearchPage');
+    search = jasmine.createSpy('search').and.callFake(() => of([]));
+  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -74,31 +61,48 @@ describe('SearchBoxComponent in CmsLib', () => {
         BootstrapModule,
         BrowserAnimationsModule,
         FormsModule,
-        ReactiveFormsModule,
-        RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          products: combineReducers(fromProductStore.getReducers())
-        })
+        ReactiveFormsModule
       ],
       declarations: [SearchBoxComponent, PictureComponent],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
+        {
+          provide: ProductSearchService,
+          useValue: {}
+        },
+        {
+          provide: CmsComponentData,
+          useValue: {
+            data$: of({})
+          }
+        }
       ]
-    }).compileComponents();
+    })
+      .overrideComponent(SearchBoxComponent, {
+        set: {
+          providers: [
+            {
+              provide: SearchBoxComponentService,
+              useClass: SearchBoxComponentServiceSpy
+            }
+          ]
+        }
+      })
+
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchBoxComponent);
     searchBoxComponent = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    selectSpy = spyOn(store, 'select');
-    spyOn(store, 'dispatch').and.callThrough();
+    serviceSpy = fixture.debugElement.injector.get(
+      SearchBoxComponentService
+    ) as any;
 
     spyOn(searchBoxComponent, 'onKey').and.callThrough();
-    spyOn(searchBoxComponent, 'launchSearchPage').and.callThrough();
+    //    spyOn(searchBoxComponent, 'launchSearchPage').and.callThrough();
     spyOn(searchBoxComponent.searchBoxControl, 'reset').and.callThrough();
   });
 
@@ -106,50 +110,23 @@ describe('SearchBoxComponent in CmsLib', () => {
     expect(searchBoxComponent).toBeTruthy();
   });
 
-  it('should contain cms content in the html rendering after bootstrap', () => {
-    expect(searchBoxComponent.component).toBeNull();
-    searchBoxComponent.onCmsComponentInit(mockSearchBoxComponentData.uid);
-    expect(searchBoxComponent.component).toBe(mockSearchBoxComponentData);
-  });
-
   it('should dispatch new search query on text update', () => {
-    searchBoxComponent.onCmsComponentInit(mockSearchBoxComponentData.uid);
-    searchBoxComponent.ngOnInit();
-
-    selectSpy.and.returnValue(of([mockSearchSuggestions]));
     searchBoxComponent.searchBoxControl.setValue('testQuery');
     expect(searchBoxComponent.searchBoxControl.value).toEqual('testQuery');
-
-    searchBoxComponent.search(of('testQuery')).subscribe(() => {
-      const searchConfig = new SearchConfig();
-      searchConfig.pageSize = searchBoxComponent.maxSuggestions;
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromProductStore.GetProductSuggestions({
-          term: 'testQuery',
-          searchConfig: searchConfig
-        })
-      );
-    });
+    fixture.detectChanges();
+    expect(serviceSpy.search).toHaveBeenCalled();
   });
 
   it('should call onKey(event: any) and launchSearchPage(query: string)', () => {
     searchBoxComponent.onKey(mockKeyEvent1);
     expect(searchBoxComponent.onKey).toHaveBeenCalled();
-    expect(searchBoxComponent.launchSearchPage).toHaveBeenCalled();
+    expect(serviceSpy.launchSearchPage).toHaveBeenCalled();
   });
 
   it('should only call onKey(event: any)', () => {
     searchBoxComponent.onKey(mockKeyEvent2);
     expect(searchBoxComponent.onKey).toHaveBeenCalled();
-    expect(searchBoxComponent.launchSearchPage).not.toHaveBeenCalled();
-  });
-
-  it('should call launchSearchPage(query: string) and navigate away', () => {
-    searchBoxComponent.launchSearchPage(mockQueryString);
-    expect(searchBoxComponent.launchSearchPage).toHaveBeenCalled();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromRouting.Go({ path: ['/search', mockQueryString] })
-    );
+    expect(serviceSpy.launchSearchPage).not.toHaveBeenCalled();
   });
 
   describe('UI tests', () => {
