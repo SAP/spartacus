@@ -5,7 +5,8 @@ import {
   AfterViewInit,
   OnDestroy,
   ComponentRef,
-  ComponentFactoryResolver, Injector
+  ComponentFactoryResolver,
+  Injector
 } from '@angular/core';
 import { ComponentMapperService } from '../../services/component-mapper.service';
 import { CmsService } from '../../facade/cms.service';
