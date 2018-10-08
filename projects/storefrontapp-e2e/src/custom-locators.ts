@@ -5,7 +5,7 @@ export function addCustomLocators(by: ProtractorBy) {
     slotPosition,
     elementTag,
     opt_parentElement,
-    opt_rootSelector
+    _opt_rootSelector
   ) {
     const using = opt_parentElement || document;
     return using.querySelectorAll(
@@ -16,7 +16,7 @@ export function addCustomLocators(by: ProtractorBy) {
   by.addLocator('formControlName', function(
     formControlName: string,
     opt_parentElement,
-    opt_rootSelector
+    _opt_rootSelector
   ) {
     const using = opt_parentElement || document;
     return using.querySelectorAll(`[formcontrolname=${formControlName}]`);

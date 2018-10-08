@@ -20,11 +20,11 @@ const testToken: UserToken = {
 };
 
 class UserAuthenticationTokenServiceMock {
-  loadToken(userId: string, password: string): Observable<any> {
+  loadToken(_userId: string, _password: string): Observable<any> {
     return;
   }
 
-  refreshToken(refreshToken: string): Observable<any> {
+  refreshToken(_refreshToken: string): Observable<any> {
     return;
   }
 }
