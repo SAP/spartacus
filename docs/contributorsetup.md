@@ -137,7 +137,7 @@ To configure the storfront, use the `withConfig` method on the StorefrontModule.
 export class AppModule {}
 ```
 
-The server `baseUrl` is pulled from the `environment.*.ts` file, but the rest of the preoperties in this example use the default values for the configs. You do not have to specify a config if you do not need to override the default value.
+The server `baseUrl` is pulled from the `environment.*.ts` file, but the rest of the properties in this example use the default values for the configs. You do not have to specify a config if you do not need to override the default value.
 
 For example, if you only need to override the `baseUrl` and the `client_secret` and want to use the default value for other properties, you can use the following config:
 
