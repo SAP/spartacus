@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import * as fromStore from '../store';
 import { select, Store } from '@ngrx/store';
 
