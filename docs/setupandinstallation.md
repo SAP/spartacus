@@ -2,6 +2,8 @@
 
 The following instructions describe how to build a storefront application from ready-made libraries.
 
+To build the Spartacus project from source, see [Contributor Setup](contributorsetup.md).
+
 # Prerequisites
 
 Before carrying out the procedures below, please ensure the following frontend and backend requirements are in place.
