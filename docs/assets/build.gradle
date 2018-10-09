@@ -18,7 +18,7 @@ def config = {
 	    extName 'solrfacetsearchbackoffice'
 	    extName 'solrserver'
 
-	    extName 'yacceleratorcockpits'
+//	    extName 'yacceleratorcockpits'
 	    extName 'yacceleratorbackoffice'
 	    extName 'yacceleratorinitialdata'
 	    extName 'yacceleratorfulfilmentprocess'
@@ -135,7 +135,7 @@ task setup << {
 
 	pl.project.addons {
 		names "captchaaddon,commerceorgsamplesaddon,promotionenginesamplesaddon,assistedservicestorefront,assistedservicecustomerinterestsaddon,assistedserviceyprofileaddon,assistedservicepromotionaddon,customerticketingaddon,textfieldconfiguratortemplateaddon,smarteditaddon,consignmenttrackingaddon,notificationaddon,customerinterestsaddon,stocknotificationaddon,orderselfserviceaddon,adaptivesearchsamplesaddon,configurablebundleaddon,"+
-					"pcmbackofficesamplesaddon,b2cangularaddon,xyformssamples,xyformsstorefrontcommons,personalizationsearchsamplesaddon,personalizationyprofilesampledataaddon,personalizationaddon,profiletagaddon"
+					"pcmbackofficesamplesaddon,b2cangularaddon,xyformssamples,xyformsstorefrontcommons,profiletagaddon"
 		template "yacceleratorstorefront"
 		storeFronts "yacceleratorstorefront"
 		platform pl
