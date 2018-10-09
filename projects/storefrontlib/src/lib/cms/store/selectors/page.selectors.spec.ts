@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, Store, combineReducers, select } from '@ngrx/store';
 
 import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../reducers';
@@ -46,7 +46,7 @@ describe('Cms PageData Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getPageEntities)
+        .pipe(select(fromSelectors.getPageEntities))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -62,7 +62,7 @@ describe('Cms PageData Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getLatestPageKey)
+        .pipe(select(fromSelectors.getLatestPageKey))
         .subscribe(value => (result = value));
 
       expect(result).toEqual('');
@@ -78,7 +78,7 @@ describe('Cms PageData Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getLatestPage)
+        .pipe(select(fromSelectors.getLatestPage))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(undefined);
@@ -95,7 +95,7 @@ describe('Cms PageData Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.currentSlotSelectorFactory('left'))
+        .pipe(select(fromSelectors.currentSlotSelectorFactory('left')))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(undefined);
