@@ -130,6 +130,7 @@ We welcome contributions to the Spartacus codebase. Before you start your first 
 * To make this process as simple as possible, we use the *[CLA assistant](https://cla-assistant.io/)* for individual contributions. CLA assistant is an open source tool that integrates with GitHub very well and enables a one-click-experience for accepting the CLA. 
 * For company contributors, special rules apply. See the respective section below for details.
 2. Contributions must meet our code style, quality, and product standards. We also follow them :). The respective section below gives more details on the coding guidelines.
+
 3. Not all contributions will be accepted.
 * The code you are submitting must fit the overall vision and direction of Spartacus and really improve it. Bug fixes are simple cases, for example, but new features may work better as third-party extensions. 
 * Major feature implementations should be discussed with the owner [Bill Marcotte](https://github.com/Xymmer). You can also float ideas in our Slack channel, and we'll connect you to the appropriate person for further discussion.
@@ -170,20 +171,25 @@ The "guidelines and standards" requirement could fill entire books and still lac
 ### Contribution Process
 
 1.  Make sure the change would be welcome, as described above.
+
+1. Clone the Spartacus library sources, build, and then run the storefront from the library development workspace. For more information, see [Contributor Setup](docs/contributorsetup.md).
+
 2.  Create a branch forking the Spartacus repository, and code your change.
+
 3.  Commit and push your changes on that branch.
-*  Squash several commits into one. See [this explanation](http://davidwalsh.name/squash-commits-git). 
-* This step must also be done when additional changes are required after code review.
+
+    -  Squash several commits into one. See [this explanation](http://davidwalsh.name/squash-commits-git). 
+    - This step must also be done when additional changes are required after code review.
 4.  In the commit message, follow the [commit message guidelines](docs/contributing/coding-guidelines.md#git-guidelines)
 5.  If your change fixes an issue reported in GitHub, add the following line to the commit message:
  ```Fixes https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/(issueNumber)```
-* Do not add a colon after "Fixes", as this prevents automatic closing.
-* When your pull request number is known (for example, because you enhanced a pull request after a code review), you can also add the following line:
+    * Do not add a colon after "Fixes", as this prevents automatic closing.
+    * When your pull request number is known (for example, because you enhanced a pull request after a code review), you can also add the following line:
 ```Closes https://github.com/SAP/cloud-commerce-spartacus-storefront/pull/(pullRequestNumber)```
 6.  Create a pull request to github.com/SAP/cloud-commerce-spartacus-storefront.
 7.  Follow the link posted by the CLA assistant to your pull request and accept it, as described above.
 8.  Wait for our code review and approval, possibly enhancing your change on request.
-* Note: This may take time depending on the required effort for reviewing, testing and clarification. Spartacus developers are also working their regular duties.
+    * Note: This may take time depending on the required effort for reviewing, testing and clarification. Spartacus developers are also working their regular duties.
 9.  After the change has been approved, we will inform you in a comment
 10. Due to internal SAP processes, your pull request cannot be merged directly into the branch. It will be merged internally and will also immediately appear in the public repository. 
 11.  We will close the pull request. You may delete the now obsolete branch.
