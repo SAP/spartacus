@@ -12,6 +12,9 @@ $y-existing-address-body-padding-bottom: 1.875rem !default;
 $y-existing-address-text-margin-bottom: 1.25rem !default;
 $y-existing-address-text-md-padding-left: 3.5rem !default;
 $y-existing-address-text-sm-padding-left: 1.5rem !default;
+$y-existing-address-spinner-padding: 30px !default;
+$y-existing-address-card-padding-bottom: 30px !default;
+$y-existing-address-card-height: 100% !default;
 .y-existing-address {
   &.container {
     padding: $y-existing-address-no-padding;
@@ -22,8 +25,8 @@ $y-existing-address-text-sm-padding-left: 1.5rem !default;
     padding: $y-existing-address-title-padding;
   }
   &__spinner {
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding-top: $y-existing-address-spinner-padding;
+    padding-bottom: $y-existing-address-spinner-padding;
   }
   &__body {
     display: flex;
@@ -55,10 +58,10 @@ $y-existing-address-text-sm-padding-left: 1.5rem !default;
     }
   }
   &__card {
-    padding-bottom: 30px;
+    padding-bottom: $y-existing-address-card-padding-bottom;
 
     &-inner {
-      height: 100%;
+      height: $y-existing-address-card-height;
       @include var-color(
         'background-color',
         $y-existing-address-card-background-color
