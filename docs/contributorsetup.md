@@ -2,7 +2,7 @@
 
 To contribute to the Spartacus project, the first steps are to clone the Spartacus library sources, build, and then run the storefront from the library development workspace.
 
-This guide shows how to build and run both in dev mode and in prod mode.
+This guide shows how to build and run both in development mode and in production mode.
 
 # Prerequisites
 
@@ -48,7 +48,7 @@ $ yarn install
 
 # Building and Running in Development Mode
 
-The simplest way to build and run from the source code is to use the development mode.
+The simplest way to build and run from the source code is to work in development mode.
 
 ## Configuring Your Backend URL
 
@@ -83,7 +83,7 @@ Building in production mode has more retrictive rules about what kind of code is
 
 ## Building the @spartacus/storefront Library
 
-Contrary do development mode, in production mode you need to package and build a standalone storefront library. This is done with the following command:
+Contrary to development mode, in production mode you need to package and build a standalone storefront library. This is done with the following command:
 
 ```
 $ yarn build:core:lib
@@ -139,7 +139,7 @@ export class AppModule {}
 
 The server `baseUrl` is pulled from the `environment.*.ts` file, but the rest of the properties in this example use the default values for the configs. You do not have to specify a config if you do not need to override the default value.
 
-For example, if you only need to override the `baseUrl` and the `client_secret` and want to use the default value for other properties, you can use the following config:
+For example, if you only need to override the `baseUrl` and the `client_secret`, and want to use the default values for other properties, you can use the following config:
 
 ```
 @NgModule({
