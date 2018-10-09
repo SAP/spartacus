@@ -1,8 +1,8 @@
+import { CartService } from './../../../services/cart.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs';
 
 import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
 import { CartSharedModule } from './../../cart-shared/cart-shared.module';
@@ -10,6 +10,12 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
 class MockNgbActiveModal {
   dismiss() {}
+  close() {}
+}
+
+class MockCartService {
+  updateCartEntry(_entryNumber, _updatedQuantity) {}
+  removeCartEntry(_entry) {}
 }
 
 describe('AddedToCartDialogComponent', () => {
@@ -22,28 +28,23 @@ describe('AddedToCartDialogComponent', () => {
         FormsModule,
         RouterTestingModule,
         CartSharedModule,
-        NgbModule.forRoot(),
+        NgbModule,
         SpinnerModule
       ],
       declarations: [AddedToCartDialogComponent],
-      providers: [{ provide: NgbActiveModal, useClass: MockNgbActiveModal }]
+      providers: [
+        { provide: NgbActiveModal, useClass: MockNgbActiveModal },
+        { provide: CartService, useClass: MockCartService }
+      ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddedToCartDialogComponent);
     component = fixture.componentInstance;
-    // fixture.detectChanges();
-    component.entry$ = of(undefined);
-    component.ngOnInit();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should have form quantity control after init and entry observable finished', () => {
-    const entryForm = component.form.controls.entryForm as FormGroup;
-    expect(entryForm.controls.quantity).toBeDefined();
   });
 });

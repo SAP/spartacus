@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import * as fromActions from './../actions';
 import { ClientAuthenticationTokenService } from './../../services/client-authentication/client-authentication-token.service';
@@ -11,20 +11,19 @@ import { ClientAuthenticationToken } from './../../models/token-types.model';
 @Injectable()
 export class ClientTokenEffect {
   @Effect()
-  loadClientToken$: Observable<any> = this.actions$
-    .ofType(fromActions.LOAD_CLIENT_TOKEN)
-    .pipe(
-      mergeMap(() => {
-        return this.clientAuthenticationTokenService
-          .loadClientAuthenticationToken()
-          .pipe(
-            map((token: ClientAuthenticationToken) => {
-              return new fromActions.LoadClientTokenSuccess(token);
-            }),
-            catchError(error => of(new fromActions.LoadClientTokenFail(error)))
-          );
-      })
-    );
+  loadClientToken$: Observable<any> = this.actions$.pipe(
+    ofType(fromActions.LOAD_CLIENT_TOKEN),
+    mergeMap(() => {
+      return this.clientAuthenticationTokenService
+        .loadClientAuthenticationToken()
+        .pipe(
+          map((token: ClientAuthenticationToken) => {
+            return new fromActions.LoadClientTokenSuccess(token);
+          }),
+          catchError(error => of(new fromActions.LoadClientTokenFail(error)))
+        );
+    })
+  );
 
   constructor(
     private actions$: Actions,

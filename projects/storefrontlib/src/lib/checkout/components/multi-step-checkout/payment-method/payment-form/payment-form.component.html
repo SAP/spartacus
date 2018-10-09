@@ -12,7 +12,7 @@
                         <div *ngIf="cardTypes.length !== 0">
                             <label for="CardType" aria-required="true">Payment Type</label>
                             <ng-select [searchable]="false" [clearable]="false" [items]="cardTypes" bindLabel="name"
-                                bindValue="code" placeholder="Select One..." (add)="paymentSelected($event)">
+                                bindValue="code" placeholder="Select One..." (change)="paymentSelected($event)">
                             </ng-select>
                         </div>
                     </ng-container>
@@ -33,12 +33,12 @@
                         <div class="form-group__exp-date row">
                             <div class="col-sm-6 col-md-5">
                                 <ng-select [searchable]="false" [clearable]="false" [items]="months" bindLabel="name"
-                                    bindValue="id" placeholder="MM" (add)="monthSelected($event)">
+                                    bindValue="id" placeholder="MM" (change)="monthSelected($event)">
                                 </ng-select>
                             </div>
                             <div class="col-sm-6 col-md-7">
                                 <ng-select [searchable]="false" [clearable]="false" [items]="years" bindLabel="name"
-                                    bindValue="id" placeholder="YYYY" (add)="yearSelected($event)">
+                                    bindValue="id" placeholder="YYYY" (change)="yearSelected($event)">
                                 </ng-select>
                             </div>
                         </div>

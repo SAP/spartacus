@@ -27,5 +27,18 @@
 </ng-container>
 
 <ng-template #addressForm>
-  <y-address-form (addAddress)="addNewAddress($event)" (backToAddress)="backToAddress()"></y-address-form>
+  <ng-container *ngIf="!(isLoading$ | async); else loading">
+    <y-address-form (addAddress)="addNewAddress($event)" (backToAddress)="backToAddress()"></y-address-form>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="y-existing-address container">
+      <h3 class="y-existing-address__title d-none d-lg-block d-xl-block">
+        Shipping Address
+      </h3>
+      <div class="y-existing-address__spinner">
+        <y-spinner></y-spinner>
+      </div>
+    </div>
+  </ng-template>
 </ng-template>

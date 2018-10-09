@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -19,9 +19,10 @@ export class GlobalMessageComponent implements OnInit {
   constructor(protected store: Store<fromStore.GlobalMessageState>) {}
 
   ngOnInit() {
-    this.messages$ = this.store
-      .select(fromStore.getGlobalMessagesEntities)
-      .pipe(filter(data => data !== undefined));
+    this.messages$ = this.store.pipe(
+      select(fromStore.getGlobalMessagesEntities),
+      filter(data => data !== undefined)
+    );
   }
 
   clear(type: GlobalMessageType, index: number) {

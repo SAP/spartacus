@@ -60,7 +60,7 @@ describe('HttpErrorInterceptor', () => {
     http
       .post(url, params, { headers })
       .pipe(catchError((error: any) => throwError(error)))
-      .subscribe(result => {}, error => (this.error = error));
+      .subscribe(_result => {}, error => (this.error = error));
 
     const mockReq = httpMock.expectOne(req => {
       return req.method === 'POST' && req.url === url;
@@ -90,7 +90,7 @@ describe('HttpErrorInterceptor', () => {
     http
       .get('/test')
       .pipe(catchError((error: any) => throwError(error)))
-      .subscribe(result => {}, error => (this.error = error));
+      .subscribe(_result => {}, error => (this.error = error));
 
     const mockReq = httpMock.expectOne(req => {
       return req.method === 'GET';
@@ -109,7 +109,7 @@ describe('HttpErrorInterceptor', () => {
     http
       .get('/test')
       .pipe(catchError((error: any) => throwError(error)))
-      .subscribe(result => {}, error => (this.error = error));
+      .subscribe(_result => {}, error => (this.error = error));
 
     const mockReq = httpMock.expectOne(req => {
       return req.method === 'GET';
@@ -128,7 +128,7 @@ describe('HttpErrorInterceptor', () => {
     http
       .get('/test')
       .pipe(catchError((error: any) => throwError(error)))
-      .subscribe(result => {}, error => (this.error = error));
+      .subscribe(_result => {}, error => (this.error = error));
 
     const mockReq = httpMock.expectOne(req => {
       return req.method === 'GET';
@@ -147,7 +147,7 @@ describe('HttpErrorInterceptor', () => {
     http
       .get('/test')
       .pipe(catchError((error: any) => throwError(error)))
-      .subscribe(result => {}, error => (this.error = error));
+      .subscribe(_result => {}, error => (this.error = error));
 
     const mockReq = httpMock.expectOne(req => {
       return req.method === 'GET';
@@ -166,7 +166,7 @@ describe('HttpErrorInterceptor', () => {
     http
       .get('/test')
       .pipe(catchError((error: any) => throwError(error)))
-      .subscribe(result => {}, error => (this.error = error));
+      .subscribe(_result => {}, error => (this.error = error));
 
     const mockReq = httpMock.expectOne(req => {
       return req.method === 'GET';

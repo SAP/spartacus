@@ -1,7 +1,8 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule, combineReducers } from '@ngrx/store';
+import * as NgrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -26,7 +27,6 @@ class MockCartService {
 }
 
 describe('AddToCartComponent', () => {
-  let store: Store<fromCart.CartState>;
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
   let service;
@@ -39,7 +39,7 @@ describe('AddToCartComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         SpinnerModule,
-        NgbModule.forRoot(),
+        NgbModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
@@ -57,12 +57,10 @@ describe('AddToCartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddToCartComponent);
     addToCartComponent = fixture.componentInstance;
-    store = TestBed.get(Store);
     service = TestBed.get(CartService);
     addToCartComponent.productCode = productCode;
     modalInstance = fixture.debugElement.injector.get<NgbModal>(NgbModal);
     spyOn(service, 'addCartEntry').and.callThrough();
-    spyOn(store, 'select').and.returnValue(of(mockCartEntry));
     spyOn(modalInstance, 'open').and.callThrough();
 
     fixture.detectChanges();
@@ -72,7 +70,10 @@ describe('AddToCartComponent', () => {
     expect(addToCartComponent).toBeTruthy();
   });
 
-  it('should call ngOnChanges()', () => {
+  it('should call ngOnInit()', () => {
+    spyOnProperty(NgrxStore, 'select').and.returnValue(() => () =>
+      of(mockCartEntry)
+    );
     addToCartComponent.ngOnInit();
     addToCartComponent.cartEntry$.subscribe(entry =>
       expect(entry).toEqual(mockCartEntry)

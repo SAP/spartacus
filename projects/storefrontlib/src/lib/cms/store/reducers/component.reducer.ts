@@ -15,14 +15,13 @@ export function reducer(
   switch (action.type) {
     case fromComponent.LOAD_COMPONENT_SUCCESS: {
       const component = action.payload;
-      const entities = {
-        ...state.entities,
-        [component.uid]: component
-      };
 
       return {
         ...state,
-        entities
+        entities: {
+          ...state.entities,
+          [component.uid]: component
+        }
       };
     }
 

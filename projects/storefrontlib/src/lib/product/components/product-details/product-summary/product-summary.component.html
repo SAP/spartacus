@@ -11,9 +11,10 @@
     <div class="y-product-summary__variant-label">
       Qty:
     </div>
-    <y-item-counter [min]="1" [max]="product.stock.stockLevel" *ngIf="product?.stock?.stockLevel > 0" (update)="updateCount($event)"></y-item-counter>
+    <y-item-counter [min]="1" [max]="product.stock.stockLevel" *ngIf="product?.stock?.stockLevel > 0 || product?.stock?.stockLevelStatus === 'inStock'"
+      (update)="updateCount($event)"></y-item-counter>
     <span class="y-product-summary__variant-info">
-      <span *ngIf="product?.stock?.stockLevel > 0">
+      <span *ngIf="product?.stock?.stockLevel > 0 || product?.stock?.stockLevelStatus === 'inStock'">
         {{product?.stock?.stockLevel}} in stock</span>
       <span *ngIf="product?.stock?.stockLevel == 0">Out of stock</span>
     </span>

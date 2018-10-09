@@ -10,7 +10,7 @@ import * as fromCartStore from '../../store';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 @Component({
   selector: 'y-add-to-cart',
@@ -40,9 +40,9 @@ export class AddToCartComponent implements OnInit {
 
   ngOnInit() {
     if (this.productCode) {
-      this.loaded$ = this.store.select(fromCartStore.getLoaded);
-      this.cartEntry$ = this.store.select(
-        fromCartStore.getEntrySelectorFactory(this.productCode)
+      this.loaded$ = this.store.pipe(select(fromCartStore.getLoaded));
+      this.cartEntry$ = this.store.pipe(
+        select(fromCartStore.getEntrySelectorFactory(this.productCode))
       );
     }
   }
@@ -61,24 +61,10 @@ export class AddToCartComponent implements OnInit {
       size: 'lg'
     }).componentInstance;
     this.modalInstance.entry$ = this.cartEntry$;
-    this.modalInstance.cart$ = this.store.select(fromCartStore.getActiveCart);
+    this.modalInstance.cart$ = this.store.pipe(
+      select(fromCartStore.getActiveCart)
+    );
     this.modalInstance.loaded$ = this.loaded$;
     this.modalInstance.quantity = this.quantity;
-
-    this.modalInstance.updateEntryEvent.subscribe((data: any) =>
-      this.updateEntry(data)
-    );
-
-    this.modalInstance.removeEntryEvent.subscribe((data: any) => {
-      this.removeEntry(data);
-    });
-  }
-
-  private updateEntry({ entry, updatedQuantity }) {
-    this.cartService.updateCartEntry(entry.entryNumber, updatedQuantity);
-  }
-  private removeEntry(entry) {
-    this.cartService.removeCartEntry(entry);
-    this.modalInstance.close();
   }
 }

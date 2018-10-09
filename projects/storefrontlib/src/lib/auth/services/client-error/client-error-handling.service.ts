@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler } from '@angular/common/http';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
 import { switchMap, tap, filter, map } from 'rxjs/operators';
@@ -27,7 +27,8 @@ export class ClientErrorHandlingService {
   }
 
   private loadNewClientToken(): Observable<any> {
-    return this.store.select(fromStore.getClientTokenState).pipe(
+    return this.store.pipe(
+      select(fromStore.getClientTokenState),
       tap((state: ClientTokenState) => {
         if (!state.loading) {
           this.store.dispatch(new fromStore.LoadClientToken());
