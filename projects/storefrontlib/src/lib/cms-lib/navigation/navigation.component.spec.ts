@@ -88,7 +88,9 @@ describe('CmsNavigationComponent in CmsLib', () => {
     fixture = TestBed.createComponent(NavigationComponent);
     navigationComponent = fixture.componentInstance;
 
-    spyOnProperty(NgrxStore, 'select').and.returnValue(() => () => of(itemsData));
+    spyOnProperty(NgrxStore, 'select').and.returnValue(() => () =>
+      of(itemsData)
+    );
   });
 
   it('should be created', () => {

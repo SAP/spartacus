@@ -85,11 +85,10 @@ export class ProductCarouselComponent extends AbstractCmsComponent
 
       this.firstTime = false;
 
-      this.products$ = this.store
-        .pipe(
-          select(fromProductStore.getSelectedProductsFactory(codes)),
-          tap(this.group.bind(this))
-        );
+      this.products$ = this.store.pipe(
+        select(fromProductStore.getSelectedProductsFactory(codes)),
+        tap(this.group.bind(this))
+      );
     }
     super.fetchData();
   }

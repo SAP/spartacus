@@ -88,7 +88,7 @@ describe('MiniCartComponent', () => {
     fixture = TestBed.createComponent(MiniCartComponent);
     miniCartComponent = fixture.componentInstance;
 
-    spyOnProperty(NgrxStore, 'select').and.returnValue((selector) => {
+    spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
       switch (selector) {
         case fromCart.getActiveCart:
           return () => of(testCart);
