@@ -73,7 +73,7 @@ describe('ShippingAddressComponent', () => {
     };
     spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
       switch (selector) {
-        case fromUser.getLoading:
+        case fromUser.getAddressesLoading:
           return () => mockCartSelectors.getLoading;
         case fromUser.getAddresses:
           return () => mockCartSelectors.getAddresses;
