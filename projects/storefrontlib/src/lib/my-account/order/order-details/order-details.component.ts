@@ -42,7 +42,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
 
     this.loaded = false;
     this.order$ = this.store.select(fromUserStore.getOrderDetails).pipe(
-      tap(order => {
+      tap(() => {
         if (!this.loaded && this.userId) {
           this.store.dispatch(
             new fromUserStore.LoadOrderDetails({

@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <div *ngIf="order.unconsignedEntries" class="y-order-details__list row">
+    <div *ngIf="order.unconsignedEntries?.length" class="y-order-details__list row">
       <div class="y-order-details__list-header col-12">
         <div class="y-order-details__status">In process...</div>
       </div>
