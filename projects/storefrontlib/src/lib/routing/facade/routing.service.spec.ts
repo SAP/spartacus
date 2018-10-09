@@ -6,7 +6,7 @@ import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
 
-fdescribe('RoutingService', () => {
+describe('RoutingService', () => {
   const mockSelect = createSpy().and.returnValue(() => of('redirect_url'));
   let store;
 
