@@ -2,11 +2,11 @@ import { TestBed, inject } from '@angular/core/testing';
 import { RoutingService } from './routing.service';
 import * as fromStore from '../store';
 import { Store } from '@ngrx/store';
+import createSpy = jasmine.createSpy;
 
-const storeMock = { dispatch() {} };
+const storeMock = { dispatch: createSpy(), pipe() {} };
 
 describe('RoutingService', () => {
-  let store: Store<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -18,9 +18,6 @@ describe('RoutingService', () => {
         RoutingService
       ]
     });
-
-    store = TestBed.get(Store);
-    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should be created', inject(
@@ -34,7 +31,7 @@ describe('RoutingService', () => {
     [RoutingService],
     (service: RoutingService) => {
       service.go('/search', 'query');
-      expect(store.dispatch).toHaveBeenCalledWith(
+      expect(storeMock.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({ path: ['/search', 'query'] })
       );
     }

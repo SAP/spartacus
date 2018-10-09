@@ -36,9 +36,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
                 GlobalMessageType.MSG_TYPE_ERROR
               )
             );
-            return this.routing.redirectUrl$.pipe(
-              take(1)
-            );
+            return this.routing.redirectUrl$.pipe(take(1));
           }
           return of();
         })
@@ -61,7 +59,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.auth.authorize(this.form.controls.userId.value, this.form.controls.password.value);
+    this.auth.authorize(
+      this.form.controls.userId.value,
+      this.form.controls.password.value
+    );
   }
 
   ngOnDestroy() {
