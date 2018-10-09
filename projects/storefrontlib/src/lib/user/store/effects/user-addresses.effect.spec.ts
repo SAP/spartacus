@@ -8,7 +8,7 @@ import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import * as fromUserAddressesEffect from './user-addresses.effect';
 
 class MockOccUserService {
-  loadUserAddresses(userId: string): Observable<any> {
+  loadUserAddresses(_userId: string): Observable<any> {
     return;
   }
 }

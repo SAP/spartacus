@@ -1,12 +1,12 @@
 {
-  "name": "@spartacus/storefrontstyles",
-  "version": "0.0.8",
+  "name": "@spartacus/styles",
+  "version": "0.1.0-prealpha.3",
   "description": "Style library containing global styles",
   "homepage": "https://github.com/SAP/cloud-commerce-spartacus-storefront",
   "keywords": [
     "spartacus",
     "storefront",
-    "storefrontstyles"
+    "styles"
   ],
   "license": "Apache-2.0",
   "publishConfig": {
@@ -18,5 +18,8 @@
   },
   "devDependencies": {
     "node-sass": "^4.9.0"
+  },
+  "peerDependencies": {
+    "bootstrap": "^4.1.3"
   }
 }

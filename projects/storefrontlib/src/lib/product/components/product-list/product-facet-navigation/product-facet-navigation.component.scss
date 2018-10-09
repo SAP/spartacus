@@ -33,12 +33,11 @@ $y-search-facet-header-link-top: 10px !default;
 $y-search-facet-header-link-icon-height: 2px !default;
 
 $y-search-facet-header-icon-color: 'secondary' !default;
-
-$y-search-facet-form-check-trbl-padding: 0 !default;
 $y-search-facet-form-check-trbl-margin: 0 0 11px 0 !default;
 
 $y-search-facet-label-color: 'secondary' !default;
 $y-search-facet-label-selected-color: 'primary' !default;
+$y-search-facet-label-top: 3px !default;
 
 $y-search-facet-item-link-trbl-margin: 0 0 16px 0 !default;
 
@@ -55,13 +54,15 @@ $y-search-facet-modal-footer-btn-width: 50% !default;
     margin: $y-search-facet-list-trbl-margin;
 
     .form-check {
-      padding: $y-search-facet-form-check-trbl-padding;
       margin: $y-search-facet-form-check-trbl-margin;
     }
 
     &__label {
       @include var-color('color', $y-search-facet-label-color);
-      @include type('4');
+      @include type('6');
+      font-weight: $font-weight-normal;
+      position: relative;
+      top: $y-search-facet-label-top;
     }
 
     input[type='checkbox']:checked + &__label {
@@ -71,6 +72,12 @@ $y-search-facet-modal-footer-btn-width: 50% !default;
     &__item--link {
       @include type('');
       margin: $y-search-facet-item-link-trbl-margin;
+    }
+
+    &__item--show-more {
+      &:after {
+        content: '\003e';
+      }
     }
   }
 

@@ -18,8 +18,8 @@ import * as fromGlobalMessage from '../../../../../global-message/store';
 import { CheckoutService } from '../../../../services/checkout.service';
 import { GlobalMessageType } from '.././../../../../global-message/models/message.model';
 
-import { MatDialog } from '@angular/material';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'y-address-form',
@@ -38,6 +38,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   backToAddress = new EventEmitter<any>();
 
   addressVerifySub: Subscription;
+  suggestedAddressModalRef: NgbModalRef;
 
   address: FormGroup = this.fb.group({
     defaultAddress: [false],
@@ -61,7 +62,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected store: Store<fromRouting.State>,
     private fb: FormBuilder,
     protected checkoutService: CheckoutService,
-    protected dialog: MatDialog
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
@@ -130,10 +131,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       });
   }
 
-  onCountryChange(countryIsoCode): void {
-    this.store.dispatch(new fromUser.LoadRegions(countryIsoCode));
-  }
-
   titleSelected(title) {
     this.address['controls'].titleCode.setValue(title.code);
   }
@@ -142,6 +139,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.address['controls'].country['controls'].isocode.setValue(
       country.isocode
     );
+    this.store.dispatch(new fromUser.LoadRegions(country.isocode));
   }
 
   regionSelected(region) {
@@ -163,29 +161,32 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   openSuggestedAddress(results: any) {
-    const dialogRef = this.dialog.open(SuggestedAddressDialogComponent, {
-      data: {
-        entered: this.address.value,
-        suggested: results.suggestedAddresses
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(address => {
-      this.store.dispatch(
-        new fromCheckoutStore.ClearAddressVerificationResults()
+    if (!this.suggestedAddressModalRef) {
+      this.suggestedAddressModalRef = this.modalService.open(
+        SuggestedAddressDialogComponent,
+        { centered: true, size: 'lg' }
       );
-      if (address) {
-        address = Object.assign(
-          {
-            titleCode: this.address.value.titleCode,
-            phone: this.address.value.phone,
-            selected: true
-          },
-          address
+      this.suggestedAddressModalRef.componentInstance.enteredAddress = this.address.value;
+      this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
+        results.suggestedAddresses;
+      this.suggestedAddressModalRef.result.then(address => {
+        this.store.dispatch(
+          new fromCheckoutStore.ClearAddressVerificationResults()
         );
-        this.addAddress.emit(address);
-      }
-    });
+        if (address) {
+          address = Object.assign(
+            {
+              titleCode: this.address.value.titleCode,
+              phone: this.address.value.phone,
+              selected: true
+            },
+            address
+          );
+          this.addAddress.emit(address);
+        }
+        this.suggestedAddressModalRef = null;
+      });
+    }
   }
 
   required(name: string) {

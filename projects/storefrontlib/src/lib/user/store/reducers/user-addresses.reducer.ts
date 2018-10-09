@@ -2,10 +2,12 @@ import * as fromUserAddressesAction from '../actions/user-addresses.action';
 
 export interface UserAddressesState {
   list: any[];
+  isLoading: boolean;
 }
 
 export const initialState: UserAddressesState = {
-  list: []
+  list: [],
+  isLoading: false
 };
 
 export function reducer(
@@ -19,12 +21,33 @@ export function reducer(
       if (list !== undefined) {
         return {
           ...state,
-          list
+          list,
+          isLoading: false
+        };
+      } else {
+        return {
+          ...state,
+          isLoading: false
         };
       }
+    }
+
+    case fromUserAddressesAction.LOAD_USER_ADDRESSES_FAIL: {
+      return {
+        ...state,
+        isLoading: false
+      };
+    }
+
+    case fromUserAddressesAction.LOAD_USER_ADDRESSES: {
+      return {
+        ...state,
+        isLoading: true
+      };
     }
   }
   return state;
 }
 
 export const getAddresses = (state: UserAddressesState) => state.list;
+export const getLoading = (state: UserAddressesState) => state.isLoading;

@@ -1,16 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MaterialModule } from '../../../../../../material.module';
 import { CheckoutService } from '../../../../../services';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog.component';
 import { CartService } from '../../../../../../cart/services';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-
-class MockMatDialogRef {
-  close() {}
-}
-
-const address = { mockAddress: 'mockAddress', titleCode: 'mr' };
+import { FormsModule } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 describe('SuggestedAddressDialogComponent', () => {
   let component: SuggestedAddressDialogComponent;
@@ -18,18 +12,9 @@ describe('SuggestedAddressDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MaterialModule],
+      imports: [FormsModule],
       declarations: [SuggestedAddressDialogComponent],
-
-      providers: [
-        CheckoutService,
-        CartService,
-        {
-          provide: MatDialogRef,
-          useClass: MockMatDialogRef
-        },
-        { provide: MAT_DIALOG_DATA, useValue: { address } }
-      ]
+      providers: [CheckoutService, CartService, NgbActiveModal]
     }).compileComponents();
   }));
 

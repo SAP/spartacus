@@ -12,10 +12,10 @@ import { ShippingAddressComponent } from './shipping-address.component';
 
 import { of } from 'rxjs';
 import * as fromRouting from '../../../../routing/store';
-import { MaterialModule } from '../../../../material.module';
 import { CheckoutService } from '../../../services';
 import { CartService, CartDataService } from '../../../../cart/services';
 import { AddressFormModule } from './address-form/address-form.module';
+import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
 import { CardModule } from '../../../../ui/components/card/card.module';
 import { Address } from '../../../models/address-model';
 
@@ -40,10 +40,10 @@ describe('ShippinegAddressComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         AddressFormModule,
         RouterTestingModule,
         CardModule,
+        SpinnerModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           checkout: combineReducers(fromCheckout.getReducers()),
@@ -73,7 +73,7 @@ describe('ShippinegAddressComponent', () => {
   });
 
   it('should call ngOnInit to get existing address if they do not exist', () => {
-    spyOn(store, 'select').and.returnValues(of([]));
+    spyOn(store, 'select').and.returnValue(of([]));
     component.ngOnInit();
     component.existingAddresses$.subscribe(() => {
       expect(service.loadUserAddresses).toHaveBeenCalled();

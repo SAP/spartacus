@@ -8,7 +8,7 @@
                         <div *ngIf="titles.length !== 0">
                             <label for="Title" aria-required="true" class="required">Title</label>
                             <ng-select [searchable]="false" [clearable]="false" [items]="titles" bindLabel="name"
-                                bindValue="code" placeholder="Select Title..." (add)="titleSelected($event)">
+                                bindValue="code" placeholder="Select Title..." (change)="titleSelected($event)">
                             </ng-select>
                         </div>
                     </ng-container>
@@ -37,8 +37,7 @@
                         <div *ngIf="countries.length !== 0">
                             <label for="Country" aria-required="true" class="required">Country</label>
                             <ng-select [searchable]="false" [clearable]="false" [items]="countries" bindLabel="name"
-                                bindValue="isocode" placeholder="Select One..." (add)="countrySelected($event)"
-                                (change)="onCountryChange($event.isocode)">
+                                bindValue="isocode" placeholder="Select One..." (change)="countrySelected($event)">
                             </ng-select>
                         </div>
                     </ng-container>
@@ -54,12 +53,12 @@
                                 <label for="State" aria-required="true" class="required">State</label>
                                 <ng-container *ngIf="regions[0].name">
                                     <ng-select [searchable]="false" [clearable]="false" [items]="regions" bindLabel="name"
-                                        bindValue="region" placeholder="Select One..." (add)="regionSelected($event)">
+                                        bindValue="isocode" placeholder="Select One..." (change)="regionSelected($event)">
                                     </ng-select>
                                 </ng-container>
                                 <ng-container *ngIf="!regions[0].name">
                                     <ng-select [searchable]="false" [clearable]="false" [items]="regions" bindLabel="isocode"
-                                        bindValue="region" placeholder="Select One..." (add)="regionSelected($event)">
+                                        bindValue="isocode" placeholder="Select One..." (change)="regionSelected($event)">
                                     </ng-select>
                                 </ng-container>
                             </div>

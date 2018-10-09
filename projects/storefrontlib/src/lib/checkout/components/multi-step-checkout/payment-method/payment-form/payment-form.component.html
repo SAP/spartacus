@@ -12,7 +12,7 @@
                         <div *ngIf="cardTypes.length !== 0">
                             <label for="CardType" aria-required="true">Payment Type</label>
                             <ng-select [searchable]="false" [clearable]="false" [items]="cardTypes" bindLabel="name"
-                                bindValue="code" placeholder="Select One..." (add)="paymentSelected($event)">
+                                bindValue="code" placeholder="Select One..." (change)="paymentSelected($event)">
                             </ng-select>
                         </div>
                     </ng-container>
@@ -33,18 +33,18 @@
                         <div class="form-group__exp-date row">
                             <div class="col-sm-6 col-md-5">
                                 <ng-select [searchable]="false" [clearable]="false" [items]="months" bindLabel="name"
-                                    bindValue="expiryMonth" placeholder="MM" (add)="monthSelected($event)">
+                                    bindValue="id" placeholder="MM" (change)="monthSelected($event)">
                                 </ng-select>
                             </div>
                             <div class="col-sm-6 col-md-7">
                                 <ng-select [searchable]="false" [clearable]="false" [items]="years" bindLabel="name"
-                                    bindValue="expiryYear" placeholder="YYYY" (add)="yearSelected($event)">
+                                    bindValue="id" placeholder="YYYY" (change)="yearSelected($event)">
                                 </ng-select>
                             </div>
                         </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="CVV">Security code (CVV) </label> <img class="y-payment-form__tooltip-icon" src="assets/info-icon.png"
+                        <label for="CVV">Security code (CVV) </label> <img class="y-payment-form__tooltip-icon" [src]="infoIconImgSrc"
                             placement="right" ngbTooltip="Card Verification Value">
                         <input type="text" class="form-control" id="cVVNumber" required formControlName="cvn">
                     </div>

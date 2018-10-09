@@ -13,6 +13,7 @@ import { tap } from 'rxjs/operators';
 import * as fromCheckoutStore from '../../../../store';
 import { CheckoutService } from '../../../../services/checkout.service';
 import { Card } from '../../../../../ui/components/card/card.component';
+import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
 
 @Component({
   selector: 'y-payment-form',
@@ -45,6 +46,8 @@ export class PaymentFormComponent implements OnInit {
     cvn: ['', Validators.required]
   });
 
+  infoIconImgSrc = infoIconImgSrc;
+
   constructor(
     protected store: Store<fromCheckoutStore.CheckoutState>,
     protected checkoutService: CheckoutService,
@@ -71,11 +74,11 @@ export class PaymentFormComponent implements OnInit {
     for (let i = 0; i < 10; i++) {
       this.years.push({ id: i + 1, name: year + i });
     }
-    for (let i = 1; i <= 12; i++) {
-      if (i < 10) {
-        this.months.push({ id: i, name: '0' + i.toString() });
+    for (let j = 1; j <= 12; j++) {
+      if (j < 10) {
+        this.months.push({ id: j, name: '0' + j.toString() });
       } else {
-        this.months.push({ id: i, name: i.toString() });
+        this.months.push({ id: j, name: j.toString() });
       }
     }
   }

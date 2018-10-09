@@ -1,12 +1,12 @@
 <y-dynamic-slot [position]="'Section1'"></y-dynamic-slot>
 
-<div class="row">
-  <y-dynamic-slot class="column" [position]="'Section2A'"></y-dynamic-slot>
-  <y-dynamic-slot class="column" [position]="'Section2B'"></y-dynamic-slot>
+<div class="y-landing-page-layout__container">
+  <y-dynamic-slot [position]="'Section2A'" class="y-landing-page-layout__slot-2"></y-dynamic-slot>
+  <y-dynamic-slot [position]="'Section2B'" class="y-landing-page-layout__slot-2"></y-dynamic-slot>
 </div>
 
 <y-dynamic-slot [position]="'Section2C'"></y-dynamic-slot>
 <y-dynamic-slot [position]="'Section3'"></y-dynamic-slot>
 
-<y-dynamic-slot [position]="'Section4'" class="section4"></y-dynamic-slot>
+<y-dynamic-slot [position]="'Section4'" class="y-landing-page-layout__slot-4"></y-dynamic-slot>
 <y-dynamic-slot [position]="'Section5'"></y-dynamic-slot>

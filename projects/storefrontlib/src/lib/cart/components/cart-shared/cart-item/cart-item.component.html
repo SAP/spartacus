@@ -41,9 +41,9 @@
         <div *ngIf="isReadOnly" class="y-cart-item__quantity--value">
           {{item.quantity}}
         </div>
-        <div *ngIf="!isReadOnly" class="y-cart-item__quantity--value" [formGroup]="parent">
+        <div *ngIf="!isReadOnly && parent" class="y-cart-item__quantity--value" [formGroup]="parent">
           <y-item-counter [step]="1" [min]="1" [max]="item.product.stock?.stockLevel || 1000" (update)="updateItem($event)"
-            formControlName="quantity">
+            [cartIsLoading]="cartIsLoading" formControlName="quantity">
           </y-item-counter>
         </div>
       </div>

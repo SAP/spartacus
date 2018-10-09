@@ -57,10 +57,9 @@ export function reducer(
 ): RouterState {
   switch (action.type) {
     case fromActions.SAVE_REDIRECT_URL: {
-      const redirectUrl = action.payload;
       return {
         ...state,
-        redirectUrl
+        redirectUrl: action.payload
       };
     }
     case fromActions.CLEAR_REDIRECT_URL: {

@@ -7,13 +7,13 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
+import * as NgrxStore from '@ngrx/store';
 import {
   DynamicSlotComponent,
   ComponentWrapperDirective
 } from '../../../cms/components';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
-import { MaterialModule } from '../../../material.module';
 import { PageType } from '../../../routing/models/page-context.model';
 import * as fromRouting from '../../../routing/store';
 import { UserToken } from './../../../auth/models/token-types.model';
@@ -56,6 +56,20 @@ const MockCmsModuleConfig: CmsModuleConfig = {
 
 const cntx = { id: 'testPageId', type: PageType.CONTENT_PAGE };
 
+const selectors = {
+  getUserToken: new BehaviorSubject(null),
+  getDetails: new BehaviorSubject(null)
+};
+const mockSelect = selector => {
+  switch (selector) {
+    case fromStore.getDetails:
+      return () => selectors.getDetails;
+
+    case fromAuthStore.getUserToken:
+      return () => selectors.getUserToken;
+  }
+};
+
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
@@ -64,7 +78,6 @@ describe('LoginComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         BrowserAnimationsModule,
         RouterTestingModule,
         FormsModule,
@@ -106,6 +119,7 @@ describe('LoginComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     store = TestBed.get(Store);
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -117,15 +131,13 @@ describe('LoginComponent', () => {
       }
     };
 
-    const spy = spyOn(store, 'select');
-    spy.and.returnValue(of(routerState));
+    selectors.getDetails.next(routerState);
 
     expect(component).toBeTruthy();
   });
 
   it('should logout and clear user state', () => {
-    const spy = spyOn(store, 'select');
-    spy.and.returnValue(of({}));
+    selectors.getDetails.next({});
 
     component.logout();
     expect(component.isLogin).toEqual(false);
@@ -138,7 +150,7 @@ describe('LoginComponent', () => {
   });
 
   it('should load user details when token exists', () => {
-    spyOn(store, 'select').and.returnValue(of(mockUserToken));
+    selectors.getUserToken.next(mockUserToken);
 
     component.ngOnInit();
 

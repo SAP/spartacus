@@ -1,22 +1,25 @@
 import { TestBed } from '@angular/core/testing';
-
-import { AuthGuard } from './auth.guard';
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
-import * as fromRoot from './../../routing/store';
-import * as fromStore from './../../auth/store';
-import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   Router
 } from '@angular/router';
+import { Store, StoreModule, combineReducers } from '@ngrx/store';
 
-const mockUserValidToken = {
-  access_token: 'Mock Access Token'
+import * as fromStore from './../../auth/store';
+import * as fromRoot from './../../routing/store';
+import { AuthGuard } from './auth.guard';
+
+const mockUserToken = {
+  access_token: 'Mock Access Token',
+  token_type: 'test',
+  refresh_token: 'test',
+  expires_in: 1,
+  scope: ['test'],
+  userId: 'test'
 };
 
-const mockUserInvalidToken = {};
 const mockRouter = { navigate: jasmine.createSpy('navigate') };
 const mockActivatedRouteSnapshot = {};
 const mockRouterStateSnapshot = { url: '/test' };
@@ -63,8 +66,6 @@ describe('AuthGuard', () => {
   });
 
   it('should return false', () => {
-    spyOn(store, 'select').and.returnValue(of(mockUserInvalidToken));
-
     let result: boolean;
 
     const sub = authGuard
@@ -75,7 +76,7 @@ describe('AuthGuard', () => {
   });
 
   it('should return true', () => {
-    spyOn(store, 'select').and.returnValue(of(mockUserValidToken));
+    store.dispatch(new fromStore.LoadUserTokenSuccess(mockUserToken));
 
     let result: boolean;
 
@@ -87,7 +88,6 @@ describe('AuthGuard', () => {
   });
 
   it('should redirect to login if invalid token', () => {
-    spyOn(store, 'select').and.returnValue(of(mockUserInvalidToken));
     const sub = authGuard
       .canActivate(activatedRouteSnapshot, routerStateSnapshot)
       .subscribe();

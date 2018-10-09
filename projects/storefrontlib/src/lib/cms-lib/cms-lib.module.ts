@@ -14,8 +14,6 @@ import { MiniCartModule } from './mini-cart/mini-cart.module';
 // import { ProductReferencesModule } from './product-references/product-references.module';
 import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
 
-import { CookieConfirmationModule } from './cookie-confirmation/cookie-confirmation.module';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -31,8 +29,7 @@ import { CookieConfirmationModule } from './cookie-confirmation/cookie-confirmat
     SearchBoxModule,
     MiniCartModule,
     // ProductReferencesModule,
-    TabParagraphContainerModule,
-    CookieConfirmationModule
+    TabParagraphContainerModule
   ]
 })
 export class CmsLibModule {}
