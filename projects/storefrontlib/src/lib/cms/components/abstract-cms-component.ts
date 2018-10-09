@@ -1,10 +1,12 @@
 import { Injectable, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { CmsComponent } from './cms.component';
 import { CmsService } from '../facade/cms.service';
 
+/**
+ * @deprecated Inject CmsComponentData instead
+ */
 @Injectable()
-export abstract class AbstractCmsComponent implements CmsComponent, OnDestroy {
+export abstract class AbstractCmsComponent implements OnDestroy {
   @Input()
   public component: any = null;
   protected uid: string;
