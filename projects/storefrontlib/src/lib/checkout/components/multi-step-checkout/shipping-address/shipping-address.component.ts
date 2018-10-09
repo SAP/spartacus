@@ -6,7 +6,7 @@ import {
   Input,
   EventEmitter
 } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -26,6 +26,7 @@ export class ShippingAddressComponent implements OnInit {
   existingAddresses$: Observable<any>;
   isAddressForm = false;
   cards = [];
+  isLoading$: Observable<any>;
 
   @Input()
   selectedAddress: Address;
@@ -38,6 +39,7 @@ export class ShippingAddressComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.isLoading$ = this.store.pipe(select(fromUserStore.getLoading));
     this.existingAddresses$ = this.store
       .select(fromUserStore.getAddresses)
       .pipe(

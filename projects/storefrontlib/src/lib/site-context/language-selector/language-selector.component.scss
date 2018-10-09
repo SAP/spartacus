@@ -34,6 +34,11 @@ $language-selector-input-border-width: 0;
     -moz-appearance: none;
     appearance: none;
     padding-right: 20px;
+    height: 40px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-top: 2px;
+    margin-bottom: 10px;
   }
   &__arrow-down {
     @include var-color('border-color', $y-language-selector-arrow-color);
@@ -43,7 +48,7 @@ $language-selector-input-border-width: 0;
     padding: 3px;
     position: absolute;
     right: 0.25rem;
-    margin-top: 1rem;
+    margin-top: 0.9rem;
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
 

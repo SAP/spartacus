@@ -3,11 +3,12 @@
         Reorder
     </a>
     <ng-template #nodeWithChilds>
-        <span *ngIf="node.childs; else noChilds" ngbDropdownToggle class="y-navigation__link nav-link" role="button" id="{{ node.title }}">{{
+        <span *ngIf="node.childs; else noChilds" ngbDropdownToggle class="y-navigation__link nav-link" role="link" id="{{ node.title }}">{{
             node.title }}</span>
     </ng-template>
     <ng-template #noChilds>
-        <a [routerLink]="node.url" class="y-navigation__link nav-link" role="button" id="{{ node.title }}">{{ node.title
+        <a [routerLink]="node.url" class="y-navigation__link nav-link" role="link" id="{{ node.title }}">{{
+            node.title
             }}
         </a>
     </ng-template>
@@ -33,7 +34,7 @@
             <div ngbDropdownMenu class="y-navigation__child-list-columns" [attr.aria-labelledby]="node.item">
                 <div class="y-navigation__child-column" *ngFor="let subCategory of node.childs">
                     <ng-container *ngIf="subCategory.url">
-                        <a [routerLink]="subCategory.url" class="y-navigation__child-link y-navigation__column-title">{{
+                        <a role="link" [routerLink]="subCategory.url" class="y-navigation__child-link y-navigation__column-title">{{
                             subCategory.title }}
                         </a>
                     </ng-container>
@@ -43,7 +44,8 @@
                     </ng-container>
 
                     <div *ngFor="let subCategoryChild of subCategory.childs" class="dropdown-item y-navigation__child-column-item">
-                        <a [routerLink]="subCategoryChild.url" class="y-navigation__child-link">{{ subCategoryChild.title
+                        <a role="link" [routerLink]="subCategoryChild.url" class="y-navigation__child-link">{{
+                            subCategoryChild.title
                             }}
                         </a>
                     </div>
