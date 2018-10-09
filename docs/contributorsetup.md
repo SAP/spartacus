@@ -1,6 +1,6 @@
 # Contributor Setup
 
-To contribut to the Spartacus project, the first steps are to clone the Spartacus library sources, build, and then run the storefront from the library development workspace.
+To contribute to the Spartacus project, the first steps are to clone the Spartacus library sources, build, and then run the storefront from the library development workspace.
 
 This guide shows how to build and run both in dev mode and in prod mode.
 
