@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -11,6 +11,10 @@ export class ProductSearchService {
   readonly searchResults$: Observable<any> = this.store
     .select(fromStore.getSearchResults)
     .pipe(filter(results => Object.keys(results).length > 0));
+
+  readonly searchSuggestions$: Observable<any> = this.store.pipe(
+    select(fromStore.getProductSuggestions)
+  );
 
   constructor(private store: Store<fromStore.ProductsState>) {}
 

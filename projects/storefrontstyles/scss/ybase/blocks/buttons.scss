@@ -66,12 +66,12 @@
       @include cx-darken(88);
 
       &:focus {
-        box-shadow: 0 0 0 0.2em rgba(var(--y-primary), 0.5);
+        box-shadow: 0 0 0 0.2em rgba($primary, 0.5);
       }
     }
 
     &:focus {
-      box-shadow: 0 0 0 0.2em rgba(var(--y-primary), 0.5);
+      box-shadow: 0 0 0 0.2em rgba($primary, 0.5);
     }
   }
 
@@ -115,12 +115,12 @@
       @include cx-darken(84);
 
       &:focus {
-        box-shadow: 0 0 0 0.2em rgba(var(--y-secondary), 0.5);
+        box-shadow: 0 0 0 0.2em rgba($secondary, 0.5);
       }
     }
 
     &:focus {
-      box-shadow: 0 0 0 0.2em rgba(var(--y-secondary), 0.5);
+      box-shadow: 0 0 0 0.2em rgba($secondary, 0.5);
     }
   }
 
