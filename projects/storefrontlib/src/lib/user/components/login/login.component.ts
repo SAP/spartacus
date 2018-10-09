@@ -54,16 +54,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.user$ = this.store.pipe(select(fromStore.getDetails));
 
-    this.subscription = this.auth.userToken$
-      .subscribe((token: UserToken) => {
-        if (token && token.access_token && !this.isLogin) {
-          this.isLogin = true;
-          this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
-          this.auth.login();
-        } else if (token && !token.access_token && this.isLogin) {
-          this.isLogin = false;
-        }
-      });
+    this.subscription = this.auth.userToken$.subscribe((token: UserToken) => {
+      if (token && token.access_token && !this.isLogin) {
+        this.isLogin = true;
+        this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
+        this.auth.login();
+      } else if (token && !token.access_token && this.isLogin) {
+        this.isLogin = false;
+      }
+    });
   }
 
   logout() {

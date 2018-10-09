@@ -150,9 +150,7 @@ describe('LoginComponent', () => {
     component.logout();
     expect(component.isLogin).toEqual(false);
     expect(mockAuth.logout).toHaveBeenCalled();
-    expect(mockRouting.go).toHaveBeenCalledWith(
-      '/login'
-    );
+    expect(mockRouting.go).toHaveBeenCalledWith('/login');
   });
 
   it('should load user details when token exists', () => {

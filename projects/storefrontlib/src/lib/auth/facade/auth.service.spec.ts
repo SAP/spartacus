@@ -6,16 +6,14 @@ import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 import * as NgrxStore from '@ngrx/store';
 import * as fromAuthStore from '../store';
-import { UserToken } from '@spartacus/storefront';
+import { UserToken } from '../models/token-types.model';
 
 const mockToken = {
   userId: 'user@sap.com'
 } as UserToken;
 
 describe('AuthService', () => {
-  const mockSelect = createSpy('select').and.returnValue(() =>
-    of(mockToken)
-  );
+  const mockSelect = createSpy('select').and.returnValue(() => of(mockToken));
   let store;
 
   beforeEach(() => {
@@ -60,9 +58,9 @@ describe('AuthService', () => {
   it('should dispatch proper action for authorizeToken', inject(
     [AuthService],
     (service: AuthService) => {
-      service.authorizeWithToken( mockToken );
+      service.authorizeWithToken(mockToken);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromAuthStore.LoadUserTokenSuccess(mockToken )
+        new fromAuthStore.LoadUserTokenSuccess(mockToken)
       );
     }
   ));
@@ -71,9 +69,7 @@ describe('AuthService', () => {
     [AuthService],
     (service: AuthService) => {
       service.login();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromAuthStore.Login()
-      );
+      expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Login());
     }
   ));
 
@@ -81,11 +77,7 @@ describe('AuthService', () => {
     [AuthService],
     (service: AuthService) => {
       service.logout();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromAuthStore.Logout()
-      );
+      expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Logout());
     }
   ));
-
-
 });

@@ -14,9 +14,7 @@ describe('RoutingService', () => {
     spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
 
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({})
-      ],
+      imports: [StoreModule.forRoot({})],
       providers: [RoutingService]
     });
 

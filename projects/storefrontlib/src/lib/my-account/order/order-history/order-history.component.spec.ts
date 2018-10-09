@@ -47,10 +47,7 @@ describe('OrderHistoryComponent', () => {
         BootstrapModule
       ],
       declarations: [OrderHistoryComponent, OrderDetailsComponent],
-      providers: [
-        { provide: AuthService, useValue: mockAuth }
-      ]
-
+      providers: [{ provide: AuthService, useValue: mockAuth }]
     }).compileComponents();
   }));
 
@@ -67,19 +64,13 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should initialize with the store', () => {
-    spyOn(store, 'select').and.returnValues(
-      of(mockOrders),
-      of(true)
-    );
+    spyOn(store, 'select').and.returnValues(of(mockOrders), of(true));
     component.ngOnInit();
     expect(store.select).toHaveBeenCalledWith(fromUserStore.getOrders);
   });
 
   it('should redirect when clicking on order id', () => {
-    spyOn(store, 'select').and.returnValues(
-      of(mockOrders),
-      of(true)
-    );
+    spyOn(store, 'select').and.returnValues(of(mockOrders), of(true));
 
     fixture.detectChanges();
     const elem = fixture.debugElement.nativeElement.querySelector(
@@ -112,10 +103,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should set correctly sort code', () => {
-    spyOn(store, 'select').and.returnValues(
-      of(mockOrders),
-      of(true)
-    );
+    spyOn(store, 'select').and.returnValues(of(mockOrders), of(true));
     fixture.detectChanges();
     component.changeSortCode('byOrderNumber');
     expect(component.sortType).toBe('byOrderNumber');
@@ -130,10 +118,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should set correctly page', () => {
-    spyOn(store, 'select').and.returnValues(
-      of(mockOrders),
-      of(true)
-    );
+    spyOn(store, 'select').and.returnValues(of(mockOrders), of(true));
     fixture.detectChanges();
     component.pageChange(1);
     expect(store.dispatch).toHaveBeenCalledWith(

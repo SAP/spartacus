@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import * as fromAuthStore from '../store';
 import * as fromStore from '../../user/store';
-import { UserToken } from '@spartacus/storefront';
-
+import { UserToken } from '../models/token-types.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
   readonly userToken$ = this.store.pipe(select(fromAuthStore.getUserToken));
 
   constructor(private store: Store<fromStore.UserState>) {}
@@ -24,9 +22,7 @@ export class AuthService {
   }
 
   authorizeWithToken(token: UserToken) {
-    this.store.dispatch(
-      new fromAuthStore.LoadUserTokenSuccess(token)
-    );
+    this.store.dispatch(new fromAuthStore.LoadUserTokenSuccess(token));
   }
 
   login() {
