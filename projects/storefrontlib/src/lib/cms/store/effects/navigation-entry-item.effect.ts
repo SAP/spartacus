@@ -14,65 +14,62 @@ import { IdList } from '../../models/idList.model';
 @Injectable()
 export class NavigationEntryItemEffects {
   @Effect()
-  loadNavigationItems$: Observable<any> = this.actions$
-    .pipe(
-      ofType(navigationItemActions.LOAD_NAVIGATION_ITEMS),
-      map(
-        (action: navigationItemActions.LoadNavigationItems) => action.payload
-      ),
-      map(payload => {
-        return {
-          ids: this.getIdListByItemType(payload.items),
-          nodeId: payload.nodeId
-        };
-      }),
-      mergeMap(data => {
-        if (data.ids.componentIds.idList.length > 0) {
-          return this.routingStore.pipe(
-            select(fromRouting.getRouterState),
-            filter(routerState => routerState !== undefined),
-            map(routerState => routerState.state.context),
-            take(1),
-            mergeMap(pageContext => {
-              // download all items in one request
-              return this.occCmsService
-                .loadListComponents(
-                  data.ids.componentIds,
-                  pageContext,
-                  'DEFAULT',
-                  0,
-                  data.ids.componentIds.idList.length
+  loadNavigationItems$: Observable<any> = this.actions$.pipe(
+    ofType(navigationItemActions.LOAD_NAVIGATION_ITEMS),
+    map((action: navigationItemActions.LoadNavigationItems) => action.payload),
+    map(payload => {
+      return {
+        ids: this.getIdListByItemType(payload.items),
+        nodeId: payload.nodeId
+      };
+    }),
+    mergeMap(data => {
+      if (data.ids.componentIds.idList.length > 0) {
+        return this.routingStore.pipe(
+          select(fromRouting.getRouterState),
+          filter(routerState => routerState !== undefined),
+          map(routerState => routerState.state.context),
+          take(1),
+          mergeMap(pageContext => {
+            // download all items in one request
+            return this.occCmsService
+              .loadListComponents(
+                data.ids.componentIds,
+                pageContext,
+                'DEFAULT',
+                0,
+                data.ids.componentIds.idList.length
+              )
+              .pipe(
+                map(
+                  res =>
+                    new navigationItemActions.LoadNavigationItemsSuccess({
+                      nodeId: data.nodeId,
+                      components: res.component
+                    })
+                ),
+                catchError(error =>
+                  of(new navigationItemActions.LoadNavigationItemsFail(error))
                 )
-                .pipe(
-                  map(
-                    res =>
-                      new navigationItemActions.LoadNavigationItemsSuccess({
-                        nodeId: data.nodeId,
-                        components: res.component
-                      })
-                  ),
-                  catchError(error =>
-                    of(new navigationItemActions.LoadNavigationItemsFail(error))
-                  )
-                );
-            })
-          );
-        } else if (data.ids.pageIds.idList.length > 0) {
-          // future work
-          // dispatch action to load cms page one by one
-        } else if (data.ids.mediaIds.idList.length > 0) {
-          // future work
-          // send request to get list of media
-        } else {
-          console.warn('Navigation nodes are empty:', data.nodeId);
-          return of(
-            new navigationItemActions.LoadNavigationItemsFail(
-              'navigation nodes are empty'
-            )
-          );
-        }
-      })
-    );
+              );
+          })
+        );
+      } else if (data.ids.pageIds.idList.length > 0) {
+        // future work
+        // dispatch action to load cms page one by one
+      } else if (data.ids.mediaIds.idList.length > 0) {
+        // future work
+        // send request to get list of media
+      } else {
+        console.warn('Navigation nodes are empty:', data.nodeId);
+        return of(
+          new navigationItemActions.LoadNavigationItemsFail(
+            'navigation nodes are empty'
+          )
+        );
+      }
+    })
+  );
 
   // We only consider 3 item types: cms page, cms component, and media.
   getIdListByItemType(itemList: any[]) {

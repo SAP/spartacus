@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { of, BehaviorSubject } from 'rxjs';
+import { of, BehaviorSubject, EMPTY } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
 import {
   DynamicSlotComponent,
@@ -67,6 +67,9 @@ const mockSelect = selector => {
 
     case fromAuthStore.getUserToken:
       return () => selectors.getUserToken;
+
+    default:
+      return () => EMPTY;
   }
 };
 

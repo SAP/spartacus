@@ -33,10 +33,10 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromStore.CmsState>) {}
 
   ngOnInit() {
-    this.currentSlot$ = this.store
-      .pipe(
-        select(fromStore.currentSlotSelectorFactory(this.position)),
-        filter(Boolean));
+    this.currentSlot$ = this.store.pipe(
+      select(fromStore.currentSlotSelectorFactory(this.position)),
+      filter(Boolean)
+    );
   }
 
   ngOnDestroy() {}
