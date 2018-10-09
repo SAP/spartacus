@@ -100,7 +100,6 @@ describe('ProductCarouselComponent in CmsLib', () => {
   });
 
   it('should contain cms content in the html rendering after bootstrap', () => {
-    debugger;
     expect(productCarouselComponent.component).toBeNull();
 
     productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
