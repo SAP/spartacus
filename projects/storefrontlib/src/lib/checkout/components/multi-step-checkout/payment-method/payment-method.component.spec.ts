@@ -17,6 +17,7 @@ import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
 import { CardModule } from '../../../../ui/components/card/card.module';
+import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
 
 const paymentDetails = {
   accountHolderName: 'Name',
@@ -40,6 +41,7 @@ describe('PaymentMethodComponent', () => {
       imports: [
         RouterTestingModule,
         CardModule,
+        SpinnerModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),

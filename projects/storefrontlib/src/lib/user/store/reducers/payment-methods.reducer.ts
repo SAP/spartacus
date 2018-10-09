@@ -2,10 +2,12 @@ import * as fromPaymentMethodsAction from '../actions/payment-methods.action';
 
 export interface UserPaymentMethodsState {
   list: any;
+  isLoading: boolean;
 }
 
 export const initialState: UserPaymentMethodsState = {
-  list: []
+  list: [],
+  isLoading: false
 };
 
 export function reducer(
@@ -19,12 +21,33 @@ export function reducer(
       if (list !== undefined) {
         return {
           ...state,
-          list
+          list,
+          isLoading: false
+        };
+      } else {
+        return {
+          ...state,
+          isLoading: false
         };
       }
+    }
+
+    case fromPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS_FAIL: {
+      return {
+        ...state,
+        isLoading: false
+      };
+    }
+
+    case fromPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS: {
+      return {
+        ...state,
+        isLoading: true
+      };
     }
   }
   return state;
 }
 
 export const getPaymentMethods = (state: UserPaymentMethodsState) => state.list;
+export const getLoading = (state: UserPaymentMethodsState) => state.isLoading;

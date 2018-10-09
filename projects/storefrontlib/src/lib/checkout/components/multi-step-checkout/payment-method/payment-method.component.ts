@@ -26,6 +26,7 @@ export class PaymentMethodComponent implements OnInit {
   isPaymentForm = false;
   existingPaymentMethods$: Observable<any>;
   cards = [];
+  isLoading$: Observable<any>;
 
   @Input()
   selectedPayment: any;
@@ -40,6 +41,9 @@ export class PaymentMethodComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.isLoading$ = this.store.pipe(
+      select(fromUserStore.getPaymentMethodsLoading)
+    );
     this.existingPaymentMethods$ = this.store.pipe(
       select(fromUserStore.getPaymentMethods),
       tap(payments => {
