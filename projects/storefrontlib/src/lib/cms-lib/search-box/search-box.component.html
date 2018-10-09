@@ -4,7 +4,7 @@
       <!-- searchbox input -->
       <input class="y-search-box__input form-control dropdown-menu-toggle" [ngClass]="{'show-mobile': isMobileSearchVisible}"
         type="text" placeholder="Search here..." aria-label="search" [ngbTypeahead]="search" [resultTemplate]="rt"
-        [formControl]="searchBoxControl" (keyup)="onKey($event)" />
+        [formControl]="searchBoxControl" (keyup)="onKey($event)" (selectItem)="selectSuggestion($event)" />
       <!-- searchbox button desktop -->
       <button class="y-search-box__button y-search-box__button-desktop" type="submit" aria-label="Submit " (click)="submitSearch()"
         [disabled]="!searchBoxControl?.value">
