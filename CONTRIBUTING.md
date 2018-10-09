@@ -4,8 +4,6 @@ Thank you for your interest in the Spartacus storefront! We welcome contribution
 
 Here are some of the ways you can contribute to Spartacus:
 
-[TOC]
-
 Note: This is a living document. Like the Spartacus code, this document will be improved over time with the help of our community. Feedback welcome.
 
 ----
