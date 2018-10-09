@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import * as NgrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
@@ -16,7 +16,6 @@ const UseCmsModuleConfig: CmsModuleConfig = {
 };
 
 describe('CmsNavigationComponent in CmsLib', () => {
-  let store: Store<fromCmsReducer.CmsState>;
   let navigationComponent: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;
 
@@ -70,9 +69,9 @@ describe('CmsNavigationComponent in CmsLib', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
+        NgrxStore.StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
+          cms: NgrxStore.combineReducers(fromCmsReducer.getReducers())
         }),
         RouterTestingModule
       ],
@@ -89,8 +88,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
     fixture = TestBed.createComponent(NavigationComponent);
     navigationComponent = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    spyOn(store, 'select').and.returnValues(of(itemsData));
+    spyOnProperty(NgrxStore, 'select').and.returnValue(() => () => of(itemsData));
   });
 
   it('should be created', () => {
