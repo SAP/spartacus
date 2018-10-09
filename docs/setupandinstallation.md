@@ -33,6 +33,9 @@ Perform the following steps to set up your backend:
    4. Follow the instructions in https://help.hybris.com/1808/hcd/8c46c266866910149666a0fe4caeee4e.html to install, intialize and start a new instance of SAP Commerce 1808, using `b2c_for_spartacus` as the recipe name.
 
 - Import `spartacus_sample_data.impex`, which you can download here: https://help.hybris.com/1808/api/spartacus/spartacus_sample_data.impex
+
+  For more information on importing ImpEx, see https://help.hybris.com/1808/hcd/2f095d195c0740aab4b0bbdf0f0a2d12.html. 
+
 - Configure your OCC client, as described here: https://help.hybris.com/1808/hcd/627c92db29ce4fce8b01ffbe478a8b3b.html#loio4079b4327ac243b6b3bd507cda6d74ff
 
 # Creating a New Angular Application
@@ -154,7 +157,7 @@ imports: [BrowserModule, StorefrontModule.withConfig({
 
 This procedure adds the storefront component in the UI.
 
-1. Open `{approot}/src/app.app.component.html` and replace the entire contents of the file with the following line:
+1. Open `{approot}/src/app/app.component.html` and replace the entire contents of the file with the following line:
 
    ```
    <cx-storefront>Loading...</cx-storefront>
