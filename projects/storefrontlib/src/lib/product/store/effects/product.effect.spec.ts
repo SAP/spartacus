@@ -13,6 +13,7 @@ import { ProductReferenceConverterService } from '../../converters/product-refer
 import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
+import * as ngrxStore from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromSiteContext from './../../../site-context/shared/store';
@@ -26,7 +27,6 @@ const MockOccModuleConfig: OccModuleConfig = {
 };
 
 describe('Product Effects', () => {
-  let store: Store<fromRoot.State>;
   let actions$: Observable<any>;
   let service: OccProductService;
   let effects: fromEffects.ProductEffects;
@@ -55,8 +55,6 @@ describe('Product Effects', () => {
         provideMockActions(() => actions$)
       ]
     });
-
-    store = TestBed.get(Store);
     service = TestBed.get(OccProductService);
     effects = TestBed.get(fromEffects.ProductEffects);
 
@@ -86,8 +84,9 @@ describe('Product Effects', () => {
           cmsRequired: false
         }
       };
-
-      spyOn(store, 'select').and.returnValue(of(router));
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(router)
+      );
 
       const action = new fromSiteContext.LanguageChange();
       const completion = new fromActions.LoadProductSuccess(product);
