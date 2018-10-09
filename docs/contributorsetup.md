@@ -1,85 +1,110 @@
-# Contributor Setup.
+# Contributor Setup
 
-This guide provides the steps to clone the Spartacus library sources, build and then run the storefront from the lib development workspace.
+To contribut to the Spartacus project, the first steps are to clone the Spartacus library sources, build, and then run the storefront from the library development workspace.
 
-We will see how to build and run both in dev mode and in prod mode since they require different steps.
+This guide shows how to build and run both in dev mode and in prod mode.
 
 # Prerequisites
+
+Before carrying out the procedures below, please ensure the following frontend and backend requirements are in place.
+
+## Frontend Requirements
+
+Your Angular development environment should include the following:
 
 - node.js >= 8.9.0
 - yarn >= 1.9.4
 
-## Backend prerequisites
+## Backend Requirements
 
-[Add/Copy to backend requirements]
+The Spartacus JavaScript Storefront uses SAP Commerce for its backend, and makes use of the sample data from the B2C Accelerator electronics storefront in particular.
 
-# Clone the sources
+Perform the following steps to set up your backend:
 
-The first step is to clone this repo on your local system.
+- Install a new instance of SAP Commerce 1808 using the `b2c_acc_plus` recipe, as follows:
 
-# Install the dependencies.
+   1. In the `installer` folder of SAP Commerce 1808, make a copy of `b2c_acc_plus` and call it `b2c_for_spartacus`.
 
-To install the dependencies, simply use yarn:
+   2. Delete the existing `build.gradle` file in the `b2c_for_spartacus` recipe folder. 
+
+   3. Add this [build.gradle](assets/build.gradle) file to your `b2c_for_spartacus` recipe folder.
+
+   4. Follow the instructions in https://help.hybris.com/1808/hcd/8c46c266866910149666a0fe4caeee4e.html to install, intialize and start a new instance of SAP Commerce 1808, using `b2c_for_spartacus` as the recipe name.
+
+- Import `spartacus_sample_data.impex`, which you can download here: https://help.hybris.com/1808/api/spartacus/spartacus_sample_data.impex
+- Configure your OCC client, as described here: https://help.hybris.com/1808/hcd/627c92db29ce4fce8b01ffbe478a8b3b.html#loio4079b4327ac243b6b3bd507cda6d74ff
+
+# Cloning the Sources
+
+The first step is to clone the Spartacus GitHub repository on your local system.
+
+# Installing the Dependencies.
+
+Install the dependencies by running the following yarn command:
 
 ```
 $ yarn install
 ```
 
-# Build and run in dev mode
+# Building and Running in Development Mode
 
-The simplest way to build and run from the source code is using the dev mode.
+The simplest way to build and run from the source code is to use the development mode.
 
-## Configure your backend url
+## Configuring Your Backend URL
 
-Before you build and launch, configure your backend url in this file: `projects/storefrontapp/environments/environment.ts`
+Carry out the following steps before you build and launch.
 
-The `environment.ts` file contains properties that are applied when the app is run in dev mode.
+1. Configure your backend URL in the `projects/storefrontapp/environments/environment.ts` file.
 
-Add your backend base url in the occBaseUrl property:
+   The `environment.ts` file contains properties that are applied when the app is run in development mode.
 
-```
-export const environment = {
-  production: false,
-  occBaseUrl: 'https://custom-backend-url'
-};
-```
+2. Add your backend base URL to the `occBaseUrl` property, as follows:
 
-## Launch the storefront
+   ```
+   export const environment = {
+      production: false,
+      occBaseUrl: 'https://custom-backend-url'
+   };
+   ```
+
+## Launching the Storefront
+
+Lauch the storefront with the following command:
 
 ```
 $ yarn start
 ```
 
-This is the most convenient way for a developer to run the storefront. It allows for hot reload of the library code as the code changes.
+This is the most convenient way for a developer to run the storefront. It allows for hot-reloading of the library code as the code changes.
 
-# Build and run in prod mode
+# Building and Running in Production Mode
 
-Building in prod mode has more retrictive rules about what kind of code is allowed. Ultimately, the library code needs to be built and run in prod mode because down the road, the code will be built in prod mode when it is used.
+Building in production mode has more retrictive rules about what kind of code is allowed, but it also allows you to generate a build that is optimized for production. Use this mode as your development cycle nears completion.
 
-## Build the @spartacus/storefront library
+## Building the @spartacus/storefront Library
 
-Contrary do the dev mode used above, in prod mode you need to to package and build a standalone storefront library. For that, use:
+Contrary do development mode, in production mode you need to package and build a standalone storefront library. This is done with the following command:
 
 ```
 $ yarn build:core:lib
 ```
 
-## Configure your backend url
+## Configuring Your Backend URL
 
-Configure your backend url in this file: `projects/storefrontapp/environments/environment.prod.ts`
+1. Configure your backend URL in the `projects/storefrontapp/environments/environment.prod.ts` file.
 
-You can add your backend base url in the occBaseUrl property:
+2. Add your backend base URL to the `occBaseUrl` property, as follows:
 
-```
-export const environment = {
-  production: false,
-  occBaseUrl: 'https://custom-backend-url'
-};
-```
+   ```
+   export const environment = {
+      production: false,
+      occBaseUrl: 'https://custom-backend-url'
+   };
+   ```
 
-## Launch the storefront
+## Launching the Storefront
 
-To launch the server with ng serve, use:
+Launch the server with ng serve, as follows:
 
 ```
 $ yarn start:prod
@@ -87,7 +112,7 @@ $ yarn start:prod
 
 # Additional Storefront Configuration
 
-In both dev mode and prod mode, the Spartacus storefront has default values for all of its configurations. However, you may need to override these values.
+In both development mode and production mode, the Spartacus storefront has default values for all of its configurations. However, you may need to override these values.
 
 To configure the storfront, use the `withConfig` method on the StorefrontModule. The following is an example:
 
@@ -114,7 +139,7 @@ export class AppModule {}
 
 The server `baseUrl` is pulled from the `environment.*.ts` file, but the rest of the preoperties in this example use the default values for the configs. You do not have to specify a config if you do not need to override the default value.
 
-For example, if you only need to override the `baseUrl` ant the `clien_secret` and want to use the default value for other properties, you can use this config:
+For example, if you only need to override the `baseUrl` and the `client_secret` and want to use the default value for other properties, you can use the following config:
 
 ```
 @NgModule({
