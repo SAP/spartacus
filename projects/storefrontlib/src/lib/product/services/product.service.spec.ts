@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, combineReducers } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 
@@ -10,7 +10,6 @@ import { ProductService } from './product.service';
 
 describe('ProductService', () => {
   let service: ProductService;
-  let store: Store<fromStore.ProductsState>;
   const mockProduct = { code: 'testId' };
 
   beforeEach(() => {
@@ -24,7 +23,6 @@ describe('ProductService', () => {
       providers: [ProductService]
     });
 
-    store = TestBed.get(Store);
     service = TestBed.get(ProductService);
   });
 

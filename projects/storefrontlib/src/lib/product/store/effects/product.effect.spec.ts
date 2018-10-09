@@ -12,7 +12,7 @@ import { ProductReferenceConverterService } from '../../converters/product-refer
 
 import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
+import { StoreModule, combineReducers } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
