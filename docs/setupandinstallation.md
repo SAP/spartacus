@@ -24,7 +24,7 @@ Perform the following steps to set up your backend:
 
 - Install a new instance of SAP Commerce 1808 using the `b2c_acc_plus` recipe, as follows:
 
-   1. In the `installer` folder of SAP Commerce 1808, make a copy of `b2c_acc_plus` and call it `b2c_for_spartacus`.
+   1. In the `installer/recipes` folder of SAP Commerce 1808, make a copy of `b2c_acc_plus` and call it `b2c_for_spartacus`.
 
    2. Delete the existing `build.gradle` file in the `b2c_for_spartacus` recipe folder. 
 
@@ -88,7 +88,7 @@ The storefront libraries are not yet released and the `@next` tag will install t
 
 # Importing the Storefront Module into Your Application
 
-1. Open `{mystore}/src/app/app.modult.ts` and add the following lines:
+1. Open `{mystore}/src/app/app.module.ts` and add the following lines:
 
    ```
    import { StorefrontModule } from '@spartacus/storefront';
