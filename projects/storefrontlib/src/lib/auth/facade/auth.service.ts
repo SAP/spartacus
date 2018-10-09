@@ -3,12 +3,15 @@ import { select, Store } from '@ngrx/store';
 import * as fromAuthStore from '../store';
 import * as fromStore from '../../user/store';
 import { UserToken } from '../models/token-types.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  readonly userToken$ = this.store.pipe(select(fromAuthStore.getUserToken));
+  readonly userToken$: Observable<UserToken> = this.store.pipe(
+    select(fromAuthStore.getUserToken)
+  );
 
   constructor(private store: Store<fromStore.UserState>) {}
 

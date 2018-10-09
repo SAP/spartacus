@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import * as fromStore from '../store';
 import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoutingService {
-  readonly redirectUrl$ = this.store.pipe(select(fromStore.getRedirectUrl));
+  readonly redirectUrl$: Observable<string> = this.store.pipe(
+    select(fromStore.getRedirectUrl)
+  );
 
   constructor(private store: Store<fromStore.RouterState>) {}
 
