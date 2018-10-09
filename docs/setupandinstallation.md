@@ -20,7 +20,16 @@ The Spartacus JavaScript Storefront uses SAP Commerce for its backend, and makes
 
 Perform the following steps to set up your backend:
 
-- Install a new instance of SAP Commerce 1808 using the `b2c_acc` recipe.
+- Install a new instance of SAP Commerce 1808 using the `b2c_acc_plus` recipe, as follows:
+
+   1. In the `installer` folder of SAP Commerce 1808, make a copy of `b2c_acc_plus` and call it `b2c_for_spartacus`.
+
+   2. Delete the existing `build.gradle` file in the `b2c_for_spartacus` recipe folder. 
+
+   3. Add this [build.gradle](assets/build.gradle) file to your `b2c_for_spartacus` recipe folder.
+
+   4. Follow the instructions in https://help.hybris.com/1808/hcd/8c46c266866910149666a0fe4caeee4e.html to install, intialize and start a new instance of SAP Commerce 1808, using `b2c_for_spartacus` as the recipe name.
+
 - Import `spartacus_sample_data.impex`, which you can download here: https://help.hybris.com/1808/api/spartacus/spartacus_sample_data.impex
 - Configure your OCC client, as described here: https://help.hybris.com/1808/hcd/627c92db29ce4fce8b01ffbe478a8b3b.html#loio4079b4327ac243b6b3bd507cda6d74ff
 
@@ -192,6 +201,8 @@ The following are known issues with the current release of Spartacus JavaScript 
 - The Spartacus storefront is currently missing the footer.
 
 - Certain AddOns may cause the Spartacus storefront to not work properly.
+
+- Spartacus relies on the `cmsoccaddon` for CMS information. However, this extension is currently not fully compatible with SmartEdit. As a result, the categories may not appear in Spartacus. To avoid this problem, remove the SmartEdit CMS web services and personalization extensions.
 
 - You may notice that the logo is very small. This can be fixed as follows:
 
