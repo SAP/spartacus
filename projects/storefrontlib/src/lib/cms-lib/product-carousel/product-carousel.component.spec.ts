@@ -80,9 +80,9 @@ describe('ProductCarouselComponent in CmsLib', () => {
 
     spyOnProperty(NgrxStore, 'select').and.returnValue(realSelector => {
       if (realSelector === fromProductStore.getAllProductCodes) {
-        return of(productCodeArray);
+        return () => of(productCodeArray);
       }
-      return of(mockProducts);
+      return () => of(mockProducts);
     });
   });
 
@@ -100,6 +100,7 @@ describe('ProductCarouselComponent in CmsLib', () => {
   });
 
   it('should contain cms content in the html rendering after bootstrap', () => {
+    debugger;
     expect(productCarouselComponent.component).toBeNull();
 
     productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
