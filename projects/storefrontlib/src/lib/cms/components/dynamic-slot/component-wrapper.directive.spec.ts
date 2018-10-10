@@ -2,13 +2,13 @@ import { Component, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { DynamicSlotComponent } from './dynamic-slot.component';
-import { AbstractCmsComponent } from '../abstract-cms-component';
 import { ComponentMapperService } from '../../services';
 import { CmsModuleConfig } from '../../cms-module-config';
 import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../../store/reducers';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import { OutletDirective } from '../../../outlet';
+import { CmsComponentData } from '../cms-component-data';
 
 const testText = 'test text';
 
@@ -16,7 +16,9 @@ const testText = 'test text';
   selector: 'y-test',
   template: `<div id="debugEl1">${testText}</div>`
 })
-export class TestComponent extends AbstractCmsComponent {}
+export class TestComponent {
+  constructor(public cmsData: CmsComponentData) {}
+}
 
 @NgModule({
   declarations: [TestComponent],
@@ -33,7 +35,7 @@ const MockCmsModuleConfig: CmsModuleConfig = {
 
 @Component({
   template:
-    '<ng-container yComponentWrapper componentType="CMSTestComponent"></ng-container>'
+    '<ng-container yComponentWrapper componentType="CMSTestComponent" componentUid="test_uid"></ng-container>'
 })
 class TestWrapperComponent {}
 
@@ -70,5 +72,13 @@ describe('ComponentWrapperDirective', () => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('#debugEl1').textContent).toContain(testText);
+  });
+
+  it('should inject cms component data', () => {
+    fixture.detectChanges();
+    const testCromponemtInstance = <TestComponent>(
+      fixture.debugElement.children[0].componentInstance
+    );
+    expect(testCromponemtInstance.cmsData.uid).toContain('test_uid');
   });
 });

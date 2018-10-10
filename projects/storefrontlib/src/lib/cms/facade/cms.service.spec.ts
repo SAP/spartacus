@@ -1,20 +1,25 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { CmsService } from './cms.service';
-import { Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import createSpy = jasmine.createSpy;
-import { of } from 'rxjs';
 import * as fromStore from '../store';
+import * as NgrxStore from '@ngrx/store';
+import { of } from 'rxjs';
 
 describe('CmsService', () => {
-  const MockStore = {
-    select: createSpy('select').and.returnValue(of(undefined)),
-    dispatch: createSpy('dispatch')
-  };
+  let store;
+  const mockSelect = createSpy('select').and.returnValue(() => of(undefined));
 
   beforeEach(() => {
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
+
     TestBed.configureTestingModule({
-      providers: [CmsService, { provide: Store, useValue: MockStore }]
+      imports: [StoreModule.forRoot({})],
+      providers: [CmsService]
     });
+
+    store = TestBed.get(Store);
+    spyOn(store, 'dispatch');
   });
 
   it('should be created', inject([CmsService], (service: CmsService) => {
@@ -26,11 +31,11 @@ describe('CmsService', () => {
     (service: CmsService) => {
       const testUid = 'test_uid';
 
-      const data$ = service.getComponentData(testUid);
-      expect(MockStore.select).toHaveBeenCalled();
+      service.getComponentData(testUid).subscribe(() => {});
 
-      data$.subscribe(() => {});
-      expect(MockStore.dispatch).toHaveBeenCalledWith(
+      expect(mockSelect).toHaveBeenCalled();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.LoadComponent(testUid)
       );
     }

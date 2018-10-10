@@ -8,7 +8,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbCollapseModule, NgbModalModule.forRoot()],
+      imports: [NgbCollapseModule, NgbModalModule],
       declarations: [ProductFacetNavigationComponent]
     }).compileComponents();
   }));
