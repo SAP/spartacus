@@ -85,7 +85,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   }
 
   goToOrderDetail(order) {
-    this.routing.go('my-account/orders/', order.code);
+    this.routing.go(['my-account/orders/', order.code]);
   }
 
   private fetchOrders(event: { sortCode: string; currentPage: number }) {

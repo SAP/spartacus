@@ -63,7 +63,7 @@ export class SearchBoxComponentService {
     );
 
   public launchSearchPage(query: string) {
-    this.routingService.go('/search', query);
+    this.routingService.go(['/search', query]);
   }
 
   private fetch(text: string, config: SearchBoxConfig): Observable<any[]> {
