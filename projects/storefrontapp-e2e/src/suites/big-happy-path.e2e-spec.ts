@@ -93,7 +93,7 @@ describe('Big Happy Path', () => {
     await deliveryForm.nextButton.click();
   });
 
-  it('should fill in payment form', async () => {
+  xit('should fill in payment form', async () => {
     const paymentForm = checkoutPage.paymentForm;
     await paymentForm.waitForReady();
 
@@ -104,7 +104,7 @@ describe('Big Happy Path', () => {
     await paymentForm.nextButton.click();
   });
 
-  it('should review and place order', async () => {
+  xit('should review and place order', async () => {
     // Review: Select T&C and submit.
     const reviewForm = checkoutPage.reviewForm;
     await reviewForm.waitForReady();
@@ -164,7 +164,7 @@ describe('Big Happy Path', () => {
     );
   });
 
-  it('should be able to check order in order history', async () => {
+  xit('should be able to check order in order history', async () => {
     // Go to my-account and assess that the new order is the newest in the list.
     const orderHistoryPage = new OrderHistoryPage();
     await orderHistoryPage.navigateTo();
