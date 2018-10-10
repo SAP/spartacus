@@ -8,9 +8,15 @@ import { SearchConfig } from '../search-config';
 
 @Injectable()
 export class ProductSearchService {
-  readonly searchResults$: Observable<any> = this.store
-    .select(fromStore.getSearchResults)
-    .pipe(filter(results => Object.keys(results).length > 0));
+  readonly searchResults$: Observable<any> = this.store.pipe(
+    select(fromStore.getSearchResults),
+    filter(results => Object.keys(results).length > 0)
+  );
+
+  readonly auxSearchResults$: Observable<any> = this.store.pipe(
+    select(fromStore.getAuxSearchResults),
+    filter(results => Object.keys(results).length > 0)
+  );
 
   readonly searchSuggestions$: Observable<any> = this.store.pipe(
     select(fromStore.getProductSuggestions)
@@ -24,6 +30,18 @@ export class ProductSearchService {
         queryText: query,
         searchConfig: searchConfig
       })
+    );
+  }
+
+  searchAuxiliary(query: string, searchConfig?: SearchConfig) {
+    this.store.dispatch(
+      new fromStore.SearchProducts(
+        {
+          queryText: query,
+          searchConfig: searchConfig
+        },
+        true
+      )
     );
   }
 

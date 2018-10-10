@@ -14,18 +14,19 @@ export const CLEAN_PRODUCT_SEARCH = '[Product] Clean Product Search State';
 export class SearchProducts implements Action {
   readonly type = SEARCH_PRODUCTS;
   constructor(
-    public payload: { queryText: string; searchConfig: SearchConfig }
+    public payload: { queryText: string; searchConfig: SearchConfig },
+    public auxiliary = false
   ) {}
 }
 
 export class SearchProductsFail implements Action {
   readonly type = SEARCH_PRODUCTS_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any, public auxiliary = false) {}
 }
 
 export class SearchProductsSuccess implements Action {
   readonly type = SEARCH_PRODUCTS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any, public auxiliary = false) {}
 }
 
 export class GetProductSuggestions implements Action {

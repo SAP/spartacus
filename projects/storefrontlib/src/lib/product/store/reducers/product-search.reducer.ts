@@ -3,12 +3,14 @@ import * as fromProductsSearch from '../actions/product-search.action';
 export interface ProductsSearchState {
   results: any;
   suggestions: any[];
+  auxResults: any;
   loading: boolean;
 }
 
 export const initialState: ProductsSearchState = {
   results: {},
   suggestions: [],
+  auxResults: {},
   loading: false
 };
 
@@ -28,9 +30,10 @@ export function reducer(
       const results = action.payload;
 
       if (state.loading) {
+        const res = action.auxiliary ? { auxResults: results } : { results };
         return {
           ...state,
-          results,
+          ...res,
           loading: false
         };
       } else {
@@ -55,6 +58,7 @@ export function reducer(
 }
 
 export const getSearchResults = (state: ProductsSearchState) => state.results;
+export const getAuxSearchResults = (state: ProductsSearchState) => state.auxResults;
 export const getSearchResultsLoading = (state: ProductsSearchState) =>
   state.loading;
 export const getProductSuggestions = (state: ProductsSearchState) =>
