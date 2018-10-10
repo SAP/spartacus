@@ -34,6 +34,7 @@ describe('PaymentMethodComponent', () => {
   let service: CheckoutService;
   let mockUserSelectors: {
     getPaymentMethods: BehaviorSubject<any[]>;
+    getPaymentMethodsLoading: BehaviorSubject<boolean>;
   };
 
   beforeEach(async(() => {
@@ -62,12 +63,15 @@ describe('PaymentMethodComponent', () => {
     service = TestBed.get(CheckoutService);
 
     mockUserSelectors = {
-      getPaymentMethods: new BehaviorSubject([])
+      getPaymentMethods: new BehaviorSubject([]),
+      getPaymentMethodsLoading: new BehaviorSubject(false)
     };
     spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
       switch (selector) {
         case fromUser.getPaymentMethods:
           return () => mockUserSelectors.getPaymentMethods;
+        case fromUser.getPaymentMethodsLoading:
+          return () => mockUserSelectors.getPaymentMethodsLoading;
       }
     });
 

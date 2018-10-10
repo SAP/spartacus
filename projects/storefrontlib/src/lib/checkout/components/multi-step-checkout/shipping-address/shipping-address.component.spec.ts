@@ -38,7 +38,7 @@ describe('ShippingAddressComponent', () => {
   let fixture: ComponentFixture<ShippingAddressComponent>;
   let service: CheckoutService;
   let mockCartSelectors: {
-    getLoading: BehaviorSubject<boolean>;
+    getAddressesLoading: BehaviorSubject<boolean>;
     getAddresses: BehaviorSubject<any[]>;
   };
 
@@ -68,13 +68,13 @@ describe('ShippingAddressComponent', () => {
     service = TestBed.get(CheckoutService);
 
     mockCartSelectors = {
-      getLoading: new BehaviorSubject(false),
+      getAddressesLoading: new BehaviorSubject(false),
       getAddresses: new BehaviorSubject([])
     };
     spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
       switch (selector) {
         case fromUser.getAddressesLoading:
-          return () => mockCartSelectors.getLoading;
+          return () => mockCartSelectors.getAddressesLoading;
         case fromUser.getAddresses:
           return () => mockCartSelectors.getAddresses;
       }
@@ -91,7 +91,7 @@ describe('ShippingAddressComponent', () => {
   });
 
   it('should call ngOnInit to get existing address if they do not exist', () => {
-    mockCartSelectors.getLoading.next(false);
+    mockCartSelectors.getAddressesLoading.next(false);
     mockCartSelectors.getAddresses.next([]);
     component.ngOnInit();
     component.existingAddresses$.subscribe(() => {
@@ -101,7 +101,7 @@ describe('ShippingAddressComponent', () => {
 
   it('should call ngOnInit to get existing address if they exist', () => {
     const mockAddresses = [mockAddress];
-    mockCartSelectors.getLoading.next(false);
+    mockCartSelectors.getAddressesLoading.next(false);
     mockCartSelectors.getAddresses.next(mockAddresses);
     component.ngOnInit();
     component.existingAddresses$.subscribe(data => {
