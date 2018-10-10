@@ -14,9 +14,13 @@ export class RoutingService {
   constructor(private store: Store<fromStore.RouterState>) {}
 
   public go(path: string, query?: any) {
+    const pathParam = [path];
+    if (query !== undefined) {
+      pathParam.push(query);
+    }
     this.store.dispatch(
       new fromStore.Go({
-        path: [path, query]
+        path: pathParam
       })
     );
   }
