@@ -42,27 +42,26 @@ export class ShippingAddressComponent implements OnInit {
     this.isLoading$ = this.store.pipe(
       select(fromUserStore.getAddressesLoading)
     );
-    this.existingAddresses$ = this.store
-      .select(fromUserStore.getAddresses)
-      .pipe(
-        tap(addresses => {
-          if (addresses.length === 0) {
-            this.checkoutService.loadUserAddresses();
-          } else {
-            if (this.cards.length === 0) {
-              addresses.forEach(address => {
-                const card = this.getCardContent(address);
-                if (
-                  this.selectedAddress &&
-                  this.selectedAddress.id === address.id
-                ) {
-                  card.header = 'SELECTED';
-                }
-              });
-            }
+    this.existingAddresses$ = this.store.pipe(
+      select(fromUserStore.getAddresses),
+      tap(addresses => {
+        if (addresses.length === 0) {
+          this.checkoutService.loadUserAddresses();
+        } else {
+          if (this.cards.length === 0) {
+            addresses.forEach(address => {
+              const card = this.getCardContent(address);
+              if (
+                this.selectedAddress &&
+                this.selectedAddress.id === address.id
+              ) {
+                card.header = 'SELECTED';
+              }
+            });
           }
-        })
-      );
+        }
+      })
+    );
   }
 
   getCardContent(address): Card {
