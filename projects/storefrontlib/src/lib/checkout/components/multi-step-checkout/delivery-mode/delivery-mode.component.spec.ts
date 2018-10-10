@@ -18,6 +18,7 @@ import * as fromAuth from '../../../../auth/store';
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
+import { By } from '@angular/platform-browser';
 
 export class MockAbstractControl {
   hasError() {
@@ -46,6 +47,7 @@ const mockCart = {
   guid: 'test',
   code: 'test'
 };
+
 describe('DeliveryModeComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: DeliveryModeComponent;
@@ -112,7 +114,7 @@ describe('DeliveryModeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get suppored shipping methods if they do not exist', () => {
+  it('should call ngOnInit to get supported shipping modes if they do not exist', () => {
     mockCheckoutSelectors.getSupportedDeliveryModes.next([]);
     component.ngOnInit();
     component.supportedDeliveryModes$.subscribe(() => {
@@ -120,7 +122,7 @@ describe('DeliveryModeComponent', () => {
     });
   });
 
-  it('should call ngOnInit to get supported shipping methods if they exist', () => {
+  it('should call ngOnInit to get supported shipping modes if they exist', () => {
     mockCheckoutSelectors.getSupportedDeliveryModes.next(
       mockSupportedDeliveryModes
     );
@@ -130,15 +132,16 @@ describe('DeliveryModeComponent', () => {
     });
   });
 
-  it('should call ngOnInit to set shipping method if user selected it before', () => {
-    component.selectedShippingMethod = 'shipping method set in cart';
+  it('should call ngOnInit to set shipping mode if user selected it before', () => {
+    const mockSelectedShippingMethod = 'shipping method set in cart';
+    component.selectedShippingMethod = mockSelectedShippingMethod;
     mockCheckoutSelectors.getSupportedDeliveryModes.next(
       mockSupportedDeliveryModes
     );
     component.ngOnInit();
     component.supportedDeliveryModes$.subscribe(() => {
       expect(component.mode.controls['deliveryModeId'].value).toEqual(
-        'shipping method set in cart'
+        mockSelectedShippingMethod
       );
     });
   });
@@ -168,5 +171,19 @@ describe('DeliveryModeComponent', () => {
   it('should get deliveryModeInvalid()', () => {
     const invalid = component.deliveryModeInvalid;
     expect(invalid).toBe(true);
+  });
+
+  it('should have primary button disabled when delivery mode is not selected', () => {
+    component.mode.controls['deliveryModeId'].setValue(null);
+    fixture.detectChanges();
+    const primaryButton = fixture.debugElement.query(By.css('.btn-primary'));
+    expect(primaryButton.nativeElement.disabled).toBe(true);
+  });
+
+  it('should have primary button not disabled when delivery mode is selected', () => {
+    component.mode.controls['deliveryModeId'].setValue('mock-delivery-mode');
+    fixture.detectChanges();
+    const primaryButton = fixture.debugElement.query(By.css('.btn-primary'));
+    expect(primaryButton.nativeElement.disabled).toBe(false);
   });
 });
