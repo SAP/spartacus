@@ -22,11 +22,7 @@ export class SearchBoxComponent {
     this.searchBoxControl.setValue(value);
   }
 
-  constructor(protected service: SearchBoxComponentService) {
-    this.service.searchService.auxSearchResults$.subscribe(res =>
-      console.log('ddsa', res)
-    );
-  }
+  constructor(protected service: SearchBoxComponentService) {}
 
   search = (text$: Observable<string>) =>
     this.service.search(merge(text$, this.queryText$));
