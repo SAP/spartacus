@@ -39,8 +39,6 @@ function spyOnStore(customSpiesFn?) {
         return () => of(mockOrders);
       case fromUserStore.getOrdersLoaded:
         return () => of(true);
-      case fromAuthStore.getUserToken:
-        return () => of({ userId: 'test@sap.com' });
       default:
         break;
     }
@@ -85,14 +83,8 @@ describe('OrderHistoryComponent', () => {
   it('should initialize with the store', () => {
     spyOnStore();
     fixture.detectChanges();
-    // component.ngOnInit();
     fixture.whenStable().then(() => {
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromUserStore.LoadUserOrders({
-          userId: 'test@sap.com',
-          pageSize: 5
-        })
-      );
+      expect(NgrxStore.select).toHaveBeenCalledWith(fromUserStore.getOrders);
     });
   });
 
