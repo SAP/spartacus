@@ -87,7 +87,6 @@ describe('SiteContextInterceptor', () => {
         return req.method === 'GET';
       });
 
-      console.log(mockReq.request.params.get('lang'));
       expect(mockReq.request.params.get('lang')).toEqual(null);
       expect(mockReq.request.params.get('curr')).toEqual(null);
 
@@ -109,7 +108,6 @@ describe('SiteContextInterceptor', () => {
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'GET';
       });
-      console.log(mockReq.request.params.get('lang'));
       expect(mockReq.request.params.get('lang')).toEqual(languageDe);
       expect(mockReq.request.params.get('curr')).toEqual(currencyJpy);
 
