@@ -22,7 +22,7 @@ export class ReviewForm {
     by.css('.y-review__summary-card__payment-method')
   );
   readonly billingAddress: ElementFinder = this.form.element(
-    by.css('.billing-address')
+    by.css('.y-review__summary-card__address')
   );
 
   async waitForReady() {

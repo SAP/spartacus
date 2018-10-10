@@ -34,7 +34,7 @@ export class OrderConfirmationPage extends AppPage {
 
   readonly orderItem = (itemNo: number): ElementFinder =>
     this.page
-      .all(by.css('.y-order-confirmation__order-items y-cart-item-list__row'))
+      .all(by.css('.y-order-confirmation__order-items .y-cart-item-list__row'))
       .get(itemNo);
 
   async waitForReady() {

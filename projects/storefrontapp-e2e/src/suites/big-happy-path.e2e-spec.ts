@@ -6,10 +6,9 @@ import { E2EUtil } from '../e2e-util';
 import { LoginForm } from '../page-objects/login/login-form.po';
 import { ProductDetailsPage } from '../page-objects/product-details.po';
 import { AddressForm } from '../page-objects/checkout/address-form.po';
-import { PaymentForm } from '../page-objects/checkout/payment-form.po';
 import { OrderHistoryPage } from '../page-objects/account/order-history.po';
 
-fdescribe('Big Happy Path', () => {
+describe('Big Happy Path', () => {
   const home: HomePage = new HomePage();
   const checkoutPage = new MultiStepCheckoutPage();
 
@@ -124,12 +123,12 @@ fdescribe('Big Happy Path', () => {
     // expect(await reviewForm.paymentMethod.getText()).toContain(
     //   PaymentForm.CARD_TYPE
     // );
-    // expect(await reviewForm.billingAddress.getText()).toContain(
-    //   AddressForm.LAST_NAME
-    // );
-    // expect(await reviewForm.billingAddress.getText()).toContain(
-    //   AddressForm.CITY
-    // );
+    expect(await reviewForm.billingAddress.getText()).toContain(
+      AddressForm.LAST_NAME
+    );
+    expect(await reviewForm.billingAddress.getText()).toContain(
+      AddressForm.CITY
+    );
 
     expect(await checkoutPage.orderSummary.getText()).toContain('$2,635.07');
 
@@ -148,12 +147,9 @@ fdescribe('Big Happy Path', () => {
     expect(await orderConfirmationPage.shippingAddress.getText()).toContain(
       AddressForm.CITY
     );
-    // expect(await orderConfirmationPage.shippingMethod.getText()).toContain(
-    //   'Standard Delivery'
-    // );
-    // expect(await orderConfirmationPage.paymentMethod.getText()).toContain(
-    //   PaymentForm.CARD_TYPE
-    // );
+    expect(await orderConfirmationPage.shippingMethod.getText()).toContain(
+      'Standard Delivery'
+    );
     expect(await orderConfirmationPage.billingAddress.getText()).toContain(
       AddressForm.LAST_NAME
     );
@@ -164,16 +160,16 @@ fdescribe('Big Happy Path', () => {
       PRODUCT_CODE
     );
     expect(await orderConfirmationPage.orderSummary.getText()).toContain(
-      'Total: $2,635.07'
+      '$2,635.07'
     );
   });
 
-  xit('should be able to check order in order history', async () => {
+  it('should be able to check order in order history', async () => {
     // Go to my-account and assess that the new order is the newest in the list.
     const orderHistoryPage = new OrderHistoryPage();
     await orderHistoryPage.navigateTo();
     expect(await orderHistoryPage.historyHeader.getText()).toContain(
-      '1 orders found in your Order History'
+      'Order history'
     );
     expect(await orderHistoryPage.historyItem(0).getText()).toContain(
       '$2,635.07'
