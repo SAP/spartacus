@@ -22,6 +22,14 @@ export class SearchBoxComponent {
     this.searchBoxControl.setValue(value);
   }
 
+  @Input('executeQuery')
+  set executeQuery(value: string) {
+    if (value) {
+      this.searchBoxControl.setValue(value);
+      this.service.launchSearchPage(this.searchBoxControl.value);
+    }
+  }
+
   constructor(protected service: SearchBoxComponentService) {}
 
   search = (text$: Observable<string>) =>
