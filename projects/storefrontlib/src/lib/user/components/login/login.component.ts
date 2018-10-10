@@ -13,8 +13,8 @@ import { Observable, Subscription } from 'rxjs';
 import { UserToken } from '../../../auth/models/token-types.model';
 
 import * as fromStore from '../../store';
-import * as fromAuthStore from './../../../auth/store';
-import * as fromRouting from '../../../routing/store';
+import { AuthService } from '../../../auth/facade/auth.service';
+import { RoutingService } from '../../../routing/facade/routing.service';
 
 @Component({
   selector: 'y-login',
@@ -29,6 +29,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   routingSub: Subscription;
 
   constructor(
+    private auth: AuthService,
+    private routing: RoutingService,
     private store: Store<fromStore.UserState>,
     private route: ActivatedRoute,
     private elementRef: ElementRef,
@@ -52,22 +54,20 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.user$ = this.store.pipe(select(fromStore.getDetails));
 
-    this.subscription = this.store
-      .pipe(select(fromAuthStore.getUserToken))
-      .subscribe((token: UserToken) => {
-        if (token && token.access_token && !this.isLogin) {
-          this.isLogin = true;
-          this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
-          this.store.dispatch(new fromAuthStore.Login());
-        } else if (token && !token.access_token && this.isLogin) {
-          this.isLogin = false;
-        }
-      });
+    this.subscription = this.auth.userToken$.subscribe((token: UserToken) => {
+      if (token && token.access_token && !this.isLogin) {
+        this.isLogin = true;
+        this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
+        this.auth.login();
+      } else if (token && !token.access_token && this.isLogin) {
+        this.isLogin = false;
+      }
+    });
   }
 
   logout() {
     this.isLogin = false;
-    this.store.dispatch(new fromAuthStore.Logout());
+    this.auth.logout();
 
     let state = this.route.snapshot;
     while (state.firstChild) {
@@ -80,11 +80,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         child => child.GUARD_NAME === 'AuthGuard'
       )
     ) {
-      this.store.dispatch(
-        new fromRouting.Go({
-          path: ['/login']
-        })
-      );
+      this.routing.go('/login');
     }
   }
 

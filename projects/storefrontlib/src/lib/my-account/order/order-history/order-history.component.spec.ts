@@ -11,6 +11,8 @@ import { OrderHistoryComponent } from './order-history.component';
 import * as fromRoot from '../../../routing/store';
 import * as fromUserStore from '../../../user/store';
 import * as fromAuthStore from '../../../auth/store';
+import createSpy = jasmine.createSpy;
+import { AuthService } from '../../../auth/facade/auth.service';
 
 const routes = [
   { path: 'my-account/orders/:id', component: OrderDetailsComponent }
@@ -21,6 +23,10 @@ const mockOrders = {
   ],
   pagination: { totalResults: 1, sort: 'byDate' },
   sorts: [{ code: 'byDate', selected: true }]
+};
+const mockAuth = {
+  userToken$: of({ access_token: 'test', userId: 'test@sap.com' }),
+  authorize: createSpy()
 };
 
 function spyOnStore(customSpiesFn?) {
@@ -59,7 +65,8 @@ describe('OrderHistoryComponent', () => {
         NgSelectModule,
         BootstrapModule
       ],
-      declarations: [OrderHistoryComponent, OrderDetailsComponent]
+      declarations: [OrderHistoryComponent, OrderDetailsComponent],
+      providers: [{ provide: AuthService, useValue: mockAuth }]
     }).compileComponents();
   }));
 

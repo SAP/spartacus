@@ -2,10 +2,9 @@ import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as fromUserStore from '../../../user/store';
-import * as fromAuthStore from '../../../auth/store';
 import { Store, select } from '@ngrx/store';
-
-import * as fromRouting from '../../../routing/store';
+import { AuthService } from '../../../auth/facade/auth.service';
+import { RoutingService } from '../../../routing/facade/routing.service';
 
 @Component({
   selector: 'y-order-history',
@@ -13,7 +12,11 @@ import * as fromRouting from '../../../routing/store';
   styleUrls: ['./order-history.component.scss']
 })
 export class OrderHistoryComponent implements OnInit, OnDestroy {
-  constructor(private store: Store<fromUserStore.UserState>) {}
+  constructor(
+    private auth: AuthService,
+    private routing: RoutingService,
+    private store: Store<fromUserStore.UserState>
+  ) {}
 
   orders$: Observable<any>;
   isLoaded$: Observable<boolean>;
@@ -29,13 +32,11 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
-    this.subscription = this.store
-      .pipe(select(fromAuthStore.getUserToken))
-      .subscribe(userData => {
-        if (userData && userData.userId) {
-          this.user_id = userData.userId;
-        }
-      });
+    this.subscription = this.auth.userToken$.subscribe(userData => {
+      if (userData && userData.userId) {
+        this.user_id = userData.userId;
+      }
+    });
 
     this.orders$ = this.store.pipe(
       select(fromUserStore.getOrders),
@@ -85,11 +86,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   }
 
   goToOrderDetail(order) {
-    this.store.dispatch(
-      new fromRouting.Go({
-        path: ['my-account/orders/', order.code]
-      })
-    );
+    this.routing.go('my-account/orders/', order.code);
   }
 
   private fetchOrders(event: { sortCode: string; currentPage: number }) {
