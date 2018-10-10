@@ -20,10 +20,18 @@ export class ProductsSearchEffects {
           .pipe(
             map(data => {
               this.productImageConverter.convertList(data.products);
-              return new productsSearchActions.SearchProductsSuccess(data, action.auxiliary);
+              return new productsSearchActions.SearchProductsSuccess(
+                data,
+                action.auxiliary
+              );
             }),
             catchError(error =>
-              of(new productsSearchActions.SearchProductsFail(error, action.auxiliary))
+              of(
+                new productsSearchActions.SearchProductsFail(
+                  error,
+                  action.auxiliary
+                )
+              )
             )
           );
       })

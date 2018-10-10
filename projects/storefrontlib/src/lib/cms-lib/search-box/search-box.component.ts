@@ -22,7 +22,11 @@ export class SearchBoxComponent {
     this.searchBoxControl.setValue(value);
   }
 
-  constructor(protected service: SearchBoxComponentService) {}
+  constructor(protected service: SearchBoxComponentService) {
+    this.service.searchService.auxSearchResults$.subscribe(res =>
+      console.log('ddsa', res)
+    );
+  }
 
   search = (text$: Observable<string>) =>
     this.service.search(merge(text$, this.queryText$));
@@ -32,8 +36,12 @@ export class SearchBoxComponent {
   }
 
   selectSuggestion(item) {
-    this.searchBoxControl.setValue(item.item);
-    this.submitSearch();
+    if (typeof item.item === 'string') {
+      this.searchBoxControl.setValue(item.item);
+      this.submitSearch();
+    } else {
+      item.preventDefault();
+    }
   }
 
   public onKey(event: any) {

@@ -58,7 +58,8 @@ export function reducer(
 }
 
 export const getSearchResults = (state: ProductsSearchState) => state.results;
-export const getAuxSearchResults = (state: ProductsSearchState) => state.auxResults;
+export const getAuxSearchResults = (state: ProductsSearchState) =>
+  state.auxResults;
 export const getSearchResultsLoading = (state: ProductsSearchState) =>
   state.loading;
 export const getProductSuggestions = (state: ProductsSearchState) =>
