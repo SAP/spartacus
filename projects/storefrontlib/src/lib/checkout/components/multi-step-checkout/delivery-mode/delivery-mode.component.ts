@@ -22,7 +22,6 @@ import { CheckoutService } from '../../../services/checkout.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeliveryModeComponent implements OnInit {
-  supportedDeliveryModes$: Observable<any>;
   @Input()
   selectedShippingMethod: string;
 
@@ -31,6 +30,7 @@ export class DeliveryModeComponent implements OnInit {
   @Output()
   backStep = new EventEmitter<any>();
 
+  supportedDeliveryModes$: Observable<any>;
   leave = false;
 
   mode: FormGroup = this.fb.group({
@@ -71,7 +71,8 @@ export class DeliveryModeComponent implements OnInit {
   }
 
   get deliveryModeInvalid() {
-    const control = this.mode.controls['deliveryModeId'];
-    return control.invalid;
+    return this.mode.controls['deliveryModeId'].invalid;
+  }
+}
   }
 }
