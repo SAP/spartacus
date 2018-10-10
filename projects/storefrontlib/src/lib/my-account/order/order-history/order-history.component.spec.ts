@@ -39,8 +39,6 @@ function spyOnStore(customSpiesFn?) {
         return () => of(mockOrders);
       case fromUserStore.getOrdersLoaded:
         return () => of(true);
-      default:
-        break;
     }
   });
 }
