@@ -1,5 +1,5 @@
 import { by, element, ElementFinder } from 'protractor';
-import { OrderConfirmationPage } from './order-confirmation.po';
+
 import { E2EUtil } from '../../e2e-util';
 
 export class ReviewForm {
@@ -9,32 +9,21 @@ export class ReviewForm {
   readonly form: ElementFinder = this.parentElement.element(
     by.tagName('y-review-submit')
   );
-  readonly header: ElementFinder = this.form.element(by.css('h3.heading'));
+  readonly header: ElementFinder = this.form.element(
+    by.css('h3.y-review__title')
+  );
   readonly shippingAddress: ElementFinder = this.form.element(
-    by.css('.shipping-address')
+    by.css('.y-review__summary-card__address')
   );
   readonly shippingMethod: ElementFinder = this.form.element(
-    by.css('.shipping-method')
+    by.css('.y-review__summary-card__shipping-method')
   );
   readonly paymentMethod: ElementFinder = this.form.element(
-    by.css('.payment-method')
+    by.css('.y-review__summary-card__payment-method')
   );
   readonly billingAddress: ElementFinder = this.form.element(
     by.css('.billing-address')
   );
-
-  readonly agreeToTermsCheckbox: ElementFinder = this.form.element(
-    by.css('input.tandc')
-  );
-  readonly placeOrderButton: ElementFinder = this.form.element(
-    by.cssContainingText('button', 'Place Order')
-  );
-
-  async placeOrder() {
-    await this.agreeToTermsCheckbox.click();
-    await this.placeOrderButton.click();
-    return new OrderConfirmationPage();
-  }
 
   async waitForReady() {
     await E2EUtil.wait4VisibleElement(this.form);

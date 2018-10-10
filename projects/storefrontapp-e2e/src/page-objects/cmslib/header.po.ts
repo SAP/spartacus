@@ -18,8 +18,11 @@ export class Header {
   readonly loginIconButton: ElementFinder = this.loginComponent.element(
     by.tagName('a')
   );
-  readonly logoutButton: ElementFinder = this.loginComponent.element(
-    by.cssContainingText('button', 'Logout')
+  readonly navigationMenu: ElementFinder = this.header.element(
+    by.css('[id="My Account"].nav-link.dropdown-toggle')
+  );
+  readonly logoutButton: ElementFinder = element(
+    by.cssContainingText('.y-navigation__child-item a', 'Sign Out')
   );
   readonly searchInput: ElementFinder = this.searchComponent.element(
     by.css('input.y-search-box__input')
@@ -41,8 +44,8 @@ export class Header {
   }
 
   async isLoggedIn(): Promise<boolean> {
-    return !(await this.loginComponent
-      .element(by.cssContainingText('button mat-icon', 'person'))
-      .isPresent());
+    return await this.loginComponent
+      .element(by.css('.y-login-status__greet'))
+      .isPresent();
   }
 }

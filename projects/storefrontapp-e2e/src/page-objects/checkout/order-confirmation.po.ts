@@ -10,23 +10,23 @@ export class OrderConfirmationPage extends AppPage {
     by.tagName('y-order-confirmation')
   );
   readonly confirmationHeader: ElementFinder = this.confirmationComponent.element(
-    by.css('.order-confirmation-header h2')
+    by.css('.y-page__title')
   );
   readonly confimationMessage: ElementFinder = this.confirmationComponent.element(
-    by.css('.header-msg')
+    by.css('.y-order-confirmation__message h2')
   );
 
   readonly shippingAddress: ElementFinder = this.confirmationComponent
-    .all(by.css('.user-checkout-info'))
+    .all(by.css('.y-order-confirmation__review-summary-card'))
     .get(0);
   readonly shippingMethod: ElementFinder = this.confirmationComponent
-    .all(by.css('.user-checkout-info'))
-    .get(3);
-  readonly paymentMethod: ElementFinder = this.confirmationComponent
-    .all(by.css('.user-checkout-info'))
+    .all(by.css('.y-order-confirmation__review-summary-card'))
     .get(2);
+  readonly paymentMethod: ElementFinder = this.confirmationComponent
+    .all(by.css('.y-order-confirmation__review-summary-card'))
+    .get(3);
   readonly billingAddress: ElementFinder = this.confirmationComponent
-    .all(by.css('.user-checkout-info'))
+    .all(by.css('.y-order-confirmation__review-summary-card'))
     .get(1);
   readonly orderSummary: ElementFinder = this.page.element(
     by.tagName('y-order-summary')
@@ -34,9 +34,7 @@ export class OrderConfirmationPage extends AppPage {
 
   readonly orderItem = (itemNo: number): ElementFinder =>
     this.page
-      .all(
-        by.css('.order-items-container table.order-items-table tr td .entry')
-      )
+      .all(by.css('.y-order-confirmation__order-items y-cart-item-list__row'))
       .get(itemNo);
 
   async waitForReady() {
