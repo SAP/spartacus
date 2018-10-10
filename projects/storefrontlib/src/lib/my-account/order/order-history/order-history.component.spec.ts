@@ -112,8 +112,6 @@ describe('OrderHistoryComponent', () => {
           return () => of(true);
         case fromAuthStore.getUserToken:
           return () => of({ userId: 'test@sap.com' });
-        default:
-          break;
       }
     });
 
