@@ -18,7 +18,7 @@ const UseCmsModuleConfig: CmsModuleConfig = {
   }
 };
 
-fdescribe('SearchBoxComponent in CmsLib', () => {
+describe('SearchBoxComponent in CmsLib', () => {
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
   let serviceSpy: any;

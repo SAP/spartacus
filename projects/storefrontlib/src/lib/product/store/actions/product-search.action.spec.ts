@@ -17,7 +17,8 @@ describe('Product Search Actions', () => {
         const action = new fromProductSearch.SearchProducts(payload);
         expect({ ...action }).toEqual({
           type: fromProductSearch.SEARCH_PRODUCTS,
-          payload: payload
+          payload: payload,
+          auxiliary: undefined
         });
       });
     });
@@ -29,7 +30,8 @@ describe('Product Search Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromProductSearch.SEARCH_PRODUCTS_FAIL,
-          payload
+          payload,
+          auxiliary: undefined
         });
       });
     });
@@ -41,7 +43,8 @@ describe('Product Search Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromProductSearch.SEARCH_PRODUCTS_SUCCESS,
-          payload
+          payload,
+          auxiliary: undefined
         });
       });
     });
