@@ -74,5 +74,3 @@ export class DeliveryModeComponent implements OnInit {
     return this.mode.controls['deliveryModeId'].invalid;
   }
 }
-  }
-}
