@@ -15,29 +15,67 @@ import { BehaviorSubject } from 'rxjs';
 import * as fromRouting from '../../../../routing/store';
 import { CheckoutService } from '../../../services';
 import { CartService, CartDataService } from '../../../../cart/services';
-import { AddressFormModule } from './address-form/address-form.module';
-import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
-import { CardModule } from '../../../../ui/components/card/card.module';
 import { Address } from '../../../models/address-model';
+import { By } from '@angular/platform-browser';
+import { Component, Input, Output } from '@angular/core';
 
-const mockAddress: Address = {
+const mockAddress1: Address = {
   firstName: 'John',
   lastName: 'Doe',
   titleCode: 'mr',
-  line1: 'Toyosaki 2 create on cart',
-  line2: 'line2',
+  line1: 'first line',
+  line2: 'second line',
   town: 'town',
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
   country: { isocode: 'JP' }
 };
 
+const mockAddress2: Address = {
+  firstName: 'Alice',
+  lastName: 'Smith',
+  titleCode: 'mrs',
+  line1: 'other first line',
+  line2: 'other second line',
+  town: 'other town',
+  region: { isocode: 'JP-27' },
+  postalCode: 'other zip',
+  country: { isocode: 'JP' }
+};
+
+const mockAddresses = [mockAddress1, mockAddress2];
+
+@Component({
+  selector: 'y-address-form',
+  template: ''
+})
+class MockAddressFormComponent {}
+
+@Component({
+  selector: 'y-spinner',
+  template: ''
+})
+class MockSpinnerComponent {}
+
+@Component({
+  selector: 'y-card',
+  template: ''
+})
+class MockCardComponent {
+  @Input()
+  border;
+  @Input()
+  content;
+  @Output()
+  sendCarda;
+}
+
 describe('ShippingAddressComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: ShippingAddressComponent;
   let fixture: ComponentFixture<ShippingAddressComponent>;
   let service: CheckoutService;
-  let mockCartSelectors: {
+  let mockUserSelectors: {
     getAddressesLoading: BehaviorSubject<boolean>;
     getAddresses: BehaviorSubject<any[]>;
   };
@@ -45,10 +83,7 @@ describe('ShippingAddressComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        AddressFormModule,
         RouterTestingModule,
-        CardModule,
-        SpinnerModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           checkout: combineReducers(fromCheckout.getReducers()),
@@ -56,7 +91,12 @@ describe('ShippingAddressComponent', () => {
           user: combineReducers(fromUser.getReducers())
         })
       ],
-      declarations: [ShippingAddressComponent],
+      declarations: [
+        ShippingAddressComponent,
+        MockAddressFormComponent,
+        MockCardComponent,
+        MockSpinnerComponent
+      ],
       providers: [CheckoutService, CartService, CartDataService]
     }).compileComponents();
   }));
@@ -67,16 +107,16 @@ describe('ShippingAddressComponent', () => {
     store = TestBed.get(Store);
     service = TestBed.get(CheckoutService);
 
-    mockCartSelectors = {
+    mockUserSelectors = {
       getAddressesLoading: new BehaviorSubject(false),
       getAddresses: new BehaviorSubject([])
     };
     spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
       switch (selector) {
         case fromUser.getAddressesLoading:
-          return () => mockCartSelectors.getAddressesLoading;
+          return () => mockUserSelectors.getAddressesLoading;
         case fromUser.getAddresses:
-          return () => mockCartSelectors.getAddresses;
+          return () => mockUserSelectors.getAddresses;
       }
     });
 
@@ -91,8 +131,8 @@ describe('ShippingAddressComponent', () => {
   });
 
   it('should call ngOnInit to get existing address if they do not exist', () => {
-    mockCartSelectors.getAddressesLoading.next(false);
-    mockCartSelectors.getAddresses.next([]);
+    mockUserSelectors.getAddressesLoading.next(false);
+    mockUserSelectors.getAddresses.next([]);
     component.ngOnInit();
     component.existingAddresses$.subscribe(() => {
       expect(service.loadUserAddresses).toHaveBeenCalled();
@@ -100,63 +140,70 @@ describe('ShippingAddressComponent', () => {
   });
 
   it('should call ngOnInit to get existing address if they exist', () => {
-    const mockAddresses = [mockAddress];
-    mockCartSelectors.getAddressesLoading.next(false);
-    mockCartSelectors.getAddresses.next(mockAddresses);
+    mockUserSelectors.getAddressesLoading.next(false);
+    mockUserSelectors.getAddresses.next(mockAddresses);
+
     component.ngOnInit();
     component.existingAddresses$.subscribe(data => {
       expect(data).toBe(mockAddresses);
-      expect(component.cards.length).toEqual(1);
+      expect(component.cards.length).toEqual(2);
     });
   });
 
   it('should call getCardContent() to get address card data', () => {
-    const card = component.getCardContent(mockAddress);
+    const card = component.getCardContent(mockAddress1);
     expect(card.title).toEqual('');
     expect(card.textBold).toEqual('John Doe');
     expect(card.text).toEqual([
-      'Toyosaki 2 create on cart',
-      'line2',
+      'first line',
+      'second line',
       'town, JP-27, JP',
       'zip',
       undefined
     ]);
+    expect(card.actions).toEqual([
+      { name: jasmine.any(String), event: 'send' }
+    ]);
   });
 
   it('should call addressSelected(address, index)', () => {
-    const card = { title: 'test card' };
-    component.cards.push(card);
-    component.addressSelected(mockAddress, 0);
+    const card1 = { title: 'test card 1' };
+    const card2 = { title: 'test card 2' };
+    const card3 = { title: 'test card 3' };
+    component.cards.push(card1, card2, card3);
+    component.addressSelected(mockAddress1, 1);
 
-    expect(component.selectedAddress).toEqual(mockAddress);
-    expect(component.cards[0].header).toEqual('SELECTED');
+    expect(component.selectedAddress).toEqual(mockAddress1);
+    expect(component.cards[0].header).toEqual('');
+    expect(component.cards[1].header).toEqual('SELECTED');
+    expect(component.cards[2].header).toEqual('');
   });
 
   it('should call next() to submit request', () => {
-    component.selectedAddress = mockAddress;
+    component.selectedAddress = mockAddress1;
     component.next();
     expect(component.addAddress.emit).toHaveBeenCalledWith({
-      address: mockAddress,
+      address: mockAddress1,
       newAddress: false
     });
   });
 
   it('should call addNewAddress()', () => {
-    component.addNewAddress(mockAddress);
+    component.addNewAddress(mockAddress1);
     expect(component.addAddress.emit).toHaveBeenCalledWith({
-      address: mockAddress,
+      address: mockAddress1,
       newAddress: true
     });
   });
 
-  it('should call goToAddressForm()', () => {
-    component.goToAddressForm();
-    expect(component.isAddressForm).toEqual(true);
+  it('should call showNewAddressForm()', () => {
+    component.showNewAddressForm();
+    expect(component.newAddressFormManuallyOpened).toEqual(true);
   });
 
-  it('should call backToAddress()', () => {
-    component.backToAddress();
-    expect(component.isAddressForm).toEqual(false);
+  it('should call hideNewAddressForm()', () => {
+    component.hideNewAddressForm();
+    expect(component.newAddressFormManuallyOpened).toEqual(false);
   });
 
   it('should call back()', () => {
@@ -166,5 +213,92 @@ describe('ShippingAddressComponent', () => {
         path: ['/cart']
       })
     );
+  });
+
+  it('"continue" button should be disabled when no address is selected', () => {
+    mockUserSelectors.getAddressesLoading.next(false);
+    mockUserSelectors.getAddresses.next(mockAddresses);
+    component.selectedAddress = null;
+    fixture.detectChanges();
+    const continueButton = fixture.debugElement.query(
+      By.css('.y-existing-address__continue')
+    );
+    expect(continueButton.nativeElement.disabled).toEqual(true);
+  });
+
+  it('"continue" button should be enabled when address is selected', () => {
+    mockUserSelectors.getAddressesLoading.next(false);
+    mockUserSelectors.getAddresses.next(mockAddresses);
+    component.selectedAddress = mockAddress1;
+    fixture.detectChanges();
+    const continueButton = fixture.debugElement.query(
+      By.css('.y-existing-address__continue')
+    );
+    expect(continueButton.nativeElement.disabled).toEqual(false);
+  });
+
+  it('should show cards with existng addresses', () => {
+    mockUserSelectors.getAddressesLoading.next(false);
+    mockUserSelectors.getAddresses.next(mockAddresses);
+    fixture.detectChanges();
+    const cards = fixture.debugElement.queryAll(By.css('y-card'));
+    expect(cards.length).toEqual(2);
+  });
+
+  it('should show cards with existng addresses', () => {
+    mockUserSelectors.getAddressesLoading.next(false);
+    mockUserSelectors.getAddresses.next(mockAddresses);
+    fixture.detectChanges();
+    const cards = fixture.debugElement.queryAll(By.css('y-card'));
+    expect(cards.length).toEqual(2);
+  });
+
+  it('should show new address form when user clicks add new address button', async(() => {
+    mockUserSelectors.getAddressesLoading.next(false);
+    mockUserSelectors.getAddresses.next(mockAddresses);
+    fixture.detectChanges();
+    const addNewAddressBtn = fixture.debugElement.query(
+      By.css('.y-existing-address__add-new-address-btn')
+    );
+    addNewAddressBtn.nativeElement.click();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      const newAddressForm = fixture.debugElement.query(
+        By.css('y-address-form')
+      );
+      expect(newAddressForm).toBeTruthy();
+    });
+  }));
+
+  it('should show new address form on init if there are no existing addresses', () => {
+    mockUserSelectors.getAddressesLoading.next(false);
+    mockUserSelectors.getAddresses.next([]);
+    fixture.detectChanges();
+    const newAddressForm = fixture.debugElement.query(By.css('y-address-form'));
+    expect(newAddressForm).toBeTruthy();
+  });
+
+  it('should not show new address form on init if there are some existing addresses', () => {
+    mockUserSelectors.getAddressesLoading.next(false);
+    mockUserSelectors.getAddresses.next(mockAddresses);
+    fixture.detectChanges();
+    const newAddressForm = fixture.debugElement.query(By.css('y-address-form'));
+    expect(newAddressForm).toBeFalsy();
+  });
+
+  it('should show spinner when loading existing adddress is pending', () => {
+    mockUserSelectors.getAddressesLoading.next(true);
+    mockUserSelectors.getAddresses.next([]);
+    fixture.detectChanges();
+    const newAddressForm = fixture.debugElement.query(By.css('y-spinner'));
+    expect(newAddressForm).toBeTruthy();
+  });
+
+  it('should not show spinner when loading existing adddress has completed', () => {
+    mockUserSelectors.getAddressesLoading.next(false);
+    mockUserSelectors.getAddresses.next(mockAddresses);
+    fixture.detectChanges();
+    const newAddressForm = fixture.debugElement.query(By.css('y-spinner'));
+    expect(newAddressForm).toBeFalsy();
   });
 });

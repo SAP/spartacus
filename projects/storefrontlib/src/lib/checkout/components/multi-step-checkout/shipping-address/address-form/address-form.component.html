@@ -1,7 +1,6 @@
 <div class="y-address-form container">
     <div class="row">
         <div class="col-md-12 col-lg-9">
-            <h3 class="y-address-form__title d-none d-lg-block d-xl-block">Shipping Address</h3>
             <div [formGroup]="address">
                 <div class="form-group">
                     <ng-container *ngIf="titles$ | async as titles">
