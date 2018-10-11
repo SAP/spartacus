@@ -1,6 +1,6 @@
 import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import * as fromUserStore from '../../../user/store';
@@ -32,8 +32,8 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     this.route.params.forEach((params: Params) => {
       if (params['orderCode']) {
         this.subscription = this.usersStore
-          .select(fromAuthStore.getUserToken)
           .pipe(
+            select(fromAuthStore.getUserToken),
             tap(userData => {
               this.order$ = this.service.getOrder(
                 userData.userId,
