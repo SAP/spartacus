@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import {
   HttpRequest,
   HttpHandler,
@@ -27,13 +27,17 @@ export class SiteContextInterceptor implements HttpInterceptor {
       this.config.site.baseSite;
 
     this.store
-      .select(fromStore.getActiveLanguage)
-      .pipe(filter(lang => lang != null))
+      .pipe(
+        select(fromStore.getActiveLanguage),
+        filter(lang => lang != null)
+      )
       .subscribe(data => (this.activeLang = data));
 
     this.store
-      .select(fromStore.getActiveCurrency)
-      .pipe(filter(curr => curr != null))
+      .pipe(
+        select(fromStore.getActiveCurrency),
+        filter(curr => curr != null)
+      )
       .subscribe(data => (this.activeCurr = data));
   }
 
