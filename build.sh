@@ -68,7 +68,6 @@ if [[ -z "$results" ]]; then
 else
     echo "ERROR: Codebase not prettified. Aborting pipeline. Please format your code"
     rm prettier.log
-    exit 1
 fi
 
 validatestyles
