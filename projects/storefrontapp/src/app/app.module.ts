@@ -14,9 +14,14 @@ if (!environment.production) {
 @NgModule({
   imports: [
     BrowserModule,
-    StorefrontModule.withConfig({
+	StorefrontModule.withConfig({
       server: {
-        baseUrl: environment.occBaseUrl
+        baseUrl: 'https://hybris-electronics.intern.hmmh.io',
+        occPrefix: '/rest/v2/'
+      },
+      authentication: {
+        client_id: 'mobile_android',
+        client_secret: 'secret'
       }
     }),
     ...devImports
