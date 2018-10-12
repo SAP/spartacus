@@ -16,7 +16,7 @@ if (!environment.production) {
     BrowserModule,
 	StorefrontModule.withConfig({
       server: {
-        baseUrl: '',
+        baseUrl: 'https://hybris-electronics.intern.hmmh.io',
         occPrefix: '/rest/v2/'
       },
       authentication: {
