@@ -1,6 +1,6 @@
 import { By } from '@angular/platform-browser';
 import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { Store, StoreModule, combineReducers, select } from '@ngrx/store';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CurrencySelectorComponent } from './currency-selector.component';
@@ -69,11 +69,11 @@ describe('CurrencySelectorComponent', () => {
     component.currencies$ = of(currencies);
 
     const label = el.query(By.css('label'));
-    const select = el.query(By.css('select'));
+    const selectBox = el.query(By.css('select'));
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(select.nativeElement.value).toEqual(currencies[0].isocode);
+      expect(selectBox.nativeElement.value).toEqual(currencies[0].isocode);
     });
 
     expect(label.nativeElement.textContent).toEqual('Currency');
@@ -81,25 +81,25 @@ describe('CurrencySelectorComponent', () => {
 
   it('should contain disabled dropdown when currencies list is empty', () => {
     component.currencies$ = of([]);
-    const select = el.query(By.css('select'));
+    const selectBox = el.query(By.css('select'));
     fixture.detectChanges();
 
-    expect(select.nativeElement.disabled).toBeTruthy();
+    expect(selectBox.nativeElement.disabled).toBeTruthy();
   });
 
   it('should contain enabled dropdown when currencies list is NOT empty', () => {
     component.currencies$ = of(currencies);
-    const select = el.query(By.css('select'));
+    const selectBox = el.query(By.css('select'));
     fixture.detectChanges();
 
-    expect(select.nativeElement.disabled).toBeFalsy();
+    expect(selectBox.nativeElement.disabled).toBeFalsy();
   });
 
   it('should get currency data', () => {
     const action = new fromActions.LoadCurrenciesSuccess(currencies);
     store.dispatch(action);
 
-    store.select(fromStore.getAllCurrencies).subscribe(data => {
+    store.pipe(select(fromStore.getAllCurrencies)).subscribe(data => {
       expect(data).toEqual(currencies);
     });
   });
