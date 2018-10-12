@@ -68,6 +68,7 @@ if [[ -z "$results" ]]; then
 else
     echo "ERROR: Codebase not prettified. Aborting pipeline. Please format your code"
     rm prettier.log
+    exit 0
 fi
 
 validatestyles
@@ -79,6 +80,7 @@ output=$(ng test storefrontlib --watch=false --code-coverage --browsers=ChromeHe
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
+    exit 0
 fi
 
 echo "-----"
@@ -92,3 +94,4 @@ echo "Running end to end tests"
 yarn e2e:ci
 echo "-----"
 echo "Spartacus Pipeline completed"
+exit 0
