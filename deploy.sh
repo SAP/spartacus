@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-
 function usage() {
-  echo "Usage: `basename $0` -v [npm_version] --preid [prerelease_id] --dry-run"
+  echo "Usage: `basename $0` -v [major | minor | patch | premajor | preminor | prepatch | prerelease] --preid [prerelease-id] --dry-run"
 }
 
 dryrun=false
@@ -42,27 +41,24 @@ do
   shift
 done
 
-echo "Version: $BUMP"
-echo "Preid: $preid"
-echo "dry-run: $dryrun"
-
 PROJECT='storefront'
 PROJECT_DIR="projects/storefrontlib"
 DEPLOY_DIR="dist/storefrontlib"
 
-NPM_COMMAND="npm version $BUMP"
+BUMP_COMMAND="npm version $BUMP"
+PUBLISH_CMD="npm publish ."
 
-echo "Bumping $PROJECT_DIR version to $BUMP"
 if [[ "prerelease" == $BUMP ]]; then
-  NPM_COMMAND="$NPM_COMMAND --preid=$preid"
+  BUMP_COMMAND="$NPM_COMMAND --preid=$preid"
+  PUBLISH_CMD="$PUBLISH_CMD --tag next"
 fi
 
-echo "Command $NPM_COMMAND"
-PROJECT_DIR_NEW_VERSION=$(cd $PROJECT_DIR && $NPM_COMMAND)
+echo "Bumping $PROJECT_DIR version to $BUMP"
+PROJECT_DIR_NEW_VERSION=$(cd $PROJECT_DIR && $BUMP_COMMAND)
 echo "New version: $PROJECT_DIR_NEW_VERSION"
 
 echo "Bumping $DEPLOY_DIR to $BUMP"
-DEPLOY_DIR_NEW_VERSION=$(cd $DEPLOY_DIR && $NPM_COMMAND)
+DEPLOY_DIR_NEW_VERSION=$(cd $DEPLOY_DIR && $BUMP_COMMAND)
 
 echo "New version: $DEPLOY_DIR_NEW_VERSION"
 
@@ -73,7 +69,7 @@ if [ ! $DEPLOY_DIR_NEW_VERSION == $PROJECT_DIR_NEW_VERSION ]; then
 fi
 
 echo "publishing version $BUMP"
-published=(cd $DEPLOY_DIR && npm publish .)
+published=(cd $DEPLOY_DIR && $PUBLISH_CMD)
 
 if [[ -z "$published" ]]; then
   NEW_VERSION=${PROJECT_DIR_NEW_VERSION:1}
