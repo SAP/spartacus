@@ -63,8 +63,5 @@ echo "-----"
 echo "Building SPA app"
 ng build storefrontapp --prod
 echo "-----"
-echo "Running end to end tests"
-yarn e2e:ci
-echo "-----"
 echo "Spartacus Pipeline completed"
 exit 0
