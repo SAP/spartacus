@@ -48,7 +48,7 @@ const mockCart = {
   code: 'test'
 };
 
-fdescribe('DeliveryModeComponent', () => {
+describe('DeliveryModeComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: DeliveryModeComponent;
   let fixture: ComponentFixture<DeliveryModeComponent>;
