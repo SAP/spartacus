@@ -17,7 +17,7 @@ import { CheckoutService } from '../../../services';
 import { CartService, CartDataService } from '../../../../cart/services';
 import { Address } from '../../../models/address-model';
 import { By } from '@angular/platform-browser';
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 const mockAddress1: Address = {
   firstName: 'John',
