@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { combineReducers, Store, StoreModule, select } from '@ngrx/store';
 
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
@@ -29,7 +29,7 @@ describe('Address Verification Selectors', () => {
 
       let result;
       store
-        .select(fromSelectors.getAddressVerificationResults)
+        .pipe(select(fromSelectors.getAddressVerificationResults))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});

@@ -27,5 +27,18 @@
 </ng-container>
 
 <ng-template #paymentForm>
-    <y-payment-form (addPaymentInfo)="addNewPaymentMethod($event)" (backToPayment)="backToPaymentMethod()"></y-payment-form>
+    <ng-container *ngIf="!(isLoading$ | async); else loading">
+        <y-payment-form (addPaymentInfo)="addNewPaymentMethod($event)" (backToPayment)="backToPaymentMethod()"></y-payment-form>
+    </ng-container>
+
+    <ng-template #loading>
+        <div class="y-existing-payment-methods container">
+            <h3 class="y-existing-payment-methods__title d-none d-lg-block d-xl-block">
+                Payment
+            </h3>
+            <div class="y-existing-payment-methods__spinner">
+                <y-spinner></y-spinner>
+            </div>
+        </div>
+    </ng-template>
 </ng-template>
