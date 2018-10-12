@@ -1,4 +1,4 @@
-![](docs/assets/spartacus-blue.png)
+![JavaScript storefront (spartacus)](docs/assets/spartacus-blue.png)
 
 # What is Spartacus?
 
