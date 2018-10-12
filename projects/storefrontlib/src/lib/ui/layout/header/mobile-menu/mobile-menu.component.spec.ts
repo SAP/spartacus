@@ -97,5 +97,17 @@ describe('MobileMenuComponent', () => {
         ).not.toBeNull();
       });
     });
+
+    describe('toggleMenu', () => {
+      it('should open or close menu', () => {
+        component.showMenu = false;
+        component.toggleMenu();
+
+        expect(component.showMenu).toBe(true);
+
+        component.toggleMenu();
+        expect(component.showMenu).toBe(false);
+      });
+    });
   });
 });

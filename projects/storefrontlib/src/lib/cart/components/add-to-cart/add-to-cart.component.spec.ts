@@ -13,6 +13,7 @@ import * as fromUser from '../../../user/store';
 import * as fromAuth from './../../../auth/store';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddToCartModule } from './add-to-cart.module';
+import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
 
 const productCode = '1234';
 const mockCartEntry: any = [];
@@ -37,6 +38,7 @@ describe('AddToCartComponent', () => {
         AddToCartModule,
         BrowserAnimationsModule,
         RouterTestingModule,
+        SpinnerModule,
         NgbModule.forRoot(),
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
@@ -70,7 +72,7 @@ describe('AddToCartComponent', () => {
     expect(addToCartComponent).toBeTruthy();
   });
 
-  it('should call ngOnChanges()', () => {
+  it('should call ngOnInit()', () => {
     addToCartComponent.ngOnInit();
     addToCartComponent.cartEntry$.subscribe(entry =>
       expect(entry).toEqual(mockCartEntry)

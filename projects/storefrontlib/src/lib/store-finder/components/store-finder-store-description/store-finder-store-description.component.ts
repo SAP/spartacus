@@ -4,7 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
-import { StoreDataService } from '../../services';
+
+import { StoreDataService } from '../../services/index';
 import * as fromStore from '../../store';
 
 @Component({

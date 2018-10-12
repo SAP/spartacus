@@ -12,6 +12,7 @@ import { OccE2eConfigurationService } from '../e2e/e2e-configuration-service';
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };
 const mockSearchConfig: SearchConfig = { pageSize: 5 };
+const longitudeLatitude: number[] = [10.1, 20.2];
 
 const storeCountResponseBody = { CA: 50 };
 
@@ -56,6 +57,26 @@ describe('OccStoreFinderService', () => {
     it('should return search results for given query text', () => {
       service
         .findStores(queryText, mockSearchConfig)
+        .toPromise()
+        .then(result => {
+          expect(result).toEqual(searchResults);
+        });
+
+      const mockReq = httpMock.expectOne({
+        method: 'GET',
+        url:
+          '/e2econfigurationwebservices/e2econfiguration/e2egoogleservices.storesdisplayed'
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('text');
+    });
+  });
+
+  describe('longitudeLatitude search', () => {
+    it('should return search results for given longitudeLatitude', () => {
+      service
+        .findStores('', mockSearchConfig, longitudeLatitude)
         .toPromise()
         .then(result => {
           expect(result).toEqual(searchResults);

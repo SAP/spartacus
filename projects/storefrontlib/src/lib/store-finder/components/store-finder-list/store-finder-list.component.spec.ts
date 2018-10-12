@@ -3,19 +3,27 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { MaterialModule } from '../../../material.module';
+import {
+  NgbTabsetModule,
+  NgbTabsetConfig,
+  NgbModule
+} from '@ng-bootstrap/ng-bootstrap';
 
 import { StoreFinderListComponent } from './store-finder-list.component';
-import { StoreFinderPagingComponent } from '../store-finder-paging/store-finder-paging.component';
 import { StoreFinderListItemComponent } from './store-finder-list-item/store-finder-list-item.component';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
+import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
+import { OccModuleConfig } from '../../../occ/occ-module-config';
+import { PaginationComponent } from '../../../ui/components/pagination-and-sorting/pagination/pagination.component';
+import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
+import { BootstrapModule } from '../../../bootstrap.module';
+
 import { services } from '../../services';
 
 import * as fromReducers from '../../store';
 import * as fromRoot from '../../../routing/store';
-import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
-import { OccModuleConfig } from '../../../occ/occ-module-config';
 
 describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
@@ -24,22 +32,30 @@ describe('StoreFinderListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         ReactiveFormsModule,
         RouterTestingModule,
         HttpClientTestingModule,
+        NgbModule,
+        BootstrapModule,
+        NgbTabsetModule,
+        PaginationAndSortingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           stores: combineReducers(fromReducers.reducers)
         })
       ],
+      schemas: [NO_ERRORS_SCHEMA],
       declarations: [
         StoreFinderListComponent,
-        StoreFinderPagingComponent,
         StoreFinderListItemComponent,
         StoreFinderMapComponent
       ],
-      providers: [...services, OccE2eConfigurationService, OccModuleConfig]
+      providers: [
+        ...services,
+        NgbTabsetConfig,
+        OccE2eConfigurationService,
+        OccModuleConfig
+      ]
     }).compileComponents();
   }));
 
@@ -56,7 +72,7 @@ describe('StoreFinderListComponent', () => {
   });
 
   it('should change pages', done => {
-    const pagination = new StoreFinderPagingComponent();
+    const pagination = new PaginationComponent();
     pagination.viewPageEvent.subscribe(event => {
       expect(event).toEqual(3);
       component.viewPage(event);
@@ -64,6 +80,6 @@ describe('StoreFinderListComponent', () => {
       expect(component.searchConfig.currentPage).toBe(event);
       done();
     });
-    pagination.next(3);
+    pagination.pageChange(4);
   });
 });

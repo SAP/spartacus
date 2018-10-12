@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { StoreDataService } from '../../../services/store-data.service';
+import { StoreDataService } from '../../../services/index';
 import { AbstractStoreItemComponent } from '../../abstract-store-item/abstract-store-item.component';
 
 @Component({
@@ -9,8 +9,10 @@ import { AbstractStoreItemComponent } from '../../abstract-store-item/abstract-s
   styleUrls: ['./store-finder-list-item.component.scss']
 })
 export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
-  @Input() locationIndex: number = null;
-  @Output() storeItemClick: EventEmitter<number> = new EventEmitter();
+  @Input()
+  locationIndex: number = null;
+  @Output()
+  storeItemClick: EventEmitter<number> = new EventEmitter();
 
   constructor(protected storeDataService: StoreDataService) {
     super(storeDataService);

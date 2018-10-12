@@ -3,16 +3,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, StoreModule } from '@ngrx/store';
 
 import { StoreListPageLayoutComponent } from './store-list-page-layout.component';
 import { StoreFinderSearchComponent } from '../../../store-finder/components/store-finder-search/store-finder-search.component';
-import { StoreFinderPagingComponent } from '../../../store-finder/components/store-finder-paging/store-finder-paging.component';
 import { StoreFinderGridComponent } from '../../../store-finder/components/store-finder-grid/store-finder-grid.component';
 import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-list/store-finder-list.component';
 import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
-import { MaterialModule } from '../../../material.module';
 import { services } from '../../../store-finder/services';
 import * as fromStore from '../../../store-finder/store';
 
@@ -28,7 +27,6 @@ describe('StoreListPageLayoutComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        MaterialModule,
         CommonModule,
         BrowserAnimationsModule,
         StoreModule.forRoot({
@@ -36,12 +34,12 @@ describe('StoreListPageLayoutComponent', () => {
         }),
         RouterTestingModule
       ],
+      schemas: [NO_ERRORS_SCHEMA],
       declarations: [
         StoreFinderSearchComponent,
         StoreFinderGridComponent,
         StoreFinderListComponent,
         StoreFinderListItemComponent,
-        StoreFinderPagingComponent,
         StoreFinderMapComponent,
         StoreListPageLayoutComponent
       ],

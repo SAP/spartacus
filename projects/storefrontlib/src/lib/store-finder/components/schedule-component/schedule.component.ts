@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { StoreDataService } from '../../services';
+import { StoreDataService } from '../../services/index';
 
 const WEEK_DAYS_NUMBER = 7;
 
@@ -9,7 +9,8 @@ const WEEK_DAYS_NUMBER = 7;
   styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnChanges {
-  @Input() location: any;
+  @Input()
+  location: any;
   displayDays: Date[] = null;
 
   constructor(private storeDataService: StoreDataService) {}

@@ -18,8 +18,10 @@
                                         <y-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)" [selectedOption]="model.pagination.sort" [placeholder]="'Sort by Relevance'"></y-sorting>
                                     </div>
                                 </div>
-                                <div class="col-auto" class="y-product-search__pagination" aria-label="product search pagination">
-                                    <y-pagination [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
+                                <div class="col-auto">
+                                    <div class="y-product-search__pagination" aria-label="product search pagination">
+                                        <y-pagination [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
+                                    </div>
                                 </div>
                                 <div class="col-auto ml-auto ml-lg-0">
                                     <y-product-view [(mode)]="grid.mode"></y-product-view>
@@ -47,8 +49,10 @@
                                         <y-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)" [selectedOption]="model.pagination.sort" [placeholder]="'Sort by Relevance'"></y-sorting>
                                     </div>
                                 </div>
-                                <div class="col-auto" class="y-product-search__pagination" aria-label="product search pagination">
-                                    <y-pagination [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
+                                <div class="col-auto" aria-label="product search pagination">
+                                    <div class="y-product-search__pagination">
+                                        <y-pagination [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
+                                    </div>
                                 </div>
                                 <div class="col-auto ml-auto ml-lg-0">
                                     <y-product-view [(mode)]="grid.mode"></y-product-view>

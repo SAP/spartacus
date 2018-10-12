@@ -1,8 +1,9 @@
-import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'y-added-to-cart-dialog',
@@ -12,19 +13,25 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class AddedToCartDialogComponent implements OnInit {
   entry$: Observable<any>;
   cart$: Observable<any>;
+  loaded$: Observable<boolean>;
   form: FormGroup = this.fb.group({
-    entryForm: this.fb.group({
-      entryNumber: [0],
-      quantity: [0]
-    })
+    entryForm: this.fb.group({ entryNumber: [0], quantity: [0] })
   });
 
-  @Input() more = false;
-  @Input() quantity = 0;
-  @Output() updateEntryEvent: EventEmitter<any> = new EventEmitter();
-  @Output() removeEntryEvent: EventEmitter<any> = new EventEmitter();
+  @Input()
+  more = false;
+  @Input()
+  quantity = 0;
+  @Output()
+  updateEntryEvent: EventEmitter<any> = new EventEmitter();
+  @Output()
+  removeEntryEvent: EventEmitter<any> = new EventEmitter();
 
-  constructor(private fb: FormBuilder, public activeModal: NgbActiveModal) {}
+  constructor(
+    private fb: FormBuilder,
+    public activeModal: NgbActiveModal,
+    protected cartService: CartService
+  ) {}
 
   ngOnInit() {
     const entryFG = this.form.get('entryForm') as FormGroup;
@@ -51,10 +58,11 @@ export class AddedToCartDialogComponent implements OnInit {
     entry: any;
     updatedQuantity: number;
   }) {
-    this.updateEntryEvent.emit({ entry, updatedQuantity });
+    this.cartService.updateCartEntry(entry.entryNumber, updatedQuantity);
   }
 
   removeEntry(entry) {
-    this.removeEntryEvent.emit(entry);
+    this.cartService.removeCartEntry(entry);
+    this.activeModal.close();
   }
 }

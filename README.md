@@ -1,8 +1,28 @@
+[![Build Status](https://travis-ci.org/SAP/cloud-commerce-spartacus-storefront.svg?branch=develop)](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project)
+
 # What is Spartacus?
 
-Spartacus is an extendable and configurable storefront for SAP Commerce Cloud, built as a lean, Angular-based, single-page web application. Unlike Accelerator templates, which are bundled with SAP Commerce Cloud, the Sparatcus storefront is decoupled from the SAP Commerce Cloud backend, and it communicates with the backend only through REST API calls.
+Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.
 
-Spartacus provides the core capabilities needed to build and deploy a branded frontend. The first iterations of Spartacus contain the basics of what an ecommerce storefront should include:
+## Extendable
+
+The Spartacus storefront is easy to extend & upgrade. It is packaged as a library that you can include in your storefront, which allows you to add to/remove/modify the out-the-box storefront features with your own. Newer versions of Spartacus can be used by changing the version of the library you’re using.
+
+## Progressive
+
+Spartacus is on a journey to be fully compliant with the Progressive Web Application (PWA) checklist. We aim to add support for all major features of a PWA-enabled storefront, to offer the best possible customer experience regardless of device or location.
+
+## Open Source
+
+Spartacus is open source. It will be continually developed by the SAP Commerce Cloud team, but we are very keen to welcome contributors and to foster an inclusive, active development community for Spartacus.
+
+## Technology
+
+Read the [documentation](docs/README.md) to learn more about the technology and architecture of the Spartacus storefront, and see [SAP Customer Experience](https://cx.sap.com/en/products/commerce) for more information about SAP Commerce Cloud.
+
+## Storefront features
+
+Spartacus provides core storefront features such as:
 
 - home page
 - search
@@ -13,104 +33,90 @@ Spartacus provides the core capabilities needed to build and deploy a branded fr
 - checkout
 - order history
 
-Soon after the first release to open source, the team behind Spartacus at SAP will add new functionality frequently.
 
-The Spartacus storefront is built with upgradability and extensibility in mind, and contains the foundations for future Progressive Web App (PWA) functionality. Extending Spartacus is easy and fast, and seamless upgrades mean you can take advantage of the latest features with little effort.
 
-Spartacus is released as open source to provide greater access to partners and customers who are developing storefronts for use with SAP Commerce. Providing Spartacus as open source also creates the opportunity for the SAP Commerce Cloud community to contribute back to the storefront. However, Spartacus will continue to be actively developed by SAP Commerce Cloud's Team Spartacus and other teams for a long time to come.
+# Requirements
 
-Read the [documentation](docs/README.md) to learn more about the technology and architecture of the Spartacus storefront, and see [SAP Customer Experience](https://cx.sap.com/en/products/commerce) for more information about SAP Commerce Cloud.
+- SAP Commerce Cloud instance (Release 1808 or unreleased 1811) (1811 release is planned for end of November)
+- Angular (https://angular.io/) >= 6.0.1
+- node.js >= 8.9.0
+- yarn >= 1.6.0
 
-# Setup and Installation
+# Download and Installation
+
+*******
+PLEASE NOTE (Sept. 28, 2018): 
+- Spartacus is currently in pre-alpha state. The current code base is for evaluation only and should not be used to start development on a production storefront release.
+- This first usable pre-alpha release of Spartacus will be available second week of October with proper documentation. Current links are placeholders.
+*******
 
 To get up and running with Spartacus, the simplest approach is to build the application from ready-made libraries. You can also clone and build from source.
 
-Spartacus is meant to be paired with the SAP Commerce backend, but the Spartacus repo includes a mock server that can be used as well.
+Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs. In the future, you will be able to use Spartacus with a mock server.
 
-For full installation and setup information, see the [Getting Started](docs) documentation.
+For complete setup instructions, see the [Setup and Installation](docs/setupandinstallation.md) guide.
 
-# Customizing and Extending Spartacus
 
-Although you are free to clone and change anything and everything in Spartacus, we hope you won't do that :)
+## Customizing and Extending Spartacus
 
-To maintain our promise of upgradability, we strongly recommend that you extend Spartacus by building separate feature libraries that add to or change the provided functionality.
+To maintain our promise of upgradability, the design pattern for Spartacus is for non-core features to be built as feature libraries that add to or change the provided functionality.
 
-Spartacus is designed with an application shell (storefrontapp) that contains core resources that are needed to load the rest of the web app. These core resources are provided through libraries, such as the `storefrontlib` and `storefrontstylelib`. You then build new feature libraries that contains all custom functionality and pages. It is also possible to change the shell app, but it's not recommended.
+Spartacus comes with an application shell (storefrontapp) that contains core resources that are needed to load the rest of the web app. These core resources are provided through libraries, such as the `storefrontlib` and `storefrontstylelib`. You then build new feature libraries that contain any custom functionality and pages. It is recommended to keep the shell app as a container for libraries and to avoid developing features directly in the shell app.
 
-Don't forget that one of the more powerful features of SAP Commerce Cloud is its support for CMS (Content Management System). All custom data, such as logos, links, and more, are fetched from the server through CMS requests. For this reason, we also strongly recommend that you try to keep Spartacus "generic" in that it doesn't contain anything specific that a content manager might want to change later through a web console, instead of by asking a coder.
+Content for Spartacus pages is fetched from the SAP Commerce Cloud CMS (Content Management System), such as logos, links, banners and static pages. We recommend that new content-driven features follow the same pattern to enable a Content Managers to modify page content through the CMS tools.
 
-For a full explanation and guidelines, see [Extending and Customizing Spartacus](docs) and [Spartacus Architecture](docs).
+For a full explanation and guidelines, see [Extending and Customizing Spartacus](docs/extendingandcustomizing.md) and [Spartacus Architecture](docs/architecture).
 
-# Contributions
 
-Team Spartacus is excited to hear ideas, requests, and especially code contributions. Here are a few ways to learn more and start prepping your first pull-request:
 
-- Read [](CONTRIBUTING.md) for an overview of our contribution policies.
-- Read the documentation in [Community](docs), especially the [Code of Conduct](doc) and the [GitHub Workflow](doc) documents.
-- Join our general communication channel on [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE)
-- Start creating issues or making requests through GitHub's issue tracking service or through ZenHub
+# Limitations
 
-## Development Experience
+Spartacus works with Release 1808 of SAP Commerce Cloud and is being built with the upcoming 1811 release in mind. This means that certain features of Spartacus may only work with future Release 1811 of SAP Commerce Cloud. 
 
-The following sections outline some topics that improve the development experience.
 
-### Configurable Backend
 
-The storefront is driven by a backend, providing content and business APIs. The backend is configurable, as different environments require different backends.
-Developers who have a local SAP Commerce installation running can connect to the local SAP Commerce backend (which defaults to `https://localhost:9002`). The backend URL is configured in a proxy configuration to avoid hardcoded URLs in the application code (see `proxy.backend.js`).
+# Known Issues
 
-Developers who do not have access to a backend can use a local mockserver.
+Known issues are documented in the GitHub issue tracking system.
 
-**Mock server**
 
-Developers can use a local mock server for fast development. The mock server helps to:
 
-- fast onboading – developers who don't have access to a backend can start developing right away.
-- future development – developers can build new components that require an API that is not ready in the backend
-- experiment other data sets – the mock server can be used to generate or create datasets
-- CORS – the proxy overcomes CORS by default
+# How to Obtain Support
 
-The mock server can be started with an npm script `start:mock`. With this configuration, a separate proxy configuration is used to redirect backend and media URLs to a local [json-server](https://github.com/typicode/json-serve).
+Spartacus is provided "as-is" with no official lines of support. 
 
-### Library development
+To get help from the Spartacus community, post a question in the Help chat of our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE) channel.
 
-Most of the code is developed in separated libraries. The library code is build with ngPackagr, while the application is build with webpack. The two different separate builds might slow down the development process, which is why by default in development mode, the build is done by webpack only.
+For help getting Spartacus working with your licensed SAP Commerce Cloud instance, please contact SAP Support.
 
-Using two separate build processes complicates development, especially when the developer both implements library code and application code. In order to allow for a seamless build, in development mode both library and application code is build with webpack. We're relying on the standard angular-cli flags for production and development; development is the default, production mode is used when using the 'qa' build environment.
-For convenience reasons, a package.json script is added to start the application in production mode with the 'qa' environment like so: `yarn start:qa`.
 
-The IDE will use the library sources by default.
 
-**WARNING:** Running in dev mode should only be used for convenience on local development environments. New code merged in develop should be tested against a regular library build and also production mode. The Anguar 6 docs give some explanations in [Why do I need to build the library everytime I make changes?](https://github.com/angular/angular-cli/wiki/stories-create-library#why-do-i-need-to-build-the-library-everytime-i-make-changes)
+# Contributing
 
-## Production
+Team Spartacus welcomes feedback, ideas, requests, and especially code contributions. However, for the moment, Spartacus is restricted to updates by SAP employees. In the meantime:
 
-### Running in prod mode
+- Post comments to our Feedback chat in our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE) channel.
+- Read the documentation in [Community](docs/community/README.md), especially the [Code of Conduct](docs/community/codeofconduct.md) and the [GitHub Workflow](docs/community/githubworklow) documents.
+- Create an issue in the [GitHub bug tracking system](docs/community/githubworklow).
 
-As a developer or QA specialist, we need to run the storefront in "prod mode" to make sure everything will work fine when the app will be build for production. This is done using these 2 commands to build storefrontlib and the launch the app in prod mode:
 
-```
-yarn build:core:lib
-yarn start:qa
-```
 
-## Development tools
+# To Do
 
-#### Code Editor: VS Code
+Many changes are coming! All tasks will be posted to our GitHub issue tracking system, and this section will be updated with the major roadmap items.
 
-We use [Microsoft Visual Studio Code](https://code.visualstudio.com) for development. We rely on a series of features and plugins from it.
+Some of the upcoming features or changes to the open source release:
+- Mock server
+- Ability to specific a different billing address when checking out
+- Personal information pages (My Account, Payment Management, Address Management)
+- Extensibility examples
+- Style customization examples
+- Performance improvements through App Shell Caching
+- Completion of test coverage, including end-to-end tests
 
-##### VS Code Workspace Extensions
 
-The development team relies on a few extensions for productivity and code compliance. When you open the source folder in vscode, if you are missing some of these recommended extensions, vscode will prompt you for installation. The list of recommended extensions is found in '.vscode/extensions.json'.
 
-Please make sure you install them.
+# License
 
-##### VS Code Workspace settings
-
-These are vscode settings the team relies on. They are shared and enforced via vscode workspace settings. If you want to add or change something, propose the change to the team instead of just commiting it, so the whole team uses it and can benefit from it.
-
-### Browser: Google Chrome
-
-For development, Google Chrome is recommended. There is a "Debugger for Chrome" extension for vscode in the workspace extensions. This allows you to place breakpoint in typescript from vscode and debug the app from vscode.
-Chrome also manages well security exceptions that are needed to get the application running in a development environment.
+Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
+This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE](LICENSE.txt) file.

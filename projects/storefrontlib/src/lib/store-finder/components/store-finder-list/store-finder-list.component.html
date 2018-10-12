@@ -1,17 +1,69 @@
-<ng-container *ngIf="locations" class="stores-container">
-    <div class="stores-list">
-        <ol class="store-address-list">
-            <li *ngFor="let location of locations?.stores; let i = index;" class="store-list-item" id="{{'item-' + i}}" [ngClass]="{'selected-store-item' : selectedStore === i}">
-                <y-store-finder-list-item [location]="location" [locationIndex]="i" (storeItemClick)="centerStoreOnMapByIndex($event)"></y-store-finder-list-item>
-            </li>
-        </ol>
-    </div>
-    <y-store-finder-map class="stores-map" #storeMap [locations]="locations.stores" (selectedStoreItem)="selectStoreItemList($event)"></y-store-finder-map>
-    <div class="clear"></div>
-    <div *ngIf="locations?.pagination">
-        <y-store-finder-paging [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-store-finder-paging>
-        <div *ngIf="locations.pagination.totalPages === 0" fxFlex>
-            No Stores Found.
+<ng-container *ngIf="locations">
+    <div class="y-store-finder-list container">
+        <div class="row y-store-finder-list__column-set">
+            <div class="col-md-4 y-store-finder-list__address-column">
+                <ol class="y-store-finder-list__list">
+                    <li *ngFor="let location of locations?.stores; let i = index;" id="{{'item-' + i}}" [ngClass]="{'y-store-finder-list__selected-store-item' : selectedStore === i}"
+                        class="y-store-finder-list__list-items y-store-finder-list__list-items--ordered">
+                        <y-store-finder-list-item [location]="location" [locationIndex]="i" (storeItemClick)="centerStoreOnMapByIndex($event)"></y-store-finder-list-item>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-md-8 y-store-finder-list__map-column">
+                <y-store-finder-map #storeMap [locations]="locations.stores" (selectedStoreItem)="selectStoreItemList($event)"></y-store-finder-map>
+            </div>
+        </div>
+
+        <!-- mobile tabs for column set only -->
+
+        <div class="y-store-finder-list__column-set-mobile">
+            <ngb-tabset justify="center">
+                <ngb-tab>
+                    <ng-template ngbTabTitle>
+                        <div class="y-store-finder-list__column-set-mobile-title">
+                            List View
+                        </div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                        <div class="y-store-finder-list__address-column">
+                            <ol class="y-store-finder-list__list">
+                                <li *ngFor="let location of locations?.stores; let i = index;" id="{{'item-' + i}}"
+                                    [ngClass]="{'y-store-finder-list__selected-store-item' : selectedStore === i}"
+                                    class="y-store-finder-list__list-items y-store-finder-list__list-items--ordered">
+                                    <y-store-finder-list-item [location]="location" [locationIndex]="i"
+                                        (storeItemClick)="centerStoreOnMapByIndex($event)"></y-store-finder-list-item>
+                                </li>
+                            </ol>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab>
+                    <ng-template ngbTabTitle>
+                        <div class="y-store-finder-list__column-set-mobile__tab-title">
+                            Map View
+                        </div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                        <div class="y-store-finder-list__map-column">
+                            <y-store-finder-map #storeMap [locations]="locations.stores" (selectedStoreItem)="selectStoreItemList($event)"></y-store-finder-map>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+        </div>
+
+        <!-- mobile tabs end -->
+
+        <div *ngIf="locations?.pagination" class="row">
+            <div class="col-md-6 offset-md-3 y-store-finder-list__pagination">
+                <y-pagination [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
+            </div>
+        </div>
+
+        <div *ngIf="locations?.pagination" class="row">
+            <div *ngIf="locations.pagination.totalPages === 0" class="col-md-12 y-store-finder-list__not-found">
+                No Stores Found.
+            </div>
         </div>
     </div>
 </ng-container>

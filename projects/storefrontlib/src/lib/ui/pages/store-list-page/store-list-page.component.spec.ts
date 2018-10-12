@@ -5,18 +5,17 @@ import { StoreModule, combineReducers } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { StoreListPageComponent } from './store-list-page.component';
 import { StoreListPageLayoutComponent } from '../../layout/store-list-page-layout/store-list-page-layout.component';
 import { StoreFinderGridComponent } from '../../../store-finder/components/store-finder-grid/store-finder-grid.component';
 import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
-import { StoreFinderPagingComponent } from '../../../store-finder/components/store-finder-paging/store-finder-paging.component';
 import { StoreFinderSearchComponent } from '../../../store-finder/components/store-finder-search/store-finder-search.component';
 import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-list/store-finder-list.component';
 // tslint:disable-next-line:max-line-length
 import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
 import { ScheduleComponent } from '../../../store-finder/components/schedule-component/schedule.component';
-import { MaterialModule } from '../../../material.module';
 
 import * as fromReducers from '../../../store-finder/store';
 import * as fromRoot from '../../../routing/store';
@@ -43,14 +42,13 @@ describe('StoreListPageComponent', () => {
         ScheduleComponent,
         StoreFinderGridComponent,
         StoreFinderMapComponent,
-        StoreFinderPagingComponent,
         StoreFinderSearchComponent,
         StoreFinderListComponent,
         StoreFinderListItemComponent
       ],
+      schemas: [NO_ERRORS_SCHEMA],
       imports: [
         ReactiveFormsModule,
-        MaterialModule,
         CommonModule,
         BrowserAnimationsModule,
         StoreModule.forRoot({

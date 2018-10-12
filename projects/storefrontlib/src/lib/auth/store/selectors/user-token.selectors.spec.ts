@@ -1,4 +1,4 @@
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { Store, StoreModule, combineReducers, select } from '@ngrx/store';
 
 import { TestBed } from '@angular/core/testing';
 
@@ -29,7 +29,7 @@ describe('UserToken Selectors', () => {
     it('should return a user token from the state', () => {
       let result: UserToken;
       store
-        .select(fromSelectors.getUserToken)
+        .pipe(select(fromSelectors.getUserToken))
         .subscribe(value => (result = value));
       expect(result).toEqual(<UserToken>{});
 

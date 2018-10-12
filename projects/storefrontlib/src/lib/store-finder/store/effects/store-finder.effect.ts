@@ -21,7 +21,11 @@ export class StoreFinderEffect {
       map((action: fromAction.FindStores) => action.payload),
       mergeMap(payload =>
         this.occStoreFinderService
-          .findStores(payload.queryText, payload.searchConfig)
+          .findStores(
+            payload.queryText,
+            payload.searchConfig,
+            payload.longitudeLatitude
+          )
           .pipe(
             map(data => {
               return new fromAction.FindStoresSuccess(data);
