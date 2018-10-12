@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   OnDestroy
 } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 
 import * as fromStore from '../shared/store';
@@ -28,15 +28,15 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = combineLatest(
-      this.store.select(fromStore.getLanguagesLoadAttempted),
-      this.store.select(fromStore.getLanguagesLoading)
+      this.store.pipe(select(fromStore.getLanguagesLoadAttempted)),
+      this.store.pipe(select(fromStore.getLanguagesLoading))
     ).subscribe(([loadAttempted, loading]) => {
       if (!loadAttempted && !loading) {
         this.store.dispatch(new fromStore.LoadLanguages());
       }
     });
 
-    this.languages$ = this.store.select(fromStore.getAllLanguages);
+    this.languages$ = this.store.pipe(select(fromStore.getAllLanguages));
     this.activeLanguage = this.getActiveLanguage();
     this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
   }

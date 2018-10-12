@@ -32,9 +32,13 @@ describe('RoutingService', () => {
   it('should dispatch navigation action', inject(
     [RoutingService],
     (service: RoutingService) => {
-      service.go('/search', 'query');
+      service.go(['/search', 'query']);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.Go({ path: ['/search', 'query'] })
+        new fromStore.Go({
+          path: ['/search', 'query'],
+          query: undefined,
+          extras: undefined
+        })
       );
     }
   ));

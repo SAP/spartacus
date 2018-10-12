@@ -20,6 +20,7 @@ $y-navigation-child-item-border-color: 'background' !default;
 $y-navigation-child-item-hover-background-color: 'transparent' !default;
 $y-navigation-child-link-color: 'text' !default;
 $y-navigation-child-link-hover-color: 'primary' !default;
+$y-navigation-link-md-arrow-color: 'secondary' !default;
 $y-navigation-child-column-item-background-color: 'transparent' !default;
 
 //navigation variables
@@ -73,15 +74,39 @@ $y-navigation-child-column-item-trbl-padding: 0.25rem 1.5rem !default;
       @include var-color('color', $y-navigation-link-hover-color);
       cursor: $y-navigation-link-hover-cursor;
     }
+
     @include media-breakpoint-down(md) {
+      &::after {
+        margin-right: $y-navigation-link-md-trbl-margin;
+        @include var-color('border-color', $y-navigation-link-md-arrow-color);
+        border-style: solid;
+        border-width: 0 3px 3px 0;
+        display: inline-block;
+        padding: 5px;
+      }
+      &:hover::after {
+        border-color: inherit;
+      }
+      &[aria-expanded='false'] {
+        &::after {
+          transform: rotate(45deg);
+          -webkit-transform: rotate(45deg);
+        }
+      }
+      &[aria-expanded='true'] {
+        &::after {
+          margin-top: 5px;
+          transform: rotate(-135deg);
+          -webkit-transform: rotate(-135deg);
+        }
+      }
+
       @include var-color('color', $y-navigation-link-md-color);
       display: flex;
       justify-content: space-between;
       padding: $y-navigation-link-md-trbl-padding;
-      &::after {
-        margin-right: $y-navigation-link-md-trbl-margin;
-      }
     }
+
     @include media-breakpoint-only(lg) {
       padding: $y-navigation-link-lg-trbl-padding;
     }
