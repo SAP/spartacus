@@ -215,90 +215,114 @@ describe('ShippingAddressComponent', () => {
     );
   });
 
-  it('"continue" button should be disabled when no address is selected', () => {
-    mockUserSelectors.getAddressesLoading.next(false);
-    mockUserSelectors.getAddresses.next(mockAddresses);
-    component.selectedAddress = null;
-    fixture.detectChanges();
-    const continueButton = fixture.debugElement.query(
-      By.css('.y-existing-address__continue')
-    );
-    expect(continueButton.nativeElement.disabled).toEqual(true);
-  });
+  describe('UI continue button', () => {
+    const getContinueBtn = () =>
+      fixture.debugElement.query(By.css('.y-existing-address__continue'));
 
-  it('"continue" button should be enabled when address is selected', () => {
-    mockUserSelectors.getAddressesLoading.next(false);
-    mockUserSelectors.getAddresses.next(mockAddresses);
-    component.selectedAddress = mockAddress1;
-    fixture.detectChanges();
-    const continueButton = fixture.debugElement.query(
-      By.css('.y-existing-address__continue')
-    );
-    expect(continueButton.nativeElement.disabled).toEqual(false);
-  });
-
-  it('should show cards with existng addresses', () => {
-    mockUserSelectors.getAddressesLoading.next(false);
-    mockUserSelectors.getAddresses.next(mockAddresses);
-    fixture.detectChanges();
-    const cards = fixture.debugElement.queryAll(By.css('y-card'));
-    expect(cards.length).toEqual(2);
-  });
-
-  it('should show cards with existng addresses', () => {
-    mockUserSelectors.getAddressesLoading.next(false);
-    mockUserSelectors.getAddresses.next(mockAddresses);
-    fixture.detectChanges();
-    const cards = fixture.debugElement.queryAll(By.css('y-card'));
-    expect(cards.length).toEqual(2);
-  });
-
-  it('should show new address form when user clicks add new address button', async(() => {
-    mockUserSelectors.getAddressesLoading.next(false);
-    mockUserSelectors.getAddresses.next(mockAddresses);
-    fixture.detectChanges();
-    const addNewAddressBtn = fixture.debugElement.query(
-      By.css('.y-existing-address__add-new-address-btn')
-    );
-    addNewAddressBtn.nativeElement.click();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      const newAddressForm = fixture.debugElement.query(
-        By.css('y-address-form')
-      );
-      expect(newAddressForm).toBeTruthy();
+    it('should be disabled when no address is selected', () => {
+      mockUserSelectors.getAddressesLoading.next(false);
+      mockUserSelectors.getAddresses.next(mockAddresses);
+      component.selectedAddress = null;
+      fixture.detectChanges();
+      expect(getContinueBtn().nativeElement.disabled).toEqual(true);
     });
-  }));
 
-  it('should show new address form on init if there are no existing addresses', () => {
-    mockUserSelectors.getAddressesLoading.next(false);
-    mockUserSelectors.getAddresses.next([]);
-    fixture.detectChanges();
-    const newAddressForm = fixture.debugElement.query(By.css('y-address-form'));
-    expect(newAddressForm).toBeTruthy();
+    it('should be enabled when address is selected', () => {
+      mockUserSelectors.getAddressesLoading.next(false);
+      mockUserSelectors.getAddresses.next(mockAddresses);
+      component.selectedAddress = mockAddress1;
+      fixture.detectChanges();
+      expect(getContinueBtn().nativeElement.disabled).toEqual(false);
+    });
   });
 
-  it('should not show new address form on init if there are some existing addresses', () => {
-    mockUserSelectors.getAddressesLoading.next(false);
-    mockUserSelectors.getAddresses.next(mockAddresses);
-    fixture.detectChanges();
-    const newAddressForm = fixture.debugElement.query(By.css('y-address-form'));
-    expect(newAddressForm).toBeFalsy();
+  describe('UI cards with addresses', () => {
+    const getCards = () => fixture.debugElement.queryAll(By.css('y-card'));
+
+    it('should represent all existng addresses', () => {
+      mockUserSelectors.getAddressesLoading.next(false);
+      mockUserSelectors.getAddresses.next(mockAddresses);
+      fixture.detectChanges();
+      expect(getCards().length).toEqual(2);
+    });
+
+    it('should not display if there are no existng addresses', () => {
+      mockUserSelectors.getAddressesLoading.next(false);
+      mockUserSelectors.getAddresses.next([]);
+      fixture.detectChanges();
+      expect(getCards().length).toEqual(0);
+    });
+
+    it('should not display if existng addresses are loading', () => {
+      mockUserSelectors.getAddressesLoading.next(true);
+      mockUserSelectors.getAddresses.next([]);
+      fixture.detectChanges();
+      expect(getCards().length).toEqual(0);
+    });
   });
 
-  it('should show spinner when loading existing adddress is pending', () => {
-    mockUserSelectors.getAddressesLoading.next(true);
-    mockUserSelectors.getAddresses.next([]);
-    fixture.detectChanges();
-    const newAddressForm = fixture.debugElement.query(By.css('y-spinner'));
-    expect(newAddressForm).toBeTruthy();
+  describe('UI new address form', () => {
+    const getAddNewAddressBtn = () =>
+      fixture.debugElement.query(
+        By.css('.y-existing-address__add-new-address-btn')
+      );
+    const getNewAddressForm = () =>
+      fixture.debugElement.query(
+        By.css('.y-existing-address__new-address-form')
+      );
+
+    it('should be visible after user clicks "add new address" button', async(() => {
+      mockUserSelectors.getAddressesLoading.next(false);
+      mockUserSelectors.getAddresses.next(mockAddresses);
+      fixture.detectChanges();
+      getAddNewAddressBtn().nativeElement.click();
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(getNewAddressForm()).toBeTruthy();
+      });
+    }));
+
+    it('should be visible on init if there are no existing addresses', () => {
+      mockUserSelectors.getAddressesLoading.next(false);
+      mockUserSelectors.getAddresses.next([]);
+      fixture.detectChanges();
+
+      expect(getNewAddressForm()).toBeTruthy();
+    });
+
+    it('should be hidden on init if there are some existing addresses', () => {
+      mockUserSelectors.getAddressesLoading.next(false);
+      mockUserSelectors.getAddresses.next(mockAddresses);
+      fixture.detectChanges();
+
+      expect(getNewAddressForm()).toBeFalsy();
+    });
+
+    it('should be hidden when when existing adddress are loading', () => {
+      mockUserSelectors.getAddressesLoading.next(true);
+      mockUserSelectors.getAddresses.next([]);
+      fixture.detectChanges();
+
+      expect(getNewAddressForm()).toBeFalsy();
+    });
   });
 
-  it('should not show spinner when loading existing adddress has completed', () => {
-    mockUserSelectors.getAddressesLoading.next(false);
-    mockUserSelectors.getAddresses.next(mockAddresses);
-    fixture.detectChanges();
-    const newAddressForm = fixture.debugElement.query(By.css('y-spinner'));
-    expect(newAddressForm).toBeFalsy();
+  describe('UI spinner', () => {
+    const getSpinner = () => fixture.debugElement.query(By.css('y-spinner'));
+
+    it('should be visible when existing adddress are loading', () => {
+      mockUserSelectors.getAddressesLoading.next(true);
+      mockUserSelectors.getAddresses.next([]);
+      fixture.detectChanges();
+      expect(getSpinner()).toBeTruthy();
+    });
+
+    it('should be hidden when loading existing adddress has completed', () => {
+      mockUserSelectors.getAddressesLoading.next(false);
+      mockUserSelectors.getAddresses.next(mockAddresses);
+      fixture.detectChanges();
+      expect(getSpinner()).toBeFalsy();
+    });
   });
 });

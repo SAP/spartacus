@@ -244,35 +244,38 @@ describe('AddressFormComponent', () => {
     ).toEqual(mockRegionIsocode);
   });
 
-  it('should be enabled ONLY when form is valid', () => {
-    const continueBtnDisabled = () => {
-      fixture.detectChanges();
-      return fixture.debugElement.query(By.css('.y-address-form__continue-btn'))
-        .nativeElement.disabled;
-    };
-    const controls = component.address.controls;
+  describe('UI continue button', () => {
+    it('should be enabled only when form has all mandatory fields filled', () => {
+      const isContinueBtnDisabled = () => {
+        fixture.detectChanges();
+        return fixture.debugElement.query(
+          By.css('.y-address-form__continue-btn')
+        ).nativeElement.disabled;
+      };
+      const controls = component.address.controls;
 
-    mockSelectors.user.getAllDeliveryCountries.next([]);
-    mockSelectors.user.getAllTitles.next([]);
-    mockSelectors.user.getAllRegions.next([]);
+      mockSelectors.user.getAllDeliveryCountries.next([]);
+      mockSelectors.user.getAllTitles.next([]);
+      mockSelectors.user.getAllRegions.next([]);
 
-    expect(continueBtnDisabled()).toBeTruthy();
-    controls['titleCode'].setValue('test titleCode');
-    expect(continueBtnDisabled()).toBeTruthy();
-    controls['firstName'].setValue('test firstName');
-    expect(continueBtnDisabled()).toBeTruthy();
-    controls['lastName'].setValue('test lastName');
-    expect(continueBtnDisabled()).toBeTruthy();
-    controls['line1'].setValue('test line1');
-    expect(continueBtnDisabled()).toBeTruthy();
-    controls['town'].setValue('test town');
-    expect(continueBtnDisabled()).toBeTruthy();
-    controls.region['controls'].isocode.setValue('test region isocode');
-    expect(continueBtnDisabled()).toBeTruthy();
-    controls.country['controls'].isocode.setValue('test country isocode');
-    expect(continueBtnDisabled()).toBeTruthy();
-    controls['postalCode'].setValue('test postalCode');
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls['titleCode'].setValue('test titleCode');
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls['firstName'].setValue('test firstName');
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls['lastName'].setValue('test lastName');
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls['line1'].setValue('test line1');
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls['town'].setValue('test town');
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls.region['controls'].isocode.setValue('test region isocode');
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls.country['controls'].isocode.setValue('test country isocode');
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls['postalCode'].setValue('test postalCode');
 
-    expect(continueBtnDisabled()).toBeFalsy();
+      expect(isContinueBtnDisabled()).toBeFalsy();
+    });
   });
 });
