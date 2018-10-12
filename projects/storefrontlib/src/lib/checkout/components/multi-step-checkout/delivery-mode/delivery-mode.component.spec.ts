@@ -2,11 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 import { DeliveryModeComponent } from './delivery-mode.component';
-import {
-  ReactiveFormsModule,
-  FormGroup,
-  AbstractControl
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 
 import * as fromRoot from '../../../../routing/store';
@@ -20,29 +16,20 @@ import { CartService } from '../../../../cart/services/cart.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
 import { By } from '@angular/platform-browser';
 
-export class MockAbstractControl {
-  hasError() {
-    return true;
-  }
-  get invalid() {
-    return true;
-  }
-}
+const mockDeliveryMode1 = {
+  code: 'standard-gross',
+  name: 'Standard Delivery',
+  deliveryCost: { formattedValue: '$10.00' }
+};
 
-export class MockFormGroup {
-  get() {}
-}
+const mockDeliveryMode2 = {
+  code: 'premium-gross',
+  name: 'Premium Delivery',
+  deliveryCost: { formattedValue: '$20.00' }
+};
 
-const mockSupportedDeliveryModes = [
-  {
-    code: 'standard-gross',
-    name: 'Standard Delivery'
-  },
-  {
-    code: 'premium-gross',
-    name: 'Premium Delivery'
-  }
-];
+const mockSupportedDeliveryModes = [mockDeliveryMode1, mockDeliveryMode2];
+
 const mockCart = {
   guid: 'test',
   code: 'test'
@@ -54,7 +41,6 @@ describe('DeliveryModeComponent', () => {
   let fixture: ComponentFixture<DeliveryModeComponent>;
   let service: CheckoutService;
   let cartData: CartDataService;
-  let ac: AbstractControl;
   let mockCheckoutSelectors: {
     getSupportedDeliveryModes: BehaviorSubject<any[]>;
   };
@@ -72,13 +58,7 @@ describe('DeliveryModeComponent', () => {
         })
       ],
       declarations: [DeliveryModeComponent],
-      providers: [
-        CheckoutService,
-        CartService,
-        CartDataService,
-        { provide: FormGroup, useClass: MockFormGroup },
-        { provide: AbstractControl, useClass: MockAbstractControl }
-      ]
+      providers: [CheckoutService, CartService, CartDataService]
     }).compileComponents();
   }));
 
@@ -88,7 +68,6 @@ describe('DeliveryModeComponent', () => {
     service = TestBed.get(CheckoutService);
     cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
-    ac = TestBed.get(AbstractControl);
     cartData.cart = mockCart;
 
     mockCheckoutSelectors = {
@@ -102,12 +81,10 @@ describe('DeliveryModeComponent', () => {
     });
 
     spyOn(store, 'dispatch').and.callThrough();
-    spyOn(ac, 'hasError').and.callThrough();
-    spyOn(service, 'loadSupportedDeliveryModes').and.callThrough();
+    spyOn(service, 'loadSupportedDeliveryModes');
 
     spyOn(component.selectMode, 'emit').and.callThrough();
     spyOn(component.backStep, 'emit').and.callThrough();
-    spyOn(component.mode, 'get').and.returnValue(ac);
   });
 
   it('should be created', () => {
