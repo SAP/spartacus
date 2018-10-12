@@ -9,11 +9,7 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 
 import { AddressFormComponent } from './address-form.component';
-import {
-  ReactiveFormsModule,
-  FormGroup,
-  AbstractControl
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { BehaviorSubject } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,16 +17,7 @@ import { CheckoutService } from '../../../../services';
 import { CartService, CartDataService } from '../../../../../cart/services';
 import { AddressFormModule } from './address-form.module';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
-export class MockAbstractControl {
-  hasError() {}
-  enable() {}
-  disable() {}
-}
-
-export class MockFormGroup {
-  get() {}
-}
+import { By } from '@angular/platform-browser';
 
 const mockTitles = [
   {
@@ -67,7 +54,6 @@ describe('AddressFormComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: AddressFormComponent;
   let fixture: ComponentFixture<AddressFormComponent>;
-  let ac: AbstractControl;
   let service: CheckoutService;
   let mockSelectors: {
     checkout: {
@@ -93,14 +79,7 @@ describe('AddressFormComponent', () => {
           user: combineReducers(fromUser.getReducers())
         })
       ],
-      providers: [
-        CheckoutService,
-        CartService,
-        { provide: FormGroup, useClass: MockFormGroup },
-        { provide: AbstractControl, useClass: MockAbstractControl },
-        CartDataService,
-        NgbModal
-      ]
+      providers: [CheckoutService, CartService, CartDataService, NgbModal]
     }).compileComponents();
   }));
 
@@ -108,7 +87,6 @@ describe('AddressFormComponent', () => {
     fixture = TestBed.createComponent(AddressFormComponent);
     component = fixture.componentInstance;
     store = TestBed.get(Store);
-    ac = TestBed.get(AbstractControl);
     service = TestBed.get(CheckoutService);
 
     mockSelectors = {
@@ -135,11 +113,9 @@ describe('AddressFormComponent', () => {
     });
 
     spyOn(store, 'dispatch').and.callThrough();
-    spyOn(ac, 'hasError').and.callThrough();
 
     spyOn(component.addAddress, 'emit').and.callThrough();
     spyOn(component.backToAddress, 'emit').and.callThrough();
-    spyOn(component.address, 'get').and.returnValue(ac);
   });
 
   it('should be created', () => {
@@ -235,16 +211,6 @@ describe('AddressFormComponent', () => {
     expect(component.backToAddress.emit).toHaveBeenCalledWith();
   });
 
-  it('should call required(name: string)', () => {
-    component.required('someName');
-    expect(component.address.get).toHaveBeenCalledWith('someName');
-  });
-
-  it('should call notSelected(name: string)', () => {
-    component.notSelected('someName');
-    expect(component.address.get).toHaveBeenCalledWith('someName');
-  });
-
   it('should call toggleDefaultAddress()', () => {
     component.address.value.defaultAddress = false;
     component.toggleDefaultAddress();
@@ -252,26 +218,61 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call titleSelected()', () => {
-    component.titleSelected({ code: 'test select title' });
+    const mockTitleCode = 'test title code';
+    component.titleSelected({ code: mockTitleCode });
     expect(component.address['controls'].titleCode.value).toEqual(
-      'test select title'
+      mockTitleCode
     );
   });
 
   it('should call countrySelected()', () => {
-    component.countrySelected({ isocode: 'test select country' });
+    const mockCountryIsocode = 'test country isocode';
+    component.countrySelected({ isocode: mockCountryIsocode });
     expect(
       component.address['controls'].country['controls'].isocode.value
-    ).toEqual('test select country');
+    ).toEqual(mockCountryIsocode);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromUser.LoadRegions('test select country')
+      new fromUser.LoadRegions(mockCountryIsocode)
     );
   });
 
   it('should call regionSelected()', () => {
-    component.regionSelected({ isocode: 'test select region' });
+    const mockRegionIsocode = 'test region isocode';
+    component.regionSelected({ isocode: mockRegionIsocode });
     expect(
       component.address['controls'].region['controls'].isocode.value
-    ).toEqual('test select region');
+    ).toEqual(mockRegionIsocode);
+  });
+
+  it('should be enabled ONLY when form is valid', () => {
+    const continueBtnDisabled = () => {
+      fixture.detectChanges();
+      return fixture.debugElement.query(By.css('.y-address-form__continue-btn'))
+        .nativeElement.disabled;
+    };
+    const controls = component.address.controls;
+
+    mockSelectors.user.getAllDeliveryCountries.next([]);
+    mockSelectors.user.getAllTitles.next([]);
+    mockSelectors.user.getAllRegions.next([]);
+
+    expect(continueBtnDisabled()).toBeTruthy();
+    controls['titleCode'].setValue('test titleCode');
+    expect(continueBtnDisabled()).toBeTruthy();
+    controls['firstName'].setValue('test firstName');
+    expect(continueBtnDisabled()).toBeTruthy();
+    controls['lastName'].setValue('test lastName');
+    expect(continueBtnDisabled()).toBeTruthy();
+    controls['line1'].setValue('test line1');
+    expect(continueBtnDisabled()).toBeTruthy();
+    controls['town'].setValue('test town');
+    expect(continueBtnDisabled()).toBeTruthy();
+    controls.region['controls'].isocode.setValue('test region isocode');
+    expect(continueBtnDisabled()).toBeTruthy();
+    controls.country['controls'].isocode.setValue('test country isocode');
+    expect(continueBtnDisabled()).toBeTruthy();
+    controls['postalCode'].setValue('test postalCode');
+
+    expect(continueBtnDisabled()).toBeFalsy();
   });
 });
