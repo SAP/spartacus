@@ -1,6 +1,5 @@
 import {
   Component,
-  ChangeDetectionStrategy,
   OnInit,
   Output,
   EventEmitter,
@@ -24,8 +23,7 @@ import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'y-address-form',
   templateUrl: './address-form.component.html',
-  styleUrls: ['./address-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./address-form.component.scss']
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<any>;
@@ -192,19 +190,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         this.suggestedAddressModalRef = null;
       });
     }
-  }
-
-  required(name: string) {
-    return (
-      this.address.get(`${name}`).hasError('required') &&
-      this.address.get(`${name}`).touched
-    );
-  }
-
-  notSelected(name: string) {
-    return (
-      this.address.get(`${name}`).dirty && !this.address.get(`${name}`).value
-    );
   }
 
   ngOnDestroy() {

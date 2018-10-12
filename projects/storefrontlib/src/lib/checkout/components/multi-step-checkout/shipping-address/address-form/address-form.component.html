@@ -85,7 +85,7 @@
                         <button class="btn btn-block btn-action" (click)="back()">Change Address</button>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6">
-                        <button class="btn btn-block btn-primary" [disabled]="address.invalid || notSelected( 'country.isocode')"
+                        <button class="btn btn-block btn-primary y-address-form__continue-btn" [disabled]="address.invalid"
                             (click)="verfiyAddress()">Continue</button>
                     </div>
                 </div>
