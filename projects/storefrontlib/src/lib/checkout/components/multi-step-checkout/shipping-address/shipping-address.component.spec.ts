@@ -66,8 +66,6 @@ class MockCardComponent {
   border;
   @Input()
   content;
-  @Output()
-  sendCard;
 }
 
 describe('ShippingAddressComponent', () => {
