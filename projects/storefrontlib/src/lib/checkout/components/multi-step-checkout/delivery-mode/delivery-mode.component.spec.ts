@@ -188,5 +188,24 @@ describe('DeliveryModeComponent', () => {
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toBe(false);
     });
+
+    it('should call "next" function after being clicked', () => {
+      spyOn(component, 'next');
+      getContinueBtn().nativeElement.click();
+      fixture.detectChanges();
+      expect(component.next).toHaveBeenCalled();
+    });
+  });
+
+  describe('UI back button', () => {
+    const getContinueBtn = () =>
+      fixture.debugElement.query(By.css('.y-delivery-mode-form__back-btn'));
+
+    it('should call "back" function after being clicked', () => {
+      spyOn(component, 'back');
+      getContinueBtn().nativeElement.click();
+      fixture.detectChanges();
+      expect(component.back).toHaveBeenCalled();
+    });
   });
 });
