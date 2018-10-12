@@ -4,6 +4,7 @@ import {
   protractor,
   ExpectedConditions,
   promise,
+  element,
   by
 } from 'protractor';
 
@@ -64,6 +65,24 @@ export class E2EUtil {
     return selectElement
       .all(by.cssContainingText('option', text))
       .get(0)
+      .click();
+  }
+
+  /**
+   * Select option from <ng-select> element by text
+   * @param selectElement
+   * @param text
+   */
+  static async selectNgSelectOptionByText(
+    selectElement: ElementFinder,
+    text: string
+  ) {
+    selectElement.element(by.css('.ng-select-container')).click();
+    await this.wait4VisibleElement(element(by.css('.ng-dropdown-panel-items')));
+
+    return selectElement
+      .all(by.cssContainingText('.ng-option', text))
+      .first()
       .click();
   }
 

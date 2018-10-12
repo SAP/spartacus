@@ -6,10 +6,9 @@ import { E2EUtil } from '../e2e-util';
 import { LoginForm } from '../page-objects/login/login-form.po';
 import { ProductDetailsPage } from '../page-objects/product-details.po';
 import { AddressForm } from '../page-objects/checkout/address-form.po';
-import { PaymentForm } from '../page-objects/checkout/payment-form.po';
 import { OrderHistoryPage } from '../page-objects/account/order-history.po';
 
-xdescribe('Big Happy Path', () => {
+describe('Big Happy Path', () => {
   const home: HomePage = new HomePage();
   const checkoutPage = new MultiStepCheckoutPage();
 
@@ -28,7 +27,6 @@ xdescribe('Big Happy Path', () => {
   it('should register successfully', async () => {
     // Register a new user.
     await LoginHelper.registerNewUser();
-
     expect(await home.header.isLoggedIn()).toBeTruthy();
     expect(await home.header.loginComponent.getText()).toContain(
       USER_FULL_NAME
@@ -80,12 +78,8 @@ xdescribe('Big Happy Path', () => {
     const addressForm = checkoutPage.addressForm;
     await addressForm.waitForReady();
 
-    expect(await addressForm.header.getText()).toContain(
-      'Step 1: Shipping Address'
-    );
-    expect(await checkoutPage.orderSummary.getText()).toContain(
-      'Subtotal: $2,623.08'
-    );
+    expect(await addressForm.header.getText()).toContain('SHIPPING ADDRESS');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,623.08');
 
     await addressForm.fillIn();
     await addressForm.nextButton.click();
@@ -94,14 +88,7 @@ xdescribe('Big Happy Path', () => {
   it('should choose delivery', async () => {
     const deliveryForm = checkoutPage.deliveryForm;
     await deliveryForm.waitForReady();
-    expect(await deliveryForm.header.getText()).toContain(
-      'Choose a shipping method'
-    );
-    expect(await deliveryForm.address.getText()).toContain(
-      AddressForm.LAST_NAME
-    );
-    expect(await deliveryForm.address.getText()).toContain(AddressForm.CITY);
-
+    expect(await deliveryForm.header.getText()).toContain('SHIPPING METHOD');
     await deliveryForm.setDeliveryMethod();
     await deliveryForm.nextButton.click();
   });
@@ -110,10 +97,8 @@ xdescribe('Big Happy Path', () => {
     const paymentForm = checkoutPage.paymentForm;
     await paymentForm.waitForReady();
 
-    expect(await paymentForm.header.getText()).toContain('Choose a card type');
-    expect(await checkoutPage.orderSummary.getText()).toContain(
-      'Total: $2,635.07'
-    );
+    expect(await paymentForm.header.getText()).toContain('PAYMENT');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,635.07');
 
     await paymentForm.fillIn();
     await paymentForm.nextButton.click();
@@ -124,7 +109,7 @@ xdescribe('Big Happy Path', () => {
     const reviewForm = checkoutPage.reviewForm;
     await reviewForm.waitForReady();
 
-    expect(await reviewForm.header.getText()).toContain('Review and Submit');
+    expect(await reviewForm.header.getText()).toContain('REVIEW');
     expect(await reviewForm.shippingAddress.getText()).toContain(
       AddressForm.LAST_NAME
     );
@@ -132,22 +117,22 @@ xdescribe('Big Happy Path', () => {
       AddressForm.CITY
     );
     expect(await reviewForm.shippingMethod.getText()).toContain(
-      'Standard Delivery'
+      // 'Standard Delivery'
+      'standard-gross'
     );
-    expect(await reviewForm.paymentMethod.getText()).toContain(
-      PaymentForm.CARD_TYPE
-    );
+    // expect(await reviewForm.paymentMethod.getText()).toContain(
+    //   PaymentForm.CARD_TYPE
+    // );
     expect(await reviewForm.billingAddress.getText()).toContain(
       AddressForm.LAST_NAME
     );
     expect(await reviewForm.billingAddress.getText()).toContain(
       AddressForm.CITY
     );
-    expect(await checkoutPage.orderSummary.getText()).toContain(
-      'Total: $2,635.07'
-    );
 
-    const orderConfirmationPage = await reviewForm.placeOrder();
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,635.07');
+
+    const orderConfirmationPage = await checkoutPage.placeOrder();
     await orderConfirmationPage.waitForReady();
 
     expect(await orderConfirmationPage.confirmationHeader.getText()).toContain(
@@ -165,9 +150,6 @@ xdescribe('Big Happy Path', () => {
     expect(await orderConfirmationPage.shippingMethod.getText()).toContain(
       'Standard Delivery'
     );
-    expect(await orderConfirmationPage.paymentMethod.getText()).toContain(
-      PaymentForm.CARD_TYPE
-    );
     expect(await orderConfirmationPage.billingAddress.getText()).toContain(
       AddressForm.LAST_NAME
     );
@@ -178,7 +160,7 @@ xdescribe('Big Happy Path', () => {
       PRODUCT_CODE
     );
     expect(await orderConfirmationPage.orderSummary.getText()).toContain(
-      'Total: $2,635.07'
+      '$2,635.07'
     );
   });
 
@@ -187,7 +169,7 @@ xdescribe('Big Happy Path', () => {
     const orderHistoryPage = new OrderHistoryPage();
     await orderHistoryPage.navigateTo();
     expect(await orderHistoryPage.historyHeader.getText()).toContain(
-      '1 orders found in your Order History'
+      'Order history'
     );
     expect(await orderHistoryPage.historyItem(0).getText()).toContain(
       '$2,635.07'

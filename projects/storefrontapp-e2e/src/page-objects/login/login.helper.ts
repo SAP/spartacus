@@ -97,6 +97,7 @@ export class LoginHelper {
 
   static async logOutViaHeader() {
     const header = new Header();
+    await header.navigationMenu.click();
     await header.logoutButton.click();
   }
 }
