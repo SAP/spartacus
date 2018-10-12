@@ -9,6 +9,9 @@ $y-cart-item-new-price-color: 'primary' !default;
 $y-cart-item-promo-color: 'success' !default;
 $y-cart-item-unavailable-color: 'danger' !default;
 $y-cart-item-actions-color: 'text' !default;
+$y-cart-item-name-color: 'text' !default;
+$y-cart-item-name-color-hover: 'primary' !default;
+
 
 //y-cart-item color variables
 
@@ -67,6 +70,15 @@ $y-cart-item-compact-label-min-width: 5rem !default;
     overflow-wrap: break-word;
     padding-left: $y-cart-item-name-padding-left;
     padding-right: $y-cart-item-name-padding-right;
+
+    &--link {
+      @include var-color('color', $y-cart-item-name-color);
+      text-decoration: none;
+
+      &:hover {
+        @include var-color('color', $y-cart-item-name-color-hover);
+      }
+    }
   }
 
   &__code {
