@@ -48,7 +48,7 @@ const mockCart = {
   code: 'test'
 };
 
-describe('DeliveryModeComponent', () => {
+fdescribe('DeliveryModeComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: DeliveryModeComponent;
   let fixture: ComponentFixture<DeliveryModeComponent>;
@@ -173,17 +173,20 @@ describe('DeliveryModeComponent', () => {
     expect(invalid).toBe(true);
   });
 
-  it('should have primary button disabled when delivery mode is not selected', () => {
-    component.mode.controls['deliveryModeId'].setValue(null);
-    fixture.detectChanges();
-    const primaryButton = fixture.debugElement.query(By.css('.btn-primary'));
-    expect(primaryButton.nativeElement.disabled).toBe(true);
-  });
+  describe('UI continue button', () => {
+    const getContinueBtn = () =>
+      fixture.debugElement.query(By.css('.y-delivery-mode-form__continue-btn'));
 
-  it('should have primary button not disabled when delivery mode is selected', () => {
-    component.mode.controls['deliveryModeId'].setValue('mock-delivery-mode');
-    fixture.detectChanges();
-    const primaryButton = fixture.debugElement.query(By.css('.btn-primary'));
-    expect(primaryButton.nativeElement.disabled).toBe(false);
+    it('should be disabled when delivery mode is not selected', () => {
+      component.mode.controls['deliveryModeId'].setValue(null);
+      fixture.detectChanges();
+      expect(getContinueBtn().nativeElement.disabled).toBe(true);
+    });
+
+    it('should be enabled when delivery mode is selected', () => {
+      component.mode.controls['deliveryModeId'].setValue('test delivery mode');
+      fixture.detectChanges();
+      expect(getContinueBtn().nativeElement.disabled).toBe(false);
+    });
   });
 });
