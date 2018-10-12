@@ -215,7 +215,7 @@ describe('ShippingAddressComponent', () => {
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>
-      fixture.debugElement.query(By.css('.y-existing-address__continue'));
+      fixture.debugElement.query(By.css('.y-existing-address__continue-btn'));
 
     it('should be disabled when no address is selected', () => {
       mockUserSelectors.getAddressesLoading.next(false);
