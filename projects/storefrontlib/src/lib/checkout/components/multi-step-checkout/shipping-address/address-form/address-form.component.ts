@@ -159,7 +159,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.backToAddress.emit();
   }
 
-  verfiyAddress() {
+  verifyAddress() {
     this.checkoutService.verifyAddress(this.address.value);
   }
 

@@ -202,7 +202,7 @@ describe('AddressFormComponent', () => {
 
   it('should call verfiyAddress()', () => {
     spyOn(service, 'verifyAddress');
-    component.verfiyAddress();
+    component.verifyAddress();
     expect(service.verifyAddress).toHaveBeenCalled();
   });
 
@@ -245,12 +245,20 @@ describe('AddressFormComponent', () => {
   });
 
   describe('UI continue button', () => {
+    const getContinueBtn = () =>
+      fixture.debugElement.query(By.css('.y-address-form__continue-btn'));
+
+    it('should call "verifyAddress" function when being clicked', () => {
+      spyOn(component, 'verifyAddress');
+      getContinueBtn().nativeElement.click();
+      fixture.detectChanges();
+      expect(component.verifyAddress).toHaveBeenCalled();
+    });
+
     it('should be enabled only when form has all mandatory fields filled', () => {
       const isContinueBtnDisabled = () => {
         fixture.detectChanges();
-        return fixture.debugElement.query(
-          By.css('.y-address-form__continue-btn')
-        ).nativeElement.disabled;
+        return getContinueBtn().nativeElement.disabled;
       };
       const controls = component.address.controls;
 
@@ -276,6 +284,18 @@ describe('AddressFormComponent', () => {
       controls['postalCode'].setValue('test postalCode');
 
       expect(isContinueBtnDisabled()).toBeFalsy();
+    });
+  });
+
+  describe('UI back button', () => {
+    const getContinueBtn = () =>
+      fixture.debugElement.query(By.css('.y-address-form__back-btn'));
+
+    it('should call "back" function after being clicked', () => {
+      spyOn(component, 'back');
+      getContinueBtn().nativeElement.click();
+      fixture.detectChanges();
+      expect(component.back).toHaveBeenCalled();
     });
   });
 });
