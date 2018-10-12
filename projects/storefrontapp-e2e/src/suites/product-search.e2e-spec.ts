@@ -39,7 +39,7 @@ describe('Product search', () => {
 
     // should have 144 results and 15 pages
     const text = await searchResults.getHeaderText();
-    expect(text).toContain('145 results for cameras');
+    expect(text).toContain('144 results for cameras');
 
     // go to next page
     // FIXME - commented out by now, as it is broken on spartacus
