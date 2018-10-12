@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule, combineReducers } from '@ngrx/store';
 
 import { StoreDescriptionPageLayoutComponent } from './store-description-page-layout.component';
@@ -33,7 +34,8 @@ describe('StoreDescriptionPageLayoutComponent', () => {
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           stores: combineReducers(fromReducers.reducers)
-        })
+        }),
+        RouterTestingModule
       ],
       providers: [
         ...fromServices.services,

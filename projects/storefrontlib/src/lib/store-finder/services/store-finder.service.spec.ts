@@ -11,6 +11,8 @@ describe('StoreFinderService', () => {
 
   const longitudeLatitude: number[] = [10.1, 20.2];
   const queryText = 'test';
+  const countryIsoCode = 'CA';
+  const regionIsoCode = 'CA-QC';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -61,6 +63,26 @@ describe('StoreFinderService', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.FindAllStores()
+      );
+    });
+  });
+
+  describe('View All Stores for Country', () => {
+    it('should dispatch a new action', () => {
+      service.viewAllStoresForCountry(countryIsoCode);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.FindAllStoresByCountry({ countryIsoCode })
+      );
+    });
+  });
+
+  describe('View All Stores for Region', () => {
+    it('should dispatch a new action', () => {
+      service.viewAllStoresForRegion('CA', 'CA-QC');
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.FindAllStoresByRegion({ countryIsoCode, regionIsoCode })
       );
     });
   });

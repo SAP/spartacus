@@ -21,4 +21,16 @@ export class StoreFinderService {
   viewAllStores() {
     this.store.dispatch(new fromStore.FindAllStores());
   }
+
+  viewAllStoresForCountry(countryIsoCode: string) {
+    this.store.dispatch(
+      new fromStore.FindAllStoresByCountry({ countryIsoCode })
+    );
+  }
+
+  viewAllStoresForRegion(countryIsoCode: string, regionIsoCode: string) {
+    this.store.dispatch(
+      new fromStore.FindAllStoresByRegion({ countryIsoCode, regionIsoCode })
+    );
+  }
 }

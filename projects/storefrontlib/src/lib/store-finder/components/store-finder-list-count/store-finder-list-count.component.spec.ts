@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, StoreModule } from '@ngrx/store';
 
 import { StoreFinderListCountComponent } from './store-finder-list-count.component';
@@ -16,7 +17,8 @@ describe('StoreFinderListCountComponent', () => {
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           stores: combineReducers(fromReducers.reducers)
-        })
+        }),
+        RouterTestingModule
       ],
       declarations: [StoreFinderListCountComponent]
     }).compileComponents();

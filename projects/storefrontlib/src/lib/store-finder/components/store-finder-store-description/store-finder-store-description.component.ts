@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
-import { StoreDataService } from '../../services/index';
-import { Store } from '@ngrx/store';
-import * as fromStore from '../../store';
 import { ActivatedRoute } from '@angular/router';
+
+import { Store } from '@ngrx/store';
+
+import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
+
+import { StoreDataService } from '../../services/index';
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'y-store-finder-store-description',
@@ -25,7 +28,8 @@ export class StoreFinderStoreDescriptionComponent
 
   ngOnInit(): void {
     this.store.subscribe((storesState: fromStore.StoresState) => {
-      const stores = fromStore.getFindStoresEntities(storesState).stores;
+      const stores = fromStore.getFindStoresEntities(storesState)
+        .pointOfServices;
       if (stores) {
         this.location = stores.filter(
           (store: any) => store.name === this.route.snapshot.params.store
