@@ -9,7 +9,7 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 
 import { AddressFormComponent } from './address-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 
 import { BehaviorSubject } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -55,6 +55,7 @@ describe('AddressFormComponent', () => {
   let component: AddressFormComponent;
   let fixture: ComponentFixture<AddressFormComponent>;
   let service: CheckoutService;
+  let controls: FormGroup['controls'];
   let mockSelectors: {
     checkout: {
       getAddressVerificationResults: BehaviorSubject<any>;
@@ -88,6 +89,7 @@ describe('AddressFormComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.get(Store);
     service = TestBed.get(CheckoutService);
+    controls = component.address.controls;
 
     mockSelectors = {
       checkout: {
@@ -248,10 +250,24 @@ describe('AddressFormComponent', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.y-address-form__continue-btn'));
 
-    it('should call "verifyAddress" function when being clicked', () => {
+    it('should call "verifyAddress" function when being clicked and when form is valid', () => {
       spyOn(component, 'verifyAddress');
-      getContinueBtn().nativeElement.click();
       fixture.detectChanges();
+
+      getContinueBtn().nativeElement.click();
+      expect(component.verifyAddress).not.toHaveBeenCalled();
+
+      controls['titleCode'].setValue('test titleCode');
+      controls['firstName'].setValue('test firstName');
+      controls['lastName'].setValue('test lastName');
+      controls['line1'].setValue('test line1');
+      controls['town'].setValue('test town');
+      controls.region['controls'].isocode.setValue('test region isocode');
+      controls.country['controls'].isocode.setValue('test country isocode');
+      controls['postalCode'].setValue('test postalCode');
+      fixture.detectChanges();
+
+      getContinueBtn().nativeElement.click();
       expect(component.verifyAddress).toHaveBeenCalled();
     });
 
@@ -260,8 +276,6 @@ describe('AddressFormComponent', () => {
         fixture.detectChanges();
         return getContinueBtn().nativeElement.disabled;
       };
-      const controls = component.address.controls;
-
       mockSelectors.user.getAllDeliveryCountries.next([]);
       mockSelectors.user.getAllTitles.next([]);
       mockSelectors.user.getAllRegions.next([]);
@@ -288,13 +302,12 @@ describe('AddressFormComponent', () => {
   });
 
   describe('UI back button', () => {
-    const getContinueBtn = () =>
+    const getBackBtn = () =>
       fixture.debugElement.query(By.css('.y-address-form__back-btn'));
 
     it('should call "back" function after being clicked', () => {
       spyOn(component, 'back');
-      getContinueBtn().nativeElement.click();
-      fixture.detectChanges();
+      getBackBtn().nativeElement.click();
       expect(component.back).toHaveBeenCalled();
     });
   });
