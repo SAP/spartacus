@@ -3,11 +3,11 @@
         <h3 class="y-existing-payment-methods__title d-none d-lg-block d-xl-block">Payment</h3>
         <ng-container *ngIf="!(isLoading$ | async); else loading">
 
-            <ng-container *ngIf="existingPaymentMethods?.length && !isPaymentForm; else paymentForm">
+            <ng-container *ngIf="existingPaymentMethods?.length && !newPaymentFormManuallyOpened; else newPaymentForm">
                 <p class="y-existing-payment-methods__text">Choose a payment method</p>
                 <div class="y-existing-payment-methods__btn row justify-content-end">
                     <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action y-existing-payment-methods__add-new-payment-btn"
-                            (click)="goToPaymentForm()">
+                            (click)="showNewAddressForm()">
                             Add New Payment</button></div>
                 </div>
 
@@ -30,9 +30,9 @@
                 </div>
             </ng-container>
 
-            <ng-template #paymentForm>
+            <ng-template #newPaymentForm>
                 <y-payment-form class="y-existing-payment-methods__new-payment-form" (addPaymentInfo)="addNewPaymentMethod($event)"
-                    (backToPayment)="backToPaymentMethod()"></y-payment-form>
+                    (backToPayment)="closeNewAddressForm()"></y-payment-form>
             </ng-template>
 
         </ng-container>

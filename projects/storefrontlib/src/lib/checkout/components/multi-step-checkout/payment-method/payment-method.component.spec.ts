@@ -61,7 +61,7 @@ class MockCardComponent {
   content;
 }
 
-describe('PaymentMethodComponent', () => {
+fdescribe('PaymentMethodComponent', () => {
   let component: PaymentMethodComponent;
   let fixture: ComponentFixture<PaymentMethodComponent>;
   let service: CheckoutService;
@@ -174,9 +174,9 @@ describe('PaymentMethodComponent', () => {
     });
   });
 
-  it('should call goToPaymentForm()', () => {
-    component.goToPaymentForm();
-    expect(component.isPaymentForm).toEqual(true);
+  it('should call showNewAddressForm()', () => {
+    component.showNewAddressForm();
+    expect(component.newPaymentFormManuallyOpened).toEqual(true);
   });
 
   it('should call back()', () => {
