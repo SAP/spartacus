@@ -37,6 +37,8 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   max;
   @Input()
   async = false;
+  @Input()
+  cartIsLoading = false;
 
   @Output()
   update = new EventEmitter<any>();
@@ -50,7 +52,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   constructor(private renderer: Renderer2) {}
 
   onTouch = () => {};
-  onModelChange = (rating: number) => {};
+  onModelChange = (_rating: number) => {};
 
   manualChange(incomingValue) {
     const newValue =

@@ -6,7 +6,7 @@ import {
   Input,
   EventEmitter
 } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -26,6 +26,7 @@ export class ShippingAddressComponent implements OnInit {
   existingAddresses$: Observable<any>;
   isAddressForm = false;
   cards = [];
+  isLoading$: Observable<any>;
 
   @Input()
   selectedAddress: Address;
@@ -38,27 +39,29 @@ export class ShippingAddressComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.existingAddresses$ = this.store
-      .select(fromUserStore.getAddresses)
-      .pipe(
-        tap(addresses => {
-          if (addresses.length === 0) {
-            this.checkoutService.loadUserAddresses();
-          } else {
-            if (this.cards.length === 0) {
-              addresses.forEach(address => {
-                const card = this.getCardContent(address);
-                if (
-                  this.selectedAddress &&
-                  this.selectedAddress.id === address.id
-                ) {
-                  card.header = 'SELECTED';
-                }
-              });
-            }
+    this.isLoading$ = this.store.pipe(
+      select(fromUserStore.getAddressesLoading)
+    );
+    this.existingAddresses$ = this.store.pipe(
+      select(fromUserStore.getAddresses),
+      tap(addresses => {
+        if (addresses.length === 0) {
+          this.checkoutService.loadUserAddresses();
+        } else {
+          if (this.cards.length === 0) {
+            addresses.forEach(address => {
+              const card = this.getCardContent(address);
+              if (
+                this.selectedAddress &&
+                this.selectedAddress.id === address.id
+              ) {
+                card.header = 'SELECTED';
+              }
+            });
           }
-        })
-      );
+        }
+      })
+    );
   }
 
   getCardContent(address): Card {

@@ -6,7 +6,7 @@ import {
   EventEmitter
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -57,15 +57,16 @@ export class PaymentFormComponent implements OnInit {
   ngOnInit() {
     this.expMonthAndYear();
 
-    this.cardTypes$ = this.store.select(fromCheckoutStore.getAllCardTypes).pipe(
+    this.cardTypes$ = this.store.pipe(
+      select(fromCheckoutStore.getAllCardTypes),
       tap(cardTypes => {
         if (Object.keys(cardTypes).length === 0) {
           this.checkoutService.loadSupportedCardTypes();
         }
       })
     );
-    this.shippingAddress$ = this.store.select(
-      fromCheckoutStore.getDeliveryAddress
+    this.shippingAddress$ = this.store.pipe(
+      select(fromCheckoutStore.getDeliveryAddress)
     );
   }
 

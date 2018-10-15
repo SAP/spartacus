@@ -1,12 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import * as NgrxStore from '@ngrx/store';
 import { PaymentFormComponent } from './payment-form.component';
 import {
   ReactiveFormsModule,
   FormGroup,
   AbstractControl
 } from '@angular/forms';
-import { of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import * as fromRoot from '../../../../../routing/store';
 import * as fromCheckout from '../../../../store';
@@ -47,18 +48,16 @@ const mockAddress: Address = {
   country: { isocode: 'JP' }
 };
 
-const mockCardTypes = {
-  cardTypes: [
-    {
-      code: 'amex',
-      name: 'American Express'
-    },
-    {
-      isocode: 'maestro',
-      name: 'Maestro'
-    }
-  ]
-};
+const mockCardTypes = [
+  {
+    code: 'amex',
+    name: 'American Express'
+  },
+  {
+    isocode: 'maestro',
+    name: 'Maestro'
+  }
+];
 
 describe('PaymentFormComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
@@ -67,6 +66,10 @@ describe('PaymentFormComponent', () => {
   let service: CheckoutService;
 
   let ac: AbstractControl;
+  let mockCheckoutSelectors: {
+    getAllCardTypes: BehaviorSubject<any[]>;
+    getDeliveryAddress: BehaviorSubject<any[]>;
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -102,6 +105,19 @@ describe('PaymentFormComponent', () => {
 
     ac = TestBed.get(AbstractControl);
 
+    mockCheckoutSelectors = {
+      getAllCardTypes: new BehaviorSubject([]),
+      getDeliveryAddress: new BehaviorSubject([])
+    };
+    spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
+      switch (selector) {
+        case fromCheckout.getAllCardTypes:
+          return () => mockCheckoutSelectors.getAllCardTypes;
+        case fromCheckout.getDeliveryAddress:
+          return () => mockCheckoutSelectors.getDeliveryAddress;
+      }
+    });
+
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(ac, 'hasError').and.callThrough();
     spyOn(service, 'loadSupportedCardTypes').and.callThrough();
@@ -116,7 +132,7 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get suppored card types if they do not exist', () => {
-    spyOn(store, 'select').and.returnValue(of({}));
+    mockCheckoutSelectors.getAllCardTypes.next([]);
     component.ngOnInit();
     component.cardTypes$.subscribe(() => {
       expect(service.loadSupportedCardTypes).toHaveBeenCalled();
@@ -124,7 +140,7 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get suppored card types if they exist', () => {
-    spyOn(store, 'select').and.returnValue(of(mockCardTypes));
+    mockCheckoutSelectors.getAllCardTypes.next(mockCardTypes);
     component.ngOnInit();
     component.cardTypes$.subscribe(data => {
       expect(data).toBe(mockCardTypes);
@@ -132,13 +148,15 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get shipping address set in cart', () => {
-    spyOn(store, 'select').and.returnValues(of(mockCardTypes), of(mockAddress));
+    const mockAddresses = [mockAddress];
+    mockCheckoutSelectors.getAllCardTypes.next(mockCardTypes);
+    mockCheckoutSelectors.getDeliveryAddress.next(mockAddresses);
     component.ngOnInit();
     component.cardTypes$.subscribe(data => {
       expect(data).toBe(mockCardTypes);
     });
     component.shippingAddress$.subscribe(data => {
-      expect(data).toBe(mockAddress);
+      expect(data).toBe(mockAddresses);
     });
   });
 

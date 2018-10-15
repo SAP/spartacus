@@ -4,11 +4,11 @@ import { Store } from '@ngrx/store';
 import { Subscription, of } from 'rxjs';
 import { take, switchMap } from 'rxjs/operators';
 import * as fromStore from '../../../store';
-import * as fromAuthStore from './../../../../auth/store';
-import * as fromRouting from '../../../../routing/store';
 import * as fromGlobalMessage from '../../../../global-message/store';
 import { GlobalMessageType } from '../../../../global-message/models/message.model';
 import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
+import { AuthService } from '../../../../auth/facade/auth.service';
+import { RoutingService } from '../../../../routing/facade/routing.service';
 
 @Component({
   selector: 'y-login-form',
@@ -20,13 +20,14 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
   constructor(
+    private auth: AuthService,
+    private routing: RoutingService,
     private store: Store<fromStore.UserState>,
     private fb: FormBuilder
   ) {}
 
   ngOnInit() {
-    this.sub = this.store
-      .select(fromAuthStore.getUserToken)
+    this.sub = this.auth.userToken$
       .pipe(
         switchMap(data => {
           if (data && data.access_token) {
@@ -35,7 +36,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
                 GlobalMessageType.MSG_TYPE_ERROR
               )
             );
-            return this.store.select(fromRouting.getRedirectUrl).pipe(take(1));
+            return this.routing.redirectUrl$.pipe(take(1));
           }
           return of();
         })
@@ -43,11 +44,11 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       .subscribe(url => {
         if (url) {
           // If forced to login due to AuthGuard, then redirect to intended destination
-          this.store.dispatch(new fromRouting.Go({ path: [url] }));
-          this.store.dispatch(new fromRouting.ClearRedirectUrl());
+          this.routing.go([url]);
+          this.routing.clearRedirectUrl();
         } else {
           // User manual login
-          this.store.dispatch(new fromRouting.Back());
+          this.routing.back();
         }
       });
 
@@ -58,11 +59,9 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.store.dispatch(
-      new fromAuthStore.LoadUserToken({
-        userId: this.form.controls.userId.value,
-        password: this.form.controls.password.value
-      })
+    this.auth.authorize(
+      this.form.controls.userId.value,
+      this.form.controls.password.value
     );
   }
 

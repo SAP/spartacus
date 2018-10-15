@@ -1,6 +1,7 @@
 import { of } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { Store, StoreModule, combineReducers, select } from '@ngrx/store';
+import * as ngrxStore from '@ngrx/store';
 import * as fromRoot from './../../../routing/store';
 import * as fromStore from './../../store';
 
@@ -48,13 +49,15 @@ describe('Product Reviews selectors', () => {
     });
 
     store = TestBed.get(Store);
-    spyOn(store, 'select').and.returnValue(of(reviewData));
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(reviewData)
+    );
   });
 
   it('getSelectedProductReviewsFactory should return reviews', () => {
     let result;
     store
-      .select(fromStore.getSelectedProductReviewsFactory(productCode))
+      .pipe(select(fromStore.getSelectedProductReviewsFactory(productCode)))
       .subscribe(data => (result = data));
 
     expect(result.productCode).toEqual(productCode);
