@@ -73,7 +73,7 @@ describe('LoginFormComponent', () => {
   });
 
   it('should redirect to returnUrl saved in store if there is one', () => {
-    expect(mockRouting.go).toHaveBeenCalledWith('/test');
+    expect(mockRouting.go).toHaveBeenCalledWith(['/test']);
   });
 
   describe('userId form field', () => {

@@ -6,9 +6,9 @@
             <!-- FORM -->
             <div [formGroup]="mode">
                 <div class="form-check" *ngFor="let mode of (supportedDeliveryModes$ | async)">
-                    <input class="form-check-input" role="radio" type="radio" tabindex="0" id="delivery-mode__{{mode.code}}"
+                    <input class="form-check-input" role="radio" type="radio" tabindex="0" id="deliveryMode-{{mode.code}}"
                         aria-checked="true" [value]="mode.code" formControlName="deliveryModeId">
-                    <label class="y-delivery-mode-form__label form-check-label form-radio-label" for="delivery-mode__{{mode.code}}">
+                    <label class="y-delivery-mode-form__label form-check-label form-radio-label" for="deliveryMode-{{mode.code}}">
                         <div class="y-delivery-mode-form__label--shipping-mode">{{ mode.name }}</div>
                         <div class="y-delivery-mode-form__label--price">{{mode.deliveryCost.formattedValue}}</div>
                         <div class="y-delivery-mode-form__label--details">{{mode.description}}</div>
