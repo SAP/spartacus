@@ -1,10 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  OnInit,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -18,8 +12,7 @@ import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
 @Component({
   selector: 'y-payment-form',
   templateUrl: './payment-form.component.html',
-  styleUrls: ['./payment-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./payment-form.component.scss']
 })
 export class PaymentFormComponent implements OnInit {
   months = [];
@@ -128,18 +121,5 @@ export class PaymentFormComponent implements OnInit {
 
   next() {
     this.addPaymentInfo.emit(this.payment.value);
-  }
-
-  required(name: string) {
-    return (
-      this.payment.get(`${name}`).hasError('required') &&
-      this.payment.get(`${name}`).touched
-    );
-  }
-
-  notSelected(name: string) {
-    return (
-      this.payment.get(`${name}`).dirty && !this.payment.get(`${name}`).value
-    );
   }
 }
