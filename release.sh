@@ -2,10 +2,8 @@
 set -e
 
 function usage() {
-  echo "Usage: `basename $0` -v [major | minor | patch | premajor | preminor | prepatch | prerelease] --preid [prerelease-id] --dry-run"
+  echo "Usage: `basename $0` -v [major | minor | patch | premajor | preminor | prepatch | prerelease] --preid [prerelease-id]"
 }
-
-dryrun=false
 
 if [ $# == 0 ]; then
   usage
@@ -15,10 +13,6 @@ fi
 while [[ $# -gt 0 ]]
 do
   case $1 in
-    -p | --project )
-      shift
-      PROJECT=$1
-      ;;
     -v | --version )
       shift
       BUMP=$1
@@ -26,9 +20,6 @@ do
     --preid )
       shift
       preid=$1
-      ;;
-    --dryrun )
-      dryrun=true
       ;;
     -h | --help )
       usage
