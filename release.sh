@@ -72,7 +72,7 @@ published=''
 if [[ -z "$published" ]]; then
   NEW_VERSION=${PROJECT_DIR_NEW_VERSION:1}
 
-  RELEASE_BRANCH="release/spartacus-$NEW_VERSION"
+  RELEASE_BRANCH="release/$PROJECT-$NEW_VERSION"
   git checkout -b $RELEASE_BRANCH
 
   cd $PROJECT_DIR
