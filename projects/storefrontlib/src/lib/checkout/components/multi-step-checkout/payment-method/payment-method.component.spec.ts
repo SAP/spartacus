@@ -15,7 +15,7 @@ import * as fromAuth from '../../../../auth/store';
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 const mockPaymentMethod1 = {
@@ -61,7 +61,7 @@ class MockCardComponent {
   content;
 }
 
-fdescribe('PaymentMethodComponent', () => {
+describe('PaymentMethodComponent', () => {
   let component: PaymentMethodComponent;
   let fixture: ComponentFixture<PaymentMethodComponent>;
   let service: CheckoutService;
