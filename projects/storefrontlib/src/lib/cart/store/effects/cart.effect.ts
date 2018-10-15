@@ -26,7 +26,8 @@ export class CartEffects {
             details: this.cartData.getDetails ? true : undefined
           };
         }
-        if (payload.userId === undefined || payload.cartId === undefined) {
+
+        if (this.isMissingData(payload)) {
           return of(new fromActions.LoadCartFail({}));
         }
 
@@ -96,4 +97,8 @@ export class CartEffects {
     private occCartService: OccCartService,
     private cartData: CartDataService
   ) {}
+
+  private isMissingData(payload) {
+    return payload.userId === undefined || payload.cartId === undefined;
+  }
 }

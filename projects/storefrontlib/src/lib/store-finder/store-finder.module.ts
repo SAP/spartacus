@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -17,6 +18,7 @@ import { StoreFinderListItemComponent } from './components/store-finder-list/sto
 import { StoreFinderStoreDescriptionComponent } from './components/store-finder-store-description/store-finder-store-description.component';
 import { ScheduleComponent } from './components/schedule-component/schedule.component';
 import { StoreFinderListCountComponent } from './components/store-finder-list-count/store-finder-list-count.component';
+import { StoreFinderGridComponent } from './components/store-finder-grid/store-finder-grid.component';
 import { PaginationAndSortingModule } from '../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { BootstrapModule } from '../bootstrap.module';
 
@@ -25,6 +27,7 @@ import { BootstrapModule } from '../bootstrap.module';
     CommonModule,
     CmsModule,
     ReactiveFormsModule,
+    RouterModule,
     StoreModule.forFeature('stores', reducers),
     EffectsModule.forFeature(effects),
     PaginationAndSortingModule,
@@ -35,6 +38,7 @@ import { BootstrapModule } from '../bootstrap.module';
     StoreFinderListComponent,
     StoreFinderMapComponent,
     StoreFinderListItemComponent,
+    StoreFinderGridComponent,
     StoreFinderStoreDescriptionComponent,
     ScheduleComponent,
     StoreFinderListCountComponent
@@ -44,9 +48,10 @@ import { BootstrapModule } from '../bootstrap.module';
     StoreFinderListComponent,
     StoreFinderMapComponent,
     StoreFinderListItemComponent,
+    StoreFinderListCountComponent,
+    StoreFinderGridComponent,
     StoreFinderStoreDescriptionComponent,
-    ScheduleComponent,
-    StoreFinderListCountComponent
+    ScheduleComponent
   ],
   providers: [...services]
 })

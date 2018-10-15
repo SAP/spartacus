@@ -7,7 +7,7 @@ import { StoreDescriptionPageLayoutModule } from '../../layout/store-description
 
 const routes: Routes = [
   {
-    path: 'store-finder/:country/:province/:store',
+    path: 'store-finder/country/:country/region/:province/:store',
     canActivate: [CmsPageGuards],
     data: { pageLabel: 'storefinderPage' },
     component: StoreDescriptionPageComponent

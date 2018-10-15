@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 
@@ -30,12 +31,12 @@ describe('StoreDescriptionPageComponent', () => {
         ScheduleComponent,
         StoreFinderMapComponent
       ],
-
       imports: [
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           stores: combineReducers(fromReducers.reducers)
-        })
+        }),
+        RouterTestingModule
       ],
       providers: [
         ...fromServices.services,

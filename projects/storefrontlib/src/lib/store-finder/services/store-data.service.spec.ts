@@ -166,13 +166,13 @@ describe('StoreDataService', () => {
     expect(service.getStoreClosingTime(location, monday).getMinutes()).toBe(0);
   });
 
-  it('should not return opening time when store is clsoed', () => {
+  it('should not return opening time when store is closed', () => {
     const sunday = new Date(2018, 8, 23);
 
     expect(service.getStoreOpeningTime(location, sunday)).toBe(null);
   });
 
-  it('should not return closing time when store is clsoed', () => {
+  it('should not return closing time when store is closed', () => {
     const sunday = new Date(2018, 8, 23);
 
     expect(service.getStoreClosingTime(location, sunday)).toBe(null);

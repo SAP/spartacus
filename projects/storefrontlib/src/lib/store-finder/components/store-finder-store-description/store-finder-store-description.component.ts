@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
+
 import { StoreDataService } from '../../services/index';
 import * as fromStore from '../../store';
 
