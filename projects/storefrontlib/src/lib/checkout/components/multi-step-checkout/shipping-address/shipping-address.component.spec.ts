@@ -7,10 +7,11 @@ import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import * as NgrxStore from '@ngrx/store';
 
 import { ShippingAddressComponent } from './shipping-address.component';
 
-import { of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import * as fromRouting from '../../../../routing/store';
 import { CheckoutService } from '../../../services';
 import { CartService, CartDataService } from '../../../../cart/services';
@@ -31,11 +32,15 @@ const mockAddress: Address = {
   country: { isocode: 'JP' }
 };
 
-describe('ShippinegAddressComponent', () => {
+describe('ShippingAddressComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: ShippingAddressComponent;
   let fixture: ComponentFixture<ShippingAddressComponent>;
   let service: CheckoutService;
+  let mockCartSelectors: {
+    getAddressesLoading: BehaviorSubject<boolean>;
+    getAddresses: BehaviorSubject<any[]>;
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -62,6 +67,19 @@ describe('ShippinegAddressComponent', () => {
     store = TestBed.get(Store);
     service = TestBed.get(CheckoutService);
 
+    mockCartSelectors = {
+      getAddressesLoading: new BehaviorSubject(false),
+      getAddresses: new BehaviorSubject([])
+    };
+    spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
+      switch (selector) {
+        case fromUser.getAddressesLoading:
+          return () => mockCartSelectors.getAddressesLoading;
+        case fromUser.getAddresses:
+          return () => mockCartSelectors.getAddresses;
+      }
+    });
+
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(component.addAddress, 'emit').and.callThrough();
     spyOn(component, 'addNewAddress').and.callThrough();
@@ -73,7 +91,8 @@ describe('ShippinegAddressComponent', () => {
   });
 
   it('should call ngOnInit to get existing address if they do not exist', () => {
-    spyOn(store, 'select').and.returnValue(of([]));
+    mockCartSelectors.getAddressesLoading.next(false);
+    mockCartSelectors.getAddresses.next([]);
     component.ngOnInit();
     component.existingAddresses$.subscribe(() => {
       expect(service.loadUserAddresses).toHaveBeenCalled();
@@ -82,7 +101,8 @@ describe('ShippinegAddressComponent', () => {
 
   it('should call ngOnInit to get existing address if they exist', () => {
     const mockAddresses = [mockAddress];
-    spyOn(store, 'select').and.returnValue(of(mockAddresses));
+    mockCartSelectors.getAddressesLoading.next(false);
+    mockCartSelectors.getAddresses.next(mockAddresses);
     component.ngOnInit();
     component.existingAddresses$.subscribe(data => {
       expect(data).toBe(mockAddresses);

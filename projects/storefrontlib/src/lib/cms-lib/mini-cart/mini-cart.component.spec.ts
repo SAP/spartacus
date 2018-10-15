@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { RouterModule } from '@angular/router';
 
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import * as NgrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromRoot from '../../routing/store';
@@ -25,7 +25,6 @@ const UseCmsModuleConfig: CmsModuleConfig = {
 };
 
 describe('MiniCartComponent', () => {
-  let store: Store<fromCart.CartState>;
   let miniCartComponent: MiniCartComponent;
   let fixture: ComponentFixture<MiniCartComponent>;
 
@@ -68,11 +67,11 @@ describe('MiniCartComponent', () => {
       imports: [
         RouterModule,
         RouterTestingModule,
-        StoreModule.forRoot({
+        NgrxStore.StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          cart: combineReducers(fromCart.getReducers()),
-          user: combineReducers(fromUser.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
+          cart: NgrxStore.combineReducers(fromCart.getReducers()),
+          user: NgrxStore.combineReducers(fromUser.getReducers()),
+          auth: NgrxStore.combineReducers(fromAuth.getReducers())
         })
       ],
       declarations: [MiniCartComponent],
@@ -89,9 +88,14 @@ describe('MiniCartComponent', () => {
     fixture = TestBed.createComponent(MiniCartComponent);
     miniCartComponent = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-
-    spyOn(store, 'select').and.returnValues(of(testCart), of(testEntries));
+    spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
+      switch (selector) {
+        case fromCart.getActiveCart:
+          return () => of(testCart);
+        case fromCart.getEntries:
+          return () => of(testEntries);
+      }
+    });
   });
 
   it('should be created', () => {

@@ -5,7 +5,7 @@ import {
   OnDestroy,
   ChangeDetectorRef
 } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 
@@ -56,15 +56,15 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     if (!this.cartDataService.getDetails) {
       this.cartService.loadCartDetails();
     }
-    this.cart$ = this.store.select(fromCart.getActiveCart);
+    this.cart$ = this.store.pipe(select(fromCart.getActiveCart));
     this.processSteps();
   }
 
   processSteps() {
     // step1: set delivery address
     this.step1Sub = this.store
-      .select(fromCheckoutStore.getDeliveryAddress)
       .pipe(
+        select(fromCheckoutStore.getDeliveryAddress),
         filter(
           deliveryAddress =>
             Object.keys(deliveryAddress).length !== 0 && this.step === 1
@@ -79,8 +79,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     // step2: select delivery mode
     this.step2Sub = this.store
-      .select(fromCheckoutStore.getSelectedCode)
-      .pipe(filter(selected => selected !== '' && this.step === 2))
+      .pipe(
+        select(fromCheckoutStore.getSelectedCode),
+        filter(selected => selected !== '' && this.step === 2)
+      )
       .subscribe(selectedMode => {
         this.nextStep(3);
         this.refreshCart();
@@ -90,8 +92,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     // step3: set payment information
     this.step3Sub = this.store
-      .select(fromCheckoutStore.getPaymentDetails)
       .pipe(
+        select(fromCheckoutStore.getPaymentDetails),
         filter(
           paymentInfo =>
             Object.keys(paymentInfo).length !== 0 && this.step === 3
@@ -119,8 +121,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     // step4: place order
     this.step4Sub = this.store
-      .select(fromCheckoutStore.getOrderDetails)
-      .pipe(filter(order => Object.keys(order).length !== 0 && this.step === 4))
+      .pipe(
+        select(fromCheckoutStore.getOrderDetails),
+        filter(order => Object.keys(order).length !== 0 && this.step === 4)
+      )
       .subscribe(order => {
         this.checkoutService.orderDetails = order;
         this.store.dispatch(
