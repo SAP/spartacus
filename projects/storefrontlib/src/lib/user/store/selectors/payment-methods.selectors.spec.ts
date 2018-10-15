@@ -41,4 +41,19 @@ describe('User Payment Methods Selectors', () => {
       expect(result).toEqual(mockUserPaymentMethods);
     });
   });
+
+  describe('getPaymentMethodsLoading', () => {
+    it('should return isLoading flag', () => {
+      let result;
+      store
+        .pipe(select(fromSelectors.getPaymentMethodsLoading))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new fromActions.LoadUserPaymentMethods('userId'));
+
+      expect(result).toEqual(true);
+    });
+  });
 });

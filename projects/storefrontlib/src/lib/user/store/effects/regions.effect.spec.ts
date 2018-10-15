@@ -8,7 +8,7 @@ import { OccMiscsService } from '../../../occ/miscs/miscs.service';
 import { RegionsEffects } from './regions.effect';
 
 class MockMiscsService {
-  loadRegions(countryIsoCode: string): Observable<any> {
+  loadRegions(_countryIsoCode: string): Observable<any> {
     return;
   }
 }

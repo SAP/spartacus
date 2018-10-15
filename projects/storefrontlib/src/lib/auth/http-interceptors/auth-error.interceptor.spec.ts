@@ -190,8 +190,8 @@ describe('AuthErrorInterceptor', () => {
       .post(url, params, { headers })
       .pipe(catchError((error: any) => throwError(error)))
       .subscribe(
-        result => {},
-        error => {
+        _result => {},
+        _error => {
           expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
         }
       );

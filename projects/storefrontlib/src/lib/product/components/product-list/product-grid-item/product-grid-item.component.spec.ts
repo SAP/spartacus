@@ -19,7 +19,7 @@ describe('ProductGridItemComponent in product-list', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        NgbRatingModule.forRoot(),
+        NgbRatingModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),

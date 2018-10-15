@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { NavigationService } from './navigation.service';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
 import { takeWhile } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -48,8 +48,10 @@ export class NavigationComponent extends AbstractCmsComponent
       : this.component;
 
     this.itemSubscription = this.store
-      .select(fromStore.itemsSelectorFactory(navigation.uid))
-      .pipe(takeWhile(() => !this.done))
+      .pipe(
+        select(fromStore.itemsSelectorFactory(navigation.uid)),
+        takeWhile(() => !this.done)
+      )
       .subscribe(items => {
         if (items === undefined) {
           this.navigationService.getNavigationEntryItems(navigation, true, []);

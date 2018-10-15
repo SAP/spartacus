@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, Store, combineReducers, select } from '@ngrx/store';
 
 import * as fromRoot from '../../../../routing/store';
 import * as fromReducers from '../reducers';
@@ -35,7 +35,7 @@ describe('Currencies Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getCurrenciesEntities)
+        .pipe(select(fromSelectors.getCurrenciesEntities))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -51,7 +51,7 @@ describe('Currencies Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getActiveCurrency)
+        .pipe(select(fromSelectors.getActiveCurrency))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(null);
@@ -67,7 +67,7 @@ describe('Currencies Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getAllCurrencies)
+        .pipe(select(fromSelectors.getAllCurrencies))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
@@ -83,7 +83,7 @@ describe('Currencies Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getCurrenciesLoadAttempted)
+        .pipe(select(fromSelectors.getCurrenciesLoadAttempted))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
@@ -101,7 +101,7 @@ describe('Currencies Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getCurrenciesLoading)
+        .pipe(select(fromSelectors.getCurrenciesLoading))
         .subscribe(value => (result = value));
 
       store.dispatch(new fromActions.LoadCurrenciesFail({}));

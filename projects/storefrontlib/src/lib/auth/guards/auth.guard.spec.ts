@@ -6,7 +6,6 @@ import {
   Router
 } from '@angular/router';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
-import { of } from 'rxjs';
 
 import * as fromStore from './../../auth/store';
 import * as fromRoot from './../../routing/store';

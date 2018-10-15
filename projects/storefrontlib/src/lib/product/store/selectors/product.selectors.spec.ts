@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, Store, combineReducers, select } from '@ngrx/store';
 
 import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../reducers';
@@ -37,7 +37,7 @@ describe('Cms Component Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getProductState)
+        .pipe(select(fromSelectors.getProductState))
         .subscribe(value => (result = value));
       expect(result.entities).toEqual({});
 
@@ -52,7 +52,7 @@ describe('Cms Component Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getSelectedProductsFactory(['testCode']))
+        .pipe(select(fromSelectors.getSelectedProductsFactory(['testCode'])))
         .subscribe(value => (result = value));
 
       store.dispatch(new fromActions.LoadProductSuccess(product));
@@ -66,7 +66,7 @@ describe('Cms Component Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getAllProductCodes)
+        .pipe(select(fromSelectors.getAllProductCodes))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
@@ -82,7 +82,7 @@ describe('Cms Component Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getSelectedProductFactory(code))
+        .pipe(select(fromSelectors.getSelectedProductFactory(code)))
         .subscribe(value => (result = value));
 
       store.dispatch(new fromActions.LoadProductSuccess(product));
