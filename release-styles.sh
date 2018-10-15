@@ -45,15 +45,15 @@ if [[ $BUMP =~ pre* ]]; then
         echo "WARNING: No prerelease id was specified"
     else
         BUMP_COMMAND="$BUMP_COMMAND --preid=$preid"
-        echo "Bump command: $BUMP_COMMAND"
     fi
 fi
 
 pushd $PROJECT_DIR
 
 echo "Bumping $PROJECT version to $BUMP"
+echo "Bump command: $BUMP_COMMAND"
 
-PROJECT_NEW_VERSION=`npm version $BUMP_COMMAND`
+PROJECT_NEW_VERSION=`$BUMP_COMMAND`
 
 echo "New version: $PROJECT_NEW_VERSION"
 
