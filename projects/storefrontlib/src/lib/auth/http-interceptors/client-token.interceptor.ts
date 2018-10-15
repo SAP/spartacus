@@ -10,7 +10,6 @@ import { switchMap, tap, filter, map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import * as fromAuthStore from './../store';
-import { getClientTokenState } from './../store/selectors/client-token.selectors';
 import { AuthenticationToken } from '../models/token-types.model';
 import {
   USE_CLIENT_TOKEN,
@@ -22,7 +21,7 @@ import { AuthModuleConfig } from '../auth-module.config';
 @Injectable()
 export class ClientTokenInterceptor implements HttpInterceptor {
   baseReqString =
-    this.config.server.baseUrl +
+    (this.config.server.baseUrl || '') +
     this.config.server.occPrefix +
     this.config.site.baseSite;
 

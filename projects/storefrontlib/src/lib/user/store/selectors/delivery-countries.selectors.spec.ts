@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { combineReducers, Store, StoreModule, select } from '@ngrx/store';
 
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
@@ -38,7 +38,7 @@ describe('Delivery Countries Selectors', () => {
 
       let result;
       store
-        .select(fromSelectors.getAllDeliveryCountries)
+        .pipe(select(fromSelectors.getAllDeliveryCountries))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
@@ -68,7 +68,7 @@ describe('Delivery Countries Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.countrySelectorFactory(isocode))
+        .pipe(select(fromSelectors.countrySelectorFactory(isocode)))
         .subscribe(value => (result = value));
 
       store.dispatch(

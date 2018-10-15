@@ -8,7 +8,7 @@ import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action
 import * as fromUserPaymentMethodsEffect from './payment-methods.effect';
 
 class MockOccUserService {
-  loadUserPaymentMethods(userId: string): Observable<any> {
+  loadUserPaymentMethods(_userId: string): Observable<any> {
     return;
   }
 }

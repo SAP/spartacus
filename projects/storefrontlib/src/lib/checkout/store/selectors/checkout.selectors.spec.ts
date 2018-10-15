@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { combineReducers, Store, StoreModule, select } from '@ngrx/store';
 
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
@@ -35,7 +35,7 @@ describe('Checkout Selectors', () => {
 
       let result;
       store
-        .select(fromSelectors.getDeliveryAddress)
+        .pipe(select(fromSelectors.getDeliveryAddress))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -67,7 +67,7 @@ describe('Checkout Selectors', () => {
 
       let result;
       store
-        .select(fromSelectors.getDeliveryMode)
+        .pipe(select(fromSelectors.getDeliveryMode))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(emptyEntities);
@@ -86,7 +86,7 @@ describe('Checkout Selectors', () => {
 
       let result;
       store
-        .select(fromSelectors.getSupportedDeliveryModes)
+        .pipe(select(fromSelectors.getSupportedDeliveryModes))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
@@ -105,7 +105,7 @@ describe('Checkout Selectors', () => {
 
       let result;
       store
-        .select(fromSelectors.getSelectedDeliveryMode)
+        .pipe(select(fromSelectors.getSelectedDeliveryMode))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(undefined);
@@ -125,7 +125,7 @@ describe('Checkout Selectors', () => {
 
       let result;
       store
-        .select(fromSelectors.getSelectedCode)
+        .pipe(select(fromSelectors.getSelectedCode))
         .subscribe(value => (result = value));
 
       expect(result).toEqual('');
@@ -141,7 +141,7 @@ describe('Checkout Selectors', () => {
     it('should return payment details', () => {
       let result;
       store
-        .select(fromSelectors.getPaymentDetails)
+        .pipe(select(fromSelectors.getPaymentDetails))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -158,7 +158,7 @@ describe('Checkout Selectors', () => {
     it('should return order details', () => {
       let result;
       store
-        .select(fromSelectors.getOrderDetails)
+        .pipe(select(fromSelectors.getOrderDetails))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});

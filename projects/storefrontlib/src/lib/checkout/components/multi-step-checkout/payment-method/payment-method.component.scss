@@ -30,6 +30,8 @@ $y-existing-payment-methods-text-md-padding-left: 3.5rem !default;
 $y-existing-payment-methods-header-image-md-margin-right: 1rem !default;
 $y-existing-payment-methods-header-image-md-margin-left: 0 !default;
 $y-existing-payment-methods-btns-margin-bottom: 1rem !default;
+// Loading
+$y-payment-methods-loading-padding: 30px !default;
 .y-existing-payment-methods {
   &.container {
     padding: 0;
@@ -70,6 +72,10 @@ $y-existing-payment-methods-btns-margin-bottom: 1rem !default;
     text-transform: uppercase;
     margin: $y-existing-payment-methods-title-margin;
     padding: $y-existing-payment-methods-title-padding;
+  }
+  &__spinner {
+    padding-top: $y-payment-methods-loading-padding;
+    padding-bottom: $y-payment-methods-loading-padding;
   }
   &__body {
     display: flex;

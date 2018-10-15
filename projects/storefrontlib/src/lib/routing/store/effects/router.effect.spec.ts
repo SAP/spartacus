@@ -37,7 +37,7 @@ describe('Router Effects', () => {
       actions$ = hot('-a', { a: action });
 
       spyOn(router, 'navigate');
-      effects.navigate$.subscribe(value => {
+      effects.navigate$.subscribe(() => {
         expect(router.navigate).toHaveBeenCalledWith(['/test'], {
           queryParams: undefined
         });
@@ -52,7 +52,7 @@ describe('Router Effects', () => {
       actions$ = hot('-a', { a: action });
 
       spyOn(location, 'back');
-      effects.navigate$.subscribe(value => {
+      effects.navigate$.subscribe(() => {
         expect(location.back).toHaveBeenCalled();
       });
     });
@@ -65,7 +65,7 @@ describe('Router Effects', () => {
       actions$ = hot('-a', { a: action });
 
       spyOn(location, 'forward');
-      effects.navigate$.subscribe(value => {
+      effects.navigate$.subscribe(() => {
         expect(location.forward).toHaveBeenCalled();
       });
     });

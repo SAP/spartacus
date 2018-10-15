@@ -6,7 +6,7 @@ import * as fromStore from './../../cart/store';
 
 import { CartService } from '../../cart/services/cart.service';
 import { skipWhile, map, switchMap } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 @Injectable()
 export class CartNotEmptyGuard implements CanActivate {
@@ -17,18 +17,17 @@ export class CartNotEmptyGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.store
-      .select(fromStore.getLoaded)
-      .pipe(skipWhile(loaded => !loaded))
-      .pipe(switchMap(() => this.store.select(fromStore.getActiveCart)))
-      .pipe(
-        map(cart => {
-          if (this.cartService.isCartEmpty(cart)) {
-            this.router.navigate(['']);
-            return false;
-          }
-          return true;
-        })
-      );
+    return this.store.pipe(
+      select(fromStore.getLoaded),
+      skipWhile(loaded => !loaded),
+      switchMap(() => this.store.pipe(select(fromStore.getActiveCart))),
+      map(cart => {
+        if (this.cartService.isCartEmpty(cart)) {
+          this.router.navigate(['']);
+          return false;
+        }
+        return true;
+      })
+    );
   }
 }

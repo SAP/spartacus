@@ -23,6 +23,29 @@ describe('User Payment Methods Reducer', () => {
       const state = fromUserPaymentMethodsReducer.reducer(initialState, action);
 
       expect(state.list).toEqual(mockUserPaymentMethods);
+      expect(state.isLoading).toEqual(false);
+    });
+  });
+
+  describe('LOAD_USER_PAYMENT_METHODS_FAIL action', () => {
+    it('should set isLoading flag to false', () => {
+      const { initialState } = fromUserPaymentMethodsReducer;
+      const action = new fromUserPaymentMethodsAction.LoadUserPaymentMethodsSuccess(
+        {}
+      );
+      const state = fromUserPaymentMethodsReducer.reducer(initialState, action);
+      expect(state.isLoading).toEqual(false);
+    });
+  });
+
+  describe('LOAD_USER_PAYMENT_METHODS action', () => {
+    it('should set isLoading flag to true', () => {
+      const { initialState } = fromUserPaymentMethodsReducer;
+      const action = new fromUserPaymentMethodsAction.LoadUserPaymentMethods(
+        'userId'
+      );
+      const state = fromUserPaymentMethodsReducer.reducer(initialState, action);
+      expect(state.isLoading).toEqual(true);
     });
   });
 });

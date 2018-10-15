@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromCartStore from '../../../cart/store';
 import { Observable } from 'rxjs';
 import { CartService } from '../../../cart/services/cart.service';
@@ -19,6 +19,6 @@ export class CartPageLayoutComponent implements OnInit {
 
   ngOnInit() {
     this.cartService.loadCartDetails();
-    this.cart$ = this.store.select(fromCartStore.getActiveCart);
+    this.cart$ = this.store.pipe(select(fromCartStore.getActiveCart));
   }
 }

@@ -5,13 +5,13 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, of } from 'rxjs';
 import { take, tap, switchMap } from 'rxjs/operators';
-import * as fromAuthStore from '../../../auth/store';
-import * as fromRouting from '../../../routing/store';
 import * as fromUserStore from '../../store';
 import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
+import { AuthService } from '../../../auth/facade/auth.service';
+import { RoutingService } from '../../../routing/facade/routing.service';
 
 @Component({
   selector: 'y-register',
@@ -39,24 +39,26 @@ export class RegisterComponent implements OnInit, OnDestroy {
   );
 
   constructor(
+    private auth: AuthService,
+    private routing: RoutingService,
     private store: Store<fromUserStore.UserState>,
     private fb: FormBuilder
   ) {}
 
   ngOnInit() {
-    this.titles$ = this.store.select(fromUserStore.getAllTitles).pipe(
+    this.titles$ = this.store.pipe(
+      select(fromUserStore.getAllTitles),
       tap(titles => {
         if (Object.keys(titles).length === 0) {
           this.store.dispatch(new fromUserStore.LoadTitles());
         }
       })
     );
-    this.sub = this.store
-      .select(fromAuthStore.getUserToken)
+    this.sub = this.auth.userToken$
       .pipe(
         switchMap(data => {
           if (data && data.access_token) {
-            return this.store.select(fromRouting.getRedirectUrl).pipe(take(1));
+            return this.routing.redirectUrl$.pipe(take(1));
           }
           return of();
         })
@@ -64,11 +66,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .subscribe(url => {
         if (url) {
           // If forced to login due to AuthGuard, then redirect to intended destination
-          this.store.dispatch(new fromRouting.Go({ path: [url] }));
-          this.store.dispatch(new fromRouting.ClearRedirectUrl());
+          this.routing.go([url]);
+          this.routing.clearRedirectUrl();
         } else {
           // User manual login
-          this.store.dispatch(new fromRouting.Back());
+          this.routing.back();
         }
       });
   }

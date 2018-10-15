@@ -27,7 +27,7 @@ export class StarRatingComponent implements ControlValueAccessor {
   @Input()
   steps = 1;
 
-  onChange = (rating: number) => {};
+  onChange = (_rating: number) => {};
   onTouched = () => {};
 
   get value() {
