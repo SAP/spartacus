@@ -39,13 +39,14 @@ DEPLOY_DIR="dist/storefrontlib"
 BUMP_COMMAND="npm version $BUMP"
 PUBLISH_CMD="npm publish ."
 
-if [[ "pre*" == $version ]]; then
+if [[ $BUMP =~ pre* ]]; then
   PUBLISH_CMD="$PUBLISH_CMD --tag next"
 
   if [[ -z $preid ]]; then
     echo "WARNING: No preversion id specified. Adding $version number only"
   else
-    BUMP_COMMAND="$NPM_COMMAND --preid=$preid"
+    BUMP_COMMAND="$BUMP_COMMAND --preid=$preid"
+    echo "Bump command: $BUMP_COMMAND"
   fi
 fi
 
