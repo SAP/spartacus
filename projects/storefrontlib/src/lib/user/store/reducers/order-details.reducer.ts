@@ -21,8 +21,12 @@ export function reducer(
         order
       };
     }
+    case fromOrderDetailsAction.CLEAR_ORDER_DETAILS: {
+      return initialState;
+    }
   }
   return state;
 }
 
 export const getOrderDetails = (state: OrderDetailsState) => state.order;
+export const clearOrderDetails = (state: OrderDetailsState) => state.order;

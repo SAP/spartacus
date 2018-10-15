@@ -16,3 +16,8 @@ export const getOrderDetails: MemoizedSelector<any, any> = createSelector(
   getOrderState,
   fromOrderDetailsReducer.getOrderDetails
 );
+
+export const clearOrderDetails: MemoizedSelector<any, any> = createSelector(
+  getOrderState,
+  fromOrderDetailsReducer.clearOrderDetails
+);

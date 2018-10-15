@@ -8,11 +8,14 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { BootstrapModule } from '../../../bootstrap.module';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { OrderHistoryComponent } from './order-history.component';
+import { CartService, CartDataService } from '../../../cart/services';
+import { CartSharedModule } from '../../../cart/components/cart-shared/cart-shared.module';
 import * as fromRoot from '../../../routing/store';
 import * as fromUserStore from '../../../user/store';
 import * as fromAuthStore from '../../../auth/store';
 import createSpy = jasmine.createSpy;
 import { AuthService } from '../../../auth/facade/auth.service';
+import { CardModule } from '../../../ui/components/card/card.module';
 
 const routes = [
   { path: 'my-account/orders/:id', component: OrderDetailsComponent }
@@ -54,6 +57,8 @@ describe('OrderHistoryComponent', () => {
         RouterTestingModule.withRoutes(routes),
         PaginationAndSortingModule,
         FormsModule,
+        CartSharedModule,
+        CardModule,
         NgrxStore.StoreModule.forRoot({
           ...fromRoot.getReducers(),
           orders: NgrxStore.combineReducers(fromUserStore.getReducers())
@@ -62,7 +67,10 @@ describe('OrderHistoryComponent', () => {
         BootstrapModule
       ],
       declarations: [OrderHistoryComponent, OrderDetailsComponent],
-      providers: [{ provide: AuthService, useValue: mockAuth }]
+      providers: [
+        { provide: AuthService, useValue: mockAuth },
+        [CartService, CartDataService]
+      ]
     }).compileComponents();
   }));
 

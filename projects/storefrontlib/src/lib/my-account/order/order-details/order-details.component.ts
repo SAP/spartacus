@@ -111,6 +111,8 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.store.dispatch(new fromUserStore.ClearOrderDetails());
+
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
