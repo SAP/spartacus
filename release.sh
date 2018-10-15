@@ -43,7 +43,7 @@ if [[ $BUMP =~ pre* ]]; then
   PUBLISH_CMD="$PUBLISH_CMD --tag next"
 
   if [[ -z $preid ]]; then
-    echo "WARNING: No preversion id specified. Adding $version number only"
+    echo "WARNING: No prerelease id was specified"
   else
     BUMP_COMMAND="$BUMP_COMMAND --preid=$preid"
     echo "Bump command: $BUMP_COMMAND"
