@@ -191,9 +191,7 @@ describe('PaymentMethodComponent', () => {
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>
-      fixture.debugElement.query(
-        By.css('.y-existing-payment-methods__continue-btn')
-      );
+      fixture.debugElement.query(By.css('.y-payment-method__continue-btn'));
 
     it('should be disabled when no payment method is selected', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(false);
@@ -240,12 +238,10 @@ describe('PaymentMethodComponent', () => {
   describe('UI new payment method form', () => {
     const getAddNewPaymentBtn = () =>
       fixture.debugElement.query(
-        By.css('.y-existing-payment-methods__add-new-payment-btn')
+        By.css('.y-payment-method__add-new-payment-btn')
       );
     const getNewPaymentForm = () =>
-      fixture.debugElement.query(
-        By.css('.y-existing-payment-methods__new-payment-form')
-      );
+      fixture.debugElement.query(By.css('.y-payment-method__new-payment-form'));
 
     it('should be visible after user clicks "add new payment method" button', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(false);

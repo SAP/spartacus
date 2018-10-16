@@ -1,19 +1,19 @@
 <ng-container *ngIf="existingPaymentMethods$ | async as existingPaymentMethods">
-    <div class="y-existing-payment-methods container">
-        <h3 class="y-existing-payment-methods__title d-none d-lg-block d-xl-block">Payment</h3>
+    <div class="y-payment-method container">
+        <h3 class="y-payment-method__title d-none d-lg-block d-xl-block">Payment</h3>
         <ng-container *ngIf="!(isLoading$ | async); else loading">
 
             <ng-container *ngIf="existingPaymentMethods?.length && !newPaymentFormManuallyOpened; else newPaymentForm">
-                <p class="y-existing-payment-methods__text">Choose a payment method</p>
-                <div class="y-existing-payment-methods__btn row justify-content-end">
-                    <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action y-existing-payment-methods__add-new-payment-btn"
+                <p class="y-payment-method__text">Choose a payment method</p>
+                <div class="y-payment-method__btn row justify-content-end">
+                    <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action y-payment-method__add-new-payment-btn"
                             (click)="showNewPaymentForm()">
                             Add New Payment</button></div>
                 </div>
 
-                <div class="y-existing-payment-methods__body row">
+                <div class="y-payment-method__body row">
                     <div class="col-md-12 col-lg-6" *ngFor="let method of existingPaymentMethods; let i=index;">
-                        <div class="y-existing-payment-methods__card">
+                        <div class="y-payment-method__card">
                             <y-card [border]="true" [content]="cards[i]" (sendCard)="paymentMethodSelected(method, i)"></y-card>
                         </div>
                     </div>
@@ -21,25 +21,25 @@
 
                 <div class="row">
                     <div class="col-md-12 col-lg-6">
-                        <button class="btn btn-block btn-action y-existing-payment-methods__back-btn" (click)="back()">Back</button>
+                        <button class="btn btn-block btn-action y-payment-method__back-btn" (click)="back()">Back</button>
                     </div>
                     <div class="col-md-12 col-lg-6">
-                        <button class="btn btn-block btn-primary y-existing-payment-methods__continue-btn" [disabled]="!selectedPayment"
+                        <button class="btn btn-block btn-primary y-payment-method__continue-btn" [disabled]="!selectedPayment"
                             (click)="next()">Continue</button>
                     </div>
                 </div>
             </ng-container>
 
             <ng-template #newPaymentForm>
-                <y-payment-form class="y-existing-payment-methods__new-payment-form" (addPaymentInfo)="addNewPaymentMethod($event)"
+                <y-payment-form class="y-payment-method__new-payment-form" (addPaymentInfo)="addNewPaymentMethod($event)"
                     (backToPayment)="hideNewPaymentForm()"></y-payment-form>
             </ng-template>
 
         </ng-container>
 
         <ng-template #loading>
-            <div class="y-existing-payment-methods container">
-                <div class="y-existing-payment-methods__spinner">
+            <div class="y-payment-method container">
+                <div class="y-payment-method__spinner">
                     <y-spinner></y-spinner>
                 </div>
             </div>

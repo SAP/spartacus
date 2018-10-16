@@ -12,7 +12,7 @@ export class PaymentMethod {
   );
 
   readonly header: ElementFinder = this.container.element(
-    by.css('h3.y-existing-payment-methods__title')
+    by.css('h3.y-payment-method__title')
   );
 
   readonly paymentForm: PaymentForm = new PaymentForm(this.container);
