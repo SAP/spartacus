@@ -297,7 +297,7 @@ describe('ShippingAddressComponent', () => {
       expect(getNewAddressForm()).toBeFalsy();
     });
 
-    it('should be hidden when when existing adddress are loading', () => {
+    it('should be hidden when when existing addresses are loading', () => {
       mockUserSelectors.getAddressesLoading.next(true);
       mockUserSelectors.getAddresses.next([]);
       fixture.detectChanges();
@@ -309,14 +309,14 @@ describe('ShippingAddressComponent', () => {
   describe('UI spinner', () => {
     const getSpinner = () => fixture.debugElement.query(By.css('y-spinner'));
 
-    it('should be visible when existing adddress are loading', () => {
+    it('should be visible when existing addresses are loading', () => {
       mockUserSelectors.getAddressesLoading.next(true);
       mockUserSelectors.getAddresses.next([]);
       fixture.detectChanges();
       expect(getSpinner()).toBeTruthy();
     });
 
-    it('should be hidden when loading existing adddress has completed', () => {
+    it('should be hidden when loading existing addresses has completed', () => {
       mockUserSelectors.getAddressesLoading.next(false);
       mockUserSelectors.getAddresses.next(mockAddresses);
       fixture.detectChanges();
