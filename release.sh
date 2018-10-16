@@ -66,8 +66,7 @@ if [ ! $DEPLOY_DIR_NEW_VERSION == $PROJECT_DIR_NEW_VERSION ]; then
 fi
 
 echo "publishing version $BUMP"
-# published=(cd $DEPLOY_DIR && $PUBLISH_CMD)
-published=''
+published=(cd $DEPLOY_DIR && $PUBLISH_CMD)
 
 if [[ -z "$published" ]]; then
   NEW_VERSION=${PROJECT_DIR_NEW_VERSION:1}

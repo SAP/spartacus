@@ -59,8 +59,7 @@ echo "New version: $PROJECT_NEW_VERSION"
 
 echo "publishing version $PROJECT_NEW_VERSION"
 echo "Publishing command: $PUBLISH_CMD"
-# published=${PUBLISH_CMD}
-published=''
+published=${PUBLISH_CMD}
 
 popd
 
@@ -75,7 +74,7 @@ if [[ -z "$published" ]]; then
     echo "Tagging new version $TAG"
     git tag $TAG
     echo "Pushing release branch from $PWD"
-    # git push -u origin $RELEASE_BRANCH --tags
+    git push -u origin $RELEASE_BRANCH --tags
 else
     echo 'Error publishing package to npm. Reverting package bump and aborting. Please rebuild your library'
     (cd $PROJECT_DIR && git checkout package.json)
