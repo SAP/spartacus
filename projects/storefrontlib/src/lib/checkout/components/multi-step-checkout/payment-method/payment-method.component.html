@@ -32,7 +32,7 @@
 
             <ng-template #newPaymentForm>
                 <y-payment-form class="y-existing-payment-methods__new-payment-form" (addPaymentInfo)="addNewPaymentMethod($event)"
-                    (backToPayment)="closeNewAddressForm()"></y-payment-form>
+                    (backToPayment)="hideNewPaymentForm()"></y-payment-form>
             </ng-template>
 
         </ng-container>
