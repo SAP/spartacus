@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
 
@@ -9,13 +10,13 @@ import * as fromStore from '../../store';
   styleUrls: ['./store-finder-list-count.component.scss']
 })
 export class StoreFinderListCountComponent implements OnInit {
-  locations: any;
+  locations$: Observable<any>;
 
   constructor(private store: Store<fromStore.StoresState>) {}
 
-  ngOnInit() {
-    this.store
-      .select(fromStore.getViewAllStoresEntities)
-      .subscribe(locations => (this.locations = locations));
+  ngOnInit(): void {
+    this.locations$ = this.store.pipe(
+      select(fromStore.getViewAllStoresEntities)
+    );
   }
 }

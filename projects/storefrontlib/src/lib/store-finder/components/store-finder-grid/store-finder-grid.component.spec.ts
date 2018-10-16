@@ -14,8 +14,8 @@ const countryIsoCode = 'CA';
 const regionIsoCode = 'CA-QC';
 
 class StoreFinderServiceMock {
-  viewAllStoresForCountry(countryIso: string) {}
-  viewAllStoresForRegion(countryIso: string, regionIso: string) {}
+  viewAllStoresForCountry(_countryIso: string) {}
+  viewAllStoresForRegion(_countryIso: string, _regionIso: string) {}
 }
 
 const location = {

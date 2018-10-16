@@ -4,6 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+
 import { combineReducers, StoreModule } from '@ngrx/store';
 import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -17,6 +19,8 @@ import { services } from '../../../store-finder/services';
 import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
 import { OccModuleConfig } from '../../../occ/occ-module-config';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
+// tslint:disable-next-line:max-line-length
+import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
 // tslint:disable-next-line:max-line-length
 import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
 
@@ -42,6 +46,7 @@ describe('StoreFinderPageComponent', () => {
         }),
         RouterTestingModule
       ],
+      schemas: [NO_ERRORS_SCHEMA],
       declarations: [
         StoreFinderPageComponent,
         StoreFinderPageLayoutComponent,
@@ -49,6 +54,7 @@ describe('StoreFinderPageComponent', () => {
         StoreFinderListComponent,
         StoreFinderListItemComponent,
         StoreFinderMapComponent,
+        StoreFinderStoreDescriptionComponent,
         StoreFinderListCountComponent
       ],
       providers: [...services, OccE2eConfigurationService, OccModuleConfig]

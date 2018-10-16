@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
 
@@ -15,8 +15,9 @@ import * as fromStore from '../../store';
 })
 export class StoreFinderStoreDescriptionComponent
   extends AbstractStoreItemComponent
-  implements OnInit {
+  implements OnInit, OnDestroy {
   location: any;
+  ngUnsubscribe: Subscription;
 
   constructor(
     private store: Store<fromStore.StoresState>,
@@ -27,14 +28,19 @@ export class StoreFinderStoreDescriptionComponent
   }
 
   ngOnInit(): void {
-    this.store.subscribe((storesState: fromStore.StoresState) => {
-      const stores = fromStore.getFindStoresEntities(storesState)
-        .pointOfServices;
-      if (stores) {
-        this.location = stores.filter(
-          (store: any) => store.name === this.route.snapshot.params.store
-        )[0];
-      }
-    });
+    this.ngUnsubscribe = this.store
+      .pipe(select(fromStore.getFindStoresEntities))
+      .subscribe(locations => {
+        const stores = locations.stores;
+        if (stores) {
+          this.location = stores.filter(
+            (store: any) => store.name === this.route.snapshot.params.store
+          )[0];
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.unsubscribe();
   }
 }

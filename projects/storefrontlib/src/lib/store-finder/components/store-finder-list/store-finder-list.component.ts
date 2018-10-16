@@ -1,6 +1,14 @@
-import { Component, OnInit, Input, ViewChild, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  ViewChild,
+  Inject
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
 import * as fromStore from '../../store';
 import { SearchConfig } from '../../models/search-config';
@@ -12,7 +20,7 @@ import { StoreDataService } from '../../services/store-data.service';
   templateUrl: './store-finder-list.component.html',
   styleUrls: ['./store-finder-list.component.scss']
 })
-export class StoreFinderListComponent implements OnInit {
+export class StoreFinderListComponent implements OnInit, OnDestroy {
   @Input()
   query;
 
@@ -21,6 +29,7 @@ export class StoreFinderListComponent implements OnInit {
     currentPage: 0
   };
   selectedStore: number;
+  ngUnsubscribe: Subscription;
 
   @ViewChild('storeMap')
   storeMap: StoreFinderMapComponent;
@@ -31,10 +40,16 @@ export class StoreFinderListComponent implements OnInit {
     @Inject(DOCUMENT) private document: any
   ) {}
 
-  ngOnInit() {
-    this.store.select(fromStore.getFindStoresEntities).subscribe(locations => {
-      this.locations = locations;
-    });
+  ngOnInit(): void {
+    this.ngUnsubscribe = this.store
+      .pipe(select(fromStore.getFindStoresEntities))
+      .subscribe(locations => {
+        this.locations = locations;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.unsubscribe();
   }
 
   viewPage(pageNumber: number) {
