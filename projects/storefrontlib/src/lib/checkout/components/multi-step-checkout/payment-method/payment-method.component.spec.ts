@@ -61,7 +61,7 @@ class MockCardComponent {
   content;
 }
 
-fdescribe('PaymentMethodComponent', () => {
+describe('PaymentMethodComponent', () => {
   let component: PaymentMethodComponent;
   let fixture: ComponentFixture<PaymentMethodComponent>;
   let service: CheckoutService;
