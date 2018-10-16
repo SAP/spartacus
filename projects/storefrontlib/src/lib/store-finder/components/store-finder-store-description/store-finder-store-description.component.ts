@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
@@ -18,7 +18,7 @@ export class StoreFinderStoreDescriptionComponent
   extends AbstractStoreItemComponent
   implements OnInit, OnDestroy {
   location: any;
-  private ngUnsubscribe = new Subject();
+  ngUnsubscribe: Subscription;
 
   constructor(
     private store: Store<fromStore.StoresState>,
@@ -29,11 +29,8 @@ export class StoreFinderStoreDescriptionComponent
   }
 
   ngOnInit(): void {
-    this.store
-      .pipe(
-        select(fromStore.getFindStoresEntities),
-        takeUntil(this.ngUnsubscribe)
-      )
+    this.ngUnsubscribe = this.store
+      .pipe(select(fromStore.getFindStoresEntities))
       .subscribe(locations => {
         const stores = locations.stores;
         if (stores) {
@@ -45,7 +42,6 @@ export class StoreFinderStoreDescriptionComponent
   }
 
   ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.ngUnsubscribe.unsubscribe();
   }
 }

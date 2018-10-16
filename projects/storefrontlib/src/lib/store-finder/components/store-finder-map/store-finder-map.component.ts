@@ -23,6 +23,7 @@ export class StoreFinderMapComponent implements OnChanges {
   locations: any[];
   @Output()
   selectedStoreItem: EventEmitter<number> = new EventEmitter();
+
   constructor(private googleMapRendererService: GoogleMapRendererService) {}
 
   ngOnChanges(changes: SimpleChanges): void {

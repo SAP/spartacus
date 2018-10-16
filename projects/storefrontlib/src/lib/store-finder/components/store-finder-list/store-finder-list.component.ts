@@ -8,8 +8,7 @@ import {
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Store, select } from '@ngrx/store';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import * as fromStore from '../../store';
 import { SearchConfig } from '../../models/search-config';
@@ -30,7 +29,7 @@ export class StoreFinderListComponent implements OnInit, OnDestroy {
     currentPage: 0
   };
   selectedStore: number;
-  private ngUnsubscribe = new Subject();
+  ngUnsubscribe: Subscription;
 
   @ViewChild('storeMap')
   storeMap: StoreFinderMapComponent;
@@ -42,19 +41,15 @@ export class StoreFinderListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store
-      .pipe(
-        select(fromStore.getFindStoresEntities),
-        takeUntil(this.ngUnsubscribe)
-      )
+    this.ngUnsubscribe = this.store
+      .pipe(select(fromStore.getFindStoresEntities))
       .subscribe(locations => {
         this.locations = locations;
       });
   }
 
   ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.ngUnsubscribe.unsubscribe();
   }
 
   viewPage(pageNumber: number) {
