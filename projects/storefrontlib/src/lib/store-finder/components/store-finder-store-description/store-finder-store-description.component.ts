@@ -34,8 +34,8 @@ export class StoreFinderStoreDescriptionComponent
         select(fromStore.getFindStoresEntities),
         takeUntil(this.ngUnsubscribe)
       )
-      .subscribe((storesState: fromStore.StoresState) => {
-        const stores = fromStore.getFindStoresEntities(storesState).stores;
+      .subscribe(locations => {
+        const stores = locations.stores;
         if (stores) {
           this.location = stores.filter(
             (store: any) => store.name === this.route.snapshot.params.store
