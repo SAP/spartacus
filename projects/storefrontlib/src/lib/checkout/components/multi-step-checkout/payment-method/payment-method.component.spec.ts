@@ -174,9 +174,14 @@ describe('PaymentMethodComponent', () => {
     });
   });
 
-  it('should call showNewAddressForm()', () => {
-    component.showNewAddressForm();
+  it('should call showNewPaymentForm()', () => {
+    component.showNewPaymentForm();
     expect(component.newPaymentFormManuallyOpened).toEqual(true);
+  });
+
+  it('should call hideNewPaymentForm()', () => {
+    component.hideNewPaymentForm();
+    expect(component.newPaymentFormManuallyOpened).toEqual(false);
   });
 
   it('should call back()', () => {
@@ -233,11 +238,11 @@ describe('PaymentMethodComponent', () => {
   });
 
   describe('UI new payment method form', () => {
-    const getAddNewAddressBtn = () =>
+    const getAddNewPaymentBtn = () =>
       fixture.debugElement.query(
         By.css('.y-existing-payment-methods__add-new-payment-btn')
       );
-    const getNewAddressForm = () =>
+    const getNewPaymentForm = () =>
       fixture.debugElement.query(
         By.css('.y-existing-payment-methods__new-payment-form')
       );
@@ -246,10 +251,10 @@ describe('PaymentMethodComponent', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(false);
       mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
       fixture.detectChanges();
-      getAddNewAddressBtn().nativeElement.click();
+      getAddNewPaymentBtn().nativeElement.click();
 
       fixture.detectChanges();
-      expect(getNewAddressForm()).toBeTruthy();
+      expect(getNewPaymentForm()).toBeTruthy();
     });
 
     it('should be visible on init if there are no existing payment methods', () => {
@@ -257,7 +262,7 @@ describe('PaymentMethodComponent', () => {
       mockUserSelectors.getPaymentMethods.next([]);
       fixture.detectChanges();
 
-      expect(getNewAddressForm()).toBeTruthy();
+      expect(getNewPaymentForm()).toBeTruthy();
     });
 
     it('should be hidden on init if there are some existing payment methods', () => {
@@ -265,29 +270,29 @@ describe('PaymentMethodComponent', () => {
       mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
       fixture.detectChanges();
 
-      expect(getNewAddressForm()).toBeFalsy();
+      expect(getNewPaymentForm()).toBeFalsy();
     });
 
-    it('should be hidden when when existing adddress are loading', () => {
+    it('should be hidden when when existing payment methods are loading', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(true);
       mockUserSelectors.getPaymentMethods.next([]);
       fixture.detectChanges();
 
-      expect(getNewAddressForm()).toBeFalsy();
+      expect(getNewPaymentForm()).toBeFalsy();
     });
   });
 
   describe('UI spinner', () => {
     const getSpinner = () => fixture.debugElement.query(By.css('y-spinner'));
 
-    it('should be visible when existing adddress are loading', () => {
+    it('should be visible when existing payment methods are loading', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(true);
       mockUserSelectors.getPaymentMethods.next([]);
       fixture.detectChanges();
       expect(getSpinner()).toBeTruthy();
     });
 
-    it('should be hidden when loading existing adddress has completed', () => {
+    it('should be hidden when loading existing payment methods has completed', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(false);
       mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
       fixture.detectChanges();

@@ -112,11 +112,11 @@ export class PaymentMethodComponent implements OnInit {
     this.addPaymentInfo.emit({ payment: paymentDetails, newPayment: true });
   }
 
-  showNewAddressForm() {
+  showNewPaymentForm() {
     this.newPaymentFormManuallyOpened = true;
   }
 
-  closeNewAddressForm() {
+  hideNewPaymentForm() {
     this.newPaymentFormManuallyOpened = false;
   }
 
