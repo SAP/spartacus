@@ -16,13 +16,15 @@ export class ScheduleComponent implements OnChanges {
   constructor(private storeDataService: StoreDataService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    const initialDate = this.getInitialDate();
-    this.displayDays = [];
+    if (changes.location && this.location) {
+      const initialDate = this.getInitialDate();
+      this.displayDays = [];
 
-    for (let i = 0; i < WEEK_DAYS_NUMBER; i++) {
-      const date = new Date(initialDate.valueOf());
-      date.setDate(date.getDate() + i);
-      this.displayDays.push(date);
+      for (let i = 0; i < WEEK_DAYS_NUMBER; i++) {
+        const date = new Date(initialDate.valueOf());
+        date.setDate(date.getDate() + i);
+        this.displayDays.push(date);
+      }
     }
   }
 

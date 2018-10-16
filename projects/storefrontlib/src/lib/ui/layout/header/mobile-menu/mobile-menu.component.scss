@@ -5,6 +5,9 @@
 //https://github.com/jonsuh/hamburgers
 $hamburger-types: (squeeze);
 $hamburger-layer-color: theme-color('inverse');
+$hamburger-layer-width: 26px !default;
+$hamburger-layer-height: 3px !default;
+$hamburger-layer-spacing: 4px !default;
 @import '~hamburgers/_sass/hamburgers/hamburgers';
 
 //mobile-menu color variables
@@ -17,7 +20,6 @@ $y-mobile-menu-md-content-background-color: 'inverse' !default;
 $y-mobile-menu-position: static !default;
 $y-mobile-menu-locale-trbl-padding: 0.5rem 1.5rem !default;
 $y-mobile-menu-control-position-md: absolute;
-$y-mobile-menu-control-position-md-top: 0;
 $y-mobile-menu-position: absolute !default;
 $y-mobile-menu-position-left: 0 !default;
 $y-mobile-menu-transition: left 0.2s ease-in !default;
@@ -54,7 +56,12 @@ $y-mobile-menu-position-left-hidden: -1000vh !default;
     }
     @include media-breakpoint-down(md) {
       position: $y-mobile-menu-control-position-md;
-      top: $y-mobile-menu-control-position-md-top;
+      top: 1rem;
+      left: 1.25rem;
+    }
+    @include media-breakpoint-down(xs) {
+      top: 0.15rem;
+      left: 0.5rem;
     }
   }
 

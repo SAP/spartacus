@@ -1,5 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromRoot from '../../routing/store';
@@ -38,14 +39,18 @@ describe('ReviewService', () => {
 
   describe('getByProductCode(productCode)', () => {
     it('should be able to get product reviews if reviews exist', () => {
-      spyOn(store, 'select').and.returnValue(of(mockReview));
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(mockReview)
+      );
       service.getByProductCode('testId').subscribe(reviews => {
         expect(reviews).toBe(mockReview);
       });
     });
 
     it('should be able to load product reviews if reviews not exist', () => {
-      spyOn(store, 'select').and.returnValue(of());
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(undefined)
+      );
       service.getByProductCode('testId').subscribe(() => {
         expect(store.dispatch).toHaveBeenCalledWith(
           new fromStore.LoadProductReviews('testId')

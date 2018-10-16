@@ -1,35 +1,27 @@
 <div class="y-added-to-cart-dialog">
   <!-- Modal Header -->
-  <div class="y-added-to-cart-dialog__header modal-header">
-    <div class="y-added-to-cart-dialog__title modal-title" *ngIf="loaded$ | async; else loadingTitle">{{quantity}}
-      item(s) added to your cart
-    </div>
-    <ng-template #loadingTitle>
-      <div class="y-added-to-cart-dialog__title modal-title">Updating cart...</div>
-    </ng-template>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <!-- Modal Body -->
-  <ng-container *ngIf="!(loaded$ | async) || (entry$ | async) as entry">
-    <div class="y-added-to-cart-dialog__body modal-body">
-      <div class="y-added-to-cart-dialog__info-container row" *ngIf="!(loaded$ | async)">
-        <div class="col-sm-12">
-          <y-spinner></y-spinner>
-        </div>
+  <ng-container *ngIf="loaded$ | async; else loading">
+    <div class="y-added-to-cart-dialog__header modal-header">
+      <div class="y-added-to-cart-dialog__title modal-title">{{quantity}}
+        item(s) added to your cart
       </div>
-      <div class="y-added-to-cart-dialog__info-container row" *ngIf="loaded$ | async">
-        <div class="y-added-to-cart-dialog__item-container col-sm-12 col-md-6" [formGroup]="form">
+      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- Modal Body -->
+    <div class="y-added-to-cart-dialog__body modal-body" *ngIf="(entry$ | async) as entry">
+      <div class="y-added-to-cart-dialog__info-container row">
+        <div class="y-added-to-cart-dialog__item-container col-sm-12 col-md-6">
           <y-cart-item [item]="entry" [compact]="true" [isReadOnly]="true"></y-cart-item>
         </div>
         <!-- Separator -->
         <div class="y-added-to-cart-dialog__separator col-sm-12 d-xs-block d-sm-block d-md-none"></div>
         <!-- Total container -->
         <div class="y-added-to-cart-dialog__total-container col-sm-12 col-md-6">
-          <div class="y-added-to-cart-dialog__total">
-            <div>Cart total ({{ (cart$ | async).deliveryItemsQuantity }} items)</div>
-            <div>{{ (cart$ | async).totalPrice.formattedValue}}</div>
+          <div class="y-added-to-cart-dialog__total" *ngIf="cart$ | async as cart">
+            <div>Cart total ({{ cart.deliveryItemsQuantity }} items)</div>
+            <div>{{ cart.totalPrice.formattedValue}}</div>
           </div>
           <!-- Actions -->
           <div class="y-added-to-cart-dialog__actions">
@@ -39,11 +31,23 @@
           </div>
         </div>
       </div>
-      <!-- Product Item Container -->
-      <div *ngIf="more && (loaded$ | async)" class="y-added-to-cart-dialog__more-container row">
-        <h2>You may also like</h2>
-        <!-- <y-product-grid-item [product]="entry.product"></y-product-grid-item> -->
-      </div>
     </div>
   </ng-container>
+
+  <ng-template #loading>
+    <div class="y-added-to-cart-dialog__header modal-header">
+      <div class="y-added-to-cart-dialog__title modal-title">Updating cart...</div>
+      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- Modal Body -->
+    <div class="y-added-to-cart-dialog__body modal-body">
+      <div class="y-added-to-cart-dialog__info-container row">
+        <div class="col-sm-12">
+          <y-spinner></y-spinner>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </div>

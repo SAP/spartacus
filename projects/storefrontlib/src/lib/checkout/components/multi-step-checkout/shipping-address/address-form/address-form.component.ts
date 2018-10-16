@@ -7,7 +7,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { tap, filter } from 'rxjs/operators';
 
@@ -17,6 +17,9 @@ import * as fromUser from '../../../../../user/store';
 import * as fromGlobalMessage from '../../../../../global-message/store';
 import { CheckoutService } from '../../../../services/checkout.service';
 import { GlobalMessageType } from '.././../../../../global-message/models/message.model';
+
+import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'y-address-form',
@@ -35,6 +38,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   backToAddress = new EventEmitter<any>();
 
   addressVerifySub: Subscription;
+  suggestedAddressModalRef: NgbModalRef;
 
   address: FormGroup = this.fb.group({
     defaultAddress: [false],
@@ -57,12 +61,14 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   constructor(
     protected store: Store<fromRouting.State>,
     private fb: FormBuilder,
-    protected checkoutService: CheckoutService
+    protected checkoutService: CheckoutService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
     // Fetching countries
-    this.countries$ = this.store.select(fromUser.getAllDeliveryCountries).pipe(
+    this.countries$ = this.store.pipe(
+      select(fromUser.getAllDeliveryCountries),
       tap(countries => {
         // If the store is empty fetch countries. This is also used when changing language.
         if (Object.keys(countries).length === 0) {
@@ -72,7 +78,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // Fetching titles
-    this.titles$ = this.store.select(fromUser.getAllTitles).pipe(
+    this.titles$ = this.store.pipe(
+      select(fromUser.getAllTitles),
       tap(titles => {
         // If the store is empty fetch titles. This is also used when changing language.
         if (Object.keys(titles).length === 0) {
@@ -82,7 +89,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // Fetching regions
-    this.regions$ = this.store.select(fromUser.getAllRegions).pipe(
+    this.regions$ = this.store.pipe(
+      select(fromUser.getAllRegions),
       tap(regions => {
         const regionControl = this.address.get('region.isocode');
 
@@ -101,8 +109,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     // verify the new added address
     this.addressVerifySub = this.store
-      .select(fromCheckoutStore.getAddressVerificationResults)
-      .pipe(filter(results => Object.keys(results).length !== 0))
+      .pipe(
+        select(fromCheckoutStore.getAddressVerificationResults),
+        filter(results => Object.keys(results).length !== 0)
+      )
       .subscribe((results: any) => {
         if (results === 'FAIL') {
           this.store.dispatch(
@@ -155,7 +165,34 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.checkoutService.verifyAddress(this.address.value);
   }
 
-  openSuggestedAddress(results: any) {}
+  openSuggestedAddress(results: any) {
+    if (!this.suggestedAddressModalRef) {
+      this.suggestedAddressModalRef = this.modalService.open(
+        SuggestedAddressDialogComponent,
+        { centered: true, size: 'lg' }
+      );
+      this.suggestedAddressModalRef.componentInstance.enteredAddress = this.address.value;
+      this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
+        results.suggestedAddresses;
+      this.suggestedAddressModalRef.result.then(address => {
+        this.store.dispatch(
+          new fromCheckoutStore.ClearAddressVerificationResults()
+        );
+        if (address) {
+          address = Object.assign(
+            {
+              titleCode: this.address.value.titleCode,
+              phone: this.address.value.phone,
+              selected: true
+            },
+            address
+          );
+          this.addAddress.emit(address);
+        }
+        this.suggestedAddressModalRef = null;
+      });
+    }
+  }
 
   required(name: string) {
     return (

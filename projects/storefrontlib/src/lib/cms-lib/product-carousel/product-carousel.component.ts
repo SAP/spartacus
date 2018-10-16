@@ -3,15 +3,18 @@ import {
   Input,
   ChangeDetectionStrategy,
   OnDestroy,
+  ViewChild,
+  OnInit,
   ChangeDetectorRef
 } from '@angular/core';
-import { Observable, Subscription, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subscription, Subject, fromEvent } from 'rxjs';
+import { takeUntil, tap, debounceTime } from 'rxjs/operators';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
 import { CmsService } from '../../cms/facade/cms.service';
+import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
 
 @Component({
   selector: 'y-product-carousel',
@@ -20,18 +23,21 @@ import { CmsService } from '../../cms/facade/cms.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCarouselComponent extends AbstractCmsComponent
-  implements OnDestroy {
-  products$: Observable<any[]>;
-  pause: boolean;
-  firstTime = true;
-  private finishSubject = new Subject();
+  implements OnDestroy, OnInit {
+  productGroups: any[];
+  itemPerPage;
 
+  products$: Observable<any[]>;
+  private finishSubject = new Subject();
+  private firstTime = true;
+
+  resizeSubscription: Subscription;
   codesSubscription: Subscription;
 
+  @ViewChild('carousel')
+  carousel: any;
   @Input()
   productCodes: Array<String>;
-  @Input()
-  animate = true;
 
   constructor(
     protected cmsService: CmsService,
@@ -41,20 +47,32 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     super(cmsService, cd);
   }
 
+  ngOnInit() {
+    this.setItemsPerPage();
+    this.resizeSubscription = fromEvent(window, 'resize')
+      .pipe(debounceTime(300))
+      .subscribe(this.setItemsPerPage.bind(this));
+  }
+
+  prev() {
+    this.carousel.prev();
+  }
+
+  next() {
+    this.carousel.next();
+  }
+
+  slideTransitionCompleted(_event: NgbSlideEvent) {}
+
   protected fetchData() {
     const codes = this.getProductCodes();
 
-    if (
-      this.contextParameters &&
-      this.contextParameters.hasOwnProperty('animate')
-    ) {
-      this.animate = this.contextParameters.animate;
-    }
-
     if (codes && codes.length > 0) {
       this.codesSubscription = this.store
-        .select(fromProductStore.getAllProductCodes)
-        .pipe(takeUntil(this.finishSubject))
+        .pipe(
+          select(fromProductStore.getAllProductCodes),
+          takeUntil(this.finishSubject)
+        )
         .subscribe(productCodes => {
           if (this.firstTime || productCodes.length === 0) {
             codes
@@ -67,11 +85,41 @@ export class ProductCarouselComponent extends AbstractCmsComponent
 
       this.firstTime = false;
 
-      this.products$ = this.store.select(
-        fromProductStore.getSelectedProductsFactory(codes)
+      this.products$ = this.store.pipe(
+        select(fromProductStore.getSelectedProductsFactory(codes)),
+        tap(this.group.bind(this))
       );
     }
     super.fetchData();
+  }
+
+  private group(products) {
+    const groups = [];
+    products.forEach(product => {
+      const lastGroup = groups[groups.length - 1];
+      if (lastGroup && lastGroup.length < this.itemPerPage) {
+        lastGroup.push(product);
+      } else {
+        groups.push([product]);
+      }
+    });
+    this.productGroups = groups;
+  }
+
+  private setItemsPerPage() {
+    const smallScreenMaxWidth = 576;
+    const tabletScreenMaxWidth = 768;
+    const { innerWidth } = window;
+    if (innerWidth < smallScreenMaxWidth) {
+      this.itemPerPage = 1;
+    } else if (
+      innerWidth > smallScreenMaxWidth &&
+      innerWidth < tabletScreenMaxWidth
+    ) {
+      this.itemPerPage = 2;
+    } else {
+      this.itemPerPage = 4;
+    }
   }
 
   getProductCodes(): Array<string> {
@@ -84,16 +132,12 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     return codes;
   }
 
-  stop() {
-    this.pause = true;
-  }
-  continue() {
-    this.pause = false;
-  }
-
   ngOnDestroy() {
     if (this.codesSubscription) {
       this.codesSubscription.unsubscribe();
+    }
+    if (this.resizeSubscription) {
+      this.resizeSubscription.unsubscribe();
     }
     this.finishSubject.next();
     this.finishSubject.complete();

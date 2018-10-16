@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromCartStore from '../../../store';
 
 @Component({
@@ -11,13 +11,14 @@ import * as fromCartStore from '../../../store';
 export class CartDetailsComponent implements OnInit {
   cart$;
   entries$;
+  cartLoaded$;
 
   constructor(protected store: Store<fromCartStore.CartState>) {}
 
   ngOnInit() {
-    this.cart$ = this.store.select(fromCartStore.getActiveCart);
-
-    this.entries$ = this.store.select(fromCartStore.getEntries);
+    this.cart$ = this.store.pipe(select(fromCartStore.getActiveCart));
+    this.entries$ = this.store.pipe(select(fromCartStore.getEntries));
+    this.cartLoaded$ = this.store.pipe(select(fromCartStore.getLoaded));
   }
 
   getAllPromotionsForCart(cart) {

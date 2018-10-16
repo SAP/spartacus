@@ -6,7 +6,7 @@ import {
   EventEmitter,
   Input
 } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -26,6 +26,7 @@ export class PaymentMethodComponent implements OnInit {
   isPaymentForm = false;
   existingPaymentMethods$: Observable<any>;
   cards = [];
+  isLoading$: Observable<any>;
 
   @Input()
   selectedPayment: any;
@@ -40,27 +41,29 @@ export class PaymentMethodComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.existingPaymentMethods$ = this.store
-      .select(fromUserStore.getPaymentMethods)
-      .pipe(
-        tap(payments => {
-          if (payments.length === 0) {
-            this.checkoutService.loadUserPaymentMethods();
-          } else {
-            if (this.cards.length === 0) {
-              payments.forEach(payment => {
-                const card = this.getCardContent(payment);
-                if (
-                  this.selectedPayment &&
-                  this.selectedPayment.id === payment.id
-                ) {
-                  card.header = 'SELECTED';
-                }
-              });
-            }
+    this.isLoading$ = this.store.pipe(
+      select(fromUserStore.getPaymentMethodsLoading)
+    );
+    this.existingPaymentMethods$ = this.store.pipe(
+      select(fromUserStore.getPaymentMethods),
+      tap(payments => {
+        if (payments.length === 0) {
+          this.checkoutService.loadUserPaymentMethods();
+        } else {
+          if (this.cards.length === 0) {
+            payments.forEach(payment => {
+              const card = this.getCardContent(payment);
+              if (
+                this.selectedPayment &&
+                this.selectedPayment.id === payment.id
+              ) {
+                card.header = 'SELECTED';
+              }
+            });
           }
-        })
-      );
+        }
+      })
+    );
   }
 
   getCardContent(payment): Card {
