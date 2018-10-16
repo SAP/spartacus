@@ -30,7 +30,7 @@
       Cart total ({{cart.totalItems}} items): {{cart.subTotal?.formattedValue}}
     </div>
     <h4 class="y-review__cart-total-header d-block d-lg-none d-xl-none">Order Items</h4>
-    <div class="y-review__cart-item col-md-12 col-lg-12" *ngIf="entries$ | async as entries">
+    <div class="y-review__cart-item col-md-12" *ngIf="entries$ | async as entries">
       <y-cart-item-list [items]="entries" [isReadOnly]="true" [potentialProductPromotions]="cart.potentialProductPromotions"></y-cart-item-list>
     </div>
   </ng-container>
