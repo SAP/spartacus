@@ -273,7 +273,7 @@ describe('PaymentMethodComponent', () => {
       expect(getNewPaymentForm()).toBeFalsy();
     });
 
-    it('should be hidden when when existing payment methods are loading', () => {
+    it('should be hidden when existing payment methods are loading', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(true);
       mockUserSelectors.getPaymentMethods.next([]);
       fixture.detectChanges();
