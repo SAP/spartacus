@@ -297,7 +297,7 @@ describe('ShippingAddressComponent', () => {
       expect(getNewAddressForm()).toBeFalsy();
     });
 
-    it('should be hidden when when existing addresses are loading', () => {
+    it('should be hidden when existing addresses are loading', () => {
       mockUserSelectors.getAddressesLoading.next(true);
       mockUserSelectors.getAddresses.next([]);
       fixture.detectChanges();
