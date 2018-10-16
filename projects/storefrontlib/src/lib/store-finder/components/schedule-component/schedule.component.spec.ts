@@ -24,7 +24,7 @@ closeDay2.setHours(17);
 closeDay2.setMinutes(45);
 
 class StoreDataServiceMock {
-  getStoreOpeningTime(location: any, date: Date): Date {
+  getStoreOpeningTime(_location: any, date: Date): Date {
     switch (date.getDay()) {
       case 1: {
         // Monday
@@ -42,7 +42,7 @@ class StoreDataServiceMock {
     }
   }
 
-  getStoreClosingTime(location: any, date: Date): Date {
+  getStoreClosingTime(_location: any, date: Date): Date {
     switch (date.getDay()) {
       case 1: {
         // Monday

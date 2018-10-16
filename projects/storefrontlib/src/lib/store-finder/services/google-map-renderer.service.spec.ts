@@ -18,7 +18,7 @@ const locations = [
 const selectedIndex = function() {};
 
 class ExternalJsFileLoaderMock {
-  public load(src: string, params?: Object, callback?: EventListener): void {
+  public load(_src: string, _params?: Object, callback?: EventListener): void {
     window['google'] = {};
     window['google'].maps = {};
     window['google'].maps.MapTypeId = {};
@@ -37,16 +37,16 @@ class ExternalJsFileLoaderMock {
 }
 
 class OccE2eConfigurationServiceMock {
-  getConfiguration(configurationKey: string): Observable<any> {
+  getConfiguration(_configurationKey: string): Observable<any> {
     return of(GOOGLE_API_KEY);
   }
 }
 
 class StoreDataServiceMock {
-  getStoreLatitude(location: any): number {
+  getStoreLatitude(_location: any): number {
     return 10;
   }
-  getStoreLongitude(location: any): number {
+  getStoreLongitude(_location: any): number {
     return 20;
   }
 }

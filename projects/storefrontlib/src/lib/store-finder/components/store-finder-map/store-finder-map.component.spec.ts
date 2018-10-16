@@ -5,8 +5,8 @@ import { StoreFinderMapComponent } from './store-finder-map.component';
 import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
 
 class MapRendererServiceMock {
-  public renderMap(mapElement: HTMLElement, locations: any[]): void {}
-  public centerMap(latitude: number, longitude: number): void {}
+  public renderMap(_mapElement: HTMLElement, _locations: any[]): void {}
+  public centerMap(_latitude: number, _longitude: number): void {}
 }
 
 const location = { geoPoint: {} };
