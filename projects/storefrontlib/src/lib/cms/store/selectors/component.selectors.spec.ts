@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, Store, combineReducers, select } from '@ngrx/store';
 
 import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../reducers';
@@ -32,7 +32,7 @@ describe('Cms Component Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getComponentEntities)
+        .pipe(select(fromSelectors.getComponentEntities))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -48,7 +48,7 @@ describe('Cms Component Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.componentSelectorFactory('comp1'))
+        .pipe(select(fromSelectors.componentSelectorFactory('comp1')))
         .subscribe(value => (result = value));
 
       store.dispatch(new fromActions.LoadComponentSuccess(component));

@@ -41,4 +41,19 @@ describe('User Addresses Selectors', () => {
       expect(result).toEqual(mockUserAddresses);
     });
   });
+
+  describe('getAddressLoading', () => {
+    it('should return isLoading flag', () => {
+      let result;
+      store
+        .pipe(select(fromSelectors.getAddressesLoading))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new fromActions.LoadUserAddresses('userId'));
+
+      expect(result).toEqual(true);
+    });
+  });
 });

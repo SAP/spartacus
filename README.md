@@ -1,6 +1,4 @@
-![](docs/assets/spartacus-blue.png)
-
-[![Build Status](https://travis-ci.org/SAP/cloud-commerce-spartacus-storefront.svg?branch=develop)](https://travis-ci.com/SAP/cloud-commerce-spartacus-storefront-project)
+![JavaScript storefront (spartacus)](docs/assets/spartacus-blue.png)
 
 # What is Spartacus?
 
@@ -8,9 +6,9 @@ Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud.
 
 ## Extendable
 
- Spartacus is designed to be upgradable while maintaining full extendability. You'll be able to adopt new versions of Spartacus by updating the Spartacus libraries that we will regularly enhance. 
+Spartacus is designed to be upgradable while maintaining full extendability. You'll be able to adopt new versions of Spartacus by updating the Spartacus libraries that we will regularly enhance.
 
- We’re making great progress and are planning our first beta in Q1 2019 and a launch date in Q2 2019. In the meantime, in order to ensure that the first release is as extendable and upgradable as we'd like, breaking changes will very likely be introduced. Please keep that in mind if you decide to start a project using the Spartacus storefront, prior to the first release. 
+We’re making great progress and are planning our first beta in Q1 2019 and a launch date in Q2 2019. In the meantime, in order to ensure that the first release is as extendable and upgradable as we'd like, breaking changes will very likely be introduced. Please keep that in mind if you decide to start a project using the Spartacus storefront, prior to the first release.
 
 ## Progressive
 
@@ -41,8 +39,6 @@ Spartacus provides core storefront features such as:
 - checkout
 - order history
 
-
-
 # Requirements
 
 - SAP Commerce Cloud instance (Release 1808)
@@ -58,46 +54,38 @@ Spartacus currently can only be used with a SAP Commerce Cloud instance through 
 
 For complete setup instructions, see the [Setup and Installation](docs/setupandinstallation.md) guide.
 
-
 ## Customizing and Extending Spartacus
 
 To maintain our promise of upgradability, the design pattern for Spartacus is for non-core features to be built as feature libraries that add to or change the provided functionality.
 
 Spartacus comes with an application shell (storefrontapp) that contains core resources that are needed to load the rest of the web app. These core resources are provided through libraries, such as the `storefrontlib` and `storefrontstylelib`. You then build new feature libraries that contain any custom functionality and pages. It is recommended to keep the shell app as a container for libraries and to avoid developing features directly in the shell app.
 
-Content for Spartacus pages is fetched from the SAP Commerce Cloud CMS (Content Management System), such as logos, links, banners and static pages. We recommend that new content-driven features follow the same pattern to enable a Content Managers to modify page content through the CMS tools.
+Content for Spartacus pages is fetched from the SAP Commerce Cloud CMS (Content Management System), such as logos, links, banners and static pages. We recommend that new content-driven features follow the same pattern to enable Content Managers to modify page content through the CMS tools.
 
 The documentation for customizing and extending Spartacus is still under development and will be released soon.
-
-
 
 # Limitations
 
 Spartacus works with Release 1808 of SAP Commerce Cloud, with some limitations. See the [Setup and Installation](docs/setupandinstallation.md) guide for more information.
 
-Spartacus is also being updated so that it works well with upcoming releases of SAP Commerce Cloud.  This means that certain features of Spartacus may only work with unreleased future editions of SAP Commerce Cloud. This will be noted as we release new versions of Spartacus.
-
-
+Spartacus is also being updated so that it works well with upcoming releases of SAP Commerce Cloud. This means that certain features of Spartacus may only work with unreleased future editions of SAP Commerce Cloud. This will be noted as we release new versions of Spartacus.
 
 # Known Issues
 
 Known issues are documented in the GitHub issue tracking system.
 
-
-
 # How to Obtain Support
 
-Spartacus is provided "as-is" with no official lines of support. 
+Spartacus is provided "as-is" with no official lines of support.
 
 To get help from the Spartacus community:
 
 - For more general questions, post a question in the Help chat of our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE).
 - For developer questions, post a question to [Stack Overflow with the 'spartacus' tag](https://stackoverflow.com/questions/tagged/spartacus).
 
-
 # Contributing
 
-Team Spartacus welcomes feedback, ideas, requests, and especially code contributions. 
+Team Spartacus welcomes feedback, ideas, requests, and especially code contributions.
 
 - Post comments to our Feedback chat in our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE) channel.
 - Read the [Contributing document](CONTRIBUTING.md) and learn how to:
@@ -105,13 +93,12 @@ Team Spartacus welcomes feedback, ideas, requests, and especially code contribut
   - Report an issue
   - Contribute code to Spartacus
 
-
-
 # To Do
 
 Many changes are coming! Most tasks will be posted to our GitHub issue tracking system, and this section will be updated with the major roadmap items.
 
 Some of the upcoming features or changes to the open source release:
+
 - Mock server
 - Personal information pages (My Account, Payment Management, Address Management)
 - Extensibility examples

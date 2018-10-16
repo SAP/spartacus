@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { of, BehaviorSubject } from 'rxjs';
+import { of, BehaviorSubject, EMPTY } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
 import {
   DynamicSlotComponent,
@@ -64,6 +64,8 @@ const mockSelect = selector => {
   switch (selector) {
     case fromStore.getDetails:
       return () => selectors.getDetails;
+    default:
+      return () => EMPTY;
   }
 };
 
@@ -150,7 +152,7 @@ describe('LoginComponent', () => {
     component.logout();
     expect(component.isLogin).toEqual(false);
     expect(mockAuth.logout).toHaveBeenCalled();
-    expect(mockRouting.go).toHaveBeenCalledWith('/login');
+    expect(mockRouting.go).toHaveBeenCalledWith(['/login']);
   });
 
   it('should load user details when token exists', () => {
