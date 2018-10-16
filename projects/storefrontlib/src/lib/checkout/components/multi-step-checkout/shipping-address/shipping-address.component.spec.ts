@@ -215,7 +215,7 @@ describe('ShippingAddressComponent', () => {
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>
-      fixture.debugElement.query(By.css('.y-existing-address__continue-btn'));
+      fixture.debugElement.query(By.css('.y-shipping-address__continue-btn'));
 
     it('should be disabled when no address is selected', () => {
       mockUserSelectors.getAddressesLoading.next(false);
@@ -262,11 +262,11 @@ describe('ShippingAddressComponent', () => {
   describe('UI new address form', () => {
     const getAddNewAddressBtn = () =>
       fixture.debugElement.query(
-        By.css('.y-existing-address__add-new-address-btn')
+        By.css('.y-shipping-address__add-new-address-btn')
       );
     const getNewAddressForm = () =>
       fixture.debugElement.query(
-        By.css('.y-existing-address__new-address-form')
+        By.css('.y-shipping-address__new-address-form')
       );
 
     it('should be visible after user clicks "add new address" button', async(() => {

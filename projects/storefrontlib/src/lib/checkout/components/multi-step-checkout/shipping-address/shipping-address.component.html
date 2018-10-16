@@ -1,18 +1,18 @@
 <ng-container *ngIf="existingAddresses$ | async as existingAddresses">
-  <div class="y-existing-address container">
-    <h3 class="y-existing-address__title d-none d-lg-block d-xl-block">Shipping Address</h3>
+  <div class="y-shipping-address container">
+    <h3 class="y-shipping-address__title d-none d-lg-block d-xl-block">Shipping Address</h3>
     <ng-container *ngIf="!(isLoading$ | async); else loading">
 
       <ng-container *ngIf="existingAddresses?.length && !newAddressFormManuallyOpened; else newAddressForm">
-        <p class="y-existing-address__text">Select your Shipping Address</p>
-        <div class="y-existing-address__btn row justify-content-end">
-          <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action y-existing-address__add-new-address-btn"
+        <p class="y-shipping-address__text">Select your Shipping Address</p>
+        <div class="y-shipping-address__btn row justify-content-end">
+          <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action y-shipping-address__add-new-address-btn"
               (click)="showNewAddressForm()">Add New Address</button></div>
         </div>
 
-        <div class="y-existing-address__body row">
+        <div class="y-shipping-address__body row">
           <div class="col-md-12 col-lg-6" *ngFor="let address of existingAddresses;let i=index;">
-            <div class="y-existing-address__card">
+            <div class="y-shipping-address__card">
               <y-card [border]="true" [content]="cards[i]" (sendCard)="addressSelected(address, i)"></y-card>
             </div>
           </div>
@@ -23,20 +23,20 @@
             <button class="btn btn-block btn-action" (click)="back()">Back to cart</button>
           </div>
           <div class="col-md-12 col-lg-6">
-            <button class="btn btn-block btn-primary y-existing-address__continue-btn" [disabled]="!selectedAddress"
+            <button class="btn btn-block btn-primary y-shipping-address__continue-btn" [disabled]="!selectedAddress"
               (click)="next()">Continue</button>
           </div>
         </div>
       </ng-container>
 
       <ng-template #newAddressForm>
-        <y-address-form class="y-existing-address__new-address-form" (addAddress)="addNewAddress($event)"
+        <y-address-form class="y-shipping-address__new-address-form" (addAddress)="addNewAddress($event)"
           (backToAddress)="hideNewAddressForm()"></y-address-form>
       </ng-template>
     </ng-container>
 
     <ng-template #loading>
-      <div class="y-existing-address__spinner">
+      <div class="y-shipping-address__spinner">
         <y-spinner></y-spinner>
       </div>
     </ng-template>
