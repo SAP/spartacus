@@ -10,13 +10,9 @@
     "prettier": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss}\"",
     "prettier-fix": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss}\" --write",
     "lint": "ng lint",
-<<<<<<< HEAD
-    "start": "ng serve",
-=======
     "start": "ng serve --proxy-config mock-server/proxy.backend.js",
     "start:mock": "ng serve --proxy-config mock-server/proxy.mock.js",
     "start:qa": "ng serve -c=qa",
->>>>>>> develop
     "start:prod": "ng serve --prod",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server -p 4200",
     "mockserver": "cd ./projects/backend/mockgenerator && npm run start",
@@ -24,10 +20,7 @@
     "build:qa": "ng build -c=qa",
     "build": "ng build --prod",
     "test": "ng test",
-<<<<<<< HEAD
-=======
     "test:core:lib": "ng test storefrontlib --code-coverage",
->>>>>>> develop
     "e2e": "ng e2e",
     "e2e:ci": "ng e2e --configuration=ci --protractor-config=projects/storefrontapp-e2e/protractor.headless.conf.js"
   },
