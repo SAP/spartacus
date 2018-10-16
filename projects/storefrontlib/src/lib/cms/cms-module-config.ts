@@ -1,4 +1,4 @@
-import { ServerConfig } from '../config/server-config';
+import { ServerConfig } from '../config/server-config/server-config';
 import { SiteContextModuleConfig } from '../site-context/site-context-module-config';
 import { AuthModuleConfig } from '../auth/auth-module.config';
 

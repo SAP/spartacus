@@ -32,9 +32,6 @@ $y-address-form-text-sm-padding-left: 1.5rem !default;
   &__btns {
     padding-bottom: 1rem;
   }
-  .form-check {
-    padding: $y-address-form-no-padding;
-  }
   // ***************************** MEDIA QUERIES *****************************
   @include checkout-media-style();
   &__body {

@@ -25,10 +25,7 @@
             ],
             "styles": ["projects/storefrontapp/src/styles.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects/storefrontstyles/scss",
-                "./node_modules/storefrontstyles/scss"
-              ]
+              "includePaths": ["./projects", "./projects/storefrontstyles/scss"]
             },
             "scripts": []
           },

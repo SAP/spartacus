@@ -3,13 +3,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
+import * as NgrxStore from '@ngrx/store';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BootstrapModule } from '../../../bootstrap.module';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { OrderHistoryComponent } from './order-history.component';
 import * as fromRoot from '../../../routing/store';
 import * as fromUserStore from '../../../user/store';
+import * as fromAuthStore from '../../../auth/store';
+import createSpy = jasmine.createSpy;
+import { AuthService } from '../../../auth/facade/auth.service';
 
 const routes = [
   { path: 'my-account/orders/:id', component: OrderDetailsComponent }
@@ -21,11 +24,29 @@ const mockOrders = {
   pagination: { totalResults: 1, sort: 'byDate' },
   sorts: [{ code: 'byDate', selected: true }]
 };
+const mockAuth = {
+  userToken$: of({ access_token: 'test', userId: 'test@sap.com' }),
+  authorize: createSpy()
+};
+
+function spyOnStore(customSpiesFn?) {
+  spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
+    if (customSpiesFn) {
+      return customSpiesFn(selector);
+    }
+    switch (selector) {
+      case fromUserStore.getOrders:
+        return () => of(mockOrders);
+      case fromUserStore.getOrdersLoaded:
+        return () => of(true);
+    }
+  });
+}
 
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
-  let store: Store<fromUserStore.UserState>;
+  let store: NgrxStore.Store<fromUserStore.UserState>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -33,21 +54,22 @@ describe('OrderHistoryComponent', () => {
         RouterTestingModule.withRoutes(routes),
         PaginationAndSortingModule,
         FormsModule,
-        StoreModule.forRoot({
+        NgrxStore.StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          orders: combineReducers(fromUserStore.getReducers())
+          orders: NgrxStore.combineReducers(fromUserStore.getReducers())
         }),
         NgSelectModule,
         BootstrapModule
       ],
-      declarations: [OrderHistoryComponent, OrderDetailsComponent]
+      declarations: [OrderHistoryComponent, OrderDetailsComponent],
+      providers: [{ provide: AuthService, useValue: mockAuth }]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderHistoryComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.get(NgrxStore.Store);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -57,22 +79,15 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should initialize with the store', () => {
-    spyOn(store, 'select').and.returnValues(
-      of({ userId: 'test@sap.com' }),
-      of(mockOrders),
-      of(true)
-    );
-    component.ngOnInit();
-    expect(store.select).toHaveBeenCalledWith(fromUserStore.getOrders);
+    spyOnStore();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(NgrxStore.select).toHaveBeenCalledWith(fromUserStore.getOrders);
+    });
   });
 
   it('should redirect when clicking on order id', () => {
-    spyOn(store, 'select').and.returnValues(
-      of({ userId: 'test@sap.com' }),
-      of(mockOrders),
-      of(true)
-    );
-
+    spyOnStore();
     fixture.detectChanges();
     const elem = fixture.debugElement.nativeElement.querySelector(
       '.y-order-history__table tbody tr'
@@ -89,11 +104,16 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should display No orders found page if no orders are found', () => {
-    spyOn(store, 'select').and.returnValues(
-      of({ userId: 'test@sap.com' }),
-      of({ orders: [], pagination: { totalResults: 0 } }),
-      of(true)
-    );
+    spyOnStore(selector => {
+      switch (selector) {
+        case fromUserStore.getOrders:
+          return () => of({ orders: [], pagination: { totalResults: 0 } });
+        case fromUserStore.getOrdersLoaded:
+          return () => of(true);
+        case fromAuthStore.getUserToken:
+          return () => of({ userId: 'test@sap.com' });
+      }
+    });
 
     fixture.detectChanges();
 
@@ -105,11 +125,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should set correctly sort code', () => {
-    spyOn(store, 'select').and.returnValues(
-      of({ userId: 'test@sap.com' }),
-      of(mockOrders),
-      of(true)
-    );
+    spyOnStore();
     fixture.detectChanges();
     component.changeSortCode('byOrderNumber');
     expect(component.sortType).toBe('byOrderNumber');
@@ -124,11 +140,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should set correctly page', () => {
-    spyOn(store, 'select').and.returnValues(
-      of({ userId: 'test@sap.com' }),
-      of(mockOrders),
-      of(true)
-    );
+    spyOnStore();
     fixture.detectChanges();
     component.pageChange(1);
     expect(store.dispatch).toHaveBeenCalledWith(

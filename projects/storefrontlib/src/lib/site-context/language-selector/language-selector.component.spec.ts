@@ -2,9 +2,9 @@ import { PageType } from './../../routing/models/page-context.model';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { Store, StoreModule, combineReducers, select } from '@ngrx/store';
 
 import { LanguageSelectorComponent } from './language-selector.component';
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import * as fromStore from './../shared/store';
 import * as fromRoot from '../../routing/store';
 
@@ -65,27 +65,42 @@ describe('LanguageSelectorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should contain languages button', () => {
+  it('should contain dropdown with languages', () => {
     component.languages$ = of(languages);
 
     const label = el.query(By.css('label'));
-    const select = el.query(By.css('select'));
-
+    const selectBox = el.query(By.css('select'));
     fixture.changeDetectorRef.markForCheck();
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(select.nativeElement.value).toEqual(languages[0].isocode);
+      expect(selectBox.nativeElement.value).toEqual(languages[0].isocode);
     });
 
     expect(label.nativeElement.textContent).toEqual('Language');
+  });
+
+  it('should contain disabled dropdown when languages list is empty', () => {
+    component.languages$ = of([]);
+    const selectBox = el.query(By.css('select'));
+    fixture.detectChanges();
+
+    expect(selectBox.nativeElement.disabled).toBeTruthy();
+  });
+
+  it('should contain enabled dropdown when languages list is NOT empty', () => {
+    component.languages$ = of(languages);
+    const selectBox = el.query(By.css('select'));
+    fixture.detectChanges();
+
+    expect(selectBox.nativeElement.disabled).toBeFalsy();
   });
 
   it('should get language data', () => {
     const action = new fromActions.LoadLanguagesSuccess(languages);
     store.dispatch(action);
 
-    store.select(fromStore.getAllLanguages).subscribe(data => {
+    store.pipe(select(fromStore.getAllLanguages)).subscribe(data => {
       expect(data).toEqual(languages);
     });
   });

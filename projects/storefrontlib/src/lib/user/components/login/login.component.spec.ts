@@ -7,20 +7,22 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { of, BehaviorSubject, EMPTY } from 'rxjs';
+import * as NgrxStore from '@ngrx/store';
 import {
   DynamicSlotComponent,
   ComponentWrapperDirective
 } from '../../../cms/components';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
 import { PageType } from '../../../routing/models/page-context.model';
-import * as fromRouting from '../../../routing/store';
 import { UserToken } from './../../../auth/models/token-types.model';
-import * as fromAuthStore from './../../../auth/store';
 import * as fromStore from './../../store';
 import * as fromCms from './../../../cms/store';
 import { LoginComponent } from './login.component';
 import { OutletDirective } from '../../../outlet';
+import createSpy = jasmine.createSpy;
+import { AuthService } from '../../../auth/facade/auth.service';
+import { RoutingService } from '../../../routing/facade/routing.service';
 
 const mockUserToken: UserToken = {
   access_token: 'xxx',
@@ -55,6 +57,28 @@ const MockCmsModuleConfig: CmsModuleConfig = {
 
 const cntx = { id: 'testPageId', type: PageType.CONTENT_PAGE };
 
+const selectors = {
+  getDetails: new BehaviorSubject(null)
+};
+const mockSelect = selector => {
+  switch (selector) {
+    case fromStore.getDetails:
+      return () => selectors.getDetails;
+    default:
+      return () => EMPTY;
+  }
+};
+
+const mockAuth = {
+  userToken$: new BehaviorSubject(null),
+  login: createSpy(),
+  logout: createSpy()
+};
+
+const mockRouting = {
+  go: createSpy()
+};
+
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
@@ -69,7 +93,6 @@ describe('LoginComponent', () => {
         StoreModule.forRoot({
           ...fromStore.getReducers(),
           user: combineReducers(fromStore.getReducers()),
-          auth: combineReducers(fromAuthStore.getReducers()),
           cms: combineReducers(fromCms.getReducers())
         }),
         HttpClientTestingModule
@@ -94,7 +117,9 @@ describe('LoginComponent', () => {
             }
           }
         },
-        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig },
+        { provide: AuthService, useValue: mockAuth },
+        { provide: RoutingService, useValue: mockRouting }
       ]
     }).compileComponents();
   }));
@@ -104,6 +129,7 @@ describe('LoginComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     store = TestBed.get(Store);
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -115,35 +141,29 @@ describe('LoginComponent', () => {
       }
     };
 
-    const spy = spyOn(store, 'select');
-    spy.and.returnValue(of(routerState));
+    selectors.getDetails.next(routerState);
 
     expect(component).toBeTruthy();
   });
 
   it('should logout and clear user state', () => {
-    const spy = spyOn(store, 'select');
-    spy.and.returnValue(of({}));
+    selectors.getDetails.next({});
 
     component.logout();
     expect(component.isLogin).toEqual(false);
-    expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Logout());
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromRouting.Go({
-        path: ['/login']
-      })
-    );
+    expect(mockAuth.logout).toHaveBeenCalled();
+    expect(mockRouting.go).toHaveBeenCalledWith(['/login']);
   });
 
   it('should load user details when token exists', () => {
-    spyOn(store, 'select').and.returnValue(of(mockUserToken));
+    mockAuth.userToken$.next(mockUserToken);
 
     component.ngOnInit();
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadUserDetails(mockUserToken.userId)
     );
-    expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Login());
+    expect(mockAuth.login).toHaveBeenCalled();
     component.isLogin = true;
   });
 

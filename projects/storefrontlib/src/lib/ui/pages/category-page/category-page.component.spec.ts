@@ -7,9 +7,10 @@ import {
   DynamicSlotComponent,
   ComponentWrapperDirective
 } from '../../../cms/components';
+import * as NgrxStore from '@ngrx/store';
 import { ProductListModule } from '../../../product/components/product-list/product-list.module';
 import { ActivatedRoute } from '@angular/router';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
+import { StoreModule, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCms from '../../../cms/store';
 import * as fromCart from '../../../cart/store';
@@ -27,7 +28,6 @@ class MockActivatedRoute {
 describe('CategoryPageComponent', () => {
   let component: CategoryPageComponent;
   let fixture: ComponentFixture<CategoryPageComponent>;
-  let store: Store<fromCms.CmsState>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -58,8 +58,6 @@ describe('CategoryPageComponent', () => {
     fixture = TestBed.createComponent(CategoryPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-    store = TestBed.get(Store);
   });
 
   it('should create', () => {
@@ -67,8 +65,9 @@ describe('CategoryPageComponent', () => {
   });
 
   it('should call ngOnInit()', () => {
-    spyOn(store, 'select').and.returnValue(of('cartPage'));
-
+    spyOnProperty(NgrxStore, 'select').and.returnValue(() => () =>
+      of('cartPage')
+    );
     component.ngOnInit();
 
     expect(component.categoryCode).toEqual('123');

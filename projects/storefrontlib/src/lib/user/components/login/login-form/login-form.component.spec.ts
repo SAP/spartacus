@@ -6,16 +6,28 @@ import {
 } from '@angular/forms';
 import { LoginFormComponent } from './login-form.component';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { combineReducers, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromStore from '../../../store';
-import * as fromRouting from '../../../../routing/store';
-import * as fromAuthStore from '../../../../auth/store';
+import { RoutingService } from '../../../../routing/facade/routing.service';
+import { AuthService } from '../../../../auth/facade/auth.service';
+import createSpy = jasmine.createSpy;
 
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
-  let store: Store<fromStore.UserState>;
+
+  const mockAuth = {
+    userToken$: of({ access_token: 'test' }),
+    authorize: createSpy()
+  };
+
+  const mockRouting = {
+    redirectUrl$: of('/test'),
+    go: createSpy(),
+    clearRedirectUrl: createSpy()
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -24,26 +36,20 @@ describe('LoginFormComponent', () => {
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromStore.getReducers(),
-          user: combineReducers(fromStore.getReducers()),
-          auth: combineReducers(fromAuthStore.getReducers())
+          user: combineReducers(fromStore.getReducers())
         })
       ],
-      declarations: [LoginFormComponent]
+      declarations: [LoginFormComponent],
+      providers: [
+        { provide: AuthService, useValue: mockAuth },
+        { provide: RoutingService, useValue: mockRouting }
+      ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
-
-    store = TestBed.get(Store);
-
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOn(store, 'select').and.returnValues(
-      of(undefined),
-      of({ access_token: 'test' }),
-      of('/test')
-    );
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -63,18 +69,11 @@ describe('LoginFormComponent', () => {
     component.form.controls['password'].setValue('secret');
     component.login();
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromAuthStore.LoadUserToken({
-        userId: 'test@email.com',
-        password: 'secret'
-      })
-    );
+    expect(mockAuth.authorize).toHaveBeenCalledWith('test@email.com', 'secret');
   });
 
   it('should redirect to returnUrl saved in store if there is one', () => {
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromRouting.Go({ path: ['/test'] })
-    );
+    expect(mockRouting.go).toHaveBeenCalledWith(['/test']);
   });
 
   describe('userId form field', () => {

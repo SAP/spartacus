@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { combineReducers, Store, StoreModule, select } from '@ngrx/store';
 
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
@@ -29,7 +29,7 @@ describe('User Addresses Selectors', () => {
     it('should return a user addresses', () => {
       let result;
       store
-        .select(fromSelectors.getAddresses)
+        .pipe(select(fromSelectors.getAddresses))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
@@ -39,6 +39,21 @@ describe('User Addresses Selectors', () => {
       );
 
       expect(result).toEqual(mockUserAddresses);
+    });
+  });
+
+  describe('getAddressLoading', () => {
+    it('should return isLoading flag', () => {
+      let result;
+      store
+        .pipe(select(fromSelectors.getAddressesLoading))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new fromActions.LoadUserAddresses('userId'));
+
+      expect(result).toEqual(true);
     });
   });
 });

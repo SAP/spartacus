@@ -20,25 +20,9 @@
                         </ul>
                     </div>
 
-                    <div *ngFor="let nav of navs" class="d-none d-lg-block d-xl-block">
-                        <div *ngIf="nav.status.active && step === 1">
-                            <y-shipping-address [selectedAddress]="deliveryAddress" (addAddress)="addAddress($event)"></y-shipping-address>
-                        </div>
-                        <div *ngIf="nav.status.active && step === 2">
-                            <y-delivery-mode [selectedShippingMethod]="shippingMethod" (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode>
-                        </div>
-                        <div *ngIf="nav.status.active && step === 3">
-                            <y-payment-method [selectedPayment]="paymentDetails" (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-method>
-                        </div>
-                        <div *ngIf="nav.status.active && step === 4">
-                            <y-review-submit [deliveryAddress]="deliveryAddress" [shippingMethod]="shippingMethod" [paymentDetails]="paymentDetails">
-                            </y-review-submit>
-                        </div>
-                    </div>
-
-                    <!-- VISIBLE ONLY ON MD, SM AND XS SCREENS-->
-                    <div class="y-multi-step-checkout__nav--media d-block d-lg-none d-xl-none">
-                        <div class="y-multi-step-checkout__nav-list--media">Cart total ({{cart.totalItems}} items): {{cart.subTotal?.formattedValue}}</div>
+                    <div class="y-multi-step-checkout__nav--media">
+                        <div class="y-multi-step-checkout__nav-list--media">Cart total ({{cart.totalItems}} items):
+                            {{cart.subTotal?.formattedValue}}</div>
 
                         <div *ngFor="let nav of navs">
                             <!-- Navigation -->
@@ -52,13 +36,16 @@
                                 <y-shipping-address [selectedAddress]="deliveryAddress" (addAddress)="addAddress($event)"></y-shipping-address>
                             </div>
                             <div *ngIf="nav.status.active && step === 2">
-                                <y-delivery-mode [selectedShippingMethod]="shippingMethod" (selectMode)="setDeliveryMode($event)" (backStep)="setStep(1)"></y-delivery-mode>
+                                <y-delivery-mode [selectedShippingMethod]="shippingMethod" (selectMode)="setDeliveryMode($event)"
+                                    (backStep)="setStep(1)"></y-delivery-mode>
                             </div>
                             <div *ngIf="nav.status.active && step === 3">
-                                <y-payment-method [selectedPayment]="paymentDetails" (addPaymentInfo)="addPaymentInfo($event)" (backStep)="setStep(2)"></y-payment-method>
+                                <y-payment-method [selectedPayment]="paymentDetails" (addPaymentInfo)="addPaymentInfo($event)"
+                                    (backStep)="setStep(2)"></y-payment-method>
                             </div>
                             <div *ngIf="nav.status.active && step === 4">
-                                <y-review-submit [deliveryAddress]="deliveryAddress" [shippingMethod]="shippingMethod" [paymentDetails]="paymentDetails">
+                                <y-review-submit [deliveryAddress]="deliveryAddress" [shippingMethod]="shippingMethod"
+                                    [paymentDetails]="paymentDetails">
                                 </y-review-submit>
                             </div>
                         </div>
@@ -72,8 +59,8 @@
                     <!-- CHECKBOX AND PLACE ORDER BUTTON -->
                     <div class="y-multi-step-checkout__place-order" *ngIf="step === 4">
                         <div class="y-multi-step-checkout__place-order-form form-check">
-                            <input class="form-check-input" type="checkbox" (change)="toggleTAndC()" id="t&cCheck">
-                            <label class="form-check-label" for="defaultCheck1">
+                            <input class="form-check-input" type="checkbox" (change)="toggleTAndC()" id="termsCheck">
+                            <label class="form-check-label" for="termsCheck">
                                 I confirm that I have read and agree with the
                                 <a href="#">Terms & Conditions</a>
                             </label>

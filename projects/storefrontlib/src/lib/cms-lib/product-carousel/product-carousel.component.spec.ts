@@ -1,15 +1,17 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import * as NgrxStore from '@ngrx/store';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
+import * as fromProductStore from '../../product/store';
 import { ProductCarouselComponent } from './product-carousel.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { CmsService } from '../../cms/facade/cms.service';
+import { BootstrapModule } from '../../bootstrap.module';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -18,7 +20,6 @@ const UseCmsModuleConfig: CmsModuleConfig = {
 };
 
 describe('ProductCarouselComponent in CmsLib', () => {
-  let store: Store<fromCmsReducer.CmsState>;
   let productCarouselComponent: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
   let el: DebugElement;
@@ -36,6 +37,17 @@ describe('ProductCarouselComponent in CmsLib', () => {
     container: 'false'
   };
 
+  const mockProducts = [
+    {
+      uid: '001',
+      code: 'C001',
+      name: 'Camera',
+      price: {
+        formattedValue: '$100.00'
+      }
+    }
+  ];
+
   const MockCmsService = {
     getComponentData: () => of(mockComponentData)
   };
@@ -46,10 +58,11 @@ describe('ProductCarouselComponent in CmsLib', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
+        NgrxStore.StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        })
+          cms: NgrxStore.combineReducers(fromCmsReducer.getReducers())
+        }),
+        BootstrapModule
       ],
       declarations: [ProductCarouselComponent, PictureComponent],
       providers: [
@@ -65,27 +78,16 @@ describe('ProductCarouselComponent in CmsLib', () => {
 
     el = fixture.debugElement;
 
-    store = TestBed.get(Store);
-
-    spyOn(store, 'select').and.returnValues(of(productCodeArray));
-
-    spyOn(productCarouselComponent, 'stop').and.callThrough();
-    spyOn(productCarouselComponent, 'continue').and.callThrough();
+    spyOnProperty(NgrxStore, 'select').and.returnValue(realSelector => {
+      if (realSelector === fromProductStore.getAllProductCodes) {
+        return () => of(productCodeArray);
+      }
+      return () => of(mockProducts);
+    });
   });
 
   it('should be created', () => {
     expect(productCarouselComponent).toBeTruthy();
-  });
-
-  it('should contain cms content in the html rendering after bootstrap', () => {
-    expect(productCarouselComponent.component).toBeNull();
-
-    productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
-    expect(productCarouselComponent.component).toBe(mockComponentData);
-
-    expect(el.query(By.css('H3')).nativeElement.textContent).toEqual(
-      productCarouselComponent.component.title
-    );
   });
 
   it('should call getProductCodes()', () => {
@@ -97,15 +99,14 @@ describe('ProductCarouselComponent in CmsLib', () => {
     expect(codes).toBe(productCodeArray);
   });
 
-  it('should call stop()', () => {
-    productCarouselComponent.stop();
-    expect(productCarouselComponent.stop).toHaveBeenCalled();
-    expect(productCarouselComponent.pause).toBe(true);
-  });
+  it('should contain cms content in the html rendering after bootstrap', () => {
+    expect(productCarouselComponent.component).toBeNull();
 
-  it('should call continue()', () => {
-    productCarouselComponent.continue();
-    expect(productCarouselComponent.continue).toHaveBeenCalled();
-    expect(productCarouselComponent.pause).toBe(false);
+    productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
+    fixture.detectChanges();
+    expect(productCarouselComponent.component).toBe(mockComponentData);
+    expect(el.query(By.css('H3')).nativeElement.textContent).toEqual(
+      productCarouselComponent.component.title
+    );
   });
 });

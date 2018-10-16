@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap, takeWhile } from 'rxjs/operators';
 
@@ -44,22 +44,21 @@ export class DeliveryModeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.supportedDeliveryModes$ = this.store
-      .select(fromCheckoutStore.getSupportedDeliveryModes)
-      .pipe(
-        takeWhile(() => !this.leave),
-        tap(supportedModes => {
-          if (Object.keys(supportedModes).length === 0) {
-            this.service.loadSupportedDeliveryModes();
-          } else {
-            if (this.selectedShippingMethod) {
-              this.mode.controls['deliveryModeId'].setValue(
-                this.selectedShippingMethod
-              );
-            }
+    this.supportedDeliveryModes$ = this.store.pipe(
+      select(fromCheckoutStore.getSupportedDeliveryModes),
+      takeWhile(() => !this.leave),
+      tap(supportedModes => {
+        if (Object.keys(supportedModes).length === 0) {
+          this.service.loadSupportedDeliveryModes();
+        } else {
+          if (this.selectedShippingMethod) {
+            this.mode.controls['deliveryModeId'].setValue(
+              this.selectedShippingMethod
+            );
           }
-        })
-      );
+        }
+      })
+    );
   }
 
   next() {

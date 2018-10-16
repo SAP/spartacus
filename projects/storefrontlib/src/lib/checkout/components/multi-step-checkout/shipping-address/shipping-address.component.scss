@@ -12,6 +12,8 @@ $y-existing-address-body-padding-bottom: 1.875rem !default;
 $y-existing-address-text-margin-bottom: 1.25rem !default;
 $y-existing-address-text-md-padding-left: 3.5rem !default;
 $y-existing-address-text-sm-padding-left: 1.5rem !default;
+// Loading
+$y-shipping-address-loading-padding: 30px !default;
 .y-existing-address {
   &.container {
     padding: $y-existing-address-no-padding;
@@ -20,6 +22,10 @@ $y-existing-address-text-sm-padding-left: 1.5rem !default;
     text-transform: uppercase;
     margin: $y-existing-address-title-margin;
     padding: $y-existing-address-title-padding;
+  }
+  &__spinner {
+    padding-top: $y-shipping-address-loading-padding;
+    padding-bottom: $y-shipping-address-loading-padding;
   }
   &__body {
     display: flex;
