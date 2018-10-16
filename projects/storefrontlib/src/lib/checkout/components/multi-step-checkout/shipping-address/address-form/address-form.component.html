@@ -82,11 +82,12 @@
                 </div>
                 <div class="y-address-form__btns row">
                     <div class="col-sm-12 col-md-6 col-lg-6">
-                        <button class="btn btn-block btn-action" (click)="back()">Change Address</button>
+                        <button class="btn btn-block btn-action y-address-form__back-btn" (click)="back()">
+                            Change Address</button>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6">
                         <button class="btn btn-block btn-primary y-address-form__continue-btn" [disabled]="address.invalid"
-                            (click)="verfiyAddress()">Continue</button>
+                            (click)="verifyAddress()">Continue</button>
                     </div>
                 </div>
             </div>
