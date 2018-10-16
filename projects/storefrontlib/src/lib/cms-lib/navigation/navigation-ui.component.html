@@ -3,11 +3,11 @@
     Reorder
   </a>
   <ng-template #nodeWithChildren>
-    <span *ngIf="node.children; else noChildren" ngbDropdownToggle class="y-navigation__link nav-link" role="link">{{
+    <span *ngIf="node.children; else noChildren" ngbDropdownToggle class="y-navigation__link nav-link" role="link" id="{{ node.title }}">{{
       node.title }}</span>
   </ng-template>
   <ng-template #noChildren>
-    <a [routerLink]="node.url" class="y-navigation__link nav-link">{{
+    <a [routerLink]="node.url" class="y-navigation__link nav-link" id="{{ node.title }}">{{
       node.title
       }}
     </a>
