@@ -1,5 +1,4 @@
 import { PageType } from './../../routing/models/page-context.model';
-import { SiteContextModuleConfig } from '../site-context-module-config';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -11,13 +10,14 @@ import * as fromRoot from '../../routing/store';
 
 import * as fromActions from './../shared/store/actions/languages.action';
 import { of } from 'rxjs';
+import { SiteContextModuleConfig } from '../site-context-module-config';
 
-class MockSiteContextModuleConfig {
-  site = {
+const MockSiteContextModuleConfig = {
+  site: {
     language: 'de',
     currency: 'JPY'
-  };
-}
+  }
+};
 
 describe('LanguageSelectorComponent', () => {
   const languages = [
@@ -41,7 +41,7 @@ describe('LanguageSelectorComponent', () => {
       providers: [
         {
           provide: SiteContextModuleConfig,
-          useClass: MockSiteContextModuleConfig
+          useValue: MockSiteContextModuleConfig
         }
       ]
     })

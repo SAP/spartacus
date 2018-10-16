@@ -6,6 +6,8 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./category-page-layout.component.scss']
 })
 export class CategoryPageLayoutComponent {
-  @Input() categoryCode;
-  @Input() query;
+  @Input()
+  categoryCode;
+  @Input()
+  query;
 }

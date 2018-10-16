@@ -5,12 +5,9 @@ import {
   OnChanges,
   ChangeDetectionStrategy
 } from '@angular/core';
-
-import { Store } from '@ngrx/store';
-import * as fromProductStore from '../../../store';
-import { filter } from 'rxjs/operators';
-import { SearchConfig } from '../../../search-config';
 import { Observable } from 'rxjs';
+import { SearchConfig } from '../../../search-config';
+import { ProductSearchService } from '../../../services/product-search.service';
 
 @Component({
   selector: 'y-product-list',
@@ -19,29 +16,28 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductListComponent implements OnChanges, OnInit {
-  @Input() gridMode: String;
-  @Input() query;
-  @Input() categoryCode;
-  @Input() brandCode;
-  @Input() itemPerPage: number;
+  @Input()
+  gridMode: String;
+  @Input()
+  query;
+  @Input()
+  categoryCode;
+  @Input()
+  brandCode;
+  @Input()
+  itemPerPage: number;
 
   grid: any;
   model$: Observable<any>;
   searchConfig: SearchConfig = new SearchConfig();
 
-  constructor(protected store: Store<fromProductStore.ProductsState>) {}
+  constructor(protected productSearchService: ProductSearchService) {}
 
   ngOnChanges() {
-    if (!this.itemPerPage) {
-      // Page List default page size
-      this.searchConfig = { ...this.searchConfig, ...{ pageSize: 10 } };
-    } else {
-      this.searchConfig = {
-        // Page list input page size
-        ...this.searchConfig,
-        ...{ pageSize: this.itemPerPage }
-      };
-    }
+    this.searchConfig = {
+      ...this.searchConfig,
+      pageSize: this.itemPerPage || 10
+    };
 
     if (this.categoryCode) {
       this.query = ':relevance:category:' + this.categoryCode;
@@ -59,12 +55,11 @@ export class ProductListComponent implements OnChanges, OnInit {
       mode: this.gridMode
     };
 
-    this.model$ = this.store
-      .select(fromProductStore.getSearchResults)
-      .pipe(filter(results => Object.keys(results).length > 0));
+    this.model$ = this.productSearchService.searchResults$;
   }
 
   onFilter(query: string) {
+    this.query = query;
     this.search(query);
   }
 
@@ -83,13 +78,11 @@ export class ProductListComponent implements OnChanges, OnInit {
   protected search(query: string, options?: SearchConfig) {
     if (options) {
       // Overide default options
-      this.searchConfig = { ...this.searchConfig, ...options };
+      this.searchConfig = {
+        ...this.searchConfig,
+        ...options
+      };
     }
-    this.store.dispatch(
-      new fromProductStore.SearchProducts({
-        queryText: query,
-        searchConfig: this.searchConfig
-      })
-    );
+    this.productSearchService.search(query, this.searchConfig);
   }
 }

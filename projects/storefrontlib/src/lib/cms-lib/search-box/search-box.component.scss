@@ -14,6 +14,7 @@ $y-search-box-input-focus-background-color: 'transparent' !default;
 $y-search-box-input-color: 'inverse' !default;
 $y-search-box-button-background-color: 'transparent' !default;
 $y-search-box-button-icon-fill-color: 'inverse' !default;
+$y-search-box-item-background-color: 'primary' !default;
 
 //search-box variables
 $y-search-box-group-trbl-margin: auto !default;
@@ -24,6 +25,7 @@ $y-search-box-input-width-md: 19rem !default;
 $y-search-box-input-width-sm: 7rem !default;
 $y-search-box-input-width-xs: auto !default;
 $y-search-box-input-radius: 0 !default;
+$y-search-box-input-margin-bottom: 0 !default;
 $y-search-box-input-trbl-padding: 0 !default;
 $y-search-box-button-border: 0 none !default;
 $y-search-box-search-icon-width: 28px !default;
@@ -70,6 +72,7 @@ $y-search-box-search-icon-height: 28px !default;
     @include var-color('color', $y-search-box-input-color);
     border: $y-search-box-input-border;
     border-radius: $y-search-box-input-radius;
+    margin-bottom: $y-search-box-input-margin-bottom;
     &[aria-label='search'] {
       @include media-breakpoint-down(xl) {
         width: $y-search-box-input-width-xl;
@@ -92,6 +95,7 @@ $y-search-box-search-icon-height: 28px !default;
         'background-color',
         $y-search-box-input-focus-background-color
       );
+      box-shadow: none;
     }
   }
   &__button {
@@ -123,5 +127,9 @@ $y-search-box-search-icon-height: 28px !default;
     @include media-breakpoint-down(xs) {
       width: $y-search-box-input-width-xs;
     }
+  }
+
+  .dropdown-menu .dropdown-item.active {
+    @include var-color('background-color', $y-search-box-item-background-color);
   }
 }

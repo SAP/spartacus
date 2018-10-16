@@ -1,27 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { BannerComponent } from './banner.component';
-import * as fromRoot from '../../routing/store';
-import * as fromCmsReducer from '../../cms/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsService } from '../../cms/facade/cms.service';
+import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
 
-class UseCmsModuleConfig {
-  cmsComponentMapping = {
+const UseCmsModuleConfig: CmsModuleConfig = {
+  cmsComponentMapping: {
     SimpleBannerComponent: 'BannerComponent'
-  };
-  server = {
+  },
+  server: {
     baseUrl: 'https://localhost:9002'
-  };
-}
+  }
+};
 
 describe('BannerComponent', () => {
   let bannerComponent: BannerComponent;
   let fixture: ComponentFixture<BannerComponent>;
-  let store: Store<fromCmsReducer.CmsState>;
   let el: DebugElement;
 
   const componentData = {
@@ -40,17 +38,18 @@ describe('BannerComponent', () => {
     urlLink: '/logo'
   };
 
+  const MockCmsService = {
+    getComponentData: () => of(componentData)
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        }),
-        RouterTestingModule
-      ],
-      declarations: [BannerComponent],
-      providers: [{ provide: CmsModuleConfig, useClass: UseCmsModuleConfig }]
+      imports: [RouterTestingModule],
+      declarations: [BannerComponent, GenericLinkComponent],
+      providers: [
+        { provide: CmsService, useValue: MockCmsService },
+        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
+      ]
     }).compileComponents();
   }));
 
@@ -58,24 +57,18 @@ describe('BannerComponent', () => {
     fixture = TestBed.createComponent(BannerComponent);
     bannerComponent = fixture.componentInstance;
     el = fixture.debugElement;
-
-    store = TestBed.get(Store);
-    spyOn(store, 'select').and.returnValue(of(componentData));
   });
 
   it('should create banner component in CmsLib', () => {
     expect(bannerComponent).toBeTruthy();
   });
 
-  it('should contain image source and redirect url', () => {
+  it('should contain image source', () => {
     expect(bannerComponent.component).toBeNull();
-    bannerComponent.bootstrap();
+    bannerComponent.onCmsComponentInit(componentData.uid);
     expect(bannerComponent.component).toBe(componentData);
     expect(el.query(By.css('img')).nativeElement.src).toContain(
       bannerComponent.component.media.url
-    );
-    expect(el.query(By.css('a')).nativeElement.href).toContain(
-      bannerComponent.component.urlLink
     );
   });
 });

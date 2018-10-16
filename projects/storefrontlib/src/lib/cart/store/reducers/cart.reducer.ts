@@ -4,12 +4,14 @@ export interface CartState {
   content: any;
   entries: { [code: string]: any };
   refresh: boolean;
+  loaded: boolean;
 }
 
 export const initialState: CartState = {
   content: {},
   entries: {},
-  refresh: false
+  refresh: false,
+  loaded: true
 };
 
 export function reducer(
@@ -50,7 +52,8 @@ export function reducer(
         ...state,
         content,
         entries,
-        refresh: false
+        refresh: false,
+        loaded: true
       };
     }
 
@@ -59,9 +62,20 @@ export function reducer(
     case fromAction.ADD_ENTRY_SUCCESS: {
       return {
         ...state,
-        refresh: true
+        refresh: true,
+        loaded: false
       };
     }
+
+    case fromAction.REMOVE_ENTRY:
+    case fromAction.UPDATE_ENTRY:
+    case fromAction.ADD_ENTRY:
+    case fromAction.LOAD_CART:
+    case fromAction.CREATE_CART:
+      return {
+        ...state,
+        loaded: false
+      };
   }
 
   return state;
@@ -70,3 +84,4 @@ export function reducer(
 export const getCartContent = (state: CartState) => state.content;
 export const getRefresh = (state: CartState) => state.refresh;
 export const getEntries = (state: CartState) => state.entries;
+export const getLoaded = (state: CartState) => state.loaded;

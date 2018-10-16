@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ElementRef,
+  Renderer2
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -20,14 +26,32 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLogin = false;
 
   subscription: Subscription;
+  routingSub: Subscription;
 
   constructor(
     private store: Store<fromStore.UserState>,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private elementRef: ElementRef,
+    private renderer: Renderer2
+  ) {
+    this.renderer.listen(this.elementRef.nativeElement, 'click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const target = event.target || event.srcElement;
+      if (
+        target.attributes['class'] &&
+        target.attributes['class'].nodeValue === 'y-navigation__child-link' &&
+        target.attributes.href === undefined
+      ) {
+        this.logout();
+      }
+    });
+  }
 
   ngOnInit() {
     this.user$ = this.store.select(fromStore.getDetails);
+
     this.subscription = this.store
       .select(fromAuthStore.getUserToken)
       .subscribe((token: UserToken) => {
@@ -67,6 +91,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+    if (this.routingSub) {
+      this.routingSub.unsubscribe();
     }
   }
 }

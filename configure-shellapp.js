@@ -20,7 +20,10 @@ function main() {
   const configurationData = JSON.parse(configurationJsonData);
 
   updateAngularJsonFile(shellappPath);
-  updateTsconfigJsonFile(shellappPath);
+  updateTsconfigJsonFile(shellappPath + '/tsconfig.json');
+  updateTsconfigJsonFile(
+    shellappPath + '/projects/storefrontapp/tsconfig.app.prod.json'
+  );
   updatePackageJsonFile(shellappPath, configurationData);
 }
 
@@ -50,8 +53,7 @@ function updateAngularJsonFile(shellappPath) {
   );
 }
 
-function updateTsconfigJsonFile(shellappPath) {
-  const tsConfigPath = `${shellappPath}/tsconfig.json`;
+function updateTsconfigJsonFile(tsConfigPath) {
   console.log(`Updating ${tsConfigPath}`);
   //Get the json from the tsconfig.file
   const file = filesystem.readFileSync(tsConfigPath);
@@ -89,6 +91,15 @@ function updatePackageJsonFile(shellappPath, configurationData) {
     ...configurationData.package_json.dependencies,
     ...packageJsonData.dependencies
   };
+
+  packageJsonData.scripts = { // setting default package.json scripts
+    ng: 'ng',
+    start: 'ng serve',
+    build: 'ng build',
+    test: 'ng test',
+    lint: 'ng lint',
+    e2e: 'ng e2e'
+  }
 
   //save modification
   filesystem.writeFileSync(

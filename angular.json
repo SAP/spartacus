@@ -7,7 +7,7 @@
       "root": "projects/storefrontapp/",
       "sourceRoot": "projects/storefrontapp/src",
       "projectType": "application",
-      "prefix": "y",
+      "prefix": "cx",
       "schematics": {},
       "architect": {
         "build": {
@@ -23,10 +23,7 @@
               "projects/storefrontapp/src/assets",
               "projects/storefrontapp/src/manifest.json"
             ],
-            "styles": [
-              "projects/storefrontapp/src/styles.scss",
-              "projects/storefrontapp/src/theme.scss"
-            ],
+            "styles": ["projects/storefrontapp/src/styles.scss"],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "./projects/storefrontstyles/scss",
@@ -52,6 +49,39 @@
               "buildOptimizer": true,
               "serviceWorker": true,
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
+            },
+            "ci": {
+              "fileReplacements": [{
+                "replace": "projects/storefrontapp/src/environments/environment.ts",
+                "with": "projects/storefrontapp/src/environments/environment.ci.ts"
+              }],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
+            },
+            "qa": {
+              "fileReplacements": [{
+                "replace": "projects/storefrontapp/src/environments/environment.ts",
+                "with": "projects/storefrontapp/src/environments/environment.qa.ts"
+              }],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "serviceWorker": true,
+              "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             }
           }
         },
@@ -63,6 +93,15 @@
           "configurations": {
             "production": {
               "browserTarget": "storefrontapp:build:production"
+            },
+            "development": {
+              "browserTarget": "storefrontapp:build:development"
+            },
+            "ci": {
+              "browserTarget": "storefrontapp:build:ci"
+            },
+            "qa": {
+              "browserTarget": "storefrontapp:build:qa"
             }
           }
         },
@@ -79,9 +118,7 @@
             "polyfills": "projects/storefrontapp/src/polyfills.ts",
             "tsConfig": "projects/storefrontapp/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontapp/karma.conf.js",
-            "styles": [
-              "projects/storefrontapp/src/styles.css"
-            ],
+            "styles": ["projects/storefrontapp/src/styles.css"],
             "scripts": [],
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
@@ -99,9 +136,7 @@
               "projects/storefrontapp/tsconfig.app.json",
               "projects/storefrontapp/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -119,6 +154,9 @@
           "configurations": {
             "production": {
               "devServerTarget": "storefrontapp:serve:production"
+            },
+            "ci": {
+              "devServerTarget": "storefrontapp:serve:ci"
             }
           }
         },
@@ -126,9 +164,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "projects/storefrontapp-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -137,7 +173,7 @@
       "root": "projects/storefrontlib",
       "sourceRoot": "projects/storefrontlib/src",
       "projectType": "library",
-      "prefix": "y",
+      "prefix": "cx",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -170,9 +206,7 @@
               "projects/storefrontlib/tsconfig.lib.json",
               "projects/storefrontlib/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }

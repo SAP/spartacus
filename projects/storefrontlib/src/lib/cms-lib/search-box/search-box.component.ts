@@ -1,27 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, switchMap, map } from 'rxjs/operators';
-
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import * as fromProductStore from '../../product/store';
 import * as fromRouting from '../../routing/store';
 import { SearchConfig } from '../../product/search-config';
 import { debounceTime } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../cms/store';
+import { CmsService } from '../../cms/facade/cms.service';
 
 @Component({
   selector: 'y-searchbox',
   templateUrl: './search-box.component.html',
-  styleUrls: ['./search-box.component.scss']
+  styleUrls: ['./search-box.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SearchBoxComponent extends AbstractCmsComponent implements OnInit {
-  static componentName = 'SearchBoxComponent';
-
   searchBoxControl: FormControl = new FormControl();
 
   maxProduct: number;
   maxSuggestions: number;
   minCharactersBeforeRequest: number;
+
+  constructor(
+    protected cmsService: CmsService,
+    protected cd: ChangeDetectorRef,
+    protected store: Store<fromStore.CmsState>
+  ) {
+    super(cmsService, cd);
+  }
 
   public search = (text$: Observable<string>) => {
     return text$.pipe(

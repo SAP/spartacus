@@ -13,6 +13,7 @@ import { tap } from 'rxjs/operators';
 import * as fromCheckoutStore from '../../../../store';
 import { CheckoutService } from '../../../../services/checkout.service';
 import { Card } from '../../../../../ui/components/card/card.component';
+import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
 
 @Component({
   selector: 'y-payment-form',
@@ -28,8 +29,10 @@ export class PaymentFormComponent implements OnInit {
   shippingAddress$: Observable<any>;
   sameAsShippingAddress = true;
 
-  @Output() backToPayment = new EventEmitter<any>();
-  @Output() addPaymentInfo = new EventEmitter<any>();
+  @Output()
+  backToPayment = new EventEmitter<any>();
+  @Output()
+  addPaymentInfo = new EventEmitter<any>();
 
   payment: FormGroup = this.fb.group({
     defaultPayment: [false],
@@ -42,6 +45,8 @@ export class PaymentFormComponent implements OnInit {
     expiryYear: ['', Validators.required],
     cvn: ['', Validators.required]
   });
+
+  infoIconImgSrc = infoIconImgSrc;
 
   constructor(
     protected store: Store<fromCheckoutStore.CheckoutState>,

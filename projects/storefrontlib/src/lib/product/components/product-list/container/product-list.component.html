@@ -14,10 +14,14 @@
                         <div class="y-product-search__sorting--top">
                             <div class="row">
                                 <div class="col-12 col-lg-4 mr-auto">
-                                    <y-product-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)" [selectedOption]="model.pagination.sort"></y-product-sorting>
+                                    <div class="form-group y-product-search__dropdown">
+                                        <y-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)" [selectedOption]="model.pagination.sort" [placeholder]="'Sort by Relevance'"></y-sorting>
+                                    </div>
                                 </div>
                                 <div class="col-auto">
-                                    <y-product-paging [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-product-paging>
+                                    <div class="y-product-search__pagination" aria-label="product search pagination">
+                                        <y-pagination [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
+                                    </div>
                                 </div>
                                 <div class="col-auto ml-auto ml-lg-0">
                                     <y-product-view [(mode)]="grid.mode"></y-product-view>
@@ -41,10 +45,14 @@
                         <div class="y-product-search__sorting--bottom">
                             <div class="row">
                                 <div class="col-12 col-lg-4 mr-auto">
-                                    <y-product-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)" [selectedOption]="model.pagination.sort"></y-product-sorting>
+                                    <div class="form-group y-product-search__dropdown">
+                                        <y-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)" [selectedOption]="model.pagination.sort" [placeholder]="'Sort by Relevance'"></y-sorting>
+                                    </div>
                                 </div>
-                                <div class="col-auto">
-                                    <y-product-paging [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-product-paging>
+                                <div class="col-auto" aria-label="product search pagination">
+                                    <div class="y-product-search__pagination">
+                                        <y-pagination [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
+                                    </div>
                                 </div>
                                 <div class="col-auto ml-auto ml-lg-0">
                                     <y-product-view [(mode)]="grid.mode"></y-product-view>

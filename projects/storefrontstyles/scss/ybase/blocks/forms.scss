@@ -1,4 +1,5 @@
-@import 'theme';
+@import '../../theme';
+@import '../../mixins';
 @import '~bootstrap/scss/forms';
 @import '~bootstrap/scss/custom-forms';
 
@@ -39,9 +40,7 @@ input[type='checkbox'],
 input[type='radio'] {
   height: 22px;
   width: 22px;
-  margin: 0 15px 0 0;
   vertical-align: middle;
-  position: relative;
   cursor: pointer;
   line-height: 1.42857;
   appearance: none;
@@ -52,6 +51,9 @@ input[type='radio'] {
   outline: none;
   border-style: solid;
   border-width: 1px;
+  position: absolute;
+  margin-top: 0.3rem;
+  margin-left: -1.25rem;
 }
 
 .form-check {
@@ -59,6 +61,7 @@ input[type='radio'] {
 
   label {
     font-weight: $font-weight-normal;
+    margin-left: 0.75rem;
   }
 
   input + .form-check-label {
@@ -89,8 +92,8 @@ input[type='radio'] {
 
     &:checked {
       font-style: normal;
-      border: theme-color('primary');
-      background-color: theme-color('primary');
+      border: var(--y-primary, theme-color('primary'));
+      background-color: var(--y-primary, theme-color('primary'));
 
       &::after {
         color: theme-color('inverse');
@@ -119,9 +122,9 @@ input[type='radio'] {
 
 input[type='radio'] {
   border-radius: 50%;
-  position: relative;
   display: inline-block;
   border: 2px solid theme-color('light');
+  position: absolute;
 
   &::after {
     content: '';
@@ -135,11 +138,11 @@ input[type='radio'] {
     top: 4px;
   }
   &:checked {
-    border-color: theme-color('primary') !important;
+    border-color: var(--y-primary, theme-color('primary')) !important;
     background-color: theme-color('inverse');
 
     &::after {
-      background-color: theme-color('primary');
+      @include var-color('background-color', 'primary');
     }
   }
 }

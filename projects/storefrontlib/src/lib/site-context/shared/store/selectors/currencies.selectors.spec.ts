@@ -78,17 +78,37 @@ describe('Currencies Selectors', () => {
     });
   });
 
-  describe('getCurrenciesLoaded', () => {
-    it('should return whether currencies are loaded', () => {
+  describe('getCurrenciesLoadAttempted', () => {
+    it('should return whether attempted to load currencies', () => {
       let result;
 
       store
-        .select(fromSelectors.getCurrenciesLoaded)
+        .select(fromSelectors.getCurrenciesLoadAttempted)
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
 
       store.dispatch(new fromActions.LoadCurrenciesSuccess(currencies));
+      expect(result).toEqual(true);
+
+      store.dispatch(new fromActions.LoadCurrenciesFail(currencies));
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('getCurrenciesLoading', () => {
+    it('should return whether currencies are loading', () => {
+      let result;
+
+      store
+        .select(fromSelectors.getCurrenciesLoading)
+        .subscribe(value => (result = value));
+
+      store.dispatch(new fromActions.LoadCurrenciesFail({}));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new fromActions.LoadCurrencies());
 
       expect(result).toEqual(true);
     });
