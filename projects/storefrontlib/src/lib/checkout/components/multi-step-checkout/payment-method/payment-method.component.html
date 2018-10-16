@@ -6,7 +6,7 @@
             <ng-container *ngIf="existingPaymentMethods?.length && !newPaymentFormManuallyOpened; else newPaymentForm">
                 <p class="y-payment-method__text">Choose a payment method</p>
                 <div class="y-payment-method__btn row justify-content-end">
-                    <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action y-payment-method__add-new-payment-btn"
+                    <div class="col-sm-12 col-md-6"><button class="btn btn-block btn-action y-payment-method__add-new-payment-btn"
                             (click)="showNewPaymentForm()">
                             Add New Payment</button></div>
                 </div>
