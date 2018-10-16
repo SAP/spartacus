@@ -21,6 +21,20 @@ describe('Product Search Actions', () => {
           auxiliary: undefined
         });
       });
+
+      it('should create an action for auxiliary search', () => {
+        const payload = {
+          queryText: 'test',
+          searchConfig: searchConfig
+        };
+        const action = new fromProductSearch.SearchProducts(payload, true);
+        expect({ ...action }).toEqual({
+          type: fromProductSearch.SEARCH_PRODUCTS,
+          payload: payload,
+          auxiliary: true
+        });
+      });
+
     });
 
     describe('SearchProductsFail', () => {

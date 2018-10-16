@@ -7,7 +7,7 @@ import * as fromActions from '../actions';
 import * as fromSelectors from './product-search.selectors';
 import { SearchConfig } from '../../search-config';
 
-describe('ProductSearch Selectors', () => {
+fdescribe('ProductSearch Selectors', () => {
   let store: Store<fromReducers.ProductsState>;
 
   const searchResults = { products: [{ code: '123' }] };
@@ -44,6 +44,29 @@ describe('ProductSearch Selectors', () => {
         })
       );
       store.dispatch(new fromActions.SearchProductsSuccess(searchResults));
+
+      expect(result).toEqual(searchResults);
+    });
+  });
+
+  describe('getAuxSearchResults', () => {
+    it('should return the auxiliary product search results', () => {
+      let result;
+      const searchConfig = new SearchConfig();
+      searchConfig.pageSize = 10;
+      store
+        .pipe(select(fromSelectors.getAuxSearchResults))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual({});
+
+      store.dispatch(
+        new fromActions.SearchProducts({
+          queryText: 'test',
+          searchConfig: searchConfig
+        }, true)
+      );
+      store.dispatch(new fromActions.SearchProductsSuccess(searchResults, true));
 
       expect(result).toEqual(searchResults);
     });

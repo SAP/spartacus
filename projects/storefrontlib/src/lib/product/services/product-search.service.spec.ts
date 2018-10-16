@@ -9,7 +9,7 @@ import { ProductSearchService } from './product-search.service';
 import { SearchConfig } from '../search-config';
 import { EMPTY, of } from 'rxjs';
 
-fdescribe('ProductSearchService', () => {
+describe('ProductSearchService', () => {
   let service: ProductSearchService;
   let store: Store<fromStore.ProductsState>;
 
