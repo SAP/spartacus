@@ -232,17 +232,11 @@ describe('ReviewSubmitComponent', () => {
     const getCartTotal = () =>
       fixture.debugElement.query(By.css('.y-review__cart-total'));
 
-    it('should contain total number of items', () => {
+    it('should contain total number of items and total price', () => {
       mockSelectors.cart.getActiveCart.next(mockCart);
       mockSelectors.cart.getEntries.next([]);
       fixture.detectChanges();
       expect(getCartTotal().nativeElement.textContent).toContain(123);
-    });
-
-    it('should contain total price', () => {
-      mockSelectors.cart.getActiveCart.next(mockCart);
-      mockSelectors.cart.getEntries.next([]);
-      fixture.detectChanges();
       expect(getCartTotal().nativeElement.textContent).toContain('$999.98');
     });
   });
