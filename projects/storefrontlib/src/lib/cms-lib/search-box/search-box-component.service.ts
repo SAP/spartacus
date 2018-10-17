@@ -10,7 +10,7 @@ import {
 } from 'rxjs/operators';
 import { RoutingService } from '../../routing/facade/routing.service';
 
-interface SearchBoxConfig {
+export interface SearchBoxConfig {
   maxProducts: number;
   displaySuggestions: boolean;
   maxSuggestions: number;

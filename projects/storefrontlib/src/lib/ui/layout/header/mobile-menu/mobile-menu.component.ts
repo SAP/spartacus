@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 export class MobileMenuComponent implements OnDestroy {
   private subscription: Subscription;
   showMenu = false;
+  canAddToHomeScreen = false;
 
   constructor(private router: Router) {}
 
@@ -26,14 +27,17 @@ export class MobileMenuComponent implements OnDestroy {
     }
   }
 
-  ngOnInit() {}
-
-  canAddToHomeScreen(): boolean {
-    return ATHSPrompt.canPrompt;
+  ngOnInit() {
+    this.canAddToHomeScreen = ATHSPrompt.canPrompt;
+    window.addEventListener('beforeinstallprompt', () => {
+      this.canAddToHomeScreen = true;
+    });
   }
+
   addToHomeScreen(): void {
     ATHSPrompt.prompt();
   }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
