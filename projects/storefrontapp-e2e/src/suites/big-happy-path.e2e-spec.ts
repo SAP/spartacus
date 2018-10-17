@@ -117,12 +117,8 @@ describe('Big Happy Path', () => {
       AddressForm.CITY
     );
     expect(await reviewForm.shippingMethod.getText()).toContain(
-      // 'Standard Delivery'
       'standard-gross'
     );
-    // expect(await reviewForm.paymentMethod.getText()).toContain(
-    //   PaymentForm.CARD_TYPE
-    // );
     expect(await reviewForm.billingAddress.getText()).toContain(
       AddressForm.LAST_NAME
     );
