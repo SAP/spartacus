@@ -8,15 +8,23 @@ $y-existing-address-card-background-color: 'inverse' !default;
 $y-existing-address-no-padding: 0 !default;
 $y-existing-address-title-padding: 2.375rem 0 1.75rem 0 !default;
 $y-existing-address-title-margin: 0 auto !default;
-$y-existing-address-body-padding-bottom: 1.875rem !default;
 $y-existing-address-text-margin-bottom: 1.25rem !default;
 $y-existing-address-text-md-padding-left: 3.5rem !default;
 $y-existing-address-text-sm-padding-left: 1.5rem !default;
+
+$y-existing-address-card-trbl-margin: 0 0 1.875rem 0 !default;
+
 // Loading
 $y-shipping-address-loading-padding: 30px !default;
+
 .y-existing-address {
   &.container {
     padding: $y-existing-address-no-padding;
+  }
+  &__card {
+    @include media-breakpoint-up(lg) {
+      margin: $y-existing-address-card-trbl-margin;
+    }
   }
   &__title {
     text-transform: uppercase;
@@ -30,7 +38,6 @@ $y-shipping-address-loading-padding: 30px !default;
   &__body {
     display: flex;
     align-items: flex-end;
-    padding-bottom: $y-existing-address-body-padding-bottom;
   }
   &__text {
     margin-bottom: $y-existing-address-text-margin-bottom;

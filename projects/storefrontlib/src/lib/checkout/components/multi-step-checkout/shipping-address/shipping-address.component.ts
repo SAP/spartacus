@@ -36,7 +36,7 @@ export class ShippingAddressComponent implements OnInit {
   constructor(
     protected store: Store<fromUserStore.UserState>,
     protected checkoutService: CheckoutService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.isLoading$ = this.store.pipe(
@@ -70,7 +70,7 @@ export class ShippingAddressComponent implements OnInit {
       region = address.region.isocode + ', ';
     }
     const card: Card = {
-      title: address.defaultAddress ? 'Default Shipping Address' : '',
+      title: address.defaultAddress ? 'Default Address' : '',
       textBold: address.firstName + ' ' + address.lastName,
       text: [
         address.line1,
