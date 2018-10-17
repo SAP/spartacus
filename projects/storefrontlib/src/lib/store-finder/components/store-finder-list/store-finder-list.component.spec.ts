@@ -11,7 +11,7 @@ import * as fromReducers from '../../store';
 import * as fromRoot from '../../../routing/store';
 import * as fromServices from '../../services';
 
-fdescribe('StoreFinderListComponent', () => {
+describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
   let fixture: ComponentFixture<StoreFinderListComponent>;
   let store: Store<fromReducers.StoresState>;
@@ -53,5 +53,11 @@ fdescribe('StoreFinderListComponent', () => {
       done();
     });
     pagination.pageChange(4);
+  });
+
+  it('should center store on map', () => {
+    spyOn(component.storeMap, 'centerMap').and.callThrough();
+    component.centerStoreOnMapByIndex(1);
+    expect(component.storeMap.centerMap).toHaveBeenCalled();
   });
 });

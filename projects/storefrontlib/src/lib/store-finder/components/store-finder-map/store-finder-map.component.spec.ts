@@ -20,7 +20,8 @@ describe('StoreFinderMapComponent', () => {
 
   beforeEach(() => {
     const bed = TestBed.configureTestingModule({
-      declarations: [StoreFinderMapComponent]
+      declarations: [StoreFinderMapComponent],
+      providers: [GoogleMapRendererService]
     });
 
     bed.overrideProvider(GoogleMapRendererService, {
