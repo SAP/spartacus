@@ -14,13 +14,65 @@ import * as fromAuth from '../../../../auth/store';
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
 
-import { CardModule } from '../../../../ui/components/card/card.module';
-import { CartSharedModule } from '../../../../cart/components/cart-shared/cart-shared.module';
+import { By } from '@angular/platform-browser';
+
+import { Input, Component } from '@angular/core';
 
 const mockCart = {
   guid: 'test',
-  code: 'test'
+  code: 'test',
+  totalItems: 123,
+  subTotal: { formattedValue: '$999.98' },
+  potentialProductPromotions: ['promotion 1', 'promotion 2']
 };
+
+const mockDeliveryAddress = {
+  firstName: 'John',
+  lastName: 'Doe',
+  titleCode: 'mr',
+  line1: 'Toyosaki 2 create on cart',
+  line2: 'line2',
+  town: 'town',
+  region: { isocode: 'JP-27' },
+  postalCode: 'zip',
+  country: { isocode: 'JP' }
+};
+
+const mockShippingMethod = 'standard-gross';
+
+const mockPaymentDetails = {
+  accountHolderName: 'Name',
+  cardNumber: '123456789',
+  cardType: 'Visa',
+  expiryMonth: '01',
+  expiryYear: '2022',
+  cvn: '123'
+};
+
+const mockEntries = ['cart entry 1', 'cart entry 2'];
+
+@Component({
+  selector: 'y-cart-item-list',
+  template: ''
+})
+class MockCartItemListComponent {
+  @Input()
+  items;
+  @Input()
+  isReadOnly;
+  @Input()
+  potentialProductPromotions;
+}
+
+@Component({
+  selector: 'y-card',
+  template: ''
+})
+class MockCardComponent {
+  @Input()
+  content;
+}
+
 describe('ReviewSubmitComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: ReviewSubmitComponent;
@@ -50,11 +102,13 @@ describe('ReviewSubmitComponent', () => {
           user: combineReducers(fromUser.getReducers()),
           checkout: combineReducers(fromCheckout.getReducers()),
           auth: combineReducers(fromAuth.getReducers())
-        }),
-        CardModule,
-        CartSharedModule
+        })
       ],
-      declarations: [ReviewSubmitComponent],
+      declarations: [
+        ReviewSubmitComponent,
+        MockCartItemListComponent,
+        MockCardComponent
+      ],
       providers: [CheckoutService, CartDataService]
     }).compileComponents();
   }));
@@ -70,26 +124,9 @@ describe('ReviewSubmitComponent', () => {
     cartData.userId = 'userId';
     cartData.cart.code = 'cartId';
 
-    component.deliveryAddress = {
-      firstName: 'John',
-      lastName: 'Doe',
-      titleCode: 'mr',
-      line1: 'Toyosaki 2 create on cart',
-      line2: 'line2',
-      town: 'town',
-      region: { isocode: 'JP-27' },
-      postalCode: 'zip',
-      country: { isocode: 'JP' }
-    };
-    component.shippingMethod = 'standard-gross';
-    component.paymentDetails = {
-      accountHolderName: 'Name',
-      cardNumber: '123456789',
-      cardType: 'Visa',
-      expiryMonth: '01',
-      expiryYear: '2022',
-      cvn: '123'
-    };
+    component.deliveryAddress = mockDeliveryAddress;
+    component.shippingMethod = mockShippingMethod;
+    component.paymentDetails = mockPaymentDetails;
 
     mockSelectors = {
       cart: {
@@ -100,7 +137,7 @@ describe('ReviewSubmitComponent', () => {
         getSelectedDeliveryMode: new BehaviorSubject('')
       },
       user: {
-        countrySelectorFactory: new BehaviorSubject([])
+        countrySelectorFactory: new BehaviorSubject({})
       }
     };
     spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
@@ -160,8 +197,8 @@ describe('ReviewSubmitComponent', () => {
     });
   });
 
-  it('should call getAddressCard(countryName) to get address card data', () => {
-    const card = component.getAddressCard('Canada');
+  it('should call getShippingAddressCard(countryName) to get address card data', () => {
+    const card = component.getShippingAddressCard('Canada');
     expect(card.title).toEqual('Ship To');
     expect(card.textBold).toEqual('John Doe');
     expect(card.text).toEqual([
@@ -184,10 +221,112 @@ describe('ReviewSubmitComponent', () => {
     expect(card.text).toEqual(['Standard Delivery description']);
   });
 
-  it('should call getPaymentCard() to get payment card data', () => {
-    const card = component.getPaymentCard();
+  it('should call getPaymentMethodCard() to get payment card data', () => {
+    const card = component.getPaymentMethodCard();
     expect(card.title).toEqual('Payment');
     expect(card.textBold).toEqual('Name');
     expect(card.text).toEqual(['123456789', 'Expires: 01/2022']);
+  });
+
+  describe('UI cart total', () => {
+    const getCartTotal = () =>
+      fixture.debugElement.query(By.css('.y-review__cart-total'));
+
+    it('should contain total number of items', () => {
+      mockSelectors.cart.getActiveCart.next(mockCart);
+      mockSelectors.cart.getEntries.next([]);
+      fixture.detectChanges();
+      expect(getCartTotal().nativeElement.textContent).toContain(123);
+    });
+
+    it('should contain total price', () => {
+      mockSelectors.cart.getActiveCart.next(mockCart);
+      mockSelectors.cart.getEntries.next([]);
+      fixture.detectChanges();
+      expect(getCartTotal().nativeElement.textContent).toContain('$999.98');
+    });
+  });
+
+  describe('UI shipping address card', () => {
+    const getShippingAddressCard = () =>
+      fixture.debugElement.query(
+        By.css('.y-review__summary-card__address y-card')
+      );
+
+    it('should show shipping address', () => {
+      const mockShippingAdddressCardData = 'test shipping address';
+      spyOn(component, 'getShippingAddressCard').and.returnValue(
+        mockShippingAdddressCardData
+      );
+      fixture.detectChanges();
+      expect(getShippingAddressCard().componentInstance.content).toBe(
+        mockShippingAdddressCardData
+      );
+    });
+  });
+
+  describe('UI shipping method card', () => {
+    const getShippingMethodCard = () =>
+      fixture.debugElement.query(
+        By.css('.y-review__summary-card__shipping-method y-card')
+      );
+
+    it('should show shipping method', () => {
+      const mockShippingMethodCardData = 'test shipping method';
+      spyOn(component, 'getShippingMethodCard').and.returnValue(
+        mockShippingMethodCardData
+      );
+      fixture.detectChanges();
+      expect(getShippingMethodCard().componentInstance.content).toBe(
+        mockShippingMethodCardData
+      );
+    });
+  });
+
+  describe('UI payment method card', () => {
+    const getPaymentMethodCard = () =>
+      fixture.debugElement.query(
+        By.css('.y-review__summary-card__payment-method y-card')
+      );
+
+    it('should show payment method', () => {
+      const mockPaymentMethodCardData = 'test payment method';
+      spyOn(component, 'getPaymentMethodCard').and.returnValue(
+        mockPaymentMethodCardData
+      );
+      fixture.detectChanges();
+      expect(getPaymentMethodCard().componentInstance.content).toBe(
+        mockPaymentMethodCardData
+      );
+    });
+  });
+
+  describe('UI cart items list', () => {
+    const getCartItemList = () =>
+      fixture.debugElement.query(By.css('y-cart-item-list'));
+
+    it('should show all cart entries', () => {
+      mockSelectors.cart.getEntries.next(mockEntries);
+
+      fixture.detectChanges();
+      expect(getCartItemList().componentInstance.items).toEqual([
+        'cart entry 1',
+        'cart entry 2'
+      ]);
+    });
+
+    it('should be read only', () => {
+      fixture.detectChanges();
+      expect(getCartItemList().componentInstance.isReadOnly).toBe(true);
+    });
+
+    it('should show potential product promotions', () => {
+      mockSelectors.cart.getActiveCart.next(mockCart);
+
+      fixture.detectChanges();
+      expect(
+        getCartItemList().componentInstance.potentialProductPromotions
+      ).toEqual(['promotion 1', 'promotion 2']);
+    });
   });
 });
