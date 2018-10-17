@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, Store, combineReducers, select } from '@ngrx/store';
 
 import * as fromRoot from '../../../../routing/store';
 import * as fromReducers from '../reducers';
@@ -33,7 +33,7 @@ describe('Languages Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getLanguagesEntities)
+        .pipe(select(fromSelectors.getLanguagesEntities))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -49,7 +49,7 @@ describe('Languages Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getActiveLanguage)
+        .pipe(select(fromSelectors.getActiveLanguage))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(null);
@@ -65,7 +65,7 @@ describe('Languages Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getAllLanguages)
+        .pipe(select(fromSelectors.getAllLanguages))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
@@ -81,7 +81,7 @@ describe('Languages Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getLanguagesLoadAttempted)
+        .pipe(select(fromSelectors.getLanguagesLoadAttempted))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
@@ -99,7 +99,7 @@ describe('Languages Selectors', () => {
       let result;
 
       store
-        .select(fromSelectors.getLanguagesLoading)
+        .pipe(select(fromSelectors.getLanguagesLoading))
         .subscribe(value => (result = value));
 
       store.dispatch(new fromActions.LoadLanguagesFail({}));

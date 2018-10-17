@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
 import {
@@ -39,11 +39,13 @@ export class CmsPageGuards implements CanActivate {
   hasPage(): Observable<boolean> {
     let tryTimes = 0;
 
-    return this.routingStore.select(fromRouting.getRouterState).pipe(
+    return this.routingStore.pipe(
+      select(fromRouting.getRouterState),
       map(routerState => routerState.state.context),
       take(1),
       mergeMap(pageContext =>
-        this.store.select(fromStore.getPageEntities).pipe(
+        this.store.pipe(
+          select(fromStore.getPageEntities),
           map((entities: { [key: string]: Page }) => {
             let key = pageContext.id + '_' + pageContext.type;
             let found = !!entities[key];

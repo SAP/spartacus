@@ -1,7 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, combineReducers } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import * as NgrxStore from '@ngrx/store';
+import { BehaviorSubject } from 'rxjs';
 
 import { PaymentFormModule } from './payment-form/payment-form.module';
 import { PaymentMethodComponent } from './payment-method.component';
@@ -16,6 +17,7 @@ import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
 import { CardModule } from '../../../../ui/components/card/card.module';
+import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
 
 const paymentDetails = {
   accountHolderName: 'Name',
@@ -27,16 +29,20 @@ const paymentDetails = {
 };
 
 describe('PaymentMethodComponent', () => {
-  let store: Store<fromCheckout.CheckoutState>;
   let component: PaymentMethodComponent;
   let fixture: ComponentFixture<PaymentMethodComponent>;
   let service: CheckoutService;
+  let mockUserSelectors: {
+    getPaymentMethods: BehaviorSubject<any[]>;
+    getPaymentMethodsLoading: BehaviorSubject<boolean>;
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
         CardModule,
+        SpinnerModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
@@ -55,7 +61,19 @@ describe('PaymentMethodComponent', () => {
     fixture = TestBed.createComponent(PaymentMethodComponent);
     component = fixture.componentInstance;
     service = TestBed.get(CheckoutService);
-    store = TestBed.get(Store);
+
+    mockUserSelectors = {
+      getPaymentMethods: new BehaviorSubject([]),
+      getPaymentMethodsLoading: new BehaviorSubject(false)
+    };
+    spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
+      switch (selector) {
+        case fromUser.getPaymentMethods:
+          return () => mockUserSelectors.getPaymentMethods;
+        case fromUser.getPaymentMethodsLoading:
+          return () => mockUserSelectors.getPaymentMethodsLoading;
+      }
+    });
 
     spyOn(service, 'loadUserPaymentMethods').and.callThrough();
     spyOn(component.addPaymentInfo, 'emit').and.callThrough();
@@ -67,7 +85,7 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call ngOnInit to get existing payment methods if they do not exist', () => {
-    spyOn(store, 'select').and.returnValue(of([]));
+    mockUserSelectors.getPaymentMethods.next([]);
     component.ngOnInit();
     component.existingPaymentMethods$.subscribe(() => {
       expect(service.loadUserPaymentMethods).toHaveBeenCalled();
@@ -76,7 +94,7 @@ describe('PaymentMethodComponent', () => {
 
   it('should call ngOnInit to get existing payment methods if they exist', () => {
     const mockPayments = [paymentDetails];
-    spyOn(store, 'select').and.returnValue(of(mockPayments));
+    mockUserSelectors.getPaymentMethods.next(mockPayments);
     component.ngOnInit();
     component.existingPaymentMethods$.subscribe(data => {
       expect(data).toBe(mockPayments);
