@@ -1,8 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { combineReducers, StoreModule } from '@ngrx/store';
 
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 import { StoreFinderService } from '../../services/store-finder.service';
@@ -39,12 +37,16 @@ class WindowRefMock {
   }
 }
 
+class StoreFinderServiceMock {
+  public findStores(_queryText: string, _longitudeLatitude: number[]) {}
+  public viewAllStores() {}
+}
+
 describe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;
   let fixture: ComponentFixture<StoreFinderSearchComponent>;
   let service: StoreFinderService;
   let windowRef: WindowRef;
-  let store: Store<fromStore.StoresState>;
   const keyEvent = {
     key: 'Enter'
   };
@@ -54,9 +56,7 @@ describe('StoreFinderSearchComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        CommonModule,
         ReactiveFormsModule,
-        BrowserAnimationsModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           stores: combineReducers(fromStore.reducers)
@@ -64,7 +64,7 @@ describe('StoreFinderSearchComponent', () => {
       ],
       declarations: [StoreFinderSearchComponent],
       providers: [
-        StoreFinderService,
+        { provide: StoreFinderService, useClass: StoreFinderServiceMock },
         { provide: WindowRef, useClass: WindowRefMock }
       ]
     }).compileComponents();
@@ -75,8 +75,6 @@ describe('StoreFinderSearchComponent', () => {
     component = fixture.componentInstance;
     service = TestBed.get(StoreFinderService);
     windowRef = TestBed.get(WindowRef);
-    store = TestBed.get(Store);
-    spyOn(store, 'dispatch').and.callThrough();
     spyOn(component, 'findStores').and.callThrough();
     spyOn(service, 'findStores').and.callThrough();
     spyOn(component, 'viewAllStores').and.callThrough();
@@ -96,11 +94,6 @@ describe('StoreFinderSearchComponent', () => {
     component.findStores(component.searchBox.value);
     expect(component.findStores).toHaveBeenCalled();
     expect(service.findStores).toHaveBeenCalled();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.FindStores({
-        queryText: 'query'
-      })
-    );
   });
 
   it('should call onKey and dispatch query', () => {
@@ -108,7 +101,6 @@ describe('StoreFinderSearchComponent', () => {
     expect(component.onKey).toHaveBeenCalled();
     expect(component.findStores).toHaveBeenCalled();
     expect(service.findStores).toHaveBeenCalled();
-    expect(store.dispatch).toHaveBeenCalled();
   });
 
   it('should only call onKey', () => {
@@ -121,7 +113,6 @@ describe('StoreFinderSearchComponent', () => {
     component.viewAllStores();
     expect(component.viewAllStores).toHaveBeenCalled();
     expect(service.viewAllStores).toHaveBeenCalled();
-    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.FindAllStores());
   });
 
   it('should view stores near by my location', () => {

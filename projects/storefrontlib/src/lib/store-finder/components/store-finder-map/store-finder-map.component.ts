@@ -13,8 +13,7 @@ import { GoogleMapRendererService } from '../../services/google-map-renderer.ser
 @Component({
   selector: 'y-store-finder-map',
   templateUrl: './store-finder-map.component.html',
-  styleUrls: ['./store-finder-map.component.scss'],
-  providers: [GoogleMapRendererService]
+  styleUrls: ['./store-finder-map.component.scss']
 })
 export class StoreFinderMapComponent implements OnChanges {
   @ViewChild('mapElement')
@@ -47,7 +46,7 @@ export class StoreFinderMapComponent implements OnChanges {
    * @param latitude latitude of the new center
    * @param longitude longitude of the new center
    */
-  public centerMap(latitude: number, longitude: number): void {
+  centerMap(latitude: number, longitude: number): void {
     this.googleMapRendererService.centerMap(latitude, longitude);
   }
 }

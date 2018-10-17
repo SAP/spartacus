@@ -5,7 +5,7 @@ import { OccE2eConfigurationService } from '../../occ/e2e/e2e-configuration-serv
 import { StoreDataService } from './store-data.service';
 
 const GOOGLE_MAP_API_URL = 'https://maps.googleapis.com/maps/api/js';
-const GOOGLE_API_KEY_PROPERRY_NAME = 'e2egoogleservices.apikey';
+const GOOGLE_API_KEY_PROPERTY_NAME = 'e2egoogleservices.apikey';
 const DEFAULT_SCALE = 12;
 const SELECTED_MARKER_SCALE = 16;
 
@@ -27,14 +27,14 @@ export class GoogleMapRendererService {
    * @param locations array containign geo data to be displayed on the map
    * @param selectMarkerHandler function to handle whenever a marker on a map is clicked
    */
-  public renderMap(
+  renderMap(
     mapElement: HTMLElement,
     locations: any[],
     selectMarkerHandler?: Function
   ): void {
     if (this.googleMap === null) {
       this.sccConfigurationService
-        .getConfiguration(GOOGLE_API_KEY_PROPERRY_NAME)
+        .getConfiguration(GOOGLE_API_KEY_PROPERTY_NAME)
         .subscribe(result => {
           this.externalJsFileLoader.load(
             GOOGLE_MAP_API_URL,
@@ -66,7 +66,7 @@ export class GoogleMapRendererService {
    * @param latitute latitude of the new center
    * @param longitude longitude of the new center
    */
-  public centerMap(latitute: number, longitude: number): void {
+  centerMap(latitute: number, longitude: number): void {
     this.googleMap.panTo({ lat: latitute, lng: longitude });
     this.googleMap.setZoom(SELECTED_MARKER_SCALE);
   }
@@ -75,7 +75,7 @@ export class GoogleMapRendererService {
    * Defines and returns {@link google.maps.LatLng} representing a point where the map will be centered
    * @param locations list of locations
    */
-  protected defineMapCenter(locations: any[]): google.maps.LatLng {
+  private defineMapCenter(locations: any[]): google.maps.LatLng {
     return new google.maps.LatLng(
       this.storeDataService.getStoreLatitude(locations[0]),
       this.storeDataService.getStoreLongitude(locations[0])
@@ -87,7 +87,7 @@ export class GoogleMapRendererService {
    * @param mapElement {@link HTMLElement} inside of which the map will be created
    * @param mapCenter {@link google.maps.LatLng} the point where the map will be centered
    */
-  protected initMap(
+  private initMap(
     mapElement: HTMLElement,
     mapCenter: google.maps.LatLng
   ): void {
@@ -104,7 +104,7 @@ export class GoogleMapRendererService {
    * @param locations array of locations to be displayed on the map
    * @param selectMarkerHandler function to handle whenever a marker on a map is clicked
    */
-  protected createMarkers(
+  private createMarkers(
     locations: any[],
     selectMarkerHandler?: Function
   ): void {
@@ -137,7 +137,7 @@ export class GoogleMapRendererService {
    * Moves all the markers to the given map
    * @param map {@link google.maps.Map} the map where all the markers will be moved. Pass null if you just want to erase markers
    */
-  protected setMapOnAllMarkers(map: google.maps.Map): void {
+  private setMapOnAllMarkers(map: google.maps.Map): void {
     this.markers.forEach(marker => marker.setMap(map));
   }
 }

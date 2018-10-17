@@ -29,16 +29,6 @@ export class ScheduleComponent implements OnChanges {
   }
 
   /**
-   * return initial (first) date to be displayed in the schedule
-   */
-  protected getInitialDate(): Date {
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() - currentDate.getDay());
-
-    return currentDate;
-  }
-
-  /**
    * Returns the store's opening time for the given date
    * @param date date
    */
@@ -52,5 +42,15 @@ export class ScheduleComponent implements OnChanges {
    */
   getStoreClosingTime(date: Date): Date {
     return this.storeDataService.getStoreClosingTime(this.location, date);
+  }
+
+  /**
+   * return initial (first) date to be displayed in the schedule
+   */
+  private getInitialDate(): Date {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() - currentDate.getDay());
+
+    return currentDate;
   }
 }

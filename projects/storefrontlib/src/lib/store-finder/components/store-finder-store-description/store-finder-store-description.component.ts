@@ -27,7 +27,7 @@ export class StoreFinderStoreDescriptionComponent
     super(storeDataService);
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.ngUnsubscribe = this.store
       .pipe(select(fromStore.getFindStoresEntities))
       .subscribe(locations => {
@@ -40,7 +40,7 @@ export class StoreFinderStoreDescriptionComponent
       });
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.ngUnsubscribe.unsubscribe();
   }
 }

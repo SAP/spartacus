@@ -6,9 +6,9 @@ import { combineReducers, StoreModule } from '@ngrx/store';
 import { StoreFinderGridComponent } from './store-finder-grid.component';
 import { StoreFinderListItemComponent } from '../store-finder-list/store-finder-list-item/store-finder-list-item.component';
 import { StoreFinderService } from '../../services/store-finder.service';
+
 import * as fromReducers from '../../store';
 import * as fromRoot from '../../../routing/store';
-import { services } from '../../services';
 
 const countryIsoCode = 'CA';
 const regionIsoCode = 'CA-QC';
@@ -31,7 +31,7 @@ const mockActivatedRoute = {
 describe('StoreFinderGridComponent', () => {
   let component: StoreFinderGridComponent;
   let fixture: ComponentFixture<StoreFinderGridComponent>;
-  let storeFinderServiceMock: StoreFinderServiceMock;
+  let storeFinderService: StoreFinderService;
   const mockRouter = {
     navigate: jasmine.createSpy('navigate')
   };
@@ -39,12 +39,12 @@ describe('StoreFinderGridComponent', () => {
   it('should create with country routing parameter', () => {
     mockActivatedRoute.snapshot.params = { country: countryIsoCode };
     configureTestBed();
-    spyOn(storeFinderServiceMock, 'viewAllStoresForCountry').and.stub();
+    spyOn(storeFinderService, 'viewAllStoresForCountry').and.stub();
 
     createComponent();
 
     expect(component).toBeTruthy();
-    expect(storeFinderServiceMock.viewAllStoresForCountry).toHaveBeenCalledWith(
+    expect(storeFinderService.viewAllStoresForCountry).toHaveBeenCalledWith(
       countryIsoCode
     );
   });
@@ -55,12 +55,12 @@ describe('StoreFinderGridComponent', () => {
       region: regionIsoCode
     };
     configureTestBed();
-    spyOn(storeFinderServiceMock, 'viewAllStoresForRegion').and.callThrough();
+    spyOn(storeFinderService, 'viewAllStoresForRegion').and.callThrough();
 
     createComponent();
 
     expect(component).toBeTruthy();
-    expect(storeFinderServiceMock.viewAllStoresForRegion).toHaveBeenCalledWith(
+    expect(storeFinderService.viewAllStoresForRegion).toHaveBeenCalledWith(
       countryIsoCode,
       regionIsoCode
     );
@@ -97,17 +97,14 @@ describe('StoreFinderGridComponent', () => {
       ],
       declarations: [StoreFinderGridComponent, StoreFinderListItemComponent],
       providers: [
-        ...services,
-        { provide: StoreFinderServiceMock },
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        { provide: mockActivatedRoute },
         { provide: Router, useValue: mockRouter }
       ]
     });
     bed.compileComponents();
 
-    storeFinderServiceMock = bed.get(StoreFinderService);
+    storeFinderService = bed.get(StoreFinderService);
   }
 
   function createComponent() {
