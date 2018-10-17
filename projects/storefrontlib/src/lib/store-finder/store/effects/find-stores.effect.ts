@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import * as fromAction from './../actions/find-stores.action';
 import { OccStoreFinderService } from '../../../occ/store/store-finder.service';
 
 @Injectable()
-export class StoreFinderEffect {
+export class FindStoresEffect {
   constructor(
     private actions$: Actions,
     private occStoreFinderService: OccStoreFinderService
@@ -32,17 +32,6 @@ export class StoreFinderEffect {
           catchError(error => of(new fromAction.FindStoresFail(error)))
         )
     )
-  );
-
-  @Effect()
-  findAllStores$: Observable<any> = this.actions$.pipe(
-    ofType(fromAction.FIND_ALL_STORES),
-    switchMap(() => {
-      return this.occStoreFinderService.storesCount().pipe(
-        map(data => new fromAction.FindAllStoresSuccess(data)),
-        catchError(error => of(new fromAction.FindAllStoresFail(error)))
-      );
-    })
   );
 
   @Effect()

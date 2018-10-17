@@ -1,19 +1,17 @@
 import * as fromStoreFinder from '../actions/find-stores.action';
 
-export interface StoreFinderState {
+export interface FindStoresState {
   findStoresEntities: any;
-  viewAllStoresEntities: any;
 }
 
-export const initialState: StoreFinderState = {
-  findStoresEntities: {},
-  viewAllStoresEntities: {}
+export const initialState: FindStoresState = {
+  findStoresEntities: {}
 };
 
 export function reducer(
   state = initialState,
   action: fromStoreFinder.FindStoresAction
-): StoreFinderState {
+): FindStoresState {
   switch (action.type) {
     case fromStoreFinder.FIND_STORES_SUCCESS: {
       const findStoresEntities = action.payload;
@@ -24,20 +22,6 @@ export function reducer(
       };
     }
     case fromStoreFinder.FIND_STORES_FAIL: {
-      return {
-        ...state
-      };
-    }
-
-    case fromStoreFinder.FIND_ALL_STORES_SUCCESS: {
-      const viewAllStoresEntities = action.payload;
-
-      return {
-        ...state,
-        viewAllStoresEntities
-      };
-    }
-    case fromStoreFinder.FIND_ALL_STORES_FAIL: {
       return {
         ...state
       };
@@ -77,7 +61,5 @@ export function reducer(
   return state;
 }
 
-export const getFindStoresEntities = (state: StoreFinderState) =>
+export const getFindStoresEntities = (state: FindStoresState) =>
   state.findStoresEntities;
-export const getViewAllStoresEntities = (state: StoreFinderState) =>
-  state.viewAllStoresEntities;

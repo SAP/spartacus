@@ -1,13 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
+import { SearchConfig } from '../../models/search-config';
+
 import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from './find-stores.selectors';
-import { SearchConfig } from '../../models/search-config';
 
-describe('StoreFinder Selectors', () => {
+describe('FindStores Selectors', () => {
   let store: Store<fromReducers.StoresState>;
 
   const searchResult = { stores: [{ name: 'test' }] };
@@ -39,22 +40,6 @@ describe('StoreFinder Selectors', () => {
         new fromActions.FindStores({ queryText: 'test', searchConfig })
       );
       store.dispatch(new fromActions.FindStoresSuccess(searchResult));
-
-      expect(result).toEqual(searchResult);
-    });
-  });
-
-  describe('viewAllStores', () => {
-    it('should return the stores search results', () => {
-      let result;
-      store
-        .select(fromSelectors.getViewAllStoresEntities)
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual({});
-
-      store.dispatch(new fromActions.FindAllStores());
-      store.dispatch(new fromActions.FindAllStoresSuccess(searchResult));
 
       expect(result).toEqual(searchResult);
     });

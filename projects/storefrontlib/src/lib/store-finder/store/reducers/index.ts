@@ -4,17 +4,20 @@ import {
   MemoizedSelector
 } from '@ngrx/store';
 
-import * as fromStoreFinder from './find-stores.reducer';
+import * as fromFindStores from './find-stores.reducer';
+import * as fromViewAllStores from './view-all-stores.reducer';
 
 export interface StoresState {
-  stores: fromStoreFinder.StoreFinderState;
+  findStores: fromFindStores.FindStoresState;
+  viewAllStores: fromViewAllStores.ViewAllStoresState;
 }
 
 export const reducers: ActionReducerMap<StoresState> = {
-  stores: fromStoreFinder.reducer
+  findStores: fromFindStores.reducer,
+  viewAllStores: fromViewAllStores.reducer
 };
 
-export const getStoresFinderState: MemoizedSelector<
+export const getStoreFinderState: MemoizedSelector<
   any,
   StoresState
 > = createFeatureSelector<StoresState>('stores');

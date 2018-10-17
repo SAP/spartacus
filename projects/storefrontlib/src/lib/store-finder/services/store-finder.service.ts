@@ -19,7 +19,7 @@ export class StoreFinderService {
   }
 
   viewAllStores() {
-    this.store.dispatch(new fromStore.FindAllStores());
+    this.store.dispatch(new fromStore.ViewAllStores());
   }
 
   viewAllStoresForCountry(countryIsoCode: string) {

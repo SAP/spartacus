@@ -62,7 +62,7 @@ describe('StoreFinderService', () => {
       service.viewAllStores();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindAllStores()
+        new fromStore.ViewAllStores()
       );
     });
   });

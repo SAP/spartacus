@@ -8,14 +8,22 @@ import { Observable, of } from 'rxjs';
 import { OccStoreFinderService } from '../../../occ/store/store-finder.service';
 import { OccModuleConfig } from '../../../occ/occ-module-config';
 import { SearchConfig } from '../../models/search-config';
-import * as fromEffects from './find-stores.effect';
-import * as fromActions from '../actions/find-stores.action';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 
-describe('StoreFinder Effects', () => {
+import * as fromEffects from './find-stores.effect';
+import * as fromActions from '../actions/find-stores.action';
+
+const MockOccModuleConfig: OccModuleConfig = {
+  server: {
+    baseUrl: '',
+    occPrefix: ''
+  }
+};
+
+describe('FindStores Effects', () => {
   let actions$: Observable<any>;
   let service: OccStoreFinderService;
-  let effects: fromEffects.StoreFinderEffect;
+  let effects: fromEffects.FindStoresEffect;
   let searchConfig: SearchConfig;
   const longitudeLatitude: number[] = [10.1, 20.2];
 
@@ -27,18 +35,17 @@ describe('StoreFinder Effects', () => {
       providers: [
         OccStoreFinderService,
         OccE2eConfigurationService,
-        OccModuleConfig,
-        fromEffects.StoreFinderEffect,
+        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
+        fromEffects.FindStoresEffect,
         provideMockActions(() => actions$)
       ]
     });
 
     service = TestBed.get(OccStoreFinderService);
-    effects = TestBed.get(fromEffects.StoreFinderEffect);
+    effects = TestBed.get(fromEffects.FindStoresEffect);
     searchConfig = { pageSize: 10 };
 
     spyOn(service, 'findStores').and.returnValue(of(searchResult));
-    spyOn(service, 'storesCount').and.returnValue(of(searchResult));
     spyOn(service, 'findStoresByCountry').and.returnValue(of(searchResult));
     spyOn(service, 'findStoresByRegion').and.returnValue(of(searchResult));
   });
@@ -71,18 +78,6 @@ describe('StoreFinder Effects', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effects.findStores$).toBeObservable(expected);
-    });
-  });
-
-  describe('findAllStores$', () => {
-    it('should return searchResult from FindAllStoresSuccess', () => {
-      const action = new fromActions.FindAllStores();
-      const completion = new fromActions.FindAllStoresSuccess(searchResult);
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(effects.findAllStores$).toBeObservable(expected);
     });
   });
 

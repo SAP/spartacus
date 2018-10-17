@@ -53,40 +53,6 @@ describe('Find Stores Actions', () => {
     });
   });
 
-  describe('FindAllStores', () => {
-    it('should create FindAllStores action', () => {
-      const action = new fromActions.FindAllStores();
-
-      expect({ ...action }).toEqual({
-        type: fromActions.FIND_ALL_STORES
-      });
-    });
-  });
-
-  describe('FindAllStoresFail', () => {
-    it('should create FindAllStoresFail action', () => {
-      const payload = { errorMessage: 'Error' };
-      const action = new fromActions.FindAllStoresFail(payload);
-
-      expect({ ...action }).toEqual({
-        type: fromActions.FIND_ALL_STORES_FAIL,
-        payload
-      });
-    });
-  });
-
-  describe('FindAllStoresSuccess', () => {
-    it('should create FindAllStoresSuccess action', () => {
-      const payload = [{ country: ['Canada'] }];
-      const action = new fromActions.FindAllStoresSuccess(payload);
-
-      expect({ ...action }).toEqual({
-        type: fromActions.FIND_ALL_STORES_SUCCESS,
-        payload
-      });
-    });
-  });
-
   describe('FindAllStoresByCountry', () => {
     it('should create FindAllStoresByCountry action', () => {
       const payload = { countryIsoCode: 'test' };
