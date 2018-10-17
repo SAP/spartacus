@@ -106,11 +106,11 @@ describe('CmsNavigationComponent in CmsLib', () => {
   });
 
   it('should render navigation-ui component', () => {
+    const getNav = () => fixture.debugElement.query(By.css('y-navigation-ui'));
     navigationComponent.node = {};
     navigationComponent.dropdownMode = 'column';
     fixture.detectChanges();
-    const nav = fixture.debugElement.query(By.css('y-navigation-ui'))
-      .nativeElement;
+    const nav = getNav().nativeElement;
     expect(nav).toBeTruthy();
   });
 });

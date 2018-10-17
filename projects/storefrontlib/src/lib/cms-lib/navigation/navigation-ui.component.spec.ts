@@ -24,16 +24,18 @@ describe('Navigation UI Component', () => {
     });
 
     it('should render "Reorder" if title is missing', () => {
+      const getLink = () => element.query(By.css('a'));
       const mockData = {
         children: []
       };
       navigationComponent.node = mockData;
       fixture.detectChanges();
-      const link = element.query(By.css('a')).nativeElement;
+      const link = getLink().nativeElement;
       expect(link.textContent).toContain('Reorder');
     });
 
     it('should render correct title if provided', () => {
+      const getLink = () => element.query(By.css('.y-navigation__link'));
       const mockData = {
         title: 'Test 1',
         url: '/test-url',
@@ -41,24 +43,31 @@ describe('Navigation UI Component', () => {
       };
       navigationComponent.node = mockData;
       fixture.detectChanges();
-      const link = element.query(By.css('.y-navigation__link')).nativeElement;
+      const link = getLink().nativeElement;
       expect(link.textContent).toContain(mockData.title);
       expect(link.getAttribute('role')).toEqual('link');
     });
 
     it('should render correct title as a link if children are missing', () => {
+      const getLink = () => element.query(By.css('a.y-navigation__link'));
       const mockData = {
         title: 'Test 1',
         url: '/test-url'
       };
       navigationComponent.node = mockData;
       fixture.detectChanges();
-      const link = element.query(By.css('a.y-navigation__link')).nativeElement;
+      const link = getLink().nativeElement;
       expect(link.textContent).toContain(mockData.title);
       expect(link.getAttribute('href')).toEqual(mockData.url);
     });
 
     it('should render children as sublinks', () => {
+      const getDropdown = () =>
+        element.query(By.css('.y-navigation__child-list'));
+      const getFirstDropdownItem = () =>
+        element.query(By.css('.y-navigation__child-list')).children[0];
+      const getFirstDropdownLink = () =>
+        element.query(By.css('.y-navigation__child-list a'));
       const mockData = {
         title: 'Test title',
         children: [
@@ -75,20 +84,15 @@ describe('Navigation UI Component', () => {
       navigationComponent.node = mockData;
       fixture.detectChanges();
 
-      const dropdown = element.query(By.css('.y-navigation__child-list'))
-        .nativeElement;
+      const dropdown = getDropdown().nativeElement;
       expect(dropdown.getAttribute('aria-label')).toEqual(mockData.title);
       expect(dropdown.getAttribute('role')).toEqual('list');
       expect(dropdown.childElementCount).toBe(2);
 
-      const firstDropdownItem = element.query(
-        By.css('.y-navigation__child-list')
-      ).children[0].nativeElement;
+      const firstDropdownItem = getFirstDropdownItem().nativeElement;
       expect(firstDropdownItem.getAttribute('role')).toEqual('listitem');
 
-      const firstDropdownLink = element.query(
-        By.css('.y-navigation__child-list a')
-      ).nativeElement;
+      const firstDropdownLink = getFirstDropdownLink().nativeElement;
       expect(firstDropdownLink.textContent).toContain(
         mockData.children[0].title
       );
@@ -98,6 +102,10 @@ describe('Navigation UI Component', () => {
     });
 
     it('should render children of children', () => {
+      const getFirstDropdownItem = () =>
+        element.query(By.css('.y-navigation__child-list')).children[0];
+      const getSublinks = () =>
+        element.queryAll(By.css('a:not(.y-navigation__child-link)'));
       const mockData = {
         title: 'Test title',
         children: [
@@ -120,14 +128,9 @@ describe('Navigation UI Component', () => {
       navigationComponent.node = mockData;
       fixture.detectChanges();
 
-      const firstDropdownItem = element.query(
-        By.css('.y-navigation__child-list')
-      ).children[0].nativeElement;
+      const firstDropdownItem = getFirstDropdownItem().nativeElement;
       expect(firstDropdownItem.getAttribute('role')).toEqual('listitem');
-      console.log('nav', firstDropdownItem);
-      const sublinks = element.queryAll(
-        By.css('a:not(.y-navigation__child-link)')
-      );
+      const sublinks = getSublinks();
       expect(sublinks[0].nativeElement.getAttribute('href')).toEqual(
         mockData.children[0].children[0].url
       );
@@ -143,6 +146,8 @@ describe('Navigation UI Component', () => {
     });
 
     it('should render in column layout if dropdownMode equals column', () => {
+      const getFirstDropdownItem = () =>
+        element.query(By.css('.y-navigation__child-column'));
       const mockData = {
         title: 'Test title',
         children: [
@@ -156,9 +161,7 @@ describe('Navigation UI Component', () => {
       navigationComponent.dropdownMode = 'column';
       fixture.detectChanges();
 
-      const firstDropdownItem = element.query(
-        By.css('.y-navigation__child-column')
-      ).nativeElement;
+      const firstDropdownItem = getFirstDropdownItem().nativeElement;
       expect(firstDropdownItem).toBeTruthy();
     });
   });
