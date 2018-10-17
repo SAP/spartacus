@@ -34,7 +34,6 @@ describe('Product Search Actions', () => {
           auxiliary: true
         });
       });
-
     });
 
     describe('SearchProductsFail', () => {

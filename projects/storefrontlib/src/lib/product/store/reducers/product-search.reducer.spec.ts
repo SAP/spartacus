@@ -54,10 +54,13 @@ describe('Product Search Reducer', () => {
 
       const results = { products: [{ code: '123' }] };
       const { initialState } = fromProductSearch;
-      const loadAction = new fromActions.SearchProducts({
-        queryText: 'test',
-        searchConfig: mockSearchConfig
-      }, true);
+      const loadAction = new fromActions.SearchProducts(
+        {
+          queryText: 'test',
+          searchConfig: mockSearchConfig
+        },
+        true
+      );
       const loadingState = fromProductSearch.reducer(initialState, loadAction);
       const resultAction = new fromActions.SearchProductsSuccess(results, true);
       const state = fromProductSearch.reducer(loadingState, resultAction);

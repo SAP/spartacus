@@ -13,16 +13,20 @@ describe('ProductSearchService', () => {
   let service: ProductSearchService;
   let store: Store<fromStore.ProductsState>;
 
-  const mockSearchResults = { results: {
-    0: 'p1',
-    1: 'p2',
-    2: 'p3'
-  }};
+  const mockSearchResults = {
+    results: {
+      0: 'p1',
+      1: 'p2',
+      2: 'p3'
+    }
+  };
 
-  const mockAuxSearchResults = { results: {
+  const mockAuxSearchResults = {
+    results: {
       0: 'ap1',
       1: 'ap2'
-    }};
+    }
+  };
 
   const mockSelect = selector => {
     switch (selector) {
@@ -34,7 +38,6 @@ describe('ProductSearchService', () => {
         return () => EMPTY;
     }
   };
-
 
   beforeEach(() => {
     spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
@@ -91,10 +94,13 @@ describe('ProductSearchService', () => {
       const searchConfig = new SearchConfig();
       service.searchAuxiliary('test query', searchConfig);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SearchProducts({
-          queryText: 'test query',
-          searchConfig: searchConfig,
-        }, true)
+        new fromStore.SearchProducts(
+          {
+            queryText: 'test query',
+            searchConfig: searchConfig
+          },
+          true
+        )
       );
     });
   });

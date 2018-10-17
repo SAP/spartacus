@@ -61,12 +61,17 @@ describe('ProductSearch Selectors', () => {
       expect(result).toEqual({});
 
       store.dispatch(
-        new fromActions.SearchProducts({
-          queryText: 'test',
-          searchConfig: searchConfig
-        }, true)
+        new fromActions.SearchProducts(
+          {
+            queryText: 'test',
+            searchConfig: searchConfig
+          },
+          true
+        )
       );
-      store.dispatch(new fromActions.SearchProductsSuccess(searchResults, true));
+      store.dispatch(
+        new fromActions.SearchProductsSuccess(searchResults, true)
+      );
 
       expect(result).toEqual(searchResults);
     });
