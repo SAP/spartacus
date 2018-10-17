@@ -228,26 +228,32 @@ describe('ReviewSubmitComponent', () => {
     expect(card.text).toEqual(['123456789', 'Expires: 01/2022']);
   });
 
-  describe('UI cart total', () => {
+  describe('UI cart total section', () => {
     const getCartTotal = () =>
       fixture.debugElement.query(By.css('.y-review__cart-total'));
 
-    it('should contain total number of items and total price', () => {
+    beforeEach(() => {
       mockSelectors.cart.getActiveCart.next(mockCart);
       mockSelectors.cart.getEntries.next([]);
       fixture.detectChanges();
+    });
+
+    it('should contain total number of items', () => {
       expect(getCartTotal().nativeElement.textContent).toContain(123);
+    });
+
+    it('should contain total price', () => {
       expect(getCartTotal().nativeElement.textContent).toContain('$999.98');
     });
   });
 
-  describe('UI shipping address card', () => {
+  describe('child y-card component of shipping address', () => {
     const getShippingAddressCard = () =>
       fixture.debugElement.query(
         By.css('.y-review__summary-card__address y-card')
       );
 
-    it('should get shipping address', () => {
+    it('should receive content attribute with shipping address', () => {
       const mockShippingAdddressCardData = 'test shipping address';
       spyOn(component, 'getShippingAddressCard').and.returnValue(
         mockShippingAdddressCardData
@@ -259,13 +265,13 @@ describe('ReviewSubmitComponent', () => {
     });
   });
 
-  describe('UI shipping method card', () => {
+  describe('child y-card component of shipping method', () => {
     const getShippingMethodCard = () =>
       fixture.debugElement.query(
         By.css('.y-review__summary-card__shipping-method y-card')
       );
 
-    it('should get shipping method', () => {
+    it('should receive content attribute with shipping method', () => {
       const mockShippingMethodCardData = 'test shipping method';
       spyOn(component, 'getShippingMethodCard').and.returnValue(
         mockShippingMethodCardData
@@ -277,13 +283,13 @@ describe('ReviewSubmitComponent', () => {
     });
   });
 
-  describe('UI payment method card', () => {
+  describe('child y-card component of payment method', () => {
     const getPaymentMethodCard = () =>
       fixture.debugElement.query(
         By.css('.y-review__summary-card__payment-method y-card')
       );
 
-    it('should get payment method', () => {
+    it('should receive content attribute with payment method', () => {
       const mockPaymentMethodCardData = 'test payment method';
       spyOn(component, 'getPaymentMethodCard').and.returnValue(
         mockPaymentMethodCardData
@@ -295,11 +301,11 @@ describe('ReviewSubmitComponent', () => {
     });
   });
 
-  describe('UI cart items list', () => {
+  describe('child y-cart-item-list component', () => {
     const getCartItemList = () =>
       fixture.debugElement.query(By.css('y-cart-item-list'));
 
-    it('should get all cart entries', () => {
+    it('should receive items attribute with cart entires', () => {
       mockSelectors.cart.getEntries.next(mockEntries);
 
       fixture.detectChanges();
@@ -309,12 +315,12 @@ describe('ReviewSubmitComponent', () => {
       ]);
     });
 
-    it('should get read only mode', () => {
+    it('should receive isReadOnly attribute with value true', () => {
       fixture.detectChanges();
       expect(getCartItemList().componentInstance.isReadOnly).toBe(true);
     });
 
-    it('should get potential product promotions', () => {
+    it('should receive potentialProductPromotions attribute with potential product promotions of cart', () => {
       mockSelectors.cart.getActiveCart.next(mockCart);
 
       fixture.detectChanges();
