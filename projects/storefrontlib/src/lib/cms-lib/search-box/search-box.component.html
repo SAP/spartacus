@@ -22,12 +22,13 @@
       </button>
       <!-- searchbox results -->
       <ng-template #rt let-suggestion="result">
-        <div *ngIf="!suggestion.name; else productView" class="y-search-box__dropdown-content">{{suggestion}}</div>
+        <div *ngIf="!suggestion.code; else productView" class="y-search-box__dropdown-content">{{suggestion}}</div>
         <ng-template #productView>
-          <div [routerLink]="['/product/', suggestion.code]">
-          <y-picture class="y-product-search-list__image" [imageContainer]="suggestion.images?.PRIMARY" imageFormat="product" 
-                     [imageAlt]="suggestion.summary"></y-picture>
-          <div [innerHtml]="suggestion.name">{{suggestion.name}}</div>
+          <div [routerLink]="['/product/', suggestion.code]" class="y-search-box__dropdown-content-product">
+            <y-picture [imageContainer]="suggestion.images?.PRIMARY" imageFormat="product"
+                       [imageAlt]="suggestion.summary"></y-picture>
+            <div [innerHtml]="suggestion.name" class="y-search-box__dropdown-content-product-name">{{suggestion.name}}</div>
+            <div class="y-search-box__dropdown-content-product-price">{{suggestion.price.formattedValue}}</div>
           </div>
         </ng-template>
       </ng-template>

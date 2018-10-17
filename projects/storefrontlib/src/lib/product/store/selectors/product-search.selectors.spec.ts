@@ -7,7 +7,7 @@ import * as fromActions from '../actions';
 import * as fromSelectors from './product-search.selectors';
 import { SearchConfig } from '../../search-config';
 
-fdescribe('ProductSearch Selectors', () => {
+describe('ProductSearch Selectors', () => {
   let store: Store<fromReducers.ProductsState>;
 
   const searchResults = { products: [{ code: '123' }] };

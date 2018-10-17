@@ -21,7 +21,7 @@ interface SearchBoxConfig {
 @Injectable()
 export class SearchBoxComponentService {
   defaultConfig: SearchBoxConfig = {
-    maxProducts: 5,
+    maxProducts: 2,
     displaySuggestions: true,
     maxSuggestions: 5,
     minCharactersBeforeRequest: 3,
