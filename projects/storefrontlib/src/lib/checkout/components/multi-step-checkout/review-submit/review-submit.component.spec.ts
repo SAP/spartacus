@@ -247,7 +247,7 @@ describe('ReviewSubmitComponent', () => {
         By.css('.y-review__summary-card__address y-card')
       );
 
-    it('should show shipping address', () => {
+    it('should get shipping address', () => {
       const mockShippingAdddressCardData = 'test shipping address';
       spyOn(component, 'getShippingAddressCard').and.returnValue(
         mockShippingAdddressCardData
@@ -265,7 +265,7 @@ describe('ReviewSubmitComponent', () => {
         By.css('.y-review__summary-card__shipping-method y-card')
       );
 
-    it('should show shipping method', () => {
+    it('should get shipping method', () => {
       const mockShippingMethodCardData = 'test shipping method';
       spyOn(component, 'getShippingMethodCard').and.returnValue(
         mockShippingMethodCardData
@@ -283,7 +283,7 @@ describe('ReviewSubmitComponent', () => {
         By.css('.y-review__summary-card__payment-method y-card')
       );
 
-    it('should show payment method', () => {
+    it('should get payment method', () => {
       const mockPaymentMethodCardData = 'test payment method';
       spyOn(component, 'getPaymentMethodCard').and.returnValue(
         mockPaymentMethodCardData
@@ -299,7 +299,7 @@ describe('ReviewSubmitComponent', () => {
     const getCartItemList = () =>
       fixture.debugElement.query(By.css('y-cart-item-list'));
 
-    it('should show all cart entries', () => {
+    it('should get all cart entries', () => {
       mockSelectors.cart.getEntries.next(mockEntries);
 
       fixture.detectChanges();
@@ -309,12 +309,12 @@ describe('ReviewSubmitComponent', () => {
       ]);
     });
 
-    it('should be read only', () => {
+    it('should get read only mode', () => {
       fixture.detectChanges();
       expect(getCartItemList().componentInstance.isReadOnly).toBe(true);
     });
 
-    it('should show potential product promotions', () => {
+    it('should get potential product promotions', () => {
       mockSelectors.cart.getActiveCart.next(mockCart);
 
       fixture.detectChanges();
