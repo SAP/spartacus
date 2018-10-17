@@ -1,5 +1,5 @@
-import { StoreFinderEffect } from './store-finder.effect';
+import { StoreFinderEffect } from './find-stores.effect';
 
 export const effects: any[] = [StoreFinderEffect];
 
-export * from './store-finder.effect';
+export * from './find-stores.effect';

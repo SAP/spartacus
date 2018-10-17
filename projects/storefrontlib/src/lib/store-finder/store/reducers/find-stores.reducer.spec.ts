@@ -1,4 +1,4 @@
-import * as fromReducers from './store-finder.reducer';
+import * as fromReducers from './find-stores.reducer';
 import * as fromActions from '../actions/find-stores.action';
 import { SearchConfig } from '../../models/search-config';
 

@@ -4,7 +4,7 @@ import {
   MemoizedSelector
 } from '@ngrx/store';
 
-import * as fromStoreFinder from './store-finder.reducer';
+import * as fromStoreFinder from './find-stores.reducer';
 
 export interface StoresState {
   stores: fromStoreFinder.StoreFinderState;

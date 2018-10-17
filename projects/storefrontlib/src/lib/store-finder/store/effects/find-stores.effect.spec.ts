@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 import { OccStoreFinderService } from '../../../occ/store/store-finder.service';
 import { OccModuleConfig } from '../../../occ/occ-module-config';
 import { SearchConfig } from '../../models/search-config';
-import * as fromEffects from './store-finder.effect';
+import * as fromEffects from './find-stores.effect';
 import * as fromActions from '../actions/find-stores.action';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 

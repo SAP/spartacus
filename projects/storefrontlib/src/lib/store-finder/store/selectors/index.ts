@@ -1,1 +1,1 @@
-export * from './store-finder.selectors';
+export * from './find-stores.selectors';

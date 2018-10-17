@@ -1,7 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import * as fromReducer from '../reducers';
-import * as fromStoreFinderReducer from '../reducers/store-finder.reducer';
+import * as fromStoreFinderReducer from '../reducers/find-stores.reducer';
 
 export const getStoresState: MemoizedSelector<
   fromReducer.StoresState,

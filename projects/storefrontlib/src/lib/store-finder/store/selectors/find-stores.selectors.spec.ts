@@ -4,7 +4,7 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
-import * as fromSelectors from './store-finder.selectors';
+import * as fromSelectors from './find-stores.selectors';
 import { SearchConfig } from '../../models/search-config';
 
 describe('StoreFinder Selectors', () => {
