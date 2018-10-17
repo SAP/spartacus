@@ -8,7 +8,7 @@ export class AddedToCartModal {
     by.css('.mat-dialog-close-btn')
   );
   readonly proceedToCheckoutButton: ElementFinder = this.modal.element(
-    by.css('button[routerLink="/checkout"]')
+    by.css('a[routerLink="/checkout"]')
   );
   readonly cartItem = (itemNo: number): ElementFinder =>
     this.modal.all(by.tagName('y-cart-item')).get(itemNo); // tslint:disable-line

@@ -34,11 +34,13 @@ describe('App basics', () => {
     expect(await footer.footerNavigation.isPresent()).toEqual(true);
 
     expect(await footer.getSectionsCount()).toEqual(3);
-    expect(await footer.getSectionHeader(0)).toEqual('Accelerator');
-    expect(await footer.getLinkUrlByTitle('About hybris')).toEqual(
-      'http://www.hybris.com/'
+    expect(await footer.getSectionHeader(0)).toEqual('SAP Commerce Cloud');
+    expect(await footer.getLinkUrlByTitle('About SAP Commerce Cloud')).toEqual(
+      'http://www.cx.sap.com/products/commerce'
     );
 
-    expect(await footer.getNoticeText()).toEqual('© 2016 hybris software');
+    expect(await footer.getNoticeText()).toEqual(
+      'Copyright © 2018 SAP SE or an SAP affiliate company. All rights reserved.'
+    );
   });
 });
