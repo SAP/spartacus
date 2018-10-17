@@ -27,7 +27,7 @@ describe('Product search', () => {
     // h3.getText().then((text) => {
     //   expect(text).toBe('Photosmart E317 Digital Camera');
     // });
-    const product = await searchResults.productByNameInResults(
+    const product = searchResults.productByNameInResults(
       'Photosmart E317 Digital Camera'
     );
     expect(await product.isDisplayed()).toBeTruthy();
