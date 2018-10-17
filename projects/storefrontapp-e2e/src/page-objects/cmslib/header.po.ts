@@ -10,7 +10,7 @@ export class Header {
     by.dynamicSlot('SearchBox', 'y-searchbox')
   );
   readonly miniCartButton: ElementFinder = this.header.element(
-    by.tagName('y-mini-cart')
+    by.dynamicSlot('MiniCart', 'y-mini-cart')
   );
   readonly loginComponent: ElementFinder = this.header
     .all(by.tagName('y-login'))
