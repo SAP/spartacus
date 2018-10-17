@@ -4,21 +4,21 @@
   <div class="y-review__summary row">
     <!-- SHIPPING ADDRESS SECTION -->
     <div class="col-md-12 col-lg-6 col-xl-4">
-      <div class="y-review__summary-card">
+      <div class="y-review__summary-card y-review__summary-card__address">
         <y-card [content]="getAddressCard((countryName$ | async)?.name)"></y-card>
       </div>
     </div>
 
     <!-- SHIPPING METHOD SECTION -->
     <div class="col-md-12 col-lg-6 col-xl-4">
-      <div class="y-review__summary-card">
+      <div class="y-review__summary-card y-review__summary-card__shipping-method">
         <y-card [content]="getShippingMethodCard(deliveryMode$ | async)"></y-card>
       </div>
     </div>
 
     <!-- PAYMENT METHOD SECTION -->
     <div class="col-md-12 col-lg-6 col-xl-4">
-      <div class="y-review__summary-card">
+      <div class="y-review__summary-card y-review__summary-card__payment-method">
         <y-card [content]="getPaymentCard()"></y-card>
       </div>
     </div>

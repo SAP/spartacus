@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 import * as fromStore from './../store';
 import * as fromRouting from './../../routing/store';
@@ -14,7 +14,7 @@ export class ProductGuard implements CanActivate {
 
   constructor(private store: Store<fromStore.ProductsState>) {
     this.store
-      .select(fromRouting.getRouterState)
+      .pipe(select(fromRouting.getRouterState))
       .subscribe(
         routerState =>
           (this.requestedProductCode = routerState.state.params['productCode'])
@@ -30,26 +30,23 @@ export class ProductGuard implements CanActivate {
 
   private checkStore(requestedProductCode: string): Observable<boolean> {
     let tryTimes = 0;
-    return this.store
-      .select(fromStore.getSelectedProductFactory(requestedProductCode))
-      .pipe(
-        map(product => {
-          if (product) {
-            return Object.keys(product).length !== 0;
-          } else {
-            return false;
-          }
-        }),
-        tap(found => {
-          if (!found) {
-            tryTimes++;
-            this.store.dispatch(
-              new fromStore.LoadProduct(requestedProductCode)
-            );
-          }
-        }),
-        filter(found => found || tryTimes === 3),
-        take(1)
-      );
+    return this.store.pipe(
+      select(fromStore.getSelectedProductFactory(requestedProductCode)),
+      map(product => {
+        if (product) {
+          return Object.keys(product).length !== 0;
+        } else {
+          return false;
+        }
+      }),
+      tap(found => {
+        if (!found) {
+          tryTimes++;
+          this.store.dispatch(new fromStore.LoadProduct(requestedProductCode));
+        }
+      }),
+      filter(found => found || tryTimes === 3),
+      take(1)
+    );
   }
 }

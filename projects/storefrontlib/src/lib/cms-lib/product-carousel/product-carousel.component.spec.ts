@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import * as NgrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { BootstrapModule } from '../../bootstrap.module';
@@ -22,7 +22,6 @@ const UseCmsModuleConfig: CmsModuleConfig = {
 };
 
 describe('ProductCarouselComponent in CmsLib', () => {
-  let store: Store<fromCmsReducer.CmsState>;
   let productCarouselComponent: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
   let el: DebugElement;
@@ -61,9 +60,9 @@ describe('ProductCarouselComponent in CmsLib', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
+        NgrxStore.StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
+          cms: NgrxStore.combineReducers(fromCmsReducer.getReducers())
         }),
         BootstrapModule
       ],
@@ -81,13 +80,11 @@ describe('ProductCarouselComponent in CmsLib', () => {
 
     el = fixture.debugElement;
 
-    store = TestBed.get(Store);
-
-    spyOn(store, 'select').and.callFake(realSelector => {
+    spyOnProperty(NgrxStore, 'select').and.returnValue(realSelector => {
       if (realSelector === fromProductStore.getAllProductCodes) {
-        return of(productCodeArray);
+        return () => of(productCodeArray);
       }
-      return of(mockProducts);
+      return () => of(mockProducts);
     });
   });
 
