@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   OnDestroy
 } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 
 import * as fromStore from '../shared/store';
@@ -28,15 +28,15 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = combineLatest(
-      this.store.select(fromStore.getCurrenciesLoadAttempted),
-      this.store.select(fromStore.getCurrenciesLoading)
+      this.store.pipe(select(fromStore.getCurrenciesLoadAttempted)),
+      this.store.pipe(select(fromStore.getCurrenciesLoading))
     ).subscribe(([loadAttempted, loading]) => {
       if (!loadAttempted && !loading) {
         this.store.dispatch(new fromStore.LoadCurrencies());
       }
     });
 
-    this.currencies$ = this.store.select(fromStore.getAllCurrencies);
+    this.currencies$ = this.store.pipe(select(fromStore.getAllCurrencies));
     this.activeCurrency = this.getActiveCurrency();
     this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
   }

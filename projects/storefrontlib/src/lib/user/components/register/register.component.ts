@@ -8,10 +8,10 @@ import {
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, of } from 'rxjs';
 import { take, tap, switchMap } from 'rxjs/operators';
-import * as fromAuthStore from '../../../auth/store';
-import * as fromRouting from '../../../routing/store';
 import * as fromUserStore from '../../store';
 import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
+import { AuthService } from '../../../auth/facade/auth.service';
+import { RoutingService } from '../../../routing/facade/routing.service';
 
 @Component({
   selector: 'y-register',
@@ -39,6 +39,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   );
 
   constructor(
+    private auth: AuthService,
+    private routing: RoutingService,
     private store: Store<fromUserStore.UserState>,
     private fb: FormBuilder
   ) {}
@@ -52,12 +54,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       })
     );
-    this.sub = this.store
+    this.sub = this.auth.userToken$
       .pipe(
-        select(fromAuthStore.getUserToken),
         switchMap(data => {
           if (data && data.access_token) {
-            return this.store.pipe(select(fromRouting.getRedirectUrl, take(1)));
+            return this.routing.redirectUrl$.pipe(take(1));
           }
           return of();
         })
@@ -65,11 +66,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .subscribe(url => {
         if (url) {
           // If forced to login due to AuthGuard, then redirect to intended destination
-          this.store.dispatch(new fromRouting.Go({ path: [url] }));
-          this.store.dispatch(new fromRouting.ClearRedirectUrl());
+          this.routing.go([url]);
+          this.routing.clearRedirectUrl();
         } else {
           // User manual login
-          this.store.dispatch(new fromRouting.Back());
+          this.routing.back();
         }
       });
   }

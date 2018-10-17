@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import {
   map,
@@ -11,7 +11,7 @@ import {
   take
 } from 'rxjs/operators';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromRouting from '../../../routing/store';
 
 import * as pageActions from '../actions/page.action';
@@ -28,55 +28,55 @@ import {
 @Injectable()
 export class PageEffects {
   @Effect()
-  loadPage$: Observable<any> = this.actions$
-    .ofType(
+  loadPage$: Observable<any> = this.actions$.pipe(
+    ofType(
       pageActions.LOAD_PAGEDATA,
       '[Site-context] Language Change',
       '[Auth] Logout',
       '[Auth] Login'
-    )
-    .pipe(
-      map((action: pageActions.LoadPageData) => action.payload),
-      switchMap(pageContext => {
-        if (pageContext === undefined) {
-          return this.routingStore.select(fromRouting.getRouterState).pipe(
-            filter(routerState => routerState && routerState.state),
-            filter(routerState => routerState.state.cmsRequired),
-            map(routerState => routerState.state.context),
-            take(1),
-            mergeMap(context =>
-              this.occCmsService.loadPageData(context).pipe(
-                mergeMap(data => {
-                  return [
-                    new pageActions.LoadPageDataSuccess(
-                      this.getPageData(data, context)
-                    ),
-                    new componentActions.GetComponentFromPage(
-                      this.getComponents(data)
-                    )
-                  ];
-                }),
-                catchError(error => of(new pageActions.LoadPageDataFail(error)))
-              )
+    ),
+    map((action: pageActions.LoadPageData) => action.payload),
+    switchMap(pageContext => {
+      if (pageContext === undefined) {
+        return this.routingStore.pipe(
+          select(fromRouting.getRouterState),
+          filter(routerState => routerState && routerState.state),
+          filter(routerState => routerState.state.cmsRequired),
+          map(routerState => routerState.state.context),
+          take(1),
+          mergeMap(context =>
+            this.occCmsService.loadPageData(context).pipe(
+              mergeMap(data => {
+                return [
+                  new pageActions.LoadPageDataSuccess(
+                    this.getPageData(data, context)
+                  ),
+                  new componentActions.GetComponentFromPage(
+                    this.getComponents(data)
+                  )
+                ];
+              }),
+              catchError(error => of(new pageActions.LoadPageDataFail(error)))
             )
-          );
-        } else {
-          return this.occCmsService.loadPageData(pageContext).pipe(
-            mergeMap(data => {
-              return [
-                new pageActions.LoadPageDataSuccess(
-                  this.getPageData(data, pageContext)
-                ),
-                new componentActions.GetComponentFromPage(
-                  this.getComponents(data)
-                )
-              ];
-            }),
-            catchError(error => of(new pageActions.LoadPageDataFail(error)))
-          );
-        }
-      })
-    );
+          )
+        );
+      } else {
+        return this.occCmsService.loadPageData(pageContext).pipe(
+          mergeMap(data => {
+            return [
+              new pageActions.LoadPageDataSuccess(
+                this.getPageData(data, pageContext)
+              ),
+              new componentActions.GetComponentFromPage(
+                this.getComponents(data)
+              )
+            ];
+          }),
+          catchError(error => of(new pageActions.LoadPageDataFail(error)))
+        );
+      }
+    })
+  );
 
   constructor(
     private actions$: Actions,

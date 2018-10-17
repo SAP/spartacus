@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../store';
@@ -9,6 +9,8 @@ export class ProductService {
   constructor(private store: Store<fromStore.ProductsState>) {}
 
   get(productCode: string): Observable<any> {
-    return this.store.select(fromStore.getSelectedProductFactory(productCode));
+    return this.store.pipe(
+      select(fromStore.getSelectedProductFactory(productCode))
+    );
   }
 }
