@@ -9,7 +9,7 @@ export class OrderHistoryPage extends AppPage {
     by.tagName('y-order-history')
   );
   readonly historyHeader: ElementFinder = this.orderHistoryComponent.element(
-    by.css('.order-history-header h3')
+    by.css('.y-order-history__header h3')
   );
   readonly historyTable: ElementFinder = this.orderHistoryComponent.element(
     by.tagName('table')
