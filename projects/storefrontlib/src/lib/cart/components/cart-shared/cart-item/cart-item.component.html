@@ -11,7 +11,7 @@
       <!-- Item Description -->
       <div class="y-cart-item__description" [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
         <div *ngIf="item.product.name" class="y-cart-item__name">
-          <a [routerLink]="['/product', item.product.code]">{{item.product.name}}</a>
+          <a class="y-cart-item__name--link" [routerLink]="['/product', item.product.code]">{{item.product.name}}</a>
         </div>
         <div *ngIf="item.product.code" class="y-cart-item__code">ID {{item.product.code}}</div>
         <!-- Variants -->
@@ -42,8 +42,8 @@
           {{item.quantity}}
         </div>
         <div *ngIf="!isReadOnly && parent" class="y-cart-item__quantity--value" [formGroup]="parent">
-          <y-item-counter [step]="1" [min]="1" [max]="item.product.stock?.stockLevel || 1000" (update)="updateItem($event)"
-            [cartIsLoading]="cartIsLoading" formControlName="quantity">
+          <y-item-counter [step]="1" [min]="1" [max]="item.product.stock?.stockLevel || 1000" (update)="updateItem($event)" [cartIsLoading]="cartIsLoading"
+            formControlName="quantity">
           </y-item-counter>
         </div>
       </div>
