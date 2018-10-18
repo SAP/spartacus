@@ -35,7 +35,7 @@ export class StoreFinderGridComponent implements OnInit {
     }
 
     this.store
-      .pipe(select((state: any) => fromStore.getFindStoresEntities(state)))
+      .pipe(select(fromStore.getFindStoresEntities))
       .subscribe(locations => {
         if (
           locations.pointOfServices &&

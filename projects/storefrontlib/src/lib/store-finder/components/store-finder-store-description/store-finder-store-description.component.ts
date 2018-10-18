@@ -31,7 +31,7 @@ export class StoreFinderStoreDescriptionComponent
     this.ngUnsubscribe = this.store
       .pipe(select(fromStore.getFindStoresEntities))
       .subscribe(locations => {
-        const stores = locations.stores;
+        const stores = locations.pointOfServices;
         if (stores) {
           this.location = stores.filter(
             (store: any) => store.name === this.route.snapshot.params.store
