@@ -39,7 +39,7 @@ describe('StoreFinderGridComponent', () => {
   it('should create with country routing parameter', () => {
     mockActivatedRoute.snapshot.params = { country: countryIsoCode };
     configureTestBed();
-    spyOn(storeFinderService, 'viewAllStoresForCountry').and.stub();
+    spyOn(storeFinderService, 'viewAllStoresForCountry');
 
     createComponent();
 
@@ -55,7 +55,7 @@ describe('StoreFinderGridComponent', () => {
       region: regionIsoCode
     };
     configureTestBed();
-    spyOn(storeFinderService, 'viewAllStoresForRegion').and.callThrough();
+    spyOn(storeFinderService, 'viewAllStoresForRegion');
 
     createComponent();
 

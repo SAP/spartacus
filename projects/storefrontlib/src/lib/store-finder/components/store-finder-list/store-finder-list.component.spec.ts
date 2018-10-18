@@ -35,7 +35,7 @@ class GoogleMapRendererServiceMock {
   centerMap(_latitute: number, _longitude: number) {}
 }
 
-fdescribe('StoreFinderListComponent', () => {
+describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
   let fixture: ComponentFixture<StoreFinderListComponent>;
   let store: Store<fromReducers.StoresState>;

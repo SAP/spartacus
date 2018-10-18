@@ -43,7 +43,7 @@ describe('StoreFinderMapComponent', () => {
 
   it('should render map', () => {
     // given
-    spyOn(mapRendererService, 'renderMap').and.callThrough();
+    spyOn(mapRendererService, 'renderMap');
 
     // when locations are changed
     component.locations = [location];
@@ -61,7 +61,7 @@ describe('StoreFinderMapComponent', () => {
 
   it('should not render map when locations are not changed', () => {
     // given
-    spyOn(mapRendererService, 'renderMap').and.callThrough();
+    spyOn(mapRendererService, 'renderMap');
 
     // when locations are changed
     component.locations = [location];
@@ -74,7 +74,7 @@ describe('StoreFinderMapComponent', () => {
   });
 
   it('should center map', () => {
-    spyOn(mapRendererService, 'centerMap').and.callThrough();
+    spyOn(mapRendererService, 'centerMap');
     component.centerMap(0, 0);
     expect(mapRendererService.centerMap).toHaveBeenCalledWith(0, 0);
   });
