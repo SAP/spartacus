@@ -215,7 +215,9 @@ describe('ShippingAddressComponent', () => {
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>
-      fixture.debugElement.query(By.css('.y-shipping-address__continue-btn'));
+      fixture.debugElement
+        .queryAll(By.css('.btn-primary'))
+        .find(el => el.nativeElement.innerText === 'Continue');
 
     it('should be disabled when no address is selected', () => {
       mockUserSelectors.getAddressesLoading.next(false);
@@ -231,6 +233,32 @@ describe('ShippingAddressComponent', () => {
       component.selectedAddress = mockAddress1;
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toEqual(false);
+    });
+
+    it('should call "next" function after being clicked', () => {
+      mockUserSelectors.getAddressesLoading.next(false);
+      mockUserSelectors.getAddresses.next(mockAddresses);
+      component.selectedAddress = mockAddress1;
+      fixture.detectChanges();
+      spyOn(component, 'next');
+      getContinueBtn().nativeElement.click();
+      expect(component.next).toHaveBeenCalled();
+    });
+  });
+
+  describe('UI back button', () => {
+    const getBackBtn = () =>
+      fixture.debugElement
+        .queryAll(By.css('.btn-action'))
+        .find(el => el.nativeElement.innerText === 'Back to cart');
+
+    it('should call "back" function after being clicked', () => {
+      mockUserSelectors.getAddressesLoading.next(false);
+      mockUserSelectors.getAddresses.next(mockAddresses);
+      fixture.detectChanges();
+      spyOn(component, 'back');
+      getBackBtn().nativeElement.click();
+      expect(component.back).toHaveBeenCalled();
     });
   });
 
@@ -261,13 +289,11 @@ describe('ShippingAddressComponent', () => {
 
   describe('UI new address form', () => {
     const getAddNewAddressBtn = () =>
-      fixture.debugElement.query(
-        By.css('.y-shipping-address__add-new-address-btn')
-      );
+      fixture.debugElement
+        .queryAll(By.css('.btn-action'))
+        .find(el => el.nativeElement.innerText === 'Add New Address');
     const getNewAddressForm = () =>
-      fixture.debugElement.query(
-        By.css('.y-shipping-address__new-address-form')
-      );
+      fixture.debugElement.query(By.css('y-address-form'));
 
     it('should render only after user clicks "add new address" button if there are some existing addresses', () => {
       mockUserSelectors.getAddressesLoading.next(false);

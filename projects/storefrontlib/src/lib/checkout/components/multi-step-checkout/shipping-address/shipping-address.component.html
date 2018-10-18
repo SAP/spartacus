@@ -6,8 +6,8 @@
       <ng-container *ngIf="existingAddresses?.length && !newAddressFormManuallyOpened; else newAddressForm">
         <p class="y-shipping-address__text">Select your Shipping Address</p>
         <div class="y-shipping-address__btn row justify-content-end">
-          <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action y-shipping-address__add-new-address-btn"
-              (click)="showNewAddressForm()">Add New Address</button></div>
+          <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action" (click)="showNewAddressForm()">
+              Add New Address</button></div>
         </div>
 
         <div class="y-shipping-address__body row">
@@ -23,15 +23,13 @@
             <button class="btn btn-block btn-action" (click)="back()">Back to cart</button>
           </div>
           <div class="col-md-12 col-lg-6">
-            <button class="btn btn-block btn-primary y-shipping-address__continue-btn" [disabled]="!selectedAddress"
-              (click)="next()">Continue</button>
+            <button class="btn btn-block btn-primary" [disabled]="!selectedAddress" (click)="next()">Continue</button>
           </div>
         </div>
       </ng-container>
 
       <ng-template #newAddressForm>
-        <y-address-form class="y-shipping-address__new-address-form" (addAddress)="addNewAddress($event)"
-          (backToAddress)="hideNewAddressForm()"></y-address-form>
+        <y-address-form (addAddress)="addNewAddress($event)" (backToAddress)="hideNewAddressForm()"></y-address-form>
       </ng-template>
     </ng-container>
 

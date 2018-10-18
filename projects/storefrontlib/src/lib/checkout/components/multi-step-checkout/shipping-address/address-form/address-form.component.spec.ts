@@ -248,7 +248,7 @@ describe('AddressFormComponent', () => {
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>
-      fixture.debugElement.query(By.css('.y-address-form__continue-btn'));
+      fixture.debugElement.query(By.css('.btn-primary'));
 
     it('should call "verifyAddress" function when being clicked and when form is valid', () => {
       spyOn(component, 'verifyAddress');
@@ -302,8 +302,7 @@ describe('AddressFormComponent', () => {
   });
 
   describe('UI back button', () => {
-    const getBackBtn = () =>
-      fixture.debugElement.query(By.css('.y-address-form__back-btn'));
+    const getBackBtn = () => fixture.debugElement.query(By.css('.btn-action'));
 
     it('should call "back" function after being clicked', () => {
       spyOn(component, 'back');
