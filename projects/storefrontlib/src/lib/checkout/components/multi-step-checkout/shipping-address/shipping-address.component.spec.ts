@@ -269,19 +269,20 @@ describe('ShippingAddressComponent', () => {
         By.css('.y-shipping-address__new-address-form')
       );
 
-    it('should be visible after user clicks "add new address" button', async(() => {
+    it('should render only after user clicks "add new address" button if there are some existing addresses', () => {
       mockUserSelectors.getAddressesLoading.next(false);
       mockUserSelectors.getAddresses.next(mockAddresses);
+
       fixture.detectChanges();
+      expect(getNewAddressForm()).toBeFalsy();
+
       getAddNewAddressBtn().nativeElement.click();
 
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(getNewAddressForm()).toBeTruthy();
-      });
-    }));
+      expect(getNewAddressForm()).toBeTruthy();
+    });
 
-    it('should be visible on init if there are no existing addresses', () => {
+    it('should render on init if there are no existing addresses', () => {
       mockUserSelectors.getAddressesLoading.next(false);
       mockUserSelectors.getAddresses.next([]);
       fixture.detectChanges();
@@ -289,7 +290,7 @@ describe('ShippingAddressComponent', () => {
       expect(getNewAddressForm()).toBeTruthy();
     });
 
-    it('should be hidden on init if there are some existing addresses', () => {
+    it('should not render on init if there are some existing addresses', () => {
       mockUserSelectors.getAddressesLoading.next(false);
       mockUserSelectors.getAddresses.next(mockAddresses);
       fixture.detectChanges();
@@ -297,7 +298,7 @@ describe('ShippingAddressComponent', () => {
       expect(getNewAddressForm()).toBeFalsy();
     });
 
-    it('should be hidden when existing addresses are loading', () => {
+    it('should not render when existing addresses are loading', () => {
       mockUserSelectors.getAddressesLoading.next(true);
       mockUserSelectors.getAddresses.next([]);
       fixture.detectChanges();
@@ -309,14 +310,12 @@ describe('ShippingAddressComponent', () => {
   describe('UI spinner', () => {
     const getSpinner = () => fixture.debugElement.query(By.css('y-spinner'));
 
-    it('should be visible when existing addresses are loading', () => {
+    it('should render only when existing addresses are loading', () => {
       mockUserSelectors.getAddressesLoading.next(true);
       mockUserSelectors.getAddresses.next([]);
       fixture.detectChanges();
       expect(getSpinner()).toBeTruthy();
-    });
 
-    it('should be hidden when loading existing addresses has completed', () => {
       mockUserSelectors.getAddressesLoading.next(false);
       mockUserSelectors.getAddresses.next(mockAddresses);
       fixture.detectChanges();
