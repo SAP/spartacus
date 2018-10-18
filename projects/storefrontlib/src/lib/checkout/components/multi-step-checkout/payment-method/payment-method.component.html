@@ -6,8 +6,7 @@
             <ng-container *ngIf="existingPaymentMethods?.length && !newPaymentFormManuallyOpened; else newPaymentForm">
                 <p class="y-payment-method__text">Choose a payment method</p>
                 <div class="y-payment-method__btn row justify-content-end">
-                    <div class="col-sm-12 col-md-6"><button class="btn btn-block btn-action y-payment-method__add-new-payment-btn"
-                            (click)="showNewPaymentForm()">
+                    <div class="col-sm-12 col-md-6"><button class="btn btn-block btn-action" (click)="showNewPaymentForm()">
                             Add New Payment</button></div>
                 </div>
 
@@ -21,18 +20,16 @@
 
                 <div class="row">
                     <div class="col-md-12 col-lg-6">
-                        <button class="btn btn-block btn-action y-payment-method__back-btn" (click)="back()">Back</button>
+                        <button class="btn btn-block btn-action" (click)="back()">Back</button>
                     </div>
                     <div class="col-md-12 col-lg-6">
-                        <button class="btn btn-block btn-primary y-payment-method__continue-btn" [disabled]="!selectedPayment"
-                            (click)="next()">Continue</button>
+                        <button class="btn btn-block btn-primary" [disabled]="!selectedPayment" (click)="next()">Continue</button>
                     </div>
                 </div>
             </ng-container>
 
             <ng-template #newPaymentForm>
-                <y-payment-form class="y-payment-method__new-payment-form" (addPaymentInfo)="addNewPaymentMethod($event)"
-                    (backToPayment)="hideNewPaymentForm()"></y-payment-form>
+                <y-payment-form (addPaymentInfo)="addNewPaymentMethod($event)" (backToPayment)="hideNewPaymentForm()"></y-payment-form>
             </ng-template>
 
         </ng-container>

@@ -188,7 +188,7 @@ describe('PaymentFormComponent', () => {
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>
-      fixture.debugElement.query(By.css('.y-payment-form__continue-btn'));
+      fixture.debugElement.query(By.css('.btn-primary'));
 
     it('should call "next" function when being clicked and when form is valid', () => {
       mockCheckoutSelectors.getAllCardTypes.next(mockCardTypes);
@@ -236,8 +236,7 @@ describe('PaymentFormComponent', () => {
   });
 
   describe('UI back button', () => {
-    const getBackBtn = () =>
-      fixture.debugElement.query(By.css('.y-payment-form__back-btn'));
+    const getBackBtn = () => fixture.debugElement.query(By.css('.btn-action'));
 
     it('should call "back" function after being clicked', () => {
       spyOn(component, 'back');

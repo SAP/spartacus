@@ -191,7 +191,9 @@ describe('PaymentMethodComponent', () => {
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>
-      fixture.debugElement.query(By.css('.y-payment-method__continue-btn'));
+      fixture.debugElement
+        .queryAll(By.css('.btn-primary'))
+        .find(el => el.nativeElement.innerText === 'Continue');
 
     it('should be disabled when no payment method is selected', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(false);
@@ -207,6 +209,32 @@ describe('PaymentMethodComponent', () => {
       component.selectedPayment = mockPaymentMethod1;
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toEqual(false);
+    });
+
+    it('should call "next" function after being clicked', () => {
+      mockUserSelectors.getPaymentMethodsLoading.next(false);
+      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      component.selectedPayment = mockPaymentMethod1;
+      fixture.detectChanges();
+      spyOn(component, 'next');
+      getContinueBtn().nativeElement.click();
+      expect(component.next).toHaveBeenCalled();
+    });
+  });
+
+  describe('UI back button', () => {
+    const getBackBtn = () =>
+      fixture.debugElement
+        .queryAll(By.css('.btn-action'))
+        .find(el => el.nativeElement.innerText === 'Back');
+
+    it('should call "back" function after being clicked', () => {
+      mockUserSelectors.getPaymentMethodsLoading.next(false);
+      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      fixture.detectChanges();
+      spyOn(component, 'back');
+      getBackBtn().nativeElement.click();
+      expect(component.back).toHaveBeenCalled();
     });
   });
 
@@ -237,13 +265,13 @@ describe('PaymentMethodComponent', () => {
 
   describe('UI new payment method form', () => {
     const getAddNewPaymentBtn = () =>
-      fixture.debugElement.query(
-        By.css('.y-payment-method__add-new-payment-btn')
-      );
+      fixture.debugElement
+        .queryAll(By.css('.btn-action'))
+        .find(el => el.nativeElement.innerText === 'Add New Payment');
     const getNewPaymentForm = () =>
-      fixture.debugElement.query(By.css('.y-payment-method__new-payment-form'));
+      fixture.debugElement.query(By.css('y-payment-form'));
 
-    it('should be visible after user clicks "add new payment method" button', () => {
+    it('should render after user clicks "add new payment method" button', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(false);
       mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
       fixture.detectChanges();
@@ -253,7 +281,7 @@ describe('PaymentMethodComponent', () => {
       expect(getNewPaymentForm()).toBeTruthy();
     });
 
-    it('should be visible on init if there are no existing payment methods', () => {
+    it('should render on init if there are no existing payment methods', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(false);
       mockUserSelectors.getPaymentMethods.next([]);
       fixture.detectChanges();
@@ -261,7 +289,7 @@ describe('PaymentMethodComponent', () => {
       expect(getNewPaymentForm()).toBeTruthy();
     });
 
-    it('should be hidden on init if there are some existing payment methods', () => {
+    it('should not render on init if there are some existing payment methods', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(false);
       mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
       fixture.detectChanges();
@@ -269,7 +297,7 @@ describe('PaymentMethodComponent', () => {
       expect(getNewPaymentForm()).toBeFalsy();
     });
 
-    it('should be hidden when existing payment methods are loading', () => {
+    it('should not render when existing payment methods are loading', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(true);
       mockUserSelectors.getPaymentMethods.next([]);
       fixture.detectChanges();
@@ -281,14 +309,12 @@ describe('PaymentMethodComponent', () => {
   describe('UI spinner', () => {
     const getSpinner = () => fixture.debugElement.query(By.css('y-spinner'));
 
-    it('should be visible when existing payment methods are loading', () => {
+    it('should render only when existing payment methods are loading', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(true);
       mockUserSelectors.getPaymentMethods.next([]);
       fixture.detectChanges();
       expect(getSpinner()).toBeTruthy();
-    });
 
-    it('should be hidden when loading existing payment methods has completed', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(false);
       mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
       fixture.detectChanges();
