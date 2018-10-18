@@ -328,9 +328,9 @@
   integrity sha1-4Xfmme4bjCLSMXTKqnQiZEOJUJ8=
 
 "@types/googlemaps@^3.30.13":
-  version "3.30.13"
-  resolved "https://repository.hybris.com:443/api/npm/npm-repository/@types/googlemaps/-/googlemaps-3.30.13.tgz#71220c6a0ec0b39044de71ae59d696379acebcb6"
-  integrity sha1-cSIMag7As5BE3nGuWdaWN5rOvLY=
+  version "3.30.15"
+  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.30.15.tgz#279c90825c7de518a129ac00cc5d2af361e722b6"
+  integrity sha512-N/vLiUTQPnkUZFUKK2NpCGg0IGV5jyFKf5YBMcfp+6HDsXWd0BoNG5BJgtggdqhNySM6q7z8u3UPlkfZ8+9dIA==
 
 "@types/jasmine@*", "@types/jasmine@~2.8.8":
   version "2.8.8"
