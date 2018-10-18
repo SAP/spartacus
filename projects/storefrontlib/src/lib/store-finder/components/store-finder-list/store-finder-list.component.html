@@ -1,6 +1,6 @@
 <ng-container *ngIf="locations">
     <div class="y-store-finder-list container">
-        <div *ngIf="locations?.pagination.totalPages !== 0" class="row y-store-finder-list__column-set">
+        <div *ngIf="locations?.stores" class="row y-store-finder-list__column-set">
             <div class="col-md-4 y-store-finder-list__address-column">
                 <ol class="y-store-finder-list__list">
                     <li *ngFor="let location of locations?.stores; let i = index;" id="{{'item-' + i}}" [ngClass]="{'y-store-finder-list__selected-store-item' : selectedStore === i}"
@@ -16,7 +16,7 @@
 
         <!-- mobile tabs for column set only -->
 
-        <div *ngIf="locations?.pagination.totalPages !== 0" class="y-store-finder-list__column-set-mobile">
+        <div *ngIf="locations?.stores" class="y-store-finder-list__column-set-mobile">
             <ngb-tabset justify="center">
                 <ngb-tab>
                     <ng-template ngbTabTitle>
@@ -54,14 +54,14 @@
 
         <!-- mobile tabs end -->
 
-        <div *ngIf="locations?.pagination.totalPages !== 0" class="row">
+        <div *ngIf="locations?.pagination" class="row">
             <div class="col-md-6 offset-md-3 y-store-finder-list__pagination">
                 <y-pagination [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
             </div>
         </div>
 
-        <div *ngIf="locations?.pagination.totalPages === 0" class="row">
-            <div  class="col-md-12 y-store-finder-list__not-found">
+        <div *ngIf="locations?.pagination" class="row">
+            <div *ngIf="locations.pagination.totalPages === 0" class="col-md-12 y-store-finder-list__not-found">
                 No Stores Found.
             </div>
         </div>
