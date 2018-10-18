@@ -229,8 +229,9 @@ describe('ReviewSubmitComponent', () => {
   });
 
   describe('UI cart total section', () => {
-    const getCartTotal = () =>
-      fixture.debugElement.query(By.css('.y-review__cart-total'));
+    const getCartTotalText = () =>
+      fixture.debugElement.query(By.css('.y-review__cart-total')).nativeElement
+        .textContent;
 
     beforeEach(() => {
       mockSelectors.cart.getActiveCart.next(mockCart);
@@ -239,19 +240,19 @@ describe('ReviewSubmitComponent', () => {
     });
 
     it('should contain total number of items', () => {
-      expect(getCartTotal().nativeElement.textContent).toContain(123);
+      expect(getCartTotalText()).toContain(123);
     });
 
     it('should contain total price', () => {
-      expect(getCartTotal().nativeElement.textContent).toContain('$999.98');
+      expect(getCartTotalText()).toContain('$999.98');
     });
   });
 
   describe('child y-card component of shipping address', () => {
-    const getShippingAddressCard = () =>
+    const getShippingAddressCardContent = () =>
       fixture.debugElement.query(
         By.css('.y-review__summary-card__address y-card')
-      );
+      ).componentInstance.content;
 
     it('should receive content attribute with shipping address', () => {
       const mockShippingAdddressCardData = 'test shipping address';
@@ -259,17 +260,17 @@ describe('ReviewSubmitComponent', () => {
         mockShippingAdddressCardData
       );
       fixture.detectChanges();
-      expect(getShippingAddressCard().componentInstance.content).toBe(
+      expect(getShippingAddressCardContent()).toBe(
         mockShippingAdddressCardData
       );
     });
   });
 
   describe('child y-card component of shipping method', () => {
-    const getShippingMethodCard = () =>
+    const getShippingMethodCardContent = () =>
       fixture.debugElement.query(
         By.css('.y-review__summary-card__shipping-method y-card')
-      );
+      ).componentInstance.content;
 
     it('should receive content attribute with shipping method', () => {
       const mockShippingMethodCardData = 'test shipping method';
@@ -277,17 +278,15 @@ describe('ReviewSubmitComponent', () => {
         mockShippingMethodCardData
       );
       fixture.detectChanges();
-      expect(getShippingMethodCard().componentInstance.content).toBe(
-        mockShippingMethodCardData
-      );
+      expect(getShippingMethodCardContent()).toBe(mockShippingMethodCardData);
     });
   });
 
   describe('child y-card component of payment method', () => {
-    const getPaymentMethodCard = () =>
+    const getPaymentMethodCardContent = () =>
       fixture.debugElement.query(
         By.css('.y-review__summary-card__payment-method y-card')
-      );
+      ).componentInstance;
 
     it('should receive content attribute with payment method', () => {
       const mockPaymentMethodCardData = 'test payment method';
@@ -295,7 +294,7 @@ describe('ReviewSubmitComponent', () => {
         mockPaymentMethodCardData
       );
       fixture.detectChanges();
-      expect(getPaymentMethodCard().componentInstance.content).toBe(
+      expect(getPaymentMethodCardContent().content).toBe(
         mockPaymentMethodCardData
       );
     });
@@ -303,30 +302,28 @@ describe('ReviewSubmitComponent', () => {
 
   describe('child y-cart-item-list component', () => {
     const getCartItemList = () =>
-      fixture.debugElement.query(By.css('y-cart-item-list'));
+      fixture.debugElement.query(By.css('y-cart-item-list')).componentInstance;
 
     it('should receive items attribute with cart entires', () => {
       mockSelectors.cart.getEntries.next(mockEntries);
 
       fixture.detectChanges();
-      expect(getCartItemList().componentInstance.items).toEqual([
-        'cart entry 1',
-        'cart entry 2'
-      ]);
+      expect(getCartItemList().items).toEqual(['cart entry 1', 'cart entry 2']);
     });
 
     it('should receive isReadOnly attribute with value true', () => {
       fixture.detectChanges();
-      expect(getCartItemList().componentInstance.isReadOnly).toBe(true);
+      expect(getCartItemList().isReadOnly).toBe(true);
     });
 
     it('should receive potentialProductPromotions attribute with potential product promotions of cart', () => {
       mockSelectors.cart.getActiveCart.next(mockCart);
 
       fixture.detectChanges();
-      expect(
-        getCartItemList().componentInstance.potentialProductPromotions
-      ).toEqual(['promotion 1', 'promotion 2']);
+      expect(getCartItemList().potentialProductPromotions).toEqual([
+        'promotion 1',
+        'promotion 2'
+      ]);
     });
   });
 });
