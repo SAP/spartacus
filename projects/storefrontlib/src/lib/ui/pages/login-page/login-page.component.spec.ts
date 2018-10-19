@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { combineReducers, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import { ConfigModule } from '@spartacus/core';
 import * as fromAuthStore from '../../../auth/store';
 import * as fromStore from '../../../user/store';
 import * as fromCms from '../../../cms/store';
@@ -11,7 +12,6 @@ import { CmsModule } from './../../../cms/cms.module';
 import { LoginPageLayoutModule } from './../../layout/login-page-layout/login-page-layout.module';
 import { LoginPageComponent } from './login-page.component';
 import { EffectsModule } from '@ngrx/effects';
-import { ConfigModule } from '../../../config/config.module';
 
 describe('LoginPageComponent', () => {
   let component: LoginPageComponent;
