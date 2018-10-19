@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Store, select } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
 import { SearchConfig } from '../../models/search-config';
@@ -30,6 +30,7 @@ export class StoreFinderListComponent implements OnInit, OnDestroy {
   };
   selectedStore: number;
   ngUnsubscribe: Subscription;
+  isLoading$: Observable<any>;
 
   @ViewChild('storeMap')
   storeMap: StoreFinderMapComponent;
@@ -41,6 +42,7 @@ export class StoreFinderListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
     this.ngUnsubscribe = this.store
       .pipe(select(fromStore.getFindStoresEntities))
       .subscribe(locations => {

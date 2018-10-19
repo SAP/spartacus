@@ -2,10 +2,12 @@ import * as fromStoreFinder from '../actions/find-stores.action';
 
 export interface FindStoresState {
   findStoresEntities: any;
+  isLoading: boolean;
 }
 
 export const initialState: FindStoresState = {
-  findStoresEntities: {}
+  findStoresEntities: {},
+  isLoading: false
 };
 
 export function reducer(
@@ -13,17 +15,27 @@ export function reducer(
   action: fromStoreFinder.FindStoresAction
 ): FindStoresState {
   switch (action.type) {
+    case fromStoreFinder.FIND_STORES: {
+      return {
+        ...state,
+        isLoading: true
+      };
+    }
+
     case fromStoreFinder.FIND_STORES_SUCCESS: {
       const findStoresEntities = action.payload;
 
       return {
         ...state,
-        findStoresEntities
+        findStoresEntities,
+        isLoading: false
       };
     }
+
     case fromStoreFinder.FIND_STORES_FAIL: {
       return {
-        ...state
+        ...state,
+        isLoading: false
       };
     }
 
@@ -63,3 +75,4 @@ export function reducer(
 
 export const getFindStoresEntities = (state: FindStoresState) =>
   state.findStoresEntities;
+export const getLoading = (state: FindStoresState) => state.isLoading;

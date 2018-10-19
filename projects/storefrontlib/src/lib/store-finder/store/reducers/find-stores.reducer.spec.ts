@@ -13,6 +13,15 @@ describe('Find Stores Reducer', () => {
     });
   });
 
+  describe('FIND_STORES action', () => {
+    it('should set isLoading flag to true', () => {
+      const { initialState } = fromReducers;
+      const action = new fromActions.FindStores({ queryText: '' });
+      const state = fromReducers.reducer(initialState, action);
+      expect(state.isLoading).toEqual(true);
+    });
+  });
+
   describe('FIND_STORES_SUCCESS action', () => {
     it('should populate results after loading', () => {
       const searchConfig: SearchConfig = { pageSize: 10 };
@@ -28,6 +37,7 @@ describe('Find Stores Reducer', () => {
       const state = fromReducers.reducer(loadingState, resultAction);
 
       expect(state.findStoresEntities).toEqual(results);
+      expect(state.isLoading).toEqual(false);
     });
   });
 

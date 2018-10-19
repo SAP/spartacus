@@ -18,3 +18,8 @@ export const getFindStoresEntities: MemoizedSelector<
   getFindStoresState,
   fromStoreFinderReducer.getFindStoresEntities
 );
+
+export const getStoresLoading: MemoizedSelector<
+  fromReducer.StoresState,
+  any
+> = createSelector(getFindStoresState, fromStoreFinderReducer.getLoading);

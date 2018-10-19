@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, Store, combineReducers, select } from '@ngrx/store';
 
 import { SearchConfig } from '../../models/search-config';
 
@@ -31,7 +31,7 @@ describe('FindStores Selectors', () => {
       let result;
       const searchConfig: SearchConfig = { pageSize: 10 };
       store
-        .select(fromSelectors.getFindStoresEntities)
+        .pipe(select(fromSelectors.getFindStoresEntities))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -42,6 +42,21 @@ describe('FindStores Selectors', () => {
       store.dispatch(new fromActions.FindStoresSuccess(searchResult));
 
       expect(result).toEqual(searchResult);
+    });
+  });
+
+  describe('getStoresLoading', () => {
+    it('should return isLoading flag', () => {
+      let result;
+      store
+        .pipe(select(fromSelectors.getStoresLoading))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new fromActions.FindStores({ queryText: '' }));
+
+      expect(result).toEqual(true);
     });
   });
 });
