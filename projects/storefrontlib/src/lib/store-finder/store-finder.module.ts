@@ -21,6 +21,7 @@ import { StoreFinderListCountComponent } from './components/store-finder-list-co
 import { StoreFinderGridComponent } from './components/store-finder-grid/store-finder-grid.component';
 import { PaginationAndSortingModule } from '../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { BootstrapModule } from '../bootstrap.module';
+import { SpinnerModule } from '../ui/components/spinner/spinner.module';
 
 @NgModule({
   imports: [
@@ -31,17 +32,18 @@ import { BootstrapModule } from '../bootstrap.module';
     StoreModule.forFeature('stores', reducers),
     EffectsModule.forFeature(effects),
     PaginationAndSortingModule,
-    BootstrapModule
+    BootstrapModule,
+    SpinnerModule
   ],
   declarations: [
     StoreFinderSearchComponent,
     StoreFinderListComponent,
     StoreFinderMapComponent,
     StoreFinderListItemComponent,
+    StoreFinderListCountComponent,
     StoreFinderGridComponent,
     StoreFinderStoreDescriptionComponent,
-    ScheduleComponent,
-    StoreFinderListCountComponent
+    ScheduleComponent
   ],
   exports: [
     StoreFinderSearchComponent,

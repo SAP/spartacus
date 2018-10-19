@@ -16,6 +16,7 @@ import { OccModuleConfig } from '../../../occ';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 import { StoreDataService } from '../../services';
 import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
+import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
 
 const location = {};
 const stores = [location];
@@ -35,7 +36,7 @@ class GoogleMapRendererServiceMock {
   centerMap(_latitute: number, _longitude: number) {}
 }
 
-describe('StoreFinderListComponent', () => {
+fdescribe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
   let fixture: ComponentFixture<StoreFinderListComponent>;
   let store: Store<fromReducers.StoresState>;
@@ -48,6 +49,7 @@ describe('StoreFinderListComponent', () => {
       imports: [
         RouterTestingModule,
         HttpClientTestingModule,
+        SpinnerModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           stores: combineReducers(fromReducers.reducers)

@@ -43,6 +43,7 @@ export class StoreFinderListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
+
     this.ngUnsubscribe = this.store
       .pipe(select(fromStore.getFindStoresEntities))
       .subscribe(locations => {

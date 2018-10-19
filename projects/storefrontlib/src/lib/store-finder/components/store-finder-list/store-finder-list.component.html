@@ -1,4 +1,4 @@
-<ng-container *ngIf="locations">
+<ng-container *ngIf="locations && !(isLoading$ | async); else loading">
     <div class="y-store-finder-list container">
         <div *ngIf="locations?.stores" class="row y-store-finder-list__column-set">
             <div class="col-md-4 y-store-finder-list__address-column">
@@ -67,3 +67,9 @@
         </div>
     </div>
 </ng-container>
+
+<ng-template #loading>
+    <div class="y-store-finder-list__spinner">
+        <y-spinner></y-spinner>
+    </div>
+</ng-template>

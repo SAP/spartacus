@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, Store, combineReducers, select } from '@ngrx/store';
 
 import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../reducers';
@@ -28,7 +28,7 @@ describe('ViewAllStores Selectors', () => {
     it('should return the stores search results', () => {
       let result;
       store
-        .select(fromSelectors.getViewAllStoresEntities)
+        .pipe(select(fromSelectors.getViewAllStoresEntities))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});

@@ -1,6 +1,6 @@
 import { ExternalJsFileLoader } from './external-js-file-loader.service';
 import { TestBed } from '@angular/core/testing';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 const SCRIPT_LOAD_URL = 'http://url/';
 

@@ -4,6 +4,8 @@
 
 $y-store-finder-list-list-items: 'light' !default;
 $y-store-finder-list-list-items-hover-background-color: 'background' !default;
+// Loading
+$y-store-finder-list-loading-padding: 30px !default;
 
 .y-store-finder-list {
   &__column-set {
@@ -77,5 +79,10 @@ $y-store-finder-list-list-items-hover-background-color: 'background' !default;
     @include type('4');
     text-align: center;
     padding: 3rem 0;
+  }
+
+  &__spinner {
+    padding-top: $y-store-finder-list-loading-padding;
+    padding-bottom: $y-store-finder-list-loading-padding;
   }
 }
