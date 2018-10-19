@@ -1,8 +1,20 @@
 {
   "name": "core",
   "version": "0.0.1",
+  "description": "Spartacus - the core framework",
+  "keywords": [
+    "spartacus",
+    "storefront",
+    "angular",
+    "framework"
+  ],
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/SAP/cloud-commerce-spartacus-storefront",
   "peerDependencies": {
-    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
+    "@angular/common": "^6.0.0",
+    "@angular/core": "^6.0.0"
   }
 }
