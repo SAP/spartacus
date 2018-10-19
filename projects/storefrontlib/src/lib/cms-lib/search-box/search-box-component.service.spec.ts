@@ -10,7 +10,8 @@ const mockQueryString = '?query=mockQuery';
 
 const productSearchServiceMock = {
   searchSuggestions$: of([]),
-  search: createSpy().and.returnValue(of([])),
+  auxSearchResults$: of([]),
+  searchAuxiliary: createSpy().and.returnValue(of([])),
   getSuggestions: createSpy().and.returnValue(of({}))
 };
 
