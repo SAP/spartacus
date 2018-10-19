@@ -54,14 +54,14 @@
 
         <!-- mobile tabs end -->
 
-        <div *ngIf="locations?.pagination" class="row">
+        <div *ngIf="locations?.stores" class="row">
             <div class="col-md-6 offset-md-3 y-store-finder-list__pagination">
                 <y-pagination [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
             </div>
         </div>
 
-        <div *ngIf="locations?.pagination" class="row">
-            <div *ngIf="locations.pagination.totalPages === 0" class="col-md-12 y-store-finder-list__not-found">
+        <div *ngIf="!locations?.stores" class="row">
+            <div class="col-md-12 y-store-finder-list__not-found">
                 No Stores Found.
             </div>
         </div>
