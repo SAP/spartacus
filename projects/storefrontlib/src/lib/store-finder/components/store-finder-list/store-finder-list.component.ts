@@ -14,6 +14,7 @@ import * as fromStore from '../../store';
 import { SearchConfig } from '../../models/search-config';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
 import { StoreDataService } from '../../services/store-data.service';
+import { SearchQuery } from '../../models/searchQuery';
 
 @Component({
   selector: 'y-store-finder-list',
@@ -21,8 +22,7 @@ import { StoreDataService } from '../../services/store-data.service';
   styleUrls: ['./store-finder-list.component.scss']
 })
 export class StoreFinderListComponent implements OnInit, OnDestroy {
-  @Input()
-  query;
+  @Input() searchQuery: SearchQuery;
 
   locations: any;
   searchConfig: SearchConfig = {
@@ -32,8 +32,7 @@ export class StoreFinderListComponent implements OnInit, OnDestroy {
   ngUnsubscribe: Subscription;
   isLoading$: Observable<any>;
 
-  @ViewChild('storeMap')
-  storeMap: StoreFinderMapComponent;
+  @ViewChild('storeMap') storeMap: StoreFinderMapComponent;
 
   constructor(
     private store: Store<fromStore.StoresState>,
@@ -58,7 +57,8 @@ export class StoreFinderListComponent implements OnInit, OnDestroy {
     this.searchConfig = { ...this.searchConfig, currentPage: pageNumber };
     this.store.dispatch(
       new fromStore.FindStores({
-        queryText: this.query,
+        queryText: this.searchQuery.queryText,
+        longitudeLatitude: this.searchQuery.longitudeLatitude,
         searchConfig: this.searchConfig
       })
     );

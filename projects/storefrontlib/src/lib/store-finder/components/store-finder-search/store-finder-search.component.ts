@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { StoreFinderService } from '../../services/store-finder.service';
 import { WindowRef } from '../../services/window-ref';
+import { SearchQuery } from '../../models/searchQuery';
 
 @Component({
   selector: 'y-store-finder-search',
@@ -10,9 +11,10 @@ import { WindowRef } from '../../services/window-ref';
 })
 export class StoreFinderSearchComponent {
   @Output()
-  persistQuery: EventEmitter<string> = new EventEmitter<string>();
-  @Output()
-  showMapList: EventEmitter<boolean> = new EventEmitter<boolean>();
+  persistSearchQuery: EventEmitter<SearchQuery> = new EventEmitter<
+    SearchQuery
+  >();
+  @Output() showMapList: EventEmitter<boolean> = new EventEmitter<boolean>();
   searchBox: FormControl = new FormControl();
 
   constructor(
@@ -22,7 +24,7 @@ export class StoreFinderSearchComponent {
 
   findStores(address: string) {
     this.storeFinderService.findStores(address);
-    this.persistQuery.emit(address);
+    this.persistSearchQuery.emit({ queryText: address });
     this.showMapList.emit(true);
   }
 
@@ -33,11 +35,18 @@ export class StoreFinderSearchComponent {
 
   viewStoresWithMyLoc() {
     this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
-      (position: Position) =>
+      (position: Position) => {
         this.storeFinderService.findStores('', [
           position.coords.longitude,
           position.coords.latitude
-        ])
+        ]);
+        this.persistSearchQuery.emit({
+          longitudeLatitude: [
+            position.coords.longitude,
+            position.coords.latitude
+          ]
+        });
+      }
     );
     this.showMapList.emit(true);
   }

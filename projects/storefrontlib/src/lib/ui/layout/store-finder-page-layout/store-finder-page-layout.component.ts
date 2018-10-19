@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SearchQuery } from '../../../store-finder/models/searchQuery';
 
 @Component({
   selector: 'y-store-finder-page-layout',
@@ -6,11 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./store-finder-page-layout.component.scss']
 })
 export class StoreFinderPageLayoutComponent {
-  query: string;
+  searchQuery: SearchQuery;
   showMapListComponent: boolean;
 
-  persistQuery(query: string) {
-    this.query = query;
+  persistSearchQuery(searchQuery: SearchQuery) {
+    this.searchQuery = searchQuery;
   }
 
   showMapList(value: boolean) {
