@@ -396,6 +396,22 @@ describe('MultiStepCheckoutComponent', () => {
     ).not.toBeFalsy();
   });
 
+  it('should call setStep(3) when back button clicked', () => {
+    spyOn(component, 'setStep').and.callThrough();
+    mockSelectors.cart.getActiveCart.next({});
+    mockSelectors.checkout.getDeliveryAddress.next(mockDeliveryAddresses);
+    mockSelectors.checkout.getSelectedCode.next(mockSelectedCode);
+    mockSelectors.checkout.getPaymentDetails.next(mockPaymentDetails);
+    mockSelectors.checkout.getOrderDetails.next(mockOrderDetails);
+    component.ngOnInit();
+
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(
+      By.css('.y-multi-step-checkout__place-order .btn-action')
+    ).nativeElement;
+    el.click();
+    expect(component.setStep).toHaveBeenCalledWith(3);
+  });
   it('should contain disabled place order button if terms not accepted', () => {
     mockSelectors.cart.getActiveCart.next({});
     mockSelectors.checkout.getDeliveryAddress.next(mockDeliveryAddresses);
