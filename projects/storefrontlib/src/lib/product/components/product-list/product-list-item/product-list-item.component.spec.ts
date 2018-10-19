@@ -11,6 +11,7 @@ import * as fromUser from '../../../../user/store';
 import * as fromAuth from '../../../../auth/store';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { StarRatingComponent } from '../../../../ui';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
@@ -51,7 +52,11 @@ describe('ProductListItemComponent in product-list', () => {
         StarRatingComponent
       ],
       providers: [CartService, CartDataService]
-    }).compileComponents();
+    })
+      .overrideComponent(ProductListItemComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default }
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -93,21 +98,28 @@ describe('ProductListItemComponent in product-list', () => {
 
   it('should display product image', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('y-picture').innerHTML
+      fixture.debugElement.nativeElement.querySelector('y-picture')
     ).not.toBeNull();
   });
 
   it('should display raiting component', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('y-star-rating')
-        .innerHTML
     ).not.toBeNull();
   });
 
   it('should display add to cart component', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('y-add-to-cart')
-        .innerHTML
     ).not.toBeNull();
+  });
+
+  it('should not display add to cart component when product is out of stock', () => {
+    component.product.stock.stockLevelStatus = 'outOfStock';
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.nativeElement.querySelector('y-add-to-cart')
+    ).toBeNull();
   });
 });
