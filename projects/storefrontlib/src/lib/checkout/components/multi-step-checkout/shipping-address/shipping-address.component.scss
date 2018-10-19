@@ -12,6 +12,8 @@ $y-existing-address-body-padding-bottom: 1.875rem !default;
 $y-existing-address-text-margin-bottom: 1.25rem !default;
 $y-existing-address-text-md-padding-left: 3.5rem !default;
 $y-existing-address-text-sm-padding-left: 1.5rem !default;
+$y-existing-address-card-padding-bottom: 30px !default;
+$y-existing-address-card-height: 100% !default;
 // Loading
 $y-shipping-address-loading-padding: 30px !default;
 .y-existing-address {
@@ -41,6 +43,7 @@ $y-shipping-address-loading-padding: 30px !default;
   // ***************************** MEDIA QUERIES *****************************
   @include checkout-media-style();
   &__body {
+    align-items: stretch;
     &.row {
       @include media-breakpoint-down(md) {
         padding: $y-existing-address-no-padding;
@@ -56,7 +59,10 @@ $y-shipping-address-loading-padding: 30px !default;
     }
   }
   &__card {
-    @include media-breakpoint-down(md) {
+    padding-bottom: $y-existing-address-card-padding-bottom;
+
+    &-inner {
+      height: $y-existing-address-card-height;
       @include var-color(
         'background-color',
         $y-existing-address-card-background-color
