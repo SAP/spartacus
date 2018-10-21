@@ -8,7 +8,8 @@
       "@ngrx/store": "store",
       "@ngrx/router-store": "fromNgrxRouter",
       "ngrx-store-localstorage": "ngrxStoreLocalstorage",
-      "@ng-select/ng-select": "ngSelect"
+      "@ng-select/ng-select": "ngSelect",
+      "@spartacus/core": "core"
     },
     "entryFile": "src/public_api.ts",
     "styleIncludePaths": ["../", "../storefrontstyles/scss"]
