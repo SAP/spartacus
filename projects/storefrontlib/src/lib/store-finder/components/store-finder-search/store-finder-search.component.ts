@@ -14,7 +14,8 @@ export class StoreFinderSearchComponent {
   persistSearchQuery: EventEmitter<SearchQuery> = new EventEmitter<
     SearchQuery
   >();
-  @Output() showMapList: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output()
+  showMapList: EventEmitter<boolean> = new EventEmitter<boolean>();
   searchBox: FormControl = new FormControl();
 
   constructor(
