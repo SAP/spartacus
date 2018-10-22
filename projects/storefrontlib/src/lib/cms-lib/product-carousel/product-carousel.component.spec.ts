@@ -1,17 +1,19 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
-import * as fromRoot from '../../routing/store';
-import * as fromCmsReducer from '../../cms/store/reducers';
-import * as fromProductStore from '../../product/store';
-import { ProductCarouselComponent } from './product-carousel.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PictureComponent } from '../../ui/components/media/picture/picture.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { CmsService } from '../../cms/facade/cms.service';
+import * as NgrxStore from '@ngrx/store';
+import { of } from 'rxjs';
+
 import { BootstrapModule } from '../../bootstrap.module';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
+import * as fromProductStore from '../../product/store';
+import * as fromRoot from '../../routing/store';
+import { CmsService } from '../../cms/facade/cms.service';
+import * as fromCmsReducer from '../../cms/store/reducers';
+import { PictureComponent } from '../../ui/components/media/picture/picture.component';
+
+import { ProductCarouselComponent } from './product-carousel.component';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -20,7 +22,6 @@ const UseCmsModuleConfig: CmsModuleConfig = {
 };
 
 describe('ProductCarouselComponent in CmsLib', () => {
-  let store: Store<fromCmsReducer.CmsState>;
   let productCarouselComponent: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
   let el: DebugElement;
@@ -59,9 +60,9 @@ describe('ProductCarouselComponent in CmsLib', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
+        NgrxStore.StoreModule.forRoot({
           ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
+          cms: NgrxStore.combineReducers(fromCmsReducer.getReducers())
         }),
         BootstrapModule
       ],
@@ -79,13 +80,11 @@ describe('ProductCarouselComponent in CmsLib', () => {
 
     el = fixture.debugElement;
 
-    store = TestBed.get(Store);
-
-    spyOn(store, 'select').and.callFake(realSelector => {
+    spyOnProperty(NgrxStore, 'select').and.returnValue(realSelector => {
       if (realSelector === fromProductStore.getAllProductCodes) {
-        return of(productCodeArray);
+        return () => of(productCodeArray);
       }
-      return of(mockProducts);
+      return () => of(mockProducts);
     });
   });
 
@@ -108,8 +107,8 @@ describe('ProductCarouselComponent in CmsLib', () => {
     productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
     fixture.detectChanges();
     expect(productCarouselComponent.component).toBe(mockComponentData);
-    expect(el.query(By.css('H3')).nativeElement.textContent).toEqual(
-      productCarouselComponent.component.title
-    );
+    expect(
+      el.query(By.css('.y-carousel__header')).nativeElement.textContent
+    ).toEqual(productCarouselComponent.component.title);
   });
 });

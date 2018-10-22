@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../../cms/store';
@@ -40,8 +40,8 @@ export class MiniCartComponent extends AbstractCmsComponent {
     this.showProductCount = +this.component.shownProductCount;
     this.banner = this.component.lightboxBannerComponent;
 
-    this.cart$ = this.store.select(fromCartStore.getActiveCart);
-    this.entries$ = this.store.select(fromCartStore.getEntries);
+    this.cart$ = this.store.pipe(select(fromCartStore.getActiveCart));
+    this.entries$ = this.store.pipe(select(fromCartStore.getEntries));
 
     super.fetchData();
   }

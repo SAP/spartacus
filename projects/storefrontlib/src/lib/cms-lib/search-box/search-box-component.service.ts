@@ -15,22 +15,24 @@ interface SearchBoxConfig {
   displaySuggestions: boolean;
   maxSuggestions: number;
   minCharactersBeforeRequest: number;
+  displayProducts: boolean;
 }
 
 @Injectable()
 export class SearchBoxComponentService {
   defaultConfig: SearchBoxConfig = {
-    maxProducts: 5,
+    maxProducts: 2,
     displaySuggestions: true,
     maxSuggestions: 5,
-    minCharactersBeforeRequest: 3
+    minCharactersBeforeRequest: 3,
+    displayProducts: false
   };
 
   config$: Observable<SearchBoxConfig> = of(this.defaultConfig);
 
   constructor(
     @Optional() protected componentData: CmsComponentData,
-    protected searchService: ProductSearchService,
+    public searchService: ProductSearchService,
     protected routingService: RoutingService
   ) {
     if (componentData) {
@@ -53,9 +55,7 @@ export class SearchBoxComponentService {
     ).pipe(
       switchMap(([term, config]) => {
         if (term.length >= config.minCharactersBeforeRequest) {
-          return this.fetch(term, config).pipe(
-            map(res => res.map(suggestion => suggestion.value))
-          );
+          return this.fetch(term, config);
         } else {
           return of([]);
         }
@@ -63,32 +63,28 @@ export class SearchBoxComponentService {
     );
 
   public launchSearchPage(query: string) {
-    this.routingService.go('/search', query);
+    this.routingService.go(['/search', query]);
   }
 
   private fetch(text: string, config: SearchBoxConfig): Observable<any[]> {
     this.executeSearch(text, config);
 
-    return this.searchService.searchSuggestions$;
+    const sugg = this.searchService.searchSuggestions$.pipe(
+      map(res => res.map(suggestion => suggestion.value))
+    );
+
+    const prod = this.searchService.auxSearchResults$.pipe(
+      map(res => res.products || [])
+    );
+    return combineLatest(sugg, prod).pipe(map(([a, b]) => [...a, ...b]));
   }
 
-  // Uncomment for product search
-  // private productSearch(): Observable<any> {
-  //   return this.store.select(fromProductStore.getSearchResults);
-  // }
-
   private executeSearch(search: string, config: SearchBoxConfig) {
-    // Uncomment for product search
-    // if (this.shouldSearchProducts()) {
-    //   const searchConfig = new SearchConfig();
-    //   searchConfig.pageSize = this.maxProduct;
-    //   this.store.dispatch(
-    //     new fromProductStore.SearchProducts({
-    //       queryText: search,
-    //       searchConfig: searchConfig
-    //     })
-    //   );
-    // }
+    if (config.displayProducts) {
+      this.searchService.searchAuxiliary(search, {
+        pageSize: config.maxProducts
+      });
+    }
 
     if (config.displaySuggestions) {
       this.searchService.getSuggestions(search, {
@@ -96,9 +92,4 @@ export class SearchBoxComponentService {
       });
     }
   }
-
-  // Uncomment for product search
-  // private shouldSearchProducts(): Boolean {
-  //   return this.component && this.component.displayProducts;
-  // }
 }

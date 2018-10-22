@@ -5,8 +5,8 @@ export class PaymentForm {
   static readonly CARD_HOLDER = 'Winston Rumfoord';
   static readonly CARD_NUMBER = '4111111111111111';
   static readonly CARD_TYPE = 'Visa';
-  static readonly CARD_MONTH = '12';
-  static readonly CARD_YEAR = '2080';
+  static readonly CARD_MONTH = '07';
+  static readonly CARD_YEAR = '2020';
   static readonly CARD_CCV = '123';
 
   constructor(
@@ -15,7 +15,10 @@ export class PaymentForm {
   readonly form: ElementFinder = this.parentElement.element(
     by.tagName('y-payment-form')
   );
-  readonly header: ElementFinder = this.form.element(by.css('h3.heading'));
+  readonly header: ElementFinder = this.form.element(
+    by.css('h3.y-payment-form__header-title')
+    // by.css('h3.y-existing-payment-methods__title')
+  );
   readonly accountHolderName: ElementFinder = this.form.element(
     by.css('[formcontrolname="accountHolderName"]')
   );
@@ -23,32 +26,40 @@ export class PaymentForm {
     by.css('[formcontrolname="cardNumber"]')
   );
   readonly cardTypeSelect: ElementFinder = this.form.element(
-    by.css('[formcontrolname="code"]')
+    by.css('[bindValue="code"]')
   );
   readonly expiryMonth: ElementFinder = this.form.element(
-    by.css('[formcontrolname="expiryMonth"]')
+    by.css('[bindValue="expiryMonth"]')
   );
   readonly expiryYear: ElementFinder = this.form.element(
-    by.css('[formcontrolname="expiryYear"]')
+    by.css('[bindValue="expiryYear"]')
   );
   readonly verificationNumber: ElementFinder = this.form.element(
     by.css('[formcontrolname="cvn"]')
   );
 
   readonly nextButton: ElementFinder = this.form.element(
-    by.cssContainingText('button', 'Next')
+    by.cssContainingText('button', 'Continue')
   );
 
   async selectCardType(value: string) {
-    await E2EUtil.selectOptionByText(this.cardTypeSelect, value);
+    await E2EUtil.selectNgSelectOptionByText(this.cardTypeSelect, value);
+  }
+
+  async selectExpiryMonth(value: string) {
+    await E2EUtil.selectNgSelectOptionByText(this.expiryMonth, value);
+  }
+
+  async selectExpiryYear(value: string) {
+    await E2EUtil.selectNgSelectOptionByText(this.expiryYear, value);
   }
 
   async fillIn() {
     await this.accountHolderName.sendKeys(PaymentForm.CARD_HOLDER);
     await this.cardNumber.sendKeys(PaymentForm.CARD_NUMBER);
     await this.selectCardType(PaymentForm.CARD_TYPE);
-    await this.expiryMonth.sendKeys(PaymentForm.CARD_MONTH);
-    await this.expiryYear.sendKeys(PaymentForm.CARD_YEAR);
+    await this.selectExpiryMonth(PaymentForm.CARD_MONTH);
+    await this.selectExpiryYear(PaymentForm.CARD_YEAR);
     await this.verificationNumber.sendKeys(PaymentForm.CARD_CCV);
   }
 

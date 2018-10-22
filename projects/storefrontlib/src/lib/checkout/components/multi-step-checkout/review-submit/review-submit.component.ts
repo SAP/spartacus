@@ -5,7 +5,7 @@ import {
   OnInit
 } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -41,35 +41,33 @@ export class ReviewSubmitComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cart$ = this.store.select(fromCartStore.getActiveCart);
-    this.entries$ = this.store.select(fromCartStore.getEntries);
+    this.cart$ = this.store.pipe(select(fromCartStore.getActiveCart));
+    this.entries$ = this.store.pipe(select(fromCartStore.getEntries));
 
-    this.deliveryMode$ = this.store
-      .select(fromCheckoutStore.getSelectedDeliveryMode)
-      .pipe(
-        tap(selected => {
-          if (selected === null) {
-            this.service.loadSupportedDeliveryModes();
-          }
-        })
-      );
+    this.deliveryMode$ = this.store.pipe(
+      select(fromCheckoutStore.getSelectedDeliveryMode),
+      tap(selected => {
+        if (selected === null) {
+          this.service.loadSupportedDeliveryModes();
+        }
+      })
+    );
 
-    this.countryName$ = this.store
-      .select(
+    this.countryName$ = this.store.pipe(
+      select(
         fromUserStore.countrySelectorFactory(
           this.deliveryAddress.country.isocode
         )
-      )
-      .pipe(
-        tap(country => {
-          if (country === null) {
-            this.store.dispatch(new fromUserStore.LoadDeliveryCountries());
-          }
-        })
-      );
+      ),
+      tap(country => {
+        if (country === null) {
+          this.store.dispatch(new fromUserStore.LoadDeliveryCountries());
+        }
+      })
+    );
   }
 
-  getAddressCard(countryName): Card {
+  getShippingAddressCard(countryName): Card {
     if (!countryName) {
       countryName = this.deliveryAddress.country.isocode;
     }
@@ -103,7 +101,7 @@ export class ReviewSubmitComponent implements OnInit {
     }
   }
 
-  getPaymentCard(): Card {
+  getPaymentMethodCard(): Card {
     return {
       title: 'Payment',
       textBold: this.paymentDetails.accountHolderName,

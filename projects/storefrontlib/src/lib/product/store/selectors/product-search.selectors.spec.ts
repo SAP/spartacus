@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, Store, combineReducers, select } from '@ngrx/store';
 
 import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../reducers';
@@ -32,7 +32,7 @@ describe('ProductSearch Selectors', () => {
       const searchConfig = new SearchConfig();
       searchConfig.pageSize = 10;
       store
-        .select(fromSelectors.getSearchResults)
+        .pipe(select(fromSelectors.getSearchResults))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
@@ -49,12 +49,40 @@ describe('ProductSearch Selectors', () => {
     });
   });
 
+  describe('getAuxSearchResults', () => {
+    it('should return the auxiliary product search results', () => {
+      let result;
+      const searchConfig = new SearchConfig();
+      searchConfig.pageSize = 10;
+      store
+        .pipe(select(fromSelectors.getAuxSearchResults))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual({});
+
+      store.dispatch(
+        new fromActions.SearchProducts(
+          {
+            queryText: 'test',
+            searchConfig: searchConfig
+          },
+          true
+        )
+      );
+      store.dispatch(
+        new fromActions.SearchProductsSuccess(searchResults, true)
+      );
+
+      expect(result).toEqual(searchResults);
+    });
+  });
+
   describe('getProductSuggestions', () => {
     it('should return the product suggestions', () => {
       let result;
 
       store
-        .select(fromSelectors.getProductSuggestions)
+        .pipe(select(fromSelectors.getProductSuggestions))
         .subscribe(value => (result = value));
 
       expect(result).toEqual([]);
