@@ -37,8 +37,14 @@ describe('AddedToCartDialogComponent', () => {
       ],
       declarations: [AddedToCartDialogComponent],
       providers: [
-        { provide: NgbActiveModal, useClass: MockNgbActiveModal },
-        { provide: CartService, useClass: MockCartService }
+        {
+          provide: NgbActiveModal,
+          useClass: MockNgbActiveModal
+        },
+        {
+          provide: CartService,
+          useClass: MockCartService
+        }
       ]
     }).compileComponents();
   }));
@@ -76,17 +82,29 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should display cart item', () => {
-    component.entry$ = of({ id: 111, product: { code: 'CODE1111' } });
+    component.entry$ = of({
+      id: 111,
+      product: {
+        code: 'CODE1111'
+      }
+    });
     component.loaded$ = of(true);
     fixture.detectChanges();
-    expect(el.query(By.css('y-cart-item')));
+    expect(el.query(By.css('y-cart-item'))).toBeDefined();
   });
 
   it('should display cart total', () => {
-    component.entry$ = of({ id: 111, product: { code: 'CODE1111' } });
+    component.entry$ = of({
+      id: 111,
+      product: {
+        code: 'CODE1111'
+      }
+    });
     component.cart$ = of({
       deliveryItemsQuantity: 1,
-      totalPrice: { formattedValue: '$100.00' }
+      totalPrice: {
+        formattedValue: '$100.00'
+      }
     });
     component.loaded$ = of(true);
     fixture.detectChanges();
