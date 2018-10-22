@@ -17,20 +17,17 @@ $y-accordion-mobile-head-link-padding: 25px 20px !default;
 $y-accordion-mobile-head-btn-border: 5px solid !default;
 $y-accordion-mobile-head-btn-height: 74px !default;
 
-// we need to understand where to get this from
-$md-width: 992px;
-
 .y-product-details {
   display: grid;
   grid-column-gap: 30px;
 
-  @media (min-width: $md-width) {
+  @include media-breakpoint-up(lg) {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto 1fr;
   }
 
   &__item-images {
-    @media (min-width: $md-width) {
+    @include media-breakpoint-up(lg) {
       grid-row: 1 / span 2;
     }
   }
