@@ -46,6 +46,18 @@ $theme-colors: (
   'transparent': $transparent
 );
 
+$active-primary: #e04d4d !default;
+$disabled-primary: #ffdbdb !default;
+$active-secondary: #4d5056 !default;
+$disabled-secondary: #c7c8cc !default;
+
+$sub-colors: (
+  'active-primary': $active-primary,
+  'disabled-primary': $disabled-primary,
+  'active-secondary': $active-secondary,
+  'disabled-secondary': $disabled-secondary
+);
+
 //type — https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss#L225
 $font-size-base: 1rem; //16px
 // $h1-font-size: $font-size-base * 2.375; //38px

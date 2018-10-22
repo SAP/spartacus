@@ -27,43 +27,39 @@
   }
 
   &-primary {
-    @include var-color('background-color', 'primary');
-    @include var-color('border-color', 'primary');
+    background-color: var(--y-primary);
+    border-color: var(--y-primary);
 
     &:hover {
       // background-color: mix(#000000, theme-color('primary'), 12%);
       // border-color: mix(#000000, theme-color('primary'), 12%);
-      @include var-color('background-color', 'primary');
-      @include var-color('border-color', 'primary');
-      @include cx-darken(88);
+      background-color: var(--y-active-primary);
+      border-color: var(--y-active-primary);
     }
 
     &.active {
       // background-color: mix(#000000, theme-color('primary'), 12%) !important;
       // border-color: mix(#000000, theme-color('primary'), 12%) !important;
-      @include var-color('background-color', 'primary');
-      @include var-color('border-color', 'primary');
-      @include cx-darken(88);
+      background-color: var(--y-active-primary);
+      border-color: var(--y-active-primary);
     }
 
     &.disabled {
       // background-color: lighten(theme-color('primary'), 26%);
       // border-color: lighten(theme-color('primary'), 26%);
       // opacity: 1;
-      @include var-color('background-color', 'primary');
-      @include var-color('border-color', 'primary');
+      background-color: var(--y-disabled-primary);
+      border-color: var(--y-disabled-primary);
       &:hover {
         // border-color: lighten(theme-color('primary'), 26%);
-        @include var-color('border-color', 'primary');
-        @include cx-darken(100);
+        border-color: var(--y-disabled-primary);
       }
     }
 
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active {
-      @include var-color('background-color', 'primary');
-      @include var-color('border-color', 'primary');
-      @include cx-darken(88);
+      background-color: var(--y-active-primary);
+      border-color: var(--y-active-primary);
 
       &:focus {
         box-shadow: 0 0 0 0.2em rgba($primary, 0.5);
@@ -76,43 +72,39 @@
   }
 
   &-secondary {
-    @include var-color('background-color', 'secondary');
-    @include var-color('border-color', 'secondary');
+    background-color: var(--y-secondary);
+    border-color: var(--y-secondary);
 
     &:hover {
       // background-color: darken(theme-color('secondary'), 16%);
       // border-color: darken(theme-color('secondary'), 16%);
-      @include var-color('background-color', 'secondary');
-      @include var-color('border-color', 'secondary');
-      @include cx-darken(84);
+      background-color: var(--y-active-secondary);
+      border-color: var(--y-active-secondary);
     }
 
     &.active {
       // background-color: darken(theme-color('secondary'), 16%) !important;
       // border-color: darken(theme-color('secondary'), 16%) !important;
-      @include var-color('background-color', 'secondary');
-      @include var-color('border-color', 'secondary');
-      @include cx-darken(84);
+      background-color: var(--y-active-secondary);
+      border-color: var(--y-active-secondary);
     }
 
     &.disabled {
       // background-color: lighten(theme-color('secondary'), 31%);
       // border-color: lighten(theme-color('secondary'), 31%);
       // opacity: 1;
-      @include var-color('background-color', 'secondary');
-      @include var-color('border-color', 'secondary');
+      background-color: var(--y-disabled-secondary);
+      border-color: var(--y-disabled-secondary);
       &:hover {
         // border-color: lighten(theme-color('secondary'), 31%);
-        @include var-color('border-color', 'secondary');
-        @include cx-darken(100);
+        border-color: var(--y-disabled-secondary);
       }
     }
 
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active {
-      @include var-color('background-color', 'secondary');
-      @include var-color('border-color', 'secondary');
-      @include cx-darken(84);
+      background-color: var(--y-active-secondary);
+      border-color: var(--y-active-secondary);
 
       &:focus {
         box-shadow: 0 0 0 0.2em rgba($secondary, 0.5);

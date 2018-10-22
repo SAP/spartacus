@@ -1,25 +1,18 @@
 @import 'theme';
 @import 'functions';
 @import 'mixins';
+
 $y-product-details-trbl-margin: 0 0 40px 0 !default;
 $y-product-details-table-width: 100% !default;
-$y-product-details-tab-content-background-color: 'background' !default;
-$y-product-details-tab-title-color: 'text' !default;
 $y-product-details-tab-title-trbl-padding: 0 20px 0 20px !default;
-$y-product-details-tab-border-color: 'primary' !default;
 $y-product-details-tab-content-trbl-padding: 3rem 8rem !default;
 $y-product-details-review-link-trbl-margin: 0 0 0 20px !default;
-$y-product-details-item-code-color: 'secondary' !default;
 $y-product-details-item-rating-trbl-margin: 0 0 12px 0 !default;
 $y-product-details-cart-btn-trbl-margin: 20px 0 10px 0 !default;
 $y-product-details-review-count-trbl-margin: 0 0 0 5px !default;
-$y-accordian-mobile-background-color: 'inverse' !default;
-$y-accordian-mobile-body-background-color: 'background' !default;
 $y-accordion-mobile-body-padding: 30px 20px 20px 20px !default;
 $y-accordion-mobile-head-border: 1px solid !default;
-$y-accordion-mobile-head-border-color: 'light' !default;
 $y-accordion-mobile-head-trbl-padding: 0 !default;
-$y-accordion-mobile-head-link-color: 'text' !default;
 $y-accordion-mobile-head-link-padding: 25px 20px !default;
 $y-accordion-mobile-head-btn-border: 5px solid !default;
 $y-accordion-mobile-head-btn-height: 74px !default;
@@ -48,7 +41,7 @@ $md-width: 992px;
   }
   &__item-code {
     @include type('7');
-    @include var-color('color', $y-product-details-item-code-color);
+    color: var(--y-secondary);
   }
   &__item-rating {
     display: flex;
@@ -68,16 +61,13 @@ $md-width: 992px;
   }
   &__tab-title {
     @include type('3');
-    @include var-color('color', $y-product-details-tab-title-color);
+    color: var(--y-text);
     padding: $y-product-details-tab-title-trbl-padding;
     font-weight: $font-weight-normal;
   }
   &__tab-section {
     @include type();
-    @include var-color(
-      'background-color',
-      $y-product-details-tab-content-background-color
-    );
+    background-color: var(--y-background);
     padding: $y-product-details-tab-content-trbl-padding;
   }
 }
@@ -96,31 +86,22 @@ $md-width: 992px;
     .card {
       margin-bottom: 0;
       border-bottom: $y-accordion-mobile-head-border;
-      @include var-color('border-color', $y-accordion-mobile-head-border-color);
+      border-color: var(--y-light);
       &:first-of-type {
         border-bottom: $y-accordion-mobile-head-border;
         border-top: $y-accordion-mobile-head-border;
-        @include var-color(
-          'border-color',
-          $y-accordion-mobile-head-border-color
-        );
+        border-color: var(--y-light);
       }
       &:not(:first-of-type) {
         border-bottom: $y-accordion-mobile-head-border;
-        @include var-color(
-          'border-color',
-          $y-accordion-mobile-head-border-color
-        );
+        border-color: var(--y-light);
       }
       &:not(:last-of-type) {
         border-bottom: $y-accordion-mobile-head-border;
-        @include var-color(
-          'border-color',
-          $y-accordion-mobile-head-border-color
-        );
+        border-color: var(--y-light);
       }
       &-header {
-        @include var-color('background', $y-accordian-mobile-background-color);
+        background: var(--y-background);
         padding: $y-accordion-mobile-head-trbl-padding;
         .btn {
           padding: $y-accordion-mobile-head-link-padding;
@@ -129,19 +110,16 @@ $md-width: 992px;
           &[aria-expanded='true'] {
             border-bottom: $y-accordion-mobile-head-btn-border;
             border-radius: 0;
-            @include var-color('color', $y-product-details-tab-border-color);
+            color: var(--y-primary);
           }
           &:after {
-            @include var-color('color', $y-accordion-mobile-head-link-color);
+            color: var(--y-text);
           }
         }
       }
       &-body {
         padding: $y-accordion-mobile-body-padding;
-        @include var-color(
-          'background',
-          $y-accordian-mobile-body-background-color
-        );
+        background: var(--y-background);
       }
     }
   }

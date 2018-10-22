@@ -5,6 +5,10 @@
     --y-#{$color}: #{$value};
   }
 
+  @each $sub, $value in $sub-colors {
+    --y-#{$sub}: #{$value};
+  }
+
   --direction: #{$direction};
 
   // to be picked up at a later time
