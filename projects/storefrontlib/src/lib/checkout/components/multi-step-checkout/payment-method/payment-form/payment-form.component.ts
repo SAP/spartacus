@@ -1,4 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -12,7 +18,8 @@ import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
 @Component({
   selector: 'y-payment-form',
   templateUrl: './payment-form.component.html',
-  styleUrls: ['./payment-form.component.scss']
+  styleUrls: ['./payment-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentFormComponent implements OnInit {
   months = [];

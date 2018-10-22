@@ -19,6 +19,7 @@ import { CardModule } from '../../../../../ui/components/card/card.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Address } from '../../../../models/address-model';
 import { By } from '@angular/platform-browser';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 const mockAddress: Address = {
   firstName: 'John',
@@ -71,7 +72,11 @@ describe('PaymentFormComponent', () => {
       ],
       declarations: [PaymentFormComponent],
       providers: [CheckoutService, CartService, CartDataService]
-    }).compileComponents();
+    })
+      .overrideComponent(PaymentFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default }
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
