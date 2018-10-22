@@ -19,7 +19,7 @@ import { GoogleMapRendererService } from '../../services/google-map-renderer.ser
 
 const location = {};
 const stores = [location];
-const locations = [];
+const locations = { stores: stores };
 
 class StoreDataServiceMock {
   getStoreLatitude(_location: any): number {
@@ -33,6 +33,11 @@ class StoreDataServiceMock {
 
 class GoogleMapRendererServiceMock {
   centerMap(_latitute: number, _longitude: number) {}
+  renderMap(
+    mapElement: HTMLElement,
+    _locations: any[],
+    selectMarkerHandler?: Function
+  ) {}
 }
 
 describe('StoreFinderListComponent', () => {
@@ -72,18 +77,15 @@ describe('StoreFinderListComponent', () => {
     fixture = TestBed.createComponent(StoreFinderListComponent);
     component = fixture.componentInstance;
     store = TestBed.get(Store);
-    spyOn(store, 'dispatch');
-    fixture.detectChanges();
-    component.locations = locations;
-    component.locations.stores = stores;
-    storeMapComponent = fixture.debugElement.query(By.css('y-store-finder-map'))
-      .componentInstance;
-    spyOn(storeMapComponent, 'centerMap').and.callThrough();
     storeDataService = TestBed.get(StoreDataService);
     googleMapRendererService = TestBed.get(GoogleMapRendererService);
+
+    spyOn(store, 'dispatch');
     spyOn(storeDataService, 'getStoreLatitude');
     spyOn(storeDataService, 'getStoreLongitude');
     spyOn(googleMapRendererService, 'centerMap');
+
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -103,7 +105,17 @@ describe('StoreFinderListComponent', () => {
   });
 
   it('should center store on map', () => {
+    // given
+    component.locations = locations;
+    fixture.detectChanges();
+    storeMapComponent = fixture.debugElement.query(By.css('y-store-finder-map'))
+      .componentInstance;
+    spyOn(storeMapComponent, 'centerMap').and.callThrough();
+
+    // when
     component.centerStoreOnMapByIndex(0);
+
+    // then
     expect(storeMapComponent.centerMap).toHaveBeenCalled();
     expect(storeDataService.getStoreLatitude).toHaveBeenCalled();
     expect(storeDataService.getStoreLongitude).toHaveBeenCalled();
