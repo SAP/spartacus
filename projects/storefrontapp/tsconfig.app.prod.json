@@ -5,6 +5,7 @@
     "module": "es2015",
     "types": [],
     "paths": {
+      "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]
     }
   },

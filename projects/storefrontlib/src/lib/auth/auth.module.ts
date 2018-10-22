@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-
+import { ConfigModule, Config } from '@spartacus/core';
 import {
   AuthModuleConfig,
   defaultAuthModuleConfig
@@ -21,7 +21,6 @@ import {
   reducerProvider,
   metaReducers
 } from './store/reducers/index';
-import { Config, ConfigModule } from '../config/config.module';
 
 @NgModule({
   imports: [
