@@ -1,5 +1,9 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { ConfigModule, provideConfig } from '@spartacus/core';
+import {
+  ConfigModule,
+  provideConfig,
+  ConfigurableRouterModule
+} from '@spartacus/core';
 import { AuthModule } from './auth/index';
 import { RoutingModule } from './routing/index';
 import { OccModule } from './occ/index';
@@ -20,7 +24,8 @@ import { StorefrontModuleConfig } from './storefront-config';
     CmsModule,
     UiModule,
     UiFrameworkModule,
-    ConfigModule.forRoot()
+    ConfigModule.forRoot(),
+    ConfigurableRouterModule
   ],
   exports: [UiModule],
   declarations: []
