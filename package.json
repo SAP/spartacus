@@ -18,7 +18,7 @@
     "mockserver": "cd ./projects/backend/mockgenerator && npm run start",
     "build:core:lib": "ng build core && ng build storefrontlib",
     "build:qa": "ng build -c=qa",
-    "build": "ng build --prod",
+    "build": "ng build storefrontapp --prod",
     "test": "ng test",
     "test:core:lib": "ng test core --code-coverage && ng test storefrontlib --code-coverage",
     "e2e": "ng e2e",
