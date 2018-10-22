@@ -1,5 +1,5 @@
 {
-  "name": "core",
+  "name": "@spartacus/core",
   "version": "0.0.1",
   "description": "Spartacus - the core framework",
   "keywords": [
