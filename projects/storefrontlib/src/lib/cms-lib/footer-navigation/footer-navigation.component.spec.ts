@@ -54,11 +54,11 @@ describe('FooterNavigationComponent', () => {
     footerNavigationComponent = fixture.componentInstance;
 
     footerNavigationComponent.node = {
-      childs: [
+      children: [
         {
           title: 'Test 1',
           url: '/',
-          childs: mockLinks
+          children: mockLinks
         }
       ]
     };

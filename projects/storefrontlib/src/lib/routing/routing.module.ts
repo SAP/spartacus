@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 
+import { ConfigModule, Config } from '@spartacus/core';
+
 import {
   StoreRouterConnectingModule,
   RouterStateSerializer
@@ -19,7 +21,6 @@ import {
   StorageSyncType
 } from './routing-module-config';
 
-import { ConfigModule, Config } from '../config/config.module';
 import { RouterModule } from '@angular/router';
 
 export function getMetaReducers(

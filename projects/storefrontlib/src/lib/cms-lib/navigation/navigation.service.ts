@@ -14,7 +14,7 @@ export class NavigationService {
    */
   public getNavigationEntryItems(nodeData: any, root: boolean, itemsList = []) {
     if (nodeData.children) {
-      this.processChilds(nodeData, itemsList);
+      this.processChildren(nodeData, itemsList);
     } else if (nodeData.entries && nodeData.entries.length > 0) {
       nodeData.entries.forEach(entry => {
         itemsList.push({
@@ -35,7 +35,7 @@ export class NavigationService {
     }
   }
 
-  private processChilds(node, itemsList) {
+  private processChildren(node, itemsList) {
     for (const child of node.children) {
       this.getNavigationEntryItems(child, false, itemsList);
     }
@@ -53,8 +53,8 @@ export class NavigationService {
     node['url'] = '';
 
     if (nodeData.children) {
-      const childs = this.createChilds(nodeData, items);
-      node['childs'] = childs;
+      const children = this.createChildren(nodeData, items);
+      node['children'] = children;
     } else if (nodeData.entries && nodeData.entries.length > 0) {
       const entry = nodeData.entries[0];
       const item = items[`${entry.itemId}_${entry.itemSuperType}`];
@@ -73,12 +73,12 @@ export class NavigationService {
     return node;
   }
 
-  private createChilds(node, items) {
-    const childs = [];
+  private createChildren(node, items) {
+    const children = [];
     for (const child of node.children) {
       const childNode = this.createNode(child, items);
-      childs.push(childNode);
+      children.push(childNode);
     }
-    return childs;
+    return children;
   }
 }

@@ -10,6 +10,7 @@ import { BootstrapModule } from '../../bootstrap.module';
 import { CmsService } from '../../cms/facade/cms.service';
 import { CmsComponentData, ProductSearchService } from '@spartacus/storefront';
 import { SearchBoxComponentService } from './search-box-component.service';
+import { RouterModule } from '@angular/router';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -61,7 +62,8 @@ describe('SearchBoxComponent in CmsLib', () => {
         BootstrapModule,
         BrowserAnimationsModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        RouterModule
       ],
       declarations: [SearchBoxComponent, PictureComponent],
       providers: [
