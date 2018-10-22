@@ -66,6 +66,8 @@ class MockCardComponent {
   border;
   @Input()
   content;
+  @Input()
+  fitToContainer;
 }
 
 describe('ShippingAddressComponent', () => {

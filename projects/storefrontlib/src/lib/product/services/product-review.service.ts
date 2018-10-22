@@ -10,8 +10,9 @@ export class ProductReviewService {
   constructor(private store: Store<fromStore.ProductsState>) {}
 
   getByProductCode(productCode: string): Observable<any> {
+    const selector = fromStore.getSelectedProductReviewsFactory(productCode);
     return this.store.pipe(
-      select(fromStore.getSelectedProductReviewsFactory(productCode)),
+      select(selector),
       tap(reviews => {
         if (reviews === undefined && productCode !== undefined) {
           this.store.dispatch(new fromStore.LoadProductReviews(productCode));

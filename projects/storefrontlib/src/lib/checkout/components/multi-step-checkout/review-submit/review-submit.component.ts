@@ -67,7 +67,7 @@ export class ReviewSubmitComponent implements OnInit {
     );
   }
 
-  getAddressCard(countryName): Card {
+  getShippingAddressCard(countryName): Card {
     if (!countryName) {
       countryName = this.deliveryAddress.country.isocode;
     }
@@ -101,7 +101,7 @@ export class ReviewSubmitComponent implements OnInit {
     }
   }
 
-  getPaymentCard(): Card {
+  getPaymentMethodCard(): Card {
     return {
       title: 'Payment',
       textBold: this.paymentDetails.accountHolderName,

@@ -11,8 +11,9 @@ export class CmsService {
   constructor(private store: Store<fromStore.CmsState>) {}
 
   getComponentData(uid: string): Observable<any> {
+    const selector = fromStore.componentSelectorFactory(uid);
     return this.store.pipe(
-      select(fromStore.componentSelectorFactory(uid)),
+      select(selector),
       tap(componentData => {
         if (componentData === undefined) {
           this.store.dispatch(new fromStore.LoadComponent(uid));
