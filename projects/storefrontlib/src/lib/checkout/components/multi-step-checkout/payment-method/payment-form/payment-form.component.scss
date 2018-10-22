@@ -41,7 +41,6 @@ $y-payment-form-btns-margin-bottom: 1rem !default;
     margin: $y-payment-form-header-margin;
     padding: $y-payment-form-header-padding;
     &-title {
-      text-transform: uppercase;
       margin-bottom: $y-payment-form-header-title-margin-bottom;
     }
     &-image {
@@ -76,33 +75,8 @@ $y-payment-form-btns-margin-bottom: 1rem !default;
       flex-wrap: nowrap;
     }
   }
-  &__title {
-    text-transform: uppercase;
-    margin: $y-payment-form-title-margin;
-    padding: $y-payment-form-title-padding;
-  }
-  &__body {
-    display: flex;
-    align-items: flex-end;
-    padding-bottom: $y-payment-form-body-padding-bottom;
-  }
   // ***************************** MEDIA QUERIES *****************************
   @include checkout-media-style();
-  &__body {
-    &.row {
-      @include media-breakpoint-down(md) {
-        padding: $y-payment-form-no-padding;
-      }
-    }
-  }
-  &__text {
-    @include media-breakpoint-down(md) {
-      padding-left: $y-payment-form-text-md-padding-left;
-    }
-    @include media-breakpoint-down(sm) {
-      padding-left: $y-payment-form-text-sm-padding-left;
-    }
-  }
   &__header {
     @include media-breakpoint-down(md) {
       padding: $y-payment-form-no-padding;
@@ -112,14 +86,6 @@ $y-payment-form-btns-margin-bottom: 1rem !default;
         margin-right: $y-payment-form-header-image-md-margin-right;
         margin-left: $y-payment-form-header-image-md-margin-left;
       }
-    }
-  }
-  &__card {
-    @include media-breakpoint-down(md) {
-      @include var-color(
-        'background-color',
-        $y-payment-form-card-background-color
-      );
     }
   }
   &__btns {

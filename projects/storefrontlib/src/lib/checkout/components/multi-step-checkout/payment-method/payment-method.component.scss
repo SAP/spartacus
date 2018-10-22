@@ -43,7 +43,6 @@ $y-payment-methods-loading-padding: 30px !default;
     margin: $y-existing-payment-methods-header-margin;
     padding: $y-existing-payment-methods-header-padding;
     &-title {
-      text-transform: uppercase;
       margin-bottom: $y-existing-payment-methods-header-title-margin-bottom;
     }
     &-image {
@@ -69,7 +68,6 @@ $y-payment-methods-loading-padding: 30px !default;
     }
   }
   &__title {
-    text-transform: uppercase;
     margin: $y-existing-payment-methods-title-margin;
     padding: $y-existing-payment-methods-title-padding;
   }

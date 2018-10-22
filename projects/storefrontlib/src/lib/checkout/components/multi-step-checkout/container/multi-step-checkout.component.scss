@@ -119,7 +119,6 @@ $y-multi-step-checkout-btns-padding: 0 !default;
     &-list--media {
       display: none;
       @include type('3');
-      text-transform: uppercase;
       justify-content: space-between;
       align-items: center;
       line-height: $y-multi-step-checkout-nav-list-media-line-height;
@@ -132,7 +131,6 @@ $y-multi-step-checkout-btns-padding: 0 !default;
       margin-bottom: $y-multi-step-checkout-no-margin;
 
       button {
-        text-transform: uppercase;
         font-weight: $font-weight-bold;
       }
 
