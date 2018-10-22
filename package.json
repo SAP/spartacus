@@ -16,7 +16,7 @@
     "start:prod": "ng serve --prod",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server -p 4200",
     "mockserver": "cd ./projects/backend/mockgenerator && npm run start",
-    "build:core:lib": "ng build core && ng build storefrontlib --prod",
+    "build:core:lib": "ng build core && ng build storefrontlib",
     "build:qa": "ng build -c=qa",
     "build": "ng build --prod",
     "test": "ng test",

@@ -1,7 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/storefrontlib",
-  "deleteDestPath": false,
   "lib": {
     "umdModuleIds": {
       "@ngrx/effects": "effects",
@@ -12,7 +11,6 @@
       "@ng-select/ng-select": "ngSelect",
       "@spartacus/core": "core"
     },
-
     "entryFile": "src/public_api.ts",
     "styleIncludePaths": ["../", "../storefrontstyles/scss"]
   }

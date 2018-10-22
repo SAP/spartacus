@@ -179,11 +179,6 @@
           "options": {
             "tsConfig": "projects/storefrontlib/tsconfig.lib.json",
             "project": "projects/storefrontlib/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "projects/storefrontlib/ng-package.prod.json"
-            }
           }
         },
         "test": {
