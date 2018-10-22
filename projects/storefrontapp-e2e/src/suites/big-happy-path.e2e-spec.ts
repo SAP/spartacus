@@ -99,12 +99,14 @@ describe('Big Happy Path', () => {
   });
 
   it('should fill in payment form', async () => {
-    const paymentForm = checkoutPage.paymentForm;
-    await paymentForm.waitForReady();
+    const paymentMethod = checkoutPage.paymentMethod;
+    await paymentMethod.waitForReady();
 
-    expect(await paymentForm.header.getText()).toContain('PAYMENT');
+    expect(await paymentMethod.header.getText()).toContain('PAYMENT');
     expect(await checkoutPage.orderSummary.getText()).toContain('$2,635.07');
 
+    const paymentForm = paymentMethod.paymentForm;
+    await paymentForm.waitForReady();
     await paymentForm.fillIn();
     await paymentForm.nextButton.click();
   });
