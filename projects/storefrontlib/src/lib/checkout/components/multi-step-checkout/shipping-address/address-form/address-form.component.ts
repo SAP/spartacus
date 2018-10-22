@@ -3,7 +3,8 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  OnDestroy
+  OnDestroy,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
@@ -23,7 +24,8 @@ import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'y-address-form',
   templateUrl: './address-form.component.html',
-  styleUrls: ['./address-form.component.scss']
+  styleUrls: ['./address-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<any>;

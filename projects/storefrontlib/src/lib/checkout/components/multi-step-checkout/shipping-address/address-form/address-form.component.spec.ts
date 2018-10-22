@@ -18,6 +18,7 @@ import { CartService, CartDataService } from '../../../../../cart/services';
 import { AddressFormModule } from './address-form.module';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { By } from '@angular/platform-browser';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 const mockTitles = [
   {
@@ -81,7 +82,11 @@ describe('AddressFormComponent', () => {
         })
       ],
       providers: [CheckoutService, CartService, CartDataService, NgbModal]
-    }).compileComponents();
+    })
+      .overrideComponent(AddressFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default }
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
