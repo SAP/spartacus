@@ -11,10 +11,11 @@ exports.config = {
     acceptInsecureCerts: true,
     chromeOptions: {
       args: [
-        '--headless',
-        '--no-sandbox',
-        '--disable-gpu',
-        '--window-size=1024,768'
+        'headless',
+        'no-sandbox',
+        'disable-gpu',
+        'window-size=1024,768',
+        'disable-infobars'
       ]
     }
   },
