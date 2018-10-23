@@ -15,7 +15,8 @@ exports.config = {
         'no-sandbox',
         'disable-gpu',
         'window-size=1024,768',
-        'disable-infobars'
+        'disable-infobars',
+        'disable-web-security'
       ]
     }
   },
