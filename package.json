@@ -6,23 +6,23 @@
     "node": ">=8.9.0"
   },
   "scripts": {
+    "build": "ng build storefrontapp --prod",
+    "build:core:lib": "ng build core && ng build storefrontlib",
+    "build:qa": "ng build -c=qa",
+    "e2e": "ng e2e",
+    "e2e:ci": "ng e2e --configuration=ci --protractor-config=projects/storefrontapp-e2e/protractor.headless.conf.js",
+    "lint": "ng lint",
+    "mockserver": "cd ./projects/backend/mockgenerator && npm run start",
     "ng": "ng",
     "prettier": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss}\"",
     "prettier-fix": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss}\" --write",
-    "lint": "ng lint",
     "start": "ng serve --proxy-config mock-server/proxy.backend.js",
     "start:mock": "ng serve --proxy-config mock-server/proxy.mock.js",
     "start:qa": "ng serve -c=qa",
     "start:prod": "ng serve --prod",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server -p 4200",
-    "mockserver": "cd ./projects/backend/mockgenerator && npm run start",
-    "build:core:lib": "ng build core && ng build storefrontlib",
-    "build:qa": "ng build -c=qa",
-    "build": "ng build storefrontapp --prod",
     "test": "ng test",
-    "test:core:lib": "ng test core --code-coverage && ng test storefrontlib --code-coverage",
-    "e2e": "ng e2e",
-    "e2e:ci": "ng e2e --configuration=ci --protractor-config=projects/storefrontapp-e2e/protractor.headless.conf.js"
+    "test:core:lib": "ng test core --code-coverage && ng test storefrontlib --code-coverage"
   },
   "private": false,
   "dependencies": {
