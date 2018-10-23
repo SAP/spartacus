@@ -39,7 +39,7 @@ export class StoreFinderListComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromStore.StoresState>,
     private storeDataService: StoreDataService,
-    @Inject(DOCUMENT) private document: any
+    @Inject(DOCUMENT) private document: Document
   ) {}
 
   ngOnInit(): void {

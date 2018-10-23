@@ -6,14 +6,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { StoreFinderListComponent } from './store-finder-list.component';
-import { PaginationComponent } from '../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 
 import * as fromReducers from '../../store';
 import * as fromRoot from '../../../routing/store';
 import * as fromServices from '../../services';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
-import { OccModuleConfig } from '../../../occ';
-import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 import { StoreDataService } from '../../services';
 import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
 
@@ -33,11 +30,7 @@ class StoreDataServiceMock {
 
 class GoogleMapRendererServiceMock {
   centerMap(_latitute: number, _longitude: number) {}
-  renderMap(
-    mapElement: HTMLElement,
-    _locations: any[],
-    selectMarkerHandler?: Function
-  ) {}
+  renderMap() {}
 }
 
 describe('StoreFinderListComponent', () => {
@@ -66,9 +59,7 @@ describe('StoreFinderListComponent', () => {
           provide: GoogleMapRendererService,
           useClass: GoogleMapRendererServiceMock
         },
-        { provide: StoreDataService, useClass: StoreDataServiceMock },
-        OccE2eConfigurationService,
-        OccModuleConfig
+        { provide: StoreDataService, useClass: StoreDataServiceMock }
       ]
     }).compileComponents();
   }));
@@ -92,16 +83,22 @@ describe('StoreFinderListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should change pages', done => {
-    const pagination = new PaginationComponent();
-    pagination.viewPageEvent.subscribe(event => {
-      expect(event).toEqual(3);
-      component.viewPage(event);
-      expect(store.dispatch).toHaveBeenCalled();
-      expect(component.searchConfig.currentPage).toBe(event);
-      done();
-    });
-    pagination.pageChange(4);
+  it('should change pages', () => {
+    // given
+    const pageNumber = 4;
+    component.searchQuery = { queryText: '', longitudeLatitude: [0, 0] };
+
+    // when
+    component.viewPage(pageNumber);
+
+    // then
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromReducers.FindStores({
+        queryText: '',
+        longitudeLatitude: [0, 0],
+        searchConfig: { currentPage: pageNumber }
+      })
+    );
   });
 
   it('should center store on map', () => {
@@ -120,5 +117,20 @@ describe('StoreFinderListComponent', () => {
     expect(storeDataService.getStoreLatitude).toHaveBeenCalled();
     expect(storeDataService.getStoreLongitude).toHaveBeenCalled();
     expect(googleMapRendererService.centerMap).toHaveBeenCalled();
+  });
+
+  it('should select store from list', () => {
+    // given
+    const itemNumber = 4;
+    const storeListItemMock = { scrollIntoView: function() {} };
+    spyOn(document, 'getElementById').and.returnValue(storeListItemMock);
+    spyOn(storeListItemMock, 'scrollIntoView');
+
+    // when
+    component.selectStoreItemList(itemNumber);
+
+    // then
+    expect(document.getElementById).toHaveBeenCalledWith('item-' + itemNumber);
+    expect(storeListItemMock.scrollIntoView).toHaveBeenCalled();
   });
 });
