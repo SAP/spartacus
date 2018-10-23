@@ -48,6 +48,27 @@ describe('Product Search Reducer', () => {
       expect(state.results).toEqual(results);
     });
 
+    it('should populate auxiliary search results after loading', () => {
+      const mockSearchConfig = new SearchConfig();
+      mockSearchConfig.pageSize = 10;
+
+      const results = { products: [{ code: '123' }] };
+      const { initialState } = fromProductSearch;
+      const loadAction = new fromActions.SearchProducts(
+        {
+          queryText: 'test',
+          searchConfig: mockSearchConfig
+        },
+        true
+      );
+      const loadingState = fromProductSearch.reducer(initialState, loadAction);
+      const resultAction = new fromActions.SearchProductsSuccess(results, true);
+      const state = fromProductSearch.reducer(loadingState, resultAction);
+
+      expect(state.loading).toEqual(false);
+      expect(state.auxResults).toEqual(results);
+    });
+
     it('should return the previous state if not loading', () => {
       const { initialState } = fromProductSearch;
       const previousState = { ...initialState, loading: false };

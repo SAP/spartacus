@@ -15,10 +15,6 @@ export class PaymentForm {
   readonly form: ElementFinder = this.parentElement.element(
     by.tagName('y-payment-form')
   );
-  readonly header: ElementFinder = this.form.element(
-    by.css('h3.y-payment-form__header-title')
-    // by.css('h3.y-existing-payment-methods__title')
-  );
   readonly accountHolderName: ElementFinder = this.form.element(
     by.css('[formcontrolname="accountHolderName"]')
   );
