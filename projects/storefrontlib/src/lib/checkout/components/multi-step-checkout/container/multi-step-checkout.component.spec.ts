@@ -100,6 +100,12 @@ describe('MultiStepCheckoutComponent', () => {
     fixture.debugElement.query(
       By.css('.y-multi-step-checkout__place-order .btn-action')
     ).nativeElement;
+  const mockAllSteps = () => {
+    mockSelectors.checkout.getDeliveryAddress.next(mockDeliveryAddresses);
+    mockSelectors.checkout.getSelectedCode.next(mockSelectedCode);
+    mockSelectors.checkout.getPaymentDetails.next(mockPaymentDetails);
+    mockSelectors.checkout.getOrderDetails.next(mockOrderDetails);
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -386,20 +392,14 @@ describe('MultiStepCheckoutComponent', () => {
 
     expect(getPlaceOrderForm()).toBeFalsy();
 
-    mockSelectors.checkout.getDeliveryAddress.next(mockDeliveryAddresses);
-    mockSelectors.checkout.getSelectedCode.next(mockSelectedCode);
-    mockSelectors.checkout.getPaymentDetails.next(mockPaymentDetails);
-    mockSelectors.checkout.getOrderDetails.next(mockOrderDetails);
+    mockAllSteps();
     expect(getPlaceOrderForm()).toBeTruthy();
   });
 
   it('should call setStep(3) when back button clicked', () => {
     spyOn(component, 'setStep').and.callThrough();
     mockSelectors.cart.getActiveCart.next({});
-    mockSelectors.checkout.getDeliveryAddress.next(mockDeliveryAddresses);
-    mockSelectors.checkout.getSelectedCode.next(mockSelectedCode);
-    mockSelectors.checkout.getPaymentDetails.next(mockPaymentDetails);
-    mockSelectors.checkout.getOrderDetails.next(mockOrderDetails);
+    mockAllSteps();
 
     fixture.detectChanges();
     getBackBtn().click();
@@ -408,10 +408,7 @@ describe('MultiStepCheckoutComponent', () => {
 
   it('should contain disabled place order button if terms not accepted', () => {
     mockSelectors.cart.getActiveCart.next({});
-    mockSelectors.checkout.getDeliveryAddress.next(mockDeliveryAddresses);
-    mockSelectors.checkout.getSelectedCode.next(mockSelectedCode);
-    mockSelectors.checkout.getPaymentDetails.next(mockPaymentDetails);
-    mockSelectors.checkout.getOrderDetails.next(mockOrderDetails);
+    mockAllSteps();
 
     fixture.detectChanges();
 
@@ -420,10 +417,7 @@ describe('MultiStepCheckoutComponent', () => {
 
   it('should contain enabled place order button if terms accepted', () => {
     mockSelectors.cart.getActiveCart.next({});
-    mockSelectors.checkout.getDeliveryAddress.next(mockDeliveryAddresses);
-    mockSelectors.checkout.getSelectedCode.next(mockSelectedCode);
-    mockSelectors.checkout.getPaymentDetails.next(mockPaymentDetails);
-    mockSelectors.checkout.getOrderDetails.next(mockOrderDetails);
+    mockAllSteps();
     component.ngOnInit();
 
     const inputCheckbox = fixture.debugElement.query(By.css('#termsCheck'))
