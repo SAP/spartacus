@@ -22,8 +22,7 @@ import { SearchQuery } from '../../models/searchQuery';
   styleUrls: ['./store-finder-list.component.scss']
 })
 export class StoreFinderListComponent implements OnInit, OnDestroy {
-  @Input()
-  searchQuery: SearchQuery;
+  @Input() searchQuery: SearchQuery;
 
   locations: any;
   searchConfig: SearchConfig = {
@@ -33,13 +32,12 @@ export class StoreFinderListComponent implements OnInit, OnDestroy {
   ngUnsubscribe: Subscription;
   isLoading$: Observable<any>;
 
-  @ViewChild('storeMap')
-  storeMap: StoreFinderMapComponent;
+  @ViewChild('storeMap') storeMap: StoreFinderMapComponent;
 
   constructor(
     private store: Store<fromStore.StoresState>,
     private storeDataService: StoreDataService,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: any
   ) {}
 
   ngOnInit(): void {
