@@ -4,7 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import * as NgrxStore from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
 
-import { PaymentFormModule } from './payment-form/payment-form.module';
 import { PaymentMethodComponent } from './payment-method.component';
 
 import * as fromRoot from '../../../../routing/store';
@@ -16,17 +15,51 @@ import * as fromAuth from '../../../../auth/store';
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
-import { CardModule } from '../../../../ui/components/card/card.module';
-import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
+import { Component, Input } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
-const paymentDetails = {
-  accountHolderName: 'Name',
-  cardNumber: '123456789',
+const mockPaymentMethod1 = {
+  accountHolderName: 'Name 1',
+  cardNumber: '1111111111',
   cardType: 'Visa',
   expiryMonth: '01',
-  expiryYear: '2022',
-  cvn: '123'
+  expiryYear: '3000',
+  cvn: '111'
 };
+
+const mockPaymentMethod2 = {
+  accountHolderName: 'Name 2',
+  cardNumber: '2222222222',
+  cardType: 'Visa',
+  expiryMonth: '02',
+  expiryYear: '3000',
+  cvn: '222'
+};
+
+const mockPaymentMethods = [mockPaymentMethod1, mockPaymentMethod2];
+
+@Component({
+  selector: 'y-payment-form',
+  template: ''
+})
+class MockPaymentFormComponent {}
+
+@Component({
+  selector: 'y-spinner',
+  template: ''
+})
+class MockSpinnerComponent {}
+
+@Component({
+  selector: 'y-card',
+  template: ''
+})
+class MockCardComponent {
+  @Input()
+  border;
+  @Input()
+  content;
+}
 
 describe('PaymentMethodComponent', () => {
   let component: PaymentMethodComponent;
@@ -41,18 +74,20 @@ describe('PaymentMethodComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        CardModule,
-        SpinnerModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           cart: combineReducers(fromCart.getReducers()),
           user: combineReducers(fromUser.getReducers()),
           checkout: combineReducers(fromCheckout.getReducers()),
           auth: combineReducers(fromAuth.getReducers())
-        }),
-        PaymentFormModule
+        })
       ],
-      declarations: [PaymentMethodComponent],
+      declarations: [
+        PaymentMethodComponent,
+        MockPaymentFormComponent,
+        MockCardComponent,
+        MockSpinnerComponent
+      ],
       providers: [CheckoutService, CartService, CartDataService]
     }).compileComponents();
   }));
@@ -93,55 +128,197 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call ngOnInit to get existing payment methods if they exist', () => {
-    const mockPayments = [paymentDetails];
+    const mockPayments = mockPaymentMethods;
     mockUserSelectors.getPaymentMethods.next(mockPayments);
     component.ngOnInit();
     component.existingPaymentMethods$.subscribe(data => {
       expect(data).toBe(mockPayments);
-      expect(component.cards.length).toEqual(1);
+      expect(component.cards.length).toEqual(2);
     });
   });
 
-  it('should call getCardContent() to get address card data', () => {
-    const card = component.getCardContent(paymentDetails);
+  it('should call getCardContent() to get payment method card data', () => {
+    const card = component.getCardContent(mockPaymentMethod1);
     expect(card.title).toEqual('');
-    expect(card.textBold).toEqual('Name');
-    expect(card.text).toEqual(['123456789', 'Expires: 01/2022']);
+    expect(card.textBold).toEqual('Name 1');
+    expect(card.text).toEqual(['1111111111', 'Expires: 01/3000']);
   });
 
   it('should call paymentMethodSelected(paymentDetails, index)', () => {
-    const card = { title: 'test card' };
-    component.cards.push(card);
-    component.paymentMethodSelected(paymentDetails, 0);
+    const card1 = { title: 'test card 1' };
+    const card2 = { title: 'test card 2' };
+    const card3 = { title: 'test card 3' };
+    component.cards.push(card1, card2, card3);
+    component.paymentMethodSelected(mockPaymentMethod1, 1);
 
-    expect(component.selectedPayment).toEqual(paymentDetails);
-    expect(component.cards[0].header).toEqual('SELECTED');
+    expect(component.selectedPayment).toEqual(mockPaymentMethod1);
+    expect(component.cards[0].header).toEqual('');
+    expect(component.cards[1].header).toEqual('SELECTED');
+    expect(component.cards[2].header).toEqual('');
   });
 
   it('should call next() to submit request', () => {
-    component.selectedPayment = paymentDetails;
+    component.selectedPayment = mockPaymentMethod1;
     component.next();
     expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
-      payment: paymentDetails,
+      payment: mockPaymentMethod1,
       newPayment: false
     });
   });
 
   it('should call addNewPaymentMethod()', () => {
-    component.addNewPaymentMethod(paymentDetails);
+    component.addNewPaymentMethod(mockPaymentMethod1);
     expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
-      payment: paymentDetails,
+      payment: mockPaymentMethod1,
       newPayment: true
     });
   });
 
-  it('should call goToPaymentForm()', () => {
-    component.goToPaymentForm();
-    expect(component.isPaymentForm).toEqual(true);
+  it('should call showNewPaymentForm()', () => {
+    component.showNewPaymentForm();
+    expect(component.newPaymentFormManuallyOpened).toEqual(true);
+  });
+
+  it('should call hideNewPaymentForm()', () => {
+    component.hideNewPaymentForm();
+    expect(component.newPaymentFormManuallyOpened).toEqual(false);
   });
 
   it('should call back()', () => {
     component.back();
     expect(component.backStep.emit).toHaveBeenCalled();
+  });
+
+  describe('UI continue button', () => {
+    const getContinueBtn = () =>
+      fixture.debugElement
+        .queryAll(By.css('.btn-primary'))
+        .find(el => el.nativeElement.innerText === 'Continue');
+
+    it('should be disabled when no payment method is selected', () => {
+      mockUserSelectors.getPaymentMethodsLoading.next(false);
+      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      component.selectedPayment = null;
+      fixture.detectChanges();
+      expect(getContinueBtn().nativeElement.disabled).toEqual(true);
+    });
+
+    it('should be enabled when payment method is selected', () => {
+      mockUserSelectors.getPaymentMethodsLoading.next(false);
+      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      component.selectedPayment = mockPaymentMethod1;
+      fixture.detectChanges();
+      expect(getContinueBtn().nativeElement.disabled).toEqual(false);
+    });
+
+    it('should call "next" function after being clicked', () => {
+      mockUserSelectors.getPaymentMethodsLoading.next(false);
+      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      component.selectedPayment = mockPaymentMethod1;
+      fixture.detectChanges();
+      spyOn(component, 'next');
+      getContinueBtn().nativeElement.click();
+      expect(component.next).toHaveBeenCalled();
+    });
+  });
+
+  describe('UI back button', () => {
+    const getBackBtn = () =>
+      fixture.debugElement
+        .queryAll(By.css('.btn-action'))
+        .find(el => el.nativeElement.innerText === 'Back');
+
+    it('should call "back" function after being clicked', () => {
+      mockUserSelectors.getPaymentMethodsLoading.next(false);
+      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      fixture.detectChanges();
+      spyOn(component, 'back');
+      getBackBtn().nativeElement.click();
+      expect(component.back).toHaveBeenCalled();
+    });
+  });
+
+  describe('UI cards with payment methods', () => {
+    const getCards = () => fixture.debugElement.queryAll(By.css('y-card'));
+
+    it('should represent all existng payment methods', () => {
+      mockUserSelectors.getPaymentMethodsLoading.next(false);
+      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      fixture.detectChanges();
+      expect(getCards().length).toEqual(2);
+    });
+
+    it('should not display if there are no existng payment methods', () => {
+      mockUserSelectors.getPaymentMethodsLoading.next(false);
+      mockUserSelectors.getPaymentMethods.next([]);
+      fixture.detectChanges();
+      expect(getCards().length).toEqual(0);
+    });
+
+    it('should not display if existng payment methods are loading', () => {
+      mockUserSelectors.getPaymentMethodsLoading.next(true);
+      mockUserSelectors.getPaymentMethods.next([]);
+      fixture.detectChanges();
+      expect(getCards().length).toEqual(0);
+    });
+  });
+
+  describe('UI new payment method form', () => {
+    const getAddNewPaymentBtn = () =>
+      fixture.debugElement
+        .queryAll(By.css('.btn-action'))
+        .find(el => el.nativeElement.innerText === 'Add New Payment');
+    const getNewPaymentForm = () =>
+      fixture.debugElement.query(By.css('y-payment-form'));
+
+    it('should render after user clicks "add new payment method" button', () => {
+      mockUserSelectors.getPaymentMethodsLoading.next(false);
+      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      fixture.detectChanges();
+      getAddNewPaymentBtn().nativeElement.click();
+
+      fixture.detectChanges();
+      expect(getNewPaymentForm()).toBeTruthy();
+    });
+
+    it('should render on init if there are no existing payment methods', () => {
+      mockUserSelectors.getPaymentMethodsLoading.next(false);
+      mockUserSelectors.getPaymentMethods.next([]);
+      fixture.detectChanges();
+
+      expect(getNewPaymentForm()).toBeTruthy();
+    });
+
+    it('should not render on init if there are some existing payment methods', () => {
+      mockUserSelectors.getPaymentMethodsLoading.next(false);
+      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      fixture.detectChanges();
+
+      expect(getNewPaymentForm()).toBeFalsy();
+    });
+
+    it('should not render when existing payment methods are loading', () => {
+      mockUserSelectors.getPaymentMethodsLoading.next(true);
+      mockUserSelectors.getPaymentMethods.next([]);
+      fixture.detectChanges();
+
+      expect(getNewPaymentForm()).toBeFalsy();
+    });
+  });
+
+  describe('UI spinner', () => {
+    const getSpinner = () => fixture.debugElement.query(By.css('y-spinner'));
+
+    it('should render only when existing payment methods are loading', () => {
+      mockUserSelectors.getPaymentMethodsLoading.next(true);
+      mockUserSelectors.getPaymentMethods.next([]);
+      fixture.detectChanges();
+      expect(getSpinner()).toBeTruthy();
+
+      mockUserSelectors.getPaymentMethodsLoading.next(false);
+      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      fixture.detectChanges();
+      expect(getSpinner()).toBeFalsy();
+    });
   });
 });

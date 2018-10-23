@@ -36,6 +36,8 @@ export class CardComponent implements OnInit {
 
   @Input()
   content: Card;
+  @Input()
+  fitToContainer = false;
 
   // ACTIONS
 

@@ -31,6 +31,15 @@ export class SearchBoxComponent {
     this.service.launchSearchPage(this.searchBoxControl.value);
   }
 
+  selectSuggestion(item) {
+    if (typeof item.item === 'string') {
+      this.searchBoxControl.setValue(item.item);
+      this.submitSearch();
+    } else {
+      item.preventDefault();
+    }
+  }
+
   public onKey(event: any) {
     if (event.key === 'Enter') {
       this.service.launchSearchPage(this.searchBoxControl.value);

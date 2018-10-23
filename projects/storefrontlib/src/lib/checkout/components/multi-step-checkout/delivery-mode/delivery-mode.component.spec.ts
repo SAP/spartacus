@@ -2,11 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 import { DeliveryModeComponent } from './delivery-mode.component';
-import {
-  ReactiveFormsModule,
-  FormGroup,
-  AbstractControl
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 
 import * as fromRoot from '../../../../routing/store';
@@ -18,41 +14,33 @@ import * as fromAuth from '../../../../auth/store';
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
+import { By } from '@angular/platform-browser';
 
-export class MockAbstractControl {
-  hasError() {
-    return true;
-  }
-  get invalid() {
-    return true;
-  }
-}
+const mockDeliveryMode1 = {
+  code: 'standard-gross',
+  name: 'Standard Delivery',
+  deliveryCost: { formattedValue: '$10.00' }
+};
 
-export class MockFormGroup {
-  get() {}
-}
+const mockDeliveryMode2 = {
+  code: 'premium-gross',
+  name: 'Premium Delivery',
+  deliveryCost: { formattedValue: '$20.00' }
+};
 
-const mockSupportedDeliveryModes = [
-  {
-    code: 'standard-gross',
-    name: 'Standard Delivery'
-  },
-  {
-    code: 'premium-gross',
-    name: 'Premium Delivery'
-  }
-];
+const mockSupportedDeliveryModes = [mockDeliveryMode1, mockDeliveryMode2];
+
 const mockCart = {
   guid: 'test',
   code: 'test'
 };
+
 describe('DeliveryModeComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;
   let component: DeliveryModeComponent;
   let fixture: ComponentFixture<DeliveryModeComponent>;
   let service: CheckoutService;
   let cartData: CartDataService;
-  let ac: AbstractControl;
   let mockCheckoutSelectors: {
     getSupportedDeliveryModes: BehaviorSubject<any[]>;
   };
@@ -70,13 +58,7 @@ describe('DeliveryModeComponent', () => {
         })
       ],
       declarations: [DeliveryModeComponent],
-      providers: [
-        CheckoutService,
-        CartService,
-        CartDataService,
-        { provide: FormGroup, useClass: MockFormGroup },
-        { provide: AbstractControl, useClass: MockAbstractControl }
-      ]
+      providers: [CheckoutService, CartService, CartDataService]
     }).compileComponents();
   }));
 
@@ -86,7 +68,6 @@ describe('DeliveryModeComponent', () => {
     service = TestBed.get(CheckoutService);
     cartData = TestBed.get(CartDataService);
     store = TestBed.get(Store);
-    ac = TestBed.get(AbstractControl);
     cartData.cart = mockCart;
 
     mockCheckoutSelectors = {
@@ -100,19 +81,17 @@ describe('DeliveryModeComponent', () => {
     });
 
     spyOn(store, 'dispatch').and.callThrough();
-    spyOn(ac, 'hasError').and.callThrough();
-    spyOn(service, 'loadSupportedDeliveryModes').and.callThrough();
+    spyOn(service, 'loadSupportedDeliveryModes');
 
     spyOn(component.selectMode, 'emit').and.callThrough();
     spyOn(component.backStep, 'emit').and.callThrough();
-    spyOn(component.mode, 'get').and.returnValue(ac);
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get suppored shipping methods if they do not exist', () => {
+  it('should call ngOnInit to get supported shipping modes if they do not exist', () => {
     mockCheckoutSelectors.getSupportedDeliveryModes.next([]);
     component.ngOnInit();
     component.supportedDeliveryModes$.subscribe(() => {
@@ -120,7 +99,7 @@ describe('DeliveryModeComponent', () => {
     });
   });
 
-  it('should call ngOnInit to get supported shipping methods if they exist', () => {
+  it('should call ngOnInit to get supported shipping modes if they exist', () => {
     mockCheckoutSelectors.getSupportedDeliveryModes.next(
       mockSupportedDeliveryModes
     );
@@ -130,15 +109,16 @@ describe('DeliveryModeComponent', () => {
     });
   });
 
-  it('should call ngOnInit to set shipping method if user selected it before', () => {
-    component.selectedShippingMethod = 'shipping method set in cart';
+  it('should call ngOnInit to set shipping mode if user selected it before', () => {
+    const mockSelectedShippingMethod = 'shipping method set in cart';
+    component.selectedShippingMethod = mockSelectedShippingMethod;
     mockCheckoutSelectors.getSupportedDeliveryModes.next(
       mockSupportedDeliveryModes
     );
     component.ngOnInit();
     component.supportedDeliveryModes$.subscribe(() => {
       expect(component.mode.controls['deliveryModeId'].value).toEqual(
-        'shipping method set in cart'
+        mockSelectedShippingMethod
       );
     });
   });
@@ -168,5 +148,45 @@ describe('DeliveryModeComponent', () => {
   it('should get deliveryModeInvalid()', () => {
     const invalid = component.deliveryModeInvalid;
     expect(invalid).toBe(true);
+  });
+
+  describe('UI continue button', () => {
+    const getContinueBtn = () =>
+      fixture.debugElement.query(
+        By.css('.y-delivery-mode-form__btns .btn-primary')
+      );
+
+    it('should be disabled when delivery mode is not selected', () => {
+      component.mode.controls['deliveryModeId'].setValue(null);
+      fixture.detectChanges();
+      expect(getContinueBtn().nativeElement.disabled).toBe(true);
+    });
+
+    it('should be enabled when delivery mode is selected', () => {
+      component.mode.controls['deliveryModeId'].setValue('test delivery mode');
+      fixture.detectChanges();
+      expect(getContinueBtn().nativeElement.disabled).toBe(false);
+    });
+
+    it('should call "next" function after being clicked', () => {
+      spyOn(component, 'next');
+      getContinueBtn().nativeElement.click();
+      fixture.detectChanges();
+      expect(component.next).toHaveBeenCalled();
+    });
+  });
+
+  describe('UI back button', () => {
+    const getContinueBtn = () =>
+      fixture.debugElement.query(
+        By.css('.y-delivery-mode-form__btns .btn-action')
+      );
+
+    it('should call "back" function after being clicked', () => {
+      spyOn(component, 'back');
+      getContinueBtn().nativeElement.click();
+      fixture.detectChanges();
+      expect(component.back).toHaveBeenCalled();
+    });
   });
 });
