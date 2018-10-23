@@ -7,13 +7,13 @@ import { SearchQuery } from '../../../store-finder/models/searchQuery';
   styleUrls: ['./store-list-page-layout.component.scss']
 })
 export class StoreListPageLayoutComponent {
-  query: SearchQuery;
+  searchQuery: SearchQuery;
   showMapListComponent: boolean;
 
   constructor() {}
 
-  persistQuery(query: SearchQuery) {
-    this.query = query;
+  persistQuery(searchQuery: SearchQuery) {
+    this.searchQuery = searchQuery;
   }
 
   showMapList(value: boolean) {
