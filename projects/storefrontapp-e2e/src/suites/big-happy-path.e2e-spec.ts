@@ -118,7 +118,7 @@ describe('Big Happy Path', () => {
     );
     expect(await reviewForm.shippingMethod.getText()).toContain(
       // 'Standard Delivery'
-      'standard-gross'
+      'standard-net 3-5 business days'
     );
     // expect(await reviewForm.paymentMethod.getText()).toContain(
     //   PaymentForm.CARD_TYPE
@@ -130,7 +130,7 @@ describe('Big Happy Path', () => {
       AddressForm.CITY
     );
 
-    expect(await checkoutPage.orderSummary.getText()).toContain('$2,635.07');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,868.93');
 
     const orderConfirmationPage = await checkoutPage.placeOrder();
     await orderConfirmationPage.waitForReady();
@@ -172,7 +172,7 @@ describe('Big Happy Path', () => {
       'Order history'
     );
     expect(await orderHistoryPage.historyItem(0).getText()).toContain(
-      '$2,635.07'
+      '$2,800.27'
     );
 
     // Logout at the end of test
