@@ -4,6 +4,7 @@ import { SearchResultsPage } from '../page-objects/search-results.po';
 import { ProductDetailsPage } from '../page-objects/product-details.po';
 import { E2EUtil } from '../e2e-util';
 import { AddedToCartModal } from '../page-objects/cmslib/added-to-cart-modal.po';
+import { AutocompletePanel } from '../page-objects/cmslib/autocomplete-panel.po';
 
 describe('Cart interactions', () => {
   let home: HomePage;
@@ -21,6 +22,36 @@ describe('Cart interactions', () => {
   /**
    * Full interaction. Search 2 products, add to cart, then verify totals in cart.
    */
+  it('should add products to cart via search autocomplete', async () => {
+    await home.navigateTo();
+    await home.header.performSearch('1934793', true);
+
+    const autocompletePanel = new AutocompletePanel();
+    await autocompletePanel.waitForReady();
+
+    // select product from the suggestion list, then add it to cart 2 times
+    await autocompletePanel.selectProduct('PowerShot A480');
+
+    // wait until product details page is loaded
+    await productDetails.waitForReady();
+    await productDetails.addToCart();
+    const atcModal: AddedToCartModal = new AddedToCartModal();
+    await atcModal.waitForReady();
+    await atcModal.closeModalWait();
+
+    const minicartIcon = home.header.miniCartButton;
+    await E2EUtil.wait4VisibleElement(minicartIcon);
+    expect(await home.header.miniCartButton.getText()).toContain('1');
+
+    await minicartIcon.click();
+
+    // wait for cart page to show up
+    await cart.waitForReady();
+
+    await cart.checkCartEntry('PowerShot A480', 1, '$99.85', '$99.85');
+    await home.navigateTo();
+  });
+
   it('should add products to cart', async () => {
     // go to homepage
     await home.navigateTo();
