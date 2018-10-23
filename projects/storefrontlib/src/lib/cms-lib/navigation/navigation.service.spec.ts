@@ -55,7 +55,7 @@ describe('NavigationService', () => {
   };
 
   const resultNode = {
-    childs: [
+    children: [
       { title: 'test link 1', url: '/testLink1', target: false },
       { title: 'test link 2', url: '/testLink2', target: true }
     ]
@@ -116,7 +116,7 @@ describe('NavigationService', () => {
         componentData.navigationNode,
         itemsData
       );
-      expect(node['childs']).toEqual(resultNode.childs);
+      expect(node['children']).toEqual(resultNode.children);
     });
   });
 });

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 
+import { ConfigModule, Config } from '@spartacus/core';
 import { CurrencySelectorModule } from './currency-selector/currency-selector.module';
 import { LanguageSelectorModule } from './language-selector/language-selector.module';
-import { Config, ConfigModule } from '../config/config.module';
 import {
   defaultSiteContextModuleConfig,
   SiteContextModuleConfig

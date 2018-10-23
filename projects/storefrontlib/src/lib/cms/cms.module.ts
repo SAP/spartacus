@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+
+import { ConfigModule, Config } from '@spartacus/core';
+
 import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
 import { metaReducers } from './store/reducers/index';
@@ -16,7 +19,6 @@ import { guards } from './guards/index';
 import { CmsModuleConfig, defaultCmsModuleConfig } from './cms-module-config';
 import { OccCmsService } from './services/occ-cms.service';
 import { ComponentMapperService } from './services/component-mapper.service';
-import { Config, ConfigModule } from '../config/config.module';
 import { DefaultPageService } from './services/default-page.service';
 import { OutletModule } from '../outlet/outlet.module';
 

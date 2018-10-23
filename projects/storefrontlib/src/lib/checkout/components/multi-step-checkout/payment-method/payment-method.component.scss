@@ -4,35 +4,35 @@
 @import '~bootstrap/scss/card';
 @import '../container/multi-step-checkout.component';
 
-// y-existing-payment-methods color variables
-$y-existing-payment-methods-media-background-color: 'background' !default;
-$y-existing-payment-methods-tooltip-icon-text-color: $inverse !default;
-$y-existing-payment-methods-card-background-color: $inverse !default;
-// y-existing-payment-methods  variables
-$y-existing-payment-methods-no-padding: 0 !default;
-$y-existing-payment-methods-no-margin: 0 !default;
-$y-existing-payment-methods-header-margin: 0 auto !default;
-$y-existing-payment-methods-header-padding: 2.375rem 0 1.25rem 0 !default;
-$y-existing-payment-methods-header-title-margin-bottom: 0 !default;
-$y-existing-payment-methods-header-image-margin-left: 1rem !default;
-$y-existing-payment-methods-tooltip-icon-margin-left: 0.625rem !default;
-$y-existing-payment-methods-tooltip-icon-size: 1.125rem !default;
-$y-existing-payment-methods-billing-margin-bottom: 1.25rem !default;
-$y-existing-payment-methods-billing-address-padding: 0.875rem 0 1.25rem 0 !default;
-$y-existing-payment-methods-img-margin: 0 1rem 1.25rem 0 !default;
-$y-existing-payment-methods-title-margin: 0 auto !default;
-$y-existing-payment-methods-title-padding: 2.375rem 0 1.75rem 0 !default;
-$y-existing-payment-methods-body-padding-bottom: 1.875rem !default;
+// y-payment-method color variables
+$y-payment-method-media-background-color: 'background' !default;
+$y-payment-method-tooltip-icon-text-color: $inverse !default;
+$y-payment-method-card-background-color: $inverse !default;
+// y-payment-method  variables
+$y-payment-method-no-padding: 0 !default;
+$y-payment-method-no-margin: 0 !default;
+$y-payment-method-header-margin: 0 auto !default;
+$y-payment-method-header-padding: 2.375rem 0 1.25rem 0 !default;
+$y-payment-method-header-title-margin-bottom: 0 !default;
+$y-payment-method-header-image-margin-left: 1rem !default;
+$y-payment-method-tooltip-icon-margin-left: 0.625rem !default;
+$y-payment-method-tooltip-icon-size: 1.125rem !default;
+$y-payment-method-billing-margin-bottom: 1.25rem !default;
+$y-payment-method-billing-address-padding: 0.875rem 0 1.25rem 0 !default;
+$y-payment-method-img-margin: 0 1rem 1.25rem 0 !default;
+$y-payment-method-title-margin: 0 auto !default;
+$y-payment-method-title-padding: 2.375rem 0 1.75rem 0 !default;
+$y-payment-method-body-padding-bottom: 1.875rem !default;
 // Media Queries
-$y-existing-payment-methods-text-md-padding-left: 3.5rem !default;
-$y-existing-payment-methods-text-sm-padding-left: 1.5rem !default;
-$y-existing-payment-methods-text-md-padding-left: 3.5rem !default;
-$y-existing-payment-methods-header-image-md-margin-right: 1rem !default;
-$y-existing-payment-methods-header-image-md-margin-left: 0 !default;
-$y-existing-payment-methods-btns-margin-bottom: 1rem !default;
+$y-payment-method-text-md-padding-left: 3.5rem !default;
+$y-payment-method-text-sm-padding-left: 1.5rem !default;
+$y-payment-method-text-md-padding-left: 3.5rem !default;
+$y-payment-method-header-image-md-margin-right: 1rem !default;
+$y-payment-method-header-image-md-margin-left: 0 !default;
+$y-payment-method-btns-margin-bottom: 1rem !default;
 // Loading
 $y-payment-methods-loading-padding: 30px !default;
-.y-existing-payment-methods {
+.y-payment-method {
   &.container {
     padding: 0;
   }
@@ -40,38 +40,38 @@ $y-payment-methods-loading-padding: 30px !default;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    margin: $y-existing-payment-methods-header-margin;
-    padding: $y-existing-payment-methods-header-padding;
+    margin: $y-payment-method-header-margin;
+    padding: $y-payment-method-header-padding;
     &-title {
       text-transform: uppercase;
-      margin-bottom: $y-existing-payment-methods-header-title-margin-bottom;
+      margin-bottom: $y-payment-method-header-title-margin-bottom;
     }
     &-image {
-      margin-left: $y-existing-payment-methods-header-image-margin-left;
+      margin-left: $y-payment-method-header-image-margin-left;
     }
   }
   &__tooltip-icon {
-    margin-left: $y-existing-payment-methods-tooltip-icon-margin-left;
-    height: $y-existing-payment-methods-tooltip-icon-size;
-    width: $y-existing-payment-methods-tooltip-icon-size;
+    margin-left: $y-payment-method-tooltip-icon-margin-left;
+    height: $y-payment-method-tooltip-icon-size;
+    width: $y-payment-method-tooltip-icon-size;
   }
   &__billing {
-    margin-bottom: $y-existing-payment-methods-billing-margin-bottom;
+    margin-bottom: $y-payment-method-billing-margin-bottom;
     &-address {
       @include type('4');
-      padding: $y-existing-payment-methods-billing-address-padding;
+      padding: $y-payment-method-billing-address-padding;
     }
   }
   &__img {
-    margin: $y-existing-payment-methods-img-margin;
+    margin: $y-payment-method-img-margin;
     &-container {
       display: flex;
     }
   }
   &__title {
     text-transform: uppercase;
-    margin: $y-existing-payment-methods-title-margin;
-    padding: $y-existing-payment-methods-title-padding;
+    margin: $y-payment-method-title-margin;
+    padding: $y-payment-method-title-padding;
   }
   &__spinner {
     padding-top: $y-payment-methods-loading-padding;
@@ -80,33 +80,33 @@ $y-payment-methods-loading-padding: 30px !default;
   &__body {
     display: flex;
     align-items: flex-end;
-    padding-bottom: $y-existing-payment-methods-body-padding-bottom;
+    padding-bottom: $y-payment-method-body-padding-bottom;
   }
   // ***************************** MEDIA QUERIES *****************************
   @include checkout-media-style();
   &__body {
     &.row {
       @include media-breakpoint-down(md) {
-        padding: $y-existing-payment-methods-no-padding;
+        padding: $y-payment-method-no-padding;
       }
     }
   }
   &__text {
     @include media-breakpoint-down(md) {
-      padding-left: $y-existing-payment-methods-text-md-padding-left;
+      padding-left: $y-payment-method-text-md-padding-left;
     }
     @include media-breakpoint-down(sm) {
-      padding-left: $y-existing-payment-methods-text-sm-padding-left;
+      padding-left: $y-payment-method-text-sm-padding-left;
     }
   }
   &__header {
     @include media-breakpoint-down(md) {
-      padding: $y-existing-payment-methods-no-padding;
+      padding: $y-payment-method-no-padding;
     }
     &-image {
       @include media-breakpoint-down(md) {
-        margin-right: $y-existing-payment-methods-header-image-md-margin-right;
-        margin-left: $y-existing-payment-methods-header-image-md-margin-left;
+        margin-right: $y-payment-method-header-image-md-margin-right;
+        margin-left: $y-payment-method-header-image-md-margin-left;
       }
     }
   }
@@ -114,14 +114,14 @@ $y-payment-methods-loading-padding: 30px !default;
     @include media-breakpoint-down(md) {
       @include var-color(
         'background-color',
-        $y-existing-payment-methods-card-background-color
+        $y-payment-method-card-background-color
       );
     }
   }
   &__btns {
     .btn-action {
       @include media-breakpoint-down(sm) {
-        margin-bottom: $y-existing-payment-methods-btns-margin-bottom;
+        margin-bottom: $y-payment-method-btns-margin-bottom;
       }
     }
   }

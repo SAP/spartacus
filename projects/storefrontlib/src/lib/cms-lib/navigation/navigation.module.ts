@@ -4,13 +4,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { NavigationComponent } from './navigation.component';
+import { NavigationUIComponent } from './navigation-ui.component';
 import { NavigationService } from './navigation.service';
 
 @NgModule({
   imports: [CommonModule, RouterModule, BootstrapModule],
   providers: [NavigationService],
-  declarations: [NavigationComponent],
+  declarations: [NavigationComponent, NavigationUIComponent],
   entryComponents: [NavigationComponent],
-  exports: [NavigationComponent]
+  exports: [NavigationComponent, NavigationUIComponent]
 })
 export class NavigationModule {}

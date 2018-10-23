@@ -1,0 +1,191 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+@import '~bootstrap/scss/nav';
+@import '~bootstrap/scss/dropdown';
+
+//this hack here for now, until we decide how we go about keyboard navigation
+// .dropdown:hover>.dropdown-menu,
+// .dropdown:focus>.dropdown-menu {
+//   display: block;
+// }
+
+//navigation color variables
+$y-navigation-item-border-bottom-color: 'background' !default;
+$y-navigation-link-color: 'inverse' !default;
+$y-navigation-link-focus-color: 'primary' !default;
+$y-navigation-link-hover-color: 'primary' !default;
+$y-navigation-link-md-color: 'text' !default;
+$y-navigation-child-item-border-color: 'background' !default;
+$y-navigation-child-item-hover-background-color: 'transparent' !default;
+$y-navigation-child-link-color: 'text' !default;
+$y-navigation-child-link-hover-color: 'primary' !default;
+$y-navigation-link-md-arrow-color: 'secondary' !default;
+$y-navigation-child-column-item-background-color: 'transparent' !default;
+
+//navigation variables
+$y-navigation-text-case: capitalize !default;
+$y-navigation-item-trbl-padding: 0.5rem 0 !default;
+$y-navigation-item-border: 1px solid !default;
+$y-navigation-link-trbl-padding: 0.2rem 0 !default;
+$y-navigation-link-md-trbl-padding: 0.5rem 1.5rem !default;
+$y-navigation-link-md-trbl-margin: 20px !default;
+$y-navigation-link-lg-trbl-padding: 0.5rem 0 !default;
+$y-navigation-link-hover-cursor: pointer;
+$y-navigation-child-list-border-radius: 0 !default;
+$y-navigation-child-list-text-case: capitalize !default;
+$y-navigation-child-list-trbl-padding: 0 !default;
+$y-navigation-child-list-md-border: 0 none !default;
+$y-navigation-child-item-trbl-padding: 0.45rem 1.5rem;
+$y-navigation-child-item-border: 1px solid !default;
+$y-navigation-child-item-last-child-border: none !default;
+$y-navigation-child-item-md-border: none !default;
+$y-navigation-child-link-hover-text-decoration: none !default;
+$y-navigation-child-list-columns-border-radius: 0 !default;
+$y-navigation-child-list-columns-trbl-padding: 0.75rem !default;
+$y-navigation-child-list-columns-md-border: none !default;
+$y-navigation-child-list-columns-md-trbl-margin: 0 !default;
+$y-navigation-column-title-text-case: capitalize !default;
+$y-navigation-column-title-font-weight: bold !default;
+$y-navigation-column-title-trbl-padding: 0.25rem 1.5rem !default;
+$y-navigation-child-column-trbl-margin: 0 3rem 0 0 !default;
+$y-navigation-child-column-md-trbl-margin: 1rem unset 0 0 !default;
+$y-navigation-child-column-item-trbl-padding: 0.25rem 1.5rem !default;
+
+.y-navigation {
+  &__item {
+    @include media-breakpoint-down(md) {
+      border-bottom: $y-navigation-item-border;
+      @include var-color(
+        'border-bottom-color',
+        $y-navigation-item-border-bottom-color
+      );
+      padding: $y-navigation-item-trbl-padding;
+    }
+  }
+  &__link {
+    @include var-color('color', $y-navigation-link-color);
+    text-transform: $y-navigation-text-case;
+    padding: $y-navigation-link-trbl-padding;
+    &:focus {
+      @include var-color('color', $y-navigation-link-focus-color);
+    }
+    &:hover {
+      @include var-color('color', $y-navigation-link-hover-color);
+      cursor: $y-navigation-link-hover-cursor;
+    }
+
+    @include media-breakpoint-down(md) {
+      &::after {
+        margin-right: $y-navigation-link-md-trbl-margin;
+        @include var-color('border-color', $y-navigation-link-md-arrow-color);
+        border-style: solid;
+        border-width: 0 3px 3px 0;
+        display: inline-block;
+        padding: 5px;
+      }
+      &:hover::after {
+        border-color: inherit;
+      }
+      &[aria-expanded='false'] {
+        &::after {
+          transform: rotate(45deg);
+          -webkit-transform: rotate(45deg);
+        }
+      }
+      &[aria-expanded='true'] {
+        &::after {
+          margin-top: 5px;
+          transform: rotate(-135deg);
+          -webkit-transform: rotate(-135deg);
+        }
+      }
+
+      @include var-color('color', $y-navigation-link-md-color);
+      display: flex;
+      justify-content: space-between;
+      padding: $y-navigation-link-md-trbl-padding;
+    }
+
+    @include media-breakpoint-only(lg) {
+      padding: $y-navigation-link-lg-trbl-padding;
+    }
+  }
+  &__child-list {
+    border-radius: $y-navigation-child-list-border-radius;
+    text-transform: $y-navigation-child-list-text-case;
+    padding: $y-navigation-child-list-trbl-padding;
+    @include media-breakpoint-down(md) {
+      position: relative;
+      border: $y-navigation-child-list-md-border;
+      width: 100%;
+      top: 0 !important;
+    }
+  }
+  &__child-item {
+    border-bottom: $y-navigation-child-item-border;
+    @include var-color(
+      'border-bottom-color',
+      $y-navigation-child-item-border-color
+    );
+    padding: $y-navigation-child-item-trbl-padding;
+    &:hover {
+      @include var-color(
+        'background-color',
+        $y-navigation-child-item-hover-background-color
+      );
+    }
+    &:last-child {
+      border-bottom: $y-navigation-child-item-last-child-border;
+    }
+    @include media-breakpoint-down(md) {
+      border-bottom: $y-navigation-child-item-md-border;
+    }
+  }
+  &__child-link {
+    @include var-color('color', $y-navigation-child-link-color);
+    @include type('7');
+    &:hover {
+      @include var-color('color', $y-navigation-child-link-hover-color);
+      text-decoration: $y-navigation-child-link-hover-text-decoration;
+    }
+  }
+  &__child-list-columns {
+    border-radius: $y-navigation-child-list-columns-border-radius;
+    padding: $y-navigation-child-list-columns-trbl-padding;
+    &.show {
+      display: flex;
+    }
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+      position: static;
+      width: 100%;
+      border: $y-navigation-child-list-columns-md-border;
+      margin: $y-navigation-child-list-columns-md-trbl-margin;
+    }
+  }
+  //column option
+  &__column-title {
+    text-transform: $y-navigation-column-title-text-case;
+    @include type('7', $y-navigation-column-title-font-weight);
+    display: block;
+    width: 100%;
+    padding: $y-navigation-column-title-trbl-padding;
+  }
+  &__child-column {
+    margin-right: $y-navigation-child-column-trbl-margin;
+    @include media-breakpoint-down(md) {
+      margin: $y-navigation-child-column-md-trbl-margin;
+    }
+  }
+  &__child-column-item {
+    padding: $y-navigation-child-column-item-trbl-padding;
+    @include type('7');
+    &:hover {
+      @include var-color(
+        'background-color',
+        $y-navigation-child-column-item-background-color
+      );
+    }
+  }
+}
