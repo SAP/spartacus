@@ -37,7 +37,7 @@ export class BannerComponent extends AbstractCmsComponent {
   }
 
   getAltText() {
-    return this.component.media.altText;
+    return this.hasImage() ? this.component.media.altText : '';
   }
 
   public getBaseUrl() {
