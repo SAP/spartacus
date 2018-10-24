@@ -84,14 +84,9 @@ if [[ -n "$coverage" ]]; then
 fi
 
 echo "-----"
-echo "Running unit tests and code coverage for core"
+echo "Running unit tests"
 exec 5>&1
-output=$(ng test core --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
-coverage=$(echo $output | grep -i "does not meet global threshold" || true)
-if [[ -n "$coverage" ]]; then
-    echo "Error: Tests did not meet coverage expectations"
-    exit 1
-fi
+output=$(ng test core --watch=false --browsers=ChromeHeadless | tee /dev/fd/5)
 
 echo "-----"
 echo "Building SPA core lib"
