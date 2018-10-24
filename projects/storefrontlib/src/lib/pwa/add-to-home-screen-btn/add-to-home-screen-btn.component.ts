@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { PWAModuleConfig } from '../pwa.module-config';
 
 @Component({
@@ -13,13 +13,13 @@ export class AddToHomeScreenBtnComponent implements OnInit {
 
   ngOnInit() {
     this.isEnabled = this.config.pwa.addToHomeScreen;
-    if (this.isEnabled) {
-      window.addEventListener('beforeinstallprompt', event => {
-        event.preventDefault();
-        this.deferredEvent = event;
-        this.canPrompt = true;
-      });
-    }
+  }
+
+  @HostListener('window:beforeinstallprompt', ['$event'])
+  onBeforeInstallPrompt(event) {
+    event.preventDefault();
+    this.deferredEvent = event;
+    this.canPrompt = true;
   }
 
   prompt(): void {
