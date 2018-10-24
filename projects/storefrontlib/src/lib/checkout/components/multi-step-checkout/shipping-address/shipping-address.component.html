@@ -1,44 +1,42 @@
 <ng-container *ngIf="existingAddresses$ | async as existingAddresses">
-  <div class="y-existing-address container" *ngIf="existingAddresses.length > 0 && !isAddressForm; else addressForm">
-    <h3 class="y-existing-address__title d-none d-lg-block d-xl-block">Shipping Address</h3>
-    <p class="y-existing-address__text">Select your Shipping Address</p>
-    <div class="y-existing-address__btn row justify-content-end">
-      <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action" (click)="goToAddressForm()">Add
-          New Address</button></div>
-    </div>
+  <div class="y-shipping-address container">
+    <h3 class="y-shipping-address__title d-none d-lg-block d-xl-block">Shipping Address</h3>
+    <ng-container *ngIf="!(isLoading$ | async); else loading">
 
-    <div class="y-existing-address__body row">
-      <div class="y-existing-address__card col-md-12 col-lg-6" *ngFor="let address of existingAddresses;let i=index;">
-        <div class="y-existing-address__card-inner">
-          <y-card [border]="true" [fitToContainer]="true" [content]="cards[i]" (sendCard)="addressSelected(address, i)"></y-card>
+      <ng-container *ngIf="existingAddresses?.length && !newAddressFormManuallyOpened; else newAddressForm">
+        <p class="y-shipping-address__text">Select your Shipping Address</p>
+        <div class="y-shipping-address__btn row justify-content-end">
+          <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action" (click)="showNewAddressForm()">
+              Add New Address</button></div>
         </div>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-md-12 col-lg-6">
-        <button class="btn btn-block btn-action" (click)="back()">Back to cart</button>
-      </div>
-      <div class="col-md-12 col-lg-6">
-        <button class="btn btn-block btn-primary" [disabled]="selectedAddress === undefined" (click)="next()">Continue</button>
-      </div>
-    </div>
-  </div>
-</ng-container>
+        <div class="y-shipping-address__body row">
+          <div class="y-shipping-address__card col-md-12 col-lg-6" *ngFor="let address of existingAddresses;let i=index;">
+            <div class="y-shipping-address__card-inner">
+              <y-card [border]="true" [fitToContainer]="true" [content]="cards[i]" (sendCard)="addressSelected(address, i)"></y-card>
+            </div>
+          </div>
+        </div>
 
-<ng-template #addressForm>
-  <ng-container *ngIf="!(isLoading$ | async); else loading">
-    <y-address-form (addAddress)="addNewAddress($event)" (backToAddress)="backToAddress()"></y-address-form>
-  </ng-container>
+        <div class="row">
+          <div class="col-md-12 col-lg-6">
+            <button class="btn btn-block btn-action" (click)="back()">Back to cart</button>
+          </div>
+          <div class="col-md-12 col-lg-6">
+            <button class="btn btn-block btn-primary" [disabled]="!selectedAddress" (click)="next()">Continue</button>
+          </div>
+        </div>
+      </ng-container>
 
-  <ng-template #loading>
-    <div class="y-existing-address container">
-      <h3 class="y-existing-address__title d-none d-lg-block d-xl-block">
-        Shipping Address
-      </h3>
-      <div class="y-existing-address__spinner">
+      <ng-template #newAddressForm>
+        <y-address-form (addAddress)="addNewAddress($event)" (backToAddress)="hideNewAddressForm()"></y-address-form>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #loading>
+      <div class="y-shipping-address__spinner">
         <y-spinner></y-spinner>
       </div>
-    </div>
-  </ng-template>
-</ng-template>
+    </ng-template>
+  </div>
+</ng-container>

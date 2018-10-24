@@ -20,9 +20,6 @@ export class AddressForm {
   readonly form: ElementFinder = this.parentElement.element(
     by.tagName('y-address-form')
   );
-  readonly header: ElementFinder = this.form.element(
-    by.css('h3.y-address-form__title')
-  );
   readonly countrySelect: ElementFinder = this.form.element(
     by.css('[bindValue="isocode"]')
   );

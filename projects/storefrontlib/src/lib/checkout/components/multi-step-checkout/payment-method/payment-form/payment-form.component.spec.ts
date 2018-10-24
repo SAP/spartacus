@@ -2,11 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 import { PaymentFormComponent } from './payment-form.component';
-import {
-  ReactiveFormsModule,
-  FormGroup,
-  AbstractControl
-} from '@angular/forms';
+import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 
 import * as fromRoot from '../../../../../routing/store';
@@ -22,19 +18,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CardModule } from '../../../../../ui/components/card/card.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Address } from '../../../../models/address-model';
-
-export class MockAbstractControl {
-  hasError() {
-    return true;
-  }
-  get touched() {
-    return true;
-  }
-}
-
-export class MockFormGroup {
-  get() {}
-}
+import { By } from '@angular/platform-browser';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 const mockAddress: Address = {
   firstName: 'John',
@@ -64,11 +49,10 @@ describe('PaymentFormComponent', () => {
   let component: PaymentFormComponent;
   let fixture: ComponentFixture<PaymentFormComponent>;
   let service: CheckoutService;
-
-  let ac: AbstractControl;
+  let controls: FormGroup['controls'];
   let mockCheckoutSelectors: {
     getAllCardTypes: BehaviorSubject<any[]>;
-    getDeliveryAddress: BehaviorSubject<any[]>;
+    getDeliveryAddress: BehaviorSubject<any>;
   };
 
   beforeEach(async(() => {
@@ -87,14 +71,12 @@ describe('PaymentFormComponent', () => {
         })
       ],
       declarations: [PaymentFormComponent],
-      providers: [
-        CheckoutService,
-        CartService,
-        CartDataService,
-        { provide: FormGroup, useClass: MockFormGroup },
-        { provide: AbstractControl, useClass: MockAbstractControl }
-      ]
-    }).compileComponents();
+      providers: [CheckoutService, CartService, CartDataService]
+    })
+      .overrideComponent(PaymentFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default }
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -102,12 +84,11 @@ describe('PaymentFormComponent', () => {
     component = fixture.componentInstance;
     service = TestBed.get(CheckoutService);
     store = TestBed.get(Store);
-
-    ac = TestBed.get(AbstractControl);
+    controls = component.payment.controls;
 
     mockCheckoutSelectors = {
       getAllCardTypes: new BehaviorSubject([]),
-      getDeliveryAddress: new BehaviorSubject([])
+      getDeliveryAddress: new BehaviorSubject(mockAddress)
     };
     spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
       switch (selector) {
@@ -119,12 +100,10 @@ describe('PaymentFormComponent', () => {
     });
 
     spyOn(store, 'dispatch').and.callThrough();
-    spyOn(ac, 'hasError').and.callThrough();
     spyOn(service, 'loadSupportedCardTypes').and.callThrough();
 
     spyOn(component.addPaymentInfo, 'emit').and.callThrough();
     spyOn(component.backToPayment, 'emit').and.callThrough();
-    spyOn(component.payment, 'get').and.returnValue(ac);
   });
 
   it('should be created', () => {
@@ -148,15 +127,14 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get shipping address set in cart', () => {
-    const mockAddresses = [mockAddress];
     mockCheckoutSelectors.getAllCardTypes.next(mockCardTypes);
-    mockCheckoutSelectors.getDeliveryAddress.next(mockAddresses);
+    mockCheckoutSelectors.getDeliveryAddress.next(mockAddress);
     component.ngOnInit();
     component.cardTypes$.subscribe(data => {
       expect(data).toBe(mockCardTypes);
     });
     component.shippingAddress$.subscribe(data => {
-      expect(data).toBe(mockAddresses);
+      expect(data).toBe(mockAddress);
     });
   });
 
@@ -182,16 +160,6 @@ describe('PaymentFormComponent', () => {
   it('should call back()', () => {
     component.back();
     expect(component.backToPayment.emit).toHaveBeenCalled();
-  });
-
-  it('should call required(name: string)', () => {
-    component.required('someName');
-    expect(component.payment.get).toHaveBeenCalledWith('someName');
-  });
-
-  it('should call notSelected(name: string)', () => {
-    component.notSelected('someName');
-    expect(component.payment.get).toHaveBeenCalledWith('someName');
   });
 
   it('should call paymentSelected(card)', () => {
@@ -221,5 +189,65 @@ describe('PaymentFormComponent', () => {
       'zip',
       undefined
     ]);
+  });
+
+  describe('UI continue button', () => {
+    const getContinueBtn = () =>
+      fixture.debugElement.query(By.css('.btn-primary'));
+
+    it('should call "next" function when being clicked and when form is valid', () => {
+      mockCheckoutSelectors.getAllCardTypes.next(mockCardTypes);
+      mockCheckoutSelectors.getDeliveryAddress.next(mockAddress);
+
+      spyOn(component, 'next');
+
+      fixture.detectChanges();
+      getContinueBtn().nativeElement.click();
+      expect(component.next).not.toHaveBeenCalled();
+
+      controls['accountHolderName'].setValue('test accountHolderName');
+      controls['cardNumber'].setValue('test cardNumber');
+      controls.cardType['controls'].code.setValue('test card type code');
+      controls['expiryMonth'].setValue('test expiryMonth');
+      controls['expiryYear'].setValue('test expiryYear');
+      controls['cvn'].setValue('test cvn');
+
+      fixture.detectChanges();
+      getContinueBtn().nativeElement.click();
+      expect(component.next).toHaveBeenCalled();
+    });
+
+    it('should be enabled only when form has all mandatory fields filled', () => {
+      const isContinueBtnDisabled = () => {
+        fixture.detectChanges();
+        return getContinueBtn().nativeElement.disabled;
+      };
+
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls['accountHolderName'].setValue('test accountHolderName');
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls['cardNumber'].setValue('test cardNumber');
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls.cardType['controls'].code.setValue('test card type code');
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls['expiryMonth'].setValue('test expiryMonth');
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls['expiryYear'].setValue('test expiryYear');
+      expect(isContinueBtnDisabled()).toBeTruthy();
+      controls['cvn'].setValue('test cvn');
+
+      expect(isContinueBtnDisabled()).toBeFalsy();
+    });
+  });
+
+  describe('UI back button', () => {
+    const getBackBtn = () => fixture.debugElement.query(By.css('.btn-action'));
+
+    it('should call "back" function after being clicked', () => {
+      spyOn(component, 'back');
+      getBackBtn().nativeElement.click();
+      fixture.detectChanges();
+      expect(component.back).toHaveBeenCalled();
+    });
   });
 });

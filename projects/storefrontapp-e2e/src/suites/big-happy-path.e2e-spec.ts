@@ -75,11 +75,16 @@ describe('Big Happy Path', () => {
   });
 
   it('should fill in address form', async () => {
-    const addressForm = checkoutPage.addressForm;
-    await addressForm.waitForReady();
+    const shippingAddress = checkoutPage.shippingAddress;
+    await shippingAddress.waitForReady();
 
-    expect(await addressForm.header.getText()).toContain('SHIPPING ADDRESS');
+    expect(await shippingAddress.header.getText()).toContain(
+      'SHIPPING ADDRESS'
+    );
     expect(await checkoutPage.orderSummary.getText()).toContain('$2,643.08');
+
+    const addressForm = shippingAddress.addressForm;
+    await addressForm.waitForReady();
 
     await addressForm.fillIn();
     await addressForm.nextButton.click();
@@ -94,12 +99,14 @@ describe('Big Happy Path', () => {
   });
 
   it('should fill in payment form', async () => {
-    const paymentForm = checkoutPage.paymentForm;
-    await paymentForm.waitForReady();
+    const paymentMethod = checkoutPage.paymentMethod;
+    await paymentMethod.waitForReady();
 
-    expect(await paymentForm.header.getText()).toContain('PAYMENT');
+    expect(await paymentMethod.header.getText()).toContain('PAYMENT');
     expect(await checkoutPage.orderSummary.getText()).toContain('$2,655.07');
 
+    const paymentForm = paymentMethod.paymentForm;
+    await paymentForm.waitForReady();
     await paymentForm.fillIn();
     await paymentForm.nextButton.click();
   });
