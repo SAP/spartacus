@@ -202,7 +202,7 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call monthSelected(month)', () => {
-    component.monthSelected({ id: '05' });
+    component.monthSelected({ id: '05', name: '05' });
     expect(component.payment['controls'].expiryMonth.value).toEqual('05');
   });
 
