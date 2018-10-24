@@ -77,12 +77,12 @@ describe('Big Happy Path', () => {
   it('should fill in address form', async () => {
     const shippingAddress = checkoutPage.shippingAddress;
     await shippingAddress.waitForReady();
-    
+
     expect(await shippingAddress.header.getText()).toContain(
       'SHIPPING ADDRESS'
     );
     expect(await checkoutPage.orderSummary.getText()).toContain('$2,623.08');
-    
+
     const addressForm = shippingAddress.addressForm;
     await addressForm.waitForReady();
 
