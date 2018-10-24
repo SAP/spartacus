@@ -1,9 +1,9 @@
 import { by, element, ElementFinder } from 'protractor';
-import { AddressForm } from './address-form.po';
 import { DeliveryModeForm } from './delivery-mode-form.po';
 import { ReviewForm } from './review-form.po';
 import { AppPage } from '../app.po';
 import { OrderConfirmationPage } from './order-confirmation.po';
+import { ShippingAddress } from './shipping-address.po';
 import { PaymentMethod } from './payment-method.po';
 export class MultiStepCheckoutPage extends AppPage {
   readonly page: ElementFinder = element(
@@ -22,7 +22,7 @@ export class MultiStepCheckoutPage extends AppPage {
     by.cssContainingText('button', 'Place Order')
   );
 
-  readonly addressForm: AddressForm = new AddressForm(this.page);
+  readonly shippingAddress: ShippingAddress = new ShippingAddress(this.page);
   readonly deliveryForm: DeliveryModeForm = new DeliveryModeForm(this.page);
   readonly paymentMethod: PaymentMethod = new PaymentMethod(this.page);
   readonly reviewForm: ReviewForm = new ReviewForm(this.page);
