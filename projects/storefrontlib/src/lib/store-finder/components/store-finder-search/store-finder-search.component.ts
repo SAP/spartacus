@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { StoreFinderService } from '../../services/store-finder.service';
 import { WindowRef } from '../../services/window-ref';
-import { SearchQuery } from '../../models/searchQuery';
+import { SearchQuery } from '../../models/search-query';
 
 @Component({
   selector: 'y-store-finder-search',

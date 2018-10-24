@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SearchQuery } from '../../../store-finder/models/searchQuery';
+import { SearchQuery } from '../../../store-finder/models/search-query';
 
 @Component({
   selector: 'y-store-finder-page-layout',

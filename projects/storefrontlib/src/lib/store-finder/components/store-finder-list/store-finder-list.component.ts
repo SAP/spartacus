@@ -14,7 +14,7 @@ import * as fromStore from '../../store';
 import { SearchConfig } from '../../models/search-config';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
 import { StoreDataService } from '../../services/store-data.service';
-import { SearchQuery } from '../../models/searchQuery';
+import { SearchQuery } from '../../models/search-query';
 
 @Component({
   selector: 'y-store-finder-list',
