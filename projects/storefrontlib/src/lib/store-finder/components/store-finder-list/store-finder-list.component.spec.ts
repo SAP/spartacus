@@ -6,21 +6,18 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { StoreFinderListComponent } from './store-finder-list.component';
-import { PaginationComponent } from '../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 
 import * as fromReducers from '../../store';
 import * as fromRoot from '../../../routing/store';
 import * as fromServices from '../../services';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
-import { OccModuleConfig } from '../../../occ';
-import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 import { StoreDataService } from '../../services';
 import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
 import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
 
 const location = {};
 const stores = [location];
-const locations = [];
+const locations = { stores: stores };
 
 class StoreDataServiceMock {
   getStoreLatitude(_location: any): number {
@@ -34,6 +31,7 @@ class StoreDataServiceMock {
 
 class GoogleMapRendererServiceMock {
   centerMap(_latitute: number, _longitude: number) {}
+  renderMap() {}
 }
 
 describe('StoreFinderListComponent', () => {
@@ -63,9 +61,7 @@ describe('StoreFinderListComponent', () => {
           provide: GoogleMapRendererService,
           useClass: GoogleMapRendererServiceMock
         },
-        { provide: StoreDataService, useClass: StoreDataServiceMock },
-        OccE2eConfigurationService,
-        OccModuleConfig
+        { provide: StoreDataService, useClass: StoreDataServiceMock }
       ]
     }).compileComponents();
   }));
@@ -74,41 +70,69 @@ describe('StoreFinderListComponent', () => {
     fixture = TestBed.createComponent(StoreFinderListComponent);
     component = fixture.componentInstance;
     store = TestBed.get(Store);
-    spyOn(store, 'dispatch');
-    fixture.detectChanges();
-    component.locations = locations;
-    component.locations.stores = stores;
-    storeMapComponent = fixture.debugElement.query(By.css('y-store-finder-map'))
-      .componentInstance;
-    spyOn(storeMapComponent, 'centerMap').and.callThrough();
     storeDataService = TestBed.get(StoreDataService);
     googleMapRendererService = TestBed.get(GoogleMapRendererService);
+
+    spyOn(store, 'dispatch');
     spyOn(storeDataService, 'getStoreLatitude');
     spyOn(storeDataService, 'getStoreLongitude');
     spyOn(googleMapRendererService, 'centerMap');
+
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should change pages', done => {
-    const pagination = new PaginationComponent();
-    pagination.viewPageEvent.subscribe(event => {
-      expect(event).toEqual(3);
-      component.viewPage(event);
-      expect(store.dispatch).toHaveBeenCalled();
-      expect(component.searchConfig.currentPage).toBe(event);
-      done();
-    });
-    pagination.pageChange(4);
+  it('should change pages', () => {
+    // given
+    const pageNumber = 4;
+    component.searchQuery = { queryText: '', longitudeLatitude: [0, 0] };
+
+    // when
+    component.viewPage(pageNumber);
+
+    // then
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromReducers.FindStores({
+        queryText: '',
+        longitudeLatitude: [0, 0],
+        searchConfig: { currentPage: pageNumber }
+      })
+    );
   });
 
   it('should center store on map', () => {
+    // given
+    component.locations = locations;
+    fixture.detectChanges();
+    storeMapComponent = fixture.debugElement.query(By.css('y-store-finder-map'))
+      .componentInstance;
+    spyOn(storeMapComponent, 'centerMap').and.callThrough();
+
+    // when
     component.centerStoreOnMapByIndex(0);
+
+    // then
     expect(storeMapComponent.centerMap).toHaveBeenCalled();
     expect(storeDataService.getStoreLatitude).toHaveBeenCalled();
     expect(storeDataService.getStoreLongitude).toHaveBeenCalled();
     expect(googleMapRendererService.centerMap).toHaveBeenCalled();
+  });
+
+  it('should select store from list', () => {
+    // given
+    const itemNumber = 4;
+    const storeListItemMock = { scrollIntoView: function() {} };
+    spyOn(document, 'getElementById').and.returnValue(storeListItemMock);
+    spyOn(storeListItemMock, 'scrollIntoView');
+
+    // when
+    component.selectStoreItemList(itemNumber);
+
+    // then
+    expect(document.getElementById).toHaveBeenCalledWith('item-' + itemNumber);
+    expect(storeListItemMock.scrollIntoView).toHaveBeenCalled();
   });
 });
