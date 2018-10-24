@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { By } from '@angular/platform-browser';
 import * as NgrxStore from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
 import * as fromCart from '../../../../cart/store';
@@ -86,6 +87,24 @@ describe('MultiStepCheckoutComponent', () => {
     cart: {
       getActiveCart: BehaviorSubject<any>;
     };
+  };
+  const getPlaceOrderForm = () =>
+    fixture.debugElement.query(
+      By.css('.y-multi-step-checkout__place-order-form')
+    );
+  const getPlaceOrderBtn = () =>
+    fixture.debugElement.query(
+      By.css('.y-multi-step-checkout__place-order .btn-primary')
+    ).nativeElement;
+  const getBackBtn = () =>
+    fixture.debugElement.query(
+      By.css('.y-multi-step-checkout__place-order .btn-action')
+    ).nativeElement;
+  const mockAllSteps = () => {
+    mockSelectors.checkout.getDeliveryAddress.next(mockDeliveryAddresses);
+    mockSelectors.checkout.getSelectedCode.next(mockSelectedCode);
+    mockSelectors.checkout.getPaymentDetails.next(mockPaymentDetails);
+    mockSelectors.checkout.getOrderDetails.next(mockOrderDetails);
   };
 
   beforeEach(async(() => {
@@ -327,5 +346,85 @@ describe('MultiStepCheckoutComponent', () => {
     expect(component.tAndCToggler).toBeTruthy();
     component.toggleTAndC();
     expect(component.tAndCToggler).toBeFalsy();
+  });
+
+  it('should contain proper total value and total items', () => {
+    const mockCartData = {
+      totalItems: 5141,
+      subTotal: { formattedValue: 11119 }
+    };
+
+    mockSelectors.cart.getActiveCart.next(mockCartData);
+    fixture.detectChanges();
+
+    const pageTitle = fixture.debugElement.query(By.css('.y-page__title'))
+      .nativeElement.textContent;
+    const values = fixture.debugElement.query(
+      By.css('.y-multi-step-checkout__nav-list--media')
+    ).nativeElement.textContent;
+
+    expect(pageTitle).toContain('5141');
+    expect(values).toContain('5141');
+    expect(values).toContain('11119');
+  });
+
+  it('should highlight proper step', () => {
+    mockSelectors.cart.getActiveCart.next({});
+
+    fixture.detectChanges();
+
+    const steps = fixture.debugElement.queryAll(
+      By.css('.y-multi-step-checkout__nav-item a')
+    );
+
+    steps[0].nativeElement.click();
+    fixture.detectChanges();
+
+    expect(steps[0].nativeElement.getAttribute('class')).toContain('is-active');
+    expect(steps[1].nativeElement.getAttribute('class')).not.toContain(
+      'is-active'
+    );
+  });
+
+  it('should show terms and conditions only on step 4', () => {
+    mockSelectors.cart.getActiveCart.next({});
+    component.ngOnInit();
+
+    expect(getPlaceOrderForm()).toBeFalsy();
+
+    mockAllSteps();
+    expect(getPlaceOrderForm()).toBeTruthy();
+  });
+
+  it('should call setStep(3) when back button clicked', () => {
+    spyOn(component, 'setStep').and.callThrough();
+    mockSelectors.cart.getActiveCart.next({});
+    mockAllSteps();
+
+    fixture.detectChanges();
+    getBackBtn().click();
+    expect(component.setStep).toHaveBeenCalledWith(3);
+  });
+
+  it('should contain disabled place order button if terms not accepted', () => {
+    mockSelectors.cart.getActiveCart.next({});
+    mockAllSteps();
+
+    fixture.detectChanges();
+
+    expect(getPlaceOrderBtn().disabled).toBe(true);
+  });
+
+  it('should contain enabled place order button if terms accepted', () => {
+    mockSelectors.cart.getActiveCart.next({});
+    mockAllSteps();
+    component.ngOnInit();
+
+    const inputCheckbox = fixture.debugElement.query(By.css('#termsCheck'))
+      .nativeElement;
+    inputCheckbox.click();
+    fixture.detectChanges();
+
+    expect(getPlaceOrderBtn().disabled).toBe(false);
   });
 });
