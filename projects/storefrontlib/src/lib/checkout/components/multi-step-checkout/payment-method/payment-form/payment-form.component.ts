@@ -93,7 +93,7 @@ export class PaymentFormComponent implements OnInit {
   }
 
   monthSelected(month) {
-    this.payment['controls'].expiryMonth.setValue(month.id);
+    this.payment['controls'].expiryMonth.setValue(month.name);
   }
 
   yearSelected(year) {
