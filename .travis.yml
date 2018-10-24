@@ -1,23 +1,19 @@
 language: node_js
 node_js:
-  - 8.9.0
-
+- 8.9.0
 dist: trusty
-
 addons:
   chrome: stable
-
 branches:
   only:
-    - develop
-    - /^feature\/.*$/
-
+  - develop
+  - "/^feature\\/.*$/"
 before_script:
-  - npm install -g angular-cli
-
-script: ./build.sh
-
+- npm install -g angular-cli
+script: "./build.sh"
 notifications:
+  slack:
+    secure: DfJh0enKbe+jinm1d/SFIPVw4xB1qPGUmJKZCHvAxiJRdJsrWHVeio0uAMFGNW5WZZeHQ6zVAb6uN7wcXiU09FRJqOJiwrtRfeZLyqjVypS1cw/NeT5wNgTpHWHtIRzraJnsPGlH5pxZqmZMawoT4rYKbmtDEnaaFUUBJIBmuGNdA44w4nMm8agdN0Lai6mMSNwDeOfi3k+WmQ7MYfWfjC9mWvQ4nLnwK6BZ9CiVDJRUXAnXwZWwW1B3gW07tB5RMfdstInAgAfBN+eE1qpJ4fSbM9MvcMAixNak6qQHZn+cC4R5I1ZHoQnZudChPbIMQJ9ZpVz+kdd+UKQzg2WAi4F3GKKFooNvYMEebVaM3Jg2T+i5SVWEHqsIStg/JFMyug2O7ZUdSQX0kWfz8NpRN0W8GwCUvfQvv69+46t5CnPWu77Q0MvgJBABD28VdzwxL7aQQsJgg/U3pRXb++Db2VEXS6s3yqOFVtDzWd5h0yWl1oZ6ezQik6o4y03rR0BSctFFkaTPQ0uxwPrhJhIPdkFi5N3HuXm9546Xh0uslnnvTqD1J3K5jMF1gxeQpA21zSDosEt3vVfPn4C/QlgA1QjJehmPPBrEh5xzNX9ELzaUrcU6X8eCRWoQ070HEf/MoQkuhyK69onV2F7tryPf7WtTcEN4SMaXh7x4LNnP9aY=
   email:
     on_failure: change
     on_success: change
