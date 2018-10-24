@@ -20,6 +20,9 @@ if (!environment.production) {
     StorefrontModule.withConfig({
       server: {
         baseUrl: environment.occBaseUrl
+      },
+      pwa: {
+        addToHomeScreen: true
       }
     }),
     ...devImports
