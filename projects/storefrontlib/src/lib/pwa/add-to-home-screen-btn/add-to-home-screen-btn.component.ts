@@ -15,17 +15,14 @@ export class AddToHomeScreenBtnComponent implements OnInit {
     this.isEnabled = this.config.pwa.addToHomeScreen;
     if (this.isEnabled) {
       window.addEventListener('beforeinstallprompt', event => {
-        console.log(event);
         event.preventDefault();
         this.deferredEvent = event;
         this.canPrompt = true;
-        console.log(this.deferredEvent);
       });
     }
   }
 
-  prompt() {
-    console.log('prompting', this.deferredEvent);
+  prompt(): void {
     this.deferredEvent.prompt();
   }
 }
