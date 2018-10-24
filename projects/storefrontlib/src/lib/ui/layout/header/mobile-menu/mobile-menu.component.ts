@@ -1,4 +1,3 @@
-import { ATHSPrompt } from '../../../../pwa/addToHomScreen';
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -25,17 +24,6 @@ export class MobileMenuComponent implements OnDestroy {
     } else {
       this.subscription.unsubscribe();
     }
-  }
-
-  ngOnInit() {
-    this.canAddToHomeScreen = ATHSPrompt.canPrompt;
-    window.addEventListener('beforeinstallprompt', () => {
-      this.canAddToHomeScreen = true;
-    });
-  }
-
-  addToHomeScreen(): void {
-    ATHSPrompt.prompt();
   }
 
   ngOnDestroy() {

@@ -18,9 +18,11 @@
         <y-currency-selector></y-currency-selector>
       </div>
       <!-- temporary solution -->
-      <div *ngIf="canAddToHomeScreen">
-        <button class="btn btn-primary" id="add-to-home-screen" (click)="addToHomeScreen()">Add to Home screen</button>
-      </div>
+      <cx-add-to-home-screen-btn>
+        <div *ngIf="canAddToHomeScreen">
+          <button class="btn btn-primary" id="add-to-home-screen" (click)="addToHomeScreen()">Add to Home screen</button>
+        </div>
+      </cx-add-to-home-screen-btn>
     </div>
   </div>
   <div *ngIf="showMenu" class="y-mobile-menu__overlay" (click)="toggleMenu()"></div>

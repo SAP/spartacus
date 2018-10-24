@@ -10,6 +10,7 @@ import { HeaderSkipperComponent } from './header-skipper/header-skipper.componen
 import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
 import { LoginModule } from '../../../user/components/login/login.module';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
+import { PwaModule } from '../../../pwa/pwa.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
     SiteContextModule,
     CmsModule,
     LoginModule,
-    RouterModule
+    RouterModule,
+    PwaModule
   ],
   declarations: [
     HeaderComponent,
