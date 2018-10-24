@@ -80,7 +80,6 @@ describe('Big Happy Path', () => {
 
     expect(await addressForm.header.getText()).toContain('SHIPPING ADDRESS');
     expect(await checkoutPage.orderSummary.getText()).toContain('$2,643.08');
-
     const addressForm = shippingAddress.addressForm;
     await addressForm.waitForReady();
 
