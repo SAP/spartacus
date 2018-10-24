@@ -78,10 +78,8 @@ describe('Big Happy Path', () => {
     const shippingAddress = checkoutPage.shippingAddress;
     await shippingAddress.waitForReady();
 
-    expect(await shippingAddress.header.getText()).toContain(
-      'SHIPPING ADDRESS'
-    );
-    expect(await checkoutPage.orderSummary.getText()).toContain('$2,623.08');
+    expect(await addressForm.header.getText()).toContain('SHIPPING ADDRESS');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,643.08');
 
     const addressForm = shippingAddress.addressForm;
     await addressForm.waitForReady();
@@ -102,8 +100,8 @@ describe('Big Happy Path', () => {
     const paymentMethod = checkoutPage.paymentMethod;
     await paymentMethod.waitForReady();
 
-    expect(await paymentMethod.header.getText()).toContain('PAYMENT');
-    expect(await checkoutPage.orderSummary.getText()).toContain('$2,635.07');
+    expect(await paymentForm.header.getText()).toContain('PAYMENT');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,655.07');
 
     const paymentForm = paymentMethod.paymentForm;
     await paymentForm.waitForReady();
@@ -125,7 +123,7 @@ describe('Big Happy Path', () => {
     );
     expect(await reviewForm.shippingMethod.getText()).toContain(
       // 'Standard Delivery'
-      'standard-gross'
+      'standard-net'
     );
     // expect(await reviewForm.paymentMethod.getText()).toContain(
     //   PaymentForm.CARD_TYPE
@@ -137,7 +135,7 @@ describe('Big Happy Path', () => {
       AddressForm.CITY
     );
 
-    expect(await checkoutPage.orderSummary.getText()).toContain('$2,635.07');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,655.07');
 
     const orderConfirmationPage = await checkoutPage.placeOrder();
     await orderConfirmationPage.waitForReady();
@@ -167,7 +165,7 @@ describe('Big Happy Path', () => {
       PRODUCT_CODE
     );
     expect(await orderConfirmationPage.orderSummary.getText()).toContain(
-      '$2,635.07'
+      '$2,655.07'
     );
   });
 
@@ -179,7 +177,7 @@ describe('Big Happy Path', () => {
       'Order history'
     );
     expect(await orderHistoryPage.historyItem(0).getText()).toContain(
-      '$2,635.07'
+      '$2,823.67'
     );
 
     // Logout at the end of test

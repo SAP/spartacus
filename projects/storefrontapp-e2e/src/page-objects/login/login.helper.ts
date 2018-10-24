@@ -72,6 +72,7 @@ export class LoginHelper {
       5000
     );
 
+    await registerPage.header.scrollTo();
     if (await registerPage.header.isLoggedIn()) {
       LoginHelper.userEmail = userEmail;
       LoginHelper.userPassword = userPassword;
