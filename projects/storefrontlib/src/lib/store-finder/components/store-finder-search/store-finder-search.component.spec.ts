@@ -46,7 +46,7 @@ class StoreFinderServiceMock {
   public viewAllStores() {}
 }
 
-fdescribe('StoreFinderSearchComponent', () => {
+describe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;
   let fixture: ComponentFixture<StoreFinderSearchComponent>;
   let service: StoreFinderService;
