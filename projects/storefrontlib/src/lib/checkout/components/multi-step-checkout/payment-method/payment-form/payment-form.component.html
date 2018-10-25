@@ -1,10 +1,6 @@
 <div class="y-payment-form container">
-    <div class="row ">
+    <div class="row">
         <div class="col-md-12 col-lg-9">
-            <!-- TITLE -->
-            <div class="y-payment-form__header">
-                <h3 class="y-payment-form__header-title d-none d-lg-block d-xl-block">Payment</h3>
-            </div>
             <!-- FORM -->
             <div [formGroup]="payment">
                 <div class="form-group">
@@ -75,9 +71,9 @@
 
                 <!-- BUTTON SECTION -->
                 <div class="y-payment-form__btns row">
-                    <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-action" (click)="back()">Change
-                            Payment</button></div>
-                    <div class="col-sm-12 col-md-6 col-lg-6"><button class="btn btn-block btn-primary" [disabled]="payment.invalid || notSelected( 'cardType.code')"
+                    <div class="col-sm-12 col-md-6"><button class="btn btn-block btn-action" (click)="back()">
+                            Change Payment</button></div>
+                    <div class="col-sm-12 col-md-6"><button class="btn btn-block btn-primary" [disabled]="payment.invalid"
                             (click)="next()">Continue</button></div>
                 </div>
             </div>

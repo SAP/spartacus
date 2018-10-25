@@ -97,4 +97,10 @@ export class E2EUtil {
       .get(optionNo)
       .click();
   }
+
+  static async scrollToElement(elementSelector: string) {
+    await browser.executeScript(
+      `document.querySelector("${elementSelector}").scrollIntoView()`
+    );
+  }
 }

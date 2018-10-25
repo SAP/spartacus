@@ -23,7 +23,7 @@ import { visaImgSrc } from '../../../../ui/images/visa';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentMethodComponent implements OnInit {
-  isPaymentForm = false;
+  newPaymentFormManuallyOpened = false;
   existingPaymentMethods$: Observable<any>;
   cards = [];
   isLoading$: Observable<any>;
@@ -112,12 +112,12 @@ export class PaymentMethodComponent implements OnInit {
     this.addPaymentInfo.emit({ payment: paymentDetails, newPayment: true });
   }
 
-  goToPaymentForm() {
-    this.isPaymentForm = true;
+  showNewPaymentForm() {
+    this.newPaymentFormManuallyOpened = true;
   }
 
-  backToPaymentMethod() {
-    this.isPaymentForm = false;
+  hideNewPaymentForm() {
+    this.newPaymentFormManuallyOpened = false;
   }
 
   back() {

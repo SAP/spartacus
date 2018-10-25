@@ -1,10 +1,10 @@
 import {
   Component,
-  ChangeDetectionStrategy,
   OnInit,
   Output,
   EventEmitter,
-  OnDestroy
+  OnDestroy,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
@@ -161,7 +161,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.backToAddress.emit();
   }
 
-  verfiyAddress() {
+  verifyAddress() {
     this.checkoutService.verifyAddress(this.address.value);
   }
 
@@ -192,19 +192,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         this.suggestedAddressModalRef = null;
       });
     }
-  }
-
-  required(name: string) {
-    return (
-      this.address.get(`${name}`).hasError('required') &&
-      this.address.get(`${name}`).touched
-    );
-  }
-
-  notSelected(name: string) {
-    return (
-      this.address.get(`${name}`).dirty && !this.address.get(`${name}`).value
-    );
   }
 
   ngOnDestroy() {
