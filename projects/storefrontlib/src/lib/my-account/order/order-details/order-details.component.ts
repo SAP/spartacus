@@ -33,19 +33,18 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
       map(routingData => routingData.state.params.orderCode)
     );
 
-    this.subscription = combineLatest(userId$, orderCode$).subscribe(data => {
-      const userId = data[0];
-      const orderCode = data[1];
-
-      if (userId && orderCode) {
-        this.store.dispatch(
-          new fromUserStore.LoadOrderDetails({
-            userId: userId,
-            orderCode: orderCode
-          })
-        );
+    this.subscription = combineLatest(userId$, orderCode$).subscribe(
+      ([userId, orderCode]) => {
+        if (userId && orderCode) {
+          this.store.dispatch(
+            new fromUserStore.LoadOrderDetails({
+              userId: userId,
+              orderCode: orderCode
+            })
+          );
+        }
       }
-    });
+    );
 
     this.order$ = this.store.pipe(select(fromUserStore.getOrderDetails));
   }
