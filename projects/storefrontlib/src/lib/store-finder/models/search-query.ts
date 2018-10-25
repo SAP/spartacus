@@ -1,4 +1,6 @@
+import { LongitudeLatitude } from './longitude-latitude';
+
 export interface SearchQuery {
   queryText?: string;
-  longitudeLatitude?: number[];
+  longitudeLatitude?: LongitudeLatitude;
 }

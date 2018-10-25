@@ -4,6 +4,7 @@ import { throwError, Observable } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 
 import { SearchConfig } from '../../store-finder/models/search-config';
+import { LongitudeLatitude } from '../../store-finder/models/longitude-latitude';
 
 import { OccModuleConfig } from '../occ-module-config';
 import { OccE2eConfigurationService } from '../e2e/e2e-configuration-service';
@@ -22,7 +23,7 @@ export class OccStoreFinderService {
   findStores(
     query: string,
     searchConfig: SearchConfig,
-    longitudeLatitude?: number[]
+    longitudeLatitude?: LongitudeLatitude
   ): Observable<any> {
     return this.e2eConfigService.getConfiguration(STORES_DISPLAYED).pipe(
       mergeMap(result => {
@@ -66,7 +67,7 @@ export class OccStoreFinderService {
   protected callOccFindStores(
     query: string,
     searchConfig: SearchConfig,
-    longitudeLatitude?: number[]
+    longitudeLatitude?: LongitudeLatitude
   ): Observable<any> {
     const url = this.getStoresEndpoint();
     let params: HttpParams = new HttpParams({
@@ -77,8 +78,8 @@ export class OccStoreFinderService {
         'sorts(DEFAULT)'
     });
     if (longitudeLatitude) {
-      params = params.set('longitude', String(longitudeLatitude[0]));
-      params = params.set('latitude', String(longitudeLatitude[1]));
+      params = params.set('longitude', String(longitudeLatitude.longitude));
+      params = params.set('latitude', String(longitudeLatitude.latitude));
     } else {
       params = params.set('query', query);
     }

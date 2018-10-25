@@ -4,6 +4,7 @@ import { combineReducers, StoreModule } from '@ngrx/store';
 
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 import { StoreFinderService } from '../../services/store-finder.service';
+import { LongitudeLatitude } from '../../models/longitude-latitude';
 
 import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../store';
@@ -38,11 +39,14 @@ class WindowRefMock {
 }
 
 class StoreFinderServiceMock {
-  public findStores(_queryText: string, _longitudeLatitude: number[]) {}
+  public findStores(
+    _queryText: string,
+    _longitudeLatitude: LongitudeLatitude
+  ) {}
   public viewAllStores() {}
 }
 
-describe('StoreFinderSearchComponent', () => {
+fdescribe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;
   let fixture: ComponentFixture<StoreFinderSearchComponent>;
   let service: StoreFinderService;
@@ -117,6 +121,9 @@ describe('StoreFinderSearchComponent', () => {
 
   it('should view stores near by my location', () => {
     component.viewStoresWithMyLoc();
-    expect(service.findStores).toHaveBeenCalledWith('', [longitude, latitude]);
+    expect(service.findStores).toHaveBeenCalledWith('', {
+      longitude,
+      latitude
+    });
   });
 });

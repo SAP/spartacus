@@ -88,7 +88,10 @@ describe('StoreFinderListComponent', () => {
   it('should change pages', () => {
     // given
     const pageNumber = 4;
-    component.searchQuery = { queryText: '', longitudeLatitude: [0, 0] };
+    component.searchQuery = {
+      queryText: '',
+      longitudeLatitude: { longitude: 0, latitude: 0 }
+    };
 
     // when
     component.viewPage(pageNumber);
@@ -97,7 +100,7 @@ describe('StoreFinderListComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromReducers.FindStores({
         queryText: '',
-        longitudeLatitude: [0, 0],
+        longitudeLatitude: { longitude: 0, latitude: 0 },
         searchConfig: { currentPage: pageNumber }
       })
     );

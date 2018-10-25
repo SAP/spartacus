@@ -1,11 +1,15 @@
 import * as fromActions from './find-stores.action';
 import { SearchConfig } from '../../models/search-config';
+import { LongitudeLatitude } from '../../models/longitude-latitude';
 
 describe('Find Stores Actions', () => {
   describe('FindStores', () => {
     it('should create FindStores action', () => {
       const searchConfig: SearchConfig = { pageSize: 10 };
-      const longitudeLatitude: number[] = [10.1, 20.2];
+      const longitudeLatitude: LongitudeLatitude = {
+        longitude: 10.1,
+        latitude: 20.2
+      };
       const payload = { queryText: 'test', longitudeLatitude, searchConfig };
       const action = new fromActions.FindStores(payload);
 
@@ -18,7 +22,10 @@ describe('Find Stores Actions', () => {
 
   describe('FindStores with coordinates', () => {
     it('should create FindStores action with only coordinates', () => {
-      const longitudeLatitude: number[] = [10.1, 20.2];
+      const longitudeLatitude: LongitudeLatitude = {
+        longitude: 10.1,
+        latitude: 20.2
+      };
       const payload = { queryText: '', longitudeLatitude };
       const action = new fromActions.FindStores(payload);
 

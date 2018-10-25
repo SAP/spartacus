@@ -33,7 +33,6 @@ describe('ViewAllStores Selectors', () => {
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.ViewAllStores());
       store.dispatch(new fromActions.ViewAllStoresSuccess(searchResult));
 
       expect(result).toEqual(searchResult);

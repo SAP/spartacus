@@ -37,16 +37,18 @@ export class StoreFinderSearchComponent {
   viewStoresWithMyLoc() {
     this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
       (position: Position) => {
-        this.storeFinderService.findStores('', [
-          position.coords.longitude,
-          position.coords.latitude
-        ]);
-        this.persistSearchQuery.emit({
-          longitudeLatitude: [
-            position.coords.longitude,
-            position.coords.latitude
-          ]
+        this.storeFinderService.findStores('', {
+          longitude: position.coords.longitude,
+          latitude: position.coords.latitude
         });
+        let searchQuery: SearchQuery = {
+          queryText: '',
+          longitudeLatitude: {
+            longitude: position.coords.longitude,
+            latitude: position.coords.latitude
+          }
+        };
+        this.persistSearchQuery.emit(searchQuery);
       }
     );
     this.showMapList.emit(true);

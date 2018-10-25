@@ -4,12 +4,16 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import * as fromStore from '../store';
 
 import { StoreFinderService } from './store-finder.service';
+import { LongitudeLatitude } from '../models/longitude-latitude';
 
 describe('StoreFinderService', () => {
   let service: StoreFinderService;
   let store: Store<fromStore.StoresState>;
 
-  const longitudeLatitude: number[] = [10.1, 20.2];
+  const longitudeLatitude: LongitudeLatitude = {
+    longitude: 10.1,
+    latitude: 20.2
+  };
   const queryText = 'test';
   const countryIsoCode = 'CA';
   const regionIsoCode = 'CA-QC';

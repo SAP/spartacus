@@ -3,7 +3,7 @@
         <div class="col-md-6 offset-md-3">
             <div class="form-group">
                 <input #queryInput [formControl]="searchBox" (keyup)="onKey($event)" type="text" class="form-control"
-                    placeholder="Enter postal code, town or address" required id="">
+                    placeholder="Enter postal code, town or address" required>
             </div>
             <button type="button" class="btn btn-primary btn-block y-store-finder-search__button" (click)="findStores(queryInput.value)">Find
                 store</button>

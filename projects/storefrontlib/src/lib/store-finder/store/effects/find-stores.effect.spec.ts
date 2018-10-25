@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 import { OccStoreFinderService } from '../../../occ/store/store-finder.service';
 import { OccModuleConfig } from '../../../occ/occ-module-config';
 import { SearchConfig } from '../../models/search-config';
+import { LongitudeLatitude } from '../../models/longitude-latitude';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 
 import * as fromEffects from './find-stores.effect';
@@ -25,7 +26,10 @@ describe('FindStores Effects', () => {
   let service: OccStoreFinderService;
   let effects: fromEffects.FindStoresEffect;
   let searchConfig: SearchConfig;
-  const longitudeLatitude: number[] = [10.1, 20.2];
+  const longitudeLatitude: LongitudeLatitude = {
+    longitude: 10.1,
+    latitude: 20.2
+  };
 
   const searchResult: any = { stores: [] };
 

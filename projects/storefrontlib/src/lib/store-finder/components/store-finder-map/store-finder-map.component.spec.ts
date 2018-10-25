@@ -19,16 +19,14 @@ describe('StoreFinderMapComponent', () => {
   let debugElement: DebugElement;
 
   beforeEach(() => {
-    const bed = TestBed.configureTestingModule({
+    TestBed.configureTestingModule({
       declarations: [StoreFinderMapComponent],
-      providers: [GoogleMapRendererService]
+      providers: [
+        { provide: GoogleMapRendererService, useClass: MapRendererServiceMock }
+      ]
     });
 
-    bed.overrideProvider(GoogleMapRendererService, {
-      useValue: new MapRendererServiceMock()
-    });
-
-    fixture = bed.createComponent(StoreFinderMapComponent);
+    fixture = TestBed.createComponent(StoreFinderMapComponent);
     component = fixture.componentInstance;
     component.locations = [];
     component.mapElement = new ElementRef<HTMLElement>(mapDomElement);

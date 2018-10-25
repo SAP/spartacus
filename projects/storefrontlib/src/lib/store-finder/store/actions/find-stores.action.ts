@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { SearchConfig } from '../../models/search-config';
+import { LongitudeLatitude } from '../../models/longitude-latitude';
 
 export const FIND_STORES = '[StoreFinder] Find Stores';
 export const FIND_STORES_FAIL = '[StoreFinder] Find Stores Fail';
@@ -24,7 +25,7 @@ export class FindStores implements Action {
   constructor(
     public payload: {
       queryText: string;
-      longitudeLatitude?: number[];
+      longitudeLatitude?: LongitudeLatitude;
       searchConfig?: SearchConfig;
     }
   ) {}
