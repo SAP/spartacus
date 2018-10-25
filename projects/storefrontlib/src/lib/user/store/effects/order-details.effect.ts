@@ -13,6 +13,7 @@ export class OrderDetailsEffect {
     private occOrderService: OccOrderService,
     private productImageConverter: ProductImageConverterService
   ) {}
+
   @Effect()
   loadOrderDetails$: Observable<any> = this.actions$.pipe(
     ofType(fromOrderDetailsAction.LOAD_ORDER_DETAILS),
