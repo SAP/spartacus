@@ -7,6 +7,8 @@ module.exports = function(config) {
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
+      require('karma-coverage'),
+      require('karma-junit-reporter'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
@@ -17,10 +19,21 @@ module.exports = function(config) {
     },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../../coverage'),
-      reports: ['html', 'lcovonly'],
-      fixWebpackSourcePaths: true
+      reports: ['html', 'cobertura', 'text-summary'],
+      fixWebpackSourcePaths: true,
+      thresholds: {
+        statements: 80,
+        lines: 80,
+        branches: 60,
+        functions: 80
+      }
     },
-    reporters: ['progress', 'kjhtml'],
+    junitReporter: {
+      outputDir: 'jenkins',
+      useBrowserName: false,
+      outputFile: 'test-results.xml'
+    },
+    reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'junit'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
