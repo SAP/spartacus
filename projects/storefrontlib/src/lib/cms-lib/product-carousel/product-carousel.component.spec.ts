@@ -1,17 +1,19 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import * as NgrxStore from '@ngrx/store';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
-import * as fromRoot from '../../routing/store';
-import * as fromCmsReducer from '../../cms/store/reducers';
-import * as fromProductStore from '../../product/store';
-import { ProductCarouselComponent } from './product-carousel.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PictureComponent } from '../../ui/components/media/picture/picture.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { CmsService } from '../../cms/facade/cms.service';
+import * as NgrxStore from '@ngrx/store';
+import { of } from 'rxjs';
+
 import { BootstrapModule } from '../../bootstrap.module';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
+import * as fromProductStore from '../../product/store';
+import * as fromRoot from '../../routing/store';
+import { CmsService } from '../../cms/facade/cms.service';
+import * as fromCmsReducer from '../../cms/store/reducers';
+import { PictureComponent } from '../../ui/components/media/picture/picture.component';
+
+import { ProductCarouselComponent } from './product-carousel.component';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -105,8 +107,8 @@ describe('ProductCarouselComponent in CmsLib', () => {
     productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
     fixture.detectChanges();
     expect(productCarouselComponent.component).toBe(mockComponentData);
-    expect(el.query(By.css('H3')).nativeElement.textContent).toEqual(
-      productCarouselComponent.component.title
-    );
+    expect(
+      el.query(By.css('.y-carousel__header')).nativeElement.textContent
+    ).toEqual(productCarouselComponent.component.title);
   });
 });

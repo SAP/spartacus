@@ -13,6 +13,7 @@ import * as fromUserStore from '../../../user/store';
 import * as fromAuthStore from '../../../auth/store';
 import createSpy = jasmine.createSpy;
 import { AuthService } from '../../../auth/facade/auth.service';
+import { RoutingService } from '../../../routing/facade/routing.service';
 
 const routes = [
   { path: 'my-account/orders/:id', component: OrderDetailsComponent }
@@ -47,6 +48,7 @@ describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
   let store: NgrxStore.Store<fromUserStore.UserState>;
+  let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -70,6 +72,7 @@ describe('OrderHistoryComponent', () => {
     fixture = TestBed.createComponent(OrderHistoryComponent);
     component = fixture.componentInstance;
     store = TestBed.get(NgrxStore.Store);
+    routingService = TestBed.get(RoutingService);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -88,6 +91,7 @@ describe('OrderHistoryComponent', () => {
 
   it('should redirect when clicking on order id', () => {
     spyOnStore();
+    spyOn(routingService, 'go');
     fixture.detectChanges();
     const elem = fixture.debugElement.nativeElement.querySelector(
       '.y-order-history__table tbody tr'
@@ -95,11 +99,7 @@ describe('OrderHistoryComponent', () => {
     elem.click();
 
     fixture.whenStable().then(() => {
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromRoot.Go({
-          path: ['my-account/orders/', 1]
-        })
-      );
+      expect(routingService.go).toHaveBeenCalledWith(['my-account/orders/', 1]);
     });
   });
 

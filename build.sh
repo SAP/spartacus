@@ -85,10 +85,10 @@ fi
 
 echo "-----"
 echo "Building SPA core lib"
-ng build storefrontlib --prod
+yarn build:core:lib
 echo "-----"
 echo "Building SPA app"
-ng build storefrontapp --prod
+yarn build
 echo "-----"
 echo "Running end to end tests"
 yarn e2e:ci
