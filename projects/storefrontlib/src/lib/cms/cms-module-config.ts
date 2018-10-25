@@ -1,4 +1,5 @@
-import { ServerConfig } from '../config/server-config/server-config';
+import { ServerConfig } from '@spartacus/core';
+
 import { SiteContextModuleConfig } from '../site-context/site-context-module-config';
 import { AuthModuleConfig } from '../auth/auth-module.config';
 
