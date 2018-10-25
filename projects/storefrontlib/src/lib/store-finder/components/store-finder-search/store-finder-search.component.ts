@@ -41,7 +41,7 @@ export class StoreFinderSearchComponent {
           longitude: position.coords.longitude,
           latitude: position.coords.latitude
         });
-        let searchQuery: SearchQuery = {
+        const searchQuery: SearchQuery = {
           queryText: '',
           longitudeLatitude: {
             longitude: position.coords.longitude,
