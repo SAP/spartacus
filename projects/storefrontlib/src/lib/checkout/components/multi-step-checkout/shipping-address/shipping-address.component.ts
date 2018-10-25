@@ -24,7 +24,7 @@ import { Address } from '../../../models/address-model';
 })
 export class ShippingAddressComponent implements OnInit {
   existingAddresses$: Observable<any>;
-  isAddressForm = false;
+  newAddressFormManuallyOpened = false;
   cards = [];
   isLoading$: Observable<any>;
 
@@ -108,12 +108,12 @@ export class ShippingAddressComponent implements OnInit {
     this.addAddress.emit({ address: address, newAddress: true });
   }
 
-  goToAddressForm() {
-    this.isAddressForm = true;
+  showNewAddressForm() {
+    this.newAddressFormManuallyOpened = true;
   }
 
-  backToAddress() {
-    this.isAddressForm = false;
+  hideNewAddressForm() {
+    this.newAddressFormManuallyOpened = false;
   }
 
   back() {

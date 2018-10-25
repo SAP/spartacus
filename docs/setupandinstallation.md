@@ -1,6 +1,6 @@
 # Setup and Installation
 
-The following instructions describe how to build a storefront application from ready-made libraries.
+The following instructions describe how to build a storefront application from published Spartacus libraries.
 
 To build the Spartacus project from source, see [Contributor Setup](contributorsetup.md).
 
