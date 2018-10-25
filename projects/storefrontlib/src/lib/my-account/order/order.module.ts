@@ -4,7 +4,6 @@ import { OrderDetailsModule } from './order-details/order-details.module';
 
 @NgModule({
   imports: [OrderHistoryModule, OrderDetailsModule],
-  declarations: [],
   exports: [OrderHistoryModule, OrderDetailsModule]
 })
 export class OrderModule {}
