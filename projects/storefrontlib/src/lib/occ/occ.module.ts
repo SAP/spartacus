@@ -10,6 +10,8 @@ import { OccSiteService } from './site-context/occ-site.service';
 import { OccCartService } from './cart/cart.service';
 import { OccMiscsService } from './miscs/miscs.service';
 import { OccOrderService } from './order/order.service';
+import { OccStoreFinderService } from './store/store-finder.service';
+import { OccE2eConfigurationService } from './e2e/e2e-configuration-service';
 import { OccModuleConfig } from './occ-module-config';
 
 @NgModule({
@@ -22,6 +24,8 @@ import { OccModuleConfig } from './occ-module-config';
     OccCartService,
     OccMiscsService,
     OccOrderService,
+    OccStoreFinderService,
+    OccE2eConfigurationService,
     { provide: OccModuleConfig, useExisting: Config }
   ]
 })
