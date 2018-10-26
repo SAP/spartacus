@@ -1,0 +1,5 @@
+<ng-container>
+    <y-store-finder-search (showMapList)="showMapList($event)" (persistQuery)="persistQuery($event)"></y-store-finder-search>
+    <y-store-finder-list *ngIf="showMapListComponent" [searchQuery]="searchQuery"></y-store-finder-list>
+    <y-store-finder-grid *ngIf="!showMapListComponent"></y-store-finder-grid>
+</ng-container>

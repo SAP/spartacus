@@ -12,8 +12,8 @@
         <!-- Select Form and Pagination Top -->
         <div class="y-order-history__form-pagination--top row">
           <div class="y-order-history__form-group form-group col-sm-12 col-md-4 col-lg-4">
-            <y-sorting [sortOptions]="orders.sorts" [sortLabels]="sortLabels" (sortListEvent)="changeSortCode($event)" [selectedOption]="orders.pagination.sort"
-              [placeholder]="'Sort by Most recent'"></y-sorting>
+            <y-sorting [sortOptions]="orders.sorts" [sortLabels]="sortLabels" (sortListEvent)="changeSortCode($event)"
+              [selectedOption]="orders.pagination.sort" [placeholder]="'Sort by Most recent'"></y-sorting>
           </div>
           <div class="y-order-history__pagination">
             <y-pagination [pagination]="orders.pagination" (viewPageEvent)="pageChange($event)"></y-pagination>
@@ -28,25 +28,25 @@
             <th scope="col">Total</th>
           </thead>
           <tbody>
-            <tr *ngFor="let order of orders.orders" (click)="goToOrderDetail(order)">
+            <tr *ngFor="let order of orders.orders">
               <td class="y-order-history__code">
                 <div class="d-md-none y-order-history__label">Order #</div>
-                <a routerLink="/account/order-history/order-detail" routerLinkActive="active" class="y-order-history__value">
+                <a routerLink="/my-account/orders/{{order.code}}" routerLinkActive="active" class="y-order-history__value">
                   {{order?.code}}</a>
               </td>
               <td class="y-order-history__placed">
                 <div class="d-md-none y-order-history__label">Date</div>
-                <a routerLink="/account/order-history/order-detail" routerLinkActive="active" class="y-order-history__value">{{order?.placed
+                <a routerLink="/my-account/orders/{{order.code}}" routerLinkActive="active" class="y-order-history__value">{{order?.placed
                   | date: 'longDate'}}</a>
               </td>
               <td class="y-order-history__status">
                 <div class="d-md-none y-order-history__label">Status</div>
-                <a routerLink="/account/order-history/order-detail" routerLinkActive="active" class="y-order-history__value">
+                <a routerLink="/my-account/orders/{{order.code}}" routerLinkActive="active" class="y-order-history__value">
                   {{order?.statusDisplay}}</a>
               </td>
               <td class="y-order-history__total">
                 <div class="d-md-none y-order-history__label">Total</div>
-                <a routerLink="/account/order-history/order-detail" routerLinkActive="active" class="y-order-history__value">
+                <a routerLink="/my-account/orders/{{order.code}}" routerLinkActive="active" class="y-order-history__value">
                   {{order?.total.formattedValue}}</a>
               </td>
             </tr>
@@ -55,8 +55,8 @@
         <!-- Select Form and Pagination Bottom -->
         <div class="y-order-history__form-pagination--bottom row">
           <div class="y-order-history__form-group form-group col-sm-12 col-md-4 col-lg-4">
-            <y-sorting [sortOptions]="orders.sorts" [sortLabels]="sortLabels" (sortListEvent)="changeSortCode($event)" [selectedOption]="orders.pagination.sort"
-              [placeholder]="'Sort by Most recent'"></y-sorting>
+            <y-sorting [sortOptions]="orders.sorts" [sortLabels]="sortLabels" (sortListEvent)="changeSortCode($event)"
+              [selectedOption]="orders.pagination.sort" [placeholder]="'Sort by Most recent'"></y-sorting>
           </div>
           <div class="y-order-history__pagination">
             <y-pagination [pagination]="orders.pagination" (viewPageEvent)="pageChange($event)"></y-pagination>
