@@ -58,10 +58,10 @@ yarn
 
 echo "-----"
 echo "Building SPA core lib"
-ng build storefrontlib --prod
+yarn build:core:lib
 echo "-----"
 echo "Building SPA app"
-ng build storefrontapp --prod
+yarn build
 echo "-----"
 echo "Spartacus Pipeline completed"
 exit 0

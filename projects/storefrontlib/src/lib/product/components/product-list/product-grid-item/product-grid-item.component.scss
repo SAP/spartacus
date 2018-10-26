@@ -4,8 +4,8 @@
 
 $y-search-grid-image-width: 100% !default;
 $y-search-grid-image-align: center !default;
-$y-search-grid-image-padding-bottom: 0.625rem !default;
-$y-search-grid-image-padding-top-sm: 1.25rem !default;
+$y-search-grid-image-trbl-padding: 20px 20px 20px 20px !default;
+$y-search-grid-image-sm-padding-top: 1.25rem !default;
 
 $y-search-grid-name-trbl-margin: 0 0 25px 0 !default;
 $y-search-grid-name-color: 'dark' !default;
@@ -37,15 +37,16 @@ $y-search-grid-price-new-trbl-margin: 0 0 25px 5px !default;
 
   &-search-grid__image {
     width: $y-search-grid-image-width;
-    padding-bottom: $y-search-grid-image-padding-bottom;
+    padding: $y-search-grid-image-trbl-padding;
+    display: block;
 
     @include media-breakpoint-down(sm) {
-      padding-top: $y-search-grid-image-padding-top-sm;
+      padding-top: $y-search-grid-image-sm-padding-top;
     }
   }
 
   &-search-grid__name {
-    @include type('3');
+    @include type('5');
     text-align: $y-search-grid-name-align;
     display: block;
     margin: $y-search-grid-name-trbl-margin;

@@ -4,6 +4,7 @@ import {
   protractor,
   ExpectedConditions,
   promise,
+  element,
   by
 } from 'protractor';
 
@@ -68,6 +69,24 @@ export class E2EUtil {
   }
 
   /**
+   * Select option from <ng-select> element by text
+   * @param selectElement
+   * @param text
+   */
+  static async selectNgSelectOptionByText(
+    selectElement: ElementFinder,
+    text: string
+  ) {
+    selectElement.element(by.css('.ng-select-container')).click();
+    await this.wait4VisibleElement(element(by.css('.ng-dropdown-panel-items')));
+
+    return selectElement
+      .all(by.cssContainingText('.ng-option', text))
+      .first()
+      .click();
+  }
+
+  /**
    * Select option from <select> element by option number
    * @param selectElement
    * @param optionNo
@@ -77,5 +96,11 @@ export class E2EUtil {
       .all(by.tagName('option'))
       .get(optionNo)
       .click();
+  }
+
+  static async scrollToElement(elementSelector: string) {
+    await browser.executeScript(
+      `document.querySelector("${elementSelector}").scrollIntoView()`
+    );
   }
 }

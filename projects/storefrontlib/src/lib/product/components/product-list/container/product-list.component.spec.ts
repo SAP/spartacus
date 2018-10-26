@@ -13,7 +13,10 @@ import * as fromRoot from '../../../../routing/store';
 import * as fromProduct from '../../../store';
 
 import { StoreModule, combineReducers } from '@ngrx/store';
-import { ProductViewComponent } from '../product-view/product-view.component';
+import {
+  ProductViewComponent,
+  ViewModes
+} from '../product-view/product-view.component';
 import {
   NgbCollapseModule,
   NgbPaginationModule,
@@ -122,5 +125,15 @@ describe('ProductListComponent in product-list', () => {
     });
 
     pagination.sortList('sortCode');
+  });
+
+  it('should change view mode to grid from default list', done => {
+    const viewMode = new ProductViewComponent();
+    viewMode.modeChange.subscribe(event => {
+      expect(event).toEqual(ViewModes.Grid);
+      done();
+    });
+
+    viewMode.changeMode();
   });
 });

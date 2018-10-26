@@ -65,6 +65,27 @@ describe('ProductSearch Effects', () => {
     });
   });
 
+  describe('searchProducts$', () => {
+    it('should return auxiliarySearchResult from SearchProductsSuccess', () => {
+      const action = new fromActions.SearchProducts(
+        {
+          queryText: 'test',
+          searchConfig: searchConfig
+        },
+        true
+      );
+      const completion = new fromActions.SearchProductsSuccess(
+        searchResult,
+        true
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.searchProducts$).toBeObservable(expected);
+    });
+  });
+
   describe('getProductSuggestions$', () => {
     it('should return suggestions from GetProductSuggestionsSuccess', () => {
       const action = new fromActions.GetProductSuggestions({

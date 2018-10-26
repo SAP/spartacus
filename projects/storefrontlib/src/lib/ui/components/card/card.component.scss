@@ -20,6 +20,19 @@ $y-card-body-actions-container-card-link-padding: 0 0 0 1rem !default;
     @include var-color('border-color', $y-card-border-color);
   }
 
+  &--fit-to-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    & .y-card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+
   &--delete-mode {
     @include var-color(
       'background-color',
