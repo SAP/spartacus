@@ -61,11 +61,11 @@ describe('Big Happy Path', () => {
     const atcModal = new AddedToCartModal();
     await atcModal.waitForReady();
 
-    const item = atcModal.cartItem(0);
+    const item = atcModal.item;
     await E2EUtil.wait4VisibleElement(item);
     expect(await item.getText()).toContain(PRODUCT_NAME);
 
-    await atcModal.proceedToCheckoutButton.click();
+    await atcModal.goToCheckoutButton.click();
 
     // Log in. Should see checkout page.
     const form = new LoginForm();

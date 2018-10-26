@@ -1,43 +1,43 @@
 import { ProductDetailsPage } from '../page-objects/product-details.po';
-import { AddedToCartDialog } from '../page-objects/added-to-cart-dialog.po';
+import { AddedToCartModal } from '../page-objects/cmslib/added-to-cart-modal.po';
 
 describe('Added to cart modal', () => {
   let productDetails: ProductDetailsPage;
-  let addedToCartDialog: AddedToCartDialog;
+  let addedToCartModal: AddedToCartModal;
   const productId = '3595723';
   const productId2 = '3325048';
 
   beforeEach(async () => {
     productDetails = new ProductDetailsPage();
-    addedToCartDialog = new AddedToCartDialog();
+    addedToCartModal = new AddedToCartModal();
   });
 
   it('basic modal behavior', async () => {
     await productDetails.navigateTo(productId);
     await productDetails.itemCounterUpButton.click();
     await productDetails.addToCart();
-    await addedToCartDialog.waitForReady();
+    await addedToCartModal.waitForReady();
     // correct number of items are added to cart
-    expect(await addedToCartDialog.dialogTitle.getText()).toEqual(
+    expect(await addedToCartModal.modalTitle.getText()).toEqual(
       '2 item(s) added to your cart'
     );
     // good product is added to cart
-    expect(await addedToCartDialog.itemName.getText()).toEqual(
+    expect(await addedToCartModal.itemName.getText()).toEqual(
       await productDetails.productTitle.getText()
     );
     // quantity is set correctly
-    expect(await addedToCartDialog.itemQuantity.getText()).toEqual('2');
-    expect(await addedToCartDialog.totalCount.getText()).toContain('2 items');
+    expect(await addedToCartModal.itemQuantity.getText()).toEqual('2');
+    expect(await addedToCartModal.totalCount.getText()).toContain('2 items');
     // actin buttons links correctly
     expect(
-      await addedToCartDialog.viewCartButton.getAttribute('href')
+      await addedToCartModal.viewCartButton.getAttribute('href')
     ).toContain('/cart');
     expect(
-      await addedToCartDialog.goToCheckoutButton.getAttribute('href')
+      await addedToCartModal.goToCheckoutButton.getAttribute('href')
     ).toContain('/checkout');
     // closing modal works
-    await addedToCartDialog.closeButton.click();
-    expect(addedToCartDialog.dialog.isPresent()).toBe(false);
+    await addedToCartModal.closeButton.click();
+    expect(addedToCartModal.modal.isPresent()).toBe(false);
   });
 
   it('adding same product twice to cart', async () => {
@@ -45,20 +45,20 @@ describe('Added to cart modal', () => {
     await productDetails.navigateTo(productId);
     await productDetails.itemCounterUpButton.click();
     await productDetails.addToCart();
-    await addedToCartDialog.waitForReady();
-    await addedToCartDialog.closeButton.click();
+    await addedToCartModal.waitForReady();
+    await addedToCartModal.closeButton.click();
 
     // add next 3 items of the same product to cart
     await productDetails.itemCounterUpButton.click();
     await productDetails.addToCart();
-    await addedToCartDialog.waitForReady();
+    await addedToCartModal.waitForReady();
 
-    expect(await addedToCartDialog.dialogTitle.getText()).toEqual(
+    expect(await addedToCartModal.modalTitle.getText()).toEqual(
       '3 item(s) added to your cart'
     );
     // quantity is correctly updated
-    expect(await addedToCartDialog.itemQuantity.getText()).toEqual('5');
-    expect(await addedToCartDialog.totalCount.getText()).toContain('5 items');
+    expect(await addedToCartModal.itemQuantity.getText()).toEqual('5');
+    expect(await addedToCartModal.totalCount.getText()).toContain('5 items');
   });
 
   // enable this test after fixing cart resetting on each full page load
@@ -73,14 +73,14 @@ describe('Added to cart modal', () => {
     await productDetails.waitForReady();
     await productDetails.addToCart();
 
-    await addedToCartDialog.waitForReady();
+    await addedToCartModal.waitForReady();
 
-    expect(await addedToCartDialog.dialogTitle.getText()).toEqual(
+    expect(await addedToCartModal.modalTitle.getText()).toEqual(
       '1 item(s) added to your cart'
     );
     // quantity is correctly updated
-    expect(await addedToCartDialog.itemQuantity.getText()).toEqual('1');
-    expect(await addedToCartDialog.totalCount.getText()).toContain('3 items');
+    expect(await addedToCartModal.itemQuantity.getText()).toEqual('1');
+    expect(await addedToCartModal.totalCount.getText()).toContain('3 items');
   });
 
   it('refreshing page should not show modal', async () => {
@@ -90,7 +90,7 @@ describe('Added to cart modal', () => {
     await productDetails.navigateTo(productId);
     await productDetails.waitForReady();
 
-    expect(await addedToCartDialog.dialog.isPresent()).toBe(false);
+    expect(await addedToCartModal.modal.isPresent()).toBe(false);
   });
 
   it('total price is correctly estimated', async () => {
@@ -98,7 +98,7 @@ describe('Added to cart modal', () => {
     await productDetails.navigateTo(productId);
     await productDetails.itemCounterUpButton.click();
     await productDetails.addToCart();
-    await addedToCartDialog.waitForReady();
+    await addedToCartModal.waitForReady();
     function extractPriceFromText(text) {
       return parseFloat(
         text
@@ -108,14 +108,14 @@ describe('Added to cart modal', () => {
       );
     }
     const price = extractPriceFromText(
-      await addedToCartDialog.itemPrice.getText()
+      await addedToCartModal.itemPrice.getText()
     );
     const quantity = parseInt(
-      (await addedToCartDialog.itemQuantity.getText()).trim(),
+      (await addedToCartModal.itemQuantity.getText()).trim(),
       10
     );
     const totalPrice = extractPriceFromText(
-      await addedToCartDialog.itemTotalPrice.getText()
+      await addedToCartModal.itemTotalPrice.getText()
     );
     expect(totalPrice).toEqual(price * quantity);
   });
