@@ -48,4 +48,8 @@ export class Header {
       .element(by.css('.y-login-status__greet'))
       .isPresent();
   }
+
+  async scrollTo() {
+    await E2EUtil.scrollToElement('y-header');
+  }
 }

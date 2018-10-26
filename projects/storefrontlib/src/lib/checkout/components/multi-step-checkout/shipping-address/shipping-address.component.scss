@@ -3,27 +3,27 @@
 @import 'mixins';
 @import '../container/multi-step-checkout.component';
 
-$y-existing-address-card-background-color: 'inverse' !default;
-// y-existing-address variables
-$y-existing-address-no-padding: 0 !default;
-$y-existing-address-title-padding: 2.375rem 0 1.75rem 0 !default;
-$y-existing-address-title-margin: 0 auto !default;
-$y-existing-address-body-padding-bottom: 1.875rem !default;
-$y-existing-address-text-margin-bottom: 1.25rem !default;
-$y-existing-address-text-md-padding-left: 3.5rem !default;
-$y-existing-address-text-sm-padding-left: 1.5rem !default;
-$y-existing-address-card-padding-bottom: 30px !default;
-$y-existing-address-card-height: 100% !default;
+$y-shipping-address-card-background-color: 'inverse' !default;
+// y-shipping-address variables
+$y-shipping-address-no-padding: 0 !default;
+$y-shipping-address-title-padding: 2.375rem 0 1.75rem 0 !default;
+$y-shipping-address-title-margin: 0 auto !default;
+$y-shipping-address-body-padding-bottom: 1.875rem !default;
+$y-shipping-address-text-margin-bottom: 1.25rem !default;
+$y-shipping-address-text-md-padding-left: 3.5rem !default;
+$y-shipping-address-text-sm-padding-left: 1.5rem !default;
+$y-shipping-address-card-padding-bottom: 30px !default;
+$y-shipping-address-card-height: 100% !default;
 // Loading
 $y-shipping-address-loading-padding: 30px !default;
-.y-existing-address {
+.y-shipping-address {
   &.container {
-    padding: $y-existing-address-no-padding;
+    padding: $y-shipping-address-no-padding;
   }
   &__title {
     text-transform: uppercase;
-    margin: $y-existing-address-title-margin;
-    padding: $y-existing-address-title-padding;
+    margin: $y-shipping-address-title-margin;
+    padding: $y-shipping-address-title-padding;
   }
   &__spinner {
     padding-top: $y-shipping-address-loading-padding;
@@ -32,10 +32,10 @@ $y-shipping-address-loading-padding: 30px !default;
   &__body {
     display: flex;
     align-items: flex-end;
-    padding-bottom: $y-existing-address-body-padding-bottom;
+    padding-bottom: $y-shipping-address-body-padding-bottom;
   }
   &__text {
-    margin-bottom: $y-existing-address-text-margin-bottom;
+    margin-bottom: $y-shipping-address-text-margin-bottom;
   }
   &__btns {
     padding-bottom: 1rem;
@@ -46,26 +46,26 @@ $y-shipping-address-loading-padding: 30px !default;
     align-items: stretch;
     &.row {
       @include media-breakpoint-down(md) {
-        padding: $y-existing-address-no-padding;
+        padding: $y-shipping-address-no-padding;
       }
     }
   }
   &__text {
     @include media-breakpoint-down(md) {
-      padding-left: $y-existing-address-text-md-padding-left;
+      padding-left: $y-shipping-address-text-md-padding-left;
     }
     @include media-breakpoint-down(sm) {
-      padding-left: $y-existing-address-text-sm-padding-left;
+      padding-left: $y-shipping-address-text-sm-padding-left;
     }
   }
   &__card {
-    padding-bottom: $y-existing-address-card-padding-bottom;
+    padding-bottom: $y-shipping-address-card-padding-bottom;
 
     &-inner {
-      height: $y-existing-address-card-height;
+      height: $y-shipping-address-card-height;
       @include var-color(
         'background-color',
-        $y-existing-address-card-background-color
+        $y-shipping-address-card-background-color
       );
     }
   }
