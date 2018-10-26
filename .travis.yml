@@ -11,7 +11,6 @@ branches:
 jobs:
   include:
     - script: './ci-scripts/e2e-tests.sh'
-    - script: './ci-scripts/build.sh'
     - script: './ci-scripts/other.sh'
     - script: './ci-scripts/unit-tests.sh'
     - script: './ci-scripts/lint.sh'
