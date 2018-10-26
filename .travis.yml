@@ -14,6 +14,7 @@ jobs:
     - script: './ci-scripts/lint.sh'
     - script: './ci-scripts/unit-tests.sh'
     - script: './ci-scripts/e2e-tests.sh'
+    - script: './ci-scripts/build.sh'
 # before_script:
 # - npm install -g angular-cli
 # script: "./build.sh"
