@@ -37,7 +37,7 @@ export function getMetaReducers(
 
 @NgModule({
   imports: [
-    RouterModule.forRoot([]),
+    RouterModule.forRoot([], { scrollPositionRestoration: 'enabled' }),
     StoreModule.forRoot(reducerToken),
     EffectsModule.forRoot(effects),
     StoreRouterConnectingModule,
