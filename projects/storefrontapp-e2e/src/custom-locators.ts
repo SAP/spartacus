@@ -1,4 +1,4 @@
-import { ProtractorBy } from 'protractor'; 
+import { ProtractorBy } from 'protractor';
 
 export function addCustomLocators(by: ProtractorBy) {
   by.addLocator('dynamicSlot', function(
