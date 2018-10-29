@@ -32,19 +32,10 @@
           },
           "configurations": {
             "production": {
-<<<<<<< HEAD
               "fileReplacements": [{
                 "replace": "projects/storefrontapp/src/environments/environment.ts",
                 "with": "projects/storefrontapp/src/environments/environment.prod.ts"
               }],
-=======
-              "fileReplacements": [
-                {
-                  "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
-                }
-              ],
->>>>>>> develop
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -58,19 +49,10 @@
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
             "ci": {
-<<<<<<< HEAD
               "fileReplacements": [{
                 "replace": "projects/storefrontapp/src/environments/environment.ts",
                 "with": "projects/storefrontapp/src/environments/environment.ci.ts"
               }],
-=======
-              "fileReplacements": [
-                {
-                  "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.ci.ts"
-                }
-              ],
->>>>>>> develop
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -83,19 +65,10 @@
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
             "qa": {
-<<<<<<< HEAD
               "fileReplacements": [{
                 "replace": "projects/storefrontapp/src/environments/environment.ts",
                 "with": "projects/storefrontapp/src/environments/environment.qa.ts"
               }],
-=======
-              "fileReplacements": [
-                {
-                  "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.qa.ts"
-                }
-              ],
->>>>>>> develop
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
