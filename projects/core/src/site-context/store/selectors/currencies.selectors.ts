@@ -1,24 +1,30 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import * as fromFeature from '../reducers';
-import * as fromCurrencies from '../reducers/currencies.reducer';
+import { CurrenciesState, SiteContextState } from '../state';
+import { getSiteContextState } from './site-context.selector';
+
+const activeCurrencySelector = (state: CurrenciesState) => state.activeCurrency;
+const currenciesEntitiesSelector = (state: CurrenciesState) => state.entities;
+export const currenciesLoadAttemptedSelector = (state: CurrenciesState) =>
+  state.loadAttempted;
+const currenciesLoadingSelector = (state: CurrenciesState) => state.loading;
 
 export const getCurrenciesState: MemoizedSelector<
   any,
-  fromCurrencies.CurrenciesState
+  CurrenciesState
 > = createSelector(
-  fromFeature.getSiteContextState,
-  (state: fromFeature.SiteContextState) => state.currencies
+  getSiteContextState,
+  (state: SiteContextState) => state.currencies
 );
 
 export const getCurrenciesEntities: MemoizedSelector<any, any> = createSelector(
   getCurrenciesState,
-  fromCurrencies.getCurrenciesEntities
+  currenciesEntitiesSelector
 );
 
 export const getActiveCurrency: MemoizedSelector<any, string> = createSelector(
   getCurrenciesState,
-  fromCurrencies.getActiveCurrency
+  activeCurrencySelector
 );
 
 export const getAllCurrencies: MemoizedSelector<any, any> = createSelector(
@@ -31,12 +37,9 @@ export const getAllCurrencies: MemoizedSelector<any, any> = createSelector(
 export const getCurrenciesLoadAttempted: MemoizedSelector<
   any,
   boolean
-> = createSelector(
-  getCurrenciesState,
-  fromCurrencies.getCurrenciesLoadAttempted
-);
+> = createSelector(getCurrenciesState, currenciesLoadAttemptedSelector);
 
 export const getCurrenciesLoading: MemoizedSelector<
   any,
   boolean
-> = createSelector(getCurrenciesState, fromCurrencies.getCurrenciesLoading);
+> = createSelector(getCurrenciesState, currenciesLoadingSelector);

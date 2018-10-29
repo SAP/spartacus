@@ -1,11 +1,5 @@
 import * as fromCurrencies from '../actions/currencies.action';
-
-export interface CurrenciesState {
-  entities: { [isocode: string]: any };
-  loadAttempted: boolean;
-  loading: boolean;
-  activeCurrency: string;
-}
+import { CurrenciesState } from '../state';
 
 export const initialState: CurrenciesState = {
   entities: {},
@@ -68,10 +62,3 @@ export function reducer(
 
   return state;
 }
-
-export const getCurrenciesEntities = (state: CurrenciesState) => state.entities;
-export const getCurrenciesLoadAttempted = (state: CurrenciesState) =>
-  state.loadAttempted;
-export const getCurrenciesLoading = (state: CurrenciesState) => state.loading;
-export const getActiveCurrency = (state: CurrenciesState) =>
-  state.activeCurrency;
