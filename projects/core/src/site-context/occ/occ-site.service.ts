@@ -2,9 +2,11 @@ import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { OccConfig } from '@spartacus/core';
+import { OccConfig } from '../../occ';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class OccSiteService {
   constructor(private http: HttpClient, private config: OccConfig) {}
 

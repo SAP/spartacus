@@ -4,13 +4,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { OccSiteService } from '../../../../occ/site-context/occ-site.service';
-import { OccModuleConfig } from '../../../../occ/occ-module-config';
+import { OccConfig, OccSiteService } from '@spartacus/core';
+
 import * as fromEffects from './currencies.effect';
 import * as fromActions from '../actions/currencies.action';
 import { provideMockActions } from '@ngrx/effects/testing';
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -33,7 +33,7 @@ describe('Currencies Effects', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccSiteService,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: MockOccConfig },
         fromEffects.CurrenciesEffects,
         provideMockActions(() => actions$)
       ]

@@ -4,8 +4,9 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { map, catchError, switchMap } from 'rxjs/operators';
 
+import { OccSiteService } from '@spartacus/core';
+
 import * as languagesActions from '../actions/languages.action';
-import { OccSiteService } from '../../../../occ/site-context/occ-site.service';
 
 @Injectable()
 export class LanguagesEffects {

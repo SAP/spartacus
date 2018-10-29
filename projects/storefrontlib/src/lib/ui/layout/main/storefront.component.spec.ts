@@ -12,7 +12,7 @@ import {
 } from '../../../cms/components';
 import { GlobalMessageModule } from '../../../global-message/global-message.module';
 import { StoreModule, combineReducers } from '@ngrx/store';
-import { OccSiteService } from '../../../occ/site-context/occ-site.service';
+import { OccSiteService } from '../../../../../../core/src/site-context/occ/occ-site.service';
 import * as fromRoot from '../../../routing/store';
 import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
 import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';

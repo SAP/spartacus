@@ -5,12 +5,12 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { OccSiteService } from '../../../../occ/site-context/occ-site.service';
-import { OccModuleConfig } from '../../../../occ/occ-module-config';
+import { OccConfig, OccSiteService } from '@spartacus/core';
+
 import * as fromEffects from './languages.effect';
 import * as fromActions from '../actions/languages.action';
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -31,7 +31,7 @@ describe('Languages Effects', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccSiteService,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.LanguagesEffects,
         provideMockActions(() => actions$)
       ]
