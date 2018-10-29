@@ -10,7 +10,7 @@ import * as fromRoot from '../../routing/store';
 
 import * as fromActions from './../shared/store/actions/languages.action';
 import { of } from 'rxjs';
-import { SiteContextModuleConfig } from '@spartacus/core';
+import { SiteContextConfig } from '@spartacus/core';
 
 const MockSiteContextModuleConfig = {
   site: {
@@ -40,7 +40,7 @@ describe('LanguageSelectorComponent', () => {
       declarations: [LanguageSelectorComponent],
       providers: [
         {
-          provide: SiteContextModuleConfig,
+          provide: SiteContextConfig,
           useValue: MockSiteContextModuleConfig
         }
       ]

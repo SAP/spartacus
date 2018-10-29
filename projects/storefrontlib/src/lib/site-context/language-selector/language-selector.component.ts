@@ -8,7 +8,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 
 import * as fromStore from '../shared/store';
-import { SiteContextModuleConfig } from '@spartacus/core';
+import { SiteContextConfig } from '@spartacus/core';
 
 @Component({
   selector: 'y-language-selector',
@@ -23,7 +23,7 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromStore.SiteContextState>,
-    private config: SiteContextModuleConfig
+    private config: SiteContextConfig
   ) {}
 
   ngOnInit() {

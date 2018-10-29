@@ -23,9 +23,9 @@ import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuth from '../../../auth/store';
 import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
 import { OutletDirective } from '../../../outlet';
-import { SiteContextModuleConfig } from '@spartacus/core';
+import { SiteContextConfig } from '@spartacus/core';
 
-const MockSiteContextModuleConfig: SiteContextModuleConfig = {
+const MockSiteContextModuleConfig: SiteContextConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -71,7 +71,7 @@ describe('StorefrontComponent', () => {
       ],
       providers: [
         {
-          provide: SiteContextModuleConfig,
+          provide: SiteContextConfig,
           useValue: MockSiteContextModuleConfig
         },
         { provide: OccSiteService }

@@ -20,7 +20,7 @@ import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
 import { OutletDirective } from '../../../outlet';
-import { SiteContextModuleConfig } from '@spartacus/core';
+import { SiteContextConfig } from '@spartacus/core';
 
 const MockCmsModuleConfig: CmsModuleConfig = {
   site: {
@@ -59,7 +59,7 @@ describe('HeaderComponent', () => {
       ],
       providers: [
         {
-          provide: SiteContextModuleConfig,
+          provide: SiteContextConfig,
           useValue: MockCmsModuleConfig
         }
       ]

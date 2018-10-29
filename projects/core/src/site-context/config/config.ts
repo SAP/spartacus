@@ -1,6 +1,6 @@
 import { ServerConfig } from '../../config/index';
 
-export abstract class SiteContextModuleConfig extends ServerConfig {
+export abstract class SiteContextConfig extends ServerConfig {
   site?: {
     baseSite?: string;
     language?: string;
@@ -8,7 +8,7 @@ export abstract class SiteContextModuleConfig extends ServerConfig {
   };
 }
 
-export const defaultSiteContextModuleConfig: SiteContextModuleConfig = {
+export const defaultSiteContextConfig: SiteContextConfig = {
   site: {
     baseSite: 'electronics',
     language: 'en',

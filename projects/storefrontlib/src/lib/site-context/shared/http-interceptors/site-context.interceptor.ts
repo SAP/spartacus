@@ -9,7 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import * as fromStore from '../store';
-import { SiteContextModuleConfig } from '@spartacus/core';
+import { SiteContextConfig } from '@spartacus/core';
 
 @Injectable()
 export class SiteContextInterceptor implements HttpInterceptor {
@@ -19,7 +19,7 @@ export class SiteContextInterceptor implements HttpInterceptor {
 
   constructor(
     private store: Store<fromStore.SiteContextState>,
-    private config: SiteContextModuleConfig
+    private config: SiteContextConfig
   ) {
     this.baseReqString =
       (this.config.server.baseUrl || '') +

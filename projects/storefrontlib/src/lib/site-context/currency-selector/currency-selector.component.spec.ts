@@ -10,9 +10,9 @@ import * as fromRoot from './../../routing/store';
 import * as fromActions from './../shared/store/actions/currencies.action';
 import { PageType } from '../../routing/models/page-context.model';
 import { of } from 'rxjs';
-import { SiteContextModuleConfig } from '@spartacus/core';
+import { SiteContextConfig } from '@spartacus/core';
 
-const MockSiteContextModuleConfig: SiteContextModuleConfig = {
+const MockSiteContextModuleConfig: SiteContextConfig = {
   site: {
     language: 'de',
     currency: 'JPY'
@@ -40,7 +40,7 @@ describe('CurrencySelectorComponent', () => {
       declarations: [CurrencySelectorComponent],
       providers: [
         {
-          provide: SiteContextModuleConfig,
+          provide: SiteContextConfig,
           useValue: MockSiteContextModuleConfig
         }
       ]

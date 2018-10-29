@@ -1,7 +1,7 @@
-import { ServerConfig, SiteContextModuleConfig } from '@spartacus/core';
+import { ServerConfig, SiteContextConfig } from '@spartacus/core';
 
 export abstract class OccModuleConfig extends ServerConfig
-  implements SiteContextModuleConfig {
+  implements SiteContextConfig {
   site?: {
     baseSite?: string;
     language?: string;
