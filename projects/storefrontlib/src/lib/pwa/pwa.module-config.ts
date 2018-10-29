@@ -1,4 +1,4 @@
-import { ServerConfig } from '../config/server-config/server-config';
+import { ServerConfig } from '@spartacus/core';
 
 export abstract class PWAModuleConfig extends ServerConfig {
   pwa?: {

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Config, ConfigModule } from '../config/config.module';
+import { Config, ConfigModule } from '@spartacus/core';
 import { defaultPWAModuleConfig, PWAModuleConfig } from './pwa.module-config';
 import { AddToHomeScreenBtnComponent } from './add-to-home-screen-btn/add-to-home-screen-btn.component';
 import { CommonModule } from '@angular/common';
