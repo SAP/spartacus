@@ -17,6 +17,7 @@
     "prettier-fix": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss}\" --write",
     "start": "ng serve --proxy-config mock-server/proxy.backend.js",
     "start:mock": "ng serve --proxy-config mock-server/proxy.mock.js",
+    "start:ci": "ng serve -c=ci",
     "start:qa": "ng serve -c=qa",
     "start:prod": "ng serve --prod",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server -p 4200",
