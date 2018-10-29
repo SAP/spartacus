@@ -156,6 +156,9 @@
             },
             "ci": {
               "devServerTarget": "storefrontapp:serve:ci"
+            },
+            "qa": {
+              "devServerTarget": "storefrontapp:serve:qa"
             }
           }
         },
