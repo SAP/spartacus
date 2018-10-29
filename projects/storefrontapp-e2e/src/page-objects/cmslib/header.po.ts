@@ -27,6 +27,12 @@ export class Header {
   readonly searchInput: ElementFinder = this.searchComponent.element(
     by.css('input.y-search-box__input')
   );
+  readonly languageSwitcher: ElementFinder = this.header.element(
+    by.css('#languageSelector')
+  );
+  readonly languageDe: ElementFinder = this.languageSwitcher.element(
+    by.css('option[value="de"]')
+  );
 
   async openLoginModal() {
     // click on login icon
