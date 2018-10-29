@@ -1,11 +1,5 @@
 import * as fromLanguages from '../actions/languages.action';
-
-export interface LanguagesState {
-  entities: { [isocode: string]: any };
-  loadAttempted: boolean;
-  loading: boolean;
-  activeLanguage: string;
-}
+import { LanguagesState } from '../state';
 
 export const initialState: LanguagesState = {
   entities: {},
@@ -67,10 +61,3 @@ export function reducer(
   }
   return state;
 }
-
-export const getLanguagesEntities = (state: LanguagesState) => state.entities;
-export const getLanguagesLoadAttempted = (state: LanguagesState) =>
-  state.loadAttempted;
-export const getLanguagesLoading = (state: LanguagesState) => state.loading;
-export const getActiveLanguage = (state: LanguagesState) =>
-  state.activeLanguage;

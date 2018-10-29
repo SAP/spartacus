@@ -1,21 +1,27 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import * as fromFeature from '../reducers';
-import * as fromLanguages from '../reducers/languages.reducer';
+import { LanguagesState, SiteContextState } from '../state';
+import { getSiteContextState } from './site-context.selector';
+
+const activeLanguageSelector = (state: LanguagesState) => state.activeLanguage;
+const languagesEntitiesSelector = (state: LanguagesState) => state.entities;
+const languagesLoadAttemptedSelector = (state: LanguagesState) =>
+  state.loadAttempted;
+const languagesLoadingSelector = (state: LanguagesState) => state.loading;
 
 export const getLanguagesState = createSelector(
-  fromFeature.getSiteContextState,
-  (state: fromFeature.SiteContextState) => state.languages
+  getSiteContextState,
+  (state: SiteContextState) => state.languages
 );
 
 export const getLanguagesEntities: MemoizedSelector<any, any> = createSelector(
   getLanguagesState,
-  fromLanguages.getLanguagesEntities
+  languagesEntitiesSelector
 );
 
 export const getActiveLanguage: MemoizedSelector<any, string> = createSelector(
   getLanguagesState,
-  fromLanguages.getActiveLanguage
+  activeLanguageSelector
 );
 
 export const getAllLanguages: MemoizedSelector<any, any> = createSelector(
@@ -28,9 +34,9 @@ export const getAllLanguages: MemoizedSelector<any, any> = createSelector(
 export const getLanguagesLoadAttempted: MemoizedSelector<
   any,
   boolean
-> = createSelector(getLanguagesState, fromLanguages.getLanguagesLoadAttempted);
+> = createSelector(getLanguagesState, languagesLoadAttemptedSelector);
 
 export const getLanguagesLoading: MemoizedSelector<
   any,
   boolean
-> = createSelector(getLanguagesState, fromLanguages.getLanguagesLoading);
+> = createSelector(getLanguagesState, languagesLoadingSelector);
