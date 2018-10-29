@@ -4,13 +4,13 @@ Spartacus Styles is a styling library that provides global styling and theming t
 
 This document addresses the following topics:
 
-- How the [Design System](#the-design-system) (DS) is wired within the application.
-- Where to extended the DS and customize components. EXAMPLEHERE
-- How to structure code in [SCSS and HTML](#html-and-sass-structure) files.
-- How to use [Mixins](#mixins) (ex. CSS-variables and Font).
+- [Design System](#the-design-system) (DS) _wiring_ within the application.
+- [Extending](###cxBase) the DS and customizing global components. EXAMPLEHERE
+- [SCSS and HTML](#html-and-sass-structure) code structure.
+- [Mixins](#mixins): Using and creating new ones.
 - [Accessibility](#accessibility) considerations.
-- How to [contribute](#contributing) to the DS and style a component.
-- How to [report visual bugs](#reporting-visual-bugs).
+- [Contribute](#contributing) to the DS and style components.
+- [Report visual bugs](#reporting-visual-bugs).
 
 ## The Design System
 
@@ -22,7 +22,7 @@ All global styles concerning the Design Sytem are to be found in the following f
 |     ├── scss
 ```
 
-The `theme` and the `ybase`, inside the scss folder, make the Design System.
+The `theme` and the `cxbase`, inside the scss folder, make the Design System.
 
 ### Theme
 
@@ -42,7 +42,7 @@ To switch from one theme to another, go to the `_theme.scss` file: comment out _
 └── ybase
 ```
 
-### yBase
+### cxBase
 
 This is where we setup SASS mixins and functions and also where we extend the UI Framework of choice, _Bootstrap4_ is the default one and it's tied to _ng-bootstrap_ logic in some reusable components throughout the storefront. Anything we extend or customize here will have global impact in the application.
 
@@ -74,16 +74,16 @@ This is where we setup SASS mixins and functions and also where we extend the UI
 - Declare SASS variables to store variable that could later help customize the storefront if we transfer them to the theme at some point:
 
 ```scss
-$y-foo-color: 3 !default;
+$cx-foo-color: 3 !default;
 ```
 
 - Every CSS rule should contain a single selector, with only a few exceptions. Strive for the lowest possible specificity.
 
 ```scss
-.y-foo {
+.cx-foo {
   &__title {
     @include type('1');
-    @include var-color('color', $y-foo-color);
+    @include var-color('color', $cx-foo-color);
   }
   &__list {
     @include list-unstyled();
@@ -146,7 +146,7 @@ Although we aim for a Framework agnostic Design System, the Beta version is larg
 
 ### Recommended
 
-- Extended BS4 generic components in the folder `storefrontstyle/ybase` only, this is sensitive because…
+- Extended BS4 generic components in the folder `storefrontstyle/cxbase` only, this is sensitive because…
 - Follow the BEM naming convention detailed under the "HTML and SASS structure" title above.
 - Convert values to variables when they are key to further customization by frontend developers or designers: heights, paddings, colors and hardcode those that are unlikely to be changed (EXAMPLEHERE)
 - Leverage implicit focus over tabindex focus.
@@ -157,7 +157,7 @@ Although we aim for a Framework agnostic Design System, the Beta version is larg
 ### Avoid
 
 - Using simple CSS arrangements and specificity (.carousel .slide) instead use… (EXAMPLEHERE)
-- Restyling Bootstrap classes (or any framework) in common UI component files. Ex. `.row, .container, .btn`, instead add your own BEM custom classes additionally to those of BS4 `.y-foo__checkout-row, .y-foo__checkout-container, .y-foo__checkout-button`
+- Restyling Bootstrap classes (or any framework) in common UI component files. Ex. `.row, .container, .btn`, instead add your own BEM custom classes additionally to those of BS4 `.cx-foo__checkout-row, .cx-foo__checkout-container, .cx-foo__checkout-button`
 - Creating keyboard traps that prevent _**keyboard-only**_ users to checkout a product.
 
 ## Reporting visual bugs
