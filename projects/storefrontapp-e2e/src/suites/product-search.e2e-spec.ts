@@ -22,11 +22,6 @@ describe('Product search', () => {
     const items = searchResults.productListItems;
     expect(await items.count()).toBe(10);
 
-    // FIXME - by now results do not come ordered from occ. Get top element when it does.
-    // const h3 = items[0].element(by.tagName('h3'));
-    // h3.getText().then((text) => {
-    //   expect(text).toBe('Photosmart E317 Digital Camera');
-    // });
     const product = await searchResults.productByNameInResults(
       'Photosmart E317 Digital Camera'
     );
@@ -40,10 +35,5 @@ describe('Product search', () => {
     // should have 144 results and 15 pages
     const text = await searchResults.getHeaderText();
     expect(text).toContain('144 results for cameras');
-
-    // go to next page
-    // FIXME - commented out by now, as it is broken on spartacus
-    // const nextButton = pagination.element(by.css('pagination-next'));
-    // nextButton.click();
   });
 });

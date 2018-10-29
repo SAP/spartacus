@@ -65,8 +65,14 @@ export class OccOrderService {
 
     const orderUrl = url + '/' + orderCode;
 
+    const params = new HttpParams({
+      fromString: FULL_PARAMS
+    });
+
     return this.http
-      .get(orderUrl)
+      .get(orderUrl, {
+        params: params
+      })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 }

@@ -24,11 +24,7 @@ export class BannerComponent extends AbstractCmsComponent {
   }
 
   hasImage() {
-    return (
-      undefined !== this.component &&
-      null !== this.component &&
-      null !== this.component.media
-    );
+    return !!this.component && !!this.component && !!this.component.media;
   }
 
   public getImageUrl(): string {
@@ -41,7 +37,7 @@ export class BannerComponent extends AbstractCmsComponent {
   }
 
   getAltText() {
-    return this.component.media.altText;
+    return this.hasImage() ? this.component.media.altText : '';
   }
 
   public getBaseUrl() {

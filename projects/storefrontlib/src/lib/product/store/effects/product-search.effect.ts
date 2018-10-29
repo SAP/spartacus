@@ -13,17 +13,24 @@ export class ProductsSearchEffects {
   @Effect()
   searchProducts$: Observable<any> = this.actions$.pipe(
     ofType(productsSearchActions.SEARCH_PRODUCTS),
-    map((action: productsSearchActions.SearchProducts) => action.payload),
-    switchMap(payload => {
+    switchMap((action: productsSearchActions.SearchProducts) => {
       return this.occProductSearchService
-        .query(payload.queryText, payload.searchConfig)
+        .query(action.payload.queryText, action.payload.searchConfig)
         .pipe(
           map(data => {
             this.productImageConverter.convertList(data.products);
-            return new productsSearchActions.SearchProductsSuccess(data);
+            return new productsSearchActions.SearchProductsSuccess(
+              data,
+              action.auxiliary
+            );
           }),
           catchError(error =>
-            of(new productsSearchActions.SearchProductsFail(error))
+            of(
+              new productsSearchActions.SearchProductsFail(
+                error,
+                action.auxiliary
+              )
+            )
           )
         );
     })

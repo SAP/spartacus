@@ -1,9 +1,9 @@
 import {
   Component,
-  ChangeDetectionStrategy,
   OnInit,
   Output,
-  EventEmitter
+  EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
@@ -93,7 +93,7 @@ export class PaymentFormComponent implements OnInit {
   }
 
   monthSelected(month) {
-    this.payment['controls'].expiryMonth.setValue(month.id);
+    this.payment['controls'].expiryMonth.setValue(month.name);
   }
 
   yearSelected(year) {
@@ -128,18 +128,5 @@ export class PaymentFormComponent implements OnInit {
 
   next() {
     this.addPaymentInfo.emit(this.payment.value);
-  }
-
-  required(name: string) {
-    return (
-      this.payment.get(`${name}`).hasError('required') &&
-      this.payment.get(`${name}`).touched
-    );
-  }
-
-  notSelected(name: string) {
-    return (
-      this.payment.get(`${name}`).dirty && !this.payment.get(`${name}`).value
-    );
   }
 }

@@ -76,6 +76,7 @@ $y-search-box-search-icon-height: 28px !default;
     border: $y-search-box-input-border;
     border-radius: $y-search-box-input-radius;
     margin-bottom: $y-search-box-input-margin-bottom;
+    z-index: 1;
 
     &[aria-label='search'] {
       &:focus {
@@ -188,6 +189,32 @@ $y-search-box-search-icon-height: 28px !default;
 
     @include media-breakpoint-down(xs) {
       width: $y-search-box-input-width-xs;
+    }
+
+    &-product {
+      display: flex;
+
+      y-picture {
+        min-width: 80px;
+        width: 80px;
+        flex-shrink: 0;
+      }
+
+      &-name {
+        padding: 0 15px;
+        flex-grow: 1;
+        flex-shrink: 1;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      &-price {
+        text-align: right;
+        align-self: center;
+        flex-shrink: 0;
+      }
     }
   }
 

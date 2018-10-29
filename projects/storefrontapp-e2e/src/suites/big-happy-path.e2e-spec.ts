@@ -75,11 +75,15 @@ describe('Big Happy Path', () => {
   });
 
   it('should fill in address form', async () => {
-    const addressForm = checkoutPage.addressForm;
+    const shippingAddress = checkoutPage.shippingAddress;
+    await shippingAddress.waitForReady();
+    expect(await shippingAddress.header.getText()).toContain(
+      'SHIPPING ADDRESS'
+    );
+    const addressForm = shippingAddress.addressForm;
     await addressForm.waitForReady();
 
-    expect(await addressForm.header.getText()).toContain('SHIPPING ADDRESS');
-    expect(await checkoutPage.orderSummary.getText()).toContain('$2,623.08');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,643.08');
 
     await addressForm.fillIn();
     await addressForm.nextButton.click();
@@ -94,12 +98,14 @@ describe('Big Happy Path', () => {
   });
 
   it('should fill in payment form', async () => {
-    const paymentForm = checkoutPage.paymentForm;
+    const paymentMethod = checkoutPage.paymentMethod;
+    await paymentMethod.waitForReady();
+
+    expect(await paymentMethod.header.getText()).toContain('PAYMENT');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,655.07');
+
+    const paymentForm = paymentMethod.paymentForm;
     await paymentForm.waitForReady();
-
-    expect(await paymentForm.header.getText()).toContain('PAYMENT');
-    expect(await checkoutPage.orderSummary.getText()).toContain('$2,635.07');
-
     await paymentForm.fillIn();
     await paymentForm.nextButton.click();
   });
@@ -116,13 +122,7 @@ describe('Big Happy Path', () => {
     expect(await reviewForm.shippingAddress.getText()).toContain(
       AddressForm.CITY
     );
-    expect(await reviewForm.shippingMethod.getText()).toContain(
-      // 'Standard Delivery'
-      'standard-gross'
-    );
-    // expect(await reviewForm.paymentMethod.getText()).toContain(
-    //   PaymentForm.CARD_TYPE
-    // );
+    expect(await reviewForm.shippingMethod.getText()).toContain('standard-net');
     expect(await reviewForm.billingAddress.getText()).toContain(
       AddressForm.LAST_NAME
     );
@@ -130,7 +130,7 @@ describe('Big Happy Path', () => {
       AddressForm.CITY
     );
 
-    expect(await checkoutPage.orderSummary.getText()).toContain('$2,635.07');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,655.07');
 
     const orderConfirmationPage = await checkoutPage.placeOrder();
     await orderConfirmationPage.waitForReady();
@@ -160,7 +160,7 @@ describe('Big Happy Path', () => {
       PRODUCT_CODE
     );
     expect(await orderConfirmationPage.orderSummary.getText()).toContain(
-      '$2,635.07'
+      '$2,823.67'
     );
   });
 
@@ -172,7 +172,7 @@ describe('Big Happy Path', () => {
       'Order history'
     );
     expect(await orderHistoryPage.historyItem(0).getText()).toContain(
-      '$2,635.07'
+      '$2,823.67'
     );
 
     // Logout at the end of test

@@ -32,10 +32,19 @@
           },
           "configurations": {
             "production": {
+<<<<<<< HEAD
               "fileReplacements": [{
                 "replace": "projects/storefrontapp/src/environments/environment.ts",
                 "with": "projects/storefrontapp/src/environments/environment.prod.ts"
               }],
+=======
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/environment.ts",
+                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+                }
+              ],
+>>>>>>> develop
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -49,10 +58,19 @@
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
             "ci": {
+<<<<<<< HEAD
               "fileReplacements": [{
                 "replace": "projects/storefrontapp/src/environments/environment.ts",
                 "with": "projects/storefrontapp/src/environments/environment.ci.ts"
               }],
+=======
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/environment.ts",
+                  "with": "projects/storefrontapp/src/environments/environment.ci.ts"
+                }
+              ],
+>>>>>>> develop
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -65,10 +83,19 @@
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
             "qa": {
+<<<<<<< HEAD
               "fileReplacements": [{
                 "replace": "projects/storefrontapp/src/environments/environment.ts",
                 "with": "projects/storefrontapp/src/environments/environment.qa.ts"
               }],
+=======
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/environment.ts",
+                  "with": "projects/storefrontapp/src/environments/environment.qa.ts"
+                }
+              ],
+>>>>>>> develop
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -178,11 +205,6 @@
           "options": {
             "tsConfig": "projects/storefrontlib/tsconfig.lib.json",
             "project": "projects/storefrontlib/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "projects/storefrontlib/ng-package.prod.json"
-            }
           }
         },
         "test": {
@@ -203,6 +225,39 @@
             "tsConfig": [
               "projects/storefrontlib/tsconfig.lib.json",
               "projects/storefrontlib/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "core": {
+      "root": "projects/core",
+      "sourceRoot": "projects/core/src",
+      "projectType": "library",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/core/tsconfig.lib.json",
+            "project": "projects/core/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/core/src/test.ts",
+            "tsConfig": "projects/core/tsconfig.spec.json",
+            "karmaConfig": "projects/core/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/core/tsconfig.lib.json",
+              "projects/core/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }

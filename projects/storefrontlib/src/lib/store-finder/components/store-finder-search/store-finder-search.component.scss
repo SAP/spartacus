@@ -1,0 +1,19 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+.y-store-finder-search {
+  margin-bottom: 3rem;
+
+  &__button {
+    margin-bottom: 1rem;
+  }
+
+  &__bottom-links {
+    text-align: center;
+  }
+
+  &__links {
+    @include type('6');
+  }
+}

@@ -1,7 +1,6 @@
 <div class="y-address-form container">
     <div class="row">
         <div class="col-md-12 col-lg-9">
-            <h3 class="y-address-form__title d-none d-lg-block d-xl-block">Shipping Address</h3>
             <div [formGroup]="address">
                 <div class="form-group">
                     <ng-container *ngIf="titles$ | async as titles">
@@ -83,11 +82,11 @@
                 </div>
                 <div class="y-address-form__btns row">
                     <div class="col-sm-12 col-md-6 col-lg-6">
-                        <button class="btn btn-block btn-action" (click)="back()">Change Address</button>
+                        <button class="btn btn-block btn-action" (click)="back()">
+                            Change Address</button>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6">
-                        <button class="btn btn-block btn-primary" [disabled]="address.invalid || notSelected( 'country.isocode')"
-                            (click)="verfiyAddress()">Continue</button>
+                        <button class="btn btn-block btn-primary" [disabled]="address.invalid" (click)="verifyAddress()">Continue</button>
                     </div>
                 </div>
             </div>
