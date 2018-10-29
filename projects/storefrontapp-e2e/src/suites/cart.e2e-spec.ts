@@ -96,7 +96,8 @@ describe('Cart interactions', () => {
     await home.navigateTo();
   });
 
-  it('should be unable to add out of stock products to cart', async () => {
+  // TODO: We need that product on backend to be out of stock
+  xit('should be unable to add out of stock products to cart', async () => {
     // go to homepage
     await home.navigateTo();
 
