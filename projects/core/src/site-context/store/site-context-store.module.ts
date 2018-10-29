@@ -7,12 +7,13 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { reducerToken, reducerProvider } from './reducers/index';
 import { effects } from './effects/index';
+import { SITE_CONTEXT_FEATURE } from './state';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
-    StoreModule.forFeature('siteContext', reducerToken),
+    StoreModule.forFeature(SITE_CONTEXT_FEATURE, reducerToken),
     EffectsModule.forFeature(effects)
   ],
   providers: [reducerProvider]
