@@ -1,6 +1,5 @@
-import { ServerConfig } from '@spartacus/core';
+import { ServerConfig, SiteContextModuleConfig } from '@spartacus/core';
 
-import { SiteContextModuleConfig } from '../site-context/site-context-module-config';
 import { AuthModuleConfig } from '../auth/auth-module.config';
 
 export interface CMSComponentMappingConfig {

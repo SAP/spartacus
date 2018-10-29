@@ -9,7 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import * as fromStore from '../store';
-import { SiteContextModuleConfig } from '../../site-context-module-config';
+import { SiteContextModuleConfig } from '@spartacus/core';
 
 @Injectable()
 export class SiteContextInterceptor implements HttpInterceptor {
