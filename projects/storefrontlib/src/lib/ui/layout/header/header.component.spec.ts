@@ -19,8 +19,8 @@ import { HeaderComponent } from './header.component';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
-import { SiteContextModuleConfig } from '../../../site-context/site-context-module-config';
 import { OutletDirective } from '../../../outlet';
+import { SiteContextModuleConfig } from '@spartacus/core';
 
 const MockCmsModuleConfig: CmsModuleConfig = {
   site: {

@@ -10,7 +10,7 @@ import { SiteContextInterceptor } from './site-context.interceptor';
 import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../shared/store';
 import { BehaviorSubject } from 'rxjs';
-import { SiteContextModuleConfig } from '../../site-context-module-config';
+import { SiteContextModuleConfig } from '@spartacus/core';
 
 export class MockSiteContextModuleConfig {
   server = {

@@ -10,7 +10,7 @@ import * as fromRoot from './../../routing/store';
 import * as fromActions from './../shared/store/actions/currencies.action';
 import { PageType } from '../../routing/models/page-context.model';
 import { of } from 'rxjs';
-import { SiteContextModuleConfig } from '../site-context-module-config';
+import { SiteContextModuleConfig } from '@spartacus/core';
 
 const MockSiteContextModuleConfig: SiteContextModuleConfig = {
   site: {
