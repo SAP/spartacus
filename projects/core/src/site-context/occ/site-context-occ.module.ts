@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { SiteContextInterceptor } from './http-interceptors/site-context.interceptor';
+import { SiteContextInterceptor } from './site-context.interceptor';
 import { OccSiteService } from './occ-site.service';
 
 @NgModule({
