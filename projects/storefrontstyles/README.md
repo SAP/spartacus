@@ -4,8 +4,8 @@ Spartacus Styles is a styling library that provides global styling and theming t
 
 This document addresses the following topics:
 
-- [Design System](#the-design-system) (DS) _wiring_ within the application.
-- [Extending](###cxBase) the DS and customizing global components. EXAMPLEHERE
+- [Design System](#the-design-system) (DS) global _wiring_ within the application.
+- [Extending](#cxBase) the DS and customizing global components. EXAMPLEHERE
 - [SCSS and HTML](#html-and-sass-structure) code structure.
 - [Mixins](#mixins): Using and creating new ones.
 - [Accessibility](#accessibility) considerations.
@@ -39,7 +39,7 @@ To switch from one theme to another, go to the `_theme.scss` file: comment out _
 ```
 ├── _theme.scss
 ├── theme
-└── ybase
+└── cxbase
 ```
 
 ### cxBase
@@ -47,7 +47,7 @@ To switch from one theme to another, go to the `_theme.scss` file: comment out _
 This is where we setup SASS mixins and functions and also where we extend the UI Framework of choice, _Bootstrap4_ is the default one and it's tied to _ng-bootstrap_ logic in some reusable components throughout the storefront. Anything we extend or customize here will have global impact in the application.
 
 ```
-└── ybase
+└── cxbase
    ├── _functions.scss
    ├── _mixins.scss
    ├── _root.scss
@@ -57,6 +57,8 @@ This is where we setup SASS mixins and functions and also where we extend the UI
    ├── layout
    └── mixins
 ```
+
+EXAMPLEHERE
 
 ## HTML and SASS structure
 
@@ -74,7 +76,7 @@ This is where we setup SASS mixins and functions and also where we extend the UI
 - Declare SASS variables to store variable that could later help customize the storefront if we transfer them to the theme at some point:
 
 ```scss
-$cx-foo-color: 3 !default;
+$cx-foo-color: 'primary' !default;
 ```
 
 - Every CSS rule should contain a single selector, with only a few exceptions. Strive for the lowest possible specificity.
@@ -110,13 +112,9 @@ The following recommendation are to be taken from the styling perspective only, 
 
 ## Mixins
 
-### CSS variables
+Some mixins are already in place to extend repetitive behavior or styling across components, all of them to be found in the `mixins` folder and to be registered in the `_mixins` file one level up, as shown in the tree structure below.
 
-### Font
-
-### Adding mixins
-
-```└── ybase
+```
    ├── _mixins.scss
    ├── blocks
    ├── functions
@@ -130,6 +128,28 @@ The following recommendation are to be taken from the styling perspective only, 
       ├── _var-color.scss
       └── _weight.scss
 ```
+
+A couple of mixins to be highlited due to their importance are `var-color` and `type` which are addressed individually in the next titles.
+
+### CSS variables
+
+The `var-color` mixin converts all SASS `theme-colors` variables names to an equivalent `:root` CSS variable. For example:
+
+The SASS theme-color variable `theme-color('warning')` will be converted to the CSS variable `var(--cx-warning)`
+
+To implement the `var-color` mixin
+
+```scss
+$cx-foo-color: 'primary' !default;
+@include var-color('color', $cx-foo-color);
+```
+
+### Type
+
+The `type` mixin...
+Include img table here
+
+### Adding mixins
 
 ## Accessibility
 
