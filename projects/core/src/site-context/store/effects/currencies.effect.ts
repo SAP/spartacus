@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { map, catchError, switchMap } from 'rxjs/operators';
 
-import { OccSiteService } from '../../occ/index';
+import { OccSiteService } from '../../occ/occ-site.service';
 import * as currenciesActions from '../actions/currencies.action';
 
 @Injectable()
