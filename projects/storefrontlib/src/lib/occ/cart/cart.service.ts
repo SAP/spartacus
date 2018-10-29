@@ -1,6 +1,6 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { OccModuleConfig } from '../occ-module-config';
+import { OccModuleConfig } from '@spartacus/core';
 import { CustomEncoder } from '../custom.encoder';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';

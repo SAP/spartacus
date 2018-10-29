@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { OccCartService } from './cart.service';
-import { OccModuleConfig } from '../occ-module-config';
+import { OccModuleConfig } from '@spartacus/core';
 import {
   HttpClientTestingModule,
   HttpTestingController

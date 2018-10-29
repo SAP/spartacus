@@ -2,8 +2,7 @@ import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-
-import { OccModuleConfig } from '../occ-module-config';
+import { OccModuleConfig } from '@spartacus/core';
 
 @Injectable()
 export class OccSiteService {

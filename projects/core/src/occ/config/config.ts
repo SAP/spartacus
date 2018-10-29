@@ -1,4 +1,5 @@
-import { ServerConfig, SiteContextConfig } from '@spartacus/core';
+import { ServerConfig } from '../../config';
+import { SiteContextConfig } from '../../site-context';
 
 export abstract class OccModuleConfig extends ServerConfig
   implements SiteContextConfig {

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
-import { OccModuleConfig } from '../occ-module-config';
+import { OccModuleConfig } from '@spartacus/core';
 
 const ENDPOINT_COUNTRIES = 'countries';
 const ENDPOINT_TITLES = 'titles';

@@ -11,7 +11,7 @@ import * as fromUser from '../../../user/store';
 import * as fromAuth from '../../../auth/store';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { OccModuleConfig } from '../../../occ/occ-module-config';
+import { OccModuleConfig } from '@spartacus/core';
 import { CartService } from '../../services/cart.service';
 import { CartDataService } from '../../services/cart-data.service';
 import { ProductImageConverterService } from '../../../product/converters';

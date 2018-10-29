@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccProductSearchService } from './product-search.service';
-import { OccModuleConfig } from '../occ-module-config';
+import { OccModuleConfig } from '@spartacus/core';
 import { SearchConfig } from '../../product/search-config';
 
 const queryText = 'test';

@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccE2eConfigurationService } from './e2e-configuration-service';
-import { OccModuleConfig } from '../occ-module-config';
+import { OccModuleConfig } from '@spartacus/core';
 
 const configurationKey = 'test';
 const searchResult = '5';

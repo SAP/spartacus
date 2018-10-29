@@ -1,4 +1,4 @@
-import { OccModuleConfig } from '../../../occ/occ-module-config';
+import { OccModuleConfig } from '@spartacus/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';

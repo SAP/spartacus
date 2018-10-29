@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccStoreFinderService } from '../../../occ/store/store-finder.service';
-import { OccModuleConfig } from '../../../occ/occ-module-config';
+import { OccModuleConfig } from '@spartacus/core';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 
 import * as fromEffects from './view-all-stores.effect';

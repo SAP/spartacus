@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { OccModuleConfig } from '../occ-module-config';
+import { OccModuleConfig } from '@spartacus/core';
 
 const E2E_CONFIGURATION_ENDPOINT =
   '/e2econfigurationwebservices/e2econfiguration';

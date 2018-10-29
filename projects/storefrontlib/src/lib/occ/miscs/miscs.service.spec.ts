@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccMiscsService } from './miscs.service';
-import { OccModuleConfig } from '../occ-module-config';
+import { OccModuleConfig } from '@spartacus/core';
 
 const MockOccModuleConfig: OccModuleConfig = {
   server: {
