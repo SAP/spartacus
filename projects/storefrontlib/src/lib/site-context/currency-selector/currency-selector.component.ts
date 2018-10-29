@@ -7,8 +7,8 @@ import {
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 
-import * as fromStore from '../shared/store';
 import { SiteContextConfig } from '@spartacus/core';
+import * as fromStore from '@spartacus/core';
 
 @Component({
   selector: 'y-currency-selector',

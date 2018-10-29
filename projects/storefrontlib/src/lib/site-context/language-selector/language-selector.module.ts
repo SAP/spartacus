@@ -2,10 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LanguageSelectorComponent } from './language-selector.component';
 
-import { SharedModule } from '../shared/shared.module';
-
 @NgModule({
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule],
   declarations: [LanguageSelectorComponent],
   exports: [LanguageSelectorComponent]
 })

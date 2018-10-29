@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { map, catchError, switchMap } from 'rxjs/operators';
 
+import { OccSiteService } from '../../occ/index';
 import * as currenciesActions from '../actions/currencies.action';
-import { OccSiteService } from '@spartacus/core';
 
 @Injectable()
 export class CurrenciesEffects {

@@ -8,8 +8,8 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import * as fromStore from '../store';
-import { SiteContextConfig } from '@spartacus/core';
+import * as fromStore from '../../store/index';
+import { SiteContextConfig } from '../../config/config';
 
 @Injectable()
 export class SiteContextInterceptor implements HttpInterceptor {

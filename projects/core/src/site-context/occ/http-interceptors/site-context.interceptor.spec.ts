@@ -7,8 +7,8 @@ import {
 import * as NgrxStore from '@ngrx/store';
 import { StoreModule, combineReducers } from '@ngrx/store';
 import { SiteContextInterceptor } from './site-context.interceptor';
-import * as fromRoot from '../../../routing/store';
-import * as fromStore from '../../shared/store';
+import * as fromRoot from '../../../../../storefrontlib/src/lib/routing/store';
+import * as fromStore from '../../store/index';
 import { BehaviorSubject } from 'rxjs';
 import { SiteContextConfig } from '@spartacus/core';
 

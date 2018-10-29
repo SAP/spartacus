@@ -2,10 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CurrencySelectorComponent } from './currency-selector.component';
 
-import { SharedModule } from '../shared/shared.module';
-
 @NgModule({
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule],
   declarations: [CurrencySelectorComponent],
   exports: [CurrencySelectorComponent]
 })

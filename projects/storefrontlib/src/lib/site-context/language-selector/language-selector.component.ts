@@ -7,7 +7,7 @@ import {
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 
-import * as fromStore from '../shared/store';
+import * as fromStore from '@spartacus/core';
 import { SiteContextConfig } from '@spartacus/core';
 
 @Component({
