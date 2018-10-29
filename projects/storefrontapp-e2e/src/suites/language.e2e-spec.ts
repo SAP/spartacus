@@ -12,6 +12,13 @@ describe('Language switcher', () => {
     loginPage = new LoginPage();
   });
 
+  afterEach(async () => {
+    await loginPage.navigateTo();
+    await loginPage.waitForReady();
+    await loginPage.header.languageSwitcher.click();
+    await loginPage.header.languageEn.click();
+  });
+
   it('switch should work and language should be persistent', async () => {
     const NOTICE_EN =
       'Copyright © 2018 SAP SE or an SAP affiliate company. All rights reserved.';
@@ -37,11 +44,9 @@ describe('Language switcher', () => {
 
   it('user input should not be removed on language change', async () => {
     const TEST_EMAIL = 'testEmail';
-    const TEST_PASSWORD = 'testPassword';
     await loginPage.navigateTo();
     await loginPage.waitForReady();
     await loginPage.loginForm.emailField.sendKeys(TEST_EMAIL);
-    await loginPage.loginForm.passwordField.sendKeys(TEST_PASSWORD);
     await loginPage.header.languageSwitcher.click();
     await loginPage.header.languageDe.click();
     // language should change
@@ -54,9 +59,6 @@ describe('Language switcher', () => {
     );
     expect(loginPage.loginForm.emailField.getAttribute('value')).toEqual(
       TEST_EMAIL
-    );
-    expect(loginPage.loginForm.passwordField.getAttribute('value')).toEqual(
-      TEST_PASSWORD
     );
   });
 });
