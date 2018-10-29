@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { OccCartService } from './cart.service';
-import { OccModuleConfig } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 import {
   HttpClientTestingModule,
   HttpTestingController
@@ -25,7 +25,7 @@ const DETAILS_PARAMS =
   'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(formattedValue),subTotal(formattedValue),' +
   'deliveryItemsQuantity,totalTax(formattedValue),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue)';
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -46,7 +46,7 @@ describe('OccCartService', () => {
       providers: [
         OccCartService,
         ProductImageConverterService,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig }
+        { provide: OccConfig, useValue: MockOccModuleConfig }
       ]
     });
 

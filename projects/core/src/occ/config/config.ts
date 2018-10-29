@@ -1,7 +1,7 @@
 import { ServerConfig } from '../../config';
 import { SiteContextConfig } from '../../site-context';
 
-export abstract class OccModuleConfig extends ServerConfig
+export abstract class OccConfig extends ServerConfig
   implements SiteContextConfig {
   site?: {
     baseSite?: string;

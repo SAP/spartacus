@@ -4,7 +4,7 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { async, TestBed } from '@angular/core/testing';
-import { OccModuleConfig } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 import { OccOrderService } from './order.service';
 
 const userId = '123';
@@ -19,7 +19,7 @@ const orderData = {
 const usersEndpoint = '/users';
 const orderEndpoint = '/orders';
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -39,7 +39,7 @@ describe('OccOrderService', () => {
       imports: [HttpClientModule, HttpClientTestingModule],
       providers: [
         OccOrderService,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig }
+        { provide: OccConfig, useValue: MockOccModuleConfig }
       ]
     });
 

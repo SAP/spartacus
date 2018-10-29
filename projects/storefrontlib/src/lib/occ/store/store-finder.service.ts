@@ -6,7 +6,7 @@ import { catchError, mergeMap } from 'rxjs/operators';
 import { SearchConfig } from '../../store-finder/models/search-config';
 import { LongitudeLatitude } from '../../store-finder/models/longitude-latitude';
 
-import { OccModuleConfig } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 import { OccE2eConfigurationService } from '../e2e/e2e-configuration-service';
 
 const STORES_ENDPOINT = 'stores';
@@ -16,7 +16,7 @@ const STORES_DISPLAYED = 'e2egoogleservices.storesdisplayed';
 export class OccStoreFinderService {
   constructor(
     private http: HttpClient,
-    private occModuleConfig: OccModuleConfig,
+    private occModuleConfig: OccConfig,
     private e2eConfigService: OccE2eConfigurationService
   ) {}
 

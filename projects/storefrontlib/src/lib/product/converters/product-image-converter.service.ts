@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { OccModuleConfig } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 
 @Injectable()
 export class ProductImageConverterService {
-  constructor(protected config: OccModuleConfig) {}
+  constructor(protected config: OccConfig) {}
 
   convertList(list: Array<any>) {
     if (!list) {

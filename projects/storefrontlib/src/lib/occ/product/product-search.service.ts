@@ -3,7 +3,7 @@ import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { OccModuleConfig } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 
 const ENDPOINT_PRODUCT = 'products';
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
@@ -12,7 +12,7 @@ const DEFAULT_SEARCH_CONFIG: SearchConfig = {
 
 @Injectable()
 export class OccProductSearchService {
-  constructor(private http: HttpClient, private config: OccModuleConfig) {}
+  constructor(private http: HttpClient, private config: OccConfig) {}
 
   protected getProductEndpoint() {
     return (

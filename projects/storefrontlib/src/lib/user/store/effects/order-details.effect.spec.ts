@@ -1,4 +1,4 @@
-import { OccModuleConfig } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
@@ -19,7 +19,7 @@ const mockOrderDetailsParams = {
   orderCode: '00000386'
 };
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -42,7 +42,7 @@ describe('Order Details effect', () => {
         OccOrderService,
         fromOrderDetailsEffect.OrderDetailsEffect,
         ProductImageConverterService,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$)
       ]
     });

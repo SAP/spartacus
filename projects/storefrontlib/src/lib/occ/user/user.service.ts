@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { OccModuleConfig } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 
 import { UserRegisterFormData } from '../../user/models/user.model';
 
@@ -18,7 +18,7 @@ const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 @Injectable()
 export class OccUserService {
   // some extending from baseservice is not working here...
-  constructor(protected http: HttpClient, protected config: OccModuleConfig) {}
+  constructor(protected http: HttpClient, protected config: OccConfig) {}
 
   public loadUser(userId: string): Observable<any> {
     const url = this.getUserEndpoint() + userId;

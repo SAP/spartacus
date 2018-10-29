@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccProductService } from './product.service';
-import { OccModuleConfig } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 
 const productCode = 'testCode';
 const product = {
@@ -19,7 +19,7 @@ const productReviews = [
   { id: 2, text: 'Review 2' }
 ];
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -42,7 +42,7 @@ describe('OccProductService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccProductService,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig }
+        { provide: OccConfig, useValue: MockOccModuleConfig }
       ]
     });
 

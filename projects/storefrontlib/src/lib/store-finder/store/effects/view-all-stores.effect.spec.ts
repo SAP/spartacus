@@ -6,13 +6,13 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccStoreFinderService } from '../../../occ/store/store-finder.service';
-import { OccModuleConfig } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 
 import * as fromEffects from './view-all-stores.effect';
 import * as fromActions from '../actions/view-all-stores.action';
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -32,7 +32,7 @@ describe('ViewAllStores Effects', () => {
       providers: [
         OccStoreFinderService,
         OccE2eConfigurationService,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.ViewAllStoresEffect,
         provideMockActions(() => actions$)
       ]

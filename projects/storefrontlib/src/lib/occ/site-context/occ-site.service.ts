@@ -2,11 +2,11 @@ import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { OccModuleConfig } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 
 @Injectable()
 export class OccSiteService {
-  constructor(private http: HttpClient, private config: OccModuleConfig) {}
+  constructor(private http: HttpClient, private config: OccConfig) {}
 
   protected getBaseEndPoint() {
     return (

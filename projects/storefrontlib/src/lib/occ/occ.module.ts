@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { Config, OccModuleConfig } from '@spartacus/core';
+import { Config, OccConfig } from '@spartacus/core';
 import { OccUserService } from './user/user.service';
 import { OccProductService } from './product/product.service';
 import { OccProductSearchService } from './product/product-search.service';
@@ -25,7 +25,7 @@ import { OccE2eConfigurationService } from './e2e/e2e-configuration-service';
     OccOrderService,
     OccStoreFinderService,
     OccE2eConfigurationService,
-    { provide: OccModuleConfig, useExisting: Config }
+    { provide: OccConfig, useExisting: Config }
   ]
 })
 export class OccModule {}

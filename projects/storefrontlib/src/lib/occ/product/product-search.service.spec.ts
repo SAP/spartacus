@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccProductSearchService } from './product-search.service';
-import { OccModuleConfig } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 import { SearchConfig } from '../../product/search-config';
 
 const queryText = 'test';
@@ -14,7 +14,7 @@ const suggestions = ['test'];
 const mockSearchConfig: SearchConfig = {
   pageSize: 5
 };
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -37,7 +37,7 @@ describe('OccProductSearchService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccProductSearchService,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig }
+        { provide: OccConfig, useValue: MockOccModuleConfig }
       ]
     });
 

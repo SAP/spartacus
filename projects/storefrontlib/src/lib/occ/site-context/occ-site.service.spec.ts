@@ -4,7 +4,7 @@ import {
   HttpClientTestingModule
 } from '@angular/common/http/testing';
 import { OccSiteService } from './occ-site.service';
-import { OccModuleConfig } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 
 const MockOccModuleConfig = {
   server: {
@@ -28,7 +28,7 @@ describe('OccSiteService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccSiteService,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig }
+        { provide: OccConfig, useValue: MockOccModuleConfig }
       ]
     });
 
