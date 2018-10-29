@@ -77,7 +77,6 @@ describe('Big Happy Path', () => {
   it('should fill in address form', async () => {
     const shippingAddress = checkoutPage.shippingAddress;
     await shippingAddress.waitForReady();
-
     expect(await shippingAddress.header.getText()).toContain(
       'SHIPPING ADDRESS'
     );
@@ -85,6 +84,8 @@ describe('Big Happy Path', () => {
 
     const addressForm = shippingAddress.addressForm;
     await addressForm.waitForReady();
+
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,643.08');
 
     await addressForm.fillIn();
     await addressForm.nextButton.click();
@@ -124,7 +125,6 @@ describe('Big Happy Path', () => {
       AddressForm.CITY
     );
     expect(await reviewForm.shippingMethod.getText()).toContain('standard-net');
-
     expect(await reviewForm.billingAddress.getText()).toContain(
       AddressForm.LAST_NAME
     );

@@ -76,6 +76,7 @@ $y-search-box-search-icon-height: 28px !default;
     border: $y-search-box-input-border;
     border-radius: $y-search-box-input-radius;
     margin-bottom: $y-search-box-input-margin-bottom;
+    z-index: 1;
 
     &[aria-label='search'] {
       &:focus {
