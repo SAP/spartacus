@@ -133,20 +133,58 @@ A couple of mixins to be highlited due to their importance are `var-color` and `
 
 ### CSS variables
 
-The `var-color` mixin converts all SASS `theme-colors` variables names to an equivalent `:root` CSS variable. For example:
+The `var-color` mixin parses a _CSS property_ and a _SASS value name_ from the `theme-colors` and results in the duplication of that CSS property, one of the using a CSS variable taken from the `:root` and another one with a fallback HEX color value.
+To use the mixin properly when styling a component we first need to store the _value name_ in a SASS variable and then pass that variable to the mixin.
 
-The SASS theme-color variable `theme-color('warning')` will be converted to the CSS variable `var(--cx-warning)`
-
-To implement the `var-color` mixin
+For example:
 
 ```scss
-$cx-foo-color: 'primary' !default;
-@include var-color('color', $cx-foo-color);
+$cx-foo-background-color: 'warning' !default;
+
+.cx-foo {
+  @include var-color('background-color', $cx-foo-background-color);
+}
 ```
+
+Will result in:
+
+```css
+.cx-foo {
+  background-color: var(--cx-warning);
+  background-color: #ffc107;
+}
+```
+
+Note that the `var-color` mixin works together with a SASS function inside the `cxbase/_root.scss` file. That function converts all SASS `theme-colors` variables to equivalent CSS variables and will store them in the `:root`, then the `var-color` mixin will take those stored values when names match, therefore attention has to be paid to typos, as this can make the mixin and its fallback fail. In the example above had use the word `waring` instead of `warning` and if there is no such value name in the **theme**, then the mixin will fail.
 
 ### Type
 
-The `type` mixin...
+The `type` mixin
+
+facilitates the inclusion of font families, styles, sizes and weights
+
+in order to keep an organized inventory of all types used in the storefront for better customization.
+
+predefined by a **Web Designer**
+
+For example
+
+```scss
+.cx-foo {
+  @include type('1');
+}
+```
+
+Will result in:
+
+```css
+.cx-foo {
+  font-size: 2.25rem; //36px
+  font-weight: 400;
+  line-height: 1.22222222;
+}
+```
+
 Include img table here
 
 ### Adding mixins
