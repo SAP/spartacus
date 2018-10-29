@@ -81,7 +81,7 @@ describe('Big Happy Path', () => {
     expect(await shippingAddress.header.getText()).toContain(
       'SHIPPING ADDRESS'
     );
-    expect(await checkoutPage.orderSummary.getText()).toContain('$2,643.08');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,623.08');
 
     const addressForm = shippingAddress.addressForm;
     await addressForm.waitForReady();
@@ -103,7 +103,7 @@ describe('Big Happy Path', () => {
     await paymentMethod.waitForReady();
 
     expect(await paymentMethod.header.getText()).toContain('PAYMENT');
-    expect(await checkoutPage.orderSummary.getText()).toContain('$2,655.07');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,633.07');
 
     const paymentForm = paymentMethod.paymentForm;
     await paymentForm.waitForReady();
@@ -123,13 +123,8 @@ describe('Big Happy Path', () => {
     expect(await reviewForm.shippingAddress.getText()).toContain(
       AddressForm.CITY
     );
-    expect(await reviewForm.shippingMethod.getText()).toContain(
-      // 'Standard Delivery'
-      'standard-net'
-    );
-    // expect(await reviewForm.paymentMethod.getText()).toContain(
-    //   PaymentForm.CARD_TYPE
-    // );
+    expect(await reviewForm.shippingMethod.getText()).toContain('standard-net');
+
     expect(await reviewForm.billingAddress.getText()).toContain(
       AddressForm.LAST_NAME
     );
@@ -137,7 +132,7 @@ describe('Big Happy Path', () => {
       AddressForm.CITY
     );
 
-    expect(await checkoutPage.orderSummary.getText()).toContain('$2,655.07');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,633.07');
 
     const orderConfirmationPage = await checkoutPage.placeOrder();
     await orderConfirmationPage.waitForReady();
@@ -167,7 +162,7 @@ describe('Big Happy Path', () => {
       PRODUCT_CODE
     );
     expect(await orderConfirmationPage.orderSummary.getText()).toContain(
-      '$2,655.07'
+      '$2,800.27'
     );
   });
 
@@ -179,7 +174,7 @@ describe('Big Happy Path', () => {
       'Order history'
     );
     expect(await orderHistoryPage.historyItem(0).getText()).toContain(
-      '$2,823.67'
+      '$2,800.27'
     );
 
     // Logout at the end of test
