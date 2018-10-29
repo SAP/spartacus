@@ -8,7 +8,13 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 
 import * as fromStore from '@spartacus/core';
-import { SiteContextConfig } from '@spartacus/core';
+import {
+  SiteContextConfig,
+  getAllLanguages,
+  StateWithSiteContext,
+  getLanguagesLoadAttempted,
+  getLanguagesLoading
+} from '@spartacus/core';
 
 @Component({
   selector: 'y-language-selector',
@@ -22,21 +28,22 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(
-    private store: Store<fromStore.SiteContextState>,
+    private store: Store<StateWithSiteContext>,
     private config: SiteContextConfig
   ) {}
 
   ngOnInit() {
     this.subscription = combineLatest(
-      this.store.pipe(select(fromStore.getLanguagesLoadAttempted)),
-      this.store.pipe(select(fromStore.getLanguagesLoading))
+      this.store.pipe(select(getLanguagesLoadAttempted)),
+      this.store.pipe(select(getLanguagesLoading))
     ).subscribe(([loadAttempted, loading]) => {
       if (!loadAttempted && !loading) {
         this.store.dispatch(new fromStore.LoadLanguages());
       }
     });
 
-    this.languages$ = this.store.pipe(select(fromStore.getAllLanguages));
+    this.languages$ = this.store.pipe(select(getAllLanguages));
+
     this.activeLanguage = this.getActiveLanguage();
     this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
   }

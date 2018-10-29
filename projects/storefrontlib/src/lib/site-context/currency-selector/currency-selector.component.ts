@@ -7,8 +7,16 @@ import {
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 
-import { SiteContextConfig } from '@spartacus/core';
-import * as fromStore from '@spartacus/core';
+import {
+  SiteContextConfig,
+  SetActiveCurrency,
+  CurrencyChange,
+  LoadCurrencies,
+  getCurrenciesLoadAttempted,
+  getCurrenciesLoading,
+  getAllCurrencies,
+  StateWithSiteContext
+} from '@spartacus/core';
 
 @Component({
   selector: 'y-currency-selector',
@@ -22,23 +30,23 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(
-    private store: Store<fromStore.SiteContextState>,
+    private store: Store<StateWithSiteContext>,
     private config: SiteContextConfig
   ) {}
 
   ngOnInit() {
     this.subscription = combineLatest(
-      this.store.pipe(select(fromStore.getCurrenciesLoadAttempted)),
-      this.store.pipe(select(fromStore.getCurrenciesLoading))
+      this.store.pipe(select(getCurrenciesLoadAttempted)),
+      this.store.pipe(select(getCurrenciesLoading))
     ).subscribe(([loadAttempted, loading]) => {
       if (!loadAttempted && !loading) {
-        this.store.dispatch(new fromStore.LoadCurrencies());
+        this.store.dispatch(new LoadCurrencies());
       }
     });
 
-    this.currencies$ = this.store.pipe(select(fromStore.getAllCurrencies));
+    this.currencies$ = this.store.pipe(select(getAllCurrencies));
     this.activeCurrency = this.getActiveCurrency();
-    this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
+    this.store.dispatch(new SetActiveCurrency(this.activeCurrency));
   }
 
   ngOnDestroy() {
@@ -49,9 +57,9 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
 
   setActiveCurrency(currency) {
     this.activeCurrency = currency;
-    this.store.dispatch(new fromStore.SetActiveCurrency(this.activeCurrency));
+    this.store.dispatch(new SetActiveCurrency(this.activeCurrency));
 
-    this.store.dispatch(new fromStore.CurrencyChange());
+    this.store.dispatch(new CurrencyChange());
     if (sessionStorage) {
       sessionStorage.setItem('currency', this.activeCurrency);
     }

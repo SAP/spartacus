@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import * as fromStore from '../store/index';
 import { SiteContextConfig } from '../config/config';
+import { StateWithSiteContext } from '../store/state';
+import { getActiveLanguage } from '../store/index';
 
 @Injectable()
 export class SiteContextInterceptor implements HttpInterceptor {
@@ -18,7 +20,7 @@ export class SiteContextInterceptor implements HttpInterceptor {
   activeCurr = this.config.site.currency;
 
   constructor(
-    private store: Store<fromStore.SiteContextState>,
+    private store: Store<StateWithSiteContext>,
     private config: SiteContextConfig
   ) {
     this.baseReqString =
@@ -28,7 +30,7 @@ export class SiteContextInterceptor implements HttpInterceptor {
 
     this.store
       .pipe(
-        select(fromStore.getActiveLanguage),
+        select(getActiveLanguage),
         filter(lang => lang != null)
       )
       .subscribe(data => (this.activeLang = data));
