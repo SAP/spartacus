@@ -51,12 +51,30 @@ describe('RoutingService', () => {
     }
   ));
 
-  it('should dispatch clear redirect action', inject(
+  it('should dispatch forward action', inject(
+    [RoutingService],
+    (service: RoutingService) => {
+      service.forward();
+      expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Forward());
+    }
+  ));
+
+  it('should dispatch clear redirect url action', inject(
     [RoutingService],
     (service: RoutingService) => {
       service.clearRedirectUrl();
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.ClearRedirectUrl()
+      );
+    }
+  ));
+
+  it('should dispatch save redirect url action', inject(
+    [RoutingService],
+    (service: RoutingService) => {
+      service.saveRedirectUrl('testUrl');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.SaveRedirectUrl('testUrl')
       );
     }
   ));
