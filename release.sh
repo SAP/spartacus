@@ -72,13 +72,14 @@ if [[ -z "$published" ]]; then
   NEW_VERSION=${PROJECT_DIR_NEW_VERSION:1}
 
   RELEASE_BRANCH="release/$PROJECT-$NEW_VERSION"
+  TAG="${PROJECT}-${NEW_VERSION}"
   git checkout -b $RELEASE_BRANCH
 
   cd $PROJECT_DIR
   git add package.json
   git commit -m"Bumping $PROJECT version to $PROJECT_DIR_NEW_VERSION"
-  echo "Tagging new version $PROJECT-$NEW_VERSION"
-  git tag $PROJECT-$NEW_VERSION
+  echo "Tagging new version ${TAG}"
+  git tag ${TAG}
   echo "Pushing from $PWD"
   git push -u origin $RELEASE_BRANCH --tags
 
