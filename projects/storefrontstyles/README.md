@@ -5,7 +5,7 @@ Spartacus Styles is a styling library that provides global styling and theming t
 This document addresses the following topics:
 
 - [Design System](#the-design-system) (DS) global _wiring_ within the application.
-- [Extending](#cxBase) the DS and customizing global components. EXAMPLEHERE
+- [Extending](#cxBase) the DS and customizing global components.
 - [Mixins](#mixins): Using and creating new ones.
 - [SCSS and HTML](#html-and-sass-structure) code structure.
 - [Accessibility](#accessibility) considerations.
@@ -26,7 +26,7 @@ The `theme` and the `cxbase`, inside the scss folder, make the Design System.
 
 ### Theme
 
-Here is where we customize the _look and feel_ of the storefront, two themes are provided: _Sparta_ being the default one and _Lambda_ as a test theme to demo how to quickly change themes and as lead on to how to customize or create a new theme.
+Here is where we customize the _look & feel_ of the storefront, two themes are provided: _Sparta_ being the default one and _Lambda_ as a test theme to demo how to quickly change themes and also as a lead on to how to customize or create a new theme.
 
 ```
 ├── theme
@@ -77,11 +77,27 @@ To keep a separation from _Bootstrap4_, these three files are used to import glo
 
 #### Functions and Mixins files
 
-If you need to add a new function, for example, create it in `cxbase/functions` and then update `_functions.scss` to make it available. Same for mixins which are explained further below.
+If you need to add a new function, for example, create it in `cxbase/functions` and then update `_functions.scss` to make it available. Same goes for [mixins](#mixins) which are explained further down below.
+
+```
+└── cxbase
+   ├── _functions.scss
+   ├── _mixins.scss
+   ├── functions
+   |  └── spacer.scss
+   └── mixins
+      ├── _button-reset.scss
+      ├── _placeholder.scss
+      ├── _reset.scss
+      ├── _transformations.scss
+      ├── _type.scss
+      ├── _var-color.scss
+      └── _weight.scss
+```
 
 #### Variables file
 
-`cxbase/functions` file should include ONLY new variables that Bootstrap does not provide. For example, _Bootstrap4_ does not have a variable for semi font weight.
+The `cxbase/_variables.scss` file should include ONLY new variables that _Bootstrap4_ does **NOT** provide. For example, _Bootstrap4_ does not have a variable for semi font weight.
 
 ```scss
 $font-weight-semi: 600 !default;
@@ -89,7 +105,7 @@ $font-weight-semi: 600 !default;
 
 > NOTE: All variables here must include the `!default` flag.
 
-Be aware of items that should be configurable. The Sparta buttons use uppercase type but future themes may want normal case so a variable was created to make this available for other themes.
+Be aware of items that should be configurable. For example: the _Sparta_ theme buttons was originally designed to use uppercase type but future versions or new themes may want normal case so a variable was created to make this available for other themes.
 
 ```scss
 $btn-text-transform: uppercase !default;
@@ -97,9 +113,27 @@ $btn-text-transform: uppercase !default;
 
 #### Blocks
 
-In some instances, _Bootstrap4_ elements need enhancements. You can put these in `cxbase/blocks`. Keep in mind, these are global, common elements that should be applied to the entire application, not encapsulated with a component.
+In some instances, _Bootstrap4_ elements need enhancements. You can put these in `cxbase/blocks`. Keep in mind, these are **GLOBAL**, common elements that should be applied to the entire application, NOT encapsulated with a component.
 
-For example, the Sparta theme calls for three types of buttons but _Bootstrap4_ only has two. To create the "action button", the `blocks/buttons.scss` adds the new selector `.btn-action` by extending the _Bootstrap4_ button. This is imported into _app.scss_ and is now available globally.
+```
+└── cxbase
+   ├── blocks
+   |  ├── accordion.scss
+   |  ├── alert.scss
+   |  ├── buttons.scss
+   |  ├── card.scss
+   |  ├── carousel.scss
+   |  ├── dropdown.scss
+   |  ├── forms.scss
+   |  ├── link.scss
+   |  ├── modal.scss
+   |  ├── pagination.scss
+   |  ├── tables.scss
+   |  ├── tabs.scss
+   |  └── tooltip.scss
+```
+
+For example, the _Sparta_ theme calls for three types of buttons but _Bootstrap4_ only has two. To create the "action button", the `blocks/buttons.scss` adds the new selector `.btn-action` by extending the _Bootstrap4_ button. This is imported into `scss/app.scss` and is now available globally.
 
 ```scss
 .btn-action {
@@ -109,30 +143,26 @@ For example, the Sparta theme calls for three types of buttons but _Bootstrap4_ 
 
 An accessibility enhancement is also included where `[aria-pressed]` and `[aria-disabled]` are mapped to the _Bootstrap4_ classes `.btn.active` and `.btn.disabled` respectively.
 
-EXAMPLEHERE tree strucutre
-
 ## Mixins
 
 Some mixins are already in place to extend repetitive behavior or styling across components, all of them to be found in the `mixins` folder inside the `cxbase`. A couple of mixins to be highlited due to their importance are the `var-color` and the `type` mixin which are addressed individually in their respective titles.
 
 ```
-├── _mixins.scss
-├── blocks
-├── functions
-├── layout
-└── mixins
-├── _button-reset.scss
-├── _placeholder.scss
-├── _reset.scss
-├── _transformations.scss
-├── _type.scss
-├── _var-color.scss
-└── _weight.scss
+└── cxbase
+   ├── _mixins.scss
+   └── mixins
+      ├── _button-reset.scss
+      ├── _placeholder.scss
+      ├── _reset.scss
+      ├── _transformations.scss
+      ├── _type.scss
+      ├── _var-color.scss
+      └── _weight.scss
 ```
 
 ### Adding new mixins
 
-All new mixins should be created in the `mixins` folder following structure and naming conventions of the existing mixins and to be registered in the `_mixins.scss` file one level up, as shown in the tree structure above.
+All new mixins should be created in the `mixins` folder following structure and naming conventions of the existing mixins and to be registered in the `_mixins.scss` file one level up, as shown in the previous tree structure.
 
 ### CSS variables
 
@@ -208,7 +238,12 @@ Size and weight combinations are to be customized and extended in the `_variable
 
 ```scss
 $cx-foo-color: 'primary' !default;
+$cx-foo-link-color: 'text' !default;
+$cx-foo-item-spacing-bottom: 10px !default;
+$cx-foo-item-highlighted: 'warning' !default;
 ```
+
+> NOTE: All variables above must include the `!default` flag.
 
 - Every CSS rule should contain a single selector, with only a few exceptions. Strive for the lowest possible specificity.
 
@@ -222,13 +257,14 @@ $cx-foo-color: 'primary' !default;
     @include list-unstyled();
   }
   &__item {
-    margin-bottom: $spacer;
+    margin-bottom: $cx-foo-item-spacing-bottom;
+
+    &--highlighted {
+      @include var-color('background-color', $cx-foo-item-highlighted);
+    }
   }
   &__link {
-    color: theme-color(secondary);
-  }
-  &__note {
-    color: theme-color('warning');
+    @include var-color('color', $cx-foo-link-color);
   }
 }
 ```
@@ -238,7 +274,21 @@ $cx-foo-color: 'primary' !default;
 The following recommendation are to be taken from the styling perspective only, these are not TypeScript coding guidelines, that said, the HTML structure most correspond to what the SASS file structure reflects. For example, to reflect the SASS code above. (EXAMPLEHERE)
 
 ```html
-<p>Sample HTML Div</p>
+<div class="cx-foo">
+  <div class="cx-foo__title">This is a To Do list</div>
+  <ul class="cx-foo__list">
+    <li class="cx-foo__list">
+      <a class="cx-foo__link" href=#>This is an item to do</a>
+    </li>
+    <li class="cx-foo__list">
+      <a class="cx-foo__link" href=#>This is an item to do</a>
+    </li>
+    <li class="cx-foo__list cx-foo__list--highlighted">
+      <a class="cx-foo__link" href=#>This is a highlighted item</a>
+    </li>
+  </ul>
+  </div>
+</div>
 ```
 
 ## Accessibility
