@@ -1,13 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers, select } from '@ngrx/store';
+import { StoreModule, Store, select } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
-import * as fromRoot from '../../../../routing/store';
-import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from '../selectors/languages.selectors';
+import { StateWithSiteContext } from '../state';
+import { SiteContextModule } from '../../site-context.module';
 
 describe('Languages Selectors', () => {
-  let store: Store<fromReducers.SiteContextState>;
+  let store: Store<StateWithSiteContext>;
 
   const languages: any[] = [{ active: true, isocode: 'ja', name: 'Japanese' }];
 
@@ -18,10 +19,9 @@ describe('Languages Selectors', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          siteContext: combineReducers(fromReducers.getReducers())
-        })
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
+        SiteContextModule
       ]
     });
     store = TestBed.get(Store);
@@ -73,42 +73,6 @@ describe('Languages Selectors', () => {
       store.dispatch(new fromActions.LoadLanguagesSuccess(languages));
 
       expect(result).toEqual(languages);
-    });
-  });
-
-  describe('getLanguagesLoadAttempted', () => {
-    it('should return whether attempted to load languages', () => {
-      let result;
-
-      store
-        .pipe(select(fromSelectors.getLanguagesLoadAttempted))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual(false);
-
-      store.dispatch(new fromActions.LoadLanguagesSuccess(languages));
-      expect(result).toEqual(true);
-
-      store.dispatch(new fromActions.LoadLanguagesFail(languages));
-      expect(result).toEqual(true);
-    });
-  });
-
-  describe('getLanguagesLoading', () => {
-    it('should return whether languages are loading', () => {
-      let result;
-
-      store
-        .pipe(select(fromSelectors.getLanguagesLoading))
-        .subscribe(value => (result = value));
-
-      store.dispatch(new fromActions.LoadLanguagesFail({}));
-
-      expect(result).toEqual(false);
-
-      store.dispatch(new fromActions.LoadLanguages());
-
-      expect(result).toEqual(true);
     });
   });
 });

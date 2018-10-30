@@ -1,13 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers, select } from '@ngrx/store';
+import { Store, select, StoreModule } from '@ngrx/store';
 
-import * as fromRoot from '../../../../routing/store';
-import * as fromReducers from '../reducers';
+import { StateWithSiteContext } from '../state';
+
 import * as fromActions from '../actions';
 import * as fromSelectors from '../selectors/currencies.selectors';
+import { SiteContextStoreModule } from '../site-context-store.module';
+import { EffectsModule } from '@ngrx/effects';
 
 describe('Currencies Selectors', () => {
-  let store: Store<fromReducers.SiteContextState>;
+  let store: Store<StateWithSiteContext>;
 
   const currencies: any[] = [
     { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
@@ -20,10 +22,9 @@ describe('Currencies Selectors', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          siteContext: combineReducers(fromReducers.getReducers())
-        })
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
+        SiteContextStoreModule
       ]
     });
     store = TestBed.get(Store);
@@ -37,7 +38,7 @@ describe('Currencies Selectors', () => {
       store
         .pipe(select(fromSelectors.getCurrenciesEntities))
         .subscribe(value => (result = value));
-
+      console.log('result!', result);
       expect(result).toEqual({});
 
       store.dispatch(new fromActions.LoadCurrenciesSuccess(currencies));
@@ -75,42 +76,6 @@ describe('Currencies Selectors', () => {
       store.dispatch(new fromActions.LoadCurrenciesSuccess(currencies));
 
       expect(result).toEqual(currencies);
-    });
-  });
-
-  describe('getCurrenciesLoadAttempted', () => {
-    it('should return whether attempted to load currencies', () => {
-      let result;
-
-      store
-        .pipe(select(fromSelectors.getCurrenciesLoadAttempted))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual(false);
-
-      store.dispatch(new fromActions.LoadCurrenciesSuccess(currencies));
-      expect(result).toEqual(true);
-
-      store.dispatch(new fromActions.LoadCurrenciesFail(currencies));
-      expect(result).toEqual(true);
-    });
-  });
-
-  describe('getCurrenciesLoading', () => {
-    it('should return whether currencies are loading', () => {
-      let result;
-
-      store
-        .pipe(select(fromSelectors.getCurrenciesLoading))
-        .subscribe(value => (result = value));
-
-      store.dispatch(new fromActions.LoadCurrenciesFail({}));
-
-      expect(result).toEqual(false);
-
-      store.dispatch(new fromActions.LoadCurrencies());
-
-      expect(result).toEqual(true);
     });
   });
 });

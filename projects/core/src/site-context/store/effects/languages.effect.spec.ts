@@ -9,6 +9,9 @@ import { OccConfig, OccSiteService } from '@spartacus/core';
 
 import * as fromEffects from './languages.effect';
 import * as fromActions from '../actions/languages.action';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { SiteContextModule } from '../../site-context.module';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -28,13 +31,18 @@ describe('Languages Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        OccSiteService,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
-        fromEffects.LanguagesEffects,
-        provideMockActions(() => actions$)
+      imports: [
+        HttpClientTestingModule,
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
+        SiteContextModule
       ]
+      // providers: [
+      //   OccSiteService,
+      //   { provide: OccConfig, useValue: MockOccModuleConfig },
+      //   fromEffects.LanguagesEffects,
+      //   provideMockActions(() => actions$)
+      // ]
     });
 
     service = TestBed.get(OccSiteService);
