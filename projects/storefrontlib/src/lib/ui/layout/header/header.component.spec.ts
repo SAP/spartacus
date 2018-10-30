@@ -21,6 +21,11 @@ import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
 import { SiteContextModuleConfig } from '../../../site-context/site-context-module-config';
 import { OutletDirective } from '../../../outlet';
+import { PwaModule } from './../../../pwa/pwa.module';
+import {
+  PWAModuleConfig,
+  defaultPWAModuleConfig
+} from '../../../pwa/pwa.module-config';
 
 const MockCmsModuleConfig: CmsModuleConfig = {
   site: {
@@ -43,7 +48,8 @@ describe('HeaderComponent', () => {
           siteContext: combineReducers(fromSCStore.getReducers()),
           cms: combineReducers(fromCmsReducer.getReducers()),
           auth: combineReducers(fromAuth.getReducers())
-        })
+        }),
+        PwaModule
       ],
       declarations: [
         HeaderComponent,
@@ -61,6 +67,10 @@ describe('HeaderComponent', () => {
         {
           provide: SiteContextModuleConfig,
           useValue: MockCmsModuleConfig
+        },
+        {
+          provide: PWAModuleConfig,
+          useValue: defaultPWAModuleConfig
         }
       ]
     }).compileComponents();

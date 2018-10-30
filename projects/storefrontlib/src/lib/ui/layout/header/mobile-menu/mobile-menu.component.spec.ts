@@ -18,6 +18,11 @@ import { MobileMenuComponent } from './mobile-menu.component';
 import { By } from '@angular/platform-browser';
 import { SiteContextModuleConfig } from '../../../../site-context/site-context-module-config';
 import { CmsModuleConfig } from '../../../../cms/cms-module-config';
+import { PwaModule } from 'projects/storefrontlib/src/lib/pwa/pwa.module';
+import {
+  PWAModuleConfig,
+  defaultPWAModuleConfig
+} from 'projects/storefrontlib/src/lib/pwa/pwa.module-config';
 
 describe('MobileMenuComponent', () => {
   let component: MobileMenuComponent;
@@ -36,7 +41,8 @@ describe('MobileMenuComponent', () => {
           auth: combineReducers(fromAuth.getReducers()),
           siteContext: combineReducers(fromSCStore.getReducers())
         }),
-        EffectsModule.forRoot(fromCms.effects)
+        EffectsModule.forRoot(fromCms.effects),
+        PwaModule
       ],
       declarations: [
         MobileMenuComponent,
@@ -53,6 +59,10 @@ describe('MobileMenuComponent', () => {
         {
           provide: SiteContextModuleConfig,
           useExisting: CmsModuleConfig
+        },
+        {
+          provide: PWAModuleConfig,
+          useValue: defaultPWAModuleConfig
         }
       ]
     }).compileComponents();

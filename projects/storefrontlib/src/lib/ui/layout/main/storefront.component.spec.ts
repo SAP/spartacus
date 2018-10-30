@@ -24,6 +24,11 @@ import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuth from '../../../auth/store';
 import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
 import { OutletDirective } from '../../../outlet';
+import {
+  PWAModuleConfig,
+  defaultPWAModuleConfig
+} from '../../../pwa/pwa.module-config';
+import { PwaModule } from '../../../pwa/pwa.module';
 
 const MockSiteContextModuleConfig: SiteContextModuleConfig = {
   server: {
@@ -53,7 +58,8 @@ describe('StorefrontComponent', () => {
           cms: combineReducers(fromCmsReducer.getReducers()),
           auth: combineReducers(fromAuth.getReducers())
         }),
-        GlobalMessageModule
+        GlobalMessageModule,
+        PwaModule
       ],
       declarations: [
         StorefrontComponent,
@@ -74,7 +80,11 @@ describe('StorefrontComponent', () => {
           provide: SiteContextModuleConfig,
           useValue: MockSiteContextModuleConfig
         },
-        { provide: OccSiteService }
+        { provide: OccSiteService },
+        {
+          provide: PWAModuleConfig,
+          useValue: defaultPWAModuleConfig
+        }
       ]
     }).compileComponents();
   }));
