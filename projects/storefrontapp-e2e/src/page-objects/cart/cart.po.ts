@@ -22,7 +22,7 @@ export class CartPage extends AppPage {
     this.cartEntries
       .filter(el =>
         el
-          .element(by.css('.item__info .item__name'))
+          .element(by.css('.y-cart-item__name'))
           .getText()
           .then(text => text === productName)
       )
@@ -38,7 +38,9 @@ export class CartPage extends AppPage {
   }
 
   async getCartEntryUnitPrice(cartEntry: ElementFinder): Promise<string> {
-    const unitPriceDiv = cartEntry.element(by.css('.item__price'));
+    const unitPriceDiv = cartEntry.element(
+      by.css('.y-cart-item__price--value')
+    );
     return E2EUtil.findPrice(await unitPriceDiv.getText());
   }
 
@@ -48,7 +50,9 @@ export class CartPage extends AppPage {
   }
 
   async getCartEntryTotalPrice(cartEntry: ElementFinder): Promise<string> {
-    const totalPriceDiv = cartEntry.element(by.css('.item__total'));
+    const totalPriceDiv = cartEntry.element(
+      by.css('.y-cart-item__total--value')
+    );
     return E2EUtil.findPrice(await totalPriceDiv.getText());
   }
 

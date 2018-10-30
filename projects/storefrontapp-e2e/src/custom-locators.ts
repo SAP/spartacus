@@ -1,4 +1,4 @@
-import { ProtractorBy, Locator } from 'protractor'; // tslint:disable-line
+import { ProtractorBy } from 'protractor';
 
 export function addCustomLocators(by: ProtractorBy) {
   by.addLocator('dynamicSlot', function(
