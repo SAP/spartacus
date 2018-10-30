@@ -30,12 +30,15 @@ export class Header {
   readonly currencySwitcher: ElementFinder = this.header.element(
     by.css('#currencySelector')
   );
-  readonly currencyJPY: ElementFinder = this.currencySwitcher.element(
-    by.css('option[value="JPY"]')
+  readonly languageSwitcher: ElementFinder = this.header.element(
+    by.css('#languageSelector')
   );
-  readonly currencyUSD: ElementFinder = this.currencySwitcher.element(
-    by.css('option[value="USD"]')
-  );
+  currencyOption(currency: String): ElementFinder {
+    return this.currencySwitcher.element(by.css(`option[value="${currency}"]`));
+  }
+  languageOption(lang: String): ElementFinder {
+    return this.languageSwitcher.element(by.css(`option[value="${lang}"]`));
+  }
 
   async openLoginModal() {
     // click on login icon
