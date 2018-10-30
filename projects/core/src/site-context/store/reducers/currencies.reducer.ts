@@ -3,8 +3,6 @@ import { CurrenciesState } from '../state';
 
 export const initialState: CurrenciesState = {
   entities: {},
-  loadAttempted: false,
-  loading: false,
   activeCurrency: null
 };
 
@@ -29,24 +27,19 @@ export function reducer(
 
       return {
         ...state,
-        entities,
-        loadAttempted: true,
-        loading: false
+        entities
       };
     }
 
     case fromCurrencies.LOAD_CURRENCIES_FAIL: {
       return {
-        ...state,
-        loadAttempted: true,
-        loading: false
+        ...state
       };
     }
 
     case fromCurrencies.LOAD_CURRENCIES: {
       return {
-        ...state,
-        loading: true
+        ...state
       };
     }
 

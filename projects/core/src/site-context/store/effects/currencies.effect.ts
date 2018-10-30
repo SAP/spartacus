@@ -2,7 +2,7 @@ import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { map, catchError, switchMap } from 'rxjs/operators';
+import { map, catchError, switchMap, tap } from 'rxjs/operators';
 
 import { OccSiteService } from '../../occ/occ-site.service';
 import * as currenciesActions from '../actions/currencies.action';
@@ -20,6 +20,17 @@ export class CurrenciesEffects {
         catchError(error => of(new currenciesActions.LoadCurrenciesFail(error)))
       );
     })
+  );
+
+  @Effect()
+  activateCurrency$: Observable<any> = this.actions$.pipe(
+    ofType(currenciesActions.SET_ACTIVE_CURRENCY),
+    tap((action: currenciesActions.SetActiveCurrency) => {
+      if (sessionStorage) {
+        sessionStorage.setItem('currency', action.payload);
+      }
+    }),
+    map(() => new currenciesActions.CurrencyChange())
   );
 
   constructor(

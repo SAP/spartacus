@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { SiteContextService } from '@spartacus/core';
+import { LanguageService } from '@spartacus/core';
 
 @Component({
   selector: 'y-language-selector',
@@ -11,16 +11,15 @@ import { SiteContextService } from '@spartacus/core';
 export class LanguageSelectorComponent implements OnInit {
   languages$: Observable<any>;
   activeLanguage$: Observable<string>;
-  subscription: Subscription;
 
-  constructor(private siteContextService: SiteContextService) {}
+  constructor(private languageService: LanguageService) {}
 
   ngOnInit() {
-    this.languages$ = this.siteContextService.languages$;
-    this.activeLanguage$ = this.siteContextService.activeLanguage$;
+    this.languages$ = this.languageService.languages$;
+    this.activeLanguage$ = this.languageService.activeLanguage$;
   }
 
   setActiveLanguage(language) {
-    this.siteContextService.activeLanguage = language;
+    this.languageService.activeLanguage = language;
   }
 }
