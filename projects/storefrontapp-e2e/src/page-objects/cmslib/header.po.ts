@@ -27,6 +27,15 @@ export class Header {
   readonly searchInput: ElementFinder = this.searchComponent.element(
     by.css('input.y-search-box__input')
   );
+  readonly currencySwitcher: ElementFinder = this.header.element(
+    by.css('#currencySelector')
+  );
+  readonly currencyJPY: ElementFinder = this.currencySwitcher.element(
+    by.css('option[value="JPY"]')
+  );
+  readonly currencyUSD: ElementFinder = this.currencySwitcher.element(
+    by.css('option[value="USD"]')
+  );
 
   async openLoginModal() {
     // click on login icon
