@@ -3,8 +3,6 @@ import { LanguagesState } from '../state';
 
 export const initialState: LanguagesState = {
   entities: {},
-  loadAttempted: false,
-  loading: false,
   activeLanguage: null
 };
 
@@ -29,24 +27,19 @@ export function reducer(
 
       return {
         ...state,
-        entities,
-        loadAttempted: true,
-        loading: false
+        entities
       };
     }
 
     case fromLanguages.LOAD_LANGUAGES_FAIL: {
       return {
-        ...state,
-        loadAttempted: true,
-        loading: false
+        ...state
       };
     }
 
     case fromLanguages.LOAD_LANGUAGES: {
       return {
-        ...state,
-        loading: true
+        ...state
       };
     }
 
