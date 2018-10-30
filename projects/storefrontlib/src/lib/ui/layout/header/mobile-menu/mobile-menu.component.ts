@@ -11,7 +11,6 @@ import { Subscription } from 'rxjs';
 export class MobileMenuComponent implements OnDestroy {
   private subscription: Subscription;
   showMenu = false;
-  canAddToHomeScreen = false;
 
   constructor(private router: Router) {}
 
