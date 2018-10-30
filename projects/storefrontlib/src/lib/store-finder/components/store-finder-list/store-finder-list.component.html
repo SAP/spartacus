@@ -1,4 +1,4 @@
-<ng-container *ngIf="locations && !(isLoading$ | async); else loading">
+<ng-container *ngIf="locations">
     <div class="y-store-finder-list container">
         <div *ngIf="locations?.stores" class="row y-store-finder-list__column-set">
             <div class="col-md-4 y-store-finder-list__address-column">
@@ -27,11 +27,9 @@
                     <ng-template ngbTabContent>
                         <div class="y-store-finder-list__address-column">
                             <ol class="y-store-finder-list__list">
-                                <li *ngFor="let location of locations?.stores; let i = index;" id="{{'item-' + i}}"
-                                    [ngClass]="{'y-store-finder-list__selected-store-item' : selectedStore === i}"
+                                <li *ngFor="let location of locations?.stores; let i = index;" id="{{'item-' + i}}" [ngClass]="{'y-store-finder-list__selected-store-item' : selectedStore === i}"
                                     class="y-store-finder-list__list-items y-store-finder-list__list-items--ordered">
-                                    <y-store-finder-list-item [location]="location" [locationIndex]="i"
-                                        (storeItemClick)="centerStoreOnMapByIndex($event)"></y-store-finder-list-item>
+                                    <y-store-finder-list-item [location]="location" [locationIndex]="i" (storeItemClick)="centerStoreOnMapByIndex($event)"></y-store-finder-list-item>
                                 </li>
                             </ol>
                         </div>
@@ -54,12 +52,6 @@
 
         <!-- mobile tabs end -->
 
-        <div *ngIf="locations?.stores" class="row">
-            <div class="col-md-6 offset-md-3 y-store-finder-list__pagination">
-                <y-pagination [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
-            </div>
-        </div>
-
         <div *ngIf="!locations?.stores" class="row">
             <div class="col-md-12 y-store-finder-list__not-found">
                 No Stores Found.
@@ -67,9 +59,3 @@
         </div>
     </div>
 </ng-container>
-
-<ng-template #loading>
-    <div class="y-store-finder-list__spinner">
-        <y-spinner></y-spinner>
-    </div>
-</ng-template>

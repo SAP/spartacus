@@ -1,7 +1,9 @@
 <ng-container>
-    <div class="wrapper">
+    <!--div class="wrapper">
+        <y-store-finder-header></y-store-finder-header>
         <y-store-finder-search (showMapList)="showMapList($event)" (persistSearchQuery)="persistSearchQuery($event)"></y-store-finder-search>
         <y-store-finder-list *ngIf="showMapListComponent" [searchQuery]="searchQuery"></y-store-finder-list>
         <y-store-finder-list-count *ngIf="!showMapListComponent"></y-store-finder-list-count>
-    </div>
+    </div-->
+    <y-store-finder></y-store-finder>
 </ng-container>
