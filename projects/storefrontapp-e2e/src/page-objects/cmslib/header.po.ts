@@ -30,12 +30,10 @@ export class Header {
   readonly languageSwitcher: ElementFinder = this.header.element(
     by.css('#languageSelector')
   );
-  readonly languageDe: ElementFinder = this.languageSwitcher.element(
-    by.css('option[value="de"]')
-  );
-  readonly languageEn: ElementFinder = this.languageSwitcher.element(
-    by.css('option[value="en"]')
-  );
+
+  languageOption(lang: String): ElementFinder {
+    return this.languageSwitcher.element(by.css(`option[value="${lang}"]`));
+  }
 
   async openLoginModal() {
     // click on login icon

@@ -16,7 +16,7 @@ describe('Language switcher', () => {
     await loginPage.navigateTo();
     await loginPage.waitForReady();
     await loginPage.header.languageSwitcher.click();
-    await loginPage.header.languageEn.click();
+    await loginPage.header.languageOption('en').click();
   });
 
   it('switch should work and language should be persistent', async () => {
@@ -28,7 +28,7 @@ describe('Language switcher', () => {
     const location = await browser.getCurrentUrl();
     expect(await productPage.footer.notice.getText()).toContain(NOTICE_EN);
     await productPage.header.languageSwitcher.click();
-    await productPage.header.languageDe.click();
+    await productPage.header.languageOption('de').click();
     // language should change
     await browser.wait(
       EC.textToBePresentInElement(productPage.footer.notice, NOTICE_DE),
@@ -48,7 +48,7 @@ describe('Language switcher', () => {
     await loginPage.waitForReady();
     await loginPage.loginForm.emailField.sendKeys(TEST_EMAIL);
     await loginPage.header.languageSwitcher.click();
-    await loginPage.header.languageDe.click();
+    await loginPage.header.languageOption('de').click();
     // language should change
     await browser.wait(
       EC.textToBePresentInElement(
