@@ -1,12 +1,13 @@
 {
   "name": "Spartacus Storefront",
   "short_name": "Spartacus",
-  "theme_color": "#1976d2",
+  "theme_color": "#4472C4",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "icons": [{
+  "icons": [
+    {
       "src": "assets/icons/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png"
