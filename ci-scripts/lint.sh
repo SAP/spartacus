@@ -2,11 +2,6 @@
 set -e
 set -o pipefail
 
-echo "Starting pipeline for Spartacus project"
-echo "-----"
-echo "Updating dependencies"
-yarn
-echo "-----"
 echo "Validating code linting"
 ng lint
 echo "-----"
