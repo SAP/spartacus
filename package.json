@@ -22,7 +22,7 @@
     "start:prod": "ng serve --prod",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server -p 4200",
     "test": "ng test",
-    "test:core:lib": "ng test core --code-coverage && ng test storefrontlib --code-coverage"
+    "test:core:lib": "concurrently \"ng test core --code-coverage\" \"ng test storefrontlib --code-coverage\""
   },
   "private": false,
   "dependencies": {
@@ -61,6 +61,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "~4.4.4",
+    "concurrently": "^4.0.1",
     "faker": "^4.1.0",
     "http-server": "^0.11.1",
     "jasmine-core": "~2.99.1",
