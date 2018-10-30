@@ -1,51 +1,26 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { Store, select } from '@ngrx/store';
 
-import * as fromStore from '@spartacus/core';
-import {
-  SiteContextConfig,
-  getAllLanguages,
-  StateWithSiteContext,
-  SiteContextService
-} from '@spartacus/core';
+import { SiteContextService } from '@spartacus/core';
 
 @Component({
   selector: 'y-language-selector',
   templateUrl: './language-selector.component.html',
-  styleUrls: ['./language-selector.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./language-selector.component.scss']
 })
 export class LanguageSelectorComponent implements OnInit {
   languages$: Observable<any>;
-  activeLanguage: string;
+  activeLanguage$: Observable<string>;
   subscription: Subscription;
 
-  constructor(
-    private store: Store<StateWithSiteContext>,
-    private config: SiteContextConfig,
-    private siteContextService: SiteContextService
-  ) {}
+  constructor(private siteContextService: SiteContextService) {}
 
   ngOnInit() {
     this.languages$ = this.siteContextService.languages$;
-
-    this.activeLanguage = this.getActiveLanguage();
-    this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
+    this.activeLanguage$ = this.siteContextService.activeLanguage$;
   }
 
   setActiveLanguage(language) {
-    this.activeLanguage = language;
     this.siteContextService.activeLanguage = language;
-  }
-
-  protected getActiveLanguage(): string {
-    if (sessionStorage) {
-      return sessionStorage.getItem('language') === null
-        ? this.config.site.language
-        : sessionStorage.getItem('language');
-    } else {
-      return this.config.site.language;
-    }
   }
 }

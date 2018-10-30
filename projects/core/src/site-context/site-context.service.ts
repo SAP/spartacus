@@ -8,6 +8,7 @@ import {
   getActiveLanguage,
   SetActiveLanguage
 } from './store/index';
+import { SiteContextConfig } from './config/config';
 
 @Injectable()
 export class SiteContextService {
@@ -19,7 +20,11 @@ export class SiteContextService {
     select(getActiveLanguage)
   );
 
-  constructor(private store: Store<StateWithSiteContext>) {
+  constructor(
+    private store: Store<StateWithSiteContext>,
+    private config: SiteContextConfig
+  ) {
+    this.initActiveLanguage();
     this.loadLanguages();
   }
 
@@ -29,5 +34,16 @@ export class SiteContextService {
 
   public set activeLanguage(isocode: string) {
     this.store.dispatch(new SetActiveLanguage(isocode));
+  }
+
+  protected initActiveLanguage() {
+    if (sessionStorage) {
+      this.activeLanguage =
+        sessionStorage.getItem('language') === null
+          ? this.config.site.language
+          : sessionStorage.getItem('language');
+    } else {
+      this.activeLanguage = this.config.site.language;
+    }
   }
 }
