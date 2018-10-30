@@ -51,7 +51,7 @@ describe('Currency switcher', () => {
     await productPage.waitForReady();
     // currency switch with forms can only be checked on checkout
     // for that we need to log in
-    await LoginHelper.ensureUserIsLoggedIn();
+    await LoginHelper.registerNewUser();
     // add to cart product - required product in cart to go to checkout page
     await productPage.navigateTo(PRODUCT_ID);
     await productPage.waitForReady();
