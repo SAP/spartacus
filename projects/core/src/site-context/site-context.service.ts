@@ -5,7 +5,8 @@ import { CurrencyEntities, StateWithSiteContext } from './store/state';
 import {
   getAllLanguages,
   LoadLanguages,
-  getActiveLanguage
+  getActiveLanguage,
+  SetActiveLanguage
 } from './store/index';
 
 @Injectable()
@@ -24,5 +25,9 @@ export class SiteContextService {
 
   protected loadLanguages() {
     this.store.dispatch(new LoadLanguages());
+  }
+
+  public set activeLanguage(isocode: string) {
+    this.store.dispatch(new SetActiveLanguage(isocode));
   }
 }

@@ -6,7 +6,8 @@ import * as fromStore from '@spartacus/core';
 import {
   SiteContextConfig,
   getAllLanguages,
-  StateWithSiteContext
+  StateWithSiteContext,
+  SiteContextService
 } from '@spartacus/core';
 
 @Component({
@@ -22,11 +23,12 @@ export class LanguageSelectorComponent implements OnInit {
 
   constructor(
     private store: Store<StateWithSiteContext>,
-    private config: SiteContextConfig
+    private config: SiteContextConfig,
+    private siteContextService: SiteContextService
   ) {}
 
   ngOnInit() {
-    this.languages$ = this.store.pipe(select(getAllLanguages));
+    this.languages$ = this.siteContextService.languages$;
 
     this.activeLanguage = this.getActiveLanguage();
     this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
@@ -34,7 +36,7 @@ export class LanguageSelectorComponent implements OnInit {
 
   setActiveLanguage(language) {
     this.activeLanguage = language;
-    this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
+    this.siteContextService.activeLanguage = language;
 
     this.store.dispatch(new fromStore.LanguageChange());
     if (sessionStorage) {
