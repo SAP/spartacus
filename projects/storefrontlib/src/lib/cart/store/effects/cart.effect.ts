@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, tap, filter } from 'rxjs/operators';
+import { catchError, map, mergeMap, filter } from 'rxjs/operators';
 import { OccCartService } from '../../../occ/cart/cart.service';
 import { ProductImageConverterService } from '../../../product/converters/product-image-converter.service';
 import { CartDataService } from '../../services/cart-data.service';

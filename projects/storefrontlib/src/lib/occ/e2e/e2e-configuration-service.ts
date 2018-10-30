@@ -10,10 +10,7 @@ const E2E_CONFIGURATION_ENDPOINT =
 
 @Injectable()
 export class OccE2eConfigurationService {
-  constructor(
-    private http: HttpClient,
-    private occModuleConfig: OccConfig
-  ) {}
+  constructor(private http: HttpClient, private occModuleConfig: OccConfig) {}
 
   getConfiguration(configurationKey: string): Observable<any> {
     const url = this.getConfigurationEndpoint() + '/' + configurationKey;
