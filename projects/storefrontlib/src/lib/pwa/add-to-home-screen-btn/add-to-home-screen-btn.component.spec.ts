@@ -8,9 +8,8 @@ describe('AddToHomeScreenBtnComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddToHomeScreenBtnComponent ]
-    })
-    .compileComponents();
+      declarations: [AddToHomeScreenBtnComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
