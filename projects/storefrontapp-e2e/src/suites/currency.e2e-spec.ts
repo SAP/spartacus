@@ -22,7 +22,7 @@ describe('Currency switcher', () => {
     await productPage.navigateTo(PRODUCT_ID);
     await productPage.waitForReady();
     await productPage.header.currencySwitcher.click();
-    await productPage.header.currencyUSD.click();
+    await productPage.header.currencyOption('USD').click();
   });
 
   it('switch should work and currency should be persistent', async () => {
@@ -31,7 +31,7 @@ describe('Currency switcher', () => {
     const location = await browser.getCurrentUrl();
     expect(await productPage.productPrice.getText()).toContain(PRICE_USD);
     await productPage.header.currencySwitcher.click();
-    await productPage.header.currencyJPY.click();
+    await productPage.header.currencyOption('JPY').click();
     // currency should change
     await browser.wait(
       EC.textToBePresentInElement(productPage.productPrice, PRICE_JPY),
@@ -64,7 +64,7 @@ describe('Currency switcher', () => {
     await addressForm.waitForReady();
     await addressForm.firstName.sendKeys(TEST_FIRST_NAME);
     await checkout.header.currencySwitcher.click();
-    await checkout.header.currencyJPY.click();
+    await checkout.header.currencyOption('JPY').click();
     // currency should change
     await browser.wait(
       EC.textToBePresentInElement(checkout.orderSummary, PRICE_JPY),
@@ -73,5 +73,7 @@ describe('Currency switcher', () => {
     expect(addressForm.firstName.getAttribute('value')).toEqual(
       TEST_FIRST_NAME
     );
+    // cleanup - log out
+    await LoginHelper.logOutViaHeader();
   });
 });
