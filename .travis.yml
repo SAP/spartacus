@@ -8,7 +8,6 @@ branches:
   only:
     - develop
     - "/^feature\\/.*$/"
-cache: yarn
 jobs:
   include:
     - script: './ci-scripts/e2e-tests.sh'
