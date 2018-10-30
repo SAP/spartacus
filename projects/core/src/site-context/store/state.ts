@@ -15,8 +15,6 @@ export interface CurrencyEntities {
 
 export interface CurrenciesState {
   entities: CurrencyEntities;
-  loadAttempted: boolean;
-  loading: boolean;
   activeCurrency: string;
 }
 export interface LanguagesEntities {
@@ -25,7 +23,5 @@ export interface LanguagesEntities {
 
 export interface LanguagesState {
   entities: LanguagesEntities;
-  loadAttempted: boolean;
-  loading: boolean;
   activeLanguage: string;
 }

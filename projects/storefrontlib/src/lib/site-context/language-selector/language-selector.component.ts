@@ -1,19 +1,12 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  OnDestroy
-} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { Observable, Subscription, combineLatest } from 'rxjs';
 
 import * as fromStore from '@spartacus/core';
 import {
   SiteContextConfig,
   getAllLanguages,
-  StateWithSiteContext,
-  getLanguagesLoadAttempted,
-  getLanguagesLoading
+  StateWithSiteContext
 } from '@spartacus/core';
 
 @Component({
@@ -22,7 +15,7 @@ import {
   styleUrls: ['./language-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LanguageSelectorComponent implements OnInit, OnDestroy {
+export class LanguageSelectorComponent implements OnInit {
   languages$: Observable<any>;
   activeLanguage: string;
   subscription: Subscription;
@@ -33,25 +26,10 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription = combineLatest(
-      this.store.pipe(select(getLanguagesLoadAttempted)),
-      this.store.pipe(select(getLanguagesLoading))
-    ).subscribe(([loadAttempted, loading]) => {
-      if (!loadAttempted && !loading) {
-        this.store.dispatch(new fromStore.LoadLanguages());
-      }
-    });
-
     this.languages$ = this.store.pipe(select(getAllLanguages));
 
     this.activeLanguage = this.getActiveLanguage();
     this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   setActiveLanguage(language) {
