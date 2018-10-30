@@ -4,10 +4,12 @@ import { of } from 'rxjs';
 import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { NavigationComponent } from './navigation.component';
+import { NavigationUIComponent } from './navigation-ui.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NavigationService } from './navigation.service';
 import { CmsService } from '../../cms/facade/cms.service';
+import { By } from '@angular/platform-browser';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -80,7 +82,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
         { provide: CmsService, useValue: MockCmsService },
         { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
       ],
-      declarations: [NavigationComponent]
+      declarations: [NavigationComponent, NavigationUIComponent]
     }).compileComponents();
   }));
 
@@ -101,7 +103,14 @@ describe('CmsNavigationComponent in CmsLib', () => {
     expect(navigationComponent.component).toBeNull();
     navigationComponent.onCmsComponentInit(componentData.uid);
     expect(navigationComponent.component).toBe(componentData);
+  });
 
-    // TODO: after replacing material with boothstrap4, need some ui test here
+  it('should render navigation-ui component', () => {
+    const getNav = () => fixture.debugElement.query(By.css('y-navigation-ui'));
+    navigationComponent.node = {};
+    navigationComponent.dropdownMode = 'column';
+    fixture.detectChanges();
+    const nav = getNav().nativeElement;
+    expect(nav).toBeTruthy();
   });
 });

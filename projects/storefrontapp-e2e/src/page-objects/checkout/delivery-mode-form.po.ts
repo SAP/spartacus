@@ -20,7 +20,7 @@ export class DeliveryModeForm {
     by.cssContainingText('button', 'Continue')
   );
 
-  async setDeliveryMethod(option: number = 1) {
+  async setDeliveryMethod() {
     await this.deliveryModeSelect.click();
   }
 

@@ -1,0 +1,18 @@
+<div class="y-store-finder-search container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="form-group">
+                <input #queryInput [formControl]="searchBox" (keyup)="onKey($event)" type="text" class="form-control"
+                    placeholder="Enter postal code, town or address" required>
+            </div>
+            <button type="button" class="btn btn-primary btn-block y-store-finder-search__button" (click)="findStores(queryInput.value)">Find
+                store</button>
+
+            <div class="y-store-finder-search__bottom-links">
+                <button type="button" (click)="viewStoresWithMyLoc()" class="y-store-finder-search__links btn-link">Use
+                    my location</button> | <button type="button" (click)="viewAllStores()" class="y-store-finder-search__links btn-link">View
+                    all stores</button>
+            </div>
+        </div>
+    </div>
+</div>

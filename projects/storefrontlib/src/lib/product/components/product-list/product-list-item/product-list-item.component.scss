@@ -38,7 +38,7 @@ $y-search-list-price-new-color: 'primary' !default;
   }
 
   &__name {
-    @include type('3');
+    @include type('5');
     text-align: left;
     display: block;
     margin: $y-search-list-name-trbl-margin;
