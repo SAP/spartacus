@@ -4,7 +4,7 @@ import { ConfigModule, Config } from '../config/index';
 import { defaultSiteContextConfig, SiteContextConfig } from './config/config';
 import { SiteContextOccModule } from './occ';
 import { SiteContextStoreModule } from './store/site-context-store.module';
-import { SiteContextService } from './site-context.service';
+import { LanguageService } from './language.service';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { SiteContextService } from './site-context.service';
   ],
   providers: [
     { provide: SiteContextConfig, useExisting: Config },
-    SiteContextService
+    LanguageService
   ]
 })
 export class SiteContextModule {}

@@ -11,7 +11,7 @@ import {
 import { SiteContextConfig } from './config/config';
 
 @Injectable()
-export class SiteContextService {
+export class LanguageService {
   readonly languages$: Observable<CurrencyEntities> = this.store.pipe(
     select(getAllLanguages)
   );
