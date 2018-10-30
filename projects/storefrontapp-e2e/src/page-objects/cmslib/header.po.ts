@@ -10,7 +10,7 @@ export class Header {
     by.dynamicSlot('SearchBox', 'y-searchbox')
   );
   readonly miniCartButton: ElementFinder = this.header.element(
-    by.tagName('y-mini-cart')
+    by.dynamicSlot('MiniCart', 'y-mini-cart')
   );
   readonly loginComponent: ElementFinder = this.header
     .all(by.tagName('y-login'))
@@ -47,9 +47,5 @@ export class Header {
     return await this.loginComponent
       .element(by.css('.y-login-status__greet'))
       .isPresent();
-  }
-
-  async scrollTo() {
-    await E2EUtil.scrollToElement('y-header');
   }
 }
