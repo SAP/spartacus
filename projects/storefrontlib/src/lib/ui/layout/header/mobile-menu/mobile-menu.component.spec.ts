@@ -16,8 +16,8 @@ import { LanguageSelectorComponent } from './../../../../site-context/language-s
 import { LoginModule } from './../../../../user/components/login/login.module';
 import { MobileMenuComponent } from './mobile-menu.component';
 import { By } from '@angular/platform-browser';
-import { SiteContextModuleConfig } from '../../../../site-context/site-context-module-config';
 import { CmsModuleConfig } from '../../../../cms/cms-module-config';
+import { SiteContextConfig } from '@spartacus/core';
 
 describe('MobileMenuComponent', () => {
   let component: MobileMenuComponent;
@@ -51,7 +51,7 @@ describe('MobileMenuComponent', () => {
           useValue: { site: 'en' }
         },
         {
-          provide: SiteContextModuleConfig,
+          provide: SiteContextConfig,
           useExisting: CmsModuleConfig
         }
       ]

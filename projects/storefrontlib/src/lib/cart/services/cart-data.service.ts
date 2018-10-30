@@ -10,6 +10,10 @@ export class CartDataService {
 
   constructor() {}
 
+  get hasCart(): boolean {
+    return !!this._cart;
+  }
+
   set userId(val) {
     this._userId = val;
   }

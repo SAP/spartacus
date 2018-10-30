@@ -12,20 +12,20 @@ import {
 } from '../../../cms/components';
 import { GlobalMessageModule } from '../../../global-message/global-message.module';
 import { StoreModule, combineReducers } from '@ngrx/store';
-import { OccSiteService } from '../../../occ/site-context/occ-site.service';
+import { OccSiteService } from '../../../../../../core/src/site-context/occ/occ-site.service';
 import * as fromRoot from '../../../routing/store';
 import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
 import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
 import { LoginComponent } from '../../../user/components/login/login.component';
-import { SiteContextModuleConfig } from '../../../site-context/site-context-module-config';
 import * as fromUserReducer from '../../../user/store/reducers';
 import * as fromSCStore from '../../../site-context/shared/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuth from '../../../auth/store';
 import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
 import { OutletDirective } from '../../../outlet';
+import { SiteContextConfig } from '@spartacus/core';
 
-const MockSiteContextModuleConfig: SiteContextModuleConfig = {
+const MockSiteContextModuleConfig: SiteContextConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -71,7 +71,7 @@ describe('StorefrontComponent', () => {
       ],
       providers: [
         {
-          provide: SiteContextModuleConfig,
+          provide: SiteContextConfig,
           useValue: MockSiteContextModuleConfig
         },
         { provide: OccSiteService }
