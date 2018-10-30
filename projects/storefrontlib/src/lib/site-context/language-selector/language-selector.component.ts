@@ -37,11 +37,6 @@ export class LanguageSelectorComponent implements OnInit {
   setActiveLanguage(language) {
     this.activeLanguage = language;
     this.siteContextService.activeLanguage = language;
-
-    this.store.dispatch(new fromStore.LanguageChange());
-    if (sessionStorage) {
-      sessionStorage.setItem('language', this.activeLanguage);
-    }
   }
 
   protected getActiveLanguage(): string {
