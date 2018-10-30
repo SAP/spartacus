@@ -26,28 +26,6 @@ describe('Languages Reducer', () => {
       const action = new fromActions.LoadLanguagesSuccess(languages);
       const state = fromLanguages.reducer(initialState, action);
       expect(state.entities).toEqual(entities);
-      expect(state.loading).toEqual(false);
-      expect(state.loadAttempted).toEqual(true);
-    });
-  });
-
-  describe('LOAD_LANGUAGES_FAIL action', () => {
-    it('should disable loading', () => {
-      const { initialState } = fromLanguages;
-      initialState.loading = true;
-      const action = new fromActions.LoadLanguagesFail({});
-      const state = fromLanguages.reducer(initialState, action);
-      expect(state.loading).toEqual(false);
-      expect(state.loadAttempted).toEqual(true);
-    });
-  });
-
-  describe('LOAD_LANGUAGES action', () => {
-    it('should set loading to true', () => {
-      const { initialState } = fromLanguages;
-      const action = new fromActions.LoadLanguages();
-      const state = fromLanguages.reducer(initialState, action);
-      expect(state.loading).toEqual(true);
     });
   });
 
