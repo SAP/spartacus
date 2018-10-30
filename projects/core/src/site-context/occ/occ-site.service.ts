@@ -4,7 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { OccConfig } from '../../occ/index';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class OccSiteService {
   constructor(private http: HttpClient, private config: OccConfig) {}
 
