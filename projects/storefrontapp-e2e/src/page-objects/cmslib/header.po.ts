@@ -27,10 +27,15 @@ export class Header {
   readonly searchInput: ElementFinder = this.searchComponent.element(
     by.css('input.y-search-box__input')
   );
+  readonly currencySwitcher: ElementFinder = this.header.element(
+    by.css('#currencySelector')
+  );
   readonly languageSwitcher: ElementFinder = this.header.element(
     by.css('#languageSelector')
   );
-
+  currencyOption(currency: String): ElementFinder {
+    return this.currencySwitcher.element(by.css(`option[value="${currency}"]`));
+  }
   languageOption(lang: String): ElementFinder {
     return this.languageSwitcher.element(by.css(`option[value="${lang}"]`));
   }
