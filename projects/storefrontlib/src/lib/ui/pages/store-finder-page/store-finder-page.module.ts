@@ -8,6 +8,7 @@ import { StoreFinderPageLayoutModule } from '../../layout/store-finder-page-layo
 import { StoreFinderNewListComponent } from '../../../store-finder/components/store-finder-new-list/store-finder-new-list.component';
 import { StoreFinderListCountComponent } from '../../../store-finder/components/store-finder-list-count/store-finder-list-count.component';
 import { StoreFinderGridComponent } from '../../../store-finder/components/store-finder-grid/store-finder-grid.component';
+// tslint:disable-next-line:max-line-length
 import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
 
 const routes: Routes = [
@@ -19,26 +20,26 @@ const routes: Routes = [
     children: [
       {
         path: 'findstores',
-        // canActivate: [CmsPageGuards],
+        canActivate: [CmsPageGuards],
         data: { pageLabel: 'storefinderPage' },
         component: StoreFinderNewListComponent
       },
       {
         path: 'viewall',
-        // canActivate: [CmsPageGuards],
+        canActivate: [CmsPageGuards],
         data: { pageLabel: 'storefinderPage' },
         component: StoreFinderListCountComponent
       },
       {
         path: 'country/:country/region/:region',
         pathMatch: 'prefix',
-        // canActivate: [CmsPageGuards],
+        canActivate: [CmsPageGuards],
         data: { pageLabel: 'storefinderPage' },
         component: StoreFinderGridComponent
       },
       {
         path: 'country/:country/region/:region/:store',
-        // canActivate: [CmsPageGuards],
+        canActivate: [CmsPageGuards],
         data: { pageLabel: 'storefinderPage' },
         component: StoreFinderStoreDescriptionComponent
       }
