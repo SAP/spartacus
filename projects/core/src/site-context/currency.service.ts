@@ -19,6 +19,7 @@ export class CurrencyService {
   readonly activeCurrency$: Observable<string> = this.store.pipe(
     select(getActiveCurrency)
   );
+
   constructor(
     private store: Store<StateWithSiteContext>,
     private config: SiteContextConfig
