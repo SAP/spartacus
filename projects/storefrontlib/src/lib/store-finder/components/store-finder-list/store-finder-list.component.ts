@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Inject } from '@angular/core';
+import { Component, Input, ViewChild, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';

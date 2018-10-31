@@ -5,7 +5,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { CmsPageGuards } from '../../../cms/guards';
 import { StoreFinderPageComponent } from './store-finder-page.component';
 import { StoreFinderPageLayoutModule } from '../../layout/store-finder-page-layout/store-finder-page-layout.module';
-import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-list/store-finder-list.component';
 import { StoreFinderNewListComponent } from '../../../store-finder/components/store-finder-new-list/store-finder-new-list.component';
 
 const routes: Routes = [
@@ -16,9 +15,9 @@ const routes: Routes = [
     component: StoreFinderPageComponent,
     children: [
       {
-        path: 'find/:query',
+        path: 'findstores',
         // canActivate: [CmsPageGuards],
-        // data: { pageLabel: 'storefinderPage' },
+        data: { pageLabel: 'storefinderPage' },
         component: StoreFinderNewListComponent
       }
     ]

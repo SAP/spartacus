@@ -1,11 +1,9 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Subscription, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
 import { SearchConfig } from '../../models/search-config';
-import { StoreDataService } from '../../services/store-data.service';
 import { SearchQuery } from '../../models/search-query';
 import { ActivatedRoute } from '@angular/router';
 import { StoreFinderService } from '../../services';
@@ -26,7 +24,7 @@ import { StoreFinderService } from '../../services';
     </div>
 </ng-template>`
 })
-export class StoreFinderNewListComponent implements OnInit, OnDestroy {
+export class StoreFinderNewListComponent implements OnInit {
   locations: any;
   searchQuery: SearchQuery;
   locations$: Observable<any>;
@@ -42,22 +40,22 @@ export class StoreFinderNewListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.initialize();
-
+    // this.initialize();
+    this.route.queryParams.subscribe(() => this.initialize());
     this.route.params.subscribe(() => {
       this.initialize();
     });
   }
 
   initialize() {
-    this.searchQuery = { queryText: this.route.snapshot.params.query };
-    this.storeFinderService.findStores(this.searchQuery.queryText);
+    this.searchQuery = this.parseParameters(this.route.snapshot.queryParams);
+    this.storeFinderService.findStores(
+      this.searchQuery.queryText,
+      this.searchQuery.longitudeLatitude
+    );
     this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
-
     this.locations$ = this.store.pipe(select(fromStore.getFindStoresEntities));
   }
-
-  ngOnDestroy(): void {}
 
   viewPage(pageNumber: number) {
     this.searchConfig = { ...this.searchConfig, currentPage: pageNumber };
@@ -68,5 +66,23 @@ export class StoreFinderNewListComponent implements OnInit, OnDestroy {
         searchConfig: this.searchConfig
       })
     );
+  }
+
+  parseParameters(queryParams: { [key: string]: any }): SearchQuery {
+    let searchQuery: SearchQuery;
+    if (queryParams.query) {
+      searchQuery = { queryText: queryParams.query };
+    } else {
+      searchQuery = { queryText: queryParams.query };
+    }
+
+    if (queryParams.latitude && queryParams.longitude) {
+      searchQuery.longitudeLatitude = {
+        latitude: queryParams.latitude,
+        longitude: queryParams.longitude
+      };
+    }
+
+    return searchQuery;
   }
 }
