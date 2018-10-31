@@ -6,7 +6,7 @@
                 <div class="form-group">
                     <ng-container *ngIf="cardTypes$ | async as cardTypes">
                         <div *ngIf="cardTypes.length !== 0">
-                            <label>
+                            <label aria-required="true">
                                 <span class="label-content required">
                                     Payment Type
                                 </span>
