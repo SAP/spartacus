@@ -232,6 +232,7 @@ Size and weight combinations are to be customized and extended in the `_variable
 @import 'theme';
 @import 'functions';
 @import 'mixins';
+@import '~bootsrap/scss/nav';
 ```
 
 - Declare SASS variables to store variable that could later help customize the storefront if we transfer them to the theme at some point:
@@ -271,7 +272,9 @@ $cx-foo-item-highlighted: 'warning' !default;
 
 ### HTML
 
-The following recommendation are to be taken from the styling perspective only, these are not TypeScript coding guidelines, that said, the HTML structure most correspond to what the SASS file structure reflects. For example, to reflect the SASS code above. (EXAMPLEHERE)
+> Disclaimer: The following HTML recommendations are to be taken from the styling perspective only, these are not the general TypeScript coding guidelines.
+
+The HTML structure most correspond to what the SASS file structure reflects. To illustrate we'll follow along the previous SASS code example.
 
 ```html
 <div class="cx-foo">
@@ -302,11 +305,11 @@ We're targeting at least a WCAG 2.0 Level AA compliance therefore we recommend:
 
 ## Contributing
 
-Although we aim for a Framework agnostic Design System, the Beta version is largely based on Bootstrap4 (BS4), therefore please keep in mind the following when tailoring your contribution in order to have it code reviewed more promptly:
+Although we aim for a Framework agnostic Design System, the Beta version is largely based on _Bootstrap4_, therefore please keep in mind the following when tailoring your contribution in order to have it code reviewed more promptly:
 
 ### Recommended
 
-- Extended BS4 generic components in the folder `storefrontstyle/cxbase` only, this is sensitive because…
+- Extend _Bootstrap4_ generic components in the `storefrontstyle/cxbase` directory only.
 - Follow the BEM naming convention detailed under the "HTML and SASS structure" title above.
 - Convert values to variables when they are key to further customization by frontend developers or designers: heights, paddings, colors and hardcode those that are unlikely to be changed (EXAMPLEHERE)
 - Leverage implicit focus over tabindex focus.
