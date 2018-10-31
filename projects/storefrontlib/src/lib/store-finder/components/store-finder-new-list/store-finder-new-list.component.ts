@@ -10,19 +10,8 @@ import { StoreFinderService } from '../../services';
 
 @Component({
   selector: 'y-store-finder-new-list',
-  template: ` <div *ngIf="!(isLoading$ | async) && (locations$ | async) as locations; else loading">
-  <y-store-finder-list [locations]=locations></y-store-finder-list>
-  <div *ngIf="locations?.stores" class="row">
-            <div class="col-md-6 offset-md-3 y-store-finder-list__pagination">
-                <y-pagination [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
-            </div>
-        </div>
-        </div>
-        <ng-template #loading>
-    <div class="y-store-finder-list__spinner">
-        <y-spinner></y-spinner>
-    </div>
-</ng-template>`
+  templateUrl: './store-finder-list.component.html',
+  styleUrls: ['./store-finder-list.component.scss']
 })
 export class StoreFinderNewListComponent implements OnInit {
   locations: any;

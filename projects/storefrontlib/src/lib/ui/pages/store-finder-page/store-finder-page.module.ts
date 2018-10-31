@@ -32,7 +32,12 @@ const routes: Routes = [
       },
       {
         path: 'country/:country/region/:region',
-        pathMatch: 'prefix',
+        canActivate: [CmsPageGuards],
+        data: { pageLabel: 'storefinderPage' },
+        component: StoreFinderGridComponent
+      },
+      {
+        path: 'country/:country',
         canActivate: [CmsPageGuards],
         data: { pageLabel: 'storefinderPage' },
         component: StoreFinderGridComponent

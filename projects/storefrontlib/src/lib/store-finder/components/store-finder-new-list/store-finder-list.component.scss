@@ -1,11 +1,18 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
 // Loading
 $y-store-finder-list-loading-padding: 30px !default;
 
-.stores-grid {
-  columns: 4;
-}
-
 .y-store-finder-list {
+  &__pagination {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+    display: flex;
+  }
+
   &__spinner {
     padding-top: $y-store-finder-list-loading-padding;
     padding-bottom: $y-store-finder-list-loading-padding;

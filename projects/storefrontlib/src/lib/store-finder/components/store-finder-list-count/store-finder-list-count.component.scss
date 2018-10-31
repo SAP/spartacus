@@ -2,6 +2,9 @@
 @import 'functions';
 @import 'mixins';
 
+// Loading
+$y-store-finder-list-loading-padding: 30px !default;
+
 .y-store-finder-list-count {
   &__country-set {
     width: 100%;
@@ -40,5 +43,12 @@
   }
   &__item-count {
     @include type('7');
+  }
+}
+
+.y-store-finder-list {
+  &__spinner {
+    padding-top: $y-store-finder-list-loading-padding;
+    padding-bottom: $y-store-finder-list-loading-padding;
   }
 }
