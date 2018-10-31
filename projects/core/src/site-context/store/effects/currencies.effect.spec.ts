@@ -1,32 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
 import { hot, cold } from 'jasmine-marbles';
-// import { Observable, of } from 'rxjs';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { of, Observable } from 'rxjs';
 
-// import { OccSiteService } from '../';
-
+import { OccSiteService } from '../../occ/index';
 import * as fromEffects from './currencies.effect';
 import * as fromActions from '../actions/currencies.action';
-// import { provideMockActions } from '@ngrx/effects/testing';
-// import { SiteContextStoreModule } from '../site-context-store.module';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { SiteContextModule } from '../../site-context.module';
-import { ConfigModule } from 'projects/core/src/config';
-import { of, Observable } from 'rxjs';
-import { CurrencyService } from '../../currency.service';
-
-// const MockOccConfig: OccConfig = {
-//   server: {
-//     baseUrl: '',
-//     occPrefix: ''
-//   }
-// };
+import { SiteContextConfig } from '../../config/config';
 
 describe('Currencies Effects', () => {
   let actions$: Observable<any>;
-  let service: CurrencyService;
+  let service: OccSiteService;
   let effects: fromEffects.CurrenciesEffects;
 
   const data = {
@@ -37,25 +22,19 @@ describe('Currencies Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        ConfigModule.forRoot(),
-        StoreModule.forRoot({}),
-        EffectsModule.forRoot([]),
-        SiteContextModule
+      imports: [HttpClientTestingModule],
+      providers: [
+        OccSiteService,
+        SiteContextConfig,
+        fromEffects.CurrenciesEffects,
+        provideMockActions(() => actions$)
       ]
-      // providers: [
-      //   // OccSiteService,
-      //   // { provide: OccConfig, useValue: MockOccConfig },
-      //   // fromEffects.CurrenciesEffects,
-      //   // provideMockActions(() => actions$)
-      // ]
     });
 
-    service = TestBed.get(CurrencyService);
+    service = TestBed.get(OccSiteService);
     effects = TestBed.get(fromEffects.CurrenciesEffects);
 
-    spyOn(service, 'currencies$').and.returnValue(of(data));
+    spyOn(service, 'loadCurrencies').and.returnValue(of(data));
   });
 
   describe('loadCurrencies$', () => {

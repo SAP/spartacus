@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, select } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
+import { Store, select, StoreModule } from '@ngrx/store';
 
 import * as fromActions from '../actions';
+import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors/languages.selectors';
-import { StateWithSiteContext } from '../state';
-import { SiteContextModule } from '../../site-context.module';
+import { StateWithSiteContext, SITE_CONTEXT_FEATURE } from '../state';
 
 describe('Languages Selectors', () => {
   let store: Store<StateWithSiteContext>;
@@ -20,8 +19,7 @@ describe('Languages Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        EffectsModule.forRoot([]),
-        SiteContextModule
+        StoreModule.forFeature(SITE_CONTEXT_FEATURE, fromReducers.getReducers())
       ]
     });
     store = TestBed.get(Store);

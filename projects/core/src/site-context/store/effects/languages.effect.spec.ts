@@ -1,24 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
-
 import { hot, cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { of, Observable } from 'rxjs';
 
-import { OccConfig, OccSiteService } from '@spartacus/core';
-
+import { OccSiteService } from '../../occ/index';
 import * as fromEffects from './languages.effect';
 import * as fromActions from '../actions/languages.action';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { SiteContextModule } from '../../site-context.module';
-
-const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
-  }
-};
+import { SiteContextConfig } from '../../config/config';
 
 describe('Languages Effects', () => {
   let actions$: Observable<any>;
@@ -31,18 +20,13 @@ describe('Languages Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({}),
-        EffectsModule.forRoot([]),
-        SiteContextModule
+      imports: [HttpClientTestingModule],
+      providers: [
+        OccSiteService,
+        SiteContextConfig,
+        fromEffects.LanguagesEffects,
+        provideMockActions(() => actions$)
       ]
-      // providers: [
-      //   OccSiteService,
-      //   { provide: OccConfig, useValue: MockOccModuleConfig },
-      //   fromEffects.LanguagesEffects,
-      //   provideMockActions(() => actions$)
-      // ]
     });
 
     service = TestBed.get(OccSiteService);

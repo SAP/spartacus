@@ -1,12 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, select, StoreModule } from '@ngrx/store';
 
-import { StateWithSiteContext } from '../state';
-
 import * as fromActions from '../actions';
+import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors/currencies.selectors';
-import { SiteContextStoreModule } from '../site-context-store.module';
-import { EffectsModule } from '@ngrx/effects';
+import { StateWithSiteContext, SITE_CONTEXT_FEATURE } from '../state';
 
 describe('Currencies Selectors', () => {
   let store: Store<StateWithSiteContext>;
@@ -23,8 +21,7 @@ describe('Currencies Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        EffectsModule.forRoot([]),
-        SiteContextStoreModule
+        StoreModule.forFeature(SITE_CONTEXT_FEATURE, fromReducers.getReducers())
       ]
     });
     store = TestBed.get(Store);
@@ -38,11 +35,10 @@ describe('Currencies Selectors', () => {
       store
         .pipe(select(fromSelectors.getCurrenciesEntities))
         .subscribe(value => (result = value));
-      console.log('result!', result);
+
       expect(result).toEqual({});
 
       store.dispatch(new fromActions.LoadCurrenciesSuccess(currencies));
-
       expect(result).toEqual(entities);
     });
   });
@@ -58,7 +54,6 @@ describe('Currencies Selectors', () => {
       expect(result).toEqual(null);
 
       store.dispatch(new fromActions.SetActiveCurrency('USD'));
-
       expect(result).toEqual('USD');
     });
   });
@@ -74,7 +69,6 @@ describe('Currencies Selectors', () => {
       expect(result).toEqual([]);
 
       store.dispatch(new fromActions.LoadCurrenciesSuccess(currencies));
-
       expect(result).toEqual(currencies);
     });
   });
