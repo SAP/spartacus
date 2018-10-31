@@ -7,7 +7,7 @@
                     <ng-container *ngIf="cardTypes$ | async as cardTypes">
                         <div *ngIf="cardTypes.length !== 0">
                             <label>
-                                <span class="label-content required" aria-required="true">
+                                <span class="label-content required">
                                     Payment Type
                                 </span>
                                 <ng-select [searchable]="false" [clearable]="false" [items]="cardTypes" bindLabel="name"
