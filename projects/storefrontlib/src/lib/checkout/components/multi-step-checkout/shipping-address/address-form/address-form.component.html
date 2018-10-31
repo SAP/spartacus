@@ -5,7 +5,7 @@
                 <div class="form-group">
                     <ng-container *ngIf="titles$ | async as titles">
                         <div *ngIf="titles.length !== 0">
-                            <label>
+                            <label aria-required="true">
                                 <span class="label-content required">Title</span>
                                 <ng-select [searchable]="false" [clearable]="false" [items]="titles" bindLabel="name"
                                     bindValue="code" placeholder="Select Title..." (change)="titleSelected($event)">
