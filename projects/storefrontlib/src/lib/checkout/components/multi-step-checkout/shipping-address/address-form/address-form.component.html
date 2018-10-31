@@ -63,7 +63,7 @@
                     <div class="form-group col-md-6">
                         <ng-container *ngIf="regions$ | async as regions">
                             <div *ngIf="regions.length !== 0">
-                                <label>
+                                <label aria-required="true">
                                     <span class="label-content required">State</span>
                                     <ng-container *ngIf="regions[0].name">
                                         <ng-select [searchable]="false" [clearable]="false" [items]="regions" bindLabel="name"
