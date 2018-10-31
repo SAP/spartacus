@@ -8,68 +8,85 @@
         <div class="y-section">
           <h1 class="y-section__title">Create an account</h1>
           <form [formGroup]="userRegistrationForm">
-
             <div class="form-group">
-              <label for="titleCode">Title</label>
-              <select formControlName="titleCode" class="form-control" id="titleCode">
-                <option selected disabled>Select Title</option>
-                <option *ngFor="let title of (titles$ | async)" [value]="title.code">{{ title.name }}</option>
-              </select>
+              <label>
+                <span class="label-content">Title</span>
+                <select formControlName="titleCode" class="form-control">
+                  <option selected disabled>Select Title</option>
+                  <option *ngFor="let title of (titles$ | async)" [value]="title.code">{{ title.name }}</option>
+                </select>
+              </label>
             </div>
 
             <div class="form-group">
-              <label for="firstName">First name</label>
-              <input class="form-control" type="text" id="firstName" name="firstname" placeholder="First Name"
-                formControlName="firstName">
+              <label>
+                <span class="label-content">First name</span>
+                <input class="form-control" type="text" name="firstname" placeholder="First Name"
+                  formControlName="firstName">
+              </label>
             </div>
 
             <div class="form-group">
-              <label for="lastName">Last name</label>
-              <input class="form-control" type="text" id="lastName" name="lastname" placeholder="Last Name"
-                formControlName="lastName">
+              <label>
+                <span class="label-content">Last name</span>
+                <input class="form-control" type="text" name="lastname" placeholder="Last Name"
+                  formControlName="lastName">
+              </label>
             </div>
 
             <div class="form-group">
-              <label for="email">Email address</label>
-              <input class="form-control" [class.is-invalid]="(userRegistrationForm.get('email').errors?.email || userRegistrationForm.get('email').errors?.InvalidEmail) && userRegistrationForm.get('email').dirty"
-                type="email" id="email" name="email" placeholder="Email Address" formControlName="email">
+              <label>
+                <span class="label-content">Email address</span>
+                <input class="form-control" [class.is-invalid]="(userRegistrationForm.get('email').errors?.email || userRegistrationForm.get('email').errors?.InvalidEmail) && userRegistrationForm.get('email').dirty"
+                  type="email" name="email" placeholder="Email Address" formControlName="email">
+              </label>
             </div>
 
             <div class="form-group">
-              <label for="password">Password</label>
-              <input class="form-control" [class.is-invalid]="userRegistrationForm.get('password').invalid && userRegistrationForm.get('password').dirty"
-                type="password" id="password" name="password" placeholder="Password" formControlName="password">
-              <div class="invalid-feedback" *ngIf="userRegistrationForm.get('password').invalid && userRegistrationForm.get('password').dirty">
-                <span>Password must be six characters minimum, with one uppercase letter, one number, one symbol</span>
-              </div>
+              <label>
+                <span class="label-content">Password</span>
+                <input class="form-control" [class.is-invalid]="userRegistrationForm.get('password').invalid && userRegistrationForm.get('password').dirty"
+                  type="password" name="password" placeholder="Password" formControlName="password">
+                <div class="invalid-feedback" *ngIf="userRegistrationForm.get('password').invalid && userRegistrationForm.get('password').dirty">
+                  <span>Password must be six characters minimum, with one uppercase letter, one number, one symbol</span>
+                </div>
+              </label>
             </div>
 
             <div class="form-group">
-              <label for="confirmpassword">Confirm password</label>
-              <input class="form-control" [class.is-invalid]="userRegistrationForm.get('password').value !== userRegistrationForm.get('passwordconf').value"
-                type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm Password"
-                formControlName="passwordconf">
-              <div class="invalid-feedback" *ngIf="userRegistrationForm.get('password').value !== userRegistrationForm.get('passwordconf').value && userRegistrationForm.get('passwordconf').value">
-                <span>Both password must match</span>
+              <label>
+                <span class="label-content">Confirm password</span>
+                <input class="form-control" [class.is-invalid]="userRegistrationForm.get('password').value !== userRegistrationForm.get('passwordconf').value"
+                  type="password" name="confirmpassword" placeholder="Confirm Password"
+                  formControlName="passwordconf">
+                <div class="invalid-feedback" *ngIf="userRegistrationForm.get('password').value !== userRegistrationForm.get('passwordconf').value && userRegistrationForm.get('passwordconf').value">
+                  <span>Both password must match</span>
+                </div>
+              </label>
+            </div>
+
+            <div class="form-group">
+              <div class="form-check">
+                <label>
+                  <input type="checkbox" name="newsletter" class="form-check-input" formControlName="newsletter">
+                    <span class="form-check-label">
+                      Use my personal data to receive e-mail newsletters for marketing
+                      campaigns. To change your settings, go to Consent Management in My Account.
+                    </span>
+                </label>
               </div>
             </div>
 
             <div class="form-group">
               <div class="form-check">
-                <input type="checkbox" id="newsletter" name="newsletter" class="form-check-input" formControlName="newsletter">
-                <label class="form-check-label" for="newsletter">Use my personal data to receive e-mail newsletters for
-                  marketing
-                  campaigns. To change your settings, go to Consent Management in My Account.</label>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="form-check">
-                <input type="checkbox" name="termsandconditions" id="termsandconditions" formControlName="termsandconditions">
-                <label class="form-check-label" for="termsandconditions">I am confirming that I have read and agreed
-                  with the
-                  <a class="y_sectoin-registration-link" href="/terms-and-conditions" target="_blank">Terms &
-                    Conditions</a>
+                <label>
+                  <input type="checkbox" name="termsandconditions" formControlName="termsandconditions">
+                    <span class="form-check-label">
+                      I am confirming that I have read and agreed with the
+                      <a class="y_sectoin-registration-link" href="/terms-and-conditions" target="_blank">
+                        Terms & Conditions
+                      </a>
+                  </span>
                 </label>
               </div>
             </div>
