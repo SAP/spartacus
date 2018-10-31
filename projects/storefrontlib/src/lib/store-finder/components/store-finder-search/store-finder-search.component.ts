@@ -35,10 +35,10 @@ export class StoreFinderSearchComponent {
     });
   }
 
-  viewAllStores() {
+  /*viewAllStores() {
     this.storeFinderService.viewAllStores();
     this.showMapList.emit(false);
-  }
+  } */
 
   viewStoresWithMyLoc() {
     this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
