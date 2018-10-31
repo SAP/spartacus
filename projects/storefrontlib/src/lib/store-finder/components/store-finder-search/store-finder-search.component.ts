@@ -1,8 +1,6 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { StoreFinderService } from '../../services/store-finder.service';
 import { WindowRef } from '../../services/window-ref';
-import { SearchQuery } from '../../models/search-query';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -11,16 +9,9 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./store-finder-search.component.scss']
 })
 export class StoreFinderSearchComponent {
-  @Output()
-  persistSearchQuery: EventEmitter<SearchQuery> = new EventEmitter<
-    SearchQuery
-  >();
-  @Output()
-  showMapList: EventEmitter<boolean> = new EventEmitter<boolean>();
   searchBox: FormControl = new FormControl();
 
   constructor(
-    private storeFinderService: StoreFinderService,
     private winRef: WindowRef,
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -35,11 +26,6 @@ export class StoreFinderSearchComponent {
     });
   }
 
-  /*viewAllStores() {
-    this.storeFinderService.viewAllStores();
-    this.showMapList.emit(false);
-  } */
-
   viewStoresWithMyLoc() {
     this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
       (position: Position) => {
@@ -50,21 +36,8 @@ export class StoreFinderSearchComponent {
             longitude: position.coords.longitude
           }
         });
-        /*this.storeFinderService.findStores('', {
-          longitude: position.coords.longitude,
-          latitude: position.coords.latitude
-        });*/
-        /*const searchQuery: SearchQuery = {
-          queryText: '',
-          longitudeLatitude: {
-            longitude: position.coords.longitude,
-            latitude: position.coords.latitude
-          }
-        };
-        this.persistSearchQuery.emit(searchQuery);*/
       }
     );
-    this.showMapList.emit(true);
   }
 
   onKey(event: any) {

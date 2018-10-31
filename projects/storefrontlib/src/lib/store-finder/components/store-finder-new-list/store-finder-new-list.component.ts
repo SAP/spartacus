@@ -40,11 +40,7 @@ export class StoreFinderNewListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.initialize();
     this.route.queryParams.subscribe(() => this.initialize());
-    this.route.params.subscribe(() => {
-      this.initialize();
-    });
   }
 
   initialize() {
@@ -53,6 +49,7 @@ export class StoreFinderNewListComponent implements OnInit {
       this.searchQuery.queryText,
       this.searchQuery.longitudeLatitude
     );
+
     this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
     this.locations$ = this.store.pipe(select(fromStore.getFindStoresEntities));
   }
@@ -70,10 +67,11 @@ export class StoreFinderNewListComponent implements OnInit {
 
   parseParameters(queryParams: { [key: string]: any }): SearchQuery {
     let searchQuery: SearchQuery;
+
     if (queryParams.query) {
       searchQuery = { queryText: queryParams.query };
     } else {
-      searchQuery = { queryText: queryParams.query };
+      searchQuery = { queryText: '' };
     }
 
     if (queryParams.latitude && queryParams.longitude) {

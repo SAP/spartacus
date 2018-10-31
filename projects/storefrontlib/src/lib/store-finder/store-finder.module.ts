@@ -22,6 +22,7 @@ import { StoreFinderGridComponent } from './components/store-finder-grid/store-f
 import { StoreFinderHeaderComponent } from './components/store-finder-header/store-finder-header.component';
 import { StoreFinderComponent } from './components/store-finder/store-finder.component';
 import { StoreFinderNewListComponent } from './components/store-finder-new-list/store-finder-new-list.component';
+
 import { PaginationAndSortingModule } from '../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { BootstrapModule } from '../bootstrap.module';
 import { SpinnerModule } from '../ui/components/spinner/spinner.module';

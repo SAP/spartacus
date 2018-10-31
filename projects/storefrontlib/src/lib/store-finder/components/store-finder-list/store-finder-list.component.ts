@@ -12,8 +12,6 @@ import { StoreDataService } from '../../services/store-data.service';
 export class StoreFinderListComponent {
   @Input()
   locations: any;
-  @Input()
-  searchQuery: any;
   @ViewChild('storeMap')
   storeMap: StoreFinderMapComponent;
 
