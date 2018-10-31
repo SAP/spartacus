@@ -44,7 +44,7 @@
                 <div class="form-group">
                     <ng-container *ngIf="countries$ | async as countries">
                         <div *ngIf="countries.length !== 0">
-                            <label>
+                            <label aria-required="true">
                                 <span class="label-content required">Country</span>
                                 <ng-select [searchable]="false" [clearable]="false" [items]="countries" bindLabel="name"
                                     bindValue="isocode" placeholder="Select One..." (change)="countrySelected($event)">
