@@ -31,18 +31,6 @@ export function reducer(
       };
     }
 
-    case fromCurrencies.LOAD_CURRENCIES_FAIL: {
-      return {
-        ...state
-      };
-    }
-
-    case fromCurrencies.LOAD_CURRENCIES: {
-      return {
-        ...state
-      };
-    }
-
     case fromCurrencies.SET_ACTIVE_CURRENCY: {
       const isocode = action.payload;
 

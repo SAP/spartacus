@@ -31,18 +31,6 @@ export function reducer(
       };
     }
 
-    case fromLanguages.LOAD_LANGUAGES_FAIL: {
-      return {
-        ...state
-      };
-    }
-
-    case fromLanguages.LOAD_LANGUAGES: {
-      return {
-        ...state
-      };
-    }
-
     case fromLanguages.SET_ACTIVE_LANGUAGE: {
       const isocode = action.payload;
 
