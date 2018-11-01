@@ -37,10 +37,6 @@ export class StoreFinderMapComponent implements OnChanges {
     }
   }
 
-  selectStoreItemClickHandle(markerIndex: number) {
-    this.selectedStoreItem.emit(markerIndex);
-  }
-
   /**
    * Sets the center of the map to the given location
    * @param latitude latitude of the new center
@@ -48,5 +44,9 @@ export class StoreFinderMapComponent implements OnChanges {
    */
   centerMap(latitude: number, longitude: number): void {
     this.googleMapRendererService.centerMap(latitude, longitude);
+  }
+
+  private selectStoreItemClickHandle(markerIndex: number) {
+    this.selectedStoreItem.emit(markerIndex);
   }
 }

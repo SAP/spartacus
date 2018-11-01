@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'y-store-finder-header',
-  template: '<p><y-store-finder-search></y-store-finder-search></p>'
-  // styleUrls: ['./store-finder-list.component.scss']
+  templateUrl: './store-finder-header.component.html',
+  styleUrls: ['./store-finder-header.component.scss']
 })
 export class StoreFinderHeaderComponent {}

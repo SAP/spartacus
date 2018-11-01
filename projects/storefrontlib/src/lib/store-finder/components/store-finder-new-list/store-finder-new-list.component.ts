@@ -32,17 +32,6 @@ export class StoreFinderNewListComponent implements OnInit {
     this.route.queryParams.subscribe(() => this.initialize());
   }
 
-  initialize() {
-    this.searchQuery = this.parseParameters(this.route.snapshot.queryParams);
-    this.storeFinderService.findStores(
-      this.searchQuery.queryText,
-      this.searchQuery.longitudeLatitude
-    );
-
-    this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
-    this.locations$ = this.store.pipe(select(fromStore.getFindStoresEntities));
-  }
-
   viewPage(pageNumber: number) {
     this.searchConfig = { ...this.searchConfig, currentPage: pageNumber };
     this.store.dispatch(
@@ -54,7 +43,18 @@ export class StoreFinderNewListComponent implements OnInit {
     );
   }
 
-  parseParameters(queryParams: { [key: string]: any }): SearchQuery {
+  private initialize() {
+    this.searchQuery = this.parseParameters(this.route.snapshot.queryParams);
+    this.storeFinderService.findStores(
+      this.searchQuery.queryText,
+      this.searchQuery.longitudeLatitude
+    );
+
+    this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
+    this.locations$ = this.store.pipe(select(fromStore.getFindStoresEntities));
+  }
+
+  private parseParameters(queryParams: { [key: string]: any }): SearchQuery {
     let searchQuery: SearchQuery;
 
     if (queryParams.query) {
