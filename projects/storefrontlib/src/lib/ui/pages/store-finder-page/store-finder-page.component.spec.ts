@@ -12,7 +12,6 @@ import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreFinderPageComponent } from './store-finder-page.component';
 import { StoreFinderPageLayoutComponent } from '../../layout/store-finder-page-layout/store-finder-page-layout.component';
 import { StoreFinderSearchComponent } from '../../../store-finder/components/store-finder-search/store-finder-search.component';
-import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-list/store-finder-list.component';
 import { StoreFinderListCountComponent } from '../../../store-finder/components/store-finder-list-count/store-finder-list-count.component';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 import { services } from '../../../store-finder/services';
@@ -22,7 +21,9 @@ import { PaginationAndSortingModule } from '../../../ui/components/pagination-an
 // tslint:disable-next-line:max-line-length
 import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
 // tslint:disable-next-line:max-line-length
-import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
+import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-display-list/store-finder-list-item/store-finder-list-item.component';
+// tslint:disable-next-line:max-line-length
+import { StoreFinderDisplayListComponent } from '../../../store-finder/components/store-finder-display-list/store-finder-display-list.component';
 
 import * as fromStore from '../../../store-finder/store';
 import * as fromRoot from '../../../routing/store';
@@ -51,7 +52,7 @@ describe('StoreFinderPageComponent', () => {
         StoreFinderPageComponent,
         StoreFinderPageLayoutComponent,
         StoreFinderSearchComponent,
-        StoreFinderListComponent,
+        StoreFinderDisplayListComponent,
         StoreFinderListItemComponent,
         StoreFinderMapComponent,
         StoreFinderStoreDescriptionComponent,

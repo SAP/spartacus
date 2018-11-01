@@ -10,7 +10,7 @@ import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreFinderSearchComponent } from '../../store-finder-search/store-finder-search.component';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
-import { StoreFinderListComponent } from '../store-finder-list.component';
+import { StoreFinderDisplayListComponent } from '../store-finder-display-list.component';
 
 import * as fromReducers from '../../../store';
 import * as fromRoot from '../../../../routing/store';
@@ -140,7 +140,7 @@ describe('StoreFinderListItemComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [
         StoreFinderListItemComponent,
-        StoreFinderListComponent,
+        StoreFinderDisplayListComponent,
         StoreFinderSearchComponent,
         StoreFinderMapComponent
       ],

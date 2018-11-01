@@ -1,38 +1,75 @@
-import { Component, Input, ViewChild, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
-import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
-import { StoreDataService } from '../../services/store-data.service';
+import * as fromStore from '../../store';
+import { SearchConfig } from '../../models/search-config';
+import { SearchQuery } from '../../models/search-query';
+import { ActivatedRoute } from '@angular/router';
+import { StoreFinderService } from '../../services';
 
 @Component({
-  selector: 'y-store-finder-list',
+  selector: 'y-store-finder-new-list',
   templateUrl: './store-finder-list.component.html',
   styleUrls: ['./store-finder-list.component.scss']
 })
-export class StoreFinderListComponent {
-  @Input()
+export class StoreFinderListComponent implements OnInit {
   locations: any;
-  @ViewChild('storeMap')
-  storeMap: StoreFinderMapComponent;
-
-  selectedStore: number;
+  searchQuery: SearchQuery;
+  locations$: Observable<any>;
+  isLoading$: Observable<any>;
+  searchConfig: SearchConfig = {
+    currentPage: 0
+  };
 
   constructor(
-    private storeDataService: StoreDataService,
-    @Inject(DOCUMENT) private document: any
+    private store: Store<fromStore.StoresState>,
+    private storeFinderService: StoreFinderService,
+    private route: ActivatedRoute
   ) {}
 
-  centerStoreOnMapByIndex(index: number): void {
-    this.selectedStore = index;
-    this.storeMap.centerMap(
-      this.storeDataService.getStoreLatitude(this.locations.stores[index]),
-      this.storeDataService.getStoreLongitude(this.locations.stores[index])
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(() => this.initialize());
+  }
+
+  viewPage(pageNumber: number) {
+    this.searchConfig = { ...this.searchConfig, currentPage: pageNumber };
+    this.store.dispatch(
+      new fromStore.FindStores({
+        queryText: this.searchQuery.queryText,
+        longitudeLatitude: this.searchQuery.longitudeLatitude,
+        searchConfig: this.searchConfig
+      })
     );
   }
 
-  selectStoreItemList(index: number): void {
-    this.selectedStore = index;
-    const storeListItem = this.document.getElementById('item-' + index);
-    storeListItem.scrollIntoView();
+  private initialize() {
+    this.searchQuery = this.parseParameters(this.route.snapshot.queryParams);
+    this.storeFinderService.findStores(
+      this.searchQuery.queryText,
+      this.searchQuery.longitudeLatitude
+    );
+
+    this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
+    this.locations$ = this.store.pipe(select(fromStore.getFindStoresEntities));
+  }
+
+  private parseParameters(queryParams: { [key: string]: any }): SearchQuery {
+    let searchQuery: SearchQuery;
+
+    if (queryParams.query) {
+      searchQuery = { queryText: queryParams.query };
+    } else {
+      searchQuery = { queryText: '' };
+    }
+
+    if (queryParams.latitude && queryParams.longitude) {
+      searchQuery.longitudeLatitude = {
+        latitude: queryParams.latitude,
+        longitude: queryParams.longitude
+      };
+    }
+
+    return searchQuery;
   }
 }

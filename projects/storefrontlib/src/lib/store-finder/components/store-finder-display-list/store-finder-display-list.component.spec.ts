@@ -5,7 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { StoreFinderListComponent } from './store-finder-list.component';
+import { StoreFinderDisplayListComponent } from './store-finder-display-list.component';
 
 import * as fromReducers from '../../store';
 import * as fromRoot from '../../../routing/store';
@@ -35,8 +35,8 @@ class GoogleMapRendererServiceMock {
 }
 
 describe('StoreFinderListComponent', () => {
-  let component: StoreFinderListComponent;
-  let fixture: ComponentFixture<StoreFinderListComponent>;
+  let component: StoreFinderDisplayListComponent;
+  let fixture: ComponentFixture<StoreFinderDisplayListComponent>;
   let store: Store<fromReducers.StoresState>;
   let storeMapComponent: StoreFinderMapComponent;
   let storeDataService: StoreDataService;
@@ -54,7 +54,7 @@ describe('StoreFinderListComponent', () => {
         })
       ],
       schemas: [NO_ERRORS_SCHEMA],
-      declarations: [StoreFinderListComponent, StoreFinderMapComponent],
+      declarations: [StoreFinderDisplayListComponent, StoreFinderMapComponent],
       providers: [
         ...fromServices.services,
         {
@@ -67,7 +67,7 @@ describe('StoreFinderListComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StoreFinderListComponent);
+    fixture = TestBed.createComponent(StoreFinderDisplayListComponent);
     component = fixture.componentInstance;
     store = TestBed.get(Store);
     storeDataService = TestBed.get(StoreDataService);
