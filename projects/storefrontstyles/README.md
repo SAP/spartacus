@@ -2,12 +2,16 @@
 
 Spartacus Styles is a styling library that provides global styling and theming to the [Spartacus Storefront](https://www.npmjs.com/package/@spartacus/storefront). The package should be used together with the Spartacus Storefront to build an eCommerce platform using SAP Commerce Cloud exclusively through the Commerce REST API. For more informations, see [Cloud Commerce Spartacus Storefront](https://github.com/SAP/cloud-commerce-spartacus-storefront).
 
+#### Related projects
+
+[Spartacus Styles](https://www.npmjs.com/package/@spartacus/styles)
+
 This document addresses the following topics:
 
 - [Design System](#the-design-system) (DS) global _wiring_ within the application.
 - [Extending](#cxBase) the DS and customizing global components.
 - [Mixins](#mixins): Using and creating new ones.
-- [SCSS and HTML](#scss-and-html-structure) code structure.
+- [SCSS and HTML](#scss-and-html-code-structure) code structure.
 - [Accessibility](#accessibility) considerations.
 - [Contribute](#contributing) to the DS and style components.
 - [Report visual bugs](#reporting-visual-bugs).
@@ -286,7 +290,7 @@ $cx-foo-item-highlighted: 'warning' !default;
 
 ### HTML files `*.component.html`
 
-> Disclaimer: The following HTML recommendations are to be taken from the styling perspective only, these are NOT the general TypeScript [coding guidelines](docs/contributing/coding-guidelines.md).
+> Disclaimer: The following HTML recommendations are to be taken from the styling perspective only, these are NOT the general TypeScript [coding guidelines](../../docs/contributing/coding-guidelines.md).
 
 - The HTML structure most correspond to what the SASS file structure reflects. To illustrate we'll follow along the previous SASS code example.
 - Notice how _Boostrap4_ and custom `cx-` classes can **coexist**, yet a _Bootstrap4_ class itself should never be overwritten at a component level, a custom one should be created instead.
@@ -334,7 +338,7 @@ Although we aim for a Framework agnostic Design System, the Beta version is larg
 ### Recommended
 
 - Extend _Bootstrap4_ generic components in the `storefrontstyle/cxbase` directory only.
-- Follow the BEM naming as illustrated under the [SCSS and HTML structure](#scss-and-html-structure) section's example.
+- Follow the BEM naming as illustrated under the [SCSS and HTML structure](#scss-and-html-code-structure) section's example.
 - Remember BEM naming convention should be descriptive of usage not visual representation and must start with the common UI component's file name using a `cx-` prefix.
 - Convert values to variables when they are key to further customization by frontend developers or designers: heights, paddings, colors and hardcode those that are unlikely to be changed.
 - Leverage implicit focus over tabindex focus.
@@ -370,4 +374,4 @@ use **SASS nesting** for all cases either for extending global components or spe
 
 ## Reporting visual bugs
 
-Please note a screenshot attachment is mandatory to consider the issue as valid, also please follow the general [contributing](CONTRIBUTING.md) guidelines when submitting
+Please note a screenshot attachment is mandatory to consider the issue as valid, also please follow the general [contributing](../../CONTRIBUTING.md) guidelines when submitting
