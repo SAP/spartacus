@@ -1,48 +1,41 @@
-import { PageType } from './../../routing/models/page-context.model';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Store, StoreModule, combineReducers, select } from '@ngrx/store';
-
-import { LanguageSelectorComponent } from './language-selector.component';
-import * as fromStore from './../shared/store';
-import * as fromRoot from '../../routing/store';
-
-import * as fromActions from './../shared/store/actions/languages.action';
 import { of } from 'rxjs';
-import { SiteContextConfig } from '@spartacus/core';
 
-const MockSiteContextModuleConfig = {
-  site: {
-    language: 'de',
-    currency: 'JPY'
-  }
+import {
+  LanguageService,
+  SiteContextConfig,
+  defaultSiteContextConfig
+} from '@spartacus/core';
+import { LanguageSelectorComponent } from './language-selector.component';
+
+const mockLanguages: any[] = [
+  { active: true, isocode: 'ja', name: 'Japanese' }
+];
+
+const mockActiveLang = 'ja';
+
+const languageServiceMock = {
+  languages$: of(mockLanguages),
+  activeLanguage$: of(mockActiveLang)
 };
-
 describe('LanguageSelectorComponent', () => {
-  const languages = [
-    { active: false, isocode: 'en', name: 'English', nativeName: 'English' }
-  ];
-
   let component: LanguageSelectorComponent;
   let fixture: ComponentFixture<LanguageSelectorComponent>;
-  let store: Store<fromStore.SiteContextState>;
+  let service: LanguageService;
   let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          siteContext: combineReducers(fromStore.getReducers())
-        })
-      ],
       declarations: [LanguageSelectorComponent],
       providers: [
+        LanguageService,
         {
-          provide: SiteContextConfig,
-          useValue: MockSiteContextModuleConfig
-        }
+          provide: LanguageService,
+          useValue: languageServiceMock
+        },
+        { provide: SiteContextConfig, useValue: defaultSiteContextConfig }
       ]
     })
       .overrideComponent(LanguageSelectorComponent, {
@@ -57,76 +50,51 @@ describe('LanguageSelectorComponent', () => {
     el = fixture.debugElement;
     fixture.detectChanges();
 
-    store = TestBed.get(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    service = TestBed.get(LanguageService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should get languages and activeLanguage in ngOnInit', () => {
+    component.languages$.subscribe(value => {
+      expect(value).toEqual(mockLanguages);
+    });
+    component.activeLanguage$.subscribe(value => {
+      expect(value).toEqual(mockActiveLang);
+    });
+  });
+
+  it('should change language', () => {
+    component.setActiveLanguage('en');
+    expect(service.activeLanguage).toEqual('en');
+  });
+
   it('should contain dropdown with languages', () => {
-    component.languages$ = of(languages);
+    component.languages$ = of(mockLanguages);
+    fixture.detectChanges();
 
     const label = el.query(By.css('label'));
     const selectBox = el.query(By.css('select'));
-    fixture.changeDetectorRef.markForCheck();
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(selectBox.nativeElement.value).toEqual(languages[0].isocode);
-    });
-
+    expect(selectBox.nativeElement.value).toEqual(mockLanguages[0].isocode);
     expect(label.nativeElement.textContent).toEqual('Language');
   });
 
   it('should contain disabled dropdown when languages list is empty', () => {
     component.languages$ = of([]);
-    const selectBox = el.query(By.css('select'));
     fixture.detectChanges();
 
+    const selectBox = el.query(By.css('select'));
     expect(selectBox.nativeElement.disabled).toBeTruthy();
   });
 
   it('should contain enabled dropdown when languages list is NOT empty', () => {
-    component.languages$ = of(languages);
-    const selectBox = el.query(By.css('select'));
+    component.languages$ = of(mockLanguages);
     fixture.detectChanges();
 
+    const selectBox = el.query(By.css('select'));
     expect(selectBox.nativeElement.disabled).toBeFalsy();
-  });
-
-  it('should get language data', () => {
-    const action = new fromActions.LoadLanguagesSuccess(languages);
-    store.dispatch(action);
-
-    store.pipe(select(fromStore.getAllLanguages)).subscribe(data => {
-      expect(data).toEqual(languages);
-    });
-  });
-
-  it('should change language', () => {
-    const pageContext = { id: 'testPageId', type: PageType.CONTENT_PAGE };
-    store.dispatch({
-      type: 'ROUTER_NAVIGATION',
-      payload: {
-        routerState: {
-          context: pageContext
-        },
-        event: {}
-      }
-    });
-
-    const englishLanguage = 'en';
-    component.setActiveLanguage(englishLanguage);
-    expect(component.activeLanguage).toEqual(englishLanguage);
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromActions.SetActiveLanguage(englishLanguage)
-    );
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromActions.LanguageChange()
-    );
   });
 });
