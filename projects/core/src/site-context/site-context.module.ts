@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 
-// import { ConfigModule, Config } from '../config/index';
 import { ConfigModule, Config } from '../config/config.module';
 import { defaultSiteContextConfig, SiteContextConfig } from './config/config';
 import { SiteContextOccModule } from './occ/site-context-occ.module';
