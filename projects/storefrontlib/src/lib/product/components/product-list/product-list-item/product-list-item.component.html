@@ -9,7 +9,7 @@
     <a [routerLink]="['/product/', product.code]" class="y-product-search-list__name" [innerHtml]="product.name">{{product.name}}</a>
     <y-star-rating [rating]="product?.averageRating" [disabled]="true"></y-star-rating>
     <div class="y-product-search-list__price" aria-label="Product price">
-      {{product.price.formattedValue}}
+      {{product.price?.formattedValue}}
     </div>
     <div class="row">
       <div class="col-12 col-md-8">
