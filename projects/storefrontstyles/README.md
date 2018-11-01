@@ -28,16 +28,24 @@ The `theme` and the `cxbase`, inside the scss folder, make the Design System.
 
 Here is where we customize the _look & feel_ of the storefront, two themes are provided: _Sparta_ being the default one and _Lambda_ as a test theme to demo how to quickly change themes and also as a lead on to how to customize or create a new theme.
 
+Primarily you will work in `variables.scss`, reassigning _Bootstrap4_ variables to match the theme.
+
 ```
 ├── theme
 |  ├── lambda
 |  └── sparta
+    ├── _fonts.scss
+    └── _variables.scss
 ```
+
+The theme applied to the application is set in `scss/_theme.scss` and `scss/_fonts.scss` which are imported by the global sheet `scss/app.scss.` A theme is only concerned with variables and fonts. **Themes should not import Bootstrap resources directly.**
 
 To switch from one theme to another, go to the `_theme.scss` file: comment out _sparta_ variables and uncomment _lambda_.
 
 ```
+├── _fonts.scss
 ├── _theme.scss
+├── app.scss
 ├── theme
 └── cxbase
 ```
@@ -213,20 +221,22 @@ Will result in:
 }
 ```
 
-Size and weight combinations are to be customized and extended in the `_variables.scss` file of the theme in use. For example:
+Type size and weight combinations are to be customized and extended in the `_variables.scss` file of the theme in use. For example:
 
 ```
 ├── theme
-   └── sparta
-      └── _variables.scss
+|  ├── lambda
+|  └── sparta
+    └── _variables.scss
 ```
 
 ## HTML and SASS structure
 
-### SASS
+### SASS files: `*.component.scss`
 
-- Employ the theme variables, functions and mixins to apply the design system. It should be extremely rare to hard code a color, font-size, margin, or breakpoint.
-- Ensure components have access to the global SASS variables and useful functions and mixins:
+- A component file must handle it's own dependencies. This is a different approach from having a single file with all CSS for the entire application. Components should be standalone, have all the styles they need attached directly (or encapsulated).
+- Employ the theme variables, functions and mixins to apply the Design System. It should be extremely rare to hard code a color, font-size or breakpoints.
+- Ensure components have access to the _Bootstrap4_ styles for each component. Remember, the entire _Bootstrap4_ CSS in **NOT** included with the global styles so you must import what you need. For example: If you are building a navigation using _Bootstrap4_ `nav` classes then you must import the nav file explicitly as shown below.
 
 ```scss
 @import 'theme';
@@ -235,7 +245,7 @@ Size and weight combinations are to be customized and extended in the `_variable
 @import '~bootsrap/scss/nav';
 ```
 
-- Declare SASS variables to store variable that could later help customize the storefront if we transfer them to the theme at some point:
+- Declare SASS variables to store variable that could later help customize the storefront by frontend developers or designers.
 
 ```scss
 $cx-foo-color: 'primary' !default;
@@ -247,6 +257,10 @@ $cx-foo-item-highlighted: 'warning' !default;
 > NOTE: All variables above must include the `!default` flag.
 
 - Every CSS rule should contain a single selector, with only a few exceptions. Strive for the lowest possible specificity.
+- Use [BEM](http://getbem.com/naming/) naming convention in a way that is descriptive of usage and not visual representation.
+- Prefix all custom classes with `cx-`. This will differentiate custom made classes from specific _Bootstrap4_ classes in the HTML.
+- The SCSS file should NOT include _Bootstrap4_ classes, although they could coexist in the HTML.
+- If you need to override an existing _Bootstrap4_ class that, for some reason, was not possible or worth extending in the global `cxbase` directory, then create a custom `cx-` prefixed class and customize it in the componenet file where is needed.
 
 ```scss
 .cx-foo {
@@ -270,24 +284,25 @@ $cx-foo-item-highlighted: 'warning' !default;
 }
 ```
 
-### HTML
+### HTML files
 
 > Disclaimer: The following HTML recommendations are to be taken from the styling perspective only, these are not the general TypeScript coding guidelines.
 
-The HTML structure most correspond to what the SASS file structure reflects. To illustrate we'll follow along the previous SASS code example.
+- The HTML structure most correspond to what the SASS file structure reflects. To illustrate we'll follow along the previous SASS code example.
+- Notice how _Boostrap4_ and custom `cx-` classes can **coexist**, yet a _Bootstrap4_ class itself should never be overwritten at a component level, a custom one should be created instead.
 
 ```html
 <div class="cx-foo">
   <div class="cx-foo__title">This is a To Do list</div>
-  <ul class="cx-foo__list">
-    <li class="cx-foo__list">
-      <a class="cx-foo__link" href=#>This is an item to do</a>
+  <ul class="nav cx-foo__list">
+    <li class="nav-item cx-foo__item">
+      <a class="nav-link active cx-foo__link" href=#>This is an item to do</a>
     </li>
-    <li class="cx-foo__list">
-      <a class="cx-foo__link" href=#>This is an item to do</a>
+    <li class="nav-item cx-foo__item">
+      <a class="nav-link cx-foo__link" href=#>This is an item to do</a>
     </li>
-    <li class="cx-foo__list cx-foo__list--highlighted">
-      <a class="cx-foo__link" href=#>This is a highlighted item</a>
+    <li class="nav-item cx-foo__item cx-foo__item--highlighted">
+      <a class="nav-link cx-foo__link" href=#>This is a highlighted item</a>
     </li>
   </ul>
   </div>
@@ -310,18 +325,39 @@ Although we aim for a Framework agnostic Design System, the Beta version is larg
 ### Recommended
 
 - Extend _Bootstrap4_ generic components in the `storefrontstyle/cxbase` directory only.
-- Follow the BEM naming convention detailed under the "HTML and SASS structure" title above.
-- Convert values to variables when they are key to further customization by frontend developers or designers: heights, paddings, colors and hardcode those that are unlikely to be changed (EXAMPLEHERE)
+- Follow the BEM naming convention detailed under the [HTML and SASS structure](#HTML-and-SASS-structure) example above.
+- Convert values to variables when they are key to further customization by frontend developers or designers: heights, paddings, colors and hardcode those that are unlikely to be changed.
 - Leverage implicit focus over tabindex focus.
-- BEM naming convention should be descriptive of usage not visual representation and must start with the common UI component's file name prefixed with cx- (EXAMPLEHERE)
+- BEM naming convention should be descriptive of usage not visual representation and must start with the common UI component's file name using a `cx-` prefix.
 - Go for the lowest possible specificity.
-- Use already made mixins as much as possible, specially for fonts, colors and type.
+- Use already made mixins as much as possible, specially for colors and type.
 
 ### Avoid
 
-- Using simple CSS arrangements and specificity (.carousel .slide) instead use… (EXAMPLEHERE)
-- Restyling Bootstrap classes (or any framework) in common UI component files. Ex. `.row, .container, .btn`, instead add your own BEM custom classes additionally to those of BS4 `.cx-foo__checkout-row, .cx-foo__checkout-container, .cx-foo__checkout-button`
-- Creating keyboard traps that prevent _**keyboard-only**_ users to checkout a product.
+- Using long and plain CSS selectors in SASS.
+
+Instead of doing this:
+
+```css
+.carousel .slide .carousel-item {
+  height: auto;
+}
+```
+
+use **SASS nesting** for all cases either for extending global components or specific ones.
+
+```scss
+.carousel {
+  .slide {
+    .carousel-item {
+      height: auto;
+    }
+  }
+}
+```
+
+- Restyling Bootstrap classes (or any framework's) in common UI component files. Ex. `.row, .container, .btn`, instead add your own BEM custom classes additionally to those of _Bootstrap4_ like `.cx-foo__checkout-row, .cx-foo__checkout-container, .cx-foo__checkout-button`
+- Creating keyboard traps that prevent **keyboard-only** users to checkout a product.
 
 ## Reporting visual bugs
 
