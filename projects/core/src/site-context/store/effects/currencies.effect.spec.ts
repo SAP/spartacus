@@ -48,4 +48,16 @@ describe('Currencies Effects', () => {
       expect(effects.loadCurrencies$).toBeObservable(expected);
     });
   });
+
+  describe('activateCurrency$', () => {
+    it('should change the active currency', () => {
+      const action = new fromActions.SetActiveCurrency('USD');
+      const completion = new fromActions.CurrencyChange();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.activateCurrency$).toBeObservable(expected);
+    });
+  });
 });

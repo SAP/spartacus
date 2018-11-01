@@ -46,4 +46,16 @@ describe('Languages Effects', () => {
       expect(effects.loadLanguages$).toBeObservable(expected);
     });
   });
+
+  describe('activateLanguage$', () => {
+    it('should change the active language', () => {
+      const action = new fromActions.SetActiveLanguage('zh');
+      const completion = new fromActions.LanguageChange();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.activateLanguage$).toBeObservable(expected);
+    });
+  });
 });
