@@ -68,7 +68,7 @@ This is where anything that should be shared across multiple themes — and NOT 
 
 _Bootstrap4_ is the default UI Framework, therefore all following examples will make reference to this framework.
 
-It's important to mention that _Bootstrap4_ is tied to the _ng-bootstrap_ logic in some reusable components throughout the storefront.
+It's important to mention that _Bootstrap4_ is tied to the _[ng-bootstrap](https://ng-bootstrap.github.io/#/home)_ logic in some reusable components throughout the storefront.
 
 Anything we extend or customize here will have a **global** impact in the storefront.
 
@@ -284,9 +284,9 @@ $cx-foo-item-highlighted: 'warning' !default;
 }
 ```
 
-### HTML files
+### HTML files `*.component.html`
 
-> Disclaimer: The following HTML recommendations are to be taken from the styling perspective only, these are not the general TypeScript coding guidelines.
+> Disclaimer: The following HTML recommendations are to be taken from the styling perspective only, these are NOT the general TypeScript [coding guidelines](coding-guidelines.md).
 
 - The HTML structure most correspond to what the SASS file structure reflects. To illustrate we'll follow along the previous SASS code example.
 - Notice how _Boostrap4_ and custom `cx-` classes can **coexist**, yet a _Bootstrap4_ class itself should never be overwritten at a component level, a custom one should be created instead.
@@ -325,10 +325,10 @@ Although we aim for a Framework agnostic Design System, the Beta version is larg
 ### Recommended
 
 - Extend _Bootstrap4_ generic components in the `storefrontstyle/cxbase` directory only.
-- Follow the BEM naming convention detailed under the [HTML and SASS structure](#HTML-and-SASS-structure) example above.
+- Follow the BEM naming as illustrated under the [HTML and SASS structure](#HTML-and-SASS-structure) section's example.
+- Remember BEM naming convention should be descriptive of usage not visual representation and must start with the common UI component's file name using a `cx-` prefix.
 - Convert values to variables when they are key to further customization by frontend developers or designers: heights, paddings, colors and hardcode those that are unlikely to be changed.
 - Leverage implicit focus over tabindex focus.
-- BEM naming convention should be descriptive of usage not visual representation and must start with the common UI component's file name using a `cx-` prefix.
 - Go for the lowest possible specificity.
 - Use already made mixins as much as possible, specially for colors and type.
 
