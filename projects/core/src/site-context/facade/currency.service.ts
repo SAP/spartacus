@@ -38,10 +38,9 @@ export class CurrencyService {
 
   protected initActiveCurrency() {
     if (sessionStorage) {
-      this.activeCurrency =
-        sessionStorage.getItem('currency') === null
-          ? this.config.site.currency
-          : sessionStorage.getItem('currency');
+      this.activeCurrency = !sessionStorage.getItem('currency')
+        ? this.config.site.currency
+        : sessionStorage.getItem('currency');
     } else {
       this.activeCurrency = this.config.site.currency;
     }

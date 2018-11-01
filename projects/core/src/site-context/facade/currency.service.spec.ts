@@ -40,17 +40,23 @@ describe('CurrencyService', () => {
     });
 
     store = TestBed.get(Store);
-    service = TestBed.get(CurrencyService);
-
     spyOn(store, 'dispatch').and.callThrough();
+    service = TestBed.get(CurrencyService);
   });
 
   it('should CurrencyService is injected', inject(
     [CurrencyService],
-    (Service: CurrencyService) => {
-      expect(Service).toBeTruthy();
+    (currencyService: CurrencyService) => {
+      expect(currencyService).toBeTruthy();
     }
   ));
+
+  it('should load currencies and set active currency when service is constructed', () => {
+    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadCurrencies());
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.SetActiveCurrency(defaultSiteContextConfig.site.currency)
+    );
+  });
 
   it('should be able to get currencies', () => {
     service.currencies$.subscribe(results => {

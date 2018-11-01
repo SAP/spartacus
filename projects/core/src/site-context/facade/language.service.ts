@@ -38,10 +38,9 @@ export class LanguageService {
 
   protected initActiveLanguage() {
     if (sessionStorage) {
-      this.activeLanguage =
-        sessionStorage.getItem('language') === null
-          ? this.config.site.language
-          : sessionStorage.getItem('language');
+      this.activeLanguage = !sessionStorage.getItem('language')
+        ? this.config.site.language
+        : sessionStorage.getItem('language');
     } else {
       this.activeLanguage = this.config.site.language;
     }

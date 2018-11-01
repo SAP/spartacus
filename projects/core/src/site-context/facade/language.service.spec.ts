@@ -41,9 +41,8 @@ describe('LanguageService', () => {
     });
 
     store = TestBed.get(Store);
-    service = TestBed.get(LanguageService);
-
     spyOn(store, 'dispatch').and.callThrough();
+    service = TestBed.get(LanguageService);
   });
 
   it('should LanguageService is injected', inject(
@@ -52,6 +51,13 @@ describe('LanguageService', () => {
       expect(Service).toBeTruthy();
     }
   ));
+
+  it('should load languages and set active language when service is constructed', () => {
+    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadLanguages());
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.SetActiveLanguage(defaultSiteContextConfig.site.language)
+    );
+  });
 
   it('should be able to get languages', () => {
     service.languages$.subscribe(results => {
