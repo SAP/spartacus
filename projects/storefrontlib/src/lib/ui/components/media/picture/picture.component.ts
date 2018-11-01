@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, ElementRef } from '@angular/core';
 import { missingProductImgSrc } from '../../../images/missingProduct';
 
 const DEFAULT_FORMAT = 'product';
@@ -21,7 +21,7 @@ export class PictureComponent implements OnChanges {
   mainImage;
   missingProductImgSrc = missingProductImgSrc;
 
-  constructor() {}
+  constructor(private elRef: ElementRef) {}
 
   ngOnChanges() {
     this.changeImage();
@@ -31,6 +31,7 @@ export class PictureComponent implements OnChanges {
     if (this.imageContainer) {
       const image = this.imageContainer[this.imageFormat || DEFAULT_FORMAT];
       if (image && image.url) {
+        this.zoom(0.1);
         this.mainImage = image.url;
       }
     }
@@ -38,5 +39,13 @@ export class PictureComponent implements OnChanges {
 
   imgErrorHandler(event) {
     event.target.src = missingProductImgSrc;
+  }
+
+  public resetZoom() {
+    this.zoom(1);
+  }
+
+  private zoom(factor) {
+    this.elRef.nativeElement.style.setProperty('--cx-zoom', factor);
   }
 }
