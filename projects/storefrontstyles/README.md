@@ -6,14 +6,16 @@ Spartacus Styles is a styling library that provides global styling and theming t
 
 [Spartacus Styles](https://www.npmjs.com/package/@spartacus/styles)
 
+## Table of contents
+
 This document addresses the following topics:
 
-- [Design System](#the-design-system) (DS) global _wiring_ within the application.
-- [Extending](#cxBase) the DS and customizing global components.
+- [Design System](#the-design-system) global _wiring_ within the application.
+- [Extending](#cxBase) the Design System and customizing global components.
 - [Mixins](#mixins): Using and creating new ones.
 - [SCSS and HTML](#scss-and-html-code-structure) code structure.
 - [Accessibility](#accessibility) considerations.
-- [Contribute](#contributing) to the DS and style components.
+- [Contribute](#contributing) to the Design System and style components.
 - [Report visual bugs](#reporting-visual-bugs).
 
 ## The Design System
