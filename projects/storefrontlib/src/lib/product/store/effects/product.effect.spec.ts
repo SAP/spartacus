@@ -16,8 +16,8 @@ import { StoreModule, combineReducers } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
-import * as fromSiteContext from './../../../site-context/shared/store';
 import { PageType } from '../../../routing/models/page-context.model';
+import { LanguageChange } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -88,7 +88,7 @@ describe('Product Effects', () => {
         of(router)
       );
 
-      const action = new fromSiteContext.LanguageChange();
+      const action = new LanguageChange();
       const completion = new fromActions.LoadProductSuccess(product);
 
       actions$ = hot('-a', { a: action });

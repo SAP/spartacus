@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, filter } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { OccCartService } from '../../../occ/cart/cart.service';
 import { ProductImageConverterService } from '../../../product/converters/product-image-converter.service';
 import { CartDataService } from '../../services/cart-data.service';
@@ -13,7 +13,6 @@ export class CartEffects {
   @Effect()
   loadCart$: Observable<any> = this.actions$.pipe(
     ofType(fromActions.LOAD_CART, LANGUAGE_CHANGE, CURRENCY_CHANGE),
-    filter(() => this.cartData.hasCart),
     map((action: any) => action.payload),
     mergeMap(payload => {
       if (payload === undefined || payload.userId === undefined) {
