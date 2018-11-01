@@ -13,7 +13,6 @@ import { LanguageSelectorComponent } from './language-selector.component';
 const mockLanguages: any[] = [
   { active: true, isocode: 'ja', name: 'Japanese' }
 ];
-
 const mockActiveLang = 'ja';
 
 const languageServiceMock = {
@@ -30,7 +29,6 @@ describe('LanguageSelectorComponent', () => {
     TestBed.configureTestingModule({
       declarations: [LanguageSelectorComponent],
       providers: [
-        LanguageService,
         {
           provide: LanguageService,
           useValue: languageServiceMock

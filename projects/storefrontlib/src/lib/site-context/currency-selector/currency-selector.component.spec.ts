@@ -29,7 +29,6 @@ describe('CurrencySelectorComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CurrencySelectorComponent],
       providers: [
-        CurrencyService,
         {
           provide: CurrencyService,
           useValue: currencyServiceMock
