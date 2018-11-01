@@ -21,6 +21,9 @@ export class ProductDetailsPage extends AppPage {
   readonly productSummaryComponent: ElementFinder = this.page.element(
     by.tagName('y-product-summary')
   );
+  readonly productPrice: ElementFinder = this.productSummaryComponent.element(
+    by.css('.y-product-summary__price')
+  );
   readonly outOfStockDiv: ElementFinder = this.productSummaryComponent.element(
     by.cssContainingText('span', 'Out of stock')
   );

@@ -10,7 +10,7 @@ export class Header {
     by.dynamicSlot('SearchBox', 'y-searchbox')
   );
   readonly miniCartButton: ElementFinder = this.header.element(
-    by.tagName('y-mini-cart')
+    by.dynamicSlot('MiniCart', 'y-mini-cart')
   );
   readonly loginComponent: ElementFinder = this.header
     .all(by.tagName('y-login'))
@@ -27,6 +27,18 @@ export class Header {
   readonly searchInput: ElementFinder = this.searchComponent.element(
     by.css('input.y-search-box__input')
   );
+  readonly currencySwitcher: ElementFinder = this.header.element(
+    by.css('#currencySelector')
+  );
+  readonly languageSwitcher: ElementFinder = this.header.element(
+    by.css('#languageSelector')
+  );
+  currencyOption(currency: String): ElementFinder {
+    return this.currencySwitcher.element(by.css(`option[value="${currency}"]`));
+  }
+  languageOption(lang: String): ElementFinder {
+    return this.languageSwitcher.element(by.css(`option[value="${lang}"]`));
+  }
 
   async openLoginModal() {
     // click on login icon
@@ -47,9 +59,5 @@ export class Header {
     return await this.loginComponent
       .element(by.css('.y-login-status__greet'))
       .isPresent();
-  }
-
-  async scrollTo() {
-    await E2EUtil.scrollToElement('y-header');
   }
 }
