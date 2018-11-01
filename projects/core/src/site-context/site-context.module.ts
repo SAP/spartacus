@@ -4,8 +4,8 @@ import { ConfigModule, Config } from '../config/index';
 import { defaultSiteContextConfig, SiteContextConfig } from './config/config';
 import { SiteContextOccModule } from './occ';
 import { SiteContextStoreModule } from './store/site-context-store.module';
-import { LanguageService } from './language.service';
-import { CurrencyService } from './currency.service';
+import { LanguageService } from './facade/language.service';
+import { CurrencyService } from './facade/currency.service';
 
 @NgModule({
   imports: [

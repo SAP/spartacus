@@ -4,10 +4,10 @@ import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import * as fromStore from './store';
-import { StateWithSiteContext } from './store/state';
+import * as fromStore from '../store';
+import { StateWithSiteContext } from '../store/state';
 import { CurrencyService } from './currency.service';
-import { SiteContextConfig, defaultSiteContextConfig } from './config/config';
+import { SiteContextConfig, defaultSiteContextConfig } from '../config/config';
 
 const mockCurrencies: any[] = [
   { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }

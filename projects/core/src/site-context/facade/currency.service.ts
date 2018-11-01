@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { StateWithSiteContext, CurrencyEntities } from './store/state';
-import { SiteContextConfig } from './config/config';
+import { StateWithSiteContext, CurrencyEntities } from '../store/state';
+import { SiteContextConfig } from '../config/config';
 import {
   LoadCurrencies,
   SetActiveCurrency,
   getAllCurrencies,
   getActiveCurrency
-} from './store';
+} from '../store';
 
 @Injectable()
 export class CurrencyService {

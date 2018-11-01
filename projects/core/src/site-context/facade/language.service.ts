@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { StateWithSiteContext, LanguagesEntities } from './store/state';
+import { StateWithSiteContext, LanguagesEntities } from '../store/state';
 import {
   getAllLanguages,
   LoadLanguages,
   getActiveLanguage,
   SetActiveLanguage
-} from './store/index';
-import { SiteContextConfig } from './config/config';
+} from '../store/index';
+import { SiteContextConfig } from '../config/config';
 
 @Injectable()
 export class LanguageService {
