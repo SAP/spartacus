@@ -12,13 +12,12 @@ import {
 } from '../../../cms/components';
 import { GlobalMessageModule } from '../../../global-message/global-message.module';
 import { StoreModule, combineReducers } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { OccSiteService } from '../../../../../../core/src/site-context/occ/occ-site.service';
 import * as fromRoot from '../../../routing/store';
-import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
-import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
+import { SiteContextModule } from '../../../site-context/site-context.module';
 import { LoginComponent } from '../../../user/components/login/login.component';
 import * as fromUserReducer from '../../../user/store/reducers';
-import * as fromSCStore from '../../../site-context/shared/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuth from '../../../auth/store';
 import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
@@ -49,11 +48,12 @@ describe('StorefrontComponent', () => {
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           user: combineReducers(fromUserReducer.getReducers()),
-          siteContext: combineReducers(fromSCStore.getReducers()),
           cms: combineReducers(fromCmsReducer.getReducers()),
           auth: combineReducers(fromAuth.getReducers())
         }),
-        GlobalMessageModule
+        EffectsModule.forRoot([]),
+        GlobalMessageModule,
+        SiteContextModule
       ],
       declarations: [
         StorefrontComponent,
@@ -61,8 +61,6 @@ describe('StorefrontComponent', () => {
         FooterComponent,
         DynamicSlotComponent,
         ComponentWrapperDirective,
-        LanguageSelectorComponent,
-        CurrencySelectorComponent,
         HeaderSkipperComponent,
         TertiaryBarComponent,
         MobileMenuComponent,

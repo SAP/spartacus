@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import * as fromAuth from '../../../auth/store';
 import {
   DynamicSlotComponent,
@@ -9,10 +10,8 @@ import {
 } from '../../../cms/components';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromRoot from '../../../routing/store';
-import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
-import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
+import { SiteContextModule } from '../../../site-context';
 import * as fromUserReducer from '../../../user/store/reducers';
-import * as fromSCStore from './../../../site-context/shared/store';
 import { LoginComponent } from './../../../user/components/login/login.component';
 import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
 import { HeaderComponent } from './header.component';
@@ -40,17 +39,16 @@ describe('HeaderComponent', () => {
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           user: combineReducers(fromUserReducer.getReducers()),
-          siteContext: combineReducers(fromSCStore.getReducers()),
           cms: combineReducers(fromCmsReducer.getReducers()),
           auth: combineReducers(fromAuth.getReducers())
-        })
+        }),
+        EffectsModule.forRoot([]),
+        SiteContextModule
       ],
       declarations: [
         HeaderComponent,
         DynamicSlotComponent,
         ComponentWrapperDirective,
-        CurrencySelectorComponent,
-        LanguageSelectorComponent,
         HeaderSkipperComponent,
         TertiaryBarComponent,
         MobileMenuComponent,
