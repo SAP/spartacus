@@ -34,7 +34,7 @@ class GoogleMapRendererServiceMock {
   renderMap() {}
 }
 
-describe('StoreFinderListComponent', () => {
+describe('StoreFinderDisplayListComponent', () => {
   let component: StoreFinderDisplayListComponent;
   let fixture: ComponentFixture<StoreFinderDisplayListComponent>;
   let store: Store<fromReducers.StoresState>;
@@ -83,27 +83,6 @@ describe('StoreFinderListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should change pages', () => {
-    // given
-    const pageNumber = 4;
-    component.searchQuery = {
-      queryText: '',
-      longitudeLatitude: { longitude: 0, latitude: 0 }
-    };
-
-    // when
-    component.viewPage(pageNumber);
-
-    // then
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromReducers.FindStores({
-        queryText: '',
-        longitudeLatitude: { longitude: 0, latitude: 0 },
-        searchConfig: { currentPage: pageNumber }
-      })
-    );
   });
 
   it('should center store on map', () => {

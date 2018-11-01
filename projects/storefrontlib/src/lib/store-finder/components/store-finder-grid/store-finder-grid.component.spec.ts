@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, StoreModule } from '@ngrx/store';
 
 import { StoreFinderGridComponent } from './store-finder-grid.component';
-import { StoreFinderListItemComponent } from '../store-finder-list/store-finder-list-item/store-finder-list-item.component';
+import { StoreFinderListItemComponent } from '../store-finder-display-list/store-finder-list-item/store-finder-list-item.component';
 import { StoreFinderService } from '../../services/store-finder.service';
 
 import * as fromReducers from '../../store';

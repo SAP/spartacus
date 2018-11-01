@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import * as fromStore from '../../store';
 import { SearchConfig } from '../../models/search-config';
 import { SearchQuery } from '../../models/search-query';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { StoreFinderService } from '../../services';
 
 @Component({
@@ -29,7 +29,7 @@ export class StoreFinderListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(() => this.initialize());
+    this.route.queryParams.subscribe(params => this.initialize(params));
   }
 
   viewPage(pageNumber: number) {
@@ -43,8 +43,8 @@ export class StoreFinderListComponent implements OnInit {
     );
   }
 
-  private initialize() {
-    this.searchQuery = this.parseParameters(this.route.snapshot.queryParams);
+  private initialize(params: Params) {
+    this.searchQuery = this.parseParameters(params);
     this.storeFinderService.findStores(
       this.searchQuery.queryText,
       this.searchQuery.longitudeLatitude
