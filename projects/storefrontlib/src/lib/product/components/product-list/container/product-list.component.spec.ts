@@ -9,10 +9,6 @@ import { PictureComponent } from '../../../../ui/components/media/picture/pictur
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchConfig } from '../../../search-config';
 
-import * as fromRoot from '../../../../routing/store';
-import * as fromProduct from '../../../store';
-
-import { StoreModule, combineReducers } from '@ngrx/store';
 import {
   ProductViewComponent,
   ViewModes
@@ -29,6 +25,10 @@ import { PaginationComponent } from '../../../../ui/components/pagination-and-so
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
 import { ProductSearchService } from '../../../facade/product-search.service';
 
+class MockProductSearchService {
+  search() {}
+}
+
 describe('ProductListComponent in product-list', () => {
   let service: ProductSearchService;
   let component: ProductListComponent;
@@ -43,13 +43,14 @@ describe('ProductListComponent in product-list', () => {
         NgbRatingModule,
         PaginationAndSortingModule,
         FormsModule,
-        RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          products: combineReducers(fromProduct.getReducers())
-        })
+        RouterTestingModule
       ],
-      providers: [ProductSearchService],
+      providers: [
+        {
+          provide: ProductSearchService,
+          useClass: MockProductSearchService
+        }
+      ],
       declarations: [
         ProductListComponent,
         ProductFacetNavigationComponent,
