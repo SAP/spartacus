@@ -1,8 +1,7 @@
 import { ComponentsModule } from './../../../../ui/components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { of } from 'rxjs';
-import { Observable } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import { ComponentMapperService } from '../../../../cms/services/component-mapper.service';
 import { ProductService } from '../../../facade/product.service';
