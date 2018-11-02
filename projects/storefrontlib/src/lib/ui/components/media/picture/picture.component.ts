@@ -27,6 +27,8 @@ export class PictureComponent implements OnChanges {
   mainImage;
   missingProductImgSrc = missingProductImgSrc;
 
+  private initialLoad = true;
+
   constructor(private elRef: ElementRef, private cd: ChangeDetectorRef) {}
 
   ngOnChanges() {
@@ -37,7 +39,9 @@ export class PictureComponent implements OnChanges {
     if (this.imageContainer) {
       const image = this.imageContainer[this.imageFormat || DEFAULT_FORMAT];
       if (image && image.url) {
-        this.zoom(0.1);
+        if (!this.initialLoad) {
+          this.zoom(0.5);
+        }
         this.mainImage = image.url;
         this.cd.detectChanges();
       }
@@ -49,7 +53,10 @@ export class PictureComponent implements OnChanges {
   }
 
   public resetZoom() {
-    this.zoom(1);
+    if (!this.initialLoad) {
+      this.zoom(1);
+    }
+    this.initialLoad = false;
   }
 
   private zoom(factor) {
