@@ -23,7 +23,7 @@ import {
   NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { OutletDirective } from '../../../outlet';
-import { ProductService } from '../../../product/services';
+import { ProductService } from '../../../product/facade';
 
 describe('ProductDetailsPageLayoutComponent', () => {
   let component: ProductDetailsPageLayoutComponent;

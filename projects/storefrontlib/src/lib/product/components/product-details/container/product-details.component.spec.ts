@@ -5,7 +5,7 @@ import { combineReducers, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { ComponentMapperService } from '../../../../cms/services/component-mapper.service';
-import { ProductService } from '../../../services/product.service';
+import { ProductService } from '../../../facade/product.service';
 
 import * as fromRoot from '../../../../routing/store';
 import * as fromProduct from '../../../store/reducers';

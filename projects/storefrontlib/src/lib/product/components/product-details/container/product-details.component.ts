@@ -6,7 +6,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProductService } from '../../../services/product.service';
+import { ProductService } from '../../../facade/product.service';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({

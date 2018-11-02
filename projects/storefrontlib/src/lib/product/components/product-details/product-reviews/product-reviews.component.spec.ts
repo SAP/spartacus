@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import * as fromStore from '../../../store';
 import * as fromRoot from './../../../../routing/store';
 import { ProductReviewsComponent } from './product-reviews.component';
-import { ProductReviewService } from '../../../services/product-review.service';
+import { ProductReviewService } from '../../../facade/product-review.service';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };

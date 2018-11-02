@@ -27,7 +27,7 @@ import { FormsModule } from '@angular/forms';
 import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
-import { ProductSearchService } from '../../../services/product-search.service';
+import { ProductSearchService } from '../../../facade/product-search.service';
 
 describe('ProductListComponent in product-list', () => {
   let service: ProductSearchService;
