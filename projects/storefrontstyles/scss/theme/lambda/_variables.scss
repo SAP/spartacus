@@ -45,7 +45,7 @@ $body-bg: $inverse;
 COMPONENT VARIABLE OVERRIDES
   For example, the following would override the cx-storefront background set in src/app/ui/layout/main/main.component.scss
 */
-$y-header-background-color: 'brand';
-$y-header-color: 'accent';
-$y-footer-background-color: 'brand';
-$y-footer-color: 'accent';
+$cx-header-background-color: 'brand';
+$cx-header-color: 'accent';
+$cx-footer-background-color: 'brand';
+$cx-footer-color: 'accent';

@@ -2,24 +2,25 @@
 
     <ng-container *cxOutlet="outlets.PAGE">
         <div class="container">
-            <div class="y-product-details">
+            <div class="cx-product-details">
                 <div>
                     <ng-container *cxOutlet="outlets.TITLE">
-                        <div class="y-product-details__item-name">{{product?.name}}</div>
-                        <div class="y-product-details__item-code">ID {{product?.code}}</div>
+                        <div class="cx-product-details__item-name">{{product?.name}}</div>
+                        <div class="cx-product-details__item-code">ID {{product?.code}}</div>
                     </ng-container>
                 </div>
-                <div class="y-product-details__item-images">
+                <div class="cx-product-details__item-images">
                     <ng-container *cxOutlet="outlets.IMAGES">
-                        <y-product-images [product]="product"></y-product-images>
+                        <y-product-images [product]="product">
+                        </y-product-images>
                     </ng-container>
                 </div>
                 <div>
                     <ng-container *cxOutlet="outlets.RATING">
-                        <div class="y-product-details__item-rating">
+                        <div class="cx-product-details__item-rating">
                             <y-star-rating [rating]="product?.averageRating" [disabled]="true"></y-star-rating>
-                            <div class="y-product-details__review-count">({{product?.numberOfReviews}})</div>
-                            <a class="y-product-details__review-link btn-link" (click)="goToReviews($event)">
+                            <div class="cx-product-details__review-count">({{product?.numberOfReviews}})</div>
+                            <a class="cx-product-details__review-link btn-link" (click)="goToReviews($event)">
                                 Write a review</a>
                         </div>
                     </ng-container>
@@ -44,16 +45,16 @@
         </div>
 
         <ng-container *cxOutlet="outlets.TAB">
-            <div class="y-product-details__tabset" #tabSetWrapper>
+            <div class="cx-product-details__tabset" #tabSetWrapper>
                 <ngb-tabset justify="center" #tabSet>
                     <ngb-tab>
                         <ng-template ngbTabTitle>
-                            <div class="y-product-details__tab-title">
+                            <div class="cx-product-details__tab-title">
                                 Product Details
                             </div>
                         </ng-template>
                         <ng-template ngbTabContent>
-                            <div class="y-product-details__tab-section">
+                            <div class="cx-product-details__tab-section">
                                 <ng-container *cxOutlet="outlets.DESCRIPTION">
                                     <div class="container">
                                         <p [innerHTML]="product?.description"></p>
@@ -64,12 +65,12 @@
                     </ngb-tab>
                     <ngb-tab>
                         <ng-template ngbTabTitle>
-                            <div class="y-product-details__tab-title">
+                            <div class="cx-product-details__tab-title">
                                 Specs
                             </div>
                         </ng-template>
                         <ng-template ngbTabContent>
-                            <div class="y-product-details__tab-section">
+                            <div class="cx-product-details__tab-section">
                                 <ng-container *cxOutlet="outlets.SPECIFICATIONS">
                                     <div class="container">
                                         <y-product-attributes [product]="product"></y-product-attributes>
@@ -81,12 +82,12 @@
 
                     <ngb-tab id="reviews">
                         <ng-template ngbTabTitle>
-                            <div class="y-product-details__tab-title">
+                            <div class="cx-product-details__tab-title">
                                 Reviews ({{product?.numberOfReviews}})
                             </div>
                         </ng-template>
                         <ng-template ngbTabContent>
-                            <div class="y-product-details__tab-section">
+                            <div class="cx-product-details__tab-section">
                                 <ng-container *cxOutlet="outlets.REVIEWS">
                                     <div class="container">
                                         <y-product-reviews [(isWritingReview)]="isWritingReview" [product]="product"></y-product-reviews>
@@ -97,12 +98,12 @@
                     </ngb-tab>
                     <ngb-tab>
                         <ng-template ngbTabTitle>
-                            <div class="y-product-details__tab-title">
+                            <div class="cx-product-details__tab-title">
                                 Shipping
                             </div>
                         </ng-template>
                         <ng-template ngbTabContent>
-                            <div class="y-product-details__tab-section">
+                            <div class="cx-product-details__tab-section">
                                 <ng-container *cxOutlet="outlets.SHIPPING">
                                     <div class="container">
                                         <ng-container yComponentWrapper componentType="CMSTabParagraphComponent"
@@ -117,7 +118,7 @@
             </div>
 
             <!-- Mobile accordion -->
-            <div class="y-product-details__tabset-mobile">
+            <div class="cx-product-details__tabset-mobile">
                 <ngb-accordion #acc="ngbAccordion">
                     <ngb-panel id="toggle-1" title="Product Details">
                         <ng-template ngbPanelContent>

@@ -1,6 +1,6 @@
-<div class="y-mobile-menu">
+<div class="cx-mobile-menu">
 
-      <div class="y-mobile-menu__control">
+      <div class="cx-mobile-menu__control">
             <button class="hamburger hamburger--squeeze" type="button" (click)="toggleMenu()" [ngClass]="{ 'is-active': showMenu }"
                   [attr.aria-expanded]="showMenu" aria-label="Menu" aria-controls="header-account-container, header-categories-container, header-locale-container">
                   <span class="hamburger-box">
@@ -9,16 +9,16 @@
             </button>
       </div>
 
-      <div class="y-mobile-menu__content" [attr.aria-hidden]="!showMenu">
-            <div class="y-mobile-menu__components">
+      <div class="cx-mobile-menu__content" [attr.aria-hidden]="!showMenu">
+            <div class="cx-mobile-menu__components">
                   <y-login></y-login>
                   <y-dynamic-slot position="NavigationBar" class="d-block d-lg-none"></y-dynamic-slot>
-                  <div class="y-mobile-menu__locale">
+                  <div class="cx-mobile-menu__locale">
                         <y-language-selector></y-language-selector>
                         <y-currency-selector></y-currency-selector>
                   </div>
             </div>
       </div>
 
-      <div *ngIf="showMenu" class="y-mobile-menu__overlay" (click)="toggleMenu()"></div>
+      <div *ngIf="showMenu" class="cx-mobile-menu__overlay" (click)="toggleMenu()"></div>
 </div>

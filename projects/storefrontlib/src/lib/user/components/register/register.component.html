@@ -1,12 +1,12 @@
-<div class="y-page">
-  <header class="y-page__header">
-    <h1 class="y-page__title">Register</h1>
+<div class="cx-page">
+  <header class="cx-page__header">
+    <h1 class="cx-page__title">Register</h1>
   </header>
-  <section class="y-page__section container">
+  <section class="cx-page__section container">
     <div class="row justify-content-center">
       <div class="col-md-6">
-        <div class="y-section">
-          <h1 class="y-section__title">Create an account</h1>
+        <div class="cx-section">
+          <h1 class="cx-section__title">Create an account</h1>
           <form [formGroup]="userRegistrationForm">
 
             <div class="form-group">
@@ -74,7 +74,7 @@
               </div>
             </div>
             <button type="submit" (click)="submit()" [disabled]="userRegistrationForm.invalid" class="btn btn-block btn-primary">Register</button>
-            <a class="y-section__login-link btn-link" routerLink="/login">I already have an account. Sign In</a>
+            <a class="cx-section__login-link btn-link" routerLink="/login">I already have an account. Sign In</a>
           </form>
         </div>
       </div>

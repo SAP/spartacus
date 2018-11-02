@@ -1,4 +1,4 @@
-<div class="y-payment-form container">
+<div class="cx-payment-form container">
     <div class="row">
         <div class="col-md-12 col-lg-9">
             <!-- FORM -->
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="CVV">Security code (CVV) </label> <img class="y-payment-form__tooltip-icon" [src]="infoIconImgSrc"
+                        <label for="CVV">Security code (CVV) </label> <img class="cx-payment-form__tooltip-icon" [src]="infoIconImgSrc"
                             placement="right" ngbTooltip="Card Verification Value">
                         <input type="text" class="form-control" id="cVVNumber" required formControlName="cvn">
                     </div>
@@ -54,8 +54,8 @@
                 </div>
 
                 <!-- BILLING -->
-                <div class="y-payment-form__billing">
-                    <div class="y-payment-form__billing-address">Billing address</div>
+                <div class="cx-payment-form__billing">
+                    <div class="cx-payment-form__billing-address">Billing address</div>
                     <div class="form-group">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="exampleCheck3" [checked]="sameAsShippingAddress"
@@ -65,12 +65,13 @@
                     </div>
                     <!-- BILLING INFO COMPONENT -->
                     <div *ngIf="sameAsShippingAddress && shippingAddress$ | async as shippingAddress">
-                        <y-card [content]="getAddressCardContent(shippingAddress)"></y-card>
+                        <y-card [content]="getAddressCardContent(shippingAddress)">
+                        </y-card>
                     </div>
                 </div>
 
                 <!-- BUTTON SECTION -->
-                <div class="y-payment-form__btns row">
+                <div class="cx-payment-form__btns row">
                     <div class="col-sm-12 col-md-6"><button class="btn btn-block btn-action" (click)="back()">
                             Change Payment</button></div>
                     <div class="col-sm-12 col-md-6"><button class="btn btn-block btn-primary" [disabled]="payment.invalid"

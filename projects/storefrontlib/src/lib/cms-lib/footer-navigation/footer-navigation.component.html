@@ -1,12 +1,12 @@
-<nav class="y-footer-navigation">
+<nav class="cx-footer-navigation">
   <div class="container">
     <div class="row">
       <div class="col-xs-12 col-sm-4 col-md-3" *ngFor="let child of node.children">
-        <div class="y-footer-navigation__container">
-          <h1 class="y-footer-navigation__title">{{child.title}}</h1>
-          <ul class="y-footer-navigation__list">
-            <li class="y-footer-navigation__item" *ngFor="let link of child.children">
-              <a class="y-footer-navigation__link" [href]="link.url" [target]="link.target === true ? 'blank':'self'">{{
+        <div class="cx-footer-navigation__container">
+          <h1 class="cx-footer-navigation__title">{{child.title}}</h1>
+          <ul class="cx-footer-navigation__list">
+            <li class="cx-footer-navigation__item" *ngFor="let link of child.children">
+              <a class="cx-footer-navigation__link" [href]="link.url" [target]="link.target === true ? 'blank':'self'">{{
                 link.title }}</a>
             </li>
           </ul>
@@ -15,6 +15,6 @@
     </div>
   </div>
 </nav>
-<div class="y-footer-navigation__notice">
+<div class="cx-footer-navigation__notice">
   {{component?.notice}}
 </div>
