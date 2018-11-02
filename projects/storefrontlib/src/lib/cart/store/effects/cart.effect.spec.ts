@@ -4,8 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { StoreModule, combineReducers } from '@ngrx/store';
-import * as fromRoot from '../../../routing/store';
+import { StoreModule } from '@ngrx/store';
 import * as fromCart from '../../../cart/store';
 import * as fromUser from '../../../user/store';
 import * as fromAuth from '../../../auth/store';
@@ -52,12 +51,10 @@ describe('Cart effect', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cart: combineReducers(fromCart.getReducers()),
-          user: combineReducers(fromUser.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cart', fromCart.getReducers()),
+        StoreModule.forFeature('user', fromUser.getReducers()),
+        StoreModule.forFeature('auth', fromAuth.getReducers())
       ],
 
       providers: [

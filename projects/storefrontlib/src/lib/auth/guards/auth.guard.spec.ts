@@ -19,7 +19,7 @@ const mockUserToken = {
 const mockActivatedRouteSnapshot = {};
 const mockRouterStateSnapshot = { url: '/test' };
 
-fdescribe('AuthGuard', () => {
+describe('AuthGuard', () => {
   let authGuard: AuthGuard;
   let service: RoutingService;
   let activatedRouteSnapshot;

@@ -1,6 +1,5 @@
-import { Store, StoreModule, combineReducers, select } from '@ngrx/store';
+import { Store, StoreModule, select } from '@ngrx/store';
 
-import * as fromRoot from './../../../routing/store';
 import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
 import * as fromActions from './../actions';
@@ -41,10 +40,8 @@ describe('Cart selectors', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cart: combineReducers(fromReducers.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cart', fromReducers.getReducers())
       ]
     });
 
