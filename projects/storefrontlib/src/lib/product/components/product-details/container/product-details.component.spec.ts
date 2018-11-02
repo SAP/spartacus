@@ -1,14 +1,12 @@
 import { ComponentsModule } from './../../../../ui/components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { combineReducers, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { ComponentMapperService } from '../../../../cms/services/component-mapper.service';
 import { ProductService } from '../../../facade/product.service';
 
-import * as fromRoot from '../../../../routing/store';
-import * as fromProduct from '../../../store/reducers';
 import { BootstrapModule } from '../../../../bootstrap.module';
 import { ProductDetailsComponent } from './product-details.component';
 import { OutletDirective } from '../../../../outlet';
@@ -23,6 +21,14 @@ import { ProductReviewsComponent } from '../product-reviews/product-reviews.comp
 import { Component, Input } from '@angular/core';
 
 class MockComponentMapperService {}
+
+const mockProduct = 'mockProduct';
+
+class MockProductService {
+  get(): Observable<any> {
+    return of(mockProduct);
+  }
+}
 
 @Component({
   selector: 'y-add-to-cart',
@@ -42,19 +48,9 @@ describe('ProductDetailsComponent in product', () => {
   let productDetailsComponent: ProductDetailsComponent;
   let fixture: ComponentFixture<ProductDetailsComponent>;
 
-  const mockProduct = 'mockProduct';
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        BootstrapModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          products: combineReducers(fromProduct.getReducers())
-        }),
-        ComponentsModule
-      ],
+      imports: [ReactiveFormsModule, BootstrapModule, ComponentsModule],
       declarations: [
         ProductDetailsComponent,
 
@@ -68,7 +64,10 @@ describe('ProductDetailsComponent in product', () => {
         OutletDirective
       ],
       providers: [
-        ProductService,
+        {
+          provide: ProductService,
+          useClass: MockProductService
+        },
         {
           provide: ComponentMapperService,
           useClass: MockComponentMapperService
