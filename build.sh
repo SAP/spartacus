@@ -25,6 +25,8 @@ function validateTsConfigFile {
     fi;
 }
 
+exit 0
+
 LOCAL_ENV_LIB_PATH="projects/storefrontlib/src/public_api"
 TSCONFIGFILE_TO_VALIDATE="projects/storefrontapp/tsconfig.app.prod.json"
 validateTsConfigFile
