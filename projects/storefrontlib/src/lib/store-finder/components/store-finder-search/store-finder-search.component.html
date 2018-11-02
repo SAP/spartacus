@@ -7,7 +7,7 @@
             </div>
             <!--button type="button" class="btn btn-primary btn-block y-store-finder-search__button" (click)="findStores(queryInput.value)">Find
                 store</button-->
-            <button type="button" class="btn btn-primary btn-block y-store-finder-search__button" routerLink="findstores" queryParams="{query: queryInput.value}">Find store
+            <button type="button" class="btn btn-primary btn-block y-store-finder-search__button" routerLink="findstores" [queryParams]="{query: queryInput.value}">Find store
             </button>
 
             <div class="y-store-finder-search__bottom-links">
