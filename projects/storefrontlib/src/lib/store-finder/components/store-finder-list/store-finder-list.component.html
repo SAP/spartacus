@@ -5,12 +5,12 @@
                 <ol class="y-store-finder-list__list">
                     <li *ngFor="let location of locations?.stores; let i = index;" id="{{'item-' + i}}" [ngClass]="{'y-store-finder-list__selected-store-item' : selectedStore === i}"
                         class="y-store-finder-list__list-items y-store-finder-list__list-items--ordered">
-                        <y-store-finder-list-item [location]="location" [locationIndex]="i" (storeItemClick)="centerStoreOnMapByIndex($event)"></y-store-finder-list-item>
+                        <cx-store-finder-list-item [location]="location" [locationIndex]="i" (storeItemClick)="centerStoreOnMapByIndex($event)"></cx-store-finder-list-item>
                     </li>
                 </ol>
             </div>
             <div class="col-md-8 y-store-finder-list__map-column">
-                <y-store-finder-map #storeMap [locations]="locations.stores" (selectedStoreItem)="selectStoreItemList($event)"></y-store-finder-map>
+                <cx-store-finder-map #storeMap [locations]="locations.stores" (selectedStoreItem)="selectStoreItemList($event)"></cx-store-finder-map>
             </div>
         </div>
 
@@ -30,8 +30,8 @@
                                 <li *ngFor="let location of locations?.stores; let i = index;" id="{{'item-' + i}}"
                                     [ngClass]="{'y-store-finder-list__selected-store-item' : selectedStore === i}"
                                     class="y-store-finder-list__list-items y-store-finder-list__list-items--ordered">
-                                    <y-store-finder-list-item [location]="location" [locationIndex]="i"
-                                        (storeItemClick)="centerStoreOnMapByIndex($event)"></y-store-finder-list-item>
+                                    <cx-store-finder-list-item [location]="location" [locationIndex]="i"
+                                        (storeItemClick)="centerStoreOnMapByIndex($event)"></cx-store-finder-list-item>
                                 </li>
                             </ol>
                         </div>
@@ -45,7 +45,7 @@
                     </ng-template>
                     <ng-template ngbTabContent>
                         <div class="y-store-finder-list__map-column">
-                            <y-store-finder-map #storeMap [locations]="locations.stores" (selectedStoreItem)="selectStoreItemList($event)"></y-store-finder-map>
+                            <cx-store-finder-map #storeMap [locations]="locations.stores" (selectedStoreItem)="selectStoreItemList($event)"></cx-store-finder-map>
                         </div>
                     </ng-template>
                 </ngb-tab>
@@ -56,7 +56,7 @@
 
         <div *ngIf="locations?.stores" class="row">
             <div class="col-md-6 offset-md-3 y-store-finder-list__pagination">
-                <y-pagination [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></y-pagination>
+                <cx-pagination [pagination]="locations.pagination" (viewPageEvent)="viewPage($event)"></cx-pagination>
             </div>
         </div>
 
@@ -70,6 +70,6 @@
 
 <ng-template #loading>
     <div class="y-store-finder-list__spinner">
-        <y-spinner></y-spinner>
+        <cx-spinner></cx-spinner>
     </div>
 </ng-template>

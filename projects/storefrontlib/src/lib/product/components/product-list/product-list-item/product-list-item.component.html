@@ -1,13 +1,13 @@
 <div class="row">
   <div class="col-12 col-md-4">
     <a [routerLink]="['/product/', product.code]" class="y-product-search-list__image__container">
-      <y-picture class="y-product-search-list__image" [imageContainer]="product.images?.PRIMARY" imageFormat="product"
-        [routerLink]="['/product/', product.code]" [imageAlt]="product.summary"></y-picture>
+      <cx-picture class="y-product-search-list__image" [imageContainer]="product.images?.PRIMARY" imageFormat="product"
+        [routerLink]="['/product/', product.code]" [imageAlt]="product.summary"></cx-picture>
     </a>
   </div>
   <div class="col-12 col-md-8">
     <a [routerLink]="['/product/', product.code]" class="y-product-search-list__name" [innerHtml]="product.name">{{product.name}}</a>
-    <y-star-rating [rating]="product?.averageRating" [disabled]="true"></y-star-rating>
+    <cx-star-rating [rating]="product?.averageRating" [disabled]="true"></cx-star-rating>
     <div class="y-product-search-list__price" aria-label="Product price">
       {{product.price?.formattedValue}}
     </div>
@@ -18,7 +18,7 @@
         </p>
       </div>
       <div class="col-12 col-md-4">
-        <y-add-to-cart *ngIf="product.stock.stockLevelStatus !== 'outOfStock'" [productCode]="product.code"></y-add-to-cart>
+        <cx-add-to-cart *ngIf="product.stock.stockLevelStatus !== 'outOfStock'" [productCode]="product.code"></cx-add-to-cart>
       </div>
     </div>
   </div>

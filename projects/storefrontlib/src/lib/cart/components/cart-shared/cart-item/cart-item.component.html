@@ -2,7 +2,7 @@
   <!-- Item Image -->
   <div class="col-2 y-cart-item__image-container">
     <a [routerLink]="['/product', item.product.code]">
-      <y-picture [imageContainer]="item.product.images?.PRIMARY" imageFormat="thumbnail"></y-picture>
+      <cx-picture [imageContainer]="item.product.images?.PRIMARY" imageFormat="thumbnail"></cx-picture>
     </a>
   </div>
   <!-- Item Information -->
@@ -42,9 +42,9 @@
           {{item.quantity}}
         </div>
         <div *ngIf="!isReadOnly && parent" class="y-cart-item__quantity--value" [formGroup]="parent">
-          <y-item-counter [step]="1" [min]="1" [max]="item.product.stock?.stockLevel || 1000" (update)="updateItem($event)" [cartIsLoading]="cartIsLoading"
+          <cx-item-counter [step]="1" [min]="1" [max]="item.product.stock?.stockLevel || 1000" (update)="updateItem($event)" [cartIsLoading]="cartIsLoading"
             formControlName="quantity">
-          </y-item-counter>
+          </cx-item-counter>
         </div>
       </div>
       <!-- Total -->

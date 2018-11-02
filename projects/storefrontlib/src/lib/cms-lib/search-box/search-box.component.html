@@ -25,8 +25,8 @@
         <div *ngIf="!suggestion.code; else productView" class="y-search-box__dropdown-content">{{suggestion}}</div>
         <ng-template #productView>
           <div [routerLink]="['/product/', suggestion.code]" class="y-search-box__dropdown-content-product">
-            <y-picture [imageContainer]="suggestion.images?.PRIMARY" imageFormat="product"
-                       [imageAlt]="suggestion.summary"></y-picture>
+            <cx-picture [imageContainer]="suggestion.images?.PRIMARY" imageFormat="product"
+                       [imageAlt]="suggestion.summary"></cx-picture>
             <div [innerHtml]="suggestion.name" class="y-search-box__dropdown-content-product-name">{{suggestion.name}}</div>
             <div class="y-search-box__dropdown-content-product-price">{{suggestion.price.formattedValue}}</div>
           </div>

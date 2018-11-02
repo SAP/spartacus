@@ -11,9 +11,9 @@
   <div class="y-cart-item-list__body" [formGroup]="form">
     <div class="y-cart-item-list__row" *ngFor="let item of items">
       <div class="y-cart-item-list__item">
-        <y-cart-item [parent]="form.controls[item.product.code]" [item]="item" [potentialProductPromotions]="getPotentialProductPromotionsForItem(item)"
+        <cx-cart-item [parent]="form.controls[item.product.code]" [item]="item" [potentialProductPromotions]="getPotentialProductPromotionsForItem(item)"
           [isReadOnly]="isReadOnly" (remove)="removeEntry($event)" [cartIsLoading]="cartIsLoading" (update)="updateEntry($event)">
-        </y-cart-item>
+        </cx-cart-item>
       </div>
     </div>
   </div>

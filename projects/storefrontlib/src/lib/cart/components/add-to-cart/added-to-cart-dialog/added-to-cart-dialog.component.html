@@ -13,7 +13,7 @@
     <div class="y-added-to-cart-dialog__body modal-body" *ngIf="(entry$ | async) as entry">
       <div class="y-added-to-cart-dialog__info-container row">
         <div class="y-added-to-cart-dialog__item-container col-sm-12 col-md-6">
-          <y-cart-item [item]="entry" [compact]="true" [isReadOnly]="true"></y-cart-item>
+          <cx-cart-item [item]="entry" [compact]="true" [isReadOnly]="true"></cx-cart-item>
         </div>
         <!-- Separator -->
         <div class="y-added-to-cart-dialog__separator col-sm-12 d-xs-block d-sm-block d-md-none"></div>
@@ -45,7 +45,7 @@
     <div class="y-added-to-cart-dialog__body modal-body">
       <div class="y-added-to-cart-dialog__info-container row">
         <div class="col-sm-12">
-          <y-spinner></y-spinner>
+          <cx-spinner></cx-spinner>
         </div>
       </div>
     </div>

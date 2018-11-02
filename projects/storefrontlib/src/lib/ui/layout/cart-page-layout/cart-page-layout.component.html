@@ -5,13 +5,13 @@
 
   <section class="y-page__section">
     <div>
-      <y-dynamic-slot class="empty-cart-message" *ngIf="!cart?.totalItems" position="EmptyCartMiddleContent"></y-dynamic-slot>
-      <y-cart-details *ngIf="cart?.totalItems"></y-cart-details>
+      <cx-dynamic-slot class="empty-cart-message" *ngIf="!cart?.totalItems" position="EmptyCartMiddleContent"></cx-dynamic-slot>
+      <cx-cart-details *ngIf="cart?.totalItems"></cx-cart-details>
     </div>
 
     <!-- Need to implement the product suggestion component for the cart page  -->
     <div>
-      <y-dynamic-slot *ngIf="cart?.totalItems" position="BottomContentSlot" class="total"></y-dynamic-slot>
+      <cx-dynamic-slot *ngIf="cart?.totalItems" position="BottomContentSlot" class="total"></cx-dynamic-slot>
     </div>
   </section>
 </div>

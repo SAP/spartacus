@@ -65,7 +65,7 @@
                     </div>
                     <!-- BILLING INFO COMPONENT -->
                     <div *ngIf="sameAsShippingAddress && shippingAddress$ | async as shippingAddress">
-                        <y-card [content]="getAddressCardContent(shippingAddress)"></y-card>
+                        <cx-card [content]="getAddressCardContent(shippingAddress)"></cx-card>
                     </div>
                 </div>
 

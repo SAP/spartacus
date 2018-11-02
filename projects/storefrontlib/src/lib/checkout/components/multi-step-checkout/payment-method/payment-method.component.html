@@ -13,7 +13,7 @@
                 <div class="y-payment-method__body row">
                     <div class="col-md-12 col-lg-6" *ngFor="let method of existingPaymentMethods; let i=index;">
                         <div class="y-payment-method__card">
-                            <y-card [border]="true" [content]="cards[i]" (sendCard)="paymentMethodSelected(method, i)"></y-card>
+                            <cx-card [border]="true" [content]="cards[i]" (sendCard)="paymentMethodSelected(method, i)"></cx-card>
                         </div>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
             </ng-container>
 
             <ng-template #newPaymentForm>
-                <y-payment-form (addPaymentInfo)="addNewPaymentMethod($event)" (backToPayment)="hideNewPaymentForm()"></y-payment-form>
+                <cx-payment-form (addPaymentInfo)="addNewPaymentMethod($event)" (backToPayment)="hideNewPaymentForm()"></cx-payment-form>
             </ng-template>
 
         </ng-container>
@@ -37,7 +37,7 @@
         <ng-template #loading>
             <div class="y-payment-method container">
                 <div class="y-payment-method__spinner">
-                    <y-spinner></y-spinner>
+                    <cx-spinner></cx-spinner>
                 </div>
             </div>
         </ng-template>

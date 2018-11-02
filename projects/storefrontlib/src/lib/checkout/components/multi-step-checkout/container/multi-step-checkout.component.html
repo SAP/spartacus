@@ -33,20 +33,20 @@
 
                             <!-- Content -->
                             <div *ngIf="nav.status.active && step === 1">
-                                <y-shipping-address [selectedAddress]="deliveryAddress" (addAddress)="addAddress($event)"></y-shipping-address>
+                                <cx-shipping-address [selectedAddress]="deliveryAddress" (addAddress)="addAddress($event)"></cx-shipping-address>
                             </div>
                             <div *ngIf="nav.status.active && step === 2">
-                                <y-delivery-mode [selectedShippingMethod]="shippingMethod" (selectMode)="setDeliveryMode($event)"
-                                    (backStep)="setStep(1)"></y-delivery-mode>
+                                <cx-delivery-mode [selectedShippingMethod]="shippingMethod" (selectMode)="setDeliveryMode($event)"
+                                    (backStep)="setStep(1)"></cx-delivery-mode>
                             </div>
                             <div *ngIf="nav.status.active && step === 3">
-                                <y-payment-method [selectedPayment]="paymentDetails" (addPaymentInfo)="addPaymentInfo($event)"
-                                    (backStep)="setStep(2)"></y-payment-method>
+                                <cx-payment-method [selectedPayment]="paymentDetails" (addPaymentInfo)="addPaymentInfo($event)"
+                                    (backStep)="setStep(2)"></cx-payment-method>
                             </div>
                             <div *ngIf="nav.status.active && step === 4">
-                                <y-review-submit [deliveryAddress]="deliveryAddress" [shippingMethod]="shippingMethod"
+                                <cx-review-submit [deliveryAddress]="deliveryAddress" [shippingMethod]="shippingMethod"
                                     [paymentDetails]="paymentDetails">
-                                </y-review-submit>
+                                </cx-review-submit>
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
 
                 <!-- ORDER SUMMARY SECTION -->
                 <div class="col-md-7 offset-md-5 col-lg-4 offset-lg-0">
-                    <y-order-summary [cart]="cart"></y-order-summary>
+                    <cx-order-summary [cart]="cart"></cx-order-summary>
 
                     <!-- CHECKBOX AND PLACE ORDER BUTTON -->
                     <div class="y-multi-step-checkout__place-order" *ngIf="step === 4">

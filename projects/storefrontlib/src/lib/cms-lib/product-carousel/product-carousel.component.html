@@ -6,8 +6,8 @@
             <ng-template ngbSlide *ngFor="let group of productGroups">
                 <div class="y-carousel__product-container" *ngFor="let product of group">
                     <div class="y-carousel__product" [routerLink]="['/product/', product.code]">
-                        <y-picture [imageContainer]="product.images?.PRIMARY" imageFormat="product">
-                        </y-picture>
+                        <cx-picture [imageContainer]="product.images?.PRIMARY" imageFormat="product">
+                        </cx-picture>
                     </div>
                     <div class="y-carousel__product-name">{{product.name}}</div>
                     <div class="y-carousel__product-price">{{product.price.formattedValue}}</div>
