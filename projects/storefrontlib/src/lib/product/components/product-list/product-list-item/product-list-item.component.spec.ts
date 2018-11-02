@@ -43,7 +43,7 @@ export class MockPictureComponent {
   @Input()
   imageAlt;
 }
-fdescribe('ProductListItemComponent in product-list', () => {
+describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
   let fixture: ComponentFixture<ProductListItemComponent>;
 
