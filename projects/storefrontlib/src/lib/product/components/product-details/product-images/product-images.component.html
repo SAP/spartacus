@@ -1,8 +1,7 @@
 <ng-container *ngIf="product">
-    <a>
-        <y-picture [imageContainer]="mainImage" imageFormat="zoom">
-        </y-picture>
-    </a>
+
+    <y-picture [imageContainer]="mainImage" imageFormat="zoom">
+    </y-picture>
 
     <div class="y-product-images__items" *ngIf="product.images?.GALLERY.length > 1">
         <a class="y-product-images__item--small" *ngFor="let image of product.images.GALLERY">
