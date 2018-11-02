@@ -12,6 +12,7 @@ import { SiteContextConfig, defaultSiteContextConfig } from '../config/config';
 const mockCurrencies: any[] = [
   { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
 ];
+
 const mockActiveCurr = 'USD';
 
 describe('CurrencyService', () => {
