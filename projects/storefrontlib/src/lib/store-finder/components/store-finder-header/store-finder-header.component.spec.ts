@@ -1,31 +1,19 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { StoreFinderHeaderComponent } from './store-finder-header.component';
 import { StoreFinderSearchComponent } from '../store-finder-search/store-finder-search.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { WindowRef } from '../../services/window-ref';
-import { Router, ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
-fdescribe('StoreFinderHeaderComponent', () => {
+describe('StoreFinderHeaderComponent', () => {
   let component: StoreFinderHeaderComponent;
   let fixture: ComponentFixture<StoreFinderHeaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, RouterTestingModule],
       declarations: [StoreFinderHeaderComponent, StoreFinderSearchComponent],
-      providers: [
-        WindowRef,
-        {
-          provide: ActivatedRoute,
-          useValue: { snapshot: {} }
-        },
-        {
-          provide: Router,
-          useValue: {
-            navigate: jasmine.createSpy('navigate')
-          }
-        }
-      ]
+      providers: [WindowRef]
     }).compileComponents();
   }));
 

@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { combineReducers, StoreModule } from '@ngrx/store';
 import { Router, ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 import { WindowRef } from '../../services/window-ref';
@@ -45,12 +46,6 @@ class WindowRefMock {
   }
 }
 
-class RouterMock {
-  navigate() {}
-}
-
-class ActivatedRouteMock {}
-
 describe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;
   let fixture: ComponentFixture<StoreFinderSearchComponent>;
@@ -61,6 +56,7 @@ describe('StoreFinderSearchComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        RouterTestingModule,
         ReactiveFormsModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
@@ -68,11 +64,7 @@ describe('StoreFinderSearchComponent', () => {
         })
       ],
       declarations: [StoreFinderSearchComponent],
-      providers: [
-        { provide: WindowRef, useClass: WindowRefMock },
-        { provide: Router, useClass: RouterMock },
-        { provide: ActivatedRoute, useClass: ActivatedRouteMock }
-      ]
+      providers: [{ provide: WindowRef, useClass: WindowRefMock }]
     }).compileComponents();
   }));
 

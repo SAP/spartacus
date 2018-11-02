@@ -6,6 +6,7 @@ import { combineReducers, StoreModule } from '@ngrx/store';
 import { StoreFinderGridComponent } from './store-finder-grid.component';
 import { StoreFinderListItemComponent } from '../store-finder-display-list/store-finder-list-item/store-finder-list-item.component';
 import { StoreFinderService } from '../../services/store-finder.service';
+import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
 
 import * as fromReducers from '../../store';
 import * as fromRoot from '../../../routing/store';
@@ -89,6 +90,7 @@ describe('StoreFinderGridComponent', () => {
   function configureTestBed(): void {
     const bed = TestBed.configureTestingModule({
       imports: [
+        SpinnerModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           stores: combineReducers(fromReducers.reducers)

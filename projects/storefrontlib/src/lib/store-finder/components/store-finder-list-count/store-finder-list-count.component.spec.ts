@@ -6,6 +6,8 @@ import { StoreFinderListCountComponent } from './store-finder-list-count.compone
 
 import * as fromReducers from '../../store';
 import * as fromRoot from '../../../routing/store';
+import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
+import { StoreFinderService } from '../../services';
 
 describe('StoreFinderListCountComponent', () => {
   let component: StoreFinderListCountComponent;
@@ -14,13 +16,15 @@ describe('StoreFinderListCountComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        SpinnerModule,
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           stores: combineReducers(fromReducers.reducers)
         }),
         RouterTestingModule
       ],
-      declarations: [StoreFinderListCountComponent]
+      declarations: [StoreFinderListCountComponent],
+      providers: [StoreFinderService]
     }).compileComponents();
   }));
 
