@@ -376,4 +376,4 @@ use **SASS nesting** for all cases either for extending global components or spe
 
 ## Reporting visual bugs
 
-Please note a screenshot attachment is mandatory to consider the issue as valid, also please follow the general [contributing](../../CONTRIBUTING.md) guidelines when submitting
+Please note a screenshot attachment is mandatory to consider the issue as valid, also please follow the general [contributing](../../CONTRIBUTING.md) guidelines when submitting.
