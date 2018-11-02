@@ -3,10 +3,12 @@
     <y-picture [imageContainer]="mainImage" imageFormat="zoom">
     </y-picture>
 
-    <div class="y-product-images__items" *ngIf="product.images?.GALLERY.length > 1">
-        <a class="y-product-images__item--small" *ngFor="let image of product.images.GALLERY">
-            <y-picture [imageContainer]="image" imageFormat="thumbnail" (click)="showImage(image)">
+    <ng-container *ngIf="product.images?.GALLERY.length > 1">
+        <div class="thumbs">
+            <y-picture *ngFor="let image of product.images.GALLERY" [imageContainer]="image" imageFormat="thumbnail"
+                (click)="showImage(image)">
             </y-picture>
-        </a>
-    </div>
+        </div>
+    </ng-container>
+
 </ng-container>
