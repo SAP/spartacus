@@ -1,4 +1,4 @@
-<div class="y-product-images" *ngIf="product">
+<ng-container *ngIf="product">
     <a>
         <y-picture [imageContainer]="mainImage" imageFormat="zoom">
         </y-picture>
@@ -10,4 +10,4 @@
             </y-picture>
         </a>
     </div>
-</div>
+</ng-container>

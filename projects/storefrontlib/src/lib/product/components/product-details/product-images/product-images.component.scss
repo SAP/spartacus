@@ -1,6 +1,11 @@
 @import 'theme';
 @import 'functions';
 @import 'mixins';
+
+:host {
+  display: block;
+}
+
 // y-product-images variables
 $y-product-images-pdp-items-trbl-margin: 35px 0 25px 0 !default;
 $y-product-images-pdp-zoom-color: 'secondary' !default;
