@@ -96,7 +96,10 @@ $md-width: 992px;
     .card {
       margin-bottom: 0;
       border-bottom: $cx-accordion-mobile-head-border;
-      @include var-color('border-color', $cx-accordion-mobile-head-border-color);
+      @include var-color(
+        'border-color',
+        $cx-accordion-mobile-head-border-color
+      );
       &:first-of-type {
         border-bottom: $cx-accordion-mobile-head-border;
         border-top: $cx-accordion-mobile-head-border;

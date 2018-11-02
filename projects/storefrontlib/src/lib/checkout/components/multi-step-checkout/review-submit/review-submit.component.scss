@@ -55,7 +55,10 @@ $cx-review-col-md-12-sm-padding: 0 1.25rem 1.25rem 1.25rem !default;
       @include media-breakpoint-down(md) {
         background-color: theme-color('inverse');
         border: $cx-review-summary-card-border;
-        @include var-color('border-color', $cx-review-summary-card-border-color);
+        @include var-color(
+          'border-color',
+          $cx-review-summary-card-border-color
+        );
       }
     }
   }

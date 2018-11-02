@@ -87,13 +87,17 @@ describe('HeaderComponent', () => {
     it('should contain the Site Context Selectors', () => {
       expect(
         fixture.debugElement.query(
-          By.css('div.cx-content__slot:not(#y-mobile-menu) cx-language-selector')
+          By.css(
+            'div.cx-content__slot:not(#y-mobile-menu) cx-language-selector'
+          )
         )
       ).not.toBeNull();
 
       expect(
         fixture.debugElement.query(
-          By.css('div.cx-content__slot:not(#y-mobile-menu) cx-currency-selector')
+          By.css(
+            'div.cx-content__slot:not(#y-mobile-menu) cx-currency-selector'
+          )
         )
       ).not.toBeNull();
     });

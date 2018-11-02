@@ -25,7 +25,10 @@ $cx-spinner-border-color--secondary: 'secondary' !default;
   border-width: 1.1em;
   border-style: solid;
   @include var-color('border-top-color', $cx-spinner-border-color-background);
-  @include var-color('border-bottom-color', $cx-spinner-border-color-background);
+  @include var-color(
+    'border-bottom-color',
+    $cx-spinner-border-color-background
+  );
   @include var-color('border-right-color', $cx-spinner-border-color-background);
   @include var-color('border-left-color', $cx-spinner-border-color);
   transform: translateZ(0);

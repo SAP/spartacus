@@ -219,6 +219,9 @@ $cx-search-box-search-icon-height: 28px !default;
   }
 
   .dropdown-menu .dropdown-item.active {
-    @include var-color('background-color', $cx-search-box-item-background-color);
+    @include var-color(
+      'background-color',
+      $cx-search-box-item-background-color
+    );
   }
 }
