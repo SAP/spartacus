@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import * as fromStore from '../../store';
 import { SearchConfig } from '../../models/search-config';
 import { SearchQuery } from '../../models/search-query';
-import { ActivatedRoute, Params } from '@angular/router';
 import { StoreFinderService } from '../../services';
 
+import * as fromStore from '../../store';
+
 @Component({
-  selector: 'y-store-finder-new-list',
+  selector: 'y-store-finder-list',
   templateUrl: './store-finder-list.component.html',
   styleUrls: ['./store-finder-list.component.scss']
 })

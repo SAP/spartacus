@@ -2,9 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { StoreFinderService } from '../../services';
-import { ActivatedRoute } from '@angular/router';
 import { StoreFinderListComponent } from './store-finder-list.component';
 
 import * as fromReducers from '../../store';

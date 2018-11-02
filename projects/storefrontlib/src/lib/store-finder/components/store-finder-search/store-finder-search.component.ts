@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { WindowRef } from '../../services/window-ref';
 import { Router, ActivatedRoute } from '@angular/router';
+
+import { WindowRef } from '../../services/window-ref';
 
 @Component({
   selector: 'y-store-finder-search',
@@ -18,7 +19,7 @@ export class StoreFinderSearchComponent {
   ) {}
 
   findStores(address: string) {
-    this.router.navigate(['findstores'], {
+    this.router.navigate(['find-stores'], {
       relativeTo: this.activatedRoute,
       queryParams: {
         query: address
@@ -29,7 +30,7 @@ export class StoreFinderSearchComponent {
   viewStoresWithMyLoc() {
     this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
       (position: Position) => {
-        this.router.navigate(['findstores'], {
+        this.router.navigate(['find-stores'], {
           relativeTo: this.activatedRoute,
           queryParams: {
             latitude: position.coords.latitude,

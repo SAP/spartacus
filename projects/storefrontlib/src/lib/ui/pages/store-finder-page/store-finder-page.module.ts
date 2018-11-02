@@ -19,13 +19,13 @@ const routes: Routes = [
     component: StoreFinderPageComponent,
     children: [
       {
-        path: 'findstores',
+        path: 'find-stores',
         canActivate: [CmsPageGuards],
         data: { pageLabel: 'storefinderPage' },
         component: StoreFinderListComponent
       },
       {
-        path: 'viewall',
+        path: 'view-all-stores',
         canActivate: [CmsPageGuards],
         data: { pageLabel: 'storefinderPage' },
         component: StoreFinderListCountComponent
