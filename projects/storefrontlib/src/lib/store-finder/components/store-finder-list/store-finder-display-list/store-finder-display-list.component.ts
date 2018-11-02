@@ -1,8 +1,8 @@
 import { Component, Input, ViewChild, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
-import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
-import { StoreDataService } from '../../services/store-data.service';
+import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
+import { StoreDataService } from '../../../services/store-data.service';
 
 @Component({
   selector: 'y-store-finder-display-list',

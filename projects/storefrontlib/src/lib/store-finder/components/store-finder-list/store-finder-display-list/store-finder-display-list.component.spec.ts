@@ -6,14 +6,14 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { StoreFinderDisplayListComponent } from './store-finder-display-list.component';
-import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
-import { StoreDataService } from '../../services';
-import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
-import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
+import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
+import { StoreDataService } from '../../../services';
+import { GoogleMapRendererService } from '../../../services/google-map-renderer.service';
+import { SpinnerModule } from '../../../../ui/components/spinner/spinner.module';
 
-import * as fromReducers from '../../store';
-import * as fromRoot from '../../../routing/store';
-import * as fromServices from '../../services';
+import * as fromReducers from '../../../store';
+import * as fromRoot from '../../../../routing/store';
+import * as fromServices from '../../../services';
 
 const location = {};
 const stores = [location];
