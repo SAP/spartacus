@@ -110,7 +110,7 @@ describe('StoreFinderListComponent', () => {
     // given
     component.locations = locations;
     fixture.detectChanges();
-    storeMapComponent = fixture.debugElement.query(By.css('y-store-finder-map'))
+    storeMapComponent = fixture.debugElement.query(By.css('cx-store-finder-map'))
       .componentInstance;
     spyOn(storeMapComponent, 'centerMap').and.callThrough();
 

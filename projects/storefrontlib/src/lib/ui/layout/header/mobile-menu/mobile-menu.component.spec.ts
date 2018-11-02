@@ -76,15 +76,15 @@ describe('MobileMenuComponent', () => {
     });
 
     it('should contain the login status component', () => {
-      expect(fixture.debugElement.query(By.css('y-login'))).not.toBeNull();
+      expect(fixture.debugElement.query(By.css('cx-login'))).not.toBeNull();
     });
 
     it('should contain the Site Context components', () => {
       expect(
-        fixture.debugElement.query(By.css('y-language-selector'))
+        fixture.debugElement.query(By.css('cx-language-selector'))
       ).not.toBeNull();
       expect(
-        fixture.debugElement.query(By.css('y-currency-selector'))
+        fixture.debugElement.query(By.css('cx-currency-selector'))
       ).not.toBeNull();
     });
 
@@ -92,7 +92,7 @@ describe('MobileMenuComponent', () => {
       it('should contain the NavigationBar', () => {
         expect(
           fixture.debugElement.query(
-            By.css('y-dynamic-slot[position="NavigationBar"]')
+            By.css('cx-dynamic-slot[position="NavigationBar"]')
           )
         ).not.toBeNull();
       });

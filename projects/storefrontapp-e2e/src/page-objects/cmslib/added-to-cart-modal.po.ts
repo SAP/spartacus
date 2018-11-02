@@ -1,7 +1,7 @@
 import { by, element, ElementFinder } from 'protractor';
 import { E2EUtil } from '../../e2e-util';
 export class AddedToCartModal {
-  readonly YMODAL = 'y-added-to-cart-dialog';
+  readonly YMODAL = 'cx-added-to-cart-dialog';
 
   modal: ElementFinder = element(by.tagName(this.YMODAL));
   closeButton: ElementFinder = this.modal.element(
@@ -11,7 +11,7 @@ export class AddedToCartModal {
     by.css('a[routerLink="/checkout"]')
   );
   readonly cartItem = (itemNo: number): ElementFinder =>
-    this.modal.all(by.tagName('y-cart-item')).get(itemNo); // tslint:disable-line
+    this.modal.all(by.tagName('cx-cart-item')).get(itemNo); // tslint:disable-line
 
   async waitForReady() {
     await E2EUtil.wait4VisibleElement(this.modal);

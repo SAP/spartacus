@@ -50,20 +50,20 @@ export const defaultCmsModuleConfig: CmsModuleConfig = {
   },
 
   cmsComponentMapping: {
-    CMSLinkComponent: 'y-link',
-    SimpleResponsiveBannerComponent: 'y-responsive-banner',
-    SimpleBannerComponent: 'y-banner',
-    // BreadcrumbComponent:                'y-breadcrumb',
-    CMSParagraphComponent: 'y-paragraph',
-    NavigationComponent: 'y-navigation',
-    FooterNavigationComponent: 'y-footer-navigation',
-    CategoryNavigationComponent: 'y-category-navigation',
-    ProductAddToCartComponent: 'y-add-to-cart',
-    MiniCartComponent: 'y-mini-cart',
-    ProductCarouselComponent: 'y-product-carousel',
-    SearchBoxComponent: 'y-searchbox',
-    ProductReferencesComponent: 'y-product-references',
-    // CMSTabParagraphComponent: 'y-tab-paragraph-container'
-    CMSTabParagraphComponent: 'y-paragraph'
+    CMSLinkComponent: 'cx-link',
+    SimpleResponsiveBannerComponent: 'cx-responsive-banner',
+    SimpleBannerComponent: 'cx-banner',
+    // BreadcrumbComponent:                'cx-breadcrumb',
+    CMSParagraphComponent: 'cx-paragraph',
+    NavigationComponent: 'cx-navigation',
+    FooterNavigationComponent: 'cx-footer-navigation',
+    CategoryNavigationComponent: 'cx-category-navigation',
+    ProductAddToCartComponent: 'cx-add-to-cart',
+    MiniCartComponent: 'cx-mini-cart',
+    ProductCarouselComponent: 'cx-product-carousel',
+    SearchBoxComponent: 'cx-searchbox',
+    ProductReferencesComponent: 'cx-product-references',
+    // CMSTabParagraphComponent: 'cx-tab-paragraph-container'
+    CMSTabParagraphComponent: 'cx-paragraph'
   }
 };

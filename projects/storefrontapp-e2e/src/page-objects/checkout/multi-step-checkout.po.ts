@@ -7,7 +7,7 @@ import { ShippingAddress } from './shipping-address.po';
 import { PaymentMethod } from './payment-method.po';
 export class MultiStepCheckoutPage extends AppPage {
   readonly page: ElementFinder = element(
-    by.tagName('y-multi-step-checkout-page')
+    by.tagName('cx-multi-step-checkout-page')
   );
 
   readonly orderSummary: ElementFinder = this.page.element(

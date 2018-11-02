@@ -4,10 +4,10 @@ import { E2EUtil } from '../../e2e-util';
 
 export class OrderConfirmationPage extends AppPage {
   readonly page: ElementFinder = element(
-    by.tagName('y-order-confirmation-page')
+    by.tagName('cx-order-confirmation-page')
   );
   readonly confirmationComponent: ElementFinder = this.page.element(
-    by.tagName('y-order-confirmation')
+    by.tagName('cx-order-confirmation')
   );
   readonly confirmationHeader: ElementFinder = this.confirmationComponent.element(
     by.css('.y-page__title')
@@ -29,7 +29,7 @@ export class OrderConfirmationPage extends AppPage {
     .all(by.css('.y-order-confirmation__review-summary-card'))
     .get(1);
   readonly orderSummary: ElementFinder = this.page.element(
-    by.tagName('y-order-summary')
+    by.tagName('cx-order-summary')
   );
 
   readonly orderItem = (itemNo: number): ElementFinder =>

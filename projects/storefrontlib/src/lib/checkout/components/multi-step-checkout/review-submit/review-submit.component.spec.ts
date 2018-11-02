@@ -302,7 +302,7 @@ describe('ReviewSubmitComponent', () => {
 
   describe('child y-cart-item-list component', () => {
     const getCartItemList = () =>
-      fixture.debugElement.query(By.css('y-cart-item-list')).componentInstance;
+      fixture.debugElement.query(By.css('cx-cart-item-list')).componentInstance;
 
     it('should receive items attribute with cart entires', () => {
       mockSelectors.cart.getEntries.next(mockEntries);

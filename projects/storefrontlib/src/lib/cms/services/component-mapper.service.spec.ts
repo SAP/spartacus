@@ -18,7 +18,7 @@ export class TestModule {}
 
 const MockCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
-    CMSTestComponent: 'y-test'
+    CMSTestComponent: 'cx-test'
   }
 };
 

@@ -3,11 +3,11 @@ import { AppPage } from './app.po';
 import { E2EUtil } from '../e2e-util';
 
 export class ProductDetailsPage extends AppPage {
-  readonly YPAGE = 'y-product-page';
+  readonly YPAGE = 'cx-product-page';
 
   readonly page: ElementFinder = element(by.tagName(this.YPAGE));
   readonly productDetails: ElementFinder = this.page.element(
-    by.tagName('y-product-details')
+    by.tagName('cx-product-details')
   );
   readonly productTitle: ElementFinder = this.productDetails.element(
     by.css('.y-product-details__item-name')
@@ -16,10 +16,10 @@ export class ProductDetailsPage extends AppPage {
     by.css('.y-product-details__item-code')
   );
   readonly addToCartComponent: ElementFinder = this.page.element(
-    by.tagName('y-add-to-cart')
+    by.tagName('cx-add-to-cart')
   );
   readonly productSummaryComponent: ElementFinder = this.page.element(
-    by.tagName('y-product-summary')
+    by.tagName('cx-product-summary')
   );
   readonly productPrice: ElementFinder = this.productSummaryComponent.element(
     by.css('.y-product-summary__price')
@@ -34,7 +34,7 @@ export class ProductDetailsPage extends AppPage {
     by.css('span[class="entry-quantity ng-star-inserted"]')
   );
   readonly itemCounterComponent: ElementFinder = this.productDetails.element(
-    by.tagName('y-item-counter')
+    by.tagName('cx-item-counter')
   );
   readonly itemCounterUpButton: ElementFinder = this.itemCounterComponent
     .all(by.tagName('button'))

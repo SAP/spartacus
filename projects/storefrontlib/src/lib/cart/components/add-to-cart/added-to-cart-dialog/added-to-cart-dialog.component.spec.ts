@@ -67,7 +67,7 @@ describe('AddedToCartDialogComponent', () => {
         .query(By.css('.y-added-to-cart-dialog__title'))
         .nativeElement.textContent.trim()
     ).toEqual('Updating cart...');
-    expect(el.query(By.css('y-spinner')).nativeElement).toBeDefined();
+    expect(el.query(By.css('cx-spinner')).nativeElement).toBeDefined();
   });
 
   it('should display quantity', () => {
@@ -90,7 +90,7 @@ describe('AddedToCartDialogComponent', () => {
     });
     component.loaded$ = of(true);
     fixture.detectChanges();
-    expect(el.query(By.css('y-cart-item'))).toBeDefined();
+    expect(el.query(By.css('cx-cart-item'))).toBeDefined();
   });
 
   it('should display cart total', () => {
