@@ -3,18 +3,18 @@
 @import 'mixins';
 
 //mini-cart color variables
-$y-mini-cart-button-background-color: 'primary' !default;
-$y-mini-cart-button-color: 'inverse' !default;
+$cx-mini-cart-button-background-color: 'primary' !default;
+$cx-mini-cart-button-color: 'inverse' !default;
 
 //mini-cart variables
-$y-mini-cart-button-height: 50px !default;
-$y-mini-cart-button-border-radius: 0 !default;
-$y-mini-cart-button-md-height: 60px !default;
-$y-mini-cart-button-md-trbl-padding: 0.5rem 0.75rem 0 0.75rem !default;
-$y-mini-cart-icon-width: 25px !default;
-$y-mini-cart-count-trbl-margin: 0 0 0 0.35rem !default;
+$cx-mini-cart-button-height: 50px !default;
+$cx-mini-cart-button-border-radius: 0 !default;
+$cx-mini-cart-button-md-height: 60px !default;
+$cx-mini-cart-button-md-trbl-padding: 0.5rem 0.75rem 0 0.75rem !default;
+$cx-mini-cart-icon-width: 25px !default;
+$cx-mini-cart-count-trbl-margin: 0 0 0 0.35rem !default;
 
-.y-mini-cart {
+.cx-mini-cart {
   //these are temp fixes until store finder
   //gets back to its original position
   @include media-breakpoint-up(xs) {
@@ -27,20 +27,20 @@ $y-mini-cart-count-trbl-margin: 0 0 0 0.35rem !default;
   &__button {
     @include var-color(
       'background-color',
-      $y-mini-cart-button-background-color
+      $cx-mini-cart-button-background-color
     );
-    @include var-color('color', $y-mini-cart-button-color);
+    @include var-color('color', $cx-mini-cart-button-color);
     position: relative;
-    height: $y-mini-cart-button-height;
+    height: $cx-mini-cart-button-height;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: $y-mini-cart-button-border-radius;
+    border-radius: $cx-mini-cart-button-border-radius;
     margin-right: 1rem;
     @include media-breakpoint-down(sm) {
       flex-direction: column;
-      height: $y-mini-cart-button-md-height;
-      padding: $y-mini-cart-button-md-trbl-padding;
+      height: $cx-mini-cart-button-md-height;
+      padding: $cx-mini-cart-button-md-trbl-padding;
       margin-right: 1.5rem;
     }
     @include media-breakpoint-up(lg) {
@@ -48,11 +48,11 @@ $y-mini-cart-count-trbl-margin: 0 0 0 0.35rem !default;
     }
   }
   &__icon {
-    width: $y-mini-cart-icon-width;
+    width: $cx-mini-cart-icon-width;
     fill: currentColor;
     pointer-events: none;
   }
   &__count {
-    margin: $y-mini-cart-count-trbl-margin;
+    margin: $cx-mini-cart-count-trbl-margin;
   }
 }

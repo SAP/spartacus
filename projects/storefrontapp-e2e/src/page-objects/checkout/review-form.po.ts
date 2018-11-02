@@ -10,19 +10,19 @@ export class ReviewForm {
     by.tagName('cx-review-submit')
   );
   readonly header: ElementFinder = this.form.element(
-    by.css('h3.y-review__title')
+    by.css('h3.cx-review__title')
   );
   readonly shippingAddress: ElementFinder = this.form.element(
-    by.css('.y-review__summary-card__address')
+    by.css('.cx-review__summary-card__address')
   );
   readonly shippingMethod: ElementFinder = this.form.element(
-    by.css('.y-review__summary-card__shipping-method')
+    by.css('.cx-review__summary-card__shipping-method')
   );
   readonly paymentMethod: ElementFinder = this.form.element(
-    by.css('.y-review__summary-card__payment-method')
+    by.css('.cx-review__summary-card__payment-method')
   );
   readonly billingAddress: ElementFinder = this.form.element(
-    by.css('.y-review__summary-card__address')
+    by.css('.cx-review__summary-card__address')
   );
 
   async waitForReady() {

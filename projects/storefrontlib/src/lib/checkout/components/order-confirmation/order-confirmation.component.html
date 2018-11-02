@@ -1,38 +1,38 @@
-<div class="y-page">
-  <header class="y-page__header">
-    <h1 class="y-page__title">Confirmation of Order: {{order.code}}</h1>
+<div class="cx-page">
+  <header class="cx-page__header">
+    <h1 class="cx-page__title">Confirmation of Order: {{order.code}}</h1>
   </header>
 
-  <div class="y-order-confirmation">
-    <div class="y-order-confirmation__message">
+  <div class="cx-order-confirmation">
+    <div class="cx-order-confirmation__message">
       <h2>Thank you for your order!</h2>
       <p>An invoice has been sent by email. You should receive it soon.</p>
       <!-- <a href="#" class="btn-link">Print Page</a> -->
     </div>
 
-    <div class="y-order-confirmation__review-summary">
+    <div class="cx-order-confirmation__review-summary">
       <div class="container">
         <div class="row">
           <div class="col-sm-12 col-md-4 col-lg-3">
-            <div class="y-order-confirmation__review-summary-card">
+            <div class="cx-order-confirmation__review-summary-card">
               <cx-card [content]="getAddressCardContent(order.deliveryAddress)"></cx-card>
             </div>
           </div>
 
           <div class="col-sm-12 col-md-4 col-lg-3">
-            <div class="y-order-confirmation__review-summary-card">
+            <div class="cx-order-confirmation__review-summary-card">
               <cx-card [content]="getBillingAddressCardContent(order.paymentInfo.billingAddress)"></cx-card>
             </div>
           </div>
 
           <div class="col-sm-12 col-md-4 col-lg-3">
-            <div class="y-order-confirmation__review-summary-card">
+            <div class="cx-order-confirmation__review-summary-card">
               <cx-card [content]="getShippingCardContent(order.deliveryMode)"></cx-card>
             </div>
           </div>
 
           <div class="col-sm-12 col-md-4 col-lg-3">
-            <div class="y-order-confirmation__review-summary-card">
+            <div class="cx-order-confirmation__review-summary-card">
               <cx-card [content]="getPaymentInfoCardContent(order.paymentInfo)"></cx-card>
             </div>
           </div>
@@ -40,12 +40,12 @@
       </div>
     </div>
 
-    <div class="y-order-confirmation__order-items container">
-      <h4 class="y-order-confirmation__order-items-header">Order Items</h4>
+    <div class="cx-order-confirmation__order-items container">
+      <h4 class="cx-order-confirmation__order-items-header">Order Items</h4>
       <cx-cart-item-list [items]="order.entries" [isReadOnly]="true"></cx-cart-item-list>
     </div>
 
-    <div class="y-order-confirmation__order-summary container">
+    <div class="cx-order-confirmation__order-summary container">
       <div class="row justify-content-end">
         <div class="col-sm-12 col-md-6 col-lg-5 col-xl-4">
           <cx-order-summary [cart]="order"></cx-order-summary>

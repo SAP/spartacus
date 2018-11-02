@@ -10,10 +10,10 @@ export class ProductDetailsPage extends AppPage {
     by.tagName('cx-product-details')
   );
   readonly productTitle: ElementFinder = this.productDetails.element(
-    by.css('.y-product-details__item-name')
+    by.css('.cx-product-details__item-name')
   );
   readonly productCode: ElementFinder = this.productDetails.element(
-    by.css('.y-product-details__item-code')
+    by.css('.cx-product-details__item-code')
   );
   readonly addToCartComponent: ElementFinder = this.page.element(
     by.tagName('cx-add-to-cart')
@@ -22,7 +22,7 @@ export class ProductDetailsPage extends AppPage {
     by.tagName('cx-product-summary')
   );
   readonly productPrice: ElementFinder = this.productSummaryComponent.element(
-    by.css('.y-product-summary__price')
+    by.css('.cx-product-summary__price')
   );
   readonly outOfStockDiv: ElementFinder = this.productSummaryComponent.element(
     by.cssContainingText('span', 'Out of stock')

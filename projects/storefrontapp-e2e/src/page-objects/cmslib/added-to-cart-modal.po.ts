@@ -5,7 +5,7 @@ export class AddedToCartModal {
 
   modal: ElementFinder = element(by.tagName(this.YMODAL));
   closeButton: ElementFinder = this.modal.element(
-    by.css('.y-added-to-cart-dialog__header button.close')
+    by.css('.cx-added-to-cart-dialog__header button.close')
   );
   readonly proceedToCheckoutButton: ElementFinder = this.modal.element(
     by.css('a[routerLink="/checkout"]')

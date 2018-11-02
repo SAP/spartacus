@@ -1,11 +1,11 @@
-<div class="y-product-images" *ngIf="product">
+<div class="cx-product-images" *ngIf="product">
     <a>
         <cx-picture [imageContainer]="mainImage" imageFormat="zoom">
         </cx-picture>
     </a>
 
-    <div class="y-product-images__items" *ngIf="product.images?.GALLERY.length > 1">
-        <a class="y-product-images__item--small" *ngFor="let image of product.images.GALLERY">
+    <div class="cx-product-images__items" *ngIf="product.images?.GALLERY.length > 1">
+        <a class="cx-product-images__item--small" *ngFor="let image of product.images.GALLERY">
             <cx-picture [imageContainer]="image" imageFormat="thumbnail" (click)="showImage(image)">
             </cx-picture>
         </a>

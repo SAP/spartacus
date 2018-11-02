@@ -71,7 +71,7 @@ describe('OrderConfirmationComponent', () => {
   it('should create', () => {
     component.ngOnInit();
     fixture.detectChanges();
-    const titleText = fixture.debugElement.query(By.css('.y-page__title'))
+    const titleText = fixture.debugElement.query(By.css('.cx-page__title'))
       .nativeElement.textContent;
 
     expect(titleText).toContain('test-code-412');

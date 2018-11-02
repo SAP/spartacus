@@ -1,9 +1,9 @@
-<div class="y-page" *ngIf="cart$ | async as cart">
-  <header class="y-page__header" *ngIf="cart?.totalItems">
-    <h1 class="y-page__title">Shopping Cart (ID {{cart?.code}})</h1>
+<div class="cx-page" *ngIf="cart$ | async as cart">
+  <header class="cx-page__header" *ngIf="cart?.totalItems">
+    <h1 class="cx-page__title">Shopping Cart (ID {{cart?.code}})</h1>
   </header>
 
-  <section class="y-page__section">
+  <section class="cx-page__section">
     <div>
       <cx-dynamic-slot class="empty-cart-message" *ngIf="!cart?.totalItems" position="EmptyCartMiddleContent"></cx-dynamic-slot>
       <cx-cart-details *ngIf="cart?.totalItems"></cx-cart-details>

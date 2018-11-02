@@ -10,7 +10,7 @@ export class DeliveryModeForm {
     by.tagName('cx-delivery-mode')
   );
   readonly header: ElementFinder = this.form.element(
-    by.css('h3.y-delivery-mode-form__title')
+    by.css('h3.cx-delivery-mode-form__title')
   );
   readonly address: ElementFinder = this.form.element(by.css('.address'));
   readonly deliveryModeSelect: ElementFinder = this.form.element(

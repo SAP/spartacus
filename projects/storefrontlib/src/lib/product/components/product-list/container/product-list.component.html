@@ -1,9 +1,9 @@
 <ng-container *ngIf="model$ | async as model">
-    <div class="y-page">
-        <header class="y-page__header">
-            <h1 class="y-page__title">{{model.pagination.totalResults}} results for cameras</h1>
+    <div class="cx-page">
+        <header class="cx-page__header">
+            <h1 class="cx-page__title">{{model.pagination.totalResults}} results for cameras</h1>
         </header>
-        <section class="y-page__section">
+        <section class="cx-page__section">
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-3 d-none d-lg-block">
@@ -11,16 +11,16 @@
                             [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="model"></cx-product-facet-navigation>
                     </div>
                     <div class="col-12 col-lg-9">
-                        <div class="y-product-search__sorting--top">
+                        <div class="cx-product-search__sorting--top">
                             <div class="row">
                                 <div class="col-12 col-lg-4 mr-auto">
-                                    <div class="form-group y-product-search__dropdown">
+                                    <div class="form-group cx-product-search__dropdown">
                                         <cx-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)"
                                             [selectedOption]="model.pagination.sort" [placeholder]="'Sort by Relevance'"></cx-sorting>
                                     </div>
                                 </div>
                                 <div class="col-auto">
-                                    <div class="y-product-search__pagination" aria-label="product search pagination">
+                                    <div class="cx-product-search__pagination" aria-label="product search pagination">
                                         <cx-pagination [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></cx-pagination>
                                     </div>
                                 </div>
@@ -34,25 +34,25 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="y-product-search__item--container">
+                        <div class="cx-product-search__item--container">
                             <div *ngIf="grid.mode==='grid'" class="row">
                                 <cx-product-grid-item *ngFor="let product of model?.products" [product]="product" class="col-12 col-sm-6 col-md-4"></cx-product-grid-item>
                             </div>
 
                             <ng-template [ngIf]="grid.mode==='list'">
-                                <cx-product-list-item *ngFor="let product of model?.products" [product]="product" class="y-product-search-list"></cx-product-list-item>
+                                <cx-product-list-item *ngFor="let product of model?.products" [product]="product" class="cx-product-search-list"></cx-product-list-item>
                             </ng-template>
                         </div>
-                        <div class="y-product-search__sorting--bottom">
+                        <div class="cx-product-search__sorting--bottom">
                             <div class="row">
                                 <div class="col-12 col-lg-4 mr-auto">
-                                    <div class="form-group y-product-search__dropdown">
+                                    <div class="form-group cx-product-search__dropdown">
                                         <cx-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)"
                                             [selectedOption]="model.pagination.sort" [placeholder]="'Sort by Relevance'"></cx-sorting>
                                     </div>
                                 </div>
                                 <div class="col-auto" aria-label="product search pagination">
-                                    <div class="y-product-search__pagination">
+                                    <div class="cx-product-search__pagination">
                                         <cx-pagination [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></cx-pagination>
                                     </div>
                                 </div>

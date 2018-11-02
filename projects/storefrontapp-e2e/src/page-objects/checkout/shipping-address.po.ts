@@ -12,7 +12,7 @@ export class ShippingAddress {
   );
 
   readonly header: ElementFinder = this.container.element(
-    by.css('h3.y-shipping-address__title')
+    by.css('h3.cx-shipping-address__title')
   );
 
   readonly addressForm: AddressForm = new AddressForm(this.container);

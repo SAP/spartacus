@@ -75,7 +75,7 @@ describe('ProductListItemComponent in product-list', () => {
   it('should display product name', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-product-search-list__name'
+        '.cx-product-search-list__name'
       ).textContent
     ).toContain(component.product.name);
   });
@@ -83,7 +83,7 @@ describe('ProductListItemComponent in product-list', () => {
   it('should display product summary', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-product-search-list__summary'
+        '.cx-product-search-list__summary'
       ).textContent
     ).toContain(component.product.summary);
   });
@@ -91,7 +91,7 @@ describe('ProductListItemComponent in product-list', () => {
   it('should display product formatted price', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-product-search-list__price'
+        '.cx-product-search-list__price'
       ).textContent
     ).toContain(component.product.price.formattedValue);
   });

@@ -74,7 +74,7 @@ describe('ProductGridItemComponent in product-list', () => {
   it('should display product name', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-product-search-grid__name'
+        '.cx-product-search-grid__name'
       ).textContent
     ).toContain(component.product.name);
   });
@@ -82,7 +82,7 @@ describe('ProductGridItemComponent in product-list', () => {
   it('should display product formatted price', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-product-search-grid__price'
+        '.cx-product-search-grid__price'
       ).textContent
     ).toContain(component.product.price.formattedValue);
   });
