@@ -4,9 +4,9 @@ import { Header } from '../page-objects/cmslib/header.po';
 import { E2EUtil } from '../e2e-util';
 
 describe('Product details', () => {
+  const PRODUCT_NAME = 'Battery Video Light';
   let productDetailsPage: ProductDetailsPage;
   let header: Header;
-  let PRODUCT_NAME = 'Battery Video Light';
   beforeEach(async () => {
     productDetailsPage = new ProductDetailsPage();
     header = new Header();
