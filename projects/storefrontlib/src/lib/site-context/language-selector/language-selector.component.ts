@@ -11,7 +11,7 @@ import * as fromStore from '../shared/store';
 import { SiteContextModuleConfig } from '../site-context-module-config';
 
 @Component({
-  selector: 'y-language-selector',
+  selector: 'cx-language-selector',
   templateUrl: './language-selector.component.html',
   styleUrls: ['./language-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

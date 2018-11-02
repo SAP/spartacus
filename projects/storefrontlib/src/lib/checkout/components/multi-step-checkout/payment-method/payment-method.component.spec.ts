@@ -39,19 +39,19 @@ const mockPaymentMethod2 = {
 const mockPaymentMethods = [mockPaymentMethod1, mockPaymentMethod2];
 
 @Component({
-  selector: 'y-payment-form',
+  selector: 'cx-payment-form',
   template: ''
 })
 class MockPaymentFormComponent {}
 
 @Component({
-  selector: 'y-spinner',
+  selector: 'cx-spinner',
   template: ''
 })
 class MockSpinnerComponent {}
 
 @Component({
-  selector: 'y-card',
+  selector: 'cx-card',
   template: ''
 })
 class MockCardComponent {

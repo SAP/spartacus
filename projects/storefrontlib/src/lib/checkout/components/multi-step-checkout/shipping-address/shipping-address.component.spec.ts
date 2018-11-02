@@ -46,19 +46,19 @@ const mockAddress2: Address = {
 const mockAddresses = [mockAddress1, mockAddress2];
 
 @Component({
-  selector: 'y-address-form',
+  selector: 'cx-address-form',
   template: ''
 })
 class MockAddressFormComponent {}
 
 @Component({
-  selector: 'y-spinner',
+  selector: 'cx-spinner',
   template: ''
 })
 class MockSpinnerComponent {}
 
 @Component({
-  selector: 'y-card',
+  selector: 'cx-card',
   template: ''
 })
 class MockCardComponent {

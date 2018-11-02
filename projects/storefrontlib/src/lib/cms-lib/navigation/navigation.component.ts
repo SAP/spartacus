@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { CmsService } from '../../cms/facade/cms.service';
 
 @Component({
-  selector: 'y-navigation',
+  selector: 'cx-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -52,7 +52,7 @@ const mockPaymentDetails = {
 const mockEntries = ['cart entry 1', 'cart entry 2'];
 
 @Component({
-  selector: 'y-cart-item-list',
+  selector: 'cx-cart-item-list',
   template: ''
 })
 class MockCartItemListComponent {
@@ -65,7 +65,7 @@ class MockCartItemListComponent {
 }
 
 @Component({
-  selector: 'y-card',
+  selector: 'cx-card',
   template: ''
 })
 class MockCardComponent {

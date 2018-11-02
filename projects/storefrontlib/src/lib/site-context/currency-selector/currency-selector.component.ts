@@ -11,7 +11,7 @@ import * as fromStore from '../shared/store';
 import { SiteContextModuleConfig } from '../site-context-module-config';
 
 @Component({
-  selector: 'y-currency-selector',
+  selector: 'cx-currency-selector',
   templateUrl: './currency-selector.component.html',
   styleUrls: ['./currency-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -5,19 +5,19 @@ import { By } from '@angular/platform-browser';
 import { CheckoutService } from '../../services';
 import { CartService } from '../../../cart/services';
 
-@Component({ selector: 'y-order-summary', template: '' })
+@Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
   @Input()
   cart: any;
 }
-@Component({ selector: 'y-cart-item-list', template: '' })
+@Component({ selector: 'cx-cart-item-list', template: '' })
 class MockReviewSubmitComponent {
   @Input()
   items: any;
   @Input()
   isReadOnly: any;
 }
-@Component({ selector: 'y-card', template: '' })
+@Component({ selector: 'cx-card', template: '' })
 class MockCartComponent {
   @Input()
   content: any;

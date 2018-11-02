@@ -4,7 +4,7 @@ import { ComponentMapperService } from './component-mapper.service';
 import { CmsModuleConfig } from '../cms-module-config';
 
 @Component({
-  selector: 'y-test',
+  selector: 'cx-test',
   template: 'test'
 })
 export class TestComponent {}

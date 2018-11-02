@@ -12,7 +12,7 @@ export enum ViewModes {
 }
 
 @Component({
-  selector: 'y-product-view',
+  selector: 'cx-product-view',
   templateUrl: './product-view.component.html',
   styleUrls: ['./product-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

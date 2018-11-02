@@ -43,19 +43,19 @@ const mockDeliveryAddresses = ['address1', 'address2'];
 const mockSelectedCode = 'test mode';
 const mockOrderDetails = { id: '1234' };
 
-@Component({ selector: 'y-delivery-mode', template: '' })
+@Component({ selector: 'cx-delivery-mode', template: '' })
 class MockDeliveryModeComponent {
   @Input()
   selectedShippingMethod;
 }
 
-@Component({ selector: 'y-payment-method', template: '' })
+@Component({ selector: 'cx-payment-method', template: '' })
 class MockPaymentMethodComponent {
   @Input()
   selectedPayment;
 }
 
-@Component({ selector: 'y-review-submit', template: '' })
+@Component({ selector: 'cx-review-submit', template: '' })
 class MockReviewSubmitComponent {
   @Input()
   deliveryAddress;
@@ -65,7 +65,7 @@ class MockReviewSubmitComponent {
   paymentDetails;
 }
 
-@Component({ selector: 'y-shipping-address', template: '' })
+@Component({ selector: 'cx-shipping-address', template: '' })
 class MockShippingAddressComponent {
   @Input()
   selectedAddress;
