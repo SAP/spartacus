@@ -1,48 +1,39 @@
-import { By } from '@angular/platform-browser';
 import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
-import { Store, StoreModule, combineReducers, select } from '@ngrx/store';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { CurrencySelectorComponent } from './currency-selector.component';
-import * as fromStore from './../shared/store';
-import * as fromRoot from './../../routing/store';
-
-import * as fromActions from './../shared/store/actions/currencies.action';
-import { PageType } from '../../routing/models/page-context.model';
+import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { SiteContextModuleConfig } from '../site-context-module-config';
 
-const MockSiteContextModuleConfig: SiteContextModuleConfig = {
-  site: {
-    language: 'de',
-    currency: 'JPY'
-  }
+import {
+  CurrencyService,
+  SiteContextConfig,
+  defaultSiteContextConfig
+} from '@spartacus/core';
+import { CurrencySelectorComponent } from './currency-selector.component';
+
+const mockCurrencies: any[] = [
+  { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
+];
+const mockActiveCurr = 'USD';
+
+const currencyServiceMock = {
+  currencies$: of(mockCurrencies),
+  activeCurrency$: of(mockActiveCurr)
 };
-
 describe('CurrencySelectorComponent', () => {
-  const currencies: any[] = [
-    { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
-  ];
-
   let component: CurrencySelectorComponent;
   let fixture: ComponentFixture<CurrencySelectorComponent>;
-  let store: Store<fromStore.SiteContextState>;
+  let service: CurrencyService;
   let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          siteContext: combineReducers(fromStore.getReducers())
-        })
-      ],
       declarations: [CurrencySelectorComponent],
       providers: [
         {
-          provide: SiteContextModuleConfig,
-          useValue: MockSiteContextModuleConfig
-        }
+          provide: CurrencyService,
+          useValue: currencyServiceMock
+        },
+        { provide: SiteContextConfig, useValue: defaultSiteContextConfig }
       ]
     })
       .overrideComponent(CurrencySelectorComponent, {
@@ -57,75 +48,51 @@ describe('CurrencySelectorComponent', () => {
     el = fixture.debugElement;
     fixture.detectChanges();
 
-    store = TestBed.get(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    service = TestBed.get(CurrencyService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should get currencies and activeCurrency in ngOnInit', () => {
+    component.currencies$.subscribe(value => {
+      expect(value).toEqual(mockCurrencies);
+    });
+    component.activeCurrency$.subscribe(value => {
+      expect(value).toEqual(mockActiveCurr);
+    });
+  });
+
+  it('should change currency', () => {
+    component.setActiveCurrency('CAD');
+    expect(service.activeCurrency).toEqual('CAD');
+  });
+
   it('should contain dropdown with currencies', () => {
-    component.currencies$ = of(currencies);
+    component.currencies$ = of(mockCurrencies);
+    fixture.detectChanges();
 
     const label = el.query(By.css('label'));
     const selectBox = el.query(By.css('select'));
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(selectBox.nativeElement.value).toEqual(currencies[0].isocode);
-    });
-
+    expect(selectBox.nativeElement.value).toEqual(mockCurrencies[0].isocode);
     expect(label.nativeElement.textContent).toEqual('Currency');
   });
 
   it('should contain disabled dropdown when currencies list is empty', () => {
     component.currencies$ = of([]);
-    const selectBox = el.query(By.css('select'));
     fixture.detectChanges();
 
+    const selectBox = el.query(By.css('select'));
     expect(selectBox.nativeElement.disabled).toBeTruthy();
   });
 
   it('should contain enabled dropdown when currencies list is NOT empty', () => {
-    component.currencies$ = of(currencies);
-    const selectBox = el.query(By.css('select'));
+    component.currencies$ = of(mockCurrencies);
     fixture.detectChanges();
 
+    const selectBox = el.query(By.css('select'));
     expect(selectBox.nativeElement.disabled).toBeFalsy();
-  });
-
-  it('should get currency data', () => {
-    const action = new fromActions.LoadCurrenciesSuccess(currencies);
-    store.dispatch(action);
-
-    store.pipe(select(fromStore.getAllCurrencies)).subscribe(data => {
-      expect(data).toEqual(currencies);
-    });
-  });
-
-  it('should change currency', () => {
-    const pageContext = { id: 'testPageId', type: PageType.CONTENT_PAGE };
-    store.dispatch({
-      type: 'ROUTER_NAVIGATION',
-      payload: {
-        routerState: {
-          context: pageContext
-        },
-        event: {}
-      }
-    });
-
-    const usdCurrency = 'USD';
-    component.setActiveCurrency(usdCurrency);
-    expect(component.activeCurrency).toEqual(usdCurrency);
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromActions.SetActiveCurrency(usdCurrency)
-    );
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromActions.CurrencyChange()
-    );
   });
 });
