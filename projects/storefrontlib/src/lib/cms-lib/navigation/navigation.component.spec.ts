@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import * as NgrxStore from '@ngrx/store';
 import { of } from 'rxjs';
-import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { NavigationComponent } from './navigation.component';
 import { NavigationUIComponent } from './navigation-ui.component';
@@ -71,10 +70,8 @@ describe('CmsNavigationComponent in CmsLib', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgrxStore.StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: NgrxStore.combineReducers(fromCmsReducer.getReducers())
-        }),
+        NgrxStore.StoreModule.forRoot({}),
+        NgrxStore.StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
         RouterTestingModule
       ],
       providers: [

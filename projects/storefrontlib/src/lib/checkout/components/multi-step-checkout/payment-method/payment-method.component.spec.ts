@@ -1,12 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import * as NgrxStore from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
 
 import { PaymentMethodComponent } from './payment-method.component';
 
-import * as fromRoot from '../../../../routing/store';
 import * as fromCheckout from '../../../store';
 import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
@@ -74,13 +73,11 @@ describe('PaymentMethodComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cart: combineReducers(fromCart.getReducers()),
-          user: combineReducers(fromUser.getReducers()),
-          checkout: combineReducers(fromCheckout.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cart', fromCart.getReducers()),
+        StoreModule.forFeature('user', fromUser.getReducers()),
+        StoreModule.forFeature('checkout', fromCheckout.getReducers()),
+        StoreModule.forFeature('auth', fromAuth.getReducers())
       ],
       declarations: [
         PaymentMethodComponent,
