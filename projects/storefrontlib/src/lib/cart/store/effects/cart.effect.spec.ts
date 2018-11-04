@@ -10,7 +10,7 @@ import * as fromUser from '../../../user/store';
 import * as fromAuth from '../../../auth/store';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { OccModuleConfig } from '../../../occ/occ-module-config';
+import { OccConfig } from '@spartacus/core';
 import { CartService } from '../../services/cart.service';
 import { CartDataService } from '../../services/cart-data.service';
 import { ProductImageConverterService } from '../../../product/converters';
@@ -37,7 +37,7 @@ describe('Cart effect', () => {
     }
   };
 
-  const MockOccModuleConfig: OccModuleConfig = {
+  const MockOccModuleConfig: OccConfig = {
     server: {
       baseUrl: '',
       occPrefix: ''
@@ -61,7 +61,7 @@ describe('Cart effect', () => {
         OccCartService,
         ProductImageConverterService,
         fromEffects.CartEffects,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
         CartService,
         CartDataService,
         provideMockActions(() => actions$)
