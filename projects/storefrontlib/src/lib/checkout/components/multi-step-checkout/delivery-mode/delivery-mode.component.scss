@@ -9,6 +9,7 @@ $cx-delivery-mode-form-label-details-color: 'success' !default;
 
 // cx-delivery-mode variables
 $cx-delivery-mode-form-no-padding: 0 !default;
+$cx-delivery-mode-form-margin: 0 auto 0 0.75rem !default;
 $cx-delivery-mode-form-title-margin: 0 auto !default;
 $cx-delivery-mode-form-title-padding: 2.375rem 0 1.75rem 0 !default;
 
@@ -25,6 +26,7 @@ $cx-delivery-mode-form-title-padding: 2.375rem 0 1.75rem 0 !default;
 
   &__label {
     padding: $cx-delivery-mode-form-no-padding;
+    margin: $y-delivery-mode-form-margin;
     width: 100%;
     display: flex;
     flex-direction: row;

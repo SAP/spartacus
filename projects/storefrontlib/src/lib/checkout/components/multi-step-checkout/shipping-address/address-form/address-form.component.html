@@ -5,79 +5,101 @@
                 <div class="form-group">
                     <ng-container *ngIf="titles$ | async as titles">
                         <div *ngIf="titles.length !== 0">
-                            <label for="Title" aria-required="true" class="required">Title</label>
-                            <ng-select [searchable]="false" [clearable]="false" [items]="titles" bindLabel="name"
-                                bindValue="code" placeholder="Select Title..." (change)="titleSelected($event)">
-                            </ng-select>
+                            <label aria-required="true">
+                                <span class="label-content required">Title</span>
+                                <ng-select [searchable]="false" [clearable]="false" [items]="titles" bindLabel="name"
+                                    bindValue="code" placeholder="Select Title..." (change)="titleSelected($event)">
+                                </ng-select>
+                            </label>
                         </div>
                     </ng-container>
                 </div>
                 <div class="form-group">
-                    <label for="FirstName" aria-required="true" class="required">First name</label>
-                    <input id="firstName" class="form-control" type="text" required placeholder="First Name"
-                        formControlName="firstName">
+                    <label>
+                        <span class="label-content required">First name</span>
+                        <input class="form-control" type="text" required placeholder="First Name"
+                            formControlName="firstName">
+                    </label>
                 </div>
                 <div class="form-group">
-                    <label for="LastName" aria-required="true" class="required">Last name</label>
-                    <input id="lastName" type="text" class="form-control" required placeholder="Last Name"
-                        formControlName="lastName">
+                    <label>
+                        <span class="label-content required">Last name</span>
+                        <input type="text" class="form-control" required placeholder="Last Name"
+                            formControlName="lastName">
+                    </label>
                 </div>
                 <div class="form-group">
-                    <label for="Address1" aria-required="true" class="required">Address 1</label>
-                    <input id="address1" type="text" class="form-control" required placeholder="Street Address"
-                        formControlName="line1">
+                    <label>
+                        <span class="label-content required">Address 1</span>
+                        <input type="text" class="form-control" required placeholder="Street Address"
+                            formControlName="line1">
+                    </label>
                 </div>
                 <div class="form-group">
-                    <label for="Address2">Address 2 (optional)</label>
-                    <input id="address2" type="text" class="form-control" placeholder="Apt, Suite" formControlName="line2">
+                    <label>
+                        <span class="label-content">Address 2 (optional)</span>
+                        <input type="text" class="form-control" placeholder="Apt, Suite" formControlName="line2">
+                    </label>
                 </div>
                 <div class="form-group">
                     <ng-container *ngIf="countries$ | async as countries">
                         <div *ngIf="countries.length !== 0">
-                            <label for="Country" aria-required="true" class="required">Country</label>
-                            <ng-select [searchable]="false" [clearable]="false" [items]="countries" bindLabel="name"
-                                bindValue="isocode" placeholder="Select One..." (change)="countrySelected($event)">
-                            </ng-select>
+                            <label aria-required="true">
+                                <span class="label-content required">Country</span>
+                                <ng-select [searchable]="false" [clearable]="false" [items]="countries" bindLabel="name"
+                                    bindValue="isocode" placeholder="Select One..." (change)="countrySelected($event)">
+                                </ng-select>
+                            </label>
                         </div>
                     </ng-container>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label for="City" aria-required="true" class="required">City</label>
-                        <input id="city" type="text" class="form-control" required placeholder="City" formControlName="town">
+                        <label>
+                            <span class="label-content required">City</span>
+                            <input type="text" class="form-control" required placeholder="City" formControlName="town">
+                        </label>
                     </div>
                     <div class="form-group col-md-6">
                         <ng-container *ngIf="regions$ | async as regions">
                             <div *ngIf="regions.length !== 0">
-                                <label for="State" aria-required="true" class="required">State</label>
-                                <ng-container *ngIf="regions[0].name">
-                                    <ng-select [searchable]="false" [clearable]="false" [items]="regions" bindLabel="name"
-                                        bindValue="region" placeholder="Select One..." (change)="regionSelected($event)">
-                                    </ng-select>
-                                </ng-container>
-                                <ng-container *ngIf="!regions[0].name">
-                                    <ng-select [searchable]="false" [clearable]="false" [items]="regions" bindLabel="isocode"
-                                        bindValue="region" placeholder="Select One..." (change)="regionSelected($event)">
-                                    </ng-select>
-                                </ng-container>
+                                <label aria-required="true">
+                                    <span class="label-content required">State</span>
+                                    <ng-container *ngIf="regions[0].name">
+                                        <ng-select [searchable]="false" [clearable]="false" [items]="regions" bindLabel="name"
+                                            bindValue="region" placeholder="Select One..." (change)="regionSelected($event)">
+                                        </ng-select>
+                                    </ng-container>
+                                    <ng-container *ngIf="!regions[0].name">
+                                        <ng-select [searchable]="false" [clearable]="false" [items]="regions" bindLabel="isocode"
+                                            bindValue="region" placeholder="Select One..." (change)="regionSelected($event)">
+                                        </ng-select>
+                                    </ng-container>
+                                </label>
                             </div>
                         </ng-container>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="ZipCode" aria-required="true" class="required">Zip Code</label>
-                        <input id="zipCode" type="text" class="form-control" required placeholder="Postal Code/Zip"
-                            formControlName="postalCode">
+                        <label>
+                            <span class="label-content required">Zip code</span>
+                            <input type="text" class="form-control" required placeholder="Postal Code/Zip"
+                                formControlName="postalCode">
+                        </label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="PhoneNumber">Phone Number (optional)</label>
-                    <input id="phoneNumber" type="text" class="form-control" placeholder="(555) 555 - 0123"
-                        formControlName="phone">
+                    <label>
+                        <span class="label-content">Phone number</span>
+                        <input type="text" class="form-control" placeholder="(555) 555 - 0123"
+                            formControlName="phone">
+                    </label>
                 </div>
                 <div class="form-group">
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="setDefaultAddress" (change)="toggleDefaultAddress()">
-                        <label class="form-check-label" for="CheckDefault">Save as default</label>
+                        <label>
+                            <input type="checkbox" class="form-check-input" (change)="toggleDefaultAddress()">
+                            <span class="form-check-label">Save as default</span>
+                        </label>
                     </div>
                 </div>
                 <div class="cx-address-form__btns row">
