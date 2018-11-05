@@ -37,7 +37,7 @@ describe('Cart interactions', () => {
     await productDetails.addToCart();
     const atcModal: AddedToCartModal = new AddedToCartModal();
     await atcModal.waitForReady();
-    await atcModal.closeModalWait();
+    await atcModal.closeButton.click();
 
     const minicartIcon = home.header.miniCartButton;
     await E2EUtil.wait4VisibleElement(minicartIcon);
@@ -71,10 +71,10 @@ describe('Cart interactions', () => {
     await searchResults.clickAddToCartButton4Product(product1);
     const atcModal: AddedToCartModal = new AddedToCartModal();
     await atcModal.waitForReady();
-    const item = atcModal.cartItem(0);
+    const item = atcModal.item;
     await E2EUtil.wait4VisibleElement(item);
 
-    await atcModal.closeModalWait();
+    await atcModal.closeButton.click();
 
     const minicartIcon = home.header.miniCartButton;
     await E2EUtil.wait4VisibleElement(minicartIcon);

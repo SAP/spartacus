@@ -59,7 +59,7 @@ describe('Currency switcher', () => {
     // go to checkout page
     const atcModal = new AddedToCartModal();
     await atcModal.waitForReady();
-    await atcModal.proceedToCheckoutButton.click();
+    await atcModal.goToCheckoutButton.click();
     const addressForm = new AddressForm(checkout.shippingAddress.container);
     await addressForm.waitForReady();
     await addressForm.firstName.sendKeys(TEST_FIRST_NAME);
