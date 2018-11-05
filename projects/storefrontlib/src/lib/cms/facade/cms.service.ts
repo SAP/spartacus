@@ -22,4 +22,11 @@ export class CmsService {
       filter(Boolean)
     );
   }
+
+  getSlot(position: string) {
+    return this.store.pipe(
+      select(fromStore.currentSlotSelectorFactory(position)),
+      filter(Boolean)
+    );
+  }
 }

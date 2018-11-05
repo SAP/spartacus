@@ -3,16 +3,19 @@ import { CmsService } from './cms.service';
 import { Store, StoreModule } from '@ngrx/store';
 import createSpy = jasmine.createSpy;
 import * as fromStore from '../store';
-import * as NgrxStore from '@ngrx/store';
+import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 
-describe('CmsService', () => {
+const mockPageSlot: any[] = [
+  { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
+  { uid: 'comp2', typeCode: 'CMSLinkComponent' },
+  { uid: 'comp3', typeCode: 'NavigationComponent' }
+];
+
+fdescribe('CmsService', () => {
   let store;
-  const mockSelect = createSpy('select').and.returnValue(() => of(undefined));
 
   beforeEach(() => {
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
-
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [CmsService]
@@ -30,6 +33,10 @@ describe('CmsService', () => {
     [CmsService],
     (service: CmsService) => {
       const testUid = 'test_uid';
+      const mockSelect = createSpy('select').and.returnValue(() =>
+        of(undefined)
+      );
+      spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
       service.getComponentData(testUid).subscribe(() => {});
 
@@ -40,4 +47,18 @@ describe('CmsService', () => {
       );
     }
   ));
+
+  describe('getSlot(position)', () => {
+    it('should be able to get content slot by position', inject(
+      [CmsService],
+      (service: CmsService) => {
+        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+          of(mockPageSlot)
+        );
+        service.getSlot('Section1').subscribe(product => {
+          expect(product).toBe(mockPageSlot);
+        });
+      }
+    ));
+  });
 });
