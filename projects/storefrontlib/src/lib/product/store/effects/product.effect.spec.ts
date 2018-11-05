@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccProductService } from '../../../occ/product/product.service';
-import { OccModuleConfig } from '../../../occ/occ-module-config';
+import { OccConfig } from '@spartacus/core';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 import { ProductReferenceConverterService } from '../../converters/product-reference-converter.service';
 
@@ -16,10 +16,10 @@ import { StoreModule, combineReducers } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
-import * as fromSiteContext from './../../../site-context/shared/store';
 import { PageType } from '../../../routing/models/page-context.model';
+import { LanguageChange } from '@spartacus/core';
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -50,7 +50,7 @@ describe('Product Effects', () => {
         OccProductService,
         ProductImageConverterService,
         ProductReferenceConverterService,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.ProductEffects,
         provideMockActions(() => actions$)
       ]
@@ -88,7 +88,7 @@ describe('Product Effects', () => {
         of(router)
       );
 
-      const action = new fromSiteContext.LanguageChange();
+      const action = new LanguageChange();
       const completion = new fromActions.LoadProductSuccess(product);
 
       actions$ = hot('-a', { a: action });
