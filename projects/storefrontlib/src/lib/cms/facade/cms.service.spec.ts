@@ -12,7 +12,7 @@ const mockPageSlot: any[] = [
   { uid: 'comp3', typeCode: 'NavigationComponent' }
 ];
 
-fdescribe('CmsService', () => {
+describe('CmsService', () => {
   let store;
 
   beforeEach(() => {
