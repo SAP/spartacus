@@ -22,11 +22,11 @@ export class MockAddToCartComponent {
 })
 export class MockStarRatingComponent {
   @Input()
-  rating = 1;
+  rating;
   @Input()
-  disabled = false;
+  disabled;
   @Input()
-  steps = 1;
+  steps;
 }
 
 @Component({
