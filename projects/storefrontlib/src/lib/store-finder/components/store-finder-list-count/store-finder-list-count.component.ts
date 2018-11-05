@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
-import { StoreFinderService } from '../../services';
+import { StoreFinderService } from '../../services/store-finder.service';
 
 @Component({
   selector: 'y-store-finder-list-count',

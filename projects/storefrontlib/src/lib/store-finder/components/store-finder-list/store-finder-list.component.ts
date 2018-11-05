@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { SearchConfig } from '../../models/search-config';
 import { SearchQuery } from '../../models/search-query';
-import { StoreFinderService } from '../../services';
+import { StoreFinderService } from '../../services/store-finder.service';
 
 import * as fromStore from '../../store';
 
