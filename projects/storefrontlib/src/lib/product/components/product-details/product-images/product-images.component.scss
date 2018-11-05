@@ -8,6 +8,10 @@
   flex-direction: var(--cx-pdp-thumbs-flex-direction, column);
 }
 
+y-picture {
+  outline: none;
+}
+
 .thumbs {
   display: flex;
   justify-content: var(--cx-pdp-thumbs-justify-content, flex-start);
