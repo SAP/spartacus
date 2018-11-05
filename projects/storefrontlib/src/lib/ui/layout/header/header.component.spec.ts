@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { combineReducers, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromAuth from '../../../auth/store';
 import {
@@ -9,7 +9,6 @@ import {
   ComponentWrapperDirective
 } from '../../../cms/components';
 import * as fromCmsReducer from '../../../cms/store/reducers';
-import * as fromRoot from '../../../routing/store';
 import { SiteContextModule } from '../../../site-context';
 import * as fromUserReducer from '../../../user/store/reducers';
 import { LoginComponent } from './../../../user/components/login/login.component';
@@ -36,12 +35,10 @@ describe('HeaderComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          user: combineReducers(fromUserReducer.getReducers()),
-          cms: combineReducers(fromCmsReducer.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
-        }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('user', fromUserReducer.getReducers()),
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
+        StoreModule.forFeature('auth', fromAuth.getReducers()),
         EffectsModule.forRoot([]),
         SiteContextModule
       ],

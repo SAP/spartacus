@@ -8,11 +8,9 @@ import { AddToCartComponent } from '../../../../cart/components/add-to-cart/add-
 import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchConfig } from '../../../search-config';
-
-import * as fromRoot from '../../../../routing/store';
 import * as fromProduct from '../../../store';
 
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import {
   ProductViewComponent,
   ViewModes
@@ -44,10 +42,8 @@ describe('ProductListComponent in product-list', () => {
         PaginationAndSortingModule,
         FormsModule,
         RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          products: combineReducers(fromProduct.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('product', fromProduct.getReducers())
       ],
       providers: [ProductSearchService],
       declarations: [

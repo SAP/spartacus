@@ -5,11 +5,10 @@ import { StarRatingComponent } from 'projects/storefrontlib/src/lib/ui';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AddToCartComponent } from '../../../../cart/components/add-to-cart/add-to-cart.component';
 import { CartService, CartDataService } from '../../../../cart/services';
-import * as fromRoot from '../../../../routing/store';
 import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
 import * as fromAuth from '../../../../auth/store';
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeDetectionStrategy } from '@angular/core';
 
@@ -37,12 +36,10 @@ describe('ProductGridItemComponent in product-list', () => {
       imports: [
         RouterTestingModule,
         NgbRatingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cart: combineReducers(fromCart.getReducers()),
-          user: combineReducers(fromUser.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cart', fromCart.getReducers()),
+        StoreModule.forFeature('user', fromUser.getReducers()),
+        StoreModule.forFeature('auth', fromAuth.getReducers())
       ],
       declarations: [
         ProductGridItemComponent,

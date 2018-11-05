@@ -5,9 +5,8 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import * as NgrxStore from '@ngrx/store';
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { SiteContextInterceptor } from './site-context.interceptor';
-import * as fromRoot from '../../../../storefrontlib/src/lib/routing/store';
 import * as fromStore from '../store/index';
 import { BehaviorSubject } from 'rxjs';
 import { SiteContextConfig } from '@spartacus/core';
@@ -49,10 +48,8 @@ describe('SiteContextInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          siteContext: combineReducers(fromStore.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('siteContext', fromStore.getReducers())
       ],
       providers: [
         {

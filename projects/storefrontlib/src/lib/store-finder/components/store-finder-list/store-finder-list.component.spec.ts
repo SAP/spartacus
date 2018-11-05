@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -8,7 +8,6 @@ import { By } from '@angular/platform-browser';
 import { StoreFinderListComponent } from './store-finder-list.component';
 
 import * as fromReducers from '../../store';
-import * as fromRoot from '../../../routing/store';
 import * as fromServices from '../../services';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
 import { StoreDataService } from '../../services';
@@ -48,10 +47,8 @@ describe('StoreFinderListComponent', () => {
         RouterTestingModule,
         HttpClientTestingModule,
         SpinnerModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          stores: combineReducers(fromReducers.reducers)
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('stores', fromReducers.reducers)
       ],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [StoreFinderListComponent, StoreFinderMapComponent],
