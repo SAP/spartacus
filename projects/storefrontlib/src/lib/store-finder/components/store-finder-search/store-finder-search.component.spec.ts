@@ -87,7 +87,7 @@ describe('StoreFinderSearchComponent', () => {
   it('should dispatch new query', () => {
     component.searchBox.setValue(query);
     component.findStores(component.searchBox.value);
-    expect(router.navigate).toHaveBeenCalledWith(['findstores'], {
+    expect(router.navigate).toHaveBeenCalledWith(['find-stores'], {
       relativeTo: activatedRoute,
       queryParams: { query: query }
     });
@@ -96,7 +96,7 @@ describe('StoreFinderSearchComponent', () => {
   it('should call onKey and dispatch query', () => {
     component.searchBox.setValue(query);
     component.onKey(keyEvent);
-    expect(router.navigate).toHaveBeenCalledWith(['findstores'], {
+    expect(router.navigate).toHaveBeenCalledWith(['find-stores'], {
       relativeTo: activatedRoute,
       queryParams: { query: query }
     });
@@ -109,7 +109,7 @@ describe('StoreFinderSearchComponent', () => {
 
   it('should view stores near by my location', () => {
     component.viewStoresWithMyLoc();
-    expect(router.navigate).toHaveBeenCalledWith(['findstores'], {
+    expect(router.navigate).toHaveBeenCalledWith(['find-stores'], {
       relativeTo: activatedRoute,
       queryParams: { latitude: latitude, longitude: longitude }
     });
