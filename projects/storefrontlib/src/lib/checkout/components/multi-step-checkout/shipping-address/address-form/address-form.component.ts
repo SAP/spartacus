@@ -174,23 +174,38 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       this.suggestedAddressModalRef.componentInstance.enteredAddress = this.address.value;
       this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
         results.suggestedAddresses;
-      this.suggestedAddressModalRef.result.then(address => {
-        this.store.dispatch(
-          new fromCheckoutStore.ClearAddressVerificationResults()
-        );
-        if (address) {
-          address = Object.assign(
+      this.suggestedAddressModalRef.result
+        .then(address => {
+          this.store.dispatch(
+            new fromCheckoutStore.ClearAddressVerificationResults()
+          );
+          if (address) {
+            address = Object.assign(
+              {
+                titleCode: this.address.value.titleCode,
+                phone: this.address.value.phone,
+                selected: true
+              },
+              address
+            );
+            this.addAddress.emit(address);
+          }
+          this.suggestedAddressModalRef = null;
+        })
+        .catch(() => {
+          // this  callback is called when modal is closed with Esc key or clicking backdrop
+          this.store.dispatch(
+            new fromCheckoutStore.ClearAddressVerificationResults()
+          );
+          const address = Object.assign(
             {
-              titleCode: this.address.value.titleCode,
-              phone: this.address.value.phone,
               selected: true
             },
-            address
+            this.address.value
           );
           this.addAddress.emit(address);
-        }
-        this.suggestedAddressModalRef = null;
-      });
+          this.suggestedAddressModalRef = null;
+        });
     }
   }
 
