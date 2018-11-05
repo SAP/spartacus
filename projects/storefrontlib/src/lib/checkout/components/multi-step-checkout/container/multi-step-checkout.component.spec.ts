@@ -421,7 +421,7 @@ describe('MultiStepCheckoutComponent', () => {
     component.ngOnInit();
 
     const inputCheckbox = fixture.debugElement.query(
-      By.css('.y-multi-step-checkout__place-order-form .form-check-input')
+      By.css('.cx-multi-step-checkout__place-order-form .form-check-input')
     ).nativeElement;
     inputCheckbox.click();
     fixture.detectChanges();

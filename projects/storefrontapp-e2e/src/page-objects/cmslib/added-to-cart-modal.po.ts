@@ -33,7 +33,7 @@ export class AddedToCartModal extends AppPage {
     by.css('div:last-of-type')
   );
   readonly item: ElementFinder = this.itemContainer.element(
-    by.tagName('y-cart-item')
+    by.tagName('cx-cart-item')
   );
   readonly itemName: ElementFinder = this.item.element(
     by.css('.cx-cart-item__name--link')

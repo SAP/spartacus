@@ -24,7 +24,7 @@ export class ProductViewComponent {
   modeChange = new EventEmitter<string>();
 
   get buttonClass() {
-    return `y-product-search__layout--${this.mode}`;
+    return `cx-product-search__layout--${this.mode}`;
   }
 
   changeMode() {

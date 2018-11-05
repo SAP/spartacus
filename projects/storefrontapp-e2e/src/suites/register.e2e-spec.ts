@@ -48,7 +48,7 @@ describe('Register ', () => {
       userPassword
     );
     await registerPage.registerForm.submit();
-    const error = await element(by.tagName('y-global-message')).element(
+    const error = await element(by.tagName('cx-global-message')).element(
       by.css('.alert-danger')
     );
     expect(error).toBeTruthy();

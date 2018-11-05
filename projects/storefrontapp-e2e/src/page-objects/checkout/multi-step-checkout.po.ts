@@ -15,7 +15,7 @@ export class MultiStepCheckoutPage extends AppPage {
   );
 
   readonly agreeToTermsCheckbox: ElementFinder = this.page.element(
-    by.css('.y-multi-step-checkout__place-order-form .form-check-input')
+    by.css('.cx-multi-step-checkout__place-order-form .form-check-input')
   );
 
   readonly placeOrderButton: ElementFinder = this.page.element(
