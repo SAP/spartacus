@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccStoreFinderService } from '../../../occ/store/store-finder.service';
-import { OccModuleConfig } from '../../../occ/occ-module-config';
+import { OccConfig } from '@spartacus/core';
 import { SearchConfig } from '../../models/search-config';
 import { LongitudeLatitude } from '../../models/longitude-latitude';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
@@ -14,7 +14,7 @@ import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-s
 import * as fromEffects from './find-stores.effect';
 import * as fromActions from '../actions/find-stores.action';
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -39,7 +39,7 @@ describe('FindStores Effects', () => {
       providers: [
         OccStoreFinderService,
         OccE2eConfigurationService,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.FindStoresEffect,
         provideMockActions(() => actions$)
       ]
