@@ -38,20 +38,28 @@
 <ng-template #writeReview>
     <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
         <div class="form-group">
-            <label for="reviewTitle">Review Title</label>
-            <input type="text" class="form-control" id="reviewTitle" aria-describedby="reviewTitle" formControlName='title'>
+            <label>
+                <span class="label-content">Review Title</span>
+                <input type="text" class="form-control" formControlName='title'>
+            </label>
         </div>
         <div class="form-group">
-            <label for="reviewComments">Write your comments</label>
-            <textarea class="form-control" id="reviewComments" rows="3" formControlName='comment'></textarea>
+            <label>
+                <span class="label-content">Write your comments</span>
+                <textarea class="form-control" rows="3" formControlName='comment'></textarea>
+            </label>
         </div>
         <div class="form-group">
-            <label for="reviewComments">Rating</label>
-            <y-star-rating formControlName="rating" [steps]="0.5"></y-star-rating>
+            <label>
+                <span class="label-content">Rating</span>
+                <y-star-rating formControlName="rating" [steps]="0.5"></y-star-rating>
+            </label>
         </div>
         <div class="form-group">
-            <label for="reviewerName">Reviewer name (optional)</label>
-            <input type="text" class="form-control" id="reviewerName" formControlName='reviewerName' aria-describedby="reviewTitle">
+            <label>
+                <span class="label-content">Reviewer name (optional)</span>
+                <input type="text" class="form-control" formControlName='reviewerName'>
+            </label>
         </div>
         <div class="form-group row">
             <div class="col-12 col-md-4">

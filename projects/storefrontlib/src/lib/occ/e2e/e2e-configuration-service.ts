@@ -3,17 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { OccModuleConfig } from '../occ-module-config';
+import { OccConfig } from '@spartacus/core';
 
 const E2E_CONFIGURATION_ENDPOINT =
   '/e2econfigurationwebservices/e2econfiguration';
 
 @Injectable()
 export class OccE2eConfigurationService {
-  constructor(
-    private http: HttpClient,
-    private occModuleConfig: OccModuleConfig
-  ) {}
+  constructor(private http: HttpClient, private occModuleConfig: OccConfig) {}
 
   getConfiguration(configurationKey: string): Observable<any> {
     const url = this.getConfigurationEndpoint() + '/' + configurationKey;
