@@ -36,7 +36,7 @@ const MockSiteContextModuleConfig: SiteContextConfig = {
   }
 };
 
-fdescribe('StorefrontComponent', () => {
+describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
   let fixture: ComponentFixture<StorefrontComponent>;
 

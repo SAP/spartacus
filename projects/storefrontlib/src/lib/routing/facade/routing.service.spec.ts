@@ -7,11 +7,15 @@ import { of } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
 
 describe('RoutingService', () => {
-  const mockSelect = createSpy().and.returnValue(() => of('redirect_url'));
+  const mockRedirectUrl = createSpy().and.returnValue(() => of('redirect_url'));
+  const mockRouterState = createSpy().and.returnValue(() => of({}));
   let store;
 
   beforeEach(() => {
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
+    spyOnProperty(NgrxStore, 'select').and.returnValues(
+      mockRouterState,
+      mockRedirectUrl
+    );
 
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
@@ -79,12 +83,22 @@ describe('RoutingService', () => {
     }
   ));
 
-  it('should expose redirectUrl state', inject(
+  it('should expose the whole router state', inject(
     [RoutingService],
     (service: RoutingService) => {
       service.redirectUrl$.subscribe(url => {
-        expect(mockSelect).toHaveBeenCalledWith(fromStore.getRedirectUrl);
+        expect(mockRedirectUrl).toHaveBeenCalledWith(fromStore.getRedirectUrl);
         expect(url).toEqual('redirect_url');
+      });
+    }
+  ));
+
+  it('should expose redirectUrl state', inject(
+    [RoutingService],
+    (service: RoutingService) => {
+      service.routerState$.subscribe(state => {
+        expect(mockRouterState).toHaveBeenCalledWith(fromStore.getRouterState);
+        expect(state).toEqual({});
       });
     }
   ));

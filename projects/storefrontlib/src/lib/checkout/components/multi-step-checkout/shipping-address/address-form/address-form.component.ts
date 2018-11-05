@@ -12,7 +12,6 @@ import { Observable, Subscription } from 'rxjs';
 import { tap, filter } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../../store';
-import * as fromRouting from '../../../../../routing/store';
 import * as fromUser from '../../../../../user/store';
 import * as fromGlobalMessage from '../../../../../global-message/store';
 import { CheckoutService } from '../../../../services/checkout.service';
@@ -59,7 +58,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    protected store: Store<fromRouting.State>,
+    protected store: Store<fromUser.UserState>,
     private fb: FormBuilder,
     protected checkoutService: CheckoutService,
     private modalService: NgbModal

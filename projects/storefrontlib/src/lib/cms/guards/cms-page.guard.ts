@@ -14,7 +14,7 @@ import {
   switchMap
 } from 'rxjs/operators';
 import * as fromStore from '../store';
-import * as fromRouting from '../../routing/store';
+import { RoutingService } from '../../routing/facade/routing.service';
 
 import { Page } from '../models/page.model';
 import { DefaultPageService } from './../services/default-page.service';
@@ -25,7 +25,7 @@ export class CmsPageGuards implements CanActivate {
 
   constructor(
     private store: Store<fromStore.CmsState>,
-    private routingStore: Store<fromRouting.State>,
+    private routingService: RoutingService,
     private defaultPageService: DefaultPageService
   ) {}
 
@@ -39,8 +39,7 @@ export class CmsPageGuards implements CanActivate {
   hasPage(): Observable<boolean> {
     let tryTimes = 0;
 
-    return this.routingStore.pipe(
-      select(fromRouting.getRouterState),
+    return this.routingService.routerState$.pipe(
       map(routerState => routerState.state.context),
       take(1),
       mergeMap(pageContext =>
