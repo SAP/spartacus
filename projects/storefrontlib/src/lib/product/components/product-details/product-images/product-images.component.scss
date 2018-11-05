@@ -12,6 +12,8 @@
   align-items: var(--cx-pdp-thumbs-align-items, center);
 
   y-picture {
+    transition: all var(--cx-transition-time);
+
     border-width: var(--cx-pdp-thumbs-border-width, 2px);
     border-color: var(--cx-pdp-thumbs-border-color, var(--y-light));
     border-style: solid;
