@@ -15,5 +15,6 @@
     border-width: var(--cx-pdp-thumbs-border-width, 2px);
     border-color: var(--cx-pdp-thumbs-border-color, var(--y-light));
     border-style: solid;
+    border-radius: var(--cx-border-radius);
   }
 }
