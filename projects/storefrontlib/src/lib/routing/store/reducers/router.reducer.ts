@@ -13,6 +13,7 @@ import {
 import { PageContext, PageType } from '../../models/page-context.model';
 import * as fromNgrxRouter from '@ngrx/router-store';
 import * as fromActions from '../actions';
+import { ROUTING_FEATURE } from '../../state';
 
 export interface RouterState
   extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
@@ -55,6 +56,7 @@ export function reducer(
   state: RouterState = initialState,
   action: any
 ): RouterState {
+  // console.log('reducer', action, state);
   switch (action.type) {
     case fromActions.SAVE_REDIRECT_URL: {
       return {
@@ -104,9 +106,17 @@ export const reducerProvider: Provider = {
   useFactory: getReducers
 };
 
-export const getRouterState: MemoizedSelector<any, any> = createFeatureSelector<
+export const getRouterFeatureState: MemoizedSelector<
+  any,
+  any
+> = createFeatureSelector<
   fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot>
->('router');
+>(ROUTING_FEATURE);
+
+export const getRouterState: MemoizedSelector<
+  State,
+  RouterState
+> = createSelector(getRouterFeatureState, (state: any) => state.router);
 
 export const getRedirectUrl: MemoizedSelector<any, any> = createSelector(
   getRouterState,
