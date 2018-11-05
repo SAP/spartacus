@@ -3,7 +3,9 @@ import { AppPage } from '../app.po';
 import { E2EUtil } from '../../e2e-util';
 
 export class AddedToCartModal extends AppPage {
-  readonly modal: ElementFinder = element(by.tagName('cx-added-to-cart-dialog'));
+  readonly modal: ElementFinder = element(
+    by.tagName('cx-added-to-cart-dialog')
+  );
   readonly modalTitle: ElementFinder = this.modal.element(
     by.css('.cx-added-to-cart-dialog__title')
   );
