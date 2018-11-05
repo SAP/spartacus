@@ -23,6 +23,8 @@ import {
 
 import { RouterModule } from '@angular/router';
 
+import { ROUTING_FEATURE } from './state';
+
 export function getMetaReducers(
   config: RoutingModuleConfig
 ): MetaReducer<any>[] {
@@ -38,9 +40,11 @@ export function getMetaReducers(
 @NgModule({
   imports: [
     RouterModule.forRoot([], { scrollPositionRestoration: 'enabled' }),
-    StoreModule.forRoot(reducerToken),
-    EffectsModule.forRoot(effects),
-    StoreRouterConnectingModule,
+    StoreModule.forFeature(ROUTING_FEATURE, reducerToken),
+    EffectsModule.forFeature(effects),
+    StoreRouterConnectingModule.forRoot({
+      stateKey: ROUTING_FEATURE // name of reducer key
+    }),
     ConfigModule.withConfig(defaultRoutingModuleConfig)
   ],
   providers: [
