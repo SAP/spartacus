@@ -17,10 +17,12 @@ jobs:
 notifications:
   slack:
     secure: Qz4eaqZJ+4XeEDpl818ZwlXKs1jbY9prg+0+DNQ5cVO7f2nDGI1PTMSsLVihRss39Wx/NW+f6UJGaJLMESzvFlKtPqKePbdA+U+EaxVFh/qIAC2Q1oVA1hfrMVtYjB6h0FNZYMoGjOQHHELb9ojJeHrl4CiMU6BJgoJ6rEhSFyJhuua2RwFAxnKWyxXkhf42SUpJKWyw8cWrW9dHvnHXA0je8cthzj7xLFsiPtJmH8cH8MkVrDh2kPZ1j1pMMia+20zk2ezQhMdN/SBeXN8WPn8dVtEoNVpxrZYiWhJfHpAx4uw3VFgqIdOyCTrgwhwnN9Njx1j7pHRt+amsnLHHZUR/QgJKocGSchkYp7FpixTIrvblCU0XJBKv1bYfJ9jOipCDG3FTMLAp/Vqfuir1ilKmR2upaUxigX3/TK7dn4U97aECrPGnl1AbQijfFlXl/sDvYNrbGU02FIN8a1VPEgq4J9V27dhZ4O5AWjn6EyK3hOgk8EwxKzi0gwWmXUBwZIkS6efZbEgXcggaiRf5jw+2gVBocrFhik4CmdpXmWmenjg5Uo9Cw/t/x7CGHxiWtDErfgQvU5Sai18WrU/yjqTYptCaQiz1Mvyn3viE6mhhFap4xIRnvJBG1nnGPiXnb02lYfS5CFAopf54GkhyYPzKnP5XYHJStZpbjanrIQI=
-    template:
-      - 'Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of branch %{branch} %{result}'
-    on_failure: always
-    on_success: change
   email:
     on_failure: change
     on_success: change
+addons:
+  sonarcloud:
+    organization: "sap"
+    token:
+      secure: "EUfSM0K+SgU2yToPPqNd+ro7WNR6aa4WdbTeCnGGvx3jPaeK6MBOXQBWapI8PAR+W7M7PyKsTE6oJpDdPacjGO8aTZ8lAvQm2du1kldTBpY9xoG6Nb7D9d0wt2YuTAbNdzG4eSg9OLHK3lcURNlz6fQUTJ4FEr5xwhwy2SFtkK7wEP4Hbou/86PYHG4VC46X6m3/G62+wwvSVtzuxm4J+4PILYNVdTJsheOfdJuS6SlNVNbMmRHsMLHcsoRD8cFDhdp7FxmKy4cwTff4ZwEWMSbVcuWj/xfrWu/6IAm4yypCPmVv+eg4B6xC5esjCPMqmRr/Eu5H14J6FVKfMx0CyLzBBAHjywtw9fnRgGqMclxV6+oe+vrOWrnfQg9wVLNju3WbLu1OU2cbESz6bOOYXOcm+0cffiGhH8/P0BlfrBitocJCpFiCDznwQ+RxU3leHr45LWNxQiIs4j4AkkBIHa3hXcpHViZnrHBXQP5T6wQMKDgQkqI1mSyn/qWTbesjWuDALf6Honv5YGlMhlkbpbBcqJKbwZg6ko+qJoaj0pF8PMQ3aMluDjAdeXTkirF1un2JHXWUmcaa2DDlL4EVEanay0fmKZBYNz7xrm8UCRm7BbjLEAIYRbl795tP2Xfn2YDv50407XIr+DWkvbBDuym1rKam6jbBlHvwCgPK5To="
+
