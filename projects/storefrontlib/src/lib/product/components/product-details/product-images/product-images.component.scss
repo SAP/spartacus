@@ -22,7 +22,8 @@
 
     cursor: pointer;
 
-    &:hover {
+    &:hover,
+    &.active {
       border-color: var(--cx-pdp-thumbs-border-color-hover, var(--y-primary));
     }
   }

@@ -25,4 +25,8 @@ export class ProductImagesComponent implements OnChanges {
   showImage(imageContainer) {
     this.mainImage = imageContainer;
   }
+
+  isMainImage(image) {
+    return image.zoom.url === this.mainImage.zoom.url;
+  }
 }

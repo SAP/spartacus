@@ -6,7 +6,7 @@
     <ng-container *ngIf="product.images?.GALLERY.length > 1">
         <div class="thumbs">
             <y-picture *ngFor="let image of product.images.GALLERY" [imageContainer]="image" imageFormat="thumbnail"
-                (click)="showImage(image)">
+                (click)="showImage(image)" [class.active]="isMainImage(image)">
             </y-picture>
         </div>
     </ng-container>
