@@ -24,6 +24,8 @@
     padding: var(--cx-pdp-thumbs--padding, 0.25vw 0.5vw);
 
     cursor: pointer;
+    overflow: hidden;
+    position: relative;
 
     &:hover,
     &.active {
@@ -33,6 +35,10 @@
         --cx-pdp-thumbs-hover-border-radius,
         var(--cx-border-radius)
       );
+    }
+
+    &:hover:not(.active) {
+      --cx-zoom: var(--cx-pdp-thumbs-hover-zoom);
     }
   }
 }
