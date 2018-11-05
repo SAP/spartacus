@@ -27,7 +27,12 @@
 
     &:hover,
     &.active {
-      border-color: var(--cx-pdp-thumbs-border-color-hover, var(--y-primary));
+      border-color: var(--cx-pdp-thumbs-hover-border-color, var(--y-primary));
+
+      border-radius: var(
+        --cx-pdp-thumbs-hover-border-radius,
+        var(--cx-border-radius)
+      );
     }
   }
 }
