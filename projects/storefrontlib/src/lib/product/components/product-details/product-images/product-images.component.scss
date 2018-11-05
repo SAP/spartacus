@@ -19,5 +19,11 @@
 
     margin: var(--cx-pdp-thumbs-margin, 0.5vw);
     padding: var(--cx-pdp-thumbs--padding, 0.25vw 0.5vw);
+
+    cursor: pointer;
+
+    &:hover {
+      border-color: var(--cx-pdp-thumbs-border-color-hover, var(--y-primary));
+    }
   }
 }
