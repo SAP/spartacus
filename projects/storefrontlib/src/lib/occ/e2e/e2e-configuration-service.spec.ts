@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccE2eConfigurationService } from './e2e-configuration-service';
-import { OccModuleConfig } from '../occ-module-config';
+import { OccConfig } from '@spartacus/core';
 
 const configurationKey = 'test';
 const searchResult = '5';
@@ -32,7 +32,7 @@ describe('OccE2eConfigurationService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccE2eConfigurationService,
-        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
+        { provide: OccConfig, useClass: MockOccModuleConfig }
       ]
     });
 

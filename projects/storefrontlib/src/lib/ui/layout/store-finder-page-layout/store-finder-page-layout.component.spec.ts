@@ -18,7 +18,7 @@ import { services } from '../../../store-finder/services';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 
-import { OccModuleConfig } from '../../../occ/occ-module-config';
+import { OccConfig } from '@spartacus/core';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromStore from '../../../store-finder/store';
 import * as fromRoot from '../../../routing/store';
@@ -58,7 +58,7 @@ describe('StoreFinderPageLayoutComponent', () => {
       providers: [
         ...services,
         OccE2eConfigurationService,
-        OccModuleConfig,
+        OccConfig,
         NgbTabsetConfig
       ]
     }).compileComponents();
