@@ -3,7 +3,8 @@
 @import 'mixins';
 
 :host {
-  display: block;
+  display: flex;
+  flex-direction: var(--cx-pdp-thumbs-flex-direction, column);
 }
 
 .thumbs {
