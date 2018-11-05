@@ -18,5 +18,6 @@
       "@spartacus/core": ["projects/core/public_api"],
       "@spartacus/storefront": ["projects/storefrontlib/src/public_api"]
     }
-  }
+  },
+  "exclude": ["./dist"]
 }
