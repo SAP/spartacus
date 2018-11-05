@@ -16,5 +16,7 @@
     border-color: var(--cx-pdp-thumbs-border-color, var(--y-light));
     border-style: solid;
     border-radius: var(--cx-border-radius);
+
+    margin: var(--cx-pdp-thumbs-margin, 0.5vw);
   }
 }
