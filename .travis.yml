@@ -1,18 +1,18 @@
 language: node_js
 node_js:
-  - 8.9.0
+- 8.9.0
 dist: trusty
 branches:
   only:
-    - develop
-    - "/^feature\\/.*$/"
+  - develop
+  - "/^feature\\/.*$/"
 jobs:
   include:
-    - script: './ci-scripts/e2e-tests.sh'
-    - script: './ci-scripts/validate.sh'
-    - script: './ci-scripts/unit-tests.sh'
-    - script: './ci-scripts/lint.sh'
-    - script: sonar-scanner
+  - script: "./ci-scripts/e2e-tests.sh"
+  - script: "./ci-scripts/validate.sh"
+  - script: "./ci-scripts/unit-tests.sh"
+  - script: "./ci-scripts/lint.sh"
+  - script: sonar-scanner
 notifications:
   slack:
     secure: Qz4eaqZJ+4XeEDpl818ZwlXKs1jbY9prg+0+DNQ5cVO7f2nDGI1PTMSsLVihRss39Wx/NW+f6UJGaJLMESzvFlKtPqKePbdA+U+EaxVFh/qIAC2Q1oVA1hfrMVtYjB6h0FNZYMoGjOQHHELb9ojJeHrl4CiMU6BJgoJ6rEhSFyJhuua2RwFAxnKWyxXkhf42SUpJKWyw8cWrW9dHvnHXA0je8cthzj7xLFsiPtJmH8cH8MkVrDh2kPZ1j1pMMia+20zk2ezQhMdN/SBeXN8WPn8dVtEoNVpxrZYiWhJfHpAx4uw3VFgqIdOyCTrgwhwnN9Njx1j7pHRt+amsnLHHZUR/QgJKocGSchkYp7FpixTIrvblCU0XJBKv1bYfJ9jOipCDG3FTMLAp/Vqfuir1ilKmR2upaUxigX3/TK7dn4U97aECrPGnl1AbQijfFlXl/sDvYNrbGU02FIN8a1VPEgq4J9V27dhZ4O5AWjn6EyK3hOgk8EwxKzi0gwWmXUBwZIkS6efZbEgXcggaiRf5jw+2gVBocrFhik4CmdpXmWmenjg5Uo9Cw/t/x7CGHxiWtDErfgQvU5Sai18WrU/yjqTYptCaQiz1Mvyn3viE6mhhFap4xIRnvJBG1nnGPiXnb02lYfS5CFAopf54GkhyYPzKnP5XYHJStZpbjanrIQI=
@@ -22,7 +22,6 @@ notifications:
 addons:
   chrome: stable
   sonarcloud:
-    organization: "sap"
+    organization: sap
     token:
-      secure: "EUfSM0K+SgU2yToPPqNd+ro7WNR6aa4WdbTeCnGGvx3jPaeK6MBOXQBWapI8PAR+W7M7PyKsTE6oJpDdPacjGO8aTZ8lAvQm2du1kldTBpY9xoG6Nb7D9d0wt2YuTAbNdzG4eSg9OLHK3lcURNlz6fQUTJ4FEr5xwhwy2SFtkK7wEP4Hbou/86PYHG4VC46X6m3/G62+wwvSVtzuxm4J+4PILYNVdTJsheOfdJuS6SlNVNbMmRHsMLHcsoRD8cFDhdp7FxmKy4cwTff4ZwEWMSbVcuWj/xfrWu/6IAm4yypCPmVv+eg4B6xC5esjCPMqmRr/Eu5H14J6FVKfMx0CyLzBBAHjywtw9fnRgGqMclxV6+oe+vrOWrnfQg9wVLNju3WbLu1OU2cbESz6bOOYXOcm+0cffiGhH8/P0BlfrBitocJCpFiCDznwQ+RxU3leHr45LWNxQiIs4j4AkkBIHa3hXcpHViZnrHBXQP5T6wQMKDgQkqI1mSyn/qWTbesjWuDALf6Honv5YGlMhlkbpbBcqJKbwZg6ko+qJoaj0pF8PMQ3aMluDjAdeXTkirF1un2JHXWUmcaa2DDlL4EVEanay0fmKZBYNz7xrm8UCRm7BbjLEAIYRbl795tP2Xfn2YDv50407XIr+DWkvbBDuym1rKam6jbBlHvwCgPK5To="
-
+      secure: I2+ah2XiEbJ6MwWG51B0Vqpsv7KhnqMJzhoPTun6iPxlMXVqIJm1bCRkutOtlVJ+65UDj20H6ld0Tc9LOEz3Uvjk/ZSmHIA/7esC1kRcOu62VE8k/Y+nH8epI3dBr70Yymn9V27kqBNTMs+i2qC8z/+2cd0DBrAPtRQXcPedd4kw41kdeFBzmI/ng1uOhadLF2U63s+krkfLSoaBcCkksll3KsnDe/ItJN1Hu7oZ5UQUxcbP8LHDHBIm3YuMDh9WLWvp9zypglS5as8GC55Zi8dDFlqXrcVcKa5niN8Q/UOByBDy1JiM6kJbc/mjbpjdQMAoCz9YjkPhd181hbz0rocxqPmbEszwPVNadRbz3mUjTz/us+3ekrw3/i4DhuzmGlV2kRkbXIquegecivNnWMP8JyZDRerR8onSKS+YMmEI1t7tOLWHCJ4ImkfMWGVbT8t27ZWO2bhDu+N0JxyPuMRSVPRXvhEAqIbts8OdeITxQiWcSdI2Q/Fsfsft7uUBJhhU8S+c6Gs0LuCikG4WfchjCUxK5kFQqEAqLX+BUJbQxw6J2S+geoAzxWhQrs+O/GzXDzuez8Z3Ou8hk2w/l+VSJ2MuiJq/jlcSmVkYUUtKhvPfq/fcLtp9Lt9dUCw/8Es9jbvtg/0i2iyajkF/9PRc6UzhcYu/sk8xopNK4bQ=
