@@ -1,24 +1,29 @@
 <div class="y-mobile-menu">
 
-      <div class="y-mobile-menu__control">
-            <button class="hamburger hamburger--squeeze" type="button" (click)="toggleMenu()" [ngClass]="{ 'is-active': showMenu }"
-                  [attr.aria-expanded]="showMenu" aria-label="Menu" aria-controls="header-account-container, header-categories-container, header-locale-container">
-                  <span class="hamburger-box">
-                        <span class="hamburger-inner"></span>
-                  </span>
-            </button>
-      </div>
+  <div class="y-mobile-menu__control">
+    <button class="hamburger hamburger--squeeze" type="button" (click)="toggleMenu()" [ngClass]="{ 'is-active': showMenu }"
+      [attr.aria-expanded]="showMenu" aria-label="Menu" aria-controls="header-account-container, header-categories-container, header-locale-container">
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+  </div>
 
-      <div class="y-mobile-menu__content" [attr.aria-hidden]="!showMenu">
-            <div class="y-mobile-menu__components">
-                  <y-login></y-login>
-                  <y-dynamic-slot position="NavigationBar" class="d-block d-lg-none"></y-dynamic-slot>
-                  <div class="y-mobile-menu__locale">
-                        <y-language-selector></y-language-selector>
-                        <y-currency-selector></y-currency-selector>
-                  </div>
-            </div>
+  <div class="y-mobile-menu__content" [attr.aria-hidden]="!showMenu">
+    <div class="y-mobile-menu__components">
+      <y-login></y-login>
+      <y-dynamic-slot position="NavigationBar" class="d-block d-lg-none"></y-dynamic-slot>
+      <div class="y-mobile-menu__locale">
+        <y-language-selector></y-language-selector>
+        <y-currency-selector></y-currency-selector>
       </div>
-
-      <div *ngIf="showMenu" class="y-mobile-menu__overlay" (click)="toggleMenu()"></div>
+      <!-- temporary solution -->
+      <cx-add-to-home-screen-btn>
+        <div>
+          <button class="btn btn-primary" id="add-to-home-screen">Add to Home screen</button>
+        </div>
+      </cx-add-to-home-screen-btn>
+    </div>
+  </div>
+  <div *ngIf="showMenu" class="y-mobile-menu__overlay" (click)="toggleMenu()"></div>
 </div>

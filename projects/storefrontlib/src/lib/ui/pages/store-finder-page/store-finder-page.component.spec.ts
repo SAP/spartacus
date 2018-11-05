@@ -16,7 +16,7 @@ import { StoreFinderListCountComponent } from '../../../store-finder/components/
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 import { services } from '../../../store-finder/services';
 import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
-import { OccModuleConfig } from '../../../occ/occ-module-config';
+import { OccConfig } from '@spartacus/core';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 // tslint:disable-next-line:max-line-length
 import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
@@ -58,7 +58,7 @@ describe('StoreFinderPageComponent', () => {
         StoreFinderStoreDescriptionComponent,
         StoreFinderListCountComponent
       ],
-      providers: [...services, OccE2eConfigurationService, OccModuleConfig]
+      providers: [...services, OccE2eConfigurationService, OccConfig]
     }).compileComponents();
   }));
 

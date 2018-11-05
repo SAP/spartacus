@@ -1,6 +1,5 @@
-import { ServerConfig } from '@spartacus/core';
+import { ServerConfig, SiteContextConfig } from '@spartacus/core';
 
-import { SiteContextModuleConfig } from '../site-context/site-context-module-config';
 import { AuthModuleConfig } from '../auth/auth-module.config';
 
 export interface CMSComponentMappingConfig {
@@ -23,7 +22,7 @@ export interface CMSComponentMappingConfig {
 }
 
 export abstract class CmsModuleConfig extends ServerConfig
-  implements SiteContextModuleConfig, AuthModuleConfig {
+  implements SiteContextConfig, AuthModuleConfig {
   site?: {
     baseSite?: string;
     language?: string;
