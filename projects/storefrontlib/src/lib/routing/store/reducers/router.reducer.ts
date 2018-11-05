@@ -113,10 +113,10 @@ export const getRouterFeatureState: MemoizedSelector<
   fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot>
 >(ROUTING_FEATURE);
 
-export const getRouterState: MemoizedSelector<
-  State,
-  RouterState
-> = createSelector(getRouterFeatureState, (state: any) => state.router);
+export const getRouterState: MemoizedSelector<any, any> = createSelector(
+  getRouterFeatureState,
+  (state: any) => state.router
+);
 
 export const getRedirectUrl: MemoizedSelector<any, any> = createSelector(
   getRouterState,
