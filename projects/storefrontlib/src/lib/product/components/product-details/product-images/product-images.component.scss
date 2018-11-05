@@ -8,6 +8,12 @@
 
 .thumbs {
   display: flex;
-  justify-content: var(--product-thumbs-justify-content, flex-start);
-  align-items: var(--product-thumbs-align-items, center);
+  justify-content: var(--cx-pdp-thumbs-justify-content, flex-start);
+  align-items: var(--cx-pdp-thumbs-align-items, center);
+
+  y-picture {
+    border-width: var(--cx-pdp-thumbs-border-width, 2px);
+    border-color: var(--cx-pdp-thumbs-border-color, var(--y-light));
+    border-style: solid;
+  }
 }
