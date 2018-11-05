@@ -4,6 +4,7 @@
 
 :host {
   display: flex;
+  // allow thumb and main image in reverse order
   flex-direction: var(--cx-pdp-thumbs-flex-direction, column);
 }
 
@@ -15,17 +16,19 @@
   y-picture {
     transition: all var(--cx-transition-time);
 
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+
+    // configurable size
+    margin: var(--cx-pdp-thumbs-margin, 0.5vw);
+    padding: var(--cx-pdp-thumbs--padding, 0.25vw 0.5vw);
+
+    // configurable border
     border-width: var(--cx-pdp-thumbs-border-width, 2px);
     border-color: var(--cx-pdp-thumbs-border-color, var(--y-light));
     border-style: solid;
     border-radius: var(--cx-border-radius);
-
-    margin: var(--cx-pdp-thumbs-margin, 0.5vw);
-    padding: var(--cx-pdp-thumbs--padding, 0.25vw 0.5vw);
-
-    cursor: pointer;
-    overflow: hidden;
-    position: relative;
 
     &:hover,
     &.active {
