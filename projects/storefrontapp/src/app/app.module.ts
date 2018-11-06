@@ -14,6 +14,7 @@ if (!environment.production) {
   imports: [
     BrowserModule,
     StorefrontModule.withConfig({
+      production: environment.production,
       server: {
         baseUrl: environment.occBaseUrl
       },

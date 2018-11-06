@@ -13,8 +13,7 @@ import { AddToHomeScreenBtnComponent } from './add-to-home-screen-btn/add-to-hom
 export function pwaConfigurationFactory(
   pwaConfig: PWAModuleConfig
 ): RegistrationOptions {
-  const pwaEnabled = pwaConfig.production && pwaConfig.pwa.enabled;
-  return { enabled: pwaEnabled };
+  return { enabled: (pwaConfig.production && pwaConfig.pwa.enabled) || false };
 }
 
 @NgModule({
