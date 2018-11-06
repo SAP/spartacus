@@ -3,46 +3,43 @@ import {
   HttpTestingController,
   HttpClientTestingModule
 } from '@angular/common/http/testing';
-
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
   HttpParams,
   HttpHeaders
 } from '@angular/common/http';
-import { StoreModule, Store } from '@ngrx/store';
+import createSpy = jasmine.createSpy;
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
-import * as fromStore from '../store';
 import { HttpErrorInterceptor } from './http-error.interceptor';
+import { GlobalMessageService } from '../facade/global-message.service';
 import { GlobalMessageType } from './../models/message.model';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
+const mockMessageService = {
+  add: createSpy(),
+  removeByType: createSpy()
+};
 describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
-  let store: Store<fromStore.GlobalMessageState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('message', fromStore.getReducers())
-      ],
+      imports: [HttpClientTestingModule],
       providers: [
         {
           provide: HTTP_INTERCEPTORS,
           useClass: HttpErrorInterceptor,
           multi: true
-        }
+        },
+        { provide: GlobalMessageService, useValue: mockMessageService }
       ]
     });
 
-    store = TestBed.get(Store);
     httpMock = TestBed.get(HttpTestingController);
-    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it(`should catch 400 error`, inject([HttpClient], (http: HttpClient) => {
@@ -70,16 +67,12 @@ describe('HttpErrorInterceptor', () => {
       },
       { status: 400, statusText: 'Error' }
     );
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.AddMessage({
-        type: GlobalMessageType.MSG_TYPE_ERROR,
-        text: 'Bad credentials. Please login again.'
-      })
-    );
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.RemoveMessagesByType(
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      )
+    expect(mockMessageService.add).toHaveBeenCalledWith({
+      type: GlobalMessageType.MSG_TYPE_ERROR,
+      text: 'Bad credentials. Please login again.'
+    });
+    expect(mockMessageService.removeByType).toHaveBeenCalledWith(
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }));
 
@@ -94,12 +87,10 @@ describe('HttpErrorInterceptor', () => {
     });
 
     mockReq.flush({}, { status: 403, statusText: 'Fobidden' });
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.AddMessage({
-        type: GlobalMessageType.MSG_TYPE_ERROR,
-        text: 'You are not authorized to perform this action.'
-      })
-    );
+    expect(mockMessageService.add).toHaveBeenCalledWith({
+      type: GlobalMessageType.MSG_TYPE_ERROR,
+      text: 'You are not authorized to perform this action.'
+    });
   }));
 
   it(`should catch 404 of error`, inject([HttpClient], (http: HttpClient) => {
@@ -113,12 +104,10 @@ describe('HttpErrorInterceptor', () => {
     });
 
     mockReq.flush({}, { status: 404, statusText: 'Not Found' });
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.AddMessage({
-        type: GlobalMessageType.MSG_TYPE_ERROR,
-        text: 'The requested resource could not be found'
-      })
-    );
+    expect(mockMessageService.add).toHaveBeenCalledWith({
+      type: GlobalMessageType.MSG_TYPE_ERROR,
+      text: 'The requested resource could not be found'
+    });
   }));
 
   it(`should catch 409 of error`, inject([HttpClient], (http: HttpClient) => {
@@ -132,12 +121,10 @@ describe('HttpErrorInterceptor', () => {
     });
 
     mockReq.flush({}, { status: 409, statusText: 'Already Exists' });
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.AddMessage({
-        type: GlobalMessageType.MSG_TYPE_ERROR,
-        text: 'Already exists'
-      })
-    );
+    expect(mockMessageService.add).toHaveBeenCalledWith({
+      type: GlobalMessageType.MSG_TYPE_ERROR,
+      text: 'Already exists'
+    });
   }));
 
   it(`should catch 502 of error`, inject([HttpClient], (http: HttpClient) => {
@@ -151,12 +138,10 @@ describe('HttpErrorInterceptor', () => {
     });
 
     mockReq.flush({}, { status: 502, statusText: 'Bad Gateway' });
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.AddMessage({
-        type: GlobalMessageType.MSG_TYPE_ERROR,
-        text: 'A server error occurred. Please try again later.'
-      })
-    );
+    expect(mockMessageService.add).toHaveBeenCalledWith({
+      type: GlobalMessageType.MSG_TYPE_ERROR,
+      text: 'A server error occurred. Please try again later.'
+    });
   }));
 
   it(`should catch 504 of error`, inject([HttpClient], (http: HttpClient) => {
@@ -170,11 +155,9 @@ describe('HttpErrorInterceptor', () => {
     });
 
     mockReq.flush({}, { status: 504, statusText: 'Gateway Timeout' });
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.AddMessage({
-        type: GlobalMessageType.MSG_TYPE_ERROR,
-        text: 'The server did not responded, please try again later.'
-      })
-    );
+    expect(mockMessageService.add).toHaveBeenCalledWith({
+      type: GlobalMessageType.MSG_TYPE_ERROR,
+      text: 'The server did not responded, please try again later.'
+    });
   }));
 });

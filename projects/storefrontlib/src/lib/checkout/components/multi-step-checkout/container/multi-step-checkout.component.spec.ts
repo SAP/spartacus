@@ -17,6 +17,7 @@ import { CheckoutService } from './../../../services/checkout.service';
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 import { Component, Input } from '@angular/core';
 import { RoutingService } from '../../../../routing/facade/routing.service';
+import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
 
 const mockAddress: Address = {
   id: 'mock address id',
@@ -126,7 +127,12 @@ describe('MultiStepCheckoutComponent', () => {
         MockReviewSubmitComponent,
         MockShippingAddressComponent
       ],
-      providers: [CheckoutService, CartService, CartDataService]
+      providers: [
+        CheckoutService,
+        CartService,
+        CartDataService,
+        GlobalMessageService
+      ]
     }).compileComponents();
   }));
 
