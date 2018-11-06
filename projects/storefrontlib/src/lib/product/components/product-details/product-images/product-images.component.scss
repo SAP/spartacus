@@ -1,12 +1,12 @@
 :host {
-  display: var(--cx-display, flex);
+  display: flex;
   flex-direction: var(--cx-flex-direction, column);
 }
 
 .thumbs {
-  display: var(--cx-display, flex);
-  justify-content: var(--cx-justify-content, flex-start);
-  align-items: var(--cx-align-items, center);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 
   cx-picture {
     transition: all var(--cx-transition-time);
