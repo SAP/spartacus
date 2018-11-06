@@ -3,10 +3,10 @@ import {
   Type,
   ComponentFactoryResolver,
   Inject,
-  Renderer2
+  Renderer2, PLATFORM_ID
 } from '@angular/core';
 import { CmsModuleConfig } from '../cms-module-config';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 @Injectable()
 export class ComponentMapperService {
@@ -17,7 +17,8 @@ export class ComponentMapperService {
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private config: CmsModuleConfig,
-    @Inject(DOCUMENT) private document: any
+    @Inject(DOCUMENT) private document: any,
+    @Inject(PLATFORM_ID) private platform: any
   ) {}
 
   /**
@@ -91,10 +92,13 @@ export class ComponentMapperService {
       script.setAttribute('src', path);
       renderer.appendChild(this.document.body, script);
 
-      script.onload = () => {
+      if (isPlatformBrowser(this.platform)) {
+        script.onload = () => {
+          resolve(selector);
+        };
+      } else {
         resolve(selector);
-      };
-      resolve(selector);
+      }
     });
   }
 
