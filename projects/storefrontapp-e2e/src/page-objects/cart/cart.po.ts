@@ -21,6 +21,11 @@ export class CartPage extends AppPage {
   readonly orderSummaryAmount: ElementFinder = this.page.element(
     by.css('.y-order-summary__total-final .y-order-summary__amount')
   );
+
+  readonly itemCounterComponent: ElementArrayFinder = this.page.all(
+    by.tagName('y-item-counter')
+  );
+
   readonly cartEntryByProductName = (productName: string): ElementFinder =>
     this.cartEntries
       .filter(el =>
@@ -31,9 +36,6 @@ export class CartPage extends AppPage {
       )
       .first();
 
-  readonly itemCounterComponent: ElementArrayFinder = this.page.all(
-    by.tagName('y-item-counter')
-  );
   async increaseQty(index: number = 0) {
     return await this.itemCounterComponent
       .get(index)

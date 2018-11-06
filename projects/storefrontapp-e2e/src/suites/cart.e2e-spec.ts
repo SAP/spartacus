@@ -1,5 +1,6 @@
 import { CartPage } from '../page-objects/cart/cart.po';
 import { HomePage } from '../page-objects/home.po';
+import { LoginHelper } from '../page-objects/login/login.helper';
 import { SearchResultsPage } from '../page-objects/search-results.po';
 import { ProductDetailsPage } from '../page-objects/product-details.po';
 import { E2EUtil } from '../e2e-util';
@@ -11,6 +12,9 @@ describe('Cart interactions', () => {
   let searchResults: SearchResultsPage;
   let cart: CartPage;
   let productDetails: ProductDetailsPage;
+  const USER_FULL_NAME = `${LoginHelper.DEFAULT_FIRST_NAME} ${
+    LoginHelper.DEFAULT_LAST_NAME
+  }`;
 
   beforeEach(async () => {
     home = new HomePage();
@@ -94,6 +98,39 @@ describe('Cart interactions', () => {
     );
     // go to homepage
     await home.navigateTo();
+  });
+
+  it('should add product to cart as anonymous and merge when logged in', async () => {
+    // Add product to cart
+    await productDetails.navigateTo('300938');
+    await productDetails.addToCartButton.click();
+    const atcModal: AddedToCartModal = new AddedToCartModal();
+    await atcModal.waitForReady();
+    const item = atcModal.cartItem(0);
+    await E2EUtil.wait4VisibleElement(item);
+
+    await atcModal.closeModalWait();
+
+    // Check that we are not logged in
+    expect(await home.header.isLoggedIn()).toBeFalsy();
+
+    // Let's register
+    await LoginHelper.registerNewUser();
+    expect(await home.header.isLoggedIn()).toBeTruthy();
+    expect(await home.header.loginComponent.getText()).toContain(
+      USER_FULL_NAME
+    );
+
+    // Go to cart
+    await cart.navigateTo();
+
+    // Check if cart contains correct product
+    await cart.checkCartEntry(
+      'Photosmart E317 Digital Camera',
+      1,
+      '$114.12',
+      '$114.12'
+    );
   });
 
   it('should add product to cart and manipulate qty', async () => {
