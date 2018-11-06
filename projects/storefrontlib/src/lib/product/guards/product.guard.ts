@@ -3,7 +3,7 @@ import { CanActivate } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { RoutingService } from './../../routing/facade/routing.service';
-import { ProductService } from '../facade';
+import { ProductService } from '../facade/product.service';
 
 @Injectable()
 export class ProductGuard implements CanActivate {
