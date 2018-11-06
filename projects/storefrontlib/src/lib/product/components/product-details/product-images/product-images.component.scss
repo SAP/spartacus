@@ -3,7 +3,7 @@
   flex-direction: var(--cx-flex-direction, column);
 }
 
-y-picture {
+cx-picture {
   outline: none;
 }
 
@@ -12,7 +12,7 @@ y-picture {
   justify-content: var(--cx-justify-content, flex-start);
   align-items: var(--cx-align-items, center);
 
-  y-picture {
+  cx-picture {
     transition: all var(--cx-transition-time);
 
     &:not(.active) {
@@ -22,14 +22,14 @@ y-picture {
     position: relative;
 
     border-width: var(--cx-border-width, 0.1vw);
-    border-color: var(--cx-color, var(--y-light));
+    border-color: var(--cx-color, var(--cx-light));
 
     margin: var(--cx-margin, 0.5vw);
     padding: var(--cx-padding, 0.5vw);
 
     &:hover,
     &.active {
-      border-color: var(--cx-color, var(--y-primary));
+      border-color: var(--cx-color, var(--cx-primary));
     }
   }
 }
