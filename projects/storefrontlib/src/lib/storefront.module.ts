@@ -1,5 +1,9 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { ConfigModule, provideConfig } from '@spartacus/core';
+import {
+  ConfigModule,
+  provideConfig,
+  ConfigurableRoutesModule
+} from '@spartacus/core';
 import { AuthModule } from './auth/index';
 import { RoutingModule } from './routing/index';
 import { OccModule } from './occ/index';
@@ -12,6 +16,7 @@ import { StorefrontModuleConfig } from './storefront-config';
 
 @NgModule({
   imports: [
+    ConfigurableRoutesModule,
     AuthModule,
     RoutingModule,
     OccModule,

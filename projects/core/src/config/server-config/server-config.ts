@@ -2,6 +2,7 @@ export abstract class ServerConfig {
   production?: boolean;
   server?: {
     baseUrl?: string;
+    routesConfigUrl?: string;
     occPrefix?: string;
   };
 }
