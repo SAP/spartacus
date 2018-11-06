@@ -3,9 +3,8 @@
 @import 'mixins';
 
 :host {
-  display: flex;
-  // allow thumb and main image in reverse order
-  flex-direction: var(--cx-pdp-thumbs-flex-direction, column);
+  display: var(--cx-display, flex);
+  flex-direction: var(--cx-flex-direction, column);
 }
 
 y-picture {
@@ -13,9 +12,9 @@ y-picture {
 }
 
 .thumbs {
-  display: flex;
-  justify-content: var(--cx-pdp-thumbs-justify-content, flex-start);
-  align-items: var(--cx-pdp-thumbs-align-items, center);
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, flex-start);
+  align-items: var(--cx-align-items, center);
 
   y-picture {
     transition: all var(--cx-transition-time);
