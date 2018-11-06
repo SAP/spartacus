@@ -13,7 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store, select } from '@ngrx/store';
 
 @Component({
-  selector: 'y-add-to-cart',
+  selector: 'cx-add-to-cart',
   templateUrl: './add-to-cart.component.html',
   styleUrls: ['./add-to-cart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

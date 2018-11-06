@@ -22,6 +22,7 @@ import {
 } from './routing-module-config';
 
 import { RouterModule } from '@angular/router';
+import { RoutingService } from './facade/routing.service';
 
 export function getMetaReducers(
   config: RoutingModuleConfig
@@ -44,6 +45,7 @@ export function getMetaReducers(
     ConfigModule.withConfig(defaultRoutingModuleConfig)
   ],
   providers: [
+    RoutingService,
     reducerProvider,
     {
       provide: RouterStateSerializer,

@@ -2,12 +2,12 @@
 @import 'functions';
 @import 'mixins';
 //register page variables
-$y-register-registration-link-text-decoration: underline !important;
-.y-section__login-link {
+$cx-register-registration-link-text-decoration: underline !important;
+.cx-section__login-link {
   margin-top: $spacer;
 }
 
-.y_section-registration-link {
+.cx-section__registration-link {
   cursor: pointer;
-  text-decoration: $y-register-registration-link-text-decoration;
+  text-decoration: $cx-register-registration-link-text-decoration;
 }

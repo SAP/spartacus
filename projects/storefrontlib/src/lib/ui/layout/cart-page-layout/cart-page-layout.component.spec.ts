@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { combineReducers, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
@@ -13,7 +13,6 @@ import {
 } from '../../../cms/components';
 import { ComponentMapperService } from '../../../cms/services';
 import * as fromCmsReducer from '../../../cms/store';
-import * as fromRoot from '../../../routing/store';
 import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
 import { ComponentsModule } from './../../components/components.module';
 import { CartPageLayoutComponent } from './cart-page-layout.component';
@@ -39,11 +38,9 @@ describe('CartPageLayoutComponent', () => {
       imports: [
         ReactiveFormsModule,
         RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cart: combineReducers(fromReducer.getReducers()),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cart', fromReducer.getReducers()),
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
         ComponentsModule,
         CartSharedModule
       ],

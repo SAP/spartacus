@@ -1,11 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 import { ReviewSubmitComponent } from './review-submit.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 
-import * as fromRoot from '../../../../routing/store';
 import * as fromCheckout from '../../../store';
 import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
@@ -52,7 +51,7 @@ const mockPaymentDetails = {
 const mockEntries = ['cart entry 1', 'cart entry 2'];
 
 @Component({
-  selector: 'y-cart-item-list',
+  selector: 'cx-cart-item-list',
   template: ''
 })
 class MockCartItemListComponent {
@@ -65,7 +64,7 @@ class MockCartItemListComponent {
 }
 
 @Component({
-  selector: 'y-card',
+  selector: 'cx-card',
   template: ''
 })
 class MockCardComponent {
@@ -96,13 +95,11 @@ describe('ReviewSubmitComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cart: combineReducers(fromCart.getReducers()),
-          user: combineReducers(fromUser.getReducers()),
-          checkout: combineReducers(fromCheckout.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cart', fromCart.getReducers()),
+        StoreModule.forFeature('user', fromUser.getReducers()),
+        StoreModule.forFeature('checkout', fromCheckout.getReducers()),
+        StoreModule.forFeature('auth', fromAuth.getReducers())
       ],
       declarations: [
         ReviewSubmitComponent,
@@ -230,7 +227,7 @@ describe('ReviewSubmitComponent', () => {
 
   describe('UI cart total section', () => {
     const getCartTotalText = () =>
-      fixture.debugElement.query(By.css('.y-review__cart-total')).nativeElement
+      fixture.debugElement.query(By.css('.cx-review__cart-total')).nativeElement
         .textContent;
 
     beforeEach(() => {
@@ -248,10 +245,10 @@ describe('ReviewSubmitComponent', () => {
     });
   });
 
-  describe('child y-card component of shipping address', () => {
+  describe('child cx-card component of shipping address', () => {
     const getShippingAddressCardContent = () =>
       fixture.debugElement.query(
-        By.css('.y-review__summary-card__address y-card')
+        By.css('.cx-review__summary-card__address cx-card')
       ).componentInstance.content;
 
     it('should receive content attribute with shipping address', () => {
@@ -266,10 +263,10 @@ describe('ReviewSubmitComponent', () => {
     });
   });
 
-  describe('child y-card component of shipping method', () => {
+  describe('child cx-card component of shipping method', () => {
     const getShippingMethodCardContent = () =>
       fixture.debugElement.query(
-        By.css('.y-review__summary-card__shipping-method y-card')
+        By.css('.cx-review__summary-card__shipping-method cx-card')
       ).componentInstance.content;
 
     it('should receive content attribute with shipping method', () => {
@@ -282,10 +279,10 @@ describe('ReviewSubmitComponent', () => {
     });
   });
 
-  describe('child y-card component of payment method', () => {
+  describe('child cx-card component of payment method', () => {
     const getPaymentMethodCardContent = () =>
       fixture.debugElement.query(
-        By.css('.y-review__summary-card__payment-method y-card')
+        By.css('.cx-review__summary-card__payment-method cx-card')
       ).componentInstance;
 
     it('should receive content attribute with payment method', () => {
@@ -300,9 +297,9 @@ describe('ReviewSubmitComponent', () => {
     });
   });
 
-  describe('child y-cart-item-list component', () => {
+  describe('child cx-cart-item-list component', () => {
     const getCartItemList = () =>
-      fixture.debugElement.query(By.css('y-cart-item-list')).componentInstance;
+      fixture.debugElement.query(By.css('cx-cart-item-list')).componentInstance;
 
     it('should receive items attribute with cart entires', () => {
       mockSelectors.cart.getEntries.next(mockEntries);

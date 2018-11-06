@@ -3,15 +3,15 @@
 @import 'mixins';
 @import '~bootstrap/scss/nav';
 
-$y-tertiary-link-color: 'inverse' !default;
+$cx-tertiary-link-color: 'inverse' !default;
 
-.y-tertiary-bar {
+.cx-tertiary-bar {
   @include media-breakpoint-down(md) {
     @include sr-only();
   }
 
   &__link {
-    @include var-color('color', $y-tertiary-link-color);
+    @include var-color('color', $cx-tertiary-link-color);
     @include type('7');
   }
 }

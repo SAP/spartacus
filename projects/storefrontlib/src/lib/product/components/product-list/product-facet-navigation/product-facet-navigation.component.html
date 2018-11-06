@@ -1,11 +1,11 @@
-<div class="y-search-facet">
+<div class="cx-search-facet">
   <ng-template [ngIf]="searchResult.breadcrumbs?.length">
-    <h4 class="y-search-facet-filter__header">
+    <h4 class="cx-search-facet-filter__header">
       Filter By
     </h4>
-    <div class="y-search-facet-filter__container">
+    <div class="cx-search-facet-filter__container">
       <div *ngFor="let breadcrumb of searchResult.breadcrumbs" [hidden]="breadcrumb.facetValueCode === activeFacetValueCode"
-        class="y-search-facet-filter__pill" role="filter">
+        class="cx-search-facet-filter__pill" role="filter">
         {{breadcrumb.facetValueName}}
         <button type="button" class="close" aria-label="Close" (click)="toggleValue(breadcrumb.removeQuery.query.value)">
           <span aria-hidden="true">&times;</span>
@@ -15,20 +15,20 @@
   </ng-template>
 
   <ng-template ngFor let-facet [ngForOf]="visibleFacets" let-facetId="index">
-    <div class="y-search-facet-group">
-      <span class="y-search-facet-header">
-        <a class="y-search-facet-header__link" (click)="toggleFacet(facet.name)" [attr.aria-expanded]="!isFacetCollapsed(facet.name)"
+    <div class="cx-search-facet-group">
+      <span class="cx-search-facet-header">
+        <a class="cx-search-facet-header__link" (click)="toggleFacet(facet.name)" [attr.aria-expanded]="!isFacetCollapsed(facet.name)"
           aria-controls="">
           {{facet.name}}
         </a>
       </span>
       <div id="facet1" [ngbCollapse]="isFacetCollapsed(facet.name)">
-        <ul class="y-search-facet-list">
+        <ul class="cx-search-facet-list">
           <li *ngFor="let value of getVisibleFacetValues(facet); index as facetValueId">
             <div class="form-check">
-              <input class="form-check-input y-search-facet-checkbox" role="checkbox" type="checkbox" id="facetCheck{{facetId}}_{{facetValueId}}"
+              <input class="form-check-input cx-search-facet-checkbox" role="checkbox" type="checkbox" id="facetCheck{{facetId}}_{{facetValueId}}"
                 aria-checked="true" [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
-              <label class="form-checkbox y-search-facet-list__label" for="facetCheck{{facetId}}_{{facetValueId}}">
+              <label class="form-checkbox cx-search-facet-list__label" for="facetCheck{{facetId}}_{{facetValueId}}">
                 {{value.name}} ({{value.count}})
               </label>
             </div>
@@ -43,17 +43,17 @@
   </ng-template>
 </div>
 
-<div class="y-search-facet__mobile">
-  <button class="btn btn-action btn-block y-search-facet__mobile--btn" (click)="openFilterModal(content)">Filter by</button>
+<div class="cx-search-facet__mobile">
+  <button class="btn btn-action btn-block cx-search-facet__mobile--btn" (click)="openFilterModal(content)">Filter by</button>
 </div>
 
 <!-- START ONLY SHOW FILTER SECTION IN MOBILE WHEN THEY ARE SELECTED -->
-<div class="y-search-facet__mobile" *ngIf="searchResult.breadcrumbs?.length">
-  <div class="y-search-facet-filter__container">
-    <h4 class="y-search-facet-filter__header">
+<div class="cx-search-facet__mobile" *ngIf="searchResult.breadcrumbs?.length">
+  <div class="cx-search-facet-filter__container">
+    <h4 class="cx-search-facet-filter__header">
       Applied Filter:
     </h4>
-    <div class="y-search-facet-filter__pill" role="filter" *ngFor="let breadcrumb of searchResult.breadcrumbs">
+    <div class="cx-search-facet-filter__pill" role="filter" *ngFor="let breadcrumb of searchResult.breadcrumbs">
       {{breadcrumb.facetValueName}}
       <button type="button" class="close" aria-label="Close" (click)="toggleValue(breadcrumb.removeQuery.query.value)">
         <span aria-hidden="true">&times;</span>
@@ -61,26 +61,27 @@
     </div>
   </div>
 </div>
+
 <!-- END ONLY SHOW FILTER SECTION IN MOBILE WHEN THEY ARE SELECTED -->
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="y-search-facet-modal__title" id="modal-title">Filter by</h4>
+    <h4 class="cx-search-facet-modal__title" id="modal-title">Filter by</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body y-search-facet__modal-body">
+  <div class="modal-body cx-search-facet__modal-body">
     <form>
       <div class="form-group" *ngFor="let facet of searchResult.facets; index as facetId">
-        <h4 class="y-search-facet__modal--label" for="megapixels">{{facet.name}}</h4>
+        <h4 class="cx-search-facet__modal--label" for="megapixels">{{facet.name}}</h4>
         <div class="input-group">
-          <ul class="y-search-facet-list">
+          <ul class="cx-search-facet-list">
             <li *ngFor="let value of facet.values; index as facetValueId">
               <div class="form-check">
-                <input class="form-check-input y-search-facet-checkbox" role="checkbox" type="checkbox" id="facetModalCheck{{facetId}}_{{facetValueId}}"
+                <input class="form-check-input cx-search-facet-checkbox" role="checkbox" type="checkbox" id="facetModalCheck{{facetId}}_{{facetValueId}}"
                   aria-checked="true" [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
-                <label class="form-checkbox y-search-facet-list__label" for="facetModalCheck{{facetId}}_{{facetValueId}}">
+                <label class="form-checkbox cx-search-facet-list__label" for="facetModalCheck{{facetId}}_{{facetValueId}}">
                   {{value.name}} ({{value.count}})
                 </label>
               </div>
