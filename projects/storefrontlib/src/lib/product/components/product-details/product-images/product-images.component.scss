@@ -3,10 +3,6 @@
   flex-direction: var(--cx-flex-direction, column);
 }
 
-cx-picture {
-  outline: none;
-}
-
 .thumbs {
   display: var(--cx-display, flex);
   justify-content: var(--cx-justify-content, flex-start);
