@@ -18,6 +18,9 @@ export class CartPage extends AppPage {
   readonly orderSummary: ElementFinder = this.page.element(
     by.tagName('y-order-summary')
   );
+  readonly orderSummaryAmount: ElementFinder = this.page.element(
+    by.css('.y-order-summary__total-final .y-order-summary__amount')
+  );
   readonly cartEntryByProductName = (productName: string): ElementFinder =>
     this.cartEntries
       .filter(el =>
@@ -28,6 +31,16 @@ export class CartPage extends AppPage {
       )
       .first();
 
+  readonly itemCounterComponent: ElementArrayFinder = this.page.all(
+    by.tagName('y-item-counter')
+  );
+  async increaseQty(index: number = 0) {
+    return await this.itemCounterComponent
+      .get(index)
+      .all(by.tagName('button'))
+      .get(1)
+      .click();
+  }
   async navigateTo() {
     await browser.get('/cart');
     await this.waitForReady();
@@ -100,7 +113,9 @@ export class CartPage extends AppPage {
   }
 
   async getSummaryTotalValue(): Promise<string> {
-    return this.getOrderSummaryInnerDivValue('Total:');
+    return await this.page
+      .element(by.css('.y-order-summary__amount'))
+      .getText();
   }
 
   async checkCartSummary(subtotal: string, discount: string, total: string) {
