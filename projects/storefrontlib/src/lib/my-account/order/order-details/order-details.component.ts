@@ -8,7 +8,7 @@ import * as fromRoutingStore from '../../../routing/store';
 import { Card } from '../../../ui/components/card/card.component';
 
 @Component({
-  selector: 'y-order-details',
+  selector: 'cx-order-details',
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.scss'],
   encapsulation: ViewEncapsulation.None

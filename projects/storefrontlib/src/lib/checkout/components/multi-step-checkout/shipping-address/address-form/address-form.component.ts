@@ -22,7 +22,7 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'y-address-form',
+  selector: 'cx-address-form',
   templateUrl: './address-form.component.html',
   styleUrls: ['./address-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -17,7 +17,7 @@ import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
 
 @Component({
-  selector: 'y-payment-method',
+  selector: 'cx-payment-method',
   templateUrl: './payment-method.component.html',
   styleUrls: ['./payment-method.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

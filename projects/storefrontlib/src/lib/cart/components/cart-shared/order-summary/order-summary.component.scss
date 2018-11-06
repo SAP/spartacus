@@ -2,12 +2,12 @@
 @import 'functions';
 @import 'mixins';
 
-// y-order-summary color variables
-$y-order-summary-background-color: 'background' !default;
-$y-order-summary-promotions-color: 'success' !default;
-$y-order-summary-total-savings-color: 'success' !default;
+// cx-order-summary color variables
+$cx-order-summary-background-color: 'background' !default;
+$cx-order-summary-promotions-color: 'success' !default;
+$cx-order-summary-total-savings-color: 'success' !default;
 
-.y-order-summary {
+.cx-order-summary {
   padding: 1rem;
   margin-bottom: 1.5rem;
 
@@ -20,7 +20,7 @@ $y-order-summary-total-savings-color: 'success' !default;
     padding: 0;
   }
   &__promotions {
-    @include var-color('color', $y-order-summary-promotions-color);
+    @include var-color('color', $cx-order-summary-promotions-color);
     @include type('7');
     padding: 0.5rem 0;
   }
@@ -30,7 +30,7 @@ $y-order-summary-total-savings-color: 'success' !default;
     flex-wrap: wrap;
   }
   &__total-savings {
-    @include var-color('color', $y-order-summary-total-savings-color);
+    @include var-color('color', $cx-order-summary-total-savings-color);
   }
   &__total-final {
     font-weight: bold;

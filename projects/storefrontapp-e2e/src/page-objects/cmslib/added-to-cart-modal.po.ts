@@ -3,19 +3,21 @@ import { AppPage } from '../app.po';
 import { E2EUtil } from '../../e2e-util';
 
 export class AddedToCartModal extends AppPage {
-  readonly modal: ElementFinder = element(by.tagName('y-added-to-cart-dialog'));
-  readonly modalTitle: ElementFinder = this.modal.element(
-    by.css('.y-added-to-cart-dialog__title')
+  readonly modal: ElementFinder = element(
+    by.tagName('cx-added-to-cart-dialog')
   );
-  readonly loader: ElementFinder = this.modal.element(by.tagName('y-spinner'));
+  readonly modalTitle: ElementFinder = this.modal.element(
+    by.css('.cx-added-to-cart-dialog__title')
+  );
+  readonly loader: ElementFinder = this.modal.element(by.tagName('cx-spinner'));
   readonly closeButton: ElementFinder = this.modal.element(
     by.css('[aria-label="Close"]')
   );
   readonly itemContainer: ElementFinder = this.modal.element(
-    by.css('.y-added-to-cart-dialog__item-container')
+    by.css('.cx-added-to-cart-dialog__item-container')
   );
   readonly actionButtons: ElementFinder = this.modal.element(
-    by.css('.y-added-to-cart-dialog__actions')
+    by.css('.cx-added-to-cart-dialog__actions')
   );
   readonly viewCartButton: ElementFinder = this.actionButtons.element(
     by.css('.btn-primary')
@@ -24,7 +26,7 @@ export class AddedToCartModal extends AppPage {
     by.css('.btn-secondary')
   );
   readonly total: ElementFinder = this.modal.element(
-    by.css('.y-added-to-cart-dialog__total')
+    by.css('.cx-added-to-cart-dialog__total')
   );
   readonly totalCount: ElementFinder = this.total.element(
     by.css('div:first-of-type')
@@ -33,19 +35,19 @@ export class AddedToCartModal extends AppPage {
     by.css('div:last-of-type')
   );
   readonly item: ElementFinder = this.itemContainer.element(
-    by.tagName('y-cart-item')
+    by.tagName('cx-cart-item')
   );
   readonly itemName: ElementFinder = this.item.element(
-    by.css('.y-cart-item__name--link')
+    by.css('.cx-cart-item__name--link')
   );
   readonly itemPrice: ElementFinder = this.item.element(
-    by.css('.y-cart-item__price--value')
+    by.css('.cx-cart-item__price--value')
   );
   readonly itemQuantity: ElementFinder = this.item.element(
-    by.css('.y-cart-item__quantity--value')
+    by.css('.cx-cart-item__quantity--value')
   );
   readonly itemTotalPrice: ElementFinder = this.item.element(
-    by.css('.y-cart-item__total--value')
+    by.css('.cx-cart-item__total--value')
   );
 
   async waitForReady() {

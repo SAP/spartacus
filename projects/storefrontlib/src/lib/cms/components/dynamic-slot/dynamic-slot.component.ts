@@ -10,7 +10,7 @@ import { CmsService } from '../../facade/cms.service';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'y-dynamic-slot',
+  selector: 'cx-dynamic-slot',
   templateUrl: './dynamic-slot.component.html',
   styleUrls: ['./dynamic-slot.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

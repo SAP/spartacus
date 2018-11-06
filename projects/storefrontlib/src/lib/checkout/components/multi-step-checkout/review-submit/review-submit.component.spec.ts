@@ -52,7 +52,7 @@ const mockPaymentDetails = {
 const mockEntries = ['cart entry 1', 'cart entry 2'];
 
 @Component({
-  selector: 'y-cart-item-list',
+  selector: 'cx-cart-item-list',
   template: ''
 })
 class MockCartItemListComponent {
@@ -65,7 +65,7 @@ class MockCartItemListComponent {
 }
 
 @Component({
-  selector: 'y-card',
+  selector: 'cx-card',
   template: ''
 })
 class MockCardComponent {
@@ -230,7 +230,7 @@ describe('ReviewSubmitComponent', () => {
 
   describe('UI cart total section', () => {
     const getCartTotalText = () =>
-      fixture.debugElement.query(By.css('.y-review__cart-total')).nativeElement
+      fixture.debugElement.query(By.css('.cx-review__cart-total')).nativeElement
         .textContent;
 
     beforeEach(() => {
@@ -248,10 +248,10 @@ describe('ReviewSubmitComponent', () => {
     });
   });
 
-  describe('child y-card component of shipping address', () => {
+  describe('child cx-card component of shipping address', () => {
     const getShippingAddressCardContent = () =>
       fixture.debugElement.query(
-        By.css('.y-review__summary-card__address y-card')
+        By.css('.cx-review__summary-card__address cx-card')
       ).componentInstance.content;
 
     it('should receive content attribute with shipping address', () => {
@@ -266,10 +266,10 @@ describe('ReviewSubmitComponent', () => {
     });
   });
 
-  describe('child y-card component of shipping method', () => {
+  describe('child cx-card component of shipping method', () => {
     const getShippingMethodCardContent = () =>
       fixture.debugElement.query(
-        By.css('.y-review__summary-card__shipping-method y-card')
+        By.css('.cx-review__summary-card__shipping-method cx-card')
       ).componentInstance.content;
 
     it('should receive content attribute with shipping method', () => {
@@ -282,10 +282,10 @@ describe('ReviewSubmitComponent', () => {
     });
   });
 
-  describe('child y-card component of payment method', () => {
+  describe('child cx-card component of payment method', () => {
     const getPaymentMethodCardContent = () =>
       fixture.debugElement.query(
-        By.css('.y-review__summary-card__payment-method y-card')
+        By.css('.cx-review__summary-card__payment-method cx-card')
       ).componentInstance;
 
     it('should receive content attribute with payment method', () => {
@@ -300,9 +300,9 @@ describe('ReviewSubmitComponent', () => {
     });
   });
 
-  describe('child y-cart-item-list component', () => {
+  describe('child cx-cart-item-list component', () => {
     const getCartItemList = () =>
-      fixture.debugElement.query(By.css('y-cart-item-list')).componentInstance;
+      fixture.debugElement.query(By.css('cx-cart-item-list')).componentInstance;
 
     it('should receive items attribute with cart entires', () => {
       mockSelectors.cart.getEntries.next(mockEntries);
