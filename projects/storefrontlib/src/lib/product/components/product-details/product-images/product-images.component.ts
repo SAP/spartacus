@@ -1,15 +1,9 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'y-product-images',
   templateUrl: './product-images.component.html',
-  styleUrls: ['./product-images.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./product-images.component.scss']
 })
 export class ProductImagesComponent implements OnChanges {
   @Input()
