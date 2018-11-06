@@ -35,7 +35,7 @@ const MockPwaRegistrationOptions: RegistrationOptions = {
   enabled: false
 };
 
-fdescribe('MobileMenuComponent', () => {
+describe('MobileMenuComponent', () => {
   let component: MobileMenuComponent;
   let fixture: ComponentFixture<MobileMenuComponent>;
 

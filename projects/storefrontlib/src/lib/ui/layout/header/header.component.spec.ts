@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import {
+  ServiceWorkerModule,
+  ɵangular_packages_service_worker_service_worker_b as RegistrationOptions
+} from '@angular/service-worker';
+
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromAuth from '../../../auth/store';
@@ -24,13 +29,16 @@ import {
   defaultPWAModuleConfig
 } from '../../../pwa/pwa.module-config';
 import { SiteContextConfig } from '@spartacus/core';
-import { ServiceWorkerModule } from '@angular/service-worker';
 
 const MockCmsModuleConfig: CmsModuleConfig = {
   site: {
     language: 'de',
     currency: 'JPY'
   }
+};
+
+const MockPwaRegistrationOptions: RegistrationOptions = {
+  enabled: false
 };
 
 describe('HeaderComponent', () => {
@@ -68,6 +76,10 @@ describe('HeaderComponent', () => {
         {
           provide: PWAModuleConfig,
           useValue: defaultPWAModuleConfig
+        },
+        {
+          provide: RegistrationOptions,
+          useValue: MockPwaRegistrationOptions
         }
       ]
     }).compileComponents();

@@ -52,7 +52,7 @@ const MockPwaRegistrationOptions: RegistrationOptions = {
   enabled: false
 };
 
-fdescribe('StorefrontComponent', () => {
+describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
   let fixture: ComponentFixture<StorefrontComponent>;
 
