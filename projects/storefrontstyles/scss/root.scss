@@ -12,3 +12,8 @@
   --cx-border-style: solid;
   --cx-border-width: 1px;
 }
+
+* {
+  border-radius: var(--cx-border-radius);
+  outline: none;
+}
