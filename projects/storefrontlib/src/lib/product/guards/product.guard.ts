@@ -1,28 +1,28 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-
 import { Observable, of } from 'rxjs';
 import { Store, select } from '@ngrx/store';
+import { tap, filter, take, switchMap, catchError, map } from 'rxjs/operators';
 
 import * as fromStore from './../store';
-import * as fromRouting from './../../routing/store';
-import { tap, filter, take, switchMap, catchError, map } from 'rxjs/operators';
+import { RoutingService } from './../../routing/facade/routing.service';
 
 @Injectable()
 export class ProductGuard implements CanActivate {
-  requestedProductCode: string;
+  productCode: string;
 
-  constructor(private store: Store<fromStore.ProductsState>) {
-    this.store
-      .pipe(select(fromRouting.getRouterState))
-      .subscribe(
-        routerState =>
-          (this.requestedProductCode = routerState.state.params['productCode'])
-      );
+  constructor(
+    private store: Store<fromStore.ProductsState>,
+    private routingService: RoutingService
+  ) {
+    this.routingService.routerState$.subscribe(
+      routerState =>
+        (this.productCode = routerState.state.params['productCode'])
+    );
   }
 
   canActivate(): Observable<boolean> {
-    return this.checkStore(this.requestedProductCode).pipe(
+    return this.checkStore(this.productCode).pipe(
       switchMap(found => of(found)),
       catchError(_err => of(false))
     );

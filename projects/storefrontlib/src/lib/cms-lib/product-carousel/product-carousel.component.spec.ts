@@ -8,7 +8,6 @@ import { of } from 'rxjs';
 import { BootstrapModule } from '../../bootstrap.module';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import * as fromProductStore from '../../product/store';
-import * as fromRoot from '../../routing/store';
 import { CmsService } from '../../cms/facade/cms.service';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
@@ -60,10 +59,8 @@ describe('ProductCarouselComponent in CmsLib', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        NgrxStore.StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: NgrxStore.combineReducers(fromCmsReducer.getReducers())
-        }),
+        NgrxStore.StoreModule.forRoot({}),
+        NgrxStore.StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
         BootstrapModule
       ],
       declarations: [ProductCarouselComponent, PictureComponent],

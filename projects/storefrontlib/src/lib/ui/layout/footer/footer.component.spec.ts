@@ -5,8 +5,7 @@ import {
   DynamicSlotComponent,
   ComponentWrapperDirective
 } from '../../../cms/components';
-import { StoreModule, combineReducers } from '@ngrx/store';
-import * as fromRoot from '../../../routing/store';
+import { StoreModule } from '@ngrx/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import { OutletDirective } from '../../../outlet';
 
@@ -17,10 +16,8 @@ describe('FooterComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers())
       ],
       declarations: [
         FooterComponent,

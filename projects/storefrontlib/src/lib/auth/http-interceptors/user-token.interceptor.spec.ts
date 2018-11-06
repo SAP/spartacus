@@ -5,10 +5,9 @@ import {
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 
 import * as fromStore from '../store';
-import * as fromRoot from '../../routing/store';
 
 import { UserTokenInterceptor } from './user-token.interceptor';
 import { UserToken } from './../../auth/models/token-types.model';
@@ -43,10 +42,8 @@ describe('UserTokenInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          auth: combineReducers(fromStore.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('auth', fromStore.getReducers())
       ],
       providers: [
         { provide: AuthModuleConfig, useValue: MockAuthModuleConfig },
