@@ -43,7 +43,6 @@ export class MockAddToCartComponent {
 }
 
 describe('ProductDetailsComponent in product', () => {
-  let service: ProductService;
   let productDetailsComponent: ProductDetailsComponent;
   let fixture: ComponentFixture<ProductDetailsComponent>;
 
@@ -79,10 +78,7 @@ describe('ProductDetailsComponent in product', () => {
     fixture = TestBed.createComponent(ProductDetailsComponent);
     fixture.detectChanges();
     productDetailsComponent = fixture.componentInstance;
-    service = TestBed.get(ProductService);
     fixture.detectChanges();
-
-    spyOn(service, 'get').and.returnValue(of(mockProduct));
   });
 
   it('should be created', () => {
