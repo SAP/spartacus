@@ -11,6 +11,11 @@ y-picture {
   outline: none;
 }
 
+* {
+  border-style: var(--cx-border-style, solid);
+  border-width: var(--cx-border-width, 0);
+}
+
 .thumbs {
   display: var(--cx-display, flex);
   justify-content: var(--cx-justify-content, flex-start);
@@ -25,18 +30,16 @@ y-picture {
     overflow: hidden;
     position: relative;
 
+    border-width: var(--cx-border-width, 0.1vw);
+    border-color: var(--cx-color, var(--y-light));
+    border-radius: var(--cx-border-radius);
+
     margin: var(--cx-margin, 0.5vw);
     padding: var(--cx-padding, 0.5vw);
 
-    // configurable border
-    border-width: var(--cx-pdp-thumbs-border-width, 2px);
-    border-color: var(--cx-pdp-thumbs-border-color, var(--y-light));
-    border-style: solid;
-    border-radius: var(--cx-border-radius);
-
     &:hover,
     &.active {
-      border-color: var(--cx-pdp-thumbs-hover-border-color, var(--y-primary));
+      border-color: var(--cx-color, var(--y-primary));
 
       border-radius: var(
         --cx-pdp-thumbs-hover-border-radius,
