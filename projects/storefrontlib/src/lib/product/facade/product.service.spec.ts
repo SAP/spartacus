@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 
@@ -8,6 +8,7 @@ import * as fromStore from '../store';
 import { ProductService } from './product.service';
 
 describe('ProductService', () => {
+  let store;
   let service: ProductService;
   const mockProduct = { code: 'testId' };
 
@@ -21,6 +22,8 @@ describe('ProductService', () => {
     });
 
     service = TestBed.get(ProductService);
+    store = TestBed.get(Store);
+    spyOn(store, 'dispatch').and.stub();
   });
 
   it('should ProductService is injected', inject(
@@ -37,6 +40,33 @@ describe('ProductService', () => {
       );
       service.get('testId').subscribe(product => {
         expect(product).toBe(mockProduct);
+      });
+    });
+  });
+
+  describe('isProductLoaded(productCode)', () => {
+    it('should be true that the product is loaded when a product is returned by the store', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(mockProduct)
+      );
+      service.isProductLoaded('existingProduct').subscribe(result => {
+        expect(result).toBeTruthy();
+      });
+    });
+
+    it('should be false that the product is loaded when an empty object is returned by the store', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of({}));
+      service.isProductLoaded('emptyObjectProduct').subscribe(result => {
+        expect(result).toBeFalsy();
+      });
+    });
+
+    it('should be false that the product is loaded when undefined is returned by the store', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(undefined)
+      );
+      service.isProductLoaded('undefinedProduct').subscribe(result => {
+        expect(result).toBeFalsy();
       });
     });
   });
