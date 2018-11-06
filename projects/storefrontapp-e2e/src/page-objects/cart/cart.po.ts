@@ -71,6 +71,11 @@ export class CartPage extends AppPage {
     return E2EUtil.findPrice(await totalPriceDiv.getText());
   }
 
+  async deleteEntryByName(productName) {
+    const product = this.cartEntryByProductName(productName);
+    await product.element(by.css('.y-cart-item__actions a')).click();
+  }
+
   async checkCartEntry(
     productName: string,
     quantity: string | number,

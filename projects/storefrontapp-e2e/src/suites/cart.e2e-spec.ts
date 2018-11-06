@@ -100,6 +100,53 @@ describe('Cart interactions', () => {
     await home.navigateTo();
   });
 
+  it('should display empty cart if no items added and when items are removed', async () => {
+    // Go to cart
+    await cart.navigateTo();
+    let cartPageText = await cart.page.getText();
+
+    expect(cartPageText).toContain('Your shopping cart is empty');
+    expect(cartPageText).toContain('Suggestions');
+    expect(cartPageText).toContain(
+      'Browse our products by selecting a category above'
+    );
+
+    await productDetails.navigateTo('300938');
+    await productDetails.addToCartButton.click();
+    const atcModal: AddedToCartModal = new AddedToCartModal();
+    await atcModal.waitForReady();
+    const item = atcModal.cartItem(0);
+    await E2EUtil.wait4VisibleElement(item);
+
+    await atcModal.closeModalWait();
+
+    // Go to cart
+
+    const minicartIcon = home.header.miniCartButton;
+    await E2EUtil.wait4VisibleElement(minicartIcon);
+    await minicartIcon.click();
+
+    // wait for cart page to show up
+    await cart.waitForReady();
+
+    // Check if cart contains correct product
+    await cart.checkCartEntry(
+      'Photosmart E317 Digital Camera',
+      1,
+      '$114.12',
+      '$114.12'
+    );
+    await cart.deleteEntryByName('Photosmart E317 Digital Camera');
+    await E2EUtil.wait4TextInElement(cart.page, 'Your shopping cart is empty');
+    cartPageText = await cart.page.getText();
+
+    expect(cartPageText).toContain('Your shopping cart is empty');
+    expect(cartPageText).toContain('Suggestions');
+    expect(cartPageText).toContain(
+      'Browse our products by selecting a category above'
+    );
+  });
+
   it('should add product to cart as anonymous and merge when logged in', async () => {
     // Add product to cart
     await productDetails.navigateTo('300938');
@@ -153,9 +200,12 @@ describe('Cart interactions', () => {
 
     // Change cart qty
     await cart.increaseQty(0);
+    await E2EUtil.wait4TextInElement(cart.orderSummaryAmount, '228.24');
+
     await cart.increaseQty(0);
 
     await E2EUtil.wait4TextInElement(cart.orderSummaryAmount, '342.36');
+
     // check if cart contains quantity 3 of 'Photosmart E317 Digital Camera'
     await cart.checkCartEntry(
       'Photosmart E317 Digital Camera',
@@ -163,16 +213,10 @@ describe('Cart interactions', () => {
       '$114.12',
       '$342.36'
     );
-    // expect(await cart.getSummaryTotalValue()).toBe('$342.36');
-    // go to homepage
-    await home.navigateTo();
   });
 
   // TODO: We need that product on backend to be out of stock
   xit('should be unable to add out of stock products to cart', async () => {
-    // go to homepage
-    await home.navigateTo();
-
     await productDetails.navigateTo('358639');
     // wait until product details page is loaded
     await E2EUtil.wait4VisibleElement(productDetails.page);
