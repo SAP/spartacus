@@ -9,7 +9,7 @@ import {
 import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
 
 @Component({
-  selector: 'y-reset-new-password-form',
+  selector: 'cx-reset-new-password-form',
   templateUrl: './reset-new-password-form.component.html',
   styleUrls: ['./reset-new-password-form.component.scss']
 })

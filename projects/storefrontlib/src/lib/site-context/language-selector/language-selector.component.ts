@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { LanguageService } from '@spartacus/core';
 
 @Component({
-  selector: 'y-language-selector',
+  selector: 'cx-language-selector',
   templateUrl: './language-selector.component.html',
   styleUrls: ['./language-selector.component.scss']
 })

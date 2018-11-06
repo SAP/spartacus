@@ -2,7 +2,7 @@
 @import 'functions';
 @import 'mixins';
 
-.y-category-page-layout {
+.cx-category-page-layout {
   &__bottom-products {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

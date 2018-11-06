@@ -153,7 +153,7 @@ describe('DeliveryModeComponent', () => {
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(
-        By.css('.y-delivery-mode-form__btns .btn-primary')
+        By.css('.cx-delivery-mode-form__btns .btn-primary')
       );
 
     it('should be disabled when delivery mode is not selected', () => {
@@ -179,7 +179,7 @@ describe('DeliveryModeComponent', () => {
   describe('UI back button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(
-        By.css('.y-delivery-mode-form__btns .btn-action')
+        By.css('.cx-delivery-mode-form__btns .btn-action')
       );
 
     it('should call "back" function after being clicked', () => {

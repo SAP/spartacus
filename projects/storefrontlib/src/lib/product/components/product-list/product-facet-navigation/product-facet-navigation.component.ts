@@ -10,7 +10,7 @@ import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'y-product-facet-navigation',
+  selector: 'cx-product-facet-navigation',
   templateUrl: './product-facet-navigation.component.html',
   styleUrls: ['./product-facet-navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

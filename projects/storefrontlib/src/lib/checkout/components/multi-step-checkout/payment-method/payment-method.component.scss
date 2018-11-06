@@ -4,35 +4,35 @@
 @import '~bootstrap/scss/card';
 @import '../container/multi-step-checkout.component';
 
-// y-payment-method color variables
-$y-payment-method-media-background-color: 'background' !default;
-$y-payment-method-tooltip-icon-text-color: $inverse !default;
-$y-payment-method-card-background-color: $inverse !default;
-// y-payment-method  variables
-$y-payment-method-no-padding: 0 !default;
-$y-payment-method-no-margin: 0 !default;
-$y-payment-method-header-margin: 0 auto !default;
-$y-payment-method-header-padding: 2.375rem 0 1.25rem 0 !default;
-$y-payment-method-header-title-margin-bottom: 0 !default;
-$y-payment-method-header-image-margin-left: 1rem !default;
-$y-payment-method-tooltip-icon-margin-left: 0.625rem !default;
-$y-payment-method-tooltip-icon-size: 1.125rem !default;
-$y-payment-method-billing-margin-bottom: 1.25rem !default;
-$y-payment-method-billing-address-padding: 0.875rem 0 1.25rem 0 !default;
-$y-payment-method-img-margin: 0 1rem 1.25rem 0 !default;
-$y-payment-method-title-margin: 0 auto !default;
-$y-payment-method-title-padding: 2.375rem 0 1.75rem 0 !default;
-$y-payment-method-body-padding-bottom: 1.875rem !default;
+// cx-payment-method color variables
+$cx-payment-method-media-background-color: 'background' !default;
+$cx-payment-method-tooltip-icon-text-color: $inverse !default;
+$cx-payment-method-card-background-color: $inverse !default;
+// cx-payment-method  variables
+$cx-payment-method-no-padding: 0 !default;
+$cx-payment-method-no-margin: 0 !default;
+$cx-payment-method-header-margin: 0 auto !default;
+$cx-payment-method-header-padding: 2.375rem 0 1.25rem 0 !default;
+$cx-payment-method-header-title-margin-bottom: 0 !default;
+$cx-payment-method-header-image-margin-left: 1rem !default;
+$cx-payment-method-tooltip-icon-margin-left: 0.625rem !default;
+$cx-payment-method-tooltip-icon-size: 1.125rem !default;
+$cx-payment-method-billing-margin-bottom: 1.25rem !default;
+$cx-payment-method-billing-address-padding: 0.875rem 0 1.25rem 0 !default;
+$cx-payment-method-img-margin: 0 1rem 1.25rem 0 !default;
+$cx-payment-method-title-margin: 0 auto !default;
+$cx-payment-method-title-padding: 2.375rem 0 1.75rem 0 !default;
+$cx-payment-method-body-padding-bottom: 1.875rem !default;
 // Media Queries
-$y-payment-method-text-md-padding-left: 3.5rem !default;
-$y-payment-method-text-sm-padding-left: 1.5rem !default;
-$y-payment-method-text-md-padding-left: 3.5rem !default;
-$y-payment-method-header-image-md-margin-right: 1rem !default;
-$y-payment-method-header-image-md-margin-left: 0 !default;
-$y-payment-method-btns-margin-bottom: 1rem !default;
+$cx-payment-method-text-md-padding-left: 3.5rem !default;
+$cx-payment-method-text-sm-padding-left: 1.5rem !default;
+$cx-payment-method-text-md-padding-left: 3.5rem !default;
+$cx-payment-method-header-image-md-margin-right: 1rem !default;
+$cx-payment-method-header-image-md-margin-left: 0 !default;
+$cx-payment-method-btns-margin-bottom: 1rem !default;
 // Loading
-$y-payment-methods-loading-padding: 30px !default;
-.y-payment-method {
+$cx-payment-methods-loading-padding: 30px !default;
+.cx-payment-method {
   &.container {
     padding: 0;
   }
@@ -40,73 +40,73 @@ $y-payment-methods-loading-padding: 30px !default;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    margin: $y-payment-method-header-margin;
-    padding: $y-payment-method-header-padding;
+    margin: $cx-payment-method-header-margin;
+    padding: $cx-payment-method-header-padding;
     &-title {
       text-transform: uppercase;
-      margin-bottom: $y-payment-method-header-title-margin-bottom;
+      margin-bottom: $cx-payment-method-header-title-margin-bottom;
     }
     &-image {
-      margin-left: $y-payment-method-header-image-margin-left;
+      margin-left: $cx-payment-method-header-image-margin-left;
     }
   }
   &__tooltip-icon {
-    margin-left: $y-payment-method-tooltip-icon-margin-left;
-    height: $y-payment-method-tooltip-icon-size;
-    width: $y-payment-method-tooltip-icon-size;
+    margin-left: $cx-payment-method-tooltip-icon-margin-left;
+    height: $cx-payment-method-tooltip-icon-size;
+    width: $cx-payment-method-tooltip-icon-size;
   }
   &__billing {
-    margin-bottom: $y-payment-method-billing-margin-bottom;
+    margin-bottom: $cx-payment-method-billing-margin-bottom;
     &-address {
       @include type('4');
-      padding: $y-payment-method-billing-address-padding;
+      padding: $cx-payment-method-billing-address-padding;
     }
   }
   &__img {
-    margin: $y-payment-method-img-margin;
+    margin: $cx-payment-method-img-margin;
     &-container {
       display: flex;
     }
   }
   &__title {
     text-transform: uppercase;
-    margin: $y-payment-method-title-margin;
-    padding: $y-payment-method-title-padding;
+    margin: $cx-payment-method-title-margin;
+    padding: $cx-payment-method-title-padding;
   }
   &__spinner {
-    padding-top: $y-payment-methods-loading-padding;
-    padding-bottom: $y-payment-methods-loading-padding;
+    padding-top: $cx-payment-methods-loading-padding;
+    padding-bottom: $cx-payment-methods-loading-padding;
   }
   &__body {
     display: flex;
     align-items: flex-end;
-    padding-bottom: $y-payment-method-body-padding-bottom;
+    padding-bottom: $cx-payment-method-body-padding-bottom;
   }
   // ***************************** MEDIA QUERIES *****************************
   @include checkout-media-style();
   &__body {
     &.row {
       @include media-breakpoint-down(md) {
-        padding: $y-payment-method-no-padding;
+        padding: $cx-payment-method-no-padding;
       }
     }
   }
   &__text {
     @include media-breakpoint-down(md) {
-      padding-left: $y-payment-method-text-md-padding-left;
+      padding-left: $cx-payment-method-text-md-padding-left;
     }
     @include media-breakpoint-down(sm) {
-      padding-left: $y-payment-method-text-sm-padding-left;
+      padding-left: $cx-payment-method-text-sm-padding-left;
     }
   }
   &__header {
     @include media-breakpoint-down(md) {
-      padding: $y-payment-method-no-padding;
+      padding: $cx-payment-method-no-padding;
     }
     &-image {
       @include media-breakpoint-down(md) {
-        margin-right: $y-payment-method-header-image-md-margin-right;
-        margin-left: $y-payment-method-header-image-md-margin-left;
+        margin-right: $cx-payment-method-header-image-md-margin-right;
+        margin-left: $cx-payment-method-header-image-md-margin-left;
       }
     }
   }
@@ -114,14 +114,14 @@ $y-payment-methods-loading-padding: 30px !default;
     @include media-breakpoint-down(md) {
       @include var-color(
         'background-color',
-        $y-payment-method-card-background-color
+        $cx-payment-method-card-background-color
       );
     }
   }
   &__btns {
     .btn-action {
       @include media-breakpoint-down(sm) {
-        margin-bottom: $y-payment-method-btns-margin-bottom;
+        margin-bottom: $cx-payment-method-btns-margin-bottom;
       }
     }
   }

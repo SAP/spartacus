@@ -2,7 +2,7 @@
 @import '../../functions';
 @import '../../mixins';
 
-.y-container {
+.cx-container {
   @include make-container();
   @include make-container-max-widths();
   padding-left: 0;

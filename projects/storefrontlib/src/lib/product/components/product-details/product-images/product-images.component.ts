@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 
 @Component({
-  selector: 'y-product-images',
+  selector: 'cx-product-images',
   templateUrl: './product-images.component.html',
   styleUrls: ['./product-images.component.scss']
 })

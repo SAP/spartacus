@@ -43,19 +43,19 @@ const mockDeliveryAddresses = ['address1', 'address2'];
 const mockSelectedCode = 'test mode';
 const mockOrderDetails = { id: '1234' };
 
-@Component({ selector: 'y-delivery-mode', template: '' })
+@Component({ selector: 'cx-delivery-mode', template: '' })
 class MockDeliveryModeComponent {
   @Input()
   selectedShippingMethod;
 }
 
-@Component({ selector: 'y-payment-method', template: '' })
+@Component({ selector: 'cx-payment-method', template: '' })
 class MockPaymentMethodComponent {
   @Input()
   selectedPayment;
 }
 
-@Component({ selector: 'y-review-submit', template: '' })
+@Component({ selector: 'cx-review-submit', template: '' })
 class MockReviewSubmitComponent {
   @Input()
   deliveryAddress;
@@ -65,7 +65,7 @@ class MockReviewSubmitComponent {
   paymentDetails;
 }
 
-@Component({ selector: 'y-shipping-address', template: '' })
+@Component({ selector: 'cx-shipping-address', template: '' })
 class MockShippingAddressComponent {
   @Input()
   selectedAddress;
@@ -90,15 +90,15 @@ describe('MultiStepCheckoutComponent', () => {
   };
   const getPlaceOrderForm = () =>
     fixture.debugElement.query(
-      By.css('.y-multi-step-checkout__place-order-form')
+      By.css('.cx-multi-step-checkout__place-order-form')
     );
   const getPlaceOrderBtn = () =>
     fixture.debugElement.query(
-      By.css('.y-multi-step-checkout__place-order .btn-primary')
+      By.css('.cx-multi-step-checkout__place-order .btn-primary')
     ).nativeElement;
   const getBackBtn = () =>
     fixture.debugElement.query(
-      By.css('.y-multi-step-checkout__place-order .btn-action')
+      By.css('.cx-multi-step-checkout__place-order .btn-action')
     ).nativeElement;
   const mockAllSteps = () => {
     mockSelectors.checkout.getDeliveryAddress.next(mockDeliveryAddresses);
@@ -357,10 +357,10 @@ describe('MultiStepCheckoutComponent', () => {
     mockSelectors.cart.getActiveCart.next(mockCartData);
     fixture.detectChanges();
 
-    const pageTitle = fixture.debugElement.query(By.css('.y-page__title'))
+    const pageTitle = fixture.debugElement.query(By.css('.cx-page__title'))
       .nativeElement.textContent;
     const values = fixture.debugElement.query(
-      By.css('.y-multi-step-checkout__nav-list--media')
+      By.css('.cx-multi-step-checkout__nav-list--media')
     ).nativeElement.textContent;
 
     expect(pageTitle).toContain('5141');
@@ -374,7 +374,7 @@ describe('MultiStepCheckoutComponent', () => {
     fixture.detectChanges();
 
     const steps = fixture.debugElement.queryAll(
-      By.css('.y-multi-step-checkout__nav-item a')
+      By.css('.cx-multi-step-checkout__nav-item a')
     );
 
     steps[0].nativeElement.click();
@@ -421,7 +421,7 @@ describe('MultiStepCheckoutComponent', () => {
     component.ngOnInit();
 
     const inputCheckbox = fixture.debugElement.query(
-      By.css('.y-multi-step-checkout__place-order-form .form-check-input')
+      By.css('.cx-multi-step-checkout__place-order-form .form-check-input')
     ).nativeElement;
     inputCheckbox.click();
     fixture.detectChanges();

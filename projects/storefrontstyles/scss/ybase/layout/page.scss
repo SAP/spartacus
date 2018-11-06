@@ -2,12 +2,12 @@
 @import '../../functions';
 @import '../../mixins';
 
-$y-page-header-background-color: 'background' !default;
+$cx-page-header-background-color: 'background' !default;
 
-.y-page {
+.cx-page {
   padding-bottom: 120px;
   &__header {
-    @include var-color('background-color', $y-page-header-background-color);
+    @include var-color('background-color', $cx-page-header-background-color);
     text-align: center;
     padding-bottom: 25px;
     padding-top: 25px;

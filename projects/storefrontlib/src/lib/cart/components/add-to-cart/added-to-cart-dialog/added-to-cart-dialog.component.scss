@@ -3,38 +3,39 @@
 @import 'mixins';
 @import '~bootstrap/scss/modal';
 
-//y-added-to-cart-dialog color variables
-$y-added-to-cart-dialog-border-color: 'light' !default;
-$y-added-to-cart-dialog-more-container-background-color: 'background' !default;
+//cx-added-to-cart-dialog color variables
+$cx-added-to-cart-dialog-border-color: 'light' !default;
+$cx-added-to-cart-dialog-more-container-background-color: 'background' !default;
 
-//y-added-to-cart-dialog variables
-$y-added-to-cart-dialog-header-padding-left: 2rem !default;
+//cx-added-to-cart-dialog variables
+$cx-added-to-cart-dialog-header-padding-left: 2rem !default;
 
-$y-added-to-cart-dialog-body-padding-sm: 0 !default;
+$cx-added-to-cart-dialog-body-padding-sm: 0 !default;
 
-$y-added-to-cart-dialog-info-container-margin: 0 !default;
-$y-added-to-cart-dialog-info-container-padding: 0 0.875rem 2.875rem 0.875rem !default;
-$y-added-to-cart-dialog-info-container-padding-sm: 0 !default;
-$y-added-to-cart-dialog-info-container-max-width: 100% !default;
-$y-added-to-cart-dialog-item-container-padding-sm: 2rem !default;
+$cx-added-to-cart-dialog-info-container-margin: 0 !default;
+$cx-added-to-cart-dialog-info-container-padding: 0 0.875rem 2.875rem 0.875rem !default;
+$cx-added-to-cart-dialog-info-container-padding-sm: 0 !default;
+$cx-added-to-cart-dialog-info-container-max-width: 100% !default;
+$cx-added-to-cart-dialog-item-container-padding-sm: 2rem !default;
 
-$y-added-to-cart-dialog-separator-border-top: 1px solid !default;
+$cx-added-to-cart-dialog-separator-border-top: 1px solid !default;
 
-$y-added-to-cart-dialog-total-container-padding-left: 2.5rem !default;
-$y-added-to-cart-dialog-total-container-border-left: 1px solid !default;
-$y-added-to-cart-dialog-total-container-border-left-sm: none !default;
-$y-added-to-cart-dialog-total-container-padding-sm: 1.875rem !default;
-$y-added-to-cart-dialog-total-padding-bottom: 1.25rem !default;
+$cx-added-to-cart-dialog-total-container-padding-left: 2.5rem !default;
+$cx-added-to-cart-dialog-total-container-border-left: 1px solid !default;
+$cx-added-to-cart-dialog-total-container-border-left-sm: none !default;
+$cx-added-to-cart-dialog-total-container-padding-sm: 1.875rem !default;
+$cx-added-to-cart-dialog-total-padding-bottom: 1.25rem !default;
 
-$y-added-to-cart-dialog-actions-btn-primary-margin-bottom: 0.625rem !default;
+$cx-added-to-cart-dialog-actions-btn-primary-margin-bottom: 0.625rem !default;
 
-$y-added-to-cart-dialog-more-container-padding: 1.5rem 4.375rem 2.25rem 4.375rem !default;
-$y-added-to-cart-dialog-more-container-h2-padding-bottom: 2.25rem !default;
-$y-added-to-cart-dialog-more-container-h2-text-align: center !default;
+$cx-added-to-cart-dialog-more-container-padding: 1.5rem 4.375rem 2.25rem
+  4.375rem !default;
+$cx-added-to-cart-dialog-more-container-h2-padding-bottom: 2.25rem !default;
+$cx-added-to-cart-dialog-more-container-h2-text-align: center !default;
 
-.y-added-to-cart-dialog {
+.cx-added-to-cart-dialog {
   &__header {
-    padding-left: $y-added-to-cart-dialog-header-padding-left;
+    padding-left: $cx-added-to-cart-dialog-header-padding-left;
   }
 
   &__title {
@@ -43,49 +44,49 @@ $y-added-to-cart-dialog-more-container-h2-text-align: center !default;
 
   &__body {
     @include media-breakpoint-down(sm) {
-      padding: $y-added-to-cart-dialog-body-padding-sm;
+      padding: $cx-added-to-cart-dialog-body-padding-sm;
     }
   }
 
   &__info-container {
-    margin: $y-added-to-cart-dialog-info-container-margin;
+    margin: $cx-added-to-cart-dialog-info-container-margin;
     display: flex;
-    padding: $y-added-to-cart-dialog-info-container-padding;
-    max-width: $y-added-to-cart-dialog-info-container-max-width;
+    padding: $cx-added-to-cart-dialog-info-container-padding;
+    max-width: $cx-added-to-cart-dialog-info-container-max-width;
 
     @include media-breakpoint-down(sm) {
       flex-direction: column;
-      padding: $y-added-to-cart-dialog-info-container-padding-sm;
+      padding: $cx-added-to-cart-dialog-info-container-padding-sm;
     }
   }
 
   &__item-container {
     @include media-breakpoint-down(sm) {
-      padding: $y-added-to-cart-dialog-item-container-padding-sm;
+      padding: $cx-added-to-cart-dialog-item-container-padding-sm;
     }
   }
 
   &__separator {
-    border-top: $y-added-to-cart-dialog-separator-border-top;
+    border-top: $cx-added-to-cart-dialog-separator-border-top;
     @include var-color(
       'border-top-color',
-      $y-added-to-cart-dialog-border-color
+      $cx-added-to-cart-dialog-border-color
     );
   }
 
   &__total-container {
     display: flex;
     flex-direction: column;
-    padding-left: $y-added-to-cart-dialog-total-container-padding-left;
-    border-left: $y-added-to-cart-dialog-total-container-border-left;
+    padding-left: $cx-added-to-cart-dialog-total-container-padding-left;
+    border-left: $cx-added-to-cart-dialog-total-container-border-left;
     @include var-color(
       'border-left-color',
-      $y-added-to-cart-dialog-border-color
+      $cx-added-to-cart-dialog-border-color
     );
 
     @include media-breakpoint-down(sm) {
-      border-left: $y-added-to-cart-dialog-total-container-border-left-sm;
-      padding: $y-added-to-cart-dialog-total-container-padding-sm;
+      border-left: $cx-added-to-cart-dialog-total-container-border-left-sm;
+      padding: $cx-added-to-cart-dialog-total-container-padding-sm;
     }
   }
 
@@ -93,7 +94,7 @@ $y-added-to-cart-dialog-more-container-h2-text-align: center !default;
     @include type('4');
     display: flex;
     justify-content: space-between;
-    padding-bottom: $y-added-to-cart-dialog-total-padding-bottom;
+    padding-bottom: $cx-added-to-cart-dialog-total-padding-bottom;
   }
 
   &__actions {
@@ -101,21 +102,21 @@ $y-added-to-cart-dialog-more-container-h2-text-align: center !default;
     flex-direction: column;
 
     .btn-primary {
-      margin-bottom: $y-added-to-cart-dialog-actions-btn-primary-margin-bottom;
+      margin-bottom: $cx-added-to-cart-dialog-actions-btn-primary-margin-bottom;
     }
   }
 
   &__more-container {
     @include var-color(
       'background-color',
-      $y-added-to-cart-dialog-more-container-background-color
+      $cx-added-to-cart-dialog-more-container-background-color
     );
     justify-content: center;
-    padding: $y-added-to-cart-dialog-more-container-padding;
+    padding: $cx-added-to-cart-dialog-more-container-padding;
 
     h2 {
-      padding-bottom: $y-added-to-cart-dialog-more-container-h2-padding-bottom;
-      text-align: $y-added-to-cart-dialog-more-container-h2-text-align;
+      padding-bottom: $cx-added-to-cart-dialog-more-container-h2-padding-bottom;
+      text-align: $cx-added-to-cart-dialog-more-container-h2-text-align;
     }
   }
 

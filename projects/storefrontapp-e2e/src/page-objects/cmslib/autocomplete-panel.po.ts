@@ -3,13 +3,13 @@ import { E2EUtil } from '../../e2e-util';
 
 export class AutocompletePanel {
   readonly panelElement: ElementFinder = element(
-    by.css('.y-search-box__dropdown-content-product')
+    by.css('.cx-search-box__dropdown-content-product')
   );
   readonly suggestionSpanByText = (text: string): ElementFinder =>
     this.panelElement
       .all(
         by.cssContainingText(
-          '.y-search-box__dropdown-content-product-name',
+          '.cx-search-box__dropdown-content-product-name',
           text
         )
       )

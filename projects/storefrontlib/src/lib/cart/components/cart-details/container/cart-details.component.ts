@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromCartStore from '../../../store';
 
 @Component({
-  selector: 'y-cart-details',
+  selector: 'cx-cart-details',
   templateUrl: './cart-details.component.html',
   styleUrls: ['./cart-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

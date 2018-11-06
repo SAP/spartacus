@@ -73,12 +73,12 @@ describe('FooterNavigationComponent', () => {
   describe('UI tests', () => {
     beforeAll(() => {
       footer = fixture.debugElement;
-      column = footer.query(By.css('.y-footer-navigation__container'));
+      column = footer.query(By.css('.cx-footer-navigation__container'));
     });
 
     it('should display the column title', () => {
       const titleElement: HTMLElement = column.query(
-        By.css('.y-footer-navigation__title')
+        By.css('.cx-footer-navigation__title')
       ).nativeElement;
 
       expect(titleElement.textContent).toEqual('Test 1');
@@ -86,7 +86,7 @@ describe('FooterNavigationComponent', () => {
 
     it('should display the correct number of links', () => {
       const list: HTMLElement = column.query(
-        By.css('.y-footer-navigation__list')
+        By.css('.cx-footer-navigation__list')
       ).nativeElement;
 
       expect(list.childElementCount).toBe(2);
@@ -94,7 +94,7 @@ describe('FooterNavigationComponent', () => {
 
     it('should display link title with correct url', () => {
       const link: HTMLElement = column.query(
-        By.css('.y-footer-navigation__link')
+        By.css('.cx-footer-navigation__link')
       ).nativeElement;
 
       expect(link.textContent).toEqual(mockLinks[0].title);
@@ -103,10 +103,10 @@ describe('FooterNavigationComponent', () => {
 
     it('should have the correct target', () => {
       const link1: HTMLElement = column.queryAll(
-        By.css('.y-footer-navigation__link')
+        By.css('.cx-footer-navigation__link')
       )[0].nativeElement;
       const link2: HTMLElement = column.queryAll(
-        By.css('.y-footer-navigation__link')
+        By.css('.cx-footer-navigation__link')
       )[1].nativeElement;
 
       expect(link1.getAttribute('target')).toEqual('blank');

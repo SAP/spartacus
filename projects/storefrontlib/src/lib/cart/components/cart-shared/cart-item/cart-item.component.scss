@@ -2,57 +2,57 @@
 @import 'functions';
 @import 'mixins';
 
-//y-cart-item color variables
-$y-cart-item-code-color: 'secondary' !default;
-$y-cart-item-old-price-color: 'secondary' !default;
-$y-cart-item-new-price-color: 'primary' !default;
-$y-cart-item-promo-color: 'success' !default;
-$y-cart-item-unavailable-color: 'danger' !default;
-$y-cart-item-actions-color: 'text' !default;
-$y-cart-item-name-color: 'text' !default;
-$y-cart-item-name-color-hover: 'primary' !default;
+//cx-cart-item color variables
+$cx-cart-item-code-color: 'secondary' !default;
+$cx-cart-item-old-price-color: 'secondary' !default;
+$cx-cart-item-new-price-color: 'primary' !default;
+$cx-cart-item-promo-color: 'success' !default;
+$cx-cart-item-unavailable-color: 'danger' !default;
+$cx-cart-item-actions-color: 'text' !default;
+$cx-cart-item-name-color: 'text' !default;
+$cx-cart-item-name-color-hover: 'primary' !default;
 
-$y-cart-item-image-container-padding-left: 0 !default;
-$y-cart-item-image-container-padding-right: 0 !default;
+$cx-cart-item-image-container-padding-left: 0 !default;
+$cx-cart-item-image-container-padding-right: 0 !default;
 
-$y-cart-item-info-container-margin-left: 0 !default;
-$y-cart-item-info-container-margin-right: 0 !default;
+$cx-cart-item-info-container-margin-left: 0 !default;
+$cx-cart-item-info-container-margin-right: 0 !default;
 
-$y-cart-item-name-padding-left: 0 !default;
-$y-cart-item-name-padding-right: 0 !default;
+$cx-cart-item-name-padding-left: 0 !default;
+$cx-cart-item-name-padding-right: 0 !default;
 
-$y-cart-item-image-width: 100% !default;
+$cx-cart-item-image-width: 100% !default;
 
-$y-cart-item-code-padding: 0.625rem 0 !default;
+$cx-cart-item-code-padding: 0.625rem 0 !default;
 
-$y-cart-item-property-label-padding-right: 1rem !default;
-$y-cart-item-property-label-min-width: 5rem !default;
+$cx-cart-item-property-label-padding-right: 1rem !default;
+$cx-cart-item-property-label-min-width: 5rem !default;
 
-$y-cart-item-price-label-min-width: 5rem !default;
-$y-cart-item-price-old-padding-right: 1rem !default;
+$cx-cart-item-price-label-min-width: 5rem !default;
+$cx-cart-item-price-old-padding-right: 1rem !default;
 
-$y-cart-item-quantity-label-min-width: 5rem !default;
+$cx-cart-item-quantity-label-min-width: 5rem !default;
 
-$y-cart-item-promo-padding-left: 0 !default;
-$y-cart-item-promo-padding-right: 0 !default;
-$y-cart-item-promo-padding-top: 0.75rem !default;
-$y-cart-item-promo-padding-bottom: 0.75rem !default;
-$y-cart-item-promo-margin-bottom: 0 !default;
+$cx-cart-item-promo-padding-left: 0 !default;
+$cx-cart-item-promo-padding-right: 0 !default;
+$cx-cart-item-promo-padding-top: 0.75rem !default;
+$cx-cart-item-promo-padding-bottom: 0.75rem !default;
+$cx-cart-item-promo-margin-bottom: 0 !default;
 
-$y-cart-item-total-label-min-width: 5rem !default;
-$y-cart-item-total-value-padding-right: 0 !default;
+$cx-cart-item-total-label-min-width: 5rem !default;
+$cx-cart-item-total-value-padding-right: 0 !default;
 
-$y-cart-item-availability-padding: 0.75rem 0 !default;
-$y-cart-item-availability-margin-bottom: 0 !default;
+$cx-cart-item-availability-padding: 0.75rem 0 !default;
+$cx-cart-item-availability-margin-bottom: 0 !default;
 
-$y-cart-item-actions-padding-right: 0 !default;
-$y-cart-item-actions-padding-left-sm: 0 !default;
+$cx-cart-item-actions-padding-right: 0 !default;
+$cx-cart-item-actions-padding-left-sm: 0 !default;
 
-$y-cart-item-compact-label-min-width: 5rem !default;
+$cx-cart-item-compact-label-min-width: 5rem !default;
 
-.y-cart-item {
+.cx-cart-item {
   &__image {
-    width: $y-cart-item-image-width;
+    width: $cx-cart-item-image-width;
   }
 
   &__info-container {
@@ -65,23 +65,23 @@ $y-cart-item-compact-label-min-width: 5rem !default;
   &__name {
     @include type('5');
     overflow-wrap: break-word;
-    padding-left: $y-cart-item-name-padding-left;
-    padding-right: $y-cart-item-name-padding-right;
+    padding-left: $cx-cart-item-name-padding-left;
+    padding-right: $cx-cart-item-name-padding-right;
 
     &--link {
-      @include var-color('color', $y-cart-item-name-color);
+      @include var-color('color', $cx-cart-item-name-color);
       text-decoration: none;
 
       &:hover {
-        @include var-color('color', $y-cart-item-name-color-hover);
+        @include var-color('color', $cx-cart-item-name-color-hover);
       }
     }
   }
 
   &__code {
     @include type('7');
-    @include var-color('color', $y-cart-item-code-color);
-    padding: $y-cart-item-code-padding;
+    @include var-color('color', $cx-cart-item-code-color);
+    padding: $cx-cart-item-code-padding;
   }
 
   &__property {
@@ -90,10 +90,10 @@ $y-cart-item-compact-label-min-width: 5rem !default;
     &--label {
       @include type('8');
       overflow-wrap: break-word;
-      padding-right: $y-cart-item-property-label-padding-right;
+      padding-right: $cx-cart-item-property-label-padding-right;
 
       @include media-breakpoint-down(sm) {
-        min-width: $y-cart-item-property-label-min-width;
+        min-width: $cx-cart-item-property-label-min-width;
       }
     }
 
@@ -120,7 +120,7 @@ $y-cart-item-compact-label-min-width: 5rem !default;
 
       @include media-breakpoint-down(sm) {
         @include type('8');
-        min-width: $y-cart-item-price-label-min-width;
+        min-width: $cx-cart-item-price-label-min-width;
       }
     }
 
@@ -136,11 +136,11 @@ $y-cart-item-compact-label-min-width: 5rem !default;
 
     &--old {
       text-decoration: line-through;
-      @include var-color('color', $y-cart-item-old-price-color);
-      padding-right: $y-cart-item-price-old-padding-right;
+      @include var-color('color', $cx-cart-item-old-price-color);
+      padding-right: $cx-cart-item-price-old-padding-right;
     }
     &--new {
-      @include var-color('color', $y-cart-item-new-price-color);
+      @include var-color('color', $cx-cart-item-new-price-color);
     }
   }
 
@@ -158,7 +158,7 @@ $y-cart-item-compact-label-min-width: 5rem !default;
 
       @include media-breakpoint-down(sm) {
         @include type('8');
-        min-width: $y-cart-item-quantity-label-min-width;
+        min-width: $cx-cart-item-quantity-label-min-width;
       }
     }
 
@@ -187,7 +187,7 @@ $y-cart-item-compact-label-min-width: 5rem !default;
 
       @include media-breakpoint-down(sm) {
         @include type('8');
-        min-width: $y-cart-item-total-label-min-width;
+        min-width: $cx-cart-item-total-label-min-width;
       }
     }
 
@@ -195,7 +195,7 @@ $y-cart-item-compact-label-min-width: 5rem !default;
       @include type('5');
       font-weight: $font-weight-normal;
       overflow-wrap: break-word;
-      padding-right: $y-cart-item-total-value-padding-right;
+      padding-right: $cx-cart-item-total-value-padding-right;
 
       @include media-breakpoint-down(sm) {
         @include type('7');
@@ -205,35 +205,35 @@ $y-cart-item-compact-label-min-width: 5rem !default;
 
   &__promo {
     @include type('8');
-    @include var-color('color', $y-cart-item-promo-color);
-    padding-left: $y-cart-item-promo-padding-left;
-    padding-right: $y-cart-item-promo-padding-right;
-    padding-top: $y-cart-item-promo-padding-top;
-    padding-bottom: $y-cart-item-promo-padding-bottom;
-    margin-bottom: $y-cart-item-promo-margin-bottom;
+    @include var-color('color', $cx-cart-item-promo-color);
+    padding-left: $cx-cart-item-promo-padding-left;
+    padding-right: $cx-cart-item-promo-padding-right;
+    padding-top: $cx-cart-item-promo-padding-top;
+    padding-bottom: $cx-cart-item-promo-padding-bottom;
+    margin-bottom: $cx-cart-item-promo-margin-bottom;
   }
 
   &__availability {
     @include type('8');
-    @include var-color('color', $y-cart-item-unavailable-color);
-    padding: $y-cart-item-availability-padding;
-    margin-bottom: $y-cart-item-availability-margin-bottom;
+    @include var-color('color', $cx-cart-item-unavailable-color);
+    padding: $cx-cart-item-availability-padding;
+    margin-bottom: $cx-cart-item-availability-margin-bottom;
   }
 
   &__actions {
     display: flex;
     justify-content: flex-end;
-    padding-right: $y-cart-item-actions-padding-right;
+    padding-right: $cx-cart-item-actions-padding-right;
 
     @include media-breakpoint-down(sm) {
       display: flex;
       justify-content: flex-start;
-      padding-left: $y-cart-item-actions-padding-left-sm;
+      padding-left: $cx-cart-item-actions-padding-left-sm;
     }
 
     a {
       @include type('8');
-      @include var-color('color', $y-cart-item-actions-color);
+      @include var-color('color', $cx-cart-item-actions-color);
       text-decoration: underline;
     }
   }
@@ -241,26 +241,26 @@ $y-cart-item-compact-label-min-width: 5rem !default;
 
 // ------------------------------------COMPACT VERSION STYLING------------------------------------------
 
-.y-cart-item--compact {
+.cx-cart-item--compact {
   display: flex;
   flex-direction: row;
 
-  .y-cart-item {
+  .cx-cart-item {
     &__image-container {
-      padding-left: $y-cart-item-image-container-padding-left;
-      padding-right: $y-cart-item-image-container-padding-right;
+      padding-left: $cx-cart-item-image-container-padding-left;
+      padding-right: $cx-cart-item-image-container-padding-right;
     }
 
     &__info-container {
       display: flex;
       flex-direction: column;
-      margin-left: $y-cart-item-info-container-margin-left;
-      margin-right: $y-cart-item-info-container-margin-right;
+      margin-left: $cx-cart-item-info-container-margin-left;
+      margin-right: $cx-cart-item-info-container-margin-right;
     }
 
     &__property {
       &--label {
-        min-width: $y-cart-item-compact-label-min-width;
+        min-width: $cx-cart-item-compact-label-min-width;
       }
     }
 
@@ -272,7 +272,7 @@ $y-cart-item-compact-label-min-width: 5rem !default;
 
       &--label {
         @include type('8');
-        min-width: $y-cart-item-compact-label-min-width;
+        min-width: $cx-cart-item-compact-label-min-width;
       }
 
       &--value {

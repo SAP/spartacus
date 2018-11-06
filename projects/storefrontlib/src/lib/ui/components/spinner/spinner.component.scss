@@ -1,9 +1,9 @@
 @import 'mixins';
 
-// y-spinner color variables
-$y-spinner-border-color: 'primary' !default;
-$y-spinner-border-color-background: 'light' !default;
-$y-spinner-border-color--secondary: 'secondary' !default;
+// cx-spinner color variables
+$cx-spinner-border-color: 'primary' !default;
+$cx-spinner-border-color-background: 'light' !default;
+$cx-spinner-border-color--secondary: 'secondary' !default;
 
 /* IDEAS TO EXTEND
   - sizing (variants: small, medium, big)
@@ -24,10 +24,13 @@ $y-spinner-border-color--secondary: 'secondary' !default;
   text-indent: -9999em;
   border-width: 1.1em;
   border-style: solid;
-  @include var-color('border-top-color', $y-spinner-border-color-background);
-  @include var-color('border-bottom-color', $y-spinner-border-color-background);
-  @include var-color('border-right-color', $y-spinner-border-color-background);
-  @include var-color('border-left-color', $y-spinner-border-color);
+  @include var-color('border-top-color', $cx-spinner-border-color-background);
+  @include var-color(
+    'border-bottom-color',
+    $cx-spinner-border-color-background
+  );
+  @include var-color('border-right-color', $cx-spinner-border-color-background);
+  @include var-color('border-left-color', $cx-spinner-border-color);
   transform: translateZ(0);
   animation: load8 1.1s infinite linear;
 }
