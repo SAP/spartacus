@@ -1,7 +1,3 @@
-@import 'theme';
-@import 'functions';
-@import 'mixins';
-
 :host {
   display: var(--cx-display, flex);
   flex-direction: var(--cx-flex-direction, column);
