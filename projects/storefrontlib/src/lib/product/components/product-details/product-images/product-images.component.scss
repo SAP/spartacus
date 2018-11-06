@@ -31,9 +31,5 @@ y-picture {
     &.active {
       border-color: var(--cx-color, var(--y-primary));
     }
-
-    &:hover:not(.active) {
-      --cx-zoom: var(--cx-pdp-thumbs-hover-zoom);
-    }
   }
 }
