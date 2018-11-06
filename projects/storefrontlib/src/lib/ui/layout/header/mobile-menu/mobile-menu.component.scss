@@ -54,11 +54,13 @@ $cx-mobile-menu-position-left-hidden: -1000vh !default;
     @include media-breakpoint-up(lg) {
       display: none;
     }
+
     @include media-breakpoint-down(md) {
       position: $cx-mobile-menu-control-position-md;
       top: 1rem;
       left: 1.25rem;
     }
+
     @include media-breakpoint-down(xs) {
       top: 0.15rem;
       left: 0.5rem;
@@ -69,6 +71,7 @@ $cx-mobile-menu-position-left-hidden: -1000vh !default;
     @include media-breakpoint-up(lg) {
       display: none;
     }
+
     @include media-breakpoint-down(md) {
       position: $cx-mobile-menu-position;
       left: $cx-mobile-menu-position-left;
@@ -82,6 +85,7 @@ $cx-mobile-menu-position-left-hidden: -1000vh !default;
       &[aria-hidden='true'] {
         display: none;
       }
+
       &[aria-hidden='false'] {
         left: $cx-mobile-menu-position-left-hidden;
       }
@@ -95,5 +99,10 @@ $cx-mobile-menu-position-left-hidden: -1000vh !default;
     width: 100vw;
     height: 100vh;
     z-index: 10;
+  }
+
+  // temporary solution
+  #add-to-home-screen {
+    width: 100%;
   }
 }

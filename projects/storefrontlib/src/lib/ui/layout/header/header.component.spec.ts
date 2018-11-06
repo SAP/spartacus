@@ -19,6 +19,11 @@ import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
 import { OutletDirective } from '../../../outlet';
+import { PwaModule } from './../../../pwa/pwa.module';
+import {
+  PWAModuleConfig,
+  defaultPWAModuleConfig
+} from '../../../pwa/pwa.module-config';
 import { SiteContextConfig } from '@spartacus/core';
 
 const MockCmsModuleConfig: CmsModuleConfig = {
@@ -42,6 +47,7 @@ describe('HeaderComponent', () => {
           cms: combineReducers(fromCmsReducer.getReducers()),
           auth: combineReducers(fromAuth.getReducers())
         }),
+        PwaModule,
         EffectsModule.forRoot([]),
         SiteContextModule
       ],
@@ -59,6 +65,10 @@ describe('HeaderComponent', () => {
         {
           provide: SiteContextConfig,
           useValue: MockCmsModuleConfig
+        },
+        {
+          provide: PWAModuleConfig,
+          useValue: defaultPWAModuleConfig
         }
       ]
     }).compileComponents();
