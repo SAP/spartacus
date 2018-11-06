@@ -4,11 +4,13 @@ import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { DynamicSlotComponent } from './dynamic-slot.component';
 import { ComponentMapperService } from '../../services';
 import { CmsModuleConfig } from '../../cms-module-config';
-import * as fromRoot from '../../../routing/store';
-import * as fromReducers from '../../store/reducers';
-import { StoreModule, combineReducers } from '@ngrx/store';
 import { OutletDirective } from '../../../outlet';
 import { CmsComponentData } from '../cms-component-data';
+import { CmsService } from '../../facade/cms.service';
+
+class MockCmsService {
+  getComponentData() {}
+}
 
 const testText = 'test text';
 
@@ -44,13 +46,7 @@ describe('ComponentWrapperDirective', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TestModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromReducers.getReducers())
-        })
-      ],
+      imports: [TestModule],
       declarations: [
         TestWrapperComponent,
         DynamicSlotComponent,
@@ -59,7 +55,8 @@ describe('ComponentWrapperDirective', () => {
       ],
       providers: [
         ComponentMapperService,
-        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig },
+        { provide: CmsService, useClass: MockCmsService }
       ]
     }).compileComponents();
   }));
