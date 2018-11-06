@@ -7,6 +7,8 @@
 
   --direction: #{$direction};
 
-  // to be picked up at a later time
-  // --y-font-family: #{$font-family-sans-serif};
+  --cx-transition-time: 0.5s;
+
+  --cx-border-style: solid;
+  --cx-border-width: 1px;
 }
