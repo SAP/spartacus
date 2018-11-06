@@ -6,13 +6,13 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccProductSearchService } from '../../../occ/product/product-search.service';
-import { OccModuleConfig } from '../../../occ/occ-module-config';
+import { OccConfig } from '@spartacus/core';
 import { SearchConfig } from '../../search-config';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 import * as fromEffects from './product-search.effect';
 import * as fromActions from '../actions/product-search.action';
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -34,7 +34,7 @@ describe('ProductSearch Effects', () => {
       providers: [
         OccProductSearchService,
         ProductImageConverterService,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.ProductsSearchEffects,
         provideMockActions(() => actions$)
       ]

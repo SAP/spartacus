@@ -8,16 +8,19 @@ import { of } from 'rxjs';
 import * as fromAuth from '../../../../auth/store';
 import * as fromCms from '../../../../cms/store';
 import * as fromRoot from '../../../../routing/store';
-import * as fromSCStore from '../../../../site-context/shared/store';
 import * as fromUser from '../../../../user/store';
 import { CmsModule } from './../../../../cms/cms.module';
-import { CurrencySelectorComponent } from './../../../../site-context/currency-selector/currency-selector.component';
-import { LanguageSelectorComponent } from './../../../../site-context/language-selector/language-selector.component';
 import { LoginModule } from './../../../../user/components/login/login.module';
 import { MobileMenuComponent } from './mobile-menu.component';
 import { By } from '@angular/platform-browser';
-import { SiteContextModuleConfig } from '../../../../site-context/site-context-module-config';
 import { CmsModuleConfig } from '../../../../cms/cms-module-config';
+import { PwaModule } from 'projects/storefrontlib/src/lib/pwa/pwa.module';
+import {
+  PWAModuleConfig,
+  defaultPWAModuleConfig
+} from 'projects/storefrontlib/src/lib/pwa/pwa.module-config';
+import { SiteContextConfig } from '@spartacus/core';
+import { SiteContextModule } from '../../../../site-context';
 
 describe('MobileMenuComponent', () => {
   let component: MobileMenuComponent;
@@ -33,16 +36,13 @@ describe('MobileMenuComponent', () => {
         StoreModule.forRoot({
           ...fromRoot.getReducers(),
           user: combineReducers(fromUser.getReducers()),
-          auth: combineReducers(fromAuth.getReducers()),
-          siteContext: combineReducers(fromSCStore.getReducers())
+          auth: combineReducers(fromAuth.getReducers())
         }),
-        EffectsModule.forRoot(fromCms.effects)
+        EffectsModule.forRoot(fromCms.effects),
+        PwaModule,
+        SiteContextModule
       ],
-      declarations: [
-        MobileMenuComponent,
-        LanguageSelectorComponent,
-        CurrencySelectorComponent
-      ],
+      declarations: [MobileMenuComponent],
       providers: [
         provideMockActions(() => of()),
         fromCms.NavigationEntryItemEffects,
@@ -51,8 +51,12 @@ describe('MobileMenuComponent', () => {
           useValue: { site: 'en' }
         },
         {
-          provide: SiteContextModuleConfig,
+          provide: SiteContextConfig,
           useExisting: CmsModuleConfig
+        },
+        {
+          provide: PWAModuleConfig,
+          useValue: defaultPWAModuleConfig
         }
       ]
     }).compileComponents();
