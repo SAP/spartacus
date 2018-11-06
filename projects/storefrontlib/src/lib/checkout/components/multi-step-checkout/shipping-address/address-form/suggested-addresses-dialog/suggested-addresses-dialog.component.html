@@ -52,7 +52,8 @@
                     <button class="btn btn-secondary btn-block y-suggested-addresses-dialog__actions__btn" (click)="activeModal.close()">
                         Edit address
                     </button>
-                    <button class="btn btn-primary btn-block y-suggested-addresses-dialog__actions__btn" (click)="activeModal.close(selectedAddress)">
+                    <button ngbAutofocus class="btn btn-primary btn-block y-suggested-addresses-dialog__actions__btn"
+                        (click)="activeModal.close(selectedAddress)">
                         Save address
                     </button>
                 </div>
