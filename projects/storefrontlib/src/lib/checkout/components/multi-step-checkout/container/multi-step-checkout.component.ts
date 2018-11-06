@@ -22,7 +22,7 @@ import { checkoutNavBar } from './checkout-navigation-bar';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
 
 @Component({
-  selector: 'y-multi-step-checkout',
+  selector: 'cx-multi-step-checkout',
   templateUrl: './multi-step-checkout.component.html',
   styleUrls: ['./multi-step-checkout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

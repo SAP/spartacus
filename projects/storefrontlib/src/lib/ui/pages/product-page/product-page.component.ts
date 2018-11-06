@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { RoutingService } from '../../../routing/facade/routing.service';
 
 @Component({
-  selector: 'y-product-page',
+  selector: 'cx-product-page',
   templateUrl: './product-page.component.html',
   styleUrls: ['./product-page.component.scss']
 })

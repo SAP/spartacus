@@ -2,22 +2,22 @@
 @import 'functions';
 @import 'mixins';
 
-// y-card color variables
-$y-card-border-color: 'light' !default;
-$y-card-delete-mode-background-color: 'background' !default;
-$y-card-delete-msg-color: 'danger' !default;
+// cx-card color variables
+$cx-card-border-color: 'light' !default;
+$cx-card-delete-mode-background-color: 'background' !default;
+$cx-card-delete-msg-color: 'danger' !default;
 
-// y-card variables
-$y-card-border: 1px solid !default;
-$y-card-body-delete-padding: 1rem 0 0 0 !default;
-$y-card-body-delete-msg-padding: 0 0 1.25rem 0 !default;
-$y-card-body-actions-container-padding: 1.25rem 0 0 0 !default;
-$y-card-body-actions-container-card-link-padding: 0 0 0 1rem !default;
+// cx-card variables
+$cx-card-border: 1px solid !default;
+$cx-card-body-delete-padding: 1rem 0 0 0 !default;
+$cx-card-body-delete-msg-padding: 0 0 1.25rem 0 !default;
+$cx-card-body-actions-container-padding: 1.25rem 0 0 0 !default;
+$cx-card-body-actions-container-card-link-padding: 0 0 0 1rem !default;
 
-.y-card {
+.cx-card {
   &--border {
-    border: $y-card-border;
-    @include var-color('border-color', $y-card-border-color);
+    border: $cx-card-border;
+    @include var-color('border-color', $cx-card-border-color);
   }
 
   &--fit-to-container {
@@ -26,7 +26,7 @@ $y-card-body-actions-container-card-link-padding: 0 0 0 1rem !default;
     display: flex;
     flex-direction: column;
 
-    & .y-card-body {
+    & .cx-card-body {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -36,16 +36,16 @@ $y-card-body-actions-container-card-link-padding: 0 0 0 1rem !default;
   &--delete-mode {
     @include var-color(
       'background-color',
-      $y-card-delete-mode-background-color
+      $cx-card-delete-mode-background-color
     );
   }
 
   &-body {
     &__delete {
-      padding: $y-card-body-delete-padding;
+      padding: $cx-card-body-delete-padding;
       &-msg {
-        @include var-color('color', $y-card-delete-msg-color);
-        padding: $y-card-body-delete-msg-padding;
+        @include var-color('color', $cx-card-delete-msg-color);
+        padding: $cx-card-body-delete-msg-padding;
       }
     }
 
@@ -60,9 +60,9 @@ $y-card-body-actions-container-card-link-padding: 0 0 0 1rem !default;
     &__actions-container {
       display: flex;
       justify-content: flex-end;
-      padding: $y-card-body-actions-container-padding;
+      padding: $cx-card-body-actions-container-padding;
       .card-link {
-        padding: $y-card-body-actions-container-card-link-padding;
+        padding: $cx-card-body-actions-container-card-link-padding;
       }
     }
   }

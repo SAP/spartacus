@@ -130,7 +130,7 @@ describe('OrderDetailsComponent', () => {
     spyOnStore();
     fixture.detectChanges();
     expect(
-      fixture.debugElement.nativeElement.querySelector('.y-order-details')
+      fixture.debugElement.nativeElement.querySelector('.cx-order-details')
     ).not.toBeNull();
   });
 
@@ -139,7 +139,7 @@ describe('OrderDetailsComponent', () => {
     fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-order-details__detail:first-of-type .y-order-details__value'
+        '.cx-order-details__detail:first-of-type .cx-order-details__value'
       ).textContent
     ).toEqual(mockOrder.code);
   });
@@ -149,7 +149,7 @@ describe('OrderDetailsComponent', () => {
     fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-order-details__detail:last-of-type .y-order-details__value'
+        '.cx-order-details__detail:last-of-type .cx-order-details__value'
       ).textContent
     ).toEqual(mockOrder.statusDisplay);
   });
@@ -158,7 +158,7 @@ describe('OrderDetailsComponent', () => {
     spyOnStore();
     fixture.detectChanges();
     expect(
-      fixture.debugElement.nativeElement.querySelector('.y-order-summary')
+      fixture.debugElement.nativeElement.querySelector('.cx-order-summary')
     ).not.toBeNull();
   });
 
@@ -168,7 +168,7 @@ describe('OrderDetailsComponent', () => {
 
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-card-body__label-container'
+        '.cx-card-body__label-container'
       ).textContent
     ).toContain(
       mockOrder.deliveryAddress.firstName &&
@@ -186,7 +186,7 @@ describe('OrderDetailsComponent', () => {
 
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-order-details__account-summary.row > div:nth-child(2)'
+        '.cx-order-details__account-summary.row > div:nth-child(2)'
       ).textContent
     ).toContain(
       mockOrder.paymentInfo.billingAddress.firstName &&
@@ -204,7 +204,7 @@ describe('OrderDetailsComponent', () => {
 
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-order-details__account-summary.row > div:nth-child(3)'
+        '.cx-order-details__account-summary.row > div:nth-child(3)'
       ).textContent
     ).toContain(
       mockOrder.paymentInfo.accountHolderName &&
@@ -221,7 +221,7 @@ describe('OrderDetailsComponent', () => {
 
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-order-details__account-summary.row > div:nth-child(4)'
+        '.cx-order-details__account-summary.row > div:nth-child(4)'
       ).textContent
     ).toContain(
       mockOrder.deliveryMode.name && mockOrder.deliveryMode.description

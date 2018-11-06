@@ -38,19 +38,19 @@ const mockPaymentMethod2 = {
 const mockPaymentMethods = [mockPaymentMethod1, mockPaymentMethod2];
 
 @Component({
-  selector: 'y-payment-form',
+  selector: 'cx-payment-form',
   template: ''
 })
 class MockPaymentFormComponent {}
 
 @Component({
-  selector: 'y-spinner',
+  selector: 'cx-spinner',
   template: ''
 })
 class MockSpinnerComponent {}
 
 @Component({
-  selector: 'y-card',
+  selector: 'cx-card',
   template: ''
 })
 class MockCardComponent {
@@ -236,7 +236,7 @@ describe('PaymentMethodComponent', () => {
   });
 
   describe('UI cards with payment methods', () => {
-    const getCards = () => fixture.debugElement.queryAll(By.css('y-card'));
+    const getCards = () => fixture.debugElement.queryAll(By.css('cx-card'));
 
     it('should represent all existng payment methods', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(false);
@@ -266,7 +266,7 @@ describe('PaymentMethodComponent', () => {
         .queryAll(By.css('.btn-action'))
         .find(el => el.nativeElement.innerText === 'Add New Payment');
     const getNewPaymentForm = () =>
-      fixture.debugElement.query(By.css('y-payment-form'));
+      fixture.debugElement.query(By.css('cx-payment-form'));
 
     it('should render after user clicks "add new payment method" button', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(false);
@@ -304,7 +304,7 @@ describe('PaymentMethodComponent', () => {
   });
 
   describe('UI spinner', () => {
-    const getSpinner = () => fixture.debugElement.query(By.css('y-spinner'));
+    const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
 
     it('should render only when existing payment methods are loading', () => {
       mockUserSelectors.getPaymentMethodsLoading.next(true);

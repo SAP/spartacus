@@ -24,7 +24,7 @@ import { Component, Input } from '@angular/core';
 class MockComponentMapperService {}
 
 @Component({
-  selector: 'y-add-to-cart',
+  selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>'
 })
 export class MockAddToCartComponent {

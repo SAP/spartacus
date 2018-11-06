@@ -44,19 +44,19 @@ const mockAddress2: Address = {
 const mockAddresses = [mockAddress1, mockAddress2];
 
 @Component({
-  selector: 'y-address-form',
+  selector: 'cx-address-form',
   template: ''
 })
 class MockAddressFormComponent {}
 
 @Component({
-  selector: 'y-spinner',
+  selector: 'cx-spinner',
   template: ''
 })
 class MockSpinnerComponent {}
 
 @Component({
-  selector: 'y-card',
+  selector: 'cx-card',
   template: ''
 })
 class MockCardComponent {
@@ -260,7 +260,7 @@ describe('ShippingAddressComponent', () => {
   });
 
   describe('UI cards with addresses', () => {
-    const getCards = () => fixture.debugElement.queryAll(By.css('y-card'));
+    const getCards = () => fixture.debugElement.queryAll(By.css('cx-card'));
 
     it('should represent all existng addresses', () => {
       mockUserSelectors.getAddressesLoading.next(false);
@@ -290,7 +290,7 @@ describe('ShippingAddressComponent', () => {
         .queryAll(By.css('.btn-action'))
         .find(el => el.nativeElement.innerText === 'Add New Address');
     const getNewAddressForm = () =>
-      fixture.debugElement.query(By.css('y-address-form'));
+      fixture.debugElement.query(By.css('cx-address-form'));
 
     it('should render only after user clicks "add new address" button if there are some existing addresses', () => {
       mockUserSelectors.getAddressesLoading.next(false);
@@ -331,7 +331,7 @@ describe('ShippingAddressComponent', () => {
   });
 
   describe('UI spinner', () => {
-    const getSpinner = () => fixture.debugElement.query(By.css('y-spinner'));
+    const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
 
     it('should render only when existing addresses are loading', () => {
       mockUserSelectors.getAddressesLoading.next(true);

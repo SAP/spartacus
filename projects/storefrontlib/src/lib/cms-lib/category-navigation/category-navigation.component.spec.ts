@@ -66,12 +66,12 @@ describe('CategoryNavigationComponent', () => {
     });
 
     it('should use semantic nav element', () => {
-      const navElem = nav.query(By.css('.y-navigation')).nativeElement;
+      const navElem = nav.query(By.css('.cx-navigation')).nativeElement;
       expect(navElem.nodeName).toBe('NAV');
     });
 
     it('should display correct number of submenus', () => {
-      const list: HTMLElement = nav.query(By.css('.y-navigation__list'))
+      const list: HTMLElement = nav.query(By.css('.cx-navigation__list'))
         .nativeElement;
       expect(list.childElementCount).toBe(2);
     });

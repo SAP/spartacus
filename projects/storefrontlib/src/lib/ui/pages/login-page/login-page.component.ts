@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'y-login-page',
+  selector: 'cx-login-page',
   templateUrl: './login-page.component.html',
   styles: ['./login-page.component']
 })

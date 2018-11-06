@@ -13,7 +13,7 @@ import * as fromReducer from './router.reducer';
 import * as fromAction from './../actions/';
 import * as fromNgrxRouter from '@ngrx/router-store';
 @Component({
-  selector: 'y-test-cmp',
+  selector: 'cx-test-cmp',
   template: 'test-cmp'
 })
 class TestComponent {}

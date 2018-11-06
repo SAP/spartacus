@@ -14,7 +14,7 @@ import { AuthService } from '../../../auth/facade/auth.service';
 import { RoutingService } from '../../../routing/facade/routing.service';
 
 @Component({
-  selector: 'y-register',
+  selector: 'cx-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })

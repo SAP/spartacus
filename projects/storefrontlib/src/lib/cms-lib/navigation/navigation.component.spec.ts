@@ -103,7 +103,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
   });
 
   it('should render navigation-ui component', () => {
-    const getNav = () => fixture.debugElement.query(By.css('y-navigation-ui'));
+    const getNav = () => fixture.debugElement.query(By.css('cx-navigation-ui'));
     navigationComponent.node = {};
     navigationComponent.dropdownMode = 'column';
     fixture.detectChanges();
