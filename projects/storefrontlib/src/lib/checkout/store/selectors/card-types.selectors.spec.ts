@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule, select } from '@ngrx/store';
+import { Store, StoreModule, select } from '@ngrx/store';
 
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
-import * as fromRoot from './../../../routing/store';
 
 describe('Card Types Selectors', () => {
   let store: Store<fromReducers.CheckoutState>;
@@ -12,10 +11,8 @@ describe('Card Types Selectors', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          checkout: combineReducers(fromReducers.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('checkout', fromReducers.getReducers())
       ]
     });
 

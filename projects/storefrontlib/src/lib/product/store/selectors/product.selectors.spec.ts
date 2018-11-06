@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers, select } from '@ngrx/store';
+import { StoreModule, Store, select } from '@ngrx/store';
 
-import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from './product.selectors';
@@ -22,10 +21,8 @@ describe('Cms Component Selectors', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          products: combineReducers(fromReducers.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('products', fromReducers.getReducers())
       ]
     });
     store = TestBed.get(Store);

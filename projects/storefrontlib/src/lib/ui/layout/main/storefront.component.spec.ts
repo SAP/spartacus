@@ -11,10 +11,9 @@ import {
   ComponentWrapperDirective
 } from '../../../cms/components';
 import { GlobalMessageModule } from '../../../global-message/global-message.module';
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { OccSiteService } from '../../../../../../core/src/site-context/occ/occ-site.service';
-import * as fromRoot from '../../../routing/store';
 import { SiteContextModule } from '../../../site-context/site-context.module';
 import { LoginComponent } from '../../../user/components/login/login.component';
 import * as fromUserReducer from '../../../user/store/reducers';
@@ -50,12 +49,10 @@ describe('StorefrontComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          user: combineReducers(fromUserReducer.getReducers()),
-          cms: combineReducers(fromCmsReducer.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
-        }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('user', fromUserReducer.getReducers()),
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
+        StoreModule.forFeature('auth', fromAuth.getReducers()),
         GlobalMessageModule,
         PwaModule,
         EffectsModule.forRoot([]),
