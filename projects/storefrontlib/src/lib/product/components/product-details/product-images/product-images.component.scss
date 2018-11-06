@@ -14,6 +14,7 @@ y-picture {
 * {
   border-style: var(--cx-border-style, solid);
   border-width: var(--cx-border-width, 0);
+  border-radius: var(--cx-border-radius);
 }
 
 .thumbs {
@@ -32,7 +33,6 @@ y-picture {
 
     border-width: var(--cx-border-width, 0.1vw);
     border-color: var(--cx-color, var(--y-light));
-    border-radius: var(--cx-border-radius);
 
     margin: var(--cx-margin, 0.5vw);
     padding: var(--cx-padding, 0.5vw);
@@ -40,11 +40,6 @@ y-picture {
     &:hover,
     &.active {
       border-color: var(--cx-color, var(--y-primary));
-
-      border-radius: var(
-        --cx-pdp-thumbs-hover-border-radius,
-        var(--cx-border-radius)
-      );
     }
 
     &:hover:not(.active) {
