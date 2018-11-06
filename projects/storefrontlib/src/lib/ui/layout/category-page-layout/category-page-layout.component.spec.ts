@@ -4,10 +4,9 @@ import {
   DynamicSlotComponent,
   ComponentWrapperDirective
 } from '../../../cms/components';
-import * as fromRoot from '../../../routing/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { OutletDirective } from '../../../outlet';
 
 describe('CategoryPageLayoutComponent', () => {
@@ -17,10 +16,8 @@ describe('CategoryPageLayoutComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers())
       ],
       declarations: [
         CategoryPageLayoutComponent,
