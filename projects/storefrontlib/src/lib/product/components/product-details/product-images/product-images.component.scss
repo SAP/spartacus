@@ -19,7 +19,9 @@ y-picture {
   y-picture {
     transition: all var(--cx-transition-time);
 
-    cursor: pointer;
+    &:not(.active) {
+      cursor: pointer;
+    }
     overflow: hidden;
     position: relative;
 
