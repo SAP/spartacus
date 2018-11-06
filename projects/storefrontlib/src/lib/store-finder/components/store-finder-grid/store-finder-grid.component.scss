@@ -1,13 +1,13 @@
 // Loading
-$y-store-finder-list-loading-padding: 30px !default;
+$cx-store-finder-list-loading-padding: 30px !default;
 
 .stores-grid {
   columns: 4;
 }
 
-.y-store-finder-list {
+.cx-store-finder-list {
   &__spinner {
-    padding-top: $y-store-finder-list-loading-padding;
-    padding-bottom: $y-store-finder-list-loading-padding;
+    padding-top: $cx-store-finder-list-loading-padding;
+    padding-bottom: $cx-store-finder-list-loading-padding;
   }
 }

@@ -5,7 +5,7 @@ import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map
 import { StoreDataService } from '../../../services/store-data.service';
 
 @Component({
-  selector: 'y-store-finder-display-list',
+  selector: 'cx-store-finder-display-list',
   templateUrl: './store-finder-display-list.component.html',
   styleUrls: ['./store-finder-display-list.component.scss']
 })

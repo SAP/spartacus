@@ -4,7 +4,7 @@ import { AppPage } from '../app.po';
 import { E2EUtil } from '../../e2e-util';
 
 export class LoginPage extends AppPage {
-  readonly page: ElementFinder = element(by.tagName('y-login-page'));
+  readonly page: ElementFinder = element(by.tagName('cx-login-page'));
   readonly loginForm: LoginForm = new LoginForm();
   readonly registerButton: ElementFinder = this.page.element(
     by.cssContainingText('a', 'Register')

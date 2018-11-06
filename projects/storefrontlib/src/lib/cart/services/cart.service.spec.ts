@@ -1,9 +1,8 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
 
-import * as fromRoot from '../../routing/store';
 import * as fromCart from '../../cart/store';
 import * as fromUser from '../../user/store';
 import * as fromAuth from '../../auth/store';
@@ -54,12 +53,10 @@ describe('CartService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cart: combineReducers(fromCart.getReducers()),
-          user: combineReducers(fromUser.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cart', fromCart.getReducers()),
+        StoreModule.forFeature('user', fromUser.getReducers()),
+        StoreModule.forFeature('auth', fromAuth.getReducers())
       ],
       providers: [CartService, CartDataService]
     });

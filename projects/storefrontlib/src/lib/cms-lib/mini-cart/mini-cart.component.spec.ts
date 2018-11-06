@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import * as NgrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 
-import * as fromRoot from '../../routing/store';
 import * as fromCart from '../../cart/store';
 import * as fromUser from '../../user/store';
 import * as fromAuth from '../../auth/store';
@@ -67,12 +66,10 @@ describe('MiniCartComponent', () => {
       imports: [
         RouterModule,
         RouterTestingModule,
-        NgrxStore.StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cart: NgrxStore.combineReducers(fromCart.getReducers()),
-          user: NgrxStore.combineReducers(fromUser.getReducers()),
-          auth: NgrxStore.combineReducers(fromAuth.getReducers())
-        })
+        NgrxStore.StoreModule.forRoot({}),
+        NgrxStore.StoreModule.forFeature('cart', fromCart.getReducers()),
+        NgrxStore.StoreModule.forFeature('user', fromUser.getReducers()),
+        NgrxStore.StoreModule.forFeature('auth', fromAuth.getReducers())
       ],
       declarations: [MiniCartComponent],
       providers: [

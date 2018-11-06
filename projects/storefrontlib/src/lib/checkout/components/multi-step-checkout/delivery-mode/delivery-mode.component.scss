@@ -3,30 +3,30 @@
 @import 'mixins';
 @import '../container/multi-step-checkout.component';
 
-// y-delivery-mode color variables
-$y-delivery-mode-form-media-background-color: 'background' !default;
-$y-delivery-mode-form-label-details-color: 'success' !default;
+// cx-delivery-mode color variables
+$cx-delivery-mode-form-media-background-color: 'background' !default;
+$cx-delivery-mode-form-label-details-color: 'success' !default;
 
-// y-delivery-mode variables
-$y-delivery-mode-form-no-padding: 0 !default;
-$y-delivery-mode-form-margin: 0 auto 0 0.75rem !default;
-$y-delivery-mode-form-title-margin: 0 auto !default;
-$y-delivery-mode-form-title-padding: 2.375rem 0 1.75rem 0 !default;
+// cx-delivery-mode variables
+$cx-delivery-mode-form-no-padding: 0 !default;
+$cx-delivery-mode-form-margin: 0 auto 0 0.75rem !default;
+$cx-delivery-mode-form-title-margin: 0 auto !default;
+$cx-delivery-mode-form-title-padding: 2.375rem 0 1.75rem 0 !default;
 
-.y-delivery-mode-form {
+.cx-delivery-mode-form {
   &.container {
-    padding: $y-delivery-mode-form-no-padding;
+    padding: $cx-delivery-mode-form-no-padding;
   }
 
   &__title {
     text-transform: uppercase;
-    margin: $y-delivery-mode-form-title-margin;
-    padding: $y-delivery-mode-form-title-padding;
+    margin: $cx-delivery-mode-form-title-margin;
+    padding: $cx-delivery-mode-form-title-padding;
   }
 
   &__label {
-    padding: $y-delivery-mode-form-no-padding;
-    margin: $y-delivery-mode-form-margin;
+    padding: $cx-delivery-mode-form-no-padding;
+    margin: $cx-delivery-mode-form-margin;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -42,7 +42,7 @@ $y-delivery-mode-form-title-padding: 2.375rem 0 1.75rem 0 !default;
     }
     &--details {
       flex: 100%;
-      @include var-color('color', $y-delivery-mode-form-label-details-color);
+      @include var-color('color', $cx-delivery-mode-form-label-details-color);
     }
   }
 

@@ -1,7 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'y-product-list-item',
+  selector: 'cx-product-list-item',
   templateUrl: './product-list-item.component.html',
   styleUrls: ['./product-list-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

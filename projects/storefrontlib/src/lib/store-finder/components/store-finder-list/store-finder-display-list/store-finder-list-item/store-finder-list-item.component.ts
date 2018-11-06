@@ -4,7 +4,7 @@ import { StoreDataService } from '../../../../services/index';
 import { AbstractStoreItemComponent } from '../../../abstract-store-item/abstract-store-item.component';
 
 @Component({
-  selector: 'y-store-finder-list-item',
+  selector: 'cx-store-finder-list-item',
   templateUrl: './store-finder-list-item.component.html',
   styleUrls: ['./store-finder-list-item.component.scss']
 })

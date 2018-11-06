@@ -3,9 +3,9 @@
 @import 'mixins';
 
 // Loading
-$y-store-finder-list-loading-padding: 30px !default;
+$cx-store-finder-list-loading-padding: 30px !default;
 
-.y-store-finder-list {
+.cx-store-finder-list {
   &__pagination {
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -14,7 +14,7 @@ $y-store-finder-list-loading-padding: 30px !default;
   }
 
   &__spinner {
-    padding-top: $y-store-finder-list-loading-padding;
-    padding-bottom: $y-store-finder-list-loading-padding;
+    padding-top: $cx-store-finder-list-loading-padding;
+    padding-bottom: $cx-store-finder-list-loading-padding;
   }
 }

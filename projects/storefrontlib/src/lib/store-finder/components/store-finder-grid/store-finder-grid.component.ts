@@ -7,7 +7,7 @@ import * as fromStore from '../../store';
 import { StoreFinderService } from '../../services/store-finder.service';
 
 @Component({
-  selector: 'y-store-finder-grid',
+  selector: 'cx-store-finder-grid',
   templateUrl: './store-finder-grid.component.html',
   styleUrls: ['./store-finder-grid.component.scss']
 })

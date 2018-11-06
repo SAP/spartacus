@@ -11,13 +11,13 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import * as fromUserStore from '../../../../user/store';
-import * as fromRouting from '../../../../routing/store';
+import { RoutingService } from '../../../../routing/facade/routing.service';
 import { CheckoutService } from '../../../services/checkout.service';
 import { Card } from '../../../../ui/components/card/card.component';
 import { Address } from '../../../models/address-model';
 
 @Component({
-  selector: 'y-shipping-address',
+  selector: 'cx-shipping-address',
   templateUrl: './shipping-address.component.html',
   styleUrls: ['./shipping-address.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -35,7 +35,8 @@ export class ShippingAddressComponent implements OnInit {
 
   constructor(
     protected store: Store<fromUserStore.UserState>,
-    protected checkoutService: CheckoutService
+    protected checkoutService: CheckoutService,
+    protected routingService: RoutingService
   ) {}
 
   ngOnInit() {
@@ -117,10 +118,6 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   back() {
-    this.store.dispatch(
-      new fromRouting.Go({
-        path: ['/cart']
-      })
-    );
+    this.routingService.go(['/cart']);
   }
 }

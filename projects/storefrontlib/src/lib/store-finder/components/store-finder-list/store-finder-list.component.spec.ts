@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -8,7 +8,6 @@ import { StoreFinderService } from '../../services';
 import { StoreFinderListComponent } from './store-finder-list.component';
 
 import * as fromReducers from '../../store';
-import * as fromRoot from '../../../routing/store';
 
 class ActivatedRouteMock {
   paramsSubscriptionHandler: Function;
@@ -35,10 +34,8 @@ describe('StoreFinderListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          stores: combineReducers(fromReducers.reducers)
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('stores', fromReducers.reducers)
       ],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [StoreFinderListComponent],

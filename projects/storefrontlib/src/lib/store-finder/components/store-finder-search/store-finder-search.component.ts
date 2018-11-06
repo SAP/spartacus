@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { WindowRef } from '../../services/window-ref';
 
 @Component({
-  selector: 'y-store-finder-search',
+  selector: 'cx-store-finder-search',
   templateUrl: './store-finder-search.component.html',
   styleUrls: ['./store-finder-search.component.scss']
 })
