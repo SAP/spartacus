@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Store, select } from '@ngrx/store';
 import {
   HttpRequest,
   HttpHandler,
@@ -8,10 +7,9 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import * as fromStore from '../store/index';
 import { SiteContextConfig } from '../config/config';
-import { StateWithSiteContext } from '../store/state';
-import { getActiveLanguage } from '../store/index';
+import { LanguageService } from '../facade/language.service';
+import { CurrencyService } from '../facade/currency.service';
 
 @Injectable()
 export class SiteContextInterceptor implements HttpInterceptor {
@@ -20,7 +18,8 @@ export class SiteContextInterceptor implements HttpInterceptor {
   activeCurr = this.config.site.currency;
 
   constructor(
-    private store: Store<StateWithSiteContext>,
+    private languageService: LanguageService,
+    private currencyService: CurrencyService,
     private config: SiteContextConfig
   ) {
     this.baseReqString =
@@ -28,18 +27,12 @@ export class SiteContextInterceptor implements HttpInterceptor {
       this.config.server.occPrefix +
       this.config.site.baseSite;
 
-    this.store
-      .pipe(
-        select(getActiveLanguage),
-        filter(lang => lang != null)
-      )
+    this.languageService.activeLanguage$
+      .pipe(filter(lang => lang != null))
       .subscribe(data => (this.activeLang = data));
 
-    this.store
-      .pipe(
-        select(fromStore.getActiveCurrency),
-        filter(curr => curr != null)
-      )
+    this.currencyService.activeCurrency$
+      .pipe(filter(curr => curr != null))
       .subscribe(data => (this.activeCurr = data));
   }
 

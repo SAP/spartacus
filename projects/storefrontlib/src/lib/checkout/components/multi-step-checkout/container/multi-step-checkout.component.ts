@@ -10,7 +10,7 @@ import { filter } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 
 import * as fromCheckoutStore from '../../../store';
-import * as fromRouting from '../../../../routing/store';
+import { RoutingService } from '../../../../routing/facade/routing.service';
 import * as fromCart from '../../../../cart/store';
 import * as fromGlobalMessage from '../../../../global-message/store';
 
@@ -45,7 +45,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     protected cartService: CartService,
     protected cartDataService: CartDataService,
     private store: Store<fromCheckoutStore.CheckoutState>,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
+    protected routingService: RoutingService
   ) {}
 
   private refreshCart() {
@@ -134,11 +135,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         )
         .subscribe(order => {
           this.checkoutService.orderDetails = order;
-          this.store.dispatch(
-            new fromRouting.Go({
-              path: ['orderConfirmation']
-            })
-          );
+          this.routingService.go(['orderConfirmation']);
         })
     );
   }
