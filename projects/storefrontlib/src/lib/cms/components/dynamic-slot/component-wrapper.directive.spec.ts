@@ -4,16 +4,15 @@ import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { DynamicSlotComponent } from './dynamic-slot.component';
 import { ComponentMapperService } from '../../services';
 import { CmsModuleConfig } from '../../cms-module-config';
-import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../../store/reducers';
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { OutletDirective } from '../../../outlet';
 import { CmsComponentData } from '../cms-component-data';
 
 const testText = 'test text';
 
 @Component({
-  selector: 'y-test',
+  selector: 'cx-test',
   template: `<div id="debugEl1">${testText}</div>`
 })
 export class TestComponent {
@@ -29,7 +28,7 @@ export class TestModule {}
 
 const MockCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
-    CMSTestComponent: 'y-test'
+    CMSTestComponent: 'cx-test'
   }
 };
 
@@ -46,10 +45,8 @@ describe('ComponentWrapperDirective', () => {
     TestBed.configureTestingModule({
       imports: [
         TestModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromReducers.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cms', fromReducers.getReducers())
       ],
       declarations: [
         TestWrapperComponent,

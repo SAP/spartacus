@@ -11,8 +11,7 @@ import {
   take
 } from 'rxjs/operators';
 
-import { select, Store } from '@ngrx/store';
-import * as fromRouting from '../../../routing/store';
+import { RoutingService } from '../../../routing/facade/routing.service';
 
 import * as pageActions from '../actions/page.action';
 import * as componentActions from '../actions/component.action';
@@ -38,8 +37,7 @@ export class PageEffects {
     map((action: pageActions.LoadPageData) => action.payload),
     switchMap(pageContext => {
       if (pageContext === undefined) {
-        return this.routingStore.pipe(
-          select(fromRouting.getRouterState),
+        return this.routingService.routerState$.pipe(
           filter(routerState => routerState && routerState.state),
           filter(routerState => routerState.state.cmsRequired),
           map(routerState => routerState.state.context),
@@ -82,7 +80,7 @@ export class PageEffects {
     private actions$: Actions,
     private occCmsService: OccCmsService,
     private defaultPageService: DefaultPageService,
-    private routingStore: Store<fromRouting.State>
+    private routingService: RoutingService
   ) {}
 
   private getPageData(res: any, pageContext: PageContext): any {

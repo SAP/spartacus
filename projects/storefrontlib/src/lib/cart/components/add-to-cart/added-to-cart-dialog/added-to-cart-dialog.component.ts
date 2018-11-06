@@ -3,7 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'y-added-to-cart-dialog',
+  selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
   styleUrls: ['./added-to-cart-dialog.component.scss']
 })

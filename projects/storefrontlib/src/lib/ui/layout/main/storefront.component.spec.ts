@@ -5,7 +5,7 @@ import {
   ɵangular_packages_service_worker_service_worker_b as RegistrationOptions
 } from '@angular/service-worker';
 
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { SiteContextConfig } from '@spartacus/core';
@@ -27,7 +27,6 @@ import {
   PWAModuleConfig,
   defaultPWAModuleConfig
 } from '../../../pwa/pwa.module-config';
-import * as fromRoot from '../../../routing/store';
 import { SiteContextModule } from '../../../site-context/site-context.module';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromUserReducer from '../../../user/store/reducers';
@@ -53,7 +52,7 @@ const MockPwaRegistrationOptions: RegistrationOptions = {
   enabled: false
 };
 
-describe('StorefrontComponent', () => {
+fdescribe('StorefrontComponent', () => {
   let component: StorefrontComponent;
   let fixture: ComponentFixture<StorefrontComponent>;
 
@@ -61,12 +60,10 @@ describe('StorefrontComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          user: combineReducers(fromUserReducer.getReducers()),
-          cms: combineReducers(fromCmsReducer.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
-        }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('user', fromUserReducer.getReducers()),
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
+        StoreModule.forFeature('auth', fromAuth.getReducers()),
         GlobalMessageModule,
         PwaModule,
         ServiceWorkerModule,

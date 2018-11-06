@@ -14,11 +14,11 @@ export class AddressForm {
   static readonly PHONE_NUMBER = '555 555 555';
 
   constructor(
-    private parentElement: ElementFinder = element(by.tagName('y-root'))
+    private parentElement: ElementFinder = element(by.tagName('cx-root'))
   ) {}
 
   readonly form: ElementFinder = this.parentElement.element(
-    by.tagName('y-address-form')
+    by.tagName('cx-address-form')
   );
   readonly countrySelect: ElementFinder = this.form.element(
     by.css('[bindValue="isocode"]')

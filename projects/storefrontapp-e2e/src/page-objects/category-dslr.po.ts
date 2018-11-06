@@ -4,10 +4,10 @@ import { E2EUtil } from '../e2e-util';
 import { ProductDetailsPage } from './product-details.po';
 
 export class CategoryDslrPage extends AppPage {
-  readonly page: ElementFinder = element(by.tagName('y-category-page-layout'));
+  readonly page: ElementFinder = element(by.tagName('cx-category-page-layout'));
 
   readonly productElement = (productNo: number): ElementFinder =>
-    this.page.all(by.tagName('y-responsive-banner')).get(productNo); // tslint:disable-line
+    this.page.all(by.tagName('cx-responsive-banner')).get(productNo); // tslint:disable-line
 
   async waitForReady() {
     await E2EUtil.wait4VisibleElement(this.page);

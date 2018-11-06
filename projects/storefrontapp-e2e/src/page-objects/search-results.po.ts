@@ -9,20 +9,20 @@ import {
 import { E2EUtil } from '../e2e-util';
 
 export class SearchResultsPage extends AppPage {
-  readonly YPAGE = 'y-category-page';
+  readonly YPAGE = 'cx-category-page';
 
   readonly page: ElementFinder = element(by.tagName(this.YPAGE));
   readonly pagination: ElementFinder = this.page.element(
-    by.tagName('y-product-paging')
+    by.tagName('cx-product-paging')
   );
   readonly productListItems: ElementArrayFinder = this.page
-    .element(by.tagName('y-product-list'))
-    .all(by.tagName('y-product-list-item'));
+    .element(by.tagName('cx-product-list'))
+    .all(by.tagName('cx-product-list-item'));
   readonly productByNameInResults = (productName: string): ElementFinder =>
     this.productListItems
       .filter(el =>
         el
-          .element(by.css('a.y-product-search-list__name'))
+          .element(by.css('a.cx-product-search-list__name'))
           .getText()
           .then(text => text === productName)
       )
@@ -38,7 +38,7 @@ export class SearchResultsPage extends AppPage {
   }
 
   getAddToCartInProductListItem(product: ElementFinder): ElementFinder {
-    return product.element(by.tagName('y-add-to-cart'));
+    return product.element(by.tagName('cx-add-to-cart'));
   }
 
   async clickAddToCartButton4Product(product: ElementFinder) {

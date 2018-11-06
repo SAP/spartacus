@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'y-star-rating',
+  selector: 'cx-star-rating',
   templateUrl: './star-rating.component.html',
   styleUrls: ['./star-rating.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
