@@ -1,6 +1,9 @@
 :host {
   display: flex;
   flex-direction: var(--cx-flex-direction, column);
+
+  --cx-border-color: var(--cx-light);
+  --cx-border-width: 0.1vw;
 }
 
 .thumbs {
@@ -17,15 +20,14 @@
     overflow: hidden;
     position: relative;
 
-    border-width: var(--cx-border-width, 0.1vw);
-    border-color: var(--cx-color, var(--cx-light));
+    border: var(--cx-border-width) var(--cx-border-color) var(--cx-border-style);
 
     margin: var(--cx-margin, 0.5vw);
     padding: var(--cx-padding, 0.5vw);
 
     &:hover,
     &.active {
-      border-color: var(--cx-color, var(--cx-primary));
+      --cx-border-color: var(--cx-primary);
     }
   }
 }
