@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 import { ProductReviewService } from '../../../facade/product-review.service';
 
 @Component({
-  selector: 'y-product-reviews',
+  selector: 'cx-product-reviews',
   templateUrl: './product-reviews.component.html',
   styleUrls: ['./product-reviews.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

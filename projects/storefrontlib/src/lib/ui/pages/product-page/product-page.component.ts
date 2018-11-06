@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import * as fromRouting from '../../../routing/store';
 
 @Component({
-  selector: 'y-product-page',
+  selector: 'cx-product-page',
   templateUrl: './product-page.component.html',
   styleUrls: ['./product-page.component.scss']
 })

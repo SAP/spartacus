@@ -2,12 +2,12 @@
 @import 'functions';
 @import 'mixins';
 
-$y-store-finder-list-list-items: 'light' !default;
-$y-store-finder-list-list-items-hover-background-color: 'background' !default;
+$cx-store-finder-list-list-items: 'light' !default;
+$cx-store-finder-list-list-items-hover-background-color: 'background' !default;
 // Loading
-$y-store-finder-list-loading-padding: 30px !default;
+$cx-store-finder-list-loading-padding: 30px !default;
 
-.y-store-finder-list {
+.cx-store-finder-list {
   &__column-set {
     display: none;
     @include media-breakpoint-up(md) {
@@ -46,7 +46,7 @@ $y-store-finder-list-loading-padding: 30px !default;
   }
   &__list-items {
     border-top: 1px solid;
-    @include var-color('border-color', $y-store-finder-list-list-items);
+    @include var-color('border-color', $cx-store-finder-list-list-items);
     padding-top: 1rem;
     padding-right: 1.5rem;
     padding-bottom: 1rem;
@@ -55,7 +55,7 @@ $y-store-finder-list-loading-padding: 30px !default;
     &:hover {
       @include var-color(
         'background-color',
-        $y-store-finder-list-list-items-hover-background-color
+        $cx-store-finder-list-list-items-hover-background-color
       );
     }
 
@@ -82,7 +82,7 @@ $y-store-finder-list-loading-padding: 30px !default;
   }
 
   &__spinner {
-    padding-top: $y-store-finder-list-loading-padding;
-    padding-bottom: $y-store-finder-list-loading-padding;
+    padding-top: $cx-store-finder-list-loading-padding;
+    padding-bottom: $cx-store-finder-list-loading-padding;
   }
 }

@@ -108,7 +108,7 @@ describe('ProductCarouselComponent in CmsLib', () => {
     fixture.detectChanges();
     expect(productCarouselComponent.component).toBe(mockComponentData);
     expect(
-      el.query(By.css('.y-carousel__header')).nativeElement.textContent
+      el.query(By.css('.cx-carousel__header')).nativeElement.textContent
     ).toEqual(productCarouselComponent.component.title);
   });
 });

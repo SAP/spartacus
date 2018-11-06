@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { CurrencyService } from '@spartacus/core';
 
 @Component({
-  selector: 'y-currency-selector',
+  selector: 'cx-currency-selector',
   templateUrl: './currency-selector.component.html',
   styleUrls: ['./currency-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

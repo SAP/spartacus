@@ -1,7 +1,7 @@
 <ng-container *ngIf="user$ | async as user">
     <ng-container *ngIf="user?.name">
-        <div class="y-login-status__greet">Hi, {{user.name}}</div>
-        <y-dynamic-slot position="HeaderLinks" class="y-login-status__dropdown"></y-dynamic-slot>
+        <div class="cx-login-status__greet">Hi, {{user.name}}</div>
+        <cx-dynamic-slot position="HeaderLinks" class="cx-login-status__dropdown"></cx-dynamic-slot>
     </ng-container>
 
     <ng-container *ngIf="!user?.name">

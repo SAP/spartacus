@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'y-header-skipper',
+  selector: 'cx-header-skipper',
   templateUrl: './header-skipper.component.html',
   styleUrls: ['./header-skipper.component.scss']
 })

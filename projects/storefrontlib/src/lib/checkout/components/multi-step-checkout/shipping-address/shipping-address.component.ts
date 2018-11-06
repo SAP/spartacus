@@ -17,7 +17,7 @@ import { Card } from '../../../../ui/components/card/card.component';
 import { Address } from '../../../models/address-model';
 
 @Component({
-  selector: 'y-shipping-address',
+  selector: 'cx-shipping-address',
   templateUrl: './shipping-address.component.html',
   styleUrls: ['./shipping-address.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

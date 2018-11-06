@@ -10,7 +10,7 @@ import { ProductService } from '../../../facade/product.service';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
-  selector: 'y-product-details',
+  selector: 'cx-product-details',
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.scss'],
   encapsulation: ViewEncapsulation.None

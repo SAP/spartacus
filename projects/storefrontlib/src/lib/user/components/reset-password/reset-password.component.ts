@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
 
 @Component({
-  selector: 'y-reset-password',
+  selector: 'cx-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss']
 })

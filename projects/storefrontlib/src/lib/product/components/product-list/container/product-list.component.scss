@@ -2,28 +2,28 @@
 @import 'functions';
 @import 'mixins';
 
-$y-search-container-trbl-margin: 40px 0 !default;
+$cx-search-container-trbl-margin: 40px 0 !default;
 
-$y-search-sorting-border-color: 'light' !default;
-$y-search-sorting-border: 1px solid !default;
+$cx-search-sorting-border-color: 'light' !default;
+$cx-search-sorting-border: 1px solid !default;
 
-$y-search-sorting-top-trbl-padding: 0 0 8px 0 !default;
+$cx-search-sorting-top-trbl-padding: 0 0 8px 0 !default;
 
-$y-search-sorting-bottom-trbl-padding: 25px 0 0px 0 !default;
+$cx-search-sorting-bottom-trbl-padding: 25px 0 0px 0 !default;
 
-$y-product-search-dropdown-trbl-padding: 0 35px 0 0 !default;
-$y-product-search-dropdown-height: 48px !default;
+$cx-product-search-dropdown-trbl-padding: 0 35px 0 0 !default;
+$cx-product-search-dropdown-height: 48px !default;
 
-$y-search-list-border: 1px solid;
-$y-search-list-border-color: 'light' !default;
-$y-search-list-trbl-margin: 0 0 25px 0;
+$cx-search-list-border: 1px solid;
+$cx-search-list-border-color: 'light' !default;
+$cx-search-list-trbl-margin: 0 0 25px 0;
 
-.y-product-search {
+.cx-product-search {
   &-list {
     display: block;
-    border-bottom: $y-search-list-border;
-    @include var-color('border-color', $y-search-list-border-color);
-    margin: $y-search-list-trbl-margin;
+    border-bottom: $cx-search-list-border;
+    @include var-color('border-color', $cx-search-list-border-color);
+    margin: $cx-search-list-trbl-margin;
 
     &:last-of-type {
       border-bottom: none;
@@ -31,14 +31,14 @@ $y-search-list-trbl-margin: 0 0 25px 0;
   }
 
   &__item--container {
-    margin: $y-search-container-trbl-margin;
+    margin: $cx-search-container-trbl-margin;
   }
 
   &__sorting {
     &--top {
-      border-bottom: $y-search-sorting-border;
-      @include var-color('border-color', $y-search-sorting-border-color);
-      padding: $y-search-sorting-top-trbl-padding;
+      border-bottom: $cx-search-sorting-border;
+      @include var-color('border-color', $cx-search-sorting-border-color);
+      padding: $cx-search-sorting-top-trbl-padding;
 
       @include media-breakpoint-down(md) {
         border-bottom: none;
@@ -46,9 +46,9 @@ $y-search-list-trbl-margin: 0 0 25px 0;
     }
 
     &--bottom {
-      border-top: $y-search-sorting-border;
-      @include var-color('border-color', $y-search-sorting-border-color);
-      padding: $y-search-sorting-bottom-trbl-padding;
+      border-top: $cx-search-sorting-border;
+      @include var-color('border-color', $cx-search-sorting-border-color);
+      padding: $cx-search-sorting-bottom-trbl-padding;
 
       @include media-breakpoint-down(md) {
         border-top: none;
@@ -57,15 +57,15 @@ $y-search-list-trbl-margin: 0 0 25px 0;
   }
 }
 
-.y-product-search__pagination {
+.cx-product-search__pagination {
   display: inline-block;
   vertical-align: top;
 }
 
-.y-product-search__dropdown {
-  height: $y-product-search-dropdown-height;
+.cx-product-search__dropdown {
+  height: $cx-product-search-dropdown-height;
 
   .ng-arrow-wrapper {
-    padding: $y-product-search-dropdown-trbl-padding;
+    padding: $cx-product-search-dropdown-trbl-padding;
   }
 }
