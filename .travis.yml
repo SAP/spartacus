@@ -8,15 +8,17 @@ branches:
   - "/^feature\\/.*$/"
 jobs:
   include:
-    - script: "./ci-scripts/unit-tests.sh"
+    - stage: "Spartacus build"
       name: "Unit tests"
+      script: "./ci-scripts/unit-tests.sh"
     - script: "./ci-scripts/e2e-tests.sh"
       name: "End to end tests"
     - script: "./ci-scripts/validate.sh"
       name: "Validation"
     - script: "./ci-scripts/lint.sh"
       name: "Lint"
-    - script: sonar-scanner
+    - stage: "SonarCloud"
+      script: sonar-scanner
       name: "SonarCloud scanner"
 notifications:
   slack:
