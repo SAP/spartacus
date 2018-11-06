@@ -25,6 +25,7 @@ import {
   defaultPWAModuleConfig
 } from '../../../pwa/pwa.module-config';
 import { SiteContextConfig } from '@spartacus/core';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 const MockCmsModuleConfig: CmsModuleConfig = {
   site: {
@@ -48,6 +49,7 @@ describe('HeaderComponent', () => {
           auth: combineReducers(fromAuth.getReducers())
         }),
         PwaModule,
+        ServiceWorkerModule,
         EffectsModule.forRoot([]),
         SiteContextModule
       ],
