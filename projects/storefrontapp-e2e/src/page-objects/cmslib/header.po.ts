@@ -2,18 +2,18 @@ import { by, element, ElementFinder } from 'protractor';
 import { E2EUtil } from '../../e2e-util';
 
 export class Header {
-  readonly header: ElementFinder = element(by.tagName('y-header'));
+  readonly header: ElementFinder = element(by.tagName('cx-header'));
   readonly siteLogoComponent: ElementFinder = this.header.element(
-    by.dynamicSlot('SiteLogo', 'y-banner')
+    by.dynamicSlot('SiteLogo', 'cx-banner')
   );
   readonly searchComponent: ElementFinder = this.header.element(
-    by.dynamicSlot('SearchBox', 'y-searchbox')
+    by.dynamicSlot('SearchBox', 'cx-searchbox')
   );
   readonly miniCartButton: ElementFinder = this.header.element(
-    by.dynamicSlot('MiniCart', 'y-mini-cart')
+    by.dynamicSlot('MiniCart', 'cx-mini-cart')
   );
   readonly loginComponent: ElementFinder = this.header
-    .all(by.tagName('y-login'))
+    .all(by.tagName('cx-login'))
     .first();
   readonly loginIconButton: ElementFinder = this.loginComponent.element(
     by.tagName('a')
@@ -22,10 +22,10 @@ export class Header {
     by.css('[id="My Account"].nav-link.dropdown-toggle')
   );
   readonly logoutButton: ElementFinder = element(
-    by.cssContainingText('.y-navigation__child-item a', 'Sign Out')
+    by.cssContainingText('.cx-navigation__child-item a', 'Sign Out')
   );
   readonly searchInput: ElementFinder = this.searchComponent.element(
-    by.css('input.y-search-box__input')
+    by.css('input.cx-search-box__input')
   );
   readonly currencySwitcher: ElementFinder = this.header.element(
     by.css('#currencySelector')
@@ -57,7 +57,7 @@ export class Header {
 
   async isLoggedIn(): Promise<boolean> {
     return await this.loginComponent
-      .element(by.css('.y-login-status__greet'))
+      .element(by.css('.cx-login-status__greet'))
       .isPresent();
   }
 }

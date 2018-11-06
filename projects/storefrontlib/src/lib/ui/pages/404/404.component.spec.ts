@@ -28,7 +28,7 @@ describe('404Component', () => {
   describe('UI test', () => {
     it('should display the 404 image', () => {
       const imgDebugElement = fixture.debugElement.query(
-        By.css('img.y-error__img')
+        By.css('img.cx-error__img')
       );
       expect(imgDebugElement).not.toBeNull();
       const img = imgDebugElement.nativeElement;

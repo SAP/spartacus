@@ -1,13 +1,13 @@
-<table class="y-product-details-tab-table" *ngFor="let class of product?.classifications">
-    <th class="y-product-details-tab-table--head">
+<table class="cx-product-details-tab-table" *ngFor="let class of product?.classifications">
+    <th class="cx-product-details-tab-table--head">
         <h3>{{class.name}}</h3>
     </th>
-    <tr class="y-product-details-tab-table--tr" *ngFor="let feature of class.features">
-        <td class="y-product-details-tab-table--td">
+    <tr class="cx-product-details-tab-table--tr" *ngFor="let feature of class.features">
+        <td class="cx-product-details-tab-table--td">
             {{ feature.name }}
         </td>
-        <td class="y-product-details-tab-table--td">
-            <ul class="y-product-details-tab-table--list">
+        <td class="cx-product-details-tab-table--td">
+            <ul class="cx-product-details-tab-table--list">
                 <li *ngFor="let featureValue of feature?.featureValues">
                     {{featureValue?.value}}
                 </li>

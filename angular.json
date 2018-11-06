@@ -20,22 +20,22 @@
             "tsConfig": "projects/storefrontapp/tsconfig.app.json",
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
-              "projects/storefrontapp/src/assets"
+              "projects/storefrontapp/src/assets",
+              "projects/storefrontapp/src/manifest.json"
             ],
             "styles": ["projects/storefrontapp/src/styles.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["./projects", "./projects/storefrontstyles/scss"]
             },
+            "ngswConfigPath": "projects/storefrontlib/src/lib/pwa/ngsw-config.json",
             "scripts": []
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
-                }
-              ],
+              "fileReplacements": [{
+                "replace": "projects/storefrontapp/src/environments/environment.ts",
+                "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+              }],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -49,12 +49,10 @@
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
             "ci": {
-              "fileReplacements": [
-                {
-                  "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.ci.ts"
-                }
-              ],
+              "fileReplacements": [{
+                "replace": "projects/storefrontapp/src/environments/environment.ts",
+                "with": "projects/storefrontapp/src/environments/environment.ci.ts"
+              }],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -67,12 +65,10 @@
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
             "qa": {
-              "fileReplacements": [
-                {
-                  "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.qa.ts"
-                }
-              ],
+              "fileReplacements": [{
+                "replace": "projects/storefrontapp/src/environments/environment.ts",
+                "with": "projects/storefrontapp/src/environments/environment.qa.ts"
+              }],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -82,6 +78,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
+              "serviceWorker": true,
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             }
           }
@@ -123,7 +120,9 @@
             "scripts": [],
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
-              "projects/storefrontapp/src/assets"
+              "projects/storefrontapp/src/assets",
+              "projects/storefrontapp/src/manifest.json"
+
             ],
             "codeCoverageExclude": ["dist/**/*"]
           }

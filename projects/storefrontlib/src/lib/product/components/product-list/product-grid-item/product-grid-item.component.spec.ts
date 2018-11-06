@@ -5,11 +5,10 @@ import { StarRatingComponent } from 'projects/storefrontlib/src/lib/ui';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AddToCartComponent } from '../../../../cart/components/add-to-cart/add-to-cart.component';
 import { CartService, CartDataService } from '../../../../cart/services';
-import * as fromRoot from '../../../../routing/store';
 import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
 import * as fromAuth from '../../../../auth/store';
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeDetectionStrategy } from '@angular/core';
 
@@ -37,12 +36,10 @@ describe('ProductGridItemComponent in product-list', () => {
       imports: [
         RouterTestingModule,
         NgbRatingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cart: combineReducers(fromCart.getReducers()),
-          user: combineReducers(fromUser.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cart', fromCart.getReducers()),
+        StoreModule.forFeature('user', fromUser.getReducers()),
+        StoreModule.forFeature('auth', fromAuth.getReducers())
       ],
       declarations: [
         ProductGridItemComponent,
@@ -74,7 +71,7 @@ describe('ProductGridItemComponent in product-list', () => {
   it('should display product name', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-product-search-grid__name'
+        '.cx-product-search-grid__name'
       ).textContent
     ).toContain(component.product.name);
   });
@@ -82,26 +79,26 @@ describe('ProductGridItemComponent in product-list', () => {
   it('should display product formatted price', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-product-search-grid__price'
+        '.cx-product-search-grid__price'
       ).textContent
     ).toContain(component.product.price.formattedValue);
   });
 
   it('should display product image', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('y-picture')
+      fixture.debugElement.nativeElement.querySelector('cx-picture')
     ).not.toBeNull();
   });
 
   it('should display raiting component', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('y-star-rating')
+      fixture.debugElement.nativeElement.querySelector('cx-star-rating')
     ).not.toBeNull();
   });
 
   it('should display add to cart component', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('y-add-to-cart')
+      fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
     ).not.toBeNull();
   });
 
@@ -110,7 +107,7 @@ describe('ProductGridItemComponent in product-list', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.debugElement.nativeElement.querySelector('y-add-to-cart')
+      fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
     ).toBeNull();
   });
 });

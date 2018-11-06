@@ -1,11 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 import { DeliveryModeComponent } from './delivery-mode.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 
-import * as fromRoot from '../../../../routing/store';
 import * as fromCheckout from '../../../store';
 import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
@@ -49,13 +48,11 @@ describe('DeliveryModeComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cart: combineReducers(fromCart.getReducers()),
-          user: combineReducers(fromUser.getReducers()),
-          checkout: combineReducers(fromCheckout.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cart', fromCart.getReducers()),
+        StoreModule.forFeature('user', fromUser.getReducers()),
+        StoreModule.forFeature('checkout', fromCheckout.getReducers()),
+        StoreModule.forFeature('auth', fromAuth.getReducers())
       ],
       declarations: [DeliveryModeComponent],
       providers: [CheckoutService, CartService, CartDataService]
@@ -153,7 +150,7 @@ describe('DeliveryModeComponent', () => {
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(
-        By.css('.y-delivery-mode-form__btns .btn-primary')
+        By.css('.cx-delivery-mode-form__btns .btn-primary')
       );
 
     it('should be disabled when delivery mode is not selected', () => {
@@ -179,7 +176,7 @@ describe('DeliveryModeComponent', () => {
   describe('UI back button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(
-        By.css('.y-delivery-mode-form__btns .btn-action')
+        By.css('.cx-delivery-mode-form__btns .btn-action')
       );
 
     it('should call "back" function after being clicked', () => {

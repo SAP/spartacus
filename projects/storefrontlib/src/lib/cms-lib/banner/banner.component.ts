@@ -9,7 +9,7 @@ import { CmsService } from '../../cms/facade/cms.service';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 
 @Component({
-  selector: 'y-banner',
+  selector: 'cx-banner',
   templateUrl: './banner.component.html',
   styleUrls: ['./banner.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

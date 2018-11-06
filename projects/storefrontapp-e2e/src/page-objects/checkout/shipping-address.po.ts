@@ -4,15 +4,15 @@ import { AddressForm } from './address-form.po';
 
 export class ShippingAddress {
   constructor(
-    private parentElement: ElementFinder = element(by.tagName('y-root'))
+    private parentElement: ElementFinder = element(by.tagName('cx-root'))
   ) {}
 
   readonly container: ElementFinder = this.parentElement.element(
-    by.tagName('y-shipping-address')
+    by.tagName('cx-shipping-address')
   );
 
   readonly header: ElementFinder = this.container.element(
-    by.css('h3.y-shipping-address__title')
+    by.css('h3.cx-shipping-address__title')
   );
 
   readonly addressForm: AddressForm = new AddressForm(this.container);

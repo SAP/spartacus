@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 
 @Component({
-  selector: 'y-paragraph',
+  selector: 'cx-paragraph',
   templateUrl: './paragraph.component.html',
   styleUrls: ['./paragraph.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
