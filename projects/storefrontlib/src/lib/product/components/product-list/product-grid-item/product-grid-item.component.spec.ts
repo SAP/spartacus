@@ -74,7 +74,7 @@ describe('ProductGridItemComponent in product-list', () => {
   it('should display product name', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-product-search-grid__name'
+        '.cx-product-search-grid__name'
       ).textContent
     ).toContain(component.product.name);
   });
@@ -82,26 +82,26 @@ describe('ProductGridItemComponent in product-list', () => {
   it('should display product formatted price', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-product-search-grid__price'
+        '.cx-product-search-grid__price'
       ).textContent
     ).toContain(component.product.price.formattedValue);
   });
 
   it('should display product image', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('y-picture')
+      fixture.debugElement.nativeElement.querySelector('cx-picture')
     ).not.toBeNull();
   });
 
   it('should display raiting component', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('y-star-rating')
+      fixture.debugElement.nativeElement.querySelector('cx-star-rating')
     ).not.toBeNull();
   });
 
   it('should display add to cart component', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('y-add-to-cart')
+      fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
     ).not.toBeNull();
   });
 
@@ -110,7 +110,7 @@ describe('ProductGridItemComponent in product-list', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.debugElement.nativeElement.querySelector('y-add-to-cart')
+      fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
     ).toBeNull();
   });
 });

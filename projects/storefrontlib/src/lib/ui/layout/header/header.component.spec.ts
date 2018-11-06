@@ -88,41 +88,45 @@ describe('HeaderComponent', () => {
   describe('UI tests', () => {
     it('should contain the header skipper component', () => {
       expect(
-        fixture.debugElement.query(By.css('y-header-skipper'))
+        fixture.debugElement.query(By.css('cx-header-skipper'))
       ).not.toBeNull();
     });
 
     it('should contain the Site Context Selectors', () => {
       expect(
         fixture.debugElement.query(
-          By.css('div.y-content__slot:not(#y-mobile-menu) y-language-selector')
+          By.css(
+            'div.cx-content__slot:not(#cx-mobile-menu) cx-language-selector'
+          )
         )
       ).not.toBeNull();
 
       expect(
         fixture.debugElement.query(
-          By.css('div.y-content__slot:not(#y-mobile-menu) y-currency-selector')
+          By.css(
+            'div.cx-content__slot:not(#cx-mobile-menu) cx-currency-selector'
+          )
         )
       ).not.toBeNull();
     });
 
     it('should contain the tertiary-bar component', () => {
       expect(
-        fixture.debugElement.query(By.css('y-tertiary-bar'))
+        fixture.debugElement.query(By.css('cx-tertiary-bar'))
       ).not.toBeNull();
     });
 
     it('should contain the login status component', () => {
       expect(
         fixture.debugElement.query(
-          By.css('div.y-content__slot:not(#y-mobile-menu) y-login')
+          By.css('div.cx-content__slot:not(#cx-mobile-menu) cx-login')
         )
       ).not.toBeNull();
     });
 
     it('should contain the mobile menu component', () => {
       expect(
-        fixture.debugElement.query(By.css('y-mobile-menu'))
+        fixture.debugElement.query(By.css('cx-mobile-menu'))
       ).not.toBeNull();
     });
 
@@ -130,7 +134,7 @@ describe('HeaderComponent', () => {
       it('should contain site logo', () => {
         expect(
           fixture.debugElement.query(
-            By.css('y-dynamic-slot[position="SiteLogo"]')
+            By.css('cx-dynamic-slot[position="SiteLogo"]')
           )
         ).not.toBeNull();
       });
@@ -138,7 +142,7 @@ describe('HeaderComponent', () => {
       it('should contain the searchbox', () => {
         expect(
           fixture.debugElement.query(
-            By.css('y-dynamic-slot[position="SearchBox"]')
+            By.css('cx-dynamic-slot[position="SearchBox"]')
           )
         ).not.toBeNull();
       });
@@ -146,7 +150,7 @@ describe('HeaderComponent', () => {
       it('should contain the mini cart', () => {
         expect(
           fixture.debugElement.query(
-            By.css('y-dynamic-slot[position="MiniCart"]')
+            By.css('cx-dynamic-slot[position="MiniCart"]')
           )
         ).not.toBeNull();
       });
@@ -155,7 +159,7 @@ describe('HeaderComponent', () => {
         expect(
           fixture.debugElement.query(
             By.css(
-              'div.y-content__slot:not(#y-mobile-menu) y-dynamic-slot[position="NavigationBar"]'
+              'div.cx-content__slot:not(#cx-mobile-menu) cx-dynamic-slot[position="NavigationBar"]'
             )
           )
         ).not.toBeNull();

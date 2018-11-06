@@ -9,7 +9,7 @@ import { CheckoutService } from '../../services/checkout.service';
 import { Card } from '../../../ui/components/card/card.component';
 
 @Component({
-  selector: 'y-order-confirmation',
+  selector: 'cx-order-confirmation',
   templateUrl: './order-confirmation.component.html',
   styleUrls: ['./order-confirmation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

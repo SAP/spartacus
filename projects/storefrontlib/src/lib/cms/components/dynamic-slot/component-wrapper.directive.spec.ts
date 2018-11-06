@@ -13,7 +13,7 @@ import { CmsComponentData } from '../cms-component-data';
 const testText = 'test text';
 
 @Component({
-  selector: 'y-test',
+  selector: 'cx-test',
   template: `<div id="debugEl1">${testText}</div>`
 })
 export class TestComponent {
@@ -29,7 +29,7 @@ export class TestModule {}
 
 const MockCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
-    CMSTestComponent: 'y-test'
+    CMSTestComponent: 'cx-test'
   }
 };
 

@@ -17,7 +17,7 @@ import { Address } from '../../../models/address-model';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
-  selector: 'y-review-submit',
+  selector: 'cx-review-submit',
   templateUrl: './review-submit.component.html',
   styleUrls: ['./review-submit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

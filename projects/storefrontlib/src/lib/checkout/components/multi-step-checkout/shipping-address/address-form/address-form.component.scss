@@ -3,31 +3,31 @@
 @import 'mixins';
 @import '../../container/multi-step-checkout.component';
 
-$y-address-form-card-background-color: 'inverse' !default;
-// y-address-form variables
-$y-address-form-no-padding: 0 !default;
-$y-address-form-title-padding: 2.375rem 0 1.75rem 0 !default;
-$y-address-form-title-margin: 0 auto !default;
-$y-address-form-body-padding-bottom: 1.875rem !default;
-$y-address-form-text-margin-bottom: 1.25rem !default;
-$y-address-form-text-md-padding-left: 3.5rem !default;
-$y-address-form-text-sm-padding-left: 1.5rem !default;
-.y-address-form {
+$cx-address-form-card-background-color: 'inverse' !default;
+// cx-address-form variables
+$cx-address-form-no-padding: 0 !default;
+$cx-address-form-title-padding: 2.375rem 0 1.75rem 0 !default;
+$cx-address-form-title-margin: 0 auto !default;
+$cx-address-form-body-padding-bottom: 1.875rem !default;
+$cx-address-form-text-margin-bottom: 1.25rem !default;
+$cx-address-form-text-md-padding-left: 3.5rem !default;
+$cx-address-form-text-sm-padding-left: 1.5rem !default;
+.cx-address-form {
   &.container {
-    padding: $y-address-form-no-padding;
+    padding: $cx-address-form-no-padding;
   }
   &__title {
     text-transform: uppercase;
-    margin: $y-address-form-title-margin;
-    padding: $y-address-form-title-padding;
+    margin: $cx-address-form-title-margin;
+    padding: $cx-address-form-title-padding;
   }
   &__body {
     display: flex;
     align-items: flex-end;
-    padding-bottom: $y-address-form-body-padding-bottom;
+    padding-bottom: $cx-address-form-body-padding-bottom;
   }
   &__text {
-    margin-bottom: $y-address-form-text-margin-bottom;
+    margin-bottom: $cx-address-form-text-margin-bottom;
   }
   &__btns {
     padding-bottom: 1rem;
@@ -37,23 +37,23 @@ $y-address-form-text-sm-padding-left: 1.5rem !default;
   &__body {
     &.row {
       @include media-breakpoint-down(md) {
-        padding: $y-address-form-no-padding;
+        padding: $cx-address-form-no-padding;
       }
     }
   }
   &__text {
     @include media-breakpoint-down(md) {
-      padding-left: $y-address-form-text-md-padding-left;
+      padding-left: $cx-address-form-text-md-padding-left;
     }
     @include media-breakpoint-down(sm) {
-      padding-left: $y-address-form-text-sm-padding-left;
+      padding-left: $cx-address-form-text-sm-padding-left;
     }
   }
   &__card {
     @include media-breakpoint-down(md) {
       @include var-color(
         'background-color',
-        $y-address-form-card-background-color
+        $cx-address-form-card-background-color
       );
     }
   }

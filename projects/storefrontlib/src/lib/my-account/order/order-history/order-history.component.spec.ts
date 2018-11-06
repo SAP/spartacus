@@ -102,7 +102,7 @@ describe('OrderHistoryComponent', () => {
     spyOn(routingService, 'go');
     fixture.detectChanges();
     const elem = fixture.debugElement.nativeElement.querySelector(
-      '.y-order-history__table tbody tr'
+      '.cx-order-history__table tbody tr'
     );
     elem.click();
 
@@ -127,7 +127,7 @@ describe('OrderHistoryComponent', () => {
 
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-order-history__no-order'
+        '.cx-order-history__no-order'
       )
     ).not.toBeNull();
   });

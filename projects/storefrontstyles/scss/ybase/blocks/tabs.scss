@@ -1,21 +1,21 @@
 @import '../../theme';
 @import '../../functions';
 @import '../../mixins';
-$y-tab-link-active: 'primary';
-$y-tab-link-active-background-color: 'inverse';
-$y-tab-link-active-border: 5px solid;
+$cx-tab-link-active: 'primary';
+$cx-tab-link-active-background-color: 'inverse';
+$cx-tab-link-active-border: 5px solid;
 ul[role='tablist'] {
   .nav-link {
     border: none;
     &.active {
       @include var-color(
         'background-color',
-        $y-tab-link-active-background-color
+        $cx-tab-link-active-background-color
       );
-      @include var-color('color', $y-tab-link-active);
-      border-bottom: $y-tab-link-active-border;
+      @include var-color('color', $cx-tab-link-active);
+      border-bottom: $cx-tab-link-active-border;
       div {
-        @include var-color('color', $y-tab-link-active);
+        @include var-color('color', $cx-tab-link-active);
         font-weight: $font-weight-semi;
       }
     }

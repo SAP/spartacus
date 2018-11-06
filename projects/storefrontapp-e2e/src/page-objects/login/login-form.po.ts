@@ -2,7 +2,7 @@ import { by, element, ElementFinder } from 'protractor';
 import { E2EUtil } from '../../e2e-util';
 
 export class LoginForm {
-  readonly form: ElementFinder = element(by.tagName('y-login-form'));
+  readonly form: ElementFinder = element(by.tagName('cx-login-form'));
   readonly emailField: ElementFinder = this.form.element(
     by.css('[formcontrolname=userId]')
   );
