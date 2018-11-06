@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ChangeDetectionStrategy, Input, Component } from '@angular/core';
 
 @Component({
-  selector: 'y-add-to-cart',
+  selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>'
 })
 export class MockAddToCartComponent {
@@ -17,7 +17,7 @@ export class MockAddToCartComponent {
 }
 
 @Component({
-  selector: 'y-star-rating',
+  selector: 'cx-star-rating',
   template: '*****'
 })
 export class MockStarRatingComponent {
@@ -30,7 +30,7 @@ export class MockStarRatingComponent {
 }
 
 @Component({
-  selector: 'y-picture',
+  selector: 'cx-picture',
   template: 'mock picture component'
 })
 export class MockPictureComponent {
