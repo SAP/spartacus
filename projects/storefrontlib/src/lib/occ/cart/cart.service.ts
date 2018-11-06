@@ -1,6 +1,6 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { OccModuleConfig } from '../occ-module-config';
+import { OccConfig } from '@spartacus/core';
 import { CustomEncoder } from '../custom.encoder';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -20,7 +20,7 @@ const DETAILS_PARAMS =
 
 @Injectable()
 export class OccCartService {
-  constructor(protected http: HttpClient, protected config: OccModuleConfig) {}
+  constructor(protected http: HttpClient, protected config: OccConfig) {}
 
   protected getCartEndpoint(userId: string) {
     const cartEndpoint = 'users/' + userId + '/carts/';
