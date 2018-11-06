@@ -12,3 +12,9 @@
   // to be picked up at a later time
   // --y-font-family: #{$font-family-sans-serif};
 }
+
+* {
+  border-style: var(--cx-border-style, solid);
+  border-width: var(--cx-border-width, 0);
+  border-radius: var(--cx-border-radius);
+}

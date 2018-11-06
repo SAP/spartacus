@@ -11,12 +11,6 @@ y-picture {
   outline: none;
 }
 
-* {
-  border-style: var(--cx-border-style, solid);
-  border-width: var(--cx-border-width, 0);
-  border-radius: var(--cx-border-radius);
-}
-
 .thumbs {
   display: var(--cx-display, flex);
   justify-content: var(--cx-justify-content, flex-start);
