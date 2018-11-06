@@ -14,6 +14,11 @@ import { LoginModule } from './../../../../user/components/login/login.module';
 import { MobileMenuComponent } from './mobile-menu.component';
 import { By } from '@angular/platform-browser';
 import { CmsModuleConfig } from '../../../../cms/cms-module-config';
+import { PwaModule } from 'projects/storefrontlib/src/lib/pwa/pwa.module';
+import {
+  PWAModuleConfig,
+  defaultPWAModuleConfig
+} from 'projects/storefrontlib/src/lib/pwa/pwa.module-config';
 import { SiteContextConfig } from '@spartacus/core';
 import { SiteContextModule } from '../../../../site-context';
 
@@ -34,6 +39,7 @@ describe('MobileMenuComponent', () => {
           auth: combineReducers(fromAuth.getReducers())
         }),
         EffectsModule.forRoot(fromCms.effects),
+        PwaModule,
         SiteContextModule
       ],
       declarations: [MobileMenuComponent],
@@ -47,6 +53,10 @@ describe('MobileMenuComponent', () => {
         {
           provide: SiteContextConfig,
           useExisting: CmsModuleConfig
+        },
+        {
+          provide: PWAModuleConfig,
+          useValue: defaultPWAModuleConfig
         }
       ]
     }).compileComponents();
