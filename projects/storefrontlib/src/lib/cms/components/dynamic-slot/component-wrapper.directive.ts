@@ -73,7 +73,11 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
 
     if (elementName) {
       this.webElement = this.renderer.createElement(elementName);
-      this.webElement.injector = this.injector;
+
+      this.webElement.cxApi = {
+        CmsComponentData: this.getCmsDataForComponent()
+      };
+
       this.renderer.appendChild(
         this.vcr.element.nativeElement.parentElement,
         this.webElement
@@ -81,18 +85,20 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
     }
   }
 
-  private getInjectorForComponent() {
-    const componentData: CmsComponentData = {
+  private getCmsDataForComponent(): CmsComponentData {
+    return {
       uid: this.componentUid,
       contextParameters: this.contextParameters,
       data$: this.cmsService.getComponentData(this.componentUid)
     };
+  }
 
+  private getInjectorForComponent() {
     return Injector.create({
       providers: [
         {
           provide: CmsComponentData,
-          useValue: componentData
+          useValue: this.getCmsDataForComponent()
         }
       ],
       parent: this.injector

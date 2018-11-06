@@ -3,7 +3,8 @@ import {
   Type,
   ComponentFactoryResolver,
   Inject,
-  Renderer2, PLATFORM_ID
+  Renderer2,
+  PLATFORM_ID
 } from '@angular/core';
 import { CmsModuleConfig } from '../cms-module-config';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
@@ -12,7 +13,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 export class ComponentMapperService {
   missingComponents = [];
 
-  private loadedWebComponents: string[] = [];
+  private loadedWebComponents: { [path: string]: any } = {};
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -83,17 +84,26 @@ export class ComponentMapperService {
   ): Promise<string> {
     return new Promise(resolve => {
       const [path, selector] = this.getType(componentType).split('#');
-      if (this.loadedWebComponents.indexOf(path) > -1) {
-        resolve(selector);
+
+      let script = this.loadedWebComponents[path];
+
+      if (!script) {
+        script = renderer.createElement('script');
+        this.loadedWebComponents[path] = script;
+        script.setAttribute('src', path);
+        renderer.appendChild(this.document.body, script);
+
+        if (isPlatformBrowser(this.platform)) {
+          script.onload = () => {
+            script.onload = null;
+          };
+        }
       }
 
-      this.loadedWebComponents.push(path);
-      const script = renderer.createElement('script');
-      script.setAttribute('src', path);
-      renderer.appendChild(this.document.body, script);
-
-      if (isPlatformBrowser(this.platform)) {
+      if (script.onload) {
+        const chainedOnload = script.onload;
         script.onload = () => {
+          chainedOnload();
           resolve(selector);
         };
       } else {
