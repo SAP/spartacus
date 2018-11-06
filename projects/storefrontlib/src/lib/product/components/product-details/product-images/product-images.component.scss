@@ -25,9 +25,8 @@ y-picture {
     overflow: hidden;
     position: relative;
 
-    // configurable size
-    margin: var(--cx-pdp-thumbs-margin, 0.5vw);
-    padding: var(--cx-pdp-thumbs--padding, 0.25vw 0.5vw);
+    margin: var(--cx-margin, 0.5vw);
+    padding: var(--cx-padding, 0.5vw);
 
     // configurable border
     border-width: var(--cx-pdp-thumbs-border-width, 2px);
