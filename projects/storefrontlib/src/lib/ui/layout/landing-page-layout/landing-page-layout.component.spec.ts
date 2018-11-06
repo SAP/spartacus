@@ -5,9 +5,7 @@ import {
   DynamicSlotComponent,
   ComponentWrapperDirective
 } from '../../../cms/components';
-import { StoreModule, combineReducers } from '@ngrx/store';
-import * as fromRoot from '../../../routing/store';
-import * as fromCmsReducer from '../../../cms/store/reducers';
+import { StoreModule } from '@ngrx/store';
 import { OutletDirective } from '../../../outlet';
 
 describe('LandingPageLayoutComponent', () => {
@@ -16,12 +14,7 @@ describe('LandingPageLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        })
-      ],
+      imports: [StoreModule.forRoot({})],
       declarations: [
         LandingPageLayoutComponent,
         DynamicSlotComponent,

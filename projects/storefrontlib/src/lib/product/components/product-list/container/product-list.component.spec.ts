@@ -8,7 +8,6 @@ import { AddToCartComponent } from '../../../../cart/components/add-to-cart/add-
 import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchConfig } from '../../../search-config';
-
 import {
   ProductViewComponent,
   ViewModes

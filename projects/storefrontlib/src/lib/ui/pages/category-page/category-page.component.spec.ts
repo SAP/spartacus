@@ -10,8 +10,7 @@ import {
 import * as NgrxStore from '@ngrx/store';
 import { ProductListModule } from '../../../product/components/product-list/product-list.module';
 import { ActivatedRoute } from '@angular/router';
-import { StoreModule, combineReducers } from '@ngrx/store';
-import * as fromRoot from '../../../routing/store';
+import { StoreModule } from '@ngrx/store';
 import * as fromCms from '../../../cms/store';
 import * as fromCart from '../../../cart/store';
 import { of } from 'rxjs';
@@ -32,11 +31,9 @@ describe('CategoryPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCms.getReducers()),
-          cart: combineReducers(fromCart.getReducers())
-        }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cms', fromCms.getReducers()),
+        StoreModule.forFeature('cart', fromCart.getReducers()),
         ProductListModule
       ],
       declarations: [

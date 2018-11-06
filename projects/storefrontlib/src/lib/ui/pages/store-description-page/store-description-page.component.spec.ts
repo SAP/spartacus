@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 
 import { StoreDescriptionPageComponent } from './store-description-page.component';
@@ -11,7 +11,6 @@ import { StoreFinderMapComponent } from '../../../store-finder/components/store-
 import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
 
 import * as fromReducers from '../../../store-finder/store';
-import * as fromRoot from '../../../routing/store';
 import * as fromServices from '../../../store-finder/services';
 
 const fakeActivatedRoute = {
@@ -32,10 +31,8 @@ describe('StoreDescriptionPageComponent', () => {
         StoreFinderMapComponent
       ],
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          stores: combineReducers(fromReducers.reducers)
-        }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('stores', fromReducers.reducers),
         RouterTestingModule
       ],
       providers: [

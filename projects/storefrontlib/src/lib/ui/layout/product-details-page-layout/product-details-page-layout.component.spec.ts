@@ -12,8 +12,7 @@ import { ProductImagesComponent } from '../../../product/components/product-deta
 import { ProductSummaryComponent } from '../../../product/components/product-details/product-summary/product-summary.component';
 import { AddToCartComponent } from '../../../cart/components/add-to-cart/add-to-cart.component';
 import { ProductReviewsComponent } from '../../../product/components/product-details/product-reviews/product-reviews.component';
-import { StoreModule, combineReducers } from '@ngrx/store';
-import * as fromRoot from '../../../routing/store';
+import { StoreModule } from '@ngrx/store';
 import * as fromProduct from '../../../product/store/reducers';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuthStore from '../../../auth/store/reducers';
@@ -35,12 +34,10 @@ describe('ProductDetailsPageLayoutComponent', () => {
         NgbTabsetModule,
         NgbAccordionModule,
         ReactiveFormsModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          products: combineReducers(fromProduct.getReducers()),
-          cms: combineReducers(fromCmsReducer.getReducers()),
-          auth: combineReducers(fromAuthStore.getReducers())
-        }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('products', fromProduct.getReducers()),
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
+        StoreModule.forFeature('auth', fromAuthStore.getReducers()),
         ComponentsModule
       ],
       providers: [ProductService],
