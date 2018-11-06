@@ -96,7 +96,7 @@ describe('HeaderComponent', () => {
       expect(
         fixture.debugElement.query(
           By.css(
-            'div.cx-content__slot:not(#y-mobile-menu) cx-language-selector'
+            'div.cx-content__slot:not(#cx-mobile-menu) cx-language-selector'
           )
         )
       ).not.toBeNull();
@@ -104,7 +104,7 @@ describe('HeaderComponent', () => {
       expect(
         fixture.debugElement.query(
           By.css(
-            'div.cx-content__slot:not(#y-mobile-menu) cx-currency-selector'
+            'div.cx-content__slot:not(#cx-mobile-menu) cx-currency-selector'
           )
         )
       ).not.toBeNull();
@@ -119,7 +119,7 @@ describe('HeaderComponent', () => {
     it('should contain the login status component', () => {
       expect(
         fixture.debugElement.query(
-          By.css('div.cx-content__slot:not(#y-mobile-menu) cx-login')
+          By.css('div.cx-content__slot:not(#cx-mobile-menu) cx-login')
         )
       ).not.toBeNull();
     });
@@ -159,7 +159,7 @@ describe('HeaderComponent', () => {
         expect(
           fixture.debugElement.query(
             By.css(
-              'div.cx-content__slot:not(#y-mobile-menu) cx-dynamic-slot[position="NavigationBar"]'
+              'div.cx-content__slot:not(#cx-mobile-menu) cx-dynamic-slot[position="NavigationBar"]'
             )
           )
         ).not.toBeNull();
