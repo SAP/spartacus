@@ -2,13 +2,13 @@ import { by, element, ElementArrayFinder, ElementFinder } from 'protractor';
 
 export class Footer {
   readonly footerNavigation: ElementFinder = element(
-    by.dynamicSlot('Footer', 'y-footer-navigation')
+    by.dynamicSlot('Footer', 'cx-footer-navigation')
   );
   readonly notice: ElementFinder = this.footerNavigation.element(
-    by.css('.y-footer-navigation__notice')
+    by.css('.cx-footer-navigation__notice')
   );
   readonly linkSections: ElementArrayFinder = this.footerNavigation.all(
-    by.css('.y-footer-navigation__container')
+    by.css('.cx-footer-navigation__container')
   );
 
   readonly linkSectionHeader = (sectionNo: number): ElementFinder =>

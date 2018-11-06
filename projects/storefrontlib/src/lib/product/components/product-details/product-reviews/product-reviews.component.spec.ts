@@ -1,10 +1,9 @@
 import { ComponentsModule } from './../../../../ui/components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { combineReducers, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromStore from '../../../store';
-import * as fromRoot from './../../../../routing/store';
 import { ProductReviewsComponent } from './product-reviews.component';
 import { ProductReviewService } from '../../../services/product-review.service';
 
@@ -24,10 +23,8 @@ describe('ProductReviewsComponent in product', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          products: combineReducers(fromStore.getReducers())
-        }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('product', fromStore.getReducers()),
         ComponentsModule
       ],
       providers: [ProductReviewService],

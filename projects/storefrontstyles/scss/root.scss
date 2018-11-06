@@ -2,7 +2,7 @@
 
 :root {
   @each $color, $value in $theme-colors {
-    --y-#{$color}: #{$value};
+    --cx-#{$color}: #{$value};
   }
 
   --direction: #{$direction};

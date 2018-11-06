@@ -3,9 +3,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { PageType } from './../../routing/models/page-context.model';
 import { ProductGuard } from './product.guard';
 
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import * as fromStore from './../store';
-import * as fromRoot from './../../routing/store';
+import { RoutingService } from '../../routing/facade/routing.service';
+import { of } from 'rxjs';
 
 const productCode = '123';
 const product = {
@@ -13,6 +14,17 @@ const product = {
   description: 'random'
 };
 
+const router = {
+  state: {
+    url: '/test',
+    queryParams: {},
+    params: { productCode: productCode },
+    context: { id: 'testPageId', type: PageType.PRODUCT_PAGE }
+  }
+};
+const mockRoutingService = {
+  routerState$: of(router)
+};
 describe('ProductGuard', () => {
   let productGuard: ProductGuard;
   let store: Store<fromStore.ProductsState>;
@@ -21,12 +33,13 @@ describe('ProductGuard', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          products: combineReducers(fromStore.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('products', fromStore.getReducers())
       ],
-      providers: [ProductGuard]
+      providers: [
+        ProductGuard,
+        { provide: RoutingService, useValue: mockRoutingService }
+      ]
     });
 
     productGuard = TestBed.get(ProductGuard);
@@ -35,18 +48,6 @@ describe('ProductGuard', () => {
 
   it('should return true and not dispatch LoadProduct action when a product is found', () => {
     store.dispatch(new fromStore.LoadProductSuccess(product));
-    store.dispatch({
-      type: 'ROUTER_NAVIGATION',
-      payload: {
-        routerState: {
-          url: '/test',
-          queryParams: {},
-          params: { productCode: productCode },
-          context: { id: 'testPageId', type: PageType.PRODUCT_PAGE }
-        },
-        event: {}
-      }
-    });
 
     let result: boolean;
     productGuard.canActivate().subscribe(value => (result = value));

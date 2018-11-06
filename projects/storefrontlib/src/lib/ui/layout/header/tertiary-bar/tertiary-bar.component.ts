@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'y-tertiary-bar',
+  selector: 'cx-tertiary-bar',
   templateUrl: './tertiary-bar.component.html',
   styleUrls: ['./tertiary-bar.component.scss']
 })
