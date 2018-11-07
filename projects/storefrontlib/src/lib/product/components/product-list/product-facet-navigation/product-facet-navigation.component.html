@@ -80,10 +80,10 @@
           <ul class="cx-search-facet-list">
             <li *ngFor="let value of facet.values; index as facetValueId">
               <div class="form-check">
-                <input class="form-check-input cx-search-facet-checkbox" role="checkbox" type="checkbox" id="facetModalCheck{{facetId}}_{{facetValueId}}"
-                  aria-checked="true" [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
-                <label class="form-checkbox cx-search-facet-list__label" for="facetModalCheck{{facetId}}_{{facetValueId}}">
-                  {{value.name}} ({{value.count}})
+                <label class="form-checkbox cx-search-facet-list__label">
+                  <input class="form-check-input cx-search-facet-checkbox" role="checkbox" type="checkbox" id="facetModalCheck{{facetId}}_{{facetValueId}}"
+                    aria-checked="true" [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
+                  <span class="cx-search-facet-list__label-text">{{value.name}} ({{value.count}})</span>
                 </label>
               </div>
             </li>
