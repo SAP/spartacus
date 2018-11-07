@@ -11,7 +11,7 @@ import { AuthService } from '../../../../auth/facade/auth.service';
 import { RoutingService } from '../../../../routing/facade/routing.service';
 
 @Component({
-  selector: 'y-login-form',
+  selector: 'cx-login-form',
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss']
 })

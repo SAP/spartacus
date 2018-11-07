@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { CartService } from '../../../cart/services/cart.service';
 
 @Component({
-  selector: 'y-cart-page-layout',
+  selector: 'cx-cart-page-layout',
   templateUrl: './cart-page-layout.component.html',
   styleUrls: ['./cart-page-layout.component.scss']
 })

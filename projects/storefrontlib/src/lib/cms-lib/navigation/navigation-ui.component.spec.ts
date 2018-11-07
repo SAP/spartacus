@@ -35,7 +35,7 @@ describe('Navigation UI Component', () => {
     });
 
     it('should render correct title if provided', () => {
-      const getLink = () => element.query(By.css('.y-navigation__link'));
+      const getLink = () => element.query(By.css('.cx-navigation__link'));
       const mockData = {
         title: 'Test 1',
         url: '/test-url',
@@ -49,7 +49,7 @@ describe('Navigation UI Component', () => {
     });
 
     it('should render correct title as a link if children are missing', () => {
-      const getLink = () => element.query(By.css('a.y-navigation__link'));
+      const getLink = () => element.query(By.css('a.cx-navigation__link'));
       const mockData = {
         title: 'Test 1',
         url: '/test-url'
@@ -63,11 +63,11 @@ describe('Navigation UI Component', () => {
 
     it('should render children as sublinks', () => {
       const getDropdown = () =>
-        element.query(By.css('.y-navigation__child-list'));
+        element.query(By.css('.cx-navigation__child-list'));
       const getFirstDropdownItem = () =>
-        element.query(By.css('.y-navigation__child-list')).children[0];
+        element.query(By.css('.cx-navigation__child-list')).children[0];
       const getFirstDropdownLink = () =>
-        element.query(By.css('.y-navigation__child-list a'));
+        element.query(By.css('.cx-navigation__child-list a'));
       const mockData = {
         title: 'Test title',
         children: [
@@ -103,9 +103,9 @@ describe('Navigation UI Component', () => {
 
     it('should render children of children', () => {
       const getFirstDropdownItem = () =>
-        element.query(By.css('.y-navigation__child-list')).children[0];
+        element.query(By.css('.cx-navigation__child-list')).children[0];
       const getSublinks = () =>
-        element.queryAll(By.css('a:not(.y-navigation__child-link)'));
+        element.queryAll(By.css('a:not(.cx-navigation__child-link)'));
       const mockData = {
         title: 'Test title',
         children: [
@@ -147,7 +147,7 @@ describe('Navigation UI Component', () => {
 
     it('should render in column layout if dropdownMode equals column', () => {
       const getFirstDropdownItem = () =>
-        element.query(By.css('.y-navigation__child-column'));
+        element.query(By.css('.cx-navigation__child-column'));
       const mockData = {
         title: 'Test title',
         children: [

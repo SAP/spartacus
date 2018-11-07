@@ -1,6 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import * as fromRoot from '../../routing/store';
+import { StoreModule, Store } from '@ngrx/store';
 import * as fromCmsStore from '../../cms/store';
 
 import { NavigationService } from './navigation.service';
@@ -64,10 +63,8 @@ describe('NavigationService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsStore.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cms', fromCmsStore.getReducers())
       ],
       providers: [NavigationService]
     });

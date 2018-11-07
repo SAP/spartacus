@@ -1,15 +1,15 @@
 <ng-container *ngIf="(cmsPage$ | async)?.template === 'ProductListPageTemplate'">
-    <y-product-list-page-layout [gridMode]="'list'" [categoryCode]="categoryCode" [brandCode]="brandCode"></y-product-list-page-layout>
+    <cx-product-list-page-layout [gridMode]="'list'" [categoryCode]="categoryCode" [brandCode]="brandCode"></cx-product-list-page-layout>
 </ng-container>
 
 <ng-container *ngIf="(cmsPage$ | async)?.template === 'ProductGridPageTemplate'">
-    <y-product-list-page-layout [gridMode]="'grid'" [categoryCode]="categoryCode" [brandCode]="brandCode"></y-product-list-page-layout>
+    <cx-product-list-page-layout [gridMode]="'grid'" [categoryCode]="categoryCode" [brandCode]="brandCode"></cx-product-list-page-layout>
 </ng-container>
 
 <ng-container *ngIf="(cmsPage$ | async)?.template === 'CategoryPageTemplate'">
-    <y-category-page-layout [categoryCode]="categoryCode"></y-category-page-layout>
+    <cx-category-page-layout [categoryCode]="categoryCode"></cx-category-page-layout>
 </ng-container>
 
 <ng-container *ngIf="(cmsPage$ | async)?.template === 'SearchResultsListPageTemplate'">
-    <y-product-list-page-layout [gridMode]="'list'" [query]="query"></y-product-list-page-layout>
+    <cx-product-list-page-layout [gridMode]="'list'" [query]="query"></cx-product-list-page-layout>
 </ng-container>

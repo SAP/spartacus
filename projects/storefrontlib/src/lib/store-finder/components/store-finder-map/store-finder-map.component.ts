@@ -11,7 +11,7 @@ import {
 import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
 
 @Component({
-  selector: 'y-store-finder-map',
+  selector: 'cx-store-finder-map',
   templateUrl: './store-finder-map.component.html',
   styleUrls: ['./store-finder-map.component.scss']
 })

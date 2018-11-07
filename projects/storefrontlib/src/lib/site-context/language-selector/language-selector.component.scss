@@ -4,8 +4,8 @@
 @import '~bootstrap/scss/forms';
 
 //currency selector color variables
-$y-language-selector-arrow-color: 'inverse' !default;
-$y-language-selector-arrow-color-mobile: 'text' !default;
+$cx-language-selector-arrow-color: 'inverse' !default;
+$cx-language-selector-arrow-color-mobile: 'text' !default;
 
 //$currency-selector-variables
 $language-selector-input-border-style: none;
@@ -15,7 +15,7 @@ $language-selector-input-border-width: 0;
   display: inline-block;
 }
 
-.y-language-selector {
+.cx-language-selector {
   position: relative;
 
   @include media-breakpoint-down(md) {
@@ -41,7 +41,7 @@ $language-selector-input-border-width: 0;
     margin-bottom: 10px;
   }
   &__arrow-down {
-    @include var-color('border-color', $y-language-selector-arrow-color);
+    @include var-color('border-color', $cx-language-selector-arrow-color);
     border-style: solid;
     border-width: 0 3px 3px 0;
     display: inline-block;
@@ -55,7 +55,7 @@ $language-selector-input-border-width: 0;
     @include media-breakpoint-down(md) {
       @include var-color(
         'border-color',
-        $y-language-selector-arrow-color-mobile
+        $cx-language-selector-arrow-color-mobile
       );
     }
   }

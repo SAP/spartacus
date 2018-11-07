@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'y-product-list-page-layout',
+  selector: 'cx-product-list-page-layout',
   templateUrl: './product-list-page-layout.component.html',
   styleUrls: ['./product-list-page-layout.component.scss']
 })
