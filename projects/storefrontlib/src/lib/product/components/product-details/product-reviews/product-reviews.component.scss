@@ -23,12 +23,6 @@ $gutterSize: 15px;
   .rating {
     flex-basis: 100%;
   }
-
-  @include media-breakpoint-down(sm) {
-    button {
-      margin: var(--cx-margin, $gutterSize);
-    }
-  }
 }
 
 .review {
