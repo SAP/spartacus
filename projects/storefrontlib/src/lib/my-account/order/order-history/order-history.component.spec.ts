@@ -14,7 +14,7 @@ import * as fromUserStore from '../../../user/store';
 import * as fromAuthStore from '../../../auth/store';
 import createSpy = jasmine.createSpy;
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 import { CardModule } from '../../../ui/components/card/card.module';
 
 const routes = [

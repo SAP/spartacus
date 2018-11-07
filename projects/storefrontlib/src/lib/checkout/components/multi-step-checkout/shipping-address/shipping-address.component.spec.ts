@@ -7,7 +7,7 @@ import * as fromUser from '../../../../user/store';
 
 import { StoreModule, Store } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
-import { RoutingService } from '../../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 import { ShippingAddressComponent } from './shipping-address.component';
 
 import { BehaviorSubject } from 'rxjs';
