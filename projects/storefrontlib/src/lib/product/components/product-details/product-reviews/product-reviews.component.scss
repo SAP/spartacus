@@ -43,7 +43,7 @@ $gutterSize: 15px;
   }
   @include media-breakpoint-down(md) {
     .text {
-      grid-column: var(--cx-grid-column, 1 / span 2);
+      grid-column: var(--cx-grid-column, 1 / span 3);
     }
   }
   .date {
