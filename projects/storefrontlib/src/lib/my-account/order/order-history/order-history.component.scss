@@ -111,6 +111,14 @@ $cx-order-history-no-order-padding-right-sm: 1.25rem !default;
     width: $cx-order-history-td-width;
     padding: $cx-order-history-td-padding;
 
+    @include media-breakpoint-up(md) {
+      text-align: left;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+
     @include media-breakpoint-down(sm) {
       width: $cx-order-history-td-width-sm;
       display: flex;
@@ -142,6 +150,10 @@ $cx-order-history-no-order-padding-right-sm: 1.25rem !default;
         display: none;
       }
     }
+  }
+
+  &__code {
+    text-decoration: underline;
   }
 
   &__placed {
