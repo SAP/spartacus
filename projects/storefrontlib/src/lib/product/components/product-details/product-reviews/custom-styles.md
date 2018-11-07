@@ -46,3 +46,21 @@ cx-product-reviews .review {
   }
 }
 ```
+
+## Collapse review text
+
+Some commerce sites don't like to show the full description initially, to shorten the layout. The below snippets shows an example of how we can achieve this; we're using the element
+
+```
+cx-product-reviews .review {
+    @include media-breakpoint-down(md) {
+        &:not(:focus) {
+        .text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        }
+    }
+}
+```
