@@ -61,6 +61,6 @@
   }
   .name,
   .date {
-    text-align: right;
+    text-align: var(--cx-text-align, right);
   }
 }
