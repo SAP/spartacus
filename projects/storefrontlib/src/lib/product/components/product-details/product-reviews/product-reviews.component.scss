@@ -6,13 +6,22 @@
   --cx-border-color: var(--cx-light);
 }
 
-.product-reviews-tab-head {
+.header {
   display: flex;
   flex-wrap: wrap;
   border-bottom: var(--cx-border-width) var(--cx-border-style)
     var(--cx-border-color);
-  padding: var(--cx-padding, 0 0 25px 0);
+
+  padding: var(--cx-padding, 0 15px 15px);
   margin: var(--cx-margin, 0 -15px 40px -15px);
+
+  button {
+    margin: var(--cx-margin, 0 0 0 auto);
+  }
+  .rating {
+    flex-basis: 100%;
+  }
+
   @include media-breakpoint-down(sm) {
     button {
       margin: var(--cx-margin, 20px);

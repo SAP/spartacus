@@ -1,13 +1,9 @@
 <ng-container *ngIf="!isWritingReview; else writeReview">
 
-    <div class="product-reviews-tab-head">
-        <div class="col-auto mr-auto">
-            <h3>Overall Rating</h3>
-            <cx-star-rating [rating]="product.averageRating" [disabled]="true"></cx-star-rating>
-        </div>
-        <div class="col-auto">
-            <button class="btn btn-primary" (click)="initiateWriteReview()">Write a Review</button>
-        </div>
+    <div class="header">
+        <h3>Overall Rating</h3>
+        <button class="btn btn-primary" (click)="initiateWriteReview()">Write a Review</button>
+        <cx-star-rating class="rating" [rating]="product.averageRating" [disabled]="true"></cx-star-rating>
     </div>
 
     <ng-container *ngIf="!isWritingReview; else writeReview">
