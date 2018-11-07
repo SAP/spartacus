@@ -1,4 +1,5 @@
 <ng-container *ngIf="!isWritingReview; else writeReview">
+
     <div class="product-reviews-tab-head">
         <div class="col-auto mr-auto">
             <h3>Overall Rating</h3>
@@ -8,22 +9,15 @@
             <button class="btn btn-primary" (click)="initiateWriteReview()">Write a Review</button>
         </div>
     </div>
+
     <ng-container *ngIf="!isWritingReview; else writeReview">
         <ng-container *ngIf="reviews$ | async as reviews">
-            <div class="review" *ngFor="let review of (reviews | slice:0:maxListItems)">
-                <div class="review-details">
-                    <h5>{{review.headline}}</h5>
-                    <div class="row">
-                        <div class="col-auto mr-auto">
-                            <cx-star-rating [rating]="review.rating" [disabled]="true"></cx-star-rating>
-                        </div>
-                        <div class="col-auto">{{review.date | date}}</div>
-                    </div>
-                </div>
-                <p class="review-text"> {{review.comment}} </p>
-                <span class="review-name">
-                    {{review.alias? review.alias : review.principal?.name}}
-                </span>
+            <div class="review" tabindex="0" *ngFor="let review of (reviews | slice:0:maxListItems)">
+                <div class="title">{{review.headline}}</div>
+                <cx-star-rating [rating]="review.rating" [disabled]="true"></cx-star-rating>
+                <div class="name">{{review.alias? review.alias : review.principal?.name}}</div>
+                <div class="date">{{review.date | date}}</div>
+                <div class="text">{{review.comment}}></div>
             </div>
             <a (click)="maxListItems = reviews.length" *ngIf="maxListItems === initialMaxListItems">More</a>
             <a (click)="maxListItems = initialMaxListItems" *ngIf="maxListItems !== initialMaxListItems">Less</a>
