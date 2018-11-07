@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { pageNotFoundImgSrc } from '../../images/pageNotFound';
 
 @Component({
-  selector: 'y-404',
+  selector: 'cx-404',
   templateUrl: './404.component.html',
   styleUrls: ['./404.component.scss']
 })

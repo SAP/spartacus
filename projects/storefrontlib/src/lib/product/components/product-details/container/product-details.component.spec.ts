@@ -1,13 +1,12 @@
 import { ComponentsModule } from './../../../../ui/components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { combineReducers, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { ComponentMapperService } from '../../../../cms/services/component-mapper.service';
 import { ProductService } from '../../../services/product.service';
 
-import * as fromRoot from '../../../../routing/store';
 import * as fromProduct from '../../../store/reducers';
 import { BootstrapModule } from '../../../../bootstrap.module';
 import { ProductDetailsComponent } from './product-details.component';
@@ -25,7 +24,7 @@ import { Component, Input } from '@angular/core';
 class MockComponentMapperService {}
 
 @Component({
-  selector: 'y-add-to-cart',
+  selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>'
 })
 export class MockAddToCartComponent {
@@ -49,10 +48,8 @@ describe('ProductDetailsComponent in product', () => {
       imports: [
         ReactiveFormsModule,
         BootstrapModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          products: combineReducers(fromProduct.getReducers())
-        }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('product', fromProduct.getReducers()),
         ComponentsModule
       ],
       declarations: [

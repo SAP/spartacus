@@ -2,14 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpHandler, HttpRequest, HttpEvent } from '@angular/common/http';
 
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
 import { ClientAuthenticationToken } from '../../models/token-types.model';
 
 import { ClientErrorHandlingService } from './client-error-handling.service';
 
-import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../store';
 
 class MockHttpHandler extends HttpHandler {
@@ -42,10 +41,8 @@ describe('ClientErrorHandlingService', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          auth: combineReducers(fromStore.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('auth', fromStore.getReducers())
       ],
       providers: [
         ClientErrorHandlingService,

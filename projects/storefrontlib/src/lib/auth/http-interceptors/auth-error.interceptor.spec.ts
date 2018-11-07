@@ -14,10 +14,9 @@ import {
 
 import { catchError } from 'rxjs/operators';
 import { throwError, Observable, of } from 'rxjs';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 
 import * as fromStore from '../store';
-import * as fromRoot from '../../routing/store';
 
 import { AuthErrorInterceptor } from './auth-error.interceptor';
 
@@ -55,10 +54,8 @@ describe('AuthErrorInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          auth: combineReducers(fromStore.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('auth', fromStore.getReducers())
       ],
       providers: [
         {

@@ -4,15 +4,15 @@ import { PaymentForm } from './payment-form.po';
 
 export class PaymentMethod {
   constructor(
-    private parentElement: ElementFinder = element(by.tagName('y-root'))
+    private parentElement: ElementFinder = element(by.tagName('cx-root'))
   ) {}
 
   readonly container: ElementFinder = this.parentElement.element(
-    by.tagName('y-payment-method')
+    by.tagName('cx-payment-method')
   );
 
   readonly header: ElementFinder = this.container.element(
-    by.css('h3.y-payment-method__title')
+    by.css('h3.cx-payment-method__title')
   );
 
   readonly paymentForm: PaymentForm = new PaymentForm(this.container);

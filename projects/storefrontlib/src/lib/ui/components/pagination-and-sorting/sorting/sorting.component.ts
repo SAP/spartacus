@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'y-sorting',
+  selector: 'cx-sorting',
   templateUrl: './sorting.component.html',
   styleUrls: ['./sorting.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
