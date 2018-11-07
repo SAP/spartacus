@@ -18,8 +18,7 @@ jobs:
     - script: "./ci-scripts/lint.sh"
       name: "Lint"
     - stage: "SonarCloud"
-      script: git fetch --unshallow
-    - script: sonar-scanner
+      script: sonar-scanner
       name: "SonarCloud scanner"
 notifications:
   slack:
