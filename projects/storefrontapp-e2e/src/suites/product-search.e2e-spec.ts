@@ -71,7 +71,7 @@ describe('Product search', () => {
       await searchResults.facet.click();
 
       const text = await searchResults.getHeaderText();
-      expect(text).toContain('78 results for cameras');
+      expect(text).toContain('77 results for cameras');
     });
 
     it('should be able to clear active facet', async () => {
