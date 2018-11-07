@@ -22,27 +22,34 @@
 
 .review {
   display: grid;
-  grid-template-columns: auto auto 10vw;
+  grid-template-columns: var(--cx-grid-template-columns, auto auto 10vw);
+  grid-template-rows: var(
+    --cx-grid-template-rows,
+    repeat(3, minmax(10px, auto)) auto
+  );
   grid-column-gap: 1vw;
-  grid-template-rows: repeat(3, minmax(10px, auto)) auto;
   margin: 1vh 0;
+
   // layout
   cx-star-rating,
   .title,
   .text {
-    grid-column: 1 / span 2;
+    grid-column: var(--cx-grid-column, 1 / span 2);
   }
   @include media-breakpoint-down(md) {
     .text {
-      grid-column: 1 / span 2;
+      grid-column: var(--cx-grid-column, 1 / span 2);
     }
   }
   .date {
-    grid-column: 2 / span 3;
+    grid-column: var(--cx-grid-column, 2 / span 3);
   }
   .name {
-    grid-column: 2 / span 3;
-    grid-row: 5;
+    grid-column: var(--cx-grid-column, 2 / span 3);
+    grid-row: var(--cx-grid-row, 5);
+  }
+  .text {
+    grid-row: var(--cx-grid-row, 0);
   }
 
   // formatting
