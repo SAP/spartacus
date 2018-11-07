@@ -55,7 +55,7 @@ describe('CmsService', () => {
         spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
           of(mockPageSlot)
         );
-        service.getSlot('Section1').subscribe(pageSlotReturned => {
+        service.getPageSlot('Section1').subscribe(pageSlotReturned => {
           expect(pageSlotReturned).toBe(mockPageSlot);
         });
       }
