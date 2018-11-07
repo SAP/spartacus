@@ -23,9 +23,9 @@
 .review {
   display: grid;
   grid-template-columns: auto auto 10vw;
-  grid-column-gap: 10px;
+  grid-column-gap: 1vw;
   grid-template-rows: repeat(3, minmax(10px, auto)) auto;
-
+  margin: 1vh 0;
   // layout
   cx-star-rating,
   .title,
@@ -34,7 +34,7 @@
   }
   @include media-breakpoint-down(md) {
     .text {
-      grid-column: 1 / span 3;
+      grid-column: 1 / span 2;
     }
   }
   .date {
@@ -50,7 +50,7 @@
     font-weight: bold;
   }
   .text {
-    margin: 10px 0;
+    margin: 0.5vh 0;
   }
   .name,
   .date {
