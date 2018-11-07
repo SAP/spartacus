@@ -32,6 +32,11 @@
   .text {
     grid-column: 1 / span 2;
   }
+  @include media-breakpoint-down(md) {
+    .text {
+      grid-column: 1 / span 3;
+    }
+  }
   .date {
     grid-column: 2 / span 3;
   }
