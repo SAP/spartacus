@@ -28,7 +28,7 @@ export class CmsService {
     );
   }
 
-  getPageSlot(position: string) {
+  getContentSlot(position: string) {
     return this.store.pipe(
       select(fromStore.currentSlotSelectorFactory(position)),
       filter(Boolean)

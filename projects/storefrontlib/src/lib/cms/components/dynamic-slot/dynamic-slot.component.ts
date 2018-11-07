@@ -30,7 +30,7 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
   constructor(protected cmsService: CmsService) {}
 
   ngOnInit() {
-    this.currentSlot$ = this.cmsService.getPageSlot(this.position);
+    this.currentSlot$ = this.cmsService.getContentSlot(this.position);
   }
 
   ngOnDestroy() {}

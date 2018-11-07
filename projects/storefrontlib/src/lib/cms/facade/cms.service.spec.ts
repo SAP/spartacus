@@ -6,7 +6,7 @@ import * as fromStore from '../store';
 import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 
-const mockPageSlot: any[] = [
+const mockContentSlot: any[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
   { uid: 'comp2', typeCode: 'CMSLinkComponent' },
   { uid: 'comp3', typeCode: 'NavigationComponent' }
@@ -48,15 +48,15 @@ describe('CmsService', () => {
     }
   ));
 
-  describe('getSlot(position)', () => {
+  describe('getContentSlot(position)', () => {
     it('should be able to get content slot by position', inject(
       [CmsService],
       (service: CmsService) => {
         spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-          of(mockPageSlot)
+          of(mockContentSlot)
         );
-        service.getPageSlot('Section1').subscribe(pageSlotReturned => {
-          expect(pageSlotReturned).toBe(mockPageSlot);
+        service.getContentSlot('Section1').subscribe(contentSlotReturned => {
+          expect(contentSlotReturned).toBe(mockContentSlot);
         });
       }
     ));
