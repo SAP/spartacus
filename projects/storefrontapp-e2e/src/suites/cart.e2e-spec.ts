@@ -168,7 +168,7 @@ describe('Cart interactions', () => {
 
     let atcModal: AddedToCartModal = new AddedToCartModal();
     await atcModal.waitForReady();
-    let item = atcModal.cartItem(0);
+    const item = atcModal.cartItem(0);
     await E2EUtil.wait4VisibleElement(item);
 
     await atcModal.closeModalWait();
