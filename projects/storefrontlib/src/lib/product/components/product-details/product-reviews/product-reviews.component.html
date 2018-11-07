@@ -17,7 +17,7 @@
                 <cx-star-rating [rating]="review.rating" [disabled]="true"></cx-star-rating>
                 <div class="name">{{review.alias? review.alias : review.principal?.name}}</div>
                 <div class="date">{{review.date | date}}</div>
-                <div class="text">{{review.comment}}></div>
+                <div class="text">{{review.comment}}</div>
             </div>
             <a (click)="maxListItems = reviews.length" *ngIf="maxListItems === initialMaxListItems">More</a>
             <a (click)="maxListItems = initialMaxListItems" *ngIf="maxListItems !== initialMaxListItems">Less</a>
