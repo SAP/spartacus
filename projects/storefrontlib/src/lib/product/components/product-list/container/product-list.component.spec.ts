@@ -8,9 +8,6 @@ import { AddToCartComponent } from '../../../../cart/components/add-to-cart/add-
 import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchConfig } from '../../../search-config';
-import * as fromProduct from '../../../store';
-
-import { StoreModule } from '@ngrx/store';
 import {
   ProductViewComponent,
   ViewModes
@@ -25,7 +22,11 @@ import { FormsModule } from '@angular/forms';
 import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
-import { ProductSearchService } from '../../../services/product-search.service';
+import { ProductSearchService } from '../../../facade/product-search.service';
+
+class MockProductSearchService {
+  search() {}
+}
 
 describe('ProductListComponent in product-list', () => {
   let service: ProductSearchService;
@@ -41,11 +42,14 @@ describe('ProductListComponent in product-list', () => {
         NgbRatingModule,
         PaginationAndSortingModule,
         FormsModule,
-        RouterTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('product', fromProduct.getReducers())
+        RouterTestingModule
       ],
-      providers: [ProductSearchService],
+      providers: [
+        {
+          provide: ProductSearchService,
+          useClass: MockProductSearchService
+        }
+      ],
       declarations: [
         ProductListComponent,
         ProductFacetNavigationComponent,
