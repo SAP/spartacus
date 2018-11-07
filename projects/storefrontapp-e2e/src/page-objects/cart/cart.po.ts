@@ -19,11 +19,11 @@ export class CartPage extends AppPage {
     by.tagName('cx-order-summary')
   );
   readonly orderSummaryAmount: ElementFinder = this.page.element(
-    by.css('.y-order-summary__total-final .y-order-summary__amount')
+    by.css('.cx-order-summary__total-final .cx-order-summary__amount')
   );
 
   readonly itemCounterComponent: ElementArrayFinder = this.page.all(
-    by.tagName('y-item-counter')
+    by.tagName('cx-item-counter')
   );
 
   readonly cartEntryByProductName = (productName: string): ElementFinder =>
@@ -73,7 +73,7 @@ export class CartPage extends AppPage {
 
   async deleteEntryByName(productName) {
     const product = this.cartEntryByProductName(productName);
-    await product.element(by.css('.y-cart-item__actions a')).click();
+    await product.element(by.css('.cx-cart-item__actions a')).click();
   }
 
   async checkCartEntry(
@@ -121,7 +121,7 @@ export class CartPage extends AppPage {
 
   async getSummaryTotalValue(): Promise<string> {
     return await this.page
-      .element(by.css('.y-order-summary__amount'))
+      .element(by.css('.cx-order-summary__amount'))
       .getText();
   }
 

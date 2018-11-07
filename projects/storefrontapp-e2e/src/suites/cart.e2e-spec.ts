@@ -115,10 +115,10 @@ describe('Cart interactions', () => {
     await productDetails.addToCartButton.click();
     const atcModal: AddedToCartModal = new AddedToCartModal();
     await atcModal.waitForReady();
-    const item = atcModal.cartItem(0);
+    const item = atcModal.item;
     await E2EUtil.wait4VisibleElement(item);
 
-    await atcModal.closeModalWait();
+    await atcModal.closeButton.click();
 
     // Go to cart
 
@@ -168,10 +168,10 @@ describe('Cart interactions', () => {
 
     let atcModal: AddedToCartModal = new AddedToCartModal();
     await atcModal.waitForReady();
-    const item = atcModal.cartItem(0);
+    const item = atcModal.item;
     await E2EUtil.wait4VisibleElement(item);
 
-    await atcModal.closeModalWait();
+    await atcModal.closeButton.click();
 
     // Log out.
     await LoginHelper.logOutViaHeader();
@@ -189,7 +189,7 @@ describe('Cart interactions', () => {
     atcModal = new AddedToCartModal();
     await atcModal.waitForReady();
 
-    await atcModal.closeModalWait();
+    await atcModal.closeButton.click();
 
     await LoginHelper.loginUserViaHeader(email, password);
     // Go to cart
@@ -214,10 +214,10 @@ describe('Cart interactions', () => {
     await productDetails.addToCartButton.click();
     const atcModal: AddedToCartModal = new AddedToCartModal();
     await atcModal.waitForReady();
-    const item = atcModal.cartItem(0);
+    const item = await atcModal.item;
     await E2EUtil.wait4VisibleElement(item);
 
-    await atcModal.closeModalWait();
+    await atcModal.closeButton.click();
 
     // Check that we are not logged in
     expect(await home.header.isLoggedIn()).toBeFalsy();
@@ -247,10 +247,10 @@ describe('Cart interactions', () => {
     await productDetails.addToCartButton.click();
     const atcModal: AddedToCartModal = new AddedToCartModal();
     await atcModal.waitForReady();
-    const item = atcModal.cartItem(0);
+    const item = await atcModal.item;
     await E2EUtil.wait4VisibleElement(item);
 
-    await atcModal.closeModalWait();
+    await atcModal.closeButton.click();
 
     const minicartIcon = home.header.miniCartButton;
     await E2EUtil.wait4VisibleElement(minicartIcon);
