@@ -66,6 +66,8 @@ input[type='radio'] {
   .form-check-label {
     display: inline-block;
     padding-left: 0.75rem;
+    position: relative;
+    top: 4px;
   }
 
   input + .form-check-label {
