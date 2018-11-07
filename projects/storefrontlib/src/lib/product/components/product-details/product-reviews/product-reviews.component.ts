@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { ProductReviewService } from '../../../services/product-review.service';
+import { ProductReviewService } from '../../../facade/product-review.service';
 
 @Component({
   selector: 'cx-product-reviews',
