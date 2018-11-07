@@ -148,6 +148,67 @@ describe('Cart interactions', () => {
   });
 
   it('should add product to cart as anonymous and merge when logged in', async () => {
+    await home.navigateTo();
+    await home.waitForReady();
+    // Let's register
+    const { email, password } = await LoginHelper.registerNewUser();
+    expect(await home.header.isLoggedIn()).toBeTruthy();
+    expect(await home.header.loginComponent.getText()).toContain(
+      USER_FULL_NAME
+    );
+
+    // Add product to cart
+    await home.header.performSearch('300938', true);
+    const autocompletePanel = new AutocompletePanel();
+    await autocompletePanel.waitForReady();
+    await autocompletePanel.selectProduct('Photosmart E317 Digital Camera');
+    // wait until product details page is loaded
+    await productDetails.waitForReady();
+    await productDetails.addToCart();
+
+    let atcModal: AddedToCartModal = new AddedToCartModal();
+    await atcModal.waitForReady();
+    let item = atcModal.cartItem(0);
+    await E2EUtil.wait4VisibleElement(item);
+
+    await atcModal.closeModalWait();
+
+    // Log out.
+    await LoginHelper.logOutViaHeader();
+
+    // Check that we are not logged in
+    expect(await home.header.isLoggedIn()).toBeFalsy();
+
+    // select product from the suggestion list, then add it to cart 2 times
+    await home.header.performSearch('358639', true);
+    await autocompletePanel.selectProduct('DSC-N1');
+    // wait until product details page is loaded
+    await productDetails.waitForReady();
+    await productDetails.addToCart();
+
+    atcModal = new AddedToCartModal();
+    await atcModal.waitForReady();
+
+    await atcModal.closeModalWait();
+
+    await LoginHelper.loginUserViaHeader(email, password);
+    // Go to cart
+    const minicartIcon = home.header.miniCartButton;
+    await E2EUtil.wait4VisibleElement(minicartIcon);
+    await minicartIcon.click();
+    await cart.waitForReady();
+
+    // Check if cart contains correct products
+    await cart.checkCartEntry(
+      'Photosmart E317 Digital Camera',
+      1,
+      '$114.12',
+      '$114.12'
+    );
+    await cart.checkCartEntry('DSC-N1', 1, '$485.57', '$485.57');
+  });
+
+  it('should add product to cart as anonymous and merge when logged in', async () => {
     // Add product to cart
     await productDetails.navigateTo('300938');
     await productDetails.addToCartButton.click();
