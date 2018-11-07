@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
+
 import { select, Store } from '@ngrx/store';
-import * as fromAuthStore from '../store';
-import * as fromStore from '../../user/store';
-import { UserToken } from '../models/token-types.model';
+
 import { Observable } from 'rxjs';
+
+import * as fromAuthStore from '../store';
+import { UserToken } from '../models/token-types.model';
+import * as fromStore from '../../user/store';
 
 @Injectable({
   providedIn: 'root'
