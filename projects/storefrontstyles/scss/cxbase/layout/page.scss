@@ -21,3 +21,108 @@ $cx-page-header-background-color: 'background' !default;
     padding-top: 60px;
   }
 }
+
+//layouts
+
+@function cx-breakpoint-next(
+  $name,
+  $breakpoints: $default-breakpoints,
+  $breakpoint-names: map-keys($breakpoints)
+) {
+  $n: index($breakpoint-names, $name);
+  @return if(
+    $n < length($breakpoint-names),
+    nth($breakpoint-names, $n + 1),
+    null
+  );
+}
+
+@mixin cx-breakpoint-up($name, $breakpoints: $default-breakpoints) {
+  $min: cx-breakpoint-min($name, $breakpoints);
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+@mixin cx-breakpoint-down($name, $breakpoints: $default-breakpoints) {
+  //temporary delegate to bootstrap
+  @include media-breakpoint-down($name, $breakpoints) {
+    @content;
+  }
+}
+
+@function cx-breakpoint-min($name, $breakpoints: $default-breakpoints) {
+  $min: map-get($breakpoints, $name);
+  @return if($min != 0, $min, null);
+}
+
+@function cx-breakpoint-max($name, $breakpoints: $default-breakpoints) {
+  $next: cx-breakpoint-next($name, $breakpoints);
+  @return if($next, cx-breakpoint-min($next, $breakpoints) - 0.02px, null);
+}
+
+@mixin cx-breakpoint-between(
+  $lower,
+  $upper,
+  $breakpoints: $default-breakpoints
+) {
+  @include media-breakpoint-between($lower, $upper, $breakpoints) {
+    @content;
+  }
+}
+
+// delete after testing
+$default-breakpoints: (
+  'xs': 0,
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px,
+  'xl': 1200px
+);
+
+@mixin cx-horizontal-layout($components-per-row) {
+  display: flex;
+  flex-wrap: wrap;
+  & > * {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: unquote((100 / $components-per-row) + '%');
+    max-width: unquote((100 / $components-per-row) + '%');
+  }
+}
+
+@mixin cx-vertical-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-page-vertical-slot {
+  @include cx-vertical-layout();
+}
+
+.cx-landing-page-layout__container {
+  @include cx-horizontal-layout(1);
+
+  @include cx-breakpoint-up(lg) {
+    @include cx-horizontal-layout(2);
+  }
+}
+
+.cx-landing-page-layout__slot-2 {
+  @include cx-horizontal-layout(1);
+
+  @include cx-breakpoint-up(md) {
+    @include cx-horizontal-layout(2);
+  }
+}
+
+.cx-landing-page-layout__slot-4 {
+  @include cx-horizontal-layout(2);
+
+  @include cx-breakpoint-up(md) {
+    @include cx-horizontal-layout(4);
+  }
+}
