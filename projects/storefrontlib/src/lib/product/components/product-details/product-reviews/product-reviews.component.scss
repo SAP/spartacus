@@ -2,6 +2,8 @@
 @import 'functions';
 @import 'mixins';
 
+$gutterSize: 15px;
+
 :host {
   --cx-border-color: var(--cx-light);
 }
@@ -12,8 +14,8 @@
   border-bottom: var(--cx-border-width) var(--cx-border-style)
     var(--cx-border-color);
 
-  padding: var(--cx-padding, 0 15px 15px);
-  margin: var(--cx-margin, 0 -15px 40px -15px);
+  padding: var(--cx-padding, 0 $gutterSize $gutterSize);
+  margin: var(--cx-margin, 0 -#{$gutterSize} 40px -#{$gutterSize});
 
   button {
     margin: var(--cx-margin, 0 0 0 auto);
@@ -24,7 +26,7 @@
 
   @include media-breakpoint-down(sm) {
     button {
-      margin: var(--cx-margin, 20px);
+      margin: var(--cx-margin, $gutterSize);
     }
   }
 }
