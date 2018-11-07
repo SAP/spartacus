@@ -22,7 +22,7 @@
 
 .review {
   display: grid;
-  grid-template-columns: auto 10vw;
+  grid-template-columns: auto auto 10vw;
   grid-column-gap: 10px;
   grid-template-rows: repeat(3, minmax(10px, auto)) auto;
 
@@ -30,15 +30,14 @@
   cx-star-rating,
   .title,
   .text {
-    grid-column: 1;
+    grid-column: 1 / span 2;
   }
   .date {
-    grid-column: 2;
+    grid-column: 2 / span 3;
   }
   .name {
-    order: 2;
-    grid-column: 2;
-    grid-row: 4;
+    grid-column: 2 / span 3;
+    grid-row: 5;
   }
 
   // formatting
