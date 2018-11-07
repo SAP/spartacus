@@ -9,7 +9,7 @@ import {
 import { E2EUtil } from '../e2e-util';
 
 export class SearchResultsPage extends AppPage {
-  readonly YPAGE = 'y-category-page';
+  readonly YPAGE = 'cx-category-page';
 
   readonly PRODUCTS_PER_PAGE = 10;
 
@@ -25,7 +25,7 @@ export class SearchResultsPage extends AppPage {
   readonly page: ElementFinder = element(by.tagName(this.YPAGE));
 
   readonly pagination: ElementFinder = this.page.element(
-    by.tagName('y-pagination')
+    by.tagName('cx-pagination')
   );
 
   readonly paginationNextPageBtn: ElementFinder = this.pagination.element(
@@ -41,32 +41,32 @@ export class SearchResultsPage extends AppPage {
   );
 
   readonly viewModeSwitcher: ElementFinder = element(
-    by.css('.y-product-search__sorting--top y-product-view > div > div')
+    by.css('.cx-product-search__sorting--top cx-product-view > div > div')
   );
 
   readonly facet: ElementFinder = this.page.element(by.css('#facetCheck0_0'));
 
   readonly clearFacet: ElementFinder = this.page.element(
-    by.css('.y-search-facet-filter__pill .close')
+    by.css('.cx-search-facet-filter__pill .close')
   );
 
   readonly sortingSelect: ElementFinder = this.page.element(
-    by.css('y-sorting .ng-select')
+    by.css('cx-sorting .ng-select')
   );
 
   readonly productListItems: ElementArrayFinder = this.page
-    .element(by.tagName('y-product-list'))
-    .all(by.tagName('y-product-list-item'));
+    .element(by.tagName('cx-product-list'))
+    .all(by.tagName('cx-product-list-item'));
 
   readonly productGridItems: ElementArrayFinder = this.page
-    .element(by.tagName('y-product-list'))
-    .all(by.tagName('y-product-grid-item'));
+    .element(by.tagName('cx-product-list'))
+    .all(by.tagName('cx-product-grid-item'));
 
   readonly productByNameInResults = (productName: string): ElementFinder =>
     this.productListItems
       .filter(el =>
         el
-          .element(by.css('a.y-product-search-list__name'))
+          .element(by.css('a.cx-product-search-list__name'))
           .getText()
           .then(text => text === productName)
       )
@@ -82,7 +82,7 @@ export class SearchResultsPage extends AppPage {
   }
 
   getAddToCartInProductListItem(product: ElementFinder): ElementFinder {
-    return product.element(by.tagName('y-add-to-cart'));
+    return product.element(by.tagName('cx-add-to-cart'));
   }
 
   async clickAddToCartButton4Product(product: ElementFinder) {

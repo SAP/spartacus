@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'y-mobile-menu',
+  selector: 'cx-mobile-menu',
   templateUrl: './mobile-menu.component.html',
   styleUrls: ['./mobile-menu.component.scss']
 })

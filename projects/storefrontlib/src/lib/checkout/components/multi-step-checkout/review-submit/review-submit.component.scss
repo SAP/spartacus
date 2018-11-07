@@ -3,93 +3,96 @@
 @import 'mixins';
 @import '../container/multi-step-checkout.component';
 
-// y-review color variables
-$y-review-media-background-color: 'background' !default;
-$y-review-summary-background-color: 'background' !default;
-$y-review-summary-card-border-color: 'light' !default;
-$y-review-cart-item-border-color: 'light' !default;
+// cx-review color variables
+$cx-review-media-background-color: 'background' !default;
+$cx-review-summary-background-color: 'background' !default;
+$cx-review-summary-card-border-color: 'light' !default;
+$cx-review-cart-item-border-color: 'light' !default;
 
-// y-review variables
-$y-review-no-margin: 0 !default;
-$y-review-no-padding: 0 !default;
+// cx-review variables
+$cx-review-no-margin: 0 !default;
+$cx-review-no-padding: 0 !default;
 
-$y-review-container-margin-bottom: 2.5rem !default;
+$cx-review-container-margin-bottom: 2.5rem !default;
 
-$y-review-title-margin: 0 auto !default;
-$y-review-title-padding: 2.375rem 0 1.25rem 0 !default;
+$cx-review-title-margin: 0 auto !default;
+$cx-review-title-padding: 2.375rem 0 1.25rem 0 !default;
 
-$y-review-summary-margin-left: 0 !default;
-$y-review-summary-card-border: 1px solid !default;
+$cx-review-summary-margin-left: 0 !default;
+$cx-review-summary-card-border: 1px solid !default;
 
-$y-review-row-margin-right: 0 !default;
-$y-review-col-md-4-padding-right: 0 !default;
+$cx-review-row-margin-right: 0 !default;
+$cx-review-col-md-4-padding-right: 0 !default;
 
-$y-review-cart-item-border-top: 1px solid !default;
-$y-review-cart-total-margin-top: 2.625rem !default;
-$y-review-cart-total-header-border: 1px solid !default;
-$y-review-cart-total-header-padding: 1.375rem 0 !default;
-$y-review-cart-total-header-margin: 0 !default;
-$y-review-cart-total-header-border-color: 'light' !default;
+$cx-review-cart-item-border-top: 1px solid !default;
+$cx-review-cart-total-margin-top: 2.625rem !default;
+$cx-review-cart-total-header-border: 1px solid !default;
+$cx-review-cart-total-header-padding: 1.375rem 0 !default;
+$cx-review-cart-total-header-margin: 0 !default;
+$cx-review-cart-total-header-border-color: 'light' !default;
 
 // Media Queries
-$y-review-col-md-12-md-padding: 0 3.5rem 3.5rem 3.5rem !default;
-$y-review-col-md-12-sm-padding: 0 1.25rem 1.25rem 1.25rem !default;
+$cx-review-col-md-12-md-padding: 0 3.5rem 3.5rem 3.5rem !default;
+$cx-review-col-md-12-sm-padding: 0 1.25rem 1.25rem 1.25rem !default;
 
-.y-review {
+.cx-review {
   &.container {
-    padding: $y-review-no-padding;
-    margin-bottom: $y-review-container-margin-bottom;
+    padding: $cx-review-no-padding;
+    margin-bottom: $cx-review-container-margin-bottom;
   }
 
   &__title {
     text-transform: uppercase;
-    margin: $y-review-title-margin;
-    padding: $y-review-title-padding;
+    margin: $cx-review-title-margin;
+    padding: $cx-review-title-padding;
   }
 
   &__summary {
-    margin-left: $y-review-summary-margin-left;
-    @include var-color('background-color', $y-review-summary-background-color);
+    margin-left: $cx-review-summary-margin-left;
+    @include var-color('background-color', $cx-review-summary-background-color);
 
     &-card {
       @include media-breakpoint-down(md) {
         background-color: theme-color('inverse');
-        border: $y-review-summary-card-border;
-        @include var-color('border-color', $y-review-summary-card-border-color);
+        border: $cx-review-summary-card-border;
+        @include var-color(
+          'border-color',
+          $cx-review-summary-card-border-color
+        );
       }
     }
   }
 
   .row {
-    margin-right: $y-review-row-margin-right;
+    margin-right: $cx-review-row-margin-right;
   }
 
   .form-check {
-    padding: $y-review-no-padding;
-    margin: $y-review-no-margin;
+    padding: $cx-review-no-padding;
+    margin: $cx-review-no-margin;
   }
 
   .col-md-4 {
-    padding-right: $y-review-col-md-4-padding-right;
+    padding-right: $cx-review-col-md-4-padding-right;
   }
 
   &__cart-total {
     @include type('4');
-    margin-top: $y-review-cart-total-margin-top;
+    margin-top: $cx-review-cart-total-margin-top;
 
     &-header {
       @include type('4');
-      padding: $y-review-cart-total-header-padding;
-      margin: $y-review-cart-total-header-margin;
-      border-top: $y-review-cart-total-header-border;
+      padding: $cx-review-cart-total-header-padding;
+      margin: $cx-review-cart-total-header-margin;
+      border-top: $cx-review-cart-total-header-border;
       @include var-color(
         'border-top-color',
-        $y-review-cart-total-header-border-color
+        $cx-review-cart-total-header-border-color
       );
-      border-bottom: $y-review-cart-total-header-border;
+      border-bottom: $cx-review-cart-total-header-border;
       @include var-color(
         'border-bottom-color',
-        $y-review-cart-total-header-border-color
+        $cx-review-cart-total-header-border-color
       );
 
       @include media-breakpoint-down(md) {
@@ -118,8 +121,8 @@ $y-review-col-md-12-sm-padding: 0 1.25rem 1.25rem 1.25rem !default;
       }
     }
     @include media-breakpoint-down(md) {
-      border-top: $y-review-cart-item-border-top;
-      @include var-color('border-color', $y-review-cart-item-border-color);
+      border-top: $cx-review-cart-item-border-top;
+      @include var-color('border-color', $cx-review-cart-item-border-color);
     }
   }
 
@@ -128,11 +131,11 @@ $y-review-col-md-12-sm-padding: 0 1.25rem 1.25rem 1.25rem !default;
   @include checkout-media-style();
   .col-md-12 {
     @include media-breakpoint-down(md) {
-      padding: $y-review-col-md-12-md-padding;
+      padding: $cx-review-col-md-12-md-padding;
     }
 
     @include media-breakpoint-down(sm) {
-      padding: $y-review-col-md-12-sm-padding;
+      padding: $cx-review-col-md-12-sm-padding;
     }
   }
 }

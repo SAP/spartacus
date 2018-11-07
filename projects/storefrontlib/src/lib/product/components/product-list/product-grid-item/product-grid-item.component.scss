@@ -2,82 +2,82 @@
 @import 'functions';
 @import 'mixins';
 
-$y-search-grid-image-width: 100% !default;
-$y-search-grid-image-align: center !default;
-$y-search-grid-image-trbl-padding: 20px 20px 20px 20px !default;
-$y-search-grid-image-sm-padding-top: 1.25rem !default;
+$cx-search-grid-image-width: 100% !default;
+$cx-search-grid-image-align: center !default;
+$cx-search-grid-image-trbl-padding: 20px 20px 20px 20px !default;
+$cx-search-grid-image-sm-padding-top: 1.25rem !default;
 
-$y-search-grid-name-trbl-margin: 0 0 25px 0 !default;
-$y-search-grid-name-color: 'dark' !default;
-$y-search-grid-name-hover-color: 'primary' !default;
-$y-search-grid-name-align: center !default;
-$y-search-grid-name-height: 2.4em !default;
+$cx-search-grid-name-trbl-margin: 0 0 25px 0 !default;
+$cx-search-grid-name-color: 'dark' !default;
+$cx-search-grid-name-hover-color: 'primary' !default;
+$cx-search-grid-name-align: center !default;
+$cx-search-grid-name-height: 2.4em !default;
 
-$y-search-grid-name-after-background-color: 'inverse' !default;
-$y-search-grid-name-after-width: 100% !default;
-$y-search-grid-name-after-height: 50px !default;
-$y-search-grid-name-after-background: none repeat scroll 0% 0% !default;
+$cx-search-grid-name-after-background-color: 'inverse' !default;
+$cx-search-grid-name-after-width: 100% !default;
+$cx-search-grid-name-after-height: 50px !default;
+$cx-search-grid-name-after-background: none repeat scroll 0% 0% !default;
 
-$y-search-grid-name-before-bottom: 0 !default;
-$y-search-grid-name-before-right: 0 !default;
+$cx-search-grid-name-before-bottom: 0 !default;
+$cx-search-grid-name-before-right: 0 !default;
 
-$y-search-grid-price-trbl-margin: 0 0 25px 0 !default;
-$y-search-grid-price-align: center !default;
+$cx-search-grid-price-trbl-margin: 0 0 25px 0 !default;
+$cx-search-grid-price-align: center !default;
 
-$y-search-grid-price-old-color: 'secondary' !default;
-$y-search-grid-price-old-trbl-margin: 0 0 0 0 !default;
-$y-search-grid-price-new-color: 'primary' !default;
-$y-search-grid-price-new-trbl-margin: 0 0 25px 5px !default;
+$cx-search-grid-price-old-color: 'secondary' !default;
+$cx-search-grid-price-old-trbl-margin: 0 0 0 0 !default;
+$cx-search-grid-price-new-color: 'primary' !default;
+$cx-search-grid-price-new-trbl-margin: 0 0 25px 5px !default;
 
-.y-product {
+.cx-product {
   &-search-grid__image--container {
     display: block;
-    text-align: $y-search-grid-image-align;
+    text-align: $cx-search-grid-image-align;
   }
 
   &-search-grid__image {
-    width: $y-search-grid-image-width;
-    padding: $y-search-grid-image-trbl-padding;
+    width: $cx-search-grid-image-width;
+    padding: $cx-search-grid-image-trbl-padding;
     display: block;
 
     @include media-breakpoint-down(sm) {
-      padding-top: $y-search-grid-image-sm-padding-top;
+      padding-top: $cx-search-grid-image-sm-padding-top;
     }
   }
 
   &-search-grid__name {
     @include type('5');
-    text-align: $y-search-grid-name-align;
+    text-align: $cx-search-grid-name-align;
     display: block;
-    margin: $y-search-grid-name-trbl-margin;
-    @include var-color('color', $y-search-grid-name-color);
+    margin: $cx-search-grid-name-trbl-margin;
+    @include var-color('color', $cx-search-grid-name-color);
     text-decoration: none;
-    height: $y-search-grid-name-height;
+    height: $cx-search-grid-name-height;
     overflow: hidden;
     position: relative;
 
     &:before {
-      bottom: $y-search-grid-name-before-bottom;
+      bottom: $cx-search-grid-name-before-bottom;
       position: absolute;
-      right: $y-search-grid-name-before-right;
+      right: $cx-search-grid-name-before-right;
       content: '…';
     }
 
     &:after {
       content: '';
-      background: $y-search-grid-name-after-background;
+      background: $cx-search-grid-name-after-background;
       @include var-color(
         'background-color',
-        $y-search-grid-name-after-background-color
+        $cx-search-grid-name-after-background-color
       );
       position: absolute;
-      height: $y-search-grid-name-after-height;
-      width: $y-search-grid-name-after-width;
+      height: $cx-search-grid-name-after-height;
+      width: $cx-search-grid-name-after-width;
       z-index: 1;
     }
 
     &:hover {
-      @include var-color('color', $y-search-grid-name-hover-color);
+      @include var-color('color', $cx-search-grid-name-hover-color);
     }
   }
 
@@ -86,24 +86,24 @@ $y-search-grid-price-new-trbl-margin: 0 0 25px 5px !default;
   }
 
   &-search-grid__price--container {
-    text-align: $y-search-grid-price-align;
+    text-align: $cx-search-grid-price-align;
   }
 
   &-search-grid__price {
     @include type('3');
-    text-align: $y-search-grid-price-align;
+    text-align: $cx-search-grid-price-align;
     display: inline-block;
-    margin: $y-search-grid-price-trbl-margin;
+    margin: $cx-search-grid-price-trbl-margin;
 
     &--old {
-      @include var-color('color', $y-search-grid-price-old-color);
+      @include var-color('color', $cx-search-grid-price-old-color);
       text-decoration: line-through;
-      margin: $y-search-grid-price-old-trbl-margin;
+      margin: $cx-search-grid-price-old-trbl-margin;
     }
 
     &--new {
-      margin: $y-search-grid-price-new-trbl-margin;
-      @include var-color('color', $y-search-grid-price-new-color);
+      margin: $cx-search-grid-price-new-trbl-margin;
+      @include var-color('color', $cx-search-grid-price-new-color);
     }
   }
 }

@@ -13,7 +13,7 @@ import { filter } from 'rxjs/operators';
 import * as fromStore from '../../store';
 
 @Component({
-  selector: 'y-dynamic-slot',
+  selector: 'cx-dynamic-slot',
   templateUrl: './dynamic-slot.component.html',
   styleUrls: ['./dynamic-slot.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

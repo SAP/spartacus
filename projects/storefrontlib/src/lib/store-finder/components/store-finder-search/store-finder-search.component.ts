@@ -5,7 +5,7 @@ import { WindowRef } from '../../services/window-ref';
 import { SearchQuery } from '../../models/search-query';
 
 @Component({
-  selector: 'y-store-finder-search',
+  selector: 'cx-store-finder-search',
   templateUrl: './store-finder-search.component.html',
   styleUrls: ['./store-finder-search.component.scss']
 })

@@ -7,7 +7,7 @@ import { AuthService } from '../../../auth/facade/auth.service';
 import { RoutingService } from '../../../routing/facade/routing.service';
 
 @Component({
-  selector: 'y-order-history',
+  selector: 'cx-order-history',
   templateUrl: './order-history.component.html',
   styleUrls: ['./order-history.component.scss']
 })

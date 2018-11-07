@@ -2,12 +2,12 @@
 @import 'functions';
 @import 'mixins';
 
-$y-header-skipper-position: absolute !default;
-$y-header-skipper-top: 0 !default;
-$y-header-skipper-left: 0 !default;
+$cx-header-skipper-position: absolute !default;
+$cx-header-skipper-top: 0 !default;
+$cx-header-skipper-left: 0 !default;
 
-.y-header-skipper {
-  position: $y-header-skipper-position;
-  top: $y-header-skipper-top;
-  left: $y-header-skipper-left;
+.cx-header-skipper {
+  position: $cx-header-skipper-position;
+  top: $cx-header-skipper-top;
+  left: $cx-header-skipper-left;
 }

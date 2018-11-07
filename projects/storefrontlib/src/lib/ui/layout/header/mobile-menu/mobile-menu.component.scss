@@ -11,26 +11,26 @@ $hamburger-layer-spacing: 4px !default;
 @import '~hamburgers/_sass/hamburgers/hamburgers';
 
 //mobile-menu color variables
-$y-mobile-menu-background-color: 'background' !default;
-$y-mobile-menu-color: 'inverse' !default;
-$y-mobile-menu-components-background-color: 'background' !default;
-$y-mobile-menu-md-content-background-color: 'inverse' !default;
+$cx-mobile-menu-background-color: 'background' !default;
+$cx-mobile-menu-color: 'inverse' !default;
+$cx-mobile-menu-components-background-color: 'background' !default;
+$cx-mobile-menu-md-content-background-color: 'inverse' !default;
 
 //mobile-menu variables
-$y-mobile-menu-position: static !default;
-$y-mobile-menu-locale-trbl-padding: 0.5rem 1.5rem !default;
-$y-mobile-menu-control-position-md: absolute;
-$y-mobile-menu-position: absolute !default;
-$y-mobile-menu-position-left: 0 !default;
-$y-mobile-menu-transition: left 0.2s ease-in !default;
-$y-mobile-menu-z-index: 100 !default;
-$y-mobile-menu-width: 100% !default;
-$y-mobile-menu-position-left-hidden: -1000vh !default;
+$cx-mobile-menu-position: static !default;
+$cx-mobile-menu-locale-trbl-padding: 0.5rem 1.5rem !default;
+$cx-mobile-menu-control-position-md: absolute;
+$cx-mobile-menu-position: absolute !default;
+$cx-mobile-menu-position-left: 0 !default;
+$cx-mobile-menu-transition: left 0.2s ease-in !default;
+$cx-mobile-menu-z-index: 100 !default;
+$cx-mobile-menu-width: 100% !default;
+$cx-mobile-menu-position-left-hidden: -1000vh !default;
 
-.y-mobile-menu {
-  position: $y-mobile-menu-position;
-  @include var-color('background-color', $y-mobile-menu-background-color);
-  @include var-color('color', $y-mobile-menu-color);
+.cx-mobile-menu {
+  position: $cx-mobile-menu-position;
+  @include var-color('background-color', $cx-mobile-menu-background-color);
+  @include var-color('color', $cx-mobile-menu-color);
   display: flex;
   flex-flow: column;
   z-index: 100;
@@ -40,25 +40,27 @@ $y-mobile-menu-position-left-hidden: -1000vh !default;
     flex-direction: column;
     @include var-color(
       'background-color',
-      $y-mobile-menu-components-background-color
+      $cx-mobile-menu-components-background-color
     );
   }
 
   &__locale {
     display: flex;
     justify-content: flex-start;
-    padding: $y-mobile-menu-locale-trbl-padding;
+    padding: $cx-mobile-menu-locale-trbl-padding;
   }
 
   &__control {
     @include media-breakpoint-up(lg) {
       display: none;
     }
+
     @include media-breakpoint-down(md) {
-      position: $y-mobile-menu-control-position-md;
+      position: $cx-mobile-menu-control-position-md;
       top: 1rem;
       left: 1.25rem;
     }
+
     @include media-breakpoint-down(xs) {
       top: 0.15rem;
       left: 0.5rem;
@@ -69,21 +71,23 @@ $y-mobile-menu-position-left-hidden: -1000vh !default;
     @include media-breakpoint-up(lg) {
       display: none;
     }
+
     @include media-breakpoint-down(md) {
-      position: $y-mobile-menu-position;
-      left: $y-mobile-menu-position-left;
+      position: $cx-mobile-menu-position;
+      left: $cx-mobile-menu-position-left;
       @include var-color(
         'background-color',
-        $y-mobile-menu-md-content-background-color
+        $cx-mobile-menu-md-content-background-color
       );
-      transition: $y-mobile-menu-transition;
-      z-index: $y-mobile-menu-z-index;
-      width: $y-mobile-menu-width;
+      transition: $cx-mobile-menu-transition;
+      z-index: $cx-mobile-menu-z-index;
+      width: $cx-mobile-menu-width;
       &[aria-hidden='true'] {
         display: none;
       }
+
       &[aria-hidden='false'] {
-        left: $y-mobile-menu-position-left-hidden;
+        left: $cx-mobile-menu-position-left-hidden;
       }
     }
   }
@@ -95,5 +99,10 @@ $y-mobile-menu-position-left-hidden: -1000vh !default;
     width: 100vw;
     height: 100vh;
     z-index: 10;
+  }
+
+  // temporary solution
+  #add-to-home-screen {
+    width: 100%;
   }
 }

@@ -2,10 +2,10 @@
 @import 'functions';
 @import 'mixins';
 
-$y-store-finder-list-item-open: 'success' !default;
-$y-store-finder-list-item-closed: 'danger' !default;
+$cx-store-finder-list-item-open: 'success' !default;
+$cx-store-finder-list-item-closed: 'danger' !default;
 
-.y-store-finder-list-item {
+.cx-store-finder-list-item {
   &__display-name {
     @include type('6');
     text-decoration: underline;
@@ -15,11 +15,11 @@ $y-store-finder-list-item-closed: 'danger' !default;
   }
   &__open {
     @include type('8');
-    @include var-color('color', $y-store-finder-list-item-open);
+    @include var-color('color', $cx-store-finder-list-item-open);
   }
   &__closed {
     @include type('8');
-    @include var-color('color', $y-store-finder-list-item-closed);
+    @include var-color('color', $cx-store-finder-list-item-closed);
   }
   &__button {
     line-height: 2;

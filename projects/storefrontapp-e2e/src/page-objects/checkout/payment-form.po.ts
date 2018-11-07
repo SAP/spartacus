@@ -10,10 +10,10 @@ export class PaymentForm {
   static readonly CARD_CCV = '123';
 
   constructor(
-    private parentElement: ElementFinder = element(by.tagName('y-root'))
+    private parentElement: ElementFinder = element(by.tagName('cx-root'))
   ) {}
   readonly form: ElementFinder = this.parentElement.element(
-    by.tagName('y-payment-form')
+    by.tagName('cx-payment-form')
   );
   readonly accountHolderName: ElementFinder = this.form.element(
     by.css('[formcontrolname="accountHolderName"]')
