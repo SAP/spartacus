@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 
-import { ConfigModule, Config } from '@spartacus/core';
+import {
+  ConfigModule,
+  Config,
+  ConfigurableRoutesModule
+} from '@spartacus/core';
 
 import {
   StoreRouterConnectingModule,
@@ -37,6 +41,7 @@ export function getMetaReducers(
 
 @NgModule({
   imports: [
+    ConfigurableRoutesModule,
     RouterModule.forRoot([], { scrollPositionRestoration: 'enabled' }),
     StoreModule.forRoot(reducerToken),
     EffectsModule.forRoot(effects),
