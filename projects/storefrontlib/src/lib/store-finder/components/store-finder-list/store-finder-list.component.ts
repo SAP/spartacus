@@ -17,7 +17,7 @@ import { StoreDataService } from '../../services/store-data.service';
 import { SearchQuery } from '../../models/search-query';
 
 @Component({
-  selector: 'y-store-finder-list',
+  selector: 'cx-store-finder-list',
   templateUrl: './store-finder-list.component.html',
   styleUrls: ['./store-finder-list.component.scss']
 })

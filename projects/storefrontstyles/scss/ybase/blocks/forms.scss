@@ -61,7 +61,11 @@ input[type='radio'] {
 
   label {
     font-weight: $font-weight-normal;
-    margin-left: 0.75rem;
+  }
+
+  .form-check-label {
+    display: inline-block;
+    padding-left: 0.75rem;
   }
 
   input + .form-check-label {
@@ -92,8 +96,8 @@ input[type='radio'] {
 
     &:checked {
       font-style: normal;
-      border: var(--y-primary, theme-color('primary'));
-      background-color: var(--y-primary, theme-color('primary'));
+      border: var(--cx-primary, theme-color('primary'));
+      background-color: var(--cx-primary, theme-color('primary'));
 
       &::after {
         color: theme-color('inverse');
@@ -138,7 +142,7 @@ input[type='radio'] {
     top: 4px;
   }
   &:checked {
-    border-color: var(--y-primary, theme-color('primary')) !important;
+    border-color: var(--cx-primary, theme-color('primary')) !important;
     background-color: theme-color('inverse');
 
     &::after {
@@ -225,11 +229,16 @@ input:checked + .form-toggle__switch {
 }
 
 label {
-  margin-bottom: $label-margin-bottom;
-  font-size: $small-font-size;
-  font-weight: $font-weight-semi;
+  display: block;
+  .label-content {
+    display: block;
+    margin-bottom: $label-margin-bottom;
+    &.bold {
+      font-weight: $font-weight-semi;
+    }
+  }
 
-  &.required:after {
+  .required:after {
     content: '*';
   }
 }

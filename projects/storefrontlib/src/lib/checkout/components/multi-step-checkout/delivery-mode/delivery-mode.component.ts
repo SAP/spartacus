@@ -16,7 +16,7 @@ import * as fromCheckoutStore from '../../../store';
 import { CheckoutService } from '../../../services/checkout.service';
 
 @Component({
-  selector: 'y-delivery-mode',
+  selector: 'cx-delivery-mode',
   templateUrl: './delivery-mode.component.html',
   styleUrls: ['./delivery-mode.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

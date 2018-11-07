@@ -10,7 +10,6 @@ import { PaginationAndSortingModule } from '../../../ui/components/pagination-an
 import { OrderHistoryComponent } from './order-history.component';
 import { CartService, CartDataService } from '../../../cart/services';
 import { CartSharedModule } from '../../../cart/components/cart-shared/cart-shared.module';
-import * as fromRoot from '../../../routing/store';
 import * as fromUserStore from '../../../user/store';
 import * as fromAuthStore from '../../../auth/store';
 import createSpy = jasmine.createSpy;
@@ -61,10 +60,8 @@ describe('OrderHistoryComponent', () => {
         FormsModule,
         CartSharedModule,
         CardModule,
-        NgrxStore.StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          orders: NgrxStore.combineReducers(fromUserStore.getReducers())
-        }),
+        NgrxStore.StoreModule.forRoot({}),
+        NgrxStore.StoreModule.forFeature('orders', fromUserStore.getReducers()),
         NgSelectModule,
         BootstrapModule
       ],
@@ -102,7 +99,7 @@ describe('OrderHistoryComponent', () => {
     spyOn(routingService, 'go');
     fixture.detectChanges();
     const elem = fixture.debugElement.nativeElement.querySelector(
-      '.y-order-history__table tbody tr'
+      '.cx-order-history__table tbody tr'
     );
     elem.click();
 
@@ -127,7 +124,7 @@ describe('OrderHistoryComponent', () => {
 
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-order-history__no-order'
+        '.cx-order-history__no-order'
       )
     ).not.toBeNull();
   });

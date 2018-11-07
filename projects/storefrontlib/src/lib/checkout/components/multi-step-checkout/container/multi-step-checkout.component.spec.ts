@@ -1,12 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
 import * as NgrxStore from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
 import * as fromCart from '../../../../cart/store';
-import * as fromRoot from '../../../../routing/store';
 import * as fromUser from '../../../../user/store';
 import * as fromAuth from '../../../../auth/store';
 import { Address } from '../../../models/address-model';
@@ -17,6 +16,7 @@ import { CartService } from './../../../../cart/services/cart.service';
 import { CheckoutService } from './../../../services/checkout.service';
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 import { Component, Input } from '@angular/core';
+import { RoutingService } from '../../../../routing/facade/routing.service';
 
 const mockAddress: Address = {
   id: 'mock address id',
@@ -43,19 +43,19 @@ const mockDeliveryAddresses = ['address1', 'address2'];
 const mockSelectedCode = 'test mode';
 const mockOrderDetails = { id: '1234' };
 
-@Component({ selector: 'y-delivery-mode', template: '' })
+@Component({ selector: 'cx-delivery-mode', template: '' })
 class MockDeliveryModeComponent {
   @Input()
   selectedShippingMethod;
 }
 
-@Component({ selector: 'y-payment-method', template: '' })
+@Component({ selector: 'cx-payment-method', template: '' })
 class MockPaymentMethodComponent {
   @Input()
   selectedPayment;
 }
 
-@Component({ selector: 'y-review-submit', template: '' })
+@Component({ selector: 'cx-review-submit', template: '' })
 class MockReviewSubmitComponent {
   @Input()
   deliveryAddress;
@@ -65,14 +65,13 @@ class MockReviewSubmitComponent {
   paymentDetails;
 }
 
-@Component({ selector: 'y-shipping-address', template: '' })
+@Component({ selector: 'cx-shipping-address', template: '' })
 class MockShippingAddressComponent {
   @Input()
   selectedAddress;
 }
 
 describe('MultiStepCheckoutComponent', () => {
-  let store: Store<fromRoot.State>;
   let component: MultiStepCheckoutComponent;
   let fixture: ComponentFixture<MultiStepCheckoutComponent>;
   let service: CheckoutService;
@@ -88,17 +87,18 @@ describe('MultiStepCheckoutComponent', () => {
       getActiveCart: BehaviorSubject<any>;
     };
   };
+  let routingService: RoutingService;
   const getPlaceOrderForm = () =>
     fixture.debugElement.query(
-      By.css('.y-multi-step-checkout__place-order-form')
+      By.css('.cx-multi-step-checkout__place-order-form')
     );
   const getPlaceOrderBtn = () =>
     fixture.debugElement.query(
-      By.css('.y-multi-step-checkout__place-order .btn-primary')
+      By.css('.cx-multi-step-checkout__place-order .btn-primary')
     ).nativeElement;
   const getBackBtn = () =>
     fixture.debugElement.query(
-      By.css('.y-multi-step-checkout__place-order .btn-action')
+      By.css('.cx-multi-step-checkout__place-order .btn-action')
     ).nativeElement;
   const mockAllSteps = () => {
     mockSelectors.checkout.getDeliveryAddress.next(mockDeliveryAddresses);
@@ -113,13 +113,11 @@ describe('MultiStepCheckoutComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         CartSharedModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cart: combineReducers(fromCart.getReducers()),
-          user: combineReducers(fromUser.getReducers()),
-          checkout: combineReducers(fromCheckout.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cart', fromCart.getReducers()),
+        StoreModule.forFeature('user', fromUser.getReducers()),
+        StoreModule.forFeature('checkout', fromCheckout.getReducers()),
+        StoreModule.forFeature('auth', fromAuth.getReducers())
       ],
       declarations: [
         MultiStepCheckoutComponent,
@@ -136,8 +134,8 @@ describe('MultiStepCheckoutComponent', () => {
     fixture = TestBed.createComponent(MultiStepCheckoutComponent);
     component = fixture.componentInstance;
     service = TestBed.get(CheckoutService);
-    store = TestBed.get(Store);
     cartService = TestBed.get(CartService);
+    routingService = TestBed.get(RoutingService);
 
     mockSelectors = {
       checkout: {
@@ -165,7 +163,6 @@ describe('MultiStepCheckoutComponent', () => {
       }
     });
 
-    spyOn(store, 'dispatch').and.callThrough();
     spyOn(component, 'addAddress').and.callThrough();
     spyOn(component, 'nextStep').and.callThrough();
     spyOn(service, 'createAndSetAddress').and.callThrough();
@@ -175,6 +172,7 @@ describe('MultiStepCheckoutComponent', () => {
     spyOn(service, 'setPaymentDetails').and.callThrough();
     spyOn(service, 'placeOrder').and.callThrough();
     spyOn(cartService, 'loadCartDetails').and.callThrough();
+    spyOn(routingService, 'go').and.callThrough();
   });
 
   it('should be created', () => {
@@ -226,11 +224,7 @@ describe('MultiStepCheckoutComponent', () => {
     mockSelectors.checkout.getOrderDetails.next(mockOrderDetails);
 
     component.processSteps();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromRoot.Go({
-        path: ['orderConfirmation']
-      })
-    );
+    expect(routingService.go).toHaveBeenCalledWith(['orderConfirmation']);
   });
 
   it('should call setStep()', () => {
@@ -357,10 +351,10 @@ describe('MultiStepCheckoutComponent', () => {
     mockSelectors.cart.getActiveCart.next(mockCartData);
     fixture.detectChanges();
 
-    const pageTitle = fixture.debugElement.query(By.css('.y-page__title'))
+    const pageTitle = fixture.debugElement.query(By.css('.cx-page__title'))
       .nativeElement.textContent;
     const values = fixture.debugElement.query(
-      By.css('.y-multi-step-checkout__nav-list--media')
+      By.css('.cx-multi-step-checkout__nav-list--media')
     ).nativeElement.textContent;
 
     expect(pageTitle).toContain('5141');
@@ -374,7 +368,7 @@ describe('MultiStepCheckoutComponent', () => {
     fixture.detectChanges();
 
     const steps = fixture.debugElement.queryAll(
-      By.css('.y-multi-step-checkout__nav-item a')
+      By.css('.cx-multi-step-checkout__nav-item a')
     );
 
     steps[0].nativeElement.click();
@@ -420,8 +414,9 @@ describe('MultiStepCheckoutComponent', () => {
     mockAllSteps();
     component.ngOnInit();
 
-    const inputCheckbox = fixture.debugElement.query(By.css('#termsCheck'))
-      .nativeElement;
+    const inputCheckbox = fixture.debugElement.query(
+      By.css('.cx-multi-step-checkout__place-order-form .form-check-input')
+    ).nativeElement;
     inputCheckbox.click();
     fixture.detectChanges();
 

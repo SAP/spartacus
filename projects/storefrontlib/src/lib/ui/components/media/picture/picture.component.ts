@@ -10,7 +10,7 @@ import { missingProductImgSrc } from '../../../images/missingProduct';
 const DEFAULT_FORMAT = 'product';
 
 @Component({
-  selector: 'y-picture',
+  selector: 'cx-picture',
   templateUrl: './picture.component.html',
   styleUrls: ['./picture.component.scss']
 })

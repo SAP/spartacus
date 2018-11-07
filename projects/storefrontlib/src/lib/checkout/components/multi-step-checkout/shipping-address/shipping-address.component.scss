@@ -3,39 +3,39 @@
 @import 'mixins';
 @import '../container/multi-step-checkout.component';
 
-$y-shipping-address-card-background-color: 'inverse' !default;
-// y-shipping-address variables
-$y-shipping-address-no-padding: 0 !default;
-$y-shipping-address-title-padding: 2.375rem 0 1.75rem 0 !default;
-$y-shipping-address-title-margin: 0 auto !default;
-$y-shipping-address-body-padding-bottom: 1.875rem !default;
-$y-shipping-address-text-margin-bottom: 1.25rem !default;
-$y-shipping-address-text-md-padding-left: 3.5rem !default;
-$y-shipping-address-text-sm-padding-left: 1.5rem !default;
-$y-shipping-address-card-padding-bottom: 30px !default;
-$y-shipping-address-card-height: 100% !default;
+$cx-shipping-address-card-background-color: 'inverse' !default;
+// cx-shipping-address variables
+$cx-shipping-address-no-padding: 0 !default;
+$cx-shipping-address-title-padding: 2.375rem 0 1.75rem 0 !default;
+$cx-shipping-address-title-margin: 0 auto !default;
+$cx-shipping-address-body-padding-bottom: 1.875rem !default;
+$cx-shipping-address-text-margin-bottom: 1.25rem !default;
+$cx-shipping-address-text-md-padding-left: 3.5rem !default;
+$cx-shipping-address-text-sm-padding-left: 1.5rem !default;
+$cx-shipping-address-card-padding-bottom: 30px !default;
+$cx-shipping-address-card-height: 100% !default;
 // Loading
-$y-shipping-address-loading-padding: 30px !default;
-.y-shipping-address {
+$cx-shipping-address-loading-padding: 30px !default;
+.cx-shipping-address {
   &.container {
-    padding: $y-shipping-address-no-padding;
+    padding: $cx-shipping-address-no-padding;
   }
   &__title {
     text-transform: uppercase;
-    margin: $y-shipping-address-title-margin;
-    padding: $y-shipping-address-title-padding;
+    margin: $cx-shipping-address-title-margin;
+    padding: $cx-shipping-address-title-padding;
   }
   &__spinner {
-    padding-top: $y-shipping-address-loading-padding;
-    padding-bottom: $y-shipping-address-loading-padding;
+    padding-top: $cx-shipping-address-loading-padding;
+    padding-bottom: $cx-shipping-address-loading-padding;
   }
   &__body {
     display: flex;
     align-items: flex-end;
-    padding-bottom: $y-shipping-address-body-padding-bottom;
+    padding-bottom: $cx-shipping-address-body-padding-bottom;
   }
   &__text {
-    margin-bottom: $y-shipping-address-text-margin-bottom;
+    margin-bottom: $cx-shipping-address-text-margin-bottom;
   }
   &__btns {
     padding-bottom: 1rem;
@@ -46,26 +46,26 @@ $y-shipping-address-loading-padding: 30px !default;
     align-items: stretch;
     &.row {
       @include media-breakpoint-down(md) {
-        padding: $y-shipping-address-no-padding;
+        padding: $cx-shipping-address-no-padding;
       }
     }
   }
   &__text {
     @include media-breakpoint-down(md) {
-      padding-left: $y-shipping-address-text-md-padding-left;
+      padding-left: $cx-shipping-address-text-md-padding-left;
     }
     @include media-breakpoint-down(sm) {
-      padding-left: $y-shipping-address-text-sm-padding-left;
+      padding-left: $cx-shipping-address-text-sm-padding-left;
     }
   }
   &__card {
-    padding-bottom: $y-shipping-address-card-padding-bottom;
+    padding-bottom: $cx-shipping-address-card-padding-bottom;
 
     &-inner {
-      height: $y-shipping-address-card-height;
+      height: $cx-shipping-address-card-height;
       @include var-color(
         'background-color',
-        $y-shipping-address-card-background-color
+        $cx-shipping-address-card-background-color
       );
     }
   }

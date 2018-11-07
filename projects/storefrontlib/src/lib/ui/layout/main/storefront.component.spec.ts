@@ -11,21 +11,24 @@ import {
   ComponentWrapperDirective
 } from '../../../cms/components';
 import { GlobalMessageModule } from '../../../global-message/global-message.module';
-import { StoreModule, combineReducers } from '@ngrx/store';
-import { OccSiteService } from '../../../occ/site-context/occ-site.service';
-import * as fromRoot from '../../../routing/store';
-import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
-import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { OccSiteService } from '../../../../../../core/src/site-context/occ/occ-site.service';
+import { SiteContextModule } from '../../../site-context/site-context.module';
 import { LoginComponent } from '../../../user/components/login/login.component';
-import { SiteContextModuleConfig } from '../../../site-context/site-context-module-config';
 import * as fromUserReducer from '../../../user/store/reducers';
-import * as fromSCStore from '../../../site-context/shared/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromAuth from '../../../auth/store';
 import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
 import { OutletDirective } from '../../../outlet';
+import {
+  PWAModuleConfig,
+  defaultPWAModuleConfig
+} from '../../../pwa/pwa.module-config';
+import { PwaModule } from '../../../pwa/pwa.module';
+import { SiteContextConfig } from '@spartacus/core';
 
-const MockSiteContextModuleConfig: SiteContextModuleConfig = {
+const MockSiteContextModuleConfig: SiteContextConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -46,14 +49,14 @@ describe('StorefrontComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          user: combineReducers(fromUserReducer.getReducers()),
-          siteContext: combineReducers(fromSCStore.getReducers()),
-          cms: combineReducers(fromCmsReducer.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
-        }),
-        GlobalMessageModule
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('user', fromUserReducer.getReducers()),
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
+        StoreModule.forFeature('auth', fromAuth.getReducers()),
+        GlobalMessageModule,
+        PwaModule,
+        EffectsModule.forRoot([]),
+        SiteContextModule
       ],
       declarations: [
         StorefrontComponent,
@@ -61,8 +64,6 @@ describe('StorefrontComponent', () => {
         FooterComponent,
         DynamicSlotComponent,
         ComponentWrapperDirective,
-        LanguageSelectorComponent,
-        CurrencySelectorComponent,
         HeaderSkipperComponent,
         TertiaryBarComponent,
         MobileMenuComponent,
@@ -71,10 +72,14 @@ describe('StorefrontComponent', () => {
       ],
       providers: [
         {
-          provide: SiteContextModuleConfig,
+          provide: SiteContextConfig,
           useValue: MockSiteContextModuleConfig
         },
-        { provide: OccSiteService }
+        { provide: OccSiteService },
+        {
+          provide: PWAModuleConfig,
+          useValue: defaultPWAModuleConfig
+        }
       ]
     }).compileComponents();
   }));
