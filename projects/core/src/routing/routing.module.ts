@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { ConfigModule, Config } from '@spartacus/core';
+import { ConfigModule, Config } from '../config';
 
 import {
   StoreRouterConnectingModule,
