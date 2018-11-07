@@ -56,7 +56,6 @@ export function reducer(
   state: RouterState = initialState,
   action: any
 ): RouterState {
-  // console.log('reducer', action, state);
   switch (action.type) {
     case fromActions.SAVE_REDIRECT_URL: {
       return {
@@ -115,7 +114,7 @@ export const getRouterFeatureState: MemoizedSelector<
 
 export const getRouterState: MemoizedSelector<any, any> = createSelector(
   getRouterFeatureState,
-  (state: any) => state.router
+  (state: any) => state[ROUTING_FEATURE]
 );
 
 export const getRedirectUrl: MemoizedSelector<any, any> = createSelector(
