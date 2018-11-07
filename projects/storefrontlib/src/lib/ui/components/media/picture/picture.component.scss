@@ -9,3 +9,8 @@ img {
   transition: all var(--cx-transition-time, 0.6s);
   border-radius: var(--cx-border-radius);
 }
+:host {
+  &.loading:not(.initialize) {
+    --cx-zoom: 0.5;
+  }
+}

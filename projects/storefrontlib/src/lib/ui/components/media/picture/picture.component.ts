@@ -39,9 +39,10 @@ export class PictureComponent implements OnChanges {
     if (this.imageContainer) {
       const image = this.imageContainer[this.imageFormat || DEFAULT_FORMAT];
       if (image && image.url) {
-        if (!this.initialLoad) {
-          this.zoom(0.5);
+        if (this.initialLoad) {
+          (<HTMLElement>this.elRef.nativeElement).classList.add('initialize');
         }
+        (<HTMLElement>this.elRef.nativeElement).classList.add('loading');
         this.mainImage = image.url;
         this.cd.detectChanges();
       }
@@ -54,12 +55,9 @@ export class PictureComponent implements OnChanges {
 
   public resetZoom() {
     if (!this.initialLoad) {
-      this.zoom(1);
+      (<HTMLElement>this.elRef.nativeElement).classList.remove('initialize');
+      (<HTMLElement>this.elRef.nativeElement).classList.remove('loading');
     }
     this.initialLoad = false;
-  }
-
-  private zoom(factor) {
-    this.elRef.nativeElement.style.setProperty('--cx-zoom', factor);
   }
 }
