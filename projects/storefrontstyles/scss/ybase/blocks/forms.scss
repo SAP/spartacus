@@ -237,10 +237,6 @@ label {
       font-weight: $font-weight-semi;
     }
   }
-
-  .required:after {
-    content: '*';
-  }
 }
 
 .form-message {
