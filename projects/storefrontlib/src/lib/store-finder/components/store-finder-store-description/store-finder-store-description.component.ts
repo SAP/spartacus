@@ -9,7 +9,7 @@ import { StoreDataService } from '../../services/index';
 import * as fromStore from '../../store';
 
 @Component({
-  selector: 'y-store-finder-store-description',
+  selector: 'cx-store-finder-store-description',
   templateUrl: './store-finder-store-description.component.html',
   styleUrls: ['./store-finder-store-description.component.scss']
 })

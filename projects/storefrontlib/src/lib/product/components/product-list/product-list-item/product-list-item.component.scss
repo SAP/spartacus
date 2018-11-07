@@ -2,27 +2,27 @@
 @import 'functions';
 @import 'mixins';
 
-$y-search-list-border: 1px solid;
-$y-search-list-border-color: 'light' !default;
-$y-search-list-trbl-margin: 0 0 25px 0;
+$cx-search-list-border: 1px solid;
+$cx-search-list-border-color: 'light' !default;
+$cx-search-list-trbl-margin: 0 0 25px 0;
 
-$y-search-list-image-width: 100% !default;
+$cx-search-list-image-width: 100% !default;
 
-$y-search-list-name-trbl-margin: 0 0 3px 0 !default;
-$y-search-list-name-color: 'dark' !default;
-$y-search-list-name-hover-color: 'primary' !default;
+$cx-search-list-name-trbl-margin: 0 0 3px 0 !default;
+$cx-search-list-name-color: 'dark' !default;
+$cx-search-list-name-hover-color: 'primary' !default;
 
-$y-search-list-price-trbl-margin: 0 0 25px 0 !default;
+$cx-search-list-price-trbl-margin: 0 0 25px 0 !default;
 
-$y-search-list-price-new-trbl-margin: 0 0 0 5px !default;
+$cx-search-list-price-new-trbl-margin: 0 0 0 5px !default;
 
-$y-search-list-price-old-color: 'secondary' !default;
-$y-search-list-price-new-color: 'primary' !default;
+$cx-search-list-price-old-color: 'secondary' !default;
+$cx-search-list-price-new-color: 'primary' !default;
 
-.y-product-search-list {
-  border-bottom: $y-search-list-border;
-  @include var-color('border-color', $y-search-list-border-color);
-  margin: $y-search-list-trbl-margin;
+.cx-product-search-list {
+  border-bottom: $cx-search-list-border;
+  @include var-color('border-color', $cx-search-list-border-color);
+  margin: $cx-search-list-trbl-margin;
 
   &:last-of-type {
     border-bottom: none;
@@ -34,19 +34,19 @@ $y-search-list-price-new-color: 'primary' !default;
   }
 
   &__image {
-    width: $y-search-list-image-width;
+    width: $cx-search-list-image-width;
   }
 
   &__name {
     @include type('5');
     text-align: left;
     display: block;
-    margin: $y-search-list-name-trbl-margin;
-    @include var-color('color', $y-search-list-name-color);
+    margin: $cx-search-list-name-trbl-margin;
+    @include var-color('color', $cx-search-list-name-color);
     text-decoration: none;
 
     &:hover {
-      @include var-color('color', $y-search-list-name-hover-color);
+      @include var-color('color', $cx-search-list-name-hover-color);
     }
   }
 
@@ -58,16 +58,16 @@ $y-search-list-price-new-color: 'primary' !default;
     @include type('3');
     text-align: left;
     display: inline-block;
-    margin: $y-search-list-price-trbl-margin;
+    margin: $cx-search-list-price-trbl-margin;
 
     &--old {
-      @include var-color('color', $y-search-list-price-old-color);
+      @include var-color('color', $cx-search-list-price-old-color);
       text-decoration: line-through;
     }
 
     &--new {
-      margin: $y-search-list-price-new-trbl-margin;
-      @include var-color('color', $y-search-list-price-new-color);
+      margin: $cx-search-list-price-new-trbl-margin;
+      @include var-color('color', $cx-search-list-price-new-color);
     }
   }
 }

@@ -1,8 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { NavigationModule } from '../navigation/navigation.module';
 import { CategoryNavigationComponent } from './category-navigation.component';
-import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { BootstrapModule } from '../../bootstrap.module';
@@ -26,10 +25,8 @@ describe('CategoryNavigationComponent', () => {
       imports: [
         NavigationModule,
         BootstrapModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
         RouterTestingModule
       ],
       declarations: [CategoryNavigationComponent],
@@ -69,12 +66,12 @@ describe('CategoryNavigationComponent', () => {
     });
 
     it('should use semantic nav element', () => {
-      const navElem = nav.query(By.css('.y-navigation')).nativeElement;
+      const navElem = nav.query(By.css('.cx-navigation')).nativeElement;
       expect(navElem.nodeName).toBe('NAV');
     });
 
     it('should display correct number of submenus', () => {
-      const list: HTMLElement = nav.query(By.css('.y-navigation__list'))
+      const list: HTMLElement = nav.query(By.css('.cx-navigation__list'))
         .nativeElement;
       expect(list.childElementCount).toBe(2);
     });

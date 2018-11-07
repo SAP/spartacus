@@ -15,7 +15,7 @@ import { AbstractCmsComponent } from '../../cms/components/abstract-cms-componen
 import { CmsService } from '../../cms/facade/cms.service';
 
 @Component({
-  selector: 'y-mini-cart',
+  selector: 'cx-mini-cart',
   templateUrl: './mini-cart.component.html',
   styleUrls: ['./mini-cart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

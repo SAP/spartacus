@@ -9,14 +9,14 @@ import { AppPage } from '../app.po';
 import { E2EUtil } from '../../e2e-util';
 
 export class CartPage extends AppPage {
-  readonly YPAGE = 'y-cart-page';
+  readonly YPAGE = 'cx-cart-page';
 
   readonly page: ElementFinder = element(by.tagName(this.YPAGE));
   readonly cartEntries: ElementArrayFinder = this.page.all(
-    by.tagName('y-cart-item')
+    by.tagName('cx-cart-item')
   );
   readonly orderSummary: ElementFinder = this.page.element(
-    by.tagName('y-order-summary')
+    by.tagName('cx-order-summary')
   );
   readonly orderSummaryAmount: ElementFinder = this.page.element(
     by.css('.y-order-summary__total-final .y-order-summary__amount')
@@ -30,7 +30,7 @@ export class CartPage extends AppPage {
     this.cartEntries
       .filter(el =>
         el
-          .element(by.css('.y-cart-item__name'))
+          .element(by.css('.cx-cart-item__name'))
           .getText()
           .then(text => text === productName)
       )
@@ -54,19 +54,19 @@ export class CartPage extends AppPage {
 
   async getCartEntryUnitPrice(cartEntry: ElementFinder): Promise<string> {
     const unitPriceDiv = cartEntry.element(
-      by.css('.y-cart-item__price--value')
+      by.css('.cx-cart-item__price--value')
     );
     return E2EUtil.findPrice(await unitPriceDiv.getText());
   }
 
   async getCartEntryQuantity(cartEntry: ElementFinder): Promise<string> {
-    const input = cartEntry.element(by.css('.y-item-counter__value'));
+    const input = cartEntry.element(by.css('.cx-item-counter__value'));
     return await input.getText();
   }
 
   async getCartEntryTotalPrice(cartEntry: ElementFinder): Promise<string> {
     const totalPriceDiv = cartEntry.element(
-      by.css('.y-cart-item__total--value')
+      by.css('.cx-cart-item__total--value')
     );
     return E2EUtil.findPrice(await totalPriceDiv.getText());
   }
@@ -126,7 +126,8 @@ export class CartPage extends AppPage {
   }
 
   async checkCartSummary(subtotal: string, discount: string, total: string) {
-    // FIXME - ideally it should be $313.82, but right now it is the same value as in accelerator
+    // FIXME - ideally it should be $313.82, but right now it is the same value as
+    // in accelerator
     expect(await this.getSummarySubtotalValue()).toBe(
       subtotal,
       'Wrong cart summary subtotal'

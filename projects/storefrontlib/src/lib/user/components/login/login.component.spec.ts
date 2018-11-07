@@ -175,7 +175,7 @@ describe('LoginComponent', () => {
 
       expect(
         fixture.debugElement.query(
-          By.css('y-dynamic-slot[position="HeaderLinks"]')
+          By.css('cx-dynamic-slot[position="HeaderLinks"]')
         )
       ).not.toBeNull();
     });

@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 // TODO: Improve a11y with better text appropriate to usage (example: loading cart spinner)
 
 @Component({
-  selector: 'y-spinner',
+  selector: 'cx-spinner',
   templateUrl: './spinner.component.html',
   styleUrls: ['./spinner.component.scss']
 })

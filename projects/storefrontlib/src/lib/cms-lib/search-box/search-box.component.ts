@@ -4,7 +4,7 @@ import { SearchBoxComponentService } from './search-box-component.service';
 import { merge, Observable, Subject } from 'rxjs';
 
 @Component({
-  selector: 'y-searchbox',
+  selector: 'cx-searchbox',
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss'],
   encapsulation: ViewEncapsulation.None,

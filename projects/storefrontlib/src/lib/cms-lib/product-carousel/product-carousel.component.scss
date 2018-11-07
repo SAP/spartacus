@@ -3,11 +3,11 @@
 @import 'mixins';
 @import '~bootstrap/scss/carousel';
 
-$y-product-carousel-arrow-color: 'secondary' !default;
-$y-product-carousel-indicators-color: 'light' !default;
-$y-product-carousel-indicators-color-active: 'primary' !default;
+$cx-product-carousel-arrow-color: 'secondary' !default;
+$cx-product-carousel-indicators-color: 'light' !default;
+$cx-product-carousel-indicators-color-active: 'primary' !default;
 
-.y-carousel {
+.cx-carousel {
   &__header {
     @include type('2');
     font-weight: bold;
@@ -69,7 +69,7 @@ $y-product-carousel-indicators-color-active: 'primary' !default;
     position: absolute;
     top: calc(50% - 50px);
     cursor: pointer;
-    @include var-color('fill', $y-product-carousel-arrow-color);
+    @include var-color('fill', $cx-product-carousel-arrow-color);
     &--prev {
       transform: rotate(180deg);
     }
