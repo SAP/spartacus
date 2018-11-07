@@ -8,13 +8,18 @@ import {
 import { StoreModule } from '@ngrx/store';
 import { OutletDirective } from '../../../outlet';
 
+import * as fromCmsReducer from '../../../cms/store';
+
 describe('LandingPageLayoutComponent', () => {
   let component: LandingPageLayoutComponent;
   let fixture: ComponentFixture<LandingPageLayoutComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers())
+      ],
       declarations: [
         LandingPageLayoutComponent,
         DynamicSlotComponent,
