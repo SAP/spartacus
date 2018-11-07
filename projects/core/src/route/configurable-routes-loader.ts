@@ -38,7 +38,7 @@ export class ConfigurableRoutesLoader {
     });
   }
 
-  setStaticRoutesConfig(): Promise<any> {
+  private setStaticRoutesConfig(): Promise<any> {
     this._routesConfig = this.extendStaticRoutesConfig(null);
     return Promise.resolve();
   }
