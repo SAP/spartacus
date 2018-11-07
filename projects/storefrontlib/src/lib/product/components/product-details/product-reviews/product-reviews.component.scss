@@ -21,20 +21,35 @@
 }
 
 .review {
-  margin: var(--cx-margin, 0 0 25px 0);
+  display: grid;
+  grid-template-columns: auto 10vw;
+  grid-column-gap: 10px;
+  grid-template-rows: repeat(3, minmax(10px, auto)) auto;
 
-  &-details {
-    margin: var(--cx-margin, 0 0 20px 0);
+  // layout
+  cx-star-rating,
+  .title,
+  .text {
+    grid-column: 1;
   }
-  &-text {
-    margin: var(--cx-margin, 0 0 10px 0);
-    width: 80%;
-    @include media-breakpoint-down(md) {
-      width: 100%;
-    }
+  .date {
+    grid-column: 2;
   }
-  &-name {
+  .name {
+    order: 2;
+    grid-column: 2;
+    grid-row: 4;
+  }
+
+  // formatting
+  .title {
+    font-weight: bold;
+  }
+  .text {
+    margin: 10px 0;
+  }
+  .name,
+  .date {
     text-align: right;
-    display: block;
   }
 }
