@@ -7,7 +7,7 @@ import { StoreModule } from '@ngrx/store';
 import * as fromProduct from '../../../product/store';
 import * as fromCart from '../../../cart/store';
 import * as fromUser from '../../../user/store';
-import { ProductSearchService } from '../../../product/services';
+import { ProductSearchService } from '../../../product/facade';
 
 describe('ProductListPageComponent', () => {
   let component: ProductListPageLayoutComponent;
