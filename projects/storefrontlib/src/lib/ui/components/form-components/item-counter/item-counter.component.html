@@ -3,7 +3,8 @@
   <button type="button" class="cx-item-counter__action" (click)="decrement()" [disabled]="cartIsLoading || value === min">
     -
   </button>
-  <div class="cx-item-counter__value"> {{ value }} </div>
+  <input class="cx-item-counter__value" type="text" name="value" (keyup)="onInputKeyUp($event)" [value]="value" *ngIf="isValueChangable" />
+  <div class="cx-item-counter__value" *ngIf="!isValueChangable"> {{ value }} </div>
   <button type="button" class="cx-item-counter__action" (click)="increment()" [disabled]="cartIsLoading || value === max">
     +
   </button>

@@ -39,6 +39,8 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   async = false;
   @Input()
   cartIsLoading = false;
+  @Input()
+  isValueChangable = false;
 
   @Output()
   update = new EventEmitter<any>();
@@ -87,6 +89,19 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
       event.stopPropagation();
     }
     this.onTouch();
+  }
+
+  onInputKeyUp(event) {
+    const { value } = event.target;
+    if (isNaN(Number(value))) {
+      event.target.value = this.value;
+      return;
+    }
+    const newValue = Number(value.replace(/^0+/, ''));
+
+    event.target.value = newValue;
+    this.value = newValue;
+    return;
   }
 
   onBlur(event: FocusEvent) {
