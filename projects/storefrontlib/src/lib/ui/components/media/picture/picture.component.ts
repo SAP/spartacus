@@ -51,7 +51,7 @@ export class PictureComponent implements OnChanges {
   }
 
   loadHandler() {
-    (<HTMLElement>this.elRef.nativeElement).classList.remove(INITIALIZED_CLS);
+    (<HTMLElement>this.elRef.nativeElement).classList.add(INITIALIZED_CLS);
     (<HTMLElement>this.elRef.nativeElement).classList.remove(LOADING_CLS);
     this.loaded.emit(this.elRef.nativeElement);
   }
