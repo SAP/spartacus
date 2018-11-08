@@ -1,7 +1,8 @@
-$zoomOutWhileLoading: false !default;
 $spinWhileLoading: false !default;
+$spinWhileWaiting: false !default;
 $overlayWhileLoading: false !default;
 $zoomThumbOnHover: false !default;
+$zoomOutWhileLoading: false !default;
 
 cx-picture {
   @if $zoomOutWhileLoading == true {
@@ -10,13 +11,20 @@ cx-picture {
     }
   }
 
-  @if $spinWhileLoading == true {
+  @if $spinWhileLoading == true OR $spinWhileWaiting == true {
     &:after {
       @extend %spinner !optional;
     }
-    // the effects run always, but are made visible only when loading or waiting
-    // this is done so we can slowly fadein/out the effect
-    &.loading:after,
+  }
+
+  // the effects run always, but are made visible only when loading or waiting
+  // this is done so we can slowly fadein/out the effect
+  @if $spinWhileLoading == true {
+    &.loading:after {
+      --cx-opacity: 1;
+    }
+  }
+  @if $spinWhileWaiting == true {
     &.waiting:after {
       --cx-opacity: 1;
     }
