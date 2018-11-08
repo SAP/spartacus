@@ -8,6 +8,7 @@
   height: 100%;
   > cx-picture {
     height: 100%;
+    width: 100%; // required to support horizontal layouts
     position: relative;
   }
 }
