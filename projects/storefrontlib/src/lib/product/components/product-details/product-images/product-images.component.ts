@@ -24,7 +24,7 @@ export class ProductImagesComponent implements OnChanges {
     if (this.mainImageContainer === imageContainer) {
       return;
     }
-    this.start(<HTMLElement>event.target);
+    this.startWaiting(<HTMLElement>event.target);
     this.mainImageContainer = imageContainer;
   }
 
@@ -36,7 +36,7 @@ export class ProductImagesComponent implements OnChanges {
     this.clearWaitList();
   }
 
-  private start(el: HTMLElement) {
+  private startWaiting(el: HTMLElement) {
     this.clearWaitList();
     el.classList.add(WAITING_CLASS);
     this.waiting = el;

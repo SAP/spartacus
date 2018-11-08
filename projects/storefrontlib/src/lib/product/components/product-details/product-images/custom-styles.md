@@ -2,7 +2,7 @@
 
 ## Vertical thumb panel
 
-The folowing snippets demonstrates the so-called amazon layout of thumbs. It's a small customisation that renders the thumbnails on the right hand side of the main image.
+The folowing snippets demonstrates the so-called amazon layout of thumbs. It's a small customisation that renders the thumbnails on the left hand side of the main image.
 
 ```
 cx-product-images {
