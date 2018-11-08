@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { ConfigModule, Config } from '../config';
+import { ConfigModule, Config } from '../config/index';
 
 import {
   StoreRouterConnectingModule,
