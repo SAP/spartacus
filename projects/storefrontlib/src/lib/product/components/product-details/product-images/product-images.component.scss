@@ -4,6 +4,11 @@
 
   --cx-border-color: var(--cx-light);
   --cx-border-width: 0.1vw;
+
+  height: 100%;
+  > cx-picture {
+    height: 100%;
+  }
 }
 
 .thumbs {
