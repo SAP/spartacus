@@ -5,6 +5,6 @@
     </ng-container>
 
     <ng-container *ngIf="!user?.name">
-        <a role="link" routerLink="login">Sign In / Register</a>
+        <a role="link" [routerLink]="['login'] | cxPath">Sign In / Register</a>
     </ng-container>
 </ng-container>

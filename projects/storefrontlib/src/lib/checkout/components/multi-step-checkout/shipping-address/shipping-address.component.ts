@@ -15,6 +15,7 @@ import * as fromRouting from '../../../../routing/store';
 import { CheckoutService } from '../../../services/checkout.service';
 import { Card } from '../../../../ui/components/card/card.component';
 import { Address } from '../../../models/address-model';
+import { PathService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-shipping-address',
@@ -35,7 +36,8 @@ export class ShippingAddressComponent implements OnInit {
 
   constructor(
     protected store: Store<fromUserStore.UserState>,
-    protected checkoutService: CheckoutService
+    protected checkoutService: CheckoutService,
+    private pathService: PathService
   ) {}
 
   ngOnInit() {
@@ -119,7 +121,7 @@ export class ShippingAddressComponent implements OnInit {
   back() {
     this.store.dispatch(
       new fromRouting.Go({
-        path: ['/cart']
+        path: [this.pathService.transform('cart')]
       })
     );
   }

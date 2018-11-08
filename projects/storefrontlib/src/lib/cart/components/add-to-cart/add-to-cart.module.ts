@@ -3,9 +3,10 @@ import { CartSharedModule } from './../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
+import { PathModule } from '@spartacus/core';
 
 @NgModule({
-  imports: [CartSharedModule, SpinnerModule],
+  imports: [CartSharedModule, SpinnerModule, PathModule],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],
   entryComponents: [AddedToCartDialogComponent],
   exports: [AddToCartComponent]

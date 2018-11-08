@@ -9,6 +9,7 @@ import {
   switchMap
 } from 'rxjs/operators';
 import { RoutingService } from '../../routing/facade/routing.service';
+import { PathService } from '@spartacus/core';
 
 interface SearchBoxConfig {
   maxProducts: number;
@@ -33,7 +34,8 @@ export class SearchBoxComponentService {
   constructor(
     @Optional() protected componentData: CmsComponentData,
     public searchService: ProductSearchService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    private pathService: PathService
   ) {
     if (componentData) {
       this.config$ = merge(
@@ -63,7 +65,7 @@ export class SearchBoxComponentService {
     );
 
   public launchSearchPage(query: string) {
-    this.routingService.go(['/search', query]);
+    this.routingService.go([this.pathService.transform('search', { query })]);
   }
 
   private fetch(text: string, config: SearchBoxConfig): Observable<any[]> {

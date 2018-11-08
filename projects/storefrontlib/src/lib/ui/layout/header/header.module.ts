@@ -11,6 +11,7 @@ import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
 import { LoginModule } from '../../../user/components/login/login.module';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { PwaModule } from '../../../pwa/pwa.module';
+import { PathModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { PwaModule } from '../../../pwa/pwa.module';
     CmsModule,
     LoginModule,
     RouterModule,
-    PwaModule
+    PwaModule,
+    PathModule
   ],
   declarations: [
     HeaderComponent,

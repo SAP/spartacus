@@ -11,6 +11,7 @@ import { map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import * as fromRouting from '../../routing/store';
 import * as fromStore from './../store';
+import { PathService } from '@spartacus/core';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -18,7 +19,8 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     private store: Store<fromStore.AuthState>,
-    private router: Router
+    private router: Router,
+    private pathService: PathService
   ) {}
 
   canActivate(
@@ -29,7 +31,7 @@ export class AuthGuard implements CanActivate {
       select(fromStore.getUserToken),
       map(token => {
         if (!token.access_token) {
-          this.router.navigate(['/login']);
+          this.router.navigate([this.pathService.transform('login')]);
           this.store.dispatch(new fromRouting.SaveRedirectUrl(state.url));
         }
         return !!token.access_token;

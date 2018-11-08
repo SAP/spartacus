@@ -4,9 +4,16 @@ import { RouterModule } from '@angular/router';
 import { ProductCarouselComponent } from './product-carousel.component';
 import { MediaModule } from '../../ui/components/media/media.module';
 import { BootstrapModule } from '../../bootstrap.module';
+import { PathModule } from '@spartacus/core';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, MediaModule, BootstrapModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MediaModule,
+    BootstrapModule,
+    PathModule
+  ],
   declarations: [ProductCarouselComponent],
   entryComponents: [ProductCarouselComponent],
   exports: [ProductCarouselComponent]

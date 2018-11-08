@@ -1,26 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'cx-tertiary-bar',
   templateUrl: './tertiary-bar.component.html',
   styleUrls: ['./tertiary-bar.component.scss']
 })
-export class TertiaryBarComponent implements OnInit {
-  tertiaryNavItems: any[] = [
+export class TertiaryBarComponent {
+  constructor() {}
+
+  tertiaryNavItems: { label: string; pageName: string }[] = [
     {
       label: 'Sale',
-      url: '/sale'
+      pageName: 'sale'
     },
     {
       label: 'Contact us',
-      url: '/contact'
+      pageName: 'contact'
     },
     {
       label: 'Help',
-      url: '/help'
+      pageName: 'help'
     }
   ];
-  constructor() {}
-
-  ngOnInit() {}
 }

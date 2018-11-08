@@ -9,14 +9,14 @@ import { tap, filter, take, switchMap } from 'rxjs/operators';
 import * as fromStore from '../../store';
 
 import { UserToken } from '../../models/token-types.model';
+import { PathService } from '@spartacus/core';
 
 @Injectable()
 export class UserErrorHandlingService {
-  readonly LOGIN_URL = '/login';
-
   constructor(
     private store: Store<fromStore.AuthState>,
-    private router: Router
+    private router: Router,
+    private pathService: PathService
   ) {}
 
   public handleExpiredUserToken(
@@ -51,7 +51,7 @@ export class UserErrorHandlingService {
             })
           );
         } else if (!token.access_token && !token.refresh_token) {
-          this.router.navigate([this.LOGIN_URL]);
+          this.router.navigate([this.pathService.transform('login')]);
         }
       }),
       filter(

@@ -6,9 +6,10 @@ import { RouterModule } from '@angular/router';
 import { MiniCartComponent } from './mini-cart.component';
 
 import { BannerModule } from '../banner/banner.module';
+import { PathModule } from '@spartacus/core';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, BannerModule, MediaModule],
+  imports: [CommonModule, RouterModule, BannerModule, MediaModule, PathModule],
   declarations: [MiniCartComponent],
   entryComponents: [MiniCartComponent],
   exports: [MiniCartComponent]

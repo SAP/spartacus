@@ -20,6 +20,7 @@ import { CartService } from '../../../../cart/services/cart.service';
 import { Address } from '../../../models/address-model';
 import { checkoutNavBar } from './checkout-navigation-bar';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
+import { PathService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-multi-step-checkout',
@@ -45,7 +46,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     protected cartService: CartService,
     protected cartDataService: CartDataService,
     private store: Store<fromCheckoutStore.CheckoutState>,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
+    private pathService: PathService
   ) {}
 
   private refreshCart() {
@@ -136,7 +138,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
           this.checkoutService.orderDetails = order;
           this.store.dispatch(
             new fromRouting.Go({
-              path: ['orderConfirmation']
+              path: [this.pathService.transform('orderConfirmation')]
             })
           );
         })

@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 import * as fromStore from './../store';
+import { PathService } from '@spartacus/core';
 
 @Injectable()
 export class NotAuthGuard implements CanActivate {
@@ -12,7 +13,8 @@ export class NotAuthGuard implements CanActivate {
 
   constructor(
     private store: Store<fromStore.AuthState>,
-    private router: Router
+    private router: Router,
+    private pathService: PathService
   ) {}
 
   canActivate(): Observable<boolean> {
@@ -20,7 +22,7 @@ export class NotAuthGuard implements CanActivate {
       select(fromStore.getUserToken),
       map(token => {
         if (token.access_token) {
-          this.router.navigate(['/']);
+          this.router.navigate([this.pathService.transform('homepage')]);
         }
         return !token.access_token;
       })

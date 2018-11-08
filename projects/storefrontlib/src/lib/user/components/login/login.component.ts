@@ -15,6 +15,7 @@ import { UserToken } from '../../../auth/models/token-types.model';
 import * as fromStore from '../../store';
 import { AuthService } from '../../../auth/facade/auth.service';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { PathService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login',
@@ -34,7 +35,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private store: Store<fromStore.UserState>,
     private route: ActivatedRoute,
     private elementRef: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private pathService: PathService
   ) {
     this.renderer.listen(this.elementRef.nativeElement, 'click', event => {
       event.preventDefault();
@@ -80,7 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         child => child.GUARD_NAME === 'AuthGuard'
       )
     ) {
-      this.routing.go(['/login']);
+      this.routing.go([this.pathService.transform('login')]);
     }
   }
 
