@@ -1,31 +1,46 @@
-// generic picture loader (spinner)
+$zoomOutWhileLoading: false !default;
+$spinWhileLoading: false !default;
+$overlayWhileLoading: false !default;
+$zoomThumbOnHover: false !default;
+
 cx-picture {
-  // zoom out the image while a new one is loading
-  &.initialized.loading {
-    --cx-zoom: 0.5;
+  @if $zoomOutWhileLoading == true {
+    &.initialized.loading {
+      --cx-zoom: 0.5;
+    }
   }
 
-  &:after {
-    @extend %spinner !optional;
-  }
-  // the effects are always running, but only visible when loading or waiting
-  // this is done so we can slowly fadein/out the effect
-  &.waiting:before,
-  &.loading:before,
-  &.waiting:after,
-  &.loading:after {
-    --cx-opacity: 1;
+  @if $spinWhileLoading == true {
+    &:after {
+      @extend %spinner !optional;
+    }
+    // the effects run always, but are made visible only when loading or waiting
+    // this is done so we can slowly fadein/out the effect
+    &.loading:after,
+    &.waiting:after {
+      --cx-opacity: 1;
+    }
   }
 }
 
 .thumbs {
-  // zoom thumb image to emphasize interactivity
-  cx-picture:hover:not(.active) {
-    --cx-zoom: 1.3;
-  }
+  cx-picture {
+    @if $zoomThumbOnHover == true {
+      &:hover:not(.active) {
+        --cx-zoom: 1.3;
+      }
+    }
 
-  // wait effect when thumb is selected
-  cx-picture.initialized:before {
-    @extend %overlay !optional;
+    @if $overlayWhileLoading == true {
+      &.initialized:before {
+        @extend %overlay !optional;
+      }
+      // the effects run always, but are made visible only when loading or waiting
+      // this is done so we can slowly fadein/out the effect
+      &.loading:before,
+      &.waiting:before {
+        --cx-opacity: 1;
+      }
+    }
   }
 }
