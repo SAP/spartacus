@@ -3,7 +3,9 @@ import {
   Input,
   OnChanges,
   ElementRef,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import { missingProductImgSrc } from '../../../images/missingProduct';
 
@@ -25,6 +27,8 @@ export class PictureComponent implements OnChanges {
   imagePosition;
   @Input()
   imageAlt;
+  @Output()
+  loaded: EventEmitter<HTMLElement> = new EventEmitter<HTMLElement>();
 
   mainImage;
   missingProductImgSrc = missingProductImgSrc;
@@ -32,10 +36,10 @@ export class PictureComponent implements OnChanges {
   constructor(private elRef: ElementRef, private cd: ChangeDetectorRef) {}
 
   ngOnChanges() {
-    this.changeImage();
+    this.loadImage();
   }
 
-  changeImage() {
+  loadImage() {
     if (this.imageContainer) {
       const image = this.imageContainer[this.imageFormat || DEFAULT_FORMAT];
       if (image && image.url) {
@@ -53,5 +57,6 @@ export class PictureComponent implements OnChanges {
   loadHandler() {
     (<HTMLElement>this.elRef.nativeElement).classList.remove(INITIALIZED_CLS);
     (<HTMLElement>this.elRef.nativeElement).classList.remove(LOADING_CLS);
+    this.loaded.emit(this.elRef.nativeElement);
   }
 }
