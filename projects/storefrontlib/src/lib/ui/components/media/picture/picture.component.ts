@@ -53,7 +53,7 @@ export class PictureComponent implements OnChanges {
     event.target.src = missingProductImgSrc;
   }
 
-  public resetZoom() {
+  loadHandler() {
     if (!this.initialLoad) {
       (<HTMLElement>this.elRef.nativeElement).classList.remove('initialize');
       (<HTMLElement>this.elRef.nativeElement).classList.remove('loading');
