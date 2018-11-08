@@ -7,6 +7,8 @@ import {
   ConfigurableRoutesModuleConfig,
   defaultConfigurableRoutesModuleConfig
 } from './configurable-routes-module.config';
+import { PathService } from './path/path.service';
+import { DynamicPathService } from './path/dynamic-path.service';
 
 export function loadRoutesConfig(loader: ConfigurableRoutesLoader) {
   const result = () => loader.loadRoutesConfig(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
@@ -23,6 +25,8 @@ export function loadRoutesConfig(loader: ConfigurableRoutesLoader) {
   providers: [
     ConfigurableRoutesService,
     ConfigurableRoutesLoader,
+    PathService,
+    DynamicPathService,
     {
       provide: APP_INITIALIZER,
       useFactory: loadRoutesConfig,
