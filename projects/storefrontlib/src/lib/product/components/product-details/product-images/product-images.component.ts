@@ -21,6 +21,9 @@ export class ProductImagesComponent implements OnChanges {
   }
 
   showImage(event: MouseEvent, imageContainer) {
+    if (this.mainImage === imageContainer) {
+      return;
+    }
     this.start(<HTMLElement>event.target);
     this.mainImage = imageContainer;
   }
