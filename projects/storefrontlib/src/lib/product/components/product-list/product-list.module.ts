@@ -14,6 +14,7 @@ import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-car
 import { MediaModule } from '../../../ui/components/media/media.module';
 import { FormComponentsModule } from '../../../ui/components/form-components/form-components.module';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
+import { PathModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { PaginationAndSortingModule } from '../../../ui/components/pagination-an
     BootstrapModule,
     AddToCartModule,
     FormComponentsModule,
-    PaginationAndSortingModule
+    PaginationAndSortingModule,
+    PathModule
   ],
   declarations: [
     ProductListComponent,
