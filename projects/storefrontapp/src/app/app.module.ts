@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { StorefrontComponent, StorefrontModule } from '@spartacus/storefront';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
@@ -14,18 +14,20 @@ if (!environment.production) {
 @NgModule({
   imports: [
     BrowserModule,
-	StorefrontModule.withConfig({
+    ServiceWorkerModule.register('/ngsw-worker.js', {
+      enabled: environment.production
+    }),
+    StorefrontModule.withConfig({
       server: {
-        baseUrl: 'https://hybris-electronics.intern.hmmh.io',
-        occPrefix: '/rest/v2/'
+        baseUrl: environment.occBaseUrl
       },
-      authentication: {
-        client_id: 'mobile_android',
-        client_secret: 'secret'
+      pwa: {
+        addToHomeScreen: true
       }
     }),
     ...devImports
   ],
+
   bootstrap: [StorefrontComponent]
 })
 export class AppModule {}
