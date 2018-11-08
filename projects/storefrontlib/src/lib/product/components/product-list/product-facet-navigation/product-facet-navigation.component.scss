@@ -36,11 +36,13 @@ $cx-search-facet-header-icon-color: 'secondary' !default;
 
 $cx-search-facet-label-color: 'secondary' !default;
 $cx-search-facet-label-selected-color: 'primary' !default;
+$cx-search-facet-label-margin: 0 !default;
 
 $cx-search-facet-label-wrapper-trbl-padding: 0 0 0 0 !default;
 $cx-search-facet-label-wrapper-trbl-margin: 0 0 15px 0 !default;
 
 $cx-search-facet-checkbox-trbl-margin: 0 10px 0 0 !default;
+$cx-search-facet-checkbox-transition: 0.3s !default;
 $cx-search-facet-checkbox-rectangular-size: 22px !default;
 $cx-search-facet-checkbox-background-color__hover: 'light' !default;
 
@@ -68,7 +70,7 @@ $cx-search-facet-modal-footer-btn-width: 50% !default;
       @include type('6');
       font-weight: $font-weight-normal;
       position: relative;
-      margin: 0;
+      margin: $cx-search-facet-label-margin;
       display: flex;
       align-items: flex-start;
       justify-content: flex-start;
@@ -106,7 +108,7 @@ $cx-search-facet-modal-footer-btn-width: 50% !default;
     position: relative;
     margin: $cx-search-facet-checkbox-trbl-margin;
     min-width: $cx-search-facet-checkbox-rectangular-size;
-    transition: 0.3s;
+    transition: $cx-search-facet-checkbox-transition;
 
     &:checked + .cx-search-facet-list__label-text {
       @include var-color('color', $cx-search-facet-label-selected-color);

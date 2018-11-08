@@ -44,7 +44,9 @@ export class SearchResultsPage extends AppPage {
     by.css('.cx-product-search__sorting--top cx-product-view > div > div')
   );
 
-  readonly facet: ElementFinder = this.page.element(by.css('#facetCheck0_0'));
+  readonly facet: ElementFinder = this.page.element(
+    by.css('.cx-search-facet-checkbox')
+  );
 
   readonly clearFacet: ElementFinder = this.page.element(
     by.css('.cx-search-facet-filter__pill .close')

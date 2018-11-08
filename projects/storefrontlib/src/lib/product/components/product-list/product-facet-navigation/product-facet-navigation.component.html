@@ -22,13 +22,13 @@
           {{facet.name}}
         </a>
       </span>
-      <div id="facet_{{facetId}}" [ngbCollapse]="isFacetCollapsed(facet.name)">
+      <div [ngbCollapse]="isFacetCollapsed(facet.name)">
         <ul class="cx-search-facet-list">
           <li *ngFor="let value of getVisibleFacetValues(facet); index as facetValueId">
             <div class="form-check">
               <label class="form-checkbox cx-search-facet-list__label">
-                <input class="form-check-input cx-search-facet-checkbox" role="checkbox" type="checkbox" id="facetCheck{{facetId}}_{{facetValueId}}"
-                  aria-checked="true" [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
+                <input class="form-check-input cx-search-facet-checkbox" role="checkbox" type="checkbox" aria-checked="true"
+                  [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
                 <span class="cx-search-facet-list__label-text">{{value.name}} ({{value.count}})</span>
               </label>
             </div>
@@ -81,8 +81,8 @@
             <li *ngFor="let value of facet.values; index as facetValueId">
               <div class="form-check">
                 <label class="form-checkbox cx-search-facet-list__label">
-                  <input class="form-check-input cx-search-facet-checkbox" role="checkbox" type="checkbox" id="facetModalCheck{{facetId}}_{{facetValueId}}"
-                    aria-checked="true" [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
+                  <input class="form-check-input cx-search-facet-checkbox" role="checkbox" type="checkbox" aria-checked="true"
+                    [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
                   <span class="cx-search-facet-list__label-text">{{value.name}} ({{value.count}})</span>
                 </label>
               </div>
