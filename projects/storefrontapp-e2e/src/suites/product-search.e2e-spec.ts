@@ -68,14 +68,14 @@ describe('Product search', () => {
 
   describe('Facets', () => {
     it('should be able to use facet filtering', async () => {
-      await searchResults.facet.click();
+      await searchResults.getSingleFilterFacet(0).click();
 
       const text = await searchResults.getHeaderText();
       expect(text).toContain('77 results for cameras');
     });
 
     it('should be able to clear active facet', async () => {
-      await searchResults.clearFacet.click();
+      await searchResults.clearFacets.click();
 
       const text = await searchResults.getHeaderText();
       expect(text).toContain('144 results for cameras');
