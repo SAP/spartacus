@@ -17,9 +17,12 @@ export interface RoutesTranslations {
   myAccount_orders?: string[];
   myAccount_orderDetails?: string[];
   pageNotFound?: string[];
-  [pageName: string]: string[]; // allow translations of paths for custom pages
+
+  // allow custom pages
+  [pageName: string]: string[];
 }
 
+// root level properties bellow should match those from RoutesTranslations interface:
 export interface ParameterNamesMapping {
   product?: {
     [_: string]: string;
@@ -28,6 +31,11 @@ export interface ParameterNamesMapping {
     [_: string]: string;
   };
   myAccount_orderDetails?: {
+    [_: string]: string;
+  };
+
+  // allow custom pages:
+  [pageName: string]: {
     [_: string]: string;
   };
 }
@@ -40,6 +48,7 @@ export interface RoutesConfig {
   parameterNamesMapping?: ParameterNamesMapping;
 }
 
+// when adding new properties below, please add them also to relevant interfaces above
 export const defaultRoutesConfig: RoutesConfig = {
   translations: {
     default: {
@@ -59,13 +68,19 @@ export const defaultRoutesConfig: RoutesConfig = {
         'Brands/:brandName/c/:brandCode'
       ],
       storeFinder: ['store-finder'],
+      storeDescription: ['store-finder/country/:country/region/:region/:store'],
+      storeList: [
+        'store-finder/country/:country',
+        'store-finder/country/:country/region/:region'
+      ],
       contact: ['contact'],
       help: ['faq'],
       sale: ['sale'],
       myAccount_orders: ['my-account/orders'],
       myAccount_orderDetails: ['my-account/orders/:orderCode'],
       pageNotFound: ['**']
-    }
+    },
+    en: {}
   },
   parameterNamesMapping: {
     product: {
