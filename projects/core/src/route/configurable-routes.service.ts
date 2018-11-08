@@ -13,25 +13,25 @@ export class ConfigurableRoutesService {
     private readonly router: Router,
     private readonly loader: ConfigurableRoutesLoader
   ) {
-    this.routesConfig = this.loader.routesConfig;
+    this._routesConfig = this.loader.routesConfig;
   }
 
   private readonly DEFAULT_LANGUAGE_CODE = 'default';
 
-  private routesConfig: RoutesConfig;
+  private _routesConfig: RoutesConfig;
   private currentLanguageCode: string = this.DEFAULT_LANGUAGE_CODE;
 
   private get currentRoutesTranslations(): RoutesTranslations {
-    return this.routesConfig.translations[this.currentLanguageCode];
+    return this._routesConfig.translations[this.currentLanguageCode];
   }
 
   changeLanguage(languageCode: string) {
-    if (this.routesConfig.translations[languageCode] === undefined) {
+    if (this._routesConfig.translations[languageCode] === undefined) {
       if (!this.config.production) {
         console.warn(
           `There are no translations in routes config for language code '${languageCode}'.`,
           `The default routes translations will be used instead: `,
-          this.routesConfig.translations.default
+          this._routesConfig.translations.default
         );
       }
       this.currentLanguageCode = this.DEFAULT_LANGUAGE_CODE;
@@ -55,21 +55,30 @@ export class ConfigurableRoutesService {
   }
 
   getParameterNamesMapping(pageName: string): object {
-    return this.routesConfig.parameterNamesMapping[pageName] || {};
+    return this._routesConfig.parameterNamesMapping[pageName] || {};
   }
 
   // TODO #187: spike of handling properly nested routes
   private translateRoutes(routes: Routes): Routes {
     const translatedRoutes = [];
     routes.forEach(route => {
-      // we assume that 'path' and 'redirectTo' cannot be both configurable for one route
       if (this.isConfigurable(route, 'cxPath')) {
         translatedRoutes.push(...this.translatePath(route));
+
+        // we assume that 'path' and 'redirectTo' cannot be both configurable for one route
+        if (
+          this.isConfigurable(route, 'cxRedirectTo') &&
+          !this.config.production
+        ) {
+          console.warn(
+            `A path should not have set both "cxPath" and "cxRedirectTo" properties! Route: '${route}`
+          );
+        }
         return;
       }
 
       if (this.isConfigurable(route, 'cxRedirectTo')) {
-        translatedRoutes.push(this.translateRedirectTo(route));
+        translatedRoutes.push(...this.translateRedirectTo(route));
         return;
       }
 
@@ -89,19 +98,16 @@ export class ConfigurableRoutesService {
   private translatePath(route: Route): Route[] {
     return this.getConfiguredPaths(route, 'cxPath').map(translatedPath => {
       return Object.assign({}, route, {
-        path: translatedPath,
-        matcher:
-          translatedPath === null
-            ? () => false // soft delete route - it won't match any url
-            : null
+        path: translatedPath
       });
     });
   }
 
-  private translateRedirectTo(route: Route): Route {
+  private translateRedirectTo(route: Route): Route[] {
     const translatedPaths = this.getConfiguredPaths(route, 'cxRedirectTo');
-    const newRedirectTo = translatedPaths[0]; // get the first path from list by convention
-    return Object.assign({}, route, { redirectTo: newRedirectTo });
+    return translatedPaths.length
+      ? [Object.assign({}, route, { redirectTo: translatedPaths[0] })] // take the first path from list by convention
+      : [];
   }
 
   private getConfiguredPaths(
@@ -111,6 +117,6 @@ export class ConfigurableRoutesService {
     const pageName = this.getConfigurable(route, key);
     const paths = this.getPathsForPage(pageName);
 
-    return paths === undefined || paths === null ? [null] : paths;
+    return paths === undefined || paths === null ? [] : paths;
   }
 }
