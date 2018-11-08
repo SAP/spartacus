@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import * as fromAuthStore from '../store';
-import * as fromStore from '../../user/store';
 import { UserToken } from '../models/token-types.model';
 import { Observable } from 'rxjs';
 
@@ -13,7 +12,7 @@ export class AuthService {
     select(fromAuthStore.getUserToken)
   );
 
-  constructor(private store: Store<fromStore.UserState>) {}
+  constructor(private store: Store<fromAuthStore.AuthState>) {}
 
   authorize(userId: string, password: string) {
     this.store.dispatch(
