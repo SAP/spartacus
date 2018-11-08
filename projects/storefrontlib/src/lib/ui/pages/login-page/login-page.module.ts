@@ -1,16 +1,17 @@
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CmsPageGuards } from './../../../cms/guards/cms-page.guard';
 import { NotAuthGuard } from './../../../auth/guards/not-auth.guard';
 import { NgModule } from '@angular/core';
 import { LoginPageLayoutModule } from './../../layout/login-page-layout/login-page-layout.module';
 import { LoginPageComponent } from './login-page.component';
+import { ConfigurableRoutes } from '@spartacus/core';
 
-const routes: Routes = [
+const routes: ConfigurableRoutes = [
   {
-    path: 'login',
+    path: null,
     canActivate: [NotAuthGuard, CmsPageGuards],
-    data: { pageLabel: 'login' },
-    component: LoginPageComponent
+    component: LoginPageComponent,
+    data: { pageLabel: 'login', cxPath: 'login' }
   }
 ];
 @NgModule({

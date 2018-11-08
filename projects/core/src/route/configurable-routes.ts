@@ -15,7 +15,7 @@ export interface ConfigurableRouteRedirectTo extends Route {
 }
 
 export type ConfigurableRoute =
-  | ConfigurableRoutePath
-  | ConfigurableRouteRedirectTo;
+  | ConfigurableRouteRedirectTo
+  | ConfigurableRoutePath;
 
 export type ConfigurableRoutes = ConfigurableRoute[];

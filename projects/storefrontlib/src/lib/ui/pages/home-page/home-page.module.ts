@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { LandingPageLayoutModule } from '../../layout/landing-page-layout/landing-page-layout.module';
 import { HomePageComponent } from './home-page.component';
+import { ConfigurableRoutes } from '@spartacus/core';
 
-const routes: Routes = [
+const routes: ConfigurableRoutes = [
   {
-    path: '',
+    path: null,
     canActivate: [CmsPageGuards],
     component: HomePageComponent,
-    data: { pageLabel: 'homepage' }
+    data: { pageLabel: 'homepage', cxPath: 'homepage' }
   }
 ];
 

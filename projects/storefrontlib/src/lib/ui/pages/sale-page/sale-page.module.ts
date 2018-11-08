@@ -1,22 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { SalePageComponent } from './sale-page.component';
 import { SalePageLayoutModule } from '../../layout/sale-page-layout/sale-page-layout.module';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
+import { ConfigurableRoutes } from '@spartacus/core';
 
-const routes: Routes = [
+const routes: ConfigurableRoutes = [
   {
     path: 'sale',
     canActivate: [CmsPageGuards],
-
-    // TODO:
-    // When 'sale page' is implemented in CMS backend,
-    // then 'homepage' pageLabel should be changed to adequate one
-    data: { pageLabel: 'homepage' },
-
-    component: SalePageComponent
+    component: SalePageComponent,
+    data: { pageLabel: 'homepage', cxPath: 'sale' } // TODO set a proper pageLabel when it's available in CMS
   }
 ];
 

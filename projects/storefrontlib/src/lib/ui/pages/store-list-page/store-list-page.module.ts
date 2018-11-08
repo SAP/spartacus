@@ -1,24 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards';
 import { StoreListPageLayoutModule } from '../../layout/store-list-page-layout/store-list-page-layout.module';
 
 import { StoreListPageComponent } from './store-list-page.component';
+import { ConfigurableRoutes } from '@spartacus/core';
 
-const routes: Routes = [
+const routes: ConfigurableRoutes = [
   {
-    path: 'store-finder/country/:country',
+    path: null,
     canActivate: [CmsPageGuards],
-    data: { pageLabel: 'storefinderPage' },
-    component: StoreListPageComponent
-  },
-  {
-    path: 'store-finder/country/:country/region/:region',
-    canActivate: [CmsPageGuards],
-    data: { pageLabel: 'storefinderPage' },
-    component: StoreListPageComponent
+    component: StoreListPageComponent,
+    data: { pageLabel: 'storefinderPage', cxPath: 'storeList' }
   }
 ];
 

@@ -1,22 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { ContactPageLayoutModule } from '../../layout/contact-page-layout/contact-page-layout.module';
 import { ContactPageComponent } from './contact-page.component';
+import { ConfigurableRoutes } from '@spartacus/core';
 
-const routes: Routes = [
+const routes: ConfigurableRoutes = [
   {
-    path: 'contact',
+    path: null,
     canActivate: [CmsPageGuards],
-
-    // TODO:
-    // When 'contact page' is implemented in CMS backend,
-    // then 'homepage' pageLabel should be changed to adequate one
-    data: { pageLabel: 'homepage' },
-
-    component: ContactPageComponent
+    component: ContactPageComponent,
+    data: { pageLabel: 'homepage', cxPath: 'contact' } // TODO set a proper pageLabel when it's available in CMS
   }
 ];
 

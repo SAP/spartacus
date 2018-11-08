@@ -1,52 +1,49 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { CategoryPageLayoutModule } from '../../layout/category-page-layout/category-page-layout.module';
 import { ProductListPageLayoutModule } from '../../layout/product-list-page-layout/product-list-page-layout.module';
 
 import { CategoryPageComponent } from './category-page.component';
+import { ConfigurableRoutes } from '@spartacus/core';
 
-const routes: Routes = [
+const routes: ConfigurableRoutes = [
   {
-    path: 'search/:query',
+    path: null,
     canActivate: [CmsPageGuards],
     component: CategoryPageComponent,
-    data: { pageLabel: 'search' }
+    data: { pageLabel: 'search', cxPath: 'search' }
   },
 
   // redirect OLD links
   {
     path: 'Open-Catalogue/:categoryTitle/c/:categoryCode',
-    redirectTo: '/category/:categoryCode/:categoryTitle'
+    redirectTo: null,
+    data: { cxRedirectTo: 'category' }
   },
   {
     path: 'Open-Catalogue/:category1/:categoryTitle/c/:categoryCode',
-    redirectTo: '/category/:categoryCode/:categoryTitle'
+    redirectTo: null,
+    data: { cxRedirectTo: 'category' }
   },
   {
     path: 'Open-Catalogue/:category1/:category2/:categoryTitle/c/:categoryCode',
-    redirectTo: '/category/:categoryCode/:categoryTitle'
+    redirectTo: null,
+    data: { cxRedirectTo: 'category' }
   },
   {
     path: 'OpenCatalogue/:category1/:category2/:categoryTitle/c/:categoryCode',
-    redirectTo: '/category/:categoryCode/:categoryTitle'
+    redirectTo: null,
+    data: { cxRedirectTo: 'category' }
   },
+
   {
-    path: 'category/:categoryCode',
+    path: null,
     canActivate: [CmsPageGuards],
-    component: CategoryPageComponent
-  },
-  {
-    path: 'category/:categoryCode/:title',
-    canActivate: [CmsPageGuards],
-    component: CategoryPageComponent
-  },
-  {
-    path: 'Brands/:brandName/c/:brandCode',
-    canActivate: [CmsPageGuards],
-    component: CategoryPageComponent
+    component: CategoryPageComponent,
+    data: { cxPath: 'category' }
   }
 ];
 

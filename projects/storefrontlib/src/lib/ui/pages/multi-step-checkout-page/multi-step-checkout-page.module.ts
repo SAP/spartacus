@@ -1,19 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { AuthGuard } from './../../../auth/guards/auth.guard';
 import { CartNotEmptyGuard } from '../../../cart/guards/cart-not-empty.guard';
 import { MultiStepCheckoutPageLayoutModule } from '../../layout/multi-step-checkout-page-layout/multi-step-checkout-page-layout.module';
 import { MultiStepCheckoutPageComponent } from './multi-step-checkout-page.component';
+import { ConfigurableRoutes } from '@spartacus/core';
 
-const routes: Routes = [
+const routes: ConfigurableRoutes = [
   {
-    path: 'checkout',
+    path: null,
     canActivate: [AuthGuard, CmsPageGuards, CartNotEmptyGuard],
-    data: { pageLabel: 'multiStepCheckoutSummaryPage' },
-    component: MultiStepCheckoutPageComponent
+    component: MultiStepCheckoutPageComponent,
+    data: { pageLabel: 'multiStepCheckoutSummaryPage', cxPath: 'checkout' }
   }
 ];
 
