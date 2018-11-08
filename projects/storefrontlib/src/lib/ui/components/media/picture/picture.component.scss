@@ -10,7 +10,5 @@ img {
   border-radius: var(--cx-border-radius);
 }
 :host {
-  &.loading:not(.initialize) {
-    --cx-zoom: 0.5;
-  }
+  position: relative;
 }
