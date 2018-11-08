@@ -2,10 +2,10 @@
 @import 'functions';
 @import 'mixins';
 
-$y-footer-background-color: 'dark' !default;
-$y-footer-color: 'inverse' !default;
+$cx-footer-background-color: 'dark' !default;
+$cx-footer-color: 'inverse' !default;
 
-.y-footer {
-  @include var-color('background-color', $y-footer-background-color);
-  @include var-color('color', $y-footer-color);
+.cx-footer {
+  @include var-color('background-color', $cx-footer-background-color);
+  @include var-color('color', $cx-footer-color);
 }

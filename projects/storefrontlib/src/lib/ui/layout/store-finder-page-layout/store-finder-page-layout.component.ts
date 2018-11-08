@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { SearchQuery } from '../../../store-finder/models/search-query';
 
 @Component({
-  selector: 'y-store-finder-page-layout',
+  selector: 'cx-store-finder-page-layout',
   templateUrl: './store-finder-page-layout.component.html',
   styleUrls: ['./store-finder-page-layout.component.scss']
 })

@@ -1,8 +1,7 @@
 import { CartSharedModule } from './../../cart-shared/cart-shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { combineReducers, StoreModule } from '@ngrx/store';
-import * as fromRoot from '../../../../routing/store';
+import { StoreModule } from '@ngrx/store';
 import { CartDataService } from '../../../services/cart-data.service';
 import { CartService } from '../../../services/cart.service';
 import * as fromReducer from '../../../store/reducers';
@@ -171,10 +170,8 @@ describe('CartDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cart: combineReducers(fromReducer.getReducers())
-        }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cart', fromReducer.getReducers),
         ComponentsModule,
         CartSharedModule
       ],

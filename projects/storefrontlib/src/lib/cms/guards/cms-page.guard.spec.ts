@@ -1,16 +1,19 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
-
+import { BehaviorSubject } from 'rxjs';
 import { CmsPageGuards } from './cms-page.guard';
 import { DefaultPageService } from '../services/default-page.service';
 import { CmsModuleConfig } from '../cms-module-config';
-import * as fromRoot from '../../routing/store';
 import * as fromReducers from '../store/reducers';
 import { PageType } from '../../routing/models/page-context.model';
 import { Page } from '../models/page.model';
 import * as fromActions from '../store/actions/page.action';
+import { RoutingService } from '../../routing/facade/routing.service';
 
+const mockRoutingService = {
+  routerState$: new BehaviorSubject(null)
+};
 const MockCmsModuleConfig: CmsModuleConfig = {
   defaultPageIdForType: {
     ProductPage: ['testProductPage']
@@ -34,14 +37,13 @@ describe('CmsPageGuards', () => {
       providers: [
         CmsPageGuards,
         DefaultPageService,
-        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig },
+        { provide: RoutingService, useValue: mockRoutingService }
       ],
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromReducers.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cms', fromReducers.getReducers())
       ]
     });
     store = TestBed.get(Store);
@@ -52,16 +54,12 @@ describe('CmsPageGuards', () => {
   describe('check hasPage', () => {
     it('should return true when find the cms page by key id_type', () => {
       store.dispatch(new fromActions.LoadPageDataSuccess(payload));
-      store.dispatch({
-        type: 'ROUTER_NAVIGATION',
-        payload: {
-          routerState: {
-            url: '/test',
-            queryParams: {},
-            params: {},
-            context: { id: 'testPageId', type: PageType.CONTENT_PAGE }
-          },
-          event: {}
+      mockRoutingService.routerState$.next({
+        state: {
+          url: '/test',
+          queryParams: {},
+          params: {},
+          context: { id: 'testPageId', type: PageType.CONTENT_PAGE }
         }
       });
 
@@ -82,16 +80,12 @@ describe('CmsPageGuards', () => {
           value: page
         })
       );
-      store.dispatch({
-        type: 'ROUTER_NAVIGATION',
-        payload: {
-          routerState: {
-            url: '/test',
-            queryParams: {},
-            params: {},
-            context: { id: '123', type: PageType.PRODUCT_PAGE }
-          },
-          event: {}
+      mockRoutingService.routerState$.next({
+        state: {
+          url: '/test',
+          queryParams: {},
+          params: {},
+          context: { id: '123', type: PageType.PRODUCT_PAGE }
         }
       });
 
@@ -104,16 +98,12 @@ describe('CmsPageGuards', () => {
     });
 
     it('should return true when find the cms page after loading', () => {
-      store.dispatch({
-        type: 'ROUTER_NAVIGATION',
-        payload: {
-          routerState: {
-            url: '/test',
-            queryParams: {},
-            params: {},
-            context: { id: 'newPageId', type: PageType.CONTENT_PAGE }
-          },
-          event: {}
+      mockRoutingService.routerState$.next({
+        state: {
+          url: '/test',
+          queryParams: {},
+          params: {},
+          context: { id: 'newPageId', type: PageType.CONTENT_PAGE }
         }
       });
 
@@ -139,16 +129,12 @@ describe('CmsPageGuards', () => {
     });
 
     it('should return false if loading cms page data error', () => {
-      store.dispatch({
-        type: 'ROUTER_NAVIGATION',
-        payload: {
-          routerState: {
-            url: '/test',
-            queryParams: {},
-            params: {},
-            context: { id: 'newPageId', type: PageType.CONTENT_PAGE }
-          },
-          event: {}
+      mockRoutingService.routerState$.next({
+        state: {
+          url: '/test',
+          queryParams: {},
+          params: {},
+          context: { id: 'newPageId', type: PageType.CONTENT_PAGE }
         }
       });
 
@@ -170,17 +156,13 @@ describe('CmsPageGuards', () => {
       expect(!!result).toBe(false);
     });
 
-    it('should return false if cannot find the page after loading cms data >=5 times', () => {
-      store.dispatch({
-        type: 'ROUTER_NAVIGATION',
-        payload: {
-          routerState: {
-            url: '/test',
-            queryParams: {},
-            params: {},
-            context: { id: 'newPageId', type: PageType.CONTENT_PAGE }
-          },
-          event: {}
+    it('should return false if cannot find the page after loading cms data >=3 times', () => {
+      mockRoutingService.routerState$.next({
+        state: {
+          url: '/test',
+          queryParams: {},
+          params: {},
+          context: { id: 'newPageId', type: PageType.CONTENT_PAGE }
         }
       });
 
@@ -203,7 +185,7 @@ describe('CmsPageGuards', () => {
       );
 
       expect(!!result).toBe(false);
-      expect(store.dispatch).toHaveBeenCalledTimes(4);
+      expect(store.dispatch).toHaveBeenCalledTimes(3);
     });
   });
 });

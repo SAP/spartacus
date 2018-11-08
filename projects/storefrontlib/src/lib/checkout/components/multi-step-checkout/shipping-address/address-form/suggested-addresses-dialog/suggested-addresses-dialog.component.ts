@@ -7,7 +7,7 @@ import {
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'y-suggested-addresses-dialog',
+  selector: 'cx-suggested-addresses-dialog',
   templateUrl: './suggested-addresses-dialog.component.html',
   styleUrls: ['./suggested-addresses-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
