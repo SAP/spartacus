@@ -1,1 +1,1 @@
-<a *ngIf="component" role="link" [routerLink]="[component.url]">{{component.linkName}}</a>
+<a *ngIf="component" role="link" [routerLink]="component.url | cxDynamicPath">{{component.linkName}}</a>

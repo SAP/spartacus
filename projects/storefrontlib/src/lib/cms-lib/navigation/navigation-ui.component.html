@@ -7,7 +7,7 @@
       node.title }}</span>
   </ng-template>
   <ng-template #noChildren>
-    <a [routerLink]="node.url" class="cx-navigation__link nav-link" id="{{ node.title }}">{{
+    <a [routerLink]="node.url | cxDynamicPath" class="cx-navigation__link nav-link" id="{{ node.title }}">{{
       node.title
       }}
     </a>
@@ -19,12 +19,13 @@
       <div ngbDropdownMenu class="cx-navigation__child-list" [attr.aria-label]="node.title" role="list">
         <div role="listitem" *ngFor="let subCategory of node.children" class="dropdown-item cx-navigation__child-item">
           <ng-container *ngIf="subCategory.url">
-            <a [routerLink]="subCategory.url" class="cx-navigation__child-link">{{ subCategory.title }} </a>
+            <a [routerLink]="subCategory.url | cxDynamicPath" class="cx-navigation__child-link">{{ subCategory.title }}
+            </a>
           </ng-container>
           <ng-container *ngIf="!subCategory.url">
             <a class="cx-navigation__child-link">{{ subCategory.title }} </a>
           </ng-container>
-          <a [routerLink]="subCategoryChild.url" *ngFor="let subCategoryChild of subCategory.children">{{subCategoryChild.title}}
+          <a [routerLink]="subCategoryChild.url | cxDynamicPath" *ngFor="let subCategoryChild of subCategory.children">{{subCategoryChild.title}}
           </a>
         </div>
       </div>
@@ -34,7 +35,7 @@
       <div ngbDropdownMenu class="cx-navigation__child-list-columns" [attr.aria-label]="node.title">
         <div class="cx-navigation__child-column" *ngFor="let subCategory of node.children">
           <ng-container *ngIf="subCategory.url">
-            <a role="link" [routerLink]="subCategory.url" class="cx-navigation__child-link cx-navigation__column-title">{{
+            <a role="link" [routerLink]="subCategory.url | cxDynamicPath" class="cx-navigation__child-link cx-navigation__column-title">{{
               subCategory.title }}
             </a>
           </ng-container>
@@ -44,7 +45,7 @@
           </ng-container>
 
           <div *ngFor="let subCategoryChild of subCategory.children" class="dropdown-item cx-navigation__child-column-item">
-            <a role="link" [routerLink]="subCategoryChild.url" class="cx-navigation__child-link">{{
+            <a role="link" [routerLink]="subCategoryChild.url | cxDynamicPath" class="cx-navigation__child-link">{{
               subCategoryChild.title
               }}
             </a>

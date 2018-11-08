@@ -6,9 +6,10 @@ import { RouterModule } from '@angular/router';
 import { NavigationComponent } from './navigation.component';
 import { NavigationUIComponent } from './navigation-ui.component';
 import { NavigationService } from './navigation.service';
+import { PathModule } from '@spartacus/core';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, BootstrapModule],
+  imports: [CommonModule, RouterModule, BootstrapModule, PathModule],
   providers: [NavigationService],
   declarations: [NavigationComponent, NavigationUIComponent],
   entryComponents: [NavigationComponent],
