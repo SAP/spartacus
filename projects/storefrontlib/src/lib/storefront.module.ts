@@ -10,8 +10,10 @@ import { UiModule, UiFrameworkModule } from './ui/index';
 
 import { StorefrontModuleConfig } from './storefront-config';
 
+import { StateModule } from '@spartacus/core';
 @NgModule({
   imports: [
+    StateModule,
     AuthModule,
     RoutingModule,
     OccModule,

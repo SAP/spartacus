@@ -96,12 +96,11 @@ describe('Cart interactions', () => {
     await home.navigateTo();
   });
 
-  // TODO: We need that product on backend to be out of stock
-  xit('should be unable to add out of stock products to cart', async () => {
+  it('should be unable to add out of stock products to cart', async () => {
     // go to homepage
     await home.navigateTo();
 
-    await productDetails.navigateTo('358639');
+    await productDetails.navigateTo('29925');
     // wait until product details page is loaded
     await E2EUtil.wait4VisibleElement(productDetails.page);
 
