@@ -36,13 +36,18 @@ describe('ProductImagesComponent product', () => {
 
   it('should call ngOnChanges()', () => {
     productImagesComponent.ngOnChanges();
-    expect(productImagesComponent.mainImage).toEqual(
+    expect(productImagesComponent.mainImageContainer).toEqual(
       productImagesComponent.product.images.PRIMARY
     );
   });
 
   it('should call showImage(imageContainer)', () => {
-    productImagesComponent.showImage('mockImageContainer');
-    expect(productImagesComponent.mainImage).toBe('mockImageContainer');
+    productImagesComponent.showImage(
+      new MouseEvent('focus'),
+      'mockImageContainer'
+    );
+    expect(productImagesComponent.mainImageContainer).toBe(
+      'mockImageContainer'
+    );
   });
 });
