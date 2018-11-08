@@ -50,13 +50,13 @@ export class PictureComponent implements OnChanges {
     }
   }
 
-  imgErrorHandler(event) {
-    event.target.src = missingProductImgSrc;
-  }
-
   loadHandler() {
     (<HTMLElement>this.elRef.nativeElement).classList.remove(INITIALIZED_CLS);
     (<HTMLElement>this.elRef.nativeElement).classList.remove(LOADING_CLS);
     this.loaded.emit(this.elRef.nativeElement);
+  }
+
+  loadErrorHandler(event) {
+    event.target.src = missingProductImgSrc;
   }
 }

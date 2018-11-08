@@ -9,7 +9,7 @@
     *ngIf="mainImage"
     [src]="mainImage || missingProductImgSrc"
     (load)="loadHandler()"
-    (error)="imgErrorHandler($event)"
+    (error)="loadErrorHandler($event)"
     [alt]="imageAlt"
   />
 
