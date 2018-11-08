@@ -1,13 +1,11 @@
 import { ComponentsModule } from './../../../../ui/components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import { ComponentMapperService } from '../../../../cms/services/component-mapper.service';
-import { ProductService } from '../../../services/product.service';
+import { ProductService } from '../../../facade/product.service';
 
-import * as fromProduct from '../../../store/reducers';
 import { BootstrapModule } from '../../../../bootstrap.module';
 import { ProductDetailsComponent } from './product-details.component';
 import { OutletDirective } from '../../../../outlet';
@@ -23,6 +21,14 @@ import { Component, Input } from '@angular/core';
 
 class MockComponentMapperService {}
 
+const mockProduct = 'mockProduct';
+
+class MockProductService {
+  get(): Observable<any> {
+    return of(mockProduct);
+  }
+}
+
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>'
@@ -37,21 +43,12 @@ export class MockAddToCartComponent {
 }
 
 describe('ProductDetailsComponent in product', () => {
-  let service: ProductService;
   let productDetailsComponent: ProductDetailsComponent;
   let fixture: ComponentFixture<ProductDetailsComponent>;
 
-  const mockProduct = 'mockProduct';
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        BootstrapModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('product', fromProduct.getReducers()),
-        ComponentsModule
-      ],
+      imports: [ReactiveFormsModule, BootstrapModule, ComponentsModule],
       declarations: [
         ProductDetailsComponent,
 
@@ -65,7 +62,10 @@ describe('ProductDetailsComponent in product', () => {
         OutletDirective
       ],
       providers: [
-        ProductService,
+        {
+          provide: ProductService,
+          useClass: MockProductService
+        },
         {
           provide: ComponentMapperService,
           useClass: MockComponentMapperService
@@ -78,10 +78,7 @@ describe('ProductDetailsComponent in product', () => {
     fixture = TestBed.createComponent(ProductDetailsComponent);
     fixture.detectChanges();
     productDetailsComponent = fixture.componentInstance;
-    service = TestBed.get(ProductService);
     fixture.detectChanges();
-
-    spyOn(service, 'get').and.returnValue(of(mockProduct));
   });
 
   it('should be created', () => {
