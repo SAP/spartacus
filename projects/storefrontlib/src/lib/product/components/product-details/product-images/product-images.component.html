@@ -1,14 +1,22 @@
 <ng-container *ngIf="product">
+  <cx-picture
+    [imageContainer]="mainImage"
+    imageFormat="zoom"
+    (loaded)="loadHandler($event)"
+  >
+  </cx-picture>
 
-    <cx-picture [imageContainer]="mainImage" imageFormat="zoom">
-    </cx-picture>
-
-    <ng-container *ngIf="product.images?.GALLERY.length > 1">
-        <div class="thumbs">
-            <cx-picture *ngFor="let image of product.images.GALLERY" [imageContainer]="image" imageFormat="thumbnail"
-                (focus)="showImage(image)" tabindex="0" [class.active]="isMainImage(image)">
-            </cx-picture>
-        </div>
-    </ng-container>
-
+  <ng-container *ngIf="product.images?.GALLERY.length > 1">
+    <div class="thumbs">
+      <cx-picture
+        *ngFor="let image of product.images.GALLERY"
+        [imageContainer]="image"
+        imageFormat="thumbnail"
+        (focus)="showImage($event, image)"
+        tabindex="0"
+        [class.active]="isMainImage(image)"
+      >
+      </cx-picture>
+    </div>
+  </ng-container>
 </ng-container>
