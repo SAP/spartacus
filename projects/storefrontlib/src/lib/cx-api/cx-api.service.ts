@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import {
   ProductReviewService,
   ProductSearchService,
@@ -14,15 +14,15 @@ import { RoutingService } from '../routing/facade/routing.service';
 })
 export class CxApiService {
   constructor(
-    public auth: AuthService,
-    public cms: CmsService,
-    public routing: RoutingService,
+    @Optional() public auth: AuthService,
+    @Optional() public cms: CmsService,
+    @Optional() public routing: RoutingService,
     // site context
-    public currency: CurrencyService,
-    public language: LanguageService,
+    @Optional() public currency: CurrencyService,
+    @Optional() public language: LanguageService,
     // product
-    public product: ProductService,
-    public productSearch: ProductSearchService,
-    public productReview: ProductReviewService
+    @Optional() public product: ProductService,
+    @Optional() public productSearch: ProductSearchService,
+    @Optional() public productReview: ProductReviewService
   ) {}
 }
