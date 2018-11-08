@@ -19,16 +19,16 @@ export class GlobalMessageService {
     this.store.dispatch(new fromStore.AddMessage(message));
   }
 
-  remove(type: GlobalMessageType, index: number) {
-    this.store.dispatch(
-      new fromStore.RemoveMessage({
-        type: type,
-        index: index
-      })
-    );
-  }
-
-  removeByType(type: GlobalMessageType) {
-    this.store.dispatch(new fromStore.RemoveMessagesByType(type));
+  remove(type: GlobalMessageType, index?: number) {
+    if (index !== undefined) {
+      this.store.dispatch(
+        new fromStore.RemoveMessage({
+          type: type,
+          index: index
+        })
+      );
+    } else {
+      this.store.dispatch(new fromStore.RemoveMessagesByType(type));
+    }
   }
 }

@@ -71,7 +71,7 @@ describe('GlobalMessageService', () => {
   });
 
   it('should be able to remove messages by type', () => {
-    service.removeByType(GlobalMessageType.MSG_TYPE_ERROR);
+    service.remove(GlobalMessageType.MSG_TYPE_ERROR);
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.RemoveMessagesByType(GlobalMessageType.MSG_TYPE_ERROR)
     );

@@ -19,14 +19,16 @@ import { GlobalMessageType } from './../models/message.model';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
-const mockMessageService = {
-  add: createSpy(),
-  removeByType: createSpy()
-};
 describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
+  let mockMessageService: any;
 
   beforeEach(() => {
+    mockMessageService = {
+      add: createSpy(),
+      remove: createSpy()
+    };
+
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
@@ -71,7 +73,7 @@ describe('HttpErrorInterceptor', () => {
       type: GlobalMessageType.MSG_TYPE_ERROR,
       text: 'Bad credentials. Please login again.'
     });
-    expect(mockMessageService.removeByType).toHaveBeenCalledWith(
+    expect(mockMessageService.remove).toHaveBeenCalledWith(
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }));

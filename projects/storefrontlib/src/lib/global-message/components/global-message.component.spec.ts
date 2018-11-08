@@ -11,15 +11,17 @@ mockMessages.set(GlobalMessageType.MSG_TYPE_CONFIRMATION, ['Confirmation']);
 mockMessages.set(GlobalMessageType.MSG_TYPE_INFO, ['Info']);
 mockMessages.set(GlobalMessageType.MSG_TYPE_ERROR, ['Error']);
 
-const mockMessageService = {
-  messages$: of(mockMessages),
-  remove: createSpy()
-};
 describe('GlobalMessageComponent', () => {
   let globalMessageComponent: GlobalMessageComponent;
   let fixture: ComponentFixture<GlobalMessageComponent>;
+  let mockMessageService: any;
 
   beforeEach(async(() => {
+    mockMessageService = {
+      messages$: of(mockMessages),
+      remove: createSpy()
+    };
+
     TestBed.configureTestingModule({
       declarations: [GlobalMessageComponent],
       providers: [

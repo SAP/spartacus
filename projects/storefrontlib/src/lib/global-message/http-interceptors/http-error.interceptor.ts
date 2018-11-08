@@ -38,7 +38,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                       this.getErrorMessage(errResponse) +
                       '. Please login again.'
                   });
-                  this.globalMessageService.removeByType(
+                  this.globalMessageService.remove(
                     GlobalMessageType.MSG_TYPE_CONFIRMATION
                   );
                 }
