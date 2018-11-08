@@ -1,11 +1,9 @@
 import { ComponentsModule } from './../../../../ui/components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
-import * as fromStore from '../../../store';
+import { of, Observable } from 'rxjs';
 import { ProductReviewsComponent } from './product-reviews.component';
-import { ProductReviewService } from '../../../services/product-review.service';
+import { ProductReviewService } from '../../../facade/product-review.service';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };
@@ -14,27 +12,32 @@ const reviews = [
   { comment: 'bla2', headline: '2', alias: 'test2' }
 ];
 
+class MockProductReviewService {
+  getByProductCode(): Observable<any> {
+    return of(reviews);
+  }
+  add() {}
+}
+
 describe('ProductReviewsComponent in product', () => {
   let productReviewsComponent: ProductReviewsComponent;
   let fixture: ComponentFixture<ProductReviewsComponent>;
-  let service: ProductReviewService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('product', fromStore.getReducers()),
-        ComponentsModule
+      imports: [ReactiveFormsModule, ComponentsModule],
+      providers: [
+        {
+          provide: ProductReviewService,
+          useClass: MockProductReviewService
+        }
       ],
-      providers: [ProductReviewService],
       declarations: [ProductReviewsComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductReviewsComponent);
-    service = TestBed.get(ProductReviewService);
     productReviewsComponent = fixture.componentInstance;
     productReviewsComponent.product = product;
 
@@ -46,8 +49,6 @@ describe('ProductReviewsComponent in product', () => {
   });
 
   it('from get reviews by product code', () => {
-    spyOn(service, 'getByProductCode').and.returnValue(of(reviews));
-
     productReviewsComponent.ngOnChanges();
 
     expect(productReviewsComponent.reviews$).toBeTruthy();

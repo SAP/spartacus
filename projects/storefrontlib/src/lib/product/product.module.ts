@@ -15,7 +15,7 @@ import { CmsModule } from './../cms/cms.module';
 import { guards } from './guards/index';
 
 // services
-import { services } from './services/index';
+import { services } from './facade/index';
 
 // converter
 import { converterServices } from './converters/index';
