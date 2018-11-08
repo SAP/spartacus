@@ -4,6 +4,10 @@ set -o pipefail
 
 echo "Updating dependencies"
 yarn
+yarn build:core:lib
+echo "-----"
+echo "Building SPA app"
+yarn build
 #echo "-----"
 #./ci-scripts/other.sh
 #echo "-----"
