@@ -69,12 +69,16 @@ export class PathService {
             parameterName,
             parameterNamesMapping
           );
-
-          return parametersObject[mappedParameterName];
+          const parameterValue = parametersObject[mappedParameterName];
+          return this.sanitizeParameterValue(parameterValue);
         }
         return segment;
       })
       .join('/');
+  }
+
+  private sanitizeParameterValue(parameterValue: string) {
+    return (parameterValue || '').replace('/', '_');
   }
 
   private getFirstPathMatchingAllParameters(
