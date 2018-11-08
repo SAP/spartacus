@@ -1,8 +1,7 @@
 import { of } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, combineReducers, select } from '@ngrx/store';
+import { Store, StoreModule, select } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
-import * as fromRoot from './../../../routing/store';
 import * as fromStore from './../../store';
 
 describe('Product Reviews selectors', () => {
@@ -41,10 +40,8 @@ describe('Product Reviews selectors', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          products: combineReducers(fromStore.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('products', fromStore.getReducers())
       ]
     });
 

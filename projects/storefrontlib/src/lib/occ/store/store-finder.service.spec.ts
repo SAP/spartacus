@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccStoreFinderService } from './store-finder.service';
-import { OccModuleConfig } from '../occ-module-config';
+import { OccConfig } from '@spartacus/core';
 import { SearchConfig } from '../../store-finder/models/search-config';
 import { LongitudeLatitude } from '../../store-finder/models/longitude-latitude';
 import { OccE2eConfigurationService } from '../e2e/e2e-configuration-service';
@@ -45,7 +45,7 @@ describe('OccStoreFinderService', () => {
       providers: [
         OccStoreFinderService,
         OccE2eConfigurationService,
-        { provide: OccModuleConfig, useClass: MockOccModuleConfig }
+        { provide: OccConfig, useClass: MockOccModuleConfig }
       ]
     });
 

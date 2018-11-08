@@ -10,12 +10,11 @@ import {
   HttpParams,
   HttpHeaders
 } from '@angular/common/http';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 import * as fromStore from '../store';
-import * as fromRoot from '../../routing/store';
 import { HttpErrorInterceptor } from './http-error.interceptor';
 import { GlobalMessageType } from './../models/message.model';
 
@@ -29,10 +28,8 @@ describe('HttpErrorInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          message: combineReducers(fromStore.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('message', fromStore.getReducers())
       ],
       providers: [
         {

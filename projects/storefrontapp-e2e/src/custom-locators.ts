@@ -1,4 +1,4 @@
-import { ProtractorBy, Locator } from 'protractor'; // tslint:disable-line
+import { ProtractorBy } from 'protractor';
 
 export function addCustomLocators(by: ProtractorBy) {
   by.addLocator('dynamicSlot', function(
@@ -9,7 +9,7 @@ export function addCustomLocators(by: ProtractorBy) {
   ) {
     const using = opt_parentElement || document;
     return using.querySelectorAll(
-      `y-dynamic-slot[position=${slotPosition}] ${elementTag}`
+      `cx-dynamic-slot[position=${slotPosition}] ${elementTag}`
     );
   });
 

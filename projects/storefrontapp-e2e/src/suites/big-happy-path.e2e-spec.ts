@@ -61,11 +61,11 @@ describe('Big Happy Path', () => {
     const atcModal = new AddedToCartModal();
     await atcModal.waitForReady();
 
-    const item = atcModal.cartItem(0);
+    const item = atcModal.item;
     await E2EUtil.wait4VisibleElement(item);
     expect(await item.getText()).toContain(PRODUCT_NAME);
 
-    await atcModal.proceedToCheckoutButton.click();
+    await atcModal.goToCheckoutButton.click();
 
     // Log in. Should see checkout page.
     const form = new LoginForm();
@@ -77,14 +77,13 @@ describe('Big Happy Path', () => {
   it('should fill in address form', async () => {
     const shippingAddress = checkoutPage.shippingAddress;
     await shippingAddress.waitForReady();
-
     expect(await shippingAddress.header.getText()).toContain(
       'SHIPPING ADDRESS'
     );
-    expect(await checkoutPage.orderSummary.getText()).toContain('$2,643.08');
-
     const addressForm = shippingAddress.addressForm;
     await addressForm.waitForReady();
+
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,643.08');
 
     await addressForm.fillIn();
     await addressForm.nextButton.click();
@@ -123,13 +122,7 @@ describe('Big Happy Path', () => {
     expect(await reviewForm.shippingAddress.getText()).toContain(
       AddressForm.CITY
     );
-    expect(await reviewForm.shippingMethod.getText()).toContain(
-      // 'Standard Delivery'
-      'standard-net'
-    );
-    // expect(await reviewForm.paymentMethod.getText()).toContain(
-    //   PaymentForm.CARD_TYPE
-    // );
+    expect(await reviewForm.shippingMethod.getText()).toContain('standard-net');
     expect(await reviewForm.billingAddress.getText()).toContain(
       AddressForm.LAST_NAME
     );
@@ -167,7 +160,7 @@ describe('Big Happy Path', () => {
       PRODUCT_CODE
     );
     expect(await orderConfirmationPage.orderSummary.getText()).toContain(
-      '$2,655.07'
+      '$2,823.67'
     );
   });
 

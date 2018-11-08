@@ -10,7 +10,7 @@ import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'y-product-facet-navigation',
+  selector: 'cx-product-facet-navigation',
   templateUrl: './product-facet-navigation.component.html',
   styleUrls: ['./product-facet-navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -31,6 +31,9 @@ export class ProductFacetNavigationComponent implements OnInit {
   private collapsedFacets = new Set<string>();
 
   get visibleFacets() {
+    if (!this.searchResult.facets) {
+      return [];
+    }
     return this.searchResult.facets.filter(facet => facet.visible);
   }
 
@@ -40,9 +43,11 @@ export class ProductFacetNavigationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchResult.facets.forEach(el => {
-      this.showAllPerFacetMap.set(el.name, false);
-    });
+    if (this.searchResult.facets) {
+      this.searchResult.facets.forEach(el => {
+        this.showAllPerFacetMap.set(el.name, false);
+      });
+    }
   }
 
   openFilterModal(content) {

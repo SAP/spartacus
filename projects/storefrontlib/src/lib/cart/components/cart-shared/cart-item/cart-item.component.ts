@@ -9,7 +9,7 @@ export interface Item {
 }
 
 @Component({
-  selector: 'y-cart-item',
+  selector: 'cx-cart-item',
   templateUrl: './cart-item.component.html',
   styleUrls: ['./cart-item.component.scss']
 })

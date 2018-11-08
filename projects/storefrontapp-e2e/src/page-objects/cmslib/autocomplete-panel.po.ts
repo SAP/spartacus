@@ -3,11 +3,16 @@ import { E2EUtil } from '../../e2e-util';
 
 export class AutocompletePanel {
   readonly panelElement: ElementFinder = element(
-    by.css('div[class=cdk-overlay-container] div[role="listbox"]')
+    by.css('.cx-search-box__dropdown-content-product')
   );
   readonly suggestionSpanByText = (text: string): ElementFinder =>
     this.panelElement
-      .all(by.cssContainingText('.mat-option-text', text))
+      .all(
+        by.cssContainingText(
+          '.cx-search-box__dropdown-content-product-name',
+          text
+        )
+      )
       .first();
 
   async waitForReady() {

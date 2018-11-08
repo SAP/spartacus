@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 // import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
-  selector: 'y-product-references',
+  selector: 'cx-product-references',
   templateUrl: './product-references.component.html',
   styleUrls: ['./product-references.component.scss']
 })

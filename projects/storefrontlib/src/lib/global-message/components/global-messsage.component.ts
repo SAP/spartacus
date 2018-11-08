@@ -8,7 +8,7 @@ import * as fromAction from '../store/actions';
 import { GlobalMessageType } from './../models/message.model';
 
 @Component({
-  selector: 'y-global-message',
+  selector: 'cx-global-message',
   templateUrl: './global-message.component.html',
   styleUrls: ['./global-message.component.scss']
 })

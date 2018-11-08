@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { BannerComponent } from './banner.component';
 
 @Component({
-  selector: 'y-responsive-banner',
+  selector: 'cx-responsive-banner',
   templateUrl: './responsive-banner.component.html',
   styleUrls: ['./responsive-banner.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

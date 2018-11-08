@@ -11,10 +11,8 @@ import {
   take
 } from 'rxjs/operators';
 
-import { select, Store } from '@ngrx/store';
-import * as fromRouting from '../../../routing/store';
-
 import * as componentActions from '../actions/component.action';
+import { RoutingService } from '../../../routing/facade/routing.service';
 import { OccCmsService } from '../../services/occ-cms.service';
 
 @Injectable()
@@ -24,8 +22,7 @@ export class ComponentEffects {
     ofType(componentActions.LOAD_COMPONENT),
     map((action: componentActions.LoadComponent) => action.payload),
     switchMap(uid => {
-      return this.routingStore.pipe(
-        select(fromRouting.getRouterState),
+      return this.routingService.routerState$.pipe(
         filter(routerState => routerState !== undefined),
         map(routerState => routerState.state.context),
         take(1),
@@ -44,6 +41,6 @@ export class ComponentEffects {
   constructor(
     private actions$: Actions,
     private occCmsService: OccCmsService,
-    private routingStore: Store<fromRouting.State>
+    private routingService: RoutingService
   ) {}
 }
