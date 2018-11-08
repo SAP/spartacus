@@ -46,16 +46,16 @@ export class ProductDetailsPage extends AppPage {
     by.tagName('cx-item-counter')
   );
   readonly tabContent: ElementFinder = this.productDetails.element(
-    by.css('.y-product-details__tab-section')
-  );
-  readonly writeReviewBtn: ElementFinder = this.productDetails.element(
-    by.css('.y-product-reviews__tab-review--head button')
-  );
-  readonly reviews: ElementArrayFinder = this.productDetails.all(
-    by.css('.y-product-reviews__tab-review--container')
+    by.css('.cx-product-details__tab-section')
   );
   readonly writeReviewForm: ElementFinder = this.productDetails.element(
-    by.tagName('y-product-reviews')
+    by.tagName('cx-product-reviews')
+  );
+  readonly reviews: ElementArrayFinder = this.writeReviewForm.all(
+    by.css('.review')
+  );
+  readonly writeReviewBtn: ElementFinder = this.writeReviewForm.element(
+    by.css('.header button')
   );
   readonly rating: ElementFinder = this.writeReviewForm.element(
     by.tagName('ngb-rating')

@@ -110,7 +110,7 @@ describe('Product details', () => {
     const atcModal = new AddedToCartModal();
     await atcModal.waitForReady();
 
-    const item = atcModal.cartItem(0);
+    const item = await atcModal.item;
     await E2EUtil.wait4VisibleElement(item);
     expect(await item.getText()).toContain(PRODUCT_NAME);
 
