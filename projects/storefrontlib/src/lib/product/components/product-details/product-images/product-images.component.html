@@ -1,6 +1,6 @@
 <ng-container *ngIf="product">
   <cx-picture
-    [imageContainer]="mainImage"
+    [imageContainer]="mainImageContainer"
     imageFormat="zoom"
     (loaded)="loadHandler($event)"
   >
@@ -14,7 +14,7 @@
         imageFormat="thumbnail"
         (focus)="showImage($event, image)"
         tabindex="0"
-        [class.active]="isMainImage(image)"
+        [class.active]="isMainImageContainer(image)"
       >
       </cx-picture>
     </div>
