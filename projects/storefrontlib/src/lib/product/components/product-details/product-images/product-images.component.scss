@@ -17,6 +17,8 @@
   align-items: center;
 
   cx-picture {
+    min-width: 5vw;
+    min-height: 5vw;
     transition: all var(--cx-transition-time);
 
     &:not(.active) {
