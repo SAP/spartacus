@@ -10,7 +10,6 @@ import {
   UserToken,
   ClientAuthenticationToken
 } from '../models/token-types.model';
-import * as fromStore from '../store/';
 import { ClientTokenState } from '../store/reducers/client-token.reducer';
 
 @Injectable({
@@ -34,7 +33,7 @@ export class AuthService {
     map((state: ClientTokenState) => state.token)
   );
 
-  constructor(private store: Store<fromStore.AuthState>) {}
+  constructor(private store: Store<fromAuthStore.AuthState>) {}
 
   authorize(userId: string, password: string) {
     this.store.dispatch(
