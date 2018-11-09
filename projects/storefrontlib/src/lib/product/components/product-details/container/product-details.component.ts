@@ -57,10 +57,10 @@ export class ProductDetailsComponent implements OnChanges {
     this.activeTab.forEach(el => el.classList.remove('active'));
     this.activeTab = [<HTMLElement>event.target, tab];
     this.activeTab.forEach(el => el.classList.add('active'));
+    // tab.scrollIntoView();
   }
 
   goToReviews() {
     this.reviewHeader.nativeElement.click();
-    this.reviewHeader.nativeElement.scrollIntoView();
   }
 }

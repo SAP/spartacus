@@ -63,7 +63,9 @@
             Product Details
           </h3>
           <div #description>
-            <p class="container" [innerHTML]="product?.description"></p>
+            <div class="container">
+              <p [innerHTML]="product?.description"></p>
+            </div>
           </div>
         </ng-container>
 

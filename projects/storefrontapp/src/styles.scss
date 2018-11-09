@@ -1,3 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+// Spartacus Application styles
 
-@import 'storefrontstyles/index';
+$useTabsOnPDP: false;
+
+@import 'storefrontstyles/theme-sparta';
+
+cx-product-images {
+  --cx-flex-direction: row-reverse;
+  justify-content: flex-end;
+
+  .thumbs {
+    flex-direction: column;
+  }
+}

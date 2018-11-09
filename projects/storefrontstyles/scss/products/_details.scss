@@ -1,0 +1,111 @@
+$useTabsOnPDP: false !default;
+
+%pdpTabs {
+  @include media-breakpoint-up(md) {
+    display: grid;
+    grid-template-columns: auto repeat(4, 14vw) auto;
+
+    > h3 {
+      order: 0;
+      transition: all 0.6s;
+      --cx-border-color: var(--cx-primary);
+      --cx-border-width: 5px;
+      text-align: center;
+      margin: 0;
+
+      &:not(.active) {
+        cursor: pointer;
+      }
+      &:first-of-type {
+        grid-column: 2;
+      }
+      &.active {
+        color: var(--cx-primary);
+      }
+
+      // border effect
+      &:after {
+        content: '';
+        display: block;
+        margin: 10px auto auto auto;
+        height: var(--cx-border-width);
+        background: var(--cx-border-color);
+
+        // the tab hover effect uses a border in the :after pseudo
+        // that is animated from 0% to 100% width
+        width: 0;
+        opacity: var(--cx-opacity, 0);
+        transition: all var(--cx-transition-time, 0.6s);
+      }
+
+      &.active:after,
+      &:hover:after {
+        width: 100%;
+      }
+      &.active:after,
+      &.active:hover:after {
+        opacity: var(--cx-opacity, 1);
+      }
+      &:not(.active):hover:after {
+        opacity: var(--cx-opacity, 0.5);
+      }
+    }
+
+    // the div elements contain the content and will be rendered after the tabs
+    > div {
+      order: 2;
+      grid-column: 1 / span 6;
+      background: var(--cx-background);
+      padding: 50px 10vw;
+
+      border-top: var(--cx-border-width) var(--cx-border-color)
+        var(--cx-border-style);
+      &:not(.active) {
+        display: none;
+      }
+      .container > h4 {
+        display: none;
+      }
+    }
+  }
+}
+
+%pdpFlat {
+  margin: auto;
+
+  @include media-breakpoint-down(xl) {
+    max-width: 1140px;
+  }
+  // make a small header with links
+  display: grid;
+  grid-template-columns: repeat(4, auto) auto;
+  justify-content: start;
+  > h3 {
+    order: 2;
+
+    color: var(--cx-primary);
+    font-weight: normal;
+    font-size: 0.9em;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+    margin: 10px 15px;
+  }
+  > div {
+    order: 4;
+    grid-column: 1 / span 5;
+  }
+}
+
+cx-product-details {
+  --cx-border-color: var(--cx-light);
+  --cx-border-width: 1px;
+  .details {
+    @if $useTabsOnPDP == true {
+      @extend %pdpTabs !optional;
+    } @else {
+      @extend %pdpFlat !optional;
+    }
+  }
+}
