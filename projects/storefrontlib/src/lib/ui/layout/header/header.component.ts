@@ -6,5 +6,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+  tertiaryNavItems: any[] = [
+    {
+      label: 'Sale',
+      url: '/sale'
+    },
+    {
+      label: 'Contact us',
+      url: '/contact'
+    },
+    {
+      label: 'Help',
+      url: '/help'
+    }
+  ];
   constructor() {}
 }

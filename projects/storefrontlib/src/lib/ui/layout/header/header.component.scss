@@ -1,6 +1,20 @@
 @import 'theme';
 @import 'functions';
 @import 'mixins';
+@import '~bootstrap/scss/nav';
+
+$cx-tertiary-link-color: 'inverse' !default;
+
+.cx-tertiary-bar {
+  @include media-breakpoint-down(md) {
+    @include sr-only();
+  }
+
+  &__link {
+    @include var-color('color', $cx-tertiary-link-color);
+    @include type('7');
+  }
+}
 
 //header color variables
 $cx-header-background-color: 'dark' !default;
@@ -82,3 +96,23 @@ $cx-header-trbl-padding-mobile: 0.5rem 0 0 0 !default;
   With this setup, a customer can override the width with:
   .site-logo img { --margin: 100%; }
 */
+
+.cx-header__content {
+  grid-template-rows: 50px 90px 70px;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas:
+    'top-left top-left top-left top-left top-left top-left top-right top-right top-right top-right top-right top-right'
+    'logo logo logo logo search search search search account account account account'
+    'nav nav nav nav nav nav nav nav nav nav nav nav';
+}
+
+cx-header-skipper,
+cx-language-selector,
+cx-currency-selector {
+  grid-area: top-left;
+}
+
+.cx-tertiary-bar__link,
+.cx-store-finder {
+  grid-area: top-right;
+}
