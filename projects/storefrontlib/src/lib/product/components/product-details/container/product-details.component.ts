@@ -41,6 +41,9 @@ export class ProductDetailsComponent implements OnChanges {
     }
   }
 
+  @ViewChild('reviewHeader')
+  reviewHeader: ElementRef;
+
   constructor(protected productService: ProductService) {}
 
   ngOnChanges() {
@@ -57,7 +60,7 @@ export class ProductDetailsComponent implements OnChanges {
     if (!isWritingReview) {
       this.isWritingReview = false;
     }
-    this.tabSet.select('reviews');
-    this.tabSetWrapper.nativeElement.scrollIntoView();
+    this.reviewHeader.nativeElement.click();
+    this.reviewHeader.nativeElement.scrollIntoView();
   }
 }

@@ -80,7 +80,7 @@
         </ng-container>
 
         <ng-container *cxOutlet="outlets.REVIEWS">
-          <h3 (click)="select($event, reviews)">
+          <h3 #reviewHeader (click)="select($event, reviews)">
             Reviews ({{ product?.numberOfReviews }})
           </h3>
           <div #reviews>
