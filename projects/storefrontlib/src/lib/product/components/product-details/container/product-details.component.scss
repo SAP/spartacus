@@ -39,7 +39,7 @@ $cx-accordion-mobile-head-btn-height: 74px !default;
     order: 0;
     text-align: center;
     margin: 0;
-    // padding: 0 0 10px;
+
     &:not(.active) {
       cursor: pointer;
     }
@@ -49,27 +49,36 @@ $cx-accordion-mobile-head-btn-height: 74px !default;
     &.active {
       color: var(--cx-primary);
     }
+
     // border effect
     &:after {
       content: '';
       display: block;
-      width: 0;
-      margin: auto;
-      height: calc(var(--cx-border-width) / 3);
-      background: var(--cx-border-color);
-      transition: all 0.3s;
-      margin-top: calc(10px + ((var(--cx-border-width) / 3) * 2));
-    }
-    &.active:after {
+      margin: 10px auto auto auto;
       height: var(--cx-border-width);
-      margin-top: 10px;
+      background: var(--cx-border-color);
+
+      // the tab hover effect uses a border in the :after pseudo
+      // that is animated from 0% to 100% width
+      width: 0;
+      opacity: var(--cx-opacity, 0);
+      transition: all var(--cx-transition-time, 0.6s);
     }
 
     &.active:after,
     &:hover:after {
       width: 100%;
     }
+    &.active:after,
+    &.active:hover:after {
+      opacity: var(--cx-opacity, 1);
+    }
+    &:not(.active):hover:after {
+      opacity: var(--cx-opacity, 0.5);
+    }
   }
+
+  // the div elements contain the content and will be rendered after the tabs
   > div {
     order: 2;
     grid-column: 1 / span 6;
