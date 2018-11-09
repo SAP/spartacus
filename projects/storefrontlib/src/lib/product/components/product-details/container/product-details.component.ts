@@ -13,7 +13,10 @@ import { ProductDetailOutlets } from '../../../product-outlets.model';
 @Component({
   selector: 'cx-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.scss'],
+  styleUrls: [
+    './product-details.component.scss',
+    './product-details-tabs.component.scss'
+  ],
   encapsulation: ViewEncapsulation.None
 })
 export class ProductDetailsComponent implements OnChanges {
