@@ -59,39 +59,46 @@
     <ng-container *cxOutlet="outlets.TAB">
       <div class="details">
         <ng-container *cxOutlet="outlets.DESCRIPTION">
-          <h3>Product Details</h3>
-          <div #description><p [innerHTML]="product?.description"></p></div>
+          <h3 class="active">Product Details</h3>
+          <div class="active" #description>
+            <p class="container" [innerHTML]="product?.description"></p>
+          </div>
         </ng-container>
 
         <ng-container *cxOutlet="outlets.SPECIFICATIONS">
           <h3>Specs</h3>
           <div #specifications>
-            <cx-product-attributes [product]="product"></cx-product-attributes>
+            <cx-product-attributes
+              class="container"
+              [product]="product"
+            ></cx-product-attributes>
           </div>
         </ng-container>
 
         <ng-container *cxOutlet="outlets.REVIEWS">
-          <div #specifications>
-            <h3>Reviews ({{ product?.numberOfReviews }})</h3>
+          <h3>Reviews ({{ product?.numberOfReviews }})</h3>
+          <div #reviews>
             <cx-product-reviews
+              class="container"
               [(isWritingReview)]="isWritingReview"
               [product]="product"
             ></cx-product-reviews>
           </div>
         </ng-container>
 
-        <!--
-          <ng-container *cxOutlet="outlets.SHIPPING">
-            <div #specifications>
-              <div
+        <ng-container *cxOutlet="outlets.SHIPPING">
+          <h3>Shipping</h3>
+          <div #specifications>
+            <!--
+              <h3
                 yComponentWrapper
                 componentType="CMSTabParagraphComponent"
                 componentUid="deliveryTab"
-              ></div>
+              ></h3>
               <cx-dynamic-slot position="Tabs"></cx-dynamic-slot>
-            </div>
-          </ng-container>
-        -->
+            -->
+          </div>
+        </ng-container>
       </div>
     </ng-container>
   </ng-container>

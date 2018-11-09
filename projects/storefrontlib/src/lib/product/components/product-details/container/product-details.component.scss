@@ -24,6 +24,66 @@ $cx-accordion-mobile-head-link-padding: 25px 20px !default;
 $cx-accordion-mobile-head-btn-border: 5px solid !default;
 $cx-accordion-mobile-head-btn-height: 74px !default;
 
+:root {
+  --cx-border-color: var(--cx-light);
+  --cx-border-width: 1px;
+}
+.details {
+  display: grid;
+  grid-template-columns: auto repeat(4, 14vw) auto;
+
+  > h3 {
+    transition: all 0.6s;
+    --cx-border-color: var(--cx-primary);
+    --cx-border-width: 5px;
+    order: 0;
+    text-align: center;
+    margin: 0;
+    // padding: 0 0 10px;
+    &:not(.active) {
+      cursor: pointer;
+    }
+    &:first-of-type {
+      grid-column: 2;
+    }
+    &.active {
+      color: var(--cx-primary);
+    }
+    // border effect
+    &:after {
+      content: '';
+      display: block;
+      width: 0;
+      margin: auto;
+      height: calc(var(--cx-border-width) / 3);
+      background: var(--cx-border-color);
+      transition: all 0.3s;
+      margin-top: calc(10px + ((var(--cx-border-width) / 3) * 2));
+    }
+    &.active:after {
+      height: var(--cx-border-width);
+      margin-top: 10px;
+    }
+
+    &.active:after,
+    &:hover:after {
+      width: 100%;
+    }
+  }
+  > div {
+    order: 2;
+    grid-column: 1 / span 6;
+    background: var(--cx-background);
+    padding: 50px 10vw;
+
+    border-top: var(--cx-border-width) var(--cx-border-color)
+      var(--cx-border-style);
+    &:not(.active) {
+      display: none;
+    }
+  }
+}
+
 // we need to understand where to get this from
 $md-width: 992px;
 
