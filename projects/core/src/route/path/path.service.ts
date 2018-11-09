@@ -19,7 +19,7 @@ export class PathService {
   transform(pageName: string, parametersObject: object = {}): string {
     const paths = this.configurableRoutesService.getPathsForPage(pageName);
 
-    if (paths === undefined) {
+    if (paths === undefined || paths === null) {
       return '/';
     }
     const parameterNamesMapping = this.configurableRoutesService.getParameterNamesMapping(
