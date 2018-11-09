@@ -44,6 +44,7 @@ describe('ProductImagesComponent', () => {
     component = fixture.componentInstance;
     element = fixture.debugElement;
     component.product = mockDataWithMultiplePictures;
+    spyOn(component, 'isMainImageContainer').and.callThrough();
   });
 
   describe('ProductImagesComponent with multiple pictures', () => {
@@ -84,6 +85,13 @@ describe('ProductImagesComponent', () => {
       component.ngOnChanges();
       fixture.detectChanges();
       expect(element.queryAll(By.css('.thumbs cx-picture')).length).toBe(2);
+    });
+
+    it('should call "imageContainer" for both thumbnails', () => {
+      component.ngOnChanges();
+      fixture.detectChanges();
+      expect(component.isMainImageContainer).toHaveBeenCalledWith(firstImage);
+      expect(component.isMainImageContainer).toHaveBeenCalledWith(secondImage);
     });
 
     it('should toggle main image on focus', () => {
