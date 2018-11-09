@@ -1,4 +1,10 @@
-import { browser, ElementFinder, by, element } from 'protractor';
+import {
+  browser,
+  ElementFinder,
+  by,
+  element,
+  ElementArrayFinder
+} from 'protractor';
 import { AppPage } from './app.po';
 import { E2EUtil } from '../e2e-util';
 
@@ -21,6 +27,9 @@ export class ProductDetailsPage extends AppPage {
   readonly productSummaryComponent: ElementFinder = this.page.element(
     by.tagName('cx-product-summary')
   );
+  readonly tabs: ElementArrayFinder = this.page
+    .element(by.tagName('ngb-tabset'))
+    .all(by.css('li'));
   readonly productPrice: ElementFinder = this.productSummaryComponent.element(
     by.css('.cx-product-summary__price')
   );
@@ -35,6 +44,34 @@ export class ProductDetailsPage extends AppPage {
   );
   readonly itemCounterComponent: ElementFinder = this.productDetails.element(
     by.tagName('cx-item-counter')
+  );
+  readonly tabContent: ElementFinder = this.productDetails.element(
+    by.css('.cx-product-details__tab-section')
+  );
+  readonly writeReviewForm: ElementFinder = this.productDetails.element(
+    by.tagName('cx-product-reviews')
+  );
+  readonly reviews: ElementArrayFinder = this.writeReviewForm.all(
+    by.css('.review')
+  );
+  readonly writeReviewBtn: ElementFinder = this.writeReviewForm.element(
+    by.css('.header button')
+  );
+  readonly rating: ElementFinder = this.writeReviewForm.element(
+    by.tagName('ngb-rating')
+  );
+  readonly ratingStar: ElementArrayFinder = this.rating.all(by.css('.star'));
+  readonly reviewSubmitBtn: ElementFinder = this.writeReviewForm.element(
+    by.css('.btn-primary')
+  );
+  readonly reviewInputField: ElementArrayFinder = this.writeReviewForm.all(
+    by.tagName('input')
+  );
+  readonly reviewTextareaField: ElementArrayFinder = this.writeReviewForm.all(
+    by.tagName('textarea')
+  );
+  readonly reviewCancelBtn: ElementFinder = this.writeReviewForm.element(
+    by.css('.btn-secondary')
   );
   readonly itemCounterUpButton: ElementFinder = this.itemCounterComponent
     .all(by.tagName('button'))
