@@ -59,44 +59,52 @@
     <ng-container *cxOutlet="outlets.TAB">
       <div class="details">
         <ng-container *cxOutlet="outlets.DESCRIPTION">
-          <h3 class="active">Product Details</h3>
-          <div class="active" #description>
+          <h3 (click)="select($event, description)">Product Details</h3>
+          <div #description>
             <p class="container" [innerHTML]="product?.description"></p>
           </div>
         </ng-container>
 
         <ng-container *cxOutlet="outlets.SPECIFICATIONS">
-          <h3>Specs</h3>
+          <h3 (click)="select($event, specifications)">Specs</h3>
           <div #specifications>
-            <cx-product-attributes
-              class="container"
-              [product]="product"
-            ></cx-product-attributes>
+            <div class="container">
+              <cx-product-attributes
+                class="container"
+                [product]="product"
+              ></cx-product-attributes>
+            </div>
           </div>
         </ng-container>
 
         <ng-container *cxOutlet="outlets.REVIEWS">
-          <h3>Reviews ({{ product?.numberOfReviews }})</h3>
+          <h3 (click)="select($event, reviews)">
+            Reviews ({{ product?.numberOfReviews }})
+          </h3>
           <div #reviews>
-            <cx-product-reviews
-              class="container"
-              [(isWritingReview)]="isWritingReview"
-              [product]="product"
-            ></cx-product-reviews>
+            <div class="container">
+              <cx-product-reviews
+                class="container"
+                [(isWritingReview)]="isWritingReview"
+                [product]="product"
+              ></cx-product-reviews>
+            </div>
           </div>
         </ng-container>
 
         <ng-container *cxOutlet="outlets.SHIPPING">
-          <h3>Shipping</h3>
-          <div #specifications>
-            <!--
-              <h3
-                yComponentWrapper
-                componentType="CMSTabParagraphComponent"
-                componentUid="deliveryTab"
-              ></h3>
-              <cx-dynamic-slot position="Tabs"></cx-dynamic-slot>
-            -->
+          <h3 (click)="select($event, shipping)">Shipping</h3>
+          <div #shipping>
+            <div class="container">
+              <!--
+                <h3
+                  yComponentWrapper
+                  componentType="CMSTabParagraphComponent"
+                  componentUid="deliveryTab"
+                ></h3>
+                <cx-dynamic-slot position="Tabs"></cx-dynamic-slot>
+              -->
+            </div>
           </div>
         </ng-container>
       </div>

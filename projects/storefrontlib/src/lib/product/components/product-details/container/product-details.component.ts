@@ -31,11 +31,18 @@ export class ProductDetailsComponent implements OnChanges {
   }
 
   isWritingReview = false;
+  activeTab: HTMLElement[] = [];
 
   constructor(protected productService: ProductService) {}
 
   ngOnChanges() {
     this.product$ = this.productService.get(this.productCode);
+  }
+
+  select(event: MouseEvent, tab: HTMLElement) {
+    this.activeTab.forEach(el => el.classList.remove('active'));
+    this.activeTab = [<HTMLElement>event.target, tab];
+    this.activeTab.forEach(el => el.classList.add('active'));
   }
 
   goToReviews(isWritingReview?: boolean) {
