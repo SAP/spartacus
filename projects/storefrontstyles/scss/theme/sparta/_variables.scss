@@ -132,7 +132,7 @@ COMPONENT VARIABLE OVERRIDES
   $cx-storefront-background-color: "info";
 */
 
-$spinWhileLoading: true;
-$spinWhileWaiting: true;
-$zoomThumbOnHover: true;
-$overlayWhileLoading: true;
+$spinWhileLoading: true !default;
+$spinWhileWaiting: true !default;
+$zoomThumbOnHover: true !default;
+$overlayWhileLoading: true !default;
