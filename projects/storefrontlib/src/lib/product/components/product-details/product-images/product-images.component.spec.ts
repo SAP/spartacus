@@ -2,16 +2,25 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductImagesComponent } from '../product-images/product-images.component';
 import { PictureComponent } from 'projects/storefrontlib/src/lib/ui/components/media/picture/picture.component';
 
-class MockImages {
-  PRIMARY = 'mockPrimaryImage';
-}
-
-class MockModel {
-  images;
-}
+const firstImage = {
+  zoom: {
+    url: '123'
+  }
+};
+const secondImage = {
+  zoom: {
+    url: '456'
+  }
+};
+const mockDataWithMultiplePictures = {
+  images: {
+    PRIMARY: firstImage,
+    GALLERY: [firstImage, secondImage]
+  }
+};
 
 describe('ProductImagesComponent product', () => {
-  let productImagesComponent: ProductImagesComponent;
+  let component: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
 
   beforeEach(async(() => {
@@ -22,32 +31,19 @@ describe('ProductImagesComponent product', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductImagesComponent);
-    productImagesComponent = fixture.componentInstance;
-
-    productImagesComponent.product = new MockModel();
-    productImagesComponent.product.images = new MockImages();
-
-    spyOn(productImagesComponent, 'showImage').and.callThrough();
+    component = fixture.componentInstance;
+    component.product = mockDataWithMultiplePictures;
   });
 
   it('should be created', () => {
-    expect(productImagesComponent).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  it('should call ngOnChanges()', () => {
-    productImagesComponent.ngOnChanges();
-    expect(productImagesComponent.mainImageContainer).toEqual(
-      productImagesComponent.product.images.PRIMARY
-    );
-  });
-
-  it('should call showImage(imageContainer)', () => {
-    productImagesComponent.showImage(
-      new MouseEvent('focus'),
-      'mockImageContainer'
-    );
-    expect(productImagesComponent.mainImageContainer).toBe(
-      'mockImageContainer'
+  it('should set mainImageControler', () => {
+    expect(component.mainImageContainer).toBe(undefined);
+    component.ngOnChanges();
+    expect(component.mainImageContainer).toEqual(
+      component.product.images.PRIMARY
     );
   });
 });
