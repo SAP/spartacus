@@ -63,8 +63,8 @@ export const defaultRoutesConfig: RoutesConfig = {
       orderConfirmation: ['order-confirmation'],
       product: ['product/:productCode'],
       category: [
-        'category/:categoryCode',
         'category/:categoryCode/:title',
+        'category/:categoryCode',
         'Brands/:brandName/c/:brandCode'
       ],
       storeFinder: ['store-finder'],

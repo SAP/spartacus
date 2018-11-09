@@ -19,22 +19,22 @@ const routes: ConfigurableRoutes = [
 
   // redirect OLD links
   {
-    path: 'Open-Catalogue/:categoryTitle/c/:categoryCode',
+    path: 'Open-Catalogue/:title/c/:categoryCode',
     redirectTo: null,
     data: { cxRedirectTo: 'category' }
   },
   {
-    path: 'Open-Catalogue/:category1/:categoryTitle/c/:categoryCode',
+    path: 'Open-Catalogue/:category1/:title/c/:categoryCode',
     redirectTo: null,
     data: { cxRedirectTo: 'category' }
   },
   {
-    path: 'Open-Catalogue/:category1/:category2/:categoryTitle/c/:categoryCode',
+    path: 'Open-Catalogue/:category1/:category2/:title/c/:categoryCode',
     redirectTo: null,
     data: { cxRedirectTo: 'category' }
   },
   {
-    path: 'OpenCatalogue/:category1/:category2/:categoryTitle/c/:categoryCode',
+    path: 'OpenCatalogue/:category1/:category2/:title/c/:categoryCode',
     redirectTo: null,
     data: { cxRedirectTo: 'category' }
   },
