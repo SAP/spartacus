@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductImagesComponent } from '../product-images/product-images.component';
 import { PictureComponent } from 'projects/storefrontlib/src/lib/ui/components/media/picture/picture.component';
+import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 const firstImage = {
   zoom: {
@@ -22,6 +24,7 @@ const mockDataWithMultiplePictures = {
 describe('ProductImagesComponent product', () => {
   let component: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
+  let element: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -32,6 +35,7 @@ describe('ProductImagesComponent product', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductImagesComponent);
     component = fixture.componentInstance;
+    element = fixture.debugElement;
     component.product = mockDataWithMultiplePictures;
   });
 
@@ -45,5 +49,25 @@ describe('ProductImagesComponent product', () => {
     expect(component.mainImageContainer).toEqual(
       component.product.images.PRIMARY
     );
+  });
+
+  it('should have <cx-picture>', () => {
+    component.ngOnChanges();
+    fixture.detectChanges();
+    const picture = element.query(By.css('cx-picture'));
+    expect(picture.nativeElement).toBeDefined();
+  });
+
+  it('should have thumb element', () => {
+    component.ngOnChanges();
+    fixture.detectChanges();
+    const thumbs = element.query(By.css('.thumbs'));
+    expect(thumbs.nativeElement).toBeDefined();
+  });
+
+  it('should have two thumbnail element', () => {
+    component.ngOnChanges();
+    fixture.detectChanges();
+    expect(element.queryAll(By.css('.thumbs cx-picture')).length).toBe(2);
   });
 });
