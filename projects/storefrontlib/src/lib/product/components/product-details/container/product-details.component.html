@@ -59,7 +59,9 @@
     <ng-container *cxOutlet="outlets.TAB">
       <div class="details">
         <ng-container *cxOutlet="outlets.DESCRIPTION">
-          <h3 (click)="select($event, description)">Product Details</h3>
+          <h3 #descriptionHeader (click)="select($event, description)">
+            Product Details
+          </h3>
           <div #description>
             <p class="container" [innerHTML]="product?.description"></p>
           </div>

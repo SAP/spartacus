@@ -3,7 +3,8 @@ import {
   Input,
   OnChanges,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
+  ElementRef
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProductService } from '../../../facade/product.service';
@@ -32,6 +33,13 @@ export class ProductDetailsComponent implements OnChanges {
 
   isWritingReview = false;
   activeTab: HTMLElement[] = [];
+
+  @ViewChild('descriptionHeader')
+  set initial(ref: ElementRef) {
+    if (ref) {
+      ref.nativeElement.click();
+    }
+  }
 
   constructor(protected productService: ProductService) {}
 
