@@ -22,19 +22,20 @@
           {{facet.name}}
         </a>
       </span>
-      <div id="facet1" [ngbCollapse]="isFacetCollapsed(facet.name)">
+      <div [ngbCollapse]="isFacetCollapsed(facet.name)">
         <ul class="cx-search-facet-list">
           <li *ngFor="let value of getVisibleFacetValues(facet); index as facetValueId">
             <div class="form-check">
-              <input class="form-check-input cx-search-facet-checkbox" role="checkbox" type="checkbox" id="facetCheck{{facetId}}_{{facetValueId}}"
-                aria-checked="true" [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
-              <label class="form-checkbox cx-search-facet-list__label" for="facetCheck{{facetId}}_{{facetValueId}}">
-                {{value.name}} ({{value.count}})
+              <label class="form-checkbox cx-search-facet-list__label">
+                <input class="form-check-input cx-search-facet-checkbox" role="checkbox" type="checkbox" aria-checked="true"
+                  [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
+                <span class="cx-search-facet-list__label-text">{{value.name}} ({{value.count}})</span>
               </label>
             </div>
           </li>
-          <li (click)="showLess(facet.name)" *ngIf="showAllPerFacetMap.get(facet.name)">Show less...</li>
-          <li (click)="showMore(facet.name)" *ngIf="!showAllPerFacetMap.get(facet.name) && facet.values.length > minPerFacet">Show
+          <li class="cx-search-facet-list__toggle-button" (click)="showLess(facet.name)" *ngIf="showAllPerFacetMap.get(facet.name)">Show
+            less...</li>
+          <li class="cx-search-facet-list__toggle-button" (click)="showMore(facet.name)" *ngIf="!showAllPerFacetMap.get(facet.name) && facet.values.length > minPerFacet">Show
             more...
           </li>
         </ul>
@@ -79,10 +80,10 @@
           <ul class="cx-search-facet-list">
             <li *ngFor="let value of facet.values; index as facetValueId">
               <div class="form-check">
-                <input class="form-check-input cx-search-facet-checkbox" role="checkbox" type="checkbox" id="facetModalCheck{{facetId}}_{{facetValueId}}"
-                  aria-checked="true" [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
-                <label class="form-checkbox cx-search-facet-list__label" for="facetModalCheck{{facetId}}_{{facetValueId}}">
-                  {{value.name}} ({{value.count}})
+                <label class="form-checkbox cx-search-facet-list__label">
+                  <input class="form-check-input cx-search-facet-checkbox" role="checkbox" type="checkbox" aria-checked="true"
+                    [checked]="value.selected" (change)="toggleValue(value.query.query.value)">
+                  <span class="cx-search-facet-list__label-text">{{value.name}} ({{value.count}})</span>
                 </label>
               </div>
             </li>
