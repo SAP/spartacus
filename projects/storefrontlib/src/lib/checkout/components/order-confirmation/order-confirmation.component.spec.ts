@@ -23,6 +23,9 @@ class MockCartComponent {
   content: any;
 }
 
+@Component({ selector: 'cx-add-to-home-screen-banner', template: '' })
+class MockAddtoHomeScreenBannerComponent {}
+
 class CheckoutServiceMock {
   entries;
   orderDetails = {
@@ -49,7 +52,8 @@ describe('OrderConfirmationComponent', () => {
         OrderConfirmationComponent,
         MockReviewSubmitComponent,
         MockCartComponent,
-        MockOrderSummaryComponent
+        MockOrderSummaryComponent,
+        MockAddtoHomeScreenBannerComponent
       ],
       providers: [
         { provide: CheckoutService, useClass: CheckoutServiceMock },

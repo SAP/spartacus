@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddToHomeScreenBtnComponent } from './add-to-home-screen-btn.component';
 import { PWAModuleConfig, defaultPWAModuleConfig } from '../pwa.module-config';
+import { PwaModule } from './../pwa.module';
+import { StoreModule } from '@ngrx/store';
 
 describe('AddToHomeScreenBtnComponent', () => {
   let component: AddToHomeScreenBtnComponent;
@@ -9,7 +11,7 @@ describe('AddToHomeScreenBtnComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AddToHomeScreenBtnComponent],
+      imports: [PwaModule, StoreModule.forRoot({})],
       providers: [
         {
           provide: PWAModuleConfig,
