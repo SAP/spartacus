@@ -11,15 +11,13 @@ branches:
 jobs:
   include:
     - stage: "Spartacus build"
-      name: "Unit tests"
-      script: "./ci-scripts/unit-tests.sh"
-    - script: "./ci-scripts/validate.sh"
+      script: "./ci-scripts/validate.sh"
       name: "Validation"
     - script: "./ci-scripts/lint.sh"
       name: "Lint"
-    - stage: "SonarCloud"
-      script: sonar-scanner
-      name: "SonarCloud scanner"
+script:
+  - "./ci-scripts/unit-tests.sh"
+  - sonar-scanner
 notifications:
   slack:
     secure: Qz4eaqZJ+4XeEDpl818ZwlXKs1jbY9prg+0+DNQ5cVO7f2nDGI1PTMSsLVihRss39Wx/NW+f6UJGaJLMESzvFlKtPqKePbdA+U+EaxVFh/qIAC2Q1oVA1hfrMVtYjB6h0FNZYMoGjOQHHELb9ojJeHrl4CiMU6BJgoJ6rEhSFyJhuua2RwFAxnKWyxXkhf42SUpJKWyw8cWrW9dHvnHXA0je8cthzj7xLFsiPtJmH8cH8MkVrDh2kPZ1j1pMMia+20zk2ezQhMdN/SBeXN8WPn8dVtEoNVpxrZYiWhJfHpAx4uw3VFgqIdOyCTrgwhwnN9Njx1j7pHRt+amsnLHHZUR/QgJKocGSchkYp7FpixTIrvblCU0XJBKv1bYfJ9jOipCDG3FTMLAp/Vqfuir1ilKmR2upaUxigX3/TK7dn4U97aECrPGnl1AbQijfFlXl/sDvYNrbGU02FIN8a1VPEgq4J9V27dhZ4O5AWjn6EyK3hOgk8EwxKzi0gwWmXUBwZIkS6efZbEgXcggaiRf5jw+2gVBocrFhik4CmdpXmWmenjg5Uo9Cw/t/x7CGHxiWtDErfgQvU5Sai18WrU/yjqTYptCaQiz1Mvyn3viE6mhhFap4xIRnvJBG1nnGPiXnb02lYfS5CFAopf54GkhyYPzKnP5XYHJStZpbjanrIQI=
