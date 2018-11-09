@@ -56,10 +56,7 @@ export class ProductDetailsComponent implements OnChanges {
     this.activeTab.forEach(el => el.classList.add('active'));
   }
 
-  goToReviews(isWritingReview?: boolean) {
-    if (!isWritingReview) {
-      this.isWritingReview = false;
-    }
+  goToReviews() {
     this.reviewHeader.nativeElement.click();
     this.reviewHeader.nativeElement.scrollIntoView();
   }
