@@ -1,0 +1,47 @@
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+:root {
+  // spinner size is added to the root so that it can be overriden on individual elements
+  --cx-spinner-size: 40px;
+}
+
+%spinner {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--cx-spinner-size);
+  height: var(--cx-spinner-size);
+  margin-top: calc(-1 * (var(--cx-spinner-size) / 2));
+  margin-left: calc(-1 * (var(--cx-spinner-size) / 2));
+  border-radius: 50%;
+  border: 2px solid var(--cx-light);
+  border-top-color: var(--cx-primary);
+  animation: spin 0.6s linear infinite;
+  z-index: 1;
+
+  // add smooth transition
+  opacity: var(--cx-opacity, 0);
+  transition: all var(--cx-transition-time, 0.6s);
+}
+
+%overlay {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: calc(-1 * var(--cx-margin, 0.5vw));
+
+  // we need a transparent color since the opacity
+  // is already used for animation purposes
+  background-color: hsla(60, 1%, 21%, 0.7);
+
+  opacity: var(--cx-opacity, 0);
+  transition: all var(--cx-transition-time, 0.6s);
+}
