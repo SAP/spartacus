@@ -64,3 +64,22 @@ cx-product-images {
   }
 }
 ```
+
+An additional effect can be used to make the images transparent initially,
+and make them fully visible on hover.
+
+```
+cx-product-images {
+  // make thumb section transparent initially
+  .thumbs {
+    opacity: 0.5;
+    transition: all var(--cx-transition-time);
+  }
+  &:hover {
+    .thumbs {
+      // remove transparency on hover
+      opacity: 1;
+    }
+  }
+}
+```
