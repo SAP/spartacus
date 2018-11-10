@@ -35,7 +35,7 @@
 
     &:hover,
     &.active {
-      --cx-border-color: var(--cx-primary);
+      border-color: var(--cx-border-color, var(--cx-primary));
     }
   }
 }
