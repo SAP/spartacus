@@ -14,3 +14,53 @@ cx-product-images {
   }
 }
 ```
+
+## Staggered thumbnails
+
+The PDP images can take quite some space. This example demonstrates staggered images, placed on top of the main image. Whenever the user navigates to the thumbnails, the stagered images animate to use the original space.
+
+```
+// sass variable
+$size: 6vmax;
+
+cx-product-images {
+  .thumbs {
+    position: absolute;
+
+    cx-picture {
+      transition: all var(--cx-transition-time);
+
+      background: #fff;
+
+      --cx-width: #{$size};
+      --cx-height: calc(0.9 * #{$size});
+
+      position: absolute !important;
+
+      @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+          z-index: #{10 - $i};
+          left: #{($i - 1) * 1vw};
+        }
+      }
+      &.active {
+        --cx-border-color: var(--cx-light);
+      }
+    }
+
+    &:hover {
+      cx-picture {
+        @for $i from 1 through 10 {
+          &:nth-child(#{$i}) {
+            left: #{($i - 1) * $size};
+          }
+        }
+
+        &.active {
+          --cx-border-color: var(--cx-primary);
+        }
+      }
+    }
+  }
+}
+```
