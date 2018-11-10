@@ -24,7 +24,6 @@ export class ProductDetailsComponent implements OnChanges {
   @Input()
   productCode: string;
   product$: Observable<any>;
-  itemCount = 1;
 
   get outlets() {
     return ProductDetailsComponent.outlets;

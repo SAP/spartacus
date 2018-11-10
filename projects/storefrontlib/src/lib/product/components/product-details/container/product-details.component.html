@@ -5,8 +5,8 @@
             <div class="cx-product-details">
                 <div>
                     <ng-container *cxOutlet="outlets.TITLE">
-                        <div class="cx-product-details__item-name">{{product?.name}}</div>
-                        <div class="cx-product-details__item-code">ID {{product?.code}}</div>
+                        <!-- <div class="cx-product-details__item-name">{{product?.name}}</div>
+                        <div class="cx-product-details__item-code">ID {{product?.code}}</div> -->
                     </ng-container>
                 </div>
                 <div class="cx-product-details__item-images">
@@ -16,21 +16,21 @@
                 </div>
                 <div>
                     <ng-container *cxOutlet="outlets.RATING">
-                        <div class="cx-product-details__item-rating">
+                        <!-- <div class="cx-product-details__item-rating">
                             <cx-star-rating [rating]="product?.averageRating" [disabled]="true"></cx-star-rating>
                             <div class="cx-product-details__review-count">({{product?.numberOfReviews}})</div>
                             <a class="cx-product-details__review-link btn-link" (click)="goToReviews($event)">
                                 Write a review</a>
-                        </div>
+                        </div> -->
                     </ng-container>
 
                     <ng-container *cxOutlet="outlets.SUMMARY">
-                        <cx-product-summary [product]="product" (itemCountChange)="itemCount = $event"></cx-product-summary>
+                        <cx-product-summary [product]="product"></cx-product-summary>
                     </ng-container>
 
                     <ng-container *cxOutlet="outlets.ADDTOCART">
-                        <cx-add-to-cart *ngIf="product?.stock?.stockLevelStatus !=='outOfStock'" [quantity]="itemCount"
-                            [productCode]="product?.code"></cx-add-to-cart>
+                        <!-- <cx-add-to-cart *ngIf="product?.stock?.stockLevelStatus !=='outOfStock'" [quantity]="itemCount"
+                            [productCode]="product?.code"></cx-add-to-cart> -->
                     </ng-container>
 
                     <ng-container *cxOutlet="outlets.SHARE">

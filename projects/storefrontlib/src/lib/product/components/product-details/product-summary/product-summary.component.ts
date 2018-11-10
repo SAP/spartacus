@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  ChangeDetectionStrategy,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'cx-product-summary',
@@ -13,12 +7,11 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductSummaryComponent {
-  @Output()
-  itemCountChange = new EventEmitter<any>();
   @Input()
   product: any;
+  itemCount = 1;
 
   updateCount(value) {
-    this.itemCountChange.emit(value);
+    this.itemCount = value;
   }
 }
