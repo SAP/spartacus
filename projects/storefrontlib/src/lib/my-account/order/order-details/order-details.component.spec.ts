@@ -1,10 +1,10 @@
 import { Component, Input, DebugElement } from '@angular/core';
-import { OrderDetailsComponent } from '../order-details/order-details.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import createSpy = jasmine.createSpy;
 
+import { OrderDetailsComponent } from '../order-details/order-details.component';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { UserService } from '../../../user/facade/user.service';
 import { AuthService } from '../../../auth/facade/auth.service';

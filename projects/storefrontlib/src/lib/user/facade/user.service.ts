@@ -21,7 +21,7 @@ export class UserService {
   readonly orderList$: Observable<any> = this.store.pipe(
     select(fromStore.getOrders)
   );
-  readonly orerListLoaded$: Observable<boolean> = this.store.pipe(
+  readonly orderListLoaded$: Observable<boolean> = this.store.pipe(
     select(fromStore.getOrdersLoaded)
   );
 

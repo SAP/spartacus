@@ -53,7 +53,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.isLoaded$ = this.userSerivce.orerListLoaded$;
+    this.isLoaded$ = this.userSerivce.orderListLoaded$;
   }
 
   ngOnDestroy() {
