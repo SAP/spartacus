@@ -86,4 +86,4 @@ cx-product-images {
 
 **Demo staggered thumbnails**
 
-<img src="staggered-demo-smallest.gif">
+![staggered-demo](staggered-demo.gif)
