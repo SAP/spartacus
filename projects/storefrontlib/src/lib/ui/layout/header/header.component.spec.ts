@@ -40,7 +40,7 @@ class MockLoginComponent {}
 })
 class MockMobileMenuComponent {}
 
-fdescribe('HeaderComponent', () => {
+describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
 
@@ -53,9 +53,9 @@ fdescribe('HeaderComponent', () => {
         MockLanguageSelectorComponent,
         MockCurrencySelectorComponent,
         MockLoginComponent,
+        MockMobileMenuComponent,
         HeaderSkipperComponent,
-        TertiaryBarComponent,
-        MockMobileMenuComponent
+        TertiaryBarComponent
       ]
     }).compileComponents();
   }));
