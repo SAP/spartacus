@@ -83,3 +83,7 @@ cx-product-images {
   }
 }
 ```
+
+**Demo staggered thumbnails**
+
+<img src="staggered-demo-smallest.gif">
