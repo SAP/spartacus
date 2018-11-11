@@ -15,6 +15,10 @@ cx-product-images {
 }
 ```
 
+**Demo**
+
+![amazon-layout](amazon-layout.gif)
+
 ## Staggered thumbnails
 
 The PDP images can take quite some space. This example demonstrates staggered images, placed on top of the main image. Whenever the user navigates to the thumbnails, the stagered images animate to use the original space.
@@ -86,4 +90,4 @@ cx-product-images {
 
 **Demo staggered thumbnails**
 
-![staggered-demo](staggered-demo.gif)
+![staggered-pictures](staggered-pictures.gif)
