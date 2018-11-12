@@ -96,7 +96,7 @@ describe('ComponentMapperService', () => {
       expect(mockRenderer.appendChild).toHaveBeenCalled();
       expect(mockScriptElement.setAttribute).toHaveBeenCalledWith(
         'src',
-        'path/to/file.js/file.js'
+        'path/to/file.js'
       );
     });
 
