@@ -58,20 +58,26 @@ export class ComponentMapperService {
     return alias;
   }
 
-  getComponentTypeByCode(typeCode: string): Type<any> {
+  getFactoryEntryByCode(typeCode: string) {
     const alias = this.getType(typeCode);
     if (!alias) {
       return;
     }
-
     const factoryEntries = Array.from(
       this.componentFactoryResolver['_factories'].entries()
     );
-    const factoryEntry = factoryEntries.find(
-      ([, value]: any) => value.selector === alias
-    );
 
+    return factoryEntries.find(([, value]: any) => value.selector === alias);
+  }
+
+  getComponentTypeByCode(typeCode: string): Type<any> {
+    const factoryEntry = this.getFactoryEntryByCode(typeCode);
     return factoryEntry ? factoryEntry[0] : null;
+  }
+
+  getComponentFactoryByCode(typeCode: string): any {
+    const factoryEntry = this.getFactoryEntryByCode(typeCode);
+    return factoryEntry ? factoryEntry[1] : null;
   }
 
   isWebComponent(typeCode: string): boolean {
@@ -113,22 +119,5 @@ export class ComponentMapperService {
         resolve(selector);
       }
     });
-  }
-
-  getComponentFactoryByCode(componentType: string): any {
-    const alias = this.getType(componentType);
-
-    if (!alias) {
-      return null;
-    }
-
-    const factoryEntries = Array.from(
-      this.componentFactoryResolver['_factories'].entries()
-    );
-    const factoryEntry = factoryEntries.find(
-      ([, value]: any) => value.selector === alias
-    );
-
-    return factoryEntry ? factoryEntry[1] : null;
   }
 }
