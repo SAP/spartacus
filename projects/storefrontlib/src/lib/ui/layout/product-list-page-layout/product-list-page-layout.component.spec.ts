@@ -18,7 +18,7 @@ class MockProductListComponent {
   brandCode;
 }
 
-describe('ProductListPageComponent', () => {
+describe('ProductListPageLayoutComponent', () => {
   let component: ProductListPageLayoutComponent;
   let fixture: ComponentFixture<ProductListPageLayoutComponent>;
 
