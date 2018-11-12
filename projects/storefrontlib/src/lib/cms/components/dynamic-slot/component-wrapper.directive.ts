@@ -5,8 +5,8 @@ import {
   AfterViewInit,
   OnDestroy,
   ComponentRef,
-  ComponentFactoryResolver,
-  Injector
+  Injector,
+  Renderer2
 } from '@angular/core';
 import { ComponentMapperService } from '../../services/component-mapper.service';
 import { CmsService } from '../../facade/cms.service';
@@ -27,29 +27,30 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
   contextParameters: any;
 
   cmpRef: ComponentRef<any>;
+  webElement: any;
 
   constructor(
     private vcr: ViewContainerRef,
-    private componentFactoryResolver: ComponentFactoryResolver,
     private componentMapper: ComponentMapperService,
     private injector: Injector,
-    private cmsService: CmsService
+    private cmsService: CmsService,
+    private renderer: Renderer2
   ) {}
 
   ngAfterViewInit() {
-    this.launchComponent();
+    if (this.componentMapper.isWebComponent(this.componentType)) {
+      this.launchWebComponent();
+    } else {
+      this.launchComponent();
+    }
   }
 
   private launchComponent() {
-    const componentTypeClass = this.componentMapper.getComponentTypeByCode(
+    const factory = this.componentMapper.getComponentFactoryByCode(
       this.componentType
     );
 
-    if (componentTypeClass) {
-      const factory = this.componentFactoryResolver.resolveComponentFactory(
-        componentTypeClass
-      );
-
+    if (factory) {
       this.cmpRef = this.vcr.createComponent(
         factory,
         undefined,
@@ -64,18 +65,40 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
     }
   }
 
-  private getInjectorForComponent() {
-    const componentData: CmsComponentData = {
+  private async launchWebComponent() {
+    const elementName = await this.componentMapper.initWebComponent(
+      this.componentType,
+      this.renderer
+    );
+
+    if (elementName) {
+      this.webElement = this.renderer.createElement(elementName);
+
+      this.webElement.cxApi = {
+        CmsComponentData: this.getCmsDataForComponent()
+      };
+
+      this.renderer.appendChild(
+        this.vcr.element.nativeElement.parentElement,
+        this.webElement
+      );
+    }
+  }
+
+  private getCmsDataForComponent(): CmsComponentData {
+    return {
       uid: this.componentUid,
       contextParameters: this.contextParameters,
       data$: this.cmsService.getComponentData(this.componentUid)
     };
+  }
 
+  private getInjectorForComponent() {
     return Injector.create({
       providers: [
         {
           provide: CmsComponentData,
-          useValue: componentData
+          useValue: this.getCmsDataForComponent()
         }
       ],
       parent: this.injector
@@ -85,6 +108,12 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     if (this.cmpRef) {
       this.cmpRef.destroy();
+    }
+    if (this.webElement) {
+      this.renderer.removeChild(
+        this.vcr.element.nativeElement.parentElement,
+        this.webElement
+      );
     }
   }
 }

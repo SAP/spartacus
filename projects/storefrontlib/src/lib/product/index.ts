@@ -18,4 +18,4 @@ export * from './components/product-list/product-facet-navigation/product-facet-
 export * from './guards/product.guard';
 export * from './product-outlets.model';
 export * from './converters/index';
-export * from './services/index';
+export * from './facade/index';

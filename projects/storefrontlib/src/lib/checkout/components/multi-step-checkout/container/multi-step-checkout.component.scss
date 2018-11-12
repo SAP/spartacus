@@ -153,7 +153,6 @@ $cx-multi-step-checkout-btns-padding: 0 !default;
     padding: $cx-multi-step-checkout-place-order-padding;
 
     &-form {
-      padding: $cx-multi-step-checkout-no-padding;
       display: flex;
       .form-check-input {
         min-height: $cx-multi-step-checkout-place-order-form-check-input-size;

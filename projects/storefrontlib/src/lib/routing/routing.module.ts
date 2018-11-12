@@ -26,6 +26,9 @@ import {
 } from './routing-module-config';
 
 import { RouterModule } from '@angular/router';
+import { RoutingService } from './facade/routing.service';
+
+import { ROUTING_FEATURE } from './state';
 
 export function getMetaReducers(
   config: RoutingModuleConfig
@@ -43,12 +46,15 @@ export function getMetaReducers(
   imports: [
     ConfigurableRoutesModule,
     RouterModule.forRoot([], { scrollPositionRestoration: 'enabled' }),
-    StoreModule.forRoot(reducerToken),
-    EffectsModule.forRoot(effects),
-    StoreRouterConnectingModule,
+    StoreModule.forFeature(ROUTING_FEATURE, reducerToken),
+    EffectsModule.forFeature(effects),
+    StoreRouterConnectingModule.forRoot({
+      stateKey: ROUTING_FEATURE // name of reducer key
+    }),
     ConfigModule.withConfig(defaultRoutingModuleConfig)
   ],
   providers: [
+    RoutingService,
     reducerProvider,
     {
       provide: RouterStateSerializer,

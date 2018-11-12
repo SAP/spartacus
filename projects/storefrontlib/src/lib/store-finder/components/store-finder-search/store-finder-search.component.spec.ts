@@ -1,12 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { combineReducers, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 import { StoreFinderService } from '../../services/store-finder.service';
 import { LongitudeLatitude } from '../../models/longitude-latitude';
 
-import * as fromRoot from '../../../routing/store';
 import * as fromStore from '../../store';
 import { WindowRef } from '../../services/window-ref';
 
@@ -61,10 +60,8 @@ describe('StoreFinderSearchComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          stores: combineReducers(fromStore.reducers)
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('stores', fromStore.reducers)
       ],
       declarations: [StoreFinderSearchComponent],
       providers: [

@@ -54,8 +54,12 @@ describe('LanguageService', () => {
 
   it('should load languages and set active language when service is constructed', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadLanguages());
+    let activeLang = sessionStorage.getItem('language');
+    if (!activeLang) {
+      activeLang = defaultSiteContextConfig.site.language;
+    }
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.SetActiveLanguage(defaultSiteContextConfig.site.language)
+      new fromStore.SetActiveLanguage(activeLang)
     );
   });
 
