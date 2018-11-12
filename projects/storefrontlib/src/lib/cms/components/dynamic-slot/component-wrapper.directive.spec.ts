@@ -38,7 +38,7 @@ const MockCmsModuleConfig: CmsModuleConfig = {
 })
 class TestWrapperComponent {}
 
-describe('ComponentWrapperDirective', () => {
+fdescribe('ComponentWrapperDirective', () => {
   let fixture: ComponentFixture<TestWrapperComponent>;
 
   beforeEach(async(() => {
@@ -61,21 +61,52 @@ describe('ComponentWrapperDirective', () => {
     }).compileComponents();
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TestWrapperComponent);
+  describe('with angular component', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(TestWrapperComponent);
+    });
+
+    it('should instantiate the found component correctly', () => {
+      fixture.detectChanges();
+      const compiled = fixture.debugElement.nativeElement;
+      expect(compiled.querySelector('#debugEl1').textContent).toContain(
+        testText
+      );
+    });
+
+    it('should inject cms component data', () => {
+      fixture.detectChanges();
+      const testCromponemtInstance = <TestComponent>(
+        fixture.debugElement.children[0].componentInstance
+      );
+      expect(testCromponemtInstance.cmsData.uid).toContain('test_uid');
+    });
   });
 
-  it('should instantiate the found component correctly', () => {
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('#debugEl1').textContent).toContain(testText);
-  });
+  describe('with web component', () => {
+    beforeEach(() => {
+      const cmsMapping = TestBed.get(CmsModuleConfig) as CmsModuleConfig;
+      cmsMapping.cmsComponentMapping.CMSTestComponent = 'file.js#cms-component';
+      fixture = TestBed.createComponent(TestWrapperComponent);
+    });
 
-  it('should inject cms component data', () => {
-    fixture.detectChanges();
-    const testCromponemtInstance = <TestComponent>(
-      fixture.debugElement.children[0].componentInstance
-    );
-    expect(testCromponemtInstance.cmsData.uid).toContain('test_uid');
+    it('should instantiate web component', done => {
+      fixture.detectChanges();
+
+      const scriptEl = fixture.debugElement.nativeNode.nextSibling;
+      expect(scriptEl.src).toContain('file.js');
+      scriptEl.onload(); // invoke load callbacks
+
+      // run in next runloop (to process async tasks)
+      setTimeout(() => {
+        const cmsComponentElement = fixture.debugElement.nativeElement.querySelector(
+          'cms-component'
+        );
+        expect(cmsComponentElement).toBeTruthy();
+        const componentData = cmsComponentElement.cxApi.CmsComponentData;
+        expect(componentData.uid).toEqual('test_uid');
+        done();
+      });
+    });
   });
 });
