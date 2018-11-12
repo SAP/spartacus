@@ -48,8 +48,6 @@ describe('ConfigurableRoutesService', () => {
     router = TestBed.get(Router);
 
     router.config = [];
-
-    spyOn(console, 'warn');
   });
 
   it('should get routes config from loader', () => {
@@ -146,18 +144,21 @@ describe('ConfigurableRoutesService', () => {
     });
 
     it('should console.warn in non-production environment if there are no translations for given language code', () => {
+      spyOn(console, 'warn');
       serverConfig.production = false;
       service.changeLanguage('testUnknownLanguage');
       expect(console.warn).toHaveBeenCalled();
     });
 
     it('should NOT console.warn in production environment if there are no translations for given language code', () => {
+      spyOn(console, 'warn');
       serverConfig.production = true;
       service.changeLanguage('testUnknownLanguage');
       expect(console.warn).not.toHaveBeenCalled();
     });
 
     it('should console.warn in non-production environment if a route has configurable both "path" and "redirectTo"', () => {
+      spyOn(console, 'warn');
       serverConfig.production = false;
       router.config = [
         { path: null, data: { cxPath: 'page1', cxRedirectTo: 'page2' } }
@@ -172,6 +173,7 @@ describe('ConfigurableRoutesService', () => {
       expect(console.warn).toHaveBeenCalled();
     });
     it('should NOT console.warn in production environment if a route has configurable both "path" and "redirectTo"', () => {
+      spyOn(console, 'warn');
       serverConfig.production = true;
       router.config = [
         { path: null, data: { cxPath: 'page1', cxRedirectTo: 'page2' } }
@@ -225,6 +227,7 @@ describe('ConfigurableRoutesService', () => {
     });
 
     it('should console.warn in non-production environment if route refers a page name that does not exist in translations config', () => {
+      spyOn(console, 'warn');
       serverConfig.production = false;
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
       service['_routesConfig'].translations = {
@@ -235,6 +238,7 @@ describe('ConfigurableRoutesService', () => {
     });
 
     it('should NOT console.warn in production environment if route refers a page name that does not exist in translations config', () => {
+      spyOn(console, 'warn');
       serverConfig.production = true;
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
       service['_routesConfig'].translations = {
@@ -306,6 +310,7 @@ describe('ConfigurableRoutesService', () => {
     });
 
     it('should console.warn in non-production environment if given page name that does not exist in translations config', () => {
+      spyOn(console, 'warn');
       serverConfig.production = false;
       service['_routesConfig'].translations = {
         testLanguage: {}
@@ -316,6 +321,7 @@ describe('ConfigurableRoutesService', () => {
     });
 
     it('should NOT console.warn in non-production environment if given page name has "null" in translations config', () => {
+      spyOn(console, 'warn');
       serverConfig.production = false;
       service['_routesConfig'].translations = {
         testLanguage: {
@@ -328,6 +334,7 @@ describe('ConfigurableRoutesService', () => {
     });
 
     it('should NOT console.warn in production environment if given page name that does not exist in translations config', () => {
+      spyOn(console, 'warn');
       serverConfig.production = true;
       service['_routesConfig'].translations = {
         testLanguage: {}
