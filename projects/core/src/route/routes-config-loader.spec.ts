@@ -79,7 +79,7 @@ describe('RoutesConfigLoader', () => {
       });
 
       it('should fetch routes config from url', () => {
-        spyOn(http, 'get');
+        spyOn(http, 'get').and.returnValue(of(null));
         loader.load();
         expect(http.get).toHaveBeenCalledWith(url);
       });

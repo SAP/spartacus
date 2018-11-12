@@ -17,19 +17,15 @@ export interface RoutesTranslations {
   myAccount_orders?: string[];
   myAccount_orderDetails?: string[];
   pageNotFound?: string[];
-  [pageName: string]: string[]; // allow translations of paths for custom pages
+  [pageName: string]: string[]; // allow custom pages
 }
 
 export interface ParameterNamesMapping {
-  product?: {
-    [_: string]: string;
-  };
-  category?: {
-    [_: string]: string;
-  };
-  myAccount_orderDetails?: {
-    [_: string]: string;
-  };
+  product?: { [_: string]: string };
+  category?: { [_: string]: string };
+  myAccount_orderDetails?: { [_: string]: string };
+
+  // allow custom pages
   [pageName: string]: {
     [_: string]: string;
   };

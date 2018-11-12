@@ -56,7 +56,7 @@ describe('ConfigurableRoutesService', () => {
     );
   });
 
-  describe('#changeLanguage', () => {
+  describe('changeLanguage', () => {
     it('should NOT translate "paths" of routes that are NOT configurable', () => {
       router.config = [{ path: 'path1' }, { path: 'path2' }];
       service.changeLanguage('default');
@@ -110,6 +110,7 @@ describe('ConfigurableRoutesService', () => {
     });
 
     it('should translate "path" of configurable routes using "default" translations if unknown language code was given', () => {
+      spyOn(console, 'warn');
       router.config = [
         { path: null, data: { cxPath: 'page1' } },
         { path: null, data: { cxPath: 'page2' } }
@@ -126,6 +127,7 @@ describe('ConfigurableRoutesService', () => {
     });
 
     it('should translate "redirectTo" of configurable routes using "default" translations if unknown language code was given', () => {
+      spyOn(console, 'warn');
       router.config = [
         { path: 'path1', data: { cxRedirectTo: 'page1' } },
         { path: 'path2', data: { cxRedirectTo: 'page2' } }
@@ -298,7 +300,7 @@ describe('ConfigurableRoutesService', () => {
     });
   });
 
-  describe('#getPathsForPage', () => {
+  describe('getPathsForPage', () => {
     it('should return configured paths translations for given page name', () => {
       service['_routesConfig'].translations = {
         testLanguage: {
@@ -345,7 +347,7 @@ describe('ConfigurableRoutesService', () => {
     });
   });
 
-  describe('#getParameterNamesMapping', () => {
+  describe('getParameterNamesMapping', () => {
     it('should return configured parameter names mapping for given page name', () => {
       service['_routesConfig'].parameterNamesMapping = {
         page1: {
