@@ -6,7 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { combineReducers, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { StoreFinderPageComponent } from './store-finder-page.component';
@@ -25,7 +25,6 @@ import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/comp
 import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
 
 import * as fromStore from '../../../store-finder/store';
-import * as fromRoot from '../../../routing/store';
 
 describe('StoreFinderPageComponent', () => {
   let component: StoreFinderPageComponent;
@@ -40,10 +39,8 @@ describe('StoreFinderPageComponent', () => {
         HttpClientTestingModule,
         NgbTabsetModule,
         PaginationAndSortingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          stores: combineReducers(fromStore.reducers)
-        }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('stores', fromStore.reducers),
         RouterTestingModule
       ],
       schemas: [NO_ERRORS_SCHEMA],

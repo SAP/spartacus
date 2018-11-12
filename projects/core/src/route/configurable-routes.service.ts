@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Routes, Router, Route } from '@angular/router';
 import { ServerConfig } from '../config/server-config/server-config';
-import { ConfigurableRoutesLoader } from './configurable-routes-loader';
+import { RoutesConfigLoader } from './routes-config-loader';
 import { RoutesConfig, RoutesTranslations } from './routes-config';
 
 type ConfigurableRouteKey = 'cxPath' | 'cxRedirectTo';
@@ -11,7 +11,7 @@ export class ConfigurableRoutesService {
   constructor(
     private readonly config: ServerConfig,
     private readonly router: Router,
-    private readonly loader: ConfigurableRoutesLoader
+    private readonly loader: RoutesConfigLoader
   ) {
     this._routesConfig = this.loader.routesConfig;
   }

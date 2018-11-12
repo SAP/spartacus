@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { ConfigurableRoutesService } from './configurable-routes.service';
-import { ConfigurableRoutesLoader } from './configurable-routes-loader';
+import { RoutesConfigLoader } from './routes-config-loader';
 import { ConfigModule, Config } from '../config/config.module';
 import {
   ConfigurableRoutesModuleConfig,
@@ -10,8 +10,8 @@ import {
 import { PathService } from './path/path.service';
 import { DynamicPathService } from './path/dynamic-path.service';
 
-export function loadRoutesConfig(loader: ConfigurableRoutesLoader) {
-  const result = () => loader.loadRoutesConfig(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
+export function loadRoutesConfig(loader: RoutesConfigLoader) {
+  const result = () => loader.load(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
   return result;
 }
 
@@ -24,13 +24,13 @@ export function loadRoutesConfig(loader: ConfigurableRoutesLoader) {
   exports: [],
   providers: [
     ConfigurableRoutesService,
-    ConfigurableRoutesLoader,
+    RoutesConfigLoader,
     PathService,
     DynamicPathService,
     {
       provide: APP_INITIALIZER,
       useFactory: loadRoutesConfig,
-      deps: [ConfigurableRoutesLoader],
+      deps: [RoutesConfigLoader],
       multi: true
     },
     { provide: ConfigurableRoutesModuleConfig, useExisting: Config }
