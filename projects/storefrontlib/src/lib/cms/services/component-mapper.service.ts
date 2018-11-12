@@ -101,6 +101,9 @@ export class ComponentMapperService {
       }
 
       if (script.onload) {
+        // If script is still loading (has onload callback defined)
+        // add new callback and chain it with the existing one.
+        // Needed to support loading multiple components from one script
         const chainedOnload = script.onload;
         script.onload = () => {
           chainedOnload();

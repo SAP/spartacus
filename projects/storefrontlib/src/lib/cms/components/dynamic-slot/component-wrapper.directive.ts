@@ -12,6 +12,7 @@ import { ComponentMapperService } from '../../services/component-mapper.service'
 import { CmsService } from '../../facade/cms.service';
 import { CmsComponentData } from '../cms-component-data';
 import { AbstractCmsComponent } from '../abstract-cms-component';
+import { CxApiService } from '../../../cx-api/cx-api.service';
 
 @Directive({
   selector: '[yComponentWrapper]'
@@ -75,6 +76,7 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
       this.webElement = this.renderer.createElement(elementName);
 
       this.webElement.cxApi = {
+        ...this.injector.get(CxApiService),
         CmsComponentData: this.getCmsDataForComponent()
       };
 
