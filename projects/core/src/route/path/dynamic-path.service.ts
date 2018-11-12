@@ -6,14 +6,14 @@ import {
   removeLeadingSlash
 } from './path-utils';
 import { PathService } from './path.service';
-import { ConfigurableRoutesLoader } from '../configurable-routes-loader';
 import { RoutesTranslations } from '../routes-config';
+import { RoutesConfigLoader } from '../routes-config-loader';
 
 @Injectable()
 export class DynamicPathService {
   constructor(
     private pathService: PathService,
-    private configurableRoutesLoader: ConfigurableRoutesLoader
+    private routesConfigLoader: RoutesConfigLoader
   ) {}
 
   transform(url: string) {
@@ -116,6 +116,6 @@ export class DynamicPathService {
   }
 
   private get defaultRoutesTranslations(): RoutesTranslations {
-    return this.configurableRoutesLoader.routesConfig.translations.default;
+    return this.routesConfigLoader.routesConfig.translations.default;
   }
 }
