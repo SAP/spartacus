@@ -2,7 +2,8 @@ import { Component, NgModule, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
 import { ComponentMapperService } from './component-mapper.service';
 import { CmsModuleConfig } from '../cms-module-config';
-import createSpy = jasmine.createSpy;
+
+const createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-test',
@@ -20,7 +21,7 @@ export class TestModule {}
 const MockCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
     CMSTestComponent: 'cx-test',
-    CMSWebComponent: 'file.js#cms-component'
+    CMSWebComponent: 'path/to/file.js#cms-component'
   }
 };
 
@@ -95,7 +96,7 @@ describe('ComponentMapperService', () => {
       expect(mockRenderer.appendChild).toHaveBeenCalled();
       expect(mockScriptElement.setAttribute).toHaveBeenCalledWith(
         'src',
-        'file.js'
+        'path/to/file.js/file.js'
       );
     });
 

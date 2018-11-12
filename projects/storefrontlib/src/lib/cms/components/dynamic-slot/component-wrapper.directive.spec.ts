@@ -38,7 +38,7 @@ const MockCmsModuleConfig: CmsModuleConfig = {
 })
 class TestWrapperComponent {}
 
-fdescribe('ComponentWrapperDirective', () => {
+describe('ComponentWrapperDirective', () => {
   let fixture: ComponentFixture<TestWrapperComponent>;
 
   beforeEach(async(() => {
@@ -86,7 +86,8 @@ fdescribe('ComponentWrapperDirective', () => {
   describe('with web component', () => {
     beforeEach(() => {
       const cmsMapping = TestBed.get(CmsModuleConfig) as CmsModuleConfig;
-      cmsMapping.cmsComponentMapping.CMSTestComponent = 'file.js#cms-component';
+      cmsMapping.cmsComponentMapping.CMSTestComponent =
+        'path/to/file.js#cms-component';
       fixture = TestBed.createComponent(TestWrapperComponent);
     });
 
@@ -94,7 +95,7 @@ fdescribe('ComponentWrapperDirective', () => {
       fixture.detectChanges();
 
       const scriptEl = fixture.debugElement.nativeNode.nextSibling;
-      expect(scriptEl.src).toContain('file.js');
+      expect(scriptEl.src).toContain('path/to/file.js');
       scriptEl.onload(); // invoke load callbacks
 
       // run in next runloop (to process async tasks)
