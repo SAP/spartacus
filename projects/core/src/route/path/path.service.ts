@@ -35,7 +35,7 @@ export class PathService {
     if (path === undefined) {
       if (!this.config.production) {
         console.warn(
-          `No configured path matches all its parameters to parameters object when given parameter names mapping. `,
+          `No configured path matches all its parameters to given object using parameter names mapping. `,
           `Configured paths: `,
           path,
           `. Parameters object: `,
@@ -78,7 +78,7 @@ export class PathService {
   }
 
   private sanitizeParameterValue(parameterValue: string) {
-    return (parameterValue || '').replace('/', '_');
+    return (parameterValue || '').replace(new RegExp('/', 'g'), '%2F');
   }
 
   private getFirstPathMatchingAllParameters(
