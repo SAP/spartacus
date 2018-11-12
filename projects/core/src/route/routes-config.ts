@@ -30,6 +30,9 @@ export interface ParameterNamesMapping {
   myAccount_orderDetails?: {
     [_: string]: string;
   };
+  [pageName: string]: {
+    [_: string]: string;
+  };
 }
 
 export interface RoutesConfig {
