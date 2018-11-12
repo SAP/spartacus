@@ -49,10 +49,10 @@ export class RoutesConfigLoader {
       this.configurableRoutesModuleConfig.routesConfig,
       routesConfig
     );
-    return this.extendTranslationsWithDefault(mergedRoutesConfig);
+    return this.extendLanguagesTranslationsWithDefault(mergedRoutesConfig);
   }
 
-  private extendTranslationsWithDefault(
+  private extendLanguagesTranslationsWithDefault(
     routesConfig: RoutesConfig
   ): RoutesConfig {
     const defaultTranslations = routesConfig.translations.default;

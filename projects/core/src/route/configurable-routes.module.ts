@@ -9,7 +9,7 @@ import {
 } from './configurable-routes-module.config';
 
 export function loadRoutesConfig(loader: RoutesConfigLoader) {
-  const result = () => loader.loadRoutesConfig(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
+  const result = () => loader.load(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
   return result;
 }
 
