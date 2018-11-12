@@ -8,6 +8,10 @@ import { NavigationExtras } from '@angular/router';
   providedIn: 'root'
 })
 export class RoutingService {
+  readonly routerState$: Observable<any> = this.store.pipe(
+    select(fromStore.getRouterState)
+  );
+
   readonly redirectUrl$: Observable<string> = this.store.pipe(
     select(fromStore.getRedirectUrl)
   );
@@ -24,11 +28,19 @@ export class RoutingService {
     );
   }
 
+  back() {
+    this.store.dispatch(new fromStore.Back());
+  }
+
+  forward() {
+    this.store.dispatch(new fromStore.Forward());
+  }
+
   clearRedirectUrl() {
     this.store.dispatch(new fromStore.ClearRedirectUrl());
   }
 
-  back() {
-    this.store.dispatch(new fromStore.Back());
+  saveRedirectUrl(url: string) {
+    this.store.dispatch(new fromStore.SaveRedirectUrl(url));
   }
 }

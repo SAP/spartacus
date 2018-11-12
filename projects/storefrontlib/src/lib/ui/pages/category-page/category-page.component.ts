@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromCmsStore from '../../../cms/store';
 
 @Component({
-  selector: 'y-category-page',
+  selector: 'cx-category-page',
   templateUrl: './category-page.component.html',
   styleUrls: ['./category-page.component.scss']
 })

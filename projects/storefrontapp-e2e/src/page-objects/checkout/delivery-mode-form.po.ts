@@ -3,14 +3,14 @@ import { E2EUtil } from '../../e2e-util';
 
 export class DeliveryModeForm {
   constructor(
-    private parentElement: ElementFinder = element(by.tagName('y-root'))
+    private parentElement: ElementFinder = element(by.tagName('cx-root'))
   ) {}
 
   readonly form: ElementFinder = this.parentElement.element(
-    by.tagName('y-delivery-mode')
+    by.tagName('cx-delivery-mode')
   );
   readonly header: ElementFinder = this.form.element(
-    by.css('h3.y-delivery-mode-form__title')
+    by.css('h3.cx-delivery-mode-form__title')
   );
   readonly address: ElementFinder = this.form.element(by.css('.address'));
   readonly deliveryModeSelect: ElementFinder = this.form.element(

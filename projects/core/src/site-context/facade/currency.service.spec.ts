@@ -54,8 +54,12 @@ describe('CurrencyService', () => {
 
   it('should load currencies and set active currency when service is constructed', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadCurrencies());
+    let activeCurr = sessionStorage.getItem('currency');
+    if (!activeCurr) {
+      activeCurr = defaultSiteContextConfig.site.currency;
+    }
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.SetActiveCurrency(defaultSiteContextConfig.site.currency)
+      new fromStore.SetActiveCurrency(activeCurr)
     );
   });
 

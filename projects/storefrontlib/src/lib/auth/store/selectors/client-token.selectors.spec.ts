@@ -1,8 +1,7 @@
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 
 import { TestBed } from '@angular/core/testing';
 
-import * as fromRoot from './../../../routing/store';
 import * as fromReducers from './../reducers';
 
 describe('ClientToken Selectors', () => {
@@ -11,10 +10,8 @@ describe('ClientToken Selectors', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          auth: combineReducers(fromReducers.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('auth', fromReducers.getReducers())
       ]
     });
 

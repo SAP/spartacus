@@ -16,7 +16,7 @@ import { Card } from '../../../../../ui/components/card/card.component';
 import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
 
 @Component({
-  selector: 'y-payment-form',
+  selector: 'cx-payment-form',
   templateUrl: './payment-form.component.html',
   styleUrls: ['./payment-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

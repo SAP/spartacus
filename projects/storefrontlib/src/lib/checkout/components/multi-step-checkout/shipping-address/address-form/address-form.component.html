@@ -1,4 +1,4 @@
-<div class="y-address-form container">
+<div class="cx-address-form container">
     <div class="row">
         <div class="col-md-12 col-lg-9">
             <div [formGroup]="address">
@@ -7,8 +7,8 @@
                         <div *ngIf="titles.length !== 0">
                             <label aria-required="true">
                                 <span class="label-content required">Title</span>
-                                <ng-select [searchable]="false" [clearable]="false" [items]="titles" bindLabel="name"
-                                    bindValue="code" placeholder="Select Title..." (change)="titleSelected($event)">
+                                <ng-select [searchable]="false" [clearable]="false" [items]="titles" bindLabel="name" bindValue="code" placeholder="Select Title..."
+                                    (change)="titleSelected($event)">
                                 </ng-select>
                             </label>
                         </div>
@@ -17,22 +17,19 @@
                 <div class="form-group">
                     <label>
                         <span class="label-content required">First name</span>
-                        <input class="form-control" type="text" required placeholder="First Name"
-                            formControlName="firstName">
+                        <input class="form-control" type="text" required placeholder="First Name" formControlName="firstName">
                     </label>
                 </div>
                 <div class="form-group">
                     <label>
                         <span class="label-content required">Last name</span>
-                        <input type="text" class="form-control" required placeholder="Last Name"
-                            formControlName="lastName">
+                        <input type="text" class="form-control" required placeholder="Last Name" formControlName="lastName">
                     </label>
                 </div>
                 <div class="form-group">
                     <label>
                         <span class="label-content required">Address 1</span>
-                        <input type="text" class="form-control" required placeholder="Street Address"
-                            formControlName="line1">
+                        <input type="text" class="form-control" required placeholder="Street Address" formControlName="line1">
                     </label>
                 </div>
                 <div class="form-group">
@@ -46,8 +43,8 @@
                         <div *ngIf="countries.length !== 0">
                             <label aria-required="true">
                                 <span class="label-content required">Country</span>
-                                <ng-select [searchable]="false" [clearable]="false" [items]="countries" bindLabel="name"
-                                    bindValue="isocode" placeholder="Select One..." (change)="countrySelected($event)">
+                                <ng-select [searchable]="false" [clearable]="false" [items]="countries" bindLabel="name" bindValue="isocode" placeholder="Select One..."
+                                    (change)="countrySelected($event)">
                                 </ng-select>
                             </label>
                         </div>
@@ -66,13 +63,13 @@
                                 <label aria-required="true">
                                     <span class="label-content required">State</span>
                                     <ng-container *ngIf="regions[0].name">
-                                        <ng-select [searchable]="false" [clearable]="false" [items]="regions" bindLabel="name"
-                                            bindValue="region" placeholder="Select One..." (change)="regionSelected($event)">
+                                        <ng-select [searchable]="false" [clearable]="false" [items]="regions" bindLabel="name" bindValue="region" placeholder="Select One..."
+                                            (change)="regionSelected($event)">
                                         </ng-select>
                                     </ng-container>
                                     <ng-container *ngIf="!regions[0].name">
-                                        <ng-select [searchable]="false" [clearable]="false" [items]="regions" bindLabel="isocode"
-                                            bindValue="region" placeholder="Select One..." (change)="regionSelected($event)">
+                                        <ng-select [searchable]="false" [clearable]="false" [items]="regions" bindLabel="isocode" bindValue="region" placeholder="Select One..."
+                                            (change)="regionSelected($event)">
                                         </ng-select>
                                     </ng-container>
                                 </label>
@@ -82,16 +79,14 @@
                     <div class="form-group col-md-6">
                         <label>
                             <span class="label-content required">Zip code</span>
-                            <input type="text" class="form-control" required placeholder="Postal Code/Zip"
-                                formControlName="postalCode">
+                            <input type="text" class="form-control" required placeholder="Postal Code/Zip" formControlName="postalCode">
                         </label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>
-                        <span class="label-content">Phone number</span>
-                        <input type="text" class="form-control" placeholder="(555) 555 - 0123"
-                            formControlName="phone">
+                        <span class="label-content">Phone number (optional)</span>
+                        <input type="text" class="form-control" placeholder="(555) 555 - 0123" formControlName="phone">
                     </label>
                 </div>
                 <div class="form-group">
@@ -102,7 +97,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="y-address-form__btns row">
+                <div class="cx-address-form__btns row">
                     <div class="col-sm-12 col-md-6 col-lg-6">
                         <button class="btn btn-block btn-action" (click)="back()">
                             Change Address</button>
