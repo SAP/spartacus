@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { ServerConfig } from '../config';
-import { ConfigurableRoutesLoader } from './configurable-routes-loader';
+import { RoutesConfigLoader } from './routes-config-loader';
 import { ConfigurableRoutesService } from './configurable-routes.service';
 import { Router, Routes } from '@angular/router';
 import { ConfigurableRoutes } from './configurable-routes';
 import { RoutesConfig } from './routes-config';
 
-const mockConfigurableRoutesLoader: { routesConfig: RoutesConfig } = {
+const mockRoutesConfigLoader: { routesConfig: RoutesConfig } = {
   routesConfig: {
     translations: {
       default: {}
@@ -32,8 +32,8 @@ describe('ConfigurableRoutesService', () => {
       providers: [
         ConfigurableRoutesService,
         {
-          provide: ConfigurableRoutesLoader,
-          useValue: mockConfigurableRoutesLoader
+          provide: RoutesConfigLoader,
+          useValue: mockRoutesConfigLoader
         },
         { provide: ServerConfig, useValue: mockServerConfig },
         {
@@ -54,7 +54,7 @@ describe('ConfigurableRoutesService', () => {
 
   it('should get routes config from loader', () => {
     expect(service['_routesConfig']).toEqual(
-      mockConfigurableRoutesLoader.routesConfig
+      mockRoutesConfigLoader.routesConfig
     );
   });
 

@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { ServerConfig } from '../config/server-config/server-config';
 import { Injectable } from '@angular/core';
-import { RoutesConfig, defaultRoutesConfig } from './routes-config';
+import { RoutesConfig } from './routes-config';
 import { deepMerge } from '../config/utils/deep-merge';
 import { ConfigurableRoutesModuleConfig } from './configurable-routes-module.config';
 
 @Injectable()
-export class ConfigurableRoutesLoader {
+export class RoutesConfigLoader {
   private _routesConfig: RoutesConfig;
 
   get routesConfig(): RoutesConfig {
@@ -19,16 +19,16 @@ export class ConfigurableRoutesLoader {
     private readonly configurableRoutesModuleConfig: ConfigurableRoutesModuleConfig
   ) {}
 
-  loadRoutesConfig(): Promise<any> {
+  load(): Promise<any> {
     const url = this.serverConfig.server.routesConfigUrl;
-    return url ? this.fetchRoutesConfig(url) : this.setStaticRoutesConfig();
+    return url ? this.fetch(url) : this.useStatic();
   }
 
-  private fetchRoutesConfig(url: string): Promise<any> {
+  private fetch(url: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.http.get(url).subscribe(
         (res: RoutesConfig) => {
-          this._routesConfig = this.extendStaticRoutesConfig(res);
+          this._routesConfig = this.extendStaticWith(res);
           return resolve();
         },
 
@@ -38,15 +38,14 @@ export class ConfigurableRoutesLoader {
     });
   }
 
-  private setStaticRoutesConfig(): Promise<any> {
-    this._routesConfig = this.extendStaticRoutesConfig(null);
+  private useStatic(): Promise<any> {
+    this._routesConfig = this.extendStaticWith(null);
     return Promise.resolve();
   }
 
-  private extendStaticRoutesConfig(routesConfig: RoutesConfig): RoutesConfig {
+  private extendStaticWith(routesConfig: RoutesConfig): RoutesConfig {
     const mergedRoutesConfig = deepMerge(
       {},
-      defaultRoutesConfig,
       this.configurableRoutesModuleConfig.routesConfig,
       routesConfig
     );
