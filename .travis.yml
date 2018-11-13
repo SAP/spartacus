@@ -13,6 +13,8 @@ jobs:
     - stage: "Spartacus build"
       name: "Unit tests"
       script: "./ci-scripts/unit-tests.sh"
+    - script: "./ci-scripts/e2e-tests.sh"
+      name: "End to end tests"
     - script: "./ci-scripts/validate.sh"
       name: "Validation"
     - script: "./ci-scripts/lint.sh"
