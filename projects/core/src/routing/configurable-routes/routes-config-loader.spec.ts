@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { ServerConfig } from '../config';
+import { ServerConfig } from '../../config';
 import { ConfigurableRoutesModuleConfig } from './configurable-routes-module.config';
 import { RoutesConfigLoader } from './routes-config-loader';
 import { BehaviorSubject, of } from 'rxjs';

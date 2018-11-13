@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { ConfigurableRoutesService } from './configurable-routes.service';
 import { RoutesConfigLoader } from './routes-config-loader';
-import { ConfigModule, Config } from '../config/config.module';
+import { ConfigModule, Config } from '../../config/config.module';
 import {
   ConfigurableRoutesModuleConfig,
   defaultConfigurableRoutesModuleConfig

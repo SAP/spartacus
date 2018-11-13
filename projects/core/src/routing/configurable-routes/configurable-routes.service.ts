@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Routes, Router, Route } from '@angular/router';
-import { ServerConfig } from '../config/server-config/server-config';
+import { ServerConfig } from '../../config/server-config/server-config';
 import { RoutesConfigLoader } from './routes-config-loader';
 import { RoutesConfig, RoutesTranslations } from './routes-config';
 
