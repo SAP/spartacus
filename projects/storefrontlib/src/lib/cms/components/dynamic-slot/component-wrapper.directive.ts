@@ -6,12 +6,14 @@ import {
   OnDestroy,
   ComponentRef,
   Injector,
-  Renderer2
+  Renderer2,
+  ChangeDetectorRef
 } from '@angular/core';
 import { ComponentMapperService } from '../../services/component-mapper.service';
 import { CmsService } from '../../facade/cms.service';
 import { CmsComponentData } from '../cms-component-data';
 import { AbstractCmsComponent } from '../abstract-cms-component';
+import { CxApiService } from '../../../cx-api/cx-api.service';
 
 @Directive({
   selector: '[yComponentWrapper]'
@@ -34,7 +36,8 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
     private componentMapper: ComponentMapperService,
     private injector: Injector,
     private cmsService: CmsService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngAfterViewInit() {
@@ -61,6 +64,8 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
       const instance: AbstractCmsComponent = this.cmpRef.instance;
       if (instance.onCmsComponentInit) {
         instance.onCmsComponentInit(this.componentUid, this.contextParameters);
+      } else {
+        this.cd.detectChanges();
       }
     }
   }
@@ -75,6 +80,7 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
       this.webElement = this.renderer.createElement(elementName);
 
       this.webElement.cxApi = {
+        ...this.injector.get(CxApiService),
         CmsComponentData: this.getCmsDataForComponent()
       };
 
