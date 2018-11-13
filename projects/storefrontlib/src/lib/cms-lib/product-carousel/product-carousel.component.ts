@@ -10,11 +10,15 @@ import {
 import { Observable, Subscription, Subject, fromEvent } from 'rxjs';
 import { takeUntil, tap, debounceTime } from 'rxjs/operators';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import * as fromProductStore from '../../product/store';
 import { Store, select } from '@ngrx/store';
 import * as fromStore from '../../cms/store';
 import { CmsService } from '../../cms/facade/cms.service';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
+import {
+  getAllProductCodes,
+  LoadProduct,
+  getSelectedProductsFactory
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-carousel',
@@ -70,7 +74,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     if (codes && codes.length > 0) {
       this.codesSubscription = this.store
         .pipe(
-          select(fromProductStore.getAllProductCodes),
+          select(getAllProductCodes),
           takeUntil(this.finishSubject)
         )
         .subscribe(productCodes => {
@@ -78,7 +82,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
             codes
               .filter(code => productCodes.indexOf(code) === -1)
               .forEach(code => {
-                this.store.dispatch(new fromProductStore.LoadProduct(code));
+                this.store.dispatch(new LoadProduct(code));
               });
           }
         });
@@ -86,7 +90,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
       this.firstTime = false;
 
       this.products$ = this.store.pipe(
-        select(fromProductStore.getSelectedProductsFactory(codes)),
+        select(getSelectedProductsFactory(codes)),
         tap(this.group.bind(this))
       );
     }

@@ -1,9 +1,9 @@
-import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { OccConfig } from '@spartacus/core';
+import { OccConfig } from '../../occ/config/config';
 
 const ENDPOINT_PRODUCT = 'products';
 
