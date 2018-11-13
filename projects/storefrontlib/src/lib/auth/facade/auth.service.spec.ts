@@ -134,9 +134,12 @@ fdescribe('AuthService', () => {
 
   fit('refresh the client toke', () => {
     store.dispatch(new fromAuthStore.LoadClientTokenSuccess(mockClientToken));
+
     spyOn(service, 'loadClientToken').and.stub();
 
-    service.refreshClientToken();
+    const sub = service.refreshClientToken().subscribe();
+    sub.unsubscribe();
+
     expect(service.loadClientToken).toHaveBeenCalled();
   });
 });
