@@ -8,10 +8,7 @@
 
   <ng-container *cxOutlet="outlets.RATING">
     <div class="item-rating">
-      <cx-star-rating
-        [rating]="product?.averageRating"
-        [disabled]="true"
-      ></cx-star-rating>
+      <cx-star-rating [rating]="product?.averageRating" [disabled]="true"></cx-star-rating>
       <div class="review-count">({{ product?.numberOfReviews }})</div>
       <a class="review-link btn-link">Write a review</a>
     </div>
@@ -26,24 +23,12 @@
     <div class="quantity">
       <div class="quantity-label">Qty:</div>
       <div class="quantity-counter">
-        <cx-item-counter
-          [min]="1"
-          [max]="product.stock.stockLevel"
-          *ngIf="
-            product?.stock?.stockLevel > 0 ||
-            product?.stock?.stockLevelStatus === 'inStock'
-          "
+        <cx-item-counter [min]="1" [max]="product.stock.stockLevel" *ngIf="product?.stock?.stockLevel > 0 || product?.stock?.stockLevelStatus === 'inStock'"
           (update)="updateCount($event)"
         ></cx-item-counter>
         <span class="quantity-info">
-          <span
-            *ngIf="
-              product?.stock?.stockLevel > 0 ||
-              product?.stock?.stockLevelStatus === 'inStock'
-            "
-          >
-            {{ product?.stock?.stockLevel }} in stock</span
-          >
+          <span *ngIf="product?.stock?.stockLevel > 0 || product?.stock?.stockLevelStatus === 'inStock'">
+            {{ product?.stock?.stockLevel }} in stock</span>
           <span *ngIf="product?.stock?.stockLevel == 0">Out of stock</span>
         </span>
       </div>
