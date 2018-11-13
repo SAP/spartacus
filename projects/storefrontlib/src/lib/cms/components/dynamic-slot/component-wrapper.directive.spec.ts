@@ -8,6 +8,7 @@ import * as fromReducers from '../../store/reducers';
 import { StoreModule } from '@ngrx/store';
 import { OutletDirective } from '../../../outlet';
 import { CmsComponentData } from '../cms-component-data';
+import { CxApiService } from '@spartacus/storefront';
 
 const testText = 'test text';
 
@@ -84,18 +85,22 @@ describe('ComponentWrapperDirective', () => {
   });
 
   describe('with web component', () => {
+    let scriptEl;
+
     beforeEach(() => {
       const cmsMapping = TestBed.get(CmsModuleConfig) as CmsModuleConfig;
       cmsMapping.cmsComponentMapping.CMSTestComponent =
         'path/to/file.js#cms-component';
       fixture = TestBed.createComponent(TestWrapperComponent);
+      fixture.detectChanges();
+      scriptEl = fixture.debugElement.nativeNode.nextSibling;
+    });
+
+    it('should load web component script', () => {
+      expect(scriptEl.src).toContain('path/to/file.js');
     });
 
     it('should instantiate web component', done => {
-      fixture.detectChanges();
-
-      const scriptEl = fixture.debugElement.nativeNode.nextSibling;
-      expect(scriptEl.src).toContain('path/to/file.js');
       scriptEl.onload(); // invoke load callbacks
 
       // run in next runloop (to process async tasks)
@@ -106,6 +111,22 @@ describe('ComponentWrapperDirective', () => {
         expect(cmsComponentElement).toBeTruthy();
         const componentData = cmsComponentElement.cxApi.CmsComponentData;
         expect(componentData.uid).toEqual('test_uid');
+        done();
+      });
+    });
+
+    it('should pass cxApi to web component', done => {
+      scriptEl.onload(); // invoke load callbacks
+
+      // run in next runloop (to process async tasks)
+      setTimeout(() => {
+        const cmsComponentElement = fixture.debugElement.nativeElement.querySelector(
+          'cms-component'
+        );
+        const cxApi = cmsComponentElement.cxApi as CxApiService;
+        expect(cxApi.cms).toBeTruthy();
+        expect(cxApi.auth).toBeTruthy();
+        expect(cxApi.routing).toBeTruthy();
         done();
       });
     });
