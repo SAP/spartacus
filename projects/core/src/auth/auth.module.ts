@@ -1,11 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { ConfigModule, Config, RoutingModule } from '@spartacus/core';
-import {
-  AuthModuleConfig,
-  defaultAuthModuleConfig
-} from './auth-module.config';
 import { services } from './services/index';
 
 import { guards } from './guards/index';
@@ -21,6 +16,9 @@ import {
   reducerProvider,
   metaReducers
 } from './store/reducers/index';
+import { AuthModuleConfig, defaultAuthModuleConfig } from './config/config';
+import { Config, ConfigModule } from '../config/config.module';
+
 
 @NgModule({
   imports: [

@@ -17,7 +17,7 @@ const testToken: UserToken = {
   expires_in: 1000,
   scope: ['xxx'],
   userId: 'xxx'
-};
+};  
 
 class UserAuthenticationTokenServiceMock {
   loadToken(_userId: string, _password: string): Observable<any> {

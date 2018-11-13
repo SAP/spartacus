@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
-import { AuthModuleConfig } from '../../auth-module.config';
+import { AuthModuleConfig } from '../../config/config';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
