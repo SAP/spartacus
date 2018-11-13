@@ -19,28 +19,21 @@ export class RoutesConfigLoader {
     private readonly configurableRoutesModuleConfig: ConfigurableRoutesModuleConfig
   ) {}
 
-  load(): Promise<any> {
+  async load(): Promise<RoutesConfig> {
     const url = this.serverConfig.server.routesConfigUrl;
-    return url ? this.fetch(url) : this.useStatic();
+    const fetchedRoutesConfig = url ? await this.fetch(url) : null;
+    this._routesConfig = this.extendStaticWith(fetchedRoutesConfig);
+    return this._routesConfig;
   }
 
   private fetch(url: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.http.get(url).subscribe(
-        (res: RoutesConfig) => {
-          this._routesConfig = this.extendStaticWith(res);
-          return resolve();
-        },
-
-        // TODO #185: after fail, retry 2 times (or number of retries taken from configuration) and then show/redirect to error page
-        () => reject(`Could not get routes configutation from url ${url}!`)
-      );
-    });
-  }
-
-  private useStatic(): Promise<any> {
-    this._routesConfig = this.extendStaticWith(null);
-    return Promise.resolve();
+    // TODO: after fail, retry 2 times (or number of retries taken from configuration) and then show/redirect to error page
+    return this.http
+      .get(url)
+      .toPromise()
+      .catch(() => {
+        throw new Error(`Could not get routes configutation from url ${url}!`);
+      });
   }
 
   private extendStaticWith(routesConfig: RoutesConfig): RoutesConfig {
