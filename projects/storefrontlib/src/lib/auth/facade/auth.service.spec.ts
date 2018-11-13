@@ -11,7 +11,8 @@ import {
 import { AuthService } from './auth.service';
 
 const mockToken = {
-  userId: 'user@sap.com'
+  userId: 'user@sap.com',
+  refresh_token: 'foo'
 } as UserToken;
 
 const mockClientToken = {
@@ -83,6 +84,18 @@ describe('AuthService', () => {
       new fromAuthStore.LoadUserToken({
         userId: 'user',
         password: 'password'
+      })
+    );
+  });
+
+  it('should dispatch proper action for refreshUserToken', () => {
+    spyOn(store, 'dispatch').and.stub();
+
+    service.refreshUserToken(mockToken);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromAuthStore.RefreshUserToken({
+        userId: mockToken.userId,
+        refreshToken: mockToken.refresh_token
       })
     );
   });

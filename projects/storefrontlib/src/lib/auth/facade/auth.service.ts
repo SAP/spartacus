@@ -44,6 +44,15 @@ export class AuthService {
     );
   }
 
+  refreshUserToken(token: UserToken) {
+    this.store.dispatch(
+      new fromAuthStore.RefreshUserToken({
+        userId: token.userId,
+        refreshToken: token.refresh_token
+      })
+    );
+  }
+
   authorizeWithToken(token: UserToken) {
     this.store.dispatch(new fromAuthStore.LoadUserTokenSuccess(token));
   }
