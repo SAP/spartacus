@@ -1,12 +1,12 @@
-<div class="y-page">
-  <header class="y-page__header">
-    <h1 class="y-page__title">Register</h1>
+<div class="cx-page">
+  <header class="cx-page__header">
+    <h1 class="cx-page__title">Register</h1>
   </header>
-  <section class="y-page__section container">
+  <section class="cx-page__section container">
     <div class="row justify-content-center">
       <div class="col-md-6">
-        <div class="y-section">
-          <h1 class="y-section__title">Create an account</h1>
+        <div class="cx-section">
+          <h1 class="cx-section__title">Create an account</h1>
           <form [formGroup]="userRegistrationForm">
             <div class="form-group">
               <label>
@@ -21,16 +21,14 @@
             <div class="form-group">
               <label>
                 <span class="label-content">First name</span>
-                <input class="form-control" type="text" name="firstname" placeholder="First Name"
-                  formControlName="firstName">
+                <input class="form-control" type="text" name="firstname" placeholder="First Name" formControlName="firstName">
               </label>
             </div>
 
             <div class="form-group">
               <label>
                 <span class="label-content">Last name</span>
-                <input class="form-control" type="text" name="lastname" placeholder="Last Name"
-                  formControlName="lastName">
+                <input class="form-control" type="text" name="lastname" placeholder="Last Name" formControlName="lastName">
               </label>
             </div>
 
@@ -57,8 +55,7 @@
               <label>
                 <span class="label-content">Confirm password</span>
                 <input class="form-control" [class.is-invalid]="userRegistrationForm.get('password').value !== userRegistrationForm.get('passwordconf').value"
-                  type="password" name="confirmpassword" placeholder="Confirm Password"
-                  formControlName="passwordconf">
+                  type="password" name="confirmpassword" placeholder="Confirm Password" formControlName="passwordconf">
                 <div class="invalid-feedback" *ngIf="userRegistrationForm.get('password').value !== userRegistrationForm.get('passwordconf').value && userRegistrationForm.get('passwordconf').value">
                   <span>Both password must match</span>
                 </div>
@@ -69,10 +66,10 @@
               <div class="form-check">
                 <label>
                   <input type="checkbox" name="newsletter" class="form-check-input" formControlName="newsletter">
-                    <span class="form-check-label">
-                      Use my personal data to receive e-mail newsletters for marketing
-                      campaigns. To change your settings, go to Consent Management in My Account.
-                    </span>
+                  <span class="form-check-label">
+                    Use my personal data to receive e-mail newsletters for marketing
+                    campaigns. To change your settings, go to Consent Management in My Account.
+                  </span>
                 </label>
               </div>
             </div>
@@ -81,17 +78,17 @@
               <div class="form-check">
                 <label>
                   <input type="checkbox" name="termsandconditions" formControlName="termsandconditions">
-                    <span class="form-check-label">
-                      I am confirming that I have read and agreed with the
-                      <a class="y_sectoin-registration-link" href="/terms-and-conditions" target="_blank">
-                        Terms & Conditions
-                      </a>
+                  <span class="form-check-label">
+                    I am confirming that I have read and agreed with the
+                    <a class="cx-section__registration-link" href="/terms-and-conditions" target="_blank">
+                      Terms & Conditions
+                    </a>
                   </span>
                 </label>
               </div>
             </div>
             <button type="submit" (click)="submit()" [disabled]="userRegistrationForm.invalid" class="btn btn-block btn-primary">Register</button>
-            <a class="y-section__login-link btn-link" routerLink="/login">I already have an account. Sign In</a>
+            <a class="cx-section__login-link btn-link" routerLink="/login">I already have an account. Sign In</a>
           </form>
         </div>
       </div>

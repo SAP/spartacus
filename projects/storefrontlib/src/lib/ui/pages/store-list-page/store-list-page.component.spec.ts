@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,7 +18,6 @@ import { StoreFinderListItemComponent } from '../../../store-finder/components/s
 import { ScheduleComponent } from '../../../store-finder/components/schedule-component/schedule.component';
 
 import * as fromReducers from '../../../store-finder/store';
-import * as fromRoot from '../../../routing/store';
 import * as fromServices from '../../../store-finder/services';
 
 const MockActivatedRoute = {
@@ -51,10 +50,8 @@ describe('StoreListPageComponent', () => {
         ReactiveFormsModule,
         CommonModule,
         BrowserAnimationsModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          stores: combineReducers(fromReducers.reducers)
-        }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('stores', fromReducers.reducers),
         ReactiveFormsModule,
         RouterTestingModule
       ],

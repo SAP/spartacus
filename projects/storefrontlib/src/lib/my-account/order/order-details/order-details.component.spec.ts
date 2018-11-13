@@ -3,10 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
 import { CartService, CartDataService } from '../../../cart/services';
+import { RoutingService } from '../../../routing/facade/routing.service';
 import { CartSharedModule } from '../../../cart/components/cart-shared/cart-shared.module';
 import { CardModule } from '../../../ui/components/card/card.module';
 import * as fromAuth from '../../../auth/store';
-import * as fromRoot from '../../../routing/store';
 import * as fromUserStore from '../../../user/store';
 
 const mockOrder = {
@@ -72,14 +72,14 @@ function spyOnStore() {
     switch (selector) {
       case fromAuth.getUserToken:
         return () => of(mockUser);
-      case fromRoot.getRouterState:
-        return () => of(mockState);
       case fromUserStore.getOrderDetails:
         return () => of(mockOrder);
     }
   });
 }
-
+const mockRoutingService = {
+  routerState$: of(mockState)
+};
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
   let fixture: ComponentFixture<OrderDetailsComponent>;
@@ -90,13 +90,15 @@ describe('OrderDetailsComponent', () => {
       imports: [
         CartSharedModule,
         CardModule,
-        NgrxStore.StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          auth: NgrxStore.combineReducers(fromAuth.getReducers()),
-          order: NgrxStore.combineReducers(fromUserStore.getReducers())
-        })
+        NgrxStore.StoreModule.forRoot({}),
+        NgrxStore.StoreModule.forFeature('auth', fromAuth.getReducers()),
+        NgrxStore.StoreModule.forFeature('order', fromUserStore.getReducers())
       ],
-      providers: [CartService, CartDataService],
+      providers: [
+        CartService,
+        CartDataService,
+        { provide: RoutingService, useValue: mockRoutingService }
+      ],
       declarations: [OrderDetailsComponent]
     }).compileComponents();
   }));
@@ -128,7 +130,7 @@ describe('OrderDetailsComponent', () => {
     spyOnStore();
     fixture.detectChanges();
     expect(
-      fixture.debugElement.nativeElement.querySelector('.y-order-details')
+      fixture.debugElement.nativeElement.querySelector('.cx-order-details')
     ).not.toBeNull();
   });
 
@@ -137,7 +139,7 @@ describe('OrderDetailsComponent', () => {
     fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-order-details__detail:first-of-type .y-order-details__value'
+        '.cx-order-details__detail:first-of-type .cx-order-details__value'
       ).textContent
     ).toEqual(mockOrder.code);
   });
@@ -147,7 +149,7 @@ describe('OrderDetailsComponent', () => {
     fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-order-details__detail:last-of-type .y-order-details__value'
+        '.cx-order-details__detail:last-of-type .cx-order-details__value'
       ).textContent
     ).toEqual(mockOrder.statusDisplay);
   });
@@ -156,7 +158,7 @@ describe('OrderDetailsComponent', () => {
     spyOnStore();
     fixture.detectChanges();
     expect(
-      fixture.debugElement.nativeElement.querySelector('.y-order-summary')
+      fixture.debugElement.nativeElement.querySelector('.cx-order-summary')
     ).not.toBeNull();
   });
 
@@ -166,7 +168,7 @@ describe('OrderDetailsComponent', () => {
 
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-card-body__label-container'
+        '.cx-card-body__label-container'
       ).textContent
     ).toContain(
       mockOrder.deliveryAddress.firstName &&
@@ -184,7 +186,7 @@ describe('OrderDetailsComponent', () => {
 
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-order-details__account-summary.row > div:nth-child(2)'
+        '.cx-order-details__account-summary.row > div:nth-child(2)'
       ).textContent
     ).toContain(
       mockOrder.paymentInfo.billingAddress.firstName &&
@@ -202,7 +204,7 @@ describe('OrderDetailsComponent', () => {
 
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-order-details__account-summary.row > div:nth-child(3)'
+        '.cx-order-details__account-summary.row > div:nth-child(3)'
       ).textContent
     ).toContain(
       mockOrder.paymentInfo.accountHolderName &&
@@ -219,7 +221,7 @@ describe('OrderDetailsComponent', () => {
 
     expect(
       fixture.debugElement.nativeElement.querySelector(
-        '.y-order-details__account-summary.row > div:nth-child(4)'
+        '.cx-order-details__account-summary.row > div:nth-child(4)'
       ).textContent
     ).toContain(
       mockOrder.deliveryMode.name && mockOrder.deliveryMode.description

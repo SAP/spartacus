@@ -4,7 +4,7 @@ import { StoreDataService } from '../../services/index';
 const WEEK_DAYS_NUMBER = 7;
 
 @Component({
-  selector: 'y-schedule',
+  selector: 'cx-schedule',
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss']
 })

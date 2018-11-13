@@ -20,3 +20,4 @@ export * from './lib/pwa/pwa.module';
 export * from './lib/storefront.module';
 export * from './lib/storefront-config';
 export * from './lib/outlet/index';
+export * from './lib/cx-api/index';

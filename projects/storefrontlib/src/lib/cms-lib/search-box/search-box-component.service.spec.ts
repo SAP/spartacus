@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-import { ProductSearchService } from '../../product/services/product-search.service';
+import { ProductSearchService } from '../../product/facade/product-search.service';
 import { RoutingService } from '../../routing/facade/routing.service';
 import createSpy = jasmine.createSpy;
 

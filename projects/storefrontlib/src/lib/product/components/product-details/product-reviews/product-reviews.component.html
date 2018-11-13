@@ -1,39 +1,25 @@
-<div class="y-product-reviews__tab-review" *ngIf="!isWritingReview; else writeReview">
-    <div class="y-product-reviews__tab-review--head">
-        <div class="row">
-            <div class="col-auto mr-auto">
-                <h3>Overall Rating</h3>
-                <y-star-rating [rating]="product.averageRating" [disabled]="true"></y-star-rating>
-            </div>
-            <div class="col-auto">
-                <button class="btn btn-primary" (click)="initiateWriteReview()">Write a Review</button>
-            </div>
-        </div>
+<ng-container *ngIf="!isWritingReview; else writeReview">
+
+    <div class="header">
+        <h3>Overall Rating</h3>
+        <button class="btn btn-primary" (click)="initiateWriteReview()">Write a Review</button>
+        <cx-star-rating class="rating" [rating]="product.averageRating" [disabled]="true"></cx-star-rating>
     </div>
-    <div *ngIf="!isWritingReview; else writeReview">
-        <div *ngIf="reviews$ | async as reviews">
-            <div class="y-product-reviews__tab-review--container" *ngFor="let review of (reviews | slice:0:maxListItems)">
-                <div class="y-product-reviews__tab-review--details">
-                    <h5>{{review.headline}}</h5>
-                    <div class="row">
-                        <div class="col-auto mr-auto">
-                            <y-star-rating [rating]="review.rating" [disabled]="true"></y-star-rating>
-                        </div>
-                        <div class="col-auto">
-                            <div class="y-product-reviews__tab-review--date">{{review.date | date}}</div>
-                        </div>
-                    </div>
-                </div>
-                <p class="y-product-reviews__tab-review--text"> {{review.comment}} </p>
-                <span class="y-product-reviews__tab-review--name">
-                    {{review.alias? review.alias : review.principal?.name}}
-                </span>
+
+    <ng-container *ngIf="!isWritingReview; else writeReview">
+        <ng-container *ngIf="reviews$ | async as reviews">
+            <div class="review" tabindex="0" *ngFor="let review of (reviews | slice:0:maxListItems)">
+                <div class="title">{{review.headline}}</div>
+                <cx-star-rating [rating]="review.rating" [disabled]="true"></cx-star-rating>
+                <div class="name">{{review.alias? review.alias : review.principal?.name}}</div>
+                <div class="date">{{review.date | date}}</div>
+                <div class="text">{{review.comment}}</div>
             </div>
             <a (click)="maxListItems = reviews.length" *ngIf="maxListItems === initialMaxListItems">More</a>
             <a (click)="maxListItems = initialMaxListItems" *ngIf="maxListItems !== initialMaxListItems">Less</a>
-        </div>
-    </div>
-</div>
+        </ng-container>
+    </ng-container>
+</ng-container>
 
 <ng-template #writeReview>
     <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
@@ -52,7 +38,7 @@
         <div class="form-group">
             <label>
                 <span class="label-content">Rating</span>
-                <y-star-rating formControlName="rating" [steps]="0.5"></y-star-rating>
+                <cx-star-rating formControlName="rating" [steps]="0.5"></cx-star-rating>
             </label>
         </div>
         <div class="form-group">

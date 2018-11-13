@@ -66,6 +66,8 @@ input[type='radio'] {
   .form-check-label {
     display: inline-block;
     padding-left: 0.75rem;
+    position: relative;
+    top: 4px;
   }
 
   input + .form-check-label {
@@ -96,8 +98,8 @@ input[type='radio'] {
 
     &:checked {
       font-style: normal;
-      border: var(--y-primary, theme-color('primary'));
-      background-color: var(--y-primary, theme-color('primary'));
+      border: var(--cx-primary, theme-color('primary'));
+      background-color: var(--cx-primary, theme-color('primary'));
 
       &::after {
         color: theme-color('inverse');
@@ -142,7 +144,7 @@ input[type='radio'] {
     top: 4px;
   }
   &:checked {
-    border-color: var(--y-primary, theme-color('primary')) !important;
+    border-color: var(--cx-primary, theme-color('primary')) !important;
     background-color: theme-color('inverse');
 
     &::after {
@@ -236,10 +238,6 @@ label {
     &.bold {
       font-weight: $font-weight-semi;
     }
-  }
-
-  .required:after {
-    content: '*';
   }
 }
 

@@ -11,7 +11,7 @@ export interface Card {
 }
 
 @Component({
-  selector: 'y-card',
+  selector: 'cx-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss']
 })
