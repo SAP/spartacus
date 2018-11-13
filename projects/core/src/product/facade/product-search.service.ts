@@ -3,37 +3,30 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import {
-  SearchConfig,
-  ProductsState,
-  getProductSuggestions,
-  SearchProducts,
-  GetProductSuggestions,
-  getSearchResults,
-  getAuxSearchResults
-} from '@spartacus/core';
+import * as fromStore from '../store/index';
+import { SearchConfig } from '../config/search-config';
 
 @Injectable()
 export class ProductSearchService {
   readonly searchResults$: Observable<any> = this.store.pipe(
-    select(getSearchResults),
+    select(fromStore.getSearchResults),
     filter(results => Object.keys(results).length > 0)
   );
 
   readonly auxSearchResults$: Observable<any> = this.store.pipe(
-    select(getAuxSearchResults),
+    select(fromStore.getAuxSearchResults),
     filter(results => Object.keys(results).length > 0)
   );
 
   readonly searchSuggestions$: Observable<any> = this.store.pipe(
-    select(getProductSuggestions)
+    select(fromStore.getProductSuggestions)
   );
 
-  constructor(private store: Store<ProductsState>) {}
+  constructor(private store: Store<fromStore.ProductsState>) {}
 
   search(query: string, searchConfig?: SearchConfig) {
     this.store.dispatch(
-      new SearchProducts({
+      new fromStore.SearchProducts({
         queryText: query,
         searchConfig: searchConfig
       })
@@ -42,7 +35,7 @@ export class ProductSearchService {
 
   searchAuxiliary(query: string, searchConfig?: SearchConfig) {
     this.store.dispatch(
-      new SearchProducts(
+      new fromStore.SearchProducts(
         {
           queryText: query,
           searchConfig: searchConfig
@@ -54,7 +47,7 @@ export class ProductSearchService {
 
   getSuggestions(query: string, searchConfig?: SearchConfig) {
     this.store.dispatch(
-      new GetProductSuggestions({
+      new fromStore.GetProductSuggestions({
         term: query,
         searchConfig: searchConfig
       })

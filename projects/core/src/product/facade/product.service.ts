@@ -3,24 +3,22 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { map, tap, filter, take } from 'rxjs/operators';
-import {
-  ProductsState,
-  getSelectedProductFactory,
-  LoadProduct
-} from '@spartacus/core';
+import * as fromStore from '../store/index';
 
 @Injectable()
 export class ProductService {
-  constructor(private store: Store<ProductsState>) {}
+  constructor(private store: Store<fromStore.ProductsState>) {}
 
   get(productCode: string): Observable<any> {
-    return this.store.pipe(select(getSelectedProductFactory(productCode)));
+    return this.store.pipe(
+      select(fromStore.getSelectedProductFactory(productCode))
+    );
   }
 
   isProductLoaded(requestedProductCode: string): Observable<boolean> {
     let tryTimes = 0;
     return this.store.pipe(
-      select(getSelectedProductFactory(requestedProductCode)),
+      select(fromStore.getSelectedProductFactory(requestedProductCode)),
       map(product => {
         if (product) {
           return Object.keys(product).length !== 0;
@@ -31,7 +29,7 @@ export class ProductService {
       tap(found => {
         if (!found) {
           tryTimes++;
-          this.store.dispatch(new LoadProduct(requestedProductCode));
+          this.store.dispatch(new fromStore.LoadProduct(requestedProductCode));
         }
       }),
       filter(found => found || tryTimes === 3),
