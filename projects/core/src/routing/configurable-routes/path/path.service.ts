@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ServerConfig } from '../../config/server-config/server-config';
+import { ServerConfig } from '../../../config/server-config/server-config';
 import { ConfigurableRoutesService } from '../configurable-routes.service';
 import {
   getSegments,
