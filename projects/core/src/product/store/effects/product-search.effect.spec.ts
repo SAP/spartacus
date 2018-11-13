@@ -5,10 +5,10 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { OccProductSearchService } from '../../../occ/product/product-search.service';
+import { OccProductSearchService } from '../../occ/product-search.service';
 import { OccConfig } from '@spartacus/core';
-import { SearchConfig } from '../../search-config';
-import { ProductImageConverterService } from '../../converters/product-image-converter.service';
+import { SearchConfig } from '../../config/search-config';
+import { ProductImageConverterService } from '../converters/product-image-converter.service';
 import * as fromEffects from './product-search.effect';
 import * as fromActions from '../actions/product-search.action';
 

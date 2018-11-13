@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule, select } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 import * as fromStore from './../../store';
+import { ProductsState } from '../product-state';
 
 describe('Product Reviews selectors', () => {
   const productCode = '123';
@@ -35,7 +36,7 @@ describe('Product Reviews selectors', () => {
     list: reviews
   };
 
-  let store: Store<fromStore.ProductsState>;
+  let store: Store<ProductsState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

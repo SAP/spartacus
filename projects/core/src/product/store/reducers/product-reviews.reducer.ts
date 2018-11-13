@@ -1,9 +1,5 @@
 import * as fromProductReviews from './../actions/product-reviews.action';
-
-export interface ProductReviewsState {
-  productCode: string;
-  list: any[];
-}
+import { ProductReviewsState } from '../product-state';
 
 export const initialState: ProductReviewsState = {
   productCode: '',

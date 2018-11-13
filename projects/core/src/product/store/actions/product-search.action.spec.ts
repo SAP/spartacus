@@ -1,5 +1,5 @@
 import * as fromProductSearch from './product-search.action';
-import { SearchConfig } from '../../search-config';
+import { SearchConfig } from '../../config/search-config';
 
 describe('Product Search Actions', () => {
   let searchConfig: SearchConfig;

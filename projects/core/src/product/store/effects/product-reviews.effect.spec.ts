@@ -1,4 +1,4 @@
-import { OccProductService } from './../../../occ/product/product.service';
+import { OccProductService } from '../../occ/product.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 

@@ -5,8 +5,8 @@ import { Observable, of } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
 
 import * as productsSearchActions from '../actions/product-search.action';
-import { OccProductSearchService } from '../../../occ/product/product-search.service';
-import { ProductImageConverterService } from '../../converters/product-image-converter.service';
+import { OccProductSearchService } from '../../occ/product-search.service';
+import { ProductImageConverterService } from '../converters/product-image-converter.service';
 
 @Injectable()
 export class ProductsSearchEffects {

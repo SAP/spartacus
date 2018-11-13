@@ -4,10 +4,11 @@ import { StoreModule, Store, select } from '@ngrx/store';
 import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from './product-search.selectors';
-import { SearchConfig } from '../../search-config';
+import { SearchConfig } from '../../config/search-config';
+import { ProductsState } from '../product-state';
 
 describe('ProductSearch Selectors', () => {
-  let store: Store<fromReducers.ProductsState>;
+  let store: Store<ProductsState>;
 
   const searchResults = { products: [{ code: '123' }] };
   const suggestions = [{ value: 'test' }];

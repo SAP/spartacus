@@ -1,8 +1,5 @@
 import * as fromProduct from '../actions/product.action';
-
-export interface ProductState {
-  entities: { [productCode: string]: any };
-}
+import { ProductState } from '../product-state';
 
 export const initialState: ProductState = {
   entities: {}

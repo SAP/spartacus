@@ -1,11 +1,5 @@
 import * as fromProductsSearch from '../actions/product-search.action';
-
-export interface ProductsSearchState {
-  results: any;
-  suggestions: any[];
-  auxResults: any;
-  loading: boolean;
-}
+import { ProductsSearchState } from '../product-state';
 
 export const initialState: ProductsSearchState = {
   results: {},
