@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
-import { RoutingService } from './../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
+import { RoutingService } from '@spartacus/core';
 
 @Injectable()
 export class ProductGuard implements CanActivate {

@@ -8,8 +8,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
-import { RoutingService } from '../../routing/facade/routing.service';
+
 import * as fromStore from './../store';
+import { RoutingService } from '@spartacus/core';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
