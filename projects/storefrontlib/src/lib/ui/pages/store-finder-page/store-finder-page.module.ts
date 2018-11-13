@@ -6,7 +6,8 @@ import { CmsPageGuards } from '../../../cms/guards';
 import { StoreFinderPageComponent } from './store-finder-page.component';
 import { StoreFinderPageLayoutModule } from '../../layout/store-finder-page-layout/store-finder-page-layout.module';
 import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-list/store-finder-list.component';
-import { StoreFinderListCountComponent } from '../../../store-finder/components/store-finder-list-count/store-finder-list-count.component';
+// tslint:disable-next-line:max-line-length
+import { StoreFinderStoresCountComponent } from '../../../store-finder/components/store-finder-stores-count/store-finder-stores-count.component';
 import { StoreFinderGridComponent } from '../../../store-finder/components/store-finder-grid/store-finder-grid.component';
 // tslint:disable-next-line:max-line-length
 import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
@@ -28,7 +29,7 @@ const routes: Routes = [
         path: 'view-all-stores',
         canActivate: [CmsPageGuards],
         data: { pageLabel: 'storefinderPage' },
-        component: StoreFinderListCountComponent
+        component: StoreFinderStoresCountComponent
       },
       {
         path: 'country/:country/region/:region',

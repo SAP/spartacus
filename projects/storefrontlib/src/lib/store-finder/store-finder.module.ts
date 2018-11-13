@@ -18,7 +18,7 @@ import { StoreFinderMapComponent } from './components/store-finder-map/store-fin
 import { StoreFinderListItemComponent } from './components/store-finder-list-item/store-finder-list-item.component';
 import { StoreFinderStoreDescriptionComponent } from './components/store-finder-store-description/store-finder-store-description.component';
 import { ScheduleComponent } from './components/schedule-component/schedule.component';
-import { StoreFinderListCountComponent } from './components/store-finder-list-count/store-finder-list-count.component';
+import { StoreFinderStoresCountComponent } from './components/store-finder-stores-count/store-finder-stores-count.component';
 import { StoreFinderGridComponent } from './components/store-finder-grid/store-finder-grid.component';
 import { StoreFinderHeaderComponent } from './components/store-finder-header/store-finder-header.component';
 import { StoreFinderComponent } from './components/store-finder/store-finder.component';
@@ -45,7 +45,7 @@ import { SpinnerModule } from '../ui/components/spinner/spinner.module';
     StoreFinderDisplayListComponent,
     StoreFinderMapComponent,
     StoreFinderListItemComponent,
-    StoreFinderListCountComponent,
+    StoreFinderStoresCountComponent,
     StoreFinderGridComponent,
     StoreFinderStoreDescriptionComponent,
     ScheduleComponent,
@@ -58,7 +58,7 @@ import { SpinnerModule } from '../ui/components/spinner/spinner.module';
     StoreFinderDisplayListComponent,
     StoreFinderMapComponent,
     StoreFinderListItemComponent,
-    StoreFinderListCountComponent,
+    StoreFinderStoresCountComponent,
     StoreFinderGridComponent,
     StoreFinderStoreDescriptionComponent,
     ScheduleComponent,

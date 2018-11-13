@@ -6,11 +6,11 @@ import * as fromStore from '../../store';
 import { StoreFinderService } from '../../services/store-finder.service';
 
 @Component({
-  selector: 'cx-store-finder-list-count',
-  templateUrl: './store-finder-list-count.component.html',
-  styleUrls: ['./store-finder-list-count.component.scss']
+  selector: 'cx-store-finder-stores-count',
+  templateUrl: './store-finder-stores-count.component.html',
+  styleUrls: ['./store-finder-stores-count.component.scss']
 })
-export class StoreFinderListCountComponent implements OnInit {
+export class StoreFinderStoresCountComponent implements OnInit {
   locations$: Observable<any>;
   isLoading$: Observable<any>;
 

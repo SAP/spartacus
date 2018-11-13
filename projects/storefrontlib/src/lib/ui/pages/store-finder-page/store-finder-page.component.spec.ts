@@ -12,7 +12,8 @@ import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreFinderPageComponent } from './store-finder-page.component';
 import { StoreFinderPageLayoutComponent } from '../../layout/store-finder-page-layout/store-finder-page-layout.component';
 import { StoreFinderSearchComponent } from '../../../store-finder/components/store-finder-search/store-finder-search.component';
-import { StoreFinderListCountComponent } from '../../../store-finder/components/store-finder-list-count/store-finder-list-count.component';
+// tslint:disable-next-line:max-line-length
+import { StoreFinderStoresCountComponent } from '../../../store-finder/components/store-finder-stores-count/store-finder-stores-count.component';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
 import { services } from '../../../store-finder/services';
 import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
@@ -52,7 +53,7 @@ describe('StoreFinderPageComponent', () => {
         StoreFinderListItemComponent,
         StoreFinderMapComponent,
         StoreFinderStoreDescriptionComponent,
-        StoreFinderListCountComponent
+        StoreFinderStoresCountComponent
       ],
       providers: [...services, OccE2eConfigurationService, OccConfig]
     }).compileComponents();
