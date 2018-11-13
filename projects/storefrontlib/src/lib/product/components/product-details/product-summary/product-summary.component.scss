@@ -1,6 +1,4 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 
 .product-summary {
   display: grid;
@@ -29,14 +27,14 @@
     flex-direction: row;
     align-items: baseline;
     grid-row: var(--cx-grid-row, 2);
-    margin: 0 0 12px 0;
+    margin: var(--cx-margin, 0 0 12px 0);
 
     .review-count {
-      margin: 0 0 0 5px;
+      margin: var(--cx-margin, 0 0 0 5px);
     }
     .review-link {
       @include type('6');
-      margin: 0 0 0 20px;
+      margin: var(--cx-margin, 0 0 0 20px);
     }
   }
 
