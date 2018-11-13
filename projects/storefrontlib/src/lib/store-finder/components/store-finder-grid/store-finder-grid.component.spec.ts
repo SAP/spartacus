@@ -5,7 +5,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { StoreFinderGridComponent } from './store-finder-grid.component';
 // tslint:disable-next-line:max-line-length
-import { StoreFinderListItemComponent } from '../store-finder-list/store-finder-display-list/store-finder-list-item/store-finder-list-item.component';
+import { StoreFinderListItemComponent } from '../store-finder-list-item/store-finder-list-item.component';
 import { StoreFinderService } from '../../services/store-finder.service';
 import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
 

@@ -7,13 +7,13 @@ import { StoreModule } from '@ngrx/store';
 
 import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { StoreFinderSearchComponent } from '../../../store-finder-search/store-finder-search.component';
-import { StoreFinderMapComponent } from '../../../store-finder-map/store-finder-map.component';
+import { StoreFinderSearchComponent } from '../store-finder-search/store-finder-search.component';
+import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
-import { StoreFinderDisplayListComponent } from '../store-finder-display-list.component';
+import { StoreFinderDisplayListComponent } from '../store-finder-list/store-finder-display-list/store-finder-display-list.component';
 
-import * as fromReducers from '../../../../store';
-import * as fromServices from '../../../../services/index';
+import * as fromReducers from '../../store';
+import * as fromServices from '../../services/index';
 
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;

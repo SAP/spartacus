@@ -15,8 +15,7 @@ import { StoreFinderSearchComponent } from './components/store-finder-search/sto
 // tslint:disable-next-line:max-line-length
 import { StoreFinderDisplayListComponent } from './components/store-finder-list/store-finder-display-list/store-finder-display-list.component';
 import { StoreFinderMapComponent } from './components/store-finder-map/store-finder-map.component';
-// tslint:disable-next-line:max-line-length
-import { StoreFinderListItemComponent } from './components/store-finder-list/store-finder-display-list/store-finder-list-item/store-finder-list-item.component';
+import { StoreFinderListItemComponent } from './components/store-finder-list-item/store-finder-list-item.component';
 import { StoreFinderStoreDescriptionComponent } from './components/store-finder-store-description/store-finder-store-description.component';
 import { ScheduleComponent } from './components/schedule-component/schedule.component';
 import { StoreFinderListCountComponent } from './components/store-finder-list-count/store-finder-list-count.component';

@@ -22,8 +22,7 @@ import { OccConfig } from '@spartacus/core';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromStore from '../../../store-finder/store';
 
-// tslint:disable-next-line:max-line-length
-import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-list/store-finder-display-list/store-finder-list-item/store-finder-list-item.component';
+import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-list-item/store-finder-list-item.component';
 // tslint:disable-next-line:max-line-length
 import { StoreFinderDisplayListComponent } from '../../../store-finder/components/store-finder-list/store-finder-display-list/store-finder-display-list.component';
 
