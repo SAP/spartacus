@@ -9,7 +9,7 @@ import { PaginationAndSortingModule } from '../../../ui/components/pagination-an
 import { OrderHistoryComponent } from './order-history.component';
 
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 import { UserService } from '../../../user/facade/user.service';
 
 const mockOrders = {

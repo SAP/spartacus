@@ -6,7 +6,7 @@ import createSpy = jasmine.createSpy;
 import { RegisterComponent } from './register.component';
 import { UserService } from '../../facade/user.service';
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 
 const mockTitlesList = [
   {

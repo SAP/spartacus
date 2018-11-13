@@ -9,7 +9,7 @@ import { UserToken } from './../../../auth/models/token-types.model';
 import { LoginComponent } from './login.component';
 import { UserService } from '../../facade/user.service';
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 
 const mockUserToken: UserToken = {
   access_token: 'xxx',

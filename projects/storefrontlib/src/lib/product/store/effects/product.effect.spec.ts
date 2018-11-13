@@ -13,8 +13,7 @@ import { ProductReferenceConverterService } from '../../converters/product-refer
 import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
 import { StoreModule } from '@ngrx/store';
-import { RoutingService } from '../../../routing/facade/routing.service';
-import { PageType } from '../../../routing/models/page-context.model';
+import { RoutingService, PageType } from '@spartacus/core';
 import { LanguageChange } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {

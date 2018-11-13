@@ -10,7 +10,7 @@ import { take, tap, switchMap } from 'rxjs/operators';
 
 import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 import { UserService } from '../../facade/user.service';
 
 @Component({

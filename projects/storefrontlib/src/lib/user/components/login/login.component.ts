@@ -12,8 +12,8 @@ import { Observable, Subscription } from 'rxjs';
 import { UserToken } from '../../../auth/models/token-types.model';
 
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '../../../routing/facade/routing.service';
 import { UserService } from '../../facade/user.service';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login',

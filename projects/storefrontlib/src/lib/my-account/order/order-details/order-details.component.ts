@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 
 import { AuthService } from '../../../auth/facade/auth.service';
 import { UserService } from '../../../user/facade/user.service';
-import { RoutingService } from '../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 import { Card } from '../../../ui/components/card/card.component';
 
 @Component({
