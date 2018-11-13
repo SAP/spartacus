@@ -17,7 +17,7 @@ export class DynamicPathService {
   ) {}
 
   transform(url: string) {
-    const { pageName, parameters } = this.recognizeRoute(url);
+    const { pageName, parameters } = this.recognizePageAndParameters(url);
 
     if (!pageName) {
       return url;
@@ -25,7 +25,7 @@ export class DynamicPathService {
     return this.pathService.transform(pageName, parameters);
   }
 
-  private recognizeRoute(
+  private recognizePageAndParameters(
     url: string
   ): {
     pageName: string;
@@ -33,7 +33,7 @@ export class DynamicPathService {
   } {
     url = removeLeadingSlash(url); // url will be compared with paths translations which do not have leading slash
 
-    const { pageName, matchedPath } = this.recognizePath(url);
+    const { pageName, matchedPath } = this.recognizePageAndPath(url);
     return pageName !== null
       ? {
           pageName,
@@ -42,7 +42,7 @@ export class DynamicPathService {
       : { pageName: null, parameters: {} };
   }
 
-  private recognizePath(
+  private recognizePageAndPath(
     url: string
   ): {
     pageName: string;
