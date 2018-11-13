@@ -13,8 +13,9 @@ import { tap, filter } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../../store';
 import * as fromUser from '../../../../../user/store';
-import * as fromGlobalMessage from '../../../../../global-message/store';
+
 import { CheckoutService } from '../../../../services/checkout.service';
+import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '.././../../../../global-message/models/message.model';
 
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
@@ -61,6 +62,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected store: Store<fromUser.UserState>,
     private fb: FormBuilder,
     protected checkoutService: CheckoutService,
+    protected globalMessageService: GlobalMessageService,
     private modalService: NgbModal
   ) {}
 
@@ -120,12 +122,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         } else if (results.decision === 'ACCEPT') {
           this.addAddress.emit(this.address.value);
         } else if (results.decision === 'REJECT') {
-          this.store.dispatch(
-            new fromGlobalMessage.AddMessage({
-              type: GlobalMessageType.MSG_TYPE_ERROR,
-              text: 'Invalid Address'
-            })
-          );
+          this.globalMessageService.add({
+            type: GlobalMessageType.MSG_TYPE_ERROR,
+            text: 'Invalid Address'
+          });
           this.store.dispatch(
             new fromCheckoutStore.ClearAddressVerificationResults()
           );
