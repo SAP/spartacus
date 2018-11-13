@@ -18,7 +18,7 @@ import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
 import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
-import { RoutingService } from '../../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 import { checkoutNavBar } from './checkout-navigation-bar';
 
 @Component({

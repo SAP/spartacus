@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { RoutingService } from '../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 
 import { NotAuthGuard } from './not-auth.guard';
 import * as fromStore from './../../auth/store';

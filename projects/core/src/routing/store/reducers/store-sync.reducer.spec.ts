@@ -2,7 +2,7 @@ import { getStorageSyncReducer } from './store-sync.reducer';
 import {
   RoutingModuleConfig,
   StorageSyncType
-} from '../../routing-module-config';
+} from '../../config/routing-module-config';
 
 describe('get store Sync reducer', () => {
   it('should return a proper localStorageSync function', () => {
