@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SearchConfig } from '@spartacus/core';
-import { ProductSearchService } from '../../../facade/product-search.service';
+import { ProductSearchService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-list',
