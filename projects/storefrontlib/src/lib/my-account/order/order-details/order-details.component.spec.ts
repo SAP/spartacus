@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
 import { CartService, CartDataService } from '../../../cart/services';
-import { RoutingService } from '../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 import { CartSharedModule } from '../../../cart/components/cart-shared/cart-shared.module';
 import { CardModule } from '../../../ui/components/card/card.module';
 import * as fromAuth from '../../../auth/store';

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { ServerConfig } from '../config/server-config/server-config';
+import { ServerConfig } from '../../config/server-config/server-config';
 import { Injectable } from '@angular/core';
 import { RoutesConfig } from './routes-config';
-import { deepMerge } from '../config/utils/deep-merge';
+import { deepMerge } from '../../config/utils/deep-merge';
 import { ConfigurableRoutesModuleConfig } from './configurable-routes-module.config';
 
 @Injectable()

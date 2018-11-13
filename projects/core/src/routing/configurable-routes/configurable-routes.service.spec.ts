@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { ServerConfig } from '../config';
+import { ServerConfig } from '../../config/server-config/server-config';
 import { RoutesConfigLoader } from './routes-config-loader';
 import { ConfigurableRoutesService } from './configurable-routes.service';
 import { Router, Routes } from '@angular/router';
-import { ConfigurableRoutes } from './configurable-routes';
+import { ConfigurableRoutes } from './configurable-route';
 import { RoutesConfig } from './routes-config';
 
 const mockRoutesConfigLoader: { routesConfig: RoutesConfig } = {

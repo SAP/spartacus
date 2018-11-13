@@ -10,7 +10,7 @@ import { filter } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 
 import * as fromCheckoutStore from '../../../store';
-import { RoutingService } from '../../../../routing/facade/routing.service';
+
 import * as fromCart from '../../../../cart/store';
 import * as fromGlobalMessage from '../../../../global-message/store';
 
@@ -20,6 +20,7 @@ import { CartService } from '../../../../cart/services/cart.service';
 import { Address } from '../../../models/address-model';
 import { checkoutNavBar } from './checkout-navigation-bar';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-multi-step-checkout',
