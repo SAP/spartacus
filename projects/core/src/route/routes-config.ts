@@ -11,6 +11,8 @@ export interface RoutesTranslations {
   product?: string[];
   category?: string[];
   storeFinder?: string[];
+  storeDescription?: string[];
+  storeList?: string[];
   contact?: string[];
   help?: string[];
   sale?: string[];
@@ -70,8 +72,8 @@ export const defaultRoutesConfig: RoutesConfig = {
       storeFinder: ['store-finder'],
       storeDescription: ['store-finder/country/:country/region/:region/:store'],
       storeList: [
-        'store-finder/country/:country',
-        'store-finder/country/:country/region/:region'
+        'store-finder/country/:country/region/:region',
+        'store-finder/country/:country'
       ],
       contact: ['contact'],
       help: ['faq'],
