@@ -68,4 +68,18 @@ export class AuthService {
   loadClientToken() {
     this.store.dispatch(new fromAuthStore.LoadClientToken());
   }
+
+  refreshClientToken(): Observable<ClientAuthenticationToken> {
+    return this.store.pipe(
+      select(fromAuthStore.getClientTokenState),
+      tap((state: ClientTokenState) => {
+        const token = state.token;
+        if (token.access_token && !state.loading) {
+          this.loadClientToken();
+        }
+      }),
+      filter((state: ClientTokenState) => state.loaded),
+      map((state: ClientTokenState) => state.token)
+    );
+  }
 }

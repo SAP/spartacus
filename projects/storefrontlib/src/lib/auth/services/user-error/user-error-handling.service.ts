@@ -31,7 +31,7 @@ export class UserErrorHandlingService {
   }
 
   private handleExpiredToken(): Observable<any> {
-    let oldToken;
+    let oldToken: UserToken;
     return this.authService.userToken$.pipe(
       tap((token: UserToken) => {
         if (token.access_token && token.refresh_token && !oldToken) {

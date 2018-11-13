@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler } from '@angular/common/http';
 
-import { Store, select } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
-import { switchMap, tap, filter, map } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
+import { AuthService } from '../../facade/auth.service';
 import { ClientAuthenticationToken } from '../../models/token-types.model';
-
-import * as fromStore from '../../store';
-import { ClientTokenState } from '../../store/reducers/client-token.reducer';
 
 @Injectable()
 export class ClientErrorHandlingService {
-  constructor(private store: Store<fromStore.AuthState>) {}
+  constructor(private authService: AuthService) {}
 
   public handleExpiredClientToken(
     request: HttpRequest<any>,
@@ -26,17 +22,8 @@ export class ClientErrorHandlingService {
     );
   }
 
-  private loadNewClientToken(): Observable<any> {
-    return this.store.pipe(
-      select(fromStore.getClientTokenState),
-      tap((state: ClientTokenState) => {
-        if (!state.loading) {
-          this.store.dispatch(new fromStore.LoadClientToken());
-        }
-      }),
-      filter((state: ClientTokenState) => state.loaded),
-      map((state: ClientTokenState) => state.token)
-    );
+  private loadNewClientToken(): Observable<ClientAuthenticationToken> {
+    return this.authService.refreshClientToken();
   }
 
   private createNewRequestWithNewToken(
