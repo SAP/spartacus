@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import * as fromStore from '../store';
-import { SearchConfig } from '../search-config';
+import {SearchConfig} from '@spartacus/core';
 
 @Injectable()
 export class ProductSearchService {

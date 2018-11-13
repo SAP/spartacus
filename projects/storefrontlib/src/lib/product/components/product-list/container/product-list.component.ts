@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SearchConfig } from '../../../search-config';
+import { SearchConfig } from '@spartacus/core';
 import { ProductSearchService } from '../../../facade/product-search.service';
 
 @Component({

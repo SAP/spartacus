@@ -5,8 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccProductSearchService } from './product-search.service';
-import { OccConfig } from '@spartacus/core';
-import { SearchConfig } from '../../product/search-config';
+import { OccConfig, SearchConfig } from '@spartacus/core';
 
 const queryText = 'test';
 const searchResults = { products: [{ code: '123' }] };

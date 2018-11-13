@@ -7,7 +7,7 @@ import { ProductListItemComponent } from '../product-list-item/product-list-item
 import { AddToCartComponent } from '../../../../cart/components/add-to-cart/add-to-cart.component';
 import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SearchConfig } from '../../../search-config';
+
 import {
   ProductViewComponent,
   ViewModes
@@ -23,6 +23,8 @@ import { PaginationAndSortingModule } from '../../../../ui/components/pagination
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
 import { ProductSearchService } from '../../../facade/product-search.service';
+
+import { SearchConfig } from '@spartacus/core';
 
 class MockProductSearchService {
   search() {}
