@@ -14,7 +14,7 @@ import { UserToken } from '../../../auth/models/token-types.model';
 
 import * as fromStore from '../../store';
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login',

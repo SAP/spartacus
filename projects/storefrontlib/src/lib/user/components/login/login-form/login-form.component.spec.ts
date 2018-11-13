@@ -9,7 +9,7 @@ import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { combineReducers, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromStore from '../../../store';
-import { RoutingService } from '../../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 import { AuthService } from '../../../../auth/facade/auth.service';
 import createSpy = jasmine.createSpy;
 

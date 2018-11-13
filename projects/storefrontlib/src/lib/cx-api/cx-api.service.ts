@@ -4,10 +4,13 @@ import {
   ProductSearchService,
   ProductService
 } from '../product/facade/index';
-import { CurrencyService, LanguageService } from '@spartacus/core';
+import {
+  CurrencyService,
+  LanguageService,
+  RoutingService
+} from '@spartacus/core';
 import { AuthService } from '../auth/facade/auth.service';
 import { CmsService } from '../cms/facade/cms.service';
-import { RoutingService } from '../routing/facade/routing.service';
 
 @Injectable({
   providedIn: 'root'
