@@ -15,9 +15,7 @@ import * as productActions from '../actions/product.action';
 import { OccProductService } from '../../../occ/product/product.service';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 import { ProductReferenceConverterService } from '../../converters/product-reference-converter.service';
-import { RoutingService } from '../../../routing/facade/routing.service';
-
-import { PageType } from '../../../routing/models/page-context.model';
+import { RoutingService, PageType } from '@spartacus/core';
 
 @Injectable()
 export class ProductEffects {

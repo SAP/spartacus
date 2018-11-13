@@ -5,12 +5,13 @@ import {
   RouterStateSnapshot
 } from '@angular/router';
 
+import { RoutingService } from '@spartacus/core';
+
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from '../models/token-types.model';
-import { RoutingService } from '../../routing/facade/routing.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

@@ -19,7 +19,7 @@ const mockClientToken = {
   access_token: 'testToken'
 } as ClientAuthenticationToken;
 
-fdescribe('AuthService', () => {
+describe('AuthService', () => {
   let service: AuthService;
   let store: Store<fromAuthStore.AuthState>;
 
@@ -132,7 +132,7 @@ fdescribe('AuthService', () => {
     );
   });
 
-  fit('refresh the client toke', () => {
+  it('refresh the client toke', () => {
     store.dispatch(new fromAuthStore.LoadClientTokenSuccess(mockClientToken));
 
     spyOn(service, 'loadClientToken').and.stub();

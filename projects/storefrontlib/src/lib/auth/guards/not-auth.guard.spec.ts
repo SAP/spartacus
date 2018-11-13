@@ -2,11 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NavigationExtras } from '@angular/router';
 
+import { RoutingService } from '@spartacus/core';
+
 import { of } from 'rxjs';
 
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from '../models/token-types.model';
-import { RoutingService } from '../../routing/facade/routing.service';
 
 import { NotAuthGuard } from './not-auth.guard';
 

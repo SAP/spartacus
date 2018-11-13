@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 
+import { RoutingService } from '@spartacus/core';
+
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AuthService } from '../facade/auth.service';
-import { RoutingService } from '../../routing/facade/routing.service';
 
 @Injectable()
 export class NotAuthGuard implements CanActivate {
