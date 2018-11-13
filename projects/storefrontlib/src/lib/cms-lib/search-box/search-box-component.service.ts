@@ -8,7 +8,7 @@ import {
   map,
   switchMap
 } from 'rxjs/operators';
-import { RoutingService } from '../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 
 interface SearchBoxConfig {
   maxProducts: number;

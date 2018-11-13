@@ -4,8 +4,8 @@ import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as fromUserStore from '../../../user/store';
 import * as fromAuthStore from '../../../auth/store';
-import { RoutingService } from '../../../routing/facade/routing.service';
 import { Card } from '../../../ui/components/card/card.component';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-details',
