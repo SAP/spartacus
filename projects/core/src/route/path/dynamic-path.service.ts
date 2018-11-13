@@ -33,86 +33,67 @@ export class DynamicPathService {
   } {
     url = removeLeadingSlash(url); // url will be compared with paths translations which do not have leading slash
 
+    const { pageName, matchedPath } = this.recognizePath(url);
+    return pageName !== null
+      ? {
+          pageName,
+          parameters: this.getParametersValues(url, matchedPath)
+        }
+      : { pageName: null, parameters: {} };
+  }
+
+  private recognizePath(
+    url: string
+  ): {
+    pageName: string;
+    matchedPath: string;
+  } {
+    const result = Object.keys(this.defaultRoutesTranslations)
+      .map(pageName => {
+        const paths = this.defaultRoutesTranslations[pageName];
+        const matchedPath = paths.find(path => this.match(url, path));
+        return { pageName, matchedPath };
+      })
+      .find(({ matchedPath }) => !!matchedPath);
+
+    return result || { pageName: null, matchedPath: null };
+  }
+
+  private match(url: string, pathSchema: string): boolean {
     const urlSegments = getSegments(url);
-    const pageName = this.getPageNameWithLongestMatchingSegmentsPrefix(
-      urlSegments
-    );
-    if (!pageName) {
-      return { pageName, parameters: {} };
+    const pathSchemaSegments = getSegments(pathSchema);
+
+    if (urlSegments.length !== pathSchemaSegments.length) {
+      return false;
     }
 
-    const pathSchema = this.getPathWithSameSegmentsNumber(
-      urlSegments,
-      pageName
-    );
-    return {
-      pageName,
-      parameters: this.getParametersValues(urlSegments, pathSchema)
-    };
+    const segmentsLength = pathSchemaSegments.length;
+    for (let i = 0; i < segmentsLength; i++) {
+      const pathSchemaSegment = pathSchemaSegments[i];
+      const urlSegment = urlSegments[i];
+
+      if (!isParameter(pathSchemaSegment) && pathSchemaSegment !== urlSegment) {
+        return false;
+      }
+    }
+    return true;
   }
 
   // compares url segments array with segments of path schema. for parameters in path schema it extracts value from relevant segment of url
-  private getParametersValues(
-    urlSegments: string[],
-    pathSchema: string
-  ): object {
-    const parameters = {};
+  private getParametersValues(url: string, pathSchema: string): object {
+    const urlSegments = getSegments(url);
     const pathSchemaSegments = getSegments(pathSchema);
-    const pathSchemaSegmentsLength = pathSchemaSegments.length;
-    for (let i = 0; i < pathSchemaSegmentsLength; i++) {
-      const pathSchemaSegment = pathSchemaSegments[i];
+
+    return pathSchemaSegments.reduce((accParameters, pathSchemaSegment, i) => {
       if (isParameter(pathSchemaSegment)) {
         const parameterName = getParameterName(pathSchemaSegment);
-        parameters[parameterName] = urlSegments[i];
-      }
-    }
-    return parameters;
-  }
-
-  private getPathWithSameSegmentsNumber(
-    urlSegments: string[],
-    pageName: string
-  ): string {
-    const paths = this.defaultRoutesTranslations[pageName];
-    return paths.find(path => urlSegments.length === getSegments(path).length);
-  }
-
-  private getPageNameWithLongestMatchingSegmentsPrefix(urlSegments: string[]) {
-    return Object.keys(this.defaultRoutesTranslations)
-      .map(pageName => {
-        const paths = this.defaultRoutesTranslations[pageName];
-        const commonPrefixLengths = paths.map(path => {
-          const pathSegments = getSegments(path);
-          return this.getCommonPrefix(urlSegments, pathSegments).length;
+        const parameterValue = urlSegments[i];
+        return Object.assign(accParameters, {
+          [parameterName]: parameterValue
         });
-        return {
-          pageName,
-          maxCommonPrefixLength: Math.max(...commonPrefixLengths)
-        };
-      })
-      .reduce(
-        (best, current) =>
-          current.maxCommonPrefixLength > best.maxCommonPrefixLength
-            ? current
-            : best,
-        {
-          pageName: null,
-          maxCommonPrefixLength: 0
-        }
-      ).pageName;
-  }
-
-  private getCommonPrefix(listA: string[], listB: string[]): string[] {
-    const commonPrefix = [];
-    const listALength = listA.length;
-    for (let i = 0; i < listALength; i++) {
-      if (listA[i] === listB[i]) {
-        commonPrefix.push(listA[i]);
-      } else {
-        break;
       }
-    }
-    return commonPrefix;
+      return accParameters;
+    }, {});
   }
 
   private get defaultRoutesTranslations(): RoutesTranslations {
