@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subscription } from 'rxjs';
-
-import { RoutingService } from '../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-page',

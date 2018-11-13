@@ -11,10 +11,11 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import * as fromUserStore from '../../../../user/store';
-import { RoutingService } from '../../../../routing/facade/routing.service';
+
 import { CheckoutService } from '../../../services/checkout.service';
 import { Card } from '../../../../ui/components/card/card.component';
 import { Address } from '../../../models/address-model';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-shipping-address',
