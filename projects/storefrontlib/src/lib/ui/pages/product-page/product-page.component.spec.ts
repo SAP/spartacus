@@ -29,7 +29,7 @@ import {
   NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { OutletDirective } from '../../../outlet';
-import { RoutingService } from '../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 
 const routerState = {
   state: {
