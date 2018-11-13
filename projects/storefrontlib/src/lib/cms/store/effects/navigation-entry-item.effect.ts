@@ -4,10 +4,10 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, catchError, filter, mergeMap, take } from 'rxjs/operators';
 
-import { RoutingService } from '../../../routing/facade/routing.service';
 import * as navigationItemActions from '../actions/navigation-entry-item.action';
 import { OccCmsService } from '../../services/occ-cms.service';
 import { IdList } from '../../models/idList.model';
+import { RoutingService } from '@spartacus/core';
 
 @Injectable()
 export class NavigationEntryItemEffects {

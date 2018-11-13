@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import {
-  ConfigModule,
-  Config,
-  ConfigurableRoutesModule
-} from '@spartacus/core';
+import { ConfigModule, Config } from '../config/index';
 
 import {
   StoreRouterConnectingModule,
@@ -20,15 +16,16 @@ import {
 } from './store/reducers/router.reducer';
 import { effects } from './store/effects/index';
 import {
-  defaultRoutingModuleConfig,
   RoutingModuleConfig,
   StorageSyncType
-} from './routing-module-config';
+} from './config/routing-module-config';
 
 import { RouterModule } from '@angular/router';
 import { RoutingService } from './facade/routing.service';
 
 import { ROUTING_FEATURE } from './state';
+import { defaultConfig } from './config/default-config';
+import { ConfigurableRoutesModule } from '../route/configurable-routes.module';
 
 export function getMetaReducers(
   config: RoutingModuleConfig
@@ -51,7 +48,7 @@ export function getMetaReducers(
     StoreRouterConnectingModule.forRoot({
       stateKey: ROUTING_FEATURE // name of reducer key
     }),
-    ConfigModule.withConfig(defaultRoutingModuleConfig)
+    ConfigModule.withConfig(defaultConfig)
   ],
   providers: [
     RoutingService,
@@ -62,7 +59,7 @@ export function getMetaReducers(
     },
     {
       provide: META_REDUCERS,
-      deps: [Config],
+      deps: [RoutingModuleConfig],
       useFactory: getMetaReducers
     },
     { provide: RoutingModuleConfig, useExisting: Config }
