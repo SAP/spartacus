@@ -1,7 +1,7 @@
 import {
   RoutingModuleConfig,
   StorageSyncType
-} from '../../routing-module-config';
+} from '../../config/routing-module-config';
 import { ActionReducer, MetaReducer } from '@ngrx/store';
 import { localStorageSync, LocalStorageConfig } from 'ngrx-store-localstorage';
 

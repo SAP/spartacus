@@ -46,6 +46,13 @@ export function reducer(
     case fromAction.REMOVE_MESSAGE: {
       const msgType = action.payload.type;
       const msgIndex = action.payload.index;
+      if (
+        Object.keys(state.entities).length === 0 ||
+        !state.entities[msgType]
+      ) {
+        return state;
+      }
+
       const messages = [...state.entities[msgType]];
       messages.splice(msgIndex, 1);
 

@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 import * as fromStore from './../store';
-import { RoutingService } from '../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 
 @Injectable()
 export class NotAuthGuard implements CanActivate {
