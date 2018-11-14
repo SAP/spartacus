@@ -8,7 +8,7 @@ import {
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { SiteContextConfig } from '@spartacus/core';
+import { SiteContextConfig, ConfigurableRoutesService } from '@spartacus/core';
 
 import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
@@ -29,6 +29,7 @@ import {
 } from '../../../pwa/pwa.module-config';
 import { SiteContextModule } from '../../../site-context/site-context.module';
 import * as fromCmsReducer from '../../../cms/store/reducers';
+import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import * as fromUserReducer from '../../../user/store/reducers';
 import { LoginComponent } from '../../../user/components/login/login.component';
 import { OccSiteService } from '../../../../../../core/src/site-context/occ/occ-site.service';
@@ -51,6 +52,9 @@ const MockSiteContextModuleConfig: SiteContextConfig = {
 const MockPwaRegistrationOptions: RegistrationOptions = {
   enabled: false
 };
+class MockConfigurableRoutesService {
+  changeLanguage() {}
+}
 
 describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
@@ -95,7 +99,12 @@ describe('StorefrontComponent', () => {
         {
           provide: RegistrationOptions,
           useValue: MockPwaRegistrationOptions
-        }
+        },
+        {
+          provide: ConfigurableRoutesService,
+          useClass: MockConfigurableRoutesService
+        },
+        GlobalMessageService
       ]
     }).compileComponents();
   }));
