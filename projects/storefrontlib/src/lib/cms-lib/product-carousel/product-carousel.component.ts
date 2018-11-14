@@ -66,7 +66,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     super.fetchData();
   }
 
-  private createGroups() {
+  protected createGroups() {
     const groups = [];
     this.productCodes.forEach(product => {
       const lastGroup = groups[groups.length - 1];
@@ -79,7 +79,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     this.productGroups = groups;
   }
 
-  private getItemsPerPage(): number {
+  protected getItemsPerPage(): number {
     const smallScreenMaxWidth = 576;
     const tabletScreenMaxWidth = 768;
     const { innerWidth } = window;
