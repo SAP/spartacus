@@ -4,10 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromAuth from '../../../auth/store';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
+import { ComponentWrapperDirective } from '../../../cms/components';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import { SiteContextModule } from '../../../site-context';
 import * as fromUserReducer from '../../../user/store/reducers';
@@ -24,6 +21,7 @@ import {
   defaultPWAModuleConfig
 } from '../../../pwa/pwa.module-config';
 import { SiteContextConfig } from '@spartacus/core';
+import { Input, Component } from '@angular/core';
 
 const MockCmsModuleConfig: CmsModuleConfig = {
   site: {
@@ -31,6 +29,21 @@ const MockCmsModuleConfig: CmsModuleConfig = {
     currency: 'JPY'
   }
 };
+
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: 'MockDynamicSlotComponent'
+})
+export class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+  @Input()
+  limit: number;
+  @Input()
+  contextParameters: any;
+  @Input()
+  componentClass: string;
+}
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -50,7 +63,7 @@ describe('HeaderComponent', () => {
       ],
       declarations: [
         HeaderComponent,
-        DynamicSlotComponent,
+        MockDynamicSlotComponent,
         ComponentWrapperDirective,
         HeaderSkipperComponent,
         TertiaryBarComponent,
