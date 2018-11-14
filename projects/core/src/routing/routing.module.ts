@@ -25,6 +25,7 @@ import { RoutingService } from './facade/routing.service';
 
 import { ROUTING_FEATURE } from './state';
 import { defaultConfig } from './config/default-config';
+import { ConfigurableRoutesModule } from './configurable-routes/configurable-routes.module';
 
 export function getMetaReducers(
   config: RoutingModuleConfig
@@ -40,6 +41,7 @@ export function getMetaReducers(
 
 @NgModule({
   imports: [
+    ConfigurableRoutesModule,
     RouterModule.forRoot([], { scrollPositionRestoration: 'enabled' }),
     StoreModule.forFeature(ROUTING_FEATURE, reducerToken),
     EffectsModule.forFeature(effects),
