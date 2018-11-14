@@ -37,6 +37,8 @@ export interface RoutesConfig {
     [languageCode: string]: RoutesTranslations;
   };
   parameterNamesMapping?: ParameterNamesMapping;
+
+  fetch?: boolean;
 }
 
 export const defaultRoutesConfig: RoutesConfig = {
@@ -76,5 +78,7 @@ export const defaultRoutesConfig: RoutesConfig = {
     myAccount_orderDetails: {
       orderCode: 'code'
     }
-  }
+  },
+
+  fetch: false
 };

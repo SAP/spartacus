@@ -27,6 +27,7 @@ import {
 } from '../../../pwa/pwa.module-config';
 import { PwaModule } from '../../../pwa/pwa.module';
 import { SiteContextConfig, ConfigurableRoutesService } from '@spartacus/core';
+import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 
 const MockSiteContextModuleConfig: SiteContextConfig = {
   server: {
@@ -87,7 +88,8 @@ describe('StorefrontComponent', () => {
         {
           provide: ConfigurableRoutesService,
           useClass: MockConfigurableRoutesService
-        }
+        },
+        GlobalMessageService
       ]
     }).compileComponents();
   }));

@@ -3,7 +3,10 @@ import { ServerConfig } from '../../config/server-config/server-config';
 import { Injectable } from '@angular/core';
 import { RoutesConfig } from './routes-config';
 import { deepMerge } from '../../config/utils/deep-merge';
-import { ConfigurableRoutesModuleConfig } from './configurable-routes-module.config';
+import { ConfigurableRoutesConfig } from './configurable-routes-config';
+import { retry } from 'rxjs/operators';
+
+const ENDPOINT_ROUTES_CONFIG = 'routes-config';
 
 @Injectable()
 export class RoutesConfigLoader {
@@ -13,40 +16,40 @@ export class RoutesConfigLoader {
     return this._routesConfig;
   }
 
+  get endpoint(): string {
+    return (
+      (this.serverConfig.server.baseUrl || '') + '/' + ENDPOINT_ROUTES_CONFIG
+    );
+  }
+
   constructor(
     private readonly http: HttpClient,
     private readonly serverConfig: ServerConfig,
-    private readonly configurableRoutesModuleConfig: ConfigurableRoutesModuleConfig
+    private readonly configurableRoutesConfig: ConfigurableRoutesConfig
   ) {}
 
-  load(): Promise<any> {
-    const url = this.serverConfig.server.routesConfigUrl;
-    return url ? this.fetch(url) : this.useStatic();
+  async load(): Promise<any> {
+    const shouldFetch = this.configurableRoutesConfig.routesConfig.fetch;
+    const fetchedRoutesConfig = shouldFetch
+      ? await this.fetch(this.endpoint)
+      : null;
+    this._routesConfig = this.extendStaticWith(fetchedRoutesConfig);
   }
 
   private fetch(url: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.http.get(url).subscribe(
-        (res: RoutesConfig) => {
-          this._routesConfig = this.extendStaticWith(res);
-          return resolve();
-        },
-
-        // TODO #185: after fail, retry 2 times (or number of retries taken from configuration) and then show/redirect to error page
-        () => reject(`Could not get routes configutation from url ${url}!`)
-      );
-    });
-  }
-
-  private useStatic(): Promise<any> {
-    this._routesConfig = this.extendStaticWith(null);
-    return Promise.resolve();
+    return this.http
+      .get(url)
+      .pipe(retry(2))
+      .toPromise()
+      .catch(() => {
+        throw new Error(`Could not get routes configutation from url ${url}!`);
+      });
   }
 
   private extendStaticWith(routesConfig: RoutesConfig): RoutesConfig {
     const mergedRoutesConfig = deepMerge(
       {},
-      this.configurableRoutesModuleConfig.routesConfig,
+      this.configurableRoutesConfig.routesConfig,
       routesConfig
     );
     return this.extendLanguagesTranslationsWithDefault(mergedRoutesConfig);

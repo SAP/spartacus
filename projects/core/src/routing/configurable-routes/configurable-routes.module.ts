@@ -3,12 +3,12 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { ConfigurableRoutesService } from './configurable-routes.service';
 import { RoutesConfigLoader } from './routes-config-loader';
 import { ConfigModule, Config } from '../../config/config.module';
-import {
-  ConfigurableRoutesModuleConfig,
-  defaultConfigurableRoutesModuleConfig
-} from './configurable-routes-module.config';
 import { PathService } from './path/path.service';
 import { DynamicPathService } from './path/dynamic-path.service';
+import {
+  defaultConfigurableRoutesConfig,
+  ConfigurableRoutesConfig
+} from './configurable-routes-config';
 
 export function loadRoutesConfig(loader: RoutesConfigLoader) {
   const result = () => loader.load(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
@@ -18,7 +18,7 @@ export function loadRoutesConfig(loader: RoutesConfigLoader) {
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(defaultConfigurableRoutesModuleConfig)
+    ConfigModule.withConfig(defaultConfigurableRoutesConfig)
   ],
   declarations: [],
   exports: [],
@@ -33,7 +33,7 @@ export function loadRoutesConfig(loader: RoutesConfigLoader) {
       deps: [RoutesConfigLoader],
       multi: true
     },
-    { provide: ConfigurableRoutesModuleConfig, useExisting: Config }
+    { provide: ConfigurableRoutesConfig, useExisting: Config }
   ]
 })
 export class ConfigurableRoutesModule {}

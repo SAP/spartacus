@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { ServerConfig } from '../../config';
-import { ConfigurableRoutesModuleConfig } from './configurable-routes-module.config';
+import { ConfigurableRoutesConfig } from './configurable-routes-config';
 import { RoutesConfigLoader } from './routes-config-loader';
 import { BehaviorSubject, of } from 'rxjs';
 import { RoutesConfig } from './routes-config';
@@ -9,8 +9,8 @@ import { RoutesConfig } from './routes-config';
 const mockHttpClient = {
   get: () => new BehaviorSubject(null)
 };
-const mockServerConfig: ServerConfig = { server: { routesConfigUrl: null } };
-const mockConfigurableRoutesModuleConfig: ConfigurableRoutesModuleConfig = {
+const mockServerConfig: ServerConfig = { server: { baseUrl: 'test-base-url' } };
+const mockConfigurableRoutesModuleConfig: ConfigurableRoutesConfig = {
   routesConfig: {
     translations: {
       default: {
@@ -50,7 +50,7 @@ const mockFetchedRoutesConfig: RoutesConfig = {
 describe('RoutesConfigLoader', () => {
   let loader: RoutesConfigLoader;
   let http: HttpClient;
-  let serverConfig: ServerConfig;
+  let configurableRoutesConfig: ConfigurableRoutesConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -59,7 +59,7 @@ describe('RoutesConfigLoader', () => {
         { provide: HttpClient, useValue: mockHttpClient },
         { provide: ServerConfig, useValue: mockServerConfig },
         {
-          provide: ConfigurableRoutesModuleConfig,
+          provide: ConfigurableRoutesConfig,
           useValue: mockConfigurableRoutesModuleConfig
         }
       ]
@@ -67,59 +67,59 @@ describe('RoutesConfigLoader', () => {
 
     loader = TestBed.get(RoutesConfigLoader);
     http = TestBed.get(HttpClient);
-    serverConfig = TestBed.get(ServerConfig);
+    configurableRoutesConfig = TestBed.get(ConfigurableRoutesConfig);
   });
 
   describe('loadRoutesConfig', () => {
-    describe(', when routesConfigUrl is in server config,', () => {
-      const url = 'https://example.com/routes-config';
-
+    describe(', when shouldFetch is configured to true,', () => {
       beforeEach(() => {
-        serverConfig.server.routesConfigUrl = url;
+        configurableRoutesConfig.routesConfig.fetch = true;
       });
 
       it('should fetch routes config from url', () => {
         spyOn(http, 'get').and.returnValue(of(null));
         loader.load();
-        expect(http.get).toHaveBeenCalledWith(url);
+        expect(http.get).toHaveBeenCalled();
       });
 
-      it('should place routes config under "routesConfig" property', () => {
+      it('should place routes config under "routesConfig" property', async () => {
         spyOn(http, 'get').and.returnValue(of(mockFetchedRoutesConfig));
         expect(loader.routesConfig).toBeFalsy();
-        loader.load();
+        await loader.load();
         expect(loader.routesConfig).toBeTruthy();
       });
 
-      it('should extend fetched routes config with static one and extend routes translations for languages with "default"', () => {
+      it('should extend fetched routes config with static one and extend routes translations for languages with "default"', async () => {
         spyOn(http, 'get').and.returnValue(of(mockFetchedRoutesConfig));
-        loader.load();
-        expect(loader.routesConfig).toEqual({
-          translations: {
-            default: {
-              page1: ['fetched-default-path1'],
-              page2: ['default-path2', 'default-path20'],
-              page3: ['default-path3']
+        await loader.load();
+        expect(loader.routesConfig).toEqual(
+          jasmine.objectContaining({
+            translations: {
+              default: {
+                page1: ['fetched-default-path1'],
+                page2: ['default-path2', 'default-path20'],
+                page3: ['default-path3']
+              },
+              en: {
+                page1: ['fetched-en-path1', 'fetched-en-path10'],
+                page2: ['en-path2'],
+                page3: ['default-path3']
+              }
             },
-            en: {
-              page1: ['fetched-en-path1', 'fetched-en-path10'],
-              page2: ['en-path2'],
-              page3: ['default-path3']
+            parameterNamesMapping: {
+              page1: {
+                param1: 'fetched-otherParam1',
+                param2: 'fetched-otherParam2'
+              }
             }
-          },
-          parameterNamesMapping: {
-            page1: {
-              param1: 'fetched-otherParam1',
-              param2: 'fetched-otherParam2'
-            }
-          }
-        });
+          })
+        );
       });
     });
 
-    describe(', when routesConfigUrl is NOT in server config,', () => {
+    describe(', when shouldFetch is configured to false,', () => {
       beforeEach(() => {
-        mockServerConfig.server.routesConfigUrl = '';
+        configurableRoutesConfig.routesConfig.fetch = false;
       });
 
       it('should NOT fetch routes config', () => {
@@ -137,25 +137,27 @@ describe('RoutesConfigLoader', () => {
       it('should use static routes config and extend routes translations for languages with "default"', () => {
         spyOn(http, 'get').and.returnValue(of(mockFetchedRoutesConfig));
         loader.load();
-        expect(loader.routesConfig).toEqual({
-          translations: {
-            default: {
-              page1: ['default-path1'],
-              page2: ['default-path2', 'default-path20'],
-              page3: ['default-path3']
+        expect(loader.routesConfig).toEqual(
+          jasmine.objectContaining({
+            translations: {
+              default: {
+                page1: ['default-path1'],
+                page2: ['default-path2', 'default-path20'],
+                page3: ['default-path3']
+              },
+              en: {
+                page1: ['en-path1', 'en-path10'],
+                page2: ['en-path2'],
+                page3: ['default-path3']
+              }
             },
-            en: {
-              page1: ['en-path1', 'en-path10'],
-              page2: ['en-path2'],
-              page3: ['default-path3']
+            parameterNamesMapping: {
+              page1: {
+                param1: 'otherParam1'
+              }
             }
-          },
-          parameterNamesMapping: {
-            page1: {
-              param1: 'otherParam1'
-            }
-          }
-        });
+          })
+        );
       });
     });
   });
