@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { NavigationModule } from '../navigation/navigation.module';
 import { CategoryNavigationComponent } from './category-navigation.component';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
@@ -8,6 +7,10 @@ import { BootstrapModule } from '../../bootstrap.module';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CmsService } from '../../cms/facade/cms.service';
+import { NavigationComponent } from '..';
+import { NavigationUIComponent } from '../navigation/navigation-ui.component';
+import { NavigationService } from '../navigation/navigation.service';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -20,17 +23,27 @@ describe('CategoryNavigationComponent', () => {
   let fixture: ComponentFixture<CategoryNavigationComponent>;
   let nav: DebugElement;
 
+  const mockCmsService = {};
+  const mockNavigationService = {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NavigationModule,
         BootstrapModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
         RouterTestingModule
       ],
-      declarations: [CategoryNavigationComponent],
-      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
+      declarations: [
+        CategoryNavigationComponent,
+        NavigationComponent,
+        NavigationUIComponent
+      ],
+      providers: [
+        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
+        { provide: CmsService, useValue: mockCmsService },
+        { provide: NavigationService, useValue: mockNavigationService }
+      ]
     }).compileComponents();
   }));
 
