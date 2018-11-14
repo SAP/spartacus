@@ -176,11 +176,16 @@ $cx-search-facet-modal-footer-btn-width: 50% !default;
     padding: $cx-search-facet-filter-pill-trbl-padding;
     margin: $cx-search-facet-filter-pill-trbl-margin;
     display: flex;
+    align-items: flex-start;
     border-radius: $cx-search-facet-filter-pill-border-radius;
+
+    span {
+      flex: 1 1 auto;
+    }
 
     button {
       margin: $cx-search-facet-filter-pill-button-trbl-margin;
-      flex: 1 0 auto;
+      flex: 0 0 1rem;
     }
   }
 
