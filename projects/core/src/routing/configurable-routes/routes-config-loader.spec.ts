@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ServerConfig } from '../../config';
 import { ConfigurableRoutesConfig } from './configurable-routes-config';
 import { RoutesConfigLoader } from './routes-config-loader';
-import { BehaviorSubject, of, Observable } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { RoutesConfig } from './routes-config';
 
 const mockHttpClient = {
