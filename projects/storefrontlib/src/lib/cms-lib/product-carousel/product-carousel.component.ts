@@ -8,17 +8,11 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { Observable, Subscription, Subject, fromEvent } from 'rxjs';
-import { takeUntil, tap, debounceTime } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import { Store, select } from '@ngrx/store';
-import * as fromStore from '../../cms/store';
 import { CmsService } from '../../cms/facade/cms.service';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
-import {
-  getAllProductCodes,
-  LoadProduct,
-  getSelectedProductsFactory
-} from '@spartacus/core';
+import { ProductService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-carousel',
@@ -33,7 +27,6 @@ export class ProductCarouselComponent extends AbstractCmsComponent
 
   products$: Observable<any[]>;
   private finishSubject = new Subject();
-  private firstTime = true;
 
   resizeSubscription: Subscription;
   codesSubscription: Subscription;
@@ -46,7 +39,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   constructor(
     protected cmsService: CmsService,
     protected cd: ChangeDetectorRef,
-    protected store: Store<fromStore.CmsState>
+    private productService: ProductService
   ) {
     super(cmsService, cd);
   }
@@ -70,30 +63,9 @@ export class ProductCarouselComponent extends AbstractCmsComponent
 
   protected fetchData() {
     const codes = this.getProductCodes();
-
-    if (codes && codes.length > 0) {
-      this.codesSubscription = this.store
-        .pipe(
-          select(getAllProductCodes),
-          takeUntil(this.finishSubject)
-        )
-        .subscribe(productCodes => {
-          if (this.firstTime || productCodes.length === 0) {
-            codes
-              .filter(code => productCodes.indexOf(code) === -1)
-              .forEach(code => {
-                this.store.dispatch(new LoadProduct(code));
-              });
-          }
-        });
-
-      this.firstTime = false;
-
-      this.products$ = this.store.pipe(
-        select(getSelectedProductsFactory(codes)),
-        tap(this.group.bind(this))
-      );
-    }
+    codes.forEach(code => {
+      this.productService.isProductLoaded(code).subscribe();
+    });
     super.fetchData();
   }
 
