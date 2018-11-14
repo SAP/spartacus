@@ -24,3 +24,10 @@ notifications:
   email:
     on_failure: change
     on_success: change
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: dist/storefrontapp
+  on:
+    branch: develop
