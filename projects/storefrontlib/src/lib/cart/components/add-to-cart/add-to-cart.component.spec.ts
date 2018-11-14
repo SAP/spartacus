@@ -1,19 +1,22 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { StoreModule } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
-import { of } from 'rxjs';
+
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { CartService } from '../../../cart/services/cart.service';
-import { CartDataService } from '../../../cart/services/cart-data.service';
+import { of } from 'rxjs';
+
 import * as fromCart from '../../../cart/store';
 import * as fromUser from '../../../user/store';
-import * as fromAuth from './../../../auth/store';
+import { CartDataService } from '../../../cart/services/cart-data.service';
+import { CartService } from '../../../cart/services/cart.service';
+import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
+
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddToCartModule } from './add-to-cart.module';
-import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
 
 const productCode = '1234';
 const mockCartEntry: any = [];
@@ -41,8 +44,7 @@ describe('AddToCartComponent', () => {
         NgbModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature('cart', fromCart.getReducers),
-        StoreModule.forFeature('user', fromUser.getReducers),
-        StoreModule.forFeature('auth', fromAuth.getReducers)
+        StoreModule.forFeature('user', fromUser.getReducers)
       ],
       providers: [
         CartDataService,
