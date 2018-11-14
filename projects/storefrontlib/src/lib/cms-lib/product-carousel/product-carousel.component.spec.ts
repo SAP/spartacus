@@ -10,7 +10,7 @@ import { ProductService } from '@spartacus/core';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { ProductCarouselComponent } from './product-carousel.component';
 
-describe('ProductCarouselComponent in CmsLib', () => {
+describe('ProductCarouselComponent', () => {
   let productCarouselComponent: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
   let el: DebugElement;
@@ -63,17 +63,26 @@ describe('ProductCarouselComponent in CmsLib', () => {
     fixture.detectChanges();
     el = fixture.debugElement;
   });
+
   it('should be created', () => {
     expect(productCarouselComponent).toBeTruthy();
   });
+
   it('should have empty productCodes', () => {
     expect(productCarouselComponent.productCodes).toBeFalsy();
   });
+
   it('should have productCodes', () => {
     expect(productCarouselComponent.component).toBeNull();
     productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
     expect(productCarouselComponent.productCodes).toEqual(productCodeArray);
   });
+
+  it('should have 1 group', () => {
+    productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
+    expect(productCarouselComponent.productGroups.length).toBe(1);
+  });
+
   it('should contain cms content in the html rendering after bootstrap', () => {
     productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
     expect(
