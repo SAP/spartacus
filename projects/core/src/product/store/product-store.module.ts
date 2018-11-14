@@ -11,14 +11,16 @@ import { PRODUCT_FEATURE } from './product-state';
 
 import { metaReducers } from './reducers/index';
 import { ProductConverterModule } from './converters/index';
+import { ProductOccModule } from '../occ';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
+    ProductOccModule,
+    ProductConverterModule,
     StoreModule.forFeature(PRODUCT_FEATURE, reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects),
-    ProductConverterModule
+    EffectsModule.forFeature(effects)
   ],
   providers: [reducerProvider]
 })
