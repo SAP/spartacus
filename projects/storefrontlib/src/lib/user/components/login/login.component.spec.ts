@@ -14,7 +14,7 @@ import {
   ComponentWrapperDirective
 } from '../../../cms/components';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
-import { PageType } from '../../../routing/models/page-context.model';
+import { RoutingService, PageType } from '@spartacus/core';
 import { UserToken } from './../../../auth/models/token-types.model';
 import * as fromStore from './../../store';
 import * as fromCms from './../../../cms/store';
@@ -22,7 +22,6 @@ import { LoginComponent } from './login.component';
 import { OutletDirective } from '../../../outlet';
 import createSpy = jasmine.createSpy;
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '../../../routing/facade/routing.service';
 
 const mockUserToken: UserToken = {
   access_token: 'xxx',

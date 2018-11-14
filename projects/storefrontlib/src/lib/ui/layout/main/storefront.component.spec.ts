@@ -26,7 +26,8 @@ import {
   defaultPWAModuleConfig
 } from '../../../pwa/pwa.module-config';
 import { PwaModule } from '../../../pwa/pwa.module';
-import { SiteContextConfig } from '@spartacus/core';
+import { SiteContextConfig, ConfigurableRoutesService } from '@spartacus/core';
+import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 
 const MockSiteContextModuleConfig: SiteContextConfig = {
   server: {
@@ -40,6 +41,10 @@ const MockSiteContextModuleConfig: SiteContextConfig = {
     currency: ''
   }
 };
+
+class MockConfigurableRoutesService {
+  changeLanguage() {}
+}
 
 describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
@@ -79,7 +84,12 @@ describe('StorefrontComponent', () => {
         {
           provide: PWAModuleConfig,
           useValue: defaultPWAModuleConfig
-        }
+        },
+        {
+          provide: ConfigurableRoutesService,
+          useClass: MockConfigurableRoutesService
+        },
+        GlobalMessageService
       ]
     }).compileComponents();
   }));

@@ -6,10 +6,9 @@ import { CmsPageGuards } from './cms-page.guard';
 import { DefaultPageService } from '../services/default-page.service';
 import { CmsModuleConfig } from '../cms-module-config';
 import * as fromReducers from '../store/reducers';
-import { PageType } from '../../routing/models/page-context.model';
 import { Page } from '../models/page.model';
 import * as fromActions from '../store/actions/page.action';
-import { RoutingService } from '../../routing/facade/routing.service';
+import { RoutingService, PageType } from '@spartacus/core';
 
 const mockRoutingService = {
   routerState$: new BehaviorSubject(null)

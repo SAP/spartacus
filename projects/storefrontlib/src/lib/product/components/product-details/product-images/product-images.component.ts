@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 
+const WAITING_CLASS = 'waiting';
+
 @Component({
   selector: 'cx-product-images',
   templateUrl: './product-images.component.html',
@@ -8,19 +10,42 @@ import { Component, Input, OnChanges } from '@angular/core';
 export class ProductImagesComponent implements OnChanges {
   @Input()
   product: any;
-  mainImage;
+  mainImageContainer;
+
+  waiting: HTMLElement;
 
   ngOnChanges() {
     if (this.product && this.product.images) {
-      this.mainImage = this.product.images.PRIMARY;
+      this.mainImageContainer = this.product.images.PRIMARY;
     }
   }
 
-  showImage(imageContainer) {
-    this.mainImage = imageContainer;
+  showImage(event: MouseEvent, imageContainer) {
+    if (this.mainImageContainer === imageContainer) {
+      return;
+    }
+    this.startWaiting(<HTMLElement>event.target);
+    this.mainImageContainer = imageContainer;
   }
 
-  isMainImage(image) {
-    return image.zoom.url === this.mainImage.zoom.url;
+  isMainImageContainer(imageContainer) {
+    return imageContainer.zoom.url === this.mainImageContainer.zoom.url;
+  }
+
+  loadHandler() {
+    this.clearWaitList();
+  }
+
+  private startWaiting(el: HTMLElement) {
+    this.clearWaitList();
+    el.classList.add(WAITING_CLASS);
+    this.waiting = el;
+  }
+
+  private clearWaitList() {
+    if (this.waiting) {
+      this.waiting.classList.remove(WAITING_CLASS);
+      delete this.waiting;
+    }
   }
 }

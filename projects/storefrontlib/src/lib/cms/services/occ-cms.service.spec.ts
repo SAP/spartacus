@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccCmsService } from './occ-cms.service';
-import { PageContext, PageType } from '../../routing/models/page-context.model';
+import { PageContext, PageType } from '@spartacus/core';
 import { IdList } from './../models/idList.model';
 import { CmsModuleConfig } from '../cms-module-config';
 

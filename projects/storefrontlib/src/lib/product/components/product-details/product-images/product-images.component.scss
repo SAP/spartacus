@@ -4,6 +4,13 @@
 
   --cx-border-color: var(--cx-light);
   --cx-border-width: 0.1vw;
+
+  height: 100%;
+  > cx-picture {
+    height: 100%;
+    width: 100%; // required to support horizontal layouts
+    position: relative;
+  }
 }
 
 .thumbs {
@@ -12,6 +19,8 @@
   align-items: center;
 
   cx-picture {
+    min-width: 5vw;
+    min-height: 5vw;
     transition: all var(--cx-transition-time);
 
     &:not(.active) {
