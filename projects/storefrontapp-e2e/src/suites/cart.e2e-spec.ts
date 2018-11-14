@@ -53,7 +53,6 @@ describe('Cart interactions', () => {
     await cart.waitForReady();
 
     await cart.checkCartEntry('PowerShot A480', 1, '$99.85', '$99.85');
-    await home.navigateTo();
   });
 
   it('should add products to cart', async () => {
@@ -75,12 +74,12 @@ describe('Cart interactions', () => {
     await searchResults.clickAddToCartButton4Product(product1);
     const atcModal: AddedToCartModal = new AddedToCartModal();
     await atcModal.waitForReady();
-    const item = atcModal.item;
+    const item = await atcModal.item;
     await E2EUtil.wait4VisibleElement(item);
 
     await atcModal.closeButton.click();
 
-    const minicartIcon = home.header.miniCartButton;
+    const minicartIcon = await home.header.miniCartButton;
     await E2EUtil.wait4VisibleElement(minicartIcon);
     expect(await home.header.miniCartButton.getText()).toContain('1');
 
@@ -96,8 +95,6 @@ describe('Cart interactions', () => {
       '$114.12',
       '$114.12'
     );
-    // go to homepage
-    await home.navigateTo();
   });
 
   it('should display empty cart if no items added and when items are removed', async () => {
@@ -115,7 +112,7 @@ describe('Cart interactions', () => {
     await productDetails.addToCartButton.click();
     const atcModal: AddedToCartModal = new AddedToCartModal();
     await atcModal.waitForReady();
-    const item = atcModal.item;
+    const item = await atcModal.item;
     await E2EUtil.wait4VisibleElement(item);
 
     await atcModal.closeButton.click();
@@ -168,7 +165,7 @@ describe('Cart interactions', () => {
 
     let atcModal: AddedToCartModal = new AddedToCartModal();
     await atcModal.waitForReady();
-    const item = atcModal.item;
+    const item = await atcModal.item;
     await E2EUtil.wait4VisibleElement(item);
 
     await atcModal.closeButton.click();
@@ -206,43 +203,10 @@ describe('Cart interactions', () => {
       '$114.12'
     );
     await cart.checkCartEntry('DSC-N1', 1, '$485.57', '$485.57');
-  });
-
-  it('should add product to cart as anonymous and merge when logged in', async () => {
-    // Add product to cart
-    await productDetails.navigateTo('300938');
-    await productDetails.addToCartButton.click();
-    const atcModal: AddedToCartModal = new AddedToCartModal();
-    await atcModal.waitForReady();
-    const item = await atcModal.item;
-    await E2EUtil.wait4VisibleElement(item);
-
-    await atcModal.closeButton.click();
-
-    // Check that we are not logged in
-    expect(await home.header.isLoggedIn()).toBeFalsy();
-
-    // Let's register
-    await LoginHelper.registerNewUser();
-    expect(await home.header.isLoggedIn()).toBeTruthy();
-    expect(await home.header.loginComponent.getText()).toContain(
-      USER_FULL_NAME
-    );
-
-    // Go to cart
-    await cart.navigateTo();
-
-    // Check if cart contains correct product
-    await cart.checkCartEntry(
-      'Photosmart E317 Digital Camera',
-      1,
-      '$114.12',
-      '$114.12'
-    );
+    await LoginHelper.logOutViaHeader();
   });
 
   it('should add product to cart and manipulate qty', async () => {
-    // go to homepage
     await productDetails.navigateTo('300938');
     await productDetails.addToCartButton.click();
     const atcModal: AddedToCartModal = new AddedToCartModal();
@@ -266,7 +230,6 @@ describe('Cart interactions', () => {
     await cart.increaseQty(0);
 
     await E2EUtil.wait4TextInElement(cart.orderSummaryAmount, '342.36');
-
     // check if cart contains quantity 3 of 'Photosmart E317 Digital Camera'
     await cart.checkCartEntry(
       'Photosmart E317 Digital Camera',
@@ -276,7 +239,6 @@ describe('Cart interactions', () => {
     );
   });
 
-  // TODO: We need that product on backend to be out of stock
   it('should be unable to add out of stock products to cart', async () => {
     await productDetails.navigateTo('29925');
     // wait until product details page is loaded
