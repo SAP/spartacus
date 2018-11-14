@@ -128,7 +128,7 @@ describe('RoutesConfigLoader', () => {
         expect(http.get).not.toHaveBeenCalled();
       });
 
-      it('should place routes config under "routesConfig" property', async () => {
+      it('should place routes config under "routesConfig" property', () => {
         expect(loader.routesConfig).toBeFalsy();
         loader.load();
         expect(loader.routesConfig).toBeTruthy();
