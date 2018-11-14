@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map, take, mergeMap, catchError, switchMap } from 'rxjs/operators';
-import { RoutingService } from '../../routing/facade/routing.service';
 import { CmsService } from '../facade/cms.service';
+import { RoutingService } from '@spartacus/core';
 
 @Injectable()
 export class CmsPageGuards implements CanActivate {

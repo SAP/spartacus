@@ -7,6 +7,7 @@ import { CmsModuleConfig } from '../../cms-module-config';
 import { OutletDirective } from '../../../outlet';
 import { CmsComponentData } from '../cms-component-data';
 import { CmsService } from '../../facade/cms.service';
+import { CxApiService } from '@spartacus/storefront';
 
 class MockCmsService {
   getComponentData() {}
@@ -61,21 +62,73 @@ describe('ComponentWrapperDirective', () => {
     }).compileComponents();
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TestWrapperComponent);
+  describe('with angular component', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(TestWrapperComponent);
+    });
+
+    it('should instantiate the found component correctly', () => {
+      fixture.detectChanges();
+      const compiled = fixture.debugElement.nativeElement;
+      expect(compiled.querySelector('#debugEl1').textContent).toContain(
+        testText
+      );
+    });
+
+    it('should inject cms component data', () => {
+      fixture.detectChanges();
+      const testCromponemtInstance = <TestComponent>(
+        fixture.debugElement.children[0].componentInstance
+      );
+      expect(testCromponemtInstance.cmsData.uid).toContain('test_uid');
+    });
   });
 
-  it('should instantiate the found component correctly', () => {
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('#debugEl1').textContent).toContain(testText);
-  });
+  describe('with web component', () => {
+    let scriptEl;
 
-  it('should inject cms component data', () => {
-    fixture.detectChanges();
-    const testCromponemtInstance = <TestComponent>(
-      fixture.debugElement.children[0].componentInstance
-    );
-    expect(testCromponemtInstance.cmsData.uid).toContain('test_uid');
+    beforeEach(() => {
+      const cmsMapping = TestBed.get(CmsModuleConfig) as CmsModuleConfig;
+      cmsMapping.cmsComponentMapping.CMSTestComponent =
+        'path/to/file.js#cms-component';
+      fixture = TestBed.createComponent(TestWrapperComponent);
+      fixture.detectChanges();
+      scriptEl = fixture.debugElement.nativeNode.nextSibling;
+    });
+
+    it('should load web component script', () => {
+      expect(scriptEl.src).toContain('path/to/file.js');
+    });
+
+    it('should instantiate web component', done => {
+      scriptEl.onload(); // invoke load callbacks
+
+      // run in next runloop (to process async tasks)
+      setTimeout(() => {
+        const cmsComponentElement = fixture.debugElement.nativeElement.querySelector(
+          'cms-component'
+        );
+        expect(cmsComponentElement).toBeTruthy();
+        const componentData = cmsComponentElement.cxApi.CmsComponentData;
+        expect(componentData.uid).toEqual('test_uid');
+        done();
+      });
+    });
+
+    it('should pass cxApi to web component', done => {
+      scriptEl.onload(); // invoke load callbacks
+
+      // run in next runloop (to process async tasks)
+      setTimeout(() => {
+        const cmsComponentElement = fixture.debugElement.nativeElement.querySelector(
+          'cms-component'
+        );
+        const cxApi = cmsComponentElement.cxApi as CxApiService;
+        expect(cxApi.cms).toBeTruthy();
+        expect(cxApi.auth).toBeTruthy();
+        expect(cxApi.routing).toBeTruthy();
+        done();
+      });
+    });
   });
 });
