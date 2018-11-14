@@ -16,7 +16,7 @@ export class CmsPageGuards implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return this.hasPage().pipe(
-      switchMap(() => of(true)),
+      switchMap(found => of(found)),
       catchError(() => of(false))
     );
   }
