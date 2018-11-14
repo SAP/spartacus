@@ -22,4 +22,4 @@ import { ProductConverterModule } from './converters/index';
   ],
   providers: [reducerProvider]
 })
-export class SiteContextStoreModule {}
+export class ProductStoreModule {}

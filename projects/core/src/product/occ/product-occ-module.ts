@@ -7,9 +7,6 @@ import { OccProductSearchService } from './product-search.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
-  providers: [
-    OccProductService,
-    OccProductSearchService
-  ]
+  providers: [OccProductService, OccProductSearchService]
 })
-export class SiteContextOccModule {}
+export class ProductOccModule {}
