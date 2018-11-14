@@ -19,12 +19,7 @@ const mockDeliveryMode2 = {
 };
 const mockSupportedDeliveryModes = [mockDeliveryMode1, mockDeliveryMode2];
 
-/*const mockCart = {
-  guid: 'test',
-  code: 'test'
-};*/
-
-fdescribe('DeliveryModeComponent', () => {
+describe('DeliveryModeComponent', () => {
   let component: DeliveryModeComponent;
   let fixture: ComponentFixture<DeliveryModeComponent>;
   let mockCheckoutService: any;

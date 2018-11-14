@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
 import { Store, select } from '@ngrx/store';
-import * as fromCheckoutStore from '../store/';
-import * as fromUserStore from '../../user/store';
 
+import * as fromCheckoutStore from '../store/';
 import {
   CartDataService,
   ANONYMOUS_USERID
@@ -12,29 +9,22 @@ import {
 
 @Injectable()
 export class CheckoutService {
-  readonly paymentMethods$: Observable<any> = this.userStore.pipe(
-    select(fromUserStore.getPaymentMethods)
-  );
-  readonly paymentMethodsLoading$: Observable<boolean> = this.userStore.pipe(
-    select(fromUserStore.getPaymentMethodsLoading)
-  );
-
-  readonly shippingAddresses$ = this.userStore.pipe(
-    select(fromUserStore.getAddresses)
-  );
-  readonly addressesLoading$ = this.userStore.pipe(
-    select(fromUserStore.getAddressesLoading)
-  );
-
   readonly supportedDeliveryModes$ = this.checkoutStore.pipe(
     select(fromCheckoutStore.getSupportedDeliveryModes)
+  );
+
+  readonly cardTypes$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getAllCardTypes)
+  );
+
+  readonly deliveryAddress$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getDeliveryAddress)
   );
 
   orderDetails: any;
 
   constructor(
     private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
-    private userStore: Store<fromUserStore.UserState>,
     private cartData: CartDataService
   ) {}
 
@@ -113,14 +103,6 @@ export class CheckoutService {
     }
   }
 
-  loadUserAddresses() {
-    if (this.actionAllowed()) {
-      this.userStore.dispatch(
-        new fromUserStore.LoadUserAddresses(this.cartData.userId)
-      );
-    }
-  }
-
   setDeliveryAddress(address) {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
@@ -129,14 +111,6 @@ export class CheckoutService {
           cartId: this.cartData.cart.code,
           address: address
         })
-      );
-    }
-  }
-
-  loadUserPaymentMethods() {
-    if (this.actionAllowed()) {
-      this.userStore.dispatch(
-        new fromUserStore.LoadUserPaymentMethods(this.cartData.userId)
       );
     }
   }

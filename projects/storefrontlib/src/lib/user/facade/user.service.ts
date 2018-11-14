@@ -25,6 +25,20 @@ export class UserService {
     select(fromStore.getOrdersLoaded)
   );
 
+  readonly paymentMethods$: Observable<any> = this.store.pipe(
+    select(fromStore.getPaymentMethods)
+  );
+  readonly paymentMethodsLoading$: Observable<boolean> = this.store.pipe(
+    select(fromStore.getPaymentMethodsLoading)
+  );
+
+  readonly addresses$: Observable<any> = this.store.pipe(
+    select(fromStore.getAddresses)
+  );
+  readonly addressesLoading$: Observable<boolean> = this.store.pipe(
+    select(fromStore.getAddressesLoading)
+  );
+
   constructor(private store: Store<fromStore.UserState>) {}
 
   loadUserDetails(userId: string) {
@@ -88,5 +102,13 @@ export class UserService {
         sort: sort
       })
     );
+  }
+
+  loadUserPaymentMethods(userId: string) {
+    this.store.dispatch(new fromStore.LoadUserPaymentMethods(userId));
+  }
+
+  loadUserAddresses(userId: string) {
+    this.store.dispatch(new fromStore.LoadUserAddresses(userId));
   }
 }
