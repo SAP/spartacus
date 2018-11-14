@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { services } from './services/index';
 
-import { guards } from './guards/index';
-
 import { interceptors } from './http-interceptors/index';
 
 import { StoreModule } from '@ngrx/store';
@@ -31,7 +29,6 @@ import { RoutingModule } from '../routing/routing.module';
     ConfigModule.withConfig(defaultAuthModuleConfig)
   ],
   providers: [
-    ...guards,
     ...services,
     ...interceptors,
     reducerProvider,

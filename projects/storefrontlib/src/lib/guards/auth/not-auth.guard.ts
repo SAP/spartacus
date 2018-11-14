@@ -3,22 +3,21 @@ import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Store, select } from '@ngrx/store';
-import * as fromStore from './../store';
-import { RoutingService } from '../../routing/facade/routing.service';
+import { AuthService, RoutingService } from '@spartacus/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class NotAuthGuard implements CanActivate {
   static GUARD_NAME = 'NotAuthGuard';
 
   constructor(
-    private store: Store<fromStore.AuthState>,
+    private auth: AuthService,
     private routingService: RoutingService
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.store.pipe(
-      select(fromStore.getUserToken),
+    return this.auth.userToken$.pipe(
       map(token => {
         if (token.access_token) {
           this.routingService.go(['/']);

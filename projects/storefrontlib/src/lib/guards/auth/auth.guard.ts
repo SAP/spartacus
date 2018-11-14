@@ -7,17 +7,16 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Store, select } from '@ngrx/store';
+import { AuthService, RoutingService } from '@spartacus/core';
 
-import * as fromStore from './../store';
-import { RoutingService } from '../../routing/facade/routing.service';
-
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthGuard implements CanActivate {
   static GUARD_NAME = 'AuthGuard';
 
   constructor(
-    private store: Store<fromStore.AuthState>,
+    private auth: AuthService,
     private routingService: RoutingService
   ) {}
 
@@ -25,8 +24,7 @@ export class AuthGuard implements CanActivate {
     _route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-    return this.store.pipe(
-      select(fromStore.getUserToken),
+    return this.auth.userToken$.pipe(
       map(token => {
         if (!token.access_token) {
           this.routingService.go(['/login']);
