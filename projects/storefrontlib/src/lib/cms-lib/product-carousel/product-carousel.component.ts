@@ -11,7 +11,6 @@ import { Subscription, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { CmsService } from '../../cms/facade/cms.service';
-import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
 import { ProductService } from '@spartacus/core';
 
 @Component({
@@ -53,8 +52,6 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   next() {
     this.carousel.next();
   }
-
-  slideTransitionCompleted(_event: NgbSlideEvent) {}
 
   protected fetchData() {
     this.setProductCodes();
