@@ -3,7 +3,7 @@ import { CanActivate, Router } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 
-import { CheckoutService } from '../services/checkout.service';
+import { CheckoutService } from '../facade/checkout.service';
 
 @Injectable()
 export class OrderConfirmationPageGuard implements CanActivate {

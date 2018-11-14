@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../../store';
-import { CheckoutService } from '../../../../services/checkout.service';
+import { CheckoutService } from '../../../../facade/checkout.service';
 import { Card } from '../../../../../ui/components/card/card.component';
 import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
 

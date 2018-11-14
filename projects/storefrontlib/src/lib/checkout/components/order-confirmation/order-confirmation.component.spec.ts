@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { OrderConfirmationComponent } from './order-confirmation.component';
 import { By } from '@angular/platform-browser';
-import { CheckoutService } from '../../services';
+import { CheckoutService } from '../../facade';
 import { CartService } from '../../../cart/services';
 
 @Component({ selector: 'cx-order-summary', template: '' })

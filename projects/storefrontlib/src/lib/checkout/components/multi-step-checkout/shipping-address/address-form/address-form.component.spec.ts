@@ -12,7 +12,7 @@ import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 
 import { BehaviorSubject } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CheckoutService } from '../../../../services';
+import { CheckoutService } from '../../../../facade';
 import { CartService, CartDataService } from '../../../../../cart/services';
 import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
 import { AddressFormModule } from './address-form.module';

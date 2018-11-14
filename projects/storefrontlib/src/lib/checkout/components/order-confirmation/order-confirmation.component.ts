@@ -5,7 +5,7 @@ import {
   OnDestroy
 } from '@angular/core';
 
-import { CheckoutService } from '../../services/checkout.service';
+import { CheckoutService } from '../../facade/checkout.service';
 import { Card } from '../../../ui/components/card/card.component';
 
 @Component({

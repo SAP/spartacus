@@ -14,7 +14,7 @@ import { tap, filter } from 'rxjs/operators';
 import * as fromCheckoutStore from '../../../../store';
 import * as fromUser from '../../../../../user/store';
 
-import { CheckoutService } from '../../../../services/checkout.service';
+import { CheckoutService } from '../../../../facade/checkout.service';
 import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '.././../../../../global-message/models/message.model';
 

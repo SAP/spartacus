@@ -26,6 +26,10 @@ export class CheckoutService {
     select(fromUserStore.getAddressesLoading)
   );
 
+  readonly supportedDeliveryModes$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getSupportedDeliveryModes)
+  );
+
   orderDetails: any;
 
   constructor(

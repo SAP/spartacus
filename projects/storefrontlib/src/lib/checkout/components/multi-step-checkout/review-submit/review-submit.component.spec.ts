@@ -10,7 +10,7 @@ import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
 import * as fromAuth from '../../../../auth/store';
 
-import { CheckoutService } from '../../../services/checkout.service';
+import { CheckoutService } from '../../../facade/checkout.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
 import { UserService } from '../../../../user/facade/user.service';
 

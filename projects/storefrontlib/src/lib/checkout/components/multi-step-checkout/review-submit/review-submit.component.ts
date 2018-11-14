@@ -12,7 +12,7 @@ import { tap } from 'rxjs/operators';
 import * as fromCheckoutStore from '../../../store';
 import * as fromCartStore from '../../../../cart/store';
 import { UserService } from '../../../../user/facade/user.service';
-import { CheckoutService } from '../../../services/checkout.service';
+import { CheckoutService } from '../../../facade/checkout.service';
 import { Address } from '../../../models/address-model';
 import { Card } from '../../../../ui/components/card/card.component';
 

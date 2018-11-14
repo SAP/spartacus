@@ -14,7 +14,7 @@ import * as fromCart from '../../../../cart/store';
 
 import { GlobalMessageType } from './../../../../global-message/models/message.model';
 import { Address } from '../../../models/address-model';
-import { CheckoutService } from '../../../services/checkout.service';
+import { CheckoutService } from '../../../facade/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
 import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';

@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import createSpy = jasmine.createSpy;
 
-import { CheckoutService } from '../../../services/checkout.service';
+import { CheckoutService } from '../../../facade/checkout.service';
 import { RoutingService } from '@spartacus/core';
 import { ShippingAddressComponent } from './shipping-address.component';
 import { Address } from '../../../models/address-model';

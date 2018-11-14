@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { RoutingService } from '@spartacus/core';
-import { CheckoutService } from '../../../services/checkout.service';
+import { CheckoutService } from '../../../facade/checkout.service';
 
 import { Card } from '../../../../ui/components/card/card.component';
 import { Address } from '../../../models/address-model';
