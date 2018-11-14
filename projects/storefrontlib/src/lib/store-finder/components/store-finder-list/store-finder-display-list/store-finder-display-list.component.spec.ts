@@ -12,7 +12,6 @@ import { GoogleMapRendererService } from '../../../services/google-map-renderer.
 import { SpinnerModule } from '../../../../ui/components/spinner/spinner.module';
 
 import * as fromReducers from '../../../store';
-import * as fromRoot from '../../../../routing/store';
 import * as fromServices from '../../../services';
 
 const location = {};
@@ -49,7 +48,6 @@ describe('StoreFinderDisplayListComponent', () => {
         HttpClientTestingModule,
         SpinnerModule,
         StoreModule.forRoot({
-          ...fromRoot.getReducers(),
           stores: combineReducers(fromReducers.reducers)
         })
       ],
