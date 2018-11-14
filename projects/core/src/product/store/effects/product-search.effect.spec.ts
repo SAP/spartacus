@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 
 import { OccProductSearchService } from '../../occ/product-search.service';
 import { OccConfig } from '@spartacus/core';
-import { SearchConfig } from '../../config/search-config';
+import { SearchConfig } from '../../model/search-config';
 import { ProductImageConverterService } from '../converters/product-image-converter.service';
 import * as fromEffects from './product-search.effect';
 import * as fromActions from '../actions/product-search.action';
@@ -43,7 +43,7 @@ describe('ProductSearch Effects', () => {
     service = TestBed.get(OccProductSearchService);
     effects = TestBed.get(fromEffects.ProductsSearchEffects);
 
-    searchConfig = new SearchConfig();
+    searchConfig = {};
     searchConfig.pageSize = 10;
 
     spyOn(service, 'query').and.returnValue(of(searchResult));

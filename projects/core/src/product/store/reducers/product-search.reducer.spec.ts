@@ -1,6 +1,6 @@
 import * as fromProductSearch from './product-search.reducer';
 import * as fromActions from '../actions/product-search.action';
-import { SearchConfig } from '../../config/search-config';
+import { SearchConfig } from '../../model/search-config';
 
 describe('Product Search Reducer', () => {
   describe('undefined action', () => {
@@ -15,7 +15,7 @@ describe('Product Search Reducer', () => {
 
   describe('SEARCH_PRODUCTS action', () => {
     it('should set loading to true', () => {
-      const mockSearchConfig = new SearchConfig();
+      const mockSearchConfig: SearchConfig = {};
       mockSearchConfig.pageSize = 10;
 
       const { initialState } = fromProductSearch;
@@ -31,7 +31,7 @@ describe('Product Search Reducer', () => {
 
   describe('SEARCH_PRODUCTS_SUCCESS action', () => {
     it('should populate search results after loading', () => {
-      const mockSearchConfig = new SearchConfig();
+      const mockSearchConfig: SearchConfig = {};
       mockSearchConfig.pageSize = 10;
 
       const results = { products: [{ code: '123' }] };
@@ -49,7 +49,7 @@ describe('Product Search Reducer', () => {
     });
 
     it('should populate auxiliary search results after loading', () => {
-      const mockSearchConfig = new SearchConfig();
+      const mockSearchConfig: SearchConfig = {};
       mockSearchConfig.pageSize = 10;
 
       const results = { products: [{ code: '123' }] };

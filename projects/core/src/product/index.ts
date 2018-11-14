@@ -1,4 +1,4 @@
-export * from './config/search-config';
+export * from './model/search-config';
 export * from './occ/index';
 
 export * from './store/product-state';

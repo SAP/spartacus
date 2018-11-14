@@ -34,7 +34,7 @@ describe('ProductListComponent in product-list', () => {
   let service: ProductSearchService;
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
-  let searchConfig: any;
+  let searchConfig: SearchConfig;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -69,7 +69,7 @@ describe('ProductListComponent in product-list', () => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
     service = TestBed.get(ProductSearchService);
-    searchConfig = new SearchConfig();
+    searchConfig = {};
 
     spyOn(service, 'search').and.callThrough();
   });

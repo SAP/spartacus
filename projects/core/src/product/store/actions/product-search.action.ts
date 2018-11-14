@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { SearchConfig } from '../../config/search-config';
+import { SearchConfig } from '../../model/search-config';
 
 export const SEARCH_PRODUCTS = '[Product] Search Products';
 export const SEARCH_PRODUCTS_FAIL = '[Product] Search Products Fail';

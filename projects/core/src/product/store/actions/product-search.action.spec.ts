@@ -1,10 +1,10 @@
 import * as fromProductSearch from './product-search.action';
-import { SearchConfig } from '../../config/search-config';
+import { SearchConfig } from '../../model/search-config';
 
 describe('Product Search Actions', () => {
   let searchConfig: SearchConfig;
   beforeEach(() => {
-    searchConfig = new SearchConfig();
+    searchConfig = {};
     searchConfig.pageSize = 10;
   });
   describe('SearchProducts Actions', () => {

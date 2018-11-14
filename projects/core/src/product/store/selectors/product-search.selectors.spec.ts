@@ -4,7 +4,7 @@ import { StoreModule, Store, select } from '@ngrx/store';
 import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from './product-search.selectors';
-import { SearchConfig } from '../../config/search-config';
+import { SearchConfig } from '../../model/search-config';
 import { ProductsState } from '../product-state';
 
 describe('ProductSearch Selectors', () => {
@@ -27,7 +27,7 @@ describe('ProductSearch Selectors', () => {
   describe('getSearchResults', () => {
     it('should return the product search results', () => {
       let result;
-      const searchConfig = new SearchConfig();
+      const searchConfig: SearchConfig = {};
       searchConfig.pageSize = 10;
       store
         .pipe(select(fromSelectors.getSearchResults))
@@ -50,7 +50,7 @@ describe('ProductSearch Selectors', () => {
   describe('getAuxSearchResults', () => {
     it('should return the auxiliary product search results', () => {
       let result;
-      const searchConfig = new SearchConfig();
+      const searchConfig: SearchConfig = {};
       searchConfig.pageSize = 10;
       store
         .pipe(select(fromSelectors.getAuxSearchResults))

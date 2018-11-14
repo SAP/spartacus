@@ -10,7 +10,7 @@ import {
 import * as fromProductsSearch from './product-search.reducer';
 import * as fromProduct from './product.reducer';
 import * as fromProductReviews from './product-reviews.reducer';
-import { ProductsState } from '../product-state';
+import { ProductsState, PRODUCT_FEATURE } from '../product-state';
 
 export function getReducers(): ActionReducerMap<ProductsState> {
   return {
@@ -32,7 +32,7 @@ export const reducerProvider: Provider = {
 export const getProductsState: MemoizedSelector<
   any,
   any
-> = createFeatureSelector<ProductsState>('products');
+> = createFeatureSelector<ProductsState>(PRODUCT_FEATURE);
 
 export function clearProductsState(
   reducer: ActionReducer<any>

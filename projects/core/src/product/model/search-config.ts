@@ -1,6 +1,5 @@
-export class SearchConfig {
+export interface SearchConfig {
   pageSize?: number;
   currentPage?: number;
   sortCode?: string;
-  constructor() {}
 }

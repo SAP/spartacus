@@ -75,7 +75,7 @@ describe('ProductSearchService', () => {
 
   describe('search(query, searchConfig)', () => {
     it('should be able to search products', () => {
-      const searchConfig = new SearchConfig();
+      const searchConfig: SearchConfig = {};
       service.search('test query', searchConfig);
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SearchProducts({
@@ -88,7 +88,7 @@ describe('ProductSearchService', () => {
 
   describe('searchAuxiliary(query, searchConfig)', () => {
     it('should be able to search auxiliary products', () => {
-      const searchConfig = new SearchConfig();
+      const searchConfig: SearchConfig = {};
       service.searchAuxiliary('test query', searchConfig);
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SearchProducts(
@@ -104,7 +104,7 @@ describe('ProductSearchService', () => {
 
   describe('getSuggestions(query, searchConfig)', () => {
     it('should be able to get suggestion for the given product', () => {
-      const searchConfig = new SearchConfig();
+      const searchConfig: SearchConfig = {};
       service.getSuggestions('test term', searchConfig);
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.GetProductSuggestions({

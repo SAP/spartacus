@@ -2,7 +2,7 @@ import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { SearchConfig } from '../config/search-config';
+import { SearchConfig } from '../model/search-config';
 import { OccConfig } from '../../occ';
 
 const ENDPOINT_PRODUCT = 'products';

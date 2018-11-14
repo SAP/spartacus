@@ -29,7 +29,7 @@ export class ProductListComponent implements OnChanges, OnInit {
 
   grid: any;
   model$: Observable<any>;
-  searchConfig: SearchConfig = new SearchConfig();
+  searchConfig: SearchConfig = {};
 
   constructor(protected productSearchService: ProductSearchService) {}
 
@@ -64,13 +64,13 @@ export class ProductListComponent implements OnChanges, OnInit {
   }
 
   viewPage(pageNumber: number) {
-    const options = new SearchConfig();
+    const options: SearchConfig = {};
     options.currentPage = pageNumber;
     this.search(this.query, options);
   }
 
   sortList(sortCode: string) {
-    const options = new SearchConfig();
+    const options: SearchConfig = {};
     options.sortCode = sortCode;
     this.search(this.query, options);
   }
