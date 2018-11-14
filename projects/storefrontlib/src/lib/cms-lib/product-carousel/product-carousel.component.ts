@@ -23,7 +23,6 @@ import { ProductService } from '@spartacus/core';
 export class ProductCarouselComponent extends AbstractCmsComponent
   implements OnDestroy, OnInit {
   productGroups: any[];
-  itemPerPage;
 
   products = {};
   private finishSubject = new Subject();
@@ -45,10 +44,9 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   }
 
   ngOnInit() {
-    this.setItemsPerPage();
     this.resizeSubscription = fromEvent(window, 'resize')
       .pipe(debounceTime(300))
-      .subscribe(this.setItemsPerPage.bind(this));
+      .subscribe(this.createGroups.bind(this));
   }
 
   prev() {
@@ -67,15 +65,15 @@ export class ProductCarouselComponent extends AbstractCmsComponent
       this.products[code] = this.productService.get(code);
       this.productService.isProductLoaded(code).subscribe();
     });
-    this.group();
+    this.createGroups();
     super.fetchData();
   }
 
-  private group() {
+  private createGroups() {
     const groups = [];
     this.productCodes.forEach(product => {
       const lastGroup = groups[groups.length - 1];
-      if (lastGroup && lastGroup.length < this.itemPerPage) {
+      if (lastGroup && lastGroup.length < this.getItemsPerPage()) {
         lastGroup.push(product);
       } else {
         groups.push([product]);
@@ -84,20 +82,22 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     this.productGroups = groups;
   }
 
-  private setItemsPerPage() {
+  private getItemsPerPage(): number {
     const smallScreenMaxWidth = 576;
     const tabletScreenMaxWidth = 768;
     const { innerWidth } = window;
+    let itemsPerPage;
     if (innerWidth < smallScreenMaxWidth) {
-      this.itemPerPage = 1;
+      itemsPerPage = 1;
     } else if (
       innerWidth > smallScreenMaxWidth &&
       innerWidth < tabletScreenMaxWidth
     ) {
-      this.itemPerPage = 2;
+      itemsPerPage = 2;
     } else {
-      this.itemPerPage = 4;
+      itemsPerPage = 4;
     }
+    return itemsPerPage;
   }
 
   protected setProductCodes() {
