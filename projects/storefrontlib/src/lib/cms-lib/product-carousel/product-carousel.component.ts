@@ -7,7 +7,7 @@ import {
   OnInit,
   ChangeDetectorRef
 } from '@angular/core';
-import { Observable, Subscription, Subject, fromEvent } from 'rxjs';
+import { Subscription, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { CmsService } from '../../cms/facade/cms.service';
@@ -23,12 +23,9 @@ import { ProductService } from '@spartacus/core';
 export class ProductCarouselComponent extends AbstractCmsComponent
   implements OnDestroy, OnInit {
   productGroups: any[];
-
   products = {};
-  private finishSubject = new Subject();
 
-  resizeSubscription: Subscription;
-  codesSubscription: Subscription;
+  resize$: Subscription;
 
   @ViewChild('carousel')
   carousel: any;
@@ -44,7 +41,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   }
 
   ngOnInit() {
-    this.resizeSubscription = fromEvent(window, 'resize')
+    this.resize$ = fromEvent(window, 'resize')
       .pipe(debounceTime(300))
       .subscribe(this.createGroups.bind(this));
   }
@@ -107,15 +104,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   }
 
   ngOnDestroy() {
-    if (this.codesSubscription) {
-      this.codesSubscription.unsubscribe();
-    }
-    if (this.resizeSubscription) {
-      this.resizeSubscription.unsubscribe();
-    }
-    this.finishSubject.next();
-    this.finishSubject.complete();
-
+    this.resize$.unsubscribe();
     super.ngOnDestroy();
   }
 }
