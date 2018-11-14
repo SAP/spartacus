@@ -1,28 +1,37 @@
-import { browser, ElementFinder, by, element } from 'protractor';
+import {
+  browser,
+  ElementFinder,
+  by,
+  element,
+  ElementArrayFinder
+} from 'protractor';
 import { AppPage } from './app.po';
 import { E2EUtil } from '../e2e-util';
 
 export class ProductDetailsPage extends AppPage {
-  readonly YPAGE = 'y-product-page';
+  readonly YPAGE = 'cx-product-page';
 
   readonly page: ElementFinder = element(by.tagName(this.YPAGE));
   readonly productDetails: ElementFinder = this.page.element(
-    by.tagName('y-product-details')
+    by.tagName('cx-product-details')
   );
   readonly productTitle: ElementFinder = this.productDetails.element(
-    by.css('.y-product-details__item-name')
+    by.css('.cx-product-details__item-name')
   );
   readonly productCode: ElementFinder = this.productDetails.element(
-    by.css('.y-product-details__item-code')
+    by.css('.cx-product-details__item-code')
   );
   readonly addToCartComponent: ElementFinder = this.page.element(
-    by.tagName('y-add-to-cart')
+    by.tagName('cx-add-to-cart')
   );
   readonly productSummaryComponent: ElementFinder = this.page.element(
-    by.tagName('y-product-summary')
+    by.tagName('cx-product-summary')
   );
+  readonly tabs: ElementArrayFinder = this.page
+    .element(by.tagName('ngb-tabset'))
+    .all(by.css('li'));
   readonly productPrice: ElementFinder = this.productSummaryComponent.element(
-    by.css('.y-product-summary__price')
+    by.css('.cx-product-summary__price')
   );
   readonly outOfStockDiv: ElementFinder = this.productSummaryComponent.element(
     by.cssContainingText('span', 'Out of stock')
@@ -34,7 +43,35 @@ export class ProductDetailsPage extends AppPage {
     by.css('span[class="entry-quantity ng-star-inserted"]')
   );
   readonly itemCounterComponent: ElementFinder = this.productDetails.element(
-    by.tagName('y-item-counter')
+    by.tagName('cx-item-counter')
+  );
+  readonly tabContent: ElementFinder = this.productDetails.element(
+    by.css('.cx-product-details__tab-section')
+  );
+  readonly writeReviewForm: ElementFinder = this.productDetails.element(
+    by.tagName('cx-product-reviews')
+  );
+  readonly reviews: ElementArrayFinder = this.writeReviewForm.all(
+    by.css('.review')
+  );
+  readonly writeReviewBtn: ElementFinder = this.writeReviewForm.element(
+    by.css('.header button')
+  );
+  readonly rating: ElementFinder = this.writeReviewForm.element(
+    by.tagName('ngb-rating')
+  );
+  readonly ratingStar: ElementArrayFinder = this.rating.all(by.css('.star'));
+  readonly reviewSubmitBtn: ElementFinder = this.writeReviewForm.element(
+    by.css('.btn-primary')
+  );
+  readonly reviewInputField: ElementArrayFinder = this.writeReviewForm.all(
+    by.tagName('input')
+  );
+  readonly reviewTextareaField: ElementArrayFinder = this.writeReviewForm.all(
+    by.tagName('textarea')
+  );
+  readonly reviewCancelBtn: ElementFinder = this.writeReviewForm.element(
+    by.css('.btn-secondary')
   );
   readonly itemCounterUpButton: ElementFinder = this.itemCounterComponent
     .all(by.tagName('button'))

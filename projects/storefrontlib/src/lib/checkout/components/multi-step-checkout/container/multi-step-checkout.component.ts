@@ -10,19 +10,19 @@ import { filter } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 
 import * as fromCheckoutStore from '../../../store';
-import * as fromRouting from '../../../../routing/store';
 import * as fromCart from '../../../../cart/store';
-import * as fromGlobalMessage from '../../../../global-message/store';
 
 import { GlobalMessageType } from './../../../../global-message/models/message.model';
+import { Address } from '../../../models/address-model';
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartService } from '../../../../cart/services/cart.service';
-import { Address } from '../../../models/address-model';
-import { checkoutNavBar } from './checkout-navigation-bar';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
+import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
+import { RoutingService } from '@spartacus/core';
+import { checkoutNavBar } from './checkout-navigation-bar';
 
 @Component({
-  selector: 'y-multi-step-checkout',
+  selector: 'cx-multi-step-checkout',
   templateUrl: './multi-step-checkout.component.html',
   styleUrls: ['./multi-step-checkout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -44,6 +44,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     protected checkoutService: CheckoutService,
     protected cartService: CartService,
     protected cartDataService: CartDataService,
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService,
     private store: Store<fromCheckoutStore.CheckoutState>,
     protected cd: ChangeDetectorRef
   ) {}
@@ -112,12 +114,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
           } else {
             Object.keys(paymentInfo).forEach(key => {
               if (key.startsWith('InvalidField')) {
-                this.store.dispatch(
-                  new fromGlobalMessage.AddMessage({
-                    type: GlobalMessageType.MSG_TYPE_ERROR,
-                    text: 'InvalidField: ' + paymentInfo[key]
-                  })
-                );
+                this.globalMessageService.add({
+                  type: GlobalMessageType.MSG_TYPE_ERROR,
+                  text: 'InvalidField: ' + paymentInfo[key]
+                });
               }
             });
             this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(3));
@@ -134,11 +134,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         )
         .subscribe(order => {
           this.checkoutService.orderDetails = order;
-          this.store.dispatch(
-            new fromRouting.Go({
-              path: ['orderConfirmation']
-            })
-          );
+          this.routingService.go(['orderConfirmation']);
         })
     );
   }

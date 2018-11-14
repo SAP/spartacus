@@ -1,8 +1,8 @@
 import { ServerConfig } from '@spartacus/core';
-import { SiteContextModuleConfig } from '../site-context/site-context-module-config';
+import { SiteContextConfig } from '@spartacus/core';
 
 export abstract class AuthModuleConfig extends ServerConfig
-  implements SiteContextModuleConfig {
+  implements SiteContextConfig {
   site?: {
     baseSite?: string;
     language?: string;

@@ -15,11 +15,7 @@ import * as productActions from '../actions/product.action';
 import { OccProductService } from '../../../occ/product/product.service';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 import { ProductReferenceConverterService } from '../../converters/product-reference-converter.service';
-
-import { Store, select } from '@ngrx/store';
-import * as fromRouting from '../../../routing/store';
-
-import { PageType } from '../../../routing/models/page-context.model';
+import { RoutingService, PageType } from '@spartacus/core';
 
 @Injectable()
 export class ProductEffects {
@@ -43,8 +39,7 @@ export class ProductEffects {
   refreshProduct$ = this.actions$.pipe(
     ofType('[Site-context] Language Change', '[Site-context] Currency Change'),
     switchMap(() =>
-      this.routingStore.pipe(
-        select(fromRouting.getRouterState),
+      this.routingService.routerState$.pipe(
         filter(routerState => routerState !== undefined),
         map(routerState => routerState.state.context),
         take(1),
@@ -68,6 +63,6 @@ export class ProductEffects {
     private occProductService: OccProductService,
     private productImageConverter: ProductImageConverterService,
     private productReferenceConverterService: ProductReferenceConverterService,
-    private routingStore: Store<fromRouting.State>
+    private routingService: RoutingService
   ) {}
 }

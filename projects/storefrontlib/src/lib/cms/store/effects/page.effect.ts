@@ -11,19 +11,14 @@ import {
   take
 } from 'rxjs/operators';
 
-import { select, Store } from '@ngrx/store';
-import * as fromRouting from '../../../routing/store';
-
 import * as pageActions from '../actions/page.action';
 import * as componentActions from '../actions/component.action';
 import { OccCmsService } from '../../services/occ-cms.service';
 import { DefaultPageService } from '../../services/default-page.service';
 
 import { Page } from '../../models/page.model';
-import {
-  PageContext,
-  PageType
-} from '../../../routing/models/page-context.model';
+
+import { RoutingService, PageContext, PageType } from '@spartacus/core';
 
 @Injectable()
 export class PageEffects {
@@ -38,8 +33,7 @@ export class PageEffects {
     map((action: pageActions.LoadPageData) => action.payload),
     switchMap(pageContext => {
       if (pageContext === undefined) {
-        return this.routingStore.pipe(
-          select(fromRouting.getRouterState),
+        return this.routingService.routerState$.pipe(
           filter(routerState => routerState && routerState.state),
           filter(routerState => routerState.state.cmsRequired),
           map(routerState => routerState.state.context),
@@ -82,7 +76,7 @@ export class PageEffects {
     private actions$: Actions,
     private occCmsService: OccCmsService,
     private defaultPageService: DefaultPageService,
-    private routingStore: Store<fromRouting.State>
+    private routingService: RoutingService
   ) {}
 
   private getPageData(res: any, pageContext: PageContext): any {

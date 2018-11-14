@@ -1,6 +1,5 @@
-import { ServerConfig } from '@spartacus/core';
+import { ServerConfig, SiteContextConfig } from '@spartacus/core';
 
-import { SiteContextModuleConfig } from '../site-context/site-context-module-config';
 import { AuthModuleConfig } from '../auth/auth-module.config';
 
 export interface CMSComponentMappingConfig {
@@ -23,7 +22,7 @@ export interface CMSComponentMappingConfig {
 }
 
 export abstract class CmsModuleConfig extends ServerConfig
-  implements SiteContextModuleConfig, AuthModuleConfig {
+  implements SiteContextConfig, AuthModuleConfig {
   site?: {
     baseSite?: string;
     language?: string;
@@ -50,20 +49,20 @@ export const defaultCmsModuleConfig: CmsModuleConfig = {
   },
 
   cmsComponentMapping: {
-    CMSLinkComponent: 'y-link',
-    SimpleResponsiveBannerComponent: 'y-responsive-banner',
-    SimpleBannerComponent: 'y-banner',
-    // BreadcrumbComponent:                'y-breadcrumb',
-    CMSParagraphComponent: 'y-paragraph',
-    NavigationComponent: 'y-navigation',
-    FooterNavigationComponent: 'y-footer-navigation',
-    CategoryNavigationComponent: 'y-category-navigation',
-    ProductAddToCartComponent: 'y-add-to-cart',
-    MiniCartComponent: 'y-mini-cart',
-    ProductCarouselComponent: 'y-product-carousel',
-    SearchBoxComponent: 'y-searchbox',
-    ProductReferencesComponent: 'y-product-references',
-    // CMSTabParagraphComponent: 'y-tab-paragraph-container'
-    CMSTabParagraphComponent: 'y-paragraph'
+    CMSLinkComponent: 'cx-link',
+    SimpleResponsiveBannerComponent: 'cx-responsive-banner',
+    SimpleBannerComponent: 'cx-banner',
+    // BreadcrumbComponent:                'cx-breadcrumb',
+    CMSParagraphComponent: 'cx-paragraph',
+    NavigationComponent: 'cx-navigation',
+    FooterNavigationComponent: 'cx-footer-navigation',
+    CategoryNavigationComponent: 'cx-category-navigation',
+    ProductAddToCartComponent: 'cx-add-to-cart',
+    MiniCartComponent: 'cx-mini-cart',
+    ProductCarouselComponent: 'cx-product-carousel',
+    SearchBoxComponent: 'cx-searchbox',
+    ProductReferencesComponent: 'cx-product-references',
+    // CMSTabParagraphComponent: 'cx-tab-paragraph-container'
+    CMSTabParagraphComponent: 'cx-paragraph'
   }
 };

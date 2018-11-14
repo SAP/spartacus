@@ -9,7 +9,7 @@ export function addCustomLocators(by: ProtractorBy) {
   ) {
     const using = opt_parentElement || document;
     return using.querySelectorAll(
-      `y-dynamic-slot[position=${slotPosition}] ${elementTag}`
+      `cx-dynamic-slot[position=${slotPosition}] ${elementTag}`
     );
   });
 

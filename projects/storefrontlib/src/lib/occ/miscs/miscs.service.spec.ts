@@ -5,9 +5,9 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccMiscsService } from './miscs.service';
-import { OccModuleConfig } from '../occ-module-config';
+import { OccConfig } from '@spartacus/core';
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -29,7 +29,7 @@ describe('OccMiscsService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccMiscsService,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig }
+        { provide: OccConfig, useValue: MockOccModuleConfig }
       ]
     });
 

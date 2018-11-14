@@ -11,10 +11,10 @@ import { take, tap, switchMap } from 'rxjs/operators';
 import * as fromUserStore from '../../store';
 import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
-  selector: 'y-register',
+  selector: 'cx-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
