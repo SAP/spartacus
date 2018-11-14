@@ -32,7 +32,7 @@ export class ProductDetailsPage extends AppPage {
     .all(by.css('li'));
 
   readonly productPrice: ElementFinder = this.productSummaryComponent.element(
-    by.css('.cx-product-summary__price')
+    by.css('.price')
   );
   readonly outOfStockDiv: ElementFinder = this.productSummaryComponent.element(
     by.cssContainingText('span', 'Out of stock')
