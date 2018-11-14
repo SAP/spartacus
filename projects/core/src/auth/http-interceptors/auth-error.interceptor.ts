@@ -15,7 +15,7 @@ import { UserErrorHandlingService } from '../services/user-error/user-error-hand
 import {
   InterceptorUtil,
   USE_CLIENT_TOKEN
-} from '../occ/utils/interceptor-util';
+} from '../../occ/utils/interceptor-util';
 import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
