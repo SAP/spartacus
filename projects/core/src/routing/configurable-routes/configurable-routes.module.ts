@@ -9,6 +9,7 @@ import {
   defaultConfigurableRoutesConfig,
   ConfigurableRoutesConfig
 } from './configurable-routes-config';
+import { PathRecognizerService } from './path/path-recognizer.service';
 
 export function loadRoutesConfig(loader: RoutesConfigLoader) {
   const result = () => loader.load(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
@@ -27,6 +28,7 @@ export function loadRoutesConfig(loader: RoutesConfigLoader) {
     RoutesConfigLoader,
     PathService,
     DynamicPathService,
+    PathRecognizerService,
     {
       provide: APP_INITIALIZER,
       useFactory: loadRoutesConfig,

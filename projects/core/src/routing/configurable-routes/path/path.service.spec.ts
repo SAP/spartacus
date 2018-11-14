@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { PathService } from './path.service';
 import { ConfigurableRoutesService } from '../configurable-routes.service';
-import { ServerConfig } from '../../config/server-config/server-config';
+import { ServerConfig } from '../../../config/server-config/server-config';
 
 const mockConfigurableRoutesService = {
   getPathsForPage: () => {},
