@@ -3,8 +3,7 @@ import { tap } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as fromUserStore from '../../../user/store';
 import { Store, select } from '@ngrx/store';
-import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-history',

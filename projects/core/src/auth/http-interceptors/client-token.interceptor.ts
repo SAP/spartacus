@@ -14,9 +14,9 @@ import { AuthenticationToken } from '../models/token-types.model';
 import {
   USE_CLIENT_TOKEN,
   InterceptorUtil
-} from '../../occ/utils/interceptor-util';
+} from '../occ/utils/interceptor-util';
 import { ClientTokenState } from '../store/reducers/client-token.reducer';
-import { AuthModuleConfig } from '../auth-module.config';
+import { AuthModuleConfig } from '../config/config';
 
 @Injectable()
 export class ClientTokenInterceptor implements HttpInterceptor {

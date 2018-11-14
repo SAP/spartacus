@@ -3,9 +3,8 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as fromUserStore from '../../../user/store';
-import * as fromAuthStore from '../../../auth/store';
 import { Card } from '../../../ui/components/card/card.component';
-import { RoutingService } from '@spartacus/core';
+import { getUserToken, RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-details',
@@ -24,7 +23,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const userId$ = this.store.pipe(
-      select(fromAuthStore.getUserToken),
+      select(getUserToken),
       map(userData => userData.userId)
     );
 

@@ -9,12 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-
-import { UserToken } from '../../../auth/models/token-types.model';
-
 import * as fromStore from '../../store';
-import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService, UserToken } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login',

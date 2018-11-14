@@ -46,5 +46,3 @@ export function reducer(
   return state;
 }
 
-export const getUserToken = (state: UserTokenState) => state.token;
-export const getUserTokenLoading = (state: UserTokenState) => state.loading;

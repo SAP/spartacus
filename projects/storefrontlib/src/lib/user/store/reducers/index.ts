@@ -17,7 +17,7 @@ import * as fromRegionsReducer from './regions.reducer';
 import * as fromOrderDetailsReducer from './order-details.reducer';
 
 import * as fromAction from '../actions';
-import * as fromAuthAction from '../../../auth/store/actions';
+import { LOGOUT } from '@spartacus/core';
 
 export interface UserState {
   account: fromUserDetailsReducer.UserDetailsState;
@@ -61,7 +61,7 @@ export function clearUserState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return function(state, action) {
-    if (action.type === fromAuthAction.LOGOUT) {
+    if (action.type === LOGOUT) {
       state = undefined;
     } else if (
       action.type === '[Site-context] Language Change' ||

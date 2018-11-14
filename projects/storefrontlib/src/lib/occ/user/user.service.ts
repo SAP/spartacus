@@ -4,11 +4,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { OccConfig } from '@spartacus/core';
+import { InterceptorUtil, OccConfig, USE_CLIENT_TOKEN } from '@spartacus/core';
 
 import { UserRegisterFormData } from '../../user/models/user.model';
-
-import { InterceptorUtil, USE_CLIENT_TOKEN } from '../utils/interceptor-util';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';

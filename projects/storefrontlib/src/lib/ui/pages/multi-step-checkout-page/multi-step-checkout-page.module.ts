@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
-import { AuthGuard } from './../../../auth/guards/auth.guard';
 import { CartNotEmptyGuard } from '../../../cart/guards/cart-not-empty.guard';
 import { MultiStepCheckoutPageLayoutModule } from '../../layout/multi-step-checkout-page-layout/multi-step-checkout-page-layout.module';
 import { MultiStepCheckoutPageComponent } from './multi-step-checkout-page.component';
+import { AuthGuard } from '@spartacus/core';
 
 const routes: Routes = [
   {

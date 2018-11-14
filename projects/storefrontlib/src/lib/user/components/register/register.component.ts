@@ -10,8 +10,7 @@ import { Observable, Subscription, of } from 'rxjs';
 import { take, tap, switchMap } from 'rxjs/operators';
 import * as fromUserStore from '../../store';
 import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
-import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-register',

@@ -18,6 +18,7 @@ import {
 } from './store/reducers/index';
 import { AuthModuleConfig, defaultAuthModuleConfig } from './config/config';
 import { Config, ConfigModule } from '../config/config.module';
+import { RoutingModule } from '../routing/routing.module';
 
 
 @NgModule({
