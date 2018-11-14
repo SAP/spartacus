@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { AuthService } from '../../facade/auth.service';
-import { ClientAuthenticationToken } from '../../models/token-types.model';
+import { ClientToken } from '../../models/token-types.model';
 
 @Injectable()
 export class ClientErrorHandlingService {
@@ -16,19 +16,19 @@ export class ClientErrorHandlingService {
     next: HttpHandler
   ): Observable<any> {
     return this.loadNewClientToken().pipe(
-      switchMap((token: ClientAuthenticationToken) => {
+      switchMap((token: ClientToken) => {
         return next.handle(this.createNewRequestWithNewToken(request, token));
       })
     );
   }
 
-  private loadNewClientToken(): Observable<ClientAuthenticationToken> {
+  private loadNewClientToken(): Observable<ClientToken> {
     return this.authService.refreshClientToken();
   }
 
   private createNewRequestWithNewToken(
     request: HttpRequest<any>,
-    token: ClientAuthenticationToken
+    token: ClientToken
   ): HttpRequest<any> {
     request = request.clone({
       setHeaders: {

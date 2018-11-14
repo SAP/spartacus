@@ -9,12 +9,12 @@ import { of } from 'rxjs';
 
 import { AuthModuleConfig } from '../auth-module.config';
 import { AuthService } from '../facade/auth.service';
-import { ClientAuthenticationToken } from './../models/token-types.model';
+import { ClientToken } from './../models/token-types.model';
 import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 
 import { ClientTokenInterceptor } from './client-token.interceptor';
 
-const testToken: ClientAuthenticationToken = {
+const testToken: ClientToken = {
   access_token: 'abc-123',
   token_type: 'bearer',
   expires_in: 1000,

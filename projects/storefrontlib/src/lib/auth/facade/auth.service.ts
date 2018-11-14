@@ -6,10 +6,7 @@ import { Observable } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
 
 import * as fromAuthStore from '../store';
-import {
-  UserToken,
-  ClientAuthenticationToken
-} from '../models/token-types.model';
+import { UserToken, ClientToken } from '../models/token-types.model';
 import { ClientTokenState } from '../store/reducers/client-token.reducer';
 
 @Injectable({
@@ -20,9 +17,7 @@ export class AuthService {
     select(fromAuthStore.getUserToken)
   );
 
-  readonly clientToken$: Observable<
-    ClientAuthenticationToken
-  > = this.store.pipe(
+  readonly clientToken$: Observable<ClientToken> = this.store.pipe(
     select(fromAuthStore.getClientTokenState),
     tap((state: ClientTokenState) => {
       if (!state.loading && Object.keys(state.token).length === 0) {
@@ -69,7 +64,7 @@ export class AuthService {
     this.store.dispatch(new fromAuthStore.LoadClientToken());
   }
 
-  refreshClientToken(): Observable<ClientAuthenticationToken> {
+  refreshClientToken(): Observable<ClientToken> {
     return this.store.pipe(
       select(fromAuthStore.getClientTokenState),
       tap((state: ClientTokenState) => {

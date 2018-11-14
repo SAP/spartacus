@@ -5,7 +5,7 @@ import { HttpHandler, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { AuthService } from '../../facade/auth.service';
-import { ClientAuthenticationToken } from '../../models/token-types.model';
+import { ClientToken } from '../../models/token-types.model';
 
 import { ClientErrorHandlingService } from './client-error-handling.service';
 
@@ -22,14 +22,14 @@ class AuthServiceStub {
   }
 }
 
-const clientToken: ClientAuthenticationToken = {
+const clientToken: ClientToken = {
   access_token: 'xxx',
   token_type: 'bearer',
   expires_in: 1000,
   scope: 'xxx'
 };
 
-const newClientToken: ClientAuthenticationToken = {
+const newClientToken: ClientToken = {
   access_token: 'xxx yyy zzz',
   token_type: 'bearer',
   expires_in: 1000,

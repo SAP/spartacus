@@ -3,10 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 
 import * as fromAuthStore from '../store';
-import {
-  UserToken,
-  ClientAuthenticationToken
-} from '../models/token-types.model';
+import { UserToken, ClientToken } from '../models/token-types.model';
 
 import { AuthService } from './auth.service';
 
@@ -17,7 +14,7 @@ const mockToken = {
 
 const mockClientToken = {
   access_token: 'testToken'
-} as ClientAuthenticationToken;
+} as ClientToken;
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -55,7 +52,7 @@ describe('AuthService', () => {
   it('should expose clientToken', () => {
     store.dispatch(new fromAuthStore.LoadClientTokenSuccess(mockClientToken));
 
-    let result: ClientAuthenticationToken;
+    let result: ClientToken;
     const subscription = service.clientToken$.subscribe(token => {
       result = token;
     });
@@ -67,9 +64,7 @@ describe('AuthService', () => {
   it('should call loadClientToken() when no token is present', () => {
     spyOn(service, 'loadClientToken').and.stub();
 
-    store.dispatch(
-      new fromAuthStore.LoadClientTokenSuccess({} as ClientAuthenticationToken)
-    );
+    store.dispatch(new fromAuthStore.LoadClientTokenSuccess({} as ClientToken));
     const subscription = service.clientToken$.subscribe(_token => {});
     subscription.unsubscribe();
 
