@@ -19,11 +19,10 @@ export class RoutesConfigLoader {
     private readonly configurableRoutesModuleConfig: ConfigurableRoutesModuleConfig
   ) {}
 
-  async load(): Promise<RoutesConfig> {
+  async load(): Promise<any> {
     const url = this.serverConfig.server.routesConfigUrl;
     const fetchedRoutesConfig = url ? await this.fetch(url) : null;
     this._routesConfig = this.extendStaticWith(fetchedRoutesConfig);
-    return this._routesConfig;
   }
 
   private fetch(url: string): Promise<any> {

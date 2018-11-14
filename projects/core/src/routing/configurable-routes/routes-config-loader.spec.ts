@@ -84,16 +84,16 @@ describe('RoutesConfigLoader', () => {
         expect(http.get).toHaveBeenCalledWith(url);
       });
 
-      it('should place routes config under "routesConfig" property', () => {
+      it('should place routes config under "routesConfig" property', async () => {
         spyOn(http, 'get').and.returnValue(of(mockFetchedRoutesConfig));
         expect(loader.routesConfig).toBeFalsy();
-        loader.load();
+        await loader.load();
         expect(loader.routesConfig).toBeTruthy();
       });
 
-      it('should extend fetched routes config with static one and extend routes translations for languages with "default"', () => {
+      it('should extend fetched routes config with static one and extend routes translations for languages with "default"', async () => {
         spyOn(http, 'get').and.returnValue(of(mockFetchedRoutesConfig));
-        loader.load();
+        await loader.load();
         expect(loader.routesConfig).toEqual({
           translations: {
             default: {
@@ -128,7 +128,7 @@ describe('RoutesConfigLoader', () => {
         expect(http.get).not.toHaveBeenCalled();
       });
 
-      it('should place routes config under "routesConfig" property', () => {
+      it('should place routes config under "routesConfig" property', async () => {
         expect(loader.routesConfig).toBeFalsy();
         loader.load();
         expect(loader.routesConfig).toBeTruthy();
