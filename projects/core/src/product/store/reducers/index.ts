@@ -1,16 +1,11 @@
 import { InjectionToken, Provider } from '@angular/core';
-import {
-  ActionReducerMap,
-  createFeatureSelector,
-  MetaReducer,
-  ActionReducer,
-  MemoizedSelector
-} from '@ngrx/store';
+import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
 
 import * as fromProductsSearch from './product-search.reducer';
 import * as fromProduct from './product.reducer';
 import * as fromProductReviews from './product-reviews.reducer';
-import { ProductsState, PRODUCT_FEATURE } from '../product-state';
+import { ProductsState } from '../product-state';
+import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context';
 
 export function getReducers(): ActionReducerMap<ProductsState> {
   return {
@@ -29,19 +24,11 @@ export const reducerProvider: Provider = {
   useFactory: getReducers
 };
 
-export const getProductsState: MemoizedSelector<
-  any,
-  any
-> = createFeatureSelector<ProductsState>(PRODUCT_FEATURE);
-
 export function clearProductsState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return function(state, action) {
-    if (
-      action.type === '[Site-context] Currency Change' ||
-      action.type === '[Site-context] Language Change'
-    ) {
+    if (action.type === CURRENCY_CHANGE || action.type === LANGUAGE_CHANGE) {
       state = undefined;
     }
     return reducer(state, action);
