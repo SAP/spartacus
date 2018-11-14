@@ -23,10 +23,10 @@ describe('CategoryNavigationComponent', () => {
   let fixture: ComponentFixture<CategoryNavigationComponent>;
   let nav: DebugElement;
 
-  const mockCmsService = {};
-  const mockNavigationService = {};
-
   beforeEach(async(() => {
+    const mockCmsService = {};
+    const mockNavigationService = {};
+
     TestBed.configureTestingModule({
       imports: [
         BootstrapModule,
