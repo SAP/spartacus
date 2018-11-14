@@ -8,9 +8,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { BootstrapModule } from '../../bootstrap.module';
 import { CmsService } from '../../cms/facade/cms.service';
-import { CmsComponentData, ProductSearchService } from '@spartacus/storefront';
+
 import { SearchBoxComponentService } from './search-box-component.service';
 import { RouterModule } from '@angular/router';
+import { ProductSearchService } from '@spartacus/core';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {

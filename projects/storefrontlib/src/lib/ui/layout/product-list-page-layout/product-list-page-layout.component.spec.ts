@@ -4,10 +4,10 @@ import { ProductListPageLayoutComponent } from './product-list-page-layout.compo
 import { ProductListModule } from '../../../product/components/product-list/product-list.module';
 import { StoreModule } from '@ngrx/store';
 
-import * as fromProduct from '../../../product/store';
+// import * as fromProduct from '../../../product/store';
 import * as fromCart from '../../../cart/store';
 import * as fromUser from '../../../user/store';
-import { ProductSearchService } from '../../../product/facade';
+import { ProductSearchService } from '@spartacus/core';
 
 describe('ProductListPageComponent', () => {
   let component: ProductListPageLayoutComponent;
@@ -18,7 +18,7 @@ describe('ProductListPageComponent', () => {
       imports: [
         ProductListModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature('products', fromProduct.getReducers()),
+        // StoreModule.forFeature('products', fromProduct.getReducers()),
         StoreModule.forFeature('cart', fromCart.getReducers()),
         StoreModule.forFeature('user', fromUser.getReducers())
       ],

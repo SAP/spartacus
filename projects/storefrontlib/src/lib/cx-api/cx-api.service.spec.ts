@@ -5,7 +5,7 @@ import {
   ProductReviewService,
   ProductSearchService,
   ProductService
-} from '../product/facade/index';
+} from '@spartacus/core';
 import {
   CurrencyService,
   LanguageService,
