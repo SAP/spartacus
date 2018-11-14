@@ -15,15 +15,11 @@ export class ClientErrorHandlingService {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<any> {
-    return this.loadNewClientToken().pipe(
+    return this.authService.refreshClientToken().pipe(
       switchMap((token: ClientToken) => {
         return next.handle(this.createNewRequestWithNewToken(request, token));
       })
     );
-  }
-
-  private loadNewClientToken(): Observable<ClientToken> {
-    return this.authService.refreshClientToken();
   }
 
   private createNewRequestWithNewToken(
