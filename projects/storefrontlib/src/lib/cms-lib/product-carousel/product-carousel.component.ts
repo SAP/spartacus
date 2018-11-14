@@ -42,7 +42,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   ngOnInit() {
     this.resize$ = fromEvent(window, 'resize')
       .pipe(debounceTime(300))
-      .subscribe(this.createGroups.bind(this));
+      .subscribe(() => this.createGroups());
   }
 
   prev() {
