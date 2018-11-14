@@ -3,7 +3,10 @@ import { ServerConfig } from '../../config/server-config/server-config';
 import { Injectable } from '@angular/core';
 import { RoutesConfig } from './routes-config';
 import { deepMerge } from '../../config/utils/deep-merge';
-import { ConfigurableRoutesModuleConfig } from './configurable-routes-module.config';
+import { ConfigurableRoutesConfig } from './configurable-routes-config';
+import { retry } from 'rxjs/operators';
+
+const ENDPOINT_ROUTES_CONFIG = 'routes-config';
 
 @Injectable()
 export class RoutesConfigLoader {
@@ -13,22 +16,30 @@ export class RoutesConfigLoader {
     return this._routesConfig;
   }
 
+  get endpoint(): string {
+    return (
+      (this.serverConfig.server.baseUrl || '') + '/' + ENDPOINT_ROUTES_CONFIG
+    );
+  }
+
   constructor(
     private readonly http: HttpClient,
     private readonly serverConfig: ServerConfig,
-    private readonly configurableRoutesModuleConfig: ConfigurableRoutesModuleConfig
+    private readonly configurableRoutesConfig: ConfigurableRoutesConfig
   ) {}
 
   async load(): Promise<any> {
-    const url = this.serverConfig.server.routesConfigUrl;
-    const fetchedRoutesConfig = url ? await this.fetch(url) : null;
+    const shouldFetch = this.configurableRoutesConfig.routesConfig.fetch;
+    const fetchedRoutesConfig = shouldFetch
+      ? await this.fetch(this.endpoint)
+      : null;
     this._routesConfig = this.extendStaticWith(fetchedRoutesConfig);
   }
 
   private fetch(url: string): Promise<any> {
-    // TODO: after fail, retry 2 times (or number of retries taken from configuration) and then show/redirect to error page
     return this.http
       .get(url)
+      .pipe(retry(2))
       .toPromise()
       .catch(() => {
         throw new Error(`Could not get routes configutation from url ${url}!`);
@@ -38,7 +49,7 @@ export class RoutesConfigLoader {
   private extendStaticWith(routesConfig: RoutesConfig): RoutesConfig {
     const mergedRoutesConfig = deepMerge(
       {},
-      this.configurableRoutesModuleConfig.routesConfig,
+      this.configurableRoutesConfig.routesConfig,
       routesConfig
     );
     return this.extendLanguagesTranslationsWithDefault(mergedRoutesConfig);

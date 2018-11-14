@@ -1,9 +1,9 @@
 import { RoutesConfig, defaultRoutesConfig } from './routes-config';
 
-export abstract class ConfigurableRoutesModuleConfig {
+export abstract class ConfigurableRoutesConfig {
   routesConfig?: RoutesConfig;
 }
 
-export const defaultConfigurableRoutesModuleConfig = {
+export const defaultConfigurableRoutesConfig = {
   routesConfig: defaultRoutesConfig
 };

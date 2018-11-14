@@ -3,7 +3,7 @@ import { CmsModuleConfig } from './cms/cms-module-config';
 import {
   OccConfig,
   RoutingModuleConfig,
-  ConfigurableRoutesModuleConfig
+  ConfigurableRoutesConfig
 } from '@spartacus/core';
 import { PWAModuleConfig } from './pwa/pwa.module-config';
 import { SiteContextConfig } from '@spartacus/core';
@@ -15,4 +15,4 @@ export interface StorefrontModuleConfig
     RoutingModuleConfig,
     PWAModuleConfig,
     SiteContextConfig,
-    ConfigurableRoutesModuleConfig {}
+    ConfigurableRoutesConfig {}
