@@ -4,7 +4,20 @@ import { Store, StoreModule } from '@ngrx/store';
 import createSpy = jasmine.createSpy;
 import * as fromStore from '../store';
 import * as ngrxStore from '@ngrx/store';
+import * as fromActions from '../store/actions/page.action';
+import * as fromReducers from '../store/reducers';
+
 import { of } from 'rxjs';
+import { Page } from '../models/page.model';
+import { PageType } from '../../routing/models/page-context.model';
+import { DefaultPageService } from '../services/default-page.service';
+import { CmsModuleConfig } from '../cms-module-config';
+
+const MockCmsModuleConfig: CmsModuleConfig = {
+  defaultPageIdForType: {
+    ProductPage: ['testProductPage']
+  }
+};
 
 const mockContentSlot: any[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -15,14 +28,30 @@ const mockContentSlot: any[] = [
 describe('CmsService', () => {
   let store;
 
+  const page: Page = {
+    pageId: 'testPageId',
+    name: 'testPage',
+    seen: [],
+    slots: {}
+  };
+
+  const payload = { key: 'testPageId_ContentPage', value: page };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
-      providers: [CmsService]
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cms', fromReducers.getReducers())
+      ],
+      providers: [
+        CmsService,
+        DefaultPageService,
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
+      ]
     });
 
     store = TestBed.get(Store);
-    spyOn(store, 'dispatch');
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should be created', inject([CmsService], (service: CmsService) => {
@@ -48,16 +77,146 @@ describe('CmsService', () => {
     }
   ));
 
-  describe('getContentSlot(position)', () => {
+  describe('getContentSlot()', () => {
     it('should be able to get content slot by position', inject(
       [CmsService],
       (service: CmsService) => {
         spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
           of(mockContentSlot)
         );
-        service.getContentSlot('Section1').subscribe(contentSlotReturned => {
-          expect(contentSlotReturned).toBe(mockContentSlot);
+        let contentSlotReturned: any;
+        service.getContentSlot('Section1').subscribe(value => {
+          contentSlotReturned = value;
         });
+        expect(contentSlotReturned).toBe(mockContentSlot);
+      }
+    ));
+  });
+
+  describe('hasPage()', () => {
+    it('should return true when find the cms page by key id_type', inject(
+      [CmsService],
+      (service: CmsService) => {
+        store.dispatch(new fromActions.LoadPageDataSuccess(payload));
+
+        let result = false;
+        service
+          .hasPage({ id: 'testPageId', type: PageType.CONTENT_PAGE })
+          .subscribe(value => {
+            result = value;
+          });
+        expect(result).toBe(true);
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromActions.UpdateLatestPageKey('testPageId_ContentPage')
+        );
+      }
+    ));
+
+    it('should return true when find the cms page in the seen list of the default page', inject(
+      [CmsService],
+      (service: CmsService) => {
+        page.seen.push('123');
+
+        store.dispatch(
+          new fromActions.LoadPageDataSuccess({
+            key: 'testProductPage_ProductPage',
+            value: page
+          })
+        );
+
+        let result = false;
+        service
+          .hasPage({ id: '123', type: PageType.PRODUCT_PAGE })
+          .subscribe(value => {
+            result = value;
+          });
+        expect(result).toBe(true);
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromActions.UpdateLatestPageKey('testProductPage_ProductPage')
+        );
+      }
+    ));
+
+    it('should return true when find the cms page after loading', inject(
+      [CmsService],
+      (service: CmsService) => {
+        let result: boolean;
+        service
+          .hasPage({ id: 'newPageId', type: PageType.CONTENT_PAGE })
+          .subscribe(value => (result = value));
+        expect(!!result).toBe(false);
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromActions.LoadPageData({
+            id: 'newPageId',
+            type: PageType.CONTENT_PAGE
+          })
+        );
+
+        store.dispatch(
+          new fromActions.LoadPageDataSuccess({
+            key: 'newPageId_ContentPage',
+            value: page
+          })
+        );
+
+        expect(result).toBe(true);
+      }
+    ));
+
+    it('should return false if loading cms page data error', inject(
+      [CmsService],
+      (service: CmsService) => {
+        let result: boolean;
+
+        service
+          .hasPage({ id: 'newPageId', type: PageType.CONTENT_PAGE })
+          .subscribe(value => (result = value));
+
+        expect(!!result).toBe(false);
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromActions.LoadPageData({
+            id: 'newPageId',
+            type: PageType.CONTENT_PAGE
+          })
+        );
+
+        store.dispatch(
+          new fromActions.LoadPageDataFail({ message: 'Load Error' })
+        );
+
+        expect(!!result).toBe(false);
+      }
+    ));
+
+    it('should return false if cannot find the page after loading cms data >=3 times', inject(
+      [CmsService],
+      (service: CmsService) => {
+        let result: boolean;
+        service
+          .hasPage({ id: 'newPageId', type: PageType.CONTENT_PAGE })
+          .subscribe(value => (result = value));
+
+        expect(!!result).toBe(false);
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromActions.LoadPageData({
+            id: 'newPageId',
+            type: PageType.CONTENT_PAGE
+          })
+        );
+
+        store.dispatch(
+          new fromActions.LoadPageDataSuccess({
+            key: 'something else',
+            value: page
+          })
+        );
+
+        expect(!!result).toBe(false);
+        expect(store.dispatch).toHaveBeenCalledTimes(3);
       }
     ));
   });
