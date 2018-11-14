@@ -7,10 +7,10 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SearchConfig } from '../../../search-config';
-import { ProductSearchService } from '../../../services/product-search.service';
+import { ProductSearchService } from '../../../facade/product-search.service';
 
 @Component({
-  selector: 'y-product-list',
+  selector: 'cx-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

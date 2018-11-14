@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import * as fromStore from '../../store';
 
 @Component({
-  selector: 'y-store-finder-list-count',
+  selector: 'cx-store-finder-list-count',
   templateUrl: './store-finder-list-count.component.html',
   styleUrls: ['./store-finder-list-count.component.scss']
 })

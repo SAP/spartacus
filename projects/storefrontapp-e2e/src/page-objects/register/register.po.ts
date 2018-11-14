@@ -4,7 +4,7 @@ import { AppPage } from '../app.po';
 import { E2EUtil } from '../../e2e-util';
 
 export class RegisterPage extends AppPage {
-  readonly page: ElementFinder = element(by.tagName('y-register-page'));
+  readonly page: ElementFinder = element(by.tagName('cx-register-page'));
   readonly registerForm: RegisterForm = new RegisterForm(this.page);
 
   async navigateTo() {

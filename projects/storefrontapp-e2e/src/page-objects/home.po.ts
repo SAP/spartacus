@@ -4,7 +4,7 @@ import { E2EUtil } from '../e2e-util';
 import { CategoryDslrPage } from './category-dslr.po';
 
 export class HomePage extends AppPage {
-  readonly YPAGE = 'y-home-page';
+  readonly YPAGE = 'cx-home-page';
 
   readonly page: ElementFinder = element(by.tagName(this.YPAGE));
   readonly splashBanner: ElementFinder = this.page.element(

@@ -1,69 +1,25 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  OnDestroy
-} from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { Observable, Subscription, combineLatest } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import * as fromStore from '../shared/store';
-import { SiteContextModuleConfig } from '../site-context-module-config';
+import { LanguageService } from '@spartacus/core';
 
 @Component({
-  selector: 'y-language-selector',
+  selector: 'cx-language-selector',
   templateUrl: './language-selector.component.html',
-  styleUrls: ['./language-selector.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./language-selector.component.scss']
 })
-export class LanguageSelectorComponent implements OnInit, OnDestroy {
+export class LanguageSelectorComponent implements OnInit {
   languages$: Observable<any>;
-  activeLanguage: string;
-  subscription: Subscription;
+  activeLanguage$: Observable<string>;
 
-  constructor(
-    private store: Store<fromStore.SiteContextState>,
-    private config: SiteContextModuleConfig
-  ) {}
+  constructor(private languageService: LanguageService) {}
 
   ngOnInit() {
-    this.subscription = combineLatest(
-      this.store.pipe(select(fromStore.getLanguagesLoadAttempted)),
-      this.store.pipe(select(fromStore.getLanguagesLoading))
-    ).subscribe(([loadAttempted, loading]) => {
-      if (!loadAttempted && !loading) {
-        this.store.dispatch(new fromStore.LoadLanguages());
-      }
-    });
-
-    this.languages$ = this.store.pipe(select(fromStore.getAllLanguages));
-    this.activeLanguage = this.getActiveLanguage();
-    this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.languages$ = this.languageService.languages$;
+    this.activeLanguage$ = this.languageService.activeLanguage$;
   }
 
   setActiveLanguage(language) {
-    this.activeLanguage = language;
-    this.store.dispatch(new fromStore.SetActiveLanguage(this.activeLanguage));
-
-    this.store.dispatch(new fromStore.LanguageChange());
-    if (sessionStorage) {
-      sessionStorage.setItem('language', this.activeLanguage);
-    }
-  }
-
-  protected getActiveLanguage(): string {
-    if (sessionStorage) {
-      return sessionStorage.getItem('language') === null
-        ? this.config.site.language
-        : sessionStorage.getItem('language');
-    } else {
-      return this.config.site.language;
-    }
+    this.languageService.activeLanguage = language;
   }
 }

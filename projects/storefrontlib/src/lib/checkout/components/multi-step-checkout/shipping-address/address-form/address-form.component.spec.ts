@@ -1,11 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import * as fromRoot from '../../../../../routing/store';
 import * as fromCheckout from '../../../../store';
 import * as fromCart from '../../../../../cart/store';
 import * as fromUser from '../../../../../user/store';
 
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 
 import { AddressFormComponent } from './address-form.component';
@@ -15,6 +14,7 @@ import { BehaviorSubject } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CheckoutService } from '../../../../services';
 import { CartService, CartDataService } from '../../../../../cart/services';
+import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
 import { AddressFormModule } from './address-form.module';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { By } from '@angular/platform-browser';
@@ -74,14 +74,18 @@ describe('AddressFormComponent', () => {
         ReactiveFormsModule,
         BrowserAnimationsModule,
         AddressFormModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          checkout: combineReducers(fromCheckout.getReducers()),
-          cart: combineReducers(fromCart.getReducers()),
-          user: combineReducers(fromUser.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('checkout', fromCheckout.getReducers()),
+        StoreModule.forFeature('cart', fromCart.getReducers()),
+        StoreModule.forFeature('user', fromUser.getReducers())
       ],
-      providers: [CheckoutService, CartService, CartDataService, NgbModal]
+      providers: [
+        CheckoutService,
+        CartService,
+        CartDataService,
+        NgbModal,
+        GlobalMessageService
+      ]
     })
       .overrideComponent(AddressFormComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default }

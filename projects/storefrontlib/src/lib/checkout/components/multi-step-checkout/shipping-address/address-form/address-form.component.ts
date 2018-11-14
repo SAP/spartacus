@@ -12,17 +12,17 @@ import { Observable, Subscription } from 'rxjs';
 import { tap, filter } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../../store';
-import * as fromRouting from '../../../../../routing/store';
 import * as fromUser from '../../../../../user/store';
-import * as fromGlobalMessage from '../../../../../global-message/store';
+
 import { CheckoutService } from '../../../../services/checkout.service';
+import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '.././../../../../global-message/models/message.model';
 
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'y-address-form',
+  selector: 'cx-address-form',
   templateUrl: './address-form.component.html',
   styleUrls: ['./address-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -59,9 +59,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    protected store: Store<fromRouting.State>,
+    protected store: Store<fromUser.UserState>,
     private fb: FormBuilder,
     protected checkoutService: CheckoutService,
+    protected globalMessageService: GlobalMessageService,
     private modalService: NgbModal
   ) {}
 
@@ -121,12 +122,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         } else if (results.decision === 'ACCEPT') {
           this.addAddress.emit(this.address.value);
         } else if (results.decision === 'REJECT') {
-          this.store.dispatch(
-            new fromGlobalMessage.AddMessage({
-              type: GlobalMessageType.MSG_TYPE_ERROR,
-              text: 'Invalid Address'
-            })
-          );
+          this.globalMessageService.add({
+            type: GlobalMessageType.MSG_TYPE_ERROR,
+            text: 'Invalid Address'
+          });
           this.store.dispatch(
             new fromCheckoutStore.ClearAddressVerificationResults()
           );
@@ -174,23 +173,38 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       this.suggestedAddressModalRef.componentInstance.enteredAddress = this.address.value;
       this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
         results.suggestedAddresses;
-      this.suggestedAddressModalRef.result.then(address => {
-        this.store.dispatch(
-          new fromCheckoutStore.ClearAddressVerificationResults()
-        );
-        if (address) {
-          address = Object.assign(
+      this.suggestedAddressModalRef.result
+        .then(address => {
+          this.store.dispatch(
+            new fromCheckoutStore.ClearAddressVerificationResults()
+          );
+          if (address) {
+            address = Object.assign(
+              {
+                titleCode: this.address.value.titleCode,
+                phone: this.address.value.phone,
+                selected: true
+              },
+              address
+            );
+            this.addAddress.emit(address);
+          }
+          this.suggestedAddressModalRef = null;
+        })
+        .catch(() => {
+          // this  callback is called when modal is closed with Esc key or clicking backdrop
+          this.store.dispatch(
+            new fromCheckoutStore.ClearAddressVerificationResults()
+          );
+          const address = Object.assign(
             {
-              titleCode: this.address.value.titleCode,
-              phone: this.address.value.phone,
               selected: true
             },
-            address
+            this.address.value
           );
           this.addAddress.emit(address);
-        }
-        this.suggestedAddressModalRef = null;
-      });
+          this.suggestedAddressModalRef = null;
+        });
     }
   }
 

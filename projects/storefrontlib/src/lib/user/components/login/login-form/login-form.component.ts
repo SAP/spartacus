@@ -8,10 +8,10 @@ import * as fromGlobalMessage from '../../../../global-message/store';
 import { GlobalMessageType } from '../../../../global-message/models/message.model';
 import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
 import { AuthService } from '../../../../auth/facade/auth.service';
-import { RoutingService } from '../../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
-  selector: 'y-login-form',
+  selector: 'cx-login-form',
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss']
 })

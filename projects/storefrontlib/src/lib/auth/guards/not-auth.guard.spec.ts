@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
+import { RoutingService } from '@spartacus/core';
 
 import { NotAuthGuard } from './not-auth.guard';
-import * as fromRoot from './../../routing/store';
 import * as fromStore from './../../auth/store';
 
 const mockUserToken = {
@@ -21,13 +21,11 @@ describe('NotAuthGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [NotAuthGuard],
+      providers: [NotAuthGuard, RoutingService],
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          auth: combineReducers(fromStore.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('auth', fromStore.getReducers())
       ]
     });
     store = TestBed.get(Store);

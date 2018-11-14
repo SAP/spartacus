@@ -17,7 +17,7 @@ import { CmsService } from '../../cms/facade/cms.service';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
 
 @Component({
-  selector: 'y-product-carousel',
+  selector: 'cx-product-carousel',
   templateUrl: './product-carousel.component.html',
   styleUrls: ['./product-carousel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

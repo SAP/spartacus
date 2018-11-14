@@ -10,6 +10,10 @@ export class CartDataService {
 
   constructor() {}
 
+  get hasCart(): boolean {
+    return !!this._cart;
+  }
+
   set userId(val) {
     this._userId = val;
   }
@@ -35,6 +39,8 @@ export class CartDataService {
   }
 
   get cartId(): string {
-    return this.userId === ANONYMOUS_USERID ? this.cart.guid : this.cart.code;
+    if (this.hasCart) {
+      return this.userId === ANONYMOUS_USERID ? this.cart.guid : this.cart.code;
+    }
   }
 }

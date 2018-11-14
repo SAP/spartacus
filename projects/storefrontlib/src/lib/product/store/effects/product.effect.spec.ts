@@ -6,24 +6,34 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccProductService } from '../../../occ/product/product.service';
-import { OccModuleConfig } from '../../../occ/occ-module-config';
+import { OccConfig } from '@spartacus/core';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 import { ProductReferenceConverterService } from '../../converters/product-reference-converter.service';
 
 import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
-import { StoreModule, combineReducers } from '@ngrx/store';
-import * as ngrxStore from '@ngrx/store';
-import * as fromRoot from '../../../routing/store';
-import * as fromCmsReducer from '../../../cms/store/reducers';
-import * as fromSiteContext from './../../../site-context/shared/store';
-import { PageType } from '../../../routing/models/page-context.model';
+import { StoreModule } from '@ngrx/store';
+import { RoutingService, PageType } from '@spartacus/core';
+import { LanguageChange } from '@spartacus/core';
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
   }
+};
+
+const router = {
+  state: {
+    url: '/',
+    queryParams: {},
+    params: {},
+    context: { id: '1', type: PageType.PRODUCT_PAGE },
+    cmsRequired: false
+  }
+};
+const mockRoutingService = {
+  routerState$: of(router)
 };
 
 describe('Product Effects', () => {
@@ -39,20 +49,15 @@ describe('Product Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        })
-      ],
+      imports: [HttpClientTestingModule, StoreModule.forRoot({})],
       providers: [
         OccProductService,
         ProductImageConverterService,
         ProductReferenceConverterService,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.ProductEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+        { provide: RoutingService, useValue: mockRoutingService }
       ]
     });
     service = TestBed.get(OccProductService);
@@ -75,20 +80,7 @@ describe('Product Effects', () => {
 
   describe('refreshProduct$', () => {
     it('should refresh a product', () => {
-      const router = {
-        state: {
-          url: '/',
-          queryParams: {},
-          params: {},
-          context: { id: '1', type: PageType.PRODUCT_PAGE },
-          cmsRequired: false
-        }
-      };
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(router)
-      );
-
-      const action = new fromSiteContext.LanguageChange();
+      const action = new LanguageChange();
       const completion = new fromActions.LoadProductSuccess(product);
 
       actions$ = hot('-a', { a: action });

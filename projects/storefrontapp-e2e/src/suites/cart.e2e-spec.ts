@@ -37,7 +37,7 @@ describe('Cart interactions', () => {
     await productDetails.addToCart();
     const atcModal: AddedToCartModal = new AddedToCartModal();
     await atcModal.waitForReady();
-    await atcModal.closeModalWait();
+    await atcModal.closeButton.click();
 
     const minicartIcon = home.header.miniCartButton;
     await E2EUtil.wait4VisibleElement(minicartIcon);
@@ -71,10 +71,10 @@ describe('Cart interactions', () => {
     await searchResults.clickAddToCartButton4Product(product1);
     const atcModal: AddedToCartModal = new AddedToCartModal();
     await atcModal.waitForReady();
-    const item = atcModal.cartItem(0);
+    const item = atcModal.item;
     await E2EUtil.wait4VisibleElement(item);
 
-    await atcModal.closeModalWait();
+    await atcModal.closeButton.click();
 
     const minicartIcon = home.header.miniCartButton;
     await E2EUtil.wait4VisibleElement(minicartIcon);
@@ -96,12 +96,11 @@ describe('Cart interactions', () => {
     await home.navigateTo();
   });
 
-  // TODO: We need that product on backend to be out of stock
-  xit('should be unable to add out of stock products to cart', async () => {
+  it('should be unable to add out of stock products to cart', async () => {
     // go to homepage
     await home.navigateTo();
 
-    await productDetails.navigateTo('358639');
+    await productDetails.navigateTo('29925');
     // wait until product details page is loaded
     await E2EUtil.wait4VisibleElement(productDetails.page);
 

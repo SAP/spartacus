@@ -14,10 +14,10 @@ import { UserToken } from '../../../auth/models/token-types.model';
 
 import * as fromStore from '../../store';
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '../../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
-  selector: 'y-login',
+  selector: 'cx-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       const target = event.target || event.srcElement;
       if (
         target.attributes['class'] &&
-        target.attributes['class'].nodeValue === 'y-navigation__child-link' &&
+        target.attributes['class'].nodeValue === 'cx-navigation__child-link' &&
         target.attributes.href === undefined
       ) {
         this.logout();
