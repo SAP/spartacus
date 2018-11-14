@@ -169,27 +169,4 @@ describe('ItemCounterComponent', () => {
     itemCounterComponent.max = 5;
     expect(itemCounterComponent.hasError()).toBeTruthy();
   });
-
-  it('should parse value correctly', () => {
-    itemCounterComponent.isValueChangable = true;
-
-    itemCounterComponent.value = 61;
-    itemCounterComponent.min = 1;
-    itemCounterComponent.max = 5;
-    expect(itemCounterComponent.value).toBe(61);
-
-    itemCounterComponent.onInputKeyUp({ target: { value: '123' } });
-    expect(itemCounterComponent.value).toBe(123);
-
-    itemCounterComponent.onInputKeyUp({ target: { value: 'myTestingString' } });
-    expect(itemCounterComponent.value).toBe(123);
-
-    itemCounterComponent.onInputKeyUp({ target: { value: '00252' } });
-    expect(itemCounterComponent.value).toBe(252);
-
-    itemCounterComponent.onInputKeyUp({
-      target: { value: 'string6321' }
-    });
-    expect(itemCounterComponent.value).toBe(252);
-  });
 });

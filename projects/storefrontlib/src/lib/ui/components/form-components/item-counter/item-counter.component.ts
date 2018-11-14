@@ -101,17 +101,11 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     this.onTouch();
   }
 
-  onInputKeyUp(event) {
+  onInput(event) {
     const { value } = event.target;
-    if (isNaN(Number(value))) {
-      event.target.value = this.value;
-      return;
+    if (value) {
+      this.value = Number(value);
     }
-    const newValue = Number(value.replace(/^0+/, ''));
-
-    event.target.value = newValue;
-    this.value = newValue;
-    return;
   }
 
   onBlur(event: FocusEvent) {
