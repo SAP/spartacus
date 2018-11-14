@@ -34,7 +34,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   @ViewChild('carousel')
   carousel: any;
   @Input()
-  productCodes: Array<String>;
+  productCodes: Array<string>;
 
   constructor(
     protected cmsService: CmsService,
@@ -62,18 +62,18 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   slideTransitionCompleted(_event: NgbSlideEvent) {}
 
   protected fetchData() {
-    const codes = this.getProductCodes();
-    codes.forEach(code => {
+    this.setProductCodes();
+    this.productCodes.forEach(code => {
       this.products[code] = this.productService.get(code);
       this.productService.isProductLoaded(code).subscribe();
     });
-    this.group(codes);
+    this.group();
     super.fetchData();
   }
 
-  private group(products) {
+  private group() {
     const groups = [];
-    products.forEach(product => {
+    this.productCodes.forEach(product => {
       const lastGroup = groups[groups.length - 1];
       if (lastGroup && lastGroup.length < this.itemPerPage) {
         lastGroup.push(product);
@@ -100,14 +100,10 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     }
   }
 
-  getProductCodes(): Array<string> {
-    let codes;
+  protected setProductCodes() {
     if (this.component && this.component.productCodes) {
-      codes = this.component.productCodes.split(' ');
-    } else {
-      codes = this.productCodes;
+      this.productCodes = this.component.productCodes.split(' ');
     }
-    return codes;
   }
 
   ngOnDestroy() {
