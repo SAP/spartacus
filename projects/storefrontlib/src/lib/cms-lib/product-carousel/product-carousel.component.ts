@@ -101,7 +101,9 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   }
 
   ngOnDestroy() {
-    this.resize$.unsubscribe();
+    if (this.resize$) {
+      this.resize$.unsubscribe();
+    }
     super.ngOnDestroy();
   }
 }
