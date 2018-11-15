@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { StateWithSiteContext, CurrencyEntities } from '../store/state';
-import { SiteContextConfig } from '../config/config';
 import {
   LoadCurrencies,
   SetActiveCurrency,
   getAllCurrencies,
   getActiveCurrency
 } from '../store';
+import { OccConfig } from '../../occ';
 
 @Injectable()
 export class CurrencyService {
@@ -22,7 +22,7 @@ export class CurrencyService {
 
   constructor(
     private store: Store<StateWithSiteContext>,
-    private config: SiteContextConfig
+    private config: OccConfig
   ) {
     this.initActiveCurrency();
     this.loadCurrencies();

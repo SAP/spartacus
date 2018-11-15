@@ -7,7 +7,7 @@ import { of, Observable } from 'rxjs';
 import { OccSiteService } from '../../occ/index';
 import * as fromEffects from './currencies.effect';
 import * as fromActions from '../actions/currencies.action';
-import { SiteContextConfig } from '../../config/config';
+import { OccModule } from '../../../occ/occ.module';
 
 describe('Currencies Effects', () => {
   let actions$: Observable<any>;
@@ -22,10 +22,9 @@ describe('Currencies Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, OccModule],
       providers: [
         OccSiteService,
-        SiteContextConfig,
         fromEffects.CurrenciesEffects,
         provideMockActions(() => actions$)
       ]

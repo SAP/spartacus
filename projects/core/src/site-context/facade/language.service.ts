@@ -8,8 +8,7 @@ import {
   getActiveLanguage,
   SetActiveLanguage
 } from '../store/index';
-import { SiteContextConfig } from '../config/config';
-
+import { OccConfig } from '../../occ';
 @Injectable()
 export class LanguageService {
   readonly languages$: Observable<LanguagesEntities> = this.store.pipe(
@@ -22,7 +21,7 @@ export class LanguageService {
 
   constructor(
     private store: Store<StateWithSiteContext>,
-    private config: SiteContextConfig
+    private config: OccConfig
   ) {
     this.initActiveLanguage();
     this.loadLanguages();
