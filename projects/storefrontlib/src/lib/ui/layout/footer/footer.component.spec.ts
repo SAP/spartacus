@@ -9,7 +9,7 @@ import { Input, Component } from '@angular/core';
 
 @Component({
   selector: 'cx-dynamic-slot',
-  template: 'MockDynamicSlotComponent'
+  template: ''
 })
 export class MockDynamicSlotComponent {
   @Input()
