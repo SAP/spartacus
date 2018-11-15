@@ -224,10 +224,10 @@ describe('Cart interactions', () => {
     await cart.waitForReady();
 
     // Change cart qty
-    await cart.increaseQty(0);
+    await cart.increaseQuantity(0);
     await E2EUtil.wait4TextInElement(cart.orderSummaryAmount, '228.24');
 
-    await cart.increaseQty(0);
+    await cart.increaseQuantity(0);
 
     await E2EUtil.wait4TextInElement(cart.orderSummaryAmount, '342.36');
     // check if cart contains quantity 3 of 'Photosmart E317 Digital Camera'

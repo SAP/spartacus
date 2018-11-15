@@ -36,7 +36,7 @@ export class CartPage extends AppPage {
       )
       .first();
 
-  async increaseQty(index: number = 0) {
+  async increaseQuantity(index: number = 0) {
     return await this.itemCounterComponent
       .get(index)
       .all(by.tagName('button'))
