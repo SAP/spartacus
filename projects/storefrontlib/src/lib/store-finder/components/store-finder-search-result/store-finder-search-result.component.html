@@ -4,9 +4,7 @@
     else: loading
   "
 >
-  <cx-store-finder-display-list
-    [locations]="locations"
-  ></cx-store-finder-display-list>
+  <cx-store-finder-list [locations]="locations"></cx-store-finder-list>
   <div *ngIf="locations?.stores">
     <div class="cx-store-finder-search-result__pagination">
       <cx-pagination

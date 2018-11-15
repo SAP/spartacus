@@ -5,11 +5,11 @@ import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map
 import { StoreDataService } from '../../../services/store-data.service';
 
 @Component({
-  selector: 'cx-store-finder-display-list',
-  templateUrl: './store-finder-display-list.component.html',
-  styleUrls: ['./store-finder-display-list.component.scss']
+  selector: 'cx-store-finder-list',
+  templateUrl: './store-finder-list.component.html',
+  styleUrls: ['./store-finder-list.component.scss']
 })
-export class StoreFinderDisplayListComponent {
+export class StoreFinderListComponent {
   @Input()
   locations: any;
   @ViewChild('storeMap')

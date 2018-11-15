@@ -25,7 +25,7 @@ import * as fromStore from '../../../store-finder/store';
 
 import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-list-item/store-finder-list-item.component';
 // tslint:disable-next-line:max-line-length
-import { StoreFinderDisplayListComponent } from '../../../store-finder/components/store-finder-search-result/store-finder-display-list/store-finder-display-list.component';
+import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-search-result/store-finder-list/store-finder-list.component';
 
 describe('StoreFinderPageLayoutComponent', () => {
   let component: StoreFinderPageLayoutComponent;
@@ -49,7 +49,7 @@ describe('StoreFinderPageLayoutComponent', () => {
       declarations: [
         StoreFinderPageLayoutComponent,
         StoreFinderListItemComponent,
-        StoreFinderDisplayListComponent,
+        StoreFinderListComponent,
         StoreFinderSearchComponent,
         StoreFinderMapComponent,
         StoreFinderStoresCountComponent

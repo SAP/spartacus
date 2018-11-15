@@ -13,7 +13,7 @@ import { services } from './services/index';
 
 import { StoreFinderSearchComponent } from './components/store-finder-search/store-finder-search.component';
 // tslint:disable-next-line:max-line-length
-import { StoreFinderDisplayListComponent } from './components/store-finder-search-result/store-finder-display-list/store-finder-display-list.component';
+import { StoreFinderListComponent } from './components/store-finder-search-result/store-finder-list/store-finder-list.component';
 import { StoreFinderMapComponent } from './components/store-finder-map/store-finder-map.component';
 import { StoreFinderListItemComponent } from './components/store-finder-list-item/store-finder-list-item.component';
 import { StoreFinderStoreDescriptionComponent } from './components/store-finder-store-description/store-finder-store-description.component';
@@ -41,7 +41,7 @@ import { SpinnerModule } from '../ui/components/spinner/spinner.module';
   ],
   declarations: [
     StoreFinderSearchComponent,
-    StoreFinderDisplayListComponent,
+    StoreFinderListComponent,
     StoreFinderMapComponent,
     StoreFinderListItemComponent,
     StoreFinderStoresCountComponent,
@@ -53,7 +53,7 @@ import { SpinnerModule } from '../ui/components/spinner/spinner.module';
   ],
   exports: [
     StoreFinderSearchComponent,
-    StoreFinderDisplayListComponent,
+    StoreFinderListComponent,
     StoreFinderMapComponent,
     StoreFinderListItemComponent,
     StoreFinderStoresCountComponent,
