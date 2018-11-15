@@ -3,8 +3,8 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { ConfigurableRoutesService } from './configurable-routes.service';
 import { RoutesConfigLoader } from './routes-config-loader';
 import { ConfigModule, Config } from '../../config/config.module';
-import { PathService } from './path/path.service';
-import { DynamicPathService } from './path/dynamic-path.service';
+import { PathPipeService } from './path/path-pipe.service';
+import { DynamicPathPipeService } from './path/dynamic-path-pipe.service';
 import {
   defaultConfigurableRoutesConfig,
   ConfigurableRoutesConfig
@@ -26,8 +26,8 @@ export function loadRoutesConfig(loader: RoutesConfigLoader) {
   providers: [
     ConfigurableRoutesService,
     RoutesConfigLoader,
-    PathService,
-    DynamicPathService,
+    PathPipeService,
+    DynamicPathPipeService,
     PathRecognizerService,
     {
       provide: APP_INITIALIZER,

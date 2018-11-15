@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { PathService } from './path.service';
+import { PathPipeService } from './path-pipe.service';
 import { PathRecognizerService } from './path-recognizer.service';
 
 @Injectable()
-export class DynamicPathService {
+export class DynamicPathPipeService {
   constructor(
-    private pathService: PathService,
+    private pathService: PathPipeService,
     private pathRecognizerService: PathRecognizerService
   ) {}
 

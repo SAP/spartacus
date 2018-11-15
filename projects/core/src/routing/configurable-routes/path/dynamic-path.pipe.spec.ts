@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { DynamicPathPipe } from './dynamic-path.pipe';
-import { DynamicPathService } from './dynamic-path.service';
+import { DynamicPathPipeService } from './dynamic-path-pipe.service';
 
 const mockDynamicPathService = {
   transform: () => {}
@@ -8,21 +8,21 @@ const mockDynamicPathService = {
 
 describe('DynamicPathPipe', () => {
   let pipe: DynamicPathPipe;
-  let service: DynamicPathService;
+  let service: DynamicPathPipeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         DynamicPathPipe,
         {
-          provide: DynamicPathService,
+          provide: DynamicPathPipeService,
           useValue: mockDynamicPathService
         }
       ]
     });
 
     pipe = TestBed.get(DynamicPathPipe);
-    service = TestBed.get(DynamicPathService);
+    service = TestBed.get(DynamicPathPipeService);
   });
 
   describe('transform', () => {

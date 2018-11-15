@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { PathService } from './path.service';
+import { PathPipeService } from './path-pipe.service';
 
 type PathPipeArgument = string | (string | object)[];
 
@@ -7,7 +7,7 @@ type PathPipeArgument = string | (string | object)[];
   name: 'cxPath'
 })
 export class PathPipe implements PipeTransform {
-  constructor(private pathService: PathService) {}
+  constructor(private pathService: PathPipeService) {}
 
   transform(argument: PathPipeArgument): string {
     const { pageName, parametersObject } = this.interpretArgument(argument);

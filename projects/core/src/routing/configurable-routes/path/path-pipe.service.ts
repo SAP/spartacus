@@ -9,7 +9,7 @@ import {
 } from './path-utils';
 
 @Injectable()
-export class PathService {
+export class PathPipeService {
   constructor(
     private configurableRoutesService: ConfigurableRoutesService,
     private config: ServerConfig

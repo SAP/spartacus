@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { PathPipe } from './path.pipe';
-import { PathService } from './path.service';
+import { PathPipeService } from './path-pipe.service';
 
 const mockPathService = {
   transform: () => {}
@@ -8,21 +8,21 @@ const mockPathService = {
 
 describe('PathPipe', () => {
   let pipe: PathPipe;
-  let service: PathService;
+  let service: PathPipeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         PathPipe,
         {
-          provide: PathService,
+          provide: PathPipeService,
           useValue: mockPathService
         }
       ]
     });
 
     pipe = TestBed.get(PathPipe);
-    service = TestBed.get(PathService);
+    service = TestBed.get(PathPipeService);
   });
 
   describe('transform', () => {

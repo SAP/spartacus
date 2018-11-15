@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { DynamicPathService } from './dynamic-path.service';
-import { PathService } from './path.service';
+import { DynamicPathPipeService } from './dynamic-path-pipe.service';
+import { PathPipeService } from './path-pipe.service';
 import { PathRecognizerService } from './path-recognizer.service';
 
 const mockPathService = {
@@ -11,17 +11,17 @@ const mockPathRecognizerService = {
   getMatchingPageAndParameters: () => {}
 };
 
-describe('DynamicPathService', () => {
-  let pathService: PathService;
-  let service: DynamicPathService;
+describe('DynamicPathPipeService', () => {
+  let pathService: PathPipeService;
+  let service: DynamicPathPipeService;
   let pathRecognizer: PathRecognizerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        DynamicPathService,
+        DynamicPathPipeService,
         {
-          provide: PathService,
+          provide: PathPipeService,
           useValue: mockPathService
         },
         {
@@ -31,9 +31,9 @@ describe('DynamicPathService', () => {
       ]
     });
 
-    pathService = TestBed.get(PathService);
+    pathService = TestBed.get(PathPipeService);
     pathRecognizer = TestBed.get(PathRecognizerService);
-    service = TestBed.get(DynamicPathService);
+    service = TestBed.get(DynamicPathPipeService);
   });
 
   describe('transform', () => {

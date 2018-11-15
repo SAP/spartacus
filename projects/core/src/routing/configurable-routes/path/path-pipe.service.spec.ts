@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { PathService } from './path.service';
+import { PathPipeService } from './path-pipe.service';
 import { ConfigurableRoutesService } from '../configurable-routes.service';
 import { ServerConfig } from '../../../config/server-config/server-config';
 
@@ -8,15 +8,15 @@ const mockConfigurableRoutesService = {
   getParameterNamesMapping: () => ({})
 };
 
-describe('PathService', () => {
-  let service: PathService;
+describe('PathPipeService', () => {
+  let service: PathPipeService;
   let serverConfig: ServerConfig;
   let routesService: ConfigurableRoutesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        PathService,
+        PathPipeService,
         {
           provide: ConfigurableRoutesService,
           useValue: mockConfigurableRoutesService
@@ -25,7 +25,7 @@ describe('PathService', () => {
       ]
     });
 
-    service = TestBed.get(PathService);
+    service = TestBed.get(PathPipeService);
     serverConfig = TestBed.get(ServerConfig);
     routesService = TestBed.get(ConfigurableRoutesService);
   });
