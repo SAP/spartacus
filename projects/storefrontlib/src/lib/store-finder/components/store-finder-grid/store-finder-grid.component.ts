@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 
 import * as fromStore from '../../store';
 import { StoreFinderService } from '../../services/store-finder.service';
-import { PathService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-grid',
@@ -18,8 +18,7 @@ export class StoreFinderGridComponent implements OnInit {
     private store: Store<fromStore.StoresState>,
     private storeFinderService: StoreFinderService,
     private route: ActivatedRoute,
-    private router: Router,
-    private pathService: PathService
+    private routingService: RoutingService
   ) {}
 
   ngOnInit() {
@@ -50,12 +49,10 @@ export class StoreFinderGridComponent implements OnInit {
   }
 
   viewStore(location: any): void {
-    this.router.navigate([
-      this.pathService.transform('storeDescription', {
-        country: this.route.snapshot.params.country,
-        province: this.route.snapshot.params.region,
-        store: location.name
-      })
-    ]);
+    this.routingService.goToPage('storeDescription', {
+      country: this.route.snapshot.params.country,
+      province: this.route.snapshot.params.region,
+      store: location.name
+    });
   }
 }

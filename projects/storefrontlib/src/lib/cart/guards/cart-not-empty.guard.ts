@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import * as fromStore from './../../cart/store';
@@ -7,15 +7,14 @@ import * as fromStore from './../../cart/store';
 import { CartService } from '../../cart/services/cart.service';
 import { skipWhile, map, switchMap } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
-import { PathService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 
 @Injectable()
 export class CartNotEmptyGuard implements CanActivate {
   constructor(
     private store: Store<fromStore.CartState>,
     private cartService: CartService,
-    private router: Router,
-    private pathService: PathService
+    private routingService: RoutingService
   ) {}
 
   canActivate(): Observable<boolean> {
@@ -25,7 +24,7 @@ export class CartNotEmptyGuard implements CanActivate {
       switchMap(() => this.store.pipe(select(fromStore.getActiveCart))),
       map(cart => {
         if (this.cartService.isCartEmpty(cart)) {
-          this.router.navigate([this.pathService.transform('homepage')]);
+          this.routingService.goToPage('homepage');
           return false;
         }
         return true;
