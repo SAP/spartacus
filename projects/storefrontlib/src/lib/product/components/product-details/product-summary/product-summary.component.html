@@ -1,42 +1,36 @@
-<div class="product-summary">
-  <ng-container *cxOutlet="outlets.TITLE">
-    <div class="item-title">
-      <div class="name">{{ product?.name }}</div>
-      <div class="code">ID {{ product?.code }}</div>
-    </div>
-  </ng-container>
+<ng-container *cxOutlet="outlets.TITLE">
+  <div class="name">{{ product?.name }}</div>
+  <div class="code">ID {{ product?.code }}</div>
+</ng-container>
 
-  <ng-container *cxOutlet="outlets.RATING">
-    <div class="item-rating">
-      <cx-star-rating [rating]="product?.averageRating" [disabled]="true"></cx-star-rating>
-      <div class="review-count">({{ product?.numberOfReviews }})</div>
-      <a class="review-link btn-link">Write a review</a>
-    </div>
-  </ng-container>
-
-  <div class="price" aria-label="new item price">
-    {{ product?.price?.formattedValue }}
+<ng-container *cxOutlet="outlets.RATING">
+  <div class="rating">
+    <cx-star-rating [rating]="product?.averageRating" [disabled]="true"></cx-star-rating>
+    <div class="count">({{ product?.numberOfReviews }})</div>
+    <a class="btn-link">Write a review</a>
   </div>
-  <div class="description"><p [innerHTML]="product?.summary"></p></div>
+</ng-container>
 
-  <ng-container *cxOutlet="outlets.ADDTOCART">
-    <div class="quantity">
-      <div class="quantity-label">Qty:</div>
-      <div class="quantity-counter">
-        <cx-item-counter [min]="1" [max]="product.stock.stockLevel" *ngIf="product?.stock?.stockLevel > 0 || product?.stock?.stockLevelStatus === 'inStock'"
-          (update)="updateCount($event)"
-        ></cx-item-counter>
-        <span class="quantity-info">
-          <span *ngIf="product?.stock?.stockLevel > 0 || product?.stock?.stockLevelStatus === 'inStock'">
-            {{ product?.stock?.stockLevel }} in stock</span>
-          <span *ngIf="product?.stock?.stockLevel == 0">Out of stock</span>
-        </span>
-      </div>
-      <cx-add-to-cart
-        *ngIf="product?.stock?.stockLevelStatus !== 'outOfStock'"
-        [quantity]="itemCount"
-        [productCode]="product?.code"
-      ></cx-add-to-cart>
-    </div>
-  </ng-container>
+<div class="price" aria-label="new item price">
+  {{ product?.price?.formattedValue }}
 </div>
+<div class="description"><p [innerHTML]="product?.summary"></p></div>
+
+<ng-container *cxOutlet="outlets.ADDTOCART">
+  <div class="quantity">
+    <label>Qty:</label>
+    <cx-item-counter [min]="1" [max]="product.stock.stockLevel" *ngIf="product?.stock?.stockLevel > 0 || product?.stock?.stockLevelStatus === 'inStock'"
+      (update)="updateCount($event)"
+    ></cx-item-counter>
+    <span class="info">
+      <span *ngIf="product?.stock?.stockLevel > 0 || product?.stock?.stockLevelStatus === 'inStock'">
+        {{ product?.stock?.stockLevel }} in stock</span>
+      <span *ngIf="product?.stock?.stockLevel == 0">Out of stock</span>
+    </span>
+  </div>
+  <cx-add-to-cart
+  *ngIf="product?.stock?.stockLevelStatus !== 'outOfStock'"
+  [quantity]="itemCount"
+  [productCode]="product?.code"
+  ></cx-add-to-cart>
+</ng-container>
