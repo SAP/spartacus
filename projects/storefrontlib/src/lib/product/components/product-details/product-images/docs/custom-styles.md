@@ -2,7 +2,7 @@
 
 ## Vertical thumb panel
 
-The folowing snippets demonstrates the so-called amazon layout of thumbs. It's a small customisation that renders the thumbnails on the left hand side of the main image.
+The folowing snippets demonstrates the so-called amazon layout of thumbs. It's a small customization that renders the thumbnails on the left hand side of the main image.
 
 ```
 cx-product-images {
@@ -19,9 +19,9 @@ cx-product-images {
 
 ![amazon-layout](amazon-layout.gif)
 
-## Staggered thumbnails
+## Stacked thumbnails
 
-The PDP images can take quite some space. This example demonstrates staggered images, placed on top of the main image. Whenever the user navigates to the thumbnails, the stagered images animate to use the original space.
+The PDP images can take quite some space. This example demonstrates stacked images, placed on top of the main image. Whenever the user navigates to the thumbnails, the stacked images animate to use the original space.
 
 ```
 // sass variable
@@ -88,6 +88,6 @@ cx-product-images {
 }
 ```
 
-**Demo staggered thumbnails**
+**Demo stacked thumbnails**
 
-![staggered-pictures](staggered-pictures.gif)
+![stacked-thumbnails](stacked-thumbnails.gif)
