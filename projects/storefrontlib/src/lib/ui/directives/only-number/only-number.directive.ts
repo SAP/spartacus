@@ -16,7 +16,7 @@ export class OnlyNumberDirective {
    * Event handler for host's change event
    * @param e
    */
-  @HostListener('change', ['$event'])
+  @HostListener('change')
   onChange() {
     this.validateValue(this.hostElement.nativeElement.value);
   }
@@ -25,7 +25,7 @@ export class OnlyNumberDirective {
    * Event handler for host's change event
    * @param e
    */
-  @HostListener('input', ['$event'])
+  @HostListener('input')
   onInput() {
     this.validateValue(this.hostElement.nativeElement.value);
   }
