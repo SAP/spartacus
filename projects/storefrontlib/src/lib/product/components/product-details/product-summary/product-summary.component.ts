@@ -1,4 +1,9 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  OnInit
+} from '@angular/core';
 import { ProductSummaryOutlets } from '../../../product-outlets.model';
 
 @Component({
@@ -7,12 +12,23 @@ import { ProductSummaryOutlets } from '../../../product-outlets.model';
   styleUrls: ['./product-summary.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductSummaryComponent {
+export class ProductSummaryComponent implements OnInit {
   static outlets = ProductSummaryOutlets;
 
   @Input()
   product: any;
   itemCount = 1;
+  stockInfo = '';
+
+  ngOnInit() {
+    this.stockInfo =
+      this.product &&
+      this.product.stock &&
+      (this.product.stock.stockLevel > 0 ||
+        this.product.stock.stockLevelStatus === 'inStock')
+        ? `${this.product.stock.stockLevel} in stock`
+        : 'Out of stock';
+  }
 
   get outlets() {
     return ProductSummaryComponent.outlets;

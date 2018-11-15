@@ -18,15 +18,11 @@
 
 <ng-container *cxOutlet="outlets.ADDTOCART">
   <div class="quantity">
-    <label>Qty:</label>
+    <label>Qty</label>
     <cx-item-counter [min]="1" [max]="product.stock.stockLevel" *ngIf="product?.stock?.stockLevel > 0 || product?.stock?.stockLevelStatus === 'inStock'"
       (update)="updateCount($event)"
     ></cx-item-counter>
-    <span class="info">
-      <span *ngIf="product?.stock?.stockLevel > 0 || product?.stock?.stockLevelStatus === 'inStock'">
-        {{ product?.stock?.stockLevel }} in stock</span>
-      <span *ngIf="product?.stock?.stockLevel == 0">Out of stock</span>
-    </span>
+    <span class="info">{{stockInfo}}</span>
   </div>
   <cx-add-to-cart
   *ngIf="product?.stock?.stockLevelStatus !== 'outOfStock'"

@@ -5,20 +5,20 @@
 The following snippet demonstrates a small configuration that will hide the product code and display the product rating next to the product title. In addition,the add review link is hidden.
 
 ```css
-cx-product-summary .product-summary {
+cx-product-summary {
   --cx-grid-template-columns: minmax(20px, auto) minmax(20px auto);
 
-  .item-title .code {
+  .code {
     display: none;
     --cx-align-items: center;
   }
 
-  .item-rating {
+  .rating {
     --cx-grid-row: 1;
     grid-row: 2;
     --cx-margin: 0 0 5px 0;
 
-    .review-link {
+    a {
       display: none;
     }
   }
@@ -38,10 +38,10 @@ cx-product-summary .product-summary {
 Following a similar idea to the previous snippet, the following CSS provides a way to display the product price on the same line as the title.
 
 ```css
-cx-product-summary .product-summary {
+cx-product-summary {
   --cx-grid-template-columns: minmax(20px, auto) minmax(20px auto);
 
-  .item-title .code {
+  .code {
     display: none;
     --cx-align-items: center;
   }
@@ -52,16 +52,16 @@ cx-product-summary .product-summary {
     margin: 0.5em;
   }
 
+  .rating {
+    --cx-grid-row: 2;
+  }
+
   .quantity {
+    display: none;
+  }
+
+  cx-add-to-cart {
     --cx-grid-row: 3;
-
-    &-label {
-      display: none;
-    }
-
-    &-counter {
-      display: none;
-    }
   }
 }
 ```
@@ -75,22 +75,25 @@ cx-product-summary .product-summary {
 The following snippet allows for the add to cart button to be placed next to the title. The add to cart and quantity group is also customised. Indeed, the quantity selector is stacked vertically on top of the add to cart button and aligned with it's center.
 
 ```css
-cx-product-summary .product-summary {
+cx-product-summary {
   --cx-grid-template-columns: minmax(20px, auto) minmax(20px auto);
 
   .quantity {
-    --cx-grid-row: 1 / span 2;
+    --cx-grid-row: 1;
+    grid-column: 2;
     text-align: center;
-    &-info {
+    .info {
       display: none;
     }
 
-    &-label {
+    label {
       display: none;
     }
   }
 
   cx-add-to-cart {
+    --cx-grid-row: 2;
+    grid-column: 2;
     min-width: 200px;
   }
 }
