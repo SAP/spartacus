@@ -3,7 +3,7 @@ import { SearchBoxComponentService } from './search-box-component.service';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { ProductSearchService } from '../../product/facade/product-search.service';
-import { RoutingService } from '../../routing/facade/routing.service';
+import { RoutingService } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
 const mockQueryString = '?query=mockQuery';

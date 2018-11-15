@@ -1,83 +1,140 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+
+import { Store, StoreModule } from '@ngrx/store';
+
+import * as fromAuthStore from '../store';
+import { UserToken, ClientToken } from '../models/token-types.model';
 
 import { AuthService } from './auth.service';
-import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
-import * as NgrxStore from '@ngrx/store';
-import * as fromAuthStore from '../store';
-import { UserToken } from '../models/token-types.model';
 
 const mockToken = {
-  userId: 'user@sap.com'
+  userId: 'user@sap.com',
+  refresh_token: 'foo'
 } as UserToken;
 
+const mockClientToken = {
+  access_token: 'testToken'
+} as ClientToken;
+
 describe('AuthService', () => {
-  const mockSelect = createSpy('select').and.returnValue(() => of(mockToken));
-  let store;
+  let service: AuthService;
+  let store: Store<fromAuthStore.AuthState>;
 
   beforeEach(() => {
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
-
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('auth', fromAuthStore.getReducers())
+      ],
       providers: [AuthService]
     });
 
+    service = TestBed.get(AuthService);
     store = TestBed.get(Store);
-    spyOn(store, 'dispatch');
   });
 
-  it('should be created', inject([AuthService], (service: AuthService) => {
+  it('should be created', () => {
     expect(service).toBeTruthy();
-  }));
+  });
 
-  it('should expose userToken state', inject(
-    [AuthService],
-    (service: AuthService) => {
-      service.userToken$.subscribe(token => {
-        expect(mockSelect).toHaveBeenCalledWith(fromAuthStore.getUserToken);
-        expect(token).toEqual(mockToken);
-      });
-    }
-  ));
+  it('should expose userToken state', () => {
+    store.dispatch(new fromAuthStore.LoadUserTokenSuccess(mockToken));
 
-  it('should dispatch proper action for authorize', inject(
-    [AuthService],
-    (service: AuthService) => {
-      service.authorize('user', 'password');
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromAuthStore.LoadUserToken({
-          userId: 'user',
-          password: 'password'
-        })
-      );
-    }
-  ));
+    let result: UserToken;
+    const subscription = service.userToken$.subscribe(token => {
+      result = token;
+    });
+    subscription.unsubscribe();
 
-  it('should dispatch proper action for authorizeToken', inject(
-    [AuthService],
-    (service: AuthService) => {
-      service.authorizeWithToken(mockToken);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromAuthStore.LoadUserTokenSuccess(mockToken)
-      );
-    }
-  ));
+    expect(result).toEqual(mockToken);
+  });
 
-  it('should dispatch proper action for login', inject(
-    [AuthService],
-    (service: AuthService) => {
-      service.login();
-      expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Login());
-    }
-  ));
+  it('should expose clientToken', () => {
+    store.dispatch(new fromAuthStore.LoadClientTokenSuccess(mockClientToken));
 
-  it('should dispatch proper action for logout', inject(
-    [AuthService],
-    (service: AuthService) => {
-      service.logout();
-      expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Logout());
-    }
-  ));
+    let result: ClientToken;
+    const subscription = service.clientToken$.subscribe(token => {
+      result = token;
+    });
+    subscription.unsubscribe();
+
+    expect(result).toEqual(mockClientToken);
+  });
+
+  it('should call loadClientToken() when no token is present', () => {
+    spyOn(service, 'loadClientToken').and.stub();
+
+    store.dispatch(new fromAuthStore.LoadClientTokenSuccess({} as ClientToken));
+    const subscription = service.clientToken$.subscribe(_token => {});
+    subscription.unsubscribe();
+
+    expect(service.loadClientToken).toHaveBeenCalled();
+  });
+
+  it('should dispatch proper action for authorize', () => {
+    spyOn(store, 'dispatch').and.stub();
+
+    service.authorize('user', 'password');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromAuthStore.LoadUserToken({
+        userId: 'user',
+        password: 'password'
+      })
+    );
+  });
+
+  it('should dispatch proper action for refreshUserToken', () => {
+    spyOn(store, 'dispatch').and.stub();
+
+    service.refreshUserToken(mockToken);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromAuthStore.RefreshUserToken({
+        userId: mockToken.userId,
+        refreshToken: mockToken.refresh_token
+      })
+    );
+  });
+
+  it('should dispatch proper action for authorizeToken', () => {
+    spyOn(store, 'dispatch').and.stub();
+
+    service.authorizeWithToken(mockToken);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromAuthStore.LoadUserTokenSuccess(mockToken)
+    );
+  });
+
+  it('should dispatch proper action for login', () => {
+    spyOn(store, 'dispatch').and.stub();
+
+    service.login();
+    expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Login());
+  });
+
+  it('should dispatch proper action for logout', () => {
+    spyOn(store, 'dispatch').and.stub();
+
+    service.logout();
+    expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Logout());
+  });
+
+  it('should dispatch proper action for loadClientToken()', () => {
+    spyOn(store, 'dispatch').and.stub();
+
+    service.loadClientToken();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromAuthStore.LoadClientToken()
+    );
+  });
+
+  it('refresh the client toke', () => {
+    store.dispatch(new fromAuthStore.LoadClientTokenSuccess(mockClientToken));
+
+    spyOn(service, 'loadClientToken').and.stub();
+
+    const sub = service.refreshClientToken().subscribe();
+    sub.unsubscribe();
+
+    expect(service.loadClientToken).toHaveBeenCalled();
+  });
 });

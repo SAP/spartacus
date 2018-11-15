@@ -5,11 +5,12 @@ import {
   HttpEvent,
   HttpRequest
 } from '@angular/common/http';
-import { Store, select } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
-import { UserToken } from '../../auth/models/token-types.model';
-import * as fromStore from '../store';
+
 import { AuthModuleConfig } from '../auth-module.config';
+import { AuthService } from '../facade/auth.service';
+import { UserToken } from '../../auth/models/token-types.model';
 
 @Injectable()
 export class UserTokenInterceptor implements HttpInterceptor {
@@ -21,13 +22,11 @@ export class UserTokenInterceptor implements HttpInterceptor {
 
   constructor(
     private config: AuthModuleConfig,
-    private store: Store<fromStore.AuthState>
+    private authService: AuthService
   ) {
-    this.store
-      .pipe(select(fromStore.getUserToken))
-      .subscribe((token: UserToken) => {
-        this.userToken = token;
-      });
+    this.authService.userToken$.subscribe((token: UserToken) => {
+      this.userToken = token;
+    });
   }
 
   intercept(
