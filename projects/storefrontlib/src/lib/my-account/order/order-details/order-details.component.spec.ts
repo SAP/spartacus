@@ -134,9 +134,11 @@ describe('OrderDetailsComponent', () => {
 
   it('should initialize ', () => {
     fixture.detectChanges();
+    let order;
     component.order$.subscribe(value => {
-      expect(value).toEqual(mockOrder);
+      order = value;
     });
+    expect(order).toEqual(mockOrder);
     expect(mockUserService.loadOrderDetails).toHaveBeenCalledWith('test', '1');
   });
 
