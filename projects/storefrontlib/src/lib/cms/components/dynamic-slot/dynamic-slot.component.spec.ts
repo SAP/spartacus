@@ -5,7 +5,7 @@ import { OutletDirective } from '../../../outlet';
 import { CmsService } from '../../facade/cms.service';
 
 class MockCmsService {
-  getSlot() {}
+  getContentSlot() {}
 }
 
 describe('DynamicSlotComponent', () => {
