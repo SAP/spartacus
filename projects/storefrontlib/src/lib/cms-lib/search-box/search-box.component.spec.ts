@@ -126,7 +126,7 @@ describe('SearchBoxComponent in CmsLib', () => {
     expect(searchBoxComponent).toBeTruthy();
   });
 
-  it('should search input value be euqal to search query if was defined', () => {
+  it('should search input value be equal to search query if was defined', () => {
     fixture.detectChanges();
     expect(searchBoxComponent.searchBoxControl.value).toEqual(
       mockState.state.params.query
