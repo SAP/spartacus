@@ -8,7 +8,7 @@ import {
 
 import { Observable } from 'rxjs';
 
-import { AuthModuleConfig } from '../auth-module.config';
+import { AuthModuleConfig } from '../config/config';
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from '../../auth/models/token-types.model';
 

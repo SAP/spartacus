@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import * as fromAuthStore from '../store';
-import { UserToken } from '../models/token-types.model';
+import { ClientToken, UserToken } from '../models/token-types.model';
 import { Observable } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
-
-import * as fromAuthStore from '../store';
-import { UserToken, ClientToken } from '../models/token-types.model';
 import { ClientTokenState } from '../store/reducers/client-token.reducer';
 
 @Injectable({
@@ -18,6 +15,7 @@ export class AuthService {
   );
 
   constructor(private store: Store<any>) {}
+
   readonly clientToken$: Observable<ClientToken> = this.store.pipe(
     select(fromAuthStore.getClientTokenState),
     tap((state: ClientTokenState) => {
@@ -28,8 +26,6 @@ export class AuthService {
     filter((state: ClientTokenState) => Object.keys(state.token).length !== 0),
     map((state: ClientTokenState) => state.token)
   );
-
-  constructor(private store: Store<fromAuthStore.AuthState>) {}
 
   authorize(userId: string, password: string) {
     this.store.dispatch(

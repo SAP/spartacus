@@ -8,15 +8,12 @@ import {
 
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-
-import { AuthModuleConfig } from '../auth-module.config';
 import { AuthService } from '../facade/auth.service';
 import { AuthenticationToken } from '../models/token-types.model';
 import {
   USE_CLIENT_TOKEN,
   InterceptorUtil
 } from '../../occ/utils/interceptor-util';
-import { ClientTokenState } from '../store/reducers/client-token.reducer';
 import { AuthModuleConfig } from '../config/config';
 
 @Injectable()
