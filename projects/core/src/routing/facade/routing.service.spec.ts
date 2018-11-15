@@ -57,7 +57,7 @@ describe('RoutingService', () => {
       spyOn(pathPipeService, 'transform').and.returnValue('transformed-path');
       spyOn(service, 'go');
       service.goToPage('testPageName');
-      expect(service.go).toHaveBeenCalledWith('transformed-path');
+      expect(service.go).toHaveBeenCalledWith(['transformed-path']);
     });
   });
 
