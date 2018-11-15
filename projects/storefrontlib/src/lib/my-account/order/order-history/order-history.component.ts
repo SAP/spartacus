@@ -4,8 +4,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as fromUserStore from '../../../user/store';
 import { Store, select } from '@ngrx/store';
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '../../../routing/facade/routing.service';
-import { PathService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-history',
@@ -16,8 +15,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   constructor(
     private auth: AuthService,
     private routing: RoutingService,
-    private store: Store<fromUserStore.UserState>,
-    private pathService: PathService
+    private store: Store<fromUserStore.UserState>
   ) {}
 
   orders$: Observable<any>;
@@ -88,7 +86,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   }
 
   goToOrderDetail(order) {
-    this.routing.go([this.pathService.transform('myAccount_orders', order)]);
+    this.routing.goToPage('myAccount_orders', order);
   }
 
   private fetchOrders(event: { sortCode: string; currentPage: number }) {

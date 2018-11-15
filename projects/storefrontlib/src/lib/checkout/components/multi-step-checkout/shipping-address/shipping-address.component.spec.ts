@@ -1,18 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import * as fromRoot from '../../../../routing/store';
 import * as fromCheckout from '../../../store';
 import * as fromCart from '../../../../cart/store';
 import * as fromUser from '../../../../user/store';
 
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
-
+import { RoutingService } from '@spartacus/core';
 import { ShippingAddressComponent } from './shipping-address.component';
 
 import { BehaviorSubject } from 'rxjs';
-import * as fromRouting from '../../../../routing/store';
 import { CheckoutService } from '../../../services';
 import { CartService, CartDataService } from '../../../../cart/services';
 import { Address } from '../../../models/address-model';
@@ -75,6 +73,7 @@ describe('ShippingAddressComponent', () => {
   let component: ShippingAddressComponent;
   let fixture: ComponentFixture<ShippingAddressComponent>;
   let service: CheckoutService;
+  let routingService: RoutingService;
   let mockUserSelectors: {
     getAddressesLoading: BehaviorSubject<boolean>;
     getAddresses: BehaviorSubject<any[]>;
@@ -84,12 +83,10 @@ describe('ShippingAddressComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          checkout: combineReducers(fromCheckout.getReducers()),
-          cart: combineReducers(fromCart.getReducers()),
-          user: combineReducers(fromUser.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('checkout', fromCheckout.getReducers()),
+        StoreModule.forFeature('cart', fromCart.getReducers()),
+        StoreModule.forFeature('user', fromUser.getReducers())
       ],
       declarations: [
         ShippingAddressComponent,
@@ -106,6 +103,7 @@ describe('ShippingAddressComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.get(Store);
     service = TestBed.get(CheckoutService);
+    routingService = TestBed.get(RoutingService);
 
     mockUserSelectors = {
       getAddressesLoading: new BehaviorSubject(false),
@@ -124,6 +122,7 @@ describe('ShippingAddressComponent', () => {
     spyOn(component.addAddress, 'emit').and.callThrough();
     spyOn(component, 'addNewAddress').and.callThrough();
     spyOn(service, 'loadUserAddresses').and.callThrough();
+    spyOn(routingService, 'go').and.callThrough();
   });
 
   it('should be created', () => {
@@ -208,11 +207,7 @@ describe('ShippingAddressComponent', () => {
 
   it('should call back()', () => {
     component.back();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromRouting.Go({
-        path: ['/cart']
-      })
-    );
+    expect(routingService.go).toHaveBeenCalledWith(['/cart']);
   });
 
   describe('UI continue button', () => {

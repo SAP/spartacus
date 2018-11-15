@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers, select } from '@ngrx/store';
+import { StoreModule, Store, select } from '@ngrx/store';
 
-import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from './view-all-stores.selectors';
@@ -14,10 +13,8 @@ describe('ViewAllStores Selectors', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          stores: combineReducers(fromReducers.reducers)
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('stores', fromReducers.reducers)
       ]
     });
     store = TestBed.get(Store);

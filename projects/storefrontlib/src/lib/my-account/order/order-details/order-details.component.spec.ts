@@ -3,10 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
 import { CartService, CartDataService } from '../../../cart/services';
+import { RoutingService } from '@spartacus/core';
 import { CartSharedModule } from '../../../cart/components/cart-shared/cart-shared.module';
 import { CardModule } from '../../../ui/components/card/card.module';
 import * as fromAuth from '../../../auth/store';
-import * as fromRoot from '../../../routing/store';
 import * as fromUserStore from '../../../user/store';
 
 const mockOrder = {
@@ -72,14 +72,14 @@ function spyOnStore() {
     switch (selector) {
       case fromAuth.getUserToken:
         return () => of(mockUser);
-      case fromRoot.getRouterState:
-        return () => of(mockState);
       case fromUserStore.getOrderDetails:
         return () => of(mockOrder);
     }
   });
 }
-
+const mockRoutingService = {
+  routerState$: of(mockState)
+};
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
   let fixture: ComponentFixture<OrderDetailsComponent>;
@@ -90,13 +90,15 @@ describe('OrderDetailsComponent', () => {
       imports: [
         CartSharedModule,
         CardModule,
-        NgrxStore.StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          auth: NgrxStore.combineReducers(fromAuth.getReducers()),
-          order: NgrxStore.combineReducers(fromUserStore.getReducers())
-        })
+        NgrxStore.StoreModule.forRoot({}),
+        NgrxStore.StoreModule.forFeature('auth', fromAuth.getReducers()),
+        NgrxStore.StoreModule.forFeature('order', fromUserStore.getReducers())
       ],
-      providers: [CartService, CartDataService],
+      providers: [
+        CartService,
+        CartDataService,
+        { provide: RoutingService, useValue: mockRoutingService }
+      ],
       declarations: [OrderDetailsComponent]
     }).compileComponents();
   }));

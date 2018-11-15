@@ -1,20 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { NavigationModule } from '../navigation/navigation.module';
 import { CategoryNavigationComponent } from './category-navigation.component';
-import * as fromRoot from '../../routing/store';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { BootstrapModule } from '../../bootstrap.module';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { PathPipeService, DynamicPathPipeService } from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
     CategoryNavigationComponent: 'CategoryNavigationComponent'
   }
 };
+
+const mockPathPipeService = { transform: () => {} };
+const mockDynamicPathPipeService = { transform: () => {} };
 
 describe('CategoryNavigationComponent', () => {
   let component: CategoryNavigationComponent;
@@ -26,14 +29,19 @@ describe('CategoryNavigationComponent', () => {
       imports: [
         NavigationModule,
         BootstrapModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        }),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
         RouterTestingModule
       ],
       declarations: [CategoryNavigationComponent],
-      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
+      providers: [
+        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
+        { provide: PathPipeService, useValue: mockPathPipeService },
+        {
+          provide: DynamicPathPipeService,
+          useValue: mockDynamicPathPipeService
+        }
+      ]
     }).compileComponents();
   }));
 

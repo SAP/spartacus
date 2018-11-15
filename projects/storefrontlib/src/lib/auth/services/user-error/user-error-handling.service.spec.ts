@@ -3,11 +3,10 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
 import * as fromStore from '../../store';
-import * as fromRoot from '../../../routing/store';
 
 import { UserErrorHandlingService } from './user-error-handling.service';
 
@@ -48,10 +47,8 @@ describe('UserErrorHandlingService', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          auth: combineReducers(fromStore.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('auth', fromStore.getReducers())
       ],
       providers: [
         UserErrorHandlingService,

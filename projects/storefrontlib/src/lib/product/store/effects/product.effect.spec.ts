@@ -12,11 +12,8 @@ import { ProductReferenceConverterService } from '../../converters/product-refer
 
 import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
-import { StoreModule, combineReducers } from '@ngrx/store';
-import * as ngrxStore from '@ngrx/store';
-import * as fromRoot from '../../../routing/store';
-import * as fromCmsReducer from '../../../cms/store/reducers';
-import { PageType } from '../../../routing/models/page-context.model';
+import { StoreModule } from '@ngrx/store';
+import { RoutingService, PageType } from '@spartacus/core';
 import { LanguageChange } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
@@ -24,6 +21,19 @@ const MockOccModuleConfig: OccConfig = {
     baseUrl: '',
     occPrefix: ''
   }
+};
+
+const router = {
+  state: {
+    url: '/',
+    queryParams: {},
+    params: {},
+    context: { id: '1', type: PageType.PRODUCT_PAGE },
+    cmsRequired: false
+  }
+};
+const mockRoutingService = {
+  routerState$: of(router)
 };
 
 describe('Product Effects', () => {
@@ -39,20 +49,15 @@ describe('Product Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        })
-      ],
+      imports: [HttpClientTestingModule, StoreModule.forRoot({})],
       providers: [
         OccProductService,
         ProductImageConverterService,
         ProductReferenceConverterService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.ProductEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+        { provide: RoutingService, useValue: mockRoutingService }
       ]
     });
     service = TestBed.get(OccProductService);
@@ -75,19 +80,6 @@ describe('Product Effects', () => {
 
   describe('refreshProduct$', () => {
     it('should refresh a product', () => {
-      const router = {
-        state: {
-          url: '/',
-          queryParams: {},
-          params: {},
-          context: { id: '1', type: PageType.PRODUCT_PAGE },
-          cmsRequired: false
-        }
-      };
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(router)
-      );
-
       const action = new LanguageChange();
       const completion = new fromActions.LoadProductSuccess(product);
 

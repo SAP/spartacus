@@ -13,13 +13,9 @@ import {
 import * as fromEffects from './page.effect';
 import * as fromActions from '../actions';
 import { Page } from '../../models/page.model';
-import {
-  PageContext,
-  PageType
-} from '../../../routing/models/page-context.model';
+import { PageContext, PageType } from '@spartacus/core';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule, combineReducers } from '@ngrx/store';
-import * as fromRoot from '../../../routing/store';
+import { StoreModule } from '@ngrx/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
 export function mockDateNow() {
@@ -61,10 +57,8 @@ describe('Page Effects', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers())
       ],
       providers: [
         OccCmsService,

@@ -1,6 +1,6 @@
 import { Injectable, Optional } from '@angular/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-import { ProductSearchService } from '../../product/services/product-search.service';
+import { ProductSearchService } from '../../product/facade/product-search.service';
 import { combineLatest, merge, Observable, of } from 'rxjs';
 import {
   debounceTime,
@@ -8,8 +8,7 @@ import {
   map,
   switchMap
 } from 'rxjs/operators';
-import { RoutingService } from '../../routing/facade/routing.service';
-import { PathService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 
 interface SearchBoxConfig {
   maxProducts: number;
@@ -34,8 +33,7 @@ export class SearchBoxComponentService {
   constructor(
     @Optional() protected componentData: CmsComponentData,
     public searchService: ProductSearchService,
-    protected routingService: RoutingService,
-    private pathService: PathService
+    protected routingService: RoutingService
   ) {
     if (componentData) {
       this.config$ = merge(
@@ -65,7 +63,7 @@ export class SearchBoxComponentService {
     );
 
   public launchSearchPage(query: string) {
-    this.routingService.go([this.pathService.transform('search', { query })]);
+    this.routingService.goToPage('search', { query });
   }
 
   private fetch(text: string, config: SearchBoxConfig): Observable<any[]> {

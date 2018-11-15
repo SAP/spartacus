@@ -4,8 +4,8 @@ import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as fromUserStore from '../../../user/store';
 import * as fromAuthStore from '../../../auth/store';
-import * as fromRoutingStore from '../../../routing/store';
 import { Card } from '../../../ui/components/card/card.component';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-details',
@@ -16,7 +16,7 @@ import { Card } from '../../../ui/components/card/card.component';
 export class OrderDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromUserStore.UserState>,
-    private routingStore: Store<fromRoutingStore.State>
+    private routingService: RoutingService
   ) {}
 
   order$: Observable<any>;
@@ -28,8 +28,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
       map(userData => userData.userId)
     );
 
-    const orderCode$ = this.routingStore.pipe(
-      select(fromRoutingStore.getRouterState),
+    const orderCode$ = this.routingService.routerState$.pipe(
       map(routingData => routingData.state.params.orderCode)
     );
 

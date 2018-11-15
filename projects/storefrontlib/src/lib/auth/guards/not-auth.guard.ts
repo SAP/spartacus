@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate } from '@angular/router';
+import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 import * as fromStore from './../store';
-import { PathService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 
 @Injectable()
 export class NotAuthGuard implements CanActivate {
@@ -13,8 +13,7 @@ export class NotAuthGuard implements CanActivate {
 
   constructor(
     private store: Store<fromStore.AuthState>,
-    private router: Router,
-    private pathService: PathService
+    private routingService: RoutingService
   ) {}
 
   canActivate(): Observable<boolean> {
@@ -22,7 +21,7 @@ export class NotAuthGuard implements CanActivate {
       select(fromStore.getUserToken),
       map(token => {
         if (token.access_token) {
-          this.router.navigate([this.pathService.transform('homepage')]);
+          this.routingService.goToPage('homepage');
         }
         return !token.access_token;
       })

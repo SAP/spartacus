@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import { DynamicSlotComponent } from './dynamic-slot.component';
-import * as fromRoot from '../../../routing/store';
 import * as fromReducers from '../../store/reducers';
 import * as fromActions from '../../store/actions';
 import { Page } from '../../models/page.model';
@@ -29,10 +28,8 @@ describe('DynamicSlotComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromReducers.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cms', fromReducers.getReducers())
       ],
       declarations: [
         DynamicSlotComponent,

@@ -1,13 +1,10 @@
 import { ComponentsModule } from './../../components/components.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, combineReducers } from '@ngrx/store';
-import * as NgrxStore from '@ngrx/store';
-import * as fromCart from '../../../cart/store';
-import * as fromUser from '../../../user/store';
+import { StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
-import * as fromRoot from '../../../routing/store';
+
 import { ProductPageComponent } from './product-page.component';
 import { ProductDetailsPageLayoutComponent } from '../../layout/product-details-page-layout/product-details-page-layout.component';
 import { ProductDetailsComponent } from '../../../product/components/product-details/container/product-details.component';
@@ -26,12 +23,13 @@ import {
 } from '../../../cms/cms-module-config';
 import { AddToCartComponent } from '../../../cart/components/add-to-cart/add-to-cart.component';
 import { CartService } from '../../../cart/services';
-import { ProductService } from '../../../product/services';
+import { ProductService } from '../../../product/facade';
 import {
   NgbTabsetModule,
   NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { OutletDirective } from '../../../outlet';
+import { RoutingService } from '@spartacus/core';
 
 const routerState = {
   state: {
@@ -40,7 +38,9 @@ const routerState = {
     }
   }
 };
-
+const mockRoutingService = {
+  routerState$: of(routerState)
+};
 describe('ProductPageComponent in pages', () => {
   let component: ProductPageComponent;
   let fixture: ComponentFixture<ProductPageComponent>;
@@ -52,11 +52,7 @@ describe('ProductPageComponent in pages', () => {
         ReactiveFormsModule,
         NgbTabsetModule,
         NgbAccordionModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cart: combineReducers(fromCart.getReducers()),
-          user: combineReducers(fromUser.getReducers())
-        }),
+        StoreModule.forRoot({}),
         ComponentsModule
       ],
       declarations: [
@@ -76,7 +72,8 @@ describe('ProductPageComponent in pages', () => {
         ComponentMapperService,
         { provide: CmsModuleConfig, useValue: defaultCmsModuleConfig },
         CartService,
-        ProductService
+        ProductService,
+        { provide: RoutingService, useValue: mockRoutingService }
       ]
     }).compileComponents();
   }));
@@ -84,10 +81,6 @@ describe('ProductPageComponent in pages', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductPageComponent);
     component = fixture.componentInstance;
-
-    spyOnProperty(NgrxStore, 'select').and.returnValue(() => () =>
-      of(routerState)
-    );
   });
 
   it('should create', () => {
@@ -96,7 +89,6 @@ describe('ProductPageComponent in pages', () => {
 
   it('should call ngOnInit', () => {
     component.ngOnInit();
-
     expect(component.productCode).toEqual('mockProductCode');
   });
 });
