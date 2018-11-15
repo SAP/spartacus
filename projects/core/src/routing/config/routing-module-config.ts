@@ -7,7 +7,3 @@ export enum StorageSyncType {
 export abstract class RoutingModuleConfig {
   storageSyncType?: StorageSyncType;
 }
-
-export const defaultRoutingModuleConfig: RoutingModuleConfig = {
-  storageSyncType: StorageSyncType.SESSION_STORAGE
-};

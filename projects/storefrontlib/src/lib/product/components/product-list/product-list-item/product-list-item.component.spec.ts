@@ -1,17 +1,48 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductListItemComponent } from './product-list-item.component';
-import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AddToCartComponent } from '../../../../cart/components/add-to-cart/add-to-cart.component';
-import { CartService, CartDataService } from '../../../../cart/services';
-import { StoreModule } from '@ngrx/store';
-import * as fromCart from '../../../../cart/store';
-import * as fromUser from '../../../../user/store';
-import * as fromAuth from '../../../../auth/store';
-import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
-import { StarRatingComponent } from '../../../../ui';
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
+@Component({
+  selector: 'cx-add-to-cart',
+  template: '<button>add to cart</button>'
+})
+export class MockAddToCartComponent {
+  @Input()
+  iconOnly;
+  @Input()
+  productCode;
+  @Input()
+  quantity;
+}
+
+@Component({
+  selector: 'cx-star-rating',
+  template: '*****'
+})
+export class MockStarRatingComponent {
+  @Input()
+  rating;
+  @Input()
+  disabled;
+  @Input()
+  steps;
+}
+
+@Component({
+  selector: 'cx-picture',
+  template: 'mock picture component'
+})
+export class MockPictureComponent {
+  @Input()
+  imageContainer;
+  @Input()
+  imageFormat;
+  @Input()
+  imagePosition;
+  @Input()
+  imageAlt;
+}
 describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
   let fixture: ComponentFixture<ProductListItemComponent>;
@@ -34,21 +65,13 @@ describe('ProductListItemComponent in product-list', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        NgbRatingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromCart.getReducers()),
-        StoreModule.forFeature('user', fromUser.getReducers()),
-        StoreModule.forFeature('auth', fromAuth.getReducers())
-      ],
+      imports: [RouterTestingModule],
       declarations: [
         ProductListItemComponent,
-        PictureComponent,
-        AddToCartComponent,
-        StarRatingComponent
-      ],
-      providers: [CartService, CartDataService]
+        MockPictureComponent,
+        MockAddToCartComponent,
+        MockStarRatingComponent
+      ]
     })
       .overrideComponent(ProductListItemComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default }

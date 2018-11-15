@@ -75,11 +75,24 @@ export class LoginHelper {
     if (await registerPage.header.isLoggedIn()) {
       LoginHelper.userEmail = userEmail;
       LoginHelper.userPassword = userPassword;
+      return {
+        email: userEmail,
+        password: userPassword
+      };
       console.log('Created new user', userEmail, userPassword);
     } else {
       // prettier-ignore
       throw new Error('Couldn\'t register new user!');
     }
+  }
+
+  static async loginUserViaHeader(email: string, password: string) {
+    const loginPage = new LoginPage();
+    await this.navigateToLoginViaHeader();
+
+    const loginForm = loginPage.loginForm;
+    await loginForm.fillInForm(email, password);
+    await loginForm.submitLogin();
   }
 
   static async loginUser(email: string, password: string) {

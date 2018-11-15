@@ -14,10 +14,10 @@ import {
   switchMap
 } from 'rxjs/operators';
 import * as fromStore from '../store';
-import { RoutingService } from '../../routing/facade/routing.service';
 
 import { Page } from '../models/page.model';
 import { DefaultPageService } from './../services/default-page.service';
+import { RoutingService } from '@spartacus/core';
 
 @Injectable()
 export class CmsPageGuards implements CanActivate {

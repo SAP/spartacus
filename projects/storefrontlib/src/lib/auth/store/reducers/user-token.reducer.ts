@@ -1,14 +1,12 @@
-import { UserToken } from '../../models/token-types.model';
 import * as fromAction from './../actions/user-token.action';
+import { UserToken } from '../../models/token-types.model';
 
 export interface UserTokenState {
   token: UserToken;
-  loading: boolean;
 }
 
 export const initialState: UserTokenState = {
-  token: <UserToken>{},
-  loading: false
+  token: <UserToken>{}
 };
 
 export function reducer(
@@ -19,8 +17,7 @@ export function reducer(
     case fromAction.LOAD_USER_TOKEN:
     case fromAction.REFRESH_USER_TOKEN: {
       return {
-        ...state,
-        loading: true
+        ...state
       };
     }
 
@@ -30,16 +27,14 @@ export function reducer(
 
       return {
         ...state,
-        token,
-        loading: false
+        token
       };
     }
 
     case fromAction.LOAD_USER_TOKEN_FAIL:
     case fromAction.REFRESH_USER_TOKEN_FAIL: {
       return {
-        ...state,
-        loading: false
+        ...state
       };
     }
   }
@@ -47,4 +42,3 @@ export function reducer(
 }
 
 export const getUserToken = (state: UserTokenState) => state.token;
-export const getUserTokenLoading = (state: UserTokenState) => state.loading;
