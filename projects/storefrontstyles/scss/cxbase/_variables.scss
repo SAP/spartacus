@@ -49,3 +49,12 @@ $type: map-merge(
   ),
   $type
 );
+
+//SPA breakpoints - TODO is this the right file
+$default-breakpoints: (
+  'xs': 0,
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px,
+  'xl': 1200px
+);
