@@ -1,7 +1,7 @@
 import * as fromAuthActions from './';
-import { ClientAuthenticationToken } from './../../models/token-types.model';
+import { ClientToken } from './../../models/token-types.model';
 
-const clientToken: ClientAuthenticationToken = {
+const clientToken: ClientToken = {
   access_token: 'xxx',
   token_type: 'xxx',
   expires_in: 1,
