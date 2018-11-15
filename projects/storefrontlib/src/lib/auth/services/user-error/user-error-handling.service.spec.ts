@@ -3,14 +3,12 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 
-import { StoreModule, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
-import * as fromStore from '../../store';
+import { AuthService } from '../../facade/auth.service';
+import { UserToken } from '../../models/token-types.model';
 
 import { UserErrorHandlingService } from './user-error-handling.service';
-
-import { UserToken } from '../../models/token-types.model';
 
 class MockHttpHandler extends HttpHandler {
   handle(_req: HttpRequest<any>): Observable<HttpEvent<any>> {
@@ -18,8 +16,14 @@ class MockHttpHandler extends HttpHandler {
   }
 }
 
+class AuthServiceStub {
+  userToken$: Observable<UserToken>;
+  refreshUserToken(_token: UserToken) {}
+  logout() {}
+}
+
 describe('UserErrorHandlingService', () => {
-  let httpRequest = new HttpRequest('GET', '/');
+  const httpRequest = new HttpRequest('GET', '/');
   const userToken: UserToken = {
     access_token: 'xxx',
     token_type: 'bearer',
@@ -38,90 +42,76 @@ describe('UserErrorHandlingService', () => {
     userId: 'xxx'
   };
 
-  let store: Store<fromStore.AuthState>;
   let service: UserErrorHandlingService;
   let httpHandler: HttpHandler;
   let router: Router;
+  let authService: AuthServiceStub;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('auth', fromStore.getReducers())
-      ],
+      imports: [RouterTestingModule],
       providers: [
         UserErrorHandlingService,
+        {
+          provide: AuthService,
+          useClass: AuthServiceStub
+        },
         { provide: HttpHandler, useClass: MockHttpHandler }
       ]
     });
 
-    store = TestBed.get(Store);
     router = TestBed.get(Router);
     service = TestBed.get(UserErrorHandlingService);
     httpHandler = TestBed.get(HttpHandler);
+    authService = TestBed.get(AuthService);
 
     spyOn(router, 'navigate').and.stub();
-    spyOn(store, 'dispatch').and.callThrough();
     spyOn(httpHandler, 'handle').and.callThrough();
   });
 
   describe('handleExpiredUserToken', () => {
     it('should redirect to login if no token', () => {
-      spyOn(store, 'select').and.returnValue(of({}));
-      service.handleExpiredUserToken(httpRequest, httpHandler).subscribe();
+      authService.userToken$ = of({} as UserToken);
+      const sub = service
+        .handleExpiredUserToken(httpRequest, httpHandler)
+        .subscribe();
+      sub.unsubscribe();
 
       expect(router.navigate).toHaveBeenCalledWith(['/login']);
     });
 
-    it('should get new token and resend request', () => {
-      store.dispatch(new fromStore.LoadUserTokenSuccess(userToken));
-      service.handleExpiredUserToken(httpRequest, httpHandler).subscribe();
+    it('should get new token', () => {
+      spyOn(authService, 'refreshUserToken').and.stub();
+      authService.userToken$ = of(userToken);
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.RefreshUserToken({
-          userId: userToken.userId,
-          refreshToken: userToken.refresh_token
-        })
-      );
-      store.dispatch(new fromStore.RefreshUserTokenSuccess(newToken));
-      httpRequest = httpRequest.clone({
-        setHeaders: {
-          Authorization: `${newToken.token_type} ${newToken.access_token}`
-        }
-      });
-
-      expect(httpHandler.handle).toHaveBeenCalledWith(httpRequest);
+      const sub = service
+        .handleExpiredUserToken(httpRequest, httpHandler)
+        .subscribe();
+      expect(authService.refreshUserToken).toHaveBeenCalledWith(userToken);
+      sub.unsubscribe();
     });
 
     it('should only dispatch refresh token event once', () => {
-      store.dispatch(new fromStore.LoadUserTokenSuccess(userToken));
+      authService.userToken$ = of(userToken);
+      spyOn(authService, 'refreshUserToken').and.returnValue(of(newToken));
 
-      service.handleExpiredUserToken(httpRequest, httpHandler).subscribe();
+      const sub = service
+        .handleExpiredUserToken(httpRequest, httpHandler)
+        .subscribe();
+      sub.unsubscribe();
 
-      store.dispatch(new fromStore.RefreshUserTokenSuccess(newToken));
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.RefreshUserToken({
-          userId: userToken.userId,
-          refreshToken: userToken.refresh_token
-        })
-      );
-
-      expect(store.dispatch).not.toHaveBeenCalledWith(
-        new fromStore.RefreshUserToken({
-          userId: newToken.userId,
-          refreshToken: newToken.refresh_token
-        })
-      );
+      expect(authService.refreshUserToken).toHaveBeenCalledWith(userToken);
+      expect(authService.refreshUserToken).not.toHaveBeenCalledWith(newToken);
     });
   });
 
   describe('handleExpiredRefreshToken', () => {
     it('should logout user', () => {
+      spyOn(authService, 'logout').and.stub();
+
       service.handleExpiredRefreshToken();
 
-      expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
+      expect(authService.logout).toHaveBeenCalled();
     });
   });
 });

@@ -11,6 +11,7 @@ import { CmsService } from '../../cms/facade/cms.service';
 import { CmsComponentData, ProductSearchService } from '@spartacus/storefront';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { RouterModule } from '@angular/router';
+import { RoutingService } from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -51,6 +52,18 @@ describe('SearchBoxComponent in CmsLib', () => {
     key: 'Enter123'
   };
 
+  const mockState = {
+    state: {
+      params: {
+        query: 'test'
+      }
+    }
+  };
+
+  const mockRoutingService = {
+    routerState$: of(mockState)
+  };
+
   class SearchBoxComponentServiceSpy {
     launchSearchPage = jasmine.createSpy('launchSearchPage');
     search = jasmine.createSpy('search').and.callFake(() => of([]));
@@ -78,7 +91,8 @@ describe('SearchBoxComponent in CmsLib', () => {
           useValue: {
             data$: of({})
           }
-        }
+        },
+        { provide: RoutingService, useValue: mockRoutingService }
       ]
     })
       .overrideComponent(SearchBoxComponent, {
@@ -110,6 +124,13 @@ describe('SearchBoxComponent in CmsLib', () => {
 
   it('should be created', () => {
     expect(searchBoxComponent).toBeTruthy();
+  });
+
+  it('should search input value be equal to search query if was defined', () => {
+    fixture.detectChanges();
+    expect(searchBoxComponent.searchBoxControl.value).toEqual(
+      mockState.state.params.query
+    );
   });
 
   it('should dispatch new search query on text update', () => {

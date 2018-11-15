@@ -4,30 +4,30 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot
 } from '@angular/router';
+
+import { RoutingService } from '@spartacus/core';
+
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Store, select } from '@ngrx/store';
-
-import * as fromStore from './../store';
-import { RoutingService } from '@spartacus/core';
+import { AuthService } from '../facade/auth.service';
+import { UserToken } from '../models/token-types.model';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   static GUARD_NAME = 'AuthGuard';
 
   constructor(
-    private store: Store<fromStore.AuthState>,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    private authService: AuthService
   ) {}
 
   canActivate(
     _route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-    return this.store.pipe(
-      select(fromStore.getUserToken),
-      map(token => {
+    return this.authService.userToken$.pipe(
+      map((token: UserToken) => {
         if (!token.access_token) {
           this.routingService.go(['/login']);
           this.routingService.saveRedirectUrl(state.url);
