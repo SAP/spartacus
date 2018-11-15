@@ -42,8 +42,8 @@
           {{item.quantity}}
         </div>
         <div *ngIf="!isReadOnly && parent" class="cx-cart-item__quantity--value" [formGroup]="parent">
-          <cx-item-counter [step]="1" [min]="1" [max]="item.product.stock?.stockLevel || 1000" (update)="updateItem($event)"
-            [cartIsLoading]="cartIsLoading" formControlName="quantity">
+          <cx-item-counter isValueChangable="true" [step]="1" [min]="1" [max]="item.product.stock?.stockLevel || 1000"
+            (update)="updateItem($event)" [cartIsLoading]="cartIsLoading" formControlName="quantity">
           </cx-item-counter>
         </div>
       </div>
