@@ -39,6 +39,8 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   async = false;
   @Input()
   cartIsLoading = false;
+  @Input()
+  isValueChangable = false;
 
   @Output()
   update = new EventEmitter<any>();
@@ -75,6 +77,16 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     this.renderer.setProperty(this.input.nativeElement, 'value', this.value);
   }
 
+  hasError() {
+    if (this.value < this.min) {
+      return true;
+    }
+    if (this.value > this.max) {
+      return true;
+    }
+    return false;
+  }
+
   onKeyDown(event: KeyboardEvent) {
     const handlers = {
       ArrowDown: () => this.decrement(),
@@ -87,6 +99,13 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
       event.stopPropagation();
     }
     this.onTouch();
+  }
+
+  onInput(event) {
+    const { value } = event.target;
+    if (value) {
+      this.value = Number(value);
+    }
   }
 
   onBlur(event: FocusEvent) {
