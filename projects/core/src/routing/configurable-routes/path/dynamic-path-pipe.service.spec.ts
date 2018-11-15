@@ -8,7 +8,7 @@ const mockPathService = {
 };
 
 const mockPathRecognizerService = {
-  getMatchingPageAndParameters: () => {}
+  getPageAndParameters: () => {}
 };
 
 describe('DynamicPathPipeService', () => {
@@ -37,11 +37,11 @@ describe('DynamicPathPipeService', () => {
   });
 
   describe('transform', () => {
-    it('should return result from PathService', () => {
+    it('should return result from PathPipeService', () => {
       const inputUrl = 'test-path/value1/value2';
       const expectedResult = 'expected-result';
       spyOn(pathService, 'transform').and.returnValue(expectedResult);
-      spyOn(pathRecognizer, 'getMatchingPageAndParameters').and.returnValue({
+      spyOn(pathRecognizer, 'getPageAndParameters').and.returnValue({
         pageName: 'testPageName',
         parameters: { param1: 'value1', param2: 'value2' }
       });
@@ -55,21 +55,21 @@ describe('DynamicPathPipeService', () => {
       expect(result).toBe(expectedResult);
     });
 
-    it('should use PathRecognizerService to get matching page name and parameters', () => {
+    it('should get matching page name and parameters from PathRecognizerService', () => {
       const inputUrl = 'test-path/value1/value2';
-      spyOn(pathRecognizer, 'getMatchingPageAndParameters').and.returnValue({
+      spyOn(pathRecognizer, 'getPageAndParameters').and.returnValue({
         pageName: null,
         parameters: null
       });
       service.transform(inputUrl);
-      expect(pathRecognizer.getMatchingPageAndParameters).toHaveBeenCalledWith(
+      expect(pathRecognizer.getPageAndParameters).toHaveBeenCalledWith(
         inputUrl
       );
     });
 
     it('should return original url if there is no matching page for this url', () => {
       const inputUrl = 'unknown-path';
-      spyOn(pathRecognizer, 'getMatchingPageAndParameters').and.returnValue({
+      spyOn(pathRecognizer, 'getPageAndParameters').and.returnValue({
         pageName: null,
         parameters: null
       });

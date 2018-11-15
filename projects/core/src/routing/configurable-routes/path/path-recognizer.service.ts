@@ -12,23 +12,20 @@ import { RoutesConfigLoader } from '../routes-config-loader';
 export class PathRecognizerService {
   constructor(private routesConfigLoader: RoutesConfigLoader) {}
 
-  getMatchingPageAndParameters(
+  getPageAndParameters(
     url: string
   ): {
     pageName: string;
     parameters: object;
   } {
     url = removeLeadingSlash(url); // url will be compared with paths translations which do not have leading slash
-    const { pageName, matchedPath } = this.getMatchingPageNameAndPath(url);
-    return pageName !== null
-      ? {
-          pageName,
-          parameters: this.getParametersValues(url, matchedPath)
-        }
-      : { pageName: null, parameters: {} };
+    const { pageName, matchedPath } = this.getPageAndMatchedPath(url);
+    const parameters =
+      matchedPath === null ? {} : this.getParametersValues(url, matchedPath);
+    return { pageName, parameters };
   }
 
-  private getMatchingPageNameAndPath(
+  private getPageAndMatchedPath(
     url: string
   ): {
     pageName: string;
@@ -48,20 +45,20 @@ export class PathRecognizerService {
   }
 
   // compares non-parameter segments
-  private areStaticSegmentsIdentical(url: string, pathSchema: string): boolean {
+  private areStaticSegmentsIdentical(url: string, path: string): boolean {
     const urlSegments = getSegments(url);
-    const pathSchemaSegments = getSegments(pathSchema);
+    const pathSegments = getSegments(path);
 
-    if (urlSegments.length !== pathSchemaSegments.length) {
+    if (urlSegments.length !== pathSegments.length) {
       return false;
     }
 
-    const segmentsLength = pathSchemaSegments.length;
+    const segmentsLength = pathSegments.length;
     for (let i = 0; i < segmentsLength; i++) {
-      const pathSchemaSegment = pathSchemaSegments[i];
+      const pathSegment = pathSegments[i];
       const urlSegment = urlSegments[i];
 
-      if (!isParameter(pathSchemaSegment) && pathSchemaSegment !== urlSegment) {
+      if (!isParameter(pathSegment) && pathSegment !== urlSegment) {
         return false;
       }
     }
@@ -69,13 +66,13 @@ export class PathRecognizerService {
   }
 
   // compares url segments array with segments of path schema. for parameters in path schema it extracts value from relevant segment of url
-  private getParametersValues(url: string, pathSchema: string): object {
+  private getParametersValues(url: string, path: string): object {
     const urlSegments = getSegments(url);
-    const pathSchemaSegments = getSegments(pathSchema);
+    const pathSegments = getSegments(path);
 
-    return pathSchemaSegments.reduce((accParameters, pathSchemaSegment, i) => {
-      if (isParameter(pathSchemaSegment)) {
-        const parameterName = getParameterName(pathSchemaSegment);
+    return pathSegments.reduce((accParameters, pathSegment, i) => {
+      if (isParameter(pathSegment)) {
+        const parameterName = getParameterName(pathSegment);
         const parameterValue = urlSegments[i];
         return Object.assign(accParameters, {
           [parameterName]: parameterValue

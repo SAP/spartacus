@@ -26,7 +26,7 @@ describe('PathPipe', () => {
   });
 
   describe('transform', () => {
-    it('should return the result from service', () => {
+    it('should return the result from PathPipeService', () => {
       const argument = 'argument';
       const expectedResult = 'expected-result';
       spyOn(service, 'transform').and.returnValue(expectedResult);

@@ -26,32 +26,30 @@ describe('PathRecognizerService', () => {
     service = TestBed.get(PathRecognizerService);
   });
 
-  describe('transform', () => {
+  describe('getPageAndParameters', () => {
     interface TestCase {
       inputUrl: string;
-      translations: RoutesTranslations;
+      defaultTranslations: RoutesTranslations;
       expectedResult: {
         pageName: string;
         parameters: object;
       };
     }
 
-    function test_getMatchingPageAndParameters(
-      { inputUrl, translations, expectedResult }: TestCase,
+    function test_getPageAndParameters(
+      { inputUrl, defaultTranslations, expectedResult }: TestCase,
       index: number
     ) {
       it(`should return matching page name and extracted parameters values from input url - test case ${index}`, () => {
-        loader.routesConfig.translations.default = translations;
-        expect(service.getMatchingPageAndParameters(inputUrl)).toEqual(
-          expectedResult
-        );
+        loader.routesConfig.translations.default = defaultTranslations;
+        expect(service.getPageAndParameters(inputUrl)).toEqual(expectedResult);
       });
     }
 
     const testCases: TestCase[] = [
       {
         inputUrl: '/path2',
-        translations: {
+        defaultTranslations: {
           page1: ['path1'],
           page2: ['path2']
         },
@@ -59,7 +57,7 @@ describe('PathRecognizerService', () => {
       },
       {
         inputUrl: 'path2',
-        translations: {
+        defaultTranslations: {
           page1: ['path1'],
           page2: ['path2']
         },
@@ -67,7 +65,7 @@ describe('PathRecognizerService', () => {
       },
       {
         inputUrl: 'unknown-path',
-        translations: {
+        defaultTranslations: {
           page1: ['path1'],
           page2: ['path2']
         },
@@ -75,7 +73,7 @@ describe('PathRecognizerService', () => {
       },
       {
         inputUrl: 'path2/value1/value2',
-        translations: {
+        defaultTranslations: {
           page1: ['path1/:param1/:param2'],
           page2: ['path2/:param1/:param2']
         },
@@ -85,18 +83,29 @@ describe('PathRecognizerService', () => {
         }
       },
       {
-        inputUrl: 'path2A/value1/path2B',
-        translations: {
-          page1: ['path1A/:param1/path1B'],
-          page2: ['path2A/:param1/path2B']
+        inputUrl: 'path2/value1/value2',
+        defaultTranslations: {
+          page1: ['path1/:param1/:param2'],
+          page2: ['path2/:param100/:param200']
+        },
+        expectedResult: {
+          pageName: 'page2',
+          parameters: { param100: 'value1', param200: 'value2' }
+        }
+      },
+      {
+        inputUrl: 'path2/value1/path2',
+        defaultTranslations: {
+          page1: ['path1/:param1/path1'],
+          page2: ['path2/:param1/path2']
         },
         expectedResult: { pageName: 'page2', parameters: { param1: 'value1' } }
       },
       {
-        inputUrl: 'pathA/value1/pathB/value2',
-        translations: {
-          page1: ['pathA/:param1/pathB'],
-          page2: ['pathA/:param1/pathB/:param2']
+        inputUrl: 'path/value1/path/value2',
+        defaultTranslations: {
+          page1: ['path/:param1/path'],
+          page2: ['path/:param1/path/:param2']
         },
         expectedResult: {
           pageName: 'page2',
@@ -104,10 +113,10 @@ describe('PathRecognizerService', () => {
         }
       },
       {
-        inputUrl: 'pathA/value1/pathB/value2',
-        translations: {
-          page1: ['pathA/:param1/pathB', 'pathA/:param1/pathB/:param2'],
-          page2: ['pathA/:param1/pathB/:param2/:param3']
+        inputUrl: 'path/value1/path/value2',
+        defaultTranslations: {
+          page1: ['path/:param1/path', 'path/:param1/path/:param2'],
+          page2: ['path/:param1/path/:param2/:param3']
         },
         expectedResult: {
           pageName: 'page1',
@@ -115,10 +124,10 @@ describe('PathRecognizerService', () => {
         }
       },
       {
-        inputUrl: 'pathA/value1/pathB/value2/value3',
-        translations: {
-          page1: ['pathA/:param1/pathB', 'pathA/:param1/pathB/:param2'],
-          page2: ['pathA/:param1/pathB/:param2/:param3']
+        inputUrl: 'path/value1/path/value2/value3',
+        defaultTranslations: {
+          page1: ['path/:param1/path', 'path/:param1/path/:param2'],
+          page2: ['path/:param1/path/:param2/:param3']
         },
         expectedResult: {
           pageName: 'page2',
@@ -126,6 +135,6 @@ describe('PathRecognizerService', () => {
         }
       }
     ];
-    testCases.forEach(test_getMatchingPageAndParameters);
+    testCases.forEach(test_getPageAndParameters);
   });
 });

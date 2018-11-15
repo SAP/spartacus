@@ -15,7 +15,6 @@ export class PathPipeService {
     private config: ServerConfig
   ) {}
 
-  // always returns an absolute path (with leading /)
   transform(pageName: string, parametersObject: object = {}): string {
     const paths = this.configurableRoutesService.getPathsForPage(pageName);
 
@@ -26,7 +25,7 @@ export class PathPipeService {
       pageName
     );
 
-    const path = this.getFirstPathMatchingAllParameters(
+    const path = this.findPathWithFillableParameters(
       paths,
       parametersObject,
       parameterNamesMapping
@@ -81,7 +80,8 @@ export class PathPipeService {
     return (parameterValue || '').replace(new RegExp('/', 'g'), '%2F');
   }
 
-  private getFirstPathMatchingAllParameters(
+  // find first path that can fill all its parameters with values from given object
+  private findPathWithFillableParameters(
     paths: string[],
     parametersObject: object,
     parameterNamesMapping: object
