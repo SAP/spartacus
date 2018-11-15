@@ -10,10 +10,6 @@ export class UserService {
     select(fromStore.getDetails)
   );
 
-  readonly titles$: Observable<any> = this.store.pipe(
-    select(fromStore.getAllTitles)
-  );
-
   readonly orderDetails$: Observable<any> = this.store.pipe(
     select(fromStore.getOrderDetails)
   );
@@ -37,6 +33,18 @@ export class UserService {
   );
   readonly addressesLoading$: Observable<boolean> = this.store.pipe(
     select(fromStore.getAddressesLoading)
+  );
+
+  readonly titles$: Observable<any> = this.store.pipe(
+    select(fromStore.getAllTitles)
+  );
+
+  readonly allDeliveryCountries$: Observable<any> = this.store.pipe(
+    select(fromStore.getAllDeliveryCountries)
+  );
+
+  readonly allRegions$: Observable<any> = this.store.pipe(
+    select(fromStore.getAllRegions)
   );
 
   constructor(private store: Store<fromStore.UserState>) {}
@@ -73,6 +81,10 @@ export class UserService {
 
   loadDeliveryCountries() {
     this.store.dispatch(new fromStore.LoadDeliveryCountries());
+  }
+
+  loadRegions(countryIsoCode: string) {
+    this.store.dispatch(new fromStore.LoadRegions(countryIsoCode));
   }
 
   loadOrderDetails(userId: string, orderCode: string) {

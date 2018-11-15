@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
+import { filter } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../store/';
 import {
@@ -19,6 +20,11 @@ export class CheckoutService {
 
   readonly deliveryAddress$ = this.checkoutStore.pipe(
     select(fromCheckoutStore.getDeliveryAddress)
+  );
+
+  readonly addressVerificationResults$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getAddressVerificationResults),
+    filter(results => Object.keys(results).length !== 0)
   );
 
   orderDetails: any;
@@ -125,6 +131,12 @@ export class CheckoutService {
         })
       );
     }
+  }
+
+  clearAddressVerificationResults() {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.ClearAddressVerificationResults()
+    );
   }
 
   private actionAllowed(): boolean {
