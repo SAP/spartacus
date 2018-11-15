@@ -102,7 +102,7 @@ describe('AddressFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get countries and titles data even when they not exist', () => {
+  it('should call ngOnInit to get countries and titles data even when they not exist', done => {
     mockUserService.allDeliveryCountries$.next([]);
     mockUserService.titles$.next([]);
     mockUserService.allRegions$.next([]);
@@ -112,8 +112,10 @@ describe('AddressFormComponent', () => {
     component.countries$.subscribe(() => {
       expect(mockUserService.loadDeliveryCountries).toHaveBeenCalled();
     });
+
     component.titles$.subscribe(() => {
       expect(mockUserService.loadTitles).toHaveBeenCalled();
+      done();
     });
   });
 

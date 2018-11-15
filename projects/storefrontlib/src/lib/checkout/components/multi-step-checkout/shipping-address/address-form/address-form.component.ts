@@ -67,7 +67,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     // Fetching countries
     this.countries$ = this.userService.allDeliveryCountries$.pipe(
       tap(countries => {
-        // If the store is empty fetch countries. This is also used when changing language.
         if (Object.keys(countries).length === 0) {
           this.userService.loadDeliveryCountries();
         }
@@ -77,7 +76,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     // Fetching titles
     this.titles$ = this.userService.titles$.pipe(
       tap(titles => {
-        // If the store is empty fetch titles. This is also used when changing language.
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
         }
@@ -89,7 +87,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       tap(regions => {
         const regionControl = this.address.get('region.isocode');
 
-        // If the store is empty fetch regions. This is also used when changing language.
         if (Object.keys(regions).length === 0) {
           regionControl.disable();
           const countryIsoCode = this.address.get('country.isocode').value;
