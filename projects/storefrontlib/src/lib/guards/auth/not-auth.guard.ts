@@ -12,12 +12,12 @@ export class NotAuthGuard implements CanActivate {
   static GUARD_NAME = 'NotAuthGuard';
 
   constructor(
-    private auth: AuthService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    private authService: AuthService
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.auth.userToken$.pipe(
+    return this.authService.userToken$.pipe(
       map(token => {
         if (token.access_token) {
           this.routingService.go(['/']);

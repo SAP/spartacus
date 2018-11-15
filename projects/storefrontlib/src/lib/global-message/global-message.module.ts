@@ -4,6 +4,7 @@ import { StoreModule } from '@ngrx/store';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { reducerToken, reducerProvider } from './store/reducers/index';
+import { GlobalMessageService } from './facade/global-message.service';
 import { GlobalMessageComponent } from './components/global-messsage.component';
 import { HttpErrorInterceptor } from './http-interceptors/http-error.interceptor';
 
@@ -20,7 +21,8 @@ import { HttpErrorInterceptor } from './http-interceptors/http-error.interceptor
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true
-    }
+    },
+    GlobalMessageService
   ],
   exports: [GlobalMessageComponent]
 })

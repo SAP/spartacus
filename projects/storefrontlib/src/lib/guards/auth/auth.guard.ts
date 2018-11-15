@@ -16,16 +16,16 @@ export class AuthGuard implements CanActivate {
   static GUARD_NAME = 'AuthGuard';
 
   constructor(
-    private auth: AuthService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    private authService: AuthService
   ) {}
 
   canActivate(
     _route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-    return this.auth.userToken$.pipe(
-      map(token => {
+    return this.authService.userToken$.pipe(
+      map((token: UserToken) => {
         if (!token.access_token) {
           this.routingService.go(['/login']);
           this.routingService.saveRedirectUrl(state.url);

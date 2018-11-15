@@ -4,7 +4,6 @@ import { UserToken } from '../../models/token-types.model';
 import { UserTokenState } from '../reducers/user-token.reducer';
 
 export const getUserTokenSelector = (state: UserTokenState) => state.token;
-export const getUserTokenLoadingSelector = (state: UserTokenState) => state.loading;
 
 export const getUserTokenState: MemoizedSelector<
   any,
