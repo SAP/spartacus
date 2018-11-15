@@ -6,20 +6,17 @@ import {
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
-
-import { Store } from '@ngrx/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import * as fromStore from '../store';
-import * as fromAction from '../store/actions';
+import { GlobalMessageService } from '../facade/global-message.service';
 import { GlobalMessageType } from './../models/message.model';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor(protected store: Store<fromStore.GlobalMessageState>) {}
+  constructor(protected globalMessageService: GlobalMessageService) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -35,84 +32,64 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 errResponse.error.error === 'invalid_grant'
               ) {
                 if (request.body.get('grant_type') === 'password') {
-                  this.store.dispatch(
-                    new fromAction.AddMessage({
-                      type: GlobalMessageType.MSG_TYPE_ERROR,
-                      text:
-                        this.getErrorMessage(errResponse) +
-                        '. Please login again.'
-                    })
-                  );
-                  this.store.dispatch(
-                    new fromAction.RemoveMessagesByType(
-                      GlobalMessageType.MSG_TYPE_CONFIRMATION
-                    )
+                  this.globalMessageService.add({
+                    type: GlobalMessageType.MSG_TYPE_ERROR,
+                    text:
+                      this.getErrorMessage(errResponse) +
+                      '. Please login again.'
+                  });
+                  this.globalMessageService.remove(
+                    GlobalMessageType.MSG_TYPE_CONFIRMATION
                   );
                 }
               } else {
-                this.store.dispatch(
-                  new fromAction.AddMessage({
-                    type: GlobalMessageType.MSG_TYPE_ERROR,
-                    text: this.getErrorMessage(errResponse)
-                  })
-                );
+                this.globalMessageService.add({
+                  type: GlobalMessageType.MSG_TYPE_ERROR,
+                  text: this.getErrorMessage(errResponse)
+                });
               }
               break;
             case 403: // Forbidden
-              this.store.dispatch(
-                new fromAction.AddMessage({
-                  type: GlobalMessageType.MSG_TYPE_ERROR,
-                  text: 'You are not authorized to perform this action.'
-                })
-              );
+              this.globalMessageService.add({
+                type: GlobalMessageType.MSG_TYPE_ERROR,
+                text: 'You are not authorized to perform this action.'
+              });
               break;
             case 404: // Not Found
-              this.store.dispatch(
-                new fromAction.AddMessage({
-                  type: GlobalMessageType.MSG_TYPE_ERROR,
-                  text: 'The requested resource could not be found'
-                })
-              );
+              this.globalMessageService.add({
+                type: GlobalMessageType.MSG_TYPE_ERROR,
+                text: 'The requested resource could not be found'
+              });
               break;
             case 409: // Already Exists
-              this.store.dispatch(
-                new fromAction.AddMessage({
-                  type: GlobalMessageType.MSG_TYPE_ERROR,
-                  text: 'Already exists'
-                })
-              );
+              this.globalMessageService.add({
+                type: GlobalMessageType.MSG_TYPE_ERROR,
+                text: 'Already exists'
+              });
               break;
             case 502: // Bad Gateway
-              this.store.dispatch(
-                new fromAction.AddMessage({
-                  type: GlobalMessageType.MSG_TYPE_ERROR,
-                  text: 'A server error occurred. Please try again later.'
-                })
-              );
+              this.globalMessageService.add({
+                type: GlobalMessageType.MSG_TYPE_ERROR,
+                text: 'A server error occurred. Please try again later.'
+              });
               break;
             case 504: // Gateway Timeout
-              this.store.dispatch(
-                new fromAction.AddMessage({
-                  type: GlobalMessageType.MSG_TYPE_ERROR,
-                  text: 'The server did not responded, please try again later.'
-                })
-              );
+              this.globalMessageService.add({
+                type: GlobalMessageType.MSG_TYPE_ERROR,
+                text: 'The server did not responded, please try again later.'
+              });
               break;
             default:
-              this.store.dispatch(
-                new fromAction.AddMessage({
-                  type: GlobalMessageType.MSG_TYPE_ERROR,
-                  text: this.getErrorMessage(errResponse)
-                })
-              );
+              this.globalMessageService.add({
+                type: GlobalMessageType.MSG_TYPE_ERROR,
+                text: this.getErrorMessage(errResponse)
+              });
           }
         } else {
-          this.store.dispatch(
-            new fromAction.AddMessage({
-              type: GlobalMessageType.MSG_TYPE_ERROR,
-              text: 'An unknown error occured'
-            })
-          );
+          this.globalMessageService.add({
+            type: GlobalMessageType.MSG_TYPE_ERROR,
+            text: 'An unknown error occured'
+          });
         }
 
         return throwError(errResponse);
