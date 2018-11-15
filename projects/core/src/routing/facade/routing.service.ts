@@ -3,6 +3,7 @@ import * as fromStore from '../store';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { NavigationExtras } from '@angular/router';
+import { PathPipeService } from '../configurable-routes/path/path-pipe.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,10 @@ export class RoutingService {
     select(fromStore.getRedirectUrl)
   );
 
-  constructor(private store: Store<fromStore.RouterState>) {}
+  constructor(
+    private store: Store<fromStore.RouterState>,
+    private pathPipeService: PathPipeService
+  ) {}
 
   public go(path: any[], query?: object, extras?: NavigationExtras) {
     this.store.dispatch(
@@ -26,6 +30,11 @@ export class RoutingService {
         extras
       })
     );
+  }
+
+  public goToPage(pageName: string, parameters: object = {}) {
+    const path = this.pathPipeService.transform(pageName, parameters);
+    this.go([path]);
   }
 
   back() {
