@@ -79,32 +79,39 @@ describe('PaymentFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get suppored card types if they do not exist', () => {
+  it('should call ngOnInit to get suppored card types if they do not exist', done => {
     mockCheckoutService.cardTypes$.next([]);
     component.ngOnInit();
     component.cardTypes$.subscribe(() => {
       expect(mockCheckoutService.loadSupportedCardTypes).toHaveBeenCalled();
+      done();
     });
   });
 
   it('should call ngOnInit to get suppored card types if they exist', () => {
     mockCheckoutService.cardTypes$.next(mockCardTypes);
     component.ngOnInit();
+    let cardTypes;
     component.cardTypes$.subscribe(data => {
-      expect(data).toBe(mockCardTypes);
+      cardTypes = data;
     });
+    expect(cardTypes).toBe(mockCardTypes);
   });
 
   it('should call ngOnInit to get shipping address set in cart', () => {
     mockCheckoutService.cardTypes$.next(mockCardTypes);
     mockCheckoutService.deliveryAddress$.next(mockAddress);
     component.ngOnInit();
+    let cardTypes;
     component.cardTypes$.subscribe(data => {
-      expect(data).toBe(mockCardTypes);
+      cardTypes = data;
     });
+    let address;
     component.shippingAddress$.subscribe(data => {
-      expect(data).toBe(mockAddress);
+      address = data;
     });
+    expect(cardTypes).toBe(mockCardTypes);
+    expect(address).toBe(mockAddress);
   });
 
   it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {

@@ -48,11 +48,12 @@ describe('DeliveryModeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get supported shipping modes if they do not exist', () => {
+  it('should call ngOnInit to get supported shipping modes if they do not exist', done => {
     mockCheckoutService.supportedDeliveryModes$.next([]);
     component.ngOnInit();
     component.supportedDeliveryModes$.subscribe(() => {
       expect(mockCheckoutService.loadSupportedDeliveryModes).toHaveBeenCalled();
+      done();
     });
   });
 
@@ -61,12 +62,14 @@ describe('DeliveryModeComponent', () => {
       mockSupportedDeliveryModes
     );
     component.ngOnInit();
+    let deliveryModes;
     component.supportedDeliveryModes$.subscribe(data => {
-      expect(data).toBe(mockSupportedDeliveryModes);
+      deliveryModes = data;
     });
+    expect(deliveryModes).toBe(mockSupportedDeliveryModes);
   });
 
-  it('should call ngOnInit to set shipping mode if user selected it before', () => {
+  it('should call ngOnInit to set shipping mode if user selected it before', done => {
     const mockSelectedShippingMethod = 'shipping method set in cart';
     component.selectedShippingMethod = mockSelectedShippingMethod;
     mockCheckoutService.supportedDeliveryModes$.next(
@@ -77,18 +80,19 @@ describe('DeliveryModeComponent', () => {
       expect(component.mode.controls['deliveryModeId'].value).toEqual(
         mockSelectedShippingMethod
       );
+      done();
     });
   });
 
   it('should stop supportedDeliveryModes subscription when leave this component even they do not exist', () => {
-    component.leave = true;
-    mockCheckoutService.supportedDeliveryModes$.next([]);
     component.ngOnInit();
-    component.supportedDeliveryModes$.subscribe(() => {
-      expect(
-        mockCheckoutService.loadSupportedDeliveryModes
-      ).not.toHaveBeenCalled();
-    });
+    component.supportedDeliveryModes$.subscribe();
+    component.leave = true;
+    // subscription is end
+    mockCheckoutService.supportedDeliveryModes$.next([]);
+    expect(mockCheckoutService.loadSupportedDeliveryModes.calls.count()).toBe(
+      1
+    );
   });
 
   it('should call next()', () => {

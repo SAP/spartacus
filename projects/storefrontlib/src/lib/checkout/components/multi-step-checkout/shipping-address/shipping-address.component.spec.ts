@@ -107,12 +107,13 @@ describe('ShippingAddressComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get existing address if they do not exist', () => {
+  it('should call ngOnInit to get existing address if they do not exist', done => {
     mockUserService.addressesLoading$.next(false);
     mockUserService.addresses$.next([]);
     component.ngOnInit();
     component.existingAddresses$.subscribe(() => {
       expect(mockUserService.loadUserAddresses).toHaveBeenCalled();
+      done();
     });
   });
 
@@ -120,10 +121,12 @@ describe('ShippingAddressComponent', () => {
     mockUserService.addressesLoading$.next(false);
     mockUserService.addresses$.next(mockAddresses);
     component.ngOnInit();
+    let address;
     component.existingAddresses$.subscribe(data => {
-      expect(data).toBe(mockAddresses);
-      expect(component.cards.length).toEqual(2);
+      address = data;
     });
+    expect(address).toBe(mockAddresses);
+    expect(component.cards.length).toEqual(2);
   });
 
   it('should call getCardContent() to get address card data', () => {

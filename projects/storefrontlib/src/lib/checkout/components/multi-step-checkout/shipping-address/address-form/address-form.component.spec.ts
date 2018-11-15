@@ -111,6 +111,7 @@ describe('AddressFormComponent', () => {
 
     component.countries$.subscribe(() => {
       expect(mockUserService.loadDeliveryCountries).toHaveBeenCalled();
+      done();
     });
 
     component.titles$.subscribe(() => {
@@ -126,15 +127,21 @@ describe('AddressFormComponent', () => {
     mockCheckoutService.addressVerificationResults$.next({});
     component.ngOnInit();
 
-    component.countries$.subscribe(countries => {
-      expect(countries).toBe(mockCountries);
+    let countries;
+    component.countries$.subscribe(data => {
+      countries = data;
     });
-    component.titles$.subscribe(titles => {
-      expect(titles).toBe(mockTitles);
+    let titles;
+    component.titles$.subscribe(data => {
+      titles = data;
     });
-    component.regions$.subscribe(regions => {
-      expect(regions).toBe(mockRegions);
+    let regions;
+    component.regions$.subscribe(data => {
+      regions = data;
     });
+    expect(countries).toBe(mockCountries);
+    expect(titles).toBe(mockTitles);
+    expect(regions).toBe(mockRegions);
   });
 
   it('should add address with address verification result "accept"', () => {

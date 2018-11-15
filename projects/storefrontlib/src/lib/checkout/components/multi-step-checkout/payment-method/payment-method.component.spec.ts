@@ -92,21 +92,24 @@ describe('PaymentMethodComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get existing payment methods if they do not exist', () => {
+  it('should call ngOnInit to get existing payment methods if they do not exist', done => {
     mockUserService.paymentMethods$.next([]);
     component.ngOnInit();
     component.existingPaymentMethods$.subscribe(() => {
       expect(mockUserService.loadUserPaymentMethods).toHaveBeenCalled();
+      done();
     });
   });
 
   it('should call ngOnInit to get existing payment methods if they exist', () => {
     mockUserService.paymentMethods$.next(mockPaymentMethods);
     component.ngOnInit();
+    let paymentMethods;
     component.existingPaymentMethods$.subscribe(data => {
-      expect(data).toBe(mockPaymentMethods);
-      expect(component.cards.length).toEqual(2);
+      paymentMethods = data;
     });
+    expect(paymentMethods).toBe(mockPaymentMethods);
+    expect(component.cards.length).toEqual(2);
   });
 
   it('should call getCardContent() to get payment method card data', () => {
