@@ -5,18 +5,17 @@ import {
   HttpHandler,
   HttpEvent
 } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { switchMap, tap, filter, map } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
 
-import * as fromAuthStore from './../store';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
+import { AuthModuleConfig } from '../auth-module.config';
+import { AuthService } from '../facade/auth.service';
 import { AuthenticationToken } from '../models/token-types.model';
 import {
   USE_CLIENT_TOKEN,
   InterceptorUtil
 } from '../../occ/utils/interceptor-util';
-import { ClientTokenState } from '../store/reducers/client-token.reducer';
-import { AuthModuleConfig } from '../auth-module.config';
 
 @Injectable()
 export class ClientTokenInterceptor implements HttpInterceptor {
@@ -27,7 +26,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
 
   constructor(
     private config: AuthModuleConfig,
-    private store: Store<fromAuthStore.AuthState>
+    private authService: AuthService
   ) {}
 
   intercept(
@@ -54,18 +53,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     if (
       InterceptorUtil.getInterceptorParam(USE_CLIENT_TOKEN, request.headers)
     ) {
-      return this.store.pipe(
-        select(fromAuthStore.getClientTokenState),
-        tap((state: ClientTokenState) => {
-          if (!state.loading && Object.keys(state.token).length === 0) {
-            this.store.dispatch(new fromAuthStore.LoadClientToken());
-          }
-        }),
-        filter(
-          (state: ClientTokenState) => Object.keys(state.token).length !== 0
-        ),
-        map((state: ClientTokenState) => state.token)
-      );
+      return this.authService.clientToken$;
     }
     return of(null);
   }

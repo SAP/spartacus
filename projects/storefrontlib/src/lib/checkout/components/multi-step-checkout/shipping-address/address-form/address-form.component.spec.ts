@@ -14,6 +14,7 @@ import { BehaviorSubject } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CheckoutService } from '../../../../services';
 import { CartService, CartDataService } from '../../../../../cart/services';
+import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
 import { AddressFormModule } from './address-form.module';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { By } from '@angular/platform-browser';
@@ -78,7 +79,13 @@ describe('AddressFormComponent', () => {
         StoreModule.forFeature('cart', fromCart.getReducers()),
         StoreModule.forFeature('user', fromUser.getReducers())
       ],
-      providers: [CheckoutService, CartService, CartDataService, NgbModal]
+      providers: [
+        CheckoutService,
+        CartService,
+        CartDataService,
+        NgbModal,
+        GlobalMessageService
+      ]
     })
       .overrideComponent(AddressFormComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default }
