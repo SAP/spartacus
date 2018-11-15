@@ -3,18 +3,30 @@ import * as NgrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { NavigationComponent } from './navigation.component';
-import { NavigationUIComponent } from './navigation-ui.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NavigationService } from './navigation.service';
 import { CmsService } from '../../cms/facade/cms.service';
 import { By } from '@angular/platform-browser';
+import { Input, Component } from '@angular/core';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
     CMSNavigationComponent: 'NavigationComponent'
   }
 };
+
+@Component({
+  template: '',
+  selector: 'cx-navigation-ui'
+})
+class MockNavigationUIComponent {
+  @Input()
+  node;
+
+  @Input()
+  dropdownMode;
+}
 
 describe('CmsNavigationComponent in CmsLib', () => {
   let navigationComponent: NavigationComponent;
@@ -79,7 +91,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
         { provide: CmsService, useValue: MockCmsService },
         { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
       ],
-      declarations: [NavigationComponent, NavigationUIComponent]
+      declarations: [NavigationComponent, MockNavigationUIComponent]
     }).compileComponents();
   }));
 

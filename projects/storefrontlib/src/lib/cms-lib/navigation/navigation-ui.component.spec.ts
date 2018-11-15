@@ -2,6 +2,16 @@ import { TestBed } from '@angular/core/testing';
 import { NavigationUIComponent } from './navigation-ui.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'cxDynamicPath'
+})
+class MockDynamicPathPipe implements PipeTransform {
+  transform(url: string): string {
+    return '/transformed-path' + url;
+  }
+}
 
 describe('Navigation UI Component', () => {
   let fixture;
@@ -11,7 +21,7 @@ describe('Navigation UI Component', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [NavigationUIComponent],
+      declarations: [NavigationUIComponent, MockDynamicPathPipe],
       providers: []
     }).compileComponents();
   });
@@ -58,7 +68,9 @@ describe('Navigation UI Component', () => {
       fixture.detectChanges();
       const link = getLink().nativeElement;
       expect(link.textContent).toContain(mockData.title);
-      expect(link.getAttribute('href')).toEqual(mockData.url);
+      expect(link.getAttribute('href')).toEqual(
+        '/transformed-path' + mockData.url
+      );
     });
 
     it('should render children as sublinks', () => {
@@ -97,7 +109,7 @@ describe('Navigation UI Component', () => {
         mockData.children[0].title
       );
       expect(firstDropdownLink.getAttribute('href')).toEqual(
-        mockData.children[0].url
+        '/transformed-path' + mockData.children[0].url
       );
     });
 
@@ -132,13 +144,13 @@ describe('Navigation UI Component', () => {
       expect(firstDropdownItem.getAttribute('role')).toEqual('listitem');
       const sublinks = getSublinks();
       expect(sublinks[0].nativeElement.getAttribute('href')).toEqual(
-        mockData.children[0].children[0].url
+        '/transformed-path' + mockData.children[0].children[0].url
       );
       expect(sublinks[0].nativeElement.textContent).toContain(
         mockData.children[0].children[0].title
       );
       expect(sublinks[1].nativeElement.getAttribute('href')).toEqual(
-        mockData.children[0].children[1].url
+        '/transformed-path' + mockData.children[0].children[1].url
       );
       expect(sublinks[1].nativeElement.textContent).toContain(
         mockData.children[0].children[1].title

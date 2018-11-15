@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
@@ -12,6 +12,13 @@ const UseCmsModuleConfig: CmsModuleConfig = {
     CMSLinkComponent: 'LinkComponent'
   }
 };
+
+@Pipe({
+  name: 'cxDynamicPath'
+})
+class MockDynamicPathPipe implements PipeTransform {
+  transform() {}
+}
 
 describe('LinkComponent', () => {
   let linkComponent: LinkComponent;
@@ -35,7 +42,7 @@ describe('LinkComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [LinkComponent],
+      declarations: [LinkComponent, MockDynamicPathPipe],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
