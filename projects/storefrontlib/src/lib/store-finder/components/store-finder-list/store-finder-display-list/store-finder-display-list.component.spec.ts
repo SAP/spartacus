@@ -99,7 +99,6 @@ describe('StoreFinderDisplayListComponent', () => {
     expect(storeMapComponent.centerMap).toHaveBeenCalled();
     expect(storeDataService.getStoreLatitude).toHaveBeenCalled();
     expect(storeDataService.getStoreLongitude).toHaveBeenCalled();
-    expect(googleMapRendererService.centerMap).toHaveBeenCalled();
   });
 
   it('should select store from list', () => {

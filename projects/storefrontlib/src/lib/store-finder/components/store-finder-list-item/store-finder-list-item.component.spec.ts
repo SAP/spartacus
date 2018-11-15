@@ -1,16 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-
 import { StoreModule } from '@ngrx/store';
-
 import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { StoreFinderSearchComponent } from '../store-finder-search/store-finder-search.component';
-import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
-import { StoreFinderDisplayListComponent } from '../store-finder-list/store-finder-display-list/store-finder-display-list.component';
 
 import * as fromReducers from '../../store';
 import * as fromServices from '../../services/index';
@@ -134,13 +128,7 @@ describe('StoreFinderListItemComponent', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature('stores', fromReducers.reducers)
       ],
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [
-        StoreFinderListItemComponent,
-        StoreFinderDisplayListComponent,
-        StoreFinderSearchComponent,
-        StoreFinderMapComponent
-      ],
+      declarations: [StoreFinderListItemComponent],
       providers: [fromServices.services]
     }).compileComponents();
   }));
