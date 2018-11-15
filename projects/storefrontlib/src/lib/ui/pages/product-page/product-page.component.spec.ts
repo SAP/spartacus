@@ -48,7 +48,7 @@ const routerState = {
 const mockRoutingService = {
   routerState$: of(routerState)
 };
-fdescribe('ProductPageComponent in pages', () => {
+describe('ProductPageComponent in pages', () => {
   let component: ProductPageComponent;
   let fixture: ComponentFixture<ProductPageComponent>;
 
