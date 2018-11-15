@@ -5,7 +5,7 @@
  */
 
 /**
- * @interface
+ *
  * An interface representing Country.
  */
 export interface Country {
@@ -20,7 +20,7 @@ export interface Country {
 }
 
 /**
- * @interface
+ *
  * An interface representing Region.
  */
 export interface Region {
@@ -43,7 +43,7 @@ export interface Region {
 }
 
 /**
- * @interface
+ *
  * An interface representing Address.
  */
 export interface Address {
@@ -122,7 +122,7 @@ export interface Address {
 }
 
 /**
- * @interface
+ *
  * An interface representing AddressList.
  */
 export interface AddressList {
@@ -133,7 +133,7 @@ export interface AddressList {
 }
 
 /**
- * @interface
+ *
  * An interface representing ErrorModel.
  * Error message
  *
@@ -164,7 +164,7 @@ export interface ErrorModel {
 }
 
 /**
- * @interface
+ *
  * An interface representing ErrorList.
  * List of errors
  *
@@ -177,7 +177,7 @@ export interface ErrorList {
 }
 
 /**
- * @interface
+ *
  * An interface representing AddressValidation.
  */
 export interface AddressValidation {
@@ -196,7 +196,7 @@ export interface AddressValidation {
 }
 
 /**
- * @interface
+ *
  * An interface representing Price.
  */
 export interface Price {
@@ -227,7 +227,7 @@ export interface Price {
 }
 
 /**
- * @interface
+ *
  * An interface representing Stock.
  */
 export interface Stock {
@@ -242,7 +242,7 @@ export interface Stock {
 }
 
 /**
- * @interface
+ *
  * An interface representing Image.
  */
 export interface Image {
@@ -270,7 +270,7 @@ export interface Image {
 }
 
 /**
- * @interface
+ *
  * An interface representing VariantOptionQualifier.
  */
 export interface VariantOptionQualifier {
@@ -293,7 +293,7 @@ export interface VariantOptionQualifier {
 }
 
 /**
- * @interface
+ *
  * An interface representing VariantOption.
  */
 export interface VariantOption {
@@ -320,7 +320,7 @@ export interface VariantOption {
 }
 
 /**
- * @interface
+ *
  * An interface representing BaseOption.
  */
 export interface BaseOption {
@@ -339,7 +339,7 @@ export interface BaseOption {
 }
 
 /**
- * @interface
+ *
  * An interface representing SearchQuery.
  */
 export interface SearchQuery {
@@ -350,7 +350,7 @@ export interface SearchQuery {
 }
 
 /**
- * @interface
+ *
  * An interface representing SearchState.
  */
 export interface SearchState {
@@ -365,7 +365,7 @@ export interface SearchState {
 }
 
 /**
- * @interface
+ *
  * An interface representing Breadcrumb.
  */
 export interface Breadcrumb {
@@ -396,7 +396,7 @@ export interface Breadcrumb {
 }
 
 /**
- * @interface
+ *
  * An interface representing Component.
  */
 export interface Component {
@@ -423,7 +423,7 @@ export interface Component {
 }
 
 /**
- * @interface
+ *
  * An interface representing ComponentList.
  */
 export interface ComponentList {
@@ -434,7 +434,7 @@ export interface ComponentList {
 }
 
 /**
- * @interface
+ *
  * An interface representing ContentSlot.
  */
 export interface ContentSlot {
@@ -465,7 +465,7 @@ export interface ContentSlot {
 }
 
 /**
- * @interface
+ *
  * An interface representing ContentSlotList.
  */
 export interface ContentSlotList {
@@ -476,7 +476,7 @@ export interface ContentSlotList {
 }
 
 /**
- * @interface
+ *
  * An interface representing CMSPage.
  */
 export interface CMSPage {
@@ -511,7 +511,7 @@ export interface CMSPage {
 }
 
 /**
- * @interface
+ *
  * An interface representing CardType.
  */
 export interface CardType {
@@ -526,7 +526,7 @@ export interface CardType {
 }
 
 /**
- * @interface
+ *
  * An interface representing CardTypeList.
  */
 export interface CardTypeList {
@@ -537,7 +537,7 @@ export interface CardTypeList {
 }
 
 /**
- * @interface
+ *
  * An interface representing PromotionOrderEntryConsumed.
  */
 export interface PromotionOrderEntryConsumed {
@@ -560,7 +560,7 @@ export interface PromotionOrderEntryConsumed {
 }
 
 /**
- * @interface
+ *
  * An interface representing PromotionRestriction.
  */
 export interface PromotionRestriction {
@@ -575,7 +575,7 @@ export interface PromotionRestriction {
 }
 
 /**
- * @interface
+ *
  * An interface representing Promotion.
  */
 export interface Promotion {
@@ -634,7 +634,7 @@ export interface Promotion {
 }
 
 /**
- * @interface
+ *
  * An interface representing PromotionResult.
  */
 export interface PromotionResult {
@@ -653,7 +653,7 @@ export interface PromotionResult {
 }
 
 /**
- * @interface
+ *
  * An interface representing Currency.
  */
 export interface Currency {
@@ -676,7 +676,7 @@ export interface Currency {
 }
 
 /**
- * @interface
+ *
  * An interface representing Voucher.
  */
 export interface Voucher {
@@ -723,7 +723,7 @@ export interface Voucher {
 }
 
 /**
- * @interface
+ *
  * An interface representing DeliveryMode.
  */
 export interface DeliveryMode {
@@ -746,7 +746,7 @@ export interface DeliveryMode {
 }
 
 /**
- * @interface
+ *
  * An interface representing GeoPoint.
  */
 export interface GeoPoint {
@@ -761,7 +761,7 @@ export interface GeoPoint {
 }
 
 /**
- * @interface
+ *
  * An interface representing Time.
  */
 export interface Time {
@@ -780,7 +780,7 @@ export interface Time {
 }
 
 /**
- * @interface
+ *
  * An interface representing SpecialOpeningDay.
  */
 export interface SpecialOpeningDay {
@@ -815,7 +815,7 @@ export interface SpecialOpeningDay {
 }
 
 /**
- * @interface
+ *
  * An interface representing WeekdayOpeningDay.
  */
 export interface WeekdayOpeningDay {
@@ -838,7 +838,7 @@ export interface WeekdayOpeningDay {
 }
 
 /**
- * @interface
+ *
  * An interface representing OpeningSchedule.
  */
 export interface OpeningSchedule {
@@ -861,7 +861,7 @@ export interface OpeningSchedule {
 }
 
 /**
- * @interface
+ *
  * An interface representing PointOfService.
  */
 export interface PointOfService {
@@ -920,7 +920,7 @@ export interface PointOfService {
 }
 
 /**
- * @interface
+ *
  * An interface representing Category.
  */
 export interface Category {
@@ -939,7 +939,7 @@ export interface Category {
 }
 
 /**
- * @interface
+ *
  * An interface representing FeatureUnit.
  */
 export interface FeatureUnit {
@@ -958,7 +958,7 @@ export interface FeatureUnit {
 }
 
 /**
- * @interface
+ *
  * An interface representing FeatureValue.
  */
 export interface FeatureValue {
@@ -969,7 +969,7 @@ export interface FeatureValue {
 }
 
 /**
- * @interface
+ *
  * An interface representing Feature.
  */
 export interface Feature {
@@ -1008,7 +1008,7 @@ export interface Feature {
 }
 
 /**
- * @interface
+ *
  * An interface representing Classification.
  */
 export interface Classification {
@@ -1027,7 +1027,7 @@ export interface Classification {
 }
 
 /**
- * @interface
+ *
  * An interface representing FutureStock.
  */
 export interface FutureStock {
@@ -1046,7 +1046,7 @@ export interface FutureStock {
 }
 
 /**
- * @interface
+ *
  * An interface representing PriceRange.
  */
 export interface PriceRange {
@@ -1061,7 +1061,7 @@ export interface PriceRange {
 }
 
 /**
- * @interface
+ *
  * An interface representing ProductReference.
  */
 export interface ProductReference {
@@ -1088,7 +1088,7 @@ export interface ProductReference {
 }
 
 /**
- * @interface
+ *
  * An interface representing Language.
  */
 export interface Language {
@@ -1111,7 +1111,7 @@ export interface Language {
 }
 
 /**
- * @interface
+ *
  * An interface representing User.
  */
 export interface User {
@@ -1166,7 +1166,7 @@ export interface User {
 }
 
 /**
- * @interface
+ *
  * An interface representing Review.
  */
 export interface Review {
@@ -1201,7 +1201,7 @@ export interface Review {
 }
 
 /**
- * @interface
+ *
  * An interface representing VariantCategory.
  */
 export interface VariantCategory {
@@ -1220,7 +1220,7 @@ export interface VariantCategory {
 }
 
 /**
- * @interface
+ *
  * An interface representing VariantValueCategory.
  */
 export interface VariantValueCategory {
@@ -1239,7 +1239,7 @@ export interface VariantValueCategory {
 }
 
 /**
- * @interface
+ *
  * An interface representing VariantMatrixElement.
  */
 export interface VariantMatrixElement {
@@ -1266,7 +1266,7 @@ export interface VariantMatrixElement {
 }
 
 /**
- * @interface
+ *
  * An interface representing Product.
  */
 export interface Product {
@@ -1385,7 +1385,7 @@ export interface Product {
 }
 
 /**
- * @interface
+ *
  * An interface representing OrderEntry.
  */
 export interface OrderEntry {
@@ -1424,7 +1424,7 @@ export interface OrderEntry {
 }
 
 /**
- * @interface
+ *
  * An interface representing DeliveryOrderEntryGroup.
  */
 export interface DeliveryOrderEntryGroup {
@@ -1447,7 +1447,7 @@ export interface DeliveryOrderEntryGroup {
 }
 
 /**
- * @interface
+ *
  * An interface representing PaymentDetails.
  */
 export interface PaymentDetails {
@@ -1506,7 +1506,7 @@ export interface PaymentDetails {
 }
 
 /**
- * @interface
+ *
  * An interface representing PickupOrderEntryGroup.
  */
 export interface PickupOrderEntryGroup {
@@ -1533,7 +1533,7 @@ export interface PickupOrderEntryGroup {
 }
 
 /**
- * @interface
+ *
  * An interface representing Principal.
  */
 export interface Principal {
@@ -1548,7 +1548,7 @@ export interface Principal {
 }
 
 /**
- * @interface
+ *
  * An interface representing Cart.
  */
 export interface Cart {
@@ -1695,7 +1695,7 @@ export interface Cart {
 }
 
 /**
- * @interface
+ *
  * An interface representing CartList.
  */
 export interface CartList {
@@ -1706,7 +1706,7 @@ export interface CartList {
 }
 
 /**
- * @interface
+ *
  * An interface representing CartModification.
  */
 export interface CartModification {
@@ -1737,7 +1737,7 @@ export interface CartModification {
 }
 
 /**
- * @interface
+ *
  * An interface representing CategoryHierarchy.
  */
 export interface CategoryHierarchy {
@@ -1764,7 +1764,7 @@ export interface CategoryHierarchy {
 }
 
 /**
- * @interface
+ *
  * An interface representing CatalogVersion.
  */
 export interface CatalogVersion {
@@ -1791,7 +1791,7 @@ export interface CatalogVersion {
 }
 
 /**
- * @interface
+ *
  * An interface representing Catalog.
  */
 export interface Catalog {
@@ -1818,7 +1818,7 @@ export interface Catalog {
 }
 
 /**
- * @interface
+ *
  * An interface representing CatalogList.
  */
 export interface CatalogList {
@@ -1829,7 +1829,7 @@ export interface CatalogList {
 }
 
 /**
- * @interface
+ *
  * An interface representing ComponentIDList.
  */
 export interface ComponentIDList {
@@ -1840,7 +1840,7 @@ export interface ComponentIDList {
 }
 
 /**
- * @interface
+ *
  * An interface representing ConsignmentEntry.
  */
 export interface ConsignmentEntry {
@@ -1859,7 +1859,7 @@ export interface ConsignmentEntry {
 }
 
 /**
- * @interface
+ *
  * An interface representing Consignment.
  */
 export interface Consignment {
@@ -1894,7 +1894,7 @@ export interface Consignment {
 }
 
 /**
- * @interface
+ *
  * An interface representing CountryList.
  */
 export interface CountryList {
@@ -1905,7 +1905,7 @@ export interface CountryList {
 }
 
 /**
- * @interface
+ *
  * An interface representing CurrencyList.
  */
 export interface CurrencyList {
@@ -1916,7 +1916,7 @@ export interface CurrencyList {
 }
 
 /**
- * @interface
+ *
  * An interface representing DeliveryModeList.
  */
 export interface DeliveryModeList {
@@ -1927,7 +1927,7 @@ export interface DeliveryModeList {
 }
 
 /**
- * @interface
+ *
  * An interface representing FacetValue.
  */
 export interface FacetValue {
@@ -1950,7 +1950,7 @@ export interface FacetValue {
 }
 
 /**
- * @interface
+ *
  * An interface representing Facet.
  */
 export interface Facet {
@@ -1985,7 +1985,7 @@ export interface Facet {
 }
 
 /**
- * @interface
+ *
  * An interface representing LanguageList.
  */
 export interface LanguageList {
@@ -1996,7 +1996,7 @@ export interface LanguageList {
 }
 
 /**
- * @interface
+ *
  * An interface representing Pagination.
  * Pagination info
  *
@@ -2021,7 +2021,7 @@ export interface Pagination {
 }
 
 /**
- * @interface
+ *
  * An interface representing Sort.
  * Sort option
  *
@@ -2038,7 +2038,7 @@ export interface Sort {
 }
 
 /**
- * @interface
+ *
  * An interface representing ListAdaptedComponents.
  */
 export interface ListAdaptedComponents {
@@ -2057,7 +2057,7 @@ export interface ListAdaptedComponents {
 }
 
 /**
- * @interface
+ *
  * An interface representing MemberList.
  */
 export interface MemberList {
@@ -2068,7 +2068,7 @@ export interface MemberList {
 }
 
 /**
- * @interface
+ *
  * An interface representing OrderEntryList.
  */
 export interface OrderEntryList {
@@ -2079,7 +2079,7 @@ export interface OrderEntryList {
 }
 
 /**
- * @interface
+ *
  * An interface representing OrderHistory.
  */
 export interface OrderHistory {
@@ -2110,7 +2110,7 @@ export interface OrderHistory {
 }
 
 /**
- * @interface
+ *
  * An interface representing PaginationModel.
  */
 export interface PaginationModel {
@@ -2137,7 +2137,7 @@ export interface PaginationModel {
 }
 
 /**
- * @interface
+ *
  * An interface representing SortModel.
  */
 export interface SortModel {
@@ -2156,7 +2156,7 @@ export interface SortModel {
 }
 
 /**
- * @interface
+ *
  * An interface representing OrderHistoryList.
  */
 export interface OrderHistoryList {
@@ -2175,7 +2175,7 @@ export interface OrderHistoryList {
 }
 
 /**
- * @interface
+ *
  * An interface representing OrderStatusUpdateElement.
  */
 export interface OrderStatusUpdateElement {
@@ -2194,7 +2194,7 @@ export interface OrderStatusUpdateElement {
 }
 
 /**
- * @interface
+ *
  * An interface representing OrderStatusUpdateElementList.
  */
 export interface OrderStatusUpdateElementList {
@@ -2205,7 +2205,7 @@ export interface OrderStatusUpdateElementList {
 }
 
 /**
- * @interface
+ *
  * An interface representing Order.
  */
 export interface Order {
@@ -2352,7 +2352,7 @@ export interface Order {
 }
 
 /**
- * @interface
+ *
  * An interface representing PaymentDetailsList.
  */
 export interface PaymentDetailsList {
@@ -2363,7 +2363,7 @@ export interface PaymentDetailsList {
 }
 
 /**
- * @interface
+ *
  * An interface representing PointOfServiceStock.
  */
 export interface PointOfServiceStock {
@@ -2426,7 +2426,7 @@ export interface PointOfServiceStock {
 }
 
 /**
- * @interface
+ *
  * An interface representing ProductExpressUpdateElement.
  */
 export interface ProductExpressUpdateElement {
@@ -2445,7 +2445,7 @@ export interface ProductExpressUpdateElement {
 }
 
 /**
- * @interface
+ *
  * An interface representing ProductExpressUpdateElementList.
  */
 export interface ProductExpressUpdateElementList {
@@ -2456,7 +2456,7 @@ export interface ProductExpressUpdateElementList {
 }
 
 /**
- * @interface
+ *
  * An interface representing ProductList.
  */
 export interface ProductList {
@@ -2487,7 +2487,7 @@ export interface ProductList {
 }
 
 /**
- * @interface
+ *
  * An interface representing ProductReferenceList.
  */
 export interface ProductReferenceList {
@@ -2498,7 +2498,7 @@ export interface ProductReferenceList {
 }
 
 /**
- * @interface
+ *
  * An interface representing SpellingSuggestion.
  */
 export interface SpellingSuggestion {
@@ -2513,7 +2513,7 @@ export interface SpellingSuggestion {
 }
 
 /**
- * @interface
+ *
  * An interface representing ProductSearchPage.
  */
 export interface ProductSearchPage {
@@ -2560,7 +2560,7 @@ export interface ProductSearchPage {
 }
 
 /**
- * @interface
+ *
  * An interface representing PromotionList.
  */
 export interface PromotionList {
@@ -2571,7 +2571,7 @@ export interface PromotionList {
 }
 
 /**
- * @interface
+ *
  * An interface representing PromotionResultList.
  */
 export interface PromotionResultList {
@@ -2582,7 +2582,7 @@ export interface PromotionResultList {
 }
 
 /**
- * @interface
+ *
  * An interface representing ReviewList.
  */
 export interface ReviewList {
@@ -2593,7 +2593,7 @@ export interface ReviewList {
 }
 
 /**
- * @interface
+ *
  * An interface representing SaveCartResult.
  */
 export interface SaveCartResult {
@@ -2604,7 +2604,7 @@ export interface SaveCartResult {
 }
 
 /**
- * @interface
+ *
  * An interface representing StoreFinderSearchPage.
  */
 export interface StoreFinderSearchPage {
@@ -2651,7 +2651,7 @@ export interface StoreFinderSearchPage {
 }
 
 /**
- * @interface
+ *
  * An interface representing StoreFinderStockSearchPage.
  */
 export interface StoreFinderStockSearchPage {
@@ -2702,7 +2702,7 @@ export interface StoreFinderStockSearchPage {
 }
 
 /**
- * @interface
+ *
  * An interface representing Suggestion.
  */
 export interface Suggestion {
@@ -2713,7 +2713,7 @@ export interface Suggestion {
 }
 
 /**
- * @interface
+ *
  * An interface representing SuggestionList.
  */
 export interface SuggestionList {
@@ -2724,7 +2724,7 @@ export interface SuggestionList {
 }
 
 /**
- * @interface
+ *
  * An interface representing Title.
  */
 export interface Title {
@@ -2739,7 +2739,7 @@ export interface Title {
 }
 
 /**
- * @interface
+ *
  * An interface representing TitleList.
  */
 export interface TitleList {
@@ -2750,7 +2750,7 @@ export interface TitleList {
 }
 
 /**
- * @interface
+ *
  * An interface representing UserGroup.
  */
 export interface UserGroup {
@@ -2777,7 +2777,7 @@ export interface UserGroup {
 }
 
 /**
- * @interface
+ *
  * An interface representing UserGroupList.
  */
 export interface UserGroupList {
@@ -2804,7 +2804,7 @@ export interface UserGroupList {
 }
 
 /**
- * @interface
+ *
  * An interface representing UserSignUp.
  */
 export interface UserSignUp {
@@ -2831,7 +2831,7 @@ export interface UserSignUp {
 }
 
 /**
- * @interface
+ *
  * An interface representing VoucherList.
  */
 export interface VoucherList {

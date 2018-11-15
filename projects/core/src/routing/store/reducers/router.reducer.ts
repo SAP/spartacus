@@ -10,7 +10,8 @@ import {
   ActionReducerMap,
   MemoizedSelector
 } from '@ngrx/store';
-import { PageContext, PageType } from '../../models/page-context.model';
+import { PageContext } from '../../models/page-context.model';
+import { PageType } from '../../../occ-models/index';
 import * as fromNgrxRouter from '@ngrx/router-store';
 import * as fromActions from '../actions';
 import { ROUTING_FEATURE } from '../../state';

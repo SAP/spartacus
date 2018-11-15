@@ -1,1 +1,1 @@
-export * from './occ-models';
+export * from './occ.models';
