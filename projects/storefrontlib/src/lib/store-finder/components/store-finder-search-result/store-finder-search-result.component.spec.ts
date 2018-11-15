@@ -5,7 +5,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { StoreFinderService } from '../../services';
-import { StoreFinderListComponent } from './store-finder-list.component';
+import { StoreFinderSearchResultComponent } from './store-finder-search-result.component';
 
 import * as fromReducers from '../../store';
 
@@ -24,8 +24,8 @@ class StoreFinderServiceMock {
 }
 
 describe('StoreFinderListComponent', () => {
-  let component: StoreFinderListComponent;
-  let fixture: ComponentFixture<StoreFinderListComponent>;
+  let component: StoreFinderSearchResultComponent;
+  let fixture: ComponentFixture<StoreFinderSearchResultComponent>;
   let store: Store<fromReducers.StoresState>;
   let storeFinderService: StoreFinderService;
   let activatedRoute: ActivatedRouteMock;
@@ -38,7 +38,7 @@ describe('StoreFinderListComponent', () => {
         StoreModule.forFeature('stores', fromReducers.reducers)
       ],
       schemas: [NO_ERRORS_SCHEMA],
-      declarations: [StoreFinderListComponent],
+      declarations: [StoreFinderSearchResultComponent],
       providers: [
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
         { provide: ActivatedRoute, useClass: ActivatedRouteMock },
@@ -48,7 +48,7 @@ describe('StoreFinderListComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StoreFinderListComponent);
+    fixture = TestBed.createComponent(StoreFinderSearchResultComponent);
     component = fixture.componentInstance;
     store = TestBed.get(Store);
     storeFinderService = TestBed.get(StoreFinderService);

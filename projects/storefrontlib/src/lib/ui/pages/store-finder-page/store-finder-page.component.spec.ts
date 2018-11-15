@@ -23,7 +23,7 @@ import { PaginationAndSortingModule } from '../../../ui/components/pagination-an
 import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
 import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-list-item/store-finder-list-item.component';
 // tslint:disable-next-line:max-line-length
-import { StoreFinderDisplayListComponent } from '../../../store-finder/components/store-finder-list/store-finder-display-list/store-finder-display-list.component';
+import { StoreFinderDisplayListComponent } from '../../../store-finder/components/store-finder-search-result/store-finder-display-list/store-finder-display-list.component';
 
 import * as fromStore from '../../../store-finder/store';
 

@@ -5,7 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { CmsPageGuards } from '../../../cms/guards';
 import { StoreFinderPageComponent } from './store-finder-page.component';
 import { StoreFinderPageLayoutModule } from '../../layout/store-finder-page-layout/store-finder-page-layout.module';
-import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-list/store-finder-list.component';
+// tslint:disable-next-line:max-line-length
+import { StoreFinderSearchResultComponent } from '../../../store-finder/components/store-finder-search-result/store-finder-search-result.component';
 // tslint:disable-next-line:max-line-length
 import { StoreFinderStoresCountComponent } from '../../../store-finder/components/store-finder-stores-count/store-finder-stores-count.component';
 import { StoreFinderGridComponent } from '../../../store-finder/components/store-finder-grid/store-finder-grid.component';
@@ -23,7 +24,7 @@ const routes: Routes = [
         path: 'find-stores',
         canActivate: [CmsPageGuards],
         data: { pageLabel: 'storefinderPage' },
-        component: StoreFinderListComponent
+        component: StoreFinderSearchResultComponent
       },
       {
         path: 'view-all-stores',

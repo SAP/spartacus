@@ -10,11 +10,11 @@ import { StoreFinderService } from '../../services/store-finder.service';
 import * as fromStore from '../../store';
 
 @Component({
-  selector: 'cx-store-finder-list',
-  templateUrl: './store-finder-list.component.html',
-  styleUrls: ['./store-finder-list.component.scss']
+  selector: 'cx-store-finder-search-result',
+  templateUrl: './store-finder-search-result.component.html',
+  styleUrls: ['./store-finder-search-result.component.scss']
 })
-export class StoreFinderListComponent implements OnInit {
+export class StoreFinderSearchResultComponent implements OnInit {
   locations: any;
   searchQuery: SearchQuery;
   locations$: Observable<any>;
