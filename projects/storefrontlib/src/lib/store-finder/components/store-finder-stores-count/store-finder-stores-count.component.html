@@ -1,6 +1,6 @@
-<ng-container *ngIf="locations$ | async as locations">
+<ng-container *ngIf="!(isLoading$ | async) && (locations$ | async) as locations; else loading">
     <div class="cx-store-finder-list-count container">
-        <div *ngFor="let country of locations?.countriesAndRegionsStoreCount;" class="cx-store-finder-list-count__country-set">
+        <div *ngFor="let country of locations?.countriesAndRegionsStoreCount;" class="cx-store-finder-list-count__country-set; else loading">
             <a [routerLink]="['/store-finder/country', country.isoCode]" class="btn-link">
                 <div class="cx-store-finder-list-count__country-title">
                     <span [ngClass]="country?.storeCountDataList ? 'country-header' : 'country-header-link'" class="cx-store-finder-list-count__country-name">{{country.name}}</span>
@@ -20,3 +20,8 @@
         </div>
     </div>
 </ng-container>
+<ng-template #loading>
+    <div class="cx-store-finder-list__spinner">
+        <cx-spinner></cx-spinner>
+    </div>
+</ng-template>

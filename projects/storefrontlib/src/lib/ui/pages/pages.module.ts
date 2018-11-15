@@ -11,9 +11,7 @@ import { RegisterPageModule } from './register-page/register-page.module';
 import { LoginPageModule } from './login-page/login-page.module';
 import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
-import { StoreListPageModule } from './store-list-page/store-list-page.module';
 
-import { StoreDescriptionPageModule } from './store-description-page/store-description-page.module';
 import { ContactPageModule } from './contact-page/contact-page.module';
 import { SalePageModule } from './sale-page/sale-page.module';
 import { HelpPageModule } from './help-page/help-page.module';
@@ -42,8 +40,6 @@ const pageModules = [
   LoginPageModule,
   ResetPasswordPageModule,
   StoreFinderPageModule,
-  StoreListPageModule,
-  StoreDescriptionPageModule,
   ContactPageModule,
   SalePageModule,
   HelpPageModule,
