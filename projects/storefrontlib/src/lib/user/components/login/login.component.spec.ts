@@ -9,10 +9,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of, BehaviorSubject, EMPTY } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
+import { ComponentWrapperDirective } from '../../../cms/components';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
 import { RoutingService, PageType } from '@spartacus/core';
 import { UserToken } from './../../../auth/models/token-types.model';
@@ -22,6 +19,16 @@ import { LoginComponent } from './login.component';
 import { OutletDirective } from '../../../outlet';
 import createSpy = jasmine.createSpy;
 import { AuthService } from '../../../auth/facade/auth.service';
+import { Input, Component } from '@angular/core';
+
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: 'MockDynamicSlotComponent'
+})
+export class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
 
 const mockUserToken: UserToken = {
   access_token: 'xxx',
@@ -78,7 +85,7 @@ const mockRouting = {
   go: createSpy()
 };
 
-describe('LoginComponent', () => {
+fdescribe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let store: Store<fromStore.UserState>;
@@ -97,7 +104,7 @@ describe('LoginComponent', () => {
         HttpClientTestingModule
       ],
       declarations: [
-        DynamicSlotComponent,
+        MockDynamicSlotComponent,
         LoginComponent,
         ComponentWrapperDirective,
         OutletDirective
