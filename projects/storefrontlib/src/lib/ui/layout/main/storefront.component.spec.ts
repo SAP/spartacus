@@ -6,10 +6,7 @@ import { StorefrontComponent } from './storefront.component';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
+import { ComponentWrapperDirective } from '../../../cms/components';
 import { GlobalMessageModule } from '../../../global-message/global-message.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -28,6 +25,16 @@ import {
 import { PwaModule } from '../../../pwa/pwa.module';
 import { SiteContextConfig, ConfigurableRoutesService } from '@spartacus/core';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: 'MockDynamicSlotComponent'
+})
+export class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
 
 const MockSiteContextModuleConfig: SiteContextConfig = {
   server: {
@@ -67,7 +74,7 @@ describe('StorefrontComponent', () => {
         StorefrontComponent,
         HeaderComponent,
         FooterComponent,
-        DynamicSlotComponent,
+        MockDynamicSlotComponent,
         ComponentWrapperDirective,
         HeaderSkipperComponent,
         TertiaryBarComponent,

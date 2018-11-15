@@ -2,10 +2,7 @@ import { ComponentsModule } from './../../components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductDetailsPageLayoutComponent } from './product-details-page-layout.component';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
+import { ComponentWrapperDirective } from '../../../cms/components';
 import { ProductDetailsComponent } from '../../../product/components/product-details/container/product-details.component';
 import { ProductAttributesComponent } from '../../../product/components/product-details/product-attributes/product-attributes.component';
 import { ProductImagesComponent } from '../../../product/components/product-details/product-images/product-images.component';
@@ -23,7 +20,16 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { OutletDirective } from '../../../outlet';
 import { ProductService } from '../../../product/facade';
+import { Input, Component } from '@angular/core';
 
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: 'MockDynamicSlotComponent'
+})
+export class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
 describe('ProductDetailsPageLayoutComponent', () => {
   let component: ProductDetailsPageLayoutComponent;
   let fixture: ComponentFixture<ProductDetailsPageLayoutComponent>;
@@ -43,7 +49,7 @@ describe('ProductDetailsPageLayoutComponent', () => {
       providers: [ProductService],
       declarations: [
         ProductDetailsPageLayoutComponent,
-        DynamicSlotComponent,
+        MockDynamicSlotComponent,
         ComponentWrapperDirective,
         ProductDetailsComponent,
         ProductAttributesComponent,
