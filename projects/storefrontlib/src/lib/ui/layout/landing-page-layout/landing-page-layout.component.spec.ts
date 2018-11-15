@@ -14,6 +14,7 @@ export class MockDynamicSlotComponent {
   @Input()
   position: string;
 }
+
 describe('LandingPageLayoutComponent', () => {
   let component: LandingPageLayoutComponent;
   let fixture: ComponentFixture<LandingPageLayoutComponent>;
