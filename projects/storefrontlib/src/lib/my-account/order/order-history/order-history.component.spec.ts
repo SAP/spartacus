@@ -74,9 +74,11 @@ describe('OrderHistoryComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
+    let orderList;
     component.orders$.subscribe(value => {
-      expect(value).toEqual(initialOrderListState);
+      orderList = value;
     });
+    expect(orderList).toEqual(initialOrderListState);
     expect(mockUserService.loadOrderList).toHaveBeenCalledWith('test', 5);
   });
 
@@ -85,9 +87,11 @@ describe('OrderHistoryComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
+    let order;
     component.orders$.subscribe(value => {
-      expect(value).toEqual(mockOrders);
+      order = value;
     });
+    expect(order).toEqual(mockOrders);
   });
 
   it('should redirect when clicking on order id', () => {

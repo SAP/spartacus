@@ -72,17 +72,20 @@ describe('RegisterComponent', () => {
       mockUserService.titles$.next(mockTitlesList);
       component.ngOnInit();
 
+      let titleList;
       component.titles$.subscribe(data => {
-        expect(data).toEqual(mockTitlesList);
+        titleList = data;
       });
+      expect(titleList).toEqual(mockTitlesList);
     });
 
-    it('should fetch titles if the state is empty', () => {
+    it('should fetch titles if the state is empty', done => {
       mockUserService.titles$.next([]);
       component.ngOnInit();
 
       component.titles$.subscribe(() => {
         expect(mockUserService.loadTitles).toHaveBeenCalled();
+        done();
       });
     });
 

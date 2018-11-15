@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
-import { EMPTY, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import * as fromStore from '../store';
 import { UserService } from './user.service';
@@ -19,10 +19,8 @@ describe('UserService', () => {
         return () => of([]);
       case fromStore.getOrdersLoaded:
         return () => of(false);
-      case fromStore.countrySelectorFactory('isocode'):
-        return () => of('mockCountry');
       default:
-        return () => EMPTY;
+        return () => of('mockCountry');
     }
   };
 
@@ -53,33 +51,43 @@ describe('UserService', () => {
   ));
 
   it('should be able to get user details', () => {
-    service.user$.subscribe(userDetails => {
-      expect(userDetails).toEqual({ userId: 'testUser' });
+    let userDetails;
+    service.user$.subscribe(data => {
+      userDetails = data;
     });
+    expect(userDetails).toEqual({ userId: 'testUser' });
   });
 
   it('should be able to get titles data', () => {
-    service.titles$.subscribe(titles => {
-      expect(titles).toEqual(['t1', 't2']);
+    let titles;
+    service.titles$.subscribe(data => {
+      titles = data;
     });
+    expect(titles).toEqual(['t1', 't2']);
   });
 
   it('should be able to get order details', () => {
-    service.orderDetails$.subscribe(order => {
-      expect(order).toEqual({ code: 'testOrder' });
+    let order;
+    service.orderDetails$.subscribe(data => {
+      order = data;
     });
+    expect(order).toEqual({ code: 'testOrder' });
   });
 
   it('should be able to get order list', () => {
-    service.orderList$.subscribe(orderList => {
-      expect(orderList).toEqual([]);
+    let orderList;
+    service.orderList$.subscribe(data => {
+      orderList = data;
     });
+    expect(orderList).toEqual([]);
   });
 
   it('should be able to get order list loaded flag', () => {
-    service.orderListLoaded$.subscribe(orderListLoaded => {
-      expect(orderListLoaded).toEqual(false);
+    let orderListLoaded;
+    service.orderListLoaded$.subscribe(data => {
+      orderListLoaded = data;
     });
+    expect(orderListLoaded).toEqual(false);
   });
 
   it('should be able to load user details', () => {
@@ -108,9 +116,11 @@ describe('UserService', () => {
   });
 
   it('should be able to get country by isocode', () => {
-    service.getCountry('isocode').subscribe(country => {
-      expect(country).toBe('mockCountry');
+    let country;
+    service.getCountry('isocode').subscribe(data => {
+      country = data;
     });
+    expect(country).toBe('mockCountry');
   });
 
   it('should be able to load delivery countries', () => {
@@ -148,41 +158,4 @@ describe('UserService', () => {
       })
     );
   });
-
-  /*it('should be able to get countrie by isocode', () => {
-    service.getCountry('isocode');
-    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadTitles());
-  });*/
-
-  /*it('should load currencies and set active currency when service is constructed', () => {
-    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadCurrencies());
-    let activeCurr = sessionStorage.getItem('currency');
-    if (!activeCurr) {
-      activeCurr = defaultSiteContextConfig.site.currency;
-    }
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.SetActiveCurrency(activeCurr)
-    );
-  });
-
-  it('should be able to get currencies', () => {
-    service.currencies$.subscribe(results => {
-      expect(results).toEqual(mockCurrencies);
-    });
-  });
-
-  it('should be able to get active currencies', () => {
-    service.activeCurrency$.subscribe(results => {
-      expect(results).toEqual(mockActiveCurr);
-    });
-  });
-
-  describe('set activeCurrency(isocode)', () => {
-    it('should be able to set active currency', () => {
-      service.activeCurrency = 'USD';
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SetActiveCurrency('USD')
-      );
-    });
-  });*/
 });
