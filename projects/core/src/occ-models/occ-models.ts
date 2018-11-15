@@ -2995,10 +2995,10 @@ export enum Fields6 {
  * @enum {string}
  */
 export enum PageType {
-  ContentPage = 'ContentPage',
-  ProductPage = 'ProductPage',
-  CategoryPage = 'CategoryPage',
-  CatalogPage = 'CatalogPage'
+  CONTENT_PAGE = 'ContentPage',
+  PRODUCT_PAGE = 'ProductPage',
+  CATEGORY_PAGE = 'CategoryPage',
+  CATALOG_PAGE = 'CatalogPage'
 }
 
 /**
