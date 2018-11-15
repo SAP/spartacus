@@ -9,9 +9,10 @@ $cx-item-counter-border: 1px solid !default;
 $cx-item-counter-border-radius: 4px !default;
 
 $cx-item-counter-value-border: 1px solid !default;
-$cx-item-counter-value-trbl-padding: 12px 18px 12px 18px !default;
+$cx-item-counter-value-trbl-padding: 12px 9px 12px 9px !default;
 $cx-item-counter-value-height: 46px !default;
 $cx-item-counter-value-width: 48px !default;
+$cx-item-counter-value-max-width: 78px !default;
 
 $cx-item-counter-action-height: 48px !default;
 $cx-item-counter-action-width: 40px !default;
@@ -26,7 +27,17 @@ $cx-item-counter-action-trbl-margin: 0 !default;
   border-radius: $cx-item-counter-border-radius;
   border: $cx-item-counter-border;
   @include var-color('border-color', $cx-item-counter-border-color);
+  &__wrapper {
+    display: inline-flex;
+    flex-direction: column;
+  }
+  &__error {
+    color: #ed3939;
+    font-size: 13px;
+  }
   &__value {
+    border: none;
+    text-align: center;
     border-left: $cx-item-counter-value-border;
     border-right: $cx-item-counter-value-border;
     @include var-color('border-left-color', $cx-item-counter-border-color);
@@ -34,6 +45,7 @@ $cx-item-counter-action-trbl-margin: 0 !default;
     padding: $cx-item-counter-value-trbl-padding;
     max-height: $cx-item-counter-value-height;
     min-width: $cx-item-counter-value-width;
+    max-width: $cx-item-counter-value-max-width;
   }
   &__action {
     max-height: $cx-item-counter-action-height;
