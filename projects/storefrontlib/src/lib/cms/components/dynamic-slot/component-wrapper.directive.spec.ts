@@ -1,17 +1,14 @@
 import { Component, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { DynamicSlotComponent } from './dynamic-slot.component';
 import { ComponentMapperService } from '../../services';
 import { CmsModuleConfig } from '../../cms-module-config';
+import * as fromReducers from '../../store/reducers';
+import { StoreModule } from '@ngrx/store';
 import { OutletDirective } from '../../../outlet';
 import { CmsComponentData } from '../cms-component-data';
-import { CmsService } from '../../facade/cms.service';
 import { CxApiService } from '@spartacus/storefront';
-
-class MockCmsService {
-  getComponentData() {}
-}
+import { CmsService } from '../../facade/cms.service';
 
 const testText = 'test text';
 
@@ -47,17 +44,20 @@ describe('ComponentWrapperDirective', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [TestModule],
+      imports: [
+        TestModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cms', fromReducers.getReducers())
+      ],
       declarations: [
         TestWrapperComponent,
-        DynamicSlotComponent,
         ComponentWrapperDirective,
         OutletDirective
       ],
       providers: [
         ComponentMapperService,
         { provide: CmsModuleConfig, useValue: MockCmsModuleConfig },
-        { provide: CmsService, useClass: MockCmsService }
+        { provide: CmsService, useValue: { getComponentData: () => {} } }
       ]
     }).compileComponents();
   }));
