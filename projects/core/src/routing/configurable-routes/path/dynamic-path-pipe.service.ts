@@ -13,7 +13,7 @@ export class DynamicPathPipeService {
     const {
       pageName,
       parameters
-    } = this.pathRecognizerService.getMatchingPageAndParameters(path);
+    } = this.pathRecognizerService.getPageAndParameters(path);
 
     if (!pageName) {
       return path;
