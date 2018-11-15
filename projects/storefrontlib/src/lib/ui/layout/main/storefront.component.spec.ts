@@ -1,33 +1,40 @@
-import { MobileMenuComponent } from '../header/mobile-menu/mobile-menu.component';
-import { HeaderSkipperComponent } from '../header/header-skipper/header-skipper.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { StorefrontComponent } from './storefront.component';
-import { HeaderComponent } from '../header/header.component';
-import { FooterComponent } from '../footer/footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import {
+  ServiceWorkerModule,
+  ɵangular_packages_service_worker_service_worker_b as RegistrationOptions
+} from '@angular/service-worker';
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
+import { SiteContextConfig, ConfigurableRoutesService } from '@spartacus/core';
+
+import { FooterComponent } from '../footer/footer.component';
+import { HeaderComponent } from '../header/header.component';
+import { OutletDirective } from '../../../outlet';
+import { HeaderSkipperComponent } from '../header/header-skipper/header-skipper.component';
+import { MobileMenuComponent } from '../header/mobile-menu/mobile-menu.component';
+import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
+import * as fromAuth from '../../../auth/store';
 import {
   DynamicSlotComponent,
   ComponentWrapperDirective
 } from '../../../cms/components';
 import { GlobalMessageModule } from '../../../global-message/global-message.module';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { OccSiteService } from '../../../../../../core/src/site-context/occ/occ-site.service';
-import { SiteContextModule } from '../../../site-context/site-context.module';
-import { LoginComponent } from '../../../user/components/login/login.component';
-import * as fromUserReducer from '../../../user/store/reducers';
-import * as fromCmsReducer from '../../../cms/store/reducers';
-import * as fromAuth from '../../../auth/store';
-import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
-import { OutletDirective } from '../../../outlet';
+import { PwaModule } from '../../../pwa/pwa.module';
 import {
   PWAModuleConfig,
   defaultPWAModuleConfig
 } from '../../../pwa/pwa.module-config';
-import { PwaModule } from '../../../pwa/pwa.module';
-import { SiteContextConfig, ConfigurableRoutesService } from '@spartacus/core';
+import { SiteContextModule } from '../../../site-context/site-context.module';
+import * as fromCmsReducer from '../../../cms/store/reducers';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
+import * as fromUserReducer from '../../../user/store/reducers';
+import { LoginComponent } from '../../../user/components/login/login.component';
+import { OccSiteService } from '../../../../../../core/src/site-context/occ/occ-site.service';
+
+import { StorefrontComponent } from './storefront.component';
 
 const MockSiteContextModuleConfig: SiteContextConfig = {
   server: {
@@ -42,6 +49,9 @@ const MockSiteContextModuleConfig: SiteContextConfig = {
   }
 };
 
+const MockPwaRegistrationOptions: RegistrationOptions = {
+  enabled: false
+};
 class MockConfigurableRoutesService {
   changeLanguage() {}
 }
@@ -60,6 +70,7 @@ describe('StorefrontComponent', () => {
         StoreModule.forFeature('auth', fromAuth.getReducers()),
         GlobalMessageModule,
         PwaModule,
+        ServiceWorkerModule,
         EffectsModule.forRoot([]),
         SiteContextModule
       ],
@@ -84,6 +95,10 @@ describe('StorefrontComponent', () => {
         {
           provide: PWAModuleConfig,
           useValue: defaultPWAModuleConfig
+        },
+        {
+          provide: RegistrationOptions,
+          useValue: MockPwaRegistrationOptions
         },
         {
           provide: ConfigurableRoutesService,

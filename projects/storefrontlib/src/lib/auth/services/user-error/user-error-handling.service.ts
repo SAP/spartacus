@@ -1,22 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpRequest, HttpHandler } from '@angular/common/http';
 
-import { Store, select } from '@ngrx/store';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap, filter, take, switchMap } from 'rxjs/operators';
 
-import * as fromStore from '../../store';
-
+import { AuthService } from '../../facade/auth.service';
 import { UserToken } from '../../models/token-types.model';
-import { PathService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 
 @Injectable()
 export class UserErrorHandlingService {
   constructor(
-    private store: Store<fromStore.AuthState>,
-    private router: Router,
-    private pathService: PathService
+    private authService: AuthService,
+    private routingService: RoutingService
   ) {}
 
   public handleExpiredUserToken(
@@ -24,7 +20,7 @@ export class UserErrorHandlingService {
     next: HttpHandler
   ): Observable<any> {
     return this.handleExpiredToken().pipe(
-      switchMap(([token]: [UserToken, boolean]) => {
+      switchMap((token: UserToken) => {
         return next.handle(this.createNewRequestWithNewToken(request, token));
       })
     );
@@ -32,31 +28,22 @@ export class UserErrorHandlingService {
 
   public handleExpiredRefreshToken() {
     // Logout user
-    this.store.dispatch(new fromStore.Logout());
+    this.authService.logout();
   }
 
   private handleExpiredToken(): Observable<any> {
-    let oldToken;
-    return combineLatest(
-      this.store.pipe(select(fromStore.getUserToken)),
-      this.store.pipe(select(fromStore.getUserTokenLoading))
-    ).pipe(
-      tap(([token, loading]: [UserToken, boolean]) => {
-        oldToken = oldToken || token;
-        if (token.access_token && token.refresh_token && !loading) {
-          this.store.dispatch(
-            new fromStore.RefreshUserToken({
-              userId: token.userId,
-              refreshToken: token.refresh_token
-            })
-          );
+    let oldToken: UserToken;
+    return this.authService.userToken$.pipe(
+      tap((token: UserToken) => {
+        if (token.access_token && token.refresh_token && !oldToken) {
+          this.authService.refreshUserToken(token);
         } else if (!token.access_token && !token.refresh_token) {
-          this.router.navigate([this.pathService.transform('login')]);
+          this.routingService.goToPage('login');
         }
+        oldToken = oldToken || token;
       }),
       filter(
-        ([token]: [UserToken, boolean]) =>
-          oldToken.access_token !== token.access_token
+        (token: UserToken) => oldToken.access_token !== token.access_token
       ),
       take(1)
     );

@@ -5,13 +5,26 @@ import {
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
-import { StoreModule, Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
-import * as fromStore from '../store';
+import { AuthModuleConfig } from '../auth-module.config';
+import { AuthService } from '../facade/auth.service';
+import { UserToken } from './../../auth/models/token-types.model';
 
 import { UserTokenInterceptor } from './user-token.interceptor';
-import { UserToken } from './../../auth/models/token-types.model';
-import { AuthModuleConfig } from '../auth-module.config';
+
+const userToken: UserToken = {
+  access_token: 'xxx',
+  token_type: 'bearer',
+  refresh_token: 'xxx',
+  expires_in: 1000,
+  scope: ['xxx'],
+  userId: 'xxx'
+};
+
+const authServiceMock = {
+  userToken$: of(userToken)
+};
 
 const MockAuthModuleConfig: AuthModuleConfig = {
   server: {
@@ -27,26 +40,14 @@ const MockAuthModuleConfig: AuthModuleConfig = {
 };
 
 describe('UserTokenInterceptor', () => {
-  const userToken: UserToken = {
-    access_token: 'xxx',
-    token_type: 'bearer',
-    refresh_token: 'xxx',
-    expires_in: 1000,
-    scope: ['xxx'],
-    userId: 'xxx'
-  };
-  let store: Store<fromStore.AuthState>;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('auth', fromStore.getReducers())
-      ],
+      imports: [HttpClientTestingModule],
       providers: [
         { provide: AuthModuleConfig, useValue: MockAuthModuleConfig },
+        { provide: AuthService, useValue: authServiceMock },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: UserTokenInterceptor,
@@ -55,7 +56,6 @@ describe('UserTokenInterceptor', () => {
       ]
     });
 
-    store = TestBed.get(Store);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -81,7 +81,6 @@ describe('UserTokenInterceptor', () => {
   it(`Should add 'Authorization' header with a token info to an HTTP request`, inject(
     [HttpClient],
     (http: HttpClient) => {
-      store.dispatch(new fromStore.LoadUserTokenSuccess(userToken));
       http
         .get('https://localhost:9002/rest/v2/electronics')
         .subscribe(result => {

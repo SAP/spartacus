@@ -1,4 +1,4 @@
-<div class="cx-added-to-cart-dialog">
+<div class="cx-added-to-cart-dialog" #dialog>
   <!-- Modal Header -->
   <ng-container *ngIf="loaded$ | async; else loading">
     <div class="cx-added-to-cart-dialog__header modal-header">
@@ -25,11 +25,8 @@
           </div>
           <!-- Actions -->
           <div class="cx-added-to-cart-dialog__actions">
-            <a [routerLink]="'cart' | cxPath" class="btn btn-primary" (click)="activeModal.dismiss('Cross click')">view
-              cart</a>
-            <a [routerLink]="'checkout' | cxPath" class="btn btn-secondary" (click)="activeModal.dismiss('Cross click')">proceed
-              to
-              checkout</a>
+            <a [routerLink]="'cart' | cxPath" class="btn btn-primary" ngbAutoFocus (click)="activeModal.dismiss('Cross click')">view cart</a>
+            <a [routerLink]="'checkout' | cxPath" class="btn btn-secondary" (click)="activeModal.dismiss('Cross click')">proceed to checkout</a>
           </div>
         </div>
       </div>
