@@ -43,6 +43,11 @@ done
 LIB_DIR="projects/$LIB"
 DEPLOY_DIR="dist/$LIB"
 
+if [[ ! -d $LIB_DIR ]]; then
+  echo "Library $LIB does not exist. Aborting"
+  exit 1
+fi
+
 BUMP_COMMAND="npm version $BUMP"
 PUBLISH_CMD="npm publish ."
 
@@ -78,6 +83,10 @@ published=''
 
 if [[ -z "$published" ]]; then
   NEW_VERSION=${LIB_DIR_NEW_VERSION:1}
+
+  if [[ $LIB == "storefrontlib" ]]; then
+    LIB="storefront"
+  fi
 
   TAG="$LIB-$NEW_VERSION"
   RELEASE_BRANCH="release/$TAG"
