@@ -1,48 +1,42 @@
-import { RouterTestingModule } from '@angular/router/testing';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  AbstractControl
-} from '@angular/forms';
-import { LoginFormComponent } from './login-form.component';
+import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-import { combineReducers, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import * as fromStore from '../../../store';
+import createSpy = jasmine.createSpy;
+
+import { LoginFormComponent } from './login-form.component';
 import { RoutingService } from '@spartacus/core';
 import { AuthService } from '../../../../auth/facade/auth.service';
-import createSpy = jasmine.createSpy;
+import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
 
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
 
-  const mockAuth = {
-    userToken$: of({ access_token: 'test' }),
-    authorize: createSpy()
-  };
-
-  const mockRouting = {
-    redirectUrl$: of('/test'),
-    go: createSpy(),
-    clearRedirectUrl: createSpy()
-  };
+  let mockAuthService: any;
+  let mockRoutingService: any;
+  let mockGlobalMessageService: any;
 
   beforeEach(async(() => {
+    mockAuthService = {
+      userToken$: of({ access_token: 'test' }),
+      authorize: createSpy()
+    };
+    mockRoutingService = {
+      redirectUrl$: of('/test'),
+      go: createSpy(),
+      clearRedirectUrl: createSpy()
+    };
+    mockGlobalMessageService = {
+      remove: createSpy()
+    };
+
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromStore.getReducers(),
-          user: combineReducers(fromStore.getReducers())
-        })
-      ],
+      imports: [ReactiveFormsModule],
       declarations: [LoginFormComponent],
       providers: [
-        { provide: AuthService, useValue: mockAuth },
-        { provide: RoutingService, useValue: mockRouting }
+        { provide: AuthService, useValue: mockAuthService },
+        { provide: RoutingService, useValue: mockRoutingService },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService }
       ]
     }).compileComponents();
   }));
@@ -69,11 +63,14 @@ describe('LoginFormComponent', () => {
     component.form.controls['password'].setValue('secret');
     component.login();
 
-    expect(mockAuth.authorize).toHaveBeenCalledWith('test@email.com', 'secret');
+    expect(mockAuthService.authorize).toHaveBeenCalledWith(
+      'test@email.com',
+      'secret'
+    );
   });
 
   it('should redirect to returnUrl saved in store if there is one', () => {
-    expect(mockRouting.go).toHaveBeenCalledWith(['/test']);
+    expect(mockRoutingService.go).toHaveBeenCalledWith(['/test']);
   });
 
   describe('userId form field', () => {

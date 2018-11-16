@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreModule } from '@ngrx/store';
 
@@ -10,10 +10,6 @@ import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.co
 import * as fromReducers from '../../store';
 import * as fromServices from '../../services';
 
-const fakeActivatedRoute = {
-  snapshot: { data: {} }
-} as ActivatedRoute;
-
 describe('StoreFinderStoreDescriptionComponent', () => {
   let component: StoreFinderStoreDescriptionComponent;
   let fixture: ComponentFixture<StoreFinderStoreDescriptionComponent>;
@@ -21,6 +17,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        RouterTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature('stores', fromReducers.reducers)
       ],
@@ -29,10 +26,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
         ScheduleComponent,
         StoreFinderMapComponent
       ],
-      providers: [
-        ...fromServices.services,
-        { provide: ActivatedRoute, useValue: fakeActivatedRoute }
-      ]
+      providers: [...fromServices.services]
     }).compileComponents();
   }));
 

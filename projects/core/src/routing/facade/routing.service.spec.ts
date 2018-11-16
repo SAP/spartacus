@@ -55,6 +55,23 @@ describe('RoutingService', () => {
     }
   ));
 
+  it('should go to homepage on back action when referer is not from the app', inject(
+    [RoutingService],
+    (service: RoutingService) => {
+      spyOnProperty(document, 'referrer', 'get').and.returnValue(
+        'http://foobar.com'
+      );
+      service.back();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.Go({
+          path: ['/'],
+          query: undefined,
+          extras: undefined
+        })
+      );
+    }
+  ));
+
   it('should dispatch forward action', inject(
     [RoutingService],
     (service: RoutingService) => {
