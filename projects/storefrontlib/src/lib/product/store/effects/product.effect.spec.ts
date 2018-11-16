@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccProductService } from '../../../occ/product/product.service';
-import { OccConfig } from '@spartacus/core';
+import { OccConfig, Product } from '@spartacus/core';
 import { ProductImageConverterService } from '../../converters/product-image-converter.service';
 import { ProductReferenceConverterService } from '../../converters/product-reference-converter.service';
 
@@ -42,7 +42,7 @@ describe('Product Effects', () => {
   let effects: fromEffects.ProductEffects;
 
   const productCode = 'testCode';
-  const product = {
+  const product: Product = {
     code: 'testCode',
     name: 'testProduct'
   };
