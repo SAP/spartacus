@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccProductService } from '../../occ/product.service';
-import { OccConfig } from '@spartacus/core';
+import { PageType } from '../../../occ-models/occ.models';
 import { ProductImageConverterService } from '../converters/product-image-converter.service';
 import { ProductReferenceConverterService } from '../converters/product-reference-converter.service';
 
@@ -14,8 +14,7 @@ import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
 import { StoreModule } from '@ngrx/store';
 import { RoutingService } from '../../../routing/facade/routing.service';
-import { PageType } from '../../../routing/models/page-context.model';
-import { LanguageChange } from '@spartacus/core';
+import { LanguageChange, OccConfig } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
