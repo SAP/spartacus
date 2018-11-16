@@ -1,7 +1,7 @@
 export * from './facade/language.service';
 export * from './facade/currency.service';
 export * from './site-context.module';
-export * from './occ/occ-site.service';
+export * from './occ/index';
 
 export * from './store/state';
 export * from './store/actions/index';

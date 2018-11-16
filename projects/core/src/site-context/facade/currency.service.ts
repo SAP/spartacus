@@ -5,10 +5,12 @@ import { StateWithSiteContext, CurrencyEntities } from '../store/state';
 import {
   LoadCurrencies,
   SetActiveCurrency,
+} from '../store/actions/currencies.action';
+import {
   getAllCurrencies,
   getActiveCurrency
-} from '../store';
-import { OccConfig } from '../../occ';
+} from '../store/selectors/currencies.selectors';
+import { OccConfig } from '../../occ/config/config';
 
 @Injectable()
 export class CurrencyService {

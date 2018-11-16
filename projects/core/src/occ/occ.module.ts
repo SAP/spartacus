@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { defaultOccConfig, OccConfig } from './config/config';
-import { ConfigModule, Config } from '../config';
+import { Config, ConfigModule } from '../config/config.module';
 
 @NgModule({
   imports: [ConfigModule.withConfig(defaultOccConfig)],

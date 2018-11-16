@@ -1,4 +1,4 @@
-import { ServerConfig } from '../../config';
+import { ServerConfig } from '../../config/server-config/server-config';
 
 export abstract class OccConfig extends ServerConfig {
   site?: {
