@@ -33,7 +33,7 @@ $cx-header-separator-width: 100vw !default;
 $cx-header-height-tablet: 90px !default;
 $cx-header-height-mobile: 70px !default;
 $cx-header-trbl-padding-tablet: 1.15rem 0 0 0 !default;
-$cx-header-trbl-padding-mobile: 0.5rem 0 0 0 !default;
+$cx-header-trbl-padding-mobile: 0 0 0 0 !default;
 
 :host {
   @include reset;
@@ -62,28 +62,19 @@ $cx-header-trbl-padding-mobile: 0.5rem 0 0 0 !default;
       top: $cx-header-separator-position-top;
     }
   }
-  @include media-breakpoint-down(md) {
-    height: $cx-header-height-tablet;
-    padding: $cx-header-trbl-padding-tablet;
-  }
-  @include media-breakpoint-down(xs) {
-    height: $cx-header-height-mobile;
-    padding: $cx-header-trbl-padding-mobile;
-  }
+  // @include media-breakpoint-down(md) {
+  //   height: $cx-header-height-tablet;
+  //   padding: $cx-header-trbl-padding-tablet;
+  // }
+  // @include media-breakpoint-down(xs) {
+  //   height: $cx-header-height-mobile;
+  //   padding: $cx-header-trbl-padding-mobile;
+  // }
 }
-
-/**
-  Introduce the beauty of CSS vars here.
-  The container specifies highly generic CSS vars.
-  The nested components can use those CSS vars.
-  Out of the context of .site-logo the CSS vars
-  can be used for different purposes.
-  With this setup, a customer can override the width with:
-  .site-logo img { --margin: 100%; }
-*/
 
 .cx-header__content {
   display: grid;
+  align-items: center;
   grid-template-rows: var(--cx-grid-template-rows, 70px);
   grid-template-columns: var(
     --cx-grid-template-columns,
@@ -96,7 +87,9 @@ $cx-header-trbl-padding-mobile: 0.5rem 0 0 0 !default;
   }
 
   .logo {
-    --width: 100px;
+    --width: 117px;
+    display: flex;
+    align-items: center;
     grid-row: var(--cx-grid-template-row, 1);
     grid-column: var(--cx-grid-template-column, 2 / span 1);
   }
@@ -107,11 +100,15 @@ $cx-header-trbl-padding-mobile: 0.5rem 0 0 0 !default;
   }
 
   .search {
+    display: flex;
+    align-items: center;
     grid-row: var(--cx-grid-template-row, 1);
     grid-column: var(--cx-grid-template-column, 4 / span 1);
   }
 
   .minicart {
+    display: flex;
+    align-items: center;
     grid-row: var(--cx-grid-template-row, 1);
     grid-column: var(--cx-grid-template-column, 5 / span 1);
   }
@@ -125,6 +122,10 @@ $cx-header-trbl-padding-mobile: 0.5rem 0 0 0 !default;
   cx-login,
   .nav-bar {
     display: none;
+  }
+
+  @include cx-breakpoint-up(md) {
+    grid-template-rows: var(--cx-grid-template-rows, 90px);
   }
 
   @include cx-breakpoint-up(lg) {
