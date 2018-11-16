@@ -1,5 +1,4 @@
 import * as fromActions from './product-reviews.action';
-// import { ReviewList } from '@spartacus/core';
 
 fdescribe('Product Review Actions', () => {
   describe('LoadProductReview Actions', () => {

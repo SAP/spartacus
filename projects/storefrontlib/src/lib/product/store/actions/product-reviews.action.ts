@@ -18,7 +18,7 @@ export class LoadProductReviews implements Action {
 
 export class LoadProductReviewsFail implements Action {
   readonly type = LOAD_PRODUCT_REVIEWS_FAIL;
-  constructor(public payload: any) {} //TODO: Scot:: Error Model
+  constructor(public payload: any) {}
 }
 
 export class LoadProductReviewsSuccess implements Action {
