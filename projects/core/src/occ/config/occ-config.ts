@@ -7,11 +7,3 @@ export abstract class OccConfig extends ServerConfig {
     currency?: string;
   };
 }
-
-export const defaultOccConfig: OccConfig = {
-  site: {
-    baseSite: 'electronics',
-    language: 'en',
-    currency: 'USD'
-  }
-};

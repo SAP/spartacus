@@ -7,7 +7,8 @@ import createSpy = jasmine.createSpy;
 import * as fromStore from '../store';
 import { StateWithSiteContext } from '../store/state';
 import { LanguageService } from './language.service';
-import { defaultOccConfig, OccConfig } from '../../occ/config/config';
+import { OccConfig } from '../../occ/config/occ-config';
+import { defaultOccConfig } from '../../occ/config/default-occ-config';
 
 const mockLanguages: any[] = [
   { active: true, isocode: 'ja', name: 'Japanese' }

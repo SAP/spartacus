@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { OccConfig } from '../../occ/config/config';
+import { OccConfig } from '../../occ/config/occ-config';
 
 const ENDPOINT_PRODUCT = 'products';
 

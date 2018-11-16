@@ -11,7 +11,7 @@ import {
   SetActiveLanguage
 } from '../store/actions/languages.action';
 
-import { OccConfig } from '../../occ/config/config';
+import { OccConfig } from '../../occ/config/occ-config';
 @Injectable()
 export class LanguageService {
   readonly languages$: Observable<LanguagesEntities> = this.store.pipe(

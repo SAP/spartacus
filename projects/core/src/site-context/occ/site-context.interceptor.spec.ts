@@ -8,7 +8,7 @@ import { SiteContextInterceptor } from './site-context.interceptor';
 import { BehaviorSubject } from 'rxjs';
 import { LanguageService } from '../facade/language.service';
 import { CurrencyService } from '../facade/currency.service';
-import { OccConfig } from '../../occ/config/config';
+import { OccConfig } from '../../occ/config/occ-config';
 
 export class MockSiteContextModuleConfig {
   server = {
