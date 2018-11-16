@@ -12,6 +12,7 @@ import { LoginPageModule } from './login-page/login-page.module';
 import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
 import { StoreListPageModule } from './store-list-page/store-list-page.module';
+import { PaymentDetailsPageModule } from './payment-details-page/payment-details-page.module';
 
 import { StoreDescriptionPageModule } from './store-description-page/store-description-page.module';
 import { ContactPageModule } from './contact-page/contact-page.module';
@@ -40,6 +41,7 @@ const pageModules = [
   ProductPageModule,
   RegisterPageModule,
   LoginPageModule,
+  PaymentDetailsPageModule,
   ResetPasswordPageModule,
   StoreFinderPageModule,
   StoreListPageModule,
