@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import * as fromStore from '../store';
 
 import { ProductReviewService } from './product-review.service';
+import { Review } from '@spartacus/core';
 
 describe('ReviewService', () => {
   let service: ProductReviewService;
@@ -58,12 +59,11 @@ describe('ReviewService', () => {
 
   describe('add(productCode, review)', () => {
     it('should be able to add review for product', () => {
-      service.add('testId', 'test review');
+      const productCode = 'testId';
+      const review: Review = { id: '123', comment: 'test review' };
+      service.add(productCode, review);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.PostProductReview({
-          productCode: 'testId',
-          review: 'test review'
-        })
+        new fromStore.PostProductReview({ productCode, review })
       );
     });
   });

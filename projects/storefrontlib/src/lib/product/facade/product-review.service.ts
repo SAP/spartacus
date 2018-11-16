@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import * as fromStore from '../store';
+import { Product, Review } from '@spartacus/core';
 
 @Injectable()
 export class ProductReviewService {
   constructor(private store: Store<fromStore.ProductsState>) {}
 
-  getByProductCode(productCode: string): Observable<any> {
+  getByProductCode(productCode: string): Observable<Product> {
     const selector = fromStore.getSelectedProductReviewsFactory(productCode);
     return this.store.pipe(
       select(selector),
@@ -21,7 +22,7 @@ export class ProductReviewService {
     );
   }
 
-  add(productCode: string, review: any) {
+  add(productCode: string, review: Review) {
     this.store.dispatch(
       new fromStore.PostProductReview({
         productCode: productCode,

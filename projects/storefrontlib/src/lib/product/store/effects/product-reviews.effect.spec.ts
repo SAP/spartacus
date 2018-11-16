@@ -4,20 +4,20 @@ import { TestBed } from '@angular/core/testing';
 
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { OccConfig } from '@spartacus/core';
+import { OccConfig, ReviewList } from '@spartacus/core';
 
 import * as fromEffects from '../effects/product-reviews.effect';
 import * as fromActions from '../actions/product-reviews.action';
 import { provideMockActions } from '@ngrx/effects/testing';
 
-const reviewData = {
+const reviewData: ReviewList = {
   reviews: [
     {
-      id: 1,
+      id: '1',
       rating: 3
     },
     {
-      id: 2,
+      id: '2',
       rating: 5
     }
   ]
@@ -58,7 +58,7 @@ describe('Product reviews effect', () => {
       const action = new fromActions.LoadProductReviews(productCode);
       const completion = new fromActions.LoadProductReviewsSuccess({
         productCode,
-        list: reviewData.reviews
+        list: reviewData
       });
 
       actions$ = hot('-a', { a: action });

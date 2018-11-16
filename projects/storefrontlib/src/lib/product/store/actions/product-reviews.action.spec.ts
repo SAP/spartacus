@@ -1,6 +1,7 @@
 import * as fromActions from './product-reviews.action';
+// import { ReviewList } from '@spartacus/core';
 
-describe('Product Review Actions', () => {
+fdescribe('Product Review Actions', () => {
   describe('LoadProductReview Actions', () => {
     describe('LOAD_PRODUCT_REVIEWS', () => {
       it('should create the action', () => {
@@ -26,22 +27,27 @@ describe('Product Review Actions', () => {
 
     describe('LOAD_PRODUCT_REVIEWS_SUCCESS', () => {
       it('should create the action', () => {
-        const payload = {
+        const productCode = '123';
+        const list = {
           reviews: [
             {
-              id: 1,
+              id: '1',
               rating: 3
             },
             {
-              id: 2,
+              id: '2',
               rating: 5
             }
           ]
         };
-        const action = new fromActions.LoadProductReviewsSuccess(payload);
+
+        const action = new fromActions.LoadProductReviewsSuccess({
+          productCode,
+          list
+        });
         expect({ ...action }).toEqual({
           type: fromActions.LOAD_PRODUCT_REVIEWS_SUCCESS,
-          payload
+          payload: { productCode, list }
         });
       });
     });

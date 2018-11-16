@@ -1,13 +1,14 @@
 import * as fromProductReviews from './../actions/product-reviews.action';
+import { ReviewList } from '@spartacus/core';
 
 export interface ProductReviewsState {
   productCode: string;
-  list: any[];
+  list: ReviewList;
 }
 
 export const initialState: ProductReviewsState = {
   productCode: '',
-  list: []
+  list: { reviews: [] }
 };
 
 export function reducer(
