@@ -76,7 +76,7 @@ export class StoreDataService {
    *
    * @returns payload describing the store's schedule for the given day.
    */
-  protected getSchedule(location: any, date: Date): any {
+  private getSchedule(location: any, date: Date): any {
     const weekday = this.weekDays[date.getDay()];
     return location.openingHours.weekDayOpeningList.find(
       weekDayOpeningListItem => weekDayOpeningListItem.weekDay === weekday

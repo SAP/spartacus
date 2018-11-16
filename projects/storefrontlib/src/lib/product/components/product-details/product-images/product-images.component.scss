@@ -16,11 +16,10 @@
 .thumbs {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
 
   cx-picture {
-    min-width: 5vw;
-    min-height: 5vw;
+    width: var(--cx-width, 6vmax);
+    height: var(--cx-width, 6vmax);
     transition: all var(--cx-transition-time);
 
     &:not(.active) {
@@ -36,7 +35,7 @@
 
     &:hover,
     &.active {
-      --cx-border-color: var(--cx-primary);
+      border-color: var(--cx-border-color, var(--cx-primary));
     }
   }
 }

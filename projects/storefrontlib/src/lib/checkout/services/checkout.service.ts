@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromCheckoutStore from '../store/';
 import * as fromUserStore from '../../user/store';
 
@@ -11,6 +12,20 @@ import {
 
 @Injectable()
 export class CheckoutService {
+  readonly paymentMethods$: Observable<any> = this.userStore.pipe(
+    select(fromUserStore.getPaymentMethods)
+  );
+  readonly paymentMethodsLoading$: Observable<boolean> = this.userStore.pipe(
+    select(fromUserStore.getPaymentMethodsLoading)
+  );
+
+  readonly shippingAddresses$ = this.userStore.pipe(
+    select(fromUserStore.getAddresses)
+  );
+  readonly addressesLoading$ = this.userStore.pipe(
+    select(fromUserStore.getAddressesLoading)
+  );
+
   orderDetails: any;
 
   constructor(

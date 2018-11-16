@@ -5,6 +5,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { RouterModule } from '@angular/router';
 
+import { UserService } from './facade/user.service';
+
 import { metaReducers } from './store/reducers/index';
 import { LoginModule } from './components/login/login.module';
 import { reducerToken, reducerProvider } from './store/reducers/index';
@@ -22,7 +24,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     RouterModule
   ],
   declarations: [RegisterComponent, ResetPasswordComponent],
-  providers: [reducerProvider],
+  providers: [reducerProvider, UserService],
   exports: [RegisterComponent, ResetPasswordComponent]
 })
 export class UserModule {}
