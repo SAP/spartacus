@@ -37,4 +37,5 @@
   .help {
     display: none;
   }
+}
 ```

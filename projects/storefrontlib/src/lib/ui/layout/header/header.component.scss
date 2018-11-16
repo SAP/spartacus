@@ -115,13 +115,13 @@ $cx-header-trbl-padding-mobile: 0 0 0 0 !default;
 
   cx-language-selector,
   cx-currency-selector,
-  .store-finder,
-  .sale,
-  .contact,
-  .help,
+  .link,
   cx-login,
   .nav-bar {
     display: none;
+  }
+  @include cx-breakpoint-up(md) {
+    grid-template-rows: var(--cx-grid-template-rows, 90px);
   }
 
   @include cx-breakpoint-up(md) {
@@ -151,24 +151,33 @@ $cx-header-trbl-padding-mobile: 0 0 0 0 !default;
       grid-column: 2 / span 1;
     }
 
+    .link,
+    .search,
+    cx-login {
+      display: flex;
+      align-items: center;
+    }
+
+    .link,
+    cx-login {
+      @include var-color('color', $cx-tertiary-link-color);
+      @include type('7');
+    }
+
     .store-finder {
-      display: inline-block;
       grid-row: var(--cx-grid-template-row, 1);
       grid-column: 9 / span 1;
     }
 
     .sale {
-      display: inline-block;
       grid-row: var(--cx-grid-template-row, 1);
       grid-column: 10 / span 1;
     }
     .contact {
-      display: inline-block;
       grid-row: var(--cx-grid-template-row, 1);
       grid-column: 11 / span 1;
     }
     .help {
-      display: inline-block;
       grid-row: var(--cx-grid-template-row, 1);
       grid-column: 12 / span 1;
     }
@@ -185,7 +194,6 @@ $cx-header-trbl-padding-mobile: 0 0 0 0 !default;
     }
 
     cx-login {
-      display: inline-block;
       grid-row: var(--cx-grid-template-row, 2);
       grid-column: var(--cx-grid-template-column, 10 / span 2);
     }
