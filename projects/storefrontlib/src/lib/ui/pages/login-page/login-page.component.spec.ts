@@ -1,12 +1,12 @@
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginPageComponent } from './login-page.component';
-import { Component } from '@angular/core';
 
 @Component({
   selector: 'cx-login-page-layout',
   template: ''
 })
-export class MockLoginPageLayoutComponent {}
+class MockLoginPageLayoutComponent {}
 
 describe('LoginPageComponent', () => {
   let component: LoginPageComponent;
@@ -21,7 +21,6 @@ describe('LoginPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginPageComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

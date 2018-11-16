@@ -12,6 +12,7 @@ import * as fromAuth from '../../../../auth/store';
 
 import { CheckoutService } from '../../../services/checkout.service';
 import { CartDataService } from '../../../../cart/services/cart-data.service';
+import { UserService } from '../../../../user/facade/user.service';
 
 import { By } from '@angular/platform-browser';
 
@@ -106,7 +107,7 @@ describe('ReviewSubmitComponent', () => {
         MockCartItemListComponent,
         MockCardComponent
       ],
-      providers: [CheckoutService, CartDataService]
+      providers: [CheckoutService, CartDataService, UserService]
     }).compileComponents();
   }));
 

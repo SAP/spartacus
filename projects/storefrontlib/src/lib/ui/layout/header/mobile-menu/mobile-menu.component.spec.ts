@@ -1,38 +1,42 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { MobileMenuComponent } from './mobile-menu.component';
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'cx-login',
-  template: ''
-})
-export class MockLoginComponent {}
-
-@Component({
-  selector: 'cx-dynamic-slot',
-  template: ''
-})
-export class MockDynamicSlotComponent {}
-
-@Component({
-  selector: 'cx-add-to-home-screen-btn',
-  template: ''
-})
-export class MockAddToHomeScreenBtnComponent {}
 
 @Component({
   selector: 'cx-language-selector',
   template: ''
 })
-export class MockLanguageSelectorComponent {}
+class MockLanguageSelectorComponent {}
 
 @Component({
   selector: 'cx-currency-selector',
   template: ''
 })
-export class MockCurrencySelectorComponent {}
+class MockCurrencySelectorComponent {}
+
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: ''
+})
+class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
+
+@Component({
+  selector: 'cx-login',
+  template: ''
+})
+class MockLoginComponent {}
+
+@Component({
+  selector: 'cx-add-to-home-screen-btn',
+  template: ''
+})
+class MockAddToHomeScreenBtnComponent {}
 
 describe('MobileMenuComponent', () => {
   let component: MobileMenuComponent;
@@ -43,11 +47,11 @@ describe('MobileMenuComponent', () => {
       imports: [RouterTestingModule],
       declarations: [
         MobileMenuComponent,
-        MockLoginComponent,
         MockDynamicSlotComponent,
-        MockAddToHomeScreenBtnComponent,
+        MockLanguageSelectorComponent,
         MockCurrencySelectorComponent,
-        MockLanguageSelectorComponent
+        MockLoginComponent,
+        MockAddToHomeScreenBtnComponent
       ]
     }).compileComponents();
   }));

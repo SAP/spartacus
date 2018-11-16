@@ -1,9 +1,6 @@
-import { of } from 'rxjs';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Component, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginPageLayoutComponent } from './login-page-layout.component';
-import { provideMockActions } from '../../../../../../../node_modules/@ngrx/effects/testing';
-import { Pipe, PipeTransform, Component } from '@angular/core';
 
 @Pipe({
   name: 'cxPath'
@@ -11,7 +8,6 @@ import { Pipe, PipeTransform, Component } from '@angular/core';
 class MockPathPipe implements PipeTransform {
   transform() {}
 }
-
 @Component({
   selector: 'cx-login-form',
   template: ''
@@ -24,20 +20,13 @@ describe('LoginPageLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [
-        LoginPageLayoutComponent,
-        MockLoginComponent,
-        MockPathPipe
-      ],
-      providers: [provideMockActions(() => of())]
+      declarations: [LoginPageLayoutComponent, MockLoginComponent, MockPathPipe]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginPageLayoutComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

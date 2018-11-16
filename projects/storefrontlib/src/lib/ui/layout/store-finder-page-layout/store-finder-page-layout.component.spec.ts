@@ -3,25 +3,10 @@ import { Input, Component } from '@angular/core';
 import { StoreFinderPageLayoutComponent } from './store-finder-page-layout.component';
 
 @Component({
-  selector: 'cx-store-finder-search',
+  selector: 'cx-store-finder-header',
   template: ''
 })
-export class MockStoreFinderSearchComponent {}
-
-@Component({
-  selector: 'cx-store-finder-list',
-  template: ''
-})
-export class MockStoreFinderListComponent {
-  @Input()
-  searchQuery;
-}
-
-@Component({
-  selector: 'cx-store-finder-list-count',
-  template: ''
-})
-export class MockStoreFinderListCountComponent {}
+export class MockStoreFinderHeaderComponent {}
 
 describe('StoreFinderPageLayoutComponent', () => {
   let component: StoreFinderPageLayoutComponent;
@@ -31,9 +16,7 @@ describe('StoreFinderPageLayoutComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         StoreFinderPageLayoutComponent,
-        MockStoreFinderSearchComponent,
-        MockStoreFinderListComponent,
-        MockStoreFinderListCountComponent
+        MockStoreFinderHeaderComponent
       ]
     }).compileComponents();
   }));

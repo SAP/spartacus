@@ -5,6 +5,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { StoreFinderGridComponent } from './store-finder-grid.component';
 import { StoreFinderService } from '../../services/store-finder.service';
+import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
 
 import * as fromReducers from '../../store';
 import { Pipe, PipeTransform, Component, Input } from '@angular/core';
@@ -107,7 +108,8 @@ describe('StoreFinderGridComponent', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature('stores', fromReducers.reducers),
-        RouterTestingModule
+        RouterTestingModule,
+        SpinnerModule
       ],
       declarations: [
         StoreFinderGridComponent,

@@ -1,26 +1,17 @@
-import { OrderDetailsComponent } from '../order-details/order-details.component';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
-import * as NgrxStore from '@ngrx/store';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { BootstrapModule } from '../../../bootstrap.module';
+import { of, BehaviorSubject } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import createSpy = jasmine.createSpy;
+
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { OrderHistoryComponent } from './order-history.component';
-import { CartService, CartDataService } from '../../../cart/services';
-import { CartSharedModule } from '../../../cart/components/cart-shared/cart-shared.module';
-import * as fromUserStore from '../../../user/store';
-import * as fromAuthStore from '../../../auth/store';
-import createSpy = jasmine.createSpy;
+
 import { AuthService } from '../../../auth/facade/auth.service';
 import { RoutingService } from '@spartacus/core';
-import { CardModule } from '../../../ui/components/card/card.module';
-import { Pipe, PipeTransform } from '@angular/core';
+import { UserService } from '../../../user/facade/user.service';
 
-const routes = [
-  { path: 'my-account/orders/:id', component: OrderDetailsComponent }
-];
 const mockOrders = {
   orders: [
     { code: 1, placed: 1, statusDisplay: 'test', total: { formattedValue: 1 } },
@@ -33,91 +24,91 @@ const mockAuth = {
   userToken$: of({ access_token: 'test', userId: 'test@sap.com' }),
   authorize: createSpy()
 };
-const mockRoutingService = { goToPage: () => {} };
-
-function spyOnStore(customSpiesFn?) {
-  spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
-    if (customSpiesFn) {
-      return customSpiesFn(selector);
-    }
-    switch (selector) {
-      case fromUserStore.getOrders:
-        return () => of(mockOrders);
-      case fromUserStore.getOrdersLoaded:
-        return () => of(true);
-    }
-  });
-}
-@Pipe({
-  name: 'cxPath'
-})
-class MockPathPipe implements PipeTransform {
-  transform() {}
-}
 
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
-  let store: NgrxStore.Store<fromUserStore.UserState>;
-  let routingService: RoutingService;
+  let el: DebugElement;
+
+  let mockAuthService: any;
+  let mockRoutingService: any;
+  let mockUserService: any;
 
   beforeEach(async(() => {
+    mockRoutingService = {
+      go: createSpy('go'),
+      goToPage: createSpy('goToPage')
+    };
+    mockAuthService = {
+      userToken$: of({ userId: 'test' })
+    };
+    mockUserService = {
+      orderList$: new BehaviorSubject(null),
+      orderListLoaded$: of(true),
+      loadOrderList: createSpy()
+    };
+
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule.withRoutes(routes),
-        PaginationAndSortingModule,
-        FormsModule,
-        CartSharedModule,
-        CardModule,
-        NgrxStore.StoreModule.forRoot({}),
-        NgrxStore.StoreModule.forFeature('orders', fromUserStore.getReducers()),
-        NgSelectModule,
-        BootstrapModule
-      ],
-      declarations: [
-        OrderHistoryComponent,
-        OrderDetailsComponent,
-        MockPathPipe
-      ],
+      imports: [RouterTestingModule, PaginationAndSortingModule],
+      declarations: [OrderHistoryComponent],
       providers: [
-        { provide: AuthService, useValue: mockAuth },
         { provide: RoutingService, useValue: mockRoutingService },
-        [CartService, CartDataService]
+        { provide: UserService, useValue: mockUserService },
+        { provide: AuthService, useValue: mockAuthService }
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderHistoryComponent);
+    el = fixture.debugElement;
     component = fixture.componentInstance;
-    store = TestBed.get(NgrxStore.Store);
-    routingService = TestBed.get(RoutingService);
-
-    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize with the store', () => {
-    spyOnStore();
+  it('should load order list when data not exist', () => {
+    const initialOrderListState = {
+      orders: [],
+      pagination: {},
+      sorts: []
+    };
+    mockUserService.orderList$.next(initialOrderListState);
+
+    component.ngOnInit();
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(NgrxStore.select).toHaveBeenCalledWith(fromUserStore.getOrders);
+
+    let orderList;
+    component.orders$.subscribe(value => {
+      orderList = value;
     });
+    expect(orderList).toEqual(initialOrderListState);
+    expect(mockUserService.loadOrderList).toHaveBeenCalledWith('test', 5);
+  });
+
+  it('should read order list when data exist', () => {
+    mockUserService.orderList$.next(mockOrders);
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    let order;
+    component.orders$.subscribe(value => {
+      order = value;
+    });
+    expect(order).toEqual(mockOrders);
   });
 
   it('should redirect when clicking on order id', async(() => {
-    spyOnStore();
-    spyOn(routingService, 'goToPage');
+    mockUserService.orderList$.next(mockOrders);
+    component.ngOnInit();
     fixture.detectChanges();
-    const elements = fixture.debugElement.nativeElement.querySelectorAll(
-      '.cx-order-history__table tbody tr'
-    );
-    elements[1].click();
+
+    const rows = el.queryAll(By.css('.cx-order-history__table tbody tr'));
+    rows[1].triggerEventHandler('click', null);
     fixture.whenStable().then(() => {
-      expect(routingService.goToPage).toHaveBeenCalledWith(
+      expect(mockRoutingService.goToPage).toHaveBeenCalledWith(
         'myAccount_orderDetails',
         mockOrders.orders[1]
       );
@@ -125,52 +116,45 @@ describe('OrderHistoryComponent', () => {
   }));
 
   it('should display No orders found page if no orders are found', () => {
-    spyOnStore(selector => {
-      switch (selector) {
-        case fromUserStore.getOrders:
-          return () => of({ orders: [], pagination: { totalResults: 0 } });
-        case fromUserStore.getOrdersLoaded:
-          return () => of(true);
-        case fromAuthStore.getUserToken:
-          return () => of({ userId: 'test@sap.com' });
-      }
-    });
+    const initialOrderListState = {
+      orders: [],
+      pagination: { totalResults: 0, sort: 'byDate' },
+      sorts: [{ code: 'byDate', selected: true }]
+    };
+    mockUserService.orderList$.next(initialOrderListState);
 
+    component.ngOnInit();
     fixture.detectChanges();
 
-    expect(
-      fixture.debugElement.nativeElement.querySelector(
-        '.cx-order-history__no-order'
-      )
-    ).not.toBeNull();
+    expect(el.query(By.css('.cx-order-history__no-order'))).not.toBeNull();
   });
 
   it('should set correctly sort code', () => {
-    spyOnStore();
+    mockUserService.orderList$.next(mockOrders);
+    component.ngOnInit();
     fixture.detectChanges();
     component.changeSortCode('byOrderNumber');
+
     expect(component.sortType).toBe('byOrderNumber');
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromUserStore.LoadUserOrders({
-        userId: 'test@sap.com',
-        pageSize: 5,
-        currentPage: 0,
-        sort: 'byOrderNumber'
-      })
+    expect(mockUserService.loadOrderList).toHaveBeenCalledWith(
+      'test',
+      5,
+      0,
+      'byOrderNumber'
     );
   });
 
   it('should set correctly page', () => {
-    spyOnStore();
+    mockUserService.orderList$.next(mockOrders);
+    component.ngOnInit();
     fixture.detectChanges();
     component.pageChange(1);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromUserStore.LoadUserOrders({
-        userId: 'test@sap.com',
-        pageSize: 5,
-        currentPage: 1,
-        sort: 'byDate'
-      })
+
+    expect(mockUserService.loadOrderList).toHaveBeenCalledWith(
+      'test',
+      5,
+      1,
+      'byDate'
     );
   });
 });

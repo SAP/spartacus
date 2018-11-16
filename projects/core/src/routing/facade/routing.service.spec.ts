@@ -66,6 +66,20 @@ describe('RoutingService', () => {
       service.back();
       expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Back());
     });
+
+    it('should go to homepage on back action when referer is not from the app', () => {
+      spyOnProperty(document, 'referrer', 'get').and.returnValue(
+        'http://foobar.com'
+      );
+      service.back();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.Go({
+          path: ['/'],
+          query: undefined,
+          extras: undefined
+        })
+      );
+    });
   });
 
   describe('forward', () => {

@@ -38,7 +38,14 @@ export class RoutingService {
   }
 
   back() {
-    this.store.dispatch(new fromStore.Back());
+    const isLastPageInApp =
+      document.referrer.indexOf(window.location.origin) > -1;
+    if (isLastPageInApp) {
+      this.store.dispatch(new fromStore.Back());
+      return;
+    }
+    this.go(['/']);
+    return;
   }
 
   forward() {

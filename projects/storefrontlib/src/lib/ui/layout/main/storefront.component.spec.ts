@@ -5,22 +5,22 @@ import { ConfigurableRoutesService } from '@spartacus/core';
 import { StorefrontComponent } from './storefront.component';
 
 @Component({
-  template: '',
-  selector: 'cx-footer'
-})
-class MockFoooterComponent {}
-
-@Component({
-  template: '',
-  selector: 'cx-global-message'
-})
-class MockGlobalMessageComponent {}
-
-@Component({
-  template: '',
-  selector: 'cx-header'
+  selector: 'cx-header',
+  template: ''
 })
 class MockHeaderComponent {}
+
+@Component({
+  selector: 'cx-global-message',
+  template: ''
+})
+class MockGlobalMessagerComponent {}
+
+@Component({
+  selector: 'cx-footer',
+  template: ''
+})
+class MockFooterComponent {}
 
 class MockConfigurableRoutesService {
   changeLanguage() {}
@@ -37,8 +37,8 @@ describe('StorefrontComponent', () => {
       declarations: [
         StorefrontComponent,
         MockHeaderComponent,
-        MockGlobalMessageComponent,
-        MockFoooterComponent
+        MockGlobalMessagerComponent,
+        MockFooterComponent
       ],
       providers: [
         {

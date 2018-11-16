@@ -1,28 +1,16 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { of, BehaviorSubject, EMPTY } from 'rxjs';
-import * as NgrxStore from '@ngrx/store';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
-import { CmsModuleConfig } from '../../../cms/cms-module-config';
-import { RoutingService, PageType } from '@spartacus/core';
-import { UserToken } from './../../../auth/models/token-types.model';
-import * as fromStore from './../../store';
-import * as fromCms from './../../../cms/store';
-import { LoginComponent } from './login.component';
-import { OutletDirective } from '../../../outlet';
+import { By } from '@angular/platform-browser';
+import { BehaviorSubject } from 'rxjs';
 import createSpy = jasmine.createSpy;
+
+import { UserToken } from './../../../auth/models/token-types.model';
+import { LoginComponent } from './login.component';
+import { UserService } from '../../facade/user.service';
 import { AuthService } from '../../../auth/facade/auth.service';
 import { Pipe, PipeTransform } from '@angular/core';
+import { RoutingService } from '@spartacus/core';
 
 const mockUserToken: UserToken = {
   access_token: 'xxx',
@@ -42,43 +30,20 @@ const mockUserDetails: any = {
   uid: 'UID'
 };
 
-const MockCmsModuleConfig: CmsModuleConfig = {
-  server: {
-    baseUrl: 'https://localhost:9002',
-    occPrefix: '/rest/v2/'
-  },
-
-  site: {
-    baseSite: 'electronics',
-    language: '',
-    currency: ''
-  }
-};
-
-const cntx = { id: 'testPageId', type: PageType.CONTENT_PAGE };
-
-const selectors = {
-  getDetails: new BehaviorSubject(null)
-};
-const mockSelect = selector => {
-  switch (selector) {
-    case fromStore.getDetails:
-      return () => selectors.getDetails;
-    default:
-      return () => EMPTY;
-  }
-};
-
-const mockAuth = {
-  userToken$: new BehaviorSubject(null),
-  login: createSpy(),
-  logout: createSpy()
-};
-
-const mockRouting = {
-  go: createSpy(),
-  goToPage: createSpy()
-};
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: ''
+})
+class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+  @Input()
+  limit: number;
+  @Input()
+  contextParameters: any;
+  @Input()
+  componentClass: string;
+}
 
 @Pipe({
   name: 'cxPath'
@@ -90,30 +55,28 @@ class MockPathPipe implements PipeTransform {
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  let store: Store<fromStore.UserState>;
+
+  let mockAuthService: any;
+  let mockRoutingService: any;
+  let mockUserService: any;
 
   beforeEach(async(() => {
+    mockRoutingService = {
+      go: createSpy()
+    };
+    mockAuthService = {
+      userToken$: new BehaviorSubject(null),
+      login: createSpy(),
+      logout: createSpy()
+    };
+    mockUserService = {
+      user$: new BehaviorSubject(null),
+      loadUserDetails: createSpy()
+    };
+
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-        RouterTestingModule,
-        FormsModule,
-        StoreModule.forRoot({
-          ...fromStore.getReducers(),
-          user: combineReducers(fromStore.getReducers()),
-          cms: combineReducers(fromCms.getReducers())
-        }),
-        HttpClientTestingModule
-      ],
-      declarations: [
-        DynamicSlotComponent,
-        LoginComponent,
-        ComponentWrapperDirective,
-        OutletDirective,
-        MockPathPipe
-      ],
+      declarations: [LoginComponent, MockDynamicSlotComponent, MockPathPipe],
       providers: [
-        provideMockActions(() => of()),
         {
           provide: ActivatedRoute,
           useValue: {
@@ -126,9 +89,9 @@ describe('LoginComponent', () => {
             }
           }
         },
-        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig },
-        { provide: AuthService, useValue: mockAuth },
-        { provide: RoutingService, useValue: mockRouting }
+        { provide: RoutingService, useValue: mockRoutingService },
+        { provide: UserService, useValue: mockUserService },
+        { provide: AuthService, useValue: mockAuthService }
       ]
     }).compileComponents();
   }));
@@ -137,49 +100,34 @@ describe('LoginComponent', () => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    store = TestBed.get(Store);
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
-
-    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should be created', () => {
-    const routerState = {
-      state: {
-        context: cntx
-      }
-    };
-
-    selectors.getDetails.next(routerState);
-
     expect(component).toBeTruthy();
   });
 
   it('should logout and clear user state', () => {
-    selectors.getDetails.next({});
-
     component.logout();
     expect(component.isLogin).toEqual(false);
-    expect(mockAuth.logout).toHaveBeenCalled();
-    expect(mockRouting.goToPage).toHaveBeenCalledWith('login');
+    expect(mockAuthService.logout).toHaveBeenCalled();
+    expect(mockRoutingService.goToPage).toHaveBeenCalledWith('login');
   });
 
   it('should load user details when token exists', () => {
-    mockAuth.userToken$.next(mockUserToken);
-
+    mockAuthService.userToken$.next(mockUserToken);
     component.ngOnInit();
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadUserDetails(mockUserToken.userId)
+    expect(mockUserService.loadUserDetails).toHaveBeenCalledWith(
+      mockUserToken.userId
     );
-    expect(mockAuth.login).toHaveBeenCalled();
-    component.isLogin = true;
+    expect(mockAuthService.login).toHaveBeenCalled();
+    expect(component.isLogin).toBeTruthy();
   });
 
   describe('UI tests', () => {
     it('should contain the dynamic slot: HeaderLinks', () => {
+      mockUserService.user$.next(mockUserDetails);
       component.ngOnInit();
-      component.user$ = of(mockUserDetails);
       fixture.detectChanges();
 
       expect(
@@ -190,8 +138,9 @@ describe('LoginComponent', () => {
     });
 
     it('should display the correct message depending on whether the user is logged on or not', () => {
+      mockAuthService.userToken$.next({});
+      mockUserService.user$.next({});
       component.ngOnInit();
-      component.user$ = of({});
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
         'Sign In / Register'
