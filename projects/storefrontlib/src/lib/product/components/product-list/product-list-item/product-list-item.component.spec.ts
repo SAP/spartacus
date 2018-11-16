@@ -54,9 +54,7 @@ export class MockPictureComponent {
   name: 'cxPath'
 })
 class MockPathPipe implements PipeTransform {
-  transform(url: string): string {
-    return '/transformed-path' + url;
-  }
+  transform() {}
 }
 
 describe('ProductListItemComponent in product-list', () => {

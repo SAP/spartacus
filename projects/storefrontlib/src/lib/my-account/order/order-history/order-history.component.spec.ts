@@ -39,7 +39,6 @@ describe('OrderHistoryComponent', () => {
 
   beforeEach(async(() => {
     mockRoutingService = {
-      go: createSpy('go'),
       goToPage: createSpy('goToPage')
     };
     mockAuthService = {
@@ -103,7 +102,7 @@ describe('OrderHistoryComponent', () => {
     expect(order).toEqual(mockOrders);
   });
 
-  it('should redirect when clicking on order id', async(() => {
+  it('should redirect when clicking on order id', () => {
     mockUserService.orderList$.next(mockOrders);
     component.ngOnInit();
     fixture.detectChanges();
@@ -116,7 +115,7 @@ describe('OrderHistoryComponent', () => {
         mockOrders.orders[1]
       );
     });
-  }));
+  });
 
   it('should display No orders found page if no orders are found', () => {
     const initialOrderListState = {
