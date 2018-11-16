@@ -43,8 +43,7 @@ describe('ProductSearch Effects', () => {
     service = TestBed.get(OccProductSearchService);
     effects = TestBed.get(fromEffects.ProductsSearchEffects);
 
-    searchConfig = {};
-    searchConfig.pageSize = 10;
+    searchConfig = { pageSize: 10 };
 
     spyOn(service, 'query').and.returnValue(of(searchResult));
     spyOn(service, 'queryProductSuggestions').and.returnValue(of(suggestions));

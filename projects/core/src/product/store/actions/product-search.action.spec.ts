@@ -4,8 +4,7 @@ import { SearchConfig } from '../../model/search-config';
 describe('Product Search Actions', () => {
   let searchConfig: SearchConfig;
   beforeEach(() => {
-    searchConfig = {};
-    searchConfig.pageSize = 10;
+    searchConfig = { pageSize: 10 };
   });
   describe('SearchProducts Actions', () => {
     describe('SearchProducts', () => {

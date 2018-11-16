@@ -27,8 +27,7 @@ describe('ProductSearch Selectors', () => {
   describe('getSearchResults', () => {
     it('should return the product search results', () => {
       let result;
-      const searchConfig: SearchConfig = {};
-      searchConfig.pageSize = 10;
+      const searchConfig: SearchConfig = { pageSize: 10 };
       store
         .pipe(select(fromSelectors.getSearchResults))
         .subscribe(value => (result = value));
@@ -50,8 +49,7 @@ describe('ProductSearch Selectors', () => {
   describe('getAuxSearchResults', () => {
     it('should return the auxiliary product search results', () => {
       let result;
-      const searchConfig: SearchConfig = {};
-      searchConfig.pageSize = 10;
+      const searchConfig: SearchConfig = { pageSize: 10 };
       store
         .pipe(select(fromSelectors.getAuxSearchResults))
         .subscribe(value => (result = value));

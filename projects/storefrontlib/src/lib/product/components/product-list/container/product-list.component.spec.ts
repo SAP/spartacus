@@ -24,8 +24,6 @@ import { PaginationComponent } from '../../../../ui/components/pagination-and-so
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
 import { ProductSearchService } from '@spartacus/core';
 
-import { SearchConfig } from '@spartacus/core';
-
 class MockProductSearchService {
   search() {}
 }
@@ -34,7 +32,6 @@ describe('ProductListComponent in product-list', () => {
   let service: ProductSearchService;
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
-  let searchConfig: SearchConfig;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -69,8 +66,6 @@ describe('ProductListComponent in product-list', () => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
     service = TestBed.get(ProductSearchService);
-    searchConfig = {};
-
     spyOn(service, 'search').and.callThrough();
   });
 
@@ -82,10 +77,9 @@ describe('ProductListComponent in product-list', () => {
     component.categoryCode = 'mockCategoryCode';
     component.ngOnInit();
     component.ngOnChanges();
-    searchConfig = { ...searchConfig, ...{ pageSize: 10 } };
     expect(service.search).toHaveBeenCalledWith(
       ':relevance:category:mockCategoryCode',
-      searchConfig
+      { pageSize: 10 }
     );
   });
 
@@ -93,16 +87,15 @@ describe('ProductListComponent in product-list', () => {
     component.brandCode = 'mockBrandCode';
     component.ngOnInit();
     component.ngOnChanges();
-    searchConfig = { ...searchConfig, ...{ pageSize: 10 } };
     expect(service.search).toHaveBeenCalledWith(
       ':relevance:brand:mockBrandCode',
-      searchConfig
+      { pageSize: 10 }
     );
   });
 
   it('should call onFilter', () => {
     component.onFilter('mockQuery');
-    expect(service.search).toHaveBeenCalledWith('mockQuery', searchConfig);
+    expect(service.search).toHaveBeenCalledWith('mockQuery', {});
   });
 
   it('should change pages', done => {

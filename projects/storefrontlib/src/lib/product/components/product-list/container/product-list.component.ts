@@ -64,15 +64,11 @@ export class ProductListComponent implements OnChanges, OnInit {
   }
 
   viewPage(pageNumber: number) {
-    const options: SearchConfig = {};
-    options.currentPage = pageNumber;
-    this.search(this.query, options);
+    this.search(this.query, { currentPage: pageNumber });
   }
 
   sortList(sortCode: string) {
-    const options: SearchConfig = {};
-    options.sortCode = sortCode;
-    this.search(this.query, options);
+    this.search(this.query, { sortCode: sortCode });
   }
 
   protected search(query: string, options?: SearchConfig) {
