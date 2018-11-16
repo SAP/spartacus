@@ -31,6 +31,16 @@ export class E2EUtil {
   }
 
   /**
+   * Wait until a given text is visible in the element
+   * @param elem The element
+   */
+  static wait4TextInElement(elem: ElementFinder, text: string): any {
+    return browser.wait(
+      ExpectedConditions.textToBePresentInElement(elem, text)
+    );
+  }
+
+  /**
    * Wait until a given element is visible on the browser
    * @param elem The element
    */
