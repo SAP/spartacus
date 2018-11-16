@@ -1,0 +1,51 @@
+/*!
+  CXBASE VARIABLES
+  This is NOT a theme.
+
+  This file should include ONLY new variables that Bootstrap does not provide.
+  For example, Bootstrap does not have a variable for semi font weight.
+
+  Same case for directionality.
+
+  Also be aware of items that should be configurable.
+  The Sparta buttons use uppercase type but future themes may want normal case
+  so a variable was created to make this available for other themes.
+
+*/
+@import 'functions';
+@import 'mixins';
+@import '~bootstrap/scss/variables';
+
+$background: $white !default;
+$inverse: $white !default;
+$text: $black !default;
+$transparent: transparent !default;
+
+$theme-colors: map-merge(
+  (
+    'background': $background,
+    'text': $text,
+    'inverse': $inverse,
+    'transparent': $transparent
+  ),
+  $theme-colors
+);
+
+$font-weight-semi: 600 !default;
+$btn-text-transform: capitalize !default;
+$direction: ltr !default;
+
+//set defaults for type size and weights
+$type: () !default;
+$type: map-merge(
+  (
+    '1': $h1-font-size $headings-font-weight,
+    '2': $h2-font-size $headings-font-weight,
+    '3': $h3-font-size $headings-font-weight,
+    '4': $h4-font-size $headings-font-weight,
+    '5': $h5-font-size $headings-font-weight,
+    '6': $h6-font-size $headings-font-weight,
+    '7': $small-font-size $font-weight-normal
+  ),
+  $type
+);

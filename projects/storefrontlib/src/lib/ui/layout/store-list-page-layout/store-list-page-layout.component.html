@@ -1,5 +1,0 @@
-<ng-container>
-    <cx-store-finder-search (showMapList)="showMapList($event)" (persistQuery)="persistQuery($event)"></cx-store-finder-search>
-    <cx-store-finder-list *ngIf="showMapListComponent" [searchQuery]="searchQuery"></cx-store-finder-list>
-    <cx-store-finder-grid *ngIf="!showMapListComponent"></cx-store-finder-grid>
-</ng-container>

@@ -1,4 +1,3 @@
-import { PageType } from './../../models/page-context.model';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -12,6 +11,9 @@ import { Router } from '@angular/router';
 import * as fromReducer from './router.reducer';
 import * as fromAction from './../actions/';
 import * as fromNgrxRouter from '@ngrx/router-store';
+
+import { PageType } from '../../../occ-models/index';
+
 @Component({
   selector: 'cx-test-cmp',
   template: 'test-cmp'

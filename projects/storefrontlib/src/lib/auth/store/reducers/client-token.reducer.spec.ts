@@ -1,8 +1,8 @@
 import * as fromReducer from './client-token.reducer';
 import * as fromActions from './../actions';
-import { ClientAuthenticationToken } from './../../models/token-types.model';
+import { ClientToken } from './../../models/token-types.model';
 
-const testToken: ClientAuthenticationToken = {
+const testToken: ClientToken = {
   access_token: 'xxx',
   token_type: 'xxx',
   expires_in: 1,
