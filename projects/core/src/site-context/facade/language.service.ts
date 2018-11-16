@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { StateWithSiteContext, LanguagesEntities } from '../store/state';
 import {
   getAllLanguages,
-  getActiveLanguage,
+  getActiveLanguage
 } from '../store/selectors/languages.selectors';
 import {
   LoadLanguages,

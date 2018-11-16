@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { StateWithSiteContext, CurrencyEntities } from '../store/state';
 import {
   LoadCurrencies,
-  SetActiveCurrency,
+  SetActiveCurrency
 } from '../store/actions/currencies.action';
 import {
   getAllCurrencies,

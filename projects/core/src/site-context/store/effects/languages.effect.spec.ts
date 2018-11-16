@@ -8,6 +8,7 @@ import { OccSiteService } from '../../occ/index';
 import * as fromEffects from './languages.effect';
 import * as fromActions from '../actions/languages.action';
 import { OccModule } from '../../../occ/occ.module';
+import { ConfigModule } from '../../../config/config.module';
 
 describe('Languages Effects', () => {
   let actions$: Observable<any>;
@@ -20,7 +21,7 @@ describe('Languages Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, OccModule],
+      imports: [ConfigModule.forRoot(), HttpClientTestingModule, OccModule],
       providers: [
         OccSiteService,
         fromEffects.LanguagesEffects,

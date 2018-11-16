@@ -7,7 +7,7 @@ import createSpy = jasmine.createSpy;
 import * as fromStore from '../store';
 import { StateWithSiteContext } from '../store/state';
 import { LanguageService } from './language.service';
-import { SiteContextConfig, defaultSiteContextConfig } from '../config/config';
+import { defaultOccConfig, OccConfig } from '../../occ/config/config';
 
 const mockLanguages: any[] = [
   { active: true, isocode: 'ja', name: 'Japanese' }
@@ -36,7 +36,7 @@ describe('LanguageService', () => {
       imports: [StoreModule.forRoot({})],
       providers: [
         LanguageService,
-        { provide: SiteContextConfig, useValue: defaultSiteContextConfig }
+        { provide: OccConfig, useValue: defaultOccConfig }
       ]
     });
 
@@ -56,7 +56,7 @@ describe('LanguageService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadLanguages());
     let activeLang = sessionStorage.getItem('language');
     if (!activeLang) {
-      activeLang = defaultSiteContextConfig.site.language;
+      activeLang = defaultOccConfig.site.language;
     }
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.SetActiveLanguage(activeLang)
