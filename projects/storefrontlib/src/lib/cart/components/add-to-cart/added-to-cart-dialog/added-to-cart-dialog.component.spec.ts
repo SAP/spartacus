@@ -1,4 +1,4 @@
-import { of } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 import { CartService } from './../../../services/cart.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -68,6 +68,25 @@ describe('AddedToCartDialogComponent', () => {
         .nativeElement.textContent.trim()
     ).toEqual('Updating cart...');
     expect(el.query(By.css('cx-spinner')).nativeElement).toBeDefined();
+  });
+
+  it('should handle focus of elements', () => {
+    component.entry$ = of({
+      id: 111,
+      product: {
+        code: 'CODE1111'
+      }
+    });
+
+    const loaded$ = new BehaviorSubject<boolean>(false);
+    component.loaded$ = loaded$.asObservable();
+
+    fixture.detectChanges();
+    loaded$.next(true);
+    fixture.detectChanges();
+    expect(el.query(By.css('.btn-primary')).nativeElement).toEqual(
+      document.activeElement
+    );
   });
 
   it('should display quantity', () => {
