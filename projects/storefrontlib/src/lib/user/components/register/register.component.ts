@@ -5,13 +5,13 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, of } from 'rxjs';
 import { take, tap, switchMap } from 'rxjs/operators';
-import * as fromUserStore from '../../store';
+
 import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
 import { AuthService } from '../../../auth/facade/auth.service';
 import { RoutingService } from '@spartacus/core';
+import { UserService } from '../../facade/user.service';
 
 @Component({
   selector: 'cx-register',
@@ -20,7 +20,7 @@ import { RoutingService } from '@spartacus/core';
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   titles$: Observable<any>;
-  sub: Subscription;
+  subscription: Subscription;
   userRegistrationForm: FormGroup = this.fb.group(
     {
       titleCode: ['', Validators.required],
@@ -41,20 +41,20 @@ export class RegisterComponent implements OnInit, OnDestroy {
   constructor(
     private auth: AuthService,
     private routing: RoutingService,
-    private store: Store<fromUserStore.UserState>,
+    private userService: UserService,
     private fb: FormBuilder
   ) {}
 
   ngOnInit() {
-    this.titles$ = this.store.pipe(
-      select(fromUserStore.getAllTitles),
+    this.titles$ = this.userService.titles$.pipe(
       tap(titles => {
         if (Object.keys(titles).length === 0) {
-          this.store.dispatch(new fromUserStore.LoadTitles());
+          this.userService.loadTitles();
         }
       })
     );
-    this.sub = this.auth.userToken$
+
+    this.subscription = this.auth.userToken$
       .pipe(
         switchMap(data => {
           if (data && data.access_token) {
@@ -76,19 +76,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.store.dispatch(
-      new fromUserStore.RegisterUser({
-        firstName: this.userRegistrationForm.value.firstName,
-        lastName: this.userRegistrationForm.value.lastName,
-        password: this.userRegistrationForm.value.password,
-        titleCode: this.userRegistrationForm.value.titleCode,
-        uid: this.userRegistrationForm.value.email
-      })
+    this.userService.registerUser(
+      this.userRegistrationForm.value.titleCode,
+      this.userRegistrationForm.value.firstName,
+      this.userRegistrationForm.value.lastName,
+      this.userRegistrationForm.value.email,
+      this.userRegistrationForm.value.password
     );
   }
   ngOnDestroy() {
-    if (this.sub) {
-      this.sub.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 
