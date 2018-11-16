@@ -15,7 +15,7 @@ notifications:
   email:
     on_failure: always
     on_success: change
- deploy:
+deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
