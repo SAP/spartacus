@@ -11,8 +11,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { SiteContextConfig } from '@spartacus/core';
-
 import { of } from 'rxjs';
 
 import { PwaModule } from 'projects/storefrontlib/src/lib/pwa/pwa.module';
@@ -30,6 +28,7 @@ import * as fromUser from '../../../../user/store';
 import { LoginModule } from './../../../../user/components/login/login.module';
 
 import { MobileMenuComponent } from './mobile-menu.component';
+import { OccConfig } from '@spartacus/core';
 
 const MockPwaRegistrationOptions: RegistrationOptions = {
   enabled: false
@@ -63,7 +62,7 @@ describe('MobileMenuComponent', () => {
           useValue: { site: 'en' }
         },
         {
-          provide: SiteContextConfig,
+          provide: OccConfig,
           useExisting: CmsModuleConfig
         },
         {

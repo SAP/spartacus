@@ -8,7 +8,7 @@ import {
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { SiteContextConfig, ConfigurableRoutesService } from '@spartacus/core';
+import { ConfigurableRoutesService, OccConfig } from '@spartacus/core';
 
 import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
@@ -36,7 +36,7 @@ import { OccSiteService } from '../../../../../../core/src/site-context/occ/occ-
 
 import { StorefrontComponent } from './storefront.component';
 
-const MockSiteContextModuleConfig: SiteContextConfig = {
+const MockSiteContextModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -88,7 +88,7 @@ describe('StorefrontComponent', () => {
       ],
       providers: [
         {
-          provide: SiteContextConfig,
+          provide: OccConfig,
           useValue: MockSiteContextModuleConfig
         },
         { provide: OccSiteService },

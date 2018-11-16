@@ -28,7 +28,7 @@ import {
   PWAModuleConfig,
   defaultPWAModuleConfig
 } from '../../../pwa/pwa.module-config';
-import { SiteContextConfig } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 
 const MockCmsModuleConfig: CmsModuleConfig = {
   site: {
@@ -70,7 +70,7 @@ describe('HeaderComponent', () => {
       ],
       providers: [
         {
-          provide: SiteContextConfig,
+          provide: OccConfig,
           useValue: MockCmsModuleConfig
         },
         {
