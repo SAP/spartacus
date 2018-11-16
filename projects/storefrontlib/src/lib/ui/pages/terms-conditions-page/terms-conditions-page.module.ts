@@ -19,7 +19,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     TermsConditionsLayoutModule,
-    RouterModule.forChild(routes),
+    RouterModule.forChild(routes)
   ],
   declarations: [TermsConditionsPageComponent],
   exports: [TermsConditionsPageComponent]
