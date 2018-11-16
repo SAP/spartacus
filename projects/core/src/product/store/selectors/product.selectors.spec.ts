@@ -4,10 +4,10 @@ import { StoreModule, Store, select } from '@ngrx/store';
 import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from './product.selectors';
-import { ProductsState, PRODUCT_FEATURE } from '../product-state';
+import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
 
 describe('Cms Component Selectors', () => {
-  let store: Store<ProductsState>;
+  let store: Store<StateWithProduct>;
 
   const code = 'testCode';
   const product = {

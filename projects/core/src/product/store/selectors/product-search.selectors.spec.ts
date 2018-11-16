@@ -5,10 +5,10 @@ import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from './product-search.selectors';
 import { SearchConfig } from '../../model/search-config';
-import { ProductsState, PRODUCT_FEATURE } from '../product-state';
+import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
 
 describe('ProductSearch Selectors', () => {
-  let store: Store<ProductsState>;
+  let store: Store<StateWithProduct>;
 
   const searchResults = { products: [{ code: '123' }] };
   const suggestions = [{ value: 'test' }];

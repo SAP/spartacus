@@ -2,10 +2,14 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import { getProductsState } from './feature.selector';
 import * as fromProductSearch from '../reducers/product-search.reducer';
-import { ProductsSearchState, ProductsState } from '../product-state';
+import {
+  ProductsSearchState,
+  ProductsState,
+  StateWithProduct
+} from '../product-state';
 
 export const getProductsSearchState: MemoizedSelector<
-  any,
+  StateWithProduct,
   ProductsSearchState
 > = createSelector(getProductsState, (state: ProductsState) => state.search);
 

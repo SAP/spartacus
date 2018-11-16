@@ -1,10 +1,14 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { ProductReviewsState, ProductsState } from '../product-state';
+import {
+  ProductReviewsState,
+  ProductsState,
+  StateWithProduct
+} from '../product-state';
 import { getProductsState } from './feature.selector';
 
 export const getProductReviewsState: MemoizedSelector<
-  any,
+  StateWithProduct,
   ProductReviewsState
 > = createSelector(getProductsState, (state: ProductsState) => state.reviews);
 
