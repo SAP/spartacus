@@ -78,7 +78,7 @@ if [ ! $DEPLOY_DIR_NEW_VERSION == $LIB_DIR_NEW_VERSION ]; then
 fi
 
 echo "publishing version $BUMP"
-# published=(cd $DEPLOY_DIR && $PUBLISH_CMD)
+published=(cd $DEPLOY_DIR && $PUBLISH_CMD)
 published=''
 
 if [[ -z "$published" ]]; then
@@ -94,11 +94,11 @@ if [[ -z "$published" ]]; then
 
   cd $LIB_DIR
   git add package.json
-  # git commit -m"Bumping $PROJECT version to $LIB_DIR_NEW_VERSION"
+  git commit -m"Bumping $PROJECT version to $LIB_DIR_NEW_VERSION"
   echo "Tagging new version ${TAG}"
-  # git tag ${TAG}
+  git tag ${TAG}
   echo "Pushing from $PWD"
-  # git push -u origin $RELEASE_BRANCH --tags
+  git push -u origin $RELEASE_BRANCH --tags
 
   echo 'Deploy script finished successfully'
 else
