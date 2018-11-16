@@ -6,6 +6,7 @@ import { CartItemListComponent } from './cart-item-list.component';
 import { CartItemComponent } from '../../cart-shared/cart-item/cart-item.component';
 import { ComponentsModule } from '../../../../ui/components/components.module';
 import { CartService } from '../../../services/cart.service';
+import { Pipe, PipeTransform } from '@angular/core';
 
 class MockCartService {
   removeCartEntry() {}
@@ -36,6 +37,13 @@ const mockPotentialProductPromotions = [
   }
 ];
 
+@Pipe({
+  name: 'cxPath'
+})
+class MockPathPipe implements PipeTransform {
+  transform() {}
+}
+
 describe('CartItemListComponent', () => {
   let component: CartItemListComponent;
   let fixture: ComponentFixture<CartItemListComponent>;
@@ -44,7 +52,7 @@ describe('CartItemListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ComponentsModule, ReactiveFormsModule, RouterTestingModule],
-      declarations: [CartItemListComponent, CartItemComponent],
+      declarations: [CartItemListComponent, CartItemComponent, MockPathPipe],
       providers: [{ provide: CartService, useClass: MockCartService }]
     }).compileComponents();
   }));

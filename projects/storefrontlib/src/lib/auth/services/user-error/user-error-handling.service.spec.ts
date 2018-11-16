@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 
@@ -9,6 +8,7 @@ import { AuthService } from '../../facade/auth.service';
 import { UserToken } from '../../models/token-types.model';
 
 import { UserErrorHandlingService } from './user-error-handling.service';
+import { RoutingService } from '@spartacus/core';
 
 class MockHttpHandler extends HttpHandler {
   handle(_req: HttpRequest<any>): Observable<HttpEvent<any>> {
@@ -20,6 +20,10 @@ class AuthServiceStub {
   userToken$: Observable<UserToken>;
   refreshUserToken(_token: UserToken) {}
   logout() {}
+}
+
+class MockRoutingService {
+  goToPage() {}
 }
 
 describe('UserErrorHandlingService', () => {
@@ -44,7 +48,7 @@ describe('UserErrorHandlingService', () => {
 
   let service: UserErrorHandlingService;
   let httpHandler: HttpHandler;
-  let router: Router;
+  let routingService: RoutingService;
   let authService: AuthServiceStub;
 
   beforeEach(() => {
@@ -56,16 +60,17 @@ describe('UserErrorHandlingService', () => {
           provide: AuthService,
           useClass: AuthServiceStub
         },
-        { provide: HttpHandler, useClass: MockHttpHandler }
+        { provide: HttpHandler, useClass: MockHttpHandler },
+        { provide: RoutingService, useClass: MockRoutingService }
       ]
     });
 
-    router = TestBed.get(Router);
+    routingService = TestBed.get(RoutingService);
     service = TestBed.get(UserErrorHandlingService);
     httpHandler = TestBed.get(HttpHandler);
     authService = TestBed.get(AuthService);
 
-    spyOn(router, 'navigate').and.stub();
+    spyOn(routingService, 'goToPage').and.stub();
     spyOn(httpHandler, 'handle').and.callThrough();
   });
 
@@ -77,7 +82,7 @@ describe('UserErrorHandlingService', () => {
         .subscribe();
       sub.unsubscribe();
 
-      expect(router.navigate).toHaveBeenCalledWith(['/login']);
+      expect(routingService.goToPage).toHaveBeenCalledWith('login');
     });
 
     it('should get new token', () => {

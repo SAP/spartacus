@@ -43,6 +43,8 @@ const mockAddress2: Address = {
 
 const mockAddresses = [mockAddress1, mockAddress2];
 
+const mockRoutingService = { goToPage: () => {} };
+
 @Component({
   selector: 'cx-address-form',
   template: ''
@@ -94,7 +96,12 @@ describe('ShippingAddressComponent', () => {
         MockCardComponent,
         MockSpinnerComponent
       ],
-      providers: [CheckoutService, CartService, CartDataService]
+      providers: [
+        CheckoutService,
+        CartService,
+        CartDataService,
+        { provide: RoutingService, useValue: mockRoutingService }
+      ]
     }).compileComponents();
   }));
 
@@ -122,7 +129,7 @@ describe('ShippingAddressComponent', () => {
     spyOn(component.addAddress, 'emit').and.callThrough();
     spyOn(component, 'addNewAddress').and.callThrough();
     spyOn(service, 'loadUserAddresses').and.callThrough();
-    spyOn(routingService, 'go').and.callThrough();
+    spyOn(routingService, 'goToPage').and.callThrough();
   });
 
   it('should be created', () => {
@@ -207,7 +214,7 @@ describe('ShippingAddressComponent', () => {
 
   it('should call back()', () => {
     component.back();
-    expect(routingService.go).toHaveBeenCalledWith(['/cart']);
+    expect(routingService.goToPage).toHaveBeenCalledWith('cart');
   });
 
   describe('UI continue button', () => {

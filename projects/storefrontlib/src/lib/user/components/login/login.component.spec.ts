@@ -22,6 +22,7 @@ import { LoginComponent } from './login.component';
 import { OutletDirective } from '../../../outlet';
 import createSpy = jasmine.createSpy;
 import { AuthService } from '../../../auth/facade/auth.service';
+import { Pipe, PipeTransform } from '@angular/core';
 
 const mockUserToken: UserToken = {
   access_token: 'xxx',
@@ -34,9 +35,9 @@ const mockUserToken: UserToken = {
 
 const mockUserDetails: any = {
   displayUid: 'Display Uid',
-  firstName: 'First',
-  lastName: 'Last',
-  name: 'First Last',
+  firstName: 'FirstName',
+  lastName: 'LastName',
+  name: 'FirstName LastName',
   type: 'Mock Type',
   uid: 'UID'
 };
@@ -75,8 +76,16 @@ const mockAuth = {
 };
 
 const mockRouting = {
-  go: createSpy()
+  go: createSpy(),
+  goToPage: createSpy()
 };
+
+@Pipe({
+  name: 'cxPath'
+})
+class MockPathPipe implements PipeTransform {
+  transform() {}
+}
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -100,7 +109,8 @@ describe('LoginComponent', () => {
         DynamicSlotComponent,
         LoginComponent,
         ComponentWrapperDirective,
-        OutletDirective
+        OutletDirective,
+        MockPathPipe
       ],
       providers: [
         provideMockActions(() => of()),
@@ -151,7 +161,7 @@ describe('LoginComponent', () => {
     component.logout();
     expect(component.isLogin).toEqual(false);
     expect(mockAuth.logout).toHaveBeenCalled();
-    expect(mockRouting.go).toHaveBeenCalledWith(['/login']);
+    expect(mockRouting.goToPage).toHaveBeenCalledWith('login');
   });
 
   it('should load user details when token exists', () => {
@@ -183,10 +193,15 @@ describe('LoginComponent', () => {
       component.ngOnInit();
       component.user$ = of({});
       fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.innerText).toContain(
+        'Sign In / Register'
+      );
 
-      expect(
-        fixture.debugElement.query(By.css('a[routerLink="login"'))
-      ).not.toBeNull();
+      component.user$ = of(mockUserDetails);
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.innerText).toContain(
+        'Hi, FirstName LastName'
+      );
     });
   });
 });

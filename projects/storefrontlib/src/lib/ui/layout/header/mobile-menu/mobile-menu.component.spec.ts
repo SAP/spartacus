@@ -1,39 +1,38 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  ServiceWorkerModule,
-  ɵangular_packages_service_worker_service_worker_b as RegistrationOptions
-} from '@angular/service-worker';
-
-import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-
-import { SiteContextConfig } from '@spartacus/core';
-
-import { of } from 'rxjs';
-
-import { PwaModule } from 'projects/storefrontlib/src/lib/pwa/pwa.module';
-import {
-  PWAModuleConfig,
-  defaultPWAModuleConfig
-} from 'projects/storefrontlib/src/lib/pwa/pwa.module-config';
-
-import { SiteContextModule } from '../../../../site-context';
-import * as fromAuth from '../../../../auth/store';
-import { CmsModuleConfig } from '../../../../cms/cms-module-config';
-import { CmsModule } from './../../../../cms/cms.module';
-import * as fromCms from '../../../../cms/store';
-import * as fromUser from '../../../../user/store';
-import { LoginModule } from './../../../../user/components/login/login.module';
-
 import { MobileMenuComponent } from './mobile-menu.component';
+import { Component } from '@angular/core';
 
-const MockPwaRegistrationOptions: RegistrationOptions = {
-  enabled: false
-};
+@Component({
+  selector: 'cx-login',
+  template: ''
+})
+export class MockLoginComponent {}
+
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: ''
+})
+export class MockDynamicSlotComponent {}
+
+@Component({
+  selector: 'cx-add-to-home-screen-btn',
+  template: ''
+})
+export class MockAddToHomeScreenBtnComponent {}
+
+@Component({
+  selector: 'cx-language-selector',
+  template: ''
+})
+export class MockLanguageSelectorComponent {}
+
+@Component({
+  selector: 'cx-currency-selector',
+  template: ''
+})
+export class MockCurrencySelectorComponent {}
 
 describe('MobileMenuComponent', () => {
   let component: MobileMenuComponent;
@@ -41,39 +40,14 @@ describe('MobileMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        LoginModule,
-        CmsModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('user', fromUser.getReducers()),
-        StoreModule.forFeature('auth', fromAuth.getReducers()),
-        EffectsModule.forRoot(fromCms.effects),
-        PwaModule,
-        ServiceWorkerModule,
-        SiteContextModule
-      ],
-      declarations: [MobileMenuComponent],
-      providers: [
-        provideMockActions(() => of()),
-        fromCms.NavigationEntryItemEffects,
-        {
-          provide: CmsModuleConfig,
-          useValue: { site: 'en' }
-        },
-        {
-          provide: SiteContextConfig,
-          useExisting: CmsModuleConfig
-        },
-        {
-          provide: PWAModuleConfig,
-          useValue: defaultPWAModuleConfig
-        },
-        {
-          provide: RegistrationOptions,
-          useValue: MockPwaRegistrationOptions
-        }
+      imports: [RouterTestingModule],
+      declarations: [
+        MobileMenuComponent,
+        MockLoginComponent,
+        MockDynamicSlotComponent,
+        MockAddToHomeScreenBtnComponent,
+        MockCurrencySelectorComponent,
+        MockLanguageSelectorComponent
       ]
     }).compileComponents();
   }));

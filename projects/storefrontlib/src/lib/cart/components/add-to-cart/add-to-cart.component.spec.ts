@@ -17,6 +17,7 @@ import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
 
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddToCartModule } from './add-to-cart.module';
+import { PathPipeService } from '@spartacus/core';
 
 const productCode = '1234';
 const mockCartEntry: any = [];
@@ -27,6 +28,7 @@ class MockCartService {
     });
   }
 }
+const mockPathPipeService = { transfrom() {} };
 
 describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
@@ -48,7 +50,8 @@ describe('AddToCartComponent', () => {
       ],
       providers: [
         CartDataService,
-        { provide: CartService, useClass: MockCartService }
+        { provide: CartService, useClass: MockCartService },
+        { provide: PathPipeService, useValue: mockPathPipeService }
       ]
     }).compileComponents();
   }));

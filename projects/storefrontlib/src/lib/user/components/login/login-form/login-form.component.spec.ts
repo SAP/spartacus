@@ -12,6 +12,14 @@ import * as fromStore from '../../../store';
 import { RoutingService } from '@spartacus/core';
 import { AuthService } from '../../../../auth/facade/auth.service';
 import createSpy = jasmine.createSpy;
+import { PipeTransform, Pipe } from '@angular/core';
+
+@Pipe({
+  name: 'cxPath'
+})
+class MockPathPipe implements PipeTransform {
+  transform() {}
+}
 
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
@@ -39,7 +47,7 @@ describe('LoginFormComponent', () => {
           user: combineReducers(fromStore.getReducers())
         })
       ],
-      declarations: [LoginFormComponent],
+      declarations: [LoginFormComponent, MockPathPipe],
       providers: [
         { provide: AuthService, useValue: mockAuth },
         { provide: RoutingService, useValue: mockRouting }

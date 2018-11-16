@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -19,6 +19,13 @@ const UseCmsModuleConfig: CmsModuleConfig = {
     ProductCarouselComponent: 'ProductCarouselComponent'
   }
 };
+
+@Pipe({
+  name: 'cxPath'
+})
+class MockPathPipe implements PipeTransform {
+  transform() {}
+}
 
 describe('ProductCarouselComponent in CmsLib', () => {
   let productCarouselComponent: ProductCarouselComponent;
@@ -63,7 +70,7 @@ describe('ProductCarouselComponent in CmsLib', () => {
         NgrxStore.StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
         BootstrapModule
       ],
-      declarations: [ProductCarouselComponent, PictureComponent],
+      declarations: [ProductCarouselComponent, PictureComponent, MockPathPipe],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }

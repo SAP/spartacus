@@ -1,4 +1,3 @@
-import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -16,12 +15,19 @@ import { MiniCartComponent } from './mini-cart.component';
 import { CartService } from '../../cart/services/cart.service';
 import { CartDataService } from '../../cart/services/cart-data.service';
 import { CmsService } from '../../cms/facade/cms.service';
+import { Pipe, PipeTransform } from '@angular/core';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
     MiniCartComponent: 'MiniCartComponent'
   }
 };
+@Pipe({
+  name: 'cxPath'
+})
+class MockPathPipe implements PipeTransform {
+  transform() {}
+}
 
 describe('MiniCartComponent', () => {
   let miniCartComponent: MiniCartComponent;
@@ -71,7 +77,7 @@ describe('MiniCartComponent', () => {
         NgrxStore.StoreModule.forFeature('user', fromUser.getReducers()),
         NgrxStore.StoreModule.forFeature('auth', fromAuth.getReducers())
       ],
-      declarations: [MiniCartComponent],
+      declarations: [MiniCartComponent, MockPathPipe],
       providers: [
         CartService,
         CartDataService,
@@ -110,11 +116,5 @@ describe('MiniCartComponent', () => {
     expect(miniCartComponent.showProductCount).toEqual(
       +mockComponentData.shownProductCount
     );
-  });
-
-  describe('UI test', () => {
-    it('should contain a link to redirect to /cart', () => {
-      expect(fixture.debugElement.query(By.css('button[routerLink="/cart"]')));
-    });
   });
 });

@@ -1,31 +1,36 @@
-import { Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { OrderConfirmationPageGuard } from './order-confirmation-page.guard';
 import { CheckoutService } from '../services';
+import { RoutingService } from '@spartacus/core';
 
 class MockCheckoutService {
   orderDetails: any;
 }
+const mockRoutingService = { goToPage: () => {} };
 
 describe(`OrderConfirmationPageGuard`, () => {
-  let router: Router;
+  let routingService: RoutingService;
   let guard: OrderConfirmationPageGuard;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         OrderConfirmationPageGuard,
-        { provide: CheckoutService, useClass: MockCheckoutService }
+        { provide: CheckoutService, useClass: MockCheckoutService },
+        {
+          provide: RoutingService,
+          useValue: mockRoutingService
+        }
       ],
       imports: [RouterTestingModule]
     });
 
-    router = TestBed.get(Router);
+    routingService = TestBed.get(RoutingService);
     guard = TestBed.get(OrderConfirmationPageGuard);
 
-    spyOn(router, 'navigate').and.callThrough();
+    spyOn(routingService, 'goToPage');
   });
 
   describe(`when there are NO order details present`, () => {
@@ -34,7 +39,9 @@ describe(`OrderConfirmationPageGuard`, () => {
 
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(false);
-        expect(router.navigate).toHaveBeenCalledWith(['/my-account/orders']);
+        expect(routingService.goToPage).toHaveBeenCalledWith(
+          'myAccount_orders'
+        );
       });
     });
 
@@ -44,7 +51,7 @@ describe(`OrderConfirmationPageGuard`, () => {
 
         guard.canActivate().subscribe(result => {
           expect(result).toEqual(true);
-          expect(router.navigate).not.toHaveBeenCalled();
+          expect(routingService.goToPage).not.toHaveBeenCalled();
         });
       });
     });

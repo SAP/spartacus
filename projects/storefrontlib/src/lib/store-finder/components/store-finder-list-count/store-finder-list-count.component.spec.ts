@@ -5,6 +5,14 @@ import { StoreModule } from '@ngrx/store';
 import { StoreFinderListCountComponent } from './store-finder-list-count.component';
 
 import * as fromReducers from '../../store';
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'cxPath'
+})
+class MockPathPipe implements PipeTransform {
+  transform() {}
+}
 
 describe('StoreFinderListCountComponent', () => {
   let component: StoreFinderListCountComponent;
@@ -17,7 +25,7 @@ describe('StoreFinderListCountComponent', () => {
         StoreModule.forFeature('stores', fromReducers.reducers),
         RouterTestingModule
       ],
-      declarations: [StoreFinderListCountComponent]
+      declarations: [StoreFinderListCountComponent, MockPathPipe]
     }).compileComponents();
   }));
 

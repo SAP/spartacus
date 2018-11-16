@@ -16,13 +16,15 @@ import createSpy = jasmine.createSpy;
 import { AuthService } from '../../../auth/facade/auth.service';
 import { RoutingService } from '@spartacus/core';
 import { CardModule } from '../../../ui/components/card/card.module';
+import { Pipe, PipeTransform } from '@angular/core';
 
 const routes = [
   { path: 'my-account/orders/:id', component: OrderDetailsComponent }
 ];
 const mockOrders = {
   orders: [
-    { code: 1, placed: 1, statusDisplay: 'test', total: { formattedValue: 1 } }
+    { code: 1, placed: 1, statusDisplay: 'test', total: { formattedValue: 1 } },
+    { code: 2, placed: 2, statusDisplay: 'test2', total: { formattedValue: 2 } }
   ],
   pagination: { totalResults: 1, sort: 'byDate' },
   sorts: [{ code: 'byDate', selected: true }]
@@ -31,6 +33,7 @@ const mockAuth = {
   userToken$: of({ access_token: 'test', userId: 'test@sap.com' }),
   authorize: createSpy()
 };
+const mockRoutingService = { goToPage: () => {} };
 
 function spyOnStore(customSpiesFn?) {
   spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
@@ -44,6 +47,12 @@ function spyOnStore(customSpiesFn?) {
         return () => of(true);
     }
   });
+}
+@Pipe({
+  name: 'cxPath'
+})
+class MockPathPipe implements PipeTransform {
+  transform() {}
 }
 
 describe('OrderHistoryComponent', () => {
@@ -65,9 +74,14 @@ describe('OrderHistoryComponent', () => {
         NgSelectModule,
         BootstrapModule
       ],
-      declarations: [OrderHistoryComponent, OrderDetailsComponent],
+      declarations: [
+        OrderHistoryComponent,
+        OrderDetailsComponent,
+        MockPathPipe
+      ],
       providers: [
         { provide: AuthService, useValue: mockAuth },
+        { provide: RoutingService, useValue: mockRoutingService },
         [CartService, CartDataService]
       ]
     }).compileComponents();
@@ -94,19 +108,21 @@ describe('OrderHistoryComponent', () => {
     });
   });
 
-  it('should redirect when clicking on order id', () => {
+  it('should redirect when clicking on order id', async(() => {
     spyOnStore();
-    spyOn(routingService, 'go');
+    spyOn(routingService, 'goToPage');
     fixture.detectChanges();
-    const elem = fixture.debugElement.nativeElement.querySelector(
+    const elements = fixture.debugElement.nativeElement.querySelectorAll(
       '.cx-order-history__table tbody tr'
     );
-    elem.click();
-
+    elements[1].click();
     fixture.whenStable().then(() => {
-      expect(routingService.go).toHaveBeenCalledWith(['my-account/orders/', 1]);
+      expect(routingService.goToPage).toHaveBeenCalledWith(
+        'myAccount_orderDetails',
+        mockOrders.orders[1]
+      );
     });
-  });
+  }));
 
   it('should display No orders found page if no orders are found', () => {
     spyOnStore(selector => {

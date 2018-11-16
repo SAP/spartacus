@@ -16,11 +16,9 @@ import {
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import { SiteContextModule } from '../../../site-context';
 import * as fromUserReducer from '../../../user/store/reducers';
-import { LoginComponent } from './../../../user/components/login/login.component';
 import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
 import { HeaderComponent } from './header.component';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
-import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
 import { CmsModuleConfig } from '../../../cms/cms-module-config';
 import { OutletDirective } from '../../../outlet';
 import { PwaModule } from './../../../pwa/pwa.module';
@@ -29,6 +27,7 @@ import {
   defaultPWAModuleConfig
 } from '../../../pwa/pwa.module-config';
 import { SiteContextConfig } from '@spartacus/core';
+import { Component } from '@angular/core';
 
 const MockCmsModuleConfig: CmsModuleConfig = {
   site: {
@@ -40,6 +39,18 @@ const MockCmsModuleConfig: CmsModuleConfig = {
 const MockPwaRegistrationOptions: RegistrationOptions = {
   enabled: false
 };
+
+@Component({
+  selector: 'cx-tertiary-bar',
+  template: ''
+})
+export class MockTertiaryBarComponent {}
+
+@Component({
+  selector: 'cx-login',
+  template: ''
+})
+export class MockLoginComponent {}
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -63,9 +74,9 @@ describe('HeaderComponent', () => {
         DynamicSlotComponent,
         ComponentWrapperDirective,
         HeaderSkipperComponent,
-        TertiaryBarComponent,
+        MockTertiaryBarComponent,
         MobileMenuComponent,
-        LoginComponent,
+        MockLoginComponent,
         OutletDirective
       ],
       providers: [

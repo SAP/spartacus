@@ -1,13 +1,14 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 
 import { StoreFinderGridComponent } from './store-finder-grid.component';
-import { StoreFinderListItemComponent } from '../store-finder-list/store-finder-list-item/store-finder-list-item.component';
 import { StoreFinderService } from '../../services/store-finder.service';
 
 import * as fromReducers from '../../store';
+import { Pipe, PipeTransform, Component, Input } from '@angular/core';
+import { RoutingService } from '@spartacus/core';
 
 const countryIsoCode = 'CA';
 const regionIsoCode = 'CA-QC';
@@ -15,6 +16,15 @@ const regionIsoCode = 'CA-QC';
 class StoreFinderServiceMock {
   viewAllStoresForCountry(_countryIso: string) {}
   viewAllStoresForRegion(_countryIso: string, _regionIso: string) {}
+}
+
+@Component({
+  selector: 'cx-store-finder-list-item',
+  template: ''
+})
+export class MockStoreFinderListItemComponent {
+  @Input()
+  location;
 }
 
 const location = {
@@ -27,12 +37,19 @@ const mockActivatedRoute = {
   }
 };
 
+@Pipe({
+  name: 'cxPath'
+})
+class MockPathPipe implements PipeTransform {
+  transform() {}
+}
+
 describe('StoreFinderGridComponent', () => {
   let component: StoreFinderGridComponent;
   let fixture: ComponentFixture<StoreFinderGridComponent>;
   let storeFinderService: StoreFinderService;
-  const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+  const mockRoutingService = {
+    goToPage: jasmine.createSpy('goToPage')
   };
 
   it('should create with country routing parameter', () => {
@@ -75,14 +92,14 @@ describe('StoreFinderGridComponent', () => {
 
     component.viewStore(location);
 
-    expect(mockRouter.navigate).toHaveBeenCalledWith([
-      'store-finder',
-      'country',
-      countryIsoCode,
-      'region',
-      regionIsoCode,
-      location.name
-    ]);
+    expect(mockRoutingService.goToPage).toHaveBeenCalledWith(
+      'storeDescription',
+      {
+        country: countryIsoCode,
+        region: regionIsoCode,
+        store: location.name
+      }
+    );
   });
 
   function configureTestBed(): void {
@@ -92,11 +109,15 @@ describe('StoreFinderGridComponent', () => {
         StoreModule.forFeature('stores', fromReducers.reducers),
         RouterTestingModule
       ],
-      declarations: [StoreFinderGridComponent, StoreFinderListItemComponent],
+      declarations: [
+        StoreFinderGridComponent,
+        MockStoreFinderListItemComponent,
+        MockPathPipe
+      ],
       providers: [
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        { provide: Router, useValue: mockRouter }
+        { provide: RoutingService, useValue: mockRoutingService }
       ]
     });
     bed.compileComponents();

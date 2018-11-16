@@ -1,4 +1,3 @@
-import { CartSharedModule } from './../../cart-shared/cart-shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
@@ -6,7 +5,7 @@ import { CartDataService } from '../../../services/cart-data.service';
 import { CartService } from '../../../services/cart.service';
 import * as fromReducer from '../../../store/reducers';
 import { CartDetailsComponent } from './cart-details.component';
-import { ComponentsModule } from '../../../../ui/components/components.module';
+import { Pipe, PipeTransform, Component, Input } from '@angular/core';
 
 class MockCartService {
   removeCartEntry() {}
@@ -161,6 +160,33 @@ const mockData = [
     ]
   }
 ];
+@Pipe({
+  name: 'cxPath'
+})
+class MockPathPipe implements PipeTransform {
+  transform() {}
+}
+
+@Component({
+  template: '',
+  selector: 'cx-cart-item-list'
+})
+class MockCartItemListComponent {
+  @Input()
+  items;
+  @Input()
+  potentialProductPromotions;
+  @Input()
+  cartIsLoading;
+}
+@Component({
+  template: '',
+  selector: 'cx-order-summary'
+})
+class MockOrderSummaryComponent {
+  @Input()
+  cart;
+}
 
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
@@ -171,11 +197,14 @@ describe('CartDetailsComponent', () => {
       imports: [
         RouterTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromReducer.getReducers),
-        ComponentsModule,
-        CartSharedModule
+        StoreModule.forFeature('cart', fromReducer.getReducers)
       ],
-      declarations: [CartDetailsComponent],
+      declarations: [
+        CartDetailsComponent,
+        MockCartItemListComponent,
+        MockOrderSummaryComponent,
+        MockPathPipe
+      ],
       providers: [
         CartDataService,
         { provide: CartService, useClass: MockCartService }

@@ -13,7 +13,7 @@ import {
 import * as fromEffects from './page.effect';
 import * as fromActions from '../actions';
 import { Page } from '../../models/page.model';
-import { PageContext, PageType } from '@spartacus/core';
+import { PageContext, PageType, RoutingService } from '@spartacus/core';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
@@ -21,6 +21,17 @@ import * as fromCmsReducer from '../../../cms/store/reducers';
 export function mockDateNow() {
   return 1000000000000;
 }
+
+const mockRouterState = {
+  state: {
+    cmsRequired: true,
+    context: {}
+  }
+};
+
+const mockRoutingService = {
+  routerState$: of(mockRouterState)
+};
 
 describe('Page Effects', () => {
   let actions$: Observable<any>;
@@ -63,6 +74,7 @@ describe('Page Effects', () => {
       providers: [
         OccCmsService,
         { provide: CmsModuleConfig, useValue: defaultCmsModuleConfig },
+        { provide: RoutingService, useValue: mockRoutingService },
         DefaultPageService,
         fromEffects.PageEffects,
         provideMockActions(() => actions$)

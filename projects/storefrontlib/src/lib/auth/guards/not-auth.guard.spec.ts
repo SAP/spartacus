@@ -26,11 +26,13 @@ class AuthServiceStub {
 
 class RoutingServiceStub {
   go(_path: any[], _query?: object, _extras?: NavigationExtras) {}
+  goToPage() {}
 }
 
 describe('NotAuthGuard', () => {
   let authGuard: NotAuthGuard;
   let authService: AuthServiceStub;
+  let service: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,6 +45,7 @@ describe('NotAuthGuard', () => {
     });
     authService = TestBed.get(AuthService);
     authGuard = TestBed.get(NotAuthGuard);
+    service = TestBed.get(RoutingService);
   });
 
   it('should return false', () => {
@@ -67,5 +70,15 @@ describe('NotAuthGuard', () => {
     subscription.unsubscribe();
 
     expect(result).toBe(true);
+  });
+
+  it('should redirect to homepage if cannot activate route', () => {
+    authService.userToken$ = of(mockUserToken);
+    spyOn(service, 'goToPage');
+    authGuard
+      .canActivate()
+      .subscribe()
+      .unsubscribe();
+    expect(service.goToPage).toHaveBeenCalledWith('homepage');
   });
 });

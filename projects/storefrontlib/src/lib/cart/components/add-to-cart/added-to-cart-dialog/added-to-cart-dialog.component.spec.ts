@@ -7,9 +7,14 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { By } from '@angular/platform-browser';
 
 import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
-import { CartSharedModule } from './../../cart-shared/cart-shared.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
-import { DebugElement } from '@angular/core';
+import {
+  DebugElement,
+  Pipe,
+  PipeTransform,
+  Component,
+  Input
+} from '@angular/core';
 
 class MockNgbActiveModal {
   dismiss() {}
@@ -21,6 +26,26 @@ class MockCartService {
   removeCartEntry(_entry) {}
 }
 
+@Component({
+  template: '',
+  selector: 'cx-cart-item'
+})
+class MockCartItemComponent {
+  @Input()
+  item;
+  @Input()
+  compact;
+  @Input()
+  isReadOnly;
+}
+
+@Pipe({
+  name: 'cxPath'
+})
+class MockPathPipe implements PipeTransform {
+  transform() {}
+}
+
 describe('AddedToCartDialogComponent', () => {
   let component: AddedToCartDialogComponent;
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
@@ -28,14 +53,12 @@ describe('AddedToCartDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        RouterTestingModule,
-        CartSharedModule,
-        NgbModule,
-        SpinnerModule
+      imports: [FormsModule, RouterTestingModule, NgbModule, SpinnerModule],
+      declarations: [
+        AddedToCartDialogComponent,
+        MockPathPipe,
+        MockCartItemComponent
       ],
-      declarations: [AddedToCartDialogComponent],
       providers: [
         {
           provide: NgbActiveModal,

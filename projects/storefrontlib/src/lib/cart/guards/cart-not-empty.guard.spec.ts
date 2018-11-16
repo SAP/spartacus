@@ -6,15 +6,14 @@ import { BehaviorSubject } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Router } from '@angular/router';
 import * as fromStore from './../../cart/store';
+import { RoutingService } from '@spartacus/core';
 
-const MAIN_PAGE_ROUTE = [''];
 const CART_EMPTY = Object.freeze({ totalItems: 0 });
 const CART_NOT_EMPTY = Object.freeze({ totalItems: 1 });
 const CART_NOT_CREATED = Object.freeze({});
 
-const mockRouter = { navigate: () => {} };
+const mockRoutingService = { goToPage: () => {} };
 const mockCartService = {
   isCartEmpty: cart => cart === CART_EMPTY || cart === CART_NOT_CREATED,
   isCartCreated: cart => cart === CART_NOT_CREATED
@@ -34,7 +33,7 @@ const mockSelect = selector => {
 
 describe('CartNotEmptyGuard', () => {
   let cartNotEmptyGuard: CartNotEmptyGuard;
-  let router: Router;
+  let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,8 +41,8 @@ describe('CartNotEmptyGuard', () => {
         CartNotEmptyGuard,
         Store,
         {
-          provide: Router,
-          useValue: mockRouter
+          provide: RoutingService,
+          useValue: mockRoutingService
         },
         {
           provide: CartService,
@@ -54,7 +53,7 @@ describe('CartNotEmptyGuard', () => {
     });
 
     cartNotEmptyGuard = TestBed.get(CartNotEmptyGuard);
-    router = TestBed.get(Router);
+    routingService = TestBed.get(RoutingService);
     spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
   });
 
@@ -62,7 +61,7 @@ describe('CartNotEmptyGuard', () => {
     let canActivate$;
 
     beforeEach(() => {
-      spyOn(router, 'navigate');
+      spyOn(routingService, 'goToPage');
       canActivate$ = cartNotEmptyGuard.canActivate();
     });
 
@@ -78,7 +77,7 @@ describe('CartNotEmptyGuard', () => {
 
         it('then Router should NOT redirect', () => {
           canActivate$.subscribe().unsubscribe();
-          expect(router.navigate).not.toHaveBeenCalled();
+          expect(routingService.goToPage).not.toHaveBeenCalled();
         });
 
         it('then returned observable should NOT emit any value', () => {
@@ -97,7 +96,7 @@ describe('CartNotEmptyGuard', () => {
 
         it('then Router should NOT redirect', () => {
           canActivate$.subscribe().unsubscribe();
-          expect(router.navigate).not.toHaveBeenCalled();
+          expect(routingService.goToPage).not.toHaveBeenCalled();
         });
 
         it('then returned observable should NOT emit any value', () => {
@@ -116,7 +115,7 @@ describe('CartNotEmptyGuard', () => {
 
         it('then Router should NOT redirect', () => {
           canActivate$.subscribe().unsubscribe();
-          expect(router.navigate).not.toHaveBeenCalled();
+          expect(routingService.goToPage).not.toHaveBeenCalled();
         });
 
         it('then returned observable should NOT emit any value', () => {
@@ -141,7 +140,7 @@ describe('CartNotEmptyGuard', () => {
 
         it('then Router should redirect to main page', () => {
           canActivate$.subscribe().unsubscribe();
-          expect(router.navigate).toHaveBeenCalledWith(MAIN_PAGE_ROUTE);
+          expect(routingService.goToPage).toHaveBeenCalledWith('homepage');
         });
 
         it('then returned observable should emit false', () => {
@@ -160,7 +159,7 @@ describe('CartNotEmptyGuard', () => {
 
         it('then Router should redirect to main page', () => {
           canActivate$.subscribe().unsubscribe();
-          expect(router.navigate).toHaveBeenCalledWith(MAIN_PAGE_ROUTE);
+          expect(routingService.goToPage).toHaveBeenCalledWith('homepage');
         });
 
         it('then returned observable should emit false', () => {
@@ -179,7 +178,7 @@ describe('CartNotEmptyGuard', () => {
 
         it('then Router should NOT redirect', () => {
           canActivate$.subscribe().unsubscribe();
-          expect(router.navigate).not.toHaveBeenCalled();
+          expect(routingService.goToPage).not.toHaveBeenCalled();
         });
 
         it('then returned observable should emit true', () => {

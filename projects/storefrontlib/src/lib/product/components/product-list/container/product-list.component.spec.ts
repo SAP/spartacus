@@ -22,7 +22,7 @@ import { PaginationAndSortingModule } from '../../../../ui/components/pagination
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
 import { ProductSearchService } from '../../../facade/product-search.service';
-import { Component, Input } from '@angular/core';
+import { Component, Input, PipeTransform, Pipe } from '@angular/core';
 
 class MockProductSearchService {
   search() {}
@@ -35,6 +35,13 @@ class MockProductSearchService {
 class MockProductListItemComponent {
   @Input()
   product;
+}
+
+@Pipe({
+  name: 'cxPath'
+})
+class MockPathPipe implements PipeTransform {
+  transform() {}
 }
 
 describe('ProductListComponent in product-list', () => {
@@ -67,7 +74,8 @@ describe('ProductListComponent in product-list', () => {
         PictureComponent,
         ProductViewComponent,
         StarRatingComponent,
-        MockProductListItemComponent
+        MockProductListItemComponent,
+        MockPathPipe
       ]
     }).compileComponents();
   }));

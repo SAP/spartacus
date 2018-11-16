@@ -4,7 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 import { of } from 'rxjs';
-import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
 import { CartService } from '../../../cart/services';
 import * as fromReducer from '../../../cart/store/reducers';
 import {
@@ -13,10 +12,9 @@ import {
 } from '../../../cms/components';
 import { ComponentMapperService } from '../../../cms/services';
 import * as fromCmsReducer from '../../../cms/store';
-import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
-import { ComponentsModule } from './../../components/components.module';
 import { CartPageLayoutComponent } from './cart-page-layout.component';
 import { OutletDirective } from '../../../outlet';
+import { Component } from '@angular/core';
 
 class MockCartService {
   removeCartEntry() {}
@@ -27,6 +25,12 @@ class MockCartService {
 class MockMapperService {
   getComponentTypeByCode() {}
 }
+
+@Component({
+  selector: 'cx-cart-details',
+  template: ''
+})
+export class MockCartDetailsComponent {}
 
 describe('CartPageLayoutComponent', () => {
   let component: CartPageLayoutComponent;
@@ -40,13 +44,11 @@ describe('CartPageLayoutComponent', () => {
         RouterTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature('cart', fromReducer.getReducers()),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
-        ComponentsModule,
-        CartSharedModule
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers())
       ],
       declarations: [
         CartPageLayoutComponent,
-        CartDetailsComponent,
+        MockCartDetailsComponent,
         DynamicSlotComponent,
         ComponentWrapperDirective,
         OutletDirective

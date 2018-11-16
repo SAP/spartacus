@@ -33,6 +33,7 @@ const mockRouterStateSnapshot = { url: '/test' };
 
 class RoutingServiceStub {
   go(_path: any[], _query?: object, _extras?: NavigationExtras) {}
+  goToPage() {}
   saveRedirectUrl(_url: string) {}
 }
 
@@ -73,6 +74,7 @@ describe('AuthGuard', () => {
     authService = TestBed.get(AuthService);
 
     spyOn(service, 'go').and.stub();
+    spyOn(service, 'goToPage').and.stub();
     spyOn(service, 'saveRedirectUrl').and.stub();
   });
 
@@ -99,7 +101,7 @@ describe('AuthGuard', () => {
     expect(result).toBe(true);
   });
 
-  it('should redirect to login if invalid token', () => {
+  it('should redirect to login page if invalid token', () => {
     authService.userToken$ = of({ access_token: undefined } as UserToken);
 
     const sub = authGuard
@@ -107,7 +109,7 @@ describe('AuthGuard', () => {
       .subscribe();
     sub.unsubscribe();
 
-    expect(service.go).toHaveBeenCalledWith(['/login']);
+    expect(service.goToPage).toHaveBeenCalledWith('login');
     expect(service.saveRedirectUrl).toHaveBeenCalledWith('/test');
   });
 });

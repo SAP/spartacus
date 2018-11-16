@@ -8,6 +8,9 @@ import * as fromStore from '../../store';
 import * as fromAuthStore from '../../../auth/store';
 import * as fromUserStore from '../../store';
 import { RegisterComponent } from './register.component';
+import { Pipe, PipeTransform } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { RoutingService } from '@spartacus/core';
 
 const mockTitlesList = {
   titles: [
@@ -21,7 +24,6 @@ const mockTitlesList = {
     }
   ]
 };
-
 const selectors = {
   getUserToken: new BehaviorSubject(null),
   getAllTitles: new BehaviorSubject(null)
@@ -36,6 +38,13 @@ const mockSelect = selector => {
   }
 };
 
+@Pipe({
+  name: 'cxPath'
+})
+class MockPathPipe implements PipeTransform {
+  transform() {}
+}
+
 describe('RegisterComponent', () => {
   let controls;
   let component: RegisterComponent;
@@ -47,14 +56,18 @@ describe('RegisterComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
+        RouterTestingModule,
         StoreModule.forRoot({
           ...fromStore.getReducers(),
           user: combineReducers(fromStore.getReducers()),
           auth: combineReducers(fromAuthStore.getReducers())
         })
       ],
-      declarations: [RegisterComponent],
-      providers: [{ provide: ActivatedRoute, useValue: {} }]
+      declarations: [RegisterComponent, MockPathPipe],
+      providers: [
+        { provide: ActivatedRoute, useValue: {} },
+        { provide: RoutingService, useValue: {} }
+      ]
     }).compileComponents();
   }));
 
