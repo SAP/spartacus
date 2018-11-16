@@ -1,9 +1,10 @@
 import * as fromProductsSearch from '../actions/product-search.action';
+import { Suggestion, ProductList } from '@spartacus/core';
 
 export interface ProductsSearchState {
-  results: any;
-  suggestions: any[];
-  auxResults: any;
+  results: ProductList;
+  suggestions: Suggestion[];
+  auxResults: ProductList;
   loading: boolean;
 }
 
@@ -42,7 +43,7 @@ export function reducer(
     }
 
     case fromProductsSearch.GET_PRODUCT_SUGGESTIONS_SUCCESS: {
-      const suggestions = action.payload;
+      const suggestions: Suggestion[] = action.payload;
 
       return {
         ...state,

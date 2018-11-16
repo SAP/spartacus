@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 
 import * as fromStore from '../store';
 import { map, tap, filter, take } from 'rxjs/operators';
+import { Product } from '@spartacus/core';
 
 @Injectable()
 export class ProductService {
   constructor(private store: Store<fromStore.ProductsState>) {}
 
-  get(productCode: string): Observable<any> {
+  get(productCode: string): Observable<Product> {
     return this.store.pipe(
       select(fromStore.getSelectedProductFactory(productCode))
     );
