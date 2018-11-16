@@ -5,23 +5,24 @@ import {
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
-import { StoreModule, Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
-import * as fromStore from '../store';
+import { AuthModuleConfig } from '../auth-module.config';
+import { AuthService } from '../facade/auth.service';
+import { ClientToken } from './../models/token-types.model';
+import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 
 import { ClientTokenInterceptor } from './client-token.interceptor';
 
-import { InterceptorUtil } from '../../occ/utils/interceptor-util';
-
-import { ClientAuthenticationToken } from './../models/token-types.model';
-
-import { AuthModuleConfig } from '../auth-module.config';
-
-const testToken: ClientAuthenticationToken = {
+const testToken: ClientToken = {
   access_token: 'abc-123',
   token_type: 'bearer',
   expires_in: 1000,
   scope: ''
+};
+
+const authServiceMock = {
+  clientToken$: of(testToken)
 };
 
 const MockAuthModuleConfig: AuthModuleConfig = {
@@ -37,17 +38,13 @@ const MockAuthModuleConfig: AuthModuleConfig = {
 
 describe('ClientTokenInterceptor', () => {
   let httpMock: HttpTestingController;
-  let store: Store<fromStore.AuthState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('auth', fromStore.getReducers())
-      ],
+      imports: [HttpClientTestingModule],
       providers: [
         { provide: AuthModuleConfig, useValue: MockAuthModuleConfig },
+        { provide: AuthService, useValue: authServiceMock },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: ClientTokenInterceptor,
@@ -55,7 +52,6 @@ describe('ClientTokenInterceptor', () => {
         }
       ]
     });
-    store = TestBed.get(Store);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -63,7 +59,6 @@ describe('ClientTokenInterceptor', () => {
     it('Should only add token to specified requests', inject(
       [HttpClient],
       (http: HttpClient) => {
-        store.dispatch(new fromStore.LoadClientTokenSuccess(testToken));
         http
           .get('https://localhost:9002/rest/v2/electronics/test')
           .subscribe(result => {
