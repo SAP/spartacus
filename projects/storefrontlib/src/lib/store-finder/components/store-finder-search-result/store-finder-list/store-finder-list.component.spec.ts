@@ -1,18 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { StoreFinderListComponent } from './store-finder-list.component';
+import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
+import { StoreDataService } from '../../../services';
+import { GoogleMapRendererService } from '../../../services/google-map-renderer.service';
+import { SpinnerModule } from '../../../../ui/components/spinner/spinner.module';
 
-import * as fromReducers from '../../store';
-import * as fromServices from '../../services';
-import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
-import { StoreDataService } from '../../services';
-import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
-import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
+import * as fromReducers from '../../../store';
+import * as fromServices from '../../../services';
 
 const location = {};
 const stores = [location];
@@ -33,7 +33,7 @@ class GoogleMapRendererServiceMock {
   renderMap() {}
 }
 
-describe('StoreFinderListComponent', () => {
+describe('StoreFinderDisplayListComponent', () => {
   let component: StoreFinderListComponent;
   let fixture: ComponentFixture<StoreFinderListComponent>;
   let store: Store<fromReducers.StoresState>;
@@ -47,8 +47,9 @@ describe('StoreFinderListComponent', () => {
         RouterTestingModule,
         HttpClientTestingModule,
         SpinnerModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', fromReducers.reducers)
+        StoreModule.forRoot({
+          stores: combineReducers(fromReducers.reducers)
+        })
       ],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [StoreFinderListComponent, StoreFinderMapComponent],
@@ -82,27 +83,6 @@ describe('StoreFinderListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should change pages', () => {
-    // given
-    const pageNumber = 4;
-    component.searchQuery = {
-      queryText: '',
-      longitudeLatitude: { longitude: 0, latitude: 0 }
-    };
-
-    // when
-    component.viewPage(pageNumber);
-
-    // then
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromReducers.FindStores({
-        queryText: '',
-        longitudeLatitude: { longitude: 0, latitude: 0 },
-        searchConfig: { currentPage: pageNumber }
-      })
-    );
-  });
-
   it('should center store on map', () => {
     // given
     component.locations = locations;
@@ -119,7 +99,6 @@ describe('StoreFinderListComponent', () => {
     expect(storeMapComponent.centerMap).toHaveBeenCalled();
     expect(storeDataService.getStoreLatitude).toHaveBeenCalled();
     expect(storeDataService.getStoreLongitude).toHaveBeenCalled();
-    expect(googleMapRendererService.centerMap).toHaveBeenCalled();
   });
 
   it('should select store from list', () => {

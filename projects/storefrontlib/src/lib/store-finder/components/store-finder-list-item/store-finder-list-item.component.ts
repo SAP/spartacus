@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { StoreDataService } from '../../../services/index';
-import { AbstractStoreItemComponent } from '../../abstract-store-item/abstract-store-item.component';
+import { StoreDataService } from '../../services/index';
+import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
 
 @Component({
   selector: 'cx-store-finder-list-item',
