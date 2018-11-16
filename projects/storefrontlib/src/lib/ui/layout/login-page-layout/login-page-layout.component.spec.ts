@@ -1,6 +1,7 @@
 import { Component, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginPageLayoutComponent } from './login-page-layout.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 @Pipe({
   name: 'cxPath'
@@ -8,6 +9,7 @@ import { LoginPageLayoutComponent } from './login-page-layout.component';
 class MockPathPipe implements PipeTransform {
   transform() {}
 }
+
 @Component({
   selector: 'cx-login-form',
   template: ''
@@ -20,6 +22,7 @@ describe('LoginPageLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [LoginPageLayoutComponent, MockLoginComponent, MockPathPipe]
     }).compileComponents();
   }));

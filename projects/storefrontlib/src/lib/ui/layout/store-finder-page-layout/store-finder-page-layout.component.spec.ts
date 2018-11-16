@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Input, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { StoreFinderPageLayoutComponent } from './store-finder-page-layout.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 @Component({
   selector: 'cx-store-finder-header',
@@ -14,6 +15,7 @@ describe('StoreFinderPageLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [
         StoreFinderPageLayoutComponent,
         MockStoreFinderHeaderComponent

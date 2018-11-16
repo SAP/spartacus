@@ -45,12 +45,6 @@ class MockMobileMenuComponent {}
 })
 export class MockTertiaryBarComponent {}
 
-@Component({
-  selector: 'cx-login',
-  template: ''
-})
-export class MockLoginComponent {}
-
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;

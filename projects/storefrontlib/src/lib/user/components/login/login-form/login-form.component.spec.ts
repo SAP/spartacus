@@ -8,6 +8,7 @@ import { RoutingService } from '@spartacus/core';
 import { AuthService } from '../../../../auth/facade/auth.service';
 import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
 import { PipeTransform, Pipe } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 @Pipe({
   name: 'cxPath'
@@ -39,7 +40,7 @@ describe('LoginFormComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, RouterTestingModule],
       declarations: [LoginFormComponent, MockPathPipe],
       providers: [
         { provide: AuthService, useValue: mockAuthService },

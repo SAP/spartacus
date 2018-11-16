@@ -20,10 +20,13 @@ const mockOrders = {
   pagination: { totalResults: 1, sort: 'byDate' },
   sorts: [{ code: 'byDate', selected: true }]
 };
-const mockAuth = {
-  userToken$: of({ access_token: 'test', userId: 'test@sap.com' }),
-  authorize: createSpy()
-};
+
+@Pipe({
+  name: 'cxPath'
+})
+class MockPathPipe implements PipeTransform {
+  transform() {}
+}
 
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
@@ -50,7 +53,7 @@ describe('OrderHistoryComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PaginationAndSortingModule],
-      declarations: [OrderHistoryComponent],
+      declarations: [OrderHistoryComponent, MockPathPipe],
       providers: [
         { provide: RoutingService, useValue: mockRoutingService },
         { provide: UserService, useValue: mockUserService },

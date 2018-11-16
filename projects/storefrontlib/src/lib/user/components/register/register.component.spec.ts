@@ -8,6 +8,7 @@ import { UserService } from '../../facade/user.service';
 import { AuthService } from '../../../auth/facade/auth.service';
 import { RoutingService } from '@spartacus/core';
 import { Pipe, PipeTransform } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const mockTitlesList = [
   {
@@ -53,7 +54,7 @@ describe('RegisterComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, RouterTestingModule],
       declarations: [RegisterComponent, MockPathPipe],
       providers: [
         { provide: RoutingService, useValue: mockRoutingService },

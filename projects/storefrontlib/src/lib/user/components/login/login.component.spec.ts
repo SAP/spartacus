@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { By } from '@angular/platform-browser';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { UserToken } from './../../../auth/models/token-types.model';
@@ -11,6 +11,7 @@ import { UserService } from '../../facade/user.service';
 import { AuthService } from '../../../auth/facade/auth.service';
 import { Pipe, PipeTransform } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const mockUserToken: UserToken = {
   access_token: 'xxx',
@@ -62,7 +63,8 @@ describe('LoginComponent', () => {
 
   beforeEach(async(() => {
     mockRoutingService = {
-      go: createSpy()
+      go: createSpy('go'),
+      goToPage: createSpy('goToPage')
     };
     mockAuthService = {
       userToken$: new BehaviorSubject(null),
@@ -75,6 +77,7 @@ describe('LoginComponent', () => {
     };
 
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [LoginComponent, MockDynamicSlotComponent, MockPathPipe],
       providers: [
         {
