@@ -20,7 +20,7 @@ import {
 } from '../../../cms/cms-module-config';
 import { AddToCartComponent } from '../../../cart/components/add-to-cart/add-to-cart.component';
 import { CartService } from '../../../cart/services';
-import { ProductService } from '../../../product/facade';
+import { ProductService } from '@spartacus/core';
 import {
   NgbTabsetModule,
   NgbAccordionModule
