@@ -1,7 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { DynamicSlotComponent } from './dynamic-slot.component';
 import { ComponentMapperService } from '../../services';
 import { CmsModuleConfig } from '../../cms-module-config';
 import * as fromReducers from '../../store/reducers';
@@ -9,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { OutletDirective } from '../../../outlet';
 import { CmsComponentData } from '../cms-component-data';
 import { CxApiService } from '@spartacus/storefront';
+import { CmsService } from '../../facade/cms.service';
 
 const testText = 'test text';
 
@@ -51,13 +51,13 @@ describe('ComponentWrapperDirective', () => {
       ],
       declarations: [
         TestWrapperComponent,
-        DynamicSlotComponent,
         ComponentWrapperDirective,
         OutletDirective
       ],
       providers: [
         ComponentMapperService,
-        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig },
+        { provide: CmsService, useValue: { getComponentData: () => {} } }
       ]
     }).compileComponents();
   }));

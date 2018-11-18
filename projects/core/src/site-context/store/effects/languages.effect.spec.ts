@@ -7,7 +7,8 @@ import { of, Observable } from 'rxjs';
 import { OccSiteService } from '../../occ/index';
 import * as fromEffects from './languages.effect';
 import * as fromActions from '../actions/languages.action';
-import { SiteContextConfig } from '../../config/config';
+import { OccModule } from '../../../occ/occ.module';
+import { ConfigModule } from '../../../config/config.module';
 
 describe('Languages Effects', () => {
   let actions$: Observable<any>;
@@ -20,10 +21,9 @@ describe('Languages Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [ConfigModule.forRoot(), HttpClientTestingModule, OccModule],
       providers: [
         OccSiteService,
-        SiteContextConfig,
         fromEffects.LanguagesEffects,
         provideMockActions(() => actions$)
       ]
