@@ -14,6 +14,10 @@ export class CheckoutService {
     select(fromCheckoutStore.getSupportedDeliveryModes)
   );
 
+  readonly selectedDeliveryMode$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getSelectedDeliveryMode)
+  );
+
   readonly cardTypes$ = this.checkoutStore.pipe(
     select(fromCheckoutStore.getAllCardTypes)
   );
