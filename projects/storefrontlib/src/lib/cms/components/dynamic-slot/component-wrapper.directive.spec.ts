@@ -35,7 +35,7 @@ const MockCmsModuleConfig: CmsModuleConfig = {
 
 @Component({
   template:
-    '<ng-container yComponentWrapper componentType="CMSTestComponent" componentUid="test_uid"></ng-container>'
+    '<ng-container cxComponentWrapper componentType="CMSTestComponent" componentUid="test_uid"></ng-container>'
 })
 class TestWrapperComponent {}
 
