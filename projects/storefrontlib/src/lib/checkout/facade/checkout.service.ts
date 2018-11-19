@@ -18,6 +18,10 @@ export class CheckoutService {
     select(fromCheckoutStore.getSelectedDeliveryMode)
   );
 
+  readonly selectedDeliveryModeCode$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getSelectedCode)
+  );
+
   readonly cardTypes$ = this.checkoutStore.pipe(
     select(fromCheckoutStore.getAllCardTypes)
   );
@@ -31,7 +35,13 @@ export class CheckoutService {
     filter(results => Object.keys(results).length !== 0)
   );
 
-  orderDetails: any;
+  readonly paymentDetails$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getPaymentDetails)
+  );
+
+  readonly orderDetails$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getOrderDetails)
+  );
 
   constructor(
     private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
@@ -140,6 +150,16 @@ export class CheckoutService {
   clearAddressVerificationResults() {
     this.checkoutStore.dispatch(
       new fromCheckoutStore.ClearAddressVerificationResults()
+    );
+  }
+
+  clearCheckoutData() {
+    this.checkoutStore.dispatch(new fromCheckoutStore.ClearCheckoutData());
+  }
+
+  clearCheckoutStep(stepNumber: number) {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.ClearCheckoutStep(stepNumber)
     );
   }
 

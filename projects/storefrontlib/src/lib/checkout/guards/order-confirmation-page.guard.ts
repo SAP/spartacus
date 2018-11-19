@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { CheckoutService } from '../facade/checkout.service';
 
@@ -13,16 +14,15 @@ export class OrderConfirmationPageGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    if (this.orderDetailsPresent()) {
-      return of(true);
-    }
-
-    this.router.navigate(['/my-account/orders']);
-    return of(false);
-  }
-
-  private orderDetailsPresent(): boolean {
-    const orderDetails = this.checkoutService.orderDetails;
-    return orderDetails && Object.keys(orderDetails).length !== 0;
+    return this.checkoutService.orderDetails$.pipe(
+      map(orderDetails => {
+        if (orderDetails && Object.keys(orderDetails).length !== 0) {
+          return true;
+        } else {
+          this.router.navigate(['/my-account/orders']);
+          return false;
+        }
+      })
+    );
   }
 }
