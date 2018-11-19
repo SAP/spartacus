@@ -84,9 +84,7 @@ export class CheckoutService {
   }
 
   loadSupportedCardTypes() {
-    if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(new fromCheckoutStore.LoadCardTypes());
-    }
+    this.checkoutStore.dispatch(new fromCheckoutStore.LoadCardTypes());
   }
 
   createPaymentDetails(paymentInfo) {
