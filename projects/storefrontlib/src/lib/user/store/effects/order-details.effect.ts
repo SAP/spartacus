@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { OccOrderService } from '../../../occ/order/order.service';
 import * as fromOrderDetailsAction from '../actions/order-details.action';
-import { ProductImageConverterService } from '../../../product/converters/product-image-converter.service';
+import { ProductImageConverterService } from '@spartacus/core';
 
 @Injectable()
 export class OrderDetailsEffect {

@@ -127,6 +127,9 @@ To view a list of open issues that require analysis, see the [list of open issue
 We welcome contributions to the Spartacus codebase. Before you start your first contribution, here are some things you should know: 
 
 1. You must be aware of the Apache License (which describes contributions), and you must agree to the [Contributors License Agreement](LICENSE.md). This is common practice for most open source projects. 
+
+    Note: You do not need to sign the CLA until you submit your first pull request. If you have not signed the CLA before, a link to the CLA assistant is provided on the PR status page.
+
 * To make this process as simple as possible, we use the *[CLA assistant](https://cla-assistant.io/)* for individual contributions. CLA assistant is an open source tool that integrates with GitHub very well and enables a one-click-experience for accepting the CLA. 
 * For company contributors, special rules apply. See the respective section below for details.
 2. Contributions must meet our code style, quality, and product standards. We also follow them :). The respective section below gives more details on the coding guidelines.
