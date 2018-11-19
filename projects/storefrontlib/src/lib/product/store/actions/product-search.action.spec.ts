@@ -1,5 +1,6 @@
 import * as fromProductSearch from './product-search.action';
 import { SearchConfig } from '../../search-config';
+import { Suggestion } from '@spartacus/core';
 
 describe('Product Search Actions', () => {
   let searchConfig: SearchConfig;
@@ -80,7 +81,7 @@ describe('Product Search Actions', () => {
 
     describe('SearchProductSuggestionsSuccess', () => {
       it('should create an action', () => {
-        const payload = [];
+        const payload: Suggestion[] = [];
         const action = new fromProductSearch.GetProductSuggestionsSuccess(
           payload
         );

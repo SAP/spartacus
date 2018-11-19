@@ -2,6 +2,7 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import * as fromFeature from './../reducers';
 import * as fromReview from '../reducers/product-reviews.reducer';
+import { ReviewList } from '@spartacus/core';
 
 export const getProductReviewsState: MemoizedSelector<
   any,
@@ -13,7 +14,7 @@ export const getProductReviewsState: MemoizedSelector<
 
 export const getSelectedProductReviewsFactory = (
   productCode
-): MemoizedSelector<any, any> => {
+): MemoizedSelector<any, ReviewList> => {
   return createSelector(getProductReviewsState, reviewData => {
     if (reviewData.productCode === productCode) {
       return reviewData.list;

@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { SearchConfig } from '../../search-config';
+import { Suggestion } from '@spartacus/core';
 
 export const SEARCH_PRODUCTS = '[Product] Search Products';
 export const SEARCH_PRODUCTS_FAIL = '[Product] Search Products Fail';
@@ -36,7 +37,7 @@ export class GetProductSuggestions implements Action {
 
 export class GetProductSuggestionsSuccess implements Action {
   readonly type = GET_PRODUCT_SUGGESTIONS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: Suggestion[]) {}
 }
 
 export class GetProductSuggestionsFail implements Action {
