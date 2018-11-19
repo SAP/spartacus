@@ -7,7 +7,6 @@ import { BootstrapModule } from '../../bootstrap.module';
 import { DebugElement, Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PathPipeService, DynamicPathPipeService } from '@spartacus/core';
 import { CmsService } from '../../cms/facade/cms.service';
 import { NavigationService } from '../navigation/navigation.service';
 
@@ -16,9 +15,6 @@ const UseCmsModuleConfig: CmsModuleConfig = {
     CategoryNavigationComponent: 'CategoryNavigationComponent'
   }
 };
-
-const mockPathPipeService = { transform: () => {} };
-const mockDynamicPathPipeService = { transform: () => {} };
 
 @Component({
   template: '',
@@ -51,12 +47,7 @@ describe('CategoryNavigationComponent', () => {
       providers: [
         { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
         { provide: CmsService, useValue: mockCmsService },
-        { provide: NavigationService, useValue: mockNavigationService },
-        { provide: PathPipeService, useValue: mockPathPipeService },
-        {
-          provide: DynamicPathPipeService,
-          useValue: mockDynamicPathPipeService
-        }
+        { provide: NavigationService, useValue: mockNavigationService }
       ]
     }).compileComponents();
   }));
