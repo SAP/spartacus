@@ -29,5 +29,5 @@ sonar-scanner \
 -Dsonar.tests=projects/storefrontlib,projects/core,projects/storefrontstyles,projects/storefrontapp-e2e \
 -Dsonar.host.url=https://sonarcloud.io \
 -Dsonar.login=$SONAR_TOKEN \
--Dsonar.branch.name=feature/GH-165
+-Dsonar.branch.name=feature/GH-165 \
 -Dsonar.cfamily.build-wrapper-output.bypass=true
