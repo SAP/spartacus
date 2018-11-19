@@ -1,42 +1,31 @@
-import { MobileMenuComponent } from '../header/mobile-menu/mobile-menu.component';
-import { HeaderSkipperComponent } from '../header/header-skipper/header-skipper.component';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { StorefrontComponent } from './storefront.component';
-import { HeaderComponent } from '../header/header.component';
-import { FooterComponent } from '../footer/footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
-import { GlobalMessageModule } from '../../../global-message/global-message.module';
-import { StoreModule, combineReducers } from '@ngrx/store';
-import { OccSiteService } from '../../../occ/site-context/occ-site.service';
-import * as fromRoot from '../../../routing/store';
-import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
-import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
-import { LoginComponent } from '../../../user/components/login/login.component';
-import { SiteContextModuleConfig } from '../../../site-context/site-context-module-config';
-import * as fromUserReducer from '../../../user/store/reducers';
-import * as fromSCStore from '../../../site-context/shared/store';
-import * as fromCmsReducer from '../../../cms/store/reducers';
-import * as fromAuth from '../../../auth/store';
-import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
-import { OutletDirective } from '../../../outlet';
 
-const MockSiteContextModuleConfig: SiteContextModuleConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
-  },
+import { ConfigurableRoutesService } from '@spartacus/core';
+import { StorefrontComponent } from './storefront.component';
 
-  site: {
-    baseSite: '',
-    language: '',
-    currency: ''
-  }
-};
+@Component({
+  selector: 'cx-header',
+  template: ''
+})
+class MockHeaderComponent {}
+
+@Component({
+  selector: 'cx-global-message',
+  template: ''
+})
+class MockGlobalMessagerComponent {}
+
+@Component({
+  selector: 'cx-footer',
+  template: ''
+})
+class MockFooterComponent {}
+
+class MockConfigurableRoutesService {
+  changeLanguage() {}
+}
 
 describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
@@ -44,37 +33,18 @@ describe('StorefrontComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          user: combineReducers(fromUserReducer.getReducers()),
-          siteContext: combineReducers(fromSCStore.getReducers()),
-          cms: combineReducers(fromCmsReducer.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
-        }),
-        GlobalMessageModule
-      ],
+      imports: [RouterTestingModule],
       declarations: [
         StorefrontComponent,
-        HeaderComponent,
-        FooterComponent,
-        DynamicSlotComponent,
-        ComponentWrapperDirective,
-        LanguageSelectorComponent,
-        CurrencySelectorComponent,
-        HeaderSkipperComponent,
-        TertiaryBarComponent,
-        MobileMenuComponent,
-        LoginComponent,
-        OutletDirective
+        MockHeaderComponent,
+        MockGlobalMessagerComponent,
+        MockFooterComponent
       ],
       providers: [
         {
-          provide: SiteContextModuleConfig,
-          useValue: MockSiteContextModuleConfig
-        },
-        { provide: OccSiteService }
+          provide: ConfigurableRoutesService,
+          useClass: MockConfigurableRoutesService
+        }
       ]
     }).compileComponents();
   }));

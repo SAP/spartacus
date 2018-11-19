@@ -1,0 +1,11 @@
+@import '../../theme';
+@import '../../functions';
+@import '../../mixins';
+
+.cx-app {
+  &__breadcrumb {
+    background-color: theme-color('background');
+    text-align: center;
+    padding-top: 25px;
+  }
+}

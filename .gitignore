@@ -44,6 +44,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-
-# sed backup files
-*.ts-e

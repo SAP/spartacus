@@ -7,12 +7,7 @@ import { ProductListItemComponent } from '../product-list-item/product-list-item
 import { AddToCartComponent } from '../../../../cart/components/add-to-cart/add-to-cart.component';
 import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SearchConfig } from '../../../search-config';
 
-import * as fromRoot from '../../../../routing/store';
-import * as fromProduct from '../../../store';
-
-import { StoreModule, combineReducers } from '@ngrx/store';
 import {
   ProductViewComponent,
   ViewModes
@@ -27,13 +22,16 @@ import { FormsModule } from '@angular/forms';
 import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
-import { ProductSearchService } from '../../../services/product-search.service';
+import { ProductSearchService } from '@spartacus/core';
+
+class MockProductSearchService {
+  search() {}
+}
 
 describe('ProductListComponent in product-list', () => {
   let service: ProductSearchService;
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
-  let searchConfig: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -43,13 +41,14 @@ describe('ProductListComponent in product-list', () => {
         NgbRatingModule,
         PaginationAndSortingModule,
         FormsModule,
-        RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          products: combineReducers(fromProduct.getReducers())
-        })
+        RouterTestingModule
       ],
-      providers: [ProductSearchService],
+      providers: [
+        {
+          provide: ProductSearchService,
+          useClass: MockProductSearchService
+        }
+      ],
       declarations: [
         ProductListComponent,
         ProductFacetNavigationComponent,
@@ -67,8 +66,6 @@ describe('ProductListComponent in product-list', () => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
     service = TestBed.get(ProductSearchService);
-    searchConfig = new SearchConfig();
-
     spyOn(service, 'search').and.callThrough();
   });
 
@@ -80,10 +77,9 @@ describe('ProductListComponent in product-list', () => {
     component.categoryCode = 'mockCategoryCode';
     component.ngOnInit();
     component.ngOnChanges();
-    searchConfig = { ...searchConfig, ...{ pageSize: 10 } };
     expect(service.search).toHaveBeenCalledWith(
       ':relevance:category:mockCategoryCode',
-      searchConfig
+      { pageSize: 10 }
     );
   });
 
@@ -91,16 +87,15 @@ describe('ProductListComponent in product-list', () => {
     component.brandCode = 'mockBrandCode';
     component.ngOnInit();
     component.ngOnChanges();
-    searchConfig = { ...searchConfig, ...{ pageSize: 10 } };
     expect(service.search).toHaveBeenCalledWith(
       ':relevance:brand:mockBrandCode',
-      searchConfig
+      { pageSize: 10 }
     );
   });
 
   it('should call onFilter', () => {
     component.onFilter('mockQuery');
-    expect(service.search).toHaveBeenCalledWith('mockQuery', searchConfig);
+    expect(service.search).toHaveBeenCalledWith('mockQuery', {});
   });
 
   it('should change pages', done => {

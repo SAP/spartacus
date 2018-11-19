@@ -1,52 +1,46 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as fromUserStore from '../../../user/store';
-import * as fromAuthStore from '../../../auth/store';
-import * as fromRoutingStore from '../../../routing/store';
+
+import { AuthService } from '../../../auth/facade/auth.service';
+import { UserService } from '../../../user/facade/user.service';
+import { RoutingService } from '@spartacus/core';
 import { Card } from '../../../ui/components/card/card.component';
 
 @Component({
-  selector: 'y-order-details',
+  selector: 'cx-order-details',
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class OrderDetailsComponent implements OnInit, OnDestroy {
   constructor(
-    private store: Store<fromUserStore.UserState>,
-    private routingStore: Store<fromRoutingStore.State>
+    private authService: AuthService,
+    private userService: UserService,
+    private routingService: RoutingService
   ) {}
 
   order$: Observable<any>;
   subscription: Subscription;
 
   ngOnInit() {
-    const userId$ = this.store.pipe(
-      select(fromAuthStore.getUserToken),
+    const userId$ = this.authService.userToken$.pipe(
       map(userData => userData.userId)
     );
 
-    const orderCode$ = this.routingStore.pipe(
-      select(fromRoutingStore.getRouterState),
+    const orderCode$ = this.routingService.routerState$.pipe(
       map(routingData => routingData.state.params.orderCode)
     );
 
     this.subscription = combineLatest(userId$, orderCode$).subscribe(
       ([userId, orderCode]) => {
         if (userId && orderCode) {
-          this.store.dispatch(
-            new fromUserStore.LoadOrderDetails({
-              userId: userId,
-              orderCode: orderCode
-            })
-          );
+          this.userService.loadOrderDetails(userId, orderCode);
         }
       }
     );
 
-    this.order$ = this.store.pipe(select(fromUserStore.getOrderDetails));
+    this.order$ = this.userService.orderDetails$;
   }
 
   getAddressCardContent(address): Card {
@@ -107,7 +101,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new fromUserStore.ClearOrderDetails());
+    this.userService.clearOrderDetails();
 
     if (this.subscription) {
       this.subscription.unsubscribe();

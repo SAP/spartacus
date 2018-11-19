@@ -12,19 +12,15 @@ import {
   HttpParams
 } from '@angular/common/http';
 
-import { catchError } from 'rxjs/operators';
 import { throwError, Observable, of } from 'rxjs';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
+import { catchError } from 'rxjs/operators';
 
-import * as fromStore from '../store';
-import * as fromRoot from '../../routing/store';
-
-import { AuthErrorInterceptor } from './auth-error.interceptor';
-
+import { AuthService } from '../facade/auth.service';
+import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
+import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
 import { USE_CLIENT_TOKEN } from '../../occ/utils/interceptor-util';
 
-import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
-import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
+import { AuthErrorInterceptor } from './auth-error.interceptor';
 
 class MockUserErrorHandlingService {
   handleExpiredUserToken(
@@ -45,21 +41,19 @@ class MockClientErrorHandlingService {
   }
 }
 
+class MockAuthService {
+  logout() {}
+}
+
 describe('AuthErrorInterceptor', () => {
   let userErrorHandlingService: UserErrorHandlingService;
   let clientErrorHandlingService: ClientErrorHandlingService;
-  let store: Store<fromStore.AuthState>;
+  let authService: AuthService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          auth: combineReducers(fromStore.getReducers())
-        })
-      ],
+      imports: [HttpClientTestingModule],
       providers: [
         {
           provide: UserErrorHandlingService,
@@ -68,6 +62,10 @@ describe('AuthErrorInterceptor', () => {
         {
           provide: ClientErrorHandlingService,
           useClass: MockClientErrorHandlingService
+        },
+        {
+          provide: AuthService,
+          useClass: MockAuthService
         },
         {
           provide: HTTP_INTERCEPTORS,
@@ -79,7 +77,7 @@ describe('AuthErrorInterceptor', () => {
 
     userErrorHandlingService = TestBed.get(UserErrorHandlingService);
     clientErrorHandlingService = TestBed.get(ClientErrorHandlingService);
-    store = TestBed.get(Store);
+    authService = TestBed.get(AuthService);
     httpMock = TestBed.get(HttpTestingController);
 
     spyOn(userErrorHandlingService, 'handleExpiredUserToken').and.returnValue(
@@ -184,7 +182,7 @@ describe('AuthErrorInterceptor', () => {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    spyOn(store, 'dispatch').and.callThrough();
+    spyOn(authService, 'logout').and.stub();
 
     http
       .post(url, params, { headers })
@@ -192,7 +190,7 @@ describe('AuthErrorInterceptor', () => {
       .subscribe(
         _result => {},
         _error => {
-          expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Logout());
+          expect(authService.logout).toHaveBeenCalled();
         }
       );
 

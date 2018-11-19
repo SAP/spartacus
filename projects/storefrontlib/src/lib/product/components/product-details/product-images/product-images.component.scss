@@ -1,96 +1,41 @@
-@import 'theme';
-@import 'functions';
-@import 'mixins';
-// y-product-images variables
-$y-product-images-pdp-items-trbl-margin: 35px 0 25px 0 !default;
-$y-product-images-pdp-zoom-color: 'secondary' !default;
-$y-product-images-pdp-zoom-color-hover: 'primary' !default;
-$y-product-images-pdp-zoom-border: 2px solid !default;
-$y-product-images-pdp-zoom-border-radius: 20px !default;
-$y-product-images-pdp-zoom-width: 26px !default;
-$y-product-images-pdp-zoom-height: 26px !default;
-$y-product-images-pdp-zoom-trbl-margin: 10px 10px 0 0 !default;
-$y-product-images-pdp-small-border: 2px solid !default;
-$y-product-images-pdp-small-border-color: 'light' !default;
-$y-product-images-pdp-small-border-color-hover: 'primary' !default;
-$y-product-images-pdp-small-trbl-margin: 0 25px 0 0 !default;
-$y-product-images-pdp-small-trbl-padding: 10px 10px 10px 10px !default;
-$y-product-images-pdp-item-image-width: 100% !default;
-$y-product-images-pdp-small-height: 100px !default;
-$y-product-images-pdp-small-width: 100px !default;
-$y-product-images-pdp-small-img-height: 100px !default;
-$y-product-images-pdp-small-img-width: 100px !default;
-$y-product-images-pdp-small-img-border-color: 'light' !default;
-$y-product-images-pdp-items-small-lastchild-trbl-margin: 0 0 0 0 !default;
-$y-product-images-pdp-mobile-small-trbl-margin: 0 15px 0 0 !default;
-$y-product-images-pdp-mobile-small-height: 80px !default;
-$y-product-images-pdp-mobile-small-width: 80px !default;
-.y-product-images {
-  &__item-image {
-    width: $y-product-images-pdp-item-image-width;
+:host {
+  display: flex;
+  flex-direction: var(--cx-flex-direction, column);
+
+  --cx-border-color: var(--cx-light);
+  --cx-border-width: 0.1vw;
+
+  height: 100%;
+  > cx-picture {
+    height: 100%;
+    width: 100%; // required to support horizontal layouts
+    position: relative;
   }
-  &__items {
-    text-align: center;
-    margin: $y-product-images-pdp-items-trbl-margin;
-  }
-  &__item-zoom--icon {
-    @include var-color('color', $y-product-images-pdp-zoom-color);
-    border: $y-product-images-pdp-zoom-border;
-    border-radius: $y-product-images-pdp-zoom-border-radius;
-    display: block;
-    width: $y-product-images-pdp-zoom-width;
-    height: $y-product-images-pdp-zoom-height;
-    float: right;
-    margin: $y-product-images-pdp-zoom-trbl-margin;
-    cursor: pointer;
-    &:after {
-      content: '+';
-      bottom: 13px;
-      position: relative;
-      left: 3px;
-      font-size: 29px;
+}
+
+.thumbs {
+  display: flex;
+  justify-content: flex-start;
+
+  cx-picture {
+    width: var(--cx-width, 6vmax);
+    height: var(--cx-width, 6vmax);
+    transition: all var(--cx-transition-time);
+
+    &:not(.active) {
+      cursor: pointer;
     }
-    &:hover {
-      @include var-color('color', $y-product-images-pdp-zoom-color-hover);
-    }
-  }
-  &__item--small {
-    margin: $y-product-images-pdp-small-trbl-margin;
-    border: $y-product-images-pdp-small-border;
-    @include var-color(
-      'border-color',
-      $y-product-images-pdp-small-border-color
-    );
-    width: $y-product-images-pdp-small-width;
-    height: $y-product-images-pdp-small-height;
-    display: inline-block;
-    &:hover {
-      @include var-color(
-        'border-color',
-        $y-product-images-pdp-small-border-color-hover
-      );
-    }
-    &:last-child {
-      margin: $y-product-images-pdp-items-small-lastchild-trbl-margin;
-    }
-    @include media-breakpoint-down(sm) {
-      width: $y-product-images-pdp-mobile-small-width;
-      height: $y-product-images-pdp-mobile-small-height;
-      margin: $y-product-images-pdp-mobile-small-trbl-margin;
-    }
-    img {
-      width: $y-product-images-pdp-small-img-width;
-      height: $y-product-images-pdp-small-img-height;
-      @include var-color(
-        'border-color',
-        $y-product-images-pdp-small-img-border-color
-      );
-      display: inline-block;
-      padding: $y-product-images-pdp-small-trbl-padding;
-      @include media-breakpoint-down(sm) {
-        width: $y-product-images-pdp-mobile-small-width;
-        height: $y-product-images-pdp-mobile-small-height;
-      }
+    overflow: hidden;
+    position: relative;
+
+    border: var(--cx-border-width) var(--cx-border-color) var(--cx-border-style);
+
+    margin: var(--cx-margin, 0.5vw);
+    padding: var(--cx-padding, 0.5vw);
+
+    &:hover,
+    &.active {
+      border-color: var(--cx-border-color, var(--cx-primary));
     }
   }
 }

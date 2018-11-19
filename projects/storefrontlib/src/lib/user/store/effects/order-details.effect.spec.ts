@@ -1,4 +1,4 @@
-import { OccModuleConfig } from '../../../occ/occ-module-config';
+import { OccConfig } from '@spartacus/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
@@ -8,7 +8,7 @@ import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { OccOrderService } from '../../../occ/order/order.service';
 import { Observable, of, throwError } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
-import { ProductImageConverterService } from '../../../product/converters';
+import { ProductImageConverterService } from '@spartacus/core';
 
 const mockOrderDetails = {
   order: {}
@@ -19,7 +19,7 @@ const mockOrderDetailsParams = {
   orderCode: '00000386'
 };
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -42,7 +42,7 @@ describe('Order Details effect', () => {
         OccOrderService,
         fromOrderDetailsEffect.OrderDetailsEffect,
         ProductImageConverterService,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$)
       ]
     });

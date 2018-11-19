@@ -13,14 +13,22 @@ import * as fromEffects from './component.effect';
 import * as fromActions from '../actions/component.action';
 
 import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
-import * as fromRoot from '../../../routing/store';
-import * as fromCmsReducer from '../../../cms/store/reducers';
+import { StoreModule } from '@ngrx/store';
+import { RoutingService, PageType } from '@spartacus/core';
 
-import { PageType } from '../../../routing/models/page-context.model';
-
+const router = {
+  state: {
+    url: '/',
+    queryParams: {},
+    params: {},
+    context: { id: '1', type: PageType.PRODUCT_PAGE },
+    cmsRequired: false
+  }
+};
+const mockRoutingService = {
+  routerState$: of(router)
+};
 describe('Component Effects', () => {
-  let store: Store<fromRoot.State>;
   let actions$: Observable<any>;
   let service: OccCmsService;
   let effects: fromEffects.ComponentEffects;
@@ -29,22 +37,16 @@ describe('Component Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        })
-      ],
+      imports: [HttpClientTestingModule, StoreModule.forRoot({})],
       providers: [
         OccCmsService,
         { provide: CmsModuleConfig, useValue: defaultCmsModuleConfig },
         fromEffects.ComponentEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+        { provide: RoutingService, useValue: mockRoutingService }
       ]
     });
 
-    store = TestBed.get(Store);
     service = TestBed.get(OccCmsService);
     effects = TestBed.get(fromEffects.ComponentEffects);
 
@@ -53,18 +55,6 @@ describe('Component Effects', () => {
 
   describe('loadComponent$', () => {
     it('should return a component from LoadComponentSuccess', () => {
-      const router = {
-        state: {
-          url: '/',
-          queryParams: {},
-          params: {},
-          context: { id: '1', type: PageType.PRODUCT_PAGE },
-          cmsRequired: false
-        }
-      };
-
-      spyOn(store, 'select').and.returnValue(of(router));
-
       const action = new fromActions.LoadComponent('comp1');
       const completion = new fromActions.LoadComponentSuccess(component);
 

@@ -4,6 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
+import { RoutingService, PageType } from '@spartacus/core';
 import { OccCmsService } from '../../services/occ-cms.service';
 import {
   CmsModuleConfig,
@@ -13,14 +14,22 @@ import * as fromEffects from './navigation-entry-item.effect';
 import * as fromActions from '../actions/navigation-entry-item.action';
 
 import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule, combineReducers, Store } from '@ngrx/store';
-import * as fromRoot from '../../../routing/store';
+import { StoreModule } from '@ngrx/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
-import { PageType } from '../../../routing/models/page-context.model';
-
+const router = {
+  state: {
+    url: '/',
+    queryParams: {},
+    params: {},
+    context: { id: '1', type: PageType.PRODUCT_PAGE },
+    cmsRequired: false
+  }
+};
+const mockRoutingService = {
+  routerState$: of(router)
+};
 describe('Navigation Entry Items Effects', () => {
-  let store: Store<fromRoot.State>;
   let actions$: Observable<any>;
   let service: OccCmsService;
   let effects: fromEffects.NavigationEntryItemEffects;
@@ -52,20 +61,18 @@ describe('Navigation Entry Items Effects', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers())
       ],
       providers: [
         OccCmsService,
         { provide: CmsModuleConfig, useValue: defaultCmsModuleConfig },
         fromEffects.NavigationEntryItemEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+        { provide: RoutingService, useValue: mockRoutingService }
       ]
     });
 
-    store = TestBed.get(Store);
     service = TestBed.get(OccCmsService);
     effects = TestBed.get(fromEffects.NavigationEntryItemEffects);
 
@@ -74,18 +81,6 @@ describe('Navigation Entry Items Effects', () => {
 
   describe('loadNavigationItems$', () => {
     it('should return list of components from LoadNavigationItemsSuccess', () => {
-      const router = {
-        state: {
-          url: '/',
-          queryParams: {},
-          params: {},
-          context: { id: '1', type: PageType.PRODUCT_PAGE },
-          cmsRequired: false
-        }
-      };
-
-      spyOn(store, 'select').and.returnValue(of(router));
-
       const action = new fromActions.LoadNavigationItems({
         nodeId: 'MockNavigationNode001',
         items: [

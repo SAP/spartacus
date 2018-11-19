@@ -3,12 +3,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  Router
+  NavigationExtras
 } from '@angular/router';
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
 
-import * as fromStore from './../../auth/store';
-import * as fromRoot from './../../routing/store';
+import { RoutingService } from '@spartacus/core';
+
+import { of } from 'rxjs';
+
+import { AuthService } from '../facade/auth.service';
+import { UserToken } from '../models/token-types.model';
+
 import { AuthGuard } from './auth.guard';
 
 const mockUserToken = {
@@ -20,24 +24,32 @@ const mockUserToken = {
   userId: 'test'
 };
 
-const mockRouter = { navigate: jasmine.createSpy('navigate') };
+class AuthServiceStub {
+  userToken$ = of();
+}
+
 const mockActivatedRouteSnapshot = {};
 const mockRouterStateSnapshot = { url: '/test' };
 
+class RoutingServiceStub {
+  go(_path: any[], _query?: object, _extras?: NavigationExtras) {}
+  saveRedirectUrl(_url: string) {}
+}
+
 describe('AuthGuard', () => {
   let authGuard: AuthGuard;
-  let router;
+  let service: RoutingService;
+  let authService: AuthServiceStub;
   let activatedRouteSnapshot;
   let routerStateSnapshot;
-  let store: Store<fromStore.AuthState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         AuthGuard,
         {
-          provide: Router,
-          useValue: mockRouter
+          provide: RoutingService,
+          useClass: RoutingServiceStub
         },
         {
           provide: ActivatedRouteSnapshot,
@@ -46,26 +58,26 @@ describe('AuthGuard', () => {
         {
           provide: RouterStateSnapshot,
           useValue: mockRouterStateSnapshot
+        },
+        {
+          provide: AuthService,
+          useClass: AuthServiceStub
         }
       ],
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          auth: combineReducers(fromStore.getReducers())
-        })
-      ]
+      imports: [RouterTestingModule]
     });
-    store = TestBed.get(Store);
     authGuard = TestBed.get(AuthGuard);
-    router = TestBed.get(Router);
+    service = TestBed.get(RoutingService);
     activatedRouteSnapshot = TestBed.get(ActivatedRouteSnapshot);
     routerStateSnapshot = TestBed.get(RouterStateSnapshot);
+    authService = TestBed.get(AuthService);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    spyOn(service, 'go').and.stub();
+    spyOn(service, 'saveRedirectUrl').and.stub();
   });
 
   it('should return false', () => {
+    authService.userToken$ = of({ access_token: undefined });
     let result: boolean;
 
     const sub = authGuard
@@ -76,7 +88,7 @@ describe('AuthGuard', () => {
   });
 
   it('should return true', () => {
-    store.dispatch(new fromStore.LoadUserTokenSuccess(mockUserToken));
+    authService.userToken$ = of(mockUserToken);
 
     let result: boolean;
 
@@ -88,13 +100,14 @@ describe('AuthGuard', () => {
   });
 
   it('should redirect to login if invalid token', () => {
+    authService.userToken$ = of({ access_token: undefined } as UserToken);
+
     const sub = authGuard
       .canActivate(activatedRouteSnapshot, routerStateSnapshot)
       .subscribe();
     sub.unsubscribe();
-    expect(router.navigate).toHaveBeenCalledWith(['/login']);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromRoot.SaveRedirectUrl('/test')
-    );
+
+    expect(service.go).toHaveBeenCalledWith(['/login']);
+    expect(service.saveRedirectUrl).toHaveBeenCalledWith('/test');
   });
 });

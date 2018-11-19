@@ -8,9 +8,9 @@ import { Observable, of } from 'rxjs';
 import { OccCartService } from '../../../occ/cart/cart.service';
 import * as fromEffects from './cart-entry.effect';
 import * as fromActions from '../actions';
-import { OccModuleConfig } from '../../../occ/occ-module-config';
+import { OccConfig } from '@spartacus/core';
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -31,7 +31,7 @@ describe('Cart effect', () => {
       providers: [
         OccCartService,
         fromEffects.CartEntryEffects,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$)
       ]
     });

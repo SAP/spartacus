@@ -10,14 +10,14 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../store';
-import * as fromUserStore from '../../../../user/store';
 import * as fromCartStore from '../../../../cart/store';
+import { UserService } from '../../../../user/facade/user.service';
 import { CheckoutService } from '../../../services/checkout.service';
 import { Address } from '../../../models/address-model';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
-  selector: 'y-review-submit',
+  selector: 'cx-review-submit',
   templateUrl: './review-submit.component.html',
   styleUrls: ['./review-submit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -37,7 +37,8 @@ export class ReviewSubmitComponent implements OnInit {
 
   constructor(
     protected store: Store<fromCheckoutStore.CheckoutState>,
-    private service: CheckoutService
+    private service: CheckoutService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -53,18 +54,15 @@ export class ReviewSubmitComponent implements OnInit {
       })
     );
 
-    this.countryName$ = this.store.pipe(
-      select(
-        fromUserStore.countrySelectorFactory(
-          this.deliveryAddress.country.isocode
-        )
-      ),
-      tap(country => {
-        if (country === null) {
-          this.store.dispatch(new fromUserStore.LoadDeliveryCountries());
-        }
-      })
-    );
+    this.countryName$ = this.userService
+      .getCountry(this.deliveryAddress.country.isocode)
+      .pipe(
+        tap(country => {
+          if (country === null) {
+            this.userService.loadDeliveryCountries();
+          }
+        })
+      );
   }
 
   getShippingAddressCard(countryName): Card {

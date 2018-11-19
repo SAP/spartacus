@@ -2,7 +2,7 @@
 @import 'functions';
 @import 'mixins';
 
-.y-store-finder-search {
+.cx-store-finder-search {
   margin-bottom: 3rem;
 
   &__button {
@@ -15,5 +15,7 @@
 
   &__links {
     @include type('6');
+    border: 0;
+    padding: 0;
   }
 }

@@ -1,4 +1,4 @@
-import { of } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 import { CartService } from './../../../services/cart.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -64,10 +64,29 @@ describe('AddedToCartDialogComponent', () => {
     fixture.detectChanges();
     expect(
       el
-        .query(By.css('.y-added-to-cart-dialog__title'))
+        .query(By.css('.cx-added-to-cart-dialog__title'))
         .nativeElement.textContent.trim()
     ).toEqual('Updating cart...');
-    expect(el.query(By.css('y-spinner')).nativeElement).toBeDefined();
+    expect(el.query(By.css('cx-spinner')).nativeElement).toBeDefined();
+  });
+
+  it('should handle focus of elements', () => {
+    component.entry$ = of({
+      id: 111,
+      product: {
+        code: 'CODE1111'
+      }
+    });
+
+    const loaded$ = new BehaviorSubject<boolean>(false);
+    component.loaded$ = loaded$.asObservable();
+
+    fixture.detectChanges();
+    loaded$.next(true);
+    fixture.detectChanges();
+    expect(el.query(By.css('.btn-primary')).nativeElement).toEqual(
+      document.activeElement
+    );
   });
 
   it('should display quantity', () => {
@@ -76,7 +95,7 @@ describe('AddedToCartDialogComponent', () => {
     fixture.detectChanges();
     expect(
       el
-        .query(By.css('.y-added-to-cart-dialog__title'))
+        .query(By.css('.cx-added-to-cart-dialog__title'))
         .nativeElement.textContent.trim()
     ).toEqual('10 item(s) added to your cart');
   });
@@ -90,7 +109,7 @@ describe('AddedToCartDialogComponent', () => {
     });
     component.loaded$ = of(true);
     fixture.detectChanges();
-    expect(el.query(By.css('y-cart-item'))).toBeDefined();
+    expect(el.query(By.css('cx-cart-item'))).toBeDefined();
   });
 
   it('should display cart total', () => {
@@ -108,7 +127,7 @@ describe('AddedToCartDialogComponent', () => {
     });
     component.loaded$ = of(true);
     fixture.detectChanges();
-    const cartTotalEl = el.query(By.css('.y-added-to-cart-dialog__total'))
+    const cartTotalEl = el.query(By.css('.cx-added-to-cart-dialog__total'))
       .nativeElement;
     expect(cartTotalEl.children[0].textContent).toEqual('Cart total (1 items)');
     expect(cartTotalEl.children[1].textContent).toEqual('$100.00');

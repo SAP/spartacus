@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule, select } from '@ngrx/store';
+import { Store, StoreModule, select } from '@ngrx/store';
 
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
-import * as fromRoot from './../../../routing/store';
 
 const mockUserDetails: any = {
   displayUid: 'Display Uid',
@@ -21,10 +20,8 @@ describe('User Details Selectors', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          user: combineReducers(fromReducers.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('user', fromReducers.getReducers())
       ]
     });
 

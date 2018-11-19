@@ -1,0 +1,18 @@
+@import '../../theme';
+@import '../../functions';
+@import '../../mixins';
+
+.cx-section {
+  margin-bottom: 50px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  &__title {
+    @include type('4', 'semi');
+    margin-bottom: 25px;
+    text-transform: none;
+    &--alt {
+      text-transform: none;
+    }
+  }
+}

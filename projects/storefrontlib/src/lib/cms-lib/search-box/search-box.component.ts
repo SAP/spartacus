@@ -1,20 +1,28 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewEncapsulation,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { merge, Observable, Subject, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { RoutingService } from '@spartacus/core';
 import { SearchBoxComponentService } from './search-box-component.service';
-import { merge, Observable, Subject } from 'rxjs';
-
 @Component({
-  selector: 'y-searchbox',
+  selector: 'cx-searchbox',
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [SearchBoxComponentService]
 })
-export class SearchBoxComponent {
+export class SearchBoxComponent implements OnInit, OnDestroy {
   searchBoxControl: FormControl = new FormControl();
   isMobileSearchVisible: boolean;
 
   queryText$: Subject<string> = new Subject();
+  subscription: Subscription;
 
   @Input('queryText')
   set queryText(value: string) {
@@ -22,7 +30,24 @@ export class SearchBoxComponent {
     this.searchBoxControl.setValue(value);
   }
 
-  constructor(protected service: SearchBoxComponentService) {}
+  constructor(
+    protected service: SearchBoxComponentService,
+    private routingService: RoutingService
+  ) {}
+
+  ngOnInit() {
+    const query$ = this.routingService.routerState$.pipe(
+      map(routingData => routingData.state.params.query)
+    );
+
+    this.subscription = query$.subscribe(query => {
+      this.searchBoxControl.setValue(query);
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
   search = (text$: Observable<string>) =>
     this.service.search(merge(text$, this.queryText$));

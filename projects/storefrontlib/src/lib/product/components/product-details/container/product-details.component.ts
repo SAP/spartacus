@@ -6,11 +6,11 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProductService } from '../../../services/product.service';
+import { ProductService } from '@spartacus/core';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
-  selector: 'y-product-details',
+  selector: 'cx-product-details',
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.scss'],
   encapsulation: ViewEncapsulation.None

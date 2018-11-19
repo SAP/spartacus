@@ -6,18 +6,17 @@ import {
   Input,
   EventEmitter
 } from '@angular/core';
-import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import * as fromUserStore from '../../../../user/store';
-import * as fromRouting from '../../../../routing/store';
+import { RoutingService } from '@spartacus/core';
 import { CheckoutService } from '../../../services/checkout.service';
+
 import { Card } from '../../../../ui/components/card/card.component';
 import { Address } from '../../../models/address-model';
 
 @Component({
-  selector: 'y-shipping-address',
+  selector: 'cx-shipping-address',
   templateUrl: './shipping-address.component.html',
   styleUrls: ['./shipping-address.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -34,16 +33,14 @@ export class ShippingAddressComponent implements OnInit {
   addAddress = new EventEmitter<any>();
 
   constructor(
-    protected store: Store<fromUserStore.UserState>,
-    protected checkoutService: CheckoutService
+    protected checkoutService: CheckoutService,
+    protected routingService: RoutingService
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.store.pipe(
-      select(fromUserStore.getAddressesLoading)
-    );
-    this.existingAddresses$ = this.store.pipe(
-      select(fromUserStore.getAddresses),
+    this.isLoading$ = this.checkoutService.addressesLoading$;
+
+    this.existingAddresses$ = this.checkoutService.shippingAddresses$.pipe(
       tap(addresses => {
         if (addresses.length === 0) {
           this.checkoutService.loadUserAddresses();
@@ -117,10 +114,6 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   back() {
-    this.store.dispatch(
-      new fromRouting.Go({
-        path: ['/cart']
-      })
-    );
+    this.routingService.go(['/cart']);
   }
 }

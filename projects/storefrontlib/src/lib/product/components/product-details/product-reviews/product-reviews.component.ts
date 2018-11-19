@@ -9,10 +9,10 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { ProductReviewService } from '../../../services/product-review.service';
+import { ProductReviewService } from '@spartacus/core';
 
 @Component({
-  selector: 'y-product-reviews',
+  selector: 'cx-product-reviews',
   templateUrl: './product-reviews.component.html',
   styleUrls: ['./product-reviews.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

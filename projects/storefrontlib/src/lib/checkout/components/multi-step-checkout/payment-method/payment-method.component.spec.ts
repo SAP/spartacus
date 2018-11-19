@@ -1,22 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, combineReducers } from '@ngrx/store';
-import { RouterTestingModule } from '@angular/router/testing';
-import * as NgrxStore from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
-
-import { PaymentMethodComponent } from './payment-method.component';
-
-import * as fromRoot from '../../../../routing/store';
-import * as fromCheckout from '../../../store';
-import * as fromCart from '../../../../cart/store';
-import * as fromUser from '../../../../user/store';
-import * as fromAuth from '../../../../auth/store';
-
-import { CheckoutService } from '../../../services/checkout.service';
-import { CartService } from '../../../../cart/services/cart.service';
-import { CartDataService } from '../../../../cart/services/cart-data.service';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import createSpy = jasmine.createSpy;
+
+import { CheckoutService } from '../../../services/checkout.service';
+import { PaymentMethodComponent } from './payment-method.component';
 
 const mockPaymentMethod1 = {
   accountHolderName: 'Name 1',
@@ -39,19 +28,19 @@ const mockPaymentMethod2 = {
 const mockPaymentMethods = [mockPaymentMethod1, mockPaymentMethod2];
 
 @Component({
-  selector: 'y-payment-form',
+  selector: 'cx-payment-form',
   template: ''
 })
 class MockPaymentFormComponent {}
 
 @Component({
-  selector: 'y-spinner',
+  selector: 'cx-spinner',
   template: ''
 })
 class MockSpinnerComponent {}
 
 @Component({
-  selector: 'y-card',
+  selector: 'cx-card',
   template: ''
 })
 class MockCardComponent {
@@ -64,53 +53,30 @@ class MockCardComponent {
 describe('PaymentMethodComponent', () => {
   let component: PaymentMethodComponent;
   let fixture: ComponentFixture<PaymentMethodComponent>;
-  let service: CheckoutService;
-  let mockUserSelectors: {
-    getPaymentMethods: BehaviorSubject<any[]>;
-    getPaymentMethodsLoading: BehaviorSubject<boolean>;
-  };
+  let mockCheckoutService: any;
 
   beforeEach(async(() => {
+    mockCheckoutService = {
+      paymentMethods$: new BehaviorSubject(null),
+      paymentMethodsLoading$: new BehaviorSubject(null),
+      loadUserPaymentMethods: createSpy()
+    };
+
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cart: combineReducers(fromCart.getReducers()),
-          user: combineReducers(fromUser.getReducers()),
-          checkout: combineReducers(fromCheckout.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
-        })
-      ],
       declarations: [
         PaymentMethodComponent,
         MockPaymentFormComponent,
         MockCardComponent,
         MockSpinnerComponent
       ],
-      providers: [CheckoutService, CartService, CartDataService]
+      providers: [{ provide: CheckoutService, useValue: mockCheckoutService }]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentMethodComponent);
     component = fixture.componentInstance;
-    service = TestBed.get(CheckoutService);
 
-    mockUserSelectors = {
-      getPaymentMethods: new BehaviorSubject([]),
-      getPaymentMethodsLoading: new BehaviorSubject(false)
-    };
-    spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
-      switch (selector) {
-        case fromUser.getPaymentMethods:
-          return () => mockUserSelectors.getPaymentMethods;
-        case fromUser.getPaymentMethodsLoading:
-          return () => mockUserSelectors.getPaymentMethodsLoading;
-      }
-    });
-
-    spyOn(service, 'loadUserPaymentMethods').and.callThrough();
     spyOn(component.addPaymentInfo, 'emit').and.callThrough();
     spyOn(component.backStep, 'emit').and.callThrough();
   });
@@ -120,19 +86,18 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call ngOnInit to get existing payment methods if they do not exist', () => {
-    mockUserSelectors.getPaymentMethods.next([]);
+    mockCheckoutService.paymentMethods$.next([]);
     component.ngOnInit();
     component.existingPaymentMethods$.subscribe(() => {
-      expect(service.loadUserPaymentMethods).toHaveBeenCalled();
+      expect(mockCheckoutService.loadUserPaymentMethods).toHaveBeenCalled();
     });
   });
 
   it('should call ngOnInit to get existing payment methods if they exist', () => {
-    const mockPayments = mockPaymentMethods;
-    mockUserSelectors.getPaymentMethods.next(mockPayments);
+    mockCheckoutService.paymentMethods$.next(mockPaymentMethods);
     component.ngOnInit();
     component.existingPaymentMethods$.subscribe(data => {
-      expect(data).toBe(mockPayments);
+      expect(data).toBe(mockPaymentMethods);
       expect(component.cards.length).toEqual(2);
     });
   });
@@ -196,24 +161,24 @@ describe('PaymentMethodComponent', () => {
         .find(el => el.nativeElement.innerText === 'Continue');
 
     it('should be disabled when no payment method is selected', () => {
-      mockUserSelectors.getPaymentMethodsLoading.next(false);
-      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      mockCheckoutService.paymentMethodsLoading$.next(false);
+      mockCheckoutService.paymentMethods$.next(mockPaymentMethods);
       component.selectedPayment = null;
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toEqual(true);
     });
 
     it('should be enabled when payment method is selected', () => {
-      mockUserSelectors.getPaymentMethodsLoading.next(false);
-      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      mockCheckoutService.paymentMethodsLoading$.next(false);
+      mockCheckoutService.paymentMethods$.next(mockPaymentMethods);
       component.selectedPayment = mockPaymentMethod1;
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toEqual(false);
     });
 
     it('should call "next" function after being clicked', () => {
-      mockUserSelectors.getPaymentMethodsLoading.next(false);
-      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      mockCheckoutService.paymentMethodsLoading$.next(false);
+      mockCheckoutService.paymentMethods$.next(mockPaymentMethods);
       component.selectedPayment = mockPaymentMethod1;
       fixture.detectChanges();
       spyOn(component, 'next');
@@ -229,8 +194,8 @@ describe('PaymentMethodComponent', () => {
         .find(el => el.nativeElement.innerText === 'Back');
 
     it('should call "back" function after being clicked', () => {
-      mockUserSelectors.getPaymentMethodsLoading.next(false);
-      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      mockCheckoutService.paymentMethodsLoading$.next(false);
+      mockCheckoutService.paymentMethods$.next(mockPaymentMethods);
       fixture.detectChanges();
       spyOn(component, 'back');
       getBackBtn().nativeElement.click();
@@ -239,25 +204,26 @@ describe('PaymentMethodComponent', () => {
   });
 
   describe('UI cards with payment methods', () => {
-    const getCards = () => fixture.debugElement.queryAll(By.css('y-card'));
+    const getCards = () => fixture.debugElement.queryAll(By.css('cx-card'));
 
     it('should represent all existng payment methods', () => {
-      mockUserSelectors.getPaymentMethodsLoading.next(false);
-      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      mockCheckoutService.paymentMethodsLoading$.next(false);
+      mockCheckoutService.paymentMethods$.next(mockPaymentMethods);
       fixture.detectChanges();
       expect(getCards().length).toEqual(2);
     });
 
     it('should not display if there are no existng payment methods', () => {
-      mockUserSelectors.getPaymentMethodsLoading.next(false);
-      mockUserSelectors.getPaymentMethods.next([]);
+      mockCheckoutService.paymentMethodsLoading$.next(false);
+      mockCheckoutService.paymentMethods$.next([]);
       fixture.detectChanges();
       expect(getCards().length).toEqual(0);
     });
 
     it('should not display if existng payment methods are loading', () => {
-      mockUserSelectors.getPaymentMethodsLoading.next(true);
-      mockUserSelectors.getPaymentMethods.next([]);
+      mockCheckoutService.paymentMethodsLoading$.next(true);
+      mockCheckoutService.paymentMethods$.next([]);
+      fixture.detectChanges();
       fixture.detectChanges();
       expect(getCards().length).toEqual(0);
     });
@@ -269,11 +235,11 @@ describe('PaymentMethodComponent', () => {
         .queryAll(By.css('.btn-action'))
         .find(el => el.nativeElement.innerText === 'Add New Payment');
     const getNewPaymentForm = () =>
-      fixture.debugElement.query(By.css('y-payment-form'));
+      fixture.debugElement.query(By.css('cx-payment-form'));
 
     it('should render after user clicks "add new payment method" button', () => {
-      mockUserSelectors.getPaymentMethodsLoading.next(false);
-      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      mockCheckoutService.paymentMethodsLoading$.next(false);
+      mockCheckoutService.paymentMethods$.next(mockPaymentMethods);
       fixture.detectChanges();
       getAddNewPaymentBtn().nativeElement.click();
 
@@ -282,24 +248,24 @@ describe('PaymentMethodComponent', () => {
     });
 
     it('should render on init if there are no existing payment methods', () => {
-      mockUserSelectors.getPaymentMethodsLoading.next(false);
-      mockUserSelectors.getPaymentMethods.next([]);
+      mockCheckoutService.paymentMethodsLoading$.next(false);
+      mockCheckoutService.paymentMethods$.next([]);
       fixture.detectChanges();
 
       expect(getNewPaymentForm()).toBeTruthy();
     });
 
     it('should not render on init if there are some existing payment methods', () => {
-      mockUserSelectors.getPaymentMethodsLoading.next(false);
-      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      mockCheckoutService.paymentMethodsLoading$.next(false);
+      mockCheckoutService.paymentMethods$.next(mockPaymentMethods);
       fixture.detectChanges();
 
       expect(getNewPaymentForm()).toBeFalsy();
     });
 
     it('should not render when existing payment methods are loading', () => {
-      mockUserSelectors.getPaymentMethodsLoading.next(true);
-      mockUserSelectors.getPaymentMethods.next([]);
+      mockCheckoutService.paymentMethodsLoading$.next(true);
+      mockCheckoutService.paymentMethods$.next([]);
       fixture.detectChanges();
 
       expect(getNewPaymentForm()).toBeFalsy();
@@ -307,16 +273,16 @@ describe('PaymentMethodComponent', () => {
   });
 
   describe('UI spinner', () => {
-    const getSpinner = () => fixture.debugElement.query(By.css('y-spinner'));
+    const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
 
     it('should render only when existing payment methods are loading', () => {
-      mockUserSelectors.getPaymentMethodsLoading.next(true);
-      mockUserSelectors.getPaymentMethods.next([]);
+      mockCheckoutService.paymentMethodsLoading$.next(true);
+      mockCheckoutService.paymentMethods$.next([]);
       fixture.detectChanges();
       expect(getSpinner()).toBeTruthy();
 
-      mockUserSelectors.getPaymentMethodsLoading.next(false);
-      mockUserSelectors.getPaymentMethods.next(mockPaymentMethods);
+      mockCheckoutService.paymentMethodsLoading$.next(false);
+      mockCheckoutService.paymentMethods$.next(mockPaymentMethods);
       fixture.detectChanges();
       expect(getSpinner()).toBeFalsy();
     });

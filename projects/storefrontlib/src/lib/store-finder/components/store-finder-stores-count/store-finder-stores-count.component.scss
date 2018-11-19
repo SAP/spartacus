@@ -1,0 +1,54 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+// Loading
+$cx-store-finder-list-loading-padding: 30px !default;
+
+.cx-store-finder-list-count {
+  &__country-set {
+    width: 100%;
+  }
+  &__country-title {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+  &__country-name {
+    @include type('4');
+    padding-right: 0.5rem;
+  }
+  &__country-count {
+    @include type('4');
+    font-weight: normal;
+  }
+  &__region-set {
+    width: 100%;
+  }
+  &__region-directory {
+    column-count: 1;
+    list-style: none;
+    padding-left: 0;
+    @include media-breakpoint-up(md) {
+      column-count: 4;
+    }
+  }
+  &__directory-item {
+    padding: 0;
+    line-height: normal;
+  }
+  &__item-link {
+    padding: 0 0.5rem 0.5rem 0.2rem;
+    @include type('7');
+    line-height: normal;
+  }
+  &__item-count {
+    @include type('7');
+  }
+}
+
+.cx-store-finder-list {
+  &__spinner {
+    padding-top: $cx-store-finder-list-loading-padding;
+    padding-bottom: $cx-store-finder-list-loading-padding;
+  }
+}

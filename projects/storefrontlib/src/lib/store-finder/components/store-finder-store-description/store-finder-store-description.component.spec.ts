@@ -1,19 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 
 import { StoreFinderStoreDescriptionComponent } from './store-finder-store-description.component';
 import { ScheduleComponent } from '../schedule-component/schedule.component';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
 
 import * as fromReducers from '../../store';
-import * as fromRoot from '../../../routing/store';
 import * as fromServices from '../../services';
-
-const fakeActivatedRoute = {
-  snapshot: { data: {} }
-} as ActivatedRoute;
 
 describe('StoreFinderStoreDescriptionComponent', () => {
   let component: StoreFinderStoreDescriptionComponent;
@@ -22,20 +17,16 @@ describe('StoreFinderStoreDescriptionComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          stores: combineReducers(fromReducers.reducers)
-        })
+        RouterTestingModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('stores', fromReducers.reducers)
       ],
       declarations: [
         StoreFinderStoreDescriptionComponent,
         ScheduleComponent,
         StoreFinderMapComponent
       ],
-      providers: [
-        ...fromServices.services,
-        { provide: ActivatedRoute, useValue: fakeActivatedRoute }
-      ]
+      providers: [...fromServices.services]
     }).compileComponents();
   }));
 

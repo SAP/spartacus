@@ -1,4 +1,4 @@
-import { OccModuleConfig } from '../../../occ/occ-module-config';
+import { OccConfig } from '@spartacus/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
@@ -15,7 +15,7 @@ const mockUserOrders = {
   sort: []
 };
 
-const MockOccModuleConfig: OccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -37,7 +37,7 @@ describe('User Orders effect', () => {
       providers: [
         OccOrderService,
         fromUserOrdersEffect.UserOrdersEffect,
-        { provide: OccModuleConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$)
       ]
     });

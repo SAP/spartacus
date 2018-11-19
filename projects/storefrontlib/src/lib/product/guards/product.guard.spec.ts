@@ -1,55 +1,49 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PageType } from './../../routing/models/page-context.model';
 import { ProductGuard } from './product.guard';
+import { RoutingService, PageType, ProductService } from '@spartacus/core';
+import { of } from 'rxjs';
 
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
-import * as fromStore from './../store';
-import * as fromRoot from './../../routing/store';
+class MockProductService {
+  isProductLoaded() {}
+}
 
-const productCode = '123';
-const product = {
-  code: productCode,
-  description: 'random'
+const router = {
+  state: {
+    url: '/test',
+    queryParams: {},
+    params: { productCode: '123' },
+    context: { id: 'testPageId', type: PageType.PRODUCT_PAGE }
+  }
 };
-
+const mockRoutingService = {
+  routerState$: of(router)
+};
 describe('ProductGuard', () => {
   let productGuard: ProductGuard;
-  let store: Store<fromStore.ProductsState>;
+  let productService: ProductService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          products: combineReducers(fromStore.getReducers())
-        })
-      ],
-      providers: [ProductGuard]
+      imports: [RouterTestingModule],
+      providers: [
+        ProductGuard,
+        { provide: RoutingService, useValue: mockRoutingService },
+        { provide: ProductService, useClass: MockProductService }
+      ]
     });
 
     productGuard = TestBed.get(ProductGuard);
-    store = TestBed.get(Store);
+    productService = TestBed.get(ProductService);
   });
 
-  it('should return true and not dispatch LoadProduct action when a product is found', () => {
-    store.dispatch(new fromStore.LoadProductSuccess(product));
-    store.dispatch({
-      type: 'ROUTER_NAVIGATION',
-      payload: {
-        routerState: {
-          url: '/test',
-          queryParams: {},
-          params: { productCode: productCode },
-          context: { id: 'testPageId', type: PageType.PRODUCT_PAGE }
-        },
-        event: {}
-      }
-    });
+  it('should activate route when product is loaded', () => {
+    spyOn(productService, 'isProductLoaded').and.returnValue(of(true));
+    productGuard.canActivate().subscribe(result => expect(result).toBeTruthy);
+  });
 
-    let result: boolean;
-    productGuard.canActivate().subscribe(value => (result = value));
-    expect(result).toBe(true);
+  it('should not activate route when product is not loaded', () => {
+    spyOn(productService, 'isProductLoaded').and.returnValue(of(false));
+    productGuard.canActivate().subscribe(result => expect(result).toBeFalsy);
   });
 });

@@ -7,15 +7,15 @@ import { ShippingAddress } from './shipping-address.po';
 import { PaymentMethod } from './payment-method.po';
 export class MultiStepCheckoutPage extends AppPage {
   readonly page: ElementFinder = element(
-    by.tagName('y-multi-step-checkout-page')
+    by.tagName('cx-multi-step-checkout-page')
   );
 
   readonly orderSummary: ElementFinder = this.page.element(
-    by.css('.y-order-summary__amount')
+    by.css('.cx-order-summary__amount')
   );
 
   readonly agreeToTermsCheckbox: ElementFinder = this.page.element(
-    by.css('input#termsCheck')
+    by.css('.cx-multi-step-checkout__place-order-form .form-check-input')
   );
 
   readonly placeOrderButton: ElementFinder = this.page.element(

@@ -3,19 +3,16 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { ProductImageConverterService } from '../../../product/converters/product-image-converter.service';
+import { ProductImageConverterService } from '@spartacus/core';
 import { CartDataService } from '../../services/cart-data.service';
 import * as fromActions from './../actions/cart.action';
+import { LANGUAGE_CHANGE, CURRENCY_CHANGE } from '@spartacus/core';
 
 @Injectable()
 export class CartEffects {
   @Effect()
   loadCart$: Observable<any> = this.actions$.pipe(
-    ofType(
-      fromActions.LOAD_CART,
-      '[Site-context] Language Change',
-      '[Site-context] Currency Change'
-    ),
+    ofType(fromActions.LOAD_CART, LANGUAGE_CHANGE, CURRENCY_CHANGE),
     map((action: any) => action.payload),
     mergeMap(payload => {
       if (payload === undefined || payload.userId === undefined) {

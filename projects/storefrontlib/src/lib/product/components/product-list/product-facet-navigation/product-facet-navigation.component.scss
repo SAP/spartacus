@@ -2,76 +2,99 @@
 @import 'functions';
 @import 'mixins';
 
-$y-search-facet-trbl-padding: 0 !default;
+$cx-search-facet-trbl-padding: 0 !default;
 
-$y-search-facet-list-trbl-margin: 0 0 32px 0 !default;
+$cx-search-facet-list-trbl-margin: 0 0 32px 0 !default;
 
-$y-search-facet-mobile-btn-trbl-margin: 0 0 20px 0 !default;
+$cx-search-facet-mobile-btn-trbl-margin: 0 0 20px 0 !default;
 
-$y-search-facet-filter-header-trbl-margin: 0 0 20px 0 !default;
-$y-search-facet-filter-header-trbl-padding: 0 0 10px 0 !default;
+$cx-search-facet-filter-header-trbl-margin: 0 0 20px 0 !default;
+$cx-search-facet-filter-header-trbl-padding: 0 0 10px 0 !default;
 
-$y-search-facet-filter-header-mobile-trbl-margin: 0 20px 0px 0 !default;
+$cx-search-facet-filter-header-mobile-trbl-margin: 0 20px 0px 0 !default;
 
-$y-search-facet-filter-trbl-margin: 0 0 40px 0 !default;
-$y-search-facet-filter-color: 'light' !default;
-$y-search-facet-filter-sm-trbl-margin: 0 0 0 0 !default;
+$cx-search-facet-filter-trbl-margin: 0 0 40px 0 !default;
+$cx-search-facet-filter-color: 'light' !default;
+$cx-search-facet-filter-sm-trbl-margin: 0 0 0 0 !default;
 
-$y-search-facet-filter-pill-trbl-padding: 10px 10px 10px 13px !default;
-$y-search-facet-filter-pill-trbl-margin: 10px 10px 5px 0 !default;
-$y-search-facet-filter-pill-border-radius: 4px !default;
+$cx-search-facet-filter-pill-trbl-padding: 10px 10px 10px 13px !default;
+$cx-search-facet-filter-pill-trbl-margin: 10px 10px 5px 0 !default;
+$cx-search-facet-filter-pill-border-radius: 4px !default;
 
-$y-search-facet-filter-pill-button-trbl-margin: 0 0 0 10px;
+$cx-search-facet-filter-pill-button-trbl-margin: 0 0 0 10px;
 
-$y-search-facet-header-border: 1px solid !default;
-$y-search-facet-header-border-color: 'light' !default;
-$y-search-facet-header-color: 'text' !default;
-$y-search-facet-header-trbl-padding: 0 0 10px 0 !default;
-$y-search-facet-header-trbl-margin: 0 0 17px 0 !default;
-$y-search-facet-header-link-font-size: 25px !default;
-$y-search-facet-header-link-top: 10px !default;
-$y-search-facet-header-link-icon-height: 2px !default;
+$cx-search-facet-header-border: 1px solid !default;
+$cx-search-facet-header-border-color: 'light' !default;
+$cx-search-facet-header-color: 'text' !default;
+$cx-search-facet-header-trbl-padding: 0 0 10px 0 !default;
+$cx-search-facet-header-trbl-margin: 0 0 17px 0 !default;
+$cx-search-facet-header-link-font-size: 25px !default;
+$cx-search-facet-header-link-top: 10px !default;
+$cx-search-facet-header-link-icon-height: 2px !default;
 
-$y-search-facet-header-icon-color: 'secondary' !default;
-$y-search-facet-form-check-trbl-margin: 0 0 11px 0 !default;
+$cx-search-facet-header-icon-color: 'secondary' !default;
 
-$y-search-facet-label-color: 'secondary' !default;
-$y-search-facet-label-selected-color: 'primary' !default;
-$y-search-facet-label-top: 3px !default;
+$cx-search-facet-label-color: 'secondary' !default;
+$cx-search-facet-label-selected-color: 'primary' !default;
+$cx-search-facet-label-margin: 0 !default;
 
-$y-search-facet-item-link-trbl-margin: 0 0 16px 0 !default;
+$cx-search-facet-label-wrapper-trbl-padding: 0 0 0 0 !default;
+$cx-search-facet-label-wrapper-trbl-margin: 0 0 15px 0 !default;
 
-$y-search-facet-modal-height: 100vh !default;
+$cx-search-facet-checkbox-trbl-margin: 0 10px 0 0 !default;
+$cx-search-facet-checkbox-transition: 0.3s !default;
+$cx-search-facet-checkbox-rectangular-size: 22px !default;
+$cx-search-facet-checkbox-background-color__hover: 'light' !default;
 
-$y-search-facet-modal-label-trbl-margin: 0 0 27px 0 !default;
-$y-search-facet-modal-footer-trbl-margin: 0 0 0 20px !default;
-$y-search-facet-modal-footer-btn-width: 50% !default;
+$cx-search-facet-item-link-trbl-margin: 0 0 16px 0 !default;
 
-.y-search-facet {
+$cx-search-facet-modal-height: 100vh !default;
+
+$cx-search-facet-modal-label-trbl-margin: 0 0 27px 0 !default;
+$cx-search-facet-modal-footer-trbl-margin: 0 0 0 20px !default;
+$cx-search-facet-modal-footer-btn-width: 50% !default;
+
+.cx-search-facet {
   &-list {
-    padding: $y-search-facet-trbl-padding;
+    padding: $cx-search-facet-trbl-padding;
     list-style: none;
-    margin: $y-search-facet-list-trbl-margin;
+    margin: $cx-search-facet-list-trbl-margin;
 
     .form-check {
-      margin: $y-search-facet-form-check-trbl-margin;
+      padding: $cx-search-facet-label-wrapper-trbl-padding;
+      margin: $cx-search-facet-label-wrapper-trbl-margin;
     }
 
     &__label {
-      @include var-color('color', $y-search-facet-label-color);
+      @include var-color('color', $cx-search-facet-label-color);
       @include type('6');
       font-weight: $font-weight-normal;
       position: relative;
-      top: $y-search-facet-label-top;
+      margin: $cx-search-facet-label-margin;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      cursor: pointer;
+
+      &:hover .cx-search-facet-checkbox:not(:checked) {
+        @include var-color(
+          'background-color',
+          $cx-search-facet-checkbox-background-color__hover
+        );
+      }
+
+      &-text {
+        line-height: $cx-search-facet-checkbox-rectangular-size;
+      }
     }
 
-    input[type='checkbox']:checked + &__label {
-      @include var-color('color', $y-search-facet-label-selected-color);
+    &__toggle-button {
+      cursor: pointer;
     }
 
     &__item--link {
       @include type('');
-      margin: $y-search-facet-item-link-trbl-margin;
+      margin: $cx-search-facet-item-link-trbl-margin;
     }
 
     &__item--show-more {
@@ -81,25 +104,36 @@ $y-search-facet-modal-footer-btn-width: 50% !default;
     }
   }
 
+  &-checkbox {
+    position: relative;
+    margin: $cx-search-facet-checkbox-trbl-margin;
+    min-width: $cx-search-facet-checkbox-rectangular-size;
+    transition: $cx-search-facet-checkbox-transition;
+
+    &:checked + .cx-search-facet-list__label-text {
+      @include var-color('color', $cx-search-facet-label-selected-color);
+    }
+  }
+
   &-header {
-    border-bottom: $y-search-facet-header-border;
+    border-bottom: $cx-search-facet-header-border;
     @include type('4');
-    @include var-color('color', $y-search-facet-header-color);
-    @include var-color('border-color', $y-search-facet-header-border-color);
-    padding: $y-search-facet-header-trbl-padding;
-    margin: $y-search-facet-header-trbl-margin;
+    @include var-color('color', $cx-search-facet-header-color);
+    @include var-color('border-color', $cx-search-facet-header-border-color);
+    padding: $cx-search-facet-header-trbl-padding;
+    margin: $cx-search-facet-header-trbl-margin;
     display: block;
     font-weight: $font-weight-semi;
 
     &__link {
       &:after {
         float: right;
-        font-size: $y-search-facet-header-link-font-size;
+        font-size: $cx-search-facet-header-link-font-size;
         line-height: 0;
         position: relative;
-        top: $y-search-facet-header-link-top;
+        top: $cx-search-facet-header-link-top;
         font-weight: $font-weight-normal;
-        @include var-color('color', $y-search-facet-header-icon-color);
+        @include var-color('color', $cx-search-facet-header-icon-color);
       }
 
       &[aria-expanded='false'] {
@@ -111,41 +145,41 @@ $y-search-facet-modal-footer-btn-width: 50% !default;
       &[aria-expanded='true'] {
         &:after {
           content: '\2013';
-          height: $y-search-facet-header-link-icon-height;
+          height: $cx-search-facet-header-link-icon-height;
         }
       }
     }
   }
 
   &-filter__container {
-    margin: $y-search-facet-filter-trbl-margin;
+    margin: $cx-search-facet-filter-trbl-margin;
 
     @include media-breakpoint-down(md) {
-      margin: $y-search-facet-filter-sm-trbl-margin;
+      margin: $cx-search-facet-filter-sm-trbl-margin;
     }
   }
 
   &-filter__header {
     @include type('3');
-    @include var-color('color', $y-search-facet-header-color);
-    padding: $y-search-facet-filter-header-trbl-padding;
-    margin: $y-search-facet-filter-header-trbl-margin;
+    @include var-color('color', $cx-search-facet-header-color);
+    padding: $cx-search-facet-filter-header-trbl-padding;
+    margin: $cx-search-facet-filter-header-trbl-margin;
 
     @include media-breakpoint-down(md) {
       display: inline-block;
-      margin: $y-search-facet-filter-header-mobile-trbl-margin;
+      margin: $cx-search-facet-filter-header-mobile-trbl-margin;
     }
   }
 
   &-filter__pill {
-    @include var-color('background', $y-search-facet-filter-color);
-    padding: $y-search-facet-filter-pill-trbl-padding;
-    margin: $y-search-facet-filter-pill-trbl-margin;
+    @include var-color('background', $cx-search-facet-filter-color);
+    padding: $cx-search-facet-filter-pill-trbl-padding;
+    margin: $cx-search-facet-filter-pill-trbl-margin;
     display: inline-block;
-    border-radius: $y-search-facet-filter-pill-border-radius;
+    border-radius: $cx-search-facet-filter-pill-border-radius;
 
     button {
-      margin: $y-search-facet-filter-pill-button-trbl-margin;
+      margin: $cx-search-facet-filter-pill-button-trbl-margin;
     }
   }
 
@@ -164,7 +198,7 @@ $y-search-facet-modal-footer-btn-width: 50% !default;
 
     @include media-breakpoint-down(md) {
       &--btn {
-        margin: $y-search-facet-mobile-btn-trbl-margin;
+        margin: $cx-search-facet-mobile-btn-trbl-margin;
       }
     }
   }
@@ -172,21 +206,21 @@ $y-search-facet-modal-footer-btn-width: 50% !default;
   @include media-breakpoint-down(md) {
     &__modal-body {
       overflow-y: scroll;
-      height: $y-search-facet-modal-height;
+      height: $cx-search-facet-modal-height;
     }
 
     &__modal--label {
       @include type('4');
       font-weight: $font-weight-semi;
-      margin: $y-search-facet-modal-label-trbl-margin;
+      margin: $cx-search-facet-modal-label-trbl-margin;
     }
 
     &__modal--footer {
       .btn {
-        width: $y-search-facet-modal-footer-btn-width;
+        width: $cx-search-facet-modal-footer-btn-width;
 
         &:last-child {
-          margin: $y-search-facet-modal-footer-trbl-margin;
+          margin: $cx-search-facet-modal-footer-trbl-margin;
         }
       }
     }

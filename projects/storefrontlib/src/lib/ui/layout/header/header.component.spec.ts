@@ -1,33 +1,43 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { combineReducers, StoreModule } from '@ngrx/store';
-import * as fromAuth from '../../../auth/store';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
-import * as fromCmsReducer from '../../../cms/store/reducers';
-import * as fromRoot from '../../../routing/store';
-import { CurrencySelectorComponent } from '../../../site-context/currency-selector/currency-selector.component';
-import { LanguageSelectorComponent } from '../../../site-context/language-selector/language-selector.component';
-import * as fromUserReducer from '../../../user/store/reducers';
-import * as fromSCStore from './../../../site-context/shared/store';
-import { LoginComponent } from './../../../user/components/login/login.component';
 import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
-import { HeaderComponent } from './header.component';
-import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
-import { CmsModuleConfig } from '../../../cms/cms-module-config';
-import { SiteContextModuleConfig } from '../../../site-context/site-context-module-config';
-import { OutletDirective } from '../../../outlet';
+import { HeaderComponent } from './header.component';
 
-const MockCmsModuleConfig: CmsModuleConfig = {
-  site: {
-    language: 'de',
-    currency: 'JPY'
-  }
-};
+@Component({
+  selector: 'cx-language-selector',
+  template: ''
+})
+class MockLanguageSelectorComponent {}
+
+@Component({
+  selector: 'cx-currency-selector',
+  template: ''
+})
+class MockCurrencySelectorComponent {}
+
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: ''
+})
+class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
+
+@Component({
+  selector: 'cx-login',
+  template: ''
+})
+class MockLoginComponent {}
+
+@Component({
+  selector: 'cx-mobile-menu',
+  template: ''
+})
+class MockMobileMenuComponent {}
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -35,33 +45,16 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          user: combineReducers(fromUserReducer.getReducers()),
-          siteContext: combineReducers(fromSCStore.getReducers()),
-          cms: combineReducers(fromCmsReducer.getReducers()),
-          auth: combineReducers(fromAuth.getReducers())
-        })
-      ],
+      imports: [RouterTestingModule],
       declarations: [
         HeaderComponent,
-        DynamicSlotComponent,
-        ComponentWrapperDirective,
-        CurrencySelectorComponent,
-        LanguageSelectorComponent,
+        MockDynamicSlotComponent,
+        MockLanguageSelectorComponent,
+        MockCurrencySelectorComponent,
+        MockLoginComponent,
+        MockMobileMenuComponent,
         HeaderSkipperComponent,
-        TertiaryBarComponent,
-        MobileMenuComponent,
-        LoginComponent,
-        OutletDirective
-      ],
-      providers: [
-        {
-          provide: SiteContextModuleConfig,
-          useValue: MockCmsModuleConfig
-        }
+        TertiaryBarComponent
       ]
     }).compileComponents();
   }));
@@ -80,41 +73,45 @@ describe('HeaderComponent', () => {
   describe('UI tests', () => {
     it('should contain the header skipper component', () => {
       expect(
-        fixture.debugElement.query(By.css('y-header-skipper'))
+        fixture.debugElement.query(By.css('cx-header-skipper'))
       ).not.toBeNull();
     });
 
     it('should contain the Site Context Selectors', () => {
       expect(
         fixture.debugElement.query(
-          By.css('div.y-content__slot:not(#y-mobile-menu) y-language-selector')
+          By.css(
+            'div.cx-content__slot:not(#cx-mobile-menu) cx-language-selector'
+          )
         )
       ).not.toBeNull();
 
       expect(
         fixture.debugElement.query(
-          By.css('div.y-content__slot:not(#y-mobile-menu) y-currency-selector')
+          By.css(
+            'div.cx-content__slot:not(#cx-mobile-menu) cx-currency-selector'
+          )
         )
       ).not.toBeNull();
     });
 
     it('should contain the tertiary-bar component', () => {
       expect(
-        fixture.debugElement.query(By.css('y-tertiary-bar'))
+        fixture.debugElement.query(By.css('cx-tertiary-bar'))
       ).not.toBeNull();
     });
 
     it('should contain the login status component', () => {
       expect(
         fixture.debugElement.query(
-          By.css('div.y-content__slot:not(#y-mobile-menu) y-login')
+          By.css('div.cx-content__slot:not(#cx-mobile-menu) cx-login')
         )
       ).not.toBeNull();
     });
 
     it('should contain the mobile menu component', () => {
       expect(
-        fixture.debugElement.query(By.css('y-mobile-menu'))
+        fixture.debugElement.query(By.css('cx-mobile-menu'))
       ).not.toBeNull();
     });
 
@@ -122,7 +119,7 @@ describe('HeaderComponent', () => {
       it('should contain site logo', () => {
         expect(
           fixture.debugElement.query(
-            By.css('y-dynamic-slot[position="SiteLogo"]')
+            By.css('cx-dynamic-slot[position="SiteLogo"]')
           )
         ).not.toBeNull();
       });
@@ -130,7 +127,7 @@ describe('HeaderComponent', () => {
       it('should contain the searchbox', () => {
         expect(
           fixture.debugElement.query(
-            By.css('y-dynamic-slot[position="SearchBox"]')
+            By.css('cx-dynamic-slot[position="SearchBox"]')
           )
         ).not.toBeNull();
       });
@@ -138,7 +135,7 @@ describe('HeaderComponent', () => {
       it('should contain the mini cart', () => {
         expect(
           fixture.debugElement.query(
-            By.css('y-dynamic-slot[position="MiniCart"]')
+            By.css('cx-dynamic-slot[position="MiniCart"]')
           )
         ).not.toBeNull();
       });
@@ -147,7 +144,7 @@ describe('HeaderComponent', () => {
         expect(
           fixture.debugElement.query(
             By.css(
-              'div.y-content__slot:not(#y-mobile-menu) y-dynamic-slot[position="NavigationBar"]'
+              'div.cx-content__slot:not(#cx-mobile-menu) cx-dynamic-slot[position="NavigationBar"]'
             )
           )
         ).not.toBeNull();

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfigurableRoutesService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-storefront',
@@ -6,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./storefront.component.scss']
 })
 export class StorefrontComponent implements OnInit {
-  constructor() {}
+  constructor(private configurableRoutesService: ConfigurableRoutesService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.configurableRoutesService.changeLanguage('default'); // TODO #186: subscribe to active language from facade and pass it here
+  }
 }

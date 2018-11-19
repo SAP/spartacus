@@ -1,0 +1,12 @@
+@import '../../theme';
+@import '~bootstrap/scss/dropdown';
+
+$cx-dropdown-toggle-border-color: 'inverse' !important;
+$cx-dropdown-toggle-border-hover-color: 'primary' !default;
+
+$cx-dropdown-toggle-border-width: 0 2px 2px 0 !default;
+
+.dropdown-menu {
+  border-radius: 0;
+  margin-top: 11px;
+}

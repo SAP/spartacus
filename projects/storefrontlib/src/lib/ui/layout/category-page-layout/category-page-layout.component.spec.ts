@@ -1,14 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CategoryPageLayoutComponent } from './category-page-layout.component';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
-import * as fromRoot from '../../../routing/store';
+import { ComponentWrapperDirective } from '../../../cms/components';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { OutletDirective } from '../../../outlet';
+import { Input, Component } from '@angular/core';
+
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: ''
+})
+export class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
 
 describe('CategoryPageLayoutComponent', () => {
   let component: CategoryPageLayoutComponent;
@@ -17,14 +23,12 @@ describe('CategoryPageLayoutComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRoot.getReducers(),
-          cms: combineReducers(fromCmsReducer.getReducers())
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers())
       ],
       declarations: [
         CategoryPageLayoutComponent,
-        DynamicSlotComponent,
+        MockDynamicSlotComponent,
         ComponentWrapperDirective,
         OutletDirective
       ]
