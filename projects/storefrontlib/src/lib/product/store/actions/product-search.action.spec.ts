@@ -1,6 +1,6 @@
 import * as fromProductSearch from './product-search.action';
 import { SearchConfig } from '../../search-config';
-import { Suggestion } from '@spartacus/core';
+import { Suggestion, ProductList, ErrorModel } from '@spartacus/core';
 
 describe('Product Search Actions', () => {
   let searchConfig: SearchConfig;
@@ -39,7 +39,7 @@ describe('Product Search Actions', () => {
 
     describe('SearchProductsFail', () => {
       it('should create an action', () => {
-        const payload = { message: 'Load Error' };
+        const payload: ErrorModel = { message: 'Load Error' };
         const action = new fromProductSearch.SearchProductsFail(payload);
 
         expect({ ...action }).toEqual({
@@ -52,7 +52,7 @@ describe('Product Search Actions', () => {
 
     describe('SearchProductsSuccess', () => {
       it('should create an action', () => {
-        const payload = [{ products: ['test'] }];
+        const payload: ProductList = { products: [{ code: '123' }] };
         const action = new fromProductSearch.SearchProductsSuccess(payload);
 
         expect({ ...action }).toEqual({
@@ -94,7 +94,7 @@ describe('Product Search Actions', () => {
 
     describe('SearchProductSuggestionsFail', () => {
       it('should create an action', () => {
-        const payload = { message: 'Load Error' };
+        const payload: ErrorModel = { message: 'Load Error' };
         const action = new fromProductSearch.GetProductSuggestionsFail(payload);
 
         expect({ ...action }).toEqual({

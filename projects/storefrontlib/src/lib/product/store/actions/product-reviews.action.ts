@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ReviewList } from '@spartacus/core';
+import { ReviewList, ErrorModel } from '@spartacus/core';
 
 export const LOAD_PRODUCT_REVIEWS = '[Product] Load Product Reviews Data';
 export const LOAD_PRODUCT_REVIEWS_FAIL =
@@ -18,7 +18,7 @@ export class LoadProductReviews implements Action {
 
 export class LoadProductReviewsFail implements Action {
   readonly type = LOAD_PRODUCT_REVIEWS_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: ErrorModel) {}
 }
 
 export class LoadProductReviewsSuccess implements Action {

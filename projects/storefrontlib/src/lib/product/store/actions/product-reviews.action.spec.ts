@@ -1,4 +1,5 @@
 import * as fromActions from './product-reviews.action';
+import { ErrorModel } from '@spartacus/core';
 
 fdescribe('Product Review Actions', () => {
   describe('LoadProductReview Actions', () => {
@@ -15,7 +16,7 @@ fdescribe('Product Review Actions', () => {
 
     describe('LOAD_PRODUCT_REVIEWS_FAIL', () => {
       it('should create the action', () => {
-        const payload = { message: 'Load Error' };
+        const payload: ErrorModel = { message: 'Load Error' };
         const action = new fromActions.LoadProductReviewsFail(payload);
         expect({ ...action }).toEqual({
           type: fromActions.LOAD_PRODUCT_REVIEWS_FAIL,
