@@ -4,9 +4,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { SiteContextInterceptor } from './site-context.interceptor';
 import { OccSiteService } from './occ-site.service';
-
+import { OccModule } from '../../occ/occ.module';
 @NgModule({
-  imports: [CommonModule, HttpClientModule],
+  imports: [OccModule, CommonModule, HttpClientModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

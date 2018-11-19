@@ -1,14 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { NavigationModule } from '../navigation/navigation.module';
 import { CategoryNavigationComponent } from './category-navigation.component';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { BootstrapModule } from '../../bootstrap.module';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PathPipeService, DynamicPathPipeService } from '@spartacus/core';
+import { CmsService } from '../../cms/facade/cms.service';
+import { NavigationService } from '../navigation/navigation.service';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -16,8 +16,16 @@ const UseCmsModuleConfig: CmsModuleConfig = {
   }
 };
 
-const mockPathPipeService = { transform: () => {} };
-const mockDynamicPathPipeService = { transform: () => {} };
+@Component({
+  template: '',
+  selector: 'cx-navigation'
+})
+class MockNavigationComponent {
+  @Input()
+  node;
+  @Input()
+  dropdownMode;
+}
 
 describe('CategoryNavigationComponent', () => {
   let component: CategoryNavigationComponent;
@@ -25,22 +33,21 @@ describe('CategoryNavigationComponent', () => {
   let nav: DebugElement;
 
   beforeEach(async(() => {
+    const mockCmsService = {};
+    const mockNavigationService = {};
+
     TestBed.configureTestingModule({
       imports: [
-        NavigationModule,
         BootstrapModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
         RouterTestingModule
       ],
-      declarations: [CategoryNavigationComponent],
+      declarations: [CategoryNavigationComponent, MockNavigationComponent],
       providers: [
         { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
-        { provide: PathPipeService, useValue: mockPathPipeService },
-        {
-          provide: DynamicPathPipeService,
-          useValue: mockDynamicPathPipeService
-        }
+        { provide: CmsService, useValue: mockCmsService },
+        { provide: NavigationService, useValue: mockNavigationService }
       ]
     }).compileComponents();
   }));
