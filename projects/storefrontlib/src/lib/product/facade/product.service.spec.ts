@@ -45,10 +45,10 @@ describe('ProductService', () => {
   });
 
   describe('loadProduct(productCode)', () => {
-    it('should be able to load user details', () => {
-      service.loadProduct('productId');
+    it('should be able to trigger the product load action for a product.', () => {
+      service.loadProduct('productCode');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.LoadProduct('productId')
+        new fromStore.LoadProduct('productCode')
       );
     });
   });
