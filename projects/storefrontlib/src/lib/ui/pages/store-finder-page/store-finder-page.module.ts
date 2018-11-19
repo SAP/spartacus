@@ -15,42 +15,37 @@ import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/comp
 
 const routes: Routes = [
   {
-    path: 'store-finder',
+    path: null,
     canActivate: [CmsPageGuards],
-    data: { pageLabel: 'storefinderPage' },
-    component: StoreFinderPageComponent,
-    children: [
-      {
-        path: 'find-stores',
-        canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
-        component: StoreFinderSearchResultComponent
-      },
-      {
-        path: 'view-all-stores',
-        canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
-        component: StoreFinderStoresCountComponent
-      },
-      {
-        path: 'country/:country/region/:region',
-        canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
-        component: StoreFinderGridComponent
-      },
-      {
-        path: 'country/:country',
-        canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
-        component: StoreFinderGridComponent
-      },
-      {
-        path: 'country/:country/region/:region/:store',
-        canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
-        component: StoreFinderStoreDescriptionComponent
-      }
-    ]
+    data: { pageLabel: 'storefinderPage', cxPath: 'storeFinder' },
+    component: StoreFinderPageComponent
+  },
+  {
+    path: null,
+    canActivate: [CmsPageGuards],
+    data: { pageLabel: 'storefinderPage', cxPath: 'storeFinderSearchResult' },
+    component: StoreFinderSearchResultComponent
+  },
+  {
+    path: null,
+    canActivate: [CmsPageGuards],
+    data: { pageLabel: 'storefinderPage', cxPath: 'storeFinderAllStores' },
+    component: StoreFinderStoresCountComponent
+  },
+  {
+    path: null,
+    canActivate: [CmsPageGuards],
+    data: { pageLabel: 'storefinderPage', cxPath: 'storeFinderListStores' },
+    component: StoreFinderGridComponent
+  },
+  {
+    path: null,
+    canActivate: [CmsPageGuards],
+    data: {
+      pageLabel: 'storefinderPage',
+      cxPath: 'storeFinderStoreDescription'
+    },
+    component: StoreFinderStoreDescriptionComponent
   }
 ];
 

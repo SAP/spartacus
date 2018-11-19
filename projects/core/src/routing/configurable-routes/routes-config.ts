@@ -11,8 +11,10 @@ export interface RoutesTranslations {
   product?: string[];
   category?: string[];
   storeFinder?: string[];
-  storeDescription?: string[];
-  storeList?: string[];
+  storeFinderSearchResult?: string[];
+  storeFinderAllStores?: string[];
+  storeFinderListStores?: string[];
+  storeFinderStoreDescription?: string[];
   contact?: string[];
   help?: string[];
   sale?: string[];
@@ -66,10 +68,14 @@ export const defaultRoutesConfig: RoutesConfig = {
         'Brands/:brandName/c/:brandCode'
       ],
       storeFinder: ['store-finder'],
-      storeDescription: ['store-finder/country/:country/region/:region/:store'],
-      storeList: [
+      storeFinderSearchResult: ['store-finder/find-stores'],
+      storeFinderAllStores: ['store-finder/view-all-stores'],
+      storeFinderListStores: [
         'store-finder/country/:country/region/:region',
         'store-finder/country/:country'
+      ],
+      storeFinderStoreDescription: [
+        'store-finder/country/:country/region/:region/:store'
       ],
       contact: ['contact'],
       help: ['faq'],
