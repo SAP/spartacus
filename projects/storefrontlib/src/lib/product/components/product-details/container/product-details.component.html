@@ -105,7 +105,7 @@
                             <div class="cx-product-details__tab-section">
                                 <ng-container *cxOutlet="outlets.SHIPPING">
                                     <div class="container">
-                                        <ng-container yComponentWrapper componentType="CMSTabParagraphComponent"
+                                        <ng-container cxComponentWrapper componentType="CMSTabParagraphComponent"
                                             componentUid="deliveryTab"></ng-container>
                                         <cx-dynamic-slot position="Tabs"></cx-dynamic-slot>
                                     </div>
@@ -144,9 +144,7 @@
                         <ng-template ngbPanelContent>
                             <ng-container *cxOutlet="outlets.SHIPPING">
                                 <div class="container">
-                                    <!-- <cx-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'"
-                                    ></cx-component-wrapper> -->
-                                    <div yComponentWrapper componentType="CMSTabParagraphComponent" componentUid="deliveryTab"></div>
+                                    <div cxComponentWrapper componentType="CMSTabParagraphComponent" componentUid="deliveryTab"></div>
                                     <cx-dynamic-slot position="Tabs"></cx-dynamic-slot>
                                 </div>
                             </ng-container>
