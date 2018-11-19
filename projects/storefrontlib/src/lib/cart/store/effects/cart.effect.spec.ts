@@ -13,7 +13,7 @@ import { OccCartService } from '../../../occ/cart/cart.service';
 import { OccConfig } from '@spartacus/core';
 import { CartService } from '../../services/cart.service';
 import { CartDataService } from '../../services/cart-data.service';
-import { ProductImageConverterService } from '../../../product/converters';
+import { ProductImageConverterService } from '@spartacus/core';
 import * as fromEffects from './cart.effect';
 import * as fromActions from '../actions/cart.action';
 import { provideMockActions } from '@ngrx/effects/testing';

@@ -7,13 +7,12 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { UserToken } from '../../../auth/models/token-types.model';
 
-import * as fromStore from '../../store';
 import { AuthService } from '../../../auth/facade/auth.service';
+import { UserService } from '../../facade/user.service';
 import { RoutingService } from '@spartacus/core';
 
 @Component({
@@ -26,12 +25,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLogin = false;
 
   subscription: Subscription;
-  routingSub: Subscription;
 
   constructor(
     private auth: AuthService,
     private routing: RoutingService,
-    private store: Store<fromStore.UserState>,
+    private userService: UserService,
     private route: ActivatedRoute,
     private elementRef: ElementRef,
     private renderer: Renderer2
@@ -52,12 +50,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.user$ = this.store.pipe(select(fromStore.getDetails));
+    this.user$ = this.userService.user$;
 
     this.subscription = this.auth.userToken$.subscribe((token: UserToken) => {
       if (token && token.access_token && !this.isLogin) {
         this.isLogin = true;
-        this.store.dispatch(new fromStore.LoadUserDetails(token.userId));
+        this.userService.loadUserDetails(token.userId);
         this.auth.login();
       } else if (token && !token.access_token && this.isLogin) {
         this.isLogin = false;
@@ -73,7 +71,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     while (state.firstChild) {
       state = state.firstChild;
     }
-
     if (
       state.routeConfig.canActivate &&
       state.routeConfig.canActivate.find(
@@ -87,9 +84,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
-    }
-    if (this.routingSub) {
-      this.routingSub.unsubscribe();
     }
   }
 }

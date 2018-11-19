@@ -4,12 +4,14 @@ import { Observable } from 'rxjs';
 import { StateWithSiteContext, LanguagesEntities } from '../store/state';
 import {
   getAllLanguages,
+  getActiveLanguage
+} from '../store/selectors/languages.selectors';
+import {
   LoadLanguages,
-  getActiveLanguage,
   SetActiveLanguage
-} from '../store/index';
-import { SiteContextConfig } from '../config/config';
+} from '../store/actions/languages.action';
 
+import { OccConfig } from '../../occ/config/occ-config';
 @Injectable()
 export class LanguageService {
   readonly languages$: Observable<LanguagesEntities> = this.store.pipe(
@@ -22,7 +24,7 @@ export class LanguageService {
 
   constructor(
     private store: Store<StateWithSiteContext>,
-    private config: SiteContextConfig
+    private config: OccConfig
   ) {
     this.initActiveLanguage();
     this.loadLanguages();
