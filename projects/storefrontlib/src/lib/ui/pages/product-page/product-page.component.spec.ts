@@ -8,10 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ProductPageComponent } from './product-page.component';
 import { ProductDetailsPageLayoutComponent } from '../../layout/product-details-page-layout/product-details-page-layout.component';
 import { ProductDetailsComponent } from '../../../product/components/product-details/container/product-details.component';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
+import { ComponentWrapperDirective } from '../../../cms/components';
 import { ProductImagesComponent } from '../../../product/components/product-details/product-images/product-images.component';
 import { ProductSummaryComponent } from '../../../product/components/product-details/product-summary/product-summary.component';
 import { ProductAttributesComponent } from '../../../product/components/product-details/product-attributes/product-attributes.component';
@@ -23,13 +20,23 @@ import {
 } from '../../../cms/cms-module-config';
 import { AddToCartComponent } from '../../../cart/components/add-to-cart/add-to-cart.component';
 import { CartService } from '../../../cart/services';
-import { ProductService } from '../../../product/facade';
+import { ProductService } from '@spartacus/core';
 import {
   NgbTabsetModule,
   NgbAccordionModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { OutletDirective } from '../../../outlet';
 import { RoutingService } from '@spartacus/core';
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: 'MockDynamicSlotComponent'
+})
+export class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
 
 const routerState = {
   state: {
@@ -59,7 +66,7 @@ describe('ProductPageComponent in pages', () => {
         ProductPageComponent,
         ProductDetailsPageLayoutComponent,
         ProductDetailsComponent,
-        DynamicSlotComponent,
+        MockDynamicSlotComponent,
         ComponentWrapperDirective,
         ProductImagesComponent,
         ProductSummaryComponent,

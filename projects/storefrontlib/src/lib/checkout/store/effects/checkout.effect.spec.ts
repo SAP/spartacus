@@ -12,7 +12,7 @@ import * as fromActions from '../actions/checkout.action';
 import * as fromUserActions from '../../../user/store/actions';
 import * as fromGlobalMessageActions from '../../../global-message/store/actions';
 import { OccOrderService } from '../../../occ/order/order.service';
-import { ProductImageConverterService } from '../../../product/converters';
+import { ProductImageConverterService } from '@spartacus/core';
 import { GlobalMessageType } from '../../../global-message/models/message.model';
 
 const MockOccModuleConfig: OccConfig = {

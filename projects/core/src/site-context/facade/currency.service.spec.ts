@@ -7,7 +7,8 @@ import createSpy = jasmine.createSpy;
 import * as fromStore from '../store';
 import { StateWithSiteContext } from '../store/state';
 import { CurrencyService } from './currency.service';
-import { SiteContextConfig, defaultSiteContextConfig } from '../config/config';
+import { OccConfig } from '../../occ/config/occ-config';
+import { defaultOccConfig } from '../../occ/config/default-occ-config';
 
 const mockCurrencies: any[] = [
   { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
@@ -36,7 +37,7 @@ describe('CurrencyService', () => {
       imports: [StoreModule.forRoot({})],
       providers: [
         CurrencyService,
-        { provide: SiteContextConfig, useValue: defaultSiteContextConfig }
+        { provide: OccConfig, useValue: defaultOccConfig }
       ]
     });
 
@@ -56,7 +57,7 @@ describe('CurrencyService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadCurrencies());
     let activeCurr = sessionStorage.getItem('currency');
     if (!activeCurr) {
-      activeCurr = defaultSiteContextConfig.site.currency;
+      activeCurr = defaultOccConfig.site.currency;
     }
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.SetActiveCurrency(activeCurr)
