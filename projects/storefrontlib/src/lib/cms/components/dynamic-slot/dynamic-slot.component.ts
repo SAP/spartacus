@@ -6,11 +6,8 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 
-import { select, Store } from '@ngrx/store';
+import { CmsService } from '../../facade/cms.service';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
-
-import * as fromStore from '../../store';
 
 @Component({
   selector: 'cx-dynamic-slot',
@@ -30,13 +27,10 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
   @Input()
   componentClass: string;
 
-  constructor(private store: Store<fromStore.CmsState>) {}
+  constructor(protected cmsService: CmsService) {}
 
   ngOnInit() {
-    this.currentSlot$ = this.store.pipe(
-      select(fromStore.currentSlotSelectorFactory(this.position)),
-      filter(Boolean)
-    );
+    this.currentSlot$ = this.cmsService.getContentSlot(this.position);
   }
 
   ngOnDestroy() {}

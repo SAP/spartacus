@@ -36,12 +36,6 @@ const mockUserDetails: any = {
 class MockDynamicSlotComponent {
   @Input()
   position: string;
-  @Input()
-  limit: number;
-  @Input()
-  contextParameters: any;
-  @Input()
-  componentClass: string;
 }
 
 describe('LoginComponent', () => {
