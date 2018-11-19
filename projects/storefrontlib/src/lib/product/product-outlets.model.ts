@@ -13,5 +13,6 @@ export enum ProductDetailOutlets {
 export enum ProductSummaryOutlets {
   TITLE = 'PSUM.TITLE',
   RATING = 'PSUM.RATING',
-  ADDTOCART = 'PSUM.ADDTOCART'
+  ADDTOCART = 'PSUM.ADDTOCART',
+  PRICE = 'PSUM.PRICE'
 }
