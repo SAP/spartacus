@@ -3,11 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
-import {
-  LanguageService,
-  SiteContextConfig,
-  defaultSiteContextConfig
-} from '@spartacus/core';
+import { defaultOccConfig, LanguageService, OccConfig } from '@spartacus/core';
 import { LanguageSelectorComponent } from './language-selector.component';
 
 const mockLanguages: any[] = [
@@ -33,7 +29,7 @@ describe('LanguageSelectorComponent', () => {
           provide: LanguageService,
           useValue: languageServiceMock
         },
-        { provide: SiteContextConfig, useValue: defaultSiteContextConfig }
+        { provide: OccConfig, useValue: defaultOccConfig }
       ]
     })
       .overrideComponent(LanguageSelectorComponent, {
