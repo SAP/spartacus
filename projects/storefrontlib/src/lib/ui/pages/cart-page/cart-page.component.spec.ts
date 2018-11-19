@@ -6,17 +6,23 @@ import { StoreModule } from '@ngrx/store';
 import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
 import { CartService } from '../../../cart/services';
 import * as fromCart from '../../../cart/store';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
+import { ComponentWrapperDirective } from '../../../cms/components';
 import * as fromCmsReducer from '../../../cms/store';
 
 import { CartPageLayoutComponent } from '../../layout/cart-page-layout/cart-page-layout.component';
 import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
 import { CartPageComponent } from './cart-page.component';
 import { OutletDirective } from '../../../outlet';
+import { Input, Component } from '@angular/core';
 
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: 'MockDynamicSlotComponent'
+})
+export class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
 export class MockCartService {
   loadCartDetails() {}
 }
@@ -40,7 +46,7 @@ describe('CartPageComponent', () => {
       declarations: [
         CartPageComponent,
         CartPageLayoutComponent,
-        DynamicSlotComponent,
+        MockDynamicSlotComponent,
         ComponentWrapperDirective,
         OutletDirective,
         CartDetailsComponent
