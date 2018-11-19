@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 
 import * as fromStore from '../store';
 import { SearchConfig } from '../search-config';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ProductSearchService {
@@ -22,9 +23,18 @@ export class ProductSearchService {
     select(fromStore.getProductSuggestions)
   );
 
-  constructor(private store: Store<fromStore.ProductsState>) {}
+  constructor(
+    private store: Store<fromStore.ProductsState>,
+    private router: Router
+  ) {}
 
   search(query: string, searchConfig?: SearchConfig) {
+    const urlTree = this.router.createUrlTree([], {
+      queryParams: { query, ...searchConfig },
+      preserveFragment: false
+    });
+
+    this.router.navigateByUrl(urlTree);
     this.store.dispatch(
       new fromStore.SearchProducts({
         queryText: query,
