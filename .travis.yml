@@ -11,8 +11,8 @@ branches:
 jobs:
   include:
     - stage: 'Spartacus build'
-      name: 'Unit tests'
-      script: './ci-scripts/unit-tests.sh'
+      name: 'Unit tests/Sonar scan'
+      script: './ci-scripts/unit-tests_sonar.sh'
     - script: './ci-scripts/e2e-tests.sh'
       name: 'End to end tests'
     - script: './ci-scripts/validate.sh'
