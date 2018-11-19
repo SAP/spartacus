@@ -44,6 +44,15 @@ describe('ProductService', () => {
     });
   });
 
+  describe('loadProduct(productCode)', () => {
+    it('should be able to trigger the product load action for a product.', () => {
+      service.loadProduct('productCode');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.LoadProduct('productCode')
+      );
+    });
+  });
+
   describe('isProductLoaded(productCode)', () => {
     it('should be true that the product is loaded when a product is returned by the store', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
