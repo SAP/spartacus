@@ -33,6 +33,12 @@ const MockCmsModuleConfig: CmsModuleConfig = {
   }
 };
 
+const mockCxApiService = {
+  cms: {},
+  auth: {},
+  routing: {}
+};
+
 @Component({
   template:
     '<ng-container yComponentWrapper componentType="CMSTestComponent" componentUid="test_uid"></ng-container>'
@@ -57,7 +63,8 @@ describe('ComponentWrapperDirective', () => {
       ],
       providers: [
         ComponentMapperService,
-        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig },
+        { provide: CxApiService, useValue: mockCxApiService }
       ]
     }).compileComponents();
   }));
@@ -102,7 +109,6 @@ describe('ComponentWrapperDirective', () => {
 
     it('should instantiate web component', done => {
       scriptEl.onload(); // invoke load callbacks
-
       // run in next runloop (to process async tasks)
       setTimeout(() => {
         const cmsComponentElement = fixture.debugElement.nativeElement.querySelector(
