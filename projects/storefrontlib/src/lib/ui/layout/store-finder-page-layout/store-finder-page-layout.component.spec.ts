@@ -10,9 +10,10 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgbTabsetModule, NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
 
 import { StoreFinderPageLayoutComponent } from './store-finder-page-layout.component';
-import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-list/store-finder-list.component';
+
 import { StoreFinderSearchComponent } from '../../../store-finder/components/store-finder-search/store-finder-search.component';
-import { StoreFinderListCountComponent } from '../../../store-finder/components/store-finder-list-count/store-finder-list-count.component';
+// tslint:disable-next-line:max-line-length
+import { StoreFinderStoresCountComponent } from '../../../store-finder/components/store-finder-stores-count/store-finder-stores-count.component';
 import { StoreFinderMapComponent } from '../../../store-finder/components/store-finder-map/store-finder-map.component';
 import { services } from '../../../store-finder/services';
 import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-service';
@@ -22,8 +23,9 @@ import { OccConfig } from '@spartacus/core';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 import * as fromStore from '../../../store-finder/store';
 
+import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-list-item/store-finder-list-item.component';
 // tslint:disable-next-line:max-line-length
-import { StoreFinderListItemComponent } from '../../../store-finder/components/store-finder-list/store-finder-list-item/store-finder-list-item.component';
+import { StoreFinderListComponent } from '../../../store-finder/components/store-finder-search-result/store-finder-list/store-finder-list.component';
 
 describe('StoreFinderPageLayoutComponent', () => {
   let component: StoreFinderPageLayoutComponent;
@@ -50,7 +52,7 @@ describe('StoreFinderPageLayoutComponent', () => {
         StoreFinderListComponent,
         StoreFinderSearchComponent,
         StoreFinderMapComponent,
-        StoreFinderListCountComponent
+        StoreFinderStoresCountComponent
       ],
       providers: [
         ...services,

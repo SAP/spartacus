@@ -1,57 +1,28 @@
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  ServiceWorkerModule,
-  ɵangular_packages_service_worker_service_worker_b as RegistrationOptions
-} from '@angular/service-worker';
 
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-
-import { SiteContextConfig, ConfigurableRoutesService } from '@spartacus/core';
-
-import { FooterComponent } from '../footer/footer.component';
-import { HeaderComponent } from '../header/header.component';
-import { OutletDirective } from '../../../outlet';
-import { HeaderSkipperComponent } from '../header/header-skipper/header-skipper.component';
-import { MobileMenuComponent } from '../header/mobile-menu/mobile-menu.component';
-import { TertiaryBarComponent } from '../header/tertiary-bar/tertiary-bar.component';
-import * as fromAuth from '../../../auth/store';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
-import { GlobalMessageModule } from '../../../global-message/global-message.module';
-import { PwaModule } from '../../../pwa/pwa.module';
-import {
-  PWAModuleConfig,
-  defaultPWAModuleConfig
-} from '../../../pwa/pwa.module-config';
-import { SiteContextModule } from '../../../site-context/site-context.module';
-import * as fromCmsReducer from '../../../cms/store/reducers';
-import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
-import * as fromUserReducer from '../../../user/store/reducers';
-import { LoginComponent } from '../../../user/components/login/login.component';
-import { OccSiteService } from '../../../../../../core/src/site-context/occ/occ-site.service';
-
+import { ConfigurableRoutesService } from '@spartacus/core';
 import { StorefrontComponent } from './storefront.component';
 
-const MockSiteContextModuleConfig: SiteContextConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
-  },
+@Component({
+  selector: 'cx-header',
+  template: ''
+})
+class MockHeaderComponent {}
 
-  site: {
-    baseSite: '',
-    language: '',
-    currency: ''
-  }
-};
+@Component({
+  selector: 'cx-global-message',
+  template: ''
+})
+class MockGlobalMessagerComponent {}
 
-const MockPwaRegistrationOptions: RegistrationOptions = {
-  enabled: false
-};
+@Component({
+  selector: 'cx-footer',
+  template: ''
+})
+class MockFooterComponent {}
+
 class MockConfigurableRoutesService {
   changeLanguage() {}
 }
@@ -62,49 +33,18 @@ describe('StorefrontComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('user', fromUserReducer.getReducers()),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
-        StoreModule.forFeature('auth', fromAuth.getReducers()),
-        GlobalMessageModule,
-        PwaModule,
-        ServiceWorkerModule,
-        EffectsModule.forRoot([]),
-        SiteContextModule
-      ],
+      imports: [RouterTestingModule],
       declarations: [
         StorefrontComponent,
-        HeaderComponent,
-        FooterComponent,
-        DynamicSlotComponent,
-        ComponentWrapperDirective,
-        HeaderSkipperComponent,
-        TertiaryBarComponent,
-        MobileMenuComponent,
-        LoginComponent,
-        OutletDirective
+        MockHeaderComponent,
+        MockGlobalMessagerComponent,
+        MockFooterComponent
       ],
       providers: [
         {
-          provide: SiteContextConfig,
-          useValue: MockSiteContextModuleConfig
-        },
-        { provide: OccSiteService },
-        {
-          provide: PWAModuleConfig,
-          useValue: defaultPWAModuleConfig
-        },
-        {
-          provide: RegistrationOptions,
-          useValue: MockPwaRegistrationOptions
-        },
-        {
           provide: ConfigurableRoutesService,
           useClass: MockConfigurableRoutesService
-        },
-        GlobalMessageService
+        }
       ]
     }).compileComponents();
   }));

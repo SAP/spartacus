@@ -2,13 +2,13 @@ import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { SiteContextConfig } from '../config/config';
+import { OccConfig } from '../../occ/config/occ-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OccSiteService {
-  constructor(private http: HttpClient, private config: SiteContextConfig) {}
+  constructor(private http: HttpClient, private config: OccConfig) {}
 
   protected getBaseEndPoint() {
     return (
