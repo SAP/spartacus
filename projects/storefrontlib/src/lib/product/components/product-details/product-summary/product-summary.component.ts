@@ -12,23 +12,12 @@ import { ProductSummaryOutlets } from '../../../product-outlets.model';
   styleUrls: ['./product-summary.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductSummaryComponent implements OnInit {
+export class ProductSummaryComponent {
   static outlets = ProductSummaryOutlets;
 
   @Input()
   product: any;
   itemCount = 1;
-  stockInfo = '';
-
-  ngOnInit() {
-    this.stockInfo =
-      this.product &&
-      this.product.stock &&
-      (this.product.stock.stockLevel > 0 ||
-        this.product.stock.stockLevelStatus === 'inStock')
-        ? `${this.product.stock.stockLevel} in stock`
-        : 'Out of stock';
-  }
 
   get outlets() {
     return ProductSummaryComponent.outlets;
@@ -36,5 +25,20 @@ export class ProductSummaryComponent implements OnInit {
 
   updateCount(value) {
     this.itemCount = value;
+  }
+
+  get stockInfo(): string {
+    return this.hasStock()
+      ? `${this.product.stock.stockLevel} in stock`
+      : 'Out of stock';
+  }
+
+  private hasStock(): boolean {
+    return (
+      this.product &&
+      this.product.stock &&
+      (this.product.stock.stockLevel > 0 ||
+        this.product.stock.stockLevelStatus === 'inStock')
+    );
   }
 }
