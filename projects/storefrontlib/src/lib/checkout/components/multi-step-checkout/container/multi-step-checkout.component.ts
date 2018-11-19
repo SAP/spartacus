@@ -25,6 +25,7 @@ import { checkoutNavBar } from './checkout-navigation-bar';
 })
 export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
+  done = false;
 
   deliveryAddress: Address;
   paymentDetails: any;
@@ -122,6 +123,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
           filter(order => Object.keys(order).length !== 0 && this.step === 4)
         )
         .subscribe(() => {
+          // checkout steps are done
+          this.done = true;
           this.routingService.go(['orderConfirmation']);
         })
     );
@@ -202,5 +205,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    if (!this.done) {
+      this.checkoutService.clearCheckoutData();
+    }
   }
 }
