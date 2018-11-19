@@ -5,7 +5,7 @@ set -o pipefail
 echo "Updating dependencies"
 yarn
 echo "-----"
-./ci-scripts/other.sh
+./ci-scripts/validate.sh
 echo "-----"
 ./ci-scripts/lint.sh
 echo "-----"
