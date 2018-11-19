@@ -81,7 +81,7 @@
                 <ng-container *cxOutlet="outlets.SHIPPING">
                   <div class="container">
                     <ng-container
-                      yComponentWrapper
+                      cxComponentWrapper
                       componentType="CMSTabParagraphComponent"
                       componentUid="deliveryTab"
                     ></ng-container>
@@ -127,12 +127,8 @@
             <ng-template ngbPanelContent>
               <ng-container *cxOutlet="outlets.SHIPPING">
                 <div class="container">
-                  <!--
-                    <cx-component-wrapper [componentType]="'CMSTabParagraphComponent'" [componentUid]="'deliveryTab'"
-                    ></cx-component-wrapper>
-                  -->
                   <div
-                    yComponentWrapper
+                    cxComponentWrapper
                     componentType="CMSTabParagraphComponent"
                     componentUid="deliveryTab"
                   ></div>
