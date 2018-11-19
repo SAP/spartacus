@@ -1,18 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-
 import { BehaviorSubject } from 'rxjs';
-//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { By } from '@angular/platform-browser';
+import { ChangeDetectionStrategy } from '@angular/core';
 import createSpy = jasmine.createSpy;
+
 import { UserService } from '../../../../../user/facade/user.service';
 import { CheckoutService } from '../../../../facade';
 import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
-
-//import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { By } from '@angular/platform-browser';
-import { ChangeDetectionStrategy } from '@angular/core';
 
 import { AddressFormComponent } from './address-form.component';
 

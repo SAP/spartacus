@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Input, Component } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import createSpy = jasmine.createSpy;
@@ -88,7 +87,6 @@ describe('ReviewSubmitComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
       declarations: [
         ReviewSubmitComponent,
         MockCartItemListComponent,
