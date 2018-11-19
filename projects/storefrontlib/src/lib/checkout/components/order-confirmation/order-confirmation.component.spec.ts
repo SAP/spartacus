@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import createSpy = jasmine.createSpy;
 
 import { CheckoutService } from '../../facade';
 import { OrderConfirmationComponent } from './order-confirmation.component';
@@ -36,7 +37,8 @@ const mockCheckoutService = {
         country: {}
       }
     }
-  })
+  }),
+  clearCheckoutData: createSpy()
 };
 
 describe('OrderConfirmationComponent', () => {
