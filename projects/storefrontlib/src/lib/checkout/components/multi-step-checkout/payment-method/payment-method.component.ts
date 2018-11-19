@@ -45,7 +45,7 @@ export class PaymentMethodComponent implements OnInit {
     this.existingPaymentMethods$ = this.userService.paymentMethods$.pipe(
       tap(payments => {
         if (payments.length === 0) {
-          this.userService.loadUserPaymentMethods(this.cartData.userId);
+          this.userService.loadPaymentMethods(this.cartData.userId);
         } else {
           if (this.cards.length === 0) {
             payments.forEach(payment => {

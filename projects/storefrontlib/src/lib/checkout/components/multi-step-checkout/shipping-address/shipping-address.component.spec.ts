@@ -71,7 +71,7 @@ describe('ShippingAddressComponent', () => {
     mockUserService = {
       addresses$: new BehaviorSubject([]),
       addressesLoading$: new BehaviorSubject(null),
-      loadUserAddresses: createSpy()
+      loadAddresses: createSpy()
     };
     mockRouting = {
       go: createSpy()
@@ -112,7 +112,7 @@ describe('ShippingAddressComponent', () => {
     mockUserService.addresses$.next([]);
     component.ngOnInit();
     component.existingAddresses$.subscribe(() => {
-      expect(mockUserService.loadUserAddresses).toHaveBeenCalled();
+      expect(mockUserService.loadAddresses).toHaveBeenCalled();
       done();
     });
   });

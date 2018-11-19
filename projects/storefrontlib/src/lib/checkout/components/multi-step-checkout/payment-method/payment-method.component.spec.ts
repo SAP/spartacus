@@ -60,7 +60,7 @@ describe('PaymentMethodComponent', () => {
     mockUserService = {
       paymentMethods$: new BehaviorSubject(null),
       paymentMethodsLoading$: new BehaviorSubject(null),
-      loadUserPaymentMethods: createSpy()
+      loadPaymentMethods: createSpy()
     };
     const mockCartDataService = {
       userId: 'testUser'
@@ -96,7 +96,7 @@ describe('PaymentMethodComponent', () => {
     mockUserService.paymentMethods$.next([]);
     component.ngOnInit();
     component.existingPaymentMethods$.subscribe(() => {
-      expect(mockUserService.loadUserPaymentMethods).toHaveBeenCalled();
+      expect(mockUserService.loadPaymentMethods).toHaveBeenCalled();
       done();
     });
   });

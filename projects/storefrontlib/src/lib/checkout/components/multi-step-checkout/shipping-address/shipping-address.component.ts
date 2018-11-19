@@ -45,7 +45,7 @@ export class ShippingAddressComponent implements OnInit {
     this.existingAddresses$ = this.userService.addresses$.pipe(
       tap(addresses => {
         if (addresses.length === 0) {
-          this.userService.loadUserAddresses(this.cartData.userId);
+          this.userService.loadAddresses(this.cartData.userId);
         } else {
           if (this.cards.length === 0) {
             addresses.forEach(address => {

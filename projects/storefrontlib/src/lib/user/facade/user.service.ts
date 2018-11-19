@@ -116,11 +116,11 @@ export class UserService {
     );
   }
 
-  loadUserPaymentMethods(userId: string) {
+  loadPaymentMethods(userId: string) {
     this.store.dispatch(new fromStore.LoadUserPaymentMethods(userId));
   }
 
-  loadUserAddresses(userId: string) {
+  loadAddresses(userId: string) {
     this.store.dispatch(new fromStore.LoadUserAddresses(userId));
   }
 }

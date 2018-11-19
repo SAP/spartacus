@@ -19,6 +19,18 @@ describe('UserService', () => {
         return () => of([]);
       case fromStore.getOrdersLoaded:
         return () => of(false);
+      case fromStore.getPaymentMethods:
+        return () => of('mockPaymentMethods');
+      case fromStore.getPaymentMethodsLoading:
+        return () => of(true);
+      case fromStore.getAddresses:
+        return () => of(['address1', 'address2']);
+      case fromStore.getAddressesLoading:
+        return () => of(true);
+      case fromStore.getAllDeliveryCountries:
+        return () => of(['c1', 'c2']);
+      case fromStore.getAllRegions:
+        return () => of(['r1', 'r2']);
       default:
         return () => of('mockCountry');
     }
@@ -64,6 +76,54 @@ describe('UserService', () => {
       titles = data;
     });
     expect(titles).toEqual(['t1', 't2']);
+  });
+
+  it('should be able to get user address', () => {
+    let addresses;
+    service.addresses$.subscribe(data => {
+      addresses = data;
+    });
+    expect(addresses).toEqual(['address1', 'address2']);
+  });
+
+  it('should be able to get Address loading flag', () => {
+    let flag;
+    service.addressesLoading$.subscribe(data => {
+      flag = data;
+    });
+    expect(flag).toEqual(true);
+  });
+
+  it('should be able to get user payment methods', () => {
+    let paymentMethods;
+    service.paymentMethods$.subscribe(data => {
+      paymentMethods = data;
+    });
+    expect(paymentMethods).toEqual('mockPaymentMethods');
+  });
+
+  it('should be able to get user payment methods loading flag', () => {
+    let flag;
+    service.paymentMethodsLoading$.subscribe(data => {
+      flag = data;
+    });
+    expect(flag).toEqual(true);
+  });
+
+  it('should be able to get all delivery countries', () => {
+    let countries;
+    service.allDeliveryCountries$.subscribe(data => {
+      countries = data;
+    });
+    expect(countries).toEqual(['c1', 'c2']);
+  });
+
+  it('should be able to get all regions', () => {
+    let regions;
+    service.allRegions$.subscribe(data => {
+      regions = data;
+    });
+    expect(regions).toEqual(['r1', 'r2']);
   });
 
   it('should be able to get order details', () => {
@@ -130,6 +190,13 @@ describe('UserService', () => {
     );
   });
 
+  it('should be able to load regions based on country isocode', () => {
+    service.loadRegions('ca');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.LoadRegions('ca')
+    );
+  });
+
   it('should be able to load order details', () => {
     service.loadOrderDetails('userId', 'orderCode');
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -156,6 +223,20 @@ describe('UserService', () => {
         currentPage: 1,
         sort: 'byDate'
       })
+    );
+  });
+
+  it('should be able to load user payment methods', () => {
+    service.loadPaymentMethods('testUserId');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.LoadUserPaymentMethods('testUserId')
+    );
+  });
+
+  it('should be able to load user addresses', () => {
+    service.loadAddresses('testUserId');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.LoadUserAddresses('testUserId')
     );
   });
 });
