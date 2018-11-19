@@ -5,7 +5,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
-import { ProductImageConverterService } from '../../product/converters';
+import { ProductImageConverterService } from '@spartacus/core';
 
 const userId = '123';
 const cartId = '456';
