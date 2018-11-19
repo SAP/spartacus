@@ -4,13 +4,14 @@ import {
   OnInit,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { CartService } from '../../services/cart.service';
-import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
-import * as fromCartStore from '../../store';
-import { Observable } from 'rxjs';
+
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { CartService } from '../../facade/cart.service';
+
+import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -34,16 +35,14 @@ export class AddToCartComponent implements OnInit {
 
   constructor(
     protected cartService: CartService,
-    private modalService: NgbModal,
-    protected store: Store<fromCartStore.CartState>
+    private modalService: NgbModal
   ) {}
 
+  // TODO:#153 - test
   ngOnInit() {
     if (this.productCode) {
-      this.loaded$ = this.store.pipe(select(fromCartStore.getLoaded));
-      this.cartEntry$ = this.store.pipe(
-        select(fromCartStore.getEntrySelectorFactory(this.productCode))
-      );
+      this.loaded$ = this.cartService.getLoaded();
+      this.cartEntry$ = this.cartService.getEntry(this.productCode);
     }
   }
 
@@ -55,15 +54,14 @@ export class AddToCartComponent implements OnInit {
     this.cartService.addCartEntry(this.productCode, this.quantity);
   }
 
+  // TODO:#153 test?
   private openModal() {
     this.modalInstance = this.modalService.open(AddedToCartDialogComponent, {
       centered: true,
       size: 'lg'
     }).componentInstance;
     this.modalInstance.entry$ = this.cartEntry$;
-    this.modalInstance.cart$ = this.store.pipe(
-      select(fromCartStore.getActiveCart)
-    );
+    this.modalInstance.entry$ = this.cartService.activeCart$;
     this.modalInstance.loaded$ = this.loaded$;
     this.modalInstance.quantity = this.quantity;
   }
