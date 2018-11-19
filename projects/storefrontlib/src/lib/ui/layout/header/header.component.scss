@@ -62,14 +62,6 @@ $cx-header-trbl-padding-mobile: 0 0 0 0 !default;
       top: $cx-header-separator-position-top;
     }
   }
-  // @include media-breakpoint-down(md) {
-  //   height: $cx-header-height-tablet;
-  //   padding: $cx-header-trbl-padding-tablet;
-  // }
-  // @include media-breakpoint-down(xs) {
-  //   height: $cx-header-height-mobile;
-  //   padding: $cx-header-trbl-padding-mobile;
-  // }
 }
 
 .cx-header__content {
@@ -78,10 +70,11 @@ $cx-header-trbl-padding-mobile: 0 0 0 0 !default;
   grid-template-rows: var(--cx-grid-template-rows, 70px);
   grid-template-columns: var(
     --cx-grid-template-columns,
-    90px repeat(2, minmax(10px, auto)) 1fr minmax(10px, auto)
+    70px repeat(2, minmax(10px, auto)) 1fr minmax(10px, auto)
   );
 
   cx-mobile-menu {
+    display: var(--cx-component-visibility, inline-block);
     grid-row: var(--cx-grid-template-row, 1);
     grid-column: var(--cx-grid-template-column, 1 / span 1);
   }
@@ -115,24 +108,24 @@ $cx-header-trbl-padding-mobile: 0 0 0 0 !default;
 
   cx-language-selector,
   cx-currency-selector,
-  .link,
+  cx-tertiary-bar,
   cx-login,
   .nav-bar {
-    display: none;
+    display: var(--cx-component-visibility, none);
   }
   @include cx-breakpoint-up(md) {
     grid-template-rows: var(--cx-grid-template-rows, 90px);
-  }
-
-  @include cx-breakpoint-up(md) {
-    grid-template-rows: var(--cx-grid-template-rows, 90px);
+    grid-template-columns: var(
+      --cx-grid-template-columns,
+      94px repeat(2, minmax(10px, auto)) 1fr minmax(10px, auto)
+    );
   }
 
   @include cx-breakpoint-up(lg) {
     grid-template-rows: var(--cx-grid-template-rows, 50px 90px 70px);
     grid-template-columns: var(
       --cx-grid-template-columns,
-      repeat(3, minmax(10px, auto)) repeat(4, 1fr) repeat(4, minmax(10px, auto))
+      repeat(3, minmax(10px, auto)) repeat(4, 1fr) repeat(3, minmax(10px, auto))
     );
 
     cx-header-skipper {
@@ -141,45 +134,32 @@ $cx-header-trbl-padding-mobile: 0 0 0 0 !default;
     }
 
     cx-language-selector {
-      display: inline-block;
+      display: var(--cx-component-visibility, inline-block);
       grid-row: var(--cx-grid-template-row, 1);
       grid-column: var(--cx-grid-template-column, 1 / span 1);
     }
     cx-currency-selector {
-      display: inline-block;
+      display: var(--cx-component-visibility, inline-block);
       grid-row: var(--cx-grid-template-row, 1);
       grid-column: 2 / span 1;
     }
 
-    .link,
+    cx-tertiary-bar {
+      display: var(--cx-component-visibility, inline-block);
+      grid-row: var(--cx-grid-template-row, 1);
+      grid-column: 9 / span 3;
+    }
+
+    cx-tertiary-bar,
     .search,
     cx-login {
-      display: flex;
+      display: var(--cx-component-visibility, flex);
       align-items: center;
     }
 
-    .link,
     cx-login {
       @include var-color('color', $cx-tertiary-link-color);
       @include type('7');
-    }
-
-    .store-finder {
-      grid-row: var(--cx-grid-template-row, 1);
-      grid-column: 9 / span 1;
-    }
-
-    .sale {
-      grid-row: var(--cx-grid-template-row, 1);
-      grid-column: 10 / span 1;
-    }
-    .contact {
-      grid-row: var(--cx-grid-template-row, 1);
-      grid-column: 11 / span 1;
-    }
-    .help {
-      grid-row: var(--cx-grid-template-row, 1);
-      grid-column: 12 / span 1;
     }
 
     .logo {
@@ -195,22 +175,22 @@ $cx-header-trbl-padding-mobile: 0 0 0 0 !default;
 
     cx-login {
       grid-row: var(--cx-grid-template-row, 2);
-      grid-column: var(--cx-grid-template-column, 10 / span 2);
+      grid-column: var(--cx-grid-template-column, 10 / span 1);
     }
 
     .minicart {
       grid-row: var(--cx-grid-template-row, 2);
-      grid-column: var(--cx-grid-template-column, 12 / span 1);
+      grid-column: var(--cx-grid-template-column, 11 / span 1);
     }
 
     .nav-bar {
-      display: inline-block;
+      display: var(--cx-component-visibility, inline-block);
       grid-row: var(--cx-grid-template-row, 3);
-      grid-column: var(--cx-grid-template-column, 1 / span 12);
+      grid-column: var(--cx-grid-template-column, 1 / span 11);
     }
 
     cx-mobile-menu {
-      display: none;
+      display: var(--cx-component-visibility, none);
     }
   }
 }

@@ -51,44 +51,41 @@ $cx-mobile-menu-position-left-hidden: -1000vh !default;
   }
 
   &__control {
-    @include media-breakpoint-up(lg) {
+    top: 10px;
+    left: 5px;
+    position: absolute;
+
+    @include cx-breakpoint-up(md) {
+      top: 20px;
+      left: 25px;
+    }
+    @include cx-breakpoint-up(lg) {
       display: none;
-    }
-
-    @include media-breakpoint-down(md) {
-      position: $cx-mobile-menu-control-position-md;
-      top: 1rem;
-      left: 1.25rem;
-    }
-
-    @include media-breakpoint-down(xs) {
-      top: 0.15rem;
-      left: 0.5rem;
     }
   }
 
   &__content {
-    @include media-breakpoint-up(lg) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 70px;
+
+    @include var-color(
+      'background-color',
+      $cx-mobile-menu-md-content-background-color
+    );
+    transition: $cx-mobile-menu-transition;
+    z-index: $cx-mobile-menu-z-index;
+    width: $cx-mobile-menu-width;
+    &[aria-hidden='true'] {
       display: none;
     }
 
-    @include media-breakpoint-down(md) {
-      position: $cx-mobile-menu-position;
-      left: $cx-mobile-menu-position-left;
-      @include var-color(
-        'background-color',
-        $cx-mobile-menu-md-content-background-color
-      );
-      transition: $cx-mobile-menu-transition;
-      z-index: $cx-mobile-menu-z-index;
-      width: $cx-mobile-menu-width;
-      &[aria-hidden='true'] {
-        display: none;
-      }
-
-      &[aria-hidden='false'] {
-        left: $cx-mobile-menu-position-left-hidden;
-      }
+    @include cx-breakpoint-up(md) {
+      top: 90px;
+    }
+    @include cx-breakpoint-up(lg) {
+      display: none;
     }
   }
 
