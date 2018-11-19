@@ -8,6 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { SearchConfig } from '../../../search-config';
 import { ProductSearchService } from '../../../facade/product-search.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'cx-product-list',
@@ -31,18 +32,27 @@ export class ProductListComponent implements OnChanges, OnInit {
   model$: Observable<any>;
   searchConfig: SearchConfig = new SearchConfig();
 
-  constructor(protected productSearchService: ProductSearchService) {}
+  constructor(
+    protected productSearchService: ProductSearchService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnChanges() {
+    const newConfig = { ...this.activatedRoute.snapshot.queryParams };
+
+    this.query = this.activatedRoute.snapshot.queryParams.query;
+    delete newConfig.query;
+    this.searchConfig = newConfig;
+
     this.searchConfig = {
       ...this.searchConfig,
       pageSize: this.itemPerPage || 10
     };
 
-    if (this.categoryCode) {
+    if (this.categoryCode && !this.query) {
       this.query = ':relevance:category:' + this.categoryCode;
     }
-    if (this.brandCode) {
+    if (this.brandCode && !this.query) {
       this.query = ':relevance:brand:' + this.brandCode;
     }
     if (this.query) {
