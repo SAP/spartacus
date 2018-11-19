@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { NavigationModule } from '../navigation/navigation.module';
 import { CategoryNavigationComponent } from './category-navigation.component';
 import * as fromCmsReducer from '../../cms/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
@@ -9,6 +8,10 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PathPipeService, DynamicPathPipeService } from '@spartacus/core';
+import { CmsService } from '../../cms/facade/cms.service';
+import { NavigationComponent } from '..';
+import { NavigationUIComponent } from '../navigation/navigation-ui.component';
+import { NavigationService } from '../navigation/navigation.service';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -25,17 +28,25 @@ describe('CategoryNavigationComponent', () => {
   let nav: DebugElement;
 
   beforeEach(async(() => {
+    const mockCmsService = {};
+    const mockNavigationService = {};
+
     TestBed.configureTestingModule({
       imports: [
-        NavigationModule,
         BootstrapModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
         RouterTestingModule
       ],
-      declarations: [CategoryNavigationComponent],
+      declarations: [
+        CategoryNavigationComponent,
+        NavigationComponent,
+        NavigationUIComponent
+      ],
       providers: [
         { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
+        { provide: CmsService, useValue: mockCmsService },
+        { provide: NavigationService, useValue: mockNavigationService },
         { provide: PathPipeService, useValue: mockPathPipeService },
         {
           provide: DynamicPathPipeService,

@@ -12,6 +12,21 @@ import * as fromServices from '../../services/index';
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
   let fixture: ComponentFixture<StoreFinderListItemComponent>;
+
+  const weekday = {
+    closingTime: {
+      formattedHour: '20:00',
+      hour: 8,
+      minute: 0
+    },
+    openingTime: {
+      formattedHour: '09:00',
+      hour: 9,
+      minute: 0
+    },
+    closed: false
+  };
+
   const sampleStore: any = {
     address: {
       country: { isocode: 'JP' },
@@ -29,73 +44,23 @@ describe('StoreFinderListItemComponent', () => {
     openingHours: {
       weekDayOpeningList: [
         {
-          closingTime: {
-            formattedHour: '20:00',
-            hour: 8,
-            minute: 0
-          },
-          openingTime: {
-            formattedHour: '09:00',
-            hour: 9,
-            minute: 0
-          },
-          closed: false,
+          ...weekday,
           weekDay: 'Mon'
         },
         {
-          closingTime: {
-            formattedHour: '20:00',
-            hour: 8,
-            minute: 0
-          },
-          openingTime: {
-            formattedHour: '09:00',
-            hour: 9,
-            minute: 0
-          },
-          closed: false,
+          ...weekday,
           weekDay: 'Tue'
         },
         {
-          closingTime: {
-            formattedHour: '20:00',
-            hour: 8,
-            minute: 0
-          },
-          openingTime: {
-            formattedHour: '09:00',
-            hour: 9,
-            minute: 0
-          },
-          closed: false,
+          ...weekday,
           weekDay: 'Wed'
         },
         {
-          closingTime: {
-            formattedHour: '20:00',
-            hour: 8,
-            minute: 0
-          },
-          openingTime: {
-            formattedHour: '09:00',
-            hour: 9,
-            minute: 0
-          },
-          closed: false,
+          ...weekday,
           weekDay: 'Thu'
         },
         {
-          closingTime: {
-            formattedHour: '20:00',
-            hour: 8,
-            minute: 0
-          },
-          openingTime: {
-            formattedHour: '09:00',
-            hour: 9,
-            minute: 0
-          },
-          closed: false,
+          ...weekday,
           weekDay: 'Fri'
         },
         {
@@ -153,8 +118,16 @@ describe('StoreFinderListItemComponent', () => {
 
   it('should get opening time', () => {
     const openTime = component.getOpeningTime(sampleStore);
-    if (openTime != null) {
-      expect(openTime.getHours()).toEqual(9);
+    const day = new Date().getDay();
+    switch (day) {
+      case 0:
+        expect(openTime.getHours()).toEqual(0);
+        break;
+      case 6:
+        expect(openTime.getHours()).toEqual(10);
+        break;
+      default:
+        expect(openTime.getHours()).toEqual(9);
     }
   });
 });
