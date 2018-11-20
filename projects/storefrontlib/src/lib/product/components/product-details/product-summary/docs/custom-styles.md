@@ -1,100 +1,92 @@
 # Custom Styles
 
-## Rating with title
+## Center name, price and rating on mobile
 
-The following snippet demonstrates a small configuration that will hide the product code and display the product rating next to the product title. In addition,the add review link is hidden.
+The following snippet demonstrates a configuration that will display a title group containing the name, price and rating above the product on mobile. The desktop layout remains unchanged.
 
 ```css
 cx-product-summary {
-  --cx-grid-template-columns: auto auto minmax(20px, auto);
+  .name {
+    @media (max-width: 992px) {
+      text-align: center;
+    }
+  }
 
   .code {
     display: none;
-    --cx-align-items: center;
   }
 
   .rating {
-    --cx-grid-row: 1;
-    --cx-grid-column: 3;
-    --cx-margin: 0 0 5px 0;
+    @media (max-width: 992px) {
+      --cx-grid-row: 3;
+      justify-content: center;
+    }
 
     a {
       display: none;
     }
   }
 
+  .price {
+    @media (max-width: 992px) {
+      --cx-grid-row: 2;
+      text-align: center;
+    }
+  }
+
   .description {
-    --cx-margin: 10px 0 10px 0;
+    margin-top: 20px;
   }
 }
 ```
 
-**Demo**
+## Add to cart next to description
 
-![Rating with title](rating-with-title.png)
-
-## Price with title
-
-Following a similar idea to the previous snippet, the following CSS provides a way to display the product price on the same line as the title.
+The following snippet allows for the add to cart button to be placed alongside the product information. The add to cart and quantity group is also customised. Indeed, the quantity selector is stacked vertically on top of the add to cart button and aligned with it's center.
 
 ```css
 cx-product-summary {
-  --cx-grid-template-columns: minmax(20px, auto) minmax(20px auto);
+  @media (min-width: 992px) {
+    --cx-grid-template-columns: auto auto auto;
+
+    .quantity {
+      --cx-grid-row: 2;
+      --cx-grid-column: 3;
+      text-align: center;
+      .info {
+        display: none;
+      }
+
+      label {
+        display: none;
+      }
+    }
+
+    cx-add-to-cart {
+      --cx-grid-row: 3;
+      --cx-grid-column: 3;
+      min-width: 200px;
+    }
+
+    .rating {
+      --cx-grid-column: 2;
+    }
+
+    .description {
+      --cx-grid-column: 2;
+    }
+
+    .price {
+      --cx-grid-column: 2;
+    }
+
+    .share {
+      --cx-grid-column: 2;
+    }
+  }
 
   .code {
     display: none;
-    --cx-align-items: center;
-  }
-
-  .price {
-    --cx-grid-row: 1;
-    grid-column: 2;
-    margin: 0.5em;
-  }
-
-  .rating {
-    --cx-grid-row: 2;
-  }
-
-  .quantity {
-    display: none;
-  }
-
-  cx-add-to-cart {
-    --cx-grid-row: 3;
-  }
-}
-```
-
-**Demo**
-
-![Price with title](price-with-title.png)
-
-## Add to cart with title
-
-The following snippet allows for the add to cart button to be placed next to the title. The add to cart and quantity group is also customised. Indeed, the quantity selector is stacked vertically on top of the add to cart button and aligned with it's center.
-
-```css
-cx-product-summary {
-  --cx-grid-template-columns: minmax(20px, auto) minmax(20px auto);
-
-  .quantity {
-    --cx-grid-row: 1;
-    grid-column: 2;
-    text-align: center;
-    .info {
-      display: none;
-    }
-
-    label {
-      display: none;
-    }
-  }
-
-  cx-add-to-cart {
-    --cx-grid-row: 2;
-    grid-column: 2;
-    min-width: 200px;
   }
 }
 ```
@@ -102,3 +94,48 @@ cx-product-summary {
 **Demo**
 
 ![Add to cart with title](atc-with-title.png)
+
+## Product name under product picture in mobile
+
+The following snippet provides the necessary styling to have the product nmae under the product picture on mobile. The desktop layout remains unchanged.
+
+``` css
+cx-product-summary {
+  .name {
+    margin-top: 20px;
+    --cx-grid-row: 2;
+
+    @media (min-width: 992px) {
+      --cx-grid-row: 1;
+    }
+  }
+
+  .code {
+    display: none;
+  }
+
+  .price {
+    border-bottom: 1px solid var(--cx-light);
+    padding-bottom: 10px;
+
+    @media (min-width: 992px) {
+      padding-bottom: 30px;
+    }
+  }
+
+  .quantity {
+    display: none;
+  }
+
+  .description {
+    --cx-grid-row: 8;
+    margin-top: 20px;
+  }
+
+  cx-add-to-cart {
+    @media (min-width: 992px) {
+      margin-top: 20px;
+    }
+  }
+}
+```
