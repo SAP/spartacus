@@ -8,7 +8,7 @@ import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { OccOrderService } from '../../../occ/order/order.service';
 import { Observable, of, throwError } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
-import { ProductImageConverterService } from '../../../product/converters';
+import { ProductImageConverterService } from '@spartacus/core';
 
 const mockOrderDetails = {
   order: {}

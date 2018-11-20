@@ -1,9 +1,10 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import * as fromUserStore from '../../../user/store';
-import { Store, select } from '@ngrx/store';
-import { AuthService, RoutingService } from '@spartacus/core';
+
+import { AuthService } from '../../../auth/facade/auth.service';
+import { RoutingService } from '@spartacus/core';
+import { UserService } from '../../../user/facade/user.service';
 
 @Component({
   selector: 'cx-order-history',
@@ -14,7 +15,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   constructor(
     private auth: AuthService,
     private routing: RoutingService,
-    private store: Store<fromUserStore.UserState>
+    private userSerivce: UserService
   ) {}
 
   orders$: Observable<any>;
@@ -37,20 +38,14 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.orders$ = this.store.pipe(
-      select(fromUserStore.getOrders),
+    this.orders$ = this.userSerivce.orderList$.pipe(
       tap((orders: any) => {
         if (
           orders.orders &&
           Object.keys(orders.orders).length === 0 &&
           this.user_id
         ) {
-          this.store.dispatch(
-            new fromUserStore.LoadUserOrders({
-              userId: this.user_id,
-              pageSize: this.PAGE_SIZE
-            })
-          );
+          this.userSerivce.loadOrderList(this.user_id, this.PAGE_SIZE);
         }
         if (orders.pagination) {
           this.sortType = orders.pagination.sort;
@@ -58,7 +53,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.isLoaded$ = this.store.pipe(select(fromUserStore.getOrdersLoaded));
+    this.isLoaded$ = this.userSerivce.orderListLoaded$;
   }
 
   ngOnDestroy() {
@@ -89,13 +84,11 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   }
 
   private fetchOrders(event: { sortCode: string; currentPage: number }) {
-    this.store.dispatch(
-      new fromUserStore.LoadUserOrders({
-        userId: this.user_id,
-        pageSize: this.PAGE_SIZE,
-        currentPage: event.currentPage,
-        sort: event.sortCode
-      })
+    this.userSerivce.loadOrderList(
+      this.user_id,
+      this.PAGE_SIZE,
+      event.currentPage,
+      event.sortCode
     );
   }
 }

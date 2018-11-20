@@ -3,11 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
-import {
-  CurrencyService,
-  SiteContextConfig,
-  defaultSiteContextConfig
-} from '@spartacus/core';
+import { CurrencyService, defaultOccConfig, OccConfig } from '@spartacus/core';
 import { CurrencySelectorComponent } from './currency-selector.component';
 
 const mockCurrencies: any[] = [
@@ -33,7 +29,7 @@ describe('CurrencySelectorComponent', () => {
           provide: CurrencyService,
           useValue: currencyServiceMock
         },
-        { provide: SiteContextConfig, useValue: defaultSiteContextConfig }
+        { provide: OccConfig, useValue: defaultOccConfig }
       ]
     })
       .overrideComponent(CurrencySelectorComponent, {

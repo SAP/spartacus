@@ -1,4 +1,4 @@
-import { AuthModuleConfig, ServerConfig, SiteContextConfig } from '@spartacus/core';
+import { AuthModuleConfig, ServerConfig, OccConfig } from '@spartacus/core';
 
 export interface CMSComponentMappingConfig {
   [CMSComponent: string]: string;
@@ -19,14 +19,8 @@ export interface CMSComponentMappingConfig {
   CMSTabParagraphComponent?: string;
 }
 
-export abstract class CmsModuleConfig extends ServerConfig
-  implements SiteContextConfig, AuthModuleConfig {
-  site?: {
-    baseSite?: string;
-    language?: string;
-    currency?: string;
-  };
-
+export abstract class CmsModuleConfig extends OccConfig
+  implements AuthModuleConfig {
   authentication?: {
     client_id?: string;
     client_secret?: string;

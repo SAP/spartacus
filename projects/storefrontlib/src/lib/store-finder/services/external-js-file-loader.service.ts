@@ -33,7 +33,7 @@ export class ExternalJsFileLoader {
    * Parses the given object with parameters to a string "param1=value1&param2=value2"
    * @param params object containing parameters
    */
-  protected parseParams(params: Object): string {
+  private parseParams(params: Object): string {
     let result = '';
     const keysArray = Object.keys(params);
     if (keysArray.length > 0) {

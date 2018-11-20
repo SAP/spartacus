@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of, Observable } from 'rxjs';
 import { ProductReviewsComponent } from './product-reviews.component';
-import { ProductReviewService } from '../../../facade/product-review.service';
+import { ProductReviewService } from '@spartacus/core';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };
