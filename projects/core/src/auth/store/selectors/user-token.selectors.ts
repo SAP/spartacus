@@ -1,7 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import * as fromFeature from './../reducers';
 import { UserToken } from '../../models/token-types.model';
 import { AuthState, StateWithAuth, UserTokenState } from '../auth-state';
+import { getAuthState } from './feature.selector';
 
 export const getUserTokenSelector = (state: UserTokenState) => state.token;
 
@@ -9,7 +9,7 @@ export const getUserTokenState: MemoizedSelector<
   StateWithAuth,
   UserTokenState
 > = createSelector(
-  fromFeature.getAuthState,
+  getAuthState,
   (state: AuthState) => state.userToken
 );
 

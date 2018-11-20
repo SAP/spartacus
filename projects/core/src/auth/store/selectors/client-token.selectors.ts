@@ -1,11 +1,11 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import * as fromFeature from './../reducers';
 import { AuthState, ClientTokenState, StateWithAuth } from '../auth-state';
+import { getAuthState } from './feature.selector';
 
 export const getClientTokenState: MemoizedSelector<
   StateWithAuth,
   ClientTokenState
 > = createSelector(
-  fromFeature.getAuthState,
+  getAuthState,
   (state: AuthState) => state.clientToken
 );
