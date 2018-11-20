@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-
 import { Store, select } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
 import * as fromReducer from '../store/reducers';
 import * as fromAction from '../store/actions';
 import * as fromSelector from '../store/selectors';
@@ -12,7 +13,13 @@ import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 
 @Injectable()
 export class CartService {
-  callback: Function;
+  readonly activeCart$: Observable<any> = this.store.pipe(
+    select(fromSelector.getActiveCart)
+  );
+
+  readonly entries$: Observable<any> = this.store.pipe(
+    select(fromSelector.getEntries)
+  );
 
   constructor(
     private store: Store<fromReducer.CartState>,
@@ -20,6 +27,8 @@ export class CartService {
   ) {
     this.initCart();
   }
+
+  private callback: Function;
 
   initCart() {
     this.store.pipe(select(fromSelector.getActiveCart)).subscribe(cart => {
