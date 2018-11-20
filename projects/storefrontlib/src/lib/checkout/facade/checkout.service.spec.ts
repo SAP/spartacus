@@ -1,36 +1,11 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store } from '@ngrx/store';
-import * as ngrxStore from '@ngrx/store';
-import { EMPTY, of } from 'rxjs';
 
 import * as fromCheckout from '../store';
 import { CheckoutService } from './checkout.service';
 import { CartDataService } from '../../cart/services/cart-data.service';
 
 describe('CheckoutService', () => {
-  const mockSelect = selector => {
-    switch (selector) {
-      case fromCheckout.getSupportedDeliveryModes:
-        return () => of(['mode1', 'mode2']);
-      case fromCheckout.getSelectedDeliveryMode:
-        return () => of('mode1');
-      case fromCheckout.getSelectedCode:
-        return () => of('mode1');
-      case fromCheckout.getAllCardTypes:
-        return () => of(['card-type-1', 'card-type-2']);
-      case fromCheckout.getDeliveryAddress:
-        return () => of({ id: 'addressId' });
-      case fromCheckout.getAddressVerificationResults:
-        return () => of({ decision: 'DECLINE' });
-      case fromCheckout.getPaymentDetails:
-        return () => of({ id: 'payment id' });
-      case fromCheckout.getOrderDetails:
-        return () => of({ code: 'testOrder' });
-      default:
-        return () => EMPTY;
-    }
-  };
-
   let service: CheckoutService;
   let cartData: CartDataService;
   let store: Store<fromCheckout.CheckoutState>;
@@ -45,8 +20,6 @@ describe('CheckoutService', () => {
   };
 
   beforeEach(() => {
-    spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
-
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -70,22 +43,42 @@ describe('CheckoutService', () => {
   ));
 
   it('should be able to get supported delivery modes', () => {
+    store.dispatch(
+      new fromCheckout.LoadSupportedDeliveryModesSuccess({
+        deliveryModes: [{ code: 'mode1' }, { code: 'mode2' }]
+      })
+    );
+
     let deliveryModes;
     service.supportedDeliveryModes$.subscribe(data => {
       deliveryModes = data;
     });
-    expect(deliveryModes).toEqual(['mode1', 'mode2']);
+    expect(deliveryModes).toEqual([{ code: 'mode1' }, { code: 'mode2' }]);
   });
 
   it('should be able to get selected delivery mode', () => {
+    store.dispatch(
+      new fromCheckout.LoadSupportedDeliveryModesSuccess({
+        deliveryModes: [{ code: 'mode1' }, { code: 'mode2' }]
+      })
+    );
+    store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
+
     let selectedMode;
     service.selectedDeliveryMode$.subscribe(data => {
       selectedMode = data;
     });
-    expect(selectedMode).toEqual('mode1');
+    expect(selectedMode).toEqual({ code: 'mode1' });
   });
 
   it('should be able to get the code of selected delivery mode', () => {
+    store.dispatch(
+      new fromCheckout.LoadSupportedDeliveryModesSuccess({
+        deliveryModes: [{ code: 'mode1' }, { code: 'mode2' }]
+      })
+    );
+    store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
+
     let selectedModeCode;
     service.selectedDeliveryModeCode$.subscribe(data => {
       selectedModeCode = data;
@@ -94,14 +87,28 @@ describe('CheckoutService', () => {
   });
 
   it('should be able to get the card types', () => {
+    store.dispatch(
+      new fromCheckout.LoadCardTypesSuccess([
+        { code: 'visa', name: 'visa' },
+        { code: 'masterCard', name: 'masterCard' }
+      ])
+    );
+
     let cardTypes;
     service.cardTypes$.subscribe(data => {
       cardTypes = data;
     });
-    expect(cardTypes).toEqual(['card-type-1', 'card-type-2']);
+    expect(cardTypes).toEqual([
+      { code: 'visa', name: 'visa' },
+      { code: 'masterCard', name: 'masterCard' }
+    ]);
   });
 
   it('should be able to get the delivery address', () => {
+    store.dispatch(
+      new fromCheckout.SetDeliveryAddressSuccess({ id: 'addressId' })
+    );
+
     let deliveryAddress;
     service.deliveryAddress$.subscribe(data => {
       deliveryAddress = data;
@@ -110,6 +117,10 @@ describe('CheckoutService', () => {
   });
 
   it('should be able to get the address verification result', () => {
+    store.dispatch(
+      new fromCheckout.VerifyAddressSuccess({ decision: 'DECLINE' })
+    );
+
     let result;
     service.addressVerificationResults$.subscribe(data => {
       result = data;
@@ -118,6 +129,10 @@ describe('CheckoutService', () => {
   });
 
   it('should be able to get the payment details', () => {
+    store.dispatch(
+      new fromCheckout.SetPaymentDetailsSuccess({ id: 'payment id' })
+    );
+
     let paymentDetails;
     service.paymentDetails$.subscribe(data => {
       paymentDetails = data;
@@ -126,6 +141,8 @@ describe('CheckoutService', () => {
   });
 
   it('should be able to get the order details', () => {
+    store.dispatch(new fromCheckout.PlaceOrderSuccess({ code: 'testOrder' }));
+
     let orderDetails;
     service.orderDetails$.subscribe(data => {
       orderDetails = data;
