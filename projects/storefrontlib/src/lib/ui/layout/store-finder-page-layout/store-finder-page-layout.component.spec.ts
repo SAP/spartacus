@@ -9,11 +9,13 @@ import { StoreFinderPageLayoutComponent } from './store-finder-page-layout.compo
 })
 export class MockStoreFinderHeaderComponent {}
 
+/* tslint:disable */
 @Component({
-  selector: 'router-outlet', // tslint:disable-line 
+  selector: 'router-outlet',
   template: ''
 })
 export class MockRouterOutletComponent {}
+/* tslint:enable */
 
 describe('StoreFinderPageLayoutComponent', () => {
   let component: StoreFinderPageLayoutComponent;
