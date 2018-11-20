@@ -1,31 +1,13 @@
-import { ComponentsModule } from './../../components/components.module';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
-import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
-import { CartService } from '../../../cart/services';
-import * as fromCart from '../../../cart/store';
-import { ComponentWrapperDirective } from '../../../cms/components';
-import * as fromCmsReducer from '../../../cms/store';
 
-import { CartPageLayoutComponent } from '../../layout/cart-page-layout/cart-page-layout.component';
-import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
 import { CartPageComponent } from './cart-page.component';
-import { OutletDirective } from '../../../outlet';
-import { Input, Component } from '@angular/core';
 
 @Component({
-  selector: 'cx-dynamic-slot',
-  template: 'MockDynamicSlotComponent'
+  selector: 'cx-cart-page-layout',
+  template: ''
 })
-export class MockDynamicSlotComponent {
-  @Input()
-  position: string;
-}
-export class MockCartService {
-  loadCartDetails() {}
-}
+export class MockCartPageLayoutComponent {}
 
 describe('CartPageComponent', () => {
   let component: CartPageComponent;
@@ -33,25 +15,7 @@ describe('CartPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
-        StoreModule.forFeature('cart', fromCart.getReducers()),
-
-        ComponentsModule,
-        CartSharedModule
-      ],
-      declarations: [
-        CartPageComponent,
-        CartPageLayoutComponent,
-        MockDynamicSlotComponent,
-        ComponentWrapperDirective,
-        OutletDirective,
-        CartDetailsComponent
-      ],
-      providers: [{ provide: CartService, useClass: MockCartService }]
+      declarations: [CartPageComponent, MockCartPageLayoutComponent]
     }).compileComponents();
   }));
 
