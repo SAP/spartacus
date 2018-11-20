@@ -35,6 +35,10 @@ export class CmsService {
     );
   }
 
+  getLatestPage() {
+    return this.store.pipe(select(fromStore.getLatestPage));
+  }
+
   hasPage(pageContext) {
     let tryTimes = 0;
 

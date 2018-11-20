@@ -93,6 +93,16 @@ describe('CmsService', () => {
     ));
   });
 
+  it('should return the latest page', inject(
+    [CmsService],
+    (service: CmsService) => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of(page));
+      let result;
+      service.getLatestPage().subscribe(value => (result = value));
+      expect(result).toBe(page);
+    }
+  ));
+
   describe('hasPage()', () => {
     it('should return true when find the cms page by key id_type', inject(
       [CmsService],
