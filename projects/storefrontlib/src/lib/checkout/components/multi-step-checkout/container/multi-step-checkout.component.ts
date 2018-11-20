@@ -189,19 +189,21 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     return;
   }
 
-  addPaymentInfo({ newPayment, payment }) {
+  addPaymentInfo({ newPayment, payload }) {
     if (newPayment) {
-      payment.billingAddress = this.deliveryAddress;
-      this.checkoutService.createPaymentDetails(payment);
+      payload.payment.billingAddress = payload.useShippingAddress
+        ? this.deliveryAddress
+        : payload.billingAddress;
+      this.checkoutService.createPaymentDetails(payload.payment);
       return;
     }
 
-    // if the selected paymetn is the same as the cart's one
-    if (this.paymentDetails && this.paymentDetails.id === payment.id) {
+    // if the selected payment is the same as the cart's one
+    if (this.paymentDetails && this.paymentDetails.id === payload.payment.id) {
       this.nextStep(4);
       return;
     }
-    this.checkoutService.setPaymentDetails(payment);
+    this.checkoutService.setPaymentDetails(payload.payment);
     return;
   }
 

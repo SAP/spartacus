@@ -1,6 +1,6 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
 import { OccConfig } from '@spartacus/core';
@@ -9,6 +9,9 @@ const ENDPOINT_COUNTRIES = 'countries';
 const ENDPOINT_TITLES = 'titles';
 const ENDPOINT_CARD_TYPES = 'cardtypes';
 const ENDPOINT_REGIONS = 'regions';
+
+const COUNTRIES_TYPE_SHIPPING = 'SHIPPING';
+const COUNTRIES_TYPE_BILLING = 'BILLING';
 
 @Injectable()
 export class OccMiscsService {
@@ -26,7 +29,17 @@ export class OccMiscsService {
 
   loadDeliveryCountries(): Observable<any> {
     return this.http
-      .get(this.getEndpoint(ENDPOINT_COUNTRIES))
+      .get(this.getEndpoint(ENDPOINT_COUNTRIES), {
+        params: new HttpParams().set('type', COUNTRIES_TYPE_SHIPPING)
+      })
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
+  loadBillingCountries(): Observable<any> {
+    return this.http
+      .get(this.getEndpoint(ENDPOINT_COUNTRIES), {
+        params: new HttpParams().set('type', COUNTRIES_TYPE_BILLING)
+      })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 

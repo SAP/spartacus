@@ -3,14 +3,16 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnDestroy
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { tap, map, takeWhile } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../../../../store';
+import * as fromUser from '../../../../../user/store';
 import { CheckoutService } from '../../../../services/checkout.service';
 import { Card } from '../../../../../ui/components/card/card.component';
 import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
@@ -21,13 +23,15 @@ import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
   styleUrls: ['./payment-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PaymentFormComponent implements OnInit {
+export class PaymentFormComponent implements OnInit, OnDestroy {
+  private isAlive = true;
   months = [];
   years = [];
 
   cardTypes$: Observable<any>;
+  countries$: Observable<any>;
   shippingAddress$: Observable<any>;
-  sameAsShippingAddress = true;
+  sameAsShippingAddress = false;
 
   @Output()
   backToPayment = new EventEmitter<any>();
@@ -46,6 +50,23 @@ export class PaymentFormComponent implements OnInit {
     cvn: ['', Validators.required]
   });
 
+  billingAddress: FormGroup = this.fb.group({
+    titleCode: ['', Validators.required],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    line1: ['', Validators.required],
+    line2: [''],
+    town: ['', Validators.required],
+    region: this.fb.group({
+      isocode: ['', Validators.required]
+    }),
+    country: this.fb.group({
+      isocode: ['', Validators.required]
+    }),
+    postalCode: ['', Validators.required],
+    phone: ''
+  });
+
   infoIconImgSrc = infoIconImgSrc;
 
   constructor(
@@ -57,6 +78,17 @@ export class PaymentFormComponent implements OnInit {
   ngOnInit() {
     this.expMonthAndYear();
 
+    // Fetching billing countries
+    this.countries$ = this.store.pipe(
+      select(fromUser.getAllBillingCountries),
+      tap(countries => {
+        // If the store is empty fetch countries. This is also used when changing language.
+        if (Object.keys(countries).length === 0) {
+          this.store.dispatch(new fromUser.LoadBillingCountries());
+        }
+      })
+    );
+
     this.cardTypes$ = this.store.pipe(
       select(fromCheckoutStore.getAllCardTypes),
       tap(cardTypes => {
@@ -65,9 +97,16 @@ export class PaymentFormComponent implements OnInit {
         }
       })
     );
+
     this.shippingAddress$ = this.store.pipe(
       select(fromCheckoutStore.getDeliveryAddress)
     );
+
+    this.showSameAsShippingAddressCheckbox()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(boolean => {
+        this.sameAsShippingAddress = boolean;
+      });
   }
 
   expMonthAndYear() {
@@ -100,8 +139,24 @@ export class PaymentFormComponent implements OnInit {
     this.payment['controls'].expiryYear.setValue(year.name);
   }
 
-  setSameAsShippingAddress() {
+  toggleSameAsShippingAddress() {
     this.sameAsShippingAddress = !this.sameAsShippingAddress;
+  }
+
+  /**
+   * Check if the shipping address can also be a billing address
+   *
+   * @returns {Observable<boolean>}
+   * @memberof PaymentFormComponent
+   */
+  showSameAsShippingAddressCheckbox(): Observable<boolean> {
+    return combineLatest(this.countries$, this.shippingAddress$).pipe(
+      map(([countries, address]) => {
+        return !!countries.filter(
+          country => country.isocode === address.country.isocode
+        ).length;
+      })
+    );
   }
 
   getAddressCardContent(address): Card {
@@ -127,6 +182,14 @@ export class PaymentFormComponent implements OnInit {
   }
 
   next() {
-    this.addPaymentInfo.emit(this.payment.value);
+    this.addPaymentInfo.emit({
+      payment: this.payment.value,
+      billingAddress: this.billingAddress.value,
+      useShippingAddress: this.sameAsShippingAddress
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.isAlive = false;
   }
 }

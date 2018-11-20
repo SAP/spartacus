@@ -15,6 +15,7 @@ import * as fromTitlesReducer from './titles.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
 import * as fromRegionsReducer from './regions.reducer';
 import * as fromOrderDetailsReducer from './order-details.reducer';
+import * as fromBillingCountries from './billing-countries.reducer';
 
 import * as fromAction from '../actions';
 import * as fromAuthAction from '../../../auth/store/actions';
@@ -22,6 +23,7 @@ import * as fromAuthAction from '../../../auth/store/actions';
 export interface UserState {
   account: fromUserDetailsReducer.UserDetailsState;
   addresses: fromUserAddresses.UserAddressesState;
+  billingCountries: fromBillingCountries.BillingCountriesState;
   countries: fromDeliveryCountries.DeliveryCountriesState;
   payments: fromPaymentMethods.UserPaymentMethodsState;
   orders: fromUserOrders.UserOrdersState;
@@ -34,6 +36,7 @@ export function getReducers(): ActionReducerMap<UserState> {
   return {
     account: fromUserDetailsReducer.reducer,
     addresses: fromUserAddresses.reducer,
+    billingCountries: fromBillingCountries.reducer,
     payments: fromPaymentMethods.reducer,
     orders: fromUserOrders.reducer,
     order: fromOrderDetailsReducer.reducer,
