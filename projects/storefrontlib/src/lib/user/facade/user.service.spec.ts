@@ -1,47 +1,14 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store } from '@ngrx/store';
-import * as ngrxStore from '@ngrx/store';
-import { of } from 'rxjs';
 
 import * as fromStore from '../store';
 import { UserService } from './user.service';
 
 describe('UserService', () => {
-  const mockSelect = selector => {
-    switch (selector) {
-      case fromStore.getDetails:
-        return () => of({ userId: 'testUser' });
-      case fromStore.getAllTitles:
-        return () => of(['t1', 't2']);
-      case fromStore.getOrderDetails:
-        return () => of({ code: 'testOrder' });
-      case fromStore.getOrders:
-        return () => of([]);
-      case fromStore.getOrdersLoaded:
-        return () => of(false);
-      case fromStore.getPaymentMethods:
-        return () => of('mockPaymentMethods');
-      case fromStore.getPaymentMethodsLoading:
-        return () => of(true);
-      case fromStore.getAddresses:
-        return () => of(['address1', 'address2']);
-      case fromStore.getAddressesLoading:
-        return () => of(true);
-      case fromStore.getAllDeliveryCountries:
-        return () => of(['c1', 'c2']);
-      case fromStore.getAllRegions:
-        return () => of(['r1', 'r2']);
-      default:
-        return () => of('mockCountry');
-    }
-  };
-
   let service: UserService;
   let store: Store<fromStore.UserState>;
 
   beforeEach(() => {
-    spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
-
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -63,6 +30,10 @@ describe('UserService', () => {
   ));
 
   it('should be able to get user details', () => {
+    store.dispatch(
+      new fromStore.LoadUserDetailsSuccess({ userId: 'testUser' })
+    );
+
     let userDetails;
     service.user$.subscribe(data => {
       userDetails = data;
@@ -71,14 +42,27 @@ describe('UserService', () => {
   });
 
   it('should be able to get titles data', () => {
+    store.dispatch(
+      new fromStore.LoadTitlesSuccess([
+        { code: 't1', name: 't1' },
+        { code: 't2', name: 't2' }
+      ])
+    );
     let titles;
     service.titles$.subscribe(data => {
       titles = data;
     });
-    expect(titles).toEqual(['t1', 't2']);
+    expect(titles).toEqual([
+      { code: 't1', name: 't1' },
+      { code: 't2', name: 't2' }
+    ]);
   });
 
   it('should be able to get user address', () => {
+    store.dispatch(
+      new fromStore.LoadUserAddressesSuccess(['address1', 'address2'])
+    );
+
     let addresses;
     service.addresses$.subscribe(data => {
       addresses = data;
@@ -87,6 +71,8 @@ describe('UserService', () => {
   });
 
   it('should be able to get Address loading flag', () => {
+    store.dispatch(new fromStore.LoadUserAddresses('testUserId'));
+
     let flag;
     service.addressesLoading$.subscribe(data => {
       flag = data;
@@ -95,14 +81,20 @@ describe('UserService', () => {
   });
 
   it('should be able to get user payment methods', () => {
+    store.dispatch(
+      new fromStore.LoadUserPaymentMethodsSuccess(['method1', 'method2'])
+    );
+
     let paymentMethods;
     service.paymentMethods$.subscribe(data => {
       paymentMethods = data;
     });
-    expect(paymentMethods).toEqual('mockPaymentMethods');
+    expect(paymentMethods).toEqual(['method1', 'method2']);
   });
 
   it('should be able to get user payment methods loading flag', () => {
+    store.dispatch(new fromStore.LoadUserPaymentMethods('testUserId'));
+
     let flag;
     service.paymentMethodsLoading$.subscribe(data => {
       flag = data;
@@ -111,14 +103,25 @@ describe('UserService', () => {
   });
 
   it('should be able to get all delivery countries', () => {
+    store.dispatch(
+      new fromStore.LoadDeliveryCountriesSuccess([
+        { isocode: 'c1', name: 'n1' },
+        { isocode: 'c2', name: 'n2' }
+      ])
+    );
     let countries;
     service.allDeliveryCountries$.subscribe(data => {
       countries = data;
     });
-    expect(countries).toEqual(['c1', 'c2']);
+    expect(countries).toEqual([
+      { isocode: 'c1', name: 'n1' },
+      { isocode: 'c2', name: 'n2' }
+    ]);
   });
 
   it('should be able to get all regions', () => {
+    store.dispatch(new fromStore.LoadRegionsSuccess(['r1', 'r2']));
+
     let regions;
     service.allRegions$.subscribe(data => {
       regions = data;
@@ -127,6 +130,10 @@ describe('UserService', () => {
   });
 
   it('should be able to get order details', () => {
+    store.dispatch(
+      new fromStore.LoadOrderDetailsSuccess({ code: 'testOrder' })
+    );
+
     let order;
     service.orderDetails$.subscribe(data => {
       order = data;
@@ -135,6 +142,8 @@ describe('UserService', () => {
   });
 
   it('should be able to get order list', () => {
+    store.dispatch(new fromStore.LoadUserOrdersSuccess([]));
+
     let orderList;
     service.orderList$.subscribe(data => {
       orderList = data;
@@ -143,11 +152,30 @@ describe('UserService', () => {
   });
 
   it('should be able to get order list loaded flag', () => {
+    store.dispatch(
+      new fromStore.LoadUserOrders({ userId: 'testUserId', pageSize: 10 })
+    );
+
     let orderListLoaded;
     service.orderListLoaded$.subscribe(data => {
       orderListLoaded = data;
     });
     expect(orderListLoaded).toEqual(false);
+  });
+
+  it('should be able to get country by isocode', () => {
+    store.dispatch(
+      new fromStore.LoadDeliveryCountriesSuccess([
+        { isocode: 'c1', name: 'n1' },
+        { isocode: 'c2', name: 'n2' }
+      ])
+    );
+
+    let country;
+    service.getCountry('c1').subscribe(data => {
+      country = data;
+    });
+    expect(country).toEqual({ isocode: 'c1', name: 'n1' });
   });
 
   it('should be able to load user details', () => {
@@ -173,14 +201,6 @@ describe('UserService', () => {
         uid: 'email'
       })
     );
-  });
-
-  it('should be able to get country by isocode', () => {
-    let country;
-    service.getCountry('isocode').subscribe(data => {
-      country = data;
-    });
-    expect(country).toBe('mockCountry');
   });
 
   it('should be able to load delivery countries', () => {
