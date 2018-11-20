@@ -3,6 +3,8 @@
   <div class="code">ID {{ product?.code }}</div>
 </ng-container>
 
+<div class="images"><ng-content></ng-content></div>
+
 <ng-container *cxOutlet="outlets.RATING">
   <div class="rating">
     <cx-star-rating
@@ -45,5 +47,5 @@
 </ng-container>
 
 <ng-container *cxOutlet="outlets.SHARE">
-  <a href="#" class="btn-link"> Share </a>
+  <a href="#" class="share btn-link"> Share </a>
 </ng-container>

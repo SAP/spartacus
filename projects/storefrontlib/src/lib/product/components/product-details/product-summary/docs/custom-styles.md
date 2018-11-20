@@ -6,7 +6,7 @@ The following snippet demonstrates a small configuration that will hide the prod
 
 ```css
 cx-product-summary {
-  --cx-grid-template-columns: minmax(20px, auto) minmax(20px auto);
+  --cx-grid-template-columns: auto auto minmax(20px, auto);
 
   .code {
     display: none;
@@ -15,7 +15,7 @@ cx-product-summary {
 
   .rating {
     --cx-grid-row: 1;
-    grid-row: 2;
+    --cx-grid-column: 3;
     --cx-margin: 0 0 5px 0;
 
     a {
