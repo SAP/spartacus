@@ -50,6 +50,30 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
+  updateUserAddress(userId, addressId) {
+    const url =
+      this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .put(url, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  deleteUserAddress(userId, addressId) {
+    const url =
+      this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .delete(url, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
   loadUserPaymentMethods(userId) {
     const url = this.getUserEndpoint() + userId + PAYMENT_DETAILS_ENDPOINT;
     const headers = new HttpHeaders({

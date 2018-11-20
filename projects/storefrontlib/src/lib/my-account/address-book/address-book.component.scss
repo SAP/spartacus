@@ -1,0 +1,13 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+$cx-address-deck-padding: 1.25rem 0 0 0 !default;
+
+.cx-address-deck {
+  padding: $cx-address-deck-padding;
+}
+
+.cx-address-card {
+  display: block;
+}

@@ -13,6 +13,7 @@ import { MultiStepCheckoutPageLayoutModule } from './multi-step-checkout-page-la
 import { OrderConfirmationPageLayoutModule } from './order-confirmation-page-layout/order-confirmation-page-layout.module';
 import { OrderHistoryPageLayoutModule } from './order-history-page-layout/order-history-page-layout.module';
 import { OrderDetailsPageLayoutModule } from './order-details-page-layout/order-details-page-layout.module';
+import { AddressBookPageLayoutModule } from './address-book-page-layout/address-book-page-layout.module';
 import { RegisterLayoutModule } from './register-layout/register-layout.module';
 import { LoginPageLayoutModule } from './login-page-layout/login-page-layout.module';
 import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-finder-page-layout.module';
@@ -30,6 +31,7 @@ const layoutModules = [
   MultiStepCheckoutPageLayoutModule,
   OrderDetailsPageLayoutModule,
   OrderConfirmationPageLayoutModule,
+  AddressBookPageLayoutModule,
   ProductDetailsPageLayoutModule,
   RegisterLayoutModule,
   LoginPageLayoutModule,

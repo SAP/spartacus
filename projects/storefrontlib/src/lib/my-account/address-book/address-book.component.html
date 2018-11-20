@@ -1,0 +1,43 @@
+<div class="cx-page">
+  <header class="cx-page__header">
+    <h1 class="cx-page__title">Address Book</h1>
+  </header>
+  <!-- ALERT WOULD GO HERE -->
+  <section class="cx-page__section container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="cx-section" *ngIf="!isAddressFormOpen">
+          <h1 class="cx-section__title">Address Book</h1>
+          <p>Saved shipping addresses</p>
+          <div class="row">
+            <div class="col-md-6">
+              <button
+                class="btn btn-block btn-action"
+                (click)="showAddressForm()"
+              >
+                Add new address
+              </button>
+            </div>
+          </div>
+          <div
+            class="row cx-address-deck"
+            *ngIf="(addresses$ | async) as addresses"
+          >
+            <div *ngFor="let address of addresses" class="col-md-6">
+              <cx-address-card [address]="address"></cx-address-card>
+            </div>
+          </div>
+        </div>
+
+        <div class="cx-section" *ngIf="isAddressFormOpen" #addressForm>
+          <h1 class="cx-section__title">Address Book</h1>
+          <p>Add a new shipping address</p>
+          <cx-address-form
+            (addAddress)="addNewAddress($event)"
+            (backToAddress)="hideAddressForm()"
+          ></cx-address-form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

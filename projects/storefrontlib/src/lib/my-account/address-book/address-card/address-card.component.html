@@ -1,0 +1,43 @@
+<div class="cx-address-card card">
+  <div class="card-header" *ngIf="address.defaultAddress && !editMode">
+    &#10003; DEFAULT
+  </div>
+  <div class="card-body" [class.cx-address-card--delete-mode]="editMode">
+    <div *ngIf="editMode" class="cx-address-card__delete-msg">
+      Are you sure you want to delete this address?
+    </div>
+    <div class="address_data">
+      <div class="cx-address-card__label--bold">
+        {{ address.firstName }} {{ address.lastName }}
+      </div>
+      <div class="cx-address-card__label">{{ address.line1 }}</div>
+      <div class="cx-address-card__label">{{ address.line2 }}</div>
+      <div class="cx-address-card__label">
+        {{ address.town }}, {{ address.country?.isocode }}
+      </div>
+      <div class="cx-address-card__label">{{ address.postalCode }}</div>
+      <div class="cx-address-card__label">{{ address.phone }}</div>
+    </div>
+
+    <div *ngIf="editMode" class="row cx-address-card__delete">
+      <div class="col-md-6">
+        <button class="btn btn-block btn-secondary" (click)="cancelEdit()">
+          cancel
+        </button>
+      </div>
+      <div class="col-md-6">
+        <button class="btn btn-block btn-primary">delete</button>
+      </div>
+    </div>
+    <div *ngIf="!editMode" class="cx-address-card__actions">
+      <a
+        *ngIf="!address.defaultAddress"
+        (click)="setDefault()"
+        class="card-link btn-link"
+        >set as default</a
+      >
+      <a class="card-link btn-link">edit</a>
+      <a (click)="setEditMode()" class="card-link btn-link">delete</a>
+    </div>
+  </div>
+</div>
