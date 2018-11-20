@@ -6,9 +6,9 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SearchConfig } from '../../../search-config';
-import { ProductSearchService } from '../../../facade/product-search.service';
 import { ActivatedRoute } from '@angular/router';
+import { SearchConfig } from '@spartacus/core';
+import { ProductSearchService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-list',
@@ -30,7 +30,7 @@ export class ProductListComponent implements OnChanges, OnInit {
 
   grid: any;
   model$: Observable<any>;
-  searchConfig: SearchConfig = new SearchConfig();
+  searchConfig: SearchConfig = {};
 
   constructor(
     protected productSearchService: ProductSearchService,
@@ -74,15 +74,11 @@ export class ProductListComponent implements OnChanges, OnInit {
   }
 
   viewPage(pageNumber: number) {
-    const options = new SearchConfig();
-    options.currentPage = pageNumber;
-    this.search(this.query, options);
+    this.search(this.query, { currentPage: pageNumber });
   }
 
   sortList(sortCode: string) {
-    const options = new SearchConfig();
-    options.sortCode = sortCode;
-    this.search(this.query, options);
+    this.search(this.query, { sortCode: sortCode });
   }
 
   protected search(query: string, options?: SearchConfig) {
