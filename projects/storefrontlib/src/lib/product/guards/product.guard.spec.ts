@@ -1,10 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PageType } from './../../routing/models/page-context.model';
 import { ProductGuard } from './product.guard';
-import { RoutingService } from '../../routing/facade/routing.service';
+import { RoutingService, PageType, ProductService } from '@spartacus/core';
 import { of } from 'rxjs';
-import { ProductService } from '../facade/product.service';
 
 class MockProductService {
   isProductLoaded() {}

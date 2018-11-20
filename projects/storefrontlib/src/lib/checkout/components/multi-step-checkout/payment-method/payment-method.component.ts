@@ -6,11 +6,9 @@ import {
   EventEmitter,
   Input
 } from '@angular/core';
-import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import * as fromUserStore from '../../../../user/store';
 import { CheckoutService } from '../../../services/checkout.service';
 import { Card } from '../../../../ui/components/card/card.component';
 import { masterCardImgSrc } from '../../../../ui/images/masterCard';
@@ -35,17 +33,12 @@ export class PaymentMethodComponent implements OnInit {
   @Output()
   addPaymentInfo = new EventEmitter<any>();
 
-  constructor(
-    protected store: Store<fromUserStore.UserState>,
-    protected checkoutService: CheckoutService
-  ) {}
+  constructor(protected checkoutService: CheckoutService) {}
 
   ngOnInit() {
-    this.isLoading$ = this.store.pipe(
-      select(fromUserStore.getPaymentMethodsLoading)
-    );
-    this.existingPaymentMethods$ = this.store.pipe(
-      select(fromUserStore.getPaymentMethods),
+    this.isLoading$ = this.checkoutService.paymentMethodsLoading$;
+
+    this.existingPaymentMethods$ = this.checkoutService.paymentMethods$.pipe(
       tap(payments => {
         if (payments.length === 0) {
           this.checkoutService.loadUserPaymentMethods();

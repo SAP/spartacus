@@ -7,6 +7,8 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { NavigationModule } from '../navigation/navigation.module';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { CmsService } from '../../cms/facade/cms.service';
+import { NavigationService } from '../navigation/navigation.service';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -34,6 +36,9 @@ describe('FooterNavigationComponent', () => {
   let column: DebugElement;
 
   beforeEach(async(() => {
+    const mockCmsService = {};
+    const mockNavigationService = {};
+
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -42,7 +47,11 @@ describe('FooterNavigationComponent', () => {
         NavigationModule
       ],
       declarations: [FooterNavigationComponent],
-      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
+      providers: [
+        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
+        { provide: CmsService, useValue: mockCmsService },
+        { provide: NavigationService, useValue: mockNavigationService }
+      ]
     }).compileComponents();
   }));
 

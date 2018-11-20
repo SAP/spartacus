@@ -1,10 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Store, StoreModule } from '@ngrx/store';
-import { RoutingService } from '../../routing/facade/routing.service';
+import {
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  NavigationExtras
+} from '@angular/router';
 
-import * as fromStore from './../../auth/store';
+import { RoutingService } from '@spartacus/core';
+
+import { of } from 'rxjs';
+
+import { AuthService } from '../facade/auth.service';
+import { UserToken } from '../models/token-types.model';
+
 import { AuthGuard } from './auth.guard';
 
 const mockUserToken = {
@@ -16,21 +24,33 @@ const mockUserToken = {
   userId: 'test'
 };
 
+class AuthServiceStub {
+  userToken$ = of();
+}
+
 const mockActivatedRouteSnapshot = {};
 const mockRouterStateSnapshot = { url: '/test' };
+
+class RoutingServiceStub {
+  go(_path: any[], _query?: object, _extras?: NavigationExtras) {}
+  saveRedirectUrl(_url: string) {}
+}
 
 describe('AuthGuard', () => {
   let authGuard: AuthGuard;
   let service: RoutingService;
+  let authService: AuthServiceStub;
   let activatedRouteSnapshot;
   let routerStateSnapshot;
-  let store: Store<fromStore.AuthState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         AuthGuard,
-        RoutingService,
+        {
+          provide: RoutingService,
+          useClass: RoutingServiceStub
+        },
         {
           provide: ActivatedRouteSnapshot,
           useValue: mockActivatedRouteSnapshot
@@ -38,25 +58,26 @@ describe('AuthGuard', () => {
         {
           provide: RouterStateSnapshot,
           useValue: mockRouterStateSnapshot
+        },
+        {
+          provide: AuthService,
+          useClass: AuthServiceStub
         }
       ],
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('auth', fromStore.getReducers())
-      ]
+      imports: [RouterTestingModule]
     });
-    store = TestBed.get(Store);
     authGuard = TestBed.get(AuthGuard);
     service = TestBed.get(RoutingService);
     activatedRouteSnapshot = TestBed.get(ActivatedRouteSnapshot);
     routerStateSnapshot = TestBed.get(RouterStateSnapshot);
+    authService = TestBed.get(AuthService);
 
-    spyOn(service, 'go').and.callThrough();
-    spyOn(service, 'saveRedirectUrl').and.callThrough();
+    spyOn(service, 'go').and.stub();
+    spyOn(service, 'saveRedirectUrl').and.stub();
   });
 
   it('should return false', () => {
+    authService.userToken$ = of({ access_token: undefined });
     let result: boolean;
 
     const sub = authGuard
@@ -67,7 +88,7 @@ describe('AuthGuard', () => {
   });
 
   it('should return true', () => {
-    store.dispatch(new fromStore.LoadUserTokenSuccess(mockUserToken));
+    authService.userToken$ = of(mockUserToken);
 
     let result: boolean;
 
@@ -79,10 +100,13 @@ describe('AuthGuard', () => {
   });
 
   it('should redirect to login if invalid token', () => {
+    authService.userToken$ = of({ access_token: undefined } as UserToken);
+
     const sub = authGuard
       .canActivate(activatedRouteSnapshot, routerStateSnapshot)
       .subscribe();
     sub.unsubscribe();
+
     expect(service.go).toHaveBeenCalledWith(['/login']);
     expect(service.saveRedirectUrl).toHaveBeenCalledWith('/test');
   });

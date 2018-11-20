@@ -1,20 +1,18 @@
-import { OrderDetailsComponent } from '../order-details/order-details.component';
+import { Component, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import * as NgrxStore from '@ngrx/store';
-import { CartService, CartDataService } from '../../../cart/services';
-import { RoutingService } from '../../../routing/facade/routing.service';
-import { CartSharedModule } from '../../../cart/components/cart-shared/cart-shared.module';
+import { By } from '@angular/platform-browser';
+import createSpy = jasmine.createSpy;
+
+import { OrderDetailsComponent } from '../order-details/order-details.component';
+import { RoutingService } from '@spartacus/core';
+import { UserService } from '../../../user/facade/user.service';
+import { AuthService } from '../../../auth/facade/auth.service';
 import { CardModule } from '../../../ui/components/card/card.module';
-import * as fromAuth from '../../../auth/store';
-import * as fromUserStore from '../../../user/store';
 
 const mockOrder = {
   code: '1',
   statusDisplay: 'Shipped',
-  created: 1539028162656,
-  consignments: [],
-  unconsignedEntries: [],
   deliveryAddress: {
     firstName: 'John',
     lastName: 'Smith',
@@ -27,7 +25,6 @@ const mockOrder = {
       isocode: 'UK'
     }
   },
-
   deliveryMode: {
     name: 'Standard shipping',
     description: '3-5 days'
@@ -55,60 +52,79 @@ const mockOrder = {
   }
 };
 
-const mockUser = {
-  userId: 'test@sap.com'
-};
-
-const mockState = {
-  state: {
-    params: {
-      orderCode: '1'
-    }
-  }
-};
-
-function spyOnStore() {
-  spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
-    switch (selector) {
-      case fromAuth.getUserToken:
-        return () => of(mockUser);
-      case fromUserStore.getOrderDetails:
-        return () => of(mockOrder);
-    }
-  });
+@Component({
+  selector: 'cx-order-summary',
+  template: ''
+})
+class MockOrderSummaryComponent {
+  @Input()
+  cart: any;
 }
-const mockRoutingService = {
-  routerState$: of(mockState)
-};
+
+@Component({
+  selector: 'cx-cart-item-list',
+  template: ''
+})
+class MockCartItemListComponent {
+  @Input()
+  isReadOnly = false;
+  @Input()
+  hasHeader = true;
+  @Input()
+  items = [];
+  @Input()
+  potentialProductPromotions: any[] = [];
+  @Input()
+  cartIsLoading = false;
+}
+
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
   let fixture: ComponentFixture<OrderDetailsComponent>;
-  let store: NgrxStore.Store<fromUserStore.UserState>;
+  let mockAuthService: any;
+  let mockRoutingService: any;
+  let mockUserService: any;
+  let el: DebugElement;
 
   beforeEach(async(() => {
+    mockRoutingService = {
+      routerState$: of({
+        state: {
+          params: {
+            orderCode: '1'
+          }
+        }
+      })
+    };
+    mockAuthService = {
+      userToken$: of({ userId: 'test' })
+    };
+    mockUserService = {
+      orderDetails$: of(mockOrder),
+      loadOrderDetails: createSpy(),
+      clearOrderDetails: createSpy()
+    };
+
     TestBed.configureTestingModule({
-      imports: [
-        CartSharedModule,
-        CardModule,
-        NgrxStore.StoreModule.forRoot({}),
-        NgrxStore.StoreModule.forFeature('auth', fromAuth.getReducers()),
-        NgrxStore.StoreModule.forFeature('order', fromUserStore.getReducers())
-      ],
+      imports: [CardModule],
       providers: [
-        CartService,
-        CartDataService,
-        { provide: RoutingService, useValue: mockRoutingService }
+        { provide: RoutingService, useValue: mockRoutingService },
+        { provide: UserService, useValue: mockUserService },
+        { provide: AuthService, useValue: mockAuthService }
       ],
-      declarations: [OrderDetailsComponent]
+      declarations: [
+        MockCartItemListComponent,
+        MockOrderSummaryComponent,
+        OrderDetailsComponent
+      ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailsComponent);
-    component = fixture.componentInstance;
-    store = TestBed.get(NgrxStore.Store);
+    el = fixture.debugElement;
 
-    spyOn(store, 'dispatch').and.callThrough();
+    component = fixture.componentInstance;
     component.ngOnInit();
   });
 
@@ -116,61 +132,47 @@ describe('OrderDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize with the store', () => {
-    spyOnStore();
+  it('should initialize ', () => {
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(NgrxStore.select).toHaveBeenCalledWith(
-        fromUserStore.getOrderDetails
-      );
+    let order;
+    component.order$.subscribe(value => {
+      order = value;
     });
+    expect(order).toEqual(mockOrder);
+    expect(mockUserService.loadOrderDetails).toHaveBeenCalledWith('test', '1');
   });
 
   it('should order details info bar be not null', () => {
-    spyOnStore();
     fixture.detectChanges();
-    expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-order-details')
-    ).not.toBeNull();
+    expect(el.query(By.css('.cx-order-details'))).not.toBeNull();
   });
 
   it('should order details display correct order ID', () => {
-    spyOnStore();
     fixture.detectChanges();
-    expect(
-      fixture.debugElement.nativeElement.querySelector(
-        '.cx-order-details__detail:first-of-type .cx-order-details__value'
-      ).textContent
-    ).toEqual(mockOrder.code);
+    const element = el.query(
+      By.css('.cx-order-details__detail:first-of-type .cx-order-details__value')
+    );
+    expect(element.nativeElement.textContent).toEqual(mockOrder.code);
   });
 
   it('should order details display correct order status', () => {
-    spyOnStore();
     fixture.detectChanges();
-    expect(
-      fixture.debugElement.nativeElement.querySelector(
-        '.cx-order-details__detail:last-of-type .cx-order-details__value'
-      ).textContent
-    ).toEqual(mockOrder.statusDisplay);
+    const element = el.query(
+      By.css('.cx-order-details__detail:last-of-type .cx-order-details__value')
+    );
+    expect(element.nativeElement.textContent).toEqual(mockOrder.statusDisplay);
   });
 
   it('should order details display order summary', () => {
-    spyOnStore();
     fixture.detectChanges();
-    expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-order-summary')
-    ).not.toBeNull();
+    const element = el.query(By.css('cx-order-summary'));
+    expect(element).not.toBeNull();
   });
 
   it('should order details display "ship to" data', () => {
-    spyOnStore();
     fixture.detectChanges();
-
-    expect(
-      fixture.debugElement.nativeElement.querySelector(
-        '.cx-card-body__label-container'
-      ).textContent
-    ).toContain(
+    const element = el.query(By.css('.cx-card-body__label-container'));
+    expect(element.nativeElement.textContent).toContain(
       mockOrder.deliveryAddress.firstName &&
         mockOrder.deliveryAddress.lastName &&
         mockOrder.deliveryAddress.line1 &&
@@ -181,14 +183,11 @@ describe('OrderDetailsComponent', () => {
   });
 
   it('should order details display "bill to" data', () => {
-    spyOnStore();
     fixture.detectChanges();
-
-    expect(
-      fixture.debugElement.nativeElement.querySelector(
-        '.cx-order-details__account-summary.row > div:nth-child(2)'
-      ).textContent
-    ).toContain(
+    const element = el.query(
+      By.css('.cx-order-details__account-summary.row > div:nth-child(2)')
+    );
+    expect(element.nativeElement.textContent).toContain(
       mockOrder.paymentInfo.billingAddress.firstName &&
         mockOrder.paymentInfo.billingAddress.lastName &&
         mockOrder.paymentInfo.billingAddress.line1 &&
@@ -199,14 +198,11 @@ describe('OrderDetailsComponent', () => {
   });
 
   it('should order details display "payment" data', () => {
-    spyOnStore();
     fixture.detectChanges();
-
-    expect(
-      fixture.debugElement.nativeElement.querySelector(
-        '.cx-order-details__account-summary.row > div:nth-child(3)'
-      ).textContent
-    ).toContain(
+    const element = el.query(
+      By.css('.cx-order-details__account-summary.row > div:nth-child(3)')
+    );
+    expect(element.nativeElement.textContent).toContain(
       mockOrder.paymentInfo.accountHolderName &&
         mockOrder.paymentInfo.cardNumber &&
         mockOrder.paymentInfo.expiryMonth &&
@@ -216,14 +212,11 @@ describe('OrderDetailsComponent', () => {
   });
 
   it('should order details display "shipping" data', () => {
-    spyOnStore();
     fixture.detectChanges();
-
-    expect(
-      fixture.debugElement.nativeElement.querySelector(
-        '.cx-order-details__account-summary.row > div:nth-child(4)'
-      ).textContent
-    ).toContain(
+    const element = el.query(
+      By.css('.cx-order-details__account-summary.row > div:nth-child(4)')
+    );
+    expect(element.nativeElement.textContent).toContain(
       mockOrder.deliveryMode.name && mockOrder.deliveryMode.description
     );
   });

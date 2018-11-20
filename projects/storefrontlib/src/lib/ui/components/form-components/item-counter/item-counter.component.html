@@ -1,10 +1,44 @@
-<div class="cx-item-counter btn-group" role="group" tabindex="0" aria-label="Add more items" [class.focused]="focus"
-  (keydown)="onKeyDown($event)" (blur)="onBlur($event)" (focus)="onFocus($event)">
-  <button type="button" class="cx-item-counter__action" (click)="decrement()" [disabled]="cartIsLoading || value === min">
-    -
-  </button>
-  <div class="cx-item-counter__value"> {{ value }} </div>
-  <button type="button" class="cx-item-counter__action" (click)="increment()" [disabled]="cartIsLoading || value === max">
-    +
-  </button>
+<div class="cx-item-counter__wrapper">
+  <div
+    class="cx-item-counter btn-group"
+    role="group"
+    tabindex="0"
+    aria-label="Add more items"
+    [class.focused]="focus"
+    (keydown)="onKeyDown($event)"
+    (blur)="onBlur($event)"
+    (focus)="onFocus($event)"
+  >
+    <button
+      type="button"
+      class="cx-item-counter__action"
+      (click)="decrement()"
+      [disabled]="cartIsLoading || value === min"
+    >
+      -
+    </button>
+    <input
+      class="cx-item-counter__value"
+      type="text"
+      name="value"
+      cxOnlyNumber
+      (input)="onInput($event)"
+      [value]="value"
+      *ngIf="isValueChangable"
+    />
+    <div class="cx-item-counter__value" *ngIf="!isValueChangable">
+      {{ value }}
+    </div>
+    <button
+      type="button"
+      class="cx-item-counter__action"
+      (click)="increment()"
+      [disabled]="cartIsLoading || value === max"
+    >
+      +
+    </button>
+  </div>
+  <div class="cx-item-counter__error" *ngIf="hasError()">
+    Must be between {{ min }} - {{ max }}
+  </div>
 </div>
