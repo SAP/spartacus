@@ -1,10 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CategoryPageLayoutComponent } from './category-page-layout.component';
-import { ComponentWrapperDirective } from '../../../cms/components';
-import * as fromCmsReducer from '../../../cms/store/reducers';
 
-import { StoreModule } from '@ngrx/store';
-import { OutletDirective } from '../../../outlet';
 import { Input, Component } from '@angular/core';
 
 @Component({
@@ -22,16 +18,7 @@ describe('CategoryPageLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers())
-      ],
-      declarations: [
-        CategoryPageLayoutComponent,
-        MockDynamicSlotComponent,
-        ComponentWrapperDirective,
-        OutletDirective
-      ]
+      declarations: [CategoryPageLayoutComponent, MockDynamicSlotComponent]
     }).compileComponents();
   }));
 
