@@ -9,7 +9,7 @@ import { RoutesTranslations } from '../routes-config';
 import { RoutesConfigLoader } from '../routes-config-loader';
 
 @Injectable()
-export class PathRecognizerService {
+export class DynamicUrlRecognizerService {
   constructor(private routesConfigLoader: RoutesConfigLoader) {}
 
   getPageAndParameters(

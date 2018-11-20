@@ -7,11 +7,11 @@ type PathPipeArgument = string | (string | object)[];
   name: 'cxPath'
 })
 export class PathPipe implements PipeTransform {
-  constructor(private pathService: PathPipeService) {}
+  constructor(private service: PathPipeService) {}
 
   transform(argument: PathPipeArgument): string {
     const { pageName, parametersObject } = this.interpretArgument(argument);
-    return this.pathService.transform(pageName, parametersObject);
+    return this.service.transform(pageName, parametersObject);
   }
 
   private interpretArgument(

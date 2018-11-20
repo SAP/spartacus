@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { PathPipeService } from './path-pipe.service';
-import { PathRecognizerService } from './path-recognizer.service';
+import { DynamicUrlRecognizerService } from './dynamic-url-recognizer.service';
 
 @Injectable()
-export class DynamicPathPipeService {
+export class DynamicUrlPipeService {
   constructor(
     private pathService: PathPipeService,
-    private pathRecognizerService: PathRecognizerService
+    private dynamicUrlRecognizerService: DynamicUrlRecognizerService
   ) {}
 
   transform(path: string) {
     const {
       pageName,
       parameters
-    } = this.pathRecognizerService.getPageAndParameters(path);
+    } = this.dynamicUrlRecognizerService.getPageAndParameters(path);
 
     if (!pageName) {
       return path;

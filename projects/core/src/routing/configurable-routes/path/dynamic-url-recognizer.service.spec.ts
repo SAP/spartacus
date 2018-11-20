@@ -1,20 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutesConfigLoader } from '../routes-config-loader';
 import { RoutesTranslations } from '../routes-config';
-import { PathRecognizerService } from './path-recognizer.service';
+import { DynamicUrlRecognizerService } from './dynamic-url-recognizer.service';
 
 const mockRoutesConfigLoader = {
   routesConfig: { translations: { default: {} } }
 };
 
-describe('PathRecognizerService', () => {
+describe('DynamicUrlRecognizerService', () => {
   let loader: RoutesConfigLoader;
-  let service: PathRecognizerService;
+  let service: DynamicUrlRecognizerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        PathRecognizerService,
+        DynamicUrlRecognizerService,
         {
           provide: RoutesConfigLoader,
           useValue: mockRoutesConfigLoader
@@ -23,7 +23,7 @@ describe('PathRecognizerService', () => {
     });
 
     loader = TestBed.get(RoutesConfigLoader);
-    service = TestBed.get(PathRecognizerService);
+    service = TestBed.get(DynamicUrlRecognizerService);
   });
 
   describe('getPageAndParameters', () => {

@@ -14,9 +14,9 @@ const UseCmsModuleConfig: CmsModuleConfig = {
 };
 
 @Pipe({
-  name: 'cxDynamicPath'
+  name: 'cxDynamicUrl'
 })
-class MockDynamicPathPipe implements PipeTransform {
+class MockDynamicUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -42,7 +42,7 @@ describe('LinkComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [LinkComponent, MockDynamicPathPipe],
+      declarations: [LinkComponent, MockDynamicUrlPipe],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
