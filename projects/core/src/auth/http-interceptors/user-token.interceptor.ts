@@ -8,7 +8,7 @@ import {
 
 import { Observable } from 'rxjs';
 
-import { AuthModuleConfig } from '../config/config';
+import { AuthConfig } from '../config/auth-config';
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from '../../auth/models/token-types.model';
 
@@ -21,7 +21,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
     this.config.site.baseSite;
 
   constructor(
-    private config: AuthModuleConfig,
+    private config: AuthConfig,
     private authService: AuthService
   ) {
     this.authService.userToken$.subscribe((token: UserToken) => {

@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthModuleConfig } from '../../config/config';
+import { AuthConfig } from '../../config/auth-config';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
 @Injectable()
 export class UserAuthenticationTokenService {
-  constructor(private http: HttpClient, private config: AuthModuleConfig) {}
+  constructor(private http: HttpClient, private config: AuthConfig) {}
 
   loadToken(userId: string, password: string): Observable<any> {
     const url = this.getOAuthEndpoint();

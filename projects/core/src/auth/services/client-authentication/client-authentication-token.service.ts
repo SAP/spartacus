@@ -3,13 +3,13 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthModuleConfig } from '../../config/config';
+import { AuthConfig } from '../../config/auth-config';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
 @Injectable()
 export class ClientAuthenticationTokenService {
-  constructor(private config: AuthModuleConfig, private http: HttpClient) {}
+  constructor(private config: AuthConfig, private http: HttpClient) {}
 
   loadClientAuthenticationToken(): Observable<any> {
     const url = this.getOAuthEndpoint();

@@ -1,12 +1,12 @@
 import { CmsModuleConfig } from './cms/cms-module-config';
-import { AuthModuleConfig, OccConfig,
+import { AuthConfig, OccConfig,
   RoutingModuleConfig,
   ConfigurableRoutesConfig
 } from '@spartacus/core';
 import { PWAModuleConfig } from './pwa/pwa.module-config';
 
 export interface StorefrontModuleConfig
-  extends AuthModuleConfig,
+  extends AuthConfig,
     CmsModuleConfig,
     OccConfig,
     RoutingModuleConfig,

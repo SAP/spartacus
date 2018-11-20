@@ -14,9 +14,11 @@ import {
   reducerProvider,
   metaReducers
 } from './store/reducers/index';
-import { AuthModuleConfig, defaultAuthModuleConfig } from './config/config';
+import { AuthConfig} from './config/auth-config';
+import { defaultAuthConfig } from './config/default-auth-config';
 import { Config, ConfigModule } from '../config/config.module';
 import { RoutingModule } from '../routing/routing.module';
+
 
 
 @NgModule({
@@ -26,13 +28,13 @@ import { RoutingModule } from '../routing/routing.module';
     RoutingModule,
     StoreModule.forFeature('auth', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfig(defaultAuthModuleConfig)
+    ConfigModule.withConfig(defaultAuthConfig)
   ],
   providers: [
     ...services,
     ...interceptors,
     reducerProvider,
-    { provide: AuthModuleConfig, useExisting: Config }
+    { provide: AuthConfig, useExisting: Config }
   ]
 })
 export class AuthModule {}

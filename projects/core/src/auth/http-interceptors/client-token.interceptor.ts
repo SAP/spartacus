@@ -14,7 +14,7 @@ import {
   USE_CLIENT_TOKEN,
   InterceptorUtil
 } from '../../occ/utils/interceptor-util';
-import { AuthModuleConfig } from '../config/config';
+import { AuthConfig } from '../config/auth-config';
 
 @Injectable()
 export class ClientTokenInterceptor implements HttpInterceptor {
@@ -24,7 +24,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     this.config.site.baseSite;
 
   constructor(
-    private config: AuthModuleConfig,
+    private config: AuthConfig,
     private authService: AuthService
   ) {}
 
