@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Store, select } from '@ngrx/store';
-import * as fromCartStore from '../../../cart/store';
+
 import { Observable } from 'rxjs';
-import { CartService } from '../../../cart/services/cart.service';
+
+import * as fromCartStore from '../../../cart/store';
+import { CartService } from '../../../cart/facade/cart.service';
 
 @Component({
   selector: 'cx-cart-page-layout',
