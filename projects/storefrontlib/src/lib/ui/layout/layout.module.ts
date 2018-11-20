@@ -43,7 +43,6 @@ const layoutModules = [
 ];
 
 @NgModule({
-  imports: [MainModule, ...layoutModules],
-  exports: [MainModule, ...layoutModules]
+  imports: [MainModule, ...layoutModules]
 })
 export class LayoutModule {}
