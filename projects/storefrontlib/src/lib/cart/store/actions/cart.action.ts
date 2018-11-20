@@ -48,6 +48,11 @@ export class MergeCart implements Action {
   constructor(public payload: any) {}
 }
 
+export class MergeCartSuccess implements Action {
+  readonly type = MERGE_CART_SUCCESS;
+  constructor() {}
+}
+
 export type CartAction =
   | CreateCart
   | CreateCartFail
@@ -55,4 +60,5 @@ export type CartAction =
   | LoadCart
   | LoadCartFail
   | LoadCartSuccess
-  | MergeCart;
+  | MergeCart
+  | MergeCartSuccess;
