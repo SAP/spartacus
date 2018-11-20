@@ -82,6 +82,21 @@ describe('ProductListComponent in product-list', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should call ngOnChanges and get search results with params provided with url', () => {
+    const activeRoute = TestBed.get(ActivatedRoute);
+    activeRoute.setParams({
+      query: 'myBestQueryEver:category:bestqueries',
+      page: 112
+    });
+    component.categoryCode = 'mockCategoryCode';
+    component.ngOnInit();
+    component.ngOnChanges();
+    expect(service.search).toHaveBeenCalledWith(
+      'myBestQueryEver:category:bestqueries',
+      { pageSize: 10, page: 112 }
+    );
+  });
+
   it('should call ngOnChanges and get search results with category code', () => {
     component.categoryCode = 'mockCategoryCode';
     component.ngOnInit();
