@@ -1,20 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { Component, Input } from '@angular/core';
+
+import { of } from 'rxjs';
+
+import { CmsService } from '../../../cms/facade/cms.service';
 
 import { CategoryPageComponent } from './category-page.component';
-import { CategoryPageLayoutComponent } from '../../layout/category-page-layout/category-page-layout.component';
-import { ProductListPageLayoutComponent } from '../../layout/product-list-page-layout/product-list-page-layout.component';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
-import * as NgrxStore from '@ngrx/store';
-import { ProductListModule } from '../../../product/components/product-list/product-list.module';
-import { ActivatedRoute } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
-import * as fromCms from '../../../cms/store';
-import * as fromCart from '../../../cart/store';
-import { of } from 'rxjs';
-import { OutletDirective } from '../../../outlet';
+import { Page } from '../../../cms/models/page.model';
 
 class MockActivatedRoute {
   params = of({
@@ -24,52 +17,79 @@ class MockActivatedRoute {
   });
 }
 
+class MockCmsService {
+  getLatestPage() {}
+}
+
+@Component({
+  selector: 'cx-product-list-page-layout',
+  template: ''
+})
+export class MockProductListPageLayoutComponent {
+  @Input()
+  gridMode: String;
+  @Input()
+  categoryCode;
+  @Input()
+  brandCode;
+  @Input()
+  query;
+}
+
+@Component({
+  selector: 'cx-category-page-layout',
+  template: ''
+})
+export class MockCategoryPageLayoutComponent {
+  @Input()
+  categoryCode;
+}
+
+const mockPage: Page = {
+  pageId: 'testPageId',
+  name: 'testPage',
+  seen: [],
+  slots: {}
+};
+
 describe('CategoryPageComponent', () => {
   let component: CategoryPageComponent;
   let fixture: ComponentFixture<CategoryPageComponent>;
+  let cmsService: CmsService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromCms.getReducers()),
-        StoreModule.forFeature('cart', fromCart.getReducers()),
-        ProductListModule
-      ],
       declarations: [
         CategoryPageComponent,
-        CategoryPageLayoutComponent,
-        ProductListPageLayoutComponent,
-        DynamicSlotComponent,
-        ComponentWrapperDirective,
-        OutletDirective
+        MockCategoryPageLayoutComponent,
+        MockProductListPageLayoutComponent
       ],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        { provide: MockActivatedRoute }
+        { provide: CmsService, useClass: MockCmsService }
       ]
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CategoryPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    cmsService = TestBed.get(CmsService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit()', () => {
-    spyOnProperty(NgrxStore, 'select').and.returnValue(() => () =>
-      of('cartPage')
-    );
+  it('should initialize component state when ngOnInit() is called', () => {
+    spyOn(cmsService, 'getLatestPage').and.returnValue(of(mockPage));
+
     component.ngOnInit();
 
     expect(component.categoryCode).toEqual('123');
     expect(component.brandCode).toEqual('456');
     expect(component.query).toEqual('mockQuery');
-    component.cmsPage$.subscribe(page => expect(page).toEqual('cartPage'));
+    component.cmsPage$.subscribe(pageReturned =>
+      expect(pageReturned).toBe(mockPage)
+    );
   });
 });
