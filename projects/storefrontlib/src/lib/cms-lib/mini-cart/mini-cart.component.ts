@@ -5,13 +5,13 @@ import {
 } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
 
-import * as fromStore from '../../cms/store';
 import * as fromCartStore from '../../cart/store';
-import { CartService } from '../../cart/services/cart.service';
+import * as fromStore from '../../cms/store';
+import { CartService } from '../../cart/facade/cart.service';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-
 import { CmsService } from '../../cms/facade/cms.service';
 
 @Component({
