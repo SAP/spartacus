@@ -11,8 +11,8 @@ import { of } from 'rxjs';
 
 import * as fromCart from '../../../cart/store';
 import * as fromUser from '../../../user/store';
-import { CartDataService } from '../../../cart/services/cart-data.service';
-import { CartService } from '../../../cart/services/cart.service';
+import { CartDataService } from '../../../cart/facade/cart-data.service';
+import { CartService } from '../../../cart/facade/cart.service';
 import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
 
 import { AddToCartComponent } from './add-to-cart.component';
