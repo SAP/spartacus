@@ -26,6 +26,6 @@ import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
     OutletRefModule
   ],
   declarations: [StorefrontComponent, FooterComponent],
-  exports: [StorefrontComponent, FooterComponent]
+  exports: [StorefrontComponent]
 })
 export class MainModule {}
