@@ -9,6 +9,8 @@ const GOOGLE_API_KEY_PROPERTY_NAME = 'e2egoogleservices.apikey';
 const DEFAULT_SCALE = 12;
 const SELECTED_MARKER_SCALE = 16;
 
+
+
 @Injectable()
 export class GoogleMapRendererService {
   private googleMap: google.maps.Map = null;
@@ -40,24 +42,12 @@ export class GoogleMapRendererService {
             GOOGLE_MAP_API_URL,
             { key: result },
             () => {
-              this.initMap(mapElement, this.defineMapCenter(locations));
-              if (selectMarkerHandler) {
-                this.createMarkers(locations, selectMarkerHandler);
-              } else {
-                this.createMarkers(locations);
-              }
+              this.drawMap.call(this, mapElement, locations, selectMarkerHandler);
             }
           );
         });
     } else {
-      this.setMapOnAllMarkers(null);
-      if (selectMarkerHandler) {
-        this.createMarkers(locations, selectMarkerHandler);
-      } else {
-        this.createMarkers(locations);
-      }
-      this.googleMap.setCenter(this.defineMapCenter(locations));
-      this.googleMap.setZoom(DEFAULT_SCALE);
+      this.drawMap.call(this, mapElement, locations, selectMarkerHandler);
     }
   }
 
@@ -134,10 +124,16 @@ export class GoogleMapRendererService {
   }
 
   /**
-   * Moves all the markers to the given map
-   * @param map {@link google.maps.Map} the map where all the markers will be moved. Pass null if you just want to erase markers
+   * Initialize and draw the map
+   * @param locations array of locations to be displayed on the map
+   * @param selectMarkerHandler function to handle whenever a marker on a map is clicked
    */
-  private setMapOnAllMarkers(map: google.maps.Map): void {
-    this.markers.forEach(marker => marker.setMap(map));
+  drawMap(mapElement: HTMLElement, locations: any[], selectMarkerHandler: Function) {
+    this.initMap(mapElement, this.defineMapCenter(locations));
+    if (selectMarkerHandler) {
+      this.createMarkers(locations, selectMarkerHandler);
+    } else {
+      this.createMarkers(locations);
+    }
   }
 }
