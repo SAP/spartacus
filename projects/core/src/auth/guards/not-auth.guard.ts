@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { AuthService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '../../routing/facade/routing.service';
+import { AuthService } from '../facade/auth.service';
 
 @Injectable({
   providedIn: 'root'

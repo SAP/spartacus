@@ -7,7 +7,10 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AuthService, RoutingService, UserToken } from '@spartacus/core';
+import { RoutingService } from '../../routing/facade/routing.service';
+import { AuthService } from '../facade/auth.service';
+import { UserToken } from '../models/token-types.model';
+
 
 @Injectable({
   providedIn: 'root'

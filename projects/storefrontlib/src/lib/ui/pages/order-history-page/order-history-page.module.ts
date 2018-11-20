@@ -5,7 +5,7 @@ import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 
 import { OrderHistoryPageLayoutModule } from '../../layout/order-history-page-layout/order-history-page-layout.module';
 import { OrderHistoryPageComponent } from './order-history-page.component';
-import { AuthGuard } from '../../../guards/auth/auth.guard';
+import { AuthGuard } from '@spartacus/core';
 
 const routes: Routes = [
   {

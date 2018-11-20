@@ -3,7 +3,7 @@ import { CmsPageGuards } from './../../../cms/guards/cms-page.guard';
 import { NgModule } from '@angular/core';
 import { LoginPageLayoutModule } from './../../layout/login-page-layout/login-page-layout.module';
 import { LoginPageComponent } from './login-page.component';
-import { NotAuthGuard } from '../../../guards/auth';
+import { NotAuthGuard } from '@spartacus/core';
 
 const routes: Routes = [
   {

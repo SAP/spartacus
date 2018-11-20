@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { RegisterPageComponent } from './register-page.component';
 import { RegisterLayoutModule } from '../../layout/register-layout/register-layout.module';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
-import { NotAuthGuard } from '../../../guards/auth';
+import { NotAuthGuard } from '@spartacus/core';
 
 const routes: Routes = [
   {

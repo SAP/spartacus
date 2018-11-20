@@ -6,7 +6,7 @@ import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { CartNotEmptyGuard } from '../../../cart/guards/cart-not-empty.guard';
 import { MultiStepCheckoutPageLayoutModule } from '../../layout/multi-step-checkout-page-layout/multi-step-checkout-page-layout.module';
 import { MultiStepCheckoutPageComponent } from './multi-step-checkout-page.component';
-import { AuthGuard } from '../../../guards/auth/auth.guard';
+import { AuthGuard } from '@spartacus/core';
 
 const routes: Routes = [
   {

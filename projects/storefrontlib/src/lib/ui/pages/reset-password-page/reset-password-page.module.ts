@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ResetPasswordPageComponent } from './reset-password-page.component';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { ResetPasswordPageLayoutModule } from '../../layout/reset-password-page-layout/reset-password-page-layout.module';
-import { NotAuthGuard } from '../../../guards/auth';
+import { NotAuthGuard } from '@spartacus/core';
 
 const routes: Routes = [
   {
