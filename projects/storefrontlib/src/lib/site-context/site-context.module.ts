@@ -4,7 +4,6 @@ import { CurrencySelectorModule } from './currency-selector/currency-selector.mo
 import { LanguageSelectorModule } from './language-selector/language-selector.module';
 
 @NgModule({
-  imports: [CurrencySelectorModule, LanguageSelectorModule],
-  exports: [CurrencySelectorModule, LanguageSelectorModule]
+  imports: [CurrencySelectorModule, LanguageSelectorModule]
 })
 export class SiteContextModule {}
