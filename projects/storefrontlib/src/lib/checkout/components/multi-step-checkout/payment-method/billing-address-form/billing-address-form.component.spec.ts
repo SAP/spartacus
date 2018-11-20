@@ -8,7 +8,7 @@ import { StoreModule, Store } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 
 import { BillingAddressFormComponent } from './billing-address-form.component';
-import { ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { BehaviorSubject, of } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
