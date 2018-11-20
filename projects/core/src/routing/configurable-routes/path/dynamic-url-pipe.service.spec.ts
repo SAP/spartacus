@@ -1,39 +1,39 @@
 import { TestBed } from '@angular/core/testing';
-import { DynamicPathPipeService } from './dynamic-path-pipe.service';
+import { DynamicUrlPipeService } from './dynamic-url-pipe.service';
 import { PathPipeService } from './path-pipe.service';
-import { PathRecognizerService } from './path-recognizer.service';
+import { DynamicUrlRecognizerService } from './dynamic-url-recognizer.service';
 
 const mockPathService = {
   transform: () => {}
 };
 
-const mockPathRecognizerService = {
+const mockDynamicUrlRecognizerService = {
   getPageAndParameters: () => {}
 };
 
-describe('DynamicPathPipeService', () => {
+describe('DynamicUrlPipeService', () => {
   let pathService: PathPipeService;
-  let service: DynamicPathPipeService;
-  let pathRecognizer: PathRecognizerService;
+  let service: DynamicUrlPipeService;
+  let dynamicUrlRecognizer: DynamicUrlRecognizerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        DynamicPathPipeService,
+        DynamicUrlPipeService,
         {
           provide: PathPipeService,
           useValue: mockPathService
         },
         {
-          provide: PathRecognizerService,
-          useValue: mockPathRecognizerService
+          provide: DynamicUrlRecognizerService,
+          useValue: mockDynamicUrlRecognizerService
         }
       ]
     });
 
     pathService = TestBed.get(PathPipeService);
-    pathRecognizer = TestBed.get(PathRecognizerService);
-    service = TestBed.get(DynamicPathPipeService);
+    dynamicUrlRecognizer = TestBed.get(DynamicUrlRecognizerService);
+    service = TestBed.get(DynamicUrlPipeService);
   });
 
   describe('transform', () => {
@@ -41,7 +41,7 @@ describe('DynamicPathPipeService', () => {
       const inputUrl = 'test-path/value1/value2';
       const expectedResult = 'expected-result';
       spyOn(pathService, 'transform').and.returnValue(expectedResult);
-      spyOn(pathRecognizer, 'getPageAndParameters').and.returnValue({
+      spyOn(dynamicUrlRecognizer, 'getPageAndParameters').and.returnValue({
         pageName: 'testPageName',
         parameters: { param1: 'value1', param2: 'value2' }
       });
@@ -55,21 +55,21 @@ describe('DynamicPathPipeService', () => {
       expect(result).toBe(expectedResult);
     });
 
-    it('should get matching page name and parameters from PathRecognizerService', () => {
+    it('should get matching page name and parameters from DynamicUrlRecognizerService', () => {
       const inputUrl = 'test-path/value1/value2';
-      spyOn(pathRecognizer, 'getPageAndParameters').and.returnValue({
+      spyOn(dynamicUrlRecognizer, 'getPageAndParameters').and.returnValue({
         pageName: null,
         parameters: null
       });
       service.transform(inputUrl);
-      expect(pathRecognizer.getPageAndParameters).toHaveBeenCalledWith(
+      expect(dynamicUrlRecognizer.getPageAndParameters).toHaveBeenCalledWith(
         inputUrl
       );
     });
 
     it('should return original url if there is no matching page for this url', () => {
       const inputUrl = 'unknown-path';
-      spyOn(pathRecognizer, 'getPageAndParameters').and.returnValue({
+      spyOn(dynamicUrlRecognizer, 'getPageAndParameters').and.returnValue({
         pageName: null,
         parameters: null
       });

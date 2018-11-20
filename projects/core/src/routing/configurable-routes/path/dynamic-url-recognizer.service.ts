@@ -9,7 +9,7 @@ import { RoutesTranslations } from '../routes-config';
 import { RoutesConfigLoader } from '../routes-config-loader';
 
 @Injectable()
-export class PathRecognizerService {
+export class DynamicUrlRecognizerService {
   constructor(private routesConfigLoader: RoutesConfigLoader) {}
 
   getPageAndParameters(
@@ -31,17 +31,19 @@ export class PathRecognizerService {
     pageName: string;
     matchedPath: string;
   } {
-    const result = Object.keys(this.defaultRoutesTranslations)
-      .map(pageName => {
-        const paths = this.defaultRoutesTranslations[pageName];
-        const matchedPath = paths.find(path =>
-          this.areStaticSegmentsIdentical(url, path)
-        );
+    const pageNames = Object.keys(this.defaultRoutesTranslations);
+    const pageNamesLength = pageNames.length;
+    for (let i = 0; i < pageNamesLength; i++) {
+      const pageName = pageNames[i];
+      const paths = this.defaultRoutesTranslations[pageName];
+      const matchedPath = paths.find(path =>
+        this.areStaticSegmentsIdentical(url, path)
+      );
+      if (matchedPath) {
         return { pageName, matchedPath };
-      })
-      .find(({ matchedPath }) => !!matchedPath);
-
-    return result || { pageName: null, matchedPath: null };
+      }
+    }
+    return { pageName: null, matchedPath: null };
   }
 
   // compares non-parameter segments

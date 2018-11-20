@@ -5,9 +5,9 @@ import { By } from '@angular/platform-browser';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'cxDynamicPath'
+  name: 'cxDynamicUrl'
 })
-class MockDynamicPathPipe implements PipeTransform {
+class MockDynamicUrlPipe implements PipeTransform {
   transform(url: string): string {
     return '/transformed-path' + url;
   }
@@ -21,7 +21,7 @@ describe('Navigation UI Component', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [NavigationUIComponent, MockDynamicPathPipe],
+      declarations: [NavigationUIComponent, MockDynamicUrlPipe],
       providers: []
     }).compileComponents();
   });

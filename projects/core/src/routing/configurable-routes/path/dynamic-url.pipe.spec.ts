@@ -1,28 +1,28 @@
 import { TestBed } from '@angular/core/testing';
-import { DynamicPathPipe } from './dynamic-path.pipe';
-import { DynamicPathPipeService } from './dynamic-path-pipe.service';
+import { DynamicUrlPipe } from './dynamic-url.pipe';
+import { DynamicUrlPipeService } from './dynamic-url-pipe.service';
 
-const mockDynamicPathService = {
+const mockDynamicUrlService = {
   transform: () => {}
 };
 
-describe('DynamicPathPipe', () => {
-  let pipe: DynamicPathPipe;
-  let service: DynamicPathPipeService;
+describe('DynamicUrlPipe', () => {
+  let pipe: DynamicUrlPipe;
+  let service: DynamicUrlPipeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        DynamicPathPipe,
+        DynamicUrlPipe,
         {
-          provide: DynamicPathPipeService,
-          useValue: mockDynamicPathService
+          provide: DynamicUrlPipeService,
+          useValue: mockDynamicUrlService
         }
       ]
     });
 
-    pipe = TestBed.get(DynamicPathPipe);
-    service = TestBed.get(DynamicPathPipeService);
+    pipe = TestBed.get(DynamicUrlPipe);
+    service = TestBed.get(DynamicUrlPipeService);
   });
 
   describe('transform', () => {
