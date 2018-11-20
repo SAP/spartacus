@@ -1,11 +1,6 @@
 import { ClientToken } from './../../models/token-types.model';
 import * as fromActions from './../actions';
-
-export interface ClientTokenState {
-  token: ClientToken;
-  loading: boolean;
-  loaded: boolean;
-}
+import { ClientTokenState } from '../auth-state';
 
 export const initialState: ClientTokenState = {
   token: <ClientToken>{},
@@ -47,5 +42,3 @@ export function reducer(
 
   return state;
 }
-
-export const getClientToken = (state: ClientTokenState) => state.token;

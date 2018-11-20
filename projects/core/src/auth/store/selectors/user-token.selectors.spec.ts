@@ -1,4 +1,4 @@
-import { Store, StoreModule, select } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
 
 import { TestBed } from '@angular/core/testing';
 
@@ -6,9 +6,10 @@ import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
 import * as fromActions from './../actions';
 import { UserToken } from '../../models/token-types.model';
+import { AuthState } from '../auth-state';
 
 describe('UserToken Selectors', () => {
-  let store: Store<fromReducers.AuthState>;
+  let store: Store<AuthState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

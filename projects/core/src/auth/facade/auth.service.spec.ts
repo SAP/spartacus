@@ -3,9 +3,10 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 
 import * as fromAuthStore from '../store';
-import { UserToken, ClientToken } from '../models/token-types.model';
+import { ClientToken, UserToken } from '../models/token-types.model';
 
 import { AuthService } from './auth.service';
+import { AuthState } from '../store/auth-state';
 
 const mockToken = {
   userId: 'user@sap.com',
@@ -18,7 +19,7 @@ const mockClientToken = {
 
 describe('AuthService', () => {
   let service: AuthService;
-  let store: Store<fromAuthStore.AuthState>;
+  let store: Store<AuthState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

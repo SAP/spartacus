@@ -1,9 +1,6 @@
 import * as fromAction from './../actions/user-token.action';
 import { UserToken } from '../../models/token-types.model';
-
-export interface UserTokenState {
-  token: UserToken;
-}
+import { UserTokenState } from '../auth-state';
 
 export const initialState: UserTokenState = {
   token: <UserToken>{}

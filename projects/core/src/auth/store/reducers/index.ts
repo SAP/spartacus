@@ -1,20 +1,10 @@
 import { InjectionToken, Provider } from '@angular/core';
 
-import {
-  ActionReducerMap,
-  MemoizedSelector,
-  createFeatureSelector,
-  ActionReducer,
-  MetaReducer
-} from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, createFeatureSelector, MemoizedSelector, MetaReducer } from '@ngrx/store';
 
 import * as fromUserTokenReducer from './user-token.reducer';
 import * as fromClientTokenReducer from './client-token.reducer';
-
-export interface AuthState {
-  userToken: fromUserTokenReducer.UserTokenState;
-  clientToken: fromClientTokenReducer.ClientTokenState;
-}
+import { AuthState } from '../auth-state';
 
 export function getReducers(): ActionReducerMap<AuthState> {
   return {

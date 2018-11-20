@@ -4,7 +4,7 @@ import * as fromAuthStore from '../store';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { Observable } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
-import { ClientTokenState } from '../store/reducers/client-token.reducer';
+import { ClientTokenState, StateWithAuth } from '../store/auth-state';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class AuthService {
     select(fromAuthStore.getUserToken)
   );
 
-  constructor(private store: Store<any>) {}
+  constructor(private store: Store<StateWithAuth>) {}
 
   readonly clientToken$: Observable<ClientToken> = this.store.pipe(
     select(fromAuthStore.getClientTokenState),
