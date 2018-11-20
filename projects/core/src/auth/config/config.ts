@@ -1,5 +1,4 @@
-import { ServerConfig } from '../../config';
-import { SiteContextConfig } from '../../site-context/config/config';
+import { OccConfig } from '../../occ/config/occ-config';
 
 export abstract class AuthModuleConfig extends OccConfig {
   authentication?: {

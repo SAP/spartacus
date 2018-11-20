@@ -1,4 +1,4 @@
-import { AuthModuleConfig, ServerConfig, OccConfig } from '@spartacus/core';
+import { AuthModuleConfig, OccConfig } from '@spartacus/core';
 
 export interface CMSComponentMappingConfig {
   [CMSComponent: string]: string;
