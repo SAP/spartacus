@@ -6,7 +6,7 @@ import { ConfigModule, Config } from '../../config/config.module';
 import { PathPipeService } from './path/path-pipe.service';
 import { DynamicPathPipeService } from './path/dynamic-path-pipe.service';
 import { ConfigurableRoutesConfig } from './config/configurable-routes-config';
-import { defaultConfigurableRoutesConfig } from './config/default-config';
+import { defaultConfigurableRoutesConfig } from './config/default-configurable-routes-config';
 import { PathRecognizerService } from './path/path-recognizer.service';
 
 export function loadRoutesConfig(loader: RoutesConfigLoader) {
