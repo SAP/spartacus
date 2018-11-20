@@ -23,15 +23,11 @@ $md-width: 992px;
 
 .name {
   @include type('1');
-  grid-row: var(--cx-grid-row);
-  grid-column: var(--cx-grid-column);
 }
 
 .code {
   @include type('7');
   color: var(--cx-secondary);
-  grid-row: var(--cx-grid-row);
-  grid-column: var(--cx-grid-column);
 }
 
 .rating {
@@ -39,8 +35,6 @@ $md-width: 992px;
   flex-direction: row;
   align-items: baseline;
   margin: var(--cx-margin, 0 0 12px 0);
-  grid-row: var(--cx-grid-row);
-  grid-column: var(--cx-grid-column);
 
   .count {
     margin: var(--cx-margin, 0 20px 0 5px);
@@ -51,8 +45,6 @@ $md-width: 992px;
   display: inline-block;
   @include type('3');
   font-weight: $font-weight-normal;
-  grid-row: var(--cx-grid-row);
-  grid-column: var(--cx-grid-column);
 
   &--old {
     color: var(--cx-secondary);
@@ -64,15 +56,7 @@ $md-width: 992px;
   }
 }
 
-.description {
-  grid-row: var(--cx-grid-row);
-  grid-column: var(--cx-grid-column);
-}
-
 .quantity {
-  grid-row: var(--cx-grid-row);
-  grid-column: var(--cx-grid-column);
-
   label {
     @include type('8');
     margin: var(--cx-margin, 15px 0 10px 0);
@@ -83,14 +67,4 @@ $md-width: 992px;
     margin: var(--cx-margin, 0 15px 0 15px);
     color: var(--cx-secondary);
   }
-}
-
-cx-add-to-cart {
-  grid-row: var(--cx-grid-row);
-  grid-column: var(--cx-grid-column);
-}
-
-.share {
-  grid-row: var(--cx-grid-row);
-  grid-column: var(--cx-grid-column);
 }

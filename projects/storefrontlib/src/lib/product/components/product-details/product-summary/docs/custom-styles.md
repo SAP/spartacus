@@ -18,7 +18,7 @@ cx-product-summary {
 
   .rating {
     @media (max-width: 992px) {
-      --cx-grid-row: 3;
+      grid-row: 3;
       justify-content: center;
     }
 
@@ -29,7 +29,7 @@ cx-product-summary {
 
   .price {
     @media (max-width: 992px) {
-      --cx-grid-row: 2;
+      grid-row: 2;
       text-align: center;
     }
   }
@@ -39,6 +39,10 @@ cx-product-summary {
   }
 }
 ```
+
+**Demo**
+
+![Title group](title-group.png)
 
 ## Add to cart next to description
 
@@ -50,8 +54,8 @@ cx-product-summary {
     --cx-grid-template-columns: auto auto auto;
 
     .quantity {
-      --cx-grid-row: 2;
-      --cx-grid-column: 3;
+      grid-row: 2;
+      grid-column: 3;
       text-align: center;
       .info {
         display: none;
@@ -63,25 +67,25 @@ cx-product-summary {
     }
 
     cx-add-to-cart {
-      --cx-grid-row: 3;
-      --cx-grid-column: 3;
+      grid-row: 3;
+      grid-column: 3;
       min-width: 200px;
     }
 
     .rating {
-      --cx-grid-column: 2;
+      grid-column: 2;
     }
 
     .description {
-      --cx-grid-column: 2;
+      grid-column: 2;
     }
 
     .price {
-      --cx-grid-column: 2;
+      grid-column: 2;
     }
 
     .share {
-      --cx-grid-column: 2;
+      grid-column: 2;
     }
   }
 
@@ -93,7 +97,7 @@ cx-product-summary {
 
 **Demo**
 
-![Add to cart with title](atc-with-title.png)
+![Add to cart with title](atc-with-description.png)
 
 ## Product name under product picture in mobile
 
@@ -103,10 +107,10 @@ The following snippet provides the necessary styling to have the product nmae un
 cx-product-summary {
   .name {
     margin-top: 20px;
-    --cx-grid-row: 2;
+    grid-row: 2;
 
     @media (min-width: 992px) {
-      --cx-grid-row: 1;
+      grid-row: 1;
     }
   }
 
@@ -128,7 +132,7 @@ cx-product-summary {
   }
 
   .description {
-    --cx-grid-row: 8;
+    grid-row: 8;
     margin-top: 20px;
   }
 
@@ -139,3 +143,7 @@ cx-product-summary {
   }
 }
 ```
+
+**Demo**
+
+![Name under picture](name-under-picture.png)
