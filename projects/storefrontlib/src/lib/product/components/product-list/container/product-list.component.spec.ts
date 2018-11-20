@@ -23,9 +23,14 @@ import { PaginationAndSortingModule } from '../../../../ui/components/pagination
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
 import { ProductSearchService } from '../../../facade/product-search.service';
+import { ActivatedRoute } from '@angular/router';
 
 class MockProductSearchService {
   search() {}
+}
+class MockActivatedRoute {
+  snapshot = { queryParams: {} };
+  setParams = params => (this.snapshot.queryParams = params);
 }
 
 describe('ProductListComponent in product-list', () => {
@@ -48,6 +53,10 @@ describe('ProductListComponent in product-list', () => {
         {
           provide: ProductSearchService,
           useClass: MockProductSearchService
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: MockActivatedRoute
         }
       ],
       declarations: [

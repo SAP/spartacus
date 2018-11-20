@@ -7,11 +7,19 @@ import * as fromStore from '../store';
 import { ProductSearchService } from './product-search.service';
 import { SearchConfig } from '../search-config';
 import { EMPTY, of } from 'rxjs';
+import { Router } from '@angular/router';
 
 describe('ProductSearchService', () => {
   let service: ProductSearchService;
   let store: Store<fromStore.ProductsState>;
-
+  class MockRouter {
+    createUrlTree() {
+      return {};
+    }
+    navigateByUrl() {
+      return {};
+    }
+  }
   const mockSearchResults = {
     results: {
       0: 'p1',
@@ -46,7 +54,13 @@ describe('ProductSearchService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature('product', fromStore.getReducers())
       ],
-      providers: [ProductSearchService]
+      providers: [
+        ProductSearchService,
+        {
+          provide: Router,
+          useClass: MockRouter
+        }
+      ]
     });
 
     store = TestBed.get(Store);
