@@ -1,13 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-
-import { CartNotEmptyGuard } from './cart-not-empty.guard';
-import { CartService } from '../../cart/services';
-import { BehaviorSubject } from 'rxjs';
-import { Store, StoreModule } from '@ngrx/store';
-import * as NgrxStore from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+
+import { Store, StoreModule } from '@ngrx/store';
+import * as NgrxStore from '@ngrx/store';
+
+import { BehaviorSubject } from 'rxjs';
+
+import { CartService } from '../../cart/facade';
 import * as fromStore from './../../cart/store';
+
+import { CartNotEmptyGuard } from './cart-not-empty.guard';
 
 const MAIN_PAGE_ROUTE = [''];
 const CART_EMPTY = Object.freeze({ totalItems: 0 });
