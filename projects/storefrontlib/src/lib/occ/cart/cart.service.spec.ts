@@ -483,11 +483,12 @@ describe('OccCartService', () => {
         param: 'mockParam'
       };
       const mockUrl = 'mockUrl';
+      const mockPaymentProvider = 'mockPaymentProvider';
 
       service
         .createSubWithPaymentProvider(mockUrl, params)
         .subscribe(result => {
-          expect(result).toEqual(cartData);
+          expect(result).toEqual(mockPaymentProvider);
         });
 
       const mockReq = httpMock.expectOne(req => {
@@ -501,7 +502,7 @@ describe('OccCartService', () => {
       expect(mockReq.request.headers.get('Accept')).toEqual('text/html');
       expect(mockReq.request.responseType).toEqual('text');
       expect(mockReq.request.body.get('param')).toEqual('mockParam');
-      mockReq.flush(cartData);
+      mockReq.flush(mockPaymentProvider);
     });
   });
 
@@ -512,11 +513,12 @@ describe('OccCartService', () => {
         param2: 'mockParam2'
       };
       const mockUrl = 'mockUrl';
+      const mockPaymentProvider = 'mockPaymentProvider';
 
       service
         .createSubWithPaymentProvider(mockUrl, params)
         .subscribe(result => {
-          expect(result).toEqual(cartData);
+          expect(result).toEqual(mockPaymentProvider);
         });
 
       const mockReq = httpMock.expectOne(req => {
@@ -531,7 +533,7 @@ describe('OccCartService', () => {
       expect(mockReq.request.body.get('param1')).toEqual('mockParam1');
       expect(mockReq.request.body.get('param2')).toEqual('mockParam2');
       expect(mockReq.request.responseType).toEqual('text');
-      mockReq.flush(cartData);
+      mockReq.flush(mockPaymentProvider);
     });
   });
 
