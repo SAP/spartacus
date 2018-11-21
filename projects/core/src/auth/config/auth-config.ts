@@ -6,4 +6,3 @@ export abstract class AuthConfig extends OccConfig {
     client_secret?: string;
   };
 }
-

@@ -6,7 +6,7 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { UserAuthenticationTokenService } from './user-authentication-token.service';
-import {AuthConfig} from '@spartacus/core';
+import { AuthConfig } from '@spartacus/core';
 
 const username: any = 'mockUsername';
 const password: any = '1234';

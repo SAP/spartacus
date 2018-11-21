@@ -6,7 +6,11 @@ import { tap, filter, map } from 'rxjs/operators';
 import { ClientTokenState, StateWithAuth } from '../store/auth-state';
 import { getClientTokenState } from '../store/selectors/client-token.selectors';
 import { getUserToken } from '../store/selectors/user-token.selectors';
-import { LoadUserToken, RefreshUserToken, LoadUserTokenSuccess } from '../store/actions/user-token.action';
+import {
+  LoadUserToken,
+  RefreshUserToken,
+  LoadUserTokenSuccess
+} from '../store/actions/user-token.action';
 import { LoadClientToken } from '../store/actions/client-token.action';
 import { Login, Logout } from '../store/actions/login-logout.action';
 

@@ -4,7 +4,7 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { ClientAuthenticationTokenService } from './client-authentication-token.service';
-import {AuthConfig} from '@spartacus/core';
+import { AuthConfig } from '@spartacus/core';
 
 const token: any = 'mockToken';
 const mockOauthEndpoint = '/authorizationserver/oauth/token';

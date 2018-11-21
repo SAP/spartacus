@@ -20,10 +20,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
     this.config.server.occPrefix +
     this.config.site.baseSite;
 
-  constructor(
-    private config: AuthConfig,
-    private authService: AuthService
-  ) {
+  constructor(private config: AuthConfig, private authService: AuthService) {
     this.authService.userToken$.subscribe((token: UserToken) => {
       this.userToken = token;
     });

@@ -6,7 +6,7 @@ import {
   NavigationExtras
 } from '@angular/router';
 
-import {AuthService, RoutingService, UserToken} from '@spartacus/core';
+import { AuthService, RoutingService, UserToken } from '@spartacus/core';
 
 import { of } from 'rxjs';
 

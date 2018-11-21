@@ -12,7 +12,7 @@ import { ClientToken } from './../models/token-types.model';
 import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 
 import { ClientTokenInterceptor } from './client-token.interceptor';
-import {AuthConfig} from '@spartacus/core';
+import { AuthConfig } from '@spartacus/core';
 
 const testToken: ClientToken = {
   access_token: 'abc-123',

@@ -11,7 +11,6 @@ import { RoutingService } from '../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from '../models/token-types.model';
 
-
 @Injectable({
   providedIn: 'root'
 })

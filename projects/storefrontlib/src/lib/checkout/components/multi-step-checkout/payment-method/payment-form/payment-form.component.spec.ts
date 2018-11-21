@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 import * as fromCheckout from '../../../../store';
 import * as fromCart from '../../../../../cart/store';
 import * as fromUser from '../../../../../user/store';
-import * as fromAuth from '../../../../../auth/store';
+import * as fromAuth from '../../../../../../../../core/src/auth/store/reducers';
 
 import { CheckoutService } from '../../../../services/checkout.service';
 import { CartService } from '../../../../../cart/services/cart.service';

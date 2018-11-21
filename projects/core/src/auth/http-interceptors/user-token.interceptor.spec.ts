@@ -11,7 +11,7 @@ import { AuthService } from '../facade/auth.service';
 import { UserToken } from './../../auth/models/token-types.model';
 
 import { UserTokenInterceptor } from './user-token.interceptor';
-import {AuthConfig} from '@spartacus/core';
+import { AuthConfig } from '@spartacus/core';
 
 const userToken: UserToken = {
   access_token: 'xxx',

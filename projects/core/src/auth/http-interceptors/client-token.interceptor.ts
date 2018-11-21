@@ -23,10 +23,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     this.config.server.occPrefix +
     this.config.site.baseSite;
 
-  constructor(
-    private config: AuthConfig,
-    private authService: AuthService
-  ) {}
+  constructor(private config: AuthConfig, private authService: AuthService) {}
 
   intercept(
     request: HttpRequest<any>,

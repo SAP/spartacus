@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 
 import * as fromCart from '../../cart/store';
 import * as fromUser from '../../user/store';
-import * as fromAuth from '../../auth/store';
+import * as fromAuth from '../../../../../core/src/auth/store/reducers';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 
 import { MiniCartComponent } from './mini-cart.component';

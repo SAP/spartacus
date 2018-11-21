@@ -5,14 +5,13 @@ import { BehaviorSubject } from 'rxjs';
 
 import * as fromCart from '../../cart/store';
 import * as fromUser from '../../user/store';
-import * as fromAuth from '../../auth/store';
+import * as fromAuth from '../../../../../core/src/auth/store/reducers';
 
 import { CartService } from './cart.service';
-import { UserToken } from '../../auth/models/token-types.model';
 import { CartDataService, ANONYMOUS_USERID } from './cart-data.service';
 
 import * as fromCartSelectors from '../store/selectors';
-import * as fromAuthSelectors from './../../auth/store/selectors';
+import { getUserToken, UserToken } from '@spartacus/core';
 
 describe('CartService', () => {
   let service: CartService;
@@ -45,7 +44,7 @@ describe('CartService', () => {
         return () => mockCartSelectors.getRefresh;
       case fromCartSelectors.getActiveCart:
         return () => mockCartSelectors.getActiveCart;
-      case fromAuthSelectors.getUserToken:
+      case getUserToken:
         return () => mockAuthSelectors.getUserToken;
     }
   };

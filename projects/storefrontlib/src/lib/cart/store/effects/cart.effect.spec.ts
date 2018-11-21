@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 import { StoreModule } from '@ngrx/store';
 import * as fromCart from '../../../cart/store';
 import * as fromUser from '../../../user/store';
-import * as fromAuth from '../../../auth/store';
+import * as fromAuth from '../../../../../../core/src/auth/store/reducers';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
 import { OccConfig } from '@spartacus/core';

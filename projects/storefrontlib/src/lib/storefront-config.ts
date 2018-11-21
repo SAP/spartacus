@@ -1,5 +1,7 @@
 import { CmsModuleConfig } from './cms/cms-module-config';
-import { AuthConfig, OccConfig,
+import {
+  AuthConfig,
+  OccConfig,
   RoutingModuleConfig,
   ConfigurableRoutesConfig
 } from '@spartacus/core';

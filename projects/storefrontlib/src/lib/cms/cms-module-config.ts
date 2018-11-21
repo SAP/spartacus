@@ -19,8 +19,7 @@ export interface CMSComponentMappingConfig {
   CMSTabParagraphComponent?: string;
 }
 
-export abstract class CmsModuleConfig extends OccConfig
-  implements AuthConfig {
+export abstract class CmsModuleConfig extends OccConfig implements AuthConfig {
   authentication?: {
     client_id?: string;
     client_secret?: string;
