@@ -29,7 +29,7 @@ export class ProductSearchService {
 
   search(query: string, searchConfig?: SearchConfig) {
     const urlTree = this.router.createUrlTree([], {
-      queryParams: { query, ...searchConfig },
+      queryParams: { ...searchConfig, query },
       preserveFragment: false
     });
 
