@@ -51,7 +51,6 @@ export class StoreFinderSearchResultComponent implements OnInit {
     this.searchQuery = this.parseParameters(params);
     this.storeFinderService.findStores(
       this.searchQuery.queryText,
-      this.geolocation,
       this.searchQuery.useMyLocation
     );
 
@@ -73,15 +72,7 @@ export class StoreFinderSearchResultComponent implements OnInit {
       searchQuery = { queryText: '' };
     }
 
-    if (queryParams.latitude && queryParams.longitude) {
-      searchQuery.longitudeLatitude = {
-        latitude: queryParams.latitude,
-        longitude: queryParams.longitude
-      };
-    }
-
     searchQuery.useMyLocation = queryParams.useMyLocation === '1';
-
     return searchQuery;
   }
 }

@@ -2,29 +2,18 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { LongitudeLatitude } from '../models/longitude-latitude';
-
 import * as fromStore from '../store';
 
 @Injectable()
 export class StoreFinderService {
-  constructor(private store: Store<fromStore.StoresState>) {}
+  constructor(private store: Store<fromStore.StoresState>) { }
 
   findStores(
     queryText: string,
-    longitudeLatitude?: LongitudeLatitude,
     useMyLocation?: boolean
   ) {
     if (useMyLocation) {
       this.store.dispatch(new fromStore.FindStoresWithMyLocation({}));
-    } else if (longitudeLatitude) {
-      this.store.dispatch(
-        new fromStore.FindStores({
-          queryText,
-          useMyLocation,
-          longitudeLatitude
-        })
-      );
     } else {
       this.store.dispatch(
         new fromStore.FindStores({ queryText, useMyLocation })

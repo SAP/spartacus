@@ -36,7 +36,7 @@ class WindowRefMock {
     return {
       navigator: {
         geolocation: {
-          getCurrentPosition: function(callback: Function) {
+          getCurrentPosition: function (callback: Function) {
             callback(position);
           }
         }
@@ -108,7 +108,7 @@ describe('StoreFinderSearchComponent', () => {
     component.viewStoresWithMyLoc();
     expect(router.navigate).toHaveBeenCalledWith(['find-stores'], {
       relativeTo: activatedRoute,
-      queryParams: { latitude: latitude, longitude: longitude }
+      queryParams: { useMyLocation: 1 }
     });
   });
 });
