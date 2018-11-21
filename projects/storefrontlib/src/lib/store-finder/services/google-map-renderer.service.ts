@@ -9,8 +9,6 @@ const GOOGLE_API_KEY_PROPERTY_NAME = 'e2egoogleservices.apikey';
 const DEFAULT_SCALE = 12;
 const SELECTED_MARKER_SCALE = 16;
 
-
-
 @Injectable()
 export class GoogleMapRendererService {
   private googleMap: google.maps.Map = null;
@@ -42,12 +40,12 @@ export class GoogleMapRendererService {
             GOOGLE_MAP_API_URL,
             { key: result },
             () => {
-              this.drawMap.call(this, mapElement, locations, selectMarkerHandler);
+              this.drawMap(mapElement, locations, selectMarkerHandler);
             }
           );
         });
     } else {
-      this.drawMap.call(this, mapElement, locations, selectMarkerHandler);
+      this.drawMap(mapElement, locations, selectMarkerHandler);
     }
   }
 
@@ -125,10 +123,15 @@ export class GoogleMapRendererService {
 
   /**
    * Initialize and draw the map
+   * @param mapElement {@link HTMLElement} inside of which the map will be drawn
    * @param locations array of locations to be displayed on the map
    * @param selectMarkerHandler function to handle whenever a marker on a map is clicked
    */
-  drawMap(mapElement: HTMLElement, locations: any[], selectMarkerHandler: Function) {
+  private drawMap(
+    mapElement: HTMLElement,
+    locations: any[],
+    selectMarkerHandler: Function
+  ) {
     this.initMap(mapElement, this.defineMapCenter(locations));
     if (selectMarkerHandler) {
       this.createMarkers(locations, selectMarkerHandler);
