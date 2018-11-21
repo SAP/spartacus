@@ -16,6 +16,7 @@ import { StoreModule } from '@ngrx/store';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { Product } from '../../../occ-models';
 import { OccConfig } from '../../../occ/index';
+import { LanguageChange } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -81,7 +82,7 @@ describe('Product Effects', () => {
 
   describe('refreshProduct$', () => {
     it('should refresh a product', () => {
-      const action = new LanguageChange(); //TODO:scott
+      const action = new LanguageChange();
       const completion = new fromActions.LoadProductSuccess(product);
 
       actions$ = hot('-a', { a: action });
