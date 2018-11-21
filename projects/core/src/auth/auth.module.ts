@@ -7,14 +7,14 @@ import { AuthConfig} from './config/auth-config';
 import { defaultAuthConfig } from './config/default-auth-config';
 import { Config, ConfigModule } from '../config/config.module';
 import { RoutingModule } from '../routing/routing.module';
-import { ProductStoreModule } from '../product/store/product-store.module';
+import { AuthStoreModule } from './store/auth-store.module';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
     RoutingModule,
-    ProductStoreModule,
+    AuthStoreModule,
     ConfigModule.withConfig(defaultAuthConfig)
   ],
   providers: [

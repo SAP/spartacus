@@ -5,6 +5,7 @@ import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import * as fromUserTokenReducer from './user-token.reducer';
 import * as fromClientTokenReducer from './client-token.reducer';
 import { AuthState } from '../auth-state';
+import { LOGOUT } from '../actions/login-logout.action';
 
 export function getReducers(): ActionReducerMap<AuthState> {
   return {
@@ -26,7 +27,7 @@ export function clearAuthState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return function(state, action) {
-    if (action.type === '[Auth] Logout') {
+    if (action.type === LOGOUT) {
       state = {
         ...state,
         userToken: undefined
