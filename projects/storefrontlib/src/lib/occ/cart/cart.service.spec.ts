@@ -256,7 +256,6 @@ describe('OccCartService', () => {
 
   describe('update entry in a cart', () => {
     it('should update an entry in a cart for given user id, cart id, entryNumber and quantitiy', () => {
-      const entryData = 'mock entry data';
       service.updateCartEntry(userId, cartId, '12345', 5).subscribe(result => {
         expect(result).toEqual(cartModified);
       });
