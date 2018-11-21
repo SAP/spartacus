@@ -7,7 +7,7 @@ import * as NgrxStore from '@ngrx/store';
 
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import * as fromCart from '../../../cart/store';
 import * as fromUser from '../../../user/store';
@@ -26,9 +26,15 @@ class MockCartService {
       '1234': { entryNumber: 0, product: { code: productCode } }
     });
   }
+  getLoaded(): Observable<boolean> {
+    return of();
+  }
+  getEntry(_productCode: string): Observable<any> {
+    return of();
+  }
 }
 
-describe('AddToCartComponent', () => {
+fdescribe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
   let service;
