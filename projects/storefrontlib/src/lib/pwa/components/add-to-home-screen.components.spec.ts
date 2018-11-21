@@ -4,6 +4,8 @@ import createSpy = jasmine.createSpy;
 
 import { AddToHomeScreenComponent } from './add-to-home-screen.component';
 
+class ExampleAddToHomeScreenComponent extends AddToHomeScreenComponent {}
+
 describe('AddToHomeScreenComponent', () => {
   let component: AddToHomeScreenComponent;
   let mockAddToHomeScreenService: any;
@@ -16,7 +18,7 @@ describe('AddToHomeScreenComponent', () => {
   }));
 
   beforeEach(() => {
-    component = new AddToHomeScreenComponent(mockAddToHomeScreenService);
+    component = new ExampleAddToHomeScreenComponent(mockAddToHomeScreenService);
   });
 
   it('should create', () => {

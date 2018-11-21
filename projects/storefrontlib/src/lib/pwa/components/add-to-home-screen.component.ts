@@ -2,7 +2,7 @@ import { OnInit } from '@angular/core';
 import { AddToHomeScreenService } from './../services/add-to-home-screen.service';
 import { Observable } from 'rxjs';
 
-export class AddToHomeScreenComponent implements OnInit {
+export abstract class AddToHomeScreenComponent implements OnInit {
   canPrompt$: Observable<boolean>;
   constructor(private addToHomeScreenService: AddToHomeScreenService) {}
 
