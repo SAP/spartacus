@@ -22,15 +22,6 @@ describe('Find Stores Reducer', () => {
     });
   });
 
-  describe('FIND_STORES_WITH_MY_LOCATION action', () => {
-    it('should set isLoading flag to true', () => {
-      const { initialState } = fromReducers;
-      const action = new fromActions.FindStoresWithMyLocation({});
-      const state = fromReducers.reducer(initialState, action);
-      expect(state.isLoading).toEqual(true);
-    });
-  });
-
   describe('FIND_STORES_SUCCESS action', () => {
     it('should populate results after loading', () => {
       const searchConfig: SearchConfig = { pageSize: 10 };

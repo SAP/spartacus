@@ -22,7 +22,7 @@ export function reducer(
       };
     }
 
-    case fromStoreFinder.FIND_STORES_WITH_MY_LOCATION: {
+    case fromStoreFinder.ON_HOLD: {
       return {
         ...state,
         isLoading: true

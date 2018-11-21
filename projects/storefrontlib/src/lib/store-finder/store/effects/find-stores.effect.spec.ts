@@ -13,29 +13,11 @@ import { OccE2eConfigurationService } from '../../../occ/e2e/e2e-configuration-s
 
 import * as fromEffects from './find-stores.effect';
 import * as fromActions from '../actions/find-stores.action';
-import { WindowRef } from '../../services/window-ref';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
-  }
-};
-
-const MockWindowRef: WindowRef = {
-  nativeWindow: {
-    navigator: {
-      geolocation: {
-        getCurrentPosition: callback => {
-          callback({
-            coords: {
-              longitude: 10.1,
-              latitude: 20.2
-            }
-          });
-        }
-      }
-    }
   }
 };
 
@@ -58,7 +40,6 @@ describe('FindStores Effects', () => {
         OccStoreFinderService,
         OccE2eConfigurationService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: WindowRef, useValue: MockWindowRef },
         fromEffects.FindStoresEffect,
         provideMockActions(() => actions$)
       ]
@@ -85,18 +66,6 @@ describe('FindStores Effects', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effects.findStores$).toBeObservable(expected);
-    });
-  });
-
-  describe('findStoresWithMyLocation', () => {
-    it('should return searchResult from FindStoresSuccess', () => {
-      const action = new fromActions.FindStoresWithMyLocation({});
-      const completion = new fromActions.FindStoresSuccess(searchResult);
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(effects.findStoresWithMyLocation$).toBeObservable(expected);
     });
   });
 

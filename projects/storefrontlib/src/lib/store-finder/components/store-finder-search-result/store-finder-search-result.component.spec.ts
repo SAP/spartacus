@@ -79,7 +79,7 @@ describe('StoreFinderListComponent', () => {
   it('should find stores with my geolocation', () => {
     // given component is called with quuery-text params
     activatedRoute.paramsSubscriptionHandler({
-      useMyLocation: '1'
+      useMyLocation: 'true'
     });
 
     // then verify storefinder

@@ -108,7 +108,7 @@ describe('StoreFinderSearchComponent', () => {
     component.viewStoresWithMyLoc();
     expect(router.navigate).toHaveBeenCalledWith(['find-stores'], {
       relativeTo: activatedRoute,
-      queryParams: { useMyLocation: 1 }
+      queryParams: { useMyLocation: true }
     });
   });
 });

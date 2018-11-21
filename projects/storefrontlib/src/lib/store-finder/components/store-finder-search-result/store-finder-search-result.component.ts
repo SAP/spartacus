@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { SearchConfig } from '../../models/search-config';
 import { SearchQuery } from '../../models/search-query';
 import { StoreFinderService } from '../../services/store-finder.service';
 
 import * as fromStore from '../../store';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { LongitudeLatitude } from '../../models/longitude-latitude';
 
 @Component({
@@ -16,12 +16,13 @@ import { LongitudeLatitude } from '../../models/longitude-latitude';
   templateUrl: './store-finder-search-result.component.html',
   styleUrls: ['./store-finder-search-result.component.scss']
 })
-export class StoreFinderSearchResultComponent implements OnInit {
+export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   locations: any;
   searchQuery: SearchQuery;
   locations$: Observable<any>;
   isLoading$: Observable<any>;
   geolocation: LongitudeLatitude;
+  ngUnsubscribe: Subscription;
   searchConfig: SearchConfig = {
     currentPage: 0
   };
@@ -34,6 +35,10 @@ export class StoreFinderSearchResultComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => this.initialize(params));
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.unsubscribe();
   }
 
   viewPage(pageNumber: number) {
@@ -56,11 +61,7 @@ export class StoreFinderSearchResultComponent implements OnInit {
 
     this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
     this.locations$ = this.store.pipe(select(fromStore.getFindStoresEntities));
-    this.locations$.pipe(map(data => data.geolocation),
-      filter(geoData => geoData != null)).subscribe(geoData => this.geolocation = {
-        longitude: geoData.coords.longitude,
-        latitude: geoData.coords.latitude
-      });
+    this.ngUnsubscribe = this.locations$.pipe(map(data => data.geolocation)).subscribe(geoData => this.geolocation = geoData);
   }
 
   private parseParameters(queryParams: { [key: string]: any }): SearchQuery {
@@ -72,7 +73,7 @@ export class StoreFinderSearchResultComponent implements OnInit {
       searchQuery = { queryText: '' };
     }
 
-    searchQuery.useMyLocation = queryParams.useMyLocation === '1';
+    searchQuery.useMyLocation = queryParams.useMyLocation === 'true';
     return searchQuery;
   }
 }

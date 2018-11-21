@@ -6,15 +6,13 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import * as fromAction from './../actions/find-stores.action';
 import { OccStoreFinderService } from '../../../occ/store/store-finder.service';
-import { WindowRef } from '../../services/window-ref';
 
 @Injectable()
 export class FindStoresEffect {
   constructor(
     private actions$: Actions,
-    private occStoreFinderService: OccStoreFinderService,
-    private winRef: WindowRef
-  ) { }
+    private occStoreFinderService: OccStoreFinderService
+  ) {}
 
   @Effect()
   findStores$: Observable<any> = this.actions$.pipe(
@@ -29,35 +27,8 @@ export class FindStoresEffect {
         )
         .pipe(
           map(data => {
-            return new fromAction.FindStoresSuccess(data);
-          }),
-          catchError(error => of(new fromAction.FindStoresFail(error)))
-        )
-    )
-  );
-
-  @Effect()
-  findStoresWithMyLocation$: Observable<any> = this.actions$.pipe(
-    ofType(fromAction.FIND_STORES_WITH_MY_LOCATION),
-    mergeMap(() =>
-      Observable.create(observer =>
-        this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
-          (pos: Position) => {
-            observer.next(pos);
-            observer.complete();
-          }
-        )
-      )
-    ),
-    mergeMap((pos: Position) =>
-      this.occStoreFinderService
-        .findStores(null, null, {
-          longitude: pos.coords.longitude,
-          latitude: pos.coords.latitude
-        })
-        .pipe(
-          map(data => {
-            data.geolocation = pos;
+            console.log(data);
+            data.geolocation = payload.longitudeLatitude;
             return new fromAction.FindStoresSuccess(data);
           }),
           catchError(error => of(new fromAction.FindStoresFail(error)))

@@ -3,20 +3,31 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import * as fromStore from '../store';
+import { WindowRef } from './window-ref';
+import { LongitudeLatitude } from '../models/longitude-latitude';
 
 @Injectable()
 export class StoreFinderService {
-  constructor(private store: Store<fromStore.StoresState>) { }
+  constructor(private store: Store<fromStore.StoresState>, private winRef: WindowRef) { }
 
   findStores(
     queryText: string,
     useMyLocation?: boolean
   ) {
     if (useMyLocation) {
-      this.store.dispatch(new fromStore.FindStoresWithMyLocation({}));
+      this.store.dispatch(new fromStore.OnHold());
+      this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition((pos: Position) => {
+        const longitudeLatitude: LongitudeLatitude = {
+          longitude: pos.coords.longitude,
+          latitude: pos.coords.latitude
+        };
+        this.store.dispatch(
+          new fromStore.FindStores({ queryText, longitudeLatitude })
+        );
+      });
     } else {
       this.store.dispatch(
-        new fromStore.FindStores({ queryText, useMyLocation })
+        new fromStore.FindStores({ queryText })
       );
     }
   }

@@ -25,7 +25,7 @@ export class StoreFinderSearchComponent {
     this.router.navigate(['find-stores'], {
       relativeTo: this.activatedRoute,
       queryParams: {
-        useMyLocation: 1
+        useMyLocation: true
       }
     });
   }

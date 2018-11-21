@@ -20,18 +20,6 @@ describe('Find Stores Actions', () => {
     });
   });
 
-  describe('FindStores with My Location', () => {
-    it('should create FindStores action', () => {
-      const payload = {};
-      const action = new fromActions.FindStoresWithMyLocation(payload);
-
-      expect({ ...action }).toEqual({
-        type: fromActions.FIND_STORES_WITH_MY_LOCATION,
-        payload
-      });
-    });
-  });
-
   describe('FindStores with coordinates', () => {
     it('should create FindStores action with only coordinates', () => {
       const longitudeLatitude: LongitudeLatitude = {
