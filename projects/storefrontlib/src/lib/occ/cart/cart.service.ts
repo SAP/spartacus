@@ -95,7 +95,6 @@ export class OccCartService {
     toMergeCartGuid?: string
   ): Observable<Cart> {
     const url = this.getCartEndpoint(userId);
-    console.log(url, 'CREATE CART');
     const toAdd = JSON.stringify({});
     let queryString = 'fields=' + BASIC_PARAMS;
 
