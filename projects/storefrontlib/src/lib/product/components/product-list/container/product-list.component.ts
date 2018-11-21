@@ -39,16 +39,17 @@ export class ProductListComponent implements OnChanges, OnInit {
 
   ngOnChanges() {
     const newConfig = { ...this.activatedRoute.snapshot.queryParams };
-
-    this.query = this.activatedRoute.snapshot.queryParams.query;
     delete newConfig.query;
     this.searchConfig = newConfig;
+    const { query } = this.activatedRoute.snapshot.queryParams;
+    if (query) {
+      this.query = query;
+    }
 
     this.searchConfig = {
       ...this.searchConfig,
       pageSize: this.itemPerPage || 10
     };
-
     if (this.categoryCode && !this.query) {
       this.query = ':relevance:category:' + this.categoryCode;
     }
