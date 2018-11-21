@@ -14,7 +14,7 @@ export class FindStoresEffect {
     private actions$: Actions,
     private occStoreFinderService: OccStoreFinderService,
     private winRef: WindowRef
-  ) {}
+  ) { }
 
   @Effect()
   findStores$: Observable<any> = this.actions$.pipe(
@@ -57,7 +57,7 @@ export class FindStoresEffect {
         })
         .pipe(
           map(data => {
-            console.log(data);
+            data.geolocation = pos;
             return new fromAction.FindStoresSuccess(data);
           }),
           catchError(error => of(new fromAction.FindStoresFail(error)))

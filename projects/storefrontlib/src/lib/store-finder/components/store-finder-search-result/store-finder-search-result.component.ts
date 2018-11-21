@@ -8,6 +8,8 @@ import { SearchQuery } from '../../models/search-query';
 import { StoreFinderService } from '../../services/store-finder.service';
 
 import * as fromStore from '../../store';
+import { filter, map } from 'rxjs/operators';
+import { LongitudeLatitude } from '../../models/longitude-latitude';
 
 @Component({
   selector: 'cx-store-finder-search-result',
@@ -19,6 +21,7 @@ export class StoreFinderSearchResultComponent implements OnInit {
   searchQuery: SearchQuery;
   locations$: Observable<any>;
   isLoading$: Observable<any>;
+  geolocation: LongitudeLatitude;
   searchConfig: SearchConfig = {
     currentPage: 0
   };
@@ -38,7 +41,7 @@ export class StoreFinderSearchResultComponent implements OnInit {
     this.store.dispatch(
       new fromStore.FindStores({
         queryText: this.searchQuery.queryText,
-        longitudeLatitude: this.searchQuery.longitudeLatitude,
+        longitudeLatitude: this.geolocation,
         searchConfig: this.searchConfig
       })
     );
@@ -48,12 +51,17 @@ export class StoreFinderSearchResultComponent implements OnInit {
     this.searchQuery = this.parseParameters(params);
     this.storeFinderService.findStores(
       this.searchQuery.queryText,
-      this.searchQuery.longitudeLatitude,
+      this.geolocation,
       this.searchQuery.useMyLocation
     );
 
     this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
     this.locations$ = this.store.pipe(select(fromStore.getFindStoresEntities));
+    this.locations$.pipe(map(data => data.geolocation),
+      filter(geoData => geoData != null)).subscribe(geoData => this.geolocation = {
+        longitude: geoData.coords.longitude,
+        latitude: geoData.coords.latitude
+      });
   }
 
   private parseParameters(queryParams: { [key: string]: any }): SearchQuery {
@@ -72,7 +80,7 @@ export class StoreFinderSearchResultComponent implements OnInit {
       };
     }
 
-    searchQuery.useMyLocation = queryParams.useMyLocation === 'true';
+    searchQuery.useMyLocation = queryParams.useMyLocation === '1';
 
     return searchQuery;
   }

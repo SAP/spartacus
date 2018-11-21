@@ -10,7 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class StoreFinderSearchComponent {
   searchBox: FormControl = new FormControl();
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
   findStores(address: string) {
     this.router.navigate(['find-stores'], {
@@ -25,7 +25,7 @@ export class StoreFinderSearchComponent {
     this.router.navigate(['find-stores'], {
       relativeTo: this.activatedRoute,
       queryParams: {
-        useMyLocation: true
+        useMyLocation: 1
       }
     });
   }
