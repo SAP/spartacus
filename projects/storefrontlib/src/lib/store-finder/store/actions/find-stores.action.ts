@@ -3,6 +3,8 @@ import { SearchConfig } from '../../models/search-config';
 import { LongitudeLatitude } from '../../models/longitude-latitude';
 
 export const FIND_STORES = '[StoreFinder] Find Stores';
+export const FIND_STORES_WITH_MY_LOCATION =
+  '[StoreFinder] Find Stores with My Location';
 export const FIND_STORES_FAIL = '[StoreFinder] Find Stores Fail';
 export const FIND_STORES_SUCCESS = '[StoreFinder] Find Stores Success';
 
@@ -30,6 +32,11 @@ export class FindStores implements Action {
       searchConfig?: SearchConfig;
     }
   ) {}
+}
+
+export class FindStoresWithMyLocation implements Action {
+  readonly type = FIND_STORES_WITH_MY_LOCATION;
+  constructor(public payload: any) {}
 }
 
 export class FindStoresFail implements Action {
@@ -78,6 +85,7 @@ export type FindStoresAction =
   | FindStores
   | FindStoresFail
   | FindStoresSuccess
+  | FindStoresWithMyLocation
   | FindAllStoresByCountry
   | FindAllStoresByCountryFail
   | FindAllStoresByCountrySuccess

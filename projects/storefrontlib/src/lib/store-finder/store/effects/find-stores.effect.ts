@@ -20,25 +20,6 @@ export class FindStoresEffect {
   findStores$: Observable<any> = this.actions$.pipe(
     ofType(fromAction.FIND_STORES),
     map((action: fromAction.FindStores) => action.payload),
-    map(payload =>
-      Observable.create(observer => {
-        if (payload.useMyLocation) {
-          this.winRef.nativeWindow.navigate.geolocation.getCurrentPosition(
-            (pos: Position) => {
-              payload.longitudeLatitude = {
-                longitude: pos.coords.longitude,
-                latitude: pos.coords.latitude
-              };
-              observer.next(payload);
-              observer.complete();
-            }
-          );
-        } else {
-          observer.next(payload);
-          observer.complete();
-        }
-      })
-    ),
     mergeMap(payload =>
       this.occStoreFinderService
         .findStores(
@@ -48,6 +29,35 @@ export class FindStoresEffect {
         )
         .pipe(
           map(data => {
+            return new fromAction.FindStoresSuccess(data);
+          }),
+          catchError(error => of(new fromAction.FindStoresFail(error)))
+        )
+    )
+  );
+
+  @Effect()
+  findStoresWithMyLocation$: Observable<any> = this.actions$.pipe(
+    ofType(fromAction.FIND_STORES_WITH_MY_LOCATION),
+    mergeMap(() =>
+      Observable.create(observer =>
+        this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
+          (pos: Position) => {
+            observer.next(pos);
+            observer.complete();
+          }
+        )
+      )
+    ),
+    mergeMap((pos: Position) =>
+      this.occStoreFinderService
+        .findStores(null, null, {
+          longitude: pos.coords.longitude,
+          latitude: pos.coords.latitude
+        })
+        .pipe(
+          map(data => {
+            console.log(data);
             return new fromAction.FindStoresSuccess(data);
           }),
           catchError(error => of(new fromAction.FindStoresFail(error)))

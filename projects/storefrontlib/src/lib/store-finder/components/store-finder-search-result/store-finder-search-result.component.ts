@@ -72,7 +72,7 @@ export class StoreFinderSearchResultComponent implements OnInit {
       };
     }
 
-    searchQuery.useMyLocation = queryParams.useMyLocation;
+    searchQuery.useMyLocation = queryParams.useMyLocation === 'true';
 
     return searchQuery;
   }

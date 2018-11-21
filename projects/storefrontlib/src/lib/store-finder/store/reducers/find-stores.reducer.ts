@@ -22,6 +22,13 @@ export function reducer(
       };
     }
 
+    case fromStoreFinder.FIND_STORES_WITH_MY_LOCATION: {
+      return {
+        ...state,
+        isLoading: true
+      };
+    }
+
     case fromStoreFinder.FIND_STORES_SUCCESS: {
       const findStoresEntities = action.payload;
 

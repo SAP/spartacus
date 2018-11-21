@@ -15,7 +15,9 @@ export class StoreFinderService {
     longitudeLatitude?: LongitudeLatitude,
     useMyLocation?: boolean
   ) {
-    if (longitudeLatitude) {
+    if (useMyLocation) {
+      this.store.dispatch(new fromStore.FindStoresWithMyLocation({}));
+    } else if (longitudeLatitude) {
       this.store.dispatch(
         new fromStore.FindStores({
           queryText,
