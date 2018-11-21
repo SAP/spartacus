@@ -6,7 +6,7 @@ import { catchError, mergeMap } from 'rxjs/operators';
 import { SearchConfig } from '../../store-finder/models/search-config';
 import { LongitudeLatitude } from '../../store-finder/models/longitude-latitude';
 
-import { OccConfig } from '@spartacus/core';
+import { OccConfig, StoreFinderSearchPage } from '@spartacus/core';
 import { OccE2eConfigurationService } from '../e2e/e2e-configuration-service';
 
 const STORES_ENDPOINT = 'stores';
@@ -68,7 +68,7 @@ export class OccStoreFinderService {
     query: string,
     searchConfig: SearchConfig,
     longitudeLatitude?: LongitudeLatitude
-  ): Observable<any> {
+  ): Observable<StoreFinderSearchPage> {
     const url = this.getStoresEndpoint();
     let params: HttpParams = new HttpParams({
       fromString:
@@ -94,7 +94,7 @@ export class OccStoreFinderService {
     }
 
     return this.http
-      .get(url, { params: params })
+      .get<StoreFinderSearchPage>(url, { params: params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
