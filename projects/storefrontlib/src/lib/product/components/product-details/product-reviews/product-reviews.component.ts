@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { ProductReviewService } from '../../../facade/product-review.service';
+import { ProductReviewService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-reviews',
