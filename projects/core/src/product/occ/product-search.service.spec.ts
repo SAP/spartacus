@@ -3,12 +3,9 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
-
+import { SearchConfig } from '../model/search-config';
+import { OccConfig } from '../../occ/config/occ-config';
 import { OccProductSearchService } from './product-search.service';
-import {
-  OccConfig,
-  SearchConfig
-} from 'projects/backend/occ-client/lib/models';
 
 const queryText = 'test';
 const searchResults = { products: [{ code: '123' }] };

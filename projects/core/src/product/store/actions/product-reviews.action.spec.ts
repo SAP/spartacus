@@ -1,5 +1,5 @@
 import * as fromActions from './product-reviews.action';
-import { ErrorModel } from 'projects/backend/occ-client/lib/models';
+import { ErrorModel } from '../../../occ-models';
 
 fdescribe('Product Review Actions', () => {
   describe('LoadProductReview Actions', () => {

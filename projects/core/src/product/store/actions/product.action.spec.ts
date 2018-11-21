@@ -1,5 +1,5 @@
 import * as fromProduct from './product.action';
-import { Product } from 'projects/backend/occ-client/lib/models';
+import { Product } from '../../../occ-models';
 
 describe('Product Actions', () => {
   describe('LoadProduct Actions', () => {

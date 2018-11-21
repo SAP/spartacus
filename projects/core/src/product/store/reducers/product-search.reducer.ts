@@ -1,5 +1,5 @@
 import * as fromProductsSearch from '../actions/product-search.action';
-import { Suggestion } from 'projects/backend/occ-client/lib/models';
+import { Suggestion } from '../../../occ-models';
 import { ProductsSearchState } from '../product-state';
 
 export const initialState: ProductsSearchState = {

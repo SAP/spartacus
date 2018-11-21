@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Product } from 'projects/backend/occ-client/lib/models';
+import { Product } from '../../../occ-models';
 
 export const LOAD_PRODUCT = '[Product] Load Product Data';
 export const LOAD_PRODUCT_FAIL = '[Product] Load Product Data Fail';

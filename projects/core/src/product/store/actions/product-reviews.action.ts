@@ -1,9 +1,5 @@
 import { Action } from '@ngrx/store';
-import {
-  ReviewList,
-  ErrorModel,
-  Review
-} from 'projects/backend/occ-client/lib/models';
+import { ReviewList, ErrorModel, Review } from '../../../occ-models';
 
 export const LOAD_PRODUCT_REVIEWS = '[Product] Load Product Reviews Data';
 export const LOAD_PRODUCT_REVIEWS_FAIL =

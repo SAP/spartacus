@@ -14,11 +14,8 @@ import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
 import { StoreModule } from '@ngrx/store';
 import { RoutingService } from '../../../routing/facade/routing.service';
-import {
-  LanguageChange,
-  OccConfig,
-  Product
-} from 'projects/backend/occ-client/lib/models';
+import { Product } from '../../../occ-models';
+import { OccConfig } from '../../../occ/index';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -84,7 +81,7 @@ describe('Product Effects', () => {
 
   describe('refreshProduct$', () => {
     it('should refresh a product', () => {
-      const action = new LanguageChange();
+      const action = new LanguageChange(); //TODO:scott
       const completion = new fromActions.LoadProductSuccess(product);
 
       actions$ = hot('-a', { a: action });

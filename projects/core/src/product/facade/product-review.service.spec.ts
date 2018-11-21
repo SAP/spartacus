@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import * as fromStore from '../store';
 
 import { ProductReviewService } from './product-review.service';
-import { Review } from 'projects/backend/occ-client/lib/models';
+import { Review } from '../../occ-models';
 
 describe('ReviewService', () => {
   let service: ProductReviewService;

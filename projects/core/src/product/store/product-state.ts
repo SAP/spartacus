@@ -1,9 +1,5 @@
 export const PRODUCT_FEATURE = 'product';
-import {
-  ReviewList,
-  Suggestion,
-  ProductList
-} from 'projects/backend/occ-client/lib/models';
+import { ReviewList, Suggestion, ProductList } from '../../occ-models';
 
 export interface StateWithProduct {
   [PRODUCT_FEATURE]: ProductState;

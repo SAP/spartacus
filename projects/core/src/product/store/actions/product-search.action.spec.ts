@@ -1,9 +1,5 @@
 import * as fromProductSearch from './product-search.action';
-import {
-  Suggestion,
-  ProductList,
-  ErrorModel
-} from 'projects/backend/occ-client/lib/models';
+import { Suggestion, ProductList, ErrorModel } from '../../../occ-models';
 import { SearchConfig } from '../../model/search-config';
 
 describe('Product Search Actions', () => {
