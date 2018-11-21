@@ -86,6 +86,7 @@ describe('ProductListComponent in product-list', () => {
     const activeRoute = TestBed.get(ActivatedRoute);
     activeRoute.setParams({
       query: 'myBestQueryEver:category:bestqueries',
+      categoryCode: 'mockCategoryCode',
       page: 112
     });
     component.categoryCode = 'mockCategoryCode';
@@ -93,7 +94,7 @@ describe('ProductListComponent in product-list', () => {
     component.ngOnChanges();
     expect(service.search).toHaveBeenCalledWith(
       'myBestQueryEver:category:bestqueries',
-      { pageSize: 10, page: 112 }
+      { pageSize: 10, page: 112, categoryCode: 'mockCategoryCode' }
     );
   });
 
@@ -103,7 +104,7 @@ describe('ProductListComponent in product-list', () => {
     component.ngOnChanges();
     expect(service.search).toHaveBeenCalledWith(
       ':relevance:category:mockCategoryCode',
-      { pageSize: 10 }
+      { pageSize: 10, categoryCode: 'mockCategoryCode' }
     );
   });
 
@@ -113,7 +114,7 @@ describe('ProductListComponent in product-list', () => {
     component.ngOnChanges();
     expect(service.search).toHaveBeenCalledWith(
       ':relevance:brand:mockBrandCode',
-      { pageSize: 10 }
+      { pageSize: 10, brandCode: 'mockBrandCode' }
     );
   });
 
