@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 export abstract class AddToHomeScreenComponent implements OnInit {
   canPrompt$: Observable<boolean>;
-  constructor(private addToHomeScreenService: AddToHomeScreenService) {}
+  constructor(protected addToHomeScreenService: AddToHomeScreenService) {}
 
   ngOnInit() {
     this.canPrompt$ = this.addToHomeScreenService.canPrompt$;

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AddToHomeScreenService } from '../../services/add-to-home-screen.service';
 import { AddToHomeScreenComponent } from './../add-to-home-screen.component';
 
 @Component({
@@ -6,4 +7,8 @@ import { AddToHomeScreenComponent } from './../add-to-home-screen.component';
   styleUrls: ['./add-to-home-screen-banner.component.scss'],
   templateUrl: './add-to-home-screen-banner.component.html'
 })
-export class AddToHomeScreenBannerComponent extends AddToHomeScreenComponent {}
+export class AddToHomeScreenBannerComponent extends AddToHomeScreenComponent {
+  constructor(protected addToHomeScreenService: AddToHomeScreenService) {
+    super(addToHomeScreenService);
+  }
+}
