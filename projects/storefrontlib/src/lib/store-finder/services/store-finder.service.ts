@@ -10,13 +10,23 @@ import * as fromStore from '../store';
 export class StoreFinderService {
   constructor(private store: Store<fromStore.StoresState>) {}
 
-  findStores(queryText: string, longitudeLatitude?: LongitudeLatitude) {
+  findStores(
+    queryText: string,
+    longitudeLatitude?: LongitudeLatitude,
+    useMyLocation?: boolean
+  ) {
     if (longitudeLatitude) {
       this.store.dispatch(
-        new fromStore.FindStores({ queryText, longitudeLatitude })
+        new fromStore.FindStores({
+          queryText,
+          useMyLocation,
+          longitudeLatitude
+        })
       );
     } else {
-      this.store.dispatch(new fromStore.FindStores({ queryText }));
+      this.store.dispatch(
+        new fromStore.FindStores({ queryText, useMyLocation })
+      );
     }
   }
 

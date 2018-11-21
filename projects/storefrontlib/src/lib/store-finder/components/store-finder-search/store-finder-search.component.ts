@@ -28,17 +28,12 @@ export class StoreFinderSearchComponent {
   }
 
   viewStoresWithMyLoc() {
-    this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
-      (position: Position) => {
-        this.router.navigate(['find-stores'], {
-          relativeTo: this.activatedRoute,
-          queryParams: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          }
-        });
+    this.router.navigate(['find-stores'], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        useMyLocation: true
       }
-    );
+    });
   }
 
   onKey(event: any) {

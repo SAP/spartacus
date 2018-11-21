@@ -26,6 +26,7 @@ export class FindStores implements Action {
     public payload: {
       queryText: string;
       longitudeLatitude?: LongitudeLatitude;
+      useMyLocation?: boolean;
       searchConfig?: SearchConfig;
     }
   ) {}

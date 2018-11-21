@@ -6,18 +6,39 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import * as fromAction from './../actions/find-stores.action';
 import { OccStoreFinderService } from '../../../occ/store/store-finder.service';
+import { WindowRef } from '../../services/window-ref';
 
 @Injectable()
 export class FindStoresEffect {
   constructor(
     private actions$: Actions,
-    private occStoreFinderService: OccStoreFinderService
+    private occStoreFinderService: OccStoreFinderService,
+    private winRef: WindowRef
   ) {}
 
   @Effect()
   findStores$: Observable<any> = this.actions$.pipe(
     ofType(fromAction.FIND_STORES),
     map((action: fromAction.FindStores) => action.payload),
+    map(payload =>
+      Observable.create(observer => {
+        if (payload.useMyLocation) {
+          this.winRef.nativeWindow.navigate.geolocation.getCurrentPosition(
+            (pos: Position) => {
+              payload.longitudeLatitude = {
+                longitude: pos.coords.longitude,
+                latitude: pos.coords.latitude
+              };
+              observer.next(payload);
+              observer.complete();
+            }
+          );
+        } else {
+          observer.next(payload);
+          observer.complete();
+        }
+      })
+    ),
     mergeMap(payload =>
       this.occStoreFinderService
         .findStores(
