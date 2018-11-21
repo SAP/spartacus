@@ -7,11 +7,11 @@ import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
 import { of } from 'rxjs';
 
-import { AuthModuleConfig } from '../auth-module.config';
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from './../../auth/models/token-types.model';
 
 import { UserTokenInterceptor } from './user-token.interceptor';
+import {AuthConfig} from '@spartacus/core';
 
 const userToken: UserToken = {
   access_token: 'xxx',
@@ -26,7 +26,7 @@ const authServiceMock = {
   userToken$: of(userToken)
 };
 
-const MockAuthModuleConfig: AuthModuleConfig = {
+const MockAuthConfig: AuthConfig = {
   server: {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
@@ -46,7 +46,7 @@ describe('UserTokenInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        { provide: AuthModuleConfig, useValue: MockAuthModuleConfig },
+        { provide: AuthConfig, useValue: MockAuthConfig },
         { provide: AuthService, useValue: authServiceMock },
         {
           provide: HTTP_INTERCEPTORS,

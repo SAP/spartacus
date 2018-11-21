@@ -4,12 +4,12 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { ClientAuthenticationTokenService } from './client-authentication-token.service';
-import { AuthModuleConfig } from '../../auth-module.config';
+import {AuthConfig} from '@spartacus/core';
 
 const token: any = 'mockToken';
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
-const MockAuthModuleConfig = {
+const MockAuthConfig = {
   server: {
     baseUrl: ''
   },
@@ -29,7 +29,7 @@ describe('ClientAuthenticationTokenService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         ClientAuthenticationTokenService,
-        { provide: AuthModuleConfig, useValue: MockAuthModuleConfig }
+        { provide: AuthConfig, useValue: MockAuthConfig }
       ]
     });
 

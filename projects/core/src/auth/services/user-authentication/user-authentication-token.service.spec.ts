@@ -6,7 +6,7 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { UserAuthenticationTokenService } from './user-authentication-token.service';
-import { AuthModuleConfig } from '../../auth-module.config';
+import {AuthConfig} from '@spartacus/core';
 
 const username: any = 'mockUsername';
 const password: any = '1234';
@@ -15,7 +15,7 @@ const refreshToken = '5678';
 const token: any = 'mockToken';
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
-const MockAuthModuleConfig = {
+const MockAuthConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -37,7 +37,7 @@ describe('UserAuthenticationTokenService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         UserAuthenticationTokenService,
-        { provide: AuthModuleConfig, useValue: MockAuthModuleConfig }
+        { provide: AuthConfig, useValue: MockAuthConfig }
       ]
     });
 
