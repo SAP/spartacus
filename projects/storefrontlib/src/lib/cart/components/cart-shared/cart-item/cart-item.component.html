@@ -1,7 +1,7 @@
 <div [ngClass]="compact ? 'cx-cart-item--compact row' : 'cx-cart-item row'">
   <!-- Item Image -->
   <div class="col-2 cx-cart-item__image-container">
-    <a [routerLink]="['product', item.product] | cxPath">
+    <a [routerLink]="['product'] | cxPath:[item.product]">
       <cx-picture [imageContainer]="item.product.images?.PRIMARY" imageFormat="thumbnail"></cx-picture>
     </a>
   </div>
@@ -11,7 +11,7 @@
       <!-- Item Description -->
       <div class="cx-cart-item__description" [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
         <div *ngIf="item.product.name" class="cx-cart-item__name">
-          <a class="cx-cart-item__name--link" [routerLink]="['product', item.product] | cxPath">{{item.product.name}}</a>
+          <a class="cx-cart-item__name--link" [routerLink]="['product'] | cxPath:[item.product]">{{item.product.name}}</a>
         </div>
         <div *ngIf="item.product.code" class="cx-cart-item__code">ID {{item.product.code}}</div>
         <!-- Variants -->

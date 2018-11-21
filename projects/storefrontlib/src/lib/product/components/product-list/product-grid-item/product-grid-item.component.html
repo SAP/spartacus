@@ -1,8 +1,8 @@
-<a [routerLink]="['product', product] | cxPath" class="cx-product-search-grid__image--container">
+<a [routerLink]="['product'] | cxPath:[product]" class="cx-product-search-grid__image--container">
   <cx-picture class="cx-product-search-grid__image" [imageContainer]="product.images?.PRIMARY" imageFormat="product"
     [imageAlt]="product.summary"></cx-picture>
 </a>
-<a [routerLink]="['product', product] | cxPath" class="cx-product-search-grid__name" [innerHTML]="product.name">{{product.name}}</a>
+<a [routerLink]="['product'] | cxPath:[product]" class="cx-product-search-grid__name" [innerHTML]="product.name">{{product.name}}</a>
 
 <div class="cx-product-search-grid__rating">
   <cx-star-rating [rating]="product?.averageRating" [disabled]="true"></cx-star-rating>

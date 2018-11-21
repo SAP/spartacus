@@ -16,7 +16,7 @@
           <ng-container *ngIf="(products[productCode] | async) as product">
             <div
               class="cx-carousel__product"
-              [routerLink]="['product', product] | cxPath"
+              [routerLink]="['product'] | cxPath:[product]"
             >
               <cx-picture
                 [imageContainer]="product.images?.PRIMARY"

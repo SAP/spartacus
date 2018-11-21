@@ -26,34 +26,14 @@ describe('PathPipe', () => {
   });
 
   describe('transform', () => {
-    it('should return the result from PathPipeService', () => {
-      const argument = 'argument';
-      const expectedResult = 'expected-result';
-      spyOn(service, 'transform').and.returnValue(expectedResult);
-
-      const result = pipe.transform(argument);
-      expect(service.transform).toHaveBeenCalled();
-      expect(result).toBe(expectedResult);
-    });
-
-    it('should interpret string argument as page name and should call service', () => {
-      spyOn(service, 'transform');
-      pipe.transform('testPageName');
-      expect(service.transform).toHaveBeenCalledWith('testPageName', {});
-    });
-
-    it('should interpret one-element array argument as page name and should call service', () => {
-      spyOn(service, 'transform');
-      pipe.transform(['testPageName']);
-      expect(service.transform).toHaveBeenCalledWith('testPageName', {});
-    });
-
-    it('should interpret two-elements array argument as tuple of page name and parameters object and should call service', () => {
-      spyOn(service, 'transform');
-      pipe.transform(['testPageName', { param1: 'value1' }]);
+    it('should should call service and return its result', () => {
+      const serviceResult = ['transfromed-path'];
+      spyOn(service, 'transform').and.returnValue(serviceResult);
+      const result = pipe.transform(['testPageName'], [{ param1: 'value1' }]);
       expect(service.transform).toHaveBeenCalledWith('testPageName', {
         param1: 'value1'
       });
+      expect(result).toEqual(serviceResult);
     });
   });
 });
