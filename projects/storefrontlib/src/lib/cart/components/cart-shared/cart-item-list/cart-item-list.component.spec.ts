@@ -2,10 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { CartItemListComponent } from './cart-item-list.component';
+import { CartService } from '../../../facade/cart.service';
 import { CartItemComponent } from '../../cart-shared/cart-item/cart-item.component';
 import { ComponentsModule } from '../../../../ui/components/components.module';
-import { CartService } from '../../../services/cart.service';
+
+import { CartItemListComponent } from './cart-item-list.component';
 
 class MockCartService {
   removeCartEntry() {}
