@@ -8,7 +8,8 @@ import {
 import { Config, ConfigModule } from '@spartacus/core';
 
 import { defaultPWAModuleConfig, PWAModuleConfig } from './pwa.module-config';
-import { AddToHomeScreenBtnComponent } from './add-to-home-screen-btn/add-to-home-screen-btn.component';
+import { AddToHomeScreenBtnComponent } from './components/add-to-home-screen-btn/add-to-home-screen-btn.component';
+import { AddToHomeScreenBannerComponent } from './components/add-to-home-screen-banner/add-to-home-screen-banner.component';
 import { AddToHomeScreenService } from './services/add-to-home-screen.service';
 
 export function pwaConfigurationFactory(
@@ -18,7 +19,7 @@ export function pwaConfigurationFactory(
 }
 
 export function pwaFactory(addToHomeScreenService) {
-  const result = () => addToHomeScreenService.init();
+  const result = () => addToHomeScreenService;
   return result;
 }
 
@@ -43,7 +44,7 @@ export function pwaFactory(addToHomeScreenService) {
     },
     AddToHomeScreenService
   ],
-  declarations: [AddToHomeScreenBtnComponent],
-  exports: [AddToHomeScreenBtnComponent]
+  declarations: [AddToHomeScreenBtnComponent, AddToHomeScreenBannerComponent],
+  exports: [AddToHomeScreenBtnComponent, AddToHomeScreenBannerComponent]
 })
 export class PwaModule {}

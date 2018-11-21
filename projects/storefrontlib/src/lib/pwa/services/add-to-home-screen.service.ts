@@ -1,53 +1,42 @@
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject } from 'rxjs';
 import { PWAModuleConfig } from '../pwa.module-config';
-import { Store } from '@ngrx/store';
-import * as fromGlobalMessage from '../../global-message/store';
 import { GlobalMessageType } from './../../global-message/models/message.model';
+import { GlobalMessageService } from '../../global-message/facade/global-message.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class AddToHomeScreenService {
-  isEnabled = false;
-  deferredEvent: any;
+  private deferredEvent: any;
 
-  private prompts = new Subject();
   private canPrompt = new BehaviorSubject<boolean>(false);
 
-  prompts$ = this.prompts.asObservable();
   canPrompt$ = this.canPrompt.asObservable();
 
   constructor(
     private config: PWAModuleConfig,
-    private store: Store<fromGlobalMessage.GlobalMessageState>
+    private globalMessageService: GlobalMessageService
   ) {
-    this.prompts$.subscribe(() => {
-      this.prompt();
-    });
-    this.isEnabled = this.config.pwa.addToHomeScreen;
+    if (this.config.pwa.addToHomeScreen) {
+      this.init();
+    }
   }
 
   init() {
     window.addEventListener('beforeinstallprompt', event => {
       event.preventDefault();
       this.deferredEvent = event;
-      if (this.isEnabled) {
-        this.enableAddToHomeScreen();
-      }
+      this.enableAddToHomeScreen();
     });
 
     window.addEventListener('appinstalled', () => {
-      this.store.dispatch(
-        new fromGlobalMessage.AddMessage({
-          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-          text: 'SAP Storefront was added to your home screen'
-        })
-      );
-      this.disableAddToHomeScreen();
-    });
-  }
+      this.globalMessageService.add({
+        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+        text: 'SAP Storefront was added to your home screen'
+      });
 
-  prompt(): void {
-    this.deferredEvent.prompt();
+      this.disableAddToHomeScreen();
+      this.deferredEvent = null;
+    });
   }
 
   enableAddToHomeScreen() {
@@ -59,6 +48,8 @@ export class AddToHomeScreenService {
   }
 
   firePrompt() {
-    this.prompts.next();
+    if (this.deferredEvent) {
+      this.deferredEvent.prompt();
+    }
   }
 }
