@@ -10,7 +10,7 @@ import { DefaultPageService } from '../services/default-page.service';
   providedIn: 'root'
 })
 export class CmsService {
-  readonly cmsPage$: Observable<Page> = this.store.pipe(
+  readonly currentPage$: Observable<Page> = this.store.pipe(
     select(fromStore.getLatestPage)
   );
 

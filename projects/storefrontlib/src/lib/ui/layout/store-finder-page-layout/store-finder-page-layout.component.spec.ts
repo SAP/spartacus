@@ -33,4 +33,16 @@ describe('StoreFinderPageLayoutComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should display StoreFinderHeaderComponent', () => {
+    expect(
+      fixture.debugElement.nativeElement.querySelector('cx-store-finder-header')
+    ).not.toBeNull();
+  });
+
+  it('should display the router outlet', () => {
+    expect(
+      fixture.debugElement.nativeElement.querySelector('router-outlet')
+    ).not.toBeNull();
+  });
 });

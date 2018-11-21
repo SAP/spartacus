@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CategoryPageLayoutComponent } from './category-page-layout.component';
-
 import { Input, Component } from '@angular/core';
+
+import { CategoryPageLayoutComponent } from './category-page-layout.component';
 
 @Component({
   selector: 'cx-dynamic-slot',

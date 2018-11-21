@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+
 import { CmsService } from '../../../cms/facade/cms.service';
 
 @Component({
@@ -31,6 +32,6 @@ export class CategoryPageComponent implements OnInit {
       }
     });
 
-    this.cmsPage$ = this.cmsService.cmsPage$;
+    this.cmsPage$ = this.cmsService.currentPage$;
   }
 }

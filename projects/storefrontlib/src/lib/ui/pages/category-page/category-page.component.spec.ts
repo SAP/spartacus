@@ -36,7 +36,7 @@ class MockActivatedRoute {
 }
 
 const mockCmsService = {
-  cmsPage$: new BehaviorSubject(null)
+  currentPage$: new BehaviorSubject(null)
 };
 
 describe('CategoryPageComponent', () => {
@@ -68,7 +68,7 @@ describe('CategoryPageComponent', () => {
   });
 
   it('should be able to get product list page', () => {
-    mockCmsService.cmsPage$.next({ template: 'ProductListPageTemplate' });
+    mockCmsService.currentPage$.next({ template: 'ProductListPageTemplate' });
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -84,7 +84,7 @@ describe('CategoryPageComponent', () => {
   });
 
   it('should be able to get product grid page', () => {
-    mockCmsService.cmsPage$.next({ template: 'ProductGridPageTemplate' });
+    mockCmsService.currentPage$.next({ template: 'ProductGridPageTemplate' });
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -100,7 +100,7 @@ describe('CategoryPageComponent', () => {
   });
 
   it('should be able to get category page', () => {
-    mockCmsService.cmsPage$.next({ template: 'CategoryPageTemplate' });
+    mockCmsService.currentPage$.next({ template: 'CategoryPageTemplate' });
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -114,7 +114,9 @@ describe('CategoryPageComponent', () => {
   });
 
   it('should be able to get search result list page', () => {
-    mockCmsService.cmsPage$.next({ template: 'SearchResultsListPageTemplate' });
+    mockCmsService.currentPage$.next({
+      template: 'SearchResultsListPageTemplate'
+    });
     component.ngOnInit();
     fixture.detectChanges();
 
