@@ -7,8 +7,9 @@ import { StoreFinderService } from '../../services';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
 
 import * as fromReducers from '../../store';
+import { WindowRef } from '../../services/window-ref';
 
-describe('StoreFinderListCountComponent', () => {
+fdescribe('StoreFinderListCountComponent', () => {
   let component: StoreFinderStoresCountComponent;
   let fixture: ComponentFixture<StoreFinderStoresCountComponent>;
 
@@ -21,7 +22,7 @@ describe('StoreFinderListCountComponent', () => {
         RouterTestingModule
       ],
       declarations: [StoreFinderStoresCountComponent],
-      providers: [StoreFinderService]
+      providers: [StoreFinderService, WindowRef]
     }).compileComponents();
   }));
 

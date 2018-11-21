@@ -12,7 +12,7 @@ export class FindStoresEffect {
   constructor(
     private actions$: Actions,
     private occStoreFinderService: OccStoreFinderService
-  ) {}
+  ) { }
 
   @Effect()
   findStores$: Observable<any> = this.actions$.pipe(
@@ -27,7 +27,6 @@ export class FindStoresEffect {
         )
         .pipe(
           map(data => {
-            console.log(data);
             data.geolocation = payload.longitudeLatitude;
             return new fromAction.FindStoresSuccess(data);
           }),
