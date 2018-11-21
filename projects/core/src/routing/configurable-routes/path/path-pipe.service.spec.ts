@@ -31,25 +31,27 @@ describe('PathPipeService', () => {
   });
 
   describe('transfrom', () => {
-    it('should return "/" when there are no configured paths for given page name ', () => {
+    it('should return ["/"] when there are no configured paths for given page name ', () => {
       spyOn(console, 'warn');
       spyOn(routesService, 'getPathsForPage').and.returnValue(undefined);
-      expect(service.transform('testPageName')).toBe('/');
+      expect(service.transform('testPageName')).toEqual(['/']);
     });
 
-    it('should return "/" when there configured paths for given page name are "null"', () => {
+    it('should return ["/"] when there configured paths for given page name are "null"', () => {
       spyOn(console, 'warn');
       spyOn(routesService, 'getPathsForPage').and.returnValue(null);
-      expect(service.transform('testPageName')).toBe('/');
+      expect(service.transform('testPageName')).toEqual(['/']);
     });
 
-    it('should return "/" when no configured path matches all its parameters to given object using parameter names mapping ', () => {
+    it('should return ["/"] when no configured path matches all its parameters to given object using parameter names mapping ', () => {
       spyOn(console, 'warn');
       spyOn(routesService, 'getPathsForPage').and.returnValue([
         'test-path/:unmetParameter'
       ]);
       spyOn(routesService, 'getParameterNamesMapping').and.returnValue({});
-      expect(service.transform('testPageName', { param1: 'value1' })).toBe('/');
+      expect(service.transform('testPageName', { param1: 'value1' })).toEqual([
+        '/'
+      ]);
     });
 
     // tslint:disable-next-line:max-line-length
@@ -84,15 +86,14 @@ describe('PathPipeService', () => {
       const resultPath = service.transform('testPageName', {
         param1: 'value1'
       });
-      expect(resultPath.startsWith('/')).toBeTruthy();
-      expect(resultPath).toContain('test-path/value1');
+      expect(resultPath[0]).toBe('');
     });
 
     interface TransformTestCase {
       paths: string[];
       parametersObject: object;
       parameterNamesMapping: { [_: string]: string };
-      expectedResult: string;
+      expectedResult: string[];
     }
 
     function test_transform(
@@ -110,7 +111,7 @@ describe('PathPipeService', () => {
           parameterNamesMapping
         );
         spyOn(routesService, 'getPathsForPage').and.returnValue(paths);
-        expect(service.transform('testPageName', parametersObject)).toBe(
+        expect(service.transform('testPageName', parametersObject)).toEqual(
           expectedResult
         );
       });
@@ -121,31 +122,31 @@ describe('PathPipeService', () => {
         parametersObject: {},
         paths: ['test-path/without-parameters'],
         parameterNamesMapping: {},
-        expectedResult: '/test-path/without-parameters'
+        expectedResult: ['', 'test-path', 'without-parameters']
       },
       {
         parametersObject: {},
         paths: ['test-path/:param1', 'test-path/without-parameters'],
         parameterNamesMapping: {},
-        expectedResult: '/test-path/without-parameters'
+        expectedResult: ['', 'test-path', 'without-parameters']
       },
       {
         parametersObject: { param2: 'value2' },
         paths: ['test-path/:param1', 'test-path/without-parameters'],
         parameterNamesMapping: {},
-        expectedResult: '/test-path/without-parameters'
+        expectedResult: ['', 'test-path', 'without-parameters']
       },
       {
         parametersObject: { param1: 'value1' },
         paths: ['test-path/:param1', 'test-path/without-parameters'],
         parameterNamesMapping: {},
-        expectedResult: '/test-path/value1'
+        expectedResult: ['', 'test-path', 'value1']
       },
       {
         parametersObject: { param1: 'value1' },
         paths: ['test-path/without-parameters', 'test-path/:param1'],
         parameterNamesMapping: {},
-        expectedResult: '/test-path/without-parameters'
+        expectedResult: ['', 'test-path', 'without-parameters']
       },
       {
         parametersObject: {
@@ -160,7 +161,7 @@ describe('PathPipeService', () => {
           'test-path/:param4'
         ],
         parameterNamesMapping: {},
-        expectedResult: '/test-path/value3/value2'
+        expectedResult: ['', 'test-path', 'value3', 'value2']
       },
       {
         parametersObject: {
@@ -175,13 +176,13 @@ describe('PathPipeService', () => {
           'test-path/:param3/:param2'
         ],
         parameterNamesMapping: {},
-        expectedResult: '/test-path/value4'
+        expectedResult: ['', 'test-path', 'value4']
       },
       {
         parametersObject: { param1: 'value1' },
         paths: ['test-path/:mappedParam1'],
         parameterNamesMapping: { mappedParam1: 'param1' },
-        expectedResult: '/test-path/value1'
+        expectedResult: ['', 'test-path', 'value1']
       },
       {
         parametersObject: {
@@ -196,22 +197,9 @@ describe('PathPipeService', () => {
           'test-path/:param4'
         ],
         parameterNamesMapping: { mappedParam2: 'param2' },
-        expectedResult: '/test-path/value3/value2'
+        expectedResult: ['', 'test-path', 'value3', 'value2']
       }
     ];
     trasfromTestCases.forEach(test_transform);
-
-    it('should return path with URI-encoded slashes in parameters values', () => {
-      spyOn(routesService, 'getParameterNamesMapping').and.returnValue({});
-      spyOn(routesService, 'getPathsForPage').and.returnValue([
-        'path/:param1/test'
-      ]);
-      const parametersObject = {
-        param1: 'value/with/slashes'
-      };
-      expect(service.transform('testPageName', parametersObject)).toBe(
-        '/path/value%2Fwith%2Fslashes/test'
-      );
-    });
   });
 });

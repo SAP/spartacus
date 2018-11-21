@@ -54,7 +54,7 @@ describe('RoutingService', () => {
 
   describe('goToPage', () => {
     it('should call go method with result of PathPipeService.transform', () => {
-      spyOn(pathPipeService, 'transform').and.returnValue('transformed-path');
+      spyOn(pathPipeService, 'transform').and.returnValue(['transformed-path']);
       spyOn(service, 'go');
       service.goToPage('testPageName');
       expect(service.go).toHaveBeenCalledWith(['transformed-path']);

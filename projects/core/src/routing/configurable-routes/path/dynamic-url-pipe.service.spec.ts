@@ -39,7 +39,7 @@ describe('DynamicUrlPipeService', () => {
   describe('transform', () => {
     it('should return result from PathPipeService', () => {
       const inputUrl = 'test-path/value1/value2';
-      const expectedResult = 'expected-result';
+      const expectedResult = ['expected-result'];
       spyOn(pathService, 'transform').and.returnValue(expectedResult);
       spyOn(dynamicUrlRecognizer, 'getPageAndParameters').and.returnValue({
         pageName: 'testPageName',
@@ -67,13 +67,13 @@ describe('DynamicUrlPipeService', () => {
       );
     });
 
-    it('should return original url if there is no matching page for this url', () => {
+    it('should return original url wrapped in an array if there is no matching page for this url', () => {
       const inputUrl = 'unknown-path';
       spyOn(dynamicUrlRecognizer, 'getPageAndParameters').and.returnValue({
         pageName: null,
         parameters: null
       });
-      expect(service.transform(inputUrl)).toBe(inputUrl);
+      expect(service.transform(inputUrl)).toEqual([inputUrl]);
     });
   });
 });

@@ -9,7 +9,7 @@ type PathPipeArgument = string | (string | object)[];
 export class PathPipe implements PipeTransform {
   constructor(private service: PathPipeService) {}
 
-  transform(argument: PathPipeArgument): string {
+  transform(argument: PathPipeArgument): string[] {
     const { pageName, parametersObject } = this.interpretArgument(argument);
     return this.service.transform(pageName, parametersObject);
   }

@@ -12,7 +12,9 @@ export class ConfigurableRoutesService {
     private readonly config: ServerConfig,
     private readonly router: Router,
     private readonly loader: RoutesConfigLoader
-  ) {}
+  ) {
+    this._routesConfig = this.loader.routesConfig;
+  }
 
   private readonly DEFAULT_LANGUAGE_CODE = 'default';
 
@@ -24,7 +26,7 @@ export class ConfigurableRoutesService {
   }
 
   changeLanguage(languageCode: string) {
-    this._routesConfig = this.loader.routesConfig; // spike todo quickfix - put back to constructor and fix
+    this._routesConfig = this.loader.routesConfig; // spike todo quickfix - use only line in constructor and fix
 
     if (this._routesConfig.translations[languageCode] === undefined) {
       if (!this.config.production) {

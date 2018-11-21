@@ -33,8 +33,8 @@ export class RoutingService {
   }
 
   public goToPage(pageName: string, parameters: object = {}) {
-    const path = this.pathPipeService.transform(pageName, parameters);
-    this.go([path]);
+    const pathCommands = this.pathPipeService.transform(pageName, parameters);
+    this.go(pathCommands);
   }
 
   back() {

@@ -9,14 +9,14 @@ export class DynamicUrlPipeService {
     private dynamicUrlRecognizerService: DynamicUrlRecognizerService
   ) {}
 
-  transform(path: string) {
+  transform(dynamicUrl: string): string[] {
     const {
       pageName,
       parameters
-    } = this.dynamicUrlRecognizerService.getPageAndParameters(path);
+    } = this.dynamicUrlRecognizerService.getPageAndParameters(dynamicUrl);
 
     if (!pageName) {
-      return path;
+      return [dynamicUrl];
     }
     return this.pathService.transform(pageName, parameters);
   }

@@ -15,11 +15,11 @@ export class PathPipeService {
     private config: ServerConfig
   ) {}
 
-  transform(pageName: string, parametersObject: object = {}): string {
+  transform(pageName: string, parametersObject: object = {}): string[] {
     const paths = this.configurableRoutesService.getPathsForPage(pageName);
 
     if (paths === undefined || paths === null) {
-      return '/';
+      return ['/'];
     }
     const parameterNamesMapping = this.configurableRoutesService.getParameterNamesMapping(
       pageName
@@ -43,7 +43,7 @@ export class PathPipeService {
           parameterNamesMapping
         );
       }
-      return '/';
+      return ['/'];
     }
 
     const absolutePath = ensureLeadingSlash(path);
@@ -59,25 +59,18 @@ export class PathPipeService {
     path: string,
     parametersObject: object,
     parameterNamesMapping: object
-  ): string {
-    return getSegments(path)
-      .map(segment => {
-        if (isParameter(segment)) {
-          const parameterName = getParameterName(segment);
-          const mappedParameterName = this.getMappedParameterName(
-            parameterName,
-            parameterNamesMapping
-          );
-          const parameterValue = parametersObject[mappedParameterName];
-          return this.sanitizeParameterValue(parameterValue);
-        }
-        return segment;
-      })
-      .join('/');
-  }
-
-  private sanitizeParameterValue(parameterValue: string) {
-    return (parameterValue || '').replace(new RegExp('/', 'g'), '%2F');
+  ): string[] {
+    return getSegments(path).map(segment => {
+      if (isParameter(segment)) {
+        const parameterName = getParameterName(segment);
+        const mappedParameterName = this.getMappedParameterName(
+          parameterName,
+          parameterNamesMapping
+        );
+        return parametersObject[mappedParameterName];
+      }
+      return segment;
+    });
   }
 
   // find first path that can fill all its parameters with values from given object
