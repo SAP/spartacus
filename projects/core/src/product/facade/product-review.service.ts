@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Product, Review } from '@spartacus/core';
 import * as fromStore from '../store/index';
+import { Product, Review } from 'projects/backend/occ-client/lib/models';
 
 @Injectable()
 export class ProductReviewService {

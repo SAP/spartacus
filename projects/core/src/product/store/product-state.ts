@@ -1,5 +1,9 @@
 export const PRODUCT_FEATURE = 'product';
-import { ReviewList, Suggestion, ProductList } from '@spartacus/core';
+import {
+  ReviewList,
+  Suggestion,
+  ProductList
+} from 'projects/backend/occ-client/lib/models';
 
 export interface StateWithProduct {
   [PRODUCT_FEATURE]: ProductState;

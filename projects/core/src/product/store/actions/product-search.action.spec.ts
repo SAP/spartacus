@@ -1,5 +1,9 @@
 import * as fromProductSearch from './product-search.action';
-import { Suggestion, ProductList, ErrorModel } from '@spartacus/core';
+import {
+  Suggestion,
+  ProductList,
+  ErrorModel
+} from 'projects/backend/occ-client/lib/models';
 import { SearchConfig } from '../../model/search-config';
 
 describe('Product Search Actions', () => {

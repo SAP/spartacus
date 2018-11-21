@@ -1,5 +1,5 @@
 import * as fromProductsSearch from '../actions/product-search.action';
-import { Suggestion } from '@spartacus/core';
+import { Suggestion } from 'projects/backend/occ-client/lib/models';
 import { ProductsSearchState } from '../product-state';
 
 export const initialState: ProductsSearchState = {

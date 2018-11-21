@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { ReviewList } from '@spartacus/core';
+import { ReviewList } from 'projects/backend/occ-client/lib/models';
 import {
   ProductReviewsState,
   ProductsState,

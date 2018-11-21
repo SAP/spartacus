@@ -1,5 +1,5 @@
 import * as fromProduct from './product.action';
-import { Product } from '@spartacus/core';
+import { Product } from 'projects/backend/occ-client/lib/models';
 
 describe('Product Actions', () => {
   describe('LoadProduct Actions', () => {

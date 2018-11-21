@@ -1,6 +1,6 @@
 import * as fromReducer from './../reducers/product-reviews.reducer';
 import * as fromActions from './../actions/product-reviews.action';
-import { ReviewList } from '@spartacus/core';
+import { ReviewList } from 'projects/backend/occ-client/lib/models';
 
 describe('Product Reviews reducer', () => {
   describe('undefined action', () => {

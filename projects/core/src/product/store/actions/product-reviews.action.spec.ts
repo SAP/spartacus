@@ -1,5 +1,5 @@
 import * as fromActions from './product-reviews.action';
-import { ErrorModel } from '@spartacus/core';
+import { ErrorModel } from 'projects/backend/occ-client/lib/models';
 
 fdescribe('Product Review Actions', () => {
   describe('LoadProductReview Actions', () => {

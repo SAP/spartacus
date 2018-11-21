@@ -5,7 +5,7 @@ import * as NgrxStore from '@ngrx/store';
 import * as fromStore from '../store';
 
 import { ProductSearchService } from './product-search.service';
-import { SearchConfig } from '@spartacus/core';
+import { SearchConfig } from 'projects/backend/occ-client/lib/models';
 import { EMPTY, of } from 'rxjs';
 
 describe('ProductSearchService', () => {

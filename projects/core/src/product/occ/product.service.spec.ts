@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccProductService } from './product.service';
-import { OccConfig } from '@spartacus/core';
+import { OccConfig } from 'projects/backend/occ-client/lib/models';
 
 const productCode = 'testCode';
 const product = {

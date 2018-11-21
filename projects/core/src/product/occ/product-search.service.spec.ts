@@ -5,7 +5,10 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccProductSearchService } from './product-search.service';
-import { OccConfig, SearchConfig } from '@spartacus/core';
+import {
+  OccConfig,
+  SearchConfig
+} from 'projects/backend/occ-client/lib/models';
 
 const queryText = 'test';
 const searchResults = { products: [{ code: '123' }] };

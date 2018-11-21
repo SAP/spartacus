@@ -1,6 +1,9 @@
 import * as fromProductSearch from './product-search.reducer';
 import * as fromActions from '../actions/product-search.action';
-import { ProductList, Suggestion } from '@spartacus/core';
+import {
+  ProductList,
+  Suggestion
+} from 'projects/backend/occ-client/lib/models';
 import { SearchConfig } from '../../model/search-config';
 import { ProductsSearchState } from '../product-state';
 
