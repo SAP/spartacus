@@ -9,7 +9,7 @@ import { StoreFinderStoresCountComponent } from './store-finder-stores-count.com
 import * as fromReducers from '../../store';
 import { WindowRef } from '../../services/window-ref';
 
-fdescribe('StoreFinderListCountComponent', () => {
+describe('StoreFinderListCountComponent', () => {
   let component: StoreFinderStoresCountComponent;
   let fixture: ComponentFixture<StoreFinderStoresCountComponent>;
 

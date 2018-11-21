@@ -74,12 +74,11 @@ describe('StoreFinderService', () => {
     it('should dispatch a OnHold action and a FindStore action', () => {
       service.findStores(queryText, true);
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.OnHold()
-      );
+      expect(store.dispatch).toHaveBeenCalledWith(new fromStore.OnHold());
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.FindStores({
-          queryText, longitudeLatitude
+          queryText,
+          longitudeLatitude
         })
       );
     });

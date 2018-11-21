@@ -61,7 +61,9 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
 
     this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
     this.locations$ = this.store.pipe(select(fromStore.getFindStoresEntities));
-    this.ngUnsubscribe = this.locations$.pipe(map(data => data.geolocation)).subscribe(geoData => this.geolocation = geoData);
+    this.ngUnsubscribe = this.locations$
+      .pipe(map(data => data.geolocation))
+      .subscribe(geoData => (this.geolocation = geoData));
   }
 
   private parseParameters(queryParams: { [key: string]: any }): SearchQuery {

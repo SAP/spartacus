@@ -12,7 +12,7 @@ export class FindStoresEffect {
   constructor(
     private actions$: Actions,
     private occStoreFinderService: OccStoreFinderService
-  ) { }
+  ) {}
 
   @Effect()
   findStores$: Observable<any> = this.actions$.pipe(

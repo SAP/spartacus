@@ -17,7 +17,6 @@ const badKeyEvent = {
   key: 'Enter95'
 };
 
-
 describe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;
   let fixture: ComponentFixture<StoreFinderSearchComponent>;

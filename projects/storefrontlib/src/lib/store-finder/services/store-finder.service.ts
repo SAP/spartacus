@@ -8,27 +8,27 @@ import { LongitudeLatitude } from '../models/longitude-latitude';
 
 @Injectable()
 export class StoreFinderService {
-  constructor(private store: Store<fromStore.StoresState>, private winRef: WindowRef) { }
+  constructor(
+    private store: Store<fromStore.StoresState>,
+    private winRef: WindowRef
+  ) {}
 
-  findStores(
-    queryText: string,
-    useMyLocation?: boolean
-  ) {
+  findStores(queryText: string, useMyLocation?: boolean) {
     if (useMyLocation) {
       this.store.dispatch(new fromStore.OnHold());
-      this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition((pos: Position) => {
-        const longitudeLatitude: LongitudeLatitude = {
-          longitude: pos.coords.longitude,
-          latitude: pos.coords.latitude
-        };
-        this.store.dispatch(
-          new fromStore.FindStores({ queryText, longitudeLatitude })
-        );
-      });
-    } else {
-      this.store.dispatch(
-        new fromStore.FindStores({ queryText })
+      this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
+        (pos: Position) => {
+          const longitudeLatitude: LongitudeLatitude = {
+            longitude: pos.coords.longitude,
+            latitude: pos.coords.latitude
+          };
+          this.store.dispatch(
+            new fromStore.FindStores({ queryText, longitudeLatitude })
+          );
+        }
       );
+    } else {
+      this.store.dispatch(new fromStore.FindStores({ queryText }));
     }
   }
 

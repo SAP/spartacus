@@ -15,14 +15,14 @@ export function reducer(
   action: fromStoreFinder.FindStoresAction
 ): FindStoresState {
   switch (action.type) {
-    case fromStoreFinder.FIND_STORES: {
+    case fromStoreFinder.ON_HOLD: {
       return {
         ...state,
         isLoading: true
       };
     }
 
-    case fromStoreFinder.ON_HOLD: {
+    case fromStoreFinder.FIND_STORES: {
       return {
         ...state,
         isLoading: true
