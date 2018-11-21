@@ -93,13 +93,18 @@ describe('CmsService', () => {
     ));
   });
 
-  it('should return the latest page', inject(
+  it('should expose the latest page property', inject(
     [CmsService],
     (service: CmsService) => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of(page));
+      store.dispatch(new fromActions.LoadPageDataSuccess(payload));
+
       let result;
-      service.getLatestPage().subscribe(value => (result = value));
-      expect(result).toBe(page);
+      const subscription = service.currentPage$.subscribe(value => {
+        result = value;
+      });
+      subscription.unsubscribe();
+
+      expect(result).toEqual(page);
     }
   ));
 

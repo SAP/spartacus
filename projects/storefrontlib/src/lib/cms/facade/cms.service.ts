@@ -10,6 +10,10 @@ import { DefaultPageService } from '../services/default-page.service';
   providedIn: 'root'
 })
 export class CmsService {
+  readonly currentPage$: Observable<Page> = this.store.pipe(
+    select(fromStore.getLatestPage)
+  );
+
   constructor(
     private store: Store<fromStore.CmsState>,
     private defaultPageService: DefaultPageService
@@ -33,10 +37,6 @@ export class CmsService {
       select(fromStore.currentSlotSelectorFactory(position)),
       filter(Boolean)
     );
-  }
-
-  getLatestPage() {
-    return this.store.pipe(select(fromStore.getLatestPage));
   }
 
   hasPage(pageContext) {

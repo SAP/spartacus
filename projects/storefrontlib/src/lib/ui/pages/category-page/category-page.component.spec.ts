@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { Component, Input } from '@angular/core';
 
-import { of } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 
 import { CmsService } from '../../../cms/facade/cms.service';
 
@@ -17,9 +17,9 @@ class MockActivatedRoute {
   });
 }
 
-class MockCmsService {
-  getLatestPage() {}
-}
+const mockCmsService = {
+  currentPage$: new BehaviorSubject(null)
+};
 
 @Component({
   selector: 'cx-product-list-page-layout',
@@ -55,7 +55,6 @@ const mockPage: Page = {
 describe('CategoryPageComponent', () => {
   let component: CategoryPageComponent;
   let fixture: ComponentFixture<CategoryPageComponent>;
-  let cmsService: CmsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -66,14 +65,13 @@ describe('CategoryPageComponent', () => {
       ],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        { provide: CmsService, useClass: MockCmsService }
+        { provide: CmsService, useValue: mockCmsService }
       ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(CategoryPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    cmsService = TestBed.get(CmsService);
   });
 
   it('should create', () => {
@@ -81,8 +79,7 @@ describe('CategoryPageComponent', () => {
   });
 
   it('should initialize component state when ngOnInit() is called', () => {
-    spyOn(cmsService, 'getLatestPage').and.returnValue(of(mockPage));
-
+    mockCmsService.currentPage$.next(mockPage);
     component.ngOnInit();
 
     expect(component.categoryCode).toEqual('123');

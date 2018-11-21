@@ -32,6 +32,6 @@ export class CategoryPageComponent implements OnInit {
       }
     });
 
-    this.cmsPage$ = this.cmsService.getLatestPage();
+    this.cmsPage$ = this.cmsService.currentPage$;
   }
 }
