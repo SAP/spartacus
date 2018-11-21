@@ -38,33 +38,36 @@ export class ProductListComponent implements OnChanges, OnInit {
   ) {}
 
   ngOnChanges() {
-    const newConfig = { ...this.activatedRoute.snapshot.queryParams };
-    delete newConfig.query;
-    this.searchConfig = newConfig;
-    const { query } = this.activatedRoute.snapshot.queryParams;
-    if (query) {
-      this.query = query;
-    }
-
-    this.searchConfig = {
-      ...this.searchConfig,
-      pageSize: this.itemPerPage || 10
+    const { queryParams } = this.activatedRoute.snapshot;
+    const newConfig = {
+      ...queryParams
     };
-    if (this.categoryCode && !this.query) {
+    delete newConfig.query;
+
+    const options = {
+      ...this.searchConfig,
+      ...newConfig,
+      pageSize: this.itemPerPage || 10,
+      categoryCode: this.categoryCode,
+      brandCode: this.brandCode
+    };
+    if (this.categoryCode && this.categoryCode !== queryParams.categoryCode) {
       this.query = ':relevance:category:' + this.categoryCode;
     }
-    if (this.brandCode && !this.query) {
+    if (this.brandCode && this.brandCode !== queryParams.brandCode) {
       this.query = ':relevance:brand:' + this.brandCode;
     }
     if (this.query) {
-      this.search(this.query);
+      this.search(this.query, options);
     }
+    console.log('onchanges');
   }
 
   ngOnInit() {
     this.grid = {
       mode: this.gridMode
     };
+    console.log('inti');
 
     this.model$ = this.productSearchService.searchResults$;
   }
