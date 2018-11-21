@@ -2,3 +2,4 @@ projects/backend/mockgenerator/datasets
 projects/backend/mockgenerator/dist
 projects/backend/occ-client
 **/*.md
+*.html

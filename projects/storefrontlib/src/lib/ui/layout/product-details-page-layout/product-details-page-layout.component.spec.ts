@@ -27,7 +27,6 @@ describe('ProductDetailsPageLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
       declarations: [
         ProductDetailsPageLayoutComponent,
         MockDynamicSlotComponent,
