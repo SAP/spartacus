@@ -6,6 +6,7 @@ import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
 import { PathPipeService } from '../configurable-routes';
+import { NavigationExtras } from '@angular/router';
 
 describe('RoutingService', () => {
   const mockRedirectUrl = createSpy().and.returnValue(() => of('redirect_url'));
@@ -54,10 +55,24 @@ describe('RoutingService', () => {
 
   describe('goToPage', () => {
     it('should call go method with result of PathPipeService.transform', () => {
-      spyOn(pathPipeService, 'transform').and.returnValue(['transformed-path']);
+      const pageName = 'testPageName';
+      const parameters = { param1: 'value1' };
+      const queryParams = { queryParam2: 'queryParamValue2' };
+      const extras: NavigationExtras = { fragment: 'testFragment' };
+      const transformedPath = ['transformed-path'];
+
+      spyOn(pathPipeService, 'transform').and.returnValue(transformedPath);
       spyOn(service, 'go');
-      service.goToPage('testPageName');
-      expect(service.go).toHaveBeenCalledWith(['transformed-path']);
+      service.goToPage(pageName, parameters, queryParams, extras);
+      expect(pathPipeService.transform).toHaveBeenCalledWith(
+        pageName,
+        parameters
+      );
+      expect(service.go).toHaveBeenCalledWith(
+        transformedPath,
+        queryParams,
+        extras
+      );
     });
   });
 

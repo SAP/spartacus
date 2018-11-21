@@ -32,9 +32,14 @@ export class RoutingService {
     );
   }
 
-  public goToPage(pageName: string, parameters: object = {}) {
+  public goToPage(
+    pageName: string,
+    parameters?: object,
+    query?: object,
+    extras?: NavigationExtras
+  ) {
     const pathCommands = this.pathPipeService.transform(pageName, parameters);
-    this.go(pathCommands);
+    this.go(pathCommands, query, extras);
   }
 
   back() {
