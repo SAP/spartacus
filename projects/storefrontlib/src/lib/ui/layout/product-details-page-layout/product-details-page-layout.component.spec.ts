@@ -5,7 +5,7 @@ import { ProductDetailsPageLayoutComponent } from './product-details-page-layout
 
 @Component({
   selector: 'cx-dynamic-slot',
-  template: 'MockDynamicSlotComponent'
+  template: ''
 })
 export class MockDynamicSlotComponent {
   @Input()
