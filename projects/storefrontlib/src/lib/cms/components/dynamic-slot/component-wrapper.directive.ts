@@ -14,6 +14,7 @@ import { CmsService } from '../../facade/cms.service';
 import { CmsComponentData } from '../cms-component-data';
 import { AbstractCmsComponent } from '../abstract-cms-component';
 import { CxApiService } from '../../../cx-api/cx-api.service';
+import { CmsModuleConfig } from '../../cms-module-config';
 
 @Directive({
   selector: '[cxComponentWrapper]'
@@ -37,7 +38,8 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
     private injector: Injector,
     private cmsService: CmsService,
     private renderer: Renderer2,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private config: CmsModuleConfig
   ) {}
 
   ngAfterViewInit() {
@@ -100,12 +102,16 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
   }
 
   private getInjectorForComponent() {
+    const configProviders =
+      this.config.cmsComponentProviders[this.componentType] || [];
+
     return Injector.create({
       providers: [
         {
           provide: CmsComponentData,
           useValue: this.getCmsDataForComponent()
-        }
+        },
+        ...configProviders
       ],
       parent: this.injector
     });

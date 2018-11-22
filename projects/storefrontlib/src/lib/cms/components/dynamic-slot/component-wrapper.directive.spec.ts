@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import {Component, Inject, NgModule} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { ComponentMapperService } from '../../services';
@@ -17,7 +17,7 @@ const testText = 'test text';
   template: `<div id="debugEl1">${testText}</div>`
 })
 export class TestComponent {
-  constructor(public cmsData: CmsComponentData) {}
+  constructor(public cmsData: CmsComponentData, @Inject('testService') public testService) {}
 }
 
 @NgModule({
@@ -30,6 +30,14 @@ export class TestModule {}
 const MockCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
     CMSTestComponent: 'cx-test'
+  },
+  cmsComponentProviders: {
+    CMSTestComponent: [
+      {
+        provide: 'testService',
+        useValue: 'testValue'
+      }
+    ]
   }
 };
 
@@ -82,6 +90,15 @@ describe('ComponentWrapperDirective', () => {
       );
       expect(testCromponemtInstance.cmsData.uid).toContain('test_uid');
     });
+
+    it('should provide configurable cms component providers', () => {
+      fixture.detectChanges();
+      const testCromponemtInstance = <TestComponent>(
+        fixture.debugElement.children[0].componentInstance
+      );
+      expect(testCromponemtInstance.testService).toEqual('testValue');
+    });
+
   });
 
   describe('with web component', () => {

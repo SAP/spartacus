@@ -1,25 +1,32 @@
 import { OccConfig } from '@spartacus/core';
-
 import { AuthModuleConfig } from '../auth/auth-module.config';
+import { StaticProvider } from '@angular/core';
 
-export interface CMSComponentMappingConfig {
-  [CMSComponent: string]: string;
-  CMSLinkComponent?: string;
-  SimpleResponsiveBannerComponent?: string;
-  SimpleBannerComponent?: string;
-  // BreadcrumbComponent: string;
-  CMSParagraphComponent?: string;
-  NavigationComponent?: string;
-  FooterNavigationComponent?: string;
-  CategoryNavigationComponent?: string;
-  ProductAddToCartComponent?: string;
-  MiniCartComponent?: string;
-  ProductCarouselComponent?: string;
-  SearchBoxComponent?: string;
-  ProductReferencesComponent?: string;
-  // CMSTabParagraphComponent: string;
-  CMSTabParagraphComponent?: string;
-}
+export type CmsComponentId =
+  | 'CMSLinkComponent'
+  | 'SimpleResponsiveBannerComponent'
+  | 'SimpleBannerComponent'
+  | 'CMSParagraphComponent'
+  // | 'BreadcrumbComponent'
+  | 'NavigationComponent'
+  | 'FooterNavigationComponent'
+  | 'CategoryNavigationComponent'
+  | 'ProductAddToCartComponent'
+  | 'MiniCartComponent'
+  | 'ProductCarouselComponent'
+  | 'SearchBoxComponent'
+  | 'ProductReferencesComponent'
+  // | CMSTabParagraphComponent'
+  | 'CMSTabParagraphComponent'
+  | string;
+
+export type CMSComponentMappingConfig = {
+  [CMSComponent in CmsComponentId]?: string
+};
+
+export type CMSComponentProviders = {
+  [CMSComponent in CmsComponentId]?: StaticProvider[]
+};
 
 export abstract class CmsModuleConfig extends OccConfig
   implements AuthModuleConfig {
@@ -34,6 +41,7 @@ export abstract class CmsModuleConfig extends OccConfig
   };
 
   cmsComponentMapping?: CMSComponentMappingConfig;
+  cmsComponentProviders?: CMSComponentProviders;
 }
 
 export const defaultCmsModuleConfig: CmsModuleConfig = {
@@ -58,5 +66,6 @@ export const defaultCmsModuleConfig: CmsModuleConfig = {
     ProductReferencesComponent: 'cx-product-references',
     // CMSTabParagraphComponent: 'cx-tab-paragraph-container'
     CMSTabParagraphComponent: 'cx-paragraph'
-  }
+  },
+  cmsComponentProviders: {}
 };

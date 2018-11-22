@@ -14,8 +14,7 @@ import { SearchBoxComponentService } from './search-box-component.service';
   selector: 'cx-searchbox',
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  providers: [SearchBoxComponentService]
+  encapsulation: ViewEncapsulation.None
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
   searchBoxControl: FormControl = new FormControl();
