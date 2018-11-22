@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import * as fromStore from './../../cms/store';
-import { Store } from '@ngrx/store';
+import { CmsService } from '../../cms/facade/cms.service';
 
 @Injectable()
 export class NavigationService {
-  constructor(private store: Store<fromStore.CmsState>) {}
+  constructor(private cmsService: CmsService) {}
 
   /**
    * Get all navigation entry items' type and id. Dispatch action to load all these items
@@ -26,12 +25,7 @@ export class NavigationService {
 
     if (root) {
       const rootUid = nodeData.uid;
-      this.store.dispatch(
-        new fromStore.LoadNavigationItems({
-          nodeId: rootUid,
-          items: itemsList
-        })
-      );
+      this.cmsService.loadNavigationItems(rootUid, itemsList);
     }
   }
 

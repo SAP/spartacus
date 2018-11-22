@@ -45,6 +45,15 @@ export class CmsService {
     );
   }
 
+  loadNavigationItems(rootUid: string, itemList: any[]) {
+    this.store.dispatch(
+      new fromStore.LoadNavigationItems({
+        nodeId: rootUid,
+        items: itemList
+      })
+    );
+  }
+
   hasPage(pageContext) {
     let tryTimes = 0;
 
