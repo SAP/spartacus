@@ -15,7 +15,7 @@ import {
 } from '@spartacus/core';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-import { CmsModuleConfig } from '@spartacus/storefront';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 
 @NgModule({
   imports: [

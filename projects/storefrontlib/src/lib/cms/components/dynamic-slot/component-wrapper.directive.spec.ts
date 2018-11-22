@@ -1,4 +1,4 @@
-import {Component, Inject, NgModule} from '@angular/core';
+import { Component, Inject, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { ComponentMapperService } from '../../services';
@@ -7,7 +7,7 @@ import * as fromReducers from '../../store/reducers';
 import { StoreModule } from '@ngrx/store';
 import { OutletDirective } from '../../../outlet';
 import { CmsComponentData } from '../cms-component-data';
-import { CxApiService } from '@spartacus/storefront';
+import { CxApiService } from '../../../cx-api/cx-api.service';
 import { CmsService } from '../../facade/cms.service';
 
 const testText = 'test text';
@@ -17,7 +17,10 @@ const testText = 'test text';
   template: `<div id="debugEl1">${testText}</div>`
 })
 export class TestComponent {
-  constructor(public cmsData: CmsComponentData, @Inject('testService') public testService) {}
+  constructor(
+    public cmsData: CmsComponentData,
+    @Inject('testService') public testService
+  ) {}
 }
 
 @NgModule({
@@ -98,7 +101,6 @@ describe('ComponentWrapperDirective', () => {
       );
       expect(testCromponemtInstance.testService).toEqual('testValue');
     });
-
   });
 
   describe('with web component', () => {
