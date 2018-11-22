@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-
 import { Store } from '@ngrx/store';
+import { LongitudeLatitude } from '../models/longitude-latitude';
+import { WindowRef } from './window-ref';
 
 import * as fromStore from '../store';
-import { WindowRef } from './window-ref';
-import { LongitudeLatitude } from '../models/longitude-latitude';
 
 @Injectable()
 export class StoreFinderService {

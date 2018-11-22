@@ -1,15 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store, select } from '@ngrx/store';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-
+import { map } from 'rxjs/operators';
 import { SearchConfig } from '../../models/search-config';
 import { SearchQuery } from '../../models/search-query';
+import { LongitudeLatitude } from '../../models/longitude-latitude';
 import { StoreFinderService } from '../../services/store-finder.service';
 
 import * as fromStore from '../../store';
-import { map } from 'rxjs/operators';
-import { LongitudeLatitude } from '../../models/longitude-latitude';
 
 @Component({
   selector: 'cx-store-finder-search-result',

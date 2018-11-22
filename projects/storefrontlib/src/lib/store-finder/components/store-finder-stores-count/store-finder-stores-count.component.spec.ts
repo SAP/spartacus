@@ -1,13 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
-
 import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
-import { StoreFinderService } from '../../services';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
+import { WindowRef } from '../../services/window-ref';
+import { StoreFinderService } from '../../services';
 
 import * as fromReducers from '../../store';
-import { WindowRef } from '../../services/window-ref';
 
 describe('StoreFinderListCountComponent', () => {
   let component: StoreFinderStoresCountComponent;
