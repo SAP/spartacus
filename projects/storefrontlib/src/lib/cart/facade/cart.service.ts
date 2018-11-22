@@ -5,10 +5,10 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { AuthService } from '../../auth';
 import * as fromAction from '../store/actions';
 import * as fromReducer from '../store/reducers';
 import * as fromSelector from '../store/selectors';
+import { AuthService } from '../../auth/index';
 
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 
@@ -16,12 +16,10 @@ import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 export class CartService {
   callback: Function;
 
-  // TODO:#153 - test
   readonly activeCart$: Observable<any> = this.store.pipe(
     select(fromSelector.getActiveCart)
   );
 
-  // TODO:#153 - test
   readonly entries$: Observable<any> = this.store.pipe(
     select(fromSelector.getEntries)
   );
@@ -166,7 +164,6 @@ export class CartService {
     }
   }
 
-  // TODO:#153 - test
   getCartMergeComplete(): Observable<boolean> {
     return this.store.pipe(select(fromSelector.getCartMergeComplete));
   }
