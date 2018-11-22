@@ -11,7 +11,7 @@ import { Review } from '../../occ-models';
 describe('ReviewService', () => {
   let service: ProductReviewService;
   let store: Store<fromStore.ProductsState>;
-  const mockReview = { code: 'testId' };
+  const mockReview = { id: 'testId' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,7 +41,7 @@ describe('ReviewService', () => {
         of(mockReview)
       );
       service.getByProductCode('testId').subscribe(reviews => {
-        expect(reviews).toBe(mockReview);
+        expect(reviews).toBe([mockReview]);
       });
     });
 

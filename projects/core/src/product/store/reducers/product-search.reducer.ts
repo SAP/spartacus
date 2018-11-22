@@ -1,9 +1,9 @@
 import * as fromProductsSearch from '../actions/product-search.action';
-import { Suggestion } from '../../../occ-models';
+import { Suggestion, ProductSearchPage } from '../../../occ-models';
 import { ProductsSearchState } from '../product-state';
 
 export const initialState: ProductsSearchState = {
-  results: {},
+  results: [],
   suggestions: [],
   auxResults: {},
   loading: false
@@ -25,7 +25,7 @@ export function reducer(
       const results = action.payload;
 
       if (state.loading) {
-        const res = action.auxiliary ? { auxResults: results } : { results };
+        const res = action.auxiliary ? { auxResults: results } : results;
         return {
           ...state,
           ...res,
@@ -52,7 +52,9 @@ export function reducer(
   return state;
 }
 
-export const getSearchResults = (state: ProductsSearchState) => state.results;
+export const getSearchResults = (
+  state: ProductsSearchState
+): ProductSearchPage => state.results;
 export const getAuxSearchResults = (state: ProductsSearchState) =>
   state.auxResults;
 export const getSearchResultsLoading = (state: ProductsSearchState) =>

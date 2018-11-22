@@ -9,7 +9,7 @@ import { Review } from '../../occ-models';
 export class ProductReviewService {
   constructor(private store: Store<fromStore.ProductsState>) {}
 
-  getByProductCode(productCode: string): Observable<any> {
+  getByProductCode(productCode: string): Observable<Review[]> {
     const selector = fromStore.getSelectedProductReviewsFactory(productCode);
     return this.store.pipe(
       select(selector),

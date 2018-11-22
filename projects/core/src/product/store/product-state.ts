@@ -16,7 +16,7 @@ export interface ProductsState {
 }
 
 export interface ProductsSearchState {
-  results: ProductList;
+  results: Review[];
   suggestions: Suggestion[];
   auxResults: ProductList;
   loading: boolean;
