@@ -289,10 +289,7 @@ xdescribe('CartService', () => {
     it('should return a loaded state', () => {
       store.dispatch(new CreateCartSuccess(cart));
       let result;
-      service
-        .getLoaded()
-        .subscribe(value => (result = value))
-        .unsubscribe();
+      service.loaded$.subscribe(value => (result = value)).unsubscribe();
       expect(result).toEqual(true);
     });
   });
@@ -320,8 +317,7 @@ xdescribe('CartService', () => {
     it('should return true when the merge is complete', () => {
       store.dispatch(new MergeCartSuccess());
       let result;
-      service
-        .getCartMergeComplete()
+      service.cartMergeComplete$
         .subscribe(mergeComplete => (result = mergeComplete))
         .unsubscribe();
       expect(result).toEqual(true);

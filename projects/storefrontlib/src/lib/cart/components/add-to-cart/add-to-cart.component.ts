@@ -40,7 +40,7 @@ export class AddToCartComponent implements OnInit {
 
   ngOnInit() {
     if (this.productCode) {
-      this.loaded$ = this.cartService.getLoaded();
+      this.loaded$ = this.cartService.loaded$;
       this.cartEntry$ = this.cartService.getEntry(this.productCode);
     }
   }

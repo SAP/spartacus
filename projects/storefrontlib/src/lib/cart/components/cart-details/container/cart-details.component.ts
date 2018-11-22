@@ -18,7 +18,7 @@ export class CartDetailsComponent implements OnInit {
   ngOnInit() {
     this.cart$ = this.cartService.activeCart$;
     this.entries$ = this.cartService.entries$;
-    this.cartLoaded$ = this.cartService.getLoaded();
+    this.cartLoaded$ = this.cartService.loaded$;
   }
 
   getAllPromotionsForCart(cart) {

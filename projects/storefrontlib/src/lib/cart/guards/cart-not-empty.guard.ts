@@ -11,7 +11,7 @@ export class CartNotEmptyGuard implements CanActivate {
   constructor(private cartService: CartService, private router: Router) {}
 
   canActivate(): Observable<boolean> {
-    return this.cartService.getLoaded().pipe(
+    return this.cartService.loaded$.pipe(
       skipWhile(loaded => !loaded),
       switchMap(() => this.cartService.activeCart$),
       map(cart => {

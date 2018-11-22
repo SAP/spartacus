@@ -24,6 +24,14 @@ export class CartService {
     select(fromSelector.getEntries)
   );
 
+  readonly cartMergeComplete$: Observable<boolean> = this.store.pipe(
+    select(fromSelector.getCartMergeComplete)
+  );
+
+  readonly loaded$: Observable<boolean> = this.store.pipe(
+    select(fromSelector.getLoaded)
+  );
+
   constructor(
     private store: Store<fromReducer.CartState>,
     private cartData: CartDataService,
@@ -162,14 +170,6 @@ export class CartService {
         })
       );
     }
-  }
-
-  getCartMergeComplete(): Observable<boolean> {
-    return this.store.pipe(select(fromSelector.getCartMergeComplete));
-  }
-
-  getLoaded(): Observable<boolean> {
-    return this.store.pipe(select(fromSelector.getLoaded));
   }
 
   getEntry(productCode: string): Observable<any> {

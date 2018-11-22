@@ -17,9 +17,7 @@ const mockRouter = { navigate: () => {} };
 
 class CartServiceStub {
   activeCart$: Observable<any>;
-  getLoaded(): Observable<any> {
-    return of();
-  }
+  loaded$: Observable<boolean>;
   isCartEmpty(_cart: any): boolean {
     return false;
   }
@@ -58,7 +56,7 @@ describe('CartNotEmptyGuard', () => {
 
     describe('when cart is NOT loaded', () => {
       beforeEach(() => {
-        spyOn(cartService, 'getLoaded').and.returnValue(of(false));
+        cartService.loaded$ = of(false);
       });
 
       describe(', and when cart is NOT created', () => {
@@ -133,7 +131,7 @@ describe('CartNotEmptyGuard', () => {
 
     describe('when cart is loaded', () => {
       beforeEach(() => {
-        spyOn(cartService, 'getLoaded').and.returnValue(of(true));
+        cartService.loaded$ = of(true);
       });
 
       describe(', and when cart is NOT created', () => {
