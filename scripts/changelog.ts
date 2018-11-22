@@ -74,7 +74,7 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
               chunk.gitTags && (chunk.gitTags as string).match(/tag: (.*)/);
             const tags = maybeTag && maybeTag[1].split(/,/g);
             chunk['tags'] = tags;
-
+            // tslint:disable-next-line:triple-equals
             if (tags && tags.find(x => x == args.to)) {
               toSha = chunk.hash as string;
             }
@@ -115,7 +115,7 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
     })
     .then(([body, markdown]) => {
       const json = body.body;
-
+      // tslint:disable-next-line:triple-equals
       const maybeRelease = json.find((x: JsonObject) => x.tag_name == args.to);
       const id = maybeRelease ? `/${maybeRelease.id}` : '';
 
