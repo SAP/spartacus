@@ -1,4 +1,6 @@
 import { Action } from '@ngrx/store';
+import { PageContext } from '@spartacus/core';
+import { Page } from '../../models/page.model';
 
 export const LOAD_PAGEDATA = '[Cms] Load PageData';
 export const LOAD_PAGEDATA_FAIL = '[Cms] Load PageData Fail';
@@ -8,7 +10,7 @@ export const CLEAN_PAGE_STATE = '[Cms] Clean Page State;';
 
 export class LoadPageData implements Action {
   readonly type = LOAD_PAGEDATA;
-  constructor(public payload: any) {}
+  constructor(public payload: PageContext) {}
 }
 
 export class LoadPageDataFail implements Action {
@@ -18,7 +20,7 @@ export class LoadPageDataFail implements Action {
 
 export class LoadPageDataSuccess implements Action {
   readonly type = LOAD_PAGEDATA_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: { key: string; value: Page }) {}
 }
 
 export class UpdateLatestPageKey implements Action {

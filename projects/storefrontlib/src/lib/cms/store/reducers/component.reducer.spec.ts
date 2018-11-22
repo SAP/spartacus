@@ -1,5 +1,6 @@
 import * as fromComponent from './component.reducer';
 import * as fromActions from '../actions/component.action';
+import { Component } from '@spartacus/core';
 
 describe('Cms Component Reducer', () => {
   describe('undefined action', () => {
@@ -14,7 +15,10 @@ describe('Cms Component Reducer', () => {
 
   describe('LOAD_COMPONENT_SUCCESS action', () => {
     it('should populate the component state entities', () => {
-      const component = { uid: 'comp1', typeCode: 'SimpleBannerComponent' };
+      const component: Component = {
+        uid: 'comp1',
+        typeCode: 'SimpleBannerComponent'
+      };
       const entities = {
         comp1: component
       };
