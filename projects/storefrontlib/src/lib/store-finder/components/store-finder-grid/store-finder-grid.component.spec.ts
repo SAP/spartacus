@@ -20,7 +20,15 @@ class StoreFinderServiceMock {
 }
 
 const location = {
-  name: 'testName'
+  name: 'testName',
+  address: {
+    country: {
+      isocode: countryIsoCode
+    },
+    region: {
+      isocode: regionIsoCode
+    }
+  }
 };
 
 const mockActivatedRoute = {

@@ -61,9 +61,9 @@ export class StoreFinderGridComponent implements OnInit {
     this.router.navigate([
       'store-finder',
       'country',
-      this.route.snapshot.params.country,
+      location.address.country.isocode,
       'region',
-      this.route.snapshot.params.region,
+      location.address.region.isocode,
       location.name
     ]);
   }
