@@ -59,7 +59,6 @@ export class AddToCartComponent implements OnInit {
       size: 'lg'
     }).componentInstance;
     this.modalInstance.entry$ = this.cartEntry$;
-    this.modalInstance.entry$ = this.cartService.activeCart$;
     this.modalInstance.loaded$ = this.loaded$;
     this.modalInstance.quantity = this.quantity;
   }
