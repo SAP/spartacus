@@ -10,7 +10,6 @@ import { CartService } from '../../cart/facade/cart.service';
 export class CartNotEmptyGuard implements CanActivate {
   constructor(private cartService: CartService, private router: Router) {}
 
-  // TODO:#153 - adjust test
   canActivate(): Observable<boolean> {
     return this.cartService.getLoaded().pipe(
       skipWhile(loaded => !loaded),
