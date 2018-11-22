@@ -3,8 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import * as fromStore from '../../store';
 import { StoreFinderService } from '../../services/store-finder.service';
+
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'cx-store-finder-grid',
@@ -58,13 +59,22 @@ export class StoreFinderGridComponent implements OnInit {
   }
 
   viewStore(location: any): void {
-    this.router.navigate([
-      'store-finder',
-      'country',
-      location.address.country.isocode,
-      'region',
-      location.address.region.isocode,
-      location.name
-    ]);
+    if (location.address.region) {
+      this.router.navigate([
+        'store-finder',
+        'country',
+        location.address.country.isocode,
+        'region',
+        location.address.region.isocode,
+        location.name
+      ]);
+    } else {
+      this.router.navigate([
+        'store-finder',
+        'country',
+        location.address.country.isocode,
+        location.name
+      ]);
+    }
   }
 }
