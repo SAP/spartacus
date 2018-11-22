@@ -74,7 +74,8 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
       searchQuery = { queryText: '' };
     }
 
-    searchQuery.useMyLocation = queryParams.useMyLocation === 'true';
+    searchQuery.useMyLocation =
+      queryParams.useMyLocation.toUpperCase() === 'TRUE';
     return searchQuery;
   }
 }
