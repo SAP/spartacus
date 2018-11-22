@@ -5,10 +5,10 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
+import { AuthService } from '../../auth';
 import * as fromAction from '../store/actions';
 import * as fromReducer from '../store/reducers';
 import * as fromSelector from '../store/selectors';
-import * as fromAuthSelectors from './../../auth/store/selectors';
 
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 
@@ -28,7 +28,8 @@ export class CartService {
 
   constructor(
     private store: Store<fromReducer.CartState>,
-    private cartData: CartDataService
+    private cartData: CartDataService,
+    private authService: AuthService
   ) {
     this.initCart();
   }
@@ -42,11 +43,8 @@ export class CartService {
       }
     });
 
-    this.store
-      .pipe(
-        select(fromAuthSelectors.getUserToken),
-        filter(userToken => this.cartData.userId !== userToken.userId)
-      )
+    this.authService.userToken$
+      .pipe(filter(userToken => this.cartData.userId !== userToken.userId))
       .subscribe(userToken => {
         if (Object.keys(userToken).length !== 0) {
           this.cartData.userId = userToken.userId;
@@ -168,12 +166,10 @@ export class CartService {
     }
   }
 
-  // TODO:#153 test
   getLoaded(): Observable<boolean> {
     return this.store.pipe(select(fromSelector.getLoaded));
   }
 
-  // TODO:#153 test
   getEntry(productCode: string): Observable<any> {
     return this.store.pipe(
       select(fromSelector.getEntrySelectorFactory(productCode))
