@@ -1,11 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
 import { Input, Component } from '@angular/core';
 
 import { TermsConditionsLayoutComponent } from './terms-conditions-layout.component';
-import { ComponentsModule } from '../../components/components.module';
-import { ComponentWrapperDirective } from '../../../cms/components';
-import { OutletDirective } from '../../../outlet';
 
 @Component({
   selector: 'cx-dynamic-slot',
@@ -22,13 +18,7 @@ describe('TermsConditionsLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ComponentsModule, StoreModule.forRoot({})],
-      declarations: [
-        MockDynamicSlotComponent,
-        ComponentWrapperDirective,
-        OutletDirective,
-        TermsConditionsLayoutComponent
-      ]
+      declarations: [TermsConditionsLayoutComponent, MockDynamicSlotComponent]
     }).compileComponents();
   }));
 
