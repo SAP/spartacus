@@ -126,7 +126,9 @@ describe('PaymentMethodComponent', () => {
     component.selectedPayment = mockPaymentMethod1;
     component.next();
     expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
-      payment: mockPaymentMethod1,
+      payload: {
+        payment: mockPaymentMethod1
+      },
       newPayment: false
     });
   });
@@ -134,7 +136,9 @@ describe('PaymentMethodComponent', () => {
   it('should call addNewPaymentMethod()', () => {
     component.addNewPaymentMethod(mockPaymentMethod1);
     expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
-      payment: mockPaymentMethod1,
+      payload: {
+        payment: mockPaymentMethod1
+      },
       newPayment: true
     });
   });

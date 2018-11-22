@@ -98,7 +98,7 @@
         <div class="cx-payment-form__btns row">
           <div class="col-sm-12 col-md-6"><button class="btn btn-block btn-action" (click)="back()">
               Change Payment</button></div>
-          <div class="col-sm-12 col-md-6"><button class="btn btn-block btn-primary" [disabled]="payment.invalid || billingAddress.invalid"
+          <div class="col-sm-12 col-md-6"><button class="btn btn-block btn-primary" [disabled]="isContinueButtonDisabled()"
               (click)="next()">Continue</button></div>
         </div>
       </div>

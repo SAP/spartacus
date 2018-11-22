@@ -1,8 +1,7 @@
 import { Action } from '@ngrx/store';
 
 export const LOAD_BILLING_COUNTRIES = '[User] Load Billing Countries';
-export const LOAD_BILLING_COUNTRIES_FAIL =
-  '[User] Load Billing Countries Fail';
+export const LOAD_BILLING_COUNTRIES_FAIL = '[User] Load Billing Countries Fail';
 export const LOAD_BILLING_COUNTRIES_SUCCESS =
   '[User] Load Billing Countries Success';
 

@@ -62,8 +62,10 @@ $cx-billing-address-form-text-sm-padding-left: 1.5rem !default;
 
   &__card {
     @include media-breakpoint-down(md) {
-      @include var-color('background-color',
-      $cx-billing-address-form-card-background-color);
+      @include var-color(
+        'background-color',
+        $cx-billing-address-form-card-background-color
+      );
     }
   }
 }
