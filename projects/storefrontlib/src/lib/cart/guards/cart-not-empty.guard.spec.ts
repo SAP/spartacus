@@ -25,7 +25,7 @@ class CartServiceStub {
   }
 }
 
-fdescribe('CartNotEmptyGuard', () => {
+describe('CartNotEmptyGuard', () => {
   let cartNotEmptyGuard: CartNotEmptyGuard;
   let router: Router;
   let cartService: CartServiceStub;
