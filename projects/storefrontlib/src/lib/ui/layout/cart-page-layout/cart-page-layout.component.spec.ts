@@ -9,9 +9,9 @@ import { CartPageLayoutComponent } from './cart-page-layout.component';
 
 class MockCartService {
   activeCart$: Observable<any>;
+  cartMergeComplete$: Observable<boolean>;
   removeCartEntry() {}
   loadCartDetails() {}
-  getCartMergeComplete() {}
 }
 
 @Component({
@@ -57,7 +57,7 @@ describe('CartPageLayoutComponent', () => {
   });
 
   it('should call ngOnInit', () => {
-    spyOn(service, 'getCartMergeComplete').and.returnValue(of(true));
+    service.cartMergeComplete$ = of(true);
     spyOn(service, 'loadCartDetails').and.stub();
     service.activeCart$ = of('mockCart');
 
