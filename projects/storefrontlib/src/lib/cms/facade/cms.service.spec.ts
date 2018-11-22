@@ -93,6 +93,21 @@ describe('CmsService', () => {
     ));
   });
 
+  it('should expose the latest page property', inject(
+    [CmsService],
+    (service: CmsService) => {
+      store.dispatch(new fromActions.LoadPageDataSuccess(payload));
+
+      let result;
+      const subscription = service.currentPage$.subscribe(value => {
+        result = value;
+      });
+      subscription.unsubscribe();
+
+      expect(result).toEqual(page);
+    }
+  ));
+
   describe('hasPage()', () => {
     it('should return true when find the cms page by key id_type', inject(
       [CmsService],

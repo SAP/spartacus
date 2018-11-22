@@ -1,22 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Input, Component } from '@angular/core';
+
 import { StoreModule } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
+
 import { of } from 'rxjs';
-import { CartDetailsComponent } from '../../../cart/components/cart-details/container/cart-details.component';
+
 import { CartService } from '../../../cart/services';
 import * as fromReducer from '../../../cart/store/reducers';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
-import { ComponentMapperService } from '../../../cms/services';
-import * as fromCmsReducer from '../../../cms/store';
-import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
-import { ComponentsModule } from './../../components/components.module';
+
 import { CartPageLayoutComponent } from './cart-page-layout.component';
-import { OutletDirective } from '../../../outlet';
 
 class MockCartService {
   removeCartEntry() {}
@@ -24,9 +17,20 @@ class MockCartService {
   loadCartDetails() {}
 }
 
-class MockMapperService {
-  getComponentTypeByCode() {}
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: ''
+})
+export class MockDynamicSlotComponent {
+  @Input()
+  position: string;
 }
+
+@Component({
+  selector: 'cx-cart-details',
+  template: ''
+})
+export class MockCartDetailsComponent {}
 
 describe('CartPageLayoutComponent', () => {
   let component: CartPageLayoutComponent;
@@ -36,25 +40,15 @@ describe('CartPageLayoutComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromReducer.getReducers()),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
-        ComponentsModule,
-        CartSharedModule
+        StoreModule.forFeature('cart', fromReducer.getReducers())
       ],
       declarations: [
         CartPageLayoutComponent,
-        CartDetailsComponent,
-        DynamicSlotComponent,
-        ComponentWrapperDirective,
-        OutletDirective
+        MockCartDetailsComponent,
+        MockDynamicSlotComponent
       ],
-      providers: [
-        { provide: CartService, useClass: MockCartService },
-        { provide: ComponentMapperService, useClass: MockMapperService }
-      ]
+      providers: [{ provide: CartService, useClass: MockCartService }]
     }).compileComponents();
   }));
 
