@@ -1,4 +1,5 @@
 import * as fromComponent from '../actions/component.action';
+import { Component } from '@spartacus/core';
 
 export interface ComponentState {
   entities: { [id: string]: any };
@@ -14,7 +15,7 @@ export function reducer(
 ): ComponentState {
   switch (action.type) {
     case fromComponent.LOAD_COMPONENT_SUCCESS: {
-      const component = action.payload;
+      const component: Component = action.payload;
 
       return {
         ...state,
