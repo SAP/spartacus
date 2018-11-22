@@ -166,6 +166,11 @@ export class CartService {
     }
   }
 
+  // TODO:#153 - test
+  getCartMergeComplete(): Observable<boolean> {
+    return this.store.pipe(select(fromSelector.getCartMergeComplete));
+  }
+
   getLoaded(): Observable<boolean> {
     return this.store.pipe(select(fromSelector.getLoaded));
   }

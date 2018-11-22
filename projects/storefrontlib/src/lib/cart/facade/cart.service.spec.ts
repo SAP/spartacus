@@ -11,7 +11,8 @@ import * as fromCart from '../../cart/store';
 import {
   LoadCartSuccess,
   AddEntrySuccess,
-  CreateCartSuccess
+  CreateCartSuccess,
+  MergeCartSuccess
 } from '../../cart/store';
 import { UserToken } from '../../auth/models/token-types.model';
 
@@ -288,7 +289,10 @@ xdescribe('CartService', () => {
     it('should return a loaded state', () => {
       store.dispatch(new CreateCartSuccess(cart));
       let result;
-      service.getLoaded().subscribe(value => (result = value));
+      service
+        .getLoaded()
+        .subscribe(value => (result = value))
+        .unsubscribe();
       expect(result).toEqual(true);
     });
   });
@@ -304,8 +308,23 @@ xdescribe('CartService', () => {
       store.dispatch(new LoadCartSuccess(testCart));
 
       let result;
-      service.getEntry('code1').subscribe(value => (result = value));
+      service
+        .getEntry('code1')
+        .subscribe(value => (result = value))
+        .unsubscribe();
       expect(result).toEqual(testCart.entries[0]);
+    });
+  });
+
+  describe('getCartMergeComplete', () => {
+    it('should return true when the merge is complete', () => {
+      store.dispatch(new MergeCartSuccess());
+      let result;
+      service
+        .getCartMergeComplete()
+        .subscribe(mergeComplete => (result = mergeComplete))
+        .unsubscribe();
+      expect(result).toEqual(true);
     });
   });
 });
