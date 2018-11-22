@@ -3,7 +3,7 @@ import { ProductReviewsState } from '../product-state';
 
 export const initialState: ProductReviewsState = {
   productCode: '',
-  list: { reviews: [] }
+  list: []
 };
 
 export function reducer(

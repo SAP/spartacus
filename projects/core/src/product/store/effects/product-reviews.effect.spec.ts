@@ -58,7 +58,7 @@ describe('Product reviews effect', () => {
       const action = new fromActions.LoadProductReviews(productCode);
       const completion = new fromActions.LoadProductReviewsSuccess({
         productCode,
-        list: reviewData
+        list: reviewData.reviews
       });
 
       actions$ = hot('-a', { a: action });

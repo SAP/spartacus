@@ -1,7 +1,7 @@
 import * as fromActions from './product-reviews.action';
 import { ErrorModel } from '../../../occ-models';
 
-fdescribe('Product Review Actions', () => {
+describe('Product Review Actions', () => {
   describe('LoadProductReview Actions', () => {
     describe('LOAD_PRODUCT_REVIEWS', () => {
       it('should create the action', () => {
