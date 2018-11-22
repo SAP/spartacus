@@ -18,7 +18,7 @@ jobs:
     - script: './ci-scripts/lint.sh'
       name: 'Lint'
     - stage: 'Unit tests'
-    - script: './ci-scripts/unit-tests-sonar.sh'
+      script: './ci-scripts/unit-tests-sonar.sh'
       name: 'Unit tests/Sonar scan'
     - stage: deploy
       script: './ci-scripts/build-deploy.sh'
