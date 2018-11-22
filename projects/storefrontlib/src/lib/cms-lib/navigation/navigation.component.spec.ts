@@ -5,15 +5,8 @@ import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { NavigationComponent } from './navigation.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { NavigationService } from './navigation.service';
 import { CmsService } from '../../cms/facade/cms.service';
-
-const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CMSNavigationComponent: 'NavigationComponent'
-  }
-};
 
 class MockCmsService {
   getComponentData() {
@@ -80,8 +73,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
       providers: [
         NavigationService,
         { provide: CmsService, useClass: MockCmsService },
-        { provide: NavigationService, useValue: mockNavigationService },
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
+        { provide: NavigationService, useValue: mockNavigationService }
       ],
       declarations: [NavigationComponent, MockNavigationUIComponent]
     }).compileComponents();

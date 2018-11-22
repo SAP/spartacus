@@ -3,7 +3,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { DebugElement, Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { NavigationService } from '../navigation/navigation.service';
 import { CmsService } from '../../cms/facade/cms.service';
 import { NavigationComponent } from '..';
@@ -36,8 +35,7 @@ describe('CategoryNavigationComponent', () => {
       providers: [
         NavigationService,
         { provide: CmsService, useValue: {} },
-        { provide: NavigationService, useValue: {} },
-        { provide: CmsModuleConfig, useValue: {} }
+        { provide: NavigationService, useValue: {} }
       ]
     }).compileComponents();
   }));
