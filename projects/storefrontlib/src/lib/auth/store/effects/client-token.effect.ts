@@ -7,11 +7,12 @@ import * as fromActions from './../actions';
 import { ClientAuthenticationTokenService } from './../../services/client-authentication/client-authentication-token.service';
 import { map, catchError, mergeMap } from 'rxjs/operators';
 import { ClientToken } from './../../models/token-types.model';
+import { ClientTokenAction } from '../actions/client-token.action';
 
 @Injectable()
 export class ClientTokenEffect {
   @Effect()
-  loadClientToken$: Observable<any> = this.actions$.pipe(
+  loadClientToken$: Observable<ClientTokenAction> = this.actions$.pipe(
     ofType(fromActions.LOAD_CLIENT_TOKEN),
     mergeMap(() => {
       return this.clientAuthenticationTokenService

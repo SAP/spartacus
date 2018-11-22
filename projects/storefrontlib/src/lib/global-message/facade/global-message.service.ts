@@ -8,7 +8,9 @@ import { GlobalMessage, GlobalMessageType } from '../models/message.model';
 
 @Injectable()
 export class GlobalMessageService {
-  readonly messages$: Observable<any> = this.store.pipe(
+  readonly messages$: Observable<
+    Map<GlobalMessageType, string[]>
+  > = this.store.pipe(
     select(fromStore.getGlobalMessagesEntities),
     filter(data => data !== undefined)
   );
