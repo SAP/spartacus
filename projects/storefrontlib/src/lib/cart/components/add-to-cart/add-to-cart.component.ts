@@ -38,7 +38,6 @@ export class AddToCartComponent implements OnInit {
     private modalService: NgbModal
   ) {}
 
-  // TODO:#153 - test
   ngOnInit() {
     if (this.productCode) {
       this.loaded$ = this.cartService.getLoaded();
@@ -54,7 +53,6 @@ export class AddToCartComponent implements OnInit {
     this.cartService.addCartEntry(this.productCode, this.quantity);
   }
 
-  // TODO:#153 test?
   private openModal() {
     this.modalInstance = this.modalService.open(AddedToCartDialogComponent, {
       centered: true,
