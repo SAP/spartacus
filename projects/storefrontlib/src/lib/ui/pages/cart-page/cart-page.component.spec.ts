@@ -15,7 +15,6 @@ describe('CartPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
       declarations: [CartPageComponent, MockCartPageLayoutComponent]
     }).compileComponents();
   }));

@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreFinderPageLayoutComponent } from './store-finder-page-layout.component';
 
@@ -9,24 +10,16 @@ import { StoreFinderPageLayoutComponent } from './store-finder-page-layout.compo
 })
 export class MockStoreFinderHeaderComponent {}
 
-/* tslint:disable */
-@Component({
-  selector: 'router-outlet',
-  template: ''
-})
-export class MockRouterOutletComponent {}
-/* tslint:enable */
-
 describe('StoreFinderPageLayoutComponent', () => {
   let component: StoreFinderPageLayoutComponent;
   let fixture: ComponentFixture<StoreFinderPageLayoutComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [
         StoreFinderPageLayoutComponent,
-        MockStoreFinderHeaderComponent,
-        MockRouterOutletComponent
+        MockStoreFinderHeaderComponent
       ]
     }).compileComponents();
   }));

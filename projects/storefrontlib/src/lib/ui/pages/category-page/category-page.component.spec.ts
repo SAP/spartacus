@@ -1,13 +1,31 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
-
+import { ActivatedRoute } from '@angular/router';
 import { of, BehaviorSubject } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
 import { CmsService } from '../../../cms/facade/cms.service';
-
 import { CategoryPageComponent } from './category-page.component';
-import { Page } from '../../../cms/models/page.model';
+
+@Component({ selector: 'cx-product-list-page-layout', template: '' })
+export class MockProductListPageLayoutComponent {
+  @Input()
+  gridMode: String;
+  @Input()
+  categoryCode;
+  @Input()
+  brandCode;
+  @Input()
+  query;
+}
+
+@Component({ selector: 'cx-category-page-layout', template: '' })
+export class MockCategoryPageLayoutComponent {
+  @Input()
+  categoryCode;
+  @Input()
+  query;
+}
 
 class MockActivatedRoute {
   params = of({
@@ -21,54 +39,25 @@ const mockCmsService = {
   currentPage$: new BehaviorSubject(null)
 };
 
-@Component({
-  selector: 'cx-product-list-page-layout',
-  template: ''
-})
-export class MockProductListPageLayoutComponent {
-  @Input()
-  gridMode: String;
-  @Input()
-  categoryCode;
-  @Input()
-  brandCode;
-  @Input()
-  query;
-}
-
-@Component({
-  selector: 'cx-category-page-layout',
-  template: ''
-})
-export class MockCategoryPageLayoutComponent {
-  @Input()
-  categoryCode;
-}
-
-const mockPage: Page = {
-  pageId: 'testPageId',
-  name: 'testPage',
-  seen: [],
-  slots: {}
-};
-
 describe('CategoryPageComponent', () => {
   let component: CategoryPageComponent;
   let fixture: ComponentFixture<CategoryPageComponent>;
 
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         CategoryPageComponent,
-        MockCategoryPageLayoutComponent,
-        MockProductListPageLayoutComponent
+        MockProductListPageLayoutComponent,
+        MockCategoryPageLayoutComponent
       ],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: CmsService, useValue: mockCmsService }
       ]
     }).compileComponents();
+  }));
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(CategoryPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -78,15 +67,66 @@ describe('CategoryPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize component state when ngOnInit() is called', () => {
-    mockCmsService.currentPage$.next(mockPage);
+  it('should be able to get product list page', () => {
+    mockCmsService.currentPage$.next({ template: 'ProductListPageTemplate' });
     component.ngOnInit();
+    fixture.detectChanges();
 
-    expect(component.categoryCode).toEqual('123');
-    expect(component.brandCode).toEqual('456');
-    expect(component.query).toEqual('mockQuery');
-    component.cmsPage$.subscribe(pageReturned =>
-      expect(pageReturned).toBe(mockPage)
+    const childDebugElement = fixture.debugElement.query(
+      By.css('cx-product-list-page-layout')
     );
+    expect(childDebugElement).toBeTruthy();
+
+    const productListPageComponent = childDebugElement.componentInstance;
+    expect(productListPageComponent.gridMode).toEqual('list');
+    expect(productListPageComponent.categoryCode).toEqual('123');
+    expect(productListPageComponent.brandCode).toEqual('456');
+  });
+
+  it('should be able to get product grid page', () => {
+    mockCmsService.currentPage$.next({ template: 'ProductGridPageTemplate' });
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const childDebugElement = fixture.debugElement.query(
+      By.css('cx-product-list-page-layout')
+    );
+    expect(childDebugElement).toBeTruthy();
+
+    const productListPageComponent = childDebugElement.componentInstance;
+    expect(productListPageComponent.gridMode).toEqual('grid');
+    expect(productListPageComponent.categoryCode).toEqual('123');
+    expect(productListPageComponent.brandCode).toEqual('456');
+  });
+
+  it('should be able to get category page', () => {
+    mockCmsService.currentPage$.next({ template: 'CategoryPageTemplate' });
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const childDebugElement = fixture.debugElement.query(
+      By.css('cx-category-page-layout')
+    );
+    expect(childDebugElement).toBeTruthy();
+
+    const categoryPageComponent = childDebugElement.componentInstance;
+    expect(categoryPageComponent.categoryCode).toEqual('123');
+  });
+
+  it('should be able to get search result list page', () => {
+    mockCmsService.currentPage$.next({
+      template: 'SearchResultsListPageTemplate'
+    });
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const childDebugElement = fixture.debugElement.query(
+      By.css('cx-product-list-page-layout')
+    );
+    expect(childDebugElement).toBeTruthy();
+
+    const productListPageComponent = childDebugElement.componentInstance;
+    expect(productListPageComponent.gridMode).toEqual('list');
+    expect(productListPageComponent.query).toEqual('mockQuery');
   });
 });
