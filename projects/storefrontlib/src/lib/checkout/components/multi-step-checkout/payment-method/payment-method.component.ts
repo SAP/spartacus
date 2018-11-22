@@ -15,6 +15,7 @@ import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
 import { UserService } from '../../../../user/facade/user.service';
 import { Card } from '../../../../ui/components/card/card.component';
+import { infoIconImgSrc } from '../../../../ui/images/info-icon';
 
 @Component({
   selector: 'cx-payment-method',
@@ -34,6 +35,8 @@ export class PaymentMethodComponent implements OnInit {
   backStep = new EventEmitter<any>();
   @Output()
   addPaymentInfo = new EventEmitter<any>();
+
+  infoIconImgSrc = infoIconImgSrc;
 
   constructor(
     protected cartData: CartDataService,
@@ -93,10 +96,15 @@ export class PaymentMethodComponent implements OnInit {
       const card = this.cards[i];
       if (i === index) {
         card.header = 'SELECTED';
+
       } else {
         card.header = '';
       }
     }
+  }
+
+  setCvn(cvn) {
+    this.selectedPayment.cvn = cvn;
   }
 
   next() {
