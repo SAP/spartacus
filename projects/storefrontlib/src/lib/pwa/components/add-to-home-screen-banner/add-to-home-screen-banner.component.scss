@@ -1,0 +1,49 @@
+@import 'theme';
+@import 'mixins';
+
+$cx-add-to-home-screen-banner-background-color: 'background' !default;
+$cx-add-to-home-screen-banner-padding: 20px !default;
+$cx-add-to-home-screen-banner-margin: 0 0 2.5rem !default;
+$cx-add-to-home-screen-banner-margin-mobile: 0 1.25rem 2rem !default;
+
+$cx-add-to-home-screen-banner-list-padding: 10px 40px !default;
+$cx-add-to-home-screen-banner-list-padding-mobile: 0 20px 20px 50px !default;
+
+.cx-add-to-home-screen-banner {
+  @include var-color(
+    'background-color',
+    $cx-add-to-home-screen-banner-background-color
+  );
+  padding: $cx-add-to-home-screen-banner-padding;
+  text-align: center;
+  margin: $cx-add-to-home-screen-banner-margin;
+
+  @include media-breakpoint-down(sm) {
+    margin: $cx-add-to-home-screen-banner-margin-mobile;
+  }
+
+  &__inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  ul {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: $cx-add-to-home-screen-banner-list-padding;
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 280px;
+      padding: $cx-add-to-home-screen-banner-list-padding-mobile;
+    }
+
+    li {
+      min-width: 35%;
+      text-align: left;
+    }
+  }
+}

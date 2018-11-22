@@ -25,6 +25,9 @@ class MockCartComponent {
   content: any;
 }
 
+@Component({ selector: 'cx-add-to-home-screen-banner', template: '' })
+class MockAddtoHomeScreenBannerComponent {}
+
 const mockCheckoutService = {
   orderDetails$: of({
     code: 'test-code-412',
@@ -51,7 +54,8 @@ describe('OrderConfirmationComponent', () => {
         OrderConfirmationComponent,
         MockReviewSubmitComponent,
         MockCartComponent,
-        MockOrderSummaryComponent
+        MockOrderSummaryComponent,
+        MockAddtoHomeScreenBannerComponent
       ],
       providers: [{ provide: CheckoutService, useValue: mockCheckoutService }]
     }).compileComponents();
