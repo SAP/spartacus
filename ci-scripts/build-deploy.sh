@@ -6,5 +6,5 @@ echo "Building SPA core lib"
 yarn build:core:lib
 echo "-----"
 echo "Building SPA app"
-yarn build
+ng build storefrontapp --prod --base-href "https://sap.github.io/cloud-commerce-spartacus-storefront/"
 echo "-----"
