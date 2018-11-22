@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Store, select } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
 
-import * as fromCartStore from '../../../cart/store';
 import { CartService } from '../../../cart/facade/cart.service';
 
 @Component({
@@ -15,19 +12,14 @@ import { CartService } from '../../../cart/facade/cart.service';
 export class CartPageLayoutComponent implements OnInit {
   cart$: Observable<any>;
 
-  constructor(
-    protected store: Store<fromCartStore.CartState>,
-    protected cartService: CartService
-  ) {}
+  constructor(protected cartService: CartService) {}
 
   ngOnInit() {
-    this.store
-      .pipe(select(fromCartStore.getCartMergeComplete))
-      .subscribe(isCartMergeComplete => {
-        if (isCartMergeComplete) {
-          this.cartService.loadCartDetails();
-        }
-      });
-    this.cart$ = this.store.pipe(select(fromCartStore.getActiveCart));
+    this.cartService.getCartMergeComplete().subscribe(isCartMergeComplete => {
+      if (isCartMergeComplete) {
+        this.cartService.loadCartDetails();
+      }
+    });
+    this.cart$ = this.cartService.activeCart$;
   }
 }

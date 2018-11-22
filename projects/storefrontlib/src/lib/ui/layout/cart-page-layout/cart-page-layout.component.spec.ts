@@ -1,20 +1,17 @@
 import { Input, Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StoreModule } from '@ngrx/store';
-import * as NgrxStore from '@ngrx/store';
-
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import { CartService } from '../../../cart/facade';
-import * as fromReducer from '../../../cart/store/reducers';
 
 import { CartPageLayoutComponent } from './cart-page-layout.component';
 
 class MockCartService {
+  activeCart$: Observable<any>;
   removeCartEntry() {}
-
   loadCartDetails() {}
+  getCartMergeComplete() {}
 }
 
 @Component({
@@ -35,14 +32,11 @@ export class MockCartDetailsComponent {}
 describe('CartPageLayoutComponent', () => {
   let component: CartPageLayoutComponent;
   let fixture: ComponentFixture<CartPageLayoutComponent>;
-  let service: CartService;
+  let service: MockCartService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromReducer.getReducers())
-      ],
+      imports: [],
       declarations: [
         CartPageLayoutComponent,
         MockCartDetailsComponent,
@@ -56,11 +50,6 @@ describe('CartPageLayoutComponent', () => {
     fixture = TestBed.createComponent(CartPageLayoutComponent);
     component = fixture.componentInstance;
     service = TestBed.get(CartService);
-
-    spyOn(service, 'loadCartDetails').and.callThrough();
-    spyOnProperty(NgrxStore, 'select').and.returnValue(() => () =>
-      of('mockCart')
-    );
   });
 
   it('should create cart page', () => {
@@ -68,10 +57,19 @@ describe('CartPageLayoutComponent', () => {
   });
 
   it('should call ngOnInit', () => {
+    spyOn(service, 'getCartMergeComplete').and.returnValue(of(true));
+    spyOn(service, 'loadCartDetails').and.stub();
+    service.activeCart$ = of('mockCart');
+
     component.ngOnInit();
 
-    component.cart$.subscribe(cart => {
-      expect(cart).toBe('mockCart');
-    });
+    expect(service.loadCartDetails).toHaveBeenCalled();
+    let result;
+    component.cart$
+      .subscribe(cart => {
+        result = cart;
+      })
+      .unsubscribe();
+    expect(result).toBe('mockCart');
   });
 });
