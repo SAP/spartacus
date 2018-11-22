@@ -11,7 +11,7 @@ branches:
 jobs:
   include:
     - stage: 'Validation'
-    - script: './ci-scripts/e2e-tests.sh'
+      script: './ci-scripts/e2e-tests.sh'
       name: 'End to end tests'
     - script: './ci-scripts/validate.sh'
       name: 'Validation'
@@ -21,7 +21,7 @@ jobs:
     - script: './ci-scripts/unit-tests-sonar.sh'
       name: 'Unit tests/Sonar scan'
     - stage: 'Deploy'
-    - script: './ci-scripts/build-deploy.sh'
+      script: './ci-scripts/build-deploy.sh'
       name: 'Deploy to github pages'
 notifications:
   slack:
