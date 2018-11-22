@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+
 import { LongitudeLatitude } from '../models/longitude-latitude';
 import { WindowRef } from './window-ref';
 

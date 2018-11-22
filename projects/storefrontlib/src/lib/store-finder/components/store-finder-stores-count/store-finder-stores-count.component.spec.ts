@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
+
 import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
 import { WindowRef } from '../../services/window-ref';

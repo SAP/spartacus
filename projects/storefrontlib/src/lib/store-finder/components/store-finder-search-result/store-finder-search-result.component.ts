@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { SearchConfig } from '../../models/search-config';
 import { SearchQuery } from '../../models/search-query';
 import { LongitudeLatitude } from '../../models/longitude-latitude';
