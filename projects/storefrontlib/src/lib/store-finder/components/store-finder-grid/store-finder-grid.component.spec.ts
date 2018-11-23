@@ -29,7 +29,7 @@ const mockActivatedRoute = {
   }
 };
 
-fdescribe('StoreFinderGridComponent', () => {
+describe('StoreFinderGridComponent', () => {
   let component: StoreFinderGridComponent;
   let fixture: ComponentFixture<StoreFinderGridComponent>;
   let storeFinderService: StoreFinderService;
