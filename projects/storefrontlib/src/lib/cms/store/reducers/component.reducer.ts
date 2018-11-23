@@ -27,7 +27,7 @@ export function reducer(
     }
 
     case fromComponent.GET_COMPONENET_FROM_PAGE: {
-      const components = action.payload;
+      const components: Component[] = action.payload;
       const entities = components
         .filter(comp => state.entities[comp.uid] == null)
         .reduce(

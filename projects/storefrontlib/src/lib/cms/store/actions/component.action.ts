@@ -24,7 +24,7 @@ export class LoadComponentSuccess implements Action {
 
 export class GetComponentFromPage implements Action {
   readonly type = GET_COMPONENET_FROM_PAGE;
-  constructor(public payload: any) {}
+  constructor(public payload: Component[]) {}
 }
 
 export class CleanComponentState implements Action {

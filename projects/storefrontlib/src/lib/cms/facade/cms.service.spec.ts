@@ -9,7 +9,7 @@ import * as fromReducers from '../store/reducers';
 
 import { of } from 'rxjs';
 import { Page } from '../models/page.model';
-import { PageType } from '@spartacus/core';
+import { PageType, Component } from '@spartacus/core';
 import { DefaultPageService } from '../services/default-page.service';
 import { CmsModuleConfig } from '../cms-module-config';
 
@@ -19,7 +19,7 @@ const MockCmsModuleConfig: CmsModuleConfig = {
   }
 };
 
-const mockContentSlot: any[] = [
+const mockContentSlot: Component[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
   { uid: 'comp2', typeCode: 'CMSLinkComponent' },
   { uid: 'comp3', typeCode: 'NavigationComponent' }
@@ -84,7 +84,7 @@ describe('CmsService', () => {
         spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
           of(mockContentSlot)
         );
-        let contentSlotReturned: any;
+        let contentSlotReturned: Component[];
         service.getContentSlot('Section1').subscribe(value => {
           contentSlotReturned = value;
         });

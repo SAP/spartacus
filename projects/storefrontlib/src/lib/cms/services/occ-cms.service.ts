@@ -4,7 +4,13 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { IdList } from './../models/idList.model';
 import { CmsModuleConfig } from '../cms-module-config';
-import { PageContext, PageType, Component } from '@spartacus/core';
+import {
+  PageContext,
+  PageType,
+  Component,
+  CMSPage,
+  ComponentList
+} from '@spartacus/core';
 
 @Injectable()
 export class OccCmsService {
@@ -21,7 +27,7 @@ export class OccCmsService {
     );
   }
 
-  loadPageData(pageContext: PageContext, fields?: string): Observable<any> {
+  loadPageData(pageContext: PageContext, fields?: string): Observable<CMSPage> {
     let strParams = 'pageType=' + pageContext.type;
 
     if (pageContext.type === PageType.CONTENT_PAGE) {
@@ -66,7 +72,7 @@ export class OccCmsService {
     currentPage?: number,
     pageSize?: number,
     sort?: string
-  ): Observable<any> {
+  ): Observable<ComponentList> {
     let strParams = this.getRequestParams(pageContext, fields);
     if (currentPage !== undefined) {
       strParams === ''
@@ -90,7 +96,7 @@ export class OccCmsService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  private getRequestParams(pageContext: PageContext, fields?: string) {
+  private getRequestParams(pageContext: PageContext, fields?: string): string {
     let strParams = '';
     switch (pageContext.type) {
       case PageType.PRODUCT_PAGE: {

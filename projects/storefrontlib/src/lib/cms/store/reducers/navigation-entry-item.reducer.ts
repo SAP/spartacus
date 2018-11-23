@@ -1,5 +1,6 @@
 import * as fromNavigationItem from '../actions/navigation-entry-item.action';
 import { NodeItem } from '../../models/node-item.model';
+import { Component } from '@spartacus/core';
 
 export interface NavigationItemState {
   nodes: { [nodeId: string]: NodeItem };
@@ -16,7 +17,7 @@ export function reducer(
   switch (action.type) {
     case fromNavigationItem.LOAD_NAVIGATION_ITEMS_SUCCESS: {
       if (action.payload.components) {
-        const components = action.payload.components;
+        const components: Component[] = action.payload.components;
         const nodeId = action.payload.nodeId;
 
         const newItem = components.reduce(

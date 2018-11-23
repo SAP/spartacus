@@ -58,7 +58,7 @@ export class ComponentMapperService {
     return alias;
   }
 
-  getFactoryEntryByCode(typeCode: string) {
+  getFactoryEntryByCode(typeCode: string): any {
     const alias = this.getType(typeCode);
     if (!alias) {
       return;
