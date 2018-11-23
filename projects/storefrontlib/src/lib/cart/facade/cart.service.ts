@@ -11,16 +11,17 @@ import * as fromSelector from '../store/selectors';
 import { AuthService } from '../../auth/index';
 
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
+import { Cart, OrderEntry } from '@spartacus/core';
 
 @Injectable()
 export class CartService {
   private callback: Function;
 
-  readonly activeCart$: Observable<any> = this.store.pipe(
+  readonly activeCart$: Observable<Cart> = this.store.pipe(
     select(fromSelector.getActiveCart)
   );
 
-  readonly entries$: Observable<any> = this.store.pipe(
+  readonly entries$: Observable<OrderEntry[]> = this.store.pipe(
     select(fromSelector.getEntries)
   );
 
@@ -141,7 +142,7 @@ export class CartService {
     }
   }
 
-  removeCartEntry(entry) {
+  removeCartEntry(entry: OrderEntry) {
     this.store.dispatch(
       new fromAction.RemoveEntry({
         userId: this.cartData.userId,
@@ -172,17 +173,17 @@ export class CartService {
     }
   }
 
-  getEntry(productCode: string): Observable<any> {
+  getEntry(productCode: string): Observable<OrderEntry> {
     return this.store.pipe(
       select(fromSelector.getEntrySelectorFactory(productCode))
     );
   }
 
-  isCartCreated(cart: any): boolean {
+  isCartCreated(cart: Cart): boolean {
     return cart && !!Object.keys(cart).length;
   }
 
-  isCartEmpty(cart: any): boolean {
+  isCartEmpty(cart: Cart): boolean {
     return cart && !cart.totalItems;
   }
 }
