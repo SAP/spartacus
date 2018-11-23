@@ -23,11 +23,12 @@
       >{{ node.title }}
     </a>
   </ng-template>
+
   <!--
     DO NOT delete this line, this is the fix for accessible on-hover menus
   -->
   <!--
-    <a ngbDropdownToggle href="{{ category.url }}" [hidden]="focusedCategory !== category.id" class="sr-only-focusable" role="button" id="dropdownToggle + {{ category.id }}">Expand {{ category.label }}</a>
+    /* NOSONAR */ <a ngbDropdownToggle href="{{ category.url }}" [hidden]="focusedCategory !== category.id" class="sr-only-focusable" role="button" id="dropdownToggle + {{ category.id }}">Expand {{ category.label }}</a>
   -->
   <ng-container [ngSwitch]="dropdownMode">
     <ng-container *ngSwitchCase="'list'">
