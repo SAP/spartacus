@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { filter } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
-import * as fromReducer from '../store/reducers';
+import { Store, select } from '@ngrx/store';
+
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+
 import * as fromAction from '../store/actions';
+import * as fromReducer from '../store/reducers';
 import * as fromSelector from '../store/selectors';
+import { AuthService } from '../../auth/index';
 
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
-import { getUserToken } from '@spartacus/core';
 
 @Injectable()
 export class CartService {
+  private callback: Function;
+
   readonly activeCart$: Observable<any> = this.store.pipe(
     select(fromSelector.getActiveCart)
   );
@@ -20,14 +24,21 @@ export class CartService {
     select(fromSelector.getEntries)
   );
 
+  readonly cartMergeComplete$: Observable<boolean> = this.store.pipe(
+    select(fromSelector.getCartMergeComplete)
+  );
+
+  readonly loaded$: Observable<boolean> = this.store.pipe(
+    select(fromSelector.getLoaded)
+  );
+
   constructor(
     private store: Store<fromReducer.CartState>,
-    private cartData: CartDataService
+    private cartData: CartDataService,
+    private authService: AuthService
   ) {
     this.initCart();
   }
-
-  private callback: Function;
 
   initCart() {
     this.store.pipe(select(fromSelector.getActiveCart)).subscribe(cart => {
@@ -38,11 +49,8 @@ export class CartService {
       }
     });
 
-    this.store
-      .pipe(
-        select(getUserToken),
-        filter(userToken => this.cartData.userId !== userToken.userId)
-      )
+    this.authService.userToken$
+      .pipe(filter(userToken => this.cartData.userId !== userToken.userId))
       .subscribe(userToken => {
         if (Object.keys(userToken).length !== 0) {
           this.cartData.userId = userToken.userId;
@@ -162,6 +170,12 @@ export class CartService {
         })
       );
     }
+  }
+
+  getEntry(productCode: string): Observable<any> {
+    return this.store.pipe(
+      select(fromSelector.getEntrySelectorFactory(productCode))
+    );
   }
 
   isCartCreated(cart: any): boolean {
