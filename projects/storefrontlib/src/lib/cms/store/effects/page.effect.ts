@@ -18,7 +18,13 @@ import { DefaultPageService } from '../../services/default-page.service';
 
 import { Page } from '../../models/page.model';
 
-import { RoutingService, PageContext, PageType } from '@spartacus/core';
+import {
+  RoutingService,
+  PageContext,
+  PageType,
+  CMSPage,
+  Component
+} from '@spartacus/core';
 
 @Injectable()
 export class PageEffects {
@@ -79,7 +85,10 @@ export class PageEffects {
     private routingService: RoutingService
   ) {}
 
-  private getPageData(res: any, pageContext: PageContext): any {
+  private getPageData(
+    res: any,
+    pageContext: PageContext
+  ): { key: string; value: Page } {
     const page: Page = {
       loadTime: Date.now(),
       name: res.name,
@@ -125,8 +134,8 @@ export class PageEffects {
     }
   }
 
-  private getComponents(pageData: any) {
-    const components: any[] = [];
+  private getComponents(pageData: CMSPage) {
+    const components: Component[] = [];
     if (pageData) {
       for (const slot of pageData.contentSlots.contentSlot) {
         if (

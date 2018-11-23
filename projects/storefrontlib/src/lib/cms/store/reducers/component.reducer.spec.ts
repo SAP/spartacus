@@ -31,7 +31,7 @@ describe('Cms Component Reducer', () => {
 
   describe('GET_COMPONENET_FROM_PAGE action', () => {
     it('should populate the component state entities', () => {
-      const components: any[] = [
+      const components: Component[] = [
         { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
         { uid: 'comp2', typeCode: 'CMSLinkComponent' },
         { uid: 'comp3', typeCode: 'NavigationComponent' }
