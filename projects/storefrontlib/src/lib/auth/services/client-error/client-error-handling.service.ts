@@ -14,7 +14,7 @@ export class ClientErrorHandlingService {
   public handleExpiredClientToken(
     request: HttpRequest<any>,
     next: HttpHandler
-  ): Observable<HttpEvent<ClientToken>> {
+  ): Observable<any> {
     return this.authService.refreshClientToken().pipe(
       switchMap((token: ClientToken) => {
         return next.handle(this.createNewRequestWithNewToken(request, token));
