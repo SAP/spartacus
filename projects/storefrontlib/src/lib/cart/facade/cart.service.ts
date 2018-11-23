@@ -8,9 +8,9 @@ import { filter } from 'rxjs/operators';
 import * as fromAction from '../store/actions';
 import * as fromReducer from '../store/reducers';
 import * as fromSelector from '../store/selectors';
-import { AuthService } from '../../auth/index';
 
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
+import { AuthService } from '@spartacus/core';
 
 @Injectable()
 export class CartService {

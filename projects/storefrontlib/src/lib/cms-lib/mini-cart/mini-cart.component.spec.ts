@@ -7,7 +7,7 @@ import * as NgrxStore from '@ngrx/store';
 
 import { of } from 'rxjs';
 
-import * as fromAuth from '../../auth/store';
+import * as fromAuth from '../../../../../core/src/auth/store/index';
 import * as fromCart from '../../cart/store';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import * as fromUser from '../../user/store';
