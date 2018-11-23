@@ -13,7 +13,7 @@ const UseCmsModuleConfig: CmsModuleConfig = {
   }
 };
 
-fdescribe('LinkComponent', () => {
+describe('LinkComponent', () => {
   let linkComponent: LinkComponent;
   let fixture: ComponentFixture<LinkComponent>;
   let el: DebugElement;
@@ -25,7 +25,7 @@ fdescribe('LinkComponent', () => {
     name: 'TestCMSLinkComponent',
     type: 'link',
     linkName: 'Arbitrary link name',
-    url: 'http://localhost:8888/'
+    url: '/store-finder'
   };
 
   const MockCmsComponentData = {
@@ -41,7 +41,7 @@ fdescribe('LinkComponent', () => {
         {
           provide: CmsComponentData,
           useValue: MockCmsComponentData
-        },
+        }
       ]
     }).compileComponents();
   }));
@@ -56,20 +56,11 @@ fdescribe('LinkComponent', () => {
     expect(linkComponent).toBeTruthy();
   });
 
-  fit('should contain link name and url', () => {
-
+  it('should contain link name and url', () => {
     fixture.detectChanges();
-    console.log(el);
     const element = el.query(By.css('a')).nativeElement;
-    console.log(element);
-    debugger;
 
-    expect(element.textContent).toEqual(
-      componentData.linkName
-    );
-    expect(element.href).toEqual(
-      componentData.url
-    );
-
+    expect(element.textContent).toEqual(componentData.linkName);
+    expect(element.href).toContain(componentData.url);
   });
 });
