@@ -14,7 +14,7 @@ import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 
 @Injectable()
 export class CartService {
-  callback: Function;
+  private callback: Function;
 
   readonly activeCart$: Observable<any> = this.store.pipe(
     select(fromSelector.getActiveCart)
