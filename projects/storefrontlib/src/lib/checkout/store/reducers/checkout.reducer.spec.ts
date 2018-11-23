@@ -1,5 +1,7 @@
 import * as fromCheckout from './checkout.reducer';
 import * as fromActions from './../actions';
+import { Address } from '../../models/address-model';
+import { emptyAddress } from '../reducers/checkout.reducer';
 
 describe('Checkout reducer', () => {
   describe('undefined action', () => {
@@ -14,12 +16,15 @@ describe('Checkout reducer', () => {
 
   describe('ADD_DELIVERY_ADDRESS_SUCCESS or SET_DELIVERY_ADDRESS_SUCCESS action', () => {
     it('should add delivery address', () => {
-      const address: any = {
+      const address: Address = {
         id: 'testAddressId',
         firstName: 'John',
         lastName: 'Doe',
         titleCode: 'mr',
-        line1: 'Toyosaki 2 create on cart'
+        line1: 'Toyosaki 2 create on cart',
+        town: 'Montreal',
+        postalCode: 'L6M1P9',
+        country: { isocode: 'CA' }
       };
 
       const { initialState } = fromCheckout;
@@ -46,7 +51,7 @@ describe('Checkout reducer', () => {
 
   describe('LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS action', () => {
     it('should load all supported delivery modes from cart', () => {
-      const modes: any = {
+      const modes: { deliveryModes: { code: string }[] } = {
         deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
       };
 
@@ -138,7 +143,7 @@ describe('Checkout reducer', () => {
 
       const action = new fromActions.ClearCheckoutStep(1);
       const state = fromCheckout.reducer(initialState, action);
-      expect(state.address).toEqual({});
+      expect(state.address).toEqual(emptyAddress);
     });
   });
 

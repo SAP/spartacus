@@ -14,6 +14,7 @@ import * as fromGlobalMessageActions from '../../../global-message/store/actions
 import { OccOrderService } from '../../../occ/order/order.service';
 import { ProductImageConverterService } from '@spartacus/core';
 import { GlobalMessageType } from '../../../global-message/models/message.model';
+import { Address } from '../../models/address-model';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -31,12 +32,15 @@ describe('Checkout effect', () => {
 
   const userId = 'testUserId';
   const cartId = 'testCartId';
-  const address: any = {
+  const address: Address = {
     id: 'testAddressId',
     firstName: 'John',
     lastName: 'Doe',
     titleCode: 'mr',
-    line1: 'Toyosaki 2 create on cart'
+    line1: 'Toyosaki 2 create on cart',
+    town: 'Montreal',
+    postalCode: 'L6M1P9',
+    country: { isocode: 'CA' }
   };
   const modes: any = {
     mode1: 'mode1',

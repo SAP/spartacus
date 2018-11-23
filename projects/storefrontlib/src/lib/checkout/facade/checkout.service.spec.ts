@@ -107,15 +107,13 @@ describe('CheckoutService', () => {
   });
 
   it('should be able to get the delivery address', () => {
-    store.dispatch(
-      new fromCheckout.SetDeliveryAddressSuccess({ id: 'addressId' })
-    );
+    store.dispatch(new fromCheckout.SetDeliveryAddressSuccess(address));
 
     let deliveryAddress;
     service.deliveryAddress$.subscribe(data => {
       deliveryAddress = data;
     });
-    expect(deliveryAddress).toEqual({ id: 'addressId' });
+    expect(deliveryAddress).toEqual(address);
   });
 
   it('should be able to get the address verification result', () => {

@@ -1,4 +1,5 @@
 import * as fromAction from '../actions/checkout.action';
+import { Address } from '../../models/address-model';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
@@ -6,16 +7,19 @@ const selectedModeId = 'selectedModeId';
 const paymentDetails = 'mockPaymentDetails';
 const orderDetails = 'orderDetails';
 
-const address: any = {
+const address: Address = {
+  id: 'testAddressId',
   firstName: 'John',
   lastName: 'Doe',
   titleCode: 'mr',
-  line1: 'Toyosaki 2 create on cart'
+  line1: 'Toyosaki 2 create on cart',
+  town: 'Montreal',
+  postalCode: 'L6M1P9',
+  country: { isocode: 'CA' }
 };
 
-const modes: any = {
-  mode1: 'mode1',
-  mode2: 'mode2'
+const modes: { deliveryModes: { code: string }[] } = {
+  deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
 };
 
 describe('Checkout Actions', () => {

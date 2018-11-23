@@ -69,7 +69,7 @@ export class SetDeliveryAddressFail implements Action {
 
 export class SetDeliveryAddressSuccess implements Action {
   readonly type = SET_DELIVERY_ADDRESS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: Address) {}
 }
 
 export class LoadSupportedDeliveryModes implements Action {
@@ -84,7 +84,7 @@ export class LoadSupportedDeliveryModesFail implements Action {
 
 export class LoadSupportedDeliveryModesSuccess implements Action {
   readonly type = LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: { deliveryModes: { code: string }[] }) {}
 }
 
 export class SetDeliveryMode implements Action {
@@ -101,7 +101,7 @@ export class SetDeliveryModeFail implements Action {
 
 export class SetDeliveryModeSuccess implements Action {
   readonly type = SET_DELIVERY_MODE_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: string) {}
 }
 
 export class CreatePaymentDetails implements Action {

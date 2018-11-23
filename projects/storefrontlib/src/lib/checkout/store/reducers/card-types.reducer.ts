@@ -1,4 +1,5 @@
 import * as fromAction from '../actions';
+import { CardType } from '@spartacus/core';
 
 export interface CardTypesState {
   entities: { [code: string]: any };
@@ -14,9 +15,9 @@ export function reducer(
 ): CardTypesState {
   switch (action.type) {
     case fromAction.LOAD_CARD_TYPES_SUCCESS: {
-      const cardTypes = action.payload;
+      const cardTypes: CardType[] = action.payload;
       const entities = cardTypes.reduce(
-        (cardTypesEntities: { [code: string]: any }, name: any) => {
+        (cardTypesEntities: { [code: string]: any }, name: CardType) => {
           return {
             ...cardTypesEntities,
             [name.code]: name
