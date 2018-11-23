@@ -29,7 +29,7 @@ export class StoreFinderStoreDescriptionComponent
   }
 
   ngOnInit() {
-    this.initializeStoresData();
+    this.requestStoresData();
     this.ngUnsubscribe = this.store
       .pipe(select(fromStore.getFindStoresEntities))
       .subscribe(locations => {
@@ -42,7 +42,7 @@ export class StoreFinderStoreDescriptionComponent
       });
   }
 
-  initializeStoresData() {
+  requestStoresData() {
     if (this.route.snapshot.params.country) {
       if (this.route.snapshot.params.region) {
         this.storeFinderService.viewAllStoresForRegion(
