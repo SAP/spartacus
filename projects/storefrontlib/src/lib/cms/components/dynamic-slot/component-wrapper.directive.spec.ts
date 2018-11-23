@@ -11,7 +11,9 @@ const testText = 'test text';
 
 @Component({
   selector: 'cx-test',
-  template: `<div id="debugEl1">${testText}</div>`
+  template: `
+    <div id="debugEl1">${testText}</div>
+  `
 })
 export class TestComponent {
   constructor(public cmsData: CmsComponentData) {}

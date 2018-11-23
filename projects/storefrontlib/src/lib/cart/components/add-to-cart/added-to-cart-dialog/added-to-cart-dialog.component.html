@@ -1,33 +1,62 @@
 <div class="cx-added-to-cart-dialog" #dialog>
   <!-- Modal Header -->
-  <ng-container *ngIf="loaded$ | async; else loading">
+  <ng-container *ngIf="(loaded$ | async); else: loading">
     <div class="cx-added-to-cart-dialog__header modal-header">
-      <div class="cx-added-to-cart-dialog__title modal-title">{{quantity}}
-        item(s) added to your cart
+      <div class="cx-added-to-cart-dialog__title modal-title">
+        {{ quantity }} item(s) added to your cart
       </div>
-      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="activeModal.dismiss('Cross click')"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <!-- Modal Body -->
-    <div class="cx-added-to-cart-dialog__body modal-body" *ngIf="(entry$ | async) as entry">
+    <div
+      class="cx-added-to-cart-dialog__body modal-body"
+      *ngIf="(entry$ | async) as entry"
+    >
       <div class="cx-added-to-cart-dialog__info-container row">
         <div class="cx-added-to-cart-dialog__item-container col-sm-12 col-md-6">
-          <cx-cart-item [item]="entry" [compact]="true" [isReadOnly]="true"></cx-cart-item>
+          <cx-cart-item
+            [item]="entry"
+            [compact]="true"
+            [isReadOnly]="true"
+          ></cx-cart-item>
         </div>
         <!-- Separator -->
-        <div class="cx-added-to-cart-dialog__separator col-sm-12 d-xs-block d-sm-block d-md-none"></div>
+        <div
+          class="cx-added-to-cart-dialog__separator col-sm-12 d-xs-block d-sm-block d-md-none"
+        ></div>
         <!-- Total container -->
-        <div class="cx-added-to-cart-dialog__total-container col-sm-12 col-md-6">
-          <div class="cx-added-to-cart-dialog__total" *ngIf="cart$ | async as cart">
+        <div
+          class="cx-added-to-cart-dialog__total-container col-sm-12 col-md-6"
+        >
+          <div
+            class="cx-added-to-cart-dialog__total"
+            *ngIf="(cart$ | async) as cart"
+          >
             <div>Cart total ({{ cart.deliveryItemsQuantity }} items)</div>
-            <div>{{ cart.totalPrice.formattedValue}}</div>
+            <div>{{ cart.totalPrice.formattedValue }}</div>
           </div>
           <!-- Actions -->
           <div class="cx-added-to-cart-dialog__actions">
-            <a routerLink="/cart" class="btn btn-primary" ngbAutoFocus (click)="activeModal.dismiss('Cross click')">view cart</a>
-            <a routerLink="/checkout" class="btn btn-secondary" (click)="activeModal.dismiss('Cross click')">proceed to
-              checkout</a>
+            <a
+              routerLink="/cart"
+              class="btn btn-primary"
+              ngbAutoFocus
+              (click)="activeModal.dismiss('Cross click')"
+              >view cart</a
+            >
+            <a
+              routerLink="/checkout"
+              class="btn btn-secondary"
+              (click)="activeModal.dismiss('Cross click')"
+              >proceed to checkout</a
+            >
           </div>
         </div>
       </div>
@@ -36,17 +65,22 @@
 
   <ng-template #loading>
     <div class="cx-added-to-cart-dialog__header modal-header">
-      <div class="cx-added-to-cart-dialog__title modal-title">Updating cart...</div>
-      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <div class="cx-added-to-cart-dialog__title modal-title">
+        Updating cart...
+      </div>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="activeModal.dismiss('Cross click')"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <!-- Modal Body -->
     <div class="cx-added-to-cart-dialog__body modal-body">
       <div class="cx-added-to-cart-dialog__info-container row">
-        <div class="col-sm-12">
-          <cx-spinner></cx-spinner>
-        </div>
+        <div class="col-sm-12"><cx-spinner></cx-spinner></div>
       </div>
     </div>
   </ng-template>
