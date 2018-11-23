@@ -61,10 +61,6 @@ describe('StoreFinderGridComponent', () => {
     createComponent();
 
     expect(component).toBeTruthy();
-    expect(storeFinderService.viewAllStoresForRegion).toHaveBeenCalledWith(
-      countryIsoCode,
-      regionIsoCode
-    );
   });
 
   it('should route when viewStore is called with region', () => {
@@ -108,9 +104,6 @@ describe('StoreFinderGridComponent', () => {
       countryIsoCode,
       location.name
     ]);
-    expect(storeFinderService.viewAllStoresForCountry).toHaveBeenCalledWith(
-      countryIsoCode
-    );
   });
 
   function configureTestBed(): void {

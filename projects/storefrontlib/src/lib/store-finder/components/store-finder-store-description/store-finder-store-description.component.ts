@@ -47,7 +47,7 @@ export class StoreFinderStoreDescriptionComponent
       if (this.route.snapshot.params.region) {
         this.storeFinderService.viewAllStoresForRegion(
           this.route.snapshot.params.country,
-          this.route.snapshot.params.regionå
+          this.route.snapshot.params.region
         );
       } else {
         this.storeFinderService.viewAllStoresForCountry(
