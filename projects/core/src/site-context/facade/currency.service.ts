@@ -14,11 +14,11 @@ import { OccConfig } from '../../occ/config/occ-config';
 
 @Injectable()
 export class CurrencyService {
-  readonly currencies$: Observable<CurrencyEntities> = this.store.pipe(
+  currencies$: Observable<CurrencyEntities> = this.store.pipe(
     select(getAllCurrencies)
   );
 
-  readonly activeCurrency$: Observable<string> = this.store.pipe(
+  activeCurrency$: Observable<string> = this.store.pipe(
     select(getActiveCurrency)
   );
 
@@ -26,25 +26,27 @@ export class CurrencyService {
     private store: Store<StateWithSiteContext>,
     private config: OccConfig
   ) {
-    this.initActiveCurrency();
-    this.loadCurrencies();
+    this.selectLatest();
+    this.loadAll();
   }
 
-  protected loadCurrencies() {
+  protected loadAll() {
     this.store.dispatch(new LoadCurrencies());
   }
 
-  public set activeCurrency(isocode: string) {
+  public select(isocode?: string) {
     this.store.dispatch(new SetActiveCurrency(isocode));
   }
 
-  protected initActiveCurrency() {
+  protected selectLatest() {
     if (sessionStorage) {
-      this.activeCurrency = !sessionStorage.getItem('currency')
-        ? this.config.site.currency
-        : sessionStorage.getItem('currency');
+      this.select(
+        !sessionStorage.getItem('currency')
+          ? this.config.site.currency
+          : sessionStorage.getItem('currency')
+      );
     } else {
-      this.activeCurrency = this.config.site.currency;
+      this.select(this.config.site.currency);
     }
   }
 }

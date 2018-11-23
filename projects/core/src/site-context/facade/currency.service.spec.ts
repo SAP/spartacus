@@ -78,7 +78,7 @@ describe('CurrencyService', () => {
 
   describe('set activeCurrency(isocode)', () => {
     it('should be able to set active currency', () => {
-      service.activeCurrency = 'USD';
+      service.select('USD');
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SetActiveCurrency('USD')
       );
