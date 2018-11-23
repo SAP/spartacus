@@ -1,5 +1,15 @@
-<cx-generic-link fxFlex class="link" *ngIf="hasImage()" [url]="component.urlLink" [target]="getTarget()">
+<cx-generic-link
+  fxFlex
+  class="link"
+  *ngIf="hasImage()"
+  [url]="component.urlLink"
+  [target]="getTarget()"
+>
   <picture [class]="getClass()">
-    <img [src]="getBaseUrl() + getImageUrl()" [srcset]="getResponsiveSrcset()" sizes="100%" />
+    <img
+      [src]="getBaseUrl() + getImageUrl()"
+      [srcset]="getResponsiveSrcset()"
+      sizes="100%"
+    />
   </picture>
 </cx-generic-link>

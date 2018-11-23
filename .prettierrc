@@ -8,5 +8,6 @@
   "semi": true,
   "useTabs": false,
   "proseWrap": "preserve",
-  "arrowParens": "avoid"
+  "arrowParens": "avoid",
+  "htmlWhitespaceSensitivity": "css"
 }
