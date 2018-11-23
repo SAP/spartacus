@@ -1,21 +1,21 @@
 import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { RouterModule } from '@angular/router';
 
 import * as NgrxStore from '@ngrx/store';
+
 import { of } from 'rxjs';
 
-import * as fromCart from '../../cart/store';
-import * as fromUser from '../../user/store';
 import * as fromAuth from '../../auth/store';
+import * as fromCart from '../../cart/store';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
+import * as fromUser from '../../user/store';
+import { CartDataService } from '../../cart/facade/cart-data.service';
+import { CartService } from '../../cart/facade/cart.service';
+import { CmsService } from '../../cms/facade/cms.service';
 
 import { MiniCartComponent } from './mini-cart.component';
-import { CartService } from '../../cart/services/cart.service';
-import { CartDataService } from '../../cart/services/cart-data.service';
-import { CmsService } from '../../cms/facade/cms.service';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
