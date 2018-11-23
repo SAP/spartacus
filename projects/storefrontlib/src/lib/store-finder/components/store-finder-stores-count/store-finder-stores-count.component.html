@@ -1,7 +1,7 @@
 <ng-container *ngIf="!(isLoading$ | async) && (locations$ | async) as locations; else loading">
     <div class="cx-store-finder-list-count container">
         <div *ngFor="let country of locations?.countriesAndRegionsStoreCount;" class="cx-store-finder-list-count__country-set; else loading">
-            <a [routerLink]="['storeFinderListStores'] | cxPath:[{ country: country.isoCode }]" class="btn-link">
+            <a [routerLink]="['storeFinder', 'listStores'] | cxPath:[null, { country: country.isoCode }]" class="btn-link">
                 <div class="cx-store-finder-list-count__country-title">
                     <span [ngClass]="country?.storeCountDataList ? 'country-header' : 'country-header-link'" class="cx-store-finder-list-count__country-name">{{country.name}}</span>
                     <span [ngClass]="country?.storeCountDataList ? 'country-header' : 'country-header-link'" *ngIf="!country?.storeCountDataList"
@@ -11,7 +11,7 @@
             <div class="cx-store-finder-list-count__region-set">
                 <ul class="cx-store-finder-list-count__region-directory">
                     <li *ngFor="let region of country?.storeCountDataList;" class="cx-store-finder-list-count__directory-item">
-                        <a [routerLink]="['storeFinderListStores'] | cxPath:[{ country: country.isoCode, region: region.isoCode }]" class="btn-link cx-store-finder-list-count__item-link">
+                        <a [routerLink]="['storeFinder', 'listStores'] | cxPath:[null, { country: country.isoCode, region: region.isoCode }]" class="btn-link cx-store-finder-list-count__item-link">
                             {{region.name}}</a>
                         <span class="cx-store-finder-list-count__item-count">({{region.count}})</span>
                     </li>

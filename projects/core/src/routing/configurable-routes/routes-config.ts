@@ -90,18 +90,20 @@ const defaultTranslations: {
       ],
       paramsMapping: { categoryCode: 'code' }
     },
-    storeFinder: { paths: ['store-finder'] },
-    storeFinderSearchResult: { paths: ['store-finder/find-stores'] },
-    storeFinderAllStores: { paths: ['store-finder/view-all-stores'] },
-    storeFinderListStores: {
-      paths: [
-        'store-finder/country/:country/region/:region',
-        'store-finder/country/:country'
-      ]
+    storeFinder: {
+      paths: ['store-finder'],
+      children: {
+        searchResult: { paths: ['find-stores'] },
+        allStores: { paths: ['view-all-stores'] },
+        listStores: {
+          paths: ['country/:country/region/:region', 'country/:country']
+        },
+        storeDescription: {
+          paths: ['country/:country/region/:region/:store']
+        }
+      }
     },
-    storeFinderStoreDescription: {
-      paths: ['store-finder/country/:country/region/:region/:store']
-    },
+
     contact: { paths: ['contact'] },
     help: { paths: ['faq'] },
     sale: { paths: ['sale'] },

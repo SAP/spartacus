@@ -45,7 +45,9 @@ export class StoreFinderGridComponent implements OnInit {
           locations.pointOfServices &&
           locations.pointOfServices.length === 1
         ) {
-          this.viewStore(locations.pointOfServices[0]);
+          setTimeout(() => {
+            this.viewStore(locations.pointOfServices[0]);
+          }, 0);
         }
         this.locations = locations;
       });
@@ -53,8 +55,9 @@ export class StoreFinderGridComponent implements OnInit {
 
   viewStore(location: any): void {
     this.routingService.goToPage(
-      ['storeDescription'],
+      ['storeFinder', 'storeDescription'],
       [
+        null,
         {
           country: this.route.snapshot.params.country,
           region: this.route.snapshot.params.region,

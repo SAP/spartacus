@@ -5,6 +5,7 @@ export interface ConfigurableRoutePath extends Route {
     cxPath: string;
     [_: string]: any;
   };
+  children?: ConfigurableRoute[];
 }
 
 export interface ConfigurableRouteRedirectTo extends Route {
@@ -12,6 +13,7 @@ export interface ConfigurableRouteRedirectTo extends Route {
     cxRedirectTo: string;
     [_: string]: any;
   };
+  children?: ConfigurableRoute[];
 }
 
 export type ConfigurableRoute =

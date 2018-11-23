@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
 
 import { WindowRef } from '../../services/window-ref';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-search',
@@ -12,30 +12,20 @@ import { WindowRef } from '../../services/window-ref';
 export class StoreFinderSearchComponent {
   searchBox: FormControl = new FormControl();
 
-  constructor(
-    private winRef: WindowRef,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) {}
+  constructor(private winRef: WindowRef, private routing: RoutingService) {}
 
   findStores(address: string) {
-    this.router.navigate(['find-stores'], {
-      relativeTo: this.activatedRoute,
-      queryParams: {
-        query: address
-      }
+    this.routing.goToPage(['storeFinder', 'searchResult'], null, {
+      query: address
     });
   }
 
   viewStoresWithMyLoc() {
     this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
       (position: Position) => {
-        this.router.navigate(['find-stores'], {
-          relativeTo: this.activatedRoute,
-          queryParams: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          }
+        this.routing.goToPage(['storeFinder', 'searchResult'], null, {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
         });
       }
     );

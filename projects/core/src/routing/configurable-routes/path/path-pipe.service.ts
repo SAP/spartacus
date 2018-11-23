@@ -35,16 +35,16 @@ export class PathPipeService {
       return this.ROOT_PATH;
     }
 
-    const nestedRoutesPaths = this.findPathsWithFillableParams(
+    const nestedRoutesFoundPaths = this.findPathsWithFillableParams(
       nestedRoutesTranslations,
       nestedRoutesParamsObjects
     );
-    if (!nestedRoutesPaths) {
+    if (!nestedRoutesFoundPaths) {
       return this.ROOT_PATH;
     }
 
     const result = this.provideParamsValues(
-      nestedRoutesPaths,
+      nestedRoutesFoundPaths,
       nestedRoutesParamsObjects,
       nestedRoutesTranslations.map(
         routTranslation => routTranslation.paramsMapping
@@ -70,15 +70,15 @@ export class PathPipeService {
 
   private provideParamsValues(
     nestedRoutesPaths: string[],
-    paramsObjects: object[],
-    paramsMappings: ParamsMapping[]
+    nestedRoutesParamsObjects: object[],
+    nestedRoutesParamsMappings: ParamsMapping[]
   ): string[] {
     const length = nestedRoutesPaths.length;
     const result = [];
     for (let i = 0; i < length; i++) {
       const path = nestedRoutesPaths[i];
-      const paramsObject = paramsObjects[i];
-      const paramsMapping = paramsMappings[i];
+      const paramsObject = nestedRoutesParamsObjects[i];
+      const paramsMapping = nestedRoutesParamsMappings[i];
       const pathSegments = this.provideParamsValuesForSingleRoute(
         path,
         paramsObject,
@@ -109,13 +109,13 @@ export class PathPipeService {
 
   private findPathsWithFillableParams(
     nestedRoutesTranslations: RouteTranslation[],
-    paramsObjects: object[]
+    nestedRoutesParamsObjects: object[]
   ): string[] {
     const length = nestedRoutesTranslations.length;
     const result = [];
     for (let i = 0; i < length; i++) {
       const routeTranslation = nestedRoutesTranslations[i];
-      const paramsObject = paramsObjects[i];
+      const paramsObject = nestedRoutesParamsObjects[i];
       const path = this.findPartialPathWithFillableParams(
         routeTranslation.paths,
         paramsObject,
@@ -131,7 +131,7 @@ export class PathPipeService {
           `). Params object: `,
           paramsObject,
           `(in params objects list`,
-          paramsObjects,
+          nestedRoutesParamsObjects,
           `)`
         );
         return null;

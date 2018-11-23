@@ -12,40 +12,40 @@ import { StoreFinderStoresCountComponent } from '../../../store-finder/component
 import { StoreFinderGridComponent } from '../../../store-finder/components/store-finder-grid/store-finder-grid.component';
 // tslint:disable-next-line:max-line-length
 import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
+import { ConfigurableRoutes } from '@spartacus/core';
 
-const routes: Routes = [
+const routes: ConfigurableRoutes = [
   {
     path: null,
     canActivate: [CmsPageGuards],
     data: { pageLabel: 'storefinderPage', cxPath: 'storeFinder' },
-    component: StoreFinderPageComponent
-  },
-  {
-    path: null,
-    canActivate: [CmsPageGuards],
-    data: { pageLabel: 'storefinderPage', cxPath: 'storeFinderSearchResult' },
-    component: StoreFinderSearchResultComponent
-  },
-  {
-    path: null,
-    canActivate: [CmsPageGuards],
-    data: { pageLabel: 'storefinderPage', cxPath: 'storeFinderAllStores' },
-    component: StoreFinderStoresCountComponent
-  },
-  {
-    path: null,
-    canActivate: [CmsPageGuards],
-    data: { pageLabel: 'storefinderPage', cxPath: 'storeFinderListStores' },
-    component: StoreFinderGridComponent
-  },
-  {
-    path: null,
-    canActivate: [CmsPageGuards],
-    data: {
-      pageLabel: 'storefinderPage',
-      cxPath: 'storeFinderStoreDescription'
-    },
-    component: StoreFinderStoreDescriptionComponent
+    component: StoreFinderPageComponent,
+    children: [
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        data: { pageLabel: 'storefinderPage', cxPath: 'searchResult' },
+        component: StoreFinderSearchResultComponent
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        data: { pageLabel: 'storefinderPage', cxPath: 'allStores' },
+        component: StoreFinderStoresCountComponent
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        data: { pageLabel: 'storefinderPage', cxPath: 'listStores' },
+        component: StoreFinderGridComponent
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        data: { pageLabel: 'storefinderPage', cxPath: 'storeDescription' },
+        component: StoreFinderStoreDescriptionComponent
+      }
+    ]
   }
 ];
 

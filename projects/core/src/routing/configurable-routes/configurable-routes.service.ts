@@ -61,7 +61,7 @@ export class ConfigurableRoutesService {
     // traverse down the routesTranslations tree along nestedRouteNames:
     for (let i = 0; i < nestedRouteNamesLength; i++) {
       const routeName = nestedRouteNames[i];
-      result.push(this.getRouteTranslation(routeName));
+      result.push(this.getRouteTranslation(routeName, routesTranslations));
 
       // if it's not the last nested page name, go one level deeper in the translations tree:
       if (i < nestedRouteNamesLength - 1) {
@@ -85,16 +85,9 @@ export class ConfigurableRoutesService {
 
   private getRouteTranslation(
     routeName: string,
-    routesTranslations: RoutesTranslations = this.currentRoutesTranslations
+    routesTranslations: RoutesTranslations
   ): RouteTranslation {
     const result = routesTranslations[routeName];
-    if (result === undefined && !this.config.production) {
-      console.warn(
-        `No translation was configured for page '${routeName}' in language '${
-          this.currentLanguageCode
-        }'!`
-      );
-    }
     return result;
   }
 
@@ -208,8 +201,18 @@ export class ConfigurableRoutesService {
     translations: RoutesTranslations
   ): string[] {
     const routeName = this.getConfigurable(route, key);
-    const paths = this.getRouteTranslation(routeName, translations).paths;
-    return paths || [];
+    const translation = this.getRouteTranslation(routeName, translations);
+
+    if (!translation || translation.paths === undefined) {
+      this.warn(
+        `No route translation paths was configured for page '${routeName}' in language '${
+          this.currentLanguageCode
+        }'!`
+      );
+      return [];
+    }
+
+    return translation.paths || [];
   }
 
   private warn(...args) {

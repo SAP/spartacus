@@ -5,12 +5,12 @@
                 <input #queryInput [formControl]="searchBox" (keyup)="onKey($event)" type="text" class="form-control" placeholder="Enter postal code, town or address"
                     required>
             </div>
-            <button type="button" class="btn btn-primary btn-block cx-store-finder-search__button" routerLink="find-stores" [queryParams]="{query: queryInput.value}">Find store
+            <button type="button" class="btn btn-primary btn-block cx-store-finder-search__button" [routerLink]="['storeFinder', 'searchResult'] | cxPath" [queryParams]="{query: queryInput.value}">Find store
             </button>
 
             <div class="cx-store-finder-search__bottom-links">
                 <button (click)="viewStoresWithMyLoc()" class="cx-store-finder-search__links btn-link">Use my location</button> |
-                <a routerLink="./view-all-stores" class="cx-store-finder-search__links btn-link">View all stores</a>
+                <a [routerLink]="['storeFinder', 'allStores'] | cxPath" class="cx-store-finder-search__links btn-link">View all stores</a>
             </div>
         </div>
     </div>
