@@ -1,7 +1,7 @@
 import {
   Component,
   Input,
-  OnChanges,
+  OnInit,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -15,15 +15,20 @@ import { ProductDetailOutlets } from '../../../product-outlets.model';
   styleUrls: ['./product-details.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ProductDetailsComponent implements OnChanges {
+export class ProductDetailsComponent implements OnInit {
   static outlets = ProductDetailOutlets;
+
   @ViewChild('tabSet')
   tabSet;
+
   @ViewChild('tabSetWrapper')
   tabSetWrapper;
+
   @Input()
   productCode: string;
+
   product$: Observable<any>;
+
   itemCount = 1;
 
   get outlets() {
@@ -34,7 +39,7 @@ export class ProductDetailsComponent implements OnChanges {
 
   constructor(protected productService: ProductService) {}
 
-  ngOnChanges() {
+  ngOnInit() {
     this.product$ = this.productService.get(this.productCode);
   }
 
