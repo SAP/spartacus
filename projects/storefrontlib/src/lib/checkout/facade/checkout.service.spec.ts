@@ -1,9 +1,11 @@
 import { TestBed, inject } from '@angular/core/testing';
+
 import { StoreModule, Store } from '@ngrx/store';
 import { Address } from '@spartacus/core';
 import * as fromCheckout from '../store';
+import { CartDataService } from '../../cart/facade';
+
 import { CheckoutService } from './checkout.service';
-import { CartDataService } from '../../cart/services/cart-data.service';
 
 describe('CheckoutService', () => {
   let service: CheckoutService;

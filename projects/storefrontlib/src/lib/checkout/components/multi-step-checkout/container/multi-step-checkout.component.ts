@@ -5,16 +5,19 @@ import {
   OnDestroy,
   ChangeDetectorRef
 } from '@angular/core';
-import { filter } from 'rxjs/operators';
-import { Subscription, Observable } from 'rxjs';
 
-import { GlobalMessageType } from './../../../../global-message/models/message.model';
-import { Address } from '../../../models/address-model';
-import { CheckoutService } from '../../../facade/checkout.service';
-import { CartService } from '../../../../cart/services/cart.service';
-import { CartDataService } from '../../../../cart/services/cart-data.service';
-import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
 import { RoutingService } from '@spartacus/core';
+
+import { Subscription, Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+
+import { CheckoutService } from '../../../facade/checkout.service';
+import { Address } from '../../../models/address-model';
+import { CartDataService } from '../../../../cart/facade/cart-data.service';
+import { CartService } from '../../../../cart/facade/cart.service';
+import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
+import { GlobalMessageType } from './../../../../global-message/models/message.model';
+
 import { checkoutNavBar } from './checkout-navigation-bar';
 
 @Component({

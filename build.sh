@@ -9,6 +9,6 @@ echo "-----"
 echo "-----"
 ./ci-scripts/lint.sh
 echo "-----"
-./ci-scripts/unit-tests.sh
+./ci-scripts/unit-tests_sonar.sh
 echo "-----"
 ./ci-scripts/e2e-tests.sh

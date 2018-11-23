@@ -6,13 +6,15 @@ import { catchError } from 'rxjs/operators';
 
 import { AuthModuleConfig } from '../../auth-module.config';
 
+import { UserToken } from '../../models/token-types.model';
+
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
 @Injectable()
 export class UserAuthenticationTokenService {
   constructor(private http: HttpClient, private config: AuthModuleConfig) {}
 
-  loadToken(userId: string, password: string): Observable<any> {
+  loadToken(userId: string, password: string): Observable<UserToken> {
     const url = this.getOAuthEndpoint();
     const params = new HttpParams()
       .set('client_id', this.config.authentication.client_id)
@@ -25,7 +27,7 @@ export class UserAuthenticationTokenService {
     });
 
     return this.http
-      .post(url, params, { headers })
+      .post<UserToken>(url, params, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
