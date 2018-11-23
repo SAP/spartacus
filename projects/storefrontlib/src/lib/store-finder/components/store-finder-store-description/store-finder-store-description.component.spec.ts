@@ -13,7 +13,7 @@ import * as fromReducers from '../../store';
 const countryIsoCode = 'CA';
 const regionIsoCode = 'CA-QC';
 
-const moackActivatedRoute = {
+const mockActivatedRoute = {
   snapshot: {
     params: {}
   }
@@ -33,7 +33,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
   let storeFinderService: StoreFinderService;
 
   it('should call storeFinderService with country', () => {
-    moackActivatedRoute.snapshot.params = {
+    mockActivatedRoute.snapshot.params = {
       country: countryIsoCode
     };
     configureTestBed();
@@ -48,7 +48,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
   });
 
   it('should call storeFinderService with country and region', () => {
-    moackActivatedRoute.snapshot.params = {
+    mockActivatedRoute.snapshot.params = {
       country: countryIsoCode,
       region: regionIsoCode
     };
@@ -80,7 +80,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
         StoreDataService,
         { provide: StoreDataService, useClass: StoreDataServiceMock },
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
-        { provide: ActivatedRoute, useValue: moackActivatedRoute }
+        { provide: ActivatedRoute, useValue: mockActivatedRoute }
       ]
     });
     bed.compileComponents();
