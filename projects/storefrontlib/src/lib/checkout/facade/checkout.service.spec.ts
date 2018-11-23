@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store } from '@ngrx/store';
-
+import { Address } from '@spartacus/core';
 import * as fromCheckout from '../store';
 import { CheckoutService } from './checkout.service';
 import { CartDataService } from '../../cart/services/cart-data.service';
@@ -12,7 +12,7 @@ describe('CheckoutService', () => {
   const userId = 'testUserId';
   const cart = { code: 'testCartId', guid: 'testGuid' };
 
-  const address: any = {
+  const address: Address = {
     firstName: 'John',
     lastName: 'Doe',
     titleCode: 'mr',
@@ -249,14 +249,13 @@ describe('CheckoutService', () => {
   it('should set delivery address', () => {
     cartData.userId = userId;
     cartData.cart = cart;
-
-    service.setDeliveryAddress('mockAddress');
+    service.setDeliveryAddress(address);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.SetDeliveryAddress({
         userId: userId,
         cartId: cartData.cart.code,
-        address: 'mockAddress'
+        address: address
       })
     );
   });
