@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsComponentData } from '@spartacus/storefront';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -13,7 +13,7 @@ const UseCmsModuleConfig: CmsModuleConfig = {
   }
 };
 
-describe('LinkComponent', () => {
+fdescribe('LinkComponent', () => {
   let linkComponent: LinkComponent;
   let fixture: ComponentFixture<LinkComponent>;
   let el: DebugElement;
@@ -28,8 +28,8 @@ describe('LinkComponent', () => {
     url: 'http://localhost:8888/'
   };
 
-  const MockCmsService = {
-    getComponentData: () => of(componentData)
+  const MockCmsComponentData = {
+    data$: of(componentData)
   };
 
   beforeEach(async(() => {
@@ -37,8 +37,11 @@ describe('LinkComponent', () => {
       imports: [RouterTestingModule],
       declarations: [LinkComponent],
       providers: [
-        { provide: CmsService, useValue: MockCmsService },
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData
+        },
       ]
     }).compileComponents();
   }));
@@ -53,15 +56,20 @@ describe('LinkComponent', () => {
     expect(linkComponent).toBeTruthy();
   });
 
-  it('should contain link name and url', () => {
-    expect(linkComponent.component).toBeNull();
-    linkComponent.onCmsComponentInit(componentData.uid);
-    expect(linkComponent.component).toBe(componentData);
-    expect(el.query(By.css('a')).nativeElement.textContent).toEqual(
-      linkComponent.component.linkName
+  fit('should contain link name and url', () => {
+
+    fixture.detectChanges();
+    console.log(el);
+    const element = el.query(By.css('a')).nativeElement;
+    console.log(element);
+    debugger;
+
+    expect(element.textContent).toEqual(
+      componentData.linkName
     );
-    expect(el.query(By.css('a')).nativeElement.url).toEqual(
-      linkComponent.component.link
+    expect(element.href).toEqual(
+      componentData.url
     );
+
   });
 });
