@@ -71,7 +71,7 @@ describe('StoreFinderService', () => {
   });
 
   describe('Find Stores with My Location', () => {
-    it('should dispatch a OnHold action and a FindStore action', () => {
+    it('should dispatch a OnHold action and a FindStores action', () => {
       service.findStores(queryText, true);
 
       expect(store.dispatch).toHaveBeenCalledWith(new fromStore.OnHold());
