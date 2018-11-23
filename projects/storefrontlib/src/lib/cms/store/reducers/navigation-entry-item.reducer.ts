@@ -21,7 +21,7 @@ export function reducer(
         const nodeId = action.payload.nodeId;
 
         const newItem = components.reduce(
-          (compItems: { [uid_type: string]: any }, component: any) => {
+          (compItems: { [uid_type: string]: any }, component: Component) => {
             return {
               ...compItems,
               [`${component.uid}_AbstractCMSComponent`]: component

@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { RoutingService, PageType } from '@spartacus/core';
+import { RoutingService, PageType, Component } from '@spartacus/core';
 import { OccCmsService } from '../../services/occ-cms.service';
 import {
   CmsModuleConfig,
@@ -34,21 +34,12 @@ describe('Navigation Entry Items Effects', () => {
   let service: OccCmsService;
   let effects: fromEffects.NavigationEntryItemEffects;
 
+  const components: Component[] = [
+    { uid: 'MockLink001', name: 'test link 1' },
+    { uid: 'MockLink002', name: 'test link 2' }
+  ];
   const listComponents: any = {
-    component: [
-      {
-        uid: 'MockLink001',
-        url: '/testLink1',
-        linkName: 'test link 1',
-        target: false
-      },
-      {
-        uid: 'MockLink002',
-        url: '/testLink2',
-        linkName: 'test link 2',
-        target: true
-      }
-    ],
+    component: components,
     pagination: {
       count: 2,
       page: 0,
