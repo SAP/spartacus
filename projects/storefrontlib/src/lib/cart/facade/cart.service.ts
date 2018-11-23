@@ -41,7 +41,6 @@ export class CartService {
   }
 
   initCart() {
-    // TODO:#380 - unsubscribe?
     this.store.pipe(select(fromSelector.getActiveCart)).subscribe(cart => {
       this.cartData.cart = cart;
       if (this.callback) {
@@ -52,7 +51,6 @@ export class CartService {
 
     this.authService.userToken$
       .pipe(filter(userToken => this.cartData.userId !== userToken.userId))
-      // TODO:#380 - unsubscribe?
       .subscribe(userToken => {
         this.setUserId(userToken);
         this.loadOrMergeCart();
@@ -61,7 +59,6 @@ export class CartService {
     this.refreshCart();
   }
 
-  // TODO:#380 - test
   private setUserId(userToken: UserToken): void {
     if (Object.keys(userToken).length !== 0) {
       this.cartData.userId = userToken.userId;
@@ -70,7 +67,6 @@ export class CartService {
     }
   }
 
-  // TODO:#380 - test
   private loadOrMergeCart(): void {
     // for login user, whenever there's an existing cart, we will load the user
     // current cart and merge it into the existing cart
@@ -93,7 +89,6 @@ export class CartService {
     }
   }
 
-  // TODO:#380 - test
   private refreshCart(): void {
     this.store.pipe(select(fromSelector.getRefresh)).subscribe(refresh => {
       if (refresh) {

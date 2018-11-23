@@ -25,7 +25,7 @@ class AuthServiceStub {
   userToken$: Observable<UserToken> = of();
 }
 
-xdescribe('CartService', () => {
+describe('CartService', () => {
   let service: CartService;
   let cartData: CartDataService;
   let authService: AuthServiceStub;
@@ -65,6 +65,80 @@ xdescribe('CartService', () => {
 
   it('should CartService is injected', () => {
     expect(service).toBeTruthy();
+  });
+
+  const setUserIdMethod = 'setUserId';
+  describe(setUserIdMethod, () => {
+    describe('when the userToken is empty', () => {
+      it('should set an anonymous user', () => {
+        const testUserToken: UserToken = <UserToken>{};
+        service[setUserIdMethod](testUserToken);
+        expect(cartData.userId).toEqual(ANONYMOUS_USERID);
+      });
+    });
+    describe('when the userToken is not empty', () => {
+      it('should set the user', () => {
+        const testUserToken: UserToken = <UserToken>{ userId: 'testUser' };
+        service[setUserIdMethod](testUserToken);
+        expect(cartData.userId).toEqual('testUser');
+      });
+    });
+  });
+
+  const loadOrMergeCartMethod = 'loadOrMergeCart';
+  describe(loadOrMergeCartMethod, () => {
+    describe('when user is not an anonymous', () => {
+      describe('and the cart is not created', () => {
+        it('should load the cart', () => {
+          spyOn(service, 'isCartCreated').and.returnValue(false);
+          spyOn(store, 'dispatch').and.stub();
+          cartData.cart = cart;
+
+          service[loadOrMergeCartMethod]();
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new fromCart.LoadCart({
+              userId: cartData.userId,
+              cartId: 'current'
+            })
+          );
+        });
+      });
+      describe('and the cart is created', () => {
+        it('should merge the cart', () => {
+          spyOn(service, 'isCartCreated').and.returnValue(true);
+          spyOn(store, 'dispatch').and.stub();
+          cartData.cart = cart;
+
+          service[loadOrMergeCartMethod]();
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new fromCart.MergeCart({
+              userId: cartData.userId,
+              cartId: cartData.cart.guid
+            })
+          );
+        });
+      });
+    });
+  });
+
+  const refreshCartMethod = 'refreshCart';
+  describe(refreshCartMethod, () => {
+    describe('when refresh is true', () => {
+      it('should load the cart', () => {
+        store.dispatch(new fromCart.AddEntrySuccess('test'));
+        cartData.cart = cart;
+        spyOn(store, 'dispatch').and.stub();
+
+        service[refreshCartMethod]();
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new fromCart.LoadCart({
+            userId: cartData.userId,
+            cartId: cartData.cartId,
+            details: true
+          })
+        );
+      });
+    });
   });
 
   describe('initCart', () => {
