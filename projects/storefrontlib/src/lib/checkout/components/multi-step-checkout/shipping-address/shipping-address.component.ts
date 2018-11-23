@@ -24,10 +24,10 @@ import { Card } from '../../../../ui/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShippingAddressComponent implements OnInit {
-  existingAddresses$: Observable<any>;
+  existingAddresses$: Observable<Address>;
   newAddressFormManuallyOpened = false;
   cards = [];
-  isLoading$: Observable<any>;
+  isLoading$: Observable<boolean>;
 
   @Input()
   selectedAddress: Address;

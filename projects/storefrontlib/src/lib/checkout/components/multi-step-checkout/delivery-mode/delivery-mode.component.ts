@@ -62,7 +62,7 @@ export class DeliveryModeComponent implements OnInit {
     this.backStep.emit();
   }
 
-  get deliveryModeInvalid() {
+  get deliveryModeInvalid(): boolean {
     return this.mode.controls['deliveryModeId'].invalid;
   }
 }

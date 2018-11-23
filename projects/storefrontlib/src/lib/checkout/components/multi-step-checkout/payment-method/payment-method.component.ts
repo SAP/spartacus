@@ -26,7 +26,7 @@ export class PaymentMethodComponent implements OnInit {
   newPaymentFormManuallyOpened = false;
   existingPaymentMethods$: Observable<any>;
   cards = [];
-  isLoading$: Observable<any>;
+  isLoading$: Observable<boolean>;
 
   @Input()
   selectedPayment: any;

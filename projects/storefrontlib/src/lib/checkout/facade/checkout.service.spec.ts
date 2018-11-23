@@ -4,7 +4,7 @@ import { StoreModule, Store } from '@ngrx/store';
 
 import * as fromCheckout from '../store';
 import { CartDataService } from '../../cart/facade';
-
+import { Address } from '../models/address-model';
 import { CheckoutService } from './checkout.service';
 
 describe('CheckoutService', () => {
@@ -14,11 +14,15 @@ describe('CheckoutService', () => {
   const userId = 'testUserId';
   const cart = { code: 'testCartId', guid: 'testGuid' };
 
-  const address: any = {
+  const address: Address = {
+    id: 'testAddressId',
     firstName: 'John',
     lastName: 'Doe',
     titleCode: 'mr',
-    line1: 'Toyosaki 2 create on cart'
+    line1: 'Toyosaki 2 create on cart',
+    town: 'Montreal',
+    postalCode: 'L6M1P9',
+    country: { isocode: 'CA' }
   };
 
   beforeEach(() => {
