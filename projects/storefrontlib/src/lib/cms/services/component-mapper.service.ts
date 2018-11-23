@@ -42,7 +42,7 @@ export class ComponentMapperService {
    *
    * @param typeCode the component type
    */
-  protected getType(typeCode: string): any {
+  protected getType(typeCode: string): string {
     const alias = this.config.cmsComponentMapping[typeCode];
     if (!alias) {
       if (this.missingComponents.indexOf(typeCode) === -1) {
