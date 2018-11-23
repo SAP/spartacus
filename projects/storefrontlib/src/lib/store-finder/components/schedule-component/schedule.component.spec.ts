@@ -61,7 +61,7 @@ class StoreDataServiceMock {
   }
 }
 
-fdescribe('ScheduleComponent', () => {
+describe('ScheduleComponent', () => {
   let component: ScheduleComponent;
   let fixture: ComponentFixture<ScheduleComponent>;
   let storeDataService: StoreDataService;
