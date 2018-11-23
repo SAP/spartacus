@@ -40,7 +40,7 @@ export class CartService {
     this.initCart();
   }
 
-  initCart() {
+  private initCart() {
     this.store.pipe(select(fromSelector.getActiveCart)).subscribe(cart => {
       this.cartData.cart = cart;
       if (this.callback) {
