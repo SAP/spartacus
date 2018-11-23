@@ -11,10 +11,10 @@ const CUSTOM_TEXT = 'customized';
 @Component({
   template: `
     <ng-template cxOutletRef="${OUTLET_NAME}">
-      <div id="debugEl">${CUSTOM_TEXT}</div>
+        <div id="debugEl">${CUSTOM_TEXT}</div>
     </ng-template>
     <ng-container *cxOutlet="'${OUTLET_NAME}'">
-      <div id="debugEl">${STANDARD_TEXT}</div>
+        <div id="debugEl">${STANDARD_TEXT}</div>
     </ng-container>
   `
 })

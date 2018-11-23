@@ -17,14 +17,11 @@ export const getComponentEntities: MemoizedSelector<any, any> = createSelector(
 );
 
 export const componentSelectorFactory = (uid): MemoizedSelector<any, any> => {
-  return createSelector(
-    getComponentEntities,
-    entities => {
-      if (Object.keys(entities).length !== 0) {
-        return entities[uid];
-      } else {
-        return null;
-      }
+  return createSelector(getComponentEntities, entities => {
+    if (Object.keys(entities).length !== 0) {
+      return entities[uid];
+    } else {
+      return null;
     }
-  );
+  });
 };

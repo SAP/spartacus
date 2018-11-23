@@ -1,16 +1,16 @@
-<div *ngIf="(canPrompt$ | async)">
+<div *ngIf="canPrompt$ | async">
   <div class="cx-add-to-home-screen-banner">
     <div class="cx-add-to-home-screen-banner__inner">
-      <p>
-        Add SAP storefront to your device homescreen for a faster return visit
-      </p>
-      <ul>
-        <li>No installation needed</li>
-        <li>Fast access to application</li>
-      </ul>
-      <button (click)="prompt()" class="btn btn-primary">
-        Add to home screen
-      </button>
+    <p>
+      Add SAP storefront to your device homescreen for a faster return visit
+    </p>
+    <ul>
+      <li>No installation needed</li>
+      <li>Fast access to application</li>
+    </ul>
+    <button (click)="prompt()" class="btn btn-primary">
+      Add to home screen
+    </button>
     </div>
   </div>
 </div>

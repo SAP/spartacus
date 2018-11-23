@@ -61,8 +61,8 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
       incomingValue > this.max
         ? this.max
         : incomingValue < this.min
-        ? this.min
-        : incomingValue;
+          ? this.min
+          : incomingValue;
 
     if (!this.async) {
       this.writeValue(newValue);

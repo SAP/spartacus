@@ -11,10 +11,7 @@ import {
 export const getProductsSearchState: MemoizedSelector<
   StateWithProduct,
   ProductsSearchState
-> = createSelector(
-  getProductsState,
-  (state: ProductsState) => state.search
-);
+> = createSelector(getProductsState, (state: ProductsState) => state.search);
 
 export const getSearchResults: MemoizedSelector<any, any> = createSelector(
   getProductsSearchState,

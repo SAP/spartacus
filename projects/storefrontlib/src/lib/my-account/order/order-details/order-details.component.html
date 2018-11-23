@@ -1,94 +1,60 @@
-<ng-container *ngIf="(order$ | async) as order">
+<ng-container *ngIf="order$ | async as order">
   <div class="cx-order-details container">
     <div class="cx-order-details__order-header row">
       <div class="cx-order-details__detail col-sm-12 col-md-4">
         <div class="cx-order-details__label">Order #</div>
-        <div class="cx-order-details__value">{{ order?.code }}</div>
+        <div class="cx-order-details__value">{{order?.code}}</div>
       </div>
       <div class="cx-order-details__detail col-sm-12 col-md-4">
         <div class="cx-order-details__label">Placed</div>
-        <div class="cx-order-details__value">{{ order?.created | date }}</div>
+        <div class="cx-order-details__value">{{order?.created | date}}</div>
       </div>
       <div class="cx-order-details__detail col-sm-12 col-md-4">
         <div class="cx-order-details__label">Status</div>
-        <div class="cx-order-details__value">{{ order?.statusDisplay }}</div>
+        <div class="cx-order-details__value">{{order?.statusDisplay}}</div>
       </div>
     </div>
 
-    <div
-      *ngFor="let consignment of order.consignments"
-      class="cx-order-details__list row"
-    >
+    <div *ngFor="let consignment of order.consignments" class="cx-order-details__list row">
       <div class="cx-order-details__list-header col-12">
-        <div class="cx-order-details__status">{{ consignment?.status }}</div>
+        <div class="cx-order-details__status">{{consignment?.status}}</div>
         <div *ngIf="consignment?.statusDate" class="cx-order-details__date">
           <div>Shipped on &nbsp;</div>
-          <div>{{ consignment?.statusDate | date }}</div>
+          <div>{{consignment?.statusDate | date}}</div>
         </div>
       </div>
       <div class="cx-order-details__item-list col-12">
-        <cx-cart-item-list
-          [items]="getConsignmentProducts(consignment)"
-          [isReadOnly]="true"
-        ></cx-cart-item-list>
+        <cx-cart-item-list [items]="getConsignmentProducts(consignment)" [isReadOnly]="true"></cx-cart-item-list>
       </div>
     </div>
 
-    <div
-      *ngIf="order.unconsignedEntries?.length"
-      class="cx-order-details__list row"
-    >
+    <div *ngIf="order.unconsignedEntries?.length" class="cx-order-details__list row">
       <div class="cx-order-details__list-header col-12">
         <div class="cx-order-details__status">In process...</div>
       </div>
       <div class="cx-order-details__item-list col-12">
-        <cx-cart-item-list
-          [items]="order?.unconsignedEntries"
-          [isReadOnly]="true"
-        ></cx-cart-item-list>
+        <cx-cart-item-list [items]="order?.unconsignedEntries" [isReadOnly]="true"></cx-cart-item-list>
       </div>
     </div>
 
     <div class="row justify-content-end">
-      <div
-        class="cx-order-details__order-summary col-sm-12 col-md-6 col-lg-5 col-xl-4"
-      >
+      <div class="cx-order-details__order-summary col-sm-12 col-md-6 col-lg-5 col-xl-4">
         <cx-order-summary [cart]="order"></cx-order-summary>
       </div>
     </div>
 
     <div class="cx-order-details__account-summary row">
-      <div
-        *ngIf="order.deliveryAddress"
-        class="cx-order-details__account-summary-card col-sm-12 col-md-4"
-      >
-        <cx-card
-          [content]="getAddressCardContent(order.deliveryAddress)"
-        ></cx-card>
+      <div *ngIf="order.deliveryAddress" class="cx-order-details__account-summary-card col-sm-12 col-md-4">
+        <cx-card [content]="getAddressCardContent(order.deliveryAddress)"></cx-card>
       </div>
-      <div
-        *ngIf="order.paymentInfo?.billingAddress"
-        class="cx-order-details__account-summary-card col-sm-12 col-md-4"
-      >
-        <cx-card
-          [content]="
-            getBillingAddressCardContent(order.paymentInfo.billingAddress)
-          "
-        ></cx-card>
+      <div *ngIf="order.paymentInfo?.billingAddress" class="cx-order-details__account-summary-card col-sm-12 col-md-4">
+        <cx-card [content]="getBillingAddressCardContent(order.paymentInfo.billingAddress)"></cx-card>
       </div>
-      <div
-        *ngIf="order.paymentInfo"
-        class="cx-order-details__account-summary-card col-sm-12 col-md-4"
-      >
+      <div *ngIf="order.paymentInfo" class="cx-order-details__account-summary-card col-sm-12 col-md-4">
         <cx-card [content]="getPaymentCardContent(order.paymentInfo)"></cx-card>
       </div>
-      <div
-        *ngIf="order.deliveryMode"
-        class="cx-order-details__account-summary-card col-sm-12 col-md-4"
-      >
-        <cx-card
-          [content]="getShippingMethodCardContent(order.deliveryMode)"
-        ></cx-card>
+      <div *ngIf="order.deliveryMode" class="cx-order-details__account-summary-card col-sm-12 col-md-4">
+        <cx-card [content]="getShippingMethodCardContent(order.deliveryMode)"></cx-card>
       </div>
     </div>
   </div>

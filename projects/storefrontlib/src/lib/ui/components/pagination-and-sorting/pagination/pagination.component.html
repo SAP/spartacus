@@ -1,8 +1,3 @@
-<ngb-pagination
-  [collectionSize]="pagination.totalResults"
-  [page]="pagination.currentPage + 1"
-  (pageChange)="pageChange($event)"
-  [maxSize]="3"
-  [pageSize]="pagination.pageSize"
->
+<ngb-pagination [collectionSize]="pagination.totalResults" [page]="pagination.currentPage+1" (pageChange)="pageChange($event)"
+        [maxSize]="3" [pageSize]="pagination.pageSize">
 </ngb-pagination>

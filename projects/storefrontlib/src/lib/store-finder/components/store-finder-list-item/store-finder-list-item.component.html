@@ -1,26 +1,14 @@
 <ng-container>
-  <div class="cx-store-finder-list-item" (click)="handleStoreItemClick()">
-    <div class="cx-store-finder-list-item__display-name">
-      {{ location.displayName }}
+    <div class="cx-store-finder-list-item" (click)="handleStoreItemClick()">
+        <div class="cx-store-finder-list-item__display-name">{{ location.displayName }}</div>
+        <div class="cx-store-finder-list-item__address">{{location.address.line1}}<br>
+            {{location.address.town}}, {{location.address.region? location.address.region.name + ',':
+            ''}} {{location.address.postalCode}}</div>
+        <div *ngIf="isOpen(location)" class="cx-store-finder-list-item__open">{{getClosingTime(location) | date:'EEE'}}:
+            Open until {{getClosingTime(location) | date:'shortTime'}}</div>
+        <div *ngIf="!isOpen(location)" class="cx-store-finder-list-item__closed">{{getClosingTime(location) | date:
+            'EEE'}}: Closed</div>
+        <a href="{{getDirections(location)}}" target="_blank" class="btn btn-sm btn-action btn-block cx-store-finder-list-item__button">Get
+            Directions</a>
     </div>
-    <div class="cx-store-finder-list-item__address">
-      {{ location.address.line1 }}<br />
-      {{ location.address.town }},
-      {{ location.address.region ? location.address.region.name + ',' : '' }}
-      {{ location.address.postalCode }}
-    </div>
-    <div *ngIf="isOpen(location)" class="cx-store-finder-list-item__open">
-      {{ getClosingTime(location) | date: 'EEE' }}: Open until
-      {{ getClosingTime(location) | date: 'shortTime' }}
-    </div>
-    <div *ngIf="!isOpen(location)" class="cx-store-finder-list-item__closed">
-      {{ getClosingTime(location) | date: 'EEE' }}: Closed
-    </div>
-    <a
-      href="{{getDirections(location)}}"
-      target="_blank"
-      class="btn btn-sm btn-action btn-block cx-store-finder-list-item__button"
-      >Get Directions</a
-    >
-  </div>
 </ng-container>

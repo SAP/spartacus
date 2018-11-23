@@ -7,7 +7,7 @@ const TEXT = 'standard';
 @Component({
   template: `
     <ng-container *cxOutlet="'${OUTLET_NAME}'">
-      <div id="debugEl">${TEXT}</div>
+        <div id="debugEl">${TEXT}</div>
     </ng-container>
   `
 })

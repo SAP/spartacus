@@ -1,25 +1,18 @@
 <div class="cx-mobile-menu">
+
   <div class="cx-mobile-menu__control">
-    <button
-      class="hamburger hamburger--squeeze"
-      type="button"
-      (click)="toggleMenu()"
-      [ngClass]="{ 'is-active': showMenu }"
-      [attr.aria-expanded]="showMenu"
-      aria-label="Menu"
-      aria-controls="header-account-container, header-categories-container, header-locale-container"
-    >
-      <span class="hamburger-box"> <span class="hamburger-inner"></span> </span>
+    <button class="hamburger hamburger--squeeze" type="button" (click)="toggleMenu()" [ngClass]="{ 'is-active': showMenu }"
+      [attr.aria-expanded]="showMenu" aria-label="Menu" aria-controls="header-account-container, header-categories-container, header-locale-container">
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
     </button>
   </div>
 
   <div class="cx-mobile-menu__content" [attr.aria-hidden]="!showMenu">
     <div class="cx-mobile-menu__components">
       <cx-login></cx-login>
-      <cx-dynamic-slot
-        position="NavigationBar"
-        class="d-block d-lg-none"
-      ></cx-dynamic-slot>
+      <cx-dynamic-slot position="NavigationBar" class="d-block d-lg-none"></cx-dynamic-slot>
       <div class="cx-mobile-menu__locale">
         <cx-language-selector></cx-language-selector>
         <cx-currency-selector></cx-currency-selector>
@@ -27,16 +20,10 @@
       <!-- temporary solution -->
       <cx-add-to-home-screen-btn>
         <div>
-          <button class="btn btn-primary" id="add-to-home-screen">
-            Add to Home screen
-          </button>
+          <button class="btn btn-primary" id="add-to-home-screen">Add to Home screen</button>
         </div>
       </cx-add-to-home-screen-btn>
     </div>
   </div>
-  <div
-    *ngIf="showMenu"
-    class="cx-mobile-menu__overlay"
-    (click)="toggleMenu()"
-  ></div>
+  <div *ngIf="showMenu" class="cx-mobile-menu__overlay" (click)="toggleMenu()"></div>
 </div>

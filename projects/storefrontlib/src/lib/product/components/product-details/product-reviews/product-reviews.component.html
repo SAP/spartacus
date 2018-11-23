@@ -1,102 +1,60 @@
-<ng-container *ngIf="!isWritingReview; else: writeReview">
-  <div class="header">
-    <h3>Overall Rating</h3>
-    <button class="btn btn-primary" (click)="initiateWriteReview()">
-      Write a Review
-    </button>
-    <cx-star-rating
-      class="rating"
-      [rating]="product.averageRating"
-      [disabled]="true"
-    ></cx-star-rating>
-  </div>
+<ng-container *ngIf="!isWritingReview; else writeReview">
 
-  <ng-container *ngIf="!isWritingReview; else: writeReview">
-    <ng-container *ngIf="(reviews$ | async) as reviews">
-      <div
-        class="review"
-        tabindex="0"
-        *ngFor="let review of (reviews | slice: 0:maxListItems)"
-      >
-        <div class="title">{{ review.headline }}</div>
-        <cx-star-rating
-          [rating]="review.rating"
-          [disabled]="true"
-        ></cx-star-rating>
-        <div class="name">
-          {{ review.alias ? review.alias : review.principal?.name }}
-        </div>
-        <div class="date">{{ review.date | date }}</div>
-        <div class="text">{{ review.comment }}</div>
-      </div>
-      <a
-        (click)="maxListItems = reviews.length"
-        *ngIf="maxListItems === initialMaxListItems"
-        >More</a
-      >
-      <a
-        (click)="maxListItems = initialMaxListItems"
-        *ngIf="maxListItems !== initialMaxListItems"
-        >Less</a
-      >
+    <div class="header">
+        <h3>Overall Rating</h3>
+        <button class="btn btn-primary" (click)="initiateWriteReview()">Write a Review</button>
+        <cx-star-rating class="rating" [rating]="product.averageRating" [disabled]="true"></cx-star-rating>
+    </div>
+
+    <ng-container *ngIf="!isWritingReview; else writeReview">
+        <ng-container *ngIf="reviews$ | async as reviews">
+            <div class="review" tabindex="0" *ngFor="let review of (reviews | slice:0:maxListItems)">
+                <div class="title">{{review.headline}}</div>
+                <cx-star-rating [rating]="review.rating" [disabled]="true"></cx-star-rating>
+                <div class="name">{{review.alias? review.alias : review.principal?.name}}</div>
+                <div class="date">{{review.date | date}}</div>
+                <div class="text">{{review.comment}}</div>
+            </div>
+            <a (click)="maxListItems = reviews.length" *ngIf="maxListItems === initialMaxListItems">More</a>
+            <a (click)="maxListItems = initialMaxListItems" *ngIf="maxListItems !== initialMaxListItems">Less</a>
+        </ng-container>
     </ng-container>
-  </ng-container>
 </ng-container>
 
 <ng-template #writeReview>
-  <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
-    <div class="form-group">
-      <label>
-        <span class="label-content">Review Title</span>
-        <input type="text" class="form-control" formControlName="title" />
-      </label>
-    </div>
-    <div class="form-group">
-      <label>
-        <span class="label-content">Write your comments</span>
-        <textarea
-          class="form-control"
-          rows="3"
-          formControlName="comment"
-        ></textarea>
-      </label>
-    </div>
-    <div class="form-group">
-      <label>
-        <span class="label-content">Rating</span>
-        <cx-star-rating formControlName="rating" [steps]="0.5"></cx-star-rating>
-      </label>
-    </div>
-    <div class="form-group">
-      <label>
-        <span class="label-content">Reviewer name (optional)</span>
-        <input
-          type="text"
-          class="form-control"
-          formControlName="reviewerName"
-        />
-      </label>
-    </div>
-    <div class="form-group row">
-      <div class="col-12 col-md-4">
-        <button
-          type="submit"
-          class="btn btn-block btn-secondary"
-          (click)="cancelWriteReview()"
-        >
-          Cancel
-        </button>
-      </div>
-      <div class="col-12 col-md-4">
-        <button
-          type="submit"
-          class="btn btn-block btn-primary"
-          [ngClass]="{ 'submit-btn': reviewForm.valid }"
-          [disabled]="!reviewForm.valid"
-        >
-          Summit
-        </button>
-      </div>
-    </div>
-  </form>
+    <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+        <div class="form-group">
+            <label>
+                <span class="label-content">Review Title</span>
+                <input type="text" class="form-control" formControlName='title'>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                <span class="label-content">Write your comments</span>
+                <textarea class="form-control" rows="3" formControlName='comment'></textarea>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                <span class="label-content">Rating</span>
+                <cx-star-rating formControlName="rating" [steps]="0.5"></cx-star-rating>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                <span class="label-content">Reviewer name (optional)</span>
+                <input type="text" class="form-control" formControlName='reviewerName'>
+            </label>
+        </div>
+        <div class="form-group row">
+            <div class="col-12 col-md-4">
+                <button type="submit" class="btn btn-block btn-secondary" (click)="cancelWriteReview()">Cancel</button>
+            </div>
+            <div class="col-12 col-md-4">
+                <button type="submit" class="btn btn-block btn-primary" [ngClass]="{'submit-btn': reviewForm.valid}"
+                    [disabled]="!reviewForm.valid">Summit</button>
+            </div>
+        </div>
+    </form>
 </ng-template>

@@ -1,12 +1,3 @@
-<cx-generic-link
-  *ngIf="hasImage()"
-  [url]="component.urlLink"
-  [target]="getTarget()"
->
-  <img
-    [title]="getAltText()"
-    [alt]="getAltText()"
-    [src]="getBaseUrl() + getImageUrl()"
-    alt=""
-  />
+<cx-generic-link *ngIf="hasImage()" [url]="component.urlLink" [target]="getTarget()">
+  <img [title]="getAltText()" [alt]="getAltText()" [src]="getBaseUrl() + getImageUrl()" />
 </cx-generic-link>

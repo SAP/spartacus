@@ -1,66 +1,27 @@
-<ng-container
-  *ngIf="
-    !(isLoading$ | async) && (locations$ | async) as locations;
-    else: loading
-  "
->
-  <div class="cx-store-finder-list-count container">
-    <div
-      *ngFor="let country of locations?.countriesAndRegionsStoreCount"
-      class="cx-store-finder-list-count__country-set; else loading"
-    >
-      <a
-        [routerLink]="['/store-finder/country', country.isoCode]"
-        class="btn-link"
-      >
-        <div class="cx-store-finder-list-count__country-title">
-          <span
-            [ngClass]="
-              country?.storeCountDataList
-                ? 'country-header'
-                : 'country-header-link'
-            "
-            class="cx-store-finder-list-count__country-name"
-            >{{ country.name }}</span
-          >
-          <span
-            [ngClass]="
-              country?.storeCountDataList
-                ? 'country-header'
-                : 'country-header-link'
-            "
-            *ngIf="!country?.storeCountDataList"
-            class="cx-store-finder-list-count__country-count"
-            >({{ country.count }})</span
-          >
+<ng-container *ngIf="!(isLoading$ | async) && (locations$ | async) as locations; else loading">
+    <div class="cx-store-finder-list-count container">
+        <div *ngFor="let country of locations?.countriesAndRegionsStoreCount;" class="cx-store-finder-list-count__country-set; else loading">
+            <a [routerLink]="['/store-finder/country', country.isoCode]" class="btn-link">
+                <div class="cx-store-finder-list-count__country-title">
+                    <span [ngClass]="country?.storeCountDataList ? 'country-header' : 'country-header-link'" class="cx-store-finder-list-count__country-name">{{country.name}}</span>
+                    <span [ngClass]="country?.storeCountDataList ? 'country-header' : 'country-header-link'" *ngIf="!country?.storeCountDataList"
+                        class="cx-store-finder-list-count__country-count">({{country.count}})</span>
+                </div>
+            </a>
+            <div class="cx-store-finder-list-count__region-set">
+                <ul class="cx-store-finder-list-count__region-directory">
+                    <li *ngFor="let region of country?.storeCountDataList;" class="cx-store-finder-list-count__directory-item">
+                        <a [routerLink]="['/store-finder/country', country.isoCode, 'region', region.isoCode]" class="btn-link cx-store-finder-list-count__item-link">
+                            {{region.name}}</a>
+                        <span class="cx-store-finder-list-count__item-count">({{region.count}})</span>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </a>
-      <div class="cx-store-finder-list-count__region-set">
-        <ul class="cx-store-finder-list-count__region-directory">
-          <li
-            *ngFor="let region of country?.storeCountDataList"
-            class="cx-store-finder-list-count__directory-item"
-          >
-            <a
-              [routerLink]="[
-                '/store-finder/country',
-                country.isoCode,
-                'region',
-                region.isoCode
-              ]"
-              class="btn-link cx-store-finder-list-count__item-link"
-            >
-              {{ region.name }}</a
-            >
-            <span class="cx-store-finder-list-count__item-count"
-              >({{ region.count }})</span
-            >
-          </li>
-        </ul>
-      </div>
     </div>
-  </div>
 </ng-container>
 <ng-template #loading>
-  <div class="cx-store-finder-list__spinner"><cx-spinner></cx-spinner></div>
+    <div class="cx-store-finder-list__spinner">
+        <cx-spinner></cx-spinner>
+    </div>
 </ng-template>

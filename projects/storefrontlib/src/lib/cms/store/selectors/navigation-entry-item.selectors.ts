@@ -20,12 +20,9 @@ export const getNavigationEntryItems: MemoizedSelector<
 );
 
 export const itemsSelectorFactory = (nodeId): MemoizedSelector<any, any> => {
-  return createSelector(
-    getNavigationEntryItems,
-    nodes => {
-      if (Object.keys(nodes).length !== 0) {
-        return nodes[nodeId];
-      }
+  return createSelector(getNavigationEntryItems, nodes => {
+    if (Object.keys(nodes).length !== 0) {
+      return nodes[nodeId];
     }
-  );
+  });
 };

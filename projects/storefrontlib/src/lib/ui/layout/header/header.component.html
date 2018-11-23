@@ -1,30 +1,26 @@
 <header class="cx-header">
-  <div class="cx-content__slot d-flex align-items-center">
-    <cx-header-skipper></cx-header-skipper>
-    <cx-language-selector class="d-none d-lg-block"></cx-language-selector>
-    <cx-currency-selector class="d-none d-lg-block"></cx-currency-selector>
-    <cx-tertiary-bar class="ml-auto"></cx-tertiary-bar>
-  </div>
 
-  <div class="cx-content__slot d-flex align-items-center">
-    <cx-dynamic-slot
-      class="cx-header__logo"
-      position="SiteLogo"
-    ></cx-dynamic-slot>
-    <cx-dynamic-slot position="SearchBox" class="ml-auto"></cx-dynamic-slot>
-    <cx-dynamic-slot position="StoreFinder" class="ml-auto"></cx-dynamic-slot>
-    <cx-login class="ml-auto d-none d-lg-block"></cx-login>
-    <cx-dynamic-slot position="MiniCart"></cx-dynamic-slot>
-  </div>
+    <div class="cx-content__slot d-flex align-items-center">
+        <cx-header-skipper></cx-header-skipper>
+        <cx-language-selector class="d-none d-lg-block"></cx-language-selector>
+        <cx-currency-selector class="d-none d-lg-block"></cx-currency-selector>
+        <cx-tertiary-bar class="ml-auto"></cx-tertiary-bar>
+    </div>
 
-  <div class="cx-content__slot">
-    <cx-dynamic-slot
-      position="NavigationBar"
-      class="d-none d-lg-block"
-    ></cx-dynamic-slot>
-  </div>
+    <div class="cx-content__slot d-flex align-items-center">
+        <cx-dynamic-slot class="cx-header__logo" position="SiteLogo"></cx-dynamic-slot>
+        <cx-dynamic-slot position="SearchBox" class="ml-auto"></cx-dynamic-slot>
+        <cx-dynamic-slot position="StoreFinder" class="ml-auto"></cx-dynamic-slot>
+        <cx-login class="ml-auto d-none d-lg-block"></cx-login>
+        <cx-dynamic-slot position="MiniCart"></cx-dynamic-slot>
+    </div>
 
-  <div class="cx-content__slot" id="cx-mobile-menu">
-    <cx-mobile-menu></cx-mobile-menu>
-  </div>
+    <div class="cx-content__slot">
+        <cx-dynamic-slot position="NavigationBar" class="d-none d-lg-block"></cx-dynamic-slot>
+    </div>
+
+    <div class="cx-content__slot" id="cx-mobile-menu">
+        <cx-mobile-menu></cx-mobile-menu>
+    </div>
+
 </header>

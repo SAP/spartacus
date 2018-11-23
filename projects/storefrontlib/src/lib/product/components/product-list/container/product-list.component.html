@@ -1,111 +1,73 @@
-<ng-container *ngIf="(model$ | async) as model">
-  <div class="cx-page">
-    <header class="cx-page__header">
-      <h1 class="cx-page__title">
-        {{ model.pagination.totalResults }} results for cameras
-      </h1>
-    </header>
-    <section class="cx-page__section">
-      <div class="container">
-        <div class="row">
-          <div class="col-12 col-lg-3 d-none d-lg-block">
-            <cx-product-facet-navigation
-              (filter)="onFilter($event)"
-              [minPerFacet]="6"
-              [activeFacetValueCode]="categoryCode || brandCode"
-              [searchResult]="model"
-            ></cx-product-facet-navigation>
-          </div>
-          <div class="col-12 col-lg-9">
-            <div class="cx-product-search__sorting--top">
-              <div class="row">
-                <div class="col-12 col-lg-4 mr-auto">
-                  <div class="form-group cx-product-search__dropdown">
-                    <cx-sorting
-                      [sortOptions]="model.sorts"
-                      (sortListEvent)="sortList($event)"
-                      [selectedOption]="model.pagination.sort"
-                      [placeholder]="'Sort by Relevance'"
-                    ></cx-sorting>
-                  </div>
-                </div>
-                <div class="col-auto">
-                  <div
-                    class="cx-product-search__pagination"
-                    aria-label="product search pagination"
-                  >
-                    <cx-pagination
-                      [pagination]="model.pagination"
-                      (viewPageEvent)="viewPage($event)"
-                    ></cx-pagination>
-                  </div>
-                </div>
-                <div class="col-auto ml-auto ml-lg-0">
-                  <cx-product-view [(mode)]="grid.mode"></cx-product-view>
-                </div>
-                <div class="col-12 d-lg-none d-xl-none">
-                  <cx-product-facet-navigation
-                    (filter)="onFilter($event)"
-                    [minPerFacet]="6"
-                    [activeFacetValueCode]="categoryCode || brandCode"
-                    [searchResult]="model"
-                  ></cx-product-facet-navigation>
-                </div>
-              </div>
-            </div>
-            <div class="cx-product-search__item--container">
-              <div *ngIf="grid.mode === 'grid'" class="row">
-                <cx-product-grid-item
-                  *ngFor="let product of model?.products"
-                  [product]="product"
-                  class="col-12 col-sm-6 col-md-4"
-                ></cx-product-grid-item>
-              </div>
+<ng-container *ngIf="model$ | async as model">
+    <div class="cx-page">
+        <header class="cx-page__header">
+            <h1 class="cx-page__title">{{model.pagination.totalResults}} results for cameras</h1>
+        </header>
+        <section class="cx-page__section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-lg-3 d-none d-lg-block">
+                        <cx-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6"
+                            [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="model"></cx-product-facet-navigation>
+                    </div>
+                    <div class="col-12 col-lg-9">
+                        <div class="cx-product-search__sorting--top">
+                            <div class="row">
+                                <div class="col-12 col-lg-4 mr-auto">
+                                    <div class="form-group cx-product-search__dropdown">
+                                        <cx-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)"
+                                            [selectedOption]="model.pagination.sort" [placeholder]="'Sort by Relevance'"></cx-sorting>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="cx-product-search__pagination" aria-label="product search pagination">
+                                        <cx-pagination [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></cx-pagination>
+                                    </div>
+                                </div>
+                                <div class="col-auto ml-auto ml-lg-0">
+                                    <cx-product-view [(mode)]="grid.mode"></cx-product-view>
+                                </div>
+                                <div class="col-12 d-lg-none d-xl-none">
+                                    <cx-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6"
+                                        [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="model"></cx-product-facet-navigation>
 
-              <ng-template [ngIf]="grid.mode === 'list'">
-                <cx-product-list-item
-                  *ngFor="let product of model?.products"
-                  [product]="product"
-                  class="cx-product-search-list"
-                ></cx-product-list-item>
-              </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cx-product-search__item--container">
+                            <div *ngIf="grid.mode==='grid'" class="row">
+                                <cx-product-grid-item *ngFor="let product of model?.products" [product]="product" class="col-12 col-sm-6 col-md-4"></cx-product-grid-item>
+                            </div>
+
+                            <ng-template [ngIf]="grid.mode==='list'">
+                                <cx-product-list-item *ngFor="let product of model?.products" [product]="product" class="cx-product-search-list"></cx-product-list-item>
+                            </ng-template>
+                        </div>
+                        <div class="cx-product-search__sorting--bottom">
+                            <div class="row">
+                                <div class="col-12 col-lg-4 mr-auto">
+                                    <div class="form-group cx-product-search__dropdown">
+                                        <cx-sorting [sortOptions]="model.sorts" (sortListEvent)="sortList($event)"
+                                            [selectedOption]="model.pagination.sort" [placeholder]="'Sort by Relevance'"></cx-sorting>
+                                    </div>
+                                </div>
+                                <div class="col-auto" aria-label="product search pagination">
+                                    <div class="cx-product-search__pagination">
+                                        <cx-pagination [pagination]="model.pagination" (viewPageEvent)="viewPage($event)"></cx-pagination>
+                                    </div>
+                                </div>
+                                <div class="col-auto ml-auto ml-lg-0">
+                                    <cx-product-view [(mode)]="grid.mode"></cx-product-view>
+                                </div>
+                                <div class="col-12 d-lg-none d-xl-none">
+                                    <cx-product-facet-navigation (filter)="onFilter($event)" [minPerFacet]="6"
+                                        [activeFacetValueCode]="categoryCode || brandCode" [searchResult]="model"></cx-product-facet-navigation>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="cx-product-search__sorting--bottom">
-              <div class="row">
-                <div class="col-12 col-lg-4 mr-auto">
-                  <div class="form-group cx-product-search__dropdown">
-                    <cx-sorting
-                      [sortOptions]="model.sorts"
-                      (sortListEvent)="sortList($event)"
-                      [selectedOption]="model.pagination.sort"
-                      [placeholder]="'Sort by Relevance'"
-                    ></cx-sorting>
-                  </div>
-                </div>
-                <div class="col-auto" aria-label="product search pagination">
-                  <div class="cx-product-search__pagination">
-                    <cx-pagination
-                      [pagination]="model.pagination"
-                      (viewPageEvent)="viewPage($event)"
-                    ></cx-pagination>
-                  </div>
-                </div>
-                <div class="col-auto ml-auto ml-lg-0">
-                  <cx-product-view [(mode)]="grid.mode"></cx-product-view>
-                </div>
-                <div class="col-12 d-lg-none d-xl-none">
-                  <cx-product-facet-navigation
-                    (filter)="onFilter($event)"
-                    [minPerFacet]="6"
-                    [activeFacetValueCode]="categoryCode || brandCode"
-                    [searchResult]="model"
-                  ></cx-product-facet-navigation>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+        </section>
+    </div>
 </ng-container>

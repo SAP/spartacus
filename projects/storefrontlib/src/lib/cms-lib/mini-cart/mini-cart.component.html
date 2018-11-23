@@ -1,39 +1,13 @@
-<ng-container *ngIf="(cart$ | async) as cart">
-  <div class="cx-mini-cart">
-    <button
-      id="mini-cart"
-      class="cx-mini-cart__button btn btn-primary"
-      aria-label="Cart"
-      type="button"
-      routerLink="/cart"
-    >
-      <svg
-        class="cx-mini-cart__icon"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="-4432 4762 32 27.977"
-      >
-        <g
-          id="Groupe_1690"
-          data-name="Groupe 1690"
-          transform="translate(-4758 4746)"
-        >
-          <path
-            id="Tracé_242"
-            data-name="Tracé 242"
-            d="M.666,0H5.329A.885.885,0,0,1,6,.533L7.727,7.993H31.308a.726.726,0,0,1,.666.933l-4,11.99a.733.733,0,0,1-.666.4H10.924l.266,1.332H25.313a2.664,2.664,0,0,1,0,5.329,2.634,2.634,0,0,1-2.265-4H12.923a2.634,2.634,0,0,1-2.265,4,2.672,2.672,0,0,1-2.664-2.664,2.723,2.723,0,0,1,1.865-2.531L4.8,1.332H.666A.629.629,0,0,1,0,.666.629.629,0,0,1,.666,0Z"
-            transform="translate(326 16)"
-          />
-        </g>
-      </svg>
-      <span
-        class="cx-mini-cart__count"
-        [attr.aria-label]="
-          'My cart. ' +
-          cart?.deliveryItemsQuantity +
-          ' items currently in your cart.'
-        "
-        >{{ cart?.deliveryItemsQuantity }}</span
-      >
-    </button>
-  </div>
+<ng-container *ngIf="cart$ | async as cart">
+    <div class="cx-mini-cart">
+        <button id="mini-cart" class="cx-mini-cart__button btn btn-primary" aria-label="Cart" type="button" routerLink="/cart">
+            <svg class="cx-mini-cart__icon" xmlns="http://www.w3.org/2000/svg" viewBox="-4432 4762 32 27.977">
+                <g id="Groupe_1690" data-name="Groupe 1690" transform="translate(-4758 4746)">
+                    <path id="Tracé_242" data-name="Tracé 242" d="M.666,0H5.329A.885.885,0,0,1,6,.533L7.727,7.993H31.308a.726.726,0,0,1,.666.933l-4,11.99a.733.733,0,0,1-.666.4H10.924l.266,1.332H25.313a2.664,2.664,0,0,1,0,5.329,2.634,2.634,0,0,1-2.265-4H12.923a2.634,2.634,0,0,1-2.265,4,2.672,2.672,0,0,1-2.664-2.664,2.723,2.723,0,0,1,1.865-2.531L4.8,1.332H.666A.629.629,0,0,1,0,.666.629.629,0,0,1,.666,0Z"
+                        transform="translate(326 16)" />
+                </g>
+            </svg>
+            <span class="cx-mini-cart__count" [attr.aria-label]="'My cart. '+cart?.deliveryItemsQuantity+' items currently in your cart.'">{{cart?.deliveryItemsQuantity}}</span>
+        </button>
+    </div>
 </ng-container>

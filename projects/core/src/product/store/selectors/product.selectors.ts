@@ -11,31 +11,22 @@ export const getProductState: MemoizedSelector<any, any> = createSelector(
 export const getSelectedProductsFactory = (
   codes
 ): MemoizedSelector<any, any> => {
-  return createSelector(
-    getProductState,
-    details => {
-      return codes
-        .map(code => details.entities[code])
-        .filter(product => product !== undefined);
-    }
-  );
+  return createSelector(getProductState, details => {
+    return codes
+      .map(code => details.entities[code])
+      .filter(product => product !== undefined);
+  });
 };
 
 export const getSelectedProductFactory = (code): MemoizedSelector<any, any> => {
-  return createSelector(
-    getProductState,
-    details => {
-      return details.entities[code];
-    }
-  );
+  return createSelector(getProductState, details => {
+    return details.entities[code];
+  });
 };
 
 export const getAllProductCodes: MemoizedSelector<
   any,
   string[]
-> = createSelector(
-  getProductState,
-  details => {
-    return Object.keys(details.entities);
-  }
-);
+> = createSelector(getProductState, details => {
+  return Object.keys(details.entities);
+});
