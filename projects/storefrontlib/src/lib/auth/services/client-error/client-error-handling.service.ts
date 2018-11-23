@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -14,7 +14,7 @@ export class ClientErrorHandlingService {
   public handleExpiredClientToken(
     request: HttpRequest<any>,
     next: HttpHandler
-  ): Observable<any> {
+  ): Observable<HttpEvent<ClientToken>> {
     return this.authService.refreshClientToken().pipe(
       switchMap((token: ClientToken) => {
         return next.handle(this.createNewRequestWithNewToken(request, token));
