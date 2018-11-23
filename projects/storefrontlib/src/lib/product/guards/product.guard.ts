@@ -19,7 +19,7 @@ export class ProductGuard implements CanActivate {
   }
 
   canActivate(): Observable<boolean> {
-    return this.productService.isProductLoaded(this.productCode).pipe(
+    return this.productService.isLoaded(this.productCode).pipe(
       switchMap(found => of(found)),
       catchError(_err => of(false))
     );

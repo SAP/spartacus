@@ -15,11 +15,11 @@ export class ProductService {
     );
   }
 
-  loadProduct(productCode: string): void {
+  load(productCode: string): void {
     this.store.dispatch(new fromStore.LoadProduct(productCode));
   }
 
-  isProductLoaded(requestedProductCode: string): Observable<boolean> {
+  isLoaded(requestedProductCode: string): Observable<boolean> {
     let tryTimes = 0;
     return this.store.pipe(
       select(fromStore.getSelectedProductFactory(requestedProductCode)),
