@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ServerConfig } from '../../../config/server-config/server-config';
 import { ConfigurableRoutesService } from '../configurable-routes.service';
-import {
-  getSegments,
-  isParameter,
-  getParameterName,
-  ensureLeadingSlash
-} from './path-utils';
+import { getSegments, isParam, getParamName } from './path-utils';
+import { RouteTranslation, ParamsMapping } from '../routes-config';
 
 @Injectable()
 export class PathPipeService {
@@ -15,100 +11,167 @@ export class PathPipeService {
     private config: ServerConfig
   ) {}
 
-  transform(pageNames: string[], parametersObjects: object[]): string[] {
-    // spike todo: support here nested routes given in array (and parametersObjects array for them) - for now we use only first level
-    const pageName = pageNames[0];
-    const parametersObject =
-      (parametersObjects && parametersObjects.length && parametersObjects[0]) ||
-      {};
+  readonly ROOT_PATH = ['/'];
 
-    // spike todo: make sure that parametersObjects list is at least as long as pageNames list - and fill missing elements with {}
-
-    const paths = this.configurableRoutesService.getPathsForPage(pageName);
-
-    if (paths === undefined || paths === null) {
-      return ['/'];
-    }
-    const parameterNamesMapping = this.configurableRoutesService.getParameterNamesMapping(
-      pageName
+  transform(nestedRoutesNames: string[], paramsObjects?: object[]): string[] {
+    // spike todo: support here nested routes given in array (and paramsObjects array for them) - for now we use only first level
+    paramsObjects = this.complementParamsObjectsList(
+      paramsObjects,
+      nestedRoutesNames.length
     );
 
-    const path = this.findPathWithFillableParameters(
-      paths,
-      parametersObject,
-      parameterNamesMapping
+    const nestedRoutesTranslations = this.configurableRoutesService.getRoutesTranslations(
+      nestedRoutesNames
     );
-
-    if (path === undefined) {
-      if (!this.config.production) {
-        console.warn(
-          `No configured path matches all its parameters to given object using parameter names mapping. `,
-          `Configured paths: `,
-          path,
-          `. Parameters object: `,
-          parametersObject,
-          `. Parameter names mapping: `,
-          parameterNamesMapping
-        );
-      }
-      return ['/'];
+    if (!nestedRoutesTranslations) {
+      return this.ROOT_PATH;
     }
 
-    const absolutePath = ensureLeadingSlash(path);
+    const [leafNestedRouteTranslation] = nestedRoutesTranslations.slice(-1);
+    if (!leafNestedRouteTranslation.paths) {
+      return this.ROOT_PATH;
+    }
 
-    return this.provideParametersValues(
-      absolutePath,
-      parametersObject,
-      parameterNamesMapping
+    const nestedRoutesPaths = this.findPathsWithFillableParams(
+      nestedRoutesTranslations,
+      paramsObjects
     );
+    if (!nestedRoutesPaths) {
+      return this.ROOT_PATH;
+    }
+
+    const result = this.provideParamsValues(
+      nestedRoutesPaths,
+      paramsObjects,
+      nestedRoutesTranslations.map(
+        routTranslation => routTranslation.paramsMapping
+      )
+    );
+
+    result.unshift('/'); // ensure absolute path
+    return result;
   }
 
-  private provideParametersValues(
+  private complementParamsObjectsList(
+    paramsObjects: object[],
+    expectedLength: number
+  ): object[] {
+    paramsObjects = paramsObjects || [];
+    const missingLength = expectedLength - paramsObjects.length;
+    if (missingLength < 0) {
+      return paramsObjects;
+    }
+    const missingparamsObjects = new Array(missingLength).fill({});
+    return paramsObjects.concat(missingparamsObjects);
+  }
+
+  private provideParamsValues(
+    nestedRoutesPaths: string[],
+    paramsObjects: object[],
+    paramsMappings: ParamsMapping[]
+  ): string[] {
+    const length = nestedRoutesPaths.length;
+    const result = [];
+    for (let i = 0; i < length; i++) {
+      const path = nestedRoutesPaths[i];
+      const paramsObject = paramsObjects[i];
+      const paramsMapping = paramsMappings[i];
+      const pathSegments = this.provideParamsValuesForSingleRoute(
+        path,
+        paramsObject,
+        paramsMapping
+      );
+      result.push(...pathSegments);
+    }
+    return result;
+  }
+
+  private provideParamsValuesForSingleRoute(
     path: string,
-    parametersObject: object,
-    parameterNamesMapping: object
+    paramsObject: object,
+    paramsMapping: ParamsMapping
   ): string[] {
     return getSegments(path).map(segment => {
-      if (isParameter(segment)) {
-        const parameterName = getParameterName(segment);
-        const mappedParameterName = this.getMappedParameterName(
-          parameterName,
-          parameterNamesMapping
+      if (isParam(segment)) {
+        const paramName = getParamName(segment);
+        const mappedParamName = this.getMappedParamName(
+          paramName,
+          paramsMapping
         );
-        return parametersObject[mappedParameterName];
+        return paramsObject[mappedParamName];
       }
       return segment;
     });
   }
 
-  // find first path that can fill all its parameters with values from given object
-  private findPathWithFillableParameters(
+  private findPathsWithFillableParams(
+    nestedRoutesTranslations: RouteTranslation[],
+    paramsObjects: object[]
+  ): string[] {
+    const length = nestedRoutesTranslations.length;
+    const result = [];
+    for (let i = 0; i < length; i++) {
+      const routeTranslation = nestedRoutesTranslations[i];
+      const paramsObject = paramsObjects[i];
+      const path = this.findPartialPathWithFillableParams(
+        routeTranslation.paths,
+        paramsObject,
+        routeTranslation.paramsMapping
+      );
+      if (path === undefined || path === null) {
+        this.warn(
+          `No configured path matches all its params to given object. `,
+          `Route translation: `,
+          routeTranslation,
+          `(in nested routes translations list`,
+          nestedRoutesTranslations,
+          `). Params object: `,
+          paramsObject,
+          `(in params objects list`,
+          paramsObjects,
+          `)`
+        );
+        return null;
+      }
+      result.push(path);
+    }
+    return result;
+  }
+
+  // find first path that can fill all its params with values from given object
+  private findPartialPathWithFillableParams(
     paths: string[],
-    parametersObject: object,
-    parameterNamesMapping: object
+    paramsObject: object,
+    paramsMapping: ParamsMapping
   ): string {
     return paths.find(path =>
-      this.getParameters(path).every(parameterName => {
-        const mappedParameterName = this.getMappedParameterName(
-          parameterName,
-          parameterNamesMapping
+      this.getParams(path).every(paramName => {
+        const mappedParamName = this.getMappedParamName(
+          paramName,
+          paramsMapping
         );
 
-        return parametersObject[mappedParameterName] !== undefined;
+        return paramsObject[mappedParamName] !== undefined;
       })
     );
   }
 
-  private getParameters(path: string) {
+  private getParams(path: string) {
     return getSegments(path)
-      .filter(isParameter)
-      .map(getParameterName);
+      .filter(isParam)
+      .map(getParamName);
   }
 
-  private getMappedParameterName(
-    parameterName: string,
-    parameterNamesMapping: object
-  ): string {
-    return parameterNamesMapping[parameterName] || parameterName;
+  private getMappedParamName(paramName: string, paramsMapping: object): string {
+    if (paramsMapping) {
+      return paramsMapping[paramName] || paramName;
+    }
+    return paramName;
+  }
+
+  private warn(...args) {
+    if (!this.config.production) {
+      console.warn(...args);
+    }
   }
 }

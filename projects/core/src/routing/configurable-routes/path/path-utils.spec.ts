@@ -21,18 +21,18 @@ describe('path utils', () => {
 
   describe('isParameter', () => {
     it('should return if given string string starting with colon', () => {
-      expect(pathUtils.isParameter(':test')).toBeTruthy();
-      expect(pathUtils.isParameter('::test')).toBeTruthy();
-      expect(pathUtils.isParameter('test')).toBeFalsy();
-      expect(pathUtils.isParameter('test:')).toBeFalsy();
-      expect(pathUtils.isParameter('t:est')).toBeFalsy();
+      expect(pathUtils.isParam(':test')).toBeTruthy();
+      expect(pathUtils.isParam('::test')).toBeTruthy();
+      expect(pathUtils.isParam('test')).toBeFalsy();
+      expect(pathUtils.isParam('test:')).toBeFalsy();
+      expect(pathUtils.isParam('t:est')).toBeFalsy();
     });
   });
 
   describe('getParameterName', () => {
     it('should return given string without first character', () => {
-      expect(pathUtils.getParameterName(':test')).toBe('test');
-      expect(pathUtils.getParameterName('test')).toBe('est');
+      expect(pathUtils.getParamName(':test')).toBe('test');
+      expect(pathUtils.getParamName('test')).toBe('est');
     });
   });
 

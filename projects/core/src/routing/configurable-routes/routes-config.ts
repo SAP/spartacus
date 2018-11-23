@@ -1,5 +1,6 @@
 export interface RouteTranslation {
-  paths: string[];
+  paths?: string[];
+  paramsMapping?: ParamsMapping;
   children?: RoutesTranslations;
 }
 
@@ -38,15 +39,19 @@ export interface RoutesTranslations {
 // }
 
 // root level properties bellow should match those from RoutesTranslations interface:
-export interface ParameterNamesMapping {
-  product?: { [_: string]: string };
-  category?: { [_: string]: string };
-  myAccount_orderDetails?: { [_: string]: string };
+// export interface ParameterNamesMapping {
+//   product?: { [_: string]: string };
+//   category?: { [_: string]: string };
+//   myAccount_orderDetails?: { [_: string]: string };
 
-  // allow custom pages
-  [pageName: string]: {
-    [_: string]: string;
-  };
+//   // allow custom pages
+//   [pageName: string]: {
+//     [_: string]: string;
+//   };
+// }
+
+export interface ParamsMapping {
+  [paramName: string]: string;
 }
 
 export interface RoutesConfig {
@@ -54,12 +59,11 @@ export interface RoutesConfig {
     default?: RoutesTranslations;
     [languageCode: string]: RoutesTranslations;
   };
-  parameterNamesMapping?: ParameterNamesMapping;
 
   fetch?: boolean;
 }
 
-// when adding new properties below, please add them also to relevant interfaces above
+// spike todo: when adding new properties below, please add them also to relevant interfaces above
 const defaultTranslations: {
   default?: RoutesTranslations;
   [languageCode: string]: RoutesTranslations;
@@ -74,13 +78,17 @@ const defaultTranslations: {
     resetPassword: { paths: ['reset-password'] },
     checkout: { paths: ['checkout'] },
     orderConfirmation: { paths: ['order-confirmation'] },
-    product: { paths: ['product/:productCode'] },
+    product: {
+      paths: ['product/:productCode'],
+      paramsMapping: { productCode: 'code' }
+    },
     category: {
       paths: [
         'category/:categoryCode/:title',
         'category/:categoryCode',
         'Brands/:brandName/c/:brandCode'
-      ]
+      ],
+      paramsMapping: { categoryCode: 'code' }
     },
     storeFinder: { paths: ['store-finder'] },
     storeFinderSearchResult: { paths: ['store-finder/find-stores'] },
@@ -98,27 +106,17 @@ const defaultTranslations: {
     help: { paths: ['faq'] },
     sale: { paths: ['sale'] },
     myAccount_orders: { paths: ['my-account/orders'] },
-    myAccount_orderDetails: { paths: ['my-account/orders/:orderCode'] },
+    myAccount_orderDetails: {
+      paths: ['my-account/orders/:orderCode'],
+      paramsMapping: { orderCode: 'code' }
+    },
     pageNotFound: { paths: ['**'] }
   },
   en: {}
 };
 
-const defaultParameterNamesMapping: ParameterNamesMapping = {
-  product: {
-    productCode: 'code'
-  },
-  category: {
-    categoryCode: 'code'
-  },
-  myAccount_orderDetails: {
-    orderCode: 'code'
-  }
-};
-
 export const defaultRoutesConfig: RoutesConfig = {
   translations: defaultTranslations,
-  parameterNamesMapping: defaultParameterNamesMapping,
 
   fetch: false
 };

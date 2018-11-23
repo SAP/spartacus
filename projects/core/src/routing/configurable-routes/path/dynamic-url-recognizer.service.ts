@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
   getSegments,
-  isParameter,
-  getParameterName,
+  isParam,
+  getParamName,
   removeLeadingSlash
 } from './path-utils';
 import { RoutesTranslations } from '../routes-config';
@@ -19,6 +19,8 @@ export class DynamicUrlRecognizerService {
     parameters: object;
   } {
     url = removeLeadingSlash(url); // url will be compared with paths translations which do not have leading slash
+
+    // spike todo - it should support nested routes - so return list of page names and matched paths
     const { pageName, matchedPath } = this.getPageAndMatchedPath(url);
     const parameters =
       matchedPath === null ? {} : this.getParametersValues(url, matchedPath);
@@ -68,7 +70,7 @@ export class DynamicUrlRecognizerService {
       const pathSegment = pathSegments[i];
       const urlSegment = urlSegments[i];
 
-      if (!isParameter(pathSegment) && pathSegment !== urlSegment) {
+      if (!isParam(pathSegment) && pathSegment !== urlSegment) {
         return false;
       }
     }
@@ -81,8 +83,8 @@ export class DynamicUrlRecognizerService {
     const pathSegments = getSegments(path);
 
     return pathSegments.reduce((accParameters, pathSegment, i) => {
-      if (isParameter(pathSegment)) {
-        const parameterName = getParameterName(pathSegment);
+      if (isParam(pathSegment)) {
+        const parameterName = getParamName(pathSegment);
         const parameterValue = urlSegments[i];
         return Object.assign(accParameters, {
           [parameterName]: parameterValue
