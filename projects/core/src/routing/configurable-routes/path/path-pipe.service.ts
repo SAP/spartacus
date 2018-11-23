@@ -13,10 +13,13 @@ export class PathPipeService {
 
   readonly ROOT_PATH = ['/'];
 
-  transform(nestedRoutesNames: string[], paramsObjects?: object[]): string[] {
+  transform(
+    nestedRoutesNames: string[],
+    nestedRoutesParamsObjects?: object[]
+  ): string[] {
     // spike todo: support here nested routes given in array (and paramsObjects array for them) - for now we use only first level
-    paramsObjects = this.complementParamsObjectsList(
-      paramsObjects,
+    nestedRoutesParamsObjects = this.complementListWithEmptyObjects(
+      nestedRoutesParamsObjects,
       nestedRoutesNames.length
     );
 
@@ -34,7 +37,7 @@ export class PathPipeService {
 
     const nestedRoutesPaths = this.findPathsWithFillableParams(
       nestedRoutesTranslations,
-      paramsObjects
+      nestedRoutesParamsObjects
     );
     if (!nestedRoutesPaths) {
       return this.ROOT_PATH;
@@ -42,7 +45,7 @@ export class PathPipeService {
 
     const result = this.provideParamsValues(
       nestedRoutesPaths,
-      paramsObjects,
+      nestedRoutesParamsObjects,
       nestedRoutesTranslations.map(
         routTranslation => routTranslation.paramsMapping
       )
@@ -52,17 +55,17 @@ export class PathPipeService {
     return result;
   }
 
-  private complementParamsObjectsList(
-    paramsObjects: object[],
+  private complementListWithEmptyObjects(
+    list: any[],
     expectedLength: number
   ): object[] {
-    paramsObjects = paramsObjects || [];
-    const missingLength = expectedLength - paramsObjects.length;
+    list = list || [];
+    const missingLength = expectedLength - list.length;
     if (missingLength < 0) {
-      return paramsObjects;
+      return list;
     }
-    const missingparamsObjects = new Array(missingLength).fill({});
-    return paramsObjects.concat(missingparamsObjects);
+    const missingArray = new Array(missingLength).fill({});
+    return list.concat(missingArray);
   }
 
   private provideParamsValues(

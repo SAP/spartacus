@@ -33,14 +33,14 @@ export class RoutingService {
   }
 
   public goToPage(
-    pageName: string[],
-    parametersObjects?: object[],
+    nestedRoutesNames: string[],
+    nestedRoutesParams?: object[],
     query?: object,
     extras?: NavigationExtras
   ) {
     const pathCommands = this.pathPipeService.transform(
-      pageName,
-      parametersObjects
+      nestedRoutesNames,
+      nestedRoutesParams
     );
     this.go(pathCommands, query, extras);
   }
