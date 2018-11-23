@@ -1,23 +1,24 @@
 import { Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { BehaviorSubject } from 'rxjs';
 
 import { OrderConfirmationPageGuard } from './order-confirmation-page.guard';
-import { CheckoutService } from '../services';
-
-class MockCheckoutService {
-  orderDetails: any;
-}
+import { CheckoutService } from '../facade';
 
 describe(`OrderConfirmationPageGuard`, () => {
   let router: Router;
   let guard: OrderConfirmationPageGuard;
+  let mockCheckoutService: any;
 
   beforeEach(() => {
+    mockCheckoutService = {
+      orderDetails$: new BehaviorSubject(null)
+    };
     TestBed.configureTestingModule({
       providers: [
         OrderConfirmationPageGuard,
-        { provide: CheckoutService, useClass: MockCheckoutService }
+        { provide: CheckoutService, useValue: mockCheckoutService }
       ],
       imports: [RouterTestingModule]
     });
@@ -25,27 +26,29 @@ describe(`OrderConfirmationPageGuard`, () => {
     router = TestBed.get(Router);
     guard = TestBed.get(OrderConfirmationPageGuard);
 
-    spyOn(router, 'navigate').and.callThrough();
+    spyOn(router, 'navigate').and.stub();
   });
 
-  describe(`when there are NO order details present`, () => {
-    it(`should return false and navigate to 'my-account/orders'`, () => {
-      spyOn<any>(guard, 'orderDetailsPresent').and.returnValue(false);
+  describe(`when there is NO order details present`, () => {
+    it(`should return false and navigate to 'my-account/orders'`, done => {
+      mockCheckoutService.orderDetails$.next({});
 
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(false);
         expect(router.navigate).toHaveBeenCalledWith(['/my-account/orders']);
+        done();
       });
     });
+  });
 
-    describe(`when there are order details present`, () => {
-      it(`should return true`, () => {
-        spyOn<any>(guard, 'orderDetailsPresent').and.returnValue(true);
+  describe(`when there is order details present`, () => {
+    it(`should return true`, done => {
+      mockCheckoutService.orderDetails$.next({ code: 'test order' });
 
-        guard.canActivate().subscribe(result => {
-          expect(result).toEqual(true);
-          expect(router.navigate).not.toHaveBeenCalled();
-        });
+      guard.canActivate().subscribe(result => {
+        expect(result).toEqual(true);
+        expect(router.navigate).not.toHaveBeenCalled();
+        done();
       });
     });
   });

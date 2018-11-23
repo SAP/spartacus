@@ -9,7 +9,8 @@ import {
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { CheckoutService } from '../../../services/checkout.service';
+import { UserService } from '../../../../user/facade/user.service';
+import { CartDataService } from '../../../../cart/services/cart-data.service';
 import { Card } from '../../../../ui/components/card/card.component';
 import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
@@ -33,15 +34,18 @@ export class PaymentMethodComponent implements OnInit {
   @Output()
   addPaymentInfo = new EventEmitter<any>();
 
-  constructor(protected checkoutService: CheckoutService) {}
+  constructor(
+    protected cartData: CartDataService,
+    protected userService: UserService
+  ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.checkoutService.paymentMethodsLoading$;
+    this.isLoading$ = this.userService.paymentMethodsLoading$;
 
-    this.existingPaymentMethods$ = this.checkoutService.paymentMethods$.pipe(
+    this.existingPaymentMethods$ = this.userService.paymentMethods$.pipe(
       tap(payments => {
         if (payments.length === 0) {
-          this.checkoutService.loadUserPaymentMethods();
+          this.userService.loadPaymentMethods(this.cartData.userId);
         } else {
           if (this.cards.length === 0) {
             payments.forEach(payment => {

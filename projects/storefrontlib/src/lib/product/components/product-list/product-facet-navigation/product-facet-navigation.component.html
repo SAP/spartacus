@@ -6,7 +6,7 @@
     <div class="cx-search-facet-filter__container">
       <div *ngFor="let breadcrumb of searchResult.breadcrumbs" [hidden]="breadcrumb.facetValueCode === activeFacetValueCode"
         class="cx-search-facet-filter__pill" role="filter">
-        {{breadcrumb.facetValueName}}
+        <span>{{breadcrumb.facetValueName}}</span>
         <button type="button" class="close" aria-label="Close" (click)="toggleValue(breadcrumb.removeQuery.query.value)">
           <span aria-hidden="true">&times;</span>
         </button>

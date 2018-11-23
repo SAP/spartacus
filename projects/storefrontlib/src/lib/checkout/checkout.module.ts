@@ -7,7 +7,7 @@ import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
 import { metaReducers } from './store/reducers/index';
 
-import { services } from './services/index';
+import { services } from './facade/index';
 
 import { MultiStepCheckoutModule } from './components/multi-step-checkout/multi-step-checkout.module';
 import { OrderConfirmationModule } from './components/order-confirmation/order-confirmation.module';
