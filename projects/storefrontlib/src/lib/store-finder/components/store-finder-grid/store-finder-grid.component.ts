@@ -45,34 +45,27 @@ export class StoreFinderGridComponent implements OnInit {
           locations.pointOfServices &&
           locations.pointOfServices.length === 1
         ) {
-          this.router.navigate([
-            'store-finder',
-            'country',
-            this.route.snapshot.params.country,
-            'region',
-            this.route.snapshot.params.region,
-            locations.pointOfServices[0].name
-          ]);
+          this.viewStore(locations.pointOfServices[0]);
         }
         this.locations = locations;
       });
   }
 
   viewStore(location: any): void {
-    if (location.address.region) {
+    if (this.route.snapshot.params.region) {
       this.router.navigate([
         'store-finder',
         'country',
-        location.address.country.isocode,
+        this.route.snapshot.params.country,
         'region',
-        location.address.region.isocode,
+        this.route.snapshot.params.region,
         location.name
       ]);
     } else {
       this.router.navigate([
         'store-finder',
         'country',
-        location.address.country.isocode,
+        this.route.snapshot.params.country,
         location.name
       ]);
     }

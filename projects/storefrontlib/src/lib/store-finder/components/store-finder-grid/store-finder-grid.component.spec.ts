@@ -20,15 +20,7 @@ class StoreFinderServiceMock {
 }
 
 const location = {
-  name: 'testName',
-  address: {
-    country: {
-      isocode: countryIsoCode
-    },
-    region: {
-      isocode: regionIsoCode
-    }
-  }
+  name: 'testName'
 };
 
 const mockActivatedRoute = {
@@ -37,7 +29,7 @@ const mockActivatedRoute = {
   }
 };
 
-describe('StoreFinderGridComponent', () => {
+fdescribe('StoreFinderGridComponent', () => {
   let component: StoreFinderGridComponent;
   let fixture: ComponentFixture<StoreFinderGridComponent>;
   let storeFinderService: StoreFinderService;
@@ -75,12 +67,13 @@ describe('StoreFinderGridComponent', () => {
     );
   });
 
-  it('should route when viewStore is called', () => {
+  it('should route when viewStore is called with region', () => {
     mockActivatedRoute.snapshot.params = {
       country: countryIsoCode,
       region: regionIsoCode
     };
     configureTestBed();
+    spyOn(storeFinderService, 'viewAllStoresForRegion');
     createComponent();
 
     component.viewStore(location);
@@ -93,6 +86,31 @@ describe('StoreFinderGridComponent', () => {
       regionIsoCode,
       location.name
     ]);
+    expect(storeFinderService.viewAllStoresForRegion).toHaveBeenCalledWith(
+      countryIsoCode,
+      regionIsoCode
+    );
+  });
+
+  it('should route when viewStore is called without region', () => {
+    mockActivatedRoute.snapshot.params = {
+      country: countryIsoCode
+    };
+    configureTestBed();
+    spyOn(storeFinderService, 'viewAllStoresForCountry');
+    createComponent();
+
+    component.viewStore(location);
+
+    expect(mockRouter.navigate).toHaveBeenCalledWith([
+      'store-finder',
+      'country',
+      countryIsoCode,
+      location.name
+    ]);
+    expect(storeFinderService.viewAllStoresForCountry).toHaveBeenCalledWith(
+      countryIsoCode
+    );
   });
 
   function configureTestBed(): void {
