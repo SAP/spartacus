@@ -24,7 +24,7 @@ export class CartNotEmptyGuard implements CanActivate {
       switchMap(() => this.store.pipe(select(fromStore.getActiveCart))),
       map(cart => {
         if (this.cartService.isCartEmpty(cart)) {
-          this.routingService.goToPage('homepage');
+          this.routingService.goToPage(['homepage']);
           return false;
         }
         return true;

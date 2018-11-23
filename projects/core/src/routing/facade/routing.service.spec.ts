@@ -55,18 +55,21 @@ describe('RoutingService', () => {
 
   describe('goToPage', () => {
     it('should call go method with result of PathPipeService.transform', () => {
-      const pageName = 'testPageName';
-      const parameters = { param1: 'value1' };
-      const queryParams = { queryParam2: 'queryParamValue2' };
+      const pageNames = ['testPageName', 'testChildPageName'];
+      const parametersObjects = [
+        { param1: 'value1' },
+        { childParam2: 'chuildValue2' }
+      ];
+      const queryParams = { queryParam3: 'queryParamValue3' };
       const extras: NavigationExtras = { fragment: 'testFragment' };
       const transformedPath = ['transformed-path'];
 
       spyOn(pathPipeService, 'transform').and.returnValue(transformedPath);
       spyOn(service, 'go');
-      service.goToPage(pageName, parameters, queryParams, extras);
+      service.goToPage(pageNames, parametersObjects, queryParams, extras);
       expect(pathPipeService.transform).toHaveBeenCalledWith(
-        pageName,
-        parameters
+        pageNames,
+        parametersObjects
       );
       expect(service.go).toHaveBeenCalledWith(
         transformedPath,

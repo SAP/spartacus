@@ -134,7 +134,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         )
         .subscribe(order => {
           this.checkoutService.orderDetails = order;
-          this.routingService.goToPage('orderConfirmation');
+          this.routingService.goToPage(['orderConfirmation']);
         })
     );
   }

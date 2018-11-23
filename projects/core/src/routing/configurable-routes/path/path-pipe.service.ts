@@ -15,7 +15,15 @@ export class PathPipeService {
     private config: ServerConfig
   ) {}
 
-  transform(pageName: string, parametersObject: object = {}): string[] {
+  transform(pageNames: string[], parametersObjects: object[]): string[] {
+    // spike todo: support here nested routes given in array (and parametersObjects array for them) - for now we use only first level
+    const pageName = pageNames[0];
+    const parametersObject =
+      (parametersObjects && parametersObjects.length && parametersObjects[0]) ||
+      {};
+
+    // spike todo: make sure that parametersObjects list is at least as long as pageNames list - and fill missing elements with {}
+
     const paths = this.configurableRoutesService.getPathsForPage(pageName);
 
     if (paths === undefined || paths === null) {

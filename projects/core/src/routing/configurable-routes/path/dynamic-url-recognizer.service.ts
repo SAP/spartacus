@@ -35,7 +35,7 @@ export class DynamicUrlRecognizerService {
     const pageNamesLength = pageNames.length;
     for (let i = 0; i < pageNamesLength; i++) {
       const pageName = pageNames[i];
-      const paths = this.defaultRoutesTranslations[pageName];
+      const paths = this.getDefaultPathsForPage(pageName);
       const matchedPath = paths.find(path =>
         this.areStaticSegmentsIdentical(url, path)
       );
@@ -44,6 +44,14 @@ export class DynamicUrlRecognizerService {
       }
     }
     return { pageName: null, matchedPath: null };
+  }
+
+  private getDefaultPathsForPage(pageName: string): string[] {
+    return (
+      (this.defaultRoutesTranslations[pageName] &&
+        this.defaultRoutesTranslations[pageName].paths) ||
+      []
+    );
   }
 
   // compares non-parameter segments

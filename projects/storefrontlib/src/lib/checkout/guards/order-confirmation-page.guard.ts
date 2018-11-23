@@ -18,7 +18,7 @@ export class OrderConfirmationPageGuard implements CanActivate {
       return of(true);
     }
 
-    this.routingService.goToPage('myAccount_orders');
+    this.routingService.goToPage(['myAccount_orders']);
     return of(false);
   }
 
