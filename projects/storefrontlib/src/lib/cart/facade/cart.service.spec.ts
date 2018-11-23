@@ -19,15 +19,19 @@ import { UserToken } from '../../auth/models/token-types.model';
 import { CartDataService, ANONYMOUS_USERID } from './cart-data.service';
 import { CartService } from './cart.service';
 
-class CartDataServiceStub {}
+class CartDataServiceStub {
+  userId;
+  cart;
+  cartId;
+}
 
 class AuthServiceStub {
   userToken$: Observable<UserToken> = of();
 }
 
-describe('CartService', () => {
+fdescribe('CartService', () => {
   let service: CartService;
-  let cartData: CartDataService;
+  let cartData: CartDataServiceStub;
   let authService: AuthServiceStub;
   let store: Store<fromCart.CartState>;
 
@@ -68,7 +72,7 @@ describe('CartService', () => {
   });
 
   const setUserIdMethod = 'setUserId';
-  describe(setUserIdMethod, () => {
+  fdescribe(setUserIdMethod, () => {
     describe('when the userToken is empty', () => {
       it('should set an anonymous user', () => {
         const testUserToken: UserToken = <UserToken>{};
@@ -86,7 +90,7 @@ describe('CartService', () => {
   });
 
   const loadOrMergeCartMethod = 'loadOrMergeCart';
-  describe(loadOrMergeCartMethod, () => {
+  fdescribe(loadOrMergeCartMethod, () => {
     describe('when user is not an anonymous', () => {
       describe('and the cart is not created', () => {
         it('should load the cart', () => {
@@ -122,7 +126,7 @@ describe('CartService', () => {
   });
 
   const refreshCartMethod = 'refreshCart';
-  describe(refreshCartMethod, () => {
+  fdescribe(refreshCartMethod, () => {
     describe('when refresh is true', () => {
       it('should load the cart', () => {
         store.dispatch(new fromCart.AddEntrySuccess('test'));
@@ -141,59 +145,46 @@ describe('CartService', () => {
     });
   });
 
-  describe('initCart', () => {
-    it('should init cart for login user who has session cart', () => {
-      authService.userToken$ = of(userToken);
-      store.dispatch(new LoadCartSuccess(cart));
-      store.dispatch(new AddEntrySuccess('foo'));
-      const dispatchSpy = spyOn(store, 'dispatch').and.callThrough();
+  const initCartMethod = 'initCart';
+  fdescribe(initCartMethod, () => {
+    describe(`when user's token and cart's user id are not equal`, () => {
+      it(`should call '${setUserIdMethod}' and '${loadOrMergeCartMethod}' methods`, () => {
+        authService.userToken$ = of(userToken);
+        store.dispatch(new LoadCartSuccess(cart));
+        store.dispatch(new AddEntrySuccess('foo'));
+        spyOn<any>(service, setUserIdMethod).and.stub();
+        spyOn<any>(service, loadOrMergeCartMethod).and.stub();
+        spyOn<any>(service, refreshCartMethod).and.stub();
 
-      service.initCart();
-      expect(cartData.cart).toEqual(cart);
-      expect(cartData.userId).toEqual(userToken.userId);
-      expect(dispatchSpy.calls.allArgs()).toEqual([
-        [
-          new fromCart.MergeCart({
-            userId: userToken.userId,
-            cartId: cart.guid
-          })
-        ],
-        [
-          new fromCart.LoadCart({
-            userId: userToken.userId,
-            cartId: undefined,
-            details: true
-          })
-        ]
-      ]);
+        service[initCartMethod]();
+        expect(cartData.cart).toEqual(cart);
+        expect(service[setUserIdMethod]).toHaveBeenCalledWith(userToken);
+        expect(service[loadOrMergeCartMethod]).toHaveBeenCalled();
+        expect(service[refreshCartMethod]).toHaveBeenCalled();
+      });
     });
 
-    it('should init cart for login user who does not have session cart', () => {
-      authService.userToken$ = of(userToken);
-      spyOn(store, 'dispatch').and.callThrough();
+    describe(`when user's token and cart's user id are equal`, () => {
+      it(`should not call '${setUserIdMethod}' and '${loadOrMergeCartMethod}' methods`, () => {
+        authService.userToken$ = of(userToken);
+        cartData.userId = userToken.userId;
+        store.dispatch(new LoadCartSuccess(cart));
+        store.dispatch(new AddEntrySuccess('foo'));
 
-      service.initCart();
-      expect(cartData.cart).toEqual({});
-      expect(cartData.userId).toBe(userToken.userId);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCart.LoadCart({
-          userId: userToken.userId,
-          cartId: 'current'
-        })
-      );
-    });
+        spyOn<any>(service, setUserIdMethod).and.stub();
+        spyOn<any>(service, loadOrMergeCartMethod).and.stub();
+        spyOn<any>(service, refreshCartMethod).and.stub();
 
-    it('should init cart for anonymous user', () => {
-      cartData.userId = 'foo';
-      authService.userToken$ = of(<UserToken>{});
-
-      service.initCart();
-      expect(cartData.cart).toEqual({});
-      expect(cartData.userId).toBe('anonymous');
+        service[initCartMethod]();
+        expect(cartData.cart).toEqual(cart);
+        expect(service[setUserIdMethod]).not.toHaveBeenCalled();
+        expect(service[loadOrMergeCartMethod]).not.toHaveBeenCalled();
+        expect(service[refreshCartMethod]).toHaveBeenCalled();
+      });
     });
   });
 
-  describe('Load cart details', () => {
+  fdescribe('Load cart details', () => {
     it('should load more details when a user is logged in', () => {
       spyOn(store, 'dispatch').and.stub();
       cartData.userId = userId;
@@ -212,8 +203,9 @@ describe('CartService', () => {
 
     it('should load more details for anonymous user if cartid exists', () => {
       spyOn(store, 'dispatch').and.stub();
-      cartData.userId = ANONYMOUS_USERID;
       cartData.cart = cart;
+      cartData.userId = ANONYMOUS_USERID;
+      cartData.cartId = cart.guid;
 
       service.loadCartDetails();
 
@@ -236,7 +228,7 @@ describe('CartService', () => {
     });
   });
 
-  describe('add CartEntry', () => {
+  fdescribe('add CartEntry', () => {
     it('should be able to addCartEntry if cart exists', () => {
       spyOn(store, 'dispatch').and.callThrough();
 
@@ -269,7 +261,7 @@ describe('CartService', () => {
         })
       );
 
-      service.initCart();
+      service[initCartMethod]();
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.AddEntry({
           userId: userId,
