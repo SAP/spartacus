@@ -1,6 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { OccUserService } from './user.service';
-import { OccConfig } from '@spartacus/core';
+import {
+  OccConfig,
+  User,
+  Address,
+  AddressValidation,
+  AddressList,
+  PaymentDetails,
+  PaymentDetailsList
+} from '@spartacus/core';
 import {
   HttpClientTestingModule,
   HttpTestingController
@@ -9,9 +17,9 @@ import {
 const username: any = 'mockUsername';
 const password: any = '1234';
 
-const user: any = {
-  username: username,
-  password: password
+const user: User = {
+  customerId: username,
+  displayUid: password
 };
 const endpoint = '/users';
 const addressVerificationEndpoint = '/addresses/verification';
@@ -68,8 +76,13 @@ describe('OccUserService', () => {
 
   describe('load address verification results', () => {
     it('should load address verification results for given user id and address', () => {
-      const address = 'someAddress';
-      const suggestedAddresses = ['address1', 'address2'];
+      const address: Address = {
+        companyName: 'ACME',
+        defaultAddress: true
+      };
+      const suggestedAddresses: AddressValidation = {
+        suggestedAddresses: [address]
+      };
 
       service.verifyAddress(username, address).subscribe(result => {
         expect(result).toEqual(suggestedAddresses);
@@ -90,7 +103,15 @@ describe('OccUserService', () => {
 
   describe('load user addresses', () => {
     it('should load user addresses for a given user id', () => {
-      const mockUserAddresses = { addresses: ['address1', 'address2'] };
+      const mockAddress1: Address = {
+        companyName: 'mockCompany1'
+      };
+      const mockAddress2: Address = {
+        companyName: 'mockCompany2'
+      };
+      const mockUserAddresses: AddressList = {
+        addresses: [mockAddress1, mockAddress2]
+      };
 
       service.loadUserAddresses(username).subscribe(result => {
         expect(result).toEqual(mockUserAddresses);
@@ -111,7 +132,15 @@ describe('OccUserService', () => {
 
   describe('load user payment methods', () => {
     it('should load user payment methods for a given user id', () => {
-      const mockUserPaymentMethods = { payments: ['payment1', 'payment2'] };
+      const mockPayment1: PaymentDetails = {
+        accountHolderName: 'mockAccountHolderName1'
+      };
+      const mockPayment2: PaymentDetails = {
+        accountHolderName: 'mockAccountHolderName2'
+      };
+      const mockUserPaymentMethods: PaymentDetailsList = {
+        payments: [mockPayment1, mockPayment2]
+      };
 
       service.loadUserPaymentMethods(username).subscribe(result => {
         expect(result).toEqual(mockUserPaymentMethods);
