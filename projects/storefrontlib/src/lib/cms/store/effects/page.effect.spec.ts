@@ -18,7 +18,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
-export function mockDateNow() {
+export function mockDateNow(): number {
   return 1000000000000;
 }
 

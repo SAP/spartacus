@@ -99,7 +99,7 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
     };
   }
 
-  private getInjectorForComponent() {
+  private getInjectorForComponent(): Injector {
     return Injector.create({
       providers: [
         {

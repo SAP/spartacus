@@ -33,14 +33,14 @@ export class CmsService {
     );
   }
 
-  getContentSlot(position: string) {
+  getContentSlot(position: string): Observable<Component[]> {
     return this.store.pipe(
       select(fromStore.currentSlotSelectorFactory(position)),
       filter(Boolean)
     );
   }
 
-  hasPage(pageContext) {
+  hasPage(pageContext): Observable<boolean> {
     let tryTimes = 0;
 
     return this.store.pipe(
