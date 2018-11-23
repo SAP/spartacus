@@ -8,7 +8,7 @@
       </div>
       <p>Here are some helpful links instead:</p>
       <div *ngFor="let navigation of errorNav">
-        <a class="btn-link" [routerLink]="navigation.link | cxPath">{{navigation.label}}</a>
+        <a class="btn-link" [routerLink]="navigation.pageName | cxPath">{{navigation.label}}</a>
       </div>
     </div>
   </section>
