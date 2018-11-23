@@ -61,7 +61,7 @@ class StoreDataServiceMock {
   }
 }
 
-describe('ScheduleComponent', () => {
+fdescribe('ScheduleComponent', () => {
   let component: ScheduleComponent;
   let fixture: ComponentFixture<ScheduleComponent>;
   let storeDataService: StoreDataService;
@@ -87,7 +87,7 @@ describe('ScheduleComponent', () => {
     spyOn(storeDataService, 'getStoreOpeningTime').and.callThrough();
 
     // when location is changed
-    component.location = {};
+    component.location = { openingHours: {} };
     component.ngOnChanges({
       location: new SimpleChange(undefined, {}, false)
     });
@@ -111,6 +111,20 @@ describe('ScheduleComponent', () => {
     verifyScheduleRow(renderedScheduleRows.item(4), 'Thu', 'closed');
     verifyScheduleRow(renderedScheduleRows.item(5), 'Fri', 'closed');
     verifyScheduleRow(renderedScheduleRows.item(6), 'Sat', 'closed');
+  });
+
+  it('should not render the schedule when there is no opening hours', () => {
+    // given location with no opening hours
+    component.location = {};
+
+    // when
+    component.ngOnChanges({
+      location: new SimpleChange(undefined, {}, false)
+    });
+    fixture.detectChanges();
+
+    // then verify the schedule has not been rendered
+    expect(fixture.debugElement.query(By.css('div.container'))).toBeNull();
   });
 });
 
