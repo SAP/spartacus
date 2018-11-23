@@ -21,9 +21,6 @@ class MockCartService {
       '1234': { entryNumber: 0, product: { code: productCode } }
     });
   }
-  getLoaded(): Observable<boolean> {
-    return of();
-  }
   getEntry(_productCode: string): Observable<any> {
     return of();
   }
