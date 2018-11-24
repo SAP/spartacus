@@ -8,12 +8,6 @@ import { of, Observable } from 'rxjs';
 
 import { AuthService } from '../../auth';
 import * as fromCart from '../../cart/store';
-import {
-  LoadCartSuccess,
-  AddEntrySuccess,
-  CreateCartSuccess,
-  MergeCartSuccess
-} from '../../cart/store';
 import { UserToken } from '../../auth/models/token-types.model';
 
 import { CartDataService, ANONYMOUS_USERID } from './cart-data.service';
@@ -150,8 +144,8 @@ fdescribe('CartService', () => {
     describe(`when user's token and cart's user id are not equal`, () => {
       it(`should call '${setUserIdMethod}' and '${loadOrMergeCartMethod}' methods`, () => {
         authService.userToken$ = of(userToken);
-        store.dispatch(new LoadCartSuccess(cart));
-        store.dispatch(new AddEntrySuccess('foo'));
+        store.dispatch(new fromCart.LoadCartSuccess(cart));
+        store.dispatch(new fromCart.AddEntrySuccess('foo'));
         spyOn<any>(service, setUserIdMethod).and.stub();
         spyOn<any>(service, loadOrMergeCartMethod).and.stub();
         spyOn<any>(service, refreshCartMethod).and.stub();
@@ -168,8 +162,8 @@ fdescribe('CartService', () => {
       it(`should not call '${setUserIdMethod}' and '${loadOrMergeCartMethod}' methods`, () => {
         authService.userToken$ = of(userToken);
         cartData.userId = userToken.userId;
-        store.dispatch(new LoadCartSuccess(cart));
-        store.dispatch(new AddEntrySuccess('foo'));
+        store.dispatch(new fromCart.LoadCartSuccess(cart));
+        store.dispatch(new fromCart.AddEntrySuccess('foo'));
 
         spyOn<any>(service, setUserIdMethod).and.stub();
         spyOn<any>(service, loadOrMergeCartMethod).and.stub();
@@ -234,6 +228,7 @@ fdescribe('CartService', () => {
 
       cartData.userId = userId;
       cartData.cart = cart;
+      cartData.cartId = cart.code;
 
       service.addCartEntry(productCode, 2);
 
@@ -247,8 +242,9 @@ fdescribe('CartService', () => {
       );
     });
 
-    it('should be able to addCartEntry if cart does not exist', () => {
-      store.dispatch(new LoadCartSuccess(cart));
+    fit('should be able to addCartEntry if cart does not exist', () => {
+      spyOn(service, 'isCartCreated').and.returnValue(false);
+      store.dispatch(new fromCart.LoadCartSuccess(cart));
       spyOn(store, 'dispatch').and.callThrough();
 
       cartData.userId = userId;
@@ -258,16 +254,6 @@ fdescribe('CartService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.CreateCart({
           userId: userId
-        })
-      );
-
-      service[initCartMethod]();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCart.AddEntry({
-          userId: userId,
-          cartId: cart.code,
-          productCode: productCode,
-          quantity: 2
         })
       );
     });
@@ -353,7 +339,7 @@ fdescribe('CartService', () => {
 
   describe('getLoaded', () => {
     it('should return a loaded state', () => {
-      store.dispatch(new CreateCartSuccess(cart));
+      store.dispatch(new fromCart.CreateCartSuccess(cart));
       let result;
       service.loaded$.subscribe(value => (result = value)).unsubscribe();
       expect(result).toEqual(true);
@@ -368,7 +354,7 @@ fdescribe('CartService', () => {
           { product: { code: 'code2' } }
         ]
       };
-      store.dispatch(new LoadCartSuccess(testCart));
+      store.dispatch(new fromCart.LoadCartSuccess(testCart));
 
       let result;
       service
@@ -381,7 +367,7 @@ fdescribe('CartService', () => {
 
   describe('getCartMergeComplete', () => {
     it('should return true when the merge is complete', () => {
-      store.dispatch(new MergeCartSuccess());
+      store.dispatch(new fromCart.MergeCartSuccess());
       let result;
       service.cartMergeComplete$
         .subscribe(mergeComplete => (result = mergeComplete))
