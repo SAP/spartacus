@@ -23,7 +23,7 @@ class AuthServiceStub {
   userToken$: Observable<UserToken> = of();
 }
 
-fdescribe('CartService', () => {
+describe('CartService', () => {
   let service: CartService;
   let cartData: CartDataServiceStub;
   let authService: AuthServiceStub;
@@ -66,7 +66,7 @@ fdescribe('CartService', () => {
   });
 
   const setUserIdMethod = 'setUserId';
-  fdescribe(setUserIdMethod, () => {
+  describe(setUserIdMethod, () => {
     describe('when the userToken is empty', () => {
       it('should set an anonymous user', () => {
         const testUserToken: UserToken = <UserToken>{};
@@ -84,7 +84,7 @@ fdescribe('CartService', () => {
   });
 
   const loadOrMergeCartMethod = 'loadOrMergeCart';
-  fdescribe(loadOrMergeCartMethod, () => {
+  describe(loadOrMergeCartMethod, () => {
     describe('when user is not an anonymous', () => {
       describe('and the cart is not created', () => {
         it('should load the cart', () => {
@@ -120,7 +120,7 @@ fdescribe('CartService', () => {
   });
 
   const refreshCartMethod = 'refreshCart';
-  fdescribe(refreshCartMethod, () => {
+  describe(refreshCartMethod, () => {
     describe('when refresh is true', () => {
       it('should load the cart', () => {
         store.dispatch(new fromCart.AddEntrySuccess('test'));
@@ -140,7 +140,7 @@ fdescribe('CartService', () => {
   });
 
   const initCartMethod = 'initCart';
-  fdescribe(initCartMethod, () => {
+  describe(initCartMethod, () => {
     describe(`when user's token and cart's user id are not equal`, () => {
       it(`should call '${setUserIdMethod}' and '${loadOrMergeCartMethod}' methods`, () => {
         authService.userToken$ = of(userToken);
@@ -178,7 +178,7 @@ fdescribe('CartService', () => {
     });
   });
 
-  fdescribe('Load cart details', () => {
+  describe('Load cart details', () => {
     it('should load more details when a user is logged in', () => {
       spyOn(store, 'dispatch').and.stub();
       cartData.userId = userId;
@@ -222,7 +222,7 @@ fdescribe('CartService', () => {
     });
   });
 
-  fdescribe('add CartEntry', () => {
+  describe('add CartEntry', () => {
     it('should be able to addCartEntry if cart exists', () => {
       spyOn(store, 'dispatch').and.callThrough();
 
@@ -259,7 +259,7 @@ fdescribe('CartService', () => {
     });
   });
 
-  fdescribe('update CartEntry', () => {
+  describe('update CartEntry', () => {
     it('should be able to updateCartEntry with quantity <> 0', () => {
       spyOn(store, 'dispatch').and.stub();
 
@@ -295,7 +295,7 @@ fdescribe('CartService', () => {
     });
   });
 
-  fdescribe('remove CartEntry', () => {
+  describe('remove CartEntry', () => {
     it('should be able to removeCartEntry', () => {
       spyOn(store, 'dispatch').and.stub();
       cartData.userId = userId;
