@@ -242,7 +242,7 @@ fdescribe('CartService', () => {
       );
     });
 
-    fit('should be able to addCartEntry if cart does not exist', () => {
+    it('should be able to addCartEntry if cart does not exist', () => {
       spyOn(service, 'isCartCreated').and.returnValue(false);
       store.dispatch(new fromCart.LoadCartSuccess(cart));
       spyOn(store, 'dispatch').and.callThrough();
@@ -259,12 +259,13 @@ fdescribe('CartService', () => {
     });
   });
 
-  describe('update CartEntry', () => {
+  fdescribe('update CartEntry', () => {
     it('should be able to updateCartEntry with quantity <> 0', () => {
       spyOn(store, 'dispatch').and.stub();
 
       cartData.userId = userId;
       cartData.cart = cart;
+      cartData.cartId = cart.code;
       service.updateCartEntry('1', 1);
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -281,6 +282,7 @@ fdescribe('CartService', () => {
       spyOn(store, 'dispatch').and.stub();
       cartData.userId = userId;
       cartData.cart = cart;
+      cartData.cartId = cart.code;
       service.updateCartEntry('1', 0);
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -293,11 +295,13 @@ fdescribe('CartService', () => {
     });
   });
 
-  describe('remove CartEntry', () => {
+  fdescribe('remove CartEntry', () => {
     it('should be able to removeCartEntry', () => {
       spyOn(store, 'dispatch').and.stub();
       cartData.userId = userId;
       cartData.cart = cart;
+      cartData.cartId = cart.code;
+
       service.removeCartEntry(mockCartEntry);
 
       expect(store.dispatch).toHaveBeenCalledWith(
