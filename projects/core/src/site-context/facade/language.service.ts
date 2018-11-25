@@ -8,6 +8,9 @@ import { StateWithSiteContext, LanguagesEntities } from '../store/state';
 import * as selectors from '../store/selectors';
 import * as actions from '../store/actions';
 
+/**
+ * Facade that provides easy access to language state, actions and selectors.
+ */
 @Injectable()
 export class LanguageService {
   /**

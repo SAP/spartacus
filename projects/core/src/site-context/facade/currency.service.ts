@@ -8,6 +8,9 @@ import { StateWithSiteContext, CurrencyEntities } from '../store/state';
 import * as actions from '../store/actions/index';
 import * as selectors from '../store/selectors/index';
 
+/**
+ * Facade that provides easy access to curreny state, actions and selectors.
+ */
 @Injectable()
 export class CurrencyService {
   /**
