@@ -26,25 +26,21 @@ export class CurrencyService {
     private store: Store<StateWithSiteContext>,
     private config: OccConfig
   ) {
-    this.selectLatest();
     this.loadAll();
-  }
-
-  protected loadAll() {
-    this.store.dispatch(new LoadCurrencies());
+    this.initSessionCurrency();
   }
 
   public select(isocode?: string) {
     this.store.dispatch(new SetActiveCurrency(isocode));
   }
 
-  protected selectLatest() {
-    if (sessionStorage) {
-      this.select(
-        !sessionStorage.getItem('currency')
-          ? this.config.site.currency
-          : sessionStorage.getItem('currency')
-      );
+  protected loadAll() {
+    this.store.dispatch(new LoadCurrencies());
+  }
+
+  protected initSessionCurrency() {
+    if (sessionStorage && !!sessionStorage.getItem('currency')) {
+      this.select(sessionStorage.getItem('currency'));
     } else {
       this.select(this.config.site.currency);
     }
