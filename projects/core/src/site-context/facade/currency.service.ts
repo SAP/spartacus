@@ -2,24 +2,20 @@ import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { StateWithSiteContext, CurrencyEntities } from '../store/state';
-import {
-  LoadCurrencies,
-  SetActiveCurrency
-} from '../store/actions/currencies.action';
-import {
-  getAllCurrencies,
-  getActiveCurrency
-} from '../store/selectors/currencies.selectors';
+
+import * as actions from '../store/actions/index';
+import * as selectors from '../store/selectors/index';
+
 import { OccConfig } from '../../occ/config/occ-config';
 
 @Injectable()
 export class CurrencyService {
   currencies$: Observable<CurrencyEntities> = this.store.pipe(
-    select(getAllCurrencies)
+    select(selectors.getAllCurrencies)
   );
 
   activeCurrency$: Observable<string> = this.store.pipe(
-    select(getActiveCurrency)
+    select(selectors.getActiveCurrency)
   );
 
   constructor(
@@ -31,11 +27,11 @@ export class CurrencyService {
   }
 
   public select(isocode?: string) {
-    this.store.dispatch(new SetActiveCurrency(isocode));
+    this.store.dispatch(new actions.SetActiveCurrency(isocode));
   }
 
   protected loadAll() {
-    this.store.dispatch(new LoadCurrencies());
+    this.store.dispatch(new actions.LoadCurrencies());
   }
 
   protected initSessionCurrency() {
