@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { StateWithSiteContext, CurrencyEntities } from '../store/state';
-
-import * as actions from '../store/actions/index';
-import * as selectors from '../store/selectors/index';
 
 import { OccConfig } from '../../occ/config/occ-config';
+
+import { StateWithSiteContext, CurrencyEntities } from '../store/state';
+import * as actions from '../store/actions/index';
+import * as selectors from '../store/selectors/index';
 
 @Injectable()
 export class CurrencyService {
