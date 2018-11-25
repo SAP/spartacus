@@ -3,10 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { OccConfig } from '../../occ/config/occ-config';
-
-import { StateWithSiteContext, LanguagesEntities } from '../store/state';
-import * as selectors from '../store/selectors';
-import * as actions from '../store/actions';
+import * as fromStore from '../store/index';
 
 /**
  * Facade that provides easy access to language state, actions and selectors.
@@ -16,19 +13,19 @@ export class LanguageService {
   /**
    * Represents all the languages supported by the current store.
    */
-  languages$: Observable<LanguagesEntities> = this.store.pipe(
-    select(selectors.getAllLanguages)
+  languages$: Observable<fromStore.LanguagesEntities> = this.store.pipe(
+    select(fromStore.getAllLanguages)
   );
 
   /**
    * Represents the active language of the current store.
    */
   activeLanguage$: Observable<string> = this.store.pipe(
-    select(selectors.getActiveLanguage)
+    select(fromStore.getActiveLanguage)
   );
 
   constructor(
-    private store: Store<StateWithSiteContext>,
+    private store: Store<fromStore.StateWithSiteContext>,
     private config: OccConfig
   ) {
     this.loadAll();
@@ -39,14 +36,14 @@ export class LanguageService {
    * Selects the active language by isocode.
    */
   select(isocode: string) {
-    this.store.dispatch(new actions.SetActiveLanguage(isocode));
+    this.store.dispatch(new fromStore.SetActiveLanguage(isocode));
   }
 
   /**
    * Loads all the languages of the current store.
    */
   protected loadAll() {
-    this.store.dispatch(new actions.LoadLanguages());
+    this.store.dispatch(new fromStore.LoadLanguages());
   }
 
   /**

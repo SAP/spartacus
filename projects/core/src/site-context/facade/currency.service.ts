@@ -3,10 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { OccConfig } from '../../occ/config/occ-config';
-
-import { StateWithSiteContext, CurrencyEntities } from '../store/state';
-import * as actions from '../store/actions/index';
-import * as selectors from '../store/selectors/index';
+import * as fromStore from '../store/index';
 
 /**
  * Facade that provides easy access to curreny state, actions and selectors.
@@ -16,19 +13,19 @@ export class CurrencyService {
   /**
    * Represents all the currencies supported by the current store.
    */
-  currencies$: Observable<CurrencyEntities> = this.store.pipe(
-    select(selectors.getAllCurrencies)
+  currencies$: Observable<fromStore.CurrencyEntities> = this.store.pipe(
+    select(fromStore.getAllCurrencies)
   );
 
   /**
    * Represents the active currency of the current store.
    */
   activeCurrency$: Observable<string> = this.store.pipe(
-    select(selectors.getActiveCurrency)
+    select(fromStore.getActiveCurrency)
   );
 
   constructor(
-    private store: Store<StateWithSiteContext>,
+    private store: Store<fromStore.StateWithSiteContext>,
     private config: OccConfig
   ) {
     this.loadAll();
@@ -39,14 +36,14 @@ export class CurrencyService {
    * Selects the active currency by isocode.
    */
   select(isocode?: string) {
-    this.store.dispatch(new actions.SetActiveCurrency(isocode));
+    this.store.dispatch(new fromStore.SetActiveCurrency(isocode));
   }
 
   /**
    * Loads all the currencies of the current store.
    */
   protected loadAll() {
-    this.store.dispatch(new actions.LoadCurrencies());
+    this.store.dispatch(new fromStore.LoadCurrencies());
   }
 
   /**
