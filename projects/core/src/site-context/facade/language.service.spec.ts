@@ -77,8 +77,8 @@ describe('LanguageService', () => {
   });
 
   describe('set activeLanguage(isocode)', () => {
-    it('should be able to set active language', () => {
-      service.activeLanguage = 'ja';
+    it('shouldselectt active language', () => {
+      service.select('ja');
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SetActiveLanguage('ja')
       );

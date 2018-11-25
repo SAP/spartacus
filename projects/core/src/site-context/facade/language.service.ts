@@ -1,50 +1,44 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { StateWithSiteContext, LanguagesEntities } from '../store/state';
-import {
-  getAllLanguages,
-  getActiveLanguage
-} from '../store/selectors/languages.selectors';
-import {
-  LoadLanguages,
-  SetActiveLanguage
-} from '../store/actions/languages.action';
 
 import { OccConfig } from '../../occ/config/occ-config';
+
+import { StateWithSiteContext, LanguagesEntities } from '../store/state';
+import * as selectors from '../store/selectors';
+import * as actions from '../store/actions';
+
 @Injectable()
 export class LanguageService {
-  readonly languages$: Observable<LanguagesEntities> = this.store.pipe(
-    select(getAllLanguages)
+  languages$: Observable<LanguagesEntities> = this.store.pipe(
+    select(selectors.getAllLanguages)
   );
 
-  readonly activeLanguage$: Observable<string> = this.store.pipe(
-    select(getActiveLanguage)
+  activeLanguage$: Observable<string> = this.store.pipe(
+    select(selectors.getActiveLanguage)
   );
 
   constructor(
     private store: Store<StateWithSiteContext>,
     private config: OccConfig
   ) {
-    this.initActiveLanguage();
-    this.loadLanguages();
+    this.loadAll();
+    this.initSessionLanguage();
   }
 
-  protected loadLanguages() {
-    this.store.dispatch(new LoadLanguages());
+  select(isocode: string) {
+    this.store.dispatch(new actions.SetActiveLanguage(isocode));
   }
 
-  public set activeLanguage(isocode: string) {
-    this.store.dispatch(new SetActiveLanguage(isocode));
+  protected loadAll() {
+    this.store.dispatch(new actions.LoadLanguages());
   }
 
-  protected initActiveLanguage() {
-    if (sessionStorage) {
-      this.activeLanguage = !sessionStorage.getItem('language')
-        ? this.config.site.language
-        : sessionStorage.getItem('language');
+  protected initSessionLanguage() {
+    if (sessionStorage && !!sessionStorage.getItem('language')) {
+      this.select(sessionStorage.getItem('language'));
     } else {
-      this.activeLanguage = this.config.site.language;
+      this.select(this.config.site.language);
     }
   }
 }
