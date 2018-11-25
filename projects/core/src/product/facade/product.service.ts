@@ -16,11 +16,12 @@ export class ProductService {
       this.products[productCode] = this.store.pipe(
         select(fromStore.getSelectedProductFactory(productCode))
       );
+      this.load(productCode);
     }
     return this.products[productCode];
   }
 
-  load(productCode: string) {
+  protected load(productCode: string) {
     this.store.dispatch(new fromStore.LoadProduct(productCode));
   }
 
