@@ -18,7 +18,7 @@ export class CurrencyService {
   );
 
   /**
-   * Represents the active currency of the current store.
+   * Represents the isocode of the active currency.
    */
   activeCurrency$: Observable<string> = this.store.pipe(
     select(fromStore.getActiveCurrency)
