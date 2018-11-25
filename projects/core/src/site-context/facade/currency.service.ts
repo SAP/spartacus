@@ -26,7 +26,7 @@ export class CurrencyService {
     this.initSessionCurrency();
   }
 
-  public select(isocode?: string) {
+  select(isocode?: string) {
     this.store.dispatch(new actions.SetActiveCurrency(isocode));
   }
 
