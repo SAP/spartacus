@@ -12,86 +12,111 @@ import { RoutesConfigLoader } from '../routes-config-loader';
 export class DynamicUrlRecognizerService {
   constructor(private routesConfigLoader: RoutesConfigLoader) {}
 
-  getPageAndParameters(
+  getNestedRoutes(
     url: string
   ): {
-    pageName: string;
-    parameters: object;
+    nestedRouteNames: string[];
+    paramsObjects: object[];
   } {
     url = removeLeadingSlash(url); // url will be compared with paths translations which do not have leading slash
-
-    // spike todo - it should support nested routes - so return list of page names and matched paths
-    const { pageName, matchedPath } = this.getPageAndMatchedPath(url);
-    const parameters =
-      matchedPath === null ? {} : this.getParametersValues(url, matchedPath);
-    return { pageName, parameters };
-  }
-
-  private getPageAndMatchedPath(
-    url: string
-  ): {
-    pageName: string;
-    matchedPath: string;
-  } {
-    const pageNames = Object.keys(this.defaultRoutesTranslations);
-    const pageNamesLength = pageNames.length;
-    for (let i = 0; i < pageNamesLength; i++) {
-      const pageName = pageNames[i];
-      const paths = this.getDefaultPathsForPage(pageName);
-      const matchedPath = paths.find(path =>
-        this.areStaticSegmentsIdentical(url, path)
-      );
-      if (matchedPath) {
-        return { pageName, matchedPath };
-      }
-    }
-    return { pageName: null, matchedPath: null };
-  }
-
-  private getDefaultPathsForPage(pageName: string): string[] {
-    return (
-      (this.defaultRoutesTranslations[pageName] &&
-        this.defaultRoutesTranslations[pageName].paths) ||
+    const routesTranslations = this.defaultRoutesTranslations;
+    const urlSegments = getSegments(url); // spike todo parse it using angular Router.parseUrl()
+    const recognizedNestedRoutes = this.getNestedRoutesRecursive(
+      urlSegments,
+      routesTranslations,
       []
     );
+
+    if (recognizedNestedRoutes) {
+      const nestedRouteNames: string[] = [];
+      const paramsObjects: object[] = [];
+      recognizedNestedRoutes.forEach(recognizedNestedRoute => {
+        nestedRouteNames.push(recognizedNestedRoute.routeName);
+        paramsObjects.push(recognizedNestedRoute.params);
+      });
+      return { nestedRouteNames, paramsObjects };
+    }
+    return { nestedRouteNames: null, paramsObjects: null };
   }
 
-  // compares non-parameter segments
-  private areStaticSegmentsIdentical(url: string, path: string): boolean {
-    const urlSegments = getSegments(url);
-    const pathSegments = getSegments(path);
+  private getNestedRoutesRecursive(
+    remainingUrlSegments: string[],
+    routesTranslations: RoutesTranslations,
+    accResult: { routeName: string; params: object }[]
+  ): { routeName: string; params: object }[] {
+    if (!routesTranslations) {
+      return remainingUrlSegments.length ? null : accResult;
+    }
+    const routeNames = Object.keys(routesTranslations);
+    const routeNamesLength = routeNames.length;
+    for (let i = 0; i < routeNamesLength; i++) {
+      const routeName = routeNames[i];
+      const routeTranslation = routesTranslations[routeName];
 
-    if (urlSegments.length !== pathSegments.length) {
-      return false;
+      // SPIKE TODO: improve readability here:
+      const {
+        matchingPathSegments,
+        params
+      } = this.extractParamsFromMatchingPath(
+        remainingUrlSegments,
+        routeTranslation.paths
+      );
+      // if some path is matching:
+      if (matchingPathSegments) {
+        return this.getNestedRoutesRecursive(
+          remainingUrlSegments.slice(matchingPathSegments.length),
+          routeTranslation.children,
+          accResult.concat({ routeName, params })
+        );
+      }
     }
 
+    return remainingUrlSegments.length ? null : accResult;
+  }
+
+  private extractParamsFromMatchingPath(
+    urlSegments: string[],
+    paths: string[]
+  ): {
+    matchingPathSegments: string[];
+    params: object;
+  } {
+    const pathsLength = paths.length;
+    for (let i = 0; i < pathsLength; i++) {
+      const path = paths[i];
+      const pathSegments = getSegments(path);
+      const params = this.extractParamsIfMatchingPath(
+        urlSegments,
+        pathSegments
+      );
+      if (params) {
+        return { matchingPathSegments: pathSegments, params };
+      }
+    }
+    return { matchingPathSegments: null, params: null };
+  }
+
+  // returns extracted params when static params are matching or null otherwise
+  private extractParamsIfMatchingPath(
+    urlSegments: string[],
+    pathSegments: string[]
+  ): object {
+    const params = {};
     const segmentsLength = pathSegments.length;
     for (let i = 0; i < segmentsLength; i++) {
       const pathSegment = pathSegments[i];
       const urlSegment = urlSegments[i];
 
-      if (!isParam(pathSegment) && pathSegment !== urlSegment) {
-        return false;
+      if (isParam(pathSegment)) {
+        const paramName = getParamName(pathSegment);
+        params[paramName] = urlSegment;
+      } else {
+        if (pathSegment !== urlSegment) {
+          return null;
+        }
       }
     }
-    return true;
-  }
-
-  // compares url segments array with segments of path schema. for parameters in path schema it extracts value from relevant segment of url
-  private getParametersValues(url: string, path: string): object {
-    const urlSegments = getSegments(url);
-    const pathSegments = getSegments(path);
-
-    return pathSegments.reduce((accParameters, pathSegment, i) => {
-      if (isParam(pathSegment)) {
-        const parameterName = getParamName(pathSegment);
-        const parameterValue = urlSegments[i];
-        return Object.assign(accParameters, {
-          [parameterName]: parameterValue
-        });
-      }
-      return accParameters;
-    }, {});
+    return params;
   }
 
   private get defaultRoutesTranslations(): RoutesTranslations {

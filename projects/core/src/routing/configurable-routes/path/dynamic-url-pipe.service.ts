@@ -11,13 +11,13 @@ export class DynamicUrlPipeService {
 
   transform(dynamicUrl: string): string[] {
     const {
-      pageName,
-      parameters
-    } = this.dynamicUrlRecognizerService.getPageAndParameters(dynamicUrl); // spike todo - should get page names and parameters objects for nested routes
+      nestedRouteNames,
+      paramsObjects
+    } = this.dynamicUrlRecognizerService.getNestedRoutes(dynamicUrl);
 
-    if (!pageName) {
+    if (!nestedRouteNames) {
       return [dynamicUrl];
     }
-    return this.pathService.transform([pageName], [parameters]); // spike todo - should use recognized page names and parameters objects for nested routes
+    return this.pathService.transform(nestedRouteNames, paramsObjects);
   }
 }

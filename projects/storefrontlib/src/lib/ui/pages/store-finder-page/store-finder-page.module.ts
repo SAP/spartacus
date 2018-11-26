@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards';
 import { StoreFinderPageComponent } from './store-finder-page.component';

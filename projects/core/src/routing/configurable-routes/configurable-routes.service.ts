@@ -61,7 +61,7 @@ export class ConfigurableRoutesService {
     // traverse down the routesTranslations tree along nestedRouteNames:
     for (let i = 0; i < nestedRouteNamesLength; i++) {
       const routeName = nestedRouteNames[i];
-      result.push(this.getRouteTranslation(routeName, routesTranslations));
+      result.push(routesTranslations[routeName]);
 
       // if it's not the last nested page name, go one level deeper in the translations tree:
       if (i < nestedRouteNamesLength - 1) {
@@ -80,14 +80,6 @@ export class ConfigurableRoutesService {
         }
       }
     }
-    return result;
-  }
-
-  private getRouteTranslation(
-    routeName: string,
-    routesTranslations: RoutesTranslations
-  ): RouteTranslation {
-    const result = routesTranslations[routeName];
     return result;
   }
 
@@ -201,7 +193,7 @@ export class ConfigurableRoutesService {
     translations: RoutesTranslations
   ): string[] {
     const routeName = this.getConfigurable(route, key);
-    const translation = this.getRouteTranslation(routeName, translations);
+    const translation = translations[routeName];
 
     if (!translation || translation.paths === undefined) {
       this.warn(
