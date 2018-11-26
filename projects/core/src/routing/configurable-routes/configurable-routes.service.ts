@@ -93,6 +93,7 @@ export class ConfigurableRoutesService {
         accResult.concat(translation)
       );
     }
+    return accResult.concat(translation);
   }
 
   private getChildrenRoutesTranslations(
