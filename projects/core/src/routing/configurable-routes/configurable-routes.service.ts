@@ -52,35 +52,47 @@ export class ConfigurableRoutesService {
     nestedRouteNames: string[],
     routesTranslations: RoutesTranslations = this.currentRoutesTranslations
   ): RouteTranslation[] {
-    if (nestedRouteNames.length === 0) {
+    return this.getNestedRoutesTranslationsRecursive(
+      nestedRouteNames,
+      routesTranslations,
+      []
+    );
+  }
+
+  private getNestedRoutesTranslationsRecursive(
+    nestedRoutesNames: string[],
+    routesTranslations: RoutesTranslations,
+    accResult: RouteTranslation[]
+  ): RouteTranslation[] {
+    if (!nestedRoutesNames.length) {
+      return accResult;
+    }
+    const [routeName, ...remainingRouteNames] = nestedRoutesNames;
+    const translation = this.getRouteTranslation(routeName, routesTranslations);
+    if (!translation) {
       return null;
     }
-    const result = [];
-    const nestedRouteNamesLength = nestedRouteNames.length;
 
-    // traverse down the routesTranslations tree along nestedRouteNames:
-    for (let i = 0; i < nestedRouteNamesLength; i++) {
-      const routeName = nestedRouteNames[i];
-      result.push(this.getRouteTranslation(routeName, routesTranslations));
-
-      // if it's not the last nested page name, go one level deeper in the translations tree:
-      if (i < nestedRouteNamesLength - 1) {
-        routesTranslations = this.getChildrenRoutesTranslations(
-          routeName,
-          routesTranslations
+    if (remainingRouteNames.length) {
+      const childrenTranslations = this.getChildrenRoutesTranslations(
+        routeName,
+        routesTranslations
+      );
+      if (!childrenTranslations) {
+        this.warn(
+          `No children routes translations were configured for page '${routeName}' in language '${
+            this.currentLanguageCode
+          }'!`
         );
-        if (!routesTranslations) {
-          this.warn(
-            // tslint:disable-next-line:max-line-length
-            `No children routes translations were configured for page '${routeName}' in nested sequence '${nestedRouteNames}' in language '${
-              this.currentLanguageCode
-            }'!`
-          );
-          return null;
-        }
+        return null;
       }
+
+      return this.getNestedRoutesTranslationsRecursive(
+        remainingRouteNames,
+        childrenTranslations,
+        accResult.concat(translation)
+      );
     }
-    return result;
   }
 
   private getChildrenRoutesTranslations(
@@ -213,20 +225,17 @@ export class ConfigurableRoutesService {
     routesTranslations: RoutesTranslations
   ): string[] {
     const routeName = this.getConfigurable(route, key);
-    const translation = this.getRouteTranslation(routeName, routesTranslations);
-    if (!translation) {
-      return [];
-    }
-
+    const translation =
+      this.getRouteTranslation(routeName, routesTranslations) || {};
     if (translation.paths === undefined) {
       this.warn(
-        `No route translation paths was configured for page '${routeName}' in language '${
-          this.currentLanguageCode
-        }'!`
+        `Could not translate key '${key}' of route`,
+        route,
+        `using routes translations`,
+        routesTranslations
       );
       return [];
     }
-
     return translation.paths || [];
   }
 
