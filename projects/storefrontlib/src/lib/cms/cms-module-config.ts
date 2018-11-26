@@ -20,12 +20,11 @@ export type CmsComponentId =
   | 'CMSTabParagraphComponent'
   | string;
 
-export type CMSComponentMappingConfig = {
-  [CMSComponent in CmsComponentId]?: string
-};
-
-export type CMSComponentProviders = {
-  [CMSComponent in CmsComponentId]?: StaticProvider[]
+export type CMSComponentConfig = {
+  [CMSComponent in CmsComponentId]?: {
+    selector?: string;
+    providers?: StaticProvider[];
+  }
 };
 
 export abstract class CmsModuleConfig extends OccConfig
@@ -40,8 +39,7 @@ export abstract class CmsModuleConfig extends OccConfig
     CategoryPage?: string[];
   };
 
-  cmsComponentMapping?: CMSComponentMappingConfig;
-  cmsComponentProviders?: CMSComponentProviders;
+  cmsComponents?: CMSComponentConfig;
 }
 
 export const defaultCmsModuleConfig: CmsModuleConfig = {
