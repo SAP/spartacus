@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
 import * as fromAction from '../store/actions';
 import * as fromReducer from '../store/reducers';
 import * as fromSelector from '../store/selectors';
-import { AuthService } from '../../auth/index';
+import { AuthService, UserToken } from '../../auth/index';
 
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { Cart, OrderEntry } from '@spartacus/core';
@@ -41,7 +41,7 @@ export class CartService {
     this.initCart();
   }
 
-  initCart() {
+  private initCart() {
     this.store.pipe(select(fromSelector.getActiveCart)).subscribe(cart => {
       this.cartData.cart = cart;
       if (this.callback) {
@@ -53,33 +53,44 @@ export class CartService {
     this.authService.userToken$
       .pipe(filter(userToken => this.cartData.userId !== userToken.userId))
       .subscribe(userToken => {
-        if (Object.keys(userToken).length !== 0) {
-          this.cartData.userId = userToken.userId;
-        } else {
-          this.cartData.userId = ANONYMOUS_USERID;
-        }
-
-        // for login user, whenever there's an existing cart, we will load the user
-        // current cart and merge it into the existing cart
-        if (this.cartData.userId !== ANONYMOUS_USERID) {
-          if (!this.isCartCreated(this.cartData.cart)) {
-            this.store.dispatch(
-              new fromAction.LoadCart({
-                userId: this.cartData.userId,
-                cartId: 'current'
-              })
-            );
-          } else {
-            this.store.dispatch(
-              new fromAction.MergeCart({
-                userId: this.cartData.userId,
-                cartId: this.cartData.cart.guid
-              })
-            );
-          }
-        }
+        this.setUserId(userToken);
+        this.loadOrMergeCart();
       });
 
+    this.refreshCart();
+  }
+
+  private setUserId(userToken: UserToken): void {
+    if (Object.keys(userToken).length !== 0) {
+      this.cartData.userId = userToken.userId;
+    } else {
+      this.cartData.userId = ANONYMOUS_USERID;
+    }
+  }
+
+  private loadOrMergeCart(): void {
+    // for login user, whenever there's an existing cart, we will load the user
+    // current cart and merge it into the existing cart
+    if (this.cartData.userId !== ANONYMOUS_USERID) {
+      if (!this.isCartCreated(this.cartData.cart)) {
+        this.store.dispatch(
+          new fromAction.LoadCart({
+            userId: this.cartData.userId,
+            cartId: 'current'
+          })
+        );
+      } else {
+        this.store.dispatch(
+          new fromAction.MergeCart({
+            userId: this.cartData.userId,
+            cartId: this.cartData.cart.guid
+          })
+        );
+      }
+    }
+  }
+
+  private refreshCart(): void {
     this.store.pipe(select(fromSelector.getRefresh)).subscribe(refresh => {
       if (refresh) {
         this.store.dispatch(
