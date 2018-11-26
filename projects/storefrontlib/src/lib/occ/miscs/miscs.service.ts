@@ -3,7 +3,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
-import { OccConfig } from '@spartacus/core';
+import {
+  OccConfig,
+  CountryList,
+  TitleList,
+  CardTypeList,
+  RegionList
+} from '@spartacus/core';
 
 const ENDPOINT_COUNTRIES = 'countries';
 const ENDPOINT_TITLES = 'titles';
@@ -24,27 +30,27 @@ export class OccMiscsService {
     );
   }
 
-  loadDeliveryCountries(): Observable<any> {
+  loadDeliveryCountries(): Observable<CountryList> {
     return this.http
-      .get(this.getEndpoint(ENDPOINT_COUNTRIES))
+      .get<CountryList>(this.getEndpoint(ENDPOINT_COUNTRIES))
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  loadTitles(): Observable<any> {
+  loadTitles(): Observable<TitleList> {
     return this.http
-      .get(this.getEndpoint(ENDPOINT_TITLES))
+      .get<TitleList>(this.getEndpoint(ENDPOINT_TITLES))
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  loadCardTypes(): Observable<any> {
+  loadCardTypes(): Observable<CardTypeList> {
     return this.http
-      .get(this.getEndpoint(ENDPOINT_CARD_TYPES))
+      .get<CardTypeList>(this.getEndpoint(ENDPOINT_CARD_TYPES))
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  loadRegions(countryIsoCode: string): Observable<any> {
+  loadRegions(countryIsoCode: string): Observable<RegionList> {
     return this.http
-      .get(this.getEndpoint(this.buildRegionsUrl(countryIsoCode)))
+      .get<RegionList>(this.getEndpoint(this.buildRegionsUrl(countryIsoCode)))
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
