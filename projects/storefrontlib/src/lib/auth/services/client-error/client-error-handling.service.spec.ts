@@ -16,9 +16,14 @@ class MockHttpHandler extends HttpHandler {
 }
 
 class AuthServiceStub {
-  clientToken$: Observable<any>;
-  refreshClientToken(): Observable<any> {
-    return of({});
+  clientToken$: Observable<ClientToken>;
+  refreshClientToken(): Observable<ClientToken> {
+    return of({
+      access_token: 'refreshToken',
+      token_type: 'mock',
+      expires_in: 12342,
+      scope: 'xxx'
+    });
   }
 }
 
