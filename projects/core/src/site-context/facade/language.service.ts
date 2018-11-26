@@ -18,9 +18,6 @@ export class LanguageService {
     select(getAllLanguages)
   );
 
-  /**
-   * Super sprawa
-   */
   readonly activeLanguage$: Observable<string> = this.store.pipe(
     select(getActiveLanguage)
   );

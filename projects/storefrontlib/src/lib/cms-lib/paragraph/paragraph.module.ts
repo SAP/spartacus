@@ -9,8 +9,7 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
     CommonModule,
     ConfigModule.withConfig(<CmsModuleConfig>{
       cmsComponents: {
-        CMSParagraphComponent: { selector: 'cx-paragraph' },
-        CMSTabParagraphComponent: { selector: 'cx-paragraph' }
+        CMSParagraphComponent: { selector: 'cx-paragraph' }
       }
     })
   ],

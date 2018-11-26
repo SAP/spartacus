@@ -45,5 +45,8 @@ export const defaultCmsModuleConfig: CmsModuleConfig = {
   defaultPageIdForType: {
     ProductPage: ['productDetails'],
     CategoryPage: ['productList', 'productGrid', 'category']
+  },
+  cmsComponents: {
+    CMSTabParagraphComponent: { selector: 'cx-paragraph' }
   }
 };
