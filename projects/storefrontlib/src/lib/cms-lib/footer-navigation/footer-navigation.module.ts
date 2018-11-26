@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FooterNavigationComponent } from './footer-navigation.component';
 import {ConfigModule} from '@spartacus/core';
-import {CmsModuleConfig} from '@spartacus/storefront';
+import {CmsModuleConfig} from '../../cms/cms-module-config';
 
 @NgModule({
   imports: [CommonModule, RouterModule, ConfigModule.withConfig(<CmsModuleConfig> {

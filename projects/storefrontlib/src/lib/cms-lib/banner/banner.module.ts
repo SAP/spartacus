@@ -5,7 +5,7 @@ import { BannerComponent } from './banner.component';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
 import { GenericLinkModule } from '../../ui/components/generic-link/generic-link.module';
 import { ConfigModule } from '@spartacus/core';
-import { CmsModuleConfig } from '@spartacus/storefront';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 
 @NgModule({
   imports: [

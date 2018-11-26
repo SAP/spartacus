@@ -4,7 +4,7 @@ import { AddToCartComponent } from './add-to-cart.component';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
 import { ConfigModule } from '@spartacus/core';
-import { CmsModuleConfig } from '@spartacus/storefront';
+import { CmsModuleConfig } from '../../../cms/cms-module-config';
 
 @NgModule({
   imports: [

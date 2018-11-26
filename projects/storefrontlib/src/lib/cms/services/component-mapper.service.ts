@@ -43,8 +43,8 @@ export class ComponentMapperService {
    * @param typeCode the component type
    */
   protected getType(typeCode: string) {
-    const alias = this.config.cmsComponentMapping[typeCode];
-    if (!alias) {
+    const componentConfig = this.config.cmsComponents[typeCode];
+    if (!componentConfig) {
       if (this.missingComponents.indexOf(typeCode) === -1) {
         this.missingComponents.push(typeCode);
         console.warn(
@@ -55,7 +55,7 @@ export class ComponentMapperService {
         );
       }
     }
-    return alias;
+    return componentConfig.selector;
   }
 
   getFactoryEntryByCode(typeCode: string) {

@@ -7,7 +7,7 @@ import { NavigationComponent } from './navigation.component';
 import { NavigationUIComponent } from './navigation-ui.component';
 import { NavigationService } from './navigation.service';
 import {ConfigModule} from '@spartacus/core';
-import {CmsModuleConfig} from '@spartacus/storefront';
+import {CmsModuleConfig} from '../../cms/cms-module-config';
 
 @NgModule({
   imports: [CommonModule, RouterModule, BootstrapModule, ConfigModule.withConfig(<CmsModuleConfig> {

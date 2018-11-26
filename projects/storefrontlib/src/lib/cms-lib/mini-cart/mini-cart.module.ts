@@ -7,7 +7,7 @@ import { MiniCartComponent } from './mini-cart.component';
 
 import { BannerModule } from '../banner/banner.module';
 import {ConfigModule} from '@spartacus/core';
-import {CmsModuleConfig} from '@spartacus/storefront';
+import {CmsModuleConfig} from '../../cms/cms-module-config';
 
 @NgModule({
   imports: [CommonModule, RouterModule, BannerModule, MediaModule, ConfigModule.withConfig(<CmsModuleConfig>{

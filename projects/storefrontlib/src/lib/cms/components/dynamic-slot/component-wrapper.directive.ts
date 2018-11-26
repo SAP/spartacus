@@ -103,7 +103,7 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
 
   private getInjectorForComponent() {
     const configProviders =
-      this.config.cmsComponentProviders[this.componentType] || [];
+      (this.config.cmsComponents[this.componentType] || {}).providers || [];
 
     return Injector.create({
       providers: [
