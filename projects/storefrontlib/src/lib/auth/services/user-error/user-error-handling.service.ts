@@ -30,7 +30,7 @@ export class UserErrorHandlingService {
     this.authService.logout();
   }
 
-  private handleExpiredToken(): Observable<any> {
+  private handleExpiredToken(): Observable<UserToken> {
     let oldToken: UserToken;
     return this.authService.userToken$.pipe(
       tap((token: UserToken) => {
