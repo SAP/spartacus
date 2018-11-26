@@ -81,7 +81,7 @@ describe('ProductCarouselComponent', () => {
     expect(productCarouselComponent.productCodes).toEqual(productCodeArray);
   });
 
-  fit('should have 1 group', () => {
+  it('should have 1 group', () => {
     spyOn<any>(productCarouselComponent, 'getItemsPerPage').and.returnValue(4);
     productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
     expect(productCarouselComponent.productGroups.length).toBe(1);
