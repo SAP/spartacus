@@ -71,7 +71,7 @@ describe('LanguageService', () => {
   });
 
   it('should be able to get active languages', () => {
-    service.activeLanguage$.subscribe(results => {
+    service.selectedLanguage$.subscribe(results => {
       expect(results).toEqual(mockActiveLang);
     });
   });

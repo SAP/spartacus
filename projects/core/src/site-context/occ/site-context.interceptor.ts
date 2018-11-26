@@ -27,7 +27,7 @@ export class SiteContextInterceptor implements HttpInterceptor {
       this.config.server.occPrefix +
       this.config.site.baseSite;
 
-    this.languageService.activeLanguage$
+    this.languageService.selectedLanguage$
       .pipe(filter(lang => lang != null))
       .subscribe(data => (this.activeLang = data));
 

@@ -20,7 +20,7 @@ export class LanguageService {
   /**
    * Represents the isocode of the active language.
    */
-  activeLanguage$: Observable<string> = this.store.pipe(
+  selectedLanguage$: Observable<string> = this.store.pipe(
     select(fromStore.getActiveLanguage)
   );
 
