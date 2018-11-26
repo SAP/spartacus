@@ -13,6 +13,7 @@ import { StorefrontComponent } from './storefront.component';
 import { HeaderModule } from './../header/header.module';
 import { FooterComponent } from '../footer/footer.component';
 import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
+import { PwaModule } from './../../../pwa/pwa.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -23,7 +24,8 @@ import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
     SiteContextModule,
     HeaderModule,
     UiFrameworkModule,
-    OutletRefModule
+    OutletRefModule,
+    PwaModule
   ],
   declarations: [StorefrontComponent, FooterComponent],
   exports: [StorefrontComponent]

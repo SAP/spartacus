@@ -20,11 +20,14 @@ export const getAllTitles: MemoizedSelector<any, any> = createSelector(
 );
 
 export const titleSelectorFactory = (code): MemoizedSelector<any, any> => {
-  return createSelector(getTitlesEntites, entities => {
-    if (Object.keys(entities).length !== 0) {
-      return entities[code];
-    } else {
-      return null;
+  return createSelector(
+    getTitlesEntites,
+    entities => {
+      if (Object.keys(entities).length !== 0) {
+        return entities[code];
+      } else {
+        return null;
+      }
     }
-  });
+  );
 };
