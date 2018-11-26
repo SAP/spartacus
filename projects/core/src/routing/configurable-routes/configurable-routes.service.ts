@@ -140,6 +140,21 @@ export class ConfigurableRoutesService {
         routeName,
         routesTranslations
       );
+
+      if (childrenTranslations === undefined) {
+        this.warn(
+          `Could not translate children routes of route '${routeName}'`,
+          route,
+          `due to undefined 'children' key for '${routeName}' route in routes translations`,
+          routesTranslations
+        );
+        return [];
+      }
+
+      // null switches off the children routes:
+      if (childrenTranslations === null) {
+        return [];
+      }
       return this.translateRoutes(route.children, childrenTranslations);
     }
     return null;
@@ -214,7 +229,7 @@ export class ConfigurableRoutesService {
           this.currentLanguageCode
         }'!`
       );
-      return null;
+      return undefined;
     }
     return routesTranslations[routeName];
   }
@@ -225,18 +240,28 @@ export class ConfigurableRoutesService {
     routesTranslations: RoutesTranslations
   ): string[] {
     const routeName = this.getConfigurable(route, key);
-    const translation =
-      this.getRouteTranslation(routeName, routesTranslations) || {};
-    if (translation.paths === undefined) {
+    const translation = this.getRouteTranslation(routeName, routesTranslations);
+    if (translation === undefined) {
       this.warn(
-        `Could not translate key '${key}' of route`,
+        `Could not translate key '${key}' of route '${routeName}'`,
         route,
-        `using routes translations`,
+        `due to undefined key '${routeName}' in routes translations`,
         routesTranslations
       );
       return [];
     }
-    return translation.paths || [];
+    if (translation && translation.paths === undefined) {
+      this.warn(
+        `Could not translate key '${key}' of route '${routeName}'`,
+        route,
+        `due to undefined 'paths' key for '${routeName}' route in routes translations`,
+        routesTranslations
+      );
+      return [];
+    }
+
+    // translation or translation.paths can be null - which means switching off the route
+    return (translation && translation.paths) || [];
   }
 
   private warn(...args) {
