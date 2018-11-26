@@ -13,7 +13,7 @@ Note: This is a living document. Like the Spartacus code, this document will be 
 An easy way to start is by helping others who may have questions or need support. Look for such requests here:
 
 * Spartacus [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE)
-* [Stack Overflow posts tagged with'spartacus'](https://stackoverflow.com/questions/tagged/spartacus)
+* [Stack Overflow posts tagged with 'spartacus'](https://stackoverflow.com/questions/tagged/spartacus)
 
 ----
 
@@ -76,7 +76,7 @@ Validated issues are then moved into one of these buckets:
 * Issues that aren't urgent will be left open as "contribution welcome".
 * Certain issues may be moved to our internal issue tracking system, if we don't think they belong to Spartacus.
 
-Issues are closed when the fix is committed. The release that contains the fix will be noted in the comments.
+Issues are closed when the fix is merged to develop. The release that contains the fix will be noted in the comments and the release changelog.
 
 ### How We Use Labels
 
@@ -116,9 +116,9 @@ Status labels for closed issues:
 Feedback, especially bug reports, are always welcome. However, our capacity as a team is limited -- we cannot answer specific project or consultation requests, nor can we invest time in fleshing out what might be a bug. This means:
 
 * We reserve the right to close or not process issue reports that do not contain enough information.
-* We do not guarantee that every well-document issue will be fixed.
+* We do not guarantee that every well-documented issue will be fixed.
 
-Remember: Spartacus is open source and supported by its community.
+Remember: Spartacus is open source and it is supported by its community.
 
 That being said, we will try our very best to ensure Spartacus code base is of high quality.
 
@@ -142,7 +142,8 @@ We welcome contributions to the Spartacus codebase. Before you start your first 
 
     * To make this process as simple as possible, we use the *[CLA assistant](https://cla-assistant.io/)* for individual contributions. CLA assistant is an open source tool that integrates with GitHub very well and enables a one-click-experience for accepting the CLA.
     * For company contributors, special rules apply. See the respective section below for details.
-1. Contributions must meet our code style, quality, and product standards. We also follow them :). The respective section below gives more details on the coding guidelines.
+
+1. Contributions must be compliant with the project code style, quality, and standards. We also follow them :). The respective section below gives more details on the coding guidelines.
 
 1. Not all contributions will be accepted.
     * The code you are submitting must fit the overall vision and direction of Spartacus and really improve it. Bug fixes are simple cases, for example, but new features may work better as third-party extensions.
@@ -187,11 +188,11 @@ The "guidelines and standards" requirement could fill entire books and still lac
 
 1. Make sure the change would be welcome, as described above.
 
-1. Clone the Spartacus library sources, build, and then run the storefront from the library development workspace. For more information, see [Contributor Setup](docs/contributorsetup.md).
+1. Create a fork of the Spartacus library sources. Build and run the storefront from the library development workspace. For more information, see [Contributor Setup](docs/contributorsetup.md).
 
-1. Create a branch forking the Spartacus repository, and code your change.
+1. Work on your change in your fork (either on develop branch or a feature branch)
 
-1. Commit and push your changes on that branch.
+1. Commit and push your changes.
 
     * Squash several commits into one. See [this explanation](http://davidwalsh.name/squash-commits-git).
     * This step must also be done when additional changes are required after code review.
@@ -206,8 +207,7 @@ The "guidelines and standards" requirement could fill entire books and still lac
 
     ```Closes https://github.com/SAP/cloud-commerce-spartacus-storefront/pull/(pullRequestNumber)```
 
-1. Create a pull request to github.com/SAP/cloud-commerce-spartacus-storefront.
-
+1. Create a pull request so that we can review your change.
 1. Follow the link posted by the CLA assistant to your pull request and accept it, as described above.
 1. Wait for our code review and approval, possibly enhancing your change on request.
     * Note: This may take time depending on the required effort for reviewing, testing and clarification. Spartacus developers are also working their regular duties.
