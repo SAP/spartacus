@@ -1,13 +1,27 @@
-<ng-container *ngIf="isAbsoluteUrl(url); else isRelativeUrl">
-    <a role="link" [href]="url" [target]="target" [class]="class" [id]="id" [style]="style" [title]="title">
-        <ng-container *ngTemplateOutlet="templateOutlet"></ng-container>
-    </a>
+<ng-container *ngIf="isAbsoluteUrl(url); else: isRelativeUrl">
+  <a
+    role="link"
+    [href]="url"
+    [target]="target"
+    [class]="class"
+    [id]="id"
+    [style]="style"
+    [title]="title"
+  >
+    <ng-container *ngTemplateOutlet="templateOutlet"></ng-container>
+  </a>
 </ng-container>
 <ng-template #isRelativeUrl>
-    <a role="link" [routerLink]="routerUrl" [target]="target" [class]="class" [id]="id" [style]="style" [title]="title">
-        <ng-container *ngTemplateOutlet="templateOutlet"></ng-container>
-    </a>
+  <a
+    role="link"
+    [routerLink]="routerUrl"
+    [target]="target"
+    [class]="class"
+    [id]="id"
+    [style]="style"
+    [title]="title"
+  >
+    <ng-container *ngTemplateOutlet="templateOutlet"></ng-container>
+  </a>
 </ng-template>
-<ng-template #templateOutlet>
-    <ng-content></ng-content>
-</ng-template>
+<ng-template #templateOutlet> <ng-content></ng-content> </ng-template>

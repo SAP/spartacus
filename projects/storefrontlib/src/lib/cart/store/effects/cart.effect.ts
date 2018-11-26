@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
+
 import { Actions, Effect, ofType } from '@ngrx/effects';
+
+import { ProductImageConverterService } from '@spartacus/core';
+import { LANGUAGE_CHANGE, CURRENCY_CHANGE } from '@spartacus/core';
+
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { OccCartService } from '../../../occ/cart/cart.service';
-import { ProductImageConverterService } from '@spartacus/core';
-import { CartDataService } from '../../services/cart-data.service';
+
 import * as fromActions from './../actions/cart.action';
-import { LANGUAGE_CHANGE, CURRENCY_CHANGE } from '@spartacus/core';
+import { CartDataService } from '../../facade/cart-data.service';
+import { OccCartService } from '../../../occ/cart/cart.service';
 
 @Injectable()
 export class CartEffects {
