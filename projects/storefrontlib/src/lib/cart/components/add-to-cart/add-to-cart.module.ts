@@ -3,9 +3,19 @@ import { CartSharedModule } from './../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
+import { ConfigModule } from '@spartacus/core';
+import { CmsModuleConfig } from '@spartacus/storefront';
 
 @NgModule({
-  imports: [CartSharedModule, SpinnerModule],
+  imports: [
+    CartSharedModule,
+    SpinnerModule,
+    ConfigModule.withConfig(<CmsModuleConfig>{
+      cmsComponents: {
+        ProductAddToCartComponent: { selector: 'cx-add-to-cart' }
+      }
+    })
+  ],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],
   entryComponents: [AddedToCartDialogComponent],
   exports: [AddToCartComponent]

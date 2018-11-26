@@ -18,6 +18,9 @@ export class LanguageService {
     select(getAllLanguages)
   );
 
+  /**
+   * Super sprawa
+   */
   readonly activeLanguage$: Observable<string> = this.store.pipe(
     select(getActiveLanguage)
   );
@@ -34,6 +37,11 @@ export class LanguageService {
     this.store.dispatch(new LoadLanguages());
   }
 
+  /**
+   * Alabama
+   *
+   * @param isocode
+   */
   public set activeLanguage(isocode: string) {
     this.store.dispatch(new SetActiveLanguage(isocode));
   }

@@ -1,9 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParagraphComponent } from './paragraph.component';
+import { ConfigModule } from '@spartacus/core';
+import { CmsModuleConfig } from '@spartacus/storefront';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    ConfigModule.withConfig(<CmsModuleConfig>{
+      cmsComponents: {
+        CMSParagraphComponent: { selector: 'cx-paragraph' },
+        CMSTabParagraphComponent: { selector: 'cx-paragraph' }
+      }
+    })
+  ],
   declarations: [ParagraphComponent],
   exports: [ParagraphComponent],
   entryComponents: [ParagraphComponent]

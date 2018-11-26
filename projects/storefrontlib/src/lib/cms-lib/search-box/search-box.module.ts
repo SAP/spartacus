@@ -27,14 +27,17 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
     MediaModule,
     ProductModule,
     ConfigModule.withConfig(<CmsModuleConfig>{
-      cmsComponentProviders: {
-        SearchBoxComponent: [
-          {
-            provide: SearchBoxComponentService,
-            useClass: SearchBoxComponentService,
-            deps: [CmsComponentData, ProductSearchService, RoutingService]
-          }
-        ]
+      cmsComponents: {
+        SearchBoxComponent: {
+          selector: 'cx-searchbox',
+          providers: [
+            {
+              provide: SearchBoxComponentService,
+              useClass: SearchBoxComponentService,
+              deps: [CmsComponentData, ProductSearchService, RoutingService]
+            }
+          ]
+        }
       }
     })
   ],

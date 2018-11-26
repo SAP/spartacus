@@ -7,7 +7,7 @@ export type CmsComponentId =
   | 'SimpleResponsiveBannerComponent'
   | 'SimpleBannerComponent'
   | 'CMSParagraphComponent'
-  // | 'BreadcrumbComponent'
+  | 'BreadcrumbComponent'
   | 'NavigationComponent'
   | 'FooterNavigationComponent'
   | 'CategoryNavigationComponent'
@@ -16,7 +16,6 @@ export type CmsComponentId =
   | 'ProductCarouselComponent'
   | 'SearchBoxComponent'
   | 'ProductReferencesComponent'
-  // | CMSTabParagraphComponent'
   | 'CMSTabParagraphComponent'
   | string;
 
@@ -46,24 +45,5 @@ export const defaultCmsModuleConfig: CmsModuleConfig = {
   defaultPageIdForType: {
     ProductPage: ['productDetails'],
     CategoryPage: ['productList', 'productGrid', 'category']
-  },
-
-  cmsComponentMapping: {
-    CMSLinkComponent: 'cx-link',
-    SimpleResponsiveBannerComponent: 'cx-responsive-banner',
-    SimpleBannerComponent: 'cx-banner',
-    // BreadcrumbComponent:                'cx-breadcrumb',
-    CMSParagraphComponent: 'cx-paragraph',
-    NavigationComponent: 'cx-navigation',
-    FooterNavigationComponent: 'cx-footer-navigation',
-    CategoryNavigationComponent: 'cx-category-navigation',
-    ProductAddToCartComponent: 'cx-add-to-cart',
-    MiniCartComponent: 'cx-mini-cart',
-    ProductCarouselComponent: 'cx-product-carousel',
-    SearchBoxComponent: 'cx-searchbox',
-    ProductReferencesComponent: 'cx-product-references',
-    // CMSTabParagraphComponent: 'cx-tab-paragraph-container'
-    CMSTabParagraphComponent: 'cx-paragraph'
-  },
-  cmsComponentProviders: {}
+  }
 };
