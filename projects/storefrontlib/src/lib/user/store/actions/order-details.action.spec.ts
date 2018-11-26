@@ -1,17 +1,27 @@
 import * as fromOrderDetailsAction from './order-details.action';
+import { Order } from '@spartacus/core';
 
-const mockUserOrder: any = {
-  orderId: '123'
+// const mockUserOrder: any = {
+//   orderId: '123'
+// };
+
+const mockOrderDetails: Order = { code: '123' };
+
+const mockOrderDetailsParams = {
+  userId: 'user15355363988711@ydev.hybris.com',
+  orderCode: '00000386'
 };
 
 describe('Order Details Actions', () => {
   describe('LoadOrderDetails Action', () => {
     it('should create the action', () => {
-      const action = new fromOrderDetailsAction.LoadOrderDetails(mockUserOrder);
+      const action = new fromOrderDetailsAction.LoadOrderDetails(
+        mockOrderDetailsParams
+      );
 
       expect({ ...action }).toEqual({
         type: fromOrderDetailsAction.LOAD_ORDER_DETAILS,
-        payload: mockUserOrder
+        payload: mockOrderDetailsParams
       });
     });
   });
@@ -31,12 +41,12 @@ describe('Order Details Actions', () => {
   describe('LoadOrderDetailsSuccess Action', () => {
     it('should create the action', () => {
       const action = new fromOrderDetailsAction.LoadOrderDetailsSuccess(
-        mockUserOrder
+        mockOrderDetails
       );
 
       expect({ ...action }).toEqual({
         type: fromOrderDetailsAction.LOAD_ORDER_DETAILS_SUCCESS,
-        payload: mockUserOrder
+        payload: mockOrderDetails
       });
     });
   });

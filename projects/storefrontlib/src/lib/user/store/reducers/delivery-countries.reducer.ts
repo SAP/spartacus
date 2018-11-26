@@ -1,4 +1,5 @@
 import * as fromAction from '../actions';
+import { Country } from '@spartacus/core';
 
 export interface DeliveryCountriesState {
   entities: { [isocode: string]: any };
@@ -16,7 +17,7 @@ export function reducer(
     case fromAction.LOAD_DELIVERY_COUNTRIES_SUCCESS: {
       const deliveryCountries = action.payload;
       const entities = deliveryCountries.reduce(
-        (countryEntities: { [isocode: string]: any }, name: any) => {
+        (countryEntities: { [isocode: string]: any }, name: Country) => {
           return {
             ...countryEntities,
             [name.isocode]: name
