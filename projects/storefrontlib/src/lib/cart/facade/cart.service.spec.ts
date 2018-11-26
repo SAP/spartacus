@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
 
-import { Cart } from '@spartacus/core';
+import { Cart, OrderEntry } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -40,7 +40,10 @@ describe('CartService', () => {
     scope: ['xxx'],
     userId: 'xxx'
   };
-  const mockCartEntry: any = { entryNumber: 0, product: { code: productCode } };
+  const mockCartEntry: OrderEntry = {
+    entryNumber: 0,
+    product: { code: productCode }
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
