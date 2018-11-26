@@ -133,10 +133,6 @@ export class GoogleMapRendererService {
     selectMarkerHandler: Function
   ) {
     this.initMap(mapElement, this.defineMapCenter(locations));
-    if (selectMarkerHandler) {
-      this.createMarkers(locations, selectMarkerHandler);
-    } else {
-      this.createMarkers(locations);
-    }
+    this.createMarkers(locations, selectMarkerHandler);
   }
 }
