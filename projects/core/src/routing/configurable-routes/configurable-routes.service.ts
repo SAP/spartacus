@@ -48,7 +48,7 @@ export class ConfigurableRoutesService {
     );
   }
 
-  getRoutesTranslations(
+  getNestedRoutesTranslations(
     nestedRouteNames: string[],
     routesTranslations: RoutesTranslations = this.currentRoutesTranslations
   ): RouteTranslation[] {
@@ -61,7 +61,7 @@ export class ConfigurableRoutesService {
     // traverse down the routesTranslations tree along nestedRouteNames:
     for (let i = 0; i < nestedRouteNamesLength; i++) {
       const routeName = nestedRouteNames[i];
-      result.push(routesTranslations[routeName]);
+      result.push(this.getRouteTranslation(routeName, routesTranslations));
 
       // if it's not the last nested page name, go one level deeper in the translations tree:
       if (i < nestedRouteNamesLength - 1) {
@@ -87,9 +87,11 @@ export class ConfigurableRoutesService {
     routeName: string,
     routesTranslations: RoutesTranslations
   ): RoutesTranslations {
-    return (
-      routesTranslations[routeName] && routesTranslations[routeName].children
+    const routeTranslation = this.getRouteTranslation(
+      routeName,
+      routesTranslations
     );
+    return routeTranslation && routeTranslation.children;
   }
 
   private translateRoutes(
@@ -122,7 +124,10 @@ export class ConfigurableRoutesService {
   ): Routes {
     if (this.isConfigurable(route, 'cxPath')) {
       const routeName = this.getConfigurable(route, 'cxPath');
-      const childrenTranslations = routesTranslations[routeName].children;
+      const childrenTranslations = this.getChildrenRoutesTranslations(
+        routeName,
+        routesTranslations
+      );
       return this.translateRoutes(route.children, childrenTranslations);
     }
     return null;
@@ -187,15 +192,33 @@ export class ConfigurableRoutesService {
       : [];
   }
 
+  private getRouteTranslation(
+    routeName: string,
+    routesTranslations: RoutesTranslations
+  ): RouteTranslation {
+    if (!routesTranslations) {
+      this.warn(
+        `No route translation was configured for page '${routeName}' in language '${
+          this.currentLanguageCode
+        }'!`
+      );
+      return null;
+    }
+    return routesTranslations[routeName];
+  }
+
   private getTranslatedPaths(
     route: Route,
     key: ConfigurableRouteKey,
-    translations: RoutesTranslations
+    routesTranslations: RoutesTranslations
   ): string[] {
     const routeName = this.getConfigurable(route, key);
-    const translation = translations[routeName];
+    const translation = this.getRouteTranslation(routeName, routesTranslations);
+    if (!translation) {
+      return [];
+    }
 
-    if (!translation || translation.paths === undefined) {
+    if (translation.paths === undefined) {
       this.warn(
         `No route translation paths was configured for page '${routeName}' in language '${
           this.currentLanguageCode

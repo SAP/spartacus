@@ -19,13 +19,16 @@ export class PathPipeService {
     nestedRoutesNames: string[],
     nestedRoutesParamsObjects?: object[]
   ): string[] {
-    // spike todo: support here nested routes given in array (and paramsObjects array for them) - for now we use only first level
+    if (!nestedRoutesNames.length) {
+      return this.ROOT_PATH;
+    }
+
     nestedRoutesParamsObjects = this.complementListWithEmptyObjects(
       nestedRoutesParamsObjects,
       nestedRoutesNames.length
     );
 
-    const nestedRoutesTranslations = this.configurableRoutesService.getRoutesTranslations(
+    const nestedRoutesTranslations = this.configurableRoutesService.getNestedRoutesTranslations(
       nestedRoutesNames
     );
     if (!nestedRoutesTranslations) {
