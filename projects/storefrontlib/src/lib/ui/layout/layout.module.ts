@@ -20,6 +20,7 @@ import { SalePageLayoutModule } from './sale-page-layout/sale-page-layout.module
 import { HelpPageLayoutModule } from './help-page-layout/help-page-layout.module';
 import { ContactPageLayoutModule } from './contact-page-layout/contact-page-layout.module';
 import { OutletRefModule } from '../../outlet/index';
+import { TermsConditionsLayoutModule } from './terms-conditions-layout/terms-conditions-layout.module';
 
 const layoutModules = [
   LandingPageLayoutModule,
@@ -37,12 +38,12 @@ const layoutModules = [
   SalePageLayoutModule,
   HelpPageLayoutModule,
   ContactPageLayoutModule,
-  OutletRefModule
+  OutletRefModule,
+  TermsConditionsLayoutModule
 ];
 
 @NgModule({
   imports: [MainModule, ...layoutModules],
-  declarations: [],
   exports: [MainModule, ...layoutModules]
 })
 export class LayoutModule {}

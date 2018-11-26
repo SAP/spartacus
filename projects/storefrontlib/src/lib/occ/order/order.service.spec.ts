@@ -4,14 +4,14 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { async, TestBed } from '@angular/core/testing';
-import { OccConfig } from '@spartacus/core';
+import { OccConfig, Order } from '@spartacus/core';
 import { OccOrderService } from './order.service';
 
 const userId = '123';
 const cartId = '456';
 
-const orderData = {
-  type: 'orderWsDTO',
+const orderData: Order = {
+  site: 'electronics',
   calculated: true,
   code: '00001004'
 };

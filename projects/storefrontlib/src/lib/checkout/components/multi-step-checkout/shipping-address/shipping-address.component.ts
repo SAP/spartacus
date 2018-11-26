@@ -6,14 +6,16 @@ import {
   Input,
   EventEmitter
 } from '@angular/core';
+
+import { RoutingService } from '@spartacus/core';
+
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { RoutingService } from '@spartacus/core';
-import { CheckoutService } from '../../../services/checkout.service';
-
-import { Card } from '../../../../ui/components/card/card.component';
 import { Address } from '../../../models/address-model';
+import { CartDataService } from '../../../../cart/facade/cart-data.service';
+import { UserService } from '../../../../user/facade/user.service';
+import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
   selector: 'cx-shipping-address',
@@ -33,17 +35,18 @@ export class ShippingAddressComponent implements OnInit {
   addAddress = new EventEmitter<any>();
 
   constructor(
-    protected checkoutService: CheckoutService,
+    protected userService: UserService,
+    protected cartData: CartDataService,
     protected routingService: RoutingService
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.checkoutService.addressesLoading$;
+    this.isLoading$ = this.userService.addressesLoading$;
 
-    this.existingAddresses$ = this.checkoutService.shippingAddresses$.pipe(
+    this.existingAddresses$ = this.userService.addresses$.pipe(
       tap(addresses => {
         if (addresses.length === 0) {
-          this.checkoutService.loadUserAddresses();
+          this.userService.loadAddresses(this.cartData.userId);
         } else {
           if (this.cards.length === 0) {
             addresses.forEach(address => {

@@ -3,7 +3,9 @@ import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { OnlyNumberDirective } from './only-number.directive';
 @Component({
-  template: `<input type="text" cxOnlyNumber value="5"/>`
+  template: `
+    <input type="text" cxOnlyNumber value="5" />
+  `
 })
 class TestHoverFocusComponent {}
 

@@ -1,6 +1,6 @@
-<div class="cx-page">
+<div class="cx-page" *ngIf="(order$ | async) as order">
   <header class="cx-page__header">
-    <h1 class="cx-page__title">Confirmation of Order: {{order.code}}</h1>
+    <h1 class="cx-page__title">Confirmation of Order: {{ order.code }}</h1>
   </header>
 
   <div class="cx-order-confirmation">
@@ -10,30 +10,42 @@
       <!-- <a href="#" class="btn-link">Print Page</a> -->
     </div>
 
+    <cx-add-to-home-screen-banner></cx-add-to-home-screen-banner>
+
     <div class="cx-order-confirmation__review-summary">
       <div class="container">
         <div class="row">
           <div class="col-sm-12 col-md-4 col-lg-3">
             <div class="cx-order-confirmation__review-summary-card">
-              <cx-card [content]="getAddressCardContent(order.deliveryAddress)"></cx-card>
+              <cx-card
+                [content]="getAddressCardContent(order.deliveryAddress)"
+              ></cx-card>
             </div>
           </div>
 
           <div class="col-sm-12 col-md-4 col-lg-3">
             <div class="cx-order-confirmation__review-summary-card">
-              <cx-card [content]="getBillingAddressCardContent(order.paymentInfo.billingAddress)"></cx-card>
+              <cx-card
+                [content]="
+                  getBillingAddressCardContent(order.paymentInfo.billingAddress)
+                "
+              ></cx-card>
             </div>
           </div>
 
           <div class="col-sm-12 col-md-4 col-lg-3">
             <div class="cx-order-confirmation__review-summary-card">
-              <cx-card [content]="getShippingCardContent(order.deliveryMode)"></cx-card>
+              <cx-card
+                [content]="getShippingCardContent(order.deliveryMode)"
+              ></cx-card>
             </div>
           </div>
 
           <div class="col-sm-12 col-md-4 col-lg-3">
             <div class="cx-order-confirmation__review-summary-card">
-              <cx-card [content]="getPaymentInfoCardContent(order.paymentInfo)"></cx-card>
+              <cx-card
+                [content]="getPaymentInfoCardContent(order.paymentInfo)"
+              ></cx-card>
             </div>
           </div>
         </div>
@@ -42,7 +54,10 @@
 
     <div class="cx-order-confirmation__order-items container">
       <h4 class="cx-order-confirmation__order-items-header">Order Items</h4>
-      <cx-cart-item-list [items]="order.entries" [isReadOnly]="true"></cx-cart-item-list>
+      <cx-cart-item-list
+        [items]="order.entries"
+        [isReadOnly]="true"
+      ></cx-cart-item-list>
     </div>
 
     <div class="cx-order-confirmation__order-summary container">
