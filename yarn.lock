@@ -322,6 +322,18 @@
     semver "^5.3.0"
     semver-intersect "^1.1.2"
 
+"@spartacus/core@0.1.0-prealpha.1":
+  version "0.1.0-prealpha.1"
+  resolved "https://registry.yarnpkg.com/@spartacus/core/-/core-0.1.0-prealpha.1.tgz#87d156287eec0c2fdb36aedb05b158e78a99a2e9"
+  integrity sha512-lUtmXxLDvPBiIIN9SgbphQUlm38yX1P8AIDJZw5Absw/TA/3ZXO4Sl2D9gAGeepD+SFWXGEy1Gu3BFCfyrElSA==
+  dependencies:
+    tslib "^1.9.0"
+
+"@spartacus/styles@0.1.0-prealpha.4":
+  version "0.1.0-prealpha.4"
+  resolved "https://registry.yarnpkg.com/@spartacus/styles/-/styles-0.1.0-prealpha.4.tgz#87ab73ac7e37efd880213c50af98b2970f1c2ada"
+  integrity sha512-Jtg1hHwo0p6E+VU1g494IjtOBR/3qxwVLN/XYPTlokXvfzV5ienAVLxN185mK2+1OPTG7WqjIS/SVnhCIkYtAQ==
+
 "@types/estree@0.0.39":
   version "0.0.39"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
@@ -5942,10 +5954,10 @@ preserve@^0.2.0:
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
   integrity sha1-gV7R9uvGWSb4ZbMQwHE7yzMVzks=
 
-prettier@1.14.3:
-  version "1.14.3"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.14.3.tgz#90238dd4c0684b7edce5f83b0fb7328e48bd0895"
-  integrity sha512-qZDVnCrnpsRJJq5nSsiHCE3BYMED2OtsI+cmzIzF1QIfqm5ALf8tEJcO27zV1gKNKRPdhjO0dNWnrzssDQ1tFg==
+prettier@1.15.2:
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.15.2.tgz#d31abe22afa4351efa14c7f8b94b58bb7452205e"
+  integrity sha512-YgPLFFA0CdKL4Eg2IHtUSjzj/BWgszDHiNQAe0VAIBse34148whfdzLagRL+QiKS+YfK5ftB6X4v/MBw8yCoug==
 
 pretty-error@^2.0.2:
   version "2.1.1"

@@ -1,7 +1,6 @@
 <ng-container>
-    <div class="wrapper">
-        <cx-store-finder-search (showMapList)="showMapList($event)" (persistSearchQuery)="persistSearchQuery($event)"></cx-store-finder-search>
-        <cx-store-finder-list *ngIf="showMapListComponent" [searchQuery]="searchQuery"></cx-store-finder-list>
-        <cx-store-finder-list-count *ngIf="!showMapListComponent"></cx-store-finder-list-count>
-    </div>
+  <div class="wrapper">
+    <cx-store-finder-header></cx-store-finder-header>
+    <router-outlet></router-outlet>
+  </div>
 </ng-container>

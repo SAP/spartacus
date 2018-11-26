@@ -1,0 +1,93 @@
+<ng-container *ngIf="locations">
+  <div class="cx-store-finder-list container">
+    <div *ngIf="locations?.stores" class="row cx-store-finder-list__column-set">
+      <div class="col-md-4 cx-store-finder-list__address-column">
+        <ol class="cx-store-finder-list__list">
+          <li
+            *ngFor="let location of locations?.stores; let i = index"
+            id="{{'item-' + i}}"
+            [ngClass]="{
+              'cx-store-finder-list__selected-store-item': selectedStore === i
+            }"
+            class="cx-store-finder-list__list-items cx-store-finder-list__list-items--ordered"
+          >
+            <cx-store-finder-list-item
+              [location]="location"
+              [locationIndex]="i"
+              (storeItemClick)="centerStoreOnMapByIndex($event)"
+            ></cx-store-finder-list-item>
+          </li>
+        </ol>
+      </div>
+      <div class="col-md-8 cx-store-finder-list__map-column">
+        <cx-store-finder-map
+          #storeMap
+          [locations]="locations.stores"
+          (selectedStoreItem)="selectStoreItemList($event)"
+        ></cx-store-finder-map>
+      </div>
+    </div>
+
+    <!-- mobile tabs for column set only -->
+
+    <div
+      *ngIf="locations?.stores"
+      class="cx-store-finder-list__column-set-mobile"
+    >
+      <ngb-tabset justify="center">
+        <ngb-tab>
+          <ng-template ngbTabTitle>
+            <div class="cx-store-finder-list__column-set-mobile-title">
+              List View
+            </div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <div class="cx-store-finder-list__address-column">
+              <ol class="cx-store-finder-list__list">
+                <li
+                  *ngFor="let location of locations?.stores; let i = index"
+                  id="{{'item-' + i}}"
+                  [ngClass]="{
+                    'cx-store-finder-list__selected-store-item':
+                      selectedStore === i
+                  }"
+                  class="cx-store-finder-list__list-items cx-store-finder-list__list-items--ordered"
+                >
+                  <cx-store-finder-list-item
+                    [location]="location"
+                    [locationIndex]="i"
+                    (storeItemClick)="centerStoreOnMapByIndex($event)"
+                  ></cx-store-finder-list-item>
+                </li>
+              </ol>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab>
+          <ng-template ngbTabTitle>
+            <div class="cx-store-finder-list__column-set-mobile__tab-title">
+              Map View
+            </div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <div class="cx-store-finder-list__map-column">
+              <cx-store-finder-map
+                #storeMap
+                [locations]="locations.stores"
+                (selectedStoreItem)="selectStoreItemList($event)"
+              ></cx-store-finder-map>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+
+    <!-- mobile tabs end -->
+
+    <div *ngIf="!locations?.stores" class="row">
+      <div class="col-md-12 cx-store-finder-list__not-found">
+        No Stores Found.
+      </div>
+    </div>
+  </div>
+</ng-container>

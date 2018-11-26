@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Store, select } from '@ngrx/store';
-import * as fromCmsStore from '../../../cms/store';
+
+import { CmsService } from '../../../cms/facade/cms.service';
 
 @Component({
   selector: 'cx-category-page',
@@ -16,7 +16,7 @@ export class CategoryPageComponent implements OnInit {
 
   constructor(
     protected activeRoute: ActivatedRoute,
-    private store: Store<fromCmsStore.CmsState>
+    protected cmsService: CmsService
   ) {}
 
   ngOnInit() {
@@ -32,6 +32,6 @@ export class CategoryPageComponent implements OnInit {
       }
     });
 
-    this.cmsPage$ = this.store.pipe(select(fromCmsStore.getLatestPage));
+    this.cmsPage$ = this.cmsService.currentPage$;
   }
 }

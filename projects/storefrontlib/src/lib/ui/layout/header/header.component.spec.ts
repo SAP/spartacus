@@ -1,45 +1,43 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  ServiceWorkerModule,
-  ɵangular_packages_service_worker_service_worker_b as RegistrationOptions
-} from '@angular/service-worker';
-
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import * as fromAuth from '../../../auth/store';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
-import * as fromCmsReducer from '../../../cms/store/reducers';
-import { SiteContextModule } from '../../../site-context';
-import * as fromUserReducer from '../../../user/store/reducers';
-import { LoginComponent } from './../../../user/components/login/login.component';
 import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
-import { HeaderComponent } from './header.component';
-import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
-import { CmsModuleConfig } from '../../../cms/cms-module-config';
-import { OutletDirective } from '../../../outlet';
-import { PwaModule } from './../../../pwa/pwa.module';
-import {
-  PWAModuleConfig,
-  defaultPWAModuleConfig
-} from '../../../pwa/pwa.module-config';
-import { SiteContextConfig } from '@spartacus/core';
+import { HeaderComponent } from './header.component';
 
-const MockCmsModuleConfig: CmsModuleConfig = {
-  site: {
-    language: 'de',
-    currency: 'JPY'
-  }
-};
+@Component({
+  selector: 'cx-language-selector',
+  template: ''
+})
+class MockLanguageSelectorComponent {}
 
-const MockPwaRegistrationOptions: RegistrationOptions = {
-  enabled: false
-};
+@Component({
+  selector: 'cx-currency-selector',
+  template: ''
+})
+class MockCurrencySelectorComponent {}
+
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: ''
+})
+class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
+
+@Component({
+  selector: 'cx-login',
+  template: ''
+})
+class MockLoginComponent {}
+
+@Component({
+  selector: 'cx-mobile-menu',
+  template: ''
+})
+class MockMobileMenuComponent {}
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -47,40 +45,16 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('user', fromUserReducer.getReducers()),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
-        StoreModule.forFeature('auth', fromAuth.getReducers()),
-        PwaModule,
-        ServiceWorkerModule,
-        EffectsModule.forRoot([]),
-        SiteContextModule
-      ],
+      imports: [RouterTestingModule],
       declarations: [
         HeaderComponent,
-        DynamicSlotComponent,
-        ComponentWrapperDirective,
+        MockDynamicSlotComponent,
+        MockLanguageSelectorComponent,
+        MockCurrencySelectorComponent,
+        MockLoginComponent,
+        MockMobileMenuComponent,
         HeaderSkipperComponent,
-        TertiaryBarComponent,
-        MobileMenuComponent,
-        LoginComponent,
-        OutletDirective
-      ],
-      providers: [
-        {
-          provide: SiteContextConfig,
-          useValue: MockCmsModuleConfig
-        },
-        {
-          provide: PWAModuleConfig,
-          useValue: defaultPWAModuleConfig
-        },
-        {
-          provide: RegistrationOptions,
-          useValue: MockPwaRegistrationOptions
-        }
+        TertiaryBarComponent
       ]
     }).compileComponents();
   }));

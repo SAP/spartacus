@@ -1,24 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, Store } from '@ngrx/store';
-import * as NgrxStore from '@ngrx/store';
-import { PaymentFormComponent } from './payment-form.component';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
-
-import * as fromCheckout from '../../../../store';
-import * as fromCart from '../../../../../cart/store';
-import * as fromUser from '../../../../../user/store';
-import * as fromAuth from '../../../../../auth/store';
-
-import { CheckoutService } from '../../../../services/checkout.service';
-import { CartService } from '../../../../../cart/services/cart.service';
-import { CartDataService } from '../../../../../cart/services/cart-data.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { CardModule } from '../../../../../ui/components/card/card.module';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Address } from '../../../../models/address-model';
 import { By } from '@angular/platform-browser';
-import { ChangeDetectionStrategy } from '@angular/core';
+import createSpy = jasmine.createSpy;
+
+import { CheckoutService } from '../../../../facade/checkout.service';
+import { Address } from '../../../../models/address-model';
+import { PaymentFormComponent } from './payment-form.component';
 
 const mockAddress: Address = {
   firstName: 'John',
@@ -43,32 +33,32 @@ const mockCardTypes = [
   }
 ];
 
+@Component({
+  selector: 'cx-card',
+  template: ''
+})
+class MockCardComponent {
+  @Input()
+  content: any;
+}
+
 describe('PaymentFormComponent', () => {
-  let store: Store<fromCheckout.CheckoutState>;
   let component: PaymentFormComponent;
   let fixture: ComponentFixture<PaymentFormComponent>;
-  let service: CheckoutService;
+  let mockCheckoutService: any;
   let controls: FormGroup['controls'];
-  let mockCheckoutSelectors: {
-    getAllCardTypes: BehaviorSubject<any[]>;
-    getDeliveryAddress: BehaviorSubject<any>;
-  };
 
   beforeEach(async(() => {
+    mockCheckoutService = {
+      cardTypes$: new BehaviorSubject([]),
+      deliveryAddress$: new BehaviorSubject(null),
+      loadSupportedCardTypes: createSpy()
+    };
+
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
-        CardModule,
-        NgSelectModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromCart.getReducers()),
-        StoreModule.forFeature('user', fromUser.getReducers()),
-        StoreModule.forFeature('checkout', fromCheckout.getReducers()),
-        StoreModule.forFeature('auth', fromAuth.getReducers())
-      ],
-      declarations: [PaymentFormComponent],
-      providers: [CheckoutService, CartService, CartDataService]
+      imports: [ReactiveFormsModule, NgSelectModule],
+      declarations: [PaymentFormComponent, MockCardComponent],
+      providers: [{ provide: CheckoutService, useValue: mockCheckoutService }]
     })
       .overrideComponent(PaymentFormComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default }
@@ -79,25 +69,7 @@ describe('PaymentFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentFormComponent);
     component = fixture.componentInstance;
-    service = TestBed.get(CheckoutService);
-    store = TestBed.get(Store);
     controls = component.payment.controls;
-
-    mockCheckoutSelectors = {
-      getAllCardTypes: new BehaviorSubject([]),
-      getDeliveryAddress: new BehaviorSubject(mockAddress)
-    };
-    spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
-      switch (selector) {
-        case fromCheckout.getAllCardTypes:
-          return () => mockCheckoutSelectors.getAllCardTypes;
-        case fromCheckout.getDeliveryAddress:
-          return () => mockCheckoutSelectors.getDeliveryAddress;
-      }
-    });
-
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOn(service, 'loadSupportedCardTypes').and.callThrough();
 
     spyOn(component.addPaymentInfo, 'emit').and.callThrough();
     spyOn(component.backToPayment, 'emit').and.callThrough();
@@ -107,32 +79,39 @@ describe('PaymentFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get suppored card types if they do not exist', () => {
-    mockCheckoutSelectors.getAllCardTypes.next([]);
+  it('should call ngOnInit to get suppored card types if they do not exist', done => {
+    mockCheckoutService.cardTypes$.next([]);
     component.ngOnInit();
     component.cardTypes$.subscribe(() => {
-      expect(service.loadSupportedCardTypes).toHaveBeenCalled();
+      expect(mockCheckoutService.loadSupportedCardTypes).toHaveBeenCalled();
+      done();
     });
   });
 
   it('should call ngOnInit to get suppored card types if they exist', () => {
-    mockCheckoutSelectors.getAllCardTypes.next(mockCardTypes);
+    mockCheckoutService.cardTypes$.next(mockCardTypes);
     component.ngOnInit();
+    let cardTypes;
     component.cardTypes$.subscribe(data => {
-      expect(data).toBe(mockCardTypes);
+      cardTypes = data;
     });
+    expect(cardTypes).toBe(mockCardTypes);
   });
 
   it('should call ngOnInit to get shipping address set in cart', () => {
-    mockCheckoutSelectors.getAllCardTypes.next(mockCardTypes);
-    mockCheckoutSelectors.getDeliveryAddress.next(mockAddress);
+    mockCheckoutService.cardTypes$.next(mockCardTypes);
+    mockCheckoutService.deliveryAddress$.next(mockAddress);
     component.ngOnInit();
+    let cardTypes;
     component.cardTypes$.subscribe(data => {
-      expect(data).toBe(mockCardTypes);
+      cardTypes = data;
     });
+    let address;
     component.shippingAddress$.subscribe(data => {
-      expect(data).toBe(mockAddress);
+      address = data;
     });
+    expect(cardTypes).toBe(mockCardTypes);
+    expect(address).toBe(mockAddress);
   });
 
   it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
@@ -193,8 +172,8 @@ describe('PaymentFormComponent', () => {
       fixture.debugElement.query(By.css('.btn-primary'));
 
     it('should call "next" function when being clicked and when form is valid', () => {
-      mockCheckoutSelectors.getAllCardTypes.next(mockCardTypes);
-      mockCheckoutSelectors.getDeliveryAddress.next(mockAddress);
+      mockCheckoutService.cardTypes$.next(mockCardTypes);
+      mockCheckoutService.deliveryAddress$.next(mockAddress);
 
       spyOn(component, 'next');
 

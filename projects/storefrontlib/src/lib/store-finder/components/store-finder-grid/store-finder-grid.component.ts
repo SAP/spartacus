@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
 import { StoreFinderService } from '../../services/store-finder.service';
@@ -12,6 +13,7 @@ import { StoreFinderService } from '../../services/store-finder.service';
 })
 export class StoreFinderGridComponent implements OnInit {
   locations: any;
+  isLoading$: Observable<any>;
 
   constructor(
     private store: Store<fromStore.StoresState>,
@@ -22,6 +24,7 @@ export class StoreFinderGridComponent implements OnInit {
 
   ngOnInit() {
     if (this.route.snapshot.params.country) {
+      this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
       if (this.route.snapshot.params.region) {
         this.storeFinderService.viewAllStoresForRegion(
           this.route.snapshot.params.country,

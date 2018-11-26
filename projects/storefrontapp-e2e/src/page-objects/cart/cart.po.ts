@@ -61,7 +61,7 @@ export class CartPage extends AppPage {
 
   async getCartEntryQuantity(cartEntry: ElementFinder): Promise<string> {
     const input = cartEntry.element(by.css('.cx-item-counter__value'));
-    return await input.getText();
+    return await input.getAttribute('value');
   }
 
   async getCartEntryTotalPrice(cartEntry: ElementFinder): Promise<string> {

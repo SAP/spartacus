@@ -1,19 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
-import { NavigationModule } from '../navigation/navigation.module';
-import { CategoryNavigationComponent } from './category-navigation.component';
-import * as fromCmsReducer from '../../cms/store/reducers';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { BootstrapModule } from '../../bootstrap.module';
-import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { DebugElement, Component, Input } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
-const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CategoryNavigationComponent: 'CategoryNavigationComponent'
-  }
-};
+import { NavigationService } from '../navigation/navigation.service';
+import { CmsService } from '../../cms/facade/cms.service';
+import { NavigationComponent } from '..';
+import { CategoryNavigationComponent } from './category-navigation.component';
+
+@Component({
+  selector: 'cx-navigation-ui',
+  template: ''
+})
+class MockNavigationUIComponent {
+  @Input()
+  dropdownMode = 'list';
+  @Input()
+  node;
+}
 
 describe('CategoryNavigationComponent', () => {
   let component: CategoryNavigationComponent;
@@ -22,15 +26,17 @@ describe('CategoryNavigationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NavigationModule,
-        BootstrapModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
-        RouterTestingModule
+      imports: [RouterTestingModule],
+      declarations: [
+        CategoryNavigationComponent,
+        NavigationComponent,
+        MockNavigationUIComponent
       ],
-      declarations: [CategoryNavigationComponent],
-      providers: [{ provide: CmsModuleConfig, useValue: UseCmsModuleConfig }]
+      providers: [
+        NavigationService,
+        { provide: CmsService, useValue: {} },
+        { provide: NavigationService, useValue: {} }
+      ]
     }).compileComponents();
   }));
 
@@ -52,7 +58,6 @@ describe('CategoryNavigationComponent', () => {
         }
       ]
     };
-
     fixture.detectChanges();
   });
 

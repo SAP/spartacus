@@ -1,9 +1,4 @@
-export enum PageType {
-  CONTENT_PAGE = <any>'ContentPage',
-  PRODUCT_PAGE = <any>'ProductPage',
-  CATEGORY_PAGE = <any>'CategoryPage',
-  CATALOG_PAGE = <any>'CatalogPage'
-}
+import { PageType } from '../../occ-models';
 
 export class PageContext {
   id: string;

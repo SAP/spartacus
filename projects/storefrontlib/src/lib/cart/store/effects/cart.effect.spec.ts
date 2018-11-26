@@ -1,22 +1,25 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { hot, cold } from 'jasmine-marbles';
+import { StoreModule } from '@ngrx/store';
+import { provideMockActions } from '@ngrx/effects/testing';
+
+import { OccConfig } from '@spartacus/core';
+import { ProductImageConverterService } from '@spartacus/core';
+
 import { Observable, of } from 'rxjs';
 
-import { StoreModule } from '@ngrx/store';
+import { hot, cold } from 'jasmine-marbles';
+
+import * as fromActions from '../actions/cart.action';
+import { CartDataService } from '../../facade/cart-data.service';
+import { CartService } from '../../facade/cart.service';
+import * as fromAuth from '../../../auth/store';
 import * as fromCart from '../../../cart/store';
 import * as fromUser from '../../../user/store';
-import * as fromAuth from '../../../auth/store';
-
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { OccConfig } from '@spartacus/core';
-import { CartService } from '../../services/cart.service';
-import { CartDataService } from '../../services/cart-data.service';
-import { ProductImageConverterService } from '../../../product/converters';
+
 import * as fromEffects from './cart.effect';
-import * as fromActions from '../actions/cart.action';
-import { provideMockActions } from '@ngrx/effects/testing';
 
 describe('Cart effect', () => {
   let cartService: OccCartService;

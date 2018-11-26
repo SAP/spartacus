@@ -1,17 +1,39 @@
 import { TestBed } from '@angular/core/testing';
 import { OccCartService } from './cart.service';
-import { OccConfig } from '@spartacus/core';
+import {
+  OccConfig,
+  Address,
+  DeliveryMode,
+  Cart,
+  CartList,
+  CartModification,
+  PaymentDetails
+} from '@spartacus/core';
 import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
-import { ProductImageConverterService } from '../../product/converters';
+import { ProductImageConverterService } from '@spartacus/core';
 
 const userId = '123';
 const cartId = '456';
 const toMergeCart = { guid: '123456' };
-const cartData = 'mockCartData';
-const mergedCart = 'mergedCart';
+const cartData: Cart = {
+  store: 'electronics',
+  guid: '1212121'
+};
+const cartDataList: CartList = {
+  carts: [cartData]
+};
+const mergedCart: Cart = {
+  name: 'mergedCart'
+};
+const cartModified: CartModification = {
+  deliveryModeChanged: true
+};
+const mockPaymentDetails: PaymentDetails = {
+  accountHolderName: 'mockPaymentDetails'
+};
 
 const usersEndpoint = '/users';
 const cartsEndpoint = '/carts/';
@@ -61,7 +83,7 @@ describe('OccCartService', () => {
   describe('load all carts', () => {
     it('should load all carts basic data for given user', () => {
       service.loadAllCarts(userId).subscribe(result => {
-        expect(result).toEqual([cartData]);
+        expect(result).toEqual(cartDataList);
       });
 
       const mockReq = httpMock.expectOne(req => {
@@ -76,12 +98,12 @@ describe('OccCartService', () => {
       expect(mockReq.request.params.get('fields')).toEqual(
         'carts(' + BASIC_PARAMS + ',saveTime)'
       );
-      mockReq.flush([cartData]);
+      mockReq.flush(cartDataList);
     });
 
     it('should load all carts details data for given user with details flag', () => {
       service.loadAllCarts(userId, true).subscribe(result => {
-        expect(result).toEqual([cartData]);
+        expect(result).toEqual(cartDataList);
       });
 
       const mockReq = httpMock.expectOne(req => {
@@ -96,7 +118,7 @@ describe('OccCartService', () => {
       expect(mockReq.request.params.get('fields')).toEqual(
         'carts(' + DETAILS_PARAMS + ',saveTime)'
       );
-      mockReq.flush([cartData]);
+      mockReq.flush(cartDataList);
     });
   });
 
@@ -209,7 +231,7 @@ describe('OccCartService', () => {
   describe('add entry to cart', () => {
     it('should add entry to cart for given user id, cart id, product code and product quantity', () => {
       service.addCartEntry(userId, cartId, '147852', 5).subscribe(result => {
-        expect(result).toEqual(cartData);
+        expect(result).toEqual(cartModified);
       });
 
       const mockReq = httpMock.expectOne(req => {
@@ -230,15 +252,14 @@ describe('OccCartService', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(cartData);
+      mockReq.flush(cartModified);
     });
   });
 
   describe('update entry in a cart', () => {
     it('should update an entry in a cart for given user id, cart id, entryNumber and quantitiy', () => {
-      const entryData = 'mock entry data';
       service.updateCartEntry(userId, cartId, '12345', 5).subscribe(result => {
-        expect(result).toEqual(entryData);
+        expect(result).toEqual(cartModified);
       });
 
       const mockReq = httpMock.expectOne(req => {
@@ -259,7 +280,7 @@ describe('OccCartService', () => {
       expect(mockReq.request.params.get('qty')).toEqual('5');
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(entryData);
+      mockReq.flush(cartModified);
     });
   });
 
@@ -290,12 +311,15 @@ describe('OccCartService', () => {
 
   describe('create an address for cart', () => {
     it('should create address for cart for given user id, cart id and address', () => {
-      const mockAddress = 'mockAddress';
+      const mockAddress: Address = {
+        firstName: 'Mock',
+        lastName: 'Address'
+      };
 
       service
         .createAddressOnCart(userId, cartId, mockAddress)
         .subscribe(result => {
-          expect(result).toEqual(cartData);
+          expect(result).toEqual(mockAddress);
         });
 
       const mockReq = httpMock.expectOne(req => {
@@ -313,7 +337,7 @@ describe('OccCartService', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(cartData);
+      mockReq.flush(mockAddress);
     });
   });
 
@@ -349,8 +373,11 @@ describe('OccCartService', () => {
 
   describe('get all supported delivery modes for cart', () => {
     it('should get all supported delivery modes for cart for given user id and cart id', () => {
+      const mockDeliveryMode: DeliveryMode = {
+        name: 'mockDeliveryMode'
+      };
       service.getSupportedDeliveryModes(userId, cartId).subscribe(result => {
-        expect(result).toEqual(cartData);
+        expect(result).toEqual(mockDeliveryMode);
       });
 
       const mockReq = httpMock.expectOne(req => {
@@ -367,7 +394,7 @@ describe('OccCartService', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(cartData);
+      mockReq.flush(mockDeliveryMode);
     });
   });
 
@@ -456,11 +483,12 @@ describe('OccCartService', () => {
         param: 'mockParam'
       };
       const mockUrl = 'mockUrl';
+      const mockPaymentProvider = 'mockPaymentProvider';
 
       service
         .createSubWithPaymentProvider(mockUrl, params)
         .subscribe(result => {
-          expect(result).toEqual(cartData);
+          expect(result).toEqual(mockPaymentProvider);
         });
 
       const mockReq = httpMock.expectOne(req => {
@@ -474,7 +502,7 @@ describe('OccCartService', () => {
       expect(mockReq.request.headers.get('Accept')).toEqual('text/html');
       expect(mockReq.request.responseType).toEqual('text');
       expect(mockReq.request.body.get('param')).toEqual('mockParam');
-      mockReq.flush(cartData);
+      mockReq.flush(mockPaymentProvider);
     });
   });
 
@@ -485,11 +513,12 @@ describe('OccCartService', () => {
         param2: 'mockParam2'
       };
       const mockUrl = 'mockUrl';
+      const mockPaymentProvider = 'mockPaymentProvider';
 
       service
         .createSubWithPaymentProvider(mockUrl, params)
         .subscribe(result => {
-          expect(result).toEqual(cartData);
+          expect(result).toEqual(mockPaymentProvider);
         });
 
       const mockReq = httpMock.expectOne(req => {
@@ -504,7 +533,7 @@ describe('OccCartService', () => {
       expect(mockReq.request.body.get('param1')).toEqual('mockParam1');
       expect(mockReq.request.body.get('param2')).toEqual('mockParam2');
       expect(mockReq.request.responseType).toEqual('text');
-      mockReq.flush(cartData);
+      mockReq.flush(mockPaymentProvider);
     });
   });
 
@@ -515,7 +544,7 @@ describe('OccCartService', () => {
       };
 
       service.createPaymentDetails(userId, cartId, params).subscribe(result => {
-        expect(result).toEqual(cartData);
+        expect(result).toEqual(mockPaymentDetails);
       });
 
       const mockReq = httpMock.expectOne(req => {
@@ -536,7 +565,7 @@ describe('OccCartService', () => {
       );
       expect(mockReq.request.body.get('param')).toEqual('mockParam');
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(cartData);
+      mockReq.flush(mockPaymentDetails);
     });
   });
 
@@ -548,7 +577,7 @@ describe('OccCartService', () => {
       };
 
       service.createPaymentDetails(userId, cartId, params).subscribe(result => {
-        expect(result).toEqual(cartData);
+        expect(result).toEqual(mockPaymentDetails);
       });
 
       const mockReq = httpMock.expectOne(req => {
@@ -570,7 +599,7 @@ describe('OccCartService', () => {
       expect(mockReq.request.responseType).toEqual('json');
       expect(mockReq.request.body.get('param1')).toEqual('mockParam1');
       expect(mockReq.request.body.get('param2')).toEqual('mockParam2');
-      mockReq.flush(cartData);
+      mockReq.flush(mockPaymentDetails);
     });
   });
 

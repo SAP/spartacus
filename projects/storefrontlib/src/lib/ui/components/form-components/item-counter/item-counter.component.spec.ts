@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { ItemCounterComponent } from './item-counter.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -37,6 +38,7 @@ describe('ItemCounterComponent', () => {
     focusEvent = TestBed.get(FocusEvent);
 
     spyOn(itemCounterComponent, 'decrement').and.callThrough();
+    spyOn(itemCounterComponent, 'hasError').and.callThrough();
     spyOn(itemCounterComponent, 'increment').and.callThrough();
     spyOn(itemCounterComponent.update, 'emit').and.callThrough();
     spyOn(keyBoardEvent, 'preventDefault').and.callThrough();
@@ -135,5 +137,36 @@ describe('ItemCounterComponent', () => {
 
     expect(itemCounterComponent.value).toEqual(1);
     expect(itemCounterComponent.update.emit).not.toHaveBeenCalled();
+  });
+
+  it('should not display input when isValueChangable is not passed', () => {
+    itemCounterComponent.isValueChangable = false;
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.query(By.css('input.cx-item-counter__value'))
+    ).toBeFalsy();
+    expect(
+      fixture.debugElement.query(By.css('div.cx-item-counter__value'))
+    ).toBeTruthy();
+  });
+
+  it('should display input when isValueChangable is passed', () => {
+    itemCounterComponent.isValueChangable = true;
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.query(By.css('input.cx-item-counter__value'))
+    ).toBeTruthy();
+    expect(
+      fixture.debugElement.query(By.css('div.cx-item-counter__value'))
+    ).toBeFalsy();
+  });
+
+  it('should contain error when value is not in correct range', () => {
+    itemCounterComponent.value = 61;
+    itemCounterComponent.min = 1;
+    itemCounterComponent.max = 5;
+    expect(itemCounterComponent.hasError()).toBeTruthy();
   });
 });

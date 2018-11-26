@@ -1,30 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Input, Component } from '@angular/core';
 
 import { FooterComponent } from './footer.component';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
-import { StoreModule } from '@ngrx/store';
-import * as fromCmsReducer from '../../../cms/store/reducers';
-import { OutletDirective } from '../../../outlet';
 
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: ''
+})
+export class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
 describe('FooterComponent', () => {
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers())
-      ],
-      declarations: [
-        FooterComponent,
-        DynamicSlotComponent,
-        ComponentWrapperDirective,
-        OutletDirective
-      ]
+      declarations: [FooterComponent, MockDynamicSlotComponent]
     }).compileComponents();
   }));
 

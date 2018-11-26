@@ -7,9 +7,9 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { SiteContextConfig } from '../config/config';
 import { LanguageService } from '../facade/language.service';
 import { CurrencyService } from '../facade/currency.service';
+import { OccConfig } from '../../occ/config/occ-config';
 
 @Injectable()
 export class SiteContextInterceptor implements HttpInterceptor {
@@ -20,7 +20,7 @@ export class SiteContextInterceptor implements HttpInterceptor {
   constructor(
     private languageService: LanguageService,
     private currencyService: CurrencyService,
-    private config: SiteContextConfig
+    private config: OccConfig
   ) {
     this.baseReqString =
       (this.config.server.baseUrl || '') +

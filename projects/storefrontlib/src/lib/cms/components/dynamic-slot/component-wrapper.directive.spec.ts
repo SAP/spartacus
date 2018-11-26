@@ -1,20 +1,19 @@
 import { Component, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { DynamicSlotComponent } from './dynamic-slot.component';
 import { ComponentMapperService } from '../../services';
 import { CmsModuleConfig } from '../../cms-module-config';
-import * as fromReducers from '../../store/reducers';
-import { StoreModule } from '@ngrx/store';
-import { OutletDirective } from '../../../outlet';
 import { CmsComponentData } from '../cms-component-data';
 import { CxApiService } from '@spartacus/storefront';
+import { CmsService } from '../../facade/cms.service';
 
 const testText = 'test text';
 
 @Component({
   selector: 'cx-test',
-  template: `<div id="debugEl1">${testText}</div>`
+  template: `
+    <div id="debugEl1">${testText}</div>
+  `
 })
 export class TestComponent {
   constructor(public cmsData: CmsComponentData) {}
@@ -35,7 +34,7 @@ const MockCmsModuleConfig: CmsModuleConfig = {
 
 @Component({
   template:
-    '<ng-container yComponentWrapper componentType="CMSTestComponent" componentUid="test_uid"></ng-container>'
+    '<ng-container cxComponentWrapper componentType="CMSTestComponent" componentUid="test_uid"></ng-container>'
 })
 class TestWrapperComponent {}
 
@@ -44,20 +43,13 @@ describe('ComponentWrapperDirective', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TestModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromReducers.getReducers())
-      ],
-      declarations: [
-        TestWrapperComponent,
-        DynamicSlotComponent,
-        ComponentWrapperDirective,
-        OutletDirective
-      ],
+      imports: [TestModule],
+      declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
         ComponentMapperService,
-        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig },
+        { provide: CmsService, useValue: { getComponentData: () => {} } },
+        { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } }
       ]
     }).compileComponents();
   }));

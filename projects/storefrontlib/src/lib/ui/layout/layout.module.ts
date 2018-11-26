@@ -16,13 +16,12 @@ import { OrderDetailsPageLayoutModule } from './order-details-page-layout/order-
 import { RegisterLayoutModule } from './register-layout/register-layout.module';
 import { LoginPageLayoutModule } from './login-page-layout/login-page-layout.module';
 import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-finder-page-layout.module';
-import { StoreListPageLayoutModule } from './store-list-page-layout/store-list-page-layout.module';
-import { StoreDescriptionPageLayoutModule } from './store-description-page-layout/store-description-page-layout.module';
 import { SalePageLayoutModule } from './sale-page-layout/sale-page-layout.module';
 import { HelpPageLayoutModule } from './help-page-layout/help-page-layout.module';
 import { ContactPageLayoutModule } from './contact-page-layout/contact-page-layout.module';
 import { OutletRefModule } from '../../outlet/index';
 import { PaymentDetailsPageLayoutModule } from './payment-details-page-layout/payment-details-page-layout.module';
+import { TermsConditionsLayoutModule } from './terms-conditions-layout/terms-conditions-layout.module';
 
 const layoutModules = [
   LandingPageLayoutModule,
@@ -38,17 +37,15 @@ const layoutModules = [
   RegisterLayoutModule,
   LoginPageLayoutModule,
   StoreFinderPageLayoutModule,
-  StoreListPageLayoutModule,
-  StoreDescriptionPageLayoutModule,
   SalePageLayoutModule,
   HelpPageLayoutModule,
   ContactPageLayoutModule,
-  OutletRefModule
+  OutletRefModule,
+  TermsConditionsLayoutModule
 ];
 
 @NgModule({
   imports: [MainModule, ...layoutModules],
-  declarations: [],
   exports: [MainModule, ...layoutModules]
 })
 export class LayoutModule {}

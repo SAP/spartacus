@@ -4,8 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { Config, OccConfig } from '@spartacus/core';
 import { OccUserService } from './user/user.service';
-import { OccProductService } from './product/product.service';
-import { OccProductSearchService } from './product/product-search.service';
 import { OccCartService } from './cart/cart.service';
 import { OccMiscsService } from './miscs/miscs.service';
 import { OccOrderService } from './order/order.service';
@@ -15,8 +13,6 @@ import { OccE2eConfigurationService } from './e2e/e2e-configuration-service';
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   providers: [
-    OccProductSearchService,
-    OccProductService,
     OccUserService,
     OccCartService,
     OccMiscsService,

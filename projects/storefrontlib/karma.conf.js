@@ -8,7 +8,6 @@ module.exports = function(config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-coverage'),
-      require('karma-junit-reporter'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
@@ -17,21 +16,16 @@ module.exports = function(config) {
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
-    reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'junit'],
+    reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'dots'],
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../../coverage'),
-      reports: ['html', 'cobertura', 'text-summary'],
+      reports: ['lcov', 'cobertura', 'text-summary'],
       thresholds: {
         statements: 80,
         lines: 80,
         branches: 60,
         functions: 80
       }
-    },
-    junitReporter: {
-      outputDir: 'jenkins',
-      useBrowserName: false,
-      outputFile: 'test-results.xml'
     },
     port: 9876,
     colors: true,

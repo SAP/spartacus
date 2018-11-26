@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { Subscription, of } from 'rxjs';
 import { take, switchMap } from 'rxjs/operators';
-import * as fromStore from '../../../store';
-import * as fromGlobalMessage from '../../../../global-message/store';
+import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../../global-message/models/message.model';
 import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
 import { AuthService } from '../../../../auth/facade/auth.service';
@@ -22,7 +20,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   constructor(
     private auth: AuthService,
     private routing: RoutingService,
-    private store: Store<fromStore.UserState>,
+    private globalMessageService: GlobalMessageService,
     private fb: FormBuilder
   ) {}
 
@@ -31,11 +29,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap(data => {
           if (data && data.access_token) {
-            this.store.dispatch(
-              new fromGlobalMessage.RemoveMessagesByType(
-                GlobalMessageType.MSG_TYPE_ERROR
-              )
-            );
+            this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
             return this.routing.redirectUrl$.pipe(take(1));
           }
           return of();

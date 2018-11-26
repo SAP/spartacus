@@ -1,6 +1,6 @@
 import { Injectable, Optional } from '@angular/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-import { ProductSearchService } from '../../product/facade/product-search.service';
+import { ProductSearchService } from '@spartacus/core';
 import { combineLatest, merge, Observable, of } from 'rxjs';
 import {
   debounceTime,

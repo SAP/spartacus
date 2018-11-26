@@ -6,15 +6,15 @@ import {
   EventEmitter,
   Input
 } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import * as fromUserStore from '../../../../user/store';
-import { CheckoutService } from '../../../services/checkout.service';
-import { Card } from '../../../../ui/components/card/card.component';
+import { CartDataService } from '../../../../cart/facade/cart-data.service';
 import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
+import { UserService } from '../../../../user/facade/user.service';
+import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
   selector: 'cx-payment-method',
@@ -36,19 +36,17 @@ export class PaymentMethodComponent implements OnInit {
   addPaymentInfo = new EventEmitter<any>();
 
   constructor(
-    protected store: Store<fromUserStore.UserState>,
-    protected checkoutService: CheckoutService
+    protected cartData: CartDataService,
+    protected userService: UserService
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.store.pipe(
-      select(fromUserStore.getPaymentMethodsLoading)
-    );
-    this.existingPaymentMethods$ = this.store.pipe(
-      select(fromUserStore.getPaymentMethods),
+    this.isLoading$ = this.userService.paymentMethodsLoading$;
+
+    this.existingPaymentMethods$ = this.userService.paymentMethods$.pipe(
       tap(payments => {
         if (payments.length === 0) {
-          this.checkoutService.loadUserPaymentMethods();
+          this.userService.loadPaymentMethods(this.cartData.userId);
         } else {
           if (this.cards.length === 0) {
             payments.forEach(payment => {

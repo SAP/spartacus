@@ -6,7 +6,6 @@ import {
   ConfigurableRoutesConfig
 } from '@spartacus/core';
 import { PWAModuleConfig } from './pwa/pwa.module-config';
-import { SiteContextConfig } from '@spartacus/core';
 
 export interface StorefrontModuleConfig
   extends AuthModuleConfig,
@@ -14,5 +13,4 @@ export interface StorefrontModuleConfig
     OccConfig,
     RoutingModuleConfig,
     PWAModuleConfig,
-    SiteContextConfig,
     ConfigurableRoutesConfig {}
