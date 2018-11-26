@@ -11,8 +11,8 @@ import { CmsService } from '../../cms/facade/cms.service';
 import { By } from '@angular/platform-browser';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CMSNavigationComponent: 'NavigationComponent'
+  cmsComponents: {
+    CMSNavigationComponent: { selector: 'NavigationComponent' }
   }
 };
 

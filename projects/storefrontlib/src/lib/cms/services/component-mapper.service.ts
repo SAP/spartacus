@@ -55,7 +55,7 @@ export class ComponentMapperService {
         );
       }
     }
-    return componentConfig.selector;
+    return componentConfig ? componentConfig.selector : null;
   }
 
   getFactoryEntryByCode(typeCode: string) {

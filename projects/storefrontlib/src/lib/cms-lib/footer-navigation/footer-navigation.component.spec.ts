@@ -11,8 +11,8 @@ import { CmsService } from '../../cms/facade/cms.service';
 import { NavigationService } from '../navigation/navigation.service';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    FooterNavigationComponent: 'FooterNavigationComponent'
+  cmsComponents: {
+    FooterNavigationComponent: { selector: 'FooterNavigationComponent' }
   }
 };
 

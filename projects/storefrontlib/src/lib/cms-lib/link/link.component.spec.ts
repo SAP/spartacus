@@ -8,8 +8,8 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { CmsService } from '../../cms/facade/cms.service';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CMSLinkComponent: 'LinkComponent'
+  cmsComponents: {
+    CMSLinkComponent: { selector: 'LinkComponent' }
   }
 };
 

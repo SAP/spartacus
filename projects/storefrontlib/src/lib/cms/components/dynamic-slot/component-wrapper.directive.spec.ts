@@ -31,16 +31,16 @@ export class TestComponent {
 export class TestModule {}
 
 const MockCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CMSTestComponent: 'cx-test'
-  },
-  cmsComponentProviders: {
-    CMSTestComponent: [
-      {
-        provide: 'testService',
-        useValue: 'testValue'
-      }
-    ]
+  cmsComponents: {
+    CMSTestComponent: {
+      selector: 'cx-test',
+      providers: [
+        {
+          provide: 'testService',
+          useValue: 'testValue'
+        }
+      ]
+    }
   }
 };
 
@@ -108,7 +108,7 @@ describe('ComponentWrapperDirective', () => {
 
     beforeEach(() => {
       const cmsMapping = TestBed.get(CmsModuleConfig) as CmsModuleConfig;
-      cmsMapping.cmsComponentMapping.CMSTestComponent =
+      cmsMapping.cmsComponents.CMSTestComponent.selector =
         'path/to/file.js#cms-component';
       fixture = TestBed.createComponent(TestWrapperComponent);
       fixture.detectChanges();

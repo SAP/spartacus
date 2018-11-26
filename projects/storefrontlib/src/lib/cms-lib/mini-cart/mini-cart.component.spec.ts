@@ -18,8 +18,8 @@ import { CartDataService } from '../../cart/services/cart-data.service';
 import { CmsService } from '../../cms/facade/cms.service';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    MiniCartComponent: 'MiniCartComponent'
+  cmsComponents: {
+    MiniCartComponent: { selector: 'MiniCartComponent' }
   }
 };
 

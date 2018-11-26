@@ -18,8 +18,8 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { RoutingService } from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    SearchBoxComponent: 'SearchBoxComponent'
+  cmsComponents: {
+    SearchBoxComponent: { selector: 'SearchBoxComponent' }
   }
 };
 

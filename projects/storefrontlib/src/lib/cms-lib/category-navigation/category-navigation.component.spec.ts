@@ -13,8 +13,8 @@ import { NavigationUIComponent } from '../navigation/navigation-ui.component';
 import { NavigationService } from '../navigation/navigation.service';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CategoryNavigationComponent: 'CategoryNavigationComponent'
+  cmsComponents: {
+    CategoryNavigationComponent: { selector: 'CategoryNavigationComponent' }
   }
 };
 
