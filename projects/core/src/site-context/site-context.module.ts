@@ -5,10 +5,8 @@ import { SiteContextStoreModule } from './store/site-context-store.module';
 import { LanguageService } from './facade/language.service';
 import { CurrencyService } from './facade/currency.service';
 
-import { OccModule } from '../occ/occ.module';
-
 @NgModule({
-  imports: [OccModule, SiteContextOccModule, SiteContextStoreModule],
+  imports: [SiteContextOccModule, SiteContextStoreModule],
   providers: [LanguageService, CurrencyService]
 })
 export class SiteContextModule {}
