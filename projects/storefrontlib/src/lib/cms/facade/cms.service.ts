@@ -10,6 +10,10 @@ import { DefaultPageService } from '../services/default-page.service';
   providedIn: 'root'
 })
 export class CmsService {
+  readonly currentPage$: Observable<Page> = this.store.pipe(
+    select(fromStore.getLatestPage)
+  );
+
   constructor(
     private store: Store<fromStore.CmsState>,
     private defaultPageService: DefaultPageService
@@ -32,6 +36,21 @@ export class CmsService {
     return this.store.pipe(
       select(fromStore.currentSlotSelectorFactory(position)),
       filter(Boolean)
+    );
+  }
+
+  getNavigationEntryItems(navigationNodeUid: string): Observable<any> {
+    return this.store.pipe(
+      select(fromStore.itemsSelectorFactory(navigationNodeUid))
+    );
+  }
+
+  loadNavigationItems(rootUid: string, itemList: any[]) {
+    this.store.dispatch(
+      new fromStore.LoadNavigationItems({
+        nodeId: rootUid,
+        items: itemList
+      })
     );
   }
 
