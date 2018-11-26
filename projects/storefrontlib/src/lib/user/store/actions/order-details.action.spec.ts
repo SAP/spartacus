@@ -1,10 +1,6 @@
 import * as fromOrderDetailsAction from './order-details.action';
 import { Order } from '@spartacus/core';
 
-// const mockUserOrder: any = {
-//   orderId: '123'
-// };
-
 const mockOrderDetails: Order = { code: '123' };
 
 const mockOrderDetailsParams = {

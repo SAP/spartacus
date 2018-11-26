@@ -19,7 +19,6 @@ export class UserPaymentMethodsEffects {
     mergeMap(payload => {
       return this.occUserService.loadUserPaymentMethods(payload).pipe(
         map((paymentsList: PaymentDetailsList) => {
-          console.log('payment-methods.effect.ts >>> ', paymentsList);
           return new fromUserPaymentMethodsAction.LoadUserPaymentMethodsSuccess(
             paymentsList.payments
           );
