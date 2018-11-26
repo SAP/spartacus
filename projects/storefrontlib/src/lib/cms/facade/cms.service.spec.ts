@@ -77,21 +77,49 @@ describe('CmsService', () => {
     }
   ));
 
-  describe('getContentSlot()', () => {
-    it('should be able to get content slot by position', inject(
-      [CmsService],
-      (service: CmsService) => {
-        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-          of(mockContentSlot)
-        );
-        let contentSlotReturned: any;
-        service.getContentSlot('Section1').subscribe(value => {
-          contentSlotReturned = value;
-        });
-        expect(contentSlotReturned).toBe(mockContentSlot);
-      }
-    ));
-  });
+  it('getContentSlot should be able to get content slot by position', inject(
+    [CmsService],
+    (service: CmsService) => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(mockContentSlot)
+      );
+      let contentSlotReturned: any;
+      service.getContentSlot('Section1').subscribe(value => {
+        contentSlotReturned = value;
+      });
+      expect(contentSlotReturned).toBe(mockContentSlot);
+    }
+  ));
+
+  it('getNavigationEntryItems should be able to get navigation entry items by navigationNodeUid', inject(
+    [CmsService],
+    (service: CmsService) => {
+      const testUid = 'test_uid';
+      const mockSelect = createSpy('select').and.returnValue(() =>
+        of('test navigation item data')
+      );
+      spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+
+      let itemData;
+      service
+        .getNavigationEntryItems(testUid)
+        .subscribe(value => (itemData = value));
+      expect(itemData).toEqual('test navigation item data');
+    }
+  ));
+
+  it('loadNavigationItems should be able to dispatch load navigation items action', inject(
+    [CmsService],
+    (service: CmsService) => {
+      service.loadNavigationItems('rootId', []);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.LoadNavigationItems({
+          nodeId: 'rootId',
+          items: []
+        })
+      );
+    }
+  ));
 
   it('should expose the latest page property', inject(
     [CmsService],

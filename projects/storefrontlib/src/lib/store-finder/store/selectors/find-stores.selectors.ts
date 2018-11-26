@@ -22,4 +22,7 @@ export const getFindStoresEntities: MemoizedSelector<
 export const getStoresLoading: MemoizedSelector<
   fromReducer.StoresState,
   boolean
-> = createSelector(getFindStoresState, fromStoreFinderReducer.getLoading);
+> = createSelector(
+  getFindStoresState,
+  fromStoreFinderReducer.getLoading
+);

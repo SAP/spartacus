@@ -2,17 +2,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { StoreModule } from '@ngrx/store';
-import * as NgrxStore from '@ngrx/store';
-
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
-import * as fromCart from '../../../cart/store';
-import * as fromUser from '../../../user/store';
-import { CartDataService } from '../../../cart/services/cart-data.service';
-import { CartService } from '../../../cart/services/cart.service';
+import { CartDataService } from '../../../cart/facade/cart-data.service';
+import { CartService } from '../../../cart/facade/cart.service';
 import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
 
 import { AddToCartComponent } from './add-to-cart.component';
@@ -25,6 +20,9 @@ class MockCartService {
     mockCartEntry.push({
       '1234': { entryNumber: 0, product: { code: productCode } }
     });
+  }
+  getEntry(_productCode: string): Observable<any> {
+    return of();
   }
 }
 
@@ -41,10 +39,7 @@ describe('AddToCartComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         SpinnerModule,
-        NgbModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromCart.getReducers),
-        StoreModule.forFeature('user', fromUser.getReducers)
+        NgbModule
       ],
       providers: [
         CartDataService,
@@ -59,7 +54,6 @@ describe('AddToCartComponent', () => {
     service = TestBed.get(CartService);
     addToCartComponent.productCode = productCode;
     modalInstance = fixture.debugElement.injector.get<NgbModal>(NgbModal);
-    spyOn(service, 'addCartEntry').and.callThrough();
     spyOn(modalInstance, 'open').and.callThrough();
 
     fixture.detectChanges();
@@ -70,16 +64,16 @@ describe('AddToCartComponent', () => {
   });
 
   it('should call ngOnInit()', () => {
-    spyOnProperty(NgrxStore, 'select').and.returnValue(() => () =>
-      of(mockCartEntry)
-    );
+    spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
     addToCartComponent.ngOnInit();
-    addToCartComponent.cartEntry$.subscribe(entry =>
-      expect(entry).toEqual(mockCartEntry)
-    );
+    let result;
+    addToCartComponent.cartEntry$.subscribe(entry => (result = entry));
+    expect(result).toEqual(mockCartEntry);
   });
 
   it('should call addToCart()', () => {
+    spyOn(service, 'addCartEntry').and.callThrough();
+
     addToCartComponent.addToCart();
     addToCartComponent.cartEntry$.subscribe();
 
