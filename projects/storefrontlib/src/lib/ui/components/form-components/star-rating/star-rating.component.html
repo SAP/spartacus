@@ -1,9 +1,14 @@
 <div class="cx-star-rating" tabindex="0">
-    <ng-template #template let-fill="fill">
-        <span class="star" [class.full]="fill === 100">
-            <span class="half" [style.width.%]="fill">&#9733;</span> &#9733;
-        </span>
-    </ng-template>
-    <ngb-rating [(rate)]="rating" (rateChange)="onTouched(); setRating($event)" [starTemplate]="template" [readonly]="disabled"
-        max="5"></ngb-rating>
+  <ng-template #template let-fill="fill">
+    <span class="star" [class.full]="fill === 100">
+      <span class="half" [style.width.%]="fill">&#9733;</span> &#9733;
+    </span>
+  </ng-template>
+  <ngb-rating
+    [(rate)]="rating"
+    (rateChange)="onTouched(); setRating($event)"
+    [starTemplate]="template"
+    [readonly]="disabled"
+    max="5"
+  ></ngb-rating>
 </div>
