@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Address } from '@spartacus/core';
+import { AddressBookService } from '../address-book.service';
 
 @Component({
   selector: 'cx-address-card',
@@ -13,7 +14,7 @@ export class AddressCardComponent {
   @Input()
   address: Address;
 
-  constructor() {}
+  constructor(private addressBookService: AddressBookService) {}
 
   cancelEdit() {
     this.editMode = false;
@@ -25,5 +26,13 @@ export class AddressCardComponent {
 
   setDefault() {
     this.isDefault = true;
+  }
+
+  setAddressAsDefault(addressId: string) {
+    this.addressBookService.setAddressAsDefault(addressId);
+  }
+
+  deleteAddress(addressId: string) {
+    this.addressBookService.deleteUserAddress(addressId);
   }
 }

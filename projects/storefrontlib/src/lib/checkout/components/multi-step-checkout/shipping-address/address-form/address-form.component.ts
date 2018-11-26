@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  Input,
   Output,
   EventEmitter,
   OnDestroy,
@@ -28,6 +29,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<any>;
   titles$: Observable<any>;
   regions$: Observable<any>;
+
+  @Input()
+  addressData;
 
   @Output()
   addAddress = new EventEmitter<any>();
@@ -64,6 +68,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    if (this.addressData) {
+      this.address['controls'].firstName.setValue(this.addressData.firstName);
+      this.address['controls'].lastName.setValue(this.addressData.lastName);
+    }
+
     // Fetching countries
     this.countries$ = this.userService.allDeliveryCountries$.pipe(
       tap(countries => {

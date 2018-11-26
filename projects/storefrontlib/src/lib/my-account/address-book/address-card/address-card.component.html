@@ -26,13 +26,18 @@
         </button>
       </div>
       <div class="col-md-6">
-        <button class="btn btn-block btn-primary">delete</button>
+        <button
+          (click)="deleteAddress(address.id)"
+          class="btn btn-block btn-primary"
+        >
+          delete
+        </button>
       </div>
     </div>
     <div *ngIf="!editMode" class="cx-address-card__actions">
       <a
         *ngIf="!address.defaultAddress"
-        (click)="setDefault()"
+        (click)="setAddressAsDefault(address.id)"
         class="card-link btn-link"
         >set as default</a
       >

@@ -6,14 +6,14 @@
   <section class="cx-page__section container">
     <div class="row">
       <div class="col-md-12">
-        <div class="cx-section" *ngIf="!isAddressFormOpen">
+        <div class="cx-section" *ngIf="!checkIfAnyFormOpen()">
           <h1 class="cx-section__title">Address Book</h1>
           <p>Saved shipping addresses</p>
           <div class="row">
             <div class="col-md-6">
               <button
                 class="btn btn-block btn-action"
-                (click)="showAddressForm()"
+                (click)="showAddAddressForm()"
               >
                 Add new address
               </button>
@@ -29,13 +29,25 @@
           </div>
         </div>
 
-        <div class="cx-section" *ngIf="isAddressFormOpen" #addressForm>
+        <div class="cx-section" *ngIf="checkIfAnyFormOpen()">
           <h1 class="cx-section__title">Address Book</h1>
-          <p>Add a new shipping address</p>
-          <cx-address-form
-            (addAddress)="addNewAddress($event)"
-            (backToAddress)="hideAddressForm()"
-          ></cx-address-form>
+
+          <section #addAddressForm *ngIf="isAddAddressFormOpen">
+            <p>Add a new shipping address</p>
+            <cx-address-form
+              (addAddress)="addUserAddress($event)"
+              (backToAddress)="hideAddAddressForm()"
+            ></cx-address-form>
+          </section>
+
+          <section #editAddressForm *ngIf="isEditAddressFormOpen">
+            <p>Edit shipping address</p>
+            <cx-address-form
+              (addAddress)="updateUserAddress($event)"
+              (backToAddress)="hideEditAddressForm()"
+            ></cx-address-form>
+          </section>
+
         </div>
       </div>
     </div>

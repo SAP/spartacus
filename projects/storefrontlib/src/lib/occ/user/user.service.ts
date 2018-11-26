@@ -50,7 +50,18 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  updateUserAddress(userId, addressId) {
+  addUserAddress(userId, address) {
+    const url = this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .post(url, address, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  updateUserAddress(userId, addressId, address) {
     const url =
       this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
     const headers = new HttpHeaders({
@@ -58,7 +69,7 @@ export class OccUserService {
     });
 
     return this.http
-      .put(url, { headers })
+      .patch(url, address, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
