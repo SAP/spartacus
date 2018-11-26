@@ -34,9 +34,12 @@ export const getLatestPage: MemoizedSelector<any, any> = createSelector(
 export const currentSlotSelectorFactory = (
   position
 ): MemoizedSelector<any, any> => {
-  return createSelector(getLatestPage, entity => {
-    if (entity) {
-      return entity.slots[position];
+  return createSelector(
+    getLatestPage,
+    entity => {
+      if (entity) {
+        return entity.slots[position];
+      }
     }
-  });
+  );
 };

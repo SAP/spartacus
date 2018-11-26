@@ -5,8 +5,14 @@ import {
 } from '@angular/common/http/testing';
 import { ClientAuthenticationTokenService } from './client-authentication-token.service';
 import { AuthConfig } from '@spartacus/core';
+import { ClientToken } from '../../models/token-types.model';
 
-const token: any = 'mockToken';
+const token: ClientToken = {
+  access_token: 'mockToken',
+  token_type: 'mock',
+  expires_in: 13123,
+  scope: 'user'
+};
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
 const MockAuthConfig = {

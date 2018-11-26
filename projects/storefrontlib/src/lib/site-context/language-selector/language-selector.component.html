@@ -1,10 +1,22 @@
 <div class="cx-language-selector">
-    <label class="cx-language-selector__label" for="languageSelector">Language</label>
-    <ng-container *ngIf="languages$ | async as languages">
-        <i class="cx-language-selector__arrow-down"></i>
-        <select class="cx-language-selector__control form-control" name="" id="languageSelector" (change)="setActiveLanguage($event.target.value)"
-            [disabled]="!languages.length">
-            <option *ngFor="let item of languages" value="{{item.isocode}}" [selected]="(activeLanguage$ | async) === item.isocode">{{item.nativeName}}</option>
-        </select>
-    </ng-container>
+  <label class="cx-language-selector__label" for="languageSelector"
+    >Language</label
+  >
+  <ng-container *ngIf="(languages$ | async) as languages">
+    <i class="cx-language-selector__arrow-down"></i>
+    <select
+      class="cx-language-selector__control form-control"
+      name=""
+      id="languageSelector"
+      (change)="setActiveLanguage($event.target.value)"
+      [disabled]="!languages.length"
+    >
+      <option
+        *ngFor="let item of languages"
+        value="{{item.isocode}}"
+        [selected]="(activeLanguage$ | async) === item.isocode"
+        >{{ item.nativeName }}</option
+      >
+    </select>
+  </ng-container>
 </div>

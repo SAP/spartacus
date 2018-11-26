@@ -39,6 +39,21 @@ export class CmsService {
     );
   }
 
+  getNavigationEntryItems(navigationNodeUid: string): Observable<any> {
+    return this.store.pipe(
+      select(fromStore.itemsSelectorFactory(navigationNodeUid))
+    );
+  }
+
+  loadNavigationItems(rootUid: string, itemList: any[]) {
+    this.store.dispatch(
+      new fromStore.LoadNavigationItems({
+        nodeId: rootUid,
+        items: itemList
+      })
+    );
+  }
+
   hasPage(pageContext) {
     let tryTimes = 0;
 

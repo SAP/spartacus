@@ -29,7 +29,7 @@ export class UserAuthenticationTokenService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  refreshToken(refreshToken: string) {
+  refreshToken(refreshToken: string): Observable<UserToken> {
     const url = this.getOAuthEndpoint();
     const params = new HttpParams()
       .set(
@@ -47,7 +47,7 @@ export class UserAuthenticationTokenService {
     });
 
     return this.http
-      .post(url, params, { headers })
+      .post<UserToken>(url, params, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 

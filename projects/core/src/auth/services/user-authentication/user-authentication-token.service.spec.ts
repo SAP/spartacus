@@ -8,11 +8,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UserAuthenticationTokenService } from './user-authentication-token.service';
 import { AuthConfig } from '@spartacus/core';
 
+import { UserToken } from '../../models/token-types.model';
+
 const username: any = 'mockUsername';
 const password: any = '1234';
 const refreshToken = '5678';
 
-const token: any = 'mockToken';
+const token: UserToken = {
+  access_token: 'mockToken',
+  token_type: 'mock',
+  refresh_token: refreshToken,
+  expires_in: 12342,
+  scope: ['mock', 'scope'],
+  userId: 'dsfk32df34'
+};
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
 const MockAuthConfig = {
