@@ -5,4 +5,7 @@ import { getAuthState } from './feature.selector';
 export const getClientTokenState: MemoizedSelector<
   StateWithAuth,
   ClientTokenState
-> = createSelector(getAuthState, (state: AuthState) => state.clientToken);
+> = createSelector(
+  getAuthState,
+  (state: AuthState) => state.clientToken
+);
