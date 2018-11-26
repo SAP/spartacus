@@ -44,6 +44,17 @@ export interface Region {
 
 /**
  *
+ * An interface representing RegionList.
+ */
+export interface RegionList {
+  /**
+   * @member {Region[]} [regions]
+   */
+  regions?: Region[];
+}
+
+/**
+ *
  * An interface representing Address.
  */
 export interface Address {
