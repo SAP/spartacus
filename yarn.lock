@@ -322,17 +322,24 @@
     semver "^5.3.0"
     semver-intersect "^1.1.2"
 
-"@spartacus/core@0.1.0-prealpha.1":
-  version "0.1.0-prealpha.1"
-  resolved "https://registry.yarnpkg.com/@spartacus/core/-/core-0.1.0-prealpha.1.tgz#87d156287eec0c2fdb36aedb05b158e78a99a2e9"
-  integrity sha512-lUtmXxLDvPBiIIN9SgbphQUlm38yX1P8AIDJZw5Absw/TA/3ZXO4Sl2D9gAGeepD+SFWXGEy1Gu3BFCfyrElSA==
+"@spartacus/core@^0.1.0-prealpha.3":
+  version "0.1.0-prealpha.3"
+  resolved "https://registry.yarnpkg.com/@spartacus/core/-/core-0.1.0-prealpha.3.tgz#ce549ac7bf995e8eaaf83b31e312d57760c64369"
+  integrity sha512-6T0jmAETOdep1OnkSB6Ij7njf2UGMgec7y5JCSIZfQL4cDu/LI7uMln+WHgZuQtZdsFDyB3cehoIAWUYwS/9tA==
   dependencies:
     tslib "^1.9.0"
 
-"@spartacus/styles@0.1.0-prealpha.4":
-  version "0.1.0-prealpha.4"
-  resolved "https://registry.yarnpkg.com/@spartacus/styles/-/styles-0.1.0-prealpha.4.tgz#87ab73ac7e37efd880213c50af98b2970f1c2ada"
-  integrity sha512-Jtg1hHwo0p6E+VU1g494IjtOBR/3qxwVLN/XYPTlokXvfzV5ienAVLxN185mK2+1OPTG7WqjIS/SVnhCIkYtAQ==
+"@spartacus/storefront@^0.1.0-prealpha.8":
+  version "0.1.0-prealpha.8"
+  resolved "https://registry.yarnpkg.com/@spartacus/storefront/-/storefront-0.1.0-prealpha.8.tgz#29cd41606f48936db1a616edbe5f152de29dc426"
+  integrity sha512-su53pUsiET4HUxgLkFEsaDHPz/hwiRDOW0PqAwzJ8zvIdOk8W+TIzkBA6BLVvcHxmUScj+eUMs1XJMDDbdXtSQ==
+  dependencies:
+    tslib "^1.9.0"
+
+"@spartacus/styles@^0.1.0-prealpha.5":
+  version "0.1.0-prealpha.5"
+  resolved "https://registry.yarnpkg.com/@spartacus/styles/-/styles-0.1.0-prealpha.5.tgz#28566c889763a718c528d587304d61c974d18a97"
+  integrity sha512-gQHcxxYRVheSk02CWejyFrZgdZtbbPXuZtcPoZatbpuXl1EIoZOc2YPyaNViXIp3IzuI0zducYZ9HTXiDqImfg==
 
 "@types/estree@0.0.39":
   version "0.0.39"
