@@ -1,16 +1,35 @@
-<a [routerLink]="['/product/', product.code]" class="cx-product-search-grid__image--container">
-  <cx-picture class="cx-product-search-grid__image" [imageContainer]="product.images?.PRIMARY" imageFormat="product"
-    [routerLink]="['/product/', product.code]" [imageAlt]="product.summary"></cx-picture>
+<a
+  [routerLink]="['/product/', product.code]"
+  class="cx-product-search-grid__image--container"
+>
+  <cx-picture
+    class="cx-product-search-grid__image"
+    [imageContainer]="product.images?.PRIMARY"
+    imageFormat="product"
+    [routerLink]="['/product/', product.code]"
+    [imageAlt]="product.summary"
+  ></cx-picture>
 </a>
-<a [routerLink]="['/product/', product.code]" class="cx-product-search-grid__name" [innerHTML]="product.name">{{product.name}}</a>
+<a
+  [routerLink]="['/product/', product.code]"
+  class="cx-product-search-grid__name"
+  [innerHTML]="product.name"
+  >{{ product.name }}</a
+>
 
 <div class="cx-product-search-grid__rating">
-  <cx-star-rating [rating]="product?.averageRating" [disabled]="true"></cx-star-rating>
+  <cx-star-rating
+    [rating]="product?.averageRating"
+    [disabled]="true"
+  ></cx-star-rating>
 </div>
 <div class="cx-product-search-grid__price--container">
   <div class="cx-product-search-grid__price" aria-label="Product price">
-    {{product.price.formattedValue}}
+    {{ product.price.formattedValue }}
   </div>
 </div>
 
-<cx-add-to-cart *ngIf="product.stock.stockLevelStatus !== 'outOfStock'" [productCode]="product.code"></cx-add-to-cart>
+<cx-add-to-cart
+  *ngIf="product.stock.stockLevelStatus !== 'outOfStock'"
+  [productCode]="product.code"
+></cx-add-to-cart>

@@ -4,7 +4,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { OccConfig } from '@spartacus/core';
+import {
+  OccConfig,
+  User,
+  AddressValidation,
+  AddressList,
+  PaymentDetailsList,
+  Address
+} from '@spartacus/core';
 
 import { UserRegisterFormData } from '../../user/models/user.model';
 
@@ -20,14 +27,17 @@ export class OccUserService {
   // some extending from baseservice is not working here...
   constructor(protected http: HttpClient, protected config: OccConfig) {}
 
-  public loadUser(userId: string): Observable<any> {
+  public loadUser(userId: string): Observable<User> {
     const url = this.getUserEndpoint() + userId;
     return this.http
-      .get(url)
+      .get<User>(url)
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  verifyAddress(userId, address) {
+  verifyAddress(
+    userId: string,
+    address: Address
+  ): Observable<AddressValidation> {
     const url =
       this.getUserEndpoint() + userId + ADDRESSES_VERIFICATION_ENDPOINT;
     const headers = new HttpHeaders({
@@ -35,18 +45,18 @@ export class OccUserService {
     });
 
     return this.http
-      .post(url, address, { headers })
+      .post<AddressValidation>(url, address, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  loadUserAddresses(userId) {
+  loadUserAddresses(userId: string): Observable<AddressList> {
     const url = this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
 
     return this.http
-      .get(url, { headers })
+      .get<AddressList>(url, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -85,18 +95,18 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  loadUserPaymentMethods(userId) {
+  loadUserPaymentMethods(userId: string): Observable<PaymentDetailsList> {
     const url = this.getUserEndpoint() + userId + PAYMENT_DETAILS_ENDPOINT;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
 
     return this.http
-      .get(url, { headers })
+      .get<PaymentDetailsList>(url, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  registerUser(user: UserRegisterFormData): Observable<any> {
+  registerUser(user: UserRegisterFormData): Observable<User> {
     const url = this.getUserEndpoint();
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -104,7 +114,7 @@ export class OccUserService {
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
 
     return this.http
-      .post(url, user, { headers })
+      .post<User>(url, user, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 

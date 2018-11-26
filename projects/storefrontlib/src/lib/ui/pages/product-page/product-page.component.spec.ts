@@ -1,9 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
+
+import { RoutingService } from '@spartacus/core';
+
 import { of } from 'rxjs';
 
 import { ProductPageComponent } from './product-page.component';
-import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-details-page-layout',
