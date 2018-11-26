@@ -5,8 +5,14 @@ import {
 } from '@angular/common/http/testing';
 import { ClientAuthenticationTokenService } from './client-authentication-token.service';
 import { AuthModuleConfig } from '../../auth-module.config';
+import { ClientToken } from '../../models/token-types.model';
 
-const token: any = 'mockToken';
+const token: ClientToken = {
+  access_token: 'mockToken',
+  token_type: 'mock',
+  expires_in: 13123,
+  scope: 'user'
+};
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
 const MockAuthModuleConfig = {
