@@ -29,7 +29,10 @@ export const getLoaded: MemoizedSelector<any, boolean> = createSelector(
 export const getCartMergeComplete: MemoizedSelector<
   any,
   boolean
-> = createSelector(getActiveCartState, fromCart.getCartMergeComplete);
+> = createSelector(
+  getActiveCartState,
+  fromCart.getCartMergeComplete
+);
 
 export const getEntriesMap: MemoizedSelector<any, any> = createSelector(
   getActiveCartState,
@@ -39,11 +42,14 @@ export const getEntriesMap: MemoizedSelector<any, any> = createSelector(
 export const getEntrySelectorFactory = (
   productCode
 ): MemoizedSelector<any, any> => {
-  return createSelector(getEntriesMap, entries => {
-    if (entries) {
-      return entries[productCode];
+  return createSelector(
+    getEntriesMap,
+    entries => {
+      if (entries) {
+        return entries[productCode];
+      }
     }
-  });
+  );
 };
 
 export const getEntries: MemoizedSelector<any, any> = createSelector(

@@ -1,22 +1,12 @@
 {
-  // See http://go.microsoft.com/fwlink/?LinkId=827846
-  // for the documentation about the extensions.json format
   "recommendations": [
-    // Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
-    //
     // Angular Language Service
     "Angular.ng-template",
-    // Angular v6 Snippets
-    "johnpapa.angular2",
     // Debugger for Chrome
     "msjsdiag.debugger-for-chrome",
     // Prettier - Code formatter
     "esbenp.prettier-vscode",
-    // TSLint
     // The ng lint command uses TSLint under the hood.
-    // The TSLint plugint gives you immediate feedback about rule violations in vscode.
-    "eg2.tslint",
-    //VSCode simpler Icons with Angular
-    "davidbabel.vscode-simpler-icons"
+    "eg2.tslint"
   ]
 }

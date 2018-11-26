@@ -1,24 +1,46 @@
 <div class="row">
   <div class="col-12 col-md-4">
-    <a [routerLink]="['/product/', product.code]" class="cx-product-search-list__image__container">
-      <cx-picture class="cx-product-search-list__image" [imageContainer]="product.images?.PRIMARY" imageFormat="product"
-        [routerLink]="['/product/', product.code]" [imageAlt]="product.summary"></cx-picture>
+    <a
+      [routerLink]="['/product/', product.code]"
+      class="cx-product-search-list__image__container"
+    >
+      <cx-picture
+        class="cx-product-search-list__image"
+        [imageContainer]="product.images?.PRIMARY"
+        imageFormat="product"
+        [routerLink]="['/product/', product.code]"
+        [imageAlt]="product.summary"
+      ></cx-picture>
     </a>
   </div>
   <div class="col-12 col-md-8">
-    <a [routerLink]="['/product/', product.code]" class="cx-product-search-list__name" [innerHtml]="product.name">{{product.name}}</a>
-    <cx-star-rating [rating]="product?.averageRating" [disabled]="true"></cx-star-rating>
+    <a
+      [routerLink]="['/product/', product.code]"
+      class="cx-product-search-list__name"
+      [innerHtml]="product.name"
+      >{{ product.name }}</a
+    >
+    <cx-star-rating
+      [rating]="product?.averageRating"
+      [disabled]="true"
+    ></cx-star-rating>
     <div class="cx-product-search-list__price" aria-label="Product price">
-      {{product.price?.formattedValue}}
+      {{ product.price?.formattedValue }}
     </div>
     <div class="row">
       <div class="col-12 col-md-8">
-        <p class="cx-product-search-list__summary" [innerHtml]="product.summary">
-          {{product.summary}}
+        <p
+          class="cx-product-search-list__summary"
+          [innerHtml]="product.summary"
+        >
+          {{ product.summary }}
         </p>
       </div>
       <div class="col-12 col-md-4">
-        <cx-add-to-cart *ngIf="product.stock.stockLevelStatus !== 'outOfStock'" [productCode]="product.code"></cx-add-to-cart>
+        <cx-add-to-cart
+          *ngIf="product.stock.stockLevelStatus !== 'outOfStock'"
+          [productCode]="product.code"
+        ></cx-add-to-cart>
       </div>
     </div>
   </div>
