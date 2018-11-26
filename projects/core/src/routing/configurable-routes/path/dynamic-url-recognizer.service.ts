@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-import {
-  getSegments,
-  isParam,
-  getParamName,
-  removeLeadingSlash
-} from './path-utils';
-import { RoutesTranslations } from '../routes-config';
 import { RoutesConfigLoader } from '../routes-config-loader';
+import { UrlParser } from './url-parser.service';
+import { RoutesTranslations } from '../routes-config';
+import { removeLeadingSlash, isParam, getParamName } from './path-utils';
 
 @Injectable()
 export class DynamicUrlRecognizerService {
-  constructor(private routesConfigLoader: RoutesConfigLoader) {}
+  constructor(
+    private routesConfigLoader: RoutesConfigLoader,
+    private urlParser: UrlParser
+  ) {}
 
   getNestedRoutes(
     url: string
@@ -20,7 +19,7 @@ export class DynamicUrlRecognizerService {
   } {
     url = removeLeadingSlash(url); // url will be compared with paths translations which do not have leading slash
     const routesTranslations = this.defaultRoutesTranslations;
-    const urlSegments = getSegments(url); // spike todo parse it using angular Router.parseUrl()
+    const urlSegments = this.urlParser.getPrimarySegments(url);
     const recognizedNestedRoutes = this.getNestedRoutesRecursive(
       urlSegments,
       routesTranslations,
@@ -84,7 +83,7 @@ export class DynamicUrlRecognizerService {
     const pathsLength = paths.length;
     for (let i = 0; i < pathsLength; i++) {
       const path = paths[i];
-      const pathSegments = getSegments(path);
+      const pathSegments = this.urlParser.getPrimarySegments(path);
       const params = this.extractParamsIfMatchingPath(
         urlSegments,
         pathSegments

@@ -1,5 +1,3 @@
-export const getSegments = (path: string): string[] => path.split('/');
-
 export const isParam = (segment: string): boolean => segment.startsWith(':');
 
 export const getParamName = (segment: string): string => segment.slice(1); // it just removes leading ':'

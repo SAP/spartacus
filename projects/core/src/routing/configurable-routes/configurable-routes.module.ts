@@ -8,6 +8,7 @@ import { DynamicUrlPipeService } from './path/dynamic-url-pipe.service';
 import { ConfigurableRoutesConfig } from './config/configurable-routes-config';
 import { defaultConfigurableRoutesConfig } from './config/default-configurable-routes-config';
 import { DynamicUrlRecognizerService } from './path/dynamic-url-recognizer.service';
+import { UrlParser } from './path/url-parser.service';
 
 export function loadRoutesConfig(loader: RoutesConfigLoader) {
   const result = () => loader.load(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
@@ -27,6 +28,7 @@ export function loadRoutesConfig(loader: RoutesConfigLoader) {
     PathPipeService,
     DynamicUrlPipeService,
     DynamicUrlRecognizerService,
+    UrlParser,
     {
       provide: APP_INITIALIZER,
       useFactory: loadRoutesConfig,

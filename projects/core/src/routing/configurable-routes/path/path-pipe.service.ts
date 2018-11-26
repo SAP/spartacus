@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { ServerConfig } from '../../../config/server-config/server-config';
 import { ConfigurableRoutesService } from '../configurable-routes.service';
-import { getSegments, isParam, getParamName } from './path-utils';
 import { RouteTranslation, ParamsMapping } from '../routes-config';
+import { UrlParser } from './url-parser.service';
+import { isParam, getParamName } from './path-utils';
 
 @Injectable()
 export class PathPipeService {
   constructor(
     private configurableRoutesService: ConfigurableRoutesService,
+    private urlParser: UrlParser,
     private config: ServerConfig
   ) {}
 
@@ -94,7 +96,7 @@ export class PathPipeService {
     paramsObject: object,
     paramsMapping: ParamsMapping
   ): string[] {
-    return getSegments(path).map(segment => {
+    return this.urlParser.getPrimarySegments(path).map(segment => {
       if (isParam(segment)) {
         const paramName = getParamName(segment);
         const mappedParamName = this.getMappedParamName(
@@ -160,7 +162,8 @@ export class PathPipeService {
   }
 
   private getParams(path: string) {
-    return getSegments(path)
+    return this.urlParser
+      .getPrimarySegments(path)
       .filter(isParam)
       .map(getParamName);
   }
