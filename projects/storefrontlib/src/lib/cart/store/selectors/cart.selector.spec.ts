@@ -4,35 +4,36 @@ import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
 import * as fromActions from './../actions';
 import { TestBed } from '@angular/core/testing';
+import { Cart, OrderEntry } from '@spartacus/core';
 
 describe('Cart selectors', () => {
   let store: Store<fromReducers.CartState>;
 
-  const testCart: any = {
+  const testCart: Cart = {
     code: 'xxx',
     guid: 'xxx',
-    total_items: 0,
+    totalItems: 0,
     entries: [{ entryNumber: 0, product: { code: '1234' } }],
-    total_price: {
-      currency_iso: 'USD',
+    totalPrice: {
+      currencyIso: 'USD',
       value: 0
     },
-    total_price_with_tax: {
-      currency_iso: 'USD',
+    totalPriceWithTax: {
+      currencyIso: 'USD',
       value: 0
     }
   };
 
-  const testEmptyCart: any = {
+  const testEmptyCart: Cart = {
     code: 'xxx',
     guid: 'xxx',
-    total_items: 0,
-    total_price: {
-      currency_iso: 'USD',
+    totalItems: 0,
+    totalPrice: {
+      currencyIso: 'USD',
       value: 0
     },
-    total_price_with_tax: {
-      currency_iso: 'USD',
+    totalPriceWithTax: {
+      currencyIso: 'USD',
       value: 0
     }
   };
@@ -51,7 +52,7 @@ describe('Cart selectors', () => {
 
   describe('getActiveCart', () => {
     it('should return the active cart from the state', () => {
-      let result: any;
+      let result: Cart;
       store
         .pipe(select(fromSelectors.getActiveCart))
         .subscribe(value => (result = value));
@@ -65,7 +66,7 @@ describe('Cart selectors', () => {
 
   describe('getRefresh', () => {
     it('should return the refresh value', () => {
-      let result: any;
+      let result: boolean;
       store
         .pipe(select(fromSelectors.getRefresh))
         .subscribe(value => (result = value));
@@ -86,7 +87,7 @@ describe('Cart selectors', () => {
 
   describe('getLoaded', () => {
     it('should return the loaded value', () => {
-      let result: any;
+      let result: boolean;
       store
         .pipe(select(fromSelectors.getLoaded))
         .subscribe(value => (result = value));
@@ -100,7 +101,7 @@ describe('Cart selectors', () => {
 
   describe('getEntriesMap', () => {
     it('should return the cart entries in map', () => {
-      let result: any;
+      let result: { [code: string]: OrderEntry };
       store
         .pipe(select(fromSelectors.getEntriesMap))
         .subscribe(value => (result = value));
@@ -117,11 +118,13 @@ describe('Cart selectors', () => {
 
   describe('getEntrySelectorFactory', () => {
     it('should return entry by productCode', () => {
-      let result;
+      let result: OrderEntry;
 
       store
         .pipe(select(fromSelectors.getEntrySelectorFactory('1234')))
-        .subscribe(value => (result = value));
+        .subscribe(value => {
+          result = value;
+        });
 
       expect(result).toEqual(undefined);
 
@@ -133,7 +136,7 @@ describe('Cart selectors', () => {
 
   describe('getEntriesList', () => {
     it('should return the list of entries', () => {
-      let result: any;
+      let result: OrderEntry[];
       store
         .pipe(select(fromSelectors.getEntries))
         .subscribe(value => (result = value));
