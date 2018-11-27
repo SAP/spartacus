@@ -27,7 +27,12 @@ export class CurrencyService {
   constructor(
     private store: Store<fromStore.StateWithSiteContext>,
     private config: OccConfig
-  ) {
+  ) {}
+
+  /**
+   * Initializes by loading all languages and select the active language.
+   */
+  initialize() {
     this.loadAll();
     this.initSessionCurrency();
   }
