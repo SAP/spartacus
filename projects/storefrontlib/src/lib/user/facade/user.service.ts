@@ -10,10 +10,6 @@ export class UserService {
     select(fromStore.getDetails)
   );
 
-  readonly titles$: Observable<any> = this.store.pipe(
-    select(fromStore.getAllTitles)
-  );
-
   readonly orderDetails$: Observable<any> = this.store.pipe(
     select(fromStore.getOrderDetails)
   );
@@ -23,6 +19,32 @@ export class UserService {
   );
   readonly orderListLoaded$: Observable<boolean> = this.store.pipe(
     select(fromStore.getOrdersLoaded)
+  );
+
+  readonly paymentMethods$: Observable<any> = this.store.pipe(
+    select(fromStore.getPaymentMethods)
+  );
+  readonly paymentMethodsLoading$: Observable<boolean> = this.store.pipe(
+    select(fromStore.getPaymentMethodsLoading)
+  );
+
+  readonly addresses$: Observable<any> = this.store.pipe(
+    select(fromStore.getAddresses)
+  );
+  readonly addressesLoading$: Observable<boolean> = this.store.pipe(
+    select(fromStore.getAddressesLoading)
+  );
+
+  readonly titles$: Observable<any> = this.store.pipe(
+    select(fromStore.getAllTitles)
+  );
+
+  readonly allDeliveryCountries$: Observable<any> = this.store.pipe(
+    select(fromStore.getAllDeliveryCountries)
+  );
+
+  readonly allRegions$: Observable<any> = this.store.pipe(
+    select(fromStore.getAllRegions)
   );
 
   constructor(private store: Store<fromStore.UserState>) {}
@@ -61,6 +83,10 @@ export class UserService {
     this.store.dispatch(new fromStore.LoadDeliveryCountries());
   }
 
+  loadRegions(countryIsoCode: string) {
+    this.store.dispatch(new fromStore.LoadRegions(countryIsoCode));
+  }
+
   loadOrderDetails(userId: string, orderCode: string) {
     this.store.dispatch(
       new fromStore.LoadOrderDetails({
@@ -88,5 +114,13 @@ export class UserService {
         sort: sort
       })
     );
+  }
+
+  loadPaymentMethods(userId: string) {
+    this.store.dispatch(new fromStore.LoadUserPaymentMethods(userId));
+  }
+
+  loadAddresses(userId: string) {
+    this.store.dispatch(new fromStore.LoadUserAddresses(userId));
   }
 }

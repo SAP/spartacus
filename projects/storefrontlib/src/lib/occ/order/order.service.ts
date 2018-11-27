@@ -1,6 +1,6 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { OccConfig } from '@spartacus/core';
+import { OccConfig, OrderHistoryList, Order } from '@spartacus/core';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
@@ -22,7 +22,7 @@ export class OccOrderService {
     );
   }
 
-  public placeOrder(userId: string, cartId: string): Observable<any> {
+  public placeOrder(userId: string, cartId: string): Observable<Order> {
     const url = this.getOrderEndpoint(userId);
     const params = new HttpParams({
       fromString: 'cartId=' + cartId + '&' + FULL_PARAMS
@@ -33,7 +33,7 @@ export class OccOrderService {
     });
 
     return this.http
-      .post(url, {}, { headers, params })
+      .post<Order>(url, {}, { headers, params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
@@ -42,7 +42,7 @@ export class OccOrderService {
     pageSize?: number,
     currentPage?: number,
     sort?: string
-  ): Observable<any> {
+  ): Observable<OrderHistoryList> {
     const url = this.getOrderEndpoint(userId);
     let params = new HttpParams();
     if (pageSize) {
@@ -56,11 +56,11 @@ export class OccOrderService {
     }
 
     return this.http
-      .get(url, { params: params })
+      .get<OrderHistoryList>(url, { params: params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  public getOrder(userId: string, orderCode: string) {
+  public getOrder(userId: string, orderCode: string): Observable<Order> {
     const url = this.getOrderEndpoint(userId);
 
     const orderUrl = url + '/' + orderCode;
@@ -70,7 +70,7 @@ export class OccOrderService {
     });
 
     return this.http
-      .get(orderUrl, {
+      .get<Order>(orderUrl, {
         params: params
       })
       .pipe(catchError((error: any) => throwError(error.json())));

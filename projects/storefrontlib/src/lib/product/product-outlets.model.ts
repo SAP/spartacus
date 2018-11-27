@@ -2,7 +2,6 @@ export enum ProductDetailOutlets {
   PAGE = 'PDP.PAGE',
   SUMMARY = 'PDP.SUMMARY',
   IMAGES = 'PDP.IMAGES',
-  SHARE = 'PDP.SHARE',
   TAB = 'PDP.TAB',
   DESCRIPTION = 'PDP.DESCRIPTION',
   SPECIFICATIONS = 'PDP.SPECIFICATIONS',
@@ -14,5 +13,6 @@ export enum ProductSummaryOutlets {
   TITLE = 'PSUM.TITLE',
   RATING = 'PSUM.RATING',
   ADDTOCART = 'PSUM.ADDTOCART',
-  PRICE = 'PSUM.PRICE'
+  PRICE = 'PSUM.PRICE',
+  SHARE = 'PSUM.SHARE'
 }

@@ -1,36 +1,52 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
 import { Store, select } from '@ngrx/store';
-import * as fromCheckoutStore from '../store/';
-import * as fromUserStore from '../../user/store';
 
+import { filter } from 'rxjs/operators';
+
+import * as fromCheckoutStore from '../store/';
 import {
   CartDataService,
   ANONYMOUS_USERID
-} from '../../cart/services/cart-data.service';
+} from '../../cart/facade/cart-data.service';
 
 @Injectable()
 export class CheckoutService {
-  readonly paymentMethods$: Observable<any> = this.userStore.pipe(
-    select(fromUserStore.getPaymentMethods)
-  );
-  readonly paymentMethodsLoading$: Observable<boolean> = this.userStore.pipe(
-    select(fromUserStore.getPaymentMethodsLoading)
+  readonly supportedDeliveryModes$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getSupportedDeliveryModes)
   );
 
-  readonly shippingAddresses$ = this.userStore.pipe(
-    select(fromUserStore.getAddresses)
-  );
-  readonly addressesLoading$ = this.userStore.pipe(
-    select(fromUserStore.getAddressesLoading)
+  readonly selectedDeliveryMode$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getSelectedDeliveryMode)
   );
 
-  orderDetails: any;
+  readonly selectedDeliveryModeCode$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getSelectedCode)
+  );
+
+  readonly cardTypes$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getAllCardTypes)
+  );
+
+  readonly deliveryAddress$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getDeliveryAddress)
+  );
+
+  readonly addressVerificationResults$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getAddressVerificationResults),
+    filter(results => Object.keys(results).length !== 0)
+  );
+
+  readonly paymentDetails$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getPaymentDetails)
+  );
+
+  readonly orderDetails$ = this.checkoutStore.pipe(
+    select(fromCheckoutStore.getOrderDetails)
+  );
 
   constructor(
     private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
-    private userStore: Store<fromUserStore.UserState>,
     private cartData: CartDataService
   ) {}
 
@@ -70,9 +86,7 @@ export class CheckoutService {
   }
 
   loadSupportedCardTypes() {
-    if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(new fromCheckoutStore.LoadCardTypes());
-    }
+    this.checkoutStore.dispatch(new fromCheckoutStore.LoadCardTypes());
   }
 
   createPaymentDetails(paymentInfo) {
@@ -109,14 +123,6 @@ export class CheckoutService {
     }
   }
 
-  loadUserAddresses() {
-    if (this.actionAllowed()) {
-      this.userStore.dispatch(
-        new fromUserStore.LoadUserAddresses(this.cartData.userId)
-      );
-    }
-  }
-
   setDeliveryAddress(address) {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
@@ -125,14 +131,6 @@ export class CheckoutService {
           cartId: this.cartData.cart.code,
           address: address
         })
-      );
-    }
-  }
-
-  loadUserPaymentMethods() {
-    if (this.actionAllowed()) {
-      this.userStore.dispatch(
-        new fromUserStore.LoadUserPaymentMethods(this.cartData.userId)
       );
     }
   }
@@ -147,6 +145,22 @@ export class CheckoutService {
         })
       );
     }
+  }
+
+  clearAddressVerificationResults() {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.ClearAddressVerificationResults()
+    );
+  }
+
+  clearCheckoutData() {
+    this.checkoutStore.dispatch(new fromCheckoutStore.ClearCheckoutData());
+  }
+
+  clearCheckoutStep(stepNumber: number) {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.ClearCheckoutStep(stepNumber)
+    );
   }
 
   private actionAllowed(): boolean {

@@ -1,29 +1,39 @@
 @import 'theme';
 
+$md-width: 992px;
+
 :host {
   display: grid;
-  grid-template-columns: var(--cx-grid-template-columns, auto);
-  grid-template-rows: var(
-    --cx-grid-template-rows,
-    repeat(7, minmax(10px, auto)) auto
-  );
+  grid-template-columns: var(--cx-grid-template-columns);
+  grid-template-columns: var(--cx-grid-template-row);
+  grid-column-gap: var(--cx-grid-column-gap, 30px);
+
+  @media (min-width: $md-width) {
+    grid-template-columns: var(--cx-grid-template-columns, repeat(2, 1fr));
+    grid-template-rows: var(--cx-grid-template-row, repeat(7, auto) 1fr);
+  }
+}
+
+.images {
+  @media (min-width: $md-width) {
+    grid-column: var(--cx-grid-column, 1);
+    grid-row: var(--cx-grid-row, 1 / span 8);
+  }
 }
 
 .name {
   @include type('1');
-  grid-row: var(--cx-grid-row, 1);
 }
+
 .code {
   @include type('7');
   color: var(--cx-secondary);
-  grid-row: var(--cx-grid-row, 2);
 }
 
 .rating {
   display: flex;
   flex-direction: row;
   align-items: baseline;
-  grid-row: var(--cx-grid-row, 3);
   margin: var(--cx-margin, 0 0 12px 0);
 
   .count {
@@ -33,9 +43,9 @@
 
 .price {
   display: inline-block;
-  grid-row: var(--cx-grid-row, 4);
   @include type('3');
   font-weight: $font-weight-normal;
+
   &--old {
     color: var(--cx-secondary);
     text-decoration: line-through;
@@ -46,15 +56,7 @@
   }
 }
 
-.description {
-  grid-row: var(--cx-grid-row, 5);
-  @include type();
-  margin: var(--cx-margin, 10px 0 50px 0);
-}
-
 .quantity {
-  grid-row: var(--cx-grid-row, 6);
-
   label {
     @include type('8');
     margin: var(--cx-margin, 15px 0 10px 0);
@@ -65,8 +67,4 @@
     margin: var(--cx-margin, 0 15px 0 15px);
     color: var(--cx-secondary);
   }
-}
-
-cx-add-to-cart {
-  grid-row: var(--cx-grid-row, 7);
 }

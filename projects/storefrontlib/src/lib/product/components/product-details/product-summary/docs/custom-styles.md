@@ -1,104 +1,149 @@
 # Custom Styles
 
-## Rating with title
+## Center name, price and rating on mobile
 
-The following snippet demonstrates a small configuration that will hide the product code and display the product rating next to the product title. In addition,the add review link is hidden.
+The following snippet demonstrates a configuration that will display a title group containing the name, price and rating above the product on mobile. The desktop layout remains unchanged.
 
 ```css
 cx-product-summary {
-  --cx-grid-template-columns: minmax(20px, auto) minmax(20px auto);
+  .name {
+    @media (max-width: 992px) {
+      text-align: center;
+    }
+  }
 
   .code {
     display: none;
-    --cx-align-items: center;
   }
 
   .rating {
-    --cx-grid-row: 1;
-    grid-row: 2;
-    --cx-margin: 0 0 5px 0;
+    @media (max-width: 992px) {
+      grid-row: 3;
+      justify-content: center;
+    }
 
     a {
       display: none;
     }
   }
 
+  .price {
+    @media (max-width: 992px) {
+      grid-row: 2;
+      text-align: center;
+    }
+  }
+
   .description {
-    --cx-margin: 10px 0 10px 0;
+    margin-top: 20px;
   }
 }
 ```
 
 **Demo**
 
-![Rating with title](rating-with-title.png)
+![Title group](title-group.png)
 
-## Price with title
+## Add to cart next to description
 
-Following a similar idea to the previous snippet, the following CSS provides a way to display the product price on the same line as the title.
+The following snippet allows for the add to cart button to be placed alongside the product information. The add to cart and quantity group is also customised. Indeed, the quantity selector is stacked vertically on top of the add to cart button and aligned with it's center.
 
 ```css
 cx-product-summary {
-  --cx-grid-template-columns: minmax(20px, auto) minmax(20px auto);
+  @media (min-width: 992px) {
+    --cx-grid-template-columns: auto auto auto;
+
+    .quantity {
+      grid-row: 2;
+      grid-column: 3;
+      text-align: center;
+      .info {
+        display: none;
+      }
+
+      label {
+        display: none;
+      }
+    }
+
+    cx-add-to-cart {
+      grid-row: 3;
+      grid-column: 3;
+      min-width: 200px;
+    }
+
+    .rating {
+      grid-column: 2;
+    }
+
+    .description {
+      grid-column: 2;
+    }
+
+    .price {
+      grid-column: 2;
+    }
+
+    .share {
+      grid-column: 2;
+    }
+  }
 
   .code {
     display: none;
-    --cx-align-items: center;
+  }
+}
+```
+
+**Demo**
+
+![Add to cart with title](atc-with-description.png)
+
+## Product name under product picture in mobile
+
+The following snippet provides the necessary styling to have the product nmae under the product picture on mobile. The desktop layout remains unchanged.
+
+``` css
+cx-product-summary {
+  .name {
+    margin-top: 20px;
+    grid-row: 2;
+
+    @media (min-width: 992px) {
+      grid-row: 1;
+    }
+  }
+
+  .code {
+    display: none;
   }
 
   .price {
-    --cx-grid-row: 1;
-    grid-column: 2;
-    margin: 0.5em;
-  }
+    border-bottom: 1px solid var(--cx-light);
+    padding-bottom: 10px;
 
-  .rating {
-    --cx-grid-row: 2;
+    @media (min-width: 992px) {
+      padding-bottom: 30px;
+    }
   }
 
   .quantity {
     display: none;
   }
 
+  .description {
+    grid-row: 8;
+    margin-top: 20px;
+  }
+
   cx-add-to-cart {
-    --cx-grid-row: 3;
+    @media (min-width: 992px) {
+      margin-top: 20px;
+    }
   }
 }
 ```
 
 **Demo**
 
-![Price with title](price-with-title.png)
-
-## Add to cart with title
-
-The following snippet allows for the add to cart button to be placed next to the title. The add to cart and quantity group is also customised. Indeed, the quantity selector is stacked vertically on top of the add to cart button and aligned with it's center.
-
-```css
-cx-product-summary {
-  --cx-grid-template-columns: minmax(20px, auto) minmax(20px auto);
-
-  .quantity {
-    --cx-grid-row: 1;
-    grid-column: 2;
-    text-align: center;
-    .info {
-      display: none;
-    }
-
-    label {
-      display: none;
-    }
-  }
-
-  cx-add-to-cart {
-    --cx-grid-row: 2;
-    grid-column: 2;
-    min-width: 200px;
-  }
-}
-```
-
-**Demo**
-
-![Add to cart with title](atc-with-title.png)
+![Name under picture](name-under-picture.png)

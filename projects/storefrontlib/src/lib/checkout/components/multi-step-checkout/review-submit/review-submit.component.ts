@@ -5,15 +5,13 @@ import {
   OnInit
 } from '@angular/core';
 
-import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import * as fromCheckoutStore from '../../../store';
-import * as fromCartStore from '../../../../cart/store';
-import { UserService } from '../../../../user/facade/user.service';
-import { CheckoutService } from '../../../services/checkout.service';
+import { CheckoutService } from '../../../facade/checkout.service';
 import { Address } from '../../../models/address-model';
+import { CartService } from '../../../../cart/facade/cart.service';
+import { UserService } from '../../../../user/facade/user.service';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
@@ -36,20 +34,19 @@ export class ReviewSubmitComponent implements OnInit {
   countryName$: Observable<any>;
 
   constructor(
-    protected store: Store<fromCheckoutStore.CheckoutState>,
-    private service: CheckoutService,
-    private userService: UserService
+    protected checkoutService: CheckoutService,
+    protected userService: UserService,
+    protected cartService: CartService
   ) {}
 
   ngOnInit() {
-    this.cart$ = this.store.pipe(select(fromCartStore.getActiveCart));
-    this.entries$ = this.store.pipe(select(fromCartStore.getEntries));
+    this.cart$ = this.cartService.activeCart$;
+    this.entries$ = this.cartService.entries$;
 
-    this.deliveryMode$ = this.store.pipe(
-      select(fromCheckoutStore.getSelectedDeliveryMode),
+    this.deliveryMode$ = this.checkoutService.selectedDeliveryMode$.pipe(
       tap(selected => {
         if (selected === null) {
-          this.service.loadSupportedDeliveryModes();
+          this.checkoutService.loadSupportedDeliveryModes();
         }
       })
     );

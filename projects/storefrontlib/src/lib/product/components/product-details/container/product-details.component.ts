@@ -5,8 +5,11 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { Observable } from 'rxjs';
+
 import { ProductService } from '@spartacus/core';
+
+import { Observable } from 'rxjs';
+
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
