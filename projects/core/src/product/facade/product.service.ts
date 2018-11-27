@@ -15,7 +15,7 @@ export class ProductService {
    * before it will load the product as well.
    */
   get(productCode: string): Observable<any> {
-    if (!this.isSelected(productCode)) {
+    if (!this.products[productCode]) {
       this.products[productCode] = this.store.pipe(
         select(fromStore.getSelectedProductFactory(productCode))
       );
@@ -39,15 +39,5 @@ export class ProductService {
    */
   protected load(productCode: string) {
     this.store.dispatch(new fromStore.LoadProduct(productCode));
-  }
-
-  /**
-   * Determines whether the product has been selected before.
-   * This is used as an internal mechanism to ensure we're
-   * able to return a singleton observable as well as avoid
-   * reloading the product over and over again.
-   */
-  protected isSelected(productCode: string): boolean {
-    return this.products.hasOwnProperty(productCode);
   }
 }
