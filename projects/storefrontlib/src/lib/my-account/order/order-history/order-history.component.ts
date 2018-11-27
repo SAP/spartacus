@@ -5,6 +5,7 @@ import { tap } from 'rxjs/operators';
 import { AuthService } from '../../../auth/facade/auth.service';
 import { RoutingService } from '@spartacus/core';
 import { UserService } from '../../../user/facade/user.service';
+import { UserOrders } from '../../models/order.model';
 
 @Component({
   selector: 'cx-order-history',
@@ -18,7 +19,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     private userSerivce: UserService
   ) {}
 
-  orders$: Observable<any>;
+  orders$: Observable<UserOrders>;
   isLoaded$: Observable<boolean>;
   subscription: Subscription;
 
@@ -39,7 +40,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     });
 
     this.orders$ = this.userSerivce.orderList$.pipe(
-      tap((orders: any) => {
+      tap((orders: UserOrders) => {
         if (
           orders.orders &&
           Object.keys(orders.orders).length === 0 &&
@@ -62,7 +63,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeSortCode(sortCode: string) {
+  changeSortCode(sortCode: string): void {
     const event = {
       sortCode,
       currentPage: 0
@@ -71,7 +72,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     this.fetchOrders(event);
   }
 
-  pageChange(page: number) {
+  pageChange(page: number): void {
     const event = {
       sortCode: this.sortType,
       currentPage: page
@@ -79,7 +80,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     this.fetchOrders(event);
   }
 
-  goToOrderDetail(order) {
+  goToOrderDetail(order): void {
     this.routing.go(['my-account/orders/', order.code]);
   }
 

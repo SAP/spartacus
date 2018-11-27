@@ -13,13 +13,14 @@ import { UserService } from '../../../user/facade/user.service';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 
 import { OrderHistoryComponent } from './order-history.component';
+import { UserOrders } from '../../models/order.model';
 
-const mockOrders = {
+const mockOrders: UserOrders = {
   orders: [
     { code: 1, placed: 1, statusDisplay: 'test', total: { formattedValue: 1 } }
   ],
   pagination: { totalResults: 1, sort: 'byDate' },
-  sorts: [{ code: 'byDate', selected: true }]
+  sort: [{ code: 'byDate', selected: true }]
 };
 
 describe('OrderHistoryComponent', () => {
@@ -85,11 +86,11 @@ describe('OrderHistoryComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let order;
+    let orders: UserOrders;
     component.orders$.subscribe(value => {
-      order = value;
+      orders = value;
     });
-    expect(order).toEqual(mockOrders);
+    expect(orders).toEqual(mockOrders);
   });
 
   xit('should redirect when clicking on order id', () => {
@@ -104,10 +105,10 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should display No orders found page if no orders are found', () => {
-    const initialOrderListState = {
+    const initialOrderListState: UserOrders = {
       orders: [],
       pagination: { totalResults: 0, sort: 'byDate' },
-      sorts: [{ code: 'byDate', selected: true }]
+      sort: [{ code: 'byDate', selected: true }]
     };
     mockUserService.orderList$.next(initialOrderListState);
 

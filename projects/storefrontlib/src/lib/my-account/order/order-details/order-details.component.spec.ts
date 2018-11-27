@@ -5,12 +5,12 @@ import { By } from '@angular/platform-browser';
 import createSpy = jasmine.createSpy;
 
 import { OrderDetailsComponent } from '../order-details/order-details.component';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, Order } from '@spartacus/core';
 import { UserService } from '../../../user/facade/user.service';
 import { AuthService } from '../../../auth/facade/auth.service';
 import { CardModule } from '../../../ui/components/card/card.module';
 
-const mockOrder = {
+const mockOrder: Order = {
   code: '1',
   statusDisplay: 'Shipped',
   deliveryAddress: {

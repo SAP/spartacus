@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 
 import { AuthService } from '../../../auth/facade/auth.service';
 import { UserService } from '../../../user/facade/user.service';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, Order } from '@spartacus/core';
 import { Card } from '../../../ui/components/card/card.component';
 
 @Component({
@@ -20,7 +20,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     private routingService: RoutingService
   ) {}
 
-  order$: Observable<any>;
+  order$: Observable<Order>;
   subscription: Subscription;
 
   ngOnInit() {
@@ -91,7 +91,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  getConsignmentProducts(consignment) {
+  getConsignmentProducts(consignment): any[] {
     const products = [];
     consignment.entries.forEach(element => {
       products.push(element.orderEntry);
