@@ -1,5 +1,6 @@
 import * as fromCart from './cart.reducer';
 import * as fromActions from './../actions';
+import { Cart } from '@spartacus/core';
 
 describe('Cart reducer', () => {
   describe('undefined action', () => {
@@ -14,16 +15,16 @@ describe('Cart reducer', () => {
 
   describe('CREATE_CART_SUCCESSS or LOAD_CART_SUCCESS action', () => {
     it('should create an empty cart', () => {
-      const testCart: any = {
+      const testCart: Cart = {
         code: 'xxx',
         guid: 'xxx',
-        total_items: 0,
-        total_price: {
-          currency_iso: 'USD',
+        totalItems: 0,
+        totalPrice: {
+          currencyIso: 'USD',
           value: 0
         },
-        total_price_with_tax: {
-          currency_iso: 'USD',
+        totalPriceWithTax: {
+          currencyIso: 'USD',
           value: 0
         }
       };
@@ -39,20 +40,21 @@ describe('Cart reducer', () => {
     });
 
     it('should load an existing cart', () => {
-      const testCart: any = {
+      const testCart: Cart = {
         code: 'xxx',
         guid: 'xxx',
-        total_items: 0,
+        totalItems: 0,
         entries: [{ entryNumber: 0, product: { code: '1234' } }],
-        total_price: {
-          currency_iso: 'USD',
+        totalPrice: {
+          currencyIso: 'USD',
           value: 0
         },
-        total_price_with_tax: {
-          currency_iso: 'USD',
+        totalPriceWithTax: {
+          currencyIso: 'USD',
           value: 0
         }
       };
+
       const { initialState } = fromCart;
 
       const action = new fromActions.LoadCartSuccess(testCart);
