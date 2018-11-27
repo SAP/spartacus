@@ -2,12 +2,15 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+
+import { ProductService } from '@spartacus/core';
+
 import { of } from 'rxjs';
 
 import { BootstrapModule } from '../../bootstrap.module';
 import { CmsService } from '../../cms/facade/cms.service';
-import { ProductService } from '@spartacus/core';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
+
 import { ProductCarouselComponent } from './product-carousel.component';
 
 describe('ProductCarouselComponent', () => {
@@ -79,6 +82,7 @@ describe('ProductCarouselComponent', () => {
   });
 
   it('should have 1 group', () => {
+    spyOn<any>(productCarouselComponent, 'getItemsPerPage').and.returnValue(4);
     productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
     expect(productCarouselComponent.productGroups.length).toBe(1);
   });
