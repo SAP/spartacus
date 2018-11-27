@@ -3,7 +3,7 @@
     <article class="storeInfo col-lg-4">
       <h2>{{ location.displayName }}</h2>
 
-      <p class="storeAddress">
+      <p *ngIf="location.address" class="storeAddress">
         {{ location.address.line1 }} <br />
         {{ location.address.town + ',' }}
         {{ location.address.region ? location.address.region.name + ',' : '' }}
@@ -14,7 +14,7 @@
         <p>
           <a [href]="getDirections(location)" target="_blank">Get Directions</a>
         </p>
-        <p>Call {{ location.address.phone }}</p>
+        <p>Call {{ location.address?.phone }}</p>
         <p><a href="contact">Contact us</a></p>
       </section>
       <div class="schedule">
@@ -29,7 +29,7 @@
   <div class="row"><h3 class="col-lg-12">Store features</h3></div>
 
   <article class="row">
-    <div class="col-lg-3" *ngFor="let feature of location.features.entry">
+    <div class="col-lg-3" *ngFor="let feature of location.features?.entry">
       <div class="storeFeature">{{ feature.value }}</div>
     </div>
   </article>
