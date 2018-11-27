@@ -10,7 +10,7 @@ export const getCardTypesState = createSelector(
 
 export const getCardTypesEntites: MemoizedSelector<
   any,
-  { [code: string]: any }
+  { [code: string]: CardType }
 > = createSelector(getCardTypesState, fromReducer.getCardTypesEntites);
 
 export const getAllCardTypes: MemoizedSelector<

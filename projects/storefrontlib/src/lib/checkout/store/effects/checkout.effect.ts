@@ -61,7 +61,9 @@ export class CheckoutEffects {
       return this.occCartService
         .getSupportedDeliveryModes(payload.userId, payload.cartId)
         .pipe(
-          map(data => new fromActions.LoadSupportedDeliveryModesSuccess(data)),
+          map(data => {
+            return new fromActions.LoadSupportedDeliveryModesSuccess(data);
+          }),
           catchError(error =>
             of(new fromActions.LoadSupportedDeliveryModesFail(error))
           )

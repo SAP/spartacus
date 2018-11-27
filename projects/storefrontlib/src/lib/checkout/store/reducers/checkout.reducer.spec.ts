@@ -2,6 +2,7 @@ import * as fromCheckout from './checkout.reducer';
 import * as fromActions from './../actions';
 import { Address } from '../../models/address-model';
 import { emptyAddress } from '../reducers/checkout.reducer';
+import { DeliveryModeList } from '@spartacus/core';
 
 describe('Checkout reducer', () => {
   describe('undefined action', () => {
@@ -51,7 +52,7 @@ describe('Checkout reducer', () => {
 
   describe('LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS action', () => {
     it('should load all supported delivery modes from cart', () => {
-      const modes: { deliveryModes: { code: string }[] } = {
+      const modes: DeliveryModeList = {
         deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
       };
 

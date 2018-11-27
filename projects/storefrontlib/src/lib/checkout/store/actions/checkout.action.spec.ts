@@ -1,5 +1,6 @@
 import * as fromAction from '../actions/checkout.action';
 import { Address } from '../../models/address-model';
+import { DeliveryModeList } from '@spartacus/core';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
@@ -18,7 +19,7 @@ const address: Address = {
   country: { isocode: 'CA' }
 };
 
-const modes: { deliveryModes: { code: string }[] } = {
+const modes: DeliveryModeList = {
   deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
 };
 

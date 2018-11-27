@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Address } from '../../models/address-model';
+import { DeliveryModeList } from '@spartacus/core';
 
 export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';
 export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
@@ -84,7 +85,7 @@ export class LoadSupportedDeliveryModesFail implements Action {
 
 export class LoadSupportedDeliveryModesSuccess implements Action {
   readonly type = LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS;
-  constructor(public payload: { deliveryModes: { code: string }[] }) {}
+  constructor(public payload: DeliveryModeList) {}
 }
 
 export class SetDeliveryMode implements Action {

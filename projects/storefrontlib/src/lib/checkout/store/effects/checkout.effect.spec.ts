@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { OccConfig } from '@spartacus/core';
+import { OccConfig, DeliveryModeList } from '@spartacus/core';
 import * as fromEffects from './checkout.effect';
 import * as fromActions from '../actions/checkout.action';
 import * as fromUserActions from '../../../user/store/actions';
@@ -42,9 +42,8 @@ describe('Checkout effect', () => {
     postalCode: 'L6M1P9',
     country: { isocode: 'CA' }
   };
-  const modes: any = {
-    mode1: 'mode1',
-    mode2: 'mode2'
+  const modes: DeliveryModeList = {
+    deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
   };
   const orderDetails = { entries: [] };
 
