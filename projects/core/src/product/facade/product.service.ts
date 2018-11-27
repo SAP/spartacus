@@ -11,7 +11,7 @@ export class ProductService {
   constructor(private store: Store<fromStore.ProductsState>) {}
 
   get(productCode: string): Observable<any> {
-    if (!this.products[productCode]) {
+    if (!this.isSelected(productCode)) {
       this.products[productCode] = this.store.pipe(
         select(fromStore.getSelectedProductFactory(productCode))
       );
@@ -22,5 +22,9 @@ export class ProductService {
 
   protected load(productCode: string) {
     this.store.dispatch(new fromStore.LoadProduct(productCode));
+  }
+
+  protected isSelected(productCode: string): boolean {
+    return this.products.hasOwnProperty(productCode);
   }
 }
