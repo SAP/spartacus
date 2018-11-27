@@ -10,8 +10,7 @@ const mockRoutesConfigLoader: { routesConfig: RoutesConfig } = {
   routesConfig: {
     translations: {
       default: {}
-    },
-    parameterNamesMapping: {}
+    }
   }
 };
 const mockServerConfig: ServerConfig = { production: false };
@@ -82,8 +81,8 @@ describe('ConfigurableRoutesService', () => {
       ];
       service['_routesConfig'].translations = {
         testLanguage: {
-          page1: ['path1'],
-          page2: ['path2']
+          page1: { paths: ['path1'] },
+          page2: { paths: ['path2'] }
         }
       };
       service.changeLanguage('testLanguage');
@@ -98,8 +97,8 @@ describe('ConfigurableRoutesService', () => {
       ];
       service['_routesConfig'].translations = {
         testLanguage: {
-          page1: ['path100'],
-          page2: ['path200']
+          page1: { paths: ['path100'] },
+          page2: { paths: ['path200'] }
         }
       };
       service.changeLanguage('testLanguage');
@@ -117,8 +116,8 @@ describe('ConfigurableRoutesService', () => {
       ];
       service['_routesConfig'].translations = {
         default: {
-          page1: ['path1'],
-          page2: ['path2']
+          page1: { paths: ['path1'] },
+          page2: { paths: ['path2'] }
         }
       };
       service.changeLanguage('testUnknownLanguage');
@@ -134,8 +133,8 @@ describe('ConfigurableRoutesService', () => {
       ];
       service['_routesConfig'].translations = {
         default: {
-          page1: ['path100'],
-          page2: ['path200']
+          page1: { paths: ['path100'] },
+          page2: { paths: ['path200'] }
         }
       };
       service.changeLanguage('testUnknownLanguage');
@@ -167,8 +166,8 @@ describe('ConfigurableRoutesService', () => {
       ];
       service['_routesConfig'].translations = {
         testLanguage: {
-          page1: ['path1'],
-          page2: ['path2']
+          page1: { paths: ['path1'] },
+          page2: { paths: ['path2'] }
         }
       };
       service.changeLanguage('testLanguage');
@@ -182,8 +181,8 @@ describe('ConfigurableRoutesService', () => {
       ];
       service['_routesConfig'].translations = {
         testLanguage: {
-          page1: ['path1'],
-          page2: ['path2']
+          page1: { paths: ['path1'] },
+          page2: { paths: ['path2'] }
         }
       };
       service.changeLanguage('testLanguage');
@@ -194,7 +193,7 @@ describe('ConfigurableRoutesService', () => {
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
       service['_routesConfig'].translations = {
         testLanguage: {
-          page1: ['path1', 'path100']
+          page1: { paths: ['path1', 'path100'] }
         }
       };
       service.changeLanguage('testLanguage');
@@ -209,7 +208,7 @@ describe('ConfigurableRoutesService', () => {
       ];
       service['_routesConfig'].translations = {
         testLanguage: {
-          page1: ['path1', 'path100']
+          page1: { paths: ['path1', 'path100'] }
         }
       };
       service.changeLanguage('testLanguage');
@@ -269,8 +268,8 @@ describe('ConfigurableRoutesService', () => {
       ];
       service['_routesConfig'].translations = {
         testLanguage: {
-          page2: ['path2', 'path20', 'path200'],
-          page4: ['path40', 'path400']
+          page2: { paths: ['path2', 'path20', 'path200'] },
+          page4: { paths: ['path40', 'path400'] }
         }
       };
       service.changeLanguage('testLanguage');
@@ -300,25 +299,28 @@ describe('ConfigurableRoutesService', () => {
     });
   });
 
-  describe('getPathsForPage', () => {
+  describe('getNestedRoutesTranslations', () => {
     it('should return configured paths translations for given page name', () => {
       service['_routesConfig'].translations = {
         testLanguage: {
-          page1: ['path1', 'path10']
+          page1: { paths: ['path1', 'path10'] }
         }
       };
+      const expectedResult = [{ paths: ['path1', 'path10'] }];
       service.changeLanguage('testLanguage');
-      expect(service.getPathsForPage('page1')).toEqual(['path1', 'path10']);
+      expect(service.getNestedRoutesTranslations(['page1'])).toEqual(
+        expectedResult
+      );
     });
 
-    it('should console.warn in non-production environment if given page name that does not exist in translations config', () => {
+    it('should console.warn in non-production environment if given page name does not exist in translations config', () => {
       spyOn(console, 'warn');
       serverConfig.production = false;
       service['_routesConfig'].translations = {
         testLanguage: {}
       };
       service.changeLanguage('testLanguage');
-      expect(service.getPathsForPage('page1')).toBe(undefined);
+      expect(service.getNestedRoutesTranslations(['page1'])).toBe(null);
       expect(console.warn).toHaveBeenCalled();
     });
 
@@ -331,41 +333,19 @@ describe('ConfigurableRoutesService', () => {
         }
       };
       service.changeLanguage('testLanguage');
-      expect(service.getPathsForPage('page1')).toBe(null);
+      expect(service.getNestedRoutesTranslations(['page1'])).toBe(null);
       expect(console.warn).not.toHaveBeenCalled();
     });
 
-    it('should NOT console.warn in production environment if given page name that does not exist in translations config', () => {
+    it('should NOT console.warn in production environment if given page name does not exist in translations config', () => {
       spyOn(console, 'warn');
       serverConfig.production = true;
       service['_routesConfig'].translations = {
         testLanguage: {}
       };
       service.changeLanguage('testLanguage');
-      expect(service.getPathsForPage('page1')).toBe(undefined);
+      expect(service.getNestedRoutesTranslations(['page1'])).toBe(null);
       expect(console.warn).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('getParameterNamesMapping', () => {
-    it('should return configured parameter names mapping for given page name', () => {
-      service['_routesConfig'].parameterNamesMapping = {
-        page1: {
-          param1: 'otherParam1',
-          param10: 'otherParam10'
-        },
-        page2: {
-          param2: 'otherParam2'
-        }
-      };
-      expect(service.getParameterNamesMapping('page1')).toEqual({
-        param1: 'otherParam1',
-        param10: 'otherParam10'
-      });
-    });
-    it('should return empty object if there are no configured parameter names mapping for given page name', () => {
-      service['_routesConfig'].parameterNamesMapping = {};
-      expect(service.getParameterNamesMapping('page1')).toEqual({});
     });
   });
 });

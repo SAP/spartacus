@@ -224,15 +224,15 @@ export class ConfigurableRoutesService {
     routeName: string,
     routesTranslations: RoutesTranslations
   ): RouteTranslation {
-    if (!routesTranslations) {
+    const result = routesTranslations && routesTranslations[routeName];
+    if (!routesTranslations || result === undefined) {
       this.warn(
         `No route translation was configured for page '${routeName}' in language '${
           this.currentLanguageCode
         }'!`
       );
-      return undefined;
     }
-    return routesTranslations[routeName];
+    return result;
   }
 
   private getTranslatedPaths(
