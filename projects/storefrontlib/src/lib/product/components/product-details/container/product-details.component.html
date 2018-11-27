@@ -1,16 +1,12 @@
 <ng-container *ngIf="(product$ | async) as product">
   <ng-container *cxOutlet="outlets.PAGE">
-    <div class="container">
-      <div class="cx-product-details">
-        <ng-container *cxOutlet="outlets.SUMMARY">
-          <cx-product-summary [product]="product">
-            <ng-container *cxOutlet="outlets.IMAGES"
-              ><cx-product-images [product]="product"></cx-product-images
-            ></ng-container>
-          </cx-product-summary>
-        </ng-container>
-      </div>
-    </div>
+    <ng-container *cxOutlet="outlets.SUMMARY">
+      <cx-product-summary class="container" [product]="product">
+        <ng-container *cxOutlet="outlets.IMAGES"
+          ><cx-product-images [product]="product"></cx-product-images
+        ></ng-container>
+      </cx-product-summary>
+    </ng-container>
 
     <ng-container *cxOutlet="outlets.TAB">
       <div class="cx-product-details__tabset" #tabSetWrapper>

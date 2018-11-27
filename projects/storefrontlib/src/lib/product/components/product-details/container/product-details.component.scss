@@ -8,7 +8,6 @@ $cx-product-details-tab-title-color: 'text' !default;
 $cx-product-details-tab-title-trbl-padding: 0 20px 0 20px !default;
 $cx-product-details-tab-border-color: 'primary' !default;
 $cx-product-details-tab-content-trbl-padding: 3rem 8rem !default;
-$cx-product-details-cart-btn-trbl-margin: 20px 0 10px 0 !default;
 $cx-accordian-mobile-background-color: 'inverse' !default;
 $cx-accordian-mobile-body-background-color: 'background' !default;
 $cx-accordion-mobile-body-padding: 30px 20px 20px 20px !default;
@@ -20,11 +19,11 @@ $cx-accordion-mobile-head-link-padding: 25px 20px !default;
 $cx-accordion-mobile-head-btn-border: 5px solid !default;
 $cx-accordion-mobile-head-btn-height: 74px !default;
 
-.cx-product-details {
+cx-product-summary {
   margin: $cx-product-details-trbl-margin;
-  .btn-block {
-    margin: $cx-product-details-cart-btn-trbl-margin;
-  }
+}
+
+.cx-product-details {
   &__tab-title {
     @include type('3');
     @include var-color('color', $cx-product-details-tab-title-color);

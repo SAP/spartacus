@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { ProductSummaryOutlets } from '../../../product-outlets.model';
+import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
   selector: 'cx-product-summary',
@@ -8,7 +8,7 @@ import { ProductSummaryOutlets } from '../../../product-outlets.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductSummaryComponent {
-  static outlets = ProductSummaryOutlets;
+  static outlets = ProductDetailOutlets;
 
   @Input()
   product: any;
