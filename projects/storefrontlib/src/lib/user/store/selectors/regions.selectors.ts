@@ -9,14 +9,7 @@ export const getRegionsState = createSelector(
   (state: fromFeature.UserState) => state.regions
 );
 
-export const getRegionsEntities: MemoizedSelector<any, any> = createSelector(
+export const getAllRegions: MemoizedSelector<any, Region[]> = createSelector(
   getRegionsState,
   fromReducer.getRegionsEntities
-);
-
-export const getAllRegions: MemoizedSelector<any, Region[]> = createSelector(
-  getRegionsEntities,
-  entities => {
-    return Object.keys(entities).map(isocode => entities[isocode]);
-  }
 );

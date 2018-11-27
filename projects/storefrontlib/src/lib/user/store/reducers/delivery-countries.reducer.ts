@@ -2,7 +2,7 @@ import * as fromAction from '../actions';
 import { Country } from '@spartacus/core';
 
 export interface DeliveryCountriesState {
-  entities: { [isocode: string]: any };
+  entities: { [isocode: string]: Country };
 }
 
 export const initialState: DeliveryCountriesState = {
@@ -17,10 +17,10 @@ export function reducer(
     case fromAction.LOAD_DELIVERY_COUNTRIES_SUCCESS: {
       const deliveryCountries = action.payload;
       const entities = deliveryCountries.reduce(
-        (countryEntities: { [isocode: string]: any }, name: Country) => {
+        (countryEntities: { [isocode: string]: Country }, country: Country) => {
           return {
             ...countryEntities,
-            [name.isocode]: name
+            [country.isocode]: country
           };
         },
         {
