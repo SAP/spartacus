@@ -11,13 +11,13 @@ export class DynamicUrlPipeService {
 
   transform(dynamicUrl: string): string[] {
     const {
-      nestedRouteNames,
-      paramsObjects
+      nestedRoutesNames,
+      nestedRoutesParams
     } = this.dynamicUrlRecognizerService.getNestedRoutes(dynamicUrl);
 
-    if (!nestedRouteNames) {
+    if (!nestedRoutesNames) {
       return [dynamicUrl];
     }
-    return this.pathService.transform(nestedRouteNames, paramsObjects);
+    return this.pathService.transform(nestedRoutesNames, nestedRoutesParams);
   }
 }

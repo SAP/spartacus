@@ -8,7 +8,7 @@ const mockPathService = {
 };
 
 const mockDynamicUrlRecognizerService = {
-  getPageAndParameters: () => {}
+  getNestedRoutes: () => {}
 };
 
 describe('DynamicUrlPipeService', () => {
@@ -41,37 +41,37 @@ describe('DynamicUrlPipeService', () => {
       const inputUrl = 'test-path/value1/value2';
       const expectedResult = ['expected-result'];
       spyOn(pathService, 'transform').and.returnValue(expectedResult);
-      spyOn(dynamicUrlRecognizer, 'getPageAndParameters').and.returnValue({
-        pageName: 'testPageName',
-        parameters: { param1: 'value1', param2: 'value2' }
+      spyOn(dynamicUrlRecognizer, 'getNestedRoutes').and.returnValue({
+        nestedRoutesNames: 'testRouteName',
+        nestedRoutesParams: { param1: 'value1', param2: 'value2' }
       });
 
       const result = service.transform(inputUrl);
 
-      expect(pathService.transform).toHaveBeenCalledWith('testPageName', {
+      expect(pathService.transform).toHaveBeenCalledWith('testRouteName', {
         param1: 'value1',
         param2: 'value2'
       });
       expect(result).toBe(expectedResult);
     });
 
-    it('should get matching page name and parameters from DynamicUrlRecognizerService', () => {
+    it('should get matching route name and params from DynamicUrlRecognizerService', () => {
       const inputUrl = 'test-path/value1/value2';
-      spyOn(dynamicUrlRecognizer, 'getPageAndParameters').and.returnValue({
-        pageName: null,
-        parameters: null
+      spyOn(dynamicUrlRecognizer, 'getNestedRoutes').and.returnValue({
+        nestedRoutesNames: null,
+        nestedRoutesParams: null
       });
       service.transform(inputUrl);
-      expect(dynamicUrlRecognizer.getPageAndParameters).toHaveBeenCalledWith(
+      expect(dynamicUrlRecognizer.getNestedRoutes).toHaveBeenCalledWith(
         inputUrl
       );
     });
 
-    it('should return original url wrapped in an array if there is no matching page for this url', () => {
+    it('should return original url wrapped in an array if there is no matching route for this url', () => {
       const inputUrl = 'unknown-path';
-      spyOn(dynamicUrlRecognizer, 'getPageAndParameters').and.returnValue({
-        pageName: null,
-        parameters: null
+      spyOn(dynamicUrlRecognizer, 'getNestedRoutes').and.returnValue({
+        nestedRoutesNames: null,
+        nestedRoutesParams: null
       });
       expect(service.transform(inputUrl)).toEqual([inputUrl]);
     });
