@@ -26,7 +26,9 @@ export class ConfigurableRoutesService {
   private currentLanguageCode: string = this.DEFAULT_LANGUAGE_CODE;
 
   private get currentRoutesTranslations(): RoutesTranslations {
-    return this._routesConfig.translations[this.currentLanguageCode];
+    return this._routesConfig.translations[
+      this.currentLanguageCode
+    ] as RoutesTranslations;
   }
 
   changeLanguage(languageCode: string) {
