@@ -15,11 +15,11 @@ export class ProductService {
    * before it will load the product as well.
    */
   get(productCode: string): Observable<any> {
-    if (!this.isSelected(productCode)) {
+    this.store.dispatch(new fromStore.LoadProduct(productCode));
+    if (!this.products[productCode]) {
       this.products[productCode] = this.store.pipe(
         select(fromStore.getSelectedProductFactory(productCode))
       );
-      this.load(productCode);
     }
     return this.products[productCode];
   }
@@ -30,7 +30,7 @@ export class ProductService {
    * explicit reload might be needed.
    */
   reload(productCode: string) {
-    this.load(productCode);
+    this.store.dispatch(new fromStore.LoadProduct(productCode, true));
   }
 
   /**

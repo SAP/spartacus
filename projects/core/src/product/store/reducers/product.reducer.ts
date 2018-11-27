@@ -10,6 +10,20 @@ export function reducer(
   action: fromProduct.ProductAction
 ): ProductState {
   switch (action.type) {
+    case fromProduct.LOAD_PRODUCT_START: {
+      const code = action.payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [code]: {
+            loading: true,
+            value: (state.entities[code] || { value: null }).value
+          }
+        }
+      };
+    }
+
     case fromProduct.LOAD_PRODUCT_SUCCESS: {
       const detail = action.payload;
 
@@ -17,7 +31,7 @@ export function reducer(
         ...state,
         entities: {
           ...state.entities,
-          [detail.code]: detail
+          [detail.code]: { loading: false, value: detail }
         }
       };
     }
@@ -26,7 +40,7 @@ export function reducer(
         ...state,
         entities: {
           ...state.entities,
-          [action.payload.code]: {}
+          [action.payload.code]: { loading: false, value: null }
         }
       };
     }

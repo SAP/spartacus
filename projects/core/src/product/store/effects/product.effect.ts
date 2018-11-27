@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import {
   map,
   filter,
@@ -19,12 +19,34 @@ import { ProductReferenceConverterService } from '../converters/product-referenc
 
 import { RoutingService } from '../../../routing/index';
 import { PageType } from '../../../occ-models/occ.models';
+import { select, Store } from '@ngrx/store';
+import { LoadProductStart } from '../actions/product.action';
+import { getSelectedProductStateFactory } from '../selectors/product.selectors';
+import { StateWithProduct } from '../product-state';
 
 @Injectable()
 export class ProductEffects {
   @Effect()
   loadProduct$: Observable<any> = this.actions$.pipe(
     ofType(productActions.LOAD_PRODUCT),
+    map((action: productActions.LoadProduct) => action.payload),
+    mergeMap(productCode => {
+      return this.store.pipe(
+        select(getSelectedProductStateFactory(productCode)),
+        switchMap(state => {
+          if (!state.loading && !state.value) {
+            return of(new LoadProductStart(productCode));
+          } else {
+            return EMPTY;
+          }
+        })
+      );
+    })
+  );
+
+  @Effect()
+  loadProductStart$ = this.actions$.pipe(
+    ofType(productActions.LOAD_PRODUCT_START),
     map((action: productActions.LoadProduct) => action.payload),
     mergeMap(productCode => {
       return this.occProductService.loadProduct(productCode).pipe(
@@ -63,6 +85,7 @@ export class ProductEffects {
 
   constructor(
     private actions$: Actions,
+    private store: Store<StateWithProduct>,
     private occProductService: OccProductService,
     private productImageConverter: ProductImageConverterService,
     private productReferenceConverterService: ProductReferenceConverterService,
