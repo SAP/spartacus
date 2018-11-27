@@ -1,6 +1,9 @@
-import { defaultRoutesConfig } from '../routes-config';
 import { ConfigurableRoutesConfig } from './configurable-routes-config';
+import { defaultStorefrontRoutesTranslations } from './default-storefront-routes-translations';
 
 export const defaultConfigurableRoutesConfig: ConfigurableRoutesConfig = {
-  routesConfig: defaultRoutesConfig
+  routesConfig: {
+    translations: defaultStorefrontRoutesTranslations,
+    fetch: false
+  }
 };
