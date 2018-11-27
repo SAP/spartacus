@@ -62,7 +62,7 @@ export class SearchBoxComponentService {
       })
     );
 
-  public launchSearchPage(query: string) {
+  public launchSearchPage(query: string): void {
     this.routingService.go(['/search', query]);
   }
 
@@ -79,7 +79,7 @@ export class SearchBoxComponentService {
     return combineLatest(sugg, prod).pipe(map(([a, b]) => [...a, ...b]));
   }
 
-  private executeSearch(search: string, config: SearchBoxConfig) {
+  private executeSearch(search: string, config: SearchBoxConfig): void {
     if (config.displayProducts) {
       this.searchService.searchAuxiliary(search, {
         pageSize: config.maxProducts

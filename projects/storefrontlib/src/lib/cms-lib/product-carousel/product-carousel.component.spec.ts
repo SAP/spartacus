@@ -18,7 +18,7 @@ describe('ProductCarouselComponent', () => {
   let fixture: ComponentFixture<ProductCarouselComponent>;
   let el: DebugElement;
 
-  const productCodeArray = ['111111', '222222', '333333', '444444'];
+  const productCodeArray: string[] = ['111111', '222222', '333333', '444444'];
   const mockComponentData = {
     uid: '001',
     typeCode: 'ProductCarouselComponent',

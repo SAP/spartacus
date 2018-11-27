@@ -37,7 +37,7 @@ export class NavigationComponent extends AbstractCmsComponent
     super(cmsService, cd);
   }
 
-  protected fetchData() {
+  protected fetchData(): void {
     if (!this.component) {
       return;
     }

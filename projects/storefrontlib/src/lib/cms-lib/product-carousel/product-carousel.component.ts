@@ -48,15 +48,15 @@ export class ProductCarouselComponent extends AbstractCmsComponent
       .subscribe(() => this.createGroups());
   }
 
-  prev() {
+  prev(): void {
     this.carousel.prev();
   }
 
-  next() {
+  next(): void {
     this.carousel.next();
   }
 
-  protected fetchData() {
+  protected fetchData(): void {
     this.setProductCodes();
     this.productCodes.forEach(code => {
       this.products[code] = this.productService.get(code);
@@ -66,7 +66,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     super.fetchData();
   }
 
-  protected createGroups() {
+  protected createGroups(): void {
     const groups = [];
     this.productCodes.forEach(product => {
       const lastGroup = groups[groups.length - 1];
@@ -83,7 +83,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     const smallScreenMaxWidth = 576;
     const tabletScreenMaxWidth = 768;
     const { innerWidth } = window;
-    let itemsPerPage;
+    let itemsPerPage: number;
     if (innerWidth < smallScreenMaxWidth) {
       itemsPerPage = 1;
     } else if (
@@ -97,7 +97,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     return itemsPerPage;
   }
 
-  protected setProductCodes() {
+  protected setProductCodes(): void {
     if (this.component && this.component.productCodes) {
       this.productCodes = this.component.productCodes.split(' ');
     }

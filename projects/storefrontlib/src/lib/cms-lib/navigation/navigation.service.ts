@@ -11,7 +11,11 @@ export class NavigationService {
    * @param root
    * @param itemsList
    */
-  public getNavigationEntryItems(nodeData: any, root: boolean, itemsList = []) {
+  public getNavigationEntryItems(
+    nodeData: any,
+    root: boolean,
+    itemsList = []
+  ): void {
     if (nodeData.children) {
       this.processChildren(nodeData, itemsList);
     } else if (nodeData.entries && nodeData.entries.length > 0) {
@@ -29,7 +33,7 @@ export class NavigationService {
     }
   }
 
-  private processChildren(node, itemsList) {
+  private processChildren(node, itemsList): void {
     for (const child of node.children) {
       this.getNavigationEntryItems(child, false, itemsList);
     }
@@ -40,7 +44,7 @@ export class NavigationService {
    * @param nodeData
    * @param items
    */
-  public createNode(nodeData, items) {
+  public createNode(nodeData, items): any {
     const node = {};
 
     node['title'] = nodeData.title;

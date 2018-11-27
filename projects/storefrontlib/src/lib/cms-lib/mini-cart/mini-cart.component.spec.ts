@@ -6,6 +6,7 @@ import { CartService } from '../../cart/facade/cart.service';
 import { CmsService } from '../../cms/facade/cms.service';
 
 import { MiniCartComponent } from './mini-cart.component';
+import { Cart, OrderEntry } from '@spartacus/core';
 
 describe('MiniCartComponent', () => {
   let miniCartComponent: MiniCartComponent;
@@ -26,24 +27,27 @@ describe('MiniCartComponent', () => {
     getComponentData: () => of(mockComponentData)
   };
 
-  const testCart: any = {
+  const testCart: Cart = {
     code: 'xxx',
     guid: 'xxx',
-    total_items: 0,
-    deliveryItemsQuantity: '1',
-    total_price: {
-      currency_iso: 'USD',
+    totalItems: 0,
+    deliveryItemsQuantity: 1,
+    totalPrice: {
+      currencyIso: 'USD',
       value: 10.0
     },
-    total_price_with_tax: {
-      currency_iso: 'USD',
+    totalPriceWithTax: {
+      currencyIso: 'USD',
       value: 10.0
     }
   };
 
-  const testEntries: any = [
-    { '1234': { entryNumber: 0, product: { code: '1234' } } }
-  ];
+  const orderEntry: OrderEntry = {
+    entryNumber: 0,
+    product: { code: '1234' }
+  };
+
+  const testEntries = [{ '1234': orderEntry }];
 
   const MockCartService = {
     cart$: of(testCart),

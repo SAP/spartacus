@@ -43,7 +43,7 @@ describe('Navigation UI Component', () => {
       };
       navigationComponent.node = mockData;
       fixture.detectChanges();
-      const link = getLink().nativeElement;
+      const link: HTMLLinkElement = getLink().nativeElement;
       expect(link.textContent).toContain(mockData.title);
       expect(link.getAttribute('role')).toEqual('link');
     });
@@ -56,7 +56,7 @@ describe('Navigation UI Component', () => {
       };
       navigationComponent.node = mockData;
       fixture.detectChanges();
-      const link = getLink().nativeElement;
+      const link: HTMLLinkElement = getLink().nativeElement;
       expect(link.textContent).toContain(mockData.title);
       expect(link.getAttribute('href')).toEqual(mockData.url);
     });
@@ -84,7 +84,7 @@ describe('Navigation UI Component', () => {
       navigationComponent.node = mockData;
       fixture.detectChanges();
 
-      const dropdown = getDropdown().nativeElement;
+      const dropdown: HTMLElement = getDropdown().nativeElement;
       expect(dropdown.getAttribute('aria-label')).toEqual(mockData.title);
       expect(dropdown.getAttribute('role')).toEqual('list');
       expect(dropdown.childElementCount).toBe(2);
@@ -128,7 +128,8 @@ describe('Navigation UI Component', () => {
       navigationComponent.node = mockData;
       fixture.detectChanges();
 
-      const firstDropdownItem = getFirstDropdownItem().nativeElement;
+      const firstDropdownItem: HTMLElement = getFirstDropdownItem()
+        .nativeElement;
       expect(firstDropdownItem.getAttribute('role')).toEqual('listitem');
       const sublinks = getSublinks();
       expect(sublinks[0].nativeElement.getAttribute('href')).toEqual(
@@ -161,7 +162,8 @@ describe('Navigation UI Component', () => {
       navigationComponent.dropdownMode = 'column';
       fixture.detectChanges();
 
-      const firstDropdownItem = getFirstDropdownItem().nativeElement;
+      const firstDropdownItem: HTMLElement = getFirstDropdownItem()
+        .nativeElement;
       expect(firstDropdownItem).toBeTruthy();
     });
   });

@@ -58,7 +58,7 @@ describe('LinkComponent', () => {
 
   it('should contain link name and url', () => {
     fixture.detectChanges();
-    const element = el.query(By.css('a')).nativeElement;
+    const element: HTMLLinkElement = el.query(By.css('a')).nativeElement;
 
     expect(element.textContent).toEqual(componentData.linkName);
     expect(element.href).toContain(componentData.url);
