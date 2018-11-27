@@ -11,15 +11,15 @@ branches:
 jobs:
   include:
     - stage: 'Validation'
-      script: './ci-scripts/e2e-tests.sh'
-      name: 'End to end tests'
-    - script: './ci-scripts/validate.sh'
+      script: './ci-scripts/validate.sh'
       name: 'Validation'
     - script: './ci-scripts/lint.sh'
       name: 'Lint'
     - stage: 'Unit tests'
       script: './ci-scripts/unit-tests-sonar.sh'
       name: 'Unit tests/Sonar scan'
+    - script: './ci-scripts/e2e-tests.sh'
+      name: 'End to end tests'
     - stage: deploy
       script: './ci-scripts/build-deploy.sh'
       name: 'Deploy to github pages'
