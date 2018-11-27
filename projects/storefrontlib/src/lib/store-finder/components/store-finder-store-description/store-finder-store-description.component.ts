@@ -43,18 +43,20 @@ export class StoreFinderStoreDescriptionComponent
   }
 
   requestStoresData() {
-    if (this.route.snapshot.params.country) {
-      if (this.route.snapshot.params.region) {
-        this.storeFinderService.viewAllStoresForRegion(
-          this.route.snapshot.params.country,
-          this.route.snapshot.params.region
-        );
-      } else {
-        this.storeFinderService.viewAllStoresForCountry(
-          this.route.snapshot.params.country
-        );
-      }
+    const { region, country } = this.route.snapshot.params;
+    if (!country) {
+      return;
     }
+    if (region) {
+      this.storeFinderService.viewAllStoresForRegion(
+        this.route.snapshot.params.country,
+        this.route.snapshot.params.region
+      );
+      return;
+    }
+    this.storeFinderService.viewAllStoresForCountry(
+      this.route.snapshot.params.country
+    );
   }
 
   ngOnDestroy() {
