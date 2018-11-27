@@ -7,11 +7,14 @@ import {
   OnInit,
   ChangeDetectorRef
 } from '@angular/core';
+
+import { ProductService } from '@spartacus/core';
+
 import { Subscription, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { CmsService } from '../../cms/facade/cms.service';
-import { ProductService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-carousel',
