@@ -38,7 +38,7 @@ describe('ReviewService', () => {
   describe('getByProductCode(productCode)', () => {
     it('should be able to get product reviews if reviews exist', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(mockReview)
+        of([mockReview])
       );
       service.getByProductCode('testId').subscribe(reviews => {
         expect(reviews).toBe([mockReview]);
