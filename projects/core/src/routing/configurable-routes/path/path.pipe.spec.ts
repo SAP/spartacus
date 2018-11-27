@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { PathPipe } from './path.pipe';
 import { PathPipeService } from './path-pipe.service';
 
-const mockPathService = {
+const mockPathPipeService = {
   transform: () => {}
 };
 
@@ -16,7 +16,7 @@ describe('PathPipe', () => {
         PathPipe,
         {
           provide: PathPipeService,
-          useValue: mockPathService
+          useValue: mockPathPipeService
         }
       ]
     });
@@ -29,10 +29,11 @@ describe('PathPipe', () => {
     it('should should call service and return its result', () => {
       const serviceResult = ['transfromed-path'];
       spyOn(service, 'transform').and.returnValue(serviceResult);
-      const result = pipe.transform(['testPageName'], [{ param1: 'value1' }]);
-      expect(service.transform).toHaveBeenCalledWith('testPageName', {
-        param1: 'value1'
-      });
+      const result = pipe.transform(['testRouteName'], [{ param1: 'value1' }]);
+      expect(service.transform).toHaveBeenCalledWith(
+        ['testRouteName'],
+        [{ param1: 'value1' }]
+      );
       expect(result).toEqual(serviceResult);
     });
   });

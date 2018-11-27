@@ -7,7 +7,10 @@ import { PathPipeService } from './path-pipe.service';
 export class PathPipe implements PipeTransform {
   constructor(private service: PathPipeService) {}
 
-  transform(pageNames: string[], parametersObjects?: object[]): string[] {
-    return this.service.transform(pageNames, parametersObjects);
+  transform(
+    nestedRoutesNames: string[],
+    nestedRoutesParams?: object[]
+  ): string[] {
+    return this.service.transform(nestedRoutesNames, nestedRoutesParams);
   }
 }
