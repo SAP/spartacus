@@ -48,15 +48,10 @@ export class StoreFinderStoreDescriptionComponent
       return;
     }
     if (region) {
-      this.storeFinderService.viewAllStoresForRegion(
-        this.route.snapshot.params.country,
-        this.route.snapshot.params.region
-      );
+      this.storeFinderService.viewAllStoresForRegion(country, region);
       return;
     }
-    this.storeFinderService.viewAllStoresForCountry(
-      this.route.snapshot.params.country
-    );
+    this.storeFinderService.viewAllStoresForCountry(country);
   }
 
   ngOnDestroy() {
