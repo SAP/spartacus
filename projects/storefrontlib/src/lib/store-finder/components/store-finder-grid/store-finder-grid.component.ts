@@ -45,9 +45,7 @@ export class StoreFinderGridComponent implements OnInit {
           locations.pointOfServices &&
           locations.pointOfServices.length === 1
         ) {
-          setTimeout(() => {
-            this.viewStore(locations.pointOfServices[0]);
-          }, 0);
+          this.viewStore(locations.pointOfServices[0]);
         }
         this.locations = locations;
       });
