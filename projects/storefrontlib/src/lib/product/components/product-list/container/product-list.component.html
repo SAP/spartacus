@@ -3,7 +3,11 @@
     <header class="cx-page__header">
       <h1 class="cx-page__title">
         {{ model.pagination.totalResults }} results for
-        {{ model.breadcrumbs[0].facetValueName }}
+        {{
+          model.breadcrumbs == null
+            ? query
+            : model.breadcrumbs[0].facetValueName
+        }}
       </h1>
     </header>
     <section class="cx-page__section">
