@@ -7,11 +7,20 @@ import * as fromStore from '../store';
 import { ProductSearchService } from './product-search.service';
 import { SearchConfig } from '../model/search-config';
 import { EMPTY, of } from 'rxjs';
+import { Router } from '@angular/router';
 
 describe('ProductSearchService', () => {
   let service: ProductSearchService;
+  let routerService: Router;
   let store: Store<fromStore.ProductsState>;
-
+  class MockRouter {
+    createUrlTree() {
+      return {};
+    }
+    navigateByUrl() {
+      return {};
+    }
+  }
   const mockSearchResults = {
     products: [{ code: '1' }, { code: '2' }, { code: '3' }]
   };
@@ -39,11 +48,20 @@ describe('ProductSearchService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature('product', fromStore.getReducers())
       ],
-      providers: [ProductSearchService]
+      providers: [
+        ProductSearchService,
+        {
+          provide: Router,
+          useClass: MockRouter
+        }
+      ]
     });
 
     store = TestBed.get(Store);
     service = TestBed.get(ProductSearchService);
+    routerService = TestBed.get(Router);
+    spyOn(routerService, 'navigateByUrl').and.callThrough();
+    spyOn(service, 'search').and.callThrough();
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -69,7 +87,9 @@ describe('ProductSearchService', () => {
   describe('search(query, searchConfig)', () => {
     it('should be able to search products', () => {
       const searchConfig: SearchConfig = {};
+
       service.search('test query', searchConfig);
+      expect(routerService.navigateByUrl).toHaveBeenCalledWith({});
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SearchProducts({
           queryText: 'test query',

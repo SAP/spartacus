@@ -2,11 +2,15 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import * as fromStore from '../store/index';
 import { SearchConfig } from '../model/search-config';
+<<<<<<< HEAD
 import { ProductSearchPage, Suggestion } from '../../occ-models';
 
+=======
+>>>>>>> origin
 @Injectable()
 export class ProductSearchService {
   readonly searchResults$: Observable<ProductSearchPage> = this.store.pipe(
@@ -23,9 +27,18 @@ export class ProductSearchService {
     select(fromStore.getProductSuggestions)
   );
 
-  constructor(private store: Store<fromStore.ProductsState>) {}
+  constructor(
+    private store: Store<fromStore.ProductsState>,
+    private router: Router
+  ) {}
 
   search(query: string, searchConfig?: SearchConfig) {
+    const urlTree = this.router.createUrlTree([], {
+      queryParams: { ...searchConfig, query },
+      preserveFragment: false
+    });
+
+    this.router.navigateByUrl(urlTree);
     this.store.dispatch(
       new fromStore.SearchProducts({
         queryText: query,
