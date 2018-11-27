@@ -62,7 +62,7 @@ export class RoutesConfigLoader {
 
     Object.keys(routesConfig.translations).forEach(languageCode => {
       const languageTranslations = routesConfig.translations[languageCode];
-      routesConfig.translations[languageCode] = Object.assign(
+      routesConfig.translations[languageCode] = deepMerge(
         {},
         defaultTranslations,
         languageTranslations
