@@ -20,7 +20,7 @@ export class CmsService {
     private defaultPageService: DefaultPageService
   ) {}
 
-  getComponentData(uid: string): Observable<Component> {
+  getComponentData<T extends Component>(uid: string): Observable<T> {
     const selector = fromStore.componentSelectorFactory(uid);
     return this.store.pipe(
       select(selector),
@@ -33,7 +33,9 @@ export class CmsService {
     );
   }
 
-  getContentSlot(position: string): Observable<Component[]> {
+  getContentSlot(
+    position: string
+  ): Observable<{ uid: string; typeCode: string }[]> {
     return this.store.pipe(
       select(fromStore.currentSlotSelectorFactory(position)),
       filter(Boolean)

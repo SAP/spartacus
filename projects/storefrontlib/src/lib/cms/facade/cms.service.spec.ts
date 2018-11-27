@@ -19,7 +19,7 @@ const MockCmsModuleConfig: CmsModuleConfig = {
   }
 };
 
-const mockContentSlot: Component[] = [
+const mockContentSlot: { uid: string; typeCode: string }[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
   { uid: 'comp2', typeCode: 'CMSLinkComponent' },
   { uid: 'comp3', typeCode: 'NavigationComponent' }

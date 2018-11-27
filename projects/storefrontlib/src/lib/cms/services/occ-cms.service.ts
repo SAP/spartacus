@@ -54,7 +54,7 @@ export class OccCmsService {
     id: string,
     pageContext: PageContext,
     fields?: string
-  ): Observable<Component> {
+  ): Observable<any> {
     return this.http
       .get(this.getBaseEndPoint() + `/components/${id}`, {
         headers: this.headers,
@@ -72,7 +72,7 @@ export class OccCmsService {
     currentPage?: number,
     pageSize?: number,
     sort?: string
-  ): Observable<ComponentList> {
+  ): Observable<any> {
     let strParams = this.getRequestParams(pageContext, fields);
     if (currentPage !== undefined) {
       strParams === ''

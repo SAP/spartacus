@@ -9,13 +9,13 @@ export const initialState: ComponentState = {
   entities: {}
 };
 
-export function reducer(
+export function reducer<T extends Component>(
   state = initialState,
   action: fromComponent.ComponentAction
 ): ComponentState {
   switch (action.type) {
     case fromComponent.LOAD_COMPONENT_SUCCESS: {
-      const component: Component = action.payload;
+      const component: T = action.payload; //<T extends Component>
 
       return {
         ...state,

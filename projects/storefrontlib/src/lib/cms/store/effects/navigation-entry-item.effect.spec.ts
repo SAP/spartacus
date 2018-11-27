@@ -34,12 +34,21 @@ describe('Navigation Entry Items Effects', () => {
   let service: OccCmsService;
   let effects: fromEffects.NavigationEntryItemEffects;
 
-  const components: Component[] = [
-    { uid: 'MockLink001', name: 'test link 1' },
-    { uid: 'MockLink002', name: 'test link 2' }
-  ];
   const listComponents: any = {
-    component: components,
+    component: [
+      {
+        uid: 'MockLink001',
+        url: '/testLink1',
+        linkName: 'test link 1',
+        target: false
+      },
+      {
+        uid: 'MockLink002',
+        url: '/testLink2',
+        linkName: 'test link 2',
+        target: true
+      }
+    ],
     pagination: {
       count: 2,
       page: 0,

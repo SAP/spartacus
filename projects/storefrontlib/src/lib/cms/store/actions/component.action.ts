@@ -17,9 +17,9 @@ export class LoadComponentFail implements Action {
   constructor(public payload: any) {}
 }
 
-export class LoadComponentSuccess implements Action {
+export class LoadComponentSuccess<T extends Component> implements Action {
   readonly type = LOAD_COMPONENT_SUCCESS;
-  constructor(public payload: Component) {}
+  constructor(public payload: T) {}
 }
 
 export class GetComponentFromPage implements Action {
