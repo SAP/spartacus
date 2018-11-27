@@ -25,6 +25,15 @@ export class ProductService {
   }
 
   /**
+   * (re)loads the product. The product is loaded implicetly
+   * whenever selected by the `get`, but in some cases an
+   * explicit reload might be needed.
+   */
+  reload(productCode: string) {
+    this.load(productCode);
+  }
+
+  /**
    * Loads the product. This is implicetly done whenever
    * the product is selected.
    */
