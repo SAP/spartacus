@@ -10,44 +10,6 @@ export interface RoutesTranslations {
 
 // spike todo bring back and provide strong typing
 // interface StandardRoutesTranslations {
-//   // spike todo use it somewhere for strong typing
-//   homepage?: RouteTranslation;
-//   cart?: RouteTranslation;
-//   search?: RouteTranslation;
-//   login?: RouteTranslation;
-//   register?: RouteTranslation;
-//   resetNewPassword?: RouteTranslation;
-//   resetPassword?: RouteTranslation;
-//   checkout?: RouteTranslation;
-//   orderConfirmation?: RouteTranslation;
-//   product?: RouteTranslation;
-//   category?: RouteTranslation;
-//   storeFinder?: RouteTranslation;
-//   storeFinderSearchResult?: RouteTranslation;
-//   storeFinderAllStores?: RouteTranslation;
-//   storeFinderListStores?: RouteTranslation;
-//   storeFinderStoreDescription?: RouteTranslation;
-//   contact?: RouteTranslation;
-//   help?: RouteTranslation;
-//   sale?: RouteTranslation;
-//   myAccount_orders?: RouteTranslation;
-//   myAccount_orderDetails?: RouteTranslation;
-//   pageNotFound?: RouteTranslation;
-
-//   // allow custom pages
-//   [pageName: string]: RouteTranslation;
-// }
-
-// root level properties bellow should match those from RoutesTranslations interface:
-// export interface ParameterNamesMapping {
-//   product?: { [_: string]: string };
-//   category?: { [_: string]: string };
-//   myAccount_orderDetails?: { [_: string]: string };
-
-//   // allow custom pages
-//   [pageName: string]: {
-//     [_: string]: string;
-//   };
 // }
 
 export interface ParamsMapping {
@@ -103,7 +65,7 @@ const defaultTranslations: {
         }
       }
     },
-
+    termsAndConditions: { paths: ['terms-and-conditions'] },
     contact: { paths: ['contact'] },
     help: { paths: ['faq'] },
     sale: { paths: ['sale'] },

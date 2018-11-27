@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { TermsConditionsLayoutModule } from './../../layout/terms-conditions-layout/terms-conditions-layout.module';
 import { TermsConditionsPageComponent } from './terms-conditions-page.component';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
+import { ConfigurableRoutes } from '@spartacus/core';
 
-const routes: Routes = [
+const routes: ConfigurableRoutes = [
   {
-    path: 'terms-and-conditions',
+    path: null,
     canActivate: [CmsPageGuards],
-    data: { pageLabel: 'termsAndConditions' },
+    data: { pageLabel: 'termsAndConditions', cxPath: 'termsAndConditions' },
     component: TermsConditionsPageComponent
   }
 ];
