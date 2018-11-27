@@ -1,36 +1,47 @@
 import { Injectable } from '@angular/core';
+
 import { Store, select } from '@ngrx/store';
-import { filter } from 'rxjs/operators';
+
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
-import * as fromReducer from '../store/reducers';
 import * as fromAction from '../store/actions';
+import * as fromReducer from '../store/reducers';
 import * as fromSelector from '../store/selectors';
-
-import * as fromAuthSelectors from './../../auth/store/selectors';
+import { AuthService, UserToken } from '../../auth/index';
 
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
+import { Cart, OrderEntry } from '@spartacus/core';
 
 @Injectable()
 export class CartService {
-  readonly activeCart$: Observable<any> = this.store.pipe(
+  private callback: Function;
+
+  readonly activeCart$: Observable<Cart> = this.store.pipe(
     select(fromSelector.getActiveCart)
   );
 
-  readonly entries$: Observable<any> = this.store.pipe(
+  readonly entries$: Observable<OrderEntry[]> = this.store.pipe(
     select(fromSelector.getEntries)
+  );
+
+  readonly cartMergeComplete$: Observable<boolean> = this.store.pipe(
+    select(fromSelector.getCartMergeComplete)
+  );
+
+  readonly loaded$: Observable<boolean> = this.store.pipe(
+    select(fromSelector.getLoaded)
   );
 
   constructor(
     private store: Store<fromReducer.CartState>,
-    private cartData: CartDataService
+    private cartData: CartDataService,
+    private authService: AuthService
   ) {
     this.initCart();
   }
 
-  private callback: Function;
-
-  initCart() {
+  private initCart() {
     this.store.pipe(select(fromSelector.getActiveCart)).subscribe(cart => {
       this.cartData.cart = cart;
       if (this.callback) {
@@ -39,39 +50,47 @@ export class CartService {
       }
     });
 
-    this.store
-      .pipe(
-        select(fromAuthSelectors.getUserToken),
-        filter(userToken => this.cartData.userId !== userToken.userId)
-      )
+    this.authService.userToken$
+      .pipe(filter(userToken => this.cartData.userId !== userToken.userId))
       .subscribe(userToken => {
-        if (Object.keys(userToken).length !== 0) {
-          this.cartData.userId = userToken.userId;
-        } else {
-          this.cartData.userId = ANONYMOUS_USERID;
-        }
-
-        // for login user, whenever there's an existing cart, we will load the user
-        // current cart and merge it into the existing cart
-        if (this.cartData.userId !== ANONYMOUS_USERID) {
-          if (!this.isCartCreated(this.cartData.cart)) {
-            this.store.dispatch(
-              new fromAction.LoadCart({
-                userId: this.cartData.userId,
-                cartId: 'current'
-              })
-            );
-          } else {
-            this.store.dispatch(
-              new fromAction.MergeCart({
-                userId: this.cartData.userId,
-                cartId: this.cartData.cart.guid
-              })
-            );
-          }
-        }
+        this.setUserId(userToken);
+        this.loadOrMergeCart();
       });
 
+    this.refreshCart();
+  }
+
+  private setUserId(userToken: UserToken): void {
+    if (Object.keys(userToken).length !== 0) {
+      this.cartData.userId = userToken.userId;
+    } else {
+      this.cartData.userId = ANONYMOUS_USERID;
+    }
+  }
+
+  private loadOrMergeCart(): void {
+    // for login user, whenever there's an existing cart, we will load the user
+    // current cart and merge it into the existing cart
+    if (this.cartData.userId !== ANONYMOUS_USERID) {
+      if (!this.isCartCreated(this.cartData.cart)) {
+        this.store.dispatch(
+          new fromAction.LoadCart({
+            userId: this.cartData.userId,
+            cartId: 'current'
+          })
+        );
+      } else {
+        this.store.dispatch(
+          new fromAction.MergeCart({
+            userId: this.cartData.userId,
+            cartId: this.cartData.cart.guid
+          })
+        );
+      }
+    }
+  }
+
+  private refreshCart(): void {
     this.store.pipe(select(fromSelector.getRefresh)).subscribe(refresh => {
       if (refresh) {
         this.store.dispatch(
@@ -134,7 +153,7 @@ export class CartService {
     }
   }
 
-  removeCartEntry(entry) {
+  removeCartEntry(entry: OrderEntry) {
     this.store.dispatch(
       new fromAction.RemoveEntry({
         userId: this.cartData.userId,
@@ -165,11 +184,17 @@ export class CartService {
     }
   }
 
-  isCartCreated(cart: any): boolean {
+  getEntry(productCode: string): Observable<OrderEntry> {
+    return this.store.pipe(
+      select(fromSelector.getEntrySelectorFactory(productCode))
+    );
+  }
+
+  isCartCreated(cart: Cart): boolean {
     return cart && !!Object.keys(cart).length;
   }
 
-  isCartEmpty(cart: any): boolean {
+  isCartEmpty(cart: Cart): boolean {
     return cart && !cart.totalItems;
   }
 }

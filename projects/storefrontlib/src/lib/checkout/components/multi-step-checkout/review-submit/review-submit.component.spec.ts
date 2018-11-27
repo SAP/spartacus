@@ -1,12 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Input, Component } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
+
+import { BehaviorSubject, of } from 'rxjs';
+
 import createSpy = jasmine.createSpy;
 
 import { CheckoutService } from '../../../facade/checkout.service';
-import { CartService } from '../../../../cart/services/cart.service';
+import { CartService } from '../../../../cart/facade/cart.service';
 import { UserService } from '../../../../user/facade/user.service';
+
 import { ReviewSubmitComponent } from './review-submit.component';
 
 const mockCart = {
