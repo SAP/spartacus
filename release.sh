@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -e
 
 function usage() {
@@ -79,22 +78,23 @@ fi
 
 echo "publishing version $BUMP"
 published=$(cd $DEPLOY_DIR && $PUBLISH_CMD)
-echo $published
+echo "Published: $published"
 
-if [[ -z "$published" ]]; then
+if [[ ! -z "$published" ]]; then
   NEW_VERSION=${LIB_DIR_NEW_VERSION:1}
 
   if [[ $LIB == "storefrontlib" ]]; then
     LIB="storefront"
   fi
 
+  BRANCH=`git status | head -1`
+  RELEASE_BRANCH=${BRANCH:10}
+
   TAG="$LIB-$NEW_VERSION"
-  RELEASE_BRANCH="release/$TAG"
-  git checkout -b $RELEASE_BRANCH
 
   cd $LIB_DIR
   git add package.json
-  git commit -m"Bumping $PROJECT version to $LIB_DIR_NEW_VERSION"
+  git commit -m 'Bumping $PROJECT version to $LIB_DIR_NEW_VERSION'
   echo "Tagging new version ${TAG}"
   git tag ${TAG}
   echo "Pushing from $PWD"
