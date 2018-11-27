@@ -13,7 +13,11 @@
                 <span class="label-content">Title</span>
                 <select formControlName="titleCode" class="form-control">
                   <option selected disabled>Select Title</option>
-                  <option *ngFor="let title of (titles$ | async)" [value]="title.code">{{ title.name }}</option>
+                  <option
+                    *ngFor="let title of (titles$ | async)"
+                    [value]="title.code"
+                    >{{ title.name }}</option
+                  >
                 </select>
               </label>
             </div>
@@ -21,32 +25,72 @@
             <div class="form-group">
               <label>
                 <span class="label-content">First name</span>
-                <input class="form-control" type="text" name="firstname" placeholder="First Name" formControlName="firstName">
+                <input
+                  class="form-control"
+                  type="text"
+                  name="firstname"
+                  placeholder="First Name"
+                  formControlName="firstName"
+                />
               </label>
             </div>
 
             <div class="form-group">
               <label>
                 <span class="label-content">Last name</span>
-                <input class="form-control" type="text" name="lastname" placeholder="Last Name" formControlName="lastName">
+                <input
+                  class="form-control"
+                  type="text"
+                  name="lastname"
+                  placeholder="Last Name"
+                  formControlName="lastName"
+                />
               </label>
             </div>
 
             <div class="form-group">
               <label>
                 <span class="label-content">Email address</span>
-                <input class="form-control" [class.is-invalid]="(userRegistrationForm.get('email').errors?.email || userRegistrationForm.get('email').errors?.InvalidEmail) && userRegistrationForm.get('email').dirty"
-                  type="email" name="email" placeholder="Email Address" formControlName="email">
+                <input
+                  class="form-control"
+                  [class.is-invalid]="
+                    (userRegistrationForm.get('email').errors?.email ||
+                      userRegistrationForm.get('email').errors?.InvalidEmail) &&
+                    userRegistrationForm.get('email').dirty
+                  "
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  formControlName="email"
+                />
               </label>
             </div>
 
             <div class="form-group">
               <label>
                 <span class="label-content">Password</span>
-                <input class="form-control" [class.is-invalid]="userRegistrationForm.get('password').invalid && userRegistrationForm.get('password').dirty"
-                  type="password" name="password" placeholder="Password" formControlName="password">
-                <div class="invalid-feedback" *ngIf="userRegistrationForm.get('password').invalid && userRegistrationForm.get('password').dirty">
-                  <span>Password must be six characters minimum, with one uppercase letter, one number, one symbol</span>
+                <input
+                  class="form-control"
+                  [class.is-invalid]="
+                    userRegistrationForm.get('password').invalid &&
+                    userRegistrationForm.get('password').dirty
+                  "
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  formControlName="password"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    userRegistrationForm.get('password').invalid &&
+                    userRegistrationForm.get('password').dirty
+                  "
+                >
+                  <span
+                    >Password must be six characters minimum, with one uppercase
+                    letter, one number, one symbol</span
+                  >
                 </div>
               </label>
             </div>
@@ -54,9 +98,25 @@
             <div class="form-group">
               <label>
                 <span class="label-content">Confirm password</span>
-                <input class="form-control" [class.is-invalid]="userRegistrationForm.get('password').value !== userRegistrationForm.get('passwordconf').value"
-                  type="password" name="confirmpassword" placeholder="Confirm Password" formControlName="passwordconf">
-                <div class="invalid-feedback" *ngIf="userRegistrationForm.get('password').value !== userRegistrationForm.get('passwordconf').value && userRegistrationForm.get('passwordconf').value">
+                <input
+                  class="form-control"
+                  [class.is-invalid]="
+                    userRegistrationForm.get('password').value !==
+                    userRegistrationForm.get('passwordconf').value
+                  "
+                  type="password"
+                  name="confirmpassword"
+                  placeholder="Confirm Password"
+                  formControlName="passwordconf"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    userRegistrationForm.get('password').value !==
+                      userRegistrationForm.get('passwordconf').value &&
+                    userRegistrationForm.get('passwordconf').value
+                  "
+                >
                   <span>Both password must match</span>
                 </div>
               </label>
@@ -65,10 +125,16 @@
             <div class="form-group">
               <div class="form-check">
                 <label>
-                  <input type="checkbox" name="newsletter" class="form-check-input" formControlName="newsletter">
+                  <input
+                    type="checkbox"
+                    name="newsletter"
+                    class="form-check-input"
+                    formControlName="newsletter"
+                  />
                   <span class="form-check-label">
-                    Use my personal data to receive e-mail newsletters for marketing
-                    campaigns. To change your settings, go to Consent Management in My Account.
+                    Use my personal data to receive e-mail newsletters for
+                    marketing campaigns. To change your settings, go to Consent
+                    Management in My Account.
                   </span>
                 </label>
               </div>
@@ -77,18 +143,37 @@
             <div class="form-group">
               <div class="form-check">
                 <label>
-                  <input type="checkbox" name="termsandconditions" formControlName="termsandconditions">
+                  <input
+                    type="checkbox"
+                    name="termsandconditions"
+                    formControlName="termsandconditions"
+                  />
                   <span class="form-check-label">
                     I am confirming that I have read and agreed with the
-                    <a class="cx-section__registration-link" href="/terms-and-conditions" target="_blank">
+                    <a
+                      class="cx-section__registration-link"
+                      href="/terms-and-conditions"
+                      target="_blank"
+                    >
                       Terms & Conditions
                     </a>
                   </span>
                 </label>
               </div>
             </div>
-            <button type="submit" (click)="submit()" [disabled]="userRegistrationForm.invalid" class="btn btn-block btn-primary">Register</button>
-            <a class="cx-section__login-link btn-link" [routerLink]="['login'] | cxPath">I already have an account. Sign In</a>
+            <button
+              type="submit"
+              (click)="submit()"
+              [disabled]="userRegistrationForm.invalid"
+              class="btn btn-block btn-primary"
+            >
+              Register
+            </button>
+            <a
+              class="cx-section__login-link btn-link"
+              [routerLink]="['login'] | cxPath"
+              >I already have an account. Sign In</a
+            >
           </form>
         </div>
       </div>

@@ -16,7 +16,7 @@ import { AbstractCmsComponent } from '../abstract-cms-component';
 import { CxApiService } from '../../../cx-api/cx-api.service';
 
 @Directive({
-  selector: '[yComponentWrapper]'
+  selector: '[cxComponentWrapper]'
 })
 export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
   @Input()

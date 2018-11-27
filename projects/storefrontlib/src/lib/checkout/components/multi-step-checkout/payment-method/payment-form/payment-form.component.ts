@@ -6,12 +6,10 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import * as fromCheckoutStore from '../../../../store';
-import { CheckoutService } from '../../../../services/checkout.service';
+import { CheckoutService } from '../../../../facade/checkout.service';
 import { Card } from '../../../../../ui/components/card/card.component';
 import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
 
@@ -49,7 +47,6 @@ export class PaymentFormComponent implements OnInit {
   infoIconImgSrc = infoIconImgSrc;
 
   constructor(
-    protected store: Store<fromCheckoutStore.CheckoutState>,
     protected checkoutService: CheckoutService,
     private fb: FormBuilder
   ) {}
@@ -57,17 +54,14 @@ export class PaymentFormComponent implements OnInit {
   ngOnInit() {
     this.expMonthAndYear();
 
-    this.cardTypes$ = this.store.pipe(
-      select(fromCheckoutStore.getAllCardTypes),
+    this.cardTypes$ = this.checkoutService.cardTypes$.pipe(
       tap(cardTypes => {
         if (Object.keys(cardTypes).length === 0) {
           this.checkoutService.loadSupportedCardTypes();
         }
       })
     );
-    this.shippingAddress$ = this.store.pipe(
-      select(fromCheckoutStore.getDeliveryAddress)
-    );
+    this.shippingAddress$ = this.checkoutService.deliveryAddress$;
   }
 
   expMonthAndYear() {

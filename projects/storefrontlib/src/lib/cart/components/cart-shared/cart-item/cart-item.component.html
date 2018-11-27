@@ -1,67 +1,118 @@
 <div [ngClass]="compact ? 'cx-cart-item--compact row' : 'cx-cart-item row'">
   <!-- Item Image -->
   <div class="col-2 cx-cart-item__image-container">
-    <a [routerLink]="['product'] | cxPath:[item.product]">
-      <cx-picture [imageContainer]="item.product.images?.PRIMARY" imageFormat="thumbnail"></cx-picture>
+    <a [routerLink]="['product'] | cxPath: [item.product]">
+      <cx-picture
+        [imageContainer]="item.product.images?.PRIMARY"
+        imageFormat="thumbnail"
+      ></cx-picture>
     </a>
   </div>
   <!-- Item Information -->
   <div class="cx-cart-item__info col-10">
     <div class="cx-cart-item__info-container row ">
       <!-- Item Description -->
-      <div class="cx-cart-item__description" [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
+      <div
+        class="cx-cart-item__description"
+        [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'"
+      >
         <div *ngIf="item.product.name" class="cx-cart-item__name">
-          <a class="cx-cart-item__name--link" [routerLink]="['product'] | cxPath:[item.product]">{{item.product.name}}</a>
+          <a
+            class="cx-cart-item__name--link"
+            [routerLink]="['product'] | cxPath: [item.product]"
+            >{{ item.product.name }}</a
+          >
         </div>
-        <div *ngIf="item.product.code" class="cx-cart-item__code">ID {{item.product.code}}</div>
+        <div *ngIf="item.product.code" class="cx-cart-item__code">
+          ID {{ item.product.code }}
+        </div>
         <!-- Variants -->
-        <div *ngFor="let variant of item.product.variantOptionQualifiers" class="cx-cart-item__property">
-          <div class="cx-cart-item__property--label">{{variant.name}}</div>
-          <div class="cx-cart-item__property--value">{{variant.value}}</div>
+        <div
+          *ngFor="let variant of item.product.variantOptionQualifiers"
+          class="cx-cart-item__property"
+        >
+          <div class="cx-cart-item__property--label">{{ variant.name }}</div>
+          <div class="cx-cart-item__property--value">{{ variant.value }}</div>
         </div>
       </div>
       <!-- Item Price -->
-      <div *ngIf="item.basePrice" class="cx-cart-item__price" [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'">
-        <div class="cx-cart-item__price--label" [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none' ">
+      <div
+        *ngIf="item.basePrice"
+        class="cx-cart-item__price"
+        [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
+      >
+        <div
+          class="cx-cart-item__price--label"
+          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+        >
           Item
         </div>
         <div *ngIf="item.basePrice" class="cx-cart-item__price--value">
-          {{item.basePrice?.formattedValue}}
+          {{ item.basePrice?.formattedValue }}
         </div>
-        <!-- <div *ngIf="item.oldPrice || item.newPrice" class="cx-cart-item__price--value">
-                <div class="cx-cart-item__price--old">{{item.oldPrice}}</div>
-                <div class="cx-cart-item__price--new">{{item.newPrice}}</div>
-            </div> -->
       </div>
       <!-- Item Quantity -->
-      <div *ngIf="item.quantity" class="cx-cart-item__quantity" [ngClass]="compact ? '' : ' col-3'">
-        <div class="cx-cart-item__quantity--label" [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none' ">
+      <div
+        *ngIf="item.quantity"
+        class="cx-cart-item__quantity"
+        [ngClass]="compact ? '' : ' col-3'"
+      >
+        <div
+          class="cx-cart-item__quantity--label"
+          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+        >
           Qty
         </div>
         <div *ngIf="isReadOnly" class="cx-cart-item__quantity--value">
-          {{item.quantity}}
+          {{ item.quantity }}
         </div>
-        <div *ngIf="!isReadOnly && parent" class="cx-cart-item__quantity--value" [formGroup]="parent">
-          <cx-item-counter isValueChangable="true" [step]="1" [min]="1" [max]="item.product.stock?.stockLevel || 1000"
-            (update)="updateItem($event)" [cartIsLoading]="cartIsLoading" formControlName="quantity">
+        <div
+          *ngIf="!isReadOnly && parent"
+          class="cx-cart-item__quantity--value"
+          [formGroup]="parent"
+        >
+          <cx-item-counter
+            isValueChangable="true"
+            [step]="1"
+            [min]="1"
+            [max]="item.product.stock?.stockLevel || 1000"
+            (update)="updateItem($event)"
+            [cartIsLoading]="cartIsLoading"
+            formControlName="quantity"
+          >
           </cx-item-counter>
         </div>
       </div>
       <!-- Total -->
-      <div *ngIf="item.totalPrice" class="cx-cart-item__total" [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'">
-        <div class="cx-cart-item__total--label" [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none' ">
+      <div
+        *ngIf="item.totalPrice"
+        class="cx-cart-item__total"
+        [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
+      >
+        <div
+          class="cx-cart-item__total--label"
+          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+        >
           Total
         </div>
         <div class="cx-cart-item__total--value">
-          {{item.totalPrice.formattedValue}}
+          {{ item.totalPrice.formattedValue }}
         </div>
       </div>
     </div>
     <!-- Availability -->
-    <div *ngIf="isProductOutOfStock(item)" class="cx-cart-item__availability col-12">{{item.product.stock?.stockLevelStatus}}</div>
-    <!-- Promotion -->
-    <div class="cx-cart-item__promo col-12" *ngFor="let promotion of potentialProductPromotions" [innerHTML]="promotion.description">
+    <div
+      *ngIf="isProductOutOfStock(item)"
+      class="cx-cart-item__availability col-12"
+    >
+      {{ item.product.stock?.stockLevelStatus }}
     </div>
+    <!-- Promotion -->
+    <div
+      class="cx-cart-item__promo col-12"
+      *ngFor="let promotion of potentialProductPromotions"
+      [innerHTML]="promotion.description"
+    ></div>
     <!-- Actions -->
     <div *ngIf="!isReadOnly" class="cx-cart-item__actions col-12 ">
       <a [routerLink]="" (click)="removeItem()">Remove</a>

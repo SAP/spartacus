@@ -8,18 +8,18 @@ import { Component } from '@angular/core';
 export class TertiaryBarComponent {
   constructor() {}
 
-  tertiaryNavItems: { label: string; pageName: string[] }[] = [
+  tertiaryNavItems: { label: string; routeName: string[] }[] = [
     {
       label: 'Sale',
-      pageName: ['sale']
+      routeName: ['sale']
     },
     {
       label: 'Contact us',
-      pageName: ['contact']
+      routeName: ['contact']
     },
     {
       label: 'Help',
-      pageName: ['help']
+      routeName: ['help']
     }
   ];
 }

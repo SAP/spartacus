@@ -1,9 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { StoreModule } from '@ngrx/store';
-import { CartDataService } from '../../../services/cart-data.service';
-import { CartService } from '../../../services/cart.service';
-import * as fromReducer from '../../../store/reducers';
+import { CartDataService } from '../../../facade/cart-data.service';
+import { CartService } from '../../../facade/cart.service';
 import { CartDetailsComponent } from './cart-details.component';
 import { Pipe, PipeTransform, Component, Input } from '@angular/core';
 
@@ -194,11 +192,7 @@ describe('CartDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromReducer.getReducers)
-      ],
+      imports: [RouterTestingModule],
       declarations: [
         CartDetailsComponent,
         MockCartItemListComponent,

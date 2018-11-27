@@ -1,49 +1,42 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import * as NgrxStore from '@ngrx/store';
+import { Component, Input } from '@angular/core';
+import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import * as fromCmsReducer from '../../cms/store/reducers';
+import createSpy = jasmine.createSpy;
+
 import { NavigationComponent } from './navigation.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NavigationService } from './navigation.service';
 import { CmsService } from '../../cms/facade/cms.service';
-import { By } from '@angular/platform-browser';
-import { Input, Component } from '@angular/core';
 
-const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CMSNavigationComponent: 'NavigationComponent'
+class MockCmsService {
+  getComponentData() {
+    return of(null);
   }
+  getNavigationEntryItems() {
+    return of(undefined);
+  }
+}
+
+const mockNavigationService = {
+  getNavigationEntryItems: createSpy(),
+  createNode: createSpy()
 };
 
 @Component({
-  template: '',
-  selector: 'cx-navigation-ui'
+  selector: 'cx-navigation-ui',
+  template: ''
 })
 class MockNavigationUIComponent {
   @Input()
-  node;
-
+  dropdownMode = 'list';
   @Input()
-  dropdownMode;
+  node;
 }
 
 describe('CmsNavigationComponent in CmsLib', () => {
   let navigationComponent: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;
-
-  const itemsData = {
-    MockLink001_AbstractCMSComponent: {
-      uid: 'MockLink001',
-      link: 'testLink1',
-      linkName: 'test link 1'
-    },
-    MockLink002_AbstractCMSComponent: {
-      uid: 'MockLink002',
-      link: 'testLink2',
-      linkName: 'test link 2'
-    }
-  };
+  let cmsService: CmsService;
 
   const componentData = {
     uid: 'MockNavigationComponent',
@@ -75,21 +68,12 @@ describe('CmsNavigationComponent in CmsLib', () => {
     }
   };
 
-  const MockCmsService = {
-    getComponentData: () => of(componentData)
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NgrxStore.StoreModule.forRoot({}),
-        NgrxStore.StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
-        RouterTestingModule
-      ],
       providers: [
         NavigationService,
-        { provide: CmsService, useValue: MockCmsService },
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
+        { provide: CmsService, useClass: MockCmsService },
+        { provide: NavigationService, useValue: mockNavigationService }
       ],
       declarations: [NavigationComponent, MockNavigationUIComponent]
     }).compileComponents();
@@ -98,20 +82,50 @@ describe('CmsNavigationComponent in CmsLib', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NavigationComponent);
     navigationComponent = fixture.componentInstance;
+    cmsService = TestBed.get(CmsService);
 
-    spyOnProperty(NgrxStore, 'select').and.returnValue(() => () =>
-      of(itemsData)
-    );
+    spyOn(cmsService, 'getComponentData').and.returnValue(of(componentData));
   });
 
   it('should be created', () => {
     expect(navigationComponent).toBeTruthy();
   });
 
-  it('should contain cms content in the html rendering after bootstrap', () => {
+  it('should able to get cms component data after bootstrap', () => {
     expect(navigationComponent.component).toBeNull();
     navigationComponent.onCmsComponentInit(componentData.uid);
     expect(navigationComponent.component).toBe(componentData);
+  });
+
+  it('should able to get navigation entry item data even if they are not exist', () => {
+    navigationComponent.onCmsComponentInit(componentData.uid);
+    expect(mockNavigationService.getNavigationEntryItems).toHaveBeenCalledWith(
+      componentData.navigationNode,
+      true,
+      []
+    );
+  });
+
+  it('should able to create node data from the exsiting entry items', () => {
+    const itemsData = {
+      MockLink001_AbstractCMSComponent: {
+        uid: 'MockLink001',
+        link: 'testLink1',
+        linkName: 'test link 1'
+      },
+      MockLink002_AbstractCMSComponent: {
+        uid: 'MockLink002',
+        link: 'testLink2',
+        linkName: 'test link 2'
+      }
+    };
+
+    spyOn(cmsService, 'getNavigationEntryItems').and.returnValue(of(itemsData));
+    navigationComponent.onCmsComponentInit(componentData.uid);
+    expect(mockNavigationService.createNode).toHaveBeenCalledWith(
+      componentData.navigationNode,
+      itemsData
+    );
   });
 
   it('should render navigation-ui component', () => {

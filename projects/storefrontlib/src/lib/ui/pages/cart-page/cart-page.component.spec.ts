@@ -1,12 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CartPageComponent } from './cart-page.component';
 import { Component } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { CartPageComponent } from './cart-page.component';
 
 @Component({
-  template: '',
-  selector: 'cx-cart-page-layout'
+  selector: 'cx-cart-page-layout',
+  template: ''
 })
-class MockCartPageComponent {}
+export class MockCartPageLayoutComponent {}
 
 describe('CartPageComponent', () => {
   let component: CartPageComponent;
@@ -14,7 +15,7 @@ describe('CartPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CartPageComponent, MockCartPageComponent]
+      declarations: [CartPageComponent, MockCartPageLayoutComponent]
     }).compileComponents();
   }));
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { tap, filter, take, switchMap } from 'rxjs/operators';
@@ -18,7 +18,7 @@ export class UserErrorHandlingService {
   public handleExpiredUserToken(
     request: HttpRequest<any>,
     next: HttpHandler
-  ): Observable<any> {
+  ): Observable<HttpEvent<UserToken>> {
     return this.handleExpiredToken().pipe(
       switchMap((token: UserToken) => {
         return next.handle(this.createNewRequestWithNewToken(request, token));
@@ -31,7 +31,7 @@ export class UserErrorHandlingService {
     this.authService.logout();
   }
 
-  private handleExpiredToken(): Observable<any> {
+  private handleExpiredToken(): Observable<UserToken> {
     let oldToken: UserToken;
     return this.authService.userToken$.pipe(
       tap((token: UserToken) => {

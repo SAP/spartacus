@@ -1,17 +1,40 @@
 <div class="cx-store-finder-search container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="form-group">
-                <input #queryInput [formControl]="searchBox" (keyup)="onKey($event)" type="text" class="form-control" placeholder="Enter postal code, town or address"
-                    required>
-            </div>
-            <button type="button" class="btn btn-primary btn-block cx-store-finder-search__button" [routerLink]="['storeFinder', 'searchResult'] | cxPath" [queryParams]="{query: queryInput.value}">Find store
-            </button>
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="form-group">
+        <input
+          #queryInput
+          [formControl]="searchBox"
+          (keyup)="onKey($event)"
+          type="text"
+          class="form-control"
+          placeholder="Enter postal code, town or address"
+          required
+        />
+      </div>
+      <button
+        type="button"
+        class="btn btn-primary btn-block cx-store-finder-search__button"
+        [routerLink]="['storeFinder', 'searchResult'] | cxPath"
+        [queryParams]="{ query: queryInput.value }"
+      >
+        Find store
+      </button>
 
-            <div class="cx-store-finder-search__bottom-links">
-                <button (click)="viewStoresWithMyLoc()" class="cx-store-finder-search__links btn-link">Use my location</button> |
-                <a [routerLink]="['storeFinder', 'allStores'] | cxPath" class="cx-store-finder-search__links btn-link">View all stores</a>
-            </div>
-        </div>
+      <div class="cx-store-finder-search__bottom-links">
+        <button
+          (click)="viewStoresWithMyLoc()"
+          class="cx-store-finder-search__links btn-link"
+        >
+          Use my location
+        </button>
+        |
+        <a
+          [routerLink]="['storeFinder', 'allStores'] | cxPath"
+          class="cx-store-finder-search__links btn-link"
+          >View all stores</a
+        >
+      </div>
     </div>
+  </div>
 </div>

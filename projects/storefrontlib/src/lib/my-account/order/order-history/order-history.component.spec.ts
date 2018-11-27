@@ -1,16 +1,19 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, BehaviorSubject } from 'rxjs';
 import { By } from '@angular/platform-browser';
+
+import { RoutingService } from '@spartacus/core';
+
+import { of, BehaviorSubject } from 'rxjs';
+
 import createSpy = jasmine.createSpy;
 
-import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
-import { OrderHistoryComponent } from './order-history.component';
-
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '@spartacus/core';
 import { UserService } from '../../../user/facade/user.service';
+import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
+
+import { OrderHistoryComponent } from './order-history.component';
 
 const mockOrders = {
   orders: [
@@ -31,7 +34,6 @@ class MockPathPipe implements PipeTransform {
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
-  let el: DebugElement;
 
   let mockAuthService: any;
   let mockRoutingService: any;
@@ -63,7 +65,6 @@ describe('OrderHistoryComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderHistoryComponent);
-    el = fixture.debugElement;
     component = fixture.componentInstance;
   });
 
@@ -107,7 +108,9 @@ describe('OrderHistoryComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    const rows = el.queryAll(By.css('.cx-order-history__table tbody tr'));
+    const rows = fixture.debugElement.queryAll(
+      By.css('.cx-order-history__table tbody tr')
+    );
     rows[1].triggerEventHandler('click', null);
     fixture.whenStable().then(() => {
       expect(mockRoutingService.goToPage).toHaveBeenCalledWith(
@@ -128,7 +131,9 @@ describe('OrderHistoryComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(el.query(By.css('.cx-order-history__no-order'))).not.toBeNull();
+    expect(
+      fixture.debugElement.query(By.css('.cx-order-history__no-order'))
+    ).not.toBeNull();
   });
 
   it('should set correctly sort code', () => {

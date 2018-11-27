@@ -9,6 +9,7 @@ import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
 import { UserAuthenticationTokenService } from './../../services/user-authentication/user-authentication-token.service';
+import { UserTokenAction } from './../actions';
 
 const testToken: UserToken = {
   access_token: 'xxx',
@@ -20,11 +21,11 @@ const testToken: UserToken = {
 };
 
 class UserAuthenticationTokenServiceMock {
-  loadToken(_userId: string, _password: string): Observable<any> {
+  loadToken(_userId: string, _password: string): Observable<UserToken> {
     return;
   }
 
-  refreshToken(_refreshToken: string): Observable<any> {
+  refreshToken(_refreshToken: string): Observable<UserToken> {
     return;
   }
 }
@@ -32,7 +33,7 @@ class UserAuthenticationTokenServiceMock {
 describe('UserToken effect', () => {
   let userTokenService: UserAuthenticationTokenService;
   let userTokenEffect: UserTokenEffects;
-  let actions$: Observable<any>;
+  let actions$: Observable<UserTokenAction>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

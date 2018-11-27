@@ -1,6 +1,6 @@
 <div class="cx-page">
   <section class="cx-page__section">
-    <img class="cx-error__img" [src]="pageNotFoundImgSrc" alt="error 404">
+    <img class="cx-error__img" [src]="pageNotFoundImgSrc" alt="error 404" />
     <div class="cx-error">
       <h2 class="">Opps!</h2>
       <div class="cx-error--message">
@@ -8,7 +8,12 @@
       </div>
       <p>Here are some helpful links instead:</p>
       <div *ngFor="let navigation of errorNav">
-        <a class="btn-link" [routerLink]="navigation.pageName | cxPath">{{navigation.label}}</a>
+        <a
+          class="btn-link"
+          [routerLink]="navigation.routeName | cxPath"
+          routerLinkActive="active"
+          >{{ navigation.label }}</a
+        >
       </div>
     </div>
   </section>

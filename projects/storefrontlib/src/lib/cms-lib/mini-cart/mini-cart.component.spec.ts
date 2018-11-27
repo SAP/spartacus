@@ -1,27 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-
-import { RouterModule } from '@angular/router';
-
-import * as NgrxStore from '@ngrx/store';
 import { of } from 'rxjs';
-
-import * as fromCart from '../../cart/store';
-import * as fromUser from '../../user/store';
-import * as fromAuth from '../../auth/store';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
-
-import { MiniCartComponent } from './mini-cart.component';
-import { CartService } from '../../cart/services/cart.service';
-import { CartDataService } from '../../cart/services/cart-data.service';
+import { CartService } from '../../cart/facade/cart.service';
 import { CmsService } from '../../cms/facade/cms.service';
 import { Pipe, PipeTransform } from '@angular/core';
+import { MiniCartComponent } from './mini-cart.component';
 
-const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    MiniCartComponent: 'MiniCartComponent'
-  }
-};
 @Pipe({
   name: 'cxPath'
 })
@@ -67,22 +50,17 @@ describe('MiniCartComponent', () => {
     { '1234': { entryNumber: 0, product: { code: '1234' } } }
   ];
 
+  const MockCartService = {
+    cart$: of(testCart),
+    entries$: of(testEntries)
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterModule,
-        RouterTestingModule,
-        NgrxStore.StoreModule.forRoot({}),
-        NgrxStore.StoreModule.forFeature('cart', fromCart.getReducers()),
-        NgrxStore.StoreModule.forFeature('user', fromUser.getReducers()),
-        NgrxStore.StoreModule.forFeature('auth', fromAuth.getReducers())
-      ],
       declarations: [MiniCartComponent, MockPathPipe],
       providers: [
-        CartService,
-        CartDataService,
         { provide: CmsService, useValue: MockCmsService },
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
+        { provide: CartService, useValue: MockCartService }
       ]
     }).compileComponents();
   }));
@@ -90,15 +68,6 @@ describe('MiniCartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MiniCartComponent);
     miniCartComponent = fixture.componentInstance;
-
-    spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
-      switch (selector) {
-        case fromCart.getActiveCart:
-          return () => of(testCart);
-        case fromCart.getEntries:
-          return () => of(testEntries);
-      }
-    });
   });
 
   it('should be created', () => {

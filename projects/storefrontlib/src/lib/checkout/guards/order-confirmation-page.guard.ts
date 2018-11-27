@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 
-import { Observable, of } from 'rxjs';
-
-import { CheckoutService } from '../services/checkout.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { RoutingService } from '@spartacus/core';
+import { CheckoutService } from '../facade/checkout.service';
 
 @Injectable()
 export class OrderConfirmationPageGuard implements CanActivate {
@@ -14,16 +14,15 @@ export class OrderConfirmationPageGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    if (this.orderDetailsPresent()) {
-      return of(true);
-    }
-
-    this.routingService.goToPage(['myAccount_orders']);
-    return of(false);
-  }
-
-  private orderDetailsPresent(): boolean {
-    const orderDetails = this.checkoutService.orderDetails;
-    return orderDetails && Object.keys(orderDetails).length !== 0;
+    return this.checkoutService.orderDetails$.pipe(
+      map(orderDetails => {
+        if (orderDetails && Object.keys(orderDetails).length !== 0) {
+          return true;
+        } else {
+          this.routingService.goToPage(['myAccount_orders']);
+          return false;
+        }
+      })
+    );
   }
 }

@@ -1,20 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
-import { CategoryNavigationComponent } from './category-navigation.component';
-import * as fromCmsReducer from '../../cms/store/reducers';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { BootstrapModule } from '../../bootstrap.module';
+import { RouterTestingModule } from '@angular/router/testing';
 import { DebugElement, Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
-import { CmsService } from '../../cms/facade/cms.service';
-import { NavigationService } from '../navigation/navigation.service';
 
-const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CategoryNavigationComponent: 'CategoryNavigationComponent'
-  }
-};
+import { NavigationService } from '../navigation/navigation.service';
+import { CmsService } from '../../cms/facade/cms.service';
+import { CategoryNavigationComponent } from './category-navigation.component';
 
 @Component({
   template: '',
@@ -33,21 +24,13 @@ describe('CategoryNavigationComponent', () => {
   let nav: DebugElement;
 
   beforeEach(async(() => {
-    const mockCmsService = {};
-    const mockNavigationService = {};
-
     TestBed.configureTestingModule({
-      imports: [
-        BootstrapModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
-        RouterTestingModule
-      ],
+      imports: [RouterTestingModule],
       declarations: [CategoryNavigationComponent, MockNavigationComponent],
       providers: [
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
-        { provide: CmsService, useValue: mockCmsService },
-        { provide: NavigationService, useValue: mockNavigationService }
+        NavigationService,
+        { provide: CmsService, useValue: {} },
+        { provide: NavigationService, useValue: {} }
       ]
     }).compileComponents();
   }));
@@ -70,7 +53,6 @@ describe('CategoryNavigationComponent', () => {
         }
       ]
     };
-
     fixture.detectChanges();
   });
 

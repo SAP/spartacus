@@ -22,10 +22,15 @@ import { PaginationAndSortingModule } from '../../../../ui/components/pagination
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
 import { Component, Input, PipeTransform, Pipe } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ProductSearchService } from '@spartacus/core';
 
 class MockProductSearchService {
   search() {}
+}
+class MockActivatedRoute {
+  snapshot = { queryParams: {} };
+  setParams = params => (this.snapshot.queryParams = params);
 }
 
 @Component({
@@ -63,6 +68,10 @@ describe('ProductListComponent in product-list', () => {
         {
           provide: ProductSearchService,
           useClass: MockProductSearchService
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: MockActivatedRoute
         }
       ],
       declarations: [
@@ -90,13 +99,29 @@ describe('ProductListComponent in product-list', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should call ngOnChanges and get search results with params provided with url', () => {
+    const activeRoute = TestBed.get(ActivatedRoute);
+    activeRoute.setParams({
+      query: 'myBestQueryEver:category:bestqueries',
+      categoryCode: 'mockCategoryCode',
+      page: 112
+    });
+    component.categoryCode = 'mockCategoryCode';
+    component.ngOnInit();
+    component.ngOnChanges();
+    expect(service.search).toHaveBeenCalledWith(
+      'myBestQueryEver:category:bestqueries',
+      { pageSize: 10, page: 112, categoryCode: 'mockCategoryCode' }
+    );
+  });
+
   it('should call ngOnChanges and get search results with category code', () => {
     component.categoryCode = 'mockCategoryCode';
     component.ngOnInit();
     component.ngOnChanges();
     expect(service.search).toHaveBeenCalledWith(
       ':relevance:category:mockCategoryCode',
-      { pageSize: 10 }
+      { pageSize: 10, categoryCode: 'mockCategoryCode' }
     );
   });
 
@@ -106,7 +131,7 @@ describe('ProductListComponent in product-list', () => {
     component.ngOnChanges();
     expect(service.search).toHaveBeenCalledWith(
       ':relevance:brand:mockBrandCode',
-      { pageSize: 10 }
+      { pageSize: 10, brandCode: 'mockBrandCode' }
     );
   });
 
