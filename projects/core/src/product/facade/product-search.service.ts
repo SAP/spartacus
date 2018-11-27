@@ -6,11 +6,8 @@ import { Router } from '@angular/router';
 
 import * as fromStore from '../store/index';
 import { SearchConfig } from '../model/search-config';
-<<<<<<< HEAD
 import { ProductSearchPage, Suggestion } from '../../occ-models';
 
-=======
->>>>>>> origin
 @Injectable()
 export class ProductSearchService {
   readonly searchResults$: Observable<ProductSearchPage> = this.store.pipe(

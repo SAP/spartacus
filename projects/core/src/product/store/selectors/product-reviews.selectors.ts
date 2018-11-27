@@ -10,10 +10,7 @@ import { getProductsState } from './feature.selector';
 export const getProductReviewsState: MemoizedSelector<
   StateWithProduct,
   ProductReviewsState
-> = createSelector(
-  getProductsState,
-  (state: ProductsState) => state.reviews
-);
+> = createSelector(getProductsState, (state: ProductsState) => state.reviews);
 
 export const getSelectedProductReviewsFactory = (
   productCode
@@ -22,5 +19,5 @@ export const getSelectedProductReviewsFactory = (
     if (reviewData.productCode === productCode) {
       return reviewData.list;
     }
-  );
+  });
 };
