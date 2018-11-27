@@ -17,14 +17,14 @@ export class PathPipeService {
 
   transform(
     nestedRoutesNames: string[],
-    nestedRoutesParamsObjects?: object[]
+    nestedRoutesParams?: object[]
   ): string[] {
     if (!nestedRoutesNames.length) {
       return this.ROOT_PATH;
     }
 
-    nestedRoutesParamsObjects = this.complementListWithEmptyObjects(
-      nestedRoutesParamsObjects,
+    nestedRoutesParams = this.complementListWithEmptyObjects(
+      nestedRoutesParams,
       nestedRoutesNames.length
     );
 
@@ -42,7 +42,7 @@ export class PathPipeService {
 
     const nestedRoutesFoundPaths = this.findPathsWithFillableParams(
       nestedRoutesTranslations,
-      nestedRoutesParamsObjects
+      nestedRoutesParams
     );
     if (!nestedRoutesFoundPaths) {
       return this.ROOT_PATH;
@@ -50,13 +50,13 @@ export class PathPipeService {
 
     const result = this.provideParamsValues(
       nestedRoutesFoundPaths,
-      nestedRoutesParamsObjects,
+      nestedRoutesParams,
       nestedRoutesTranslations.map(
         routTranslation => routTranslation.paramsMapping
       )
     );
 
-    result.unshift('/'); // ensure absolute path
+    result.unshift(''); // ensure absolute path ( leading '' in array is equvalent to leading '/' in string)
     return result;
   }
 
@@ -75,14 +75,14 @@ export class PathPipeService {
 
   private provideParamsValues(
     nestedRoutesPaths: string[],
-    nestedRoutesParamsObjects: object[],
+    nestedRoutesParams: object[],
     nestedRoutesParamsMappings: ParamsMapping[]
   ): string[] {
     const length = nestedRoutesPaths.length;
     const result = [];
     for (let i = 0; i < length; i++) {
       const path = nestedRoutesPaths[i];
-      const paramsObject = nestedRoutesParamsObjects[i];
+      const paramsObject = nestedRoutesParams[i];
       const paramsMapping = nestedRoutesParamsMappings[i];
       const pathSegments = this.provideParamsValuesForSingleRoute(
         path,
@@ -96,7 +96,7 @@ export class PathPipeService {
 
   private provideParamsValuesForSingleRoute(
     path: string,
-    paramsObject: object,
+    params: object,
     paramsMapping: ParamsMapping
   ): string[] {
     return this.urlParser.getPrimarySegments(path).map(segment => {
@@ -106,7 +106,7 @@ export class PathPipeService {
           paramName,
           paramsMapping
         );
-        return paramsObject[mappedParamName];
+        return params[mappedParamName];
       }
       return segment;
     });
@@ -114,13 +114,13 @@ export class PathPipeService {
 
   private findPathsWithFillableParams(
     nestedRoutesTranslations: RouteTranslation[],
-    nestedRoutesParamsObjects: object[]
+    nestedRoutesParams: object[]
   ): string[] {
     const length = nestedRoutesTranslations.length;
     const result = [];
     for (let i = 0; i < length; i++) {
       const routeTranslation = nestedRoutesTranslations[i];
-      const paramsObject = nestedRoutesParamsObjects[i];
+      const paramsObject = nestedRoutesParams[i];
       const path = this.findPartialPathWithFillableParams(
         routeTranslation.paths,
         paramsObject,
@@ -136,7 +136,7 @@ export class PathPipeService {
           `). Params object: `,
           paramsObject,
           `(in params objects list`,
-          nestedRoutesParamsObjects,
+          nestedRoutesParams,
           `)`
         );
         return null;
@@ -149,7 +149,7 @@ export class PathPipeService {
   // find first path that can fill all its params with values from given object
   private findPartialPathWithFillableParams(
     paths: string[],
-    paramsObject: object,
+    params: object,
     paramsMapping: ParamsMapping
   ): string {
     return paths.find(path =>
@@ -159,7 +159,7 @@ export class PathPipeService {
           paramsMapping
         );
 
-        return paramsObject[mappedParamName] !== undefined;
+        return params[mappedParamName] !== undefined;
       })
     );
   }
