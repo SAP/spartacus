@@ -20,19 +20,19 @@ do
     -l | --library)
       shift
       LIB=$1
-    ;;
+      ;;
     -v | --version)
       shift
       BUMP=$1
-    ;;
+      ;;
     --preid)
       shift
       preid=$1
-    ;;
+      ;;
     -h | --help)
       usage
       exit 0
-    ;;
+      ;;
     *)
       usage
       exit 1
@@ -78,7 +78,8 @@ if [ ! $DEPLOY_DIR_NEW_VERSION == $LIB_DIR_NEW_VERSION ]; then
 fi
 
 echo "publishing version $BUMP"
-published=(cd $DEPLOY_DIR && $PUBLISH_CMD)
+published=$(cd $DEPLOY_DIR && $PUBLISH_CMD)
+echo $published
 
 if [[ -z "$published" ]]; then
   NEW_VERSION=${LIB_DIR_NEW_VERSION:1}
