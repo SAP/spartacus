@@ -36,9 +36,9 @@ export const getSelectedProductStateFactory = (
 
 export const getSelectedProductFactory = (code): MemoizedSelector<any, any> => {
   return createSelector(
-    getProductState,
-    details => {
-      return details.entities[code] ? details.entities[code].value : undefined;
+    getSelectedProductStateFactory(code),
+    productState => {
+      return productState ? productState.value : undefined;
     }
   );
 };
