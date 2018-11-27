@@ -46,7 +46,7 @@ describe('ProductService', () => {
 
   describe('loadProduct(productCode)', () => {
     it('should be able to trigger the product load action for a product.', () => {
-      service.load('productCode');
+      service.get('productCode');
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.LoadProduct('productCode')
       );
@@ -58,14 +58,14 @@ describe('ProductService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(mockProduct)
       );
-      service.isLoaded('existingProduct').subscribe(result => {
+      service.get('existingProduct').subscribe(result => {
         expect(result).toBeTruthy();
       });
     });
 
     it('should be false that the product is loaded when an empty object is returned by the store', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of({}));
-      service.isLoaded('emptyObjectProduct').subscribe(result => {
+      service.get('emptyObjectProduct').subscribe(result => {
         expect(result).toBeFalsy();
       });
     });
@@ -74,7 +74,7 @@ describe('ProductService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(undefined)
       );
-      service.isLoaded('undefinedProduct').subscribe(result => {
+      service.get('undefinedProduct').subscribe(result => {
         expect(result).toBeFalsy();
       });
     });
