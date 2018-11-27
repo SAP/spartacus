@@ -29,13 +29,12 @@ export class ProductEffects {
   @Effect()
   loadProduct$: Observable<any> = this.actions$.pipe(
     ofType(productActions.LOAD_PRODUCT),
-    map((action: productActions.LoadProduct) => action.payload),
-    mergeMap(productCode => {
+    mergeMap((action: productActions.LoadProduct) => {
       return this.store.pipe(
-        select(getSelectedProductStateFactory(productCode)),
+        select(getSelectedProductStateFactory(action.payload)),
         switchMap(state => {
-          if (!state.loading && !state.value) {
-            return of(new LoadProductStart(productCode));
+          if (!state.loading && (!state.value || action.reload)) {
+            return of(new LoadProductStart(action.payload));
           } else {
             return EMPTY;
           }
