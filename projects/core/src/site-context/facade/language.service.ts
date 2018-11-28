@@ -34,18 +34,18 @@ export class LanguageService {
   }
 
   /**
+   * Sets the active language.
+   */
+  setActive(isocode: string) {
+    this.store.dispatch(new fromStore.SetActiveLanguage(isocode));
+  }
+
+  /**
    * Initializes by loading all languages and select the active language.
    */
   initialize() {
     this.loadAll();
     this.initSessionLanguage();
-  }
-
-  /**
-   * Selects the active language by isocode.
-   */
-  select(isocode: string) {
-    this.store.dispatch(new fromStore.SetActiveLanguage(isocode));
   }
 
   /**
@@ -62,9 +62,9 @@ export class LanguageService {
    */
   protected initSessionLanguage() {
     if (sessionStorage && !!sessionStorage.getItem('language')) {
-      this.select(sessionStorage.getItem('language'));
+      this.setActive(sessionStorage.getItem('language'));
     } else {
-      this.select(this.config.site.language);
+      this.setActive(this.config.site.language);
     }
   }
 }

@@ -62,7 +62,7 @@ describe('LanguageSelectorComponent', () => {
 
   it('should change language', () => {
     component.setActiveLanguage('en');
-    expect(service.select).toEqual('en');
+    expect(service.setActive).toEqual('en');
   });
 
   it('should contain dropdown with languages', () => {
