@@ -9,10 +9,8 @@ import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
 import { LoginModule } from '../../../user/components/login/login.module';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { PwaModule } from '../../../pwa/pwa.module';
-import {
-  LanguageSelectorModule,
-  CurrencySelectorModule
-} from '../../../site-context';
+import { LanguageSelectorModule } from '../../../site-context/language-selector/language-selector.module';
+import { CurrencySelectorModule } from '../../../site-context/currency-selector/currency-selector.module';
 
 @NgModule({
   imports: [
