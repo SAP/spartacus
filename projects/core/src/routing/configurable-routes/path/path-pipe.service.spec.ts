@@ -66,6 +66,7 @@ describe('PathPipeService', () => {
     });
 
     interface TransformTestCase {
+      debug?: boolean;
       description: string;
       nestedRoutesNames: string[];
       nestedRoutesParams: object[];
@@ -73,6 +74,7 @@ describe('PathPipeService', () => {
       expectedResult: string[];
     }
     function test_transform({
+      debug,
       description,
       nestedRoutesNames,
       nestedRoutesParams,
@@ -80,6 +82,10 @@ describe('PathPipeService', () => {
       expectedResult
     }: TransformTestCase) {
       it(description, () => {
+        if (debug) {
+          // tslint:disable-next-line:no-debugger
+          debugger;
+        }
         spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue(
           nestedRoutesTranslations
         );
@@ -150,7 +156,7 @@ describe('PathPipeService', () => {
         expectedResult: ['', 'path', 'without-parameters']
       },
       {
-        description: `should return first path that can be satisfied with given params`,
+        description: `should return first path that can be satisfied with given params (case 1)`,
         nestedRoutesNames: ['test'],
         nestedRoutesParams: [{ param1: 'value1' }],
         nestedRoutesTranslations: [
@@ -159,7 +165,7 @@ describe('PathPipeService', () => {
         expectedResult: ['', 'path', 'value1']
       },
       {
-        description: `should return first path that can be satisfied with given params`,
+        description: `should return first path that can be satisfied with given params (case 2)`,
         nestedRoutesNames: ['test'],
         nestedRoutesParams: [{ param1: 'value1' }],
         nestedRoutesTranslations: [
@@ -168,7 +174,7 @@ describe('PathPipeService', () => {
         expectedResult: ['', 'path', 'without-parameters']
       },
       {
-        description: `should return first path that can be satisfied with given params`,
+        description: `should return first path that can be satisfied with given params (case 3)`,
         nestedRoutesNames: ['test'],
         nestedRoutesParams: [
           {
@@ -190,7 +196,7 @@ describe('PathPipeService', () => {
         expectedResult: ['', 'path', 'value3', 'value2']
       },
       {
-        description: `should return first path that can be satisfied with given params`,
+        description: `should return first path that can be satisfied with given params  (case 4)`,
         nestedRoutesNames: ['test'],
         nestedRoutesParams: [
           {
@@ -212,7 +218,7 @@ describe('PathPipeService', () => {
         expectedResult: ['', 'path', 'value4']
       },
       {
-        description: `should use given params mapping`,
+        description: `should use given params mapping (case 1)`,
         nestedRoutesNames: ['test'],
         nestedRoutesParams: [{ param1: 'value1' }],
         nestedRoutesTranslations: [
@@ -224,7 +230,7 @@ describe('PathPipeService', () => {
         expectedResult: ['', 'path', 'value1']
       },
       {
-        description: `should use given params mapping`,
+        description: `should use given params mapping (case 2)`,
         nestedRoutesNames: ['test'],
         nestedRoutesParams: [
           {
@@ -282,7 +288,7 @@ describe('PathPipeService', () => {
         expectedResult: ['/']
       },
       {
-        description: `should concatenate paths for nested routes, using given params for first route`,
+        description: `should concatenate paths for nested routes, using given params for first route (case 1)`,
         nestedRoutesNames: ['test1', 'test2'],
         nestedRoutesParams: [{ param1: 'value1' }, {}],
         nestedRoutesTranslations: [
@@ -292,7 +298,7 @@ describe('PathPipeService', () => {
         expectedResult: ['', 'path1', 'value1', 'path2']
       },
       {
-        description: `should concatenate paths for nested routes, using given params for second route`,
+        description: `should concatenate paths for nested routes, using given params for second route (case 2)`,
         nestedRoutesNames: ['test1', 'test2'],
         nestedRoutesParams: [null, { param2: 'value2' }],
         nestedRoutesTranslations: [
