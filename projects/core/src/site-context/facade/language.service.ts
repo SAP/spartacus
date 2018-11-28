@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { OccConfig } from '../../occ/config/occ-config';
 import * as fromStore from '../store/index';
 import { filter } from 'rxjs/operators';
 
@@ -11,10 +10,7 @@ import { filter } from 'rxjs/operators';
  */
 @Injectable()
 export class LanguageService {
-  constructor(
-    private store: Store<fromStore.StateWithSiteContext>,
-    private config: OccConfig
-  ) {}
+  constructor(private store: Store<fromStore.StateWithSiteContext>) {}
 
   /**
    * Represents all the languages supported by the current store.
@@ -41,22 +37,15 @@ export class LanguageService {
   }
 
   /**
-   * Initializes by loading all languages and select the active language.
-   */
-  initialize() {
-    this.initSessionLanguage();
-  }
-
-  /**
    * Initials the active language. The active language is either given
    * by the last visit (stored in session storage) or by the
    * default session language of the store.
    */
-  protected initSessionLanguage() {
+  initialize(defaultLanguage: string) {
     if (sessionStorage && !!sessionStorage.getItem('language')) {
       this.setActive(sessionStorage.getItem('language'));
     } else {
-      this.setActive(this.config.site.language);
+      this.setActive(defaultLanguage);
     }
   }
 }
