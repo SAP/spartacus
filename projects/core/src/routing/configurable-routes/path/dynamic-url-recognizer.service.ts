@@ -51,14 +51,15 @@ export class DynamicUrlRecognizerService {
 
     for (let i = 0; i < routeNamesLength; i++) {
       const routeName = routeNames[i];
-      const routeTranslation = routesTranslations[routeName];
-      const paths = routeTranslation.paths;
+      const routeTranslation =
+        routesTranslations && routesTranslations[routeName];
+      const paths = routeTranslation.paths || [];
       // SPIKE TODO: improve readability here:
       const pathsLength = paths.length;
       for (let j = 0; j < pathsLength; j++) {
         const path = paths[j];
         const pathSegments = this.urlParser.getPrimarySegments(path);
-        const params = this.extractParamsIfPathMatchingUrlPrefix(
+        const params = this.extractParamsIfPathMatchesUrlPrefix(
           remainingUrlSegments,
           pathSegments
         );
@@ -80,7 +81,7 @@ export class DynamicUrlRecognizerService {
     return remainingUrlSegments.length ? null : accResult;
   }
 
-  private extractParamsIfPathMatchingUrlPrefix(
+  private extractParamsIfPathMatchesUrlPrefix(
     urlSegments: string[],
     pathSegments: string[]
   ): object {
