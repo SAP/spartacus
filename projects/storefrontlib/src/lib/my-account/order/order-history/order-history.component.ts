@@ -3,7 +3,7 @@ import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, Order } from '@spartacus/core';
 import { UserService } from '../../../user/facade/user.service';
 import { UserOrders } from '../../models/order.model';
 
@@ -80,11 +80,11 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     this.fetchOrders(event);
   }
 
-  goToOrderDetail(order): void {
+  goToOrderDetail(order: Order): void {
     this.routing.go(['my-account/orders/', order.code]);
   }
 
-  private fetchOrders(event: { sortCode: string; currentPage: number }) {
+  private fetchOrders(event: { sortCode: string; currentPage: number }): void {
     this.userSerivce.loadOrderList(
       this.user_id,
       this.PAGE_SIZE,

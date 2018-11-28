@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import createSpy = jasmine.createSpy;
 
 import { OrderDetailsComponent } from '../order-details/order-details.component';
-import { RoutingService, Order } from '@spartacus/core';
+import { RoutingService, Order, Cart, PromotionResult } from '@spartacus/core';
 import { UserService } from '../../../user/facade/user.service';
 import { AuthService } from '../../../auth/facade/auth.service';
 import { CardModule } from '../../../ui/components/card/card.module';
@@ -58,7 +58,7 @@ const mockOrder: Order = {
 })
 class MockOrderSummaryComponent {
   @Input()
-  cart: any;
+  cart: Cart;
 }
 
 @Component({
@@ -73,7 +73,7 @@ class MockCartItemListComponent {
   @Input()
   items = [];
   @Input()
-  potentialProductPromotions: any[] = [];
+  potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading = false;
 }
@@ -134,7 +134,7 @@ describe('OrderDetailsComponent', () => {
 
   it('should initialize ', () => {
     fixture.detectChanges();
-    let order;
+    let order: Order;
     component.order$.subscribe(value => {
       order = value;
     });

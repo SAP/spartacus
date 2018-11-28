@@ -63,17 +63,17 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should load order list when data not exist', () => {
-    const initialOrderListState = {
+    const initialOrderListState: UserOrders = {
       orders: [],
       pagination: {},
-      sorts: []
+      sort: []
     };
     mockUserService.orderList$.next(initialOrderListState);
 
     component.ngOnInit();
     fixture.detectChanges();
 
-    let orderList;
+    let orderList: UserOrders;
     component.orders$.subscribe(value => {
       orderList = value;
     });
