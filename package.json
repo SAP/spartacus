@@ -19,6 +19,7 @@
     "start": "ng serve --proxy-config mock-server/proxy.backend.js",
     "start:mock": "ng serve --proxy-config mock-server/proxy.mock.js",
     "start:qa": "ng serve -c=qa",
+    "start:ci": "ng serve -c=ci",
     "start:prod": "ng serve --prod",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server -p 4200",
     "test": "ng test",
