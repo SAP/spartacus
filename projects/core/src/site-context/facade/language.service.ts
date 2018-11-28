@@ -10,24 +10,25 @@ import * as fromStore from '../store/index';
  */
 @Injectable()
 export class LanguageService {
-  /**
-   * Represents all the languages supported by the current store.
-   */
-  languages$: Observable<fromStore.LanguagesEntities> = this.store.pipe(
-    select(fromStore.getAllLanguages)
-  );
-
-  /**
-   * Represents the isocode of the active language.
-   */
-  selectedLanguage$: Observable<string> = this.store.pipe(
-    select(fromStore.getActiveLanguage)
-  );
-
   constructor(
     private store: Store<fromStore.StateWithSiteContext>,
     private config: OccConfig
   ) {}
+
+  /**
+   * Represents all the languages supported by the current store.
+   */
+  getAll(): Observable<fromStore.LanguagesEntities> {
+    this.store.dispatch(new fromStore.LoadLanguages());
+    return this.store.pipe(select(fromStore.getAllLanguages));
+  }
+
+  /**
+   * Represents the isocode of the active language.
+   */
+  getActive(): Observable<string> {
+    return this.store.pipe(select(fromStore.getActiveLanguage));
+  }
 
   /**
    * Initializes by loading all languages and select the active language.

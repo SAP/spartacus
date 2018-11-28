@@ -15,8 +15,8 @@ export class LanguageSelectorComponent implements OnInit {
   constructor(private languageService: LanguageService) {}
 
   ngOnInit() {
-    this.languages$ = this.languageService.languages$;
-    this.activeLanguage$ = this.languageService.selectedLanguage$;
+    this.languages$ = this.languageService.getAll();
+    this.activeLanguage$ = this.languageService.getActive();
   }
 
   setActiveLanguage(language) {

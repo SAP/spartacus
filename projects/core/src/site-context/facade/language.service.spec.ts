@@ -65,20 +65,20 @@ describe('LanguageService', () => {
   });
 
   it('should be able to get languages', () => {
-    service.languages$.subscribe(results => {
+    service.getAll().subscribe(results => {
       expect(results).toEqual(mockLanguages);
     });
   });
 
   it('should be able to get active languages', () => {
-    service.selectedLanguage$.subscribe(results => {
+    service.getActive().subscribe(results => {
       expect(results).toEqual(mockActiveLang);
     });
   });
 
   describe('set activeLanguage(isocode)', () => {
-    it('shouldselectt active language', () => {
-      service.select('ja');
+    it('shouldselect active language', () => {
+      service.setActive('ja');
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SetActiveLanguage('ja')
       );
