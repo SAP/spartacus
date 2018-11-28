@@ -6,8 +6,6 @@ import * as fromStore from '../store/index';
 
 @Injectable()
 export class ProductService {
-  protected products = {};
-
   constructor(private store: Store<fromStore.ProductsState>) {}
 
   /**
@@ -16,12 +14,9 @@ export class ProductService {
    */
   get(productCode: string): Observable<any> {
     this.store.dispatch(new fromStore.LoadProduct(productCode));
-    if (!this.products[productCode]) {
-      this.products[productCode] = this.store.pipe(
-        select(fromStore.getSelectedProductFactory(productCode))
-      );
-    }
-    return this.products[productCode];
+    return this.store.pipe(
+      select(fromStore.getSelectedProductFactory(productCode))
+    );
   }
 
   /**
@@ -31,13 +26,5 @@ export class ProductService {
    */
   reload(productCode: string) {
     this.store.dispatch(new fromStore.LoadProduct(productCode, true));
-  }
-
-  /**
-   * Loads the product. This is implicetly done whenever
-   * the product is selected.
-   */
-  protected load(productCode: string) {
-    this.store.dispatch(new fromStore.LoadProduct(productCode));
   }
 }
