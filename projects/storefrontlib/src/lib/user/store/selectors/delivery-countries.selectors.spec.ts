@@ -4,6 +4,7 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
+import { Country } from '@spartacus/core';
 
 describe('Delivery Countries Selectors', () => {
   let store: Store<fromReducers.UserState>;
@@ -22,7 +23,7 @@ describe('Delivery Countries Selectors', () => {
 
   describe('getAllDeliveryCountries', () => {
     it('should return all delivery countries', () => {
-      const mockCountries = [
+      const mockCountries: Country[] = [
         {
           isocode: 'AL',
           name: 'Albania'
@@ -51,7 +52,7 @@ describe('Delivery Countries Selectors', () => {
   describe('countrySelectorFactory', () => {
     it('should return title', () => {
       const isocode = 'AL';
-      const mockCountries = [
+      const mockCountries: Country[] = [
         {
           isocode: 'AL',
           name: 'Albania'
