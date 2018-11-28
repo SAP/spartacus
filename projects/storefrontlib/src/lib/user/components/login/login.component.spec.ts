@@ -107,7 +107,7 @@ describe('LoginComponent', () => {
     component.logout();
     expect(component.isLogin).toEqual(false);
     expect(mockAuthService.logout).toHaveBeenCalled();
-    expect(mockRoutingService.goToPage).toHaveBeenCalledWith('login');
+    expect(mockRoutingService.goToPage).toHaveBeenCalledWith(['login']);
   });
 
   it('should load user details when token exists', () => {

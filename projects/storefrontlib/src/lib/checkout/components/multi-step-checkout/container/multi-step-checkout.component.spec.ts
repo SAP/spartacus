@@ -114,7 +114,7 @@ describe('MultiStepCheckoutComponent', () => {
       getDetails: false
     };
     mockRoutingService = {
-      go: createSpy()
+      goToPage: createSpy()
     };
     mockGlobalMessageService = {
       add: createSpy()
@@ -190,7 +190,9 @@ describe('MultiStepCheckoutComponent', () => {
     mockCheckoutService.orderDetails$.next(mockOrderDetails);
 
     component.processSteps();
-    expect(mockRoutingService.go).toHaveBeenCalledWith(['orderConfirmation']);
+    expect(mockRoutingService.goToPage).toHaveBeenCalledWith([
+      'orderConfirmation'
+    ]);
   });
 
   it('should call setStep()', () => {

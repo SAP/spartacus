@@ -79,6 +79,6 @@ describe('NotAuthGuard', () => {
       .canActivate()
       .subscribe()
       .unsubscribe();
-    expect(service.goToPage).toHaveBeenCalledWith('homepage');
+    expect(service.goToPage).toHaveBeenCalledWith(['homepage']);
   });
 });

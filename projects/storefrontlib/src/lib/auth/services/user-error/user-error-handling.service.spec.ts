@@ -82,7 +82,7 @@ describe('UserErrorHandlingService', () => {
         .subscribe();
       sub.unsubscribe();
 
-      expect(routingService.goToPage).toHaveBeenCalledWith('login');
+      expect(routingService.goToPage).toHaveBeenCalledWith(['login']);
     });
 
     it('should get new token', () => {

@@ -192,7 +192,7 @@ describe('ShippingAddressComponent', () => {
 
   it('should call back()', () => {
     component.back();
-    expect(mockRouting.goToPage).toHaveBeenCalledWith('cart');
+    expect(mockRouting.goToPage).toHaveBeenCalledWith(['cart']);
   });
 
   describe('UI continue button', () => {

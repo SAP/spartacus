@@ -17,7 +17,9 @@ const UseCmsModuleConfig: CmsModuleConfig = {
   name: 'cxDynamicUrl'
 })
 class MockDynamicUrlPipe implements PipeTransform {
-  transform() {}
+  transform(url: string) {
+    return '/transformed' + url;
+  }
 }
 
 describe('LinkComponent', () => {
@@ -68,6 +70,6 @@ describe('LinkComponent', () => {
     const element = el.query(By.css('a')).nativeElement;
 
     expect(element.textContent).toEqual(componentData.linkName);
-    expect(element.href).toContain(componentData.url);
+    expect(element.href).toContain('/transformed' + componentData.url);
   });
 });

@@ -94,12 +94,15 @@ describe('StoreFinderGridComponent', () => {
     component.viewStore(location);
 
     expect(mockRoutingService.goToPage).toHaveBeenCalledWith(
-      'storeDescription',
-      {
-        country: countryIsoCode,
-        region: regionIsoCode,
-        store: location.name
-      }
+      ['storeFinder', 'storeDescription'],
+      [
+        null,
+        {
+          country: countryIsoCode,
+          region: regionIsoCode,
+          store: location.name
+        }
+      ]
     );
   });
 

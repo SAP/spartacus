@@ -4,6 +4,7 @@ import { CartService } from '../../cart/facade/cart.service';
 import { CmsService } from '../../cms/facade/cms.service';
 import { Pipe, PipeTransform } from '@angular/core';
 import { MiniCartComponent } from './mini-cart.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 @Pipe({
   name: 'cxPath'
@@ -57,6 +58,7 @@ describe('MiniCartComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [MiniCartComponent, MockPathPipe],
       providers: [
         { provide: CmsService, useValue: MockCmsService },

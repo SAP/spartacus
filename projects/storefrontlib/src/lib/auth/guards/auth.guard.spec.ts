@@ -109,7 +109,7 @@ describe('AuthGuard', () => {
       .subscribe();
     sub.unsubscribe();
 
-    expect(service.goToPage).toHaveBeenCalledWith('login');
+    expect(service.goToPage).toHaveBeenCalledWith(['login']);
     expect(service.saveRedirectUrl).toHaveBeenCalledWith('/test');
   });
 });

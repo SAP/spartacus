@@ -9,6 +9,14 @@ import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.co
 
 import * as fromReducers from '../../store';
 import * as fromServices from '../../services';
+import { PipeTransform, Pipe } from '@angular/core';
+
+@Pipe({
+  name: 'cxPath'
+})
+class MockPathPipe implements PipeTransform {
+  transform() {}
+}
 
 describe('StoreFinderStoreDescriptionComponent', () => {
   let component: StoreFinderStoreDescriptionComponent;
@@ -24,7 +32,8 @@ describe('StoreFinderStoreDescriptionComponent', () => {
       declarations: [
         StoreFinderStoreDescriptionComponent,
         ScheduleComponent,
-        StoreFinderMapComponent
+        StoreFinderMapComponent,
+        MockPathPipe
       ],
       providers: [...fromServices.services]
     }).compileComponents();

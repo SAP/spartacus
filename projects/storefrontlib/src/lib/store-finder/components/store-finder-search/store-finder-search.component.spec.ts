@@ -1,13 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import { Router, ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 import { WindowRef } from '../../services/window-ref';
 
 import * as fromStore from '../../store';
+import { RoutingService } from '@spartacus/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 const latitude = 10.1;
 const longitude = 39.2;
@@ -45,12 +46,18 @@ class WindowRefMock {
   }
 }
 
+@Pipe({
+  name: 'cxPath'
+})
+class MockPathPipe implements PipeTransform {
+  transform() {}
+}
+
 describe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;
   let fixture: ComponentFixture<StoreFinderSearchComponent>;
   let windowRef: WindowRef;
-  let router: Router;
-  let activatedRoute: ActivatedRoute;
+  let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -60,8 +67,11 @@ describe('StoreFinderSearchComponent', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature('stores', fromStore.reducers)
       ],
-      declarations: [StoreFinderSearchComponent],
-      providers: [{ provide: WindowRef, useClass: WindowRefMock }]
+      declarations: [StoreFinderSearchComponent, MockPathPipe],
+      providers: [
+        { provide: WindowRef, useClass: WindowRefMock },
+        { provide: RoutingService, useValue: { goToPage: jasmine.createSpy() } }
+      ]
     }).compileComponents();
   }));
 
@@ -69,11 +79,9 @@ describe('StoreFinderSearchComponent', () => {
     fixture = TestBed.createComponent(StoreFinderSearchComponent);
     component = fixture.componentInstance;
     windowRef = TestBed.get(WindowRef);
-    router = TestBed.get(Router);
-    activatedRoute = TestBed.get(ActivatedRoute);
+    routingService = TestBed.get(RoutingService);
 
     spyOn(windowRef, 'nativeWindow').and.callThrough();
-    spyOn(router, 'navigate');
     fixture.detectChanges();
   });
 
@@ -84,31 +92,34 @@ describe('StoreFinderSearchComponent', () => {
   it('should dispatch new query', () => {
     component.searchBox.setValue(query);
     component.findStores(component.searchBox.value);
-    expect(router.navigate).toHaveBeenCalledWith(['find-stores'], {
-      relativeTo: activatedRoute,
-      queryParams: { query: query }
-    });
+    expect(routingService.goToPage).toHaveBeenCalledWith(
+      ['storeFinder', 'searchResult'],
+      null,
+      { query: query }
+    );
   });
 
   it('should call onKey and dispatch query', () => {
     component.searchBox.setValue(query);
     component.onKey(keyEvent);
-    expect(router.navigate).toHaveBeenCalledWith(['find-stores'], {
-      relativeTo: activatedRoute,
-      queryParams: { query: query }
-    });
+    expect(routingService.goToPage).toHaveBeenCalledWith(
+      ['storeFinder', 'searchResult'],
+      null,
+      { query: query }
+    );
   });
 
   it('should only call onKey', () => {
     component.onKey(badKeyEvent);
-    expect(router.navigate).not.toHaveBeenCalled();
+    expect(routingService.goToPage).not.toHaveBeenCalled();
   });
 
   it('should view stores near by my location', () => {
     component.viewStoresWithMyLoc();
-    expect(router.navigate).toHaveBeenCalledWith(['find-stores'], {
-      relativeTo: activatedRoute,
-      queryParams: { latitude: latitude, longitude: longitude }
-    });
+    expect(routingService.goToPage).toHaveBeenCalledWith(
+      ['storeFinder', 'searchResult'],
+      null,
+      { latitude: latitude, longitude: longitude }
+    );
   });
 });

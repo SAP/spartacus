@@ -35,9 +35,9 @@ describe(`OrderConfirmationPageGuard`, () => {
 
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(false);
-        expect(routingService.goToPage).toHaveBeenCalledWith(
+        expect(routingService.goToPage).toHaveBeenCalledWith([
           'myAccount_orders'
-        );
+        ]);
         done();
       });
     });

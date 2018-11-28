@@ -142,7 +142,7 @@ describe('CartNotEmptyGuard', () => {
             .canActivate()
             .subscribe()
             .unsubscribe();
-          expect(routingService.goToPage).toHaveBeenCalledWith('homepage');
+          expect(routingService.goToPage).toHaveBeenCalledWith(['homepage']);
         });
 
         it('then returned observable should emit false', () => {
@@ -167,7 +167,7 @@ describe('CartNotEmptyGuard', () => {
             .canActivate()
             .subscribe()
             .unsubscribe();
-          expect(routingService.goToPage).toHaveBeenCalledWith('homepage');
+          expect(routingService.goToPage).toHaveBeenCalledWith(['homepage']);
         });
 
         it('then returned observable should emit false', () => {
