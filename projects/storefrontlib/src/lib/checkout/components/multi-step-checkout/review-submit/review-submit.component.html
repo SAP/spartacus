@@ -5,33 +5,51 @@
     <!-- SHIPPING ADDRESS SECTION -->
     <div class="col-md-12 col-lg-6 col-xl-4">
       <div class="cx-review__summary-card cx-review__summary-card__address">
-        <cx-card [content]="getShippingAddressCard((countryName$ | async)?.name)"></cx-card>
+        <cx-card
+          [content]="getShippingAddressCard((countryName$ | async)?.name)"
+        ></cx-card>
       </div>
     </div>
 
     <!-- SHIPPING METHOD SECTION -->
     <div class="col-md-12 col-lg-6 col-xl-4">
-      <div class="cx-review__summary-card cx-review__summary-card__shipping-method">
-        <cx-card [content]="getShippingMethodCard(deliveryMode$ | async)"></cx-card>
+      <div
+        class="cx-review__summary-card cx-review__summary-card__shipping-method"
+      >
+        <cx-card
+          [content]="getShippingMethodCard(deliveryMode$ | async)"
+        ></cx-card>
       </div>
     </div>
 
     <!-- PAYMENT METHOD SECTION -->
     <div class="col-md-12 col-lg-6 col-xl-4">
-      <div class="cx-review__summary-card cx-review__summary-card__payment-method">
+      <div
+        class="cx-review__summary-card cx-review__summary-card__payment-method"
+      >
         <cx-card [content]="getPaymentMethodCard()"></cx-card>
       </div>
     </div>
   </div>
 
   <!-- CART ITEM SECTION -->
-  <ng-container *ngIf="cart$ | async as cart">
+  <ng-container *ngIf="(cart$ | async) as cart">
     <div class="cx-review__cart-total d-none d-lg-block d-xl-block">
-      Cart total ({{cart.totalItems}} items): {{cart.subTotal?.formattedValue}}
+      Cart total ({{ cart.totalItems }} items):
+      {{ cart.subTotal?.formattedValue }}
     </div>
-    <h4 class="cx-review__cart-total-header d-block d-lg-none d-xl-none">Order Items</h4>
-    <div class="cx-review__cart-item col-md-12" *ngIf="entries$ | async as entries">
-      <cx-cart-item-list [items]="entries" [isReadOnly]="true" [potentialProductPromotions]="cart.potentialProductPromotions"></cx-cart-item-list>
+    <h4 class="cx-review__cart-total-header d-block d-lg-none d-xl-none">
+      Order Items
+    </h4>
+    <div
+      class="cx-review__cart-item col-md-12"
+      *ngIf="(entries$ | async) as entries"
+    >
+      <cx-cart-item-list
+        [items]="entries"
+        [isReadOnly]="true"
+        [potentialProductPromotions]="cart.potentialProductPromotions"
+      ></cx-cart-item-list>
     </div>
   </ng-container>
 </div>
