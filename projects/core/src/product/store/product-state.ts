@@ -5,7 +5,12 @@ export interface StateWithProduct {
 }
 
 export interface ProductState {
-  entities: { [productCode: string]: any };
+  entities: {
+    [productCode: string]: {
+      loading: boolean;
+      value: any;
+    };
+  };
 }
 
 export interface ProductsState {
