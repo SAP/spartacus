@@ -6,6 +6,7 @@ function usage() {
   echo "  -l [library]"
   echo "  -v [major | minor | patch | premajor | preminor | prepatch | prerelease]"
   echo "  --preid [prerelease-id]"
+  echo "  --dry-run"
 }
 
 if [[ $# == 0 ]]; then
@@ -24,6 +25,9 @@ do
       shift
       BUMP=$1
       ;;
+    --dry-run)
+      DRYRUN="--dry-run"
+      ;;
     --preid)
       shift
       preid=$1
@@ -39,6 +43,11 @@ do
   shift
 done
 
+echo "library: $LIB"
+echo "version: $BUMP"
+echo "preid: $preid"
+echo "Dry run: $DRYRUN"
+
 LIB_DIR="projects/$LIB"
 DEPLOY_DIR="dist/$LIB"
 
@@ -48,7 +57,7 @@ if [[ ! -d $LIB_DIR ]]; then
 fi
 
 BUMP_COMMAND="npm version $BUMP"
-PUBLISH_CMD="npm publish ."
+PUBLISH_CMD="npm publish . $DRYRUN"
 
 if [[ $BUMP =~ pre* ]]; then
   PUBLISH_CMD="$PUBLISH_CMD --tag next"
@@ -66,7 +75,7 @@ LIB_DIR_NEW_VERSION=$(cd $LIB_DIR && $BUMP_COMMAND)
 echo "New version: $LIB_DIR_NEW_VERSION"
 
 echo "Building library $LIB"
-ng build $LIB
+# ng build $LIB
 
 echo "publishing version $BUMP"
 published=$(cd $DEPLOY_DIR && $PUBLISH_CMD)
@@ -81,18 +90,22 @@ if [[ ! -z "$published" ]]; then
 
   BRANCH=`git status | head -1`
   RELEASE_BRANCH=${BRANCH:10}
-
   TAG="$LIB-$NEW_VERSION"
 
-  cd $LIB_DIR
-  git add package.json
-  git commit -m 'Bumping $PROJECT version to $LIB_DIR_NEW_VERSION'
-  echo "Tagging new version ${TAG}"
-  git tag ${TAG}
-  echo "Pushing from $PWD"
-  git push -u origin $RELEASE_BRANCH --tags
+  if [[ -z $DRYRUN ]]; then
+    git commit -am 'Bumping $PROJECT version to $LIB_DIR_NEW_VERSION'
+    echo "Tagging new version ${TAG}"
+    git tag ${TAG}
+    echo "Pushing from $PWD"
+    git push -u origin $RELEASE_BRANCH --tags
 
-  echo 'Deploy script finished successfully'
+    echo "Deploy script finished successfully"
+  else
+    echo "Bumping $PROJECT version to $LIB_DIR_NEW_VERSION"
+    echo "Tagging new version ${TAG}"
+    echo "Pushing release changes to $RELEASE_BRANCH"
+    git checkout projects
+  fi
 else
   echo 'Error publishing package to npm. Reverting package bump and aborting. Please rebuild your library'
   (cd $LIB_DIR && git checkout package.json)
