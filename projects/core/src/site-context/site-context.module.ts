@@ -13,7 +13,7 @@ function inititializeContext(
 ) {
   return () => {
     langService.initialize(config.site.language);
-    currService.initialize();
+    currService.initialize(config.site.currency);
   };
 }
 
