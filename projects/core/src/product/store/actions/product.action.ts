@@ -7,7 +7,12 @@ export const LOAD_PRODUCT_SUCCESS = '[Product] Load Product Data Success';
 
 export class LoadProduct implements Action {
   readonly type = LOAD_PRODUCT;
-  constructor(public payload: string, public reload: boolean = false) {}
+  payload: string;
+  meta: { reload: boolean };
+  constructor(productCode: string, reload: boolean = false) {
+    this.payload = productCode;
+    this.meta = { reload };
+  }
 }
 
 export class LoadProductStart implements Action {

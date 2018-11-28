@@ -33,7 +33,7 @@ export class ProductEffects {
       return this.store.pipe(
         select(getSelectedProductStateFactory(action.payload)),
         switchMap(state => {
-          if (!state.loading && (!state.value || action.reload)) {
+          if (!state.loading && (!state.value || action.meta.reload)) {
             return of(new LoadProductStart(action.payload));
           } else {
             return EMPTY;
