@@ -9,7 +9,7 @@ const mockRoutesConfigLoader = {
   routesConfig: { translations: { default: {} } }
 };
 
-fdescribe('DynamicUrlRecognizerService', () => {
+describe('DynamicUrlRecognizerService', () => {
   let loader: RoutesConfigLoader;
   let service: DynamicUrlRecognizerService;
 
