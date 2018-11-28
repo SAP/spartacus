@@ -25,7 +25,7 @@ export class PaginationComponent implements OnInit {
 
   ngOnInit() {}
 
-  pageChange(page: number) {
+  pageChange(page: number): void {
     this.viewPageEvent.emit(page - 1);
   }
 }

@@ -29,7 +29,7 @@ export class SortingComponent {
     this.sortListEvent = new EventEmitter<string>();
   }
 
-  sortList(sortCode: string) {
+  sortList(sortCode: string): void {
     this.sortListEvent.emit(sortCode);
   }
 }

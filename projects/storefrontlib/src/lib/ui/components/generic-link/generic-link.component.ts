@@ -12,7 +12,7 @@ export class GenericLinkComponent {
   private readonly absoluteUrlRegex: RegExp = /^https?:\/\//i;
 
   @Input()
-  url;
+  url: string;
 
   @Input()
   target;
@@ -25,7 +25,7 @@ export class GenericLinkComponent {
   @Input()
   title;
 
-  get routerUrl() {
+  get routerUrl(): string {
     if (this.url !== undefined) {
       return this.url.startsWith('/') ? this.url : '/' + this.url;
     }

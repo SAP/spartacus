@@ -56,13 +56,13 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   onTouch = () => {};
   onModelChange = (_rating: number) => {};
 
-  manualChange(incomingValue) {
+  manualChange(incomingValue): void {
     const newValue =
       incomingValue > this.max
         ? this.max
         : incomingValue < this.min
-        ? this.min
-        : incomingValue;
+          ? this.min
+          : incomingValue;
 
     if (!this.async) {
       this.writeValue(newValue);
@@ -77,7 +77,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     this.renderer.setProperty(this.input.nativeElement, 'value', this.value);
   }
 
-  hasError() {
+  hasError(): boolean {
     if (this.value < this.min) {
       return true;
     }
@@ -87,7 +87,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     return false;
   }
 
-  onKeyDown(event: KeyboardEvent) {
+  onKeyDown(event: KeyboardEvent): void {
     const handlers = {
       ArrowDown: () => this.decrement(),
       ArrowUp: () => this.increment()
@@ -101,28 +101,28 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     this.onTouch();
   }
 
-  onInput(event) {
+  onInput(event): void {
     const { value } = event.target;
     if (value) {
       this.value = Number(value);
     }
   }
 
-  onBlur(event: FocusEvent) {
+  onBlur(event: FocusEvent): void {
     this.focus = false;
     event.preventDefault();
     event.stopPropagation();
     this.onTouch();
   }
 
-  onFocus(event: FocusEvent) {
+  onFocus(event: FocusEvent): void {
     this.focus = true;
     event.preventDefault();
     event.stopPropagation();
     this.onTouch();
   }
 
-  increment() {
+  increment(): void {
     const updatedQuantity = this.value + this.step;
     if (this.value < this.max || !this.max) {
       if (!this.async) {
@@ -135,7 +135,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     this.onTouch();
   }
 
-  decrement() {
+  decrement(): void {
     const updatedQuantity = this.value - this.step;
     if (this.value > this.min || !this.min) {
       if (!this.async) {
@@ -150,15 +150,15 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
 
   // ControlValueAccessor interface
 
-  registerOnTouched(fn) {
+  registerOnTouched(fn): void {
     this.onTouch = fn;
   }
 
-  registerOnChange(fn) {
+  registerOnChange(fn): void {
     this.onModelChange = fn;
   }
 
-  writeValue(value) {
+  writeValue(value: number): void {
     this.value = value || this.min || 0;
     this.onModelChange(this.value);
   }
