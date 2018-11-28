@@ -9,8 +9,8 @@ export class ProductService {
   constructor(private store: Store<fromStore.ProductsState>) {}
 
   /**
-   * Returns the product observable. If the product hasn't selected
-   * before it will load the product as well.
+   * Returns the product observable. The product is loaded
+   * under the hood on first request.
    */
   get(productCode: string): Observable<any> {
     this.store.dispatch(new fromStore.LoadProduct(productCode));
@@ -20,7 +20,7 @@ export class ProductService {
   }
 
   /**
-   * (re)loads the product. The product is loaded implicetly
+   * Reloads the product. The product is loaded implicetly
    * whenever selected by the `get`, but in some cases an
    * explicit reload might be needed.
    */
