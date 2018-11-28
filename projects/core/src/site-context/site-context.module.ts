@@ -5,7 +5,7 @@ import { SiteContextStoreModule } from './store/site-context-store.module';
 import { LanguageService } from './facade/language.service';
 import { CurrencyService } from './facade/currency.service';
 import { OccConfig } from '../occ/index';
-import { StateModule } from '../state';
+import { StateModule } from '../state/index';
 
 export function inititializeContext(
   config: OccConfig,
