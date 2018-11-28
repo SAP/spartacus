@@ -4,27 +4,25 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { EMPTY, Observable, of } from 'rxjs';
 import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
 
-import * as productActions from '../actions/product.action';
-import { OccProductService } from '../../occ/product.service';
-import { ProductImageConverterService } from '../converters/product-image-converter.service';
-import { ProductReferenceConverterService } from '../converters/product-reference-converter.service';
-
 import { select, Store } from '@ngrx/store';
-import { LoadProductStart } from '../actions/product.action';
-import { getSelectedProductStateFactory } from '../selectors/product.selectors';
 import { StateWithProduct } from '../product-state';
+import * as actions from '../actions/index';
+import * as selectors from '../selectors/index';
+import * as convertors from '../converters/index';
+
+import { OccProductService } from '../../occ/product.service';
 
 @Injectable()
 export class ProductEffects {
   @Effect()
   loadProduct$: Observable<any> = this.actions$.pipe(
-    ofType(productActions.LOAD_PRODUCT),
-    mergeMap((action: productActions.LoadProduct) => {
+    ofType(actions.LOAD_PRODUCT),
+    mergeMap((action: actions.LoadProduct) => {
       return this.store.pipe(
-        select(getSelectedProductStateFactory(action.payload)),
+        select(selectors.getSelectedProductStateFactory(action.payload)),
         switchMap(state => {
           if (!state.loading && (!state.value || action.meta.reload)) {
-            return of(new LoadProductStart(action.payload));
+            return of(new actions.LoadProductStart(action.payload));
           } else {
             return EMPTY;
           }
@@ -35,16 +33,16 @@ export class ProductEffects {
 
   @Effect()
   loadProductStart$ = this.actions$.pipe(
-    ofType(productActions.LOAD_PRODUCT_START),
-    map((action: productActions.LoadProduct) => action.payload),
+    ofType(actions.LOAD_PRODUCT_START),
+    map((action: actions.LoadProduct) => action.payload),
     mergeMap(productCode => {
       return this.occProductService.loadProduct(productCode).pipe(
         map(product => {
           this.productImageConverter.convertProduct(product);
           this.productReferenceConverterService.convertProduct(product);
-          return new productActions.LoadProductSuccess(product);
+          return new actions.LoadProductSuccess(product);
         }),
-        catchError(error => of(new productActions.LoadProductFail(error)))
+        catchError(error => of(new actions.LoadProductFail(error)))
       );
     })
   );
@@ -53,7 +51,7 @@ export class ProductEffects {
     private actions$: Actions,
     private store: Store<StateWithProduct>,
     private occProductService: OccProductService,
-    private productImageConverter: ProductImageConverterService,
-    private productReferenceConverterService: ProductReferenceConverterService
+    private productImageConverter: convertors.ProductImageConverterService,
+    private productReferenceConverterService: convertors.ProductReferenceConverterService
   ) {}
 }
