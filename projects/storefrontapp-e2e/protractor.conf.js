@@ -10,7 +10,11 @@ exports.config = {
     browserName: 'chrome',
     acceptInsecureCerts: true,
     chromeOptions: {
-      args: ['window-size=1024,768', 'disable-infobars', 'disable-web-security']
+      args: [
+        'window-size=1600,1024',
+        'disable-infobars',
+        'disable-web-security'
+      ]
     }
   },
   jasmineNodeOpts: {
