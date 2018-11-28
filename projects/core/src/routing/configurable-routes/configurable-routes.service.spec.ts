@@ -49,13 +49,19 @@ describe('ConfigurableRoutesService', () => {
     router.config = [];
   });
 
-  it('should get routes config from loader', () => {
-    expect(service['_routesConfig']).toEqual(
-      mockRoutesConfigLoader.routesConfig
-    );
+  describe('init', () => {
+    it('should get routes config from loader', () => {
+      expect(service['_routesConfig']).toEqual(
+        mockRoutesConfigLoader.routesConfig
+      );
+    });
   });
 
   describe('changeLanguage', () => {
+    beforeEach(() => {
+      service.init();
+    });
+
     it('should NOT translate "paths" of routes that are NOT configurable', () => {
       router.config = [{ path: 'path1' }, { path: 'path2' }];
       service.changeLanguage('default');

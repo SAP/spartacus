@@ -51,5 +51,5 @@ export const defaultStorefrontRoutesTranslations: {
     pageNotFound: { paths: ['**'] }
   },
 
-  en: {} as any // spike todo - temporary fix
+  en: {} as any
 };
