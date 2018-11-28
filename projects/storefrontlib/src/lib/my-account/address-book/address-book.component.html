@@ -9,22 +9,28 @@
         <div class="cx-section" *ngIf="!checkIfAnyFormOpen()">
           <h1 class="cx-section__title">Address Book</h1>
           <p>Saved shipping addresses</p>
-          <div class="row">
-            <div class="col-md-6">
-              <button
-                class="btn btn-block btn-action"
-                (click)="showAddAddressForm()"
-              >
-                Add new address
-              </button>
+
+          <div *ngIf="(addresses$ | async) as addresses">
+            <div class="row">
+              <div class="col-md-6">
+                <button
+                  class="btn btn-block btn-action"
+                  (click)="showAddAddressForm()"
+                >
+                  Add new address
+                </button>
+              </div>
             </div>
-          </div>
-          <div
-            class="row cx-address-deck"
-            *ngIf="(addresses$ | async) as addresses"
-          >
-            <div *ngFor="let address of addresses" class="col-md-6">
-              <cx-address-card [address]="address"></cx-address-card>
+            <div class="row cx-address-deck" *ngIf="!addresses.isLoading">
+              <div *ngFor="let address of addresses.list" class="col-md-6">
+                <cx-address-card
+                  (editEvent)="showEditAddressForm(address)"
+                  [address]="address"
+                ></cx-address-card>
+              </div>
+            </div>
+            <div class="row" *ngIf="addresses.isLoading">
+              <div class="col-md-12"><cx-spinner></cx-spinner></div>
             </div>
           </div>
         </div>
@@ -43,11 +49,11 @@
           <section #editAddressForm *ngIf="isEditAddressFormOpen">
             <p>Edit shipping address</p>
             <cx-address-form
-              (addAddress)="updateUserAddress($event)"
+              [addressData]="activeAddress"
+              (addAddress)="updateUserAddress(activeAddress['id'], $event)"
               (backToAddress)="hideEditAddressForm()"
             ></cx-address-form>
           </section>
-
         </div>
       </div>
     </div>

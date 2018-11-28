@@ -68,12 +68,13 @@
             />
           </label>
         </div>
-        <div class="form-group">
+        <div class="form-group" formGroupName="country">
           <ng-container *ngIf="(countries$ | async) as countries">
             <div *ngIf="countries.length !== 0">
               <label aria-required="true">
                 <span class="label-content required">Country</span>
                 <ng-select
+                  formControlName="isocode"
                   [searchable]="false"
                   [clearable]="false"
                   [items]="countries"
@@ -101,12 +102,16 @@
             </label>
           </div>
           <div class="form-group col-md-6">
-            <ng-container *ngIf="(regions$ | async) as regions">
+            <ng-container
+              *ngIf="(regions$ | async) as regions"
+              formGroupName="region"
+            >
               <div *ngIf="regions.length !== 0">
                 <label aria-required="true">
                   <span class="label-content required">State</span>
                   <ng-container *ngIf="regions[0].name">
                     <ng-select
+                      formControlName="isocode"
                       [searchable]="false"
                       [clearable]="false"
                       [items]="regions"
@@ -119,6 +124,7 @@
                   </ng-container>
                   <ng-container *ngIf="!regions[0].name">
                     <ng-select
+                      formControlName="isocode"
                       [searchable]="false"
                       [clearable]="false"
                       [items]="regions"
@@ -163,6 +169,7 @@
               <input
                 type="checkbox"
                 class="form-check-input"
+                formControlName="defaultAddress"
                 (change)="toggleDefaultAddress()"
               />
               <span class="form-check-label">Save as default</span>

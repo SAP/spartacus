@@ -13,7 +13,11 @@
       <div class="cx-address-card__label">{{ address.line1 }}</div>
       <div class="cx-address-card__label">{{ address.line2 }}</div>
       <div class="cx-address-card__label">
-        {{ address.town }}, {{ address.country?.isocode }}
+        {{ address.town }},
+        <span *ngIf="!address.region?.isocode">{{
+          address.country?.isocode
+        }}</span
+        ><span>{{ address.region?.isocode }}</span>
       </div>
       <div class="cx-address-card__label">{{ address.postalCode }}</div>
       <div class="cx-address-card__label">{{ address.phone }}</div>
@@ -41,7 +45,7 @@
         class="card-link btn-link"
         >set as default</a
       >
-      <a class="card-link btn-link">edit</a>
+      <a (click)="openEditFormEvent()" class="card-link btn-link">edit</a>
       <a (click)="setEditMode()" class="card-link btn-link">delete</a>
     </div>
   </div>

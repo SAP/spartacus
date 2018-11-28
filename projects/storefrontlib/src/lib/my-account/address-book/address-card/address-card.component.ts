@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Address } from '@spartacus/core';
 import { AddressBookService } from '../address-book.service';
 
@@ -14,7 +14,14 @@ export class AddressCardComponent {
   @Input()
   address: Address;
 
+  @Output()
+  editEvent = new EventEmitter<any>();
+
   constructor(private addressBookService: AddressBookService) {}
+
+  openEditFormEvent() {
+    this.editEvent.emit();
+  }
 
   cancelEdit() {
     this.editMode = false;
@@ -22,10 +29,6 @@ export class AddressCardComponent {
 
   setEditMode() {
     this.editMode = true;
-  }
-
-  setDefault() {
-    this.isDefault = true;
   }
 
   setAddressAsDefault(addressId: string) {

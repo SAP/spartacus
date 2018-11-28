@@ -1,6 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { AddressBookService } from './address-book.service';
+import { ActionsSubject } from '@ngrx/store';
+import { GlobalMessageService } from '../../global-message/facade/global-message.service';
+import { GlobalMessageType } from '../../global-message/models/message.model';
+import * as actionTypes from '../../user/store/actions/user-addresses.action';
 
 @Component({
   selector: 'cx-address-book',
@@ -11,14 +15,20 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   addresses$: Observable<any>;
   isAddAddressFormOpen: boolean;
   isEditAddressFormOpen: boolean;
+  activeAddress: Object;
 
   subscription = new Subscription();
 
-  constructor(private service: AddressBookService) {}
+  constructor(
+    private service: AddressBookService,
+    private messagesService: GlobalMessageService,
+    private actions: ActionsSubject
+  ) {}
 
   ngOnInit() {
     this.addresses$ = this.service.loadUserAddresses();
-    this.subscription = this.service.handleActionsEvents();
+
+    this.subscription = this.handleActionEvents();
   }
 
   showAddAddressForm() {
@@ -29,11 +39,13 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     this.isAddAddressFormOpen = false;
   }
 
-  showEditAddressForm() {
+  showEditAddressForm(address) {
+    this.activeAddress = address;
     this.isEditAddressFormOpen = true;
   }
 
   hideEditAddressForm() {
+    this.activeAddress = {};
     this.isEditAddressFormOpen = false;
   }
 
@@ -47,6 +59,37 @@ export class AddressBookComponent implements OnInit, OnDestroy {
 
   checkIfAnyFormOpen() {
     return this.isAddAddressFormOpen || this.isEditAddressFormOpen;
+  }
+
+  handleActionEvents() {
+    return this.actions.subscribe(action => {
+      switch (action.type) {
+        case actionTypes.ADD_USER_ADDRESS_SUCCESS: {
+          this.messagesService.add({
+            type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+            text: 'New address was added successfully!'
+          });
+          this.service.loadUserAddresses();
+          this.hideAddAddressForm();
+          break;
+        }
+
+        case actionTypes.UPDATE_USER_ADDRESS_SUCCESS: {
+          this.hideEditAddressForm();
+          this.service.loadUserAddresses();
+          break;
+        }
+
+        case actionTypes.DELETE_USER_ADDRESS_SUCCESS: {
+          this.messagesService.add({
+            type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+            text: 'Address deleted successfully!'
+          });
+          this.service.loadUserAddresses();
+          break;
+        }
+      }
+    });
   }
 
   ngOnDestroy() {

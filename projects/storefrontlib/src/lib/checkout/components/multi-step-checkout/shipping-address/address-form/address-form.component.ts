@@ -35,6 +35,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   @Output()
   addAddress = new EventEmitter<any>();
+
   @Output()
   backToAddress = new EventEmitter<any>();
 
@@ -68,11 +69,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    if (this.addressData) {
-      this.address['controls'].firstName.setValue(this.addressData.firstName);
-      this.address['controls'].lastName.setValue(this.addressData.lastName);
-    }
-
     // Fetching countries
     this.countries$ = this.userService.allDeliveryCountries$.pipe(
       tap(countries => {
@@ -126,6 +122,31 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    // @TODO: Refactor
+    if (this.addressData) {
+      this.address['controls'].firstName.setValue(this.addressData.firstName);
+      this.address['controls'].lastName.setValue(this.addressData.lastName);
+      this.address['controls'].line1.setValue(this.addressData.line1);
+      this.address['controls'].line2.setValue(this.addressData.line2);
+      this.address['controls'].line2.setValue(this.addressData.line2);
+      this.address['controls'].town.setValue(this.addressData.town);
+      this.address['controls'].postalCode.setValue(this.addressData.postalCode);
+      this.address['controls'].phone.setValue(this.addressData.phone);
+      this.address['controls'].defaultAddress.setValue(
+        this.addressData.defaultAddress
+      );
+
+      this.countrySelected(this.addressData.country);
+
+      const regionControl = this.address.get('region.isocode');
+
+      if (!this.addressData.region) {
+        regionControl.disable();
+      } else {
+        this.regionSelected(this.addressData.region);
+      }
+    }
   }
 
   titleSelected(title) {
