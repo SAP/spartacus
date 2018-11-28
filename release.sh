@@ -65,16 +65,8 @@ echo "Bumping $LIB_DIR version to $BUMP"
 LIB_DIR_NEW_VERSION=$(cd $LIB_DIR && $BUMP_COMMAND)
 echo "New version: $LIB_DIR_NEW_VERSION"
 
-echo "Bumping $DEPLOY_DIR to $BUMP"
-DEPLOY_DIR_NEW_VERSION=$(cd $DEPLOY_DIR && $BUMP_COMMAND)
-
-echo "New version: $DEPLOY_DIR_NEW_VERSION"
-
-if [ ! $DEPLOY_DIR_NEW_VERSION == $LIB_DIR_NEW_VERSION ]; then
-  echo "ERROR: Version mismatch between $DEPLOY_DIR and $LIB_DIR"
-  echo "Versions: $DEPLOY_DIR_NEW_VERSION vs $LIB_DIR_NEW_VERSION"
-  exit 1
-fi
+echo "Building library $LIB"
+ng build $LIB
 
 echo "publishing version $BUMP"
 published=$(cd $DEPLOY_DIR && $PUBLISH_CMD)
