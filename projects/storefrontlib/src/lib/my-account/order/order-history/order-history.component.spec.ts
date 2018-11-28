@@ -14,6 +14,7 @@ import { PaginationAndSortingModule } from '../../../ui/components/pagination-an
 
 import { OrderHistoryComponent } from './order-history.component';
 import { UserOrders } from '../../models/order.model';
+import { UserToken } from '../../../auth';
 
 const mockOrders: UserOrders = {
   orders: [
@@ -27,14 +28,14 @@ describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
 
-  let mockAuthService: any;
-  let mockRoutingService: any;
+  let mockAuthService: AuthService;
+  let mockRoutingService: RoutingService;
   let mockUserService: any;
 
   beforeEach(async(() => {
-    mockRoutingService = {};
-    mockAuthService = {
-      userToken$: of({ userId: 'test' })
+    mockRoutingService = <RoutingService>{};
+    mockAuthService = <AuthService>{
+      userToken$: of(<UserToken>{ userId: 'test' })
     };
     mockUserService = {
       orderList$: new BehaviorSubject(null),

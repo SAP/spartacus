@@ -9,6 +9,7 @@ import { RoutingService, Order, Cart, PromotionResult } from '@spartacus/core';
 import { UserService } from '../../../user/facade/user.service';
 import { AuthService } from '../../../auth/facade/auth.service';
 import { CardModule } from '../../../ui/components/card/card.module';
+import { UserToken } from '../../../auth';
 
 const mockOrder: Order = {
   code: '1',
@@ -81,13 +82,13 @@ class MockCartItemListComponent {
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
   let fixture: ComponentFixture<OrderDetailsComponent>;
-  let mockAuthService: any;
-  let mockRoutingService: any;
+  let mockAuthService: AuthService;
+  let mockRoutingService: RoutingService;
   let mockUserService: any;
   let el: DebugElement;
 
   beforeEach(async(() => {
-    mockRoutingService = {
+    mockRoutingService = <RoutingService>{
       routerState$: of({
         state: {
           params: {
@@ -96,8 +97,8 @@ describe('OrderDetailsComponent', () => {
         }
       })
     };
-    mockAuthService = {
-      userToken$: of({ userId: 'test' })
+    mockAuthService = <AuthService>{
+      userToken$: of(<UserToken>{ userId: 'test' })
     };
     mockUserService = {
       orderDetails$: of(mockOrder),
