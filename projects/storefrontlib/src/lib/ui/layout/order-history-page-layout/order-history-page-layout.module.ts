@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MyAccountModule } from '../../../my-account/my-account.module';
 
 import { OrderHistoryPageLayoutComponent } from './order-history-page-layout.component';
-import { OrderModule } from '../../../my-account';
+import { OrderModule } from '../../../my-account/order/order.module';
 import { OrderHistoryModule } from '../../../my-account/order/order-history/order-history.module';
 
 @NgModule({

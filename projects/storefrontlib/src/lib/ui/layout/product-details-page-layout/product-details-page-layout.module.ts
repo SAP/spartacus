@@ -4,7 +4,7 @@ import { CmsModule } from '../../../cms/cms.module';
 import { ProductModule } from '../../../product/product.module';
 
 import { ProductDetailsPageLayoutComponent } from './product-details-page-layout.component';
-import { ProductDetailsModule } from '../../../product';
+import { ProductDetailsModule } from '../../../product/components/product-details/product-details.module';
 
 @NgModule({
   imports: [CommonModule, CmsModule, ProductModule, ProductDetailsModule],
