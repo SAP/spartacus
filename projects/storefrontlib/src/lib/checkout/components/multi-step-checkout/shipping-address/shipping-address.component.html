@@ -4,36 +4,23 @@
       Shipping Address
     </h3>
     <ng-container *ngIf="!(isLoading$ | async); else: loading">
-      <ng-container
-        *ngIf="
+      <ng-container *ngIf="
           existingAddresses?.length && !newAddressFormManuallyOpened;
           else: newAddressForm
-        "
-      >
+        ">
         <p class="cx-shipping-address__text">Select your Shipping Address</p>
         <div class="cx-shipping-address__btn row justify-content-end">
           <div class="col-sm-12 col-md-6 col-lg-6">
-            <button
-              class="btn btn-block btn-action"
-              (click)="showNewAddressForm()"
-            >
+            <button class="btn btn-block btn-action" (click)="showNewAddressForm()">
               Add New Address
             </button>
           </div>
         </div>
 
         <div class="cx-shipping-address__body row">
-          <div
-            class="cx-shipping-address__card col-md-12 col-lg-6"
-            *ngFor="let address of existingAddresses; let i = index"
-          >
-            <div class="cx-shipping-address__card-inner">
-              <cx-card
-                [border]="true"
-                [fitToContainer]="true"
-                [content]="cards[i]"
-                (sendCard)="addressSelected(address, i)"
-              ></cx-card>
+          <div class="cx-shipping-address__card col-md-12 col-lg-6" *ngFor="let address of existingAddresses; let i = index">
+            <div class="cx-shipping-address__card-inner" (click)="addressSelected(address, i)">
+              <cx-card [border]="true" [fitToContainer]="true" [content]="cards[i]" (sendCard)="addressSelected(address, i)"></cx-card>
             </div>
           </div>
         </div>
@@ -45,11 +32,7 @@
             </button>
           </div>
           <div class="col-md-12 col-lg-6">
-            <button
-              class="btn btn-block btn-primary"
-              [disabled]="!selectedAddress"
-              (click)="next()"
-            >
+            <button class="btn btn-block btn-primary" [disabled]="!selectedAddress" (click)="next()">
               Continue
             </button>
           </div>
@@ -57,15 +40,14 @@
       </ng-container>
 
       <ng-template #newAddressForm>
-        <cx-address-form
-          (addAddress)="addNewAddress($event)"
-          (backToAddress)="hideNewAddressForm()"
-        ></cx-address-form>
+        <cx-address-form (addAddress)="addNewAddress($event)" (backToAddress)="hideNewAddressForm()"></cx-address-form>
       </ng-template>
     </ng-container>
 
     <ng-template #loading>
-      <div class="cx-shipping-address__spinner"><cx-spinner></cx-spinner></div>
+      <div class="cx-shipping-address__spinner">
+        <cx-spinner></cx-spinner>
+      </div>
     </ng-template>
   </div>
 </ng-container>
