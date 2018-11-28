@@ -71,6 +71,33 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
+  deleteUserPaymentMethod(userId: string, paymentMethodID: string) {
+    const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}/${paymentMethodID}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .delete(url, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  setDefaultUserPaymentMethod(userId: string, paymentMethodID: string) {
+    const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}/${paymentMethodID}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .patch(
+        url,
+        // TODO Remove billingAddress property
+        { billingAddress: { titleCode: 'ms' }, defaultPayment: true },
+        { headers }
+      )
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
   registerUser(user: UserRegisterFormData): Observable<User> {
     const url = this.getUserEndpoint();
     let headers = new HttpHeaders({

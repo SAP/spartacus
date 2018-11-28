@@ -41,6 +41,9 @@ describe('User Payment Methods Selectors', () => {
 
   describe('getPaymentMethodsLoading', () => {
     it('should return isLoading flag', () => {
+      // reset loading state
+      store.dispatch(new fromActions.LoadUserPaymentMethodsFail({}));
+
       let result;
       store
         .pipe(select(fromSelectors.getPaymentMethodsLoading))
