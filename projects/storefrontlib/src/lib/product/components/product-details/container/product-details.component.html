@@ -2,9 +2,7 @@
   <ng-container *cxOutlet="outlets.PAGE">
     <ng-container *cxOutlet="outlets.SUMMARY">
       <cx-product-summary class="container" [product]="product">
-        <ng-container *cxOutlet="outlets.IMAGES"
-          ><cx-product-images [product]="product"></cx-product-images
-        ></ng-container>
+        <cx-product-images [product]="product"></cx-product-images>
       </cx-product-summary>
     </ng-container>
 
