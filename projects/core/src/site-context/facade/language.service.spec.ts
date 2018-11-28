@@ -9,8 +9,9 @@ import { StateWithSiteContext } from '../store/state';
 import { LanguageService } from './language.service';
 import { OccConfig } from '../../occ/config/occ-config';
 import { defaultOccConfig } from '../../occ/config/default-occ-config';
+import { Language } from '../../occ-models/occ.models';
 
-const mockLanguages: any[] = [
+const mockLanguages: Language[] = [
   { active: true, isocode: 'ja', name: 'Japanese' }
 ];
 
@@ -66,7 +67,7 @@ describe('LanguageService', () => {
 
   it('should be able to get languages', () => {
     service.languages$.subscribe(results => {
-      expect(results).toEqual(mockLanguages);
+      expect(results).toEqual([mockLanguages]);
     });
   });
 

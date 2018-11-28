@@ -1,5 +1,6 @@
 import * as fromCurrencies from '../actions/currencies.action';
 import { CurrenciesState } from '../state';
+import { Currency } from '../../../occ-models/occ.models';
 
 export const initialState: CurrenciesState = {
   entities: {},
@@ -12,9 +13,9 @@ export function reducer(
 ): CurrenciesState {
   switch (action.type) {
     case fromCurrencies.LOAD_CURRENCIES_SUCCESS: {
-      const currencies = action.payload;
+      const currencies: Currency[] = action.payload;
       const entities = currencies.reduce(
-        (currEntities: { [isocode: string]: any }, currency: any) => {
+        (currEntities: { [isocode: string]: any }, currency: Currency) => {
           return {
             ...currEntities,
             [currency.isocode]: currency
@@ -32,7 +33,7 @@ export function reducer(
     }
 
     case fromCurrencies.SET_ACTIVE_CURRENCY: {
-      const isocode = action.payload;
+      const isocode: string = action.payload;
 
       return {
         ...state,
