@@ -29,7 +29,6 @@ export class SiteContextInterceptor implements HttpInterceptor {
 
     this.languageService
       .getActive()
-      .pipe(filter(lang => lang != null))
       .subscribe(data => (this.activeLang = data));
 
     this.currencyService.activeCurrency$

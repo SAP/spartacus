@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { OccConfig } from '../../occ/config/occ-config';
 import * as fromStore from '../store/index';
+import { filter } from 'rxjs/operators';
 
 /**
  * Facade that provides easy access to language state, actions and selectors.
@@ -27,7 +28,9 @@ export class LanguageService {
    * Represents the isocode of the active language.
    */
   getActive(): Observable<string> {
-    return this.store.pipe(select(fromStore.getActiveLanguage));
+    return this.store
+      .pipe(select(fromStore.getActiveLanguage))
+      .pipe(filter(Boolean));
   }
 
   /**
