@@ -9,6 +9,10 @@ When a file is consistently not following these rules and adhering to the rules 
 
 Run the `build.sh` script located in the root of the project. It will check most of the things mentioned in this document, such as the linting and formatting violations, running unit and e2e tests, etc.
 
+## Type safety
+
+See [Type safety in Spartacus](type-safety-guidelines.md).
+
 ## Code is Formatted
 
 We use Visual Studio Code and require the use of the Prettier VS Code plugin.
