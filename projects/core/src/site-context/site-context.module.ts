@@ -6,7 +6,7 @@ import { LanguageService } from './facade/language.service';
 import { CurrencyService } from './facade/currency.service';
 import { OccConfig } from '../occ/index';
 
-function inititializeContext(
+export function inititializeContext(
   config: OccConfig,
   langService: LanguageService,
   currService: CurrencyService
@@ -17,6 +17,7 @@ function inititializeContext(
   };
 }
 
+// @dynamic
 @NgModule({
   imports: [SiteContextOccModule, SiteContextStoreModule],
   providers: [
