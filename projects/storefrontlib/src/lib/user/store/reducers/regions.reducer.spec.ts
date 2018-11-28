@@ -1,5 +1,6 @@
 import * as fromReducer from './regions.reducer';
 import * as fromActions from '../actions';
+import { Region } from '@spartacus/core';
 
 describe('Regions Reducer', () => {
   describe('undefined action', () => {
@@ -14,7 +15,7 @@ describe('Regions Reducer', () => {
 
   describe('LOAD_REGIONS_SUCCESS action', () => {
     it('should populate the regions entities', () => {
-      const mockRegions = [
+      const mockRegions: Region[] = [
         {
           isocode: 'CA-ON',
           name: 'Ontario'
