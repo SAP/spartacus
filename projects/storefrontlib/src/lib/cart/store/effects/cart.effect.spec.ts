@@ -5,7 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 
 import { OccConfig } from '@spartacus/core';
-import { ProductImageConverterService } from '@spartacus/core';
+import { ProductImageConverterService, Cart } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
 
@@ -26,16 +26,16 @@ describe('Cart effect', () => {
   let cartEffects: fromEffects.CartEffects;
   let actions$: Observable<any>;
 
-  const testCart: any = {
+  const testCart: Cart = {
     code: 'xxx',
     guid: 'testGuid',
-    total_items: 0,
-    total_price: {
-      currency_iso: 'USD',
+    totalItems: 0,
+    totalPrice: {
+      currencyIso: 'USD',
       value: 0
     },
-    total_price_with_tax: {
-      currency_iso: 'USD',
+    totalPriceWithTax: {
+      currencyIso: 'USD',
       value: 0
     }
   };
