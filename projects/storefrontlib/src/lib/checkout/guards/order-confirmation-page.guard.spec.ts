@@ -18,19 +18,18 @@ describe(`OrderConfirmationPageGuard`, () => {
     TestBed.configureTestingModule({
       providers: [
         OrderConfirmationPageGuard,
-        { provide: CheckoutService, useValue: mockCheckoutService }
+        { provide: CheckoutService, useValue: mockCheckoutService },
+        { provide: RoutingService, useValue: { goToPage: jasmine.createSpy() } }
       ],
       imports: [RouterTestingModule]
     });
 
     routingService = TestBed.get(RoutingService);
     guard = TestBed.get(OrderConfirmationPageGuard);
-
-    spyOn(routingService, 'goToPage').and.stub();
   });
 
   describe(`when there is NO order details present`, () => {
-    it(`should return false and navigate to 'my-account/orders'`, done => {
+    it(`should return false and navigate to order history page`, done => {
       mockCheckoutService.orderDetails$.next({});
 
       guard.canActivate().subscribe(result => {
