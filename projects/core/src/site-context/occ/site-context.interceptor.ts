@@ -6,7 +6,6 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { LanguageService } from '../facade/language.service';
 import { CurrencyService } from '../facade/currency.service';
 import { OccConfig } from '../../occ/config/occ-config';
@@ -31,8 +30,8 @@ export class SiteContextInterceptor implements HttpInterceptor {
       .getActive()
       .subscribe(data => (this.activeLang = data));
 
-    this.currencyService.activeCurrency$
-      .pipe(filter(curr => curr != null))
+    this.currencyService
+      .getActive()
       .subscribe(data => (this.activeCurr = data));
   }
 

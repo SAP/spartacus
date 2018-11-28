@@ -62,7 +62,7 @@ describe('CurrencySelectorComponent', () => {
 
   it('should change currency', () => {
     component.setActiveCurrency('CAD');
-    expect(service.select).toEqual('CAD');
+    expect(service.setActive).toEqual('CAD');
   });
 
   it('should contain dropdown with currencies', () => {

@@ -15,11 +15,11 @@ export class CurrencySelectorComponent implements OnInit {
   constructor(private currencyService: CurrencyService) {}
 
   ngOnInit() {
-    this.currencies$ = this.currencyService.currencies$;
-    this.activeCurrency$ = this.currencyService.activeCurrency$;
+    this.currencies$ = this.currencyService.getAll();
+    this.activeCurrency$ = this.currencyService.getActive();
   }
 
   setActiveCurrency(currency) {
-    this.currencyService.select(currency);
+    this.currencyService.setActive(currency);
   }
 }

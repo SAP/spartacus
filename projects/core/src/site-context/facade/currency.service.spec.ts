@@ -65,20 +65,20 @@ describe('CurrencyService', () => {
   });
 
   it('should be able to get currencies', () => {
-    service.currencies$.subscribe(results => {
+    service.getAll().subscribe(results => {
       expect(results).toEqual(mockCurrencies);
     });
   });
 
   it('should be able to get active currencies', () => {
-    service.activeCurrency$.subscribe(results => {
+    service.getActive().subscribe(results => {
       expect(results).toEqual(mockActiveCurr);
     });
   });
 
   describe('set activeCurrency(isocode)', () => {
     it('should be able to set active currency', () => {
-      service.select('USD');
+      service.setActive('USD');
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SetActiveCurrency('USD')
       );

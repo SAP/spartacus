@@ -2,53 +2,38 @@ import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { OccConfig } from '../../occ/config/occ-config';
 import * as fromStore from '../store/index';
+import { filter } from 'rxjs/operators';
 
 /**
  * Facade that provides easy access to curreny state, actions and selectors.
  */
 @Injectable()
 export class CurrencyService {
+  constructor(private store: Store<fromStore.StateWithSiteContext>) {}
+
   /**
    * Represents all the currencies supported by the current store.
    */
-  currencies$: Observable<fromStore.CurrencyEntities> = this.store.pipe(
-    select(fromStore.getAllCurrencies)
-  );
+  getAll(): Observable<fromStore.LanguagesEntities> {
+    this.store.dispatch(new fromStore.LoadCurrencies());
+    return this.store.pipe(select(fromStore.getAllCurrencies));
+  }
 
   /**
    * Represents the isocode of the active currency.
    */
-  activeCurrency$: Observable<string> = this.store.pipe(
-    select(fromStore.getActiveCurrency)
-  );
-
-  constructor(
-    private store: Store<fromStore.StateWithSiteContext>,
-    private config: OccConfig
-  ) {}
-
-  /**
-   * Initializes by loading all languages and select the active language.
-   */
-  initialize() {
-    this.loadAll();
-    this.initSessionCurrency();
+  getActive(): Observable<string> {
+    return this.store
+      .pipe(select(fromStore.getActiveCurrency))
+      .pipe(filter(Boolean));
   }
 
   /**
-   * Selects the active currency by isocode.
+   * Sets the active language.
    */
-  select(isocode?: string) {
+  setActive(isocode: string) {
     this.store.dispatch(new fromStore.SetActiveCurrency(isocode));
-  }
-
-  /**
-   * Loads all the currencies of the current store.
-   */
-  protected loadAll() {
-    this.store.dispatch(new fromStore.LoadCurrencies());
   }
 
   /**
@@ -56,11 +41,11 @@ export class CurrencyService {
    * by the last visit (stored in session storage) or by the
    * default session currency of the store.
    */
-  protected initSessionCurrency() {
+  initialize(defaultCurrency: string) {
     if (sessionStorage && !!sessionStorage.getItem('currency')) {
-      this.select(sessionStorage.getItem('currency'));
+      this.setActive(sessionStorage.getItem('currency'));
     } else {
-      this.select(this.config.site.currency);
+      this.setActive(defaultCurrency);
     }
   }
 }
