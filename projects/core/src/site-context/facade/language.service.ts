@@ -44,15 +44,7 @@ export class LanguageService {
    * Initializes by loading all languages and select the active language.
    */
   initialize() {
-    this.loadAll();
     this.initSessionLanguage();
-  }
-
-  /**
-   * Loads all the languages of the current store.
-   */
-  protected loadAll() {
-    this.store.dispatch(new fromStore.LoadLanguages());
   }
 
   /**
