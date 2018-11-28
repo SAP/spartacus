@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
@@ -9,6 +9,7 @@ import { StateWithSiteContext } from '../store/state';
 import { LanguageService } from './language.service';
 import { OccConfig } from '../../occ/config/occ-config';
 import { defaultOccConfig } from '../../occ/config/default-occ-config';
+import { SiteContextModule } from '../site-context.module';
 
 const mockLanguages: any[] = [
   { active: true, isocode: 'ja', name: 'Japanese' }
@@ -28,17 +29,9 @@ describe('LanguageService', () => {
   let store: Store<StateWithSiteContext>;
 
   beforeEach(() => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(
-      mockSelect1,
-      mockSelect2
-    );
-
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
-      providers: [
-        LanguageService,
-        { provide: OccConfig, useValue: defaultOccConfig }
-      ]
+      imports: [SiteContextModule],
+      providers: [{ provide: OccConfig, useValue: defaultOccConfig }]
     });
 
     store = TestBed.get(Store);
@@ -53,24 +46,19 @@ describe('LanguageService', () => {
     }
   ));
 
-  it('should load languages and set active language when service is constructed', () => {
-    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadLanguages());
-    let activeLang = sessionStorage.getItem('language');
-    if (!activeLang) {
-      activeLang = defaultOccConfig.site.language;
-    }
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.SetActiveLanguage(activeLang)
-    );
+  it('should not load languages when service is constructed', () => {
+    expect(store.dispatch).toHaveBeenCalledTimes(0);
   });
 
   it('should be able to get languages', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
     service.getAll().subscribe(results => {
       expect(results).toEqual(mockLanguages);
     });
   });
 
   it('should be able to get active languages', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
     service.getActive().subscribe(results => {
       expect(results).toEqual(mockActiveLang);
     });

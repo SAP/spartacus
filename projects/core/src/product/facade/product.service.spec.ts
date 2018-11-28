@@ -66,7 +66,7 @@ describe('ProductService', () => {
     it('should be false that the product is loaded when an empty object is returned by the store', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of({}));
       service.get('emptyObjectProduct').subscribe(result => {
-        expect(result).toBeFalsy();
+        expect(result).toEqual({});
       });
     });
 

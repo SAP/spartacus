@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
@@ -9,6 +9,8 @@ import { StateWithSiteContext } from '../store/state';
 import { CurrencyService } from './currency.service';
 import { OccConfig } from '../../occ/config/occ-config';
 import { defaultOccConfig } from '../../occ/config/default-occ-config';
+
+import { SiteContextModule } from '../site-context.module';
 
 const mockCurrencies: any[] = [
   { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
@@ -28,17 +30,9 @@ describe('CurrencyService', () => {
   let store: Store<StateWithSiteContext>;
 
   beforeEach(() => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(
-      mockSelect1,
-      mockSelect2
-    );
-
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
-      providers: [
-        CurrencyService,
-        { provide: OccConfig, useValue: defaultOccConfig }
-      ]
+      imports: [SiteContextModule],
+      providers: [{ provide: OccConfig, useValue: defaultOccConfig }]
     });
 
     store = TestBed.get(Store);
@@ -53,24 +47,21 @@ describe('CurrencyService', () => {
     }
   ));
 
-  it('should load currencies and set active currency when service is constructed', () => {
-    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadCurrencies());
-    let activeCurr = sessionStorage.getItem('currency');
-    if (!activeCurr) {
-      activeCurr = defaultOccConfig.site.currency;
-    }
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.SetActiveCurrency(activeCurr)
-    );
+  it('should not load currencies when service is constructed', () => {
+    expect(store.dispatch).toHaveBeenCalledTimes(0);
   });
 
   it('should be able to get currencies', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+
     service.getAll().subscribe(results => {
       expect(results).toEqual(mockCurrencies);
     });
+    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadCurrencies());
   });
 
   it('should be able to get active currencies', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
     service.getActive().subscribe(results => {
       expect(results).toEqual(mockActiveCurr);
     });
