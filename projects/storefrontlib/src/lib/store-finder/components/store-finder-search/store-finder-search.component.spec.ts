@@ -93,7 +93,7 @@ describe('StoreFinderSearchComponent', () => {
     component.searchBox.setValue(query);
     component.findStores(component.searchBox.value);
     expect(routingService.goToPage).toHaveBeenCalledWith(
-      ['storeFinder', 'searchResult'],
+      ['storeFinder', 'searchResults'],
       null,
       { query: query }
     );
@@ -103,7 +103,7 @@ describe('StoreFinderSearchComponent', () => {
     component.searchBox.setValue(query);
     component.onKey(keyEvent);
     expect(routingService.goToPage).toHaveBeenCalledWith(
-      ['storeFinder', 'searchResult'],
+      ['storeFinder', 'searchResults'],
       null,
       { query: query }
     );
@@ -117,7 +117,7 @@ describe('StoreFinderSearchComponent', () => {
   it('should view stores near by my location', () => {
     component.viewStoresWithMyLoc();
     expect(routingService.goToPage).toHaveBeenCalledWith(
-      ['storeFinder', 'searchResult'],
+      ['storeFinder', 'searchResults'],
       null,
       { latitude: latitude, longitude: longitude }
     );

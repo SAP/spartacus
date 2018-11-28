@@ -24,7 +24,7 @@ const routes: ConfigurableRoutes = [
       {
         path: null,
         canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage', cxPath: 'searchResult' },
+        data: { pageLabel: 'storefinderPage', cxPath: 'searchResults' },
         component: StoreFinderSearchResultComponent
       },
       {

@@ -26,7 +26,7 @@ export interface StorefrontRoutesTranslations {
   storeFinder?: {
     paths?: string[];
     children?: {
-      searchResult?: StorefrontRouteTranslation;
+      searchResults?: StorefrontRouteTranslation;
       allStores?: StorefrontRouteTranslation;
       listStores?: StorefrontRouteTranslation;
       storeDescription?: StorefrontRouteTranslation;

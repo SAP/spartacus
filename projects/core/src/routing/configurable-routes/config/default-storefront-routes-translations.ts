@@ -29,7 +29,7 @@ export const defaultStorefrontRoutesTranslations: {
     storeFinder: {
       paths: ['store-finder'],
       children: {
-        searchResult: { paths: ['find-stores'] },
+        searchResults: { paths: ['find-stores'] },
         allStores: { paths: ['view-all-stores'] },
         listStores: {
           paths: ['country/:country/region/:region', 'country/:country']

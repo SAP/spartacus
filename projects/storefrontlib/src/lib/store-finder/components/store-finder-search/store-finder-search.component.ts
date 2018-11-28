@@ -15,7 +15,7 @@ export class StoreFinderSearchComponent {
   constructor(private winRef: WindowRef, private routing: RoutingService) {}
 
   findStores(address: string) {
-    this.routing.goToPage(['storeFinder', 'searchResult'], null, {
+    this.routing.goToPage(['storeFinder', 'searchResults'], null, {
       query: address
     });
   }
@@ -23,7 +23,7 @@ export class StoreFinderSearchComponent {
   viewStoresWithMyLoc() {
     this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
       (position: Position) => {
-        this.routing.goToPage(['storeFinder', 'searchResult'], null, {
+        this.routing.goToPage(['storeFinder', 'searchResults'], null, {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         });
