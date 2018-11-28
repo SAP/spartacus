@@ -65,116 +65,124 @@ describe('PathPipeService', () => {
       expect(resultPath[0]).toBe('');
     });
 
-    interface TransformTestCase {
-      debug?: boolean;
-      description: string;
-      nestedRoutesNames: string[];
-      nestedRoutesParams: object[];
-      nestedRoutesTranslations: RouteTranslation[];
-      expectedResult: string[];
-    }
     function test_transform({
-      debug,
-      description,
       nestedRoutesNames,
       nestedRoutesParams,
       nestedRoutesTranslations,
       expectedResult
-    }: TransformTestCase) {
-      it(description, () => {
-        if (debug) {
-          // tslint:disable-next-line:no-debugger
-          debugger;
-        }
-        spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue(
-          nestedRoutesTranslations
-        );
-        expect(
-          service.transform(nestedRoutesNames, nestedRoutesParams)
-        ).toEqual(expectedResult);
-      });
+    }: {
+      nestedRoutesNames: string[];
+      nestedRoutesParams: object[];
+      nestedRoutesTranslations: RouteTranslation[];
+      expectedResult: string[];
+    }) {
+      spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue(
+        nestedRoutesTranslations
+      );
+      expect(service.transform(nestedRoutesNames, nestedRoutesParams)).toEqual(
+        expectedResult
+      );
     }
-    const trasfromTestCases: TransformTestCase[] = [
-      {
-        description: `should return the root path when translations for given route are undefined`,
+    it(`should return the root path when translations for given route are undefined`, () => {
+      test_transform({
         nestedRoutesNames: ['test'],
         nestedRoutesParams: null,
         nestedRoutesTranslations: undefined,
         expectedResult: ['/']
-      },
-      {
-        description: `should return the root path when translations for given route are null`,
+      });
+    });
+
+    it(`should return the root path when translations for given route are null`, () => {
+      test_transform({
         nestedRoutesNames: ['test'],
         nestedRoutesParams: null,
         nestedRoutesTranslations: null,
         expectedResult: ['/']
-      },
-      {
-        description: `should return the root path when translations paths for given route are undefined`,
+      });
+    });
+
+    it(`should return the root path when translations paths for given route are undefined`, () => {
+      test_transform({
         nestedRoutesNames: ['test'],
         nestedRoutesParams: null,
         nestedRoutesTranslations: [{ paths: undefined }],
         expectedResult: ['/']
-      },
-      {
-        description: `should return the root path when translations paths for given route are null`,
+      });
+    });
+
+    it(`should return the root path when translations paths for given route are null`, () => {
+      test_transform({
         nestedRoutesNames: ['test'],
         nestedRoutesParams: null,
         nestedRoutesTranslations: [{ paths: null }],
         expectedResult: ['/']
-      },
-      {
-        description: `should return the root path when translations paths for given route are empty array`,
+      });
+    });
+
+    it(`should return the root path when translations paths for given route are empty array`, () => {
+      test_transform({
         nestedRoutesNames: ['test'],
         nestedRoutesParams: null,
         nestedRoutesTranslations: [{ paths: [] }],
         expectedResult: ['/']
-      },
-      {
-        description: `should return the root path when no path from translations can satisfy its params with given params`,
+      });
+    });
+
+    it(`should return the root path when no path from translations can satisfy its params with given params`, () => {
+      test_transform({
         nestedRoutesNames: ['test'],
         nestedRoutesParams: [{ param3: 'value3' }],
         nestedRoutesTranslations: [{ paths: ['path/:param1', 'path/:param1'] }],
         expectedResult: ['/']
-      },
-      {
-        description: `should return first path without params when no params given`,
+      });
+    });
+
+    it(`should return first path without params when no params given`, () => {
+      test_transform({
         nestedRoutesNames: ['test'],
         nestedRoutesParams: null,
         nestedRoutesTranslations: [
           { paths: ['path/:param1', 'path/without-parameters'] }
         ],
         expectedResult: ['', 'path', 'without-parameters']
-      },
-      {
-        description: `should return first path without params when given params are not sufficient`,
+      });
+    });
+
+    it(`should return first path without params when given params are not sufficient`, () => {
+      test_transform({
         nestedRoutesNames: ['test'],
         nestedRoutesParams: [{ param2: 'value2' }],
         nestedRoutesTranslations: [
           { paths: ['path/:param1', 'path/without-parameters'] }
         ],
         expectedResult: ['', 'path', 'without-parameters']
-      },
-      {
-        description: `should return first path that can be satisfied with given params (case 1)`,
+      });
+    });
+
+    it(`should return first path that can be satisfied with given params (case 1)`, () => {
+      test_transform({
         nestedRoutesNames: ['test'],
         nestedRoutesParams: [{ param1: 'value1' }],
         nestedRoutesTranslations: [
           { paths: ['path/:param1', 'other-path/:param1'] }
         ],
         expectedResult: ['', 'path', 'value1']
-      },
-      {
-        description: `should return first path that can be satisfied with given params (case 2)`,
+      });
+    });
+
+    it(`should return first path that can be satisfied with given params (case 2)`, () => {
+      test_transform({
         nestedRoutesNames: ['test'],
         nestedRoutesParams: [{ param1: 'value1' }],
         nestedRoutesTranslations: [
           { paths: ['path/without-parameters', 'path/:param1'] }
         ],
         expectedResult: ['', 'path', 'without-parameters']
-      },
-      {
-        description: `should return first path that can be satisfied with given params (case 3)`,
+      });
+    });
+
+    it(`should return first path that can be satisfied with given params (case 3)`, () => {
+      test_transform({
         nestedRoutesNames: ['test'],
         nestedRoutesParams: [
           {
@@ -194,9 +202,11 @@ describe('PathPipeService', () => {
           }
         ],
         expectedResult: ['', 'path', 'value3', 'value2']
-      },
-      {
-        description: `should return first path that can be satisfied with given params  (case 4)`,
+      });
+    });
+
+    it(`should return first path that can be satisfied with given params  (case 4)`, () => {
+      test_transform({
         nestedRoutesNames: ['test'],
         nestedRoutesParams: [
           {
@@ -216,9 +226,11 @@ describe('PathPipeService', () => {
           }
         ],
         expectedResult: ['', 'path', 'value4']
-      },
-      {
-        description: `should use given params mapping (case 1)`,
+      });
+    });
+
+    it(`should use given params mapping (case 1)`, () => {
+      test_transform({
         nestedRoutesNames: ['test'],
         nestedRoutesParams: [{ param1: 'value1' }],
         nestedRoutesTranslations: [
@@ -228,9 +240,11 @@ describe('PathPipeService', () => {
           }
         ],
         expectedResult: ['', 'path', 'value1']
-      },
-      {
-        description: `should use given params mapping (case 2)`,
+      });
+    });
+
+    it(`should use given params mapping (case 2)`, () => {
+      test_transform({
         nestedRoutesNames: ['test'],
         nestedRoutesParams: [
           {
@@ -251,16 +265,20 @@ describe('PathPipeService', () => {
           }
         ],
         expectedResult: ['', 'path', 'value3', 'value2']
-      },
-      {
-        description: `should concatenate paths for two nested routes`,
+      });
+    });
+
+    it(`should concatenate paths for two nested routes`, () => {
+      test_transform({
         nestedRoutesNames: ['test1', 'test2'],
         nestedRoutesParams: [{}, {}],
         nestedRoutesTranslations: [{ paths: ['path1'] }, { paths: ['path2'] }],
         expectedResult: ['', 'path1', 'path2']
-      },
-      {
-        description: `should concatenate paths for two nested routes, using first configured path - separately for every nested route`,
+      });
+    });
+
+    it(`should concatenate paths for two nested routes, using first configured path - separately for every nested route`, () => {
+      test_transform({
         nestedRoutesNames: ['test1', 'test2'],
         nestedRoutesParams: [{}, {}],
         nestedRoutesTranslations: [
@@ -268,9 +286,11 @@ describe('PathPipeService', () => {
           { paths: ['path2', 'path20'] }
         ],
         expectedResult: ['', 'path1', 'path2']
-      },
-      {
-        description: `should concatenate paths for three nested routes`,
+      });
+    });
+
+    it(`should concatenate paths for three nested routes`, () => {
+      test_transform({
         nestedRoutesNames: ['test1', 'test2', 'test3'],
         nestedRoutesParams: [{}, {}],
         nestedRoutesTranslations: [
@@ -279,16 +299,20 @@ describe('PathPipeService', () => {
           { paths: ['path3'] }
         ],
         expectedResult: ['', 'path1', 'path2', 'path3']
-      },
-      {
-        description: `should return the root path when there are no translations for given nested routes`,
+      });
+    });
+
+    it(`should return the root path when there are no translations for given nested routes`, () => {
+      test_transform({
         nestedRoutesNames: ['test1', 'test2'],
         nestedRoutesParams: [{}, {}],
         nestedRoutesTranslations: null,
         expectedResult: ['/']
-      },
-      {
-        description: `should concatenate paths for nested routes, using given params for first route (case 1)`,
+      });
+    });
+
+    it(`should concatenate paths for nested routes, using given params for first route (case 1)`, () => {
+      test_transform({
         nestedRoutesNames: ['test1', 'test2'],
         nestedRoutesParams: [{ param1: 'value1' }, {}],
         nestedRoutesTranslations: [
@@ -296,9 +320,11 @@ describe('PathPipeService', () => {
           { paths: ['path2'] }
         ],
         expectedResult: ['', 'path1', 'value1', 'path2']
-      },
-      {
-        description: `should concatenate paths for nested routes, using given params for second route (case 2)`,
+      });
+    });
+
+    it(`should concatenate paths for nested routes, using given params for second route (case 2)`, () => {
+      test_transform({
         nestedRoutesNames: ['test1', 'test2'],
         nestedRoutesParams: [null, { param2: 'value2' }],
         nestedRoutesTranslations: [
@@ -306,9 +332,11 @@ describe('PathPipeService', () => {
           { paths: ['path2/:param2'] }
         ],
         expectedResult: ['', 'path1', 'path2', 'value2']
-      },
-      {
-        description: `should concatenate paths for nested routes, using given params for all routes`,
+      });
+    });
+
+    it(`should concatenate paths for nested routes, using given params for all routes`, () => {
+      test_transform({
         nestedRoutesNames: ['test1', 'test2'],
         nestedRoutesParams: [{ param1: 'value1' }, { param2: 'value2' }],
         nestedRoutesTranslations: [
@@ -316,9 +344,11 @@ describe('PathPipeService', () => {
           { paths: [':param2/path2'] }
         ],
         expectedResult: ['', 'path1', 'value1', 'value2', 'path2']
-      },
-      {
-        description: `should concatenate paths for nested routes using given params mapping`,
+      });
+    });
+
+    it(`should concatenate paths for nested routes using given params mapping`, () => {
+      test_transform({
         nestedRoutesNames: ['test1', 'test2'],
         nestedRoutesParams: [{ param1: 'value1' }, { param2: 'value2' }],
         nestedRoutesTranslations: [
@@ -329,9 +359,11 @@ describe('PathPipeService', () => {
           }
         ],
         expectedResult: ['', 'path1', 'value1', 'value2', 'path2']
-      },
-      {
-        description: `should concatenate paths using params objects given in relevant order for every route`,
+      });
+    });
+
+    it(`should concatenate paths using params objects given in relevant order for every route`, () => {
+      test_transform({
         nestedRoutesNames: ['test1', 'test2'],
         nestedRoutesParams: [{ param1: 'value1' }, { param1: 'value10' }],
         nestedRoutesTranslations: [
@@ -339,9 +371,11 @@ describe('PathPipeService', () => {
           { paths: ['path2/:param1'] }
         ],
         expectedResult: ['', 'path1', 'value1', 'path2', 'value10']
-      },
-      {
-        description: `should concatenate paths using first path that can be satisfied with given params - separately every route`,
+      });
+    });
+
+    it(`should concatenate paths using first path that can be satisfied with given params - separately every route`, () => {
+      test_transform({
         nestedRoutesNames: ['test1', 'test2'],
         nestedRoutesParams: [{ param1: 'value1' }, { param3: 'value3' }],
         nestedRoutesTranslations: [
@@ -349,9 +383,11 @@ describe('PathPipeService', () => {
           { paths: ['path2/:param2', 'path2/:param3'] }
         ],
         expectedResult: ['', 'path1', 'value1', 'path2', 'value3']
-      },
-      {
-        description: `should return the root path when no translation path can satisfy its params with given params for some route`,
+      });
+    });
+
+    it(`should return the root path when no translation path can satisfy its params with given params for some route`, () => {
+      test_transform({
         nestedRoutesNames: ['test1', 'test2'],
         nestedRoutesParams: [{ param1: 'value1' }, { param3: 'value3' }],
         nestedRoutesTranslations: [
@@ -359,8 +395,7 @@ describe('PathPipeService', () => {
           { paths: ['path2/:param2'] }
         ],
         expectedResult: ['/']
-      }
-    ];
-    trasfromTestCases.forEach(test_transform);
+      });
+    });
   });
 });

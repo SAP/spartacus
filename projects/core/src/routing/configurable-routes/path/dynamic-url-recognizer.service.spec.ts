@@ -31,36 +31,24 @@ fdescribe('DynamicUrlRecognizerService', () => {
   });
 
   describe('getNestedRoutes', () => {
-    interface TestCase {
-      debug?: boolean;
-      description: string;
+    function test_getNestedRoutes({
+      url,
+      defaultTranslations,
+      expectedResult
+    }: {
       url: string;
       defaultTranslations: RoutesTranslations;
       expectedResult: {
         nestedRoutesNames: string[];
         nestedRoutesParams: object[];
       };
-    }
-    function test_getNestedRoutes({
-      debug,
-      description,
-      url,
-      defaultTranslations,
-      expectedResult
-    }: TestCase) {
-      it(description, () => {
-        if (debug) {
-          // tslint:disable-next-line:no-debugger
-          debugger;
-        }
-        loader.routesConfig.translations.default = defaultTranslations;
-        expect(service.getNestedRoutes(url)).toEqual(expectedResult);
-      });
+    }) {
+      loader.routesConfig.translations.default = defaultTranslations;
+      expect(service.getNestedRoutes(url)).toEqual(expectedResult);
     }
 
-    const testCases: TestCase[] = [
-      {
-        description: `should return route name for given absolute url`,
+    it('should return route name for given absolute url', () => {
+      test_getNestedRoutes({
         url: '/path2',
         defaultTranslations: {
           page1: { paths: ['path1'] },
@@ -70,9 +58,11 @@ fdescribe('DynamicUrlRecognizerService', () => {
           nestedRoutesNames: ['page2'],
           nestedRoutesParams: [{}]
         }
-      },
-      {
-        description: `should return route name for given relative url, treating as absolute`,
+      });
+    });
+
+    it('should return route name for given relative url, treating as absolute', () => {
+      test_getNestedRoutes({
         url: 'path2',
         defaultTranslations: {
           page1: { paths: ['path1'] },
@@ -82,18 +72,22 @@ fdescribe('DynamicUrlRecognizerService', () => {
           nestedRoutesNames: ['page2'],
           nestedRoutesParams: [{}]
         }
-      },
-      {
-        description: `should return null for unknown url (case 1)`,
+      });
+    });
+
+    it('should return null for unknown url (case 1)', () => {
+      test_getNestedRoutes({
         url: 'unknown-path',
         defaultTranslations: {
           page1: { paths: ['path1'] },
           page2: { paths: ['path2'] }
         },
         expectedResult: { nestedRoutesNames: null, nestedRoutesParams: null }
-      },
-      {
-        description: `should return null for unknown url (case 2)`,
+      });
+    });
+
+    it('should return null for unknown url (case 2)', () => {
+      test_getNestedRoutes({
         url: 'path1/path2/path3/unknown-path4',
         defaultTranslations: {
           page1: {
@@ -114,9 +108,11 @@ fdescribe('DynamicUrlRecognizerService', () => {
           nestedRoutesNames: null,
           nestedRoutesParams: null
         }
-      },
-      {
-        description: `should return route name and params for given url (case 1)`,
+      });
+    });
+
+    it('should return route name and params for given url (case 1)', () => {
+      test_getNestedRoutes({
         url: 'path2/value1/value2',
         defaultTranslations: {
           page1: { paths: ['path1/:param1/:param2'] },
@@ -126,9 +122,11 @@ fdescribe('DynamicUrlRecognizerService', () => {
           nestedRoutesNames: ['page2'],
           nestedRoutesParams: [{ param1: 'value1', param2: 'value2' }]
         }
-      },
-      {
-        description: `should return route name and params for given url (case 2)`,
+      });
+    });
+
+    it('should return route name and params for given url (case 2)', () => {
+      test_getNestedRoutes({
         url: 'path/value1/path/value2',
         defaultTranslations: {
           page1: { paths: ['path/:param1/path', 'path/:param1/path/:param2'] },
@@ -138,9 +136,11 @@ fdescribe('DynamicUrlRecognizerService', () => {
           nestedRoutesNames: ['page1'],
           nestedRoutesParams: [{ param1: 'value1', param2: 'value2' }]
         }
-      },
-      {
-        description: `should return route name and params for given url (case 3)`,
+      });
+    });
+
+    it('should return route name and params for given url (case 3)', () => {
+      test_getNestedRoutes({
         url: 'path/value1/path/value2/value3',
         defaultTranslations: {
           page1: { paths: ['path/:param1/path', 'path/:param1/path/:param2'] },
@@ -156,9 +156,11 @@ fdescribe('DynamicUrlRecognizerService', () => {
             }
           ]
         }
-      },
-      {
-        description: `should return 2 names of nested routes for given url consisting of 2 nested routes (case 1)`,
+      });
+    });
+
+    it('should return 2 names of nested routes for given url consisting of 2 nested routes (case 1)', () => {
+      test_getNestedRoutes({
         url: 'path1/path2',
         defaultTranslations: {
           page1: {
@@ -174,9 +176,11 @@ fdescribe('DynamicUrlRecognizerService', () => {
           nestedRoutesNames: ['page1', 'page2'],
           nestedRoutesParams: [{}, {}]
         }
-      },
-      {
-        description: `should return 2 names of nested routes for given url consisting of 2 nested routes (case 2)`,
+      });
+    });
+
+    it('should return 2 names of nested routes for given url consisting of 2 nested routes (case 2)', () => {
+      test_getNestedRoutes({
         url: 'path1/path2',
         defaultTranslations: {
           page1: {
@@ -197,9 +201,11 @@ fdescribe('DynamicUrlRecognizerService', () => {
           nestedRoutesNames: ['page1', 'page2'],
           nestedRoutesParams: [{}, {}]
         }
-      },
-      {
-        description: `should return 3 names of nested routes for given url consisting of 3 nested routes`,
+      });
+    });
+
+    it('should return 3 names of nested routes for given url consisting of 3 nested routes', () => {
+      test_getNestedRoutes({
         url: 'path1/path2/path3',
         defaultTranslations: {
           page1: {
@@ -220,9 +226,11 @@ fdescribe('DynamicUrlRecognizerService', () => {
           nestedRoutesNames: ['page1', 'page2', 'page3'],
           nestedRoutesParams: [{}, {}, {}]
         }
-      },
-      {
-        description: `should return routes names and params objects in relevant order for url consisting of 2 nested routes (case 1)`,
+      });
+    });
+
+    it('should return routes names and params objects in relevant order for url consisting of 2 nested routes (case 1)', () => {
+      test_getNestedRoutes({
         url: 'path1/value1/path2/value2',
         defaultTranslations: {
           page1: {
@@ -238,9 +246,11 @@ fdescribe('DynamicUrlRecognizerService', () => {
           nestedRoutesNames: ['page1', 'page2'],
           nestedRoutesParams: [{ param1: 'value1' }, { param2: 'value2' }]
         }
-      },
-      {
-        description: `should return routes names and params objects in relevant order for url consisting of 2 nested routes (case 2)`,
+      });
+    });
+
+    it('should return routes names and params objects in relevant order for url consisting of 2 nested routes (case 2)', () => {
+      test_getNestedRoutes({
         url: 'path1/value1/path2/value2',
         defaultTranslations: {
           page1: {
@@ -261,9 +271,11 @@ fdescribe('DynamicUrlRecognizerService', () => {
           nestedRoutesNames: ['page1', 'page2'],
           nestedRoutesParams: [{ param1: 'value1' }, { param2: 'value2' }]
         }
-      },
-      {
-        description: `should return routes names and params objects in relevant order for url consisting of 3 nested routes`,
+      });
+    });
+
+    it('should return routes names and params objects in relevant order for url consisting of 3 nested routes', () => {
+      test_getNestedRoutes({
         url: 'path1/value1/path2/value2/path3/value3',
         defaultTranslations: {
           page1: {
@@ -288,12 +300,11 @@ fdescribe('DynamicUrlRecognizerService', () => {
             { param3: 'value3' }
           ]
         }
-      },
-      // spike TODO
-      // przeszukiwanie z nawrotami mimo, że coś pasowało
-      // przeszukiwanie z nie do końca
-      {
-        description: `should return routes that exactly match to given url (case 1)`,
+      });
+    });
+
+    it('should return routes exactly matching to given url - even if some other translations are matching partialy', () => {
+      test_getNestedRoutes({
         url: 'path1/value1/path2/value2/path3',
         defaultTranslations: {
           page1: {
@@ -317,8 +328,7 @@ fdescribe('DynamicUrlRecognizerService', () => {
           nestedRoutesNames: ['page1', 'page20'],
           nestedRoutesParams: [{ param1: 'value1' }, { param2: 'value2' }]
         }
-      }
-    ];
-    testCases.forEach(test_getNestedRoutes);
+      });
+    });
   });
 });

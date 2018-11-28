@@ -85,8 +85,13 @@ export class DynamicUrlRecognizerService {
     pathSegments: string[]
   ): object {
     const params = {};
-    const segmentsLength = pathSegments.length;
-    for (let i = 0; i < segmentsLength; i++) {
+    const pathSegmentsLength = pathSegments.length;
+    const urlSegmentsLength = urlSegments.length;
+    if (urlSegmentsLength < pathSegmentsLength) {
+      return null;
+    }
+
+    for (let i = 0; i < pathSegmentsLength; i++) {
       const pathSegment = pathSegments[i];
       const urlSegment = urlSegments[i];
 
