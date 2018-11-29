@@ -18,7 +18,7 @@ export function reducer(
           ...state.entities,
           [code]: {
             loading: true,
-            value: (state.entities[code] || { value: null }).value
+            value: state.entities[code] ? state.entities[code].value : null
           }
         }
       };
