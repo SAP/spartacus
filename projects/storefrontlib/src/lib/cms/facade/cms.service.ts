@@ -5,7 +5,7 @@ import { filter, tap, map, take } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { Page } from '../models/page.model';
 import { DefaultPageService } from '../services/default-page.service';
-import { Component } from '@spartacus/core';
+import { CmsComponent } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class CmsService {
     private defaultPageService: DefaultPageService
   ) {}
 
-  getComponentData<T extends Component>(uid: string): Observable<T> {
+  getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
     const selector = fromStore.componentSelectorFactory(uid);
     return this.store.pipe(
       select(selector),
