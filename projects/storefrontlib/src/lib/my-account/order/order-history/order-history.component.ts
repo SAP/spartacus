@@ -64,7 +64,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   }
 
   changeSortCode(sortCode: string): void {
-    const event = {
+    const event: { sortCode: string; currentPage: number } = {
       sortCode,
       currentPage: 0
     };
@@ -73,7 +73,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   }
 
   pageChange(page: number): void {
-    const event = {
+    const event: { sortCode: string; currentPage: number } = {
       sortCode: this.sortType,
       currentPage: page
     };
