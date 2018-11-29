@@ -1,7 +1,8 @@
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
+import { Address } from '@spartacus/core';
 
 export interface UserAddressesState {
-  list: any[];
+  list: Address[];
   isLoading: boolean;
 }
 
@@ -16,7 +17,7 @@ export function reducer(
 ): UserAddressesState {
   switch (action.type) {
     case fromUserAddressesAction.LOAD_USER_ADDRESSES_SUCCESS: {
-      const list = action.payload;
+      const list: Address[] = action.payload;
 
       if (list !== undefined) {
         return {

@@ -1,7 +1,8 @@
 import * as fromOrderDetailsAction from '../actions/order-details.action';
+import { Order } from '@spartacus/core';
 
 export interface OrderDetailsState {
-  order: any;
+  order: Order;
 }
 
 export const initialState: OrderDetailsState = {
@@ -14,7 +15,7 @@ export function reducer(
 ): OrderDetailsState {
   switch (action.type) {
     case fromOrderDetailsAction.LOAD_ORDER_DETAILS_SUCCESS: {
-      const order = action.payload;
+      const order: Order = action.payload;
 
       return {
         ...state,
