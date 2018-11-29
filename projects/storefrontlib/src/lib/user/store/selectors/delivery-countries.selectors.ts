@@ -1,6 +1,7 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 import * as fromFeature from './../reducers';
 import * as fromReducer from './../reducers/delivery-countries.reducer';
+import { Country } from '@spartacus/core';
 
 export const getDeliveryCountriesState = createSelector(
   fromFeature.getUserState,
@@ -17,7 +18,7 @@ export const getDeliveryCountriesEntites: MemoizedSelector<
 
 export const getAllDeliveryCountries: MemoizedSelector<
   any,
-  any
+  Country[]
 > = createSelector(
   getDeliveryCountriesEntites,
   entites => {
@@ -25,7 +26,9 @@ export const getAllDeliveryCountries: MemoizedSelector<
   }
 );
 
-export const countrySelectorFactory = (isocode): MemoizedSelector<any, any> => {
+export const countrySelectorFactory = (
+  isocode
+): MemoizedSelector<any, Country> => {
   return createSelector(
     getDeliveryCountriesEntites,
     entities => {
