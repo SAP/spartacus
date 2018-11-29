@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 import { ChangeDetectionStrategy } from '@angular/core';
 import createSpy = jasmine.createSpy;
 
-import { UserService } from '../../../../../user/facade/user.service';
+import { UserService } from '@spartacus/core';
 import { CheckoutService } from '../../../../facade';
 import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
 

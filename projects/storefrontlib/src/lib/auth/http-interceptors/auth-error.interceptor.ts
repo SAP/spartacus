@@ -13,10 +13,7 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from '../facade/auth.service';
 import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
-import {
-  InterceptorUtil,
-  USE_CLIENT_TOKEN
-} from '../../occ/utils/interceptor-util';
+import { InterceptorUtil, USE_CLIENT_TOKEN } from '@spartacus/core';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 

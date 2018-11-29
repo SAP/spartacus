@@ -7,7 +7,7 @@ import createSpy = jasmine.createSpy;
 
 import { UserToken } from './../../../auth/models/token-types.model';
 import { LoginComponent } from './login.component';
-import { UserService } from '../../facade/user.service';
+import { UserService } from '@spartacus/core';
 import { AuthService } from '../../../auth/facade/auth.service';
 import { RoutingService } from '@spartacus/core';
 

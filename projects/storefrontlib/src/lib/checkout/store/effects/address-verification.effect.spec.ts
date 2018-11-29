@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { OccUserService } from '../../../occ/user/user.service';
+import { OccUserService } from '@spartacus/core';
 import * as fromActions from './../actions';
 import { AddressVerificationEffect } from './address-verification.effect';
 

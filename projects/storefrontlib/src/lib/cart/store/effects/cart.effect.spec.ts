@@ -16,7 +16,7 @@ import { CartDataService } from '../../facade/cart-data.service';
 import { CartService } from '../../facade/cart.service';
 import * as fromAuth from '../../../auth/store';
 import * as fromCart from '../../../cart/store';
-import * as fromUser from '../../../user/store';
+import * as fromUser from '../../../../../../core/src/user/store'; // todo: fix import after cart store is moved to the core
 import { OccCartService } from '../../../occ/cart/cart.service';
 
 import * as fromEffects from './cart.effect';

@@ -11,7 +11,7 @@ import { PRODUCT_FEATURE } from './product-state';
 
 import { metaReducers } from './reducers/index';
 import { ProductConverterModule } from './converters/index';
-import { ProductOccModule } from '../occ/product-occ-module';
+import { ProductOccModule } from '../occ/product-occ.module';
 
 @NgModule({
   imports: [

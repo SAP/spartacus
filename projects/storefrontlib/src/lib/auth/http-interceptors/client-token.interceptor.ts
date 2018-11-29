@@ -12,10 +12,7 @@ import { switchMap } from 'rxjs/operators';
 import { AuthModuleConfig } from '../auth-module.config';
 import { AuthService } from '../facade/auth.service';
 import { AuthenticationToken } from '../models/token-types.model';
-import {
-  USE_CLIENT_TOKEN,
-  InterceptorUtil
-} from '../../occ/utils/interceptor-util';
+import { USE_CLIENT_TOKEN, InterceptorUtil } from '@spartacus/core';
 
 @Injectable()
 export class ClientTokenInterceptor implements HttpInterceptor {

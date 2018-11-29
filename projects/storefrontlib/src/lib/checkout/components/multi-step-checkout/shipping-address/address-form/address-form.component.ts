@@ -10,7 +10,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { UserService } from '../../../../../user/facade/user.service';
+import { UserService } from '@spartacus/core';
 import { CheckoutService } from '../../../../facade/checkout.service';
 import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '.././../../../../global-message/models/message.model';

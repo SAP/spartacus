@@ -10,7 +10,7 @@ import createSpy = jasmine.createSpy;
 
 import { Address } from '../../../models/address-model';
 import { CartDataService } from '../../../../cart/facade/cart-data.service';
-import { UserService } from '../../../../user/facade/user.service';
+import { UserService } from '@spartacus/core';
 
 import { ShippingAddressComponent } from './shipping-address.component';
 

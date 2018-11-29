@@ -4,7 +4,7 @@ import { tap } from 'rxjs/operators';
 
 import { AuthService } from '../../../auth/facade/auth.service';
 import { RoutingService } from '@spartacus/core';
-import { UserService } from '../../../user/facade/user.service';
+import { UserService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-history',

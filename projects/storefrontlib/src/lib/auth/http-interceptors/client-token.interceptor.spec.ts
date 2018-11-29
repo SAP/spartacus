@@ -10,7 +10,7 @@ import { of } from 'rxjs';
 import { AuthModuleConfig } from '../auth-module.config';
 import { AuthService } from '../facade/auth.service';
 import { ClientToken } from './../models/token-types.model';
-import { InterceptorUtil } from '../../occ/utils/interceptor-util';
+import { InterceptorUtil } from '@spartacus/core';
 
 import { ClientTokenInterceptor } from './client-token.interceptor';
 

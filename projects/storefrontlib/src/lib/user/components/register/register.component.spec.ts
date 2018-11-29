@@ -4,9 +4,8 @@ import { of, BehaviorSubject } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { RegisterComponent } from './register.component';
-import { UserService } from '../../facade/user.service';
+import { UserService, RoutingService } from '@spartacus/core';
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '@spartacus/core';
 
 const mockTitlesList = [
   {

@@ -6,7 +6,7 @@ import createSpy = jasmine.createSpy;
 
 import { OrderDetailsComponent } from '../order-details/order-details.component';
 import { RoutingService } from '@spartacus/core';
-import { UserService } from '../../../user/facade/user.service';
+import { UserService } from '@spartacus/core';
 import { AuthService } from '../../../auth/facade/auth.service';
 import { CardModule } from '../../../ui/components/card/card.module';
 

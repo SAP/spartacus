@@ -3,7 +3,7 @@ import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AuthService } from '../../../auth/facade/auth.service';
-import { UserService } from '../../../user/facade/user.service';
+import { UserService } from '@spartacus/core';
 import { RoutingService } from '@spartacus/core';
 import { Card } from '../../../ui/components/card/card.component';
 

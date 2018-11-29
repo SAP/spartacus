@@ -9,7 +9,7 @@ import { of, BehaviorSubject } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { AuthService } from '../../../auth/facade/auth.service';
-import { UserService } from '../../../user/facade/user.service';
+import { UserService } from '@spartacus/core';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 
 import { OrderHistoryComponent } from './order-history.component';
