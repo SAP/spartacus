@@ -14,7 +14,8 @@ import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
 import { StoreModule } from '@ngrx/store';
 import { RoutingService } from '../../../routing/facade/routing.service';
-import { OccConfig } from '@spartacus/core';
+
+import { OccConfig } from '../../../occ/config/occ-config';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
