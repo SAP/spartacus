@@ -1,7 +1,8 @@
 import * as fromPaymentMethodsAction from '../actions/payment-methods.action';
+import { PaymentDetails } from '@spartacus/core';
 
 export interface UserPaymentMethodsState {
-  list: any;
+  list: PaymentDetails[];
   isLoading: boolean;
 }
 
@@ -16,7 +17,7 @@ export function reducer(
 ): UserPaymentMethodsState {
   switch (action.type) {
     case fromPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS_SUCCESS: {
-      const list = action.payload;
+      const list: PaymentDetails[] = action.payload;
 
       if (list !== undefined) {
         return {
