@@ -1,12 +1,16 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LandingPageLayoutComponent } from './landing-page-layout.component';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
-import { StoreModule } from '@ngrx/store';
-import { OutletDirective } from '../../../outlet';
+
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: ''
+})
+class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
 
 describe('LandingPageLayoutComponent', () => {
   let component: LandingPageLayoutComponent;
@@ -14,13 +18,7 @@ describe('LandingPageLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
-      declarations: [
-        LandingPageLayoutComponent,
-        DynamicSlotComponent,
-        ComponentWrapperDirective,
-        OutletDirective
-      ]
+      declarations: [LandingPageLayoutComponent, MockDynamicSlotComponent]
     }).compileComponents();
   }));
 

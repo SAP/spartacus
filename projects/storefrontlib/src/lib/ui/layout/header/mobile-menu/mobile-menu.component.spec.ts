@@ -1,25 +1,42 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { EffectsModule } from '@ngrx/effects';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
-import * as fromAuth from '../../../../auth/store';
-import * as fromCms from '../../../../cms/store';
-import * as fromUser from '../../../../user/store';
-import { CmsModule } from './../../../../cms/cms.module';
-import { LoginModule } from './../../../../user/components/login/login.module';
-import { MobileMenuComponent } from './mobile-menu.component';
 import { By } from '@angular/platform-browser';
-import { CmsModuleConfig } from '../../../../cms/cms-module-config';
-import { PwaModule } from 'projects/storefrontlib/src/lib/pwa/pwa.module';
-import {
-  PWAModuleConfig,
-  defaultPWAModuleConfig
-} from 'projects/storefrontlib/src/lib/pwa/pwa.module-config';
-import { SiteContextConfig } from '@spartacus/core';
-import { SiteContextModule } from '../../../../site-context';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { MobileMenuComponent } from './mobile-menu.component';
+
+@Component({
+  selector: 'cx-language-selector',
+  template: ''
+})
+class MockLanguageSelectorComponent {}
+
+@Component({
+  selector: 'cx-currency-selector',
+  template: ''
+})
+class MockCurrencySelectorComponent {}
+
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: ''
+})
+class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
+
+@Component({
+  selector: 'cx-login',
+  template: ''
+})
+class MockLoginComponent {}
+
+@Component({
+  selector: 'cx-add-to-home-screen-btn',
+  template: ''
+})
+class MockAddToHomeScreenBtnComponent {}
 
 describe('MobileMenuComponent', () => {
   let component: MobileMenuComponent;
@@ -27,34 +44,14 @@ describe('MobileMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        LoginModule,
-        CmsModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('user', fromUser.getReducers()),
-        StoreModule.forFeature('auth', fromAuth.getReducers()),
-        EffectsModule.forRoot(fromCms.effects),
-        PwaModule,
-        SiteContextModule
-      ],
-      declarations: [MobileMenuComponent],
-      providers: [
-        provideMockActions(() => of()),
-        fromCms.NavigationEntryItemEffects,
-        {
-          provide: CmsModuleConfig,
-          useValue: { site: 'en' }
-        },
-        {
-          provide: SiteContextConfig,
-          useExisting: CmsModuleConfig
-        },
-        {
-          provide: PWAModuleConfig,
-          useValue: defaultPWAModuleConfig
-        }
+      imports: [RouterTestingModule],
+      declarations: [
+        MobileMenuComponent,
+        MockDynamicSlotComponent,
+        MockLanguageSelectorComponent,
+        MockCurrencySelectorComponent,
+        MockLoginComponent,
+        MockAddToHomeScreenBtnComponent
       ]
     }).compileComponents();
   }));

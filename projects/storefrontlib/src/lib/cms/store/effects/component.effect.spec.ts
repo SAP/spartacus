@@ -14,9 +14,7 @@ import * as fromActions from '../actions/component.action';
 
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { RoutingService } from '../../../routing/facade/routing.service';
-
-import { PageType } from '../../../routing/models/page-context.model';
+import { RoutingService, PageType } from '@spartacus/core';
 
 const router = {
   state: {

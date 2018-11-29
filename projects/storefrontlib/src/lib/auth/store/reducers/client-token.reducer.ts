@@ -1,14 +1,14 @@
-import { ClientAuthenticationToken } from './../../models/token-types.model';
+import { ClientToken } from './../../models/token-types.model';
 import * as fromActions from './../actions';
 
 export interface ClientTokenState {
-  token: ClientAuthenticationToken;
+  token: ClientToken;
   loading: boolean;
   loaded: boolean;
 }
 
 export const initialState: ClientTokenState = {
-  token: <ClientAuthenticationToken>{},
+  token: <ClientToken>{},
   loading: false,
   loaded: false
 };

@@ -1,15 +1,18 @@
-import { of } from 'rxjs';
-import { CartService } from './../../../services/cart.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { By } from '@angular/platform-browser';
-
-import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
-import { CartSharedModule } from './../../cart-shared/cart-shared.module';
-import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 import { DebugElement } from '@angular/core';
+
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { of, BehaviorSubject } from 'rxjs';
+
+import { CartSharedModule } from './../../cart-shared/cart-shared.module';
+import { CartService } from './../../../facade/cart.service';
+import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
+
+import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
 class MockNgbActiveModal {
   dismiss() {}
@@ -68,6 +71,25 @@ describe('AddedToCartDialogComponent', () => {
         .nativeElement.textContent.trim()
     ).toEqual('Updating cart...');
     expect(el.query(By.css('cx-spinner')).nativeElement).toBeDefined();
+  });
+
+  it('should handle focus of elements', () => {
+    component.entry$ = of({
+      id: 111,
+      product: {
+        code: 'CODE1111'
+      }
+    });
+
+    const loaded$ = new BehaviorSubject<boolean>(false);
+    component.loaded$ = loaded$.asObservable();
+
+    fixture.detectChanges();
+    loaded$.next(true);
+    fixture.detectChanges();
+    expect(el.query(By.css('.btn-primary')).nativeElement).toEqual(
+      document.activeElement
+    );
   });
 
   it('should display quantity', () => {

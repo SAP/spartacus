@@ -18,6 +18,14 @@ export class CartPage extends AppPage {
   readonly orderSummary: ElementFinder = this.page.element(
     by.tagName('cx-order-summary')
   );
+  readonly orderSummaryAmount: ElementFinder = this.page.element(
+    by.css('.cx-order-summary__total-final .cx-order-summary__amount')
+  );
+
+  readonly itemCounterComponent: ElementArrayFinder = this.page.all(
+    by.tagName('cx-item-counter')
+  );
+
   readonly cartEntryByProductName = (productName: string): ElementFinder =>
     this.cartEntries
       .filter(el =>
@@ -28,6 +36,13 @@ export class CartPage extends AppPage {
       )
       .first();
 
+  async increaseQuantity(index: number = 0) {
+    return await this.itemCounterComponent
+      .get(index)
+      .all(by.tagName('button'))
+      .get(1)
+      .click();
+  }
   async navigateTo() {
     await browser.get('/cart');
     await this.waitForReady();
@@ -46,7 +61,7 @@ export class CartPage extends AppPage {
 
   async getCartEntryQuantity(cartEntry: ElementFinder): Promise<string> {
     const input = cartEntry.element(by.css('.cx-item-counter__value'));
-    return await input.getText();
+    return await input.getAttribute('value');
   }
 
   async getCartEntryTotalPrice(cartEntry: ElementFinder): Promise<string> {
@@ -54,6 +69,11 @@ export class CartPage extends AppPage {
       by.css('.cx-cart-item__total--value')
     );
     return E2EUtil.findPrice(await totalPriceDiv.getText());
+  }
+
+  async deleteEntryByName(productName) {
+    const product = this.cartEntryByProductName(productName);
+    await product.element(by.css('.cx-cart-item__actions a')).click();
   }
 
   async checkCartEntry(
@@ -100,7 +120,9 @@ export class CartPage extends AppPage {
   }
 
   async getSummaryTotalValue(): Promise<string> {
-    return this.getOrderSummaryInnerDivValue('Total:');
+    return await this.page
+      .element(by.css('.cx-order-summary__amount'))
+      .getText();
   }
 
   async checkCartSummary(subtotal: string, discount: string, total: string) {

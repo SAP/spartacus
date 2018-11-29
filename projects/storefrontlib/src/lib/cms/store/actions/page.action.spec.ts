@@ -1,8 +1,5 @@
 import * as fromPage from './page.action';
-import {
-  PageContext,
-  PageType
-} from '../../../routing/models/page-context.model';
+import { PageContext, PageType } from '@spartacus/core';
 
 describe('Cms Page Actions', () => {
   describe('LoadPageData Actions', () => {

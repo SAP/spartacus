@@ -1,14 +1,6 @@
-import { ServerConfig } from '@spartacus/core';
-import { SiteContextConfig } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 
-export abstract class AuthModuleConfig extends ServerConfig
-  implements SiteContextConfig {
-  site?: {
-    baseSite?: string;
-    language?: string;
-    currency?: string;
-  };
-
+export abstract class AuthModuleConfig extends OccConfig {
   authentication?: {
     client_id?: string;
     client_secret?: string;

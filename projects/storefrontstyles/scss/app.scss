@@ -18,31 +18,31 @@
 
 @import '~@ng-select/ng-select/themes/default.theme.css';
 //bootsrap enhancements (these are things we ARE changing)
-@import 'ybase/blocks/buttons';
-@import 'ybase/blocks/forms';
-@import 'ybase/blocks/modal';
-@import 'ybase/blocks/alert';
-@import 'ybase/blocks/tooltip';
-@import 'ybase/blocks/pagination';
-@import 'ybase/blocks/tables';
-@import 'ybase/blocks/card';
-@import 'ybase/blocks/accordion';
-@import 'ybase/blocks/tabs';
-@import 'ybase/blocks/carousel';
-@import 'ybase/blocks/link';
-@import 'ybase/blocks/dropdown';
+@import 'cxbase/blocks/buttons';
+@import 'cxbase/blocks/forms';
+@import 'cxbase/blocks/modal';
+@import 'cxbase/blocks/alert';
+@import 'cxbase/blocks/tooltip';
+@import 'cxbase/blocks/pagination';
+@import 'cxbase/blocks/tables';
+@import 'cxbase/blocks/card';
+@import 'cxbase/blocks/accordion';
+@import 'cxbase/blocks/tabs';
+@import 'cxbase/blocks/carousel';
+@import 'cxbase/blocks/link';
+@import 'cxbase/blocks/dropdown';
 //layout
-@import 'ybase/layout/app';
-@import 'ybase/layout/page';
-@import 'ybase/layout/section';
-@import 'ybase/layout/container';
+@import 'cxbase/layout/app';
+@import 'cxbase/layout/page';
+@import 'cxbase/layout/section';
+@import 'cxbase/layout/container';
 //non-bootstrap blocks and components here below
 
 // effects & animations
-@import 'ybase/animations';
+@import 'cxbase/animations';
 
 // pictures
-@import 'ybase/pictures';
+@import 'cxbase/pictures';
 
 // products
 @import 'products/details';

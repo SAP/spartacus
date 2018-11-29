@@ -1,86 +1,31 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-
-import { select, Store } from '@ngrx/store';
-
 import { Observable, of } from 'rxjs';
-import {
-  tap,
-  filter,
-  map,
-  take,
-  mergeMap,
-  catchError,
-  switchMap
-} from 'rxjs/operators';
-import * as fromStore from '../store';
-import { RoutingService } from '../../routing/facade/routing.service';
-
-import { Page } from '../models/page.model';
-import { DefaultPageService } from './../services/default-page.service';
+import { map, take, mergeMap, catchError, switchMap } from 'rxjs/operators';
+import { CmsService } from '../facade/cms.service';
+import { RoutingService } from '@spartacus/core';
 
 @Injectable()
 export class CmsPageGuards implements CanActivate {
   static guardName = 'CmsPageGuards';
 
   constructor(
-    private store: Store<fromStore.CmsState>,
     private routingService: RoutingService,
-    private defaultPageService: DefaultPageService
+    private cmsService: CmsService
   ) {}
 
   canActivate(): Observable<boolean> {
     return this.hasPage().pipe(
-      switchMap(() => of(true)),
+      switchMap(found => of(found)),
       catchError(() => of(false))
     );
   }
 
   hasPage(): Observable<boolean> {
-    let tryTimes = 0;
-
     return this.routingService.routerState$.pipe(
       map(routerState => routerState.state.context),
       take(1),
-      mergeMap(pageContext =>
-        this.store.pipe(
-          select(fromStore.getPageEntities),
-          map((entities: { [key: string]: Page }) => {
-            let key = pageContext.id + '_' + pageContext.type;
-            let found = !!entities[key];
-            if (!found) {
-              const defaultPageIds = this.defaultPageService.getDefaultPageIdsBytype(
-                pageContext.type
-              );
-              if (defaultPageIds) {
-                for (let i = 0, len = defaultPageIds.length; i < len; i++) {
-                  key = defaultPageIds[i] + '_' + pageContext.type;
-                  found =
-                    entities[key] &&
-                    entities[key].seen.indexOf(pageContext.id) > -1;
-                  if (found) {
-                    break;
-                  }
-                }
-              }
-            }
-            // found page directly from store
-            if (found && tryTimes === 0) {
-              this.store.dispatch(new fromStore.UpdateLatestPageKey(key));
-            }
-            return found;
-          }),
-          tap(found => {
-            // if not found, load this cms page
-            if (!found) {
-              tryTimes = tryTimes + 1;
-              this.store.dispatch(new fromStore.LoadPageData(pageContext));
-            }
-          }),
-          filter(found => found || tryTimes === 3),
-          take(1)
-        )
-      )
+      mergeMap(pageContext => this.cmsService.hasPage(pageContext))
     );
   }
 }

@@ -12,8 +12,8 @@ import {
 } from 'rxjs/operators';
 
 import * as componentActions from '../actions/component.action';
-import { RoutingService } from '../../../routing/facade/routing.service';
 import { OccCmsService } from '../../services/occ-cms.service';
+import { RoutingService } from '@spartacus/core';
 
 @Injectable()
 export class ComponentEffects {

@@ -11,18 +11,14 @@ import {
   take
 } from 'rxjs/operators';
 
-import { RoutingService } from '../../../routing/facade/routing.service';
-
 import * as pageActions from '../actions/page.action';
 import * as componentActions from '../actions/component.action';
 import { OccCmsService } from '../../services/occ-cms.service';
 import { DefaultPageService } from '../../services/default-page.service';
 
 import { Page } from '../../models/page.model';
-import {
-  PageContext,
-  PageType
-} from '../../../routing/models/page-context.model';
+
+import { RoutingService, PageContext, PageType } from '@spartacus/core';
 
 @Injectable()
 export class PageEffects {

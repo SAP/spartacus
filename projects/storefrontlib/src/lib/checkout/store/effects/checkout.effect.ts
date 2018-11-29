@@ -11,7 +11,7 @@ import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
 import { OccCartService } from '../../../occ/cart/cart.service';
 import { OccOrderService } from '../../../occ/order/order.service';
 import { GlobalMessageType } from '../../../global-message/models/message.model';
-import { ProductImageConverterService } from '../../../product/converters/product-image-converter.service';
+import { ProductImageConverterService } from '@spartacus/core';
 
 @Injectable()
 export class CheckoutEffects {

@@ -1,10 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { RoutingService } from '../../routing/facade/routing.service';
+import { NavigationExtras } from '@angular/router';
+
+import { RoutingService } from '@spartacus/core';
+
+import { of } from 'rxjs';
+
+import { AuthService } from '../facade/auth.service';
+import { UserToken } from '../models/token-types.model';
 
 import { NotAuthGuard } from './not-auth.guard';
-import * as fromStore from './../../auth/store';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',
@@ -15,30 +20,52 @@ const mockUserToken = {
   userId: 'test'
 };
 
+class AuthServiceStub {
+  userToken$ = of();
+}
+
+class RoutingServiceStub {
+  go(_path: any[], _query?: object, _extras?: NavigationExtras) {}
+}
+
 describe('NotAuthGuard', () => {
   let authGuard: NotAuthGuard;
-  let store: Store<fromStore.AuthState>;
+  let authService: AuthServiceStub;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [NotAuthGuard, RoutingService],
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('auth', fromStore.getReducers())
-      ]
+      providers: [
+        NotAuthGuard,
+        { provide: RoutingService, useClass: RoutingServiceStub },
+        { provide: AuthService, useClass: AuthServiceStub }
+      ],
+      imports: [RouterTestingModule]
     });
-    store = TestBed.get(Store);
+    authService = TestBed.get(AuthService);
     authGuard = TestBed.get(NotAuthGuard);
   });
 
   it('should return false', () => {
-    store.dispatch(new fromStore.LoadUserTokenSuccess(mockUserToken));
+    authService.userToken$ = of(mockUserToken);
 
-    authGuard.canActivate().subscribe(value => expect(value).toBe(false));
+    let result: boolean;
+    const subscription = authGuard
+      .canActivate()
+      .subscribe(value => (result = value));
+    subscription.unsubscribe();
+
+    expect(result).toBe(false);
   });
 
   it('should return true', () => {
-    authGuard.canActivate().subscribe(value => expect(value).toBe(true));
+    authService.userToken$ = of({ access_token: undefined } as UserToken);
+
+    let result: boolean;
+    const subscription = authGuard
+      .canActivate()
+      .subscribe(value => (result = value));
+    subscription.unsubscribe();
+
+    expect(result).toBe(true);
   });
 });

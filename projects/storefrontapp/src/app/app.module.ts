@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { StorefrontComponent, StorefrontModule } from '@spartacus/storefront';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
@@ -14,14 +13,13 @@ if (!environment.production) {
 @NgModule({
   imports: [
     BrowserModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', {
-      enabled: environment.production
-    }),
     StorefrontModule.withConfig({
+      production: environment.production,
       server: {
         baseUrl: environment.occBaseUrl
       },
       pwa: {
+        enabled: true,
         addToHomeScreen: true
       }
     }),

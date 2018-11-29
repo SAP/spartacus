@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { ConfigModule, Config } from '@spartacus/core';
+import { ConfigModule, Config, RoutingModule } from '@spartacus/core';
 import {
   AuthModuleConfig,
   defaultAuthModuleConfig
@@ -26,6 +26,7 @@ import {
   imports: [
     CommonModule,
     HttpClientModule,
+    RoutingModule,
     StoreModule.forFeature('auth', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
     ConfigModule.withConfig(defaultAuthModuleConfig)

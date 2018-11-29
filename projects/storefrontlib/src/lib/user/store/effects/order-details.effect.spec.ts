@@ -1,4 +1,4 @@
-import { OccConfig } from '@spartacus/core';
+import { OccConfig, Order } from '@spartacus/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
@@ -8,11 +8,9 @@ import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { OccOrderService } from '../../../occ/order/order.service';
 import { Observable, of, throwError } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
-import { ProductImageConverterService } from '../../../product/converters';
+import { ProductImageConverterService } from '@spartacus/core';
 
-const mockOrderDetails = {
-  order: {}
-};
+const mockOrderDetails: Order = {};
 
 const mockOrderDetailsParams = {
   userId: 'user15355363988711@ydev.hybris.com',

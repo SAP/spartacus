@@ -17,5 +17,3 @@ export * from './components/product-list/product-facet-navigation/product-facet-
 // guard and services
 export * from './guards/product.guard';
 export * from './product-outlets.model';
-export * from './converters/index';
-export * from './facade/index';

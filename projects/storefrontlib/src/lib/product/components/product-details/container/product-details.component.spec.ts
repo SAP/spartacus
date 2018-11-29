@@ -1,10 +1,11 @@
+import { Component, Input } from '@angular/core';
 import { ComponentsModule } from './../../../../ui/components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of, Observable } from 'rxjs';
 
 import { ComponentMapperService } from '../../../../cms/services/component-mapper.service';
-import { ProductService } from '../../../facade/product.service';
+import { ProductService } from '@spartacus/core';
 
 import { BootstrapModule } from '../../../../bootstrap.module';
 import { ProductDetailsComponent } from './product-details.component';
@@ -17,7 +18,6 @@ import { ProductImagesComponent } from '../product-images/product-images.compone
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
 import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
-import { Component, Input } from '@angular/core';
 
 class MockComponentMapperService {}
 

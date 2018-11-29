@@ -6,17 +6,17 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { HttpRequest } from '@angular/common/http';
-import { Store } from '@ngrx/store';
+
 import { Observable, throwError, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import * as fromStore from '../store';
+import { AuthService } from '../facade/auth.service';
+import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
 import {
   InterceptorUtil,
   USE_CLIENT_TOKEN
 } from '../../occ/utils/interceptor-util';
-import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -25,7 +25,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
   constructor(
     private userErrorHandlingService: UserErrorHandlingService,
     private clientErrorHandlingService: ClientErrorHandlingService,
-    private store: Store<fromStore.AuthState>
+    private authService: AuthService
   ) {}
 
   intercept(
@@ -75,7 +75,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
               ) {
                 if (request.body.get('grant_type') === 'refresh_token') {
                   // refresh token fail, force user logout
-                  this.store.dispatch(new fromStore.Logout());
+                  this.authService.logout();
                 }
               }
               break;

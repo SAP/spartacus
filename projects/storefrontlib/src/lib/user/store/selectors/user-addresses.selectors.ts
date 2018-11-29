@@ -20,4 +20,7 @@ export const getAddresses: MemoizedSelector<any, any> = createSelector(
 export const getAddressesLoading: MemoizedSelector<
   any,
   boolean
-> = createSelector(getAddressesState, fromUserAddressesReducer.getLoading);
+> = createSelector(
+  getAddressesState,
+  fromUserAddressesReducer.getLoading
+);

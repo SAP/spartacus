@@ -5,7 +5,10 @@ import {
   Provider
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { defaultServerConfig } from './server-config/server-config';
+import {
+  defaultServerConfig,
+  ServerConfig
+} from './server-config/server-config';
 import { deepMerge } from './utils/deep-merge';
 import { serverConfigValidator } from './server-config/server-config-validator';
 import {
@@ -49,6 +52,7 @@ export class ConfigModule {
     return {
       ngModule: ConfigModule,
       providers: [
+        { provide: ServerConfig, useExisting: Config },
         provideConfig(defaultServerConfig),
         provideConfig(config),
         {

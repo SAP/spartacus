@@ -2,25 +2,43 @@ language: node_js
 node_js:
   - 8.9.0
 dist: trusty
-addons:
-  chrome: stable
+git:
+  depth: false
 branches:
   only:
     - develop
     - "/^feature\\/.*$/"
 jobs:
   include:
-    - script: './ci-scripts/e2e-tests.sh'
-    - script: './ci-scripts/other.sh'
-    - script: './ci-scripts/unit-tests.sh'
+    - stage: 'Validation'
+      script: './ci-scripts/validate.sh'
+      name: 'Validation'
     - script: './ci-scripts/lint.sh'
+      name: 'Lint'
+    - stage: 'Unit tests'
+      script: './ci-scripts/unit-tests-sonar.sh'
+      name: 'Unit tests/Sonar scan'
+    - script: './ci-scripts/e2e-tests.sh'
+      name: 'End to end tests'
+    - stage: deploy
+      script: './ci-scripts/build-deploy.sh'
+      name: 'Deploy to github pages'
+      deploy:
+        provider: pages
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN
+        local_dir: dist/storefrontapp
+        on:
+          branch: develop
 notifications:
   slack:
-    secure: Qz4eaqZJ+4XeEDpl818ZwlXKs1jbY9prg+0+DNQ5cVO7f2nDGI1PTMSsLVihRss39Wx/NW+f6UJGaJLMESzvFlKtPqKePbdA+U+EaxVFh/qIAC2Q1oVA1hfrMVtYjB6h0FNZYMoGjOQHHELb9ojJeHrl4CiMU6BJgoJ6rEhSFyJhuua2RwFAxnKWyxXkhf42SUpJKWyw8cWrW9dHvnHXA0je8cthzj7xLFsiPtJmH8cH8MkVrDh2kPZ1j1pMMia+20zk2ezQhMdN/SBeXN8WPn8dVtEoNVpxrZYiWhJfHpAx4uw3VFgqIdOyCTrgwhwnN9Njx1j7pHRt+amsnLHHZUR/QgJKocGSchkYp7FpixTIrvblCU0XJBKv1bYfJ9jOipCDG3FTMLAp/Vqfuir1ilKmR2upaUxigX3/TK7dn4U97aECrPGnl1AbQijfFlXl/sDvYNrbGU02FIN8a1VPEgq4J9V27dhZ4O5AWjn6EyK3hOgk8EwxKzi0gwWmXUBwZIkS6efZbEgXcggaiRf5jw+2gVBocrFhik4CmdpXmWmenjg5Uo9Cw/t/x7CGHxiWtDErfgQvU5Sai18WrU/yjqTYptCaQiz1Mvyn3viE6mhhFap4xIRnvJBG1nnGPiXnb02lYfS5CFAopf54GkhyYPzKnP5XYHJStZpbjanrIQI=
-    template:
-      - 'Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of branch %{branch} %{result}'
+    secure: D/c2tdqrGpf5I8CJ/rnrhYeNG1Gk/mEu7B1bI49IpC9CSsHzDeS624+9IoI6XLBjp3RfgffxTI4s2AWJcEAxhs+jSd6HaRYw44BZQJ1zyVhtZHTjm5uouqOCPaX4JTs9mPGAlqC2qnLxnbOr63uNgKghrPmsAGiFh68eqbP5+4CKx2HpqkqdlaxzR/By35wZxW1HmVMbY1yG1J+dO8vh1dpohYyB3ktDwA8K75BGPXDGCY3Uyly2rmH3AqTSsgnBXw5wJfXWAXAAeHYVS914K6Pf3FBSPWP3738Rra3SA4juxHWJlQEnoFNN4jiiXHt61uuOMYlKBjdvXy0oOTgRAaio/hkePrFZP5izQVg4+izh9bOP914N4Ia3fC42cgilNXA+NT0+vRsy9gQG30hzc8FMvjM8VstQniSbuE2qtZ/Bk8FJ8ItpdKaxNN4Ram9rCW5tzc/7qlaGnjIx4RIMWwuWHe8S5lwmV6zjoYzzOSE0Pq/v5tN3rx9YubrAhugoY+78hqh6AhCV0iWzoBhsTTxYYlSvPicf1vN9l1j/3b2yOoimliPx5Pt/74vgYLnCivrQCZS4E4MDkPlz1L8ubqibznVkcy3vrkEC9HzJSWUVXusHj/asSnaeF16b0KS4p/EoLw8k4nRPCOH4ippHly4uCPpbhEh0djaC3YgvobI=
+  email:
     on_failure: always
     on_success: change
-  email:
-    on_failure: change
-    on_success: change
+addons:
+  chrome: stable
+  sonarcloud:
+    organization: sap
+    token:
+      secure: I2+ah2XiEbJ6MwWG51B0Vqpsv7KhnqMJzhoPTun6iPxlMXVqIJm1bCRkutOtlVJ+65UDj20H6ld0Tc9LOEz3Uvjk/ZSmHIA/7esC1kRcOu62VE8k/Y+nH8epI3dBr70Yymn9V27kqBNTMs+i2qC8z/+2cd0DBrAPtRQXcPedd4kw41kdeFBzmI/ng1uOhadLF2U63s+krkfLSoaBcCkksll3KsnDe/ItJN1Hu7oZ5UQUxcbP8LHDHBIm3YuMDh9WLWvp9zypglS5as8GC55Zi8dDFlqXrcVcKa5niN8Q/UOByBDy1JiM6kJbc/mjbpjdQMAoCz9YjkPhd181hbz0rocxqPmbEszwPVNadRbz3mUjTz/us+3ekrw3/i4DhuzmGlV2kRkbXIquegecivNnWMP8JyZDRerR8onSKS+YMmEI1t7tOLWHCJ4ImkfMWGVbT8t27ZWO2bhDu+N0JxyPuMRSVPRXvhEAqIbts8OdeITxQiWcSdI2Q/Fsfsft7uUBJhhU8S+c6Gs0LuCikG4WfchjCUxK5kFQqEAqLX+BUJbQxw6J2S+geoAzxWhQrs+O/GzXDzuez8Z3Ou8hk2w/l+VSJ2MuiJq/jlcSmVkYUUtKhvPfq/fcLtp9Lt9dUCw/8Es9jbvtg/0i2iyajkF/9PRc6UzhcYu/sk8xopNK4bQ=

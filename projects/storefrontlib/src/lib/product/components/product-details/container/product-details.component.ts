@@ -7,7 +7,7 @@ import {
   ElementRef
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProductService } from '../../../facade/product.service';
+import { ProductService } from '@spartacus/core';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({

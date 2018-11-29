@@ -15,5 +15,7 @@
 
   &__links {
     @include type('6');
+    border: 0;
+    padding: 0;
   }
 }

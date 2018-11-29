@@ -2,9 +2,9 @@ import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { PageContext, PageType } from '../../routing/models/page-context.model';
 import { IdList } from './../models/idList.model';
 import { CmsModuleConfig } from '../cms-module-config';
+import { PageContext, PageType } from '@spartacus/core';
 
 @Injectable()
 export class OccCmsService {

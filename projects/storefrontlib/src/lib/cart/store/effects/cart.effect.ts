@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
+
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
-import { OccCartService } from '../../../occ/cart/cart.service';
-import { ProductImageConverterService } from '../../../product/converters/product-image-converter.service';
-import { CartDataService } from '../../services/cart-data.service';
-import * as fromActions from './../actions/cart.action';
+
+import { ProductImageConverterService } from '@spartacus/core';
 import { LANGUAGE_CHANGE, CURRENCY_CHANGE } from '@spartacus/core';
+
+import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+
+import * as fromActions from './../actions/cart.action';
+import { CartDataService } from '../../facade/cart-data.service';
+import { OccCartService } from '../../../occ/cart/cart.service';
 
 @Injectable()
 export class CartEffects {
@@ -51,13 +55,19 @@ export class CartEffects {
       return this.occCartService
         .createCart(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
         .pipe(
-          map((cart: any) => {
+          switchMap((cart: any) => {
             if (cart.entries) {
               for (const entry of cart.entries) {
                 this.productImageConverter.convertProduct(entry.product);
               }
             }
-            return new fromActions.CreateCartSuccess(cart);
+            if (payload.toMergeCartGuid) {
+              return [
+                new fromActions.CreateCartSuccess(cart),
+                new fromActions.MergeCartSuccess()
+              ];
+            }
+            return [new fromActions.CreateCartSuccess(cart)];
           }),
           catchError(error => of(new fromActions.CreateCartFail(error)))
         );

@@ -1,30 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpRequest, HttpHandler } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 
-import { Store, select } from '@ngrx/store';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap, filter, take, switchMap } from 'rxjs/operators';
 
-import * as fromStore from '../../store';
-
+import { AuthService } from '../../facade/auth.service';
 import { UserToken } from '../../models/token-types.model';
 
 @Injectable()
 export class UserErrorHandlingService {
   readonly LOGIN_URL = '/login';
 
-  constructor(
-    private store: Store<fromStore.AuthState>,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   public handleExpiredUserToken(
     request: HttpRequest<any>,
     next: HttpHandler
-  ): Observable<any> {
+  ): Observable<HttpEvent<UserToken>> {
     return this.handleExpiredToken().pipe(
-      switchMap(([token]: [UserToken, boolean]) => {
+      switchMap((token: UserToken) => {
         return next.handle(this.createNewRequestWithNewToken(request, token));
       })
     );
@@ -32,31 +27,22 @@ export class UserErrorHandlingService {
 
   public handleExpiredRefreshToken() {
     // Logout user
-    this.store.dispatch(new fromStore.Logout());
+    this.authService.logout();
   }
 
-  private handleExpiredToken(): Observable<any> {
-    let oldToken;
-    return combineLatest(
-      this.store.pipe(select(fromStore.getUserToken)),
-      this.store.pipe(select(fromStore.getUserTokenLoading))
-    ).pipe(
-      tap(([token, loading]: [UserToken, boolean]) => {
-        oldToken = oldToken || token;
-        if (token.access_token && token.refresh_token && !loading) {
-          this.store.dispatch(
-            new fromStore.RefreshUserToken({
-              userId: token.userId,
-              refreshToken: token.refresh_token
-            })
-          );
+  private handleExpiredToken(): Observable<UserToken> {
+    let oldToken: UserToken;
+    return this.authService.userToken$.pipe(
+      tap((token: UserToken) => {
+        if (token.access_token && token.refresh_token && !oldToken) {
+          this.authService.refreshUserToken(token);
         } else if (!token.access_token && !token.refresh_token) {
           this.router.navigate([this.LOGIN_URL]);
         }
+        oldToken = oldToken || token;
       }),
       filter(
-        ([token]: [UserToken, boolean]) =>
-          oldToken.access_token !== token.access_token
+        (token: UserToken) => oldToken.access_token !== token.access_token
       ),
       take(1)
     );

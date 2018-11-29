@@ -1,24 +1,37 @@
 <div class="cx-product-summary">
-  <div class="cx-product-summary__price cx-product-summary__price" aria-label="new item price">
-    {{product?.price?.formattedValue}}
+  <div
+    class="cx-product-summary__price cx-product-summary__price"
+    aria-label="new item price"
+  >
+    {{ product?.price?.formattedValue }}
   </div>
 
   <div class="cx-product-summary__description">
-    <p [innerHTML]="product?.summary"> </p>
+    <p [innerHTML]="product?.summary"></p>
   </div>
 
   <div class="cx-product-summary__variant">
-    <div class="cx-product-summary__variant-label">
-      Qty:
-    </div>
-    <cx-item-counter [min]="1" [max]="product.stock.stockLevel" *ngIf="product?.stock?.stockLevel > 0 || product?.stock?.stockLevelStatus === 'inStock'"
-      (update)="updateCount($event)"></cx-item-counter>
+    <div class="cx-product-summary__variant-label">Qty:</div>
+    <cx-item-counter
+      isValueChangable="true"
+      [min]="1"
+      [max]="product.stock.stockLevel"
+      *ngIf="
+        product?.stock?.stockLevel > 0 ||
+        product?.stock?.stockLevelStatus === 'inStock'
+      "
+      (update)="updateCount($event)"
+    ></cx-item-counter>
     <span class="cx-product-summary__variant-info">
-      <span *ngIf="product?.stock?.stockLevel > 0 || product?.stock?.stockLevelStatus === 'inStock'">
-        {{product?.stock?.stockLevel}} in stock</span>
+      <span
+        *ngIf="
+          product?.stock?.stockLevel > 0 ||
+          product?.stock?.stockLevelStatus === 'inStock'
+        "
+      >
+        {{ product?.stock?.stockLevel }} in stock</span
+      >
       <span *ngIf="product?.stock?.stockLevel == 0">Out of stock</span>
     </span>
   </div>
-
-
 </div>

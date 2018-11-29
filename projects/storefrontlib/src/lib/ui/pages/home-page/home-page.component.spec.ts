@@ -1,14 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
 
 import { HomePageComponent } from './home-page.component';
-import { LandingPageLayoutComponent } from '../../layout/landing-page-layout/landing-page-layout.component';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../cms/components';
-import { StoreModule } from '@ngrx/store';
-import * as fromCmsReducer from '../../../cms/store/reducers';
-import { OutletDirective } from '../../../outlet';
+
+@Component({
+  selector: 'cx-landing-page-layout',
+  template: ''
+})
+export class MockLandingPageLayoutComponent {}
 
 describe('HomePageComponent', () => {
   let component: HomePageComponent;
@@ -16,17 +15,7 @@ describe('HomePageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers())
-      ],
-      declarations: [
-        HomePageComponent,
-        LandingPageLayoutComponent,
-        DynamicSlotComponent,
-        ComponentWrapperDirective,
-        OutletDirective
-      ]
+      declarations: [HomePageComponent, MockLandingPageLayoutComponent]
     }).compileComponents();
   }));
 
