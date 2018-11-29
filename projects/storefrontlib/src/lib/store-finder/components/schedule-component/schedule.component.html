@@ -1,5 +1,5 @@
 <ng-content></ng-content>
-<div class="container scheduleWrapper">
+<div class="container scheduleWrapper" *ngIf="location.openingHours">
   <div *ngFor="let day of displayDays" class="row">
     <div class="days col-lg-6">{{ day | date: 'EEE' }}</div>
     <div *ngIf="getStoreOpeningTime(day) !== null" class="hours col-lg-6">

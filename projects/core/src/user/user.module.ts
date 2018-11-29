@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { UserService } from './facade/index';
+import { UserService } from './facade';
 import { UserStoreModule } from './store/user-store.module';
 import { UserOccModule } from './occ/user-occ.module';
 

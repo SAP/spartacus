@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { ConfigModule, Config } from '../config/index';
+import { ConfigModule, Config } from '../config';
 
 import {
   StoreRouterConnectingModule,
@@ -14,7 +14,7 @@ import {
   CustomSerializer,
   reducerProvider
 } from './store/reducers/router.reducer';
-import { effects } from './store/effects/index';
+import { effects } from './store/effects';
 import {
   RoutingModuleConfig,
   StorageSyncType

@@ -10,7 +10,7 @@ import * as fromStore from '../../store';
 import * as fromAuthStore from '../../../../../storefrontlib/src/lib/auth/store';
 
 import { UserRegisterEffects } from './user-register.effect';
-import { OccUserService } from '../../occ/index';
+import { OccUserService } from '../../occ';
 import { UserRegisterFormData } from '../../model/user.model';
 
 class MockUserService {

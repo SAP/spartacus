@@ -17,7 +17,7 @@ import { ProductImageConverterService } from '../converters/product-image-conver
 import { ProductReferenceConverterService } from '../converters/product-reference-converter.service';
 // import { RoutingService } from '../../../routing/facade/routing.service';
 
-import { RoutingService } from '../../../routing/index';
+import { RoutingService } from '../../../routing';
 import { PageType } from '../../../occ-models/occ.models';
 
 @Injectable()

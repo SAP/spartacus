@@ -4,13 +4,13 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
+import { User } from '@spartacus/core';
 
-const mockUserDetails: any = {
+const mockUserDetails: User = {
   displayUid: 'Display Uid',
   firstName: 'First',
   lastName: 'Last',
   name: 'First Last',
-  type: 'Mock Type',
   uid: 'UID'
 };
 

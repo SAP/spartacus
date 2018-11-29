@@ -1,5 +1,6 @@
 import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { OrderDetailsState } from '../user-state';
+import { Order } from '../../../occ-models';
 
 export const initialState: OrderDetailsState = {
   order: {}
@@ -11,7 +12,7 @@ export function reducer(
 ): OrderDetailsState {
   switch (action.type) {
     case fromOrderDetailsAction.LOAD_ORDER_DETAILS_SUCCESS: {
-      const order = action.payload;
+      const order: Order = action.payload;
 
       return {
         ...state,

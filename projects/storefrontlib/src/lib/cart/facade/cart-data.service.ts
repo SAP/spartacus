@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Cart } from '@spartacus/core';
 
 export const ANONYMOUS_USERID = 'anonymous';
 
 @Injectable()
 export class CartDataService {
   private _userId = ANONYMOUS_USERID;
-  private _cart: any;
+  private _cart: Cart;
   private _getDetails = false;
 
   constructor() {}
@@ -30,7 +31,7 @@ export class CartDataService {
     return this._userId;
   }
 
-  get cart(): any {
+  get cart(): Cart {
     return this._cart;
   }
 

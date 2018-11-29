@@ -3,8 +3,9 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import { OccUserService } from '../../occ/index';
+import { OccUserService } from '../../occ';
 import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';
+import { PaymentDetailsList } from '@spartacus/core';
 
 @Injectable()
 export class UserPaymentMethodsEffects {
@@ -17,7 +18,7 @@ export class UserPaymentMethodsEffects {
     ),
     mergeMap(payload => {
       return this.occUserService.loadUserPaymentMethods(payload).pipe(
-        map((paymentsList: any) => {
+        map((paymentsList: PaymentDetailsList) => {
           return new fromUserPaymentMethodsAction.LoadUserPaymentMethodsSuccess(
             paymentsList.payments
           );

@@ -3,7 +3,7 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
-import { OccOrderService } from '../../occ/index';
+import { OccOrderService } from '../../occ';
 
 @Injectable()
 export class UserOrdersEffect {

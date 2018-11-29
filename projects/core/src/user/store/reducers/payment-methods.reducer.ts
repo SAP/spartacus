@@ -1,5 +1,6 @@
 import * as fromPaymentMethodsAction from '../actions/payment-methods.action';
 import { UserPaymentMethodsState } from '../user-state';
+import { PaymentDetails } from '../../../occ-models';
 
 export const initialState: UserPaymentMethodsState = {
   list: [],
@@ -12,7 +13,7 @@ export function reducer(
 ): UserPaymentMethodsState {
   switch (action.type) {
     case fromPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS_SUCCESS: {
-      const list = action.payload;
+      const list: PaymentDetails[] = action.payload;
 
       if (list !== undefined) {
         return {

@@ -7,6 +7,7 @@ import * as fromStore from './../';
 import { Observable, of } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { hot, cold } from 'jasmine-marbles';
+import { ClientTokenAction } from '../actions';
 
 const testToken: ClientToken = {
   access_token: 'xxx',
@@ -22,7 +23,7 @@ class ClientAuthenticationTokenServiceMock {
 describe('ClientTokenEffect', () => {
   let clientTokenEffect: fromStore.ClientTokenEffect;
   let clientAuthenticationTokenService: ClientAuthenticationTokenService;
-  let actions$: Observable<any>;
+  let actions$: Observable<ClientTokenAction>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

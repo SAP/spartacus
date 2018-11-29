@@ -4,7 +4,7 @@ import {
   ProductService,
   ProductSearchService,
   ProductReviewService
-} from './facade/index';
+} from './facade';
 import { ProductStoreModule } from './store/product-store.module';
 import { ProductOccModule } from './occ/product-occ.module';
 

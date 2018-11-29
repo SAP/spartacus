@@ -5,7 +5,7 @@ import { UserOrdersState } from '../user-state';
 export const initialState: UserOrdersState = {
   orders: {
     orders: [],
-    pagination: <any>{},
+    pagination: {},
     sort: []
   },
   loading: false,

@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { map, tap, filter, take } from 'rxjs/operators';
-import * as fromStore from '../store/index';
+import * as fromStore from '../store';
 
 @Injectable()
 export class ProductService {

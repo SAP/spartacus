@@ -2,11 +2,11 @@
  * Public API Surface of core
  */
 
-export * from './src/config/index';
-export * from './src/state/index';
-export * from './src/product/index';
-export * from './src/user/index';
-export * from './src/site-context/index';
-export * from './src/occ/index';
-export * from './src/routing/index';
-export * from './src/occ-models/index';
+export * from './src/config';
+export * from './src/state';
+export * from './src/product';
+export * from './src/user';
+export * from './src/site-context';
+export * from './src/occ';
+export * from './src/routing';
+export * from './src/occ-models';

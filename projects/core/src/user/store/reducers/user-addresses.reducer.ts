@@ -1,5 +1,6 @@
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import { UserAddressesState } from '../user-state';
+import { Address } from '../../../occ-models';
 
 export const initialState: UserAddressesState = {
   list: [],
@@ -12,7 +13,7 @@ export function reducer(
 ): UserAddressesState {
   switch (action.type) {
     case fromUserAddressesAction.LOAD_USER_ADDRESSES_SUCCESS: {
-      const list = action.payload;
+      const list: Address[] = action.payload;
 
       if (list !== undefined) {
         return {

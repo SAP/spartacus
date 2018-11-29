@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OccConfig } from '../../../occ/index';
+import { OccConfig } from '../../../occ';
 
 @Injectable()
 export class ProductImageConverterService {

@@ -3,6 +3,7 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 import * as fromFeature from '../reducers';
 import * as fromUserPaymentMethodsReducer from '../reducers/payment-methods.reducer';
 import { UserPaymentMethodsState, UserState } from '../user-state';
+import { PaymentDetails } from '../../../occ-models';
 
 export const getPaymentMethodsState: MemoizedSelector<
   any,
@@ -12,7 +13,10 @@ export const getPaymentMethodsState: MemoizedSelector<
   (state: UserState) => state.payments
 );
 
-export const getPaymentMethods: MemoizedSelector<any, any> = createSelector(
+export const getPaymentMethods: MemoizedSelector<
+  any,
+  PaymentDetails[]
+> = createSelector(
   getPaymentMethodsState,
   fromUserPaymentMethodsReducer.getPaymentMethods
 );

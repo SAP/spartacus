@@ -1,8 +1,9 @@
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import { UserDetailsState } from '../user-state';
+import { User } from '../../../occ-models';
 
 export const initialState: UserDetailsState = {
-  details: <any>{}
+  details: <User>{}
 };
 
 export function reducer(
@@ -11,7 +12,7 @@ export function reducer(
 ): UserDetailsState {
   switch (action.type) {
     case fromUserDetailsAction.LOAD_USER_DETAILS_SUCCESS: {
-      const details = action.payload;
+      const details: User = action.payload;
 
       return {
         ...state,

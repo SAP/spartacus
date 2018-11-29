@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import * as fromStore from '../store/index';
+import * as fromStore from '../store';
 
 @Injectable()
 export class ProductReviewService {

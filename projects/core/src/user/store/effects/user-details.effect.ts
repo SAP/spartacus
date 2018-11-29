@@ -3,8 +3,9 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import { OccUserService } from '../../occ/index';
+import { OccUserService } from '../../occ';
 import * as fromUserDetailsAction from '../actions/user-details.action';
+import { User } from '@spartacus/core';
 
 @Injectable()
 export class UserDetailsEffects {
@@ -14,7 +15,7 @@ export class UserDetailsEffects {
     map((action: fromUserDetailsAction.LoadUserDetails) => action.payload),
     mergeMap(userId => {
       return this.occUserService.loadUser(userId).pipe(
-        map((user: any) => {
+        map((user: User) => {
           return new fromUserDetailsAction.LoadUserDetailsSuccess(user);
         }),
         catchError(error =>

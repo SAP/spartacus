@@ -2,7 +2,7 @@ import * as fromAction from '../actions';
 import { RegionsState } from '../user-state';
 
 export const initialState: RegionsState = {
-  entities: {}
+  entities: []
 };
 
 export function reducer(

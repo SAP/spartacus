@@ -1,5 +1,6 @@
 import * as fromAction from '../actions';
 import { DeliveryCountriesState } from '../user-state';
+import { Country } from '../../../occ-models';
 
 export const initialState: DeliveryCountriesState = {
   entities: {}
@@ -13,10 +14,10 @@ export function reducer(
     case fromAction.LOAD_DELIVERY_COUNTRIES_SUCCESS: {
       const deliveryCountries = action.payload;
       const entities = deliveryCountries.reduce(
-        (countryEntities: { [isocode: string]: any }, name: any) => {
+        (countryEntities: { [isocode: string]: Country }, country: Country) => {
           return {
             ...countryEntities,
-            [name.isocode]: name
+            [country.isocode]: country
           };
         },
         {

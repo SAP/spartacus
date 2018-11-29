@@ -3,9 +3,10 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { OccUserService } from '../../occ/index';
+import { OccUserService } from '../../occ';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import * as fromUserAddressesEffect from './user-addresses.effect';
+import { AddressList } from '@spartacus/core';
 
 class MockOccUserService {
   loadUserAddresses(_userId: string): Observable<any> {
@@ -13,7 +14,7 @@ class MockOccUserService {
   }
 }
 
-const mockUserAddresses = { addresses: ['address1', 'address2'] };
+const mockUserAddresses: AddressList = { addresses: [{ id: 'address123' }] };
 
 describe('User Addresses effect', () => {
   let userAddressesEffect: fromUserAddressesEffect.UserAddressesEffects;
@@ -41,7 +42,9 @@ describe('User Addresses effect', () => {
 
   describe('loadUserAddresses$', () => {
     it('should load user addresses', () => {
-      const action = new fromUserAddressesAction.LoadUserAddresses('123');
+      const action = new fromUserAddressesAction.LoadUserAddresses(
+        'address123'
+      );
       const completion = new fromUserAddressesAction.LoadUserAddressesSuccess(
         mockUserAddresses.addresses
       );

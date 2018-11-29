@@ -4,7 +4,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { of, Observable } from 'rxjs';
 
-import { OccSiteService } from '../../occ/index';
+import { OccSiteService } from '../../occ';
 import * as fromEffects from './currencies.effect';
 import * as fromActions from '../actions/currencies.action';
 import { OccModule } from '../../../occ/occ.module';

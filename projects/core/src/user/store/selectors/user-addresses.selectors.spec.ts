@@ -4,8 +4,9 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
+import { Address } from '@spartacus/core';
 
-const mockUserAddresses = ['address1', 'address2'];
+const mockUserAddresses: Address[] = [{ id: 'address1' }, { id: 'address2' }];
 
 describe('User Addresses Selectors', () => {
   let store: Store<fromReducers.UserState>;

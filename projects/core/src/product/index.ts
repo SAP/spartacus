@@ -1,11 +1,11 @@
 export * from './model/search-config';
-export * from './occ/index';
+export * from './occ';
 export * from './occ/product-occ.module';
 
 export * from './store/product-state';
-export * from './store/converters/index';
-export * from './store/actions/index';
-export * from './store/selectors/index';
+export * from './store/converters';
+export * from './store/actions';
+export * from './store/selectors';
 
-export * from './facade/index';
+export * from './facade';
 export * from './product.module';

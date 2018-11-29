@@ -3,9 +3,10 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { OccUserService } from '../../occ/index';
+import { OccUserService } from '../../occ';
 import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';
 import * as fromUserPaymentMethodsEffect from './payment-methods.effect';
+import { PaymentDetailsList } from '@spartacus/core';
 
 class MockOccUserService {
   loadUserPaymentMethods(_userId: string): Observable<any> {
@@ -13,7 +14,9 @@ class MockOccUserService {
   }
 }
 
-const mockUserPaymentMethods = { payments: ['payment1', 'payment2'] };
+const mockUserPaymentMethods: PaymentDetailsList = {
+  payments: [{ id: 'payment1' }, { id: 'payment2' }]
+};
 
 describe('User Payment Methods effect', () => {
   let userPaymentMethodsEffect: fromUserPaymentMethodsEffect.UserPaymentMethodsEffects;

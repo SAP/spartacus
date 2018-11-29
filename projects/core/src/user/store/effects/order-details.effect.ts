@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { OccOrderService } from '../../occ/index';
+import { OccOrderService } from '../../occ';
 
 import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { ProductImageConverterService } from '../../../product';
+import { Order } from '../../../occ-models';
 
 @Injectable()
 export class OrderDetailsEffect {
@@ -23,7 +24,7 @@ export class OrderDetailsEffect {
       return this.occOrderService
         .getOrder(payload.userId, payload.orderCode)
         .pipe(
-          map((order: any) => {
+          map((order: Order) => {
             if (order.consignments) {
               order.consignments.forEach(element => {
                 element.entries.forEach(entry => {
