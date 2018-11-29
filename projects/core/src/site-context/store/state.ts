@@ -19,7 +19,7 @@ export interface CurrenciesState {
   activeCurrency: string;
 }
 export interface LanguagesEntities {
-  [isocode: string]: Language[];
+  [isocode: string]: Language;
 }
 
 export interface LanguagesState {

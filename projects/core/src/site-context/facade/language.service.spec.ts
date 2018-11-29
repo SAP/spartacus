@@ -67,7 +67,7 @@ describe('LanguageService', () => {
 
   it('should be able to get languages', () => {
     service.languages$.subscribe(results => {
-      expect(results).toEqual([mockLanguages]);
+      expect(results).toEqual(mockLanguages);
     });
   });
 

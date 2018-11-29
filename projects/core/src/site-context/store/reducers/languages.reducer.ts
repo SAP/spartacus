@@ -15,7 +15,7 @@ export function reducer(
     case fromLanguages.LOAD_LANGUAGES_SUCCESS: {
       const languages: Language[] = action.payload;
       const entities = languages.reduce(
-        (langEntities: { [isocode: string]: any }, language: any) => {
+        (langEntities: { [isocode: string]: Language }, language: Language) => {
           return {
             ...langEntities,
             [language.isocode]: language

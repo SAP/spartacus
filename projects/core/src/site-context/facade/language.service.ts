@@ -15,7 +15,7 @@ import {
 import { OccConfig } from '../../occ/config/occ-config';
 @Injectable()
 export class LanguageService {
-  readonly languages$: Observable<Array<Language[]>> = this.store.pipe(
+  readonly languages$: Observable<Language[]> = this.store.pipe(
     select(getAllLanguages)
   );
 

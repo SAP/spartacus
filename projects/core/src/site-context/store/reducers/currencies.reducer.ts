@@ -15,7 +15,7 @@ export function reducer(
     case fromCurrencies.LOAD_CURRENCIES_SUCCESS: {
       const currencies: Currency[] = action.payload;
       const entities = currencies.reduce(
-        (currEntities: { [isocode: string]: any }, currency: Currency) => {
+        (currEntities: { [isocode: string]: Currency }, currency: Currency) => {
           return {
             ...currEntities,
             [currency.isocode]: currency

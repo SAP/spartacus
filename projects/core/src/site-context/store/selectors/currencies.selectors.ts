@@ -22,16 +22,25 @@ export const getCurrenciesState: MemoizedSelector<
 export const getCurrenciesEntities: MemoizedSelector<
   StateWithSiteContext,
   CurrencyEntities
-> = createSelector(getCurrenciesState, currenciesEntitiesSelector);
+> = createSelector(
+  getCurrenciesState,
+  currenciesEntitiesSelector
+);
 
 export const getActiveCurrency: MemoizedSelector<
   StateWithSiteContext,
   string
-> = createSelector(getCurrenciesState, activeCurrencySelector);
+> = createSelector(
+  getCurrenciesState,
+  activeCurrencySelector
+);
 
 export const getAllCurrencies: MemoizedSelector<
   StateWithSiteContext,
   Currency[]
-> = createSelector(getCurrenciesEntities, entities => {
-  return Object.keys(entities).map(isocode => entities[isocode]);
-});
+> = createSelector(
+  getCurrenciesEntities,
+  entities => {
+    return Object.keys(entities).map(isocode => entities[isocode]);
+  }
+);

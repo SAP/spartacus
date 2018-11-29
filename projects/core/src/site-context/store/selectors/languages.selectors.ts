@@ -38,7 +38,7 @@ export const getActiveLanguage: MemoizedSelector<
 
 export const getAllLanguages: MemoizedSelector<
   StateWithSiteContext,
-  Array<Language[]>
+  Language[]
 > = createSelector(
   getLanguagesEntities,
   entities => {
