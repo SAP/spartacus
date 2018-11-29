@@ -31,7 +31,7 @@ describe('Product search', () => {
     await searchResults.waitForReady();
 
     const text = await searchResults.getHeaderText();
-    expect(text).toContain('144 results for cameras');
+    expect(text).toContain('144 results for camera');
   });
 
   describe('Pagination', () => {
@@ -74,14 +74,14 @@ describe('Product search', () => {
       await searchResults.getSingleFilterFacet(0).click();
 
       const text = await searchResults.getHeaderText();
-      expect(text).toContain('77 results for cameras');
+      expect(text).toContain('77 results for Chiba');
     });
 
     it('should be able to clear active facet', async () => {
       await searchResults.clearFacets.click();
 
       const text = await searchResults.getHeaderText();
-      expect(text).toContain('144 results for cameras');
+      expect(text).toContain('144 results for camera');
     });
   });
 
