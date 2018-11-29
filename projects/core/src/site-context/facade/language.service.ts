@@ -34,11 +34,6 @@ export class LanguageService {
     this.store.dispatch(new LoadLanguages());
   }
 
-  /**
-   * Alabama
-   *
-   * @param isocode
-   */
   public set activeLanguage(isocode: string) {
     this.store.dispatch(new SetActiveLanguage(isocode));
   }
