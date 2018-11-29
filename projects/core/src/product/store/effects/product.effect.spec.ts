@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 
 import { hot, cold } from 'jasmine-marbles';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { OccProductService } from '../../occ/product.service';
 import { PageType } from '../../../occ-models/occ.models';
@@ -16,7 +16,6 @@ import { StoreModule } from '@ngrx/store';
 import { RoutingService } from '../../../routing/facade/routing.service';
 
 import { OccConfig } from '../../../occ/config/occ-config';
-import { ProductsState } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
