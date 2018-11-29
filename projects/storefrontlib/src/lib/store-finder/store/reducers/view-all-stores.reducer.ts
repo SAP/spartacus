@@ -32,7 +32,8 @@ export function reducer(
     }
     case fromStoreFinder.VIEW_ALL_STORES_FAIL: {
       return {
-        ...state
+        ...state,
+        isLoading: false
       };
     }
   }
