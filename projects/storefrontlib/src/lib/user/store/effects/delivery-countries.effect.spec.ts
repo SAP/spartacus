@@ -8,22 +8,25 @@ import { hot, cold } from 'jasmine-marbles';
 import * as fromActions from './../actions';
 import { OccMiscsService } from '../../../occ/miscs/miscs.service';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Country } from '@spartacus/core';
 
 class MockMiscsService {
   loadDeliveryCountries() {}
 }
 
+const mockCountries: Country[] = [
+  {
+    isocode: 'AL',
+    name: 'Albania'
+  },
+  {
+    isocode: 'AD',
+    name: 'Andorra'
+  }
+];
+
 const mockCountriesList = {
-  countries: [
-    {
-      isocode: 'AL',
-      name: 'Albania'
-    },
-    {
-      isocode: 'AD',
-      name: 'Andorra'
-    }
-  ]
+  countries: mockCountries
 };
 
 describe('Delivery Countries effect', () => {

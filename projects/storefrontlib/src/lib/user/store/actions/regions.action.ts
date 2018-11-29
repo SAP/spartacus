@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { Region } from '@spartacus/core';
 
 export const LOAD_REGIONS = '[User] Load Regions';
 export const LOAD_REGIONS_SUCCESS = '[User] Load Regions Success';
@@ -16,7 +17,7 @@ export class LoadRegionsFail implements Action {
 
 export class LoadRegionsSuccess implements Action {
   readonly type = LOAD_REGIONS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: Region[]) {}
 }
 
 export type RegionsAction = LoadRegions | LoadRegionsFail | LoadRegionsSuccess;
