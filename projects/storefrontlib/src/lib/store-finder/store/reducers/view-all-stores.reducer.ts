@@ -2,7 +2,7 @@ import * as fromStoreFinder from '../actions/view-all-stores.action';
 
 export interface ViewAllStoresState {
   viewAllStoresEntities: any;
-  isLoading?: boolean;
+  isLoading: boolean;
 }
 
 export const initialState: ViewAllStoresState = {
