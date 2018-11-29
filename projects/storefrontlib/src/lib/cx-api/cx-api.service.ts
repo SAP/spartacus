@@ -2,7 +2,8 @@ import { Injectable, Optional } from '@angular/core';
 import {
   ProductReviewService,
   ProductSearchService,
-  ProductService
+  ProductService,
+  UserService
 } from '@spartacus/core';
 import {
   CurrencyService,
@@ -26,6 +27,8 @@ export class CxApiService {
     // product
     @Optional() public product: ProductService,
     @Optional() public productSearch: ProductSearchService,
-    @Optional() public productReview: ProductReviewService
+    @Optional() public productReview: ProductReviewService,
+    // user
+    @Optional() public user: UserService
   ) {}
 }

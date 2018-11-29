@@ -1,6 +1,10 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { ConfigModule, provideConfig, RoutingModule } from '@spartacus/core';
-import { StateModule } from '@spartacus/core';
+import {
+  ConfigModule,
+  provideConfig,
+  RoutingModule,
+  StateModule
+} from '@spartacus/core';
 import { AuthModule } from './auth/index';
 import { OccModule } from './occ/index';
 import { SiteContextModule } from './site-context/index';
