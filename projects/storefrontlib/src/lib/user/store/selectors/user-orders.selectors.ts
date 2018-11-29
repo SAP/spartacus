@@ -17,7 +17,7 @@ export const getOrders: MemoizedSelector<any, any> = createSelector(
   fromUserOrdersReducer.getOrders
 );
 
-export const getOrdersLoaded: MemoizedSelector<any, any> = createSelector(
+export const getOrdersLoaded: MemoizedSelector<any, boolean> = createSelector(
   getOrdersState,
   fromUserOrdersReducer.getOrdersLoaded
 );

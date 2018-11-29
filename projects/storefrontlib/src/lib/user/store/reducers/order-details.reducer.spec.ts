@@ -1,5 +1,6 @@
 import * as fromOrderDetailsAction from '../actions/order-details.action';
 import * as fromOrderDetailsReducer from './order-details.reducer';
+import { Order } from '@spartacus/core';
 
 describe('Order Details Reducer', () => {
   describe('undefined action', () => {
@@ -14,7 +15,7 @@ describe('Order Details Reducer', () => {
 
   describe('LOAD_ORDER_DETAILS_SUCCESS action', () => {
     it('should populate the order details state entities', () => {
-      const mockOrderDetails = { code: '123' };
+      const mockOrderDetails: Order = { code: '123' };
 
       const { initialState } = fromOrderDetailsReducer;
       const action = new fromOrderDetailsAction.LoadOrderDetailsSuccess(
