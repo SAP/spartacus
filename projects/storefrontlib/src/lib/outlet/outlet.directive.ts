@@ -15,7 +15,7 @@ export class OutletDirective implements OnInit {
   @Input()
   cxOutlet: string;
 
-  private _context: any;
+  private _context: string;
   @Input()
   set cxOutletContext(value: string) {
     this._context = value;
@@ -33,7 +33,7 @@ export class OutletDirective implements OnInit {
     this.renderTemplate(OutletPosition.AFTER);
   }
 
-  private renderTemplate(position: OutletPosition, replace = false) {
+  private renderTemplate(position: OutletPosition, replace = false): void {
     const template = this.outletService.get(this.cxOutlet, position);
     if (template || replace) {
       this.vcr.createEmbeddedView(template || this.templateRef, {

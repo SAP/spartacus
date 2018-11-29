@@ -29,7 +29,7 @@ describe('OutletDirective', () => {
 
   it('should render the provided template ref', () => {
     fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
+    const compiled: HTMLElement = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('#debugEl').textContent).toContain(TEXT);
   });
 });
