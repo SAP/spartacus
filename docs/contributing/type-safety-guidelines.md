@@ -8,7 +8,17 @@ If you need generated OCC types, these are located in `projects/core/src/occ-mod
 
 A few suggestions where type safety can be added: 
 
-## When it's OK not to use typesafety
+### Method parameters and return values
 
-There are some cases when it's OK to use `any`:
+```
+addCartEntry(productCode: string, quantity: number): void {
+  ...
+}
+```
+
+*Note*: even though in JavaScript/TypeScript the `void` return type is implicit, we like make it explicit. The reason for this is that in the future, the method may return a value, in which case we would have type safety for the returned type.
+
+### Test files
+
+It's important that `*.spec.ts` files follow have type safe code which alignes with the file being tested.
 
