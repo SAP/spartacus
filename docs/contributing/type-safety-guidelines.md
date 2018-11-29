@@ -84,3 +84,17 @@ loadComponent<T extends Component>(
 
 For more about TypeSript's advanced types, see [TypeScript's docs](https://www.typescriptlang.org/docs/handbook/advanced-types.html).
 
+## When it's OK not to use typesafety
+
+There are some cases when it's OK to use `any`:
+
+### Interceptors
+
+```
+intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    ...
+  }
+```
