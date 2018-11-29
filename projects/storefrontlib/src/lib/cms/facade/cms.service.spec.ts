@@ -9,7 +9,7 @@ import * as fromReducers from '../store/reducers';
 
 import { of } from 'rxjs';
 import { Page } from '../models/page.model';
-import { PageType, Component } from '@spartacus/core';
+import { PageType } from '@spartacus/core';
 import { DefaultPageService } from '../services/default-page.service';
 import { CmsModuleConfig } from '../cms-module-config';
 
