@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { Country } from '@spartacus/core';
 
 export const LOAD_DELIVERY_COUNTRIES = '[User] Load Delivery Countries';
 export const LOAD_DELIVERY_COUNTRIES_FAIL =
@@ -18,7 +19,7 @@ export class LoadDeliveryCountriesFail implements Action {
 
 export class LoadDeliveryCountriesSuccess implements Action {
   readonly type = LOAD_DELIVERY_COUNTRIES_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: Country[]) {}
 }
 
 export type DeliveryCountriesAction =

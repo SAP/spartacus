@@ -13,7 +13,7 @@ export class OutletService {
     outlet: string,
     template: TemplateRef<any>,
     position: OutletPosition = OutletPosition.REPLACE
-  ) {
+  ): void {
     if (position === OutletPosition.BEFORE) {
       this.templatesRefsBefore[outlet] = template;
     }
