@@ -7,11 +7,13 @@ import { reducerToken, reducerProvider } from './reducers/index';
 import { effects } from './effects/index';
 import { metaReducers } from './reducers/index';
 import { AUTH_FEATURE } from './auth-state';
+import { StateModule } from '../../state/state.module';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
+    StateModule,
     StoreModule.forFeature(AUTH_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],

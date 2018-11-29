@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Store, StoreModule } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import * as fromAuthStore from '../store';
 import { ClientToken, UserToken } from '../models/token-types.model';
 
 import { AuthService } from './auth.service';
 import { AuthState } from '../store/auth-state';
+import { AuthStoreModule } from '../store/auth-store.module';
+import { UserAuthenticationTokenService } from '../services/user-authentication/user-authentication-token.service';
+import { ClientAuthenticationTokenService } from '../services/client-authentication/client-authentication-token.service';
 
 const mockToken = {
   userId: 'user@sap.com',
@@ -23,11 +26,12 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('auth', fromAuthStore.getReducers())
-      ],
-      providers: [AuthService]
+      imports: [AuthStoreModule],
+      providers: [
+        AuthService,
+        { provide: UserAuthenticationTokenService, useValue: {} },
+        { provide: ClientAuthenticationTokenService, useValue: {} }
+      ]
     });
 
     service = TestBed.get(AuthService);

@@ -7,4 +7,3 @@ export * from './guards/index';
 export * from './store/actions/index';
 export * from './store/selectors/index';
 export * from './store/auth-state';
-export { getAuthState } from './store/selectors/feature.selector';
