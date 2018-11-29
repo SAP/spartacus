@@ -12,8 +12,16 @@ const mockLanguages: any[] = [
 const mockActiveLang = 'ja';
 
 const languageServiceMock = {
-  languages$: of(mockLanguages),
-  activeLanguage$: of(mockActiveLang)
+  active: mockActiveLang,
+  getAll() {
+    return of(mockLanguages);
+  },
+  getActive() {
+    return of(this.active);
+  },
+  setActive(isocode: string) {
+    this.active = isocode;
+  }
 };
 describe('LanguageSelectorComponent', () => {
   let component: LanguageSelectorComponent;
@@ -62,7 +70,7 @@ describe('LanguageSelectorComponent', () => {
 
   it('should change language', () => {
     component.setActiveLanguage('en');
-    expect(service.setActive).toEqual('en');
+    service.getActive().subscribe(value => expect(value).toEqual('en'));
   });
 
   it('should contain dropdown with languages', () => {
