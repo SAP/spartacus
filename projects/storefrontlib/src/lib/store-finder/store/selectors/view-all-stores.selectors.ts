@@ -18,3 +18,11 @@ export const getViewAllStoresEntities: MemoizedSelector<
   getViewAllStoresState,
   fromStoreFinderReducer.getViewAllStoresEntities
 );
+
+export const getViewAllStoresLoading: MemoizedSelector<
+  any,
+  any
+> = createSelector(
+  getViewAllStoresState,
+  fromStoreFinderReducer.getViewAllStoresLoading
+);
