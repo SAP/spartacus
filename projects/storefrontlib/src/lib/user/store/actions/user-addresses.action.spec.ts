@@ -1,4 +1,5 @@
 import * as fromUserAddressesAction from './user-addresses.action';
+import { Address } from '@spartacus/core';
 
 const userId = '123';
 
@@ -27,7 +28,10 @@ describe('User Addresses Actions', () => {
   });
 
   describe('LoadUserAddressesSuccess Action', () => {
-    const mockUserAddresses = { addresses: ['address1', 'address2'] };
+    const mockUserAddresses: Address[] = [
+      { id: 'address1' },
+      { id: 'address2' }
+    ];
 
     it('should create the action', () => {
       const action = new fromUserAddressesAction.LoadUserAddressesSuccess(
