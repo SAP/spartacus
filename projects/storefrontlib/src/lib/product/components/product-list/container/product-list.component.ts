@@ -31,6 +31,7 @@ export class ProductListComponent implements OnChanges, OnInit {
   grid: any;
   model$: Observable<any>;
   searchConfig: SearchConfig = {};
+  pageTitle: string;
 
   constructor(
     protected productSearchService: ProductSearchService,
@@ -40,7 +41,7 @@ export class ProductListComponent implements OnChanges, OnInit {
   ngOnChanges() {
     const { queryParams } = this.activatedRoute.snapshot;
     const options = this.createOptionsByUrlParams();
-
+    this.pageTitle = this.query;
     if (this.categoryCode && this.categoryCode !== queryParams.categoryCode) {
       this.query = ':relevance:category:' + this.categoryCode;
     }
@@ -52,6 +53,22 @@ export class ProductListComponent implements OnChanges, OnInit {
     }
     if (this.query) {
       this.search(this.query, options);
+      this.pageTitle = null;
+    }
+
+    if (this.model$) {
+      this.model$.subscribe((model: any) => {
+        if (!model.breadcrumbs && this.query.includes(':')) {
+          return;
+        } else if (model.breadcrumbs) {
+          this.pageTitle = model.breadcrumbs[0].facetValueName;
+        } else {
+          this.pageTitle = this.query;
+        }
+        this.pageTitle = `${model.pagination.totalResults} results for ${
+          this.pageTitle
+        }`;
+      });
     }
   }
 

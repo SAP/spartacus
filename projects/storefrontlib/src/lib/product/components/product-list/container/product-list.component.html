@@ -1,14 +1,7 @@
 <ng-container *ngIf="(model$ | async) as model">
   <div class="cx-page">
     <header class="cx-page__header">
-      <h1 class="cx-page__title">
-        {{ model.pagination.totalResults }} results for
-        {{
-          model.breadcrumbs == null
-            ? query
-            : model.breadcrumbs[0].facetValueName
-        }}
-      </h1>
+      <h1 class="cx-page__title">{{ pageTitle }}</h1>
     </header>
     <section class="cx-page__section">
       <div class="container">
