@@ -11,11 +11,11 @@ export const initialState: ComponentState = {
 
 export function reducer<T extends Component>(
   state = initialState,
-  action: fromComponent.ComponentAction
+  action: fromComponent.ComponentAction<T>
 ): ComponentState {
   switch (action.type) {
     case fromComponent.LOAD_COMPONENT_SUCCESS: {
-      const component: T = action.payload; //<T extends Component>
+      const component: T = action.payload;
 
       return {
         ...state,

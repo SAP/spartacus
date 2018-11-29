@@ -10,14 +10,14 @@ export const initialState: NavigationItemState = {
   nodes: {}
 };
 
-export function reducer(
+export function reducer<T extends Component>(
   state = initialState,
   action: fromNavigationItem.NavigationEntryItemAction
 ): NavigationItemState {
   switch (action.type) {
     case fromNavigationItem.LOAD_NAVIGATION_ITEMS_SUCCESS: {
       if (action.payload.components) {
-        const components: Component[] = action.payload.components;
+        const components: T[] = action.payload.components;
         const nodeId = action.payload.nodeId;
 
         const newItem = components.reduce(

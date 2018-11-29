@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { RoutingService, PageType, Component } from '@spartacus/core';
+import { RoutingService, PageType } from '@spartacus/core';
 import { OccCmsService } from '../../services/occ-cms.service';
 import {
   CmsModuleConfig,

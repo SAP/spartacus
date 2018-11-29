@@ -33,9 +33,9 @@ export class CleanComponentState implements Action {
 }
 
 // action types
-export type ComponentAction =
+export type ComponentAction<T extends Component> =
   | LoadComponent
   | LoadComponentFail
-  | LoadComponentSuccess
+  | LoadComponentSuccess<T>
   | GetComponentFromPage
   | CleanComponentState;

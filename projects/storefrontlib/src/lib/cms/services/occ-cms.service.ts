@@ -4,13 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { IdList } from './../models/idList.model';
 import { CmsModuleConfig } from '../cms-module-config';
-import {
-  PageContext,
-  PageType,
-  Component,
-  CMSPage,
-  ComponentList
-} from '@spartacus/core';
+import { PageContext, PageType, CMSPage } from '@spartacus/core';
 
 @Injectable()
 export class OccCmsService {
