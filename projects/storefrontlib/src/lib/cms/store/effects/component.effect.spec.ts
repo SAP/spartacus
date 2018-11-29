@@ -14,7 +14,7 @@ import * as fromActions from '../actions/component.action';
 
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { RoutingService, PageType, Component } from '@spartacus/core';
+import { RoutingService, PageType, CmsComponent } from '@spartacus/core';
 
 const router = {
   state: {
@@ -33,7 +33,7 @@ describe('Component Effects', () => {
   let service: OccCmsService;
   let effects: fromEffects.ComponentEffects;
 
-  const component: Component = {
+  const component: CmsComponent = {
     uid: 'comp1',
     typeCode: 'SimpleBannerComponent'
   };

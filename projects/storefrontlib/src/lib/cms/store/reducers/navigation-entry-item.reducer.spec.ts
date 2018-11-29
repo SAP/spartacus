@@ -1,6 +1,6 @@
 import * as fromComponent from './navigation-entry-item.reducer';
 import * as fromActions from '../actions/navigation-entry-item.action';
-import { Component } from '@spartacus/core';
+import { CmsComponent } from '@spartacus/core';
 
 describe('Navigation Entry Item Reducer', () => {
   describe('undefined action', () => {
@@ -15,7 +15,7 @@ describe('Navigation Entry Item Reducer', () => {
 
   describe('LOAD_NAVIGATION_ITEMS_SUCCESS action', () => {
     it('should populate the component state nodes', () => {
-      const mockComponents: Component[] = [
+      const mockComponents: CmsComponent[] = [
         { uid: 'comp1', typeCode: 'SimpleBannerComponent1' },
         { uid: 'comp2', typeCode: 'SimpleBannerComponent2' }
       ];

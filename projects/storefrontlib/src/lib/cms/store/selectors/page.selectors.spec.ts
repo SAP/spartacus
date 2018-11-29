@@ -6,12 +6,12 @@ import * as fromActions from '../actions';
 import * as fromSelectors from '../selectors/page.selectors';
 
 import { Page } from '../../models/page.model';
-import { Component } from '@spartacus/core';
+import { CmsComponent } from '@spartacus/core';
 
 describe('Cms PageData Selectors', () => {
   let store: Store<fromReducers.CmsState>;
 
-  const components: Component[] = [
+  const components: CmsComponent[] = [
     { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
     { uid: 'comp2', typeCode: 'CMSLinkComponent' },
     { uid: 'comp3', typeCode: 'NavigationComponent' }

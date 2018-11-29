@@ -22,8 +22,7 @@ import {
   RoutingService,
   PageContext,
   PageType,
-  CMSPage,
-  Component
+  CMSPage
 } from '@spartacus/core';
 
 @Injectable()
@@ -135,7 +134,7 @@ export class PageEffects {
   }
 
   private getComponents(pageData: CMSPage) {
-    const components: Component[] = [];
+    const components = [];
     if (pageData) {
       for (const slot of pageData.contentSlots.contentSlot) {
         if (

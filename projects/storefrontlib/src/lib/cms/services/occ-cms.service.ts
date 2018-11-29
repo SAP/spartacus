@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { IdList } from './../models/idList.model';
 import { CmsModuleConfig } from '../cms-module-config';
-import { PageContext, PageType, CMSPage } from '@spartacus/core';
+import { PageContext, PageType, CMSPage, CmsComponent } from '@spartacus/core';
 
 @Injectable()
 export class OccCmsService {
@@ -44,13 +44,13 @@ export class OccCmsService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  loadComponent(
+  loadComponent<T extends CmsComponent>(
     id: string,
     pageContext: PageContext,
     fields?: string
-  ): Observable<any> {
+  ): Observable<T> {
     return this.http
-      .get(this.getBaseEndPoint() + `/components/${id}`, {
+      .get<T>(this.getBaseEndPoint() + `/components/${id}`, {
         headers: this.headers,
         params: new HttpParams({
           fromString: this.getRequestParams(pageContext, fields)

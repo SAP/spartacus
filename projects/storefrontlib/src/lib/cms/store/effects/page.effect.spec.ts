@@ -13,7 +13,7 @@ import {
 import * as fromEffects from './page.effect';
 import * as fromActions from '../actions';
 import { Page } from '../../models/page.model';
-import { PageContext, PageType, Component } from '@spartacus/core';
+import { PageContext, PageType, CmsComponent } from '@spartacus/core';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
@@ -28,7 +28,7 @@ describe('Page Effects', () => {
   let defaultPageService: DefaultPageService;
   let effects: fromEffects.PageEffects;
 
-  const comps: Component[] = [
+  const comps: CmsComponent[] = [
     { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
     { uid: 'comp2', typeCode: 'CMSLinkComponent' },
     { uid: 'comp3', typeCode: 'NavigationComponent' }

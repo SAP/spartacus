@@ -1,5 +1,5 @@
 import * as fromComponent from './component.action';
-import { Component } from '@spartacus/core';
+import { CmsComponent } from '@spartacus/core';
 
 describe('Cms Component Actions', () => {
   describe('LoadComponent Actions', () => {
@@ -28,7 +28,7 @@ describe('Cms Component Actions', () => {
 
     describe('LoadComponentSuccess', () => {
       it('should create an action', () => {
-        const component: Component = {
+        const component: CmsComponent = {
           uid: 'comp1',
           typeCode: 'SimpleBannerComponent'
         };

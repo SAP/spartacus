@@ -1,5 +1,5 @@
 import * as fromAction from './navigation-entry-item.action';
-import { Component } from '@spartacus/core';
+import { CmsComponent } from '@spartacus/core';
 
 describe('Navigation Entry Item Actions', () => {
   describe('LoadNavigationItems Actions', () => {
@@ -32,7 +32,7 @@ describe('Navigation Entry Item Actions', () => {
 
     describe('LoadNavigationItemsSuccess', () => {
       it('should create an action', () => {
-        const components: Component[] = [
+        const components: CmsComponent[] = [
           { uid: 'comp1', typeCode: 'SimpleBannerComponent1' },
           { uid: 'comp2', typeCode: 'SimpleBannerComponent2' }
         ];

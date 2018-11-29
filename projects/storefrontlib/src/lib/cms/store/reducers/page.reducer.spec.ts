@@ -1,7 +1,7 @@
 import * as fromPage from './page.reducer';
 import * as fromActions from '../actions/page.action';
 import { Page } from '../../models/page.model';
-import { Component } from '@spartacus/core';
+import { CmsComponent } from '@spartacus/core';
 
 describe('Cms Page Reducer', () => {
   describe('undefined action', () => {
@@ -16,7 +16,7 @@ describe('Cms Page Reducer', () => {
 
   describe('LOAD_PAGEDATA_SUCCESS action', () => {
     it('should populate the page state', () => {
-      const components: Component[] = [
+      const components: CmsComponent[] = [
         { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
         { uid: 'comp2', typeCode: 'CMSLinkComponent' },
         { uid: 'comp3', typeCode: 'NavigationComponent' }

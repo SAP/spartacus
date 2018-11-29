@@ -1,25 +1,6 @@
-/**
- *
- * An interface representing CmsComponent.
- */
-export interface CmsComponent {
-  /**
-   * @member {Date} [modifiedtime]
-   */
-  modifiedtime?: Date;
-  /**
-   * @member {string} [name]
-   */
-  name?: string;
-  /**
-   * @member {string} [typeCode]
-   */
-  typeCode?: string;
-  /**
-   * @member {string} [uid]
-   */
-  uid?: string;
-}
+import { Component } from './occ.models';
+
+export type CmsComponent = Component;
 
 export interface CmsLinkComponent extends CmsComponent {
   url?: string;

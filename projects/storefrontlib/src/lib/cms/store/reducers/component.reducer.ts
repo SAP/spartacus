@@ -1,5 +1,5 @@
 import * as fromComponent from '../actions/component.action';
-import { Component } from '@spartacus/core';
+import { CmsComponent } from '@spartacus/core';
 
 export interface ComponentState {
   entities: { [id: string]: any };
@@ -9,7 +9,7 @@ export const initialState: ComponentState = {
   entities: {}
 };
 
-export function reducer<T extends Component>(
+export function reducer<T extends CmsComponent>(
   state = initialState,
   action: fromComponent.ComponentAction<T>
 ): ComponentState {
@@ -27,11 +27,11 @@ export function reducer<T extends Component>(
     }
 
     case fromComponent.GET_COMPONENET_FROM_PAGE: {
-      const components: Component[] = action.payload;
+      const components: T[] = action.payload;
       const entities = components
         .filter(comp => state.entities[comp.uid] == null)
         .reduce(
-          (compEntities: { [uid: string]: any }, component: Component) => {
+          (compEntities: { [uid: string]: any }, component: T) => {
             return {
               ...compEntities,
               [component.uid]: component

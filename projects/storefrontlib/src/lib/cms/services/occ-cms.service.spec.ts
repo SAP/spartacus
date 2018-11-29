@@ -5,11 +5,11 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccCmsService } from './occ-cms.service';
-import { PageContext, PageType, Component, CMSPage } from '@spartacus/core';
+import { PageContext, PageType, CmsComponent, CMSPage } from '@spartacus/core';
 import { IdList } from './../models/idList.model';
 import { CmsModuleConfig } from '../cms-module-config';
 
-const comps: Component[] = [
+const comps: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
   { uid: 'comp2', typeCode: 'CMSLinkComponent' },
   { uid: 'comp3', typeCode: 'NavigationComponent' }
@@ -24,7 +24,7 @@ const cmsPageData: CMSPage = {
     ]
   }
 };
-const component: Component = {
+const component: CmsComponent = {
   uid: 'comp1',
   typeCode: 'SimpleBannerComponent'
 };
