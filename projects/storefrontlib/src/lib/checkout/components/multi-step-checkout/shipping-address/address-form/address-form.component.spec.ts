@@ -236,7 +236,11 @@ describe('AddressFormComponent', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.btn-primary'));
 
-    xit('should call "verifyAddress" function when being clicked and when form is valid', () => {
+    it('should call "verifyAddress" function when being clicked and when form is valid', () => {
+      mockUserService.allDeliveryCountries$.next([]);
+      mockUserService.titles$.next([]);
+      mockUserService.allRegions$.next([]);
+
       spyOn(component, 'verifyAddress');
       fixture.detectChanges();
 

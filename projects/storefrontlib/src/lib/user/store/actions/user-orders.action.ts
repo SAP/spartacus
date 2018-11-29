@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { Order, PaginationModel, SortModel } from '@spartacus/core';
 
 export const LOAD_USER_ORDERS = '[User] Load User Orders';
 export const LOAD_USER_ORDERS_FAIL = '[User] Load User Orders Fail';
@@ -23,7 +24,13 @@ export class LoadUserOrdersFail implements Action {
 
 export class LoadUserOrdersSuccess implements Action {
   readonly type = LOAD_USER_ORDERS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(
+    public payload: {
+      orders: Order[];
+      pagination: PaginationModel;
+      sort: SortModel[];
+    }
+  ) {}
 }
 
 // exported type
