@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccProductSearchService } from '../../occ/product-search.service';
-import { OccConfig } from '@spartacus/core';
+import { OccConfig } from '../../../occ/config/occ-config';
 import { SearchConfig } from '../../model/search-config';
 import { ProductImageConverterService } from '../converters/product-image-converter.service';
 import * as fromEffects from './product-search.effect';

@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { OccConfig } from '@spartacus/core';
+import { OccConfig } from '../../../occ/config/occ-config';
 
 import * as fromEffects from '../effects/product-reviews.effect';
 import * as fromActions from '../actions/product-reviews.action';
