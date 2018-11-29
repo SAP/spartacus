@@ -38,7 +38,7 @@ const mockRoutingService = {
   routerState$: of(router)
 };
 
-fdescribe('Product Effects', () => {
+describe('Product Effects', () => {
   let actions$: Observable<any>;
   let service: OccProductService;
   let effects: fromEffects.ProductEffects;
