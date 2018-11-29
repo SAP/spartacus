@@ -1,5 +1,6 @@
 import * as fromReducer from './delivery-countries.reducer';
 import * as fromActions from '../actions/';
+import { Country } from '@spartacus/core';
 
 describe('Delivery Countries Reducer', () => {
   describe('undefined action', () => {
@@ -14,7 +15,7 @@ describe('Delivery Countries Reducer', () => {
 
   describe('LOAD_DELIVERTY_COUNTRIES_SUCCESS action', () => {
     it('should populate the delivery countries state entities', () => {
-      const mockCountries = [
+      const mockCountries: Country[] = [
         {
           isocode: 'AL',
           name: 'Albania'

@@ -8,19 +8,20 @@ import { filter } from 'rxjs/operators';
 import * as fromAction from '../store/actions';
 import * as fromReducer from '../store/reducers';
 import * as fromSelector from '../store/selectors';
+import { AuthService, UserToken } from '../../auth/index';
 
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
-import { AuthService } from '@spartacus/core';
+import { Cart, OrderEntry } from '@spartacus/core';
 
 @Injectable()
 export class CartService {
   private callback: Function;
 
-  readonly activeCart$: Observable<any> = this.store.pipe(
+  readonly activeCart$: Observable<Cart> = this.store.pipe(
     select(fromSelector.getActiveCart)
   );
 
-  readonly entries$: Observable<any> = this.store.pipe(
+  readonly entries$: Observable<OrderEntry[]> = this.store.pipe(
     select(fromSelector.getEntries)
   );
 
@@ -40,7 +41,7 @@ export class CartService {
     this.initCart();
   }
 
-  initCart() {
+  private initCart() {
     this.store.pipe(select(fromSelector.getActiveCart)).subscribe(cart => {
       this.cartData.cart = cart;
       if (this.callback) {
@@ -52,33 +53,44 @@ export class CartService {
     this.authService.userToken$
       .pipe(filter(userToken => this.cartData.userId !== userToken.userId))
       .subscribe(userToken => {
-        if (Object.keys(userToken).length !== 0) {
-          this.cartData.userId = userToken.userId;
-        } else {
-          this.cartData.userId = ANONYMOUS_USERID;
-        }
-
-        // for login user, whenever there's an existing cart, we will load the user
-        // current cart and merge it into the existing cart
-        if (this.cartData.userId !== ANONYMOUS_USERID) {
-          if (!this.isCartCreated(this.cartData.cart)) {
-            this.store.dispatch(
-              new fromAction.LoadCart({
-                userId: this.cartData.userId,
-                cartId: 'current'
-              })
-            );
-          } else {
-            this.store.dispatch(
-              new fromAction.MergeCart({
-                userId: this.cartData.userId,
-                cartId: this.cartData.cart.guid
-              })
-            );
-          }
-        }
+        this.setUserId(userToken);
+        this.loadOrMergeCart();
       });
 
+    this.refreshCart();
+  }
+
+  private setUserId(userToken: UserToken): void {
+    if (Object.keys(userToken).length !== 0) {
+      this.cartData.userId = userToken.userId;
+    } else {
+      this.cartData.userId = ANONYMOUS_USERID;
+    }
+  }
+
+  private loadOrMergeCart(): void {
+    // for login user, whenever there's an existing cart, we will load the user
+    // current cart and merge it into the existing cart
+    if (this.cartData.userId !== ANONYMOUS_USERID) {
+      if (!this.isCartCreated(this.cartData.cart)) {
+        this.store.dispatch(
+          new fromAction.LoadCart({
+            userId: this.cartData.userId,
+            cartId: 'current'
+          })
+        );
+      } else {
+        this.store.dispatch(
+          new fromAction.MergeCart({
+            userId: this.cartData.userId,
+            cartId: this.cartData.cart.guid
+          })
+        );
+      }
+    }
+  }
+
+  private refreshCart(): void {
     this.store.pipe(select(fromSelector.getRefresh)).subscribe(refresh => {
       if (refresh) {
         this.store.dispatch(
@@ -141,7 +153,7 @@ export class CartService {
     }
   }
 
-  removeCartEntry(entry) {
+  removeCartEntry(entry: OrderEntry) {
     this.store.dispatch(
       new fromAction.RemoveEntry({
         userId: this.cartData.userId,
@@ -172,17 +184,17 @@ export class CartService {
     }
   }
 
-  getEntry(productCode: string): Observable<any> {
+  getEntry(productCode: string): Observable<OrderEntry> {
     return this.store.pipe(
       select(fromSelector.getEntrySelectorFactory(productCode))
     );
   }
 
-  isCartCreated(cart: any): boolean {
+  isCartCreated(cart: Cart): boolean {
     return cart && !!Object.keys(cart).length;
   }
 
-  isCartEmpty(cart: any): boolean {
+  isCartEmpty(cart: Cart): boolean {
     return cart && !cart.totalItems;
   }
 }
