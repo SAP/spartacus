@@ -1,6 +1,14 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { OccConfig } from '@spartacus/core';
+import {
+  OccConfig,
+  CartList,
+  Cart,
+  CartModification,
+  Address,
+  DeliveryMode,
+  PaymentDetails
+} from '@spartacus/core';
 import { CustomEncoder } from '../custom.encoder';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -33,7 +41,7 @@ export class OccCartService {
     );
   }
 
-  public loadAllCarts(userId: string, details?: boolean): Observable<any> {
+  public loadAllCarts(userId: string, details?: boolean): Observable<CartList> {
     const url = this.getCartEndpoint(userId);
     const params = details
       ? new HttpParams({
@@ -43,7 +51,7 @@ export class OccCartService {
           fromString: 'fields=carts(' + BASIC_PARAMS + ',saveTime)'
         });
     return this.http
-      .get(url, { params: params })
+      .get<CartList>(url, { params: params })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -51,7 +59,7 @@ export class OccCartService {
     userId: string,
     cartId: string,
     details?: boolean
-  ): Observable<any> {
+  ): Observable<Cart> {
     const url = this.getCartEndpoint(userId) + cartId;
     const params = details
       ? new HttpParams({
@@ -76,7 +84,7 @@ export class OccCartService {
       );
     } else {
       return this.http
-        .get(url, { params: params })
+        .get<Cart>(url, { params: params })
         .pipe(catchError((error: any) => throwError(error)));
     }
   }
@@ -85,7 +93,7 @@ export class OccCartService {
     userId: string,
     oldCartId?: string,
     toMergeCartGuid?: string
-  ): Observable<any> {
+  ): Observable<Cart> {
     const url = this.getCartEndpoint(userId);
     const toAdd = JSON.stringify({});
     let queryString = 'fields=' + BASIC_PARAMS;
@@ -101,7 +109,7 @@ export class OccCartService {
     });
 
     return this.http
-      .post(url, toAdd, { params: params })
+      .post<Cart>(url, toAdd, { params: params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
@@ -110,7 +118,7 @@ export class OccCartService {
     cartId: string,
     productCode: string,
     quantity: number = 1
-  ): Observable<any> {
+  ): Observable<CartModification> {
     const toAdd = JSON.stringify({});
 
     const url = this.getCartEndpoint(userId) + cartId + '/entries';
@@ -124,7 +132,7 @@ export class OccCartService {
     });
 
     return this.http
-      .post(url, toAdd, { headers, params })
+      .post<CartModification>(url, toAdd, { headers, params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
@@ -134,7 +142,7 @@ export class OccCartService {
     entryNumber: string,
     qty: number,
     pickupStore?: string
-  ) {
+  ): Observable<CartModification> {
     const url =
       this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
 
@@ -151,7 +159,7 @@ export class OccCartService {
     });
 
     return this.http
-      .patch(url, {}, { headers, params })
+      .patch<CartModification>(url, {}, { headers, params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
@@ -176,9 +184,9 @@ export class OccCartService {
     userId: string,
     cartId: string,
     address: any
-  ): Observable<any> {
+  ): Observable<Address> {
     return this.http
-      .post(
+      .post<Address>(
         this.getCartEndpoint(userId) + cartId + '/addresses/delivery',
         address,
         {
@@ -229,9 +237,11 @@ export class OccCartService {
   public getSupportedDeliveryModes(
     userId: string,
     cartId: string
-  ): Observable<any> {
+  ): Observable<DeliveryMode> {
     return this.http
-      .get(this.getCartEndpoint(userId) + cartId + '/deliverymodes')
+      .get<DeliveryMode>(
+        this.getCartEndpoint(userId) + cartId + '/deliverymodes'
+      )
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
@@ -271,7 +281,7 @@ export class OccCartService {
     userId: string,
     cartId: string,
     parameters: any
-  ): Observable<any> {
+  ): Observable<PaymentDetails> {
     let httpParams = new HttpParams({ encoder: new CustomEncoder() });
     Object.keys(parameters).forEach(key => {
       httpParams = httpParams.append(key, parameters[key]);
@@ -282,7 +292,7 @@ export class OccCartService {
     });
 
     return this.http
-      .post(
+      .post<PaymentDetails>(
         this.getCartEndpoint(userId) + cartId + '/payment/sop/response',
         httpParams,
         { headers }

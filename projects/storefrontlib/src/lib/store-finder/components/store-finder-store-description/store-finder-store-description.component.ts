@@ -4,8 +4,8 @@ import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
+import { StoreDataService, StoreFinderService } from '../../services/index';
 
-import { StoreDataService } from '../../services/index';
 import * as fromStore from '../../store';
 
 @Component({
@@ -22,12 +22,14 @@ export class StoreFinderStoreDescriptionComponent
   constructor(
     private store: Store<fromStore.StoresState>,
     protected storeDataService: StoreDataService,
+    protected storeFinderService: StoreFinderService,
     private route: ActivatedRoute
   ) {
     super(storeDataService);
   }
 
   ngOnInit() {
+    this.requestStoresData();
     this.ngUnsubscribe = this.store
       .pipe(select(fromStore.getFindStoresEntities))
       .subscribe(locations => {
@@ -38,6 +40,18 @@ export class StoreFinderStoreDescriptionComponent
           )[0];
         }
       });
+  }
+
+  requestStoresData() {
+    const { region, country } = this.route.snapshot.params;
+    if (!country) {
+      return;
+    }
+    if (region) {
+      this.storeFinderService.viewAllStoresForRegion(country, region);
+      return;
+    }
+    this.storeFinderService.viewAllStoresForCountry(country);
   }
 
   ngOnDestroy() {

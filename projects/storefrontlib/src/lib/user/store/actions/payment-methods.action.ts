@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { PaymentDetails } from '@spartacus/core';
 
 export const LOAD_USER_PAYMENT_METHODS = '[User] Load User Payment Methods';
 export const LOAD_USER_PAYMENT_METHODS_FAIL =
@@ -18,7 +19,7 @@ export class LoadUserPaymentMethodsFail implements Action {
 
 export class LoadUserPaymentMethodsSuccess implements Action {
   readonly type = LOAD_USER_PAYMENT_METHODS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: PaymentDetails[]) {}
 }
 
 // action types

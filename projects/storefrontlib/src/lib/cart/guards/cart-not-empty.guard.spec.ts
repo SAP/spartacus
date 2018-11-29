@@ -7,6 +7,7 @@ import { of, Observable } from 'rxjs';
 import { CartService } from '../../cart/facade';
 
 import { CartNotEmptyGuard } from './cart-not-empty.guard';
+import { Cart } from '@spartacus/core';
 
 const MAIN_PAGE_ROUTE = [''];
 const CART_EMPTY = Object.freeze({ totalItems: 0 });
@@ -16,7 +17,7 @@ const CART_NOT_CREATED = Object.freeze({});
 const mockRouter = { navigate: () => {} };
 
 class CartServiceStub {
-  activeCart$: Observable<any>;
+  activeCart$: Observable<Cart>;
   loaded$: Observable<boolean>;
   isCartEmpty(_cart: any): boolean {
     return false;
