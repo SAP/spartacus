@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { TermsConditionsLayoutModule } from './../../layout/terms-conditions-layout/terms-conditions-layout.module';
 import { TermsConditionsPageComponent } from './terms-conditions-page.component';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
-import { ConfigurableRoutes } from '@spartacus/core';
 
-const routes: ConfigurableRoutes = [
+const routes: Routes = [
   {
     path: null,
     canActivate: [CmsPageGuards],

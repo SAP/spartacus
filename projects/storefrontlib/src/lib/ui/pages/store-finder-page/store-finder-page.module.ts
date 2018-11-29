@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards';
 import { StoreFinderPageComponent } from './store-finder-page.component';
@@ -12,9 +12,8 @@ import { StoreFinderStoresCountComponent } from '../../../store-finder/component
 import { StoreFinderGridComponent } from '../../../store-finder/components/store-finder-grid/store-finder-grid.component';
 // tslint:disable-next-line:max-line-length
 import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
-import { ConfigurableRoutes } from '@spartacus/core';
 
-const routes: ConfigurableRoutes = [
+const routes: Routes = [
   {
     path: null,
     canActivate: [CmsPageGuards],

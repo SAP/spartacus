@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { ContactPageLayoutModule } from '../../layout/contact-page-layout/contact-page-layout.module';
 import { ContactPageComponent } from './contact-page.component';
-import { ConfigurableRoutes } from '@spartacus/core';
 
-const routes: ConfigurableRoutes = [
+const routes: Routes = [
   {
     path: null,
     canActivate: [CmsPageGuards],

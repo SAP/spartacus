@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 
 import { PageNotFoundComponent } from './404.component';
-import { ConfigurableRoutes, PathModule } from '@spartacus/core';
+import { PathModule } from '@spartacus/core';
 
-const routes: ConfigurableRoutes = [
+const routes: Routes = [
   {
     path: null,
     component: PageNotFoundComponent,

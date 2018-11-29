@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { CategoryPageLayoutModule } from '../../layout/category-page-layout/category-page-layout.module';
 import { ProductListPageLayoutModule } from '../../layout/product-list-page-layout/product-list-page-layout.module';
 
 import { CategoryPageComponent } from './category-page.component';
-import { ConfigurableRoutes } from '@spartacus/core';
 
-const routes: ConfigurableRoutes = [
+const routes: Routes = [
   {
     path: null,
     canActivate: [CmsPageGuards],

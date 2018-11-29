@@ -3,7 +3,6 @@ import { ServerConfig } from '../../config/server-config/server-config';
 import { RoutesConfigLoader } from './routes-config-loader';
 import { ConfigurableRoutesService } from './configurable-routes.service';
 import { Router, Routes } from '@angular/router';
-import { ConfigurableRoutes } from './configurable-route';
 import { RoutesConfig } from './routes-config';
 
 const mockRoutesConfigLoader: { routesConfig: RoutesConfig } = {
@@ -15,7 +14,7 @@ const mockRoutesConfigLoader: { routesConfig: RoutesConfig } = {
 };
 const mockServerConfig: ServerConfig = { production: false };
 class MockRouter {
-  config: Routes | ConfigurableRoutes;
+  config: Routes;
   resetConfig(newConfig): void {
     this.config = newConfig;
   }
