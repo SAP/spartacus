@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { Address } from '@spartacus/core';
 
 export const LOAD_USER_ADDRESSES = '[User] Load User Addresses';
 export const LOAD_USER_ADDRESSES_FAIL = '[User] Load User Addresses Fail';
@@ -28,7 +29,7 @@ export class LoadUserAddressesFail implements Action {
 
 export class LoadUserAddressesSuccess implements Action {
   readonly type = LOAD_USER_ADDRESSES_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: Address[]) {}
 }
 
 // Adding address actions
