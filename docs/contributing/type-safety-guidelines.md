@@ -65,3 +65,22 @@ const userToken = {
 
 We don't have a strong opinion on which one to use at the moment.
 
+### Generics
+
+There are some places in code where generics are used, i.e. when working with CMS components.
+
+Curently, there are no types for specific CMS componets, but there's a generic `Component` that can be used like this:
+
+```
+loadComponent<T extends Component>(
+    id: string,
+    pageContext: PageContext,
+    fields?: string
+  ): Observable<T> {
+    const aComponent = <T>{...};
+    return of(aComponent);
+  }
+```
+
+For more about TypeSript's advanced types, see [TypeScript's docs](https://www.typescriptlang.org/docs/handbook/advanced-types.html).
+
