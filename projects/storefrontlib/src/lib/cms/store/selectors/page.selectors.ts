@@ -16,7 +16,10 @@ export const getPageState: MemoizedSelector<
 export const getPageEntities: MemoizedSelector<
   any,
   { [context: string]: Page }
-> = createSelector(getPageState, fromPage.getPageEntities);
+> = createSelector(
+  getPageState,
+  fromPage.getPageEntities
+);
 
 export const getLatestPageKey: MemoizedSelector<any, string> = createSelector(
   getPageState,
