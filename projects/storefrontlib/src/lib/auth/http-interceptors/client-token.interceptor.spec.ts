@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import { AuthModuleConfig } from '../auth-module.config';
 import { AuthService } from '../facade/auth.service';
@@ -14,16 +14,18 @@ import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 
 import { ClientTokenInterceptor } from './client-token.interceptor';
 
-const testToken: ClientToken = {
+const testToken = {
   access_token: 'abc-123',
   token_type: 'bearer',
   expires_in: 1000,
   scope: ''
-};
+} as ClientToken;
 
-const authServiceMock = {
-  clientToken$: of(testToken)
-};
+class MockAuthService {
+  getClientToken(): Observable<ClientToken> {
+    return of();
+  }
+}
 
 const MockAuthModuleConfig: AuthModuleConfig = {
   server: {
@@ -36,15 +38,16 @@ const MockAuthModuleConfig: AuthModuleConfig = {
   }
 };
 
-describe('ClientTokenInterceptor', () => {
+fdescribe('ClientTokenInterceptor', () => {
   let httpMock: HttpTestingController;
+  let authService: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         { provide: AuthModuleConfig, useValue: MockAuthModuleConfig },
-        { provide: AuthService, useValue: authServiceMock },
+        { provide: AuthService, useClass: MockAuthService },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: ClientTokenInterceptor,
@@ -53,17 +56,21 @@ describe('ClientTokenInterceptor', () => {
       ]
     });
     httpMock = TestBed.get(HttpTestingController);
+    authService = TestBed.get(AuthService);
   });
 
   describe('Client Token', () => {
     it('Should only add token to specified requests', inject(
       [HttpClient],
       (http: HttpClient) => {
+        spyOn(authService, 'getClientToken').and.returnValue(of(testToken));
+
         http
           .get('https://localhost:9002/rest/v2/electronics/test')
           .subscribe(result => {
             expect(result).toBeTruthy();
-          });
+          })
+          .unsubscribe();
         let mockReq = httpMock.expectOne(
           'https://localhost:9002/rest/v2/electronics/test'
         );
@@ -80,7 +87,8 @@ describe('ClientTokenInterceptor', () => {
           )
           .subscribe(result => {
             expect(result).toBeTruthy();
-          });
+          })
+          .unsubscribe();
 
         mockReq = httpMock.expectOne(
           'https://localhost:9002/rest/v2/electronics/somestore/forgottenpasswordtokens'
@@ -100,7 +108,8 @@ describe('ClientTokenInterceptor', () => {
           .get('/somestore/forgottenpasswordtokens', { headers })
           .subscribe(result => {
             expect(result).toBeTruthy();
-          });
+          })
+          .unsubscribe();
 
         const mockReq = httpMock.expectOne(
           '/somestore/forgottenpasswordtokens'
