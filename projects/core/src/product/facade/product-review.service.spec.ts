@@ -41,7 +41,7 @@ describe('ReviewService', () => {
         of([mockReview])
       );
       service.getByProductCode('testId').subscribe(reviews => {
-        expect(reviews).toBe([mockReview]);
+        expect(reviews).toEqual([mockReview]);
       });
     });
 
