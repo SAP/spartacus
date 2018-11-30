@@ -177,8 +177,8 @@ describe('Cart interactions', () => {
     expect(await home.header.isLoggedIn()).toBeFalsy();
 
     // select product from the suggestion list, then add it to cart 2 times
-    await home.header.performSearch('358639', true);
-    await autocompletePanel.selectProduct('DSC-N1');
+    await home.header.performSearch('3470545', true);
+    await autocompletePanel.selectProduct('EASYSHARE M381');
     // wait until product details page is loaded
     await productDetails.waitForReady();
     await productDetails.addToCart();
