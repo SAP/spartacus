@@ -24,7 +24,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
     private config: AuthModuleConfig,
     private authService: AuthService
   ) {
-    this.authService.userToken$.subscribe((token: UserToken) => {
+    this.authService.getUserToken().subscribe((token: UserToken) => {
       this.userToken = token;
     });
   }

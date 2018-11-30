@@ -5,13 +5,15 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
+
+import { RoutingService } from '@spartacus/core';
+
 import { Observable, Subscription, of } from 'rxjs';
 import { take, tap, switchMap } from 'rxjs/operators';
 
-import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
-import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '@spartacus/core';
 import { UserService } from '../../facade/user.service';
+import { AuthService } from '../../../auth/facade/auth.service';
+import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
 
 @Component({
   selector: 'cx-register',
@@ -54,7 +56,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.subscription = this.auth.userToken$
+    this.subscription = this.auth
+      .getUserToken()
       .pipe(
         switchMap(data => {
           if (data && data.access_token) {
@@ -75,7 +78,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       });
   }
 
-  submit() {
+  submit(): void {
     this.userService.registerUser(
       this.userRegistrationForm.value.titleCode,
       this.userRegistrationForm.value.firstName,
@@ -90,7 +93,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
   }
 
-  private matchPassword(ac: AbstractControl) {
+  private matchPassword(ac: AbstractControl): { NotEqual: boolean } {
     if (ac.get('password').value !== ac.get('passwordconf').value) {
       return { NotEqual: true };
     }

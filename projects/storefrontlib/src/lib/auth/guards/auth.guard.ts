@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
     _route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-    return this.authService.userToken$.pipe(
+    return this.authService.getUserToken().pipe(
       map((token: UserToken) => {
         if (!token.access_token) {
           this.routingService.go(['/login']);

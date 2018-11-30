@@ -1,12 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { RoutingService } from '@spartacus/core';
+
 import { Subscription, of } from 'rxjs';
 import { take, switchMap } from 'rxjs/operators';
+
+import { AuthService } from '../../../../auth/facade/auth.service';
 import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../../global-message/models/message.model';
 import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
-import { AuthService } from '../../../../auth/facade/auth.service';
-import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login-form',
@@ -25,7 +28,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.sub = this.auth.userToken$
+    this.sub = this.auth
+      .getUserToken()
       .pipe(
         switchMap(data => {
           if (data && data.access_token) {
@@ -52,7 +56,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  login() {
+  login(): void {
     this.auth.authorize(
       this.form.controls.userId.value,
       this.form.controls.password.value
