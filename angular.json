@@ -139,7 +139,10 @@
               "projects/storefrontapp/tsconfig.app.json",
               "projects/storefrontapp/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "projects/storefrontapp/src/webApplicationInjector.js"
+            ]
           }
         }
       }
