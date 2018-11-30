@@ -38,7 +38,7 @@ const MockAuthModuleConfig: AuthModuleConfig = {
   }
 };
 
-fdescribe('ClientTokenInterceptor', () => {
+describe('ClientTokenInterceptor', () => {
   let httpMock: HttpTestingController;
   let authService: AuthService;
 
