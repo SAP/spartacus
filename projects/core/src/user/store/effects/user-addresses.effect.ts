@@ -5,7 +5,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { OccUserService } from '../../occ';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
-import { AddressList } from '@spartacus/core';
+import { AddressList } from '../../../occ-models';
 
 @Injectable()
 export class UserAddressesEffects {

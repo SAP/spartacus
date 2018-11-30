@@ -1,18 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { OccUserService } from './user.service';
 import {
-  OccConfig,
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
+import {
   User,
   Address,
   AddressValidation,
   AddressList,
   PaymentDetails,
   PaymentDetailsList
-} from '@spartacus/core';
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from '@angular/common/http/testing';
+} from '../../occ-models';
+import { OccConfig } from '../../occ';
 
 const username: any = 'mockUsername';
 const password: any = '1234';

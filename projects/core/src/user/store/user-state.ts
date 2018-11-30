@@ -1,3 +1,9 @@
+export const USER_FEATURE = 'user';
+
+export interface StateWithUser {
+  [USER_FEATURE]: UserState;
+}
+
 export interface DeliveryCountriesState {
   entities: { [isocode: string]: any };
 }

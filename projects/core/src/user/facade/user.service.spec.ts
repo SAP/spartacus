@@ -1,9 +1,9 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store } from '@ngrx/store';
-import { Address } from '@spartacus/core';
 import * as fromStore from '../store';
 import { UserService } from './user.service';
-import { PaymentDetailsList, Region } from '@spartacus/core';
+import { USER_FEATURE } from '../store/user-state';
+import { Address, PaymentDetailsList, Region } from '../../occ-models';
 
 describe('UserService', () => {
   let service: UserService;
@@ -13,7 +13,7 @@ describe('UserService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('user', fromStore.getReducers())
+        StoreModule.forFeature(USER_FEATURE, fromStore.getReducers())
       ],
       providers: [UserService]
     });

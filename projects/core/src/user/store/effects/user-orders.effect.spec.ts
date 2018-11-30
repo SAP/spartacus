@@ -1,4 +1,4 @@
-import { OccConfig, OccOrderService } from '@spartacus/core';
+import { OccConfig, OccOrderService } from '../../../occ-models';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';

@@ -4,7 +4,8 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
-import { User } from '@spartacus/core';
+import { User } from '../../../occ-models';
+import { UserState, USER_FEATURE } from '../user-state';
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',
@@ -15,13 +16,13 @@ const mockUserDetails: User = {
 };
 
 describe('User Details Selectors', () => {
-  let store: Store<fromReducers.UserState>;
+  let store: Store<UserState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('user', fromReducers.getReducers())
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
       ]
     });
 

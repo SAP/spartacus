@@ -1,6 +1,6 @@
 import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';
 import * as fromUserPaymentMethodsReducer from './payment-methods.reducer';
-import { PaymentDetails } from '@spartacus/core';
+import { PaymentDetails } from '../../../occ-models';
 
 describe('User Payment Methods Reducer', () => {
   describe('undefined action', () => {

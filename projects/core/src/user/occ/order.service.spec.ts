@@ -4,7 +4,9 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { async, TestBed } from '@angular/core/testing';
-import { OccConfig, Order, OccOrderService } from '@spartacus/core';
+import { Order } from '../../occ-models';
+import { OccConfig } from '../../occ';
+import { OccOrderService } from '..';
 
 const userId = '123';
 const cartId = '456';

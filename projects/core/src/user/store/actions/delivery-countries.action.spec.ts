@@ -1,5 +1,5 @@
 import * as fromAction from '../actions/delivery-countries.action';
-import { Country } from '@spartacus/core';
+import { Country } from '../../../occ-models';
 
 describe('Delivery Countries Actions', () => {
   describe('LoadDeliveryCountries', () => {

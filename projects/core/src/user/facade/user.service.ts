@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../store';
-import { Order } from '@spartacus/core';
+import { Order } from '../../occ-models';
 
 @Injectable()
 export class UserService {

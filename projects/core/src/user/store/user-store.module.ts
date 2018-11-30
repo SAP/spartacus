@@ -9,12 +9,13 @@ import { metaReducers } from './reducers';
 import { reducerToken, reducerProvider } from './reducers';
 import { effects } from './effects';
 import { ProductConverterModule } from '../../product';
+import { USER_FEATURE } from './user-state';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    StoreModule.forFeature('user', reducerToken, { metaReducers }),
+    StoreModule.forFeature(USER_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
     RouterModule,
     ProductConverterModule

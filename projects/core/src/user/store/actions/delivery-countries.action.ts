@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Country } from '@spartacus/core';
+import { Country } from '../../../occ-models';
 
 export const LOAD_DELIVERY_COUNTRIES = '[User] Load Delivery Countries';
 export const LOAD_DELIVERY_COUNTRIES_FAIL =

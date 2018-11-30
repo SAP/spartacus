@@ -1,5 +1,5 @@
 import * as fromUserAddressesAction from './user-addresses.action';
-import { Address } from '@spartacus/core';
+import { Address } from '../../../occ-models';
 
 const userId = '123';
 

@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { OccUserService } from '../../occ';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import * as fromUserAddressesEffect from './user-addresses.effect';
-import { AddressList } from '@spartacus/core';
+import { AddressList } from '../../../occ-models';
 
 class MockOccUserService {
   loadUserAddresses(_userId: string): Observable<any> {

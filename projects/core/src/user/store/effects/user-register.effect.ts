@@ -2,14 +2,26 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import * as fromActions from '../actions/user-register.action';
 
-// todo: fix below import after auth store is moved to the core
-import * as fromTokenActions from '../../../../../storefrontlib/src/lib/auth/store/actions';
-
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 
 import { OccUserService } from '../../occ/user.service';
 import { UserRegisterFormData } from '../../model/user.model';
+import { Action } from '@ngrx/store';
+
+// todo: fix below import after auth store is moved to the core
+// import * as fromTokenActions from '../../../../../storefrontlib/src/lib/auth/store/actions';
+
+// below mock must be removed after auth store is moved
+const LOAD_USER_TOKEN = '[Auth] Load User Token';
+const fromTokenActions = {
+  LoadUserToken: class LoadUserToken implements Action {
+    readonly type = LOAD_USER_TOKEN;
+    constructor(public payload: { userId: string; password: string }) {}
+  }
+};
+
+// fix end
 
 @Injectable()
 export class UserRegisterEffects {

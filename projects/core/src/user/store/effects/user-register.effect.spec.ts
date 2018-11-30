@@ -1,13 +1,24 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule, combineReducers } from '@ngrx/store';
+import { StoreModule, combineReducers, Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromStore from '../../store';
 
 // todo: fix below import after auth store is moved to the core
-import * as fromAuthStore from '../../../../../storefrontlib/src/lib/auth/store';
+// import * as fromAuthStore from '../../../../../storefrontlib/src/lib/auth/store';
+
+// below mock must be removed after auth store is moved
+const LOAD_USER_TOKEN = '[Auth] Load User Token';
+const fromAuthStore = {
+  LoadUserToken: class LoadUserToken implements Action {
+    readonly type = LOAD_USER_TOKEN;
+    constructor(public payload: { userId: string; password: string }) {}
+  }
+};
+
+// fix end
 
 import { UserRegisterEffects } from './user-register.effect';
 import { OccUserService } from '../../occ';

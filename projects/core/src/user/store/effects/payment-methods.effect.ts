@@ -5,7 +5,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { OccUserService } from '../../occ';
 import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';
-import { PaymentDetailsList } from '@spartacus/core';
+import { PaymentDetailsList } from '../../../occ-models';
 
 @Injectable()
 export class UserPaymentMethodsEffects {

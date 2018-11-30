@@ -1,6 +1,6 @@
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import * as fromUserDetailsReducer from './user-details.reducer';
-import { User } from '@spartacus/core';
+import { User } from '../../../occ-models';
 
 describe('User Details Reducer', () => {
   describe('undefined action', () => {

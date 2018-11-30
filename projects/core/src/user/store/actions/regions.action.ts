@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Region } from '@spartacus/core';
+import { Region } from '../../../occ-models';
 
 export const LOAD_REGIONS = '[User] Load Regions';
 export const LOAD_REGIONS_SUCCESS = '[User] Load Regions Success';

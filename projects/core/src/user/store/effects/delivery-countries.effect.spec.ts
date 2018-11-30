@@ -8,7 +8,7 @@ import { hot, cold } from 'jasmine-marbles';
 import * as fromActions from './../actions';
 import { OccMiscsService } from '../../../occ/miscs/miscs.service';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Country } from '@spartacus/core';
+import { Country } from '../../../occ-models';
 
 class MockMiscsService {
   loadDeliveryCountries() {}

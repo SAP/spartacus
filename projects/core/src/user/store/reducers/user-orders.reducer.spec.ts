@@ -1,6 +1,6 @@
 import * as fromUserOrdersReducer from './user-orders.reducer';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
-import { Order, PaginationModel, SortModel } from '@spartacus/core';
+import { Order, PaginationModel, SortModel } from '../../../occ-models';
 
 describe('User Orders Reducer', () => {
   describe('undefined action', () => {

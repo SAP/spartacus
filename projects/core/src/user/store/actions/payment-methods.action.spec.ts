@@ -1,5 +1,5 @@
 import * as fromUserPaymentMethodsAction from './payment-methods.action';
-import { PaymentDetailsList } from '@spartacus/core';
+import { PaymentDetailsList } from '../../../occ-models';
 
 const userId = '123';
 

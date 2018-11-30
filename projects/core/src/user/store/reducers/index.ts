@@ -18,9 +18,17 @@ import * as fromOrderDetailsReducer from './order-details.reducer';
 
 import * as fromAction from '../actions';
 
+import { UserState, USER_FEATURE } from '../user-state';
+
 // todo: fix below import after auth store is moved to the core
-import * as fromAuthAction from '../../../../../storefrontlib/src/lib/auth/store/actions';
-import { UserState } from '../user-state';
+// import * as fromAuthAction from '../../../../../storefrontlib/src/lib/auth/store/actions';
+
+// below mock must be removed after auth store is moved
+const fromAuthAction = {
+  LOGOUT: '[Auth] Logout'
+};
+
+// fix end
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -47,7 +55,7 @@ export const reducerProvider: Provider = {
 export const getUserState: MemoizedSelector<
   any,
   UserState
-> = createFeatureSelector<UserState>('user');
+> = createFeatureSelector<UserState>(USER_FEATURE);
 
 export function clearUserState(
   reducer: ActionReducer<any>

@@ -6,12 +6,12 @@ import {
 
 import { OccMiscsService } from './miscs.service';
 import {
-  OccConfig,
   CountryList,
   TitleList,
   CardTypeList,
   RegionList
-} from '@spartacus/core';
+} from '../../occ-models';
+import { OccConfig } from '..';
 
 const MockOccModuleConfig: OccConfig = {
   server: {

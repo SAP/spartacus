@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { PaymentDetails } from '@spartacus/core';
+import { PaymentDetails } from '../../../occ-models';
 
 export const LOAD_USER_PAYMENT_METHODS = '[User] Load User Payment Methods';
 export const LOAD_USER_PAYMENT_METHODS_FAIL =

@@ -1,5 +1,5 @@
 import * as fromUserDetailsAction from './user-details.action';
-import { User } from '@spartacus/core';
+import { User } from '../../../occ-models';
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',

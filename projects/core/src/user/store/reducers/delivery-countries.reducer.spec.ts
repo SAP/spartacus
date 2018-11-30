@@ -1,6 +1,6 @@
 import * as fromReducer from './delivery-countries.reducer';
 import * as fromActions from '../actions/';
-import { Country } from '@spartacus/core';
+import { Country } from '../../../occ-models';
 
 describe('Delivery Countries Reducer', () => {
   describe('undefined action', () => {

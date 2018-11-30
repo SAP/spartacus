@@ -4,20 +4,21 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
-import { PaymentDetailsList } from '@spartacus/core';
+import { PaymentDetailsList } from '../../../occ-models';
+import { UserState, USER_FEATURE } from '../user-state';
 
 const mockUserPaymentMethods: PaymentDetailsList = {
   payments: [{ id: 'payment1' }, { id: 'payment2' }]
 };
 
 describe('User Payment Methods Selectors', () => {
-  let store: Store<fromReducers.UserState>;
+  let store: Store<UserState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('user', fromReducers.getReducers())
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
       ]
     });
 

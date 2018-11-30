@@ -1,6 +1,6 @@
 import * as fromReducer from './regions.reducer';
 import * as fromActions from '../actions';
-import { Region } from '@spartacus/core';
+import { Region } from '../../../occ-models';
 
 describe('Regions Reducer', () => {
   describe('undefined action', () => {

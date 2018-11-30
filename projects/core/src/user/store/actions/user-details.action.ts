@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { User } from '@spartacus/core';
+import { User } from '../../../occ-models';
 
 export const LOAD_USER_DETAILS = '[User] Load User Details';
 export const LOAD_USER_DETAILS_FAIL = '[User] Load User Details Fail';

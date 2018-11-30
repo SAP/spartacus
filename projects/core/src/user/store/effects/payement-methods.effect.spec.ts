@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { OccUserService } from '../../occ';
 import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';
 import * as fromUserPaymentMethodsEffect from './payment-methods.effect';
-import { PaymentDetailsList } from '@spartacus/core';
+import { PaymentDetailsList } from '../../../occ-models';
 
 class MockOccUserService {
   loadUserPaymentMethods(_userId: string): Observable<any> {

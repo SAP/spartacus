@@ -1,5 +1,5 @@
 import * as fromUserRegister from './user-register.action';
-import { UserRegisterFormData } from '../../models/user.model';
+import { UserRegisterFormData } from '../../model/user.model';
 
 describe('User Register Actions', () => {
   describe('RegisterUser Action', () => {

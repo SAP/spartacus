@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Order, PaginationModel, SortModel } from '@spartacus/core';
+import { Order, PaginationModel, SortModel } from '../../../occ-models';
 
 export const LOAD_USER_ORDERS = '[User] Load User Orders';
 export const LOAD_USER_ORDERS_FAIL = '[User] Load User Orders Fail';

@@ -4,18 +4,19 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
-import { Address } from '@spartacus/core';
+import { Address } from '../../../occ-models';
+import { UserState, USER_FEATURE } from '../user-state';
 
 const mockUserAddresses: Address[] = [{ id: 'address1' }, { id: 'address2' }];
 
 describe('User Addresses Selectors', () => {
-  let store: Store<fromReducers.UserState>;
+  let store: Store<UserState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('user', fromReducers.getReducers())
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
       ]
     });
 

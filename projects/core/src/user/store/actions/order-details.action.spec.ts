@@ -1,5 +1,5 @@
 import * as fromOrderDetailsAction from './order-details.action';
-import { Order } from '@spartacus/core';
+import { Order } from '../../../occ-models';
 
 const mockOrderDetails: Order = { code: '123' };
 
