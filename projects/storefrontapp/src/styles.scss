@@ -1,14 +1,3 @@
 // Spartacus Application styles
 
-$useTabsOnPDP: false;
-
-@import 'storefrontstyles/theme-sparta';
-
-cx-product-images {
-  --cx-flex-direction: row-reverse;
-  justify-content: flex-end;
-
-  .thumbs {
-    flex-direction: column;
-  }
-}
+@import 'storefrontstyles/index';
