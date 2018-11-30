@@ -3,7 +3,6 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../store';
-<<<<<<< HEAD
 import {
   User,
   Order,
@@ -13,9 +12,6 @@ import {
   Title,
   Country
 } from '@spartacus/core';
-=======
-import { Order } from '@spartacus/core';
->>>>>>> origin
 
 @Injectable()
 export class UserService {
