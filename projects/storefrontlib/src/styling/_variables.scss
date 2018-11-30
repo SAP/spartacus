@@ -1,67 +1,62 @@
-$white: #fff !default;
-$gray-100: #f8f9fa !default;
-$gray-200: #e9ecef !default;
-$gray-300: #dee2e6 !default;
-$gray-400: #ced4da !default;
-$gray-500: #adb5bd !default;
-$gray-600: #6c757d !default;
-$gray-700: #495057 !default;
-$gray-800: #343a40 !default;
-$gray-900: #212529 !default;
-$black: #000 !default;
+// VALUES USED AS EXAMPLES
 
-$blue: #007bff !default;
-$indigo: #6610f2 !default;
-$purple: #6f42c1 !default;
-$pink: #e83e8c !default;
-$red: #dc3545 !default;
-$orange: #fd7e14 !default;
-$yellow: #ffc107 !default;
-$green: #28a745 !default;
-$teal: #20c997 !default;
-$cyan: #17a2b8 !default;
+:host {
+  --cx-theme-primary: red;
+  --cx-theme-secondary: blue; //colors
+  --cx-theme-border-radius: 2em;
+  --cx-theme-transition-duration: 1s;
+  --cx-theme-animation-duration: 1s;
+  --cx-theme-gutter-width: 10px;
+  --cx-theme-font-weight-normal: 400; //bold, light
+  --cx-theme-spinner-size: 20px;
 
-$colors: () !default;
+  /**
+  Side note: In the styles library theme, there are multiple variables that aren't !default and 
+  therefore can't be easily overridden in their use within the styles lib. If the objective is also to override them we could add the following:
+  **/
 
-$colors: map-merge(
-  (
-    'blue': $blue,
-    'indigo': $indigo,
-    'purple': $purple,
-    'pink': $pink,
-    'red': $red,
-    'orange': $orange,
-    'yellow': $yellow,
-    'green': $green,
-    'teal': $teal,
-    'cyan': $cyan,
-    'white': $white,
-    'gray': $gray-600,
-    'gray-dark': $gray-800
-  ),
-  $colors
-);
+  --cx-theme-font-size-base: 1rem;
+  --cx-theme-h1-font-size: 2 * var(--cx-theme-font-size-base); // (h2,h3,h4...)
+  --cx-line-height-base: 1.33;
+  --cx-heading-line-height: 1.25;
 
-$primary: $blue !default;
-$secondary: $gray-600 !default;
-$success: $green !default;
-$info: $cyan !default;
-$warning: $yellow !default;
-$danger: $red !default;
-$light: $gray-100 !default;
-$dark: $gray-800 !default;
+  // Similarly :
 
-$theme-colors: () !default;
-$theme-colors: map-merge(
-  (
-    'primary': $primary,
-    'secondary': $secondary,
-    'success': $success,
-    'info': $info,
-    'warning': $warning,
-    'danger': $danger,
-    'light': $light,
-    'dark': $dark
-  ),
-  $theme-colors
-);
+  --cx-theme-input-heigh: 48px;
+  // i.e. $input-height: var (--cx-theme-input-heigh, 48px);
+  // Component variables
+}
+
+.component {
+  --cx-margin: 20px;
+  --cx-padding: 20px;
+  --cx-height: 20px;
+  --cx-width: 20px;
+  --cx-min-height: 20px;
+  --cx-min-width: 20px;
+  --cx-border-width: 1px;
+  --cx-border-style: solid;
+  --cx-border-color: magenta;
+  --cx-grid-row: 1/ 2;
+  --cx-grid-column: 1/ 2;
+  --cx-grid-template-columns: auto;
+  --cx-grid-template-rows: auto;
+  --cx-justify-self: middle;
+  --cx-align-self: middle;
+  --cx-place-self: middle;
+  --cx-justify-items: middle;
+  --cx-align-items: middle;
+  --cx-text-align: center;
+  --cx-color: green;
+  --cx-background-color: pink;
+  --cx-grid-column-gap: 20px;
+  --cx-grid-row-gap: 20px;
+  --cx-flex-direction: column;
+  --cx-justify-content: center;
+  --cx-align-items: start;
+  --cx-align-content: end;
+  --cx-zoom: 1;
+  --cx-opacity: 90%;
+  --cx-position: fixed;
+  --cx-display: grid;
+}
