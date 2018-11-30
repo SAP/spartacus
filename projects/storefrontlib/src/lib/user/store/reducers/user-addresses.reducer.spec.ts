@@ -1,5 +1,6 @@
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import * as fromUserAddressesReducer from './user-addresses.reducer';
+import { Address } from '@spartacus/core';
 
 describe('User Addresses Reducer', () => {
   describe('undefined action', () => {
@@ -14,7 +15,10 @@ describe('User Addresses Reducer', () => {
 
   describe('LOAD_USER_ADDRESSES_SUCCESS action', () => {
     it('should populate the user addresses state entities', () => {
-      const mockUserAddresses = ['address1', 'address2'];
+      const mockUserAddresses: Address[] = [
+        { id: 'address1' },
+        { id: 'address2' }
+      ];
 
       const { initialState } = fromUserAddressesReducer;
       const action = new fromUserAddressesAction.LoadUserAddressesSuccess(

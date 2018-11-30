@@ -5,7 +5,7 @@ import * as NgrxStore from '@ngrx/store';
 import * as fromStore from '../store';
 
 import { ProductSearchService } from './product-search.service';
-import { SearchConfig } from '@spartacus/core';
+import { SearchConfig } from '../model/search-config';
 import { EMPTY, of } from 'rxjs';
 import { Router } from '@angular/router';
 
