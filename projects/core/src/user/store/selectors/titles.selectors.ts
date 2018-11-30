@@ -1,10 +1,13 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 import * as fromFeature from './../reducers';
 import * as fromReducer from './../reducers/titles.reducer';
-import { UserState } from '../user-state';
+import { UserState, TitlesState } from '../user-state';
 import { Title } from '../../../occ-models';
 
-export const getTitlesState = createSelector(
+export const getTitlesState: MemoizedSelector<
+  any,
+  TitlesState
+> = createSelector(
   fromFeature.getUserState,
   (state: UserState) => state.titles
 );
