@@ -2,7 +2,7 @@ import * as fromAction from '../actions';
 import { CardType } from '@spartacus/core';
 
 export interface CardTypesState {
-  entities: { [code: string]: any };
+  entities: { [code: string]: CardType };
 }
 
 export const initialState: CardTypesState = {

@@ -5,7 +5,7 @@ import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import { Address } from '../../models/address-model';
-import { emptyAddress } from '../reducers/checkout.reducer';
+import { PaymentDetails, Order } from '@spartacus/core';
 
 describe('Checkout Selectors', () => {
   let store: Store<fromReducers.CheckoutState>;
@@ -40,7 +40,7 @@ describe('Checkout Selectors', () => {
         .pipe(select(fromSelectors.getDeliveryAddress))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual(emptyAddress);
+      expect(result).toEqual({});
 
       store.dispatch(new fromActions.AddDeliveryAddressSuccess(address));
 
@@ -142,6 +142,10 @@ describe('Checkout Selectors', () => {
   describe('getPaymentDetails', () => {
     it('should return payment details', () => {
       let result;
+      const paymentDetails: PaymentDetails = {
+        id: 'mockPaymentDetails'
+      };
+
       store
         .pipe(select(fromSelectors.getPaymentDetails))
         .subscribe(value => (result = value));
@@ -149,25 +153,29 @@ describe('Checkout Selectors', () => {
       expect(result).toEqual({});
 
       store.dispatch(
-        new fromActions.CreatePaymentDetailsSuccess('paymentDetails')
+        new fromActions.CreatePaymentDetailsSuccess(paymentDetails)
       );
 
-      expect(result).toEqual('paymentDetails');
+      expect(result).toEqual(paymentDetails);
     });
   });
 
   describe('getOrderDetails', () => {
     it('should return order details', () => {
       let result;
+      const orderDetails: Order = {
+        code: 'testOrder123'
+      };
+
       store
         .pipe(select(fromSelectors.getOrderDetails))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
-      store.dispatch(new fromActions.PlaceOrderSuccess('orderDetails'));
+      store.dispatch(new fromActions.PlaceOrderSuccess(orderDetails));
 
-      expect(result).toEqual('orderDetails');
+      expect(result).toEqual(orderDetails);
     });
   });
 });

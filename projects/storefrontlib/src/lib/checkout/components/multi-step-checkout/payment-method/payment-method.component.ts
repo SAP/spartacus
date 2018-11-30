@@ -15,6 +15,7 @@ import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
 import { UserService } from '../../../../user/facade/user.service';
 import { Card } from '../../../../ui/components/card/card.component';
+import { PaymentDetails } from '@spartacus/core';
 
 @Component({
   selector: 'cx-payment-method',
@@ -24,7 +25,7 @@ import { Card } from '../../../../ui/components/card/card.component';
 })
 export class PaymentMethodComponent implements OnInit {
   newPaymentFormManuallyOpened = false;
-  existingPaymentMethods$: Observable<any>;
+  existingPaymentMethods$: Observable<PaymentDetails[]>;
   cards = [];
   isLoading$: Observable<boolean>;
 

@@ -9,6 +9,7 @@ import {
   CartDataService,
   ANONYMOUS_USERID
 } from '../../cart/facade/cart-data.service';
+import { Address } from '@spartacus/core';
 
 @Injectable()
 export class CheckoutService {
@@ -117,13 +118,13 @@ export class CheckoutService {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.VerifyAddress({
           userId: this.cartData.userId,
-          address: address
+          address
         })
       );
     }
   }
 
-  setDeliveryAddress(address) {
+  setDeliveryAddress(address: Address) {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.SetDeliveryAddress({

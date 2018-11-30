@@ -1,8 +1,7 @@
 import * as fromCheckout from './checkout.reducer';
 import * as fromActions from './../actions';
 import { Address } from '../../models/address-model';
-import { emptyAddress } from '../reducers/checkout.reducer';
-import { DeliveryModeList } from '@spartacus/core';
+import { DeliveryModeList, PaymentDetails, Order } from '@spartacus/core';
 
 describe('Checkout reducer', () => {
   describe('undefined action', () => {
@@ -84,7 +83,9 @@ describe('Checkout reducer', () => {
   describe('CREATE_PAYMENT_DETAILS_SUCCESS or SET_PAYMENT_DETAILS_SUCCESS action', () => {
     it('should create payment details for cart', () => {
       const { initialState } = fromCheckout;
-      const paymentDetails = 'mockPaymentDetails';
+      const paymentDetails: PaymentDetails = {
+        id: 'mockPaymentDetails'
+      };
 
       const createPaymentDetailsAction = new fromActions.CreatePaymentDetailsSuccess(
         paymentDetails
@@ -120,7 +121,9 @@ describe('Checkout reducer', () => {
   describe('PLACE_ORDER_SUCCESS action', () => {
     it('should place order', () => {
       const { initialState } = fromCheckout;
-      const orderDetails = 'mockOrderDetails';
+      const orderDetails: Order = {
+        code: 'testOrder123'
+      };
 
       const action = new fromActions.PlaceOrderSuccess(orderDetails);
       const state = fromCheckout.reducer(initialState, action);
@@ -144,7 +147,7 @@ describe('Checkout reducer', () => {
 
       const action = new fromActions.ClearCheckoutStep(1);
       const state = fromCheckout.reducer(initialState, action);
-      expect(state.address).toEqual(emptyAddress);
+      expect(state.address).toEqual({});
     });
   });
 

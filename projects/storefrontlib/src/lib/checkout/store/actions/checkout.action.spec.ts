@@ -1,12 +1,21 @@
 import * as fromAction from '../actions/checkout.action';
-import { Address } from '../../models/address-model';
-import { DeliveryModeList } from '@spartacus/core';
+import {
+  DeliveryModeList,
+  Address,
+  PaymentDetails,
+  Order
+} from '@spartacus/core';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
 const selectedModeId = 'selectedModeId';
-const paymentDetails = 'mockPaymentDetails';
-const orderDetails = 'orderDetails';
+const paymentDetails: PaymentDetails = {
+  id: 'mockPaymentDetails'
+};
+
+const orderDetails: Order = {
+  code: 'testOrder123'
+};
 
 const address: Address = {
   id: 'testAddressId',

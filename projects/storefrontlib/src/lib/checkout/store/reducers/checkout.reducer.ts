@@ -1,5 +1,5 @@
 import * as fromAction from './../actions';
-import { Address } from '../../models/address-model';
+import { Address } from '@spartacus/core';
 
 export interface CheckoutState {
   address: Address;
@@ -11,18 +11,8 @@ export interface CheckoutState {
   orderDetails: any;
 }
 
-export const emptyAddress: Address = {
-  titleCode: '',
-  firstName: '',
-  lastName: '',
-  line1: '',
-  town: '',
-  postalCode: '',
-  country: { isocode: '' }
-};
-
 export const initialState: CheckoutState = {
-  address: emptyAddress,
+  address: {},
   deliveryMode: {
     supported: {},
     selected: ''
@@ -124,7 +114,7 @@ export function reducer(
         case 1: {
           return {
             ...state,
-            address: emptyAddress
+            address: {}
           };
         }
 

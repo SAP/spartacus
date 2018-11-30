@@ -1,6 +1,10 @@
 import { Action } from '@ngrx/store';
-import { Address } from '../../models/address-model';
-import { DeliveryModeList } from '@spartacus/core';
+import {
+  DeliveryModeList,
+  Address,
+  PaymentDetails,
+  Order
+} from '@spartacus/core';
 
 export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';
 export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
@@ -45,7 +49,9 @@ export const CLEAR_CHECKOUT_DATA = '[Checkout] Clear Checkout Data';
 
 export class AddDeliveryAddress implements Action {
   readonly type = ADD_DELIVERY_ADDRESS;
-  constructor(public payload: any) {}
+  constructor(
+    public payload: { userId: string; cartId: string; address: Address }
+  ) {}
 }
 
 export class AddDeliveryAddressFail implements Action {
@@ -60,7 +66,9 @@ export class AddDeliveryAddressSuccess implements Action {
 
 export class SetDeliveryAddress implements Action {
   readonly type = SET_DELIVERY_ADDRESS;
-  constructor(public payload: { userId: any; cartId: any; address: any }) {}
+  constructor(
+    public payload: { userId: string; cartId: string; address: Address }
+  ) {}
 }
 
 export class SetDeliveryAddressFail implements Action {
@@ -108,7 +116,11 @@ export class SetDeliveryModeSuccess implements Action {
 export class CreatePaymentDetails implements Action {
   readonly type = CREATE_PAYMENT_DETAILS;
   constructor(
-    public payload: { userId: string; cartId: string; paymentDetails: any }
+    public payload: {
+      userId: string;
+      cartId: string;
+      paymentDetails: PaymentDetails;
+    }
   ) {}
 }
 
@@ -119,13 +131,17 @@ export class CreatePaymentDetailsFail implements Action {
 
 export class CreatePaymentDetailsSuccess implements Action {
   readonly type = CREATE_PAYMENT_DETAILS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: PaymentDetails) {}
 }
 
 export class SetPaymentDetails implements Action {
   readonly type = SET_PAYMENT_DETAILS;
   constructor(
-    public payload: { userId: any; cartId: any; paymentDetails: any }
+    public payload: {
+      userId: string;
+      cartId: string;
+      paymentDetails: PaymentDetails;
+    }
   ) {}
 }
 
@@ -136,7 +152,7 @@ export class SetPaymentDetailsFail implements Action {
 
 export class SetPaymentDetailsSuccess implements Action {
   readonly type = SET_PAYMENT_DETAILS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: PaymentDetails) {}
 }
 
 export class PlaceOrder implements Action {
@@ -151,7 +167,7 @@ export class PlaceOrderFail implements Action {
 
 export class PlaceOrderSuccess implements Action {
   readonly type = PLACE_ORDER_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: Order) {}
 }
 
 export class ClearSupportedDeliveryModes implements Action {

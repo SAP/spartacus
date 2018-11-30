@@ -10,7 +10,7 @@ import { take, tap, switchMap } from 'rxjs/operators';
 
 import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, Title } from '@spartacus/core';
 import { UserService } from '../../facade/user.service';
 
 @Component({
@@ -19,7 +19,7 @@ import { UserService } from '../../facade/user.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  titles$: Observable<any>;
+  titles$: Observable<Title[]>;
   subscription: Subscription;
   userRegistrationForm: FormGroup = this.fb.group(
     {

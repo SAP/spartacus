@@ -13,7 +13,7 @@ import { UserToken } from '../../../auth/models/token-types.model';
 
 import { AuthService } from '../../../auth/facade/auth.service';
 import { UserService } from '../../facade/user.service';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, User } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login',
@@ -21,7 +21,7 @@ import { RoutingService } from '@spartacus/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  user$: Observable<any>;
+  user$: Observable<User>;
   isLogin = false;
 
   subscription: Subscription;

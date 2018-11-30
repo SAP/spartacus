@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { OccConfig, DeliveryModeList } from '@spartacus/core';
+import { OccConfig, DeliveryModeList, PaymentDetails } from '@spartacus/core';
 import * as fromEffects from './checkout.effect';
 import * as fromActions from '../actions/checkout.action';
 import * as fromUserActions from '../../../user/store/actions';
@@ -269,11 +269,11 @@ describe('Checkout effect', () => {
         postUrl: 'https://testurl'
       };
 
-      const paymentDetails = {
-        billTo_city: 'MainCity',
-        decision: 'ACCEPT',
-        billTo_country: 'US',
-        billTo_lastName: 'test'
+      const paymentDetails: PaymentDetails = {
+        accountHolderName: 'test',
+        billingAddress: {
+          line1: '123 Montreal'
+        }
       };
 
       const html =
