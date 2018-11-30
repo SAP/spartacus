@@ -67,13 +67,13 @@ describe('DynamicUrlPipeService', () => {
       );
     });
 
-    it('should return original url wrapped in an array if there is no matching route for this url', () => {
+    it('should return original url there is no matching route for this url', () => {
       const inputUrl = 'unknown-path';
       spyOn(dynamicUrlRecognizer, 'getNestedRoutes').and.returnValue({
         nestedRoutesNames: null,
         nestedRoutesParams: null
       });
-      expect(service.transform(inputUrl)).toEqual([inputUrl]);
+      expect(service.transform(inputUrl)).toEqual(inputUrl);
     });
   });
 });

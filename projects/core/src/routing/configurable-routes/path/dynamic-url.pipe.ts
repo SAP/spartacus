@@ -7,7 +7,7 @@ import { DynamicUrlPipeService } from './dynamic-url-pipe.service';
 export class DynamicUrlPipe implements PipeTransform {
   constructor(private service: DynamicUrlPipeService) {}
 
-  transform(url: string): string[] {
+  transform(url: string): string[] | string {
     return this.service.transform(url);
   }
 }

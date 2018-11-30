@@ -9,14 +9,14 @@ export class DynamicUrlPipeService {
     private dynamicUrlRecognizerService: DynamicUrlRecognizerService
   ) {}
 
-  transform(dynamicUrl: string): string[] {
+  transform(dynamicUrl: string): string[] | string {
     const {
       nestedRoutesNames,
       nestedRoutesParams
     } = this.dynamicUrlRecognizerService.getNestedRoutes(dynamicUrl);
 
     if (!nestedRoutesNames) {
-      return [dynamicUrl];
+      return dynamicUrl;
     }
     return this.pathService.transform(nestedRoutesNames, nestedRoutesParams);
   }
