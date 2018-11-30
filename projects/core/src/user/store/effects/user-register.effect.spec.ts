@@ -11,12 +11,11 @@ import * as fromStore from '../../store';
 
 // below mock must be removed after auth store is moved
 const LOAD_USER_TOKEN = '[Auth] Load User Token';
-const fromAuthStore = {
-  LoadUserToken: class LoadUserToken implements Action {
-    readonly type = LOAD_USER_TOKEN;
-    constructor(public payload: { userId: string; password: string }) {}
-  }
-};
+
+export class LoadUserToken implements Action {
+  readonly type = LOAD_USER_TOKEN;
+  constructor(public payload: { userId: string; password: string }) {}
+}
 
 // fix end
 
@@ -67,7 +66,7 @@ describe('UserRegister effect', () => {
   describe('registerUser$', () => {
     it('should register user', () => {
       const action = new fromStore.RegisterUser(user);
-      const loadUser = new fromAuthStore.LoadUserToken({
+      const loadUser = new LoadUserToken({
         userId: '',
         password: ''
       });

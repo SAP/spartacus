@@ -1,4 +1,3 @@
-import { OccConfig, OccOrderService } from '../../../occ-models';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
@@ -7,6 +6,8 @@ import * as fromUserOrdersEffect from './user-orders.effect';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
 import { Observable, of, throwError } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
+import { OccConfig } from '../../../occ';
+import { OccOrderService } from '../../occ';
 
 const mockUserOrders = {
   orders: [],
