@@ -12,9 +12,11 @@ export class NavigationService {
    * @param itemsList
    */
   public getNavigationEntryItems(nodeData: any, root: boolean, itemsList = []) {
-    if (nodeData.children) {
+    console.log(nodeData);
+    if (nodeData.children && nodeData.children.length > 0) {
       this.processChildren(nodeData, itemsList);
     } else if (nodeData.entries && nodeData.entries.length > 0) {
+      console.log('entries', nodeData.entries);
       nodeData.entries.forEach(entry => {
         itemsList.push({
           superType: entry.itemSuperType,
@@ -24,6 +26,8 @@ export class NavigationService {
     }
 
     if (root) {
+      console.log('this is root');
+      console.log(itemsList);
       const rootUid = nodeData.uid;
       this.cmsService.loadNavigationItems(rootUid, itemsList);
     }
@@ -46,7 +50,7 @@ export class NavigationService {
     node['title'] = nodeData.title;
     node['url'] = '';
 
-    if (nodeData.children) {
+    if (nodeData.children && nodeData.children.length > 0) {
       const children = this.createChildren(nodeData, items);
       node['children'] = children;
     } else if (nodeData.entries && nodeData.entries.length > 0) {
