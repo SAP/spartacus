@@ -18,6 +18,12 @@
 - selector: defines component's selector that is used for CmsComponent implementation
 - providers: defines configurable providers for cms components 
 
+## CmsComponentData
+
+`CmsComponentData` service is way to access related CmsComponent data using dependency injection. 
+
+It contains both `uid` for a component, and an observable `data$` with component payload received from the backend cms. 
+ 
 
 ## WebComponents as CmsComponents
 
