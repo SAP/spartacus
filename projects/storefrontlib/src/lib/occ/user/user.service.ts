@@ -61,7 +61,7 @@ export class OccUserService {
   }
 
   loadUserPaymentMethods(userId: string): Observable<PaymentDetailsList> {
-    const url = this.getUserEndpoint() + userId + PAYMENT_DETAILS_ENDPOINT;
+    const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}?saved=true`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -92,7 +92,7 @@ export class OccUserService {
       .patch(
         url,
         // TODO Remove billingAddress property
-        { billingAddress: { titleCode: 'ms' }, defaultPayment: true },
+        { billingAddress: { titleCode: 'mr' }, defaultPayment: true },
         { headers }
       )
       .pipe(catchError((error: any) => throwError(error)));

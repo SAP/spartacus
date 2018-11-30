@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Card } from '../../../ui/components/card/card.component';
-import { PaymentMethodsService } from './../services/payment-methods.service';
+import { UserService } from './../../../user/facade/user.service';
 
 @Component({
   selector: 'cx-payment-methods',
@@ -12,13 +12,18 @@ export class PaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<any>;
   editCard: string;
   loading$: Observable<boolean>;
+  userId: string;
 
-  constructor(private paymentMethodsService: PaymentMethodsService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.paymentMethods$ = this.paymentMethodsService.loadUserPaymentMethods();
+    this.paymentMethods$ = this.userService.paymentMethods$;
     this.editCard = null;
-    this.loading$ = this.paymentMethodsService.paymentMethodsLoading$;
+    this.loading$ = this.userService.paymentMethodsLoading$;
+    this.userService.user$.subscribe(data => {
+      this.userId = data.uid;
+      this.userService.loadPaymentMethods(this.userId);
+    });
   }
 
   getCardContent(payment): Card {
@@ -43,7 +48,9 @@ export class PaymentMethodsComponent implements OnInit {
   }
 
   deletePaymentMethod(paymentMethod) {
-    this.paymentMethodsService.deleteUserPaymentMethod(paymentMethod.id);
+    if (this.userId) {
+      this.userService.deleteUserPaymentMethod(this.userId, paymentMethod.id);
+    }
     this.editCard = null;
   }
 
@@ -56,6 +63,8 @@ export class PaymentMethodsComponent implements OnInit {
   }
 
   setDefaultPaymentMethod(paymentMethod) {
-    this.paymentMethodsService.setPaymentMethodAsDefault(paymentMethod.id);
+    if (this.userId) {
+      this.userService.setPaymentMethodAsDefault(this.userId, paymentMethod.id);
+    }
   }
 }

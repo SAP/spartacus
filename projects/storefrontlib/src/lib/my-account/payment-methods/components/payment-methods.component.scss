@@ -8,35 +8,33 @@ $cx-payment-methods-padding-right-sm: 1.25rem !default;
 
 $cx-payment-methods-header-padding: 2.5rem 0 0 0 !default;
 
-$cx-payment-methods-exisiting-methods-padding: 1.875rem 0 2.5rem 0 !default;
-$cx-payment-methods-exisiting-methods-padding-md: 0 0 3.125rem 0 !default;
-$cx-payment-methods-exisiting-methods-padding-sm: 0 0 4.375rem 0 !default;
+$cx-payment-methods-existing-methods-padding: 0rem 0 2.5rem 0 !default;
+$cx-payment-methods-existing-methods-padding-md: 0 0 3.125rem 0 !default;
+$cx-payment-methods-existing-methods-padding-sm: 0 0 4.375rem 0 !default;
 
-$cx-payment-methods-card-padding-top-md: 1.875rem !default;
+$cx-payment-methods-card-padding-top: 1.875rem !default;
 
 .cx-payment-methods {
   &__header {
     padding: $cx-payment-methods-header-padding;
   }
 
-  &__exisiting-methods {
+  &__existing-methods {
     display: flex;
     align-items: flex-end;
-    padding: $cx-payment-methods-exisiting-methods-padding;
+    padding: $cx-payment-methods-existing-methods-padding;
 
     @include media-breakpoint-down(md) {
-      padding: $cx-payment-methods-exisiting-methods-padding-md;
+      padding: $cx-payment-methods-existing-methods-padding-md;
     }
 
     @include media-breakpoint-down(sm) {
-      padding: $cx-payment-methods-exisiting-methods-padding-sm;
+      padding: $cx-payment-methods-existing-methods-padding-sm;
     }
   }
 
   &__card {
-    @include media-breakpoint-down(md) {
-      padding-top: $cx-payment-methods-card-padding-top-md;
-    }
+    padding-top: $cx-payment-methods-card-padding-top;
   }
 
   @include media-breakpoint-down(sm) {

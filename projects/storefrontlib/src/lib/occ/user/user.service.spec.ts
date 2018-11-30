@@ -149,7 +149,8 @@ describe('OccUserService', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url === endpoint + `/${username}` + paymentDetailsEndpoint
+          req.url ===
+            `${endpoint}/${username}${paymentDetailsEndpoint}?saved=true`
         );
       });
 
@@ -169,14 +170,13 @@ describe('OccUserService', () => {
       service
         .setDefaultUserPaymentMethod(username, mockPayment.id)
         .subscribe(result => {
-          console.log(result);
           expect(result).toEqual('');
         });
 
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'PATCH' &&
-          expect(req.body).toEqual({ defaultPayment: true }) &&
+          req.body.defaultPayment === true &&
           req.url ===
             `${endpoint}/${username}${paymentDetailsEndpoint}/${mockPayment.id}`
         );

@@ -1,7 +1,7 @@
 <div class="cx-payment-methods container">
   <div class="cx-payment-methods__header"><h3>Payment methods</h3></div>
 
-  <div class="x-payment-methods__body">
+  <div class="cx-payment-methods__body">
     <div class="cx-payment-methods__msg">
       New payment methods are added during checkout.
     </div>
@@ -9,7 +9,7 @@
     <ng-template #cards>
       <div
         *ngIf="(paymentMethods$ | async) as paymentMethods"
-        class="cx-payment-methods__exisiting-methods row"
+        class="cx-payment-methods__existing-methods row"
       >
         <div
           class="cx-payment-methods__card col-sm-12 col-md-12 col-lg-6"
