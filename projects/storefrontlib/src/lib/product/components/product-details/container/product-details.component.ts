@@ -6,8 +6,11 @@ import {
   ViewEncapsulation,
   ElementRef
 } from '@angular/core';
-import { Observable } from 'rxjs';
+
 import { ProductService } from '@spartacus/core';
+
+import { Observable } from 'rxjs';
+
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
@@ -28,7 +31,6 @@ export class ProductDetailsComponent implements OnChanges {
   @Input()
   productCode: string;
   product$: Observable<any>;
-  itemCount = 1;
 
   get outlets() {
     return ProductDetailsComponent.outlets;

@@ -40,24 +40,12 @@ export class GoogleMapRendererService {
             GOOGLE_MAP_API_URL,
             { key: result },
             () => {
-              this.initMap(mapElement, this.defineMapCenter(locations));
-              if (selectMarkerHandler) {
-                this.createMarkers(locations, selectMarkerHandler);
-              } else {
-                this.createMarkers(locations);
-              }
+              this.drawMap(mapElement, locations, selectMarkerHandler);
             }
           );
         });
     } else {
-      this.setMapOnAllMarkers(null);
-      if (selectMarkerHandler) {
-        this.createMarkers(locations, selectMarkerHandler);
-      } else {
-        this.createMarkers(locations);
-      }
-      this.googleMap.setCenter(this.defineMapCenter(locations));
-      this.googleMap.setZoom(DEFAULT_SCALE);
+      this.drawMap(mapElement, locations, selectMarkerHandler);
     }
   }
 
@@ -134,10 +122,17 @@ export class GoogleMapRendererService {
   }
 
   /**
-   * Moves all the markers to the given map
-   * @param map {@link google.maps.Map} the map where all the markers will be moved. Pass null if you just want to erase markers
+   * Initialize and draw the map
+   * @param mapElement {@link HTMLElement} inside of which the map will be drawn
+   * @param locations array of locations to be displayed on the map
+   * @param selectMarkerHandler function to handle whenever a marker on a map is clicked
    */
-  private setMapOnAllMarkers(map: google.maps.Map): void {
-    this.markers.forEach(marker => marker.setMap(map));
+  private drawMap(
+    mapElement: HTMLElement,
+    locations: any[],
+    selectMarkerHandler: Function
+  ) {
+    this.initMap(mapElement, this.defineMapCenter(locations));
+    this.createMarkers(locations, selectMarkerHandler);
   }
 }
