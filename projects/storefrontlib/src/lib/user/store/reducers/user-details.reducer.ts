@@ -1,11 +1,12 @@
 import * as fromUserDetailsAction from '../actions/user-details.action';
+import { User } from '@spartacus/core';
 
 export interface UserDetailsState {
-  details: any;
+  details: User;
 }
 
 export const initialState: UserDetailsState = {
-  details: <any>{}
+  details: <User>{}
 };
 
 export function reducer(
@@ -14,7 +15,7 @@ export function reducer(
 ): UserDetailsState {
   switch (action.type) {
     case fromUserDetailsAction.LOAD_USER_DETAILS_SUCCESS: {
-      const details = action.payload;
+      const details: User = action.payload;
 
       return {
         ...state,

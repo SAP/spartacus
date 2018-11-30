@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { Order } from '@spartacus/core';
 
 export const LOAD_ORDER_DETAILS = '[User] Load Order Details';
 export const LOAD_ORDER_DETAILS_FAIL = '[User] Load Order Details Fail';
@@ -22,7 +23,7 @@ export class LoadOrderDetailsFail implements Action {
 
 export class LoadOrderDetailsSuccess implements Action {
   readonly type = LOAD_ORDER_DETAILS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: Order) {}
 }
 
 export class ClearOrderDetails implements Action {

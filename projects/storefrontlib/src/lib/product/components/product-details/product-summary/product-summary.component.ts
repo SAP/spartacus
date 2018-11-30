@@ -1,10 +1,5 @@
-import {
-  Component,
-  Input,
-  ChangeDetectionStrategy,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
   selector: 'cx-product-summary',
@@ -13,12 +8,32 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductSummaryComponent {
-  @Output()
-  itemCountChange = new EventEmitter<any>();
+  static outlets = ProductDetailOutlets;
+
   @Input()
   product: any;
+  itemCount = 1;
+
+  get outlets() {
+    return ProductSummaryComponent.outlets;
+  }
 
   updateCount(value) {
-    this.itemCountChange.emit(value);
+    this.itemCount = value;
+  }
+
+  get stockInfo(): string {
+    return this.hasStock()
+      ? `${this.product.stock.stockLevel} in stock`
+      : 'Out of stock';
+  }
+
+  private hasStock(): boolean {
+    return (
+      this.product &&
+      this.product.stock &&
+      (this.product.stock.stockLevel > 0 ||
+        this.product.stock.stockLevelStatus === 'inStock')
+    );
   }
 }
