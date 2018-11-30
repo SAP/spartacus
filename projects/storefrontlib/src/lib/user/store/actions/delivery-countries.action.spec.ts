@@ -1,4 +1,5 @@
 import * as fromAction from '../actions/delivery-countries.action';
+import { Country } from '@spartacus/core';
 
 describe('Delivery Countries Actions', () => {
   describe('LoadDeliveryCountries', () => {
@@ -24,7 +25,7 @@ describe('Delivery Countries Actions', () => {
 
   describe('LoadDeliveryCountriesSuccess', () => {
     it('should create the action', () => {
-      const countries = [
+      const countries: Country[] = [
         {
           isocode: 'AL',
           name: 'Albania'

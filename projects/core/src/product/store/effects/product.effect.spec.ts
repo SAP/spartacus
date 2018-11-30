@@ -15,8 +15,8 @@ import * as fromActions from '../actions/product.action';
 import { StoreModule } from '@ngrx/store';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { Product } from '../../../occ-models';
-import { OccConfig } from '../../../occ/index';
-import { LanguageChange } from '@spartacus/core';
+import { LanguageChange } from '../../../site-context/store/actions/languages.action';
+import { OccConfig } from '../../../occ/config/occ-config';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
