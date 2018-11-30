@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+
 import { select, Store } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
 
@@ -11,24 +13,15 @@ import { ClientTokenState } from '../store/reducers/client-token.reducer';
   providedIn: 'root'
 })
 export class AuthService {
-  readonly userToken$: Observable<UserToken> = this.store.pipe(
-    select(fromAuthStore.getUserToken)
-  );
-
-  readonly clientToken$: Observable<ClientToken> = this.store.pipe(
-    select(fromAuthStore.getClientTokenState),
-    tap((state: ClientTokenState) => {
-      if (!state.loading && Object.keys(state.token).length === 0) {
-        this.loadClientToken();
-      }
-    }),
-    filter((state: ClientTokenState) => Object.keys(state.token).length !== 0),
-    map((state: ClientTokenState) => state.token)
-  );
-
   constructor(private store: Store<fromAuthStore.AuthState>) {}
 
-  authorize(userId: string, password: string) {
+  /**
+   * Loads the user token
+   *
+   * @param userId username
+   * @param password password
+   */
+  authorize(userId: string, password: string): void {
     this.store.dispatch(
       new fromAuthStore.LoadUserToken({
         userId: userId,
@@ -37,7 +30,18 @@ export class AuthService {
     );
   }
 
-  refreshUserToken(token: UserToken) {
+  /**
+   * Returns the user token
+   */
+  getUserToken(): Observable<UserToken> {
+    return this.store.pipe(select(fromAuthStore.getUserToken));
+  }
+
+  /**
+   * Refreshes the user token
+   * @param token a user token to refresh
+   */
+  refreshUserToken(token: UserToken): void {
     this.store.dispatch(
       new fromAuthStore.RefreshUserToken({
         userId: token.userId,
@@ -46,22 +50,56 @@ export class AuthService {
     );
   }
 
-  authorizeWithToken(token: UserToken) {
+  /**
+   * Saves the provided user token
+   * @param token to save
+   */
+  authorizeWithToken(token: UserToken): void {
     this.store.dispatch(new fromAuthStore.LoadUserTokenSuccess(token));
   }
 
-  login() {
+  /**
+   * Login with the previously retrieved token
+   */
+  login(): void {
     this.store.dispatch(new fromAuthStore.Login());
   }
 
-  logout() {
+  /**
+   * Log out
+   */
+  logout(): void {
     this.store.dispatch(new fromAuthStore.Logout());
   }
 
-  loadClientToken() {
+  /**
+   * Loads the client token
+   */
+  loadClientToken(): void {
     this.store.dispatch(new fromAuthStore.LoadClientToken());
   }
 
+  /**
+   * Returns the client token
+   */
+  getClientToken(): Observable<ClientToken> {
+    return this.store.pipe(
+      select(fromAuthStore.getClientTokenState),
+      tap((state: ClientTokenState) => {
+        if (!state.loading && Object.keys(state.token).length === 0) {
+          this.loadClientToken();
+        }
+      }),
+      filter(
+        (state: ClientTokenState) => Object.keys(state.token).length !== 0
+      ),
+      map((state: ClientTokenState) => state.token)
+    );
+  }
+
+  /**
+   * Refreshes the client token
+   */
   refreshClientToken(): Observable<ClientToken> {
     return this.store.pipe(
       select(fromAuthStore.getClientTokenState),
