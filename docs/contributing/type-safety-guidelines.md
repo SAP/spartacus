@@ -6,7 +6,7 @@ If you need generated OCC types, these are located in `projects/core/src/occ-mod
 
 ## When to use type safety
 
-A few suggestions where type safety can be added: 
+We should use type safety everwhere we can.
 
 ### Method parameters and return values
 
@@ -20,7 +20,7 @@ addCartEntry(productCode: string, quantity: number): void {
 
 ### Test files
 
-It's important that `*.spec.ts` files follow have type safe code which alignes with the file being tested.
+It's important that `*.spec.ts` files have type safe code which alignes with the file being tested.
 
 ### Object literals
 
@@ -63,16 +63,16 @@ const userToken = {
 } as UserToken;
 ```
 
-We don't have a strong opinion on which one to use at the moment.
+We are encouraging the `as` syntax, but we accept the `<>` as well.
 
 ### Generics
 
 There are some places in code where generics are used, i.e. when working with CMS components.
 
-Curently, there are no types for specific CMS componets, but there's a generic `Component` that can be used like this:
+Curently, there are no types for specific CMS componets, but there's a generic `CmsComponent` in `cms-component.models.ts` and that can be used like this:
 
 ```
-loadComponent<T extends Component>(
+loadComponent<T extends CmsComponent>(
     id: string,
     pageContext: PageContext,
     fields?: string
@@ -86,7 +86,7 @@ For more about TypeSript's advanced types, see [TypeScript's docs](https://www.t
 
 ## When it's OK not to use typesafety
 
-There are some cases when it's OK to use `any`:
+There are functions that really can legitimately deal with `any` types.
 
 ### Interceptors
 
