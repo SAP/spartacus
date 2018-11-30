@@ -170,7 +170,10 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "projects/storefrontapp-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "projects/storefrontapp/src/webApplicationInjector.js"
+            ]
           }
         }
       }
@@ -207,7 +210,10 @@
               "projects/storefrontlib/tsconfig.lib.json",
               "projects/storefrontlib/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "projects/storefrontapp/src/webApplicationInjector.js"
+            ]
           }
         }
       }
@@ -240,7 +246,10 @@
               "projects/core/tsconfig.lib.json",
               "projects/core/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "projects/storefrontapp/src/webApplicationInjector.js"
+            ]
           }
         }
       }
