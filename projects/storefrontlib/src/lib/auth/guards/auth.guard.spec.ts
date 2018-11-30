@@ -8,7 +8,7 @@ import {
 
 import { RoutingService } from '@spartacus/core';
 
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from '../models/token-types.model';
@@ -22,15 +22,15 @@ const mockUserToken = {
   expires_in: 1,
   scope: ['test'],
   userId: 'test'
-};
+} as UserToken;
 
 class AuthServiceStub {
-  userToken$ = of();
+  getUserToken(): Observable<UserToken> {
+    return of();
+  }
 }
-
-const mockActivatedRouteSnapshot = {};
-const mockRouterStateSnapshot = { url: '/test' };
-
+class ActivatedRouteSnapshotStub {}
+class RouterStateSnapshotStub {}
 class RoutingServiceStub {
   go(_path: any[], _query?: object, _extras?: NavigationExtras) {}
   saveRedirectUrl(_url: string) {}
@@ -39,9 +39,9 @@ class RoutingServiceStub {
 describe('AuthGuard', () => {
   let authGuard: AuthGuard;
   let service: RoutingService;
-  let authService: AuthServiceStub;
-  let activatedRouteSnapshot;
-  let routerStateSnapshot;
+  let authService: AuthService;
+  let activatedRouteSnapshot: ActivatedRouteSnapshot;
+  let routerStateSnapshot: RouterStateSnapshot;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -53,11 +53,11 @@ describe('AuthGuard', () => {
         },
         {
           provide: ActivatedRouteSnapshot,
-          useValue: mockActivatedRouteSnapshot
+          useClass: ActivatedRouteSnapshotStub
         },
         {
           provide: RouterStateSnapshot,
-          useValue: mockRouterStateSnapshot
+          useClass: RouterStateSnapshotStub
         },
         {
           provide: AuthService,
@@ -77,35 +77,40 @@ describe('AuthGuard', () => {
   });
 
   it('should return false', () => {
-    authService.userToken$ = of({ access_token: undefined });
+    spyOn(authService, 'getUserToken').and.returnValue(
+      of({ access_token: undefined } as UserToken)
+    );
     let result: boolean;
 
-    const sub = authGuard
+    authGuard
       .canActivate(activatedRouteSnapshot, routerStateSnapshot)
-      .subscribe(value => (result = value));
-    sub.unsubscribe();
+      .subscribe(value => (result = value))
+      .unsubscribe();
     expect(result).toBe(false);
   });
 
   it('should return true', () => {
-    authService.userToken$ = of(mockUserToken);
+    spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
 
     let result: boolean;
 
-    const sub = authGuard
+    authGuard
       .canActivate(activatedRouteSnapshot, routerStateSnapshot)
-      .subscribe(value => (result = value));
-    sub.unsubscribe();
+      .subscribe(value => (result = value))
+      .unsubscribe();
     expect(result).toBe(true);
   });
 
   it('should redirect to login if invalid token', () => {
-    authService.userToken$ = of({ access_token: undefined } as UserToken);
+    spyOn(authService, 'getUserToken').and.returnValue(
+      of({ access_token: undefined } as UserToken)
+    );
+    routerStateSnapshot.url = '/test';
 
-    const sub = authGuard
+    authGuard
       .canActivate(activatedRouteSnapshot, routerStateSnapshot)
-      .subscribe();
-    sub.unsubscribe();
+      .subscribe()
+      .unsubscribe();
 
     expect(service.go).toHaveBeenCalledWith(['/login']);
     expect(service.saveRedirectUrl).toHaveBeenCalledWith('/test');
