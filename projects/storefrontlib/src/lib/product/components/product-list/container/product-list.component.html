@@ -1,6 +1,6 @@
 <ng-container *ngIf="(model$ | async) as model">
   <div class="cx-page">
-    <header class="cx-page__header">
+    <header *ngIf="pageTitle" class="cx-page__header">
       <h1 class="cx-page__title">{{ pageTitle }}</h1>
     </header>
     <section class="cx-page__section">

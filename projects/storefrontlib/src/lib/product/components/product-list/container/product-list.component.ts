@@ -41,7 +41,6 @@ export class ProductListComponent implements OnChanges, OnInit {
   ngOnChanges() {
     const { queryParams } = this.activatedRoute.snapshot;
     const options = this.createOptionsByUrlParams();
-    this.pageTitle = this.query;
     if (this.categoryCode && this.categoryCode !== queryParams.categoryCode) {
       this.query = ':relevance:category:' + this.categoryCode;
     }
@@ -53,22 +52,6 @@ export class ProductListComponent implements OnChanges, OnInit {
     }
     if (this.query) {
       this.search(this.query, options);
-      this.pageTitle = null;
-    }
-
-    if (this.model$) {
-      this.model$.subscribe((model: any) => {
-        if (!model.breadcrumbs && this.query.includes(':')) {
-          return;
-        } else if (model.breadcrumbs) {
-          this.pageTitle = model.breadcrumbs[0].facetValueName;
-        } else {
-          this.pageTitle = this.query;
-        }
-        this.pageTitle = `${model.pagination.totalResults} results for ${
-          this.pageTitle
-        }`;
-      });
     }
   }
 
@@ -98,6 +81,21 @@ export class ProductListComponent implements OnChanges, OnInit {
     };
 
     this.model$ = this.productSearchService.searchResults$;
+    if (this.model$) {
+      this.model$.subscribe((model: any) => {
+        this.pageTitle = null;
+        if (model.breadcrumbs) {
+          this.pageTitle = model.breadcrumbs[0].facetValueName;
+        } else if (!this.query.includes(':relevance:')) {
+          this.pageTitle = this.query;
+        } else {
+          return;
+        }
+        this.pageTitle = `${model.pagination.totalResults} results for ${
+          this.pageTitle
+        }`;
+      });
+    }
   }
 
   onFilter(query: string) {
