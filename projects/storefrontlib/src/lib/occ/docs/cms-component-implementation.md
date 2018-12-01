@@ -1,4 +1,17 @@
-# CmsComponent implementation
+# Customize CMS Component
+While the JS storefront is naturally composed out of a large number of fine-grained JS components, there's a special kind of components to render CMS content. CMS components are dynamically added at runtime. The CMS component type, given by the backend, is mapped to an equilavent JS component. The mapping is provided in a configuration, which can be customised. This allows to configure a custom component to render a specific CMS component. 
+
+In addition, component specific business logic can be customized. This requires an additional configuration where the custom service can be provided to the (out of the box) component. 
+
+With this setup, CMS components can be customized in multiple ways:
+
+| Scenario  | Approach | Example | 
+| ------------- | ------------- | ------------- | 
+| Customize style  | Add custom css rules<br/>(Out of scope for this doc) | Customize component style for the `LanguageSelector` | 
+| Replace component | Configure a custom component  | Provide a custom `BannerComponent` | 
+| Customize logic  | Configure a custom service | Provide a custom `SearchBoxComponentService` |
+
+
 
 ## CmsComponent configuration:
 
