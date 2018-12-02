@@ -28,7 +28,7 @@
               "includePaths": ["./projects", "./projects/storefrontstyles/scss"]
             },
             "ngswConfigPath": "projects/storefrontlib/src/lib/pwa/ngsw-config.json",
-            "scripts": ["projects/storefrontapp/src/webApplicationInjector.js"]
+            "scripts": []
           },
           "configurations": {
             "production": {
