@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, OrderHistoryList } from '@spartacus/core';
 
 import { of, BehaviorSubject } from 'rxjs';
 
@@ -13,15 +13,19 @@ import { UserService } from '../../../user/facade/user.service';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 
 import { OrderHistoryComponent } from './order-history.component';
-import { UserOrders } from '../../models/order.model';
 import { UserToken } from '../../../auth';
 
-const mockOrders: UserOrders = {
+const mockOrders: OrderHistoryList = {
   orders: [
-    { code: 1, placed: 1, statusDisplay: 'test', total: { formattedValue: 1 } }
+    {
+      code: '1',
+      placed: new Date('2018-01-01'),
+      statusDisplay: 'test',
+      total: { formattedValue: '1' }
+    }
   ],
   pagination: { totalResults: 1, sort: 'byDate' },
-  sort: [{ code: 'byDate', selected: true }]
+  sorts: [{ code: 'byDate', selected: true }]
 };
 
 class MockAuthService {
@@ -65,17 +69,17 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should load order list when data not exist', () => {
-    const initialOrderListState: UserOrders = {
+    const initialOrderListState: OrderHistoryList = {
       orders: [],
       pagination: {},
-      sort: []
+      sorts: []
     };
     mockUserService.orderList$.next(initialOrderListState);
 
     component.ngOnInit();
     fixture.detectChanges();
 
-    let orderList: UserOrders;
+    let orderList: OrderHistoryList;
     component.orders$.subscribe(value => {
       orderList = value;
     });
@@ -88,7 +92,7 @@ describe('OrderHistoryComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let orders: UserOrders;
+    let orders: OrderHistoryList;
     component.orders$.subscribe(value => {
       orders = value;
     });
@@ -107,10 +111,10 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should display No orders found page if no orders are found', () => {
-    const initialOrderListState: UserOrders = {
+    const initialOrderListState: OrderHistoryList = {
       orders: [],
       pagination: { totalResults: 0, sort: 'byDate' },
-      sort: [{ code: 'byDate', selected: true }]
+      sorts: [{ code: 'byDate', selected: true }]
     };
     mockUserService.orderList$.next(initialOrderListState);
 

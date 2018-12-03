@@ -3,9 +3,8 @@ import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService, Order } from '@spartacus/core';
+import { RoutingService, Order, OrderHistoryList } from '@spartacus/core';
 import { UserService } from '../../../user/facade/user.service';
-import { UserOrders } from '../../models/order.model';
 
 @Component({
   selector: 'cx-order-history',
@@ -19,7 +18,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     private userSerivce: UserService
   ) {}
 
-  orders$: Observable<UserOrders>;
+  orders$: Observable<OrderHistoryList>;
   isLoaded$: Observable<boolean>;
   subscription: Subscription;
 
@@ -40,7 +39,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     });
 
     this.orders$ = this.userSerivce.orderList$.pipe(
-      tap((orders: UserOrders) => {
+      tap((orders: OrderHistoryList) => {
         if (
           orders.orders &&
           Object.keys(orders.orders).length === 0 &&
