@@ -24,34 +24,35 @@ const mockOrders: UserOrders = {
   sort: [{ code: 'byDate', selected: true }]
 };
 
+class MockAuthService {
+  userToken$ = of(<UserToken>{ userId: 'test' });
+}
+
+class MockRoutingService {}
+
+class MockUserService {
+  orderList$ = new BehaviorSubject(null);
+  orderListLoaded$ = of(true);
+  loadOrderList = createSpy();
+}
+
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
-
-  let mockAuthService: AuthService;
-  let mockRoutingService: RoutingService;
-  let mockUserService: any;
+  let mockUserService: MockUserService;
 
   beforeEach(async(() => {
-    mockRoutingService = <RoutingService>{};
-    mockAuthService = <AuthService>{
-      userToken$: of(<UserToken>{ userId: 'test' })
-    };
-    mockUserService = {
-      orderList$: new BehaviorSubject(null),
-      orderListLoaded$: of(true),
-      loadOrderList: createSpy()
-    };
-
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PaginationAndSortingModule],
       declarations: [OrderHistoryComponent],
       providers: [
-        { provide: RoutingService, useValue: mockRoutingService },
-        { provide: UserService, useValue: mockUserService },
-        { provide: AuthService, useValue: mockAuthService }
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: UserService, useClass: MockUserService },
+        { provide: AuthService, useClass: MockAuthService }
       ]
     }).compileComponents();
+
+    mockUserService = TestBed.get(UserService);
   }));
 
   beforeEach(() => {
