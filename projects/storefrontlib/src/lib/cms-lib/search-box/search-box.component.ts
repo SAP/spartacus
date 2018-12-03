@@ -25,9 +25,11 @@ export class SearchBoxComponent implements OnInit {
   constructor(protected service: SearchBoxComponentService) {}
 
   ngOnInit() {
-    this.service.queryParam$
-      .pipe(take(1))
-      .subscribe(query => this.searchBoxControl.setValue(query));
+    this.service.queryParam$.pipe(take(1)).subscribe(query => {
+      if (query) {
+        this.searchBoxControl.setValue(query);
+      }
+    });
   }
 
   typeahead = (text$: Observable<string>) =>
