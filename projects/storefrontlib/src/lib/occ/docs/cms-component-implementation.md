@@ -76,7 +76,13 @@ In order to configure a custom component service, we can provide a service in a 
 ConfigModule.withConfig({
   cmsComponentMapping: {
     SearchBoxComponent: {
-        providers: [SearchBoxComponentService];
+        providers: [
+        {
+          provide: SearchBoxComponentService,
+          useClass: CustomSearchBoxComponentService,
+          deps: [CmsComponentData, ProductSearchService, RoutingService]
+        }
+      ];
     }
   }
 });
