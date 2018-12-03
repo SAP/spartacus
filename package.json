@@ -7,6 +7,7 @@
   },
   "scripts": {
     "build": "ng build storefrontapp --prod",
+    "postbuild": "node-sass projects/storefrontapp/src/styles -o dist/storefrontapp/styles --quiet",
     "build:core:lib": "ng build core && ng build storefrontlib",
     "build:qa": "ng build -c=qa",
     "e2e": "ng e2e",
