@@ -57,12 +57,11 @@ One JS file can contain more that one web component implementation, used as diff
 This requires a separate build process to generate the JS chunk that holds the web component(s), which is out of scope of this documentation. 
 
 
-## CmsComponentData
+## Access CMS Data
+The CMS data that is related to the component is provided as a service (`CmsComponentData`) to the component during instantiation. It contains the component `uid` and an observable (`data$`) to the component payload. Using Angular's DI systen, components as well as component specific services can use the `CmsComponentData`. 
 
-`CmsComponentData` service is way to access related CmsComponent data using dependency injection. 
-
-It contains both `uid` for a component, and an observable `data$` with component payload received from the backend cms. 
- 
+Web components will not have access to the application DI system, regardless of wether they're build in angular or not; they're isolated from the core application and can only interact with inputs and outputs. Therefore, they cannot access `CmsComponentData` and would also suffer from not being able to reuse any of the services provided by Spartacus. 
+A special effort was made to provide web components with both the component related data as well as a generic API to core services of Spartacus. The input needed for this is `cxApi`. 
 
 ### Access to storefront API (facade services)
 
