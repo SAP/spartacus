@@ -5,6 +5,7 @@ import { RouteRecognizerService } from './route-recognizer.service';
 import { UrlParserService } from './url-parser.service';
 import { UrlTranslatorService } from './url-translator.service';
 import { ConfigurableRoutesService } from '../configurable-routes.service';
+import { RouteTranslation } from '../routes-config';
 
 const mockConfigurableRoutesService = {
   getNestedRoutesTranslations: () => {}
