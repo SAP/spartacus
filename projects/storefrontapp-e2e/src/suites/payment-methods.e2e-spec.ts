@@ -6,7 +6,7 @@ import { E2EUtil } from '../e2e-util';
 import { ProductDetailsPage } from '../page-objects/product-details.po';
 import { PaymentManagementPage } from '../page-objects/account/payment-managment.po';
 
-fdescribe('Payment management page', () => {
+describe('Payment management page', () => {
   const home: HomePage = new HomePage();
   const checkoutPage = new MultiStepCheckoutPage();
 
