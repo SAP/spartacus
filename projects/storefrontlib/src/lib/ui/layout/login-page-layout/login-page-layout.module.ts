@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { LoginModule } from '../../../user/components/login/login.module';
 import { LoginPageLayoutComponent } from './login-page-layout.component';
 import { RouterModule } from '@angular/router';
-import { PathModule } from '@spartacus/core';
+import { UrlTranslatorModule } from '@spartacus/core';
 
 @NgModule({
-  imports: [LoginModule, RouterModule, PathModule],
+  imports: [LoginModule, RouterModule, UrlTranslatorModule],
   declarations: [LoginPageLayoutComponent],
   exports: [LoginPageLayoutComponent]
 })

@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { ComponentsModule } from './../../../ui/components/components.module';
 import { CartItemListComponent } from './cart-item-list/cart-item-list.component';
-import { PathModule } from '@spartacus/core';
+import { UrlTranslatorModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { PathModule } from '@spartacus/core';
     RouterModule,
     ReactiveFormsModule,
     ComponentsModule,
-    PathModule
+    UrlTranslatorModule
   ],
   declarations: [
     CartItemComponent,

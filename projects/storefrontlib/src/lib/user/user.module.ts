@@ -13,7 +13,7 @@ import { reducerToken, reducerProvider } from './store/reducers/index';
 import { effects } from './store/effects/index';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { PathModule, ProductConverterModule } from '@spartacus/core';
+import { UrlTranslatorModule, ProductConverterModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import { PathModule, ProductConverterModule } from '@spartacus/core';
     StoreModule.forFeature('user', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
     RouterModule,
-    PathModule,
+    UrlTranslatorModule,
     ProductConverterModule
   ],
   declarations: [RegisterComponent, ResetPasswordComponent],

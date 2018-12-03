@@ -3,7 +3,7 @@ import * as fromStore from '../store';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { NavigationExtras } from '@angular/router';
-import { PathPipeService } from '../configurable-routes/path/path-pipe.service';
+import { UrlTranslatorService } from '../configurable-routes/url-translator/url-translator.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class RoutingService {
 
   constructor(
     private store: Store<fromStore.RouterState>,
-    private pathPipeService: PathPipeService
+    private urlTranslator: UrlTranslatorService
   ) {}
 
   public go(path: any[], query?: object, extras?: NavigationExtras) {
@@ -38,7 +38,7 @@ export class RoutingService {
     query?: object,
     extras?: NavigationExtras
   ) {
-    const pathCommands = this.pathPipeService.transform(
+    const pathCommands = this.urlTranslator.translate(
       nestedRoutesNames,
       nestedRoutesParams
     );

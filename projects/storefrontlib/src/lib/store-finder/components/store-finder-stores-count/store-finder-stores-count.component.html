@@ -12,7 +12,7 @@
       <a
         [routerLink]="
           ['storeFinder', 'listStores']
-            | cxPath: [null, { country: country.isoCode }]
+            | cxTranslateUrl: [null, { country: country.isoCode }]
         "
         class="btn-link"
       >
@@ -47,7 +47,7 @@
             <a
               [routerLink]="
                 ['storeFinder', 'listStores']
-                  | cxPath
+                  | cxTranslateUrl
                     : [
                         null,
                         { country: country.isoCode, region: region.isoCode }

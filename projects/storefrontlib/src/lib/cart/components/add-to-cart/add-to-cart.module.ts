@@ -6,10 +6,10 @@ import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
 import { AddToCartComponent } from './add-to-cart.component';
 
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
-import { PathModule } from '@spartacus/core';
+import { UrlTranslatorModule } from '@spartacus/core';
 
 @NgModule({
-  imports: [CartSharedModule, SpinnerModule, PathModule],
+  imports: [CartSharedModule, SpinnerModule, UrlTranslatorModule],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],
   entryComponents: [AddedToCartDialogComponent],
   exports: [AddToCartComponent]

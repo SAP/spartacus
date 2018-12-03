@@ -7,7 +7,7 @@ import { MediaModule } from '../../ui/components/media/media.module';
 
 import { SearchBoxComponent } from './search-box.component';
 import { BootstrapModule } from '../../bootstrap.module';
-import { PathModule, ProductModule } from '@spartacus/core';
+import { UrlTranslatorModule, ProductModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -17,7 +17,7 @@ import { PathModule, ProductModule } from '@spartacus/core';
     RouterModule,
     ReactiveFormsModule,
     MediaModule,
-    PathModule,
+    UrlTranslatorModule,
     ProductModule
   ],
   declarations: [SearchBoxComponent],

@@ -1,5 +1,5 @@
 <a
-  [routerLink]="['product'] | cxPath: [product]"
+  [routerLink]="['product'] | cxTranslateUrl: [product]"
   class="cx-product-search-grid__image--container"
 >
   <cx-picture
@@ -10,7 +10,7 @@
   ></cx-picture>
 </a>
 <a
-  [routerLink]="['product'] | cxPath: [product]"
+  [routerLink]="['product'] | cxTranslateUrl: [product]"
   class="cx-product-search-grid__name"
   [innerHTML]="product.name"
   >{{ product.name }}</a

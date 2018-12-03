@@ -1,75 +1,112 @@
 import { Injectable } from '@angular/core';
-import { ServerConfig } from '../../../config/server-config/server-config';
 import { ConfigurableRoutesService } from '../configurable-routes.service';
+import { RouteRecognizerService } from './route-recognizer.service';
+import { UrlParserService } from './url-parser.service';
+import { ServerConfig } from 'projects/core/src/config/server-config/server-config';
 import { RouteTranslation, ParamsMapping } from '../routes-config';
-import { UrlParser } from './url-parser.service';
-import { isParam, getParamName } from './path-utils';
+import { getParamName, isParam } from './path-utils';
 
 @Injectable()
-export class PathPipeService {
+export class UrlTranslatorService {
+  readonly ROOT_URL = ['/'];
+
   constructor(
     private configurableRoutesService: ConfigurableRoutesService,
-    private urlParser: UrlParser,
+    private routeRecognizer: RouteRecognizerService,
+    private urlParser: UrlParserService,
     private config: ServerConfig
   ) {}
 
-  readonly ROOT_PATH = ['/'];
+  translate(
+    urlOrNestedRoutesNames: string | string[],
+    nestedRoutesParams?: object[]
+  ): string[] {
+    let nestedRoutesNames;
 
-  transform(
+    // if string url was passed, try to recognize route:
+    if (typeof urlOrNestedRoutesNames === 'string') {
+      const url = urlOrNestedRoutesNames;
+      ({
+        nestedRoutesNames,
+        nestedRoutesParams
+      } = this.routeRecognizer.recognizeByUrl(url));
+
+      // if cannot recognize route, return original url
+      if (!nestedRoutesNames) {
+        return [url];
+      }
+    } else if (Array.isArray(urlOrNestedRoutesNames)) {
+      nestedRoutesNames = urlOrNestedRoutesNames;
+    }
+
+    return this.generateUrl(nestedRoutesNames, nestedRoutesParams);
+  }
+
+  private generateUrl(
     nestedRoutesNames: string[],
     nestedRoutesParams?: object[]
   ): string[] {
-    if (!nestedRoutesNames.length) {
-      return this.ROOT_PATH;
+    // if no routes names given, return root url
+    if (!nestedRoutesNames || !nestedRoutesNames.length) {
+      return this.ROOT_URL;
     }
 
-    nestedRoutesParams = this.complementListWithEmptyObjects(
+    nestedRoutesParams = this.ensureListLength(
       nestedRoutesParams,
-      nestedRoutesNames.length
+      nestedRoutesNames.length,
+      {}
     );
 
     const nestedRoutesTranslations = this.configurableRoutesService.getNestedRoutesTranslations(
       nestedRoutesNames
     );
+
+    // if no routes translations were configured, return root url:
     if (!nestedRoutesTranslations) {
-      return this.ROOT_PATH;
+      return this.ROOT_URL;
     }
 
     const [leafNestedRouteTranslation] = nestedRoutesTranslations.slice(-1);
+
+    // if no route was switched off in config (set to null), return root url:
     if (!leafNestedRouteTranslation.paths) {
-      return this.ROOT_PATH;
+      return this.ROOT_URL;
     }
 
-    const nestedRoutesFoundPaths = this.findPathsWithFillableParams(
+    // find first path for every nested route that can staisfy it's parameters with given parameters
+    const nestedRoutesPaths = this.findPathsWithFillableParams(
       nestedRoutesTranslations,
       nestedRoutesParams
     );
-    if (!nestedRoutesFoundPaths) {
-      return this.ROOT_PATH;
+
+    // if not every nested route had configured path that can be satisfied with given params, return root url
+    if (!nestedRoutesPaths) {
+      return this.ROOT_URL;
     }
 
     const result = this.provideParamsValues(
-      nestedRoutesFoundPaths,
+      nestedRoutesPaths,
       nestedRoutesParams,
       nestedRoutesTranslations.map(
         routTranslation => routTranslation.paramsMapping
       )
     );
 
-    result.unshift(''); // ensure absolute path ( leading '' in array is equvalent to leading '/' in string)
+    result.unshift(''); // ensure absolute path ( leading '' in path array is equvalent to leading '/' in string)
     return result;
   }
 
-  private complementListWithEmptyObjects(
+  private ensureListLength(
     list: any[],
-    expectedLength: number
+    expectedLength: number,
+    fillingElement: any
   ): object[] {
     list = list || [];
     const missingLength = expectedLength - list.length;
     if (missingLength < 0) {
       return list;
     }
-    const missingArray = new Array(missingLength).fill({});
+    const missingArray = new Array(missingLength).fill(fillingElement);
     return list.concat(missingArray);
   }
 

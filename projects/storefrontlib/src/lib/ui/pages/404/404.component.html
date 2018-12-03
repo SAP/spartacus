@@ -10,7 +10,7 @@
       <div *ngFor="let navigation of errorNav">
         <a
           class="btn-link"
-          [routerLink]="navigation.routeName | cxPath"
+          [routerLink]="navigation.routeName | cxTranslateUrl"
           routerLinkActive="active"
           >{{ navigation.label }}</a
         >

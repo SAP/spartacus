@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { RoutesConfigLoader } from '../routes-config-loader';
-import { UrlParser } from './url-parser.service';
+import { UrlParserService } from './url-parser.service';
 import { RoutesTranslations } from '../routes-config';
 import { removeLeadingSlash, isParam, getParamName } from './path-utils';
 
 @Injectable()
-export class DynamicUrlRecognizerService {
+export class RouteRecognizerService {
   constructor(
     private routesConfigLoader: RoutesConfigLoader,
-    private urlParser: UrlParser
+    private urlParser: UrlParserService
   ) {}
 
-  getNestedRoutes(
+  recognizeByUrl(
     url: string
   ): {
     nestedRoutesNames: string[];
