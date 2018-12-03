@@ -32,9 +32,9 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   @Input()
   step = 1;
   @Input()
-  min;
+  min: number;
   @Input()
-  max;
+  max: number;
   @Input()
   async = false;
   @Input()

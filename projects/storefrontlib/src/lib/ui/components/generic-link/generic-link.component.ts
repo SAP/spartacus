@@ -15,15 +15,15 @@ export class GenericLinkComponent {
   url: string;
 
   @Input()
-  target;
+  target: string;
   @Input()
-  class;
+  class: string;
   @Input()
-  id;
+  id: string;
   @Input()
-  style;
+  style: string;
   @Input()
-  title;
+  title: string;
 
   get routerUrl(): string {
     if (this.url !== undefined) {

@@ -5,6 +5,7 @@ import {
   ChangeDetectionStrategy,
   EventEmitter
 } from '@angular/core';
+import { SortModel } from '@spartacus/core';
 
 @Component({
   selector: 'cx-sorting',
@@ -14,7 +15,7 @@ import {
 })
 export class SortingComponent {
   @Input()
-  sortOptions;
+  sortOptions: SortModel[];
   @Input()
   selectedOption: string;
   @Input()
