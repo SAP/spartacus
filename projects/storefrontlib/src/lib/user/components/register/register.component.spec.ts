@@ -43,7 +43,7 @@ class MockUserService {
   registerUser = createSpy();
 }
 
-fdescribe('RegisterComponent', () => {
+describe('RegisterComponent', () => {
   let controls;
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
