@@ -16,7 +16,7 @@ There are two types of components that can be configured:
 - angular components
 - web components
 
-### Custom CMS Components (Angular)
+**Custom CMS Components (Angular)**
 
 The configuration for a CMS components can be provided to the `ConfigModule` (or directly to the `StorefrontModule`). The configuration belows shows how to configure a custom angular component for the BannerComponent
 
@@ -36,7 +36,7 @@ It's important to note that with this setup, there are 2 important pieces that n
 
 Both of these related downsides will be improved going forward. With that in mind, a change in this API is expected.
 
-### Web components as CMS components
+**Web components as CMS components**
 
 Web components have a lot of benefits, and as soon as some of the fundamentals of angular are ready for this, we'll most likely move into this direction. We've already got our selfs prepared for loading web components, although the current recommendation is to stick with angular components. 
 
