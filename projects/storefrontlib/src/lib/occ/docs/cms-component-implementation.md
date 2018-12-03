@@ -13,10 +13,10 @@ With this setup, CMS components can be customized in multiple ways:
 
 ## Configure custom components
 There are two types of components that can be configured:
-- angular components
-- web components
+1. angular components
+2. web components
 
-**Custom CMS Components (Angular)**
+**1. Custom CMS Components (Angular)**
 
 The configuration for a CMS components can be provided to the `ConfigModule` (or directly to the `StorefrontModule`). The configuration belows shows how to configure a custom angular component for the BannerComponent
 
@@ -36,7 +36,7 @@ It's important to note that with this setup, there are 2 important pieces that n
 
 Both of these related downsides will be improved going forward. With that in mind, a change in this API is expected.
 
-**Web components as CMS components**
+**2. Web components as CMS components**
 
 Web components have a lot of benefits, and as soon as some of the fundamentals of angular are ready for this, we'll most likely move into this direction. We've already got our selfs prepared for loading web components, although the current recommendation is to stick with angular components. 
 
@@ -57,9 +57,9 @@ One JS file can contain more that one web component implementation, used as diff
 This requires a separate build process to generate the JS chunk that holds the web component(s), which is out of scope of this documentation. 
 
 
-## Access CMS Data in custom components
+**Access CMS Data in custom components**
+
 The CMS data that is related to the component is provided as a service (`CmsComponentData`) to the component during instantiation. It contains the component `uid` and an observable (`data$`) to the component payload. Using Angular's DI systen, components as well as component specific services can use the `CmsComponentData`. 
 
 Web components will not have access to the application DI system, regardless of wether they're build in angular or not; they're isolated from the core application and can only interact with inputs and outputs. Therefore, they cannot access `CmsComponentData` and would also suffer from not being able to reuse any of the services provided by Spartacus. 
 A special effort was made to provide web components with both the component related data as well as a generic API to core services of Spartacus. The input needed for this is `cxApi`. 
-
