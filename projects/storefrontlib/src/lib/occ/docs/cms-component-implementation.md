@@ -36,6 +36,24 @@ It's important to note that with this setup, there are 2 important pieces that n
 
 Both of these related downsides will be improved going forward. With that in mind, a change in this API is expected.
 
+### Custom Web CMS components
+
+Web components have a lot of benefits, and as soon as some of the fundamentals of angular are ready for this, we'll most likely move into this direction. We've already got our selfs prepared for loading web components, although the current recommendation is to stick with angular components. 
+
+In order to configure a web component for a CMS component, the following configuration can be used: 
+
+```
+ConfigModule.withConfig({
+  cmsComponentMapping: {
+    BannerComponent: {
+        selector: 'path/to/banner/component/file.js#custom-banner';
+    }
+  }
+});
+```
+
+This requires a separate build process to generate the JS chunk that holds the web component(s), which is out of scope of this documentation. 
+
 
 ## CmsComponentData
 
