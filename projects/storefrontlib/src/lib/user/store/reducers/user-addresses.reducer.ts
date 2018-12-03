@@ -4,11 +4,13 @@ import { Address } from '@spartacus/core';
 export interface UserAddressesState {
   list: Address[];
   isLoading: boolean;
+  isActionProcessing: boolean;
 }
 
 export const initialState: UserAddressesState = {
   list: [],
-  isLoading: false
+  isLoading: false,
+  isActionProcessing: false
 };
 
 export function reducer(
@@ -23,12 +25,14 @@ export function reducer(
         return {
           ...state,
           list,
-          isLoading: false
+          isLoading: false,
+          isActionProcessing: false
         };
       } else {
         return {
           ...state,
-          isLoading: false
+          isLoading: false,
+          isActionProcessing: false
         };
       }
     }
@@ -46,7 +50,29 @@ export function reducer(
         isLoading: true
       };
     }
+
+    case fromUserAddressesAction.ADD_USER_ADDRESS: {
+      return {
+        ...state,
+        isActionProcessing: true
+      };
+    }
+
+    case fromUserAddressesAction.UPDATE_USER_ADDRESS: {
+      return {
+        ...state,
+        isActionProcessing: true
+      };
+    }
+
+    case fromUserAddressesAction.DELETE_USER_ADDRESS: {
+      return {
+        ...state,
+        isActionProcessing: true
+      };
+    }
   }
+
   return state;
 }
 

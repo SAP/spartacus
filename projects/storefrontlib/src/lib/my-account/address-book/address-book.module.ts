@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { AddressBookComponent } from './address-book.component';
 import { AddressCardComponent } from './address-card/address-card.component';
 import { CardModule } from '../../ui/components/card/card.module';
-import { AddressBookService } from './address-book.service';
 import { AddressFormModule } from '../../checkout/components/multi-step-checkout/shipping-address/address-form/address-form.module';
 import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
+import { GlobalMessageModule } from '../../global-message';
+import { UserService } from '../../user/facade/user.service';
 
 @NgModule({
   imports: [
@@ -14,10 +17,12 @@ import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
     BrowserModule,
     CommonModule,
     AddressFormModule,
-    SpinnerModule
+    SpinnerModule,
+    GlobalMessageModule,
+    StoreModule.forRoot({})
   ],
   declarations: [AddressBookComponent, AddressCardComponent],
   exports: [AddressBookComponent, AddressCardComponent],
-  providers: [AddressBookService]
+  providers: [UserService, Store]
 })
 export class AddressBookModule {}

@@ -179,7 +179,7 @@
         <div class="cx-address-form__btns row">
           <div class="col-sm-12 col-md-6 col-lg-6">
             <button class="btn btn-block btn-action" (click)="back()">
-              Change Address
+              {{ cancelBtnLabel || 'Change Address' }}
             </button>
           </div>
           <div class="col-sm-12 col-md-6 col-lg-6">
@@ -188,7 +188,7 @@
               [disabled]="address.invalid"
               (click)="verifyAddress()"
             >
-              Continue
+              {{ actionBtnLabel || 'Continue' }}
             </button>
           </div>
         </div>

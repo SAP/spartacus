@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { AddressBookService } from './address-book.service';
 import { ActionsSubject } from '@ngrx/store';
 import { GlobalMessageService } from '../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../global-message/models/message.model';
 import * as actionTypes from '../../user/store/actions/user-addresses.action';
+import { UserService } from '../../user/facade/user.service';
 
 @Component({
   selector: 'cx-address-book',
@@ -13,6 +13,8 @@ import * as actionTypes from '../../user/store/actions/user-addresses.action';
 })
 export class AddressBookComponent implements OnInit, OnDestroy {
   addresses$: Observable<any>;
+  addressesLoading$: Observable<any>;
+  userId: string;
   isAddAddressFormOpen: boolean;
   isEditAddressFormOpen: boolean;
   activeAddress: Object;
@@ -20,13 +22,18 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
 
   constructor(
-    private service: AddressBookService,
+    private userService: UserService,
     private messagesService: GlobalMessageService,
     private actions: ActionsSubject
   ) {}
 
   ngOnInit() {
-    this.addresses$ = this.service.loadUserAddresses();
+    this.addresses$ = this.userService.addressesState$;
+
+    this.userService.user$.subscribe(data => {
+      this.userId = data.uid;
+      this.userService.loadAddresses(this.userId);
+    });
 
     this.subscription = this.handleActionEvents();
   }
@@ -50,11 +57,15 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   }
 
   addUserAddress(address) {
-    this.service.addUserAddress(address);
+    if (this.userId) {
+      this.userService.addUserAddress(this.userId, address);
+    }
   }
 
   updateUserAddress(addressId, address) {
-    this.service.updateUserAddress(addressId, address);
+    if (this.userId) {
+      this.userService.updateUserAddress(this.userId, addressId, address);
+    }
   }
 
   checkIfAnyFormOpen() {
@@ -69,14 +80,14 @@ export class AddressBookComponent implements OnInit, OnDestroy {
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
             text: 'New address was added successfully!'
           });
-          this.service.loadUserAddresses();
+          this.userService.loadAddresses(this.userId);
           this.hideAddAddressForm();
           break;
         }
 
         case actionTypes.UPDATE_USER_ADDRESS_SUCCESS: {
           this.hideEditAddressForm();
-          this.service.loadUserAddresses();
+          this.userService.loadAddresses(this.userId);
           break;
         }
 
@@ -85,7 +96,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
             text: 'Address deleted successfully!'
           });
-          this.service.loadUserAddresses();
+          this.userService.loadAddresses(this.userId);
           break;
         }
       }

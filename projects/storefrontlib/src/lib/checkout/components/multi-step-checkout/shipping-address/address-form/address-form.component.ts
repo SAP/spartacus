@@ -18,6 +18,7 @@ import { GlobalMessageType } from '.././../../../../global-message/models/messag
 
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Address } from '@spartacus/core';
 
 @Component({
   selector: 'cx-address-form',
@@ -31,7 +32,13 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   regions$: Observable<any>;
 
   @Input()
-  addressData;
+  addressData: Address;
+
+  @Input()
+  actionBtnLabel: string;
+
+  @Input()
+  cancelBtnLabel: string;
 
   @Output()
   addAddress = new EventEmitter<any>();
@@ -51,10 +58,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     line2: [''],
     town: ['', Validators.required],
     region: this.fb.group({
-      isocode: ['', Validators.required]
+      isocode: [undefined, Validators.required]
     }),
     country: this.fb.group({
-      isocode: ['', Validators.required]
+      isocode: [undefined, Validators.required]
     }),
     postalCode: ['', Validators.required],
     phone: ''
@@ -136,16 +143,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       this.address['controls'].defaultAddress.setValue(
         this.addressData.defaultAddress
       );
-
       this.countrySelected(this.addressData.country);
 
-      const regionControl = this.address.get('region.isocode');
-
-      if (!this.addressData.region) {
-        regionControl.disable();
-      } else {
+      if (this.addressData.region) {
         this.regionSelected(this.addressData.region);
       }
+      console.log(this.addressData);
     }
   }
 

@@ -74,7 +74,6 @@ export class OccUserService {
   updateUserAddress(userId, addressId, address) {
     const url =
       this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
-    console.log(url);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });

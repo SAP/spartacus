@@ -274,4 +274,64 @@ describe('UserService', () => {
       new fromStore.LoadUserAddresses('testUserId')
     );
   });
+
+  it('should be able to add user address', () => {
+    const mockAddress = {
+      firstName: 'John',
+      lastName: 'Doe',
+      titleCode: 'mr',
+      line1: 'Toyosaki 2 create on cart',
+      line2: 'line2',
+      town: 'town',
+      region: { isocode: 'JP-27' },
+      postalCode: 'zip',
+      country: { isocode: 'JP' }
+    };
+
+    service.addUserAddress('testUserId', mockAddress);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.AddUserAddress({
+        userId: 'testUserId',
+        address: mockAddress
+      })
+    );
+  });
+
+  it('should be able to update user address', () => {
+    const mockAddressUpdate = {
+      city: 'Test'
+    };
+
+    service.updateUserAddress('testUserId', '123', mockAddressUpdate);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.UpdateUserAddress({
+        userId: 'testUserId',
+        addressId: '123',
+        address: mockAddressUpdate
+      })
+    );
+  });
+
+  it('should be able to delete user address', () => {
+    service.deleteUserAddress('testUserId', '123');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.DeleteUserAddress({
+        userId: 'testUserId',
+        addressId: '123'
+      })
+    );
+  });
+
+  it('should be able to set address as default address', () => {
+    service.setAddressAsDefault('testUserId', '123');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.UpdateUserAddress({
+        userId: 'testUserId',
+        addressId: '123',
+        address: {
+          defaultAddress: true
+        }
+      })
+    );
+  });
 });

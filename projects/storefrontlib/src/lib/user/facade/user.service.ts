@@ -35,6 +35,9 @@ export class UserService {
   readonly addressesLoading$: Observable<boolean> = this.store.pipe(
     select(fromStore.getAddressesLoading)
   );
+  readonly addressesState$: Observable<any> = this.store.pipe(
+    select(fromStore.getAddressesState)
+  );
 
   readonly titles$: Observable<any> = this.store.pipe(
     select(fromStore.getAllTitles)
@@ -123,5 +126,43 @@ export class UserService {
 
   loadAddresses(userId: string) {
     this.store.dispatch(new fromStore.LoadUserAddresses(userId));
+  }
+
+  addUserAddress(userId: string, address) {
+    this.store.dispatch(
+      new fromStore.AddUserAddress({
+        userId: userId,
+        address: address
+      })
+    );
+  }
+
+  setAddressAsDefault(userId: string, addressId: string) {
+    this.store.dispatch(
+      new fromStore.UpdateUserAddress({
+        userId: userId,
+        addressId: addressId,
+        address: { defaultAddress: true }
+      })
+    );
+  }
+
+  updateUserAddress(userId: string, addressId: string, address) {
+    this.store.dispatch(
+      new fromStore.UpdateUserAddress({
+        userId: userId,
+        addressId: addressId,
+        address: address
+      })
+    );
+  }
+
+  deleteUserAddress(userId: string, addressId: string) {
+    this.store.dispatch(
+      new fromStore.DeleteUserAddress({
+        userId: userId,
+        addressId: addressId
+      })
+    );
   }
 }

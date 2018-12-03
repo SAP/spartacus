@@ -2,15 +2,14 @@
   <header class="cx-page__header">
     <h1 class="cx-page__title">Address Book</h1>
   </header>
-  <!-- ALERT WOULD GO HERE -->
   <section class="cx-page__section container">
-    <div class="row">
+    <div class="row" *ngIf="(addresses$ | async) as addresses">
       <div class="col-md-12">
         <div class="cx-section" *ngIf="!checkIfAnyFormOpen()">
           <h1 class="cx-section__title">Address Book</h1>
           <p>Saved shipping addresses</p>
 
-          <div *ngIf="(addresses$ | async) as addresses">
+          <div>
             <div class="row">
               <div class="col-md-6">
                 <button
@@ -21,16 +20,25 @@
                 </button>
               </div>
             </div>
-            <div class="row cx-address-deck" *ngIf="!addresses.isLoading">
+            <div
+              class="row cx-address-deck"
+              *ngIf="!addresses.isLoading && !addresses.isActionProcessing"
+            >
               <div *ngFor="let address of addresses.list" class="col-md-6">
                 <cx-address-card
                   (editEvent)="showEditAddressForm(address)"
+                  [userId]="userId"
                   [address]="address"
                 ></cx-address-card>
               </div>
             </div>
-            <div class="row" *ngIf="addresses.isLoading">
-              <div class="col-md-12"><cx-spinner></cx-spinner></div>
+            <div
+              class="row"
+              *ngIf="addresses.isLoading || addresses.isActionProcessing"
+            >
+              <div class="col-md-12 cx-address-deck__spinner">
+                <cx-spinner></cx-spinner>
+              </div>
             </div>
           </div>
         </div>
@@ -41,6 +49,8 @@
           <section #addAddressForm *ngIf="isAddAddressFormOpen">
             <p>Add a new shipping address</p>
             <cx-address-form
+              actionBtnLabel="Add address"
+              cancelBtnLabel="Back to address list"
               (addAddress)="addUserAddress($event)"
               (backToAddress)="hideAddAddressForm()"
             ></cx-address-form>
@@ -49,6 +59,8 @@
           <section #editAddressForm *ngIf="isEditAddressFormOpen">
             <p>Edit shipping address</p>
             <cx-address-form
+              actionBtnLabel="Update address"
+              cancelBtnLabel="Back to address list"
               [addressData]="activeAddress"
               (addAddress)="updateUserAddress(activeAddress['id'], $event)"
               (backToAddress)="hideEditAddressForm()"
