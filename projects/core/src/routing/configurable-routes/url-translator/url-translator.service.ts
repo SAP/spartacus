@@ -20,7 +20,7 @@ export class UrlTranslatorService {
   translate(
     urlOrNestedRoutesNames: string | string[],
     nestedRoutesParams?: object[]
-  ): string[] {
+  ): string | string[] {
     let nestedRoutesNames;
 
     // if string url was passed, try to recognize route:
@@ -33,7 +33,7 @@ export class UrlTranslatorService {
 
       // if cannot recognize route, return original url
       if (!nestedRoutesNames) {
-        return [url];
+        return url;
       }
     } else if (Array.isArray(urlOrNestedRoutesNames)) {
       nestedRoutesNames = urlOrNestedRoutesNames;

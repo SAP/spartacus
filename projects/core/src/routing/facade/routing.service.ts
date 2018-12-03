@@ -41,7 +41,7 @@ export class RoutingService {
     const path = this.urlTranslator.translate(
       nestedRoutesNames,
       nestedRoutesParams
-    );
+    ) as any[];
     this.go(path, query, extras);
   }
 
