@@ -24,9 +24,9 @@ const UseCmsModuleConfig: CmsModuleConfig = {
   }
 };
 @Pipe({
-  name: 'cxPath'
+  name: 'cxTranslateUrl'
 })
-class MockPathPipe implements PipeTransform {
+class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -89,7 +89,11 @@ describe('SearchBoxComponent in CmsLib', () => {
         ReactiveFormsModule,
         RouterModule
       ],
-      declarations: [SearchBoxComponent, PictureComponent, MockPathPipe],
+      declarations: [
+        SearchBoxComponent,
+        PictureComponent,
+        MockTranslateUrlPipe
+      ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },

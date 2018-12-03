@@ -6,9 +6,9 @@ import { PageNotFoundComponent } from './404.component';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'cxPath'
+  name: 'cxTranslateUrl'
 })
-class MockPathPipe implements PipeTransform {
+class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -19,7 +19,7 @@ describe('404Component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [PageNotFoundComponent, MockPathPipe]
+      declarations: [PageNotFoundComponent, MockTranslateUrlPipe]
     }).compileComponents();
   }));
 

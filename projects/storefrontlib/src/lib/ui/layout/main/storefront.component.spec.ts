@@ -23,6 +23,7 @@ class MockGlobalMessagerComponent {}
 class MockFooterComponent {}
 
 class MockConfigurableRoutesService {
+  init() {}
   changeLanguage() {}
 }
 

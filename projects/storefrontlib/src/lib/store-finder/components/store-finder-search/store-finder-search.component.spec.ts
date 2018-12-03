@@ -47,9 +47,9 @@ class WindowRefMock {
 }
 
 @Pipe({
-  name: 'cxPath'
+  name: 'cxTranslateUrl'
 })
-class MockPathPipe implements PipeTransform {
+class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -67,7 +67,7 @@ describe('StoreFinderSearchComponent', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature('stores', fromStore.reducers)
       ],
-      declarations: [StoreFinderSearchComponent, MockPathPipe],
+      declarations: [StoreFinderSearchComponent, MockTranslateUrlPipe],
       providers: [
         { provide: WindowRef, useClass: WindowRefMock },
         { provide: RoutingService, useValue: { goToPage: jasmine.createSpy() } }

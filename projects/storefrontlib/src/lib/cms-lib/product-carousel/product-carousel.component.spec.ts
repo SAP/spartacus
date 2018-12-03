@@ -14,9 +14,9 @@ import { PictureComponent } from '../../ui/components/media/picture/picture.comp
 import { ProductCarouselComponent } from './product-carousel.component';
 
 @Pipe({
-  name: 'cxPath'
+  name: 'cxTranslateUrl'
 })
-class MockPathPipe implements PipeTransform {
+class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -58,7 +58,11 @@ describe('ProductCarouselComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, BootstrapModule],
-      declarations: [ProductCarouselComponent, PictureComponent, MockPathPipe],
+      declarations: [
+        ProductCarouselComponent,
+        PictureComponent,
+        MockTranslateUrlPipe
+      ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         { provide: ProductService, useValue: MockProductService }

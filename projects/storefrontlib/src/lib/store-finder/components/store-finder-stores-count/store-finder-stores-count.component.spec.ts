@@ -10,9 +10,9 @@ import * as fromReducers from '../../store';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'cxPath'
+  name: 'cxTranslateUrl'
 })
-class MockPathPipe implements PipeTransform {
+class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -28,7 +28,7 @@ describe('StoreFinderStoresCountComponent', () => {
         StoreModule.forFeature('stores', fromReducers.reducers),
         RouterTestingModule
       ],
-      declarations: [StoreFinderStoresCountComponent, MockPathPipe],
+      declarations: [StoreFinderStoresCountComponent, MockTranslateUrlPipe],
       providers: [StoreFinderService]
     }).compileComponents();
   }));

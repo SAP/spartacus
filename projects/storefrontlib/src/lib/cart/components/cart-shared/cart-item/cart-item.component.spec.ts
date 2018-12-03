@@ -6,9 +6,9 @@ import { CartItemComponent } from './cart-item.component';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'cxPath'
+  name: 'cxTranslateUrl'
 })
-class MockPathPipe implements PipeTransform {
+class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -19,7 +19,7 @@ describe('CartItemComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule, ComponentsModule],
-      declarations: [CartItemComponent, MockPathPipe],
+      declarations: [CartItemComponent, MockTranslateUrlPipe],
       providers: [
         {
           provide: ControlContainer

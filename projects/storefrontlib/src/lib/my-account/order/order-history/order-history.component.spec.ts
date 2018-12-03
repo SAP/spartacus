@@ -25,9 +25,9 @@ const mockOrders = {
 };
 
 @Pipe({
-  name: 'cxPath'
+  name: 'cxTranslateUrl'
 })
-class MockPathPipe implements PipeTransform {
+class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -54,7 +54,7 @@ describe('OrderHistoryComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PaginationAndSortingModule],
-      declarations: [OrderHistoryComponent, MockPathPipe],
+      declarations: [OrderHistoryComponent, MockTranslateUrlPipe],
       providers: [
         { provide: RoutingService, useValue: mockRoutingService },
         { provide: UserService, useValue: mockUserService },

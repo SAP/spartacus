@@ -6,9 +6,9 @@ import { By } from '@angular/platform-browser';
 import { ResetPasswordComponent } from './reset-password.component';
 
 @Pipe({
-  name: 'cxPath'
+  name: 'cxTranslateUrl'
 })
-class MockPathPipe implements PipeTransform {
+class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -22,7 +22,7 @@ describe('ResetPasswordComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, RouterTestingModule],
-      declarations: [ResetPasswordComponent, MockPathPipe]
+      declarations: [ResetPasswordComponent, MockTranslateUrlPipe]
     }).compileComponents();
   }));
 

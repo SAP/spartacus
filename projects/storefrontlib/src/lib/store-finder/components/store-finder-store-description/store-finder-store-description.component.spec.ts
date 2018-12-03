@@ -12,9 +12,9 @@ import * as fromServices from '../../services';
 import { PipeTransform, Pipe } from '@angular/core';
 
 @Pipe({
-  name: 'cxPath'
+  name: 'cxTranslateUrl'
 })
-class MockPathPipe implements PipeTransform {
+class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -33,7 +33,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
         StoreFinderStoreDescriptionComponent,
         ScheduleComponent,
         StoreFinderMapComponent,
-        MockPathPipe
+        MockTranslateUrlPipe
       ],
       providers: [...fromServices.services]
     }).compileComponents();

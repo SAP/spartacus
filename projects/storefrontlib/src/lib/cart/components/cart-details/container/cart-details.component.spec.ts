@@ -159,9 +159,9 @@ const mockData = [
   }
 ];
 @Pipe({
-  name: 'cxPath'
+  name: 'cxTranslateUrl'
 })
-class MockPathPipe implements PipeTransform {
+class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -197,7 +197,7 @@ describe('CartDetailsComponent', () => {
         CartDetailsComponent,
         MockCartItemListComponent,
         MockOrderSummaryComponent,
-        MockPathPipe
+        MockTranslateUrlPipe
       ],
       providers: [
         CartDataService,

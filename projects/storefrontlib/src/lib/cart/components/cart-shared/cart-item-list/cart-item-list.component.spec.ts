@@ -37,9 +37,9 @@ const mockPotentialProductPromotions = [
 ];
 
 @Pipe({
-  name: 'cxPath'
+  name: 'cxTranslateUrl'
 })
-class MockPathPipe implements PipeTransform {
+class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -51,7 +51,11 @@ describe('CartItemListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ComponentsModule, ReactiveFormsModule, RouterTestingModule],
-      declarations: [CartItemListComponent, CartItemComponent, MockPathPipe],
+      declarations: [
+        CartItemListComponent,
+        CartItemComponent,
+        MockTranslateUrlPipe
+      ],
       providers: [{ provide: CartService, useClass: MockCartService }]
     }).compileComponents();
   }));

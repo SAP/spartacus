@@ -4,9 +4,9 @@ import { LoginPageLayoutComponent } from './login-page-layout.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
 @Pipe({
-  name: 'cxPath'
+  name: 'cxTranslateUrl'
 })
-class MockPathPipe implements PipeTransform {
+class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -23,7 +23,11 @@ describe('LoginPageLayoutComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [LoginPageLayoutComponent, MockLoginComponent, MockPathPipe]
+      declarations: [
+        LoginPageLayoutComponent,
+        MockLoginComponent,
+        MockTranslateUrlPipe
+      ]
     }).compileComponents();
   }));
 

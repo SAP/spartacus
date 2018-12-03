@@ -5,9 +5,9 @@ import { TertiaryBarComponent } from './tertiary-bar.component';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'cxPath'
+  name: 'cxTranslateUrl'
 })
-class MockPathPipe implements PipeTransform {
+class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -18,7 +18,7 @@ describe('TertiaryBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [TertiaryBarComponent, MockPathPipe]
+      declarations: [TertiaryBarComponent, MockTranslateUrlPipe]
     }).compileComponents();
   }));
 

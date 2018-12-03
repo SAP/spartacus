@@ -7,9 +7,9 @@ import { MiniCartComponent } from './mini-cart.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
 @Pipe({
-  name: 'cxPath'
+  name: 'cxTranslateUrl'
 })
-class MockPathPipe implements PipeTransform {
+class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -59,7 +59,7 @@ describe('MiniCartComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [MiniCartComponent, MockPathPipe],
+      declarations: [MiniCartComponent, MockTranslateUrlPipe],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         { provide: CartService, useValue: MockCartService }

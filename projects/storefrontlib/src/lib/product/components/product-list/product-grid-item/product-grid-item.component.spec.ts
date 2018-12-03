@@ -51,9 +51,9 @@ export class MockPictureComponent {
 }
 
 @Pipe({
-  name: 'cxPath'
+  name: 'cxTranslateUrl'
 })
-class MockPathPipe implements PipeTransform {
+class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
@@ -84,7 +84,7 @@ describe('ProductGridItemComponent in product-list', () => {
         MockPictureComponent,
         MockAddToCartComponent,
         MockStarRatingComponent,
-        MockPathPipe
+        MockTranslateUrlPipe
       ]
     })
       .overrideComponent(ProductGridItemComponent, {
