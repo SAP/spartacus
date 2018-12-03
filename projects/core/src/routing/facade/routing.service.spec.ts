@@ -5,16 +5,16 @@ import { Store, StoreModule } from '@ngrx/store';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
-import { PathPipeService } from '../configurable-routes';
 import { NavigationExtras } from '@angular/router';
+import { UrlTranslatorService } from '../configurable-routes/url-translator/url-translator.service';
 
 describe('RoutingService', () => {
   const mockRedirectUrl = createSpy().and.returnValue(() => of('redirect_url'));
   const mockRouterState = createSpy().and.returnValue(() => of({}));
-  const mockPathPipeService = { transform: () => {} };
+  const mockUrlTranslatorService = { translate: () => {} };
   let store;
   let service: RoutingService;
-  let pathPipeService: PathPipeService;
+  let urlTranslator: UrlTranslatorService;
 
   beforeEach(() => {
     spyOnProperty(NgrxStore, 'select').and.returnValues(
@@ -26,13 +26,13 @@ describe('RoutingService', () => {
       imports: [StoreModule.forRoot({})],
       providers: [
         RoutingService,
-        { provide: PathPipeService, useValue: mockPathPipeService }
+        { provide: UrlTranslatorService, useValue: mockUrlTranslatorService }
       ]
     });
 
     store = TestBed.get(Store);
     service = TestBed.get(RoutingService);
-    pathPipeService = TestBed.get(PathPipeService);
+    urlTranslator = TestBed.get(UrlTranslatorService);
     spyOn(store, 'dispatch');
   });
 
@@ -54,7 +54,7 @@ describe('RoutingService', () => {
   });
 
   describe('goToPage', () => {
-    it('should call go method with result of PathPipeService.transform', () => {
+    it('should call go method with result of UrlTranslatorService.translate', () => {
       const pageNames = ['testPageName', 'testChildPageName'];
       const parametersObjects = [
         { param1: 'value1' },
@@ -62,17 +62,17 @@ describe('RoutingService', () => {
       ];
       const queryParams = { queryParam3: 'queryParamValue3' };
       const extras: NavigationExtras = { fragment: 'testFragment' };
-      const transformedPath = ['transformed-path'];
+      const translatedPath = ['translated-path'];
 
-      spyOn(pathPipeService, 'transform').and.returnValue(transformedPath);
+      spyOn(urlTranslator, 'translate').and.returnValue(translatedPath);
       spyOn(service, 'go');
       service.goToPage(pageNames, parametersObjects, queryParams, extras);
-      expect(pathPipeService.transform).toHaveBeenCalledWith(
+      expect(urlTranslator.translate).toHaveBeenCalledWith(
         pageNames,
         parametersObjects
       );
       expect(service.go).toHaveBeenCalledWith(
-        transformedPath,
+        translatedPath,
         queryParams,
         extras
       );

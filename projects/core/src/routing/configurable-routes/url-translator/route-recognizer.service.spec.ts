@@ -9,7 +9,7 @@ const mockRoutesConfigLoader = {
   routesConfig: { translations: { default: {} } }
 };
 
-describe('UrlRecognizerService', () => {
+describe('RouteRecognizerService', () => {
   let loader: RoutesConfigLoader;
   let service: RouteRecognizerService;
 
@@ -30,8 +30,8 @@ describe('UrlRecognizerService', () => {
     service = TestBed.get(RouteRecognizerService);
   });
 
-  describe('getNestedRoutes', () => {
-    function test_getNestedRoutes({
+  describe('recognizeByUrl', () => {
+    function test_recognizeByUrl({
       url,
       defaultTranslations,
       expectedResult
@@ -44,11 +44,11 @@ describe('UrlRecognizerService', () => {
       };
     }) {
       loader.routesConfig.translations.default = defaultTranslations;
-      expect(service.getNestedRoutes(url)).toEqual(expectedResult);
+      expect(service.recognizeByUrl(url)).toEqual(expectedResult);
     }
 
     it('should return route name for given absolute url', () => {
-      test_getNestedRoutes({
+      test_recognizeByUrl({
         url: '/path2',
         defaultTranslations: {
           page1: { paths: ['path1'] },
@@ -62,7 +62,7 @@ describe('UrlRecognizerService', () => {
     });
 
     it('should return route name for given relative url, treating as absolute', () => {
-      test_getNestedRoutes({
+      test_recognizeByUrl({
         url: 'path2',
         defaultTranslations: {
           page1: { paths: ['path1'] },
@@ -76,7 +76,7 @@ describe('UrlRecognizerService', () => {
     });
 
     it('should return null for unknown url (case 1)', () => {
-      test_getNestedRoutes({
+      test_recognizeByUrl({
         url: 'unknown-path',
         defaultTranslations: {
           page1: { paths: ['path1'] },
@@ -87,7 +87,7 @@ describe('UrlRecognizerService', () => {
     });
 
     it('should return null for unknown url (case 2)', () => {
-      test_getNestedRoutes({
+      test_recognizeByUrl({
         url: 'path1/path2/path3/unknown-path4',
         defaultTranslations: {
           page1: {
@@ -112,7 +112,7 @@ describe('UrlRecognizerService', () => {
     });
 
     it('should return route name and params for given url (case 1)', () => {
-      test_getNestedRoutes({
+      test_recognizeByUrl({
         url: 'path2/value1/value2',
         defaultTranslations: {
           page1: { paths: ['path1/:param1/:param2'] },
@@ -126,7 +126,7 @@ describe('UrlRecognizerService', () => {
     });
 
     it('should return route name and params for given url (case 2)', () => {
-      test_getNestedRoutes({
+      test_recognizeByUrl({
         url: 'path/value1/path/value2',
         defaultTranslations: {
           page1: { paths: ['path/:param1/path', 'path/:param1/path/:param2'] },
@@ -140,7 +140,7 @@ describe('UrlRecognizerService', () => {
     });
 
     it('should return route name and params for given url (case 3)', () => {
-      test_getNestedRoutes({
+      test_recognizeByUrl({
         url: 'path/value1/path/value2/value3',
         defaultTranslations: {
           page1: { paths: ['path/:param1/path', 'path/:param1/path/:param2'] },
@@ -160,7 +160,7 @@ describe('UrlRecognizerService', () => {
     });
 
     it('should return 2 names of nested routes for given url consisting of 2 nested routes (case 1)', () => {
-      test_getNestedRoutes({
+      test_recognizeByUrl({
         url: 'path1/path2',
         defaultTranslations: {
           page1: {
@@ -180,7 +180,7 @@ describe('UrlRecognizerService', () => {
     });
 
     it('should return 2 names of nested routes for given url consisting of 2 nested routes (case 2)', () => {
-      test_getNestedRoutes({
+      test_recognizeByUrl({
         url: 'path1/path2',
         defaultTranslations: {
           page1: {
@@ -205,7 +205,7 @@ describe('UrlRecognizerService', () => {
     });
 
     it('should return 3 names of nested routes for given url consisting of 3 nested routes', () => {
-      test_getNestedRoutes({
+      test_recognizeByUrl({
         url: 'path1/path2/path3',
         defaultTranslations: {
           page1: {
@@ -230,7 +230,7 @@ describe('UrlRecognizerService', () => {
     });
 
     it('should return routes names and params objects in relevant order for url consisting of 2 nested routes (case 1)', () => {
-      test_getNestedRoutes({
+      test_recognizeByUrl({
         url: 'path1/value1/path2/value2',
         defaultTranslations: {
           page1: {
@@ -250,7 +250,7 @@ describe('UrlRecognizerService', () => {
     });
 
     it('should return routes names and params objects in relevant order for url consisting of 2 nested routes (case 2)', () => {
-      test_getNestedRoutes({
+      test_recognizeByUrl({
         url: 'path1/value1/path2/value2',
         defaultTranslations: {
           page1: {
@@ -275,7 +275,7 @@ describe('UrlRecognizerService', () => {
     });
 
     it('should return routes names and params objects in relevant order for url consisting of 3 nested routes', () => {
-      test_getNestedRoutes({
+      test_recognizeByUrl({
         url: 'path1/value1/path2/value2/path3/value3',
         defaultTranslations: {
           page1: {
@@ -304,7 +304,7 @@ describe('UrlRecognizerService', () => {
     });
 
     it('should return routes exactly matching to given url - even if some other translations are matching partialy', () => {
-      test_getNestedRoutes({
+      test_recognizeByUrl({
         url: 'path1/value1/path2/value2/path3',
         defaultTranslations: {
           page1: {

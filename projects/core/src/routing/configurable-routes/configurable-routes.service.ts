@@ -16,7 +16,9 @@ export class ConfigurableRoutesService {
     private readonly config: ServerConfig,
     private readonly router: Router,
     private readonly loader: RoutesConfigLoader
-  ) {}
+  ) {
+    this._routesConfig = this.loader.routesConfig;
+  }
 
   private readonly DEFAULT_LANGUAGE_CODE = 'default';
 
