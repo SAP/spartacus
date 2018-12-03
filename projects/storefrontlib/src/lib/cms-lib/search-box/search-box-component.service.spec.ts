@@ -90,9 +90,8 @@ describe('SearchBoxComponentService', () => {
     [SearchBoxComponentService],
     (service: SearchBoxComponentService) => {
       let queryParam;
-      service.queryParam$.subscribe(x => queryParam = x );
+      service.queryParam$.subscribe(x => (queryParam = x));
       expect(queryParam).toEqual(mockRouterState.state.params.query);
     }
   ));
-
 });

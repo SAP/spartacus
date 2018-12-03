@@ -119,9 +119,7 @@ describe('SearchBoxComponent in CmsLib', () => {
 
   it('should search input value be equal to search query if was defined', () => {
     fixture.detectChanges();
-    expect(searchBoxComponent.searchBoxControl.value).toEqual(
-      'test'
-    );
+    expect(searchBoxComponent.searchBoxControl.value).toEqual('test');
   });
 
   it('should dispatch new search query on text update', () => {

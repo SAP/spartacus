@@ -1,12 +1,7 @@
-import {
-  Component,
-  Input,
-  ViewEncapsulation,
-  OnInit
-} from '@angular/core';
+import { Component, Input, ViewEncapsulation, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { merge, Observable, Subject } from 'rxjs';
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { SearchBoxComponentService } from './search-box-component.service';
 @Component({
   selector: 'cx-searchbox',
@@ -27,14 +22,12 @@ export class SearchBoxComponent implements OnInit {
     this.searchBoxControl.setValue(value);
   }
 
-  constructor(
-    protected service: SearchBoxComponentService
-  ) {}
+  constructor(protected service: SearchBoxComponentService) {}
 
   ngOnInit() {
-    this.service.queryParam$.pipe(take(1)).subscribe(
-      query => this.searchBoxControl.setValue(query)
-    );
+    this.service.queryParam$
+      .pipe(take(1))
+      .subscribe(query => this.searchBoxControl.setValue(query));
   }
 
   typeahead = (text$: Observable<string>) =>
