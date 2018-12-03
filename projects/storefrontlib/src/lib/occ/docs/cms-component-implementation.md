@@ -16,7 +16,7 @@ There are two types of components that can be configured:
 - angular components
 - web components
 
-### Custom Angular CMS Components
+### Custom CMS Components (Angular)
 
 The configuration for a CMS components can be provided to the `ConfigModule` (or directly to the `StorefrontModule`). The configuration belows shows how to configure a custom angular component for the BannerComponent
 
@@ -36,11 +36,11 @@ It's important to note that with this setup, there are 2 important pieces that n
 
 Both of these related downsides will be improved going forward. With that in mind, a change in this API is expected.
 
-### Custom Web CMS components
+### Web components as CMS components
 
 Web components have a lot of benefits, and as soon as some of the fundamentals of angular are ready for this, we'll most likely move into this direction. We've already got our selfs prepared for loading web components, although the current recommendation is to stick with angular components. 
 
-In order to configure a web component for a CMS component, the following configuration can be used: 
+In order to configure a web component as a CMS component, the configuration must consist of the path to JS file (web component implementation) and its tag name separated by hash symbol:
 
 ```
 ConfigModule.withConfig({
@@ -52,6 +52,8 @@ ConfigModule.withConfig({
 });
 ```
 
+One JS file can contain more that one web component implementation, used as different CmsComponents. 
+
 This requires a separate build process to generate the JS chunk that holds the web component(s), which is out of scope of this documentation. 
 
 
@@ -62,18 +64,6 @@ This requires a separate build process to generate the JS chunk that holds the w
 It contains both `uid` for a component, and an observable `data$` with component payload received from the backend cms. 
  
 
-## WebComponents as CmsComponents
-
-Spartacus storefront supports lazy loaded web components that can be directly used as an implementation of CmsComponents. 
-
-### Mapping configuration
-
-Example mapping configuration for this components consist of path to JS file (web component implementation) and its tag name separated by hash symbol.
-
-Example: ```{ selector: "path/to/component/file.js#component-tag" }```
-
-One JS file can contain more that one web component implementation, used as different CmsComponents. 
-
 ### Access to storefront API (facade services)
 
 CmsComponent implemented as web component can access storefront API by its cxApi input.
@@ -82,7 +72,3 @@ cxApi input will receive cxApi service instance with all the facade services and
 
 _Each component works as an standalone micro app: even if they are implemented in Angular under the hood, they can't access storefront services by dependency injection._ 
 
-
-
-
-----
