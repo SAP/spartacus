@@ -238,15 +238,18 @@ describe('CheckoutService', () => {
   });
 
   it('should load address verification results', () => {
+    const testAddress: Address = {
+      id: 'testAddress1'
+    };
     cartData.userId = userId;
     cartData.cart = cart;
 
-    service.verifyAddress('mockAddress');
+    service.verifyAddress(testAddress);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.VerifyAddress({
         userId: userId,
-        address: 'mockAddress'
+        address: testAddress
       })
     );
   });

@@ -1,6 +1,11 @@
 import * as fromUserOrdersReducer from './user-orders.reducer';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
-import { Order, PaginationModel, SortModel } from '@spartacus/core';
+import {
+  PaginationModel,
+  SortModel,
+  OrderHistoryList,
+  OrderHistory
+} from '@spartacus/core';
 
 describe('User Orders Reducer', () => {
   describe('undefined action', () => {
@@ -15,17 +20,17 @@ describe('User Orders Reducer', () => {
 
   describe('LOAD_USER_ORDERS_SUCCESS action', () => {
     it('should populate the user Orders state entities', () => {
-      const orders: Order[] = [];
+      const orders: OrderHistory[] = [{ code: '01' }, { code: '02' }];
       const pagination: PaginationModel = {
         currentPage: 1,
         totalPages: 5,
         pageSize: 5
       };
-      const sort: SortModel[] = [{ code: 'byDate' }];
-      const mockUserOrders = {
+      const sorts: SortModel[] = [{ code: 'byDate' }];
+      const mockUserOrders: OrderHistoryList = {
         orders,
         pagination,
-        sort
+        sorts
       };
 
       const { initialState } = fromUserOrdersReducer;
