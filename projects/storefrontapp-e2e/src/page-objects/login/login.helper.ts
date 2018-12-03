@@ -67,10 +67,7 @@ export class LoginHelper {
     );
     await registerPage.registerForm.submit();
 
-    await browser.wait(
-      ExpectedConditions.urlIs('http://localhost:4200/'),
-      5000
-    );
+    await browser.wait(ExpectedConditions.urlIs('http://localhost:4200/'));
 
     if (await registerPage.header.isLoggedIn()) {
       LoginHelper.userEmail = userEmail;
