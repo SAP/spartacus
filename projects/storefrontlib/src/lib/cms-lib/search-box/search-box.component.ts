@@ -2,13 +2,11 @@ import {
   Component,
   Input,
   ViewEncapsulation,
-  OnInit,
-  OnDestroy
+  OnInit
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { merge, Observable, Subject, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { RoutingService } from '@spartacus/core';
+import { merge, Observable, Subject } from 'rxjs';
+import {take} from 'rxjs/operators';
 import { SearchBoxComponentService } from './search-box-component.service';
 @Component({
   selector: 'cx-searchbox',
@@ -17,12 +15,11 @@ import { SearchBoxComponentService } from './search-box-component.service';
   encapsulation: ViewEncapsulation.None,
   providers: [SearchBoxComponentService]
 })
-export class SearchBoxComponent implements OnInit, OnDestroy {
+export class SearchBoxComponent implements OnInit {
   searchBoxControl: FormControl = new FormControl();
   isMobileSearchVisible: boolean;
 
   queryText$: Subject<string> = new Subject();
-  subscription: Subscription;
 
   @Input('queryText')
   set queryText(value: string) {
@@ -31,28 +28,17 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    protected service: SearchBoxComponentService,
-    private routingService: RoutingService
+    protected service: SearchBoxComponentService
   ) {}
 
   ngOnInit() {
-    const query$ = this.routingService.routerState$.pipe(
-      map(routingData => routingData.state.params.query)
+    this.service.queryParam$.pipe(take(1)).subscribe(
+      query => this.searchBoxControl.setValue(query)
     );
-
-    this.subscription = query$.subscribe(query => {
-      this.searchBoxControl.setValue(query);
-    });
   }
 
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
-  search = (text$: Observable<string>) =>
-    this.service.search(merge(text$, this.queryText$));
+  typeahead = (text$: Observable<string>) =>
+    this.service.typeahead(merge(text$, this.queryText$));
 
   public submitSearch() {
     this.service.launchSearchPage(this.searchBoxControl.value);
