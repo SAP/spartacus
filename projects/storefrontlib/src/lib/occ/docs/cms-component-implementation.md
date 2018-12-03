@@ -11,25 +11,31 @@ With this setup, CMS components can be customized in multiple ways:
 | Replace component | Configure a custom component  | Provide a custom `BannerComponent` | 
 | Customize logic  | Configure a custom service | Provide a custom `SearchBoxComponentService` |
 
+## Configure custom components
+There are two types of components that can be configured:
+- angular components
+- web components
 
+### Custom Angular CMS Components
 
-## CmsComponent configuration:
+The configuration for a CMS components can be provided to the `ConfigModule` (or directly to the `StorefrontModule`). The configuration belows shows how to configure a custom angular component for the BannerComponent
 
 ```
-{
-  cmsComponents: {
-    [CmsComponentId: string] : {
-      {
-        selector?: string;
-        providers?: StaticProvider[];
-      }
+ConfigModule.withConfig({
+  cmsComponentMapping: {
+    BannerComponent: {
+        selector: 'custom-banner';
     }
   }
-}
+});
 ```
 
-- selector: defines component's selector that is used for CmsComponent implementation
-- providers: defines configurable providers for cms components 
+It's important to note that with this setup, there are 2 important pieces that need optimization going forward:
+- the components must be loaded upfront (using so-called `entryComponents`)
+- this doesn't allow for lazyloading
+
+Both of these related downsides will be improved going forward. With that in mind, a change in this API is expected.
+
 
 ## CmsComponentData
 
