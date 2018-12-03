@@ -54,7 +54,7 @@ describe('RoutingService', () => {
   });
 
   describe('goToPage', () => {
-    it('should call go method with result of UrlTranslatorService.translate', () => {
+    it('should call "go" method with translated url', () => {
       const pageNames = ['testPageName', 'testChildPageName'];
       const parametersObjects = [
         { param1: 'value1' },

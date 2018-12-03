@@ -94,6 +94,7 @@ describe('ComponentWrapperDirective', () => {
 
     it('should instantiate web component', done => {
       scriptEl.onload(); // invoke load callbacks
+
       // run in next runloop (to process async tasks)
       setTimeout(() => {
         const cmsComponentElement = fixture.debugElement.nativeElement.querySelector(

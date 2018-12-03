@@ -14,7 +14,7 @@ class MockTranslateUrlPipe implements PipeTransform {
   selector: 'cx-login-form',
   template: ''
 })
-export class MockLoginComponent {}
+class MockLoginComponent {}
 
 describe('LoginPageLayoutComponent', () => {
   let component: LoginPageLayoutComponent;

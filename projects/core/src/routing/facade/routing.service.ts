@@ -38,11 +38,11 @@ export class RoutingService {
     query?: object,
     extras?: NavigationExtras
   ) {
-    const pathCommands = this.urlTranslator.translate(
+    const path = this.urlTranslator.translate(
       nestedRoutesNames,
       nestedRoutesParams
     );
-    this.go(pathCommands, query, extras);
+    this.go(path, query, extras);
   }
 
   back() {

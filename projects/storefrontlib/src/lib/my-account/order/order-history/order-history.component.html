@@ -112,21 +112,12 @@
         <div class="cx-order-history__no-order row" *ngIf="(isLoaded$ | async)">
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div>We have no order records for this account.</div>
-            <<<<<<< HEAD
             <a
               [routerLink]="['homepage'] | cxTranslateUrl"
               routerLinkActive="active"
               class="btn btn-primary btn-block"
               >Start Shopping</a
             >
-            =======
-            <a
-              routerLink="/"
-              routerLinkActive="active"
-              class="btn btn-primary btn-block"
-              >Start Shopping</a
-            >
-            >>>>>>> f24f72331a05ebcb3bd67b84803a73a358b45ea9
           </div>
         </div>
       </ng-template>

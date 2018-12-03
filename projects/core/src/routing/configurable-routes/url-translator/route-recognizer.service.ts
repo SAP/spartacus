@@ -54,7 +54,6 @@ export class RouteRecognizerService {
       const routeTranslation =
         routesTranslations && routesTranslations[routeName];
       const paths = routeTranslation.paths || [];
-      // SPIKE TODO: improve readability here:
       const pathsLength = paths.length;
       for (let j = 0; j < pathsLength; j++) {
         const path = paths[j];
@@ -63,7 +62,7 @@ export class RouteRecognizerService {
           remainingUrlSegments,
           pathSegments
         );
-        // if some path is matching, try to match remaining segments
+        // if some path is matching, try to recognize remaining segments
         if (params) {
           const result = this.getNestedRoutesRecursive(
             remainingUrlSegments.slice(pathSegments.length),

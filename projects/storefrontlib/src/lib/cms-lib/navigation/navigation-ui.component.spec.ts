@@ -9,7 +9,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(url: string): string {
-    return '/transformed-path' + url;
+    return '/translated-path' + url;
   }
 }
 
@@ -69,7 +69,7 @@ describe('Navigation UI Component', () => {
       const link = getLink().nativeElement;
       expect(link.textContent).toContain(mockData.title);
       expect(link.getAttribute('href')).toEqual(
-        '/transformed-path' + mockData.url
+        '/translated-path' + mockData.url
       );
     });
 
@@ -109,7 +109,7 @@ describe('Navigation UI Component', () => {
         mockData.children[0].title
       );
       expect(firstDropdownLink.getAttribute('href')).toEqual(
-        '/transformed-path' + mockData.children[0].url
+        '/translated-path' + mockData.children[0].url
       );
     });
 
@@ -144,13 +144,13 @@ describe('Navigation UI Component', () => {
       expect(firstDropdownItem.getAttribute('role')).toEqual('listitem');
       const sublinks = getSublinks();
       expect(sublinks[0].nativeElement.getAttribute('href')).toEqual(
-        '/transformed-path' + mockData.children[0].children[0].url
+        '/translated-path' + mockData.children[0].children[0].url
       );
       expect(sublinks[0].nativeElement.textContent).toContain(
         mockData.children[0].children[0].title
       );
       expect(sublinks[1].nativeElement.getAttribute('href')).toEqual(
-        '/transformed-path' + mockData.children[0].children[1].url
+        '/translated-path' + mockData.children[0].children[1].url
       );
       expect(sublinks[1].nativeElement.textContent).toContain(
         mockData.children[0].children[1].title

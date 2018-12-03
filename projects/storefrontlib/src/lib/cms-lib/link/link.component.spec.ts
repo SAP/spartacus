@@ -18,7 +18,7 @@ const UseCmsModuleConfig: CmsModuleConfig = {
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(url: string) {
-    return '/transformed' + url;
+    return '/translated' + url;
   }
 }
 
@@ -70,6 +70,6 @@ describe('LinkComponent', () => {
     const element = el.query(By.css('a')).nativeElement;
 
     expect(element.textContent).toEqual(componentData.linkName);
-    expect(element.href).toContain('/transformed' + componentData.url);
+    expect(element.href).toContain('/translated' + componentData.url);
   });
 });
