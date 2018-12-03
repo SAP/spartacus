@@ -25,7 +25,7 @@ class AuthServiceStub {
   }
 }
 
-fdescribe('CartService', () => {
+describe('CartService', () => {
   let service: CartService;
   let cartData: CartDataServiceStub;
   let authService: AuthServiceStub;
