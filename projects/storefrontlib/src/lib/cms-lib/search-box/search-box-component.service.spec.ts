@@ -15,7 +15,18 @@ const productSearchServiceMock = {
   getSuggestions: createSpy().and.returnValue(of({}))
 };
 
-const routingServiceMock = { go: createSpy('go') };
+const mockRouterState = {
+  state: {
+    params: {
+      query: 'test'
+    }
+  }
+};
+
+const routingServiceMock = {
+  go: createSpy('go'),
+  routerState$: of(mockRouterState)
+};
 const componentDataMock = { data$: of({}) };
 
 describe('SearchBoxComponentService', () => {
@@ -60,13 +71,13 @@ describe('SearchBoxComponentService', () => {
     }
   ));
 
-  it('should get sugesstions from search)', inject(
+  it('should get suggestions from search)', inject(
     [SearchBoxComponentService],
     (service: SearchBoxComponentService) => {
       const productSearchService = TestBed.get(ProductSearchService);
 
       const searchConfig = { pageSize: 5 };
-      service.search(of('testQuery')).subscribe(() => {
+      service.typeahead(of('testQuery')).subscribe(() => {
         expect(productSearchService.getSuggestions).toHaveBeenCalledWith(
           'testQuery',
           searchConfig
@@ -74,4 +85,14 @@ describe('SearchBoxComponentService', () => {
       });
     }
   ));
+
+  it('should expose query param', inject(
+    [SearchBoxComponentService],
+    (service: SearchBoxComponentService) => {
+      let queryParam;
+      service.queryParam$.subscribe(x => queryParam = x );
+      expect(queryParam).toEqual(mockRouterState.state.params.query);
+    }
+  ));
+
 });

@@ -15,7 +15,6 @@ import { CmsService } from '../../cms/facade/cms.service';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { ProductSearchService } from '@spartacus/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-import { RoutingService } from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -56,21 +55,10 @@ describe('SearchBoxComponent in CmsLib', () => {
     key: 'Enter123'
   };
 
-  const mockState = {
-    state: {
-      params: {
-        query: 'test'
-      }
-    }
-  };
-
-  const mockRoutingService = {
-    routerState$: of(mockState)
-  };
-
   class SearchBoxComponentServiceSpy {
     launchSearchPage = jasmine.createSpy('launchSearchPage');
-    search = jasmine.createSpy('search').and.callFake(() => of([]));
+    typeahead = jasmine.createSpy('search').and.callFake(() => of([]));
+    queryParam$ = of('test');
   }
 
   beforeEach(async(() => {
@@ -95,8 +83,7 @@ describe('SearchBoxComponent in CmsLib', () => {
           useValue: {
             data$: of({})
           }
-        },
-        { provide: RoutingService, useValue: mockRoutingService }
+        }
       ]
     })
       .overrideComponent(SearchBoxComponent, {
@@ -133,7 +120,7 @@ describe('SearchBoxComponent in CmsLib', () => {
   it('should search input value be equal to search query if was defined', () => {
     fixture.detectChanges();
     expect(searchBoxComponent.searchBoxControl.value).toEqual(
-      mockState.state.params.query
+      'test'
     );
   });
 
@@ -141,14 +128,14 @@ describe('SearchBoxComponent in CmsLib', () => {
     searchBoxComponent.searchBoxControl.setValue('testQuery');
     expect(searchBoxComponent.searchBoxControl.value).toEqual('testQuery');
     fixture.detectChanges();
-    expect(serviceSpy.search).toHaveBeenCalled();
+    expect(serviceSpy.typeahead).toHaveBeenCalled();
   });
 
   it('should dispatch new search query on input', () => {
     searchBoxComponent.queryText = 'test input';
     expect(searchBoxComponent.searchBoxControl.value).toEqual('test input');
     fixture.detectChanges();
-    expect(serviceSpy.search).toHaveBeenCalled();
+    expect(serviceSpy.typeahead).toHaveBeenCalled();
   });
 
   it('should call onKey(event: any) and launchSearchPage(query: string)', () => {
