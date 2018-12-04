@@ -17,10 +17,10 @@ const testText = 'test text';
   `
 })
 export class TestComponent {
-  cmsData = <CmsComponentData<CmsComponent>>{
-    uid: 'test_uid'
-  };
-  @Inject('testService') public testService
+  constructor(
+    public cmsData: CmsComponentData<CmsComponent>,
+    @Inject('testService') public testService
+  ) {}
 }
 
 @NgModule({
