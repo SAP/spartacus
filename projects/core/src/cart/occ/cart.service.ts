@@ -1,15 +1,15 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { OccConfig } from '../../occ/';
 import {
-  OccConfig,
   CartList,
   Cart,
   CartModification,
   Address,
   DeliveryMode,
   PaymentDetails
-} from '@spartacus/core';
-import { CustomEncoder } from '../custom.encoder';
+} from '../../occ-models/occ.models';
+import { CustomEncoder } from './custom.encoder';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
