@@ -38,7 +38,7 @@ export class AuthService {
   }
 
   /**
-   * Returns the user token
+   * Returns the user's token
    */
   getUserToken(): Observable<UserToken> {
     return this.store.pipe(select(getUserToken));
