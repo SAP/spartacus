@@ -49,7 +49,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     if (
       InterceptorUtil.getInterceptorParam(USE_CLIENT_TOKEN, request.headers)
     ) {
-      return this.authService.clientToken$;
+      return this.authService.getClientToken();
     }
     return of(null);
   }
