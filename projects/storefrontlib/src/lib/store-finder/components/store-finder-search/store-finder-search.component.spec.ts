@@ -5,12 +5,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreFinderSearchComponent } from './store-finder-search.component';
-import { WindowRef } from '../../services/window-ref';
 
 import * as fromStore from '../../store';
 
-const latitude = 10.1;
-const longitude = 39.2;
 const query = 'address';
 
 const keyEvent = {
@@ -20,35 +17,9 @@ const badKeyEvent = {
   key: 'Enter95'
 };
 
-const coor: Coordinates = {
-  latitude: latitude,
-  longitude: longitude,
-  accuracy: 0,
-  altitude: null,
-  altitudeAccuracy: null,
-  heading: null,
-  speed: null
-};
-const position = { coords: coor, timestamp: new Date().valueOf() };
-
-class WindowRefMock {
-  get nativeWindow(): any {
-    return {
-      navigator: {
-        geolocation: {
-          getCurrentPosition: function(callback: Function) {
-            callback(position);
-          }
-        }
-      }
-    };
-  }
-}
-
 describe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;
   let fixture: ComponentFixture<StoreFinderSearchComponent>;
-  let windowRef: WindowRef;
   let router: Router;
   let activatedRoute: ActivatedRoute;
 
@@ -61,18 +32,16 @@ describe('StoreFinderSearchComponent', () => {
         StoreModule.forFeature('stores', fromStore.reducers)
       ],
       declarations: [StoreFinderSearchComponent],
-      providers: [{ provide: WindowRef, useClass: WindowRefMock }]
+      providers: []
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderSearchComponent);
     component = fixture.componentInstance;
-    windowRef = TestBed.get(WindowRef);
     router = TestBed.get(Router);
     activatedRoute = TestBed.get(ActivatedRoute);
 
-    spyOn(windowRef, 'nativeWindow').and.callThrough();
     spyOn(router, 'navigate');
     fixture.detectChanges();
   });
@@ -108,7 +77,7 @@ describe('StoreFinderSearchComponent', () => {
     component.viewStoresWithMyLoc();
     expect(router.navigate).toHaveBeenCalledWith(['find-stores'], {
       relativeTo: activatedRoute,
-      queryParams: { latitude: latitude, longitude: longitude }
+      queryParams: { useMyLocation: true }
     });
   });
 });

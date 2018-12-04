@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-
+import { Observable } from 'rxjs';
 import { CmsService } from '../../../cms/facade/cms.service';
+import { Page } from '../../../cms/models/page.model';
 
 @Component({
   selector: 'cx-category-page',
@@ -9,10 +10,10 @@ import { CmsService } from '../../../cms/facade/cms.service';
   styleUrls: ['./category-page.component.scss']
 })
 export class CategoryPageComponent implements OnInit {
-  categoryCode;
-  brandCode;
-  query;
-  cmsPage$;
+  categoryCode: string;
+  brandCode: string;
+  query: string;
+  cmsPage$: Observable<Page>;
 
   constructor(
     protected activeRoute: ActivatedRoute,
