@@ -38,7 +38,7 @@ describe('User Orders Selectors', () => {
         orders: {
           orders: [],
           pagination: {},
-          sort: []
+          sorts: []
         },
         loading: false,
         loaded: false
@@ -55,7 +55,7 @@ describe('User Orders Selectors', () => {
       expect(result).toEqual({
         orders: [],
         pagination: {},
-        sort: []
+        sorts: []
       });
 
       store.dispatch(new fromActions.LoadUserOrdersSuccess(mockUserOrders));

@@ -1,6 +1,6 @@
-import { AuthModuleConfig } from './auth/auth-module.config';
 import { CmsModuleConfig } from './cms/cms-module-config';
 import {
+  AuthConfig,
   OccConfig,
   RoutingModuleConfig,
   ConfigurableRoutesConfig
@@ -8,7 +8,7 @@ import {
 import { PWAModuleConfig } from './pwa/pwa.module-config';
 
 export interface StorefrontModuleConfig
-  extends AuthModuleConfig,
+  extends AuthConfig,
     CmsModuleConfig,
     OccConfig,
     RoutingModuleConfig,
