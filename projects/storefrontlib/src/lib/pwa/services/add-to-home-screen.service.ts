@@ -3,6 +3,7 @@ import { PWAModuleConfig } from '../pwa.module-config';
 import { GlobalMessageType } from './../../global-message/models/message.model';
 import { GlobalMessageService } from '../../global-message/facade/global-message.service';
 import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AddToHomeScreenService {
@@ -10,7 +11,7 @@ export class AddToHomeScreenService {
 
   private canPrompt = new BehaviorSubject<boolean>(false);
 
-  canPrompt$ = this.canPrompt.asObservable();
+  canPrompt$: Observable<any> = this.canPrompt.asObservable();
 
   constructor(
     private config: PWAModuleConfig,

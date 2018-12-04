@@ -7,7 +7,10 @@ git:
 branches:
   only:
     - develop
+    - master
     - "/^feature\\/.*$/"
+    - "/^hotfix\\/.*$/"
+    - "/^release\\/.*$/"
 jobs:
   include:
     - stage: 'Spartacus build'
