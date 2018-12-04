@@ -7,9 +7,9 @@ import {
   ProductService,
   RoutingService,
   LanguageService,
-  CurrencyService
+  CurrencyService,
+  AuthService
 } from '@spartacus/core';
-import { AuthService } from '../auth/facade/auth.service';
 import { CmsService } from '../cms/facade/cms.service';
 
 class MockAuthService {}
