@@ -2,7 +2,7 @@ import { MemoizedSelector, createSelector } from '@ngrx/store';
 
 import * as fromFeature from './../reducers';
 import * as fromCart from './../reducers/cart.reducer';
-import { Cart, OrderEntry } from '@spartacus/core';
+import { Cart, OrderEntry } from '../../../occ-models/index';
 
 export const getActiveCartState: MemoizedSelector<
   any,
@@ -30,30 +30,21 @@ export const getLoaded: MemoizedSelector<any, boolean> = createSelector(
 export const getCartMergeComplete: MemoizedSelector<
   any,
   boolean
-> = createSelector(
-  getActiveCartState,
-  fromCart.getCartMergeComplete
-);
+> = createSelector(getActiveCartState, fromCart.getCartMergeComplete);
 
 export const getEntriesMap: MemoizedSelector<
   any,
   { [code: string]: OrderEntry }
-> = createSelector(
-  getActiveCartState,
-  fromCart.getEntries
-);
+> = createSelector(getActiveCartState, fromCart.getEntries);
 
 export const getEntrySelectorFactory = (
   productCode
 ): MemoizedSelector<any, OrderEntry> => {
-  return createSelector(
-    getEntriesMap,
-    entries => {
-      if (entries) {
-        return entries[productCode];
-      }
+  return createSelector(getEntriesMap, entries => {
+    if (entries) {
+      return entries[productCode];
     }
-  );
+  });
 };
 
 export const getEntries: MemoizedSelector<any, OrderEntry[]> = createSelector(
