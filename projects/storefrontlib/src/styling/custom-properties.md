@@ -62,3 +62,17 @@ The example code below shows a number of global theme variables.
 The syntax must follow the following convention:
 
 `[--cx]-[CSS rule]`
+
+
+**Variations**
+In some cases an variantion is needed, for example to distinquish the primary and secondary color. 
+
+```css
+:root {
+    --cx-color-primary: red;
+}
+```
+
+In those cases, the variant is added to the previous construct:
+
+`[--cx]-[CSS rule]-[variant]`
