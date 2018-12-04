@@ -64,11 +64,13 @@ The CMS data that is related to the component is provided as a service (`CmsComp
 Web components will not have access to the application DI system, regardless of wether they're build in angular or not; they're isolated from the core application and can only interact with inputs and outputs. Therefore, they cannot access `CmsComponentData` and would also suffer from not being able to reuse any of the services provided by Spartacus. 
 A special effort was made to provide web components with both the component related data as well as a generic API to core services of Spartacus. The input needed for this is `cxApi`. 
 
-
 # Custom Services
-Spartacus CMS Components that use (complex) business logic will delegate this to a component specific service. This allows to only provide custom logic without changing the component itself. 
+Spartacus CMS Components that use (complex) business logic will delegate this to a service. This is recommended for a number of reasons, but also simplifies extensibility:
+- components only depend on a single service
+- the service might have other dependencies
+- a custom service can be provided for custom business logic
 
-The component services are designed to be non-singleton services, scoped to the component, so that they have direct access to the `CmsComponentData` provided in the component scope. This design does not play well with Angular DI system, as the DI system doesn't provide a mechanism to override component services without changing the component. 
+Component services are designed to be non-singleton services, scoped to the component, so that they have direct access to the `CmsComponentData` provided in the component scope. This design does not play well with Angular DI system, as the DI system doesn't provide a mechanism to override component services without changing the component. 
 
 In order to configure a custom component service, we can provide a service in a similar fashion though. The configuration is done in line with the component configuration. In the example below, the SearchComponent is provided with a custom `SearchBoxComponentService`:
 
