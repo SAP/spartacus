@@ -26,7 +26,7 @@ class AuthServiceStub {
 
 class RoutingServiceStub {
   go(_path: any[], _query?: object, _extras?: NavigationExtras) {}
-  goToPage() {}
+  translateAndGo() {}
 }
 
 describe('NotAuthGuard', () => {
@@ -74,11 +74,13 @@ describe('NotAuthGuard', () => {
 
   it('should redirect to homepage if cannot activate route', () => {
     authService.userToken$ = of(mockUserToken);
-    spyOn(service, 'goToPage');
+    spyOn(service, 'translateAndGo');
     authGuard
       .canActivate()
       .subscribe()
       .unsubscribe();
-    expect(service.goToPage).toHaveBeenCalledWith(['homepage']);
+    expect(service.translateAndGo).toHaveBeenCalledWith({
+      route: ['homepage']
+    });
   });
 });

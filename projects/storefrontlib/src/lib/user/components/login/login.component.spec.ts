@@ -58,7 +58,7 @@ describe('LoginComponent', () => {
   beforeEach(async(() => {
     mockRoutingService = {
       go: createSpy('go'),
-      goToPage: createSpy('goToPage')
+      translateAndGo: createSpy('translateAndGo')
     };
     mockAuthService = {
       userToken$: new BehaviorSubject(null),
@@ -111,7 +111,9 @@ describe('LoginComponent', () => {
     component.logout();
     expect(component.isLogin).toEqual(false);
     expect(mockAuthService.logout).toHaveBeenCalled();
-    expect(mockRoutingService.goToPage).toHaveBeenCalledWith(['login']);
+    expect(mockRoutingService.translateAndGo).toHaveBeenCalledWith({
+      route: ['login']
+    });
   });
 
   it('should load user details when token exists', () => {

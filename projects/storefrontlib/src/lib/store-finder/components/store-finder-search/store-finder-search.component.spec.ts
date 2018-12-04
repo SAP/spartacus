@@ -70,7 +70,10 @@ describe('StoreFinderSearchComponent', () => {
       declarations: [StoreFinderSearchComponent, MockTranslateUrlPipe],
       providers: [
         { provide: WindowRef, useClass: WindowRefMock },
-        { provide: RoutingService, useValue: { goToPage: jasmine.createSpy() } }
+        {
+          provide: RoutingService,
+          useValue: { translateAndGo: jasmine.createSpy() }
+        }
       ]
     }).compileComponents();
   }));
@@ -92,34 +95,46 @@ describe('StoreFinderSearchComponent', () => {
   it('should dispatch new query', () => {
     component.searchBox.setValue(query);
     component.findStores(component.searchBox.value);
-    expect(routingService.goToPage).toHaveBeenCalledWith(
-      ['storeFinder', 'searchResults'],
-      null,
-      { query: query }
-    );
+    expect(routingService.translateAndGo).toHaveBeenCalledWith({
+      route: [
+        'storeFinder',
+        {
+          name: 'searchResults',
+          params: { query }
+        }
+      ]
+    });
   });
 
   it('should call onKey and dispatch query', () => {
     component.searchBox.setValue(query);
     component.onKey(keyEvent);
-    expect(routingService.goToPage).toHaveBeenCalledWith(
-      ['storeFinder', 'searchResults'],
-      null,
-      { query: query }
-    );
+    expect(routingService.translateAndGo).toHaveBeenCalledWith({
+      route: [
+        'storeFinder',
+        {
+          name: 'searchResults',
+          params: { query }
+        }
+      ]
+    });
   });
 
   it('should only call onKey', () => {
     component.onKey(badKeyEvent);
-    expect(routingService.goToPage).not.toHaveBeenCalled();
+    expect(routingService.translateAndGo).not.toHaveBeenCalled();
   });
 
   it('should view stores near by my location', () => {
     component.viewStoresWithMyLoc();
-    expect(routingService.goToPage).toHaveBeenCalledWith(
-      ['storeFinder', 'searchResults'],
-      null,
-      { latitude: latitude, longitude: longitude }
-    );
+    expect(routingService.translateAndGo).toHaveBeenCalledWith({
+      route: [
+        'storeFinder',
+        {
+          name: 'searchResults',
+          params: { latitude, longitude }
+        }
+      ]
+    });
   });
 });

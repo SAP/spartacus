@@ -11,8 +11,12 @@
     >
       <a
         [routerLink]="
-          ['storeFinder', 'listStores']
-            | cxTranslateUrl: [null, { country: country.isoCode }]
+          {
+            route: [
+              'storeFinder',
+              { name: 'listStores', params: { country: country.isoCode } }
+            ]
+          } | cxTranslateUrl
         "
         class="btn-link"
       >
@@ -46,12 +50,18 @@
           >
             <a
               [routerLink]="
-                ['storeFinder', 'listStores']
-                  | cxTranslateUrl
-                    : [
-                        null,
-                        { country: country.isoCode, region: region.isoCode }
-                      ]
+                {
+                  route: [
+                    'storeFinder',
+                    {
+                      name: 'listStores',
+                      params: {
+                        country: country.isoCode,
+                        region: region.isoCode
+                      }
+                    }
+                  ]
+                } | cxTranslateUrl
               "
               class="btn-link cx-store-finder-list-count__item-link"
             >

@@ -4,6 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { NavigationExtras } from '@angular/router';
 import { UrlTranslatorService } from '../configurable-routes/url-translator/url-translator.service';
+import { TranslateUrlOptions } from '../configurable-routes/url-translator/translate-url-options';
 
 @Injectable({
   providedIn: 'root'
@@ -32,16 +33,12 @@ export class RoutingService {
     );
   }
 
-  public goToPage(
-    nestedRoutesNames: string[],
-    nestedRoutesParams?: object[],
+  public translateAndGo(
+    translateUrlOptions: TranslateUrlOptions,
     query?: object,
     extras?: NavigationExtras
   ) {
-    const path = this.urlTranslator.translate(
-      nestedRoutesNames,
-      nestedRoutesParams
-    ) as any[];
+    const path = this.urlTranslator.translate(translateUrlOptions) as any[];
     this.go(path, query, extras);
   }
 

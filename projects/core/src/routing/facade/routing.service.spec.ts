@@ -53,8 +53,14 @@ describe('RoutingService', () => {
     });
   });
 
-  describe('goToPage', () => {
+  describe('translateAndGo', () => {
     it('should call "go" method with translated url', () => {
+      const translateUrlOptions = {
+        route: [
+          'routeName',
+          { name: 'childRouteName', params: { childParam: 'childParamValue' } }
+        ]
+      };
       const pageNames = ['testPageName', 'testChildPageName'];
       const parametersObjects = [
         { param1: 'value1' },
@@ -66,7 +72,7 @@ describe('RoutingService', () => {
 
       spyOn(urlTranslator, 'translate').and.returnValue(translatedPath);
       spyOn(service, 'go');
-      service.goToPage(pageNames, parametersObjects, queryParams, extras);
+      service.translateAndGo(translateUrlOptions, queryParams, extras);
       expect(urlTranslator.translate).toHaveBeenCalledWith(
         pageNames,
         parametersObjects

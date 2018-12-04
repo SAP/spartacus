@@ -5,6 +5,7 @@ import { UrlParserService } from './url-parser.service';
 import { ServerConfig } from 'projects/core/src/config/server-config/server-config';
 import { RouteTranslation, ParamsMapping } from '../routes-config';
 import { getParamName, isParam } from './path-utils';
+import { TranslateUrlOptions } from './translate-url-options';
 
 @Injectable()
 export class UrlTranslatorService {
@@ -17,26 +18,50 @@ export class UrlTranslatorService {
     private config: ServerConfig
   ) {}
 
-  translate(
-    urlOrNestedRoutesNames: string | string[],
-    nestedRoutesParams?: object[]
-  ): string | string[] {
-    let nestedRoutesNames;
+  translate(options: TranslateUrlOptions): string | string[] {
+    /**
+     * SPIKE TODO: write it
+     * It has to:
+     * - be object
+     * - contain string 'url'
+     * or
+     * - contain array 'route'
+     *  - every item has to be:
+     *    - string
+     *    or
+     *    - object with at least 'name' property
+     */
+    // this.validateOptions(options); // spike todo implement
 
-    // if string url was passed, try to recognize route:
-    if (typeof urlOrNestedRoutesNames === 'string') {
-      const url = urlOrNestedRoutesNames;
+    let nestedRoutesNames;
+    let nestedRoutesParams;
+
+    // if string url was passed, try to recognize route by default url shape:
+    if (options.url && typeof options.url === 'string') {
       ({
         nestedRoutesNames,
         nestedRoutesParams
-      } = this.routeRecognizer.recognizeByUrl(url));
+      } = this.routeRecognizer.recognizeByDefaultUrl(options.url));
 
       // if cannot recognize route, return original url
       if (!nestedRoutesNames) {
-        return url;
+        return options.url;
       }
-    } else if (Array.isArray(urlOrNestedRoutesNames)) {
-      nestedRoutesNames = urlOrNestedRoutesNames;
+    } else if (options.route) {
+      // spike todo pass route definition, not split it to 2 arrays: spliting is temporary here:
+      nestedRoutesNames = [];
+      nestedRoutesParams = [];
+      options.route.map(routeOptions => {
+        if (typeof routeOptions === 'string') {
+          nestedRoutesNames.push(routeOptions);
+          nestedRoutesParams.push(undefined);
+        } else {
+          nestedRoutesNames.push(routeOptions.name);
+          nestedRoutesParams.push(routeOptions.params);
+        }
+      });
+    } else {
+      return this.ROOT_URL;
     }
 
     return this.generateUrl(nestedRoutesNames, nestedRoutesParams);

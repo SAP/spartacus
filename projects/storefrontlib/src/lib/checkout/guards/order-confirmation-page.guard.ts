@@ -19,7 +19,7 @@ export class OrderConfirmationPageGuard implements CanActivate {
         if (orderDetails && Object.keys(orderDetails).length !== 0) {
           return true;
         } else {
-          this.routingService.goToPage(['myAccount_orders']);
+          this.routingService.translateAndGo({ route: ['myAccount_orders'] });
           return false;
         }
       })

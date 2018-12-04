@@ -52,16 +52,18 @@ export class StoreFinderGridComponent implements OnInit {
   }
 
   viewStore(location: any): void {
-    this.routingService.goToPage(
-      ['storeFinder', 'storeDescription'],
-      [
-        null,
+    this.routingService.translateAndGo({
+      route: [
+        'storeFinder',
         {
-          country: this.route.snapshot.params.country,
-          region: this.route.snapshot.params.region,
-          store: location.name
+          name: 'storeDescription',
+          params: {
+            country: this.route.snapshot.params.country,
+            region: this.route.snapshot.params.region,
+            store: location.name
+          }
         }
       ]
-    );
+    });
   }
 }

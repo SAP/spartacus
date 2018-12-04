@@ -65,7 +65,10 @@
         </div>
         <ng-template #productView>
           <div
-            [routerLink]="['product'] | cxTranslateUrl: [suggestion]"
+            [routerLink]="
+              { route: [{ name: 'product', params: suggestion }] }
+                | cxTranslateUrl
+            "
             class="cx-search-box__dropdown-content-product"
           >
             <cx-picture

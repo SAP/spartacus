@@ -152,7 +152,9 @@
                     I am confirming that I have read and agreed with the
                     <a
                       class="cx-section__registration-link"
-                      [routerLink]="['termsAndConditions'] | cxTranslateUrl"
+                      [routerLink]="
+                        { route: ['termsAndConditions'] } | cxTranslateUrl
+                      "
                       target="_blank"
                     >
                       Terms & Conditions
@@ -171,7 +173,7 @@
             </button>
             <a
               class="cx-section__login-link btn-link"
-              [routerLink]="['login'] | cxTranslateUrl"
+              [routerLink]="{ route: ['login'] } | cxTranslateUrl"
               >I already have an account. Sign In</a
             >
           </form>

@@ -19,7 +19,9 @@
         <div *ngIf="item.product.name" class="cx-cart-item__name">
           <a
             class="cx-cart-item__name--link"
-            [routerLink]="['product'] | cxTranslateUrl: [item.product]"
+            [routerLink]="
+              { route: [{ name: 'product', params: product }] } | cxTranslateUrl
+            "
             >{{ item.product.name }}</a
           >
         </div>

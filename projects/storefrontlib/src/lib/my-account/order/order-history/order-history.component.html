@@ -43,7 +43,9 @@
                 <div class="d-md-none cx-order-history__label">Order #</div>
                 <a
                   [routerLink]="
-                    ['myAccount_orderDetails'] | cxTranslateUrl: [order]
+                    {
+                      route: [{ name: 'myAccount_orderDetails', params: order }]
+                    } | cxTranslateUrl
                   "
                   class="cx-order-history__value"
                 >
@@ -54,7 +56,9 @@
                 <div class="d-md-none cx-order-history__label">Date</div>
                 <a
                   [routerLink]="
-                    ['myAccount_orderDetails'] | cxTranslateUrl: [order]
+                    {
+                      route: [{ name: 'myAccount_orderDetails', params: order }]
+                    } | cxTranslateUrl
                   "
                   class="cx-order-history__value"
                   >{{ order?.placed | date: 'longDate' }}</a
@@ -64,7 +68,9 @@
                 <div class="d-md-none cx-order-history__label">Status</div>
                 <a
                   [routerLink]="
-                    ['myAccount_orderDetails'] | cxTranslateUrl: [order]
+                    {
+                      route: [{ name: 'myAccount_orderDetails', params: order }]
+                    } | cxTranslateUrl
                   "
                   class="cx-order-history__value"
                 >
@@ -75,7 +81,9 @@
                 <div class="d-md-none cx-order-history__label">Total</div>
                 <a
                   [routerLink]="
-                    ['myAccount_orderDetails'] | cxTranslateUrl: [order]
+                    {
+                      route: [{ name: 'myAccount_orderDetails', params: order }]
+                    } | cxTranslateUrl
                   "
                   class="cx-order-history__value"
                 >
@@ -113,7 +121,7 @@
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div>We have no order records for this account.</div>
             <a
-              [routerLink]="['homepage'] | cxTranslateUrl"
+              [routerLink]="{ route: ['homepage'] } | cxTranslateUrl"
               routerLinkActive="active"
               class="btn btn-primary btn-block"
               >Start Shopping</a

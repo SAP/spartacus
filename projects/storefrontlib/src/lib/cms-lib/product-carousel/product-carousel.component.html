@@ -16,7 +16,10 @@
           <ng-container *ngIf="(products[productCode] | async) as product">
             <div
               class="cx-carousel__product"
-              [routerLink]="['product'] | cxTranslateUrl: [product]"
+              [routerLink]="
+                { route: [{ name: 'product', params: product }] }
+                  | cxTranslateUrl
+              "
             >
               <cx-picture
                 [imageContainer]="product.images?.PRIMARY"

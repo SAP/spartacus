@@ -6,6 +6,7 @@ import { UrlParserService } from './url-parser.service';
 import { UrlTranslatorService } from './url-translator.service';
 import { ConfigurableRoutesService } from '../configurable-routes.service';
 import { RouteTranslation } from '../routes-config';
+import { TranslateUrlOptions } from './translate-url-options';
 
 const mockConfigurableRoutesService = {
   getNestedRoutesTranslations: () => {}
@@ -30,7 +31,7 @@ describe('UrlTranslatorService', () => {
         { provide: ServerConfig, useValue: {} },
         {
           provide: RouteRecognizerService,
-          useValue: { recognizeByUrl: () => {} }
+          useValue: { recognizeByDefaultUrl: () => {} }
         }
       ]
     });
@@ -47,23 +48,25 @@ describe('UrlTranslatorService', () => {
         spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue(
           null
         );
-        spyOn(routeRecognizer, 'recognizeByUrl').and.returnValue({
+        spyOn(routeRecognizer, 'recognizeByDefaultUrl').and.returnValue({
           nestedRoutesNames: null,
           nestedRoutesParams: null
         });
-        service.translate('test-url');
-        expect(routeRecognizer.recognizeByUrl).toHaveBeenCalledWith('test-url');
+        service.translate({ route: ['test-url'] });
+        expect(routeRecognizer.recognizeByDefaultUrl).toHaveBeenCalledWith(
+          'test-url'
+        );
       });
 
       it('should return original url if could not recognize nested routes names in given url', () => {
         spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue(
           null
         );
-        spyOn(routeRecognizer, 'recognizeByUrl').and.returnValue({
+        spyOn(routeRecognizer, 'recognizeByDefaultUrl').and.returnValue({
           nestedRoutesNames: null,
           nestedRoutesParams: null
         });
-        const result = service.translate('test-url');
+        const result = service.translate({ route: ['test-url'] });
         expect(result).toEqual('test-url');
       });
 
@@ -71,11 +74,11 @@ describe('UrlTranslatorService', () => {
         spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue([
           { paths: ['translated-url'] }
         ]);
-        spyOn(routeRecognizer, 'recognizeByUrl').and.returnValue({
+        spyOn(routeRecognizer, 'recognizeByDefaultUrl').and.returnValue({
           nestedRoutesNames: ['testRouteName'],
           nestedRoutesParams: [{}]
         });
-        const result = service.translate('test-url');
+        const result = service.translate({ route: ['test-url'] });
         expect(result).toEqual(['', 'translated-url']);
       });
     });
@@ -87,7 +90,9 @@ describe('UrlTranslatorService', () => {
         spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue([
           { paths: ['path/:param1'] }
         ]);
-        service.translate(['test'], [{ param2: 'value2' }]);
+        service.translate({
+          route: [{ name: 'test', params: { param2: 'value2' } }]
+        });
         expect(console.warn).toHaveBeenCalledTimes(1);
       });
 
@@ -98,7 +103,9 @@ describe('UrlTranslatorService', () => {
         spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue([
           { paths: ['path/:param1'] }
         ]);
-        service.translate(['test'], [{ param2: 'value2' }]);
+        service.translate({
+          route: [{ name: 'test', params: { param2: 'value2' } }]
+        });
         expect(console.warn).not.toHaveBeenCalled();
       });
 
@@ -106,32 +113,30 @@ describe('UrlTranslatorService', () => {
         spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue([
           { paths: ['path/:param1'] }
         ]);
-        const resultPath = service.translate(['test'], [{ param1: 'value1' }]);
+        const resultPath = service.translate({
+          route: [{ name: 'test', params: { param1: 'value1' } }]
+        });
         expect(resultPath[0]).toEqual('');
       });
 
       function test_translate({
-        nestedRoutesNames,
-        nestedRoutesParams,
+        translateUrlOptions,
         nestedRoutesTranslations,
         expectedResult
       }: {
-        nestedRoutesNames: string[];
-        nestedRoutesParams: object[];
+        translateUrlOptions: TranslateUrlOptions;
         nestedRoutesTranslations: RouteTranslation[];
         expectedResult: string[];
       }) {
         spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue(
           nestedRoutesTranslations
         );
-        expect(
-          service.translate(nestedRoutesNames, nestedRoutesParams)
-        ).toEqual(expectedResult);
+        expect(service.translate(translateUrlOptions)).toEqual(expectedResult);
       }
+
       it(`should return the root path when translations for given route are undefined`, () => {
         test_translate({
-          nestedRoutesNames: ['test'],
-          nestedRoutesParams: null,
+          translateUrlOptions: { route: ['test'] },
           nestedRoutesTranslations: undefined,
           expectedResult: ['/']
         });
@@ -139,8 +144,7 @@ describe('UrlTranslatorService', () => {
 
       it(`should return the root path when translations for given route are null`, () => {
         test_translate({
-          nestedRoutesNames: ['test'],
-          nestedRoutesParams: null,
+          translateUrlOptions: { route: ['test'] },
           nestedRoutesTranslations: null,
           expectedResult: ['/']
         });
@@ -148,8 +152,7 @@ describe('UrlTranslatorService', () => {
 
       it(`should return the root path when translations paths for given route are undefined`, () => {
         test_translate({
-          nestedRoutesNames: ['test'],
-          nestedRoutesParams: null,
+          translateUrlOptions: { route: ['test'] },
           nestedRoutesTranslations: [{ paths: undefined }],
           expectedResult: ['/']
         });
@@ -157,8 +160,7 @@ describe('UrlTranslatorService', () => {
 
       it(`should return the root path when translations paths for given route are null`, () => {
         test_translate({
-          nestedRoutesNames: ['test'],
-          nestedRoutesParams: null,
+          translateUrlOptions: { route: ['test'] },
           nestedRoutesTranslations: [{ paths: null }],
           expectedResult: ['/']
         });
@@ -166,8 +168,7 @@ describe('UrlTranslatorService', () => {
 
       it(`should return the root path when translations paths for given route are empty array`, () => {
         test_translate({
-          nestedRoutesNames: ['test'],
-          nestedRoutesParams: null,
+          translateUrlOptions: { route: ['test'] },
           nestedRoutesTranslations: [{ paths: [] }],
           expectedResult: ['/']
         });
@@ -175,8 +176,9 @@ describe('UrlTranslatorService', () => {
 
       it(`should return the root path when no path from translations can satisfy its params with given params`, () => {
         test_translate({
-          nestedRoutesNames: ['test'],
-          nestedRoutesParams: [{ param3: 'value3' }],
+          translateUrlOptions: {
+            route: [{ name: 'test', params: { param3: 'value3' } }]
+          },
           nestedRoutesTranslations: [
             { paths: ['path/:param1', 'path/:param1'] }
           ],
@@ -186,8 +188,7 @@ describe('UrlTranslatorService', () => {
 
       it(`should return first path without params when no params given`, () => {
         test_translate({
-          nestedRoutesNames: ['test'],
-          nestedRoutesParams: null,
+          translateUrlOptions: { route: ['test'] },
           nestedRoutesTranslations: [
             { paths: ['path/:param1', 'path/without-parameters'] }
           ],
@@ -197,8 +198,9 @@ describe('UrlTranslatorService', () => {
 
       it(`should return first path without params when given params are not sufficient`, () => {
         test_translate({
-          nestedRoutesNames: ['test'],
-          nestedRoutesParams: [{ param2: 'value2' }],
+          translateUrlOptions: {
+            route: [{ name: 'test', params: { param2: 'value2' } }]
+          },
           nestedRoutesTranslations: [
             { paths: ['path/:param1', 'path/without-parameters'] }
           ],
@@ -208,8 +210,9 @@ describe('UrlTranslatorService', () => {
 
       it(`should return first path that can be satisfied with given params (case 1)`, () => {
         test_translate({
-          nestedRoutesNames: ['test'],
-          nestedRoutesParams: [{ param1: 'value1' }],
+          translateUrlOptions: {
+            route: [{ name: 'test', params: { param1: 'value1' } }]
+          },
           nestedRoutesTranslations: [
             { paths: ['path/:param1', 'other-path/:param1'] }
           ],
@@ -219,8 +222,9 @@ describe('UrlTranslatorService', () => {
 
       it(`should return first path that can be satisfied with given params (case 2)`, () => {
         test_translate({
-          nestedRoutesNames: ['test'],
-          nestedRoutesParams: [{ param1: 'value1' }],
+          translateUrlOptions: {
+            route: [{ name: 'test', params: { param2: 'value2' } }]
+          },
           nestedRoutesTranslations: [
             { paths: ['path/without-parameters', 'path/:param1'] }
           ],
@@ -230,14 +234,18 @@ describe('UrlTranslatorService', () => {
 
       it(`should return first path that can be satisfied with given params (case 3)`, () => {
         test_translate({
-          nestedRoutesNames: ['test'],
-          nestedRoutesParams: [
-            {
-              param2: 'value2',
-              param3: 'value3',
-              param4: 'value4'
-            }
-          ],
+          translateUrlOptions: {
+            route: [
+              {
+                name: 'test',
+                params: {
+                  param2: 'value2',
+                  param3: 'value3',
+                  param4: 'value4'
+                }
+              }
+            ]
+          },
           nestedRoutesTranslations: [
             {
               paths: [
@@ -254,14 +262,19 @@ describe('UrlTranslatorService', () => {
 
       it(`should return first path that can be satisfied with given params  (case 4)`, () => {
         test_translate({
-          nestedRoutesNames: ['test'],
-          nestedRoutesParams: [
-            {
-              param2: 'value2',
-              param3: 'value3',
-              param4: 'value4'
-            }
-          ],
+          translateUrlOptions: {
+            route: [
+              {
+                name: 'test',
+                params: {
+                  param2: 'value2',
+                  param3: 'value3',
+                  param4: 'value4'
+                }
+              }
+            ]
+          },
+
           nestedRoutesTranslations: [
             {
               paths: [
@@ -278,8 +291,9 @@ describe('UrlTranslatorService', () => {
 
       it(`should use given params mapping (case 1)`, () => {
         test_translate({
-          nestedRoutesNames: ['test'],
-          nestedRoutesParams: [{ param1: 'value1' }],
+          translateUrlOptions: {
+            route: [{ name: 'test', params: { param1: 'value1' } }]
+          },
           nestedRoutesTranslations: [
             {
               paths: ['path/:mappedParam1'],
@@ -292,14 +306,18 @@ describe('UrlTranslatorService', () => {
 
       it(`should use given params mapping (case 2)`, () => {
         test_translate({
-          nestedRoutesNames: ['test'],
-          nestedRoutesParams: [
-            {
-              param2: 'value2',
-              param3: 'value3',
-              param4: 'value4'
-            }
-          ],
+          translateUrlOptions: {
+            route: [
+              {
+                name: 'test',
+                params: {
+                  param2: 'value2',
+                  param3: 'value3',
+                  param4: 'value4'
+                }
+              }
+            ]
+          },
           nestedRoutesTranslations: [
             {
               paths: [
@@ -317,8 +335,7 @@ describe('UrlTranslatorService', () => {
 
       it(`should concatenate paths for two nested routes`, () => {
         test_translate({
-          nestedRoutesNames: ['test1', 'test2'],
-          nestedRoutesParams: [{}, {}],
+          translateUrlOptions: { route: ['test1', 'test2'] },
           nestedRoutesTranslations: [
             { paths: ['path1'] },
             { paths: ['path2'] }
@@ -329,8 +346,7 @@ describe('UrlTranslatorService', () => {
 
       it(`should concatenate paths for two nested routes, using first configured path - separately for every nested route`, () => {
         test_translate({
-          nestedRoutesNames: ['test1', 'test2'],
-          nestedRoutesParams: [{}, {}],
+          translateUrlOptions: { route: ['test1', 'test2'] },
           nestedRoutesTranslations: [
             { paths: ['path1', 'path10'] },
             { paths: ['path2', 'path20'] }
@@ -341,8 +357,7 @@ describe('UrlTranslatorService', () => {
 
       it(`should concatenate paths for three nested routes`, () => {
         test_translate({
-          nestedRoutesNames: ['test1', 'test2', 'test3'],
-          nestedRoutesParams: [{}, {}],
+          translateUrlOptions: { route: ['test1', 'test2', 'test3'] },
           nestedRoutesTranslations: [
             { paths: ['path1'] },
             { paths: ['path2'] },
@@ -354,8 +369,7 @@ describe('UrlTranslatorService', () => {
 
       it(`should return the root path when there are no translations for given nested routes`, () => {
         test_translate({
-          nestedRoutesNames: ['test1', 'test2'],
-          nestedRoutesParams: [{}, {}],
+          translateUrlOptions: { route: ['test1', 'test2'] },
           nestedRoutesTranslations: null,
           expectedResult: ['/']
         });
@@ -363,8 +377,9 @@ describe('UrlTranslatorService', () => {
 
       it(`should concatenate paths for nested routes, using given params for first route (case 1)`, () => {
         test_translate({
-          nestedRoutesNames: ['test1', 'test2'],
-          nestedRoutesParams: [{ param1: 'value1' }, {}],
+          translateUrlOptions: {
+            route: [{ name: 'test1', params: { param1: 'value1' } }, 'test2']
+          },
           nestedRoutesTranslations: [
             { paths: ['path1/:param1'] },
             { paths: ['path2'] }
@@ -375,8 +390,9 @@ describe('UrlTranslatorService', () => {
 
       it(`should concatenate paths for nested routes, using given params for second route (case 2)`, () => {
         test_translate({
-          nestedRoutesNames: ['test1', 'test2'],
-          nestedRoutesParams: [null, { param2: 'value2' }],
+          translateUrlOptions: {
+            route: ['test1', { name: 'test2', params: { param2: 'value2' } }]
+          },
           nestedRoutesTranslations: [
             { paths: ['path1'] },
             { paths: ['path2/:param2'] }
@@ -387,8 +403,12 @@ describe('UrlTranslatorService', () => {
 
       it(`should concatenate paths for nested routes, using given params for all routes`, () => {
         test_translate({
-          nestedRoutesNames: ['test1', 'test2'],
-          nestedRoutesParams: [{ param1: 'value1' }, { param2: 'value2' }],
+          translateUrlOptions: {
+            route: [
+              { name: 'test1', params: { param1: 'value1' } },
+              { name: 'test2', params: { param2: 'value2' } }
+            ]
+          },
           nestedRoutesTranslations: [
             { paths: ['path1/:param1'] },
             { paths: [':param2/path2'] }
@@ -399,8 +419,12 @@ describe('UrlTranslatorService', () => {
 
       it(`should concatenate paths for nested routes using given params mapping`, () => {
         test_translate({
-          nestedRoutesNames: ['test1', 'test2'],
-          nestedRoutesParams: [{ param1: 'value1' }, { param2: 'value2' }],
+          translateUrlOptions: {
+            route: [
+              { name: 'test1', params: { param1: 'value1' } },
+              { name: 'test2', params: { param2: 'value2' } }
+            ]
+          },
           nestedRoutesTranslations: [
             { paths: ['path1/:param1'] },
             {
@@ -414,8 +438,12 @@ describe('UrlTranslatorService', () => {
 
       it(`should concatenate paths using params objects given in relevant order for every route`, () => {
         test_translate({
-          nestedRoutesNames: ['test1', 'test2'],
-          nestedRoutesParams: [{ param1: 'value1' }, { param1: 'value10' }],
+          translateUrlOptions: {
+            route: [
+              { name: 'test1', params: { param1: 'value1' } },
+              { name: 'test2', params: { param1: 'value10' } }
+            ]
+          },
           nestedRoutesTranslations: [
             { paths: ['path1/:param1'] },
             { paths: ['path2/:param1'] }
@@ -426,8 +454,12 @@ describe('UrlTranslatorService', () => {
 
       it(`should concatenate paths using first path that can be satisfied with given params - separately every route`, () => {
         test_translate({
-          nestedRoutesNames: ['test1', 'test2'],
-          nestedRoutesParams: [{ param1: 'value1' }, { param3: 'value3' }],
+          translateUrlOptions: {
+            route: [
+              { name: 'test1', params: { param1: 'value1' } },
+              { name: 'test2', params: { param3: 'value3' } }
+            ]
+          },
           nestedRoutesTranslations: [
             { paths: ['path1/:param1'] },
             { paths: ['path2/:param2', 'path2/:param3'] }
@@ -438,8 +470,12 @@ describe('UrlTranslatorService', () => {
 
       it(`should return the root path when no translation path can satisfy its params with given params for some route`, () => {
         test_translate({
-          nestedRoutesNames: ['test1', 'test2'],
-          nestedRoutesParams: [{ param1: 'value1' }, { param3: 'value3' }],
+          translateUrlOptions: {
+            route: [
+              { name: 'test1', params: { param1: 'value1' } },
+              { name: 'test2', params: { param3: 'value3' } }
+            ]
+          },
           nestedRoutesTranslations: [
             { paths: ['path1/:param1'] },
             { paths: ['path2/:param2'] }

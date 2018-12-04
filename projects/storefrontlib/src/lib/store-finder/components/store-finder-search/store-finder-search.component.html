@@ -15,7 +15,9 @@
       <button
         type="button"
         class="btn btn-primary btn-block cx-store-finder-search__button"
-        [routerLink]="['storeFinder', 'searchResults'] | cxTranslateUrl"
+        [routerLink]="
+          { route: ['storeFinder', 'searchResults'] } | cxTranslateUrl
+        "
         [queryParams]="{ query: queryInput.value }"
       >
         Find store
@@ -30,7 +32,9 @@
         </button>
         |
         <a
-          [routerLink]="['storeFinder', 'allStores'] | cxTranslateUrl"
+          [routerLink]="
+            { route: ['storeFinder', 'allStores'] } | cxTranslateUrl
+          "
           class="cx-store-finder-search__links btn-link"
           >View all stores</a
         >

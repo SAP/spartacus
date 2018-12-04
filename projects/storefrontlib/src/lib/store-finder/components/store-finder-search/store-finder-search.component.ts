@@ -15,18 +15,22 @@ export class StoreFinderSearchComponent {
   constructor(private winRef: WindowRef, private routing: RoutingService) {}
 
   findStores(address: string) {
-    this.routing.goToPage(['storeFinder', 'searchResults'], null, {
-      query: address
-    });
+    this.routing.translateAndGo(
+      { route: ['storeFinder', 'searchResults'] },
+      { query: address }
+    );
   }
 
   viewStoresWithMyLoc() {
     this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
       (position: Position) => {
-        this.routing.goToPage(['storeFinder', 'searchResults'], null, {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        });
+        this.routing.translateAndGo(
+          { route: ['storeFinder', 'searchResults'] },
+          {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          }
+        );
       }
     );
   }

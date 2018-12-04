@@ -1,7 +1,9 @@
 <div class="row">
   <div class="col-12 col-md-4">
     <a
-      [routerLink]="['product'] | cxTranslateUrl: [product]"
+      [routerLink]="
+        { route: [{ name: 'product', params: product }] } | cxTranslateUrl
+      "
       class="cx-product-search-list__image__container"
     >
       <cx-picture
@@ -14,7 +16,9 @@
   </div>
   <div class="col-12 col-md-8">
     <a
-      [routerLink]="['product'] | cxTranslateUrl: [product]"
+      [routerLink]="
+        { route: [{ name: 'product', params: product }] } | cxTranslateUrl
+      "
       class="cx-product-search-list__name"
       [innerHtml]="product.name"
       >{{ product.name }}</a

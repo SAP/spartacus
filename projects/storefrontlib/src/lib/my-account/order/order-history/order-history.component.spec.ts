@@ -41,7 +41,7 @@ describe('OrderHistoryComponent', () => {
 
   beforeEach(async(() => {
     mockRoutingService = {
-      goToPage: createSpy('goToPage')
+      translateAndGo: createSpy('translateAndGo')
     };
     mockAuthService = {
       userToken$: of({ userId: 'test' })
@@ -113,10 +113,14 @@ describe('OrderHistoryComponent', () => {
     );
     rows[1].triggerEventHandler('click', null);
     fixture.whenStable().then(() => {
-      expect(mockRoutingService.goToPage).toHaveBeenCalledWith(
-        'myAccount_orderDetails',
-        mockOrders.orders[1]
-      );
+      expect(mockRoutingService.translateAndGo).toHaveBeenCalledWith({
+        route: [
+          {
+            name: 'myAccount_orderDetails',
+            params: mockOrders.orders[1]
+          }
+        ]
+      });
     });
   });
 

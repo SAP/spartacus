@@ -19,7 +19,10 @@ describe(`OrderConfirmationPageGuard`, () => {
       providers: [
         OrderConfirmationPageGuard,
         { provide: CheckoutService, useValue: mockCheckoutService },
-        { provide: RoutingService, useValue: { goToPage: jasmine.createSpy() } }
+        {
+          provide: RoutingService,
+          useValue: { translateAndGo: jasmine.createSpy() }
+        }
       ],
       imports: [RouterTestingModule]
     });
@@ -34,9 +37,9 @@ describe(`OrderConfirmationPageGuard`, () => {
 
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(false);
-        expect(routingService.goToPage).toHaveBeenCalledWith([
-          'myAccount_orders'
-        ]);
+        expect(routingService.translateAndGo).toHaveBeenCalledWith({
+          route: ['myAccount_orders']
+        });
         done();
       });
     });
@@ -48,7 +51,7 @@ describe(`OrderConfirmationPageGuard`, () => {
 
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(true);
-        expect(routingService.goToPage).not.toHaveBeenCalled();
+        expect(routingService.translateAndGo).not.toHaveBeenCalled();
         done();
       });
     });

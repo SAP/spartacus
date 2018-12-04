@@ -11,7 +11,7 @@ export class RouteRecognizerService {
     private urlParser: UrlParserService
   ) {}
 
-  recognizeByUrl(
+  recognizeByDefaultUrl(
     url: string
   ): {
     nestedRoutesNames: string[];

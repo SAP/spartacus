@@ -10,7 +10,7 @@ const CART_EMPTY = Object.freeze({ totalItems: 0 });
 const CART_NOT_EMPTY = Object.freeze({ totalItems: 1 });
 const CART_NOT_CREATED = Object.freeze({});
 
-const mockRoutingService = { goToPage: () => {} };
+const mockRoutingService = { translateAndGo: () => {} };
 
 class CartServiceStub {
   activeCart$: Observable<Cart>;
@@ -48,7 +48,7 @@ describe('CartNotEmptyGuard', () => {
 
   describe('canActivate:', () => {
     beforeEach(() => {
-      spyOn(routingService, 'goToPage');
+      spyOn(routingService, 'translateAndGo');
     });
 
     describe('when cart is NOT loaded', () => {
@@ -66,7 +66,7 @@ describe('CartNotEmptyGuard', () => {
             .canActivate()
             .subscribe()
             .unsubscribe();
-          expect(routingService.goToPage).not.toHaveBeenCalled();
+          expect(routingService.translateAndGo).not.toHaveBeenCalled();
         });
 
         it('then returned observable should NOT emit any value', () => {
@@ -89,7 +89,7 @@ describe('CartNotEmptyGuard', () => {
             .canActivate()
             .subscribe()
             .unsubscribe();
-          expect(routingService.goToPage).not.toHaveBeenCalled();
+          expect(routingService.translateAndGo).not.toHaveBeenCalled();
         });
 
         it('then returned observable should NOT emit any value', () => {
@@ -112,7 +112,7 @@ describe('CartNotEmptyGuard', () => {
             .canActivate()
             .subscribe()
             .unsubscribe();
-          expect(routingService.goToPage).not.toHaveBeenCalled();
+          expect(routingService.translateAndGo).not.toHaveBeenCalled();
         });
 
         it('then returned observable should NOT emit any value', () => {
@@ -142,7 +142,9 @@ describe('CartNotEmptyGuard', () => {
             .canActivate()
             .subscribe()
             .unsubscribe();
-          expect(routingService.goToPage).toHaveBeenCalledWith(['homepage']);
+          expect(routingService.translateAndGo).toHaveBeenCalledWith({
+            route: ['homepage']
+          });
         });
 
         it('then returned observable should emit false', () => {
@@ -167,7 +169,9 @@ describe('CartNotEmptyGuard', () => {
             .canActivate()
             .subscribe()
             .unsubscribe();
-          expect(routingService.goToPage).toHaveBeenCalledWith(['homepage']);
+          expect(routingService.translateAndGo).toHaveBeenCalledWith({
+            route: ['homepage']
+          });
         });
 
         it('then returned observable should emit false', () => {
@@ -191,7 +195,7 @@ describe('CartNotEmptyGuard', () => {
             .canActivate()
             .subscribe()
             .unsubscribe();
-          expect(routingService.goToPage).not.toHaveBeenCalled();
+          expect(routingService.translateAndGo).not.toHaveBeenCalled();
         });
 
         it('then returned observable should emit true', () => {

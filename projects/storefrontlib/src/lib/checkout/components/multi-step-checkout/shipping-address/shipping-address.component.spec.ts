@@ -79,7 +79,7 @@ describe('ShippingAddressComponent', () => {
     };
     mockRouting = {
       go: createSpy('go'),
-      goToPage: createSpy('goToPage')
+      translateAndGo: createSpy('translateAndGo')
     };
     const mockCartDataService = {
       userId: 'testUser'
@@ -192,7 +192,9 @@ describe('ShippingAddressComponent', () => {
 
   it('should call back()', () => {
     component.back();
-    expect(mockRouting.goToPage).toHaveBeenCalledWith(['cart']);
+    expect(mockRouting.translateAndGo).toHaveBeenCalledWith({
+      route: ['cart']
+    });
   });
 
   describe('UI continue button', () => {

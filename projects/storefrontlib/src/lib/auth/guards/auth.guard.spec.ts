@@ -33,7 +33,7 @@ const mockRouterStateSnapshot = { url: '/test' };
 
 class RoutingServiceStub {
   go(_path: any[], _query?: object, _extras?: NavigationExtras) {}
-  goToPage() {}
+  translateAndGo() {}
   saveRedirectUrl(_url: string) {}
 }
 
@@ -74,7 +74,7 @@ describe('AuthGuard', () => {
     authService = TestBed.get(AuthService);
 
     spyOn(service, 'go').and.stub();
-    spyOn(service, 'goToPage').and.stub();
+    spyOn(service, 'translateAndGo').and.stub();
     spyOn(service, 'saveRedirectUrl').and.stub();
   });
 
@@ -109,7 +109,7 @@ describe('AuthGuard', () => {
       .subscribe();
     sub.unsubscribe();
 
-    expect(service.goToPage).toHaveBeenCalledWith(['login']);
+    expect(service.translateAndGo).toHaveBeenCalledWith({ route: ['login'] });
     expect(service.saveRedirectUrl).toHaveBeenCalledWith('/test');
   });
 });

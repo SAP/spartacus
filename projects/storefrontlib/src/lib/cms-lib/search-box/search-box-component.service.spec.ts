@@ -15,7 +15,7 @@ const productSearchServiceMock = {
   getSuggestions: createSpy().and.returnValue(of({}))
 };
 
-const routingServiceMock = { goToPage: createSpy('goToPage') };
+const routingServiceMock = { translateAndGo: createSpy('translateAndGo') };
 const componentDataMock = { data$: of({}) };
 
 describe('SearchBoxComponentService', () => {
@@ -53,10 +53,14 @@ describe('SearchBoxComponentService', () => {
 
       service.launchSearchPage(mockQueryString);
       expect(service.launchSearchPage).toHaveBeenCalled();
-      expect(routingServiceMock.goToPage).toHaveBeenCalledWith(
-        ['search'],
-        [{ query: mockQueryString }]
-      );
+      expect(routingServiceMock.translateAndGo).toHaveBeenCalledWith({
+        route: [
+          {
+            name: 'search',
+            params: { query: mockQueryString }
+          }
+        ]
+      });
     }
   ));
 

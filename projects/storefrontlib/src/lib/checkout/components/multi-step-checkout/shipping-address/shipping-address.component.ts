@@ -117,6 +117,6 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   back() {
-    this.routingService.goToPage(['cart']);
+    this.routingService.translateAndGo({ route: ['cart'] });
   }
 }
