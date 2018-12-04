@@ -8,7 +8,7 @@ import {
   map,
   switchMap
 } from 'rxjs/operators';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, CmsSearchBoxComponent } from '@spartacus/core';
 
 interface SearchBoxConfig {
   maxProducts: number;
@@ -31,7 +31,8 @@ export class SearchBoxComponentService {
   config$: Observable<SearchBoxConfig> = of(this.defaultConfig);
 
   constructor(
-    @Optional() protected componentData: CmsComponentData,
+    @Optional()
+    protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     public searchService: ProductSearchService,
     protected routingService: RoutingService
   ) {

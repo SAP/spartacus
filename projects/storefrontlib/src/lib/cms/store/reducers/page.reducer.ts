@@ -27,7 +27,7 @@ export function reducer(
     }
 
     case fromPageData.LOAD_PAGEDATA_SUCCESS: {
-      let page = action.payload;
+      let page: { key: string; value: Page } = action.payload;
 
       const existPage = state.entities[page.key];
       if (existPage != null) {

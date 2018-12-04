@@ -39,15 +39,15 @@ export class AddToHomeScreenService {
     });
   }
 
-  enableAddToHomeScreen() {
+  enableAddToHomeScreen(): void {
     this.canPrompt.next(true);
   }
 
-  disableAddToHomeScreen() {
+  disableAddToHomeScreen(): void {
     this.canPrompt.next(false);
   }
 
-  firePrompt() {
+  firePrompt(): void {
     if (this.deferredEvent) {
       this.deferredEvent.prompt();
     }
