@@ -5,7 +5,13 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccMiscsService } from './miscs.service';
-import { OccConfig } from '@spartacus/core';
+import {
+  OccConfig,
+  CountryList,
+  TitleList,
+  CardTypeList,
+  RegionList
+} from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -44,7 +50,7 @@ describe('OccMiscsService', () => {
   it('should return delivery countries list', () => {
     const endpoint = 'countries';
 
-    const countryList = {
+    const countryList: CountryList = {
       countries: [
         {
           isocode: 'AL',
@@ -73,7 +79,7 @@ describe('OccMiscsService', () => {
   it('should return titles list', () => {
     const endpoint = 'titles';
 
-    const titlesList = {
+    const titlesList: TitleList = {
       titles: [
         {
           code: 'mr',
@@ -102,14 +108,14 @@ describe('OccMiscsService', () => {
   it('should return cardTypes', () => {
     const endpoint = 'cardtypes';
 
-    const cardTypesList = {
+    const cardTypesList: CardTypeList = {
       cardTypes: [
         {
           code: 'amex',
           name: 'American Express'
         },
         {
-          isocode: 'maestro',
+          code: 'maestro',
           name: 'Maestro'
         }
       ]
@@ -131,7 +137,7 @@ describe('OccMiscsService', () => {
   it('should return regions', () => {
     const endpoint = 'countries/CA/regions';
 
-    const regions = {
+    const regions: RegionList = {
       regions: [
         {
           isocode: 'CA-AB',

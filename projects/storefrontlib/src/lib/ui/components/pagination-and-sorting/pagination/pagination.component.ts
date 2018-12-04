@@ -7,6 +7,7 @@ import {
   EventEmitter,
   ViewEncapsulation
 } from '@angular/core';
+import { PaginationModel } from '@spartacus/core';
 
 @Component({
   selector: 'cx-pagination',
@@ -17,7 +18,7 @@ import {
 })
 export class PaginationComponent implements OnInit {
   @Input()
-  pagination;
+  pagination: PaginationModel;
   @Output()
   viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
@@ -25,7 +26,7 @@ export class PaginationComponent implements OnInit {
 
   ngOnInit() {}
 
-  pageChange(page: number) {
+  pageChange(page: number): void {
     this.viewPageEvent.emit(page - 1);
   }
 }

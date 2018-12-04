@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import * as fromStore from './../../cms/store';
-import { Store } from '@ngrx/store';
+import { CmsService } from '../../cms/facade/cms.service';
 
 @Injectable()
 export class NavigationService {
-  constructor(private store: Store<fromStore.CmsState>) {}
+  constructor(private cmsService: CmsService) {}
 
   /**
    * Get all navigation entry items' type and id. Dispatch action to load all these items
@@ -13,7 +12,7 @@ export class NavigationService {
    * @param itemsList
    */
   public getNavigationEntryItems(nodeData: any, root: boolean, itemsList = []) {
-    if (nodeData.children) {
+    if (nodeData.children && nodeData.children.length > 0) {
       this.processChildren(nodeData, itemsList);
     } else if (nodeData.entries && nodeData.entries.length > 0) {
       nodeData.entries.forEach(entry => {
@@ -26,12 +25,7 @@ export class NavigationService {
 
     if (root) {
       const rootUid = nodeData.uid;
-      this.store.dispatch(
-        new fromStore.LoadNavigationItems({
-          nodeId: rootUid,
-          items: itemsList
-        })
-      );
+      this.cmsService.loadNavigationItems(rootUid, itemsList);
     }
   }
 
@@ -52,7 +46,7 @@ export class NavigationService {
     node['title'] = nodeData.title;
     node['url'] = '';
 
-    if (nodeData.children) {
+    if (nodeData.children && nodeData.children.length > 0) {
       const children = this.createChildren(nodeData, items);
       node['children'] = children;
     } else if (nodeData.entries && nodeData.entries.length > 0) {

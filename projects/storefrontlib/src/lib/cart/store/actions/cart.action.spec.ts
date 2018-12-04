@@ -1,15 +1,16 @@
 import * as fromCart from './../actions/cart.action';
+import { Cart } from '@spartacus/core';
 
-const cart: any = {
+const cart: Cart = {
   code: 'xxx',
   guid: 'xxx',
-  total_items: 0,
-  total_price: {
-    currency_iso: 'USD',
+  totalItems: 0,
+  totalPrice: {
+    currencyIso: 'USD',
     value: 0
   },
-  total_price_with_tax: {
-    currency_iso: 'USD',
+  totalPriceWithTax: {
+    currencyIso: 'USD',
     value: 0
   }
 };

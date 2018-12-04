@@ -13,7 +13,10 @@ export const getPageState: MemoizedSelector<
   (state: fromFeature.CmsState) => state.page
 );
 
-export const getPageEntities: MemoizedSelector<any, any> = createSelector(
+export const getPageEntities: MemoizedSelector<
+  any,
+  { [context: string]: Page }
+> = createSelector(
   getPageState,
   fromPage.getPageEntities
 );
@@ -23,7 +26,7 @@ export const getLatestPageKey: MemoizedSelector<any, string> = createSelector(
   fromPage.getLatestPageKey
 );
 
-export const getLatestPage: MemoizedSelector<any, any> = createSelector(
+export const getLatestPage: MemoizedSelector<any, Page> = createSelector(
   getPageEntities,
   getLatestPageKey,
   (entities, key): Page => {
@@ -34,9 +37,12 @@ export const getLatestPage: MemoizedSelector<any, any> = createSelector(
 export const currentSlotSelectorFactory = (
   position
 ): MemoizedSelector<any, any> => {
-  return createSelector(getLatestPage, entity => {
-    if (entity) {
-      return entity.slots[position];
+  return createSelector(
+    getLatestPage,
+    entity => {
+      if (entity) {
+        return entity.slots[position];
+      }
     }
-  });
+  );
 };

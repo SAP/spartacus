@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+
 import { Store, select } from '@ngrx/store';
+
 import { filter } from 'rxjs/operators';
 
 import { Observable } from 'rxjs';
@@ -8,7 +10,7 @@ import * as fromCheckoutStore from '../store/';
 import {
   CartDataService,
   ANONYMOUS_USERID
-} from '../../cart/services/cart-data.service';
+} from '../../cart/facade/cart-data.service';
 
 @Injectable()
 export class CheckoutService {

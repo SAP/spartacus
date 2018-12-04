@@ -9,6 +9,7 @@ import { RoutingService } from '@spartacus/core';
 import { UserService } from '../../../user/facade/user.service';
 import { AuthService } from '../../../auth/facade/auth.service';
 import { CardModule } from '../../../ui/components/card/card.module';
+import { UserToken } from '../../../auth';
 
 const mockOrder = {
   code: '1',
@@ -81,7 +82,7 @@ class MockCartItemListComponent {
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
   let fixture: ComponentFixture<OrderDetailsComponent>;
-  let mockAuthService: any;
+  let mockAuthService: AuthService;
   let mockRoutingService: any;
   let mockUserService: any;
   let el: DebugElement;
@@ -96,8 +97,8 @@ describe('OrderDetailsComponent', () => {
         }
       })
     };
-    mockAuthService = {
-      userToken$: of({ userId: 'test' })
+    mockAuthService = <AuthService>{
+      userToken$: of(<UserToken>{ userId: 'test' })
     };
     mockUserService = {
       orderDetails$: of(mockOrder),

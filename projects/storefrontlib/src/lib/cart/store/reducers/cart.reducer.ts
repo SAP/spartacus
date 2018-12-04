@@ -1,8 +1,9 @@
 import * as fromAction from './../actions';
+import { OrderEntry } from '@spartacus/core';
 
 export interface CartState {
   content: any;
-  entries: { [code: string]: any };
+  entries: { [code: string]: OrderEntry };
   refresh: boolean;
   loaded: boolean;
   cartMergeComplete: boolean;
@@ -39,7 +40,7 @@ export function reducer(
       let entries = {};
       if (content.entries) {
         entries = content.entries.reduce(
-          (entryMap: { [code: string]: any }, entry: any) => {
+          (entryMap: { [code: string]: any }, entry: OrderEntry) => {
             return {
               ...entryMap,
               /*

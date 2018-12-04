@@ -5,6 +5,7 @@ import { filter, tap, map, take } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { Page } from '../models/page.model';
 import { DefaultPageService } from '../services/default-page.service';
+import { CmsComponent } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class CmsService {
     private defaultPageService: DefaultPageService
   ) {}
 
-  getComponentData(uid: string): Observable<any> {
+  getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
     const selector = fromStore.componentSelectorFactory(uid);
     return this.store.pipe(
       select(selector),
@@ -32,14 +33,31 @@ export class CmsService {
     );
   }
 
-  getContentSlot(position: string) {
+  getContentSlot(
+    position: string
+  ): Observable<{ uid: string; typeCode: string }[]> {
     return this.store.pipe(
       select(fromStore.currentSlotSelectorFactory(position)),
       filter(Boolean)
     );
   }
 
-  hasPage(pageContext) {
+  getNavigationEntryItems(navigationNodeUid: string): Observable<any> {
+    return this.store.pipe(
+      select(fromStore.itemsSelectorFactory(navigationNodeUid))
+    );
+  }
+
+  loadNavigationItems(rootUid: string, itemList: any[]) {
+    this.store.dispatch(
+      new fromStore.LoadNavigationItems({
+        nodeId: rootUid,
+        items: itemList
+      })
+    );
+  }
+
+  hasPage(pageContext): Observable<boolean> {
     let tryTimes = 0;
 
     return this.store.pipe(

@@ -1,18 +1,35 @@
 <div class="cx-cart-item-list">
   <div *ngIf="hasHeader" class="d-none d-md-block d-lg-block d-xl-block">
     <div class="cx-cart-item-list__header row">
-      <div class="cx-cart-item-list__header--desc col-md-5 col-lg-5 col-xl-6">Description</div>
-      <div class="cx-cart-item-list__header--price col-md-3 col-lg-2 col-xl-2">Item price</div>
-      <div class="cx-cart-item-list__header--qty col-md-2 col-lg-3 col-xl-2">Qty</div>
-      <div class="cx-cart-item-list__header--total col-md-2 col-lg-2 col-xl-2">Total</div>
+      <div class="cx-cart-item-list__header--desc col-md-5 col-lg-5 col-xl-6">
+        Description
+      </div>
+      <div class="cx-cart-item-list__header--price col-md-3 col-lg-2 col-xl-2">
+        Item price
+      </div>
+      <div class="cx-cart-item-list__header--qty col-md-2 col-lg-3 col-xl-2">
+        Qty
+      </div>
+      <div class="cx-cart-item-list__header--total col-md-2 col-lg-2 col-xl-2">
+        Total
+      </div>
     </div>
   </div>
 
   <div class="cx-cart-item-list__body" [formGroup]="form">
     <div class="cx-cart-item-list__row" *ngFor="let item of items">
       <div class="cx-cart-item-list__item">
-        <cx-cart-item [parent]="form.controls[item.product.code]" [item]="item" [potentialProductPromotions]="getPotentialProductPromotionsForItem(item)"
-          [isReadOnly]="isReadOnly" (remove)="removeEntry($event)" [cartIsLoading]="cartIsLoading" (update)="updateEntry($event)">
+        <cx-cart-item
+          [parent]="form.controls[item.product.code]"
+          [item]="item"
+          [potentialProductPromotions]="
+            getPotentialProductPromotionsForItem(item)
+          "
+          [isReadOnly]="isReadOnly"
+          (remove)="removeEntry($event)"
+          [cartIsLoading]="cartIsLoading"
+          (update)="updateEntry($event)"
+        >
         </cx-cart-item>
       </div>
     </div>

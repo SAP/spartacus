@@ -11,17 +11,23 @@ export const getComponentState: MemoizedSelector<
   (state: fromFeature.CmsState) => state.component
 );
 
-export const getComponentEntities: MemoizedSelector<any, any> = createSelector(
+export const getComponentEntities: MemoizedSelector<
+  any,
+  { [id: string]: any }
+> = createSelector(
   getComponentState,
   fromComponent.getComponentEntities
 );
 
 export const componentSelectorFactory = (uid): MemoizedSelector<any, any> => {
-  return createSelector(getComponentEntities, entities => {
-    if (Object.keys(entities).length !== 0) {
-      return entities[uid];
-    } else {
-      return null;
+  return createSelector(
+    getComponentEntities,
+    entities => {
+      if (Object.keys(entities).length !== 0) {
+        return entities[uid];
+      } else {
+        return null;
+      }
     }
-  });
+  );
 };
