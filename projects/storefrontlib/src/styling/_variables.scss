@@ -7,12 +7,11 @@
   --cx-g-transition-duration: 1s;
   --cx-g-animation-duration: 1s;
   --cx-g-font-weight-normal: 400; //--cx-g-font-weight-[variation] bold, light
-  --cx-g-font-size-base: 1rem;
-  --cx-g-line-height-base: 1.33;
-  --cx-g-line-height-heading: 1.25;
+  --cx-g-font-size: 1rem;
+  --cx-g-line-height: 1.33;
 }
 
-.component {
+%component {
   --cx-margin: 20px;
   --cx-padding: 20px;
 
