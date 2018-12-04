@@ -66,9 +66,7 @@ export class AddDeliveryAddressSuccess implements Action {
 
 export class SetDeliveryAddress implements Action {
   readonly type = SET_DELIVERY_ADDRESS;
-  constructor(
-    public payload: { userId: string; cartId: string; address: Address }
-  ) {}
+  constructor(public payload: { userId: any; cartId: any; address: Address }) {}
 }
 
 export class SetDeliveryAddressFail implements Action {

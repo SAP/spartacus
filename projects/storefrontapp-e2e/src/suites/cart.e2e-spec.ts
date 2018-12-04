@@ -177,8 +177,8 @@ describe('Cart interactions', () => {
     expect(await home.header.isLoggedIn()).toBeFalsy();
 
     // select product from the suggestion list, then add it to cart 2 times
-    await home.header.performSearch('358639', true);
-    await autocompletePanel.selectProduct('DSC-N1');
+    await home.header.performSearch('3470545', true);
+    await autocompletePanel.selectProduct('EASYSHARE M381');
     // wait until product details page is loaded
     await productDetails.waitForReady();
     await productDetails.addToCart();
@@ -202,7 +202,7 @@ describe('Cart interactions', () => {
       '$114.12',
       '$114.12'
     );
-    await cart.checkCartEntry('DSC-N1', 1, '$485.57', '$485.57');
+    await cart.checkCartEntry('EASYSHARE M381', 1, '$370.72', '$370.72');
     await LoginHelper.logOutViaHeader();
   });
 
@@ -224,12 +224,12 @@ describe('Cart interactions', () => {
     await cart.waitForReady();
 
     // Change cart qty
-    await cart.increaseQuantity(0);
-    await E2EUtil.wait4TextInElement(cart.orderSummaryAmount, '228.24');
+    await cart.increaseQuantity();
+    await E2EUtil.wait4TextInElement(cart.orderSummaryAmount, '208.24');
 
-    await cart.increaseQuantity(0);
+    await cart.increaseQuantity();
 
-    await E2EUtil.wait4TextInElement(cart.orderSummaryAmount, '342.36');
+    await E2EUtil.wait4TextInElement(cart.orderSummaryAmount, '322.36');
     // check if cart contains quantity 3 of 'Photosmart E317 Digital Camera'
     await cart.checkCartEntry(
       'Photosmart E317 Digital Camera',

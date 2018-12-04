@@ -18,7 +18,6 @@ const orderDetails: Order = {
 };
 
 const address: Address = {
-  id: 'testAddressId',
   firstName: 'John',
   lastName: 'Doe',
   titleCode: 'mr',

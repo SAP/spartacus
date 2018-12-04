@@ -6,14 +6,9 @@ import {
   Renderer2
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 import { Observable, Subscription } from 'rxjs';
-
-import { UserToken } from '../../../auth/models/token-types.model';
-
-import { AuthService } from '../../../auth/facade/auth.service';
 import { UserService } from '../../facade/user.service';
-import { RoutingService, User } from '@spartacus/core';
+import { AuthService, RoutingService, UserToken, User } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login',

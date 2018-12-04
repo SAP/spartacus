@@ -1,7 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
-
 import * as fromCheckout from '../store';
 import { CartDataService } from '../../cart/facade';
 import { CheckoutService } from './checkout.service';
@@ -19,7 +18,6 @@ describe('CheckoutService', () => {
   };
 
   const address: Address = {
-    id: 'testAddressId',
     firstName: 'John',
     lastName: 'Doe',
     titleCode: 'mr',
@@ -257,7 +255,6 @@ describe('CheckoutService', () => {
   it('should set delivery address', () => {
     cartData.userId = userId;
     cartData.cart = cart;
-
     service.setDeliveryAddress(address);
 
     expect(store.dispatch).toHaveBeenCalledWith(
