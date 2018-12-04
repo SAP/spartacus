@@ -1,5 +1,5 @@
 import * as fromAction from './../actions';
-import { OrderEntry } from '@spartacus/core';
+import { OrderEntry } from '../../../occ-models/index';
 
 export interface CartState {
   content: any;
