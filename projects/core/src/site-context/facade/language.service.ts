@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { StateWithSiteContext, LanguagesEntities } from '../store/state';
+import { StateWithSiteContext } from '../store/state';
 import {
   getAllLanguages,
   getActiveLanguage
 } from '../store/selectors/languages.selectors';
+import { Language } from '../../occ-models/occ.models';
 import {
   LoadLanguages,
   SetActiveLanguage
@@ -14,7 +15,7 @@ import {
 import { OccConfig } from '../../occ/config/occ-config';
 @Injectable()
 export class LanguageService {
-  readonly languages$: Observable<LanguagesEntities> = this.store.pipe(
+  readonly languages$: Observable<Language[]> = this.store.pipe(
     select(getAllLanguages)
   );
 
