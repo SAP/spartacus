@@ -27,6 +27,7 @@ export class FindStoresEffect {
         )
         .pipe(
           map(data => {
+            data.geolocation = payload.longitudeLatitude;
             return new fromAction.FindStoresSuccess(data);
           }),
           catchError(error => of(new fromAction.FindStoresFail(error)))

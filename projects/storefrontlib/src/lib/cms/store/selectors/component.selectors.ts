@@ -11,7 +11,10 @@ export const getComponentState: MemoizedSelector<
   (state: fromFeature.CmsState) => state.component
 );
 
-export const getComponentEntities: MemoizedSelector<any, any> = createSelector(
+export const getComponentEntities: MemoizedSelector<
+  any,
+  { [id: string]: any }
+> = createSelector(
   getComponentState,
   fromComponent.getComponentEntities
 );
