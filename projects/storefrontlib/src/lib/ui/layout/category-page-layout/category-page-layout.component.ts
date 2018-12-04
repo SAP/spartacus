@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class CategoryPageLayoutComponent {
   @Input()
-  categoryCode;
+  categoryCode: string;
   @Input()
-  query;
+  query: string;
 }
