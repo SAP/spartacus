@@ -46,8 +46,8 @@ export class OnlyNumberDirective {
    * @param e
    */
   @HostListener('keyup', ['$event'])
-  onKeyUp(e) {
-    const { value } = e.target;
+  onKeyUp(e: KeyboardEvent): void {
+    const value = e.target['value'];
     this.validateValue(value);
   }
 
@@ -56,7 +56,7 @@ export class OnlyNumberDirective {
    * @param event
    */
   @HostListener('keydown', ['$event'])
-  onKeyDown(e: KeyboardEvent) {
+  onKeyDown(e: KeyboardEvent): void {
     const originalValue: string = e.target['value'];
     const key: string = this.getName(e);
     const controlOrCommand = e.ctrlKey === true || e.metaKey === true;

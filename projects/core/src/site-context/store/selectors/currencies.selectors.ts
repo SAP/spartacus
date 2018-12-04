@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-
+import { Currency } from '../../../occ-models/occ.models';
 import {
   StateWithSiteContext,
   CurrenciesState,
@@ -37,7 +37,7 @@ export const getActiveCurrency: MemoizedSelector<
 
 export const getAllCurrencies: MemoizedSelector<
   StateWithSiteContext,
-  any
+  Currency[]
 > = createSelector(
   getCurrenciesEntities,
   entities => {

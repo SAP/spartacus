@@ -8,8 +8,8 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { CmsComponentData } from '@spartacus/storefront';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CMSLinkComponent: 'LinkComponent'
+  cmsComponents: {
+    CMSLinkComponent: { selector: 'LinkComponent' }
   }
 };
 

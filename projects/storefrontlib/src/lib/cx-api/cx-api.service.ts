@@ -5,11 +5,11 @@ import {
   ProductService
 } from '@spartacus/core';
 import {
+  AuthService,
   CurrencyService,
   LanguageService,
   RoutingService
 } from '@spartacus/core';
-import { AuthService } from '../auth/facade/auth.service';
 import { CmsService } from '../cms/facade/cms.service';
 
 @Injectable({
