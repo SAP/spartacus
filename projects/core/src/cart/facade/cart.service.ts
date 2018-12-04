@@ -11,7 +11,7 @@ import * as fromSelector from '../store/selectors';
 import { AuthService, UserToken } from '../../auth/index';
 
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
-import { Cart, OrderEntry } from '@spartacus/core';
+import { Cart, OrderEntry } from '../../occ-models/index';
 
 @Injectable()
 export class CartService {

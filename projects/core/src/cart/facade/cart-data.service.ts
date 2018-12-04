@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cart } from '@spartacus/core';
+import { Cart } from '../../occ-models/index';
 
 export const ANONYMOUS_USERID = 'anonymous';
 
