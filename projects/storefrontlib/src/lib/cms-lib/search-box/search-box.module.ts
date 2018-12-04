@@ -7,7 +7,15 @@ import { MediaModule } from '../../ui/components/media/media.module';
 
 import { SearchBoxComponent } from './search-box.component';
 import { BootstrapModule } from '../../bootstrap.module';
-import { ProductModule } from '@spartacus/core';
+import {
+  ConfigModule,
+  ProductModule,
+  ProductSearchService,
+  RoutingService
+} from '@spartacus/core';
+import { SearchBoxComponentService } from './search-box-component.service';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 
 @NgModule({
   imports: [
@@ -17,7 +25,21 @@ import { ProductModule } from '@spartacus/core';
     RouterModule,
     ReactiveFormsModule,
     MediaModule,
-    ProductModule
+    ProductModule,
+    ConfigModule.withConfig(<CmsModuleConfig>{
+      cmsComponents: {
+        SearchBoxComponent: {
+          selector: 'cx-searchbox',
+          providers: [
+            {
+              provide: SearchBoxComponentService,
+              useClass: SearchBoxComponentService,
+              deps: [CmsComponentData, ProductSearchService, RoutingService]
+            }
+          ]
+        }
+      }
+    })
   ],
   declarations: [SearchBoxComponent],
   entryComponents: [SearchBoxComponent],
