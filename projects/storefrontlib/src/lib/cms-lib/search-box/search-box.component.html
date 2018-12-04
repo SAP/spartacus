@@ -8,7 +8,7 @@
         type="text"
         placeholder="Search here..."
         aria-label="search"
-        [ngbTypeahead]="search"
+        [ngbTypeahead]="typeahead"
         [resultTemplate]="rt"
         [formControl]="searchBoxControl"
         (keyup)="onKey($event)"

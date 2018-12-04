@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { OrderDetailsPageLayoutModule } from '../../layout/order-details-page-layout/order-details-page-layout.module';
 import { OrderDetailsPageComponent } from './order-details-page.component';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
-import { AuthGuard } from './../../../auth/guards/auth.guard';
+import { AuthGuard } from '@spartacus/core';
 
 const routes: Routes = [
   {

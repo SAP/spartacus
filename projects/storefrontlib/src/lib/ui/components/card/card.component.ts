@@ -41,28 +41,28 @@ export class CardComponent implements OnInit {
 
   // ACTIONS
 
-  setEditMode() {
+  setEditMode(): void {
     this.editMode = true;
   }
 
-  cancelEdit() {
+  cancelEdit(): void {
     this.editMode = false;
   }
 
-  delete() {
+  delete(): void {
     this.deleteCard.emit(1);
   }
 
-  setDefault() {
+  setDefault(): void {
     this.isDefault = true;
     this.setDefaultCard.emit(2);
   }
 
-  send() {
+  send(): void {
     this.sendCard.emit(3);
   }
 
-  edit() {
+  edit(): void {
     this.editCard.emit(4);
   }
 
