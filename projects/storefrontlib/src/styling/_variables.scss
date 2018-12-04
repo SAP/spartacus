@@ -15,33 +15,41 @@
 .component {
   --cx-margin: 20px;
   --cx-padding: 20px;
+
   --cx-height: 20px;
   --cx-width: 20px;
   --cx-min-height: 20px;
   --cx-min-width: 20px;
+
+  --cx-background-color: pink;
+  --cx-color: green;
+  --cx-text-align: center;
+
   --cx-border-width: 1px;
   --cx-border-style: solid;
   --cx-border-color: magenta;
+
+  --cx-position: fixed;
+
+  --cx-display: grid;
   --cx-grid-row: 1/ 2;
   --cx-grid-column: 1/ 2;
   --cx-grid-template-columns: auto;
   --cx-grid-template-rows: auto;
+
   --cx-justify-self: middle;
   --cx-align-self: middle;
   --cx-place-self: middle;
   --cx-justify-items: middle;
   --cx-align-items: middle;
-  --cx-text-align: center;
-  --cx-color: green;
-  --cx-background-color: pink;
+
   --cx-grid-column-gap: 20px;
   --cx-grid-row-gap: 20px;
   --cx-flex-direction: column;
   --cx-justify-content: center;
   --cx-align-items: start;
   --cx-align-content: end;
+
   --cx-zoom: 1;
   --cx-opacity: 90%;
-  --cx-position: fixed;
-  --cx-display: grid;
 }
