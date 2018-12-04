@@ -4,6 +4,8 @@ import { Store, select } from '@ngrx/store';
 
 import { filter } from 'rxjs/operators';
 
+import { Observable } from 'rxjs';
+
 import * as fromCheckoutStore from '../store/';
 import {
   CartDataService,
@@ -12,36 +14,38 @@ import {
 
 @Injectable()
 export class CheckoutService {
-  readonly supportedDeliveryModes$ = this.checkoutStore.pipe(
+  readonly supportedDeliveryModes$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getSupportedDeliveryModes)
   );
 
-  readonly selectedDeliveryMode$ = this.checkoutStore.pipe(
+  readonly selectedDeliveryMode$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getSelectedDeliveryMode)
   );
 
-  readonly selectedDeliveryModeCode$ = this.checkoutStore.pipe(
+  readonly selectedDeliveryModeCode$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getSelectedCode)
   );
 
-  readonly cardTypes$ = this.checkoutStore.pipe(
+  readonly cardTypes$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getAllCardTypes)
   );
 
-  readonly deliveryAddress$ = this.checkoutStore.pipe(
+  readonly deliveryAddress$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getDeliveryAddress)
   );
 
-  readonly addressVerificationResults$ = this.checkoutStore.pipe(
+  readonly addressVerificationResults$: Observable<
+    any
+  > = this.checkoutStore.pipe(
     select(fromCheckoutStore.getAddressVerificationResults),
     filter(results => Object.keys(results).length !== 0)
   );
 
-  readonly paymentDetails$ = this.checkoutStore.pipe(
+  readonly paymentDetails$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getPaymentDetails)
   );
 
-  readonly orderDetails$ = this.checkoutStore.pipe(
+  readonly orderDetails$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getOrderDetails)
   );
 
