@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { Address } from '../../../models/address-model';
-import { CartDataService } from '../../../../cart/facade/cart-data.service';
+import { CartDataService } from '@spartacus/core';
 import { UserService } from '../../../../user/facade/user.service';
 import { Card } from '../../../../ui/components/card/card.component';
 

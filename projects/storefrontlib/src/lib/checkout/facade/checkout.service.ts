@@ -5,10 +5,7 @@ import { Store, select } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
 
 import * as fromCheckoutStore from '../store/';
-import {
-  CartDataService,
-  ANONYMOUS_USERID
-} from '../../cart/facade/cart-data.service';
+import { CartDataService, ANONYMOUS_USERID } from '@spartacus/core';
 
 @Injectable()
 export class CheckoutService {

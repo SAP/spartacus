@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
-import { CartService } from '../../../facade/cart.service';
+import { CartService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-details',

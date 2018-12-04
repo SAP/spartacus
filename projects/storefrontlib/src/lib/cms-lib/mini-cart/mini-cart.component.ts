@@ -6,7 +6,7 @@ import {
 
 import { Observable } from 'rxjs';
 
-import { CartService } from '../../cart/facade/cart.service';
+import { CartService } from '@spartacus/core';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { CmsService } from '../../cms/facade/cms.service';
 

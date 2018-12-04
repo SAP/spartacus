@@ -13,8 +13,8 @@ import { filter } from 'rxjs/operators';
 
 import { CheckoutService } from '../../../facade/checkout.service';
 import { Address } from '../../../models/address-model';
-import { CartDataService } from '../../../../cart/facade/cart-data.service';
-import { CartService } from '../../../../cart/facade/cart.service';
+import { CartDataService } from '@spartacus/core';
+import { CartService } from '@spartacus/core';
 import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from './../../../../global-message/models/message.model';
 

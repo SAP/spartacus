@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { CartService } from '../../../facade/cart.service';
+import { CartService } from '@spartacus/core';
 import { CartItemComponent } from '../../cart-shared/cart-item/cart-item.component';
 import { ComponentsModule } from '../../../../ui/components/components.module';
 

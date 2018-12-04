@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Observable } from 'rxjs';
 
-import { CartService } from '../../facade/cart.service';
+import { CartService } from '@spartacus/core';
 
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 

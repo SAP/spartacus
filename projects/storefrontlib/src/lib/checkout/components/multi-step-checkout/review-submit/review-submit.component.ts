@@ -10,7 +10,7 @@ import { tap } from 'rxjs/operators';
 
 import { CheckoutService } from '../../../facade/checkout.service';
 import { Address } from '../../../models/address-model';
-import { CartService } from '../../../../cart/facade/cart.service';
+import { CartService } from '@spartacus/core';
 import { UserService } from '../../../../user/facade/user.service';
 import { Card } from '../../../../ui/components/card/card.component';
 

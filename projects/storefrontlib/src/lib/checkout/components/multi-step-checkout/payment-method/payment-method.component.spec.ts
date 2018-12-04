@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
-import { CartDataService } from '../../../../cart/facade/cart-data.service';
+import { CartDataService } from '@spartacus/core';
 import { UserService } from '../../../../user/facade/user.service';
 
 import { PaymentMethodComponent } from './payment-method.component';

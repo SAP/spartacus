@@ -11,12 +11,13 @@ import { services } from './facade/index';
 
 import { MultiStepCheckoutModule } from './components/multi-step-checkout/multi-step-checkout.module';
 import { OrderConfirmationModule } from './components/order-confirmation/order-confirmation.module';
-
+import { CartModule } from '@spartacus/core';
 import { guards } from './guards/index';
 
 @NgModule({
   imports: [
     CommonModule,
+    CartModule,
     MultiStepCheckoutModule,
     StoreModule.forFeature('checkout', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)

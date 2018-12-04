@@ -2,8 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { CartSharedModule } from './../../cart-shared/cart-shared.module';
-import { CartDataService } from '../../../facade/cart-data.service';
-import { CartService } from '../../../facade/cart.service';
+import { CartDataService } from '@spartacus/core';
+import { CartService } from '@spartacus/core';
 import { ComponentsModule } from '../../../../ui/components/components.module';
 
 import { CartDetailsComponent } from './cart-details.component';

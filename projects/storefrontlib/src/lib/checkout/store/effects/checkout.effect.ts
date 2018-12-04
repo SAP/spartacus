@@ -8,11 +8,11 @@ import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
 
-import { OccCartService } from '../../../occ/cart/cart.service';
+import { OccCartService } from '@spartacus/core';
 import { OccOrderService } from '../../../occ/order/order.service';
 import { GlobalMessageType } from '../../../global-message/models/message.model';
 import { ProductImageConverterService } from '@spartacus/core';
-
+console.log(OccCartService);
 @Injectable()
 export class CheckoutEffects {
   @Effect()

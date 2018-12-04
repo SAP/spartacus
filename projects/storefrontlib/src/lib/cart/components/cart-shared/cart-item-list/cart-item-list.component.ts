@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { CartService } from '../../../facade/cart.service';
+import { CartService } from '@spartacus/core';
 import { Item } from '../../cart-shared/cart-item/cart-item.component';
 
 @Component({
