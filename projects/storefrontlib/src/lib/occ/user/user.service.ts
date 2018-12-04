@@ -10,12 +10,12 @@ import {
   AddressValidation,
   AddressList,
   PaymentDetailsList,
-  Address
+  Address,
+  InterceptorUtil,
+  USE_CLIENT_TOKEN
 } from '@spartacus/core';
 
 import { UserRegisterFormData } from '../../user/models/user.model';
-
-import { InterceptorUtil, USE_CLIENT_TOKEN } from '../utils/interceptor-util';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
