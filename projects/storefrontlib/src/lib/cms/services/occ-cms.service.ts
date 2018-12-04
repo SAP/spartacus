@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { IdList } from './../models/idList.model';
 import { CmsModuleConfig } from '../cms-module-config';
-import { PageContext, PageType } from '@spartacus/core';
+import { PageContext, PageType, CMSPage, CmsComponent } from '@spartacus/core';
 
 @Injectable()
 export class OccCmsService {
@@ -21,7 +21,7 @@ export class OccCmsService {
     );
   }
 
-  loadPageData(pageContext: PageContext, fields?: string): Observable<any> {
+  loadPageData(pageContext: PageContext, fields?: string): Observable<CMSPage> {
     let strParams = 'pageType=' + pageContext.type;
 
     if (pageContext.type === PageType.CONTENT_PAGE) {
@@ -44,13 +44,13 @@ export class OccCmsService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  loadComponent(
+  loadComponent<T extends CmsComponent>(
     id: string,
     pageContext: PageContext,
     fields?: string
-  ): Observable<any> {
+  ): Observable<T> {
     return this.http
-      .get(this.getBaseEndPoint() + `/components/${id}`, {
+      .get<T>(this.getBaseEndPoint() + `/components/${id}`, {
         headers: this.headers,
         params: new HttpParams({
           fromString: this.getRequestParams(pageContext, fields)
@@ -90,7 +90,7 @@ export class OccCmsService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  private getRequestParams(pageContext: PageContext, fields?: string) {
+  private getRequestParams(pageContext: PageContext, fields?: string): string {
     let strParams = '';
     switch (pageContext.type) {
       case PageType.PRODUCT_PAGE: {

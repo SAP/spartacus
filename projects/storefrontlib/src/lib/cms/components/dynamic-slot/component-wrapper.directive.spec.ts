@@ -6,6 +6,7 @@ import { CmsModuleConfig } from '../../cms-module-config';
 import { CmsComponentData } from '../cms-component-data';
 import { CxApiService } from '../../../cx-api/cx-api.service';
 import { CmsService } from '../../facade/cms.service';
+import { CmsComponent } from '@spartacus/core';
 
 const testText = 'test text';
 
@@ -16,10 +17,10 @@ const testText = 'test text';
   `
 })
 export class TestComponent {
-  constructor(
-    public cmsData: CmsComponentData,
-    @Inject('testService') public testService
-  ) {}
+  cmsData = <CmsComponentData<CmsComponent>>{
+    uid: 'test_uid'
+  };
+  @Inject('testService') public testService
 }
 
 @NgModule({
