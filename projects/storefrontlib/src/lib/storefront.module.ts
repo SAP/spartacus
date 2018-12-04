@@ -24,7 +24,6 @@ import { CxApiModule } from './cx-api/cx-api.module';
     ConfigModule.forRoot(),
     CxApiModule
   ],
-  exports: [UiModule],
   declarations: []
 })
 export class StorefrontModule {
