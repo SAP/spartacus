@@ -4,7 +4,7 @@ import { NavigationExtras } from '@angular/router';
 
 import { RoutingService } from '@spartacus/core';
 
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from '../models/token-types.model';
@@ -18,10 +18,12 @@ const mockUserToken = {
   expires_in: 1,
   scope: ['test'],
   userId: 'test'
-};
+} as UserToken;
 
 class AuthServiceStub {
-  userToken$ = of();
+  getUserToken(): Observable<UserToken> {
+    return of();
+  }
 }
 
 class RoutingServiceStub {
@@ -46,25 +48,27 @@ describe('NotAuthGuard', () => {
   });
 
   it('should return false', () => {
-    authService.userToken$ = of(mockUserToken);
+    spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
 
     let result: boolean;
-    const subscription = authGuard
+    authGuard
       .canActivate()
-      .subscribe(value => (result = value));
-    subscription.unsubscribe();
+      .subscribe(value => (result = value))
+      .unsubscribe();
 
     expect(result).toBe(false);
   });
 
   it('should return true', () => {
-    authService.userToken$ = of({ access_token: undefined } as UserToken);
+    spyOn(authService, 'getUserToken').and.returnValue(
+      of({ access_token: undefined } as UserToken)
+    );
 
     let result: boolean;
-    const subscription = authGuard
+    authGuard
       .canActivate()
-      .subscribe(value => (result = value));
-    subscription.unsubscribe();
+      .subscribe(value => (result = value))
+      .unsubscribe();
 
     expect(result).toBe(true);
   });
