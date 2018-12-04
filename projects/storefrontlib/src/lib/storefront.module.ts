@@ -1,7 +1,11 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { ConfigModule, provideConfig, RoutingModule } from '@spartacus/core';
+import {
+  AuthModule,
+  ConfigModule,
+  provideConfig,
+  RoutingModule
+} from '@spartacus/core';
 import { StateModule } from '@spartacus/core';
-import { AuthModule } from './auth/index';
 import { OccModule } from './occ/index';
 import { SiteContextModule } from './site-context/index';
 import { CmsLibModule } from './cms-lib/index';
@@ -13,8 +17,8 @@ import { CxApiModule } from './cx-api/cx-api.module';
 @NgModule({
   imports: [
     StateModule,
-    AuthModule,
     RoutingModule,
+    AuthModule,
     OccModule,
     SiteContextModule,
     CmsLibModule,
@@ -24,7 +28,6 @@ import { CxApiModule } from './cx-api/cx-api.module';
     ConfigModule.forRoot(),
     CxApiModule
   ],
-  exports: [UiModule],
   declarations: []
 })
 export class StorefrontModule {

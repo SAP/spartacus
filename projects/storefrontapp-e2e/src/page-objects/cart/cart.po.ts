@@ -49,7 +49,7 @@ export class CartPage extends AppPage {
   }
 
   async waitForReady() {
-    await E2EUtil.wait4VisibleElement(this.page);
+    await E2EUtil.wait4PresentElement(this.page);
   }
 
   async getCartEntryUnitPrice(cartEntry: ElementFinder): Promise<string> {

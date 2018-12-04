@@ -8,58 +8,60 @@ import { CmsService } from '../../cms/facade/cms.service';
 import { MiniCartComponent } from './mini-cart.component';
 import { Cart, OrderEntry } from '@spartacus/core';
 
+const testCart: Cart = {
+  code: 'xxx',
+  guid: 'xxx',
+  totalItems: 0,
+  deliveryItemsQuantity: 1,
+  totalPrice: {
+    currencyIso: 'USD',
+    value: 10.0
+  },
+  totalPriceWithTax: {
+    currencyIso: 'USD',
+    value: 10.0
+  }
+};
+
+const orderEntry: OrderEntry = {
+  entryNumber: 0,
+  product: { code: '1234' }
+};
+
+const testEntries: { [id: string]: OrderEntry }[] = [{ '1234': orderEntry }];
+
+const mockComponentData = {
+  uid: '001',
+  typeCode: 'MiniCartComponent',
+  modifiedTime: '2017-12-21T18:15:15+0000',
+  shownProductCount: '3',
+  lightboxBannerComponent: {
+    uid: 'banner',
+    typeCode: 'SimpleBannerComponent'
+  }
+};
+
+class MockCmsService {
+  getComponentData() {
+    return of(mockComponentData);
+  }
+}
+
+class MockCartService {
+  cart$ = of(testCart);
+  entries$ = of(testEntries);
+}
+
 describe('MiniCartComponent', () => {
   let miniCartComponent: MiniCartComponent;
   let fixture: ComponentFixture<MiniCartComponent>;
-
-  const mockComponentData = {
-    uid: '001',
-    typeCode: 'MiniCartComponent',
-    modifiedTime: '2017-12-21T18:15:15+0000',
-    shownProductCount: '3',
-    lightboxBannerComponent: {
-      uid: 'banner',
-      typeCode: 'SimpleBannerComponent'
-    }
-  };
-
-  const MockCmsService = {
-    getComponentData: () => of(mockComponentData)
-  };
-
-  const testCart: Cart = {
-    code: 'xxx',
-    guid: 'xxx',
-    totalItems: 0,
-    deliveryItemsQuantity: 1,
-    totalPrice: {
-      currencyIso: 'USD',
-      value: 10.0
-    },
-    totalPriceWithTax: {
-      currencyIso: 'USD',
-      value: 10.0
-    }
-  };
-
-  const orderEntry: OrderEntry = {
-    entryNumber: 0,
-    product: { code: '1234' }
-  };
-
-  const testEntries: { [id: string]: OrderEntry }[] = [{ '1234': orderEntry }];
-
-  const MockCartService = {
-    cart$: of(testCart),
-    entries$: of(testEntries)
-  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MiniCartComponent],
       providers: [
-        { provide: CmsService, useValue: MockCmsService },
-        { provide: CartService, useValue: MockCartService }
+        { provide: CmsService, useClass: MockCmsService },
+        { provide: CartService, useClass: MockCartService }
       ]
     }).compileComponents();
   }));

@@ -15,6 +15,7 @@ import { debounceTime } from 'rxjs/operators';
 
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { CmsService } from '../../cms/facade/cms.service';
+import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'cx-product-carousel',
@@ -24,13 +25,14 @@ import { CmsService } from '../../cms/facade/cms.service';
 })
 export class ProductCarouselComponent extends AbstractCmsComponent
   implements OnDestroy, OnInit {
-  productGroups: any[];
-  products = {};
+  productGroups: Array<string[]>;
+  products: { [key: string]: string }[] = [];
 
   resize$: Subscription;
 
   @ViewChild('carousel')
-  carousel: any;
+  carousel: NgbCarousel;
+
   @Input()
   productCodes: Array<string>;
 
@@ -67,9 +69,9 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   }
 
   protected createGroups(): void {
-    const groups = [];
+    const groups: Array<string[]> = [];
     this.productCodes.forEach(product => {
-      const lastGroup = groups[groups.length - 1];
+      const lastGroup: string[] = groups[groups.length - 1];
       if (lastGroup && lastGroup.length < this.getItemsPerPage()) {
         lastGroup.push(product);
       } else {

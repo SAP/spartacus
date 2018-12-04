@@ -1,28 +1,19 @@
-import {
-  Component,
-  Input,
-  ViewEncapsulation,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
+import { Component, Input, ViewEncapsulation, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { merge, Observable, Subject, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { RoutingService } from '@spartacus/core';
+import { merge, Observable, Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { SearchBoxComponentService } from './search-box-component.service';
 @Component({
   selector: 'cx-searchbox',
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  providers: [SearchBoxComponentService]
+  encapsulation: ViewEncapsulation.None
 })
-export class SearchBoxComponent implements OnInit, OnDestroy {
+export class SearchBoxComponent implements OnInit {
   searchBoxControl: FormControl = new FormControl();
   isMobileSearchVisible: boolean;
 
   queryText$: Subject<string> = new Subject();
-  subscription: Subscription;
 
   @Input('queryText')
   set queryText(value: string) {
@@ -30,29 +21,18 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.searchBoxControl.setValue(value);
   }
 
-  constructor(
-    protected service: SearchBoxComponentService,
-    private routingService: RoutingService
-  ) {}
+  constructor(protected service: SearchBoxComponentService) {}
 
   ngOnInit() {
-    const query$ = this.routingService.routerState$.pipe(
-      map(routingData => routingData.state.params.query)
-    );
-
-    this.subscription = query$.subscribe(query => {
-      this.searchBoxControl.setValue(query);
+    this.service.queryParam$.pipe(take(1)).subscribe(query => {
+      if (query) {
+        this.searchBoxControl.setValue(query);
+      }
     });
   }
 
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
-  search = (text$: Observable<string>) =>
-    this.service.search(merge(text$, this.queryText$));
+  typeahead = (text$: Observable<string>) =>
+    this.service.typeahead(merge(text$, this.queryText$));
 
   public submitSearch(): void {
     this.service.launchSearchPage(this.searchBoxControl.value);

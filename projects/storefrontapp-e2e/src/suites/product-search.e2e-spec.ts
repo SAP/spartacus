@@ -38,22 +38,25 @@ describe('Product search', () => {
     it('should be able navigate to the next page and display results', async () => {
       await searchResults.paginationNextPageBtn.click();
 
-      const product = await searchResults.productByNameInResults('BC-TRN');
-      expect(await product.isDisplayed()).toBeTruthy();
+      expect(
+        await searchResults.paginationSelectedPageBtnNumber.getText()
+      ).toContain('2');
     });
 
     it('should be able navigate to the specified page number and display results', async () => {
       await searchResults.paginationThirdPageBtn.click();
 
-      const product = await searchResults.productByNameInResults('PL60 Black');
-      expect(await product.isDisplayed()).toBeTruthy();
+      expect(
+        await searchResults.paginationSelectedPageBtnNumber.getText()
+      ).toContain('3');
     });
 
     it('should be able navigate to the previous page and display results', async () => {
       await searchResults.paginationPreviousPageBtn.click();
 
-      const product = await searchResults.productByNameInResults('BC-TRN');
-      expect(await product.isDisplayed()).toBeTruthy();
+      expect(
+        await searchResults.paginationSelectedPageBtnNumber.getText()
+      ).toContain('2');
     });
   });
 
@@ -71,7 +74,7 @@ describe('Product search', () => {
       await searchResults.getSingleFilterFacet(0).click();
 
       const text = await searchResults.getHeaderText();
-      expect(text).toContain('77 results for cameras');
+      expect(text).toContain('79 results for cameras');
     });
 
     it('should be able to clear active facet', async () => {
