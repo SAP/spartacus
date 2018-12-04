@@ -6,9 +6,12 @@ import {
   Renderer2
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { UserService } from '../../facade/user.service';
+
 import { AuthService, RoutingService, UserToken, User } from '@spartacus/core';
+
+import { Observable, Subscription } from 'rxjs';
+
+import { UserService } from '../../facade/user.service';
 
 @Component({
   selector: 'cx-login',
@@ -47,18 +50,20 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.user$ = this.userService.user$;
 
-    this.subscription = this.auth.userToken$.subscribe((token: UserToken) => {
-      if (token && token.access_token && !this.isLogin) {
-        this.isLogin = true;
-        this.userService.loadUserDetails(token.userId);
-        this.auth.login();
-      } else if (token && !token.access_token && this.isLogin) {
-        this.isLogin = false;
-      }
-    });
+    this.subscription = this.auth
+      .getUserToken()
+      .subscribe((token: UserToken) => {
+        if (token && token.access_token && !this.isLogin) {
+          this.isLogin = true;
+          this.userService.loadUserDetails(token.userId);
+          this.auth.login();
+        } else if (token && !token.access_token && this.isLogin) {
+          this.isLogin = false;
+        }
+      });
   }
 
-  logout() {
+  logout(): void {
     this.isLogin = false;
     this.auth.logout();
 

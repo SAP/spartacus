@@ -17,7 +17,7 @@ export class NotAuthGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.authService.userToken$.pipe(
+    return this.authService.getUserToken().pipe(
       map(token => {
         if (token.access_token) {
           this.routingService.go(['/']);
