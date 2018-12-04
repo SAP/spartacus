@@ -76,3 +76,28 @@ In some cases an variantion is needed, for example to distinquish the primary an
 In those cases, the variant is added to the previous construct:
 
 `[--cx]-[CSS rule]-[variant]`
+
+
+## Component specific custom properties
+Component variables are used in components to allow for customisation purposes. The standard value should always be provided by the fallback. This way, customisations can provide a custom value. 
+Whenever there's a theme variable that could be used, the component should use this as a fallback. If there's not theme variable applicable the component should fallback to a hardcoded value (which could be controlle in a sass variable to centralize).
+
+The example below shows an example for a component style that specifies the `color` for the component host element. The component uses the primary color as a fallback. 
+
+```css
+:host {
+    color: var(--cx-color, var(--cx-g-color-primary));
+}
+```
+
+The example below shows an example for a component style that specifies the `width` for the component host element. There's no logical global width value that could be applied, which is why we fallback to a hardcoded value. 
+
+```css
+:host {
+    width: var(--cx-width, 5vw);
+}
+```
+
+The format of component variables must follow the following convention:
+
+`[--cx]-[CSS rule]`
