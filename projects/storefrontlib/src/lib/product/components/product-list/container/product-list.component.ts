@@ -42,6 +42,7 @@ export class ProductListComponent implements OnChanges, OnInit {
   ngOnChanges() {
     const { queryParams } = this.activatedRoute.snapshot;
     const options = this.createOptionsByUrlParams();
+
     if (this.categoryCode && this.categoryCode !== queryParams.categoryCode) {
       this.query = ':relevance:category:' + this.categoryCode;
     }
@@ -80,10 +81,7 @@ export class ProductListComponent implements OnChanges, OnInit {
     this.grid = {
       mode: this.gridMode
     };
-    if (!this.productSearchService.searchResults$) {
-      this.model$ = null;
-      return;
-    }
+
     this.model$ = this.productSearchService.searchResults$.pipe(
       tap(searchResult => {
         if (searchResult.breadcrumbs && searchResult.breadcrumbs.length > 0) {
