@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 
-import { RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService } from '@spartacus/core';
 
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AuthService } from '../../../auth/facade/auth.service';
 import { UserService } from '../../../user/facade/user.service';
 import { Card } from '../../../ui/components/card/card.component';
 

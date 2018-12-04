@@ -6,13 +6,12 @@ import {
   Validators
 } from '@angular/forms';
 
-import { RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService } from '@spartacus/core';
 
 import { Observable, Subscription, of } from 'rxjs';
 import { take, tap, switchMap } from 'rxjs/operators';
 
 import { UserService } from '../../facade/user.service';
-import { AuthService } from '../../../auth/facade/auth.service';
 import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
 
 @Component({

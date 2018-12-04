@@ -2,15 +2,13 @@ import { Component, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService, UserToken } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
 import { OrderDetailsComponent } from '../order-details/order-details.component';
-import { UserToken } from '../../../auth';
-import { AuthService } from '../../../auth/facade/auth.service';
 import { UserService } from '../../../user/facade/user.service';
 import { CardModule } from '../../../ui/components/card/card.module';
 

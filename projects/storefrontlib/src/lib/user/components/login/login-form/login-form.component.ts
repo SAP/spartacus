@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService } from '@spartacus/core';
 
 import { Subscription, of } from 'rxjs';
 import { take, switchMap } from 'rxjs/operators';
 
-import { AuthService } from '../../../../auth/facade/auth.service';
 import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../../global-message/models/message.model';
 import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';

@@ -1,15 +1,12 @@
 import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 
-import { RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService, UserToken } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
-import { UserToken } from 'projects/storefrontlib/src/lib/auth';
-
-import { AuthService } from '../../../../auth/facade/auth.service';
 import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
 
 import { LoginFormComponent } from './login-form.component';

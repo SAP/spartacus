@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
-import { Cart, OrderEntry } from '@spartacus/core';
+import { AuthService, Cart, OrderEntry, UserToken } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -10,7 +10,6 @@ import { filter } from 'rxjs/operators';
 import * as fromAction from '../store/actions';
 import * as fromReducer from '../store/reducers';
 import * as fromSelector from '../store/selectors';
-import { AuthService, UserToken } from '../../auth/index';
 
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 

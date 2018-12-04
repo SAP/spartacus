@@ -23,7 +23,6 @@ import { metaReducers } from './store/reducers/index';
     StoreModule.forFeature('cart', reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
-  exports: [AddToCartModule, CartDetailsModule, CartSharedModule],
   providers: [reducerProvider, ...services, ...guards]
 })
 export class CartModule {}

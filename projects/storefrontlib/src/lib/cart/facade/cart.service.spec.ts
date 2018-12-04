@@ -2,13 +2,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
 
-import { Cart, OrderEntry } from '@spartacus/core';
+import { AuthService, Cart, OrderEntry, UserToken } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
-import { AuthService } from '../../auth';
 import * as fromCart from '../../cart/store';
-import { UserToken } from '../../auth/models/token-types.model';
 
 import { CartDataService, ANONYMOUS_USERID } from './cart-data.service';
 import { CartService } from './cart.service';
