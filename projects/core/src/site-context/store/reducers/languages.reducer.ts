@@ -1,5 +1,6 @@
 import * as fromLanguages from '../actions/languages.action';
 import { LanguagesState } from '../state';
+import { Language } from '../../../occ-models/occ.models';
 
 export const initialState: LanguagesState = {
   entities: {},
@@ -12,9 +13,9 @@ export function reducer(
 ): LanguagesState {
   switch (action.type) {
     case fromLanguages.LOAD_LANGUAGES_SUCCESS: {
-      const languages = action.payload;
+      const languages: Language[] = action.payload;
       const entities = languages.reduce(
-        (langEntities: { [isocode: string]: any }, language: any) => {
+        (langEntities: { [isocode: string]: Language }, language: Language) => {
           return {
             ...langEntities,
             [language.isocode]: language
