@@ -14,7 +14,7 @@ export class MobileMenuComponent implements OnDestroy {
 
   constructor(private router: Router) {}
 
-  toggleMenu() {
+  toggleMenu(): void {
     this.showMenu = !this.showMenu;
     if (this.showMenu) {
       this.subscription = this.router.events.subscribe(() => {

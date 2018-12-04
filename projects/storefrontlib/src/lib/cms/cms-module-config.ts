@@ -1,28 +1,31 @@
-import { OccConfig } from '@spartacus/core';
+import { AuthConfig, OccConfig } from '@spartacus/core';
+import { StaticProvider } from '@angular/core';
 
-import { AuthModuleConfig } from '../auth/auth-module.config';
+export type CmsComponentId =
+  | 'CMSLinkComponent'
+  | 'SimpleResponsiveBannerComponent'
+  | 'SimpleBannerComponent'
+  | 'CMSParagraphComponent'
+  | 'BreadcrumbComponent'
+  | 'NavigationComponent'
+  | 'FooterNavigationComponent'
+  | 'CategoryNavigationComponent'
+  | 'ProductAddToCartComponent'
+  | 'MiniCartComponent'
+  | 'ProductCarouselComponent'
+  | 'SearchBoxComponent'
+  | 'ProductReferencesComponent'
+  | 'CMSTabParagraphComponent'
+  | string;
 
-export interface CMSComponentMappingConfig {
-  [CMSComponent: string]: string;
-  CMSLinkComponent?: string;
-  SimpleResponsiveBannerComponent?: string;
-  SimpleBannerComponent?: string;
-  // BreadcrumbComponent: string;
-  CMSParagraphComponent?: string;
-  NavigationComponent?: string;
-  FooterNavigationComponent?: string;
-  CategoryNavigationComponent?: string;
-  ProductAddToCartComponent?: string;
-  MiniCartComponent?: string;
-  ProductCarouselComponent?: string;
-  SearchBoxComponent?: string;
-  ProductReferencesComponent?: string;
-  // CMSTabParagraphComponent: string;
-  CMSTabParagraphComponent?: string;
-}
+export type CMSComponentConfig = {
+  [CMSComponent in CmsComponentId]?: {
+    selector?: string;
+    providers?: StaticProvider[];
+  }
+};
 
-export abstract class CmsModuleConfig extends OccConfig
-  implements AuthModuleConfig {
+export abstract class CmsModuleConfig extends OccConfig implements AuthConfig {
   authentication?: {
     client_id?: string;
     client_secret?: string;
@@ -33,7 +36,7 @@ export abstract class CmsModuleConfig extends OccConfig
     CategoryPage?: string[];
   };
 
-  cmsComponentMapping?: CMSComponentMappingConfig;
+  cmsComponents?: CMSComponentConfig;
 }
 
 export const defaultCmsModuleConfig: CmsModuleConfig = {
@@ -41,22 +44,7 @@ export const defaultCmsModuleConfig: CmsModuleConfig = {
     ProductPage: ['productDetails'],
     CategoryPage: ['productList', 'productGrid', 'category']
   },
-
-  cmsComponentMapping: {
-    CMSLinkComponent: 'cx-link',
-    SimpleResponsiveBannerComponent: 'cx-responsive-banner',
-    SimpleBannerComponent: 'cx-banner',
-    // BreadcrumbComponent:                'cx-breadcrumb',
-    CMSParagraphComponent: 'cx-paragraph',
-    NavigationComponent: 'cx-navigation',
-    FooterNavigationComponent: 'cx-footer-navigation',
-    CategoryNavigationComponent: 'cx-category-navigation',
-    ProductAddToCartComponent: 'cx-add-to-cart',
-    MiniCartComponent: 'cx-mini-cart',
-    ProductCarouselComponent: 'cx-product-carousel',
-    SearchBoxComponent: 'cx-searchbox',
-    ProductReferencesComponent: 'cx-product-references',
-    // CMSTabParagraphComponent: 'cx-tab-paragraph-container'
-    CMSTabParagraphComponent: 'cx-paragraph'
+  cmsComponents: {
+    CMSTabParagraphComponent: { selector: 'cx-paragraph' }
   }
 };

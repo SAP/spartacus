@@ -1,7 +1,8 @@
 import * as fromAction from './../actions';
+import { Address } from '@spartacus/core';
 
 export interface CheckoutState {
-  address: any;
+  address: Address;
   deliveryMode: {
     supported: { [code: string]: any };
     selected: string;
@@ -27,7 +28,7 @@ export function reducer(
   switch (action.type) {
     case fromAction.ADD_DELIVERY_ADDRESS_SUCCESS:
     case fromAction.SET_DELIVERY_ADDRESS_SUCCESS: {
-      const address = action.payload;
+      const address: Address = action.payload;
 
       return {
         ...state,
