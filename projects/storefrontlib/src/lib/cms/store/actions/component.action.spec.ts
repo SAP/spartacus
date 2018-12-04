@@ -1,4 +1,5 @@
 import * as fromComponent from './component.action';
+import { CmsComponent } from '@spartacus/core';
 
 describe('Cms Component Actions', () => {
   describe('LoadComponent Actions', () => {
@@ -27,14 +28,15 @@ describe('Cms Component Actions', () => {
 
     describe('LoadComponentSuccess', () => {
       it('should create an action', () => {
-        const payload = [
-          { uid: 1, name: 'test component', typeCode: 'SimpleBannerComponent' }
-        ];
-        const action = new fromComponent.LoadComponentSuccess(payload);
+        const component: CmsComponent = {
+          uid: 'comp1',
+          typeCode: 'SimpleBannerComponent'
+        };
+        const action = new fromComponent.LoadComponentSuccess(component);
 
         expect({ ...action }).toEqual({
           type: fromComponent.LOAD_COMPONENT_SUCCESS,
-          payload
+          payload: component
         });
       });
     });

@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { Currency } from '../../../occ-models/occ.models';
 
 export const LOAD_CURRENCIES = '[Site-context] Load Currencies';
 export const LOAD_CURRENCIES_FAIL = '[Site-context] Load Currencies Fail';
@@ -17,7 +18,7 @@ export class LoadCurrenciesFail implements Action {
 
 export class LoadCurrenciesSuccess implements Action {
   readonly type = LOAD_CURRENCIES_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: Currency[]) {}
 }
 
 export class SetActiveCurrency implements Action {

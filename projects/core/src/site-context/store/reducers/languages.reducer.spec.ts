@@ -1,5 +1,6 @@
 import * as fromLanguages from './languages.reducer';
 import * as fromActions from '../actions/languages.action';
+import { Language } from '../../../occ-models/occ.models';
 
 describe('Languages Reducer', () => {
   describe('undefined action', () => {
@@ -14,7 +15,7 @@ describe('Languages Reducer', () => {
 
   describe('LOAD_LANGUAGES_SUCCESS action', () => {
     it('should populate the languages state entities', () => {
-      const languages: any[] = [
+      const languages: Language[] = [
         { active: true, isocode: 'ja', name: 'Japanese' }
       ];
 
