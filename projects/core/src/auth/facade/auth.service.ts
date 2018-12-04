@@ -23,6 +23,11 @@ import { getUserToken } from '../store/selectors/user-token.selectors';
 export class AuthService {
   constructor(private store: Store<StateWithAuth>) {}
 
+  /**
+   * Loads a new user token
+   * @param userId
+   * @param password
+   */
   authorize(userId: string, password: string) {
     this.store.dispatch(
       new LoadUserToken({
@@ -52,18 +57,30 @@ export class AuthService {
     );
   }
 
+  /**
+   * Store the provided token
+   */
   authorizeWithToken(token: UserToken) {
     this.store.dispatch(new LoadUserTokenSuccess(token));
   }
 
+  /**
+   * Login
+   */
   login() {
     this.store.dispatch(new Login());
   }
 
+  /**
+   * Logout
+   */
   logout() {
     this.store.dispatch(new Logout());
   }
 
+  /**
+   * Loads a new client token
+   */
   loadClientToken() {
     this.store.dispatch(new LoadClientToken());
   }
