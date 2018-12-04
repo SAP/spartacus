@@ -25,14 +25,14 @@ export class UserErrorHandlingService {
     );
   }
 
-  public handleExpiredRefreshToken() {
+  public handleExpiredRefreshToken(): void {
     // Logout user
     this.authService.logout();
   }
 
   private handleExpiredToken(): Observable<UserToken> {
     let oldToken: UserToken;
-    return this.authService.userToken$.pipe(
+    return this.authService.getUserToken().pipe(
       tap((token: UserToken) => {
         if (token.access_token && token.refresh_token && !oldToken) {
           this.authService.refreshUserToken(token);
