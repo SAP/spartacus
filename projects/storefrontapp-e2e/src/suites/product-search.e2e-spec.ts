@@ -74,7 +74,7 @@ describe('Product search', () => {
       await searchResults.getSingleFilterFacet(0).click();
 
       const text = await searchResults.getHeaderText();
-      expect(text).toContain('77 results for Chiba');
+      expect(text).toContain('79 results for Chiba');
     });
 
     it('should be able to clear active facet', async () => {
