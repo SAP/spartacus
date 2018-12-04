@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { StateWithSiteContext, CurrencyEntities } from '../store/state';
+import { StateWithSiteContext } from '../store/state';
 import {
   LoadCurrencies,
   SetActiveCurrency
@@ -11,10 +11,11 @@ import {
   getActiveCurrency
 } from '../store/selectors/currencies.selectors';
 import { OccConfig } from '../../occ/config/occ-config';
+import { Currency } from '../../occ-models/occ.models';
 
 @Injectable()
 export class CurrencyService {
-  readonly currencies$: Observable<CurrencyEntities> = this.store.pipe(
+  readonly currencies$: Observable<Currency[]> = this.store.pipe(
     select(getAllCurrencies)
   );
 
