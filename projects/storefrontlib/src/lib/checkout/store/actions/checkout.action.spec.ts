@@ -1,4 +1,5 @@
 import * as fromAction from '../actions/checkout.action';
+import { Address } from '@spartacus/core';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
@@ -6,7 +7,7 @@ const selectedModeId = 'selectedModeId';
 const paymentDetails = 'mockPaymentDetails';
 const orderDetails = 'orderDetails';
 
-const address: any = {
+const address: Address = {
   firstName: 'John',
   lastName: 'Doe',
   titleCode: 'mr',

@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { CmsLinkComponent } from '@spartacus/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 @Component({
@@ -8,5 +9,5 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LinkComponent {
-  constructor(public component: CmsComponentData) {}
+  constructor(public component: CmsComponentData<CmsLinkComponent>) {}
 }

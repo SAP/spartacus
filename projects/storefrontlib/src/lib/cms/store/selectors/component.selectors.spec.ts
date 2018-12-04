@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { StoreModule, Store, select } from '@ngrx/store';
-
+import { CmsComponent } from '@spartacus/core';
 import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from '../selectors/component.selectors';
@@ -8,7 +8,10 @@ import * as fromSelectors from '../selectors/component.selectors';
 describe('Cms Component Selectors', () => {
   let store: Store<fromReducers.CmsState>;
 
-  const component = { uid: 'comp1', typeCode: 'SimpleBannerComponent' };
+  const component: CmsComponent = {
+    uid: 'comp1',
+    typeCode: 'SimpleBannerComponent'
+  };
   const entities = {
     comp1: component
   };

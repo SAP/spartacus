@@ -19,9 +19,9 @@ export class TestComponent {}
 export class TestModule {}
 
 const MockCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CMSTestComponent: 'cx-test',
-    CMSWebComponent: 'path/to/file.js#cms-component'
+  cmsComponents: {
+    CMSTestComponent: { selector: 'cx-test' },
+    CMSWebComponent: { selector: 'path/to/file.js#cms-component' }
   }
 };
 
