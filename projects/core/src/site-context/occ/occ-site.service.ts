@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { OccConfig } from '../../occ/config/occ-config';
+import { LanguageList, CurrencyList } from '../../occ-models/occ.models';
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +19,13 @@ export class OccSiteService {
     );
   }
 
-  loadLanguages(): Observable<any> {
+  loadLanguages(): Observable<LanguageList> {
     return this.http
       .get(this.getBaseEndPoint() + '/languages')
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  loadCurrencies(): Observable<any> {
+  loadCurrencies(): Observable<CurrencyList> {
     return this.http
       .get(this.getBaseEndPoint() + '/currencies')
       .pipe(catchError((error: any) => throwError(error.json())));

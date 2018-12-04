@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-
+import { Language } from '../../../occ-models/occ.models';
 import {
   StateWithSiteContext,
   LanguagesState,
@@ -38,7 +38,7 @@ export const getActiveLanguage: MemoizedSelector<
 
 export const getAllLanguages: MemoizedSelector<
   StateWithSiteContext,
-  any
+  Language[]
 > = createSelector(
   getLanguagesEntities,
   entities => {
