@@ -6,7 +6,7 @@ import {
   Validators
 } from '@angular/forms';
 
-import { AuthService, RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService, Title } from '@spartacus/core';
 
 import { Observable, Subscription, of } from 'rxjs';
 import { take, tap, switchMap } from 'rxjs/operators';
@@ -20,7 +20,7 @@ import { CustomFormValidators } from '../../../ui/validators/custom-form-validat
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  titles$: Observable<any>;
+  titles$: Observable<Title[]>;
   subscription: Subscription;
   userRegistrationForm: FormGroup = this.fb.group(
     {

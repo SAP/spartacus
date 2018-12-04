@@ -1479,6 +1479,10 @@ export interface PaymentDetails {
    */
   cardType?: CardType;
   /**
+   * @member {string} [cvn]
+   */
+  cvn?: string;
+  /**
    * @member {boolean} [defaultPayment]
    */
   defaultPayment?: boolean;

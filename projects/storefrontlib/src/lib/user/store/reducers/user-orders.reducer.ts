@@ -1,13 +1,9 @@
 import * as fromUserOrdersAction from '../actions/user-orders.action';
 import * as fromAction from '../actions';
-import { PaginationModel, SortModel, Order } from '@spartacus/core';
+import { OrderHistoryList } from '@spartacus/core';
 
 export interface UserOrdersState {
-  orders: {
-    orders: Order[];
-    pagination: PaginationModel;
-    sort: SortModel[];
-  };
+  orders: OrderHistoryList;
   loading: boolean;
   loaded: boolean;
 }
@@ -16,7 +12,7 @@ export const initialState: UserOrdersState = {
   orders: {
     orders: [],
     pagination: {},
-    sort: []
+    sorts: []
   },
   loading: false,
   loaded: false

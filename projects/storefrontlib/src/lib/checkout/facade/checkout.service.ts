@@ -11,6 +11,7 @@ import {
   CartDataService,
   ANONYMOUS_USERID
 } from '../../cart/facade/cart-data.service';
+import { Address, PaymentDetails } from '@spartacus/core';
 
 @Injectable()
 export class CheckoutService {
@@ -54,7 +55,7 @@ export class CheckoutService {
     private cartData: CartDataService
   ) {}
 
-  createAndSetAddress(address) {
+  createAndSetAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.AddDeliveryAddress({
@@ -66,7 +67,7 @@ export class CheckoutService {
     }
   }
 
-  loadSupportedDeliveryModes() {
+  loadSupportedDeliveryModes(): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.LoadSupportedDeliveryModes({
@@ -77,7 +78,7 @@ export class CheckoutService {
     }
   }
 
-  setDeliveryMode(mode: any) {
+  setDeliveryMode(mode: string): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.SetDeliveryMode({
@@ -89,23 +90,23 @@ export class CheckoutService {
     }
   }
 
-  loadSupportedCardTypes() {
+  loadSupportedCardTypes(): void {
     this.checkoutStore.dispatch(new fromCheckoutStore.LoadCardTypes());
   }
 
-  createPaymentDetails(paymentInfo) {
+  createPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.CreatePaymentDetails({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
-          paymentDetails: paymentInfo
+          paymentDetails
         })
       );
     }
   }
 
-  placeOrder() {
+  placeOrder(): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.PlaceOrder({
@@ -116,18 +117,18 @@ export class CheckoutService {
     }
   }
 
-  verifyAddress(address) {
+  verifyAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.VerifyAddress({
           userId: this.cartData.userId,
-          address: address
+          address
         })
       );
     }
   }
 
-  setDeliveryAddress(address) {
+  setDeliveryAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.SetDeliveryAddress({
@@ -139,7 +140,7 @@ export class CheckoutService {
     }
   }
 
-  setPaymentDetails(paymentDetails) {
+  setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.SetPaymentDetails({
@@ -151,17 +152,17 @@ export class CheckoutService {
     }
   }
 
-  clearAddressVerificationResults() {
+  clearAddressVerificationResults(): void {
     this.checkoutStore.dispatch(
       new fromCheckoutStore.ClearAddressVerificationResults()
     );
   }
 
-  clearCheckoutData() {
+  clearCheckoutData(): void {
     this.checkoutStore.dispatch(new fromCheckoutStore.ClearCheckoutData());
   }
 
-  clearCheckoutStep(stepNumber: number) {
+  clearCheckoutStep(stepNumber: number): void {
     this.checkoutStore.dispatch(
       new fromCheckoutStore.ClearCheckoutStep(stepNumber)
     );

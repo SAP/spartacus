@@ -1,4 +1,5 @@
 import * as fromAction from '../actions/card-types.action';
+import { CardType } from '@spartacus/core';
 
 describe('Card Types Actions', () => {
   describe('LoadCardTypes', () => {
@@ -24,13 +25,13 @@ describe('Card Types Actions', () => {
 
   describe('LoadCardTypesSuccess', () => {
     it('should create the action', () => {
-      const cardTypes = [
+      const cardTypes: CardType[] = [
         {
           code: 'amex',
           name: 'American Express'
         },
         {
-          isocode: 'maestro',
+          code: 'maestro',
           name: 'Maestro'
         }
       ];
