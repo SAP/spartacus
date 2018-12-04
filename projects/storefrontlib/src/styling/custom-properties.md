@@ -30,3 +30,7 @@ component-selector {
     --cx-color: blue;
 }
 ```
+
+**What about preprocessing?**
+
+Since components are precompiled and distributed in a library, there's no proper approach to use pre-processing technique (such as SASS). 
