@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { tap, takeWhile } from 'rxjs/operators';
 
 import { CheckoutService } from '../../../facade/checkout.service';
+import { DeliveryMode } from '@spartacus/core';
 
 @Component({
   selector: 'cx-delivery-mode',
@@ -27,7 +28,7 @@ export class DeliveryModeComponent implements OnInit {
   @Output()
   backStep = new EventEmitter<any>();
 
-  supportedDeliveryModes$: Observable<any>;
+  supportedDeliveryModes$: Observable<DeliveryMode[]>;
   leave = false;
 
   mode: FormGroup = this.fb.group({
@@ -62,7 +63,7 @@ export class DeliveryModeComponent implements OnInit {
     this.backStep.emit();
   }
 
-  get deliveryModeInvalid() {
+  get deliveryModeInvalid(): boolean {
     return this.mode.controls['deliveryModeId'].invalid;
   }
 }
