@@ -12,7 +12,7 @@ export class NavigationService {
    * @param itemsList
    */
   public getNavigationEntryItems(nodeData: any, root: boolean, itemsList = []) {
-    if (nodeData.children) {
+    if (nodeData.children && nodeData.children.length > 0) {
       this.processChildren(nodeData, itemsList);
     } else if (nodeData.entries && nodeData.entries.length > 0) {
       nodeData.entries.forEach(entry => {
@@ -46,7 +46,7 @@ export class NavigationService {
     node['title'] = nodeData.title;
     node['url'] = '';
 
-    if (nodeData.children) {
+    if (nodeData.children && nodeData.children.length > 0) {
       const children = this.createChildren(nodeData, items);
       node['children'] = children;
     } else if (nodeData.entries && nodeData.entries.length > 0) {
