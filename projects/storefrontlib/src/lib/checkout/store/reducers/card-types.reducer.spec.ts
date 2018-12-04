@@ -1,5 +1,6 @@
 import * as fromReducer from './card-types.reducer';
 import * as fromActions from '../actions/';
+import { CardType } from '@spartacus/core';
 
 describe('Card Types Reducer', () => {
   describe('undefined action', () => {
@@ -14,7 +15,7 @@ describe('Card Types Reducer', () => {
 
   describe('LOAD_CARD_TYPES_SUCCESS action', () => {
     it('should populate the card types state entities', () => {
-      const cardTypes = [
+      const cardTypes: CardType[] = [
         {
           code: 'amex',
           name: 'American Express'

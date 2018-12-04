@@ -1,13 +1,14 @@
 import * as fromAction from './../actions';
+import { Address, Order, DeliveryMode } from '@spartacus/core';
 
 export interface CheckoutState {
-  address: any;
+  address: Address;
   deliveryMode: {
-    supported: { [code: string]: any };
+    supported: { [code: string]: DeliveryMode };
     selected: string;
   };
   paymentDetails: any;
-  orderDetails: any;
+  orderDetails: Order;
 }
 
 export const initialState: CheckoutState = {
@@ -27,7 +28,7 @@ export function reducer(
   switch (action.type) {
     case fromAction.ADD_DELIVERY_ADDRESS_SUCCESS:
     case fromAction.SET_DELIVERY_ADDRESS_SUCCESS: {
-      const address = action.payload;
+      const address: Address = action.payload;
 
       return {
         ...state,
@@ -63,7 +64,7 @@ export function reducer(
     }
 
     case fromAction.SET_DELIVERY_MODE_SUCCESS: {
-      const selected = action.payload;
+      const selected: string = action.payload;
 
       return {
         ...state,
@@ -95,7 +96,7 @@ export function reducer(
     }
 
     case fromAction.PLACE_ORDER_SUCCESS: {
-      const orderDetails = action.payload;
+      const orderDetails: Order = action.payload;
 
       return {
         ...state,
