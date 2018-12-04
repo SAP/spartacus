@@ -34,3 +34,31 @@ component-selector {
 **What about preprocessing?**
 
 Since components are precompiled and distributed in a library, there's no proper approach to use pre-processing technique (such as SASS). 
+
+# Custom property types
+There are 2 types of variables we use in our code base:
+1. Global custom properties
+2. Component specific custom properties
+
+Since custom properties do not have a way to distinquish the two, we use a naming convention. 
+
+## Global custom properties
+The global variables values are defined in themes. 
+
+Theme variables represent an opiniated set of css values. They're intended as example values, demonstrating the flexibility of the storefront style layer. 
+
+Theme variables are used cross components as a default value, so that the values is used whenever there's no custom alternative available. 
+
+The example code below shows a number of global theme variables.
+
+```css
+:root {
+    --cx-g-font-size:1rem;
+    --cx-g-border-radius: 10px;
+    --cx-g-duration: 0.6s;
+}
+```
+
+The syntax must follow the following convention:
+
+`[--cx]-[CSS rule]`
