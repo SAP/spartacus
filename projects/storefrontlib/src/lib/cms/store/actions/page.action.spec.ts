@@ -1,5 +1,6 @@
 import * as fromPage from './page.action';
 import { PageContext, PageType } from '@spartacus/core';
+import { Page } from '../../models/page.model';
 
 describe('Cms Page Actions', () => {
   describe('LoadPageData Actions', () => {
@@ -28,7 +29,13 @@ describe('Cms Page Actions', () => {
 
     describe('LoadLoadPageDataSuccess', () => {
       it('should create an action', () => {
-        const payload = { pageId: 'test', template: 'productList' };
+        const page: Page = {
+          pageId: 'testPageId',
+          name: 'testPage',
+          seen: [],
+          slots: { left: [] }
+        };
+        const payload = { key: 'test', value: page };
         const action = new fromPage.LoadPageDataSuccess(payload);
 
         expect({ ...action }).toEqual({
