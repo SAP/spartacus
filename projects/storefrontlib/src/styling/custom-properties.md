@@ -8,7 +8,7 @@ Custom properties are used for a number of reasons:
 - runtime configurable (no build needed)
 - inheritance cross the full dom (including shadow dom)
 
-Angular's emulated view encapsulation generates unique attributes to the component markup and binds the css selectors to it. This is the so-called emlated encapsulation, which is pretty usefull for application development. However, with prebuild components which are shipped in a library, it doesn'tallow for flexible voerrides, since the specificity of the components will always 'win'. This problem is illustrated with the following snippet:
+Angular's emulated view encapsulation generates unique attributes to the component markup and binds the css selectors to it. This is the so-called emulated encapsulation, which is pretty usefull for application development. However, with prebuild components which are shipped in a library, it doesn'tallow for flexible overrides, since the specificity of the components will always 'win'. This problem is illustrated with the following snippet:
 
 ```html
 <component-selector _nghost-c14></component-selector>
@@ -61,7 +61,7 @@ The example code below shows a number of global theme variables.
 
 The syntax must follow the following convention:
 
-`[--cx]-[CSS rule]`
+`[--cx]-[g]-[CSS rule]`
 
 
 **Variations**
@@ -79,7 +79,7 @@ In those cases, the variant is added to the previous construct:
 
 
 ## Component specific custom properties
-Component variables are used in components to allow for customisation purposes. The standard value should always be provided by the fallback. This way, customisations can provide a custom value. 
+Component variables are used in components to allow for customization purposes. The standard value should always be provided by the fallback. This way, customizations can provide a custom value. 
 Whenever there's a theme variable that could be used, the component should use this as a fallback. If there's not theme variable applicable the component should fallback to a hardcoded value (which could be controlle in a sass variable to centralize).
 
 The example below shows an example for a component style that specifies the `color` for the component host element. The component uses the primary color as a fallback. 

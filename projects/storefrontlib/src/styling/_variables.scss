@@ -1,30 +1,15 @@
 // VALUES USED AS EXAMPLES
 
 :host {
-  --cx-theme-primary: red;
-  --cx-theme-secondary: blue; //colors
-  --cx-theme-border-radius: 2em;
-  --cx-theme-transition-duration: 1s;
-  --cx-theme-animation-duration: 1s;
-  --cx-theme-gutter-width: 10px;
-  --cx-theme-font-weight-normal: 400; //bold, light
-  --cx-theme-spinner-size: 20px;
-
-  /**
-  Side note: In the styles library theme, there are multiple variables that aren't !default and 
-  therefore can't be easily overridden in their use within the styles lib. If the objective is also to override them we could add the following:
-  **/
-
-  --cx-theme-font-size-base: 1rem;
-  --cx-theme-h1-font-size: 2 * var(--cx-theme-font-size-base); // (h2,h3,h4...)
-  --cx-line-height-base: 1.33;
-  --cx-heading-line-height: 1.25;
-
-  // Similarly :
-
-  --cx-theme-input-heigh: 48px;
-  // i.e. $input-height: var (--cx-theme-input-heigh, 48px);
-  // Component variables
+  --cx-g-color-primary: red;
+  --cx-g-color-secondary: blue; //colors
+  --cx-g-border-radius: 2em;
+  --cx-g-transition-duration: 1s;
+  --cx-g-animation-duration: 1s;
+  --cx-g-font-weight-normal: 400; //--cx-g-font-weight-[variation] bold, light
+  --cx-g-font-size-base: 1rem;
+  --cx-g-line-height-base: 1.33;
+  --cx-g-line-height-heading: 1.25;
 }
 
 .component {
