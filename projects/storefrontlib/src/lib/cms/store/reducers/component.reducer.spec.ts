@@ -1,5 +1,6 @@
 import * as fromComponent from './component.reducer';
 import * as fromActions from '../actions/component.action';
+import { CmsComponent } from '@spartacus/core';
 
 describe('Cms Component Reducer', () => {
   describe('undefined action', () => {
@@ -14,7 +15,10 @@ describe('Cms Component Reducer', () => {
 
   describe('LOAD_COMPONENT_SUCCESS action', () => {
     it('should populate the component state entities', () => {
-      const component = { uid: 'comp1', typeCode: 'SimpleBannerComponent' };
+      const component: CmsComponent = {
+        uid: 'comp1',
+        typeCode: 'SimpleBannerComponent'
+      };
       const entities = {
         comp1: component
       };
@@ -27,7 +31,7 @@ describe('Cms Component Reducer', () => {
 
   describe('GET_COMPONENET_FROM_PAGE action', () => {
     it('should populate the component state entities', () => {
-      const components: any[] = [
+      const components: CmsComponent[] = [
         { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
         { uid: 'comp2', typeCode: 'CMSLinkComponent' },
         { uid: 'comp3', typeCode: 'NavigationComponent' }
@@ -46,14 +50,13 @@ describe('Cms Component Reducer', () => {
 
   describe('CLEAN_COMPONENT_STATE action', () => {
     it('should clean the component state entities', () => {
-      const components: any[] = [
-        { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
-        { uid: 'comp2', typeCode: 'CMSLinkComponent' },
-        { uid: 'comp3', typeCode: 'NavigationComponent' }
-      ];
+      const component: CmsComponent = {
+        uid: 'comp1',
+        typeCode: 'SimpleBannerComponent'
+      };
 
       const { initialState } = fromComponent;
-      const loadAction = new fromActions.LoadComponentSuccess(components);
+      const loadAction = new fromActions.LoadComponentSuccess(component);
       fromComponent.reducer(initialState, loadAction);
       const cleanAction = new fromActions.CleanComponentState();
       const newState = fromComponent.reducer(initialState, cleanAction);
