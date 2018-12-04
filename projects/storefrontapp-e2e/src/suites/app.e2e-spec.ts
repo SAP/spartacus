@@ -34,7 +34,7 @@ describe('App basics', () => {
     expect(await footer.footerNavigation.isPresent()).toEqual(true);
 
     expect(await footer.getSectionsCount()).toEqual(3);
-    expect(await footer.getSectionHeader(0)).toEqual('SAP Commerce Cloud');
+    expect(await footer.getSectionHeader(2)).toEqual('Follow Us');
     expect(await footer.getLinkUrlByTitle('About SAP Commerce Cloud')).toEqual(
       'http://www.cx.sap.com/products/commerce'
     );

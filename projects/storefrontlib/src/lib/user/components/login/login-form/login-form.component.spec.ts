@@ -4,8 +4,7 @@ import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { LoginFormComponent } from './login-form.component';
-import { RoutingService } from '@spartacus/core';
-import { AuthService } from '../../../../auth/facade/auth.service';
+import { AuthService, RoutingService } from '@spartacus/core';
 import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
 
 describe('LoginFormComponent', () => {
