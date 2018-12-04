@@ -3,6 +3,7 @@ import { UserOrdersState } from './../reducers/user-orders.reducer';
 
 import * as fromFeature from '../reducers';
 import * as fromUserOrdersReducer from '../reducers/user-orders.reducer';
+import { OrderHistoryList } from '@spartacus/core';
 
 export const getOrdersState: MemoizedSelector<
   any,
@@ -12,7 +13,10 @@ export const getOrdersState: MemoizedSelector<
   (state: fromFeature.UserState) => state.orders
 );
 
-export const getOrders: MemoizedSelector<any, any> = createSelector(
+export const getOrders: MemoizedSelector<
+  any,
+  OrderHistoryList
+> = createSelector(
   getOrdersState,
   fromUserOrdersReducer.getOrders
 );

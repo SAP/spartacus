@@ -1,22 +1,34 @@
 import * as fromAction from '../actions/checkout.action';
-import { Address } from '@spartacus/core';
+import {
+  DeliveryModeList,
+  Address,
+  PaymentDetails,
+  Order
+} from '@spartacus/core';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
 const selectedModeId = 'selectedModeId';
-const paymentDetails = 'mockPaymentDetails';
-const orderDetails = 'orderDetails';
+const paymentDetails: PaymentDetails = {
+  id: 'mockPaymentDetails'
+};
+
+const orderDetails: Order = {
+  code: 'testOrder123'
+};
 
 const address: Address = {
   firstName: 'John',
   lastName: 'Doe',
   titleCode: 'mr',
-  line1: 'Toyosaki 2 create on cart'
+  line1: 'Toyosaki 2 create on cart',
+  town: 'Montreal',
+  postalCode: 'L6M1P9',
+  country: { isocode: 'CA' }
 };
 
-const modes: any = {
-  mode1: 'mode1',
-  mode2: 'mode2'
+const modes: DeliveryModeList = {
+  deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
 };
 
 describe('Checkout Actions', () => {
