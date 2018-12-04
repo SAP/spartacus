@@ -2,13 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 
-import { RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService } from '@spartacus/core';
 
 import { of, BehaviorSubject } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
-import { AuthService } from '../../../auth/facade/auth.service';
 import { UserService } from '../../../user/facade/user.service';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 

@@ -15,6 +15,7 @@ export function reducer(
   action: fromStoreFinder.FindStoresAction
 ): FindStoresState {
   switch (action.type) {
+    case fromStoreFinder.ON_HOLD:
     case fromStoreFinder.FIND_STORES:
     case fromStoreFinder.FIND_ALL_STORES_BY_COUNTRY:
     case fromStoreFinder.FIND_ALL_STORES_BY_REGION: {

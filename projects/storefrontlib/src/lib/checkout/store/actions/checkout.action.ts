@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Address } from '../../models/address-model';
+import { Address } from '@spartacus/core';
 
 export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';
 export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
@@ -59,7 +59,7 @@ export class AddDeliveryAddressSuccess implements Action {
 
 export class SetDeliveryAddress implements Action {
   readonly type = SET_DELIVERY_ADDRESS;
-  constructor(public payload: { userId: any; cartId: any; address: any }) {}
+  constructor(public payload: { userId: any; cartId: any; address: Address }) {}
 }
 
 export class SetDeliveryAddressFail implements Action {
