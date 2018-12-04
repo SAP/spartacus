@@ -8,7 +8,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { UserService } from '../../facade/user.service';
-import { AuthService, RoutingService, UserToken } from '@spartacus/core';
+import { AuthService, RoutingService, UserToken, User } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login',
@@ -16,7 +16,7 @@ import { AuthService, RoutingService, UserToken } from '@spartacus/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  user$: Observable<any>;
+  user$: Observable<User>;
   isLogin = false;
 
   subscription: Subscription;
