@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { Language } from '../../../occ-models/occ.models';
 
 export const LOAD_LANGUAGES = '[Site-context] Load Languages';
 export const LOAD_LANGUAGES_FAIL = '[Site-context] Load Languages Fail';
@@ -17,7 +18,7 @@ export class LoadLanguagesFail implements Action {
 
 export class LoadLanguagesSuccess implements Action {
   readonly type = LOAD_LANGUAGES_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: Language[]) {}
 }
 
 export class SetActiveLanguage implements Action {

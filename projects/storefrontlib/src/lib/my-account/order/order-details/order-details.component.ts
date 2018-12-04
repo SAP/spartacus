@@ -2,12 +2,12 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AuthService } from '../../../auth/facade/auth.service';
 import { UserService } from '../../../user/facade/user.service';
 import {
   RoutingService,
   Order,
   Address,
+  AuthService,
   PaymentDetails,
   DeliveryMode,
   Consignment,

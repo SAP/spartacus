@@ -5,11 +5,16 @@ import { By } from '@angular/platform-browser';
 import createSpy = jasmine.createSpy;
 
 import { OrderDetailsComponent } from '../order-details/order-details.component';
-import { RoutingService, Order, Cart, PromotionResult } from '@spartacus/core';
+import {
+  RoutingService,
+  Order,
+  Cart,
+  PromotionResult,
+  AuthService,
+  UserToken
+} from '@spartacus/core';
 import { UserService } from '../../../user/facade/user.service';
-import { AuthService } from '../../../auth/facade/auth.service';
 import { CardModule } from '../../../ui/components/card/card.module';
-import { UserToken } from '../../../auth';
 
 const mockOrder: Order = {
   code: '1',

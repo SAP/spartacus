@@ -7,7 +7,9 @@ git:
 branches:
   only:
     - develop
+    - master
     - "/^feature\\/.*$/"
+    - "/^hotfix\\/.*$/"
 jobs:
   include:
     - stage: 'Validation'

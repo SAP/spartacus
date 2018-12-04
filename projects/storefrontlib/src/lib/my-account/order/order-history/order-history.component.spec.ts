@@ -2,18 +2,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 
-import { RoutingService, OrderHistoryList } from '@spartacus/core';
+import {
+  RoutingService,
+  OrderHistoryList,
+  AuthService,
+  UserToken
+} from '@spartacus/core';
 
 import { of, BehaviorSubject } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
-import { AuthService } from '../../../auth/facade/auth.service';
 import { UserService } from '../../../user/facade/user.service';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 
 import { OrderHistoryComponent } from './order-history.component';
-import { UserToken } from '../../../auth';
 
 const mockOrders: OrderHistoryList = {
   orders: [

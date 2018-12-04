@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { CmsComponent } from '@spartacus/core';
 
 export const LOAD_COMPONENT = '[Cms] Load Component';
 export const LOAD_COMPONENT_FAIL = '[Cms] Load Component Fail';
@@ -16,14 +17,14 @@ export class LoadComponentFail implements Action {
   constructor(public payload: any) {}
 }
 
-export class LoadComponentSuccess implements Action {
+export class LoadComponentSuccess<T extends CmsComponent> implements Action {
   readonly type = LOAD_COMPONENT_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: T) {}
 }
 
-export class GetComponentFromPage implements Action {
+export class GetComponentFromPage<T extends CmsComponent> implements Action {
   readonly type = GET_COMPONENET_FROM_PAGE;
-  constructor(public payload: any) {}
+  constructor(public payload: T[]) {}
 }
 
 export class CleanComponentState implements Action {
@@ -32,9 +33,9 @@ export class CleanComponentState implements Action {
 }
 
 // action types
-export type ComponentAction =
+export type ComponentAction<T extends CmsComponent> =
   | LoadComponent
   | LoadComponentFail
-  | LoadComponentSuccess
-  | GetComponentFromPage
+  | LoadComponentSuccess<T>
+  | GetComponentFromPage<T>
   | CleanComponentState;

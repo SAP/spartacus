@@ -49,6 +49,14 @@ export class E2EUtil {
   }
 
   /**
+   * Wait until a given element is present on the browser
+   * @param elem The element
+   */
+  static wait4PresentElement(elem: ElementFinder): promise.Promise<{}> {
+    return browser.wait(ExpectedConditions.presenceOf(elem));
+  }
+
+  /**
    * Wait until a given element is NOT visible on the browser
    * @param elem The element
    */
