@@ -5,8 +5,12 @@ import { Observable, of } from 'rxjs';
 import { OccUserService } from '../../../occ/user/user.service';
 import * as fromActions from './../actions';
 import { AddressVerificationEffect } from './address-verification.effect';
+import { AddressValidation, Address } from '@spartacus/core';
 
-const result = 'mockResult';
+const addressValidation: AddressValidation = {
+  decision: 'test address validation',
+  suggestedAddresses: [{ id: 'address1' }]
+};
 
 class MockUserService {
   verifyAddress(_userId, _address) {}
@@ -29,17 +33,22 @@ describe('Address Verification effect', () => {
     effect = TestBed.get(AddressVerificationEffect);
     service = TestBed.get(OccUserService);
 
-    spyOn(service, 'verifyAddress').and.returnValue(of(result));
+    spyOn(service, 'verifyAddress').and.returnValue(of(addressValidation));
   });
 
   describe('verifyAddress$', () => {
     it('should load the address verification results', () => {
+      const address: Address = {
+        id: 'testAddress1'
+      };
       const payload = {
         userId: 'userId',
-        address: 'address'
+        address
       };
       const action = new fromActions.VerifyAddress(payload);
-      const completion = new fromActions.VerifyAddressSuccess(result);
+      const completion = new fromActions.VerifyAddressSuccess(
+        addressValidation
+      );
 
       actions$ = hot('--a-', { a: action });
       const expected = cold('--b', { b: completion });

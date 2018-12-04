@@ -5,11 +5,11 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsComponentData } from '@spartacus/storefront';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CMSLinkComponent: 'LinkComponent'
+  cmsComponents: {
+    CMSLinkComponent: { selector: 'LinkComponent' }
   }
 };
 
@@ -25,11 +25,11 @@ describe('LinkComponent', () => {
     name: 'TestCMSLinkComponent',
     type: 'link',
     linkName: 'Arbitrary link name',
-    url: 'http://localhost:8888/'
+    url: '/store-finder'
   };
 
-  const MockCmsService = {
-    getComponentData: () => of(componentData)
+  const MockCmsComponentData = {
+    data$: of(componentData)
   };
 
   beforeEach(async(() => {
@@ -37,8 +37,11 @@ describe('LinkComponent', () => {
       imports: [RouterTestingModule],
       declarations: [LinkComponent],
       providers: [
-        { provide: CmsService, useValue: MockCmsService },
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
+        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData
+        }
       ]
     }).compileComponents();
   }));
@@ -54,14 +57,10 @@ describe('LinkComponent', () => {
   });
 
   it('should contain link name and url', () => {
-    expect(linkComponent.component).toBeNull();
-    linkComponent.onCmsComponentInit(componentData.uid);
-    expect(linkComponent.component).toBe(componentData);
-    expect(el.query(By.css('a')).nativeElement.textContent).toEqual(
-      linkComponent.component.linkName
-    );
-    expect(el.query(By.css('a')).nativeElement.url).toEqual(
-      linkComponent.component.link
-    );
+    fixture.detectChanges();
+    const element = el.query(By.css('a')).nativeElement;
+
+    expect(element.textContent).toEqual(componentData.linkName);
+    expect(element.href).toContain(componentData.url);
   });
 });

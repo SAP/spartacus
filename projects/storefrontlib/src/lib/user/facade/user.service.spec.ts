@@ -1,8 +1,9 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store } from '@ngrx/store';
-
+import { Address } from '@spartacus/core';
 import * as fromStore from '../store';
 import { UserService } from './user.service';
+import { PaymentDetailsList, Region } from '@spartacus/core';
 
 describe('UserService', () => {
   let service: UserService;
@@ -30,15 +31,13 @@ describe('UserService', () => {
   ));
 
   it('should be able to get user details', () => {
-    store.dispatch(
-      new fromStore.LoadUserDetailsSuccess({ userId: 'testUser' })
-    );
+    store.dispatch(new fromStore.LoadUserDetailsSuccess({ uid: 'testUser' }));
 
     let userDetails;
     service.user$.subscribe(data => {
       userDetails = data;
     });
-    expect(userDetails).toEqual({ userId: 'testUser' });
+    expect(userDetails).toEqual({ uid: 'testUser' });
   });
 
   it('should be able to get titles data', () => {
@@ -59,15 +58,17 @@ describe('UserService', () => {
   });
 
   it('should be able to get user address', () => {
-    store.dispatch(
-      new fromStore.LoadUserAddressesSuccess(['address1', 'address2'])
-    );
+    const mockUserAddresses: Address[] = [
+      { id: 'address1' },
+      { id: 'address2' }
+    ];
+    store.dispatch(new fromStore.LoadUserAddressesSuccess(mockUserAddresses));
 
     let addresses;
     service.addresses$.subscribe(data => {
       addresses = data;
     });
-    expect(addresses).toEqual(['address1', 'address2']);
+    expect(addresses).toEqual([{ id: 'address1' }, { id: 'address2' }]);
   });
 
   it('should be able to get Address loading flag', () => {
@@ -81,15 +82,18 @@ describe('UserService', () => {
   });
 
   it('should be able to get user payment methods', () => {
+    const paymentsList: PaymentDetailsList = {
+      payments: [{ id: 'method1' }, { id: 'method2' }]
+    };
     store.dispatch(
-      new fromStore.LoadUserPaymentMethodsSuccess(['method1', 'method2'])
+      new fromStore.LoadUserPaymentMethodsSuccess(paymentsList.payments)
     );
 
     let paymentMethods;
     service.paymentMethods$.subscribe(data => {
       paymentMethods = data;
     });
-    expect(paymentMethods).toEqual(['method1', 'method2']);
+    expect(paymentMethods).toEqual([{ id: 'method1' }, { id: 'method2' }]);
   });
 
   it('should be able to get user payment methods loading flag', () => {
@@ -120,13 +124,14 @@ describe('UserService', () => {
   });
 
   it('should be able to get all regions', () => {
-    store.dispatch(new fromStore.LoadRegionsSuccess(['r1', 'r2']));
+    const regionsList: Region[] = [{ name: 'r1' }, { name: 'r2' }];
+    store.dispatch(new fromStore.LoadRegionsSuccess(regionsList));
 
     let regions;
     service.allRegions$.subscribe(data => {
       regions = data;
     });
-    expect(regions).toEqual(['r1', 'r2']);
+    expect(regions).toEqual([{ name: 'r1' }, { name: 'r2' }]);
   });
 
   it('should be able to get order details', () => {
@@ -142,13 +147,23 @@ describe('UserService', () => {
   });
 
   it('should be able to get order list', () => {
-    store.dispatch(new fromStore.LoadUserOrdersSuccess([]));
+    store.dispatch(
+      new fromStore.LoadUserOrdersSuccess({
+        orders: [],
+        pagination: {},
+        sorts: []
+      })
+    );
 
     let orderList;
     service.orderList$.subscribe(data => {
       orderList = data;
     });
-    expect(orderList).toEqual([]);
+    expect(orderList).toEqual({
+      orders: [],
+      pagination: {},
+      sorts: []
+    });
   });
 
   it('should be able to get order list loaded flag', () => {

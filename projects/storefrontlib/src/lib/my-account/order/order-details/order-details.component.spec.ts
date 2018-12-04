@@ -5,9 +5,8 @@ import { By } from '@angular/platform-browser';
 import createSpy = jasmine.createSpy;
 
 import { OrderDetailsComponent } from '../order-details/order-details.component';
-import { RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService, UserToken } from '@spartacus/core';
 import { UserService } from '../../../user/facade/user.service';
-import { AuthService } from '../../../auth/facade/auth.service';
 import { CardModule } from '../../../ui/components/card/card.module';
 
 const mockOrder = {
@@ -81,7 +80,7 @@ class MockCartItemListComponent {
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
   let fixture: ComponentFixture<OrderDetailsComponent>;
-  let mockAuthService: any;
+  let mockAuthService: AuthService;
   let mockRoutingService: any;
   let mockUserService: any;
   let el: DebugElement;
@@ -96,8 +95,8 @@ describe('OrderDetailsComponent', () => {
         }
       })
     };
-    mockAuthService = {
-      userToken$: of({ userId: 'test' })
+    mockAuthService = <AuthService>{
+      userToken$: of(<UserToken>{ userId: 'test' })
     };
     mockUserService = {
       orderDetails$: of(mockOrder),

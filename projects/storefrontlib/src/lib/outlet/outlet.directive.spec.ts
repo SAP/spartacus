@@ -7,7 +7,7 @@ const TEXT = 'standard';
 @Component({
   template: `
     <ng-container *cxOutlet="'${OUTLET_NAME}'">
-        <div id="debugEl">${TEXT}</div>
+      <div id="debugEl">${TEXT}</div>
     </ng-container>
   `
 })
@@ -29,7 +29,7 @@ describe('OutletDirective', () => {
 
   it('should render the provided template ref', () => {
     fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
+    const compiled: HTMLElement = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('#debugEl').textContent).toContain(TEXT);
   });
 });

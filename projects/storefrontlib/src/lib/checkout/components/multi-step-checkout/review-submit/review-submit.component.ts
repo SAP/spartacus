@@ -4,13 +4,14 @@ import {
   Input,
   OnInit
 } from '@angular/core';
+
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { UserService } from '../../../../user/facade/user.service';
 import { CheckoutService } from '../../../facade/checkout.service';
-import { CartService } from '../../../../cart/services/cart.service';
 import { Address } from '../../../models/address-model';
+import { CartService } from '../../../../cart/facade/cart.service';
+import { UserService } from '../../../../user/facade/user.service';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
