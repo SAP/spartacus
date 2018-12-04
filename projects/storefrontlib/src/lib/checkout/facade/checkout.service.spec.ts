@@ -3,7 +3,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store } from '@ngrx/store';
 
 import * as fromCheckout from '../store';
-import { CartDataService } from '../../cart/facade';
+import { CartDataService } from '@spartacus/core';
 
 import { CheckoutService } from './checkout.service';
 
