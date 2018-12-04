@@ -3,24 +3,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { of } from 'rxjs';
-
 import { SearchBoxComponent } from './search-box.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { BootstrapModule } from '../../bootstrap.module';
 import { CmsService } from '../../cms/facade/cms.service';
-
 import { SearchBoxComponentService } from './search-box-component.service';
 import { ProductSearchService } from '@spartacus/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-
-const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    SearchBoxComponent: 'SearchBoxComponent'
-  }
-};
 
 describe('SearchBoxComponent in CmsLib', () => {
   let searchBoxComponent: SearchBoxComponent;
@@ -73,7 +63,6 @@ describe('SearchBoxComponent in CmsLib', () => {
       declarations: [SearchBoxComponent, PictureComponent],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
         {
           provide: ProductSearchService,
           useValue: {}
