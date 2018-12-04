@@ -1,5 +1,7 @@
 import * as fromCheckout from './checkout.reducer';
 import * as fromActions from './../actions';
+import { Address } from '../../models/address-model';
+import { DeliveryModeList, PaymentDetails, Order } from '@spartacus/core';
 
 describe('Checkout reducer', () => {
   describe('undefined action', () => {
@@ -14,12 +16,15 @@ describe('Checkout reducer', () => {
 
   describe('ADD_DELIVERY_ADDRESS_SUCCESS or SET_DELIVERY_ADDRESS_SUCCESS action', () => {
     it('should add delivery address', () => {
-      const address: any = {
+      const address: Address = {
         id: 'testAddressId',
         firstName: 'John',
         lastName: 'Doe',
         titleCode: 'mr',
-        line1: 'Toyosaki 2 create on cart'
+        line1: 'Toyosaki 2 create on cart',
+        town: 'Montreal',
+        postalCode: 'L6M1P9',
+        country: { isocode: 'CA' }
       };
 
       const { initialState } = fromCheckout;
@@ -46,7 +51,7 @@ describe('Checkout reducer', () => {
 
   describe('LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS action', () => {
     it('should load all supported delivery modes from cart', () => {
-      const modes: any = {
+      const modes: DeliveryModeList = {
         deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
       };
 
@@ -78,7 +83,9 @@ describe('Checkout reducer', () => {
   describe('CREATE_PAYMENT_DETAILS_SUCCESS or SET_PAYMENT_DETAILS_SUCCESS action', () => {
     it('should create payment details for cart', () => {
       const { initialState } = fromCheckout;
-      const paymentDetails = 'mockPaymentDetails';
+      const paymentDetails: PaymentDetails = {
+        id: 'mockPaymentDetails'
+      };
 
       const createPaymentDetailsAction = new fromActions.CreatePaymentDetailsSuccess(
         paymentDetails
@@ -114,7 +121,9 @@ describe('Checkout reducer', () => {
   describe('PLACE_ORDER_SUCCESS action', () => {
     it('should place order', () => {
       const { initialState } = fromCheckout;
-      const orderDetails = 'mockOrderDetails';
+      const orderDetails: Order = {
+        code: 'testOrder123'
+      };
 
       const action = new fromActions.PlaceOrderSuccess(orderDetails);
       const state = fromCheckout.reducer(initialState, action);

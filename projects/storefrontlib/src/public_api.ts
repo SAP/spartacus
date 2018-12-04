@@ -2,7 +2,6 @@
  * Public API Surface of storefrontlib
  */
 
-export * from './lib/auth/index';
 export * from './lib/cart/index';
 export * from './lib/checkout/index';
 export * from './lib/cms/index';
