@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
+import { AuthService, Cart, OrderEntry, UserToken } from '@spartacus/core';
+
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -10,7 +12,6 @@ import * as fromReducer from '../store/reducers';
 import * as fromSelector from '../store/selectors';
 
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
-import { AuthService, Cart, OrderEntry, UserToken } from '@spartacus/core';
 
 @Injectable()
 export class CartService {
@@ -49,7 +50,8 @@ export class CartService {
       }
     });
 
-    this.authService.userToken$
+    this.authService
+      .getUserToken()
       .pipe(filter(userToken => this.cartData.userId !== userToken.userId))
       .subscribe(userToken => {
         this.setUserId(userToken);

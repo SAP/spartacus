@@ -18,7 +18,9 @@ class CartDataServiceStub {
 }
 
 class AuthServiceStub {
-  userToken$: Observable<UserToken> = of();
+  getUserToken(): Observable<UserToken> {
+    return of();
+  }
 }
 
 describe('CartService', () => {
@@ -144,7 +146,7 @@ describe('CartService', () => {
   describe(initCartMethod, () => {
     describe(`when user's token and cart's user id are not equal`, () => {
       it(`should call '${setUserIdMethod}' and '${loadOrMergeCartMethod}' methods`, () => {
-        authService.userToken$ = of(userToken);
+        spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
         store.dispatch(new fromCart.LoadCartSuccess(cart));
         store.dispatch(new fromCart.AddEntrySuccess('foo'));
         spyOn<any>(service, setUserIdMethod).and.stub();
@@ -161,7 +163,7 @@ describe('CartService', () => {
 
     describe(`when user's token and cart's user id are equal`, () => {
       it(`should not call '${setUserIdMethod}' and '${loadOrMergeCartMethod}' methods`, () => {
-        authService.userToken$ = of(userToken);
+        spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
         cartData.userId = userToken.userId;
         store.dispatch(new fromCart.LoadCartSuccess(cart));
         store.dispatch(new fromCart.AddEntrySuccess('foo'));
