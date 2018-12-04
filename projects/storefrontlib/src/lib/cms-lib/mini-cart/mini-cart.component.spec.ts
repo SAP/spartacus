@@ -47,7 +47,7 @@ describe('MiniCartComponent', () => {
     product: { code: '1234' }
   };
 
-  const testEntries = [{ '1234': orderEntry }];
+  const testEntries: { [id: string]: OrderEntry }[] = [{ '1234': orderEntry }];
 
   const MockCartService = {
     cart$: of(testCart),

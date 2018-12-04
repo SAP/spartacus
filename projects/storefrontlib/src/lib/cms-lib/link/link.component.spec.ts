@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { CmsComponentData } from '@spartacus/storefront';
+import { Component } from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
