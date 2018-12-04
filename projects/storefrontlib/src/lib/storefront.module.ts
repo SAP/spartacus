@@ -17,8 +17,8 @@ import { CxApiModule } from './cx-api/cx-api.module';
 @NgModule({
   imports: [
     StateModule,
-    AuthModule,
     RoutingModule,
+    AuthModule,
     OccModule,
     SiteContextModule,
     CmsLibModule,
