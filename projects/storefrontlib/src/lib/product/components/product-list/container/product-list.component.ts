@@ -80,7 +80,10 @@ export class ProductListComponent implements OnChanges, OnInit {
     this.grid = {
       mode: this.gridMode
     };
-
+    if (!this.productSearchService.searchResults$) {
+      this.model$ = null;
+      return;
+    }
     this.model$ = this.productSearchService.searchResults$.pipe(
       tap(searchResult => {
         if (searchResult.breadcrumbs && searchResult.breadcrumbs.length > 0) {
