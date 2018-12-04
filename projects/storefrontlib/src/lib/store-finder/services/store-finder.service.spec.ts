@@ -14,6 +14,7 @@ describe('StoreFinderService', () => {
   const queryText = 'test';
   const countryIsoCode = 'CA';
   const regionIsoCode = 'CA-QC';
+  const geolocationWatchId = 1;
 
   const longitudeLatitude: LongitudeLatitude = {
     longitude: 10.1,
@@ -24,11 +25,11 @@ describe('StoreFinderService', () => {
     nativeWindow: {
       navigator: {
         geolocation: {
-          getCurrentPosition: callback => {
-            callback({
-              coords: longitudeLatitude
-            });
-          }
+          watchPosition: callback => {
+            callback({ coords: longitudeLatitude });
+            return geolocationWatchId;
+          },
+          clearWatch: () => {}
         }
       }
     }
