@@ -1,6 +1,7 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 import * as fromFeature from './../reducers';
 import * as fromReducer from './../reducers/checkout.reducer';
+import { DeliveryMode } from '@spartacus/core';
 
 export const getCheckoutStepsState = createSelector(
   fromFeature.getCheckoutState,
@@ -19,7 +20,7 @@ export const getDeliveryMode: MemoizedSelector<any, any> = createSelector(
 
 export const getSupportedDeliveryModes: MemoizedSelector<
   any,
-  any
+  DeliveryMode[]
 > = createSelector(
   getDeliveryMode,
   deliveryMode => {

@@ -1,14 +1,22 @@
 import { Component, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
+
+import { AuthService, RoutingService, UserToken } from '@spartacus/core';
+
+import { of, Observable } from 'rxjs';
+
 import createSpy = jasmine.createSpy;
 
 import { OrderDetailsComponent } from '../order-details/order-details.component';
-import { RoutingService } from '@spartacus/core';
 import { UserService } from '../../../user/facade/user.service';
-import { AuthService } from '../../../auth/facade/auth.service';
 import { CardModule } from '../../../ui/components/card/card.module';
+
+class MockAuthService {
+  getUserToken(): Observable<UserToken> {
+    return of({ userId: 'test' } as UserToken);
+  }
+}
 
 const mockOrder = {
   code: '1',
@@ -81,7 +89,6 @@ class MockCartItemListComponent {
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
   let fixture: ComponentFixture<OrderDetailsComponent>;
-  let mockAuthService: any;
   let mockRoutingService: any;
   let mockUserService: any;
   let el: DebugElement;
@@ -96,9 +103,6 @@ describe('OrderDetailsComponent', () => {
         }
       })
     };
-    mockAuthService = {
-      userToken$: of({ userId: 'test' })
-    };
     mockUserService = {
       orderDetails$: of(mockOrder),
       loadOrderDetails: createSpy(),
@@ -110,7 +114,7 @@ describe('OrderDetailsComponent', () => {
       providers: [
         { provide: RoutingService, useValue: mockRoutingService },
         { provide: UserService, useValue: mockUserService },
-        { provide: AuthService, useValue: mockAuthService }
+        { provide: AuthService, useClass: MockAuthService }
       ],
       declarations: [
         MockCartItemListComponent,

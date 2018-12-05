@@ -6,7 +6,7 @@ import {
   Cart,
   CartModification,
   Address,
-  DeliveryMode,
+  DeliveryModeList,
   PaymentDetails
 } from '@spartacus/core';
 import { CustomEncoder } from '../custom.encoder';
@@ -237,9 +237,9 @@ export class OccCartService {
   public getSupportedDeliveryModes(
     userId: string,
     cartId: string
-  ): Observable<DeliveryMode> {
+  ): Observable<DeliveryModeList> {
     return this.http
-      .get<DeliveryMode>(
+      .get<DeliveryModeList>(
         this.getCartEndpoint(userId) + cartId + '/deliverymodes'
       )
       .pipe(catchError((error: any) => throwError(error.json())));

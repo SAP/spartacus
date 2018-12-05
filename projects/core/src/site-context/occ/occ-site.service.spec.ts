@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { OccSiteService } from './occ-site.service';
 import { OccConfig } from '../../occ/config/occ-config';
+import { LanguageList, CurrencyList } from '../../occ-models/occ.models';
 
 const MockOccModuleConfig = {
   server: {
@@ -42,7 +43,9 @@ describe('OccSiteService', () => {
 
   describe('load languages', () => {
     it('should retrieve two languages', () => {
-      const languages = ['en', 'de'];
+      const languages: LanguageList = {
+        languages: [{ isocode: 'en' }, { isocode: 'de' }]
+      };
 
       service.loadLanguages().subscribe(result => {
         expect(result).toEqual(languages);
@@ -61,7 +64,9 @@ describe('OccSiteService', () => {
 
   describe('load currencies', () => {
     it('should retrieve two currencies', () => {
-      const currencies = ['USD', 'JPY'];
+      const currencies: CurrencyList = {
+        currencies: [{ isocode: 'USD' }, { isocode: 'JPY' }]
+      };
 
       service.loadCurrencies().subscribe(result => {
         expect(result).toEqual(currencies);
