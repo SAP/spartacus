@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+
+import { AuthService, RoutingService } from '@spartacus/core';
+
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AuthService } from '../../../auth/facade/auth.service';
 import { UserService } from '../../../user/facade/user.service';
-import { RoutingService } from '@spartacus/core';
 import { Card } from '../../../ui/components/card/card.component';
 
 @Component({
@@ -24,9 +25,9 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   ngOnInit() {
-    const userId$ = this.authService.userToken$.pipe(
-      map(userData => userData.userId)
-    );
+    const userId$ = this.authService
+      .getUserToken()
+      .pipe(map(userData => userData.userId));
 
     const orderCode$ = this.routingService.routerState$.pipe(
       map(routingData => routingData.state.params.orderCode)

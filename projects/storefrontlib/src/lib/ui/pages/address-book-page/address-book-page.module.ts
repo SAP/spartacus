@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
-import { AuthGuard } from './../../../auth/guards/auth.guard';
 import { AddressBookPageLayoutModule } from '../../layout/address-book-page-layout/address-book-page-layout.module';
 import { AddressBookPageComponent } from './address-book-page.component';
+import { AuthGuard } from '@spartacus/core';
 
 const routes: Routes = [
   {

@@ -72,11 +72,11 @@ export class LoginHelper {
     if (await registerPage.header.isLoggedIn()) {
       LoginHelper.userEmail = userEmail;
       LoginHelper.userPassword = userPassword;
+      console.log('Created new user', userEmail, userPassword);
       return {
         email: userEmail,
         password: userPassword
       };
-      console.log('Created new user', userEmail, userPassword);
     } else {
       // prettier-ignore
       throw new Error('Couldn\'t register new user!');
