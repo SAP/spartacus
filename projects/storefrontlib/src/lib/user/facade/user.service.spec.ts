@@ -169,6 +169,26 @@ describe('UserService', () => {
     expect(flag).toEqual(true);
   });
 
+  it('should dispatch proper action for setPaymentMethodAsDefault', () => {
+    service.setPaymentMethodAsDefault('userId', 'paymentMethodId');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.SetDefaultUserPaymentMethod({
+        userId: 'userId',
+        paymentMethodId: 'paymentMethodId'
+      })
+    );
+  });
+
+  it('should dispatch proper action for deleteUserPaymentMethod', () => {
+    service.deleteUserPaymentMethod('userId', 'paymentMethodId');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.DeleteUserPaymentMethod({
+        userId: 'userId',
+        paymentMethodId: 'paymentMethodId'
+      })
+    );
+  });
+
   it('should be able to load order details', () => {
     service.loadOrderDetails('userId', 'orderCode');
     expect(store.dispatch).toHaveBeenCalledWith(

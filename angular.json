@@ -21,7 +21,8 @@
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets",
-              "projects/storefrontapp/src/manifest.json"
+              "projects/storefrontapp/src/manifest.json",
+              "projects/storefrontapp/src/webApplicationInjector.js"
             ],
             "styles": ["projects/storefrontapp/src/styles.scss"],
             "stylePreprocessorOptions": {
@@ -32,10 +33,12 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [{
-                "replace": "projects/storefrontapp/src/environments/environment.ts",
-                "with": "projects/storefrontapp/src/environments/environment.prod.ts"
-              }],
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/environment.ts",
+                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -49,10 +52,12 @@
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
             "ci": {
-              "fileReplacements": [{
-                "replace": "projects/storefrontapp/src/environments/environment.ts",
-                "with": "projects/storefrontapp/src/environments/environment.ci.ts"
-              }],
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/environment.ts",
+                  "with": "projects/storefrontapp/src/environments/environment.ci.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -65,10 +70,12 @@
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
             "qa": {
-              "fileReplacements": [{
-                "replace": "projects/storefrontapp/src/environments/environment.ts",
-                "with": "projects/storefrontapp/src/environments/environment.qa.ts"
-              }],
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/environment.ts",
+                  "with": "projects/storefrontapp/src/environments/environment.qa.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -122,7 +129,6 @@
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets",
               "projects/storefrontapp/src/manifest.json"
-
             ],
             "codeCoverageExclude": ["dist/**/*"]
           }

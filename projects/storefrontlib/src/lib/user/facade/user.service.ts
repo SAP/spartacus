@@ -105,6 +105,29 @@ export class UserService {
   getPaymentMethodsLoading(): Observable<boolean> {
     return this.store.pipe(select(fromStore.getPaymentMethodsLoading));
   }
+  setPaymentMethodAsDefault(userId: string, paymentMethodId: string) {
+    this.store.dispatch(
+      new fromStore.SetDefaultUserPaymentMethod({
+        userId: userId,
+        paymentMethodId
+      })
+    );
+  }
+
+  /**
+   * Deletes the payment method
+   *
+   * @param userId a user ID
+   * @param paymentMethodId a payment method ID
+   */
+  deleteUserPaymentMethod(userId: string, paymentMethodId: string) {
+    this.store.dispatch(
+      new fromStore.DeleteUserPaymentMethod({
+        userId: userId,
+        paymentMethodId
+      })
+    );
+  }
 
   /**
    * Retrieves order's details
