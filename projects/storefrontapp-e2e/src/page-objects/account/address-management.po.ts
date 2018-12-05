@@ -40,8 +40,16 @@ export class AddressBookPage extends AppPage {
     by.css('.btn-link.delete')
   );
 
+  readonly deleteAddressConfirmationBtn: ElementFinder = this.page.element(
+    by.css('.cx-address-card__delete .btn-primary')
+  );
+
+  readonly setAsDefaultBtn: ElementFinder = this.page.element(
+    by.css('.btn-link.set-default')
+  );
+
   async navigateTo() {
-    await browser.get('/my-account/orders');
+    await browser.get('/my-account/address-book');
     await this.waitForReady();
   }
 
@@ -58,12 +66,17 @@ export class AddressBookPage extends AppPage {
   }
 
   async updateAddress(addressForm: AddressForm) {
-    await this.waitForReady();
     await this.openEditAddressFormBtn.get(1).click();
     await addressForm.waitForReady();
-    //await addressForm.firstName.sendKeys('Updated');
+    await addressForm.firstName.sendKeys('Updated');
     await addressForm.setTitle('Mr.');
     await this.addAddressActionBtn.click();
+    await this.waitForReady();
+  }
+
+  async deleteAddress() {
+    await this.deleteAddressBtn.get(1).click();
+    await this.deleteAddressConfirmationBtn.click();
     await this.waitForReady();
   }
 }

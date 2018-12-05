@@ -18,7 +18,7 @@ const mockAddress = {
   defaultAddress: false
 };
 
-fdescribe('AddressCardComponent', () => {
+describe('AddressCardComponent', () => {
   let component: AddressCardComponent;
   let fixture: ComponentFixture<AddressCardComponent>;
   let el: DebugElement;
