@@ -31,7 +31,7 @@ export class SearchBoxComponent implements OnInit {
     });
   }
 
-  typeahead = (text$: Observable<string>) =>
+  typeahead = (text$: Observable<string>): Observable<string[]> =>
     this.service.typeahead(merge(text$, this.queryText$));
 
   public submitSearch(): void {
@@ -47,7 +47,7 @@ export class SearchBoxComponent implements OnInit {
     }
   }
 
-  public onKey(event: any): void {
+  public onKey(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       this.service.launchSearchPage(this.searchBoxControl.value);
     }

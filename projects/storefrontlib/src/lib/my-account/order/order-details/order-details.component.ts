@@ -3,7 +3,7 @@ import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { UserService } from '../../../user/facade/user.service';
-import { AuthService, RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService, Order } from '@spartacus/core';
 import { Card } from '../../../ui/components/card/card.component';
 
 @Component({
@@ -19,7 +19,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     private routingService: RoutingService
   ) {}
 
-  order$: Observable<any>;
+  order$: Observable<Order>;
   subscription: Subscription;
 
   ngOnInit() {
