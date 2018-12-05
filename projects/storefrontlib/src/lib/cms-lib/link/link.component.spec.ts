@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { CmsComponentData } from '@spartacus/storefront';
+import { TranslateUrlOptions } from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponentMapping: {
@@ -17,8 +18,8 @@ const UseCmsModuleConfig: CmsModuleConfig = {
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform(url: string) {
-    return '/translated' + url;
+  transform(options: TranslateUrlOptions) {
+    return '/translated-path' + options.url;
   }
 }
 
@@ -70,6 +71,6 @@ describe('LinkComponent', () => {
     const element = el.query(By.css('a')).nativeElement;
 
     expect(element.textContent).toEqual(componentData.linkName);
-    expect(element.href).toContain('/translated' + componentData.url);
+    expect(element.href).toContain('/translated-path' + componentData.url);
   });
 });

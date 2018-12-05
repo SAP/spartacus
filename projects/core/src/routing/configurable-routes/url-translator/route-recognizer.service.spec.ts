@@ -39,9 +39,9 @@ describe('RouteRecognizerService', () => {
       url: string;
       defaultTranslations: RoutesTranslations;
       expectedResult: {
-        nestedRoutesNames: string[];
-        nestedRoutesParams: object[];
-      };
+        name: string;
+        params: object;
+      }[];
     }) {
       loader.routesConfig.translations.default = defaultTranslations;
       expect(service.recognizeByDefaultUrl(url)).toEqual(expectedResult);
@@ -54,10 +54,7 @@ describe('RouteRecognizerService', () => {
           page1: { paths: ['path1'] },
           page2: { paths: ['path2'] }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page2'],
-          nestedRoutesParams: [{}]
-        }
+        expectedResult: [{ name: 'page2', params: {} }]
       });
     });
 
@@ -68,10 +65,7 @@ describe('RouteRecognizerService', () => {
           page1: { paths: ['path1'] },
           page2: { paths: ['path2'] }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page2'],
-          nestedRoutesParams: [{}]
-        }
+        expectedResult: [{ name: 'page2', params: {} }]
       });
     });
 
@@ -82,7 +76,7 @@ describe('RouteRecognizerService', () => {
           page1: { paths: ['path1'] },
           page2: { paths: ['path2'] }
         },
-        expectedResult: { nestedRoutesNames: null, nestedRoutesParams: null }
+        expectedResult: null
       });
     });
 
@@ -104,10 +98,7 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: null,
-          nestedRoutesParams: null
-        }
+        expectedResult: null
       });
     });
 
@@ -118,10 +109,9 @@ describe('RouteRecognizerService', () => {
           page1: { paths: ['path1/:param1/:param2'] },
           page2: { paths: ['path2/:param1/:param2'] }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page2'],
-          nestedRoutesParams: [{ param1: 'value1', param2: 'value2' }]
-        }
+        expectedResult: [
+          { name: 'page2', params: { param1: 'value1', param2: 'value2' } }
+        ]
       });
     });
 
@@ -132,10 +122,9 @@ describe('RouteRecognizerService', () => {
           page1: { paths: ['path/:param1/path', 'path/:param1/path/:param2'] },
           page2: { paths: ['path/:param1/path/:param2/:param3'] }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1'],
-          nestedRoutesParams: [{ param1: 'value1', param2: 'value2' }]
-        }
+        expectedResult: [
+          { name: 'page1', params: { param1: 'value1', param2: 'value2' } }
+        ]
       });
     });
 
@@ -146,16 +135,16 @@ describe('RouteRecognizerService', () => {
           page1: { paths: ['path/:param1/path', 'path/:param1/path/:param2'] },
           page2: { paths: ['path/:param1/path/:param2/:param3'] }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page2'],
-          nestedRoutesParams: [
-            {
+        expectedResult: [
+          {
+            name: 'page2',
+            params: {
               param1: 'value1',
               param2: 'value2',
               param3: 'value3'
             }
-          ]
-        }
+          }
+        ]
       });
     });
 
@@ -172,10 +161,10 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1', 'page2'],
-          nestedRoutesParams: [{}, {}]
-        }
+        expectedResult: [
+          { name: 'page1', params: {} },
+          { name: 'page2', params: {} }
+        ]
       });
     });
 
@@ -197,10 +186,10 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1', 'page2'],
-          nestedRoutesParams: [{}, {}]
-        }
+        expectedResult: [
+          { name: 'page1', params: {} },
+          { name: 'page2', params: {} }
+        ]
       });
     });
 
@@ -222,10 +211,11 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1', 'page2', 'page3'],
-          nestedRoutesParams: [{}, {}, {}]
-        }
+        expectedResult: [
+          { name: 'page1', params: {} },
+          { name: 'page2', params: {} },
+          { name: 'page3', params: {} }
+        ]
       });
     });
 
@@ -242,10 +232,10 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1', 'page2'],
-          nestedRoutesParams: [{ param1: 'value1' }, { param2: 'value2' }]
-        }
+        expectedResult: [
+          { name: 'page1', params: { param1: 'value1' } },
+          { name: 'page2', params: { param2: 'value2' } }
+        ]
       });
     });
 
@@ -267,10 +257,10 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1', 'page2'],
-          nestedRoutesParams: [{ param1: 'value1' }, { param2: 'value2' }]
-        }
+        expectedResult: [
+          { name: 'page1', params: { param1: 'value1' } },
+          { name: 'page2', params: { param2: 'value2' } }
+        ]
       });
     });
 
@@ -292,14 +282,11 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1', 'page2', 'page3'],
-          nestedRoutesParams: [
-            { param1: 'value1' },
-            { param2: 'value2' },
-            { param3: 'value3' }
-          ]
-        }
+        expectedResult: [
+          { name: 'page1', params: { param1: 'value1' } },
+          { name: 'page2', params: { param2: 'value2' } },
+          { name: 'page3', params: { param3: 'value3' } }
+        ]
       });
     });
 
@@ -324,10 +311,10 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1', 'page20'],
-          nestedRoutesParams: [{ param1: 'value1' }, { param2: 'value2' }]
-        }
+        expectedResult: [
+          { name: 'page1', params: { param1: 'value1' } },
+          { name: 'page20', params: { param2: 'value2' } }
+        ]
       });
     });
   });

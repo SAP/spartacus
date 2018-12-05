@@ -48,11 +48,8 @@ describe('UrlTranslatorService', () => {
         spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue(
           null
         );
-        spyOn(routeRecognizer, 'recognizeByDefaultUrl').and.returnValue({
-          nestedRoutesNames: null,
-          nestedRoutesParams: null
-        });
-        service.translate({ route: ['test-url'] });
+        spyOn(routeRecognizer, 'recognizeByDefaultUrl').and.returnValue(null);
+        service.translate({ url: 'test-url' });
         expect(routeRecognizer.recognizeByDefaultUrl).toHaveBeenCalledWith(
           'test-url'
         );
@@ -62,11 +59,8 @@ describe('UrlTranslatorService', () => {
         spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue(
           null
         );
-        spyOn(routeRecognizer, 'recognizeByDefaultUrl').and.returnValue({
-          nestedRoutesNames: null,
-          nestedRoutesParams: null
-        });
-        const result = service.translate({ route: ['test-url'] });
+        spyOn(routeRecognizer, 'recognizeByDefaultUrl').and.returnValue(null);
+        const result = service.translate({ url: 'test-url' });
         expect(result).toEqual('test-url');
       });
 
@@ -74,14 +68,14 @@ describe('UrlTranslatorService', () => {
         spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue([
           { paths: ['translated-url'] }
         ]);
-        spyOn(routeRecognizer, 'recognizeByDefaultUrl').and.returnValue({
-          nestedRoutesNames: ['testRouteName'],
-          nestedRoutesParams: [{}]
-        });
-        const result = service.translate({ route: ['test-url'] });
+        spyOn(routeRecognizer, 'recognizeByDefaultUrl').and.returnValue([
+          { name: 'testRouteName', params: {} }
+        ]);
+        const result = service.translate({ url: 'test-url' });
         expect(result).toEqual(['', 'translated-url']);
       });
     });
+
     describe(', when first argument is array of nested routes names,', () => {
       // tslint:disable-next-line:max-line-length
       it('should console.warn in non-production environment when no configured path matches all its parameters to given object using parameter names mapping ', () => {

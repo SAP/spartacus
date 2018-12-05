@@ -95,29 +95,19 @@ describe('StoreFinderSearchComponent', () => {
   it('should dispatch new query', () => {
     component.searchBox.setValue(query);
     component.findStores(component.searchBox.value);
-    expect(routingService.translateAndGo).toHaveBeenCalledWith({
-      route: [
-        'storeFinder',
-        {
-          name: 'searchResults',
-          params: { query }
-        }
-      ]
-    });
+    expect(routingService.translateAndGo).toHaveBeenCalledWith(
+      { route: ['storeFinder', 'searchResults'] },
+      { query }
+    );
   });
 
   it('should call onKey and dispatch query', () => {
     component.searchBox.setValue(query);
     component.onKey(keyEvent);
-    expect(routingService.translateAndGo).toHaveBeenCalledWith({
-      route: [
-        'storeFinder',
-        {
-          name: 'searchResults',
-          params: { query }
-        }
-      ]
-    });
+    expect(routingService.translateAndGo).toHaveBeenCalledWith(
+      { route: ['storeFinder', 'searchResults'] },
+      { query }
+    );
   });
 
   it('should only call onKey', () => {
@@ -127,14 +117,9 @@ describe('StoreFinderSearchComponent', () => {
 
   it('should view stores near by my location', () => {
     component.viewStoresWithMyLoc();
-    expect(routingService.translateAndGo).toHaveBeenCalledWith({
-      route: [
-        'storeFinder',
-        {
-          name: 'searchResults',
-          params: { latitude, longitude }
-        }
-      ]
-    });
+    expect(routingService.translateAndGo).toHaveBeenCalledWith(
+      { route: ['storeFinder', 'searchResults'] },
+      { latitude, longitude }
+    );
   });
 });

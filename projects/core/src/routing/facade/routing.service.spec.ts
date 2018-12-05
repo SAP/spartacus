@@ -61,11 +61,6 @@ describe('RoutingService', () => {
           { name: 'childRouteName', params: { childParam: 'childParamValue' } }
         ]
       };
-      const pageNames = ['testPageName', 'testChildPageName'];
-      const parametersObjects = [
-        { param1: 'value1' },
-        { childParam2: 'chuildValue2' }
-      ];
       const queryParams = { queryParam3: 'queryParamValue3' };
       const extras: NavigationExtras = { fragment: 'testFragment' };
       const translatedPath = ['translated-path'];
@@ -73,10 +68,7 @@ describe('RoutingService', () => {
       spyOn(urlTranslator, 'translate').and.returnValue(translatedPath);
       spyOn(service, 'go');
       service.translateAndGo(translateUrlOptions, queryParams, extras);
-      expect(urlTranslator.translate).toHaveBeenCalledWith(
-        pageNames,
-        parametersObjects
-      );
+      expect(urlTranslator.translate).toHaveBeenCalledWith(translateUrlOptions);
       expect(service.go).toHaveBeenCalledWith(
         translatedPath,
         queryParams,

@@ -154,7 +154,10 @@ export class UrlTranslatorService {
     nestedRoutes: TranslateUrlOptionsRoute[]
   ): TranslateUrlOptionsRouteObject[] {
     return (nestedRoutes || []).map(
-      route => (typeof route === 'string' ? { name: route } : route)
+      route =>
+        typeof route === 'string'
+          ? { name: route, params: {} }
+          : { name: route.name, params: route.params || {} }
     );
   }
 

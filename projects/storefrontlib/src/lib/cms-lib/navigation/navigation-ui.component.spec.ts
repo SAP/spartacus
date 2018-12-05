@@ -3,13 +3,14 @@ import { NavigationUIComponent } from './navigation-ui.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { Pipe, PipeTransform } from '@angular/core';
+import { TranslateUrlOptions } from '@spartacus/core';
 
 @Pipe({
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform(url: string): string {
-    return '/translated-path' + url;
+  transform(options: TranslateUrlOptions): string {
+    return '/translated-path' + options.url;
   }
 }
 
