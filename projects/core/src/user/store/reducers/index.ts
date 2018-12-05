@@ -18,17 +18,8 @@ import * as fromOrderDetailsReducer from './order-details.reducer';
 
 import * as fromAction from '../actions';
 
-import { UserState, USER_FEATURE } from '../user-state';
-
-// todo: fix below import after auth store is moved to the core
-// import * as fromAuthAction from '../../../../../storefrontlib/src/lib/auth/store/actions';
-
-// below mock must be removed after auth store is moved
-const fromAuthAction = {
-  LOGOUT: '[Auth] Logout'
-};
-
-// fix end
+import { UserState, USER_FEATURE } from '../index';
+import { LOGOUT } from '../../../auth/index';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -61,7 +52,7 @@ export function clearUserState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return function(state, action) {
-    if (action.type === fromAuthAction.LOGOUT) {
+    if (action.type === LOGOUT) {
       state = undefined;
     } else if (
       action.type === '[Site-context] Language Change' ||

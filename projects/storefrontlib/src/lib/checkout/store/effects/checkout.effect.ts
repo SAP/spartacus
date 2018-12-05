@@ -10,7 +10,12 @@ import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
 import { GlobalMessageType } from '../../../global-message/models/message.model';
-import { ProductImageConverterService, OccOrderService } from '@spartacus/core';
+import {
+  ProductImageConverterService,
+  OccOrderService,
+  OrderEntry,
+  PaymentDetails
+} from '@spartacus/core';
 
 @Injectable()
 export class CheckoutEffects {
@@ -60,7 +65,9 @@ export class CheckoutEffects {
       return this.occCartService
         .getSupportedDeliveryModes(payload.userId, payload.cartId)
         .pipe(
-          map(data => new fromActions.LoadSupportedDeliveryModesSuccess(data)),
+          map(data => {
+            return new fromActions.LoadSupportedDeliveryModesSuccess(data);
+          }),
           catchError(error =>
             of(new fromActions.LoadSupportedDeliveryModesFail(error))
           )
@@ -182,7 +189,7 @@ export class CheckoutEffects {
         .placeOrder(payload.userId, payload.cartId)
         .pipe(
           map(data => {
-            for (const entry of data.entries) {
+            for (const entry of data.entries as OrderEntry[]) {
               this.productImageConverter.convertProduct(entry.product);
             }
             return data;
@@ -261,7 +268,7 @@ export class CheckoutEffects {
   }
 
   private getParamsForPaymentProvider(
-    paymentDetails: any,
+    paymentDetails: PaymentDetails,
     parameters: { key; value }[],
     mappingLabels: any
   ) {

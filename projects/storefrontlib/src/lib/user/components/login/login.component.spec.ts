@@ -2,14 +2,34 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { By } from '@angular/platform-browser';
-import { BehaviorSubject } from 'rxjs';
+
+import {
+  AuthService,
+  RoutingService,
+  UserToken,
+  UserService
+} from '@spartacus/core';
+
+import { BehaviorSubject, Observable, of } from 'rxjs';
+
 import createSpy = jasmine.createSpy;
 
-import { UserToken } from './../../../auth/models/token-types.model';
 import { LoginComponent } from './login.component';
-import { UserService } from '@spartacus/core';
-import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '@spartacus/core';
+
+class MockAuthService {
+  login = createSpy();
+  logout = createSpy();
+  getUserToken(): Observable<UserToken> {
+    return of();
+  }
+}
+class MockRoutingService {
+  go = createSpy();
+}
+class MockUserService {
+  user$ = new BehaviorSubject(null);
+  loadUserDetails = createSpy();
+}
 
 const mockUserToken: UserToken = {
   access_token: 'xxx',
@@ -42,24 +62,11 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
-  let mockAuthService: any;
-  let mockRoutingService: any;
-  let mockUserService: any;
+  let authService: MockAuthService;
+  let routingService: MockRoutingService;
+  let userService: MockUserService;
 
   beforeEach(async(() => {
-    mockRoutingService = {
-      go: createSpy()
-    };
-    mockAuthService = {
-      userToken$: new BehaviorSubject(null),
-      login: createSpy(),
-      logout: createSpy()
-    };
-    mockUserService = {
-      user$: new BehaviorSubject(null),
-      loadUserDetails: createSpy()
-    };
-
     TestBed.configureTestingModule({
       declarations: [LoginComponent, MockDynamicSlotComponent],
       providers: [
@@ -75,11 +82,15 @@ describe('LoginComponent', () => {
             }
           }
         },
-        { provide: RoutingService, useValue: mockRoutingService },
-        { provide: UserService, useValue: mockUserService },
-        { provide: AuthService, useValue: mockAuthService }
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: UserService, useClass: MockUserService },
+        { provide: AuthService, useClass: MockAuthService }
       ]
     }).compileComponents();
+
+    authService = TestBed.get(AuthService);
+    routingService = TestBed.get(RoutingService);
+    userService = TestBed.get(UserService);
   }));
 
   beforeEach(() => {
@@ -95,24 +106,24 @@ describe('LoginComponent', () => {
   it('should logout and clear user state', () => {
     component.logout();
     expect(component.isLogin).toEqual(false);
-    expect(mockAuthService.logout).toHaveBeenCalled();
-    expect(mockRoutingService.go).toHaveBeenCalledWith(['/login']);
+    expect(authService.logout).toHaveBeenCalled();
+    expect(routingService.go).toHaveBeenCalledWith(['/login']);
   });
 
   it('should load user details when token exists', () => {
-    mockAuthService.userToken$.next(mockUserToken);
+    spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
     component.ngOnInit();
 
-    expect(mockUserService.loadUserDetails).toHaveBeenCalledWith(
+    expect(userService.loadUserDetails).toHaveBeenCalledWith(
       mockUserToken.userId
     );
-    expect(mockAuthService.login).toHaveBeenCalled();
+    expect(authService.login).toHaveBeenCalled();
     expect(component.isLogin).toBeTruthy();
   });
 
   describe('UI tests', () => {
     it('should contain the dynamic slot: HeaderLinks', () => {
-      mockUserService.user$.next(mockUserDetails);
+      userService.user$.next(mockUserDetails);
       component.ngOnInit();
       fixture.detectChanges();
 
@@ -124,8 +135,8 @@ describe('LoginComponent', () => {
     });
 
     it('should display the correct message depending on whether the user is logged on or not', () => {
-      mockAuthService.userToken$.next({});
-      mockUserService.user$.next({});
+      spyOn(authService, 'getUserToken').and.returnValue(of({}));
+      userService.user$.next({});
       component.ngOnInit();
       fixture.detectChanges();
 

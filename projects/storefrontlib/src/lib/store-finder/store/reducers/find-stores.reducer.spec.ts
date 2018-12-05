@@ -13,6 +13,15 @@ describe('Find Stores Reducer', () => {
     });
   });
 
+  describe('ON_HOLD action', () => {
+    it('should set isLoading flag to true', () => {
+      const { initialState } = fromReducers;
+      const action = new fromActions.OnHold();
+      const state = fromReducers.reducer(initialState, action);
+      expect(state.isLoading).toEqual(true);
+    });
+  });
+
   describe('FIND_STORES action', () => {
     it('should set isLoading flag to true', () => {
       const { initialState } = fromReducers;

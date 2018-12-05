@@ -6,7 +6,7 @@ export const initialState: UserOrdersState = {
   orders: {
     orders: [],
     pagination: {},
-    sort: []
+    sorts: []
   },
   loading: false,
   loaded: false

@@ -3,7 +3,8 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
-import { OccOrderService } from '../../occ';
+import { OccOrderService } from '../../occ/index';
+import { OrderHistoryList } from '../../../occ-models/index';
 
 @Injectable()
 export class UserOrdersEffect {
@@ -25,7 +26,7 @@ export class UserOrdersEffect {
           payload.sort
         )
         .pipe(
-          map((orders: any) => {
+          map((orders: OrderHistoryList) => {
             return new fromUserOrdersAction.LoadUserOrdersSuccess(orders);
           }),
           catchError(error =>
