@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import createSpy = jasmine.createSpy;
 
 import { ProductListComponent } from './product-list.component';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
@@ -26,7 +28,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductSearchService } from '@spartacus/core';
 
 class MockProductSearchService {
-  search() {}
+  search = createSpy();
+  searchResults$ = of();
 }
 class MockActivatedRoute {
   snapshot = { queryParams: {} };
@@ -75,7 +78,6 @@ describe('ProductListComponent in product-list', () => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
     service = TestBed.get(ProductSearchService);
-    spyOn(service, 'search').and.callThrough();
   });
 
   it('should create', () => {
