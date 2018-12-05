@@ -1,14 +1,23 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
+
+import { ProductSummaryStyles } from '../product-details-styles.model';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
   selector: 'cx-product-summary',
   templateUrl: './product-summary.component.html',
   styleUrls: ['./product-summary.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.ShadowDom
 })
 export class ProductSummaryComponent {
   static outlets = ProductDetailOutlets;
+  static styles = ProductSummaryStyles;
 
   @Input()
   product: any;
@@ -16,6 +25,10 @@ export class ProductSummaryComponent {
 
   get outlets() {
     return ProductSummaryComponent.outlets;
+  }
+
+  get styles() {
+    return ProductSummaryComponent.styles;
   }
 
   updateCount(value) {

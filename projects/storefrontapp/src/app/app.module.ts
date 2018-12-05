@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { StorefrontComponent, StorefrontModule } from '@spartacus/storefront';
+
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import { StorefrontComponent, StorefrontModule } from '@spartacus/storefront';
+
 import { environment } from '../environments/environment';
 
 const devImports = [];
@@ -21,6 +24,9 @@ if (!environment.production) {
       pwa: {
         enabled: true,
         addToHomeScreen: true
+      },
+      styles: {
+        blue: true
       }
     }),
     ...devImports
