@@ -1,5 +1,4 @@
 import { ActivatedRoute } from '@angular/router';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
@@ -8,6 +7,7 @@ import { StoreFinderStoreDescriptionComponent } from './store-finder-store-descr
 import { ScheduleComponent } from '../schedule-component/schedule.component';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
 import { StoreFinderService, StoreDataService } from '../../services';
+import { SpinnerComponent } from '../../../ui';
 
 import * as fromReducers from '../../store';
 
@@ -72,11 +72,11 @@ describe('StoreFinderStoreDescriptionComponent', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature('stores', fromReducers.reducers)
       ],
-      schemas: [NO_ERRORS_SCHEMA],
       declarations: [
         StoreFinderStoreDescriptionComponent,
         ScheduleComponent,
-        StoreFinderMapComponent
+        StoreFinderMapComponent,
+        SpinnerComponent
       ],
       providers: [
         StoreDataService,
